@@ -1,26 +1,25 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_users
+ * @subpackage  com_contact
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Users\Api\View\Users;
+namespace Joomla\Component\Contact\Api\View\Contacts;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
-use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
- * The users view
+ * The contacts view
  *
  * @since  4.0.0
  */
-class JsonApiView extends BaseApiView
+class JsonapiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents
@@ -28,13 +27,7 @@ class JsonApiView extends BaseApiView
 	 * @var  array
 	 * @since  4.0.0
 	 */
-	protected $fieldsToRenderItem = [
-		'id',
-		'groups',
-		'name',
-		'username',
-		'email',
-	];
+	protected $fieldsToRenderItem = ['id', 'alias', 'name', 'catid', 'created'];
 
 	/**
 	 * The fields to render items in the documents
@@ -42,14 +35,7 @@ class JsonApiView extends BaseApiView
 	 * @var  array
 	 * @since  4.0.0
 	 */
-	protected $fieldsToRenderList = [
-		'id',
-		'name',
-		'username',
-		'email',
-		'group_count',
-		'group_names',
-	];
+	protected $fieldsToRenderList = ['id', 'alias', 'name', 'catid', 'created'];
 
 	/**
 	 * Execute and display a template script.
@@ -62,7 +48,7 @@ class JsonApiView extends BaseApiView
 	 */
 	public function displayList(array $items = null)
 	{
-		foreach (FieldsHelper::getFields('com_users.user') as $field)
+		foreach (FieldsHelper::getFields('com_contact.contact') as $field)
 		{
 			$this->fieldsToRenderList[] = $field->name;
 		}
@@ -81,7 +67,7 @@ class JsonApiView extends BaseApiView
 	 */
 	public function displayItem($item = null)
 	{
-		foreach (FieldsHelper::getFields('com_users.user') as $field)
+		foreach (FieldsHelper::getFields('com_contact.contact') as $field)
 		{
 			$this->fieldsToRenderItem[] = $field->name;
 		}
@@ -100,12 +86,7 @@ class JsonApiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		if (empty($item->username))
-		{
-			throw new RouteNotFoundException('Item does not exist');
-		}
-
-		foreach (FieldsHelper::getFields('com_users.user', $item, true) as $field)
+		foreach (FieldsHelper::getFields('com_contact.contact', $item, true) as $field)
 		{
 			$item->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
 		}

@@ -1,25 +1,24 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_templates
+ * @subpackage  com_messages
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Templates\Api\View\Styles;
+namespace Joomla\Component\Messages\Api\View\Messages;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
-use Joomla\CMS\Router\Exception\RouteNotFoundException;
 
 /**
- * The styles view
+ * The messages view
  *
  * @since  4.0.0
  */
-class JsonApiView extends BaseApiView
+class JsonapiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents
@@ -29,12 +28,14 @@ class JsonApiView extends BaseApiView
 	 */
 	protected $fieldsToRenderItem = [
 		'id',
-		'template',
-		'client_id',
-		'home',
-		'title',
-		'params',
-		'xml',
+		'user_id_from',
+		'user_id_to',
+		'date_time',
+		'priority',
+		'subject',
+		'message',
+		'state',
+		'user_from',
 	];
 
 	/**
@@ -45,15 +46,14 @@ class JsonApiView extends BaseApiView
 	 */
 	protected $fieldsToRenderList = [
 		'id',
-		'template',
-		'title',
-		'home',
-		'client_id',
-		'language_title',
-		'image',
-		'language_sef',
-		'assigned',
-		'e_id',
+		'user_id_from',
+		'user_id_to',
+		'date_time',
+		'priority',
+		'subject',
+		'message',
+		'state',
+		'user_from',
 	];
 
 	/**
@@ -67,10 +67,8 @@ class JsonApiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		if ($item->client_id != $this->getModel()->getState('client_id'))
-		{
-			throw new RouteNotFoundException('Item does not exist');
-		}
+		$item->id = $item->message_id;
+		unset($item->message_id);
 
 		return parent::prepareItem($item);
 	}

@@ -23,7 +23,7 @@ use Tobscure\JsonApi\Resource;
  *
  * @since  4.0.0
  */
-class JsonApiView extends BaseApiView
+class JsonapiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents
@@ -76,7 +76,7 @@ class JsonApiView extends BaseApiView
 
 		if ($id === null)
 		{
-			throw new \RuntimeException('Item id missing');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ITEMID_MISSING'));
 		}
 
 		/** @var \Joomla\CMS\MVC\Model\ListModel $model */
@@ -107,7 +107,7 @@ class JsonApiView extends BaseApiView
 
 		if ($this->type === null)
 		{
-			throw new \RuntimeException('Content type missing');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_CONTENT_TYPE_MISSING'));
 		}
 
 		$serializer = new JoomlaSerializer($this->type);
