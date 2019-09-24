@@ -876,26 +876,10 @@ class DatabaseModel extends BaseInstallationModel
 		$currentDate = Factory::getDate()->toSql();
 		$nullDate    = $db->getNullDate();
 
-		// Update all core tables date fields of the tables with the current date.
+		// Update date fields with the current date.
 		$updatesArray = array(
-			'#__banners'             => array('publish_up', 'publish_down', 'reset', 'created', 'modified'),
-			'#__banner_tracks'       => array('track_date'),
-			'#__categories'          => array('created_time', 'modified_time'),
-			'#__contact_details'     => array('publish_up', 'publish_down', 'created', 'modified'),
-			'#__content'             => array('publish_up', 'publish_down', 'created', 'modified'),
-			'#__contentitem_tag_map' => array('tag_date'),
-			'#__fields'              => array('created_time', 'modified_time'),
-			'#__finder_filters'      => array('created', 'modified'),
-			'#__finder_links'        => array('indexdate', 'publish_start_date', 'publish_end_date', 'start_date', 'end_date'),
-			'#__messages'            => array('date_time'),
-			'#__modules'             => array('publish_up', 'publish_down'),
-			'#__newsfeeds'           => array('publish_up', 'publish_down', 'created', 'modified'),
-			'#__redirect_links'      => array('created_date', 'modified_date'),
-			'#__tags'                => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
-			'#__ucm_content'         => array('core_created_time', 'core_modified_time', 'core_publish_up', 'core_publish_down'),
-			'#__ucm_history'         => array('save_date'),
-			'#__users'               => array('registerDate', 'lastvisitDate', 'lastResetTime'),
-			'#__user_notes'          => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
+			'#__categories'          => array('created_time'),
+			'#__modules'             => array('publish_up'),
 		);
 
 		foreach ($updatesArray as $table => $fields)
@@ -904,9 +888,7 @@ class DatabaseModel extends BaseInstallationModel
 			{
 				$query = $db->getQuery(true)
 					->update($db->quoteName($table))
-					->set($db->quoteName($field) . ' = ' . $db->quote($currentDate))
-					->where($db->quoteName($field) . ' IS NOT NULL')
-					->where($db->quoteName($field) . ' != ' . $db->quote($nullDate));
+					->set($db->quoteName($field) . ' = ' . $db->quote($currentDate));
 
 				$db->setQuery($query);
 
