@@ -71,7 +71,7 @@ class StringsController extends ApiController
 
 		try
 		{
-			/** @var \Joomla\Component\Languages\Api\View\Strings\JsonApiView $view */
+			/** @var \Joomla\Component\Languages\Api\View\Strings\JsonapiView $view */
 			$view = $this->getView(
 				$viewName,
 				$viewType,

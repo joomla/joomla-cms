@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Component\Menus\Api\View\Items\JsonApiView;
+use Joomla\Component\Menus\Api\View\Items\JsonapiView;
 
 /**
  * The items controller
@@ -136,7 +136,7 @@ class ItemsController extends ApiController
 
 		try
 		{
-			/** @var JsonApiView $view */
+			/** @var JsonapiView $view */
 			$view = $this->getView(
 				$viewName,
 				$viewType,
