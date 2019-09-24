@@ -41,7 +41,6 @@ matrix:
     - php: 7.3
     - php: nightly
   allow_failures:
-    - php: 7.3
     - php: nightly
 
 services:
