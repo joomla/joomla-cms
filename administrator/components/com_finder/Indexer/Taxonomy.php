@@ -370,10 +370,9 @@ class Taxonomy
 			->where('t.lft + 1 = t.rgt')
 			->where($db->quoteName('m.link_id') . ' IS NULL');
 
-		$db->setQuery($query);
-
 		do
 		{
+			$db->setQuery($query);
 			$nodes = $db->loadColumn();
 
 			foreach ($nodes as $node)
