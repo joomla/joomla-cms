@@ -340,7 +340,7 @@ class MenusHelper extends ContentHelper
 
 		if ($enabledOnly)
 		{
-			$query->where('m.published = 1');
+			$query->where($db->quoteName('m.published') . ' = 1');
 		}
 
 		// Filter on the enabled states.
