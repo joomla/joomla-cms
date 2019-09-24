@@ -73,7 +73,7 @@ class ApplicationController extends ApiController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Model failed to be created', 500);
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'), 500);
 		}
 
 		// Push the model into the view (as default)
@@ -99,7 +99,7 @@ class ApplicationController extends ApiController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Model failed to be created', 500);
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'), 500);
 		}
 
 		// Access check.
@@ -146,7 +146,7 @@ class ApplicationController extends ApiController
 
 		if (!$model->save($validData))
 		{
-			throw new \RuntimeException('Internal server error', 500);
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SERVER'), 500);
 		}
 
 		return $this;
