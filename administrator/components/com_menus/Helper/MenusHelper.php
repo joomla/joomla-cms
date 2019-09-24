@@ -146,7 +146,7 @@ class MenusHelper extends ContentHelper
 		$query = $db->getQuery(true)
 			->select(
 				[
-					'DISTINCT(' . $db->quoteName('a.id') . ') AS ' . $db->quoteName('value'),
+					'DISTINCT ' . $db->quoteName('a.id', 'value'),
 					$db->quoteName('a.title', 'text'),
 					$db->quoteName('a.alias'),
 					$db->quoteName('a.level'),

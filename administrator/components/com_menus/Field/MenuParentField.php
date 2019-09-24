@@ -46,7 +46,7 @@ class MenuParentField extends ListField
 		$query = $db->getQuery(true)
 			->select(
 				[
-					'DISTINCT(' . $db->quoteName('a.id') . ') AS ' . $db->quoteName('value'),
+					'DISTINCT ' . $db->quoteName('a.id', 'value'),
 					$db->quoteName('a.title', 'text'),
 					$db->quoteName('a.level'),
 					$db->quoteName('a.lft'),
