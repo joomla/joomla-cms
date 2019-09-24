@@ -1,25 +1,26 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_fields
+ * @subpackage  com_modules
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Fields\Api\View\Groups;
+namespace Joomla\Component\Modules\Api\View\Modules;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
+use Joomla\Component\Modules\Administrator\Model\SelectModel;
 
 /**
- * The groups view
+ * The modules view
  *
  * @since  4.0.0
  */
-class JsonApiView extends BaseApiView
+class JsonapiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents
@@ -28,25 +29,28 @@ class JsonApiView extends BaseApiView
 	 * @since  4.0.0
 	 */
 	protected $fieldsToRenderItem = [
-		'typeAlias',
 		'id',
+		'typeAlias',
 		'asset_id',
-		'context',
 		'title',
 		'note',
-		'description',
-		'state',
+		'content',
+		'ordering',
+		'position',
 		'checked_out',
 		'checked_out_time',
-		'ordering',
-		'params',
-		'language',
-		'created',
-		'created_by',
-		'modified',
-		'modified_by',
+		'publish_up',
+		'publish_down',
+		'published',
+		'module',
 		'access',
-		'type',
+		'showtitle',
+		'params',
+		'client_id',
+		'language',
+		'assigned',
+		'assignment',
+		'xml',
 	];
 
 	/**
@@ -58,34 +62,24 @@ class JsonApiView extends BaseApiView
 	protected $fieldsToRenderList = [
 		'id',
 		'title',
-		'name',
+		'note',
+		'position',
+		'module',
+		'language',
 		'checked_out',
 		'checked_out_time',
-		'note',
-		'state',
+		'published',
+		'enabled',
 		'access',
-		'created_time',
-		'created_user_id',
 		'ordering',
-		'language',
-		'fieldparams',
-		'params',
-		'type',
-		'default_value',
-		'context',
-		'group_id',
-		'label',
-		'description',
-		'required',
+		'publish_up',
+		'publish_down',
 		'language_title',
 		'language_image',
 		'editor',
 		'access_level',
-		'author_name',
-		'group_title',
-		'group_access',
-		'group_state',
-		'group_note',
+		'pages',
+		'name',
 	];
 
 	/**
@@ -99,10 +93,11 @@ class JsonApiView extends BaseApiView
 	 */
 	public function displayItem($item = null)
 	{
+		/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+		$model = $this->getModel();
+
 		if ($item === null)
 		{
-			/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
-			$model = $this->getModel();
 			$item  = $this->prepareItem($model->getItem());
 		}
 
@@ -111,11 +106,37 @@ class JsonApiView extends BaseApiView
 			throw new RouteNotFoundException('Item does not exist');
 		}
 
-		if ($item->context != $this->getModel()->getState('filter.context'))
+		if ((int) $model->getState('client_id') !== $item->client_id)
 		{
 			throw new RouteNotFoundException('Item does not exist');
 		}
 
 		return parent::displayItem($item);
+	}
+
+	/**
+	 * Execute and display a list modules types.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayListTypes()
+	{
+		/** @var SelectModel $model */
+		$model = $this->getModel();
+		$items = [];
+
+		foreach ($model->getItems() as $item)
+		{
+			$item->id = $item->extension_id;
+			unset($item->extension_id);
+
+			$items[] = $item;
+		}
+
+		$this->fieldsToRenderList = ['id', 'name', 'module', 'xml', 'desc'];
+
+		return parent::displayList($items);
 	}
 }
