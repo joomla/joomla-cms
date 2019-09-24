@@ -324,8 +324,7 @@ class HtmlView extends BaseHtmlView
 			 * Let's put the target src into a variable to use in the javascript code
 			 * to avoid race conditions when the reference iframe loads.
 			 */
-			$document = $this->app->getDocument();
-			$document->addScriptOptions('targetSrc', Route::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId));
+			$this->document->addScriptOptions('targetSrc', Route::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId));
 			$this->form->setValue('itemlanguage', '', $this->targetLanguage . ':' . $this->targetId . ':' . $this->targetAction);
 		}
 

@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Methods supporting a list of banner records.
@@ -211,7 +210,7 @@ class ClientsModel extends ListModel
 
 		// Get the clients in the list.
 		$db = $this->getDbo();
-		$clientIds = ArrayHelper::getColumn($items, 'id');
+		$clientIds = array_column($items, 'id');
 
 		// Quote the strings.
 		$clientIds = implode(
