@@ -5439,12 +5439,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "37538d099e74134b7daa6c6c9ea1571f4837407c"
+                "reference": "f67322272fdfbd3f649993dd43d50c3c22cfa4bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/37538d099e74134b7daa6c6c9ea1571f4837407c",
-                "reference": "37538d099e74134b7daa6c6c9ea1571f4837407c",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/f67322272fdfbd3f649993dd43d50c3c22cfa4bc",
+                "reference": "f67322272fdfbd3f649993dd43d50c3c22cfa4bc",
                 "shasum": ""
             },
             "require": {
@@ -5482,7 +5482,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2019-08-25T06:37:27+00:00"
+            "time": "2019-09-23T07:32:20+00:00"
         },
         {
             "name": "joomla-projects/robo-joomla",
