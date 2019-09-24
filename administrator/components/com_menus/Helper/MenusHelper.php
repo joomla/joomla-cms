@@ -236,7 +236,7 @@ class MenusHelper extends ContentHelper
 				->order(
 					[
 						$db->quoteName('title'),
-						$db->quoteName('menutype')
+						$db->quoteName('menutype'),
 					]
 				);
 
