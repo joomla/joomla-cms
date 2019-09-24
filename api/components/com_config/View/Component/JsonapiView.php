@@ -7,23 +7,23 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Config\Api\View\Application;
+namespace Joomla\Component\Config\Api\View\Component;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Uri\Uri;
 use Tobscure\JsonApi\Collection;
-USE Joomla\Component\Config\Administrator\Model\ApplicationModel;
 
 /**
- * The application view
+ * The component view
  *
  * @since  4.0.0
  */
-class JsonApiView extends BaseApiView
+class JsonapiView extends BaseApiView
 {
 	/**
 	 * Execute and display a template script.
@@ -36,11 +36,26 @@ class JsonApiView extends BaseApiView
 	 */
 	public function displayList(array $items = null)
 	{
-		/** @var ApplicationModel $model */
-		$model = $this->getModel();
+		try
+		{
+			$component = ComponentHelper::getComponent($this->get('component_name'));
+
+			if ($component === null || !$component->enabled)
+			{
+				// TODO: exception component unavailable
+				throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_INVALID_COMPONENT_NAME'), 400);
+			}
+
+			$data = $component->getParams()->toObject();
+		}
+		catch (\Exception $e)
+		{
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SERVER'), 500, $e);
+		}
+
 		$items = [];
 
-		foreach ($model->getData() as $key => $value)
+		foreach ($data as $key => $value)
 		{
 			$item    = (object) [$key => $value];
 			$items[] = $this->prepareItem($item);
@@ -105,7 +120,7 @@ class JsonApiView extends BaseApiView
 	 */
 	protected function prepareItem($item)
 	{
-		$item->id = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+		$item->id = ExtensionHelper::getExtensionRecord($this->get('component_name'))->extension_id;
 
 		return $item;
 	}

@@ -1,24 +1,24 @@
 <?php
 /**
  * @package     Joomla.API
- * @subpackage  com_banners
+ * @subpackage  com_redirect
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Banners\Api\View\Clients;
+namespace Joomla\Component\Redirect\Api\View\Redirect;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
 /**
- * The clients view
+ * The redirect view
  *
  * @since  4.0.0
  */
-class JsonApiView extends BaseApiView
+class JsonapiView extends BaseApiView
 {
 	/**
 	 * The fields to render item in the documents
@@ -27,22 +27,16 @@ class JsonApiView extends BaseApiView
 	 * @since  4.0.0
 	 */
 	protected $fieldsToRenderItem = [
-		'typeAlias',
 		'id',
-		'checked_out_time',
-		'name',
-		'contact',
-		'email',
-		'checked_out',
-		'checked_out_time',
-		'extrainfo',
-		'state',
-		'metakey',
-		'own_prefix',
-		'metakey_prefix',
-		'purchase_type',
-		'track_clicks',
-		'track_impressions',
+		'old_url',
+		'new_url',
+		'referer',
+		'comment',
+		'hits',
+		'published',
+		'created_date',
+		'modified_date',
+		'header',
 	];
 
 	/**
@@ -53,18 +47,14 @@ class JsonApiView extends BaseApiView
 	 */
 	protected $fieldsToRenderList = [
 		'id',
-		'name',
-		'contact',
-		'checked_out',
-		'checked_out_time',
-		'state',
-		'metakey',
-		'purchase_type',
-		'nbanners',
-		'editor',
-		'count_published',
-		'count_unpublished',
-		'count_trashed',
-		'count_archived',
+		'old_url',
+		'new_url',
+		'referer',
+		'comment',
+		'hits',
+		'published',
+		'created_date',
+		'modified_date',
+		'header',
 	];
 }
