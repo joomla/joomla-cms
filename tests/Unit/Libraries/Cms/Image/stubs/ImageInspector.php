@@ -38,7 +38,7 @@ class ImageInspector extends Image
 		}
 		else
 		{
-			throw new Exception('Undefined or private property: ' . __CLASS__ . '::' . $name);
+			throw new \Exception('Undefined or private property: ' . __CLASS__ . '::' . $name);
 		}
 	}
 
@@ -60,7 +60,7 @@ class ImageInspector extends Image
 		}
 		else
 		{
-			throw new Exception('Undefined or private property: ' . __CLASS__ . '::' . $name);
+			throw new \Exception('Undefined or private property: ' . __CLASS__ . '::' . $name);
 		}
 	}
 
