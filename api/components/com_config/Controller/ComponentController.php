@@ -16,7 +16,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\Component\Config\Api\View\Component\JsonApiView;
+use Joomla\Component\Config\Api\View\Component\JsonapiView;
 use Joomla\Component\Config\Administrator\Model\ComponentModel;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
@@ -57,7 +57,7 @@ class ComponentController extends ApiController
 
 		try
 		{
-			/** @var JsonApiView $view */
+			/** @var JsonapiView $view */
 			$view = $this->getView(
 				$this->default_view,
 				$viewType,
