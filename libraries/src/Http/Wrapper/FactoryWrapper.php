@@ -18,9 +18,7 @@ use Joomla\CMS\Http\TransportInterface;
 /**
  * Wrapper class for HttpFactory
  *
- * @package     Joomla.Platform
- * @subpackage  Http
- * @since       3.4
+ * @since  3.4
  */
 class FactoryWrapper
 {
