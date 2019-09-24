@@ -21,7 +21,7 @@ use Tobscure\JsonApi\Collection;
  *
  * @since  4.0.0
  */
-class JsonApiView extends BaseApiView
+class JsonapiView extends BaseApiView
 {
 	/**
 	 * The fields to render items in the documents
@@ -70,7 +70,7 @@ class JsonApiView extends BaseApiView
 
 		if ($this->type === null)
 		{
-			throw new \RuntimeException('Content type missing');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_CONTENT_TYPE_MISSING'), 400);
 		}
 
 		$collection = (new Collection($items, new JoomlaSerializer($this->type)))
