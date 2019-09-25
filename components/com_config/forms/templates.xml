@@ -17,7 +17,7 @@
 			label="COM_TEMPLATES_FIELD_TEMPLATE_LABEL"
 			class="readonly"
 			size="30"
-			readonly="true" 
+			readonly="true"
 		/>
 
 		<field
@@ -26,7 +26,7 @@
 			label="COM_TEMPLATES_FIELD_CLIENT_LABEL"
 			class="readonly"
 			default="0"
-			readonly="true" 
+			readonly="true"
 		/>
 
 		<field
@@ -34,7 +34,7 @@
 			type="text"
 			label="COM_TEMPLATES_FIELD_TITLE_LABEL"
 			size="50"
-			required="true" 
+			required="true"
 		/>
 
 		<field name="assigned" type="hidden" />
