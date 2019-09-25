@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
@@ -71,7 +71,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		{
 			$r = null;
 
-			if (!preg_match('/(.*)Model/i', get_class($this), $r))
+			if (!preg_match('/(.*)Model/i', \get_class($this), $r))
 			{
 				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
@@ -79,15 +79,15 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			$this->option = ComponentHelper::getComponentName($this, $r[1]);
 		}
 
-		$this->setDbo(array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo());
+		$this->setDbo(\array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo());
 
 		// Set the default view search path
-		if (array_key_exists('table_path', $config))
+		if (\array_key_exists('table_path', $config))
 		{
 			$this->addTablePath($config['table_path']);
 		}
 		// @codeCoverageIgnoreStart
-		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
+		elseif (\defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
@@ -134,7 +134,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
-		if (is_string($query))
+		if (\is_string($query))
 		{
 			$query = $this->getDbo()->getQuery(true)->setQuery($query);
 		}
@@ -207,7 +207,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	protected function _createTable($name, $prefix = 'Table', $config = array())
 	{
 		// Make sure we are returning a DBO object
-		if (!array_key_exists('dbo', $config))
+		if (!\array_key_exists('dbo', $config))
 		{
 			$config['dbo'] = $this->getDbo();
 		}

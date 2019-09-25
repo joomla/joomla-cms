@@ -40,13 +40,22 @@
       method: 'GET',
       perform: true,
       onSuccess: (resp) => {
-        const response = JSON.parse(resp);
-        let progressClass = '';
-        let success;
-
         // Remove loader image
         const loader = list.querySelector('.loader-image');
         loader.parentNode.removeChild(loader);
+
+        let response = {};
+
+        try {
+          response = JSON.parse(resp);
+        } catch (e) {
+          Joomla.renderMessages({ error: [Joomla.JText._('MOD_SAMPLEDATA_INVALID_RESPONSE')] }, `.sampledata-steps-${type}-${step}`);
+          Joomla.SampleData.inProgress = false;
+          return;
+        }
+
+        let progressClass = '';
+        let success;
 
         if (response.success && response.data && response.data.length > 0) {
           const progress = document.querySelector(`.sampledata-progress-${type} .progress-bar`);
