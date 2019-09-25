@@ -129,8 +129,8 @@ class TransitionField extends ListField
 					$db->quoteName('t.to_stage_id') . ' != :stage1',
 					$db->quoteName('s.workflow_id') . ' = ' . $db->quoteName('s2.workflow_id'),
 					$db->quoteName('s2.id') . ' = :stage2',
-					$db->quoteName('t.published') . '= 1',
-					$db->quoteName('s.published') . '= 1',
+					$db->quoteName('t.published') . ' = 1',
+					$db->quoteName('s.published') . ' = 1',
 				]
 			)
 			->bind(':stage1', $workflowStage, ParameterType::INTEGER)
