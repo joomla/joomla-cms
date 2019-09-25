@@ -258,7 +258,7 @@ class PlgContentPagenavigation extends CMSPlugin
 
 			// Use created if publish_up is not set
 			case 'published' :
-				$queryDate = ' CASE WHEN a.publish_up = IS NULL THEN a.created ELSE a.publish_up END ';
+				$queryDate = ' CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END ';
 				break;
 
 			// Use created as default
