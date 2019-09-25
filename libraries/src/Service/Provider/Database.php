@@ -97,7 +97,7 @@ class Database implements ServiceProviderInterface
 							'verify_server_cert' => (bool) $conf->get('dbsslverifyservercert'),
 						];
 
-						foreach (['cipher', 'ca', 'capath', 'key', 'cert'] as $key => $value)
+						foreach (['cipher', 'ca', 'capath', 'key', 'cert'] as $value)
 						{
 							$confVal = trim($conf->get('dbssl' . $value, ''));
 
