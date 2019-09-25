@@ -9,7 +9,7 @@ ALTER TABLE `#__banners` MODIFY `checked_out_time` datetime NULL DEFAULT NULL;
 ALTER TABLE `#__banner_clients` MODIFY `checked_out_time` datetime NULL DEFAULT NULL;
 
 UPDATE `#__banners` SET `created` = '2005-08-17 00:00:00' WHERE `created` = '0000-00-00 00:00:00';
-UPDATE `#__banners` SET `modified` = `created` WHERE `modified` = '0000-00-00 00:00:00';
+UPDATE `#__banners` SET `modified` = `created` WHERE `modified` = '0000-00-00 00:00:00' OR `modified` < `created`;
 
 UPDATE `#__banners` SET `reset` = NULL WHERE `reset` = '0000-00-00 00:00:00';
  UPDATE `#__banners` SET

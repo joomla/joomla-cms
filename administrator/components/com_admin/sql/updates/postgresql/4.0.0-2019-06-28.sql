@@ -20,7 +20,7 @@ ALTER TABLE "#__banner_clients" ALTER COLUMN "checked_out_time" DROP NOT NULL;
 ALTER TABLE "#__banner_clients" ALTER COLUMN "checked_out_time" DROP DEFAULT;
 
 UPDATE "#__banners" SET "created" = '2005-08-17 00:00:00' WHERE "created" = '1970-01-01 00:00:00';
-UPDATE "#__banners" SET "modified" = "created" WHERE "modified" = '1970-01-01 00:00:00';
+UPDATE "#__banners" SET "modified" = "created" WHERE "modified" = '1970-01-01 00:00:00' OR "modified" < "created";
 
 UPDATE "#__banners" SET "reset" = NULL WHERE "reset" = '1970-01-01 00:00:00';
  UPDATE "#__banners" SET
