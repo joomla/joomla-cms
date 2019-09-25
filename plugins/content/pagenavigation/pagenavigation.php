@@ -127,8 +127,8 @@ class PlgContentPagenavigation extends CMSPlugin
 			}
 
 			$xwhere = ' AND (ws.condition = 1 OR ws.condition = -2)'
-				. ' AND (publish_up = IS NULL OR publish_up <= ' . $db->quote($now) . ')'
-				. ' AND (publish_down = IS NULL OR publish_down >= ' . $db->quote($now) . ')';
+				. ' AND (publish_up IS NULL OR publish_up <= ' . $db->quote($now) . ')'
+				. ' AND (publish_down IS NULL OR publish_down >= ' . $db->quote($now) . ')';
 
 			// Array of articles in same category correctly ordered.
 			$query = $db->getQuery(true);
