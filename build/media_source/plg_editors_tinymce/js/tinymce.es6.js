@@ -91,8 +91,17 @@
         buttonValues.push(tmp);
       });
 
+      // Ensure tinymce is initialised in readonly mode if the textarea has readonly applied
+      let readOnlyMode = false;
+
+      if (element) {
+        readOnlyMode = element.readOnly;
+      }
+
       if (buttonValues.length) {
         options.setup = (editor) => {
+          editor.settings.readonly = readOnlyMode;
+
           Object.keys(icons).forEach((icon) => {
             editor.ui.registry.addIcon(icon, icons[icon]);
           });
@@ -102,6 +111,10 @@
             icon: 'joomla',
             fetch: callback => callback(buttonValues),
           });
+        };
+      } else {
+        options.setup = (editor) => {
+          editor.settings.readonly = readOnlyMode;
         };
       }
 
