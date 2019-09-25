@@ -78,6 +78,7 @@
 			type="media"
 			label="COM_TAGS_TAG_LIST_MEDIA_LABEL"
 			description="COM_TAGS_TAG_LIST_MEDIA_DESC"
+			validate="filepath"
 		/>
 
 		<field

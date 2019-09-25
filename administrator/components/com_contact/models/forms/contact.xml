@@ -253,6 +253,7 @@
 			label="COM_CONTACT_FIELD_ICONS_ADDRESS_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_ADDRESS_DESC"
 			hide_none="1"
+			validate="filepath"
 		/>
 
 		<field
@@ -261,6 +262,7 @@
 			label="COM_CONTACT_FIELD_ICONS_EMAIL_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_EMAIL_DESC"
 			hide_none="1"
+			validate="filepath"
 		/>
 
 		<field
@@ -269,6 +271,7 @@
 			label="COM_CONTACT_FIELD_ICONS_TELEPHONE_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_TELEPHONE_DESC"
 			hide_none="1"
+			validate="filepath"
 		/>
 
 		<field
@@ -277,6 +280,7 @@
 			label="COM_CONTACT_FIELD_ICONS_MOBILE_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_MOBILE_DESC"
 			hide_none="1"
+			validate="filepath"
 		/>
 
 		<field
@@ -285,6 +289,7 @@
 			label="COM_CONTACT_FIELD_ICONS_FAX_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_FAX_DESC"
 			hide_none="1"
+			validate="filepath"
 		/>
 
 		<field
@@ -293,6 +298,7 @@
 			label="COM_CONTACT_FIELD_ICONS_MISC_LABEL"
 			description="COM_CONTACT_FIELD_ICONS_MISC_DESC"
 			hide_none="1"
+			validate="filepath"
 		/>
 	</fieldset>
 
@@ -311,6 +317,7 @@
 			label="COM_CONTACT_FIELD_PARAMS_IMAGE_LABEL"
 			description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
 			hide_none="1"
+			validate="filepath"
 		/>
 
 		<field

@@ -66,6 +66,7 @@
 					description="TPL_HATHOR_LOGO_DESC" 
 					class=""
 					default=""
+					validate="filepath"
 				/>
 
 				<field

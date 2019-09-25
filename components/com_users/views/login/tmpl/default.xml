@@ -83,6 +83,7 @@
 			type="media"
 			label="JFIELD_LOGIN_IMAGE_LABEL"
 			description="JFIELD_LOGIN_IMAGE_DESC"
+			validate="filepath"
 		/>
 
 		<field 
@@ -159,6 +160,7 @@
 			type="media"
 			label="JFIELD_LOGOUT_IMAGE_LABEL"
 			description="JFIELD_LOGOUT_IMAGE_DESC"
+			validate="filepath"
 		/>
 
 		</fieldset>

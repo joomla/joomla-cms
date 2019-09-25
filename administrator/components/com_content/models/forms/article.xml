@@ -824,8 +824,9 @@
 			type="media"
 			label="COM_CONTENT_FIELD_INTRO_LABEL"
 			description="COM_CONTENT_FIELD_INTRO_DESC" 
+			validate="filepath"
 		/>
-		
+
 		<field
 			name="float_intro"
 			type="list"
@@ -865,6 +866,7 @@
 			type="media"
 			label="COM_CONTENT_FIELD_FULL_LABEL"
 			description="COM_CONTENT_FIELD_FULL_DESC"
+			validate="filepath"
 		/>
 
 		<field

@@ -263,6 +263,7 @@
 				type="media"
 				label="COM_CATEGORIES_FIELD_IMAGE_LABEL"
 				description="COM_CATEGORIES_FIELD_IMAGE_DESC"
+				validate="filepath"
 			/>
 
 			<field

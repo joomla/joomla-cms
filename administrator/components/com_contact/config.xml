@@ -291,6 +291,7 @@
 			description="COM_CONTACT_FIELD_PARAMS_IMAGE_DESC"
 			default=""
 			showon="show_info:1[AND]show_image:1"
+			validate="filepath"
 		/>
 
 		<field
@@ -467,6 +468,7 @@
 			hide_none="1"
 			default=""
 			showon="contact_icons:0"
+			validate="filepath"
 		/>
 
 		<field
@@ -477,6 +479,7 @@
 			hide_none="1"
 			default=""
 			showon="contact_icons:0"
+			validate="filepath"
 		/>
 
 		<field
@@ -487,6 +490,7 @@
 			hide_none="1"
 			default=""
 			showon="contact_icons:0"
+			validate="filepath"
 		/>
 
 		<field
@@ -497,6 +501,7 @@
 			hide_none="1"
 			default=""
 			showon="contact_icons:0"
+			validate="filepath"
 		/>
 
 		<field
@@ -507,6 +512,7 @@
 			hide_none="1"
 			default=""
 			showon="contact_icons:0"
+			validate="filepath"
 		/>
 
 		<field
@@ -517,6 +523,7 @@
 			hide_none="1"
 			default=""
 			showon="contact_icons:0"
+			validate="filepath"
 		/>
 	</fieldset>
 

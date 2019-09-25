@@ -23,6 +23,7 @@
 				type="media"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
 				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_DESC" 
+				validate="filepath"
 			/>
 
 			<field 

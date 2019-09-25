@@ -258,6 +258,7 @@
 				label="COM_TAGS_FIELD_INTRO_LABEL"
 				description="COM_TAGS_FIELD_INTRO_DESC"
 				labelclass="control-label"
+				validate="filepath"
 			/>
 
 			<field
@@ -303,6 +304,7 @@
 				label="COM_TAGS_FIELD_FULL_LABEL"
 				description="COM_TAGS_FIELD_FULL_DESC"
 				labelclass="control-label"
+				validate="filepath"
 			/>
 
 			<field
