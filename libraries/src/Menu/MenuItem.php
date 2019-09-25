@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Menu;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Tree\NodeInterface;
 use Joomla\CMS\Tree\NodeTrait;

@@ -68,9 +68,19 @@ class ContactModel extends FormModel
 	protected function populateState()
 	{
 		/** @var SiteApplication $app */
-		$app = Factory::getApplication();
+		$app = Factory::getContainer()->get(SiteApplication::class);
 
-		$this->setState('contact.id', $app->input->getInt('id'));
+		if (\JFactory::getApplication()->isClient('api'))
+		{
+			// TODO: remove this
+			$app->loadLanguage();
+			$this->setState('contact.id', \JFactory::getApplication()->input->post->getInt('id'));
+		}
+		else
+		{
+			$this->setState('contact.id', $app->input->getInt('id'));
+		}
+
 		$this->setState('params', $app->getParams());
 
 		$user = Factory::getUser();
@@ -104,7 +114,7 @@ class ContactModel extends FormModel
 
 		$temp = clone $this->getState('params');
 		$contact = $this->_item[$this->getState('contact.id')];
-		$active = Factory::getApplication()->getMenu()->getActive();
+		$active = Factory::getContainer()->get(SiteApplication::class)->getMenu()->getActive();
 
 		if ($active)
 		{
@@ -382,7 +392,8 @@ class ContactModel extends FormModel
 				}
 			}
 
-			$db->setQuery($query, 0, (int) $articles_display_num);
+			$query->setLimit((int) $articles_display_num);
+			$db->setQuery($query);
 			$contact->articles = $db->loadObjectList();
 		}
 		else
@@ -431,7 +442,7 @@ class ContactModel extends FormModel
 			. ' THEN '
 			. $query->concatenate(array($query->castAsChar($id), $alias), ':')
 			. ' ELSE '
-			. $id . ' END';
+			. $query->castAsChar($id) . ' END';
 	}
 
 	/**

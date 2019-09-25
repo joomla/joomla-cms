@@ -25,6 +25,11 @@
       margin: auto;
       content: "";
       background-color: rgba(0, 0, 0, .2);
+
+      [dir=rtl] & {
+      left: 0;
+      right: ($treeselect-indent - 15px);
+      }
     }
 
     &::after {
@@ -36,6 +41,11 @@
       height: 100%;
       content: "";
       background-color: rgba(0, 0, 0, .2);
+
+      [dir=rtl] & {
+      left: 0;
+      right: ($treeselect-indent - 15px);
+      }
     }
 
     &:last-child {
@@ -109,6 +119,12 @@
     li::after {
       left: 8px;
       display: block;
+
+      [dir=rtl] & {
+      left: 0;
+      right: 8px;
+      margin: 0;
+      }
     }
 
     li::before {
@@ -125,6 +141,11 @@
 
     li {
       padding-left: 20px;
+
+      [dir=rtl] & {
+      padding-left: 0;
+      padding-right: 20px;
+      }
     }
   }
 }

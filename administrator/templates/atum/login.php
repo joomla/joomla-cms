@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentHtml $this */
 
@@ -35,13 +36,13 @@ require_once __DIR__ . '/Service/HTML/Atum.php';
 
 // Template params
 $siteLogo  = $this->params->get('siteLogo')
-	? JUri::root() . $this->params->get('siteLogo')
+	? Uri::root() . $this->params->get('siteLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
 $loginLogo = $this->params->get('loginLogo')
-	? JUri::root() . $this->params->get('loginLogo')
+	? Uri::root() . $this->params->get('loginLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 $smallLogo = $this->params->get('smallLogo')
-	? JUri::root() . $this->params->get('smallLogo')
+	? Uri::root() . $this->params->get('smallLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
 $logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8');
@@ -82,6 +83,9 @@ $monochrome = (bool) $this->params->get('monochrome');
 
 HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
 HTMLHelper::_('atum.rootcolors', $this->params);
+
+// Add cookie alert message
+Text::script('JGLOBAL_WARNCOOKIES');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -97,7 +101,6 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 		<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 	</div>
 </noscript>
-
 
 <header id="header" class="header">
 	<div class="d-flex">
@@ -140,7 +143,8 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	<?php // Sidebar ?>
 	<div id="sidebar-wrapper" class="sidebar-wrapper order-0">
 		<div id="main-brand" class="main-brand">
-			<h1><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
+			<h1><?php echo $app->get('sitename'); ?></h1>
+			<h2><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h2>
 		</div>
 		<div id="sidebar">
 			<jdoc:include type="modules" name="sidebar" style="body" />
