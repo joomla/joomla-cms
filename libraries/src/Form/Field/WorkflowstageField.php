@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -64,7 +64,7 @@ class WorkflowstageField extends GroupedlistField
 
 		if ($result)
 		{
-			if (strlen($element['extension']))
+			if (\strlen($element['extension']))
 			{
 				$this->extension = (string) $element['extension'];
 			}
@@ -146,7 +146,7 @@ class WorkflowstageField extends GroupedlistField
 			// Using workflow ID to differentiate workflows having same title
 			$workflowStageKey = Text::_($stage->workflow_title) . ' (' . $stage->workflow_id . ')';
 
-			if (!array_key_exists($workflowStageKey, $workflowStages))
+			if (!\array_key_exists($workflowStageKey, $workflowStages))
 			{
 				$workflowStages[$workflowStageKey] = array();
 			}

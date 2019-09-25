@@ -2,7 +2,7 @@
   "name": "joomla",
   "version": "4.0.0",
   "description": "Joomla CMS",
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "repository": {
     "type": "git",
     "url": "https://github.com/joomla/joomla-cms.git"
@@ -49,7 +49,7 @@
     "roboto-fontface": "^0.10.0",
     "qrcode-generator": "^1.4.3",
     "skipto": "^2.0.4",
-    "tinymce": "5.0.1"
+    "tinymce": "5.0.14"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",

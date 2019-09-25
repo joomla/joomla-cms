@@ -83,6 +83,9 @@ $monochrome = (bool) $this->params->get('monochrome');
 
 HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
 HTMLHelper::_('atum.rootcolors', $this->params);
+
+// Add cookie alert message
+Text::script('JGLOBAL_WARNCOOKIES');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -98,7 +101,6 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 		<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 	</div>
 </noscript>
-
 
 <header id="header" class="header">
 	<div class="d-flex">
@@ -141,7 +143,8 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	<?php // Sidebar ?>
 	<div id="sidebar-wrapper" class="sidebar-wrapper order-0">
 		<div id="main-brand" class="main-brand">
-			<h1><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
+			<h1><?php echo $app->get('sitename'); ?></h1>
+			<h2><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h2>
 		</div>
 		<div id="sidebar">
 			<jdoc:include type="modules" name="sidebar" style="body" />

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -64,7 +64,7 @@ class MenuField extends GroupedlistField
 				]
 			);
 
-		if (strlen($clientId))
+		if (\strlen($clientId))
 		{
 			$client = (int) $clientId;
 			$query->where($db->quoteName('client_id') . ' = :client')
@@ -117,7 +117,7 @@ class MenuField extends GroupedlistField
 		$options = array_merge($opts, $menus);
 		$groups  = array();
 
-		if (strlen($clientId))
+		if (\strlen($clientId))
 		{
 			$groups[0] = $options;
 		}

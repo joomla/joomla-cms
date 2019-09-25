@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -169,13 +169,13 @@ class ModulelayoutField extends FormField
 						foreach ($files as $i => $file)
 						{
 							// Remove layout that already exist in component ones
-							if (in_array($file, $module_layouts))
+							if (\in_array($file, $module_layouts))
 							{
 								unset($files[$i]);
 							}
 						}
 
-						if (count($files))
+						if (\count($files))
 						{
 							// Create the group for the template
 							$groups[$template->element] = array();

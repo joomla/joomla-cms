@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_BASE') or die;
+\defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -68,7 +68,7 @@ class TransitionField extends ListField
 		{
 			$input = Factory::getApplication()->input;
 
-			if (strlen($element['extension']))
+			if (\strlen($element['extension']))
 			{
 				$this->extension = (string) $element['extension'];
 			}
@@ -77,7 +77,7 @@ class TransitionField extends ListField
 				$this->extension = $input->getCmd('extension');
 			}
 
-			if (strlen($element['workflow_stage']))
+			if (\strlen($element['workflow_stage']))
 			{
 				$this->workflowStage = (int) $element['workflow_stage'];
 			}
@@ -139,7 +139,7 @@ class TransitionField extends ListField
 
 		$items = $db->setQuery($query)->loadObjectList();
 
-		if (count($items))
+		if (\count($items))
 		{
 			$user = Factory::getUser();
 
@@ -179,7 +179,7 @@ class TransitionField extends ListField
 
 		$options = array_merge(parent::getOptions(), $items);
 
-		if (count($options))
+		if (\count($options))
 		{
 			$default[] = HTMLHelper::_('select.option', '-1', '--------', ['disable' => true]);
 		}

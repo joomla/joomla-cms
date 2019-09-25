@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-		<field 
-			name="lang_id" 
+		<field
+			name="lang_id"
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			class="readonly"
@@ -10,8 +10,8 @@
 			readonly="true"
 		/>
 
-		<field 
-			name="lang_code" 
+		<field
+			name="lang_code"
 			type="text"
 			label="COM_LANGUAGES_FIELD_LANG_TAG_LABEL"
 			description="COM_LANGUAGES_FIELD_LANG_TAG_DESC"
@@ -20,7 +20,7 @@
 			size="10"
 		/>
 
-		<field 
+		<field
 			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
@@ -29,7 +29,7 @@
 			size="40"
 		/>
 
-		<field 
+		<field
 			name="title_native"
 			type="text"
 			label="COM_LANGUAGES_FIELD_TITLE_NATIVE_LABEL"
@@ -38,8 +38,8 @@
 			size="40"
 		/>
 
-		<field 
-			name="sef" 
+		<field
+			name="sef"
 			type="text"
 			label="COM_LANGUAGES_FIELD_LANG_CODE_LABEL"
 			maxlength="50"
@@ -60,16 +60,16 @@
 			<option value="">JNONE</option>
 		</field>
 
-		<field 
-			name="description" 
+		<field
+			name="description"
 			type="textarea"
 			label="JGLOBAL_DESCRIPTION"
 			cols="80"
 			rows="5"
 		/>
 
-		<field 
-			name="published" 
+		<field
+			name="published"
 			type="list"
 			label="JSTATUS"
 			class="custom-select-color-state"
@@ -80,25 +80,25 @@
 			<option value="0">JUNPUBLISHED</option>
 			<option value="-2">JTRASHED</option>
 		</field>
-		
-		<field 
-			name="access" 
+
+		<field
+			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
 			size="1"
 		/>
 	</fieldset>
 	<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-		<field 
-			name="metakey" 
+		<field
+			name="metakey"
 			type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL"
 			rows="3"
 			cols="30"
 		/>
 
-		<field 
-			name="metadesc" 
+		<field
+			name="metadesc"
 			type="textarea"
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			rows="3"
@@ -106,8 +106,8 @@
 		/>
 	</fieldset>
 	<fieldset name="site_name" label="COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL">
-		<field 
-			name="sitename" 
+		<field
+			name="sitename"
 			type="text"
 			label="COM_LANGUAGES_FIELD_SITE_NAME_LABEL"
 			filter="string"
