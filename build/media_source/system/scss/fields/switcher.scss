@@ -19,6 +19,12 @@ $switcher-height: 28px;
   height: $switcher-height;
   width: $switcher-width;
   margin: 0;
+  left: 0;
+
+  [dir=rtl] & {
+    left: auto;
+    right: 0;
+  }
 }
 
 .switcher input:checked {
@@ -33,6 +39,11 @@ $switcher-height: 28px;
   opacity: 0;
 }
 
+.switcher input:focus ~ .toggle-outside {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 .2rem rgba(26,70,107,.25);
+}
+
 .switcher label {
   line-height: $switcher-height;
   display: inline-block;
@@ -44,6 +55,15 @@ $switcher-height: 28px;
   position: absolute;
   transition: opacity 0.25s ease;
   margin-bottom: 0;
+  left: 0;
+
+  [dir=rtl] & {
+    left: auto;
+    right: 0;
+    margin-left: 0;
+    margin-right: 70px;
+    text-align: right;
+  }
 }
 
 .switcher .toggle-outside {
@@ -55,6 +75,12 @@ $switcher-height: 28px;
   width: 58px;
   box-sizing: border-box;
   border: 1px solid rgba(0,0,0,.18);
+  left: 0;
+
+  [dir=rtl] & {
+    left: auto;
+    right: 0;
+  }
 }
 
 .switcher input ~ input:checked ~ .toggle-outside{
@@ -82,10 +108,17 @@ $switcher-height: 28px;
   padding-top: 5px;
   padding-right: 5px;
   text-align: left;
+
+  [dir=rtl] & {
+    padding-left: 5px;
+    padding-right: 0;
+    float: right;
+    text-align: right;
+  }
 }
 
-.col-md-9 .switcher__legend,
-.col-md-12 .switcher__legend {
+.col-md-9 .control-group .switcher__legend,
+.col-md-12 .control-group .switcher__legend {
   margin-left: -220px;
 
   [dir=rtl] & {
