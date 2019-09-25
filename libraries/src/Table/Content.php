@@ -273,12 +273,6 @@ class Content extends Table
 			$this->publish_down = $temp;
 		}
 
-		// Set modified to created date if not set
-		if (!$this->modified)
-		{
-			$this->modified = $this->created;
-		}
-
 		// Clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
 		if (!empty($this->metakey))
@@ -344,6 +338,12 @@ class Content extends Table
 			if (empty($this->created_by))
 			{
 				$this->created_by = $user->get('id');
+			}
+
+			// Set modified to created date if not set
+			if (!$this->modified)
+			{
+				$this->modified = $this->created;
 			}
 		}
 
