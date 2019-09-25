@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 
 /** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\Html $this */
 
-HTMLHelper::_('jquery.framework');
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('script', 'com_joomlaupdate/default.min.js', array('version' => 'auto', 'relative' => true));
 Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
