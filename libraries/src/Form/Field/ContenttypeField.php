@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -37,14 +37,14 @@ class ContenttypeField extends ListField
 	 */
 	protected function getInput()
 	{
-		if (!is_array($this->value))
+		if (!\is_array($this->value))
 		{
-			if (is_object($this->value))
+			if (\is_object($this->value))
 			{
 				$this->value = $this->value->tags;
 			}
 
-			if (is_string($this->value))
+			if (\is_string($this->value))
 			{
 				$this->value = explode(',', $this->value);
 			}
