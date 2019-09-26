@@ -533,7 +533,7 @@ class ArticlesModel extends ListModel
 			return false;
 		}
 
-		$ids = ArrayHelper::getColumn($items, 'stage_id');
+		$ids = array_column($items, 'stage_id');
 		$ids = ArrayHelper::toInteger($ids);
 		$ids = array_unique(array_filter($ids));
 
