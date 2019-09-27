@@ -245,7 +245,7 @@ class PlgUserJoomla extends JPlugin
 		// Purge the old session
 		$query = $this->db->getQuery(true)
 			->delete('#__session')
-			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($oldSessionId));
+			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quoteBinary($oldSessionId));
 
 		try
 		{
