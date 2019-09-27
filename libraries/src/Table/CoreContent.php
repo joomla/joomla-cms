@@ -281,7 +281,7 @@ class CoreContent extends Table
 
 			if (!(int) $this->core_modified_time)
 			{
-				$this->core_modified_time = this->core_created_time;
+				$this->core_modified_time = $this->core_created_time;
 			}
 
 			$isNew = true;
