@@ -15,6 +15,7 @@
  *[@param  bool  Safe Mode: if set to TRUE, the original string is retunred on errors]
  * @return  string  The encoded string or false on failure
  * @since 0.0.1
+ * @note This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 function encode_utf8($string = '', $encoding = 'iso-8859-1', $safe_mode = false)
 {

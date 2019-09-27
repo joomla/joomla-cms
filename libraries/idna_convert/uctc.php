@@ -14,6 +14,7 @@
  * @author Matthias Sommerfeld  <mso@phlyLabs.de>
  * @copyright 2003-2009 phlyLabs Berlin, http://phlylabs.de
  * @version 0.0.6 2009-05-10
+ * @note This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 class uctc {
     private static $mechs = array('ucs4', /*'ucs4le', 'ucs4be', */'ucs4array', /*'utf16', 'utf16le', 'utf16be', */'utf8', 'utf7', 'utf7imap');

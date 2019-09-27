@@ -49,6 +49,7 @@
  * @author  Matthias Sommerfeld <mso@phlylabs.de>
  * @copyright 2004-2011 phlyLabs Berlin, http://phlylabs.de
  * @version 0.8.0 2011-03-11
+ * @note This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 class idna_convert
 {
