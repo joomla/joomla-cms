@@ -8403,6 +8403,10 @@ html[dir=rtl] .quick-icons .nav-list [class*=" icon-"] {
 .j-toggle-sidebar-button:hover {
 	color: #1f496e;
 }
+#element-box img {
+	display: block;
+	margin: 0 auto;
+}
 #system-message-container,
 #j-main-container {
 	padding: 0 0 0 5px;
