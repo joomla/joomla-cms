@@ -207,9 +207,7 @@ class ArticlesModel extends ListModel
 				// If category is not published then force 0
 				'CASE WHEN c.published = 2 AND ws.condition > 0 THEN ' . (int) ContentComponent::CONDITION_ARCHIVED .
 				' WHEN c.published != 1 THEN ' . (int) ContentComponent::CONDITION_UNPUBLISHED . ' ELSE ws.condition END as state,' .
-				// Use created if modified is 0
-				'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
-				'a.modified_by, uam.name as modified_by_name,' .
+				'a.modified, a.modified_by, uam.name as modified_by_name,' .
 				// Use created if publish_up is 0
 				'CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END as publish_up,' .
 				'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
@@ -467,7 +465,6 @@ class ArticlesModel extends ListModel
 		}
 
 		// Define null and now dates
-		$nullDate = $db->quote($db->getNullDate());
 		$nowDate  = $db->quote(Factory::getDate()->toSql());
 
 		// Filter by start and end dates.
@@ -484,8 +481,8 @@ class ArticlesModel extends ListModel
 		switch ($dateFiltering)
 		{
 			case 'range':
-				$startDateRange = $db->quote($this->getState('filter.start_date_range', $nullDate));
-				$endDateRange   = $db->quote($this->getState('filter.end_date_range', $nullDate));
+				$startDateRange = $db->quote($this->getState('filter.start_date_range'));
+				$endDateRange   = $db->quote($this->getState('filter.end_date_range'));
 				$query->where(
 					'(' . $dateField . ' >= ' . $startDateRange . ' AND ' . $dateField .
 					' <= ' . $endDateRange . ')'
