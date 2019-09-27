@@ -53,7 +53,6 @@ class PlgContentPagenavigation extends CMSPlugin
 			$db       = Factory::getDbo();
 			$user     = Factory::getUser();
 			$lang     = Factory::getLanguage();
-			$nullDate = $db->getNullDate();
 
 			$date = Factory::getDate();
 			$now  = $date->toSql();
@@ -253,7 +252,7 @@ class PlgContentPagenavigation extends CMSPlugin
 		{
 			// Use created if modified is not set
 			case 'modified' :
-				$queryDate = ' CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END';
+				$queryDate = ' a.modified';
 				break;
 
 			// Use created if publish_up is not set
