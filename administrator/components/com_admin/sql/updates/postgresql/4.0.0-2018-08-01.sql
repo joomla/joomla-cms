@@ -1,9 +1,3 @@
-ALTER TABLE "#__ucm_content" ALTER COLUMN "core_created_time" SET DEFAULT CURRENT_TIMESTAMP;
-ALTER TABLE "#__ucm_content" ALTER COLUMN "core_created_time" SET NOT NULL;
-
-ALTER TABLE "#__ucm_content" ALTER COLUMN "core_modified_time" SET DEFAULT CURRENT_TIMESTAMP;
-ALTER TABLE "#__ucm_content" ALTER COLUMN "core_modified_time" SET NOT NULL;
-
 ALTER TABLE "#__ucm_content" ALTER COLUMN "core_publish_up" DROP NOT NULL;
 ALTER TABLE "#__ucm_content" ALTER COLUMN "core_publish_up" DROP DEFAULT;
 
