@@ -27,7 +27,6 @@
 					label="PLG_USER_TERMS_NOTE_FIELD_LABEL"
 					description="PLG_USER_TERMS_NOTE_FIELD_DESC"
 					hint="PLG_USER_TERMS_NOTE_FIELD_DEFAULT"
-					class="span12"
 					rows="7"
 					cols="20"
 					filter="html"

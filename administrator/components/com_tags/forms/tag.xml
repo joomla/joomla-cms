@@ -71,7 +71,6 @@
 		type="text"
 		label="COM_TAGS_FIELD_NOTE_LABEL"
 		maxlength="255"
-		class="span12"
 		size="40"
 	/>
 

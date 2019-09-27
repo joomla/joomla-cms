@@ -24,7 +24,6 @@
 			label="COM_MODULES_FIELD_NOTE_LABEL"
 			maxlength="255"
 			size="40"
-			class="span12"
 		/>
 
 		<field

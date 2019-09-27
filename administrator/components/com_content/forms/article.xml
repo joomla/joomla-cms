@@ -36,7 +36,6 @@
 			name="note"
 			type="text"
 			label="COM_CONTENT_FIELD_NOTE_LABEL"
-			class="span12"
 			size="40"
 			maxlength="255"
 		/>

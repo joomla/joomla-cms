@@ -44,7 +44,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 			</div>
 		</div>
 	</div>
-	<div class="row-fluid">
+	<div class="row">
 		<div class="form-group col-md-6">
 			<div class="control-group">
 				<label id="flip-ordering-id-lbl" for="flip-ordering-id" class="control-label">
