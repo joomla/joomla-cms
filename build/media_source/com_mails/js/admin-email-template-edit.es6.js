@@ -117,15 +117,14 @@
       });
 
       const htmlBodySwitcherChangeHandler = (event) => {
-        const tagsContainer = this.form.querySelector('.tags-container-body');
+        const tagsContainer = this.form.querySelector('.tags-container-htmlbody');
 
         if (event.target.value === '0') {
           this.setHtmlBodyValue(this.templateData.htmlbody ? this.templateData.htmlbody.master : '');
-          this.inputHtmlBody.disabled = true;
+          Joomla.editors.instances[this.inputHtmlBody.id].disable(true);
           tagsContainer.classList.add('hidden');
         } else if (event.target.value === '1') {
-          this.inputHtmlBody.disabled = false;
-          this.inputHtmlBody.readOnly = false;
+          Joomla.editors.instances[this.inputHtmlBody.id].disable(false);
           this.setHtmlBodyValue(this.templateData.htmlbody ? this.templateData.htmlbody.translated : '');
           tagsContainer.classList.remove('hidden');
         } else {
