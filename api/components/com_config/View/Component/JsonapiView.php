@@ -43,14 +43,14 @@ class JsonapiView extends BaseApiView
 			if ($component === null || !$component->enabled)
 			{
 				// TODO: exception component unavailable
-				throw new \RuntimeException('Invalid component name', 400);
+				throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_INVALID_COMPONENT_NAME'), 400);
 			}
 
 			$data = $component->getParams()->toObject();
 		}
 		catch (\Exception $e)
 		{
-			throw new \RuntimeException('Internal server error', 500, $e);
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SERVER'), 500, $e);
 		}
 
 		$items = [];

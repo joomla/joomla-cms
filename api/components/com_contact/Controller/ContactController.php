@@ -102,7 +102,7 @@ class ContactController extends ApiController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Unable to create the model');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
 		$model->setState('filter.published', 1);
@@ -119,7 +119,7 @@ class ContactController extends ApiController
 
 		if (!$contactParams->get('show_email_form'))
 		{
-			throw new \RuntimeException('Disabled display email form.');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_DISPLAY_EMAIL_FORM'));
 		}
 
 		// Contact plugins
