@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
@@ -946,29 +945,52 @@ class FieldModel extends AdminModel
 			}
 		}
 
-		try
+		// Get the categories for this component (and optionally this section, if available)
+		$cat = (
+			function () use ($component, $section) {
+				// Get the CategoryService for this component
+				$componentObject = $this->bootComponent($component);
+
+				if (!$componentObject instanceof CategoryServiceInterface)
+				{
+					// No CategoryService -> no categories
+					return null;
+				}
+
+				$cat = null;
+
+				// Try to get the categories for this component and section
+				try
+				{
+					$cat = $componentObject->getCategory([], $section ?: '');
+				}
+				catch (SectionNotFoundException $e)
+				{
+					// Not found for component and section -> Now try once more without the section, so only component
+					try
+					{
+						$cat = $componentObject->getCategory();
+					}
+					catch (SectionNotFoundException $e)
+					{
+						// If we haven't found it now, return (no categories available for this component)
+						return null;
+					}
+				}
+
+				// So we found categories for at least the component, return them
+				return $cat;
+			}
+		)();
+
+		// If we found categories, and if the root category has children, set them in the form
+		if ($cat && $cat->get('root')->hasChildren())
 		{
-			// Setting the context for the category field
-			$componentObject = $this->bootComponent($component);
-
-			if (!$componentObject instanceof CategoryServiceInterface)
-			{
-				throw new SectionNotFoundException;
-			}
-
-			$cat = $componentObject->getCategory([], $section ?: '');
-
-			if ($cat->get('root')->hasChildren())
-			{
-				$form->setFieldAttribute('assigned_cat_ids', 'extension', $component);
-			}
-			else
-			{
-				$form->removeField('assigned_cat_ids');
-			}
+			$form->setFieldAttribute('assigned_cat_ids', 'extension', $cat->getExtension());
 		}
-		catch (SectionNotFoundException $e)
+		else
 		{
+			// Else remove the field from the form
 			$form->removeField('assigned_cat_ids');
 		}
 
