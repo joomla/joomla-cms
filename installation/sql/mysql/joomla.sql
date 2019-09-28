@@ -1914,7 +1914,7 @@ CREATE TABLE IF NOT EXISTS `#__ucm_history` (
   `ucm_item_id` int(10) unsigned NOT NULL,
   `ucm_type_id` int(10) unsigned NOT NULL,
   `version_note` varchar(255) NOT NULL DEFAULT '' COMMENT 'Optional version name',
-  `save_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `save_date` datetime NOT NULL,
   `editor_user_id` int(10) unsigned NOT NULL DEFAULT 0,
   `character_count` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Number of characters in this version.',
   `sha1_hash` varchar(50) NOT NULL DEFAULT '' COMMENT 'SHA1 hash of the version_data column.',

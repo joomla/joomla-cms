@@ -1905,7 +1905,7 @@ CREATE TABLE IF NOT EXISTS "#__ucm_history" (
   "ucm_item_id" integer NOT NULL,
   "ucm_type_id" integer NOT NULL,
   "version_note" varchar(255) NOT NULL DEFAULT '',
-  "save_date" timestamp with time zone NOT NULL DEFAULT '1970-01-01 00:00:00',
+  "save_date" timestamp with time zone NOT NULL,
   "editor_user_id" integer  NOT NULL DEFAULT 0,
   "character_count" integer  NOT NULL DEFAULT 0,
   "sha1_hash" varchar(50) NOT NULL DEFAULT '',
