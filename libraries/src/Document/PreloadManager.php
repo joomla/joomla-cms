@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Document;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Fig\Link\GenericLinkProvider;
 use Fig\Link\Link;

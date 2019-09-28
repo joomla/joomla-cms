@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -18,7 +18,8 @@ use Joomla\CMS\Language\Text;
  * Form Field class for the Joomla Platform.
  * Provides a select list of help sites.
  *
- * @since  1.6
+ * @since       1.6
+ * @deprecated  4.0 To be removed
  */
 class HelpsiteField extends ListField
 {

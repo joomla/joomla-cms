@@ -47,24 +47,7 @@ class LinkModel extends AdminModel
 			return false;
 		}
 
-		$user = Factory::getUser();
-
-		return $user->authorise('core.delete', 'com_redirect');
-	}
-
-	/**
-	 * Method to test whether a record can have its state edited.
-	 *
-	 * @param   object  $record  A record object.
-	 *
-	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
-	 *
-	 * @since   1.6
-	 */
-	protected function canEditState($record)
-	{
-		// Check the component since there are no categories or other assets.
-		return Factory::getUser()->authorise('core.edit.state', 'com_redirect');
+		return parent::canDelete($record);
 	}
 
 	/**

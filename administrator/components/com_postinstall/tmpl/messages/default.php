@@ -15,7 +15,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-$renderer = Factory::getDocument()->loadRenderer('module');
+$lang     = Factory::getLanguage();
+$renderer = $this->document->loadRenderer('module');
 $options  = array('style' => 'raw');
 $mod      = ModuleHelper::getModule('mod_feed');
 $param    = array(
@@ -25,6 +26,7 @@ $param    = array(
 	'rssimage'    => 1,
 	'rssitems'    => 5,
 	'rssitemdesc' => 1,
+	'rssrtl'      => $lang->isRtl() ? 1 : 0,
 	'word_count'  => 200,
 	'cache'       => 0,
 	);

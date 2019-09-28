@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 
@@ -75,7 +75,7 @@ abstract class PredefinedlistField extends ListField
 
 			foreach ($this->predefinedOptions as $value => $text)
 			{
-				if (empty($filter) || in_array($value, $filter))
+				if (empty($filter) || \in_array($value, $filter))
 				{
 					$text = $this->translate ? Text::_($text) : $text;
 
