@@ -32,10 +32,10 @@ class PasswordStrength {
     score += PasswordStrength.calc(value, /[$!#?=;:*-_€%&()`´]/g, this.special, mods);
 
     if (mods === 1) {
-      score += value.length > this.length ? 100 : 100 / this.length * value.length;
+      score += value.length > this.length ? 100 : (100 / this.length) * value.length;
     } else {
       score += value.length > this.length ? (100 / mods)
-        : (100 / mods) / this.length * value.length;
+        : ((100 / mods) / this.length) * value.length;
     }
 
     return score;
