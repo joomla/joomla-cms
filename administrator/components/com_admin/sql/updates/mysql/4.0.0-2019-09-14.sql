@@ -11,6 +11,10 @@ UPDATE `#__content` SET `publish_up` =  NULL WHERE `publish_up` = '0000-00-00 00
 UPDATE `#__content` SET `publish_down` =  NULL WHERE `publish_down` = '0000-00-00 00:00:00';
 UPDATE `#__content` SET `checked_out_time` =  NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
 
+UPDATE `#__ucm_content` SET `core_modified_time` = `core_created_time`
+ WHERE `core_type_alias` = 'com_content.article'
+   AND `core_modified_time` = '0000-00-00 00:00:00';
+
 UPDATE `#__ucm_content` SET `core_publish_up` = NULL
  WHERE `core_type_alias` = 'com_content.article'
    AND `core_publish_up` = '0000-00-00 00:00:00';
