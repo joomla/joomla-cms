@@ -33,7 +33,6 @@
 			name="title"
 			type="text"
 			label="COM_TEMPLATES_FIELD_TITLE_LABEL"
-			class="inputbox"
 			size="50"
 			required="true"
 		/>
