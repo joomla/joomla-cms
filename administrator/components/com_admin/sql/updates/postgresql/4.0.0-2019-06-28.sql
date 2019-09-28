@@ -17,6 +17,8 @@ ALTER TABLE "#__banners" ALTER COLUMN "checked_out_time" DROP DEFAULT;
 ALTER TABLE "#__banner_clients" ALTER COLUMN "checked_out_time" DROP NOT NULL;
 ALTER TABLE "#__banner_clients" ALTER COLUMN "checked_out_time" DROP DEFAULT;
 
+UPDATE "#__banners" SET "modified" = "created" WHERE "modified" = '1970-01-01 00:00:00';
+
 UPDATE "#__banners" SET "reset" = NULL WHERE "reset" = '1970-01-01 00:00:00';
  UPDATE "#__banners" SET
 	"publish_up" = CASE WHEN "publish_up" = '1970-01-01 00:00:00' THEN NULL ELSE "publish_up" END,
@@ -24,6 +26,10 @@ UPDATE "#__banners" SET "reset" = NULL WHERE "reset" = '1970-01-01 00:00:00';
 	"checked_out_time" = CASE WHEN "checked_out_time" = '1970-01-01 00:00:00' THEN NULL ELSE "checked_out_time" END;
 
 UPDATE "#__banner_clients" SET "checked_out_time" = NULL WHERE "checked_out_time" = '1970-01-01 00:00:00';
+
+UPDATE "#__ucm_content" SET "core_modified_time" = "core_created_time"
+ WHERE "core_type_alias" = 'com_banners.banner'
+   AND "core_modified_time" = '1970-01-01 00:00:00';
 
 UPDATE "#__ucm_content" SET "core_publish_up" = NULL
  WHERE "core_type_alias" = 'com_banners.banner'
