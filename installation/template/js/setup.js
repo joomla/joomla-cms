@@ -100,7 +100,7 @@ Joomla.checkDbCredentials = (form) => {
 
   return fetch(Joomla.installationBaseUrl + '?task=installation.dbcheck&format=json', fetchData)
       .then(response => response.json())
-      .then(responseData => {
+      .then((responseData) => {
         if (responseData.messages) {
           Joomla.renderMessages(responseData.messages);
         }
