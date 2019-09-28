@@ -58,7 +58,7 @@ class RadioField extends ListField
 		// The layout for Switcher
 		if (!$element['layout'] && strpos(trim($this->class), 'switcher') === 0)
 		{
-			$this->skipLabelFor = true;
+			$this->hiddenLabel = true;
 			$this->layout = 'joomla.form.field.radio.switcher';
 		}
 
