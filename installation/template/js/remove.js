@@ -11,6 +11,7 @@ if (document.getElementById('installAddFeatures')) {
     e.preventDefault();
     document.getElementById('installLanguages').classList.add('active');
     document.getElementById('installCongrat').classList.remove('active');
+    document.getElementById('installFinal').classList.remove('active');
     document.getElementById('installRecommended').classList.remove('active');
   })
 }
@@ -19,6 +20,7 @@ if (document.getElementById('skipLanguages')) {
 	document.getElementById('skipLanguages').addEventListener('click', function(e) {
 		e.preventDefault();
 		document.getElementById('installFinal').classList.add('active');
+		document.getElementById('installRecommended').classList.add('active');
 		document.getElementById('installLanguages').classList.remove('active');
 	})
 }
