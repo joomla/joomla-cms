@@ -250,7 +250,6 @@ class PlgContentPagenavigation extends CMSPlugin
 
 		switch ($orderDate)
 		{
-			// Use created if modified is not set
 			case 'modified' :
 				$queryDate = ' a.modified';
 				break;
