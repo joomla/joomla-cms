@@ -141,6 +141,7 @@ class LinkTable extends Table
 		{
 			// New record.
 			$this->created_date = $date;
+			$this->modified_date = $date;
 		}
 
 		if (empty($this->modified_date))
