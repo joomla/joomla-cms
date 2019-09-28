@@ -1395,7 +1395,7 @@ CREATE TABLE IF NOT EXISTS `#__messages` (
   `user_id_from` int(10) unsigned NOT NULL DEFAULT 0,
   `user_id_to` int(10) unsigned NOT NULL DEFAULT 0,
   `folder_id` tinyint(3) unsigned NOT NULL DEFAULT 0,
-  `date_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `date_time` datetime NOT NULL,
   `state` tinyint(1) NOT NULL DEFAULT 0,
   `priority` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `subject` varchar(255) NOT NULL DEFAULT '',
