@@ -1,3 +1,7 @@
+ALTER TABLE "#__content" ALTER COLUMN "created" DROP DEFAULT;
+
+ALTER TABLE "#__content" ALTER COLUMN "modified" DROP DEFAULT;
+
 ALTER TABLE "#__content" ALTER COLUMN "publish_up" DROP NOT NULL;
 ALTER TABLE "#__content" ALTER COLUMN "publish_up" DROP DEFAULT;
 
