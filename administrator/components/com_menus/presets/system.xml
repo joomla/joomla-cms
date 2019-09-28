@@ -254,6 +254,13 @@
 			element="com_templates"
 			link="index.php?option=com_templates&amp;view=styles&amp;client_id=1"
 		/>
+
+		<menuitem
+				title="MOD_MENU_CONFIGURATION_MAILS"
+				type="component"
+				element="com_mails"
+				link="index.php?option=com_mails&amp;view=templates"
+		/>
 	</menuitem>
 
 	<menuitem
