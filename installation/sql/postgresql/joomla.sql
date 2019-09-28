@@ -562,6 +562,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_tags","com_templates","com_users"]}', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'com_csp', 'component', 'com_csp', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(0, 'com_mails', 'component', 'com_mails', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'PHPass', 'library', 'phpass', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -989,9 +990,8 @@ CREATE TABLE IF NOT EXISTS "#__finder_terms_common" (
   "term" varchar(75) NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "custom" integer DEFAULT 0 NOT NULL,
-  CONSTRAINT "#__finder_terms_idx_term" UNIQUE ("term", "language")
+  CONSTRAINT "#__finder_terms_common_idx_term_language" UNIQUE ("term", "language")
 );
-CREATE INDEX "#__finder_terms_common_idx_word_lang" on "#__finder_terms_common" ("term", "language");
 CREATE INDEX "#__finder_terms_common_idx_lang" on "#__finder_terms_common" ("language");
 
 --
@@ -1360,7 +1360,7 @@ SELECT 17, 'main', 'com_associations', 'Multilingual Associations', '', 'Multili
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id")
 SELECT 18, 'main', 'com_messages_manager', 'Private Messages', '', 'Messaging/Private Messages', 'index.php?option=com_messages&view=messages', 'component', 1, 10, 2, "extension_id", 0, '1970-01-01 00:00:00', 0, 0, 'class:messages-add', 0, '', 18, 19, 0, '*', 1 FROM "#__extensions" WHERE "name" = 'com_messages';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id")
-SELECT 101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, "extension_id", 0, '1970-01-01 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","multi_column_order":"1","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 35, 36, 1, '*', 0 FROM "#__extensions" WHERE "name" = 'com_content';
+SELECT 101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, "extension_id", 0, '1970-01-01 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","multi_column_order":"1","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 35, 36, 1, '*', 0 FROM "#__extensions" WHERE "name" = 'com_content';
 
 
 SELECT setval('#__menu_id_seq', 102, false);
@@ -2295,6 +2295,8 @@ CREATE TABLE IF NOT EXISTS "#__workflows" (
   "created_by" bigint DEFAULT 0 NOT NULL,
   "modified" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "modified_by" bigint DEFAULT 0 NOT NULL,
+  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "checked_out" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
  );
 
@@ -2306,9 +2308,10 @@ CREATE INDEX "#__workflows_idx_created" ON "#__workflows" ("created");
 CREATE INDEX "#__workflows_idx_created_by" ON "#__workflows" ("created_by");
 CREATE INDEX "#__workflows_idx_modified" ON "#__workflows" ("modified");
 CREATE INDEX "#__workflows_idx_modified_by" ON "#__workflows" ("modified_by");
+CREATE INDEX "#__workflows_idx_checked_out" ON "#__workflows" ("checked_out");
 
-INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "core", "ordering", "created", "created_by", "modified", "modified_by") VALUES
-(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0);
+INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "core", "ordering", "created", "created_by", "modified", "modified_by", "checked_out_time", "checked_out") VALUES
+(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0);
 
 SELECT setval('#__workflows_id_seq', 2, false);
 
@@ -2344,25 +2347,27 @@ CREATE TABLE IF NOT EXISTS "#__workflow_stages" (
   "description" text NOT NULL,
   "condition" bigint DEFAULT 0 NOT NULL,
   "default" smallint NOT NULL  DEFAULT 0,
+  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "checked_out" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__workflow_stages_idx_workflow_id" ON "#__workflow_stages" ("workflow_id");
 CREATE INDEX "#__workflow_stages_idx_title" ON "#__workflow_stages" ("title");
 CREATE INDEX "#__workflow_stages_idx_asset_id" ON "#__workflow_stages" ("asset_id");
 CREATE INDEX "#__workflow_stages_idx_default" ON "#__workflow_stages" ("default");
+CREATE INDEX "#__workflow_stages_idx_checked_out" ON "#__workflow_stages" ("checked_out");
 
 --
 -- Dumping data for table "#__workflow_stages"
 --
 
-INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "condition", "default") VALUES
-(1, 0, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1),
-(2, 0, 2, 1, 1, 'JPUBLISHED', '', 1, 0),
-(3, 0, 3, 1, 1, 'JTRASHED', '', -2, 0),
-(4, 0, 4, 1, 1, 'JARCHIVED', '', 2, 0);
+INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "condition", "default", "checked_out_time", "checked_out") VALUES
+(1, 0, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1, '1970-01-01 00:00:00', 0),
+(2, 0, 2, 1, 1, 'JPUBLISHED', '', 1, 0, '1970-01-01 00:00:00', 0),
+(3, 0, 3, 1, 1, 'JTRASHED', '', -2, 0, '1970-01-01 00:00:00', 0),
+(4, 0, 4, 1, 1, 'JARCHIVED', '', 2, 0, '1970-01-01 00:00:00', 0);
 
 SELECT setval('#__workflow_stages_id_seq', 5, false);
-
 --
 -- Table structure for table "#__workflow_transitions"
 --
@@ -2377,6 +2382,8 @@ CREATE TABLE IF NOT EXISTS "#__workflow_transitions" (
   "description" text NOT NULL,
   "from_stage_id" bigint DEFAULT 0 NOT NULL,
   "to_stage_id" bigint DEFAULT 0 NOT NULL,
+  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "checked_out" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
  );
 CREATE INDEX "#__workflow_transitions_idx_title" ON "#__workflow_transitions" ("title");
@@ -2384,14 +2391,39 @@ CREATE INDEX "#__workflow_transitions_idx_asset_id" ON "#__workflow_transitions"
 CREATE INDEX "#__workflow_transitions_idx_from_stage_id" ON "#__workflow_transitions" ("from_stage_id");
 CREATE INDEX "#__workflow_transitions_idx_to_stage_id" ON "#__workflow_transitions" ("to_stage_id");
 CREATE INDEX "#__workflow_transitions_idx_workflow_id" ON "#__workflow_transitions" ("workflow_id");
+CREATE INDEX "#__workflow_transitions_idx_checked_out" ON "#__workflow_transitions" ("checked_out");
 
-INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_stage_id", "to_stage_id") VALUES
-(1, 0, 1, 1, 1, 'Unpublish', '', -1, 1),
-(2, 0, 1, 2, 1, 'Publish', '', -1, 2),
-(3, 0, 1, 3, 1, 'Trash', '', -1, 3),
-(4, 0, 1, 4, 1, 'Archive', '', -1, 4);
+INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_stage_id", "to_stage_id", "checked_out_time", "checked_out") VALUES
+(1, 0, 1, 1, 1, 'Unpublish', '', -1, 1, '1970-01-01 00:00:00', 0),
+(2, 0, 1, 2, 1, 'Publish', '', -1, 2, '1970-01-01 00:00:00', 0),
+(3, 0, 1, 3, 1, 'Trash', '', -1, 3, '1970-01-01 00:00:00', 0),
+(4, 0, 1, 4, 1, 'Archive', '', -1, 4, '1970-01-01 00:00:00', 0);
 
 SELECT setval('#__workflow_transitions_id_seq', 5, false);
+
+--
+-- Table structure for table "#__mail_templates"
+--
+
+CREATE TABLE IF NOT EXISTS "#__mail_templates" (
+  "template_id" varchar(127) NOT NULL DEFAULT '',
+  "language" char(7) NOT NULL DEFAULT '',
+  "subject" varchar(255) NOT NULL DEFAULT '',
+  "body" TEXT NOT NULL,
+  "htmlbody" TEXT NOT NULL,
+  "attachments" TEXT NOT NULL,
+  "params" TEXT NOT NULL,
+  CONSTRAINT "#__mail_templates_idx_template_id_language" UNIQUE ("template_id", "language")
+);
+CREATE INDEX "#__mail_templates_idx_template_id" ON "#__mail_templates" ("template_id");
+CREATE INDEX "#__mail_templates_idx_language" ON "#__mail_templates" ("language");
+
+--
+-- Dumping data for table "#__mail_templates"
+--
+
+INSERT INTO "#__mail_templates" ("template_id", "language", "subject", "body", "htmlbody", "attachments", "params") VALUES
+('com_config.test_mail', '', 'COM_CONFIG_SENDMAIL_SUBJECT', 'COM_CONFIG_SENDMAIL_BODY', '', '', '{"tags":["sitename","method"]}');
 
 --
 -- Here is SOUNDEX replacement for those who can't enable fuzzystrmatch module

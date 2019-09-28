@@ -292,7 +292,22 @@ class ExtensionHelper
 		array('plugin', 'terms', 'user', 0),
 
 		// Core plugin extensions - webservices
+		array('plugin', 'banners', 'webservices', 0),
+		array('plugin', 'config', 'webservices', 0),
+		array('plugin', 'contact', 'webservices', 0),
 		array('plugin', 'content', 'webservices', 0),
+		array('plugin', 'languages', 'webservices', 0),
+		array('plugin', 'menus', 'webservices', 0),
+		array('plugin', 'messages', 'webservices', 0),
+		array('plugin', 'modules', 'webservices', 0),
+		array('plugin', 'newsfeeds', 'webservices', 0),
+		array('plugin', 'plugins', 'webservices', 0),
+		array('plugin', 'privacy', 'webservices', 0),
+		array('plugin', 'redirect', 'webservices', 0),
+		array('plugin', 'tags', 'webservices', 0),
+		array('plugin', 'templates', 'webservices', 0),
+		array('plugin', 'users', 'webservices', 0),
+
 
 		// Core template extensions - administrator
 		array('template', 'atum', '', 1),

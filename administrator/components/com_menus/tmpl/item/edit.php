@@ -26,7 +26,7 @@ $this->useCoreUI = true;
 Text::script('ERROR');
 Text::script('JGLOBAL_VALIDATION_FORM_FAILED');
 
-Factory::getDocument()->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
+$this->document->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
 HTMLHelper::_('script', 'com_menus/admin-item-edit.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Ajax for parent items
@@ -61,7 +61,7 @@ $hasAssoc = ($this->form->getValue('language', null, '*') !== '*');
 $input = Factory::getApplication()->input;
 
 // In case of modal
-$isModal  = $input->get('layout') == 'modal' ? true : false;
+$isModal  = $input->get('layout') === 'modal';
 $layout   = $isModal ? 'modal' : 'edit';
 $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 $clientId = $this->state->get('item.client_id', 0);
