@@ -89,7 +89,7 @@ Joomla.checkInputs = function() {
 };
 
 
-Joomla.checkDbCredentials = function(form) {
+Joomla.checkDbCredentials = (form) => {
   document.body.appendChild(document.createElement('joomla-core-loader'));
 
   var fetchData = {
