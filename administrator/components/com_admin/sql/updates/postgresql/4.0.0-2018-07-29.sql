@@ -90,9 +90,8 @@ CREATE TABLE "#__finder_terms_common" (
   "term" varchar(75) NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "custom" integer DEFAULT 0 NOT NULL,
-  CONSTRAINT "#__finder_terms_idx_term" UNIQUE ("term", "language")
+  CONSTRAINT "#__finder_terms_common_idx_term_language" UNIQUE ("term", "language")
 );
-CREATE INDEX "#__finder_terms_common_idx_word_lang" on "#__finder_terms_common" ("term", "language");
 CREATE INDEX "#__finder_terms_common_idx_lang" on "#__finder_terms_common" ("language");
 INSERT INTO "#__finder_terms_common" ("term", "language", "custom") VALUES
 	('i', 'en', 0),

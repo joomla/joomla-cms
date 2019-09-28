@@ -8,10 +8,7 @@
  */
 namespace Joomla\Tests\Integration;
 
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseFactory;
-use Joomla\Database\Mysqli\MysqliDriver;
-use Joomla\Tests\Integration\IntegrationTestCase;
 
 /**
  * Integration Tests
@@ -39,7 +36,7 @@ class DBTestHelper
 	protected static $loadedFiles = [];
 
 	/**
-	 * @param   mixed   \Joomla\Tests\Integration\IntegrationTestCase   $test  Test
+	 * @param   mixed   IntegrationTestCase   $test  Test
 	 *
 	 * @return void
 	 * @since   4.0.0

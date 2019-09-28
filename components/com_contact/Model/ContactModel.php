@@ -442,7 +442,7 @@ class ContactModel extends FormModel
 			. ' THEN '
 			. $query->concatenate(array($query->castAsChar($id), $alias), ':')
 			. ' ELSE '
-			. $id . ' END';
+			. $query->castAsChar($id) . ' END';
 	}
 
 	/**
