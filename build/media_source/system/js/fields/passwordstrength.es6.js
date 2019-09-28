@@ -78,10 +78,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     const score = strength.getScore(element.value);
-    const i = meter.getAttribute('id').replace( /^\D+/g, '');
+    const i = meter.getAttribute('id').replace(/^\D+/g, '');
     const label = element.parentNode.parentNode.querySelector(`#password-${i}`);
 
-    if (score > 79){
+    if (score > 79) {
       meter.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated bg-warning');
       label.innerHTML = Joomla.JText._('JFIELD_PASSWORD_INDICATE_COMPLETE');
     }
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
       element.setAttribute('required', '');
     }
   };
-  const fields = document.querySelectorAll('.js-password-strength');
+  let fields = document.querySelectorAll('.js-password-strength');
 
   /** Loop  through the fields * */
   for (let i = 0, l = fields.length; i < l; i += 1) {
@@ -156,10 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /** Set a handler for the validation script * */
   if (fields[0]) {
-    document.formvalidator.setHandler('password-strength', function(value) {
-
+    document.formvalidator.setHandler('password-strength', (value) => {
       let returnedValue = false;
-      const fields = document.querySelectorAll('.js-password-strength');
+      fields = document.querySelectorAll('.js-password-strength');
       const $minLength = fields[0].getAttribute('data-min-length');
       const $minIntegers = fields[0].getAttribute('data-min-integers');
       const $minSymbols = fields[0].getAttribute('data-min-symbols');
