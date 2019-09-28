@@ -551,6 +551,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_tags","com_templates","com_users"]}', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'com_csp', 'component', 'com_csp', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'com_mails', 'component', 'com_mails', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'PHPass', 'library', 'phpass', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -999,7 +1000,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms_common` (
   `term` varchar(75) NOT NULL DEFAULT '',
   `language` char(7) NOT NULL DEFAULT '',
   `custom` int(11) NOT NULL DEFAULT '0',
-  UNIQUE KEY `idx_word_lang` (`term`,`language`),
+  UNIQUE KEY `idx_term_language` (`term`,`language`),
   KEY `idx_lang` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_bin;
 
@@ -2278,7 +2279,6 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 -- Table structure for table `#__workflows`
 --
 
-
 CREATE TABLE IF NOT EXISTS `#__workflows` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) DEFAULT 0,
@@ -2293,6 +2293,8 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   `created_by` int(10) NOT NULL DEFAULT 0,
   `modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified_by` int(10) NOT NULL DEFAULT 0,
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `checked_out` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_asset_id` (`asset_id`),
   KEY `idx_title` (`title`(191)),
@@ -2301,14 +2303,16 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   KEY `idx_created` (`created`),
   KEY `idx_created_by` (`created_by`),
   KEY `idx_modified` (`modified`),
-  KEY `idx_modified_by` (`modified_by`)
+  KEY `idx_modified_by` (`modified_by`),
+  KEY `idx_checked_out` (`checked_out`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Dumping data for table `#__workflows`
 --
 
-INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `core`, `ordering`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
+INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `core`,`ordering`, `created`, `created_by`, `modified`, `modified_by`, `checked_out_time`, `checked_out`) VALUES
+(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
 
 --
 -- Table structure for table `#__workflow_associations`
@@ -2339,8 +2343,11 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
   `description` text NOT NULL,
   `condition` int(10) DEFAULT 0,
   `default` tinyint(1) NOT NULL DEFAULT 0,
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `checked_out` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_workflow_id` (`workflow_id`),
+  KEY `idx_checked_out` (`checked_out`),
   KEY `idx_title` (`title`(191)),
   KEY `idx_asset_id` (`asset_id`),
   KEY `idx_default` (`default`)
@@ -2350,11 +2357,11 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
 -- Dumping data for table `#__workflow_stages`
 --
 
-INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`) VALUES
-(1, 57, 1, 1, 1, 'JUNPUBLISHED', '', '0', 1),
-(2, 58, 2, 1, 1, 'JPUBLISHED', '', '1', 0),
-(3, 59, 3, 1, 1, 'JTRASHED', '', '-2', 0),
-(4, 60, 4, 1, 1, 'JARCHIVED', '', '2', 0);
+INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`, `checked_out_time`, `checked_out`) VALUES
+(1, 57, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1, '0000-00-00 00:00:00', 0),
+(2, 58, 2, 1, 1, 'JPUBLISHED', '', 1, 0, '0000-00-00 00:00:00', 0),
+(3, 59, 3, 1, 1, 'JTRASHED', '', -2, 0, '0000-00-00 00:00:00', 0),
+(4, 60, 4, 1, 1, 'JARCHIVED', '', 2, 0, '0000-00-00 00:00:00', 0);
 
 --
 -- Table structure for table `#__workflow_transitions`
@@ -2370,9 +2377,12 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   `description` text NOT NULL,
   `from_stage_id` int(10) NOT NULL,
   `to_stage_id` int(10) NOT NULL,
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `checked_out` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_title` (`title`(191)),
   KEY `idx_asset_id` (`asset_id`),
+  KEY `idx_checked_out` (`checked_out`),
   KEY `idx_from_stage_id` (`from_stage_id`),
   KEY `idx_to_stage_id` (`to_stage_id`),
   KEY `idx_workflow_id` (`workflow_id`)
@@ -2382,8 +2392,29 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
 -- Dumping data for table `#__workflow_transitions`
 --
 
-INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`, `workflow_id`, `title`, `description`, `from_stage_id`, `to_stage_id`) VALUES
-(1, 61, 1, 1, 1, 'Unpublish', '', -1, 1),
-(2, 62, 1, 2, 1, 'Publish', '', -1, 2),
-(3, 63, 1, 3, 1, 'Trash', '', -1, 3),
-(4, 64, 1, 4, 1, 'Archive', '', -1, 4);
+INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`, `workflow_id`, `title`, `description`, `from_stage_id`, `to_stage_id`, `checked_out_time`, `checked_out`) VALUES
+(1, 61, 1, 1, 1, 'Unpublish', '', -1, 1, '0000-00-00 00:00:00', 0),
+(2, 62, 1, 2, 1, 'Publish', '', -1, 2, '0000-00-00 00:00:00', 0),
+(3, 63, 1, 3, 1, 'Trash', '', -1, 3, '0000-00-00 00:00:00', 0),
+(4, 64, 1, 4, 1, 'Archive', '', -1, 4, '0000-00-00 00:00:00', 0);
+
+--
+-- Table structure for table `#__mail_templates`
+--
+
+CREATE TABLE IF NOT EXISTS `#__mail_templates` (
+  `template_id` VARCHAR(127) NOT NULL DEFAULT '',
+  `language` char(7) NOT NULL DEFAULT '',
+  `subject` VARCHAR(255) NOT NULL DEFAULT '',
+  `body` TEXT NOT NULL,
+  `htmlbody` TEXT NOT NULL,
+  `attachments` TEXT NOT NULL,
+  `params` TEXT NOT NULL,
+  PRIMARY KEY (`template_id`, `language`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `#__mail_templates`
+--
+
+INSERT INTO `#__mail_templates` (`template_id`, `language`, `subject`, `body`, `htmlbody`, `attachments`, `params`) VALUES ('com_config.test_mail', '', 'COM_CONFIG_SENDMAIL_SUBJECT', 'COM_CONFIG_SENDMAIL_BODY', '', '', '{"tags":["sitename","method"]}');
