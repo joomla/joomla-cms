@@ -486,8 +486,8 @@ CREATE TABLE IF NOT EXISTS "#__csp" (
   "blocked_uri" varchar(500) NOT NULL DEFAULT '',
   "directive" varchar(500) NOT NULL DEFAULT '',
   "client" varchar(500) NOT NULL DEFAULT '',
-  "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "modified"  timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "created" timestamp without time zone NOT NULL,
+  "modified"  timestamp without time zone NOT NULL,
   "published" smallint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
 );
@@ -1398,7 +1398,7 @@ CREATE TABLE IF NOT EXISTS "#__messages" (
   "user_id_from" bigint DEFAULT 0 NOT NULL,
   "user_id_to" bigint DEFAULT 0 NOT NULL,
   "folder_id" smallint DEFAULT 0 NOT NULL,
-  "date_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "date_time" timestamp without time zone NOT NULL,
   "state" smallint DEFAULT 0 NOT NULL,
   "priority" smallint DEFAULT 0 NOT NULL,
   "subject" varchar(255) DEFAULT '' NOT NULL,
@@ -2146,7 +2146,7 @@ CREATE TABLE "#__action_logs" (
   "id" serial NOT NULL,
   "message_language_key" varchar(255) NOT NULL DEFAULT '',
   "message" text NOT NULL DEFAULT '',
-  "log_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "log_date" timestamp without time zone NOT NULL,
   "extension" varchar(50) NOT NULL DEFAULT '',
   "user_id" integer DEFAULT 0 NOT NULL,
   "item_id" integer DEFAULT 0 NOT NULL,
