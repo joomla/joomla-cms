@@ -120,7 +120,7 @@ abstract class TagsPopularHelper
 			{
 				$query->setLimit($maximum);
 				$query->order($db->quoteName('count') . ' DESC');
-				$equery = $db->getQuery(true)
+				$query = $db->getQuery(true)
 					->select(
 						$db->quoteName(
 							[
