@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory as CmsFactory;
@@ -170,7 +170,7 @@ class HtmlDocument extends Document
 	 */
 	public function resetHeadData($types = null)
 	{
-		if (is_null($types))
+		if (\is_null($types))
 		{
 			$this->title        = '';
 			$this->description  = '';
@@ -184,7 +184,7 @@ class HtmlDocument extends Document
 			$this->_custom      = array();
 		}
 
-		if (is_array($types))
+		if (\is_array($types))
 		{
 			foreach ($types as $type)
 			{
@@ -192,7 +192,7 @@ class HtmlDocument extends Document
 			}
 		}
 
-		if (is_string($types))
+		if (\is_string($types))
 		{
 			$this->resetHeadDatum($types);
 		}
@@ -243,7 +243,7 @@ class HtmlDocument extends Document
 	 */
 	public function setHeadData($data)
 	{
-		if (empty($data) || !is_array($data))
+		if (empty($data) || !\is_array($data))
 		{
 			return;
 		}
@@ -281,7 +281,7 @@ class HtmlDocument extends Document
 	 */
 	public function mergeHeadData($data)
 	{
-		if (empty($data) || !is_array($data))
+		if (empty($data) || !\is_array($data))
 		{
 			return;
 		}
@@ -298,7 +298,7 @@ class HtmlDocument extends Document
 		{
 			foreach ($data['metaTags'] as $type1 => $data1)
 			{
-				$booldog = $type1 == 'http-equiv' ? true : false;
+				$booldog = $type1 === 'http-equiv';
 
 				foreach ($data1 as $name2 => $data2)
 				{
@@ -307,10 +307,10 @@ class HtmlDocument extends Document
 			}
 		}
 
-		$this->_links = (isset($data['links']) && !empty($data['links']) && is_array($data['links']))
+		$this->_links = (isset($data['links']) && !empty($data['links']) && \is_array($data['links']))
 			? array_unique(array_merge($this->_links, $data['links']), SORT_REGULAR)
 			: $this->_links;
-		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets']) && is_array($data['styleSheets']))
+		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets']) && \is_array($data['styleSheets']))
 			? array_merge($this->_styleSheets, $data['styleSheets'])
 			: $this->_styleSheets;
 
@@ -325,7 +325,7 @@ class HtmlDocument extends Document
 			}
 		}
 
-		$this->_scripts = (isset($data['scripts']) && !empty($data['scripts']) && is_array($data['scripts']))
+		$this->_scripts = (isset($data['scripts']) && !empty($data['scripts']) && \is_array($data['scripts']))
 			? array_merge($this->_scripts, $data['scripts'])
 			: $this->_scripts;
 
@@ -340,7 +340,7 @@ class HtmlDocument extends Document
 			}
 		}
 
-		$this->_custom = (isset($data['custom']) && !empty($data['custom']) && is_array($data['custom']))
+		$this->_custom = (isset($data['custom']) && !empty($data['custom']) && \is_array($data['custom']))
 			? array_unique(array_merge($this->_custom, $data['custom']))
 			: $this->_custom;
 
@@ -434,7 +434,7 @@ class HtmlDocument extends Document
 	 */
 	public function setHtml5($state)
 	{
-		if (is_bool($state))
+		if (\is_bool($state))
 		{
 			$this->html5 = $state;
 		}
@@ -516,9 +516,9 @@ class HtmlDocument extends Document
 	public function setBuffer($content, $options = array())
 	{
 		// The following code is just for backward compatibility.
-		if (func_num_args() > 1 && !is_array($options))
+		if (\func_num_args() > 1 && !\is_array($options))
 		{
-			$args = func_get_args();
+			$args = \func_get_args();
 			$options = array();
 			$options['type'] = $args[1];
 			$options['name'] = $args[2] ?? null;
@@ -563,7 +563,7 @@ class HtmlDocument extends Document
 			$this->parse($params);
 		}
 
-		if (array_key_exists('csp_nonce', $params) && $params['csp_nonce'] !== null)
+		if (\array_key_exists('csp_nonce', $params) && $params['csp_nonce'] !== null)
 		{
 			$this->cspNonce = $params['csp_nonce'];
 		}
@@ -588,24 +588,24 @@ class HtmlDocument extends Document
 		$operators = '(\+|\-|\*|\/|==|\!=|\<\>|\<|\>|\<=|\>=|and|or|xor)';
 		$words = preg_split('# ' . $operators . ' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
 
-		if (count($words) === 1)
+		if (\count($words) === 1)
 		{
 			$name = strtolower($words[0]);
 			$result = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
-				? 0 : count(ModuleHelper::getModules($name));
+				? 0 : \count(ModuleHelper::getModules($name));
 
 			return $result;
 		}
 
 		Log::add('Using an expression in HtmlDocument::countModules() is deprecated.', Log::WARNING, 'deprecated');
 
-		for ($i = 0, $n = count($words); $i < $n; $i += 2)
+		for ($i = 0, $n = \count($words); $i < $n; $i += 2)
 		{
 			// Odd parts (modules)
 			$name = strtolower($words[$i]);
 			$words[$i] = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
 				? 0
-				: count(ModuleHelper::getModules($name));
+				: \count(ModuleHelper::getModules($name));
 		}
 
 		$str = 'return ' . implode(' ', $words) . ';';
@@ -759,7 +759,7 @@ class HtmlDocument extends Document
 			$template_tags_last = [];
 
 			// Step through the jdocs in reverse order.
-			for ($i = count($matches[0]) - 1; $i >= 0; $i--)
+			for ($i = \count($matches[0]) - 1; $i >= 0; $i--)
 			{
 				$type = $matches[1][$i];
 				$attribs = empty($matches[2][$i]) ? array() : Utility::parseAttributes($matches[2][$i]);

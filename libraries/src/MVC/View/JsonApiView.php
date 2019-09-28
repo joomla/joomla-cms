@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\View;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Document\JsonapiDocument;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
@@ -16,6 +16,7 @@ use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Uri\Uri;
 use Tobscure\JsonApi\Collection;
 use Tobscure\JsonApi\Resource;
+use Tobscure\JsonApi\AbstractSerializer;
 
 /**
  * Base class for a Joomla Json List View
@@ -42,11 +43,37 @@ abstract class JsonApiView extends JsonView
 	protected $type;
 
 	/**
-	 * The fields to render in the documents
+	 * Item relationship
 	 *
-	 * @var  string
+	 * @var  array
+	 *
+	 * @since  4.0
 	 */
-	protected $fieldsToRender = [];
+	protected $relationship = [];
+
+	/**
+	 * Serializer data
+	 *
+	 * @var    AbstractSerializer
+	 * @since  4.0
+	 */
+	protected $serializer;
+
+	/**
+	 * The fields to render item in the documents
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $fieldsToRenderItem = [];
+
+	/**
+	 * The fields to render items in the documents
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $fieldsToRenderList = [];
 
 	/**
 	 * Constructor.
@@ -56,11 +83,16 @@ abstract class JsonApiView extends JsonView
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
-		if (array_key_exists('contentType', $config))
+		if (\array_key_exists('contentType', $config))
 		{
 			$this->type = $config['contentType'];
+		}
+
+		if ($this->serializer === null)
+		{
+			$this->serializer = new JoomlaSerializer($this->type);
 		}
 
 		parent::__construct($config);
@@ -69,20 +101,31 @@ abstract class JsonApiView extends JsonView
 	/**
 	 * Execute and display a template script.
 	 *
+	 * @param   array|null  $items  Array of items
+	 *
 	 * @return  string
 	 *
 	 * @since   4.0.0
 	 */
-	public function displayList()
+	public function displayList(array $items = null)
 	{
 		/** @var \Joomla\CMS\MVC\Model\ListModel $model */
 		$model = $this->getModel();
 
-		$items      = $model->getItems();
+		if ($items === null)
+		{
+			$items = [];
+
+			foreach ($model->getItems() as $item)
+			{
+				$items[] = $this->prepareItem($item);
+			}
+		}
+
 		$pagination = $model->getPagination();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -120,8 +163,8 @@ abstract class JsonApiView extends JsonView
 		$lastPageQuery['offset'] = $totalPagesAvailable - $pagination->limit;
 		$lastPage->setVar('page', $lastPageQuery);
 
-		$collection = (new Collection($items, new JoomlaSerializer($this->type)))
-			->fields([$this->type => $this->fieldsToRender]);
+		$collection = (new Collection($items, $this->serializer))
+			->fields([$this->type => $this->fieldsToRenderList]);
 
 		// Set the data into the document and render it
 		$this->document->addMeta('total-pages', $pagination->pagesTotal)
@@ -138,15 +181,20 @@ abstract class JsonApiView extends JsonView
 	/**
 	 * Execute and display a template script.
 	 *
+	 * @param   object  $item  Item
+	 *
 	 * @return  string
 	 *
 	 * @since   4.0.0
 	 */
-	public function displayItem()
+	public function displayItem($item = null)
 	{
-		/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
-		$model = $this->getModel();
-		$item = $model->getItem();
+		if ($item === null)
+		{
+			/** @var \Joomla\CMS\MVC\Model\AdminModel $model */
+			$model = $this->getModel();
+			$item  = $this->prepareItem($model->getItem());
+		}
 
 		if ($item->id === null)
 		{
@@ -154,7 +202,7 @@ abstract class JsonApiView extends JsonView
 		}
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
@@ -164,13 +212,31 @@ abstract class JsonApiView extends JsonView
 			throw new \RuntimeException('Content type missing');
 		}
 
-		$serializer = new JoomlaSerializer($this->type);
-		$element = (new Resource($item, $serializer))
-			->fields([$this->type => $this->fieldsToRender]);
+		$element = (new Resource($item, $this->serializer))
+			->fields([$this->type => $this->fieldsToRenderItem]);
+
+		if (!empty($this->relationship))
+		{
+			$element->with($this->relationship);
+		}
 
 		$this->document->setData($element);
 		$this->document->addLink('self', Uri::current());
 
 		return $this->document->render();
+	}
+
+	/**
+	 * Prepare item before render.
+	 *
+	 * @param   object  $item  The model item
+	 *
+	 * @return  object
+	 *
+	 * @since   4.0.0
+	 */
+	protected function prepareItem($item)
+	{
+		return $item;
 	}
 }
