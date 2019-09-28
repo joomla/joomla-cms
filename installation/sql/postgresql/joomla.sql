@@ -164,11 +164,11 @@ CREATE TABLE IF NOT EXISTS "#__banners" (
   "publish_up" timestamp without time zone,
   "publish_down" timestamp without time zone,
   "reset" timestamp without time zone,
-  "created" timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  "created" timestamp without time zone NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "created_by" bigint DEFAULT 0 NOT NULL,
   "created_by_alias" varchar(255) DEFAULT '' NOT NULL,
-  "modified" timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  "modified" timestamp without time zone NOT NULL,
   "modified_by" bigint DEFAULT 0 NOT NULL,
   "version" bigint DEFAULT 1 NOT NULL,
   PRIMARY KEY ("id")
@@ -208,7 +208,7 @@ CREATE INDEX "#__banner_clients_idx_metakey_prefix" ON "#__banner_clients" ("met
 --
 
 CREATE TABLE IF NOT EXISTS "#__banner_tracks" (
-  "track_date" timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  "track_date" timestamp without time zone NOT NULL,
   "track_type" bigint NOT NULL,
   "banner_id" bigint NOT NULL,
   "count" bigint DEFAULT 0 NOT NULL,
