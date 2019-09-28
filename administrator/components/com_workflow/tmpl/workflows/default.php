@@ -84,13 +84,13 @@ $userId = $user->id;
 								<th scope="col" style="width:10%" class="text-center hidden-sm-down">
 									<?php echo Text::_('COM_WORKFLOW_DEFAULT'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="text-center  d-none d-md-table-cell">
+								<th scope="col" style="width:10%" class="text-center d-none d-md-table-cell">
 									<?php echo Text::_('COM_WORKFLOW_COUNT_STAGES'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="text-center  d-none d-md-table-cell">
+								<th scope="col" style="width:10%" class="text-center d-none d-md-table-cell">
 									<?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="text-right  d-none d-md-table-cell">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 'w.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -147,18 +147,18 @@ $userId = $user->id;
 										<div class="small"><?php echo $item->description; ?></div>
 									<?php endif; ?>
 								</th>
-								<td class="text-center  hidden-sm-down">
+								<td class="text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'workflows.', $canChange); ?>
 								</td>
-								<td class="text-center btns  d-none d-md-table-cell">
+								<td class="text-center btns d-none d-md-table-cell">
 									<a class="badge <?php echo ($item->count_states > 0) ? 'badge-warning' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_WORKFLOW_COUNT_STAGES', true); ?>" href="<?php echo Route::_('index.php?option=com_workflow&view=stages&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
 										<?php echo $item->count_states; ?></a>
 								</td>
-								<td class="text-center btns  d-none d-md-table-cell">
+								<td class="text-center btns d-none d-md-table-cell">
 									<a class="badge <?php echo ($item->count_transitions > 0) ? 'badge-info' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS', true); ?>" href="<?php echo Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . (int) $item->id . '&extension=' . $extension); ?>">
 										<?php echo $item->count_transitions; ?></a>
 								</td>
-								<td class="text-right d-none d-md-table-cell">
+								<td class="d-none d-md-table-cell">
 									<?php echo $item->id; ?>
 								</td>
 							</tr>
