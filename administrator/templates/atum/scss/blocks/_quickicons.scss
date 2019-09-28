@@ -11,10 +11,6 @@
     margin: 0.5rem;
     padding: 0;
 	
-    > ul {
-      padding: 0;
-    }
-
     @media (max-width: 1350px)  {
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
