@@ -23,6 +23,14 @@ use Joomla\Database\DatabaseDriver;
 class WorkflowTable extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object
@@ -171,7 +179,7 @@ class WorkflowTable extends Table
 	 * @see     Table::store()
 	 * @since   4.0
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate();
 		$user = Factory::getUser();
@@ -187,7 +195,6 @@ class WorkflowTable extends Table
 		else
 		{
 			$this->modified_by = 0;
-			$this->modified = $this->getDbo()->getNullDate();
 		}
 
 		if (!(int) $this->created)
@@ -198,6 +205,11 @@ class WorkflowTable extends Table
 		if (empty($this->created_by))
 		{
 			$this->created_by = $user->id;
+		}
+
+		if (!(int) $this->modified)
+		{
+			$this->modified = $this->created;
 		}
 
 		if ($this->default == '1')
