@@ -74,6 +74,7 @@ Desktop.ini
 /libraries/vendor/brumann/polyfill-unserialize/.gitignore
 /libraries/vendor/brumann/polyfill-unserialize/.travis.yml
 /libraries/vendor/brumann/polyfill-unserialize/composer.json
+/libraries/vendor/brumann/polyfill-unserialize/composer.lock
 /libraries/vendor/brumann/polyfill-unserialize/LICENSE
 /libraries/vendor/brumann/polyfill-unserialize/phpunit.xml.dist
 /libraries/vendor/brumann/polyfill-unserialize/README.md
@@ -156,6 +157,7 @@ Desktop.ini
 /libraries/vendor/phpmailer/phpmailer/.travis.yml
 /libraries/vendor/phpmailer/phpmailer/changelog.md
 /libraries/vendor/phpmailer/phpmailer/composer.json
+/libraries/vendor/phpmailer/phpmailer/composer.lock
 /libraries/vendor/phpmailer/phpmailer/ISSUE_TEMPLATE.md
 /libraries/vendor/phpmailer/phpmailer/phpdoc.dist.xml
 /libraries/vendor/phpmailer/phpmailer/README.md
