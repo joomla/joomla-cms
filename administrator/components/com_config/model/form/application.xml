@@ -1080,7 +1080,7 @@
 			label="COM_CONFIG_FIELD_OFFLINE_IMAGE_LABEL"
 			description="COM_CONFIG_FIELD_OFFLINE_IMAGE_DESC"
 			showon="offline:1"
-			validate="filepath"
+			validate="filePath"
 		/>
 
 		<field

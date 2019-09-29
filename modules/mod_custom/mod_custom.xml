@@ -43,7 +43,7 @@
 					type="media"
 					label="MOD_CUSTOM_FIELD_BACKGROUNDIMAGE_LABEL"
 					description="MOD_BACKGROUNDIMAGE_FIELD_LOGO_DESC"
-					validate="filepath"
+					validate="filePath"
 				/>
 			</fieldset>
 			<fieldset name="advanced">

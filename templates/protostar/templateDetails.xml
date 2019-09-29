@@ -77,7 +77,7 @@
 					description="TPL_PROTOSTAR_LOGO_DESC" 
 					class="" 
 					default=""
-					validate="filepath"
+					validate="filePath"
 				/>
 
 				<field 

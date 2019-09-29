@@ -279,7 +279,7 @@
 					type="media"
 					label="COM_NEWSFEEDS_FIELD_FIRST_LABEL"
 					description="COM_NEWSFEEDS_FIELD_FIRST_DESC"
-					validate="filepath"
+					validate="filePath"
 				/>
 
 				<field
@@ -321,7 +321,7 @@
 					type="media"
 					label="COM_NEWSFEEDS_FIELD_SECOND_LABEL"
 					description="COM_NEWSFEEDS_FIELD_SECOND_DESC"
-					validate="filepath"
+					validate="filePath"
 				/>
 
 				<field

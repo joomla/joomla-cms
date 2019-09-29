@@ -39,6 +39,16 @@ class FilePathRule extends FormRule
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
+		$value = trim($value);
+
+		// If the field is empty and not required, the field is valid.
+		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+
+		if (!$required && empty($value))
+		{
+			return true;
+		}
+
 		// Append the root path
 		$value = JPATH_ROOT . '/' . $value;
 

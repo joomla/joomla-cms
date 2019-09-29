@@ -339,7 +339,7 @@
 				directory="banners"
 				hide_none="1"
 				size="40"
-				validate="filepath"
+				validate="filePath"
 			/>
 
 			<field

@@ -81,7 +81,7 @@
 					type="media"
 					label="TPL_BEEZ3_FIELD_LOGO_LABEL" 
 					description="TPL_BEEZ3_FIELD_LOGO_DESC" 
-					validate="filepath"
+					validate="filePath"
 				/>
 
 				<field 
@@ -144,7 +144,7 @@
 					label="TPL_BEEZ3_FIELD_HEADER_IMAGE_LABEL" 
 					description="TPL_BEEZ3_FIELD_HEADER_IMAGE_DESC" 
 					showon="templatecolor:image" 
-					validate="filepath"
+					validate="filePath"
 				/>
 
 				<field 
