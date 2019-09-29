@@ -122,7 +122,19 @@ class TemplatesModel extends ListModel
 			)
 		);
 		$query->from($db->quoteName('#__mail_templates', 'a'))
-			->group('a.template_id, a.language, a.subject, a.body, a.htmlbody, a.attachments, a.params');
+			->group(
+				$db->quoteName(
+					array(
+						'a.template_id',
+						'a.language',
+						'a.subject',
+						'a.body',
+						'a.htmlbody',
+						'a.attachments',
+						'a.params',
+					)
+				)
+			);
 
 		// Filter by search in title.
 		$search = $this->getState('filter.search');
