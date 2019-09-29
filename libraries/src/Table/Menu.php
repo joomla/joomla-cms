@@ -152,6 +152,17 @@ class Menu extends Nested
 			return false;
 		}
 
+		// Set publish_up, publish_down to null if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = null;
+		}
+
+		if (!$this->publish_down)
+		{
+			$this->publish_down = null;
+		}
+
 		return true;
 	}
 
