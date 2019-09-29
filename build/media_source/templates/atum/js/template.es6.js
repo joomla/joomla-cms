@@ -347,4 +347,24 @@
       });
     }
   });
+
+  /**
+   * Update CSS variables on input change
+   *
+   * @since   4.0.0
+   */
+
+  var primaryInput = document.querySelector('#jform_params_primary_color');
+  var secondaryInput = document.querySelector('#jform_params_secondary_color');
+
+  primaryInput.onchange = updatePrimary;
+  secondaryInput.onchange = updateSecondary;
+
+  function updatePrimary(e) {
+    document.documentElement.style.setProperty('--primary', this.value);
+  };
+  function updateSecondary(e) {
+    document.documentElement.style.setProperty('--secondary', this.value);
+  };
+
 })(window.Joomla, document);
