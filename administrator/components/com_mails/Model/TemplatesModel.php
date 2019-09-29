@@ -12,9 +12,9 @@ namespace Joomla\Component\Mails\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\QueryInterface;
 
 /**
  * Methods supporting a list of mail template records.
@@ -29,6 +29,7 @@ class TemplatesModel extends ListModel
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -64,9 +65,6 @@ class TemplatesModel extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
-		$app = Factory::getApplication('administrator');
-
 		// Load the parameters.
 		$params = ComponentHelper::getParams('com_mails');
 		$this->setState('params', $params);
@@ -88,14 +86,14 @@ class TemplatesModel extends ListModel
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('language')
-			->from('#__mail_templates')
+			->select($db->quoteName('language'))
+			->from($db->quoteName('#__mail_templates'))
 			->order('language ASC');
 
 		foreach ($items as $item)
 		{
 			$query->clear('where')
-				->where('template_id = ' . $db->q($item->template_id));
+				->where($db->quoteName('template_id') . ' = ' . $db->quote($item->template_id));
 			$db->setQuery($query);
 			$item->languages = $db->loadColumn();
 		}
@@ -115,7 +113,6 @@ class TemplatesModel extends ListModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = Factory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -124,7 +121,7 @@ class TemplatesModel extends ListModel
 				'a.*'
 			)
 		);
-		$query->from($db->quoteName('#__mail_templates') . ' AS a')
+		$query->from($db->quoteName('#__mail_templates', 'a'))
 			->group('a.template_id, a.language, a.subject, a.body, a.htmlbody, a.attachments, a.params');
 
 		// Filter by search in title.
@@ -134,7 +131,7 @@ class TemplatesModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.template_id = ' . $query->q(substr($search, 3)));
+				$query->where($db->quoteName('a.template_id') . ' = ' . $db->quote(substr($search, 3)));
 			}
 			else
 			{
@@ -156,7 +153,7 @@ class TemplatesModel extends ListModel
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = ' . $db->quote($language));
+			$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
 		}
 
 		return $query;
