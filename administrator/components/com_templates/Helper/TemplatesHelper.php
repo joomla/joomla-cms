@@ -17,6 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Database\ParameterType;
 
 /**
  * Templates component helper.
@@ -64,7 +65,9 @@ class TemplatesHelper
 
 		if ($clientId != '*')
 		{
-			$query->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
+			$clientId = (int) $clientId;
+			$query->where($db->quoteName('client_id') . ' = :clientid')
+				->bind(':clientid', $clientId, ParameterType::INTEGER);
 		}
 
 		$db->setQuery($query);

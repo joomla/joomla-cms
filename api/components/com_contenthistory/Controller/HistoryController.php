@@ -74,14 +74,14 @@ class HistoryController extends ApiController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Unable to create the model');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
 		$recordId = $this->input->getInt('id');
 
 		if (!$recordId)
 		{
-			throw new Exception\ResourceNotFound('Record does not exist', 404);
+			throw new Exception\ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
 		}
 
 		$cid = [$recordId];
