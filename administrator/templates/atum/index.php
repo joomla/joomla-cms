@@ -66,6 +66,10 @@ $this->addScriptDeclaration('cssVars();');
 
 // Opacity must be set before displaying the DOM, so don't move to a CSS file
 $css = '
+	:root {
+		--primary: ' . $this->params->get('primary-color', '#1a466b') . ';
+		--secondary: ' . $this->params->get('secondary-color', '#001B4C') . ';
+	}
 	.container-main > * {
 		opacity: 0;
 	}
