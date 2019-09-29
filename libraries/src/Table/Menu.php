@@ -26,6 +26,14 @@ use Joomla\Registry\Registry;
 class Menu extends Nested
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  Database driver object.
@@ -157,7 +165,7 @@ class Menu extends Nested
 	 * @see     Table::store()
 	 * @since   1.6
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$db = $this->getDbo();
 
@@ -277,7 +285,7 @@ class Menu extends Nested
 
 				$table->home = 0;
 				$table->checked_out = 0;
-				$table->checked_out_time = $db->getNullDate();
+				$table->checked_out_time = null;
 				$table->store();
 			}
 		}
