@@ -5,8 +5,8 @@
   background: $white;
   box-shadow: $atum-box-shadow;
   z-index: $zindex-header;
-  border-top: 3px solid var(--atum-bg-dark);
-  color: var(--atum-special-color);
+  border-top: 3px solid var(--primary);
+  color: var(--secondary);
 
   .header-title {
     width: 50%;
@@ -73,7 +73,7 @@
     margin: 0;
     font-size: 1.2rem;
     line-height: $header-height;
-    color: var(--atum-special-color);
+    color: inherit;
 
     [class^='icon-'] {
       margin-right: 0.625rem;
@@ -97,11 +97,11 @@
         flex-direction: column;
         height: 100%;
         padding: 0 0.6rem;
-        color: var(--atum-special-color);
+        color: inherit;
       }
       a, button {
         &:hover, &[aria-expanded="true"] {
-          background-color: var(--atum-bg-dark);
+          background-color: var(--primary);
           color: var(--atum-text-light);
           text-decoration: none;
           box-shadow: $atum-box-shadow;
@@ -110,7 +110,7 @@
         &.disabled:hover,
         &.disabled[aria-expanded="true"] {
           background-color: transparent;
-          color: var(--atum-special-color);
+          color: inherit;
           box-shadow: none;
           opacity: 0.3;
           pointer-events: none;
@@ -180,7 +180,7 @@
   .dropdown-menu {
     z-index: $zindex-popover;
     min-width: 18rem;
-    background-color: var(--atum-bg-dark-70);
+    background-color: var(--primary);
 
     &.icons-left .dropdown-item {
       a {
@@ -190,7 +190,7 @@
 
     .dropdown-header {
       color: $white;
-      background-color: var(--atum-bg-dark);
+      background-color: var(--lighten-bg);
       box-shadow: $atum-box-shadow;
       font-size: inherit;
       padding: 1rem 0.75rem;
@@ -202,7 +202,7 @@
 
   .dropdown-item {
     color: $white;
-    background-color: var(--atum-bg-dark-70);
+    background-color: var(--primary);
     padding: 0;
 
     a {
@@ -214,7 +214,7 @@
 
       &:hover {
         text-decoration: none;
-        background: var(--atum-bg-dark);
+        background: var(--black-40);
       }
 
       [dir=rtl] & {
@@ -261,7 +261,7 @@
     }
     .header-more-btn {
       color: var(--white-offset);
-      background-color: var(--atum-bg-dark);
+      background-color: var(--primary);
       width: 3.8rem;
       height: 100%;
       border: 0;
@@ -269,7 +269,7 @@
         margin: auto;
       }
       &:hover {
-        background-color: var(--atum-bg-dark-80);
+        background-color: var(--black-40);
       }
     }
   }
@@ -281,7 +281,7 @@
     z-index: $zindex-header;
 
     .header-items{
-      background:var(--atum-bg-dark);
+      background:var(--primary);
       display:block;
       position:fixed;
       bottom:0;
@@ -294,7 +294,7 @@
         content:"";
         width: 1000%;
         height: 100%;
-        background:var(--atum-bg-dark);
+        background:var(--primary);
         position:absolute;
         z-index: -1;
       }
@@ -310,7 +310,7 @@
         left: 0;
       }
       & .header-item .header-item-content > :first-child {
-        color: var(--atum-special-color);
+        color: inherit;
 
         &[aria-expanded=true] {
           color: var(--atum-text-light);

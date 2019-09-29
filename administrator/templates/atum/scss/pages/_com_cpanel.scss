@@ -18,7 +18,7 @@
   &-help {
 
     &__header {
-      color: var(--atum-special-color);
+      color: var(--secondary);
     }
 
     a {
@@ -42,7 +42,7 @@
     }
 
     &__header {
-      color: var(--atum-special-color);
+      color: var(--secondary);
 
       span {
         margin-right: 5px;
@@ -117,7 +117,7 @@
       width: 2.6em;
       height: 2.6em;
       line-height: 2.6em;
-      color: var(--atum-special-color);
+      color: var(--secondary);
     }
   }
 

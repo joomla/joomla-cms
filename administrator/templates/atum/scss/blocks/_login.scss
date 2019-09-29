@@ -27,7 +27,7 @@
     width: 100vw;
     height: 100vh;
     background-image: linear-gradient(45deg,
-            rgba(var(--atum-bg-dark), .9) 30%,
+            rgba(var(--primary), .9) 30%,
             rgba(color("atum-bg-light"), .2) 100%);
   }
 
@@ -82,19 +82,19 @@
     }
 
     #btn-login-submit {
-      background: var(--atum-bg-dark);
+      background: var(--primary);
       color:rgba(255,255,255,0.8);
     }
   }
 
   .input-password-toggle {
-    border-color: var(--atum-bg-dark-80);
+    border-color: var(--black-40);
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
   }
 
   .login-box {
     background: var(--login-main-bg);
-    box-shadow: 0 0 20px var(--atum-bg-dark);
+    box-shadow: 0 0 20px var(--primary);
 
     a {
       color: $white;
@@ -112,7 +112,7 @@
         }
 
         &.text-right {
-          color: var(--atum-special-color);
+          color: var(--secondary);
           font-size: .75rem;
         }
       }
@@ -121,14 +121,14 @@
 
   input:focus,
   select:focus {
-    box-shadow: inset 0 0 1px 1px var(--atum-contrast);
+    box-shadow: inset 0 0 1px 1px var(--secondary);
     background: $white;
   }
 
   h1 {
     margin: 0;
     text-align: center;
-    color: var(--atum-special-color);
+    color: var(--secondary);
     font-weight: bold;
     padding-bottom: 1rem;
   }
@@ -172,7 +172,7 @@
     font-size: 0.875rem;
 
     .card {
-      background: var(--atum-bg-dark);
+      background: var(--primary);
       box-shadow: none;
 
       .module-body {
@@ -213,7 +213,7 @@
 }
 
 label {
-  color: var(--atum-special-color);
+  color: var(--secondary);
 }
 
 .com_login .sidebar-wrapper .main-brand {

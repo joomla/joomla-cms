@@ -1,27 +1,27 @@
 // Buttons
 
 .btn-primary {
-  background-color: var(--atum-bg-dark);
+  background-color: var(--primary);
   color: var(--atum-text-light);
-  border-color: var(--atum-bg-dark-80);
+  border-color: var(--primary);
 
   @include hover-focus-active {
-    background-color: var(--atum-bg-dark-70);
-    border-color: var(--atum-bg-dark-90);
+    background-color: var(--primary);
+    border-color: var(--primary);
   }
 
   &:not(:disabled):not(.disabled):active,
   &:not(:disabled):not(.disabled).active,
   .show > &.dropdown-toggle {
-    background-color: var(--atum-bg-dark);
-    border-color: var(--atum-bg-dark);
+    background-color: var(--primary);
+    border-color: var(--primary);
   }
 }
 .btn-secondary {
-	background-color: var(--atum-bg-dark-50);
+	background-color: var(--secondary);
 }
 
 .input-group-text {
-  background-color: var(--atum-bg-dark);
-  border-color: var(--atum-bg-dark);
+  background-color: var(--primary);
+  border-color: var(--primary);
 }

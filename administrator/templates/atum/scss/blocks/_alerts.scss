@@ -7,9 +7,9 @@
   border-right: none;
 
   &.alert-info {
-    color: var(--atum-bg-dark);
-    background-color: var(--atum-bg-dark-10);
-    border: 1px solid var(--atum-bg-dark-20);
+    color: var(--primary);
+    background-color: var(--light);
+    border: 1px solid var(--black-40);
   }
 
   &.alert-warning {

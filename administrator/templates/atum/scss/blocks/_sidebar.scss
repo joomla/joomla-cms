@@ -8,6 +8,7 @@
   }
 
   &.closed {
+
     a.btn-dashboard {
       display: none
     }
@@ -26,9 +27,10 @@
   position: relative;
   top: 0;
   z-index: $zindex-sidebar;
-  background-color: var(--atum-bg-dark);
+  background-color: var(--primary);
   box-shadow: $atum-box-shadow;
   overflow: hidden;
+
   @include media-breakpoint-up(sm) {
     display: flex;
     flex-direction: column;
@@ -38,11 +40,12 @@
   }
 
   @include media-breakpoint-down(xs) {
+
     &.sidebar-menu {
-      /*height: 0;*/
       bottom: 0;
       top: auto;
     }
+
     &:not(.sidebar-menu) {
       display: flex;
       flex-direction: column;
@@ -92,7 +95,7 @@
 
   .sidebar-toggle {
     position: relative;
-    background:var(--atum-bg-dark-50);
+    background:var(--lighten-bg);
 
     a {
       display: block;
@@ -110,11 +113,9 @@
   }
 
   .card {
-    background: var(--atum-bg-dark);
+    background: var(--primary);
     box-shadow: none;
   }
-
-
 }
 
 .menu-toggle-icon {
@@ -165,10 +166,10 @@
 
         &:hover,
         &.mm-active {
-          background-color: var(--atum-bg-dark-70);
+          background-color: var(--black-40);
 
           .fa {
-            color: var(--atum-contrast);
+            color: var(--secondary);
           }
         }
       }
@@ -183,7 +184,7 @@
       .menu-dashboard, .menu-quicktask {
         > a {
           &.mm-active {
-            background-color: var(--atum-bg-dark-80);
+            background-color: var(--black-40);
             &::before {
               display: none;
             }
@@ -233,8 +234,8 @@
   // 1st level items
   > li {
 
-    > ul {
-      background-color: var(--atum-bg-dark-70);
+    ul {
+      background-color: var(--black-40);
     }
 
     > a {
@@ -242,7 +243,7 @@
       padding: 0 0.35rem;
 
       &:hover {
-        background-color: var(--atum-bg-dark-80);
+        background-color: var(--black-40);
         text-decoration: none;
       }
     }
@@ -255,7 +256,6 @@
   // 2nd level items
   ul {
     padding: 0;
-    background-color: var(--atum-bg-dark-70);
     width: 100%;
 
     li {
@@ -281,7 +281,7 @@
 
       &.mm-active {
         color: $white;
-        background-color: var(--atum-bg-dark-80);
+        background-color: var(--black-40);
 
         &::before {
           position: absolute;
@@ -290,21 +290,20 @@
           left: 0;
           width: 0.25rem;
           content: "";
-          background-color: var(--atum-contrast);
+          background-color: var(--secondary);
         }
       }
     }
 
     // 3rd level items
     ul {
-      background-color: var(--atum-bg-dark-80);
 
       a {
         padding-left: 3rem;
 
         &.mm-active {
           color: $white;
-          background-color: var(--atum-bg-dark-90);
+          background-color: var(--black-40);
           box-shadow: 0 1px 4px -1px rgba(0, 0, 0, .5);
 
           &::before {
@@ -314,7 +313,7 @@
             left: 0;
             width: 0.275rem;
             content: "";
-            background-color: var(--atum-contrast);
+            background-color: var(--secondary);
           }
         }
       }
@@ -323,10 +322,6 @@
         left: 1.25rem;
       }
 
-      //4th level
-      ul {
-        background-color: var(--atum-bg-dark-90);
-      }
     }
   }
 
@@ -342,7 +337,7 @@
   .divider {
     height: 1px;
     margin: 4px 18px;
-    background-color: var(--atum-bg-dark-40);
+    background-color: var(--lighten-bg);
     opacity: .7;
   }
 
@@ -473,7 +468,7 @@
 @include media-breakpoint-down(xs) {
   #menu-collapse {
     display: none;
-    background:var(--atum-bg-dark-50);
+    background:var(--black-40);
   }
   .toggler-burger {
     display: block;

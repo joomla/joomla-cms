@@ -6,7 +6,7 @@
     &.current {
       padding: .5rem .75rem;
       color: var(--atum-text-light);
-      background-color: var(--atum-bg-dark);
+      background-color: var(--primary);
     }
 
     a {
@@ -17,7 +17,7 @@
   }
 
   &.disabled {
-    color: var(--atum-bg-dark-10);
+    color: $gray-100;
     cursor: not-allowed;
 
     &:hover {
@@ -27,7 +27,7 @@
   a{
     &:hover{
       color: var(--atum-text-light);
-      background-color: var(--atum-bg-dark);
+      background-color: var(--primary);
     }
   }
 }
@@ -43,7 +43,7 @@
 	> legend {
 		font-weight: bold;
 		padding: 0 .5rem;
-		background-color: var(--atum-bg-dark);
+		background-color: var(--primary);
 		color: var(--atum-text-light);
 		width: auto;
 	}

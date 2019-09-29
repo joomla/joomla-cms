@@ -121,7 +121,7 @@ joomla-toolbar-button {
       [class^='#{$fa-css-prefix}-'],
       [class*=' #{$fa-css-prefix}-'],
       span {
-        background-color: var(--atum-bg-dark-70);
+        background-color: var(--primary);
         color:rgba(255,255,255,0.90);
       }
 
@@ -131,25 +131,25 @@ joomla-toolbar-button {
         [class^='#{$fa-css-prefix}-'],
         [class*=' #{$fa-css-prefix}-'],
         span {
-          background-color: var(--atum-bg-dark-80);
+          background-image: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4));
           color:rgba(255,255,255,0.90);
         }
 
         color:rgba(255,255,255,0.90);
-        background-color: var(--atum-bg-dark);
+        background-color: var(--primary);
       }
     }
     
     &.btn-secondary {
     
         [class^='icon-download'] {
-             background-color: var(--atum-bg-dark-70);
+             background-color: var(--primary);
             color:rgba(255,255,255,0.90);
         }
         
          &:hover, &:active, &:focus {
             [class^='icon-download'] {
-                background-color: var(--atum-bg-dark-80);
+                background-color:  linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4));
                 color:rgba(255,255,255,0.90);
             }
          }
@@ -164,7 +164,7 @@ joomla-toolbar-button {
       [class^='#{$fa-css-prefix}-'],
       [class*=' #{$fa-css-prefix}-'],
       span {
-        background-color: var(--atum-bg-dark-70);
+        background-color: var(--primary);
         color:rgba(255,255,255,0.90);
       }
 
@@ -174,12 +174,12 @@ joomla-toolbar-button {
         [class^='#{$fa-css-prefix}-'],
         [class*=' #{$fa-css-prefix}-'],
         span {
-          background-color: var(--atum-bg-dark-80);
+          background-color:  linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4));
           color:rgba(255,255,255,0.90);
         }
 
         color:rgba(255,255,255,0.90);
-        background-color: var(--atum-bg-dark);
+        background-color:  linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4));
       }
     }
 
@@ -192,7 +192,7 @@ joomla-toolbar-button {
       [class^='#{$fa-css-prefix}-'],
       [class*=' #{$fa-css-prefix}-'],
       span {
-        background-color: var(--atum-bg-dark-70);
+        background-color: var(--primary);
         color:rgba(255,255,255,0.90);
       }
 
@@ -202,12 +202,12 @@ joomla-toolbar-button {
         [class^='#{$fa-css-prefix}-'],
         [class*=' #{$fa-css-prefix}-'],
         span {
-          background-color: var(--atum-bg-dark-80);
+          background-image:  linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4));
           color:rgba(255,255,255,0.90);
         }
 
+        background-color: var(--primary);
         color:rgba(255,255,255,0.90);
-        background-color: var(--atum-bg-dark);
       }
     }
 
@@ -215,6 +215,7 @@ joomla-toolbar-button {
     &.dropdown-toggle[disabled] {
       background-color: rgba($gray-300, 0.8);
       border-color: rgba($gray-500, 0.8);
+      background-image: none;
 
       [class^='icon-'],
       [class*=' icon-'],
@@ -223,6 +224,7 @@ joomla-toolbar-button {
       span {
         color: var(--atum-text-dark);
         background-color: rgba($gray-500, 0.8);
+        background-image: none;
       }
 
       &:hover,  &:active, &:focus {
@@ -233,6 +235,7 @@ joomla-toolbar-button {
         span {
           color: var(--atum-text-dark);
           background-color: rgba($gray-500, 0.8);
+          background-image: none;
         }
         background-color: rgba($gray-300, 0.8);
         cursor: not-allowed;
@@ -258,16 +261,16 @@ joomla-toolbar-button {
   .dropdown-toggle {
 
     &.btn {
-      color: var(--atum-text-dark);
+      color: var(--primary);
       span {
-        background-color: var(--atum-bg-dark);
+        background-color: var(--primary);
         color:rgba(255,255,255,0.90);
       }
     }
 
     &.btn-primary {
       span {
-        background-color: var(--atum-bg-dark);
+        background-color: var(--primary);
         color:rgba(255,255,255,0.90);
       }
     }
@@ -305,12 +308,12 @@ joomla-toolbar-button {
       [class*=' icon-'],
       [class^='#{$fa-css-prefix}-'],
       [class*=' #{$fa-css-prefix}-'] {
-        background-color: var(--atum-bg-dark);
+        background-color: var(--primary);
         color:rgba(255,255,255,0.90);
       }
 
       &:hover:not([disabled]) {
-        background-color: var(--atum-bg-dark-80);
+        background-color: var(--primary);
       }
 
       &::after {
