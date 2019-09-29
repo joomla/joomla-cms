@@ -32,8 +32,6 @@ $cpanel     = $option === 'com_cpanel';
 $hiddenMenu = $app->input->get('hidemainmenu');
 $joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 
-require_once __DIR__ . '/Service/HTML/Atum.php';
-
 // Template params
 $siteLogo  = $this->params->get('siteLogo')
 	? Uri::root() . $this->params->get('siteLogo')
@@ -82,8 +80,6 @@ $this->addStyleDeclaration($css);
 
 $monochrome = (bool) $this->params->get('monochrome');
 
-HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
-HTMLHelper::_('atum.rootcolors', $this->params);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
