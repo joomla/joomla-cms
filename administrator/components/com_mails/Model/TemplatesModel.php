@@ -124,7 +124,8 @@ class TemplatesModel extends ListModel
 				'a.*'
 			)
 		);
-		$query->from($db->quoteName('#__mail_templates') . ' AS a')->group('a.template_id');
+		$query->from($db->quoteName('#__mail_templates') . ' AS a')
+			->group('a.template_id, a.language, a.subject, a.body, a.htmlbody, a.attachments, a.params');
 
 		// Filter by search in title.
 		$search = $this->getState('filter.search');
