@@ -142,8 +142,8 @@ class PlgSystemPrivacyconsent extends JPlugin
 		}
 
 		// Check that the privacy is checked if required ie only in registration from frontend.
-		$option = $this->app->input->getCmd('option');
-		$task   = $this->app->input->get->getCmd('task');
+		$option = $this->app->input->get('option');
+		$task   = $this->app->input->post->get('task');
 		$form   = $this->app->input->post->get('jform', array(), 'array');
 
 		if ($option == 'com_users' && in_array($task, array('registration.register', 'profile.save'))
