@@ -353,37 +353,40 @@
    *
    * @since   4.0.0
    */
+  const primaryInput = document.querySelector('#jform_params_primary_color');
   function updatePrimary() {
     document.documentElement.style.setProperty('--primary', this.value);
   }
+  primaryInput.onchange = updatePrimary;
+
+  const secondaryInput = document.querySelector('#jform_params_secondary_color');
   function updateSecondary() {
     document.documentElement.style.setProperty('--secondary', this.value);
   }
-    function updateBgLight() {
+  secondaryInput.onchange = updateSecondary;
+
+  const bgLightInput = document.querySelector('#jform_params_bg_light');
+  function updateBgLight() {
     document.documentElement.style.setProperty('--atum-bg-light', this.value);
   }
+  bgLightInput.onchange = updateBgLight;
+
+  const darkTextInput = document.querySelector('#jform_params_text_dark');
   function updateDarkText() {
     document.documentElement.style.setProperty('--atum-text-dark', this.value);
   }
+  darkTextInput.onchange = updateDarkText;
+
+  const lightTextInput = document.querySelector('#jform_params_text_light');
   function updateLightText() {
     document.documentElement.style.setProperty('--atum-text-light', this.value);
   }
+  lightTextInput.onchange = updateLightText;
+
+  const linkColorInput = document.querySelector('#jform_params_link_color');
   function updateLinkColor() {
     document.documentElement.style.setProperty('--atum-link-color', this.value);
   }
-
-  var primaryInput = document.querySelector('#jform_params_primary_color');
-  var secondaryInput = document.querySelector('#jform_params_secondary_color');
-  var bgLightInput = document.querySelector('#jform_params_bg_light');
-  var darkTextInput = document.querySelector('#jform_params_text_dark');
-  var lightTextInput = document.querySelector('#jform_params_text_light');
-  var linkColorInput = document.querySelector('#jform_params_link_color');
-
-  primaryInput.onchange = updatePrimary;
-  secondaryInput.onchange = updateSecondary;
-  bgLightInput.onchange = updateBgLight;
-  darkTextInput.onchange = updateDarkText;
-  lightTextInput.onchange = updateLightText;
   linkColorInput.onchange = updateLinkColor;
 
 })(window.Joomla, document);
