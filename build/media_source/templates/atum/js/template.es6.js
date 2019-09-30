@@ -388,5 +388,4 @@
     document.documentElement.style.setProperty('--atum-link-color', this.value);
   }
   linkColorInput.onchange = updateLinkColor;
-
 })(window.Joomla, document);
