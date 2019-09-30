@@ -70,6 +70,10 @@ $css = '
 	:root {
 		--primary: ' . $this->params->get('primary-color', '#1a466b') . ';
 		--secondary: ' . $this->params->get('secondary-color', '#001B4C') . ';
+		--atum-bg-light: ' . $this->params->get('bg-light', '#e8e8e8') . ';
+		--atum-text-dark: ' . $this->params->get('text-dark', '#495057') . ';
+		--atum-text-light: ' . $this->params->get('text-light', '#ffffff') . ';
+		--atum-link-color: ' . $this->params->get('link-color', '#1757a1') . ';
 	}
 	.container-main > * {
 		opacity: 0;

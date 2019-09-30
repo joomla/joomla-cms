@@ -356,15 +356,35 @@
 
   var primaryInput = document.querySelector('#jform_params_primary_color');
   var secondaryInput = document.querySelector('#jform_params_secondary_color');
+  var bgLightInput = document.querySelector('#jform_params_bg_light');
+  var darkTextInput = document.querySelector('#jform_params_text_dark');
+  var lightTextInput = document.querySelector('#jform_params_text_light');
+  var linkColorInput = document.querySelector('#jform_params_link_color');
 
   primaryInput.onchange = updatePrimary;
   secondaryInput.onchange = updateSecondary;
+  bgLightInput.onchange = updateBgLight;
+  darkTextInput.onchange = updateDarkText;
+  lightTextInput.onchange = updateLightText;
+  linkColorInput.onchange = updateLinkColor;
 
   function updatePrimary(e) {
     document.documentElement.style.setProperty('--primary', this.value);
   };
   function updateSecondary(e) {
     document.documentElement.style.setProperty('--secondary', this.value);
+  };
+    function updateBgLight(e) {
+    document.documentElement.style.setProperty('--atum-bg-light', this.value);
+  };
+  function updateDarkText(e) {
+    document.documentElement.style.setProperty('--atum-text-dark', this.value);
+  };
+  function updateLightText(e) {
+    document.documentElement.style.setProperty('--atum-text-light', this.value);
+  };
+  function updateLinkColor(e) {
+    document.documentElement.style.setProperty('--atum-link-color', this.value);
   };
 
 })(window.Joomla, document);
