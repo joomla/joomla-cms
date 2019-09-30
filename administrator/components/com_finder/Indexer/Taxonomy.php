@@ -56,7 +56,7 @@ class Taxonomy
 	 * @return  integer  The id of the branch.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public static function addBranch($title, $state = 1, $access = 1)
 	{
@@ -82,7 +82,7 @@ class Taxonomy
 	 * @return  integer  The id of the node.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public static function addNode($branch, $title, $state = 1, $access = 1, $language = '')
 	{
@@ -269,7 +269,7 @@ class Taxonomy
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public static function addMap($linkId, $nodeId)
 	{
@@ -302,7 +302,7 @@ class Taxonomy
 	 * @return  array  An array of branch titles.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public static function getBranchTitles()
 	{
@@ -334,7 +334,7 @@ class Taxonomy
 	 * @return  mixed  Integer id on success, null on no match.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public static function getNodeByTitle($branch, $title)
 	{
@@ -370,7 +370,7 @@ class Taxonomy
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public static function removeMaps($linkId)
 	{
@@ -391,7 +391,7 @@ class Taxonomy
 	 * @return  integer  The number of deleted rows.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public static function removeOrphanNodes()
 	{
