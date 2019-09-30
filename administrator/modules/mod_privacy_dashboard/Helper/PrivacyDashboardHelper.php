@@ -12,7 +12,6 @@ namespace Joomla\Module\PrivacyDashboard\Administrator\Helper;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\Component\Privacy\Administrator\Model\DashboardModel;
 use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
