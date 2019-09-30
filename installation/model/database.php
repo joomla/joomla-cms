@@ -1199,7 +1199,7 @@ class InstallationModelDatabase extends JModelBase
 			$query = trim($query);
 
 			// If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
-			if (!empty($query) && ($query{0} != '#') && ($query{0} != '-'))
+			if (!empty($query) && ($query[0] != '#') && ($query[0] != '-'))
 			{
 				/**
 				 * If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
