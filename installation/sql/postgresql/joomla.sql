@@ -486,8 +486,8 @@ CREATE TABLE IF NOT EXISTS "#__csp" (
   "blocked_uri" varchar(500) NOT NULL DEFAULT '',
   "directive" varchar(500) NOT NULL DEFAULT '',
   "client" varchar(500) NOT NULL DEFAULT '',
-  "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "modified"  timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "created" timestamp without time zone NOT NULL,
+  "modified"  timestamp without time zone NOT NULL,
   "published" smallint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
 );
@@ -562,6 +562,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_tags","com_templates","com_users"]}', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'com_csp', 'component', 'com_csp', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(0, 'com_mails', 'component', 'com_mails', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'PHPass', 'library', 'phpass', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -1397,7 +1398,7 @@ CREATE TABLE IF NOT EXISTS "#__messages" (
   "user_id_from" bigint DEFAULT 0 NOT NULL,
   "user_id_to" bigint DEFAULT 0 NOT NULL,
   "folder_id" smallint DEFAULT 0 NOT NULL,
-  "date_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "date_time" timestamp without time zone NOT NULL,
   "state" smallint DEFAULT 0 NOT NULL,
   "priority" smallint DEFAULT 0 NOT NULL,
   "subject" varchar(255) DEFAULT '' NOT NULL,
@@ -2145,7 +2146,7 @@ CREATE TABLE "#__action_logs" (
   "id" serial NOT NULL,
   "message_language_key" varchar(255) NOT NULL DEFAULT '',
   "message" text NOT NULL DEFAULT '',
-  "log_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "log_date" timestamp without time zone NOT NULL,
   "extension" varchar(50) NOT NULL DEFAULT '',
   "user_id" integer DEFAULT 0 NOT NULL,
   "item_id" integer DEFAULT 0 NOT NULL,
@@ -2310,7 +2311,7 @@ CREATE INDEX "#__workflows_idx_modified_by" ON "#__workflows" ("modified_by");
 CREATE INDEX "#__workflows_idx_checked_out" ON "#__workflows" ("checked_out");
 
 INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "core", "ordering", "created", "created_by", "modified", "modified_by", "checked_out_time", "checked_out") VALUES
-(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0);
+(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0);
 
 SELECT setval('#__workflows_id_seq', 2, false);
 
@@ -2360,7 +2361,7 @@ CREATE INDEX "#__workflow_stages_idx_checked_out" ON "#__workflow_stages" ("chec
 -- Dumping data for table "#__workflow_stages"
 --
 
-INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "condition", "default") VALUES
+INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "condition", "default", "checked_out_time", "checked_out") VALUES
 (1, 0, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1, '1970-01-01 00:00:00', 0),
 (2, 0, 2, 1, 1, 'JPUBLISHED', '', 1, 0, '1970-01-01 00:00:00', 0),
 (3, 0, 3, 1, 1, 'JTRASHED', '', -2, 0, '1970-01-01 00:00:00', 0),
@@ -2392,13 +2393,37 @@ CREATE INDEX "#__workflow_transitions_idx_to_stage_id" ON "#__workflow_transitio
 CREATE INDEX "#__workflow_transitions_idx_workflow_id" ON "#__workflow_transitions" ("workflow_id");
 CREATE INDEX "#__workflow_transitions_idx_checked_out" ON "#__workflow_transitions" ("checked_out");
 
-INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_stage_id", "to_stage_id") VALUES
+INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_stage_id", "to_stage_id", "checked_out_time", "checked_out") VALUES
 (1, 0, 1, 1, 1, 'Unpublish', '', -1, 1, '1970-01-01 00:00:00', 0),
 (2, 0, 1, 2, 1, 'Publish', '', -1, 2, '1970-01-01 00:00:00', 0),
 (3, 0, 1, 3, 1, 'Trash', '', -1, 3, '1970-01-01 00:00:00', 0),
 (4, 0, 1, 4, 1, 'Archive', '', -1, 4, '1970-01-01 00:00:00', 0);
 
 SELECT setval('#__workflow_transitions_id_seq', 5, false);
+
+--
+-- Table structure for table "#__mail_templates"
+--
+
+CREATE TABLE IF NOT EXISTS "#__mail_templates" (
+  "template_id" varchar(127) NOT NULL DEFAULT '',
+  "language" char(7) NOT NULL DEFAULT '',
+  "subject" varchar(255) NOT NULL DEFAULT '',
+  "body" TEXT NOT NULL,
+  "htmlbody" TEXT NOT NULL,
+  "attachments" TEXT NOT NULL,
+  "params" TEXT NOT NULL,
+  CONSTRAINT "#__mail_templates_idx_template_id_language" UNIQUE ("template_id", "language")
+);
+CREATE INDEX "#__mail_templates_idx_template_id" ON "#__mail_templates" ("template_id");
+CREATE INDEX "#__mail_templates_idx_language" ON "#__mail_templates" ("language");
+
+--
+-- Dumping data for table "#__mail_templates"
+--
+
+INSERT INTO "#__mail_templates" ("template_id", "language", "subject", "body", "htmlbody", "attachments", "params") VALUES
+('com_config.test_mail', '', 'COM_CONFIG_SENDMAIL_SUBJECT', 'COM_CONFIG_SENDMAIL_BODY', '', '', '{"tags":["sitename","method"]}');
 
 --
 -- Here is SOUNDEX replacement for those who can't enable fuzzystrmatch module
