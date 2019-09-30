@@ -154,7 +154,7 @@ class TemplatesModel extends ListModel
 					. ' OR ' . $db->quoteName('a.body') . ' LIKE :search3'
 					. ' OR ' . $db->quoteName('a.htmlbody') . ' LIKE :search4)'
 				)
-				->bind([':search1', ':search2', ':search3', ':search4'], $search);
+					->bind([':search1', ':search2', ':search3', ':search4'], $search);
 			}
 		}
 
