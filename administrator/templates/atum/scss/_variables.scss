@@ -70,16 +70,8 @@ $colors: (
   atum-link-color:                 $light-blue,
   atum-link-hover-color:           darken($light-blue, 20%),
   atum-contrast:                   adjust-color($base-color, $hue: -40deg, $lightness: +16%),
-  atum-bg-dark-10:                 adjust-color($base-color, $hue: -6%, $saturation: -80%, $lightness: +59.4%),
-  atum-bg-dark-20:                 adjust-color($base-color, $hue: -6%, $saturation: -75%, $lightness: +47.3%),
-  atum-bg-dark-30:                 adjust-color($base-color, $hue: -5%, $saturation: -55%, $lightness: +34.3%),
-  atum-bg-dark-40:                 adjust-color($base-color, $hue: -3%, $saturation: -40%, $lightness: +21.4%),
-  atum-bg-dark-50:                 adjust-color($base-color, $hue: -1%, $saturation: -15%, $lightness: +10%),
-  atum-bg-dark-70:                 adjust-color($base-color, $hue: +4%, $lightness: -6%),
-  atum-bg-dark-80:                 adjust-color($base-color, $hue: +7%, $lightness: -11.5%),
-  atum-bg-dark-90:                 adjust-color($base-color, $hue: +10%, $saturation: -1%, $lightness: -17%),
-  black-40:                       rgba(0,0,0,.4),
-  white-20:                      rgba(255,255,255,.2),
+  black-40:                        rgba(0,0,0,.4),
+  white-20:                        rgba(255,255,255,.2),
 );
 
 
