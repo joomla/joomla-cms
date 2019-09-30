@@ -13,7 +13,9 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
+use PHPMailer\PHPMailer\Exception as phpmailerException;
 
 /**
  * Email Templating Class
@@ -25,7 +27,7 @@ class MailTemplate
 	/**
 	 * Mailer object to send the actual mail.
 	 *
-	 * @var    Joomla\CMS\Mail\Mail
+	 * @var    \Joomla\CMS\Mail\Mail
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $mailer;
@@ -60,8 +62,9 @@ class MailTemplate
 	protected $attachments = array();
 
 	/**
+	 * List of recipients of the email
 	 *
-	 * @var    string[]
+	 * @var    \stdClass[]
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $recipients = array();
@@ -148,12 +151,15 @@ class MailTemplate
 	 * @return  boolean  True on success
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @throws  phpmailerException
 	 */
 	public function send()
 	{
 		$config = ComponentHelper::getParams('com_mails');
 
 		$mail = self::getTemplate($this->template_id, $this->language);
+
+		/** @var Registry $params */
 		$params = $mail->params;
 		$gconfig = Factory::getConfig();
 
@@ -315,10 +321,11 @@ class MailTemplate
 		$db = Factory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select('*')
-			->from('#__mail_templates')
-			->where('template_id = ' . $db->quote($key))
-			->where('language IN (\'\',' . $db->quote($language) . ')')
-			->order('language DESC');
+			->from($db->quoteName('#__mail_templates'))
+			->where($db->quoteName('template_id') . ' = :key')
+			->whereIn($db->quoteName('language'), ['', $language], ParameterType::STRING)
+			->order($db->quoteName('language') . ' DESC')
+			->bind(':key', $key);
 		$db->setQuery($query);
 		$mail = $db->loadObject();
 
@@ -403,8 +410,9 @@ class MailTemplate
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
-		$query->delete('#__mail_templates')
-			->where($query->gn('template_id') . ' = ' . $query->q($key));
+		$query->delete($db->quoteName('#__mail_templates'))
+			->where($db->quoteName('template_id') . ' = :key')
+			->bind(':key', $key);
 		$db->setQuery($query);
 
 		return $db->execute();
