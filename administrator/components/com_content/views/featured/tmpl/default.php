@@ -175,7 +175,8 @@ if ($saveOrder)
 										<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 									<?php endif; ?>
 									<?php if ($canEdit) : ?>
-										<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&return=featured&id=' . $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?>">
+										<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_content&task=article.edit&return=featured&id=' . $item->id); ?>" title="<?php echo JText::_('
+										_EDIT'); ?>">
 											<?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
@@ -191,7 +192,7 @@ if ($saveOrder)
 										<?php
 										$ParentCatUrl = JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
 										$CurrentCatUrl = JRoute::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content');
-										$EditCatTxt = JText::_('JACTION_EDIT') . ' ' . JText::_('JCATEGORY');
+										$EditCatTxt = JText::_('COM_CONTENT_EDIT_CATEGORY');
 
 										echo JText::_('JCATEGORY') . ': ';
 
