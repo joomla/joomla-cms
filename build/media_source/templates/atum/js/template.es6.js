@@ -353,6 +353,24 @@
    *
    * @since   4.0.0
    */
+  function updatePrimary() {
+    document.documentElement.style.setProperty('--primary', this.value);
+  }
+  function updateSecondary() {
+    document.documentElement.style.setProperty('--secondary', this.value);
+  }
+    function updateBgLight() {
+    document.documentElement.style.setProperty('--atum-bg-light', this.value);
+  }
+  function updateDarkText() {
+    document.documentElement.style.setProperty('--atum-text-dark', this.value);
+  }
+  function updateLightText() {
+    document.documentElement.style.setProperty('--atum-text-light', this.value);
+  }
+  function updateLinkColor() {
+    document.documentElement.style.setProperty('--atum-link-color', this.value);
+  }
 
   var primaryInput = document.querySelector('#jform_params_primary_color');
   var secondaryInput = document.querySelector('#jform_params_secondary_color');
@@ -367,24 +385,5 @@
   darkTextInput.onchange = updateDarkText;
   lightTextInput.onchange = updateLightText;
   linkColorInput.onchange = updateLinkColor;
-
-  function updatePrimary(e) {
-    document.documentElement.style.setProperty('--primary', this.value);
-  };
-  function updateSecondary(e) {
-    document.documentElement.style.setProperty('--secondary', this.value);
-  };
-    function updateBgLight(e) {
-    document.documentElement.style.setProperty('--atum-bg-light', this.value);
-  };
-  function updateDarkText(e) {
-    document.documentElement.style.setProperty('--atum-text-dark', this.value);
-  };
-  function updateLightText(e) {
-    document.documentElement.style.setProperty('--atum-text-light', this.value);
-  };
-  function updateLinkColor(e) {
-    document.documentElement.style.setProperty('--atum-link-color', this.value);
-  };
 
 })(window.Joomla, document);
