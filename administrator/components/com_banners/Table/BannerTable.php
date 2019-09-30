@@ -104,8 +104,24 @@ class BannerTable extends Table
 			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
+		// Set publish_up, publish_down to null if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = null;
+		}
+
+		if (!$this->publish_down)
+		{
+			$this->publish_down = null;
+		}
+
+		if (!$this->modified)
+		{
+			$this->modified = $this->created;
+		}
+
 		// Check the publish down date is not earlier than publish up.
-		if (!is_null($this->publish_down) && $this->publish_down < $this->publish_up)
+		if (!is_null($this->publish_down) !is_null($this->publish_up) && $this->publish_down < $this->publish_up)
 		{
 			$this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
@@ -122,22 +138,6 @@ class BannerTable extends Table
 		{
 			// Set ordering to last if ordering was 0
 			$this->ordering = self::getNextOrder($this->_db->quoteName('catid') . '=' . $this->_db->quote($this->catid) . ' AND state>=0');
-		}
-
-		// Set publish_up, publish_down to null if not set
-		if (!$this->publish_up)
-		{
-			$this->publish_up = null;
-		}
-
-		if (!$this->publish_down)
-		{
-			$this->publish_down = null;
-		}
-
-		if (!$this->modified)
-		{
-			$this->modified = $this->created;
 		}
 
 		return true;
