@@ -84,9 +84,8 @@ class ExportModel extends BaseDatabaseModel
 			$db->getQuery(true)
 				->select('id')
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = ' . $db->quote($table->email)),
-			0,
-			1
+				->where($db->quoteName('email') . ' = ' . $db->quote($table->email))
+				->setLimit(1)
 		)->loadResult();
 
 		$user = $userId ? User::getInstance($userId) : null;

@@ -134,8 +134,16 @@ class OverrideModel extends AdminModel
 	{
 		$app = Factory::getApplication();
 
-		$client   = $app->getUserState('com_languages.overrides.filter.client', 0);
-		$language = $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
+		if ($app->isClient('api'))
+		{
+			$client   = $this->getState('filter.client');
+			$language = $this->getState('filter.language');
+		}
+		else
+		{
+			$client   = $app->getUserState('com_languages.overrides.filter.client', 0);
+			$language = $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
+		}
 
 		// If the override should be created for both.
 		if ($opposite_client)
@@ -209,6 +217,11 @@ class OverrideModel extends AdminModel
 	protected function populateState()
 	{
 		$app = Factory::getApplication();
+
+		if ($app->isClient('api'))
+		{
+			return;
+		}
 
 		$client = $app->getUserStateFromRequest('com_languages.overrides.filter.client', 'filter_client', 0, 'int') ? 'administrator' : 'site';
 		$this->setState('filter.client', $client);
