@@ -161,7 +161,7 @@ class TemplatesModel extends ListModel
 		// Filter on the extension.
 		if ($extension = $this->getState('filter.extension'))
 		{
-			$extension = $extension . '.%';
+			$extension .= '.%';
 			$query->where($db->quoteName('a.template_id') . ' LIKE :extension')
 				->bind(':extension', $extension);
 		}
