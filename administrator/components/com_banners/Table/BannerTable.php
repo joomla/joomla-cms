@@ -115,11 +115,6 @@ class BannerTable extends Table
 			$this->publish_down = null;
 		}
 
-		if (!$this->modified)
-		{
-			$this->modified = $this->created;
-		}
-
 		// Check the publish down date is not earlier than publish up.
 		if (!is_null($this->publish_down) !is_null($this->publish_up) && $this->publish_down < $this->publish_up)
 		{
@@ -138,6 +133,12 @@ class BannerTable extends Table
 		{
 			// Set ordering to last if ordering was 0
 			$this->ordering = self::getNextOrder($this->_db->quoteName('catid') . '=' . $this->_db->quote($this->catid) . ' AND state>=0');
+		}
+
+		// Set modified to created if not set
+		if (!$this->modified)
+		{
+			$this->modified = $this->created;
 		}
 
 		return true;
