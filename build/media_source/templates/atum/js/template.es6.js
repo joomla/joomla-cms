@@ -357,35 +357,47 @@
   function updatePrimary() {
     document.documentElement.style.setProperty('--primary', this.value);
   }
-  primaryInput.onchange = updatePrimary;
+  if (primaryInput) {
+    primaryInput.onchange = updatePrimary;
+  }
 
   const secondaryInput = document.querySelector('#jform_params_secondary_color');
   function updateSecondary() {
     document.documentElement.style.setProperty('--secondary', this.value);
   }
-  secondaryInput.onchange = updateSecondary;
+  if (primaryInput) {
+    secondaryInput.onchange = updateSecondary;
+  }
 
   const bgLightInput = document.querySelector('#jform_params_bg_light');
   function updateBgLight() {
     document.documentElement.style.setProperty('--atum-bg-light', this.value);
   }
-  bgLightInput.onchange = updateBgLight;
+  if (primaryInput) {
+    bgLightInput.onchange = updateBgLight;
+  }
 
   const darkTextInput = document.querySelector('#jform_params_text_dark');
   function updateDarkText() {
     document.documentElement.style.setProperty('--atum-text-dark', this.value);
   }
-  darkTextInput.onchange = updateDarkText;
+  if (primaryInput) {
+    darkTextInput.onchange = updateDarkText;
+  }
 
   const lightTextInput = document.querySelector('#jform_params_text_light');
   function updateLightText() {
     document.documentElement.style.setProperty('--atum-text-light', this.value);
   }
-  lightTextInput.onchange = updateLightText;
+  if (primaryInput) {
+    lightTextInput.onchange = updateLightText;
+  }
 
   const linkColorInput = document.querySelector('#jform_params_link_color');
   function updateLinkColor() {
     document.documentElement.style.setProperty('--atum-link-color', this.value);
   }
-  linkColorInput.onchange = updateLinkColor;
+  if (primaryInput) {
+    linkColorInput.onchange = updateLinkColor;
+  }
 })(window.Joomla, document);
