@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c2d9521396bad250579701210f92c251",
+    "content-hash": "affb2abc37b0575a9701fc20a1c4a85e",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1698,65 +1698,6 @@
                 "debugbar"
             ],
             "time": "2017-12-15T11:13:46+00:00"
-        },
-        {
-            "name": "ozdemirburak/iris",
-            "version": "1.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ozdemirburak/iris.git",
-                "reference": "a100a217eb7fa7975069f02a0f9e1625610f2f00"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ozdemirburak/iris/zipball/a100a217eb7fa7975069f02a0f9e1625610f2f00",
-                "reference": "a100a217eb7fa7975069f02a0f9e1625610f2f00",
-                "shasum": ""
-            },
-            "require": {
-                "php": "~5.6|~7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~5.0|~6.0",
-                "squizlabs/php_codesniffer": "~2.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "OzdemirBurak\\Iris\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Burak Özdemir",
-                    "email": "mail@burakozdemir.co.uk",
-                    "homepage": "https://burakozdemir.co.uk"
-                }
-            ],
-            "description": "PHP library for color manipulation and conversion.",
-            "homepage": "https://github.com/ozdemirburak/iris",
-            "keywords": [
-                "color",
-                "conversion",
-                "hex",
-                "hsl",
-                "hsla",
-                "hsv",
-                "manipulation",
-                "rgb",
-                "rgba",
-                "transformation"
-            ],
-            "time": "2018-10-07T23:02:25+00:00"
         },
         {
             "name": "paragonie/random_compat",
