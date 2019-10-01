@@ -365,7 +365,7 @@
   function updateSecondary() {
     document.documentElement.style.setProperty('--secondary', this.value);
   }
-  if (primaryInput) {
+  if (secondaryInput) {
     secondaryInput.onchange = updateSecondary;
   }
 
@@ -373,7 +373,7 @@
   function updateBgLight() {
     document.documentElement.style.setProperty('--atum-bg-light', this.value);
   }
-  if (primaryInput) {
+  if (bgLightInput) {
     bgLightInput.onchange = updateBgLight;
   }
 
@@ -381,7 +381,7 @@
   function updateDarkText() {
     document.documentElement.style.setProperty('--atum-text-dark', this.value);
   }
-  if (primaryInput) {
+  if (darkTextInput) {
     darkTextInput.onchange = updateDarkText;
   }
 
@@ -389,7 +389,7 @@
   function updateLightText() {
     document.documentElement.style.setProperty('--atum-text-light', this.value);
   }
-  if (primaryInput) {
+  if (lightTextInput) {
     lightTextInput.onchange = updateLightText;
   }
 
@@ -397,7 +397,7 @@
   function updateLinkColor() {
     document.documentElement.style.setProperty('--atum-link-color', this.value);
   }
-  if (primaryInput) {
+  if (linkColorInput) {
     linkColorInput.onchange = updateLinkColor;
   }
 })(window.Joomla, document);
