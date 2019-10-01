@@ -37,7 +37,6 @@ class TemplatesModel extends ListModel
 		{
 			$config['filter_fields'] = array(
 				'template_id', 'a.template_id',
-				'language', 'a.language',
 				'subject', 'a.subject',
 				'body', 'a.body',
 				'htmlbody', 'a.htmlbody'
@@ -167,13 +166,6 @@ class TemplatesModel extends ListModel
 			$extension .= '.%';
 			$query->where($db->quoteName('a.template_id') . ' LIKE :extension')
 				->bind(':extension', $extension);
-		}
-
-		// Filter on the language.
-		if ($language = $this->getState('filter.language'))
-		{
-			$query->where($db->quoteName('a.language') . ' = :language')
-				->bind(':language', $language);
 		}
 
 		return $query;
