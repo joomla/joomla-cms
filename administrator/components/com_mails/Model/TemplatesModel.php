@@ -120,14 +120,26 @@ class TemplatesModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				$db->quoteName('a') . '.*'
+				'DISTINCT '
+				. implode(
+					',',
+					$db->quoteName(
+						[
+							'a.template_id',
+							'a.subject',
+							'a.body',
+							'a.htmlbody',
+							'a.attachments',
+							'a.params'
+						]
+					)
+				)
 			)
 		);
 		$query->from($db->quoteName('#__mail_templates', 'a'))
 			->group(
 				[
 					$db->quoteName('a.template_id'),
-					$db->quoteName('a.language'),
 					$db->quoteName('a.subject'),
 					$db->quoteName('a.body'),
 					$db->quoteName('a.htmlbody'),
