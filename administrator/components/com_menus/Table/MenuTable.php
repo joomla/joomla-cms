@@ -63,8 +63,6 @@ class MenuTable extends \JTableMenu
 
 		if ($return)
 		{
-			$db = Factory::getDbo();
-
 			// Set publish_up to null date if not set
 			if (!$this->publish_up)
 			{
