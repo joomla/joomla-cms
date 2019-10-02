@@ -178,7 +178,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 		</section>
 
 		<?php if ($this->countModules('version')) : ?>
-			<jdoc:include type="modules" name="version" style="bottom-version" />
+			<jdoc:include type="modules" name="version" style="xhtml" />
 		<?php endif; ?>
 
 		<div class="notify-alerts">
