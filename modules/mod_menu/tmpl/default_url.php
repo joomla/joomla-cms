@@ -65,7 +65,7 @@ elseif ($item->browserNav == 2)
 
 if ($active_id == $item->id || $active_id == $item->params['aliasoptions'])
 {
-	$attributes['aria-current'] = "page";
+	$attributes['aria-current'] = 'page';
 }
 
 echo JHtml::_('link', JFilterOutput::ampReplace(htmlspecialchars($item->flink, ENT_COMPAT, 'UTF-8', false)), $linktype, $attributes);
