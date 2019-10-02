@@ -18,4 +18,3 @@ use Joomla\CMS\Language\Text;
 		<span aria-hidden="true"><?php echo Text::sprintf('MOD_VERSION_CURRENT_VERSION_SHORTTEXT', $version); ?></span>
 	</div>
 </div>
-
