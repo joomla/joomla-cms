@@ -120,18 +120,15 @@ class TemplatesModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				implode(
-					',',
-					$db->quoteName(
-						[
-							'a.template_id',
-							'a.subject',
-							'a.body',
-							'a.htmlbody',
-							'a.attachments',
-							'a.params'
-						]
-					)
+				$db->quoteName(
+					[
+						'a.template_id',
+						'a.subject',
+						'a.body',
+						'a.htmlbody',
+						'a.attachments',
+						'a.params'
+					]
 				)
 			)
 		);
