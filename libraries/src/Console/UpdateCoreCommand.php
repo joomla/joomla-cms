@@ -224,7 +224,7 @@ class UpdateCoreCommand extends AbstractCommand
 	 *
 	 * @since   4.0.0
 	 */
-	protected function configure()
+	protected function configure(): void
 	{
 		$this->setDescription('Updates joomla core');
 

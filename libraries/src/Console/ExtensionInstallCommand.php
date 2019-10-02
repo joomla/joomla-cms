@@ -84,7 +84,7 @@ class ExtensionInstallCommand extends AbstractCommand
 	 *
 	 * @since   4.0.0
 	 */
-	protected function configure()
+	protected function configure(): void
 	{
 		$this->addOption('path', null, InputOption::VALUE_REQUIRED, 'The path to the extension');
 		$this->addOption('url', null, InputOption::VALUE_REQUIRED, 'The url to the extension');

@@ -260,7 +260,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @since 4.0
 	 */
-	protected function configure()
+	protected function configure(): void
 	{
 		$this->setDescription('Sets a value for a configuration option');
 
