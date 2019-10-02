@@ -6,9 +6,11 @@
     grid-template-areas:
       ". head head head head ."
       ". banner banner banner banner ."
+      ". comp comp comp comp ."
+      ". side-l side-l side-l side-l ."
+      ". side-r side-r side-r side-r ."
       ". top-a top-a top-a top-a ."
       ". top-b top-b top-b top-b ."
-      ". side-l comp comp side-r ."
       ". bot-a bot-a bot-a bot-a ."
       ". bot-b bot-b bot-b bot-b ."
       ". footer footer footer footer ."
@@ -46,15 +48,13 @@
       grid-column: full-start / full-end;
     }
 
-    @include media-breakpoint-down(xs) {
+    @include media-breakpoint-up(xs) {
       grid-template-areas:
         ". head head head head ."
         ". banner banner banner banner ."
-        ". comp comp comp comp ."
-        ". side-l side-l side-l side-l ."
-        ". side-r side-r side-r side-r ."
         ". top-a top-a top-a top-a ."
         ". top-b top-b top-b top-b ."
+        ". side-l comp comp side-r ."
         ". bot-a bot-a bot-a bot-a ."
         ". bot-b bot-b bot-b bot-b ."
         ". footer footer footer footer ."
@@ -129,17 +129,17 @@
 .container-bottom-b {
   display: grid;
   grid-gap: $cassiopeia-grid-gutter;
-  grid-template-columns: repeat(auto-fit, minmax(24%, 1fr));
+  grid-template-columns: 1fr;
 
   > div {
     margin: 0;
   }
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-up(sm) {
     grid-template-columns: 1fr 1fr;
   }
 
-  @include media-breakpoint-down(sm) {
-    grid-template-columns: 1fr;
+  @include media-breakpoint-up(md) {
+    grid-template-columns: repeat(auto-fit, minmax(24%, 1fr));
   }
 }

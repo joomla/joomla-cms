@@ -104,7 +104,7 @@ class DeleteUserCommand extends AbstractCommand
 						)
 						->where($db->quoteName('g.group_id') . " = :groupId")
 						->where($db->quoteName('u.block') . " = 0")
-						->bind(':groupId', $groupId);
+						->bind(':groupId', $groupId, ParameterType::INTEGER);
 
 					$db->setQuery($queryUser);
 					$activeSuperUser = $db->loadResult();
