@@ -12,14 +12,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 ?>
-<diV class="header-item-content">
-	<div class="joomlaversion d-flex">
-		<div class="d-flex align-items-end mx-auto">
-			<span class="fab fa-joomla" aria-hidden="true"></span>
-		</div>
-		<div class="tiny mx-auto">
-			<span class="sr-only"><?php echo Text::sprintf('MOD_VERSION_CURRENT_VERSION_TEXT', $version); ?></span>
-			<span aria-hidden="true"><?php echo $version; ?></span>
-		</div>
+<div class="col-md-12 ">
+	<div class="float-right ">
+		<span class="sr-only"><?php echo Text::sprintf('MOD_VERSION_CURRENT_VERSION_TEXT', $version); ?></span>
+		<span aria-hidden="true"><?php echo Text::sprintf('MOD_VERSION_CURRENT_VERSION_SHORTTEXT', $version); ?></span>
 	</div>
-</diV>
+</div>
+
