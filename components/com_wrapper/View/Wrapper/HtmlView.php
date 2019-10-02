@@ -100,7 +100,7 @@ class HtmlView extends BaseHtmlView
 		// Auto height control
 		if ($params->def('height_auto'))
 		{
-			$wrapper->load = 'onload="iFrameHeight()"';
+			$wrapper->load = 'onload="iFrameHeight(this)"';
 		}
 		else
 		{

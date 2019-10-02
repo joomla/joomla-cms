@@ -16,6 +16,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
+use Joomla\Database\ParameterType;
 
 /**
  * Indexer class supporting PostgreSQL for the Finder indexer package.
@@ -132,7 +133,7 @@ class Postgresql extends Indexer
 		{
 			// Update the link.
 			$entry->link_id = $linkId;
-			$db->updateObject('#__finder_links', $entry, 'link_id');
+			$db->updateObject('#__finder_links', pg_escape_bytea($entry), 'link_id');
 		}
 
 		// Set up the variables we will need during processing.
@@ -326,8 +327,8 @@ class Postgresql extends Indexer
 		 * new term ids.
 		 */
 		$query = $db->getQuery(true)
-			->update($db->quoteName('#__finder_tokens_aggregate') . ' AS ta')
-			->join('INNER', $db->quoteName('#__finder_terms') . ' AS t ON t.term = ta.term')
+			->update($db->quoteName('#__finder_tokens_aggregate', 'ta'))
+			->join('INNER', $db->quoteName('#__finder_terms', 't'), 't.term = ta.term')
 			->set('term_id = t.term_id')
 			->where('ta.term_id = 0');
 		$db->setQuery($query);
@@ -342,8 +343,8 @@ class Postgresql extends Indexer
 		 * the links counter for each term by one.
 		 */
 		$query->clear()
-			->update($db->quoteName('#__finder_terms') . ' AS t')
-			->join('INNER', $db->quoteName('#__finder_tokens_aggregate') . ' AS ta ON ta.term_id = t.term_id')
+			->update($db->quoteName('#__finder_terms', 't'))
+			->join('INNER', $db->quoteName('#__finder_tokens_aggregate', 'ta'), 'ta.term_id = t.term_id')
 			->set($db->quoteName('links') . ' = t.links + 1');
 		$db->setQuery($query);
 		$db->execute();
@@ -376,11 +377,15 @@ class Postgresql extends Indexer
 		static::$profiler ? static::$profiler->mark('afterMapping') : null;
 
 		// Update the signature.
+		$object = pg_escape_bytea(serialize($item));
 		$query->clear()
 			->update($db->quoteName('#__finder_links'))
-			->set($db->quoteName('md5sum') . ' = ' . $db->quote($curSig))
-			->set($db->quoteName('object') . ' = ' . $db->quote(serialize($item)))
-			->where($db->quoteName('link_id') . ' = ' . $db->quote($linkId));
+			->set($db->quoteName('md5sum') . ' = :md5sum')
+			->set($db->quoteName('object') . ' = :object')
+			->where($db->quoteName('link_id') . ' = :linkid')
+			->bind(':md5sum', $curSig)
+			->bind(':object', $object, ParameterType::LARGE_OBJECT)
+			->bind(':linkid', $linkId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 

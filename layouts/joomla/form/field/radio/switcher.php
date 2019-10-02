@@ -10,7 +10,6 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 extract($displayData, null);
 
