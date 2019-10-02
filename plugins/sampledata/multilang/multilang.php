@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
@@ -88,6 +89,11 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onSampledataGetOverview()
 	{
+		if (!Factory::getUser()->authorise('core.create', 'com_content'))
+		{
+			return;
+		}
+
 		$data              = new stdClass;
 		$data->name        = $this->_name;
 		$data->title       = Text::_('PLG_SAMPLEDATA_MULTILANG_OVERVIEW_TITLE');
@@ -107,7 +113,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep1()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		}
@@ -153,12 +159,12 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep2()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		}
 
-		if (!ComponentHelper::isEnabled('com_modules'))
+		if (!ComponentHelper::isEnabled('com_modules') || !Factory::getUser()->authorise('core.create', 'com_modules'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -197,7 +203,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep3()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		}
@@ -236,12 +242,12 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep4()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		}
 
-		if (!ComponentHelper::isEnabled('com_menus'))
+		if (!ComponentHelper::isEnabled('com_menus') || !Factory::getUser()->authorise('core.create', 'com_menus'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -300,12 +306,12 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep5()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		}
 
-		if (!ComponentHelper::isEnabled('com_modules'))
+		if (!ComponentHelper::isEnabled('com_modules') || !Factory::getUser()->authorise('core.create', 'com_modules'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -344,12 +350,12 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep6()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		}
 
-		if (!ComponentHelper::isEnabled('com_content'))
+		if (!ComponentHelper::isEnabled('com_content') || !Factory::getUser()->authorise('core.create', 'com_content'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -358,7 +364,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			return $response;
 		}
 
-		if (!ComponentHelper::isEnabled('com_categories'))
+		if (!ComponentHelper::isEnabled('com_categories') || !Factory::getUser()->authorise('core.create', 'com_content.category'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -431,7 +437,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep7()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		}
@@ -995,6 +1001,15 @@ class PlgSampledataMultilang extends CMSPlugin
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
 		$title = $newlanguage->_('JCATEGORY');
+		$alias = ApplicationHelper::stringURLSafe($title);
+
+		// Set unicodeslugs if alias is empty
+		if (trim(str_replace('-', '', $alias) == ''))
+		{
+			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$alias   = ApplicationHelper::stringURLSafe($title);
+			Factory::getConfig()->set('unicodeslugs', $unicode);
+		}
 
 		// Initialize a new category.
 		$category = Table::getInstance('CategoryTable', '\\Joomla\\Component\\Categories\\Administrator\\Table\\');
@@ -1002,6 +1017,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		$data = array(
 			'extension'       => 'com_content',
 			'title'           => $title . ' (' . strtolower($itemLanguage->language) . ')',
+			'alias'           => $alias . ' (' . strtolower($itemLanguage->language) . ')',
 			'description'     => '',
 			'published'       => 1,
 			'access'          => 1,
@@ -1061,12 +1077,22 @@ class PlgSampledataMultilang extends CMSPlugin
 		$newlanguage->load('com_content.sys', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
 		$title       = $newlanguage->_('COM_CONTENT_CONTENT_TYPE_ARTICLE');
 		$currentDate = Factory::getDate()->toSql();
+		$alias = ApplicationHelper::stringURLSafe($title);
+
+		// Set unicodeslugs if alias is empty
+		if (trim(str_replace('-', '', $alias) == ''))
+		{
+			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$alias   = ApplicationHelper::stringURLSafe($title);
+			Factory::getConfig()->set('unicodeslugs', $unicode);
+		}
 
 		// Initialize a new article.
 		$article = Table::getInstance('ArticleTable', '\\Joomla\\Component\\Content\\Administrator\\Table\\');
 
 		$data = array(
 			'title'            => $title . ' (' . strtolower($itemLanguage->language) . ')',
+			'alias'            => $alias . ' (' . strtolower($itemLanguage->language) . ')',
 			'introtext'        => '<p>Lorem ipsum ad his scripta blandit partiendo, eum fastidii accumsan euripidis'
 				. ' in, eum liber hendrerit an. Qui ut wisi vocibus suscipiantur, quo dicit'
 				. ' ridens inciderint id. Quo mundi lobortis reformidans eu, legimus senserit'

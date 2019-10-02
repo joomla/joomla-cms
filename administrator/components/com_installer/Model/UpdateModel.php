@@ -307,41 +307,6 @@ class UpdateModel extends ListModel
 	}
 
 	/**
-	 * Enables any disabled rows in #__update_sites table
-	 *
-	 * @return  boolean result of operation
-	 *
-	 * @since   1.6
-	 */
-	public function enableSites()
-	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->update($db->quoteName('#__update_sites'))
-			->set($db->quoteName('enabled') . ' = 1')
-			->where($db->quoteName('enabled') . ' = 0');
-		$db->setQuery($query);
-
-		try
-		{
-			$db->execute();
-		}
-		catch (ExecutionFailureException $e)
-		{
-			$this->_message .= Text::_('COM_INSTALLER_FAILED_TO_ENABLE_UPDATES');
-
-			return false;
-		}
-
-		if ($rows = $db->getAffectedRows())
-		{
-			$this->_message .= Text::plural('COM_INSTALLER_ENABLED_UPDATES', $rows);
-		}
-
-		return true;
-	}
-
-	/**
 	 * Update function.
 	 *
 	 * Sets the "result" state with the result of the operation.

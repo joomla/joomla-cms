@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Tree;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Defines the trait for an Immutable Node Class.
@@ -121,7 +121,7 @@ trait ImmutableNodeTrait
 	 */
 	public function hasChildren()
 	{
-		return (bool) count($this->_children);
+		return (bool) \count($this->_children);
 	}
 
 	/**

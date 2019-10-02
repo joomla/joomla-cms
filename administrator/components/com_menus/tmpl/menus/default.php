@@ -33,7 +33,7 @@ foreach ($this->items as $item)
 	}
 }
 
-Factory::getDocument()->addScriptOptions('menus-default', ['items' => $itemIds]);
+$this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
 HTMLHelper::_('jquery.framework');
 HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'auto', 'relative' => true));
 ?>
@@ -93,7 +93,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
-								<td>
+								<th scope="row">
 									<div class="name break-word">
 										<?php if ($canEdit) : ?>
 											<a href="<?php echo Route::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>">
@@ -108,7 +108,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 											</div>
 										<?php endif; ?>
 									</div>
-								</td>
+								</th>
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>">
