@@ -77,6 +77,7 @@ class OverridesController extends AdminController
 	 */
 	public function purge()
 	{
+		/** @var \Joomla\Component\Languages\Administrator\Model\OverridesModel $model */
 		$model = $this->getModel('overrides');
 		$model->purge();
 		$this->setRedirect(Route::_('index.php?option=com_languages&view=overrides', false));

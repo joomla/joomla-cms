@@ -27,7 +27,6 @@ if ($app->isClient('site'))
 JLoader::register('ContactHelperRoute', JPATH_ROOT . '/components/com_contact/helpers/route.php');
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 HTMLHelper::_('script', 'com_contact/admin-contacts-modal.min.js', array('version' => 'auto', 'relative' => true));
 
 $function  = $app->input->getCmd('function', 'jSelectContact');
@@ -45,12 +44,13 @@ if (!empty($editor))
 ?>
 <div class="container-popup">
 
-	<form action="<?php echo Route::_('index.php?option=com_contact&view=contacts&layout=modal&tmpl=component&function=' . $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
+	<form action="<?php echo Route::_('index.php?option=com_contact&view=contacts&layout=modal&tmpl=component&editor=' . $editor . '&function=' . $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm" class="form-inline">
 
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
+				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
@@ -111,7 +111,7 @@ if (!empty($editor))
 					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="text-center">
+						<td class="text-center tbody-icon">
 							<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 						</td>
 						<th scope="row">

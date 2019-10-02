@@ -17,6 +17,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
+/** @var \Joomla\Component\Banners\Administrator\View\Banners\HtmlView $this */
+
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('behavior.tabstate');
 
@@ -38,10 +40,11 @@ if ($saveOrder && !empty($this->items))
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
-				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+				echo LayoutHelper::render('joomla.searchtools.default', ['view' => $this]);
 				?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -51,12 +54,12 @@ if ($saveOrder && !empty($this->items))
 						</caption>
 						<thead>
 							<tr>
-								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-								</th>
 								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
+								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+								</th>
 								<th scope="col" style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
@@ -95,6 +98,9 @@ if ($saveOrder && !empty($this->items))
 								$canChange  = $user->authorise('core.edit.state', 'com_banners.category.' . $item->catid) && $canCheckin;
 								?>
 								<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">
+									<td class="text-center">
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+									</td>
 									<td class="order text-center d-none d-md-table-cell">
 										<?php
 										$iconClass = '';
@@ -105,11 +111,11 @@ if ($saveOrder && !empty($this->items))
 										}
 										elseif (!$saveOrder)
 										{
-											$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JORDERINGDISABLED');
+											$iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
 										}
 										?>
 										<span class="sortable-handler <?php echo $iconClass ?>">
-											<span class="icon-menu" aria-hidden="true"></span>
+											<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" style="display:none" name="order[]" size="5"
@@ -117,12 +123,7 @@ if ($saveOrder && !empty($this->items))
 										<?php endif; ?>
 									</td>
 									<td class="text-center">
-										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
-									</td>
-									<td class="text-center">
-										<div class="btn-group">
-											<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'banners.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-										</div>
+										<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'banners.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 									</td>
 									<th scope="row">
 										<div class="break-word">
@@ -130,9 +131,8 @@ if ($saveOrder && !empty($this->items))
 												<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'banners.', $canCheckin); ?>
 											<?php endif; ?>
 											<?php if ($canEdit) : ?>
-												<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
-												<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_banners&task=banner.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
-													<?php echo $editIcon; ?><?php echo $this->escape($item->name); ?></a>
+												<a href="<?php echo Route::_('index.php?option=com_banners&task=banner.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
+													<?php echo $this->escape($item->name); ?></a>
 											<?php else : ?>
 												<?php echo $this->escape($item->name); ?>
 											<?php endif; ?>
@@ -170,7 +170,7 @@ if ($saveOrder && !empty($this->items))
 						</tbody>
 					</table>
 
-					<?php // load the pagination. ?>
+					<?php // Load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 
 					<?php // Load the batch processing form. ?>
@@ -180,10 +180,10 @@ if ($saveOrder && !empty($this->items))
 						<?php echo HTMLHelper::_(
 							'bootstrap.renderModal',
 							'collapseModal',
-							array(
+							[
 								'title' => Text::_('COM_BANNERS_BATCH_OPTIONS'),
 								'footer' => $this->loadTemplate('batch_footer')
-							),
+							],
 							$this->loadTemplate('batch_body')
 						); ?>
 					<?php endif; ?>

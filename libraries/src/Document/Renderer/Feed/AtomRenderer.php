@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Document\Renderer\Feed;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
@@ -91,7 +91,7 @@ class AtomRenderer extends DocumentRenderer
 
 		if (!empty($data->category))
 		{
-			if (is_array($data->category))
+			if (\is_array($data->category))
 			{
 				foreach ($data->category as $cat)
 				{
@@ -132,7 +132,7 @@ class AtomRenderer extends DocumentRenderer
 		$feed .= "	<generator uri=\"https://www.joomla.org\"" . $versionHtmlEscaped . ">" . $data->getGenerator() . "</generator>\n";
 		$feed .= "	<link rel=\"self\" type=\"application/atom+xml\" href=\"" . str_replace(' ', '%20', $url . $syndicationURL) . "\">\n";
 
-		for ($i = 0, $count = count($data->items); $i < $count; $i++)
+		for ($i = 0, $count = \count($data->items); $i < $count; $i++)
 		{
 			$itemlink = $data->items[$i]->link;
 
@@ -187,7 +187,7 @@ class AtomRenderer extends DocumentRenderer
 
 			if (!empty($data->items[$i]->category))
 			{
-				if (is_array($data->items[$i]->category))
+				if (\is_array($data->items[$i]->category))
 				{
 					foreach ($data->items[$i]->category as $cat)
 					{

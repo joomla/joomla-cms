@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Dispatcher;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Base class for a Joomla Module Dispatcher
@@ -38,7 +38,7 @@ class ModuleDispatcher extends AbstractModuleDispatcher
 		$this->loadLanguage();
 
 		// Execute the layout without the module context
-		$loader = static function($path, array $displayData)
+		$loader = static function ($path, array $displayData)
 		{
 			extract($displayData);
 			include $path;

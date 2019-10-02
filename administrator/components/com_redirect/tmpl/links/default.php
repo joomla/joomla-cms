@@ -53,6 +53,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
+				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
@@ -108,7 +109,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th scope="row" class="break-word">
 							<?php if ($canEdit) : ?>
 								<a href="<?php echo Route::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->old_url); ?>">
-									<span class="fa fa-pen-square mr-2" aria-hidden="true"></span><?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->old_url))); ?></a>
 							<?php else : ?>
 									<?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->old_url))); ?>
 							<?php endif; ?>

@@ -10,9 +10,6 @@ namespace Joomla\CMS\Tree;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Tree\ImmutableNodeTrait;
-use Joomla\CMS\Tree\NodeInterface;
-
 /**
  * Defines the trait for a Node Interface Trait Class.
  *

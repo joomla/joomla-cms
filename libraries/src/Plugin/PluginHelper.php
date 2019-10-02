@@ -10,6 +10,7 @@ namespace Joomla\CMS\Plugin;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherInterface;
@@ -254,7 +255,7 @@ abstract class PluginHelper
 			return static::$plugins;
 		}
 
-		$levels = implode(',', Factory::getUser()->getAuthorisedViewLevels());
+		$levels = Factory::getUser()->getAuthorisedViewLevels();
 
 		/** @var \JCacheControllerCallback $cache */
 		$cache = Factory::getCache('com_plugins', 'callback');
@@ -265,26 +266,30 @@ abstract class PluginHelper
 			$query = $db->getQuery(true)
 				->select(
 					$db->quoteName(
-						array(
+						[
 							'folder',
 							'element',
 							'params',
-							'extension_id'
-						),
-						array(
+							'extension_id',
+						],
+						[
 							'type',
 							'name',
 							'params',
-							'id'
-						)
+							'id',
+						]
 					)
 				)
-				->from('#__extensions')
-				->where('enabled = 1')
-				->where('type = ' . $db->quote('plugin'))
-				->where('state IN (0,1)')
-				->where('access IN (' . $levels . ')')
-				->order('ordering');
+				->from($db->quoteName('#__extensions'))
+				->where(
+					[
+						$db->quoteName('enabled') . ' = 1',
+						$db->quoteName('type') . ' = ' . $db->quote('plugin'),
+						$db->quoteName('state') . ' IN (0,1)',
+					]
+				)
+				->whereIn($db->quoteName('access'), $levels)
+				->order($db->quoteName('ordering'));
 			$db->setQuery($query);
 
 			return $db->loadObjectList();
@@ -292,9 +297,9 @@ abstract class PluginHelper
 
 		try
 		{
-			static::$plugins = $cache->get($loader, array(), md5($levels), false);
+			static::$plugins = $cache->get($loader, [], md5(implode(',', $levels)), false);
 		}
-		catch (\JCacheException $cacheException)
+		catch (CacheExceptionInterface $cacheException)
 		{
 			static::$plugins = $loader();
 		}

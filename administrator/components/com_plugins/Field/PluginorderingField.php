@@ -12,16 +12,14 @@ namespace Joomla\Component\Plugins\Administrator\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('ordering');
+use Joomla\CMS\Form\Field\OrderingField;
 
 /**
  * Supports an HTML select list of plugins.
  *
  * @since  1.6
  */
-class PluginorderingField extends \JFormFieldOrdering
+class PluginorderingField extends OrderingField
 {
 	/**
 	 * The form field type.
@@ -53,8 +51,10 @@ class PluginorderingField extends \JFormFieldOrdering
 				)
 			)
 			->from($db->quoteName('#__extensions'))
-			->where('(type =' . $db->quote('plugin') . 'AND folder=' . $db->quote($folder) . ')')
-			->order('ordering');
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' = :folder')
+			->order($db->quoteName('ordering'))
+			->bind(':folder', $folder);
 
 		return $query;
 	}

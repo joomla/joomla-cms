@@ -103,7 +103,7 @@ class HtmlView extends BaseHtmlView
 		$this->state = $this->get('State');
 
 		// Load useful classes.
-		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel();
 		$this->loadHelper('select');
 
@@ -121,13 +121,11 @@ class HtmlView extends BaseHtmlView
 		$this->nonCoreExtensions = $model->getNonCoreExtensions();
 
 		// Set the toolbar information.
-		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
+		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'joomla install');
 		ToolbarHelper::custom('update.purge', 'loop', 'loop', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
 
 		// Add toolbar buttons.
-		$user = Factory::getUser();
-
-		if ($user->authorise('core.admin', 'com_joomlaupdate') || $user->authorise('core.options', 'com_joomlaupdate'))
+		if (Factory::getUser()->authorise('core.admin'))
 		{
 			ToolbarHelper::preferences('com_joomlaupdate');
 		}

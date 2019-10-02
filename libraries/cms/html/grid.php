@@ -87,19 +87,17 @@ abstract class JHtmlGrid
 	 * Method to check all checkboxes in a grid
 	 *
 	 * @param   string  $name    The name of the form element
-	 * @param   string  $tip     The text shown as tooltip title instead of $tip
 	 * @param   string  $action  The action to perform on clicking the checkbox
 	 *
 	 * @return  string
 	 *
 	 * @since   3.1.2
 	 */
-	public static function checkall($name = 'checkall-toggle', $tip = 'JGLOBAL_CHECK_ALL', $action = 'Joomla.checkAll(this)')
+	public static function checkall($name = 'checkall-toggle', $action = 'Joomla.checkAll(this)')
 	{
 		HTMLHelper::_('behavior.core');
 
-		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . HTMLHelper::_('tooltipText', $tip)
-			. '" onclick="' . $action . '">';
+		return '<input type="checkbox" name="' . $name . '" value="" title="' . Text::_('JGLOBAL_CHECK_ALL') . '" onclick="' . $action . '">';
 	}
 
 	/**

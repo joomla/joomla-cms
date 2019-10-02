@@ -12,15 +12,17 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\User;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Joomla! Users Actions Logging Plugin.
  *
  * @since  3.9.0
  */
-class PlgSystemActionLogs extends JPlugin
+class PlgSystemActionLogs extends CMSPlugin
 {
 	/**
 	 * Application object.
@@ -41,8 +43,8 @@ class PlgSystemActionLogs extends JPlugin
 	/**
 	 * Constructor.
 	 *
-	 * @param   object  &$subject  The object to observe.
-	 * @param   array   $config    An optional associative array of configuration settings.
+	 * @param   object  $subject  The object to observe.
+	 * @param   array   $config   An optional associative array of configuration settings.
 	 *
 	 * @since   3.9.0
 	 */
@@ -63,34 +65,24 @@ class PlgSystemActionLogs extends JPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		if (!$this->app->isClient('administrator'))
-		{
-			return;
-		}
-
-		// Load plugin language files only when needed (ex: they are not needed in site client).
+		// Load plugin language files.
 		$this->loadLanguage();
 	}
 
 	/**
 	 * Adds additional fields to the user editing form for logs e-mail notifications
 	 *
-	 * @param   JForm  $form  The form to be altered.
+	 * @param   Form   $form  The form to be altered.
 	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.9.0
+	 *
+	 * @throws  Exception
 	 */
-	public function onContentPrepareForm($form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
-		if (!$form instanceof Form)
-		{
-			$this->subject->setError('JERROR_NOT_A_FORM');
-
-			return false;
-		}
-
 		$formName = $form->getName();
 
 		$allowedFormNames = array(
@@ -98,7 +90,7 @@ class PlgSystemActionLogs extends JPlugin
 			'com_users.user',
 		);
 
-		if (!in_array($formName, $allowedFormNames))
+		if (!in_array($formName, $allowedFormNames, true))
 		{
 			return true;
 		}
@@ -133,9 +125,9 @@ class PlgSystemActionLogs extends JPlugin
 			return true;
 		}
 
-		Form::addFormPath(dirname(__FILE__) . '/forms');
+		Form::addFormPath(__DIR__ . '/forms');
 
-		if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && (Factory::getApplication()->isAdmin()))
+		if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && Factory::getApplication()->isClient('administrator'))
 		{
 			$form->loadFile('information', false);
 
@@ -186,7 +178,7 @@ class PlgSystemActionLogs extends JPlugin
 		{
 			$values = $this->db->setQuery($query)->loadObject();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -237,11 +229,11 @@ class PlgSystemActionLogs extends JPlugin
 
 		$db    = $this->db;
 		$query = $db->getQuery(true)
-			->update($db->qn('#__extensions'))
-			->set($db->qn('params') . ' = ' . $db->q($this->params->toString('JSON')))
-			->where($db->qn('type') . ' = ' . $db->q('plugin'))
-			->where($db->qn('folder') . ' = ' . $db->q('system'))
-			->where($db->qn('element') . ' = ' . $db->q('actionlogs'));
+			->update($db->quoteName('#__extensions'))
+			->set($db->quoteName('params') . ' = ' . $db->quote($this->params->toString('JSON')))
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('actionlogs'));
 
 		try
 		{
@@ -286,7 +278,7 @@ class PlgSystemActionLogs extends JPlugin
 		}
 
 		$daysToDeleteAfter = (int) $this->params->get('logDeletePeriod', 0);
-		$now = $db->quote(Factory::getDate()->toSql());
+		$now               = $db->quote(Factory::getDate()->toSql());
 
 		if ($daysToDeleteAfter > 0)
 		{
@@ -304,6 +296,43 @@ class PlgSystemActionLogs extends JPlugin
 			{
 				// Ignore it
 				return;
+			}
+		}
+	}
+
+	/**
+	 * Clears cache groups. We use it to clear the plugins cache after we update the last run timestamp.
+	 *
+	 * @param   array  $clearGroups   The cache groups to clean
+	 * @param   array  $cacheClients  The cache clients (site, admin) to clean
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.0
+	 */
+	private function clearCacheGroups(array $clearGroups, array $cacheClients = [0, 1])
+	{
+		$conf = Factory::getConfig();
+
+		foreach ($clearGroups as $group)
+		{
+			foreach ($cacheClients as $clientId)
+			{
+				try
+				{
+					$options = [
+						'defaultgroup' => $group,
+						'cachebase'    => $clientId ? JPATH_ADMINISTRATOR . '/cache' :
+							$conf->get('cache_path', JPATH_SITE . '/cache')
+					];
+
+					$cache = Cache::getInstance('callback', $options);
+					$cache->clean();
+				}
+				catch (Exception $e)
+				{
+					// Ignore it
+				}
 			}
 		}
 	}
@@ -328,7 +357,7 @@ class PlgSystemActionLogs extends JPlugin
 		}
 
 		// Clear access rights in case user groups were changed.
-		$userObject = Factory::getUser($user['id']);
+		$userObject = new User($user['id']);
 		$userObject->clearAccessRights();
 		$authorised = $userObject->authorise('core.admin');
 
@@ -341,7 +370,7 @@ class PlgSystemActionLogs extends JPlugin
 		{
 			$exists = (bool) $this->db->setQuery($query)->loadResult();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -390,7 +419,7 @@ class PlgSystemActionLogs extends JPlugin
 		{
 			$this->db->setQuery($query)->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -426,48 +455,11 @@ class PlgSystemActionLogs extends JPlugin
 		{
 			$this->db->setQuery($query)->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
 
 		return true;
-	}
-
-	/**
-	 * Clears cache groups. We use it to clear the plugins cache after we update the last run timestamp.
-	 *
-	 * @param   array  $clearGroups   The cache groups to clean
-	 * @param   array  $cacheClients  The cache clients (site, admin) to clean
-	 *
-	 * @return  void
-	 *
-	 * @since   3.9.0
-	 */
-	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
-	{
-		$conf = Factory::getConfig();
-
-		foreach ($clearGroups as $group)
-		{
-			foreach ($cacheClients as $clientId)
-			{
-				try
-				{
-					$options = array(
-						'defaultgroup' => $group,
-						'cachebase'    => $clientId ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
-					);
-
-					$cache = Cache::getInstance('callback', $options);
-					$cache->clean();
-				}
-				catch (Exception $e)
-				{
-					// Ignore it
-				}
-			}
-		}
 	}
 }

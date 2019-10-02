@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\Controller;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
@@ -381,7 +382,7 @@ class BaseController implements ControllerInterface
 		}
 
 		// Determine the methods to exclude from the base class.
-		$xMethods = get_class_methods('\JControllerLegacy');
+		$xMethods = get_class_methods('\\Joomla\\CMS\\MVC\\Controller\\BaseController');
 
 		// Get the public methods in this class using reflection.
 		$r = new \ReflectionClass($this);
@@ -579,11 +580,6 @@ class BaseController implements ControllerInterface
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
-		if (!$prefix)
-		{
-			$prefix = $this->app->getName();
-		}
-
 		$model = $this->factory->createModel($name, $prefix, $config);
 
 		if ($model === null)
@@ -614,12 +610,8 @@ class BaseController implements ControllerInterface
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
-		if (!$prefix)
-		{
-			$prefix = $this->app->getName();
-		}
-
 		$config['paths'] = $this->paths['view'];
+
 		return $this->factory->createView($name, $prefix, $type, $config);
 	}
 
@@ -688,7 +680,7 @@ class BaseController implements ControllerInterface
 				$cache = Factory::getCache($option, 'view');
 				$cache->get($view, 'display');
 			}
-			catch (\JCacheException $exception)
+			catch (CacheExceptionInterface $exception)
 			{
 				$view->display();
 			}
@@ -754,9 +746,21 @@ class BaseController implements ControllerInterface
 			$name = $this->getName();
 		}
 
-		if (empty($prefix) && $this->factory instanceof LegacyFactory)
+		if (!$prefix)
 		{
-			$prefix = $this->model_prefix;
+			if ($this->factory instanceof LegacyFactory)
+			{
+				$prefix = $this->model_prefix;
+			}
+			// When the frontend uses an administrator model
+			elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0)
+			{
+				$prefix = 'Administrator';
+			}
+			else
+			{
+				$prefix = $this->app->getName();
+			}
 		}
 
 		if ($model = $this->createModel($name, $prefix, $config))
@@ -864,9 +868,21 @@ class BaseController implements ControllerInterface
 			$name = $this->getName();
 		}
 
-		if (empty($prefix) && $this->factory instanceof LegacyFactory)
+		if (!$prefix)
 		{
-			$prefix = $this->getName() . 'View';
+			if ($this->factory instanceof LegacyFactory)
+			{
+				$prefix = $this->getName() . 'View';
+			}
+			// When the front uses an administrator view
+			elseif (!empty($config['base_path']) && strpos(Path::clean($config['base_path']), JPATH_ADMINISTRATOR) === 0)
+			{
+				$prefix = 'Administrator';
+			}
+			else
+			{
+				$prefix = $this->app->getName();
+			}
 		}
 
 		if (empty(self::$views[$name][$type][$prefix]))

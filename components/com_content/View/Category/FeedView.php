@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\CategoryFeedView;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * HTML View class for the Content component
@@ -50,7 +51,7 @@ class FeedView extends CategoryFeedView
 
 		if (isset($introImage) && ($introImage != ''))
 		{
-			$image = preg_match('/http/', $introImage) ? $introImage : \JURI::root() . $introImage;
+			$image = preg_match('/http/', $introImage) ? $introImage : Uri::root() . $introImage;
 			$item->description = '<p><img src="' . $image . '"></p>';
 		}
 
@@ -65,7 +66,8 @@ class FeedView extends CategoryFeedView
 			// URL link to article
 			$link = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 
-			$item->description .= '<p class="feed-readmore"><a target="_blank" href ="' . $link . '">' . Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
+			$item->description .= '<p class="feed-readmore"><a target="_blank" href ="' . $link . '">'
+				. Text::_('COM_CONTENT_FEED_READMORE') . '</a></p>';
 		}
 
 		$item->author = $item->created_by_alias ?: $item->author;

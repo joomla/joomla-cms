@@ -41,7 +41,7 @@ extract($displayData);
 $attr = '';
 
 // Initialize some field attributes.
-$attr .= !empty($class) ? ' class="form-control hasTooltip field-media-input ' . $class . '"' : ' class="form-control hasTooltip field-media-input"';
+$attr .= !empty($class) ? ' class="form-control field-media-input ' . $class . '"' : ' class="form-control field-media-input"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 
 // Initialize JavaScript field attributes.
@@ -150,7 +150,7 @@ $url    = ($readonly ? ''
 		<?php if ($disabled != true) : ?>
 			<div class="input-group-append">
 				<button type="button" class="btn btn-secondary button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
-				<button type="button" class="btn btn-secondary hasTooltip button-clear"><span class="fa fa-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
+				<button type="button" class="btn btn-secondary button-clear"><span class="fa fa-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
 			</div>
 		<?php endif; ?>
 	</div>

@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -18,6 +20,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -63,28 +66,21 @@ class PlgSystemPrivacyconsent extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		JFormHelper::addFieldPath(__DIR__ . '/field');
+		FormHelper::addFieldPath(__DIR__ . '/field');
 	}
 
 	/**
 	 * Adds additional fields to the user editing form
 	 *
-	 * @param   JForm  $form  The form to be altered.
+	 * @param   Form   $form  The form to be altered.
 	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.9.0
 	 */
-	public function onContentPrepareForm($form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
-		if (!($form instanceof JForm))
-		{
-			$this->_subject->setError('JERROR_NOT_A_FORM');
-
-			return false;
-		}
-
 		// Check we are manipulating a valid form - we only display this on user registration form and user profile form.
 		$name = $form->getName();
 
@@ -105,7 +101,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		}
 
 		// Add the privacy policy fields to the form.
-		JForm::addFormPath(__DIR__ . '/privacyconsent');
+		Form::addFormPath(__DIR__ . '/privacyconsent');
 		$form->loadFile('privacyconsent');
 
 		$privacyArticleId = $this->getPrivacyArticleId();
@@ -234,7 +230,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 
 			BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
 
-			/* @var ActionlogsModelActionlog $model */
+			/** @var ActionlogsModelActionlog $model */
 			$model = BaseDatabaseModel::getInstance('Actionlog', 'ActionlogsModel');
 			$model->addLog(array($message), 'PLG_SYSTEM_PRIVACYCONSENT_CONSENT', 'plg_system_privacyconsent', $userId);
 		}
@@ -569,13 +565,13 @@ class PlgSystemPrivacyconsent extends JPlugin
 		{
 			$users = $db->setQuery($query)->loadObjectList();
 		}
-		catch (JDatabaseException $exception)
+		catch (ExecutionFailureException $exception)
 		{
 			return false;
 		}
 
 		$app      = Factory::getApplication();
-		$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+		$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 		foreach ($users as $user)
 		{
@@ -588,8 +584,8 @@ class PlgSystemPrivacyconsent extends JPlugin
 				$substitutions = array(
 					'[SITENAME]' => $app->get('sitename'),
 					'[URL]'      => Uri::root(),
-					'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode),
-					'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode),
+					'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=remind&remind_token=' . $token, false, $linkMode, true),
+					'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=remind', false, $linkMode, true),
 					'[TOKEN]'    => $token,
 					'\\n'        => "\n",
 				);

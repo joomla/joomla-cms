@@ -9,7 +9,6 @@
 
 use Page\Acceptance\Administrator\MenuListPage;
 use Page\Acceptance\Administrator\MenuFormPage;
-use Page\Acceptance\Administrator\AdminPage;
 
 /**
  * Administrator Menu Tests
@@ -19,15 +18,17 @@ use Page\Acceptance\Administrator\AdminPage;
 class MenuCest
 {
 	/**
-	 * Create a menu
+	 * Create a menu.
 	 *
 	 * @param   AcceptanceTester  $I  The AcceptanceTester Object
 	 *
+	 * @return  void
+	 *
 	 * @since  4.0.0
 	 *
-	 * @return  void
+	 * @throws Exception
 	 */
-	public function createNewMenu(\AcceptanceTester $I)
+	public function createNewMenu(AcceptanceTester $I)
 	{
 		$I->comment('I am going to create a menu');
 		$I->doAdministratorLogin();
@@ -36,11 +37,12 @@ class MenuCest
 		$I->checkForPhpNoticesOrWarnings();
 
 		$I->waitForText(MenuListPage::$pageTitleText);
-		$I->click('#menu-collapse-icon');
+		$I->waitForJsOnPageLoad();
 
 		$I->clickToolbarButton('new');
 		$I->waitForText(MenuFormPage::$pageTitleText);
 		$I->checkForPhpNoticesOrWarnings();
+		$I->waitForJsOnPageLoad();
 
 		$this->fillMenuInformation($I, 'Test Menu');
 
@@ -49,9 +51,8 @@ class MenuCest
 		$I->checkForPhpNoticesOrWarnings();
 	}
 
-
 	/**
-	 * Fill out the menu information form
+	 * Fill out the menu information form.
 	 *
 	 * @param   AcceptanceTester  $I            The AcceptanceTester Object
 	 * @param   string            $title        Title

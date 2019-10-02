@@ -12,8 +12,7 @@ const _JEXEC = 1;
 /**
  * Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
  */
-
-const JOOMLA_MINIMUM_PHP = '7.0';
+const JOOMLA_MINIMUM_PHP = '7.2';
 
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 {
@@ -67,5 +66,4 @@ $container->alias('session', 'session.cli')
 
 $app = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Console\Application::class);
 \Joomla\CMS\Factory::$application = $app;
-
 $app->execute();

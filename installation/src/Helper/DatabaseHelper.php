@@ -52,6 +52,17 @@ abstract class DatabaseHelper
 				'select'   => $select,
 			];
 
+			// Enable utf8mb4 connections for mysql adapters
+			if (strtolower($driver) === 'mysqli')
+			{
+				$options['utf8mb4'] = true;
+			}
+
+			if (strtolower($driver) === 'mysql')
+			{
+				$options['charset'] = 'utf8mb4';
+			}
+
 			// Get a database object.
 			$db = DatabaseDriver::getInstance($options);
 		}

@@ -76,12 +76,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 
 <form action="<?php echo Route::_('index.php?option=com_content&view=featured'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<?php if (!empty($this->sidebar)) : ?>
-		<div id="j-sidebar-container" class="col-md-2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<?php endif; ?>
-		<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
+		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
@@ -89,6 +84,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 				?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -98,12 +94,12 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 						</caption>
 						<thead>
 							<tr>
-								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-								</th>
 								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
+								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+								</th>
 								<th scope="col" style="width:1%" class="text-center">
 									<?php echo Text::_('JFEATURED'); ?>
 								</th>
@@ -127,7 +123,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:3%" class="d-none d-md-table-cell text-center">
+								<th scope="col" style="width:3%" class="d-none d-lg-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($this->vote) : ?>
@@ -138,7 +134,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:3%" class="d-none d-md-table-cell">
+								<th scope="col" style="width:3%" class="d-none d-lg-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -191,27 +187,28 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								data-workflow_id="<?php echo (int) $item->workflow_id; ?>"
 								data-stage_id="<?php echo (int) $item->stage_id; ?>"
 							>
+								<td class="text-center">
+									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+								</td>
 								<td class="order text-center d-none d-md-table-cell">
 									<?php
 									$iconClass = '';
+
 									if (!$canChange)
 									{
 										$iconClass = ' inactive';
 									}
 									elseif (!$saveOrder)
 									{
-										$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JORDERINGDISABLED');
+										$iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
 									}
 									?>
 									<span class="sortable-handler<?php echo $iconClass ?>">
-										<span class="icon-menu" aria-hidden="true"></span>
+										<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 									</span>
 									<?php if ($canChange && $saveOrder) : ?>
 										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
 									<?php endif; ?>
-								</td>
-								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
 								<td class="text-center">
 									<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
@@ -248,9 +245,8 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 										<?php endif; ?>
 										<?php if ($canEdit) : ?>
-											<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
-											<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_content&task=article.edit&return=featured&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
-												<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
+											<a href="<?php echo Route::_('index.php?option=com_content&task=article.edit&return=featured&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+												<?php echo $this->escape($item->title); ?></a>
 										<?php else : ?>
 											<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>
@@ -275,7 +271,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 											if (Factory::getLanguage()->isRtl())
 											{
 												if ($canEditCat || $canEditOwnCat) :
-													echo '<a class="hasTooltip" href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+													echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
 												endif;
 												echo $this->escape($item->category_title);
 												if ($canEditCat || $canEditOwnCat) :
@@ -284,7 +280,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 												if ($item->category_level != '1') :
 													echo ' &#171; ';
 													if ($canEditParCat || $canEditOwnParCat) :
-														echo '<a class="hasTooltip" href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+														echo '<a href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
 													endif;
 													echo $this->escape($item->parent_category_title);
 													if ($canEditParCat || $canEditOwnParCat) :
@@ -296,7 +292,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 											{
 												if ($item->category_level != '1') :
 													if ($canEditParCat || $canEditOwnParCat) :
-														echo '<a class="hasTooltip" href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+														echo '<a href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
 													endif;
 													echo $this->escape($item->parent_category_title);
 													if ($canEditParCat || $canEditOwnParCat) :
@@ -305,7 +301,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 													echo ' &#187; ';
 												endif;
 												if ($canEditCat || $canEditOwnCat) :
-													echo '<a class="hasTooltip" href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+													echo '<a href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
 												endif;
 												echo $this->escape($item->category_title);
 												if ($canEditCat || $canEditOwnCat) :
@@ -321,21 +317,14 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								</td>
 								<td class="small d-none d-md-table-cell">
 									<?php if ((int) $item->created_by != 0) : ?>
-										<?php if ($item->created_by_alias) : ?>
-											<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo Text::_('JAUTHOR'); ?>">
-												<?php echo $this->escape($item->author_name); ?></a>
-											<div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
-										<?php else : ?>
-											<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo Text::_('JAUTHOR'); ?>">
-												<?php echo $this->escape($item->author_name); ?></a>
-										<?php endif; ?>
+										<a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>">
+											<?php echo $this->escape($item->author_name); ?>
+										</a>
 									<?php else : ?>
-										<?php if ($item->created_by_alias) : ?>
-											<?php echo Text::_('JNONE'); ?>
-											<div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
-										<?php else : ?>
-											<?php echo Text::_('JNONE'); ?>
-										<?php endif; ?>
+										<?php echo Text::_('JNONE'); ?>
+									<?php endif; ?>
+									<?php if ($item->created_by_alias) : ?>
+										<div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
 									<?php endif; ?>
 								</td>
 								<?php if (Multilanguage::isEnabled()) : ?>
@@ -349,7 +338,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 									echo $date > 0 ? HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')) : '-';
 									?>
 								</td>
-								<td class="d-none d-md-table-cell text-center">
+								<td class="d-none d-lg-table-cell text-center">
 									<span class="badge badge-info">
 									<?php echo (int) $item->hits; ?>
 									</span>
@@ -366,7 +355,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										</span>
 									</td>
 								<?php endif; ?>
-								<td class="d-none d-md-table-cell">
+								<td class="d-none d-lg-table-cell">
 									<?php echo (int) $item->id; ?>
 								</td>
 							</tr>

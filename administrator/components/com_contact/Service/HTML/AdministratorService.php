@@ -12,7 +12,6 @@ namespace Joomla\Component\Contact\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -78,16 +77,14 @@ class AdministratorService
 				{
 					$text = strtoupper($item->lang_sef);
 					$url = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
-					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
-					$classes = 'hasPopover badge badge-secondary';
+					$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$classes = 'badge badge-secondary';
 
-					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
-						. '" data-content="' . $tooltip . '" data-placement="top">'
-						. $text . '</a>';
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
+						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 				}
 			}
-
-			HTMLHelper::_('bootstrap.popover');
 
 			$html = LayoutHelper::render('joomla.content.associations', $items);
 		}
@@ -106,9 +103,8 @@ class AdministratorService
 	 *
 	 * @since   1.6
 	 */
-	public function featured($value = 0, $i, $canChange = true)
+	public function featured($value, $i, $canChange = true)
 	{
-
 		// Array of image, task, title, action
 		$states = array(
 			0 => array('unfeatured', 'contacts.featured', 'COM_CONTACT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
@@ -119,14 +115,14 @@ class AdministratorService
 
 		if ($canChange)
 		{
-			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . HTMLHelper::_('tooltipText', $state[3])
+			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon'
+				. ($value == 1 ? ' active' : '') . '" title="' . Text::_($state[3])
 				. '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 		else
 		{
-			$html = '<a class="tbody-icon hasTooltip disabled' . ($value == 1 ? ' active' : '')
-				. '" title="' . HTMLHelper::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
+			$html = '<a class="tbody-icon disabled' . ($value == 1 ? ' active' : '')
+				. '" title="' . Text::_($state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 
 		return $html;
