@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 ?>
-<div class="col-md-12 ">
-	<div class="float-right ">
+<div class="col-md-12">
+	<div class="float-right">
 		<span class="sr-only"><?php echo Text::sprintf('MOD_VERSION_CURRENT_VERSION_TEXT', $version); ?></span>
 		<span aria-hidden="true"><?php echo Text::sprintf('MOD_VERSION_CURRENT_VERSION_SHORTTEXT', $version); ?></span>
 	</div>
