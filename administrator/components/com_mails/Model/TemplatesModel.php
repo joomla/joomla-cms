@@ -12,9 +12,9 @@ namespace Joomla\Component\Mails\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\QueryInterface;
 
 /**
  * Methods supporting a list of mail template records.
@@ -29,6 +29,7 @@ class TemplatesModel extends ListModel
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
 	 */
 	public function __construct($config = array())
 	{
@@ -39,7 +40,7 @@ class TemplatesModel extends ListModel
 				'language', 'a.language',
 				'subject', 'a.subject',
 				'body', 'a.body',
-				'htmlnody', 'a.htmlbody'
+				'htmlbody', 'a.htmlbody'
 			);
 		}
 
@@ -64,9 +65,6 @@ class TemplatesModel extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// Initialise variables.
-		$app = Factory::getApplication('administrator');
-
 		// Load the parameters.
 		$params = ComponentHelper::getParams('com_mails');
 		$this->setState('params', $params);
@@ -85,17 +83,19 @@ class TemplatesModel extends ListModel
 	public function getItems()
 	{
 		$items = parent::getItems();
+		$id    = '';
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('language')
-			->from('#__mail_templates')
-			->order('language ASC');
+			->select($db->quoteName('language'))
+			->from($db->quoteName('#__mail_templates'))
+			->where($db->quoteName('template_id') . ' = :id')
+			->order($db->quoteName('language') . ' ASC')
+			->bind(':id', $id);
 
 		foreach ($items as $item)
 		{
-			$query->clear('where')
-				->where('template_id = ' . $db->q($item->template_id));
+			$id = $item->template_id;
 			$db->setQuery($query);
 			$item->languages = $db->loadColumn();
 		}
@@ -115,48 +115,62 @@ class TemplatesModel extends ListModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = Factory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.*'
+				$db->quoteName('a') . '.*'
 			)
 		);
-		$query->from($db->quoteName('#__mail_templates') . ' AS a')
-			->group('a.template_id, a.language, a.subject, a.body, a.htmlbody, a.attachments, a.params');
+		$query->from($db->quoteName('#__mail_templates', 'a'))
+			->group(
+				[
+					$db->quoteName('a.template_id'),
+					$db->quoteName('a.language'),
+					$db->quoteName('a.subject'),
+					$db->quoteName('a.body'),
+					$db->quoteName('a.htmlbody'),
+					$db->quoteName('a.attachments'),
+					$db->quoteName('a.params'),
+				]
+			);
 
 		// Filter by search in title.
-		$search = $this->getState('filter.search');
-
-		if (!empty($search))
+		if ($search = trim($this->getState('filter.search')))
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.template_id = ' . $query->q(substr($search, 3)));
+				$search = substr($search, 3);
+				$query->where($db->quoteName('a.template_id') . ' = :search')
+					->bind(':search', $search);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.template_id LIKE ' . $search
-					. ' OR a.subject LIKE ' . $search
-					. ' OR a.body LIKE ' . $search
-					. ' OR a.htmlbody LIKE ' . $search . ')'
-				);
+				$search = '%' . str_replace(' ', '%', $search) . '%';
+				$query->where(
+					'(' . $db->quoteName('a.template_id') . ' LIKE :search1'
+					. ' OR ' . $db->quoteName('a.subject') . ' LIKE :search2'
+					. ' OR ' . $db->quoteName('a.body') . ' LIKE :search3'
+					. ' OR ' . $db->quoteName('a.htmlbody') . ' LIKE :search4)'
+				)
+					->bind([':search1', ':search2', ':search3', ':search4'], $search);
 			}
 		}
 
 		// Filter on the extension.
-		if ($language = $this->getState('filter.extension'))
+		if ($extension = $this->getState('filter.extension'))
 		{
-			$query->where('a.template_id LIKE ' . $db->quote($language . '.%'));
+			$extension .= '.%';
+			$query->where($db->quoteName('a.template_id') . ' LIKE :extension')
+				->bind(':extension', $extension);
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = ' . $db->quote($language));
+			$query->where($db->quoteName('a.language') . ' = :language')
+				->bind(':language', $language);
 		}
 
 		return $query;
