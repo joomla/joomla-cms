@@ -129,7 +129,7 @@ class TemplatesModel extends ListModel
 							'a.body',
 							'a.htmlbody',
 							'a.attachments',
-							'a.params'
+							'a.params',
 						]
 					)
 				)
