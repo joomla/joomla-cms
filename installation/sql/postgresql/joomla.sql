@@ -1693,8 +1693,8 @@ CREATE TABLE IF NOT EXISTS "#__redirect_links" (
   "comment" varchar(255) DEFAULT '' NOT NULL,
   "hits" bigint DEFAULT 0 NOT NULL,
   "published" smallint NOT NULL,
-  "created_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "modified_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "created_date" timestamp without time zone NOT NULL,
+  "modified_date" timestamp without time zone NOT NULL,
   "header" integer DEFAULT 301 NOT NULL,
   PRIMARY KEY ("id")
 );
