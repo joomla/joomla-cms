@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('script', 'com_finder/indexer.min.js', array('version' => 'auto', 'relative' => true));
-Factory::getDocument()->addScriptDeclaration('var msg = "' . Text::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE') . '";');
+$this->document->addScriptDeclaration('var msg = "' . Text::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE') . '";');
 ?>
 
 <div class="text-center">
