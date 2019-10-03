@@ -169,3 +169,4 @@ if ($saveOrder)
 			</div>
 		</div>
 	</div>
+</form>

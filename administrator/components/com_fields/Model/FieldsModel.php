@@ -54,7 +54,7 @@ class FieldsModel extends ListModel
 				'checked_out_time', 'a.checked_out_time',
 				'created_time', 'a.created_time',
 				'created_user_id', 'a.created_user_id',
-				'category_title',
+				'group_title', 'g.title',
 				'category_id', 'a.category_id',
 				'group_id', 'a.group_id',
 				'group_title', 'g.title',
@@ -144,7 +144,7 @@ class FieldsModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
+				'DISTINCT a.id, a.title, a.name, a.checked_out, a.checked_out_time, a.note' .
 				', a.state, a.access, a.created_time, a.created_user_id, a.ordering, a.language' .
 				', a.fieldparams, a.params, a.type, a.default_value, a.context, a.group_id' .
 				', a.label, a.description, a.required'

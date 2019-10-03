@@ -2,10 +2,6 @@
 
 .quick-icons {
   background-color: $white;
-
-  ul {
-    list-style: none;
-  }
   
   // Group link to the overview and link to the edit form in a container
   .quickicon-group {
@@ -14,7 +10,11 @@
     flex: 1 1 calc(33.333% - 1rem);
     margin: 0.5rem;
     padding: 0;
-	
+
+    > ul {
+      padding: 0;
+    }
+
     @media (max-width: 1350px)  {
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
