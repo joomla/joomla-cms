@@ -12,7 +12,6 @@
 	<namespace>Joomla\Module\Version</namespace>
 	<files>
 		<filename module="mod_version">mod_version.php</filename>
-		<folder>language</folder>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
 	</files>
