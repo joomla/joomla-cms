@@ -474,8 +474,8 @@ CREATE TABLE IF NOT EXISTS `#__csp` (
   `blocked_uri` varchar(500) NOT NULL DEFAULT '',
   `directive` varchar(500) NOT NULL DEFAULT '',
   `client` varchar(500) NOT NULL DEFAULT '',
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
@@ -1396,7 +1396,7 @@ CREATE TABLE IF NOT EXISTS `#__messages` (
   `user_id_from` int(10) unsigned NOT NULL DEFAULT 0,
   `user_id_to` int(10) unsigned NOT NULL DEFAULT 0,
   `folder_id` tinyint(3) unsigned NOT NULL DEFAULT 0,
-  `date_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_time` datetime NOT NULL,
   `state` tinyint(1) NOT NULL DEFAULT 0,
   `priority` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `subject` varchar(255) NOT NULL DEFAULT '',
@@ -2145,7 +2145,7 @@ CREATE TABLE IF NOT EXISTS `#__action_logs` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `message_language_key` varchar(255) NOT NULL DEFAULT '',
   `message` text NOT NULL,
-  `log_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `log_date` datetime NOT NULL,
   `extension` varchar(50) NOT NULL DEFAULT '',
   `user_id` int(11) NOT NULL DEFAULT 0,
   `item_id` int(11) NOT NULL DEFAULT 0,
