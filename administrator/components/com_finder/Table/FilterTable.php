@@ -32,8 +32,8 @@ class FilterTable extends Table
 	 * @var    boolean
 	 * @since  __DEPLOY_VERSION__
 	 */
-
 	protected $_supportNullValue = true;
+
 	/**
 	 * Constructor
 	 *
