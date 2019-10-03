@@ -6,8 +6,8 @@ CREATE TABLE IF NOT EXISTS "#__template_overrides" (
   "state" smallint DEFAULT 0 NOT NULL,
   "action" varchar(50) DEFAULT '' NOT NULL,
   "client_id" smallint DEFAULT 0 NOT NULL,
-  "created_date" timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  "modified_date" timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  "created_date" timestamp without time zone NOT NULL,
+  "modified_date" timestamp without time zone NOT NULL,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__template_overrides_idx_template" ON "#__template_overrides" ("template");

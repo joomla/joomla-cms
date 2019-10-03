@@ -1800,8 +1800,8 @@ CREATE TABLE IF NOT EXISTS `#__template_overrides` (
   `state` tinyint(1) NOT NULL DEFAULT 0,
   `action` varchar(50) NOT NULL DEFAULT '',
   `client_id` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `created_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modified_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `created_date` datetime NOT NULL,
+  `modified_date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_template` (`template`),
   KEY `idx_extension_id` (`extension_id`)
