@@ -164,8 +164,8 @@ class TemplatesModel extends ListModel
 				$db->quoteName('#__mail_templates', 'b')
 				. ' ON (' . $db->quoteName('b.template_id') . ' = ' . $db->quoteName('a.template_id')
 				. ' AND ' . $db->quoteName('b.language') . ' = :language)'
-				)
-					->bind(':language', $language);
+			)
+				->bind(':language', $language);
 		}
 
 		return $query;
