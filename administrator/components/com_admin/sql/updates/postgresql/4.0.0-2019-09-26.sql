@@ -3,5 +3,5 @@ ALTER TABLE "#__privacy_requests" ALTER COLUMN "confirm_token_created_at" DROP D
 
 ALTER TABLE "#__privacy_consents" ALTER COLUMN "created" DROP DEFAULT;
 
-UPDATE "#__privacy_requests" SET "confirm_token_created_at" = "requested_at" WHERE "confirm_token_created_at" = '0000-00-00 00:00:00';
+UPDATE "#__privacy_requests" SET "confirm_token_created_at" = "requested_at" WHERE "confirm_token_created_at" = '1970-01-01 00:00:00';
 
