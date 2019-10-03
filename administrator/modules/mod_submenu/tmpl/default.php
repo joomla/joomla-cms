@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_submenu
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,14 +35,13 @@ $canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $id) &
 	<?php endif; ?>
 	<?php foreach ($root->getChildren() as $child) : ?>
 		<?php if ($child->hasChildren()) : ?>
-				<div class="card">
-					<h2 class="card-header">
+				<div class="card module-wrapper">
 					<?php if ($canEdit || $canChange) : ?>
 						<?php $dropdownPosition = Factory::getLanguage()->isRTL() ? 'left' : 'right'; ?>
 						<div class="module-actions dropdown">
 							<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-link" id="dropdownMenuButton-<?php echo $id; ?>">
 								<span class="fa fa-cog" aria-hidden="true"></span>
-								<span class="sr-only"><?php echo Text::_('JACTION_EDIT') . ' ' . $module->title; ?></span>
+								<span class="sr-only"><?php echo Text::sprintf('JACTION_EDIT_MODULE', $module->title); ?></span>
 							</button>
 							<div class="dropdown-menu dropdown-menu-<?php echo $dropdownPosition; ?>" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">
 								<?php if ($canEdit) : ?>
@@ -56,6 +55,7 @@ $canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $id) &
 							</div>
 						</div>
 					<?php endif; ?>
+					<h2 class="card-header">
 						<?php if ($child->icon) : ?><span class="fa fa-<?php echo $child->icon; ?>" aria-hidden="true"></span><?php endif; ?>
 						<?php echo Text::_($child->title); ?>
 					</h2>
@@ -72,7 +72,7 @@ $canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $id) &
 									$alt = $params->get('menu_text') ? '' : htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');
 								endif;
 								?>
-								<a class="flex-grow-1" href="<?php echo $item->link; ?>" target="<?php echo $item->target; ?>">
+								<a class="flex-grow-1" href="<?php echo $item->link; ?>"<?php echo !empty($item->target) ? ' target="' . $item->target . '"' : ''; ?>>
 									<?php if (!empty($params->get('menu_image'))) : ?>
 										<?php echo HTMLHelper::_('image', $image, $alt, 'class="' . $class . '"'); ?>
 									<?php endif; ?>
@@ -97,7 +97,7 @@ $canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $id) &
 											<?php if (!$permission || $user->authorise($permission, $scope)) : ?>
 												<a href="<?php echo $link; ?>">
 													<span class="fa fa-<?php echo $icon; ?> fa-xs" title="<?php echo htmlentities($title); ?>" aria-hidden="true"></span>
-													<span class="sr-only"><?php echo  htmlentities($sronly); ?></span>
+													<span class="sr-only"><?php echo htmlentities($sronly); ?></span>
 												</a>
 											<?php endif; ?>
 										</span>

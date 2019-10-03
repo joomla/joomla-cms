@@ -51,7 +51,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col">
-								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'd.branch_title', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'branch_title', $listDirn, $listOrder); ?>
 							</th>
 							<?php if (!$branchFilter) : ?>
 								<th scope="col" style="width:1%" class="text-center">

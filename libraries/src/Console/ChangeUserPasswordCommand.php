@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
@@ -21,7 +21,7 @@ use Joomla\CMS\User\User;
 /**
  * Console command  to change a user's password
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ChangeUserPasswordCommand extends AbstractCommand
 {
@@ -29,21 +29,21 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'user:reset-password';
 
 	/**
 	 * SymfonyStyle Object
 	 * @var   object
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $ioStyle;
 
 	/**
 	 * Stores the Input Object
 	 * @var   object
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $cliInput;
 
@@ -52,7 +52,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $username;
 
@@ -61,7 +61,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $password;
 
@@ -73,7 +73,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
@@ -116,7 +116,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getStringFromOption($option, $question): string
 	{
@@ -145,7 +145,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output)
 	{
@@ -158,7 +158,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function configure(): void
 	{

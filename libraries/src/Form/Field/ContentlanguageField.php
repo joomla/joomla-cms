@@ -8,14 +8,14 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Provides a list of content languages
  *
- * @see    JFormFieldLanguage for a select list of application languages.
+ * @see    \Joomla\CMS\Form\Field\LanguageField for a select list of application languages.
  * @since  1.6
  */
 class ContentlanguageField extends ListField

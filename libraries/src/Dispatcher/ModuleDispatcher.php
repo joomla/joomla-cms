@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Dispatcher;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Base class for a Joomla Module Dispatcher

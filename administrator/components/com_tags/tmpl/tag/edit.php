@@ -59,7 +59,7 @@ $this->useCoreUI = true;
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-12 col-lg-6">
 				<fieldset id="fieldset-publishingdata" class="options-grid-form options-grid-form-full">
 					<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
 					<div>
@@ -67,8 +67,13 @@ $this->useCoreUI = true;
 					</div>
 				</fieldset>
 			</div>
-			<div class="col-md-6">
-				<?php echo $this->loadTemplate('metadata'); ?>
+			<div class="col-12 col-lg-6">
+				<fieldset id="fieldset-metadata" class="options-grid-form options-grid-form-full">
+					<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
+					<div>
+					<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
+					</div>
+				</fieldset>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>

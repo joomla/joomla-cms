@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Sampledata.Testing
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,14 +12,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Language;
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Table\Table;
 use Joomla\Component\Banners\Administrator\Model\BannerModel;
 use Joomla\Component\Banners\Administrator\Model\ClientModel;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
@@ -105,7 +101,7 @@ class PlgSampledataTesting extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep1()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if ($this->app->input->get('type') !== $this->_name)
 		{
 			return;
 		}
@@ -213,7 +209,7 @@ class PlgSampledataTesting extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep2()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if ($this->app->input->get('type') !== $this->_name)
 		{
 			return;
 		}
@@ -392,7 +388,7 @@ class PlgSampledataTesting extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep3()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if ($this->app->input->get('type') !== $this->_name)
 		{
 			return;
 		}
@@ -624,11 +620,11 @@ class PlgSampledataTesting extends CMSPlugin
 	 *
 	 * @return  array or void  Will be converted into the JSON response to the module.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function onAjaxSampledataApplyStep4()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if ($this->app->input->get('type') !== $this->_name)
 		{
 			return;
 		}
@@ -1040,7 +1036,7 @@ class PlgSampledataTesting extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep5()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if ($this->app->input->get('type') !== $this->_name)
 		{
 			return;
 		}
@@ -1392,7 +1388,7 @@ class PlgSampledataTesting extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep6()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if ($this->app->input->get('type') !== $this->_name)
 		{
 			return;
 		}
@@ -1520,7 +1516,7 @@ class PlgSampledataTesting extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep7()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if ($this->app->input->get('type') !== $this->_name)
 		{
 			return;
 		}
@@ -3232,7 +3228,7 @@ class PlgSampledataTesting extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep8()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if ($this->app->input->get('type') !== $this->_name)
 		{
 			return;
 		}

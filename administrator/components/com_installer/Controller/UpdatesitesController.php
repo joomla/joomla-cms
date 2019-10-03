@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
@@ -26,8 +26,16 @@ use Joomla\Utilities\ArrayHelper;
  * @subpackage  com_installer
  * @since       3.4
  */
-class UpdatesitesController extends BaseController
+class UpdatesitesController extends AdminController
 {
+	/**
+	 * The prefix to use with controller messages.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $text_prefix = 'COM_INSTALLER_UPDATESITES';
+
 	/**
 	 * Constructor.
 	 *
@@ -47,6 +55,22 @@ class UpdatesitesController extends BaseController
 		$this->registerTask('publish',   'publish');
 		$this->registerTask('delete',    'delete');
 		$this->registerTask('rebuild',   'rebuild');
+	}
+
+	/**
+	 * Proxy for getModel.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  The array of possible config values. Optional.
+	 *
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel
+	 *
+	 * @since   4.0.0
+	 */
+	public function getModel($name = 'Updatesite', $prefix = 'Administrator', $config = array('ignore_request' => true))
+	{
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**

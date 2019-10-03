@@ -164,7 +164,7 @@
         }
 
         &:hover,
-        &.active {
+        &.mm-active {
           background-color: var(--atum-bg-dark-70);
 
           .fa {
@@ -182,7 +182,7 @@
     li {
       .menu-dashboard, .menu-quicktask {
         > a {
-          &.active {
+          &.mm-active {
             background-color: var(--atum-bg-dark-80);
             &::before {
               display: none;
@@ -247,7 +247,7 @@
       }
     }
 
-    &.active {
+    &.mm-active {
       box-shadow: 0 0 6px -6px rgba(0, 0, 0, .8)
     }
   }
@@ -262,7 +262,7 @@
       position: relative;
       display: flex;
 
-      &.active {
+      &.mm-active {
         box-shadow: 0 0 6px -6px rgba(0, 0, 0, .8)
       }
 
@@ -279,7 +279,7 @@
         background-color: rgba(0, 0, 0, .4);
       }
 
-      &.active {
+      &.mm-active {
         color: $white;
         background-color: var(--atum-bg-dark-80);
 
@@ -302,7 +302,7 @@
       a {
         padding-left: 3rem;
 
-        &.active {
+        &.mm-active {
           color: $white;
           background-color: var(--atum-bg-dark-90);
           box-shadow: 0 1px 4px -1px rgba(0, 0, 0, .5);
@@ -349,18 +349,27 @@
   .menuitem-group {
     margin-top: 0.65rem;
     font-size: .75rem;
-    letter-spacing: 2px;
+    padding-left: 2.4rem;
+    [dir=rtl] & {
+      padding-left: 0;
+      padding-right: 2.4rem;
+    }
   }
 
-  .collapse {
+  .home-image {
+     padding: 0 0.4rem 0;
+  }
+
+  .mm-collapse {
     display: none;
 
-    &.in {
+    &.mm-collapsed,
+    &.mm-show {
       display: block;
     }
   }
 
-  .collapsing {
+  .mm-collapsing {
     position: relative;
     height: 0;
     overflow: hidden;
@@ -383,7 +392,7 @@
     transition: all .3s ease-out;
   }
 
-  .active {
+  .mm-active {
 
     > .has-arrow::after {
       filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
@@ -476,7 +485,7 @@
     position: fixed;
     bottom: 20px;
     right: 10px;
-    z-index: $zindex-mobil-toggle;
+    z-index: $zindex-mobile-toggle;
 
     .navbar-toggler-icon {
       color: var(--toggle-color);
@@ -489,7 +498,7 @@
       }
     }
 
-    &.collapsed {
+    &.mm-collapsed {
       .navbar-toggler-icon::before {
         content: "\f0c9";
       }
@@ -507,7 +516,7 @@
       bottom: 55px;
       position: fixed;
       width: 100%;
-      z-index: $zindex-mobil-menu;
+      z-index: $zindex-mobile-menu;
       display: flex;
       flex-direction: column;
 
@@ -525,7 +534,7 @@
 
   #sidebar-wrapper {
     &:not(.show) {
-      &:not(.collapse) {
+      &:not(.mm-collapse) {
         display: none;
       }
     }
