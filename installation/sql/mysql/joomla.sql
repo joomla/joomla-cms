@@ -1655,7 +1655,7 @@ CREATE TABLE IF NOT EXISTS `#__privacy_requests` (
   `status` tinyint(4) NOT NULL DEFAULT 0,
   `request_type` varchar(25) NOT NULL DEFAULT '',
   `confirm_token` varchar(100) NOT NULL DEFAULT '',
-  `confirm_token_created_at` datetime,
+  `confirm_token_created_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 

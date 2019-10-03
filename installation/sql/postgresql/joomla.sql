@@ -1660,7 +1660,7 @@ CREATE TABLE "#__privacy_requests" (
   "status" smallint DEFAULT 0 NOT NULL,
   "request_type" varchar(25) DEFAULT '' NOT NULL,
   "confirm_token" varchar(100) DEFAULT '' NOT NULL,
-  "confirm_token_created_at" timestamp without time zone,
+  "confirm_token_created_at" timestamp without time zone NOT NULL,
   PRIMARY KEY ("id")
 );
 

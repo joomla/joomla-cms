@@ -67,6 +67,11 @@ class RequestTable extends Table
 			{
 				$this->requested_at = $date->toSql();
 			}
+
+			if (!$this->confirm_token_created_at)
+			{
+				$this->confirm_token_created_at = $date->toSql();
+			}
 		}
 
 		return parent::store($updateNulls);
