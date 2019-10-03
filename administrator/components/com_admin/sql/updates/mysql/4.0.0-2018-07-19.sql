@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `#__template_overrides` (
   `action` varchar(50) NOT NULL DEFAULT '',
   `client_id` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `created_date` datetime NOT NULL,
-  `modified_date` datetime NOT NULL,
+  `modified_date` datetime,
   PRIMARY KEY (`id`),
   KEY `idx_template` (`template`),
   KEY `idx_extension_id` (`extension_id`)
