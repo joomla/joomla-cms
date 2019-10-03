@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -28,7 +29,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The Form object
 	 *
-	 * @var  Joomla\CMS\Form\Form
+	 * @var  \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -47,11 +48,25 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
+	 * The template data
+	 *
+	 * @var  array
+	 */
+	protected $templateData;
+
+	/**
+	 * Master data for the mail template
+	 *
+	 * @var  CMSObject
+	 */
+	protected $master;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -65,7 +80,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		list($component, $template_id) = explode('.', $this->item->template_id, 2);
