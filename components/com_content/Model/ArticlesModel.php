@@ -213,7 +213,7 @@ class ArticlesModel extends ListModel
 				// Use created if publish_up is 0
 				'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
 				'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-				'a.hits, a.xreference, a.featured, a.language, ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
+				'a.hits, a.featured, a.language, ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
 			)
 		);
 
@@ -776,17 +776,17 @@ class ArticlesModel extends ListModel
 			->select('DATE(' .
 				$query->concatenate(
 					array(
-						$query->year($query->quoteName('publish_up')),
-						$query->quote('-'),
-						$query->month($query->quoteName('publish_up')),
-						$query->quote('-01')
+						$query->year($db->quoteName('publish_up')),
+						$db->quote('-'),
+						$query->month($db->quoteName('publish_up')),
+						$db->quote('-01')
 					)
 				) . ') as d'
 			)
 			->select('COUNT(*) as c')
 			->from('(' . $this->getListQuery() . ') as b')
-			->group($query->quoteName('d'))
-			->order($query->quoteName('d') . ' desc');
+			->group($db->quoteName('d'))
+			->order($db->quoteName('d') . ' desc');
 
 		return $db->setQuery($query)->loadObjectList();
 	}

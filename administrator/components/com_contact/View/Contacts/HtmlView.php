@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -140,7 +139,7 @@ class HtmlView extends BaseHtmlView
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title(Text::_('COM_CONTACT_MANAGER_CONTACTS'), 'address contact');
+		ToolbarHelper::title(Text::_('COM_CONTACT_MANAGER_CONTACTS'), 'address-book contact');
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)
 		{
@@ -152,8 +151,8 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
@@ -182,25 +181,25 @@ class HtmlView extends BaseHtmlView
 			{
 				$childBar->trash('contacts.trash')->listCheck(true);
 			}
-		}
 
-		// Add a batch button
-		if ($user->authorise('core.create', 'com_contact')
-			&& $user->authorise('core.edit', 'com_contact')
-			&& $user->authorise('core.edit.state', 'com_contact'))
-		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
-		}
+			// Add a batch button
+			if ($user->authorise('core.create', 'com_contact')
+				&& $user->authorise('core.edit', 'com_contact')
+				&& $user->authorise('core.edit.state', 'com_contact'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			$toolbar->delete('contacts.delete')
-				->text('JTOOLBAR_EMPTY_TRASH')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
+			if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+			{
+				$childBar->delete('contacts.delete')
+					->text('JTOOLBAR_EMPTY_TRASH')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
 		}
 
 		if ($user->authorise('core.admin', 'com_contact') || $user->authorise('core.options', 'com_contact'))

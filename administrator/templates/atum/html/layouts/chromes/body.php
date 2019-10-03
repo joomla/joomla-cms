@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 $module  = $displayData['module'];
 $params  = $displayData['params'];
@@ -21,7 +22,8 @@ if ($module->content) :
 
 	// Permission checks
 	$user    = Factory::getUser();
-	$canEdit = $user->authorise('core.edit', 'com_modules.module.' . $id);
+	$canEdit = $user->authorise('core.edit', 'com_modules.module.' . $id) && $user->authorise('core.manage', 'com_modules');
+	$canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $id) && $user->authorise('core.manage', 'com_modules');
 
 	$moduleTag   = $params->get('module_tag', 'div');
 	$bootstrapSize  = (int) $params->get('bootstrap_size', 6);
@@ -35,21 +37,22 @@ if ($module->content) :
 	?>
 	<div class="<?php echo $moduleClass; ?> module-wrapper">
 		<<?php echo $moduleTag; ?> class="card mb-3<?php echo $moduleClassSfx; ?>">
-			<?php if ($canEdit) : ?>
-				<?php $uri = Uri::getInstance(); ?>
-				<?php $url = Route::_('index.php?option=com_modules&task=module.edit&id=' . $id . '&return=' . base64_encode($uri)); ?>
-
+			<?php if ($canEdit || $canChange) : ?>
 				<?php $dropdownPosition = Factory::getLanguage()->isRTL() ? 'left' : 'right'; ?>
-
 				<div class="module-actions dropdown">
-					<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton-<?php echo $id; ?>">
-								<span class="fa fa-cog"><span class="sr-only">
-									<?php echo Text::_('JACTION_EDIT') . ' ' . $module->title; ?>
-								</span></span>
-					</a>
-					<div class="dropdown-menu dropdown-menu-' . $dropdownPosition . '" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">
-						<a class="dropdown-item" href="<?php echo $url; ?>"><?php echo Text::_('JACTION_EDIT'); ?></a>
-						<a class="dropdown-item unpublish-module" data-module-id="<?php echo $id; ?>"><?php echo Text::_('JACTION_UNPUBLISH'); ?></a>
+					<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-link" id="dropdownMenuButton-<?php echo $id; ?>">
+						<span class="fa fa-cog" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::sprintf('JACTION_EDIT_MODULE', $module->title); ?></span>
+					</button>
+					<div class="dropdown-menu dropdown-menu-<?php echo $dropdownPosition; ?>" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">
+						<?php if ($canEdit) : ?>
+							<?php $uri = Uri::getInstance(); ?>
+							<?php $url = Route::_('index.php?option=com_modules&task=module.edit&id=' . $id . '&return=' . base64_encode($uri)); ?>
+							<a class="dropdown-item" href="<?php echo $url; ?>"><?php echo Text::_('JACTION_EDIT'); ?></a>
+						<?php endif; ?>
+						<?php if ($canChange) : ?>
+							<button type="button" class="dropdown-item unpublish-module" data-module-id="<?php echo $id; ?>"><?php echo Text::_('JACTION_UNPUBLISH'); ?></button>
+						<?php endif; ?>
 					</div>
 				</div>
 			<?php endif; ?>

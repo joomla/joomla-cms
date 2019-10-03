@@ -9,8 +9,9 @@
 
 namespace Joomla\Module\Login\Administrator\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -32,7 +33,7 @@ abstract class LoginHelper
 	{
 		$languages = LanguageHelper::createLanguageList(null, JPATH_ADMINISTRATOR, false, true);
 
-		if (count($languages) <= 1)
+		if (\count($languages) <= 1)
 		{
 			return '';
 		}
@@ -46,7 +47,7 @@ abstract class LoginHelper
 		);
 
 		// Fix wrongly set parentheses in RTL languages
-		if ($app->getLanguage()->isRtl())
+		if (Factory::getApplication()->getLanguage()->isRtl())
 		{
 			foreach ($languages as &$language)
 			{

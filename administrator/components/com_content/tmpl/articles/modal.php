@@ -37,7 +37,7 @@ $onclick   = $this->escape($function);
 if (!empty($editor))
 {
 	// This view is used also in com_menus. Load the xtd script only if the editor is set!
-	Factory::getDocument()->addScriptOptions('xtd-articles', array('editor' => $editor));
+	$this->document->addScriptOptions('xtd-articles', array('editor' => $editor));
 	$onclick = "jSelectArticle";
 }
 ?>
@@ -109,7 +109,7 @@ if (!empty($editor))
 					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="text-center">
+						<td class="text-center tbody-icon">
 							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
 						</td>
 						<th scope="row">

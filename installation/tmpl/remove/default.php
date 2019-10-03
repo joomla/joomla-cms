@@ -20,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
 		<legend class="j-install-step-header">
 			<span class="fa fa-trophy" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_CONGRAT'); ?>
 		</legend>
-		<div class="j-install-step-form">
+		<div class="j-install-step-form" id="customInstallation">
 			<h2><?php echo Text::_('INSTL_COMPLETE_TITLE'); ?></h2>
 			<p><?php echo Text::_('INSTL_COMPLETE_DESC'); ?></p>
 			<div class="form-group">
@@ -84,16 +84,10 @@ use Joomla\CMS\Uri\Uri;
 
 				<?php endif; ?>
 				<?php if ($this->development) : ?>
-					<div class="alert flex-column">
-						<strong><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></strong>
-						<div class="form-check">
-							<label class="form-check-label">
-								<input type="checkbox" class="form-check-input">
-								<?php echo Text::_('INSTL_SITE_DEVMODE_DESC'); ?>
-							</label>
-						</div>
+					<div class="alert flex-column mb-1" id="removeInstallationTab">
+						<span class="mb-1 font-weight-bold"><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></span>
+						<button class="btn btn-danger mb-1" id="removeInstallationFolder"><?php echo Text::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?></button>
 					</div>
-					<!-- <input type="button" class="btn btn-warning" name="instDefault" onclick="Install.removeFolder(this);" value="<?php echo Text::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?>"> -->
 				<?php endif; ?>
 				<?php echo HTMLHelper::_('form.token'); ?>
 
@@ -184,28 +178,6 @@ use Joomla\CMS\Uri\Uri;
 					</button>
 				</div>
 			</form>
-			</div>
-		</fieldset>
-
-		<fieldset id="installSampleData" class="j-install-step">
-			<legend class="j-install-step-header">
-				<span class="fa fa-cog" aria-hidden="true"></span> <?php echo Text::_('INSTL_SITE_INSTALL_SAMPLE'); ?>
-			</legend>
-			<div class="j-install-step-form">
-				<h2><?php echo Text::_('INSTL_SITE_INSTALL_SAMPLE_LABEL'); ?></h2>
-				<p><?php echo Text::_('INSTL_SITE_INSTALL_SAMPLE_DESC'); ?></p>
-
-
-				<form action="index.php" method="post" id="sampleDataForm" class="form-validate">
-					<div class="form-group">
-						<input type="hidden" name="sample_file" value="sample_testing.sql">
-						<?php echo HTMLHelper::_('form.token'); ?>
-						<button id="installSampleDataButton" class="btn btn-primary btn-block"><?php echo Text::_('INSTL_SITE_INSTALL_SAMPLE'); ?> <span class="fa fa-chevron-right" aria-hidden="true"></span></button>
-						<button id="skipSampleData" class="btn btn-block btn-secondary">
-							<?php echo Text::_('JSKIP'); ?>
-						</button>
-					</div>
-				</form>
 			</div>
 		</fieldset>
 

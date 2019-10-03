@@ -4,10 +4,15 @@
 // Atum Variables
 @import "variables";
 
+// Mixins
+@import "mixin";
+
 // Bootstrap other
-@import "../../../../media/vendor/bootstrap/scss/mixins";
-@import "../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../media/vendor/bootstrap/scss/custom-forms";
+@import "vendor/bootstrap";
+
+// Fonts
+@import "../../../../media/vendor/roboto-fontface/scss/roboto/sass/roboto-fontface";
+@import "fonts/fontawesome";
 
 // Alert
 @import "../../../../build/media_source/system/scss/jalert";
@@ -18,8 +23,9 @@
 // Blocks
 @import "blocks/global"; // Leave this first
 @import "blocks/alerts";
-@import "blocks/form";
+@import "blocks/edit";
 @import "blocks/header";
+@import "blocks/form";
 @import "blocks/icons";
 @import "blocks/iframe";
 @import "blocks/layout";
@@ -27,11 +33,14 @@
 @import "blocks/modals";
 @import "blocks/quickicons";
 @import "blocks/searchtools";
+@import "blocks/lists";
 @import "blocks/sidebar";
 @import "blocks/sidebar-nav";
+@import "blocks/system-message";
 @import "blocks/toolbar";
 @import "blocks/treeselect";
 @import "blocks/utilities";
+@import "blocks/tabs";
 
 // Vendor overrides
 @import "vendor/awesomplete";
@@ -41,6 +50,7 @@
 @import "vendor/bootstrap/custom-forms";
 @import "vendor/bootstrap/collapse";
 @import "vendor/bootstrap/dropdown";
+@import "vendor/bootstrap/form";
 @import "vendor/bootstrap/lists";
 @import "vendor/bootstrap/modal";
 @import "vendor/bootstrap/nav";
@@ -56,63 +66,10 @@
 // Page specifics
 @import "pages/com_admin";
 @import "pages/com_config";
+@import "pages/com_content";
 @import "pages/com_cpanel";
+@import "pages/com_joomlaupdate";
+@import "pages/com_tags";
+@import "pages/com_privacy";
 @import "pages/com_templates";
 @import "pages/com_users";
-
-.container-main,
-.system-debug {
-  padding-bottom: 50px;
-}
-
-.container-main {
-  position: relative;
-  min-height: calc(100vh - #{$header-height});
-  background-color: var(--main-bg);
-}
-
-.list-view-main {
-
-  .container-main {
-    background-color: var(--main-bg);
-  }
-
-}
-
-.content {
-  padding-top: 15px;
-  border-radius: $border-radius;
-
-  > .row {
-    margin-right: 0;
-    margin-left: 0;
-  }
-
-  .subhead + & {
-    padding-top: 0;
-  }
-}
-
-.row-selected {
-  background-color: var(--row-selected);
-}
-
-// Chosen (TEMPORARY)
-.chzn-container-single {
-  width: auto !important;
-}
-
-// Multilingual associations specific
-.item-associations {
-  padding: 0;
-}
-
-.item-associations li {
-  display: inline-block;
-  list-style: none;
-}
-
-// Quickicon specific
-.message-alert {
-  text-align: right !important;
-}

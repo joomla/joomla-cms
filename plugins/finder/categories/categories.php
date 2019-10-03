@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -218,7 +217,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 				$pk    = (int) $pk;
 				$query = clone $this->getStateQuery();
 
-				$query->where($query->quoteName('a.id') . ' = :plgFinderCategoriesId')
+				$query->where($this->db->quoteName('a.id') . ' = :plgFinderCategoriesId')
 					->bind(':plgFinderCategoriesId', $pk, ParameterType::INTEGER);
 
 				$this->db->setQuery($query);
@@ -364,7 +363,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 	 */
 	protected function getListQuery($query = null)
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 
 		// Check if we can use the supplied SQL query.
 		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true);
@@ -396,7 +395,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 						'a.modified_time',
 						'a.modified_user_id',
 						'a.created_time',
-						'a.published'
+						'a.published',
 					],
 					[
 						'summary',
@@ -404,7 +403,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 						'modified',
 						'modified_by',
 						'start_date',
-						'state'
+						'state',
 					]
 				)
 			);
@@ -438,32 +437,33 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$query = $this->db->getQuery(true);
 
 		$query->select(
-			$query->quoteName(
+			$this->db->quoteName(
 				[
 					'a.id',
 					'a.parent_id',
-					'a.access'
+					'a.access',
 				]
 			)
 		)
 			->select(
-				$query->quoteName(
+				$this->db->quoteName(
 					[
 						'a.' . $this->state_field,
 						'c.published',
-						'c.access'
+						'c.access',
 					],
 					[
 						'state',
 						'cat_state',
-						'cat_access'
+						'cat_access',
 					]
 				)
 			)
-			->from($query->quoteName('#__categories', 'a'))
-			->leftJoin(
-				$query->quoteName('#__categories', 'c'),
-				$query->quoteName('c.id') . ' = ' . $query->quoteName('a.parent_id')
+			->from($this->db->quoteName('#__categories', 'a'))
+			->join(
+				'INNER',
+				$this->db->quoteName('#__categories', 'c'),
+				$this->db->quoteName('c.id') . ' = ' . $this->db->quoteName('a.parent_id')
 			);
 
 		return $query;

@@ -65,6 +65,8 @@ class ArticlesModel extends ListModel
 				'level',
 				'tag',
 				'rating_count', 'rating',
+				'condition',
+				'stage',
 			);
 
 			if (Associations::isEnabled())
@@ -237,15 +239,15 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join over the associations.
-		$query->select($query->quoteName('wa.stage_id', 'stage_id'))
+		$query->select($db->quoteName('wa.stage_id', 'stage_id'))
 			->innerJoin(
-				$query->quoteName('#__workflow_associations', 'wa')
-				. ' ON ' . $query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id')
+				$db->quoteName('#__workflow_associations', 'wa')
+				. ' ON ' . $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id')
 			);
 
 		// Join over the workflow stages.
 		$query->select(
-			$query->quoteName(
+			$db->quoteName(
 				[
 					'ws.title',
 					'ws.condition',
@@ -259,8 +261,8 @@ class ArticlesModel extends ListModel
 			)
 		)
 			->innerJoin(
-				$query->quoteName('#__workflow_stages', 'ws')
-				. ' ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id')
+				$db->quoteName('#__workflow_stages', 'ws')
+				. ' ON ' . $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id')
 			);
 
 		// Join on voting table
@@ -493,6 +495,11 @@ class ArticlesModel extends ListModel
 		$orderCol  = $this->state->get('list.ordering', 'a.id');
 		$orderDirn = $this->state->get('list.direction', 'DESC');
 
+		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
+		{
+			$orderCol = $db->quoteName('c.title') . ' ' . $orderDirn . ', ' . $db->quoteName('a.ordering');
+		}
+
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 
 		return $query;
@@ -526,7 +533,7 @@ class ArticlesModel extends ListModel
 			return false;
 		}
 
-		$ids = ArrayHelper::getColumn($items, 'stage_id');
+		$ids = array_column($items, 'stage_id');
 		$ids = ArrayHelper::toInteger($ids);
 		$ids = array_unique(array_filter($ids));
 
