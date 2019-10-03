@@ -2289,11 +2289,11 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   `default` tinyint(1) NOT NULL  DEFAULT 0,
   `core` tinyint(1) NOT NULL  DEFAULT 0,
   `ordering` int(11) NOT NULL DEFAULT 0,
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL,
   `created_by` int(10) NOT NULL DEFAULT 0,
-  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified` datetime NOT NULL,
   `modified_by` int(10) NOT NULL DEFAULT 0,
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `checked_out_time` datetime,
   `checked_out` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_asset_id` (`asset_id`),
@@ -2312,7 +2312,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 --
 
 INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `core`,`ordering`, `created`, `created_by`, `modified`, `modified_by`, `checked_out_time`, `checked_out`) VALUES
-(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
+(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0);
 
 --
 -- Table structure for table `#__workflow_associations`
@@ -2343,7 +2343,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
   `description` text NOT NULL,
   `condition` int(10) DEFAULT 0,
   `default` tinyint(1) NOT NULL DEFAULT 0,
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `checked_out_time` datetime,
   `checked_out` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_workflow_id` (`workflow_id`),
@@ -2358,10 +2358,10 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
 --
 
 INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`, `checked_out_time`, `checked_out`) VALUES
-(1, 57, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1, '0000-00-00 00:00:00', 0),
-(2, 58, 2, 1, 1, 'JPUBLISHED', '', 1, 0, '0000-00-00 00:00:00', 0),
-(3, 59, 3, 1, 1, 'JTRASHED', '', -2, 0, '0000-00-00 00:00:00', 0),
-(4, 60, 4, 1, 1, 'JARCHIVED', '', 2, 0, '0000-00-00 00:00:00', 0);
+(1, 57, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1, NULL, 0),
+(2, 58, 2, 1, 1, 'JPUBLISHED', '', 1, 0, NULL, 0),
+(3, 59, 3, 1, 1, 'JTRASHED', '', -2, 0, NULL, 0),
+(4, 60, 4, 1, 1, 'JARCHIVED', '', 2, 0, NULL, 0);
 
 --
 -- Table structure for table `#__workflow_transitions`
@@ -2377,7 +2377,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   `description` text NOT NULL,
   `from_stage_id` int(10) NOT NULL,
   `to_stage_id` int(10) NOT NULL,
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `checked_out_time` datetime,
   `checked_out` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_title` (`title`(191)),
@@ -2393,10 +2393,10 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
 --
 
 INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`, `workflow_id`, `title`, `description`, `from_stage_id`, `to_stage_id`, `checked_out_time`, `checked_out`) VALUES
-(1, 61, 1, 1, 1, 'Unpublish', '', -1, 1, '0000-00-00 00:00:00', 0),
-(2, 62, 1, 2, 1, 'Publish', '', -1, 2, '0000-00-00 00:00:00', 0),
-(3, 63, 1, 3, 1, 'Trash', '', -1, 3, '0000-00-00 00:00:00', 0),
-(4, 64, 1, 4, 1, 'Archive', '', -1, 4, '0000-00-00 00:00:00', 0);
+(1, 61, 1, 1, 1, 'Unpublish', '', -1, 1, NULL, 0),
+(2, 62, 1, 2, 1, 'Publish', '', -1, 2, NULL, 0),
+(3, 63, 1, 3, 1, 'Trash', '', -1, 3, NULL, 0),
+(4, 64, 1, 4, 1, 'Archive', '', -1, 4, NULL, 0);
 
 --
 -- Table structure for table `#__mail_templates`

@@ -2291,11 +2291,11 @@ CREATE TABLE IF NOT EXISTS "#__workflows" (
   "default" smallint NOT NULL  DEFAULT 0,
   "core" smallint NOT NULL  DEFAULT 0,
   "ordering" bigint NOT NULL DEFAULT 0,
-  "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "created" timestamp without time zone NOT NULL,
   "created_by" bigint DEFAULT 0 NOT NULL,
-  "modified" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "modified" timestamp without time zone NOT NULL,
   "modified_by" bigint DEFAULT 0 NOT NULL,
-  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "checked_out_time" timestamp without time zone,
   "checked_out" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
  );
@@ -2311,7 +2311,7 @@ CREATE INDEX "#__workflows_idx_modified_by" ON "#__workflows" ("modified_by");
 CREATE INDEX "#__workflows_idx_checked_out" ON "#__workflows" ("checked_out");
 
 INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "core", "ordering", "created", "created_by", "modified", "modified_by", "checked_out_time", "checked_out") VALUES
-(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0);
+(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, CURRENT_TIMESTAMP, 0, CURRENT_TIMESTAMP, 0, NULL, 0);
 
 SELECT setval('#__workflows_id_seq', 2, false);
 
@@ -2347,7 +2347,7 @@ CREATE TABLE IF NOT EXISTS "#__workflow_stages" (
   "description" text NOT NULL,
   "condition" bigint DEFAULT 0 NOT NULL,
   "default" smallint NOT NULL  DEFAULT 0,
-  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "checked_out_time" timestamp without time zone,
   "checked_out" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
 );
@@ -2362,10 +2362,10 @@ CREATE INDEX "#__workflow_stages_idx_checked_out" ON "#__workflow_stages" ("chec
 --
 
 INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "condition", "default", "checked_out_time", "checked_out") VALUES
-(1, 0, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1, '1970-01-01 00:00:00', 0),
-(2, 0, 2, 1, 1, 'JPUBLISHED', '', 1, 0, '1970-01-01 00:00:00', 0),
-(3, 0, 3, 1, 1, 'JTRASHED', '', -2, 0, '1970-01-01 00:00:00', 0),
-(4, 0, 4, 1, 1, 'JARCHIVED', '', 2, 0, '1970-01-01 00:00:00', 0);
+(1, 0, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1, NULL, 0),
+(2, 0, 2, 1, 1, 'JPUBLISHED', '', 1, 0, NULL, 0),
+(3, 0, 3, 1, 1, 'JTRASHED', '', -2, 0, NULL, 0),
+(4, 0, 4, 1, 1, 'JARCHIVED', '', 2, 0, NULL, 0);
 
 SELECT setval('#__workflow_stages_id_seq', 5, false);
 --
@@ -2382,7 +2382,7 @@ CREATE TABLE IF NOT EXISTS "#__workflow_transitions" (
   "description" text NOT NULL,
   "from_stage_id" bigint DEFAULT 0 NOT NULL,
   "to_stage_id" bigint DEFAULT 0 NOT NULL,
-  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "checked_out_time" timestamp without time zone,
   "checked_out" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
  );
@@ -2394,10 +2394,10 @@ CREATE INDEX "#__workflow_transitions_idx_workflow_id" ON "#__workflow_transitio
 CREATE INDEX "#__workflow_transitions_idx_checked_out" ON "#__workflow_transitions" ("checked_out");
 
 INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_stage_id", "to_stage_id", "checked_out_time", "checked_out") VALUES
-(1, 0, 1, 1, 1, 'Unpublish', '', -1, 1, '1970-01-01 00:00:00', 0),
-(2, 0, 1, 2, 1, 'Publish', '', -1, 2, '1970-01-01 00:00:00', 0),
-(3, 0, 1, 3, 1, 'Trash', '', -1, 3, '1970-01-01 00:00:00', 0),
-(4, 0, 1, 4, 1, 'Archive', '', -1, 4, '1970-01-01 00:00:00', 0);
+(1, 0, 1, 1, 1, 'Unpublish', '', -1, 1, NULL, 0),
+(2, 0, 1, 2, 1, 'Publish', '', -1, 2, NULL, 0),
+(3, 0, 1, 3, 1, 'Trash', '', -1, 3, NULL, 0),
+(4, 0, 1, 4, 1, 'Archive', '', -1, 4, NULL, 0);
 
 SELECT setval('#__workflow_transitions_id_seq', 5, false);
 
