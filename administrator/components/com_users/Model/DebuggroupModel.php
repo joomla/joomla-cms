@@ -262,11 +262,12 @@ class DebuggroupModel extends ListModel
 		// Filter the items over the component if set.
 		if ($this->getState('filter.component'))
 		{
-			$component = $this->getState('filter.component');
+			$component  = $this->getState('filter.component');
+			$lcomponent = $component . '%';
 			$query->where($db->quoteName('a.name') . ' = :component')
 				->orWhere($db->quoteName('a.name') . ' LIKE :lcomponent')
 				->bind(':component', $component)
-				->bind(':lcomponent', $component . '%');
+				->bind(':lcomponent', $lcomponent);
 		}
 
 		// Add the list ordering clause.
