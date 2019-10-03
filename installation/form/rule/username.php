@@ -13,7 +13,7 @@ use Joomla\CMS\Filter\InputFilter;
 /**
  * Form Rule class for the username.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.4
  */
 class InstallationFormRuleUsername extends JFormRule
 {

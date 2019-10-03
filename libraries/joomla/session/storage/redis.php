@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Redis session storage handler for PHP
  *
- * @link   https://secure.php.net/manual/en/function.session-set-save-handler.php
+ * @link   https://www.php.net/manual/en/function.session-set-save-handler.php
  * @since  3.8.0
  */
 class JSessionStorageRedis extends JSessionStorage

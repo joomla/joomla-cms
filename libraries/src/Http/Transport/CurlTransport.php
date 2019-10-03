@@ -33,7 +33,7 @@ class CurlTransport implements TransportInterface
 	 *
 	 * @param   Registry  $options  Client options object.
 	 *
-	 * @link    https://secure.php.net/manual/en/function.curl-setopt.php
+	 * @link    https://www.php.net/manual/en/function.curl-setopt.php
 	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */

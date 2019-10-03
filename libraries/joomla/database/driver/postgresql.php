@@ -391,7 +391,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Retrieves field information about a given table.
 	 *
-	 * @param   string   $table     The name of the database table.
+	 * @param   string   $table     The name of the database table. For PostgreSQL may start with a schema.
 	 * @param   boolean  $typeOnly  True to only return field types.
 	 *
 	 * @return  array  An array of fields for the database table.
@@ -404,8 +404,18 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$this->connect();
 
 		$result = array();
-
 		$tableSub = $this->replacePrefix($table);
+		$fn = explode('.', $tableSub);
+
+		if (count($fn) === 2) 
+		{
+			$schema = $fn[0];
+			$tableSub = $fn[1];
+		} 
+		else 
+		{
+			$schema = 'public';
+		}
 
 		$this->setQuery('
 			SELECT a.attname AS "column_name",
@@ -427,7 +437,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			WHERE a.attrelid =
 				(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($tableSub) . '
 					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
-					nspname = \'public\')
+					nspname = ' . $this->quote($schema) . ')
 				)
 			AND a.attnum > 0 AND NOT a.attisdropped
 			ORDER BY a.attnum'
@@ -1599,5 +1609,19 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	protected function getCreateDatabaseQuery($options, $utf)
 	{
 		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
+	}
+
+	/**
+	 * Quotes a binary string to database requirements for use in database queries.
+	 *
+	 * @param   mixed  $data  A binary string to quote.
+	 *
+	 * @return  string  The binary quoted input string.
+	 *
+	 * @since   3.9.12
+	 */
+	public function quoteBinary($data)
+	{
+		return "decode('" . bin2hex($data) . "', 'hex')";
 	}
 }

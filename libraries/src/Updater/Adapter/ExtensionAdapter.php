@@ -165,6 +165,18 @@ class ExtensionAdapter extends UpdateAdapter
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
 
+						// MySQL and MariaDB use the same database driver but not the same version numbers
+						if ($dbType === 'mysql')
+						{
+							// Check whether we have a MariaDB version string and extract the proper version from it
+							if (stripos($dbVersion, 'mariadb') !== false)
+							{
+								// MariaDB: Strip off any leading '5.5.5-', if present
+								$dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
+								$dbType    = 'mariadb';
+							}
+						}
+
 						// Do we have an entry for the database?
 						if (array_key_exists($dbType, $supportedDbs))
 						{

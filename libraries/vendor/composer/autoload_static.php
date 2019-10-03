@@ -75,6 +75,10 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Joomla\\Archive\\' => 15,
             'Joomla\\Application\\' => 19,
         ),
+        'B' => 
+        array (
+            'Brumann\\Polyfill\\' => 17,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -186,6 +190,10 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         array (
             0 => __DIR__ . '/..' . '/joomla/application/src',
         ),
+        'Brumann\\Polyfill\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/brumann/polyfill-unserialize/src',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -206,6 +214,7 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
     );
 
     public static $classMap = array (
+        'Brumann\\Polyfill\\Unserialize' => __DIR__ . '/..' . '/brumann/polyfill-unserialize/src/Unserialize.php',
         'CallbackFilterIterator' => __DIR__ . '/..' . '/joomla/compat/src/CallbackFilterIterator.php',
         'EasyPeasyICS' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
         'Joomla\\Application\\AbstractApplication' => __DIR__ . '/..' . '/joomla/application/src/AbstractApplication.php',
@@ -291,12 +300,22 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Session\\Session' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Session.php',
         'Joomla\\Session\\Storage' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage.php',
         'Joomla\\Session\\Storage\\Apc' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Apc.php',
+        'Joomla\\Session\\Storage\\Apcu' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Apcu.php',
         'Joomla\\Session\\Storage\\Database' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Database.php',
         'Joomla\\Session\\Storage\\Memcache' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Memcache.php',
         'Joomla\\Session\\Storage\\Memcached' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Memcached.php',
         'Joomla\\Session\\Storage\\None' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/None.php',
         'Joomla\\Session\\Storage\\Wincache' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Wincache.php',
         'Joomla\\Session\\Storage\\Xcache' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Storage/Xcache.php',
+        'Joomla\\Session\\Tests\\StorageCase' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/StorageCase.php',
+        'Joomla\\Session\\Tests\\StorageTest' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/StorageTest.php',
+        'Joomla\\Session\\Tests\\Storage\\ApcTest' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/Storage/ApcTest.php',
+        'Joomla\\Session\\Tests\\Storage\\DatabaseTest' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/Storage/DatabaseTest.php',
+        'Joomla\\Session\\Tests\\Storage\\MemcacheTest' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/Storage/MemcacheTest.php',
+        'Joomla\\Session\\Tests\\Storage\\MemcachedTest' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/Storage/MemcachedTest.php',
+        'Joomla\\Session\\Tests\\Storage\\NoneTest' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/Storage/NoneTest.php',
+        'Joomla\\Session\\Tests\\Storage\\WincacheTest' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/Storage/WincacheTest.php',
+        'Joomla\\Session\\Tests\\Storage\\XcacheTest' => __DIR__ . '/..' . '/joomla/session/Joomla/Session/Tests/Storage/XcacheTest.php',
         'Joomla\\String\\Inflector' => __DIR__ . '/..' . '/joomla/string/src/Inflector.php',
         'Joomla\\String\\Normalise' => __DIR__ . '/..' . '/joomla/string/src/Normalise.php',
         'Joomla\\String\\String' => __DIR__ . '/..' . '/joomla/string/src/String.php',
@@ -308,6 +327,7 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Uri\\UriInterface' => __DIR__ . '/..' . '/joomla/uri/src/UriInterface.php',
         'Joomla\\Utilities\\ArrayHelper' => __DIR__ . '/..' . '/joomla/utilities/src/ArrayHelper.php',
         'Joomla\\Utilities\\IpHelper' => __DIR__ . '/..' . '/joomla/utilities/src/IpHelper.php',
+        'JsonException' => __DIR__ . '/..' . '/symfony/polyfill-php73/Resources/stubs/JsonException.php',
         'JsonSerializable' => __DIR__ . '/..' . '/joomla/compat/src/JsonSerializable.php',
         'PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
         'PHPMailerOAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauth.php',
@@ -388,11 +408,24 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Symfony\\Polyfill\\Util\\BinaryOnFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryOnFuncOverload.php',
         'TYPO3\\PharStreamWrapper\\Assertable' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Assertable.php',
         'TYPO3\\PharStreamWrapper\\Behavior' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Behavior.php',
+        'TYPO3\\PharStreamWrapper\\Collectable' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Collectable.php',
         'TYPO3\\PharStreamWrapper\\Exception' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Exception.php',
         'TYPO3\\PharStreamWrapper\\Helper' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Helper.php',
+        'TYPO3\\PharStreamWrapper\\Interceptor\\ConjunctionInterceptor' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Interceptor/ConjunctionInterceptor.php',
         'TYPO3\\PharStreamWrapper\\Interceptor\\PharExtensionInterceptor' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Interceptor/PharExtensionInterceptor.php',
+        'TYPO3\\PharStreamWrapper\\Interceptor\\PharMetaDataInterceptor' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Interceptor/PharMetaDataInterceptor.php',
         'TYPO3\\PharStreamWrapper\\Manager' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Manager.php',
         'TYPO3\\PharStreamWrapper\\PharStreamWrapper' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/PharStreamWrapper.php',
+        'TYPO3\\PharStreamWrapper\\Phar\\Container' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Phar/Container.php',
+        'TYPO3\\PharStreamWrapper\\Phar\\DeserializationException' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Phar/DeserializationException.php',
+        'TYPO3\\PharStreamWrapper\\Phar\\Manifest' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Phar/Manifest.php',
+        'TYPO3\\PharStreamWrapper\\Phar\\Reader' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Phar/Reader.php',
+        'TYPO3\\PharStreamWrapper\\Phar\\ReaderException' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Phar/ReaderException.php',
+        'TYPO3\\PharStreamWrapper\\Phar\\Stub' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Phar/Stub.php',
+        'TYPO3\\PharStreamWrapper\\Resolvable' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Resolvable.php',
+        'TYPO3\\PharStreamWrapper\\Resolver\\PharInvocation' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Resolver/PharInvocation.php',
+        'TYPO3\\PharStreamWrapper\\Resolver\\PharInvocationCollection' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Resolver/PharInvocationCollection.php',
+        'TYPO3\\PharStreamWrapper\\Resolver\\PharInvocationResolver' => __DIR__ . '/..' . '/typo3/phar-stream-wrapper/src/Resolver/PharInvocationResolver.php',
         'lessc' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
         'lessc_formatter_classic' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',
         'lessc_formatter_compressed' => __DIR__ . '/..' . '/leafo/lessphp/lessc.inc.php',

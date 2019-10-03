@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Archive Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -44,7 +44,7 @@ class Archive
 	 */
 	public function __construct($options = array())
 	{
-		if (!is_array($options) && !($options instanceof \ArrayAccess))
+		if (!\is_array($options) && !($options instanceof \ArrayAccess))
 		{
 			throw new \InvalidArgumentException(
 				'The options param must be an array or implement the ArrayAccess interface.'
@@ -52,7 +52,7 @@ class Archive
 		}
 
 		// Make sure we have a tmp directory.
-		isset($options['tmp_path']) or $options['tmp_path'] = realpath(sys_get_temp_dir());
+		isset($options['tmp_path']) || $options['tmp_path'] = realpath(sys_get_temp_dir());
 
 		$this->options = $options;
 	}
@@ -70,18 +70,20 @@ class Archive
 	 */
 	public function extract($archivename, $extractdir)
 	{
-		$ext = pathinfo($archivename, PATHINFO_EXTENSION);
-		$path = pathinfo($archivename, PATHINFO_DIRNAME);
+		$ext      = pathinfo($archivename, PATHINFO_EXTENSION);
+		$path     = pathinfo($archivename, PATHINFO_DIRNAME);
 		$filename = pathinfo($archivename, PATHINFO_FILENAME);
 
-		switch ($ext)
+		switch (strtolower($ext))
 		{
 			case 'zip':
 				$result = $this->getAdapter('zip')->extract($archivename, $extractdir);
+
 				break;
 
 			case 'tar':
 				$result = $this->getAdapter('tar')->extract($archivename, $extractdir);
+
 				break;
 
 			case 'tgz':
@@ -107,7 +109,7 @@ class Archive
 				}
 				else
 				{
-					Folder::create($path);
+					Folder::create($extractdir);
 					$result = File::copy($tmpfname, $extractdir . '/' . $filename, null, 0);
 				}
 
@@ -138,7 +140,7 @@ class Archive
 				}
 				else
 				{
-					Folder::create($path);
+					Folder::create($extractdir);
 					$result = File::copy($tmpfname, $extractdir . '/' . $filename, null, 0);
 				}
 
@@ -169,7 +171,7 @@ class Archive
 	{
 		if ($override || !isset($this->adapters[$type]))
 		{
-			$error = !is_object($class) && !class_exists($class)
+			$error = !\is_object($class) && !class_exists($class)
 					? 'Archive adapter "%s" (class "%s") not found.'
 					: '';
 
@@ -211,7 +213,7 @@ class Archive
 		if (!isset($this->adapters[$type]))
 		{
 			// Try to load the adapter object
-			/* @var  ExtractableInterface  $class */
+			/** @var ExtractableInterface $class */
 			$class = 'Joomla\\Archive\\' . ucfirst($type);
 
 			if (!class_exists($class) || !$class::isSupported())

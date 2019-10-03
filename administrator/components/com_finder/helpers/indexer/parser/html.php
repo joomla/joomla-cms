@@ -60,9 +60,14 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 		// Convert entities equivalent to spaces to actual spaces.
 		$input = str_replace(array('&nbsp;', '&#160;'), ' ', $input);
 
-		// This fixes issues such as '<h1>Title</h1><p>Paragraph</p>'
-		// being transformed into 'TitleParagraph' with no space.
-		$input = str_replace('>', '> ', $input);
+		// Add a space before both the OPEN and CLOSE tags of BLOCK and LINE BREAKING elements,
+		// e.g. 'all<h1><em>m</em>obile  List</h1>' will become 'all mobile  List'
+		$input = preg_replace('/(<|<\/)(' .
+			'address|article|aside|blockquote|br|canvas|dd|div|dl|dt|' .
+			'fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|h6|header|hgroup|hr|li|' .
+			'main|nav|noscript|ol|output|p|pre|section|table|tfoot|ul|video' .
+			')\b/i', ' $1$2', $input
+		);
 
 		// Strip HTML tags.
 		$input = strip_tags($input);
