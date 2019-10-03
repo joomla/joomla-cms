@@ -31,14 +31,6 @@ use Joomla\Database\DatabaseDriver;
 class RequestTable extends Table
 {
 	/**
-	 * Indicates that columns fully support the NULL value in the database
-	 *
-	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $_supportNullValue = true;
-
-	/**
 	 * The class constructor.
 	 *
 	 * @param   DatabaseDriver  $db  DatabaseDriver connector object.
@@ -59,7 +51,7 @@ class RequestTable extends Table
 	 *
 	 * @since   3.9.0
 	 */
-	public function store($updateNulls = true)
+	public function store($updateNulls = false)
 	{
 		$date = Factory::getDate();
 
