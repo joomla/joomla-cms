@@ -90,6 +90,7 @@ class TemplatesModel extends ListModel
 			->select($db->quoteName('language'))
 			->from($db->quoteName('#__mail_templates'))
 			->where($db->quoteName('template_id') . ' = :id')
+			->where($db->quoteName('language') . ' != ' . $db->quote(''))
 			->order($db->quoteName('language') . ' ASC')
 			->bind(':id', $id);
 
@@ -124,17 +125,7 @@ class TemplatesModel extends ListModel
 			)
 		);
 		$query->from($db->quoteName('#__mail_templates', 'a'))
-			->group(
-				[
-					$db->quoteName('a.template_id'),
-					$db->quoteName('a.language'),
-					$db->quoteName('a.subject'),
-					$db->quoteName('a.body'),
-					$db->quoteName('a.htmlbody'),
-					$db->quoteName('a.attachments'),
-					$db->quoteName('a.params'),
-				]
-			);
+			->where($db->quoteName('a.language') . ' = ' . $db->quote(''));
 
 		// Filter by search in title.
 		if ($search = trim($this->getState('filter.search')))
@@ -169,8 +160,12 @@ class TemplatesModel extends ListModel
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where($db->quoteName('a.language') . ' = :language')
-				->bind(':language', $language);
+			$query->innerJoin(
+				$db->quoteName('#__mail_templates', 'b')
+				. ' ON (' . $db->quoteName('b.template_id') . ' = ' . $db->quoteName('a.template_id')
+				. ' AND ' . $db->quoteName('b.language') . ' = :language)'
+				)
+					->bind(':language', $language);
 		}
 
 		return $query;
