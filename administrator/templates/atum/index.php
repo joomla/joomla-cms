@@ -177,15 +177,14 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			<?php // End Content ?>
 		</section>
 
-		<?php if ($this->countModules('version')) : ?>
-			<jdoc:include type="modules" name="version" style="xhtml" />
-		<?php endif; ?>
-
 		<div class="notify-alerts">
 			<jdoc:include type="message" />
 		</div>
 	</div>
 </div>
+<?php if ($this->countModules('version')) : ?>
+	<jdoc:include type="modules" name="version" style="xhtml" />
+<?php endif; ?>
 <jdoc:include type="modules" name="debug" style="none" />
 <jdoc:include type="scripts" />
 </body>
