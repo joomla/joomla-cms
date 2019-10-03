@@ -28,6 +28,14 @@ use Joomla\String\StringHelper;
 class FieldTable extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   DatabaseDriver  $db  DatabaseDriver object.
@@ -148,13 +156,13 @@ class FieldTable extends Table
 		}
 		else
 		{
-			$this->modified_time = $this->getDbo()->getNullDate();
-			$this->modified_by = 0;
-
 			if (!(int) $this->created_time)
 			{
 				$this->created_time = $date->toSql();
 			}
+
+			$this->modified_time = $this->created_time;
+			$this->modified_by = 0;
 
 			if (empty($this->created_user_id))
 			{
@@ -168,6 +176,21 @@ class FieldTable extends Table
 		}
 
 		return true;
+	}
+
+	/**
+	 * Overloaded store function
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  mixed  False on failure, positive integer on success.
+	 *
+	 * @see     Table::store()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function store($updateNulls = true)
+	{
+		return parent::store($updateNulls);
 	}
 
 	/**
