@@ -348,9 +348,9 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		$automaticCspHeader  = [];
 		$cspHeaderCollection = [];
-		$nonceEnabled        = $this->comCspParams->get('nonce_enabled', 0);
-		$scriptHashesEnabled = $this->comCspParams->get('script_hashes_enabled', 0);
-		$styleHashesEnabled  = $this->comCspParams->get('style_hashes_enabled', 0);
+		$nonceEnabled        = (int) $this->comCspParams->get('nonce_enabled', 0);
+		$scriptHashesEnabled = (int) $this->comCspParams->get('script_hashes_enabled', 0);
+		$styleHashesEnabled  = (int) $this->comCspParams->get('style_hashes_enabled', 0);
 
 		foreach ($rows as $row)
 		{
