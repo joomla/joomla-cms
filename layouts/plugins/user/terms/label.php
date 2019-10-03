@@ -82,33 +82,34 @@ if (Factory::getLanguage()->isRtl())
 	$label .= ' data-placement="left"';
 }
 
-$attribs                = [];
-$attribs['data-toggle'] = 'modal';
-$attribs['data-target'] = '#tosModal';
-
 if ($article)
 {
+	$attribs = [
+		'data-toggle' => 'modal',
+		'data-target' => '#tosModal',
+	];
+
 	$link = HTMLHelper::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
+
+	echo HTMLHelper::_(
+		'bootstrap.renderModal',
+		'tosModal',
+		[
+			'url'    => Route::_($article->link . '&tmpl=component'),
+			'title'  => $text,
+			'height' => '100%',
+			'width'  => '100%',
+			'modalWidth'  => '800',
+			'bodyHeight'  => '500',
+			'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+				. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>',
+		]
+	);
 }
 else
 {
 	$link = $text;
 }
-
-echo HTMLHelper::_(
-	'bootstrap.renderModal',
-	'tosModal',
-	array(
-		'url'    => Route::_($article->link . '&tmpl=component'),
-		'title'  => $text,
-		'height' => '100%',
-		'width'  => '100%',
-		'modalWidth'  => '800',
-		'bodyHeight'  => '500',
-		'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-			. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-	)
-);
 
 // Add the label text and closing tag.
 $label .= '>' . $link . '<span class="star">&#160;*</span></label>';
