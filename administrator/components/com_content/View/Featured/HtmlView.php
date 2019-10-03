@@ -125,7 +125,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		Factory::getDocument()->addScriptOptions('articles.transitions', $transitions);
+		$this->document->addScriptOptions('articles.transitions', $transitions);
 
 		$articles = [];
 
@@ -134,7 +134,7 @@ class HtmlView extends BaseHtmlView
 			$articles['article-' . (int) $item->id] = Text::sprintf('COM_CONTENT_STAGE_ARTICLE_TITLE', $this->escape($item->title), (int) $item->id);
 		}
 
-		Factory::getDocument()->addScriptOptions('articles.items', $articles);
+		$this->document->addScriptOptions('articles.items', $articles);
 
 		Text::script('COM_CONTENT_ERROR_CANNOT_PUBLISH');
 		Text::script('COM_CONTENT_ERROR_CANNOT_UNPUBLISH');
@@ -171,8 +171,8 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();

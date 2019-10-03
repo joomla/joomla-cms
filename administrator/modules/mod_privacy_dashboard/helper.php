@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\Component\Privacy\Administrator\Model\DashboardModel;
 use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
@@ -29,15 +28,24 @@ class ModPrivacyDashboardHelper
 	 */
 	public static function getData()
 	{
-		/** @var DashboardModel $model */
-		$model = Factory::getApplication()
-			->bootComponent('com_privacy')
-			->getMVCFactory()
-			->createModel('Dashboard', 'Administrator', ['ignore_request' => true]);
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select(
+				[
+					'COUNT(*) AS count',
+					$db->quoteName('status'),
+					$db->quoteName('request_type'),
+				]
+			)
+			->from($db->quoteName('#__privacy_requests'))
+			->group($db->quoteName('status'))
+			->group($db->quoteName('request_type'));
+
+		$db->setQuery($query);
 
 		try
 		{
-			return $model->getRequestCounts();
+			return $db->loadObjectList();
 		}
 		catch (ExecutionFailureException $e)
 		{

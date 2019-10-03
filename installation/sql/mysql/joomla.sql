@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
 --
 
 INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(1, 0, 0, 131, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 155, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -48,30 +48,30 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (15, 1, 51, 52, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'),
 (16, 1, 53, 56, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1}}'),
 (17, 1, 57, 58, 1, 'com_messages', 'com_messages', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
-(18, 1, 59, 94, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'),
-(19, 1, 95, 98, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(20, 1, 99, 100, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'),
-(21, 1, 101, 102, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'),
-(23, 1, 105, 106, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'),
-(24, 1, 107, 110, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'),
-(26, 1, 113, 114, 1, 'com_wrapper', 'com_wrapper', '{}'),
+(18, 1, 59, 118, 1, 'com_modules', 'com_modules', '{"core.admin":{"7":1}}'),
+(19, 1, 119, 122, 1, 'com_newsfeeds', 'com_newsfeeds', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(20, 1, 123, 124, 1, 'com_plugins', 'com_plugins', '{"core.admin":{"7":1}}'),
+(21, 1, 125, 126, 1, 'com_redirect', 'com_redirect', '{"core.admin":{"7":1}}'),
+(23, 1, 129, 130, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'),
+(24, 1, 131, 134, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'),
+(26, 1, 137, 138, 1, 'com_wrapper', 'com_wrapper', '{}'),
 (27, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{}'),
 (28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{}'),
 (29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{}'),
-(30, 19, 96, 97, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'),
-(32, 24, 108, 109, 2, 'com_users.category.7', 'Uncategorised', '{}'),
-(33, 1, 117, 118, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
-(34, 1, 119, 120, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'),
-(35, 1, 121, 122, 1, 'com_tags', 'com_tags', '{}'),
-(36, 1, 123, 124, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
-(37, 1, 125, 126, 1, 'com_ajax', 'com_ajax', '{}'),
-(38, 1, 127, 128, 1, 'com_postinstall', 'com_postinstall', '{}'),
+(30, 19, 120, 121, 2, 'com_newsfeeds.category.5', 'Uncategorised', '{}'),
+(32, 24, 132, 133, 2, 'com_users.category.7', 'Uncategorised', '{}'),
+(33, 1, 141, 142, 1, 'com_finder', 'com_finder', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
+(34, 1, 143, 144, 1, 'com_joomlaupdate', 'com_joomlaupdate', '{}'),
+(35, 1, 145, 146, 1, 'com_tags', 'com_tags', '{}'),
+(36, 1, 147, 148, 1, 'com_contenthistory', 'com_contenthistory', '{}'),
+(37, 1, 149, 150, 1, 'com_ajax', 'com_ajax', '{}'),
+(38, 1, 151, 152, 1, 'com_postinstall', 'com_postinstall', '{}'),
 (39, 18, 60, 61, 2, 'com_modules.module.1', 'Main Menu', '{}'),
 (40, 18, 62, 63, 2, 'com_modules.module.2', 'Login', '{}'),
 (41, 18, 64, 65, 2, 'com_modules.module.3', 'Popular Articles', '{}'),
 (42, 18, 66, 67, 2, 'com_modules.module.4', 'Recently Added Articles', '{}'),
 (43, 18, 68, 69, 2, 'com_modules.module.8', 'Toolbar', '{}'),
-(44, 18, 70, 71, 2, 'com_modules.module.9', 'Quick Icons', '{}'),
+(44, 18, 70, 71, 2, 'com_modules.module.9', 'Update Checks', '{}'),
 (45, 18, 72, 73, 2, 'com_modules.module.10', 'Logged-in Users', '{}'),
 (46, 18, 74, 75, 2, 'com_modules.module.12', 'Admin Menu', '{}'),
 (48, 18, 78, 79, 2, 'com_modules.module.14', 'User Status', '{}'),
@@ -91,11 +91,24 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (62, 56, 31, 32, 3, 'com_content.transition.2', 'Unpublish', '{}'),
 (63, 56, 33, 34, 3, 'com_content.transition.3', 'Archive', '{}'),
 (64, 56, 35, 36, 3, 'com_content.transition.4', 'Trash', '{}'),
-(65, 1, 111, 112, 1, 'com_privacy', 'com_privacy', '{}'),
-(66, 1, 115, 116, 1, 'com_actionlogs', 'com_actionlogs', '{}'),
-(67, 18, 76, 77, 2, 'com_modules.module.88', 'Latest Actions', '{}'),
-(68, 18, 80, 81, 2, 'com_modules.module.89', 'Privacy Dashboard', '{}'),
-(69, 1, 129, 130, 1, 'com_csp', 'com_csp', '{}');
+(65, 1, 129, 130, 1, 'com_privacy', 'com_privacy', '{}'),
+(66, 1, 131, 132, 1, 'com_actionlogs', 'com_actionlogs', '{}'),
+(67, 18, 74, 75, 2, 'com_modules.module.88', 'Latest Actions', '{}'),
+(68, 18, 76, 77, 2, 'com_modules.module.89', 'Privacy Dashboard', '{}'),
+(69, 1, 153, 154, 1, 'com_csp', 'com_csp', '{}'),
+(70, 18, 90, 91, 2, 'com_modules.module.103', 'Site', '{}'),
+(71, 18, 92, 93, 2, 'com_modules.module.104', 'System', '{}'),
+(72, 18, 94, 95, 2, 'com_modules.module.91', 'System Dashboard', '{}'),
+(73, 18, 96, 97, 2, 'com_modules.module.92', 'Content Dashboard', '{}'),
+(74, 18, 98, 99, 2, 'com_modules.module.93', 'Menus Dashboard', '{}'),
+(75, 18, 100, 101, 2, 'com_modules.module.94', 'Components Dashboard', '{}'),
+(76, 18, 102, 103, 2, 'com_modules.module.95', 'Users Dashboard', '{}'),
+(77, 18, 104, 105, 2, 'com_modules.module.99', 'Frontend Link', '{}'),
+(78, 18, 106, 107, 2, 'com_modules.module.100', 'Messages', '{}'),
+(79, 18, 108, 109, 2, 'com_modules.module.101', 'Post Install Messages', '{}'),
+(80, 18, 110, 111, 2, 'com_modules.module.102', 'User Status', '{}'),
+(82, 18, 114, 115, 2, 'com_modules.module.105', '3rd Party', '{}'),
+(83, 18, 116, 117, 2, 'com_modules.module.106', 'Help Dashboard', '{}');
 
 -- --------------------------------------------------------
 
@@ -416,7 +429,7 @@ CREATE TABLE IF NOT EXISTS `#__content_types` (
 --
 
 INSERT INTO `#__content_types` (`type_id`, `type_title`, `type_alias`, `table`, `rules`, `field_mappings`, `router`, `content_history_options`) VALUES
-(1, 'Article', 'com_content.article', '{"special":{"dbtable":"#__content","key":"id","type":"Content","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"state","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"introtext", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"attribs", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"urls", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "asset_id":"asset_id", "note":"note"}, "special":{"fulltext":"fulltext"}}', 'ContentHelperRoute::getArticleRoute', '{"formFile":"administrator\\/components\\/com_content\\/forms\\/article.xml", "hideFields":["asset_id","checked_out","checked_out_time","version"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "hits"],"convertToInt":["publish_up", "publish_down", "featured", "ordering"],"displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ]}'),
+(1, 'Article', 'com_content.article', '{"special":{"dbtable":"#__content","key":"id","type":"Content","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"state","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"introtext", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"attribs", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"urls", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "asset_id":"asset_id", "note":"note"}, "special":{"fulltext":"fulltext"}}', 'ContentHelperRoute::getArticleRoute', '{"formFile":"administrator\\/components\\/com_content\\/forms\\/article.xml", "hideFields":["asset_id","checked_out","checked_out_time","version"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "hits", "ordering"],"convertToInt":["publish_up", "publish_down", "featured", "ordering"],"displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ]}'),
 (2, 'Contact', 'com_contact.contact', '{"special":{"dbtable":"#__contact_details","key":"id","type":"Contact","prefix":"ContactTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"address", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"image", "core_urls":"webpage", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "asset_id":"null"}, "special":{"con_position":"con_position","suburb":"suburb","state":"state","country":"country","postcode":"postcode","telephone":"telephone","fax":"fax","misc":"misc","email_to":"email_to","default_con":"default_con","user_id":"user_id","mobile":"mobile","sortname1":"sortname1","sortname2":"sortname2","sortname3":"sortname3"}}', 'ContactHelperRoute::getContactRoute', '{"formFile":"administrator\\/components\\/com_contact\\/forms\\/contact.xml","hideFields":["default_con","checked_out","checked_out_time","version"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "hits"],"convertToInt":["publish_up", "publish_down", "featured", "ordering"], "displayLookup":[ {"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ] }'),
 (3, 'Newsfeed', 'com_newsfeeds.newsfeed', '{"special":{"dbtable":"#__newsfeeds","key":"id","type":"Newsfeed","prefix":"NewsfeedsTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"description", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"link", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "asset_id":"null"}, "special":{"numarticles":"numarticles","cache_time":"cache_time","rtl":"rtl"}}', 'NewsfeedsHelperRoute::getNewsfeedRoute', '{"formFile":"administrator\\/components\\/com_newsfeeds\\/forms\\/newsfeed.xml","hideFields":["asset_id","checked_out","checked_out_time","version"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "hits"],"convertToInt":["publish_up", "publish_down", "featured", "ordering"],"displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ]}'),
 (4, 'User', 'com_users.user', '{"special":{"dbtable":"#__users","key":"id","type":"User","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"null","core_alias":"username","core_created_time":"registerdate","core_modified_time":"lastvisitDate","core_body":"null", "core_hits":"null","core_publish_up":"null","core_publish_down":"null","access":"null", "core_params":"params", "core_featured":"null", "core_metadata":"null", "core_language":"null", "core_images":"null", "core_urls":"null", "core_version":"null", "core_ordering":"null", "core_metakey":"null", "core_metadesc":"null", "core_catid":"null", "asset_id":"null"}, "special":{}}', '', ''),
@@ -461,8 +474,8 @@ CREATE TABLE IF NOT EXISTS `#__csp` (
   `blocked_uri` varchar(500) NOT NULL DEFAULT '',
   `directive` varchar(500) NOT NULL DEFAULT '',
   `client` varchar(500) NOT NULL DEFAULT '',
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
@@ -538,6 +551,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'com_actionlogs', 'component', 'com_actionlogs', '', 1, 1, 1, 1, '', '{"ip_logging":0,"csv_delimiter":",","loggable_extensions":["com_banners","com_cache","com_categories","com_checkin","com_config","com_contact","com_content","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_tags","com_templates","com_users"]}', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'com_csp', 'component', 'com_csp', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'com_mails', 'component', 'com_mails', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'PHPass', 'library', 'phpass', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -567,10 +581,14 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'mod_latest', 'module', 'mod_latest', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_logged', 'module', 'mod_logged', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_login', 'module', 'mod_login', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_loginsupport', 'module', 'mod_loginsupport', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_menu', 'module', 'mod_menu', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_popular', 'module', 'mod_popular', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_quickicon', 'module', 'mod_quickicon', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(0, 'mod_status', 'module', 'mod_status', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_frontend', 'module', 'mod_frontend', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_messages', 'module', 'mod_messages', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_post_installation_messages', 'module', 'mod_post_installation_messages', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_user', 'module', 'mod_user', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_title', 'module', 'mod_title', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_toolbar', 'module', 'mod_toolbar', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_multilangstatus', 'module', 'mod_multilangstatus', '', 1, 1, 1, 0, '', '{"cache":"0"}', 0, '0000-00-00 00:00:00', 0, 0),
@@ -581,6 +599,8 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'mod_sampledata', 'module', 'mod_sampledata', '', 1, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_latestactions', 'module', 'mod_latestactions', '', 1, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'mod_privacy_dashboard', 'module', 'mod_privacy_dashboard', '', 1, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_submenu', 'module', 'mod_submenu', '', 1, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'mod_privacy_status', 'module', 'mod_privacy_status', '', 1, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'plg_authentication_joomla', 'plugin', 'joomla', 'authentication', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'plg_authentication_ldap', 'plugin', 'ldap', 'authentication', 0, 0, 1, 0, '', '{"host":"","port":"389","use_ldapV3":"0","negotiate_tls":"0","no_referrals":"0","auth_method":"bind","base_dn":"","search_string":"","users_dn":"","username":"admin","password":"bobby7","ldap_fullname":"fullName","ldap_email":"mail","ldap_uid":"uid"}', 0, '0000-00-00 00:00:00', 3, 0),
 (0, 'plg_content_contact', 'plugin', 'contact', 'content', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 1, 0),
@@ -614,7 +634,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_quickicon_extensionupdate', 'plugin', 'extensionupdate', 'quickicon', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'plg_captcha_recaptcha', 'plugin', 'recaptcha', 'captcha', 0, 0, 1, 0, '', '{"public_key":"","private_key":"","theme":"clean"}', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'plg_system_highlight', 'plugin', 'highlight', 'system', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 7, 0),
-(0, 'plg_content_finder', 'plugin', 'finder', 'content', 0, 0, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'plg_content_finder', 'plugin', 'finder', 'content', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'plg_finder_categories', 'plugin', 'categories', 'finder', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 1, 0),
 (0, 'plg_finder_contacts', 'plugin', 'contacts', 'finder', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 2, 0),
 (0, 'plg_finder_content', 'plugin', 'content', 'finder', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 3, 0),
@@ -678,7 +698,21 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'plg_system_skipto', 'plugin', 'skipto', 'system', 0, 1, 1, 0, '', '{}',  0, '0000-00-00 00:00:00', 0, 0),
 (0, 'plg_api-authentication_basic', 'plugin', 'basic', 'api-authentication', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'plg_webservices_banners', 'plugin', 'banners', 'webservices', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'plg_webservices_contact', 'plugin', 'contact', 'webservices', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0,  0),
+(0, 'plg_webservices_config', 'plugin', 'config', 'webservices', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0,  0),
 (0, 'plg_webservices_content', 'plugin', 'content', 'webservices', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'plg_webservices_languages', 'plugin', 'languages', 'webservices', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0,  0),
+(0, 'plg_webservices_messages', 'plugin', 'messages', 'webservices', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0,  0),
+(0, 'plg_webservices_modules', 'plugin', 'modules', 'webservices', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0,  0),
+(0, 'plg_webservices_menus', 'plugin', 'menus', 'webservices', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0,  0),
+(0, 'plg_webservices_newsfeeds', 'plugin', 'newsfeeds', 'webservices', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0,  0),
+(0, 'plg_webservices_plugins', 'plugin', 'plugins', 'webservices', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0,  0),
+(0, 'plg_webservices_privacy', 'plugin', 'privacy', 'webservices', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0,  0),
+(0, 'plg_webservices_redirect', 'plugin', 'redirect', 'webservices', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0,  0),
+(0, 'plg_webservices_tags', 'plugin', 'tags', 'webservices', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0,  0),
+(0, 'plg_webservices_templates', 'plugin', 'templates', 'webservices', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0,  0),
+(0, 'plg_webservices_users', 'plugin', 'users', 'webservices', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0,  0),
 (0, 'plg_filesystem_local', 'plugin', 'local', 'filesystem', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'plg_media-action_crop', 'plugin', 'crop', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
 (0, 'plg_media-action_resize', 'plugin', 'resize', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
@@ -948,7 +982,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms` (
   `links` int(10) NOT NULL DEFAULT 0,
   `language` char(7) NOT NULL DEFAULT '',
   PRIMARY KEY (`term_id`),
-  UNIQUE KEY `idx_term` (`term`,`language`),
+  UNIQUE KEY `idx_term_language` (`term`,`language`),
   KEY `idx_stem` (`stem`),
   KEY `idx_term_phrase` (`term`,`phrase`),
   KEY `idx_stem_phrase` (`stem`,`phrase`),
@@ -966,7 +1000,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms_common` (
   `term` varchar(75) NOT NULL DEFAULT '',
   `language` char(7) NOT NULL DEFAULT '',
   `custom` int(11) NOT NULL DEFAULT '0',
-  UNIQUE KEY `idx_word_lang` (`term`,`language`),
+  UNIQUE KEY `idx_term_language` (`term`,`language`),
   KEY `idx_lang` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_bin;
 
@@ -1302,7 +1336,7 @@ SELECT 6, 'main', 'com_banners_tracks', 'Tracks', '', 'Banners/Tracks', 'index.p
 INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`)
 SELECT 7, 'main', 'com_contact', 'Contacts', '', 'Contacts', 'index.php?option=com_contact', 'component', 1, 1, 1, `extension_id`, 0, '0000-00-00 00:00:00', 0, 0, 'class:contact', 0, '', 11, 16, 0, '*', 1 FROM `#__extensions` WHERE `name` = 'com_contact';
 INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`)
-SELECT 8, 'main', 'com_contact_contacts', 'Contacts', '', 'Contacts/Contacts', 'index.php?option=com_contact', 'component', 1, 7, 2, `extension_id`, 0, '0000-00-00 00:00:00', 0, 0, 'class:contact', 0, '', 12, 13, 0, '*', 1 FROM `#__extensions` WHERE `name` = 'com_contact';
+SELECT 8, 'main', 'com_contact_contacts', 'Contacts', '', 'Contacts/Contacts', 'index.php?option=com_contact&view=contacts', 'component', 1, 7, 2, `extension_id`, 0, '0000-00-00 00:00:00', 0, 0, 'class:contact', 0, '', 12, 13, 0, '*', 1 FROM `#__extensions` WHERE `name` = 'com_contact';
 INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`)
 SELECT 9, 'main', 'com_contact_categories', 'Categories', '', 'Contacts/Categories', 'index.php?option=com_categories&view=categories&extension=com_contact', 'component', 1, 7, 2, `extension_id`, 0, '0000-00-00 00:00:00', 0, 0, 'class:contact-cat', 0, '', 14, 15, 0, '*', 1 FROM `#__extensions` WHERE `name` = 'com_categories';
 INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`)
@@ -1312,15 +1346,17 @@ SELECT 11, 'main', 'com_messages_add', 'New Private Message', '', 'Messaging/New
 INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`)
 SELECT 12, 'main', 'com_newsfeeds', 'News Feeds', '', 'News Feeds', 'index.php?option=com_newsfeeds', 'component', 1, 1, 1, `extension_id`, 0, '0000-00-00 00:00:00', 0, 0, 'class:newsfeeds', 0, '', 21, 26, 0, '*', 1 FROM `#__extensions` WHERE `name` = 'com_newsfeeds';
 INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`)
-SELECT 13, 'main', 'com_newsfeeds_feeds', 'Feeds', '', 'News Feeds/Feeds', 'index.php?option=com_newsfeeds&view=newsfeeds', 'component', 1, 13, 2, `extension_id`, 0, '0000-00-00 00:00:00', 0, 0, 'class:newsfeeds', 0, '', 22, 23, 0, '*', 1 FROM `#__extensions` WHERE `name` = 'com_newsfeeds';
+SELECT 13, 'main', 'com_newsfeeds_feeds', 'Feeds', '', 'News Feeds/Feeds', 'index.php?option=com_newsfeeds&view=newsfeeds', 'component', 1, 12, 2, `extension_id`, 0, '0000-00-00 00:00:00', 0, 0, 'class:newsfeeds', 0, '', 22, 23, 0, '*', 1 FROM `#__extensions` WHERE `name` = 'com_newsfeeds';
 INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`)
-SELECT 14, 'main', 'com_newsfeeds_categories', 'Categories', '', 'News Feeds/Categories', 'index.php?option=com_categories&view=categories&extension=com_newsfeeds', 'component', 1, 13, 2, `extension_id`, 0, '0000-00-00 00:00:00', 0, 0, 'class:newsfeeds-cat', 0, '', 24, 25, 0, '*', 1 FROM `#__extensions` WHERE `name` = 'com_categories';
+SELECT 14, 'main', 'com_newsfeeds_categories', 'Categories', '', 'News Feeds/Categories', 'index.php?option=com_categories&view=categories&extension=com_newsfeeds', 'component', 1, 12, 2, `extension_id`, 0, '0000-00-00 00:00:00', 0, 0, 'class:newsfeeds-cat', 0, '', 24, 25, 0, '*', 1 FROM `#__extensions` WHERE `name` = 'com_categories';
 INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`)
 SELECT 15, 'main', 'com_finder', 'Smart Search', '', 'Smart Search', 'index.php?option=com_finder&view=index', 'component', 1, 1, 1, `extension_id`, 0, '0000-00-00 00:00:00', 0, 0, 'class:finder', 0, '', 27, 28, 0, '*', 1 FROM `#__extensions` WHERE `name` = 'com_finder';
 INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`)
 SELECT 16, 'main', 'com_tags', 'Tags', '', 'Tags', 'index.php?option=com_tags&view=tags', 'component', 1, 1, 1, `extension_id`, 0, '0000-00-00 00:00:00', 0, 1, 'class:tags', 0, '', 29, 30, 0, '', 1 FROM `#__extensions` WHERE `name` = 'com_tags';
 INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`)
 SELECT 17, 'main', 'com_associations', 'Multilingual Associations', '', 'Multilingual Associations', 'index.php?option=com_associations&view=associations', 'component', 1, 1, 1, `extension_id`, 0, '0000-00-00 00:00:00', 0, 0, 'class:associations', 0, '', 31, 32, 0, '*', 1 FROM `#__extensions` WHERE `name` = 'com_associations';
+INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`)
+SELECT 18, 'main', 'com_messages_manager', 'Private Messages', '', 'Messaging/Private Messages', 'index.php?option=com_messages&view=messages', 'component', 1, 10, 2, `extension_id`, 0, '0000-00-00 00:00:00', 0, 0, 'class:messages-add', 0, '', 18, 19, 0, '*', 1 FROM `#__extensions` WHERE `name` = 'com_messages';
 INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`)
 SELECT 101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, `extension_id`, 0, '0000-00-00 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","multi_column_order":"1","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 35, 36, 1, '*', 0 FROM `#__extensions` WHERE `name` = 'com_content';
 
@@ -1360,7 +1396,7 @@ CREATE TABLE IF NOT EXISTS `#__messages` (
   `user_id_from` int(10) unsigned NOT NULL DEFAULT 0,
   `user_id_to` int(10) unsigned NOT NULL DEFAULT 0,
   `folder_id` tinyint(3) unsigned NOT NULL DEFAULT 0,
-  `date_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `date_time` datetime NOT NULL,
   `state` tinyint(1) NOT NULL DEFAULT 0,
   `priority` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `subject` varchar(255) NOT NULL DEFAULT '',
@@ -1423,19 +1459,36 @@ INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `orderin
 (3, 41, 'Popular Articles', '', '', 3, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "6"}', 1, '*'),
 (4, 42, 'Recently Added Articles', '', '', 4, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "6"}', 1, '*'),
 (8, 43, 'Toolbar', '', '', 1, 'toolbar', 0, NULL, NULL, NULL, 1, 'mod_toolbar', 3, 1, '', 1, '*'),
-(9, 44, 'Quick Icons', '', '', 1, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 3, 1, '', 1, '*'),
+(9, 44, 'Update Checks', '', '', 3, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 3, 1, '{"context":"update_quickicon","header_icon":"fa fa-sync","show_jupdate":"1","show_eupdate":"1","show_oupdate":"1","show_privacy":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"12","header_tag":"h3","header_class":""}', 1, '*'),
 (10, 45, 'Logged-in Users', '', '', 2, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "6"}', 1, '*'),
 (12, 46, 'Admin Menu', '', '', 1, 'menu', 0, NULL, NULL, NULL, 1, 'mod_menu', 3, 1, '{"layout":"","moduleclass_sfx":"","shownew":"1","showhelp":"1","cache":"0"}', 1, '*'),
-(14, 48, 'User Status', '', '', 2, 'status', 0, NULL, NULL, NULL, 1, 'mod_status', 3, 1, '', 1, '*'),
 (15, 49, 'Title', '', '', 1, 'title', 0, NULL, NULL, NULL, 1, 'mod_title', 3, 1, '', 1, '*'),
 (16, 50, 'Login Form', '', '', 7, 'sidebar-right', 0, NULL, NULL, NULL, 1, 'mod_login', 1, 1, '{"greeting":"1","name":"0"}', 0, '*'),
 (17, 51, 'Breadcrumbs', '', '', 1, 'breadcrumbs', 0, NULL, NULL, NULL, 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"0","cache_time":"0","cachemode":"itemid"}', 0, '*'),
-(79, 52, 'Multilanguage status', '', '', 1, '', 0, NULL, NULL, NULL, 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
+(79, 52, 'Multilanguage status', '', '', 2, 'status', 0, NULL, NULL, NULL, 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
 (86, 53, 'Joomla Version', '', '', 1, 'status', 0, NULL, NULL, NULL, 1, 'mod_version', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
 (87, 55, 'Sample Data', '', '', 0, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_sampledata', 6, 1, '{"bootstrap_size": "6"}', 1, '*'),
-(88, 58, 'Latest Actions', '', '', 0, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_latestactions', 6, 1, '{}', 1, '*'),
-(89, 59, 'Privacy Dashboard', '', '', 0, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_privacy_dashboard', 6, 1, '{}', 1, '*');
-
+(88, 67, 'Latest Actions', '', '', 0, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_latestactions', 6, 1, '{}', 1, '*'),
+(89, 68, 'Privacy Dashboard', '', '', 0, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_privacy_dashboard', 6, 1, '{}', 1, '*'),
+(90, 65, 'Login Support', '', '', 1, 'sidebar', 0, NULL, NULL, NULL, 1, 'mod_loginsupport', 1, 1, '{"forum_url":"https://forum.joomla.org/","documentation_url":"https://docs.joomla.org/","news_url":"https://www.joomla.org/","automatic_title":1,"prepare_content":1,"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 1, '*'),
+(91, 72, 'System Dashboard', '', '', 1, 'cpanel-system', 0, NULL, NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"system","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"12","header_tag":"h3","header_class":"","style":"System-none"}', 1, '*'),
+(92, 73, 'Content Dashboard', '', '', 1, 'cpanel-content', 0, NULL, NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"content","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"3","header_tag":"h3","header_class":"","style":"System-none"}', 1, '*'),
+(93, 74, 'Menus Dashboard', '', '', 1, 'cpanel-menus', 0, NULL, NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"menus","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":"","style":"System-none"}', 1, '*'),
+(94, 75, 'Components Dashboard', '', '', 1, 'cpanel-components', 0, NULL, NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"components","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"12","header_tag":"h3","header_class":"","style":"System-none"}', 1, '*'),
+(95, 76, 'Users Dashboard', '', '', 1, 'cpanel-users', 0, NULL, NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"users","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":"","style":"System-none"}', 1, '*'),
+(96, 41, 'Popular Articles', '', '', 3, 'cpanel-content', 0, NULL, NULL, NULL, 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "6"}', 1, '*'),
+(97, 42, 'Recently Added Articles', '', '', 4, 'cpanel-content', 0, NULL, NULL, NULL, 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "6"}', 1, '*'),
+(98, 45, 'Logged-in Users', '', '', 2, 'cpanel-users', 0, NULL, NULL, NULL, 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "6"}', 1, '*'),
+(99, 77, 'Frontend Link', '', '', 5, 'status', 0, NULL, NULL, NULL, 1, 'mod_frontend', 1, 1, '', 1, '*'),
+(100, 78, 'Messages', '', '', 4, 'status', 0, NULL, NULL, NULL, 1, 'mod_messages', 3, 1, '', 1, '*'),
+(101, 79, 'Post Install Messages', '', '', 3, 'status', 0, NULL, NULL, NULL, 1, 'mod_post_installation_messages', 3, 1, '', 1, '*'),
+(102, 80, 'User Status', '', '', 6, 'status', 0, NULL, NULL, NULL, 1, 'mod_user', 3, 1, '', 1, '*'),
+(103, 70, 'Site', '', '', 1, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"site_quickicon","header_icon":"fa fa-desktop","show_users":"1","show_articles":"1","show_categories":"1","show_media":"1","show_menuItems":"1","show_modules":"1","show_plugins":"1","show_templates":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":""}', 1, '*'),
+(104, 71, 'System', '', '', 2, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"system_quickicon","header_icon":"fa fa-wrench","show_global":"1","show_checkin":"1","show_cache":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":""}', 1, '*'),
+(105, 82, '3rd Party', '', '', 4, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"context":"mod_quickicon","header_icon":"fa fa-boxes","load_plugins":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":""}', 1, '*'),
+(106, 83, 'Help Dashboard', '', '', 1, 'cpanel-help', 0, NULL, NULL, NULL, 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"help","layout":"_:default","moduleclass_sfx":"","style":"System-none","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":""}', 1, '*'),
+(107, 84, 'Privacy Requests', '', '', 1, 'cpanel-privacy', 0, NULL, NULL, NULL, 1, 'mod_privacy_dashboard', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":""}', 1, '*'),
+(108, 85, 'Privacy Status', '', '', 1, 'cpanel-privacy', 0, NULL, NULL, NULL, 1, 'mod_privacy_status', 1, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"cachemode":"static","style":"0","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":""}', 1, '*');
 -- --------------------------------------------------------
 
 --
@@ -1471,7 +1524,26 @@ INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES
 (86, 0),
 (87, 0),
 (88, 0),
-(89, 0);
+(89, 0),
+(90, 0),
+(91, 0),
+(92, 0),
+(93, 0),
+(94, 0),
+(95, 0),
+(96, 0),
+(97, 0),
+(98, 0),
+(99, 0),
+(100, 0),
+(101, 0),
+(102, 0),
+(103, 0),
+(104, 0),
+(105, 0),
+(106, 0),
+(107, 0),
+(108, 0);
 
 -- --------------------------------------------------------
 
@@ -1656,7 +1728,8 @@ CREATE TABLE IF NOT EXISTS `#__session` (
   `username` varchar(150) DEFAULT '',
   PRIMARY KEY (`session_id`),
   KEY `userid` (`userid`),
-  KEY `time` (`time`)
+  KEY `time` (`time`),
+  KEY `client_id_guest` (`client_id`, `guest`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -1744,12 +1817,13 @@ CREATE TABLE IF NOT EXISTS `#__template_styles` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `template` varchar(50) NOT NULL DEFAULT '',
   `client_id` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `home` char(7) NOT NULL DEFAULT 0,
+  `home` char(7) NOT NULL DEFAULT '0',
   `title` varchar(255) NOT NULL DEFAULT '',
   `params` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `idx_template` (`template`),
-  KEY `idx_home` (`home`)
+  KEY `idx_client_id` (`client_id`),
+  KEY `idx_client_id_home` (`client_id`,`home`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=9;
 
 --
@@ -1891,6 +1965,8 @@ CREATE TABLE IF NOT EXISTS `#__update_sites` (
   `enabled` int(11) DEFAULT 0,
   `last_check_timestamp` bigint(20) DEFAULT 0,
   `extra_query` varchar(1000) DEFAULT '',
+  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`update_site_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Update Sites';
 
@@ -2069,7 +2145,7 @@ CREATE TABLE IF NOT EXISTS `#__action_logs` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `message_language_key` varchar(255) NOT NULL DEFAULT '',
   `message` text NOT NULL,
-  `log_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `log_date` datetime NOT NULL,
   `extension` varchar(50) NOT NULL DEFAULT '',
   `user_id` int(11) NOT NULL DEFAULT 0,
   `item_id` int(11) NOT NULL DEFAULT 0,
@@ -2203,7 +2279,6 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 -- Table structure for table `#__workflows`
 --
 
-
 CREATE TABLE IF NOT EXISTS `#__workflows` (
   `id` int(10) NOT NULL AUTO_INCREMENT,
   `asset_id` int(10) DEFAULT 0,
@@ -2218,6 +2293,8 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   `created_by` int(10) NOT NULL DEFAULT 0,
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified_by` int(10) NOT NULL DEFAULT 0,
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `checked_out` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_asset_id` (`asset_id`),
   KEY `idx_title` (`title`(191)),
@@ -2226,14 +2303,16 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   KEY `idx_created` (`created`),
   KEY `idx_created_by` (`created_by`),
   KEY `idx_modified` (`modified`),
-  KEY `idx_modified_by` (`modified_by`)
+  KEY `idx_modified_by` (`modified_by`),
+  KEY `idx_checked_out` (`checked_out`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Dumping data for table `#__workflows`
 --
 
-INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `core`, `ordering`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
+INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `core`,`ordering`, `created`, `created_by`, `modified`, `modified_by`, `checked_out_time`, `checked_out`) VALUES
+(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
 
 --
 -- Table structure for table `#__workflow_associations`
@@ -2264,8 +2343,11 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
   `description` text NOT NULL,
   `condition` int(10) DEFAULT 0,
   `default` tinyint(1) NOT NULL DEFAULT 0,
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `checked_out` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_workflow_id` (`workflow_id`),
+  KEY `idx_checked_out` (`checked_out`),
   KEY `idx_title` (`title`(191)),
   KEY `idx_asset_id` (`asset_id`),
   KEY `idx_default` (`default`)
@@ -2275,11 +2357,11 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
 -- Dumping data for table `#__workflow_stages`
 --
 
-INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`) VALUES
-(1, 57, 1, 1, 1, 'JUNPUBLISHED', '', '0', 1),
-(2, 58, 2, 1, 1, 'JPUBLISHED', '', '1', 0),
-(3, 59, 3, 1, 1, 'JTRASHED', '', '-2', 0),
-(4, 60, 4, 1, 1, 'JARCHIVED', '', '2', 0);
+INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`, `checked_out_time`, `checked_out`) VALUES
+(1, 57, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1, '0000-00-00 00:00:00', 0),
+(2, 58, 2, 1, 1, 'JPUBLISHED', '', 1, 0, '0000-00-00 00:00:00', 0),
+(3, 59, 3, 1, 1, 'JTRASHED', '', -2, 0, '0000-00-00 00:00:00', 0),
+(4, 60, 4, 1, 1, 'JARCHIVED', '', 2, 0, '0000-00-00 00:00:00', 0);
 
 --
 -- Table structure for table `#__workflow_transitions`
@@ -2295,9 +2377,12 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   `description` text NOT NULL,
   `from_stage_id` int(10) NOT NULL,
   `to_stage_id` int(10) NOT NULL,
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `checked_out` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `idx_title` (`title`(191)),
   KEY `idx_asset_id` (`asset_id`),
+  KEY `idx_checked_out` (`checked_out`),
   KEY `idx_from_stage_id` (`from_stage_id`),
   KEY `idx_to_stage_id` (`to_stage_id`),
   KEY `idx_workflow_id` (`workflow_id`)
@@ -2307,8 +2392,29 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
 -- Dumping data for table `#__workflow_transitions`
 --
 
-INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`, `workflow_id`, `title`, `description`, `from_stage_id`, `to_stage_id`) VALUES
-(1, 61, 1, 1, 1, 'Unpublish', '', -1, 1),
-(2, 62, 1, 2, 1, 'Publish', '', -1, 2),
-(3, 63, 1, 3, 1, 'Trash', '', -1, 3),
-(4, 64, 1, 4, 1, 'Archive', '', -1, 4);
+INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`, `workflow_id`, `title`, `description`, `from_stage_id`, `to_stage_id`, `checked_out_time`, `checked_out`) VALUES
+(1, 61, 1, 1, 1, 'Unpublish', '', -1, 1, '0000-00-00 00:00:00', 0),
+(2, 62, 1, 2, 1, 'Publish', '', -1, 2, '0000-00-00 00:00:00', 0),
+(3, 63, 1, 3, 1, 'Trash', '', -1, 3, '0000-00-00 00:00:00', 0),
+(4, 64, 1, 4, 1, 'Archive', '', -1, 4, '0000-00-00 00:00:00', 0);
+
+--
+-- Table structure for table `#__mail_templates`
+--
+
+CREATE TABLE IF NOT EXISTS `#__mail_templates` (
+  `template_id` VARCHAR(127) NOT NULL DEFAULT '',
+  `language` char(7) NOT NULL DEFAULT '',
+  `subject` VARCHAR(255) NOT NULL DEFAULT '',
+  `body` TEXT NOT NULL,
+  `htmlbody` TEXT NOT NULL,
+  `attachments` TEXT NOT NULL,
+  `params` TEXT NOT NULL,
+  PRIMARY KEY (`template_id`, `language`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `#__mail_templates`
+--
+
+INSERT INTO `#__mail_templates` (`template_id`, `language`, `subject`, `body`, `htmlbody`, `attachments`, `params`) VALUES ('com_config.test_mail', '', 'COM_CONFIG_SENDMAIL_SUBJECT', 'COM_CONFIG_SENDMAIL_BODY', '', '', '{"tags":["sitename","method"]}');

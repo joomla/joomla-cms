@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Profiler;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Utility class to assist in the process of benchmarking the execution
@@ -176,7 +176,7 @@ class Profiler
 	 *
 	 * @since   3.0.0
 	 */
-	public function setStart($startTime = 0, $startMem = 0)
+	public function setStart($startTime = 0.0, $startMem = 0)
 	{
 		$this->start       = (double) $startTime;
 		$this->previousMem = (int) $startMem / 1048576;

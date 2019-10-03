@@ -2,7 +2,7 @@
   "name": "joomla",
   "version": "4.0.0",
   "description": "Joomla CMS",
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "repository": {
     "type": "git",
     "url": "https://github.com/joomla/joomla-cms.git"
@@ -43,12 +43,13 @@
     "jquery": "^3.4",
     "jquery-migrate": "^3.1.0",
     "mediaelement": "4.2.8",
-    "metismenujs": "^1.0.3",
+    "metismenujs": "^1.1.0",
     "popper.js": "^1.15.0",
     "punycode": "1.4.1",
     "qrcode-generator": "^1.4.3",
+    "roboto-fontface": "^0.10.0",
     "skipto": "^2.0.4",
-    "tinymce": "5.0.1"
+    "tinymce": "5.0.14"
   },
   "devDependencies": {
     "@babel/core": "^7.5.5",
