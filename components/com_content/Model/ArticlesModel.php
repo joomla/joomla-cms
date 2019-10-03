@@ -464,7 +464,6 @@ class ArticlesModel extends ListModel
 			$query->where($authorWhere . $authorAliasWhere);
 		}
 
-		// Define null and now dates
 		$nowDate  = $db->quote(Factory::getDate()->toSql());
 
 		// Filter by start and end dates.
