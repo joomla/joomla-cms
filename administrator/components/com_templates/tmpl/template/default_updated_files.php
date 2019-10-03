@@ -66,8 +66,7 @@ $input = Factory::getApplication()->input;
 										<?php if (is_null($value->modified_date)) : ?>
 											<span class="badge badge-warning"><?php echo Text::_('COM_TEMPLATES_OVERRIDE_CORE_REMOVED'); ?></span>
 										<?php else : ?>
-											<?php $modified_date = $value->modified_date; ?>
-											<?php echo HTMLHelper::_('date', $modified_date, Text::_('DATE_FORMAT_FILTER_DATETIME')); ?>
+											<?php echo HTMLHelper::_('date', $value->modified_date, Text::_('DATE_FORMAT_FILTER_DATETIME')); ?>
 										<?php endif; ?>
 									</td>
 									<td>
