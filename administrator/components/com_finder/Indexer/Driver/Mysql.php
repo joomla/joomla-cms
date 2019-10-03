@@ -48,7 +48,6 @@ class Mysql extends Indexer
 		// Mark beforeIndexing in the profiler.
 		static::$profiler ? static::$profiler->mark('beforeIndexing') : null;
 		$db = $this->db;
-		$nd = $db->getNullDate();
 
 		// Check if the item is in the database.
 		$query = $db->getQuery(true)
@@ -99,10 +98,10 @@ class Mysql extends Indexer
 		static::$profiler ? static::$profiler->mark('afterUnmapping') : null;
 
 		// Perform cleanup on the item data.
-		$item->publish_start_date = (int) $item->publish_start_date != 0 ? $item->publish_start_date : $nd;
-		$item->publish_end_date = (int) $item->publish_end_date != 0 ? $item->publish_end_date : $nd;
-		$item->start_date = (int) $item->start_date != 0 ? $item->start_date : $nd;
-		$item->end_date = (int) $item->end_date != 0 ? $item->end_date : $nd;
+		$item->publish_start_date = (int) $item->publish_start_date != 0 ? $item->publish_start_date : null;
+		$item->publish_end_date = (int) $item->publish_end_date != 0 ? $item->publish_end_date : null;
+		$item->start_date = (int) $item->start_date != 0 ? $item->start_date : null;
+		$item->end_date = (int) $item->end_date != 0 ? $item->end_date : null;
 
 		// Prepare the item description.
 		$item->description = Helper::parse($item->summary);
