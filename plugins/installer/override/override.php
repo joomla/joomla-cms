@@ -330,7 +330,7 @@ class PlgInstallerOverride extends CMSPlugin
 			'modified_date',
 			'extension_id',
 			'state',
-			'client_id'
+			'client_id',
 		];
 
 		// Create a insert query.
@@ -394,7 +394,7 @@ class PlgInstallerOverride extends CMSPlugin
 						$pk->id,
 						$pk->extension_id,
 						0,
-						(int) $pk->client
+						(int) $pk->client,
 					]
 				)
 			);
