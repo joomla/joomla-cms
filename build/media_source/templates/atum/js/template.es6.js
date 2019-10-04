@@ -353,7 +353,7 @@
    *
    * @since   4.0.0
    */
-  const primaryInput = document.querySelector('#jform_params_primary_color');
+  const primaryInput = document.getElementById('jform_params_primary_color');
   function updatePrimary() {
     document.documentElement.style.setProperty('--primary', this.value);
   }
@@ -361,7 +361,7 @@
     primaryInput.onchange = updatePrimary;
   }
 
-  const secondaryInput = document.querySelector('#jform_params_secondary_color');
+  const secondaryInput = document.getElementById('jform_params_secondary_color');
   function updateSecondary() {
     document.documentElement.style.setProperty('--secondary', this.value);
   }
@@ -369,7 +369,7 @@
     secondaryInput.onchange = updateSecondary;
   }
 
-  const bgLightInput = document.querySelector('#jform_params_bg_light');
+  const bgLightInput = document.getElementById('jform_params_bg_light');
   function updateBgLight() {
     document.documentElement.style.setProperty('--atum-bg-light', this.value);
   }
@@ -377,7 +377,7 @@
     bgLightInput.onchange = updateBgLight;
   }
 
-  const darkTextInput = document.querySelector('#jform_params_text_dark');
+  const darkTextInput = document.getElementById('jform_params_text_dark');
   function updateDarkText() {
     document.documentElement.style.setProperty('--atum-text-dark', this.value);
   }
@@ -385,7 +385,7 @@
     darkTextInput.onchange = updateDarkText;
   }
 
-  const lightTextInput = document.querySelector('#jform_params_text_light');
+  const lightTextInput = document.getElementById('jform_params_text_light');
   function updateLightText() {
     document.documentElement.style.setProperty('--atum-text-light', this.value);
   }
@@ -393,7 +393,7 @@
     lightTextInput.onchange = updateLightText;
   }
 
-  const linkColorInput = document.querySelector('#jform_params_link_color');
+  const linkColorInput = document.getElementById('jform_params_link_color');
   function updateLinkColor() {
     document.documentElement.style.setProperty('--atum-link-color', this.value);
   }
