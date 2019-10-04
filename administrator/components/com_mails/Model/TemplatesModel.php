@@ -40,7 +40,7 @@ class TemplatesModel extends ListModel
 				'language', 'a.language',
 				'subject', 'a.subject',
 				'body', 'a.body',
-				'htmlnody', 'a.htmlbody'
+				'htmlbody', 'a.htmlbody'
 			);
 		}
 
