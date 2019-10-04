@@ -23,6 +23,14 @@ use Joomla\Database\DatabaseDriver;
 class TransitionTable extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object
@@ -34,6 +42,21 @@ class TransitionTable extends Table
 		parent::__construct('#__workflow_transitions', 'id', $db);
 
 		$this->access = (int) Factory::getApplication()->get('access');
+	}
+
+	/**
+	 * Overloaded store function
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  mixed  False on failure, positive integer on success.
+	 *
+	 * @see     Table::store()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function store($updateNulls = true)
+	{
+		return parent::store($updateNulls);
 	}
 
 	/**

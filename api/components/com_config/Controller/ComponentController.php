@@ -16,7 +16,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\Component\Config\Api\View\Component\JsonApiView;
+use Joomla\Component\Config\Api\View\Component\JsonapiView;
 use Joomla\Component\Config\Administrator\Model\ComponentModel;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
@@ -57,7 +57,7 @@ class ComponentController extends ApiController
 
 		try
 		{
-			/** @var JsonApiView $view */
+			/** @var JsonapiView $view */
 			$view = $this->getView(
 				$this->default_view,
 				$viewType,
@@ -75,7 +75,7 @@ class ComponentController extends ApiController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Model failed to be created', 500);
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'), 500);
 		}
 
 		// Push the model into the view (as default)
@@ -102,7 +102,7 @@ class ComponentController extends ApiController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Model failed to be created', 500);
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'), 500);
 		}
 
 		// Access check.
@@ -157,7 +157,7 @@ class ComponentController extends ApiController
 
 		if (!$model->save($data))
 		{
-			throw new \RuntimeException('Internal server error', 500);
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SERVER'), 500);
 		}
 
 		return $this;
