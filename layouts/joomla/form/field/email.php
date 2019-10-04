@@ -47,8 +47,7 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  */
 
-$autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete === 'autocomplete="on"' ? '' : $autocomplete;
+$autocomplete = !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '';
 
 $attributes = array(
 	$spellcheck ? '' : 'spellcheck="false"',

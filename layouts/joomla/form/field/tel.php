@@ -45,8 +45,7 @@ extract($displayData);
  * @var   integer  $maxLength       The maximum length that the field shall accept.
  */
 
-$autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete === 'autocomplete="on"' ? '' : $autocomplete;
+$autocomplete = !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '';
 
 $attributes = array(
 	!empty($size) ? 'size="' . $size . '"' : '',

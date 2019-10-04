@@ -53,8 +53,7 @@ if ($options)
 	$list = 'list="' . $id . '_datalist"';
 }
 
-$autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
+$autocomplete = !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '';
 
 $attributes = array(
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',

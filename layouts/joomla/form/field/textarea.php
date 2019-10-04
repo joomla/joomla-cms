@@ -45,8 +45,7 @@ extract($displayData);
  */
 
 // Initialize some field attributes.
-$autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete === 'autocomplete="on"' ? '' : $autocomplete;
+$autocomplete = !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '';
 
 $attributes = array(
 	$columns ?: '',
