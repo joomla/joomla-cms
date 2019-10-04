@@ -154,10 +154,12 @@
     const headerItems = doc.querySelectorAll('.header-items > .header-item');
     const wrapper = doc.querySelector('#wrapper');
     const togglerButton = doc.querySelector('#wrapper > .toggler-burger');
-    let togglerButtonWidth = 0;
+    let togglerButtonWidth;
 
     if (togglerButton) {
       togglerButtonWidth = togglerButton.offsetWidth;
+    } else {
+      togglerButtonWidth = 0;
     }
 
     const wrapperWidth = wrapper.offsetWidth - togglerButtonWidth;
