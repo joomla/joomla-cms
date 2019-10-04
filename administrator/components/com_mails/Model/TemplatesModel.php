@@ -160,10 +160,11 @@ class TemplatesModel extends ListModel
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->innerJoin(
-				$db->quoteName('#__mail_templates', 'b')
-				. ' ON (' . $db->quoteName('b.template_id') . ' = ' . $db->quoteName('a.template_id')
-				. ' AND ' . $db->quoteName('b.language') . ' = :language)'
+			$query->join(
+				'INNER',
+				$db->quoteName('#__mail_templates', 'b'),
+				$db->quoteName('b.template_id') . ' = ' . $db->quoteName('a.template_id')
+				. ' AND ' . $db->quoteName('b.language') . ' = :language'
 			)
 				->bind(':language', $language);
 		}
