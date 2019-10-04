@@ -14,9 +14,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-JHtml::_('behavior.tooltip');
-JHtml::_('behavior.multiselect');
-
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 ?>
