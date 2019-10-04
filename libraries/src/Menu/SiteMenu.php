@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Menu;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
@@ -80,7 +80,6 @@ class SiteMenu extends AbstractMenu
 	{
 		$loader = function ()
 		{
-			$nullDate    = $this->db->getNullDate();
 			$currentDate = Factory::getDate()->toSql();
 
 			$query = $this->db->getQuery(true)
@@ -135,22 +134,20 @@ class SiteMenu extends AbstractMenu
 				->extendWhere(
 					'AND',
 					[
-						$this->db->quoteName('m.publish_up') . ' = :nullDate1',
+						$this->db->quoteName('m.publish_up') . ' IS NULL',
 						$this->db->quoteName('m.publish_up') . ' <= :currentDate1',
 					],
 					'OR'
 				)
-				->bind(':nullDate1', $nullDate)
 				->bind(':currentDate1', $currentDate)
 				->extendWhere(
 					'AND',
 					[
-						$this->db->quoteName('m.publish_down') . ' = :nullDate2',
+						$this->db->quoteName('m.publish_down') . ' IS NULL',
 						$this->db->quoteName('m.publish_down') . ' >= :currentDate2',
 					],
 					'OR'
 				)
-				->bind(':nullDate2', $nullDate)
 				->bind(':currentDate2', $currentDate)
 				->order($this->db->quoteName('m.lft'));
 
@@ -166,7 +163,7 @@ class SiteMenu extends AbstractMenu
 			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
 				->createCacheController('callback', ['defaultgroup' => 'com_menus']);
 
-			$this->items = $cache->get($loader, array(), md5(get_class($this)), false);
+			$this->items = $cache->get($loader, array(), md5(\get_class($this)), false);
 		}
 		catch (CacheExceptionInterface $e)
 		{
@@ -275,12 +272,12 @@ class SiteMenu extends AbstractMenu
 	 */
 	public function getDefault($language = '*')
 	{
-		if (array_key_exists($language, $this->default) && $this->app->isClient('site') && $this->app->getLanguageFilter())
+		if (\array_key_exists($language, $this->default) && $this->app->isClient('site') && $this->app->getLanguageFilter())
 		{
 			return $this->getMenu()[$this->default[$language]];
 		}
 
-		if (array_key_exists('*', $this->default))
+		if (\array_key_exists('*', $this->default))
 		{
 			return $this->getMenu()[$this->default['*']];
 		}

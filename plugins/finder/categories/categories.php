@@ -217,7 +217,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 				$pk    = (int) $pk;
 				$query = clone $this->getStateQuery();
 
-				$query->where($query->quoteName('a.id') . ' = :plgFinderCategoriesId')
+				$query->where($this->db->quoteName('a.id') . ' = :plgFinderCategoriesId')
 					->bind(':plgFinderCategoriesId', $pk, ParameterType::INTEGER);
 
 				$this->db->setQuery($query);
@@ -437,7 +437,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		$query = $this->db->getQuery(true);
 
 		$query->select(
-			$query->quoteName(
+			$this->db->quoteName(
 				[
 					'a.id',
 					'a.parent_id',
@@ -446,7 +446,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			)
 		)
 			->select(
-				$query->quoteName(
+				$this->db->quoteName(
 					[
 						'a.' . $this->state_field,
 						'c.published',
@@ -459,10 +459,11 @@ class PlgFinderCategories extends FinderIndexerAdapter
 					]
 				)
 			)
-			->from($query->quoteName('#__categories', 'a'))
-			->leftJoin(
-				$query->quoteName('#__categories', 'c'),
-				$query->quoteName('c.id') . ' = ' . $query->quoteName('a.parent_id')
+			->from($this->db->quoteName('#__categories', 'a'))
+			->join(
+				'INNER',
+				$this->db->quoteName('#__categories', 'c'),
+				$this->db->quoteName('c.id') . ' = ' . $this->db->quoteName('a.parent_id')
 			);
 
 		return $query;

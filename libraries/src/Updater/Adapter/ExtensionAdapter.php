@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Updater\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -65,7 +65,7 @@ class ExtensionAdapter extends UpdateAdapter
 				break;
 
 			default:
-				if (in_array($name, $this->updatecols))
+				if (\in_array($name, $this->updatecols))
 				{
 					$name = strtolower($name);
 					$this->currentUpdate->$name = '';
@@ -145,7 +145,7 @@ class ExtensionAdapter extends UpdateAdapter
 						$supportedDbs = $this->currentUpdate->supported_databases;
 
 						// Do we have an entry for the database?
-						if (array_key_exists($dbType, $supportedDbs))
+						if (\array_key_exists($dbType, $supportedDbs))
 						{
 							$minumumVersion = $supportedDbs[$dbType];
 							$dbMatch        = version_compare($dbVersion, $minumumVersion, '>=');
@@ -251,7 +251,7 @@ class ExtensionAdapter extends UpdateAdapter
 	{
 		$tag = $this->_getLastTag();
 
-		if (in_array($tag, $this->updatecols))
+		if (\in_array($tag, $this->updatecols))
 		{
 			$tag = strtolower($tag);
 			$this->currentUpdate->$tag .= $data;
@@ -286,7 +286,7 @@ class ExtensionAdapter extends UpdateAdapter
 			return false;
 		}
 
-		if (array_key_exists('minimum_stability', $options))
+		if (\array_key_exists('minimum_stability', $options))
 		{
 			$this->minimum_stability = $options['minimum_stability'];
 		}
@@ -317,7 +317,7 @@ class ExtensionAdapter extends UpdateAdapter
 
 		if (isset($this->latest))
 		{
-			if (isset($this->latest->client) && strlen($this->latest->client))
+			if (isset($this->latest->client) && \strlen($this->latest->client))
 			{
 				if (is_numeric($this->latest->client))
 				{
@@ -362,9 +362,9 @@ class ExtensionAdapter extends UpdateAdapter
 	{
 		$constant = '\\Joomla\\CMS\\Updater\\Updater::STABILITY_' . strtoupper($tag);
 
-		if (defined($constant))
+		if (\defined($constant))
 		{
-			return constant($constant);
+			return \constant($constant);
 		}
 
 		return Updater::STABILITY_STABLE;
