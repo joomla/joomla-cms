@@ -152,13 +152,16 @@
   function headerItemsInDropdown() {
     const headerWrapper = doc.querySelector('.header-items');
     const headerItems = doc.querySelectorAll('.header-items > .header-item');
-    const headerWrapperWidth = headerWrapper.offsetWidth;
+    const wrapper = doc.querySelector('#wrapper');
+    const togglerButton = doc.querySelector('#wrapper > .toggler-burger');
+    const togglerButtonWidth = togglerButton.offsetWidth;
+    const wrapperWidth = wrapper.offsetWidth - togglerButtonWidth;
     let headerItemsWidth = 0;
     headerItems.forEach((item) => {
       headerItemsWidth += item.offsetWidth;
     });
 
-    if (headerItemsWidth > headerWrapperWidth) {
+    if (headerItemsWidth > wrapperWidth) {
       if (!doc.querySelector('#header-more-items')) {
         const headerMoreItem = document.createElement('div');
         headerMoreItem.className = 'header-item header-item-more d-flex';
@@ -191,7 +194,7 @@
       const headerMoreItems = headerMoreWrapper.querySelectorAll('.header-item');
 
       headerItems.forEach((item) => {
-        if (headerItemsWidth > headerWrapperWidth && item.id !== 'header-more-items') {
+        if (headerItemsWidth > wrapperWidth && item.id !== 'header-more-items') {
           headerItemsWidth -= item.offsetWidth;
           if (!headerMoreItems) {
             headerMoreWrapper.appendChild(item);
@@ -200,13 +203,13 @@
           }
         }
       });
-    } else if (headerItemsWidth < headerWrapperWidth && doc.querySelector('#header-more-items')) {
+    } else if (headerItemsWidth < wrapperWidth && doc.querySelector('#header-more-items')) {
       const headerMore = headerWrapper.querySelector('#header-more-items');
       const headerMoreItems = headerMore.querySelectorAll('.header-item');
 
       headerMoreItems.forEach((item) => {
         headerItemsWidth += item.offsetWidth;
-        if (headerItemsWidth < headerWrapperWidth) {
+        if (headerItemsWidth < wrapperWidth) {
           headerWrapper.insertBefore(item, doc.querySelector('.header-items > .header-item'));
         }
       });
