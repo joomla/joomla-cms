@@ -340,8 +340,6 @@ class PlgInstallerOverride extends CMSPlugin
 
 		foreach ($pks as $pk)
 		{
-			$insertQuery->clear('values');
-
 			$date = new Date('now');
 			$createdDate = $date->toSql();
 
@@ -402,9 +400,9 @@ class PlgInstallerOverride extends CMSPlugin
 			);
 
 			$insertQuery->values(implode(',', $bindArray));
-
-			$this->db->setQuery($insertQuery);
-			$this->db->execute();
 		}
+
+		$this->db->setQuery($insertQuery);
+		$this->db->execute();
 	}
 }
