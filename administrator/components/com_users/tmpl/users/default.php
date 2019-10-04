@@ -180,7 +180,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									<?php echo PunycodeHelper::emailToUTF8($this->escape($item->email)); ?>
 								</td>
 								<td class="d-none d-xl-table-cell">
-									<?php if ($item->lastvisitDate != $this->db->getNullDate()) : ?>
+									<?php if ($item->lastvisitDate !== $item->registerDate) : ?>
 										<?php echo HTMLHelper::_('date', $item->lastvisitDate, Text::_('DATE_FORMAT_LC6')); ?>
 									<?php else : ?>
 										<?php echo Text::_('JNEVER'); ?>

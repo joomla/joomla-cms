@@ -150,8 +150,8 @@ class ActionlogsModel extends ListModel
 		{
 			$date = $this->buildDateRange($dateRange);
 
-			// If the chosen range is not more than a year ago
-			if ($date['dNow'] != false)
+			// If a range was chosen and it is not more than a year ago
+			if ($date['dNow'] != false && $date['dStart'] != false)
 			{
 				$dStart = $date['dStart']->format('Y-m-d H:i:s');
 				$dNow   = $date['dNow']->format('Y-m-d H:i:s');

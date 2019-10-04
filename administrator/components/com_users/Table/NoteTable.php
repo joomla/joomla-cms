@@ -23,6 +23,14 @@ use Joomla\Database\DatabaseDriver;
 class NoteTable extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  Database object
@@ -46,15 +54,15 @@ class NoteTable extends Table
 	 *
 	 * @since   2.5
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate()->toSql();
 		$userId = Factory::getUser()->get('id');
 
 		if (!((int) $this->review_time))
 		{
-			// Null date.
-			$this->review_time = $this->getDbo()->getNullDate();
+			// Null
+			$this->review_time = null;
 		}
 
 		if ($this->id)
@@ -66,8 +74,9 @@ class NoteTable extends Table
 		else
 		{
 			// New record.
-			$this->created_time = $date;
+			$this->created_time    = $date;
 			$this->created_user_id = $userId;
+			$this->modified_time   = $date;
 		}
 
 		// Attempt to store the data.
@@ -96,7 +105,7 @@ class NoteTable extends Table
 
 		if (empty($this->modified_time))
 		{
-			$this->modified_time = $this->getDbo()->getNullDate();
+			$this->modified_time = $this->created_time;
 		}
 
 		return true;

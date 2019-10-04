@@ -27,6 +27,14 @@ use Joomla\Utilities\ArrayHelper;
 class User extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Associative array of group ids => group ids for the user
 	 *
 	 * @var    array
@@ -224,7 +232,7 @@ class User extends Table
 		$this->email = PunycodeHelper::emailToPunycode($this->email);
 
 		// Set the registration timestamp
-		if (empty($this->registerDate) || $this->registerDate == $this->_db->getNullDate())
+		if (empty($this->registerDate))
 		{
 			$this->registerDate = Factory::getDate()->toSql();
 		}
@@ -232,13 +240,13 @@ class User extends Table
 		// Set the lastvisitDate timestamp
 		if (empty($this->lastvisitDate))
 		{
-			$this->lastvisitDate = $this->_db->getNullDate();
+			$this->lastvisitDate = $this->registerDate;
 		}
 
 		// Set the lastResetTime timestamp
 		if (empty($this->lastResetTime))
 		{
-			$this->lastResetTime = $this->_db->getNullDate();
+			$this->lastResetTime = null;
 		}
 
 		// Check for existing username
@@ -310,7 +318,7 @@ class User extends Table
 	 *
 	 * @since   1.7.0
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		// Get the table key and key value.
 		$k = $this->_tbl_key;
