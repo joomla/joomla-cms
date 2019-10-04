@@ -278,7 +278,7 @@ class ArticlesModel extends ListModel
 		{
 			$subQuery = $db->getQuery(true)
 				->select('CASE WHEN COUNT(' . $db->quoteName('asso1.id') . ') > 1 THEN 1 ELSE 0 END')
-								->from(
+				->from(
 					[
 						$db->quoteName('#__associations', 'asso1'),
 						$db->quoteName('#__associations', 'asso2'),
