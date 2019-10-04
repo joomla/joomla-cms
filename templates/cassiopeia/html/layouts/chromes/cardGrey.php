@@ -23,7 +23,7 @@ if ($module->content) : ?>
 		<?php if ($module->showtitle and $headerClass !== 'card-title') : ?>
 			<<?php echo $headerTag; ?> class="card-header <?php echo $headerClass; ?>"><?php echo $module->title; ?></<?php echo $headerTag; ?>>
 		<?php endif; ?>
-		<div class="card-body">
+		<div class="<?php echo $modulePos; ?> card-body">
 			<?php if ($module->showtitle && $headerClass === 'card-title') : ?>
 				<<?php echo $headerTag; ?> class="<?php echo $headerClass; ?>"><?php echo $module->title; ?></<?php echo $headerTag; ?>>
 			<?php endif; ?>
