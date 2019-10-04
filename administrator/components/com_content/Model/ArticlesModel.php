@@ -497,13 +497,13 @@ class ArticlesModel extends ListModel
 				$db->quoteName('#__contentitem_tag_map', 'tagmap'),
 				$db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 			)
-			->where(
-				[
-					$db->quoteName('tagmap.tag_id') . ' = :tag',
-					$db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article'),
-				]
-			)
-			->bind(':tag', $tag, ParameterType::INTEGER);
+				->where(
+					[
+						$db->quoteName('tagmap.tag_id') . ' = :tag',
+						$db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article'),
+					]
+				)
+				->bind(':tag', $tag, ParameterType::INTEGER);
 		}
 
 		// Add the list ordering clause.
