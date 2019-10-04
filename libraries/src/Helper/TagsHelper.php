@@ -457,7 +457,6 @@ class TagsHelper extends CMSHelper
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$user = Factory::getUser();
-		$nullDate = $db->quote($db->getNullDate());
 		$nowDate = $db->quote(Factory::getDate()->toSql());
 
 		// Force ids to array and sanitize
@@ -504,7 +503,7 @@ class TagsHelper extends CMSHelper
 				. ', ' . 'MAX(c.core_created_by_alias) AS core_created_by_alias'
 			)
 			->select('MAX(c.core_created_time) as core_created_time, MAX(c.core_images) as core_images')
-			->select('CASE WHEN c.core_modified_time = ' . $nullDate . ' THEN c.core_created_time ELSE c.core_modified_time END as core_modified_time')
+			->select('CASE WHEN c.core_modified_time IS NULL THEN c.core_created_time ELSE c.core_modified_time END as core_modified_time')
 			->select('MAX(c.core_language) AS core_language, MAX(c.core_catid) AS core_catid')
 			->select('MAX(c.core_publish_up) AS core_publish_up, MAX(c.core_publish_down) as core_publish_down')
 			->select('MAX(ct.type_title) AS content_type_title, MAX(ct.router) AS router')
@@ -514,9 +513,8 @@ class TagsHelper extends CMSHelper
 				'INNER',
 				'#__ucm_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id AND c.core_state IN ('
 					. implode(',', $stateFilters) . ')'
-					. (\in_array('0', $stateFilters) ? '' : ' AND (c.core_publish_up = ' . $nullDate
-					. ' OR c.core_publish_up <= ' . $nowDate . ') '
-					. ' AND (c.core_publish_down = ' . $nullDate . ' OR  c.core_publish_down >= ' . $nowDate . ')')
+					. (\in_array('0', $stateFilters) ? '' : ' AND (c.core_publish_up IS NULL OR c.core_publish_up <= ' . $nowDate . ') '
+					. ' AND (c.core_publish_down IS NULL OR c.core_publish_down >= ' . $nowDate . ')')
 			)
 			->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias')
 
