@@ -98,6 +98,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 
 <?php // Header ?>
 <header id="header" class="header">
+	<jdoc:include type="modules" name="version" />
 	<div class="d-flex">
 		<div class="header-title d-flex">
 			<div class="d-flex">

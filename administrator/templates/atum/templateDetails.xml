@@ -36,6 +36,7 @@
 		<position>title</position>
 		<position>top</position>
 		<position>toolbar</position>
+		<position>version</position>		
 		<!-- used directly in a component and included here so the position will appear in the list of available positions -->
 		<position>cpanel</position>
 		<position>icon</position>

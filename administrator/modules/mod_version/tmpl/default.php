@@ -13,11 +13,8 @@ use Joomla\CMS\Language\Text;
 
 ?>
 <div class="header-item-content">
-	<div class="joomlaversion d-flex">
-		<div class="d-flex align-items-end mx-auto">
-			<span class="fab fa-joomla" aria-hidden="true"></span>
-		</div>
-		<div class="tiny mx-auto">
+	<div class="joomlaversion d-flex float-right">
+		<div class="tiny">
 			<span class="sr-only"><?php echo Text::sprintf('MOD_VERSION_CURRENT_VERSION_TEXT', $version); ?></span>
 			<span aria-hidden="true"><?php echo $version; ?></span>
 		</div>
