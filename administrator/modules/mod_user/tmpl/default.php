@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
@@ -24,7 +25,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			<span class="fa fa-user-circle" aria-hidden="true"></span>
 		</div>
 		<div class="tiny">
-			<?php echo Text::_('MOD_USER_MENU'); ?>
+			<?php echo htmlspecialchars(Factory::getUser()->name); ?>
 		</div>
 		<span class="fa fa-angle-down" aria-hidden="true"></span>
 	</button>
