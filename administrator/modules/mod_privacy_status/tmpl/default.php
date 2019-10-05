@@ -120,5 +120,27 @@ use Joomla\CMS\Router\Route;
 				<?php endif; ?>
 			</td>
 		</tr>
+		<tr>
+			<td>
+				<?php if ($databaseConnectionEncryption !== '') : ?>
+					<span class="badge badge-success">
+						<span class="icon-checkbox" aria-hidden="true"></span>
+						<?php echo Text::_('JENABLED'); ?>
+					</span>
+				<?php else : ?>
+				<span class="badge badge-warning">
+						<span class="icon-warning" aria-hidden="true"></span>
+						<?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
+					</span>
+				<?php endif; ?>
+			</td>
+			<td>
+				<?php if ($databaseConnectionEncryption === '') : ?>
+					<?php echo Text::_('MOD_PRIVACY_STATUS_CHECK_DATABASE_CONNECTION_ENCRYPTION_DISABLED'); ?>
+				<?php else : ?>
+					<?php echo Text::sprintf('MOD_PRIVACY_STATUS_CHECK_DATABASE_CONNECTION_ENCRYPTION_ENABLED', $databaseConnectionEncryption); ?>
+				<?php endif; ?>
+			</td>
+		</tr>
 	</tbody>
 </table>
