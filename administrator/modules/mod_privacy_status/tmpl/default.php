@@ -24,19 +24,19 @@ use Joomla\CMS\Router\Route;
 			<td>
 				<?php if ($privacyPolicyInfo['published'] && $privacyPolicyInfo['articlePublished']) : ?>
 					<span class="badge badge-success">
-					<span class="icon-checkbox" aria-hidden="true"></span>
-					<?php echo Text::_('JPUBLISHED'); ?>
-				</span>
+						<span class="icon-checkbox" aria-hidden="true"></span>
+						<?php echo Text::_('JPUBLISHED'); ?>
+					</span>
 				<?php elseif ($privacyPolicyInfo['published'] && !$privacyPolicyInfo['articlePublished']) : ?>
 					<span class="badge badge-warning">
-					<span class="icon-warning" aria-hidden="true"></span>
-					<?php echo Text::_('JUNPUBLISHED'); ?>
-				</span>
+						<span class="icon-warning" aria-hidden="true"></span>
+						<?php echo Text::_('JUNPUBLISHED'); ?>
+					</span>
 				<?php else : ?>
 					<span class="badge badge-warning">
-					<span class="icon-warning" aria-hidden="true"></span>
-					<?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
-				</span>
+						<span class="icon-warning" aria-hidden="true"></span>
+						<?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
+					</span>
 				<?php endif; ?>
 			</td>
 			<td>
@@ -53,19 +53,19 @@ use Joomla\CMS\Router\Route;
 			<td>
 				<?php if ($requestFormPublished['published'] && $requestFormPublished['exists']) : ?>
 					<span class="badge badge-success">
-					<span class="icon-checkbox" aria-hidden="true"></span>
-					<?php echo Text::_('JPUBLISHED'); ?>
-				</span>
+						<span class="icon-checkbox" aria-hidden="true"></span>
+						<?php echo Text::_('JPUBLISHED'); ?>
+					</span>
 				<?php elseif (!$requestFormPublished['published'] && $requestFormPublished['exists']) : ?>
 					<span class="badge badge-warning">
-					<span class="icon-warning" aria-hidden="true"></span>
-					<?php echo Text::_('JUNPUBLISHED'); ?>
-				</span>
+						<span class="icon-warning" aria-hidden="true"></span>
+						<?php echo Text::_('JUNPUBLISHED'); ?>
+					</span>
 				<?php else : ?>
 					<span class="badge badge-warning">
-					<span class="icon-warning" aria-hidden="true"></span>
-					<?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
-				</span>
+						<span class="icon-warning" aria-hidden="true"></span>
+						<?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
+					</span>
 				<?php endif; ?>
 			</td>
 			<td>
@@ -105,7 +105,7 @@ use Joomla\CMS\Router\Route;
 						<?php echo Text::_('JENABLED'); ?>
 					</span>
 				<?php else : ?>
-				<span class="badge badge-danger">
+					<span class="badge badge-danger">
 						<span class="icon-warning" aria-hidden="true"></span>
 						<?php echo Text::_('JDISABLED'); ?>
 					</span>
@@ -128,7 +128,7 @@ use Joomla\CMS\Router\Route;
 						<?php echo Text::_('JENABLED'); ?>
 					</span>
 				<?php else : ?>
-				<span class="badge badge-warning">
+					<span class="badge badge-warning">
 						<span class="icon-warning" aria-hidden="true"></span>
 						<?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
 					</span>
