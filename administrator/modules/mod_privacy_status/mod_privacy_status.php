@@ -33,11 +33,12 @@ HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/helper
 
 JLoader::register('ModPrivacyStatusHelper', __DIR__ . '/helper.php');
 
-$privacyPolicyInfo      = ModPrivacyStatusHelper::getPrivacyPolicyInfo();
-$requestFormPublished   = ModPrivacyStatusHelper::getRequestFormPublished();
-$privacyConsentPluginId = PrivacyHelper::getPrivacyConsentPluginId();
-$sendMailEnabled        = (bool) Factory::getConfig()->get('mailonline', 1);
-$numberOfUrgentRequests = ModPrivacyStatusHelper::getNumberUrgentRequests();
-$urgentRequestDays      = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
+$privacyPolicyInfo            = ModPrivacyStatusHelper::getPrivacyPolicyInfo();
+$requestFormPublished         = ModPrivacyStatusHelper::getRequestFormPublished();
+$privacyConsentPluginId       = PrivacyHelper::getPrivacyConsentPluginId();
+$sendMailEnabled              = (bool) Factory::getConfig()->get('mailonline', 1);
+$numberOfUrgentRequests       = ModPrivacyStatusHelper::getNumberUrgentRequests();
+$urgentRequestDays            = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
+$databaseConnectionEncryption = Factory::getContainer()->get('DatabaseDriver')->getConnectionEncryption();
 
 require ModuleHelper::getLayoutPath('mod_privacy_status', $params->get('layout', 'default'));
