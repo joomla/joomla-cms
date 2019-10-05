@@ -169,9 +169,6 @@ class TagTable extends Nested
 			$this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
 		}
 
-		// Not Null sanity check
-		$date = Factory::getDate();
-
 		if (empty($this->params))
 		{
 			$this->params = '{}';
@@ -253,11 +250,6 @@ class TagTable extends Nested
 			if (empty($this->created_user_id))
 			{
 				$this->created_user_id = $user->get('id');
-			}
-
-			if (!(int) $this->modified_time)
-			{
-				$this->modified_time = $this->created_time;
 			}
 		}
 
