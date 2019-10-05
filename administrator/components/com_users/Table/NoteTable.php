@@ -61,7 +61,6 @@ class NoteTable extends Table
 
 		if (!((int) $this->review_time))
 		{
-			// Null
 			$this->review_time = null;
 		}
 
