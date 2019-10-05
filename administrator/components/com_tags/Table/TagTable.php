@@ -214,7 +214,7 @@ class TagTable extends Nested
 
 		if (!(int) $this->publish_down)
 		{
-			$this->publish_down = null);
+			$this->publish_down = null;
 		}
 
 		return true;
