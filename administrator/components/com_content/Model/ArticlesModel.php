@@ -474,7 +474,7 @@ class ArticlesModel extends ListModel
 		{
 			$tag = ArrayHelper::toInteger($tag);
 
-			$tagQuery = $db->getQuery(true)
+			$subQuery = $db->getQuery(true)
 				->select('DISTINCT ' . $db->quoteName('content_item_id'))
 				->from($db->quoteName('#__contentitem_tag_map'))
 				->where(
@@ -486,7 +486,7 @@ class ArticlesModel extends ListModel
 
 			$query->join(
 				'INNER',
-				'(' . $tagQuery . ') AS ' . $db->quoteName('tagmap'),
+				'(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
 				$db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 			);
 		}
