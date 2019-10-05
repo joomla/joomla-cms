@@ -62,7 +62,6 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 $this->setMetaData('theme-color', '#1c3d5c');
 $this->addScriptDeclaration('cssVars();');
 
-// Opacity must be set before displaying the DOM, so don't move to a CSS file
 $css = '
 	:root {
 		--primary: ' . $this->params->get('primary-color', '#1a466b') . ';
