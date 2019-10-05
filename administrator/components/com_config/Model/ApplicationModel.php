@@ -130,8 +130,26 @@ class ApplicationModel extends FormModel
 			'user'     => $data['user'],
 			'password' => $app->get('password'),
 			'database' => $data['db'],
-			'prefix'   => $data['dbprefix']
+			'prefix'   => $data['dbprefix'],
 		);
+
+		if ((int) $data['dbencryption'] !== 0)
+		{
+			$options['ssl'] = [
+				'enable'             => true,
+				'verify_server_cert' => (bool) $data['dbsslverifyservercert'],
+			];
+
+			foreach (['cipher', 'ca', 'capath', 'key', 'cert'] as $value)
+			{
+				$confVal = trim($data['dbssl' . $value]);
+
+				if ($confVal !== '')
+				{
+					$options['ssl'][$value] = $confVal;
+				}
+			}
+		}
 
 		try
 		{
