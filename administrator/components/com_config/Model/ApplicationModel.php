@@ -158,7 +158,7 @@ class ApplicationModel extends FormModel
 		}
 		catch (\Exception $e)
 		{
-			$app->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_DATABASE_NOT_AVAILABLE', $e->getCode(), $e->getMessage()), 'error');
 
 			return false;
 		}
