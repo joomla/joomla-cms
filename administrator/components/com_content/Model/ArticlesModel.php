@@ -266,58 +266,29 @@ class ArticlesModel extends ListModel
 				. ' ON ' . $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id')
 			);
 
-		// Join on voting table
-		$associationsGroupBy = array(
-			'a.id',
-			'a.title',
-			'a.alias',
-			'a.checked_out',
-			'a.checked_out_time',
-			'a.state',
-			'a.access',
-			'a.created',
-			'a.created_by',
-			'a.created_by_alias',
-			'a.modified',
-			'a.ordering',
-			'a.featured',
-			'a.language',
-			'a.hits',
-			'a.publish_up',
-			'a.publish_down',
-			'a.catid',
-			'l.title',
-			'l.image',
-			'uc.name',
-			'ag.title',
-			'c.title',
-			'c.created_user_id',
-			'c.level',
-			'ua.name',
-			'ws.title',
-			'ws.workflow_id',
-			'ws.condition',
-			'wa.stage_id',
-			'parent.id',
-		);
-
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 				COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count'
 			)
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
-
-			array_push($associationsGroupBy, 'v.rating_sum', 'v.rating_count');
 		}
 
 		// Join over the associations.
 		if (Associations::isEnabled())
 		{
-			$query->select('CASE WHEN COUNT(asso2.id)>1 THEN 1 ELSE 0 END as association')
-				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
-				->join('LEFT', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'))
-				->group($db->quoteName($associationsGroupBy));
+			$subQuery = $db->getQuery(true)
+				->select('CASE WHEN COUNT(' . $db->quoteName('asso1.id') . ') > 1 THEN 1 ELSE 0 END')
+				->from($db->quoteName('#__associations', 'asso1'))
+				->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
+				->where(
+					[
+						$db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
+						$db->quoteName('asso1.context') . ' = ' . $db->quote('com_content.item'),
+					]
+				);
+
+			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
 		}
 
 		// Filter by access level.
