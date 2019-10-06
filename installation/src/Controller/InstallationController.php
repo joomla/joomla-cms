@@ -230,6 +230,7 @@ class InstallationController extends JSONController
 
 		$r = new \stdClass;
 		$r->view = 'remove';
-		new \Joomla\CMS\Response\JsonResponse($r);
+
+		$this->sendJsonResponse($r);
 	}
 }
