@@ -38,7 +38,7 @@ $iconStates = array(
 	2  => 'icon-archive',
 );
 
-Factory::getDocument()->addScriptOptions('assosiations-modal', ['func' => $function]);
+$this->document->addScriptOptions('assosiations-modal', ['func' => $function]);
 HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function='
