@@ -87,14 +87,20 @@ class InstallationController extends JSONController
 	{
 		$this->checkValidToken();
 
+		/** @var \Joomla\CMS\Installation\Model\SetupModel $setUpModel */
+		$setUpModel = $this->getModel('Setup');
+
 		// Get the options from the session
-		$options = $this->getModel('Setup')->getOptions();
+		$options = $setUpModel->getOptions();
 
 		$r = new \stdClass;
 		$r->view = 'remove';
 
+		/** @var \Joomla\CMS\Installation\Model\ConfigurationModel $configurationModel */
+		$configurationModel = $this->getModel('Setup');
+
 		// Attempt to setup the configuration.
-		if (!$this->getModel('Configuration')->setup($options))
+		if (!$configurationModel->setup($options))
 		{
 			$r->view = 'setup';
 		}
