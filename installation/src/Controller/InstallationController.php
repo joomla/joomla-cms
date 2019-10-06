@@ -97,7 +97,7 @@ class InstallationController extends JSONController
 		$r->view = 'remove';
 
 		/** @var \Joomla\CMS\Installation\Model\ConfigurationModel $configurationModel */
-		$configurationModel = $this->getModel('Setup');
+		$configurationModel = $this->getModel('Configuration');
 
 		// Attempt to setup the configuration.
 		if (!$configurationModel->setup($options))
