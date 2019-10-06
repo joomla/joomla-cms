@@ -25,6 +25,14 @@ use Joomla\Registry\Registry;
 class Category extends Nested
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  Database driver object.
@@ -169,11 +177,6 @@ class Category extends Nested
 			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
-		if (empty($this->modified_time))
-		{
-			$this->modified_time = $this->getDbo()->getNullDate();
-		}
-
 		return true;
 	}
 
@@ -222,7 +225,7 @@ class Category extends Nested
 	 *
 	 * @since   1.6
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate();
 		$user = Factory::getUser();
@@ -240,6 +243,11 @@ class Category extends Nested
 			if (!(int) $this->created_time)
 			{
 				$this->created_time = $date->toSql();
+			}
+
+			if (empty($this->modified_time))
+			{
+				$this->modified_time = $this->created_time;
 			}
 
 			if (empty($this->created_user_id))
