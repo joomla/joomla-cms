@@ -267,11 +267,11 @@
     }
 
     if (smallLandscape.matches) {
-      if (sidebarNav) sidebarNav.classList.add('collapse');
-      if (subhead) subhead.classList.add('collapse');
+      if (sidebarNav) sidebarNav.classList.add('mm-collapse');
+      if (subhead) subhead.classList.add('mm-collapse');
     } else {
-      if (sidebarNav) sidebarNav.classList.remove('collapse');
-      if (subhead) subhead.classList.remove('collapse');
+      if (sidebarNav) sidebarNav.classList.remove('mm-collapse');
+      if (subhead) subhead.classList.remove('mm-collapse');
     }
   }
 

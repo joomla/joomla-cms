@@ -13,7 +13,6 @@
 	<files>
 		<filename module="mod_multilangstatus">mod_multilangstatus.php</filename>
 		<folder>tmpl</folder>
-		<folder>language</folder>
 	</files>
 
 	<languages>
