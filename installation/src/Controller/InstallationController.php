@@ -237,6 +237,11 @@ class InstallationController extends JSONController
 		$r = new \stdClass;
 		$r->view = 'remove';
 
-		$this->sendJsonResponse($r);
+		/**
+		 * TODO: We can't send a response this way because our installation classes no longer
+		 *       exist. We probably need to hardcode a json response here
+		 *
+		 * $this->sendJsonResponse($r);
+		 */
 	}
 }
