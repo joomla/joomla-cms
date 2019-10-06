@@ -289,6 +289,7 @@ class NewsfeedsModel extends ListModel
 		if ($tag && \is_array($tag))
 		{
 			$tag = ArrayHelper::toInteger($tag);
+
 			$subQuery = $db->getQuery(true)
 				->select('DISTINCT ' . $db->quoteName('content_item_id'))
 				->from($db->quoteName('#__contentitem_tag_map'))
