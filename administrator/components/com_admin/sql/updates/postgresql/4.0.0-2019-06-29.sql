@@ -13,10 +13,9 @@ ALTER TABLE "#__newsfeeds" ALTER COLUMN "checked_out_time" DROP DEFAULT;
 
 UPDATE "#__newsfeeds" SET "modified" = "created" WHERE "modified" = '1970-01-01 00:00:00';
 
-UPDATE "#__newsfeeds" SET
-	"publish_up" = CASE WHEN "publish_up" = '1970-01-01 00:00:00' THEN NULL ELSE "publish_up" END,
-	"publish_down" = CASE WHEN "publish_down" = '1970-01-01 00:00:00' THEN NULL ELSE "publish_down" END,
-	"checked_out_time" = CASE WHEN "checked_out_time" = '1970-01-01 00:00:00' THEN NULL ELSE "checked_out_time" END;
+UPDATE "#__newsfeeds" SET "publish_up" = NULL WHERE "publish_up" = '1970-01-01 00:00:00';
+UPDATE "#__newsfeeds" SET "publish_down" = NULL WHERE "publish_down" = '1970-01-01 00:00:00';
+UPDATE "#__newsfeeds" SET "checked_out_time" = NULL WHERE "checked_out_time" = '1970-01-01 00:00:00';
 
 UPDATE "#__ucm_content" SET "core_modified_time" = "core_created_time"
  WHERE "core_type_alias" = 'com_newsfeeds.newsfeed'
