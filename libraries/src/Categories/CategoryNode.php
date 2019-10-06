@@ -127,7 +127,7 @@ class CategoryNode extends CMSObject implements NodeInterface
 	 * @var    string
 	 * @since  1.6
 	 */
-	public $checked_out_time = 0;
+	public $checked_out_time = null;
 
 	/**
 	 * Access level for the category
