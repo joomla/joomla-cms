@@ -20,10 +20,9 @@ ALTER TABLE "#__banner_clients" ALTER COLUMN "checked_out_time" DROP DEFAULT;
 UPDATE "#__banners" SET "modified" = "created" WHERE "modified" = '1970-01-01 00:00:00';
 
 UPDATE "#__banners" SET "reset" = NULL WHERE "reset" = '1970-01-01 00:00:00';
- UPDATE "#__banners" SET
-	"publish_up" = CASE WHEN "publish_up" = '1970-01-01 00:00:00' THEN NULL ELSE "publish_up" END,
-	"publish_down" = CASE WHEN "publish_down" = '1970-01-01 00:00:00' THEN NULL ELSE "publish_down" END,
-	"checked_out_time" = CASE WHEN "checked_out_time" = '1970-01-01 00:00:00' THEN NULL ELSE "checked_out_time" END;
+UPDATE "#__banners" SET "publish_up" = NULL WHERE "publish_up" = '1970-01-01 00:00:00';
+UPDATE "#__banners" SET "publish_down" = NULL WHERE "publish_down" = '1970-01-01 00:00:00';
+UPDATE "#__banners" SET "checked_out_time" = NULL WHERE "checked_out_time" = '1970-01-01 00:00:00';
 
 UPDATE "#__banner_clients" SET "checked_out_time" = NULL WHERE "checked_out_time" = '1970-01-01 00:00:00';
 
