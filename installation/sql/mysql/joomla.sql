@@ -1784,7 +1784,7 @@ CREATE TABLE IF NOT EXISTS `#__tags` (
 --
 
 INSERT INTO `#__tags` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`, `created_by_alias`, `modified_user_id`, `modified_time`, `images`, `urls`, `hits`, `language`, `version`) VALUES
-(1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, NULL, 1, '', '', '', '', 42, '2011-01-01 00:00:01', '', 0, '2011-01-01 00:00:01', '', '', 0, '*', 1);
+(1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, NULL, 1, '', '', '', '', 42, CURRENT_TIMESTAMP(), '', 0, CURRENT_TIMESTAMP(), '', '', 0, '*', 1);
 
 -- --------------------------------------------------------
 
