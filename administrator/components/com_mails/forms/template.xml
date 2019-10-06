@@ -238,8 +238,9 @@
 
 			<field
 				name="copyto"
-				type="text"
+				type="email"
 				label="COM_MAILS_FIELD_MAIL_COPY_MAIL_LABEL"
+				validate="email"
 				default=""
 				filter="string"
 				size="30"
