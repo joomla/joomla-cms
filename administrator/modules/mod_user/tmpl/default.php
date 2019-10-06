@@ -19,17 +19,17 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 
 <div class="header-item-content dropdown header-profile d-flex">
 	<button class="dropdown-toggle d-flex flex-column align-items-stretch <?php echo ($hideLinks ? 'disabled' : ''); ?>" data-toggle="dropdown" type="button" <?php echo ($hideLinks ? 'disabled' : ''); ?>
-		title="<?php echo Text::_('MOD_USER_MENU'); ?>">
+		title="<?php echo Text::_('MOD_USER'); ?>">
 		<div class="d-flex align-items-end mx-auto">
 			<span class="fa fa-user-circle" aria-hidden="true"></span>
 		</div>
 		<div class="tiny">
-			<?php echo htmlspecialchars($app->getIdentity()->name); ?>
+			<?php echo $user->name; ?>
 		</div>
 		<span class="fa fa-angle-down" aria-hidden="true"></span>
 	</button>
 	<div class="dropdown-menu dropdown-menu-right icons-left">
-		<div class="dropdown-header"><?php echo $user->name; ?></div>
+		<div class="dropdown-header"><?php echo Text::sprintf('MOD_USER_MENU', $user->name); ?></div>
 		<?php $uri   = Uri::getInstance(); ?>
 		<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri); ?>
 		<div class="dropdown-item">
