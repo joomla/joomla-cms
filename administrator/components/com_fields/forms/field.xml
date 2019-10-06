@@ -198,127 +198,118 @@
 			name="ordering"
 			type="text"
 			label="JFIELD_ORDERING_LABEL"
-			class="inputbox"
 		/>
 	</fieldset>
 
 	<fields name="params" label="COM_FIELDS_FIELD_BASIC_LABEL">
 		<fieldset name="basic">
+			<fieldset name="formoptions" label="COM_FIELDS_FIELD_FORMOPTIONS_HEADING">
+				<field
+					name="hint"
+					type="text"
+					label="COM_FIELDS_FIELD_PLACEHOLDER_LABEL"
+					description="COM_FIELDS_FIELD_PLACEHOLDER_DESC"
+					size="40"
+				/>
 
-			<field
-				name="formoptions"
-				type="note"
-				label="COM_FIELDS_FIELD_FORMOPTIONS_HEADING"
-			/>
+				<field
+					name="class"
+					type="textarea"
+					label="COM_FIELDS_FIELD_CLASS_LABEL"
+					size="40"
+				/>
 
-			<field
-				name="hint"
-				type="text"
-				label="COM_FIELDS_FIELD_PLACEHOLDER_LABEL"
-				description="COM_FIELDS_FIELD_PLACEHOLDER_DESC"
-				size="40"
-			/>
+				<field
+					name="label_class"
+					type="textarea"
+					label="COM_FIELDS_FIELD_LABEL_FORM_CLASS_LABEL"
+					size="40"
+				/>
 
-			<field
-				name="class"
-				type="textarea"
-				label="COM_FIELDS_FIELD_CLASS_LABEL"
-				size="40"
-			/>
+				<field
+					name="show_on"
+					type="list"
+					label="COM_FIELDS_FIELD_EDITABLE_IN_LABEL"
+					default=""
+					>
+					<option value="1">COM_FIELDS_FIELD_EDITABLE_IN_SITE</option>
+					<option value="2">COM_FIELDS_FIELD_EDITABLE_IN_ADMIN</option>
+					<option value="">COM_FIELDS_FIELD_EDITABLE_IN_BOTH</option>
+				</field>
 
-			<field
-				name="label_class"
-				type="textarea"
-				label="COM_FIELDS_FIELD_LABEL_FORM_CLASS_LABEL"
-				size="40"
-			/>
+			</fieldset>
+			<fieldset name="renderoptions" label="COM_FIELDS_FIELD_RENDEROPTIONS_HEADING">
 
-			<field
-				name="show_on"
-				type="list"
-				label="COM_FIELDS_FIELD_SHOW_ON_LABEL"
-				default=""
-			>
-				<option value="1">COM_FIELDS_FIELD_SHOW_ON_SITE</option>
-				<option value="2">COM_FIELDS_FIELD_SHOW_ON_ADMIN</option>
-				<option value="">COM_FIELDS_FIELD_SHOW_ON_BOTH</option>
-			</field>
+				<field
+					name="render_class"
+					type="textarea"
+					label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
+					size="40"
+				/>
 
-			<field
-				name="renderoptions"
-				type="note"
-				label="COM_FIELDS_FIELD_RENDEROPTIONS_HEADING"
-			/>
+				<field
+					name="showlabel"
+					type="radio"
+					label="COM_FIELDS_FIELD_SHOWLABEL_LABEL"
+					class="switcher"
+					default="1"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
 
-			<field
-				name="render_class"
-				type="textarea"
-				label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
-				size="40"
-			/>
+				<field
+					name="label_render_class"
+					type="textarea"
+					label="COM_FIELDS_FIELD_LABEL_RENDER_CLASS_LABEL"
+					size="40"
+					showon="showlabel:1"
+				/>
 
-			<field
-				name="showlabel"
-				type="radio"
-				label="COM_FIELDS_FIELD_SHOWLABEL_LABEL"
-				class="switcher"
-				default="1"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
+				<field
+					name="display"
+					type="list"
+					label="COM_FIELDS_FIELD_DISPLAY_LABEL"
+					default="2"
+					>
+					<option value="1">COM_FIELDS_FIELD_DISPLAY_AFTER_TITLE</option>
+					<option value="2">COM_FIELDS_FIELD_DISPLAY_BEFORE_DISPLAY</option>
+					<option value="3">COM_FIELDS_FIELD_DISPLAY_AFTER_DISPLAY</option>
+					<option value="0">COM_FIELDS_FIELD_DISPLAY_NO_DISPLAY</option>
+				</field>
 
-			<field
-				name="label_render_class"
-				type="textarea"
-				label="COM_FIELDS_FIELD_LABEL_RENDER_CLASS_LABEL"
-				size="40"
-				showon="showlabel:1"
-			/>
+				<field
+					name="prefix"
+					type="text"
+					label="COM_FIELDS_FIELD_PREFIX_LABEL"
+					size="40"
+				/>
 
-			<field
-				name="display"
-				type="list"
-				label="COM_FIELDS_FIELD_DISPLAY_LABEL"
-				default="2"
-				>
-				<option value="1">COM_FIELDS_FIELD_DISPLAY_AFTER_TITLE</option>
-				<option value="2">COM_FIELDS_FIELD_DISPLAY_BEFORE_DISPLAY</option>
-				<option value="3">COM_FIELDS_FIELD_DISPLAY_AFTER_DISPLAY</option>
-				<option value="0">COM_FIELDS_FIELD_DISPLAY_NO_DISPLAY</option>
-			</field>
+				<field
+					name="suffix"
+					type="text"
+					label="COM_FIELDS_FIELD_SUFFIX_LABEL"
+					size="40"
+				/>
 
- 			<field
-				name="prefix"
-				type="text"
-				label="COM_FIELDS_FIELD_PREFIX_LABEL"
-				size="40"
-			/>
+				<field
+					name="layout"
+					type="fieldLayout"
+					label="COM_FIELDS_FIELD_LAYOUT_LABEL"
+					class="custom-select"
+				/>
 
- 			<field
-				name="suffix"
-				type="text"
-				label="COM_FIELDS_FIELD_SUFFIX_LABEL"
-				size="40"
-			/>
-
-			<field
-				name="layout"
-				type="fieldLayout"
-				label="COM_FIELDS_FIELD_LAYOUT_LABEL"
-				class="custom-select"
-			/>
-
-			<field
-				name="display_readonly"
-				type="list"
-				label="JFIELD_DISPLAY_READONLY_LABEL"
-				default="2"
-				>
-				<option value="2">JGLOBAL_INHERIT</option>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>
+				<field
+					name="display_readonly"
+					type="list"
+					label="JFIELD_DISPLAY_READONLY_LABEL"
+					default="2"
+					>
+					<option value="2">JGLOBAL_INHERIT</option>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
 		</fieldset>
 	</fields>
 </form>

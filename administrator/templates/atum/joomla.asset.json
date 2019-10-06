@@ -3,15 +3,15 @@
   "name": "atum",
   "version": "4.0.0",
   "description": "Atum is the Joomla 4 administrator template",
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "assets": [
     {
       "name": "template.atum.base",
       "dependencies": [
         "core",
-        "fontawesome",
-        "bootstrap.css",
-        "css-vars-ponyfill"
+		"bootstrap.js.bundle",
+        "css-vars-ponyfill",
+		"focus-visible"
       ]
     },
     {

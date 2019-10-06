@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -25,6 +25,14 @@ use Joomla\Registry\Registry;
  */
 class Menu extends Nested
 {
+	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_supportNullValue = true;
+
 	/**
 	 * Constructor
 	 *
@@ -77,7 +85,7 @@ class Menu extends Nested
 			return false;
 		}
 
-		if (isset($array['params']) && is_array($array['params']))
+		if (isset($array['params']) && \is_array($array['params']))
 		{
 			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
@@ -144,6 +152,17 @@ class Menu extends Nested
 			return false;
 		}
 
+		// Set publish_up, publish_down to null if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = null;
+		}
+
+		if (!$this->publish_down)
+		{
+			$this->publish_down = null;
+		}
+
 		return true;
 	}
 
@@ -157,7 +176,7 @@ class Menu extends Nested
 	 * @see     Table::store()
 	 * @since   1.6
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$db = $this->getDbo();
 
@@ -179,7 +198,7 @@ class Menu extends Nested
 			}
 
 			// Verify that a first level menu item alias is not the name of a folder.
-			if (in_array($this->alias, Folder::folders(JPATH_ROOT)))
+			if (\in_array($this->alias, Folder::folders(JPATH_ROOT)))
 			{
 				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
 
@@ -277,7 +296,7 @@ class Menu extends Nested
 
 				$table->home = 0;
 				$table->checked_out = 0;
-				$table->checked_out_time = $db->getNullDate();
+				$table->checked_out_time = null;
 				$table->store();
 			}
 		}

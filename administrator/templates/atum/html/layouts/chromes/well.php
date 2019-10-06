@@ -33,37 +33,50 @@ if ($module->content) :
 	$moduleClassSfx = $params->get('moduleclass_sfx', '');
 
 	// Temporarily store header class in variable
-	$headerClass = $params->get('header_class');
-	$headerClass = ($headerClass) ? ' ' . htmlspecialchars($headerClass) : '';
+	$headerClass = !empty($params->get('header_class')) ? ' class="' . htmlspecialchars($params->get('header_class')) . '"' : '';
+
+	// Get the module icon
+	$headerIcon = '';
+
+	$margin = Factory::getLanguage()->isRtl() ? ' ml-2' : ' mr-2';
+
+	if (!empty($params->get('header_icon')))
+	{
+		$headerIcon = '<span class="' . htmlspecialchars($params->get('header_icon')) .  $margin . '" aria-hidden="true"></span>';
+	}
 	?>
-	<div class="<?php echo $moduleClass; ?> module-wrapper">
+	<div class="module-wrapper">
 		<<?php echo $moduleTag; ?> class="card mb-3<?php echo $moduleClassSfx; ?>">
-			<?php if ($canEdit || $canChange) : ?>
-				<?php $dropdownPosition = Factory::getLanguage()->isRTL() ? 'left' : 'right'; ?>
-				<div class="module-actions dropdown">
-					<button type="button" class="btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton-<?php echo $id; ?>">
-						<span class="fa fa-cog"><span class="sr-only">
-							<?php echo Text::_('JACTION_EDIT') . ' ' . $module->title; ?>
-						</span></span>
-					</button>
-					<div class="dropdown-menu dropdown-menu-<?php echo $dropdownPosition; ?>" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">
-						<?php if ($canEdit) : ?>
-							<?php $uri = Uri::getInstance(); ?>
-							<?php $url = Route::_('index.php?option=com_modules&task=module.edit&id=' . $id . '&return=' . base64_encode($uri)); ?>
-							<a class="dropdown-item" href="<?php echo $url; ?>"><?php echo Text::_('JACTION_EDIT'); ?></a>
-						<?php endif; ?>
-						<?php if ($canChange) : ?>
-							<button type="button" class="dropdown-item unpublish-module" data-module-id="<?php echo $id; ?>"><?php echo Text::_('JACTION_UNPUBLISH'); ?></button>
-						<?php endif; ?>
-					</div>
+			<?php if ($canEdit || $canChange || $headerIcon || $module->showtitle) : ?>
+				<div class="card-header">
+					<?php if ($canEdit || $canChange) : ?>
+						<?php $dropdownPosition = Factory::getLanguage()->isRTL() ? 'left' : 'right'; ?>
+						<div class="module-actions dropdown">
+							<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-link" id="dropdownMenuButton-<?php echo $id; ?>">
+								<span class="fa fa-cog" aria-hidden="true"></span>
+								<span class="sr-only"><?php echo Text::sprintf('JACTION_EDIT_MODULE', $module->title); ?></span>
+							</button>
+							<div class="dropdown-menu dropdown-menu-<?php echo $dropdownPosition; ?>" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">
+								<?php if ($canEdit) : ?>
+									<?php $uri = Uri::getInstance(); ?>
+									<?php $url = Route::_('index.php?option=com_modules&task=module.edit&id=' . $id . '&return=' . base64_encode($uri)); ?>
+									<a class="dropdown-item" href="<?php echo $url; ?>"><?php echo Text::_('JACTION_EDIT'); ?></a>
+								<?php endif; ?>
+								<?php if ($canChange) : ?>
+									<button type="button" class="dropdown-item unpublish-module" data-module-id="<?php echo $id; ?>"><?php echo Text::_('JACTION_UNPUBLISH'); ?></button>
+								<?php endif; ?>
+							</div>
+						</div>
+					<?php endif; ?>
+
+					<?php if ($module->showtitle) : ?>
+						<h2<?php echo $headerClass; ?>><?php echo $headerIcon . htmlspecialchars($module->title); ?></h2>
+					<?php endif; ?>
 				</div>
 			<?php endif; ?>
-
-			<?php if ($module->showtitle) : ?>
-				<h2 class="card-header<?php echo $headerClass; ?>"><?php echo $module->title; ?></h2>
-			<?php endif; ?>
-
-			<?php echo $module->content; ?>
+			<div class="card-body">
+				<?php echo $module->content; ?>
+			</div>
 		</<?php echo $moduleTag; ?>>
 	</div>
 <?php endif; ?>

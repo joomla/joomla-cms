@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Extension;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 
@@ -99,20 +99,26 @@ class ExtensionHelper
 		// Core module extensions - administrator
 		array('module', 'mod_custom', '', 1),
 		array('module', 'mod_feed', '', 1),
+		array('module', 'mod_frontend', '', 1),
 		array('module', 'mod_latest', '', 1),
 		array('module', 'mod_latestactions', '', 1),
 		array('module', 'mod_logged', '', 1),
 		array('module', 'mod_login', '', 1),
+		array('module', 'mod_loginsupport', '', 1),
 		array('module', 'mod_menu', '', 1),
+		array('module', 'mod_messages', '', 1),
 		array('module', 'mod_multilangstatus', '', 1),
 		array('module', 'mod_popular', '', 1),
+		array('module', 'mod_post_installation_messages', '', 1),
 		array('module', 'mod_privacy_dashboard', '', 1),
+		array('module', 'mod_privacy_status', '', 1),
 		array('module', 'mod_quickicon', '', 1),
 		array('module', 'mod_sampledata', '', 1),
 		array('module', 'mod_stats_admin', '', 1),
-		array('module', 'mod_status', '', 1),
+		array('module', 'mod_submenu', '', 1),
 		array('module', 'mod_title', '', 1),
 		array('module', 'mod_toolbar', '', 1),
+		array('module', 'mod_user', '', 1),
 		array('module', 'mod_version', '', 1),
 
 		// Core module extensions - site
@@ -273,7 +279,6 @@ class ExtensionHelper
 		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'skipto', 'system', 0),
 		array('plugin', 'stats', 'system', 0),
-		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'updatenotification', 'system', 0),
 
 		// Core plugin extensions - two factor authentication
@@ -287,7 +292,22 @@ class ExtensionHelper
 		array('plugin', 'terms', 'user', 0),
 
 		// Core plugin extensions - webservices
+		array('plugin', 'banners', 'webservices', 0),
+		array('plugin', 'config', 'webservices', 0),
+		array('plugin', 'contact', 'webservices', 0),
 		array('plugin', 'content', 'webservices', 0),
+		array('plugin', 'languages', 'webservices', 0),
+		array('plugin', 'menus', 'webservices', 0),
+		array('plugin', 'messages', 'webservices', 0),
+		array('plugin', 'modules', 'webservices', 0),
+		array('plugin', 'newsfeeds', 'webservices', 0),
+		array('plugin', 'plugins', 'webservices', 0),
+		array('plugin', 'privacy', 'webservices', 0),
+		array('plugin', 'redirect', 'webservices', 0),
+		array('plugin', 'tags', 'webservices', 0),
+		array('plugin', 'templates', 'webservices', 0),
+		array('plugin', 'users', 'webservices', 0),
+
 
 		// Core template extensions - administrator
 		array('template', 'atum', '', 1),
@@ -324,7 +344,7 @@ class ExtensionHelper
 	 */
 	public static function checkIfCoreExtension($type, $element, $client_id = 0, $folder = '')
 	{
-		return in_array(array($type, $element, $folder, $client_id), self::$coreExtensions);
+		return \in_array(array($type, $element, $folder, $client_id), self::$coreExtensions);
 	}
 
 	/**
@@ -338,13 +358,14 @@ class ExtensionHelper
 	 */
 	public static function getExtensionRecord($name)
 	{
-		if (!array_key_exists($name, self::$loadedextensions))
+		if (!\array_key_exists($name, self::$loadedextensions))
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('*')
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('name') . ' = ' . $db->quote($name));
+				->where($db->quoteName('name') . ' = :name')
+				->bind(':name', $name);
 			$db->setQuery($query);
 
 			self::$loadedextensions[$name] = $db->loadObject();

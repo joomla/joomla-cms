@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -165,22 +165,5 @@ class PluginsField extends ListField
 		}
 
 		return array_merge($parentOptions, $options);
-	}
-
-	/**
-	 * Method to get input and also set field readonly.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   3.8.7
-	 */
-	protected function getInput()
-	{
-		if (count($this->options) === 1 && $this->options[0]->text === Text::_('JOPTION_DO_NOT_USE'))
-		{
-			$this->readonly = true;
-		}
-
-		return parent::getInput();
 	}
 }

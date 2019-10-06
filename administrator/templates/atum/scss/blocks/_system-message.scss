@@ -1,0 +1,112 @@
+#system-message-container {
+  background: var(--atum-bg-light);
+  box-shadow: 3px 3px 11px 0px rgba(0, 0, 0, 0.3);
+
+  joomla-alert {
+    display: block;
+    min-width: 16rem;
+    padding: 0 0 1rem 0;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    opacity: 0;
+    border-radius: 0rem;
+    transition: opacity 0.15s linear;
+    color: var(--atum-text-dark);
+    background-color: var(--white);
+
+    .alert-heading {
+      display: block;
+      width: 100%;
+      color: rgba(255, 255, 255, 0.95);
+      padding: 1rem;
+      font-size: 1.3rem;
+      font-weight: normal;
+    }
+
+    &[type="success"] {
+      border-color: var(--success);
+     .alert-heading {
+        background: var(--success);
+      }
+      hr {
+        border-top-color: var(--success);
+      }
+      .alert-link {
+        color: var(--success);
+      }
+    }
+    &[type="info"] {
+      border-color: var(--info);
+      .alert-heading {
+        background: var(--info);
+      }
+      hr {
+        border-top-color: var(--info);
+      }
+      .alert-link {
+        color: var(--info);
+      }
+    }
+    &[type="warning"] {
+      border-color: var(--warning);
+      .alert-heading {
+        background: var(--warning);
+        color: var(--atum-text-dark)
+      }
+      hr {
+        border-top-color: var(--warning);
+      }
+      .alert-link {
+        color: var(--warning);
+      }
+    }
+    &[type="danger"] {
+      border-color: var(--danger);
+      .alert-heading {
+        background: var(--danger);
+      }
+      hr {
+        border-top-color: var(--danger);
+      }
+      .alert-link {
+        color: var(--danger);
+      }
+    }
+    &.joomla-alert--show {
+      display: block;
+      opacity: 1;
+    }
+    .joomla-alert--close,
+    .joomla-alert-button--close {
+      position: relative;
+      top: 1rem;
+      right: 0;
+      color: var(--white);
+      opacity: 1;
+      text-shadow: none;
+      cursor: pointer;
+      &:hover,
+      &:focus {
+        text-decoration: none;
+        cursor: pointer;
+        opacity: .75;
+      }
+    }
+
+    div {
+      padding: 1rem;
+    }
+
+    @media screen and (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+}
+
+html[dir=rtl] #system-message-container joomla-alert {
+  .joomla-alert--close,
+  .joomla-alert-button--close {
+    right: auto;
+    left: 0;
+  }
+}
