@@ -63,9 +63,7 @@ class ItemsModel extends ListModel
 				'a.ordering'
 			);
 
-			$assoc = Associations::isEnabled();
-
-			if ($assoc)
+			if (Associations::isEnabled())
 			{
 				$config['filter_fields'][] = 'association';
 			}
@@ -327,55 +325,20 @@ class ItemsModel extends ListModel
 		$query->join('LEFT', $db->quoteName('#__extensions', 'e'), $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('a.component_id'));
 
 		// Join over the associations.
-		$assoc = Associations::isEnabled();
-
-		if ($assoc)
+		if (Associations::isEnabled())
 		{
-			$query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 AS ' . $db->quoteName('association'))
-				->join(
-					'LEFT',
-					$db->quoteName('#__associations', 'asso'),
-					$db->quoteName('asso.id') . ' = ' . $db->quoteName('a.id') . ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote('com_menus.item')
-				)
-				->join('LEFT', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'))
-				->group(
+			$subQuery = $db->getQuery(true)
+				->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
+				->from($db->quoteName('#__associations', 'asso1'))
+				->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
+				->where(
 					[
-						$db->quoteName('a.id'),
-						$db->quoteName('a.menutype'),
-						$db->quoteName('a.title'),
-						$db->quoteName('a.alias'),
-						$db->quoteName('a.note'),
-						$db->quoteName('a.path'),
-						$db->quoteName('a.link'),
-						$db->quoteName('a.type'),
-						$db->quoteName('a.parent_id'),
-						$db->quoteName('a.level'),
-						$db->quoteName('a.published'),
-						$db->quoteName('a.component_id'),
-						$db->quoteName('a.checked_out'),
-						$db->quoteName('a.checked_out_time'),
-						$db->quoteName('a.browserNav'),
-						$db->quoteName('a.access'),
-						$db->quoteName('a.img'),
-						$db->quoteName('a.template_style_id'),
-						$db->quoteName('a.params'),
-						$db->quoteName('a.lft'),
-						$db->quoteName('a.rgt'),
-						$db->quoteName('a.home'),
-						$db->quoteName('a.language'),
-						$db->quoteName('a.client_id'),
-						$db->quoteName('l.title'),
-						$db->quoteName('l.image'),
-						$db->quoteName('l.sef'),
-						$db->quoteName('u.name'),
-						$db->quoteName('c.element'),
-						$db->quoteName('ag.title'),
-						$db->quoteName('e.enabled'),
-						$db->quoteName('e.name'),
-						$db->quoteName('mt.id'),
-						$db->quoteName('mt.title'),
+						$db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
+						$db->quoteName('asso1.context') . ' = ' . $db->quote('com_menus.item'),
 					]
 				);
+
+			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
 		}
 
 		// Exclude the root category.
