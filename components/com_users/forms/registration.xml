@@ -29,6 +29,7 @@
 			required="true"
 			size="30"
 			validate="username"
+			autocomplete="username"
 		/>
 
 		<field
@@ -36,7 +37,7 @@
 			type="password"
 			label="COM_USERS_PROFILE_PASSWORD1_LABEL"
 			description="COM_USERS_DESIRED_PASSWORD"
-			autocomplete="off"
+			autocomplete="new-password"
 			class="validate-password"
 			field="password1"
 			filter="raw"
@@ -50,7 +51,7 @@
 			type="password"
 			label="COM_USERS_PROFILE_PASSWORD2_LABEL"
 			description="COM_USERS_PROFILE_PASSWORD2_DESC"
-			autocomplete="off"
+			autocomplete="new-password"
 			class="validate-password"
 			field="password1"
 			filter="raw"
