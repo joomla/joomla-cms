@@ -158,7 +158,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 			foreach ($inlineScripts as $type => $scriptContent)
 			{
-				$scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', array_shift($scriptContent), true)) . "'";
+				$scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', implode(',', array_keys($scriptContent)), true)) . "'";
 			}
 		}
 
@@ -169,7 +169,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 			foreach ($inlineStyles as $type => $styleContent)
 			{
-				$styleHashes[] = "'sha256-" . base64_encode(hash('sha256', array_shift($styleContent), true)) . "'";
+				$styleHashes[] = "'sha256-" . base64_encode(hash('sha256', implode(',', array_keys($styleContent)), true)) . "'";
 			}
 		}
 
