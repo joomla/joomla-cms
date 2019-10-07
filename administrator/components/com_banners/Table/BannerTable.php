@@ -321,7 +321,7 @@ class BannerTable extends Table
 
 		// Get an instance of the table
 		/** @var BannerTable $table */
-		$table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' => $db));
+		$table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' =>  $this->_db));
 
 		// For all keys
 		foreach ($pks as $pk)
