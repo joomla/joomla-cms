@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\Quickicon\Administrator\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
@@ -67,8 +67,8 @@ abstract class QuickIconHelper
 			{
 				$tmp = [
 					'image'   => 'fa fa-users',
-					'link'    => Route::_('index.php?option=com_users'),
-					'linkadd' => Route::_('index.php?option=com_users&amp;task=user.add'),
+					'link'    => Route::_('index.php?option=com_users&view=users'),
+					'linkadd' => Route::_('index.php?option=com_users&task=users.add'),
 					'name'    => 'MOD_QUICKICON_USER_MANAGER',
 					'access'  => array('core.manage', 'com_users', 'core.create', 'com_users'),
 					'group'   => 'MOD_QUICKICON_SITE',
@@ -86,7 +86,7 @@ abstract class QuickIconHelper
 			{
 				$tmp = [
 					'image'   => 'fa fa-list',
-					'link'    => Route::_('index.php?option=com_menus&client_id=0'),
+					'link'    => Route::_('index.php?option=com_menus&view=items&menutype='),
 					'linkadd' => Route::_('index.php?option=com_menus&task=item.add'),
 					'name'    => 'MOD_QUICKICON_MENUITEMS_MANAGER',
 					'access'  => array('core.manage', 'com_menus', 'core.create', 'com_menus'),
@@ -105,7 +105,7 @@ abstract class QuickIconHelper
 			{
 				$tmp = [
 					'image'   => 'fa fa-file-alt',
-					'link'    => Route::_('index.php?option=com_content'),
+					'link'    => Route::_('index.php?option=com_content&view=articles'),
 					'linkadd' => Route::_('index.php?option=com_content&task=article.add'),
 					'name'    => 'MOD_QUICKICON_ARTICLE_MANAGER',
 					'access'  => array('core.manage', 'com_content', 'core.create', 'com_content'),
@@ -124,7 +124,7 @@ abstract class QuickIconHelper
 			{
 				$tmp = [
 					'image'   => 'fa fa-folder-open',
-					'link'    => Route::_('index.php?option=com_categories'),
+					'link'    => Route::_('index.php?option=com_categories&view=categories&extension=com_content'),
 					'linkadd' => Route::_('index.php?option=com_categories&task=category.add'),
 					'name'    => 'MOD_QUICKICON_CATEGORY_MANAGER',
 					'access'  => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
@@ -154,7 +154,7 @@ abstract class QuickIconHelper
 			{
 				$tmp = [
 					'image'   => 'fa fa-cube',
-					'link'    => Route::_('index.php?option=com_modules&client_id=0'),
+					'link'    => Route::_('index.php?option=com_modules&view=modules&client_id=0'),
 					'linkadd' => Route::_('index.php?option=com_modules&view=select&client_id=0'),
 					'name'    => 'MOD_QUICKICON_MODULE_MANAGER',
 					'access'  => array('core.manage', 'com_modules'),
@@ -191,7 +191,7 @@ abstract class QuickIconHelper
 			{
 				self::$buttons[$key][] = [
 					'image'  => 'fa fa-paint-brush',
-					'link'   => Route::_('index.php?option=com_templates&client_id=0'),
+					'link'   => Route::_('index.php?option=com_templates&view=styles&client_id=0'),
 					'name'   => 'MOD_QUICKICON_TEMPLATES',
 					'access' => array('core.admin', 'com_templates'),
 					'group'  => 'MOD_QUICKICON_SITE'
@@ -254,7 +254,7 @@ abstract class QuickIconHelper
 
 			foreach ($arrays as $response)
 			{
-				if (!is_array($response))
+				if (!\is_array($response))
 				{
 					continue;
 				}
@@ -274,7 +274,7 @@ abstract class QuickIconHelper
 
 					$icon = array_merge($default, $icon);
 
-					if (!is_null($icon['link']) && !is_null($icon['text']))
+					if (!\is_null($icon['link']) && !\is_null($icon['text']))
 					{
 						self::$buttons[$key][] = $icon;
 					}

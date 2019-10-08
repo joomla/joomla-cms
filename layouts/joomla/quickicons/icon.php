@@ -53,15 +53,16 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 ?>
 <?php // If it is a button with two links: make it a list
 	if (isset($displayData['linkadd'])): ?>
-		<ul class="quickicon-group col mb-3 d-flex">
-			<li class="quickicon d-flex flex-grow-1">
+		<li class="quickicon-group col mb-3  d-flex">
+		<ul class="list-unstyled  d-flex w-100">
+			<li class="quickicon flex-grow-1">
 	<?php else: ?>		
 		<li class="quickicon quickicon-single col mb-3">
 	<?php endif; ?>	
 
 		<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 			<?php if (isset($displayData['image'])): ?>
-				<div class="quickicon-icon d-flex align-items-end <?php echo $size ?>">
+				<div class="quickicon-icon d-flex self-  align-items-end <?php echo $size ?>">
 					<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
 				</div>
 			<?php endif; ?>
@@ -93,4 +94,5 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 			</a>
 		</li>
 	</ul>
+	</li>
 	<?php endif; ?>
