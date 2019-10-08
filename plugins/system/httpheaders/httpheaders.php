@@ -156,9 +156,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// Generate the hashes for the script-src
 			$inlineScripts = is_array($headData['script']) ? $headData['script'] : [];
 
-			foreach ($inlineScripts as $type => $scriptContent)
+			foreach ($inlineScripts as $type => $scriptArray)
 			{
-				$scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', implode(',', $scriptContent), true)) . "'";
+				foreach ($scriptArray as $hash => $scriptContent)
+				{
+					$scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', $scriptContent, true)) . "'";
+				}
 			}
 		}
 
@@ -167,9 +170,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// Generate the hashes for the style-src
 			$inlineStyles = is_array($headData['style']) ? $headData['style'] : [];
 
-			foreach ($inlineStyles as $type => $styleContent)
+			foreach ($inlineStyles as $type => $styleArray)
 			{
-				$styleHashes[] = "'sha256-" . base64_encode(hash('sha256', implode(',', $styleContent), true)) . "'";
+				foreach ($styleArray as $hash => $styleContent)
+				{
+					$styleHashes[] = "'sha256-" . base64_encode(hash('sha256', $styleContent, true)) . "'";
+				}
 			}
 		}
 
