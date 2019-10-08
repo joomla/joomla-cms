@@ -104,8 +104,19 @@ class BannerTable extends Table
 			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
+		// Set publish_up, publish_down to null if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = null;
+		}
+
+		if (!$this->publish_down)
+		{
+			$this->publish_down = null;
+		}
+
 		// Check the publish down date is not earlier than publish up.
-		if ($this->publish_down > $this->_db->getNullDate() && $this->publish_down < $this->publish_up)
+		if (!is_null($this->publish_down) !is_null($this->publish_up) && $this->publish_down < $this->publish_up)
 		{
 			$this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
@@ -124,17 +135,7 @@ class BannerTable extends Table
 			$this->ordering = self::getNextOrder($this->_db->quoteName('catid') . '=' . $this->_db->quote($this->catid) . ' AND state>=0');
 		}
 
-		// Set publish_up, publish_down to null if not set
-		if (!$this->publish_up)
-		{
-			$this->publish_up = null;
-		}
-
-		if (!$this->publish_down)
-		{
-			$this->publish_down = null;
-		}
-
+		// Set modified to created if not set
 		if (!$this->modified)
 		{
 			$this->modified = $this->created;
@@ -222,7 +223,7 @@ class BannerTable extends Table
 			switch ($purchaseType)
 			{
 				case 1:
-					$this->reset = $this->_db->getNullDate();
+					$this->reset = null;
 					break;
 				case 2:
 					$date = Factory::getDate('+1 year ' . date('Y-m-d'));
@@ -321,7 +322,7 @@ class BannerTable extends Table
 
 		// Get an instance of the table
 		/** @var BannerTable $table */
-		$table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' => $db));
+		$table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' =>  $this->_db));
 
 		// For all keys
 		foreach ($pks as $pk)
@@ -338,7 +339,7 @@ class BannerTable extends Table
 				// Change the state
 				$table->sticky = $state;
 				$table->checked_out = 0;
-				$table->checked_out_time = $this->_db->getNullDate();
+				$table->checked_out_time = null;
 
 				// Check the row
 				$table->check();

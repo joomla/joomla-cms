@@ -60,9 +60,7 @@ class NewsfeedsModel extends ListModel
 				'tag',
 			);
 
-			$assoc = Associations::isEnabled();
-
-			if ($assoc)
+			if (Associations::isEnabled())
 			{
 				$config['filter_fields'][] = 'association';
 			}
@@ -181,39 +179,20 @@ class NewsfeedsModel extends ListModel
 			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'));
 
 		// Join over the associations.
-		$assoc = Associations::isEnabled();
-
-		if ($assoc)
+		if (Associations::isEnabled())
 		{
-			$query->select('COUNT(asso2.id)>1 AS association')
-				->join('LEFT', $db->quoteName('#__associations', 'asso') . ' ON asso.id = a.id AND asso.context = ' . $db->quote('com_newsfeeds.item'))
-				->join('LEFT', $db->quoteName('#__associations', 'asso2') . ' ON asso2.key = asso.key')
-				->group(
-					$db->quoteName(
-						array(
-							'a.id',
-							'a.name',
-							'a.alias',
-							'a.checked_out',
-							'a.checked_out_time',
-							'a.catid',
-							'a.numarticles',
-							'a.cache_time',
-							'a.created_by',
-							'a.published',
-							'a.access',
-							'a.ordering',
-							'a.language',
-							'a.publish_up',
-							'a.publish_down',
-							'l.title',
-							'l.image',
-							'uc.name',
-							'ag.title',
-							'c.title',
-						)
-					)
+			$subQuery = $db->getQuery(true)
+				->select('CASE WHEN COUNT(' . $db->quoteName('asso1.id') . ') > 1 THEN 1 ELSE 0 END')
+				->from($db->quoteName('#__associations', 'asso1'))
+				->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
+				->where(
+					[
+						$db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
+						$db->quoteName('asso1.context') . ' = ' . $db->quote('com_newsfeeds.item'),
+					]
 				);
+
+			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
 		}
 
 		// Filter by access level.
