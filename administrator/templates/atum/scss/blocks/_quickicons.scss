@@ -6,7 +6,6 @@
   li {
     padding: 0;
   }
-  
   a {
     color: var(--atum-text-dark);
     width: 100%;
@@ -35,7 +34,11 @@
     max-width: calc(33.333% - 1rem);
     flex: 1 1 calc(33.333% - 1rem);
     padding: 0;
-	
+
+    > ul {
+      padding: 0;
+    }
+
     @media (max-width: 1350px)  {
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);

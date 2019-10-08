@@ -38,7 +38,9 @@ $context   = $this->escape($this->state->get('filter.context'));
 					HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
 				);
 				?>
-				<label id="batch-choose-action-lbl" for="batch-choose-action"><?php echo Text::_('COM_FIELDS_BATCH_GROUP_LABEL'); ?></label>
+				<label id="batch-choose-action-lbl" for="batch-group-id">
+					<?php echo Text::_('COM_FIELDS_BATCH_GROUP_LABEL'); ?>
+				</label>
 				<div id="batch-choose-action" class="control-group">
 					<select name="batch[group_id]" class="custom-select" id="batch-group-id">
 						<option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>

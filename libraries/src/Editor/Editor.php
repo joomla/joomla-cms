@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Editor;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -81,7 +81,7 @@ class Editor implements DispatcherAwareInterface
 		$this->_name = $editor;
 
 		// Set the dispatcher
-		if (!is_object($dispatcher))
+		if (!\is_object($dispatcher))
 		{
 			$dispatcher = Factory::getContainer()->get('dispatcher');
 		}
@@ -141,7 +141,7 @@ class Editor implements DispatcherAwareInterface
 
 		if (method_exists($this->_editor, 'onInit'))
 		{
-			call_user_func(array($this->_editor, 'onInit'));
+			\call_user_func(array($this->_editor, 'onInit'));
 		}
 	}
 
@@ -197,7 +197,7 @@ class Editor implements DispatcherAwareInterface
 		$args['author'] = $author;
 		$args['params'] = $params;
 
-		return call_user_func_array(array($this->_editor, 'onDisplay'), $args);
+		return \call_user_func_array(array($this->_editor, 'onDisplay'), $args);
 	}
 
 	/**
@@ -215,7 +215,7 @@ class Editor implements DispatcherAwareInterface
 	{
 		$result = array();
 
-		if (is_bool($buttons) && !$buttons)
+		if (\is_bool($buttons) && !$buttons)
 		{
 			return $result;
 		}
@@ -225,7 +225,7 @@ class Editor implements DispatcherAwareInterface
 
 		foreach ($plugins as $plugin)
 		{
-			if (is_array($buttons) && in_array($plugin->name, $buttons))
+			if (\is_array($buttons) && \in_array($plugin->name, $buttons))
 			{
 				continue;
 			}
@@ -257,7 +257,7 @@ class Editor implements DispatcherAwareInterface
 				continue;
 			}
 
-			if (is_array($button))
+			if (\is_array($button))
 			{
 				$result = array_merge($result, $button);
 				continue;

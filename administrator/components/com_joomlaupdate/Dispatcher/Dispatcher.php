@@ -22,14 +22,14 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
 class Dispatcher extends ComponentDispatcher
 {
 	/**
-	 * Joomla Update is checked for core.admin rights - not the usual core.manage
+	 * Joomla Update is checked for global core.admin rights - not the usual core.manage for the component
 	 *
 	 * @return  void
 	 */
 	protected function checkAccess()
 	{
 		// Check the user has permission to access this component if in the backend
-		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.admin', $this->option))
+		if ($this->app->isClient('administrator') && !$this->app->getIdentity()->authorise('core.admin'))
 		{
 			throw new NotAllowed($this->app->getLanguage()->_('JERROR_ALERTNOAUTHOR'), 403);
 		}
