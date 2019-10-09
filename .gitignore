@@ -184,6 +184,9 @@ Desktop.ini
 /libraries/vendor/symfony/polyfill-util/LegacyTestListener.php
 /libraries/vendor/symfony/polyfill-util/TestListener.php
 /libraries/vendor/symfony/polyfill-util/TestListenerTrait.php
+/libraries/vendor/symfony/polyfill-util/TestListenerForV5.php
+/libraries/vendor/symfony/polyfill-util/TestListenerForV6.php
+/libraries/vendor/symfony/polyfill-util/TestListenerForV7.php
 /libraries/vendor/symfony/yaml/Tests
 /libraries/vendor/symfony/yaml/.gitignore
 /libraries/vendor/symfony/yaml/CHANGELOG.md
@@ -201,6 +204,7 @@ Desktop.ini
 /libraries/vendor/simplepie/simplepie/idn/ReadMe.txt
 /libraries/vendor/simplepie/simplepie/composer.json
 /libraries/vendor/typo3/phar-stream-wrapper/tests
+/libraries/vendor/typo3/phar-stream-wrapper/.appveyor.yml
 /libraries/vendor/typo3/phar-stream-wrapper/.gitattributes
 /libraries/vendor/typo3/phar-stream-wrapper/.gitignore
 /libraries/vendor/typo3/phar-stream-wrapper/.travis.yml

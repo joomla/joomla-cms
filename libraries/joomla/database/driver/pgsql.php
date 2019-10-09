@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL PDO Database Driver
  *
- * @link   https://secure.php.net/manual/en/ref.pdo-mysql.php
+ * @link   https://www.php.net/manual/en/ref.pdo-mysql.php
  * @since  3.9.0
  */
 class JDatabaseDriverPgsql extends JDatabaseDriverPdo
@@ -986,5 +986,19 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 		$this->setQuery(sprintf($statement, implode(',', $fields), implode(' AND ', $where)));
 
 		return $this->execute();
+	}
+
+	/**
+	 * Quotes a binary string to database requirements for use in database queries.
+	 *
+	 * @param   mixed  $data  A binary string to quote.
+	 *
+	 * @return  string  The binary quoted input string.
+	 *
+	 * @since   3.9.12
+	 */
+	public function quoteBinary($data)
+	{
+		return "decode('" . bin2hex($data) . "', 'hex')";
 	}
 }

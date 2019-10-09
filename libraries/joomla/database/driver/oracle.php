@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Oracle database driver
  *
- * @link   https://secure.php.net/pdo
+ * @link   https://www.php.net/pdo
  * @since  3.0.0
  */
 class JDatabaseDriverOracle extends JDatabaseDriverPdo
@@ -582,7 +582,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 
 				$l = $k - 1;
 
-				while ($l >= 0 && $query{$l} == '\\')
+				while ($l >= 0 && $query[$l] == '\\')
 				{
 					$l--;
 					$escaped = !$escaped;

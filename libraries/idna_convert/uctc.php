@@ -14,6 +14,7 @@
  * @author Matthias Sommerfeld  <mso@phlyLabs.de>
  * @copyright 2003-2009 phlyLabs Berlin, http://phlylabs.de
  * @version 0.0.6 2009-05-10
+ * @note This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 class uctc {
     private static $mechs = array('ucs4', /*'ucs4le', 'ucs4be', */'ucs4array', /*'utf16', 'utf16le', 'utf16be', */'utf8', 'utf7', 'utf7imap');
@@ -59,7 +60,7 @@ class uctc {
         $mode = 'next';
         $test = 'none';
         for ($k = 0; $k < $inp_len; ++$k) {
-            $v = ord($input{$k}); // Extract byte from input string
+            $v = ord($input[$k]); // Extract byte from input string
 
             if ($v < 128) { // We found an ASCII char - put into stirng as is
                 $output[$out_len] = $v;
@@ -176,7 +177,7 @@ class uctc {
         $b64     = '';
 
         for ($k = 0; $k < $inp_len; ++$k) {
-            $c = $input{$k};
+            $c = $input[$k];
             if (0 == ord($c)) continue; // Ignore zero bytes
             if ('b' == $mode) {
                 // Sequence got terminated
@@ -193,10 +194,10 @@ class uctc {
                     $tmp = substr($tmp, -1 * (strlen($tmp) % 2));
                     for ($i = 0; $i < strlen($tmp); $i++) {
                         if ($i % 2) {
-                            $output[$out_len] += ord($tmp{$i});
+                            $output[$out_len] += ord($tmp[$i]);
                             $out_len++;
                         } else {
-                            $output[$out_len] = ord($tmp{$i}) << 8;
+                            $output[$out_len] = ord($tmp[$i]) << 8;
                         }
                     }
                     $mode = 'd';
@@ -292,7 +293,7 @@ class uctc {
                 $out_len++;
                 $output[$out_len] = 0;
             }
-            $output[$out_len] += ord($input{$i}) << (8 * (3 - ($i % 4) ) );
+            $output[$out_len] += ord($input[$i]) << (8 * (3 - ($i % 4) ) );
         }
         return $output;
     }

@@ -15,7 +15,7 @@ use Joomla\CMS\Cache\CacheStorage;
 /**
  * APC cache storage handler
  *
- * @link        https://secure.php.net/manual/en/book.apc.php
+ * @link        https://www.php.net/manual/en/book.apc.php
  * @since       1.7.0
  * @deprecated  4.0  Use the APCu handler instead
  */

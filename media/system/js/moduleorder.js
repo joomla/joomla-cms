@@ -39,7 +39,11 @@
 								}
 
 								// Remove previous <select>, it will be recreated by writeDynaList()
-								$("#" + $id).remove();
+								var $previous = $("#" + $id);
+								if ($previous.data('chosen')){
+									$previous.chosen('destroy');
+								}
+								$previous.remove();
 
 								writeDynaList('name="' + $name + '" id="' + $id +'"' + $attr, $orders, $originalPos, $originalPos, $originalOrder, $element);
 
