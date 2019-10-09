@@ -80,7 +80,6 @@ class SiteMenu extends AbstractMenu
 	{
 		$loader = function ()
 		{
-			$nullDate    = $this->db->getNullDate();
 			$currentDate = Factory::getDate()->toSql();
 
 			$query = $this->db->getQuery(true)
@@ -135,22 +134,20 @@ class SiteMenu extends AbstractMenu
 				->extendWhere(
 					'AND',
 					[
-						$this->db->quoteName('m.publish_up') . ' = :nullDate1',
+						$this->db->quoteName('m.publish_up') . ' IS NULL',
 						$this->db->quoteName('m.publish_up') . ' <= :currentDate1',
 					],
 					'OR'
 				)
-				->bind(':nullDate1', $nullDate)
 				->bind(':currentDate1', $currentDate)
 				->extendWhere(
 					'AND',
 					[
-						$this->db->quoteName('m.publish_down') . ' = :nullDate2',
+						$this->db->quoteName('m.publish_down') . ' IS NULL',
 						$this->db->quoteName('m.publish_down') . ' >= :currentDate2',
 					],
 					'OR'
 				)
-				->bind(':nullDate2', $nullDate)
 				->bind(':currentDate2', $currentDate)
 				->order($this->db->quoteName('m.lft'));
 
