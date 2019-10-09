@@ -36,12 +36,14 @@
 
   [class^='icon-'],
   [class*=' icon-'] {
-    width: 26px;
-    height: 26px;
-    font-size: 1rem;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
     line-height: 22px;
     color: var(--atum-text-dark);
-    border: 0;
+    border:1px solid var(--atum-text-dark);
+    border-radius: 50%;
+    box-shadow: 0px 1px 0px 0 rgba(0,0,0,.20);
   }
 
   .icon-publish {
