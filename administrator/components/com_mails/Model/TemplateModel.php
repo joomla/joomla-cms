@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -185,7 +186,7 @@ class TemplateModel extends AdminModel
 	}
 
 	/**
-	 * Method to get a single record.
+	 * Get the master data for a mail template.
 	 *
 	 * @param   integer  $pk  The id of the primary key.
 	 *

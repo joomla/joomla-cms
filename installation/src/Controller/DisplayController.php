@@ -45,7 +45,7 @@ class DisplayController extends BaseController
 			$defaultView = 'remove';
 		}
 
-		// Are we allowed to proceed?
+		/** @var \Joomla\CMS\Installation\Model\ChecksModel $model */
 		$model = $this->getModel('Checks');
 
 		$vName = $this->input->getWord('view', $defaultView);
