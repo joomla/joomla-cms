@@ -40,24 +40,20 @@
     height: 26px;
     font-size: 1rem;
     line-height: 22px;
-    color: $gray-400;
-    border: 2px solid var(--border);
-    border-radius: 50%;
+    color: var(--atum-text-dark);
+    border: 0;
   }
 
   .icon-publish {
     color: var(--success);
-    border-color: var(--success);
+  }
+
+  .icon-unpublish {
+    color: var(--danger);
   }
 
   .icon-featured {
     color: var(--atum-special-color);
-    border-color: var(--atum-special-color);
-  }
-
-  .icon-archive {
-    color: var(--atum-text-dark);
-    border-color: $gray-700;
   }
 
   .icon-checkedout {
