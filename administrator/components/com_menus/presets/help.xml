@@ -20,12 +20,14 @@
 		<menuitem
 			title="MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM"
 			type="component"
+			target="_blank"
 			link="index.php?option=com_admin&amp;view=help&amp;layout=langforum"
 		/>
 
 		<menuitem
 			title="MOD_MENU_HELP_JOOMLA"
 			type="component"
+			target="_blank"
 			link="index.php?option=com_admin&amp;view=help"
 		/>
 
