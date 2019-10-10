@@ -698,7 +698,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				 * In that case we use the redirect as defined in the menu item.
 				 *  Otherwise we redirect, when available, to the user preferred site language.
 				 */
-				if ($active && !$active->params['login_redirect_url'])
+				if ($active && !$active->getParams()->get('login_redirect_url'))
 				{
 					if ($assoc)
 					{

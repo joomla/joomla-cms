@@ -276,8 +276,10 @@ class CssMenu
 
 		foreach ($children as $item)
 		{
+			$itemParams = $item->getParams();
+
 			// Exclude item with menu item option set to exclude from menu modules
-			if ($item->getParams()->get('menu_show', 1) == 0)
+			if ($itemParams->get('menu_show', 1) == 0)
 			{
 				$parent->removeChild($item);
 				continue;
@@ -428,7 +430,7 @@ class CssMenu
 			// Populate automatic children for container items
 			if ($item->type === 'container')
 			{
-				$exclude    = (array) $item->params->get('hideitems') ?: array();
+				$exclude    = (array) $itemParams->get('hideitems') ?: array();
 				$components = MenusHelper::getMenuItems('main', false, $exclude);
 
 				// We are adding the nodes first to preprocess them, then sort them and add them again.
@@ -476,7 +478,7 @@ class CssMenu
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
 			}
 
-			if ($item->type === 'separator' && $item->params->get('text_separator') == 0)
+			if ($item->type === 'separator' && $itemParams->get('text_separator') == 0)
 			{
 				$item->title = '';
 			}

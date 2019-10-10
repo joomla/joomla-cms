@@ -356,8 +356,6 @@ class MenusHelper extends ContentHelper
 
 			foreach ($menuItems as $menuitem)
 			{
-				$menuitem->params = new Registry($menuitem->params);
-
 				// Resolve the alias item to get the original item
 				if ($menuitem->type == 'alias')
 				{
@@ -890,12 +888,13 @@ class MenusHelper extends ContentHelper
 		$item->permission = (string) $node['permission'];
 		$item->ajaxbadge  = (string) $node['ajax-badge'];
 		$item->dashboard  = (string) $node['dashboard'];
-		$item->setParams(new Registry(trim($node->params)));
-		$item->getParams()->set('menu-permission', (string) $node['permission']);
+
+		$params = new Registry(trim($node->params));
+		$params->set('menu-permission', (string) $node['permission']);
 
 		if ($item->type == 'separator' && trim($item->title, '- '))
 		{
-			$item->getParams()->set('text_separator', 1);
+			$params->set('text_separator', 1);
 		}
 
 		if ($item->type == 'heading' || $item->type == 'container')
@@ -905,11 +904,11 @@ class MenusHelper extends ContentHelper
 
 		if ((string) $node['quicktask'])
 		{
-			$item->getParams()->set('menu-quicktask', true);
-			$item->getParams()->set('menu-quicktask-link', (string) $node['quicktask']);
-			$item->getParams()->set('menu-quicktask-title', (string) $node['quicktask-title']);
-			$item->getParams()->set('menu-quicktask-icon', (string) $node['quicktask-icon']);
-			$item->getParams()->set('menu-quicktask-permission', (string) $node['quicktask-permission']);
+			$params->set('menu-quicktask', true);
+			$params->set('menu-quicktask-link', (string) $node['quicktask']);
+			$params->set('menu-quicktask-title', (string) $node['quicktask-title']);
+			$params->set('menu-quicktask-icon', (string) $node['quicktask-icon']);
+			$params->set('menu-quicktask-permission', (string) $node['quicktask-permission']);
 		}
 
 		// Translate attributes for iterator values
@@ -920,9 +919,10 @@ class MenusHelper extends ContentHelper
 			$item->link    = str_replace("{sql:$var}", $val, $item->link);
 			$item->class   = str_replace("{sql:$var}", $val, $item->class);
 			$item->icon    = str_replace("{sql:$var}", $val, $item->icon);
-			$params = $item->getParams();
 			$params->set('menu-quicktask-link', str_replace("{sql:$var}", $val, $params->get('menu-quicktask-link')));
 		}
+
+		$item->setParams($params);
 
 		return $item;
 	}
