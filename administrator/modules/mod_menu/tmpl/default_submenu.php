@@ -85,10 +85,10 @@ $link = $current->link;
 $currentParams = $current->getParams();
 
 // Get the menu image class
-$itemIconClass = $currentParams['menu_icon'];
+$itemIconClass = $currentParams->get('menu_icon');
 
 // Get the menu image
-$itemImage = $currentParams['menu_image'];
+$itemImage = $currentParams->get('menu_image');
 
 // Get the menu icon
 $icon      = $this->getIconClass($current);
