@@ -19,7 +19,6 @@ use Joomla\CMS\Workflow\Workflow;
 
 // Create a shortcut for params.
 $params  = &$this->item->params;
-$images  = json_decode($this->item->images);
 $canEdit = $this->item->params->get('access-edit');
 $info    = $this->item->params->get('info_block_position', 0);
 
@@ -27,13 +26,11 @@ $info    = $this->item->params->get('info_block_position', 0);
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 ?>
 
-<?php if (isset($images->image_intro) && !empty($images->image_intro)) : ?>
-	<?php echo LayoutHelper::render('joomla.content.intro_image', $this->item); ?>
-<?php endif; ?>
+<?php echo LayoutHelper::render('joomla.content.intro_image', $this->item); ?>
 
 <div class="item-content">
 	<?php if ($this->item->state == Workflow::CONDITION_UNPUBLISHED || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
-		|| ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && $this->item->publish_down != Factory::getDbo()->getNullDate())) : ?>
+		|| (!is_null($this->item->publish_down) && strtotime($this->item->publish_down) < strtotime(Factory::getDate()))) : ?>
 		<div class="system-unpublished">
 	<?php endif; ?>
 
@@ -55,7 +52,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php if (strtotime($this->item->publish_up) > strtotime(Factory::getDate())) : ?>
 		<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 	<?php endif; ?>
-	<?php if ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && $this->item->publish_down != Factory::getDbo()->getNullDate()) : ?>
+	<?php if (!is_null($this->item->publish_down) && strtotime($this->item->publish_down) < strtotime(Factory::getDate())) : ?>
 		<span class="badge badge-warning"><?php echo Text::_('JEXPIRED'); ?></span>
 	<?php endif; ?>
 
@@ -107,7 +104,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php endif; ?>
 
 	<?php if ($this->item->state == Workflow::CONDITION_UNPUBLISHED || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
-		|| ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && $this->item->publish_down != $this->db->getNullDate() )) : ?>
+		|| (!is_null($this->item->publish_down) && strtotime($this->item->publish_down) < strtotime(Factory::getDate()))) : ?>
 		</div>
 	<?php endif; ?>
 

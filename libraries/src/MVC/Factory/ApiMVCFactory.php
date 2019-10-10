@@ -8,9 +8,7 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
-use Joomla\CMS\Factory;
-
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Factory to create MVC objects based on a namespace. Note that in an API Application model and table objects will be

@@ -15,7 +15,7 @@
 			name="contentsecuritypolicy_mode"
 			type="list"
 			label="COM_CSP_CONTENTSECURITYPOLICY_MODE"
-			default="custom"
+			default="detect"
 			validate="options"
 			showon="contentsecuritypolicy:1"
 			>
@@ -48,13 +48,37 @@
 			<option value="1">JENABLED</option>
 		</field>
 		<field
+			name="script_hashes_enabled"
+			type="radio"
+			label="COM_CSP_CONTENTSECURITYPOLICY_SCRIPT_HASHES_ENABLED"
+			description="COM_CSP_CONTENTSECURITYPOLICY_SCRIPT_HASHES_ENABLED_DESC"
+			class="switcher"
+			default="0"
+			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
+			>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</field>
+		<field
+			name="style_hashes_enabled"
+			type="radio"
+			label="COM_CSP_CONTENTSECURITYPOLICY_STYLE_HASHES_ENABLED"
+			description="COM_CSP_CONTENTSECURITYPOLICY_STYLE_HASHES_ENABLED_DESC"
+			class="switcher"
+			default="0"
+			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
+			>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</field>
+		<field
 			name="contentsecuritypolicy_values"
 			type="subform"
 			label="COM_CSP_CONTENTSECURITYPOLICY_VALUES"
 			multiple="true"
 			min="1"
 			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode:custom"
-		>
+			>
 			<form>
 				<field
 					name="directive"
@@ -82,7 +106,12 @@
 			</form>
 		</field>
 	</fieldset>
-	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL" description="JCONFIG_PERMISSIONS_DESC">
+	<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
+		>
+
 		<field
 			name="rules"
 			type="rules"

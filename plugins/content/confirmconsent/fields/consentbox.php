@@ -10,21 +10,18 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\CheckboxesField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Database\Exception\ExecutionFailureException;
-
-FormHelper::loadFieldClass('Checkboxes');
 
 /**
  * Consentbox Field class for the Confirm Consent Plugin.
  *
  * @since  3.9.1
  */
-class JFormFieldConsentBox extends JFormFieldCheckboxes
+class JFormFieldConsentBox extends CheckboxesField
 {
 	/**
 	 * The form field type.
@@ -104,7 +101,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFormField::setup()
+	 * @see     \Joomla\CMS\Form\FormField::setup()
 	 * @since   3.9.1
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)

@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Fields\Administrator\Model\FieldsModel;
 
 /**
  * FieldsHelper
@@ -28,8 +29,14 @@ use Joomla\CMS\Plugin\PluginHelper;
  */
 class FieldsHelper
 {
+	/**
+	 * @var    FieldsModel
+	 */
 	private static $fieldsCache = null;
 
+	/**
+	 * @var    FieldsModel
+	 */
 	private static $fieldCache = null;
 
 	/**

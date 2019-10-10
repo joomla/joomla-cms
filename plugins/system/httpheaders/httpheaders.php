@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.HttpHeader
+ * @subpackage  System.HttpHeaders
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -9,14 +9,17 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Event\SubscriberInterface;
 
 /**
- * Plugin class for HTTP Header
+ * Plugin class for HTTP Headers
  *
  * @since  4.0.0
  */
@@ -33,7 +36,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    CMSApplication
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -57,20 +60,18 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		'content-security-policy',
 		'content-security-policy-report-only',
 		'x-frame-options',
-		'x-xss-protection',
-		'x-content-type-options',
 		'referrer-policy',
 		'expect-ct',
 		'feature-policy',
 	];
 
 	/**
-	 * The list of special directives that need to be handled
+	 * The list of directives supporting nonce
 	 *
 	 * @var    array
 	 * @since  4.0.0
 	 */
-	private $specialDirectives = [
+	private $nonceDirectives = [
 		'script-src',
 		'style-src',
 	];
@@ -101,6 +102,10 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		// Get the com_csp params that include the content-security-policy configuration
 		$this->comCspParams = ComponentHelper::getParams('com_csp');
+
+		// Nonce generation
+		$this->cspNonce = base64_encode(bin2hex(random_bytes(64)));
+		$this->app->set('csp_nonce', $this->cspNonce);
 	}
 
 	/**
@@ -114,7 +119,91 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	{
 		return [
 			'onAfterInitialise' => 'setHttpHeaders',
+			'onAfterRender'     => 'applyHashesToCspRule',
 		];
+	}
+
+	/**
+	 * The `applyHashesToCspRule` method makes sure the csp hashes are added to the csp header when enabled
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function applyHashesToCspRule(): void
+	{
+		// CSP is only relevant on html pages. Let's early exit here.
+		if ($this->app->getDocument()->getType() !== 'html')
+		{
+			return;
+		}
+
+		$scriptHashesEnabled = (int) $this->comCspParams->get('script_hashes_enabled', 0);
+		$styleHashesEnabled  = (int) $this->comCspParams->get('style_hashes_enabled', 0);
+
+		// Early exit when both options are disabled
+		if (!$scriptHashesEnabled && !$styleHashesEnabled)
+		{
+			return;
+		}
+
+		$headData     = $this->app->getDocument()->getHeadData();
+		$scriptHashes = [];
+		$styleHashes  = [];
+
+		if ($scriptHashesEnabled)
+		{
+			// Generate the hashes for the script-src
+			$inlineScripts = is_array($headData['script']) ? $headData['script'] : [];
+
+			foreach ($inlineScripts as $type => $scriptContent)
+			{
+				$scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', $scriptContent, true)) . "'";
+			}
+		}
+
+		if ($styleHashesEnabled)
+		{
+			// Generate the hashes for the style-src
+			$inlineStyles = is_array($headData['style']) ? $headData['style'] : [];
+
+			foreach ($inlineStyles as $type => $styleContent)
+			{
+				$styleHashes[] = "'sha256-" . base64_encode(hash('sha256', $styleContent, true)) . "'";
+			}
+		}
+
+		// Replace the hashes in the csp header when set.
+		$headers = $this->app->getHeaders();
+
+		foreach ($headers as $id => $headerConfiguration)
+		{
+			if (strtolower($headerConfiguration['name']) === 'content-security-policy'
+				|| strtolower($headerConfiguration['name']) === 'content-security-policy-report-only')
+			{
+				$newHeaderValue = $headerConfiguration['value'];
+
+				if (!empty($scriptHashes))
+				{
+					$newHeaderValue = str_replace('{script-hashes}', implode(' ', $scriptHashes), $newHeaderValue);
+				}
+				else
+				{
+					$newHeaderValue = str_replace('{script-hashes}', '', $newHeaderValue);
+				}
+
+				if (!empty($styleHashes))
+				{
+					$newHeaderValue = str_replace('{style-hashes}', implode(' ', $styleHashes), $newHeaderValue);
+				}
+				else
+				{
+					$newHeaderValue = str_replace('{style-hashes}', '', $newHeaderValue);
+				}
+
+				$this->app->setHeader($headerConfiguration['name'], $newHeaderValue, true);
+			}
+		}
 	}
 
 	/**
@@ -124,111 +213,31 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function setHttpHeaders()
+	public function setHttpHeaders(): void
 	{
 		// Set the default header when they are enabled
-		$this->setDefaultHeader();
-
-		// Nonce generation
-		$cspNonce = base64_encode(bin2hex(random_bytes(64)));
-		$this->app->set('csp_nonce', $cspNonce);
+		$this->setStaticHeaders();
 
 		// Handle CSP Header configuration
 		$cspOptions = (int) $this->comCspParams->get('contentsecuritypolicy', 0);
 
 		if ($cspOptions)
 		{
-			$this->setCspHeader($cspNonce);
-		}
-
-		// Handle HSTS Header configuration
-		$hstsOptions = (int) $this->params->get('hsts', 0);
-
-		if ($hstsOptions)
-		{
-			$this->setHstsHeader();
-		}
-
-		// Handle the additional httpheader
-		$httpHeaders = $this->params->get('additional_httpheader', array());
-
-		foreach ($httpHeaders as $httpHeader)
-		{
-			// Handle the client settings for each header
-			if (!$this->app->isClient($httpHeader->client) && $httpHeader->client != 'both')
-			{
-				continue;
-			}
-
-			if (empty($httpHeader->key) || empty($httpHeader->value))
-			{
-				continue;
-			}
-
-			if (!in_array(strtolower($httpHeader->key), $this->supportedHttpHeaders))
-			{
-				continue;
-			}
-
-			// Allow the custom csp headers to use the random $cspNonce in the rules
-			if (in_array(strtolower($httpHeader->key), ['content-security-policy', 'content-security-policy-report-only']))
-			{
-				$httpHeader->value = str_replace('{nonce}', $cspNonce, $httpHeader->value);
-			}
-
-			$this->app->setHeader($httpHeader->key, $httpHeader->value, true);
-		}
-	}
-
-	/**
-	 * Set the default headers when enabled
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	private function setDefaultHeader()
-	{
-		// X-Frame-Options
-		if ($this->params->get('xframeoptions', '1') === '1')
-		{
-			$this->app->setHeader('X-Frame-Options', 'SAMEORIGIN');
-		}
-
-		// X-XSS-Protection
-		if ($this->params->get('xxssprotection', '1') === '1')
-		{
-			$this->app->setHeader('X-XSS-Protection', '1; mode=block');
-		}
-
-		// X-Content-Type-Options
-		if ($this->params->get('xcontenttypeoptions', '1') === '1')
-		{
-			$this->app->setHeader('X-Content-Type-Options', 'nosniff');
-		}
-
-		// Referrer-Policy
-		$referrerpolicy = $this->params->get('referrerpolicy', 'no-referrer-when-downgrade');
-
-		if ($referrerpolicy !== 'disabled')
-		{
-			$this->app->setHeader('Referrer-Policy', $referrerpolicy);
+			$this->setCspHeader();
 		}
 	}
 
 	/**
 	 * Set the CSP header when enabled
 	 *
-	 * @param   string  $cspNonce  The one time string for the script and style tag
-	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	private function setCspHeader($cspNonce)
+	private function setCspHeader(): void
 	{
 		// Mode Selector
-		$cspMode = $this->comCspParams->get('contentsecuritypolicy_mode', 'custom');
+		$cspMode = $this->comCspParams->get('contentsecuritypolicy_mode', 'detect');
 
 		// In detecting mode we set this default rule so any report gets collected by com_csp
 		if ($cspMode === 'detect')
@@ -236,7 +245,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			$frontendUrl = str_replace('/administrator', '', Uri::base());
 
 			$this->app->setHeader(
-				'Content-Security-Policy-Report-Only',
+				'content-security-policy-report-only',
 				"default-src 'self'; report-uri " . $frontendUrl . "index.php?option=com_csp&task=report.log&client=" . $this->app->getName()
 			);
 
@@ -252,7 +261,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			$automaticRules = trim(
 				implode(
 					'; ',
-					$this->compileAutomaticCspHeaderRules($cspNonce)
+					$this->compileAutomaticCspHeaderRules()
 				)
 			);
 
@@ -263,8 +272,10 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		}
 
 		// In custom mode we compile the header from the values configured
-		$cspValues    = $this->comCspParams->get('contentsecuritypolicy_values', array());
-		$nonceEnabled = (int) $this->comCspParams->get('nonce_enabled', 0);
+		$cspValues           = $this->comCspParams->get('contentsecuritypolicy_values', []);
+		$nonceEnabled        = (int) $this->comCspParams->get('nonce_enabled', 0);
+		$scriptHashesEnabled = (int) $this->comCspParams->get('script_hashes_enabled', 0);
+		$styleHashesEnabled  = (int) $this->comCspParams->get('style_hashes_enabled', 0);
 
 		foreach ($cspValues as $cspValue)
 		{
@@ -277,9 +288,22 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// We can only use this if this is a valid entry
 			if (isset($cspValue->directive) && isset($cspValue->value))
 			{
-				if (in_array($cspValue->directive, $this->specialDirectives) && $nonceEnabled)
+				if (in_array($cspValue->directive, $this->nonceDirectives) && $nonceEnabled)
 				{
-					$cspValue->value .= "'nonce-" . $cspNonce . "' " . $cspValue->value;
+					// Append the nonce
+					$cspValue->value = str_replace('{nonce}', "'nonce-" . $this->cspNonce . "'", $cspValue->value);
+				}
+
+				// Append the script hashes placeholder
+				if ($scriptHashesEnabled && strpos($cspValue->directive, 'script-src') === 0)
+				{
+					$cspValue->value = '{script-hashes} ' . $cspValue->value;
+				}
+
+				// Append the style hashes placeholder
+				if ($styleHashesEnabled && strpos($cspValue->directive, 'style-src') === 0)
+				{
+					$cspValue->value = '{style-hashes} ' . $cspValue->value;
 				}
 
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
@@ -295,46 +319,18 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Set the HSTS header when enabled
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	private function setHstsHeader()
-	{
-		$maxAge        = (int) $this->params->get('hsts_maxage', 31536000);
-		$hstsOptions   = array();
-		$hstsOptions[] = $maxAge < 300 ? 'max-age=300' : 'max-age=' . $maxAge;
-
-		if ($this->params->get('hsts_subdomains', 0))
-		{
-			$hstsOptions[] = 'includeSubDomains';
-		}
-
-		if ($this->params->get('hsts_preload', 0))
-		{
-			$hstsOptions[] = 'preload';
-		}
-
-		$this->app->setHeader('Strict-Transport-Security', trim(implode('; ', $hstsOptions)));
-	}
-
-	/**
 	 * Compile the automatic csp header rules based on com_csp / #__csp
-	 *
-	 * @param   string  $nonce  The System nonce used for script and style tags
 	 *
 	 * @return  array  An array containing the csp rules found in com_csp
 	 *
 	 * @since   4.0.0
 	 */
-	private function compileAutomaticCspHeaderRules($nonce): array
+	private function compileAutomaticCspHeaderRules(): array
 	{
 		// Get the published infos from the database
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName(['client', 'directive', 'blocked_uri']))
-			->from('#__csp')
+			->from($this->db->quoteName('#__csp'))
 			->where($this->db->quoteName('published') . ' = 1');
 
 		$this->db->setQuery($query);
@@ -353,6 +349,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$automaticCspHeader  = [];
 		$cspHeaderCollection = [];
 		$nonceEnabled        = (int) $this->comCspParams->get('nonce_enabled', 0);
+		$scriptHashesEnabled = (int) $this->comCspParams->get('script_hashes_enabled', 0);
+		$styleHashesEnabled  = (int) $this->comCspParams->get('style_hashes_enabled', 0);
 
 		foreach ($rows as $row)
 		{
@@ -400,9 +398,22 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		foreach ($cspHeaderCollection as $cspHeaderkey => $cspHeaderValue)
 		{
 			// Append the random $nonce for the script and style tags if enabled
-			if (in_array($cspHeaderkey, $this->specialDirectives) && $nonceEnabled)
+			if (in_array($cspHeaderkey, $this->nonceDirectives) && $nonceEnabled)
 			{
-				$cspHeaderValue = "'nonce-" . $nonce . "'" . $cspHeaderValue;
+				// Append nonce
+				$cspHeaderValue = "'nonce-" . $this->cspNonce . "'" . $cspHeaderValue;
+			}
+
+			// Append the script hashes placeholder
+			if ($scriptHashesEnabled && strpos($cspValue->directive, 'script-src') === 0)
+			{
+				$cspHeaderValue = '{script-hashes} ' . $cspHeaderValue;
+			}
+
+			// Append the style hashes placeholder
+			if ($styleHashesEnabled && strpos($cspValue->directive, 'style-src') === 0)
+			{
+				$cspHeaderValue = '{style-hashes} ' . $cspHeaderValue;
 			}
 
 			// By default we should whitelist 'self' on any directive
@@ -410,5 +421,111 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		}
 
 		return $automaticCspHeader;
+	}
+
+	/**
+
+	 * Get the configured static headers.
+	 *
+	 * @return  array  We return the array of static headers with its values.
+	 *
+	 * @since   4.0.0
+	 */
+	private function getStaticHeaderConfiguration(): array
+	{
+		$staticHeaderConfiguration = [];
+
+		// X-frame-options
+		if ($this->params->get('xframeoptions'))
+		{
+			$staticHeaderConfiguration['x-frame-options#both'] = 'SAMEORIGIN';
+		}
+
+		// Referrer-policy
+		$referrerPolicy = (string) $this->params->get('referrerpolicy', 'no-referrer-when-downgrade');
+
+		if ($referrerPolicy !== 'disabled')
+		{
+			$staticHeaderConfiguration['referrer-policy#both'] = $referrerPolicy;
+		}
+
+		// Generate the strict-transport-security header
+		$strictTransportSecurity = (int) $this->params->get('hsts', 0);
+
+		if ($strictTransportSecurity)
+		{
+			$maxAge        = (int) $this->params->get('hsts_maxage', 31536000);
+			$hstsOptions   = [];
+			$hstsOptions[] = $maxAge < 300 ? 'max-age=300' : 'max-age=' . $maxAge;
+
+			if ($this->params->get('hsts_subdomains', 0))
+			{
+				$hstsOptions[] = 'includeSubDomains';
+			}
+
+			if ($this->params->get('hsts_preload', 0))
+			{
+				$hstsOptions[] = 'preload';
+			}
+
+			$staticHeaderConfiguration['strict-transport-security#both'] = implode('; ', $hstsOptions);
+		}
+
+		// Generate the additional headers
+		$additionalHttpHeaders = $this->params->get('additional_httpheader', []);
+
+		foreach ($additionalHttpHeaders as $additionalHttpHeader)
+		{
+			if (empty($additionalHttpHeader->key) || empty($additionalHttpHeader->value))
+			{
+				continue;
+			}
+
+			if (!in_array(strtolower($additionalHttpHeader->key), $this->supportedHttpHeaders))
+			{
+				continue;
+			}
+
+			// Allow the custom csp headers to use the random $cspNonce in the rules
+			if (in_array(strtolower($additionalHttpHeader->key), ['content-security-policy', 'content-security-policy-report-only']))
+			{
+				$additionalHttpHeader->value = str_replace('{nonce}', "'nonce-" . $this->cspNonce . "'", $additionalHttpHeader->value);
+			}
+
+			$staticHeaderConfiguration[$additionalHttpHeader->key . '#' . $additionalHttpHeader->client] = $additionalHttpHeader->value;
+		}
+
+		return $staticHeaderConfiguration;
+	}
+
+	/**
+	 * Set the static headers when enabled
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	private function setStaticHeaders(): void
+	{
+		$staticHeaderConfiguration = $this->getStaticHeaderConfiguration();
+
+		if (empty($staticHeaderConfiguration))
+		{
+			return;
+		}
+
+		foreach ($staticHeaderConfiguration as $headerAndClient => $value)
+		{
+			$headerAndClient = explode('#', $headerAndClient);
+			$header = $headerAndClient[0];
+			$client = isset($headerAndClient[1]) ? $headerAndClient[1] : 'both';
+
+			if (!$this->app->isClient($client) && $client != 'both')
+			{
+				continue;
+			}
+
+			$this->app->setHeader($header, $value, true);
+		}
 	}
 }

@@ -59,6 +59,7 @@ class WorkflowsController extends AdminController
 				throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_ERROR_EXTENSION_NOT_SET'));
 			}
 		}
+
 		$this->registerTask('unsetDefault',	'setDefault');
 	}
 
@@ -134,7 +135,7 @@ class WorkflowsController extends AdminController
 			{
 				if ($value === 1)
 				{
-					$ntext = 'COM_WORKFLOW_ITEM_SET_DEFAULT';
+					$ntext = 'COM_WORKFLOW_SET_DEFAULT';
 				}
 				else
 				{
@@ -169,5 +170,17 @@ class WorkflowsController extends AdminController
 				. '&extension=' . $this->extension, false
 			)
 		);
+	}
+
+	/**
+	 * Gets the URL arguments to append to a list redirect.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getRedirectToListAppend()
+	{
+		return '&extension=' . $this->extension;
 	}
 }

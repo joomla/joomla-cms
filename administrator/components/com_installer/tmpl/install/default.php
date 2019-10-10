@@ -37,21 +37,16 @@ $app = Factory::getApplication();
 					<?php if ($this->showMessage) : ?>
 						<?php echo $this->loadTemplate('message'); ?>
 					<?php endif; ?>
-					<?php // Show installation tabs at the start ?>
-					<?php $firstTab = $app->triggerEvent('onInstallerViewBeforeFirstTab', array()); ?>
-					<?php $tabs = $app->triggerEvent('onInstallerAddInstallationTab', array()); ?>
-					<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => $tabs[0]['name'])); ?>
+					<?php $tabs = $app->triggerEvent('onInstallerAddInstallationTab', []); ?>
+					<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', ['active' => $tabs[0]['name'] ?? '']); ?>
 					<?php // Show installation tabs ?>
 					<?php foreach ($tabs as $tab) : ?>
 						<?php echo HTMLHelper::_('uitab.addTab', 'myTab', $tab['name'], $tab['label']); ?>
-						<fieldset class="uploadform">
+						<fieldset class="uploadform option-fieldset options-grid-form-full">
 							<?php echo $tab['content']; ?>
 						</fieldset>
 						<?php echo HTMLHelper::_('uitab.endTab'); ?>
 					<?php endforeach; ?>
-					<?php // Show installation tabs at the end ?>
-					<?php $lastTab = $app->triggerEvent('onInstallerViewAfterLastTab', array()); ?>
-					<?php $tabs = array_merge($firstTab, $tabs, $lastTab); ?>
 					<?php if (!$tabs) : ?>
 						<?php $app->enqueueMessage(Text::_('COM_INSTALLER_NO_INSTALLATION_PLUGINS_FOUND'), 'warning'); ?>
 					<?php endif; ?>

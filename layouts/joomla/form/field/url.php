@@ -46,16 +46,13 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  */
 
-$autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
-
 $attributes = array(
 	!empty($size) ? ' size="' . $size . '"' : '',
 	!empty($description) ? ' aria-describedby="' . $name . '-desc"' : '',
 	$disabled ? ' disabled' : '',
 	$readonly ? ' readonly' : '',
 	strlen($hint) ? ' placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-	$autocomplete,
+	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	$autofocus ? ' autofocus' : '',
 	$spellcheck ? '' : ' spellcheck="false"',
 	$onchange ? ' onchange="' . $onchange . '"' : '',
@@ -65,6 +62,7 @@ $attributes = array(
 ?>
 <input
 	<?php echo $inputType; ?>
+	inputmode="url"
 	name="<?php echo $name; ?>"
 	<?php echo !empty($class) ? ' class="form-control ' . $class . '"' : 'class="form-control"'; ?>
 	id="<?php echo $id; ?>"

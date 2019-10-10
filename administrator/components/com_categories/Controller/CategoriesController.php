@@ -13,8 +13,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * The Categories List Controller
@@ -37,6 +37,30 @@ class CategoriesController extends AdminController
 	public function getModel($name = 'Category', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
+	}
+
+	/**
+	 * Method to get the number of content categories
+	 *
+	 * @return  string  The JSON-encoded amount of published content categories
+	 *
+	 * @since   4.0
+	 */
+	public function getQuickiconContent()
+	{
+		$model = $this->getModel('Categories');
+		$model->setState('filter.published', 1);
+		$model->setState('filter.extension', 'com_content');
+
+		$amount = (int) $model->getTotal();
+
+		$result = [];
+
+		$result['amount'] = $amount;
+		$result['sronly'] = Text::plural('COM_CATEGORIES_N_QUICKICON_SRONLY', $amount);
+		$result['name'] = Text::plural('COM_CATEGORIES_N_QUICKICON', $amount);
+
+		echo new JsonResponse($result);
 	}
 
 	/**
@@ -71,65 +95,16 @@ class CategoriesController extends AdminController
 	}
 
 	/**
-	 * Deletes and returns correctly.
+	 * Gets the URL arguments to append to a list redirect.
 	 *
-	 * @return  void
+	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   3.1.2
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function delete()
+	protected function getRedirectToListAppend()
 	{
-		$this->checkToken();
-
-		// Get items to remove from the request.
-		$cid = $this->input->get('cid', array(), 'array');
 		$extension = $this->input->getCmd('extension', null);
 
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			$this->app->enqueueMessage(Text::_($this->text_prefix . '_NO_ITEM_SELECTED'), 'warning');
-		}
-		else
-		{
-			// Get the model.
-			/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */
-			$model = $this->getModel();
-
-			// Make sure the item ids are integers
-			$cid = ArrayHelper::toInteger($cid);
-
-			// Remove the items.
-			if ($model->delete($cid))
-			{
-				$this->setMessage(Text::plural($this->text_prefix . '_N_ITEMS_DELETED', count($cid)));
-			}
-			else
-			{
-				$this->setMessage($model->getError());
-			}
-		}
-
-		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&extension=' . $extension, false));
-	}
-
-	/**
-	 * Check in of one or more records.
-	 *
-	 * Overrides \JControllerAdmin::checkin to redirect to URL with extension.
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   3.6.0
-	 */
-	public function checkin()
-	{
-		// Process parent checkin method.
-		$result = parent::checkin();
-
-		// Override the redirect Uri.
-		$redirectUri = 'index.php?option=' . $this->option . '&view=' . $this->view_list . '&extension=' . $this->input->get('extension', '', 'CMD');
-		$this->setRedirect(Route::_($redirectUri, false), $this->message, $this->messageType);
-
-		return $result;
+		return '&extension=' . $extension;
 	}
 }

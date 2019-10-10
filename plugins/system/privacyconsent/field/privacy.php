@@ -10,19 +10,15 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-
-FormHelper::loadFieldClass('radio');
 
 /**
  * Provides input for privacy
  *
  * @since  3.9.0
  */
-class JFormFieldprivacy extends JFormFieldRadio
+class JFormFieldprivacy extends RadioField
 {
 	/**
 	 * The form field type.

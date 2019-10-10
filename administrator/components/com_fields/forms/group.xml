@@ -35,7 +35,7 @@
 			name="state"
 			type="list"
 			label="JSTATUS"
-			class="chzn-color-state"
+			class="custom-select-color-state"
 			default="1"
 			>
 			<option value="1">JPUBLISHED</option>
@@ -135,7 +135,6 @@
 			name="ordering"
 			type="text"
 			label="JFIELD_ORDERING_LABEL"
-			class="inputbox"
 		/>
 	</fieldset>
 
@@ -145,7 +144,6 @@
 				name="display_readonly"
 				type="radio"
 				label="JFIELD_DISPLAY_READONLY_LABEL"
-				description="JFIELD_DISPLAY_READONLY_DESC"
 				class="switcher"
 				default="1"
 				>

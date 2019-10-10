@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
 
 defined('_JEXEC') or die;
 
@@ -34,12 +33,11 @@ class FeedView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app       = Factory::getApplication();
-		$document  = Factory::getDocument();
-		$ids       = $app->input->get('id', array(), 'array');
-		$i         = 0;
-		$tagIds    = '';
-		$filter    = new InputFilter;
+		$app    = Factory::getApplication();
+		$ids    = $app->input->get('id', array(), 'array');
+		$i      = 0;
+		$tagIds = '';
+		$filter = new InputFilter;
 
 		foreach ($ids as $id)
 		{
@@ -53,17 +51,18 @@ class FeedView extends BaseHtmlView
 			$i++;
 		}
 
-		$document->link = Route::_('index.php?option=com_tags&view=tag&' . $tagIds);
+		$this->document->link = Route::_('index.php?option=com_tags&view=tag&' . $tagIds);
 
 		$app->input->set('limit', $app->get('feed_limit'));
-		$siteEmail        = $app->get('mailfrom');
-		$fromName         = $app->get('fromname');
-		$feedEmail        = $app->get('feed_email', 'none');
-		$document->editor = $fromName;
+		$siteEmail = $app->get('mailfrom');
+		$fromName  = $app->get('fromname');
+		$feedEmail = $app->get('feed_email', 'none');
+
+		$this->document->editor = $fromName;
 
 		if ($feedEmail !== 'none')
 		{
-			$document->editorEmail = $siteEmail;
+			$this->document->editorEmail = $siteEmail;
 		}
 
 		// Get some data from the model
@@ -101,7 +100,7 @@ class FeedView extends BaseHtmlView
 				}
 
 				// Loads item info into RSS array
-				$document->addItem($feeditem);
+				$this->document->addItem($feeditem);
 			}
 		}
 	}

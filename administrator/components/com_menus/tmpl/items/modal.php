@@ -27,7 +27,6 @@ if ($app->isClient('site'))
 
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('script', 'com_menus/admin-items-modal.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 
 $function     = $app->input->get('function', 'jSelectMenuItem', 'cmd');
 $editor    = $app->input->getCmd('editor', '');
@@ -38,7 +37,7 @@ $link         = 'index.php?option=com_menus&view=items&layout=modal&tmpl=compone
 if (!empty($editor))
 {
 	// This view is used also in com_menus. Load the xtd script only if the editor is set!
-	Factory::getDocument()->addScriptOptions('xtd-menus', array('editor' => $editor));
+	$this->document->addScriptOptions('xtd-menus', array('editor' => $editor));
 	$onclick = "jSelectMenuItem";
 	$link    = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&editor=' . $editor . '&' . Session::getFormToken() . '=1';
 }
@@ -104,7 +103,7 @@ if (!empty($editor))
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
 						<td class="text-center">
-							<?php echo HTMLHelper::_('menus.state', $item->published, $i, 0); ?>
+							<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'items.', false, 'cb', $item->publish_up, $item->publish_down); ?>
 						</td>
 						<th scope="row">
 							<?php $prefix = LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
@@ -128,6 +127,13 @@ if (!empty($editor))
 								<span class="small" title="<?php echo isset($item->item_type_desc) ? htmlspecialchars($this->escape($item->item_type_desc), ENT_COMPAT, 'UTF-8') : ''; ?>">
 									<?php echo $this->escape($item->item_type); ?></span>
 							</div>
+							<?php if ($item->type === 'component' && !$item->enabled) : ?>
+								<div>
+									<span class="badge badge-secondary">
+										<?php echo Text::_($item->enabled === null ? 'JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND' : 'COM_MENUS_LABEL_DISABLED'); ?>
+									</span>
+								</div>
+							<?php endif; ?>
 						</th>
 						<td class="small d-none d-md-table-cell">
 							<?php echo $this->escape($item->menutype_title); ?>

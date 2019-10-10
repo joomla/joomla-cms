@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Form\Form;
@@ -46,7 +46,7 @@ class RulesRule extends FormRule
 		// Make sure that all posted actions are in the list of possible actions for the field.
 		foreach ($valueActions as $action)
 		{
-			if (!in_array($action, $fieldActions))
+			if (!\in_array($action, $fieldActions))
 			{
 				return false;
 			}

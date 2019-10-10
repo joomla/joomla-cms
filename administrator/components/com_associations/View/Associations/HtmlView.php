@@ -82,11 +82,7 @@ class HtmlView extends BaseHtmlView
 			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . AssociationsHelper::getLanguagefilterPluginId());
 			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_ASSOCIATIONS_ERROR_NO_ASSOC', $link), 'warning');
 		}
-		elseif ($this->state->get('itemtype') == '' || $this->state->get('language') == '')
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_ASSOCIATIONS_NOTICE_NO_SELECTORS'), 'notice');
-		}
-		else
+		elseif ($this->state->get('itemtype') != '' && $this->state->get('language') != '')
 		{
 			$type = null;
 
@@ -229,12 +225,12 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::title(
 				Text::sprintf(
 					'COM_ASSOCIATIONS_TITLE_LIST', Text::_($this->extensionName), Text::_($languageKey)
-				), 'contract assoc'
+				), 'language assoc'
 			);
 		}
 		else
 		{
-			ToolbarHelper::title(Text::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'contract assoc');
+			ToolbarHelper::title(Text::_('COM_ASSOCIATIONS_TITLE_LIST_SELECT'), 'language assoc');
 		}
 
 		if ($user->authorise('core.admin', 'com_associations') || $user->authorise('core.options', 'com_associations'))

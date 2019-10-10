@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\ArticlesLatest\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
@@ -111,10 +111,10 @@ abstract class ArticlesLatestHelper
 		// Set ordering
 		$order_map = array(
 			'm_dsc'  => 'a.modified DESC, a.created',
-			'mc_dsc' => 'CASE WHEN (a.modified = ' . $db->quote($db->getNullDate()) . ') THEN a.created ELSE a.modified END',
+			'mc_dsc' => 'a.modified',
 			'c_dsc'  => 'a.created',
 			'p_dsc'  => 'a.publish_up',
-			'random' => $db->getQuery(true)->Rand(),
+			'random' => $db->getQuery(true)->rand(),
 		);
 
 		$ordering = ArrayHelper::getValue($order_map, $params->get('ordering'), 'a.publish_up');
@@ -129,7 +129,7 @@ abstract class ArticlesLatestHelper
 		{
 			$item->slug    = $item->id . ':' . $item->alias;
 
-			if ($access || in_array($item->access, $authorised))
+			if ($access || \in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
 				$item->link = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));

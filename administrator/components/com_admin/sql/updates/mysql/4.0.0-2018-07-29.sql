@@ -1,4 +1,5 @@
-INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES (506, 0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0);
+INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
+(0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 TRUNCATE TABLE `#__finder_filters`;
 ALTER TABLE `#__finder_filters` MODIFY `created_by` int(10) unsigned NOT NULL DEFAULT 0;
@@ -19,22 +20,22 @@ CREATE TABLE `#__finder_links_terms` (
 	INDEX `idx_link_term_weight` (`link_id`, `term_id`, `weight`)
 ) COLLATE='utf8mb4_general_ci' ENGINE=InnoDB;
 
-DROP TABLE #__finder_links_terms0;
-DROP TABLE #__finder_links_terms1;
-DROP TABLE #__finder_links_terms2;
-DROP TABLE #__finder_links_terms3;
-DROP TABLE #__finder_links_terms4;
-DROP TABLE #__finder_links_terms5;
-DROP TABLE #__finder_links_terms6;
-DROP TABLE #__finder_links_terms7;
-DROP TABLE #__finder_links_terms8;
-DROP TABLE #__finder_links_terms9;
-DROP TABLE #__finder_links_termsa;
-DROP TABLE #__finder_links_termsb;
-DROP TABLE #__finder_links_termsc;
-DROP TABLE #__finder_links_termsd;
-DROP TABLE #__finder_links_termse;
-DROP TABLE #__finder_links_termsf;
+DROP TABLE `#__finder_links_terms0`;
+DROP TABLE `#__finder_links_terms1`;
+DROP TABLE `#__finder_links_terms2`;
+DROP TABLE `#__finder_links_terms3`;
+DROP TABLE `#__finder_links_terms4`;
+DROP TABLE `#__finder_links_terms5`;
+DROP TABLE `#__finder_links_terms6`;
+DROP TABLE `#__finder_links_terms7`;
+DROP TABLE `#__finder_links_terms8`;
+DROP TABLE `#__finder_links_terms9`;
+DROP TABLE `#__finder_links_termsa`;
+DROP TABLE `#__finder_links_termsb`;
+DROP TABLE `#__finder_links_termsc`;
+DROP TABLE `#__finder_links_termsd`;
+DROP TABLE `#__finder_links_termse`;
+DROP TABLE `#__finder_links_termsf`;
 
 CREATE TABLE IF NOT EXISTS `#__finder_logging` (
   `searchterm` VARCHAR(255) NOT NULL DEFAULT '',
@@ -46,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_logging` (
   INDEX `searchterm` (`searchterm`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
 
-DROP TABLE #__finder_taxonomy;
+DROP TABLE `#__finder_taxonomy`;
 CREATE TABLE IF NOT EXISTS `#__finder_taxonomy` (
 	`id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
 	`parent_id` INT(10) UNSIGNED NOT NULL DEFAULT '0',
@@ -75,14 +76,17 @@ TRUNCATE TABLE `#__finder_terms`;
 ALTER TABLE `#__finder_terms` CHANGE `language` `language` CHAR(7) NOT NULL DEFAULT '' AFTER `links`;
 ALTER TABLE `#__finder_terms` MODIFY `stem` varchar(75) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_terms` MODIFY `soundex` varchar(75) NOT NULL DEFAULT '';
-ALTER TABLE `#__finder_terms` DROP INDEX `idx_term`, ADD INDEX `idx_stem` (`stem`), ADD INDEX `idx_language` (`language`), ADD INDEX `language` (`language`), ADD UNIQUE INDEX `idx_term` (`term`, `language`);
+ALTER TABLE `#__finder_terms` DROP INDEX `idx_term`;
+ALTER TABLE `#__finder_terms` ADD INDEX `idx_stem` (`stem`);
+ALTER TABLE `#__finder_terms` ADD INDEX `idx_language` (`language`);
+ALTER TABLE `#__finder_terms` ADD UNIQUE INDEX `idx_term_language` (`term`, `language`);
 
 DROP TABLE IF EXISTS `#__finder_terms_common`;
 CREATE TABLE `#__finder_terms_common` (
   `term` varchar(75) NOT NULL DEFAULT '',
   `language` char(7) NOT NULL DEFAULT '',
   `custom` int(11) NOT NULL DEFAULT '0',
-  UNIQUE KEY `idx_word_lang` (`term`,`language`),
+  UNIQUE KEY `idx_term_language` (`term`,`language`),
   KEY `idx_lang` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_bin;
 INSERT INTO `#__finder_terms_common` (`term`, `language`, `custom`) VALUES

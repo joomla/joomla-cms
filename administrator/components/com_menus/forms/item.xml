@@ -82,7 +82,6 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
 			id="publish_up"
-			class="inputbox"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -95,7 +94,6 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
 			id="publish_down"
-			class="inputbox"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -117,7 +115,7 @@
 
 		<field
 			name="menuordering"
-			type="menuordering"
+			type="MenuOrdering"
 			label="COM_MENUS_ITEM_FIELD_ORDERING_LABEL"
 			filter="int"
 			size="1">

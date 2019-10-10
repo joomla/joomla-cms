@@ -180,6 +180,7 @@ class UpdateModel extends ListModel
 			$item->client_translated  = $item->client_id ? Text::_('JADMINISTRATOR') : Text::_('JSITE');
 			$manifest                 = json_decode($item->manifest_cache);
 			$item->current_version    = $manifest->version ?? Text::_('JLIB_UNKNOWN');
+			$item->description        = $manifest->description ?? Text::_('COM_INSTALLER_MSG_UPDATE_NODESC');
 			$item->type_translated    = Text::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
 			$item->folder_translated  = $item->folder ?: Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
 			$item->install_type       = $item->extension_id ? Text::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : Text::_('COM_INSTALLER_NEW_INSTALL');
@@ -267,9 +268,6 @@ class UpdateModel extends ListModel
 	 */
 	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = Updater::STABILITY_STABLE)
 	{
-		// Purge the updates list
-		$this->purge();
-
 		Updater::getInstance()->findUpdates($eid, $cache_timeout, $minimum_stability);
 
 		return true;
@@ -304,41 +302,6 @@ class UpdateModel extends ListModel
 		$db->setQuery($query);
 		$db->execute();
 		$this->_message = Text::_('JLIB_INSTALLER_PURGED_UPDATES');
-
-		return true;
-	}
-
-	/**
-	 * Enables any disabled rows in #__update_sites table
-	 *
-	 * @return  boolean result of operation
-	 *
-	 * @since   1.6
-	 */
-	public function enableSites()
-	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->update($db->quoteName('#__update_sites'))
-			->set($db->quoteName('enabled') . ' = 1')
-			->where($db->quoteName('enabled') . ' = 0');
-		$db->setQuery($query);
-
-		try
-		{
-			$db->execute();
-		}
-		catch (ExecutionFailureException $e)
-		{
-			$this->_message .= Text::_('COM_INSTALLER_FAILED_TO_ENABLE_UPDATES');
-
-			return false;
-		}
-
-		if ($rows = $db->getAffectedRows())
-		{
-			$this->_message .= Text::plural('COM_INSTALLER_ENABLED_UPDATES', $rows);
-		}
 
 		return true;
 	}
@@ -474,21 +437,26 @@ class UpdateModel extends ListModel
 		if (!$installer->update($package['dir']))
 		{
 			// There was an error updating the package
-			$msg    = Text::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$app->enqueueMessage(
+				Text::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR',
+					Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+				), 'error'
+			);
 			$result = false;
 		}
 		else
 		{
 			// Package updated successfully
-			$msg    = Text::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$app->enqueueMessage(
+				Text::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS',
+					Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+				)
+			);
 			$result = true;
 		}
 
 		// Quick change
 		$this->type = $package['type'];
-
-		// Set some model state values
-		$app->enqueueMessage($msg);
 
 		// TODO: Reconfigure this code when you have more battery life left
 		$this->setState('name', $installer->get('name'));
