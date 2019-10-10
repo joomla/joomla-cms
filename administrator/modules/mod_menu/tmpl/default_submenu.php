@@ -21,7 +21,8 @@ use Joomla\CMS\Uri\Uri;
  * =========================================================================================================
  */
 /** @var  \Joomla\Module\Menu\Administrator\Menu\CssMenu  $this */
-$class   = '';
+$class         = '';
+$currentParams = $current->getParams();
 
 // Build the CSS class suffix
 if (!$this->enabled)
@@ -82,7 +83,6 @@ $linkClass = ' class="' . implode(' ', $linkClass) . '" ';
 
 // Get the menu link
 $link = $current->link;
-$currentParams = $current->getParams();
 
 // Get the menu image class
 $itemIconClass = $currentParams->get('menu_icon');
