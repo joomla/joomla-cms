@@ -42,6 +42,7 @@ class ReportsModel extends ListModel
 				'directive', 'a.directive',
 				'client', 'a.client',
 				'published', 'a.published',
+				'created', 'a.created',
 			);
 		}
 

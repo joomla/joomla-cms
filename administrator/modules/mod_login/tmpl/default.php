@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.formvalidator');
@@ -41,7 +40,7 @@ Text::script('MESSAGE');
 						name="username"
 						id="mod-login-username"
 						type="text"
-						class="form-control input-full"
+						class="form-control"
 						required="required"
 						autofocus
 				>
@@ -84,7 +83,7 @@ Text::script('MESSAGE');
 							autocomplete="off"
 							id="mod-login-secretkey"
 							type="text"
-							class="form-control input-full"
+							class="form-control"
 					>
 				</div>
 			</div>

@@ -76,19 +76,19 @@ $saveOrder = $listOrder == 'a.id';
 								<th scope="col" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col">
+								<th scope="col" class="d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CSP_HEADING_DOCUMENT_URI', 'a.document_uri', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CSP_HEADING_BLOCKED_URI', 'a.blocked_uri', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CSP_HEADING_DIRECTIVE', 'a.directive', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JCLIENT', 'a.client', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CSP_HEADING_CREATED', 'a.created', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="d-none d-md-table-cell">
@@ -106,7 +106,7 @@ $saveOrder = $listOrder == 'a.id';
 									<td class="text-center">
 										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'reports.', $canChange, 'cb'); ?>
 									</td>
-									<th scope="row" class="small d-none d-md-table-cell text-break">
+									<th scope="row" class="small d-md-table-cell text-break">
 										<?php echo $item->document_uri; ?>
 									</th>
 									<td class="small d-none d-md-table-cell">
