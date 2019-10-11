@@ -36,7 +36,7 @@ steps:
     image: joomlaprojects/docker-tools:develop
     depends_on: [ phpcs ]
     commands:
-      - npm install --unsafe-perm
+      - npm ci --unsafe-perm
 
   - name: publish-diff
     image: joomlaprojects/docker-images:patchtester
@@ -297,6 +297,6 @@ services:
 
 ---
 kind: signature
-hmac: 18fe1c51adf4123f60550bec7dd255ee552b7f1568aba0e98cdd91ba7aef1674
+hmac: ad27cac6dfbc460a9caf00c36e0f2c8d34e0fd30189d97bc7902b8442ca9db9a
 
 ...
