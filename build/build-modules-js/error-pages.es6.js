@@ -3,8 +3,8 @@ const Ini = require('ini');
 const Recurs = require('recursive-readdir');
 const UglifyCss = require('uglifycss');
 const UglifyJs = require('uglify-es');
-const RootPath = require('./utils/rootpath.es6.js')._();
 
+const RootPath = process.cwd();
 const dir = `${RootPath}/installation/language`;
 const srcPath = `${RootPath}/build/warning_page`;
 

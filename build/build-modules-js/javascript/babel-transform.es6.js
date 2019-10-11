@@ -1,7 +1,7 @@
 const Babel = require('@babel/core');
 const Fs = require('fs');
 const Path = require('path');
-const MakeDir = require('../utils/make-dir.es6.js');
+const MakeDir = require('mkdirp');
 
 /**
  *
@@ -18,7 +18,7 @@ module.exports.run = (fileContents, settings, output) => {
     }
 
     // Ensure the folder exists or create it
-    MakeDir.run(Path.dirname(output));
+    MakeDir.sync(Path.dirname(output), {});
 
     Fs.writeFile(
       output,

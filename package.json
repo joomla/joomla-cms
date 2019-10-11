@@ -80,6 +80,7 @@
     "karma-jasmine-ajax": "^0.1.13",
     "karma-json-fixtures-preprocessor": "0.0.6",
     "karma-verbose-reporter": "^0.0.6",
+    "mkdirp": "^0.5.1",
     "node-sass": "^4.12.0",
     "path": "^0.12.7",
     "postcss": "^7.0.17",
@@ -87,6 +88,7 @@
     "selenium-standalone": "^6.16.0",
     "uglify-es": "^3.3.9",
     "uglifycss": "^0.0.29",
+    "walk-sync": "^2.0.2",
     "watch": "^1.0.2"
   }
 }

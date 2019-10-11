@@ -2,9 +2,10 @@ const Fs = require('fs');
 const Path = require('path');
 const Recurs = require('recursive-readdir');
 const UglyCss = require('uglifycss');
-const MakeDir = require('./utils/make-dir.es6.js');
+const MakeDir = require('mkdirp');
 const CompileScss = require('./stylesheets/scss-transform.es6.js');
-const RootPath = require('./utils/rootpath.es6.js')._();
+
+const RootPath = process.cwd();
 
 /**
  * Method that will crawl the media_source folder and
@@ -67,7 +68,7 @@ module.exports.compile = (options, path) => {
                 if (file.match(/\.css/)) {
                   // CSS file, we will copy the file and then minify it in place
                   // Ensure that the directories exist or create them
-                  MakeDir.run(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'));
+                  MakeDir.sync(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'), {});
                   Fs.copyFileSync(file, file.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'));
                   Fs.writeFileSync(
                     file.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.css', '.min.css'),

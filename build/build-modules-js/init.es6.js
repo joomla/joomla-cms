@@ -2,8 +2,8 @@ const Copydir = require('copy-dir');
 const Fs = require('fs');
 const FsExtra = require('fs-extra');
 const Path = require('path');
-const RootPath = require('./utils/rootpath.es6.js')._();
 
+const RootPath = process.cwd();
 const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
 
 /**

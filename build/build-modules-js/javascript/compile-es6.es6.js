@@ -1,7 +1,7 @@
 const Fs = require('fs');
 const Path = require('path');
+const MakeDir = require('mkdirp');
 const Babel = require('./babel-transform.es6.js');
-const MakeDir = require('../utils/make-dir.es6.js');
 
 const headerText = `PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
 OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.`;
@@ -85,7 +85,7 @@ module.exports.compileFile = (file) => {
       ];
 
       // Ensure that the directories exist or create them
-      MakeDir.run(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'));
+      MakeDir.sync(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'), {});
 
       // Get the contents of the ES-XXXX file
       const es6File = Fs.readFileSync(file, 'utf8');
