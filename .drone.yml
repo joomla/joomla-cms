@@ -11,9 +11,7 @@ steps:
     settings:
       restore: true
       mount:
-        - ./node_modules
         - ./libraries/vendor
-        - ./administrator/components/com_media/node_modules
       cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
     volumes:
       - name: cache
@@ -38,7 +36,7 @@ steps:
     image: joomlaprojects/docker-tools:develop
     depends_on: [ phpcs ]
     commands:
-      - npm ci --unsafe-perm
+      - npm install --unsafe-perm
 
   - name: publish-diff
     image: joomlaprojects/docker-images:patchtester
@@ -74,9 +72,7 @@ steps:
     settings:
       rebuild: true
       mount:
-        - ./node_modules
         - ./libraries/vendor
-        - ./administrator/components/com_media/node_modules
       cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
     volumes:
       - name: cache
@@ -301,6 +297,6 @@ services:
 
 ---
 kind: signature
-hmac: f17f253b02d7a16535d706a31f99d678dcdc595d5bc2ca1e8c2889c3eae2a51b
+hmac: 18fe1c51adf4123f60550bec7dd255ee552b7f1568aba0e98cdd91ba7aef1674
 
 ...
