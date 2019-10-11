@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -140,8 +141,8 @@ class PlgUserJoomla extends CMSPlugin
 			return;
 		}
 
-		$lang = Factory::getLanguage();
-		$defaultLocale = $lang->getTag();
+		$defaultLanguage = Factory::getLanguage();
+		$defaultLocale   = $defaultLanguage->getTag();
 
 		/**
 		 * Look for user language. Priority:
@@ -151,12 +152,16 @@ class PlgUserJoomla extends CMSPlugin
 		$userParams = new Registry($user['params']);
 		$userLocale = $userParams->get('language', $userParams->get('admin_language', $defaultLocale));
 
+		// Temporarily set application language to user's language.
 		if ($userLocale !== $defaultLocale)
 		{
-			$lang->setLanguage($userLocale);
+			Factory::$language = Factory::getContainer()
+				->get(LanguageFactoryInterface::class)
+				->createLanguage($userLocale, $this->app->get('debug_lang', false));
 		}
 
-		$lang->load('plg_user_joomla', JPATH_ADMINISTRATOR);
+		// Load plugin language files.
+		$this->loadLanguage();
 
 		// Compute the mail subject.
 		$emailSubject = Text::sprintf(
@@ -195,7 +200,7 @@ class PlgUserJoomla extends CMSPlugin
 			}
 			catch (\RuntimeException $exception)
 			{
-				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+				$this->app->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
 
 				$res = false;
 			}
@@ -209,7 +214,7 @@ class PlgUserJoomla extends CMSPlugin
 		// Set application language back to default if we changed it
 		if ($userLocale !== $defaultLocale)
 		{
-			$lang->setLanguage($defaultLocale);
+			Factory::$language = $defaultLanguage;
 		}
 	}
 

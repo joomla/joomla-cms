@@ -16,11 +16,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
-Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_SHOW_CORE');
-Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_CORE');
-Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_SHOW_DIFF');
-Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_DIFF');
-
 HTMLHelper::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('script', 'com_templates/admin-template-compare.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('script', 'com_templates/admin-template-toggle-switch.min.js', array('version' => 'auto', 'relative' => true));
@@ -49,7 +44,7 @@ HTMLHelper::_('stylesheet', 'com_templates/admin-templates-default.css', array('
 
 if ($this->type == 'font')
 {
-	Factory::getDocument()->addStyleDeclaration("
+	$this->document->addStyleDeclaration("
 		@font-face {
 			font-family: previewFont;
 			src: url('" . $this->font['address'] . "')
@@ -65,15 +60,15 @@ if ($this->type == 'font')
 <div class="row mt-2">
 	<div class="col-md-8" id="conditional-section">
 	<?php if($this->type == 'file') : ?>
-		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
+		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . $this->source->filename, $this->template->element); ?></p>
 		<p class="lead path hidden"><?php echo $this->source->filename; ?></p>
 	<?php endif; ?>
 	<?php if($this->type == 'image') : ?>
-		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
+		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . $this->image['path'], $this->template->element); ?></p>
 		<p class="lead path hidden"><?php echo $this->image['path']; ?></p>
 	<?php endif; ?>
 	<?php if($this->type == 'font') : ?>
-		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
+		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . $this->font['rel_path'], $this->template->element); ?></p>
 		<p class="lead path hidden"><?php echo $this->font['rel_path']; ?></p>
 	<?php endif; ?>
 	</div>
@@ -128,7 +123,7 @@ if ($this->type == 'font')
 				<?php if (!empty($this->source->coreFile)) : ?>
 					<?php $coreFileContent = file_get_contents($this->source->coreFile); ?>
 					<?php $overrideFileContent = file_get_contents($this->source->filePath); ?>
-					<div class="col-md-6" id="core-pane">
+					<div class="col-md-12" id="core-pane">
 						<h2><?php echo Text::_('COM_TEMPLATES_FILE_CORE_PANE'); ?></h2>
 						<div class="editor-border">
 							<?php echo $this->form->getInput('core'); ?>

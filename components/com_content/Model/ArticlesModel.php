@@ -207,11 +207,9 @@ class ArticlesModel extends ListModel
 				// If category is not published then force 0
 				'CASE WHEN c.published = 2 AND ws.condition > 0 THEN ' . (int) ContentComponent::CONDITION_ARCHIVED .
 				' WHEN c.published != 1 THEN ' . (int) ContentComponent::CONDITION_UNPUBLISHED . ' ELSE ws.condition END as state,' .
-				// Use created if modified is 0
-				'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
-				'a.modified_by, uam.name as modified_by_name,' .
-				// Use created if publish_up is 0
-				'CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END as publish_up,' .
+				'a.modified, a.modified_by, uam.name as modified_by_name,' .
+				// Use created if publish_up is null
+				'CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END as publish_up,' .
 				'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
 				'a.hits, a.featured, a.language, ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
 			)
@@ -466,15 +464,13 @@ class ArticlesModel extends ListModel
 			$query->where($authorWhere . $authorAliasWhere);
 		}
 
-		// Define null and now dates
-		$nullDate = $db->quote($db->getNullDate());
 		$nowDate  = $db->quote(Factory::getDate()->toSql());
 
 		// Filter by start and end dates.
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
-			$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-				->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+			$query->where('(a.publish_up IS NULL OR a.publish_up <= ' . $nowDate . ')')
+				->where('(a.publish_down IS NULL OR a.publish_down >= ' . $nowDate . ')');
 		}
 
 		// Filter by Date Range or Relative Date
@@ -484,8 +480,8 @@ class ArticlesModel extends ListModel
 		switch ($dateFiltering)
 		{
 			case 'range':
-				$startDateRange = $db->quote($this->getState('filter.start_date_range', $nullDate));
-				$endDateRange   = $db->quote($this->getState('filter.end_date_range', $nullDate));
+				$startDateRange = $db->quote($this->getState('filter.start_date_range'));
+				$endDateRange   = $db->quote($this->getState('filter.end_date_range'));
 				$query->where(
 					'(' . $dateField . ' >= ' . $startDateRange . ' AND ' . $dateField .
 					' <= ' . $endDateRange . ')'
@@ -530,13 +526,13 @@ class ArticlesModel extends ListModel
 					if ($monthFilter != '')
 					{
 						$query->where(
-							$db->quote(date("Y-m-d", strtotime($monthFilter)) . ' 00:00:00') . ' <= CASE WHEN a.publish_up = ' .
-							$db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END'
+							$db->quote(date("Y-m-d", strtotime($monthFilter)) . ' 00:00:00')
+							. ' <= CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END'
 						);
 
 						$query->where(
-							$db->quote(date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59') . ' >= CASE WHEN a.publish_up = ' .
-							$db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END'
+							$db->quote(date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59')
+							. ' >= CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END'
 						);
 					}
 					break;
@@ -776,17 +772,17 @@ class ArticlesModel extends ListModel
 			->select('DATE(' .
 				$query->concatenate(
 					array(
-						$query->year($query->quoteName('publish_up')),
-						$query->quote('-'),
-						$query->month($query->quoteName('publish_up')),
-						$query->quote('-01')
+						$query->year($db->quoteName('publish_up')),
+						$db->quote('-'),
+						$query->month($db->quoteName('publish_up')),
+						$db->quote('-01')
 					)
 				) . ') as d'
 			)
 			->select('COUNT(*) as c')
 			->from('(' . $this->getListQuery() . ') as b')
-			->group($query->quoteName('d'))
-			->order($query->quoteName('d') . ' desc');
+			->group($db->quoteName('d'))
+			->order($db->quoteName('d') . ' desc');
 
 		return $db->setQuery($query)->loadObjectList();
 	}
