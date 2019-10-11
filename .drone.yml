@@ -174,7 +174,7 @@ steps:
 
   - name: javascript-cs
     depends_on: [ npm ]
-    image: joomlaprojects/docker-systemtests:develop
+    image: joomlaprojects/docker-systemtests:latest
     commands:
       - export DISPLAY=:0
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
@@ -184,7 +184,7 @@ steps:
 
   - name: javascript-tests
     depends_on: [ npm ]
-    image: joomlaprojects/docker-systemtests:develop
+    image: joomlaprojects/docker-systemtests:latest
     commands:
       - export DISPLAY=:0
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
@@ -301,6 +301,6 @@ services:
 
 ---
 kind: signature
-hmac: f17f253b02d7a16535d706a31f99d678dcdc595d5bc2ca1e8c2889c3eae2a51b
+hmac: 2bad2288ae814ac5940686a752596307904673832b58eef896e9049e4757bc4a
 
 ...
