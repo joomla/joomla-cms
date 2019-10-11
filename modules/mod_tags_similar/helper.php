@@ -38,7 +38,7 @@ abstract class ModTagssimilarHelper
 		$contentType = new UCMType($prefix);
 
 		// Not a UCM item or ID field not defined.
-		if (!$contentType->type || !$idField = $contentType->__get('core_content_item_id'))
+		if (!$contentType->type || !$idField = $contentType->core_content_item_id)
 		{
 			return array();
 		}
