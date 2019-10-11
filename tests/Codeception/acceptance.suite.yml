@@ -31,7 +31,7 @@ modules:
             sample data: 'Default English (GB) Sample Data'    # Default Sample Data
             admin email: 'admin@mydomain.com'      # email Id of the Admin
             language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
-			log_js_errors: true
+            log_js_errors: true
         Helper\JoomlaDb:
             dsn: 'mysql:host=mysql;dbname=test_joomla'
             user: 'root'
