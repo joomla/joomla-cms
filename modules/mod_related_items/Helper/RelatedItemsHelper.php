@@ -61,7 +61,6 @@ abstract class RelatedItemsHelper
 		$temp = explode(':', $temp);
 		$id   = (int) $temp[0];
 
-		$nullDate = $db->getNullDate();
 		$now      = Factory::getDate()->toSql();
 		$related  = [];
 		$query    = $db->getQuery(true);
@@ -131,16 +130,15 @@ abstract class RelatedItemsHelper
 				}
 
 				$query->extendWhere('AND', $wheres, 'OR')
-					->extendWhere('AND', [ $db->quoteName('a.publish_up') . ' = :nullDate1', $db->quoteName('a.publish_up') . ' <= :nowDate1'], 'OR')
+					->extendWhere('AND', [ $db->quoteName('a.publish_up') . ' IS NULL', $db->quoteName('a.publish_up') . ' <= :nowDate1'], 'OR')
 					->extendWhere(
 						'AND',
 						[
-							$db->quoteName('a.publish_down') . ' = :nullDate2',
+							$db->quoteName('a.publish_down') . ' IS NULL',
 							$db->quoteName('a.publish_down') . ' >= :nowDate2'
 						],
 						'OR'
 					)
-					->bind([':nullDate1', ':nullDate2'], $nullDate)
 					->bind([':nowDate1', ':nowDate2'], $now);
 
 				// Filter by language
