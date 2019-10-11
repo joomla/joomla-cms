@@ -58,8 +58,8 @@ java -jar libraries/vendor/joomla-projects/selenium-server-standalone/bin/seleni
 
 echo "[RUNNER] Run Codeception"
 php libraries/vendor/bin/codecept build
-php libraries/vendor/bin/codecept --fail-fast --steps --debug --env "$DB_ENGINE" tests/Codeception/acceptance/install/
-php libraries/vendor/bin/codecept --fail-fast --steps --debug --env "$DB_ENGINE" tests/Codeception/acceptance/administrator/components/com_content
-php libraries/vendor/bin/codecept --fail-fast --steps --debug --env "$DB_ENGINE" tests/Codeception/acceptance/administrator/components/com_media
-php libraries/vendor/bin/codecept --fail-fast --steps --debug --env "$DB_ENGINE" tests/Codeception/acceptance/administrator/components/com_menu
-php libraries/vendor/bin/codecept --fail-fast --steps --debug --env "$DB_ENGINE" tests/Codeception/acceptance/administrator/components/com_users
+php libraries/vendor/bin/codecept run --fail-fast --steps --debug --env "$DB_ENGINE" tests/Codeception/acceptance/install/
+php libraries/vendor/bin/codecept run --fail-fast --steps --debug --env "$DB_ENGINE" tests/Codeception/acceptance/administrator/components/com_content
+php libraries/vendor/bin/codecept run --fail-fast --steps --debug --env "$DB_ENGINE" tests/Codeception/acceptance/administrator/components/com_media
+php libraries/vendor/bin/codecept run --fail-fast --steps --debug --env "$DB_ENGINE" tests/Codeception/acceptance/administrator/components/com_menu
+php libraries/vendor/bin/codecept run --fail-fast --steps --debug --env "$DB_ENGINE" tests/Codeception/acceptance/administrator/components/com_users
