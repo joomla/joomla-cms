@@ -43,6 +43,7 @@ steps:
   - name: publish-diff
     image: joomlaprojects/docker-images:patchtester
     depends_on: [ npm ]
+    failure: ignore
     environment:
       CMP_ARCHIVE_NAME: "build"
       CMP_MASTER_FOLDER: "/reference"
