@@ -43,6 +43,8 @@ cd $JOOMLA_BASE
 apache2ctl -D FOREGROUND &
 google-chrome --version
 chmod 755 libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux/chromedriver
-
-# Executing System tests
-libraries/vendor/bin/robo run:tests --env $DB_ENGINE
+./node_modules/.bin/selenium-standalone install
+./node_modules/.bin/selenium-standalone start &
+sleep 10
+libraries/vendor/bin/codecept run acceptance --steps ./tests/Codeception/acceptance/install --env $DB_ENGINE
+libraries/vendor/bin/codecept run acceptance --steps ./tests/Codeception/acceptance/administrator --env $DB_ENGINE
