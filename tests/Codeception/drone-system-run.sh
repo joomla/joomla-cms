@@ -37,12 +37,29 @@ echo "${HEADER}"
 echo "-------------------------------"
 tput sgr0 -T xterm
 
+echo "[RUNNER] Prepare test environment"
+
 # Switch to Joomla base directory
 cd $JOOMLA_BASE
 
+echo "[RUNNER] Copy files to test installation"
+rsync -avr --exclude-from=tests/Codeception/exclude.txt ./* /tests/www/test-install/
+
+echo "[RUNNER] Start Apache & Chrome"
 apache2ctl -D FOREGROUND &
 google-chrome --version
+
+echo "[RUNNER] Make chromedriver executable"
 chmod 755 libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux/chromedriver
 
-# Executing System tests
-libraries/vendor/bin/robo run:tests --env $DB_ENGINE
+echo "[RUNNER] Start Selenium"
+PATH="$PATH:${pwd}/libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux/chromedriver"
+java -jar libraries/vendor/joomla-projects/selenium-server-standalone/bin/selenium-server-standalone.jar >> selenium.log 2>&1 &
+
+echo "[RUNNER] Run Codeception"
+php libraries/vendor/bin/codecept build
+php libraries/vendor/bin/codecept --fail-fast --steps --debug --env $DB_ENGINE tests/Codeception/acceptance/install/
+php libraries/vendor/bin/codecept --fail-fast --steps --debug --env $DB_ENGINE tests/Codeception/acceptance/administrator/components/com_content
+php libraries/vendor/bin/codecept --fail-fast --steps --debug --env $DB_ENGINE tests/Codeception/acceptance/administrator/components/com_media
+php libraries/vendor/bin/codecept --fail-fast --steps --debug --env $DB_ENGINE tests/Codeception/acceptance/administrator/components/com_menu
+php libraries/vendor/bin/codecept --fail-fast --steps --debug --env $DB_ENGINE tests/Codeception/acceptance/administrator/components/com_users
