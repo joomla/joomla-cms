@@ -50,7 +50,7 @@ steps:
         path: /cache
 
   - name: analysis3x
-    image: rips/rips-cli:1.2.1
+    image: rips/rips-cli:3.2.2
     when:
       branch: staging
     commands:
@@ -72,6 +72,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: e3e6739c960a689e78ec07c0ea193818796cdcf3c3dab9781f7f07b7e3e6b674
+hmac: 21424c45aff0e363dcc6b13fedaed2ab2a21e94df63bb1555df6bb17f35174f7
 
 ...
