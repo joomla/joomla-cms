@@ -11,7 +11,6 @@ namespace Joomla\Component\Fields\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Filesystem\Path;

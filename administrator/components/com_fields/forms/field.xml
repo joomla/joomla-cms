@@ -199,7 +199,6 @@
 			name="ordering"
 			type="text"
 			label="JFIELD_ORDERING_LABEL"
-			class="inputbox"
 		/>
 	</fieldset>
 

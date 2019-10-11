@@ -267,11 +267,11 @@
     }
 
     if (smallLandscape.matches) {
-      if (sidebarNav) sidebarNav.classList.add('collapse');
-      if (subhead) subhead.classList.add('collapse');
+      if (sidebarNav) sidebarNav.classList.add('mm-collapse');
+      if (subhead) subhead.classList.add('mm-collapse');
     } else {
-      if (sidebarNav) sidebarNav.classList.remove('collapse');
-      if (subhead) subhead.classList.remove('collapse');
+      if (sidebarNav) sidebarNav.classList.remove('mm-collapse');
+      if (subhead) subhead.classList.remove('mm-collapse');
     }
   }
 
@@ -339,6 +339,9 @@
     } else {
       setDesktop();
 
+      if (!navigator.cookieEnabled) {
+        Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
+      }
       window.addEventListener('joomla:menu-toggle', (event) => {
         changeLogo(event.detail);
       });

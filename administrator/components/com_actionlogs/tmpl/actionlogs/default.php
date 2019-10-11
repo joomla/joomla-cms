@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -22,13 +21,13 @@ use Joomla\Component\Actionlogs\Administrator\View\Actionlogs\HtmlView;
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 
-Factory::getDocument()->addScriptDeclaration('
+$this->document->addScriptDeclaration('
 	Joomla.submitbutton = function(task)
 	{
 		if (task == "actionlogs.exportLogs")
 		{
 			Joomla.submitform(task, document.getElementById("exportForm"));
-			
+
 			return;
 		}
 
@@ -71,24 +70,24 @@ Factory::getDocument()->addScriptDeclaration('
 						<td width="1%" class="text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
-						<th scope="col">
+						<th scope="col" class="d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_ACTION', 'a.message', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="15%" class="nowrap">
+						<th scope="col" width="15%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_EXTENSION', 'a.extension', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="15%" class="nowrap">
+						<th scope="col" width="15%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_DATE', 'a.log_date', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="10%" class="nowrap">
+						<th scope="col" width="10%" class="d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_NAME', 'a.user_id', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($this->showIpColumn) : ?>
-							<th scope="col" width="10%" class="nowrap">
+							<th scope="col" width="10%" class="d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_IP_ADDRESS', 'a.ip_address', $listDirn, $listOrder); ?>
 							</th>
 						<?php endif; ?>
-						<th scope="col" width="1%" class="nowrap hidden-phone">
+						<th scope="col" width="1%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -101,27 +100,27 @@ Factory::getDocument()->addScriptDeclaration('
 							<td class="center">
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
-							<th scope="row">
+							<th scope="row" class="d-md-table-cell">
 								<?php echo ActionlogsHelper::getHumanReadableLogMessage($item); ?>
 							</th>
-							<td>
+							<td class="d-none d-md-table-cell">
 								<?php echo $this->escape(Text::_($extension)); ?>
 							</td>
-							<td>
+							<td class="d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
 								<div class="small">
 									<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>
 								</div>
 							</td>
-							<td>
+							<td class="d-md-table-cell">
 								<?php echo $item->name; ?>
 							</td>
 							<?php if ($this->showIpColumn) : ?>
-								<td>
+								<td class="d-none d-md-table-cell">
 									<?php echo Text::_($this->escape($item->ip_address)); ?>
 								</td>
 							<?php endif;?>
-							<td class="hidden-phone">
+							<td class="d-none d-md-table-cell">
 								<?php echo (int) $item->id; ?>
 							</td>
 						</tr>

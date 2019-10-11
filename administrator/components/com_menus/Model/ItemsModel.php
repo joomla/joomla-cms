@@ -62,9 +62,7 @@ class ItemsModel extends ListModel
 				'a.ordering'
 			);
 
-			$assoc = Associations::isEnabled();
-
-			if ($assoc)
+			if (Associations::isEnabled())
 			{
 				$config['filter_fields'][] = 'association';
 			}
@@ -308,53 +306,20 @@ class ItemsModel extends ListModel
 			->join('LEFT', $db->quoteName('#__menu_types', 'mt') . ' ON ' . $db->quoteName('mt.menutype') . ' = ' . $db->quoteName('a.menutype'));
 
 		// Join over the associations.
-		$assoc = Associations::isEnabled();
-
-		if ($assoc)
+		if (Associations::isEnabled())
 		{
-			$query->select('COUNT(asso2.id)>1 as association')
-				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_menus.item'))
-				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group(
-					$db->quoteName(
-						array(
-							'a.id',
-							'a.menutype',
-							'a.title',
-							'a.alias',
-							'a.note',
-							'a.path',
-							'a.link',
-							'a.type',
-							'a.parent_id',
-							'a.level',
-							'a.published',
-							'a.component_id',
-							'a.checked_out',
-							'a.checked_out_time',
-							'a.browserNav',
-							'a.access',
-							'a.img',
-							'a.template_style_id',
-							'a.params',
-							'a.lft',
-							'a.rgt',
-							'a.home',
-							'a.language',
-							'a.client_id',
-							'l.title',
-							'l.image',
-							'l.sef',
-							'u.name',
-							'c.element',
-							'ag.title',
-							'e.enabled',
-							'e.name',
-							'mt.id',
-							'mt.title',
-						)
-					)
+			$subQuery = $db->getQuery(true)
+				->select('CASE WHEN COUNT(' . $db->quoteName('asso1.id') . ') > 1 THEN 1 ELSE 0 END')
+				->from($db->quoteName('#__associations', 'asso1'))
+				->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
+				->where(
+					[
+						$db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
+						$db->quoteName('asso1.context') . ' = ' . $db->quote('com_menus.item'),
+					]
 				);
+
+			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
 		}
 
 		// Join over the extensions
@@ -435,8 +400,8 @@ class ItemsModel extends ListModel
 		if ($menuType == '')
 		{
 			// Load all menu types we have manage access
-			$query2 = $this->getDbo()->getQuery(true)
-				->select($this->getDbo()->quoteName(array('id', 'menutype')))
+			$query2 = $db->getQuery(true)
+				->select($db->quoteName(array('id', 'menutype')))
 				->from('#__menu_types')
 				->where('client_id = ' . (int) $this->getState('filter.client_id'))
 				->order('title');
@@ -444,7 +409,7 @@ class ItemsModel extends ListModel
 			// Show protected items on explicit filter only
 			$query->where('a.menutype != ' . $db->quote('main'));
 
-			$menuTypes = $this->getDbo()->setQuery($query2)->loadObjectList();
+			$menuTypes = $db->setQuery($query2)->loadObjectList();
 
 			if ($menuTypes)
 			{
@@ -454,7 +419,7 @@ class ItemsModel extends ListModel
 				{
 					if ($user->authorise('core.manage', 'com_menus.menu.' . (int) $type->id))
 					{
-						$types[] = $query->quote($type->menutype);
+						$types[] = $db->quote($type->menutype);
 					}
 				}
 

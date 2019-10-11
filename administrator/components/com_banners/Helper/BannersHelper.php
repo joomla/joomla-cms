@@ -35,12 +35,11 @@ class BannersHelper extends ContentHelper
 	public static function updateReset()
 	{
 		$db       = Factory::getDbo();
-		$nullDate = $db->getNullDate();
 		$query    = $db->getQuery(true)
 			->select('*')
 			->from('#__banners')
 			->where($db->quote(Factory::getDate()) . ' >= ' . $db->quote('reset'))
-			->where($db->quoteName('reset') . ' != ' . $db->quote($nullDate) . ' AND ' . $db->quoteName('reset') . '!= NULL')
+			->where($db->quoteName('reset') . ' IS NOT NULL')
 			->where(
 				'(' . $db->quoteName('checked_out') . ' = 0 OR ' . $db->quoteName('checked_out') . ' = '
 				. (int) $db->quote(Factory::getUser()->id) . ')'
@@ -79,7 +78,7 @@ class BannersHelper extends ContentHelper
 			switch ($purchaseType)
 			{
 				case 1:
-					$reset = $nullDate;
+					$reset = null;
 					break;
 				case 2:
 					$date = Factory::getDate('+1 year ' . date('Y-m-d'));
