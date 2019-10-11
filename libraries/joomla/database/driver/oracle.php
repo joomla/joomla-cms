@@ -582,7 +582,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 
 				$l = $k - 1;
 
-				while ($l >= 0 && $query{$l} == '\\')
+				while ($l >= 0 && $query[$l] == '\\')
 				{
 					$l--;
 					$escaped = !$escaped;

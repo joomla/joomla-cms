@@ -987,4 +987,18 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 
 		return $this->execute();
 	}
+
+	/**
+	 * Quotes a binary string to database requirements for use in database queries.
+	 *
+	 * @param   mixed  $data  A binary string to quote.
+	 *
+	 * @return  string  The binary quoted input string.
+	 *
+	 * @since   3.9.12
+	 */
+	public function quoteBinary($data)
+	{
+		return "decode('" . bin2hex($data) . "', 'hex')";
+	}
 }

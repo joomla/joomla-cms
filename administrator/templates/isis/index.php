@@ -89,7 +89,7 @@ if ($displayHeader)
 	// Logo file
 	if ($this->params->get('logoFile'))
 	{
-		$logo = JUri::root() . $this->params->get('logoFile');
+		$logo = JUri::root() . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES);
 	}
 	else
 	{
