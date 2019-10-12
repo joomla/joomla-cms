@@ -1656,11 +1656,11 @@ SELECT "extension_id", 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_TITLE', 
 CREATE TABLE "#__privacy_requests" (
   "id" serial NOT NULL,
   "email" varchar(100) DEFAULT '' NOT NULL,
-  "requested_at" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "requested_at" timestamp without time zone NOT NULL,
   "status" smallint DEFAULT 0 NOT NULL,
   "request_type" varchar(25) DEFAULT '' NOT NULL,
   "confirm_token" varchar(100) DEFAULT '' NOT NULL,
-  "confirm_token_created_at" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "confirm_token_created_at" timestamp without time zone,
   PRIMARY KEY ("id")
 );
 
