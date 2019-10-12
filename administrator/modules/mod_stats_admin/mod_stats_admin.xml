@@ -13,7 +13,6 @@
 	<files>
 		<filename module="mod_stats_admin">mod_stats_admin.php</filename>
 		<folder>tmpl</folder>
-		<folder>language</folder>
 		<filename>helper.php</filename>
 	</files>
 	<languages>
