@@ -11,9 +11,7 @@ steps:
     settings:
       restore: true
       mount:
-        - ./node_modules
         - ./libraries/vendor
-        - ./administrator/components/com_media/node_modules
       cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
     volumes:
       - name: cache
@@ -74,9 +72,7 @@ steps:
     settings:
       rebuild: true
       mount:
-        - ./node_modules
         - ./libraries/vendor
-        - ./administrator/components/com_media/node_modules
       cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
     volumes:
       - name: cache
@@ -301,6 +297,6 @@ services:
 
 ---
 kind: signature
-hmac: 9d65c70ea6fd04dc63817157c57556c3b1adec8c27614ea596d1c6cb36eff447
+hmac: e2e6896ac8a3f4356db6e7e6c6e979b6219e6ab3018b32bea9ff6af84423d716
 
 ...
