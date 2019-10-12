@@ -35,7 +35,7 @@ class Content extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(ContentListPage::$url);
-		$I->waitForElement(ContentListPage::$filterSearch, TIMEOUT);
+		$I->waitForElement(ContentListPage::$filterSearch, $I->getConfig('timeout'));
 		$I->searchForItem($title);
 		$I->checkAllResults();
 		$I->clickToolbarButton('feature');
@@ -58,15 +58,15 @@ class Content extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(ContentListPage::$url);
-		$I->waitForElement(ContentListPage::$filterSearch, TIMEOUT);
+		$I->waitForElement(ContentListPage::$filterSearch, $I->getConfig('timeout'));
 		$I->searchForItem($title);
 		$I->checkAllResults();
 		$I->click($title);
-		$I->waitForElement(['id' => "jform_access"], TIMEOUT);
+		$I->waitForElement(['id' => "jform_access"], $I->getConfig('timeout'));
 		$I->selectOption(['id' => "jform_access"], $accessLevel);
 		$I->click(ContentListPage::$dropDownToggle);
 		$I->clickToolbarButton('Save & Close');
-		$I->waitForElement(ContentListPage::$filterSearch, TIMEOUT);
+		$I->waitForElement(ContentListPage::$filterSearch, $I->getConfig('timeout'));
 		$I->see($accessLevel, ContentListPage::$seeAccessLevel);
 	}
 
@@ -84,7 +84,7 @@ class Content extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(ContentListPage::$url);
-		$I->waitForElement(ContentListPage::$filterSearch, TIMEOUT);
+		$I->waitForElement(ContentListPage::$filterSearch, $I->getConfig('timeout'));
 		$I->searchForItem($title);
 		$I->checkAllResults();
 		$I->clickToolbarButton('unpublish');
@@ -106,7 +106,7 @@ class Content extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(ContentListPage::$url);
-		$I->waitForElement(ContentListPage::$filterSearch, TIMEOUT);
+		$I->waitForElement(ContentListPage::$filterSearch, $I->getConfig('timeout'));
 		$this->articleManagerPage->haveItemUsingSearch($title);
 		$I->clickToolbarButton('trash');
 		$I->searchForItem($title);
