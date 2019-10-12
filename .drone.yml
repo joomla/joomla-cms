@@ -11,9 +11,7 @@ steps:
     settings:
       restore: true
       mount:
-        - ./node_modules
         - ./libraries/vendor
-        - ./administrator/components/com_media/node_modules
       cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
     volumes:
       - name: cache
@@ -74,9 +72,7 @@ steps:
     settings:
       rebuild: true
       mount:
-        - ./node_modules
         - ./libraries/vendor
-        - ./administrator/components/com_media/node_modules
       cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
     volumes:
       - name: cache
@@ -174,7 +170,7 @@ steps:
 
   - name: javascript-cs
     depends_on: [ npm ]
-    image: joomlaprojects/docker-systemtests:develop
+    image: joomlaprojects/docker-systemtests:latest
     commands:
       - export DISPLAY=:0
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
@@ -184,7 +180,7 @@ steps:
 
   - name: javascript-tests
     depends_on: [ npm ]
-    image: joomlaprojects/docker-systemtests:develop
+    image: joomlaprojects/docker-systemtests:latest
     commands:
       - export DISPLAY=:0
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
@@ -301,6 +297,6 @@ services:
 
 ---
 kind: signature
-hmac: f9e707b8a9668a599058c4fa59cd7325b5a9978c7ecfe5e41b61b59c0a2b2724
+hmac: b81343e5f7e8108f88b5cb8b56d710bda4df7051517b54cf3394f2bfb34ad668
 
 ...
