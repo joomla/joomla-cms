@@ -296,7 +296,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		// Add the category taxonomy data.
 		$categories = Categories::getInstance('com_newsfeeds', ['published' => false, 'access' => false]);
 		$category = $categories->get($item->catid);
-		$item->addNestedTaxonomy('Category', $category, $category->published, $category->access, $category->language);
+		$item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
 
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);
