@@ -86,7 +86,7 @@ class ConfirmModel extends AdminModel
 		}
 
 		// A request can only be confirmed if it is in a pending status and has a confirmation token
-		if ($table->status != '0' || !$table->confirm_token)
+		if ($table->status != '0' || !$table->confirm_token || $table->confirm_token_created_at === null)
 		{
 			$this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
 
@@ -104,6 +104,7 @@ class ConfirmModel extends AdminModel
 			// Invalidate the request
 			$table->status = -1;
 			$table->confirm_token = '';
+			$table->confirm_token_created_at = null;
 
 			try
 			{
