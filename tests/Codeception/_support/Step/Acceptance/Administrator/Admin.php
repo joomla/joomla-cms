@@ -33,11 +33,11 @@ class Admin extends AcceptanceTester
 	 *
 	 * @throws Exception
 	 */
-	public function seeSystemMessage($text, $timeout = TIMEOUT)
+	public function seeSystemMessage($text, $timeout = null)
 	{
 		$I = $this;
 
-		if (!$timeout)
+		if (is_null($timeout))
 		{
 			$timeout = $I->getConfig('timeout');
 		}
