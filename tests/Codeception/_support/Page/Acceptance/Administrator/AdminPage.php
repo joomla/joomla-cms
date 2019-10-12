@@ -153,7 +153,7 @@ class AdminPage extends AcceptanceTester
 	public function waitForPageTitle($title)
 	{
 		$I = $this;
-		$I->waitForText($title, TIMEOUT, self::$pageTitle);
+		$I->waitForText($title, $I->getConfig('timeout'), self::$pageTitle);
 	}
 
 	/**
@@ -224,7 +224,7 @@ class AdminPage extends AcceptanceTester
 			['xpath' => "//li[@class='dropdown open']/ul[@class='dropdown-menu']//a[text() = 'Logout']"]
 		);
 
-		$I->waitForElement(['id' => 'mod-login-username'], TIMEOUT);
+		$I->waitForElement(['id' => 'mod-login-username'], $I->getConfig('timeout'));
 		$I->waitForText(
 			'Log in',
 			TIMEOUT,

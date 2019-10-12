@@ -36,6 +36,12 @@ class Admin extends AcceptanceTester
 	public function seeSystemMessage($text, $timeout = TIMEOUT)
 	{
 		$I = $this;
+
+		if (!$timeout)
+		{
+			$timeout = $I->getConfig('timeout');
+		}
+
 		$I->waitForText($text, $timeout, AdminPage::$systemMessageContainer);
 		$I->see($text, AdminPage::$systemMessageContainer);
 	}
