@@ -244,6 +244,7 @@ steps:
         - 4.0-dev
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
+      - echo $(($(rips-cli rips:list --table=scans -n -p filter='{"__and":[{"__equal":{"percent":0}}]}' | wc -l) - 4)) pending jobs in the queue in front of you
       - rips-cli rips:scan:start -G -a 2 -t 1 -R -k -p $(pwd) -t 1 -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
     environment:
       RIPS_EMAIL:
