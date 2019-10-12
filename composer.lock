@@ -4728,12 +4728,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "2d92374195b13bfab1a352a3fba302b84ead699b"
+                "reference": "9cd0f0360300b87f55f1535ee3697a5c8f5bd2e2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/2d92374195b13bfab1a352a3fba302b84ead699b",
-                "reference": "2d92374195b13bfab1a352a3fba302b84ead699b",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/9cd0f0360300b87f55f1535ee3697a5c8f5bd2e2",
+                "reference": "9cd0f0360300b87f55f1535ee3697a5c8f5bd2e2",
                 "shasum": ""
             },
             "require": {
@@ -4771,7 +4771,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2019-10-12T15:41:31+00:00"
+            "time": "2019-10-12T18:23:47+00:00"
         },
         {
             "name": "joomla/cms-coding-standards",
