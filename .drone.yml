@@ -50,7 +50,7 @@ steps:
         path: /cache
 
   - name: analysis3x
-    image: rips/rips-cli:1.2.1
+    image: rips/rips-cli:3.2.2
     when:
       branch: staging
     commands:
@@ -58,8 +58,8 @@ steps:
       - if [ $DRONE_REPO_NAMESPACE != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
       - rips-cli rips:scan:start -a 1 -t 1 -p $(pwd) -t 1 -R -k -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
     environment:
-      RIPS_USERNAME:
-        from_secret: RIPS_USERNAME
+      RIPS_EMAIL:
+        from_secret: RIPS_EMAIL
       RIPS_PASSWORD:
         from_secret: RIPS_PASSWORD
 
@@ -72,6 +72,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: e3e6739c960a689e78ec07c0ea193818796cdcf3c3dab9781f7f07b7e3e6b674
+hmac: 55a4ff8c455100893666ba43f1d67989e823e86ef113578c14ba604d8a32c783
 
 ...

@@ -15,8 +15,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Wrapper class for Folder
  *
- * @package     Joomla.Platform
- * @subpackage  Filesystem
  * @since       3.4
  * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Folder instead
  */
