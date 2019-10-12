@@ -490,7 +490,7 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->uploadFile('com_media/' . $testFileName);
 		$I->waitForElement($testFileItem);
-        $I->wait(1);
+		$I->wait(1);
 		$I->clickOnActionInMenuOf($testFileName, MediaListPage::$renameAction);
 		$I->waitForElement(MediaListPage::$renameInputField);
 		$I->seeElement(MediaListPage::$renameInputField);
@@ -566,12 +566,12 @@ class MediaListCest
 		$I->seeElement(MediaListPage::$modalConfirmButton);
 
 		// Sometimes the modal is still fading in
-		$I->wait(0.5);
+		$I->wait(1);
 		$I->fillField(MediaListPage::$renameInputField, $testFolderName . '-renamed');
 		$I->click(MediaListPage::$modalConfirmButton);
 
 		// Ensure the modal has closed
-		$I->wait(0.5);
+		$I->wait(1);
 		$I->seeSystemMessage('Item renamed.');
 		$I->dontSeeElement($testFolderItem);
 		$I->seeElement(MediaListPage::item($testFolderName . '-renamed'));
