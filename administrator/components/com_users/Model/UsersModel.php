@@ -379,17 +379,17 @@ class UsersModel extends ListModel
 		{
 			$dates = $this->buildDateRange($range);
 
-			if ($dates['dNow'] === false)
-			{
-				$query->where(
-					$db->quoteName('a.registerDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
-				);
-			}
-			else
+			if ($dates['dNow'] !== false && $dates['dStart'] !== false)
 			{
 				$query->where(
 					$db->quoteName('a.registerDate') . ' >= ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s')) .
 					' AND ' . $db->quoteName('a.registerDate') . ' <= ' . $db->quote($dates['dNow']->format('Y-m-d H:i:s'))
+				);
+			}
+			elseif ($dates['dStart'] !== false)
+			{
+				$query->where(
+					$db->quoteName('a.registerDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
 				);
 			}
 		}
@@ -408,17 +408,17 @@ class UsersModel extends ListModel
 					$db->quoteName('a.lastvisitDate') . ' = ' . $db->quote($dates['dStart'])
 				);
 			}
-			elseif ($dates['dNow'] === false)
-			{
-				$query->where(
-					$db->quoteName('a.lastvisitDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
-				);
-			}
-			else
+			elseif ($dates['dNow'] !== false && $dates['dStart'] !== false)
 			{
 				$query->where(
 					$db->quoteName('a.lastvisitDate') . ' >= ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s')) .
 					' AND ' . $db->quoteName('a.lastvisitDate') . ' <= ' . $db->quote($dates['dNow']->format('Y-m-d H:i:s'))
+				);
+			}
+			elseif ($dates['dStart'] !== false)
+			{
+				$query->where(
+					$db->quoteName('a.lastvisitDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
 				);
 			}
 		}
@@ -495,7 +495,7 @@ class UsersModel extends ListModel
 				break;
 			case 'never':
 				$dNow = false;
-				$dStart = $this->_db->getNullDate();
+				$dStart = false;
 				break;
 		}
 

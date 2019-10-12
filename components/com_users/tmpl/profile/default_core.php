@@ -39,7 +39,7 @@ use Joomla\CMS\Language\Text;
 		<dt>
 			<?php echo Text::_('COM_USERS_PROFILE_LAST_VISITED_DATE_LABEL'); ?>
 		</dt>
-		<?php if ($this->data->lastvisitDate != $this->db->getNullDate()) : ?>
+		<?php if ($this->data->lastvisitDate != $this->data->registerDate) : ?>
 			<dd>
 				<?php echo HTMLHelper::_('date', $this->data->lastvisitDate, Text::_('DATE_FORMAT_LC1')); ?>
 			</dd>

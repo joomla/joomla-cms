@@ -93,7 +93,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								<?php echo $this->escape($item->user_name); ?>
 							</td>
 							<td class="d-none d-md-table-cell">
-								<?php if ($item->review_time !== Factory::getDbo()->getNullDate()) : ?>
+								<?php if (!is_null($item->review_time)) : ?>
 									<?php echo HTMLHelper::_('date', $item->review_time, Text::_('DATE_FORMAT_LC4')); ?>
 								<?php else : ?>
 									<?php echo Text::_('COM_USERS_EMPTY_REVIEW'); ?>

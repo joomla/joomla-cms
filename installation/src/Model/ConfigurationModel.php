@@ -286,7 +286,6 @@ class ConfigurationModel extends BaseInstallationModel
 		// Create the admin user.
 		date_default_timezone_set('UTC');
 		$installdate = date('Y-m-d H:i:s');
-		$nullDate    = $db->getNullDate();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
@@ -317,7 +316,7 @@ class ConfigurationModel extends BaseInstallationModel
 				->set($db->quoteName('block') . ' = 0')
 				->set($db->quoteName('sendEmail') . ' = 1')
 				->set($db->quoteName('registerDate') . ' = ' . $db->quote($installdate))
-				->set($db->quoteName('lastvisitDate') . ' = ' . $db->quote($nullDate))
+				->set($db->quoteName('lastvisitDate') . ' = ' . $db->quote($installdate))
 				->set($db->quoteName('activation') . ' = ' . $db->quote('0'))
 				->set($db->quoteName('params') . ' = ' . $db->quote(''))
 				->where($db->quoteName('id') . ' = ' . $db->quote($userId));
@@ -343,7 +342,7 @@ class ConfigurationModel extends BaseInstallationModel
 				->values(
 					$db->quote($userId) . ', ' . $db->quote(trim($options->admin_user)) . ', ' . $db->quote(trim($options->admin_username)) . ', ' .
 					$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
-					$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
+					$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($installdate) . ', ' .
 					$db->quote('0') . ', ' . $db->quote('')
 				);
 		}
