@@ -30,7 +30,6 @@ HEADER=$(cat <<'EOF'
 EOF
 )
 
-
 tput setaf 2 -T xterm
 echo "-------------------------------"
 echo "${HEADER}"
@@ -44,10 +43,7 @@ cd $JOOMLA_BASE
 
 echo "[RUNNER] Copy files to test installation"
 rsync -a --exclude-from=tests/Codeception/exclude.txt $JOOMLA_BASE/ /tests/www/test-install/
-echo 'test' >> /tests/www/test-install/index.html
 chown -R www-data /tests/www/test-install/
-cp .htaccess.txt /tests/www/test-install/.htaccess
-sed -e "s,# RewriteBase /,RewriteBase /test-install,g" -in-place test-install/.htaccess
 
 echo "[RUNNER] Start Apache & Chrome"
 apache2ctl -D FOREGROUND &
