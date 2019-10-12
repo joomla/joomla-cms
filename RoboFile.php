@@ -297,7 +297,7 @@ class RoboFile extends Tasks
 	{
 		$this->createTestingSite($opts['use-htaccess']);
 
-		$this->taskRunSelenium(self::SELENIUM_FOLDER, $this->getWebdriver())->run();
+		//$this->taskRunSelenium(self::SELENIUM_FOLDER, $this->getWebdriver())->run();
 
 		// Wait until the server started
 		sleep(3);
@@ -332,7 +332,7 @@ class RoboFile extends Tasks
 	 */
 	public function runTest($pathToTestFile = null, $suite = 'acceptance')
 	{
-		$this->taskRunSelenium(self::SELENIUM_FOLDER, $this->getWebdriver());
+		//$this->taskRunSelenium(self::SELENIUM_FOLDER, $this->getWebdriver());
 
 		// Make sure to run the build command to generate AcceptanceTester
 		$path = $this->vendorPath . 'bin/codecept';

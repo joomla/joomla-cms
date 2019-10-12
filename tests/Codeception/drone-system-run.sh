@@ -51,6 +51,4 @@ chmod 755 libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdri
 ./node_modules/.bin/selenium-standalone start --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com >> selenium.log 2>&1 &
 sleep 10
 echo "[RUNNER] Run Codeception"
-php libraries/vendor/bin/codecept build
-php libraries/vendor/bin/codecept run acceptance --fail-fast  --steps ./tests/Codeception/acceptance/install --env $DB_ENGINE
-php libraries/vendor/bin/codecept run acceptance --fail-fast  --steps ./tests/Codeception/acceptance/administrator --env $DB_ENGINE
+libraries/vendor/bin/robo run:tests --env $DB_ENGINE
