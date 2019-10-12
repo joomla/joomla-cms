@@ -154,6 +154,7 @@ class UserListCest
 		$I->clickToolbarButton("Save");
 		$I->comment('I wait for global configuration being saved');
 		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
+		$I->waitForElementVisible(['id' => 'system-message-container'], TIMEOUT);
 		$I->see('Configuration saved.', ['id' => 'system-message-container']);
 	}
 }
