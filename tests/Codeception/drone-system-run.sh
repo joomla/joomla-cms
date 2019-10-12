@@ -53,7 +53,7 @@ echo "[RUNNER] Make chromedriver executable"
 chmod 755 libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux/chromedriver
 
 echo "[RUNNER] Start Selenium"
-PATH="$PATH:${pwd}/libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux/chromedriver"
+export PATH="$PATH:${pwd}/libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux/chromedriver"
 java -jar libraries/vendor/joomla-projects/selenium-server-standalone/bin/selenium-server-standalone.jar >> selenium.log 2>&1 &
 sleep 3
 
