@@ -239,7 +239,7 @@ steps:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)"
 
   - name: analysis4x
-    image: rips/rips-cli:1.2.1
+    image: rips/rips-cli:3.2.2
     depends_on: [ api-tests ]
     when:
       repo:
@@ -248,10 +248,10 @@ steps:
         - 4.0-dev
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - rips-cli rips:scan:start -a 3 -t 1 -R -k -p $(pwd) -t 1 -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+      - rips-cli rips:scan:start -a 2 -t 1 -R -k -p $(pwd) -t 1 -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
     environment:
-      RIPS_USERNAME:
-        from_secret: RIPS_USERNAME
+      RIPS_EMAIL:
+        from_secret: RIPS_EMAIL
       RIPS_PASSWORD:
         from_secret: RIPS_PASSWORD
 
@@ -301,6 +301,6 @@ services:
 
 ---
 kind: signature
-hmac: 2bad2288ae814ac5940686a752596307904673832b58eef896e9049e4757bc4a
+hmac: f17f253b02d7a16535d706a31f99d678dcdc595d5bc2ca1e8c2889c3eae2a51b
 
 ...
