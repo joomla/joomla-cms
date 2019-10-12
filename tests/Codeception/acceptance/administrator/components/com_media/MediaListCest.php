@@ -283,7 +283,13 @@ class MediaListCest
 		$I->click(MediaListPage::$toolbarDeleteButton);
 		$I->waitForElement(MediaListPage::$toolbarModalDeleteButton);
 		$I->waitForJsOnPageLoad();
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->click(MediaListPage::$toolbarModalDeleteButton);
+
+		// Ensure the modal has closed
+		$I->wait(1);
 		$I->seeSystemMessage('Item deleted.');
 		$I->waitForElementNotVisible($testFileItem);
 	}
@@ -336,6 +342,9 @@ class MediaListCest
 		$I->waitForJsOnPageLoad();
 		$I->click(MediaListPage::$toolbarCreateFolderButton);
 		$I->waitForJsOnPageLoad();
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->seeElement(MediaListPage::$newFolderInputField);
 		$I->seeElement(MediaListPage::$modalConfirmButtonDisabled);
 		$I->fillField(MediaListPage::$newFolderInputField, $testFolderName);
@@ -343,6 +352,9 @@ class MediaListCest
 			return $el->isEnabled();
 		});
 		$I->click(MediaListPage::$modalConfirmButton);
+
+		// Ensure the modal has closed
+		$I->wait(1);
 		$I->seeSystemMessage('Folder created.');
 		$I->waitForElement(MediaListPage::item($testFolderName));
 		$I->seeElement(MediaListPage::item($testFolderName));
@@ -393,9 +405,16 @@ class MediaListCest
 		$I->waitForJsOnPageLoad();
 		$I->click($testFileItem);
 		$I->click(MediaListPage::$toolbarDeleteButton);
+
 		$I->waitForElement(MediaListPage::$toolbarModalDeleteButton);
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->waitForJsOnPageLoad();
 		$I->click(MediaListPage::$toolbarModalDeleteButton);
+
+		// Ensure the modal has closed
+		$I->wait(1);
 		$I->seeSystemMessage('Item deleted.');
 		$I->waitForElementNotVisible($testFileItem);
 		$I->dontSeeElement($testFileName);
@@ -422,8 +441,14 @@ class MediaListCest
 		$I->click($testFolderItem);
 		$I->click(MediaListPage::$toolbarDeleteButton);
 		$I->waitForElement(MediaListPage::$toolbarModalDeleteButton);
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->waitForJsOnPageLoad();
 		$I->click(MediaListPage::$toolbarModalDeleteButton);
+
+		// Ensure the modal has closed
+		$I->wait(1);
 		$I->seeSystemMessage('Item deleted.');
 		$I->waitForElementNotVisible($testFolderItem);
 		$I->dontSeeElement($testFolderItem);
