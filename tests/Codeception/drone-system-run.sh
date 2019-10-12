@@ -40,11 +40,17 @@ tput sgr0 -T xterm
 # Switch to Joomla base directory
 cd $JOOMLA_BASE
 
+echo "[RUNNER] Copy files to test installation"
+rsync -ar --exclude-from=tests/Codeception/exclude.txt ./* /tests/www/test-install/
+
+
 apache2ctl -D FOREGROUND &
 google-chrome --version
 chmod 755 libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux/chromedriver
 ./node_modules/.bin/selenium-standalone install --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com
-./node_modules/.bin/selenium-standalone start --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com &
+./node_modules/.bin/selenium-standalone start --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com >> selenium.log 2>&1 &
 sleep 10
-libraries/vendor/bin/codecept run acceptance --steps ./tests/Codeception/acceptance/install --env $DB_ENGINE
-libraries/vendor/bin/codecept run acceptance --steps ./tests/Codeception/acceptance/administrator --env $DB_ENGINE
+echo "[RUNNER] Run Codeception"
+php libraries/vendor/bin/codecept build
+php libraries/vendor/bin/codecept run acceptance --fail-fast  --steps ./tests/Codeception/acceptance/install --env $DB_ENGINE
+php libraries/vendor/bin/codecept run acceptance --fail-fast  --steps ./tests/Codeception/acceptance/administrator --env $DB_ENGINE
