@@ -136,6 +136,7 @@ class AdminPage extends AcceptanceTester
 		$I = $this;
 
 		$I->waitForPageTitle($title);
+		$I->waitForElementVisible(self::$systemMessageContainer, TIMEOUT);
 		$I->see($message, self::$systemMessageContainer);
 	}
 
