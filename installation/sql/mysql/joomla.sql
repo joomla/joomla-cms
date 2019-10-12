@@ -1751,24 +1751,24 @@ CREATE TABLE IF NOT EXISTS `#__tags` (
   `description` mediumtext NOT NULL,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `checked_out` int(11) unsigned NOT NULL DEFAULT 0,
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `checked_out_time` datetime,
   `access` int(10) unsigned NOT NULL DEFAULT 0,
   `params` text NOT NULL,
   `metadesc` varchar(1024) NOT NULL COMMENT 'The meta description for the page.',
   `metakey` varchar(1024) NOT NULL COMMENT 'The meta keywords for the page.',
   `metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
   `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_time` datetime NOT NULL,
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
   `modified_user_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_time` datetime NOT NULL,
   `images` text NOT NULL,
   `urls` text NOT NULL,
   `hits` int(10) unsigned NOT NULL DEFAULT 0,
   `language` char(7) NOT NULL,
   `version` int(10) unsigned NOT NULL DEFAULT 1,
-  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_up` datetime,
+  `publish_down` datetime,
   PRIMARY KEY (`id`),
   KEY `tag_idx` (`published`,`access`),
   KEY `idx_access` (`access`),
@@ -1784,7 +1784,7 @@ CREATE TABLE IF NOT EXISTS `#__tags` (
 --
 
 INSERT INTO `#__tags` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`, `created_by_alias`, `modified_user_id`, `modified_time`, `images`, `urls`, `hits`, `language`, `version`) VALUES
-(1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 42, '2011-01-01 00:00:01', '', 0, '0000-00-00 00:00:00', '', '', 0, '*', 1);
+(1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, NULL, 1, '', '', '', '', 42, CURRENT_TIMESTAMP(), '', 0, CURRENT_TIMESTAMP(), '', '', 0, '*', 1);
 
 -- --------------------------------------------------------
 

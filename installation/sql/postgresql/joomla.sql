@@ -1746,24 +1746,24 @@ CREATE TABLE IF NOT EXISTS "#__tags" (
   "description" text DEFAULT '' NOT NULL,
   "published" smallint DEFAULT 0 NOT NULL,
   "checked_out" bigint DEFAULT 0 NOT NULL,
-  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "checked_out_time" timestamp without time zone,
   "access" bigint DEFAULT 0 NOT NULL,
   "params" text NOT NULL,
   "metadesc" varchar(1024) NOT NULL,
   "metakey" varchar(1024) NOT NULL,
   "metadata" varchar(2048) NOT NULL,
   "created_user_id" integer DEFAULT 0 NOT NULL,
-  "created_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "created_time" timestamp without time zone NOT NULL,
   "created_by_alias" varchar(255) DEFAULT '' NOT NULL,
   "modified_user_id" integer DEFAULT 0 NOT NULL,
-  "modified_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "modified_time" timestamp without time zone NOT NULL,
   "images" text NOT NULL,
   "urls" text NOT NULL,
   "hits" integer DEFAULT 0 NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "version" bigint DEFAULT 1 NOT NULL,
-  "publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "publish_up" timestamp without time zone,
+  "publish_down" timestamp without time zone,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__tags_cat_idx" ON "#__tags" ("published", "access");
@@ -1779,7 +1779,7 @@ CREATE INDEX "#__tags_idx_language" ON "#__tags" ("language");
 --
 
 INSERT INTO "#__tags" ("id", "parent_id", "lft", "rgt", "level", "path", "title", "alias", "note", "description", "published", "checked_out", "checked_out_time", "access", "params", "metadesc", "metakey", "metadata", "created_user_id", "created_time", "created_by_alias", "modified_user_id", "modified_time", "images", "urls", "hits", "language", "version") VALUES
-(1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, '1970-01-01 00:00:00', 1, '', '', '', '', 42, '2011-01-01 00:00:01', '', 0, '1970-01-01 00:00:00', '', '',  0, '*', 1);
+(1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, NULL, 1, '', '', '', '', 42, CURRENT_TIMESTAMP, '', 0, CURRENT_TIMESTAMP, '', '',  0, '*', 1);
 
 SELECT setval('#__tags_id_seq', 2, false);
 
