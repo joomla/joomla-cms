@@ -44,9 +44,9 @@ cd $JOOMLA_BASE
 
 echo "[RUNNER] Copy files to test installation"
 rsync -a --exclude-from=tests/Codeception/exclude.txt $JOOMLA_BASE/ /tests/www/test-install/
-cd /tests/www/test-install
-ls
-cd $JOOMLA_BASE
+cp ./htaccess.txt /tests/www/test-install/.htaccess
+sed -e "s,# RewriteBase /,RewriteBase /test-install/joomla-cms,g" -in-place test-install/joomla-cms/.htaccess
+
 echo "[RUNNER] Start Apache & Chrome"
 apache2ctl -D FOREGROUND &
 google-chrome --version
