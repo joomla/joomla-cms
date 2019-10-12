@@ -211,9 +211,15 @@ steps:
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
 
+  - name: api-tests
+    depends_on: [ system-tests-postgres ]
+    image: joomlaprojects/docker-systemtests:latest
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)"
+
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
-    depends_on: [ system-tests-postgres ]
+    depends_on: [ api-tests ]
     environment:
       FTP_USERNAME:
         from_secret: ftpusername
@@ -230,13 +236,7 @@ steps:
       - /bin/upload.sh
     when:
       status:
-      - failure
-
-  - name: api-tests
-    depends_on: [ system-tests-postgres ]
-    image: joomlaprojects/docker-systemtests:latest
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)"
+        - failure
 
   - name: analysis4x
     image: rips/rips-cli:3.2.2
@@ -301,6 +301,6 @@ services:
 
 ---
 kind: signature
-hmac: 93a93c399af66011d27141e8fcedff230c5f9cdd2940e2d27185c83bca8231a5
+hmac: 9d65c70ea6fd04dc63817157c57556c3b1adec8c27614ea596d1c6cb36eff447
 
 ...
