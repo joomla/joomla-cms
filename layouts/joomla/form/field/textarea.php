@@ -44,10 +44,6 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  */
 
-// Initialize some field attributes.
-$autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete === 'autocomplete="on"' ? '' : $autocomplete;
-
 $attributes = array(
 	$columns ?: '',
 	$rows ?: '',
@@ -59,11 +55,10 @@ $attributes = array(
 	$onchange ? 'onchange="' . $onchange . '"' : '',
 	$onclick ? 'onclick="' . $onclick . '"' : '',
 	$required ? 'required' : '',
-	$autocomplete,
+	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	$autofocus ? 'autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
 	$maxlength ? $maxlength: ''
-
 );
 ?>
 <textarea name="<?php
