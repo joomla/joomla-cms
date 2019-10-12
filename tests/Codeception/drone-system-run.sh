@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-
+set -e
 JOOMLA_BASE=$1
 DB_ENGINE=$2
 HEADER=$(cat <<'EOF'
