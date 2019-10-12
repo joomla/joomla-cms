@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#set -e
+set -e
 JOOMLA_BASE=$1
 DB_ENGINE=$2
 HEADER=$(cat <<'EOF'
@@ -30,7 +30,6 @@ HEADER=$(cat <<'EOF'
 EOF
 )
 
-
 tput setaf 2 -T xterm
 echo "-------------------------------"
 echo "${HEADER}"
@@ -44,6 +43,7 @@ cd $JOOMLA_BASE
 
 echo "[RUNNER] Copy files to test installation"
 rsync -a --exclude-from=tests/Codeception/exclude.txt $JOOMLA_BASE/ /tests/www/test-install/
+
 
 echo "[RUNNER] Start Apache & Chrome"
 apache2ctl -D FOREGROUND &
@@ -60,10 +60,3 @@ sleep 3
 echo "[RUNNER] Run Codeception"
 php libraries/vendor/bin/codecept build
 php libraries/vendor/bin/codecept run --fail-fast --steps --debug --env $DB_ENGINE tests/Codeception/acceptance/
-
-cat /var/log/apache/access.log
-cat /var/log/apache2/access.log
-cat /etc/httpd/logs/access.log
-cat /var/log/apache/error.log
-cat /var/log/apache2/error.log
-cat /etc/httpd/logs/error.log
