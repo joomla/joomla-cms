@@ -133,6 +133,13 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('password', $options->db_pass_plain);
 		$registry->set('db', $options->db_name);
 		$registry->set('dbprefix', $options->db_prefix);
+		$registry->set('dbencryption', 0);
+		$registry->set('dbsslverifyservercert', 0);
+		$registry->set('dbsslkey', '');
+		$registry->set('dbsslcert', '');
+		$registry->set('dbsslca', '');
+		$registry->set('dbsslcapath', '');
+		$registry->set('dbsslcipher', '');
 
 		// Server settings.
 		$registry->set('live_site', '');
