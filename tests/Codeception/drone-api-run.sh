@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+#set -e
 JOOMLA_BASE=$1
 HEADER=$(cat <<'EOF'
 ......._......................._........
@@ -60,3 +60,9 @@ php libraries/vendor/bin/codecept run --fail-fast --steps --debug --env mysql te
 
 # Executing API tests
 libraries/vendor/bin/codecept run api --fail-fast --steps --debug
+cat /var/log/apache/access.log
+cat /var/log/apache2/access.log
+cat /etc/httpd/logs/access.log
+cat /var/log/apache/error.log
+cat /var/log/apache2/error.log
+cat /etc/httpd/logs/error.log
