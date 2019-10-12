@@ -17,7 +17,7 @@ modules:
             window_size: false
             capabilities:
               'goog:chromeOptions':
-                args: ["headless", "disable-gpu", "no-sandbox", "window-size=1920x1080"]
+                args: ["headless", "whitelisted-ips", "disable-gpu", "no-sandbox", "window-size=1920x1080", "--disable-dev-shm-usage"]
             name: 'jane doe'                       # Name for the Administrator
             username: 'admin'                      # UserName for the Administrator
             password: 'admin'                      # Password for the Administrator
@@ -32,6 +32,7 @@ modules:
             admin email: 'admin@mydomain.com'      # email Id of the Admin
             language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
             timeout: 90                            # or 90000 the same result
+            log_js_errors: true
         Helper\JoomlaDb:
             dsn: 'mysql:host=mysql;dbname=test_joomla'
             user: 'root'

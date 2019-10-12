@@ -41,7 +41,7 @@ class InstallCest
 	public function configureJoomla(AcceptanceTester $I)
 	{
 		$I->am('Administrator');
-		$I->doAdministratorLogin();
+		$I->doAdministratorLogin(null, null, false);
 		$I->disableStatistics();
 		$I->setErrorReportingToDevelopment();
 	}
