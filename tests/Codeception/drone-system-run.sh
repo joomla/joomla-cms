@@ -43,8 +43,10 @@ echo "[RUNNER] Prepare test environment"
 cd $JOOMLA_BASE
 
 echo "[RUNNER] Copy files to test installation"
-rsync -ar --exclude-from=tests/Codeception/exclude.txt $JOOMLA_BASE/ /tests/www/test-install/
-
+rsync -a --exclude-from=tests/Codeception/exclude.txt $JOOMLA_BASE/ /tests/www/test-install/
+cd /tests/www/test-install
+ls
+cd $JOOMLA_BASE
 echo "[RUNNER] Start Apache & Chrome"
 apache2ctl -D FOREGROUND &
 google-chrome --version
@@ -54,7 +56,6 @@ chmod 755 libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdri
 
 echo "[RUNNER] Start Selenium"
 export PATH="$PATH:$JOOMLA_BASE/libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux"
-echo $PATH
 java -jar libraries/vendor/joomla-projects/selenium-server-standalone/bin/selenium-server-standalone.jar >> selenium.log 2>&1 &
 sleep 3
 
