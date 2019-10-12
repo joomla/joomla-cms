@@ -44,8 +44,6 @@ cd $JOOMLA_BASE
 
 echo "[RUNNER] Copy files to test installation"
 rsync -a --exclude-from=tests/Codeception/exclude.txt $JOOMLA_BASE/ /tests/www/test-install/
-cp ./htaccess.txt /tests/www/test-install/.htaccess
-sed -e "s,# RewriteBase /,RewriteBase /test-install/joomla-cms,g" -in-place test-install/joomla-cms/.htaccess
 
 echo "[RUNNER] Start Apache & Chrome"
 apache2ctl -D FOREGROUND &
@@ -61,4 +59,4 @@ sleep 3
 
 echo "[RUNNER] Run Codeception"
 php libraries/vendor/bin/codecept build
-php libraries/vendor/bin/codecept run --fail-fast --steps --debug --env "$DB_ENGINE" tests/Codeception/acceptance/
+php libraries/vendor/bin/codecept run --fail-fast --steps --debug --env $DB_ENGINE tests/Codeception/acceptance/
