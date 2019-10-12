@@ -1,8 +1,8 @@
 const Fs = require('fs');
+const FsExtra = require('fs-extra');
 const Path = require('path');
 const Recurs = require('recursive-readdir');
 const UglyCss = require('uglifycss');
-const MakeDir = require('mkdirp');
 const CompileScss = require('./stylesheets/scss-transform.es6.js');
 
 const RootPath = process.cwd();
@@ -68,7 +68,7 @@ module.exports.compile = (options, path) => {
                 if (file.match(/\.css/)) {
                   // CSS file, we will copy the file and then minify it in place
                   // Ensure that the directories exist or create them
-                  MakeDir.sync(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'), {});
+                  FsExtra.mkdirsSync(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'), {});
                   Fs.copyFileSync(file, file.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'));
                   Fs.writeFileSync(
                     file.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.css', '.min.css'),

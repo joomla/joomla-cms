@@ -1,7 +1,7 @@
 const Babel = require('@babel/core');
 const Fs = require('fs');
+const FsExtra = require('fs-extra');
 const Path = require('path');
-const MakeDir = require('mkdirp');
 
 /**
  *
@@ -18,11 +18,12 @@ module.exports.run = (fileContents, settings, output) => {
     }
 
     // Ensure the folder exists or create it
-    MakeDir.sync(Path.dirname(output), {});
+    FsExtra.mkdirsSync(Path.dirname(output), {});
 
     Fs.writeFile(
       output,
       result.code, // + os.EOL
+      { encoding: 'utf8' },
       (fsError) => {
         if (fsError) {
           // eslint-disable-next-line no-console

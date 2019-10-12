@@ -78,6 +78,7 @@ module.exports.run = (options) => {
         Fs.writeFile(
           `${RootPath}${options.settings.errorPages[name].destFile}`,
           checkContent,
+          { encoding: 'utf8' },
           (err) => {
             if (err) {
               // eslint-disable-next-line no-console

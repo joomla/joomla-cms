@@ -119,7 +119,7 @@ module.exports.compile = (inputFile) => {
                         inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('/js/', '/css/').replace('\\js\\', '\\css\\')
                           .replace('.w-c.es6.js', '.css'),
                         res.css.toString(),
-                        { encoding: 'UTF-8' },
+                        { encoding: 'utf8' },
                       );
                       // eslint-disable-next-line max-len
                       Postcss([CssNano]).process(res.css.toString(), { from: undefined }).then((cssMin) => {
