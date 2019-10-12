@@ -145,28 +145,28 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
-#  - name: php73-integration-pgsql
-#    depends_on: [ npm ]
-#    image: joomlaprojects/docker-images:php7.3
-#    commands:
-#      - php -v
-#      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+  - name: php73-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
-#  - name: php74-integration-pgsql
-#    depends_on: [ npm ]
-#    image: joomlaprojects/docker-images:php7.4
-#    failure: ignore
-#    commands:
-#      - php -v
-#      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+  - name: php74-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.4
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
-#  - name: php80-integration-pgsql
-#    depends_on: [ npm ]
-#    image: joomlaprojects/docker-images:php8.0
-#    failure: ignore
-#    commands:
-#      - php -v
-#      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+  - name: php80-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.0
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
   - name: javascript-cs
     depends_on: [ npm ]
@@ -207,9 +207,15 @@ steps:
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
 
+  - name: api-tests
+    depends_on: [ system-tests-postgres ]
+    image: joomlaprojects/docker-systemtests:latest
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)"
+
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
-    depends_on: [ system-tests-postgres ]
+    depends_on: [ api-tests ]
     environment:
       FTP_USERNAME:
         from_secret: ftpusername
@@ -226,13 +232,7 @@ steps:
       - /bin/upload.sh
     when:
       status:
-      - failure
-
-  - name: api-tests
-    depends_on: [ system-tests-postgres ]
-    image: joomlaprojects/docker-systemtests:latest
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)"
+        - failure
 
   - name: analysis4x
     image: rips/rips-cli:3.2.2
@@ -297,6 +297,6 @@ services:
 
 ---
 kind: signature
-hmac: b81343e5f7e8108f88b5cb8b56d710bda4df7051517b54cf3394f2bfb34ad668
+hmac: f53d8f1e6b65ae252e03458ace3f75981d336c0ea0e06ee4a6f1e56bef932ea6
 
 ...
