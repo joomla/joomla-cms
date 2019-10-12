@@ -493,11 +493,11 @@ class MediaListCest
 		$I->wait(1);
 		$I->clickOnActionInMenuOf($testFileName, MediaListPage::$renameAction);
 		$I->waitForElement(MediaListPage::$renameInputField);
-		$I->seeElement(MediaListPage::$renameInputField);
-		$I->seeElement(MediaListPage::$modalConfirmButton);
 
 		// Sometimes the modal is still fading in
 		$I->wait(1);
+		$I->seeElement(MediaListPage::$renameInputField);
+		$I->seeElement(MediaListPage::$modalConfirmButton);
 		$I->fillField(MediaListPage::$renameInputField, 'test-image-1-renamed');
 		$I->click(MediaListPage::$modalConfirmButton);
 
@@ -563,11 +563,11 @@ class MediaListCest
 		$I->wait(1);
 		$I->clickOnActionInMenuOf($testFolderName, MediaListPage::$renameAction);
 		$I->waitForElement(MediaListPage::$renameInputField);
-		$I->seeElement(MediaListPage::$renameInputField);
-		$I->seeElement(MediaListPage::$modalConfirmButton);
 
 		// Sometimes the modal is still fading in
 		$I->wait(1);
+		$I->seeElement(MediaListPage::$renameInputField);
+		$I->seeElement(MediaListPage::$modalConfirmButton);
 		$I->fillField(MediaListPage::$renameInputField, $testFolderName . '-renamed');
 		$I->click(MediaListPage::$modalConfirmButton);
 
