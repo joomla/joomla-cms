@@ -5,7 +5,6 @@ const FsExtra = require('fs-extra');
 const Path = require('path');
 const Postcss = require('postcss');
 const Sass = require('node-sass');
-const MakeDir = require('mkdirp');
 
 module.exports.compile = (file) => {
   const cssFile = file.replace('/scss/', '/css/').replace('\\scss\\', '\\css\\')
