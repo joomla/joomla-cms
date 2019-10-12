@@ -40,10 +40,6 @@ tput sgr0 -T xterm
 # Switch to Joomla base directory
 cd $JOOMLA_BASE
 
-echo "[RUNNER] Copy files to test installation"
-rsync -ar --exclude-from=tests/Codeception/exclude.txt ./* /tests/www/test-install/
-
-
 apache2ctl -D FOREGROUND &
 google-chrome --version
 chmod 755 libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux/chromedriver
