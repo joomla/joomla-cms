@@ -18,18 +18,3 @@ modules:
             user: ''
             password: ''
             dump: tests/Codeception/_data/dump.sql
-webdrivers:
-  firefox:
-    windows: libraries\vendor\joomla-projects\selenium-server-standalone\bin\webdrivers\gecko\geckodriver64.exe
-    mac: libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/gecko/geckodriver_mac
-    linux: libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/gecko/geckodriver_linux_64
-  chrome:
-    windows: libraries\vendor\joomla-projects\selenium-server-standalone\bin\webdrivers\chrome\chromedriver.exe
-    mac: libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/chromedriver_mac
-    linux: libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/chromedriver_linux_64
-  internet explorer:
-    windows: libraries\vendor\joomla-projects\selenium-server-standalone\bin\webdrivers\internet-explorer32\IEDriverServer.exe
-  MicrosoftEdge:
-    windows: libraries\vendor\joomla-projects\selenium-server-standalone\bin\webdrivers\edge\MicrosoftWebDriver.exe
-  MicrosoftEdgeInsiders:
-    windows: libraries\vendor\joomla-projects\selenium-server-standalone\bin\webdrivers\edge-insiders\MicrosoftWebDriver.exe
