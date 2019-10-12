@@ -48,7 +48,7 @@ class Media extends Admin
 			// Add a small timeout to wait for rendering (otherwise it will fail when executed in headless browser)
 			$I->wait(0.5);
 		}
-		catch (\Exception $e)
+		catch (NoSuchElementException $e)
 		{
 			/*
 			 * Continue if we cant find the loader within 3 seconds.
