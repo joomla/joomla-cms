@@ -44,6 +44,7 @@ cd $JOOMLA_BASE
 
 echo "[RUNNER] Copy files to test installation"
 rsync -a --exclude-from=tests/Codeception/exclude.txt $JOOMLA_BASE/ /tests/www/test-install/
+echo 'test' >> /tests/www/test-install/index.html
 
 echo "[RUNNER] Start Apache & Chrome"
 apache2ctl -D FOREGROUND &
