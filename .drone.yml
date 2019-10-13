@@ -33,7 +33,7 @@ steps:
       - echo $(date)
 
   - name: npm
-    image: joomlaprojects/docker-tools:develop
+    image: node:current-apline
     depends_on: [ phpcs ]
     commands:
       - npm ci --unsafe-perm
@@ -298,6 +298,6 @@ services:
 
 ---
 kind: signature
-hmac: bf61935fbad0fe4548f7adc70d54eb7839521ff46106794555074b344a0af4db
+hmac: 2a5c4ceaeac4d170d34181f293bdb9d728078081cfc18d737fb2a066e9e482bf
 
 ...
