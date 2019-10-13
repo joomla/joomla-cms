@@ -34,7 +34,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
-use Joomla\string\StringHelper;
+use Joomla\String\StringHelper;
 
 /**
  * Joomla! CMS Application class
