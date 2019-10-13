@@ -490,7 +490,7 @@ class ArticlesModel extends ListModel
 				{
 					$query->where(
 						'(' . $dateField . ' IS NOT NULL AND ' . $dateField . ' >= ' . $startDateRange
-						. ' AND ' . $dateField .' <= ' . $endDateRange . ')'
+						. ' AND ' . $dateField . ' <= ' . $endDateRange . ')'
 					);
 				}
 				elseif ($startDateRangeUsed)
