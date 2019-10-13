@@ -33,7 +33,7 @@ steps:
       - echo $(date)
 
   - name: npm
-    image: node:current-apline
+    image: node:current-alpine
     depends_on: [ phpcs ]
     commands:
       - npm ci --unsafe-perm
@@ -298,6 +298,6 @@ services:
 
 ---
 kind: signature
-hmac: 2a5c4ceaeac4d170d34181f293bdb9d728078081cfc18d737fb2a066e9e482bf
+hmac: 4690de3a080ec5aa572a520fa334703015f2fc89d51cede7179d8b239ab200c2
 
 ...
