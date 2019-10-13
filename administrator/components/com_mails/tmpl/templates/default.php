@@ -14,9 +14,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-JHtml::_('behavior.tooltip');
-JHtml::_('behavior.multiselect');
-
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
 ?>
@@ -43,13 +40,13 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MAILS_HEADING_COMPONENT', 'a.component', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:15%"  class="d-none d-md-table-cell">
+								<th scope="col" style="width:15%"  class="d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_LANGUAGES'); ?>
 								</th>
-								<th scope="col" class="d-none d-md-table-cell">
+								<th scope="col" style="width:30%" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_DESCRIPTION'); ?>
 								</th>
-								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -59,13 +56,13 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 							list($component, $sub_id) = explode('.', $item->template_id, 2);
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
-								<td>
+								<td class="break-word">
 									<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
 								</td>
-								<td>
+								<td class="d-none d-md-table-cell">
 									<?php echo Text::_($component); ?>
 								</td>
-								<td>
+								<td class="d-md-table-cell">
 									<?php foreach ($this->languages as $language) : ?>
 										<?php $exists = in_array($language->lang_code, $item->languages); ?>
 										<a href="<?php echo JRoute::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>"
@@ -78,10 +75,10 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 										</a>
 									<?php endforeach; ?>
 								</td>
-								<td>
+								<td class="d-none d-md-table-cell">
 									<?php echo Text::_($component . '_MAIL_' . $sub_id . '_DESC'); ?>
 								</td>
-								<td>
+								<td class="d-none d-md-table-cell">
 									<?php echo $item->template_id; ?>
 								</td>
 							</tr>
