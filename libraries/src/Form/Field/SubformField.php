@@ -195,7 +195,7 @@ class SubformField extends FormField
 			return false;
 		}
 
-		foreach (array('formsource', 'min', 'max', 'layout', 'groupByFieldset', 'buttons') as $attributeName)
+		foreach (array('fieldname', 'formsource', 'min', 'max', 'layout', 'groupByFieldset', 'buttons') as $attributeName)
 		{
 			$this->__set($attributeName, $element[$attributeName]);
 		}
