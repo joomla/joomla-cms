@@ -263,8 +263,9 @@
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_LABEL"
 			desc="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_DESC"
+			hint="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_HINT"
 			filter="string"
-			size="100"
+			size="250"
 			showon="dbencryption:2"
 		/>
 
@@ -273,8 +274,9 @@
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_LABEL"
 			desc="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_DESC"
+			hint="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_HINT"
 			filter="string"
-			size="100"
+			size="250"
 			showon="dbencryption:2"
 		/>
 
@@ -283,8 +285,9 @@
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_LABEL"
 			desc="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_DESC"
+			hint="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_HINT"
 			filter="string"
-			size="100"
+			size="250"
 			showon="dbencryption:2"
 		/>
 
@@ -293,8 +296,9 @@
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CAPATH_LABEL"
 			desc="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CAPATH_DESC"
+			hint="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CAPATH_HINT"
 			filter="string"
-			size="100"
+			size="250"
 			showon="dbencryption:2"
 		/>
 
@@ -303,8 +307,9 @@
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CIPHER_LABEL"
 			desc="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CIPHER_DESC"
+			hint="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CIPHER_HINT"
 			filter="string"
-			size="100"
+			size="300"
 			showon="dbencryption:2"
 		/>
 
