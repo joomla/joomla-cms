@@ -25,6 +25,7 @@ use Codeception\Lib\Friend;
  * @method void lookForwardTo($achieveValue)
  * @method void comment($description)
  * @method Friend haveFriend($name, $actorClass = null)
+ * @method getConfig(string $string)
  *
  * @SuppressWarnings(PHPMD)
  *
