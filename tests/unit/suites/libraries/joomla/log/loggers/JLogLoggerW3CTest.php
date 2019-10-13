@@ -32,6 +32,7 @@ class JLogLoggerW3CTest extends \PHPUnit\Framework\TestCase
 			'text_file_path' => JPATH_TESTS . '/tmp',
 		);
 		$logger = new JLogLoggerW3CInspector($config);
+		$ip     = IpHelper::getIp();
 
 		// Remove the log file if it exists.
 		@ unlink($logger->path);
@@ -60,6 +61,9 @@ class JLogLoggerW3CTest extends \PHPUnit\Framework\TestCase
 			'1980-04-18	00:00:00	EMERGENCY	127.0.0.1	deprecated	Testing3',
 			'Line: ' . __LINE__
 		);
+
+		// Reset IP
+		IpHelper::setIp($ip);
 
 		// Remove the log file if it exists.
 		@ unlink($logger->path);
