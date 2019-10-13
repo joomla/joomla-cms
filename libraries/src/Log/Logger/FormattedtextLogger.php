@@ -192,7 +192,12 @@ class FormattedtextLogger extends Logger
 		// Set some default field values if not already set.
 		if (!isset($entry->clientIP))
 		{
-			$entry->clientIP = IpHelper::getIp();
+			$ip = IpHelper::getIp();
+
+			if ($ip !== '')
+			{
+				$entry->clientIP = $ip;
+			}
 		}
 
 		// If the time field is missing or the date field isn't only the date we need to rework it.
