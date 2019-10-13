@@ -58,9 +58,7 @@ class ContactsModel extends ListModel
 				'level', 'c.level',
 			);
 
-			$assoc = Associations::isEnabled();
-
-			if ($assoc)
+			if (Associations::isEnabled())
 			{
 				$config['filter_fields'][] = 'association';
 			}
@@ -208,50 +206,20 @@ class ContactsModel extends ListModel
 			);
 
 		// Join over the associations.
-		$assoc = Associations::isEnabled();
-
-		if ($assoc)
+		if (Associations::isEnabled())
 		{
-			$query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 as ' . $db->quoteName('association'))
-				->join(
-					'LEFT',
-					$db->quoteName('#__associations', 'asso') . ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName('a.id')
-					. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote('com_contact.item')
-				)
-				->join(
-					'LEFT',
-					$db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key')
-				)
-				->group(
-					$db->quoteName(
-						array(
-							'a.id',
-							'a.name',
-							'a.alias',
-							'a.checked_out',
-							'a.checked_out_time',
-							'a.catid',
-							'a.user_id',
-							'a.published',
-							'a.access',
-							'a.created',
-							'a.created_by',
-							'a.ordering',
-							'a.featured',
-							'a.language',
-							'a.publish_up',
-							'a.publish_down',
-							'ul.name' ,
-							'ul.email',
-							'l.title' ,
-							'l.image' ,
-							'uc.name' ,
-							'ag.title' ,
-							'c.title',
-							'c.level'
-						)
-					)
+			$subQuery = $db->getQuery(true)
+				->select('CASE WHEN COUNT(' . $db->quoteName('asso1.id') . ') > 1 THEN 1 ELSE 0 END')
+				->from($db->quoteName('#__associations', 'asso1'))
+				->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
+				->where(
+					[
+						$db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
+						$db->quoteName('asso1.context') . ' = ' . $db->quote('com_contact.item'),
+					]
 				);
+
+			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
 		}
 
 		// Filter by access level.
