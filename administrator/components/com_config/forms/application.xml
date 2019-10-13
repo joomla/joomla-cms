@@ -247,7 +247,6 @@
 			name="dbsslverifyservercert"
 			type="radio"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_VERIFY_SERVER_CERT_LABEL"
-			desc="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_VERIFY_SERVER_CERT_DESC"
 			class="switcher"
 			default="0"
 			filter="boolean"
