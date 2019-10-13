@@ -6076,4 +6076,175 @@ class JoomlaInstallerScript
 		$model->setState('client_id', 1);
 		$model->clean();
 	}
+
+	/**
+	 * Called after any type of action
+	 *
+	 * @param   string     $action     Which action is happening (install|uninstall|discover_install|update)
+	 * @param   Installer  $installer  The class calling this method
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.7.0
+	 */
+	public function postflight($action, $installer)
+	{
+		if ($action !== 'update')
+		{
+			return true;
+		}
+
+		if (empty($this->fromVersion) || version_compare($this->fromVersion, '4.0.0', 'ge'))
+		{
+			return true;
+		}
+
+		$db = Factory::getDbo();
+		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
+		
+		$tableItem   = new \Joomla\Component\Menus\Administrator\Table\MenuTable($db);
+
+		// Check for the Contact parent Id Menu Item
+		$keys = [
+			'menutype'  => 'main',
+			'type'      => 'component',
+			'title'     => 'com_contact',
+			'parent_id' => 1,
+			'client_id' => 1,
+		];
+
+		$contactMenuitem = $tableItem->load($keys);
+
+		if (!$contactMenuitem)
+		{
+			return false;
+		}
+
+		$parentId    = $tableItem->id;
+		$componentId = ExtensionHelper::getExtensionRecord('com_fields')->extension_id;
+
+		// Add Contact Fields Menu Items.
+		$menuItems = [
+			[
+				'menutype'          => 'main',
+				'title'             => '-',
+				'alias'             => microtime(true),
+				'note'              => '',
+				'path'              => '',
+				'link'              => '#',
+				'type'              => 'separator',
+				'published'         => 1,
+				'parent_id'         => $parentId,
+				'level'             => 2,
+				'component_id'      => $componentId,
+				'checked_out'       => 0,
+				'checked_out_time'  => NULL,
+				'browserNav'        => 0,
+				'access'            => 0,
+				'img'               => '',
+				'template_style_id' => 0,
+				'params'            => '{}',
+				'home'              => 0,
+				'language'          => '*',
+				'client_id'         => 1,
+				'publish_up'        => NULL,
+				'publish_down'      => NULL,
+			],
+			[
+				'menutype'          => 'main',
+				'title'             => 'mod_menu_fields',
+				'alias'             => 'Contact Custom Fields',
+				'note'              => '',
+				'path'              => 'contact/Custom Fields',
+				'link'              => 'index.php?option=com_fields&context=com_contact.contact',
+				'type'              => 'component',
+				'published'         => 1,
+				'parent_id'         => $parentId,
+				'level'             => 2,
+				'component_id'      => $componentId,
+				'checked_out'       => 0,
+				'checked_out_time'  => NULL,
+				'browserNav'        => 0,
+				'access'            => 0,
+				'img'               => '',
+				'template_style_id' => 0,
+				'params'            => '{}',
+				'home'              => 0,
+				'language'          => '*',
+				'client_id'         => 1,
+				'publish_up'        => NULL,
+				'publish_down'      => NULL,
+			],
+			[
+				'menutype'          => 'main',
+				'title'             => 'mod_menu_fields_group',
+				'alias'             => 'Contact Custom Fields Group',
+				'note'              => '',
+				'path'              => 'contact/Custom Fields Group',
+				'link'              => 'index.php?option=com_fields&view=groups&context=com_contact.contact',
+				'type'              => 'component',
+				'published'         => 1,
+				'parent_id'         => $parentId,
+				'level'             => 2,
+				'component_id'      => $componentId,
+				'checked_out'       => 0,
+				'checked_out_time'  => NULL,
+				'browserNav'        => 0,
+				'access'            => 0,
+				'img'               => '',
+				'template_style_id' => 0,
+				'params'            => '{}',
+				'home'              => 0,
+				'language'          => '*',
+				'client_id'         => 1,
+				'publish_up'        => NULL,
+				'publish_down'      => NULL,
+			]
+		];
+
+		foreach ($menuItems as $menuItem)
+		{
+			// Check an existing record
+			$keys = [
+				'menutype'  => $menuItem['menutype'],
+				'type'      => $menuItem['type'],
+				'title'     => $menuItem['title'],
+				'parent_id' => $menuItem['parent_id'],
+				'client_id' => $menuItem['client_id'],
+			];
+
+			if ($tableItem->load($keys))
+			{
+				continue;
+			}
+			$newTableItem   = new \Joomla\Component\Menus\Administrator\Table\MenuTable($db);
+			// Bind the data.
+			if (!$newTableItem->bind($menuItem))
+			{
+				return false;
+			}
+
+			$newTableItem->setLocation($menuItem['parent_id'], 'last-child');
+
+			// Check the data.
+			if (!$newTableItem->check())
+			{
+				return false;
+			}
+
+			// Store the data.
+			if (!$newTableItem->store())
+			{
+				return false;
+			}
+
+			// Rebuild the tree path.
+			if (!$newTableItem->rebuildPath($newTableItem->id))
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
 }
