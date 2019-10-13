@@ -283,7 +283,13 @@ class MediaListCest
 		$I->click(MediaListPage::$toolbarDeleteButton);
 		$I->waitForElement(MediaListPage::$toolbarModalDeleteButton);
 		$I->waitForJsOnPageLoad();
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->click(MediaListPage::$toolbarModalDeleteButton);
+
+		// Ensure the modal has closed
+		$I->wait(1);
 		$I->seeSystemMessage('Item deleted.');
 		$I->waitForElementNotVisible($testFileItem);
 	}
@@ -336,6 +342,9 @@ class MediaListCest
 		$I->waitForJsOnPageLoad();
 		$I->click(MediaListPage::$toolbarCreateFolderButton);
 		$I->waitForJsOnPageLoad();
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->seeElement(MediaListPage::$newFolderInputField);
 		$I->seeElement(MediaListPage::$modalConfirmButtonDisabled);
 		$I->fillField(MediaListPage::$newFolderInputField, $testFolderName);
@@ -343,6 +352,9 @@ class MediaListCest
 			return $el->isEnabled();
 		});
 		$I->click(MediaListPage::$modalConfirmButton);
+
+		// Ensure the modal has closed
+		$I->wait(1);
 		$I->seeSystemMessage('Folder created.');
 		$I->waitForElement(MediaListPage::item($testFolderName));
 		$I->seeElement(MediaListPage::item($testFolderName));
@@ -393,9 +405,16 @@ class MediaListCest
 		$I->waitForJsOnPageLoad();
 		$I->click($testFileItem);
 		$I->click(MediaListPage::$toolbarDeleteButton);
+
 		$I->waitForElement(MediaListPage::$toolbarModalDeleteButton);
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->waitForJsOnPageLoad();
 		$I->click(MediaListPage::$toolbarModalDeleteButton);
+
+		// Ensure the modal has closed
+		$I->wait(1);
 		$I->seeSystemMessage('Item deleted.');
 		$I->waitForElementNotVisible($testFileItem);
 		$I->dontSeeElement($testFileName);
@@ -422,8 +441,14 @@ class MediaListCest
 		$I->click($testFolderItem);
 		$I->click(MediaListPage::$toolbarDeleteButton);
 		$I->waitForElement(MediaListPage::$toolbarModalDeleteButton);
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->waitForJsOnPageLoad();
 		$I->click(MediaListPage::$toolbarModalDeleteButton);
+
+		// Ensure the modal has closed
+		$I->wait(1);
 		$I->seeSystemMessage('Item deleted.');
 		$I->waitForElementNotVisible($testFolderItem);
 		$I->dontSeeElement($testFolderItem);
@@ -490,18 +515,19 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->uploadFile('com_media/' . $testFileName);
 		$I->waitForElement($testFileItem);
+		$I->wait(1);
 		$I->clickOnActionInMenuOf($testFileName, MediaListPage::$renameAction);
 		$I->waitForElement(MediaListPage::$renameInputField);
-		$I->seeElement(MediaListPage::$renameInputField);
-		$I->seeElement(MediaListPage::$modalConfirmButton);
 
 		// Sometimes the modal is still fading in
-		$I->wait(0.5);
+		$I->wait(1);
+		$I->seeElement(MediaListPage::$renameInputField);
+		$I->seeElement(MediaListPage::$modalConfirmButton);
 		$I->fillField(MediaListPage::$renameInputField, 'test-image-1-renamed');
 		$I->click(MediaListPage::$modalConfirmButton);
 
 		// Ensure the modal has closed
-		$I->wait(0.5);
+		$I->wait(1);
 		$I->seeSystemMessage('Item renamed.');
 		$I->dontSeeElement($testFileItem);
 		$I->seeElement(MediaListPage::item('test-image-1-renamed.png'));
@@ -559,18 +585,19 @@ class MediaListCest
 		$I->createDirectory('images/' . $this->testDirectory . '/' . $testFolderName);
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->waitForElement($testFolderItem);
+		$I->wait(1);
 		$I->clickOnActionInMenuOf($testFolderName, MediaListPage::$renameAction);
 		$I->waitForElement(MediaListPage::$renameInputField);
-		$I->seeElement(MediaListPage::$renameInputField);
-		$I->seeElement(MediaListPage::$modalConfirmButton);
 
 		// Sometimes the modal is still fading in
-		$I->wait(0.5);
+		$I->wait(1);
+		$I->seeElement(MediaListPage::$renameInputField);
+		$I->seeElement(MediaListPage::$modalConfirmButton);
 		$I->fillField(MediaListPage::$renameInputField, $testFolderName . '-renamed');
 		$I->click(MediaListPage::$modalConfirmButton);
 
 		// Ensure the modal has closed
-		$I->wait(0.5);
+		$I->wait(1);
 		$I->seeSystemMessage('Item renamed.');
 		$I->dontSeeElement($testFolderItem);
 		$I->seeElement(MediaListPage::item($testFolderName . '-renamed'));
