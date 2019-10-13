@@ -235,7 +235,6 @@
 			name="dbencryption"
 			type="list"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_LABEL"
-			desc="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_DESC"
 			default="0"
 			filter="integer"
 			>
