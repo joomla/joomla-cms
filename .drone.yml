@@ -11,9 +11,7 @@ steps:
     settings:
       restore: true
       mount:
-        - ./node_modules
         - ./libraries/vendor
-        - ./administrator/components/com_media/node_modules
       cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
     volumes:
       - name: cache
@@ -74,9 +72,7 @@ steps:
     settings:
       rebuild: true
       mount:
-        - ./node_modules
         - ./libraries/vendor
-        - ./administrator/components/com_media/node_modules
       cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
     volumes:
       - name: cache
@@ -149,32 +145,32 @@ steps:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
-#  - name: php73-integration-pgsql
-#    depends_on: [ npm ]
-#    image: joomlaprojects/docker-images:php7.3
-#    commands:
-#      - php -v
-#      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+  - name: php73-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.3
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
-#  - name: php74-integration-pgsql
-#    depends_on: [ npm ]
-#    image: joomlaprojects/docker-images:php7.4
-#    failure: ignore
-#    commands:
-#      - php -v
-#      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+  - name: php74-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php7.4
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
-#  - name: php80-integration-pgsql
-#    depends_on: [ npm ]
-#    image: joomlaprojects/docker-images:php8.0
-#    failure: ignore
-#    commands:
-#      - php -v
-#      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
+  - name: php80-integration-pgsql
+    depends_on: [ npm ]
+    image: joomlaprojects/docker-images:php8.0
+    failure: ignore
+    commands:
+      - php -v
+      - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
 
   - name: javascript-cs
     depends_on: [ npm ]
-    image: joomlaprojects/docker-systemtests:develop
+    image: joomlaprojects/docker-systemtests:latest
     commands:
       - export DISPLAY=:0
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
@@ -184,7 +180,7 @@ steps:
 
   - name: javascript-tests
     depends_on: [ npm ]
-    image: joomlaprojects/docker-systemtests:develop
+    image: joomlaprojects/docker-systemtests:latest
     commands:
       - export DISPLAY=:0
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
@@ -211,9 +207,15 @@ steps:
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
 
+  - name: api-tests
+    depends_on: [ system-tests-postgres ]
+    image: joomlaprojects/docker-systemtests:latest
+    commands:
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)"
+
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
-    depends_on: [ system-tests-postgres ]
+    depends_on: [ api-tests ]
     environment:
       FTP_USERNAME:
         from_secret: ftpusername
@@ -230,16 +232,10 @@ steps:
       - /bin/upload.sh
     when:
       status:
-      - failure
-
-  - name: api-tests
-    depends_on: [ system-tests-postgres ]
-    image: joomlaprojects/docker-systemtests:latest
-    commands:
-      - bash tests/Codeception/drone-api-run.sh "$(pwd)"
+        - failure
 
   - name: analysis4x
-    image: rips/rips-cli:1.2.1
+    image: rips/rips-cli:3.2.2
     depends_on: [ api-tests ]
     when:
       repo:
@@ -248,10 +244,11 @@ steps:
         - 4.0-dev
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - rips-cli rips:scan:start -a 3 -t 1 -R -k -p $(pwd) -t 1 -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+      - rips-cli rips:list --table=scans -n -p filter='{"__and":[{"__lessThan":{"percent":100}}]}'
+      - rips-cli rips:scan:start -G -a 2 -t 1 -R -k -p $(pwd) -t 1 -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
     environment:
-      RIPS_USERNAME:
-        from_secret: RIPS_USERNAME
+      RIPS_EMAIL:
+        from_secret: RIPS_EMAIL
       RIPS_PASSWORD:
         from_secret: RIPS_PASSWORD
 
@@ -301,6 +298,6 @@ services:
 
 ---
 kind: signature
-hmac: f17f253b02d7a16535d706a31f99d678dcdc595d5bc2ca1e8c2889c3eae2a51b
+hmac: bf61935fbad0fe4548f7adc70d54eb7839521ff46106794555074b344a0af4db
 
 ...
