@@ -136,7 +136,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			<div id="sidebarmenu">
 				<div class="sidebar-toggle">
 					<a id="menu-collapse" href="#">
-						<span id="menu-collapse-icon" class="fa-fw fa fa-toggle-off" aria-hidden="true"></span>
+						<span id="menu-collapse-icon" class="fa fa-toggle-off fa-fw" aria-hidden="true"></span>
 						<span class="sidebar-item-title"><?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?></span>
 					</a>
 				</div>
