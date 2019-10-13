@@ -371,7 +371,7 @@ class UsersModel extends ListModel
 			}
 		}
 
-		// Add filter for registration ranges select list
+		// Add filter for registration time ranges select list
 		$range = $this->getState('filter.range');
 
 		// Apply the range filter.
@@ -379,22 +379,22 @@ class UsersModel extends ListModel
 		{
 			$dates = $this->buildDateRange($range);
 
-			if ($dates['dNow'] !== false && $dates['dStart'] !== false)
+			if ($dates['dNow'] === false)
+			{
+				$query->where(
+					$db->quoteName('a.registerDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
+				);
+			}
+			else
 			{
 				$query->where(
 					$db->quoteName('a.registerDate') . ' >= ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s')) .
 					' AND ' . $db->quoteName('a.registerDate') . ' <= ' . $db->quote($dates['dNow']->format('Y-m-d H:i:s'))
 				);
 			}
-			elseif ($dates['dStart'] !== false)
-			{
-				$query->where(
-					$db->quoteName('a.registerDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
-				);
-			}
 		}
 
-		// Add filter for registration ranges select list
+		// Add filter for last visit time ranges select list
 		$lastvisitrange = $this->getState('filter.lastvisitrange');
 
 		// Apply the range filter.
