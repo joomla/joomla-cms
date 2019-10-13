@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\Utilities\IpHelper;
+
 require_once __DIR__ . '/stubs/w3c/inspector.php';
 
 /**
@@ -41,7 +43,7 @@ class JLogLoggerW3CTest extends \PHPUnit\Framework\TestCase
 			'Line: ' . __LINE__
 		);
 
-		$_SERVER['REMOTE_ADDR'] = '192.168.0.1';
+		IpHelper::setIp('192.168.0.1');
 
 		$logger->addEntry(new JLogEntry('Testing 02', JLog::ERROR, null, '1982-12-15'));
 		$this->assertEquals(
@@ -50,7 +52,7 @@ class JLogLoggerW3CTest extends \PHPUnit\Framework\TestCase
 			'Line: ' . __LINE__
 		);
 
-		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+		IpHelper::setIp('127.0.0.1');
 
 		$logger->addEntry(new JLogEntry('Testing3', JLog::EMERGENCY, 'deprecated', '1980-04-18'));
 		$this->assertEquals(
