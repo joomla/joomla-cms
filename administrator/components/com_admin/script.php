@@ -6217,6 +6217,7 @@ class JoomlaInstallerScript
 			{
 				continue;
 			}
+
 			$newTableItem   = new \Joomla\Component\Menus\Administrator\Table\MenuTable($db);
 
 			// Bind the data.
