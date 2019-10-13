@@ -40,7 +40,7 @@ Text::script('MESSAGE');
 					name="username"
 					id="mod-login-username"
 					type="text"
-					class="form-control input-full"
+					class="form-control"
 					required="required"
 					autofocus
 					autocomplete="username"
@@ -85,7 +85,7 @@ Text::script('MESSAGE');
 						autocomplete="off"
 						id="mod-login-secretkey"
 						type="text"
-						class="form-control input-full"
+						class="form-control"
 					>
 				</div>
 			</div>
