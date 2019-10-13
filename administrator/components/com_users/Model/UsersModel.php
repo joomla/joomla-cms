@@ -412,17 +412,17 @@ class UsersModel extends ListModel
 					$db->quoteName('a.lastvisitDate') . ' = ' . $db->quote($dates['dStart'])
 				);
 			}
+			elseif ($dates['dStart'] !== false)
+			{
+				$query->where(
+					$db->quoteName('a.lastvisitDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
+				);
+			}
 			elseif ($dates['dNow'] !== false && $dates['dStart'] !== false)
 			{
 				$query->where(
 					$db->quoteName('a.lastvisitDate') . ' >= ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s')) .
 					' AND ' . $db->quoteName('a.lastvisitDate') . ' <= ' . $db->quote($dates['dNow']->format('Y-m-d H:i:s'))
-				);
-			}
-			elseif ($dates['dStart'] !== false)
-			{
-				$query->where(
-					$db->quoteName('a.lastvisitDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
 				);
 			}
 		}
