@@ -1045,11 +1045,20 @@
 		return false;
 	};
 
-	/** Method to change input values with the data-alt-value values. **/
+	/**
+	 * Method to change input values with the data-alt-value values. This method is e.g. being called
+	 * by the onSubmit handler of the calendar fields form.
+	 */
 	JoomlaCalendar.prototype.setAltValue = function() {
 		var input = this.inputField;
 		if (input.getAttribute('disabled')) return;
-		input.value = input.getAttribute('data-alt-value') ? input.getAttribute('data-alt-value') : '';
+
+		// Set the value to the data-alt-value attribute, but only if it really has a value.
+		input.value = (
+			input.getAttribute('data-alt-value') && input.getAttribute('data-alt-value') !== '0000-00-00 00:00:00'
+			? input.getAttribute('data-alt-value')
+			: ''
+		);
 	};
 
 	/** Method to change the inputs before submit. **/
