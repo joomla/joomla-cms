@@ -152,9 +152,9 @@
           const firstLevel = closest(link, '.collapse-level-1');
           const secondLevel = closest(link, '.collapse-level-2');
           if (firstLevel) firstLevel.parentNode.classList.add('mm-active');
-          if (firstLevel) firstLevel.classList.add('mm-collapsed');
+          if (firstLevel) firstLevel.classList.add('mm-show');
           if (secondLevel) secondLevel.parentNode.classList.add('mm-active');
-          if (secondLevel) secondLevel.classList.add('mm-collapsed');
+          if (secondLevel) secondLevel.classList.add('mm-show');
         }
       }
     });
