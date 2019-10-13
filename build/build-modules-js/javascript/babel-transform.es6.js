@@ -4,7 +4,6 @@ const FsExtra = require('fs-extra');
 const Path = require('path');
 
 /**
- *
  * @param fileContents  the content of the file to be transpiled
  * @param settings      the settings for the transpiler
  * @param output        the full pat + filename + extension of the trnspiled file
