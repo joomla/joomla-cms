@@ -2,7 +2,7 @@
  * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-(() => {
+((document) => {
   const batchMenu = document.getElementById('batch-menu-id');
   const batchCopyMove = document.getElementById('batch-copy-move');
   let batchSelector;
@@ -15,19 +15,11 @@
     }
   };
 
-  const onSelect = () => {
-    if (batchMenu) {
-      batchSelector = batchMenu;
-    }
+  if (batchMenu) {
+    batchSelector = batchMenu;
+  }
 
-    if (batchCopyMove) {
-      batchSelector.addEventListener('change', onChange);
-    }
-
-    // Cleanup
-    document.removeEventListener('DOMContentLoaded', onSelect, true);
-  };
-
-  // Document loaded
-  document.addEventListener('DOMContentLoaded', onSelect, true);
-})();
+  if (batchCopyMove) {
+    batchSelector.addEventListener('change', onChange);
+  }
+})(document);
