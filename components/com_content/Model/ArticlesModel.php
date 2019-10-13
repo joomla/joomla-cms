@@ -480,8 +480,8 @@ class ArticlesModel extends ListModel
 		switch ($dateFiltering)
 		{
 			case 'range':
-				$startDateRange = $db->quote($this->getState('filter.start_date_range',''));
-				$endDateRange   = $db->quote($this->getState('filter.end_date_range',''));
+				$startDateRange = $db->quote($this->getState('filter.start_date_range', ''));
+				$endDateRange   = $db->quote($this->getState('filter.end_date_range', ''));
 
 				$startDateRangeUsed = !empty($startDateRange);
 				$endDateRangeUsed   = !empty($endDateRange);
