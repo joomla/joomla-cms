@@ -6101,7 +6101,7 @@ class JoomlaInstallerScript
 
 		$db = Factory::getDbo();
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
-		
+
 		$tableItem   = new \Joomla\Component\Menus\Administrator\Table\MenuTable($db);
 
 		// Check for the Contact parent Id Menu Item
@@ -6138,7 +6138,7 @@ class JoomlaInstallerScript
 				'level'             => 2,
 				'component_id'      => $componentId,
 				'checked_out'       => 0,
-				'checked_out_time'  => NULL,
+				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
 				'img'               => '',
@@ -6147,8 +6147,8 @@ class JoomlaInstallerScript
 				'home'              => 0,
 				'language'          => '*',
 				'client_id'         => 1,
-				'publish_up'        => NULL,
-				'publish_down'      => NULL,
+				'publish_up'        => null,
+				'publish_down'      => null,
 			],
 			[
 				'menutype'          => 'main',
@@ -6163,7 +6163,7 @@ class JoomlaInstallerScript
 				'level'             => 2,
 				'component_id'      => $componentId,
 				'checked_out'       => 0,
-				'checked_out_time'  => NULL,
+				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
 				'img'               => '',
@@ -6172,8 +6172,8 @@ class JoomlaInstallerScript
 				'home'              => 0,
 				'language'          => '*',
 				'client_id'         => 1,
-				'publish_up'        => NULL,
-				'publish_down'      => NULL,
+				'publish_up'        => null,
+				'publish_down'      => null,
 			],
 			[
 				'menutype'          => 'main',
@@ -6188,7 +6188,7 @@ class JoomlaInstallerScript
 				'level'             => 2,
 				'component_id'      => $componentId,
 				'checked_out'       => 0,
-				'checked_out_time'  => NULL,
+				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
 				'img'               => '',
@@ -6197,8 +6197,8 @@ class JoomlaInstallerScript
 				'home'              => 0,
 				'language'          => '*',
 				'client_id'         => 1,
-				'publish_up'        => NULL,
-				'publish_down'      => NULL,
+				'publish_up'        => null,
+				'publish_down'      => null,
 			]
 		];
 
