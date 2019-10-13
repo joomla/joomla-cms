@@ -510,9 +510,7 @@ abstract class FormField
 				break;
 
 			case 'autocomplete':
-				$value = (string) $value;
-				$value = ($value == 'on' || $value == '') ? 'on' : $value;
-				$this->$name = ($value === 'false' || $value === 'off' || $value === '0') ? false : $value;
+				$this->$name = (string) $value;
 				break;
 
 			case 'spellcheck':

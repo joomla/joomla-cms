@@ -38,6 +38,7 @@
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			>
 			<option value="">JALL</option>
+			<option value="-1">JNONE</option>
 		</field>
 
 		<field
@@ -198,7 +199,6 @@
 			name="ordering"
 			type="text"
 			label="JFIELD_ORDERING_LABEL"
-			class="inputbox"
 		/>
 	</fieldset>
 

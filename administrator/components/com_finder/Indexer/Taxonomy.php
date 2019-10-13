@@ -56,7 +56,7 @@ class Taxonomy
 	 * @return  integer  The id of the branch.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public static function addBranch($title, $state = 1, $access = 1)
 	{
@@ -82,7 +82,7 @@ class Taxonomy
 	 * @return  integer  The id of the node.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public static function addNode($branch, $title, $state = 1, $access = 1, $language = '')
 	{
@@ -151,6 +151,7 @@ class Taxonomy
 	 * @return  integer  The id of the inserted node.
 	 *
 	 * @since   4.0.0
+	 * @throws  \RuntimeException
 	 */
 	protected static function storeNode($node, $parent_id)
 	{
@@ -211,9 +212,46 @@ class Taxonomy
 			$nodeTable->setLocation($result->parent_id, 'last-child');
 		}
 
-		// Store the branch.
-		$nodeTable->check();
-		$nodeTable->store();
+		// Check the data.
+		if (!$nodeTable->check())
+		{
+			$error = $nodeTable->getError();
+
+			if ($error instanceof \Exception)
+			{
+				// \Joomla\CMS\Table\NestedTable set's errors of exceptions, so in this case we can pass on more
+				// information
+				throw new \RuntimeException(
+					$error->getMessage(),
+					$error->getCode(),
+					$error
+				);
+			}
+
+			// Standard string returned. Probably from the \Joomla\CMS\Table\Table class
+			throw new \RuntimeException($error, 500);
+		}
+
+		// Store the data.
+		if (!$nodeTable->store())
+		{
+			$error = $nodeTable->getError();
+
+			if ($error instanceof \Exception)
+			{
+				// \Joomla\CMS\Table\NestedTable set's errors of exceptions, so in this case we can pass on more
+				// information
+				throw new \RuntimeException(
+					$error->getMessage(),
+					$error->getCode(),
+					$error
+				);
+			}
+
+			// Standard string returned. Probably from the \Joomla\CMS\Table\Table class
+			throw new \RuntimeException($error, 500);
+		}
+
 		$nodeTable->rebuildPath($nodeTable->id);
 
 		// Add the node to the cache.
@@ -231,7 +269,7 @@ class Taxonomy
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public static function addMap($linkId, $nodeId)
 	{
@@ -264,7 +302,7 @@ class Taxonomy
 	 * @return  array  An array of branch titles.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public static function getBranchTitles()
 	{
@@ -296,7 +334,7 @@ class Taxonomy
 	 * @return  mixed  Integer id on success, null on no match.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public static function getNodeByTitle($branch, $title)
 	{
@@ -332,7 +370,7 @@ class Taxonomy
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public static function removeMaps($linkId)
 	{
@@ -353,7 +391,7 @@ class Taxonomy
 	 * @return  integer  The number of deleted rows.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * @throws  \RuntimeException on database error.
 	 */
 	public static function removeOrphanNodes()
 	{

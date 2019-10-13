@@ -97,7 +97,7 @@
     });
 
     const menuClose = () => {
-      sidebar.querySelector('.collapse').classList.remove('in');
+      sidebar.querySelector('.mm-collapse').classList.remove('mm-collapsed');
     };
 
     // Toggle menu
@@ -145,15 +145,16 @@
     allLinks.forEach((link) => {
       if (currentUrl === link.href) {
         link.setAttribute('aria-current', 'page');
-        link.classList.add('active');
+        link.classList.add('mm-active');
+
         // Auto Expand Levels
         if (!link.parentNode.classList.contains('parent')) {
           const firstLevel = closest(link, '.collapse-level-1');
           const secondLevel = closest(link, '.collapse-level-2');
-          if (firstLevel) firstLevel.parentNode.classList.add('active');
-          if (firstLevel) firstLevel.classList.add('in');
-          if (secondLevel) secondLevel.parentNode.classList.add('active');
-          if (secondLevel) secondLevel.classList.add('in');
+          if (firstLevel) firstLevel.parentNode.classList.add('mm-active');
+          if (firstLevel) firstLevel.classList.add('mm-show');
+          if (secondLevel) secondLevel.parentNode.classList.add('mm-active');
+          if (secondLevel) secondLevel.classList.add('mm-show');
         }
       }
     });
