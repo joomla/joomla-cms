@@ -379,7 +379,11 @@ class UsersModel extends ListModel
 		{
 			$dates = $this->buildDateRange($range);
 
-			if ($dates['dNow'] === false)
+			if ($dates['dStart'] === false)
+			{
+				$query->where('1 = 0');
+			}
+			elseif ($dates['dNow'] === false)
 			{
 				$query->where(
 					$db->quoteName('a.registerDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
