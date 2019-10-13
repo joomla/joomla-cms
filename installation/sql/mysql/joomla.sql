@@ -605,7 +605,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_authentication_ldap', 'plugin', 'ldap', 'authentication', 0, 0, 1, 0, '', '{"host":"","port":"389","use_ldapV3":"0","negotiate_tls":"0","no_referrals":"0","auth_method":"bind","base_dn":"","search_string":"","users_dn":"","username":"admin","password":"bobby7","ldap_fullname":"fullName","ldap_email":"mail","ldap_uid":"uid"}', 0, NULL, 3, 0),
 (0, 'plg_content_contact', 'plugin', 'contact', 'content', 0, 1, 1, 0, '', '', 0, NULL, 1, 0),
 (0, 'plg_content_emailcloak', 'plugin', 'emailcloak', 'content', 0, 1, 1, 0, '', '{"mode":"1"}', 0, NULL, 1, 0),
-(0, 'plg_content_loadmodule', 'plugin', 'loadmodule', 'content', 0, 1, 1, 0, '', '{"style":"xhtml"}', 0, '2011-09-18 15:22:50', 0, 0),
+(0, 'plg_content_loadmodule', 'plugin', 'loadmodule', 'content', 0, 1, 1, 0, '', '{"style":"xhtml"}', 0, NULL, 0, 0),
 (0, 'plg_content_pagebreak', 'plugin', 'pagebreak', 'content', 0, 1, 1, 0, '', '{"title":"1","multipage_toc":"1","showall":"1"}', 0, NULL, 4, 0),
 (0, 'plg_content_pagenavigation', 'plugin', 'pagenavigation', 'content', 0, 1, 1, 0, '', '{"position":"1"}', 0, NULL, 5, 0),
 (0, 'plg_content_vote', 'plugin', 'vote', 'content', 0, 0, 1, 0, '', '', 0, NULL, 6, 0),
@@ -719,8 +719,8 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_media-action_rotate', 'plugin', 'rotate', 'media-action', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'atum', 'template', 'atum', '', 1, 1, 1, 0, '', '', 0, NULL, 0, 0),
 (0, 'cassiopeia', 'template', 'cassiopeia', '', 0, 1, 1, 0, '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}', 0, NULL, 0, 0),
-(0, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', 0, NULL, 0, 0),
 (0, 'plg_fields_subfields', 'plugin', 'subfields', 'fields', 0, 1, 1, 0, '', '', 0, NULL, 0, 0),
+(0, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', 0, NULL, 0, 0),
 (0, 'English (en-GB) Language Pack', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', 0, NULL, 0, 0);
 
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `checked_out`, `checked_out_time`, `ordering`, `state`)
