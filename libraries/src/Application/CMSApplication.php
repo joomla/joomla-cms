@@ -292,6 +292,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @param   string  $tasks   Permitted tasks
 	 *
 	 * @return  void
+	 *
+	 * @throws  \Exception
 	 */
 	protected function checkUserRequireReset($option, $view, $layout, $tasks)
 	{
@@ -310,9 +312,9 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			if ($this->get($name . '_reset_password_override', 0))
 			{
 				$option = $this->get($name . '_reset_password_option', '');
-				$view = $this->get($name . '_reset_password_view', '');
+				$view   = $this->get($name . '_reset_password_view', '');
 				$layout = $this->get($name . '_reset_password_layout', '');
-				$tasks = $this->get($name . '_reset_password_tasks', '');
+				$tasks  = $this->get($name . '_reset_password_tasks', '');
 			}
 
 			$task = $this->input->getCmd('task', '');
@@ -347,7 +349,17 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			{
 				// Redirect to the profile edit page
 				$this->enqueueMessage(Text::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
-				$this->redirect(Route::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
+
+				$url = Route::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false);
+
+				// In the administrator we need a different URL
+				if (strtolower($name) === 'administrator')
+				{
+					$user = Factory::getApplication()->getIdentity();
+					$url  = Route::_('index.php?option=' . $option . '&task=' . $view . '.' . $layout . '&id=' . $user->id, false);
+				}
+
+				$this->redirect($url);
 			}
 		}
 	}
