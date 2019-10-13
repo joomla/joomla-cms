@@ -169,6 +169,13 @@ class FieldModel extends AdminModel
 
 		foreach ($cats as $cat)
 		{
+			// If we have found the 'JNONE' category, remove all other from the result and break.
+			if ($cat == '-1')
+			{
+				$assignedCatIds = array('-1');
+				break;
+			}
+
 			if ($cat)
 			{
 				$assignedCatIds[] = $cat;
@@ -192,8 +199,16 @@ class FieldModel extends AdminModel
 			$db->insertObject('#__fields_categories', $tupel);
 		}
 
-		// If the options have changed delete the values
-		if ($field && isset($data['fieldparams']['options']) && isset($field->fieldparams['options']))
+		/**
+		 * If the options have changed, delete the values. This should only apply for list, checkboxes and radio
+		 * custom field types, because when their options are being changed, their values might get invalid, because
+		 * e.g. there is a value selected from a list, which is not part of the list anymore. Hence we need to delete
+		 * all values that are not part of the options anymore. Note: The only field types with fieldparams+options
+		 * are those above listed plus the subfields type. And we do explicitly not want the values to be deleted
+		 * when the options of a subfields field are getting changed.
+		 */
+		if ($field && in_array($field->type, array('list', 'checkboxes', 'radio'), true)
+			&& isset($data['fieldparams']['options']) && isset($field->fieldparams['options']))
 		{
 			$oldParams = $this->getParams($field->fieldparams['options']);
 			$newParams = $this->getParams($data['fieldparams']['options']);
