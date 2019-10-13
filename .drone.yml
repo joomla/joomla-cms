@@ -7,10 +7,10 @@ clone:
 
 steps:
   - name: phpcs
-    image: joomlaprojects/docker-phpcs
+    image: joomlaprojects/docker-images:php7.0
     commands:
       - echo $(date)
-      - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
+      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
       - echo $(date)
 
   - name: restore-cache
@@ -25,7 +25,7 @@ steps:
         path: /cache
 
   - name: javascript
-    image: joomlaprojects/docker-systemtests:latest
+    image: joomlaprojects/docker-images:systemtests
     commands:
       - echo $(date)
       - export DISPLAY=:0
@@ -72,6 +72,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: 55a4ff8c455100893666ba43f1d67989e823e86ef113578c14ba604d8a32c783
+hmac: 276f8f201fe6db69e96e826d508b74b2000507732e1f89186d86dfa1d67b58b2
 
 ...
