@@ -52,7 +52,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 			<?php echo $this->form->renderFieldset('credentials', ['class' => 'com-users-login__input']); ?>
 
 			<?php if ($this->tfa) : ?>
-				<?php echo $this->form->renderField('secretkey', ['class' => 'com-users-login__secretkey']); ?>
+				<?php echo $this->form->renderField('secretkey', null, null, ['class' => 'com-users-login__secretkey']); ?>
 			<?php endif; ?>
 
 			<?php if (PluginHelper::isEnabled('system', 'remember')) : ?>
