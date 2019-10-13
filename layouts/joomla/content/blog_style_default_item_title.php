@@ -42,9 +42,7 @@ $canEdit = $displayData->params->get('access-edit');
 			<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
 
-		<?php if ($displayData->publish_down != Factory::getDbo()->getNullDate()
-			&& (strtotime($displayData->publish_down) < strtotime(Factory::getDate()))
-		) : ?>
+		<?php if ($displayData->publish_down !== null && strtotime($displayData->publish_down) < strtotime(Factory::getDate())) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JEXPIRED'); ?></span>
 		<?php endif; ?>
 	</div>
