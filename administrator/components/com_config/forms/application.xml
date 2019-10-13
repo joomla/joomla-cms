@@ -293,7 +293,7 @@
 			desc="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CAPATH_DESC"
 			filter="string"
 			size="250"
-			showon="databaseconnection:mysql,mysqli[AND]dbencryption:2"
+			showon="dbtype:mysql,mysqli[AND]dbencryption:2"
 		/>
 
 		<field
@@ -303,7 +303,7 @@
 			desc="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CIPHER_DESC"
 			filter="string"
 			size="300"
-			showon="dbencryption:2"
+			showon="dbtype:mysql,mysqli[AND]dbencryption:2"
 		/>
 
 	</fieldset>
