@@ -111,7 +111,7 @@ joomla-toolbar-button {
       background-color: theme-color("danger");
     }
   }
-    
+
     &.btn-primary {
 
       background-color: $white;
@@ -139,14 +139,14 @@ joomla-toolbar-button {
         background-color: var(--atum-bg-dark);
       }
     }
-    
+
     &.btn-secondary {
-    
+
         [class^='icon-download'] {
              background-color: var(--atum-bg-dark-70);
             color:rgba(255,255,255,0.90);
         }
-        
+
          &:hover, &:active, &:focus {
             [class^='icon-download'] {
                 background-color: var(--atum-bg-dark-80);
@@ -337,7 +337,7 @@ joomla-toolbar-button {
       margin-left:0 !important;
       margin-right:0.75rem;
       margin-bottom:0.75rem;
-    }    
+    }
   }
 
 
@@ -378,13 +378,47 @@ joomla-toolbar-button {
             @include media-breakpoint-down(sm) {
                 margin-bottom: .75rem;
             }
-         }    
-    }         
-     
+         }
+    }
+
      .js-stools-btn-filter    {
         @include media-breakpoint-down(sm) {
             width:75%;
         }
      }
+  }
+}
+
+@include media-breakpoint-down(xs) {
+  .toggler-toolbar {
+    top: 20px;
+
+    .toggler-toolbar-icon::before {
+      font: normal normal normal 30px/1 'Font Awesome 5 Free';
+      content: "\f00d";
+      color: var(--toggle-color);
+    }
+
+    &.collapsed .toggler-toolbar-icon::before {
+      content: "\f085";
+    }
+  }
+
+  .subhead{
+
+    joomla-toolbar-button,
+    .btn-group,
+    .btn{
+      width: 100%;
+    }
+
+    .btn{
+      [class^='icon-'],
+      [class*=' icon-'],
+      [class^='fa-'],
+      [class*=' fa-'] {
+        float: left;
+      }
+    }
   }
 }
