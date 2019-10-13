@@ -57,7 +57,7 @@ class Field extends Admin
 	public function assertSuccessMessage($message)
 	{
 		$I = $this;
-		$I->waitForText($message, TIMEOUT, FieldListPage::$systemMessageContainer);
+		$I->waitForText($message, $I->getConfig('timeout'), FieldListPage::$systemMessageContainer);
 		$I->see($message, FieldListPage::$systemMessageContainer);
 	}
 
@@ -77,7 +77,7 @@ class Field extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(FieldListPage::$url);
-		$I->waitForElement(FieldListPage::$searchField, TIMEOUT);
+		$I->waitForElement(FieldListPage::$searchField, $I->getConfig('timeout'));
 		$I->fillField(FieldListPage::$searchField, $title);
 		$I->Click(FieldListPage::$filterSearch);
 		$I->checkAllResults();
@@ -103,7 +103,7 @@ class Field extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(FieldListPage::$url);
-		$I->waitForElement(FieldListPage::$searchField, TIMEOUT);
+		$I->waitForElement(FieldListPage::$searchField, $I->getConfig('timeout'));
 		$I->click("//div[@class='js-stools-container-bar']//button[contains(text(), 'Filter')]");
 		$I->wait(2);
 		$I->selectOptionInChosenByIdUsingJs('filter_state', "Trashed");
