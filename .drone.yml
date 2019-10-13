@@ -7,10 +7,10 @@ clone:
 
 steps:
   - name: phpcs
-    image: joomlaprojects/docker-images:php7.0
+    image: joomlaprojects/docker-images:phpcs1.5
     commands:
       - echo $(date)
-      - ./libraries/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
+      - /usr/local/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
       - echo $(date)
 
   - name: restore-cache
