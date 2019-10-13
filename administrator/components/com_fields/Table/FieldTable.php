@@ -65,6 +65,34 @@ class FieldTable extends Table
 
 		if (isset($src['fieldparams']) && is_array($src['fieldparams']))
 		{
+			// Make sure $registry->options contains no duplicates when the field type is subfields
+			if (isset($src['type']) && $src['type'] == 'subfields' && isset($src['fieldparams']['options']))
+			{
+				// Fast lookup map to check which custom field ids we have already seen
+				$seen_customfields = array();
+
+				// Container for the new $src['fieldparams']['options']
+				$options = array();
+
+				// Iterate through the old options
+				$i = 0;
+
+				foreach ($src['fieldparams']['options'] as $option)
+				{
+					// Check whether we have not yet seen this custom field id
+					if (!isset($seen_customfields[$option['customfield']]))
+					{
+						// We haven't, so add it to the final options
+						$seen_customfields[$option['customfield']] = true;
+						$options['option' . $i] = $option;
+						$i++;
+					}
+				}
+
+				// And replace the options with the deduplicated ones.
+				$src['fieldparams']['options'] = $options;
+			}
+
 			$registry = new Registry;
 			$registry->loadArray($src['fieldparams']);
 			$src['fieldparams'] = (string) $registry;
