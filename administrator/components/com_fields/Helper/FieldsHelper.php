@@ -588,6 +588,36 @@ class FieldsHelper
 	}
 
 	/**
+	 * Gets assigned categories ids for a field
+	 *
+	 * @param   stdClass[]  $fieldId  The field ID
+	 *
+	 * @return  array  Array with the assigned category ids
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getAssignedCategoriesIds($fieldId)
+	{
+		$fieldId = (int) $fieldId;
+
+		if (!$fieldId)
+		{
+			return array();
+		}
+
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('a.category_id'))
+			->from($db->quoteName('#__fields_categories', 'a'))
+			->where('a.field_id = ' . $fieldId);
+
+		$db->setQuery($query);
+
+		return $db->loadColumn();
+	}
+
+	/**
 	 * Gets assigned categories titles for a field
 	 *
 	 * @param   \stdClass[]  $fieldId  The field ID
@@ -602,7 +632,7 @@ class FieldsHelper
 
 		if (!$fieldId)
 		{
-			return array();
+			return [];
 		}
 
 		$db    = Factory::getDbo();
