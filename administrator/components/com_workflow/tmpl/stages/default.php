@@ -62,7 +62,7 @@ if ($saveOrder)
 						</caption>
 						<thead>
 							<tr>
-								<td style="width:1%" class="text-center d-none d-md-table-cell ">
+								<td style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
