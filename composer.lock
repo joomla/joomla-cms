@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "850a90a4b12fd564225cb6f74993eefd",
+    "content-hash": "50aae4b373028c9ca160c6728fd704c6",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1072,54 +1072,6 @@
                 "joomla"
             ],
             "time": "2019-07-18T00:24:34+00:00"
-        },
-        {
-            "name": "joomla/image",
-            "version": "dev-2.0-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla-framework/image.git",
-                "reference": "0222c4a6dba784ea05715d8c060911cb57091953"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/image/zipball/0222c4a6dba784ea05715d8c060911cb57091953",
-                "reference": "0222c4a6dba784ea05715d8c060911cb57091953",
-                "shasum": ""
-            },
-            "require": {
-                "ext-gd": "*",
-                "php": "~7.0",
-                "psr/log": "~1.0"
-            },
-            "require-dev": {
-                "joomla/coding-standards": "~2.0@alpha",
-                "joomla/test": "~1.0",
-                "phpunit/phpunit": "~6.3"
-            },
-            "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Joomla\\Image\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "description": "Joomla Image Package",
-            "homepage": "https://github.com/joomla-framework/image",
-            "keywords": [
-                "framework",
-                "image",
-                "joomla"
-            ],
-            "time": "2018-05-25T02:30:04+00:00"
         },
         {
             "name": "joomla/input",
@@ -4925,6 +4877,50 @@
             "time": "2018-10-16T23:34:41+00:00"
         },
         {
+            "name": "joomla/test",
+            "version": "1.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-framework/test.git",
+                "reference": "9bceb0387fe76156554d1de765200abefcbf9166"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-framework/test/zipball/9bceb0387fe76156554d1de765200abefcbf9166",
+                "reference": "9bceb0387fe76156554d1de765200abefcbf9166",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.10"
+            },
+            "require-dev": {
+                "joomla/database": "~1.0"
+            },
+            "suggest": {
+                "joomla/database": "To use the database test case, install joomla/database"
+            },
+            "type": "joomla-package",
+            "autoload": {
+                "psr-4": {
+                    "Joomla\\Test\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Joomla Test Helper Package",
+            "homepage": "https://github.com/joomla-framework/test",
+            "keywords": [
+                "framework",
+                "joomla",
+                "phpunit",
+                "reflection",
+                "unit test"
+            ],
+            "time": "2017-01-21T22:54:27+00:00"
+        },
+        {
             "name": "myclabs/deep-copy",
             "version": "1.9.3",
             "source": {
@@ -5662,8 +5658,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "email": "sebastian@phpunit.de",
-                    "role": "lead"
+                    "role": "lead",
+                    "email": "sebastian@phpunit.de"
                 }
             ],
             "description": "The PHP Unit Testing framework.",
@@ -7043,7 +7039,6 @@
         "joomla/di": 20,
         "joomla/event": 20,
         "joomla/http": 20,
-        "joomla/image": 20,
         "joomla/ldap": 20,
         "joomla/oauth1": 20,
         "joomla/oauth2": 20,
@@ -7062,6 +7057,7 @@
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.2",
+        "ext-gd": "*",
         "ext-json": "*",
         "ext-simplexml": "*"
     },
