@@ -480,26 +480,20 @@ class ArticlesModel extends ListModel
 		switch ($dateFiltering)
 		{
 			case 'range':
-				$startDateRange = $db->quote($this->getState('filter.start_date_range', ''));
-				$endDateRange   = $db->quote($this->getState('filter.end_date_range', ''));
+				$startDateRange = $this->getState('filter.start_date_range', '');
+				$endDateRange   = $this->getState('filter.end_date_range', '');
 
-				$startDateRangeUsed = !empty($startDateRange);
-				$endDateRangeUsed   = !empty($endDateRange);
+				if ($startDateRange || $endDateRange)
+				{
+					if ($startDateRange)
+					{
+						$query->where($dateField . ' >= ' . $db->quote($startDateRange));
+					}
 
-				if ($startDateRangeUsed && $endDateRangeUsed)
-				{
-					$query->where(
-						'(' . $dateField . ' IS NOT NULL AND ' . $dateField . ' >= ' . $startDateRange
-						. ' AND ' . $dateField . ' <= ' . $endDateRange . ')'
-					);
-				}
-				elseif ($startDateRangeUsed)
-				{
-					$query->where('(' . $dateField . ' IS NOT NULL AND ' . $dateField . ' >= ' . $startDateRange . ')');
-				}
-				elseif ($endDateRangeUsed)
-				{
-					$query->where('(' . $dateField . ' IS NOT NULL AND ' . $dateField . ' <= ' . $endDateRange . ')');
+					if ($endDateRange)
+					{
+						$query->where($dateField . ' <= ' . $db->quote($endDateRange));
+					}
 				}
 
 				break;
