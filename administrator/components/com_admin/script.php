@@ -6085,7 +6085,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   3.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function postflight($action, $installer)
 	{
