@@ -69,7 +69,7 @@ class LoginHelper
 	 *
 	 * @return  string
 	 */
-	public static function getRegistrationUrl()
+	public static function getRegistrationUrl($params)
 	{
 		$regLinkMenuId = $params->get('customRegLinkMenu', 0);
 
