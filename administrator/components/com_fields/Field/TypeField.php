@@ -80,7 +80,7 @@ class TypeField extends ListField
 		// Loadd the Joomla spinner
 		HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
 
-		// Loadd the field inreactivity script
+		// Load the field interactivity script
 		HTMLHelper::_('script', 'com_fields/admin-field-typehaschanged.min.js', ['relative' => true, 'version' => 'auto']);
 
 		return $options;
