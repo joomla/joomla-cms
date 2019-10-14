@@ -105,12 +105,10 @@ Text::script('JHIDE');
 			<?php if ($usersConfig->get('allowUserRegistration')) : ?>
 				<li>
 					<?php $regLinkMenuId = $params->get('customRegLinkMenu', 0);
-					if($regLinkMenuId == '' || $regLinkMenuId == '0')
-					{
+					if($regLinkMenuId == '' || $regLinkMenuId == '0') {
 						$regLink = 'index.php?option=com_users&view=registration';
 					}
-					else
-					{
+					else {
 						$regLink = 'index.php?Itemid=' . $regLinkMenuId;
 					}
 					?>
