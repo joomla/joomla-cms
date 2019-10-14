@@ -8,8 +8,8 @@ const CompileScss = require('./stylesheets/scss-transform.es6.js');
 const RootPath = process.cwd();
 
 /**
- * Method that will crawl the media_source folder and
- * compile any scss files to css and .min.css
+ * Method that will crawl the media_source folder
+ * and compile any scss files to css and .min.css
  * copy any css files to the appropriate destination and
  * minify them in place
  *
