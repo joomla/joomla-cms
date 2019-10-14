@@ -116,7 +116,7 @@ class BannerTable extends Table
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if (!is_null($this->publish_down) !is_null($this->publish_up) && $this->publish_down < $this->publish_up)
+		if (!is_null($this->publish_down) && !is_null($this->publish_up) && $this->publish_down < $this->publish_up)
 		{
 			$this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
@@ -322,7 +322,7 @@ class BannerTable extends Table
 
 		// Get an instance of the table
 		/** @var BannerTable $table */
-		$table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' =>  $this->_db));
+		$table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' => $this->_db));
 
 		// For all keys
 		foreach ($pks as $pk)
