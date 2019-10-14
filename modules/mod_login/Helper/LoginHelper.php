@@ -63,7 +63,7 @@ class LoginHelper
 
 		return (!$user->get('guest')) ? 'logout' : 'login';
 	}
-	
+
 	/**
 	 * Retrieve the URL for the registration page
 	 *
@@ -72,19 +72,29 @@ class LoginHelper
 	public static function getRegistrationUrl()
 	{
 		$regLinkMenuId = $params->get('customRegLinkMenu', 0);
-		// if there is no custom menu item set for registration => use the default link
-		if($regLinkMenuId == '' || $regLinkMenuId == '0') {
+
+		// If there is no custom menu item set for registration => use the default link
+		if ($regLinkMenuId == '' || $regLinkMenuId == '0')
+		{
 			$regLink = 'index.php?option=com_users&view=registration';
 		}
-		else {
+		else
+		{
 			$regLink = 'index.php?Itemid=' . $regLinkMenuId;
 			$item = Factory::getApplication()->getMenu()->getItem($regLinkMenuId);
-			if ($item) {
-				if ($item->language !== '*' && Multilanguage::isEnabled()) {
+
+			if ($item)
+			{
+
+				if ($item->language !== '*' && Multilanguage::isEnabled())
+				{
 					$regLink .= '&lang=' . $item->language;
 				}
+
 			}
+
 		}
+
 		return base64_encode($regLink);
 	}
 }
