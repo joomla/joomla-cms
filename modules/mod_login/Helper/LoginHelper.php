@@ -85,14 +85,11 @@ class LoginHelper
 
 			if ($item)
 			{
-
 				if ($item->language !== '*' && Multilanguage::isEnabled())
 				{
 					$regLink .= '&lang=' . $item->language;
 				}
-
 			}
-
 		}
 
 		return base64_encode($regLink);
