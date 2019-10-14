@@ -154,7 +154,7 @@ class AdministratorApplication extends CMSApplication
 		 * $this->input->getCmd('option'); or $this->input->getCmd('view');
 		 * ex: due of the sef urls
 		 */
-		$this->checkUserRequireReset('com_admin', 'profile', 'edit', 'com_admin/profile.save,com_admin/profile.apply,com_login/logout');
+		$this->checkUserRequireReset('com_users', 'user', 'edit', 'com_users/user.edit,com_users/user.save,com_users/user.apply,com_login/logout');
 
 		// Dispatch the application
 		$this->dispatch();
