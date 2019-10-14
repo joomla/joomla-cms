@@ -485,6 +485,8 @@ class ArticlesModel extends ListModel
 
 				if ($startDateRange || $endDateRange)
 				{
+					$query->where($dateField . ' IS NOT NULL');
+
 					if ($startDateRange)
 					{
 						$query->where($dateField . ' >= ' . $db->quote($startDateRange));
@@ -501,8 +503,8 @@ class ArticlesModel extends ListModel
 			case 'relative':
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
 				$query->where(
-					'(' . $dateField . ' IS NOT NULL AND '
-					. $dateField . ' >= ' . $query->dateAdd($nowDate, -1 * $relativeDate, 'DAY') . ')'
+					$dateField . ' IS NOT NULL AND '
+					. $dateField . ' >= ' . $query->dateAdd($nowDate, -1 * $relativeDate, 'DAY')
 				);
 				break;
 
