@@ -104,15 +104,7 @@ Text::script('JHIDE');
 			<ul class="mod-login__options list-unstyled">
 			<?php if ($usersConfig->get('allowUserRegistration')) : ?>
 				<li>
-					<?php $regLinkMenuId = $params->get('customRegLinkMenu', 0);
-					if($regLinkMenuId == '' || $regLinkMenuId == '0') {
-						$regLink = 'index.php?option=com_users&view=registration';
-					}
-					else {
-						$regLink = 'index.php?Itemid=' . $regLinkMenuId;
-					}
-					?>
-					<a href="<?php echo Route::_($regLink); ?>">
+					<a href="<?php echo Route::_($registerLink); ?>">
 					<?php echo Text::_('MOD_LOGIN_REGISTER'); ?> <span class="icon-arrow-right"></span></a>
 				</li>
 			<?php endif; ?>
