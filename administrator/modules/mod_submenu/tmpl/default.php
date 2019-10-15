@@ -17,12 +17,12 @@ use Joomla\CMS\Router\Route;
 ?>
 <?php foreach ($root->getChildren() as $child) : ?>
 	<?php if ($child->hasChildren()) : ?>
-			<div class="card">
-				<h2 class="card-header">
-					<?php if ($child->icon) : ?><span class="fa fa-<?php echo $child->icon; ?>" aria-hidden="true"></span><?php endif; ?>
-					<?php echo Text::_($child->title); ?>
-				</h2>
-				<ul class="list-group list-group-flush">
+		<div class="card">
+			<h2 class="card-header">
+				<?php if ($child->icon) : ?><span class="fa fa-<?php echo $child->icon; ?>" aria-hidden="true"></span><?php endif; ?>
+				<?php echo Text::_($child->title); ?>
+			</h2>
+			<ul class="list-group list-group-flush">
 				<?php foreach ($child->getChildren() as $item) : ?>
 					<li class="list-group-item d-flex align-items-center">
 						<?php $params = $item->getParams(); ?>
@@ -82,7 +82,6 @@ use Joomla\CMS\Router\Route;
 					</li>
 				<?php endforeach; ?>
 			</ul>
-			</div>
-
+		</div>
 	<?php endif; ?>
 <?php endforeach; ?>
