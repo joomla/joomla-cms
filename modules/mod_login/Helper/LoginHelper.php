@@ -92,6 +92,6 @@ class LoginHelper
 			}
 		}
 
-		return base64_encode($regLink);
+		return $regLink;
 	}
 }
