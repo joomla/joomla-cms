@@ -33,7 +33,7 @@ $this->loadTemplate('texts');
 $tmpl = Factory::getApplication()->input->getCmd('tmpl');
 
 // Load the toolbar when we are in an iframe
-if ($tmpl == 'component')
+if ($tmpl === 'component')
 {
 	echo Toolbar::getInstance('toolbar')->render();
 }
@@ -50,7 +50,7 @@ $config = array(
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
 	'providers'               => (array) $this->providers,
 	'currentPath'             => $this->currentPath,
-	'isModal'                 => Factory::getApplication()->input->getCmd('tmpl', '') === 'component' ? true : false,
+	'isModal'                 => $tmpl === 'component',
 );
 $this->document->addScriptOptions('com_media', $config);
 ?>

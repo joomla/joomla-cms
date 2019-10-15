@@ -61,7 +61,7 @@ $hasAssoc = ($this->form->getValue('language', null, '*') !== '*');
 $input = Factory::getApplication()->input;
 
 // In case of modal
-$isModal  = $input->get('layout') == 'modal' ? true : false;
+$isModal  = $input->get('layout') === 'modal';
 $layout   = $isModal ? 'modal' : 'edit';
 $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 $clientId = $this->state->get('item.client_id', 0);

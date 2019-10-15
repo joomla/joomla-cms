@@ -52,7 +52,12 @@ Text::script('ERROR');
 
 			<?php if ($this->canDo->get('core.admin')) : ?>
 				<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_MENUS_FIELDSET_RULES')); ?>
+				<fieldset id="fieldset-rules" class="options-grid-form options-grid-form-full">
+					<legend><?php echo Text::_('COM_MENUS_FIELDSET_RULES'); ?></legend>
+					<div>
 					<?php echo $this->form->getInput('rules'); ?>
+					</div>
+				</fieldset>
 				<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			<?php endif; ?>
 
