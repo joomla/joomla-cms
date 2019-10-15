@@ -71,20 +71,18 @@ class LoginHelper
 	 */
 	public static function getRegistrationUrl($params)
 	{
+		$regLink = 'index.php?option=com_users&view=registration';
 		$regLinkMenuId = $params->get('customRegLinkMenu', 0);
 
-		// If there is no custom menu item set for registration => use the default link
-		if ($regLinkMenuId == '' || $regLinkMenuId == '0')
+		// If there is a custom menu item set for registration => override default
+		if ($regLinkMenuId !== '' && $regLinkMenuId !== '0')
 		{
-			$regLink = 'index.php?option=com_users&view=registration';
-		}
-		else
-		{
-			$regLink = 'index.php?Itemid=' . $regLinkMenuId;
 			$item = Factory::getApplication()->getMenu()->getItem($regLinkMenuId);
 
 			if ($item)
 			{
+				$regLink = 'index.php?Itemid=' . $regLinkMenuId;
+
 				if ($item->language !== '*' && Multilanguage::isEnabled())
 				{
 					$regLink .= '&lang=' . $item->language;
