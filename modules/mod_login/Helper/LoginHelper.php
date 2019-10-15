@@ -72,7 +72,7 @@ class LoginHelper
 	public static function getRegistrationUrl($params)
 	{
 		$regLink = 'index.php?option=com_users&view=registration';
-		$regLinkMenuId = $params->get('customRegLinkMenu', 0);
+		$regLinkMenuId = $params->get('customRegLinkMenu');
 
 		// If there is a custom menu item set for registration => override default
 		if ($regLinkMenuId !== '' && $regLinkMenuId !== '0')
