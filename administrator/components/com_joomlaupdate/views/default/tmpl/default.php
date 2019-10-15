@@ -62,7 +62,7 @@ JS
 			<?php JFactory::getApplication()->enqueueMessage(JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALL_SELF_UPDATE_FIRST'), 'error'); ?>
 			<?php echo $this->loadTemplate('updatemefirst'); ?>
 		<?php else : ?>
-			<?php if (!isset($this->updateInfo['object']->downloadurl->_data)
+			<?php if ((!isset($this->updateInfo['object']->downloadurl->_data)
 				&& !$this->updateInfo['hasUpdate'])
 				|| !$this->getModel()->isDatabaseTypeSupported()
 				|| !$this->getModel()->isPhpVersionSupported()) : ?>
