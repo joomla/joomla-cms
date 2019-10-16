@@ -1657,11 +1657,11 @@ SELECT "extension_id", 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_TITLE', 
 CREATE TABLE "#__privacy_requests" (
   "id" serial NOT NULL,
   "email" varchar(100) DEFAULT '' NOT NULL,
-  "requested_at" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "requested_at" timestamp without time zone NOT NULL,
   "status" smallint DEFAULT 0 NOT NULL,
   "request_type" varchar(25) DEFAULT '' NOT NULL,
   "confirm_token" varchar(100) DEFAULT '' NOT NULL,
-  "confirm_token_created_at" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "confirm_token_created_at" timestamp without time zone,
   PRIMARY KEY ("id")
 );
 
@@ -2100,14 +2100,14 @@ CREATE TABLE IF NOT EXISTS "#__user_notes" (
   "body" text NOT NULL,
   "state" smallint DEFAULT 0 NOT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,
-  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "checked_out_time" timestamp without time zone,
   "created_user_id" integer DEFAULT 0 NOT NULL,
-  "created_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "created_time" timestamp without time zone NOT NULL,
   "modified_user_id" integer DEFAULT 0 NOT NULL,
-  "modified_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "review_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "modified_time" timestamp without time zone NOT NULL,
+  "review_time" timestamp without time zone,
+  "publish_up" timestamp without time zone,
+  "publish_down" timestamp without time zone,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__user_notes_idx_user_id" ON "#__user_notes" ("user_id");
