@@ -71,7 +71,6 @@
 					name="customRegLinkMenu"
 					type="modal_menu"
 					label="MOD_LOGIN_FIELD_REGISTRATION_MENU_LABEL"
-					description="MOD_LOGIN_FIELD_REGISTRATION_MENU_DESC"
 					disable="separator,alias,heading,url"
 					select="true"
 					new="true"
