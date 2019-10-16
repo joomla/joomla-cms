@@ -124,7 +124,7 @@ class FeaturedModel extends ListModel
 				' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)'
 			)
 				->where('(' . $db->quoteName('a.publish_down') .
-					' IS NUL OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)'
+					' IS NULL OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)'
 				)
 				->bind(':publish_up', $nowDate)
 				->bind(':publish_down', $nowDate);
