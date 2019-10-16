@@ -24,6 +24,14 @@ use Joomla\Database\DatabaseDriver;
 class StageTable extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object
@@ -167,7 +175,7 @@ class StageTable extends Table
 	 * @see     Table::store()
 	 * @since   4.0
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$table = new StageTable($this->getDbo());
 

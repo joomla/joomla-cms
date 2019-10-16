@@ -515,8 +515,9 @@ class TagsHelper extends CMSHelper
 				'#__ucm_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id AND c.core_state IN ('
 					. implode(',', $stateFilters) . ')'
 					. (\in_array('0', $stateFilters) ? '' : ' AND (c.core_publish_up = ' . $nullDate
-					. ' OR c.core_publish_up <= ' . $nowDate . ') '
-					. ' AND (c.core_publish_down = ' . $nullDate . ' OR  c.core_publish_down >= ' . $nowDate . ')')
+					. ' OR c.core_publish_up IS NULL OR c.core_publish_up <= ' . $nowDate . ') '
+					. ' AND (c.core_publish_down = ' . $nullDate
+					. ' OR c.core_publish_down IS NULL OR c.core_publish_down >= ' . $nowDate . ')')
 			)
 			->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias')
 

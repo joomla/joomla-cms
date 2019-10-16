@@ -24,6 +24,14 @@ use Joomla\Utilities\ArrayHelper;
 class ClientTable extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  Database connector object
@@ -33,7 +41,7 @@ class ClientTable extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		$this->typeAlias        = 'com_banners.client';
-		$this->checked_out_time = $db->getNullDate();
+		$this->checked_out_time = null;
 
 		$this->setColumnAlias('published', 'state');
 
