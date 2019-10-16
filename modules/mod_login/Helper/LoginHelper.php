@@ -75,7 +75,7 @@ class LoginHelper
 		$regLinkMenuId = $params->get('customRegLinkMenu');
 
 		// If there is a custom menu item set for registration => override default
-		if ($regLinkMenuId !== '' && $regLinkMenuId !== '0')
+		if ($regLinkMenuId)
 		{
 			$item = Factory::getApplication()->getMenu()->getItem($regLinkMenuId);
 
