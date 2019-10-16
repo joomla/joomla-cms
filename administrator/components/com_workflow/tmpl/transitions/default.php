@@ -94,10 +94,10 @@ if ($saveOrder)
 								$canCheckin = true || $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 								$canChange  = $user->authorise('core.edit.state', $this->extension . '.transition.' . $item->id) && $canCheckin && !$isCore;								?>
 								<tr class="row<?php echo $i % 2; ?>">
-									<td class="order text-center hidden-sm-down">
+									<td class="text-center hidden-sm-down">
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
-									<td class="order text-center d-none d-md-table-cell">
+									<td class="text-center d-none d-md-table-cell">
 										<?php
 										$iconClass = '';
 										if (!$canChange)
