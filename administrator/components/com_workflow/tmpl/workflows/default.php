@@ -109,10 +109,10 @@ $userId = $user->id;
 							$canChange  = $user->authorise('core.edit.state', $extension . '.workflow.' . $item->id) && $canCheckin;
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="0">
-								<td class="order text-center hidden-sm-down">
+								<td class="text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
-								<td class="order text-center hidden-sm-down">
+								<td class="text-center hidden-sm-down">
 									<?php
 									$iconClass = '';
 									if (!$canChange)
