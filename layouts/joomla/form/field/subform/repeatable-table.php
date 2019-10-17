@@ -92,7 +92,7 @@ else
 							<?php if (!empty($buttons['add'])) : ?>
 								<div class="btn-group">
 									<button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
-										<span class="fa fa-plus icon-white" aria-hidden="true"></span>
+										<span class="fa fa-plus" aria-hidden="true"></span>
 									</button>
 								</div>
 							<?php endif; ?>
