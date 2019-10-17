@@ -67,6 +67,8 @@ class LoginHelper
 	/**
 	 * Retrieve the URL for the registration page
 	 *
+	 * @param   \Joomla\Registry\Registry  $params  module parameters
+	 *
 	 * @return  string
 	 */
 	public static function getRegistrationUrl($params)
