@@ -100,7 +100,7 @@ class CheckinModel extends ListModel
 				continue;
 			}
 
-			$fields = $db->getTableColumns($tn);
+			$fields = $db->getTableColumns($tn, false);
 
 			if (!(isset($fields['checked_out']) && isset($fields['checked_out_time'])))
 			{
