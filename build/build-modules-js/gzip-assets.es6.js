@@ -5,9 +5,9 @@
  */
 const Fs = require('fs');
 const { gzip } = require('@gfx/zopfli');
-const RootPath = require('./utils/rootpath.es6.js')._();
-const WalkSync = require('./utils/walk-sync.es6.js');
+const walkSync = require('walk-sync');
 
+const RootPath = process.cwd();
 const compressStream = '';
 const options = {
   verbose: false,
@@ -99,9 +99,24 @@ const gzipFiles = (brotliParam) => {
   // eslint-disable-next-line no-console
   console.log('Gziping stylesheets and scripts...');
 
-  const templatesFiles = WalkSync.run(`${RootPath}/templates`, []);
-  const adminTemplatesFiles = WalkSync.run(`${RootPath}/administrator/templates`, []);
-  const mediaFiles = WalkSync.run(`${RootPath}/media`, []);
+  const templatesFiles = walkSync(`${RootPath}/templates`, {
+    globs: ['**/*.{js,css}'],
+    includeBasePath: true,
+    ignore: [],
+    directories: false,
+  });
+  const adminTemplatesFiles = walkSync(`${RootPath}/administrator/templates`, {
+    globs: ['**/*.{js,css}'],
+    includeBasePath: true,
+    ignore: [],
+    directories: false,
+  });
+  const mediaFiles = walkSync(`${RootPath}/media`, {
+    globs: ['**/*.{js,css}'],
+    includeBasePath: true,
+    ignore: [],
+    directories: false,
+  });
 
   if (templatesFiles.length) {
     templatesFiles.forEach(file => handleFile(file, enableBrotli));
