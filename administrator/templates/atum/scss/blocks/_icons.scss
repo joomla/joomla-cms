@@ -40,22 +40,40 @@
     height: 24px;
     font-size: 16px;
     line-height: 22px;
-    color: var(--atum-text-dark);
-    border: 1px solid var(--atum-text-dark);
+    color: $gray-400;
+    border: 1px solid var(--border);
     border-radius: 50%;
-    box-shadow: 0 1px 0 0 rgba(0,0,0,.20);
+    box-shadow: 0px 1px 0px 0 rgba(0,0,0,.20);
   }
 
   .icon-publish {
     color: var(--success);
+    border-color: var(--success);
   }
 
   .icon-unpublish {
     color: var(--danger);
+	border-color: var(--success);
   }
 
   .icon-featured {
     color: var(--atum-special-color);
+    border-color: var(--atum-special-color);
+  }
+
+  .icon-unfeatured {
+    color: $gray-400;
+    border-color: $gray-400;
+  }
+
+  .icon-archive {
+    color: var(--atum-special-color);
+    border-color: var(--atum-special-color);
+  }
+
+  .icon-trash {
+    color: var(--atum-special-color);
+    border-color: var(--atum-special-color);
   }
 
   .icon-checkedout {
