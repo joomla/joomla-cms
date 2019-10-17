@@ -107,7 +107,7 @@ class CheckinModel extends ListModel
 				continue;
 			}
 
-			if ($fields['checked_out_time']->null === 'YES')
+			if ($fields['checked_out_time']->Null === 'YES')
 			{
 				$query = $db->getQuery(true)
 					->update($db->quoteName($tn))
