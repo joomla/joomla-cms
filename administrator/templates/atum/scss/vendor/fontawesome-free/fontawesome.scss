@@ -1,0 +1,58 @@
+// Override the font path
+$fa-font-path: "../../../../../../media/vendor/fontawesome-free/webfonts" !default;
+
+@import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/variables';
+@import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/mixins';
+
+@font-face {
+  font-family: 'Font Awesome 5 Free';
+  font-style: normal;
+  font-weight: 400;
+  font-display: $fa-font-display;
+  src: url('../../../../../../../media/vendor/fontawesome-free/webfonts/fa-regular-400.woff2') format('woff2'),
+  url('../../../../../../../media/vendor/fontawesome-free/webfonts/fa-regular-400.woff') format('woff');
+}
+
+.far {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Font Awesome 5 Free';
+  font-style: normal;
+  font-weight: 900;
+  font-display: $fa-font-display;
+  src: url('../../../../../../../media/vendor/fontawesome-free/webfonts/fa-solid-900.woff2') format('woff2'),
+  url('../../../../../../../media/vendor/fontawesome-free/webfonts/fa-solid-900.woff') format('woff');
+}
+
+.fa,
+.fas {
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
+@font-face {
+  font-family: 'Font Awesome 5 Brands';
+  font-style: normal;
+  font-weight: normal;
+  font-display: $fa-font-display;
+  src: url('../../../../../../../media/vendor/fontawesome-free/webfonts/fa-brands-400.woff2') format('woff2'),
+  url('../../../../../../../media/vendor/fontawesome-free/webfonts/fa-brands-400.woff') format('woff');
+}
+
+.fab {
+  font-family: 'Font Awesome 5 Brands';
+}
+
+@import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/core';
+@import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/larger';
+@import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/fixed-width';
+@import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/list';
+@import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/bordered-pulled';
+@import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/animated';
+@import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/rotated-flipped';
+@import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/stacked';
+@import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/icons';
+@import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/screen-reader';
