@@ -19,7 +19,7 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
  * Fields Subfieldstype. Represents a list field with the options being all possible
  * custom field types, except the 'subfields' custom field type.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class SubfieldstypeField extends ListField
 {
@@ -28,7 +28,7 @@ class SubfieldstypeField extends ListField
 	 *
 	 * @var string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public $type = 'Subfieldstype';
 
@@ -38,7 +38,7 @@ class SubfieldstypeField extends ListField
 	 *
 	 * @var string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $context = '';
 
@@ -48,7 +48,7 @@ class SubfieldstypeField extends ListField
 	 *
 	 * @var array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected static $customFieldsCache = array();
 
@@ -57,7 +57,7 @@ class SubfieldstypeField extends ListField
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getOptions()
 	{
@@ -117,7 +117,7 @@ class SubfieldstypeField extends ListField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{

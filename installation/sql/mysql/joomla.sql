@@ -1652,11 +1652,11 @@ SELECT extension_id, 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_TITLE', 'P
 CREATE TABLE IF NOT EXISTS `#__privacy_requests` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(100) NOT NULL DEFAULT '',
-  `requested_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `requested_at` datetime NOT NULL,
   `status` tinyint(4) NOT NULL DEFAULT 0,
   `request_type` varchar(25) NOT NULL DEFAULT '',
   `confirm_token` varchar(100) NOT NULL DEFAULT '',
-  `confirm_token_created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `confirm_token_created_at` datetime,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -2099,14 +2099,14 @@ CREATE TABLE IF NOT EXISTS `#__user_notes` (
   `body` text NOT NULL,
   `state` tinyint(3) NOT NULL DEFAULT 0,
   `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `checked_out_time` datetime,
   `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created_time` datetime NOT NULL,
   `modified_user_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `review_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_time` datetime NOT NULL,
+  `review_time` datetime,
+  `publish_up` datetime,
+  `publish_down` datetime,
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`),
   KEY `idx_category_id` (`catid`)
