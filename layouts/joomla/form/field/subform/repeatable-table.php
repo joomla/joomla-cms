@@ -43,7 +43,7 @@ $table_head = '';
 if (!empty($groupByFieldset))
 {
 	foreach ($tmpl->getFieldsets() as $fieldset) {
-		$table_head .= '<th>' . Text::_($fieldset->label);
+		$table_head .= '<th scope="col" style="width:45%">' . Text::_($fieldset->label);
 
 		if ($fieldset->description)
 		{
@@ -58,7 +58,7 @@ if (!empty($groupByFieldset))
 else
 {
 	foreach ($tmpl->getGroup('') as $field) {
-		$table_head .= '<th>' . strip_tags($field->label);
+		$table_head .= '<th scope="col" style="width:45%">' . strip_tags($field->label);
 
 		if ($field->description)
 		{
