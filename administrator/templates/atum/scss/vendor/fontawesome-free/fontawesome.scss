@@ -33,19 +33,6 @@ $fa-font-path: "../../../../../../media/vendor/fontawesome-free/webfonts" !defau
   font-weight: 900;
 }
 
-@font-face {
-  font-family: 'Font Awesome 5 Brands';
-  font-style: normal;
-  font-weight: normal;
-  font-display: $fa-font-display;
-  src: url('../../../../../../media/vendor/fontawesome-free/webfonts/fa-brands-400.woff2') format('woff2'),
-  url('../../../../../../media/vendor/fontawesome-free/webfonts/fa-brands-400.woff') format('woff');
-}
-
-.fab {
-  font-family: 'Font Awesome 5 Brands';
-}
-
 @import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/core';
 @import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/larger';
 @import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/fixed-width';
@@ -58,4 +45,4 @@ $fa-font-path: "../../../../../../media/vendor/fontawesome-free/webfonts" !defau
 @import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/screen-reader';
 
 // B/C Icomoon to Font Awesome
-@import '../../../../../../build/media_source/system/scss/_icomoon.scss';
+@import '../../../../../../build/media_source/system/scss/icomoon';
