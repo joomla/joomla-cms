@@ -135,7 +135,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	}
 
 	/**
-	 * Renders this fields value by rendering all subfields and joining all those rendered subfields together.
+	 * Renders this fields value by rendering all sub fields and joining all those rendered sub fields together.
 	 *
 	 * @param   string     $context  The context
 	 * @param   object     $item     The item
@@ -164,7 +164,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 
 		/**
 		 * Placeholder to hold all rows (if this field is repeatable).
-		 * Each array entry is another array representing a row, containing all of the subfields that
+		 * Each array entry is another array representing a row, containing all of the sub fields that
 		 * are valid for this row and their raw and rendered values.
 		 */
 		$subfields_rows = array();
@@ -180,7 +180,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 		// Iterate over each row of the data
 		foreach ($rows as $row)
 		{
-			// Holds all subfields of this row, incl. their raw and rendered value
+			// Holds all sub fields of this row, incl. their raw and rendered value
 			$row_subfields = array();
 
 			// For each row, iterate over all the subfields
@@ -237,15 +237,15 @@ class PlgFieldsSubfields extends FieldsPlugin
 					$subfield->value = implode(' ', $subfield->value);
 				}
 
-				// Store the subfield (incl. its raw and rendered value) into this rows subfields
+				// Store the subfield (incl. its raw and rendered value) into this rows sub fields
 				$row_subfields[$subfield->fieldname] = $subfield;
 			}
 
-			// Store all the subfields of this row
+			// Store all the sub fields of this row
 			$subfields_rows[] = $row_subfields;
 		}
 
-		// Store all the rows and their corresponding subfields in $field->subfields_rows
+		// Store all the rows and their corresponding sub fields in $field->subfields_rows
 		$field->subfields_rows = $subfields_rows;
 
 		// Call our parent to combine all those together for the final $field->value
@@ -309,7 +309,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 			$parent_fieldset->setAttribute('repeat', 'true');
 		}
 
-		// Get the configured subfields for this field
+		// Get the configured sub fields for this field
 		$subfields = $this->getSubfieldsFromField($field);
 
 		// If we have 5 or more of them, use the `repeatable` layout instead of the `repeatable-table`
@@ -318,7 +318,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 			$parent_field->setAttribute('layout', 'joomla.form.field.subform.repeatable');
 		}
 
-		// Iterate over the subfields to call prepareDom on each of those sub-fields
+		// Iterate over the sub fields to call prepareDom on each of those sub-fields
 		foreach ($subfields as $subfield)
 		{
 			// Let the relevant plugins do their work and insert the correct
@@ -379,7 +379,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 
 	/**
 	 * Returns an array of all subfields for a given field. This will always return a bare clone
-	 * of a subfield, so manipulating it is safe.
+	 * of a sub field, so manipulating it is safe.
 	 *
 	 * @param   \stdClass  $field  The field
 	 *
@@ -409,22 +409,22 @@ class PlgFieldsSubfields extends FieldsPlugin
 		// Iterate over all configured options for this field
 		foreach ($this->getOptionsFromField($field) as $option)
 		{
-			// Check whether the wanted subfield really is an existing custom field
+			// Check whether the wanted sub field really is an existing custom field
 			if (!isset(static::$customFieldsCache[$option->customfield]))
 			{
 				continue;
 			}
 
-			// Get a clone of the subfield, so we and the caller can do some manipulation with it.
+			// Get a clone of the sub field, so we and the caller can do some manipulation with it.
 			$cur_field = (clone static::$customFieldsCache[$option->customfield]);
 
 			// Manipulate it and add our custom configuration to it
 			$cur_field->render_values = $option->render_values;
 
 			/**
-			 * Set the name of the subfield to its id so that the values in the database are being saved
-			 * based on the id of the subfields, not on their name. Actually we do not need the name of
-			 * the subfields to render them, but just to make sure we have the name when we need it, we
+			 * Set the name of the sub field to its id so that the values in the database are being saved
+			 * based on the id of the sub fields, not on their name. Actually we do not need the name of
+			 * the sub fields to render them, but just to make sure we have the name when we need it, we
 			 * store it as `fieldname`.
 			 */
 			$cur_field->fieldname = $cur_field->name;

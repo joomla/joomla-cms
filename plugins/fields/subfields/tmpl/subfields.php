@@ -24,7 +24,7 @@ foreach ($field->subfields_rows as $subfields_row)
 	// Placeholder array to generate this rows output
 	$row_output = array();
 
-	// Iterate over each subfield inside of that row
+	// Iterate over each sub field inside of that row
 	foreach ($subfields_row as $subfield)
 	{
 		$class   = trim($subfield->params->get('render_class', ''));
@@ -43,7 +43,7 @@ foreach ($field->subfields_rows as $subfields_row)
 			continue 1;
 		}
 
-		// Generate the output for this subfield and row
+		// Generate the output for this sub field and row
 		$row_output[] = '<span class="field-entry' . ($class ? (' ' . $class) : '') . '">' . $content . '</span>';
 	}
 
