@@ -47,7 +47,7 @@ if (!empty($groupByFieldset))
 
 		if ($fieldset->description)
 		{
-			$table_head .= '<span class="fa fa-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip<?php echo $i; ?>">' . Text::_($field->description) . '</div>';
+			$table_head .= '<span class="fa fa-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-' . $field->id . '">' . Text::_($field->description) . '</div>';
 		}
 
 		$table_head .= '</th>';
@@ -62,7 +62,7 @@ else
 
 		if ($field->description)
 		{
-			$table_head .= '<span class="fa fa-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip<?php echo $i; ?>">' . Text::_($field->description) . '</div>';
+			$table_head .= '<span class="fa fa-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-' . $field->id . '">' . Text::_($field->description) . '</div>';
 		}
 
 		$table_head .= '</th>';
