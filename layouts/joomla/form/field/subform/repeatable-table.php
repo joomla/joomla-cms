@@ -83,7 +83,7 @@ else
 			repeatable-element=".subform-repeatable-group"
 			rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
 
-		<table class="adminlist table table-striped table-bordered">
+		<table class="table" id="subfieldList">
 			<thead>
 				<tr>
 					<?php echo $table_head; ?>
