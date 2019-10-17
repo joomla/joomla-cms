@@ -56,3 +56,6 @@ $fa-font-path: "../../../../../../media/vendor/fontawesome-free/webfonts" !defau
 @import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/stacked';
 @import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/icons';
 @import '../../../../../../node_modules/@fortawesome/fontawesome-free/scss/screen-reader';
+
+// B/C Icomoon to Font Awesome
+@import '../../../../../../build/media_source/system/scss/_icomoon.scss';
