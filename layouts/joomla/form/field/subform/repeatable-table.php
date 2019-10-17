@@ -83,6 +83,9 @@ else
 			repeatable-element=".subform-repeatable-group"
 			rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
 		<table class="table" id="subfieldList">
+			<caption id="captionTable" class="sr-only">
+				<?php echo Text::_('PLG_FIELDS_SUBFIELDS_TABLE_CAPTION'); ?>
+			</caption>
 			<thead>
 				<tr>
 					<?php echo $table_head; ?>
