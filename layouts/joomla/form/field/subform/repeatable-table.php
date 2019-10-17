@@ -82,38 +82,31 @@ else
 			button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
 			repeatable-element=".subform-repeatable-group"
 			rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
-		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-info">
-				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
-				<?php echo Text::_('PLG_FIELDS_SUBFIELDS_NONE'); ?>
-			</div>
-		<?php else : ?>
-			<table class="table" id="subfieldList">
-				<thead>
-					<tr>
-						<?php echo $table_head; ?>
-						<?php if (!empty($buttons)) : ?>
-							<th style="width:8%;">
-								<?php if (!empty($buttons['add'])) : ?>
-									<div class="btn-group">
-										<button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
-											<span class="fa fa-plus" aria-hidden="true"></span>
-										</button>
-									</div>
-								<?php endif; ?>
-							</th>
-						<?php endif; ?>
-					</tr>
-				</thead>
-				<tbody class="subform-repeatable-container">
-				<?php
-				foreach ($forms as $k => $form) :
-					echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));
-				endforeach;
-				?>
-				</tbody>
-			</table>
-		<?php endif; ?>
+		<table class="table" id="subfieldList">
+			<thead>
+				<tr>
+					<?php echo $table_head; ?>
+					<?php if (!empty($buttons)) : ?>
+						<th style="width:8%;">
+							<?php if (!empty($buttons['add'])) : ?>
+								<div class="btn-group">
+									<button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
+										<span class="fa fa-plus" aria-hidden="true"></span>
+									</button>
+								</div>
+							<?php endif; ?>
+						</th>
+					<?php endif; ?>
+				</tr>
+			</thead>
+			<tbody class="subform-repeatable-container">
+			<?php
+			foreach ($forms as $k => $form) :
+				echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));
+			endforeach;
+			?>
+			</tbody>
+		</table>
 		<?php if ($multiple) : ?>
 		<template class="subform-repeatable-template-section" style="display: none;">
 		<?php echo trim($this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons))); ?>
