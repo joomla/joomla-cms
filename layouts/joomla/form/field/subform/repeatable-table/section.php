@@ -25,9 +25,9 @@ extract($displayData);
 
 <tr class="subform-repeatable-group" data-base-name="<?php echo $basegroup; ?>" data-group="<?php echo $group; ?>">
 	<?php foreach ($form->getGroup('') as $field) : ?>
-	<td data-column="<?php echo strip_tags($field->label); ?>">
-		<?php echo $field->renderField(array('hiddenLabel' => true)); ?>
-	</td>
+		<td data-column="<?php echo strip_tags($field->label); ?>">
+			<?php echo $field->renderField(array('hiddenLabel' => true)); ?>
+		</td>
 	<?php endforeach; ?>
 	<?php if (!empty($buttons)) : ?>
 	<td>
