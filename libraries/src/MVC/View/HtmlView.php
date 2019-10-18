@@ -663,7 +663,7 @@ class HtmlView extends \JObject
 		// Change the template folder if alternative layout is in different template
 		if (isset($layoutTemplate) && $layoutTemplate !== '_' && $layoutTemplate != $template)
 		{
-			$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
+			$this->_path['template'] = str_replace(JPATH_THEMES . '/' . $template, JPATH_THEMES . '/' . $layoutTemplate, $this->_path['template']);
 		}
 
 		// Load the template script
