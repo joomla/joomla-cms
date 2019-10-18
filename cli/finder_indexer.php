@@ -14,7 +14,7 @@
  * Called with no arguments: php finder_indexer.php
  *                           Performs an incremental update of the index using dynamic pausing.
  *
- * IMPORTANT NOTE:  since Joomla version __DEPLOY_VERSION__ the default behavior of this script has changed.
+ * IMPORTANT NOTE:  since Joomla version 3.9.12 the default behavior of this script has changed.
  *                  If called with no arguments, the `--pause` argument is silently applied, in order to avoid the possibility of
  *                  stressing the server too much and making a site (or multiple sites, if on a shared environment) unresponsive.
  *                  If a pause is unwanted, just apply `--pause=0` to the command
@@ -118,7 +118,7 @@ class FinderCli extends JApplicationCli
 	 * Defaults to 'division'
 	 *
 	 * @var    string|integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.12
 	 */
 	private $pause = 'division';
 
@@ -129,7 +129,7 @@ class FinderCli extends JApplicationCli
 	 * Defaults to 5
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.12
 	 */
 	private $divisor = 5;
 
@@ -138,7 +138,7 @@ class FinderCli extends JApplicationCli
 	 * Defaults to 1
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.12
 	 */
 	private $minimumBatchProcessingTime = 1;
 
