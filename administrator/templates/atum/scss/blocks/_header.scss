@@ -258,7 +258,7 @@
     &.active .header-more-menu {
       left: auto;
 
-     [dir=rtl] & {
+      [dir=rtl] & {
         left: -100rem;
       }
     }
