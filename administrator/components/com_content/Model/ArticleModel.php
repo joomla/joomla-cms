@@ -1001,8 +1001,10 @@ class ArticleModel extends AdminModel
 	/**
 	 * Method to toggle the featured setting of articles.
 	 *
-	 * @param   array    $pks    The ids of the items to toggle.
-	 * @param   integer  $value  The value to toggle to.
+	 * @param   array        $pks           The ids of the items to toggle.
+	 * @param   integer      $value         The value to toggle to.
+	 * @param   string|Date  $featuredUp    The date which item featured up.
+	 * @param   string|Date  $featuredDown  The date which item featured down.
 	 *
 	 * @return  boolean  True on success.
 	 */
