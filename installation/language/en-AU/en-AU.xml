@@ -3,8 +3,8 @@
 	version="3.9"
 	client="installation">
 	<name>English (Australia)</name>
-	<version>3.9.0</version>
-	<creationDate>October 2018</creationDate>
+	<version>3.9.12</version>
+	<creationDate>September 2019</creationDate>
 	<author>Joomla! Project</author>
 	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
@@ -17,5 +17,5 @@
 		<tag>en-AU</tag>
 		<rtl>0</rtl>
 	</metadata>
-	<params/>
+	<params />
 </metafile>
