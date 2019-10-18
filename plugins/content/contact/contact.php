@@ -113,12 +113,8 @@ class PlgContentContact extends CMSPlugin
 		$query      = $db->getQuery(true);
 		$created_by = (int) $created_by;
 
-		$query->select(
-			[
-				'MAX(' . $db->quoteName('contact.id') . ') AS contactid',
-				$db->quoteName(['contact.alias', 'contact.catid', 'contact.webpage', 'contact.email_to'])
-			]
-		)
+		$query->select('MAX(' . $db->quoteName('contact.id') . ') AS ' . $db->quoteName('contactid'))
+			->select($db->quoteName(['contact.alias', 'contact.catid', 'contact.webpage', 'contact.email_to']))
 			->from($db->quoteName('#__contact_details', 'contact'))
 			->where($db->quoteName('contact.published') . ' = 1')
 			->where($db->quoteName('contact.user_id') . ' = :createdby')
@@ -131,7 +127,7 @@ class PlgContentContact extends CMSPlugin
 				. ') OR ' . $db->quoteName('contact.language') . ' IS NULL)');
 		}
 
-		$this->db->setQuery($query);
+		$db->setQuery($query);
 
 		$contacts[$created_by] = $this->db->loadObject();
 
