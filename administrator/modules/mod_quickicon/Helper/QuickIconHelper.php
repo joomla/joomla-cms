@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\Quickicon\Administrator\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
@@ -254,7 +254,7 @@ abstract class QuickIconHelper
 
 			foreach ($arrays as $response)
 			{
-				if (!is_array($response))
+				if (!\is_array($response))
 				{
 					continue;
 				}
@@ -274,7 +274,7 @@ abstract class QuickIconHelper
 
 					$icon = array_merge($default, $icon);
 
-					if (!is_null($icon['link']) && !is_null($icon['text']))
+					if (!\is_null($icon['link']) && !\is_null($icon['text']))
 					{
 						self::$buttons[$key][] = $icon;
 					}

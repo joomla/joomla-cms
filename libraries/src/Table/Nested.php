@@ -1648,7 +1648,7 @@ class Nested extends Table
 		// Check for no $row returned
 		if (empty($row))
 		{
-			$e = new \UnexpectedValueException(sprintf('%s::_getNode(%d, %s) failed.', \get_class($this), $id, $key));
+			$e = new \UnexpectedValueException(sprintf('%s::_getNode(%d, %s) failed.', \get_class($this), $id, $k));
 			$this->setError($e);
 
 			return false;

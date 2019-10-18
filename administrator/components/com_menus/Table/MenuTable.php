@@ -63,22 +63,20 @@ class MenuTable extends \JTableMenu
 
 		if ($return)
 		{
-			$db = Factory::getDbo();
-
 			// Set publish_up to null date if not set
 			if (!$this->publish_up)
 			{
-				$this->publish_up = $db->getNullDate();
+				$this->publish_up = null;
 			}
 
 			// Set publish_down to null date if not set
 			if (!$this->publish_down)
 			{
-				$this->publish_down = $db->getNullDate();
+				$this->publish_down = null;
 			}
 
 			// Check the publish down date is not earlier than publish up.
-			if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
+			if (!is_null($this->publish_down) && !is_null($this->publish_up) && $this->publish_down < $this->publish_up)
 			{
 				$this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 
@@ -88,8 +86,8 @@ class MenuTable extends \JTableMenu
 			if ((int) $this->home)
 			{
 				// Set the publish down/up always for home.
-				$this->publish_up   = $db->getNullDate();
-				$this->publish_down = $db->getNullDate();
+				$this->publish_up   = null;
+				$this->publish_down = null;
 			}
 		}
 

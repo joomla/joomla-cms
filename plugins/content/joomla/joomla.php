@@ -356,7 +356,7 @@ class PlgContentJoomla extends CMSPlugin
 
 		$stages = $model->getItems();
 
-		$stage_ids = ArrayHelper::getColumn($stages, 'id');
+		$stage_ids = array_column($stages, 'id');
 
 		$result = $this->_countItemsInStage($stage_ids, $table->extension);
 

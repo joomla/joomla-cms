@@ -949,14 +949,23 @@ class ItemModel extends AdminModel
 		$pk = $app->input->getInt('id');
 		$this->setState('item.id', $pk);
 
-		if (!($parentId = $app->getUserState('com_menus.edit.item.parent_id')))
+		if (!$app->isClient('api'))
+		{
+			$parentId = $app->getUserState('com_menus.edit.item.parent_id');
+			$menuType = $app->getUserStateFromRequest('com_menus.items.menutype', 'menutype', '', 'string');
+		}
+		else
+		{
+			$parentId = null;
+			$menuType = $app->input->get('com_menus.items.menutype');
+		}
+
+		if (!$parentId)
 		{
 			$parentId = $app->input->getInt('parent_id');
 		}
 
 		$this->setState('item.parent_id', $parentId);
-
-		$menuType = $app->getUserStateFromRequest('com_menus.items.menutype', 'menutype', '', 'string');
 
 		// If we have a menutype we take client_id from there, unless forced otherwise
 		if ($menuType)
@@ -971,15 +980,19 @@ class ItemModel extends AdminModel
 		else
 		{
 			$menuTypeId = 0;
-			$clientId   = $app->getUserState('com_menus.items.client_id', 0);
+			$clientId   = $app->isClient('api') ? $app->input->get('client_id') :
+				$app->getUserState('com_menus.items.client_id', 0);
 		}
 
 		// Forced client id will override/clear menuType if conflicted
 		$forcedClientId = $app->input->get('client_id', null, 'string');
 
-		// Set the menu type and client id on the list view state, so we return to this menu after saving.
-		$app->setUserState('com_menus.items.menutype', $menuType);
-		$app->setUserState('com_menus.items.client_id', $clientId);
+		if (!$app->isClient('api'))
+		{
+			// Set the menu type and client id on the list view state, so we return to this menu after saving.
+			$app->setUserState('com_menus.items.menutype', $menuType);
+			$app->setUserState('com_menus.items.client_id', $clientId);
+		}
 
 		// Current item if not new, we don't allow changing client id at all
 		if ($pk)
@@ -1012,7 +1025,10 @@ class ItemModel extends AdminModel
 
 		$this->setState('item.type', $type);
 
-		if ($link = $app->getUserState('com_menus.edit.item.link'))
+		$link = $app->isClient('api') ? $app->input->get('link') :
+			$app->getUserState('com_menus.edit.item.link');
+
+		if ($link)
 		{
 			$this->setState('item.link', $link);
 		}

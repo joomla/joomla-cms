@@ -40,13 +40,6 @@
 		/>
 
 		<menuitem
-			title="MOD_MENU_PURGE_EXPIRED_CACHE"
-			type="component"
-			element="com_cache"
-			link="index.php?option=com_cache&amp;view=purge"
-		/>
-
-		<menuitem
 			title="MOD_MENU_SYSTEM_INFORMATION"
 			type="component"
 			element="com_admin"
