@@ -98,7 +98,7 @@ class OverridesController extends ApiController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Unable to create the model');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
 		$data = $this->input->get('data', json_decode($this->input->json->getRaw(), true), 'array');
@@ -111,7 +111,7 @@ class OverridesController extends ApiController
 
 		if (!$form)
 		{
-			throw new \RuntimeException('Unable to create the form.');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_FORM_CREATE'));
 		}
 
 		// Test whether the data is valid.

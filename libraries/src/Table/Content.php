@@ -26,6 +26,14 @@ use Joomla\String\StringHelper;
 class Content extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  A database connector object
@@ -244,31 +252,25 @@ class Content extends Table
 			$this->hits = 0;
 		}
 
-		// Set publish_up to null date if not set
+		// Set publish_up to null if not set
 		if (!$this->publish_up)
 		{
-			$this->publish_up = $this->_db->getNullDate();
+			$this->publish_up = null;
 		}
 
-		// Set publish_down to null date if not set
+		// Set publish_down to null if not set
 		if (!$this->publish_down)
 		{
-			$this->publish_down = $this->_db->getNullDate();
+			$this->publish_down = null;
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if ($this->publish_down < $this->publish_up && $this->publish_down > $this->_db->getNullDate())
+		if (!is_null($this->publish_up) && !is_null($this->publish_down) && $this->publish_down < $this->publish_up)
 		{
 			// Swap the dates.
 			$temp = $this->publish_up;
 			$this->publish_up = $this->publish_down;
 			$this->publish_down = $temp;
-		}
-
-		// Set modified to null date if not set
-		if (!$this->modified)
-		{
-			$this->modified = $this->_db->getNullDate();
 		}
 
 		// Clean up keywords -- eliminate extra spaces between phrases
@@ -313,7 +315,7 @@ class Content extends Table
 	 *
 	 * @since   1.6
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate();
 		$user = Factory::getUser();
@@ -336,6 +338,12 @@ class Content extends Table
 			if (empty($this->created_by))
 			{
 				$this->created_by = $user->get('id');
+			}
+
+			// Set modified to created date if not set
+			if (!$this->modified)
+			{
+				$this->modified = $this->created;
 			}
 		}
 

@@ -59,13 +59,13 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								<th scope="col" style="width:10%; " class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%;" class="text-center d-none d-md-table-cell">
+								<th scope="col" style="width:5%;" class="text-center d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%;" class="text-center d-none d-md-table-cell">
+								<th scope="col" style="width:5%;" class="text-center d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 								</th>
-								<?php if ($tfa) : ?> 
+								<?php if ($tfa) : ?>
 								<th scope="col" style="width:5%" class="text-center d-none d-md-table-cell">
 									<?php echo Text::_('COM_USERS_HEADING_TFA'); ?>
 								</th>
@@ -140,7 +140,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								<td class="break-word d-none d-md-table-cell">
 									<?php echo $this->escape($item->username); ?>
 								</td>
-								<td class="text-center d-none d-md-table-cell">
+								<td class="text-center d-md-table-cell">
 									<?php $self = $loggeduser->id == $item->id; ?>
 									<?php if ($canChange) : ?>
 										<?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.blockStates', $self), $item->block, $i, 'users.', !$self); ?>
@@ -148,24 +148,24 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 										<?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.blockStates', $self), $item->block, $i, 'users.', false);; ?>
 									<?php endif; ?>
 								</td>
-								<td class="text-center d-none d-md-table-cell">
+								<td class="text-center d-md-table-cell">
 									<?php
 									$activated = empty( $item->activation) ? 0 : 1;
 									echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.activateStates'), $activated, $i, 'users.', (boolean) $activated);
 									?>
 								</td>
-								<?php if ($tfa) : ?> 
+								<?php if ($tfa) : ?>
 								<td class="text-center d-none d-md-table-cell tbody-icon">
 									<?php if (!empty($item->otpKey)) : ?>
 										<span class="icon-publish" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_ACTIVE'); ?></span>
-									<?php else : ?> 
+									<?php else : ?>
 										<span class="icon-unpublish" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_NOTACTIVE'); ?></span>
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>
-								<td>
+								<td class="d-none d-md-table-cell">
 									<?php if (substr_count($item->group_names, "\n") > 1) : ?>
 										<span tabindex="0"><?php echo Text::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
 										<div role="tooltip" id="tip<?php echo $i; ?>">
