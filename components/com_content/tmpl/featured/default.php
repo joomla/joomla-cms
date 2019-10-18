@@ -20,6 +20,11 @@ defined('_JEXEC') or die;
 		</h1>
 	</div>
 	<?php endif; ?>
+	<?php if ($this->params->get('page_subheading')) : ?>
+		<h2>
+			<?php echo $this->escape($this->params->get('page_subheading')); ?>
+		</h2>
+	<?php endif; ?>
 
 	<?php $leadingcount = 0; ?>
 	<?php if (!empty($this->lead_items)) : ?>

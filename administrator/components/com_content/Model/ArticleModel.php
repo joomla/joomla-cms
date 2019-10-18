@@ -272,7 +272,7 @@ class ArticleModel extends AdminModel
 	{
 		if (!empty($record->id))
 		{
-			$stage = new StageTable($this->_db);
+			$stage = new StageTable($this->getDbo());
 
 			$workflow = new Workflow(['extension' => 'com_content']);
 
@@ -337,7 +337,7 @@ class ArticleModel extends AdminModel
 
 		if ($table->state == Workflow::CONDITION_PUBLISHED && intval($table->publish_down) == 0)
 		{
-			$table->publish_down = $this->getDbo()->getNullDate();
+			$table->publish_down = null;
 		}
 
 		// Increment the content version number.
@@ -378,27 +378,28 @@ class ArticleModel extends AdminModel
 		$query = $db->getQuery(true);
 
 		$select = $db->quoteName(
-					[
-						'wt.id',
-						'wa.item_id'
-					]
-				);
+			[
+				'wt.id',
+				'wa.item_id'
+			]
+		);
 
-		$query	->select($select)
-				->from($db->quoteName('#__workflow_transitions', 'wt'))
-				->from($db->quoteName('#__workflow_stages', 'ws'))
-				->from($db->quoteName('#__workflow_stages', 'ws2'))
-				->from($db->quoteName('#__workflow_associations', 'wa'))
-				->where('(' . $db->quoteName('wt.from_stage_id') . ' = -1 OR ' .
-					$db->quoteName('wt.from_stage_id') . ' = ' . $db->quoteName('wa.stage_id') . ')')
-				->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
-				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws2.id'))
-				->where($db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws.workflow_id'))
-				->where($db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws2.workflow_id'))
-				->where($db->quoteName('wt.to_stage_id') . ' != ' . $db->quoteName('wa.stage_id'))
-				->whereIn($db->quoteName('wa.item_id'), $pks)
-				->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
-				->where($db->quoteName('ws.condition') . ' = ' . (int) $value);
+		$query->select($select)
+			->from($db->quoteName('#__workflow_transitions', 'wt'))
+			->from($db->quoteName('#__workflow_stages', 'ws'))
+			->from($db->quoteName('#__workflow_stages', 'ws2'))
+			->from($db->quoteName('#__workflow_associations', 'wa'))
+			->where('(' . $db->quoteName('wt.from_stage_id') . ' = -1 OR ' .
+				$db->quoteName('wt.from_stage_id') . ' = ' . $db->quoteName('wa.stage_id') . ')'
+			)
+			->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
+			->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws2.id'))
+			->where($db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws.workflow_id'))
+			->where($db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws2.workflow_id'))
+			->where($db->quoteName('wt.to_stage_id') . ' != ' . $db->quoteName('wa.stage_id'))
+			->whereIn($db->quoteName('wa.item_id'), $pks)
+			->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
+			->where($db->quoteName('ws.condition') . ' = ' . (int) $value);
 
 		$transitions = $db->setQuery($query)->loadObjectList();
 
@@ -528,6 +529,9 @@ class ArticleModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
+		$app  = Factory::getApplication();
+		$user = $app->getIdentity();
+
 		// Get the form.
 		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
 
@@ -536,7 +540,7 @@ class ArticleModel extends AdminModel
 			return false;
 		}
 
-		$jinput = Factory::getApplication()->input;
+		$jinput = $app->input;
 
 		/*
 		 * The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
@@ -551,7 +555,20 @@ class ArticleModel extends AdminModel
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
 
 			// Existing record. Can only edit own articles in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit.own');
+			if ($app->isClient('administrator'))
+			{
+				$form->setFieldAttribute('catid', 'action', 'core.edit.own');
+			}
+			else
+			// Existing record. We can't edit the category in frontend if not edit.state.
+			{
+				if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
+					|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
+				{
+					$form->setFieldAttribute('catid', 'readonly', 'true');
+					$form->setFieldAttribute('catid', 'filter', 'unset');
+				}
+			}
 
 			$table = $this->getTable();
 
@@ -609,8 +626,6 @@ class ArticleModel extends AdminModel
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
-		$user = Factory::getUser();
-
 		// Check for existing article.
 		// Modify the form based on Edit State access controls.
 		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
@@ -633,7 +648,6 @@ class ArticleModel extends AdminModel
 		}
 
 		// Prevent messing with article language and category when editing existing article with associations
-		$app = Factory::getApplication();
 		$assoc = Associations::isEnabled();
 
 		// Check if article is associated
@@ -710,7 +724,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
-	 * @see     JFormRule
+	 * @see     \Joomla\CMS\Form\FormRule
 	 * @see     JFilterInput
 	 * @since   3.7.0
 	 */
@@ -766,20 +780,22 @@ class ArticleModel extends AdminModel
 			$data['images'] = (string) $registry;
 		}
 
-		// Cast catid to integer for comparison
-		$catid = (int) $data['catid'];
+		// Create new category, if needed.
+		$createCategory = true;
 
-		// Check if New Category exists
-		if ($catid > 0)
+		// If category ID is provided, check if it's valid.
+		if (is_numeric($data['catid']) && $data['catid'])
 		{
-			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
+			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
 		}
 
 		// Save New Category
-		if ($catid == 0 && $this->canCreateCategory())
+		if ($createCategory && $this->canCreateCategory())
 		{
 			$table = array();
-			$table['title'] = $data['catid'];
+
+			// Remove #new# prefix, if exists.
+			$table['title'] = strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'];
 			$table['parent_id'] = 1;
 			$table['extension'] = 'com_content';
 			$table['language'] = $data['language'];
@@ -836,7 +852,6 @@ class ArticleModel extends AdminModel
 			}
 		}
 
-		$workflowId = 0;
 		$stageId = 0;
 
 		// Set status depending on category
@@ -856,8 +871,8 @@ class ArticleModel extends AdminModel
 			// B/C state
 			$data['state'] = (int) $workflow->condition;
 		}
-		// Calculate new status depending on transition
 
+		// Calculate new status depending on transition
 		if (!empty($data['transition']))
 		{
 			// Check if the user is allowed to execute this transition
@@ -871,13 +886,13 @@ class ArticleModel extends AdminModel
 			// Set the new state
 			$query = $db->getQuery(true);
 
-			$query	->select($db->quoteName(['ws.id', 'ws.condition']))
-					->from($db->quoteName('#__workflow_stages', 'ws'))
-					->from($db->quoteName('#__workflow_transitions', 'wt'))
-					->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
-					->where($db->quoteName('wt.id') . ' = ' . (int) $data['transition'])
-					->where($db->quoteName('ws.published') . ' = 1')
-					->where($db->quoteName('wt.published') . ' = 1');
+			$query->select($db->quoteName(['ws.id', 'ws.condition']))
+				->from($db->quoteName('#__workflow_stages', 'ws'))
+				->from($db->quoteName('#__workflow_transitions', 'wt'))
+				->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
+				->where($db->quoteName('wt.id') . ' = ' . (int) $data['transition'])
+				->where($db->quoteName('ws.published') . ' = 1')
+				->where($db->quoteName('wt.published') . ' = 1');
 
 			$stage = $db->setQuery($query)->loadObject();
 
@@ -1102,6 +1117,9 @@ class ArticleModel extends AdminModel
 		if ($this->canCreateCategory())
 		{
 			$form->setFieldAttribute('catid', 'allowAdd', 'true');
+
+			// Add a prefix for categories created on the fly.
+			$form->setFieldAttribute('catid', 'customPrefix', '#new#');
 		}
 
 		// Association content items
@@ -1262,22 +1280,22 @@ class ArticleModel extends AdminModel
 		{
 			$query  = $db->getQuery(true);
 
-			$query	->select(
-						$db->quoteName(
-							[
-								'w.id',
-								'ws.condition'
-							]
-						)
-					)
-					->select($db->quoteName('ws.id', 'stage_id'))
-					->from($db->quoteName('#__workflow_stages', 'ws'))
-					->from($db->quoteName('#__workflows', 'w'))
-					->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
-					->where($db->quoteName('ws.default') . ' = 1')
-					->where($db->quoteName('w.published') . ' = 1')
-					->where($db->quoteName('ws.published') . ' = 1')
-					->where($db->quoteName('w.id') . ' = ' . (int) $workflow_id);
+			$query->select(
+				$db->quoteName(
+					[
+						'w.id',
+						'ws.condition'
+					]
+				)
+			)
+				->select($db->quoteName('ws.id', 'stage_id'))
+				->from($db->quoteName('#__workflow_stages', 'ws'))
+				->from($db->quoteName('#__workflows', 'w'))
+				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
+				->where($db->quoteName('ws.default') . ' = 1')
+				->where($db->quoteName('w.published') . ' = 1')
+				->where($db->quoteName('ws.published') . ' = 1')
+				->where($db->quoteName('w.id') . ' = ' . (int) $workflow_id);
 
 			$workflow = $db->setQuery($query)->loadObject();
 
@@ -1290,22 +1308,22 @@ class ArticleModel extends AdminModel
 		// Use default workflow
 		$query  = $db->getQuery(true);
 
-		$query	->select(
-				$db->quoteName(
-						[
-							'w.id',
-							'ws.condition'
-						]
-					)
-				)
-				->select($db->quoteName('ws.id', 'stage_id'))
-				->from($db->quoteName('#__workflow_stages', 'ws'))
-				->from($db->quoteName('#__workflows', 'w'))
-				->where($db->quoteName('ws.default') . ' = 1')
-				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
-				->where($db->quoteName('w.published') . ' = 1')
-				->where($db->quoteName('ws.published') . ' = 1')
-				->where($db->quoteName('w.default') . ' = 1');
+		$query->select(
+			$db->quoteName(
+				[
+					'w.id',
+					'ws.condition'
+				]
+			)
+		)
+			->select($db->quoteName('ws.id', 'stage_id'))
+			->from($db->quoteName('#__workflow_stages', 'ws'))
+			->from($db->quoteName('#__workflows', 'w'))
+			->where($db->quoteName('ws.default') . ' = 1')
+			->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
+			->where($db->quoteName('w.published') . ' = 1')
+			->where($db->quoteName('ws.published') . ' = 1')
+			->where($db->quoteName('w.default') . ' = 1');
 
 		$workflow = $db->setQuery($query)->loadObject();
 

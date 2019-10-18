@@ -17,11 +17,9 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
-use Joomla\String\StringHelper;
 
 /**
  * Newsfeed model.
@@ -63,26 +61,17 @@ class NewsfeedModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id) || $record->published != -2)
 		{
-			if ($record->published != -2)
-			{
-				return false;
-			}
-
-			$user = Factory::getUser();
-
-			if (!empty($record->catid))
-			{
-				return $user->authorise('core.delete', 'com_newsfeed.category.' . (int) $record->catid);
-			}
-			else
-			{
-				return parent::canDelete($record);
-			}
+			return false;
 		}
 
-		return false;
+		if (!empty($record->catid))
+		{
+			return Factory::getUser()->authorise('core.delete', 'com_newsfeed.category.' . (int) $record->catid);
+		}
+
+		return parent::canDelete($record);
 	}
 
 	/**
@@ -96,11 +85,9 @@ class NewsfeedModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = Factory::getUser();
-
 		if (!empty($record->catid))
 		{
-			return $user->authorise('core.edit.state', 'com_newsfeeds.category.' . (int) $record->catid);
+			return Factory::getUser()->authorise('core.edit.state', 'com_newsfeeds.category.' . (int) $record->catid);
 		}
 
 		return parent::canEditState($record);
@@ -200,20 +187,22 @@ class NewsfeedModel extends AdminModel
 	{
 		$input = Factory::getApplication()->input;
 
-		// Cast catid to integer for comparison
-		$catid = (int) $data['catid'];
+		// Create new category, if needed.
+		$createCategory = true;
 
-		// Check if New Category exists
-		if ($catid > 0)
+		// If category ID is provided, check if it's valid.
+		if (is_numeric($data['catid']) && $data['catid'])
 		{
-			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_newsfeeds');
+			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_newsfeeds');
 		}
 
 		// Save New Category
-		if ($catid == 0 && $this->canCreateCategory())
+		if ($createCategory && $this->canCreateCategory())
 		{
 			$table = array();
-			$table['title'] = $data['catid'];
+
+			// Remove #new# prefix, if exists.
+			$table['title'] = strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'];
 			$table['parent_id'] = 1;
 			$table['extension'] = 'com_newsfeeds';
 			$table['language'] = $data['language'];
@@ -272,7 +261,7 @@ class NewsfeedModel extends AdminModel
 		}
 
 		// Load associated newsfeeds items
-		$assoc =  Associations::isEnabled();
+		$assoc = Associations::isEnabled();
 
 		if ($assoc)
 		{
@@ -280,7 +269,7 @@ class NewsfeedModel extends AdminModel
 
 			if ($item->id != null)
 			{
-				$associations =  Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $item->id);
+				$associations = Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $item->id);
 
 				foreach ($associations as $tag => $association)
 				{
@@ -312,11 +301,11 @@ class NewsfeedModel extends AdminModel
 		$user = Factory::getUser();
 
 		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
-		$table->alias =  ApplicationHelper::stringURLSafe($table->alias, $table->language);
+		$table->alias = ApplicationHelper::stringURLSafe($table->alias, $table->language);
 
 		if (empty($table->alias))
 		{
-			$table->alias =  ApplicationHelper::stringURLSafe($table->name, $table->language);
+			$table->alias = ApplicationHelper::stringURLSafe($table->name, $table->language);
 		}
 
 		if (empty($table->id))
@@ -400,12 +389,15 @@ class NewsfeedModel extends AdminModel
 		if ($this->canCreateCategory())
 		{
 			$form->setFieldAttribute('catid', 'allowAdd', 'true');
+
+			// Add a prefix for categories created on the fly.
+			$form->setFieldAttribute('catid', 'customPrefix', '#new#');
 		}
 
 		// Association newsfeeds items
 		if (Associations::isEnabled())
 		{
-			$languages =  LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{
@@ -435,35 +427,6 @@ class NewsfeedModel extends AdminModel
 		}
 
 		parent::preprocessForm($form, $data, $group);
-	}
-
-	/**
-	 * Method to change the title & alias.
-	 *
-	 * @param   integer  $category_id  The id of the parent.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $name         The title.
-	 *
-	 * @return  array  Contains the modified title and alias.
-	 *
-	 * @since   3.1
-	 */
-	protected function generateNewTitle($category_id, $alias, $name)
-	{
-		// Alter the title & alias
-		$table = $this->getTable();
-
-		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
-		{
-			if ($name == $table->name)
-			{
-				$name = StringHelper::increment($name);
-			}
-
-			$alias = StringHelper::increment($alias, 'dash');
-		}
-
-		return array($name, $alias);
 	}
 
 	/**

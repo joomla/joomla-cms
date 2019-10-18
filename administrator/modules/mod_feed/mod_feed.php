@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-$feed            = \Joomla\Module\Feed\Administrator\Helper\FeedHelper::getFeed($params);
-$rssurl          = $params->get('rssurl', '');
-$rssrtl          = $params->get('rssrtl', 0);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
+$feed   = \Joomla\Module\Feed\Administrator\Helper\FeedHelper::getFeed($params);
+$rssurl = $params->get('rssurl', '');
+$rssrtl = $params->get('rssrtl', 0);
 
 require \Joomla\CMS\Helper\ModuleHelper::getLayoutPath('mod_feed', $params->get('layout', 'default'));

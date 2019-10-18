@@ -73,6 +73,18 @@ class PlgFinderContent extends FinderIndexerAdapter
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Method to setup the indexer to be run.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   2.5
+	 */
+	protected function setup()
+	{
+		return true;
+	}
+
+	/**
 	 * Method to update the item link information when the item category is
 	 * changed. This is fired when the item category is published or unpublished
 	 * from the list view.
@@ -320,21 +332,6 @@ class PlgFinderContent extends FinderIndexerAdapter
 	}
 
 	/**
-	 * Method to setup the indexer to be run.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 */
-	protected function setup()
-	{
-		// Load dependent classes.
-		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
-		return true;
-	}
-
-	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
 	 * @param   mixed  $query  A JDatabaseQuery object or null.
@@ -350,6 +347,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		// Check if we can use the supplied SQL query.
 		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.title, a.alias, a.introtext AS summary, a.fulltext AS body')
+			->select('a.images')
 			->select('a.state, a.catid, a.created AS start_date, a.created_by')
 			->select('a.created_by_alias, a.modified, a.modified_by, a.attribs AS params')
 			->select('a.metakey, a.metadesc, a.metadata, a.language, a.access, a.version, a.ordering')

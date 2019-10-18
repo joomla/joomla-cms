@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Schema;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
@@ -104,7 +104,8 @@ class ChangeSet
 				$db,
 				'database.php',
 				'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
-				. ' SET ' . $this->db->quoteName('converted') . ' = 0;');
+				. ' SET ' . $this->db->quoteName('converted') . ' = 0;'
+			);
 
 			// Set to not skipped
 			$tmpSchemaChangeItem->checkStatus = 0;
@@ -147,7 +148,7 @@ class ChangeSet
 	 */
 	public static function getInstance($db, $folder = null)
 	{
-		if (!is_object(static::$instance))
+		if (!\is_object(static::$instance))
 		{
 			static::$instance = new static($db, $folder);
 		}

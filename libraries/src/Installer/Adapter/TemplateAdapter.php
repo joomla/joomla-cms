@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -269,7 +269,7 @@ class TemplateAdapter extends InstallerAdapter
 			$client = 'ADMINISTRATOR';
 		}
 
-		$base = constant('JPATH_' . strtoupper($client));
+		$base = \constant('JPATH_' . strtoupper($client));
 		$extension = 'tpl_' . $this->getName();
 		$source    = $path ?: $base . '/templates/' . $this->getName();
 
@@ -299,7 +299,7 @@ class TemplateAdapter extends InstallerAdapter
 	 */
 	protected function parseQueries()
 	{
-		if (in_array($this->route, array('install', 'discover_install')))
+		if (\in_array($this->route, array('install', 'discover_install')))
 		{
 			$db    = $this->db;
 			$lang  = Factory::getLanguage();

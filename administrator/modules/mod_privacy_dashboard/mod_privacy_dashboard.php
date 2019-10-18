@@ -31,7 +31,6 @@ HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/helper
 
 JLoader::register('ModPrivacyDashboardHelper', __DIR__ . '/helper.php');
 
-$list            = ModPrivacyDashboardHelper::getData();
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
+$list = ModPrivacyDashboardHelper::getData();
 
 require ModuleHelper::getLayoutPath('mod_privacy_dashboard', $params->get('layout', 'default'));

@@ -18,5 +18,5 @@ defined('_JEXEC') or die;
  */
 abstract class MailtoHelper extends \Joomla\Component\Mailto\Site\Helper\MailtoHelper
 {
-	
+
 }

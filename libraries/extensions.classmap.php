@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 // Class map of the core extensions
+JLoader::registerAlias('ActionLogPlugin', '\\Joomla\\Component\\Actionlogs\\Administrator\\Plugin\\ActionLogPlugin', '5.0');
+
 JLoader::registerAlias('FieldsPlugin',     '\\Joomla\\Component\\Fields\\Administrator\\Plugin\\FieldsPlugin', '4.0');
 JLoader::registerAlias('FieldsListPlugin', '\\Joomla\\Component\\Fields\\Administrator\\Plugin\\FieldsListPlugin', '4.0');
 
@@ -21,6 +23,8 @@ JLoader::registerAlias('PrivacyRemovalStatus', '\\Joomla\\Component\\Privacy\\Ad
 JLoader::registerAlias('PrivacyTableRequest', '\\Joomla\\Component\\Privacy\\Administrator\\Table\\RequestTable', '5.0');
 
 JLoader::registerAlias('TagsTableTag',     '\\Joomla\\Component\\Tags\\Administrator\\Table\\TagTable', '4.0');
+
+JLoader::registerAlias('ContentHelperRoute', '\\Joomla\\Component\\Content\\Site\\Helper\\RouteHelper', '5.0');
 
 JLoader::registerAlias('FinderIndexerAdapter',  '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Adapter', '5.0');
 JLoader::registerAlias('FinderIndexerHelper',   '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Helper', '5.0');

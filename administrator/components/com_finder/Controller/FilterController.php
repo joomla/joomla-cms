@@ -11,7 +11,6 @@ namespace Joomla\Component\Finder\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
@@ -39,7 +38,7 @@ class FilterController extends FormController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		/* @var \Joomla\Component\Finder\Administrator\Model\FilterModel $model */
+		/** @var \Joomla\Component\Finder\Administrator\Model\FilterModel $model */
 		$model = $this->getModel();
 		$table = $model->getTable();
 		$data = $this->input->post->get('jform', array(), 'array');

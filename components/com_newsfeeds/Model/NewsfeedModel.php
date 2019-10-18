@@ -106,7 +106,6 @@ class NewsfeedModel extends ItemModel
 					->where('a.id = ' . (int) $pk);
 
 				// Filter by start and end dates.
-				$nullDate = $db->quote($db->getNullDate());
 				$nowDate = $db->quote(Factory::getDate()->toSql());
 
 				// Filter by published state.
@@ -116,8 +115,8 @@ class NewsfeedModel extends ItemModel
 				if (is_numeric($published))
 				{
 					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')')
-						->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')')
+						->where('(a.publish_up IS NULL OR a.publish_up <= ' . $db->quote($nowDate) . ')')
+						->where('(a.publish_down IS NULL OR a.publish_down >= ' . $db->quote($nowDate) . ')')
 						->where('(c.published = ' . (int) $published . ' OR c.published =' . (int) $archived . ')');
 				}
 

@@ -167,13 +167,11 @@ class PluginModel extends AdminModel
 			$table = $this->getTable();
 
 			// Attempt to load the row.
-			$return = $table->load($pk);
+			$return = $table->load(array('extension_id' => $pk, 'type' => 'plugin'));
 
 			// Check for a table object error.
-			if ($return === false && $table->getError())
+			if ($return === false)
 			{
-				$this->setError($table->getError());
-
 				return false;
 			}
 
@@ -260,7 +258,8 @@ class PluginModel extends AdminModel
 			->select($db->quoteName('element'))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-			->where($db->quoteName('folder') . ' = ' . $db->quote($folder));
+			->where($db->quoteName('folder') . ' = :folder')
+			->bind(':folder', $folder);
 		$db->setQuery($query);
 		$elements = $db->loadColumn();
 

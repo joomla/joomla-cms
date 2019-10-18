@@ -183,6 +183,18 @@ class Modules
 		$customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
 		$editPositions   = true;
 		$customPositions = ModulesHelper::getPositions($clientId, $editPositions);
+
+		$app = Factory::getApplication();
+
+		$position = $app->getUserState('com_modules.modules.filter.position');
+
+		if ($position)
+		{
+			$customPositions[] = HTMLHelper::_('select.option', $position);
+
+			$customPositions = array_unique($customPositions, SORT_REGULAR);
+		}
+
 		$templateGroups[$customGroupText] = ModulesHelper::createOptionGroup($customGroupText, $customPositions);
 
 		return $templateGroups;

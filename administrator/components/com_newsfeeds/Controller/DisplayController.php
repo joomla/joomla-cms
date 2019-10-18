@@ -42,8 +42,6 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-
-
 		$view   = $this->input->get('view', 'newsfeeds');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');

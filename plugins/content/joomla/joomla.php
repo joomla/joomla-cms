@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -19,10 +19,11 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Component\Content\Administrator\Table\ArticleTable;
-use Joomla\Component\Messages\Administrator\Model\MessageModel;
 use Joomla\Component\Workflow\Administrator\Model\StagesModel;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -33,9 +34,17 @@ use Joomla\Utilities\ArrayHelper;
 class PlgContentJoomla extends CMSPlugin
 {
 	/**
+	 * Application object
+	 *
+	 * @var    CMSApplicationInterface
+	 * @since  4.0.0
+	 */
+	protected $app;
+
+	/**
 	 * Database Driver Instance
 	 *
-	 * @var    \Joomla\Database\DatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  4.0.0
 	 */
 	protected $db;
@@ -111,7 +120,7 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		$db = Factory::getDbo();
+		$db = $this->db;
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
@@ -125,12 +134,12 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		// Messaging for new items
 
 		$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
-		$debug = Factory::getApplication()->get('debug_lang');
+		$debug = $this->app->get('debug_lang');
 		$result = true;
 
 		foreach ($users as $user_id)
@@ -144,9 +153,9 @@ class PlgContentJoomla extends CMSPlugin
 				$message = array(
 					'user_id_to' => $user_id,
 					'subject' => $lang->_('COM_CONTENT_NEW_ARTICLE'),
-					'message' => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title)
+					'message' => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title),
 				);
-				$model_message = Factory::getApplication()->bootComponent('com_messages')->getMVCFactory()
+				$model_message = $this->app->bootComponent('com_messages')->getMVCFactory()
 					->createModel('Message', 'Administrator');
 				$result = $model_message->save($message);
 			}
@@ -236,7 +245,7 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		$extension = Factory::getApplication()->input->getString('extension');
+		$extension = $this->app->input->getString('extension');
 
 		// Default to true if not a core extension
 		$result = true;
@@ -246,7 +255,7 @@ class PlgContentJoomla extends CMSPlugin
 			'com_contact' => array('table_name' => '#__contact_details'),
 			'com_content' => array('table_name' => '#__content'),
 			'com_newsfeeds' => array('table_name' => '#__newsfeeds'),
-			'com_weblinks' => array('table_name' => '#__weblinks')
+			'com_weblinks' => array('table_name' => '#__weblinks'),
 		);
 
 		// Now check to see if this is a known core extension
@@ -270,7 +279,7 @@ class PlgContentJoomla extends CMSPlugin
 				{
 					$msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
 						. Text::plural('COM_CATEGORIES_N_ITEMS_ASSIGNED', $count);
-					Factory::getApplication()->enqueueMessage($msg, 'error');
+					$this->app->enqueueMessage($msg, 'error');
 					$result = false;
 				}
 
@@ -287,7 +296,7 @@ class PlgContentJoomla extends CMSPlugin
 					{
 						$msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
 							. Text::plural('COM_CATEGORIES_HAS_SUBCATEGORY_ITEMS', $count);
-						Factory::getApplication()->enqueueMessage($msg, 'error');
+						$this->app->enqueueMessage($msg, 'error');
 						$result = false;
 					}
 				}
@@ -325,7 +334,7 @@ class PlgContentJoomla extends CMSPlugin
 
 		$parts = explode('.', $table->extension);
 
-		$component = Factory::getApplication()->bootComponent($parts[0]);
+		$component = $this->app->bootComponent($parts[0]);
 
 		$section = '';
 
@@ -347,7 +356,7 @@ class PlgContentJoomla extends CMSPlugin
 
 		$stages = $model->getItems();
 
-		$stage_ids = ArrayHelper::getColumn($stages, 'id');
+		$stage_ids = array_column($stages, 'id');
 
 		$result = $this->_countItemsInStage($stage_ids, $table->extension);
 
@@ -397,7 +406,7 @@ class PlgContentJoomla extends CMSPlugin
 
 		$parts = explode('.', $workflow->extension);
 
-		$component = Factory::getApplication()->bootComponent($parts[0]);
+		$component = $this->app->bootComponent($parts[0]);
 
 		// No core interface => we're ok
 		if (!$component instanceof WorkflowServiceInterface)
@@ -430,13 +439,14 @@ class PlgContentJoomla extends CMSPlugin
 	 */
 	private function _countItemsInCategory($table, $catid)
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 		$query = $db->getQuery(true);
 
 		// Count the items in this category
-		$query->select('COUNT(id)')
-			->from($table)
-			->where('catid = ' . $catid);
+		$query->select('COUNT(' . $db->quoteName('id') . ')')
+			->from($db->quoteName($table))
+			->where($db->quoteName('catid') . ' = :catid')
+			->bind(':catid', $catid, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		try
@@ -445,7 +455,7 @@ class PlgContentJoomla extends CMSPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$this->app->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -481,7 +491,7 @@ class PlgContentJoomla extends CMSPlugin
 			$section = $parts[1];
 		}
 
-		$component = Factory::getApplication()->bootComponent($parts[0]);
+		$component = $this->app->bootComponent($parts[0]);
 
 		$table = $component->getWorkflowTableBySection($section);
 
@@ -492,21 +502,21 @@ class PlgContentJoomla extends CMSPlugin
 
 		$query = $db->getQuery(true);
 
-		$query	->select('COUNT(' . $db->quoteName('b.id') . ')')
-				->from($query->quoteName('#__workflow_associations', 'wa'))
-				->from($query->quoteName('#__workflow_stages', 's'))
-				->from($db->quoteName($table, 'b'))
-				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('s.id'))
-				->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('b.id'))
-				->whereIn($db->quoteName('s.id'), $stage_ids);
+		$query->select('COUNT(' . $db->quoteName('b.id') . ')')
+			->from($db->quoteName('#__workflow_associations', 'wa'))
+			->from($db->quoteName('#__workflow_stages', 's'))
+			->from($db->quoteName($table, 'b'))
+			->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('s.id'))
+			->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('b.id'))
+			->whereIn($db->quoteName('s.id'), $stage_ids);
 
 		try
 		{
 			return (int) $db->setQuery($query)->loadResult();
 		}
-		catch (Exception $ex)
+		catch (Exception $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$this->app->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return false;
@@ -525,7 +535,7 @@ class PlgContentJoomla extends CMSPlugin
 	 */
 	private function _countItemsInChildren($table, $catid, $data)
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 
 		// Create subquery for list of child categories
 		$childCategoryTree = $data->getTree();
@@ -536,7 +546,7 @@ class PlgContentJoomla extends CMSPlugin
 
 		foreach ($childCategoryTree as $node)
 		{
-			$childCategoryIds[] = $node->id;
+			$childCategoryIds[] = (int) $node->id;
 		}
 
 		// Make sure we only do the query if we have some categories to look in
@@ -544,9 +554,9 @@ class PlgContentJoomla extends CMSPlugin
 		{
 			// Count the items in this category
 			$query = $db->getQuery(true)
-				->select('COUNT(id)')
-				->from($table)
-				->where('catid IN (' . implode(',', $childCategoryIds) . ')');
+				->select('COUNT(' . $db->quoteName('id') . ')')
+				->from($db->quoteName($table))
+				->whereIn($db->quoteName('catid'), $childCategoryIds);
 			$db->setQuery($query);
 
 			try
@@ -555,7 +565,7 @@ class PlgContentJoomla extends CMSPlugin
 			}
 			catch (RuntimeException $e)
 			{
-				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				$this->app->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
@@ -603,12 +613,13 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		$db = Factory::getDbo();
+		$db = $this->db;
 		$query = $db->getQuery(true)
 			->select($db->quoteName('core_content_id'))
 			->from($db->quoteName('#__ucm_content'))
-			->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($context))
-			->where($db->quoteName('core_content_item_id') . ' IN (' . implode(',', $pks) . ')');
+			->where($db->quoteName('core_type_alias') . ' = :context')
+			->whereIn($db->quoteName('core_content_item_id'), $pks)
+			->bind(':context', $context);
 		$db->setQuery($query);
 		$ccIds = $db->loadColumn();
 
@@ -628,12 +639,11 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		// Messaging for changed items
 		$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
-		$debug = Factory::getApplication()->get('debug_lang');
-		$result = true;
+		$debug = $this->app->get('debug_lang');
 
 		$article = new ArticleTable($db);
 
@@ -646,18 +656,20 @@ class PlgContentJoomla extends CMSPlugin
 				continue;
 			}
 
-			$assoc = $workflow->getAssociation($pk);
+			$assoc   = $workflow->getAssociation($pk);
+			$stageId = (int) $assoc->stage_id;
 
 			// Load new transitions
 			$query = $db->getQuery(true)
-				->select($db->quoteName(['t.id']))
+				->select($db->quoteName('t.id'))
 				->from($db->quoteName('#__workflow_transitions', 't'))
 				->from($db->quoteName('#__workflow_stages', 's'))
-				->where($db->quoteName('t.from_stage_id') . ' = ' . (int) $assoc->stage_id)
+				->where($db->quoteName('t.from_stage_id') . ' = :stageid')
 				->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
-				->where($db->quoteName('t.published') . '= 1')
-				->where($db->quoteName('s.published') . '= 1')
-				->order($db->quoteName('t.ordering'));
+				->where($db->quoteName('t.published') . ' = 1')
+				->where($db->quoteName('s.published') . ' = 1')
+				->order($db->quoteName('t.ordering'))
+				->bind(':stageid', $stageId, ParameterType::INTEGER);
 
 			$transitions = $db->setQuery($query)->loadObjectList();
 
@@ -680,19 +692,19 @@ class PlgContentJoomla extends CMSPlugin
 					}
 
 					// Load language for messaging
-					$receiver = JUser::getInstance($user_id);
+					$receiver = User::getInstance($user_id);
 					$lang = Language::getInstance($receiver->getParam('admin_language', $default_language), $debug);
 					$lang->load('plg_content_joomla');
 
 					$message = array(
 						'user_id_to' => $user_id,
 						'subject' => $lang->_('PLG_CONTENT_JOOMLA_ON_STAGE_CHANGE_SUBJECT'),
-						'message' => sprintf($lang->_('PLG_CONTENT_JOOMLA_ON_STAGE_CHANGE_MSG'), $user->name, $article->title)
+						'message' => sprintf($lang->_('PLG_CONTENT_JOOMLA_ON_STAGE_CHANGE_MSG'), $user->name, $article->title),
 					);
 
-					$model_message = Factory::getApplication()->bootComponent('com_messages')
+					$model_message = $this->app->bootComponent('com_messages')
 						->getMVCFactory()->createModel('Message', 'Administrator');
-					$result = $model_message->save($message);
+					$model_message->save($message);
 				}
 			}
 		}

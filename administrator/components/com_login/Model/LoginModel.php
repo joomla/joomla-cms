@@ -145,16 +145,34 @@ class LoginModel extends BaseDatabaseModel
 			$db = Factory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select('m.id, m.title, m.module, m.position, m.showtitle, m.params')
-				->from('#__modules AS m')
-				->where('m.module =' . $db->quote($module) . ' AND m.client_id = 1')
-				->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id')
-				->where('e.enabled = 1');
+				->select(
+					$db->quoteName(
+						[
+							'm.id',
+							'm.title',
+							'm.module',
+							'm.position',
+							'm.showtitle',
+							'm.params'
+						]
+					)
+				)
+				->from($db->quoteName('#__modules', 'm'))
+				->where($db->quoteName('m.module') . ' = :module')
+				->where($db->quoteName('m.client_id') . ' = 1')
+				->join(
+					'LEFT',
+					$db->quoteName('#__extensions', 'e'),
+					$db->quoteName('e.element') . ' = ' . $db->quoteName('m.module') .
+					' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('m.client_id')
+				)
+				->where($db->quoteName('e.enabled') . ' = 1')
+				->bind(':module', $module);
 
 			// Filter by language.
 			if ($app->isClient('site') && $app->getLanguageFilter())
 			{
-				$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
+				$query->whereIn($db->quoteName('m.language'), [$lang, '*']);
 			}
 
 			$query->order('m.position, m.ordering');
@@ -177,7 +195,10 @@ class LoginModel extends BaseDatabaseModel
 			}
 			catch (ExecutionFailureException $databaseException)
 			{
-				Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()), 'error');
+				Factory::getApplication()->enqueueMessage(
+					Text::sprintf('JLIB_APPLICATION_ERROR_MODULE_LOAD', $databaseException->getMessage()),
+					'error'
+				);
 
 				return array();
 			}

@@ -24,8 +24,6 @@ use Joomla\Registry\Registry;
  */
 class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 {
-	public static $extension = 'com_content';
-
 	/**
 	 * Check if state can be deleted
 	 *
@@ -135,10 +133,10 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 		$query = $db->getQuery(true);
 
-		$query	->select($db->quoteName('title'))
-				->from($db->quoteName('#__workflows'))
-				->where($db->quoteName('default') . ' = 1')
-				->where($db->quoteName('published') . ' = 1');
+		$query->select($db->quoteName('title'))
+			->from($db->quoteName('#__workflows'))
+			->where($db->quoteName('default') . ' = 1')
+			->where($db->quoteName('published') . ' = 1');
 
 		$defaulttitle = $db->setQuery($query)->loadResult();
 
@@ -175,9 +173,9 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 					}
 					elseif ((int) $workflow_id > 0)
 					{
-					$query	->clear('where')
-								->where($db->quoteName('id') . ' = ' . (int) $workflow_id)
-								->where($db->quoteName('published') . ' = 1');
+						$query->clear('where')
+							->where($db->quoteName('id') . ' = ' . (int) $workflow_id)
+							->where($db->quoteName('published') . ' = 1');
 
 						$title = $db->setQuery($query)->loadResult();
 

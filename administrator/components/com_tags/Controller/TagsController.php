@@ -51,7 +51,8 @@ class TagsController extends AdminController
 
 		$this->setRedirect(Route::_('index.php?option=com_tags&view=tags', false));
 
-		/* @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
+		/** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
+
 		$model = $this->getModel();
 
 		if ($model->rebuild())

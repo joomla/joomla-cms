@@ -12,6 +12,8 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+HTMLHelper::_('webcomponent', 'system/joomla-toolbar-button.min.js', ['version' => 'auto', 'relative' => true]);
+
 /**
  * Generic toolbar button layout to open a modal
  * -----------------------------------------------
@@ -30,13 +32,13 @@ $text     = isset($displayData['text']) ? $displayData['text'] : '';
 ?>
 
 <!-- Render the button -->
-<button<?php echo $id; ?> onclick="document.getElementById('modal_<?php echo $selector; ?>').open()" class="<?php echo $class; ?>" data-toggle="modal">
+<joomla-toolbar-button<?php echo $id; ?> onclick="document.getElementById('modal_<?php echo $selector; ?>').open()" class="<?php echo $class; ?>" data-toggle="modal">
 	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
 	<?php echo $text; ?>
-</button>
+</joomla-toolbar-button>
 
 <!-- Render the modal -->
-<?php 
+<?php
 echo HTMLHelper::_('bootstrap.renderModal',
 	'modal_' . $selector,
 	[
@@ -56,4 +58,3 @@ echo HTMLHelper::_('bootstrap.renderModal',
 	]
 );
 ?>
-

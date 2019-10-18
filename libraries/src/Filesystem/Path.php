@@ -8,14 +8,14 @@
 
 namespace Joomla\CMS\Filesystem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Crypt\Crypt;
 
-if (!defined('JPATH_ROOT'))
+if (!\defined('JPATH_ROOT'))
 {
 	// Define a string constant for the root directory of the file system in native format
-	define('JPATH_ROOT', Path::clean(JPATH_SITE));
+	\define('JPATH_ROOT', Path::clean(JPATH_SITE));
 }
 
 /**
@@ -132,7 +132,7 @@ class Path
 		$path = self::clean($path);
 		$mode = @ decoct(@ fileperms($path) & 0777);
 
-		if (strlen($mode) < 3)
+		if (\strlen($mode) < 3)
 		{
 			return '---------';
 		}
@@ -162,7 +162,7 @@ class Path
 	 * @return  string  A cleaned version of the path or exit on error.
 	 *
 	 * @since   1.7.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public static function check($path)
 	{
@@ -204,11 +204,11 @@ class Path
 	 * @return  string  The cleaned path.
 	 *
 	 * @since   1.7.0
-	 * @throws  UnexpectedValueException
+	 * @throws  \UnexpectedValueException
 	 */
 	public static function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{
-		if (!is_string($path) && !empty($path))
+		if (!\is_string($path) && !empty($path))
 		{
 			throw new \UnexpectedValueException(
 				sprintf(
@@ -300,7 +300,7 @@ class Path
 	public static function find($paths, $file)
 	{
 		// Force to array
-		if (!is_array($paths) && !($paths instanceof \Iterator))
+		if (!\is_array($paths) && !($paths instanceof \Iterator))
 		{
 			settype($paths, 'array');
 		}
@@ -328,7 +328,7 @@ class Path
 			 * non-registered directories are not accessible via directory
 			 * traversal attempts.
 			 */
-			if (file_exists($fullname) && substr($fullname, 0, strlen($path)) == $path)
+			if (file_exists($fullname) && substr($fullname, 0, \strlen($path)) == $path)
 			{
 				return $fullname;
 			}

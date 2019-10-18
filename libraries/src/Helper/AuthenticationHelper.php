@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -46,7 +46,7 @@ abstract class AuthenticationHelper
 		{
 			foreach ($identities as $identity)
 			{
-				if (!is_object($identity))
+				if (!\is_object($identity))
 				{
 					continue;
 				}

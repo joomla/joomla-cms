@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 $params  = $displayData->params;
 $images  = json_decode($displayData->images);
 ?>
-<?php if (isset($images->image_fulltext) && !empty($images->image_fulltext)) : ?>
+<?php if (!empty($images->image_fulltext)) : ?>
 	<?php $imgfloat = empty($images->float_fulltext) ? $params->get('float_fulltext') : $images->float_fulltext; ?>
 	<figure class="pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
 		<img src="<?php echo htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8'); ?>"

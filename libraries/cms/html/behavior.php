@@ -13,8 +13,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Router\Route;
 
 /**
  * Utility class for JavaScript behaviors
@@ -261,8 +259,8 @@ abstract class JHtmlBehavior
 				}).highlight([\"" . implode('","', $terms) . "\"]);
 				$(start).remove();
 				$(end).remove();
-			});
-		");
+			});"
+		);
 
 		static::$loaded[__METHOD__][$sig] = true;
 

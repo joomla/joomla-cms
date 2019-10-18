@@ -27,9 +27,9 @@ $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $langFilter = false;
 
-// Tags filtering based on language filter 
+// Tags filtering based on language filter
 if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled()))
-{ 
+{
 	$tagfilter = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
 
 	switch ($tagfilter)
@@ -235,7 +235,7 @@ if (!empty($this->items))
 						<?php echo Text::_('JNOTPUBLISHEDYET'); ?>
 					</span>
 				<?php endif; ?>
-				<?php if ((strtotime($article->publish_down) < strtotime(Factory::getDate())) && $article->publish_down != Factory::getDbo()->getNullDate()) : ?>
+				<?php if (!is_null($article->publish_down) && strtotime($article->publish_down) < strtotime(Factory::getDate())) : ?>
 					<span class="list-published badge badge-warning">
 						<?php echo Text::_('JEXPIRED'); ?>
 					</span>

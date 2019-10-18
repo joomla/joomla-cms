@@ -12,10 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 ?>
-<h3>
-	<?php echo Text::_('COM_FINDER_STATISTICS_TITLE'); ?>
-</h3>
-
 <div class="row">
 	<div class="col-md-12">
 		<p class="tab-description"><?php echo Text::sprintf('COM_FINDER_STATISTICS_STATS_DESCRIPTION', number_format($this->data->term_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')), number_format($this->data->link_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')), number_format($this->data->taxonomy_node_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')), number_format($this->data->taxonomy_branch_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR'))); ?></p>

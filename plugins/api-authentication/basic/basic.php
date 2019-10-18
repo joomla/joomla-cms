@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\User\User;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Joomla Authentication plugin
@@ -25,7 +25,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 	/**
 	 * The application object
 	 *
-	 * @type   \Joomla\CMS\Application\CMSApplicationInterface
+	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -33,7 +33,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 	/**
 	 * The application object
 	 *
-	 * @type   \Joomla\Database\DatabaseInterface
+	 * @var    \Joomla\Database\DatabaseInterface
 	 * @since  4.0.0
 	 */
 	protected $db;

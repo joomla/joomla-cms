@@ -12,5 +12,8 @@ defined('JPATH_BASE') or die;
 $data = $displayData;
 ?>
 <div class="js-stools-field-selector">
+	<div class="sr-only">
+		<?php echo $data['view']->filterForm->getField($data['options']['selectorFieldName'])->label; ?>
+	</div>
 	<?php echo $data['view']->filterForm->getField($data['options']['selectorFieldName'])->input; ?>
 </div>

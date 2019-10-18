@@ -34,6 +34,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('COM_FINDER_MAPS_NO_CONTENT'); ?>
 					</div>
 				<?php else : ?>
@@ -50,7 +51,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col">
-								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'd.branch_title', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'branch_title', $listDirn, $listOrder); ?>
 							</th>
 							<?php if (!$branchFilter) : ?>
 								<th scope="col" style="width:1%" class="text-center">
@@ -66,7 +67,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 								<span class="d-none d-md-inline"><?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 							</th>
 							<?php if (Multilanguage::isEnabled()) : ?>
-								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
@@ -99,7 +100,9 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 									<?php echo $this->escape($title); ?>
 								</label>
 								<?php if ($this->escape(trim($title, '**')) === 'Language' && Multilanguage::isEnabled()) : ?>
+								<div class="small">
 									<strong><?php echo Text::_('COM_FINDER_MAPS_MULTILANG'); ?></strong>
+								</div>
 								<?php endif; ?>
 							</th>
 							<?php if (!$branchFilter) : ?>
@@ -129,7 +132,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 							<?php endif; ?>
 							</td>
 							<?php if (Multilanguage::isEnabled()) : ?>
-								<td class="small d-none d-md-table-cell text-center">
+								<td class="small d-none d-md-table-cell">
 									<?php echo $item->language; ?>
 								</td>
 							<?php endif; ?>

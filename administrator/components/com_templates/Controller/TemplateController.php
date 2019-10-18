@@ -431,13 +431,12 @@ class TemplateController extends BaseController
 		$id    = $this->input->get('id');
 		$file  = $this->input->get('file');
 
-		if (base64_decode(urldecode($file)) == 'index.php')
+		if (base64_decode(urldecode($file)) == '/index.php')
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_INDEX_DELETE'), 'warning');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
 			$this->setRedirect(Route::_($url, false));
 		}
-
 		elseif ($model->deleteFile($file))
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_FILE_DELETE_SUCCESS'));
@@ -635,7 +634,7 @@ class TemplateController extends BaseController
 		$file    = $this->input->get('file');
 		$newName = $this->input->get('new_name');
 
-		if (base64_decode(urldecode($file)) == 'index.php')
+		if (base64_decode(urldecode($file)) == '/index.php')
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_RENAME_INDEX'), 'warning');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;

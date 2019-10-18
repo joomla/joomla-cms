@@ -172,8 +172,8 @@ class MapsModel extends ListModel
 			->where('a.parent_id != 0');
 
 		// Join to get the branch title
-		$query->select([$query->qn('b.id', 'branch_id'), $query->qn('b.title', 'branch_title')])
-			->leftJoin($query->qn('#__finder_taxonomy', 'b') . ' ON b.level = 1 AND b.lft <= a.lft AND a.rgt <= b.rgt');
+		$query->select([$db->quoteName('b.id', 'branch_id'), $db->quoteName('b.title', 'branch_title')])
+			->leftJoin($db->quoteName('#__finder_taxonomy', 'b') . ' ON b.level = 1 AND b.lft <= a.lft AND a.rgt <= b.rgt');
 
 		// Join to get the map links.
 		$stateQuery = $db->getQuery(true)
@@ -219,18 +219,8 @@ class MapsModel extends ListModel
 			$query->where('a.title LIKE ' . $search);
 		}
 
-		// Handle the list ordering.
-		$listOrdering = $this->getState('list.ordering', 'a.lft');
-		$listDirn     = $this->getState('list.direction', 'ASC');
-
-		if ($listOrdering === 'a.state')
-		{
-			$query->order("a.state $listDirn, a.lft $listDirn, level ASC");
-		}
-		else
-		{
-			$query->order($listOrdering . ' ' . $listDirn);
-		}
+		// Add the list ordering clause.
+		$query->order($db->escape($this->getState('list.ordering', 'd.branch_title')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
 	}
@@ -302,7 +292,7 @@ class MapsModel extends ListModel
 	 *
 	 * @since   2.5
 	 */
-	protected function populateState($ordering = 'a.lft', $direction = 'ASC')
+	protected function populateState($ordering = 'branch_title', $direction = 'ASC')
 	{
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
@@ -395,8 +385,7 @@ class MapsModel extends ListModel
 		$db->execute();
 
 		$query->clear()
-			->delete($db->quoteName('#__finder_taxonomy_map'))
-			->where('1');
+			->delete($db->quoteName('#__finder_taxonomy_map'));
 		$db->setQuery($query);
 		$db->execute();
 

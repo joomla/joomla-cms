@@ -193,7 +193,12 @@
 	 */
 	window.processModalSelect = function(itemType, fieldPrefix, id, title, catid, object, url, language) {
 		window.processModalParent(fieldPrefix, id, title, catid, url, language, object);
-		Joomla.Modal.getCurrent().close();
+
+		// Close Modal only when necessary.
+		if (Joomla.Modal.getCurrent())
+		{
+			Joomla.Modal.getCurrent().close();
+		}
 
 		return false;
 	};
