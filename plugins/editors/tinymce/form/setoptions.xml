@@ -84,7 +84,6 @@
         name="lang_code"
         type="filelist"
         label="PLG_TINY_FIELD_LANGCODE_LABEL"
-        class="inputbox"
         stripext="1"
         directory="media/vendor/tinymce/langs/"
         hide_none="1"

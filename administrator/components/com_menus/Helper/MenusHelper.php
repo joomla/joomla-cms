@@ -21,7 +21,6 @@ use Joomla\CMS\Menu\MenuItem;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Menus component helper.
@@ -445,7 +444,7 @@ class MenusHelper extends ContentHelper
 		{
 			$query->select('extension_id, element')->from('#__extensions')->where('type = ' . $db->quote('component'));
 			$components = $db->setQuery($query)->loadObjectList();
-			$components = ArrayHelper::getColumn((array) $components, 'element', 'extension_id');
+			$components = array_column((array) $components, 'element', 'extension_id');
 		}
 
 		Factory::getApplication()->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.import', &$items, null, true));
@@ -614,8 +613,8 @@ class MenusHelper extends ContentHelper
 			// Important: 'null' will cause infinite recursion.
 			static::$presets = array();
 
-			static::addPreset('joomla', 'JLIB_MENUS_PRESET_JOOMLA', JPATH_ADMINISTRATOR . '/components/com_menus/presets/joomla.xml');
-			static::addPreset('modern', 'JLIB_MENUS_PRESET_MODERN', JPATH_ADMINISTRATOR . '/components/com_menus/presets/modern.xml');
+			static::addPreset('default', 'JLIB_MENUS_PRESET_DEFAULT', JPATH_ADMINISTRATOR . '/components/com_menus/presets/default.xml');
+			static::addPreset('alternate', 'JLIB_MENUS_PRESET_ALTERNATE', JPATH_ADMINISTRATOR . '/components/com_menus/presets/alternate.xml');
 			static::addPreset('system', 'JLIB_MENUS_PRESET_SYSTEM', JPATH_ADMINISTRATOR . '/components/com_menus/presets/system.xml');
 			static::addPreset('content', 'JLIB_MENUS_PRESET_CONTENT', JPATH_ADMINISTRATOR . '/components/com_menus/presets/content.xml');
 			static::addPreset('help', 'JLIB_MENUS_PRESET_HELP', JPATH_ADMINISTRATOR . '/components/com_menus/presets/help.xml');
@@ -668,9 +667,9 @@ class MenusHelper extends ContentHelper
 		{
 			static::loadXml($xml, $parent);
 		}
-		elseif ($fallback && isset($presets['joomla']))
+		elseif ($fallback && isset($presets['default']))
 		{
-			if (($xml = simplexml_load_file($presets['joomla']->path, null, LIBXML_NOCDATA)) && $xml instanceof \SimpleXMLElement)
+			if (($xml = simplexml_load_file($presets['default']->path, null, LIBXML_NOCDATA)) && $xml instanceof \SimpleXMLElement)
 			{
 				static::loadXml($xml, $parent);
 			}

@@ -54,7 +54,6 @@ class PlgContentPagenavigation extends CMSPlugin
 			$db         = Factory::getDbo();
 			$user       = Factory::getUser();
 			$lang       = Factory::getLanguage();
-			$nullDate   = $db->getNullDate();
 			$now        = Factory::getDate()->toSql();
 			$query      = $db->getQuery(true);
 			$uid        = $row->id;
@@ -92,16 +91,13 @@ class PlgContentPagenavigation extends CMSPlugin
 				{
 					// Use created if modified is not set
 					case 'modified' :
-						$orderby = 'CASE WHEN ' . $db->quoteName('a.modified') . ' = :modifiedDate THEN ' .
-							$db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.modified') . ' END';
-						$query->bind(':modifiedDate', $nullDate);
+						$orderby = $db->quoteName('a.modified') . ' IS NULL THEN ';
 						break;
 
 					// Use created if publish_up is not set
 					case 'published' :
-						$orderby = 'CASE WHEN ' . $db->quoteName('a.publish_up') . ' = :publishup THEN ' .
+						$orderby = 'CASE WHEN ' . $db->quoteName('a.publish_up') . ' = IS NULL THEN ' .
 							$db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.publish_up') . ' END';
-						$query->bind(':publishup', $nullDate);
 						break;
 
 					// Use created as default
@@ -192,12 +188,10 @@ class PlgContentPagenavigation extends CMSPlugin
 			$query->where(
 				[
 					'(' . $db->quoteName('ws.condition') . ' = 1 OR ' . $db->quoteName('ws.condition') . ' = -2)',
-					'(' . $db->quoteName('publish_up') . ' = :nullDate1 OR ' . $db->quoteName('publish_up') . ' <= :nowDate1)',
-					'(' . $db->quoteName('publish_down') . ' = :nullDate2 OR ' . $db->quoteName('publish_down') . ' >= :nowDate2)',
+					'(' . $db->quoteName('publish_up') . ' IS NULL OR ' . $db->quoteName('publish_up') . ' <= :nowDate1)',
+					'(' . $db->quoteName('publish_down') . ' = IS NULL OR ' . $db->quoteName('publish_down') . ' >= :nowDate2)',
 				]
 			)
-				->bind(':nullDate1', $nullDate)
-				->bind(':nullDate2', $nullDate)
 				->bind(':nowDate1', $now)
 				->bind(':nowDate2', $now);
 

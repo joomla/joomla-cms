@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\WebAsset;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Event\AbstractEvent;
@@ -539,7 +539,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 			$name = $asset->getName();
 			$graphOutgoing[$name] = array_combine($asset->getDependencies(), $asset->getDependencies());
 
-			if (!array_key_exists($name, $graphIncoming))
+			if (!\array_key_exists($name, $graphIncoming))
 			{
 				$graphIncoming[$name] = [];
 			}

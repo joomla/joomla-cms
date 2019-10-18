@@ -100,9 +100,7 @@ class ArticleModel extends ItemModel
 						$this->getState(
 							'item.select', 'a.id, a.asset_id, a.title, a.alias, a.introtext, a.fulltext, ' .
 							'a.state, a.catid, a.created, a.created_by, a.created_by_alias, ' .
-							// Use created if modified is 0
-							'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
-							'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
+							'a.modified, a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
 							'a.images, a.urls, a.attribs, a.version, a.ordering, ' .
 							'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language'
 						)
@@ -155,13 +153,12 @@ class ArticleModel extends ItemModel
 				)
 				{
 					// Filter by start and end dates.
-					$nullDate = $db->quote($db->getNullDate());
 					$date = Factory::getDate();
 
 					$nowDate = $db->quote($date->toSql());
 
-					$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
-						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
+					$query->where('(a.publish_up IS NULL OR a.publish_up <= ' . $nowDate . ')')
+						->where('(a.publish_down IS NULL OR a.publish_down >= ' . $nowDate . ')');
 				}
 
 				// Filter by published state.
@@ -380,11 +377,34 @@ class ArticleModel extends ItemModel
 				}
 			}
 
+			$this->cleanCache();
+
 			return true;
 		}
 
 		Factory::getApplication()->enqueueMessage(Text::sprintf('COM_CONTENT_INVALID_RATING', $rate), 'error');
 
 		return false;
+	}
+
+	/**
+	 * Cleans the cache of com_content and content modules
+	 *
+	 * @param   string   $group     The cache group
+	 * @param   integer  $clientId  The ID of the client
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.9
+	 */
+	protected function cleanCache($group = null, $clientId = 0)
+	{
+		parent::cleanCache('com_content');
+		parent::cleanCache('mod_articles_archive');
+		parent::cleanCache('mod_articles_categories');
+		parent::cleanCache('mod_articles_category');
+		parent::cleanCache('mod_articles_latest');
+		parent::cleanCache('mod_articles_news');
+		parent::cleanCache('mod_articles_popular');
 	}
 }

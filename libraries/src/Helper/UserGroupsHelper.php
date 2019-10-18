@@ -11,6 +11,7 @@ namespace Joomla\CMS\Helper;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\Database\ParameterType;
 
 /**
  * Helper to deal with user groups.
@@ -201,8 +202,8 @@ final class UserGroupsHelper
 			$db = Factory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select('count(id)')
-				->from('#__usergroups');
+				->select('COUNT(' . $db->quoteName('id') . ')')
+				->from($db->quoteName('#__usergroups'));
 
 			$db->setQuery($query);
 
@@ -223,12 +224,16 @@ final class UserGroupsHelper
 	 */
 	public function load($id)
 	{
+		// Cast as integer until method is typehinted.
+		$id = (int) $id;
+
 		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select('*')
-			->from('#__usergroups')
-			->where('id = ' . (int) $id);
+			->from($db->quoteName('#__usergroups'))
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
@@ -257,8 +262,8 @@ final class UserGroupsHelper
 
 		$query = $db->getQuery(true)
 			->select('*')
-			->from('#__usergroups')
-			->order('lft ASC');
+			->from($db->quoteName('#__usergroups'))
+			->order($db->quoteName('lft') . ' ASC');
 
 		$db->setQuery($query);
 

@@ -38,7 +38,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function setUp():void
 	{
@@ -53,7 +53,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 	 *
 	 * @return array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getSchemasToLoad(): array
 	{
@@ -64,7 +64,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 	 * Test that the object has attributes equal to the columns of the table
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testObjectHasAttributesFromTable()
 	{
@@ -92,7 +92,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 	 * Test that bind() will take both arrays and objects
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testBindWorksWithArraysAndObjects()
 	{
@@ -124,7 +124,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 	 * Test that bind() does not bind data that doesn't correspond with a column
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testBindOnlyBindsTableFields()
 	{
@@ -151,7 +151,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 	 * Test that bind() properly ignores a list of fields
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testBindIgnoresFields()
 	{
@@ -187,7 +187,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 	 * Test that bind() properly JSON-encodes given fields
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testBindJSONEncodesFields()
 	{
@@ -220,7 +220,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 	 * Test that bind() requires either an array or an object
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testBindRequiresArrayOrObject()
 	{
@@ -233,7 +233,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 	 * Test that bind() fires 2 events
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testBindFiresEvents()
 	{
@@ -261,7 +261,7 @@ class TableTest extends IntegrationTestCase implements DBTestInterface
 	 * Test that reset() resets the table object properly
 	 *
 	 * @return  void
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function testReset()
 	{

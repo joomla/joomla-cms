@@ -273,7 +273,12 @@
         const name = $el.getAttribute('name');
 
 
-        const id = name.replace(/(\[\]$)/g, '').replace(/(\]\[)/g, '__').replace(/\[/g, '_').replace(/\]/g, '');
+        const id = name
+          .replace(/(\[\]$)/g, '')
+          .replace(/(\]\[)/g, '__')
+          .replace(/\[/g, '_')
+          .replace(/\]/g, '')
+          .replace(/\W/g, '_');
         // id from name
 
         const nameNew = name.replace(`[${group}][`, `[${groupnew}][`);

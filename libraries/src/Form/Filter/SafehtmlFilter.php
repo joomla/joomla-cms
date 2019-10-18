@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Filter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
