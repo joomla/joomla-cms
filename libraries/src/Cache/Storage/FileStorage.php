@@ -326,18 +326,6 @@ class FileStorage extends CacheStorage
 	}
 
 	/**
-	 * Test to see if the storage handler is available.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.0.0
-	 */
-	public static function isSupported()
-	{
-		return is_writable(\JFactory::getConfig()->get('cache_path', JPATH_CACHE));
-	}
-
-	/**
 	 * Lock cached item
 	 *
 	 * @param   string   $id        The cache data ID

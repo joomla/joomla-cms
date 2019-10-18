@@ -94,8 +94,9 @@ class CategoryFeedView extends HtmlView
 			$link   = \JRoute::_($router->getRoute($item->id, $contentType, null, null, $item->catid));
 
 			// Strip HTML from feed item description text.
-			$description = $item->description;
-			$author      = $item->created_by_alias ?: $item->author;
+			$description   = $item->description;
+			$author        = $item->created_by_alias ?: $item->author;
+			$categoryTitle = isset($item->category_title) ? $item->category_title : $category->title;
 
 			if ($createdField)
 			{
@@ -112,7 +113,7 @@ class CategoryFeedView extends HtmlView
 			$feeditem->link        = $link;
 			$feeditem->description = $description;
 			$feeditem->date        = $date;
-			$feeditem->category    = $category->title;
+			$feeditem->category    = $categoryTitle;
 			$feeditem->author      = $author;
 
 			// We don't have the author email so we have to use site in both cases.

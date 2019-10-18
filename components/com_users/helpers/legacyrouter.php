@@ -106,7 +106,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 				}
 
 				// Check to see if we have found the login menu item.
-				if (empty($login) && $item->query['view'] === 'login')
+				if (empty($login) && $item->query['view'] === 'login' && (empty($item->query['layout']) || $item->query['layout'] === 'default'))
 				{
 					$login = $item->id;
 

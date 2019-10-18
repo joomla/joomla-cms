@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -39,7 +39,7 @@ class Stream
 	/**
 	 * Directory Mode
 	 *
-	 * @var   integer
+	 * @var    integer
 	 * @since  1.0
 	 */
 	protected $dirmode = 0755;
@@ -113,15 +113,15 @@ class Stream
 	/**
 	 * Context to use when opening the connection
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  1.0
 	 */
-	protected $context = null;
+	protected $context;
 
 	/**
 	 * Context options; used to rebuild the context
 	 *
-	 * @var array
+	 * @var    array
 	 * @since  1.0
 	 */
 	protected $contextOptions;
@@ -129,7 +129,7 @@ class Stream
 	/**
 	 * The mode under which the file was opened
 	 *
-	 * @var string
+	 * @var    string
 	 * @since  1.0
 	 */
 	protected $openmode;
@@ -145,8 +145,8 @@ class Stream
 	 */
 	public function __construct($writeprefix = '', $readprefix = '', $context = array())
 	{
-		$this->writeprefix = $writeprefix;
-		$this->readprefix = $readprefix;
+		$this->writeprefix    = $writeprefix;
+		$this->readprefix     = $readprefix;
 		$this->contextOptions = $context;
 		$this->_buildContext();
 	}
@@ -257,23 +257,26 @@ class Stream
 				case 'gz':
 				case 'gzip':
 					$this->processingmethod = 'gz';
+
 					break;
 
 				case 'tbz2':
 				case 'bz2':
 				case 'bzip2':
 					$this->processingmethod = 'bz';
+
 					break;
 
 				default:
 					$this->processingmethod = 'f';
+
 					break;
 			}
 		}
 
 		// Capture PHP errors
 		$php_errormsg = 'Error Unknown whilst opening a file';
-		$trackErrors = ini_get('track_errors');
+		$trackErrors  = ini_get('track_errors');
 		ini_set('track_errors', true);
 
 		// Decide which context to use:
@@ -282,11 +285,13 @@ class Stream
 			// Gzip doesn't support contexts or streams
 			case 'gz':
 				$this->fh = gzopen($filename, $mode, $useIncludePath);
+
 				break;
 
 			// Bzip2 is much like gzip except it doesn't use the include path
 			case 'bz':
 				$this->fh = bzopen($filename, $mode);
+
 				break;
 
 			// Fopen can handle streams
@@ -298,15 +303,16 @@ class Stream
 					$this->fh = @fopen($filename, $mode, $useIncludePath, $context);
 				}
 				elseif ($this->context)
-				// One provided at initialisation
 				{
+					// One provided at initialisation
 					$this->fh = @fopen($filename, $mode, $useIncludePath, $this->context);
 				}
 				else
-				// No context; all defaults
 				{
+					// No context; all defaults
 					$this->fh = @fopen($filename, $mode, $useIncludePath);
 				}
+
 				break;
 		}
 
@@ -342,22 +348,25 @@ class Stream
 
 		// Capture PHP errors
 		$php_errormsg = 'Error Unknown';
-		$trackErrors = ini_get('track_errors');
+		$trackErrors  = ini_get('track_errors');
 		ini_set('track_errors', true);
 
 		switch ($this->processingmethod)
 		{
 			case 'gz':
 				$res = gzclose($this->fh);
+
 				break;
 
 			case 'bz':
 				$res = bzclose($this->fh);
+
 				break;
 
 			case 'f':
 			default:
 				$res = fclose($this->fh);
+
 				break;
 		}
 
@@ -399,19 +408,21 @@ class Stream
 
 		// Capture PHP errors
 		$php_errormsg = '';
-		$trackErrors = ini_get('track_errors');
+		$trackErrors  = ini_get('track_errors');
 		ini_set('track_errors', true);
 
 		switch ($this->processingmethod)
 		{
 			case 'gz':
 				$res = gzeof($this->fh);
+
 				break;
 
 			case 'bz':
 			case 'f':
 			default:
 				$res = feof($this->fh);
+
 				break;
 		}
 
@@ -444,7 +455,7 @@ class Stream
 
 		// Capture PHP errors
 		$php_errormsg = '';
-		$trackErrors = ini_get('track_errors');
+		$trackErrors  = ini_get('track_errors');
 		ini_set('track_errors', true);
 		$res = @filesize($this->filename);
 
@@ -477,12 +488,12 @@ class Stream
 			}
 
 			$this->filesize = $res;
-			$retval = $res;
+			$retval         = $res;
 		}
 		else
 		{
 			$this->filesize = $res;
-			$retval = $res;
+			$retval         = $res;
 		}
 
 		// Restore error tracking to what it was before.
@@ -511,19 +522,21 @@ class Stream
 
 		// Capture PHP errors
 		$php_errormsg = 'Error Unknown';
-		$trackErrors = ini_get('track_errors');
+		$trackErrors  = ini_get('track_errors');
 		ini_set('track_errors', true);
 
 		switch ($this->processingmethod)
 		{
 			case 'gz':
 				$res = $length ? gzgets($this->fh, $length) : gzgets($this->fh);
+
 				break;
 
 			case 'bz':
 			case 'f':
 			default:
 				$res = $length ? fgets($this->fh, $length) : fgets($this->fh);
+
 				break;
 		}
 
@@ -579,7 +592,7 @@ class Stream
 
 		// Capture PHP errors
 		$php_errormsg = 'Error Unknown';
-		$trackErrors = ini_get('track_errors');
+		$trackErrors  = ini_get('track_errors');
 		ini_set('track_errors', true);
 		$remaining = $length;
 
@@ -590,15 +603,18 @@ class Stream
 			{
 				case 'bz':
 					$res = ($remaining > 0) ? bzread($this->fh, $remaining) : bzread($this->fh, $this->chunksize);
+
 					break;
 
 				case 'gz':
 					$res = ($remaining > 0) ? gzread($this->fh, $remaining) : gzread($this->fh, $this->chunksize);
+
 					break;
 
 				case 'f':
 				default:
 					$res = ($remaining > 0) ? fread($this->fh, $remaining) : fread($this->fh, $this->chunksize);
+
 					break;
 			}
 
@@ -626,10 +642,9 @@ class Stream
 			{
 				// If it's the end of the file then we've nothing left to read; reset remaining and len
 				$remaining = 0;
-				$length = \strlen($retval);
+				$length    = \strlen($retval);
 			}
 		}
-
 		while ($remaining || !$length);
 
 		// Restore error tracking to what it was before
@@ -662,19 +677,21 @@ class Stream
 
 		// Capture PHP errors
 		$php_errormsg = '';
-		$trackErrors = ini_get('track_errors');
+		$trackErrors  = ini_get('track_errors');
 		ini_set('track_errors', true);
 
 		switch ($this->processingmethod)
 		{
 			case 'gz':
 				$res = gzseek($this->fh, $offset, $whence);
+
 				break;
 
 			case 'bz':
 			case 'f':
 			default:
 				$res = fseek($this->fh, $offset, $whence);
+
 				break;
 		}
 
@@ -708,19 +725,21 @@ class Stream
 
 		// Capture PHP errors
 		$php_errormsg = '';
-		$trackErrors = ini_get('track_errors');
+		$trackErrors  = ini_get('track_errors');
 		ini_set('track_errors', true);
 
 		switch ($this->processingmethod)
 		{
 			case 'gz':
 				$res = gztell($this->fh);
+
 				break;
 
 			case 'bz':
 			case 'f':
 			default:
 				$res = ftell($this->fh);
+
 				break;
 		}
 
@@ -786,16 +805,16 @@ class Stream
 
 		// Capture PHP errors
 		$php_errormsg = '';
-		$trackErrors = ini_get('track_errors');
+		$trackErrors  = ini_get('track_errors');
 		ini_set('track_errors', true);
 		$remaining = $length;
-		$start = 0;
+		$start     = 0;
 
 		do
 		{
 			// If the amount remaining is greater than the chunk size, then use the chunk
 			$amount = ($remaining > $chunk) ? $chunk : $remaining;
-			$res = fwrite($this->fh, substr($string, $start), $amount);
+			$res    = fwrite($this->fh, substr($string, $start), $amount);
 
 			// Returns false on error or the number of bytes written
 			if ($res === false)
@@ -806,7 +825,8 @@ class Stream
 				// Returned error
 				throw new FilesystemException($php_errormsg);
 			}
-			elseif ($res === 0)
+
+			if ($res === 0)
 			{
 				// Restore error tracking to what it was before
 				ini_set('track_errors', $trackErrors);
@@ -814,14 +834,11 @@ class Stream
 				// Wrote nothing?
 				throw new FilesystemException('Warning: No data written');
 			}
-			else
-			{
-				// Wrote something
-				$start += $amount;
-				$remaining -= $res;
-			}
-		}
 
+			// Wrote something
+			$start += $amount;
+			$remaining -= $res;
+		}
 		while ($remaining);
 
 		// Restore error tracking to what it was before.
@@ -862,7 +879,7 @@ class Stream
 
 		// Capture PHP errors
 		$php_errormsg = '';
-		$trackErrors = ini_get('track_errors');
+		$trackErrors  = ini_get('track_errors');
 		ini_set('track_errors', true);
 		$sch = parse_url($filename, PHP_URL_SCHEME);
 
@@ -872,10 +889,12 @@ class Stream
 			case 'ftp':
 			case 'ftps':
 				$res = Helper::ftpChmod($filename, $mode);
+
 				break;
 
 			default:
 				$res = chmod($filename, $mode);
+
 				break;
 		}
 
@@ -1022,7 +1041,7 @@ class Stream
 		{
 			// Capture PHP errors
 			$php_errormsg = 'Unknown error setting context option';
-			$trackErrors = ini_get('track_errors');
+			$trackErrors  = ini_get('track_errors');
 			ini_set('track_errors', true);
 			$retval = @stream_context_set_option($this->fh, $this->contextOptions);
 
@@ -1060,7 +1079,7 @@ class Stream
 		{
 			// Capture PHP errors
 			$php_errormsg = '';
-			$trackErrors = ini_get('track_errors');
+			$trackErrors  = ini_get('track_errors');
 			ini_set('track_errors', true);
 
 			$res = @stream_filter_append($this->fh, $filtername, $readWrite, $params);
@@ -1100,7 +1119,7 @@ class Stream
 		{
 			// Capture PHP errors
 			$php_errormsg = '';
-			$trackErrors = ini_get('track_errors');
+			$trackErrors  = ini_get('track_errors');
 			ini_set('track_errors', true);
 			$res = @stream_filter_prepend($this->fh, $filtername, $readWrite, $params);
 
@@ -1136,7 +1155,7 @@ class Stream
 	{
 		// Capture PHP errors
 		$php_errormsg = '';
-		$trackErrors = ini_get('track_errors');
+		$trackErrors  = ini_get('track_errors');
 		ini_set('track_errors', true);
 
 		if ($byindex)
@@ -1183,7 +1202,7 @@ class Stream
 
 		// Since we're going to open the file directly we need to get the filename.
 		// We need to use the same prefix so force everything to write.
-		$src = $this->_getFilename($src, 'w', $usePrefix, $relative);
+		$src  = $this->_getFilename($src, 'w', $usePrefix, $relative);
 		$dest = $this->_getFilename($dest, 'w', $usePrefix, $relative);
 
 		// One supplied at copy; overrides everything
@@ -1193,15 +1212,13 @@ class Stream
 			$res = @copy($src, $dest, $context);
 		}
 		elseif ($this->context)
-		// One provided at initialisation
 		{
-			// Use the objects context
+			// One provided at initialisation
 			$res = @copy($src, $dest, $this->context);
 		}
 		else
-		// No context; all defaults
 		{
-			// Don't use any context
+			// No context; all defaults
 			$res = @copy($src, $dest);
 		}
 
@@ -1236,10 +1253,10 @@ class Stream
 	{
 		// Capture PHP errors
 		$php_errormsg = '';
-		$trackErrors = ini_get('track_errors');
+		$trackErrors  = ini_get('track_errors');
 		ini_set('track_errors', true);
 
-		$src = $this->_getFilename($src, 'w', $usePrefix, $relative);
+		$src  = $this->_getFilename($src, 'w', $usePrefix, $relative);
 		$dest = $this->_getFilename($dest, 'w', $usePrefix, $relative);
 
 		if ($context)
@@ -1288,7 +1305,7 @@ class Stream
 	{
 		// Capture PHP errors
 		$php_errormsg = '';
-		$trackErrors = ini_get('track_errors');
+		$trackErrors  = ini_get('track_errors');
 		ini_set('track_errors', true);
 
 		$filename = $this->_getFilename($filename, 'w', $usePrefix, $relative);
@@ -1348,16 +1365,25 @@ class Stream
 	/**
 	 * Writes a chunk of data to a file.
 	 *
-	 * @param   string  $filename  The file name.
-	 * @param   string  $buffer    The data to write to the file.
+	 * @param   string   $filename      The file name.
+	 * @param   string   $buffer        The data to write to the file.
+	 * @param   boolean  $appendToFile  Append to the file and not overwrite it.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   1.0
 	 */
-	public function writeFile($filename, &$buffer)
+	public function writeFile($filename, &$buffer, $appendToFile = false)
 	{
-		if ($this->open($filename, 'w'))
+		$fileMode = 'w';
+
+		// Switch the filemode when we want to append to the file
+		if ($appendToFile)
+		{
+			$fileMode = 'a';
+		}
+
+		if ($this->open($filename, $fileMode))
 		{
 			$result = $this->write($buffer);
 			$this->chmod();
@@ -1388,13 +1414,13 @@ class Stream
 			// Get rid of binary or t, should be at the end of the string
 			$tmode = trim($mode, 'btf123456789');
 
-			$stream = explode("://", $filename, 2);
-			$scheme = '';
+			$stream   = explode('://', $filename, 2);
+			$scheme   = '';
 			$filename = $stream[0];
 
 			if (\count($stream) >= 2)
 			{
-				$scheme = $stream[0] . '://';
+				$scheme   = $stream[0] . '://';
 				$filename = $stream[1];
 			}
 
@@ -1449,7 +1475,7 @@ class Stream
 	 */
 	public function set($property, $value = null)
 	{
-		$previous = isset($this->$property) ? $this->$property : null;
+		$previous        = isset($this->$property) ? $this->$property : null;
 		$this->$property = $value;
 
 		return $previous;

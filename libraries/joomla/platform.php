@@ -56,7 +56,7 @@ final class JPlatform
 	 *
 	 * @return  boolean  True if the version is compatible.
 	 *
-	 * @link    https://secure.php.net/version_compare
+	 * @link    https://www.php.net/version_compare
 	 * @since   1.7.0
 	 * @deprecated  4.0  Deprecated without replacement
 	 */

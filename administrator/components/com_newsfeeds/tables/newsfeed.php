@@ -35,6 +35,8 @@ class NewsfeedsTableNewsfeed extends JTable
 	{
 		parent::__construct('#__newsfeeds', 'id', $db);
 
+		$this->setColumnAlias('title', 'name');
+
 		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_newsfeeds.newsfeed'));
 		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_newsfeeds.newsfeed'));
 	}

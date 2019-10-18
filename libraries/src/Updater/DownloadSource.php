@@ -20,7 +20,7 @@ class DownloadSource
 	/**
 	 * Defines a BZIP2 download package
 	 *
-	 * @const  string
+	 * @var    string
 	 * @since  3.8.4
 	 */
 	const FORMAT_TAR_BZIP = 'bz2';
@@ -28,7 +28,7 @@ class DownloadSource
 	/**
 	 * Defines a TGZ download package
 	 *
-	 * @const  string
+	 * @var    string
 	 * @since  3.8.4
 	 */
 	const FORMAT_TAR_GZ = 'gz';
@@ -36,7 +36,7 @@ class DownloadSource
 	/**
 	 * Defines a ZIP download package
 	 *
-	 * @const  string
+	 * @var    string
 	 * @since  3.8.3
 	 */
 	const FORMAT_ZIP = 'zip';
@@ -44,7 +44,7 @@ class DownloadSource
 	/**
 	 * Defines a full package download type
 	 *
-	 * @const  string
+	 * @var    string
 	 * @since  3.8.3
 	 */
 	const TYPE_FULL = 'full';
@@ -52,7 +52,7 @@ class DownloadSource
 	/**
 	 * Defines a patch package download type
 	 *
-	 * @const  string
+	 * @var    string
 	 * @since  3.8.4
 	 */
 	const TYPE_PATCH = 'patch';
@@ -60,7 +60,7 @@ class DownloadSource
 	/**
 	 * Defines an upgrade package download type
 	 *
-	 * @const  string
+	 * @var    string
 	 * @since  3.8.4
 	 */
 	const TYPE_UPGRADE = 'upgrade';

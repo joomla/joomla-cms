@@ -72,6 +72,59 @@ class JFormFieldTest extends TestCaseDatabase
 	}
 
 	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function getLayoutDataReturnsDefaultLayoutPaths()
+	{
+		$form = new JFormInspector('form1', array('control' => 'jform'));
+
+		$this->assertThat(
+			$form->load(JFormDataHelper::$loadFieldDocument),
+			$this->isTrue(),
+			'Line:' . __LINE__ . ' XML string should load successfully.'
+		);
+
+		$field = new JFormFieldInspector($form);
+
+		$reflection = new \ReflectionClass($field);
+		$method = $reflection->getMethod('getLayoutPaths');
+		$method->setAccessible(true);
+
+		$layoutPaths = $method->invoke($field);
+
+		$this->assertTrue(is_array($layoutPaths));
+		$this->assertTrue(count($layoutPaths) > 0);
+	}
+
+	/**
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function getLayoutPathsCanBeOverriden()
+	{
+		$form = new JFormInspector('form1', array('control' => 'jform'));
+
+		JForm::addFieldPath(__DIR__ . '/_testfields');
+
+		JFormHelper::loadFieldType('customlayouts');
+
+		$field = new JFormFieldCustomlayouts($form);
+
+		$reflection = new \ReflectionClass($field);
+		$method = $reflection->getMethod('getLayoutPaths');
+		$method->setAccessible(true);
+
+		$layoutPaths = $method->invoke($field);
+
+		$this->assertTrue(is_array($layoutPaths));
+		$this->assertTrue(count($layoutPaths) > 0);
+		$this->assertSame(__DIR__ . DIRECTORY_SEPARATOR . '_testfields', $layoutPaths[0]);
+	}
+
+	/**
 	 * Test...
 	 *
 	 * @return  array

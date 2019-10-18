@@ -17,6 +17,7 @@ if (PHP_VERSION_ID < 70300) {
     }
 
     if (!function_exists('hrtime')) {
+        require_once __DIR__.'/Php73.php';
         p\Php73::$startAt = (int) microtime(true);
         function hrtime($asNum = false) { return p\Php73::hrtime($asNum); }
     }
@@ -26,6 +27,6 @@ if (PHP_VERSION_ID < 70300) {
     }
 
     if (!function_exists('array_key_last')) {
-        function array_key_last(array $array) { $key = null; foreach ($array as $key => $value); return $key; }
+        function array_key_last(array $array) { end($array); return key($array); }
     }
 }

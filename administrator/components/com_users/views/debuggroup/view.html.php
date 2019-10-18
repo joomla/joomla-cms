@@ -92,7 +92,7 @@ class UsersViewDebuggroup extends JViewLegacy
 	{
 		$canDo = JHelperContent::getActions('com_users');
 
-		JToolbarHelper::title(JText::sprintf('COM_USERS_VIEW_DEBUG_GROUP_TITLE', $this->group->id, $this->group->title), 'users groups');
+		JToolbarHelper::title(JText::sprintf('COM_USERS_VIEW_DEBUG_GROUP_TITLE', $this->group->id, $this->escape($this->group->title)), 'users groups');
 		JToolbarHelper::cancel('group.cancel', 'JTOOLBAR_CLOSE');
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))

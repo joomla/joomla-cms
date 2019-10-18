@@ -136,7 +136,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 		// Forcing the Alias field to display the tip below
 		$position = $this->element['name'] == 'alias' ? ' data-placement="bottom" ' : '';
 
-		// When we have a article let's add the modal and make the title clickable
+		// When we have an article let's add the modal and make the title clickable
 		if ($data['articleid'])
 		{
 			$attribs['data-toggle'] = 'modal';
@@ -229,6 +229,15 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 		catch (JDatabaseExceptionExecuting $e)
 		{
 			// Something at the database layer went wrong
+			return Route::_(
+				'index.php?option=com_content&view=article&id='
+				. $this->articleid . '&tmpl=component'
+			);
+		}
+
+		if (!is_object($article))
+		{
+			// We have not found the article object lets show a 404 to the user
 			return Route::_(
 				'index.php?option=com_content&view=article&id='
 				. $this->articleid . '&tmpl=component'

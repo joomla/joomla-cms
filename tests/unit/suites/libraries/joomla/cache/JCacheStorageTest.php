@@ -139,7 +139,7 @@ class JCacheStorageTest extends TestCase
 
 		$this->assertThat(
 			$this->object->_application,
-			$this->equalTo(null),
+			$this->equalTo(md5(JPATH_CONFIGURATION)),
 			'Unexpected value for _application.'
 		);
 
