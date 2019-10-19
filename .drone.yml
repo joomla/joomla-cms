@@ -298,6 +298,6 @@ services:
 
 ---
 kind: signature
-hmac: 1f8eaa619ff21c79d04d71f2323bb2600024fb54ae56e57a9238d8da0e63255c
+hmac: f8bf4c63f8b8175f429fb14aec332417dc62faedfe17140a17cb26445ea1e374
 
 ...
