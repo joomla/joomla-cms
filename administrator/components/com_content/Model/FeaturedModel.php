@@ -90,7 +90,7 @@ class FeaturedModel extends ArticlesModel
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
-				'a.created_by, a.featured, a.featured, fp.featured_up, fp.featured_down, a.language, a.created_by_alias, a.publish_up, a.publish_down, a.note'
+				'a.created_by, a.featured, fp.featured_up, fp.featured_down, a.language, a.created_by_alias, a.publish_up, a.publish_down, a.note'
 			)
 		);
 		$query->from('#__content AS a');
