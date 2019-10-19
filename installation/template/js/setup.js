@@ -71,7 +71,7 @@ Joomla.checkInputs = function() {
         return false;
       })
       .then((result) => {
-        if (!result)
+        if (!result) {
           return;
         }
 
