@@ -95,10 +95,10 @@ if ($saveOrder)
 								$canChange  = $user->authorise('core.edit.stage', $this->extension . '.stage.' . $item->id) && $canCheckin;
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
-									<td class="order text-center d-none d-md-table-cell">
+									<td class="text-center d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
-									<td class="order text-center d-none d-md-table-cell">
+									<td class="text-center d-none d-md-table-cell">
 										<?php
 										$iconClass = '';
 										if (!$canChange)

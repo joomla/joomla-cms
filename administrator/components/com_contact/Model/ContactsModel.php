@@ -222,6 +222,14 @@ class ContactsModel extends ListModel
 			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
 		}
 
+		// Filter by featured.
+		$featured = (string) $this->getState('filter.featured');
+
+		if (in_array($featured, ['0','1']))
+		{
+			$query->where($db->quoteName('a.featured') . ' = ' . (int) $featured);
+		}
+
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
