@@ -145,14 +145,13 @@ class HtmlView extends BaseHtmlView
 		{
 			$apply = $toolbar->apply('article.apply');
 
-			$toolbar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
-
 			$saveGroup = $toolbar->dropdownButton('save-group');
 
 			$saveGroup->configure(
 				function (Toolbar $childBar)
 				{
 					$childBar->save('article.save');
+					$childBar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
 					$childBar->save2new('article.save2new');
 				}
 			);
@@ -187,6 +186,7 @@ class HtmlView extends BaseHtmlView
 					// If checked out, we can still save
 					if ($canDo->get('core.create'))
 					{
+						$childBar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
 						$childBar->save2copy('article.save2copy');
 					}
 				}
