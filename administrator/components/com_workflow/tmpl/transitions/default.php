@@ -62,13 +62,13 @@ if ($saveOrder)
 						</caption>
 						<thead>
 							<tr>
-								<td style="width:1%" class="text-center hidden-sm-down">
+								<td style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 't.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th scope="col" style="width:1%" class="text-center hidden-sm-down">
+								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 't.published', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:20%">
@@ -94,7 +94,7 @@ if ($saveOrder)
 								$canCheckin = true || $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 								$canChange  = $user->authorise('core.edit.state', $this->extension . '.transition.' . $item->id) && $canCheckin && !$isCore;								?>
 								<tr class="row<?php echo $i % 2; ?>">
-									<td class="text-center hidden-sm-down">
+									<td class="text-center d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
 									<td class="text-center d-none d-md-table-cell">
