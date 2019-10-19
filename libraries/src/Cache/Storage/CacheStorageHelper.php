@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Cache\Storage;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Cache storage helper functions.

@@ -1,0 +1,147 @@
+// Form
+
+label {
+	margin-bottom: 0;
+}
+
+.control-group {
+  margin-bottom: 18px;
+
+  > .form-check {
+    display: inline-block;
+  }
+
+  &::after {
+    display: table;
+    clear: both;
+    content: "";
+  }
+
+  .control-label {
+    float: left;
+    width: 220px;
+    padding-top: 5px;
+    padding-right: 5px;
+    text-align: left;
+	@include media-breakpoint-down(sm)
+	{
+		float: none;
+		width: 100%;
+	}
+  }
+
+  .controls {
+    margin-left: 220px;
+	@include media-breakpoint-down(sm)
+	{
+		margin-left: 0;
+	}
+  }
+}
+
+.form-no-margin {
+
+  .control-group {
+
+    .controls {
+      margin-left: 0;
+    }
+
+    .control-label {
+      float: none;
+    }
+  }
+}
+
+.spacer {
+  hr {
+    width: 380px;
+    border: 0;
+  }
+
+  label {
+    width: 440px;
+  }
+}
+
+td .form-control {
+  display: inline-block;
+  width: auto;
+}
+
+legend {
+  margin-bottom: 1.1rem;
+  font-size: 1rem;
+  font-weight: $font-weight-normal;
+}
+
+.checkboxes {
+  padding-top: 5px;
+
+  .checkbox input {
+    position: static;
+    margin-left: 0;
+  }
+}
+
+.form-check {
+  padding-top: 5px;
+  margin-bottom: 0;
+}
+
+.modal label {
+  width: 100%;
+}
+
+// Validation
+.invalid {
+  color: theme-color("danger");
+  border-color: theme-color("danger");
+}
+
+.valid {
+  border-color: theme-color("success");
+}
+
+.form-control-feedback {
+  display: block;
+}
+
+[aria-grabbed='true'] {
+  box-shadow: 0 0 2px 1px var(--atum-bg-dark);
+}
+
+select.form-control {
+  background-color: $custom-select-bg;
+}
+
+@include media-breakpoint-down(xs) {
+  .control-group {
+    .control-label{
+      float:none;
+	  max-width: 100%;
+    }
+  }
+}
+
+.field-media-wrapper {
+  max-width: calc(50vw - 5rem);
+  width: 100%;
+  display: block;
+
+  .field-media-preview {
+    width: 100%;
+    max-width: none;
+  }
+  .button-select {
+    background-color: darken(theme-color("success"), 8%);
+  }
+  .button-clear {
+    background-color: darken(theme-color("danger"), 8%);
+  }
+
+  @include media-breakpoint-down(md) {
+    min-width: 100%;
+  }
+}
+

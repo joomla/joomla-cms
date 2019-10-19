@@ -37,7 +37,12 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', ['
 		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-				<?php if (empty($this->items)) : ?>
+				<?php if ($this->state->get('itemtype') == '' || $this->state->get('language') == '') : ?>
+					<div class="alert alert-info">
+						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<?php echo Text::_('COM_ASSOCIATIONS_NOTICE_NO_SELECTORS'); ?>
+					</div>
+				<?php elseif (empty($this->items)) : ?>
 					<div class="alert alert-info">
 						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
@@ -103,9 +108,8 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', ['
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
 										<?php endif; ?>
 										<?php if ($canEdit) : ?>
-											<?php $editIcon = $isCheckout ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
 											<a class="hasTooltip" href="<?php echo Route::_($this->editUri . '&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
-												<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
+												<?php echo $this->escape($item->title); ?></a>
 										<?php else : ?>
 											<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>

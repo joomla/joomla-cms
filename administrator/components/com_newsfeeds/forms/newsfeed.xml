@@ -230,13 +230,6 @@
 			cols="30"
 		/>
 
-		<field
-			name="xreference"
-			type="text"
-			label="JFIELD_XREFERENCE_LABEL"
-			size="20"
-		/>
-
 		<fields name="images">
 
 			<fieldset name="images" label="JGLOBAL_FIELDSET_IMAGE_OPTIONS">

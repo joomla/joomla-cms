@@ -53,7 +53,6 @@ class PlgContentPagenavigation extends CMSPlugin
 			$db       = Factory::getDbo();
 			$user     = Factory::getUser();
 			$lang     = Factory::getLanguage();
-			$nullDate = $db->getNullDate();
 
 			$date = Factory::getDate();
 			$now  = $date->toSql();
@@ -127,19 +126,19 @@ class PlgContentPagenavigation extends CMSPlugin
 			}
 
 			$xwhere = ' AND (ws.condition = 1 OR ws.condition = -2)'
-				. ' AND (publish_up = ' . $db->quote($nullDate) . ' OR publish_up <= ' . $db->quote($now) . ')'
-				. ' AND (publish_down = ' . $db->quote($nullDate) . ' OR publish_down >= ' . $db->quote($now) . ')';
+				. ' AND (publish_up IS NULL OR publish_up <= ' . $db->quote($now) . ')'
+				. ' AND (publish_down IS NULL OR publish_down >= ' . $db->quote($now) . ')';
 
 			// Array of articles in same category correctly ordered.
 			$query = $db->getQuery(true);
 
 			$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0')
 				. ' THEN ' . $query->concatenate(array($query->castAsChar('a.id'), 'a.alias'), ':')
-				. ' ELSE a.id END AS slug';
+				. ' ELSE ' . $query->castAsChar('a.id') . ' END AS slug';
 
 			$case_when1 = ' CASE WHEN ' . $query->charLength('cc.alias', '!=', '0')
 				. ' THEN ' . $query->concatenate(array($query->castAsChar('cc.id'), 'cc.alias'), ':')
-				. ' ELSE cc.id END AS catslug';
+				. ' ELSE ' . $query->castAsChar('cc.id') . ' END AS catslug';
 
 			$query->select('a.id, a.title, a.catid, a.language')
 				->select($case_when)
@@ -251,14 +250,13 @@ class PlgContentPagenavigation extends CMSPlugin
 
 		switch ($orderDate)
 		{
-			// Use created if modified is not set
 			case 'modified' :
-				$queryDate = ' CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END';
+				$queryDate = ' a.modified';
 				break;
 
 			// Use created if publish_up is not set
 			case 'published' :
-				$queryDate = ' CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END ';
+				$queryDate = ' CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END ';
 				break;
 
 			// Use created as default

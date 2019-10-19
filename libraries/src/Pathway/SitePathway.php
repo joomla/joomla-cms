@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Pathway;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
@@ -50,7 +50,7 @@ class SitePathway extends Pathway
 				$home  = $menu->getDefault();
 			}
 
-			if (is_object($home) && ($item->id != $home->id))
+			if (\is_object($home) && ($item->id != $home->id))
 			{
 				foreach ($item->tree as $menupath)
 				{

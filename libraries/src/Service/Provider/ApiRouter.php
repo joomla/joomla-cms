@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Service\Provider;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApiApplication;
 use Joomla\DI\Container;

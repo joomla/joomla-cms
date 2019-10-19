@@ -1,61 +1,67 @@
 /**
- * @copyright Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
- * @license   GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Ajax call to get the override status.
-(() => {
+((document) => {
   'use strict';
 
-  // Add a listener on content loaded to initiate the check.
   document.addEventListener('DOMContentLoaded', () => {
-    if (Joomla.getOptions('js-privacy-check')) {
-      const options = Joomla.getOptions('js-privacy-check');
-      const update = (type, text, linkHref) => {
-        const link = document.getElementById('plg_quickicon_privacycheck');
-        const linkSpans = link.querySelectorAll('span.j-links-link');
-        if (link) {
-          link.classList.add(type);
+    const variables = Joomla.getOptions('js-privacy-check');
+    const ajaxUrl = variables.plg_quickicon_privacycheck_ajax_url;
+    const url = variables.plg_quickicon_privacycheck_url;
+    const text = variables.plg_quickicon_privacycheck_text;
+    const quickicon = document.getElementById('plg_quickicon_privacycheck');
+    const link = quickicon.querySelector('span.j-links-link');
 
-          if (linkHref) {
-            link.setAttribute('href', linkHref);
-          }
-        }
+    Joomla.request({
+      url: ajaxUrl,
+      method: 'GET',
+      data: '',
+      perform: true,
+      onSuccess: (response) => {
+        try {
+          const request = JSON.parse(response);
 
-        if (linkSpans.length) {
-          linkSpans.forEach((span) => {
-            span.innerHTML = text;
-          });
-        }
-      };
+          if (request.data.number_urgent_requests) {
+            // Quickicon on dashboard shows message
+            link.textContent = `${text.REQUESTFOUND} ${request.data.number_urgent_requests}`;
+            // Quickicon becomes red
+            quickicon.classList.add('danger');
 
-      const languageStrings = options.plg_quickicon_privacycheck_text;
+            // Span in alert message
+            const countSpan = document.createElement('span');
+            countSpan.classList.add('label', 'label-important');
+            countSpan.textContent = request.data.number_urgent_requests;
 
-      Joomla.request({
-        url: options.plg_quickicon_privacycheck_ajax_url,
-        method: 'GET',
-        data: '',
-        perform: true,
-        onSuccess: (response) => {
-          const privacyRequestsList = JSON.parse(response);
+            // Button in alert to 'view requests'
+            const requestButton = document.createElement('button');
+            requestButton.classList.add('btn', 'btn-primary');
+            requestButton.setAttribute('onclick', `document.location='${url}'`);
+            requestButton.textContent = text.REQUESTFOUND_BUTTON;
 
-          if (privacyRequestsList.data.number_urgent_requests === 0) {
-            // No requests
-            update('success', languageStrings.NOREQUEST, '');
+            const div = document.createElement('div');
+            div.classList.add('alert', 'alert-error', 'alert-joomlaupdate');
+            div.appendChild(countSpan);
+            div.insertAdjacentText('beforeend', ` ${text.REQUESTFOUND_MESSAGE}`);
+            div.appendChild(requestButton);
+
+            // Add elements to container for alert messages
+            const container = document.querySelector('#system-message-container');
+            container.insertBefore(div, container.firstChild);
           } else {
-            // Requests
-            update(
-              'danger',
-              `${languageStrings.REQUESTFOUND}&nbsp;<span class="badge badge-light">${privacyRequestsList.data.number_urgent_requests}</span>`,
-              options.plg_quickicon_privacycheck_url,
-            );
+            quickicon.classList.add('success');
+            link.textContent = text.NOREQUEST;
           }
-        },
-        onError: () => {
-          // An error occurred
-          update('danger', languageStrings.ERROR, '');
-        },
-      });
-    }
+        } catch (e) {
+          quickicon.classList.add('danger');
+          link.textContent = text.ERROR;
+        }
+      },
+      onError: () => {
+        quickicon.classList.add('danger');
+        link.textContent = text.ERROR;
+      },
+    });
   });
-})();
+})(document);

@@ -11,7 +11,6 @@ namespace Joomla\CMS\Installation\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
@@ -19,6 +18,8 @@ use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\UTF8MB4SupportInterface;
@@ -709,6 +710,17 @@ class DatabaseModel extends BaseInstallationModel
 			}
 		}
 
+		// Load the custom.sql for customising the data in joomla.sql.
+		$dbcustom = 'sql/' . $serverType . '/custom.sql';
+
+		if (is_file($dbcustom))
+		{
+			if (!$this->populateDatabase($db, $dbcustom))
+			{
+				return false;
+			}
+		}
+
 		// Handle default backend language setting. This feature is available for localized versions of Joomla.
 		$languages = Factory::getApplication()->getLocaliseAdmin($db);
 
@@ -756,73 +768,6 @@ class DatabaseModel extends BaseInstallationModel
 	}
 
 	/**
-	 * Method to install the sample data.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 */
-	public function installSampleData()
-	{
-		$db = Factory::getDbo();
-
-		// Build the path to the sample data file.
-		$type = $db->getServerType();
-
-		if (Factory::getApplication()->input->get('sample_file', ''))
-		{
-			$sample_file = Factory::getApplication()->input->get('sample_file', '');
-		}
-		else
-		{
-			$sample_file = 'sample_testing.sql';
-		}
-
-		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $sample_file;
-
-		// Attempt to import the database schema if one is chosen.
-		if ($sample_file != '')
-		{
-			if (!file_exists($data))
-			{
-				Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_FILE_DOES_NOT_EXIST', $data), 'error');
-
-				return false;
-			}
-			elseif (!$this->populateDatabase($db, $data))
-			{
-				return false;
-			}
-
-			$this->postInstallSampleData($db, $sample_file);
-		}
-
-		return true;
-	}
-
-	/**
-	 * Sample data tables and data post install process.
-	 *
-	 * @param   \JDatabaseDriver  $db              Database connector object $db*.
-	 * @param   string            $sampleFileName  The sample dats filename.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function postInstallSampleData($db, $sampleFileName = '')
-	{
-		// Update the sample data user ids.
-		$this->updateUserIds($db);
-
-		// If not joomla sample data for testing, update the sample data dates.
-		if ($sampleFileName !== 'sample_testing.sql')
-		{
-			$this->updateDates($db);
-		}
-	}
-
-	/**
 	 * Method to install the cms data.
 	 *
 	 * @return  boolean  True on success.
@@ -845,7 +790,7 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Cms tables and data post install process.
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   DatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  void
 	 *
@@ -858,12 +803,15 @@ class DatabaseModel extends BaseInstallationModel
 
 		// Update the cms data dates.
 		$this->updateDates($db);
+
+		// Check for testing sampledata plugin.
+		$this->checkTestingSampledata($db);
 	}
 
 	/**
 	 * Method to update the user id of sql data content to the new rand user id.
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   DatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  void
 	 *
@@ -916,7 +864,7 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to update the dates of sql data content to the current date.
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   DatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  void
 	 *
@@ -975,10 +923,53 @@ class DatabaseModel extends BaseInstallationModel
 	}
 
 	/**
+	 * Method to check for the testing sampledata plugin.
+	 *
+	 * @param   DatabaseDriver  $db  Database connector object $db*.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function checkTestingSampledata($db)
+	{
+		$version = new Version;
+
+		if (!$version->isInDevelopmentState() || !is_file(JPATH_PLUGINS . '/sampledata/testing/testing.php'))
+		{
+			return;
+		}
+
+		$testingPlugin = new \stdClass;
+		$testingPlugin->extension_id = null;
+		$testingPlugin->name = 'plg_sampledata_testing';
+		$testingPlugin->type = 'plugin';
+		$testingPlugin->element = 'testing';
+		$testingPlugin->folder = 'sampledata';
+		$testingPlugin->client_id = 0;
+		$testingPlugin->enabled = 1;
+		$testingPlugin->access = 1;
+		$testingPlugin->manifest_cache = '';
+		$testingPlugin->params = '{}';
+
+		$db->insertObject('#__extensions', $testingPlugin, 'extension_id');
+
+		$installer = new Installer;
+
+		if (!$installer->refreshManifestCache($testingPlugin->extension_id))
+		{
+			Factory::getApplication()->enqueueMessage(
+				Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $testingPlugin->name),
+				'error'
+			);
+		}
+	}
+
+	/**
 	 * Method to backup all tables in a database with a given prefix.
 	 *
-	 * @param   \JDatabaseDriver  $db      JDatabaseDriver object.
-	 * @param   string            $prefix  Database table prefix.
+	 * @param   DatabaseDriver  $db      JDatabaseDriver object.
+	 * @param   string          $prefix  Database table prefix.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1035,10 +1026,10 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to create a new database.
 	 *
-	 * @param   \JDatabaseDriver  $db       JDatabase object.
-	 * @param   \JObject          $options  JObject coming from "initialise" function to pass user
-	 *                                      and database name to database driver.
-	 * @param   boolean           $utf      True if the database supports the UTF-8 character set.
+	 * @param   DatabaseDriver  $db       Database object.
+	 * @param   CMSObject       $options  CMSObject coming from "initialise" function to pass user
+	 *                                    and database name to database driver.
+	 * @param   boolean         $utf      True if the database supports the UTF-8 character set.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1064,8 +1055,8 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to delete all tables in a database with a given prefix.
 	 *
-	 * @param   \JDatabaseDriver  $db      JDatabaseDriver object.
-	 * @param   string            $prefix  Database table prefix.
+	 * @param   DatabaseDriver  $db      JDatabaseDriver object.
+	 * @param   string          $prefix  Database table prefix.
 	 *
 	 * @return  boolean  True on success.
 	 *
