@@ -140,18 +140,16 @@ class PlgPrivacyUser extends PrivacyPlugin
 
 		$storeName = Factory::getConfig()->get('session_handler', 'none');
 		$store     = JSessionStorage::getInstance($storeName);
-		$ids       = [];
 
 		// Destroy the sessions and quote the IDs to purge the session table
 		foreach ($sessionIds as $sessionId)
 		{
 			$store->destroy($sessionId);
-			$ids[] = $sessionId;
 		}
 
 		$query->clear()
 			->delete($db->quoteName('#__session'))
-			->whereIn($db->quoteName('session_id'), $ids);
+			->whereIn($db->quoteName('session_id'), $sessionIds);
 
 		$db->setQuery($query)
 			->execute();
