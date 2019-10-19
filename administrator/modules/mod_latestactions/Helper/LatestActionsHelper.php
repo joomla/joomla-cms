@@ -7,7 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Module\LatestActions\Administrator\Helper;
+
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
@@ -19,7 +21,7 @@ use Joomla\Registry\Registry;
  *
  * @since  3.9.0
  */
-abstract class ModLatestActionsHelper
+abstract class LatestActionsHelper
 {
 	/**
 	 * Get a list of articles.
