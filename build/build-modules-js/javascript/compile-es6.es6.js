@@ -88,20 +88,7 @@ module.exports.compileFile = (file) => {
       FsExtra.mkdirsSync(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'), {});
 
       // Get the contents of the ES-XXXX file
-      let es6File = Fs.readFileSync(file, 'utf8');
-      const es6Subdir = file.replace('es6.js', 'es6');
-
-      if (Fs.existsSync(es6Subdir)) {
-        const stats = Fs.lstatSync(es6Subdir);
-
-        if (stats.isDirectory()) {
-          const es6SubFiles = Fs.readdirSync(es6Subdir);
-          es6SubFiles.sort();
-          es6SubFiles.forEach((file, index) => {
-            es6File += Fs.readFileSync(es6Subdir + '/' + file, 'utf8');
-          });
-        }
-      }
+      const es6File = Fs.readFileSync(file, 'utf8');
 
       settings.forEach((setting, index) => {
       // eslint-disable-next-line no-console
