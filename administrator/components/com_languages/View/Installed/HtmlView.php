@@ -140,7 +140,7 @@ class HtmlView extends BaseHtmlView
 			// Switch administrator language
 			if ($this->state->get('client_id', 0) == 1)
 			{
-				ToolbarHelper::custom('installed.switchadminlanguage', 'refresh', 'refresh', 'COM_LANGUAGES_SWITCH_ADMIN', false);
+				ToolbarHelper::custom('installed.switchadminlanguage', 'refresh', 'refresh', 'COM_LANGUAGES_SWITCH_ADMIN', true);
 				ToolbarHelper::divider();
 			}
 

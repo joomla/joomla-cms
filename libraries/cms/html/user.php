@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**
@@ -31,7 +32,7 @@ abstract class JHtmlUser
 	 */
 	public static function groups($includeSuperAdmin = false)
 	{
-		$options = array_values(JHelperUsergroups::getInstance()->getAll());
+		$options = array_values(UserGroupsHelper::getInstance()->getAll());
 
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{

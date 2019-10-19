@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Captcha\Captcha;
 use Joomla\CMS\Factory;
@@ -148,7 +148,7 @@ class CaptchaField extends FormField
 		catch (\RuntimeException $e)
 		{
 			$this->_captcha = null;
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -176,8 +176,9 @@ class CaptchaField extends FormField
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
+
 		return '';
 	}
 }

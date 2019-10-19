@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Fields Section
@@ -21,6 +22,11 @@ use Joomla\CMS\Form\Field\ListField;
  */
 class SectionField extends ListField
 {
+	/**
+	 * Type of the field
+	 *
+	 * @var    string
+	 */
 	public $type = 'Section';
 
 	/**
@@ -41,7 +47,7 @@ class SectionField extends ListField
 		$return = parent::setup($element, $value, $group);
 
 		// Onchange must always be the change context function
-		$this->onchange = 'fieldsChangeContext(this.value);';
+		$this->onchange = 'Joomla.fieldsChangeContext(this.value);';
 
 		return $return;
 	}
@@ -56,16 +62,7 @@ class SectionField extends ListField
 	 */
 	protected function getInput()
 	{
-		// Add the change context function to the document
-		Factory::getDocument()->addScriptDeclaration(
-			"function fieldsChangeContext(context)
-				{
-					var regex = new RegExp(\"([?;&])context[^&;]*[;&]?\");
-					var url = window.location.href;
-					var query = url.replace(regex, \"$1\").replace(/&$/, '');
-    					window.location.href = (query.length > 2 ? query + \"&\" : \"?\") + (context ? \"context=\" + context : '');
-				}"
-		);
+		HTMLHelper::_('script', 'com_fields/admin-field-changecontext.min.js', ['relative' => true, 'version' => 'auto']);
 
 		return parent::getInput();
 	}

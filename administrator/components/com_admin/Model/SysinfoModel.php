@@ -24,7 +24,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class SysInfoModel extends BaseDatabaseModel
+class SysinfoModel extends BaseDatabaseModel
 {
 	/**
 	 * Some PHP settings
@@ -530,7 +530,7 @@ class SysInfoModel extends BaseDatabaseModel
 
 		foreach ($admin_langs as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -546,7 +546,7 @@ class SysInfoModel extends BaseDatabaseModel
 
 		foreach ($manifests as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -569,7 +569,7 @@ class SysInfoModel extends BaseDatabaseModel
 
 		foreach ($image_folders as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -587,7 +587,7 @@ class SysInfoModel extends BaseDatabaseModel
 
 		foreach ($site_langs as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -605,7 +605,7 @@ class SysInfoModel extends BaseDatabaseModel
 
 		foreach ($plugin_groups as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}

@@ -13,8 +13,8 @@
 	<fields name="request">
 		<fieldset name="request"
 		>
-			<field 
-				name="id" 
+			<field
+				name="id"
 				type="category"
 				label="JGLOBAL_FIELD_CATEGORIES_CHOOSE_CATEGORY_LABEL"
 				extension="com_newsfeeds"
@@ -27,8 +27,8 @@
 	<!-- Add fields to the parameters object for the layout. -->
 	<fields name="params">
 		<fieldset name="basic" label="JGLOBAL_CATEGORIES_OPTIONS">
-			<field 
-				name="show_base_description" 
+			<field
+				name="show_base_description"
 				type="list"
 				label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 				useglobal="true"
@@ -38,16 +38,16 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="categories_description" 
+			<field
+				name="categories_description"
 				type="textarea"
 				label="JGLOBAL_FIELD_CATEGORIES_DESC_LABEL"
 				cols="25"
 				rows="5"
 			/>
 
-			<field 
-				name="maxLevelcat" 
+			<field
+				name="maxLevelcat"
 				type="list"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 				useglobal="true"
@@ -60,8 +60,8 @@
 				<option value="5">J5</option>
 			</field>
 
-			<field 
-				name="show_empty_categories_cat" 
+			<field
+				name="show_empty_categories_cat"
 				type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				useglobal="true"
@@ -71,8 +71,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_subcat_desc_cat" 
+			<field
+				name="show_subcat_desc_cat"
 				type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				useglobal="true"
@@ -82,8 +82,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_cat_items_cat" 
+			<field
+				name="show_cat_items_cat"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
 				useglobal="true"
@@ -95,15 +95,15 @@
 		</fieldset>
 
 		<fieldset name="category" label="JGLOBAL_CATEGORY_OPTIONS">
-			<field 
-				name="spacer2" 
-				type="spacer" 
+			<field
+				name="spacer2"
+				type="spacer"
 				label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 				class="text"
 			/>
 
-			<field 
-				name="show_category_title" 
+			<field
+				name="show_category_title"
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				useglobal="true"
@@ -113,8 +113,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_description" 
+			<field
+				name="show_description"
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 				useglobal="true"
@@ -124,8 +124,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_description_image" 
+			<field
+				name="show_description_image"
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 				useglobal="true"
@@ -135,8 +135,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="maxLevel" 
+			<field
+				name="maxLevel"
 				type="list"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 				useglobal="true"
@@ -150,8 +150,8 @@
 				<option value="5">J5</option>
 			</field>
 
-			<field 
-				name="show_empty_categories" 
+			<field
+				name="show_empty_categories"
 				type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				useglobal="true"
@@ -161,8 +161,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_subcat_desc" 
+			<field
+				name="show_subcat_desc"
 				type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				useglobal="true"
@@ -172,7 +172,7 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
+			<field
 				name="show_cat_items"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
@@ -187,9 +187,9 @@
 		</fieldset>
 
 		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
-			<field 
-				name="spacer1" 
-				type="spacer" 
+			<field
+				name="spacer1"
+				type="spacer"
 				label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 				class="text"
 			/>
@@ -206,7 +206,7 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
+			<field
 				name="show_pagination_limit"
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
@@ -253,7 +253,7 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
+			<field
 				name="show_pagination"
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
@@ -279,8 +279,8 @@
 		</fieldset>
 		<fieldset name="newsfeed" label="COM_NEWSFEEDS_FIELDSET_MORE_OPTIONS_LABEL">
 
-			<field 
-				name="show_feed_image" 
+			<field
+				name="show_feed_image"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				useglobal="true"
@@ -290,8 +290,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_feed_description" 
+			<field
+				name="show_feed_description"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 				useglobal="true"
@@ -301,8 +301,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_item_description" 
+			<field
+				name="show_item_description"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 				useglobal="true"
@@ -312,8 +312,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="feed_character_count" 
+			<field
+				name="feed_character_count"
 				type="number"
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"

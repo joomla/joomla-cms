@@ -15,6 +15,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
@@ -84,11 +85,20 @@ class MenutypesModel extends BaseDatabaseModel
 		// Get the list of components.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('name, element AS ' . $db->quoteName('option'))
-			->from('#__extensions')
-			->where('type = ' . $db->quote('component'))
-			->where('enabled = 1')
-			->order('name ASC');
+			->select(
+				[
+					$db->quoteName('name'),
+					$db->quoteName('element', 'option'),
+				]
+			)
+			->from($db->quoteName('#__extensions'))
+			->where(
+				[
+					$db->quoteName('type') . ' = ' . $db->quote('component'),
+					$db->quoteName('enabled') . ' = 1',
+				]
+			)
+			->order($db->quoteName('name') . ' ASC');
 		$db->setQuery($query);
 		$components = $db->loadObjectList();
 
@@ -206,7 +216,7 @@ class MenutypesModel extends BaseDatabaseModel
 		if (!empty($menu['options']) && $menu['options'] == 'none')
 		{
 			// Create the menu option for the component.
-			$o = new \JObject;
+			$o = new CMSObject;
 			$o->title       = (string) $menu['name'];
 			$o->description = (string) $menu['msg'];
 			$o->request     = array('option' => $component);
@@ -238,7 +248,7 @@ class MenutypesModel extends BaseDatabaseModel
 			if ($child->getName() == 'option')
 			{
 				// Create the menu option for the component.
-				$o = new \JObject;
+				$o = new CMSObject;
 				$o->title       = (string) $child['name'];
 				$o->description = (string) $child['msg'];
 				$o->request     = array('option' => $component, (string) $optionsNode['var'] => (string) $child['value']);
@@ -248,7 +258,7 @@ class MenutypesModel extends BaseDatabaseModel
 			elseif ($child->getName() == 'default')
 			{
 				// Create the menu option for the component.
-				$o = new \JObject;
+				$o = new CMSObject;
 				$o->title       = (string) $child['name'];
 				$o->description = (string) $child['msg'];
 				$o->request     = array('option' => $component);
@@ -326,7 +336,7 @@ class MenutypesModel extends BaseDatabaseModel
 										if ($child->getName() == 'option')
 										{
 											// Create the menu option for the component.
-											$o = new \JObject;
+											$o = new CMSObject;
 											$o->title       = (string) $child['name'];
 											$o->description = (string) $child['msg'];
 											$o->request     = array('option' => $component, 'view' => $view, (string) $optionsNode['var'] => (string) $child['value']);
@@ -336,7 +346,7 @@ class MenutypesModel extends BaseDatabaseModel
 										elseif ($child->getName() == 'default')
 										{
 											// Create the menu option for the component.
-											$o = new \JObject;
+											$o = new CMSObject;
 											$o->title       = (string) $child['name'];
 											$o->description = (string) $child['msg'];
 											$o->request     = array('option' => $component, 'view' => $view);
@@ -446,7 +456,7 @@ class MenutypesModel extends BaseDatabaseModel
 			}
 
 			$o->request = array_filter($request, 'strlen');
-			$options[]  = new \JObject($o);
+			$options[]  = new CMSObject($o);
 
 			// Do not repeat the default view link (index.php?option=com_abc).
 			if (count($o->request) == 1)
@@ -457,7 +467,7 @@ class MenutypesModel extends BaseDatabaseModel
 
 		if ($ro)
 		{
-			$options[] = new \JObject($ro);
+			$options[] = new CMSObject($ro);
 		}
 
 		return $options;
@@ -556,7 +566,7 @@ class MenutypesModel extends BaseDatabaseModel
 				$layout = basename($layout, '.xml');
 
 				// Create the menu option for the layout.
-				$o = new \JObject;
+				$o = new CMSObject;
 				$o->title       = ucfirst($layout);
 				$o->description = '';
 				$o->request     = array('option' => $component, 'view' => $view);

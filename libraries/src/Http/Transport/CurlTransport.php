@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Http\Transport;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
@@ -94,7 +94,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 			// Add the relevant headers.
 			if (is_scalar($options[CURLOPT_POSTFIELDS]))
 			{
-				$headers['Content-Length'] = strlen($options[CURLOPT_POSTFIELDS]);
+				$headers['Content-Length'] = \strlen($options[CURLOPT_POSTFIELDS]);
 			}
 		}
 
@@ -183,7 +183,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 		$content = curl_exec($ch);
 
 		// Check if the content is a string. If it is not, it must be an error.
-		if (!is_string($content))
+		if (!\is_string($content))
 		{
 			$message = curl_error($ch);
 
@@ -209,7 +209,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 		{
 			$redirect_uri = new Uri($response->headers['Location']);
 
-			if (in_array($redirect_uri->getScheme(), array('file', 'scp')))
+			if (\in_array($redirect_uri->getScheme(), array('file', 'scp')))
 			{
 				throw new \RuntimeException('Curl redirect cannot be used in file or scp requests.');
 			}
@@ -269,7 +269,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 		// Get the response code from the first offset of the response headers.
 		preg_match('/[0-9]{3}/', array_shift($headers), $matches);
 
-		$code = count($matches) ? $matches[0] : null;
+		$code = \count($matches) ? $matches[0] : null;
 
 		if (!is_numeric($code))
 		{
@@ -295,7 +295,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('curl_version') && curl_version();
+		return \function_exists('curl_version') && curl_version();
 	}
 
 	/**

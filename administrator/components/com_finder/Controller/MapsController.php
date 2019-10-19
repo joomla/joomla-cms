@@ -21,13 +21,21 @@ use Joomla\CMS\MVC\Controller\AdminController;
 class MapsController extends AdminController
 {
 	/**
+	 * The prefix to use with controller messages.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $text_prefix = 'COM_FINDER_MAPS';
+
+	/**
 	 * Method to get a model object, loading it if required.
 	 *
 	 * @param   string  $name    The model name. Optional.
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \JModelLegacy  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
 	 *
 	 * @since   1.6
 	 */

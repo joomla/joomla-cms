@@ -8,10 +8,12 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Table\Table;
 
 /**
  * Trait which contains the legacy getInstance functionality
@@ -56,14 +58,14 @@ trait LeagcyModelLoaderTrait
 		{
 			foreach ((array) $path as $includePath)
 			{
-				if (!in_array($includePath, $paths[$prefix]))
+				if (!\in_array($includePath, $paths[$prefix]))
 				{
-					array_unshift($paths[$prefix], \JPath::clean($includePath));
+					array_unshift($paths[$prefix], Path::clean($includePath));
 				}
 
-				if (!in_array($includePath, $paths['']))
+				if (!\in_array($includePath, $paths['']))
 				{
-					array_unshift($paths[''], \JPath::clean($includePath));
+					array_unshift($paths[''], Path::clean($includePath));
 				}
 			}
 		}
@@ -124,11 +126,11 @@ trait LeagcyModelLoaderTrait
 
 		if (!class_exists($modelClass))
 		{
-			$path = \JPath::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
+			$path = Path::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
 
 			if (!$path)
 			{
-				$path = \JPath::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
+				$path = Path::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
 			}
 
 			if (!$path)
@@ -161,6 +163,6 @@ trait LeagcyModelLoaderTrait
 	 */
 	public static function addTablePath($path)
 	{
-		\JTable::addIncludePath($path);
+		Table::addIncludePath($path);
 	}
 }

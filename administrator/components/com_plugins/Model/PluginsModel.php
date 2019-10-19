@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -213,7 +214,7 @@ class PluginsModel extends ListModel
 			$this->getState(
 				'list.select',
 				'a.extension_id , a.name, a.element, a.folder, a.checked_out, a.checked_out_time,' .
-					' a.enabled, a.access, a.ordering'
+					' a.enabled, a.access, a.ordering, a.note'
 			)
 		)
 			->from($db->quoteName('#__extensions') . ' AS a')
@@ -230,7 +231,9 @@ class PluginsModel extends ListModel
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
-			$query->where('a.access = ' . (int) $access);
+			$access = (int) $access;
+			$query->where($db->quoteName('a.access') . ' = :access')
+				->bind(':access', $access, ParameterType::INTEGER);
 		}
 
 		// Filter by published state.
@@ -238,11 +241,13 @@ class PluginsModel extends ListModel
 
 		if (is_numeric($published))
 		{
-			$query->where('a.enabled = ' . (int) $published);
+			$published = (int) $published;
+			$query->where($db->quoteName('a.enabled') . ' = :published')
+				->bind(':published', $published, ParameterType::INTEGER);
 		}
 		elseif ($published === '')
 		{
-			$query->where('(a.enabled IN (0, 1))');
+			$query->whereIn($db->quoteName('a.enabled'), [0, 1]);
 		}
 
 		// Filter by state.
@@ -251,13 +256,15 @@ class PluginsModel extends ListModel
 		// Filter by folder.
 		if ($folder = $this->getState('filter.folder'))
 		{
-			$query->where('a.folder = ' . $db->quote($folder));
+			$query->where($db->quoteName('a.folder') . ' = :folder')
+				->bind(':folder', $folder);
 		}
 
 		// Filter by element.
 		if ($element = $this->getState('filter.element'))
 		{
-			$query->where('a.element = ' . $db->quote($element));
+			$query->where($db->quoteName('a.element') . ' = :element')
+				->bind(':element', $element);
 		}
 
 		// Filter by search in name or id.
@@ -267,7 +274,9 @@ class PluginsModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.extension_id = ' . (int) substr($search, 3));
+				$ids = (int) substr($search, 3);
+				$query->where($db->quoteName('a.extension_id') . ' = :id');
+				$query->bind(':id', $ids, ParameterType::INTEGER);
 			}
 		}
 

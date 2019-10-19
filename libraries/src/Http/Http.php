@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Http;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Http\Http as FrameworkHttp;
 use Joomla\Http\TransportInterface as FrameworkTransportInterface;
@@ -32,7 +32,7 @@ class Http extends FrameworkHttp
 	 */
 	public function __construct($options = [], FrameworkTransportInterface $transport = null)
 	{
-		if (!is_array($options) && !($options instanceof \ArrayAccess))
+		if (!\is_array($options) && !($options instanceof \ArrayAccess))
 		{
 			throw new \InvalidArgumentException(
 				'The options param must be an array or implement the ArrayAccess interface.'

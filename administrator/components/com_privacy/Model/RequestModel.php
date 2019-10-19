@@ -17,12 +17,12 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 use Joomla\Database\Exception\ExecutionFailureException;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
@@ -265,9 +265,8 @@ class RequestModel extends AdminModel
 			$db->getQuery(true)
 				->select('id')
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = ' . $db->quote($table->email)),
-			0,
-			1
+				->where($db->quoteName('email') . ' = ' . $db->quote($table->email))
+				->setLimit(1)
 		)->loadResult();
 
 		if ($userId)
@@ -316,13 +315,13 @@ class RequestModel extends AdminModel
 		{
 			$app = Factory::getApplication();
 
-			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 			$substitutions = [
 				'[SITENAME]' => $app->get('sitename'),
 				'[URL]'      => Uri::root(),
-				'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode),
-				'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode),
+				'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode, true),
+				'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode, true),
 				'[TOKEN]'    => $token,
 				'\\n'        => "\n",
 			];
@@ -409,7 +408,7 @@ class RequestModel extends AdminModel
 	 *
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
-	 * @see     JFormRule
+	 * @see     \Joomla\CMS\Form\FormRule
 	 * @see     JFilterInput
 	 * @since   3.9.0
 	 */
@@ -456,14 +455,13 @@ class RequestModel extends AdminModel
 	/**
 	 * Method to fetch an instance of the action log model.
 	 *
-	 * @return  void
+	 * @return  ActionlogModel
 	 *
 	 * @since   4.0.0
 	 */
-	private function getActionlogModel(): \ActionlogsModelActionlog
+	private function getActionlogModel(): ActionlogModel
 	{
-		BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
-
-		return BaseDatabaseModel::getInstance('Actionlog', 'ActionlogsModel');
+		return Factory::getApplication()->bootComponent('Actionlogs')
+			->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
 	}
 }

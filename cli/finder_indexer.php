@@ -22,6 +22,9 @@
 const _JEXEC = 1;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Plugin\PluginHelper;
 
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
@@ -89,7 +92,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	protected function doExecute()
 	{
 		// Print a blank line.
-		$this->out(JText::_('FINDER_CLI'));
+		$this->out(Text::_('FINDER_CLI'));
 		$this->out('============================');
 
 		// Initialize the time value.
@@ -123,8 +126,8 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 		}
 
 		// Total reporting.
-		$this->out(JText::sprintf('FINDER_CLI_PROCESS_COMPLETE', round(microtime(true) - $this->time, 3)), true);
-		$this->out(JText::sprintf('FINDER_CLI_PEAK_MEMORY_USAGE', number_format(memory_get_peak_usage(true))));
+		$this->out(Text::sprintf('FINDER_CLI_PROCESS_COMPLETE', round(microtime(true) - $this->time, 3)), true);
+		$this->out(Text::sprintf('FINDER_CLI_PEAK_MEMORY_USAGE', number_format(memory_get_peak_usage(true))));
 
 		// Print a blank line at the end.
 		$this->out();
@@ -150,11 +153,11 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 		FinderIndexer::resetState();
 
 		// Import the plugins.
-		JPluginHelper::importPlugin('system');
-		JPluginHelper::importPlugin('finder');
+		PluginHelper::importPlugin('system');
+		PluginHelper::importPlugin('finder');
 
 		// Starting Indexer.
-		$this->out(JText::_('FINDER_CLI_STARTING_INDEXER'), true);
+		$this->out(Text::_('FINDER_CLI_STARTING_INDEXER'), true);
 
 		// Trigger the onStartIndex event.
 		Factory::getApplication()->triggerEvent('onStartIndex');
@@ -166,13 +169,13 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 		$state = FinderIndexer::getState();
 
 		// Setting up plugins.
-		$this->out(JText::_('FINDER_CLI_SETTING_UP_PLUGINS'), true);
+		$this->out(Text::_('FINDER_CLI_SETTING_UP_PLUGINS'), true);
 
 		// Trigger the onBeforeIndex event.
 		Factory::getApplication()->triggerEvent('onBeforeIndex');
 
 		// Startup reporting.
-		$this->out(JText::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->time, 3)), true);
+		$this->out(Text::sprintf('FINDER_CLI_SETUP_ITEMS', $state->totalItems, round(microtime(true) - $this->time, 3)), true);
 
 		// Get the number of batches.
 		$t = (int) $state->totalItems;
@@ -194,7 +197,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 				Factory::getApplication()->triggerEvent('onBuildIndex');
 
 				// Batch reporting.
-				$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', $i + 1, round(microtime(true) - $this->qtime, 3)), true);
+				$this->out(Text::sprintf('FINDER_CLI_BATCH_COMPLETE', $i + 1, round(microtime(true) - $this->qtime, 3)), true);
 			}
 		}
 		catch (Exception $e)
@@ -222,11 +225,11 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	 */
 	private function purge()
 	{
-		$this->out(JText::_('FINDER_CLI_INDEX_PURGE'));
+		$this->out(Text::_('FINDER_CLI_INDEX_PURGE'));
 
 		// Load the model.
-		JModelLegacy::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/models', 'FinderModel');
-		$model = JModelLegacy::getInstance('Index', 'FinderModel');
+		BaseDatabaseModel::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/models', 'FinderModel');
+		$model = BaseDatabaseModel::getInstance('Index', 'FinderModel');
 
 		// Attempt to purge the index.
 		$return = $model->purge();
@@ -234,12 +237,12 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 		// If unsuccessful then abort.
 		if (!$return)
 		{
-			$message = JText::_('FINDER_CLI_INDEX_PURGE_FAILED', $model->getError());
+			$message = Text::_('FINDER_CLI_INDEX_PURGE_FAILED', $model->getError());
 			$this->out($message);
 			exit();
 		}
 
-		$this->out(JText::_('FINDER_CLI_INDEX_PURGE_SUCCESS'));
+		$this->out(Text::_('FINDER_CLI_INDEX_PURGE_SUCCESS'));
 	}
 
 	/**
@@ -254,7 +257,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	 */
 	private function putFilters()
 	{
-		$this->out(JText::_('FINDER_CLI_RESTORE_FILTERS'));
+		$this->out(Text::_('FINDER_CLI_RESTORE_FILTERS'));
 
 		$db = Factory::getDbo();
 
@@ -282,7 +285,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 				}
 				else
 				{
-					$this->out(JText::sprintf('FINDER_CLI_FILTER_RESTORE_WARNING', $element['parent'], $element['title'], $element['filter']));
+					$this->out(Text::sprintf('FINDER_CLI_FILTER_RESTORE_WARNING', $element['parent'], $element['title'], $element['filter']));
 				}
 			}
 
@@ -298,7 +301,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 			$db->setQuery($query)->execute();
 		}
 
-		$this->out(JText::sprintf('FINDER_CLI_RESTORE_FILTER_COMPLETED', count($this->filters)));
+		$this->out(Text::sprintf('FINDER_CLI_RESTORE_FILTER_COMPLETED', count($this->filters)));
 	}
 
 	/**
@@ -315,7 +318,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	 */
 	private function getFilters()
 	{
-		$this->out(JText::_('FINDER_CLI_SAVE_FILTERS'));
+		$this->out(Text::_('FINDER_CLI_SAVE_FILTERS'));
 
 		// Get the taxonomy ids used by the filters.
 		$db = Factory::getDbo();
@@ -354,7 +357,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 			}
 		}
 
-		$this->out(JText::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', count($filters)));
+		$this->out(Text::sprintf('FINDER_CLI_SAVE_FILTER_COMPLETED', count($filters)));
 	}
 }
 

@@ -62,7 +62,7 @@ class PlgSystemCache extends CMSPlugin
 		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
 		if (!isset($this->app))
 		{
-			$this->app = JFactory::getApplication();
+			$this->app = Factory::getApplication();
 		}
 
 		// Set the cache options.
@@ -121,7 +121,7 @@ class PlgSystemCache extends CMSPlugin
 
 		$results = $this->app->triggerEvent('onPageCacheSetCaching');
 		$caching = !in_array(false, $results, true);
-		$user    = JFactory::getUser();
+		$user    = Factory::getUser();
 
 		if ($caching && $user->get('guest') && $this->app->input->getMethod() == 'GET')
 		{

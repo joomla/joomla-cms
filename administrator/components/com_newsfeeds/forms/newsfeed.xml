@@ -71,7 +71,6 @@
 			name="version_note"
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			labelclass="control-label"
 			size="45"
 			maxlength="255"
 		/>
@@ -92,6 +91,7 @@
 			size="60"
 			required="true"
 			filter="url"
+			validate="url"
 		/>
 
 		<field
@@ -228,13 +228,6 @@
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			rows="3"
 			cols="30"
-		/>
-
-		<field
-			name="xreference"
-			type="text"
-			label="JFIELD_XREFERENCE_LABEL"
-			size="20"
 		/>
 
 		<fields name="images">

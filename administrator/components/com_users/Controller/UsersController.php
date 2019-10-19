@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Session\Session;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -151,5 +151,29 @@ class UsersController extends AdminController
 		}
 
 		$this->setRedirect('index.php?option=com_users&view=users');
+	}
+
+	/**
+	 * Method to get the number of active users
+	 *
+	 * @return  string  The JSON-encoded amount of users
+	 *
+	 * @since   4.0
+	 */
+	public function getQuickiconContent()
+	{
+		$model = $this->getModel('Users');
+
+		$model->setState('filter.state', 0);
+
+		$amount = (int) $model->getTotal();
+
+		$result = [];
+
+		$result['amount'] = $amount;
+		$result['sronly'] = Text::plural('COM_USERS_N_QUICKICON_SRONLY', $amount);
+		$result['name'] = Text::plural('COM_USERS_N_QUICKICON', $amount);
+
+		echo new JsonResponse($result);
 	}
 }

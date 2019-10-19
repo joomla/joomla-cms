@@ -32,6 +32,31 @@ class GroupparentField extends ListField
 	protected $type = 'GroupParent';
 
 	/**
+	 * Method to clean the Usergroup Options from all children starting by a given father
+	 *
+	 * @param   array    $userGroupsOptions  The usergroup options to clean
+	 * @param   integer  $fatherId           The father ID to start with
+	 *
+	 * @return  array  The cleaned field options
+	 *
+	 * @since   3.9.4
+	 */
+	private function cleanOptionsChildrenByFather($userGroupsOptions, $fatherId)
+	{
+		foreach ($userGroupsOptions as $userGroupsOptionsId => $userGroupsOptionsData)
+		{
+			if ((int) $userGroupsOptionsData->parent_id === (int) $fatherId)
+			{
+				unset($userGroupsOptions[$userGroupsOptionsId]);
+
+				$userGroupsOptions = $this->cleanOptionsChildrenByFather($userGroupsOptions, $userGroupsOptionsId);
+			}
+		}
+
+		return $userGroupsOptions;
+	}
+
+	/**
 	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects
@@ -41,11 +66,19 @@ class GroupparentField extends ListField
 	protected function getOptions()
 	{
 		$options = UserGroupsHelper::getInstance()->getAll();
+		$currentGroupId = $this->form->getValue('id');
 
-		// Prevent parenting to children of this item.
-		if ($id = $this->form->getValue('id'))
+		// Prevent to set yourself as parent
+		if ($currentGroupId)
 		{
-			unset($options[$id]);
+			unset($options[$currentGroupId]);
+		}
+
+		// We should not remove any groups when we are creating a new group
+		if (!is_null($currentGroupId))
+		{
+			// Prevent parenting direct children and children of children of this item.
+			$options = $this->cleanOptionsChildrenByFather($options, $currentGroupId);
 		}
 
 		$options      = array_values($options);
