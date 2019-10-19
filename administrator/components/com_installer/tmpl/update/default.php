@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Installer\Administrator\Helper\InstallerHelper as CmsInstallerHelper;
 
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('script', 'com_installer/changelog.js', ['version' => 'auto', 'relative' => true]);
@@ -77,16 +79,34 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</tr>
 							</thead>
 							<tbody>
-							<?php foreach ($this->items as $i => $item) : ?>
+							<?php
+							foreach ($this->items as $i => $item) :
+								$dlkeyInfo = CmsInstallerHelper::getDownloadKey(new CMSObject($item));
+								$missingDlid = $dlkeyInfo['supported'] && !$dlkeyInfo['valid'];
+							?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center">
+										<?php if($missingDlid): ?>
+										<span class="fa fa-ban"></span>
+										<?php else: ?>
 										<?php echo HTMLHelper::_('grid.id', $i, $item->update_id); ?>
+										<?php endif; ?>
 									</td>
 									<th scope="row">
 										<span tabindex="0"><?php echo $this->escape($item->name); ?></span>
 										<div role="tooltip" id="tip<?php echo $i; ?>">
 											<?php echo $item->description; ?>
 										</div>
+										<?php if($missingDlid): ?>
+										<span class="badge badge-warning">
+											<span class="hasPopover"
+												  title="<?= Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
+												  data-content="<?= Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
+											>
+												<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?>
+												</span>
+										</span>
+										<?php endif; ?>
 									</th>
 									<td class="center">
 										<?php echo $item->client_translated; ?>
