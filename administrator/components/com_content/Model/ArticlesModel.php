@@ -207,7 +207,7 @@ class ArticlesModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'DISTINCT a.id, a.asset_id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
+				'a.id, a.asset_id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
 				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, fp.featured_up, fp.featured_down' .
 				', a.language, a.hits, a.publish_up, a.publish_down, a.introtext, a.note'
 			)
