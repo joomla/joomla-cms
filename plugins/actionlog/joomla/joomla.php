@@ -852,6 +852,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		{
 			return;
 		}
+
 		$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_LOGGED_OUT';
 
 		$message = array(
