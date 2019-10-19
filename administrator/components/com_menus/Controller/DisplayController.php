@@ -93,9 +93,13 @@ class DisplayController extends BaseController
 
 			$query->select($db->quoteName('m.language'))
 				->from($db->quoteName('#__modules', 'm'))
-				->where($db->quoteName('m.module') . ' = ' . $db->quote('mod_menu'))
-				->where($db->quoteName('m.published') . ' = 1')
-				->where($db->quoteName('m.client_id') . ' = 1')
+				->where(
+					[
+						$db->quoteName('m.module') . ' = ' . $db->quote('mod_menu'),
+						$db->quoteName('m.published') . ' = 1',
+						$db->quoteName('m.client_id') . ' = 1',
+					]
+				)
 				->group($db->quoteName('m.language'));
 
 			$mLanguages = $db->setQuery($query)->loadColumn();

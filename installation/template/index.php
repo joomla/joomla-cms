@@ -49,6 +49,9 @@ Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
 Text::script('INSTL_PROCESS_BUSY');
 Text::script('INSTL_FTP_SETTINGS_CORRECT');
 
+// Load strings for translated messages (directory removal)
+Text::script('INSTL_REMOVE_INST_FOLDER');
+Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

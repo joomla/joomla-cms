@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentHtml $this */
@@ -143,7 +142,8 @@ Text::script('JGLOBAL_WARNCOOKIES');
 	<?php // Sidebar ?>
 	<div id="sidebar-wrapper" class="sidebar-wrapper order-0">
 		<div id="main-brand" class="main-brand">
-			<h1><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
+			<h1><?php echo $app->get('sitename'); ?></h1>
+			<h2><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h2>
 		</div>
 		<div id="sidebar">
 			<jdoc:include type="modules" name="sidebar" style="body" />

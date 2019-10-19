@@ -182,11 +182,11 @@ if ($this->enabled && $current->hasChildren())
 	{
 		$id = $current->get('id') ? ' id="menu-' . strtolower($current->get('id')) . '"' : '';
 
-		echo '<ul' . $id . ' class="collapse collapse-level-' . $current->level . '">' . "\n";
+		echo '<ul' . $id . ' class="mm-collapse collapse-level-' . $current->level . '">' . "\n";
 	}
 	else
 	{
-		echo '<ul id="collapse' . $this->getCounter() . '" class="collapse-level-1 collapse">' . "\n";
+		echo '<ul id="collapse' . $this->getCounter() . '" class="collapse-level-1 mm-collapse">' . "\n";
 	}
 
 	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call

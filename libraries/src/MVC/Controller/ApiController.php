@@ -13,7 +13,6 @@ namespace Joomla\CMS\MVC\Controller;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Controller\Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MvcFactoryInterface;
@@ -158,7 +157,7 @@ class ApiController extends BaseController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Unable to create the model');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
 		if ($modelState = $this->input->get('model_state', false, 'array'))
@@ -240,7 +239,7 @@ class ApiController extends BaseController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Unable to create the model.');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
 		if ($modelState = $this->input->get('model_state', false, 'array'))
@@ -303,7 +302,7 @@ class ApiController extends BaseController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Unable to create the model');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
 		if ($modelState = $this->input->get('model_state', false, 'array'))
@@ -322,8 +321,7 @@ class ApiController extends BaseController
 				throw new \RuntimeException($model->getError(), 500);
 			}
 
-			// TODO: Convert to language string
-			throw new \RuntimeException('There was an error deleting the item', 500);
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_DELETE'), 500);
 		}
 
 		$this->app->setHeader('status', 204);
@@ -365,7 +363,7 @@ class ApiController extends BaseController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Unable to create the model');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
 		try
@@ -381,8 +379,7 @@ class ApiController extends BaseController
 
 		if (!$recordId)
 		{
-			// TODO: Lang string for exception
-			throw new Exception\ResourceNotFound('Record does not exist', 404);
+			throw new Exception\ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
 		}
 
 		$key      = $table->getKeyName();
@@ -422,7 +419,7 @@ class ApiController extends BaseController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Unable to create the model');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
 		try
@@ -447,7 +444,7 @@ class ApiController extends BaseController
 
 		if (!$form)
 		{
-			throw new \RuntimeException('Unable to create the form.');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_FORM_CREATE'));
 		}
 
 		// Test whether the data is valid.

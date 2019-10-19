@@ -8,7 +8,6 @@
  */
 
 use Step\Acceptance\Administrator\Category as CategoryStep;
-use Page\Acceptance\Administrator\CategoryManagerPage;
 
 /**
  * Tests for com_content category list view.

@@ -89,7 +89,6 @@
 			<field
 				name="tag_list_description"
 				type="textarea"
-				class="inputbox"
 				label="COM_TAGS_SHOW_TAG_LIST_DESCRIPTION_LABEL"
 				description="COM_TAGS_TAG_LIST_DESCRIPTION_DESC"
 				rows="3"
