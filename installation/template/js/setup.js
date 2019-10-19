@@ -63,7 +63,7 @@ Joomla.checkInputs = function() {
 
   Promise.resolve()
       .then(() => {
-        if (Joomla.checkFormField(['#jform_db_type', '#jform_db_host', '#jform_db_user', '#jform_db_name']))
+        if (Joomla.checkFormField(['#jform_db_type', '#jform_db_host', '#jform_db_user', '#jform_db_name'])) {
         {
           return Joomla.checkDbCredentials(form);
         }
