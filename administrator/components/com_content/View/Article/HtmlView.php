@@ -147,6 +147,8 @@ class HtmlView extends BaseHtmlView
 		{
 			$apply = $toolbar->apply('article.apply');
 
+			$toolbar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
+
 			$saveGroup = $toolbar->dropdownButton('save-group');
 
 			$saveGroup->configure(
