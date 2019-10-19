@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
@@ -177,7 +177,7 @@ class RouteHelper
 
 					if (isset($item->query['id']))
 					{
-						if (is_array($item->query['id']))
+						if (\is_array($item->query['id']))
 						{
 							$item->query['id'] = $item->query['id'][0];
 						}

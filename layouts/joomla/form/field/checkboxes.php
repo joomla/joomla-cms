@@ -58,7 +58,7 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 <fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' checkboxes'); ?>"
 	<?php echo $required ? 'required' : ''; ?>
 	<?php echo $autofocus ? 'autofocus' : ''; ?>>
-	<legend><?php echo $label; ?></legend>
+	<legend class="sr-only"><?php echo $label; ?></legend>
 
 	<?php foreach ($options as $i => $option) : ?>
 		<?php

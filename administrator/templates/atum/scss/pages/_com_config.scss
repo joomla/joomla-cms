@@ -2,16 +2,13 @@
 
 .com_config {
 
-  .content {
-    background-color: transparent;
-  }
+	#fieldset-permissions {
+		grid-template-columns: 1fr;
+	}
 
-  [class^='col-'] {
-
-    > fieldset {
-      margin-bottom: 2rem;
-    }
-  }
+	.tab-description {
+		grid-column: 1 / 3;
+	}
 
   .rule-notes,
   .filter-notes {
@@ -20,11 +17,9 @@
     margin-bottom: 1em;
   }
 
-  .revert-controls .controls {
-    margin-left: 0;
-  }
-
-  .switcher__legend {
-    margin-left: -220px;
+  .options-menu {
+    .revert-controls .controls {
+      margin-left: 0;
+    }
   }
 }

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Toolbar;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
@@ -154,7 +154,7 @@ abstract class ToolbarButton
 			$action = $this->renderButton($this->options);
 		}
 		// For B/C
-		elseif (is_array($definition))
+		elseif (\is_array($definition))
 		{
 			$action = $this->fetchButton(...$definition);
 		}
@@ -401,7 +401,7 @@ abstract class ToolbarButton
 	 */
 	protected function ensureUniqueId(string $id): string
 	{
-		if (array_key_exists($id, static::$idCounter))
+		if (\array_key_exists($id, static::$idCounter))
 		{
 			static::$idCounter[$id]++;
 
@@ -446,12 +446,12 @@ abstract class ToolbarButton
 
 			if ($fieldName !== false)
 			{
-				if (!array_key_exists(0, $args))
+				if (!\array_key_exists(0, $args))
 				{
 					throw new \InvalidArgumentException(
 						sprintf(
 							'%s::%s() miss first argument.',
-							get_called_class(),
+							\get_called_class(),
 							$name
 						)
 					);
@@ -465,7 +465,7 @@ abstract class ToolbarButton
 			sprintf(
 				'Method %s() not found in class: %s',
 				$name,
-				get_called_class()
+				\get_called_class()
 			)
 		);
 	}

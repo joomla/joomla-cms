@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Serializer;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
@@ -45,13 +45,13 @@ class JoomlaSerializer extends AbstractSerializer
 	 */
 	public function getAttributes($post, array $fields = null)
 	{
-		if (!($post instanceof Table) && !($post instanceof \stdClass) && !(is_array($post))
+		if (!($post instanceof Table) && !($post instanceof \stdClass) && !(\is_array($post))
 			&& !($post instanceof CMSObject))
 		{
 			$message = sprintf(
 				'Invalid argument for TableSerializer. Expected array or %s. Got %s',
 				Table::class,
-				gettype($post)
+				\gettype($post)
 			);
 
 			throw new \InvalidArgumentException($message);
@@ -75,6 +75,6 @@ class JoomlaSerializer extends AbstractSerializer
 			$post = $post->getProperties();
 		}
 
-		return is_array($fields) ? array_intersect_key($post, array_flip($fields)) : $post;
+		return \is_array($fields) ? array_intersect_key($post, array_flip($fields)) : $post;
 	}
 }

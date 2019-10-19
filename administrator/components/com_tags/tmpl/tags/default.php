@@ -74,12 +74,12 @@ if ($saveOrder && !empty($this->items))
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" style="width:1%" class="d-none d-md-table-cell center">
-							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-						</th>
 						<td style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
+						<th scope="col" style="width:1%" class="d-none d-md-table-cell center">
+							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+						</th>
 						<th scope="col" style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
@@ -157,6 +157,9 @@ if ($saveOrder && !empty($this->items))
 					}
 					?>
 						<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id; ?>" item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>" level="<?php echo $item->level; ?>">
+							<td class="text-center">
+								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+							</td>
 							<td class="order text-center d-none d-md-table-cell">
 								<?php
 								$iconClass = '';
@@ -166,18 +169,15 @@ if ($saveOrder && !empty($this->items))
 								}
 								elseif (!$saveOrder)
 								{
-									$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JORDERINGDISABLED');
+									$iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED');
 								}
 								?>
 								<span class="sortable-handler<?php echo $iconClass ?>">
-									<span class="icon-menu"></span>
+									<span class="fa fa-ellipsis-v"></span>
 								</span>
 								<?php if ($canChange && $saveOrder) : ?>
 									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>">
 								<?php endif; ?>
-							</td>
-							<td class="text-center">
-								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="text-center">
 								<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'tags.', $canChange); ?>
@@ -188,9 +188,8 @@ if ($saveOrder && !empty($this->items))
 									<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'tags.', $canCheckin); ?>
 								<?php endif; ?>
 								<?php if ($canEdit) : ?>
-									<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
 									<a href="<?php echo Route::_('index.php?option=com_tags&task=tag.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
-										<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
+										<?php echo $this->escape($item->title); ?></a>
 								<?php else : ?>
 									<?php echo $this->escape($item->title); ?>
 								<?php endif; ?>

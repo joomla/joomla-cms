@@ -21,8 +21,11 @@
     }
   };
 
-  // eslint-disable-next-line no-new
-  new window.MetisMenu('#menu');
+  const allMenus = document.querySelectorAll('ul.main-nav');
+  allMenus.forEach((menu) => {
+    // eslint-disable-next-line no-new, no-undef
+    new MetisMenu(menu);
+  });
 
   const closest = (element, selector) => {
     let matchesFn;
@@ -62,11 +65,13 @@
       menuToggleIcon.classList.remove('fa-toggle-off');
       menuToggleIcon.classList.add('fa-toggle-on');
       localStorage.setItem('atum-sidebar', 'open');
+      Joomla.Event.dispatch('joomla:menu-toggle', 'open');
     } else {
       wrapper.classList.add('closed');
       menuToggleIcon.classList.remove('fa-toggle-on');
       menuToggleIcon.classList.add('fa-toggle-off');
       localStorage.setItem('atum-sidebar', 'closed');
+      Joomla.Event.dispatch('joomla:menu-toggle', 'closed');
     }
   }
 
@@ -111,13 +116,18 @@
         elem.classList.remove('child-open');
       }
 
-      // Save the sidebar state
-      if (Joomla.localStorageEnabled()) {
-        if (wrapper.classList.contains('closed')) {
+      // Save the sidebar state and dispatch event
+      const storageEnabled = Joomla.localStorageEnabled();
+      if (wrapper.classList.contains('closed')) {
+        if (storageEnabled) {
           localStorage.setItem('atum-sidebar', 'closed');
-        } else {
+        }
+        Joomla.Event.dispatch('joomla:menu-toggle', 'closed');
+      } else {
+        if (storageEnabled) {
           localStorage.setItem('atum-sidebar', 'open');
         }
+        Joomla.Event.dispatch('joomla:menu-toggle', 'open');
       }
     });
 
@@ -125,9 +135,9 @@
     /**
      * Sidebar Nav
      */
-    const allLinks = [].slice.call(wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow'));
+    const allLinks = wrapper.querySelectorAll('a.no-dropdown, a.collapse-arrow, .menu-dashboard > a');
     const currentUrl = window.location.href.toLowerCase();
-    const mainNav = document.getElementById('menu');
+    const mainNav = document.querySelector('ul.main-nav');
     const menuParents = [].slice.call(mainNav.querySelectorAll('li.parent > a'));
     const subMenusClose = [].slice.call(mainNav.querySelectorAll('li.parent .close'));
 
@@ -165,12 +175,19 @@
         });
 
         wrapper.classList.remove('closed');
+        localStorage.setItem('atum-sidebar', 'open');
+        if (menuToggleIcon.classList.contains('fa-toggle-off')) {
+          menuToggleIcon.classList.toggle('fa-toggle-off');
+          menuToggleIcon.classList.toggle('fa-toggle-on');
+        }
         mainNav.classList.add('child-open');
 
         if (menuItem.parentNode.classList.contains('main-nav')) {
           menuItem.classList.add('open');
         }
       }
+
+      Joomla.Event.dispatch('joomla:menu-toggle', 'open');
     };
 
     menuParents.forEach((parent) => {

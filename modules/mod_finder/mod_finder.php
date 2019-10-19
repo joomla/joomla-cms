@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -32,9 +31,9 @@ $cparams = ComponentHelper::getParams('com_finder');
 // Check for OpenSearch
 if ($params->get('opensearch', $cparams->get('opensearch', 1)))
 {
-	$defaultTitle = Text::_('MOD_FINDER_OPENSEARCH_NAME') . ' ' . Factory::getApplication()->get('sitename');
+	$defaultTitle = Text::_('MOD_FINDER_OPENSEARCH_NAME') . ' ' . $app->get('sitename');
 	$ostitle = $params->get('opensearch_name', $cparams->get('opensearch_name', $defaultTitle));
-	Factory::getDocument()->addHeadLink(
+	$app->getDocument()->addHeadLink(
 		Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
 		'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
 	);

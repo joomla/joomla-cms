@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
@@ -112,7 +112,7 @@ class SubformField extends FormField
 				$this->formsource = (string) $value;
 
 				// Add root path if we have a path to XML file
-				if (strrpos($this->formsource, '.xml') === strlen($this->formsource) - 4)
+				if (strrpos($this->formsource, '.xml') === \strlen($this->formsource) - 4)
 				{
 					$this->formsource = Path::clean(JPATH_ROOT . '/' . $this->formsource);
 				}
@@ -158,7 +158,7 @@ class SubformField extends FormField
 					break;
 				}
 
-				if ($value && !is_array($value))
+				if ($value && !\is_array($value))
 				{
 					$value = explode(',', (string) $value);
 					$value = array_fill_keys(array_filter($value), true);
@@ -200,7 +200,7 @@ class SubformField extends FormField
 			$this->__set($attributeName, $element[$attributeName]);
 		}
 
-		if ($this->value && is_string($this->value))
+		if ($this->value && \is_string($this->value))
 		{
 			// Guess here is the JSON string from 'default' attribute
 			$this->value = json_decode($this->value, true);
@@ -224,45 +224,15 @@ class SubformField extends FormField
 	 */
 	protected function getInput()
 	{
-		$value = $this->value ? (array) $this->value : array();
-
 		// Prepare data for renderer
 		$data    = parent::getLayoutData();
 		$tmpl    = null;
-		$forms   = array();
 		$control = $this->name;
 
 		try
 		{
-			// Prepare the form template
-			$formname    = 'subform.' . str_replace(array('jform[', '[', ']'), array('', '.', ''), $control);
-			$tmplcontrol = !$this->multiple ? $control : $control . '[' . $this->fieldname . 'X]';
-			$tmpl = Form::getInstance($formname, $this->formsource, array('control' => $tmplcontrol));
-
-			// Prepare the forms for exiting values
-			if ($this->multiple)
-			{
-				$value = array_values($value);
-				$c = max($this->min, min(count($value), $this->max));
-
-				for ($i = 0; $i < $c; $i++)
-				{
-					$itemcontrol = $control . '[' . $this->fieldname . $i . ']';
-					$itemform    = Form::getInstance($formname . $i, $this->formsource, array('control' => $itemcontrol));
-
-					if (!empty($value[$i]))
-					{
-						$itemform->bind($value[$i]);
-					}
-
-					$forms[] = $itemform;
-				}
-			}
-			else
-			{
-				$tmpl->bind($value);
-				$forms[] = $tmpl;
-			}
+			$tmpl  = $this->loadSubForm();
+			$forms = $this->loadSubFormData($tmpl);
 		}
 		catch (\Exception $e)
 		{
@@ -367,5 +337,75 @@ class SubformField extends FormField
 		}
 
 		return $name;
+	}
+
+	/**
+	 * Loads the form instance for the subform.
+	 *
+	 * @return  Form  The form instance.
+	 *
+	 * @throws  \InvalidArgumentException if no form provided.
+	 * @throws  \RuntimeException if the form could not be loaded.
+	 *
+	 * @since   3.9.7
+	 */
+	public function loadSubForm()
+	{
+		$control = $this->name;
+
+		if ($this->multiple)
+		{
+			$control .= '[' . $this->fieldname . 'X]';
+		}
+
+		// Prepare the form template
+		$formname = 'subform.' . str_replace(array('jform[', '[', ']'), array('', '.', ''), $this->name);
+		$tmpl     = Form::getInstance($formname, $this->formsource, array('control' => $control));
+
+		return $tmpl;
+	}
+
+	/**
+	 * Binds given data to the subform and its elements.
+	 *
+	 * @param   Form  &$subForm  Form instance of the subform.
+	 *
+	 * @return  Form[]  Array of Form instances for the rows.
+	 *
+	 * @since   3.9.7
+	 */
+	private function loadSubFormData(Form &$subForm)
+	{
+		$value = $this->value ? (array) $this->value : array();
+
+		// Simple form, just bind the data and return one row.
+		if (!$this->multiple)
+		{
+			$subForm->bind($value);
+
+			return array($subForm);
+		}
+
+		// Multiple rows possible: Construct array and bind values to their respective forms.
+		$forms = array();
+		$value = array_values($value);
+
+		// Show as many rows as we have values, but at least min and at most max.
+		$c = max($this->min, min(\count($value), $this->max));
+
+		for ($i = 0; $i < $c; $i++)
+		{
+			$control  = $this->name . '[' . $this->fieldname . $i . ']';
+			$itemForm = Form::getInstance($subForm->getName() . $i, $this->formsource, array('control' => $control));
+
+			if (!empty($value[$i]))
+			{
+				$itemForm->bind($value[$i]);
+			}
+
+			$forms[] = $itemForm;
+		}
+
+		return $forms;
 	}
 }

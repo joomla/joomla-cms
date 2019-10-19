@@ -138,8 +138,8 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
@@ -150,25 +150,25 @@ class HtmlView extends BaseHtmlView
 				->text('COM_USERS_TOOLBAR_UNBLOCK')
 				->task('users.unblock')
 				->listCheck(true);
-		}
 
-		// Add a batch button
-		if ($user->authorise('core.create', 'com_users')
-			&& $user->authorise('core.edit', 'com_users')
-			&& $user->authorise('core.edit.state', 'com_users'))
-		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
-		}
+			// Add a batch button
+			if ($user->authorise('core.create', 'com_users')
+				&& $user->authorise('core.edit', 'com_users')
+				&& $user->authorise('core.edit.state', 'com_users'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 
-		if ($canDo->get('core.delete'))
-		{
-			$toolbar->delete('users.delete')
-				->text('JTOOLBAR_DELETE')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
+			if ($canDo->get('core.delete'))
+			{
+				$childBar->delete('users.delete')
+					->text('JTOOLBAR_DELETE')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))

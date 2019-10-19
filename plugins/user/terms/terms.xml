@@ -21,17 +21,18 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldprefix="Joomla\Component\Content\Administrator\Field">
-				<field 
-					name="terms_note" 
-					type="textarea" 
+				<field
+					name="terms_note"
+					type="textarea"
 					label="PLG_USER_TERMS_NOTE_FIELD_LABEL"
 					description="PLG_USER_TERMS_NOTE_FIELD_DESC"
 					hint="PLG_USER_TERMS_NOTE_FIELD_DEFAULT"
 					class="span12"
-					rows="7" 
-					cols="20" 
+					rows="7"
+					cols="20"
 					filter="html"
-				/>	
+				/>
+
 				<field
 					name="terms_article"
 					type="modal_article"

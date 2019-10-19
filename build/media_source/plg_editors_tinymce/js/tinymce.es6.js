@@ -97,8 +97,7 @@
             editor.ui.registry.addIcon(icon, icons[icon]);
           });
 
-          editor.ui.registry.addSplitButton('jxtdbuttons', {
-            type: 'menubutton',
+          editor.ui.registry.addMenuButton('jxtdbuttons', {
             text: Joomla.JText._('PLG_TINY_CORE_BUTTONS'),
             icon: 'joomla',
             fetch: callback => callback(buttonValues),

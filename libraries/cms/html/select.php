@@ -55,7 +55,7 @@ abstract class JHtmlSelect
 	 * @return  string  HTML for the radio list
 	 *
 	 * @since   1.5
-	 * @see     JFormFieldRadio
+	 * @see     \Joomla\CMS\Form\Field\RadioField
 	 */
 	public static function booleanlist($name, $attribs = array(), $selected = null, $yes = 'JYES', $no = 'JNO', $id = false)
 	{

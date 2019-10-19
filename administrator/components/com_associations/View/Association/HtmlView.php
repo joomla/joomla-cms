@@ -118,8 +118,9 @@ class HtmlView extends BaseHtmlView
 		$referenceId   = $input->get('id', 0, 'int');
 		$reference     = ArrayHelper::fromObject(AssociationsHelper::getItem($extensionName, $typeName, $referenceId));
 
-		$this->referenceLanguage = $reference[$languageField];
-		$this->referenceTitle    = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
+		$this->referenceLanguage   = $reference[$languageField];
+		$this->referenceTitle      = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
+		$this->referenceTitleValue = $reference[$this->referenceTitle];
 
 		// Check for special case category
 		$typeNameExploded = explode('.', $typeName);
@@ -205,7 +206,7 @@ class HtmlView extends BaseHtmlView
 			$languageKey = strtoupper($this->extensionName) . '_CATEGORIES';
 		}
 
-		ToolbarHelper::title(Text::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', Text::_($this->extensionName), Text::_($languageKey)), 'contract assoc');
+		ToolbarHelper::title(Text::sprintf('COM_ASSOCIATIONS_TITLE_EDIT', Text::_($this->extensionName), Text::_($languageKey)), 'language assoc');
 
 		$bar = Toolbar::getInstance('toolbar');
 

@@ -77,17 +77,17 @@ class TypeField extends ListField
 			}
 		);
 
+		// Preload the Loading indication
+		HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
+
 		$js = <<<JS
 (function () {
   window.typeHasChanged = function(element) {
-    Joomla.loadingLayer('show');
+    // Display the loading indication
+    document.body.appendChild(document.createElement('joomla-core-loader'));
     document.querySelector('input[name=task]').value = 'field.reload';
     element.form.submit();
   };
-
-  document.addEventListener('DOMContentLaoded', function() {
-    Joomla.loadingLayer('load');
-  });
 })();
 JS;
 

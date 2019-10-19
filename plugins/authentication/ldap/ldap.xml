@@ -70,10 +70,10 @@
 					description="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_DESC"
 					default="0"
 					filter="integer"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
@@ -170,10 +170,10 @@
 					description="PLG_LDAP_FIELD_LDAPDEBUG_DESC"
 					default="0"
 					filter="integer"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 		</fields>

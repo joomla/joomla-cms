@@ -435,8 +435,8 @@ class ItemsModel extends ListModel
 		if ($menuType == '')
 		{
 			// Load all menu types we have manage access
-			$query2 = $this->getDbo()->getQuery(true)
-				->select($this->getDbo()->quoteName(array('id', 'menutype')))
+			$query2 = $db->getQuery(true)
+				->select($db->quoteName(array('id', 'menutype')))
 				->from('#__menu_types')
 				->where('client_id = ' . (int) $this->getState('filter.client_id'))
 				->order('title');
@@ -444,7 +444,7 @@ class ItemsModel extends ListModel
 			// Show protected items on explicit filter only
 			$query->where('a.menutype != ' . $db->quote('main'));
 
-			$menuTypes = $this->getDbo()->setQuery($query2)->loadObjectList();
+			$menuTypes = $db->setQuery($query2)->loadObjectList();
 
 			if ($menuTypes)
 			{
@@ -454,7 +454,7 @@ class ItemsModel extends ListModel
 				{
 					if ($user->authorise('core.manage', 'com_menus.menu.' . (int) $type->id))
 					{
-						$types[] = $query->quote($type->menutype);
+						$types[] = $db->quote($type->menutype);
 					}
 				}
 

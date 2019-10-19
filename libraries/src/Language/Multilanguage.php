@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Language;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
@@ -68,18 +68,22 @@ class Multilanguage
 			// Determine status of language filter plugin.
 			$db    = $db ?: Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('enabled')
+				->select($db->quoteName('enabled'))
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-				->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
-				->where($db->quoteName('element') . ' = ' . $db->quote('languagefilter'));
+				->where(
+					[
+						$db->quoteName('type') . ' = ' . $db->quote('plugin'),
+						$db->quoteName('folder') . ' = ' . $db->quote('system'),
+						$db->quoteName('element') . ' = ' . $db->quote('languagefilter'),
+					]
+				);
 			$db->setQuery($query);
 
-			static::$enabled = $db->loadResult();
+			static::$enabled = (bool) $db->loadResult();
 			$tested = true;
 		}
 
-		return (bool) static::$enabled;
+		return static::$enabled;
 	}
 
 	/**
@@ -101,12 +105,20 @@ class Multilanguage
 			// Check for Home pages languages.
 			$db    = $db ?: Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('language')
-				->select('id')
+				->select(
+					[
+						$db->quoteName('language'),
+						$db->quoteName('id'),
+					]
+				)
 				->from($db->quoteName('#__menu'))
-				->where('home = 1')
-				->where('published = 1')
-				->where('client_id = 0');
+				->where(
+					[
+						$db->quoteName('home') . ' = ' . $db->quote('1'),
+						$db->quoteName('published') . ' = 1',
+						$db->quoteName('client_id') . ' = 0',
+					]
+				);
 			$db->setQuery($query);
 
 			$multilangSiteHomePages = $db->loadObjectList('language');

@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 
 // Only super user can view this data
-if (!Factory::getUser()->authorise('core.admin'))
+if (!$app->getIdentity()->authorise('core.admin'))
 {
 	return;
 }

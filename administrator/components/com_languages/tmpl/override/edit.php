@@ -26,84 +26,35 @@ HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate">
-	<div class="row">
+	<div class="row mt-3">
 		<div class="col-md-6">
-			<fieldset>
+			<fieldset id="fieldset-override" class="options-grid-form options-grid-form-full">
 				<legend><?php echo empty($this->item->key) ? Text::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_NEW_OVERRIDE_LEGEND') : Text::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_EDIT_OVERRIDE_LEGEND'); ?></legend>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('language'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('language'); ?>
-					</div>
-				</div>
-
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('client'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('client'); ?>
-					</div>
-				</div>
-
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('key'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('key'); ?>
-					</div>
-				</div>
-
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('override'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('override'); ?>
-					</div>
-				</div>
+				<div>
+				<?php echo $this->form->renderField('language'); ?>
+				<?php echo $this->form->renderField('client'); ?>
+				<?php echo $this->form->renderField('key'); ?>
+				<?php echo $this->form->renderField('override'); ?>
 
 				<?php if ($this->state->get('filter.client') == 'administrator') : ?>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('both'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('both'); ?>
-					</div>
-				</div>
+					<?php echo $this->form->renderField('both'); ?>
 				<?php endif; ?>
 
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('file'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('file'); ?>
-					</div>
+				<?php echo $this->form->renderField('file'); ?>
 				</div>
 			</fieldset>
 
 		</div>
 
 		<div class="col-md-6">
-			<fieldset>
+			<fieldset id="fieldset-override-search" class="options-grid-form options-grid-form-full">
 				<legend><?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
+				<div>
 				<div class="alert alert-info">
 					<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?>
 				</div>
-				<div class="control-group">
-					<div class="control-label">
-						<?php echo $this->form->getLabel('searchtype'); ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getInput('searchtype'); ?>
-					</div>
-				</div>
+				<?php echo $this->form->renderField('searchtype'); ?>
 				<div class="control-group">
 					<div class="control-label">
 						<?php echo $this->form->getLabel('searchstring'); ?>
@@ -122,6 +73,7 @@ HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.
 							</span>
 						</div>
 					</div>
+				</div>
 				</div>
 			</fieldset>
 

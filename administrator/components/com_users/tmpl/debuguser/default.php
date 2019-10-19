@@ -35,7 +35,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</th>
 						<?php foreach ($this->actions as $key => $action) : ?>
 						<th style="width:6%" class="text-center" scope="col">
-							<span class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $key, $action[1]); ?>"><?php echo Text::_($key); ?></span>
+							<?php echo Text::_($key); ?>
 						</th>
 						<?php endforeach; ?>
 						<th style="width:6%" scope="col">

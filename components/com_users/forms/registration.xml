@@ -32,7 +32,7 @@
 		/>
 
 		<field
-			name="password1" 
+			name="password1"
 			type="password"
 			label="COM_USERS_PROFILE_PASSWORD1_LABEL"
 			description="COM_USERS_DESIRED_PASSWORD"

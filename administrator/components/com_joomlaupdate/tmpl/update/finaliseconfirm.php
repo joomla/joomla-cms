@@ -34,6 +34,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 
 <form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login" class="text-center">
 	<fieldset class="loginform">
+		<legend><?php echo Text::_('COM_JOOMLAUPDATE_CONFIRM'); ?></legend>
 		<div class="control-group">
 			<div class="controls">
 				<div class="input-group">

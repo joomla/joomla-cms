@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
@@ -363,7 +363,7 @@ class LanguageAdapter extends InstallerAdapter
 		$this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
-		if ($element && count($element->children()))
+		if ($element && \count($element->children()))
 		{
 			$files = $element->children();
 
@@ -685,7 +685,7 @@ class LanguageAdapter extends InstallerAdapter
 		$this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
-		if (count($xml->files->children()))
+		if (\count($xml->files->children()))
 		{
 			foreach ($xml->files->children() as $file)
 			{
