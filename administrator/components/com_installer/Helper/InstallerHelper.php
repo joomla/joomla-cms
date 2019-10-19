@@ -285,7 +285,63 @@ class InstallerHelper
 	 */
 	public static function getDownloadKeySupportedSites($onlyEnabled = false): array
 	{
-		// Get the database driver.
+		$extensions = self::getUpdateSitesInformation($onlyEnabled);
+
+		// Filter the extensions by what supports Download Keys
+		$extensions = array_filter($extensions, function (CMSObject $extension) {
+			$dlidInfo = self::getDownloadKey($extension);
+
+			return $dlidInfo['supported'];
+		});
+
+		// Return only the update site IDs
+		return array_map(function (CMSObject $extension) {
+			return $extension->get('update_site_id');
+		}, $extensions);
+	}
+
+	/**
+	 * Returns a list of update site IDs which are missing download keys. By default this returns all qualifying update
+	 * sites, even if they are not enabled.
+	 *
+	 * @param   bool  $onlyEnabled  [optional] Set true to only returned enabled update sites.
+	 *
+	 * @return  int[]
+	 * @since   4.0.0
+	 */
+	public static function getDownloadKeyExistsSites(bool $exists = true, $onlyEnabled = false): array
+	{
+		$extensions = self::getUpdateSitesInformation($onlyEnabled);
+
+		// Filter the extensions by what supports Download Keys
+		$extensions = array_filter($extensions, function (CMSObject $extension) use ($exists) {
+			$dlidInfo = self::getDownloadKey($extension);
+
+			if (!$dlidInfo['supported'])
+			{
+				return false;
+			}
+
+			return $exists ? $dlidInfo['valid'] : !$dlidInfo['valid'];
+		});
+
+		// Return only the update site IDs
+		return array_map(function (CMSObject $extension) {
+			return $extension->get('update_site_id');
+		}, $extensions);
+	}
+
+
+	/**
+	 * Get information about the update sites
+	 *
+	 * @param   bool  $onlyEnabled  Only return enabled update sites
+	 *
+	 * @return  CMSObject[]  List of update site and linked extension information
+	 * @since   4.0.0
+	 */
+	protected static function getUpdateSitesInformation(bool $onlyEnabled): array
+	{
 		try
 		{
 			$db = Factory::getDbo();
@@ -343,23 +399,11 @@ class InstallerHelper
 		// Try to get all of the update sites, including related extension information
 		try
 		{
-			$extensions = $db->setQuery($query)->loadObjectList('', CMSObject::class);
+			return $db->setQuery($query)->loadObjectList('', CMSObject::class);
 		}
 		catch (Exception $e)
 		{
 			return [];
 		}
-
-		// Filter the extensions by what supports Download Keys
-		$extensions = array_filter($extensions, function (CMSObject $extension) {
-			$dlidInfo = self::getDownloadKey($extension);
-
-			return $dlidInfo['supported'];
-		});
-
-		// Return only the update site IDs
-		return array_map(function (CMSObject $extension) {
-			return $extension->get('update_site_id');
-		}, $extensions);
 	}
 }
