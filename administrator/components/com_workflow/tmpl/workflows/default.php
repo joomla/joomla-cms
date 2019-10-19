@@ -132,9 +132,7 @@ $userId = $user->id;
 									<?php endif; ?>
 								</td>
 								<td class="text-center">
-									<div class="btn-group">
-										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'workflows.', $canChange && !$isCore); ?>
-									</div>
+									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'workflows.', $canChange && !$isCore); ?>
 								</td>
 								<th scope="row">
 									<?php if (!$isCore && ($canEdit || $canEditOwn)) : ?>
