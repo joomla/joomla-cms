@@ -149,7 +149,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 
 		$query->clear()
 			->delete($db->quoteName('#__session'))
-			->whereIn($db->quoteName('session_id'), $sessionIds);
+			->whereIn($db->quoteName('session_id'), $sessionIds, ParameterType::LARGE_OBJECT);
 
 		$db->setQuery($query)
 			->execute();
