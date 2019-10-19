@@ -17,6 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\Database\ParameterType;
 
 /**
  * Supports a modal menu item picker.
@@ -171,7 +172,7 @@ class MenuField extends FormField
 		Factory::getLanguage()->load('com_menus', JPATH_ADMINISTRATOR);
 
 		// The active article id field.
-		$value = (int) $this->value > 0 ? (int) $this->value : '';
+		$value = (int) $this->value;
 
 		// Create the modal id.
 		$modalId = 'Item_' . $this->id;
@@ -227,7 +228,8 @@ class MenuField extends FormField
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__menu'))
-				->where($db->quoteName('id') . ' = ' . (int) $value);
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':id', $value, ParameterType::INTEGER);
 
 			$db->setQuery($query);
 

@@ -48,7 +48,7 @@ HTMLHelper::_('behavior.core');
 			<hr>
 			<?php endif; ?>
 			<?php if ($displayData->displayFilters) : ?>
-			<div class="filter-select hidden-sm-down">
+			<div class="filter-select d-none d-md-block">
 				<h4 class="page-header"><?php echo Text::_('JSEARCH_FILTER_LABEL'); ?></h4>
 				<?php foreach ($displayData->filters as $filter) : ?>
 					<label for="<?php echo $filter['name']; ?>" class="sr-only"><?php echo $filter['label']; ?></label>
