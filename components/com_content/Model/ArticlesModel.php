@@ -336,7 +336,7 @@ class ArticlesModel extends ListModel
 			case 'only':
 				$query->where('a.featured = 1');
 				$query->where('(' . $query->quoteName('fp.featured_up') . ' IS NULL OR fp.featured_up <= ' . $db->quote($now) . ')');
-				$query->where('(' . $query->isNullDatetime('fp.featured_down') . ' OR fp.featured_down >= ' . $db->quote($now) . ')');
+				$query->where('(' . $query->quoteName('fp.featured_down') . ' IS NULL OR fp.featured_down >= ' . $db->quote($now) . ')');
 				break;
 
 			case 'show':
