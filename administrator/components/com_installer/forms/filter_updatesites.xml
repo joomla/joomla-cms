@@ -48,6 +48,8 @@
 		>
 			<option value="">COM_INSTALLER_VALUE_SUPPORTED_SELECT</option>
 			<option value="1">COM_INSTALLER_VALUE_SUPPORTED_SUPPORTED</option>
+			<option value="-1">COM_INSTALLER_VALUE_SUPPORTED_MISSING</option>
+			<option value="2">COM_INSTALLER_VALUE_SUPPORTED_EXISTS</option>
 		</field>
 
 	</fields>

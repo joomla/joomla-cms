@@ -562,13 +562,41 @@ class UpdatesitesModel extends InstallerModel
 				->bind(':siteId', substr($search, 3), ParameterType::INTEGER);
 		}
 
-		if ($supported)
+		if ($supported != 0)
 		{
-			$supportedIDs = InstallerHelper::getDownloadKeySupportedSites($enabled);
+			switch ($supported)
+			{
+				// Show Update Sites which support Download Keys
+				case 1:
+					$supportedIDs = InstallerHelper::getDownloadKeySupportedSites($enabled);
+					break;
+
+				// Show Update Sites which are missing Download Keys
+				case -1:
+					$supportedIDs = InstallerHelper::getDownloadKeyExistsSites(false, $enabled);
+					break;
+
+				// Show Update Sites which have valid Download Keys
+				case 2:
+					$supportedIDs = InstallerHelper::getDownloadKeyExistsSites(true, $enabled);
+					break;
+			}
+
 			$supportedIDs = array_map([$db, 'quote'], $supportedIDs);
 
-			$query->where($db->qn('s.update_site_id') . ' IN (' . implode(',', $supportedIDs) . ')');
+			if (!empty($supportedIDs))
+			{
+				$query->where($db->qn('s.update_site_id') . ' IN (' . implode(',', $supportedIDs) . ')');
+			}
+			else
+			{
+				// In case of an empty list of IDs we apply a fake filter to effectively return no data
+				$zero = 0;
+				$query->where($db->qn('s.update_site_id') . ' = :update_site_id');
+				$query->bind('update_site_id', $zero, ParameterType::INTEGER);
+			}
 		}
+
 
 		/**
 		 * Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in
