@@ -11,7 +11,6 @@ namespace Joomla\CMS\Installation\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
@@ -19,6 +18,7 @@ use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
@@ -790,7 +790,7 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Cms tables and data post install process.
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   DatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  void
 	 *
@@ -811,7 +811,7 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to update the user id of sql data content to the new rand user id.
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   DatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  void
 	 *
@@ -864,7 +864,7 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to update the dates of sql data content to the current date.
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   DatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  void
 	 *
@@ -925,7 +925,7 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to check for the testing sampledata plugin.
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   DatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  void
 	 *
@@ -968,8 +968,8 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to backup all tables in a database with a given prefix.
 	 *
-	 * @param   \JDatabaseDriver  $db      JDatabaseDriver object.
-	 * @param   string            $prefix  Database table prefix.
+	 * @param   DatabaseDriver  $db      JDatabaseDriver object.
+	 * @param   string          $prefix  Database table prefix.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1026,10 +1026,10 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to create a new database.
 	 *
-	 * @param   \JDatabaseDriver  $db       JDatabase object.
-	 * @param   \JObject          $options  JObject coming from "initialise" function to pass user
-	 *                                      and database name to database driver.
-	 * @param   boolean           $utf      True if the database supports the UTF-8 character set.
+	 * @param   DatabaseDriver  $db       Database object.
+	 * @param   CMSObject       $options  CMSObject coming from "initialise" function to pass user
+	 *                                    and database name to database driver.
+	 * @param   boolean         $utf      True if the database supports the UTF-8 character set.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1055,8 +1055,8 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to delete all tables in a database with a given prefix.
 	 *
-	 * @param   \JDatabaseDriver  $db      JDatabaseDriver object.
-	 * @param   string            $prefix  Database table prefix.
+	 * @param   DatabaseDriver  $db      JDatabaseDriver object.
+	 * @param   string          $prefix  Database table prefix.
 	 *
 	 * @return  boolean  True on success.
 	 *

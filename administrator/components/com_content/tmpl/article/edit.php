@@ -42,7 +42,7 @@ $assoc = Associations::isEnabled();
 $hasAssoc = ($this->form->getValue('language', null, '*') !== '*');
 
 // In case of modal
-$isModal = $input->get('layout') == 'modal' ? true : false;
+$isModal = $input->get('layout') === 'modal';
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 ?>
@@ -104,8 +104,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
-		<?php $this->show_options = $params->get('show_article_options', 1); ?>
-		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+		<?php if ($params->get('show_article_options', 1) == 1) : ?>
+			<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+		<?php endif; ?>
 
 		<?php // Do not show the publishing options if the edit form is configured not to. ?>
 		<?php if ($params->get('show_publishing_options', 1) == 1) : ?>

@@ -1,8 +1,9 @@
 const Fs = require('fs');
 const Path = require('path');
 const UglifyJS = require('uglify-es');
-const WalkSync = require('../utils/walk-sync.es6.js');
-const RootPath = require('../utils/rootpath.es6.js')._();
+const walkSync = require('walk-sync');
+
+const RootPath = process.cwd();
 
 /**
  * Method that will minify a set of vendor javascript files
@@ -18,7 +19,12 @@ module.exports.compile = () => {
 
       // Loop to get some text for the package.json
       folders.forEach((folder) => {
-        const files = WalkSync.run(folder, []);
+        const files = walkSync(folder, {
+          globs: ['**/*.{js}'],
+          includeBasePath: true,
+          ignore: [],
+          directories: false,
+        });
 
         if (files.length) {
           files.forEach(
