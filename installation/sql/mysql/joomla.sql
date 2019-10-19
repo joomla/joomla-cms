@@ -1670,7 +1670,7 @@ CREATE TABLE IF NOT EXISTS `#__privacy_consents` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL DEFAULT 0,
   `state` INT(10) NOT NULL DEFAULT 1,
-  `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `created` datetime NOT NULL,
   `subject` varchar(255) NOT NULL DEFAULT '',
   `body` text NOT NULL,
   `remind` tinyint(4) NOT NULL DEFAULT 0,
