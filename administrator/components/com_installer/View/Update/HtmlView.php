@@ -64,6 +64,11 @@ class HtmlView extends InstallerViewDefault
 			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'warning');
 		}
 
+		if (!class_exists('Joomla\Component\Installer\Administrator\Helper\InstallerHelper'))
+		{
+			require_once JPATH_COMPONENT_ADMINISTRATOR . '/Helper/InstallerHelper.php';
+		}
+
 		parent::display($tpl);
 	}
 
