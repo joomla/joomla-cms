@@ -587,7 +587,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
 		$context = $this->app->input->get('option');
-		$task    = $this->app->input->get->getCmd('task');
+		$task    = $this->app->input->post->get('task');
 
 		if (!$this->checkLoggable($context))
 		{

@@ -21,6 +21,14 @@ defined('_JEXEC') or die;
 class LinkTable extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  Database Driver connector object.
@@ -30,5 +38,20 @@ class LinkTable extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__finder_links', 'link_id', $db);
+	}
+
+	/**
+	 * Overloaded store function
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  mixed  False on failure, positive integer on success.
+	 *
+	 * @see     Table::store()
+	 * @since   4.0.0
+	 */
+	public function store($updateNulls = true)
+	{
+		return parent::store($updateNulls);
 	}
 }
