@@ -50,6 +50,7 @@ $wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')
 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
+HTMLHelper::_('stylesheet', 'vendor/fontawesome-free/fontawesome.min.css', ['version' => 'auto', 'relative' => true]);
 
 // Load customer stylesheet if available
 HTMLHelper::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
