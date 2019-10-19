@@ -238,7 +238,7 @@ class ArticlesModel extends ListModel
 			}
 
 			$query->where('(' . $db->quoteName('fp.featured_up') . ' IS NULL OR fp.featured_up <= ' . $db->quote($now) . ')');
-			$query->where('(' . $query->isNullDatetime('fp.featured_down') . ' OR fp.featured_down >= ' . $db->quote($now) . ')');
+			$query->where('(' . $db->quoteName('fp.featured_down') . ' IS NULL OR fp.featured_down >= ' . $db->quote($now) . ')');
 		}
 		elseif ($orderby_sec === 'front' || $this->getState('list.ordering') === 'fp.ordering')
 		{
