@@ -27,34 +27,7 @@ Text::script('ERROR');
 Text::script('JGLOBAL_VALIDATION_FORM_FAILED');
 
 $this->document->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
-HTMLHelper::_('script', 'com_menus/admin-item-edit.min.js', ['version' => 'auto', 'relative' => true]);
-
-// Ajax for parent items
-$script = "
-jQuery(document).ready(function ($){
-	// Menu type Login Form specific
-	$('#item-form').on('submit', function() {
-		if ($('#jform_params_login_redirect_url') && $('#jform_params_logout_redirect_url')) {
-			// Login
-			if ($('#jform_params_login_redirect_url').closest('.control-group').css('display') === 'block') {
-				$('#jform_params_login_redirect_menuitem_id').val('');
-			}
-			if ($('#jform_params_login_redirect_menuitem_name').closest('.control-group').css('display') === 'block') {
-				$('#jform_params_login_redirect_url').val('');
-
-			}
-
-			// Logout
-			if ($('#jform_params_logout_redirect_url').closest('.control-group').css('display') === 'block') {
-				$('#jform_params_logout_redirect_menuitem_id').val('');
-			}
-			if ($('#jform_params_logout_redirect_menuitem_id').closest('.control-group').css('display') === 'block') {
-				$('#jform_params_logout_redirect_url').val('');
-			}
-		}
-	});
-});
-";
+HTMLHelper::_('script', 'com_menus/admin-item-edit.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
 
 $assoc = Associations::isEnabled();
 $hasAssoc = ($this->form->getValue('language', null, '*') !== '*');
