@@ -290,7 +290,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 
 		$daysToDeleteAfter = (int) $this->params->get('logDeletePeriod', 0);
-		$now               = $db->quote(Factory::getDate()->toSql());
+		$now               = Factory::getDate()->toSql();
 
 		if ($daysToDeleteAfter > 0)
 		{
@@ -299,7 +299,8 @@ class PlgSystemActionLogs extends CMSPlugin
 			$query->clear()
 				->delete($db->quoteName('#__action_logs'))
 				->where($db->quoteName('log_date') . ' < ' . $query->dateAdd(':now', ':days', 'DAY'))
-				->bind([':now', ':days'], [$now, $days], [ParameterType::STRING, ParameterType::INTEGER]);
+				->bind(':now', $now)
+				->bind(':days', $days, ParameterType::INTEGER);
 
 			$db->setQuery($query);
 
