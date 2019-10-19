@@ -23,6 +23,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -832,7 +833,7 @@ abstract class AdminModel extends FormModel
 	 */
 	public function delete(&$pks)
 	{
-		$pks = (array) $pks;
+		$pks   = ArrayHelper::toInteger((array) $pks);
 		$table = $this->getTable();
 
 		// Include the plugins for the delete events.
@@ -862,11 +863,22 @@ abstract class AdminModel extends FormModel
 					{
 						$db = $this->getDbo();
 						$query = $db->getQuery(true)
-							->select('COUNT(*) as count, ' . $db->quoteName('as1.key'))
-							->from($db->quoteName('#__associations') . ' AS as1')
-							->join('LEFT', $db->quoteName('#__associations') . ' AS as2 ON ' . $db->quoteName('as1.key') . ' =  ' . $db->quoteName('as2.key'))
-							->where($db->quoteName('as1.context') . ' = ' . $db->quote($this->associationsContext))
-							->where($db->quoteName('as1.id') . ' = ' . (int) $pk)
+							->select(
+								[
+									'COUNT(*) AS ' . $db->quoteName('count'),
+									$db->quoteName('as1.key'),
+								]
+							)
+							->from($db->quoteName('#__associations', 'as1'))
+							->join('LEFT', $db->quoteName('#__associations', 'as2'), $db->quoteName('as1.key') . ' = ' . $db->quoteName('as2.key'))
+							->where(
+								[
+									$db->quoteName('as1.context') . ' = :context',
+									$db->quoteName('as1.id') . ' = :pk',
+								]
+							)
+							->bind(':context', $this->associationsContext)
+							->bind(':pk', $pk, ParameterType::INTEGER)
 							->group($db->quoteName('as1.key'));
 
 						$db->setQuery($query);
@@ -876,12 +888,19 @@ abstract class AdminModel extends FormModel
 						{
 							$query = $db->getQuery(true)
 								->delete($db->quoteName('#__associations'))
-								->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
-								->where($db->quoteName('key') . ' = ' . $db->quote($row['key']));
+								->where(
+									[
+										$db->quoteName('context') . ' = :context',
+										$db->quoteName('key') . ' = :key',
+									]
+								)
+								->bind(':context', $this->associationsContext)
+								->bind(':key', $row['key']);
 
 							if ($row['count'] > 2)
 							{
-								$query->where($db->quoteName('id') . ' = ' . (int) $pk);
+								$query->where($db->quoteName('id') . ' = :pk')
+									->bind(':pk', $pk, ParameterType::INTEGER);
 							}
 
 							$db->setQuery($query);
@@ -1350,32 +1369,42 @@ abstract class AdminModel extends FormModel
 
 			// Get associationskey for edited item
 			$db    = $this->getDbo();
+			$id    = (int) $table->$key;
 			$query = $db->getQuery(true)
 				->select($db->quoteName('key'))
 				->from($db->quoteName('#__associations'))
-				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
-				->where($db->quoteName('id') . ' = ' . (int) $table->$key);
+				->where($db->quoteName('context') . ' = :context')
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':context', $this->associationsContext)
+				->bind(':id', $id, ParameterType::INTEGER);
 			$db->setQuery($query);
-			$old_key = $db->loadResult();
+			$oldKey = $db->loadResult();
 
-			// Deleting old associations for the associated items
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__associations'))
-				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext));
-
-			if ($associations)
+			if ($associations || $oldKey !== null)
 			{
-				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')'
-				);
-			}
-			else
-			{
-				$query->where($db->quoteName('key') . ' = ' . $db->quote($old_key));
-			}
+				// Deleting old associations for the associated items
+				$query = $db->getQuery(true)
+					->delete($db->quoteName('#__associations'))
+					->where($db->quoteName('context') . ' = :context')
+					->bind(':context', $this->associationsContext);
 
-			$db->setQuery($query);
-			$db->execute();
+				$where = [];
+
+				if ($associations)
+				{
+					$where[] = $db->quoteName('id') . ' IN (' . implode(',', $query->bindArray(array_values($associations))) . ')';
+				}
+
+				if ($oldKey !== null)
+				{
+					$where[] = $db->quoteName('key') . ' = :oldKey';
+					$query->bind(':oldKey', $oldKey);
+				}
+
+				$query->extendWhere('AND', $where, 'OR');
+				$db->setQuery($query);
+				$db->execute();
+			}
 
 			// Adding self to the association
 			if ($table->language !== '*')
@@ -1388,11 +1417,26 @@ abstract class AdminModel extends FormModel
 				// Adding new association for these items
 				$key   = md5(json_encode($associations));
 				$query = $db->getQuery(true)
-					->insert('#__associations');
+					->insert($db->quoteName('#__associations'))
+					->columns(
+						[
+							$db->quoteName('id'),
+							$db->quoteName('context'),
+							$db->quoteName('key'),
+						]
+					);
 
 				foreach ($associations as $id)
 				{
-					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
+					$query->values(
+						implode(
+							',',
+							$query->bindArray(
+								[$id, $this->associationsContext, $key],
+								[ParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING]
+							)
+						)
+					);
 				}
 
 				$db->setQuery($query);
