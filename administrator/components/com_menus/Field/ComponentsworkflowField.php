@@ -50,11 +50,11 @@ class ComponentsWorkflowField extends \JFormFieldList
 		$query = $db->getQuery(true)
 			->select('DISTINCT a.name AS text, a.element AS value')
 			->from('#__extensions as a')
-			->where('a.enabled >= 1') 
+			->where('a.enabled >= 1')
 			->where('a.type =' . $db->quote('component'));
 
 		$items = $db->setQuery($query)->loadObjectList();
-		
+
 		$options = [];
 
 		if (count($items))
@@ -66,38 +66,41 @@ class ComponentsWorkflowField extends \JFormFieldList
 			// Search for components supporting Fieldgroups - suppose that these componets support fields as well
 			foreach ($items as &$item)
 			{
-				if (!empty(Access::getActionsFromFile(
+				$availableActions = Access::getActionsFromFile(
 					JPATH_ADMINISTRATOR . '/components/' . $item->value . '/access.xml',
-					"/access/section[@name='workflow']/")))
+					"/access/section[@name='workflow']/"
+				);
+
+				if (!empty($availableActions))
 				{
 					// Load language
 					$source = JPATH_ADMINISTRATOR . '/components/' . $item->value;
-					$lang->load($item->value.'sys', JPATH_ADMINISTRATOR, null, false, true)
-						|| $lang->load($item->value.'sys', $source, null, false, true);
+					$lang->load($item->value . 'sys', JPATH_ADMINISTRATOR, null, false, true)
+						|| $lang->load($item->value . 'sys', $source, null, false, true);
 
 					// Translate component name
 					$item->text = Text::_($item->text);
-					
+
 					$components[]  = $item;
 				}
 			}
 
 			if (empty($components))
 			{
-				return;
+				return [];
 			}
 
 			foreach ($components as $component)
 			{
 				// Search for different contexts
 				$c = Factory::getApplication()->bootComponent($component->value);
-				
+
 				if ($c instanceof WorkflowServiceInterface)
 				{
 					$contexts = $c->getContexts();
-					
+
 					foreach ($contexts as $context)
-					{ 
+					{
 						$newOption = new \stdClass;
 						$newOption->value = strtolower($component->value . '.' . $context);
 						$newOption->text = $component->text . ' - ' . Text::_($context);
