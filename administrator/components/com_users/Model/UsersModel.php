@@ -395,7 +395,7 @@ class UsersModel extends ListModel
 				}
 				else
 				{
-					$dNow   = $dates['dNow']->format('Y-m-d H:i:s');
+					$dNow = $dates['dNow']->format('Y-m-d H:i:s');
 
 					$query->where(
 						$db->quoteName('a.registerDate') . ' >= :dStart' .
