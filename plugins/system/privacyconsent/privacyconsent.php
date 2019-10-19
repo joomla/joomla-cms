@@ -15,15 +15,15 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
+use Joomla\Component\Messages\Administrator\Model\MessageModel;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * An example custom privacyconsent plugin.
@@ -143,8 +143,8 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		}
 
 		// Check that the privacy is checked if required ie only in registration from frontend.
-		$option = $this->app->input->getCmd('option');
-		$task   = $this->app->input->get->getCmd('task');
+		$option = $this->app->input->get('option');
+		$task   = $this->app->input->post->get('task');
 		$form   = $this->app->input->post->get('jform', [], 'array');
 
 		if ($option == 'com_users' && in_array($task, array('registration.register', 'profile.save'))
@@ -185,8 +185,8 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			return true;
 		}
 
-		$option = $this->app->input->getCmd('option');
-		$task   = $this->app->input->get->getCmd('task');
+		$option = $this->app->input->get('option');
+		$task   = $this->app->input->post->get('task');
 		$form   = $this->app->input->post->get('jform', [], 'array');
 
 		if ($option == 'com_users'
@@ -230,10 +230,8 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 				'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
 			];
 
-			BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
-
-			/** @var ActionlogsModelActionlog $model */
-			$model = BaseDatabaseModel::getInstance('Actionlog', 'ActionlogsModel');
+			/** @var ActionlogModel $model */
+			$model = $this->app->bootComponent('com_actionlogs')->getMVCFactory()->createModel('Actionlog', 'Administrator');
 			$model->addLog([$message], 'PLG_SYSTEM_PRIVACYCONSENT_CONSENT', 'plg_system_privacyconsent', $userId);
 		}
 
@@ -695,10 +693,8 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		}
 
 		// Push a notification to the site's super users
-		BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/models', 'MessagesModel');
-		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/tables');
-		/** @var MessagesModelMessage $messageModel */
-		$messageModel = BaseDatabaseModel::getInstance('Message', 'MessagesModel');
+		/** @var MessageModel $messageModel */
+		$messageModel = $this->app->bootComponent('com_messages')->getMVCFactory()->createModel('Message', 'Administrator');
 
 		foreach ($users as $user)
 		{

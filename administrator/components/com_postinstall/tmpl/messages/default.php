@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 $lang     = Factory::getLanguage();
-$renderer = Factory::getDocument()->loadRenderer('module');
+$renderer = $this->document->loadRenderer('module');
 $options  = array('style' => 'raw');
 $mod      = ModuleHelper::getModule('mod_feed');
 $param    = array(
