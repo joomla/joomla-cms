@@ -44,6 +44,7 @@
 			validate="username"
 			class="form-control"
 			size="30"
+			autocomplete="username"
 		/>
 		<field
 			name="admin_password"
@@ -52,7 +53,7 @@
 			id="admin_password"
 			class="form-control"
 			required="true"
-			autocomplete="off"
+			autocomplete="new-password"
 		/>
 		<field
 			name="db_type"
