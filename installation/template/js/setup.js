@@ -98,7 +98,7 @@ Joomla.checkDbCredentials = (form) => {
     headers: new Headers({'Content-Type': 'application/x-www-form-urlencoded'}),
   };
 
-  return fetch(Joomla.installationBaseUrl + '?task=installation.dbcheck&format=json', fetchData)
+  return fetch(`${Joomla.installationBaseUrl}?task=installation.dbcheck&format=json`, fetchData)
       .then((response) => response.json())
       .then((responseData) => {
         if (responseData.messages) {
