@@ -847,6 +847,11 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		}
 
 		$loggedOutUser      = User::getInstance($user['id']);
+		
+		if ($loggedOutUser->block)
+		{
+			return;
+		}
 		$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_LOGGED_OUT';
 
 		$message = array(
