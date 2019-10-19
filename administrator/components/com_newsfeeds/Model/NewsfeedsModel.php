@@ -183,7 +183,7 @@ class NewsfeedsModel extends ListModel
 		if (Associations::isEnabled())
 		{
 			$subQuery = $db->getQuery(true)
-				->select('CASE WHEN COUNT(' . $db->quoteName('asso1.id') . ') > 1 THEN 1 ELSE 0 END')
+				->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
 				->from($db->quoteName('#__associations', 'asso1'))
 				->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
 				->where(
