@@ -51,6 +51,7 @@ class NewsfeedTable extends Table
 	{
 		$this->typeAlias = 'com_newsfeeds.newsfeed';
 		parent::__construct('#__newsfeeds', 'id', $db);
+		$this->setColumnAlias('title', 'name');
 	}
 
 	/**

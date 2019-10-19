@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Environment;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Browser class, provides capability information about the current web client.
@@ -514,7 +514,7 @@ class Browser
 	public function match($userAgent = null, $accept = null)
 	{
 		// Set our agent string.
-		if (is_null($userAgent))
+		if (\is_null($userAgent))
 		{
 			if (isset($_SERVER['HTTP_USER_AGENT']))
 			{
@@ -529,7 +529,7 @@ class Browser
 		$this->lowerAgent = strtolower($this->agent);
 
 		// Set our accept string.
-		if (is_null($accept))
+		if (\is_null($accept))
 		{
 			if (isset($_SERVER['HTTP_ACCEPT']))
 			{
@@ -960,7 +960,7 @@ class Browser
 			return false;
 		}
 
-		return in_array($subtype, $this->images);
+		return \in_array($subtype, $this->images);
 	}
 
 	/**

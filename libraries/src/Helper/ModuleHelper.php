@@ -386,7 +386,7 @@ abstract class ModuleHelper
 			->extendWhere(
 				'AND',
 				[
-					$query->isNullDatetime($db->quoteName('m.publish_up')),
+					$db->quoteName('m.publish_up') . ' IS NULL',
 					$db->quoteName('m.publish_up') . ' <= :publishUp',
 				],
 				'OR'
@@ -395,7 +395,7 @@ abstract class ModuleHelper
 			->extendWhere(
 				'AND',
 				[
-					$query->isNullDatetime($db->quoteName('m.publish_down')),
+					$db->quoteName('m.publish_down') . ' IS NULL',
 					$db->quoteName('m.publish_down') . ' >= :publishDown',
 				],
 				'OR'
@@ -538,7 +538,10 @@ abstract class ModuleHelper
 			->createCacheController('callback', ['defaultgroup' => $cacheparams->cachegroup]);
 
 		// Turn cache off for internal callers if parameters are set to off and for all logged in users
-		if ($moduleparams->get('owncache') === 0 || $moduleparams->get('owncache') === '0' || $app->get('caching') == 0 || $user->get('id'))
+		$ownCacheDisabled = $moduleparams->get('owncache') === 0 || $moduleparams->get('owncache') === '0';
+		$cacheDisabled = $moduleparams->get('cache') === 0 || $moduleparams->get('cache') === '0';
+
+		if ($ownCacheDisabled || $cacheDisabled || $app->get('caching') == 0 || $user->get('id'))
 		{
 			$cache->setCaching(false);
 		}
