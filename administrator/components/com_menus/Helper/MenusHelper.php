@@ -699,7 +699,7 @@ class MenusHelper extends ContentHelper
 			$query->select('a.id, a.link, a.type, e.element')
 				->from('#__menu a')
 				->where('a.id = ' . (int) $aliasTo)
-				->join('left', '#__extensions e ON e.id = a.component_id = e.id');
+				->join('left', '#__extensions e ON e.extension_id = a.component_id');
 
 			try
 			{

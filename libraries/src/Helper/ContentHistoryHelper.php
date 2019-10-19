@@ -168,7 +168,7 @@ class ContentHistoryHelper extends CMSHelper
 
 		$context = $aliasParts[1] ?? '';
 
-		$maxVersionsContext = ComponentHelper::getParams($aliasParts[0])->get('history_limit' . '_' . $context, 0);
+		$maxVersionsContext = ComponentHelper::getParams($aliasParts[0])->get('history_limit_' . $context, 0);
 
 		if ($maxVersionsContext)
 		{

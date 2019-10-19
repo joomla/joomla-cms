@@ -138,7 +138,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
 								<?php if ($menuType) : ?>
-									<td class="order text-center d-none d-md-table-cell">
+									<td class="text-center d-none d-md-table-cell">
 										<?php
 										$iconClass = '';
 

@@ -264,7 +264,7 @@ abstract class FieldsPlugin extends CMSPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getFormPath(Form $form, $data)
 	{
