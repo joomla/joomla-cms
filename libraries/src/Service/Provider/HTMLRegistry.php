@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Service\Provider;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\Registry;
 use Joomla\DI\Container;
@@ -33,12 +33,12 @@ class HTMLRegistry implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->share(
-				Registry::class,
-				function (Container $container)
-				{
-					return new Registry;
-				},
-				true
-			);
+			Registry::class,
+			function (Container $container)
+			{
+				return new Registry;
+			},
+			true
+		);
 	}
 }

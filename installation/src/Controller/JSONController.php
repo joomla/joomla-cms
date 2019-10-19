@@ -45,6 +45,7 @@ abstract class JSONController extends BaseController
 			$this->app->setHeader('status', 500);
 			echo '{"token":"' . Session::getFormToken(true) . '","lang":"' . Factory::getLanguage()->getTag()
 				. '","error":true,"header":"' . Text::_('INSTL_HEADER_ERROR') . '","message":"' . Text::_('INSTL_WARNJSON') . '"}';
+
 			return;
 		}
 

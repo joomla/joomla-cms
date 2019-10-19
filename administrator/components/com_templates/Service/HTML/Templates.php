@@ -49,8 +49,7 @@ class Templates
 
 			if (file_exists($preview))
 			{
-				$html = '<button type="button" data-target="#' . $template . '-Modal" class="thumbnail float-left hasTooltip" data-toggle="modal" title="' .
-					HTMLHelper::_('tooltipText', 'COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
+				$html = '<button type="button" data-target="#' . $template . '-Modal" class="thumbnail float-left" data-toggle="modal" title="'. Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
 			}
 		}
 

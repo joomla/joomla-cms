@@ -303,6 +303,6 @@ class PlgEditorCodemirror extends CMSPlugin
 	{
 		$basePath = $this->params->get('basePath', 'media/vendor/codemirror/');
 		$ext = JDEBUG ? '.js' : '.min.js';
-		JHtml::_('script', $basePath . 'keymap/' . $keyMap . $ext, array('version' => 'auto'));
+		HTMLHelper::_('script', $basePath . 'keymap/' . $keyMap . $ext, array('version' => 'auto'));
 	}
 }

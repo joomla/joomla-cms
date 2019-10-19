@@ -11,8 +11,11 @@ namespace Joomla\Component\Banners\Administrator\View\Download;
 
 defined('_JEXEC') or die;
 
+use Exception;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Banners\Administrator\Model\DownloadModel;
 
 /**
  * View class for download a list of tracks.
@@ -22,9 +25,10 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var    Form
+	 * @since  1.6
 	 */
 	protected $form;
 
@@ -33,11 +37,17 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
+	 *
+	 * @since   1.6
+	 *
+	 * @throws  Exception
 	 */
-	public function display($tpl = null)
+	public function display($tpl = null): void
 	{
-		$this->form = $this->get('Form');
+		/** @var DownloadModel $model */
+		$model      = $this->getModel();
+		$this->form = $model->getForm();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -45,6 +55,6 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 }

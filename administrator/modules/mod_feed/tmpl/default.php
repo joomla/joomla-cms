@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -30,7 +29,7 @@ if (!empty($feed) && is_string($feed))
 }
 else
 {
-	$lang      = Factory::getLanguage();
+	$lang      = $app->getLanguage();
 	$myrtl     = $params->get('rssrtl', 0);
 	$direction = ' ';
 
@@ -65,7 +64,7 @@ else
 		$iUrl   = $feed->image ?? null;
 		$iTitle = $feed->imagetitle ?? null;
 		?>
-		<div style="direction: <?php echo $rssrtl ? 'rtl' :'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' :'left'; ?> !important" class="feed<?php echo $moduleclass_sfx; ?>">
+		<div style="direction: <?php echo $rssrtl ? 'rtl' : 'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' : 'left'; ?> !important" class="feed">
 		<?php
 
 		// Feed title
@@ -95,7 +94,7 @@ else
 
 	<?php // Show items ?>
 	<?php if (!empty($feed)) : ?>
-		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?> list-group">
+		<ul class="newsfeed list-group">
 		<?php for ($i = 0; $i < $params->get('rssitems', 3); $i++) :
 
 			if (!$feed->offsetExists($i)) :
@@ -125,7 +124,7 @@ else
 						<?php
 							// Strip the images.
 							$text = OutputFilter::stripImages($text);
-							$text = JHtml::_('string.truncate', $text, $params->get('word_count', 0), true, false);
+							$text = HTMLHelper::_('string.truncate', $text, $params->get('word_count', 0), true, false);
 							echo str_replace('&apos;', "'", $text);
 						?>
 						</div>

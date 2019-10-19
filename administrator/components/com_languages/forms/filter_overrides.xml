@@ -3,6 +3,7 @@
 	<field
 		name="language_client"
 		type="languageclient"
+		label="COM_LANGUAGES_OVERRIDE_SELECT_LANGUAGECLIENT"
 		onchange="this.form.submit();"
 		filtermode="selector"
 		addfieldprefix="Joomla\Component\Languages\Administrator\Field"

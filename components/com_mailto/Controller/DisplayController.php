@@ -80,7 +80,9 @@ class DisplayController extends BaseController
 				$this->app->enqueueMessage($errorMessage, 'error');
 			}
 
-			return $this->mailto();
+			$this->mailto();
+
+			return;
 		}
 
 		// An array of email headers we do not want to allow as input

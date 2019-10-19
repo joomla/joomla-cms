@@ -63,7 +63,7 @@ if ($currentPage >= $step)
 			<?php endif; ?>
 
 			<?php if ($showPagesLinks) : ?>
-				<ul class="pagination ml-0 mb-4">
+				<ul class="pagination ml-auto mb-4 mr-0">
 					<?php echo LayoutHelper::render('joomla.pagination.link', $pages['start']); ?>
 					<?php echo LayoutHelper::render('joomla.pagination.link', $pages['previous']); ?>
 					<?php foreach ($pages['pages'] as $k => $page) : ?>

@@ -11,10 +11,10 @@ namespace Joomla\Component\Workflow\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\Input\Input;
 
 /**
  * Transition controller
@@ -45,7 +45,7 @@ class TransitionController extends FormController
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException when no extension or workflow id is set
@@ -88,7 +88,7 @@ class TransitionController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		$model = $this->getModel('Workflow');
 
@@ -115,7 +115,7 @@ class TransitionController extends FormController
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = isset($data[$key]) ? (int) $data[$key] : 0;
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		$model = $this->getModel();
 

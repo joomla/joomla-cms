@@ -19,6 +19,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Utility\Utility;
 use Joomla\String\StringHelper;
 
+\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+
 /**
  * Page break plugin
  *
@@ -44,7 +46,7 @@ class PlgContentPagebreak extends CMSPlugin
 	 * @param   mixed    &$params  The article params
 	 * @param   integer  $page     The 'page' number
 	 *
-	 * @return  mixed  Always returns void or true
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -76,7 +78,7 @@ class PlgContentPagebreak extends CMSPlugin
 		{
 			$row->text = preg_replace($regex, '<br>', $row->text);
 
-			return true;
+			return;
 		}
 
 		// Simple performance check to determine whether bot should process further.
@@ -87,7 +89,7 @@ class PlgContentPagebreak extends CMSPlugin
 				throw new Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);
 			}
 
-			return true;
+			return;
 		}
 
 		$view = $input->getString('view');
@@ -129,7 +131,7 @@ class PlgContentPagebreak extends CMSPlugin
 
 			$row->text = preg_replace($regex, '<br>', $row->text);
 
-			return true;
+			return;
 		}
 
 		// Split the text around the plugin.
@@ -276,8 +278,6 @@ class PlgContentPagebreak extends CMSPlugin
 				$row->text = implode(' ', $t);
 			}
 		}
-
-		return true;
 	}
 
 	/**
@@ -381,7 +381,6 @@ class PlgContentPagebreak extends CMSPlugin
 			'next' => '',
 			'previous' => ''
 		);
-
 
 		if ($page < $n - 1)
 		{

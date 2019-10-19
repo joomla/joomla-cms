@@ -51,14 +51,14 @@ extract($displayData);
  */
 $format = '<input type="checkbox" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 
-// The alt option for JText::alt
+// The alt option for Text::alt
 $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 ?>
 
 <fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' checkboxes'); ?>"
 	<?php echo $required ? 'required' : ''; ?>
 	<?php echo $autofocus ? 'autofocus' : ''; ?>>
-	<legend><?php echo $label; ?></legend>
+	<legend class="sr-only"><?php echo $label; ?></legend>
 
 	<?php foreach ($options as $i => $option) : ?>
 		<?php

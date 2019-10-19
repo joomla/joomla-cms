@@ -55,9 +55,16 @@ class DisplayController extends BaseController
 
 			if ($uri->getVar('menutype') !== $menuType)
 			{
-				$this->setRedirect(Route::_('index.php?option=com_menus&view=items&menutype=' . $menuType, false));
+				$uri->setVar('menutype', $menuType);
 
-				return false;
+				if ($forcedLanguage = $this->input->post->get('forcedLanguage'))
+				{
+					$uri->setVar('forcedLanguage', $forcedLanguage);
+				}
+
+				$this->setRedirect(Route::_('index.php' . $uri->toString(['query']), false));
+
+				return parent::display();
 			}
 		}
 
@@ -96,10 +103,9 @@ class DisplayController extends BaseController
 			// Check if we have a mod_menu module set to All languages or a mod_menu module for each admin language.
 			if (!in_array('*', $mLanguages) && count($langMissing = array_diff(array_keys($langCodes), $mLanguages)))
 			{
-				$app         = Factory::getApplication();
 				$langMissing = array_intersect_key($langCodes, array_flip($langMissing));
 
-				$app->enqueueMessage(Text::sprintf('JMENU_MULTILANG_WARNING_MISSING_MODULES', implode(', ', $langMissing)), 'warning');
+				$this->app->enqueueMessage(Text::sprintf('JMENU_MULTILANG_WARNING_MISSING_MODULES', implode(', ', $langMissing)), 'warning');
 			}
 		}
 

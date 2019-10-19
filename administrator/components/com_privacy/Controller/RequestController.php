@@ -11,7 +11,6 @@ namespace Joomla\Component\Privacy\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -365,7 +364,7 @@ class RequestController extends FormController
 		{
 			if ($error = $model->getError())
 			{
-				Factory::getApplication()->enqueueMessage($error, 'warning');
+				$this->app->enqueueMessage($error, 'warning');
 			}
 		}
 
@@ -373,12 +372,12 @@ class RequestController extends FormController
 		{
 			if ($error = $model->getError())
 			{
-				Factory::getApplication()->enqueueMessage($error, 'warning');
+				$this->app->enqueueMessage($error, 'warning');
 			}
 		}
 		else
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_PRIVACY_MSG_CONFIRM_EMAIL_SENT_TO_USER'));
+			$this->app->enqueueMessage(Text::_('COM_PRIVACY_MSG_CONFIRM_EMAIL_SENT_TO_USER'));
 		}
 	}
 

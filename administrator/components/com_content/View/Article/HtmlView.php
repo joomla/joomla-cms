@@ -25,8 +25,6 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
 /**
  * View to edit an article.
  *
@@ -37,7 +35,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The \JForm object
 	 *
-	 * @var  \JForm
+	 * @var \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -166,6 +164,7 @@ class HtmlView extends BaseHtmlView
 			{
 				$toolbar->apply('article.apply');
 			}
+
 			$saveGroup = $toolbar->dropdownButton('save-group');
 
 			$saveGroup->configure(
@@ -200,7 +199,7 @@ class HtmlView extends BaseHtmlView
 			{
 				$url = Route::link(
 					'site',
-					\ContentHelperRoute::getArticleRoute($this->item->id, $this->item->catid, $this->item->language),
+					\ContentHelperRoute::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language),
 					true
 				);
 
@@ -259,7 +258,6 @@ class HtmlView extends BaseHtmlView
 					)
 				);
 
-
 				echo '<input type="hidden" class="form-control" id="' . $modalId . '_name" value="">';
 				echo '<input type="hidden" id="' . $modalId . '_id" value="0">';
 			}
@@ -268,8 +266,8 @@ class HtmlView extends BaseHtmlView
 		if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
 		{
 			$toolbar->standardButton('contract')
-			->text('JTOOLBAR_ASSOCIATIONS')
-			->task('article.editAssociations');
+				->text('JTOOLBAR_ASSOCIATIONS')
+				->task('article.editAssociations');
 		}
 
 		$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');

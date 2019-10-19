@@ -8,14 +8,14 @@
 
 namespace Joomla\CMS\Cache\Storage;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
 
 /**
  * APCu cache storage handler
  *
- * @link   https://secure.php.net/manual/en/ref.apcu.php
+ * @link   https://www.php.net/manual/en/ref.apcu.php
  * @since  3.5
  */
 class ApcuStorage extends CacheStorage
@@ -242,7 +242,7 @@ class ApcuStorage extends CacheStorage
 	 */
 	public static function isSupported()
 	{
-		$supported = extension_loaded('apcu') && ini_get('apc.enabled');
+		$supported = \extension_loaded('apcu') && ini_get('apc.enabled');
 
 		// If on the CLI interface, the `apc.enable_cli` option must also be enabled
 		if ($supported && PHP_SAPI === 'cli')
