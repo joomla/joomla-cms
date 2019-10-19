@@ -148,7 +148,9 @@ legend {
 }
 
 [class^="icon-"]:not(.input-group-text),
-[class*=" icon-"]:not(.input-group-text) {
+[class*=" icon-"]:not(.input-group-text),
+[class^='#{$fa-css-prefix}-']:not(.input-group-text),
+[class*=' #{$fa-css-prefix}-']:not(.input-group-text) {
   margin-right: 0.5em;
 }
 
