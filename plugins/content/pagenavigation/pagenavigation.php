@@ -96,7 +96,7 @@ class PlgContentPagenavigation extends CMSPlugin
 
 					// Use created if publish_up is not set
 					case 'published' :
-						$orderby = 'CASE WHEN ' . $db->quoteName('a.publish_up') . ' = IS NULL THEN ' .
+						$orderby = 'CASE WHEN ' . $db->quoteName('a.publish_up') . ' IS NULL THEN ' .
 							$db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.publish_up') . ' END';
 						break;
 
