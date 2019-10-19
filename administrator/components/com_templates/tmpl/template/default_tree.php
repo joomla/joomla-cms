@@ -59,7 +59,7 @@ ksort($this->files, SORT_NATURAL);
 		<?php if (is_object($value)) : ?>
 			<li>
 				<a class="file" href='<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id); ?>'>
-					<span class="fa fa-file fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $this->escape($value->name); ?>
+					<span class="fa fa-file-alt fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $this->escape($value->name); ?>
 				</a>
 			</li>
 		<?php endif; ?>
