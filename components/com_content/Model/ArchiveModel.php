@@ -187,11 +187,12 @@ class ArchiveModel extends ArticlesModel
 	public function getYears()
 	{
 		$db = $this->getDbo();
-		$nullDate = $db->quote($db->getNullDate());
-		$nowDate  = $db->quote(Factory::getDate()->toSql());
+
+		$nowDate = $db->quote(Factory::getDate()->toSql());
 
 		$query = $db->getQuery(true);
 		$years = $query->year($db->quoteName('c.created'));
+
 		$query->select('DISTINCT (' . $years . ')')
 			->from($db->quoteName('#__content', 'c'))
 			->from($db->quoteName('#__workflow_associations', 'wa'))
@@ -199,8 +200,8 @@ class ArchiveModel extends ArticlesModel
 			->where($db->quoteName('c.id') . ' = ' . $db->quoteName('wa.item_id'))
 			->where($db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
 			->where($db->quoteName('ws.condition') . '= ' . (int) ContentComponent::CONDITION_ARCHIVED)
-			->where('(c.publish_up = ' . $nullDate . ' OR c.publish_up <= ' . $nowDate . ')')
-			->where('(c.publish_down = ' . $nullDate . ' OR c.publish_down >= ' . $nowDate . ')')
+			->where('(c.publish_up IS NULL OR c.publish_up <= ' . $nowDate . ')')
+			->where('(c.publish_down IS NULL OR c.publish_down >= ' . $nowDate . ')')
 			->order('1 ASC');
 
 		$db->setQuery($query);

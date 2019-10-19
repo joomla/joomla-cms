@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,13 +15,14 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
  * Item Model for a Mail template.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class TemplateModel extends AdminModel
 {
@@ -29,7 +30,7 @@ class TemplateModel extends AdminModel
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $text_prefix = 'COM_MAILS';
 
@@ -37,7 +38,7 @@ class TemplateModel extends AdminModel
 	 * The type alias for this content type (for example, 'com_content.article').
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $typeAlias = 'com_mails.template';
 
@@ -48,7 +49,7 @@ class TemplateModel extends AdminModel
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission set in the component.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function canDelete($record)
 	{
@@ -63,7 +64,7 @@ class TemplateModel extends AdminModel
 	 *
 	 * @return  \Joomla\CMS\Form\Form|bool  A JForm object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -139,7 +140,7 @@ class TemplateModel extends AdminModel
 	 *
 	 * @return  CMSObject|boolean  Object on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getItem($pk = null)
 	{
@@ -185,13 +186,13 @@ class TemplateModel extends AdminModel
 	}
 
 	/**
-	 * Method to get a single record.
+	 * Get the master data for a mail template.
 	 *
 	 * @param   integer  $pk  The id of the primary key.
 	 *
 	 * @return  CMSObject|boolean  Object on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getMaster($pk = null)
 	{
@@ -234,7 +235,7 @@ class TemplateModel extends AdminModel
 	 *
 	 * @return  Table  A JTable object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function getTable($name = 'Template', $prefix = 'Administrator', $options = array())
@@ -247,7 +248,7 @@ class TemplateModel extends AdminModel
 	 *
 	 * @return  mixed  The data for the form.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function loadFormData()
 	{
@@ -272,7 +273,7 @@ class TemplateModel extends AdminModel
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function save($data)
 	{
@@ -363,7 +364,7 @@ class TemplateModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function prepareTable($table)
 	{
@@ -375,7 +376,7 @@ class TemplateModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function populateState()
 	{
