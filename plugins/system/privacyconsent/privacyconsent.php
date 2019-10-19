@@ -556,12 +556,13 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	private function remindExpiringConsents()
 	{
 		// Load the parameters.
-		$expire = (int) $this->params->get('consentexpiration', 365);
-		$remind = (int) $this->params->get('remind', 30);
-		$now    = Factory::getDate()->toSql();
-		$period = '-' . ($expire - $remind);
-		$db     = $this->db;
-		$query  = $db->getQuery(true);
+		$expire   = (int) $this->params->get('consentexpiration', 365);
+		$remind   = (int) $this->params->get('remind', 30);
+		$now      = Factory::getDate()->toSql();
+		$period   = '-' . ($expire - $remind);
+		$bindDate = [$now, $period];
+		$db       = $this->db;
+		$query    = $db->getQuery(true);
 
 		$query->select($db->quoteName(['r.id', 'r.user_id', 'u.email']))
 			->from($db->quoteName('#__privacy_consents', 'r'))
@@ -569,7 +570,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
 			->where($db->quoteName('remind') . ' = 0')
 			->where($query->dateAdd(':now', ':period', 'DAY') . ' > ' . $db->quoteName('created'))
-			->bind([':now', ':period'], [$now, $period], [ParameterType::STRING, ParameterType::INTEGER]);
+			->bind([':now', ':period'], $bindDate, [ParameterType::STRING, ParameterType::INTEGER]);
 
 		try
 		{
