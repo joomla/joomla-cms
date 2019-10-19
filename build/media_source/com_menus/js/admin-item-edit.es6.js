@@ -73,20 +73,34 @@
     });
   };
 
-  const onBoot = () => {
-    if (!Joomla || typeof Joomla.request !== 'function') {
-      throw new Error('core.js was not properly initialised');
+  if (!Joomla || typeof Joomla.request !== 'function') {
+    throw new Error('core.js was not properly initialised');
+  }
+
+  const element = document.getElementById('jform_menutype');
+
+  if (element) {
+    element.addEventListener('change', onChange);
+  }
+
+  // Menu type Login Form specific
+  document.getElementById('item-form').addEventListener('submit', () => {
+    if (document.getElementById('jform_params_login_redirect_url') && document.getElementById('jform_params_logout_redirect_url')) {
+      // Login
+      if (document.getElementById('jform_params_login_redirect_url').closest('.control-group').style.display === 'block') {
+        document.getElementById('jform_params_login_redirect_menuitem_id').value = '';
+      }
+      if (document.getElementById('jform_params_login_redirect_menuitem_name').closest('.control-group').style.display === 'block') {
+        document.getElementById('jform_params_login_redirect_url').value = '';
+      }
+
+      // Logout
+      if (document.getElementById('jform_params_logout_redirect_url').closest('.control-group').style.display === 'block') {
+        document.getElementById('jform_params_logout_redirect_menuitem_id').value = '';
+      }
+      if (document.getElementById('jform_params_logout_redirect_menuitem_id').closest('.control-group').style.display === 'block') {
+        document.getElementById('jform_params_logout_redirect_url').value = '';
+      }
     }
-
-    const element = document.getElementById('jform_menutype');
-
-    if (element) {
-      element.addEventListener('change', onChange);
-    }
-
-    // Cleanup
-    document.removeEventListener('DOMContentLoaded', onBoot);
-  };
-
-  document.addEventListener('DOMContentLoaded', onBoot);
+  });
 })(Joomla);

@@ -45,7 +45,7 @@ class TypeField extends ListField
 	{
 		$return = parent::setup($element, $value, $group);
 
-		$this->onchange = 'typeHasChanged(this);';
+		$this->onchange = 'Joomla.typeHasChanged(this);';
 
 		return $return;
 	}
@@ -77,22 +77,11 @@ class TypeField extends ListField
 			}
 		);
 
-		// Preload the Loading indication
+		// Loadd the Joomla spinner
 		HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
 
-		$js = <<<JS
-(function () {
-  window.typeHasChanged = function(element) {
-    // Display the loading indication
-    document.body.appendChild(document.createElement('joomla-core-loader'));
-    document.querySelector('input[name=task]').value = 'field.reload';
-    element.form.submit();
-  };
-})();
-JS;
-
-		// @todo move the script to a file
-		Factory::getDocument()->addScriptDeclaration($js);
+		// Load the field interactivity script
+		HTMLHelper::_('script', 'com_fields/admin-field-typehaschanged.min.js', ['relative' => true, 'version' => 'auto']);
 
 		return $options;
 	}
