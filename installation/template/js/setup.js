@@ -120,7 +120,6 @@ Joomla.checkDbCredentials = (form) => {
       })
       .finally(() => {
         document.querySelector('joomla-core-loader').remove();
-        loaderElement.parentNode.removeChild(loaderElement);
       });
 };
 
