@@ -594,7 +594,7 @@ class FieldsHelper
 	 *
 	 * @return  array  Array with the assigned category ids
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getAssignedCategoriesIds($fieldId)
 	{
