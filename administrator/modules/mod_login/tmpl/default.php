@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.formvalidator');
@@ -38,12 +37,13 @@ Text::script('MESSAGE');
 			<div class="input-group">
 
 				<input
-						name="username"
-						id="mod-login-username"
-						type="text"
-						class="form-control input-full"
-						required="required"
-						autofocus
+					name="username"
+					id="mod-login-username"
+					type="text"
+					class="form-control"
+					required="required"
+					autofocus
+					autocomplete="username"
 				>
 			</div>
 		</div>
@@ -54,11 +54,12 @@ Text::script('MESSAGE');
 			<div class="input-group">
 
 				<input
-						name="passwd"
-						id="mod-login-password"
-						type="password"
-						class="form-control input-full"
-						required="required"
+					name="passwd"
+					id="mod-login-password"
+					type="password"
+					class="form-control input-full"
+					required="required"
+					autocomplete="current-password"
 				>
 				<span class="input-group-append ml-2">
 					<button type="button" class="input-group-text icon-eye input-password-toggle">
@@ -80,11 +81,11 @@ Text::script('MESSAGE');
 				<div class="input-group">
 
 					<input
-							name="secretkey"
-							autocomplete="off"
-							id="mod-login-secretkey"
-							type="text"
-							class="form-control input-full"
+						name="secretkey"
+						autocomplete="off"
+						id="mod-login-secretkey"
+						type="text"
+						class="form-control"
 					>
 				</div>
 			</div>

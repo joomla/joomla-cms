@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
 /** @var PrivacyViewRequest $this */
 
@@ -20,19 +21,9 @@ HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/helper
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-
-$js = <<< JS
-Joomla.submitbutton = function(task) {
-	if (task === 'request.cancel' || document.formvalidator.isValid(document.getElementById('item-form'))) {
-		Joomla.submitform(task, document.getElementById('item-form'));
-	}
-};
-JS;
-
-$this->document->addScriptDeclaration($js);
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate" data-cancel-task="request.cancel">
 	<div class="row mt-3">
 		<div class="col-12 col-md-6 mb-3">
 			<div class="card">

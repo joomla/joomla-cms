@@ -17,8 +17,8 @@ use Joomla\Registry\Registry;
 $menuLinks = MenusHelper::getMenuLinks('main');
 
 HTMLHelper::_('stylesheet', 'com_menus/admin-item-edit_container.css', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_menus/admin-item-edit_container.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_menus/admin-item-edit_container.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
+HTMLHelper::_('script', 'legacy/treeselectmenu.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
 ?>
 
 <div id="menuselect-group" class="control-group">

@@ -17,8 +17,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Event\SubscriberInterface;
-use Joomla\Filesystem\File;
-use Joomla\Registry\Registry;
 
 /**
  * Plugin class for HTTP Headers
@@ -130,7 +128,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function applyHashesToCspRule(): void
 	{
