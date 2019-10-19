@@ -88,20 +88,21 @@ abstract class JHtmlJGrid
 		}
 		else
 		{
-			$html[] = '<a class="tbody-icon disabled jgrid' . ($tip ? ' hasTooltip' : '') . '"';
-			$html[] = $tip ? ' title="' . $title . '"' : '';
+			$html[] = '<a class="tbody-icon disabled jgrid"';
+			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
 
 			if ($active_class === 'protected')
 			{
-				$html[] = '<span class="icon-lock"></span>';
+				$html[] = '<span class="icon-lock" aria-hidden="true"></span>';
 			}
 			else
 			{
-				$html[] = '<span class="icon-' . $inactive_class . '"></span>';
+				$html[] = '<span class="icon-' . $inactive_class . '" aria-hidden="true"></span>';
 			}
 
 			$html[] = '</a>';
+			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
 		}
 
 		return implode($html);

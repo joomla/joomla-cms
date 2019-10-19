@@ -100,10 +100,12 @@ abstract class TagsSimilarHelper
 
 		// Only return published tags
 		$query->where($db->quoteName('cc.core_state') . ' = 1 ')
-			->where('(' . $db->quoteName('cc.core_publish_up') . '=' . $db->quote($nullDate) . ' OR '
+			->where('(' . $db->quoteName('cc.core_publish_up') . ' IS NULL OR '
+				. $db->quoteName('cc.core_publish_up') . '=' . $db->quote($nullDate) . ' OR '
 				. $db->quoteName('cc.core_publish_up') . '<=' . $db->quote($now) . ')'
 			)
-			->where('(' . $db->quoteName('cc.core_publish_down') . '=' . $db->quote($nullDate) . ' OR '
+			->where('(' . $db->quoteName('cc.core_publish_down') . ' IS NULL OR '
+				. $db->quoteName('cc.core_publish_down') . '=' . $db->quote($nullDate) . ' OR '
 				. $db->quoteName('cc.core_publish_down') . '>=' . $db->quote($now) . ')'
 			);
 

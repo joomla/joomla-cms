@@ -235,7 +235,7 @@ if (!empty($this->items))
 						<?php echo Text::_('JNOTPUBLISHEDYET'); ?>
 					</span>
 				<?php endif; ?>
-				<?php if ((strtotime($article->publish_down) < strtotime(Factory::getDate())) && $article->publish_down != Factory::getDbo()->getNullDate()) : ?>
+				<?php if (!is_null($article->publish_down) && strtotime($article->publish_down) < strtotime(Factory::getDate())) : ?>
 					<span class="list-published badge badge-warning">
 						<?php echo Text::_('JEXPIRED'); ?>
 					</span>

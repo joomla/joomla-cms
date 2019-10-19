@@ -201,8 +201,8 @@ class CssMenu
 		}
 
 		$items      = $node->getChildren(true);
-		$types      = ArrayHelper::getColumn($items, 'type');
-		$elements   = ArrayHelper::getColumn($items, 'element');
+		$types      = array_column($items, 'type');
+		$elements   = array_column($items, 'element');
 		$rMenu      = $authMenus && !\in_array('com_menus', $elements);
 		$rModule    = $authModules && !\in_array('com_modules', $elements);
 		$rContainer = !\in_array('container', $types);
@@ -530,7 +530,7 @@ class CssMenu
 			$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
 		}
 
-		$html = 'fa-fw fa fa-' . $class;
+		$html = 'fa fa-' . $class . ' fa-fw';
 
 		return $html;
 	}

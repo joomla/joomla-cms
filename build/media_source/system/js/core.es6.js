@@ -51,6 +51,10 @@ window.Joomla.editors.instances = window.Joomla.editors.instances || {
    *                                  Example: (text) => { return this.element.value = text; }
    * getSelection     Type  Function  Should return the selected text from the editor
    *                                  Example: function () { return this.selectedText; }
+   * disable          Type  Function  Toggles the editor into disabled mode. When the editor is
+   *                                  active then everything should be usable. When inactive the
+   *                                  editor should be unusable AND disabled for form validation
+   *                                  Example: (bool) => { return this.disable = value; }
    * replaceSelection Type  Function  Should replace the selected text of the editor
    *                                  If nothing selected, will insert the data at the cursor
    *                                  Example:
@@ -64,7 +68,8 @@ window.Joomla.editors.instances = window.Joomla.editors.instances || {
    *  Joomla.editors.instances['jform_articletext'].getValue();
    * To set the current editor value:
    *  Joomla.editors.instances['jform_articletext'].setValue('Joomla! rocks');
-   * To replace(selection) or insert a value at  the current editor cursor:
+   * To replace(selection) or insert a value at  the current editor cursor (replaces the J3
+   * jInsertEditorText API):
    *  replaceSelection:
    *  Joomla.editors.instances['jform_articletext'].replaceSelection('Joomla! rocks')
    * }
@@ -72,8 +77,6 @@ window.Joomla.editors.instances = window.Joomla.editors.instances || {
    * *********************************************************
    * ANY INTERACTION WITH THE EDITORS SHOULD USE THE ABOVE API
    * *********************************************************
-   *
-   * jInsertEditorText() @deprecated 4.0
    */
 };
 

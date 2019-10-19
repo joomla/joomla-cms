@@ -5,7 +5,7 @@
 
 Joomla = window.Joomla || {};
 
-(function() {
+(function(document, Joomla) {
 	'use strict';
 
 	Joomla.extractionMethodHandler = function(element, prefix) {
@@ -59,7 +59,7 @@ Joomla = window.Joomla || {};
 
 	});
 
-})();
+})(document, Joomla);
 
 (function(document, Joomla) {
 	/**
@@ -190,4 +190,4 @@ Joomla = window.Joomla || {};
     }
     // Run PreUpdateChecker on document ready
   document.addEventListener('DOMContentLoaded', PreUpdateChecker.run, false);
-})(document, window, Joomla);
+})(document, Joomla);

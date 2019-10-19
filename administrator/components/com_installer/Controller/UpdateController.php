@@ -150,6 +150,9 @@ class UpdateController extends BaseController
 			$app->close();
 		}
 
+		// Close the session before we make a long running request
+		$app->getSession()->abort();
+
 		$eid               = $this->input->getInt('eid', 0);
 		$skip              = $this->input->get('skip', array(), 'array');
 		$cache_timeout     = $this->input->getInt('cache_timeout', 0);
