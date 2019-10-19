@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ use Joomla\Database\QueryInterface;
 /**
  * Methods supporting a list of mail template records.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class TemplatesModel extends ListModel
 {
@@ -28,7 +28,7 @@ class TemplatesModel extends ListModel
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function __construct($config = array())
@@ -61,7 +61,7 @@ class TemplatesModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -78,7 +78,7 @@ class TemplatesModel extends ListModel
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getItems()
 	{
@@ -109,7 +109,7 @@ class TemplatesModel extends ListModel
 	 *
 	 * @return  QueryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getListQuery()
 	{
@@ -177,7 +177,7 @@ class TemplatesModel extends ListModel
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getLanguages()
 	{
