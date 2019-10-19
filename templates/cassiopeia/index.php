@@ -151,8 +151,8 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<div class="grid-child container-component">
 		<jdoc:include type="modules" name="main-top" style="cardGrey" />
 		<jdoc:include type="message" />
-		<jdoc:include type="component" />
 		<jdoc:include type="modules" name="breadcrumbs" style="none" />
+		<jdoc:include type="component" />
 		<jdoc:include type="modules" name="main-bottom" style="cardGrey" />
 	</div>
 

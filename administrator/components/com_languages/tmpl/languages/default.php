@@ -93,7 +93,7 @@ if ($saveOrder && !empty($this->items))
 								<td>
 									<?php echo HTMLHelper::_('grid.id', $i, $item->lang_id); ?>
 								</td>
-								<td class="order text-center d-none d-md-table-cell">
+								<td class="text-center d-none d-md-table-cell">
 									<?php if ($canChange) :
 										$disableClassName = '';
 										$disabledLabel	  = '';

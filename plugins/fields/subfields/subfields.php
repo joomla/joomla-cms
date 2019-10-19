@@ -18,7 +18,7 @@ JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRA
 /**
  * Fields subfields Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgFieldsSubfields extends FieldsPlugin
 {
@@ -28,7 +28,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	 *
 	 * @var array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $renderCache = array();
 
@@ -37,7 +37,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	 *
 	 * @var array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected static $customFieldsCache = null;
 
@@ -49,7 +49,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function onContentPrepareForm(Form $form, $data)
 	{
@@ -114,7 +114,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function onCustomFieldsBeforePrepareField($context, $item, $field)
 	{
@@ -143,7 +143,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function onCustomFieldsPrepareField($context, $item, $field)
 	{
@@ -262,7 +262,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	 *
 	 * @return  \DOMElement
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function onCustomFieldsPrepareDom($field, DOMElement $orig_parent, Form $form)
 	{
@@ -339,7 +339,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	 *
 	 * @return  \stdClass[]
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected function getOptionsFromField(\stdClass $field)
 	{
@@ -363,7 +363,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	 *
 	 * @return  \Joomla\Registry\Registry
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected function getParamsFromField(\stdClass $field)
 	{
@@ -385,7 +385,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	 *
 	 * @return  \stdClass[]
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected function getSubfieldsFromField(\stdClass $field)
 	{
