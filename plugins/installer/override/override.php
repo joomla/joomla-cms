@@ -330,7 +330,7 @@ class PlgInstallerOverride extends CMSPlugin
 			'modified_date',
 			'extension_id',
 			'state',
-			'client_id'
+			'client_id',
 		];
 
 		// Create a insert query.
@@ -340,14 +340,12 @@ class PlgInstallerOverride extends CMSPlugin
 
 		foreach ($pks as $pk)
 		{
-			$insertQuery->clear('values');
-
 			$date = new Date('now');
 			$createdDate = $date->toSql();
 
 			if (empty($pk->coreFile))
 			{
-				$modifiedDate = $this->db->getNullDate();
+				$modifiedDate = null;
 			}
 			else
 			{
@@ -396,15 +394,15 @@ class PlgInstallerOverride extends CMSPlugin
 						$pk->id,
 						$pk->extension_id,
 						0,
-						(int) $pk->client
+						(int) $pk->client,
 					]
 				)
 			);
 
 			$insertQuery->values(implode(',', $bindArray));
-
-			$this->db->setQuery($insertQuery);
-			$this->db->execute();
 		}
+
+		$this->db->setQuery($insertQuery);
+		$this->db->execute();
 	}
 }
