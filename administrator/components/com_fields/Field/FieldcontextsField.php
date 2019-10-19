@@ -22,6 +22,11 @@ use Joomla\CMS\Form\Field\ListField;
  */
 class FieldcontextsField extends ListField
 {
+	/**
+	 * Type of the field
+	 *
+	 * @var    string
+	 */
 	public $type = 'Fieldcontexts';
 
 	/**

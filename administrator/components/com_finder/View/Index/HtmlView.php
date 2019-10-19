@@ -175,9 +175,11 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_finder');
 
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
+
 		ToolbarHelper::title(Text::_('COM_FINDER_INDEX_TOOLBAR_TITLE'), 'zoom-in finder');
 
-		$toolbar = Toolbar::getInstance('toolbar');
 		$toolbar->appendButton(
 			'Popup', 'archive', 'COM_FINDER_INDEX', 'index.php?option=com_finder&view=indexer&tmpl=component', 500, 210, 0, 0,
 			'window.parent.location.reload()', 'COM_FINDER_HEADING_INDEXER'
@@ -185,15 +187,25 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publishList('index.publish');
-			ToolbarHelper::unpublishList('index.unpublish');
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
+
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->publish('index.publish')->listCheck(true);
+			$childBar->unpublish('index.unpublish')->listCheck(true);
 		}
 
-		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
+		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', 'COM_FINDER_STATISTICS_TITLE');
 
 		if ($canDo->get('core.delete'))
 		{
 			ToolbarHelper::deleteList('', 'index.delete');
+			ToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.edit.state'))

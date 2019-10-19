@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Filter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFilterInterface;
@@ -91,9 +91,9 @@ class TelFilter implements FormFilterInterface
 		{
 			$value = (string) preg_replace('/[^\d]/', '', $value);
 
-			if ($value != null && strlen($value) <= 15)
+			if ($value != null && \strlen($value) <= 15)
 			{
-				$length = strlen($value);
+				$length = \strlen($value);
 
 				// If it is fewer than 13 digits assume it is a local number
 				if ($length <= 12)

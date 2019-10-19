@@ -17,6 +17,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 use Joomla\Event\SubscriberInterface;
 use Joomla\String\StringHelper;
 
@@ -142,32 +143,23 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 
 		$query->select('*')
 			->from($this->db->quoteName('#__redirect_links'))
-			->where(
-				'('
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($url)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($urlRel)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($urlRootRel)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($urlRootRelSlash)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($urlWithoutQuery)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($urlRelWithoutQuery)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurl)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurlRel)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurlRootRel)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurlRootRelSlash)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurlWithoutQuery)
-				. ' OR '
-				. $this->db->quoteName('old_url') . ' = ' . $this->db->quote($orgurlRelWithoutQuery)
-				. ')'
+			->whereIn(
+				$this->db->quoteName('old_url'),
+				[
+					$url,
+					$urlRel,
+					$urlRootRel,
+					$urlRootRelSlash,
+					$urlWithoutQuery,
+					$urlRelWithoutQuery,
+					$orgurl,
+					$orgurlRel,
+					$orgurlRootRel,
+					$orgurlRootRelSlash,
+					$orgurlWithoutQuery,
+					$orgurlRelWithoutQuery,
+				],
+				ParameterType::STRING
 			);
 
 		$this->db->setQuery($query);
@@ -285,7 +277,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 
 			try
 			{
-				$this->db->updateObject('#__redirect_links', $redirect, 'id');
+				$this->db->updateObject('#__redirect_links', $redirect, ['id']);
 			}
 			catch (Exception $e)
 			{

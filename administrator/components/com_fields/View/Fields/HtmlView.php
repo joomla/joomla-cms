@@ -67,13 +67,6 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * @var  string
-	 *
-	 * @since  3.7.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -116,9 +109,6 @@ class HtmlView extends BaseHtmlView
 				$this->filterForm->removeField('language', 'filter');
 			}
 		}
-
-		FieldsHelper::addSubmenu($this->state->get('filter.context'), 'fields');
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
@@ -166,8 +156,8 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
@@ -190,16 +180,15 @@ class HtmlView extends BaseHtmlView
 			{
 				$childBar->trash('fields.trash')->listCheck(true);
 			}
-		}
 
-
-		// Add a batch button
-		if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state'))
-		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
+			// Add a batch button
+			if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 		}
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $component))
@@ -230,7 +219,7 @@ class HtmlView extends BaseHtmlView
 			'a.title'    => Text::_('JGLOBAL_TITLE'),
 			'a.type'     => Text::_('COM_FIELDS_FIELD_TYPE_LABEL'),
 			'a.access'   => Text::_('JGRID_HEADING_ACCESS'),
-			'language'   => Text::_('JGRID_HEADING_LANGUAGE'),
+			'a.language' => Text::_('JGRID_HEADING_LANGUAGE'),
 			'a.id'       => Text::_('JGRID_HEADING_ID'),
 		);
 	}

@@ -26,7 +26,6 @@ if ($app->isClient('site'))
 
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('script', 'com_content/admin-articles-modal.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 HTMLHelper::_('behavior.multiselect');
 
 $function  = $app->input->getCmd('function', 'jSelectArticle');
@@ -38,7 +37,7 @@ $onclick   = $this->escape($function);
 if (!empty($editor))
 {
 	// This view is used also in com_menus. Load the xtd script only if the editor is set!
-	Factory::getDocument()->addScriptOptions('xtd-articles', array('editor' => $editor));
+	$this->document->addScriptOptions('xtd-articles', array('editor' => $editor));
 	$onclick = "jSelectArticle";
 }
 ?>
@@ -110,7 +109,7 @@ if (!empty($editor))
 					}
 					?>
 					<tr class="row<?php echo $i % 2; ?>">
-						<td class="text-center">
+						<td class="text-center tbody-icon">
 							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
 						</td>
 						<th scope="row">
@@ -130,7 +129,7 @@ if (!empty($editor))
 								<?php else : ?>
 									<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 								<?php endif; ?>
- 							</span>
+							</span>
 							<div class="small">
 								<?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
 							</div>

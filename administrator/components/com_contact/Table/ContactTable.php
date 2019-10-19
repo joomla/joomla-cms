@@ -55,6 +55,8 @@ class ContactTable extends Table
 		$this->typeAlias = 'com_contact.contact';
 
 		parent::__construct('#__contact_details', 'id', $db);
+
+		$this->setColumnAlias('title', 'name');
 	}
 
 	/**
@@ -97,12 +99,6 @@ class ContactTable extends Table
 			{
 				$this->created_by = $userId;
 			}
-		}
-
-		// Set xreference to empty string if not set
-		if (!$this->xreference)
-		{
-			$this->xreference = '';
 		}
 
 		// Store utf8 email as punycode

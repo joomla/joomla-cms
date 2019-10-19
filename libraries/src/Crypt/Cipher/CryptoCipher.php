@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Crypt\Cipher;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Crypt\CipherInterface;
 use Joomla\Crypt\Key;

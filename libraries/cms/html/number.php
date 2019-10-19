@@ -45,7 +45,7 @@ abstract class JHtmlNumber
 	{
 		/*
 		 * Allowed 123.45, 123.45 M, 123.45 Mi, 123.45 MB, 123.45 MiB, 1.2345E+12MB, 1.2345E+12 MB , 1.2345E+12 MiB etc.
-		 * i.e. – Any number in decimal digits or in sci. notation, optional space, optional 1-3 letter unit suffix
+		 * Meaning any number in decimal digits or in sci. notation, optional space, optional 1-3 letter unit suffix
 		 */
 		if (is_numeric($bytes))
 		{

@@ -36,14 +36,16 @@ class ContactModel extends FormModel
 	/**
 	 * The name of the view for a single item
 	 *
-	 * @since   1.6
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $view_item = 'contact';
 
 	/**
 	 * A loaded item
 	 *
-	 * @since   1.6
+	 * @var    \stdClass
+	 * @since  1.6
 	 */
 	protected $_item = null;
 
@@ -66,9 +68,19 @@ class ContactModel extends FormModel
 	protected function populateState()
 	{
 		/** @var SiteApplication $app */
-		$app = Factory::getApplication();
+		$app = Factory::getContainer()->get(SiteApplication::class);
 
-		$this->setState('contact.id', $app->input->getInt('id'));
+		if (\JFactory::getApplication()->isClient('api'))
+		{
+			// TODO: remove this
+			$app->loadLanguage();
+			$this->setState('contact.id', \JFactory::getApplication()->input->post->getInt('id'));
+		}
+		else
+		{
+			$this->setState('contact.id', $app->input->getInt('id'));
+		}
+
 		$this->setState('params', $app->getParams());
 
 		$user = Factory::getUser();
@@ -102,7 +114,7 @@ class ContactModel extends FormModel
 
 		$temp = clone $this->getState('params');
 		$contact = $this->_item[$this->getState('contact.id')];
-		$active = Factory::getApplication()->getMenu()->getActive();
+		$active = Factory::getContainer()->get(SiteApplication::class)->getMenu()->getActive();
 
 		if ($active)
 		{
@@ -221,8 +233,8 @@ class ContactModel extends FormModel
 					}
 
 					$query->where($queryString)
-						->where('(' . $query->isNullDatetime('a.publish_up') . ' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
-						->where('(' . $query->isNullDatetime('a.publish_down') . ' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)')
+						->where('(' . $db->quoteName('a.publish_up') . ' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)')
+						->where('(' . $db->quoteName('a.publish_down') . ' IS NULL OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)')
 						->bind(':published', $published, ParameterType::INTEGER)
 						->bind(':publish_up', $nowDate)
 						->bind(':publish_down', $nowDate);
@@ -311,7 +323,6 @@ class ContactModel extends FormModel
 	protected function buildContactExtendedData($contact)
 	{
 		$db        = $this->getDbo();
-		$nullDate  = $db->quote($db->getNullDate());
 		$nowDate   = $db->quote(Factory::getDate()->toSql());
 		$user      = Factory::getUser();
 		$groups = $user->getAuthorisedViewLevels();
@@ -355,11 +366,12 @@ class ContactModel extends FormModel
 			if (is_numeric($published))
 			{
 				$query->where('a.state IN (1,2)')
-					->where('(' . $db->quoteName('a.publish_up') . ' = :null' .
-						' OR ' . $db->quoteName('a.publish_up') . ' <= :now' . ')')
-					->where('(' . $db->quoteName('a.publish_down') . ' = :null' .
-						' OR ' . $db->quoteName('a.publish_down') . ' >= :now' . ')')
-					->bind(':null', $nullDate)
+					->where('(' . $db->quoteName('a.publish_up') . ' IS NULL' .
+						' OR ' . $db->quoteName('a.publish_up') . ' <= :now)'
+					)
+					->where('(' . $db->quoteName('a.publish_down') . ' IS NULL' .
+						' OR ' . $db->quoteName('a.publish_down') . ' >= :now)'
+					)
 					->bind(':now', $nowDate);
 			}
 
@@ -378,7 +390,8 @@ class ContactModel extends FormModel
 				}
 			}
 
-			$db->setQuery($query, 0, (int) $articles_display_num);
+			$query->setLimit((int) $articles_display_num);
+			$db->setQuery($query);
 			$contact->articles = $db->loadObjectList();
 		}
 		else
@@ -410,16 +423,16 @@ class ContactModel extends FormModel
 	}
 
 	/**
-	* Generate column expression for slug or catslug.
-	*
-	* @param   QueryInterface  $query  Current query instance.
-	* @param   string          $id     Column id name.
-	* @param   string          $alias  Column alias name.
-	*
-	* @return  string
-	*
-	* @since   4.0.0
-	*/
+	 * Generate column expression for slug or catslug.
+	 *
+	 * @param   QueryInterface  $query  Current query instance.
+	 * @param   string          $id     Column id name.
+	 * @param   string          $alias  Column alias name.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
 	private function getSlugColumn($query, $id, $alias)
 	{
 		return 'CASE WHEN '
@@ -427,7 +440,7 @@ class ContactModel extends FormModel
 			. ' THEN '
 			. $query->concatenate(array($query->castAsChar($id), $alias), ':')
 			. ' ELSE '
-			. $id . ' END';
+			. $query->castAsChar($id) . ' END';
 	}
 
 	/**

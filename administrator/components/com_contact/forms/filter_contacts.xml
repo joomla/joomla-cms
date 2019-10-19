@@ -12,6 +12,17 @@
 		/>
 
 		<field
+			name="featured"
+			type="list"
+			onchange="this.form.submit();"
+			default=""
+			>
+			<option value="">JOPTION_SELECT_FEATURED</option>
+			<option value="0">JUNFEATURED</option>
+			<option value="1">JFEATURED</option>
+		</field>
+
+		<field
 			name="published"
 			type="status"
 			label="JOPTION_SELECT_PUBLISHED"
@@ -54,11 +65,12 @@
 			name="tag"
 			type="tag"
 			label="JOPTION_SELECT_TAG"
+			multiple="true"
 			mode="nested"
+			custom="false"
+			hint="JOPTION_SELECT_TAG"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_TAG</option>
-		</field>
+		/>
 
 		<field
 			name="level"

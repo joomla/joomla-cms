@@ -12,12 +12,10 @@ namespace Joomla\Component\Content\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Content HTML helper
@@ -90,40 +88,6 @@ class AdministratorService
 			}
 
 			$html = LayoutHelper::render('joomla.content.associations', $items);
-		}
-
-		return $html;
-	}
-
-	/**
-	 * Show the feature/unfeature links
-	 *
-	 * @param   integer  $value      The state value
-	 * @param   integer  $i          Row number
-	 * @param   boolean  $canChange  Is user allowed to change?
-	 *
-	 * @return  string       HTML code
-	 */
-	public function featured($value = 0, $i, $canChange = true)
-	{
-		// Array of image, task, title, action
-		$states = array(
-			0 => array('unfeatured', 'articles.featured', 'COM_CONTENT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
-			1 => array('featured', 'articles.unfeatured', 'COM_CONTENT_FEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
-		);
-		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
-		$icon  = $state[0];
-
-		if ($canChange)
-		{
-			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . HTMLHelper::_('tooltipText', $state[3])
-				. '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
-		}
-		else
-		{
-			$html = '<a class="tbody-icon hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'
-				. HTMLHelper::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 
 		return $html;

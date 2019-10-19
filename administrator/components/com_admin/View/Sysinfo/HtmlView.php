@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Admin\Administrator\Model\SysInfoModel;
+use Joomla\Component\Admin\Administrator\Model\SysinfoModel;
 
 /**
  * Sysinfo View class for the Admin component
@@ -86,7 +86,7 @@ class HtmlView extends BaseHtmlView
 			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		/** @var SysInfoModel $model */
+		/** @var SysinfoModel $model */
 		$model             = $this->getModel();
 		$this->phpSettings = $model->getPhpSettings();
 		$this->config      = $model->getconfig();

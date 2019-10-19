@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Extension;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\CategoryInterface;
@@ -133,7 +133,7 @@ class LegacyComponent
 	{
 		$helper = $this->loadHelper();
 
-		if (!$helper || !is_callable(array($helper, 'countItems')))
+		if (!$helper || !\is_callable(array($helper, 'countItems')))
 		{
 			return;
 		}
@@ -156,7 +156,7 @@ class LegacyComponent
 	{
 		$helper = $this->loadHelper();
 
-		if (!$helper || !is_callable(array($helper, 'countTagItems')))
+		if (!$helper || !\is_callable(array($helper, 'countTagItems')))
 		{
 			return;
 		}
@@ -179,7 +179,7 @@ class LegacyComponent
 	{
 		$helper = $this->loadHelper();
 
-		if (!$helper || !is_callable(array($helper, 'validateSection')))
+		if (!$helper || !\is_callable(array($helper, 'validateSection')))
 		{
 			return $section;
 		}
@@ -198,7 +198,7 @@ class LegacyComponent
 	{
 		$helper = $this->loadHelper();
 
-		if (!$helper || !is_callable(array($helper, 'getContexts')))
+		if (!$helper || !\is_callable(array($helper, 'getContexts')))
 		{
 			return [];
 		}
@@ -237,7 +237,7 @@ class LegacyComponent
 		{
 			$reflection = new \ReflectionClass($class);
 
-			if (in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
+			if (\in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
 			{
 				return new $class($application, $menu);
 			}
@@ -249,7 +249,7 @@ class LegacyComponent
 	/**
 	 * Returns the classname of the legacy helper class. If none is found it returns false.
 	 *
-	 * @return  bool|string
+	 * @return  boolean|string
 	 *
 	 * @since   4.0.0
 	 */

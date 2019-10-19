@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Fields\Administrator\Model\FieldsModel;
 
 /**
  * FieldsHelper
@@ -28,8 +29,14 @@ use Joomla\CMS\Plugin\PluginHelper;
  */
 class FieldsHelper
 {
+	/**
+	 * @var    FieldsModel
+	 */
 	private static $fieldsCache = null;
 
+	/**
+	 * @var    FieldsModel
+	 */
 	private static $fieldCache = null;
 
 	/**
@@ -581,6 +588,36 @@ class FieldsHelper
 	}
 
 	/**
+	 * Gets assigned categories ids for a field
+	 *
+	 * @param   stdClass[]  $fieldId  The field ID
+	 *
+	 * @return  array  Array with the assigned category ids
+	 *
+	 * @since   4.0.0
+	 */
+	public static function getAssignedCategoriesIds($fieldId)
+	{
+		$fieldId = (int) $fieldId;
+
+		if (!$fieldId)
+		{
+			return array();
+		}
+
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('a.category_id'))
+			->from($db->quoteName('#__fields_categories', 'a'))
+			->where('a.field_id = ' . $fieldId);
+
+		$db->setQuery($query);
+
+		return $db->loadColumn();
+	}
+
+	/**
 	 * Gets assigned categories titles for a field
 	 *
 	 * @param   \stdClass[]  $fieldId  The field ID
@@ -595,7 +632,7 @@ class FieldsHelper
 
 		if (!$fieldId)
 		{
-			return array();
+			return [];
 		}
 
 		$db    = Factory::getDbo();

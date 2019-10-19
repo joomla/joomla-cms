@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Session;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -112,14 +112,15 @@ class Session extends BaseSession
 	public function get($name, $default = null)
 	{
 		// Handle B/C by checking if a namespace was passed to the method, will be removed at 5.0
-		if (func_num_args() > 2)
+		if (\func_num_args() > 2)
 		{
-			$args = func_get_args();
+			$args = \func_get_args();
 
 			if (!empty($args[2]))
 			{
 				Log::add(
-					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
+					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
+					. 'The namespace should be prepended to the name instead.',
 					Log::WARNING,
 					'deprecated'
 				);
@@ -144,14 +145,15 @@ class Session extends BaseSession
 	public function set($name, $value = null)
 	{
 		// Handle B/C by checking if a namespace was passed to the method, will be removed at 5.0
-		if (func_num_args() > 2)
+		if (\func_num_args() > 2)
 		{
-			$args = func_get_args();
+			$args = \func_get_args();
 
 			if (!empty($args[2]))
 			{
 				Log::add(
-					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
+					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
+					. 'The namespace should be prepended to the name instead.',
 					Log::WARNING,
 					'deprecated'
 				);
@@ -175,14 +177,15 @@ class Session extends BaseSession
 	public function has($name)
 	{
 		// Handle B/C by checking if a namespace was passed to the method, will be removed at 5.0
-		if (func_num_args() > 1)
+		if (\func_num_args() > 1)
 		{
-			$args = func_get_args();
+			$args = \func_get_args();
 
 			if (!empty($args[1]))
 			{
 				Log::add(
-					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
+					'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
+					. 'The namespace should be prepended to the name instead.',
 					Log::WARNING,
 					'deprecated'
 				);
@@ -204,9 +207,9 @@ class Session extends BaseSession
 	public function clear()
 	{
 		// Handle B/C by checking if parameters were passed to this method; if so proxy to the new remove() method, will be removed at 5.0
-		if (func_num_args() >= 1)
+		if (\func_num_args() >= 1)
 		{
-			$args = func_get_args();
+			$args = \func_get_args();
 
 			if (!empty($args[0]))
 			{
@@ -219,10 +222,11 @@ class Session extends BaseSession
 				$name = $args[0];
 
 				// Also check for a namespace
-				if (func_num_args() > 1 && !empty($args[1]))
+				if (\func_num_args() > 1 && !empty($args[1]))
 				{
 					Log::add(
-						'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. The namespace should be prepended to the name instead.',
+						'Passing a namespace as a parameter to ' . __METHOD__ . '() is deprecated. '
+						 . 'The namespace should be prepended to the name instead.',
 						Log::WARNING,
 						'deprecated'
 					);

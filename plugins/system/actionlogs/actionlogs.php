@@ -65,12 +65,7 @@ class PlgSystemActionLogs extends CMSPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		if (!$this->app->isClient('administrator'))
-		{
-			return;
-		}
-
-		// Load plugin language files only when needed (ex: they are not needed in site client).
+		// Load plugin language files.
 		$this->loadLanguage();
 	}
 
@@ -362,7 +357,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 
 		// Clear access rights in case user groups were changed.
-		$userObject = Factory::getUser($user['id']);
+		$userObject = new User($user['id']);
 		$userObject->clearAccessRights();
 		$authorised = $userObject->authorise('core.admin');
 

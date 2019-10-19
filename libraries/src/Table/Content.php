@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
@@ -25,6 +25,14 @@ use Joomla\String\StringHelper;
  */
 class Content extends Table
 {
+	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
 	/**
 	 * Constructor
 	 *
@@ -143,20 +151,20 @@ class Content extends Table
 			}
 		}
 
-		if (isset($array['attribs']) && is_array($array['attribs']))
+		if (isset($array['attribs']) && \is_array($array['attribs']))
 		{
 			$registry = new Registry($array['attribs']);
 			$array['attribs'] = (string) $registry;
 		}
 
-		if (isset($array['metadata']) && is_array($array['metadata']))
+		if (isset($array['metadata']) && \is_array($array['metadata']))
 		{
 			$registry = new Registry($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
 
 		// Bind the rules.
-		if (isset($array['rules']) && is_array($array['rules']))
+		if (isset($array['rules']) && \is_array($array['rules']))
 		{
 			$rules = new Rules($array['rules']);
 			$this->setRules($rules);
@@ -244,31 +252,25 @@ class Content extends Table
 			$this->hits = 0;
 		}
 
-		// Set publish_up to null date if not set
+		// Set publish_up to null if not set
 		if (!$this->publish_up)
 		{
-			$this->publish_up = $this->_db->getNullDate();
+			$this->publish_up = null;
 		}
 
-		// Set publish_down to null date if not set
+		// Set publish_down to null if not set
 		if (!$this->publish_down)
 		{
-			$this->publish_down = $this->_db->getNullDate();
+			$this->publish_down = null;
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if ($this->publish_down < $this->publish_up && $this->publish_down > $this->_db->getNullDate())
+		if (!is_null($this->publish_up) && !is_null($this->publish_down) && $this->publish_down < $this->publish_up)
 		{
 			// Swap the dates.
 			$temp = $this->publish_up;
 			$this->publish_up = $this->publish_down;
 			$this->publish_down = $temp;
-		}
-
-		// Set modified to null date if not set
-		if (!$this->modified)
-		{
-			$this->modified = $this->_db->getNullDate();
 		}
 
 		// Clean up keywords -- eliminate extra spaces between phrases
@@ -313,7 +315,7 @@ class Content extends Table
 	 *
 	 * @since   1.6
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate();
 		$user = Factory::getUser();
@@ -336,6 +338,12 @@ class Content extends Table
 			if (empty($this->created_by))
 			{
 				$this->created_by = $user->get('id');
+			}
+
+			// Set modified to created date if not set
+			if (!$this->modified)
+			{
+				$this->modified = $this->created;
 			}
 		}
 

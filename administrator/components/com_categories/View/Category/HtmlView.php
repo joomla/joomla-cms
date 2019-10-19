@@ -166,8 +166,8 @@ class HtmlView extends BaseHtmlView
 		elseif ($lang->hasKey($component_section_key = $component . ($section ? "_$section" : '')))
 		{
 			$title = Text::sprintf('COM_CATEGORIES_CATEGORY_' . ($isNew ? 'ADD' : 'EDIT')
-					. '_TITLE', $this->escape(Text::_($component_section_key))
-					);
+				. '_TITLE', $this->escape(Text::_($component_section_key))
+			);
 		}
 		// Else use the base title
 		else

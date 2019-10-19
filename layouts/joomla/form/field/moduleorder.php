@@ -48,7 +48,7 @@ extract($displayData);
  */
 
 // Initialize some field attributes.
-$attributes['id'] = 'id="' . $id . '"';
+$attributes['dataid'] = 'data-id="' . $id . '"';
 $attributes['data-url'] = 'data-url="index.php?option=com_modules&task=module.orderPosition&' . $token . '"';
 $attributes['data-element'] = 'data-element="parent_' . $id . '"';
 $attributes['data-ordering'] = 'data-ordering="' . $ordering . '"';

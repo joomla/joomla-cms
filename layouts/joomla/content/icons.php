@@ -31,4 +31,3 @@ $articleId = $displayData['item']->id;
 		</div>
 	</div>
 <?php endif; ?>
-

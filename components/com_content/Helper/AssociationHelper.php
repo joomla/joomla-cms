@@ -65,19 +65,27 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 				if (!$user->authorise('core.edit.state', 'com_content') && !$user->authorise('core.edit', 'com_content'))
 				{
 					// Filter by start and end dates.
-					$nullDate = $db->quote($db->getNullDate());
 					$date = Factory::getDate();
 
 					$nowDate = $db->quote($date->toSql());
 
-					$advClause[] = '(c2.publish_up = ' . $nullDate . ' OR c2.publish_up <= ' . $nowDate . ')';
-					$advClause[] = '(c2.publish_down = ' . $nullDate . ' OR c2.publish_down >= ' . $nowDate . ')';
+					$advClause[] = '(c2.publish_up IS NULL OR c2.publish_up <= ' . $nowDate . ')';
+					$advClause[] = '(c2.publish_down IS NULL OR c2.publish_down >= ' . $nowDate . ')';
 
 					// Filter by published
 					$advClause[] = 'c2.state = 1';
 				}
 
-				$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $id, 'id', 'alias', 'catid', $advClause);
+				$associations = Associations::getAssociations(
+					'com_content',
+					'#__content',
+					'com_content.item',
+					$id,
+					'id',
+					'alias',
+					'catid',
+					$advClause
+				);
 
 				$return = array();
 

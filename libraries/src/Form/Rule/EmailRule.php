@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -16,6 +16,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -110,7 +111,7 @@ class EmailRule extends FormRule
 		{
 			$config = explode('.', $element['validDomains'], 2);
 
-			if (count($config) > 1)
+			if (\count($config) > 1)
 			{
 				$domains = ComponentHelper::getParams($config[0])->get($config[1]);
 			}
@@ -124,7 +125,7 @@ class EmailRule extends FormRule
 				$emailDomain = explode('@', $value);
 				$emailDomain = $emailDomain[1];
 				$emailParts  = array_reverse(explode('.', $emailDomain));
-				$emailCount  = count($emailParts);
+				$emailCount  = \count($emailParts);
 				$allowed     = true;
 
 				foreach ($domains as $domain)
@@ -133,7 +134,7 @@ class EmailRule extends FormRule
 					$status      = 0;
 
 					// Don't run if the email has less segments than the rule.
-					if ($emailCount < count($domainParts))
+					if ($emailCount < \count($domainParts))
 					{
 						continue;
 					}
@@ -177,14 +178,20 @@ class EmailRule extends FormRule
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true);
 
+			// Get the extra field check attribute.
+			$userId = ($form instanceof Form) ? (int) $form->getValue('id') : 0;
+
 			// Build the query.
 			$query->select('COUNT(*)')
-				->from('#__users')
-				->where('email = ' . $db->quote($value));
-
-			// Get the extra field check attribute.
-			$userId = ($form instanceof Form) ? $form->getValue('id') : '';
-			$query->where($db->quoteName('id') . ' <> ' . (int) $userId);
+				->from($db->quoteName('#__users'))
+				->where(
+					[
+						$db->quoteName('email') . ' = :email',
+						$db->quoteName('id') . ' <> :userId',
+					]
+				)
+				->bind(':email', $value)
+				->bind(':userId', $userId, ParameterType::INTEGER);
 
 			// Set and query the database.
 			$db->setQuery($query);

@@ -8,8 +8,8 @@
 # READ THIS COMPLETELY IF YOU CHOOSE TO USE THIS FILE!
 #
 # The line 'Options +FollowSymLinks' may cause problems with some server configurations.
-# It is required for the use of mod_rewrite, but it may have already been set by your
-# server administrator in a way that disallows changing it in this .htaccess file.
+# It is required for the use of Apache mod_rewrite, but it may have already been set by
+# your server administrator in a way that disallows changing it in this .htaccess file.
 # If using it causes your site to produce an error, comment it out (add # to the
 # beginning of the line), reload your site in your browser and test your sef urls. If
 # they work, then it has been set by your server administrator and you do not need to
@@ -30,7 +30,7 @@ Header always set X-Content-Type-Options "nosniff"
 Options +FollowSymlinks
 Options -Indexes
 
-## These directives are only enabled if the mod_rewrite module is enabled
+## These directives are only enabled if the Apache mod_rewrite module is enabled
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 
@@ -85,18 +85,18 @@ Options -Indexes
 	## End - Joomla! core SEF Section.
 </IfModule>
 
-## These directives are only enabled if the mod_rewrite module is disabled
+## These directives are only enabled if the Apache mod_rewrite module is disabled
 <IfModule !mod_rewrite.c>
     <IfModule mod_alias.c>
-        # When mod_rewrite is not available, we instruct a temporary redirect of
-        # the start page to the front controller explicitly so that the website
+        # When Apache mod_rewrite is not available, we instruct a temporary redirect
+        # of the start page to the front controller explicitly so that the website
         # and the generated links can still be used.
         RedirectMatch 302 ^/$ /index.php/
         # RedirectTemp cannot be used instead
     </IfModule>
 </IfModule>
 
-## These directives are only enabled if the mod_headers module is enabled
+## These directives are only enabled if the Apache mod_headers module is enabled.
 ## This section will check if a .gz file exists and if so will stream it
 ##     directly or fallback to gzip any asset on the fly
 <IfModule mod_headers.c>

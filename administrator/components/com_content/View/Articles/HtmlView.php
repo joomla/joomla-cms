@@ -65,14 +65,6 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * Array used for displaying the levels filter
-	 *
-	 * @return  \stdClass[]
-	 * @since  4.0.0
-	 */
-	protected $f_levels;
-
-	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -154,7 +146,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		Factory::getDocument()->addScriptOptions('articles.transitions', $transitions);
+		$this->document->addScriptOptions('articles.transitions', $transitions);
 
 		$articles = [];
 
@@ -163,7 +155,7 @@ class HtmlView extends BaseHtmlView
 			$articles['article-' . (int) $item->id] = Text::sprintf('COM_CONTENT_STAGE_ARTICLE_TITLE', $this->escape($item->title), (int) $item->id);
 		}
 
-		Factory::getDocument()->addScriptOptions('articles.items', $articles);
+		$this->document->addScriptOptions('articles.items', $articles);
 
 		Text::script('COM_CONTENT_ERROR_CANNOT_PUBLISH');
 		Text::script('COM_CONTENT_ERROR_CANNOT_UNPUBLISH');
@@ -200,12 +192,11 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
-
 
 			if ($canDo->get('core.execute.transition'))
 			{
@@ -241,17 +232,17 @@ class HtmlView extends BaseHtmlView
 			{
 				$childBar->trash('articles.trash')->listCheck(true);
 			}
-		}
 
-		// Add a batch button
-		if ($user->authorise('core.create', 'com_content')
-			&& $user->authorise('core.edit', 'com_content')
-			&& $user->authorise('core.execute.transition', 'com_content'))
-		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
+			// Add a batch button
+			if ($user->authorise('core.create', 'com_content')
+				&& $user->authorise('core.edit', 'com_content')
+				&& $user->authorise('core.execute.transition', 'com_content'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 		}
 
 		if ($this->state->get('filter.condition') == ContentComponent::CONDITION_TRASHED && $canDo->get('core.delete'))
