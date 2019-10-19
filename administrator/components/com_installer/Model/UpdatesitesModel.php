@@ -431,11 +431,24 @@ class UpdatesitesModel extends InstallerModel
 	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
 		// Load the filter state.
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
-		$this->setState('filter.enabled', $this->getUserStateFromRequest($this->context . '.filter.enabled', 'filter_enabled', '', 'string'));
-		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
-		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
+		$this->setState('filter.search', $this->getUserStateFromRequest(
+			$this->context . '.filter.search', 'filter_search', '', 'string')
+		);
+		$this->setState('filter.client_id', $this->getUserStateFromRequest(
+			$this->context . '.filter.client_id', 'filter_client_id', null, 'int')
+		);
+		$this->setState('filter.enabled', $this->getUserStateFromRequest(
+			$this->context . '.filter.enabled', 'filter_enabled', '', 'string')
+		);
+		$this->setState('filter.type', $this->getUserStateFromRequest(
+			$this->context . '.filter.type', 'filter_type', '', 'string')
+		);
+		$this->setState('filter.folder', $this->getUserStateFromRequest(
+			$this->context . '.filter.folder', 'filter_folder', '', 'string')
+		);
+		$this->setState('filter.supported', $this->getUserStateFromRequest(
+			$this->context . '.filter.supported', 'filter_supported', '', 'bool')
+		);
 
 		parent::populateState($ordering, $direction);
 	}
@@ -509,10 +522,11 @@ class UpdatesitesModel extends InstallerModel
 			->where($db->quoteName('state') . ' = 0');
 
 		// Process select filters.
-		$enabled  = $this->getState('filter.enabled');
-		$type     = $this->getState('filter.type');
-		$clientId = $this->getState('filter.client_id');
-		$folder   = $this->getState('filter.folder');
+		$supported = $this->getState('filter.supported');
+		$enabled   = $this->getState('filter.enabled');
+		$type      = $this->getState('filter.type');
+		$clientId  = $this->getState('filter.client_id');
+		$folder    = $this->getState('filter.folder');
 
 		if ($enabled !== '')
 		{
@@ -534,8 +548,9 @@ class UpdatesitesModel extends InstallerModel
 
 		if ($folder !== '' && in_array($type, ['plugin', 'library', ''], true))
 		{
+			$folderForBinding = $folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('e.folder') . ' = :folder')
-				->bind(':folder', $folder === '*' ? '' : $folder);
+				  ->bind(':folder', $folderForBinding);
 		}
 
 		// Process search filter (update site id).
@@ -547,7 +562,18 @@ class UpdatesitesModel extends InstallerModel
 				->bind(':siteId', substr($search, 3), ParameterType::INTEGER);
 		}
 
-		// Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).
+		if ($supported)
+		{
+			$supportedIDs = InstallerHelper::getDownloadKeySupportedSites($enabled);
+			$supportedIDs = array_map([$db, 'quote'], $supportedIDs);
+
+			$query->where($db->qn('s.update_site_id') . ' IN (' . implode(',', $supportedIDs) . ')');
+		}
+
+		/**
+		 * Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in
+		 * extension.php).
+		 */
 
 		return $query;
 	}
