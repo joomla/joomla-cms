@@ -103,15 +103,13 @@ Factory::getDocument()->addScriptDeclaration('
 							</td>
 							<th scope="row">
 								<?php echo ActionlogsHelper::getHumanReadableLogMessage($item); ?>
-							</td>
+							</th>
 							<td>
 								<?php echo $this->escape(Text::_($extension)); ?>
 							</td>
 							<td>
-								<span title="<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>">
-									<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
-								</span>
-								<div role="tooltip" id="<?php echo $item->id; ?>">
+								<?php echo HTMLHelper::_('date.relative', $item->log_date); ?>
+								<div class="small">
 									<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC6')); ?>
 								</div>
 							</td>

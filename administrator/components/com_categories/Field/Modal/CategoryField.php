@@ -86,8 +86,8 @@ class CategoryField extends FormField
 				Factory::getDocument()->addScriptDeclaration("
 				function jSelectCategory_" . $this->id . "(id, title, object) {
 					window.processModalSelect('Category', '" . $this->id . "', id, title, '', object);
-				}
-				");
+				}"
+				);
 
 				Text::script('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED');
 
@@ -136,6 +136,7 @@ class CategoryField extends FormField
 
 		// The current category display field.
 		$html  = '';
+
 		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
 		{
 			$html .= '<span class="input-group">';
@@ -152,7 +153,7 @@ class CategoryField extends FormField
 		if ($allowSelect)
 		{
 			$html .= '<button'
-				. ' class="btn btn-primary hasTooltip' . ($value ? ' hidden' : '') . '"'
+				. ' class="btn btn-primary' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_select"'
 				. ' data-toggle="modal"'
 				. ' type="button"'
@@ -165,7 +166,7 @@ class CategoryField extends FormField
 		if ($allowNew)
 		{
 			$html .= '<button'
-				. ' class="btn btn-secondary hasTooltip' . ($value ? ' hidden' : '') . '"'
+				. ' class="btn btn-secondary' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_new"'
 				. ' data-toggle="modal"'
 				. ' type="button"'
@@ -178,7 +179,7 @@ class CategoryField extends FormField
 		if ($allowEdit)
 		{
 			$html .= '<button'
-				. ' class="btn btn-secondary hasTooltip' . ($value ? '' : ' hidden') . '"'
+				. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
 				. ' type="button"'

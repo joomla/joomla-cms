@@ -44,7 +44,7 @@ module.exports.compileJS = (options, path) => {
           (files) => {
             files.forEach(
               (file) => {
-                HandleFile.run(file, options);
+                HandleFile.run(file);
               },
               (error) => {
                 // eslint-disable-next-line no-console

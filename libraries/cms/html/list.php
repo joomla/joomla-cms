@@ -234,7 +234,8 @@ abstract class JHtmlList
 	 * @since   1.5
 	 */
 	public static function positions($name, $active = null, $javascript = null, $none = true, $center = true, $left = true, $right = true,
-		$id = false)
+		$id = false
+	)
 	{
 		$pos = array();
 

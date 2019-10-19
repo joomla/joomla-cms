@@ -1,13 +1,15 @@
 <?php
 /**
- * @package     Joomla.Test
+ * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Page
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Page\Acceptance\Administrator;
+
+use AcceptanceTester;
+use Exception;
 
 /**
  * Acceptance Page object class to define administrator page objects.
@@ -16,7 +18,7 @@ namespace Page\Acceptance\Administrator;
  *
  * @since    3.7.3
  */
-class AdminPage extends \AcceptanceTester
+class AdminPage extends AcceptanceTester
 {
 	/**
 	 * The element id which contains system messages.
@@ -35,7 +37,7 @@ class AdminPage extends \AcceptanceTester
 	public static $pageTitle = ['class' => 'page-title'];
 
 	/**
-	 * Locator for page title
+	 * Locator for page title.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -43,7 +45,7 @@ class AdminPage extends \AcceptanceTester
 	public static $title = ['id' => 'jform_title'];
 
 	/**
-	 * Locator for search input field
+	 * Locator for search input field.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -51,7 +53,7 @@ class AdminPage extends \AcceptanceTester
 	public static $filterSearch = ['id' => 'filter_search'];
 
 	/**
-	 * Locator for status filter under search tool
+	 * Locator for status filter under search tool.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -59,7 +61,7 @@ class AdminPage extends \AcceptanceTester
 	public static $filterPublished = 'filter_published';
 
 	/**
-	 * Locator for search button icon
+	 * Locator for search button icon.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -67,7 +69,7 @@ class AdminPage extends \AcceptanceTester
 	public static $iconSearch = ['xpath' => "//button[@title='Search']"];
 
 	/**
-	 * Locator for the Tabs in Edit View
+	 * Locator for the Tabs in Edit View.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -75,7 +77,7 @@ class AdminPage extends \AcceptanceTester
 	public static $tabsLocator = ['xpath' => "//ul[@id='myTabTabs']/li/a"];
 
 	/**
-	 * Locator for the Check All checkbox
+	 * Locator for the Check All checkbox.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -83,13 +85,13 @@ class AdminPage extends \AcceptanceTester
 	public static $checkAll = ['xpath' => "//thead//input[@name='checkall-toggle' or @name='toggle']"];
 
 	/**
-	 * Method to search using given keyword
+	 * Method to search using given keyword.
 	 *
-	 * @param   string $keyword The keyword to search
-	 *
-	 * @since   3.7.3
+	 * @param   string  $keyword  The keyword to search
 	 *
 	 * @return  void
+	 *
+	 * @since   3.7.3
 	 */
 	public function search($keyword)
 	{
@@ -101,13 +103,13 @@ class AdminPage extends \AcceptanceTester
 	}
 
 	/**
-	 * Method to search user with username
+	 * Method to search user with username.
 	 *
-	 * @param   string $keyword The username of user
-	 *
-	 * @since   3.7.3
+	 * @param   string  $keyword  The username of user
 	 *
 	 * @return  void  Checkbox for given username will be checked.
+	 *
+	 * @since   3.7.3
 	 */
 	public function haveItemUsingSearch($keyword)
 	{
@@ -122,12 +124,12 @@ class AdminPage extends \AcceptanceTester
 	/**
 	 * Method is used to see system message after waiting for page title.
 	 *
-	 * @param   string $title   The webpage title
-	 * @param   string $message The unpublish successful message
-	 *
-	 * @since   3.7.3
+	 * @param   string  $title    The webpage title
+	 * @param   string  $message  The unpublish successful message
 	 *
 	 * @return  void
+	 *
+	 * @since   3.7.3
 	 */
 	public function seeSystemMessage($title, $message)
 	{
@@ -140,11 +142,13 @@ class AdminPage extends \AcceptanceTester
 	/**
 	 * Method is to Wait for page title until default timeout.
 	 *
-	 * @param   string $title Page Title text
+	 * @param   string  $title  Page Title text
+	 *
+	 * @return  void
 	 *
 	 * @since   3.7.3
 	 *
-	 * @return  void
+	 * @throws Exception
 	 */
 	public function waitForPageTitle($title)
 	{
@@ -153,13 +157,14 @@ class AdminPage extends \AcceptanceTester
 	}
 
 	/**
-	 * Function to select all the item in the Search results in Administrator List
+	 * Function to select all the item in the Search results in Administrator List.
 	 *
-	 * Note: We recommend use of checkAllResults function only after searchForItem to be sure you are selecting only the desired result set
-	 *
-	 * @since   3.7.3
+	 * Note: We recommend use of checkAllResults function only after searchForItem to be sure you are selecting only
+	 * the desired result set.
 	 *
 	 * @return  void
+	 *
+	 * @since   3.7.3
 	 */
 	public function checkAllResults()
 	{
@@ -170,14 +175,14 @@ class AdminPage extends \AcceptanceTester
 	}
 
 	/**
-	 * Selects an option in a Chosen Selector based on its id
+	 * Selects an option in a Chosen Selector based on its id.
 	 *
-	 * @param   string $selectId The id of the <select> element
-	 * @param   string $option   The text in the <option> to be selected in the chosen selector
-	 *
-	 * @since   3.7.3
+	 * @param   string  $selectId  The id of the <select> element
+	 * @param   string  $option    The text in the <option> to be selected in the chosen selector
 	 *
 	 * @return  void
+	 *
+	 * @since   3.7.3
 	 */
 	public function selectOptionInChosenById($selectId, $option)
 	{
@@ -194,11 +199,13 @@ class AdminPage extends \AcceptanceTester
 	}
 
 	/**
-	 * Function to Logout from Administrator Panel in Joomla!
+	 * Function to Logout from Administrator Panel in Joomla!.
+	 *
+	 * @return  void
 	 *
 	 * @since   3.7.3
 	 *
-	 * @return  void
+	 * @throws Exception
 	 */
 	public function doAdministratorLogout()
 	{
@@ -226,14 +233,14 @@ class AdminPage extends \AcceptanceTester
 	}
 
 	/**
-	 * Function to Verify the Tabs on a Joomla! screen
+	 * Function to Verify the Tabs on a Joomla! screen.
 	 *
-	 * @param   array $expectedTabs Expected Tabs on the Page
-	 * @param   array $tabsLocator  Locator for the Tabs in Edit View
-	 *
-	 * @since   3.7.3
+	 * @param   array  $expectedTabs  Expected Tabs on the Page
+	 * @param   array  $tabsLocator   Locator for the Tabs in Edit View
 	 *
 	 * @return  void
+	 *
+	 * @since   3.7.3
 	 */
 	public function verifyAvailableTabs($expectedTabs, $tabsLocator = null)
 	{
@@ -254,13 +261,13 @@ class AdminPage extends \AcceptanceTester
 	}
 
 	/**
-	 * Method to see that item is saved
+	 * Method to see that item is saved.
 	 *
-	 * @param   string $item The item Name
-	 *
-	 * @since   3.7.3
+	 * @param   string  $item  The item Name
 	 *
 	 * @return  void
+	 *
+	 * @since   3.7.3
 	 */
 	public function seeItemIsCreated($item)
 	{
@@ -274,12 +281,12 @@ class AdminPage extends \AcceptanceTester
 	/**
 	 * Assure the item is trashed.
 	 *
-	 * @param   string $item      The item name
-	 * @param   string $pageTitle The page title
-	 *
-	 * @since   3.7.3
+	 * @param   string  $item       The item name
+	 * @param   string  $pageTitle  The page title
 	 *
 	 * @return  void
+	 *
+	 * @since   3.7.3
 	 */
 	public function seeItemInTrash($item, $pageTitle)
 	{
@@ -293,11 +300,11 @@ class AdminPage extends \AcceptanceTester
 	}
 
 	/**
-	 * Assure the search tools are displayed
-	 *
-	 * @since   3.7.3
+	 * Assure the search tools are displayed.
 	 *
 	 * @return  void
+	 *
+	 * @since   3.7.3
 	 */
 	public function displaySearchTools()
 	{

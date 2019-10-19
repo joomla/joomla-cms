@@ -53,6 +53,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 		foreach ($paths as $extension => $files)
 		{
 			$loaded[$extension] = [];
+
 			foreach ($files as $file => $status)
 			{
 				$loaded[$extension][$file] = $status;

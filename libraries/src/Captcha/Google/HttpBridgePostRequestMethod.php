@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Captcha\Google;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\Http\Exception\InvalidResponseCodeException;

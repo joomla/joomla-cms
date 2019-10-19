@@ -379,16 +379,6 @@
 					filter="unset"
 				/>
 
-				<field
-					name="xreference"
-					type="hidden"
-					label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
-					description="COM_CONTENT_FIELD_XREFERENCE_DESC"
-					filter="unset"
-					class="inputbox"
-					size="20"
-				/>
-
 		</fieldset>
 	</fields>
 </form>

@@ -972,7 +972,6 @@ class LanguagesModel extends BaseInstallationModel
 	 *
 	 * @since   3.8.0
 	 */
-
 	public function addAllCategoriesMenuItem($itemLanguage)
 	{
 		// Add Menu Item.
@@ -1269,7 +1268,7 @@ class LanguagesModel extends BaseInstallationModel
 			'publish_down'     => $db->getNullDate(),
 			'version'          => 1,
 			'catid'            => $categoryId,
-			'metadata'         => '{"robots":"","author":"","rights":"","xreference":"","tags":null}',
+			'metadata'         => '{"robots":"","author":"","rights":"","tags":null}',
 			'metakey'          => '',
 			'metadesc'         => '',
 			'language'         => $itemLanguage->language,

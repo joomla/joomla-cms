@@ -1,12 +1,11 @@
 <?php
 /**
- * @package     Joomla.Test
+ * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Page
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Page\Acceptance\Administrator;
 
 /**
@@ -51,7 +50,7 @@ class ContentListPage extends AdminListPage
 	public static $toggleEditor = "Toggle editor";
 
 	/**
-	 * Locator for article's name field
+	 * Locator for article's name field.
 	 *
 	 * @var    array
 	 * @since  4.0.0
@@ -59,7 +58,7 @@ class ContentListPage extends AdminListPage
 	public static $seeName = ['xpath' => "//table[@id='articleList']//tr[1]//td[4]"];
 
 	/**
-	 * Locator for article's featured icon
+	 * Locator for article's featured icon.
 	 *
 	 * @var    array
 	 * @since  4.0.0
@@ -67,7 +66,7 @@ class ContentListPage extends AdminListPage
 	public static $seeFeatured = ['xpath' => "//table[@id='articleList']//*//span[@class='icon-featured']"];
 
 	/**
-	 * Locator for article's name field
+	 * Locator for article's name field.
 	 *
 	 * @var    array
 	 * @since  4.0.0
@@ -75,7 +74,7 @@ class ContentListPage extends AdminListPage
 	public static $seeAccessLevel = ['xpath' => "//table[@id='articleList']//tr[1]//td[5]"];
 
 	/**
-	 * Locator for article's unpublish icon
+	 * Locator for article's unpublish icon.
 	 *
 	 * @var    array
 	 * @since  4.0.0

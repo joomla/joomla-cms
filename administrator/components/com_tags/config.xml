@@ -366,23 +366,21 @@
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_TAGS_CONFIG_INTEGRATION_SETTINGS_DESC"
 	>
-		<field
+		<fieldset
 			name="integration_newsfeeds"
-			type="note"
 			label="JGLOBAL_FEED_TITLE"
-		/>
-
-		<field
-			name="show_feed_link"
-			type="radio"
-			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
+		>
+			<field
+				name="show_feed_link"
+				type="radio"
+				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
+				class="switcher"
+				default="1"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+		</fieldset>
 	</fieldset>
 
 	<fieldset

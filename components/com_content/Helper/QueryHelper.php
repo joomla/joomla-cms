@@ -120,7 +120,7 @@ class QueryHelper
 				break;
 
 			case 'random' :
-				$orderby = $db->getQuery(true)->Rand();
+				$orderby = $db->getQuery(true)->rand();
 				break;
 
 			case 'vote' :

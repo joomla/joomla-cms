@@ -119,7 +119,7 @@ abstract class JHtmlJquery
 		$doc = Factory::getDocument();
 
 		$doc->addScriptDeclaration(
-<<<JS
+			<<<JS
 ;(function ($) {
 	$.ajaxSetup({
 		headers: {

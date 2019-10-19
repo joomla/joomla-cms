@@ -258,6 +258,7 @@ class MenuField extends FormField
 
 		// The current menu item display field.
 		$html  = '';
+
 		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)
 		{
 			$html .= '<span class="input-group">';
@@ -274,7 +275,7 @@ class MenuField extends FormField
 		if ($this->allowSelect)
 		{
 			$html .= '<button'
-				. ' class="btn btn-primary hasTooltip' . ($value ? ' hidden' : '') . '"'
+				. ' class="btn btn-primary' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_select"'
 				. ' data-toggle="modal"'
 				. ' type="button"'
@@ -287,7 +288,7 @@ class MenuField extends FormField
 		if ($this->allowNew)
 		{
 			$html .= '<button'
-				. ' class="btn btn-secondary hasTooltip' . ($value ? ' hidden' : '') . '"'
+				. ' class="btn btn-secondary' . ($value ? ' hidden' : '') . '"'
 				. ' id="' . $this->id . '_new"'
 				. ' data-toggle="modal"'
 				. ' type="button"'
@@ -300,7 +301,7 @@ class MenuField extends FormField
 		if ($this->allowEdit)
 		{
 			$html .= '<button'
-				. ' class="btn btn-secondary hasTooltip' . ($value ? '' : ' hidden') . '"'
+				. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
 				. ' type="button"'

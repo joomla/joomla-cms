@@ -53,6 +53,7 @@ abstract class JHtmlUiTab
 
 		// @TODO echo the recall attribute correctly, now it's hardcoded!!!
 		$recall = !isset($params['recall']) ? '' : 'recall';
+
 		return '<joomla-tab id="' . $selector . '" recall>';
 	}
 

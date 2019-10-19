@@ -6,7 +6,7 @@ const Postcss = require('postcss');
 const Sass = require('node-sass');
 const MakeDir = require('../utils/make-dir.es6.js');
 
-module.exports.compile = (file, options) => {
+module.exports.compile = (file) => {
   const cssFile = file.replace('/scss/', '/css/').replace('\\scss\\', '\\css\\')
     .replace('.scss', '.css').replace('/build/media_source/', '/media/')
     .replace('\\build\\media_source\\', '\\media\\');
@@ -24,9 +24,7 @@ module.exports.compile = (file, options) => {
       // eslint-disable-next-line no-console
       const cleaner = Postcss(
         [
-          Autoprefixer({
-            browsers: options.settings.browsers,
-          }),
+          Autoprefixer(),
         ],
       );
 

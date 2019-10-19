@@ -167,13 +167,11 @@ class PluginModel extends AdminModel
 			$table = $this->getTable();
 
 			// Attempt to load the row.
-			$return = $table->load($pk);
+			$return = $table->load(array('extension_id' => $pk, 'type' => 'plugin'));
 
 			// Check for a table object error.
-			if ($return === false && $table->getError())
+			if ($return === false)
 			{
-				$this->setError($table->getError());
-
 				return false;
 			}
 

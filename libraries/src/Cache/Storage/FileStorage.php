@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Cache\Storage;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
 use Joomla\CMS\Factory;
@@ -60,7 +60,7 @@ class FileStorage extends CacheStorage
 		{
 			foreach ($locked_files as $path => $handle)
 			{
-				if (is_resource($handle))
+				if (\is_resource($handle))
 				{
 					@flock($handle, LOCK_UN);
 					@fclose($handle);
@@ -213,7 +213,7 @@ class FileStorage extends CacheStorage
 
 		if ($_fileopen)
 		{
-			$length = strlen($data);
+			$length = \strlen($data);
 			$result = @fwrite($_fileopen, $data, $length);
 
 			if ($close)
@@ -277,7 +277,7 @@ class FileStorage extends CacheStorage
 			case 'notgroup' :
 				$folders = $this->_folders($this->_root);
 
-				for ($i = 0, $n = count($folders); $i < $n; $i++)
+				for ($i = 0, $n = \count($folders); $i < $n; $i++)
 				{
 					if ($folders[$i] != $folder)
 					{
@@ -522,14 +522,14 @@ class FileStorage extends CacheStorage
 		// Remove all the files in folder if they exist; disable all filtering
 		$files = $this->_filesInFolder($path, '.', false, true, array(), array());
 
-		if (!empty($files) && !is_array($files))
+		if (!empty($files) && !\is_array($files))
 		{
 			if (@unlink($files) !== true)
 			{
 				return false;
 			}
 		}
-		elseif (!empty($files) && is_array($files))
+		elseif (!empty($files) && \is_array($files))
 		{
 			foreach ($files as $file)
 			{
@@ -636,7 +636,7 @@ class FileStorage extends CacheStorage
 			return $arr;
 		}
 
-		if (count($excludefilter))
+		if (\count($excludefilter))
 		{
 			$excludefilter = '/(' . implode('|', $excludefilter) . ')/';
 		}
@@ -647,7 +647,7 @@ class FileStorage extends CacheStorage
 
 		while (($file = readdir($handle)) !== false)
 		{
-			if (($file != '.') && ($file != '..') && (!in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file)))
+			if (($file != '.') && ($file != '..') && (!\in_array($file, $exclude)) && (!$excludefilter || !preg_match($excludefilter, $file)))
 			{
 				$dir   = $path . '/' . $file;
 				$isDir = is_dir($dir);
@@ -656,7 +656,7 @@ class FileStorage extends CacheStorage
 				{
 					if ($recurse)
 					{
-						if (is_int($recurse))
+						if (\is_int($recurse))
 						{
 							$arr2 = $this->_filesInFolder($dir, $filter, $recurse - 1, $fullpath);
 						}
@@ -726,7 +726,7 @@ class FileStorage extends CacheStorage
 			return $arr;
 		}
 
-		if (count($excludefilter))
+		if (\count($excludefilter))
 		{
 			$excludefilter_string = '/(' . implode('|', $excludefilter) . ')/';
 		}
@@ -738,7 +738,7 @@ class FileStorage extends CacheStorage
 		while (($file = readdir($handle)) !== false)
 		{
 			if (($file != '.') && ($file != '..')
-				&& (!in_array($file, $exclude))
+				&& (!\in_array($file, $exclude))
 				&& (empty($excludefilter_string) || !preg_match($excludefilter_string, $file)))
 			{
 				$dir   = $path . '/' . $file;
@@ -761,7 +761,7 @@ class FileStorage extends CacheStorage
 
 					if ($recurse)
 					{
-						if (is_int($recurse))
+						if (\is_int($recurse))
 						{
 							$arr2 = $this->_folders($dir, $filter, $recurse - 1, $fullpath, $exclude, $excludefilter);
 						}

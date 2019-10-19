@@ -96,7 +96,7 @@ $attributes = array(
 			<?php echo implode(' ', $attributes); ?>>
 		<span class="input-group-append">
 			<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-			<span class="input-group-text icon-eye" aria-hidden="true"></span>
+			<span class="input-group-text icon-eye input-password-toggle" aria-hidden="true"></span>
 		</span>
 	</div>
 </div>

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
@@ -288,9 +288,9 @@ class LanguageAdapter extends InstallerAdapter
 		{
 			$this->parent
 				->setPath(
-				'source',
-				($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/language/' . $this->parent->extension->element
-			);
+					'source',
+					($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/language/' . $this->parent->extension->element
+				);
 		}
 
 		$this->setManifest($this->parent->getManifest());
@@ -363,7 +363,7 @@ class LanguageAdapter extends InstallerAdapter
 		$this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
-		if ($element && count($element->children()))
+		if ($element && \count($element->children()))
 		{
 			$files = $element->children();
 
@@ -386,11 +386,11 @@ class LanguageAdapter extends InstallerAdapter
 			{
 				$this->parent
 					->abort(
-					Text::sprintf(
-						'JLIB_INSTALLER_ABORT',
-						Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_FOLDER_FAILED', $this->parent->getPath('extension_site'))
-					)
-				);
+						Text::sprintf(
+							'JLIB_INSTALLER_ABORT',
+							Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_FOLDER_FAILED', $this->parent->getPath('extension_site'))
+						)
+					);
 
 				return false;
 			}
@@ -685,7 +685,7 @@ class LanguageAdapter extends InstallerAdapter
 		$this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
-		if (count($xml->files->children()))
+		if (\count($xml->files->children()))
 		{
 			foreach ($xml->files->children() as $file)
 			{

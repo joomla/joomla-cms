@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\WebAsset;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\WebAsset\Exception\InvalidActionException;
@@ -55,7 +55,7 @@ interface WebAssetManagerInterface
 	 *
 	 * @param   string  $name  The asset name
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @throws  UnknownAssetException  When Asset cannot be found
 	 *

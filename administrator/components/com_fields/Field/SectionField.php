@@ -21,6 +21,11 @@ use Joomla\CMS\Form\Field\ListField;
  */
 class SectionField extends ListField
 {
+	/**
+	 * Type of the field
+	 *
+	 * @var    string
+	 */
 	public $type = 'Section';
 
 	/**

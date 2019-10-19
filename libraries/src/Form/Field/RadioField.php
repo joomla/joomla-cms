@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -58,7 +58,6 @@ class RadioField extends ListField
 		// The layout for Switcher
 		if (!$element['layout'] && strpos(trim($this->class), 'switcher') === 0)
 		{
-
 			$this->skipLabelFor = true;
 			$this->layout = 'joomla.form.field.radio.switcher';
 		}

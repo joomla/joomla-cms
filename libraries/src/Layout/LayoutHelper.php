@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Layout;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Helper to render a Layout object, storing a base path

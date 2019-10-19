@@ -37,7 +37,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The \JForm object
 	 *
-	 * @var  \JForm
+	 * @var \Joomla\CMS\Form\Form
 	 */
 	protected $form;
 
@@ -166,6 +166,7 @@ class HtmlView extends BaseHtmlView
 			{
 				$toolbar->apply('article.apply');
 			}
+
 			$saveGroup = $toolbar->dropdownButton('save-group');
 
 			$saveGroup->configure(
@@ -259,7 +260,6 @@ class HtmlView extends BaseHtmlView
 					)
 				);
 
-
 				echo '<input type="hidden" class="form-control" id="' . $modalId . '_name" value="">';
 				echo '<input type="hidden" id="' . $modalId . '_id" value="0">';
 			}
@@ -268,8 +268,8 @@ class HtmlView extends BaseHtmlView
 		if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
 		{
 			$toolbar->standardButton('contract')
-			->text('JTOOLBAR_ASSOCIATIONS')
-			->task('article.editAssociations');
+				->text('JTOOLBAR_ASSOCIATIONS')
+				->task('article.editAssociations');
 		}
 
 		$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');

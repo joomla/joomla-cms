@@ -96,7 +96,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<?php if (!empty($this->typeSupports['state'])) : ?>
-								<td class="center">
+								<td class="text-center tbody-icon">
 									<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
 								</td>
 							<?php endif; ?>

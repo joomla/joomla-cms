@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Service\Provider;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
@@ -41,90 +41,90 @@ class Database implements ServiceProviderInterface
 			->alias(DatabaseDriver::class, DatabaseInterface::class)
 			->share(
 				DatabaseInterface::class,
-			function (Container $container)
-			{
-				$conf = $container->get('config');
-
-				$dbtype = $conf->get('dbtype');
-
-				/*
-				 * In Joomla! 3.x and earlier the `mysql` type was used for the `ext/mysql` PHP extension, which is no longer supported.
-				 * The `pdomysql` type represented the PDO MySQL adapter.  With the Framework's package in use, the PDO MySQL adapter
-				 * is now the `mysql` type.  Therefore, we check two conditions:
-				 *
-				 * 1) Is the type `pdomysql`, if so switch to `mysql`
-				 * 2) Is the type `mysql`, if so make sure PDO MySQL is supported and if not switch to `mysqli`
-				 *
-				 * For these cases, if a connection cannot be made with MySQLi, the database API will handle throwing an Exception
-				 * so we don't need to make any additional checks for MySQLi.
-				 */
-				if (strtolower($dbtype) === 'pdomysql')
+				function (Container $container)
 				{
-					$dbtype = 'mysql';
-				}
+					$conf = $container->get('config');
 
-				if (strtolower($dbtype) === 'mysql')
-				{
-					if (!MysqlDriver::isSupported())
+					$dbtype = $conf->get('dbtype');
+
+					/*
+					 * In Joomla! 3.x and earlier the `mysql` type was used for the `ext/mysql` PHP extension, which is no longer supported.
+					 * The `pdomysql` type represented the PDO MySQL adapter.  With the Framework's package in use, the PDO MySQL adapter
+					 * is now the `mysql` type.  Therefore, we check two conditions:
+					 *
+					 * 1) Is the type `pdomysql`, if so switch to `mysql`
+					 * 2) Is the type `mysql`, if so make sure PDO MySQL is supported and if not switch to `mysqli`
+					 *
+					 * For these cases, if a connection cannot be made with MySQLi, the database API will handle throwing an Exception
+					 * so we don't need to make any additional checks for MySQLi.
+					 */
+					if (strtolower($dbtype) === 'pdomysql')
 					{
-						$dbtype = 'mysqli';
-					}
-				}
-
-				/*
-				 * Joomla! 4.0 removes support for the `ext/pgsql` PHP extension.  To help with the migration, we will migrate the configuration
-				 * to the PDO PostgreSQL driver regardless of if the environment supports it.  Instead of getting a "driver not found" type of
-				 * error, this will instead force the API to report that the driver is not supported.
-				 */
-				if (strtolower($dbtype) === 'postgresql')
-				{
-					$dbtype = 'pgsql';
-				}
-
-				$options = [
-					'driver'   => $dbtype,
-					'host'     => $conf->get('host'),
-					'user'     => $conf->get('user'),
-					'password' => $conf->get('password'),
-					'database' => $conf->get('db'),
-					'prefix'   => $conf->get('dbprefix'),
-				];
-
-				// Enable utf8mb4 connections for mysql adapters
-				if (strtolower($dbtype) === 'mysqli')
-				{
-					$options['utf8mb4'] = true;
-				}
-
-				if (strtolower($dbtype) === 'mysql')
-				{
-					$options['charset'] = 'utf8mb4';
-				}
-
-				if (JDEBUG)
-				{
-					$options['monitor'] = new \Joomla\Database\Monitor\DebugMonitor;
-				}
-
-				try
-				{
-					$db = DatabaseDriver::getInstance($options);
-				}
-				catch (\RuntimeException $e)
-				{
-					if (!headers_sent())
-					{
-						header('HTTP/1.1 500 Internal Server Error');
+						$dbtype = 'mysql';
 					}
 
-					jexit('Database Error: ' . $e->getMessage());
-				}
+					if (strtolower($dbtype) === 'mysql')
+					{
+						if (!MysqlDriver::isSupported())
+						{
+							$dbtype = 'mysqli';
+						}
+					}
 
-				$db->setDispatcher($container->get(DispatcherInterface::class));
+					/*
+					 * Joomla! 4.0 removes support for the `ext/pgsql` PHP extension.  To help with the migration, we will migrate the configuration
+					 * to the PDO PostgreSQL driver regardless of if the environment supports it.  Instead of getting a "driver not found" type of
+					 * error, this will instead force the API to report that the driver is not supported.
+					 */
+					if (strtolower($dbtype) === 'postgresql')
+					{
+						$dbtype = 'pgsql';
+					}
 
-				return $db;
-			},
-			true
-		);
+					$options = [
+						'driver'   => $dbtype,
+						'host'     => $conf->get('host'),
+						'user'     => $conf->get('user'),
+						'password' => $conf->get('password'),
+						'database' => $conf->get('db'),
+						'prefix'   => $conf->get('dbprefix'),
+					];
+
+					// Enable utf8mb4 connections for mysql adapters
+					if (strtolower($dbtype) === 'mysqli')
+					{
+						$options['utf8mb4'] = true;
+					}
+
+					if (strtolower($dbtype) === 'mysql')
+					{
+						$options['charset'] = 'utf8mb4';
+					}
+
+					if (JDEBUG)
+					{
+						$options['monitor'] = new \Joomla\Database\Monitor\DebugMonitor;
+					}
+
+					try
+					{
+						$db = DatabaseDriver::getInstance($options);
+					}
+					catch (\RuntimeException $e)
+					{
+						if (!headers_sent())
+						{
+							header('HTTP/1.1 500 Internal Server Error');
+						}
+
+						jexit('Database Error: ' . $e->getMessage());
+					}
+
+					$db->setDispatcher($container->get(DispatcherInterface::class));
+
+					return $db;
+				},
+				true
+			);
 	}
 }

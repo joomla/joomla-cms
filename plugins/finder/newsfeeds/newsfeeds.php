@@ -277,6 +277,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		 * Add the metadata processing instructions based on the newsfeeds
 		 * configuration parameters.
 		 */
+
 		// Add the meta author.
 		$item->metaauthor = $item->metadata->get('author');
 

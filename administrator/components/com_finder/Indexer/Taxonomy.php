@@ -123,7 +123,7 @@ class Taxonomy
 
 		$parent = $node->getParent();
 
-		if ($parent && $parent->title !='ROOT')
+		if ($parent && $parent->title != 'ROOT')
 		{
 			$parentId = self::addNestedNode($branch, $parent, $state, $access, $language = '', $branchId);
 		}
@@ -187,8 +187,8 @@ class Taxonomy
 		 * The database did not match the input. This could be because the
 		 * state has changed or because the node does not exist. Let's figure
 		 * out which case is true and deal with it.
+		 * TODO: use factory?
 		 */
-		/** TODO: use factory? **/
 		$nodeTable = new MapTable($db);
 
 		if (empty($result))
@@ -318,7 +318,8 @@ class Taxonomy
 			->where('t2.title = ' . $db->quote($branch));
 
 		// Get the node.
-		$db->setQuery($query, 0, 1);
+		$query->setLimit(1);
+		$db->setQuery($query);
 
 		return $db->loadObject();
 	}

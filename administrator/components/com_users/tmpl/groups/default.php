@@ -53,11 +53,11 @@ HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' =
 									<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
 								</th>
 								<th scope="col" style="width:10%" class="text-center">
-									<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
+									<span class="icon-publish" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
 									<span class="sr-only"><?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
 								</th>
 								<th scope="col" style="width:10%" class="text-center">
-									<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></span>
+									<span class="icon-unpublish" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?>"></span>
 									<span class="sr-only"><?php echo Text::_('COM_USERS_COUNT_DISABLED_USERS'); ?></span>
 								</th>
 								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
@@ -87,7 +87,7 @@ HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' =
 									<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)); ?>
 									<?php if ($canEdit) : ?>
 									<a href="<?php echo Route::_('index.php?option=com_users&task=group.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
-										<span class="fa fa-pen-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
+										<?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>

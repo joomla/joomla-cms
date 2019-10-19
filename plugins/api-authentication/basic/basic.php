@@ -25,7 +25,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 	/**
 	 * The application object
 	 *
-	 * @type   \Joomla\CMS\Application\CMSApplicationInterface
+	 * @var    \Joomla\CMS\Application\CMSApplicationInterface
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -33,7 +33,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 	/**
 	 * The application object
 	 *
-	 * @type   \Joomla\Database\DatabaseInterface
+	 * @var    \Joomla\Database\DatabaseInterface
 	 * @since  4.0.0
 	 */
 	protected $db;

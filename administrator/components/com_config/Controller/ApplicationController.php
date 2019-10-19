@@ -76,6 +76,7 @@ class ApplicationController extends BaseController
 		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
 			$this->setRedirect('index.php', Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+
 			return false;
 		}
 
@@ -140,6 +141,7 @@ class ApplicationController extends BaseController
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(Route::_('index.php?option=com_config', false));
+
 			return false;
 		}
 
@@ -156,6 +158,7 @@ class ApplicationController extends BaseController
 
 			// Save failed, go back to the screen and display a notice.
 			$this->setRedirect(Route::_('index.php?option=com_config', false));
+
 			return false;
 		}
 
@@ -189,6 +192,7 @@ class ApplicationController extends BaseController
 		if (!Session::checkToken('get'))
 		{
 			$this->setRedirect('index.php', Text::_('JINVALID_TOKEN'), 'error');
+
 			return false;
 		}
 
@@ -196,6 +200,7 @@ class ApplicationController extends BaseController
 		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
 			$this->setRedirect('index.php', Text::_('JERROR_ALERTNOAUTHOR'), 'error');
+
 			return false;
 		}
 
@@ -213,6 +218,7 @@ class ApplicationController extends BaseController
 		{
 			// Save failed, go back to the screen and display a notice.
 			$this->setRedirect('index.php', Text::_('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
+
 			return false;
 		}
 

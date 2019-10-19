@@ -261,8 +261,8 @@ abstract class JHtmlBehavior
 				}).highlight([\"" . implode('","', $terms) . "\"]);
 				$(start).remove();
 				$(end).remove();
-			});
-		");
+			});"
+		);
 
 		static::$loaded[__METHOD__][$sig] = true;
 

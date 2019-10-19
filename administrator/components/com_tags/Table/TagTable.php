@@ -204,11 +204,6 @@ class TagTable extends Nested
 			$this->modified_time = $date->toSql();
 		}
 
-		if (!(int) $this->modified_time)
-		{
-			$this->modified_time = $date->toSql();
-		}
-
 		if (!(int) $this->publish_up)
 		{
 			$this->publish_up = $date->toSql();

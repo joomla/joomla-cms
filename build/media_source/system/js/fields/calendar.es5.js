@@ -256,23 +256,6 @@
 
 	/** Method to show the calendar. */
 	JoomlaCalendar.prototype.show = function () {
-		/** This is needed for IE8 */
-		if (navigator.appName.indexOf("Internet Explorer")!==-1) {
-			var badBrowser = (
-				navigator.appVersion.indexOf("MSIE 9")===-1 &&
-				navigator.appVersion.indexOf("MSIE 1")===-1
-			);
-
-			if (badBrowser) {
-				if (window.jQuery && jQuery().chosen) {
-					var selItems = this.element.getElementsByTagName('select');
-					for (var i = 0; i < selItems.length; i++) {
-						jQuery(selItems[i]).chosen('destroy');
-					}
-				}
-			}
-		}
-
 		this.checkInputs();
 		this.inputField.focus();
 		this.dropdownElement.style.display = "block";

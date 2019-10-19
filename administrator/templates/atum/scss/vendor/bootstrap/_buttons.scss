@@ -1,31 +1,27 @@
 // Buttons
 
-@mixin button-variant($background, $border, $hover-background: darken($background, 7.5%), $hover-border: darken($border, 10%), $active-background: darken($background, 10%), $active-border: darken($border, 12.5%)) {
-  color: color-yiq($background);
-  @include gradient-bg($background);
-  border-color: $border;
-  @include box-shadow($btn-box-shadow);
+.btn-primary {
+  background-color: var(--atum-bg-dark);
+  color: var(--atum-text-light);
+  border-color: var(--atum-bg-dark-80);
 
-  @include hover {
-    @include gradient-bg($hover-background);
-    color: color-yiq($hover-background);
-    border-color: $hover-border;
+  @include hover-focus-active {
+    background-color: var(--atum-bg-dark-70);
+    border-color: var(--atum-bg-dark-90);
   }
 
-  &:focus,
-  &.focus {
-    // Avoid using mixin so we can pass custom focus shadow properly
-    @if $enable-shadows {
-      box-shadow: $btn-box-shadow, 0 0 0 $btn-focus-width rgba($border, .5), $atum-box-shadow;
-    } @else {
-      box-shadow: 0 0 0 $btn-focus-width rgba($border, .5), $atum-box-shadow;
-    }
+  &:not(:disabled):not(.disabled):active,
+  &:not(:disabled):not(.disabled).active,
+  .show > &.dropdown-toggle {
+    background-color: var(--atum-bg-dark);
+    border-color: var(--atum-bg-dark);
   }
-
+}
+.btn-secondary {
+	background-color: var(--atum-bg-dark-50);
 }
 
-@each $color, $value in $theme-colors {
-  .btn-#{$color} {
-    @include button-variant($value, $value);
-  }
+.input-group-text {
+  background-color: var(--atum-bg-dark);
+  border-color: var(--atum-bg-dark);
 }
