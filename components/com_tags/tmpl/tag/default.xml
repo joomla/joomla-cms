@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="com_tags_tag_view_default_title" option="com_tags_tag_view_default_option">
+	<layout title="COM_TAGS_TAG_VIEW_DEFAULT_TITLE" option="COM_TAGS_TAG_VIEW_DEFAULT_OPTION">
 		<help
 			key="JHELP_MENUS_MENU_ITEM_TAGS_ITEMS_LIST"
 		/>
 		<message>
-			<![CDATA[com_tags_tag_view_default_desc]]>
+			<![CDATA[COM_TAGS_TAG_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
 
@@ -89,7 +89,6 @@
 			<field
 				name="tag_list_description"
 				type="textarea"
-				class="inputbox"
 				label="COM_TAGS_SHOW_TAG_LIST_DESCRIPTION_LABEL"
 				description="COM_TAGS_TAG_LIST_DESCRIPTION_DESC"
 				rows="3"

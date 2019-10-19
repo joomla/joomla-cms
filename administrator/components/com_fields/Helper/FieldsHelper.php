@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Fields\Administrator\Model\FieldsModel;
 
 /**
  * FieldsHelper
@@ -28,8 +29,14 @@ use Joomla\CMS\Plugin\PluginHelper;
  */
 class FieldsHelper
 {
+	/**
+	 * @var    FieldsModel
+	 */
 	private static $fieldsCache = null;
 
+	/**
+	 * @var    FieldsModel
+	 */
 	private static $fieldCache = null;
 
 	/**
@@ -194,7 +201,7 @@ class FieldsHelper
 
 					/*
 					 * On before field prepare
-					 * Event allow plugins to modfify the output of the field before it is prepared
+					 * Event allow plugins to modify the output of the field before it is prepared
 					 */
 					Factory::getApplication()->triggerEvent('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 
@@ -408,7 +415,7 @@ class FieldsHelper
 			}
 
 			// Defining the field set
-			/** @var DOMElement $fieldset */
+			/** @var \DOMElement $fieldset */
 			$fieldset = $fieldsNode->appendChild(new \DOMElement('fieldset'));
 			$fieldset->setAttribute('name', 'fields-' . $group->id);
 			$fieldset->setAttribute('addfieldpath', '/administrator/components/' . $component . '/models/fields');
@@ -581,49 +588,33 @@ class FieldsHelper
 	}
 
 	/**
-	 * Adds Count Items for Category Manager.
+	 * Gets assigned categories ids for a field
 	 *
-	 * @param   \stdClass[]  &$items  The field category objects
+	 * @param   stdClass[]  $fieldId  The field ID
 	 *
-	 * @return  \stdClass[]
+	 * @return  array  Array with the assigned category ids
 	 *
-	 * @since   3.7.0
+	 * @since   4.0.0
 	 */
-	public static function countItems(&$items)
+	public static function getAssignedCategoriesIds($fieldId)
 	{
-		$db = Factory::getDbo();
+		$fieldId = (int) $fieldId;
 
-		foreach ($items as $item)
+		if (!$fieldId)
 		{
-			$item->count_trashed     = 0;
-			$item->count_archived    = 0;
-			$item->count_unpublished = 0;
-			$item->count_published   = 0;
-
-			$query = $db->getQuery(true);
-			$query->select('state, count(1) AS count')
-				->from($db->quoteName('#__fields'))
-				->where('group_id = ' . (int) $item->id)
-				->group('state');
-			$db->setQuery($query);
-
-			$fields = $db->loadObjectList();
-
-			$states = array(
-				'-2' => 'count_trashed',
-				'0'  => 'count_unpublished',
-				'1'  => 'count_published',
-				'2'  => 'count_archived',
-			);
-
-			foreach ($fields as $field)
-			{
-				$property = $states[$field->state];
-				$item->$property = $field->count;
-			}
+			return array();
 		}
 
-		return $items;
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('a.category_id'))
+			->from($db->quoteName('#__fields_categories', 'a'))
+			->where('a.field_id = ' . $fieldId);
+
+		$db->setQuery($query);
+
+		return $db->loadColumn();
 	}
 
 	/**
@@ -641,7 +632,7 @@ class FieldsHelper
 
 		if (!$fieldId)
 		{
-			return array();
+			return [];
 		}
 
 		$db    = Factory::getDbo();

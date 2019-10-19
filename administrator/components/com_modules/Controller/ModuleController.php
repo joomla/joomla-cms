@@ -12,6 +12,7 @@ namespace Joomla\Component\Modules\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -46,7 +47,7 @@ class ModuleController extends FormController
 		}
 
 		// Look for the Extension ID.
-		$extensionId = $app->input->get('eid', 0, 'int');
+		$extensionId = $this->input->get('eid', 0, 'int');
 
 		if (empty($extensionId))
 		{
@@ -61,7 +62,7 @@ class ModuleController extends FormController
 		$app->setUserState('com_modules.add.module.params', null);
 
 		// Parameters could be coming in for a new item, so let's set them.
-		$params = $app->input->get('params', array(), 'array');
+		$params = $this->input->get('params', array(), 'array');
 		$app->setUserState('com_modules.add.module.params', $params);
 	}
 
@@ -137,7 +138,7 @@ class ModuleController extends FormController
 		}
 
 		// Check edit on the record asset (explicit or inherited)
-		if (Factory::getUser()->authorise('core.edit', 'com_modules.module.' . $recordId))
+		if ($this->app->getIdentity()->authorise('core.edit', 'com_modules.module.' . $recordId))
 		{
 			return true;
 		}
@@ -181,21 +182,20 @@ class ModuleController extends FormController
 	 */
 	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
 	{
-		$app = Factory::getApplication();
 		$task = $this->getTask();
 
 		switch ($task)
 		{
 			case 'save2new':
-				$app->setUserState('com_modules.add.module.extension_id', $model->getState('module.extension_id'));
+				$this->app->setUserState('com_modules.add.module.extension_id', $model->getState('module.extension_id'));
 				break;
 
 			default:
-				$app->setUserState('com_modules.add.module.extension_id', null);
+				$this->app->setUserState('com_modules.add.module.extension_id', null);
 				break;
 		}
 
-		$app->setUserState('com_modules.add.module.params', null);
+		$this->app->setUserState('com_modules.add.module.params', null);
 	}
 
 	/**
@@ -210,7 +210,7 @@ class ModuleController extends FormController
 	{
 		$this->checkToken();
 
-		if (Factory::getDocument()->getType() == 'json')
+		if ($this->app->getDocument()->getType() == 'json')
 		{
 			$model = $this->getModel();
 			$data  = $this->input->post->get('jform', array(), 'array');
@@ -234,7 +234,7 @@ class ModuleController extends FormController
 			$this->input->post->set('jform', $data);
 
 			// Add path of forms directory
-			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
+			Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
 		}
 
 		return parent::save($key, $urlVar);
@@ -250,7 +250,7 @@ class ModuleController extends FormController
 	 */
 	public function orderPosition()
 	{
-		$app = Factory::getApplication();
+		$app = $this->app;
 
 		// Send json mime type.
 		$app->mimeType = 'application/json';
@@ -265,9 +265,8 @@ class ModuleController extends FormController
 			$app->close();
 		}
 
-		$jinput   = $app->input;
-		$clientId = $jinput->getValue('client_id');
-		$position = $jinput->getValue('position');
+		$clientId = $this->input->getValue('client_id');
+		$position = $this->input->getValue('position');
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
@@ -284,7 +283,7 @@ class ModuleController extends FormController
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$app->enqueueMessage($e->getMessage(), 'error');
 
 			return '';
 		}
@@ -315,5 +314,38 @@ class ModuleController extends FormController
 
 		echo new JsonResponse($html);
 		$app->close();
+	}
+
+	/**
+	 * Gets the URL arguments to append to an item redirect.
+	 *
+	 * @param   integer  $recordId  The primary key id for the item.
+	 * @param   string   $urlVar    The name of the URL variable for the id.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since  4.0.0
+	 */
+	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
+	{
+		$append = parent::getRedirectToItemAppend($recordId);
+		$append .= '&client_id=' . $this->input->getInt('client_id');
+
+		return $append;
+	}
+
+	/**
+	 * Gets the URL arguments to append to a list redirect.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since  4.0.0
+	 */
+	protected function getRedirectToListAppend()
+	{
+		$append = parent::getRedirectToListAppend();
+		$append .= '&client_id=' . $this->input->getInt('client_id');
+
+		return $append;
 	}
 }

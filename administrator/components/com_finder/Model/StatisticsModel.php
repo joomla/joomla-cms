@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -34,7 +35,7 @@ class StatisticsModel extends BaseDatabaseModel
 		// Initialise
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$data = new \JObject;
+		$data = new CMSObject;
 
 		$query->select('COUNT(term_id)')
 			->from($db->quoteName('#__finder_terms'));

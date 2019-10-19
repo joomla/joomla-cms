@@ -38,7 +38,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @since   3.1.4
 	 */
-	protected function setUp()
+	protected function setUp():void
 	{
 		parent::setUp();
 
@@ -52,7 +52,7 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @since   3.1.4
 	 */
-	protected function tearDown()
+	protected function tearDown():void
 	{
 		unset($this->feed);
 
@@ -176,11 +176,11 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since              3.1.4
 	 */
 	public function testSetAuthorWithInvalidAuthor()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$this->feed->author = 'Jack Sprat';
 	}
 
@@ -189,11 +189,11 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since              3.1.4
 	 */
 	public function testSetCategoriesWithInvalidProperty()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$this->feed->categories = 'Can\'t touch this';
 	}
 
@@ -202,11 +202,11 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since              3.1.4
 	 */
 	public function testSetContributorsWithInvalidProperty()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$this->feed->contributors = 'Can\'t touch this';
 	}
 
@@ -266,6 +266,7 @@ class FeedTest extends UnitTestCase
 
 		$feedCategories = $this->feed->categories;
 		$this->assertCount(3, $feedCategories);
+
 		foreach ($categories as $category)
 		{
 			$this->assertArrayHasKey($category['name'], $feedCategories);
@@ -336,6 +337,7 @@ class FeedTest extends UnitTestCase
 
 		$feedContributors = $this->feed->contributors;
 		$this->assertCount(3, $feedContributors);
+
 		foreach ($contributors as $index => $contributor)
 		{
 			$this->assertEquals($contributor['name'], $feedContributors[$index]->name);
@@ -436,11 +438,11 @@ class FeedTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @expectedException  InvalidArgumentException
 	 * @since              3.1.4
 	 */
 	public function testOffsetSetWithString()
 	{
+		$this->expectException(InvalidArgumentException::class);
 		$this->feed->offsetSet(1, 'My string');
 	}
 

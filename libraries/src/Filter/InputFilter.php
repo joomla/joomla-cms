@@ -8,8 +8,9 @@
 
 namespace Joomla\CMS\Filter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Filter\InputFilter as BaseInputFilter;
 
 /**
@@ -134,7 +135,7 @@ class InputFilter extends BaseInputFilter
 			foreach ($matches[0] as $match)
 			{
 				$match  = (string) str_replace(array('?', '"'), '', $match);
-				$text   = (string) str_replace($match, \JStringPunycode::emailToPunycode($match), $text);
+				$text   = (string) str_replace($match, PunycodeHelper::emailToPunycode($match), $text);
 			}
 		}
 
@@ -238,17 +239,17 @@ class InputFilter extends BaseInputFilter
 			$tempNames     = $fileDescriptor['tmp_name'];
 			$intendedNames = $fileDescriptor['name'];
 
-			if (!is_array($tempNames))
+			if (!\is_array($tempNames))
 			{
 				$tempNames = array($tempNames);
 			}
 
-			if (!is_array($intendedNames))
+			if (!\is_array($intendedNames))
 			{
 				$intendedNames = array($intendedNames);
 			}
 
-			$len = count($tempNames);
+			$len = \count($tempNames);
 
 			for ($i = 0; $i < $len; $i++)
 			{
@@ -278,7 +279,7 @@ class InputFilter extends BaseInputFilter
 					 */
 					foreach ($options['forbidden_extensions'] as $ext)
 					{
-						if (in_array($ext, $explodedName))
+						if (\in_array($ext, $explodedName))
 						{
 							return false;
 						}
@@ -329,7 +330,7 @@ class InputFilter extends BaseInputFilter
 
 								foreach ($suspiciousExtensions as $ext)
 								{
-									if (in_array($ext, $explodedName))
+									if (\in_array($ext, $explodedName))
 									{
 										$collide = true;
 
@@ -366,7 +367,7 @@ class InputFilter extends BaseInputFilter
 
 								foreach ($suspiciousExtensions as $ext)
 								{
-									if (in_array($ext, $explodedName))
+									if (\in_array($ext, $explodedName))
 									{
 										$collide = true;
 
@@ -419,7 +420,7 @@ class InputFilter extends BaseInputFilter
 	{
 		$result = array();
 
-		if (is_array($data[0]))
+		if (\is_array($data[0]))
 		{
 			foreach ($data[0] as $k => $v)
 			{
@@ -445,7 +446,7 @@ class InputFilter extends BaseInputFilter
 	{
 		static $ttr;
 
-		if (!is_array($ttr))
+		if (!\is_array($ttr))
 		{
 			// Entity decode
 			$trans_tbl = get_html_translation_table(HTML_ENTITIES, ENT_COMPAT, 'ISO-8859-1');
@@ -459,17 +460,21 @@ class InputFilter extends BaseInputFilter
 		$source = strtr($source, $ttr);
 
 		// Convert decimal
-		$source = preg_replace_callback('/&#(\d+);/m', function($m)
-		{
-			return utf8_encode(chr($m[1]));
-		}, $source
+		$source = preg_replace_callback(
+			'/&#(\d+);/m',
+			function ($m) {
+				return utf8_encode(\chr($m[1]));
+			},
+			$source
 		);
 
 		// Convert hex
-		$source = preg_replace_callback('/&#x([a-f0-9]+);/mi', function($m)
-		{
-			return utf8_encode(chr('0x' . $m[1]));
-		}, $source
+		$source = preg_replace_callback(
+			'/&#x([a-f0-9]+);/mi',
+			function ($m) {
+				return utf8_encode(\chr('0x' . $m[1]));
+			},
+			$source
 		);
 
 		return $source;
@@ -486,12 +491,12 @@ class InputFilter extends BaseInputFilter
 	 */
 	protected function stripUSC($source)
 	{
-		if (is_object($source))
+		if (\is_object($source))
 		{
 			return $source;
 		}
 
-		if (is_array($source))
+		if (\is_array($source))
 		{
 			$filteredArray = array();
 

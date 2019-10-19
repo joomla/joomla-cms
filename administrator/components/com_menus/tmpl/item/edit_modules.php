@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -21,9 +20,9 @@ foreach ($this->levels as $key => $value)
 	$allLevels[$value->id] = $value->title;
 }
 
-Factory::getDocument()->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => $this->item->id]);
+$this->document->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => $this->item->id]);
 HTMLHelper::_('stylesheet', 'com_menus/admin-item-edit_modules.css', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_menus/admin-item-edit_modules.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_menus/admin-item-edit_modules.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
 
 // Set up the bootstrap modal that will be used for all module editors
 echo HTMLHelper::_(
@@ -36,11 +35,11 @@ echo HTMLHelper::_(
 		'closeButton' => false,
 		'bodyHeight'  => '70',
 		'modalWidth'  => '80',
-		'footer'      => '<a type="button" class="btn" data-dismiss="modal" data-target="#closeBtn" aria-hidden="true">'
-				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-				. '<button type="button" class="btn btn-primary" data-dismiss="modal" data-target="#saveBtn" aria-hidden="true">'
+		'footer'      => '<button type="button" class="btn" data-dismiss="modal" data-target="#closeBtn">'
+				. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+				. '<button type="button" class="btn btn-primary" data-dismiss="modal" data-target="#saveBtn">'
 				. Text::_('JSAVE') . '</button>'
-				. '<button type="button" class="btn btn-success" data-target="#applyBtn" aria-hidden="true">'
+				. '<button type="button" class="btn btn-success" data-target="#applyBtn">'
 				. Text::_('JAPPLY') . '</button>',
 	)
 );
@@ -90,13 +89,13 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 		<?php endif; ?>
 		<tr class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $i % 2; ?>" id="tr-<?php echo $module->id; ?>">
 			<td id="<?php echo $module->id; ?>" style="width:40%">
-				<a href="#moduleEditModal"
-					role="button"
+				<button type="button"
+					data-target="#moduleEditModal"
 					class="btn btn-link module-edit-link"
 					title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>"
 					id="title-<?php echo $module->id; ?>"
 					data-module-id="<?php echo $module->id; ?>">
-					<?php echo $this->escape($module->title); ?></a>
+					<?php echo $this->escape($module->title); ?></button>
 			</td>
 			<td id="access-<?php echo $module->id; ?>" style="width:15%" class="text-center">
 				<?php echo $this->escape($module->access_title); ?>

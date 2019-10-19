@@ -17,6 +17,7 @@ Text::script('COM_MEDIA_ACTION_PREVIEW', true);
 Text::script('COM_MEDIA_ACTION_RENAME', true);
 Text::script('COM_MEDIA_ACTION_SHARE', true);
 Text::script('COM_MEDIA_BREADCRUMB_LABEL', true);
+Text::script('COM_MEDIA_BROWSER_TABLE_CAPTION', true);
 Text::script('COM_MEDIA_CONFIRM_DELETE_MODAL', true);
 Text::script('COM_MEDIA_CONFIRM_DELETE_MODAL_HEADING', true);
 Text::script('COM_MEDIA_CREATE_NEW_FOLDER', true);

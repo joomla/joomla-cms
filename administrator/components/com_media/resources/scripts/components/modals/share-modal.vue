@@ -1,6 +1,6 @@
 <template>
-    <media-modal v-if="$store.state.showShareModal" :size="'md'" @close="close()" :show-close="false">
-        <h3 slot="header" class="modal-title">{{ translate('COM_MEDIA_SHARE') }}</h3>
+    <media-modal v-if="$store.state.showShareModal" :size="'md'" @close="close()" :show-close="false" label-element="shareTitle">
+        <h3 slot="header" id="shareTitle" class="modal-title">{{ translate('COM_MEDIA_SHARE') }}</h3>
         <div slot="body">
             <div class="desc">
                 {{ translate('COM_MEDIA_SHARE_DESC') }}
@@ -37,7 +37,6 @@
         name: 'media-share-modal',
         computed: {
             item() {
-                // TODO @DN this is not allowed in vuex strict mode!
                 return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];
             },
 

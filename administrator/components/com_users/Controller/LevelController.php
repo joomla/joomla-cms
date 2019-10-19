@@ -126,11 +126,7 @@ class LevelController extends FormController
 			$ids = ArrayHelper::toInteger($ids);
 
 			// Remove the items.
-			if (!$model->delete($ids))
-			{
-				$this->setMessage($model->getError(), 'error');
-			}
-			else
+			if ($model->delete($ids))
 			{
 				$this->setMessage(Text::plural('COM_USERS_N_LEVELS_DELETED', count($ids)));
 			}

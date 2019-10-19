@@ -27,6 +27,14 @@ use Joomla\Utilities\ArrayHelper;
 class FilterTable extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  Database Driver connector object.
@@ -36,6 +44,8 @@ class FilterTable extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__finder_filters', 'filter_id', $db);
+
+		$this->setColumnAlias('published', 'state');
 	}
 
 	/**
@@ -99,22 +109,16 @@ class FilterTable extends Table
 
 		$params = new Registry($this->params);
 
-		$nullDate = $this->_db->getNullDate();
-		$d1 = $params->get('d1', $nullDate);
-		$d2 = $params->get('d2', $nullDate);
+		$d1 = $params->get('d1', '');
+		$d2 = $params->get('d2', '');
 
 		// Check the end date is not earlier than the start date.
-		if ($d2 > $nullDate && $d2 < $d1)
+		if (!empty($d1) && !empty($d2) && $d2 < $d1)
 		{
 			// Swap the dates.
 			$params->set('d1', $d2);
 			$params->set('d2', $d1);
 			$this->params = (string) $params;
-		}
-
-		if (empty($this->modified))
-		{
-			$this->modified = $nullDate;
 		}
 
 		return true;
@@ -224,7 +228,7 @@ class FilterTable extends Table
 	 *
 	 * @since   2.5
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate()->toSql();
 		$userId = Factory::getUser()->id;
@@ -247,6 +251,11 @@ class FilterTable extends Table
 			if (empty($this->created_by))
 			{
 				$this->created_by = $userId;
+			}
+
+			if (empty($this->modified))
+			{
+				$this->modified = $this->created;
 			}
 		}
 

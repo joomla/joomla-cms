@@ -38,7 +38,7 @@ class PlgContentContact extends CMSPlugin
 	 * @param   mixed    $params   Additional parameters. See {@see PlgContentContent()}.
 	 * @param   integer  $page     Optional page number. Unused. Defaults to zero.
 	 *
-	 * @return  boolean	True on success.
+	 * @return  void
 	 */
 	public function onContentPrepare($context, &$row, $params, $page = 0)
 	{
@@ -46,42 +46,43 @@ class PlgContentContact extends CMSPlugin
 
 		if (!in_array($context, $allowed_contexts))
 		{
-			return true;
+			return;
 		}
 
 		// Return if we don't have valid params or don't link the author
 		if (!($params instanceof Registry) || !$params->get('link_author'))
 		{
-			return true;
+			return;
 		}
 
 		// Return if an alias is used
-		if ($this->params->get('link_to_alias') == 0 & $row->created_by_alias != '')
+		if ((int) $this->params->get('link_to_alias', 0) === 0 && $row->created_by_alias != '')
 		{
-			return true;
+			return;
 		}
 
 		// Return if we don't have a valid article id
 		if (!isset($row->id) || !(int) $row->id)
 		{
-			return true;
+			return;
 		}
 
-		$contact = $this->getContactData($row->created_by);
+		$contact        = $this->getContactData($row->created_by);
 		$row->contactid = $contact->contactid;
-		$row->webpage = $contact->webpage;
-		$row->email = $contact->email_to;
+		$row->webpage   = $contact->webpage;
+		$row->email     = $contact->email_to;
+		$url            = $this->params->get('url', 'url');
 
-		if ($row->contactid && $this->params->get('url') == 'url')
+		if ($row->contactid && $url === 'url')
 		{
 			JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
 			$row->contact_link = Route::_(ContactHelperRoute::getContactRoute($contact->contactid . ':' . $contact->alias, $contact->catid));
 		}
-		elseif ($row->webpage && $this->params->get('url') == 'webpage')
+		elseif ($row->webpage && $url === 'webpage')
 		{
 			$row->contact_link = $row->webpage;
 		}
-		elseif ($row->email && $this->params->get('url') == 'email')
+		elseif ($row->email && $url === 'email')
 		{
 			$row->contact_link = 'mailto:' . $row->email;
 		}
@@ -89,8 +90,6 @@ class PlgContentContact extends CMSPlugin
 		{
 			$row->contact_link = '';
 		}
-
-		return true;
 	}
 
 	/**
@@ -120,7 +119,8 @@ class PlgContentContact extends CMSPlugin
 		{
 			$query->where('(contact.language in '
 				. '(' . $this->db->quote(Factory::getLanguage()->getTag()) . ',' . $this->db->quote('*') . ') '
-				. ' OR contact.language IS NULL)');
+				. ' OR contact.language IS NULL)'
+			);
 		}
 
 		$this->db->setQuery($query);

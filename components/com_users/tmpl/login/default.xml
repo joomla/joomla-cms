@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="com_user_login_view_default_title" option="com_user_login_view_default_option">
+	<layout title="COM_USERS_LOGIN_VIEW_DEFAULT_TITLE" option="COM_USERS_LOGIN_VIEW_DEFAULT_OPTION">
 		<help
 			key = "JHELP_MENUS_MENU_ITEM_USER_LOGIN"
 		/>
 		<message>
-			<![CDATA[COM_USER_LOGIN_VIEW_DEFAULT_DESC]]>
+			<![CDATA[COM_USERS_LOGIN_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
 
@@ -31,7 +31,6 @@
 			type="text"
 			label="JFIELD_LOGIN_REDIRECT_URL_LABEL"
 			description="JFIELD_LOGIN_REDIRECT_URL_DESC"
-			class="inputbox"
 			validate="LoginUniqueField"
 			field="login_redirect_menuitem"
 			hint="COM_USERS_FIELD_LOGIN_REDIRECT_PLACEHOLDER"
@@ -101,7 +100,6 @@
 			name="logout_redirect_url"
 			type="text"
 			label="JFIELD_LOGOUT_REDIRECT_URL_LABEL"
-			class="inputbox"
 			field="logout_redirect_menuitem"
 			validate="LogoutUniqueField"
 			hint="COM_USERS_FIELD_LOGIN_REDIRECT_PLACEHOLDER"

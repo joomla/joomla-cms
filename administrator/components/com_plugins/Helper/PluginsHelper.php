@@ -26,18 +26,6 @@ class PluginsHelper
 	public static $extension = 'com_plugins';
 
 	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 */
-	public static function addSubmenu($vName)
-	{
-		// No submenu for this component.
-	}
-
-	/**
 	 * Returns an array of standard published state filter options.
 	 *
 	 * @return  string    The HTML code for the select tag

@@ -2,8 +2,8 @@
 <extension version="4.0" type="template" client="site">
 	<name>cassiopeia</name>
 	<version>1.0</version>
-	<creationDate>30/02/2017</creationDate>
-	<author>Charlie Lodder / Ciarán Walsh</author>
+	<creationDate>February 2017</creationDate>
+	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<copyright>Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.</copyright>
 	<description>TPL_CASSIOPEIA_XML_DESCRIPTION</description>
@@ -48,23 +48,23 @@
 		<fields name="params">
 			<fieldset name="advanced">
 				<field
-					name="logoFile" 
-					type="media" 
+					name="logoFile"
+					type="media"
 					default=""
 					label="TPL_CASSIOPEIA_LOGO_LABEL"
 				/>
 
 				<field
-					name="siteTitle" 
-					type="text" 
+					name="siteTitle"
+					type="text"
 					default=""
 					label="JGLOBAL_TITLE"
 					filter="string"
 				/>
 
 				<field
-					name="siteDescription" 
-					type="text" 
+					name="siteDescription"
+					type="text"
 					default=""
 					label="JGLOBAL_DESCRIPTION"
 					filter="string"

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -81,7 +82,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -126,11 +127,11 @@ class HtmlView extends BaseHtmlView
 			0,
 			0,
 			'',
-			'',
-			'<button class="btn btn-secondary" type="button" data-dismiss="modal" aria-hidden="true">'
+			'COM_MESSAGES_TOOLBAR_MY_SETTINGS',
+			'<button type="button" class="btn btn-secondary" data-dismiss="modal">'
 			. Text::_('JCANCEL')
 			. '</button>'
-			. '<button class="btn btn-success" type="button" data-dismiss="modal" aria-hidden="true"'
+			. '<button type="button" class="btn btn-success" data-dismiss="modal"'
 			. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#modal-cog\', buttonSelector: \'#saveBtn\'})">'
 			. Text::_('JSAVE')
 			. '</button>'

@@ -8,10 +8,11 @@
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Log\Log;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
@@ -19,15 +20,15 @@ use Joomla\Registry\Registry;
 /**
  * Class to turn CliApplication applications into daemons.  It requires CLI and PCNTL support built into PHP.
  *
- * @link   https://secure.php.net/manual/en/book.pcntl.php
- * @link   https://secure.php.net/manual/en/features.commandline.php
+ * @link   https://www.php.net/manual/en/book.pcntl.php
+ * @link   https://www.php.net/manual/en/features.commandline.php
  * @since  1.7.0
  */
 abstract class DaemonApplication extends CliApplication
 {
 	/**
 	 * @var    array  The available POSIX signals to be caught by default.
-	 * @link   https://secure.php.net/manual/pcntl.constants.php
+	 * @link   https://www.php.net/manual/pcntl.constants.php
 	 * @since  1.7.0
 	 */
 	protected static $signals = array(
@@ -110,17 +111,17 @@ abstract class DaemonApplication extends CliApplication
 	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   1.7.0
 	 */
-	public function __construct(\JInputCli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
+	public function __construct(Cli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
 	{
 		// Verify that the process control extension for PHP is available.
-		if (!defined('SIGHUP'))
+		if (!\defined('SIGHUP'))
 		{
 			Log::add('The PCNTL extension for PHP is not available.', Log::ERROR);
 			throw new \RuntimeException('The PCNTL extension for PHP is not available.');
 		}
 
 		// Verify that POSIX support for PHP is available.
-		if (!function_exists('posix_getpid'))
+		if (!\function_exists('posix_getpid'))
 		{
 			Log::add('The POSIX extension for PHP is not available.', Log::ERROR);
 			throw new \RuntimeException('The POSIX extension for PHP is not available.');
@@ -276,7 +277,7 @@ abstract class DaemonApplication extends CliApplication
 		// The application author name.  This string is used in generating startup scripts and has
 		// a maximum of 50 characters.
 		$tmp = (string) $this->config->get('author_name', 'Joomla Platform');
-		$this->config->set('author_name', (strlen($tmp) > 50) ? substr($tmp, 0, 50) : $tmp);
+		$this->config->set('author_name', (\strlen($tmp) > 50) ? substr($tmp, 0, 50) : $tmp);
 
 		// The application author email.  This string is used in generating startup scripts.
 		$tmp = (string) $this->config->get('author_email', 'admin@joomla.org');
@@ -300,7 +301,7 @@ abstract class DaemonApplication extends CliApplication
 		$this->config->set('application_executable', $tmp);
 
 		// The home directory of the daemon.
-		$tmp = (string) $this->config->get('application_directory', dirname($this->input->executable));
+		$tmp = (string) $this->config->get('application_directory', \dirname($this->input->executable));
 		$this->config->set('application_directory', $tmp);
 
 		// The pid file location.  This defaults to a path inside the /tmp directory.
@@ -695,18 +696,18 @@ abstract class DaemonApplication extends CliApplication
 		foreach (self::$signals as $signal)
 		{
 			// Ignore signals that are not defined.
-			if (!defined($signal) || !is_int(constant($signal)) || (constant($signal) === 0))
+			if (!\defined($signal) || !\is_int(\constant($signal)) || (\constant($signal) === 0))
 			{
 				// Define the signal to avoid notices.
 				Log::add('Signal "' . $signal . '" not defined. Defining it as null.', Log::DEBUG);
-				define($signal, null);
+				\define($signal, null);
 
 				// Don't listen for signal.
 				continue;
 			}
 
 			// Attach the signal handler for the signal.
-			if (!$this->pcntlSignal(constant($signal), array('DaemonApplication', 'signal')))
+			if (!$this->pcntlSignal(\constant($signal), array('DaemonApplication', 'signal')))
 			{
 				Log::add(sprintf('Unable to reroute signal handler: %s', $signal), Log::EMERGENCY);
 
@@ -800,7 +801,7 @@ abstract class DaemonApplication extends CliApplication
 		}
 
 		// Make sure that the folder where we are writing the process id file exists.
-		$folder = dirname($file);
+		$folder = \dirname($file);
 
 		if (!is_dir($folder) && !Folder::create($folder))
 		{

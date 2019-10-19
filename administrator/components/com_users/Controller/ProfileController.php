@@ -36,6 +36,11 @@ class ProfileController extends BaseController
 	 */
 	public function gethelpsites()
 	{
+		if ($this->app->getIdentity()->guest)
+		{
+			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 500);
+		}
+
 		// Set FTP credentials, if given
 		ClientHelper::setCredentialsFromRequest('ftp');
 

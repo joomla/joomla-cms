@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Cache\Controller;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheController;
@@ -81,7 +81,7 @@ class CallbackController extends CacheController
 			return $data['result'];
 		}
 
-		if (!is_array($args))
+		if (!\is_array($args))
 		{
 			$referenceArgs = !empty($args) ? array(&$args) : array();
 		}
@@ -93,7 +93,7 @@ class CallbackController extends CacheController
 		if ($locktest->locked === false && $locktest->locklooped === true)
 		{
 			// We can not store data because another process is in the middle of saving
-			return call_user_func_array($callback, $referenceArgs);
+			return \call_user_func_array($callback, $referenceArgs);
 		}
 
 		$coptions = array();
@@ -121,7 +121,7 @@ class CallbackController extends CacheController
 		ob_start();
 		ob_implicit_flush(false);
 
-		$result = call_user_func_array($callback, $referenceArgs);
+		$result = \call_user_func_array($callback, $referenceArgs);
 		$output = ob_get_clean();
 
 		$data = array('result' => $result);
@@ -192,10 +192,10 @@ class CallbackController extends CacheController
 	 */
 	protected function _makeId($callback, $args)
 	{
-		if (is_array($callback) && is_object($callback[0]))
+		if (\is_array($callback) && \is_object($callback[0]))
 		{
 			$vars        = get_object_vars($callback[0]);
-			$vars[]      = strtolower(get_class($callback[0]));
+			$vars[]      = strtolower(\get_class($callback[0]));
 			$callback[0] = $vars;
 		}
 

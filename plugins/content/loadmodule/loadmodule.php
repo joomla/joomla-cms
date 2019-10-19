@@ -33,7 +33,7 @@ class PlgContentLoadmodule extends CMSPlugin
 	 * @param   mixed    &$params   The article params
 	 * @param   integer  $page      The 'page' number
 	 *
-	 * @return  mixed   true if there is an error. Void otherwise.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -42,13 +42,13 @@ class PlgContentLoadmodule extends CMSPlugin
 		// Don't run this plugin when the content is being indexed
 		if ($context === 'com_finder.indexer')
 		{
-			return true;
+			return;
 		}
 
 		// Simple performance check to determine whether bot should process further
 		if (strpos($article->text, 'loadposition') === false && strpos($article->text, 'loadmodule') === false)
 		{
-			return true;
+			return;
 		}
 
 		// Expression to search for (positions)
@@ -224,9 +224,9 @@ class PlgContentLoadmodule extends CMSPlugin
 	protected function _loadid($id)
 	{
 		self::$modules[$id] = '';
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 		$renderer = $document->loadRenderer('module');
-		$modules  = JModuleHelper::getModuleById($id);
+		$modules  = ModuleHelper::getModuleById($id);
 		$params   = array('style' => 'none');
 		ob_start();
 

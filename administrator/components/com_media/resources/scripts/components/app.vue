@@ -1,7 +1,7 @@
 <template>
     <div class="media-container row">
         <div class="media-sidebar col-md-2 d-none d-md-block">
-            <media-disk v-for="(disk, index) in disks" :key="index" :disk="disk"></media-disk>
+            <media-disk v-for="(disk, index) in disks" :uid="index" :key="index" :disk="disk"></media-disk>
         </div>
         <div class="col-md-10">
             <div class="media-main">

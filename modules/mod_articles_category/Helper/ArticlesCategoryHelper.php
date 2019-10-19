@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\ArticlesCategory\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
@@ -18,9 +18,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\String\StringHelper;
-
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Helper for mod_articles_category
@@ -51,10 +50,11 @@ abstract class ArticlesCategoryHelper
 		$appParams = $app->getParams();
 		$articles->setState('params', $appParams);
 
-		// Set the filters based on the module params
 		$articles->setState('list.start', 0);
+		$articles->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
+
+		// Set the filters based on the module params
 		$articles->setState('list.limit', (int) $params->get('count', 0));
-		$articles->setState('filter.published', 1);
 		$articles->setState('load_tags', $params->get('show_tags', 0) || $params->get('article_grouping', 'none') === 'tags');
 
 		// Access filter
@@ -175,7 +175,7 @@ abstract class ArticlesCategoryHelper
 		switch ($ordering)
 		{
 			case 'random':
-				$articles->setState('list.ordering', Factory::getDbo()->getQuery(true)->Rand());
+				$articles->setState('list.ordering', Factory::getDbo()->getQuery(true)->rand());
 				break;
 
 			case 'rating_count':
@@ -257,9 +257,9 @@ abstract class ArticlesCategoryHelper
 		// Prepare data for display using display options
 		foreach ($items as &$item)
 		{
-			$item->slug    = $item->id . ':' . $item->alias;
+			$item->slug = $item->id . ':' . $item->alias;
 
-			if ($access || in_array($item->access, $authorised))
+			if ($access || \in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
 				$item->link = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
@@ -328,7 +328,7 @@ abstract class ArticlesCategoryHelper
 	 */
 	public static function _cleanIntrotext($introtext)
 	{
-		$introtext = str_replace(array('<p>','</p>'), ' ', $introtext);
+		$introtext = str_replace(array('<p>', '</p>'), ' ', $introtext);
 		$introtext = strip_tags($introtext, '<a><em><strong>');
 		$introtext = trim($introtext);
 
@@ -350,7 +350,7 @@ abstract class ArticlesCategoryHelper
 	 */
 	public static function truncate($html, $maxLength = 0)
 	{
-		$baseLength = strlen($html);
+		$baseLength = \strlen($html);
 
 		// First get the plain text string. This is the rendered text we want to end up with.
 		$ptString = HTMLHelper::_('string.truncate', $html, $maxLength, $noSplit = true, $allowHtml = false);
@@ -370,7 +370,7 @@ abstract class ArticlesCategoryHelper
 			}
 
 			// Get the number of html tag characters in the first $maxlength characters
-			$diffLength = strlen($ptString) - strlen($htmlStringToPtString);
+			$diffLength = \strlen($ptString) - \strlen($htmlStringToPtString);
 
 			// Set new $maxlength that adjusts for the html tags
 			$maxLength += $diffLength;
@@ -400,7 +400,7 @@ abstract class ArticlesCategoryHelper
 	{
 		$grouped = array();
 
-		if (!is_array($list))
+		if (!\is_array($list))
 		{
 			if ($list === '')
 			{
@@ -451,7 +451,7 @@ abstract class ArticlesCategoryHelper
 	{
 		$grouped = array();
 
-		if (!is_array($list))
+		if (!\is_array($list))
 		{
 			if ($list === '')
 			{

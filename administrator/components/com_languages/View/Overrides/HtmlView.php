@@ -14,9 +14,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 
 /**
  * View for language overrides list.
@@ -50,14 +50,6 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * An array containing all frontend and backend languages
 	 *
 	 * @var    array
@@ -83,12 +75,10 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		LanguagesHelper::addSubmenu('overrides');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors));
+			throw new GenericDataException(implode("\n", $errors));
 		}
 
 		$this->addToolbar();
@@ -131,9 +121,5 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
-
-		\JHtmlSidebar::setAction('index.php?option=com_languages&view=overrides');
-
-		$this->sidebar = \JHtmlSidebar::render();
 	}
 }

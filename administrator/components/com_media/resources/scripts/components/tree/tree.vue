@@ -1,13 +1,22 @@
 <template>
-    <ul class="media-tree">
-        <media-tree-item v-for="item in directories" :key="item.path" :item="item"></media-tree-item>
+    <ul class="media-tree" role="group">
+        <media-tree-item v-for="(item, index) in directories" :counter="index" :key="item.path" :item="item" :size="directories.length" :level="level"></media-tree-item>
     </ul>
 </template>
 
 <script>
     export default {
         name: 'media-tree',
-        props: ['root'],
+        props: {
+            'root': {
+                type: String,
+                required: true
+            },
+            'level': {
+                type: Number,
+                required: true
+            }
+        },
         computed: {
             /* Get the directories */
             directories() {

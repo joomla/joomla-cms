@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\View;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Language\Text;
@@ -83,7 +83,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface
 		// Set the view name
 		if (empty($this->_name))
 		{
-			if (array_key_exists('name', $config))
+			if (\array_key_exists('name', $config))
 			{
 				$this->_name = $config['name'];
 			}
@@ -213,6 +213,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface
 		if (empty($this->_name))
 		{
 			$reflection = new \ReflectionClass($this);
+
 			if ($viewNamespace = $reflection->getNamespaceName())
 			{
 				$pos = strrpos($viewNamespace, '\\');
@@ -224,7 +225,7 @@ abstract class AbstractView extends CMSObject implements ViewInterface
 			}
 			else
 			{
-				$className = get_class($this);
+				$className = \get_class($this);
 				$viewPos   = strpos($className, 'View');
 
 				if ($viewPos != false)
