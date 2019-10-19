@@ -159,4 +159,19 @@ class JoomlaDb extends Db
 	{
 		return $this->prefix . $table;
 	}
+
+	/**
+	 * getConfig
+	 *
+	 * @param   string $value  Get the setting from the option
+	 *
+	 * @return mixed
+	 *
+	 * @since version
+	 * @throws \Codeception\Exception\ModuleException
+	 */
+	public function getConfig($value)
+	{
+		return $this->getModule('JoomlaBrowser')->_getConfig($value);
+	}
 }
