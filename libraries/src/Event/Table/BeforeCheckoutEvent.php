@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Event\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
 
@@ -34,12 +34,12 @@ class BeforeCheckoutEvent extends AbstractEvent
 	 */
 	public function __construct($name, array $arguments = array())
 	{
-		if (!array_key_exists('userId', $arguments))
+		if (!\array_key_exists('userId', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'userId' is required for event $name");
 		}
 
-		if (!array_key_exists('pk', $arguments))
+		if (!\array_key_exists('pk', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'pk' is required for event $name");
 		}

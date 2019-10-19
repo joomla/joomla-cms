@@ -316,18 +316,14 @@ class ModuleModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = Factory::getUser();
-
 		// Check for existing module.
 		if (!empty($record->id))
 		{
-			return $user->authorise('core.edit.state', 'com_modules.module.' . (int) $record->id);
+			return Factory::getUser()->authorise('core.edit.state', 'com_modules.module.' . (int) $record->id);
 		}
+
 		// Default to component settings if module not known.
-		else
-		{
-			return parent::canEditState('com_modules');
-		}
+		return parent::canEditState($record);
 	}
 
 	/**

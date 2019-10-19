@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Menu List Model for Menus.
@@ -78,7 +77,7 @@ class MenusModel extends ListModel
 
 		// Get the menu types of menus in the list.
 		$db = $this->getDbo();
-		$menuTypes = ArrayHelper::getColumn((array) $items, 'menutype');
+		$menuTypes = array_column((array) $items, 'menutype');
 
 		// Quote the strings.
 		$menuTypes = implode(

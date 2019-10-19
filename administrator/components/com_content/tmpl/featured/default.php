@@ -64,7 +64,7 @@ $js = <<<JS
 JS;
 
 // @todo mode the script to a file
-Factory::getDocument()->addScriptDeclaration($js);
+$this->document->addScriptDeclaration($js);
 
 $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
 	->addState(0, 'articles.featured', 'unfeatured', 'COM_CONTENT_UNFEATURED')
@@ -190,7 +190,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
-								<td class="order text-center d-none d-md-table-cell">
+								<td class="text-center d-none d-md-table-cell">
 									<?php
 									$iconClass = '';
 

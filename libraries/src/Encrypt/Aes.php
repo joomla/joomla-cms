@@ -13,7 +13,7 @@ use Joomla\CMS\Encrypt\AES\AesInterface;
 use Joomla\CMS\Encrypt\AES\Mcrypt;
 use Joomla\CMS\Encrypt\AES\OpenSSL;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * A simple implementation of AES-128, AES-192 and AES-256 encryption using the
@@ -89,9 +89,9 @@ class Aes
 	{
 		$this->key = $password;
 
-		$passLength = strlen($password);
+		$passLength = \strlen($password);
 
-		if (function_exists('mb_strlen'))
+		if (\function_exists('mb_strlen'))
 		{
 			$passLength = mb_strlen($password, 'ASCII');
 		}
@@ -182,24 +182,24 @@ class Aes
 			return false;
 		}
 
-		if (!function_exists('base64_encode'))
+		if (!\function_exists('base64_encode'))
 		{
 			return false;
 		}
 
-		if (!function_exists('base64_decode'))
+		if (!\function_exists('base64_decode'))
 		{
 			return false;
 		}
 
-		if (!function_exists('hash_algos'))
+		if (!\function_exists('hash_algos'))
 		{
 			return false;
 		}
 
 		$algorightms = hash_algos();
 
-		if (!in_array('sha256', $algorightms))
+		if (!\in_array('sha256', $algorightms))
 		{
 			return false;
 		}
@@ -218,9 +218,9 @@ class Aes
 	public function getExpandedKey($blockSize, $iv)
 	{
 		$key        = $this->key;
-		$passLength = strlen($key);
+		$passLength = \strlen($key);
 
-		if (function_exists('mb_strlen'))
+		if (\function_exists('mb_strlen'))
 		{
 			$passLength = mb_strlen($key, 'ASCII');
 		}
@@ -236,7 +236,7 @@ class Aes
 	}
 }
 
-if (!function_exists('hash_pbkdf2'))
+if (!\function_exists('hash_pbkdf2'))
 {
 	/**
 	 * Shim for missing hash_pbkdf2
@@ -252,19 +252,19 @@ if (!function_exists('hash_pbkdf2'))
 	 */
 	function hash_pbkdf2($algo, $password, $salt, $count, $length = 0, $raw_output = false)
 	{
-		if (!in_array(strtolower($algo), hash_algos()))
+		if (!\in_array(strtolower($algo), hash_algos()))
 		{
 			trigger_error(__FUNCTION__ . '(): Unknown hashing algorithm: ' . $algo, E_USER_WARNING);
 		}
 
 		if (!is_numeric($count))
 		{
-			trigger_error(__FUNCTION__ . '(): expects parameter 4 to be long, ' . gettype($count) . ' given', E_USER_WARNING);
+			trigger_error(__FUNCTION__ . '(): expects parameter 4 to be long, ' . \gettype($count) . ' given', E_USER_WARNING);
 		}
 
 		if (!is_numeric($length))
 		{
-			trigger_error(__FUNCTION__ . '(): expects parameter 5 to be long, ' . gettype($length) . ' given', E_USER_WARNING);
+			trigger_error(__FUNCTION__ . '(): expects parameter 5 to be long, ' . \gettype($length) . ' given', E_USER_WARNING);
 		}
 
 		if ($count <= 0)
@@ -278,7 +278,7 @@ if (!function_exists('hash_pbkdf2'))
 		}
 
 		$output      = '';
-		$block_count = $length ? ceil($length / strlen(hash($algo, '', $raw_output))) : 1;
+		$block_count = $length ? ceil($length / \strlen(hash($algo, '', $raw_output))) : 1;
 
 		for ($i = 1; $i <= $block_count; $i++)
 		{

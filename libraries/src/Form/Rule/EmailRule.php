@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -111,7 +111,7 @@ class EmailRule extends FormRule
 		{
 			$config = explode('.', $element['validDomains'], 2);
 
-			if (count($config) > 1)
+			if (\count($config) > 1)
 			{
 				$domains = ComponentHelper::getParams($config[0])->get($config[1]);
 			}
@@ -125,7 +125,7 @@ class EmailRule extends FormRule
 				$emailDomain = explode('@', $value);
 				$emailDomain = $emailDomain[1];
 				$emailParts  = array_reverse(explode('.', $emailDomain));
-				$emailCount  = count($emailParts);
+				$emailCount  = \count($emailParts);
 				$allowed     = true;
 
 				foreach ($domains as $domain)
@@ -134,7 +134,7 @@ class EmailRule extends FormRule
 					$status      = 0;
 
 					// Don't run if the email has less segments than the rule.
-					if ($emailCount < count($domainParts))
+					if ($emailCount < \count($domainParts))
 					{
 						continue;
 					}
