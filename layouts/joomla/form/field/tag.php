@@ -54,6 +54,9 @@ extract($displayData);
 $html = array();
 $attr = '';
 
+// To get published tags
+$options = HTMLHelper::_('tag.tags', array('filter.published' => array(1)));
+
 // Initialize some field attributes.
 $attr .= $multiple ? ' multiple' : '';
 $attr .= $autofocus ? ' autofocus' : '';
