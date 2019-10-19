@@ -119,7 +119,7 @@ Joomla.checkDbCredentials = (form) => {
         throw Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.');
       })
       .finally(() => {
-        var loaderElement = document.querySelector('joomla-core-loader');
+        document.querySelector('joomla-core-loader').remove();
         loaderElement.parentNode.removeChild(loaderElement);
       });
 };
