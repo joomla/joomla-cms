@@ -69,19 +69,19 @@ $userId = $user->id;
 						</caption>
 						<thead>
 							<tr>
-								<td style="width:1%" class="text-center hidden-sm-down">
+								<td style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" style="width:1%" class="text-center hidden-sm-down">
+								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'w.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th scope="col"  style="width:1%" class="text-center hidden-sm-down">
+								<th scope="col"  style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'w.published', $listDirn, $listOrder); ?>
 								</th>
-								<th class="hidden-sm-down">
+								<th class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 'w.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="text-center hidden-sm-down">
+								<th scope="col" style="width:10%" class="text-center d-none d-md-table-cell">
 									<?php echo Text::_('COM_WORKFLOW_DEFAULT'); ?>
 								</th>
 								<th scope="col" style="width:10%" class="text-center d-none d-md-table-cell">
@@ -109,10 +109,10 @@ $userId = $user->id;
 							$canChange  = $user->authorise('core.edit.state', $extension . '.workflow.' . $item->id) && $canCheckin;
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="0">
-								<td class="text-center hidden-sm-down">
+								<td class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
-								<td class="text-center hidden-sm-down">
+								<td class="text-center d-none d-md-table-cell">
 									<?php
 									$iconClass = '';
 									if (!$canChange)
@@ -147,7 +147,7 @@ $userId = $user->id;
 										<div class="small"><?php echo $item->description; ?></div>
 									<?php endif; ?>
 								</th>
-								<td class="text-center hidden-sm-down">
+								<td class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'workflows.', $canChange); ?>
 								</td>
 								<td class="text-center btns d-none d-md-table-cell">
