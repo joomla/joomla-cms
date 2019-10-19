@@ -627,6 +627,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 				}
 
 				$userId = (int) $user->id;
+
 				// Update the privacy_consents item to not send the reminder again
 				$query->clear()
 					->update($db->quoteName('#__privacy_consents'))
