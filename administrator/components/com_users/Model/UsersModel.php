@@ -390,9 +390,7 @@ class UsersModel extends ListModel
 
 				if ($dates['dNow'] === false)
 				{
-					$query->where(
-						$db->quoteName('a.registerDate') . ' < :dStart')
-					);
+					$query->where($db->quoteName('a.registerDate') . ' < :dStart');
 					$query->bind(':dStart', $dStart);
 				}
 				else
