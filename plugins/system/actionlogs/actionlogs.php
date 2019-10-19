@@ -177,7 +177,7 @@ class PlgSystemActionLogs extends CMSPlugin
 			->select($db->quoteName(['notify', 'extensions']))
 			->from($db->quoteName('#__action_logs_users'))
 			->where($db->quoteName('user_id') . ' = :userid')
-			-bind(':userid', $id, ParameterType::INTEGER);
+			->bind(':userid', $id, ParameterType::INTEGER);
 
 		try
 		{
@@ -397,15 +397,16 @@ class PlgSystemActionLogs extends CMSPlugin
 		{
 			$notify  = (int) $user['actionlogs']['actionlogsNotify'];
 			$values  = [':userid', ':notify'];
+			$bind    = [$userid, $notify];
 			$columns = ['user_id', 'notify'];
 
-			$query->bind($values, [$userid, $notify], ParameterType::INTEGER);
+			$query->bind($values, $bind, ParameterType::INTEGER);
 
 			if (isset($user['actionlogs']['actionlogsExtensions']))
 			{
 				$values[]  = ':extension';
 				$columns[] = 'extensions';
-				$extension = json_encode($user['actionlogs']['actionlogsExtensions'];
+				$extension = json_encode($user['actionlogs']['actionlogsExtensions']);
 				$query->bind(':extension', $extension);
 			}
 
@@ -425,7 +426,7 @@ class PlgSystemActionLogs extends CMSPlugin
 			{
 				$values[] = $db->quoteName('extensions') . ' = :extension';
 				$extension = json_encode($user['actionlogs']['actionlogsExtensions']);
-				$query->bind(':extension', $extension)
+				$query->bind(':extension', $extension);
 			}
 
 			$query->update($db->quoteName('#__action_logs_users'))

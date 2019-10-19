@@ -12,7 +12,7 @@ namespace Joomla\Component\Privacy\Api\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\Component\Privacy\Api\View\Requests\JsonApiView;
+use Joomla\Component\Privacy\Api\View\Requests\JsonapiView;
 
 /**
  * The requests controller
@@ -59,7 +59,7 @@ class RequestsController extends ApiController
 
 		try
 		{
-			/** @var JsonApiView $view */
+			/** @var JsonapiView $view */
 			$view = $this->getView(
 				$viewName,
 				$viewType,
