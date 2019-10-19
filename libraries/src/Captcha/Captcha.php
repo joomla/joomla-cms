@@ -19,9 +19,7 @@ use Joomla\Registry\Registry;
  * Joomla! Captcha base object
  *
  * @abstract
- * @package     Joomla.Libraries
- * @subpackage  Captcha
- * @since       2.5
+ * @since  2.5
  */
 class Captcha extends \JObject
 {
