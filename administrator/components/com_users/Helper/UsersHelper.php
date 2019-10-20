@@ -161,13 +161,11 @@ class UsersHelper extends ContentHelper
 			return false;
 		}
 
-		$rules = implode(',', $rules);
-
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.title AS text')
-			->from('#__usergroups as a')
-			->where('a.id IN (' . $rules . ')');
+			->select($db->quoteName('title', 'text'))
+			->from($db->quoteName('#__usergroups'))
+			->whereIn($db->quoteName('id'), $rules);
 		$db->setQuery($query);
 
 		$groups = $db->loadColumn();

@@ -156,9 +156,14 @@ class MenusController extends BaseController
 
 		try
 		{
-			$query->select('element, extension_id')
-				->from('#__extensions')
-				->where('type = ' . $db->quote('component'));
+			$query->select(
+				[
+					$db->quoteName('element'),
+					$db->quoteName('extension_id'),
+				]
+			)
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 			$db->setQuery($query);
 
 			$components = $db->loadAssocList('element', 'extension_id');
@@ -171,10 +176,14 @@ class MenusController extends BaseController
 		}
 
 		// Load all the component menu links
-		$query->select($db->quoteName('id'))
-			->select($db->quoteName('link'))
-			->select($db->quoteName('component_id'))
-			->from('#__menu')
+		$query->select(
+			[
+				$db->quoteName('id'),
+				$db->quoteName('link'),
+				$db->quoteName('component_id'),
+			]
+		)
+			->from($db->quoteName('#__menu'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('component.item'));
 			$db->setQuery($query);
 
@@ -189,10 +198,22 @@ class MenusController extends BaseController
 			return;
 		}
 
+		// Declare variables before binding.
+		$componentId = 0;
+		$itemId      = 0;
+
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__menu'))
+			->set($db->quoteName('component_id') . ' = :componentId')
+			->where($db->quoteName('id') . ' = :itemId')
+			->bind(':componentId', $componentId, ParameterType::INTEGER)
+			->bind(':itemId', $itemId, ParameterType::INTEGER);
+
 		foreach ($items as $item)
 		{
 			// Parse the link.
 			parse_str(parse_url($item->link, PHP_URL_QUERY), $parts);
+			$itemId = $item->id;
 
 			// Tease out the option.
 			if (isset($parts['option']))
@@ -216,11 +237,6 @@ class MenusController extends BaseController
 					// Update the menu table.
 					$log = "Link $item->id refers to $item->component_id, converting to $componentId ($item->link)";
 					echo "<br>$log";
-
-					$query->clear();
-					$query->update('#__menu')
-						->set('component_id = ' . $componentId)
-						->where('id = ' . $item->id);
 
 					try
 					{

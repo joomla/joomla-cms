@@ -21,6 +21,33 @@ use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 class PlgFieldsRepeatable extends FieldsPlugin
 {
 	/**
+	 * Before prepares the field value.
+	 *
+	 * @param   string     $context  The context.
+	 * @param   \stdclass  $item     The item.
+	 * @param   \stdclass  $field    The field.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function onCustomFieldsBeforePrepareField($context, $item, $field)
+	{
+		if (!$this->app->isClient('api'))
+		{
+			return;
+		}
+
+		// Check if the field should be processed by us
+		if (!$this->isTypeSupported($field->type))
+		{
+			return;
+		}
+
+		$field->apivalue = (array) json_decode($field->value, true);
+	}
+
+	/**
 	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.
 	 *
 	 * @param   stdClass    $field   The field.
