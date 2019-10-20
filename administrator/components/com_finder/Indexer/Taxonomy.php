@@ -125,7 +125,7 @@ class Taxonomy
 
 		if ($parent && $parent->title != 'ROOT')
 		{
-			$parentId = self::addNestedNode($branch, $parent, $state, $access, $language = '', $branchId);
+			$parentId = self::addNestedNode($branch, $parent, $state, $access, $language, $branchId);
 		}
 		else
 		{
