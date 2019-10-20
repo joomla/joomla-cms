@@ -127,7 +127,11 @@ class PlgContentContact extends CMSPlugin
 				. ') OR ' . $db->quoteName('contact_1.language') . ' IS NULL)');
 		}
 
-		$query->join('LEFT', '#__contact_details AS contact_2 ON contact_2.id = contact_1.id');
+		$query->join(
+			'LEFT',
+			$db->quoteName('#__contact_details', 'contact_2'),
+			$db->quoteName('contact_2.id') . ' = ' . $db->quoteName('contact_1.id')
+		);
 
 		$db->setQuery($query);
 
