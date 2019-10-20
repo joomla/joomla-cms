@@ -122,9 +122,11 @@ class PlgContentContact extends CMSPlugin
 
 		if (Multilanguage::isEnabled() === true)
 		{
-			$query->where('(' . $db->quoteName('contact_1.language') . ' IN ('
+			$query->where(
+				'(' . $db->quoteName('contact_1.language') . ' IN ('
 				. implode(',', $query->bindArray([Factory::getLanguage()->getTag(), '*'], ParameterType::STRING))
-				. ') OR ' . $db->quoteName('contact_1.language') . ' IS NULL)');
+				. ') OR ' . $db->quoteName('contact_1.language') . ' IS NULL)'
+			);
 		}
 
 		$query->join(
