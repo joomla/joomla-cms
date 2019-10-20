@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -35,7 +35,7 @@ class AccesslevelField extends ListField
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getOptions()
 	{

@@ -11,7 +11,7 @@ namespace Joomla\CMS\Event;
 use Joomla\Application\AbstractApplication;
 use Joomla\DI\Container;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Event class for representing the application's `onBeforeExecute` event

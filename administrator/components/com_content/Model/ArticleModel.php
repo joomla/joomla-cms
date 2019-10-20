@@ -337,7 +337,7 @@ class ArticleModel extends AdminModel
 
 		if ($table->state == Workflow::CONDITION_PUBLISHED && intval($table->publish_down) == 0)
 		{
-			$table->publish_down = $this->getDbo()->getNullDate();
+			$table->publish_down = null;
 		}
 
 		// Increment the content version number.
@@ -779,8 +779,6 @@ class ArticleModel extends AdminModel
 
 			$data['images'] = (string) $registry;
 		}
-
-		\JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
 		// Create new category, if needed.
 		$createCategory = true;
