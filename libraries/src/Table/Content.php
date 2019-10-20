@@ -356,7 +356,7 @@ class Content extends Table
 			}
 
 			// Set modified_by to created_by user if not set
-			if (!$this->modified_by)
+			if (empty($this->modified_by))
 			{
 				$this->modified_by = $this->created_by;
 			}
