@@ -595,11 +595,9 @@ class UpdatesitesModel extends InstallerModel
 					break;
 			}
 
-			$supportedIDs = array_map([$db, 'quote'], $supportedIDs);
-
 			if (!empty($supportedIDs))
 			{
-				$query->where($db->qn('s.update_site_id') . ' IN (' . implode(',', $supportedIDs) . ')');
+				$query->whereIn($db->qn('s.update_site_id'), $supportedIDs);
 			}
 			else
 			{
