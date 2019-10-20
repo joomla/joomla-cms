@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 -- Dumping data for table `#__workflows`
 --
 
-INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `core`,`ordering`, `created`, `created_by`, `modified`, `modified_by`, `checked_out_time`, `checked_out`) VALUES
-(1, 0, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, 0);
+INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `core`,`ordering`, `created`, `created_by`, `modified`, `modified_by`, `checked_out_time`, `checked_out`)
+SELECT 1, 0, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, CURRENT_TIMESTAMP(), `created_user_id`, CURRENT_TIMESTAMP(), `created_user_id`, NULL, 0 FROM `#__categories` WHERE `id` = 1;
 
 --
 -- Table structure for table `#__workflow_associations`
