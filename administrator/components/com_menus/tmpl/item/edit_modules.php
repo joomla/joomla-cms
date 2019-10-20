@@ -22,7 +22,7 @@ foreach ($this->levels as $key => $value)
 
 $this->document->addScriptOptions('menus-edit-modules', ['viewLevels' => $allLevels, 'itemId' => $this->item->id]);
 HTMLHelper::_('stylesheet', 'com_menus/admin-item-edit_modules.css', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_menus/admin-item-edit_modules.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_menus/admin-item-edit_modules.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
 
 // Set up the bootstrap modal that will be used for all module editors
 echo HTMLHelper::_(

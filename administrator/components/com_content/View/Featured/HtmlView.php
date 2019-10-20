@@ -186,10 +186,6 @@ class HtmlView extends BaseHtmlView
 
 			if ($canDo->get('core.edit.state'))
 			{
-				$childBar->standardButton('featured')
-					->text('JFEATURE')
-					->task('articles.featured')
-					->listCheck(true);
 				$childBar->standardButton('unfeatured')
 					->text('JUNFEATURE')
 					->task('articles.unfeatured')

@@ -85,11 +85,20 @@ class MenutypesModel extends BaseDatabaseModel
 		// Get the list of components.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('name, element AS ' . $db->quoteName('option'))
-			->from('#__extensions')
-			->where('type = ' . $db->quote('component'))
-			->where('enabled = 1')
-			->order('name ASC');
+			->select(
+				[
+					$db->quoteName('name'),
+					$db->quoteName('element', 'option'),
+				]
+			)
+			->from($db->quoteName('#__extensions'))
+			->where(
+				[
+					$db->quoteName('type') . ' = ' . $db->quote('component'),
+					$db->quoteName('enabled') . ' = 1',
+				]
+			)
+			->order($db->quoteName('name') . ' ASC');
 		$db->setQuery($query);
 		$components = $db->loadObjectList();
 
