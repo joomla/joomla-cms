@@ -50,12 +50,16 @@ class UpdatesitesModel extends InstallerModel
 				'update_site_name',
 				'name',
 				'client_id',
-				'client', 'client_translated',
+				'client',
+				'client_translated',
 				'status',
-				'type', 'type_translated',
-				'folder', 'folder_translated',
+				'type',
+				'type_translated',
+				'folder',
+				'folder_translated',
 				'update_site_id',
 				'enabled',
+				'supported'
 			];
 		}
 
