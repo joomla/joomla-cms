@@ -51,6 +51,7 @@
 			type="list"
 			label="COM_CONTACT_FIELD_CONFIG_POSITION_LABEL"
 			useglobal="true"
+			class="custom-select-color-state"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -61,6 +62,7 @@
 			type="list"
 			label="JGLOBAL_EMAIL"
 			useglobal="true"
+			class="custom-select-color-state"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -71,6 +73,7 @@
 			type="list"
 			label="COM_CONTACT_FIELD_CONFIG_PHONE_LABEL"
 			useglobal="true"
+			class="custom-select-color-state"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -81,6 +84,7 @@
 			type="list"
 			label="COM_CONTACT_FIELD_CONFIG_MOBILE_LABEL"
 			useglobal="true"
+			class="custom-select-color-state"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -91,6 +95,7 @@
 			type="list"
 			label="COM_CONTACT_FIELD_CONFIG_FAX_LABEL"
 			useglobal="true"
+			class="custom-select-color-state"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -101,6 +106,7 @@
 			type="list"
 			label="COM_CONTACT_FIELD_CONFIG_SUBURB_LABEL"
 			useglobal="true"
+			class="custom-select-color-state"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -111,6 +117,7 @@
 			type="list"
 			label="COM_CONTACT_FIELD_CONFIG_STATE_LABEL"
 			useglobal="true"
+			class="custom-select-color-state"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -121,6 +128,7 @@
 			type="list"
 			label="COM_CONTACT_FIELD_CONFIG_COUNTRY_LABEL"
 			useglobal="true"
+			class="custom-select-color-state"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -131,6 +139,7 @@
 			type="list"
 			label="JGLOBAL_PAGINATION_LABEL"
 			useglobal="true"
+			class="custom-select-color-state"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -142,6 +151,7 @@
 			type="list"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 			useglobal="true"
+			class="custom-select-color-state"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
