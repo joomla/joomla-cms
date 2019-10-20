@@ -11,6 +11,8 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Exception;
+use JDatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
@@ -19,8 +21,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\UpdateSite as UpdateSiteTable;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\ParameterType;
+use RuntimeException;
 
 /**
  * Installer Update Sites Model
@@ -66,7 +70,7 @@ class UpdatesitesModel extends InstallerModel
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @throws  \Exception on ACL error
+	 * @throws  Exception on ACL error
 	 * @since   3.4
 	 *
 	 */
@@ -74,7 +78,7 @@ class UpdatesitesModel extends InstallerModel
 	{
 		if (!Factory::getUser()->authorise('core.edit.state', 'com_installer'))
 		{
-			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
+			throw new Exception(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
 		}
 
 		$result = true;
@@ -86,7 +90,7 @@ class UpdatesitesModel extends InstallerModel
 		}
 
 		// Get a table object for the extension type
-		$table = new \Joomla\CMS\Table\UpdateSite($this->getDbo());
+		$table = new UpdateSiteTable($this->getDbo());
 
 		// Enable the update site in the table and store it in the database
 		foreach ($eid as $i => $id)
@@ -111,7 +115,7 @@ class UpdatesitesModel extends InstallerModel
 	 *
 	 * @return  void
 	 *
-	 * @throws  \Exception on ACL error
+	 * @throws  Exception on ACL error
 	 * @since   3.6
 	 *
 	 */
@@ -119,7 +123,7 @@ class UpdatesitesModel extends InstallerModel
 	{
 		if (!Factory::getUser()->authorise('core.delete', 'com_installer'))
 		{
-			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+			throw new Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
 		}
 
 		// Ensure eid is an array of extension ids
@@ -177,7 +181,7 @@ class UpdatesitesModel extends InstallerModel
 
 				$count++;
 			}
-			catch (\RuntimeException $e)
+			catch (RuntimeException $e)
 			{
 				$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_ERROR', $updateSitesNames[$id]->name, $e->getMessage()), 'error');
 			}
@@ -232,7 +236,7 @@ class UpdatesitesModel extends InstallerModel
 	 *
 	 * @return  void
 	 *
-	 * @throws  \Exception on ACL error
+	 * @throws  Exception on ACL error
 	 * @since   3.6
 	 *
 	 */
@@ -240,7 +244,7 @@ class UpdatesitesModel extends InstallerModel
 	{
 		if (!Factory::getUser()->authorise('core.admin', 'com_installer'))
 		{
-			throw new \Exception(Text::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_NOT_PERMITTED'), 403);
+			throw new Exception(Text::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_NOT_PERMITTED'), 403);
 		}
 
 		$db  = $this->getDbo();
@@ -469,7 +473,7 @@ class UpdatesitesModel extends InstallerModel
 	/**
 	 * Method to get the database query
 	 *
-	 * @return  \JDatabaseQuery  The database query
+	 * @return  JDatabaseQuery  The database query
 	 *
 	 * @since   3.4
 	 */
