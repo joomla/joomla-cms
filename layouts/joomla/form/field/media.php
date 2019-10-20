@@ -100,7 +100,7 @@ $url    = ($readonly ? ''
 	: ($link ? $link
 		: 'index.php?option=com_media&amp;tmpl=component&amp;asset='
 		. $asset . '&amp;author=' . $authorId)
-	. '&amp;fieldid={field-media-id}&amp;path=' . $folder);
+	. '&amp;fieldid={field-media-id}&amp;path=local-0:/' . $folder);
 ?>
 <joomla-field-media class="field-media-wrapper"
 		type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?>
