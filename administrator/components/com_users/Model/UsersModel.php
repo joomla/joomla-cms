@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -190,7 +191,7 @@ class UsersModel extends ListModel
 			// Join over the group mapping table.
 			$query->select('map.user_id, COUNT(map.group_id) AS group_count')
 				->from('#__user_usergroup_map AS map')
-				->where('map.user_id IN (' . implode(',', $userIds) . ')')
+				->whereIn($db->quoteName('map.user_id'), $userIds)
 				->group('map.user_id')
 				// Join over the user groups table.
 				->join('LEFT', '#__usergroups AS g2 ON g2.id = map.group_id');
@@ -212,7 +213,7 @@ class UsersModel extends ListModel
 			$query->clear()
 				->select('n.user_id, COUNT(n.id) As note_count')
 				->from('#__user_notes AS n')
-				->where('n.user_id IN (' . implode(',', $userIds) . ')')
+				->whereIn($db->quoteName('n.user_id'), $userIds)
 				->where('n.state >= 0')
 				->group('n.user_id');
 
@@ -282,7 +283,8 @@ class UsersModel extends ListModel
 
 		if (is_numeric($state))
 		{
-			$query->where('a.block = ' . (int) $state);
+			$query->where($db->quoteName('a.block') . ' = :state')
+				->bind(':state', $state, ParameterType::INTEGER);
 		}
 
 		// If the model is set to check the activated state, add to the query.
@@ -292,11 +294,11 @@ class UsersModel extends ListModel
 		{
 			if ($active == '0')
 			{
-				$query->where('a.activation IN (' . $db->quote('') . ', ' . $db->quote('0') . ')');
+				$query->whereIn($db->quoteName('a.activation'), ['', '0']);
 			}
 			elseif ($active == '1')
 			{
-				$query->where($query->length('a.activation') . ' > 1');
+				$query->where($query->length($db->quoteName('a.activation')) . ' > 1');
 			}
 		}
 
@@ -332,12 +334,14 @@ class UsersModel extends ListModel
 
 			if ($groupId)
 			{
-				$query->where('map2.group_id = ' . (int) $groupId);
+				$groupId = (int) $groupId;
+				$query->where($db->quoteName('map2.group_id') . ' = :group_id')
+					->bind(':group_id', $groupId, ParameterType::INTEGER);
 			}
 
 			if (isset($groups))
 			{
-				$query->where('map2.group_id IN (' . implode(',', $groups) . ')');
+				$query->whereIn($db->quoteName('map2.group_id'), $groups);
 			}
 		}
 
@@ -348,26 +352,27 @@ class UsersModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$ids = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :id');
+				$query->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			elseif (stripos($search, 'username:') === 0)
 			{
-				$search = $db->quote('%' . $db->escape(substr($search, 9), true) . '%');
-				$query->where('a.username LIKE ' . $search);
+				$search = '%' . substr($search, 9) . '%';
+				$query->where($db->quoteName('a.username') . ' LIKE :username');
+				$query->bind(':username', $search);
 			}
 			else
 			{
-				// Escape the search token.
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-
-				// Compile the different search clauses.
-				$searches   = array();
-				$searches[] = 'a.name LIKE ' . $search;
-				$searches[] = 'a.username LIKE ' . $search;
-				$searches[] = 'a.email LIKE ' . $search;
+				$search = '%' . trim($search) . '%';
 
 				// Add the clauses to the query.
-				$query->where('(' . implode(' OR ', $searches) . ')');
+				$query->where($db->quoteName('a.name') . ' LIKE :name')
+					->orWhere($db->quoteName('a.username') . ' LIKE :username')
+					->orWhere($db->quoteName('a.email') . ' LIKE :email')
+					->bind(':name', $search)
+					->bind(':username', $search)
+					->bind(':email', $search);
 			}
 		}
 
@@ -381,16 +386,24 @@ class UsersModel extends ListModel
 
 			if ($dates['dNow'] === false)
 			{
+				$dStart = $dates['dStart']->format('Y-m-d H:i:s');
+
 				$query->where(
-					$db->quoteName('a.registerDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
+					$db->quoteName('a.registerDate') . ' < :dStart'
 				);
+				$query->bind(':dStart', $dStart);
 			}
 			else
 			{
+				$dStart = $dates['dStart']->format('Y-m-d H:i:s');
+				$dNow   = $dates['dNow']->format('Y-m-d H:i:s');
+
 				$query->where(
-					$db->quoteName('a.registerDate') . ' >= ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s')) .
-					' AND ' . $db->quoteName('a.registerDate') . ' <= ' . $db->quote($dates['dNow']->format('Y-m-d H:i:s'))
+					$db->quoteName('a.registerDate') . ' >= :dStart' .
+					' AND ' . $db->quoteName('a.registerDate') . ' <= :dNow'
 				);
+				$query->bind(':dStart', $dStart);
+				$query->bind(':dNow', $dNow);
 			}
 		}
 
@@ -405,21 +418,30 @@ class UsersModel extends ListModel
 			if (is_string($dates['dStart']))
 			{
 				$query->where(
-					$db->quoteName('a.lastvisitDate') . ' = ' . $db->quote($dates['dStart'])
+					$db->quoteName('a.lastvisitDate') . ' = :lastvisitDate'
 				);
+				$query->bind(':lastvisitDate', $dates['dStart']);
 			}
 			elseif ($dates['dNow'] === false)
 			{
+				$dStart = $dates['dStart']->format('Y-m-d H:i:s');
+
 				$query->where(
-					$db->quoteName('a.lastvisitDate') . ' < ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s'))
+					$db->quoteName('a.lastvisitDate') . ' < :lastvisitDate'
 				);
+				$query->bind(':lastvisitDate', $dStart);
 			}
 			else
 			{
+				$dStart = $dates['dStart']->format('Y-m-d H:i:s');
+				$dNow   = $dates['dNow']->format('Y-m-d H:i:s');
+
 				$query->where(
-					$db->quoteName('a.lastvisitDate') . ' >= ' . $db->quote($dates['dStart']->format('Y-m-d H:i:s')) .
-					' AND ' . $db->quoteName('a.lastvisitDate') . ' <= ' . $db->quote($dates['dNow']->format('Y-m-d H:i:s'))
+					$db->quoteName('a.lastvisitDate') . ' >= :dStart' .
+					' AND ' . $db->quoteName('a.lastvisitDate') . ' <= :dNow'
 				);
+				$query->bind(':dStart', $dStart);
+				$query->bind(':dNow', $dNow);
 			}
 		}
 
@@ -428,7 +450,7 @@ class UsersModel extends ListModel
 
 		if (!empty($excluded))
 		{
-			$query->where('id NOT IN (' . implode(',', $excluded) . ')');
+			$query->whereNotIn($db->quoteName('id'), $excluded);
 		}
 
 		// Add the list ordering clause.
@@ -516,7 +538,8 @@ class UsersModel extends ListModel
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__usergroups', 'ug'))
 			->join('LEFT', $db->quoteName('#__user_usergroup_map', 'map') . ' ON (ug.id = map.group_id)')
-			->where($db->quoteName('map.user_id') . ' = ' . (int) $user_id);
+			->where($db->quoteName('map.user_id') . ' = :user_id')
+			->bind(':user_id', $user_id, ParameterType::INTEGER);
 
 		try
 		{

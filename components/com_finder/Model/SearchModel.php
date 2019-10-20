@@ -151,13 +151,12 @@ class SearchModel extends ListModel
 			->where('l.state = 1')
 			->where('l.published = 1');
 
-		// Get the null date and the current date, minus seconds.
-		$nullDate = $db->quote($db->getNullDate());
+		// Get the current date, minus seconds.
 		$nowDate = $db->quote(substr_replace(Factory::getDate()->toSql(), '00', -2));
 
 		// Add the publish up and publish down filters.
-		$query->where('(l.publish_start_date = ' . $nullDate . ' OR l.publish_start_date <= ' . $nowDate . ')')
-			->where('(l.publish_end_date = ' . $nullDate . ' OR l.publish_end_date >= ' . $nowDate . ')');
+		$query->where('(l.publish_start_date IS NULL OR l.publish_start_date <= ' . $nowDate . ')')
+			->where('(l.publish_end_date IS NULL OR l.publish_end_date >= ' . $nowDate . ')');
 
 		$query->group('l.link_id');
 		$query->group('l.object');
