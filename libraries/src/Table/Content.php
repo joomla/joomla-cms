@@ -354,6 +354,12 @@ class Content extends Table
 			{
 				$this->modified = $this->created;
 			}
+
+			// Set modified_by to created_by user if not set
+			if (!$this->modified_by)
+			{
+				$this->modified_by = $this->created_by;
+			}
 		}
 
 		// Verify that the alias is unique

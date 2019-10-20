@@ -284,6 +284,11 @@ class CoreContent extends Table
 				$this->core_modified_time = $this->core_created_time;
 			}
 
+			if (empty($this->core_modified_user_id))
+			{
+				$this->core_modified_user_id = $this->core_created_user_id;
+			}
+
 			$isNew = true;
 		}
 

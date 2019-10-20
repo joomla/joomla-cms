@@ -254,6 +254,11 @@ class Category extends Nested
 			{
 				$this->created_user_id = $user->get('id');
 			}
+
+			if (empty($this->modified_user_id))
+			{
+				$this->modified_user_id = $this->created_user_id;
+			}
 		}
 
 		// Verify that the alias is unique

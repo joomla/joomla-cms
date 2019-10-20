@@ -261,6 +261,11 @@ class ContactTable extends Table
 			$this->modified = $this->created;
 		}
 
+		if (!$this->modified_by)
+		{
+			$this->modified_by = $this->created_by;
+		}
+
 		return true;
 	}
 
