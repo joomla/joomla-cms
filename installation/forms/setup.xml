@@ -122,5 +122,91 @@
 			id="db_old"
 			default="backup"
 		/>
+
+		<field
+			name="db_encryption"
+			type="list"
+			label="INSTL_DATABASE_ENCRYPTION_ENABLE_LABEL"
+			desc="INSTL_DATABASE_ENCRYPTION_ENABLE_DESC"
+			class="custom-select"
+			required="true"
+			default="0"
+			filter="integer"
+			showon="db_host!:localhost"
+			>
+			<option value="0">INSTL_DATABASE_ENCRYPTION_ENABLE_VALUE_NONE</option>
+			<option value="1">INSTL_DATABASE_ENCRYPTION_ENABLE_VALUE_ONE_WAY</option>
+			<option value="2">INSTL_DATABASE_ENCRYPTION_ENABLE_VALUE_TWO_WAY</option>
+		</field>
+
+		<field
+			name="db_sslverifyservercert"
+			type="radio"
+			label="INSTL_DATABASE_ENCRYPTION_VERIFY_SERVER_CERT_LABEL"
+			desc="INSTL_DATABASE_ENCRYPTION_VERIFY_SERVER_CERT_DESC"
+			class="switcher"
+			default="0"
+			filter="boolean"
+			showon="db_encryption:1,2"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="db_sslkey"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_KEY_LABEL"
+			desc="INSTL_DATABASE_ENCRYPTION_KEY_DESC"
+			hint="INSTL_DATABASE_ENCRYPTION_KEY_HINT"
+			filter="string"
+			size="250"
+			showon="db_encryption:2"
+		/>
+
+		<field
+			name="db_sslcert"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_CERT_LABEL"
+			desc="INSTL_DATABASE_ENCRYPTION_CERT_DESC"
+			hint="INSTL_DATABASE_ENCRYPTION_CERT_HINT"
+			filter="string"
+			size="250"
+			showon="db_encryption:2"
+		/>
+
+		<field
+			name="db_sslca"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_CA_LABEL"
+			desc="INSTL_DATABASE_ENCRYPTION_CA_DESC"
+			hint="INSTL_DATABASE_ENCRYPTION_CA_HINT"
+			filter="string"
+			size="250"
+			showon="db_encryption:2"
+		/>
+
+		<field
+			name="db_sslcapath"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_CAPATH_LABEL"
+			desc="INSTL_DATABASE_ENCRYPTION_CAPATH_DESC"
+			hint="INSTL_DATABASE_ENCRYPTION_CAPATH_HINT"
+			filter="string"
+			size="250"
+			showon="db_encryption:2"
+		/>
+
+		<field
+			name="db_sslcipher"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_CIPHER_LABEL"
+			desc="INSTL_DATABASE_ENCRYPTION_CIPHER_DESC"
+			hint="INSTL_DATABASE_ENCRYPTION_CIPHER_HINT"
+			filter="string"
+			size="300"
+			showon="db_encryption:2"
+		/>
+
 	</fieldset>
 </form>
