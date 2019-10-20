@@ -183,7 +183,12 @@ class UpdatesitesModel extends InstallerModel
 			}
 			catch (RuntimeException $e)
 			{
-				$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_ERROR', $updateSitesNames[$id]->name, $e->getMessage()), 'error');
+				$app->enqueueMessage(
+					Text::sprintf(
+						'COM_INSTALLER_MSG_UPDATESITES_DELETE_ERROR',
+						$updateSitesNames[$id]->name, $e->getMessage()
+					), 'error'
+				);
 			}
 		}
 
@@ -216,10 +221,12 @@ class UpdatesitesModel extends InstallerModel
 			)
 			->join(
 				'LEFT', $db->quoteName('#__extensions', 'e')
-				. ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('use.extension_id')
+				. ' ON ' . $db->quoteName('e.extension_id') . ' = ' .
+				$db->quoteName('use.extension_id')
 			)
 			->where('('
-				. '(' . $db->quoteName('e.type') . ' = ' . $db->quote('file') . ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quote('joomla') . ')'
+				. '(' . $db->quoteName('e.type') . ' = ' . $db->quote('file') .
+				' AND ' . $db->quoteName('e.element') . ' = ' . $db->quote('joomla') . ')'
 				. ' OR (' . $db->quoteName('e.type') . ' = ' . $db->quote('package') . ' AND ' . $db->quoteName('e.element')
 				. ' = ' . $db->quote('pkg_en-GB') . ') OR (' . $db->quoteName('e.type') . ' = ' . $db->quote('component')
 				. ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quote('com_joomlaupdate') . ')'
@@ -355,7 +362,10 @@ class UpdatesitesModel extends InstallerModel
 
 					if ($manifest !== null)
 					{
-						// Search if the extension exists in the extensions table. Excluding joomla core extensions (id < 10000) and discovered extensions.
+						/**
+						 * Search if the extension exists in the extensions table. Excluding Joomla
+						 * core extensions (id < 10000) and discovered extensions.
+						 */
 						$query = $db->getQuery(true)
 							->select($db->quoteName('extension_id'))
 							->from($db->quoteName('#__extensions'))
