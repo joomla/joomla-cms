@@ -74,7 +74,7 @@ class PlgQuickiconDownloadkey extends CMSPlugin
 		}
 
 		$iconDefinition = [
-			'link'  => 'index.php?option=com_installer&view=updatesites&filter_supported=1',
+			'link'  => 'index.php?option=com_installer&view=updatesites&filter[supported]=1',
 			'image' => 'fa fa-key',
 			'icon'  => '',
 			'text'  => Text::_('PLG_QUICKICON_DOWNLOADKEY_OK'),
@@ -86,7 +86,7 @@ class PlgQuickiconDownloadkey extends CMSPlugin
 		if ($info['missing'] !== 0)
 		{
 			$iconDefinition = array_merge($iconDefinition, [
-				'link'  => 'index.php?option=com_installer&view=updatesites&filter_supported=1',
+				'link'  => 'index.php?option=com_installer&view=updatesites&filter[supported]=-1',
 				'text'  => Text::plural('PLG_QUICKICON_DOWNLOADKEY_N_MISSING', $info['missing']),
 				'class' => 'pulse danger',
 			]);
