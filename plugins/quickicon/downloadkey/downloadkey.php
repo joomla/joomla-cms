@@ -1,12 +1,5 @@
 <?php
 /**
- * @package    joomla4
- *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
- */
-
-/**
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Downloadkey
  *
@@ -57,8 +50,7 @@ class PlgQuickiconDownloadkey extends CMSPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if (
-			$context !== $this->params->get('context', 'update_quickicon')
+		if ($context !== $this->params->get('context', 'update_quickicon')
 			|| !$this->app->getIdentity()->authorise('core.manage', 'com_installer')
 		)
 		{
@@ -89,7 +81,8 @@ class PlgQuickiconDownloadkey extends CMSPlugin
 				'link'  => 'index.php?option=com_installer&view=updatesites&filter[supported]=-1',
 				'text'  => Text::plural('PLG_QUICKICON_DOWNLOADKEY_N_MISSING', $info['missing']),
 				'class' => 'pulse danger',
-			]);
+				]
+			);
 		}
 
 		return [

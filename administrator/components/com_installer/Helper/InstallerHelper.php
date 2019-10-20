@@ -12,12 +12,10 @@ namespace Joomla\Component\Installer\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Exception;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use SimpleXMLElement;
 
@@ -121,19 +119,20 @@ class InstallerHelper
 	/**
 	 * Get a list of filter options for the application statuses.
 	 *
-	 * @param   string   $element    element of an extension
-	 * @param   string   $type       type of an extension
-	 * @param   integer  $client_id  client_id of an extension
-	 * @param   string   $folder     folder of an extension
+	 * @param   string   $element   element of an extension
+	 * @param   string   $type      type of an extension
+	 * @param   integer  $clientId  client_id of an extension
+	 * @param   string   $folder    folder of an extension
 	 *
 	 * @return  SimpleXMLElement
 	 *
 	 * @since   4.0.0
 	 */
-	public static function getInstallationXML(string $element, string $type, int $client_id = 1,
-											  ?string $folder = null): SimpleXMLElement
+	public static function getInstallationXML(string $element, string $type, int $clientId = 1,
+		?string $folder = null
+	): SimpleXMLElement
 	{
-		$path = $client_id ? JPATH_ADMINISTRATOR : JPATH_ROOT;
+		$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_ROOT;
 
 		switch ($type)
 		{
@@ -196,8 +195,8 @@ class InstallerHelper
 			];
 		}
 
-		$prefix = (string)$installXmlFile->dlid['prefix'];
-		$suffix = (string)$installXmlFile->dlid['suffix'];
+		$prefix = (string) $installXmlFile->dlid['prefix'];
+		$suffix = (string) $installXmlFile->dlid['suffix'];
 		$value  = substr($extension->get('extra_query'), strlen($prefix));
 
 		if ($suffix)
@@ -219,17 +218,18 @@ class InstallerHelper
 	/**
 	 * Get the download key of an extension given enough information to locate it in the #__extensions table
 	 *
-	 * @param   string       $element    Name of the extension, e.g. com_foo
-	 * @param   string       $type       The type of the extension, e.g. component
-	 * @param   int          $client_id  [optional] Joomla client for the extension, see the #__extensions table
-	 * @param   string|null  $folder     Extension folder, only applies for 'plugin' type
+	 * @param   string       $element   Name of the extension, e.g. com_foo
+	 * @param   string       $type      The type of the extension, e.g. component
+	 * @param   int          $clientId  [optional] Joomla client for the extension, see the #__extensions table
+	 * @param   string|null  $folder    Extension folder, only applies for 'plugin' type
 	 *
 	 * @return  array
 	 *
 	 * @since   4.0.0
 	 */
-	public static function getExtensionDownloadKey(string $element, string $type, int $client_id = 1,
-												   ?string $folder = null): array
+	public static function getExtensionDownloadKey(string $element, string $type, int $clientId = 1,
+		?string $folder = null
+	): array
 	{
 		// Get the database driver. If it fails we cannot report whether the extension supports download keys.
 		try
@@ -246,15 +246,15 @@ class InstallerHelper
 
 		// Try to retrieve the extension information as a CMSObject
 		$query = $db->getQuery(true)
-					->select($db->quoteName('extension_id'))
-					->from($db->quoteName('#__extensions'))
-					->where($db->quoteName('type') . ' = :type')
-					->where($db->quoteName('element') . ' = :element')
-					->where($db->quoteName('folder') . ' = :folder')
-					->where($db->quoteName('client_id') . ' = :client_id');
+			->select($db->quoteName('extension_id'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('type') . ' = :type')
+			->where($db->quoteName('element') . ' = :element')
+			->where($db->quoteName('folder') . ' = :folder')
+			->where($db->quoteName('client_id') . ' = :client_id');
 		$query->bind('type', $type, ParameterType::STRING);
 		$query->bind('element', $element, ParameterType::STRING);
-		$query->bind('client_id', $client_id, ParameterType::INTEGER);
+		$query->bind('client_id', $clientId, ParameterType::INTEGER);
 		$query->bind('folder', $folder, ParameterType::STRING);
 
 		try
@@ -285,25 +285,34 @@ class InstallerHelper
 	 */
 	public static function getDownloadKeySupportedSites($onlyEnabled = false): array
 	{
+		/**
+		 * NOTE: The closures are not inlined because in this case the Joomla Code Style standard produces two mutually
+		 * exclusive errors, making the file impossible to commit. Using closures in variables makes the code less
+		 * readable but works around that issue.
+		 */
+
 		$extensions = self::getUpdateSitesInformation($onlyEnabled);
 
-		// Filter the extensions by what supports Download Keys
-		$extensions = array_filter($extensions, function (CMSObject $extension) {
+		$filterClosure = function (CMSObject $extension) {
 			$dlidInfo = self::getDownloadKey($extension);
 
 			return $dlidInfo['supported'];
-		});
+		};
+		$extensions = array_filter($extensions, $filterClosure);
 
-		// Return only the update site IDs
-		return array_map(function (CMSObject $extension) {
+		$mapClosure = function (CMSObject $extension) {
 			return $extension->get('update_site_id');
-		}, $extensions);
+		};
+
+		return array_map($mapClosure, $extensions);
 	}
 
 	/**
 	 * Returns a list of update site IDs which are missing download keys. By default this returns all qualifying update
 	 * sites, even if they are not enabled.
 	 *
+	 * @param   bool  $exists       [optional] If true, returns update sites with a valid download key. When false,
+	 *                              returns update sites with an invalid / missing download key.
 	 * @param   bool  $onlyEnabled  [optional] Set true to only returned enabled update sites.
 	 *
 	 * @return  int[]
@@ -311,10 +320,16 @@ class InstallerHelper
 	 */
 	public static function getDownloadKeyExistsSites(bool $exists = true, $onlyEnabled = false): array
 	{
+		/**
+		 * NOTE: The closures are not inlined because in this case the Joomla Code Style standard produces two mutually
+		 * exclusive errors, making the file impossible to commit. Using closures in variables makes the code less
+		 * readable but works around that issue.
+		 */
+
 		$extensions = self::getUpdateSitesInformation($onlyEnabled);
 
 		// Filter the extensions by what supports Download Keys
-		$extensions = array_filter($extensions, function (CMSObject $extension) use ($exists) {
+		$filterClosure = function (CMSObject $extension) use ($exists) {
 			$dlidInfo = self::getDownloadKey($extension);
 
 			if (!$dlidInfo['supported'])
@@ -323,12 +338,15 @@ class InstallerHelper
 			}
 
 			return $exists ? $dlidInfo['valid'] : !$dlidInfo['valid'];
-		});
+		};
+		$extensions = array_filter($extensions, $filterClosure);
 
 		// Return only the update site IDs
-		return array_map(function (CMSObject $extension) {
+		$mapClosure = function (CMSObject $extension) {
 			return $extension->get('update_site_id');
-		}, $extensions);
+		};
+
+		return array_map($mapClosure, $extensions);
 	}
 
 
@@ -352,9 +370,9 @@ class InstallerHelper
 		}
 
 		$query = $db->getQuery(true)
-					->select(
-						$db->quoteName(
-							[
+			->select(
+				$db->quoteName(
+					[
 								's.update_site_id',
 								's.enabled',
 								's.extra_query',
@@ -365,7 +383,7 @@ class InstallerHelper
 								'e.client_id',
 								'e.manifest_cache',
 							],
-							[
+					[
 								'update_site_id',
 								'enabled',
 								'extra_query',
@@ -376,25 +394,24 @@ class InstallerHelper
 								'client_id',
 								'manifest_cache',
 							]
-						)
-					)
-					->from($db->quoteName('#__update_sites', 's'))
-					->innerJoin(
-						$db->quoteName('#__update_sites_extensions', 'se'),
-						$db->quoteName('se.update_site_id') . ' = ' . $db->quoteName('s.update_site_id')
-					)
-					->innerJoin(
-						$db->quoteName('#__extensions', 'e'),
-						$db->quoteName('e.extension_id') . ' = ' . $db->quoteName('se.extension_id')
-					)
-					->where($db->quoteName('state') . ' = 0');
+				)
+			)
+			->from($db->quoteName('#__update_sites', 's'))
+			->innerJoin(
+				$db->quoteName('#__update_sites_extensions', 'se'),
+				$db->quoteName('se.update_site_id') . ' = ' . $db->quoteName('s.update_site_id')
+			)
+			->innerJoin(
+				$db->quoteName('#__extensions', 'e'),
+				$db->quoteName('e.extension_id') . ' = ' . $db->quoteName('se.extension_id')
+			)
+			->where($db->quoteName('state') . ' = 0');
 
 		if ($onlyEnabled)
 		{
 			$enabled = $onlyEnabled ? 1 : 0;
 			$query->where($db->quoteName('s.enabled') . ' = :enabled')
-				  ->bind(':enabled', $enabled, ParameterType::INTEGER);
-
+				->bind(':enabled', $enabled, ParameterType::INTEGER);
 		}
 
 		// Try to get all of the update sites, including related extension information
