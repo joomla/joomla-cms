@@ -621,9 +621,7 @@ class UpdatesitesModel extends InstallerModel
 			else
 			{
 				// In case of an empty list of IDs we apply a fake filter to effectively return no data
-				$zero = 0;
-				$query->where($db->qn('s.update_site_id') . ' = :update_site_id');
-				$query->bind('update_site_id', $zero, ParameterType::INTEGER);
+				$query->where($db->qn('s.update_site_id') . ' = 0');
 			}
 		}
 
