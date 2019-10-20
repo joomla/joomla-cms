@@ -23,6 +23,9 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <div id="installer-update" class="clearfix">
+	<?php if ($this->missingDownloadKeys > 0): ?>
+	<?php endif; ?>
+
 	<form action="<?php echo Route::_('index.php?option=com_installer&view=update'); ?>" method="post" name="adminForm" id="adminForm">
 		<div class="row">
 			<div class="col-md-12">
@@ -80,13 +83,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</thead>
 							<tbody>
 							<?php
-							foreach ($this->items as $i => $item) :
-								$dlkeyInfo = CmsInstallerHelper::getDownloadKey(new CMSObject($item));
-								$missingDlid = $dlkeyInfo['supported'] && !$dlkeyInfo['valid'];
-							?>
+							foreach ($this->items as $i => $item): ?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center">
-										<?php if($missingDlid): ?>
+										<?php if($item->isMissingDownloadKey): ?>
 										<span class="fa fa-ban"></span>
 										<?php else: ?>
 										<?php echo HTMLHelper::_('grid.id', $i, $item->update_id); ?>
@@ -97,7 +97,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<div role="tooltip" id="tip<?php echo $i; ?>">
 											<?php echo $item->description; ?>
 										</div>
-										<?php if($missingDlid): ?>
+										<?php if($item->isMissingDownloadKey): ?>
+										<br/>
 										<span class="badge badge-warning">
 											<span class="hasPopover"
 												  title="<?= Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
