@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Categories;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
@@ -136,6 +136,7 @@ class Categories implements CategoryInterface
 		}
 
 		$categories = null;
+
 		try
 		{
 			$parts = explode('.', $extension, 2);
@@ -144,7 +145,7 @@ class Categories implements CategoryInterface
 
 			if ($component instanceof CategoryServiceInterface)
 			{
-				$categories = $component->getCategory($options, count($parts) > 1 ? $parts[1] : '');
+				$categories = $component->getCategory($options, \count($parts) > 1 ? $parts[1] : '');
 			}
 		}
 		catch (SectionNotFoundException $e)
@@ -320,7 +321,7 @@ class Categories implements CategoryInterface
 		$results = $db->loadObjectList('id');
 		$childrenLoaded = false;
 
-		if (count($results))
+		if (\count($results))
 		{
 			// Foreach categories
 			foreach ($results as $result)

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Component\Router\Rules;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterView;
@@ -98,7 +98,7 @@ class MenuRules implements RulesInterface
 				if (isset($query[$k]) && $v !== $query[$k])
 				{
 					// Compare again without alias
-					if (is_string($v) && $v == current(explode(':', $query[$k], 2)))
+					if (\is_string($v) && $v == current(explode(':', $query[$k], 2)))
 					{
 						continue;
 					}
@@ -127,7 +127,7 @@ class MenuRules implements RulesInterface
 
 				if ($layout && isset($this->lookup[$language][$viewLayout]))
 				{
-					if (is_bool($ids))
+					if (\is_bool($ids))
 					{
 						$query['Itemid'] = $this->lookup[$language][$viewLayout];
 
@@ -147,7 +147,7 @@ class MenuRules implements RulesInterface
 
 				if (isset($this->lookup[$language][$view]))
 				{
-					if (is_bool($ids))
+					if (\is_bool($ids))
 					{
 						$query['Itemid'] = $this->lookup[$language][$view];
 
@@ -169,9 +169,10 @@ class MenuRules implements RulesInterface
 
 		// Check if the active menuitem matches the requested language
 		if ($active && $active->component === 'com_' . $this->router->getName()
-			&& ($language === '*' || in_array($active->language, array('*', $language)) || !Multilanguage::isEnabled()))
+			&& ($language === '*' || \in_array($active->language, array('*', $language)) || !Multilanguage::isEnabled()))
 		{
 			$query['Itemid'] = $active->id;
+
 			return;
 		}
 

@@ -13,9 +13,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\String\StringHelper;
@@ -128,9 +130,9 @@ class GroupModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = '')
+	protected function preprocessForm(Form $form, $data, $group = '')
 	{
-		$obj = is_array($data) ? ArrayHelper::toObject($data, 'JObject') : $data;
+		$obj = is_array($data) ? ArrayHelper::toObject($data, CMSObject::class) : $data;
 
 		if (isset($obj->parent_id) && $obj->parent_id == 0 && $obj->id > 0)
 		{

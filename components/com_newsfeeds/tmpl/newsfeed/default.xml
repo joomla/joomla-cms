@@ -15,8 +15,8 @@
 	            addfieldprefix="Joomla\Component\Newsfeeds\Administrator\Field"
 		 >
 
-			<field 
-				name="id" 
+			<field
+				name="id"
 				type="modal_newsfeed"
 				label="COM_NEWSFEEDS_FIELD_SELECT_FEED_LABEL"
 				required="true"
@@ -33,8 +33,8 @@
 
 		<!-- Basic options. -->
 		<fieldset name="basic" label="COM_NEWSFEEDS_FIELDSET_MORE_OPTIONS_LABEL">
-			<field 
-				name="show_feed_image" 
+			<field
+				name="show_feed_image"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				useglobal="true"
@@ -44,8 +44,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_feed_description" 
+			<field
+				name="show_feed_description"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 				useglobal="true"
@@ -55,8 +55,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_item_description" 
+			<field
+				name="show_item_description"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 				useglobal="true"
@@ -66,8 +66,8 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_tags" 
+			<field
+				name="show_tags"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
 				useglobal="true"
@@ -77,16 +77,16 @@
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="feed_character_count" 
+			<field
+				name="feed_character_count"
 				type="number"
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
 				useglobal="true"
 			/>
 
-			<field 
-				name="feed_display_order" 
+			<field
+				name="feed_display_order"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
 				useglobal="true"
@@ -94,7 +94,7 @@
 				<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
 				<option value="asc">JGLOBAL_OLDEST_FIRST</option>
 			</field>
-		
+
 		</fieldset>
 	</fields>
 </metadata>

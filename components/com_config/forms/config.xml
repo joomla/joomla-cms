@@ -9,7 +9,7 @@
 			label="COM_CONFIG_FIELD_METADESC_LABEL"
 			filter="string"
 			cols="60"
-			rows="3" 
+			rows="3"
 		/>
 
 		<field
@@ -18,7 +18,7 @@
 			label="COM_CONFIG_FIELD_METAKEYS_LABEL"
 			filter="string"
 			cols="60"
-			rows="3" 
+			rows="3"
 		/>
 
 		<field
@@ -59,7 +59,7 @@
 			<option value="0">JNO</option>
 		</field>
 
-	</fieldset>	
+	</fieldset>
 
 	<fieldset
 		name="site"
@@ -71,7 +71,7 @@
 			label="COM_CONFIG_FIELD_SITE_NAME_LABEL"
 			required="true"
 			filter="string"
-			size="50" 
+			size="50"
 		/>
 
 		<field
@@ -91,7 +91,7 @@
 			type="accesslevel"
 			label="COM_CONFIG_FIELD_DEFAULT_ACCESS_LEVEL_LABEL"
 			default="1"
-			filter="integer" 
+			filter="integer"
 		/>
 
 		<field
@@ -110,13 +110,13 @@
 			<option value="50">J50</option>
 			<option value="100">J100</option>
 		</field>
-		
+
 	</fieldset>
 
 	<fieldset>
 		<field
 			name="asset_id"
-			type="hidden" 
+			type="hidden"
 		/>
 	</fieldset>
 </form>

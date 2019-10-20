@@ -19,6 +19,8 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Utility\Utility;
 use Joomla\String\StringHelper;
 
+\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+
 /**
  * Page break plugin
  *
@@ -44,7 +46,7 @@ class PlgContentPagebreak extends CMSPlugin
 	 * @param   mixed    &$params  The article params
 	 * @param   integer  $page     The 'page' number
 	 *
-	 * @return  mixed  Always returns void or true
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -76,7 +78,7 @@ class PlgContentPagebreak extends CMSPlugin
 		{
 			$row->text = preg_replace($regex, '<br>', $row->text);
 
-			return true;
+			return;
 		}
 
 		// Simple performance check to determine whether bot should process further.
@@ -87,7 +89,7 @@ class PlgContentPagebreak extends CMSPlugin
 				throw new Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);
 			}
 
-			return true;
+			return;
 		}
 
 		$view = $input->getString('view');
@@ -129,7 +131,7 @@ class PlgContentPagebreak extends CMSPlugin
 
 			$row->text = preg_replace($regex, '<br>', $row->text);
 
-			return true;
+			return;
 		}
 
 		// Split the text around the plugin.
@@ -276,8 +278,6 @@ class PlgContentPagebreak extends CMSPlugin
 				$row->text = implode(' ', $t);
 			}
 		}
-
-		return true;
 	}
 
 	/**
@@ -311,11 +311,10 @@ class PlgContentPagebreak extends CMSPlugin
 		}
 
 		// TOC first Page link.
-		$list[1]          = new stdClass;
-		$list[1]->liClass = ($limitstart === 0 && $showall === 0) ? 'nav-item toclink active' : 'toclink';
-		$list[1]->class   = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
-		$list[1]->link    = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
-		$list[1]->title   = $heading;
+		$list[1]         = new stdClass;
+		$list[1]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language);
+		$list[1]->title  = $heading;
+		$list[1]->active = ($limitstart === 0 && $showall === 0);
 
 		$i = 2;
 
@@ -343,25 +342,23 @@ class PlgContentPagebreak extends CMSPlugin
 				$title = Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 			}
 
-			$list[$i]          = new stdClass;
-			$list[$i]->link    = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($i - 1));
-			$list[$i]->title   = $title;
-			$list[$i]->liClass = ($limitstart === $i - 1) ? 'nav-item active' : '';
-			$list[$i]->class   = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
+			$list[$i]         = new stdClass;
+			$list[$i]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($i - 1);
+			$list[$i]->title  = $title;
+			$list[$i]->active = ($limitstart === $i - 1);
 
 			$i++;
 		}
 
 		if ($this->params->get('showall'))
 		{
-			$list[$i]          = new stdClass;
-			$list[$i]->link    = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1');
-			$list[$i]->liClass = ($limitstart === $i - 1) ? ' class="nav-item active"' : '';
-			$list[$i]->class   = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
-			$list[$i]->title   = Text::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES');
+			$list[$i]         = new stdClass;
+			$list[$i]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1';
+			$list[$i]->title  = Text::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES');
+			$list[$i]->active = ($limitstart === $i - 1);
 		}
 
-		$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'toc');
+		$path = PluginHelper::getLayoutPath('content', 'pagebreak', 'toc');
 		ob_start();
 		include $path;
 		$row->toc = ob_get_clean();
@@ -384,7 +381,6 @@ class PlgContentPagebreak extends CMSPlugin
 			'next' => '',
 			'previous' => ''
 		);
-
 
 		if ($page < $n - 1)
 		{

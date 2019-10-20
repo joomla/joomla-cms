@@ -256,23 +256,6 @@
 
 	/** Method to show the calendar. */
 	JoomlaCalendar.prototype.show = function () {
-		/** This is needed for IE8 */
-		if (navigator.appName.indexOf("Internet Explorer")!==-1) {
-			var badBrowser = (
-				navigator.appVersion.indexOf("MSIE 9")===-1 &&
-				navigator.appVersion.indexOf("MSIE 1")===-1
-			);
-
-			if (badBrowser) {
-				if (window.jQuery && jQuery().chosen) {
-					var selItems = this.element.getElementsByTagName('select');
-					for (var i = 0; i < selItems.length; i++) {
-						jQuery(selItems[i]).chosen('destroy');
-					}
-				}
-			}
-		}
-
 		this.checkInputs();
 		this.inputField.focus();
 		this.dropdownElement.style.display = "block";
@@ -1062,11 +1045,20 @@
 		return false;
 	};
 
-	/** Method to change input values with the data-alt-value values. **/
+	/**
+	 * Method to change input values with the data-alt-value values. This method is e.g. being called
+	 * by the onSubmit handler of the calendar fields form.
+	 */
 	JoomlaCalendar.prototype.setAltValue = function() {
 		var input = this.inputField;
 		if (input.getAttribute('disabled')) return;
-		input.value = input.getAttribute('data-alt-value') ? input.getAttribute('data-alt-value') : '';
+
+		// Set the value to the data-alt-value attribute, but only if it really has a value.
+		input.value = (
+			input.getAttribute('data-alt-value') && input.getAttribute('data-alt-value') !== '0000-00-00 00:00:00'
+			? input.getAttribute('data-alt-value')
+			: ''
+		);
 	};
 
 	/** Method to change the inputs before submit. **/

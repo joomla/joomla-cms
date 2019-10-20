@@ -8,12 +8,13 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\UserGroupsHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -179,23 +180,24 @@ class RulesField extends FormField
 
 		// Get the asset id.
 		// Note that for global configuration, com_config injects asset_id = 1 into the form.
-		$this->assetId       = $this->form->getValue($assetField);
-		$this->newItem       = empty($assetId) && $this->isGlobalConfig === false && $section !== 'component';
+		$this->assetId = (int) $this->form->getValue($assetField);
+		$this->newItem = empty($this->assetId) && $this->isGlobalConfig === false && $section !== 'component';
 		$parentAssetId = null;
 
 		// If the asset id is empty (component or new item).
-		if (empty($assetId))
+		if (empty($this->assetId))
 		{
 			// Get the component asset id as fallback.
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__assets'))
-				->where($db->quoteName('name') . ' = ' . $db->quote($component));
+				->where($db->quoteName('name') . ' = :component')
+				->bind(':component', $component);
 
 			$db->setQuery($query);
 
-			$assetId = (int) $db->loadResult();
+			$this->assetId = (int) $db->loadResult();
 
 			/**
 			 * @to do: incorrect info
@@ -214,7 +216,8 @@ class RulesField extends FormField
 			$query = $db->getQuery(true)
 				->select($db->quoteName('parent_id'))
 				->from($db->quoteName('#__assets'))
-				->where($db->quoteName('id') . ' = ' . $assetId);
+				->where($db->quoteName('id') . ' = :assetId')
+				->bind(':assetId', $this->assetId, ParameterType::INTEGER);
 
 			$db->setQuery($query);
 
@@ -222,7 +225,7 @@ class RulesField extends FormField
 		}
 
 		// Get the rules for just this asset (non-recursive).
-		$this->assetRules = Access::getAssetRules($assetId, false, false);
+		$this->assetRules = Access::getAssetRules($this->assetId, false, false);
 
 		// Get the available user groups.
 		$this->groups = $this->getUserGroups();

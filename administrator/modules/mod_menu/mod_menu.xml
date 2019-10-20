@@ -92,6 +92,7 @@
 					size="30"
 					default=""
 					showon="menutype:*"
+					validate="url"
 				/>
 			</fieldset>
 

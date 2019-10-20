@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extension version="3.9" type="plugin" group="system" method="upgrade">
-	<name>PLG_SYSTEM_ACTIONLOGS</name>
+	<name>plg_system_actionlogs</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2018</creationDate>
 	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
@@ -13,6 +13,10 @@
 		<filename plugin="actionlogs">actionlogs.php</filename>
 		<folder>forms</folder>
 	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_system_actionlogs.ini</language>
+		<language tag="en-GB">en-GB.plg_system_actionlogs.sys.ini</language>
+	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic">

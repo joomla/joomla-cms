@@ -15,6 +15,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Workflow\Workflow;
@@ -166,8 +167,10 @@ class HtmlView extends BaseHtmlView
 		$isCore = $this->workflow->core;
 		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
-		ToolbarHelper::link('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension),
-			'JTOOLBAR_BACK', $arrow
+		ToolbarHelper::link(
+			Route::_('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension)),
+			'JTOOLBAR_BACK',
+			$arrow
 		);
 
 		if (!$isCore)
@@ -182,14 +185,14 @@ class HtmlView extends BaseHtmlView
 				$dropdown = $toolbar->dropdownButton('status-group')
 					->text('JTOOLBAR_CHANGE_STATUS')
 					->toggleSplit(false)
-					->icon('fa fa-globe')
-					->buttonClass('btn btn-info')
+					->icon('fa fa-ellipsis-h')
+					->buttonClass('btn btn-action')
 					->listCheck(true);
 
 				$childBar = $dropdown->getChildToolbar();
 
-				$childBar->publish('stages.publish')->listCheck(true);
-				$childBar->unpublish('stages.unpublish')->listCheck(true);
+				$childBar->publish('stages.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
+				$childBar->unpublish('stages.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
 				$childBar->makeDefault('stages.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
 
 				if ($canDo->get('core.admin'))

@@ -16,7 +16,7 @@ use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
- * ComponentDispatcher class for com_content
+ * ComponentDispatcher class for com_fields
  *
  * @since  4.0.0
  */

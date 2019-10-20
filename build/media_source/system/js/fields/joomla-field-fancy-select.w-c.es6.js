@@ -68,18 +68,44 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     this.choicesCache = {};
     this.activeXHR = null;
     this.choicesInstance = null;
+    this.isDisconnected = false;
   }
 
   /**
    * Lifecycle
    */
   connectedCallback() {
+    // Make sure Choices are loaded
+    if (window.Choices || document.readyState === 'complete') {
+      this.doConnect();
+    } else {
+      const callback = () => {
+        this.doConnect();
+        window.removeEventListener('load', callback);
+      };
+      window.addEventListener('load', callback);
+    }
+  }
+
+  doConnect() {
     // Get a <select> element
     this.select = this.querySelector('select');
 
     if (!this.select) {
       throw new Error('JoomlaFieldFancySelect requires <select> element to work');
     }
+
+    // The element was already initialised previously and perhaps was detached from DOM
+    if (this.choicesInstance) {
+      if (this.isDisconnected) {
+        // Re init previous instance
+        this.choicesInstance.init();
+        this.isDisconnected = false;
+      }
+      return;
+    }
+
+    this.isDisconnected = false;
 
     // Init Choices
     this.choicesInstance = new Choices(this.select, {
@@ -106,7 +132,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     if (this.allowCustom) {
       this.addEventListener('keydown', (event) => {
         if (event.keyCode !== this.keyCode.ENTER
-            || event.target !== this.choicesInstance.input.element) {
+          || event.target !== this.choicesInstance.input.element) {
           return;
         }
         event.preventDefault();
@@ -119,7 +145,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
         const highlighted = this.choicesInstance.dropdown.element.querySelector(`.${this.choicesInstance.config.classNames.highlightedState}`);
         if (highlighted) {
           return;
-        };
+        }
 
         this.choicesInstance.setChoices([{
           value: this.newItemPrefix + event.target.value,
@@ -162,8 +188,9 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     // Destroy Choices instance, to unbind event listeners
     if (this.choicesInstance) {
       this.choicesInstance.destroy();
-      this.choicesInstance = null;
+      this.isDisconnected = true;
     }
+
     if (this.activeXHR) {
       this.activeXHR.abort();
       this.activeXHR = null;
@@ -190,11 +217,19 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
         }
 
         // Remove duplications
-        items.forEach((item, index) => {
+        let item;
+        // eslint-disable-next-line no-plusplus
+        for (let i = items.length - 1; i >= 0; i--) { // The loop must be form the end !!!
+          item = items[i];
+          // eslint-disable-next-line prefer-template
+          item.value = '' + item.value; // Make sure the value is a string, choices.js expect a string.
+
           if (this.choicesCache[item.value]) {
-            items.splice(index, 1);
+            items.splice(i, 1);
+          } else {
+            this.choicesCache[item.value] = item.text;
           }
-        });
+        }
 
         // Add new options to field, assume that each item is object, eg {value: "foo", text: "bar"}
         if (items.length) {

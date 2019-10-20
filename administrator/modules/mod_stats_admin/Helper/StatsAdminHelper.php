@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\StatsAdmin\Administrator\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
@@ -62,7 +62,7 @@ class StatsAdminHelper
 
 			$rows[$i]        = new \stdClass;
 			$rows[$i]->title = Text::_('MOD_STATS_CACHING');
-			$rows[$i]->icon  = 'dashboard';
+			$rows[$i]->icon  = 'tachometer-alt';
 			$rows[$i]->data  = $app->get('caching') ? Text::_('JENABLED') : Text::_('JDISABLED');
 			$i++;
 

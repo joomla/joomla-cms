@@ -37,7 +37,7 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 			<?php foreach ($value->value as $subName => $subValue) : ?>
 				<?php if ($subValue) : ?>
 					<tr>
-						<td><i>&nbsp;&nbsp;<?php echo $subValue->label; ?></i></td>
+						<td><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></td>
 						<td><?php echo $subValue->value; ?></td>
 					</tr>
 				<?php endif; ?>

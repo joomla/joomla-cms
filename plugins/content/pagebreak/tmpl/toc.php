@@ -8,6 +8,9 @@
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Router\Route;
+
 ?>
 <div class="card float-right article-index">
 	<div class="card-body">
@@ -18,10 +21,9 @@ defined('_JEXEC') or die;
 
 		<ul class="nav flex-column">
 		<?php foreach ($list as $listItem) : ?>
-			<?php $class = $listItem->liClass ? ' class="' . $listItem->liClass . '"' : ''; ?>
-
-			<li<?php echo $class; ?>>
-				<a href="<?php echo $listItem->link; ?>" class="<?php echo $listItem->class; ?>">
+			<?php $class = $listItem->active ? ' active' : ''; ?>
+			<li>
+				<a href="<?php echo Route::_($listItem->link); ?>" class="toclink<?php echo $class; ?>">
 					<?php echo $listItem->title; ?>
 				</a>
 			</li>

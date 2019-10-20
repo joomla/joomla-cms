@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fields name="params">
-		<fieldset name="menu-options" label="COM_MENUS_LINKTYPE_OPTIONS_LABEL">
-			<field 
+		<fieldset name="menu-options"
+			label="COM_MENUS_LINKTYPE_OPTIONS_LABEL"
+			class="options-grid-form-half"
+		>
+			<field
 				name="menu-anchor_title"
-				type="text" 
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_TITLE_LABEL"
 			/>
 
-			<field 
-				name="menu-anchor_css"
-				type="text" 
-				label="COM_MENUS_ITEM_FIELD_ANCHOR_CSS_LABEL"
-			/>
-
-			<field 
-				name="menu-anchor_rel" 
+			<field
+				name="menu-anchor_rel"
 				type="list"
 				label="COM_MENUS_ITEM_FIELD_ANCHOR_REL_LABEL"
 				default=""
@@ -35,20 +32,30 @@
 				<option value="tag"/>
 			</field>
 
-			<field 
-				name="menu_image" 
+			<field
+				name="menu_icon"
+				type="text"
+				label="COM_MENUS_ITEM_FIELD_ICON_TITLE_LABEL"
+				description="COM_MENUS_ITEM_FIELD_ICON_TITLE_DESC"
+			/>
+
+			<field
+				type="spacer"
+			/>
+
+			<field
+				name="menu_image"
 				type="media"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
 			/>
 
 			<field
 				name="menu_image_css"
-				type="text" 
+				type="text"
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_LABEL"
-				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_DESC" 
 			/>
 
-			<field 
+			<field
 				name="menu_text"
 				type="radio"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"

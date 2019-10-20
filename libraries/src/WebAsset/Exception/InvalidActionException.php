@@ -8,12 +8,12 @@
 
 namespace Joomla\CMS\WebAsset\Exception;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Exception class defining an Invalid Action error
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class InvalidActionException extends \RuntimeException implements WebAssetExceptionInterface
 {

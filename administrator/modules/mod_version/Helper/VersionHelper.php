@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\Version\Administrator\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Version;
 
@@ -21,7 +21,7 @@ use Joomla\CMS\Version;
 abstract class VersionHelper
 {
 	/**
-	 * Get the member items of the submenu.
+	 * Get the Joomla version number.
 	 *
 	 * @return  string  String containing the current Joomla version.
 	 */
@@ -29,6 +29,6 @@ abstract class VersionHelper
 	{
 		$version = new Version;
 
-		return $version::PRODUCT . ' ' . $version->getShortVersion();
+		return '&#x200E;' . $version->getShortVersion();
 	}
 }

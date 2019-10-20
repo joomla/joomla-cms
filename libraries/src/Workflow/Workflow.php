@@ -8,9 +8,10 @@
 
 namespace Joomla\CMS\Workflow;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -133,7 +134,7 @@ class Workflow
 	 */
 	protected function getComponent()
 	{
-		if (is_null($this->component))
+		if (\is_null($this->component))
 		{
 			$parts = explode('.', $this->extension);
 
@@ -153,7 +154,7 @@ class Workflow
 	 */
 	public function executeTransition($pks, $transition_id)
 	{
-		if (!is_array($pks))
+		if (!\is_array($pks))
 		{
 			$pks = [(int) $pks];
 		}
@@ -161,7 +162,7 @@ class Workflow
 		$pks = ArrayHelper::toInteger($pks);
 		$pks = array_filter($pks);
 
-		if (!count($pks))
+		if (!\count($pks))
 		{
 			return true;
 		}
@@ -195,7 +196,7 @@ class Workflow
 		{
 			$assoc = $this->getAssociation($pk);
 
-			if (!in_array($transition->from_stage_id, [-1, $assoc->stage_id]))
+			if (!\in_array($transition->from_stage_id, [-1, $assoc->stage_id]))
 			{
 				return false;
 			}
@@ -225,6 +226,27 @@ class Workflow
 		}
 
 		return $success;
+	}
+
+	/**
+	 * Gets the condition (i.e. state value) for a transition
+	 *
+	 * @param   integer  $transition_id  The transition id to get the condition of
+	 *
+	 * @return  null|integer  Integer if transition exists. Otherwise null
+	 */
+	public function getConditionForTransition($transition_id)
+	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName('s.condition'))
+			->from($db->quoteName('#__workflow_transitions', 't'))
+			->join('LEFT', $db->quoteName('#__workflow_stages', 's'), $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_stage_id'))
+			->where($db->quoteName('t.id') . ' = :transition_id')
+			->bind(':transition_id', $transition_id, ParameterType::INTEGER);
+		$db->setQuery($query);
+
+		return $db->loadResult();
 	}
 
 	/**
@@ -270,7 +292,7 @@ class Workflow
 	 */
 	public function updateAssociations($pks, $state)
 	{
-		if (!is_array($pks))
+		if (!\is_array($pks))
 		{
 			$pks = [$pks];
 		}

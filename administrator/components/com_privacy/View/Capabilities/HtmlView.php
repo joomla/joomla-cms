@@ -12,6 +12,7 @@ namespace Joomla\Component\Privacy\Administrator\View\Capabilities;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -32,14 +33,6 @@ class HtmlView extends BaseHtmlView
 	protected $capabilities;
 
 	/**
-	 * The HTML markup for the sidebar
-	 *
-	 * @var    string
-	 * @since  3.9.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * The state information
 	 *
 	 * @var    CMSObject
@@ -52,11 +45,11 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -67,14 +60,12 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new Genericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
 
-		$this->sidebar = \JHtmlSidebar::render();
-
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**

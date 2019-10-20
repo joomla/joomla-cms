@@ -23,6 +23,8 @@ use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
+use Joomla\Database\ParameterType;
+use Joomla\Image\Image;
 
 /**
  * Template model class.
@@ -170,12 +172,14 @@ class TemplateModel extends FormModel
 
 		if (!$all)
 		{
-			$query->where('extension_id = ' . $db->quote($template->extension_id));
+			$teid = (int) $template->extension_id;
+			$query->where($db->quoteName('extension_id') . ' = :teid')
+				->bind(':teid', $teid, ParameterType::INTEGER);
 		}
 
 		if ($state)
 		{
-			$query->where('state = 0');
+			$query->where($db->quoteName('state') . ' = 0');
 		}
 
 		$query->order($db->quoteName('a.modified_date') . ' DESC');
@@ -329,8 +333,10 @@ class TemplateModel extends FormModel
 			{
 				$deleteQuery = $db->getQuery(true)
 					->delete($db->quoteName('#__template_overrides'))
-					->where($db->quoteName('hash_id') . ' = ' . $db->quote($id))
-					->where($db->quoteName('extension_id') . ' = ' . $db->quote($exid));
+					->where($db->quoteName('hash_id') . ' = :hashid')
+					->where($db->quoteName('extension_id') . ' = :exid')
+					->bind(':hashid', $id)
+					->bind(':exid', $exid, ParameterType::INTEGER);
 
 				try
 				{
@@ -347,9 +353,12 @@ class TemplateModel extends FormModel
 			{
 				$updateQuery = $db->getQuery(true)
 					->update($db->quoteName('#__template_overrides'))
-					->set($db->quoteName('state') . ' = ' . $db->quote($value))
-					->where($db->quoteName('hash_id') . ' = ' . $db->quote($id))
-					->where($db->quoteName('extension_id') . ' = ' . $db->quote($exid));
+					->set($db->quoteName('state') . ' = :state')
+					->where($db->quoteName('hash_id') . ' = :hashid')
+					->where($db->quoteName('extension_id') . ' = :exid')
+					->bind(':state', $value, ParameterType::INTEGER)
+					->bind(':hashid', $id)
+					->bind(':exid', $exid, ParameterType::INTEGER);
 
 				try
 				{
@@ -630,16 +639,17 @@ class TemplateModel extends FormModel
 	{
 		if (empty($this->template))
 		{
-			$pk  = $this->getState('extension.id');
+			$pk  = (int) $this->getState('extension.id');
 			$db  = $this->getDbo();
 			$app = Factory::getApplication();
 
 			// Get the template information.
 			$query = $db->getQuery(true)
-				->select('extension_id, client_id, element, name, manifest_cache')
-				->from('#__extensions')
-				->where($db->quoteName('extension_id') . ' = ' . (int) $pk)
-				->where($db->quoteName('type') . ' = ' . $db->quote('template'));
+				->select($db->quoteName(['extension_id', 'client_id', 'element', 'name', 'manifest_cache']))
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('extension_id') . ' = :pk')
+				->where($db->quoteName('type') . ' = ' . $db->quote('template'))
+				->bind(':pk', $pk, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
@@ -677,11 +687,13 @@ class TemplateModel extends FormModel
 	 */
 	public function checkNewName()
 	{
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
+		$name  = $this->getState('new_name');
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
-			->from('#__extensions')
-			->where('name = ' . $db->quote($this->getState('new_name')));
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('name') . ' = :name')
+			->bind(':name', $name);
 		$db->setQuery($query);
 
 		return ($db->loadResult() == 0);
@@ -782,8 +794,8 @@ class TemplateModel extends FormModel
 
 		foreach ($files as $file)
 		{
-			$newFile = str_replace($oldName, $newName, $file);
-			$result = File::move($file, $newFile) && $result;
+			$newFile = '/' . str_replace($oldName, $newName, basename($file));
+			$result  = File::move($file, dirname($file) . $newFile) && $result;
 		}
 
 		// Edit XML file
@@ -1547,7 +1559,7 @@ class TemplateModel extends FormModel
 
 			if (file_exists(Path::clean($path . $fileName)))
 			{
-				$JImage = new \JImage(Path::clean($path . $fileName));
+				$JImage = new Image(Path::clean($path . $fileName));
 				$image['address'] = $uri . $fileName;
 				$image['path']    = $fileName;
 				$image['height']  = $JImage->getHeight();
@@ -1586,7 +1598,7 @@ class TemplateModel extends FormModel
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath  = base64_decode($file);
 			$path     = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
-			$JImage   = new \JImage($path);
+			$JImage   = new Image($path);
 
 			try
 			{
@@ -1622,7 +1634,7 @@ class TemplateModel extends FormModel
 			$relPath = base64_decode($file);
 			$path    = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 
-			$JImage = new \JImage($path);
+			$JImage = new Image($path);
 
 			try
 			{
@@ -1651,9 +1663,10 @@ class TemplateModel extends FormModel
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select('id, client_id');
-		$query->from('#__template_styles');
-		$query->where($db->quoteName('template') . ' = ' . $db->quote($this->template->element));
+		$query->select($db->quoteName(['id', 'client_id']));
+		$query->from($db->quoteName('#__template_styles'));
+		$query->where($db->quoteName('template') . ' = :template')
+			->bind(':template', $this->template->element);
 
 		$db->setQuery($query);
 

@@ -35,7 +35,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</th>
 						<?php foreach ($this->actions as $key => $action) : ?>
 						<th style="width:6%" class="text-center" scope="col">
-							<span class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $key, $action[1]); ?>"><?php echo Text::_($key); ?></span>
+							<?php echo Text::_($key); ?>
 						</th>
 						<?php endforeach; ?>
 						<th style="width:6%" scope="col">
@@ -96,7 +96,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<div class="legend">
 				<span class="text-danger icon-ban-circle" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
 				<span class="text-success icon-ok" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
-				<span class="icon-remove icon-remove" aria-hidden="true">&nbsp;</span><?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
+				<span class="icon-remove" aria-hidden="true">&nbsp;</span><?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
 			</div>
 
 			<?php // load the pagination. ?>
