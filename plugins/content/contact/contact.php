@@ -113,19 +113,21 @@ class PlgContentContact extends CMSPlugin
 		$query      = $db->getQuery(true);
 		$created_by = (int) $created_by;
 
-		$query->select('MAX(' . $db->quoteName('contact.id') . ') AS ' . $db->quoteName('contactid'))
-			->select($db->quoteName(['contact.alias', 'contact.catid', 'contact.webpage', 'contact.email_to']))
-			->from($db->quoteName('#__contact_details', 'contact'))
-			->where($db->quoteName('contact.published') . ' = 1')
-			->where($db->quoteName('contact.user_id') . ' = :createdby')
+		$query->select('MAX(' . $db->quoteName('contact_1.id') . ') AS ' . $db->quoteName('contactid'))
+			->select($db->quoteName(['contact_2.alias', 'contact_2.catid', 'contact_2.webpage', 'contact_2.email_to']))
+			->from($db->quoteName('#__contact_details', 'contact_1'))
+			->where($db->quoteName('contact_1.published') . ' = 1')
+			->where($db->quoteName('contact_1.user_id') . ' = :createdby')
 			->bind(':createdby', $created_by, ParameterType::INTEGER);
 
 		if (Multilanguage::isEnabled() === true)
 		{
-			$query->where('(' . $db->quoteName('contact.language') . ' IN ('
+			$query->where('(' . $db->quoteName('contact_1.language') . ' IN ('
 				. implode(',', $query->bindArray([Factory::getLanguage()->getTag(), '*'], ParameterType::STRING))
-				. ') OR ' . $db->quoteName('contact.language') . ' IS NULL)');
+				. ') OR ' . $db->quoteName('contact_1.language') . ' IS NULL)');
 		}
+
+		$query->join('LEFT', '#__contact_details AS contact_2 ON contact_2.id = contact_1.id');
 
 		$db->setQuery($query);
 
