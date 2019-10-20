@@ -303,6 +303,11 @@ class Categories
 				->select('COUNT(i.' . $db->quoteName($this->_key) . ')')
 				->from($db->quoteName($this->_table, 'i'))
 				->where('i.' . $db->quoteName($this->_field) . ' = c.id');
+			
+			if (!empty($this->_options['userField']))
+			{
+				$subQuery->innerJoin('#__users AS u ON (u.id = i.' . $db->qn($this->_options['userField']) . ' AND u.block = 0)');
+			}
 
 			if ($this->_options['published'] == 1)
 			{
