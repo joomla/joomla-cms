@@ -113,14 +113,16 @@ class PlgContentContact extends CMSPlugin
 		$query      = $db->getQuery(true);
 		$created_by = (int) $created_by;
 
-		$query->select(
-				[
-					$db->quoteName('contact.id', 'contactid'),
-					$db->quoteName('contact.alias'),
-					$db->quoteName('contact.catid'),
-					$db->quoteName('contact.webpage'),
-					$db->quoteName('contact.email_to'),
-				]
+		$query->select($db->quoteName('contact.id', 'contactid'))
+			->select(
+				$db->quoteName(
+					[
+						'contact.alias',
+						'contact.catid',
+						'contact.webpage',
+						'contact.email_to',
+					]
+				)
 			)
 			->from($db->quoteName('#__contact_details', 'contact'))
 			->where(
