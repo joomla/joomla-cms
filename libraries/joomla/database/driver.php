@@ -1879,7 +1879,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The binary quoted input string.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.12
 	 */
 	public function quoteBinary($data)
 	{
@@ -1968,7 +1968,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 			else
 			{
-				$parts[] = $q{0} . str_replace($q{1}, $q{1} . $q{1}, $part) . $q{1};
+				$parts[] = $q[0] . str_replace($q[1], $q[1] . $q[1], $part) . $q[1];
 			}
 		}
 
@@ -2044,7 +2044,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 				$l = $k - 1;
 
-				while ($l >= 0 && $sql{$l} == '\\')
+				while ($l >= 0 && $sql[$l] == '\\')
 				{
 					$l--;
 					$escaped = !$escaped;
