@@ -149,7 +149,7 @@ joomla-toolbar-button {
         
          &:hover, &:active, &:focus {
             [class^='icon-download'] {
-                background-color:  linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4));
+                background-color: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4));
                 color:rgba(255,255,255,0.90);
             }
          }
@@ -174,12 +174,12 @@ joomla-toolbar-button {
         [class^='#{$fa-css-prefix}-'],
         [class*=' #{$fa-css-prefix}-'],
         span {
-          background-color:  linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4));
+          background-color: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4));
           color:rgba(255,255,255,0.90);
         }
 
         color:rgba(255,255,255,0.90);
-        background-color:  linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4));
+        background-color: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4));
       }
     }
 
@@ -202,7 +202,7 @@ joomla-toolbar-button {
         [class^='#{$fa-css-prefix}-'],
         [class*=' #{$fa-css-prefix}-'],
         span {
-          background-image:  linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4));
+          background-image: linear-gradient(rgba(0,0,0,.4), rgba(0,0,0,.4));
           color:rgba(255,255,255,0.90);
         }
 
