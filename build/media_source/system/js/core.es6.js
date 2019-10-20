@@ -1027,7 +1027,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
     if (polyfills.length) {
       const newScript = document.createElement('script');
       // Load it from the right place.
-      const replacement = `media/vendor/webcomponentsjs/js/webcomponents-${polyfills.join('-')}.min.js`;
+      const replacement = `media/vendor/webcomponentsjs/js/webcomponents-${polyfills.join('-')}.js`;
 
       const mediaVersion = script.src.match(/\?.*/);
       const base = Joomla.getOptions('system.paths');
@@ -1047,7 +1047,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       } else {
         newScript.addEventListener('load', asyncReady);
         newScript.addEventListener('error', () => {
-          throw new Error(`Could not load polyfill bundle${base.rootFull + replacement}`);
+          throw new Error(`Could not load polyfill bundle ${base.rootFull + replacement}`);
         });
         document.head.appendChild(newScript);
       }
