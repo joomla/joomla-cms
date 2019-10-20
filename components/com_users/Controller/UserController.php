@@ -19,6 +19,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\ParameterType;
 
 /**
  * Registration controller class for Users.
@@ -55,10 +56,11 @@ class UserController extends BaseController
 			{
 				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
-					->select('language')
+					->select($db->quoteName('language'))
 					->from($db->quoteName('#__menu'))
-					->where('client_id = 0')
-					->where('id =' . $data['return']);
+					->where($db->quoteName('client_id') . ' = 0')
+					->where($db->quoteName('id') . ' = :id')
+					->bind(':id', $data['return'], ParameterType::INTEGER);
 
 				$db->setQuery($query);
 
@@ -178,10 +180,11 @@ class UserController extends BaseController
 			{
 				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
-					->select('language')
+					->select($db->quoteName('language'))
 					->from($db->quoteName('#__menu'))
-					->where('client_id = 0')
-					->where('id =' . $return);
+					->where($db->quoteName('client_id') . ' = 0')
+					->where($db->quoteName('id') . ' = :id')
+					->bind(':id', $return, ParameterType::INTEGER);
 
 				$db->setQuery($query);
 
@@ -249,10 +252,11 @@ class UserController extends BaseController
 			{
 				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
-					->select('language')
+					->select($db->quoteName('language'))
 					->from($db->quoteName('#__menu'))
-					->where('client_id = 0')
-					->where('id =' . $itemid);
+					->where($db->quoteName('client_id') . ' = 0')
+					->where($db->quoteName('id') . ' = :id')
+					->bind(':id', $itemid, ParameterType::INTEGER);
 
 				$db->setQuery($query);
 

@@ -7,7 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Module\PrivacyDashboard\Administrator\Helper;
+
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Database\Exception\ExecutionFailureException;
@@ -17,7 +19,7 @@ use Joomla\Database\Exception\ExecutionFailureException;
  *
  * @since  3.9.0
  */
-class ModPrivacyDashboardHelper
+class PrivacyDashboardHelper
 {
 	/**
 	 * Method to retrieve information about the site privacy requests
