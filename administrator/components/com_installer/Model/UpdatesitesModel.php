@@ -38,11 +38,11 @@ class UpdatesitesModel extends InstallerModel
 	 * @since   1.6
 	 * @see     \Joomla\CMS\MVC\Model\ListModel
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
+	public function __construct($config = [], MVCFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array(
+			$config['filter_fields'] = [
 				'update_site_name',
 				'name',
 				'client_id',
@@ -52,7 +52,7 @@ class UpdatesitesModel extends InstallerModel
 				'folder', 'folder_translated',
 				'update_site_id',
 				'enabled',
-			);
+			];
 		}
 
 		parent::__construct($config, $factory);
@@ -66,11 +66,11 @@ class UpdatesitesModel extends InstallerModel
 	 *
 	 * @return  boolean  True on success
 	 *
+	 * @throws  \Exception on ACL error
 	 * @since   3.4
 	 *
-	 * @throws  \Exception on ACL error
 	 */
-	public function publish(&$eid = array(), $value = 1)
+	public function publish(&$eid = [], $value = 1)
 	{
 		if (!Factory::getUser()->authorise('core.edit.state', 'com_installer'))
 		{
@@ -82,7 +82,7 @@ class UpdatesitesModel extends InstallerModel
 		// Ensure eid is an array of extension ids
 		if (!is_array($eid))
 		{
-			$eid = array($eid);
+			$eid = [$eid];
 		}
 
 		// Get a table object for the extension type
@@ -111,11 +111,11 @@ class UpdatesitesModel extends InstallerModel
 	 *
 	 * @return  void
 	 *
+	 * @throws  \Exception on ACL error
 	 * @since   3.6
 	 *
-	 * @throws  \Exception on ACL error
 	 */
-	public function delete($ids = array())
+	public function delete($ids = [])
 	{
 		if (!Factory::getUser()->authorise('core.delete', 'com_installer'))
 		{
@@ -125,7 +125,7 @@ class UpdatesitesModel extends InstallerModel
 		// Ensure eid is an array of extension ids
 		if (!is_array($ids))
 		{
-			$ids = array($ids);
+			$ids = [$ids];
 		}
 
 		$db  = $this->getDbo();
@@ -135,7 +135,7 @@ class UpdatesitesModel extends InstallerModel
 
 		// Gets the update site names.
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('update_site_id', 'name')))
+			->select($db->quoteName(['update_site_id', 'name']))
 			->from($db->quoteName('#__update_sites'))
 			->where($db->quoteName('update_site_id') . ' IN (' . implode(', ', $ids) . ')');
 		$db->setQuery($query);
@@ -204,7 +204,7 @@ class UpdatesitesModel extends InstallerModel
 
 		// Fetch the Joomla core update sites ids and their extension ids. We search for all except the core joomla extension with update sites.
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('use.update_site_id', 'e.extension_id')))
+			->select($db->quoteName(['use.update_site_id', 'e.extension_id']))
 			->from($db->quoteName('#__update_sites_extensions', 'use'))
 			->join(
 				'LEFT', $db->quoteName('#__update_sites', 'us')
@@ -232,9 +232,9 @@ class UpdatesitesModel extends InstallerModel
 	 *
 	 * @return  void
 	 *
+	 * @throws  \Exception on ACL error
 	 * @since   3.6
 	 *
-	 * @throws  \Exception on ACL error
 	 */
 	public function rebuild(): void
 	{
@@ -265,10 +265,10 @@ class UpdatesitesModel extends InstallerModel
 			return;
 		}
 
-		$clients               = array(JPATH_SITE, JPATH_ADMINISTRATOR);
-		$extensionGroupFolders = array('components', 'modules', 'plugins', 'templates', 'language', 'manifests');
+		$clients               = [JPATH_SITE, JPATH_ADMINISTRATOR];
+		$extensionGroupFolders = ['components', 'modules', 'plugins', 'templates', 'language', 'manifests'];
 
-		$pathsToSearch = array();
+		$pathsToSearch = [];
 
 		// Identifies which folders to search for manifest files.
 		foreach ($clients as $clientPath)
@@ -283,11 +283,12 @@ class UpdatesitesModel extends InstallerModel
 						$pathsToSearch[] = $extensionFolderPath;
 					}
 				}
-
-				// Plugins (another directory level is needed)
 				else
 				{
-					foreach (glob($clientPath . '/' . $extensionGroupFolderName . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $pluginGroupFolderPath)
+					// Plugins (another directory level is needed)
+					foreach (glob($clientPath . '/' . $extensionGroupFolderName . '/*',
+						GLOB_NOSORT | GLOB_ONLYDIR
+					) as $pluginGroupFolderPath)
 					{
 						foreach (glob($pluginGroupFolderPath . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $extensionFolderPath)
 						{
@@ -375,7 +376,7 @@ class UpdatesitesModel extends InstallerModel
 							PluginHelper::importPlugin('extension', 'joomla');
 
 							// Fire the onExtensionAfterUpdate
-							$app->triggerEvent('onExtensionAfterUpdate', array('installer' => $tmpInstaller, 'eid' => $eid));
+							$app->triggerEvent('onExtensionAfterUpdate', ['installer' => $tmpInstaller, 'eid' => $eid]);
 
 							$count++;
 						}
@@ -406,8 +407,7 @@ class UpdatesitesModel extends InstallerModel
 		$items = parent::getItems();
 
 		array_walk($items,
-			static function ($item)
-			{
+			static function ($item) {
 				$data              = new CMSObject($item);
 				$item->downloadKey = InstallerHelper::getDownloadKey($data);
 			}
@@ -431,24 +431,37 @@ class UpdatesitesModel extends InstallerModel
 	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
 		// Load the filter state.
-		$this->setState('filter.search', $this->getUserStateFromRequest(
-			$this->context . '.filter.search', 'filter_search', '', 'string')
-		);
-		$this->setState('filter.client_id', $this->getUserStateFromRequest(
-			$this->context . '.filter.client_id', 'filter_client_id', null, 'int')
-		);
-		$this->setState('filter.enabled', $this->getUserStateFromRequest(
-			$this->context . '.filter.enabled', 'filter_enabled', '', 'string')
-		);
-		$this->setState('filter.type', $this->getUserStateFromRequest(
-			$this->context . '.filter.type', 'filter_type', '', 'string')
-		);
-		$this->setState('filter.folder', $this->getUserStateFromRequest(
-			$this->context . '.filter.folder', 'filter_folder', '', 'string')
-		);
-		$this->setState('filter.supported', $this->getUserStateFromRequest(
-			$this->context . '.filter.supported', 'filter_supported', '', 'bool')
-		);
+		$stateKeys = [
+			'search'    => 'string',
+			'client_id' => 'int',
+			'enabled'   => 'string',
+			'type'      => 'string',
+			'folder'    => 'string',
+			'supported' => 'bool',
+		];
+
+		foreach ($stateKeys as $key => $filterType)
+		{
+			$stateKey = 'filter.' . $key;
+
+			switch ($filterType)
+			{
+				case 'int':
+				case 'bool':
+					$default = null;
+					break;
+
+				default:
+					$default = '';
+					break;
+			}
+
+			$stateValue = $this->getUserStateFromRequest(
+				$this->context . '.' . $stateKey, 'filter_' . $key, $default, $filterType
+			);
+
+			$this->setState($stateKey, $stateValue);
+		}
 
 		parent::populateState($ordering, $direction);
 	}
@@ -550,7 +563,7 @@ class UpdatesitesModel extends InstallerModel
 		{
 			$folderForBinding = $folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('e.folder') . ' = :folder')
-				  ->bind(':folder', $folderForBinding);
+				->bind(':folder', $folderForBinding);
 		}
 
 		// Process search filter (update site id).
@@ -596,7 +609,6 @@ class UpdatesitesModel extends InstallerModel
 				$query->bind('update_site_id', $zero, ParameterType::INTEGER);
 			}
 		}
-
 
 		/**
 		 * Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in
