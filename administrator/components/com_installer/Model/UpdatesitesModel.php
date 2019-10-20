@@ -597,7 +597,8 @@ class UpdatesitesModel extends InstallerModel
 
 			if (!empty($supportedIDs))
 			{
-				$query->whereIn($db->qn('s.update_site_id'), $supportedIDs);
+				// Don't remove array_values(). whereIn expect a zero-based array.
+				$query->whereIn($db->qn('s.update_site_id'), array_values($supportedIDs));
 			}
 			else
 			{
