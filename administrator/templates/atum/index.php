@@ -55,6 +55,9 @@ HTMLHelper::_('stylesheet', 'vendor/fontawesome-free/fontawesome.min.css', ['ver
 // Load customer stylesheet if available
 HTMLHelper::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
 
+// TODO: remove the following line whenever the assets are fixed to respect the ovverides
+HTMLHelper::_('stylesheet', 'vendor/choicesjs/choicesjs.css', array('version' => 'auto', 'relative' => true));
+
 // Load specific template related JS
 // TODO: Adapt refactored build tools pt.2 @see https://issues.joomla.org/tracker/joomla-cms/23786
 HTMLHelper::_('script', 'media/templates/' . $this->template . '/js/template.min.js', ['version' => 'auto']);

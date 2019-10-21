@@ -10,7 +10,7 @@
 @import "../../../../../../media/vendor/bootstrap/scss/mixins";
 
 // choices.js
-@import '../../../../../../node_modules/choices.js/public/assets/styles/choices.css';
+@import '../../../../../../node_modules/choices.js/src/styles/choices';
 
 .choices {
 	border: 0;
@@ -92,8 +92,8 @@
 
 	.choices__inner {
 		padding: $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $custom-select-padding-y $custom-select-padding-x;
-		background: $custom-select-background;
-		background-color: $custom-select-bg;
+		background: url(../../../images/select-bg.svg) no-repeat right center / $custom-select-bg-size;
+    background-color: $custom-select-bg;
 	}
 }
 
