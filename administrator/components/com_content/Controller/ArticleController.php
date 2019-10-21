@@ -80,7 +80,6 @@ class ArticleController extends FormController
 			$editState['request']['id'] = $id;
 
 			$this->app->setUserState('com_menus.edit.item', array(
-				'id' => $id,
 				'data' => $editState,
 				'type' => $type,
 				'link' => $link)
