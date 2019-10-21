@@ -49,7 +49,7 @@ class JobListCommand extends AbstractCommand
 	 */
 	private $db;
 
-	**
+	/**
 	 * Instantiate the command.
 	 *
 	 * @param   DatabaseInterface  $db  Database connector
