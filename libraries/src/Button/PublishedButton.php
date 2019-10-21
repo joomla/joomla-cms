@@ -55,7 +55,7 @@ class PublishedButton extends ActionButton
 			$bakState = $this->getState($value);
 			$default  = $this->getState($value) ? : $this->getState('_default');
 
-			$nullDate = Factory::getDbo()->getNullDate();
+			$nullDate = null;
 			$nowDate = Factory::getDate()->toUnix();
 
 			$tz = Factory::getUser()->getTimezone();
