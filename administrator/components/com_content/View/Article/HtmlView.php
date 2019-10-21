@@ -208,30 +208,6 @@ class HtmlView extends BaseHtmlView
 				$toolbar->preview($url, 'JGLOBAL_PREVIEW')
 					->bodyHeight(80)
 					->modalWidth(90);
-
-				// Add necessary code for a new menu item modal
-
-				// Setup variables for display
-				$linkSuffix = '&amp;layout=modal&amp;client_id=0&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
-				$linkItem   = 'index.php?option=com_menus&amp;view=item' . $linkSuffix;
-
-				// Force the language of the menu item when multilang is implemented
-				if (Multilanguage::isEnabled() && $this->form->getValue('language') !== '*')
-				{
-					$linkItem .= '&amp;forcedLanguage=' . $this->form->getValue('language');
-				}
-
-				$modalId = 'jform_request_id';
-
-				// Add the modal field script to the document head.
-				HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
-
-				// Load the language files
-				$language = Factory::getLanguage();
-				$language->load('com_menus', JPATH_ADMINISTRATOR, null, false, true);
-
-				echo '<input type="hidden" class="form-control" id="' . $modalId . '_name" value="">';
-				echo '<input type="hidden" id="' . $modalId . '_id" value="0">';
 			}
 		}
 
