@@ -16,27 +16,9 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-
-$app = Factory::getApplication();
-$input = $app->input;
+HTMLHelper::_('script', 'com_fields/admin-field-edit-modal.min.js', ['relative' => true, 'version' => 'auto']);
 
 $this->useCoreUI = true;
-
-Factory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'field.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
-		{
-			if (window.opener && (task == 'field.save' || task == 'field.cancel'))
-			{
-				window.opener.document.closeEditWindow = self;
-				window.opener.setTimeout('window.document.closeEditWindow.close()', 1000);
-			}
-
-			Joomla.submitform(task, document.getElementById('item-form'));
-		}
-	};
-");
 ?>
 <div class="container-popup">
 
@@ -48,7 +30,7 @@ Factory::getDocument()->addScriptDeclaration("
 
 	<hr>
 
-	<form action="<?php echo Route::_('index.php?option=com_fields&context=' . $input->getCmd('context', 'com_content') . '&layout=modal&tmpl=component&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+	<form action="<?php echo Route::_('index.php?option=com_fields&context=' . Factory::getApplication()->input->getCmd('context', 'com_content') . '&layout=modal&tmpl=component&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 		<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
 		<div>

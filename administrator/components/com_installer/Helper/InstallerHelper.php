@@ -56,7 +56,7 @@ class InstallerHelper
 	 *
 	 * @since   3.0
 	 */
-	public static function getExtensionGroupes()
+	public static function getExtensionGroups()
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)

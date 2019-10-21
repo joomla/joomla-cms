@@ -51,7 +51,6 @@
 				name="all_tags_description"
 				type="textarea"
 				label="COM_TAGS_ALL_TAGS_DESCRIPTION_LABEL"
-				class="inputbox"
 				rows="3"
 				cols="30"
 				filter="safehtml"
