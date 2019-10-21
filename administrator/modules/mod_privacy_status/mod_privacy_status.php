@@ -31,11 +31,12 @@ $lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true)
 
 HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/html');
 
-$privacyPolicyInfo      = PrivacyStatusHelper::getPrivacyPolicyInfo();
-$requestFormPublished   = PrivacyStatusHelper::getRequestFormPublished();
-$privacyConsentPluginId = PrivacyHelper::getPrivacyConsentPluginId();
-$sendMailEnabled        = (bool) $app->get('mailonline', 1);
-$numberOfUrgentRequests = PrivacyStatusHelper::getNumberUrgentRequests();
-$urgentRequestDays      = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
+$privacyPolicyInfo            = PrivacyStatusHelper::getPrivacyPolicyInfo();
+$requestFormPublished         = PrivacyStatusHelper::getRequestFormPublished();
+$privacyConsentPluginId       = PrivacyHelper::getPrivacyConsentPluginId();
+$sendMailEnabled              = (bool) $app->get('mailonline', 1);
+$numberOfUrgentRequests       = PrivacyStatusHelper::getNumberUrgentRequests();
+$urgentRequestDays            = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
+$databaseConnectionEncryption = Factory::getContainer()->get('DatabaseDriver')->getConnectionEncryption();
 
 require ModuleHelper::getLayoutPath('mod_privacy_status', $params->get('layout', 'default'));
