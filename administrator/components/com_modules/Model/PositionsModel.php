@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Modules Component Positions Model
@@ -111,16 +112,20 @@ class PositionsModel extends ListModel
 
 			if ($type != 'template')
 			{
+				$clientId = (int) $clientId;
+
 				// Get the database object and a new query object.
 				$query = $this->_db->getQuery(true)
-					->select('DISTINCT(position) as value')
-					->from('#__modules')
-					->where($this->_db->quoteName('client_id') . ' = ' . (int) $clientId);
+					->select('DISTINCT ' . $db->quoteName('position', 'value'))
+					->from($this->_db->quoteName('#__modules'))
+					->where($this->_db->quoteName('client_id') . ' = :clientid')
+					->bind(':clientid', $clientId, ParameterType::INTEGER);
 
 				if ($search)
 				{
-					$search = $this->_db->quote('%' . str_replace(' ', '%', $this->_db->escape(trim($search), true) . '%'));
-					$query->where('position LIKE ' . $search);
+					$search = '%' . str_replace(' ', '%', trim($search), true) . '%';
+					$query->where($this->_db->quoteName('position') . ' LIKE :position')
+						->bind(':position', $search);
 				}
 
 				$this->_db->setQuery($query);
