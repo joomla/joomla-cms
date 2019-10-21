@@ -60,7 +60,7 @@ class ArticleController extends FormController
 	 *
 	 * @return  void
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
 	{
