@@ -245,7 +245,7 @@ class Category extends Nested
 				$this->created_time = $date->toSql();
 			}
 
-			if (empty($this->modified_time))
+			if (!(int) ($this->modified_time))
 			{
 				$this->modified_time = $this->created_time;
 			}

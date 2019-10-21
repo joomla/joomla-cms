@@ -350,7 +350,7 @@ class Content extends Table
 			}
 
 			// Set modified to created date if not set
-			if (!$this->modified)
+			if (!(int) $this->modified)
 			{
 				$this->modified = $this->created;
 			}
