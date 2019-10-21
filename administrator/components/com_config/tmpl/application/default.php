@@ -67,6 +67,7 @@ Text::script('MESSAGE');
 					<?php echo $this->loadTemplate('site'); ?>
 					<?php echo $this->loadTemplate('metadata'); ?>
 					<?php echo $this->loadTemplate('seo'); ?>
+					<?php echo $this->loadTemplate('seo_metadata'); ?>
 					<?php echo $this->loadTemplate('cookie'); ?>
 				</div>
 				<div id="page-system" class="tab-pane">

@@ -25,14 +25,15 @@ $params  = $this->item->params;
 $images  = json_decode($this->item->images);
 $urls    = json_decode($this->item->urls);
 $canEdit = $params->get('access-edit');
-$user    = Factory::getUser();
+$user    = Factory::getApplication()->getIdentity();
 $info    = $params->get('info_block_position', 0);
+
+$images = json_decode($this->item->images);
 
 // Check if associations are implemented. If they are, define the parameter.
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 ?>
-<div class="com-content-article item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
-	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? Factory::getApplication()->get('language') : $this->item->language; ?>">
+<div class="com-content-article item-page<?php echo $this->pageclass_sfx; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -51,7 +52,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php if ($params->get('show_title') || $params->get('show_author')) : ?>
 	<div class="page-header">
 		<?php if ($params->get('show_title')) : ?>
-			<h2 itemprop="headline">
+			<h2>
 				<?php echo $this->escape($this->item->title); ?>
 			</h2>
 		<?php endif; ?>
@@ -100,7 +101,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php if (isset ($this->item->toc)) :
 		echo $this->item->toc;
 	endif; ?>
-	<div itemprop="articleBody" class="com-content-article__body">
+	<div class="com-content-article__body">
 		<?php echo $this->item->text; ?>
 	</div>
 
