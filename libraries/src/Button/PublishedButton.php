@@ -55,13 +55,13 @@ class PublishedButton extends ActionButton
 			$bakState = $this->getState($value);
 			$default  = $this->getState($value) ? : $this->getState('_default');
 
-			$nullDate = null;
+			$nullDate = Factory::getDbo()->getNullDate();
 			$nowDate = Factory::getDate()->toUnix();
 
 			$tz = Factory::getUser()->getTimezone();
 
-			$publishUp   = ($publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimeZone($tz) : null;
-			$publishDown = ($publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimeZone($tz) : null;
+			$publishUp   = ($publishUp !== null && $publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimeZone($tz) : false;
+			$publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimeZone($tz) : false;
 
 			// Add tips and special titles
 			// Create special titles for published items
@@ -86,13 +86,13 @@ class PublishedButton extends ActionButton
 
 				$options['tip_title'] = 'JLIB_HTML_PUBLISHED_ITEM';
 
-				if ($publishUp > $nullDate && $nowDate < $publishUp->toUnix())
+				if ($publishUp && $nowDate < $publishUp->toUnix())
 				{
 					$options['tip_title'] = 'JLIB_HTML_PUBLISHED_PENDING_ITEM';
 					$default['icon'] = 'pending';
 				}
 
-				if ($publishDown > $nullDate && $nowDate > $publishDown->toUnix())
+				if ($publishDown && $nowDate > $publishDown->toUnix())
 				{
 					$options['tip_title'] = 'JLIB_HTML_PUBLISHED_EXPIRED_ITEM';
 					$default['icon'] = 'expired';
