@@ -69,7 +69,7 @@ $js = <<<JS
 JS;
 
 // @todo move the script to a file
-Factory::getDocument()->addScriptDeclaration($js);
+$this->document->addScriptDeclaration($js);
 
 $collection = new \stdClass;
 
@@ -208,7 +208,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 								</td>
-								<td class="order text-center d-none d-md-table-cell">
+								<td class="text-center d-none d-md-table-cell">
 									<?php
 									$iconClass = '';
 									if (!$canChange)

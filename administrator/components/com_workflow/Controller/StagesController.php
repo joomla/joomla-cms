@@ -43,6 +43,14 @@ class StagesController extends AdminController
 	protected $extension;
 
 	/**
+	 * The prefix to use with controller messages.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $text_prefix = 'COM_WORKFLOW_STAGES';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
@@ -152,7 +160,7 @@ class StagesController extends AdminController
 			}
 			else
 			{
-				$this->setMessage(Text::_('COM_WORKFLOW_ITEM_SET_DEFAULT'));
+				$this->setMessage(Text::_('COM_WORKFLOW_STAGE_SET_DEFAULT'));
 			}
 		}
 
@@ -166,62 +174,14 @@ class StagesController extends AdminController
 	}
 
 	/**
-	 * Check in of one or more records.
+	 * Gets the URL arguments to append to a list redirect.
 	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   4.0.0
-	 */
-	public function checkin()
-	{
-		$result = parent::checkin();
-
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->extension
-				. '&workflow_id=' . $this->workflowId, false
-			)
-		);
-
-		return $result;
-	}
-
-	/**
-	 * Deletes and returns correctly.
-	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	public function delete()
-	{
-		parent::delete();
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->extension
-				. '&workflow_id=' . $this->workflowId, false
-			)
-		);
-	}
-
-	/**
-	 * Method to publish a list of items
-	 *
-	 * @return  void
+	 * @return  string  The arguments to append to the redirect URL.
 	 *
 	 * @since   4.0.0
 	 */
-	public function publish()
+	protected function getRedirectToListAppend()
 	{
-		parent::publish();
-
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->extension . '&workflow_id=' . $this->workflowId, false
-			)
-		);
+		return '&extension=' . $this->extension . '&workflow_id=' . $this->workflowId;
 	}
 }

@@ -91,6 +91,11 @@
 
     &:first-child {
       margin-left: auto;
+
+      [dir=rtl] & {
+        margin-left: 0;
+        margin-right: auto;
+      }
     }
     .header-item-content {
       > *:first-child {
@@ -137,9 +142,9 @@
       white-space: nowrap;
       max-width: 5rem;
       min-width: 4rem;
-	  display: block;
-	  text-overflow: ellipsis;
-	  overflow: hidden;
+      display: block;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
   }
 
@@ -194,6 +199,7 @@
       box-shadow: $atum-box-shadow;
       font-size: inherit;
       padding: 1rem 0.75rem;
+
       [dir=rtl] & {
         text-align: right;
       }
@@ -221,7 +227,7 @@
         text-align: right;
         padding-right: .75rem;
         padding-left: 0;
-	  }
+      }
     }
 
     .fa {
@@ -243,10 +249,20 @@
       border-top: 0;
       box-shadow: $atum-box-shadow;
       justify-content: flex-end;
+
+      [dir=rtl] & {
+        left: 0;
+        right: auto;
+      }
     }
     &.active .header-more-menu {
       left: auto;
+
+      [dir=rtl] & {
+        right: -100rem;
+      }
     }
+
     .header-item {
       height: 3.7rem;
       width: 6.6rem;
@@ -287,7 +303,7 @@
       bottom:0;
       width: 100%;
       max-width: 18rem;
-      z-index:$zindex-mobil-bottom;
+      z-index:$zindex-mobile-bottom;
       flex-direction: row-reverse;
       justify-content: flex-end;
       &::after {
@@ -305,9 +321,19 @@
         bottom: 100%;
         border: 1px solid $gray-500;
         border-bottom: 0;
+
+        [dir=rtl] & {
+          left: -100rem;
+          right: auto;
+        }
       }
       &.active .header-more-menu {
         left: 0;
+
+        [dir=rtl] & {
+          left: auto;
+          right: 0;
+        }
       }
       & .header-item .header-item-content > :first-child {
         color: var(--atum-special-color);
@@ -325,6 +351,11 @@
     }
     .header-item:first-child {
       margin-left: 0;
+
+      [dir=rtl] & {
+       margin-left: auto;
+       margin-right: 0;
+      }
     }
     .fa-angle-down {
       transform: rotate(180deg);

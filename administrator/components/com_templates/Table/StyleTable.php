@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -107,11 +108,14 @@ class StyleTable extends Table
 	{
 		if ($this->home != '0')
 		{
+			$clientId = (int) $this->client_id;
 			$query = $this->_db->getQuery(true)
-				->update('#__template_styles')
-				->set('home=\'0\'')
-				->where('client_id=' . (int) $this->client_id)
-				->where('home=' . $this->_db->quote($this->home));
+				->update($this->_db->quoteName('#__template_styles'))
+				->set($this->_db->quoteName('home') . ' = ' . $this->_db->quote('0'))
+				->where($this->_db->quoteName('client_id') . ' = :clientid')
+				->where($this->_db->quoteName('home') . ' = :home')
+				->bind(':clientid', $clientId, ParameterType::INTEGER)
+				->bind(':home', $this->home);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 		}
@@ -135,11 +139,14 @@ class StyleTable extends Table
 
 		if (!is_null($pk))
 		{
+			$clientId = (int) $this->client_id;
 			$query = $this->_db->getQuery(true)
-				->from('#__template_styles')
-				->select('id')
-				->where('client_id=' . (int) $this->client_id)
-				->where('template=' . $this->_db->quote($this->template));
+				->select($this->_db->quoteName('id'))
+				->from($this->_db->quoteName('#__template_styles'))
+				->where($this->_db->quoteName('client_id') . ' = :clientid')
+				->where($this->_db->quoteName('template') . ' = :template')
+				->bind(':template', $this->template)
+				->bind(':clientid', $clientId, ParameterType::INTEGER);
 			$this->_db->setQuery($query);
 			$results = $this->_db->loadColumn();
 

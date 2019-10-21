@@ -1337,7 +1337,7 @@ class Query
 			// Add the term to the query.
 			$query->where('(t.term = ' . $db->quote($token->term) . ' OR t.stem = ' . $db->quote($token->stem) . ')')
 				->where('t.phrase = 0')
-				->where('t.language IN (\'*\',' . $query->q($token->language) . ')');
+				->where('t.language IN (\'*\',' . $db->quote($token->language) . ')');
 		}
 
 		// Get the terms.
