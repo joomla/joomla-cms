@@ -1027,7 +1027,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
     if (polyfills.length) {
       const newScript = document.createElement('script');
       // Load it from the right place.
-      const replacement = `media/vendor/webcomponentsjs/js/webcomponents-${polyfills.join('-')}.js`;
+      const replacement = `media/vendor/webcomponentsjs/js/webcomponents-${polyfills.join('-')}.min.js`;
 
       const mediaVersion = script.src.match(/\?.*/);
       const base = Joomla.getOptions('system.paths');
