@@ -26,11 +26,30 @@
 
   }
 
+  .btn-primary:not([href])
+  {
+    &:hover {
+      color: var(--white);
+      background:var(--primary);
+      border-color: var(--primary);
+    }
+  }
+
+  .btn-secondary:not([href])
+  {
+    &:hover {
+      color: var(--white);
+      background:var(--secondary);
+      border-color: var(--secondary);
+    }
+  }
+
   .btn-success:not([href])
   {
     &:hover {
       color: var(--white);
       background:var(--success);
+      border-color: var(--success);
     }
   }
 
@@ -39,6 +58,7 @@
     &:hover {
       color: var(--white);
       background:var(--danger);
+      border-color: var(--danger);
     }
   }
 

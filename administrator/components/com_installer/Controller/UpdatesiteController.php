@@ -16,7 +16,7 @@ use Joomla\CMS\MVC\Controller\FormController;
 /**
  * Controller for a single update site
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class UpdatesiteController extends FormController
 {

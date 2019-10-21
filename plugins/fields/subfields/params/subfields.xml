@@ -43,7 +43,6 @@
 						name="render_values"
 						type="radio"
 						label="PLG_FIELDS_SUBFIELDS_PARAMS_RENDER_VALUES_LABEL"
-						description="PLG_FIELDS_SUBFIELDS_PARAMS_RENDER_VALUES_DESC"
 						class="switcher"
 						default="1"
 						>
