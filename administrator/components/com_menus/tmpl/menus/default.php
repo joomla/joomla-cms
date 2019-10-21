@@ -178,10 +178,10 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', ['version' => 'a
 															'width'       => '800px',
 															'bodyHeight'  => 70,
 															'modalWidth'  => 80,
-															'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal"'
+															'footer'      => '<button type="button" class="btn btn-danger" data-dismiss="modal"'
 																	. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#closeBtn\'})">'
 																	. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-																	. '<button type="button" class="btn btn-primary"'
+																	. '<button type="button" class="btn btn-success"'
 																	. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#saveBtn\'})">'
 																	. Text::_('JSAVE') . '</button>'
 																	. '<button type="button" class="btn btn-success"'
