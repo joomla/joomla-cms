@@ -4624,12 +4624,13 @@ class PlgSampledataTesting extends CMSPlugin
 
 		$access = (int) $this->app->get('access', 1);
 		$user   = Factory::getUser();
-
-		/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
-		$model = $this->app->bootComponent('com_content')->getMVCFactory()->createModel('Article', 'Administrator', ['ignore_request' => true]);
+		$mvcFactory = $this->app->bootComponent('com_content')->getMVCFactory();
 
 		foreach ($articles as $i => $article)
 		{
+			/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
+			$model = $mvcFactory->createModel('Article', 'Administrator', ['ignore_request' => true]);
+
 			// Set values from language strings.
 			$article['title']     = Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_ARTICLE_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_TITLE');
 			$article['introtext'] = Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_ARTICLE_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_INTROTEXT');
