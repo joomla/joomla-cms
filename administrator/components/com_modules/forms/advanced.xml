@@ -5,6 +5,12 @@
 			name="advanced">
 
 			<field
+				name="style"
+				type="chromestyle"
+				label="COM_MODULES_FIELD_MODULE_STYLE_LABEL"
+			/>
+
+			<field
 				name="module_tag"
 				type="moduletag"
 				label="COM_MODULES_FIELD_MODULE_TAG_LABEL"
@@ -31,12 +37,6 @@
 				name="header_class"
 				type="text"
 				label="COM_MODULES_FIELD_HEADER_CLASS_LABEL"
-			/>
-
-			<field
-				name="style"
-				type="chromestyle"
-				label="COM_MODULES_FIELD_MODULE_STYLE_LABEL"
 			/>
 		</fieldset>
 	</fields>

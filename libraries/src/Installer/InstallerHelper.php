@@ -2,22 +2,24 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Archive\Archive;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Version;
 
 /**
@@ -27,6 +29,30 @@ use Joomla\CMS\Version;
  */
 abstract class InstallerHelper
 {
+	/**
+	 * Hash not validated identifier.
+	 *
+	 * @var    integer
+	 * @since  3.9.0
+	 */
+	const HASH_NOT_VALIDATED = 0;
+
+	/**
+	 * Hash validated identifier.
+	 *
+	 * @var    integer
+	 * @since  3.9.0
+	 */
+	const HASH_VALIDATED = 1;
+
+	/**
+	 * Hash not provided identifier.
+	 *
+	 * @var    integer
+	 * @since  3.9.0
+	 */
+	const HASH_NOT_PROVIDED = 2;
+
 	/**
 	 * Downloads a package
 	 *
@@ -54,7 +80,7 @@ abstract class InstallerHelper
 
 		try
 		{
-			$response = \JHttpFactory::getHttp()->get($url, $headers);
+			$response = HttpFactory::getHttp()->get($url, $headers);
 		}
 		catch (\RuntimeException $exception)
 		{
@@ -63,9 +89,12 @@ abstract class InstallerHelper
 			return false;
 		}
 
-		if (302 == $response->code && isset($response->headers['Location']))
+		// Convert keys of headers to lowercase, to accomodate for case variations
+		$headers = array_change_key_case($response->headers, CASE_LOWER);
+
+		if (302 == $response->code && !empty($headers['location']))
 		{
-			return self::downloadPackage($response->headers['Location']);
+			return self::downloadPackage($headers['location']);
 		}
 		elseif (200 != $response->code)
 		{
@@ -75,8 +104,8 @@ abstract class InstallerHelper
 		}
 
 		// Parse the Content-Disposition header to get the file name
-		if (isset($response->headers['Content-Disposition'])
-			&& preg_match("/\s*filename\s?=\s?(.*)/", $response->headers['Content-Disposition'][0], $parts))
+		if (!empty($headers['content-disposition'])
+			&& preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'][0], $parts))
 		{
 			$flds = explode(';', $parts[1]);
 			$target = trim($flds[0], '"');
@@ -127,13 +156,13 @@ abstract class InstallerHelper
 		$tmpdir = uniqid('install_');
 
 		// Clean the paths to use for archive extraction
-		$extractdir = Path::clean(dirname($p_filename) . '/' . $tmpdir);
+		$extractdir = Path::clean(\dirname($p_filename) . '/' . $tmpdir);
 		$archivename = Path::clean($archivename);
 
 		// Do the unpacking of the archive
 		try
 		{
-			$archive = new Archive(array('tmp_path' => Factory::getConfig()->get('tmp_path')));
+			$archive = new Archive(array('tmp_path' => Factory::getApplication()->get('tmp_path')));
 			$extract = $archive->extract($archivename, $extractdir);
 		}
 		catch (\Exception $e)
@@ -180,7 +209,7 @@ abstract class InstallerHelper
 		 */
 		$dirList = array_merge((array) Folder::files($extractdir, ''), (array) Folder::folders($extractdir, ''));
 
-		if (count($dirList) === 1)
+		if (\count($dirList) === 1)
 		{
 			if (Folder::exists($extractdir . '/' . $dirList[0]))
 			{
@@ -224,7 +253,7 @@ abstract class InstallerHelper
 		// Search the install dir for an XML file
 		$files = Folder::files($p_dir, '\.xml$', 1, true);
 
-		if (!$files || !count($files))
+		if (!$files || !\count($files))
 		{
 			Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), Log::WARNING, 'jerror');
 
@@ -267,20 +296,31 @@ abstract class InstallerHelper
 	 *
 	 * @param   string  $url  URL to get name from
 	 *
-	 * @return  mixed   String filename or boolean false if failed
+	 * @return  string  Clean version of the filename or a unique id
 	 *
 	 * @since   3.1
 	 */
 	public static function getFilenameFromUrl($url)
 	{
-		if (is_string($url))
-		{
-			$parts = explode('/', $url);
+		$default = uniqid();
 
-			return $parts[count($parts) - 1];
+		if (!\is_string($url) || strpos($url, '/') === false)
+		{
+			return $default;
 		}
 
-		return false;
+		// Get last part of the url (after the last slash).
+		$parts    = explode('/', $url);
+		$filename = array_pop($parts);
+
+		// Replace special characters with underscores.
+		$filename = preg_replace('/[^a-z0-9\_\-\.]/i', '_', $filename);
+
+		// Replace multiple underscores with just one.
+		$filename = preg_replace('/__+/', '_', trim($filename, '_'));
+
+		// Return the cleaned filename or, if it is empty, a unique id.
+		return $filename ?: $default;
 	}
 
 	/**
@@ -295,8 +335,6 @@ abstract class InstallerHelper
 	 */
 	public static function cleanupInstall($package, $resultdir)
 	{
-		$config = Factory::getConfig();
-
 		// Does the unpacked extension directory exist?
 		if ($resultdir && is_dir($resultdir))
 		{
@@ -308,10 +346,48 @@ abstract class InstallerHelper
 		{
 			File::delete($package);
 		}
-		elseif (is_file(Path::clean($config->get('tmp_path') . '/' . $package)))
+		elseif (is_file(Path::clean(Factory::getApplication()->get('tmp_path') . '/' . $package)))
 		{
 			// It might also be just a base filename
-			File::delete(Path::clean($config->get('tmp_path') . '/' . $package));
+			File::delete(Path::clean(Factory::getApplication()->get('tmp_path') . '/' . $package));
 		}
+	}
+
+	/**
+	 * Return the result of the checksum of a package with the SHA256/SHA384/SHA512 tags in the update server manifest
+	 *
+	 * @param   string  $packagefile   Location of the package to be installed
+	 * @param   Update  $updateObject  The Update Object
+	 *
+	 * @return  integer  one if the hashes match, zero if hashes doesn't match, two if hashes not found
+	 *
+	 * @since   3.9.0
+	 */
+	public static function isChecksumValid($packagefile, $updateObject)
+	{
+		$hashes     = array('sha256', 'sha384', 'sha512');
+		$hashOnFile = false;
+
+		foreach ($hashes as $hash)
+		{
+			if ($updateObject->get($hash, false))
+			{
+				$hashPackage = hash_file($hash, $packagefile);
+				$hashRemote  = $updateObject->$hash->_data;
+				$hashOnFile  = true;
+
+				if ($hashPackage !== $hashRemote)
+				{
+					return self::HASH_NOT_VALIDATED;
+				}
+			}
+		}
+
+		if ($hashOnFile)
+		{
+			return self::HASH_VALIDATED;
+		}
+
+		return self::HASH_NOT_PROVIDED;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,14 +11,17 @@ namespace Joomla\Component\Banners\Administrator\View\Client;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Helper\ContentHelper;
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Factory;
-
-\JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Banners\Administrator\Model\ClientModel;
 
 /**
  * View to edit a client.
@@ -28,30 +31,34 @@ use Joomla\CMS\Factory;
 class HtmlView extends BaseHtmlView
 {
 	/**
-	 * The \JForm object
+	 * The Form object
 	 *
-	 * @var  \JForm
+	 * @var    Form
+	 * @since  1.5
 	 */
 	protected $form;
 
 	/**
 	 * The active item
 	 *
-	 * @var  object
+	 * @var    CMSObject
+	 * @since  1.5
 	 */
 	protected $item;
 
 	/**
 	 * The model state
 	 *
-	 * @var  object
+	 * @var    CMSObject
+	 * @since  1.5
 	 */
 	protected $state;
 
 	/**
 	 * Object containing permissions for the item
 	 *
-	 * @var  \JObject
+	 * @var    CMSObject
+	 * @since  1.5
 	 */
 	protected $canDo;
 
@@ -60,24 +67,30 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
+	 *
+	 * @since   1.5
+	 *
+	 * @throws  Exception
 	 */
-	public function display($tpl = null)
+	public function display($tpl = null): void
 	{
-		$this->form  = $this->get('Form');
-		$this->item  = $this->get('Item');
-		$this->state = $this->get('State');
+		/** @var ClientModel $model */
+		$model       = $this->getModel();
+		$this->form  = $model->getForm();
+		$this->item  = $model->getItem();
+		$this->state = $model->getState();
 		$this->canDo = ContentHelper::getActions('com_banners');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -86,8 +99,10 @@ class HtmlView extends BaseHtmlView
 	 * @return  void
 	 *
 	 * @since   1.6
+	 *
+	 * @throws  Exception
 	 */
-	protected function addToolbar()
+	protected function addToolbar(): void
 	{
 		Factory::getApplication()->input->set('hidemainmenu', true);
 
@@ -106,7 +121,7 @@ class HtmlView extends BaseHtmlView
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create')))
 		{
-			$toolbarButtons[] = ['apply', 'client.apply'];
+			ToolbarHelper::apply('client.apply');
 			$toolbarButtons[] = ['save', 'client.save'];
 		}
 

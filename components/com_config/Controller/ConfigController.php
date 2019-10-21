@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,14 +12,13 @@ namespace Joomla\Component\Config\Site\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Component Controller
@@ -70,11 +69,7 @@ class ConfigController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		if (!Session::checkToken())
-		{
-			$this->app->enqueueMessage(Text::_('JINVALID_TOKEN'));
-			$this->app->redirect('index.php');
-		}
+		$this->checkToken();
 
 		// Check if the user is authorized to do this.
 		if (!Factory::getUser()->authorise('core.admin'))
@@ -112,7 +107,7 @@ class ConfigController extends BaseController
 		$data = $return;
 
 		// Access backend com_config
-		$saveClass = $this->factory->createController('Application', 'Administrator');
+		$saveClass = $this->factory->createController('Application', 'Administrator', [], $this->app, $this->input);
 
 		// Get a document object
 		$document = $this->app->getDocument();

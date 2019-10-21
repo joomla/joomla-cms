@@ -3,16 +3,19 @@
  * @package     Joomla.Platform
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Adapter Instance Class
  *
- * @since  11.1
+ * @since       1.6
+ * @deprecated  5.0 Will be removed without replacement
  */
 class JAdapterInstance extends JObject
 {
@@ -20,7 +23,7 @@ class JAdapterInstance extends JObject
 	 * Parent
 	 *
 	 * @var    JAdapter
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected $parent = null;
 
@@ -28,7 +31,7 @@ class JAdapterInstance extends JObject
 	 * Database
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected $db = null;
 
@@ -39,7 +42,7 @@ class JAdapterInstance extends JObject
 	 * @param   JDatabaseDriver  $db       Database object
 	 * @param   array            $options  Configuration Options
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function __construct(JAdapter $parent, JDatabaseDriver $db, array $options = array())
 	{
@@ -50,15 +53,15 @@ class JAdapterInstance extends JObject
 		$this->parent = $parent;
 
 		// Pull in the global dbo in case something happened to it.
-		$this->db = $db ?: JFactory::getDbo();
+		$this->db = $db ?: Factory::getDbo();
 	}
 
 	/**
 	 * Retrieves the parent object
 	 *
-	 * @return  JAdapter parent
+	 * @return  JAdapter
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function getParent()
 	{

@@ -3,18 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
+use Joomla\CMS\Layout\FileLayout;
 
 $app = Factory::getApplication();
 
@@ -78,12 +76,10 @@ $afterDisplayContent = trim(implode("\n", $results));
 			<?php foreach ($this->lead_items as &$item) : ?>
 				<div class="com-content-category-blog__item blog-item"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-					<div class="blog-item-content"><!-- Double divs required for IE11 grid fallback -->
 						<?php
 						$this->item = & $item;
 						echo $this->loadTemplate('item');
 						?>
-					</div>
 				</div>
 				<?php $leadingcount++; ?>
 			<?php endforeach; ?>
@@ -100,12 +96,10 @@ $afterDisplayContent = trim(implode("\n", $results));
 		<?php foreach ($this->intro_items as $key => &$item) : ?>
 			<div class="com-content-category-blog__item blog-item"
 				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-				<div class="blog-item-content"><!-- Double divs required for IE11 grid fallback -->
 					<?php
 					$this->item = & $item;
 					echo $this->loadTemplate('item');
 					?>
-				</div>
 			</div>
 		<?php endforeach; ?>
 		</div>
@@ -132,7 +126,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 				</p>
 			<?php endif; ?>
 			<div class="com-content-category-blog__pagination">
-				<?php echo $this->pagination->getPagesLinks(); ?>				
+				<?php echo $this->pagination->getPagesLinks(); ?>
 			</div>
 		</div>
 	<?php endif; ?>

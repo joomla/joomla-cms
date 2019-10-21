@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,12 @@ namespace Joomla\Component\Content\Site\View\Archive;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * HTML View class for the Content component
@@ -99,7 +100,9 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
+	 *
+	 * @throws  GenericDataException
 	 */
 	public function display($tpl = null)
 	{
@@ -108,6 +111,14 @@ class HtmlView extends BaseHtmlView
 		$items      = $this->get('Items');
 		$pagination = $this->get('Pagination');
 
+		if ($errors = $this->getModel()->getErrors())
+		{
+			throw new GenericDataException(implode("\n", $errors), 500);
+		}
+
+		// Flag indicates to not add limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
+
 		// Get the page/component configuration
 		$params = &$state->params;
 
@@ -115,13 +126,12 @@ class HtmlView extends BaseHtmlView
 
 		foreach ($items as $item)
 		{
-			$item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
-			$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+			$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
 			// No link for ROOT category
 			if ($item->parent_alias === 'root')
 			{
-				$item->parent_slug = null;
+				$item->parent_id = null;
 			}
 
 			$item->event = new \stdClass;

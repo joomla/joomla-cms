@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,28 +12,37 @@ namespace Joomla\Component\Workflow\Administrator\Table;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Stage table
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class StageTable extends Table
 {
+	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
 	/**
 	 * Constructor
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__workflow_stages', 'id', $db);
 
-		$this->access = (int) Factory::getConfig()->get('access');
+		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**
@@ -43,7 +52,7 @@ class StageTable extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @throws  \UnexpectedValueException
 	 */
@@ -166,7 +175,7 @@ class StageTable extends Table
 	 * @see     Table::store()
 	 * @since   4.0
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$table = new StageTable($this->getDbo());
 
@@ -190,7 +199,7 @@ class StageTable extends Table
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function _getAssetName()
 	{
@@ -206,7 +215,7 @@ class StageTable extends Table
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function _getAssetTitle()
 	{
@@ -221,7 +230,7 @@ class StageTable extends Table
 	 *
 	 * @return  integer  The id of the asset's parent
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function _getAssetParentId(Table $table = null, $id = null)
 	{

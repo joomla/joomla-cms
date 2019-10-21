@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -26,6 +26,14 @@ use Joomla\Registry\Registry;
 class Menu extends Nested
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  Database driver object.
@@ -37,7 +45,7 @@ class Menu extends Nested
 		parent::__construct('#__menu', 'id', $db);
 
 		// Set the default access level.
-		$this->access = (int) Factory::getConfig()->get('access');
+		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**
@@ -77,7 +85,7 @@ class Menu extends Nested
 			return false;
 		}
 
-		if (isset($array['params']) && is_array($array['params']))
+		if (isset($array['params']) && \is_array($array['params']))
 		{
 			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
@@ -144,6 +152,17 @@ class Menu extends Nested
 			return false;
 		}
 
+		// Set publish_up, publish_down to null if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = null;
+		}
+
+		if (!$this->publish_down)
+		{
+			$this->publish_down = null;
+		}
+
 		return true;
 	}
 
@@ -157,7 +176,7 @@ class Menu extends Nested
 	 * @see     Table::store()
 	 * @since   1.6
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$db = $this->getDbo();
 
@@ -179,7 +198,7 @@ class Menu extends Nested
 			}
 
 			// Verify that a first level menu item alias is not the name of a folder.
-			if (in_array($this->alias, Folder::folders(JPATH_ROOT)))
+			if (\in_array($this->alias, Folder::folders(JPATH_ROOT)))
 			{
 				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_MENU_ROOT_ALIAS_FOLDER', $this->alias, $this->alias));
 
@@ -252,12 +271,12 @@ class Menu extends Nested
 		{
 			// Verify that the home page for this menu is unique.
 			if ($table->load(
-					array(
+				array(
 					'menutype' => $this->menutype,
 					'client_id' => (int) $this->client_id,
 					'home' => '1',
-					)
 				)
+			)
 				&& ($table->language != $this->language))
 			{
 				$this->setError(Text::_('JLIB_DATABASE_ERROR_MENU_HOME_NOT_UNIQUE_IN_MENU'));
@@ -277,7 +296,7 @@ class Menu extends Nested
 
 				$table->home = 0;
 				$table->checked_out = 0;
-				$table->checked_out_time = $db->getNullDate();
+				$table->checked_out_time = null;
 				$table->store();
 			}
 		}

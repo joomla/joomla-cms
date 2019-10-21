@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,17 +13,19 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
 
 /**
  * Template style model.
@@ -262,7 +264,7 @@ class StyleModel extends AdminModel
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  Form  A Form object on success, false on failure
@@ -365,7 +367,7 @@ class StyleModel extends AdminModel
 
 			// Convert to the \JObject before adding other data.
 			$properties        = $table->getProperties(1);
-			$this->_cache[$pk] = ArrayHelper::toObject($properties, 'JObject');
+			$this->_cache[$pk] = ArrayHelper::toObject($properties, CMSObject::class);
 
 			// Convert the params field to an array.
 			$registry = new Registry($table->params);
@@ -532,9 +534,11 @@ class StyleModel extends AdminModel
 
 		if ($user->authorise('core.edit', 'com_menus') && $table->client_id == 0)
 		{
-			$n    = 0;
-			$db   = $this->getDbo();
-			$user = Factory::getUser();
+			$n       = 0;
+			$db      = $this->getDbo();
+			$user    = Factory::getUser();
+			$tableId = (int) $table->id;
+			$userId  = (int) $user->id;
 
 			if (!empty($data['assigned']) && is_array($data['assigned']))
 			{
@@ -542,11 +546,13 @@ class StyleModel extends AdminModel
 
 				// Update the mapping for menu items that this style IS assigned to.
 				$query = $db->getQuery(true)
-					->update('#__menu')
-					->set('template_style_id = ' . (int) $table->id)
-					->where('id IN (' . implode(',', $data['assigned']) . ')')
-					->where('template_style_id != ' . (int) $table->id)
-					->where('checked_out IN (0,' . (int) $user->id . ')');
+					->update($db->quoteName('#__menu'))
+					->set($db->quoteName('template_style_id') . ' = :newtsid')
+					->whereIn($db->quoteName('id'), $data['assigned'])
+					->where($db->quoteName('template_style_id') . ' != :tsid')
+					->whereIn($db->quoteName('checked_out'), [0, $userId])
+					->bind(':newtsid', $tableId, ParameterType::INTEGER)
+					->bind(':tsid', $tableId, ParameterType::INTEGER);
 				$db->setQuery($query);
 				$db->execute();
 				$n += $db->getAffectedRows();
@@ -555,16 +561,17 @@ class StyleModel extends AdminModel
 			// Remove style mappings for menu items this style is NOT assigned to.
 			// If unassigned then all existing maps will be removed.
 			$query = $db->getQuery(true)
-				->update('#__menu')
-				->set('template_style_id = 0');
+				->update($db->quoteName('#__menu'))
+				->set($db->quoteName('template_style_id') . ' = 0');
 
 			if (!empty($data['assigned']))
 			{
-				$query->where('id NOT IN (' . implode(',', $data['assigned']) . ')');
+				$query->whereNotIn($db->quoteName('id'), $data['assigned']);
 			}
 
-			$query->where('template_style_id = ' . (int) $table->id)
-				->where('checked_out IN (0,' . (int) $user->id . ')');
+			$query->where($db->quoteName('template_style_id') . ' = :templatestyleid')
+				->whereIn($db->quoteName('checked_out'), [0, $userId])
+				->bind(':templatestyleid', $tableId, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$db->execute();
 
@@ -622,20 +629,25 @@ class StyleModel extends AdminModel
 			throw new \Exception(Text::_('COM_TEMPLATES_ERROR_SAVE_DISABLED_TEMPLATE'));
 		}
 
+		$clientId = (int) $style->client_id;
+		$id       = (int) $id;
+
 		// Reset the home fields for the client_id.
 		$query = $db->getQuery(true)
-			->update('#__template_styles')
-			->set('home = ' .  $db->q('0'))
-			->where('client_id = ' . (int) $style->client_id)
-			->where('home = ' . $db->q('1'));
+			->update($db->quoteName('#__template_styles'))
+			->set($db->quoteName('home') . ' = ' . $db->quote('0'))
+			->where($db->quoteName('client_id') . ' = :clientid')
+			->where($db->quoteName('home') . ' = ' . $db->quote('1'))
+			->bind(':clientid', $clientId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 
 		// Set the new home style.
 		$query = $db->getQuery(true)
-			->update('#__template_styles')
-			->set('home = ' . $db->q('1'))
-			->where('id = ' . (int) $id);
+			->update($db->quoteName('#__template_styles'))
+			->set($db->quoteName('home') . ' = ' . $db->quote('1'))
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -665,11 +677,14 @@ class StyleModel extends AdminModel
 			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 		}
 
+		$id = (int) $id;
+
 		// Lookup the client_id.
 		$query = $db->getQuery(true)
-			->select('client_id, home')
-			->from('#__template_styles')
-			->where('id = ' . (int) $id);
+			->select($db->quoteName(['client_id', 'home']))
+			->from($db->quoteName('#__template_styles'))
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$style = $db->loadObject();
 
@@ -684,9 +699,10 @@ class StyleModel extends AdminModel
 
 		// Set the new home style.
 		$query = $db->getQuery(true)
-			->update('#__template_styles')
-			->set('home = ' . $db->q('0'))
-			->where('id = ' . (int) $id);
+			->update($db->quoteName('#__template_styles'))
+			->set($db->quoteName('home') . ' = ' . $db->quote('0'))
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 

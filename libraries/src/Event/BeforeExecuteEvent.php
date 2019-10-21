@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,7 @@ namespace Joomla\CMS\Event;
 use Joomla\Application\AbstractApplication;
 use Joomla\DI\Container;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Event class for representing the application's `onBeforeExecute` event
@@ -41,6 +41,6 @@ class BeforeExecuteEvent extends AbstractImmutableEvent
 	 */
 	public function getContainer(): Container
 	{
-		return $this->getArgument('container');
+		return $this->arguments['container'];
 	}
 }

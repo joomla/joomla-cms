@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,20 +11,22 @@ namespace Joomla\Component\Fields\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Date\Date;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * Field Model
@@ -167,6 +169,13 @@ class FieldModel extends AdminModel
 
 		foreach ($cats as $cat)
 		{
+			// If we have found the 'JNONE' category, remove all other from the result and break.
+			if ($cat == '-1')
+			{
+				$assignedCatIds = array('-1');
+				break;
+			}
+
 			if ($cat)
 			{
 				$assignedCatIds[] = $cat;
@@ -190,8 +199,16 @@ class FieldModel extends AdminModel
 			$db->insertObject('#__fields_categories', $tupel);
 		}
 
-		// If the options have changed delete the values
-		if ($field && isset($data['fieldparams']['options']) && isset($field->fieldparams['options']))
+		/**
+		 * If the options have changed, delete the values. This should only apply for list, checkboxes and radio
+		 * custom field types, because when their options are being changed, their values might get invalid, because
+		 * e.g. there is a value selected from a list, which is not part of the list anymore. Hence we need to delete
+		 * all values that are not part of the options anymore. Note: The only field types with fieldparams+options
+		 * are those above listed plus the subfields type. And we do explicitly not want the values to be deleted
+		 * when the options of a subfields field are getting changed.
+		 */
+		if ($field && in_array($field->type, array('list', 'checkboxes', 'radio'), true)
+			&& isset($data['fieldparams']['options']) && isset($field->fieldparams['options']))
 		{
 			$oldParams = $this->getParams($field->fieldparams['options']);
 			$newParams = $this->getParams($data['fieldparams']['options']);
@@ -202,7 +219,7 @@ class FieldModel extends AdminModel
 
 				foreach ($newParams as $param)
 				{
-					$names[] = $db->q($param['value']);
+					$names[] = $db->quote($param['value']);
 				}
 
 				$query = $db->getQuery(true);
@@ -251,7 +268,7 @@ class FieldModel extends AdminModel
 		if ($path)
 		{
 			// Add the lookup path for the rule
-			\JFormHelper::addRulePath($path);
+			FormHelper::addRulePath($path);
 		}
 
 		// Create the fields object
@@ -264,7 +281,7 @@ class FieldModel extends AdminModel
 		$node = $dom->appendChild(new \DOMElement('form'));
 
 		// Trigger the event to create the field dom node
-		Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, new \JForm($data['context'])));
+		Factory::getApplication()->triggerEvent('onCustomFieldsPrepareDom', array($obj, $node, new Form($data['context'])));
 
 		// Check if a node is created
 		if (!$node->firstChild)
@@ -276,7 +293,7 @@ class FieldModel extends AdminModel
 		$type = $node->firstChild->getAttribute('validate') ? : $data['type'];
 
 		// Load the rule
-		$rule = \JFormHelper::loadRuleType($type);
+		$rule = FormHelper::loadRuleType($type);
 
 		// When no rule exists, we allow the default value
 		if (!$rule)
@@ -343,7 +360,7 @@ class FieldModel extends AdminModel
 				$result->context = Factory::getApplication()->input->getCmd('context', $this->getState('field.context'));
 			}
 
-			if (property_exists($result, 'fieldparams'))
+			if (property_exists($result, 'fieldparams') && $result->fieldparams !== null)
 			{
 				$registry = new Registry;
 
@@ -363,34 +380,6 @@ class FieldModel extends AdminModel
 
 			$db->setQuery($query);
 			$result->assigned_cat_ids = $db->loadColumn() ?: array(0);
-
-			// Convert the created and modified dates to local user time for
-			// display in the form.
-			$tz = new \DateTimeZone(Factory::getApplication()->get('offset'));
-
-			if ((int) $result->created_time)
-			{
-				$date = new Date($result->created_time);
-				$date->setTimezone($tz);
-
-				$result->created_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->created_time = null;
-			}
-
-			if ((int) $result->modified_time)
-			{
-				$date = new Date($result->modified_time);
-				$date->setTimezone($tz);
-
-				$result->modified_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->modified_time = null;
-			}
 		}
 
 		return $result;
@@ -448,7 +437,7 @@ class FieldModel extends AdminModel
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -469,16 +458,16 @@ class FieldModel extends AdminModel
 				// Delete Values
 				$query = $this->getDbo()->getQuery(true);
 
-				$query->delete($query->qn('#__fields_values'))
-					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
+				$query->delete($query->quoteName('#__fields_values'))
+					->where($query->quoteName('field_id') . ' IN(' . implode(',', $pks) . ')');
 
 				$this->getDbo()->setQuery($query)->execute();
 
 				// Delete Assigned Categories
 				$query = $this->getDbo()->getQuery(true);
 
-				$query->delete($query->qn('#__fields_categories'))
-					->where($query->qn('field_id') . ' IN(' . implode(',', $pks) . ')');
+				$query->delete($query->quoteName('#__fields_categories'))
+					->where($query->quoteName('field_id') . ' IN(' . implode(',', $pks) . ')');
 
 				$this->getDbo()->setQuery($query)->execute();
 			}
@@ -528,7 +517,7 @@ class FieldModel extends AdminModel
 
 		// Get the form.
 		$form = $this->loadForm(
-			'com_fields.field' . $context, 'field',
+			'com_fields.field.' . $context, 'field',
 			array(
 				'control'   => 'jform',
 				'load_data' => true,
@@ -621,9 +610,9 @@ class FieldModel extends AdminModel
 			// Deleting the existing record as it is a reset
 			$query = $this->getDbo()->getQuery(true);
 
-			$query->delete($query->qn('#__fields_values'))
-				->where($query->qn('field_id') . ' = ' . (int) $fieldId)
-				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+			$query->delete($query->quoteName('#__fields_values'))
+				->where($query->quoteName('field_id') . ' = ' . (int) $fieldId)
+				->where($query->quoteName('item_id') . ' = ' . $query->quote($itemId));
 
 			$this->getDbo()->setQuery($query)->execute();
 		}
@@ -708,10 +697,10 @@ class FieldModel extends AdminModel
 			// Create the query
 			$query = $this->getDbo()->getQuery(true);
 
-			$query->select(array($query->qn('field_id'), $query->qn('value')))
-				->from($query->qn('#__fields_values'))
-				->where($query->qn('field_id') . ' IN (' . implode(',', ArrayHelper::toInteger($fieldIds)) . ')')
-				->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+			$query->select(array($query->quoteName('field_id'), $query->quoteName('value')))
+				->from($query->quoteName('#__fields_values'))
+				->where($query->quoteName('field_id') . ' IN (' . implode(',', ArrayHelper::toInteger($fieldIds)) . ')')
+				->where($query->quoteName('item_id') . ' = ' . $query->quote($itemId));
 
 			// Fetch the row from the database
 			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
@@ -763,15 +752,15 @@ class FieldModel extends AdminModel
 	{
 		// Delete with inner join is not possible so we need to do a subquery
 		$fieldsQuery = $this->getDbo()->getQuery(true);
-		$fieldsQuery->select($fieldsQuery->qn('id'))
-			->from($fieldsQuery->qn('#__fields'))
-			->where($fieldsQuery->qn('context') . ' = ' . $fieldsQuery->q($context));
+		$fieldsQuery->select($fieldsQuery->quoteName('id'))
+			->from($fieldsQuery->quoteName('#__fields'))
+			->where($fieldsQuery->quoteName('context') . ' = ' . $fieldsQuery->quote($context));
 
 		$query = $this->getDbo()->getQuery(true);
 
-		$query->delete($query->qn('#__fields_values'))
-			->where($query->qn('field_id') . ' IN (' . $fieldsQuery . ')')
-			->where($query->qn('item_id') . ' = ' . $query->q($itemId));
+		$query->delete($query->quoteName('#__fields_values'))
+			->where($query->quoteName('field_id') . ' IN (' . $fieldsQuery . ')')
+			->where($query->quoteName('item_id') . ' = ' . $query->quote($itemId));
 
 		$this->getDbo()->setQuery($query)->execute();
 	}
@@ -787,19 +776,14 @@ class FieldModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id) || $record->state != -2)
 		{
-			if ($record->state != -2)
-			{
-				return false;
-			}
-
-			$parts = FieldsHelper::extract($record->context);
-
-			return Factory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
+			return false;
 		}
 
-		return false;
+		$parts = FieldsHelper::extract($record->context);
+
+		return Factory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
 	}
 
 	/**
@@ -867,7 +851,9 @@ class FieldModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'context = ' . $this->_db->quote($table->context);
+		return [
+			$this->_db->quoteName('context') . ' = ' . $this->_db->quote($table->context),
+		];
 	}
 
 	/**
@@ -900,7 +886,7 @@ class FieldModel extends AdminModel
 				$data->set('group_id', $app->input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
 				$data->set(
 					'access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
 				);
 
 				// Set the type if available from the request
@@ -927,11 +913,11 @@ class FieldModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @see     \JFormField
+	 * @see     \Joomla\CMS\Form\FormField
 	 * @since   3.7.0
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		$component  = $this->state->get('field.component');
 		$section    = $this->state->get('field.section');
@@ -974,29 +960,52 @@ class FieldModel extends AdminModel
 			}
 		}
 
-		try
+		// Get the categories for this component (and optionally this section, if available)
+		$cat = (
+			function () use ($component, $section) {
+				// Get the CategoryService for this component
+				$componentObject = $this->bootComponent($component);
+
+				if (!$componentObject instanceof CategoryServiceInterface)
+				{
+					// No CategoryService -> no categories
+					return null;
+				}
+
+				$cat = null;
+
+				// Try to get the categories for this component and section
+				try
+				{
+					$cat = $componentObject->getCategory([], $section ?: '');
+				}
+				catch (SectionNotFoundException $e)
+				{
+					// Not found for component and section -> Now try once more without the section, so only component
+					try
+					{
+						$cat = $componentObject->getCategory();
+					}
+					catch (SectionNotFoundException $e)
+					{
+						// If we haven't found it now, return (no categories available for this component)
+						return null;
+					}
+				}
+
+				// So we found categories for at least the component, return them
+				return $cat;
+			}
+		)();
+
+		// If we found categories, and if the root category has children, set them in the form
+		if ($cat && $cat->get('root')->hasChildren())
 		{
-			// Setting the context for the category field
-			$componentObject = $this->bootComponent($component);
-
-			if (!$componentObject instanceof CategoriesServiceInterface)
-			{
-				throw new SectionNotFoundException;
-			}
-
-			$cat = $componentObject->getCategories();
-
-			if ($cat->get('root')->hasChildren())
-			{
-				$form->setFieldAttribute('assigned_cat_ids', 'extension', $component);
-			}
-			else
-			{
-				$form->removeField('assigned_cat_ids');
-			}
+			$form->setFieldAttribute('assigned_cat_ids', 'extension', $cat->getExtension());
 		}
-		catch (SectionNotFoundException $e)
+		else
 		{
+			// Else remove the field from the form
 			$form->removeField('assigned_cat_ids');
 		}
 

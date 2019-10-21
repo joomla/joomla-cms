@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,19 +11,19 @@ namespace Joomla\Component\Config\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\MVC\Model\FormModel as BaseForm;
-use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\FormModel as BaseForm;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Prototype form model.
  *
  * @see    JForm
- * @see    JFormField
- * @see    JFormRule
+ * @see    \Joomla\CMS\Form\FormField
+ * @see    \Joomla\CMS\Form\FormRule
  * @since  3.2
  */
 abstract class FormModel extends BaseForm
@@ -148,6 +148,8 @@ abstract class FormModel extends BaseForm
 		// Get the form.
 		// Register the paths for the form -- failing here
 		$paths = new \SplPriorityQueue;
+		$paths->insert(JPATH_COMPONENT_ADMINISTRATOR . '/model/form', 'normal');
+		$paths->insert(JPATH_COMPONENT_ADMINISTRATOR . '/model/field', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/model/form', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/model/field', 'normal');
 		$paths->insert(JPATH_COMPONENT . '/model/rule', 'normal');
@@ -159,8 +161,11 @@ abstract class FormModel extends BaseForm
 
 		// Solution until JForm supports splqueue
 		Form::addFormPath(JPATH_COMPONENT . '/forms');
+		Form::addFieldPath(JPATH_COMPONENT . '/Field');
 		Form::addFormPath(JPATH_COMPONENT . '/models/forms');
 		Form::addFieldPath(JPATH_COMPONENT . '/models/fields');
+		Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/model/form');
+		Form::addFieldPath(JPATH_COMPONENT_ADMINISTRATOR . '/model/field');
 		Form::addFormPath(JPATH_COMPONENT . '/model/form');
 		Form::addFieldPath(JPATH_COMPONENT . '/model/field');
 
@@ -239,7 +244,7 @@ abstract class FormModel extends BaseForm
 	 *
 	 * @return  void
 	 *
-	 * @see     JFormField
+	 * @see     \Joomla\CMS\Form\FormField
 	 * @since   3.2
 	 * @throws  \Exception if there is an error in the form event.
 	 */
@@ -261,7 +266,7 @@ abstract class FormModel extends BaseForm
 	 *
 	 * @return  mixed  Array of filtered data if valid, false otherwise.
 	 *
-	 * @see     JFormRule
+	 * @see     \Joomla\CMS\Form\FormRule
 	 * @see     JFilterInput
 	 * @since   3.2
 	 */

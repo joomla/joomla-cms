@@ -2,20 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\Observer\ContentHistory;
-use Joomla\CMS\Table\Observer\Tags;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 
@@ -27,6 +25,14 @@ use Joomla\Registry\Registry;
 class Category extends Nested
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  Database driver object.
@@ -37,7 +43,7 @@ class Category extends Nested
 	{
 		$this->typeAlias = '{extension}.category';
 		parent::__construct('#__categories', 'id', $db);
-		$this->access = (int) Factory::getConfig()->get('access');
+		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**
@@ -171,11 +177,6 @@ class Category extends Nested
 			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
-		if (empty($this->modified_time))
-		{
-			$this->modified_time = $this->getDbo()->getNullDate();
-		}
-
 		return true;
 	}
 
@@ -193,20 +194,20 @@ class Category extends Nested
 	 */
 	public function bind($array, $ignore = '')
 	{
-		if (isset($array['params']) && is_array($array['params']))
+		if (isset($array['params']) && \is_array($array['params']))
 		{
 			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
-		if (isset($array['metadata']) && is_array($array['metadata']))
+		if (isset($array['metadata']) && \is_array($array['metadata']))
 		{
 			$registry = new Registry($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
 
 		// Bind the rules.
-		if (isset($array['rules']) && is_array($array['rules']))
+		if (isset($array['rules']) && \is_array($array['rules']))
 		{
 			$rules = new Rules($array['rules']);
 			$this->setRules($rules);
@@ -224,7 +225,7 @@ class Category extends Nested
 	 *
 	 * @since   1.6
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate();
 		$user = Factory::getUser();
@@ -242,6 +243,11 @@ class Category extends Nested
 			if (!(int) $this->created_time)
 			{
 				$this->created_time = $date->toSql();
+			}
+
+			if (empty($this->modified_time))
+			{
+				$this->modified_time = $this->created_time;
 			}
 
 			if (empty($this->created_user_id))

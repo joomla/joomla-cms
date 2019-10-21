@@ -3,12 +3,13 @@
 	<name>plg_system_debug</name>
 	<author>Joomla! Project</author>
 	<creationDate>December 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_DEBUG_XML_DESCRIPTION</description>
+	<namespace>Joomla\Plugin\System\Debug</namespace>
 	<files>
 		<filename plugin="debug">debug.php</filename>
 		<filename>debugmonitor.php</filename>
@@ -21,19 +22,58 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
+					name="refresh_assets"
+					type="radio"
+					label="PLG_DEBUG_FIELD_REFRESH_ASSETS_LABEL"
+					description="PLG_DEBUG_FIELD_REFRESH_ASSETS_DESC"
+					class="switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
 					name="filter_groups"
 					type="usergrouplist"
 					label="PLG_DEBUG_FIELD_ALLOWED_GROUPS_LABEL"
 					multiple="true"
+					filter="int_array"
 					size="10"
 				/>
 
 				<field
+					name="memory"
+					type="radio"
+					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
+					class="switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="request"
+					type="radio"
+					label="PLG_DEBUG_FIELD_REQUEST_LABEL"
+					class="switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
 					name="session"
 					type="radio"
-					class="switcher"
 					label="PLG_DEBUG_FIELD_SESSION_LABEL"
+					class="switcher"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -42,9 +82,10 @@
 				<field
 					name="profile"
 					type="radio"
-					class="switcher"
 					label="PLG_DEBUG_FIELD_PROFILING_LABEL"
+					class="switcher"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -53,41 +94,136 @@
 				<field
 					name="queries"
 					type="radio"
-					class="switcher"
 					label="PLG_DEBUG_FIELD_QUERIES_LABEL"
+					class="switcher"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
 
 				<field
-					name="query_types"
+					name="query_traces"
 					type="radio"
+					label="PLG_DEBUG_FIELD_QUERY_TRACES_LABEL"
 					class="switcher"
-					label="PLG_DEBUG_FIELD_QUERY_TYPES_LABEL"
-					default="1"
+					default="0"
+					showon="queries:1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
 
 				<field
-					name="memory"
+					name="query_profiles"
 					type="radio"
+					label="PLG_DEBUG_FIELD_QUERY_PROFILES_LABEL"
 					class="switcher"
-					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
-					default="1"
+					default="0"
+					showon="queries:1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
 				</field>
 
+				<field
+					name="query_explains"
+					type="radio"
+					label="PLG_DEBUG_FIELD_QUERY_EXPLAINS_LABEL"
+					class="switcher"
+					default="0"
+					showon="queries:1"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+			</fieldset>
+
+			<fieldset
+				name="language"
+				label="PLG_DEBUG_LANGUAGE_FIELDSET_LABEL"
+				>
+
+				<field
+					name="language_errorfiles"
+					type="radio"
+					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
+					class="switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="language_files"
+					type="radio"
+					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
+					class="switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="language_strings"
+					type="radio"
+					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
+					class="switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
+				</field>
+
+				<field
+					name="strip-first"
+					type="radio"
+					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
+					class="switcher"
+					default="1"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="strip-prefix"
+					type="textarea"
+					label="PLG_DEBUG_FIELD_STRIP_PREFIX_LABEL"
+					description="PLG_DEBUG_FIELD_STRIP_PREFIX_DESC"
+					cols="30"
+					rows="4"
+				/>
+
+				<field
+					name="strip-suffix"
+					type="textarea"
+					label="PLG_DEBUG_FIELD_STRIP_SUFFIX_LABEL"
+					description="PLG_DEBUG_FIELD_STRIP_SUFFIX_DESC"
+					cols="30"
+					rows="4"
+				/>
+			</fieldset>
+
+			<fieldset
+				name="logging"
+				label="PLG_DEBUG_LOGGING_FIELDSET_LABEL"
+				>
 				<field
 					name="logs"
 					type="radio"
-					class="switcher"
 					label="PLG_DEBUG_FIELD_LOGS_LABEL"
+					class="switcher"
 					default="1"
 					>
 					<option value="0">JHIDE</option>
@@ -124,8 +260,8 @@
 				<field
 					name="log_category_mode"
 					type="radio"
-					class="switcher switcher-danger"
 					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
+					class="switcher switcher-danger"
 					default="0"
 					>
 					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
@@ -133,96 +269,24 @@
 				</field>
 
 				<field
-					name="refresh_assets"
-					type="radio"
-					label="PLG_DEBUG_FIELD_REFRESH_ASSETS_LABEL"
-					description="PLG_DEBUG_FIELD_REFRESH_ASSETS_DESC"
-					class="switcher"
-					default="1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-			</fieldset>
-
-			<fieldset
-				name="language"
-				label="PLG_DEBUG_LANGUAGE_FIELDSET_LABEL"
-				>
-
-				<field
-					name="language_errorfiles"
-					type="radio"
-					class="switcher"
-					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
-					default="1"
-					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
-				</field>
-
-				<field
-					name="language_files"
-					type="radio"
-					class="switcher"
-					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
-					default="1"
-					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
-				</field>
-
-				<field
-					name="language_strings"
-					type="radio"
-					class="switcher"
-					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
-					default="1"
-					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
-				</field>
-
-				<field
-					name="strip-first"
-					type="radio"
-					class="switcher"
-					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
-					default="1"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="strip-prefix"
-					type="textarea"
-					label="PLG_DEBUG_FIELD_STRIP_PREFIX_LABEL"
-					description="PLG_DEBUG_FIELD_STRIP_PREFIX_DESC"
-					cols="30"
-					rows="4"
-				/>
-
-				<field
-					name="strip-suffix"
-					type="textarea"
-					label="PLG_DEBUG_FIELD_STRIP_SUFFIX_LABEL"
-					description="PLG_DEBUG_FIELD_STRIP_SUFFIX_DESC"
-					cols="30"
-					rows="4"
-				/>
-			</fieldset>
-
-			<fieldset
-				name="logging"
-				label="PLG_DEBUG_LOGGING_FIELDSET_LABEL"
-				>
-				<field
 					name="log-deprecated"
 					type="radio"
-					class="switcher"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
+					class="switcher"
 					default="0"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="log-deprecated-core"
+					type="radio"
+					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_CORE_LABEL"
+					class="switcher"
+					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -231,20 +295,10 @@
 				<field
 					name="log-everything"
 					type="radio"
-					class="switcher"
 					label="PLG_DEBUG_FIELD_LOG_EVERYTHING_LABEL"
-					default="0"
-					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
-				</field>
-
-				<field
-					name="log-executed-sql"
-					type="radio"
 					class="switcher"
-					label="PLG_DEBUG_FIELD_EXECUTEDSQL_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

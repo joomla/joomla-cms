@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Utility;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 // Workaround for B/C. Will be removed with 4.0
 BufferStreamHandler::stream_register();
@@ -19,7 +19,7 @@ BufferStreamHandler::stream_register();
  * This class provides a generic buffer stream.  It can be used to store/retrieve/manipulate
  * string buffers with the standard PHP filesystem I/O methods.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class BufferStreamHandler
 {
@@ -27,7 +27,7 @@ class BufferStreamHandler
 	 * Stream position
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $position = 0;
 
@@ -35,7 +35,7 @@ class BufferStreamHandler
 	 * Buffer name
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $name = null;
 
@@ -43,7 +43,7 @@ class BufferStreamHandler
 	 * Buffer hash
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	public $buffers = array();
 
@@ -85,7 +85,7 @@ class BufferStreamHandler
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @see     streamWrapper::stream_open
 	 */
 	public function stream_open($path, $mode, $options, &$opened_path)
@@ -108,12 +108,12 @@ class BufferStreamHandler
 	 *                   the stream is empty.
 	 *
 	 * @see     streamWrapper::stream_read
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_read($count)
 	{
 		$ret = substr($this->buffers[$this->name], $this->position, $count);
-		$this->position += strlen($ret);
+		$this->position += \strlen($ret);
 
 		return $ret;
 	}
@@ -126,16 +126,16 @@ class BufferStreamHandler
 	 * @return  integer
 	 *
 	 * @see     streamWrapper::stream_write
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_write($data)
 	{
 		$left = substr($this->buffers[$this->name], 0, $this->position);
-		$right = substr($this->buffers[$this->name], $this->position + strlen($data));
+		$right = substr($this->buffers[$this->name], $this->position + \strlen($data));
 		$this->buffers[$this->name] = $left . $data . $right;
-		$this->position += strlen($data);
+		$this->position += \strlen($data);
 
-		return strlen($data);
+		return \strlen($data);
 	}
 
 	/**
@@ -144,7 +144,7 @@ class BufferStreamHandler
 	 * @return  integer
 	 *
 	 * @see     streamWrapper::stream_tell
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_tell()
 	{
@@ -157,11 +157,11 @@ class BufferStreamHandler
 	 * @return  boolean  True if the pointer is at the end of the stream
 	 *
 	 * @see     streamWrapper::stream_eof
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_eof()
 	{
-		return $this->position >= strlen($this->buffers[$this->name]);
+		return $this->position >= \strlen($this->buffers[$this->name]);
 	}
 
 	/**
@@ -174,7 +174,7 @@ class BufferStreamHandler
 	 * @return  boolean  True if updated
 	 *
 	 * @see     streamWrapper::stream_seek
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_seek($offset, $whence)
 	{
@@ -204,7 +204,7 @@ class BufferStreamHandler
 	 */
 	protected function seek_set($offset)
 	{
-		if ($offset < 0 || $offset > strlen($this->buffers[$this->name]))
+		if ($offset < 0 || $offset > \strlen($this->buffers[$this->name]))
 		{
 			return false;
 		}
@@ -242,7 +242,7 @@ class BufferStreamHandler
 	 */
 	protected function seek_end($offset)
 	{
-		$offset += strlen($this->buffers[$this->name]);
+		$offset += \strlen($this->buffers[$this->name]);
 
 		if ($offset < 0)
 		{

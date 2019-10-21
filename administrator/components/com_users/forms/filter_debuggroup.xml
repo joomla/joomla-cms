@@ -12,6 +12,7 @@
 		<field
 			name="component"
 			type="Components"
+			label="COM_USERS_OPTION_SELECT_COMPONENT"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_COMPONENT</option>
@@ -20,6 +21,7 @@
 		<field
 			name="level_start"
 			type="Levels"
+			label="COM_USERS_OPTION_SELECT_LEVEL_START"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_LEVEL_START</option>
@@ -28,6 +30,7 @@
 		<field
 			name="level_end"
 			type="Levels"
+			label="COM_USERS_OPTION_SELECT_LEVEL_END"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_LEVEL_END</option>
@@ -38,6 +41,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.lft ASC"
 			>
@@ -55,6 +59,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

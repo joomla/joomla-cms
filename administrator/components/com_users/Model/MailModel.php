@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,11 +13,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Database\ParameterType;
 
 /**
  * Users mail model.
@@ -29,7 +31,7 @@ class MailModel extends AdminModel
 	/**
 	 * Method to get the row form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  \JForm	A \JForm object on success, false on failure
@@ -79,7 +81,7 @@ class MailModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'user')
+	protected function preprocessForm(Form $form, $data, $group = 'user')
 	{
 		parent::preprocessForm($form, $data, $group);
 	}
@@ -126,10 +128,12 @@ class MailModel extends AdminModel
 		$to = $access->getUsersByGroup($grp, $recurse);
 
 		// Get all users email and group except for senders
+		$uid = (int) $user->get('id');
 		$query = $db->getQuery(true)
-			->select('email')
-			->from('#__users')
-			->where('id != ' . (int) $user->get('id'));
+			->select($db->quoteName('email'))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('id') . ' != :id')
+			->bind(':id', $uid, ParameterType::INTEGER);
 
 		if ($grp !== 0)
 		{
@@ -139,7 +143,7 @@ class MailModel extends AdminModel
 			}
 			else
 			{
-				$query->where('id IN (' . implode(',', $to) . ')');
+				$query->whereIn($db->quoteName('id'), $to);
 			}
 		}
 
@@ -209,7 +213,6 @@ class MailModel extends AdminModel
 				$rs = false;
 			}
 		}
-
 
 		// Check for an error
 		if ($rs !== true)

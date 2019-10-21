@@ -8,8 +8,8 @@ $cassiopeia-border-color:            #ccc !default;
 $cassiopeia-box-shadow:              0 0 3px rgba(0,0,0,.04) !default;
 $cassiopeia-block-header-bg:         #f5f5f5 !default;
 $white-offset:                       #fefefe;
-$grey:                               #aaa; // REMMOVE THIS AFTER
 $cassiopeia-header-grad:             linear-gradient(135deg, $cassiopeia-template-color-dark 0%, $cassiopeia-template-color 100%);
+$input-max-width:                    240px;
 
 $white:                              #fff;
 $gray-100:                           #f8f9fa;
@@ -44,7 +44,7 @@ $orange:                             #fd7e14;
 $yellow:                             #f0ad4e;
 $green:                              #438243;
 $teal:                               #5bc0de;
-$cyan:                               #17a2b8;
+$cyan:                               #108193;
 
 $colors: (
   blue: $blue,
@@ -87,7 +87,7 @@ $h4-font-size:                       1rem;
 $h5-font-size:                       .9286rem;
 $h6-font-size:                       .8571rem;
 $font-size-sm:                       .8rem;
-$fa-font-path:                       "../../../media/vendor/font-awesome/fonts";
+$fa-font-path:                       "../../../media/vendor/fontawesome-free/webfonts";
 
 // Border Radius
 $border-radius:               .25rem !default;

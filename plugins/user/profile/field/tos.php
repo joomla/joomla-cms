@@ -3,18 +3,17 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * Provides input for TOS
@@ -54,10 +53,8 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 		// Set required to true as this field is not displayed at all if not required.
 		$this->required = true;
 
-		HTMLHelper::_('behavior.modal');
-
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTooltip' : '';
+		$class = !empty($this->description) ? 'hasPopover' : '';
 		$class = $class . ' required';
 		$class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
 
@@ -67,49 +64,71 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' title="'
-				. htmlspecialchars(
-					trim($text, ':') . '<br>' . ($this->translateDescription ? Text::_($this->description) : $this->description),
-					ENT_COMPAT, 'UTF-8'
-				) . '"';
+			$label .= ' data-content="' . htmlspecialchars(
+				$this->translateDescription ? Text::_($this->description) : $this->description,
+				ENT_COMPAT,
+				'UTF-8'
+			) . '"';
+
+			if (Factory::getLanguage()->isRtl())
+			{
+				$label .= ' data-placement="left"';
+			}
 		}
 
-		$tosarticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
+		$tosArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
-		if ($tosarticle)
+		if ($tosArticle)
 		{
-			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
-
-			$attribs          = array();
-			$attribs['class'] = 'modal';
-			$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
+			$attribs                = [];
+			$attribs['data-toggle'] = 'modal';
+			$attribs['data-target'] = '#tosModal';
 
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 			$query->select('id, alias, catid, language')
 				->from('#__content')
-				->where('id = ' . $tosarticle);
+				->where('id = ' . $tosArticle);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
 			if (Associations::isEnabled())
 			{
-				$tosassociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $tosarticle);
+				$tosAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $tosArticle);
 			}
 
-			$current_lang = Factory::getLanguage()->getTag();
+			$currentLang = Factory::getLanguage()->getTag();
 
-			if (isset($tosassociated) && $current_lang !== $article->language && array_key_exists($current_lang, $tosassociated))
+			if (isset($tosAssociated) && $currentLang !== $article->language && array_key_exists($currentLang, $tosAssociated))
 			{
-				$url  = ContentHelperRoute::getArticleRoute($tosassociated[$current_lang]->id, $tosassociated[$current_lang]->catid);
-				$link = HTMLHelper::_('link', Route::_($url . '&tmpl=component&lang=' . $tosassociated[$current_lang]->language), $text, $attribs);
+				$url  = ContentHelperRoute::getArticleRoute(
+					$tosAssociated[$currentLang]->id,
+					$tosAssociated[$currentLang]->catid,
+					$tosAssociated[$currentLang]->language
+				);
+				$link = HTMLHelper::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
 			}
 			else
 			{
 				$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid);
-				$link = HTMLHelper::_('link', Route::_($url . '&tmpl=component&lang=' . $article->language), $text, $attribs);
+				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
+				$link = HTMLHelper::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
 			}
+
+			echo HTMLHelper::_(
+				'bootstrap.renderModal',
+				'tosModal',
+				array(
+					'url'    => Route::_($url . '&tmpl=component'),
+					'title'  => $text,
+					'height' => '100%',
+					'width'  => '100%',
+					'modalWidth'  => '800',
+					'bodyHeight'  => '500',
+					'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+				)
+			);
 		}
 		else
 		{

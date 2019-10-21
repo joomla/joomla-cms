@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
@@ -18,7 +18,7 @@ use Joomla\Registry\Registry;
  * Update table
  * Stores updates temporarily
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Update extends Table
 {
@@ -27,7 +27,7 @@ class Update extends Table
 	 *
 	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
@@ -40,7 +40,7 @@ class Update extends Table
 	 * @return  boolean  True if the object is ok
 	 *
 	 * @see     Table::check()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{
@@ -81,17 +81,17 @@ class Update extends Table
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
 	 * @see     Table::bind()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function bind($array, $ignore = '')
 	{
-		if (isset($array['params']) && is_array($array['params']))
+		if (isset($array['params']) && \is_array($array['params']))
 		{
 			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
-		if (isset($array['control']) && is_array($array['control']))
+		if (isset($array['control']) && \is_array($array['control']))
 		{
 			$registry = new Registry($array['control']);
 			$array['control'] = (string) $registry;
@@ -107,7 +107,7 @@ class Update extends Table
 	 *
 	 * @return  string  Results of query
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function find($options = array())
 	{

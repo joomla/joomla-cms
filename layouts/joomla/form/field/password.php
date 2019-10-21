@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,7 +69,7 @@ Text::script('JHIDE');
 
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-	!$autocomplete ? 'autocomplete="off"' : '',
+	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	$readonly ? 'readonly' : '',
 	$disabled ? 'disabled' : '',
@@ -94,9 +94,9 @@ $attributes = array(
 			id="<?php echo $id; ?>"
 			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 			<?php echo implode(' ', $attributes); ?>>
-		<span class="input-group-text">
-			<span class="fa fa-eye" aria-hidden="true"></span>
+		<span class="input-group-append">
 			<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+			<span class="input-group-text icon-eye input-password-toggle" aria-hidden="true"></span>
 		</span>
 	</div>
 </div>

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
@@ -37,7 +37,7 @@ class LanguageAdapter extends InstallerAdapter
 	 * Core language pack flag
 	 *
 	 * @var    boolean
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $core = false;
 
@@ -103,8 +103,13 @@ class LanguageAdapter extends InstallerAdapter
 		// Setting the language of users which have this language as the default language
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->from('#__users')
-			->select('*');
+			->select(
+				[
+					$db->quoteName('id'),
+					$db->quoteName('params'),
+				]
+			)
+			->from($db->quoteName('#__users'));
 		$db->setQuery($query);
 		$users = $db->loadObjectList();
 
@@ -119,18 +124,29 @@ class LanguageAdapter extends InstallerAdapter
 
 		$count = 0;
 
+		// Declare parameters before binding.
+		$userId   = 0;
+		$registry = '';
+
+		// Prepare the query.
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__users'))
+			->set($db->quoteName('params') . ' = :registry')
+			->where($db->quoteName('id') . ' = :userId')
+			->bind(':registry', $registry)
+			->bind(':userId', $userId, ParameterType::INTEGER);
+		$db->setQuery($query);
+
 		foreach ($users as $user)
 		{
 			$registry = new Registry($user->params);
 
 			if ($registry->get($param_name) === $this->extension->element)
 			{
+				// Update query parameters.
 				$registry->set($param_name, '');
-				$query->clear()
-					->update('#__users')
-					->set('params = ' . $db->quote($registry))
-					->where('id = ' . (int) $user->id);
-				$db->setQuery($query);
+				$userId = $user->id;
+
 				$db->execute();
 				$count++;
 			}
@@ -140,8 +156,8 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
-			->delete('#__schemas')
-			->where('extension_id = :extension_id')
+			->delete($db->quoteName('#__schemas'))
+			->where($db->quoteName('extension_id') . ' = :extension_id')
 			->bind(':extension_id', $extensionId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
@@ -288,9 +304,9 @@ class LanguageAdapter extends InstallerAdapter
 		{
 			$this->parent
 				->setPath(
-				'source',
-				($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/language/' . $this->parent->extension->element
-			);
+					'source',
+					($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/language/' . $this->parent->extension->element
+				);
 		}
 
 		$this->setManifest($this->parent->getManifest());
@@ -363,7 +379,7 @@ class LanguageAdapter extends InstallerAdapter
 		$this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
-		if ($element && count($element->children()))
+		if ($element && \count($element->children()))
 		{
 			$files = $element->children();
 
@@ -386,11 +402,11 @@ class LanguageAdapter extends InstallerAdapter
 			{
 				$this->parent
 					->abort(
-					Text::sprintf(
-						'JLIB_INSTALLER_ABORT',
-						Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_FOLDER_FAILED', $this->parent->getPath('extension_site'))
-					)
-				);
+						Text::sprintf(
+							'JLIB_INSTALLER_ABORT',
+							Text::sprintf('JLIB_INSTALLER_ERROR_CREATE_FOLDER_FAILED', $this->parent->getPath('extension_site'))
+						)
+					);
 
 				return false;
 			}
@@ -486,6 +502,7 @@ class LanguageAdapter extends InstallerAdapter
 		$row->set('name', $this->name);
 		$row->set('type', 'language');
 		$row->set('element', $this->tag);
+		$row->set('changelogurl', (string) $this->getManifest()->changelogurl);
 
 		// There is no folder for languages
 		$row->set('folder', '');
@@ -557,7 +574,7 @@ class LanguageAdapter extends InstallerAdapter
 				'image'        => strtolower(str_replace('-', '_', $this->tag)),
 				'published'    => 0,
 				'ordering'     => 0,
-				'access'       => (int) Factory::getConfig()->get('access', 1),
+				'access'       => (int) Factory::getApplication()->get('access', 1),
 				'description'  => '',
 				'metakey'      => '',
 				'metadesc'     => '',
@@ -684,7 +701,7 @@ class LanguageAdapter extends InstallerAdapter
 		$this->parent->setPath('extension_site', $basePath . '/language/' . $tag);
 
 		// Do we have a meta file in the file list?  In other words... is this a core language pack?
-		if (count($xml->files->children()))
+		if (\count($xml->files->children()))
 		{
 			foreach ($xml->files->children() as $file)
 			{
@@ -765,6 +782,7 @@ class LanguageAdapter extends InstallerAdapter
 		$row->set('type', 'language');
 		$row->set('element', $this->tag);
 		$row->set('manifest_cache', $this->parent->generateManifestCache());
+		$row->set('changelogurl', (string) $this->getManifest()->changelogurl);
 
 		// Clean installed languages cache.
 		Factory::getCache()->clean('com_languages');
@@ -790,8 +808,8 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	public function discover()
 	{
-		$results = array();
-		$site_languages = Folder::folders(JPATH_SITE . '/language');
+		$results         = array();
+		$site_languages  = Folder::folders(JPATH_SITE . '/language');
 		$admin_languages = Folder::folders(JPATH_ADMINISTRATOR . '/language');
 
 		foreach ($site_languages as $language)
@@ -844,18 +862,18 @@ class LanguageAdapter extends InstallerAdapter
 	public function discover_install()
 	{
 		// Need to find to find where the XML file is since we don't store this normally
-		$client = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$short_element = $this->parent->extension->element;
-		$manifestPath = $client->path . '/language/' . $short_element . '/' . $short_element . '.xml';
+		$client                 = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$short_element          = $this->parent->extension->element;
+		$manifestPath           = $client->path . '/language/' . $short_element . '/' . $short_element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$this->parent->setPath('source', $client->path . '/language/' . $short_element);
 		$this->parent->setPath('extension_root', $this->parent->getPath('source'));
-		$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->state = 0;
-		$this->parent->extension->name = $manifest_details['name'];
-		$this->parent->extension->enabled = 1;
+		$this->parent->extension->state          = 0;
+		$this->parent->extension->name           = $manifest_details['name'];
+		$this->parent->extension->enabled        = 1;
 
 		// @todo remove code: $this->parent->extension->params = $this->parent->getParams();
 		try
@@ -885,23 +903,21 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	public function refreshManifestCache()
 	{
-		$client = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . '/language/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
+		$client                 = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$manifestPath           = $client->path . '/language/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
-		$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->name = $manifest_details['name'];
+		$this->parent->extension->name           = $manifest_details['name'];
 
 		if ($this->parent->extension->store())
 		{
 			return true;
 		}
-		else
-		{
-			Log::add(Text::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
-			return false;
-		}
+		Log::add(Text::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
+
+		return false;
 	}
 }

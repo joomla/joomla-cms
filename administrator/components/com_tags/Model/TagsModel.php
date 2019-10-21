@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,12 @@ namespace Joomla\Component\Tags\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 
 /**
  * Tags Component Tags Model
@@ -136,47 +136,53 @@ class TagsModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.note, a.published, a.access' .
+				'a.id, a.title, a.alias, a.note, a.published, a.access, a.description' .
 					', a.checked_out, a.checked_out_time, a.created_user_id' .
 					', a.path, a.parent_id, a.level, a.lft, a.rgt' .
 					', a.language'
 			)
 		);
-		$query->from('#__tags AS a')
-			->where('a.alias <> ' . $db->quote('root'));
+		$query->from($db->quoteName('#__tags', 'a'))
+			->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
 
 		// Join over the language
-		$query->select('l.title AS language_title, l.image AS language_image')
-			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+		$query->select(
+			[
+				$db->quoteName('l.title', 'language_title'),
+				$db->quoteName('l.image', 'language_image'),
+			]
+		)
+			->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'));
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor')
-			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		$query->select($db->quoteName('uc.name', 'editor'))
+			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'));
 
 		// Join over the users for the author.
-		$query->select('ua.name AS author_name')
-			->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id')
-
-			->select('ug.title AS access_title')
-			->join('LEFT', '#__viewlevels AS ug on ug.id = a.access');
+		$query->select($db->quoteName('ua.name', 'author_name'))
+			->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_user_id'))
+			->select($db->quoteName('ug.title', 'access_title'))
+			->join('LEFT', $db->quoteName('#__viewlevels', 'ug'), $db->quoteName('ug.id') . ' = ' . $db->quoteName('a.access'));
 
 		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
+		if ($level = (int) $this->getState('filter.level'))
 		{
-			$query->where('a.level <= ' . (int) $level);
+			$query->where($db->quoteName('a.level') . ' <= :level')
+				->bind(':level', $level, ParameterType::INTEGER);
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
+		if ($access = (int) $this->getState('filter.access'))
 		{
-			$query->where('a.access = ' . (int) $access);
+			$query->where($db->quoteName('a.access') . ' = :access')
+				->bind(':access', $access, ParameterType::INTEGER);
 		}
 
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
+			$groups = $user->getAuthorisedViewLevels();
+			$query->whereIn($db->quoteName('a.access'), $groups);
 		}
 
 		// Filter by published state
@@ -184,11 +190,13 @@ class TagsModel extends ListModel
 
 		if (is_numeric($published))
 		{
-			$query->where('a.published = ' . (int) $published);
+			$published = (int) $published;
+			$query->where($db->quoteName('a.published') . ' = :published')
+				->bind(':published', $published, ParameterType::INTEGER);
 		}
 		elseif ($published === '')
 		{
-			$query->where('(a.published IN (0, 1))');
+			$query->whereIn($db->quoteName('a.published'), [0, 1]);
 		}
 
 		// Filter by search in title
@@ -198,19 +206,34 @@ class TagsModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$ids = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :id')
+					->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
+				$search = '%' . str_replace(' ', '%', trim($search)) . '%';
+				$query->extendWhere(
+					'AND',
+					[
+						$db->quoteName('a.title') . ' LIKE :title',
+						$db->quoteName('a.alias') . ' LIKE :alias',
+						$db->quoteName('a.note') . ' LIKE :note',
+
+					],
+					'OR'
+				);
+				$query->bind(':title', $search)
+					->bind(':alias', $search)
+					->bind(':note', $search);
 			}
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = ' . $db->quote($language));
+			$query->where($db->quoteName('a.language') . ' = :language')
+				->bind(':language', $language);
 		}
 
 		// Add the list ordering clause
@@ -230,102 +253,11 @@ class TagsModel extends ListModel
 	}
 
 	/**
-	 * Method override to check-in a record or an array of record
-	 *
-	 * @param   mixed  $pks  The ID of the primary key or an array of IDs
-	 *
-	 * @return  mixed  Boolean false if there is an error, otherwise the count of records checked in.
-	 *
-	 * @since   12.2
-	 */
-	public function checkin($pks = array())
-	{
-		$pks = (array) $pks;
-
-		/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
-		$table = $this->getTable();
-		$count = 0;
-
-		if (empty($pks))
-		{
-			$pks = array((int) $this->getState($this->getName() . '.id'));
-		}
-
-		// Check in all items.
-		foreach ($pks as $pk)
-		{
-			if ($table->load($pk))
-			{
-				if ($table->checked_out > 0)
-				{
-					// Only attempt to check the row in if it exists.
-					if ($pk)
-					{
-						$user = Factory::getUser();
-
-						// Get an instance of the row to checkin.
-						$table = $this->getTable();
-
-						if (!$table->load($pk))
-						{
-							$this->setError($table->getError());
-
-							return false;
-						}
-
-						// Check if this is the user having previously checked out the row.
-						if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
-						{
-							$this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
-
-							return false;
-						}
-
-						// Attempt to check the row in.
-						if (!$table->checkin($pk))
-						{
-							$this->setError($table->getError());
-
-							return false;
-						}
-					}
-
-					$count++;
-				}
-			}
-			else
-			{
-				$this->setError($table->getError());
-
-				return false;
-			}
-		}
-
-		return $count;
-	}
-
-	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $type    The table name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  \Joomla\CMS\Table\Table  A Table object
-	 *
-	 * @since   3.1
-	 */
-	public function getTable($type = 'Tag', $prefix = 'Administrator', $config = array())
-	{
-		return parent::getTable($type, $prefix, $config);
-	}
-
-	/**
 	 * Method to get an array of data items.
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getItems()
 	{
@@ -354,7 +286,6 @@ class TagsModel extends ListModel
 	public function countItems(&$items, $extension)
 	{
 		$parts = explode('.', $extension);
-		$section = null;
 
 		if (count($parts) < 2)
 		{
@@ -363,7 +294,7 @@ class TagsModel extends ListModel
 
 		$component = Factory::getApplication()->bootComponent($parts[0]);
 
-		if ($component instanceof CategoriesServiceInterface)
+		if ($component instanceof CategoryServiceInterface)
 		{
 			$component->countTagItems($items, $extension);
 		}

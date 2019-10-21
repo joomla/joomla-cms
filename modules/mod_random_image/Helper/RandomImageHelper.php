@@ -3,16 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  mod_random_image
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Module\RandomImage\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-use Joomla\String\StringHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\String\StringHelper;
 
 /**
  * Helper for mod_random_image
@@ -31,10 +31,10 @@ class RandomImageHelper
 	 */
 	public static function getRandomImage(&$params, $images)
 	{
-		$width  = $params->get('width');
-		$height = $params->get('height');
+		$width  = $params->get('width', 100);
+		$height = $params->get('height', null);
 
-		$i = count($images);
+		$i = \count($images);
 
 		if ($i === 0)
 		{
@@ -45,11 +45,6 @@ class RandomImageHelper
 		$image  = $images[$random];
 		$size   = getimagesize(JPATH_BASE . '/' . $image->folder . '/' . $image->name);
 
-		if ($width === '')
-		{
-			$width = 100;
-		}
-
 		if ($size[0] < $width)
 		{
 			$width = $size[0];
@@ -57,7 +52,7 @@ class RandomImageHelper
 
 		$coeff = $size[0] / $size[1];
 
-		if ($height === '')
+		if ($height === null)
 		{
 			$height = (int) ($width / $coeff);
 		}

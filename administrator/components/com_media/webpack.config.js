@@ -1,5 +1,5 @@
-var path = require('path')
-var webpack = require('webpack')
+var path = require('path');
+var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
@@ -51,6 +51,9 @@ module.exports = {
             filename: './../../../media/com_media/css/mediamanager.min.css',
             allChunks: true,
         }),
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+        }),
     ],
     resolve: {
         alias: {
@@ -60,18 +63,13 @@ module.exports = {
     performance: {
         hints: false
     },
-    devtool: '#eval-source-map'
-}
+    devtool: process.env.NODE_ENV === 'production' ? '#source-map' : '#eval-source-map'
+};
 
+// Add plugins for minification when in build mode
 if (process.env.NODE_ENV === 'production') {
-    module.exports.devtool = '#source-map'
     // http://vue-loader.vuejs.org/en/workflow/production.html
     module.exports.plugins = (module.exports.plugins || []).concat([
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: '"production"'
-            }
-        }),
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: true,
             compress: {

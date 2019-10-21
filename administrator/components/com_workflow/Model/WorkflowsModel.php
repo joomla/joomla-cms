@@ -3,21 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  */
 namespace Joomla\Component\Workflow\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\ListModel;
 
 /**
  * Model class for workflows
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WorkflowsModel extends ListModel
 {
@@ -27,7 +27,7 @@ class WorkflowsModel extends ListModel
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct($config = array())
 	{
@@ -36,7 +36,7 @@ class WorkflowsModel extends ListModel
 			$config['filter_fields'] = array(
 				'id', 'w.id',
 				'title', 'w.title',
-				'state', 'w.state',
+				'published', 'w.published',
 				'created_by', 'w.created_by',
 				'created', 'w.created',
 				'ordering', 'w.ordering',
@@ -62,12 +62,12 @@ class WorkflowsModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function populateState($ordering = 'w.ordering', $direction = 'asc')
 	{
 		$app = Factory::getApplication();
-		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
 		$this->setState('filter.extension', $extension);
 		$parts = explode('.', $extension);
@@ -90,7 +90,7 @@ class WorkflowsModel extends ListModel
 	 *
 	 * @return  \Joomla\CMS\Table\Table  A JTable object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getTable($type = 'Workflow', $prefix = 'Administrator', $config = array())
 	{
@@ -102,7 +102,7 @@ class WorkflowsModel extends ListModel
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getItems()
 	{
@@ -123,7 +123,7 @@ class WorkflowsModel extends ListModel
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function countItems($items)
 	{
@@ -178,7 +178,7 @@ class WorkflowsModel extends ListModel
 	 *
 	 * @return  string  The query to database.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getListQuery()
 	{
@@ -195,6 +195,7 @@ class WorkflowsModel extends ListModel
 				'w.published',
 				'w.ordering',
 				'w.default',
+				'w.core',
 				'w.created_by',
 				'w.description',
 				'u.name'
@@ -240,25 +241,5 @@ class WorkflowsModel extends ListModel
 		$query->order($db->quoteName($db->escape($orderCol)) . ' ' . $db->escape($orderDirn == 'desc' ? 'DESC' : 'ASC'));
 
 		return $query;
-	}
-
-	/**
-	 * Build a list of authors
-	 *
-	 * @return  \stdClass[]
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function getAuthors()
-	{
-		$query = $this->getDbo()->getQuery(true);
-
-		$query->select('u.id AS value, u.name AS text')
-			->from('#__users AS u')
-			->join('INNER', '#__workflows AS c ON c.created_by = u.id')
-			->group('u.id, u.name')
-			->order('u.name');
-
-		return $this->getDbo()->setQuery($query)->loadObjectList();
 	}
 }

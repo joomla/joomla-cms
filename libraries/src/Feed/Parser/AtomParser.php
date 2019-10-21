@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Feed\Parser;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedEntry;
@@ -19,13 +19,13 @@ use Joomla\CMS\Feed\FeedParser;
  * ATOM Feed Parser class.
  *
  * @link   http://www.atomenabled.org/developers/syndication/
- * @since  12.3
+ * @since  3.1.4
  */
 class AtomParser extends FeedParser
 {
 	/**
 	 * @var    string  The feed format version.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $version;
 
@@ -37,7 +37,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleAuthor(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -53,7 +53,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleContributor(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -68,7 +68,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleGenerator(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -83,7 +83,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleId(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -98,7 +98,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleLink(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -121,7 +121,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleRights(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -136,7 +136,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleSubtitle(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -151,7 +151,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleTitle(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -166,7 +166,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleUpdated(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -179,7 +179,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function initialise()
 	{
@@ -198,7 +198,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function processFeedEntry(FeedEntry $entry, \SimpleXMLElement $el)
 	{
@@ -212,11 +212,11 @@ class AtomParser extends FeedParser
 			$entry->content = (string) $el->content;
 		}
 
-		if (filter_var($entry->uri, FILTER_VALIDATE_URL) === false && !is_null($el->link) && $el->link)
+		if (filter_var($entry->uri, FILTER_VALIDATE_URL) === false && !\is_null($el->link) && $el->link)
 		{
 			$link = $el->link;
 
-			if (is_array($link))
+			if (\is_array($link))
 			{
 				$link = $this->bestLinkForUri($link);
 			}

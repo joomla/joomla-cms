@@ -3,17 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 ?>
 <div class="com-content-archive archive">
 <?php if ($this->params->get('show_page_heading')) : ?>
@@ -51,7 +49,6 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 	</div>
 	<br>
 	</fieldset>
-
-	<?php echo $this->loadTemplate('items'); ?>
 </form>
+<?php echo $this->loadTemplate('items'); ?>
 </div>

@@ -1,8 +1,10 @@
 // com_cpanel
 
+.cpanel-add-module-icon,
 .com-cpanel {
 
   &-help, &-system {
+
     .list-group-item {
       padding: 0;
 
@@ -14,21 +16,19 @@
   }
 
   &-help {
+
     &__header {
-      color: $atum-template-color-dark;
+      color: var(--atum-special-color);
     }
 
     a {
-      color: $gray-800;
+      color: var(--atum-link-color);
     }
 
     h2 {
       font-size: $h4-font-size;
     }
 
-    .list-group {
-      box-shadow: $atum-box-shadow;
-    }
   }
 
   &-system {
@@ -36,13 +36,13 @@
 
     &__category {
       margin-bottom: 1.5em;
-      webkit-column-break-inside: avoid;
+      -webkit-column-break-inside: avoid;
       page-break-inside: avoid;
       break-inside: avoid;
     }
 
     &__header {
-      color: $atum-template-color-dark;
+      color: var(--atum-special-color);
 
       span {
         margin-right: 5px;
@@ -50,16 +50,13 @@
     }
 
     a {
-      color: $gray-800;
+      color: var(--atum-link-color);
     }
 
     h2 {
       font-size: $h4-font-size;
     }
 
-    .list-group {
-      box-shadow: $atum-box-shadow;
-    }
 
     @include media-breakpoint-down(md) {
       column-count: 2;
@@ -87,42 +84,101 @@
       margin-bottom: 0;
     }
 
-    .list-group, .table {
-      background-color: $white;
-      box-shadow: $atum-box-shadow;
-
+    .list-group,
+    .table {
       > .published {
         padding-left: .9rem;
-        border-left: 5px solid theme-color("success");
+        border-left: 5px solid var(--success);
       }
 
       > .unpublished {
         padding-left: .9rem;
-        border-left: 5px solid theme-color("danger");
+        border-left: 5px solid var(--danger);
       }
     }
 
   }
 
   .card-header {
-    padding-left: 0;
-    font-size: $h5-font-size;
-    color: $atum-template-color-dark;
+    min-height: 2.5rem;
+    color: var(--atum-bg-dark);
+    font-weight: $font-weight-bold;
+    background: var(--card-bg);
   }
 
   .module-actions {
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 2;
+    z-index: $zindex-actions;
 
     > a {
       display: inline-block;
       width: 2.6em;
       height: 2.6em;
       line-height: 2.6em;
-      color: $atum-template-color-dark;
-      text-align: center;
+      color: var(--atum-special-color);
     }
   }
+
+  .cpanel-add-module {
+    background-color: var(--atum-bg-light);
+    color: var(--atum-text-dark);
+    border: 0.125rem var(--white) dashed;
+    position: relative;
+    transition: all .3s ease-in;
+
+    @include hover-focus-active() {
+      border-color: var(--atum-bg-dark);
+      text-decoration: none;
+      background-color: var(--white);
+
+      .cpanel-add-module-icon {
+
+        .fa {
+          opacity: 0.3;
+        }
+      }
+    }
+
+    span {
+      position: relative;
+    }
+
+    .cpanel-add-module-icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      .fa {
+        transition: all .3s ease-in;
+        font-size: 7rem;
+        transform: translateX(-100%);
+      }
+    }
+  }
+}
+
+.cpanel-modules {
+  .list-group-item:hover {
+    background:var(--toolbar-bg);
+  }
+
+  .list-group-item a > span.fa {
+    background: var(--atum-link-color);
+    color: rgba(255,255,255,.9);
+    display: block;
+    padding: 0.5rem;
+    box-shadow: $atum-box-shadow;
+
+    &:hover {
+      background: var(--atum-link-hover-color);
+    }
+  }
+
+   h2 {
+      font-size: $h4-font-size;
+    }
 }

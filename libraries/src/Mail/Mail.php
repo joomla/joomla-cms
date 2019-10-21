@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Mail;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -19,7 +19,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 /**
  * Email Class.  Provides a common interface to send email from the Joomla! Platform
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Mail extends PHPMailer
 {
@@ -27,7 +27,7 @@ class Mail extends PHPMailer
 	 * Mail instances container.
 	 *
 	 * @var    Mail[]
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instances = array();
 
@@ -35,7 +35,7 @@ class Mail extends PHPMailer
 	 * Charset of the message.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $CharSet = 'utf-8';
 
@@ -44,7 +44,7 @@ class Mail extends PHPMailer
 	 *
 	 * @param   boolean  $exceptions  Flag if Exceptions should be thrown
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($exceptions = true)
 	{
@@ -60,13 +60,24 @@ class Mail extends PHPMailer
 		};
 
 		// If debug mode is enabled then set SMTPDebug to the maximum level
-		if (defined('JDEBUG') && JDEBUG)
+		if (\defined('JDEBUG') && JDEBUG)
 		{
 			$this->SMTPDebug = 4;
 		}
 
 		// Don't disclose the PHPMailer version
 		$this->XMailer = ' ';
+
+		/*
+		 * PHPMailer 5.2 can't validate e-mail addresses with the new regex library used in PHP 7.3+
+		 * Setting $validator to "php" uses the native php function filter_var
+		 *
+		 * @see https://github.com/joomla/joomla-cms/issues/24707
+		 */
+		if (version_compare(PHP_VERSION, '7.3.0', '>='))
+		{
+			PHPMailer::$validator = 'php';
+		}
 	}
 
 	/**
@@ -80,7 +91,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return  Mail  The global Mail object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance($id = 'Joomla', $exceptions = true)
 	{
@@ -97,16 +108,16 @@ class Mail extends PHPMailer
 	 *
 	 * @return  boolean  Boolean true if successful, false if exception throwing is disabled.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @throws  \RuntimeException   if the mail function is disabled
-	 * @throws  phpmailerException  if sending failed and exception throwing is enabled
+	 * @throws  phpmailerException  if sending failed
 	 */
 	public function Send()
 	{
-		if (Factory::getConfig()->get('mailonline', 1))
+		if (Factory::getApplication()->get('mailonline', 1))
 		{
-			if (($this->Mailer == 'mail') && !function_exists('mail'))
+			if (($this->Mailer == 'mail') && !\function_exists('mail'))
 			{
 				throw new \RuntimeException(Text::_('JLIB_MAIL_FUNCTION_DISABLED'), 500);
 			}
@@ -133,13 +144,23 @@ class Mail extends PHPMailer
 			 */
 			if (!$result && $this->SMTPAutoTLS)
 			{
-				throw new \RuntimeException(Text::_($this->ErrorInfo), 500);
+				$this->SMTPAutoTLS = false;
+
+				try
+				{
+					$result = parent::send();
+				}
+				finally
+				{
+					// Reset the value for any future emails
+					$this->SMTPAutoTLS = true;
+				}
 			}
 
 			return $result;
 		}
 
-		Factory::getApplication()->enqueueMessage(Text::_('JLIB_MAIL_FUNCTION_OFFLINE'));
+		Factory::getApplication()->enqueueMessage(Text::_('JLIB_MAIL_FUNCTION_OFFLINE'), 'warning');
 
 		return false;
 	}
@@ -153,14 +174,14 @@ class Mail extends PHPMailer
 	 *
 	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @throws  \UnexpectedValueException  if the sender is not a valid address
 	 * @throws  phpmailerException 			if setting the sender failed and exception throwing is enabled
 	 */
 	public function setSender($from)
 	{
-		if (is_array($from))
+		if (\is_array($from))
 		{
 			// If $from is an array we assume it has an adress and a name
 			if (isset($from[2]))
@@ -173,7 +194,7 @@ class Mail extends PHPMailer
 				$result = $this->setFrom(MailHelper::cleanLine($from[0]), MailHelper::cleanLine($from[1]));
 			}
 		}
-		elseif (is_string($from))
+		elseif (\is_string($from))
 		{
 			// If it is a string we assume it is just the address
 			$result = $this->setFrom(MailHelper::cleanLine($from));
@@ -201,7 +222,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return  Mail  Returns this object for chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setSubject($subject)
 	{
@@ -217,7 +238,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return  Mail  Returns this object for chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setBody($content)
 	{
@@ -239,7 +260,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @throws  \InvalidArgumentException if the argument array counts do not match
 	 * @throws  phpmailerException  if setting the address failed and exception throwing is enabled
@@ -249,9 +270,9 @@ class Mail extends PHPMailer
 		$method = lcfirst($method);
 
 		// If the recipient is an array, add each recipient... otherwise just add the one
-		if (is_array($recipient))
+		if (\is_array($recipient))
 		{
-			if (is_array($name))
+			if (\is_array($name))
 			{
 				$combined = array_combine($recipient, $name);
 
@@ -266,7 +287,7 @@ class Mail extends PHPMailer
 					$recipientName = MailHelper::cleanLine($recipientName);
 
 					// Check for boolean false return if exception handling is disabled
-					if (call_user_func('parent' . $method, $recipientEmail, $recipientName) === false)
+					if (\call_user_func('parent::' . $method, $recipientEmail, $recipientName) === false)
 					{
 						return false;
 					}
@@ -281,7 +302,7 @@ class Mail extends PHPMailer
 					$to = MailHelper::cleanLine($to);
 
 					// Check for boolean false return if exception handling is disabled
-					if (call_user_func('parent::' . $method, $to, $name) === false)
+					if (\call_user_func('parent::' . $method, $to, $name) === false)
 					{
 						return false;
 					}
@@ -293,7 +314,7 @@ class Mail extends PHPMailer
 			$recipient = MailHelper::cleanLine($recipient);
 
 			// Check for boolean false return if exception handling is disabled
-			if (call_user_func('parent::' . $method, $recipient, $name) === false)
+			if (\call_user_func('parent::' . $method, $recipient, $name) === false)
 			{
 				return false;
 			}
@@ -310,7 +331,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return  Mail|boolean  Returns this object for chaining on success or false on failure when exception throwing is disabled.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @throws  phpmailerException  if exception throwing is enabled
 	 */
@@ -327,7 +348,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure when exception throwing is enabled.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @throws  phpmailerException  if exception throwing is enabled
 	 */
@@ -350,7 +371,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure when exception throwing is disabled.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @throws  phpmailerException  if exception throwing is enabled
 	 */
@@ -369,14 +390,15 @@ class Mail extends PHPMailer
 	 * Add file attachment to the email
 	 *
 	 * @param   mixed   $path         Either a string or array of strings [filenames]
-	 * @param   mixed   $name         Either a string or array of strings [names]
+	 * @param   mixed   $name         Either a string or array of strings [names]. N.B. if this is an array it must contain the same
+	 *                                number of elements as the array of paths supplied.
 	 * @param   mixed   $encoding     The encoding of the attachment
 	 * @param   mixed   $type         The mime type
 	 * @param   string  $disposition  The disposition of the attachment
 	 *
 	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure when exception throwing is disabled.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  \InvalidArgumentException  if the argument array counts do not match
 	 * @throws  phpmailerException 			if setting the attatchment failed and exception throwing is enabled
 	 */
@@ -387,9 +409,9 @@ class Mail extends PHPMailer
 		{
 			$result = true;
 
-			if (is_array($path))
+			if (\is_array($path))
 			{
-				if (!empty($name) && count($path) != count($name))
+				if (!empty($name) && \count($path) != \count($name))
 				{
 					throw new \InvalidArgumentException('The number of attachments must be equal with the number of name');
 				}
@@ -439,7 +461,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return  Mail  Returns this object for chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function clearAttachments()
 	{
@@ -455,7 +477,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return  Mail  Returns this object for chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function removeAttachment($index = 0)
 	{
@@ -475,7 +497,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure when exception throwing is disabled.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @throws  phpmailerException  if exception throwing is enabled
 	 */
@@ -491,7 +513,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return  Mail  Returns this object for chaining.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function isHtml($ishtml = true)
 	{
@@ -507,12 +529,12 @@ class Mail extends PHPMailer
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function isSendmail()
 	{
 		// Prefer the Joomla configured sendmail path and default to the configured PHP path otherwise
-		$sendmail = Factory::getConfig()->get('sendmail', ini_get('sendmail_path'));
+		$sendmail = Factory::getApplication()->get('sendmail', ini_get('sendmail_path'));
 
 		// And if we still don't have a path, then use the system default for Linux
 		if (empty($sendmail))
@@ -531,7 +553,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function useSendmail($sendmail = null)
 	{
@@ -563,7 +585,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function useSmtp($auth = null, $host = null, $user = null, $pass = null, $secure = null, $port = 25)
 	{
@@ -610,15 +632,16 @@ class Mail extends PHPMailer
 	 *
 	 * @return  boolean  True on success, false on failure when exception throwing is disabled.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @throws  phpmailerException  if exception throwing is enabled
 	 */
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
-		$replyTo = null, $replyToName = null)
+		$replyTo = null, $replyToName = null
+	)
 	{
 		// Create config object
-		$config = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		$this->setSubject($subject);
 		$this->setBody($body);
@@ -651,9 +674,9 @@ class Mail extends PHPMailer
 		}
 
 		// Take care of reply email addresses
-		if (is_array($replyTo))
+		if (\is_array($replyTo))
 		{
-			$numReplyTo = count($replyTo);
+			$numReplyTo = \count($replyTo);
 
 			for ($i = 0; $i < $numReplyTo; $i++)
 			{
@@ -670,9 +693,9 @@ class Mail extends PHPMailer
 				return false;
 			}
 		}
-		elseif ($config->get('replyto'))
+		elseif ($app->get('replyto'))
 		{
-			$this->addReplyTo($config->get('replyto'), $config->get('replytoname'));
+			$this->addReplyTo($app->get('replyto'), $app->get('replytoname'));
 		}
 
 		// Add sender to replyTo only if no replyTo received

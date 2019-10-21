@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,12 +13,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\Database\DatabaseDriver;
 
 /**
  * Fields Table
@@ -27,6 +27,14 @@ use Joomla\Database\DatabaseDriver;
  */
 class FieldTable extends Table
 {
+	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
 	/**
 	 * Class constructor.
 	 *
@@ -65,6 +73,34 @@ class FieldTable extends Table
 
 		if (isset($src['fieldparams']) && is_array($src['fieldparams']))
 		{
+			// Make sure $registry->options contains no duplicates when the field type is subfields
+			if (isset($src['type']) && $src['type'] == 'subfields' && isset($src['fieldparams']['options']))
+			{
+				// Fast lookup map to check which custom field ids we have already seen
+				$seen_customfields = array();
+
+				// Container for the new $src['fieldparams']['options']
+				$options = array();
+
+				// Iterate through the old options
+				$i = 0;
+
+				foreach ($src['fieldparams']['options'] as $option)
+				{
+					// Check whether we have not yet seen this custom field id
+					if (!isset($seen_customfields[$option['customfield']]))
+					{
+						// We haven't, so add it to the final options
+						$seen_customfields[$option['customfield']] = true;
+						$options['option' . $i] = $option;
+						$i++;
+					}
+				}
+
+				// And replace the options with the deduplicated ones.
+				$src['fieldparams']['options'] = $options;
+			}
+
 			$registry = new Registry;
 			$registry->loadArray($src['fieldparams']);
 			$src['fieldparams'] = (string) $registry;
@@ -132,6 +168,11 @@ class FieldTable extends Table
 			$this->type = 'text';
 		}
 
+		if (empty($this->fieldparams))
+		{
+			$this->fieldparams = '{}';
+		}
+
 		$date = Factory::getDate();
 		$user = Factory::getUser();
 
@@ -148,6 +189,9 @@ class FieldTable extends Table
 				$this->created_time = $date->toSql();
 			}
 
+			$this->modified_time = $this->created_time;
+			$this->modified_by = 0;
+
 			if (empty($this->created_user_id))
 			{
 				$this->created_user_id = $user->get('id');
@@ -160,6 +204,21 @@ class FieldTable extends Table
 		}
 
 		return true;
+	}
+
+	/**
+	 * Overloaded store function
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  mixed  False on failure, positive integer on success.
+	 *
+	 * @see     Table::store()
+	 * @since   4.0.0
+	 */
+	public function store($updateNulls = true)
+	{
+		return parent::store($updateNulls);
 	}
 
 	/**

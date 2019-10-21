@@ -2,15 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Feed;
 
-use Joomla\CMS\Date\Date;
+\defined('JPATH_PLATFORM') or die;
 
-defined('JPATH_PLATFORM') or die;
+use Joomla\CMS\Date\Date;
 
 /**
  * Class to encapsulate a feed entry for the Joomla Platform.
@@ -27,13 +27,13 @@ defined('JPATH_PLATFORM') or die;
  * @property  Date        $updatedDate    The last time the content of the feed entry changed.
  * @property  string      $uri            Universal, permanent identifier for the feed entry.
  *
- * @since  12.3
+ * @since  3.1.4
  */
 class FeedEntry
 {
 	/**
 	 * @var    array  The entry properties.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $properties = array(
 		'uri'  => '',
@@ -52,7 +52,7 @@ class FeedEntry
 	 *
 	 * @return  mixed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __get($name)
 	{
@@ -67,11 +67,11 @@ class FeedEntry
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __set($name, $value)
 	{
-		// Ensure that setting a date always sets a JDate instance.
+		// Ensure that setting a date always sets a Date instance.
 		if ((($name == 'updatedDate') || ($name == 'publishedDate')) && !($value instanceof Date))
 		{
 			$value = new Date($value);
@@ -83,8 +83,8 @@ class FeedEntry
 			throw new \InvalidArgumentException(
 				sprintf(
 					'%1$s "author" must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
-					get_class($this),
-					gettype($value) === 'object' ? get_class($value) : gettype($value)
+					\get_class($this),
+					\gettype($value) === 'object' ? \get_class($value) : \gettype($value)
 				)
 			);
 		}
@@ -95,19 +95,19 @@ class FeedEntry
 			throw new \InvalidArgumentException(
 				sprintf(
 					'%1$s "source" must be an instance of Joomla\\CMS\\Feed\\Feed. %2$s given.',
-					get_class($this),
-					gettype($value) === 'object' ? get_class($value) : gettype($value)
+					\get_class($this),
+					\gettype($value) === 'object' ? \get_class($value) : \gettype($value)
 				)
 			);
 		}
 
 		// Disallow setting categories, contributors, or links directly.
-		if (in_array($name, array('categories', 'contributors', 'links')))
+		if (\in_array($name, array('categories', 'contributors', 'links')))
 		{
 			throw new \InvalidArgumentException(
 				sprintf(
 					'Cannot directly set %1$s property "%2$s".',
-					get_class($this),
+					\get_class($this),
 					$name
 				)
 			);
@@ -124,7 +124,7 @@ class FeedEntry
 	 *
 	 * @return  FeedEntry
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function addCategory($name, $uri = '')
 	{
@@ -143,7 +143,7 @@ class FeedEntry
 	 *
 	 * @return  FeedEntry
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function addContributor($name, $email, $uri = null, $type = null)
 	{
@@ -171,7 +171,7 @@ class FeedEntry
 	 *
 	 * @return  FeedEntry
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function addLink(FeedLink $link)
 	{
@@ -197,7 +197,7 @@ class FeedEntry
 	 *
 	 * @return  FeedEntry
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function removeCategory($name)
 	{
@@ -213,7 +213,7 @@ class FeedEntry
 	 *
 	 * @return  FeedEntry
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function removeContributor(FeedPerson $contributor)
 	{
@@ -239,7 +239,7 @@ class FeedEntry
 	 *
 	 * @return  FeedEntry
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function removeLink(FeedLink $link)
 	{
@@ -268,7 +268,7 @@ class FeedEntry
 	 *
 	 * @return  FeedEntry
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setAuthor($name, $email, $uri = null, $type = null)
 	{

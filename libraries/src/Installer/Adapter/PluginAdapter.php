@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Filesystem\File;
@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
+use Joomla\Database\ParameterType;
 
 /**
  * Plugin installer
@@ -235,7 +236,7 @@ class PluginAdapter extends InstallerAdapter
 		{
 			// Backward Compatibility
 			// @todo Deprecate in future version
-			if (count($this->getManifest()->files->children()))
+			if (\count($this->getManifest()->files->children()))
 			{
 				$type = (string) $this->getManifest()->attributes()->type;
 
@@ -294,7 +295,7 @@ class PluginAdapter extends InstallerAdapter
 			$group = strtolower((string) $this->getManifest()->attributes()->group);
 			$name = '';
 
-			if (count($element->children()))
+			if (\count($element->children()))
 			{
 				foreach ($element->children() as $file)
 				{
@@ -442,10 +443,10 @@ class PluginAdapter extends InstallerAdapter
 			$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
 			$this->extension->manifest_cache = json_encode($manifest_details);
-			$this->extension->state = 0;
-			$this->extension->name = $manifest_details['name'];
-			$this->extension->enabled = 'editors' === $this->extension->folder ? 1 : 0;
-			$this->extension->params = $this->parent->getParams();
+			$this->extension->state          = 0;
+			$this->extension->name           = $manifest_details['name'];
+			$this->extension->enabled        = 'editors' === $this->extension->folder ? 1 : 0;
+			$this->extension->params         = $this->parent->getParams();
 
 			if (!$this->extension->store())
 			{
@@ -481,16 +482,17 @@ class PluginAdapter extends InstallerAdapter
 		else
 		{
 			// Store in the extensions table (1.6)
-			$this->extension->name      = $this->name;
-			$this->extension->type      = 'plugin';
-			$this->extension->ordering  = 0;
-			$this->extension->element   = $this->element;
-			$this->extension->folder    = $this->group;
-			$this->extension->enabled   = 0;
-			$this->extension->protected = 0;
-			$this->extension->access    = 1;
-			$this->extension->client_id = 0;
-			$this->extension->params    = $this->parent->getParams();
+			$this->extension->name         = $this->name;
+			$this->extension->type         = 'plugin';
+			$this->extension->ordering     = 0;
+			$this->extension->element      = $this->element;
+			$this->extension->folder       = $this->group;
+			$this->extension->enabled      = 0;
+			$this->extension->protected    = 0;
+			$this->extension->access       = 1;
+			$this->extension->client_id    = 0;
+			$this->extension->params       = $this->parent->getParams();
+			$this->extension->changelogurl = $this->changelogurl;
 
 			// Update the manifest cache for the entry
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();

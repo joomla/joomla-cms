@@ -2,12 +2,12 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -21,7 +21,7 @@ use Joomla\CMS\Uri\Uri;
  * Supports a one line text field.
  *
  * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
- * @since  11.1
+ * @since  1.7.0
  */
 class TextField extends FormField
 {
@@ -29,7 +29,7 @@ class TextField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Text';
 
@@ -174,7 +174,7 @@ class TextField extends FormField
 
 			if (!empty($inputmode))
 			{
-				$defaultInputmode = in_array('default', $inputmode) ? Text::_('JLIB_FORM_INPUTMODE') . ' ' : '';
+				$defaultInputmode = \in_array('default', $inputmode) ? Text::_('JLIB_FORM_INPUTMODE') . ' ' : '';
 
 				foreach (array_keys($inputmode, 'default') as $key)
 				{
@@ -202,7 +202,7 @@ class TextField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{
@@ -222,18 +222,18 @@ class TextField extends FormField
 			$value  = $params->get($this->fieldname);
 
 			// Try with global configuration
-			if (is_null($value))
+			if (\is_null($value))
 			{
-				$value = Factory::getConfig()->get($this->fieldname);
+				$value = Factory::getApplication()->get($this->fieldname);
 			}
 
 			// Try with menu configuration
-			if (is_null($value) && Factory::getApplication()->input->getCmd('option') == 'com_menus')
+			if (\is_null($value) && Factory::getApplication()->input->getCmd('option') == 'com_menus')
 			{
 				$value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
 			}
 
-			if (!is_null($value))
+			if (!\is_null($value))
 			{
 				$value = (string) $value;
 
@@ -274,19 +274,6 @@ class TextField extends FormField
 	}
 
 	/**
-	 * Method to get the field suggestions.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since       3.2
-	 * @deprecated  4.0  Use getOptions instead
-	 */
-	protected function getSuggestions()
-	{
-		return $this->getOptions();
-	}
-
-	/**
 	 * Method to get the data to be passed to the layout for rendering.
 	 *
 	 * @return  array
@@ -306,7 +293,7 @@ class TextField extends FormField
 		 * Get the field options for the datalist.
 		 * Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0.
 		 */
-		$options  = (array) $this->getSuggestions();
+		$options  = (array) $this->getOptions();
 
 		$extraData = array(
 			'maxLength'   => $maxLength,

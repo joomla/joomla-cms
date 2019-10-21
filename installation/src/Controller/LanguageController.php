@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,8 +14,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Language;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
 
 /**
  * Language controller class for the Joomla Installer.

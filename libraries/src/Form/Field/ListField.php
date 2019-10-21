@@ -2,19 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -25,7 +25,7 @@ use Joomla\CMS\Uri\Uri;
  * Form Field class for the Joomla Platform.
  * Supports a generic list of options.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class ListField extends FormField
 {
@@ -33,9 +33,17 @@ class ListField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'List';
+
+	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $layout = 'joomla.form.field.list';
 
 	/**
 	 * Method to get the field input markup for a generic list.
@@ -47,61 +55,11 @@ class ListField extends FormField
 	 */
 	protected function getInput()
 	{
-		$html = array();
-		$attr = '';
+		$data = $this->getLayoutData();
 
-		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="custom-select ' . $this->class . '"' : ' class="custom-select"';
-		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' required' : '';
-		$attr .= $this->autofocus ? ' autofocus' : '';
+		$data['options'] = (array) $this->getOptions();
 
-		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ((string) $this->readonly == '1'
-			|| (string) $this->readonly == 'true'
-			|| (string) $this->disabled == '1'
-			|| (string) $this->disabled == 'true')
-		{
-			$attr .= ' disabled="disabled"';
-		}
-
-		// Initialize JavaScript field attributes.
-		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
-
-		// Get the field options.
-		$options = (array) $this->getOptions();
-
-		// Create a read-only list (no name) with hidden input(s) to store the value(s).
-		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
-		{
-			$html[] = HTMLHelper::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
-
-			// E.g. form field type tag sends $this->value as array
-			if ($this->multiple && is_array($this->value))
-			{
-				if (!count($this->value))
-				{
-					$this->value[] = '';
-				}
-
-				foreach ($this->value as $value)
-				{
-					$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
-				}
-			}
-			else
-			{
-				$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '">';
-			}
-		}
-		else
-		// Create a regular list.
-		{
-			$html[] = HTMLHelper::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
-		}
-
-		return implode($html);
+		return $this->getRenderer($this->layout)->render($data);
 	}
 
 	/**
@@ -122,25 +80,25 @@ class ListField extends FormField
 			if ($requires = explode(',', (string) $option['requires']))
 			{
 				// Requires multilanguage
-				if (in_array('multilanguage', $requires) && !Multilanguage::isEnabled())
+				if (\in_array('multilanguage', $requires) && !Multilanguage::isEnabled())
 				{
 					continue;
 				}
 
 				// Requires associations
-				if (in_array('associations', $requires) && !Associations::isEnabled())
+				if (\in_array('associations', $requires) && !Associations::isEnabled())
 				{
 					continue;
 				}
 
 				// Requires adminlanguage
-				if (in_array('adminlanguage', $requires) && !ModuleHelper::isAdminMultilang())
+				if (\in_array('adminlanguage', $requires) && !ModuleHelper::isAdminMultilang())
 				{
 					continue;
 				}
 
 				// Requires vote plugin
-				if (in_array('vote', $requires) && !PluginHelper::isEnabled('content', 'vote'))
+				if (\in_array('vote', $requires) && !PluginHelper::isEnabled('content', 'vote'))
 				{
 					continue;
 				}
@@ -172,6 +130,15 @@ class ListField extends FormField
 			$tmp['onclick']  = (string) $option['onclick'];
 			$tmp['onchange'] = (string) $option['onchange'];
 
+			if ((string) $option['showon'])
+			{
+				$tmp['optionattr'] = " data-showon='" .
+					json_encode(
+						FormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
+					)
+					. "'";
+			}
+
 			// Add the option object to the result set.
 			$options[] = (object) $tmp;
 		}
@@ -195,18 +162,18 @@ class ListField extends FormField
 			$value  = $params->get($this->fieldname);
 
 			// Try with global configuration
-			if (is_null($value))
+			if (\is_null($value))
 			{
-				$value = Factory::getConfig()->get($this->fieldname);
+				$value = Factory::getApplication()->get($this->fieldname);
 			}
 
 			// Try with menu configuration
-			if (is_null($value) && Factory::getApplication()->input->getCmd('option') == 'com_menus')
+			if (\is_null($value) && Factory::getApplication()->input->getCmd('option') == 'com_menus')
 			{
 				$value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
 			}
 
-			if (!is_null($value))
+			if (!\is_null($value))
 			{
 				$value = (string) $value;
 

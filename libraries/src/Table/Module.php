@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Factory;
@@ -24,6 +24,14 @@ use Joomla\Registry\Registry;
 class Module extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   DatabaseDriver  $db  Database driver object.
@@ -34,7 +42,7 @@ class Module extends Table
 	{
 		parent::__construct('#__modules', 'id', $db);
 
-		$this->access = (int) Factory::getConfig()->get('access');
+		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**
@@ -137,6 +145,25 @@ class Module extends Table
 			return false;
 		}
 
+		// Set publish_up, publish_down to null if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = null;
+		}
+
+		if (!$this->publish_down)
+		{
+			$this->publish_down = null;
+		}
+
+		// Prevent to save too large content > 65535
+		if ((\strlen($this->content) > 65535) || (\strlen($this->params) > 65535))
+		{
+			$this->setError(Text::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));
+
+			return false;
+		}
+
 		// Check the publish down date is not earlier than publish up.
 		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
 		{
@@ -162,14 +189,14 @@ class Module extends Table
 	 */
 	public function bind($array, $ignore = '')
 	{
-		if (isset($array['params']) && is_array($array['params']))
+		if (isset($array['params']) && \is_array($array['params']))
 		{
 			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
 		}
 
 		// Bind the rules.
-		if (isset($array['rules']) && is_array($array['rules']))
+		if (isset($array['rules']) && \is_array($array['rules']))
 		{
 			$rules = new Rules($array['rules']);
 			$this->setRules($rules);
@@ -187,23 +214,11 @@ class Module extends Table
 	 *
 	 * @since   3.7.0
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
-		// Set publish_up, publish_down and checked_out_time to null date if not set
-		if (!$this->publish_up)
-		{
-			$this->publish_up = $this->_db->getNullDate();
-		}
-
-		if (!$this->publish_down)
-		{
-			$this->publish_down = $this->_db->getNullDate();
-		}
-
 		if (!$this->ordering)
 		{
-			$query = $this->_db->getQuery(true);
-			$this->ordering = $this->getNextOrder($query->quoteName('position') . ' = ' . $query->quote($this->position));
+			$this->ordering = $this->getNextOrder($this->_db->quoteName('position') . ' = ' . $this->_db->quote($this->position));
 		}
 
 		return parent::store($updateNulls);

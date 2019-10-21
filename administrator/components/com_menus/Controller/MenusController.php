@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,10 @@ namespace Joomla\Component\Menus\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Factory;
 
 /**
  * The Menu List Controller
@@ -64,10 +63,9 @@ class MenusController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		$user = Factory::getUser();
-		$app  = Factory::getApplication();
+		$user = $this->app->getIdentity();
 		$cids = (array) $this->input->get('cid', array(), 'array');
 
 		if (count($cids) < 1)
@@ -83,14 +81,14 @@ class MenusController extends BaseController
 				{
 					// Prune items that you can't change.
 					unset($cids[$i]);
-					$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'error');
+					$this->app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 'error');
 				}
 			}
 
 			if (count($cids) > 0)
 			{
 				// Get the model.
-				/* @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
+				/** @var \Joomla\Component\Menus\Administrator\Model\MenuModel $model */
 				$model = $this->getModel();
 
 				// Make sure the item ids are integers
@@ -120,11 +118,11 @@ class MenusController extends BaseController
 	 */
 	public function rebuild()
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$this->setRedirect('index.php?option=com_menus&view=menus');
 
-		/* @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
+		/** @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
 		$model = $this->getModel('Item');
 
 		if ($model->rebuild())
@@ -158,9 +156,14 @@ class MenusController extends BaseController
 
 		try
 		{
-			$query->select('element, extension_id')
-				->from('#__extensions')
-				->where('type = ' . $db->quote('component'));
+			$query->select(
+				[
+					$db->quoteName('element'),
+					$db->quoteName('extension_id'),
+				]
+			)
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 			$db->setQuery($query);
 
 			$components = $db->loadAssocList('element', 'extension_id');
@@ -173,10 +176,14 @@ class MenusController extends BaseController
 		}
 
 		// Load all the component menu links
-		$query->select($db->quoteName('id'))
-			->select($db->quoteName('link'))
-			->select($db->quoteName('component_id'))
-			->from('#__menu')
+		$query->select(
+			[
+				$db->quoteName('id'),
+				$db->quoteName('link'),
+				$db->quoteName('component_id'),
+			]
+		)
+			->from($db->quoteName('#__menu'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('component.item'));
 			$db->setQuery($query);
 
@@ -191,10 +198,22 @@ class MenusController extends BaseController
 			return;
 		}
 
+		// Declare variables before binding.
+		$componentId = 0;
+		$itemId      = 0;
+
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__menu'))
+			->set($db->quoteName('component_id') . ' = :componentId')
+			->where($db->quoteName('id') . ' = :itemId')
+			->bind(':componentId', $componentId, ParameterType::INTEGER)
+			->bind(':itemId', $itemId, ParameterType::INTEGER);
+
 		foreach ($items as $item)
 		{
 			// Parse the link.
 			parse_str(parse_url($item->link, PHP_URL_QUERY), $parts);
+			$itemId = $item->id;
 
 			// Tease out the option.
 			if (isset($parts['option']))
@@ -218,11 +237,6 @@ class MenusController extends BaseController
 					// Update the menu table.
 					$log = "Link $item->id refers to $item->component_id, converting to $componentId ($item->link)";
 					echo "<br>$log";
-
-					$query->clear();
-					$query->update('#__menu')
-						->set('component_id = ' . $componentId)
-						->where('id = ' . $item->id);
 
 					try
 					{

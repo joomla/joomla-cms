@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,9 @@ use Joomla\Registry\Registry;
 /**
  * Utility class for form related behaviors
  *
- * @since  3.0
+ * @since       3.0
+ *
+ * @deprecated  5.0  Without replacement
  */
 abstract class JHtmlFormbehavior
 {
@@ -87,17 +89,17 @@ abstract class JHtmlFormbehavior
 
 		// Include jQuery
 		HTMLHelper::_('jquery.framework');
-		HTMLHelper::_('script', 'legacy/chosen.min.js', ['version' => 'auto', 'relative' => true]);
-		HTMLHelper::_('stylesheet', 'legacy/chosen.min.css', ['version' => 'auto', 'relative' => true]);
+		HTMLHelper::_('script', 'vendor/chosen/chosen.jquery.js', ['version' => 'auto', 'relative' => true]);
+		HTMLHelper::_('script', 'legacy/joomla-chosen.min.js', ['version' => 'auto', 'relative' => true]);
+		HTMLHelper::_('stylesheet', 'vendor/chosen/chosen.css', ['version' => 'auto', 'relative' => true]);
 
 		// Options array to json options string
 		$options_str = json_encode($options, ($debug && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));
 
-
 		Factory::getDocument()->addScriptDeclaration(
 			"
 		jQuery(document).ready(function (){
-			jQuery('" . $selector . "').chosen(" . $options_str . ");
+			jQuery('" . $selector . "').jchosen(" . $options_str . ");
 		});
 	"
 		);
@@ -145,7 +147,7 @@ abstract class JHtmlFormbehavior
 			// Include scripts
 			HTMLHelper::_('behavior.core');
 			HTMLHelper::_('jquery.framework');
-			HTMLHelper::_('script', 'legacy/ajax-chosen.min.js', false, true, false, false, $debug);
+			HTMLHelper::_('script', 'legacy/ajax-chosen.min.js', ['version' => 'auto', 'relative' => true, 'detectDebug' => $debug]);
 
 			Factory::getDocument()->addScriptOptions(
 				'ajax-chosen',

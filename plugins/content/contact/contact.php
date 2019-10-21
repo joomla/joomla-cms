@@ -3,17 +3,17 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.Contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Language\Multilanguage;
 
 /**
  * Contact Plugin
@@ -38,7 +38,7 @@ class PlgContentContact extends CMSPlugin
 	 * @param   mixed    $params   Additional parameters. See {@see PlgContentContent()}.
 	 * @param   integer  $page     Optional page number. Unused. Defaults to zero.
 	 *
-	 * @return  boolean	True on success.
+	 * @return  void
 	 */
 	public function onContentPrepare($context, &$row, $params, $page = 0)
 	{
@@ -46,35 +46,50 @@ class PlgContentContact extends CMSPlugin
 
 		if (!in_array($context, $allowed_contexts))
 		{
-			return true;
+			return;
 		}
 
 		// Return if we don't have valid params or don't link the author
 		if (!($params instanceof Registry) || !$params->get('link_author'))
 		{
-			return true;
+			return;
+		}
+
+		// Return if an alias is used
+		if ((int) $this->params->get('link_to_alias', 0) === 0 && $row->created_by_alias != '')
+		{
+			return;
 		}
 
 		// Return if we don't have a valid article id
 		if (!isset($row->id) || !(int) $row->id)
 		{
-			return true;
+			return;
 		}
 
-		$contact = $this->getContactId($row->created_by);
+		$contact        = $this->getContactData($row->created_by);
 		$row->contactid = $contact->contactid;
+		$row->webpage   = $contact->webpage;
+		$row->email     = $contact->email_to;
+		$url            = $this->params->get('url', 'url');
 
-		if ($row->contactid)
+		if ($row->contactid && $url === 'url')
 		{
 			JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
 			$row->contact_link = Route::_(ContactHelperRoute::getContactRoute($contact->contactid . ':' . $contact->alias, $contact->catid));
+		}
+		elseif ($row->webpage && $url === 'webpage')
+		{
+			$row->contact_link = $row->webpage;
+		}
+		elseif ($row->email && $url === 'email')
+		{
+			$row->contact_link = 'mailto:' . $row->email;
 		}
 		else
 		{
 			$row->contact_link = '';
 		}
-
-		return true;
 	}
 
 	/**
@@ -84,7 +99,7 @@ class PlgContentContact extends CMSPlugin
 	 *
 	 * @return  mixed|null|integer
 	 */
-	protected function getContactId($created_by)
+	protected function getContactData($created_by)
 	{
 		static $contacts = array();
 
@@ -95,7 +110,7 @@ class PlgContentContact extends CMSPlugin
 
 		$query = $this->db->getQuery(true);
 
-		$query->select('MAX(contact.id) AS contactid, contact.alias, contact.catid');
+		$query->select('MAX(contact.id) AS contactid, contact.alias, contact.catid, contact.webpage, contact.email_to');
 		$query->from($this->db->quoteName('#__contact_details', 'contact'));
 		$query->where('contact.published = 1');
 		$query->where('contact.user_id = ' . (int) $created_by);
@@ -104,7 +119,8 @@ class PlgContentContact extends CMSPlugin
 		{
 			$query->where('(contact.language in '
 				. '(' . $this->db->quote(Factory::getLanguage()->getTag()) . ',' . $this->db->quote('*') . ') '
-				. ' OR contact.language IS NULL)');
+				. ' OR contact.language IS NULL)'
+			);
 		}
 
 		$this->db->setQuery($query);

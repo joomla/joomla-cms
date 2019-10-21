@@ -3,19 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
-
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -25,23 +22,26 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="table-responsive">
 			<table class="table">
+				<caption id="captionTable" class="sr-only">
+					<?php echo Text::_('COM_USERS_DEBUG_GROUP_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+				</caption>
 				<thead>
 					<tr>
-						<th class="nowrap">
+						<th scope="col">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th class="nowrap">
+						<th scope="col">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_NAME', 'a.name', $listDirn, $listOrder); ?>
 						</th>
 						<?php foreach ($this->actions as $key => $action) : ?>
-						<th style="width:6%" class="text-center">
-							<span class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $key, $action[1]); ?>"><?php echo Text::_($key); ?></span>
+						<th style="width:6%" class="text-center" scope="col">
+							<?php echo Text::_($key); ?>
 						</th>
 						<?php endforeach; ?>
-						<th style="width:6%" class="nowrap text-center">
+						<th style="width:6%" scope="col">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LFT', 'a.lft', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:3%" class="nowrap text-center">
+						<th style="width:3%" scope="col">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -49,10 +49,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<tr class="row0">
-							<td>
+							<td scope="row">
 								<?php echo $this->escape($item->title); ?>
 							</td>
-							<td class="nowrap">
+							<td>
 								<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level + 1)) . $this->escape($item->name); ?>
 							</td>
 							<?php foreach ($this->actions as $action) : ?>
@@ -62,26 +62,31 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								if ($check === true) :
 									$class  = 'text-success icon-ok';
 									$button = 'btn-success';
+									$text   = Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
 								elseif ($check === false) :
 									$class  = 'icon-remove';
 									$button = 'btn-danger';
+									$text   = Text::_('COM_USERS_DEBUG_EXPLICIT_DENY');
 								elseif ($check === null) :
 									$class  = 'text-danger icon-ban-circle';
 									$button = 'btn-warning';
+									$text   = Text::_('COM_USERS_DEBUG_IMPLICIT_DENY');
 								else :
 									$class  = '';
 									$button = '';
+									$text   = '';
 								endif;
 								?>
 							<td class="text-center">
-								<span class="<?php echo $class; ?>"></span>
+								<span class="<?php echo $class; ?>" aria-hidden="true"></span>
+								<span class="sr-only"> <?php echo $text; ?></span>
 							</td>
 							<?php endforeach; ?>
-							<td class="text-center">
+							<td>
 								<?php echo (int) $item->lft; ?>
 								- <?php echo (int) $item->rgt; ?>
 							</td>
-							<td class="text-center">
+							<td>
 								<?php echo (int) $item->id; ?>
 							</td>
 						</tr>
@@ -89,10 +94,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</tbody>
 			</table>
 			<div class="legend">
-				<?php echo Text::_('COM_USERS_DEBUG_LEGEND'); ?>
-				<span class="text-danger icon-ban-circle"></span><?php echo Text::_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
-				<span class="text-success icon-ok"></span><?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
-				<span class="icon-remove"></span><?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
+				<span class="text-danger icon-ban-circle" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
+				<span class="text-success icon-ok" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
+				<span class="icon-remove" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
 			</div>
 
 			<?php // load the pagination. ?>

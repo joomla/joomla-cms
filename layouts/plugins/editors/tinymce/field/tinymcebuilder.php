@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +46,7 @@ extract($displayData);
  * @var   array   $menubarSource   Menu items for builder
  * @var   array   $buttons         List of the buttons
  * @var   array   $buttonsSource   Buttons by group, for the builder
- * @var   array   $toolbarPreset   Toolbar presset (default values)
+ * @var   array   $toolbarPreset   Toolbar preset (default values)
  * @var   int     $setsAmount      Amount of sets
  * @var   array   $setsNames       List of Sets names
  * @var   JForm[] $setsForms       Form with extra options for an each set
@@ -56,10 +56,11 @@ extract($displayData);
  */
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('jquery.ui', array('core', 'sortable'));
-HTMLHelper::_('stylesheet', 'media/vendor/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
-HTMLHelper::_('stylesheet', 'editors/tinymce/tinymce-builder.css', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'editors/tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'media/vendor/tinymce/skins/ui/oxide/skin.min.css', array('version' => 'auto', 'relative' => false));
+HTMLHelper::_('stylesheet', 'plg_editors_tinymce/tinymce-builder.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'vendor/dragula/dragula.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'vendor/dragula/dragula.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'plg_editors_tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
 
 if ($languageFile)
 {
@@ -80,19 +81,15 @@ Factory::getDocument()->addScriptOptions('plg_editors_tinymce_builder',
 
 	<p><?php echo Text::_('PLG_TINY_SET_SOURCE_PANEL_DESCRIPTION'); ?></p>
 
-	<div class="mce-tinymce mce-container mce-panel">
-		<div class="mce-container-body mce-stack-layout">
+	<div class="tox tox-tinymce">
+		<div class="tox-editor-container">
 
-			<div class="mce-container mce-menubar mce-toolbar mce-stack-layout-item">
-				<div class="mce-container-body mce-flow-layout timymce-builder-menu source" data-group="menu"
-					data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
-				</div>
+			<div class="tox-menubar timymce-builder-menu source" data-group="menu"
+				data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
 			</div>
 
-			<div class="mce-toolbar-grp mce-container mce-panel mce-stack-layout-item">
-				<div class="mce-container-body mce-flow-layout timymce-builder-toolbar source" data-group="toolbar"
-					data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
-				</div>
+			<div class="tox-toolbar timymce-builder-toolbar source" data-group="toolbar"
+				data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
 			</div>
 
 		</div>
@@ -107,7 +104,7 @@ Factory::getDocument()->addScriptOptions('plg_editors_tinymce_builder',
 			$isActive = $num === $setsAmount - 1;
 		?>
 		<li class="nav-item">
-			<a href="#set-<?php echo $num; ?>" class="nav-link <?php echo $isActive ? 'active' : ''; ?>">
+			<a href="#set-<?php echo $num; ?>" class="nav-link <?php echo $isActive ? 'active' : ''; ?>" data-toggle="tab">
 				<?php echo $title; ?></a>
 		</li>
 		<?php endforeach; ?>
@@ -167,17 +164,19 @@ Factory::getDocument()->addScriptOptions('plg_editors_tinymce_builder',
 					</div>
 				</div>
 
-				<div class="mce-tinymce mce-container mce-panel">
-					<div class="mce-container-body mce-stack-layout">
-						<div class="mce-container mce-menubar mce-toolbar timymce-builder-menu target"
+				<div class="clearfix mb-1"></div>
+
+				<div class="tox tox-tinymce mb-3">
+					<div class="tox-editor-container">
+						<div class="tox-menubar timymce-builder-menu target"
 							data-group="menu" data-set="<?php echo $num; ?>"
 							data-value="<?php echo $this->escape(json_encode($valMenu)); ?>">
 						</div>
-						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"
+						<div class="tox-toolbar timymce-builder-toolbar target"
 						    data-group="toolbar1" data-set="<?php echo $num; ?>"
 						    data-value="<?php echo $this->escape(json_encode($valBar1)); ?>">
 						</div>
-						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"
+						<div class="tox-toolbar timymce-builder-toolbar target"
 						    data-group="toolbar2" data-set="<?php echo $num; ?>"
 						    data-value="<?php echo $this->escape(json_encode($valBar2)); ?>">
 						</div>

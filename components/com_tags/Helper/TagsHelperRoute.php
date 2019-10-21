@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,8 @@ namespace Joomla\Component\Tags\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Helper\RouteHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\RouteHelper;
 
 /**
  * Tags Component Route Helper.
@@ -22,6 +22,11 @@ use Joomla\CMS\Factory;
  */
 class TagsHelperRoute extends RouteHelper
 {
+	/**
+	 * Lookup-table for menu items
+	 *
+	 * @var    array
+	 */
 	protected static $lookup;
 
 	/**

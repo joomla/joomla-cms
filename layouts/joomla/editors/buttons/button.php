@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,8 +22,8 @@ if ($button->get('name')) :
 	$onclick = ($button->get('onclick')) ? ' onclick="' . $button->get('onclick') . '"' : '';
 	$title   = ($button->get('title')) ? $button->get('title') : $button->get('text');
 ?>
-<a href="<?php echo $href; ?>" role="button" class="xtd-button btn btn-secondary <?php echo $class; ?>" <?php echo $button->get('modal') ? 'data-toggle="modal"' : '' ?> title="<?php echo $title; ?>" <?php echo $onclick; ?>>
+<button type="button" data-target="<?php echo $href; ?>" class="xtd-button btn btn-secondary <?php echo $class; ?>" <?php echo $button->get('modal') ? 'data-toggle="modal"' : '' ?> title="<?php echo $title; ?>" <?php echo $onclick; ?>>
 	<span class="icon-<?php echo $button->get('name'); ?>" aria-hidden="true"></span>
 	<?php echo $button->get('text'); ?>
-</a>
+</button>
 <?php endif; ?>

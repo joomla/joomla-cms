@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,10 +11,11 @@ namespace Joomla\Component\Modules\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Modules component helper.
@@ -23,18 +24,6 @@ use Joomla\CMS\HTML\HTMLHelper;
  */
 abstract class ModulesHelper
 {
-	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 */
-	public static function addSubmenu($vName)
-	{
-		// Not used in this component.
-	}
-
 	/**
 	 * Get a list of filter options for the state of a module.
 	 *
@@ -77,12 +66,14 @@ abstract class ModulesHelper
 	 */
 	public static function getPositions($clientId, $editPositions = false)
 	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('DISTINCT(position)')
-			->from('#__modules')
-			->where($db->quoteName('client_id') . ' = ' . (int) $clientId)
-			->order('position');
+		$db       = Factory::getDbo();
+		$clientId = (int) $clientId;
+		$query    = $db->getQuery(true)
+			->select('DISTINCT ' . $db->quoteName('position'))
+			->from($db->quoteName('#__modules'))
+			->where($db->quoteName('client_id') . ' = :clientid')
+			->order($db->quoteName('position'))
+			->bind(':clientid', $clientId, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
@@ -107,6 +98,10 @@ abstract class ModulesHelper
 			{
 				$options[] = HTMLHelper::_('select.option', 'none', Text::_('COM_MODULES_NONE'));
 			}
+			elseif (!$position)
+			{
+				$options[] = HTMLHelper::_('select.option', '', Text::_('COM_MODULES_NONE'));
+			}
 			else
 			{
 				$options[] = HTMLHelper::_('select.option', $position, $position);
@@ -127,26 +122,31 @@ abstract class ModulesHelper
 	 */
 	public static function getTemplates($clientId = 0, $state = '', $template = '')
 	{
-		$db = Factory::getDbo();
+		$db       = Factory::getDbo();
+		$clientId = (int) $clientId;
 
 		// Get the database object and a new query object.
 		$query = $db->getQuery(true);
 
 		// Build the query.
-		$query->select('element, name, enabled')
-			->from('#__extensions')
-			->where('client_id = ' . (int) $clientId)
-			->where('type = ' . $db->quote('template'));
+		$query->select($db->quoteName(['element', 'name', 'enabled']))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('client_id') . ' = :clientid')
+			->where($db->quoteName('type') . ' = ' . $db->quote('template'));
 
 		if ($state != '')
 		{
-			$query->where('enabled = ' . $db->quote($state));
+			$query->where($db->quoteName('enabled') . ' = :state')
+				->bind(':state', $state);
 		}
 
 		if ($template != '')
 		{
-			$query->where('element = ' . $db->quote($template));
+			$query->where($db->quoteName('element') . ' = :element')
+				->bind(':element', $template);
 		}
+
+		$query->bind(':clientid', $clientId, ParameterType::INTEGER);
 
 		// Set the query and load the templates.
 		$db->setQuery($query);

@@ -3,20 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -28,24 +25,30 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<div id="j-main-container" class="j-main-container">
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
-			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+			<div class="alert alert-info">
+				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
 		<?php else : ?>
 			<table class="table">
+				<caption id="captionTable" class="sr-only">
+					<?php echo Text::_('COM_MESSAGES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+				</caption>
 				<thead>
 					<tr>
-						<td style="width:1%" class="nowrap text-center">
+						<td style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
-						<th scope="col" class="title nowrap">
+						<th scope="col" class="title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MESSAGES_HEADING_SUBJECT', 'a.subject', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:1%" class="nowrap text-center">
+						<th scope="col" style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MESSAGES_HEADING_READ', 'a.state', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:15%" class="nowrap">
+						<th scope="col" style="width:15%">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MESSAGES_HEADING_FROM', 'a.user_id_from', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:20%" class="nowrap d-none d-md-table-cell">
+						<th scope="col" style="width:20%" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JDATE', 'a.date_time', $listDirn, $listOrder); ?>
 						</th>
 					</tr>

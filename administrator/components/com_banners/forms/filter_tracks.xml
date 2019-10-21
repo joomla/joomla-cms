@@ -12,6 +12,7 @@
 		<field
 			name="category_id"
 			type="category"
+			label="JOPTION_SELECT_CATEGORY"
 			extension="com_banners"
 			onchange="this.form.submit();"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
@@ -22,6 +23,7 @@
 		<field
 			name="client_id"
 			type="bannerclient"
+			label="COM_BANNERS_SELECT_CLIENT"
 			extension="com_content"
 			onchange="this.form.submit();"
 			>
@@ -31,6 +33,7 @@
 		<field
 			name="type"
 			type="list"
+			label="COM_BANNERS_SELECT_TYPE"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_BANNERS_SELECT_TYPE</option>
@@ -41,6 +44,7 @@
 		<field
 			name="level"
 			type="integer"
+			label="JOPTION_SELECT_MAX_LEVELS"
 			first="1"
 			last="10"
 			step="1"
@@ -53,6 +57,7 @@
 		<field
 			name="begin"
 			type="calendar"
+			label="COM_BANNERS_BEGIN_HINT"
 			hint="COM_BANNERS_BEGIN_HINT"
 			format="%Y-%m-%d"
 			size="10"
@@ -63,6 +68,7 @@
 		<field
 			name="end"
 			type="calendar"
+			label="COM_BANNERS_END_HINT"
 			hint="COM_BANNERS_END_HINT"
 			format="%Y-%m-%d"
 			size="10"
@@ -74,6 +80,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="b.name ASC"
 			>
@@ -93,6 +100,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="5"
 			onchange="this.form.submit();"
 		/>

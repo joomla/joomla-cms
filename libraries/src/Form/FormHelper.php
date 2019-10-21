@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\Path;
 use Joomla\String\Normalise;
@@ -19,7 +19,7 @@ use Joomla\String\StringHelper;
  * Provides a storage for filesystem's paths where Form's entities reside and methods for creating those entities.
  * Also stores objects with entities' prototypes for further reusing.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class FormHelper
 {
@@ -34,7 +34,7 @@ class FormHelper
 	 * - /path/2
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $paths;
 
@@ -44,7 +44,7 @@ class FormHelper
 	 * @var   string
 	 * @since 3.8.0
 	 */
-	protected static $prefixes = array('field' => array(), 'form' => array(), 'rule' => array());
+	protected static $prefixes = array('field' => array(), 'form' => array(), 'rule' => array(), 'filter' => array());
 
 	/**
 	 * Static array of Form's entity objects for re-use.
@@ -56,9 +56,9 @@ class FormHelper
 	 * {KEY}: {OBJECT}
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
-	protected static $entities = array('field' => array(), 'form' => array(), 'rule' => array());
+	protected static $entities = array('field' => array(), 'form' => array(), 'rule' => array(), 'filter' => array());
 
 	/**
 	 * Method to load a form field object given a type.
@@ -68,7 +68,7 @@ class FormHelper
 	 *
 	 * @return  FormField|boolean  FormField object on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function loadFieldType($type, $new = true)
 	{
@@ -83,11 +83,26 @@ class FormHelper
 	 *
 	 * @return  FormRule|boolean  FormRule object on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function loadRuleType($type, $new = true)
 	{
 		return self::loadType('rule', $type, $new);
+	}
+
+	/**
+	 * Method to load a form filter object given a type.
+	 *
+	 * @param   string   $type  The rule type.
+	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
+	 *
+	 * @return  FormFilter|boolean  FormRule object on success, false otherwise.
+	 *
+	 * @since   4.0.0
+	 */
+	public static function loadFilterType($type, $new = true)
+	{
+		return self::loadType('filter', $type, $new);
 	}
 
 	/**
@@ -101,7 +116,7 @@ class FormHelper
 	 *
 	 * @return  mixed  Entity object on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function loadType($entity, $type, $new = true)
 	{
@@ -137,7 +152,7 @@ class FormHelper
 	 *
 	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function loadFieldClass($type)
 	{
@@ -152,11 +167,26 @@ class FormHelper
 	 *
 	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function loadRuleClass($type)
 	{
 		return self::loadClass('rule', $type);
+	}
+
+	/**
+	 * Attempt to import the FormFilter class file if it isn't already imported.
+	 * You can use this method outside of Form for loading a filter for inheritance or composition.
+	 *
+	 * @param   string  $type  Type of a filter whose class should be loaded.
+	 *
+	 * @return  string|boolean  Class name on success or false otherwise.
+	 *
+	 * @since   4.0.0
+	 */
+	public static function loadFilterClass($type)
+	{
+		return self::loadClass('filter', $type);
 	}
 
 	/**
@@ -169,7 +199,7 @@ class FormHelper
 	 *
 	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function loadClass($entity, $type)
 	{
@@ -219,13 +249,13 @@ class FormHelper
 		if ($pos = strpos($type, '_'))
 		{
 			// Add the complex type prefix to the paths.
-			for ($i = 0, $n = count($paths); $i < $n; $i++)
+			for ($i = 0, $n = \count($paths); $i < $n; $i++)
 			{
 				// Derive the new path.
 				$path = $paths[$i] . '/' . strtolower(substr($type, 0, $pos));
 
 				// If the path does not exist, add it.
-				if (!in_array($path, $paths))
+				if (!\in_array($path, $paths))
 				{
 					$paths[] = $path;
 				}
@@ -266,7 +296,7 @@ class FormHelper
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addFieldPath($new = null)
 	{
@@ -280,7 +310,7 @@ class FormHelper
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addFormPath($new = null)
 	{
@@ -294,11 +324,25 @@ class FormHelper
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addRulePath($new = null)
 	{
 		return self::addPath('rule', $new);
+	}
+
+	/**
+	 * Method to add a path to the list of filter include paths.
+	 *
+	 * @param   mixed  $new  A path or array of paths to add.
+	 *
+	 * @return  array  The list of paths that have been added.
+	 *
+	 * @since   4.0.0
+	 */
+	public static function addFilterPath($new = null)
+	{
+		return self::addPath('filter', $new);
 	}
 
 	/**
@@ -310,7 +354,7 @@ class FormHelper
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function addPath($entity, $new = null)
 	{
@@ -328,7 +372,7 @@ class FormHelper
 		// Add the new paths to the stack if not already there.
 		foreach ($new as $path)
 		{
-			if (!in_array($path, $paths))
+			if (!\in_array($path, $paths))
 			{
 				array_unshift($paths, trim($path));
 			}
@@ -385,6 +429,20 @@ class FormHelper
 	}
 
 	/**
+	 * Method to add a namespace to the list of filter lookups.
+	 *
+	 * @param   mixed  $new  A namespace or array of namespaces to add.
+	 *
+	 * @return  array  The list of namespaces that have been added.
+	 *
+	 * @since   4.0.0
+	 */
+	public static function addFilterPrefix($new = null)
+	{
+		return self::addPrefix('filter', $new);
+	}
+
+	/**
 	 * Method to add a namespace to the list of namespaces for one of the form's entities.
 	 * Currently supported entities: field, rule and form. You are free to support your own in a subclass.
 	 *
@@ -414,7 +472,7 @@ class FormHelper
 		{
 			$prefix = trim($prefix);
 
-			if (in_array($prefix, $prefixes))
+			if (\in_array($prefix, $prefixes))
 			{
 				continue;
 			}
@@ -479,8 +537,25 @@ class FormHelper
 			$compareEqual     = strpos($showOnPart, '!:') === false;
 			$showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
 
+			if (strpos($showOnPartBlocks[0], '.') !== false)
+			{
+				if ($formControl)
+				{
+					$field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
+				}
+				else
+				{
+					$groupParts = explode('.', $showOnPartBlocks[0]);
+					$field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
+				}
+			}
+			else
+			{
+				$field = $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0];
+			}
+
 			$showOnData[] = array(
-				'field'  => $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0],
+				'field'  => $field,
 				'values' => explode(',', $showOnPartBlocks[1]),
 				'sign'   => $compareEqual === true ? '=' : '!=',
 				'op'     => $op,

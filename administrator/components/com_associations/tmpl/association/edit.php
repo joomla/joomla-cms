@@ -3,28 +3,32 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Component\Associations\Administrator\View\Association\HtmlView;
+
+/** @var HtmlView $this */
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('jquery.framework');
 
-HTMLHelper::_('script', 'com_associations/sidebyside.js', false, true);
-HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', array(), true);
+HTMLHelper::_('script', 'com_associations/sidebyside.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['version' => 'auto', 'relative' => true]);
 
-$options = array(
-			'layout'   => $this->app->input->get('layout', '', 'string'),
-			'itemtype' => $this->itemtype,
-			'id'       => $this->referenceId,
-		);
+$options = [
+	'layout'   => $this->app->input->get('layout', '', 'string'),
+	'itemtype' => $this->itemType,
+	'id'       => $this->referenceId,
+];
 ?>
 <button id="toogle-left-panel" class="btn btn-sm btn-secondary"
 		data-show-reference="<?php echo Text::_('COM_ASSOCIATIONS_EDIT_SHOW_REFERENCE'); ?>"
@@ -42,6 +46,8 @@ $options = array(
 					data-action="edit"
 					data-item="<?php echo $this->typeName; ?>"
 					data-id="<?php echo $this->referenceId; ?>"
+					data-title="<?php echo $this->referenceTitle; ?>"
+					data-title-value="<?php echo $this->referenceTitleValue; ?>"
 					data-language="<?php echo $this->referenceLanguage; ?>"
 					data-editurl="<?php echo Route::_($this->editUri); ?>">
 				</iframe>
@@ -60,6 +66,7 @@ $options = array(
 					data-action="<?php echo $this->targetAction; ?>"
 					data-item="<?php echo $this->typeName; ?>"
 					data-id="<?php echo $this->targetId; ?>"
+					data-title="<?php echo $this->targetTitle; ?>"
 					data-language="<?php echo $this->targetLanguage; ?>"
 					data-editurl="<?php echo Route::_($this->editUri); ?>">
 				</iframe>

@@ -3,14 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-use Joomla\CMS\HTML\HTMLHelper;
-
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 // If the page class is defined, add to class as suffix.
 // It will be a separate class if the user starts it with a space
@@ -23,6 +20,11 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 		</h1>
 	</div>
 	<?php endif; ?>
+	<?php if ($this->params->get('page_subheading')) : ?>
+		<h2>
+			<?php echo $this->escape($this->params->get('page_subheading')); ?>
+		</h2>
+	<?php endif; ?>
 
 	<?php $leadingcount = 0; ?>
 	<?php if (!empty($this->lead_items)) : ?>
@@ -30,12 +32,10 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 			<?php foreach ($this->lead_items as &$item) : ?>
 				<div class="blog-item"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-					<div class="blog-item-content"><!-- Double divs required for IE11 grid fallback -->
 						<?php
 						$this->item = & $item;
 						echo $this->loadTemplate('item');
 						?>
-					</div>
 				</div>
 				<?php $leadingcount++; ?>
 			<?php endforeach; ?>
@@ -47,12 +47,10 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 		<?php foreach ($this->intro_items as $key => &$item) : ?>
 			<div class="blog-item"
 				itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-				<div class="blog-item-content"><!-- Double divs required for IE11 grid fallback -->
 					<?php
 					$this->item = & $item;
 					echo $this->loadTemplate('item');
 					?>
-				</div>
 			</div>
 		<?php endforeach; ?>
 		</div>

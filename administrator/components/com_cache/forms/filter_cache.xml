@@ -14,6 +14,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="group ASC"
 			>
@@ -28,6 +29,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

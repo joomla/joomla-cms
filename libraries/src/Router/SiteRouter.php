@@ -2,22 +2,22 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Router;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\Router\RouterInterface;
 use Joomla\CMS\Component\Router\RouterLegacy;
+use Joomla\CMS\Component\Router\RouterServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Uri\Uri;
-use Joomla\String\StringHelper;
 
 /**
  * Class to create and parse routes for the site application
@@ -147,7 +147,7 @@ class SiteRouter extends Router
 		}
 
 		// Remove the base URI path.
-		$path = substr_replace($path, '', 0, strlen($baseUri));
+		$path = substr_replace($path, '', 0, \strlen($baseUri));
 
 		// Check to see if a request to a specific entry point has been made.
 		if (preg_match("#.*?\.php#u", $path, $matches))
@@ -215,63 +215,54 @@ class SiteRouter extends Router
 		// Parse the application route
 		$segments = explode('/', $route);
 
-		if (count($segments) > 1 && $segments[0] === 'component')
+		if (\count($segments) > 1 && $segments[0] === 'component')
 		{
 			$uri->setVar('option', 'com_' . $segments[1]);
 			$uri->setVar('Itemid', null);
-			$route = implode('/', array_slice($segments, 2));
+			$route = implode('/', \array_slice($segments, 2));
 		}
 		else
 		{
 			// Get menu items.
-			$items = $this->menu->getMenu();
+			$items    = $this->menu->getItems('parent_id', 1);
+			$lang_tag = $this->app->getLanguage()->getTag();
+			$found   = null;
 
-			$found           = false;
-			$route_lowercase = StringHelper::strtolower($route);
-			$lang_tag        = $this->app->getLanguage()->getTag();
-
-			// Iterate through all items and check route matches.
-			foreach ($items as $item)
+			foreach ($segments as $segment)
 			{
-				if ($item->route && StringHelper::strpos($route_lowercase . '/', $item->route . '/') === 0 && $item->type !== 'menulink')
+				$matched = false;
+
+				foreach ($items as $item)
 				{
-					// Usual method for non-multilingual site.
-					if (!$this->app->getLanguageFilter())
+					if ($item->alias == $segment
+						&& (!$this->app->getLanguageFilter()
+						|| ($item->language === '*'
+						|| $item->language === $lang_tag)))
 					{
-						// Exact route match. We can break iteration because exact item was found.
-						if ($item->route === $route_lowercase)
-						{
-							$found = $item;
-							break;
-						}
-
-						// Partial route match. Item with highest level takes priority.
-						if (!$found || $found->level < $item->level)
-						{
-							$found = $item;
-						}
+						$found = $item;
+						$matched = true;
+						$items = $item->getChildren();
+						break;
 					}
-					// Multilingual site.
-					elseif ($item->language === '*' || $item->language === $lang_tag)
-					{
-						// Exact route match.
-						if ($item->route === $route_lowercase)
-						{
-							$found = $item;
+				}
 
-							// Break iteration only if language is matched.
-							if ($item->language === $lang_tag)
-							{
-								break;
-							}
-						}
+				if (!$matched)
+				{
+					break;
+				}
+			}
 
-						// Partial route match. Item with highest level or same language takes priority.
-						if (!$found || $found->level < $item->level || $item->language === $lang_tag)
-						{
-							$found = $item;
-						}
-					}
+			// Menu links are not valid URLs. Find the first parent that isn't a menulink
+			if ($found && $found->type == 'menulink')
+			{
+				while ($found->hasParent() && $found->type == 'menulink')
+				{
+					$found = $found->getParent();
+				}
+
+				if ($found->type == 'menulink')
+				{
+					$found = null;
 				}
 			}
 
@@ -281,7 +272,7 @@ class SiteRouter extends Router
 			}
 			else
 			{
-				$route = trim(substr($route, strlen($found->route)), '/');
+				$route = trim(substr($route, \strlen($found->route)), '/');
 			}
 
 			if ($found)
@@ -313,7 +304,7 @@ class SiteRouter extends Router
 		{
 			$segments = explode('/', $route);
 
-			if (count($segments))
+			if (\count($segments))
 			{
 				// Handle component route
 				$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $uri->getVar('option'));
@@ -359,7 +350,7 @@ class SiteRouter extends Router
 			}
 		}
 
-		if (is_object($item))
+		if (\is_object($item))
 		{
 			// Set the active menu item
 			$this->menu->setActive($item->id);
@@ -382,7 +373,9 @@ class SiteRouter extends Router
 	public function parsePaginationData(&$router, &$uri)
 	{
 		// Process the pagination support
-		if ($uri->getVar('start'))
+		$start = $uri->getVar('start');
+
+		if ($start !== null)
 		{
 			$uri->setVar('limitstart', $uri->getVar('start'));
 			$uri->delVar('start');
@@ -445,7 +438,7 @@ class SiteRouter extends Router
 
 		// Make sure any menu vars are used if no others are specified
 		if (isset($query['Itemid'])
-			&& (count($query) === 2 || (count($query) === 3 && isset($query['lang']))))
+			&& (\count($query) === 2 || (\count($query) === 3 && isset($query['lang']))))
 		{
 			// Get the active menu item
 			$item = $this->menu->getItem($query['Itemid']);
@@ -522,7 +515,9 @@ class SiteRouter extends Router
 	 */
 	public function buildPaginationData(&$router, &$uri)
 	{
-		if ($uri->getVar('limitstart'))
+		$limitstart = $uri->getVar('limitstart');
+
+		if ($limitstart !== null)
 		{
 			$uri->setVar('start', (int) $uri->getVar('limitstart'));
 			$uri->delVar('limitstart');
@@ -592,8 +587,8 @@ class SiteRouter extends Router
 	 */
 	public function buildBase(&$router, &$uri)
 	{
-		// Add basepath to the uri
-		$uri->setPath(Uri::base(true) . '/' . $uri->getPath());
+		// Add frontend basepath to the uri
+		$uri->setPath(Uri::root(true) . '/' . $uri->getPath());
 	}
 
 	/**
@@ -609,34 +604,16 @@ class SiteRouter extends Router
 	{
 		if (!isset($this->componentRouters[$component]))
 		{
-			$compname = ucfirst(substr($component, 4));
-			$class = $compname . 'Router';
+			$componentInstance = $this->app->bootComponent($component);
 
-			if (!class_exists($class))
+			if ($componentInstance instanceof RouterServiceInterface)
 			{
-				// Use the component routing handler if it exists
-				$path = JPATH_SITE . '/components/' . $component . '/router.php';
-
-				// Use the custom routing handler if it exists
-				if (file_exists($path))
-				{
-					require_once $path;
-				}
-			}
-
-			if (class_exists($class))
-			{
-				$reflection = new \ReflectionClass($class);
-
-				if (in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
-				{
-					$this->componentRouters[$component] = new $class($this->app, $this->menu);
-				}
+				$this->componentRouters[$component] = $componentInstance->createRouter($this->app, $this->menu);
 			}
 
 			if (!isset($this->componentRouters[$component]))
 			{
-				$this->componentRouters[$component] = new RouterLegacy($compname);
+				$this->componentRouters[$component] = new RouterLegacy(ucfirst(substr($component, 4)));
 			}
 		}
 
@@ -657,7 +634,7 @@ class SiteRouter extends Router
 	{
 		$reflection = new \ReflectionClass($router);
 
-		if (in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
+		if (\in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
 		{
 			$this->componentRouters[$component] = $router;
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,16 +11,16 @@ namespace Joomla\Component\Users\Site\View\Profile;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 use Joomla\Database\DatabaseDriver;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
 
 /**
  * Profile view class for Users.
@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// View also takes responsibility for checking if the user logged in with remember me.
@@ -146,9 +146,6 @@ class HtmlView extends BaseHtmlView
 		{
 			throw new \Exception(Text::_('JERROR_USERS_PROFILE_NOT_FOUND'), 404);
 		}
-
-		$this->data->tags = new TagsHelper;
-		$this->data->tags->getItemTags('com_users.user', $this->data->id);
 
 		PluginHelper::importPlugin('content');
 		$this->data->text = '';

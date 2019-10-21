@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,9 +40,9 @@ class ClicksField extends FormField
 	{
 		$onclick = ' onclick="document.getElementById(\'' . $this->id . '\').value=\'0\';"';
 
-		return '<div class="input-group"><input class="form-control type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
+		return '<div class="input-group"><input class="form-control" type="text" name="' . $this->name . '" id="' . $this->id . '" value="'
 			. htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '" readonly="readonly">'
-			. '<span class="input-group-append"><a class="btn btn-secondary" ' . $onclick . '>'
-			. '<span class="icon-refresh" aria-hidden="true"></span> ' . Text::_('COM_BANNERS_RESET_CLICKS') . '</a></span></div>';
+			. '<span class="input-group-append"><button type="button" class="btn btn-secondary" ' . $onclick . '>'
+			. '<span class="icon-refresh" aria-hidden="true"></span> ' . Text::_('COM_BANNERS_RESET_CLICKS') . '</button></span></div>';
 	}
 }

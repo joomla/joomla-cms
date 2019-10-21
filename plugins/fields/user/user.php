@@ -3,13 +3,12 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.User
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 
 /**
@@ -25,7 +24,7 @@ class PlgFieldsUser extends \Joomla\Component\Fields\Administrator\Plugin\Fields
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.
-	 * @param   JForm       $form    The form.
+	 * @param   Form        $form    The form.
 	 *
 	 * @return  DOMElement
 	 *
@@ -33,7 +32,7 @@ class PlgFieldsUser extends \Joomla\Component\Fields\Administrator\Plugin\Fields
 	 */
 	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
 	{
-		if (Factory::getApplication()->isClient('site'))
+		if ($this->app->isClient('site'))
 		{
 			// The user field is not working on the front end
 			return;

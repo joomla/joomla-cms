@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Installer helper.
@@ -22,59 +23,6 @@ use Joomla\CMS\Language\Text;
  */
 class InstallerHelper
 {
-	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function addSubmenu($vName = 'install')
-	{
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_INSTALL'),
-			'index.php?option=com_installer',
-			$vName == 'install'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_UPDATE'),
-			'index.php?option=com_installer&view=update',
-			$vName == 'update'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_MANAGE'),
-			'index.php?option=com_installer&view=manage',
-			$vName == 'manage'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_DISCOVER'),
-			'index.php?option=com_installer&view=discover',
-			$vName == 'discover'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_DATABASE'),
-			'index.php?option=com_installer&view=database',
-			$vName == 'database'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_WARNINGS'),
-			'index.php?option=com_installer&view=warnings',
-			$vName == 'warnings'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_LANGUAGES'),
-			'index.php?option=com_installer&view=languages',
-			$vName == 'languages'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_UPDATESITES'),
-			'index.php?option=com_installer&view=updatesites',
-			$vName == 'updatesites'
-		);
-	}
-
 	/**
 	 * Get a list of filter options for the extension types.
 	 *
@@ -108,7 +56,7 @@ class InstallerHelper
 	 *
 	 * @since   3.0
 	 */
-	public static function getExtensionGroupes()
+	public static function getExtensionGroups()
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
@@ -190,7 +138,7 @@ class InstallerHelper
 				$path .= '/plugins/' . $folder . '/' . $element . '/' . $element . '.xml';
 				break;
 			case 'module':
-				$path .= '/modules/' . $element . '/' . $element->element . '.xml';
+				$path .= '/modules/' . $element . '/' . $element . '.xml';
 				break;
 			case 'template':
 				$path .= '/templates/' . $element . '/templateDetails.xml';
@@ -206,5 +154,52 @@ class InstallerHelper
 		}
 
 		return simplexml_load_file($path);
+	}
+
+	/**
+	 * Get the download key of an extension going through their installation xml
+	 *
+	 * @param   CMSObject  $extension  element of an extension
+	 *
+	 * @return  array  An array with the prefix, suffix and value of the download key
+	 *
+	 * @since   4.0.0
+	 */
+	public static function getDownloadKey(CMSObject $extension): array
+	{
+		$installXmlFile = self::getInstallationXML(
+			$extension->get('element'),
+			$extension->get('type'),
+			$extension->get('client_id'),
+			$extension->get('folder')
+		);
+
+		if (!$installXmlFile)
+		{
+			return ['valid' => false];
+		}
+
+		if (!isset($installXmlFile->dlid))
+		{
+			return ['valid' => false];
+		}
+
+		$prefix = (string) $installXmlFile->dlid['prefix'];
+		$suffix = (string) $installXmlFile->dlid['suffix'];
+		$value  = substr($extension->get('extra_query'), strlen($prefix));
+
+		if ($suffix)
+		{
+			$value = substr($value, 0, -strlen($suffix));
+		}
+
+		$downloadKey = [
+			'valid'   => $value ? true : false,
+			'prefix'  => $prefix,
+			'suffix'  => $suffix,
+			'value'   => $value
+		];
+
+		return $downloadKey;
 	}
 }

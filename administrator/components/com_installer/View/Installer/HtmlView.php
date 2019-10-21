@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,11 @@ namespace Joomla\Component\Installer\Administrator\View\Installer;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Extension Manager Default View
@@ -39,14 +39,6 @@ class HtmlView extends BaseHtmlView
 	 * @since  4.0.0
 	 */
 	public $showMessage;
-
-	/**
-	 * The HTML markup for the sidebar
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
 
 	/**
 	 * Constructor.
@@ -111,8 +103,5 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::preferences('com_installer');
 			ToolbarHelper::divider();
 		}
-
-		// Render side bar.
-		$this->sidebar = \JHtmlSidebar::render();
 	}
 }

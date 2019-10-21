@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains post-installation message handling for eAccelerator compatibility.
@@ -11,13 +11,13 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Checks if the eAccelerator caching method is enabled.

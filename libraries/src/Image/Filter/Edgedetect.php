@@ -3,13 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Image\Filter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
 use Joomla\CMS\Log\Log;
@@ -19,7 +19,7 @@ Log::add('JImageFilterEdgedetect is deprecated, use Joomla\Image\Filter\Edgedete
 /**
  * Image Filter class to add an edge detect effect to an image.
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  5.0  Use Joomla\Image\Filter\Edgedetect instead
  */
 class Edgedetect extends ImageFilter
@@ -31,7 +31,7 @@ class Edgedetect extends ImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @deprecated  5.0  Use Joomla\Image\Filter\Edgedetect::execute() instead
 	 */
 	public function execute(array $options = array())

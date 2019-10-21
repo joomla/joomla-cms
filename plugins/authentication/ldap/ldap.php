@@ -3,15 +3,15 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.ldap
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Authentication\Authentication;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Exception\ConnectionException;
 use Symfony\Component\Ldap\Exception\LdapException;
@@ -82,7 +82,7 @@ class PlgAuthenticationLdap extends CMSPlugin
 				catch (ConnectionException $exception)
 				{
 					$response->status = Authentication::STATUS_FAILURE;
-					$response->error_message = Text::_('JGLOBAL_AUTH_NO_BIND');
+					$response->error_message = Text::_('JGLOBAL_AUTH_NOT_CONNECT');
 
 					return;
 				}
@@ -110,7 +110,7 @@ class PlgAuthenticationLdap extends CMSPlugin
 				if (!$entry)
 				{
 					$response->status = Authentication::STATUS_FAILURE;
-					$response->error_message = Text::_('JGLOBAL_AUTH_NO_USER');
+					$response->error_message = Text::_('JGLOBAL_AUTH_NOT_CONNECT');
 
 					return;
 				}
@@ -177,9 +177,9 @@ class PlgAuthenticationLdap extends CMSPlugin
 		}
 
 		// Grab some details from LDAP and return them
-		$response->username = $entry->getAttribute($ldap_uid);
-		$response->email    = $entry->getAttribute($ldap_email);
-		$response->fullname = $entry->getAttribute($ldap_fullname) ?: $credentials['username'];
+		$response->username = $entry->getAttribute($ldap_uid)[0] ?? false;
+		$response->email    = $entry->getAttribute($ldap_email)[0] ?? false;
+		$response->fullname = $entry->getAttribute($ldap_fullname)[0] ?? trim($entry->geAttribute($ldap_fullname)[0]) ?: $credentials['username'];
 
 		// Were good - So say so.
 		$response->status        = Authentication::STATUS_SUCCESS;

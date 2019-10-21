@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,15 +11,14 @@ namespace Joomla\Component\Tags\Administrator\View\Tags;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Tags view class for the Tags package.
@@ -66,14 +65,6 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
-	 * Array used for displaying the levels filter
-	 *
-	 * @return  \stdClass[]
-	 * @since  4.0.0
-	 */
-	protected $f_levels;
-
-	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -91,7 +82,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Preprocess the list of items to find ordering divisions.
@@ -99,21 +90,6 @@ class HtmlView extends BaseHtmlView
 		{
 			$this->ordering[$item->parent_id][] = $item->id;
 		}
-
-		// Levels filter.
-		$options   = array();
-		$options[] = HTMLHelper::_('select.option', '1', Text::_('J1'));
-		$options[] = HTMLHelper::_('select.option', '2', Text::_('J2'));
-		$options[] = HTMLHelper::_('select.option', '3', Text::_('J3'));
-		$options[] = HTMLHelper::_('select.option', '4', Text::_('J4'));
-		$options[] = HTMLHelper::_('select.option', '5', Text::_('J5'));
-		$options[] = HTMLHelper::_('select.option', '6', Text::_('J6'));
-		$options[] = HTMLHelper::_('select.option', '7', Text::_('J7'));
-		$options[] = HTMLHelper::_('select.option', '8', Text::_('J8'));
-		$options[] = HTMLHelper::_('select.option', '9', Text::_('J9'));
-		$options[] = HTMLHelper::_('select.option', '10', Text::_('J10'));
-
-		$this->f_levels = $options;
 
 		// We don't need toolbar in the modal window.
 		if ($this->getLayout() !== 'modal')
@@ -140,61 +116,71 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_tags');
 		$user  = Factory::getUser();
 
 		// Get the toolbar object instance
-		$bar = Toolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance('toolbar');
 
 		ToolbarHelper::title(Text::_('COM_TAGS_MANAGER_TAGS'), 'tags');
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('tag.add');
+			$toolbar->addNew('tag.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
 		{
-			ToolbarHelper::publish('tags.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('tags.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			ToolbarHelper::archiveList('tags.archive');
-		}
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
 
-		if ($canDo->get('core.admin'))
-		{
-			ToolbarHelper::checkin('tags.checkin');
-		}
+			$childBar = $dropdown->getChildToolbar();
 
-		// Add a batch button
-		if ($user->authorise('core.create', 'com_tags')
-			&& $user->authorise('core.edit', 'com_tags')
-			&& $user->authorise('core.edit.state', 'com_tags'))
-		{
-			$title = Text::_('JTOOLBAR_BATCH');
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->publish('tags.publish')->listCheck(true);
+				$childBar->unpublish('tags.unpublish')->listCheck(true);
+				$childBar->archive('tags.archive')->listCheck(true);
+			}
 
-			// Instantiate a new FileLayout instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
+			if ($user->authorise('core.admin'))
+			{
+				$childBar->checkin('tags.checkin')->listCheck(true);
+			}
 
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
-		}
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->trash('tags.trash')->listCheck(true);
+			}
 
-		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'tags.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('tags.trash');
+			// Add a batch button
+			if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
+
+			if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+			{
+				$childBar->delete('tags.delete')
+					->text('JTOOLBAR_EMPTY_TRASH')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::preferences('com_tags');
+			$toolbar->preferences('com_tags');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER');
+		$toolbar->help('JHELP_COMPONENTS_TAGS_MANAGER');
 	}
 
 	/**

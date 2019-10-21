@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Rule;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
@@ -17,7 +17,7 @@ use Joomla\Registry\Registry;
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class NotequalsRule extends FormRule
 {
@@ -36,7 +36,7 @@ class NotequalsRule extends FormRule
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \InvalidArgumentException
 	 * @throws  \UnexpectedValueException
 	 */
@@ -47,12 +47,12 @@ class NotequalsRule extends FormRule
 		// Check that a validation field is set.
 		if (!$field)
 		{
-			throw new \UnexpectedValueException(sprintf('$field empty in %s::test', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('$field empty in %s::test', \get_class($this)));
 		}
 
 		if ($input === null)
 		{
-			throw new \InvalidArgumentException(sprintf('The value for $input must not be null in %s', get_class($this)));
+			throw new \InvalidArgumentException(sprintf('The value for $input must not be null in %s', \get_class($this)));
 		}
 
 		// Test the two values against each other.

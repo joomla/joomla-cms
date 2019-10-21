@@ -3,13 +3,13 @@
  * @package     Joomla.Libraries
  * @subpackage  Dispatcher
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Dispatcher;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Joomla Platform CMS Dispatcher Interface
@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 interface DispatcherInterface
 {
 	/**
-	 * Dispatch a controller task.
+	 * Runs the dispatcher.
 	 *
 	 * @return  void
 	 *

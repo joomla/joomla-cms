@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,43 +12,46 @@ namespace Joomla\Component\Content\Administrator\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Association\AssociationServiceInterface;
-use Joomla\CMS\Categories\CategoriesServiceInterface;
-use Joomla\CMS\Categories\CategoriesServiceTrait;
+use Joomla\CMS\Association\AssociationServiceTrait;
+use Joomla\CMS\Categories\CategoryServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceTrait;
+use Joomla\CMS\Component\Router\RouterServiceInterface;
+use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\ContentHelper as LibraryContentHelper;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
-use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\CMS\Workflow\WorkflowServiceTrait;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Component class for com_content
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ContentComponent extends MVCComponent implements
-	BootableExtensionInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface,
-	AssociationServiceInterface, WorkflowServiceInterface
+	BootableExtensionInterface, CategoryServiceInterface, FieldsServiceInterface, AssociationServiceInterface,
+	WorkflowServiceInterface, RouterServiceInterface
 {
-	use CategoriesServiceTrait;
+	use CategoryServiceTrait;
 	use AssociationServiceTrait;
+	use RouterServiceTrait;
 	use HTMLRegistryAwareTrait;
 	use WorkflowServiceTrait;
 
 	/**
 	 * The trashed condition
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	const CONDITION_NAMES = [
 		self::CONDITION_PUBLISHED   => 'JPUBLISHED',
@@ -60,28 +63,28 @@ class ContentComponent extends MVCComponent implements
 	/**
 	 * The archived condition
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	const CONDITION_ARCHIVED = 2;
 
 	/**
 	 * The published condition
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	const CONDITION_PUBLISHED = 1;
 
 	/**
 	 * The unpublished condition
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	const CONDITION_UNPUBLISHED = 0;
 
 	/**
 	 * The trashed condition
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	const CONDITION_TRASHED = -2;
 
@@ -96,7 +99,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function boot(ContainerInterface $container)
 	{
@@ -116,7 +119,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  string|null  The new section
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function validateSection($section, $item = null)
 	{
@@ -149,7 +152,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getContexts(): array
 	{
@@ -170,9 +173,23 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  string|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getTableNameForSection(string $section = null)
+	{
+		return '#__content';
+	}
+
+	/**
+	 * Returns a table name for the state association
+	 *
+	 * @param   string  $section  An optional section to separate different areas in the component
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function getWorkflowTableBySection(string $section = null) : string
 	{
 		return '#__content';
 	}
@@ -185,7 +202,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function filterTransitions($transitions, $pk): array
 	{
@@ -200,57 +217,20 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function countItems(array $items, string $section)
 	{
-		$db = Factory::getDbo();
+		$config = (object) array(
+			'related_tbl'    => 'content',
+			'state_col'      => 'condition',
+			'group_col'      => 'catid',
+			'relation_type'  => 'category_or_group',
+			'uses_workflows' => true,
+			'workflows_component' => 'com_content'
+		);
 
-		foreach ($items as $item)
-		{
-			$item->count_trashed     = 0;
-			$item->count_archived    = 0;
-			$item->count_unpublished = 0;
-			$item->count_published   = 0;
-
-			$query = $db->getQuery(true);
-
-			$query->select($db->quoteName('condition'))
-				->select('COUNT(*) AS ' . $db->quoteName('count'))
-				->from($db->quoteName('#__content', 'c'))
-				->from($db->quoteName('#__workflow_stages', 's'))
-				->from($db->quoteName('#__workflow_associations', 'a'))
-				->where($db->quoteName('a.item_id') . ' = ' . $db->quoteName('c.id'))
-				->where($db->quoteName('s.id') . ' = ' . $db->quoteName('a.stage_id'))
-				->where($db->quoteName('catid') . ' = ' . (int) $item->id)
-				->where($db->quoteName('a.extension') . '= ' . $db->quote('com_content'))
-				->group($db->quoteName('condition'));
-
-			$articles = $db->setQuery($query)->loadObjectList();
-
-			foreach ($articles as $article)
-			{
-				if ($article->condition == self::CONDITION_PUBLISHED)
-				{
-					$item->count_published = $article->count;
-				}
-
-				if ($article->condition == self::CONDITION_UNPUBLISHED)
-				{
-					$item->count_unpublished = $article->count;
-				}
-
-				if ($article->condition == self::CONDITION_ARCHIVED)
-				{
-					$item->count_archived = $article->count;
-				}
-
-				if ($article->condition == self::CONDITION_TRASHED)
-				{
-					$item->count_trashed = $article->count;
-				}
-			}
-		}
+		LibraryContentHelper::countRelations($items, $config);
 	}
 
 	/**
@@ -266,63 +246,18 @@ class ContentComponent extends MVCComponent implements
 	 */
 	public function countTagItems(array $items, string $extension)
 	{
-		$db      = Factory::getDbo();
 		$parts   = explode('.', $extension);
-		$section = null;
+		$section = count($parts) > 1 ? $parts[1] : null;
 
-		if (count($parts) > 1)
-		{
-			$section = $parts[1];
-		}
+		$config = (object) array(
+			'related_tbl'   => ($section === 'category' ? 'categories' : 'content'),
+			'state_col'     => ($section === 'category' ? 'published' : 'state'),
+			'group_col'     => 'tag_id',
+			'extension'     => $extension,
+			'relation_type' => 'tag_assigments',
+		);
 
-		$join  = $db->quoteName('#__content', 'c') . ' ON ct.content_item_id=c.id';
-		$state = $db->quoteName('state');
-
-		if ($section === 'category')
-		{
-			$join  = $db->quoteName('#__categories') . ' AS c ON ct.content_item_id=c.id';
-			$state = $db->quoteName('published', 'state');
-		}
-
-		foreach ($items as $item)
-		{
-			$item->count_trashed     = 0;
-			$item->count_archived    = 0;
-			$item->count_unpublished = 0;
-			$item->count_published   = 0;
-			$query                   = $db->getQuery(true);
-			$query->select($state . ', count(*) AS count')
-				->from($db->quoteName('#__contentitem_tag_map', 'ct'))
-				->where($db->quoteName('ct.tag_id') . ' = ' . (int) $item->id)
-				->where($db->quoteName('ct.type_alias') . ' = ' . $db->quote($extension))
-				->join('LEFT', $join)
-				->group($db->quoteName('state'));
-			$db->setQuery($query);
-			$contents = $db->loadObjectList();
-
-			foreach ($contents as $content)
-			{
-				if ($content->state == self::CONDITION_PUBLISHED)
-				{
-					$item->count_published = $content->count;
-				}
-
-				if ($content->state == self::CONDITION_UNPUBLISHED)
-				{
-					$item->count_unpublished = $content->count;
-				}
-
-				if ($content->state == self::CONDITION_ARCHIVED)
-				{
-					$item->count_archived = $content->count;
-				}
-
-				if ($content->state == self::CONDITION_TRASHED)
-				{
-					$item->count_trashed = $content->count;
-				}
-			}
-		}
+		LibraryContentHelper::countRelations($items, $config);
 	}
 
 	/**
@@ -346,7 +281,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function updateContentState($pks, $condition): bool
 	{

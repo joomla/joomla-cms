@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,9 @@ namespace Joomla\Component\Messages\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Factory;
 
 /**
  * Messages Component Message Model
@@ -34,9 +32,8 @@ class ConfigController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		$app   = Factory::getApplication();
 		$model = $this->getModel('Config', 'MessagesModel');
 		$data  = $this->input->post->get('jform', array(), 'array');
 
@@ -46,8 +43,6 @@ class ConfigController extends BaseController
 		if (!$form)
 		{
 			throw new \Exception($model->getError(), 500);
-
-			return false;
 		}
 
 		$data = $model->validate($form, $data);
@@ -63,11 +58,11 @@ class ConfigController extends BaseController
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+					$this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
 				else
 				{
-					$app->enqueueMessage($errors[$i], 'warning');
+					$this->app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
 

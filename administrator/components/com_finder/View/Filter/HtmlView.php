@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,9 +11,13 @@ namespace Joomla\Component\Finder\Administrator\View\Filter;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Filter view class for Finder.
@@ -84,11 +88,11 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		\JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
 		// Configure the toolbar.
 		$this->addToolbar();
@@ -105,15 +109,15 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		$isNew = ($this->item->filter_id == 0);
-		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == \JFactory::getUser()->id);
+		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == Factory::getUser()->id);
 		$canDo = ContentHelper::getActions('com_finder');
 
 		// Configure the toolbar.
 		ToolbarHelper::title(
-			$isNew ? \JText::_('COM_FINDER_FILTER_NEW_TOOLBAR_TITLE') : \JText::_('COM_FINDER_FILTER_EDIT_TOOLBAR_TITLE'),
+			$isNew ? Text::_('COM_FINDER_FILTER_NEW_TOOLBAR_TITLE') : Text::_('COM_FINDER_FILTER_EDIT_TOOLBAR_TITLE'),
 			'zoom-in finder'
 		);
 
@@ -123,9 +127,10 @@ class HtmlView extends BaseHtmlView
 			// For new records, check the create permission.
 			if ($canDo->get('core.create'))
 			{
+				ToolbarHelper::apply('filter.apply');
+
 				ToolbarHelper::saveGroup(
 					[
-						['apply', 'filter.apply'],
 						['save', 'filter.save'],
 						['save2new', 'filter.save2new']
 					],
@@ -143,7 +148,8 @@ class HtmlView extends BaseHtmlView
 			// Since it's an existing record, check the edit permission.
 			if (!$checkedOut && $canDo->get('core.edit'))
 			{
-				$toolbarButtons[] = ['apply', 'filter.apply'];
+				ToolbarHelper::apply('filter.apply');
+
 				$toolbarButtons[] = ['save', 'filter.save'];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.

@@ -3,7 +3,7 @@
 	<field
 		name="client_id"
 		type="list"
-		label=""
+		label="COM_MENUS_SELECT_CLIENT_FILTER"
 		filtermode="selector"
 		onchange="this.form.submit();"
 		>
@@ -23,6 +23,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.title ASC"
 			>
@@ -35,6 +36,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="5"
 			onchange="this.form.submit();"
 		/>

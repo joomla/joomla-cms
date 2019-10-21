@@ -2,20 +2,20 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Access;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Object\CMSObject;
 
 /**
  * Access rules class.
  *
- * @since  11.4
+ * @since  2.5.0
  */
 class Rules
 {
@@ -23,7 +23,7 @@ class Rules
 	 * A named array.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $data = array();
 
@@ -35,21 +35,21 @@ class Rules
 	 *
 	 * @param   mixed  $input  A JSON format string (probably from the database) or a nested array.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($input = '')
 	{
 		// Convert in input to an array.
-		if (is_string($input))
+		if (\is_string($input))
 		{
 			$input = json_decode($input, true);
 		}
-		elseif (is_object($input))
+		elseif (\is_object($input))
 		{
 			$input = (array) $input;
 		}
 
-		if (is_array($input))
+		if (\is_array($input))
 		{
 			// Top level keys represent the actions.
 			foreach ($input as $action => $identities)
@@ -64,7 +64,7 @@ class Rules
 	 *
 	 * @return  array  A named array of Rule objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getData()
 	{
@@ -78,12 +78,12 @@ class Rules
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function mergeCollection($input)
 	{
 		// Check if the input is an array.
-		if (is_array($input))
+		if (\is_array($input))
 		{
 			foreach ($input as $actions)
 			{
@@ -99,16 +99,16 @@ class Rules
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function merge($actions)
 	{
-		if (is_string($actions))
+		if (\is_string($actions))
 		{
 			$actions = json_decode($actions, true);
 		}
 
-		if (is_array($actions))
+		if (\is_array($actions))
 		{
 			foreach ($actions as $action => $identities)
 			{
@@ -134,7 +134,7 @@ class Rules
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function mergeAction($action, $identities)
 	{
@@ -161,7 +161,7 @@ class Rules
 	 *
 	 * @return  mixed   Object or null if there is no information about the action.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function allow($action, $identity)
 	{
@@ -181,7 +181,7 @@ class Rules
 	 *
 	 * @return  CMSObject  Allowed actions for the identity or identities
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAllowed($identity)
 	{
@@ -204,7 +204,7 @@ class Rules
 	 *
 	 * @return  string  JSON representation of the actions array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __toString()
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,11 @@ namespace Joomla\Component\Config\Administrator\View\Component;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 
 /**
  * View for the component configuration
@@ -103,15 +103,11 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'equalizer config');
-		ToolbarHelper::saveGroup(
-			[
-				['apply', 'component.apply'],
-				['save', 'component.save']
-			],
-			'btn-success'
-		);
+		ToolbarHelper::apply('component.apply');
 		ToolbarHelper::divider();
-		ToolbarHelper::cancel('component.cancel');
+		ToolbarHelper::save('component.save');
+		ToolbarHelper::divider();
+		ToolbarHelper::cancel('component.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_COMPONENTS_' . $this->currentComponent . '_OPTIONS');
 	}

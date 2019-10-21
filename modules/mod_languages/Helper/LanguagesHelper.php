@@ -3,23 +3,22 @@
  * @package     Joomla.Site
  * @subpackage  mod_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Module\Languages\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Router\Route;
-
-\JLoader::register('\MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
  * Helper for mod_languages
@@ -65,10 +64,11 @@ abstract class LanguagesHelper
 		{
 			if ($active)
 			{
-				$associations = \MenusHelper::getAssociations($active->id);
+				$associations = MenusHelper::getAssociations($active->id);
 			}
 
-			$component = $app->bootComponent($app->input->get('option'));
+			$option = $app->input->get('option');
+			$component = $app->bootComponent($option);
 
 			if ($component instanceof AssociationServiceInterface)
 			{
@@ -77,12 +77,12 @@ abstract class LanguagesHelper
 			else
 			{
 				// Load component associations
-				$class = str_replace('com_', '', $app->input->get('option')) . 'HelperAssociation';
-				\JLoader::register($class, JPATH_COMPONENT_SITE . '/helpers/association.php');
+				$class = str_replace('com_', '', $option) . 'HelperAssociation';
+				\JLoader::register($class, JPATH_SITE . '/components/' . $option . '/helpers/association.php');
 
-				if (class_exists($class) && is_callable(array($class, 'getAssociations')))
+				if (class_exists($class) && \is_callable(array($class, 'getAssociations')))
 				{
-					$cassociations = call_user_func(array($class, 'getAssociations'));
+					$cassociations = \call_user_func(array($class, 'getAssociations'));
 				}
 			}
 		}
@@ -95,7 +95,7 @@ abstract class LanguagesHelper
 		foreach ($languages as $i => &$language)
 		{
 			// Do not display language without frontend UI
-			if (!array_key_exists($language->lang_code, $sitelangs))
+			if (!\array_key_exists($language->lang_code, $sitelangs))
 			{
 				unset($languages[$i]);
 			}
@@ -105,7 +105,7 @@ abstract class LanguagesHelper
 				unset($languages[$i]);
 			}
 			// Do not display language without authorized access level
-			elseif (isset($language->access) && $language->access && !in_array($language->access, $levels))
+			elseif (isset($language->access) && $language->access && !\in_array($language->access, $levels))
 			{
 				unset($languages[$i]);
 			}

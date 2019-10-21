@@ -14,12 +14,19 @@
 
 .icon-publish {
   color: theme-color("success");
+
+  .dropdown-status-group & {
+    color: inherit;
+  }
 }
 
 .icon-unpublish {
   color: theme-color("danger");
-}
 
+  .dropdown-status-group & {
+    color: inherit;
+  }
+}
 
 .tbody-icon {
   padding: 0 3px;
@@ -33,23 +40,23 @@
     height: 26px;
     font-size: 1rem;
     line-height: 22px;
-    color: #ccc;
-    border: 2px solid #ccc;
+    color: $gray-400;
+    border: 2px solid var(--border);
     border-radius: 50%;
   }
 
   .icon-publish {
-    color: theme-color("success");
-    border-color: theme-color("success");
+    color: var(--success);
+    border-color: var(--success);
   }
 
   .icon-featured {
-    color: theme-color("primary");
-    border-color: theme-color("primary");
+    color: var(--atum-special-color);
+    border-color: var(--atum-special-color);
   }
 
   .icon-archive {
-    color: $gray-700;
+    color: var(--atum-text-dark);
     border-color: $gray-700;
   }
 
@@ -58,7 +65,45 @@
     height: auto;
     font-size: 1.2rem;
     line-height: 1rem;
-    color: $gray-700;
+    color: var(--atum-text-dark);
     border: 0;
   }
 }
+.icon-joomla::before {
+	content:"\f1aa";
+	font-family: "Font Awesome 5 Brands"
+}
+.icon-shield-alt::before {
+	content:"\f3ed";
+}
+.icon-address-book::before {
+	content:"\f2b9";
+}
+.icon-images::before {
+	content:"\f302";
+}
+.info-circle::before {
+	content:"\f05a";
+}
+.icon-paint-brush::before {
+	content:"\f1fc";
+}
+.icon-language::before {
+	content:"\f1ab";
+}
+.icon-rss::before {
+	content:"\f09e";
+}
+.icon-map-signs::before {
+	content:"\f277";
+}
+.icon-envelope-open-text::before {
+	content:"\f658";
+}
+.icon-users-cog::before {
+	content:"\f509";
+}
+.icon-user-lock::before {
+	content:"\f502";
+}
+

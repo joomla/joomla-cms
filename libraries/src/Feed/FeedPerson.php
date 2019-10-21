@@ -2,18 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Feed;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Feed Person class.
  *
- * @since  12.3
+ * @since  3.1.4
  */
 class FeedPerson
 {
@@ -21,7 +21,7 @@ class FeedPerson
 	 * The email address of the person.
 	 *
 	 * @var    string
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public $email;
 
@@ -29,7 +29,7 @@ class FeedPerson
 	 * The full name of the person.
 	 *
 	 * @var    string
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public $name;
 
@@ -37,7 +37,7 @@ class FeedPerson
 	 * The type of person.
 	 *
 	 * @var    string
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public $type;
 
@@ -45,7 +45,7 @@ class FeedPerson
 	 * The URI for the person.
 	 *
 	 * @var    string
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public $uri;
 
@@ -57,7 +57,7 @@ class FeedPerson
 	 * @param   string  $uri    The URI for the person.
 	 * @param   string  $type   The type of person.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __construct($name = null, $email = null, $uri = null, $type = null)
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,7 +37,7 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 			<?php foreach ($value->value as $subName => $subValue) : ?>
 				<?php if ($subValue) : ?>
 					<tr>
-						<td><i>&nbsp;&nbsp;<?php echo $subValue->label; ?></i></td>
+						<td><em>&nbsp;&nbsp;<?php echo $subValue->label; ?></em></td>
 						<td><?php echo $subValue->value; ?></td>
 					</tr>
 				<?php endif; ?>

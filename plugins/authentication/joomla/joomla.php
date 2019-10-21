@@ -3,21 +3,19 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.joomla
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\User\User;
+use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Helper\AuthenticationHelper;
-use Joomla\CMS\Authentication\Authentication;
-use Joomla\Component\Users\Administrator\Model\UserModel;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Joomla Authentication plugin
@@ -26,6 +24,22 @@ use Joomla\Component\Users\Administrator\Model\UserModel;
  */
 class PlgAuthenticationJoomla extends CMSPlugin
 {
+	/**
+	 * Application object
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  4.0.0
+	 */
+	protected $app;
+
+	/**
+	 * Database object
+	 *
+	 * @var    \Joomla\Database\DatabaseDriver
+	 * @since  4.0.0
+	 */
+	protected $db;
+
 	/**
 	 * This method should handle any authentication and report back to the subject
 	 *
@@ -50,12 +64,12 @@ class PlgAuthenticationJoomla extends CMSPlugin
 			return;
 		}
 
-		// Get a database object
-		$db    = Factory::getDbo();
+		$db    = $this->db;
 		$query = $db->getQuery(true)
-			->select('id, password')
-			->from('#__users')
-			->where('username=' . $db->quote($credentials['username']));
+			->select($db->quoteName(['id', 'password']))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('username') . ' = :username')
+			->bind(':username', $credentials['username']);
 
 		$db->setQuery($query);
 		$result = $db->loadObject();
@@ -71,7 +85,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
 				$response->email    = $user->email;
 				$response->fullname = $user->name;
 
-				if (Factory::getApplication()->isClient('administrator'))
+				if ($this->app->isClient('administrator'))
 				{
 					$response->language = $user->getParam('admin_language');
 				}
@@ -112,7 +126,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
 				return;
 			}
 
-			$model = new UserModel(array('ignore_request' => true));
+			$model = $this->app->bootComponent('com_users')->getMVCFactory()->createModel('User', 'Administrator', ['ignore_request' => true]);
 
 			// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
 			if (!array_key_exists('otp_config', $options))
@@ -134,11 +148,9 @@ class PlgAuthenticationJoomla extends CMSPlugin
 				{
 					try
 					{
-						$app = Factory::getApplication();
-
 						$this->loadLanguage();
 
-						$app->enqueueMessage(Text::_('PLG_AUTH_JOOMLA_ERR_SECRET_CODE_WITHOUT_TFA'), 'warning');
+						$this->app->enqueueMessage(Text::_('PLG_AUTH_JOOMLA_ERR_SECRET_CODE_WITHOUT_TFA'), 'warning');
 					}
 					catch (Exception $exc)
 					{
@@ -154,7 +166,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
 			// Try to validate the OTP
 			PluginHelper::importPlugin('twofactorauth');
 
-			$otpAuthReplies = Factory::getApplication()->triggerEvent('onUserTwofactorAuthenticate', array($credentials, $options));
+			$otpAuthReplies = $this->app->triggerEvent('onUserTwofactorAuthenticate', array($credentials, $options));
 
 			$check = false;
 

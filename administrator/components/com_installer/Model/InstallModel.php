@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,17 +11,17 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Installer\InstallerHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Updater\Update;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Installer\InstallerHelper;
-use Joomla\CMS\Installer\Installer;
 
 /**
  * Extension Manager Install Model
@@ -103,6 +103,7 @@ class InstallModel extends BaseDatabaseModel
 		}
 
 		$installType = $app->input->getWord('installtype');
+		$installLang = $app->input->getWord('package');
 
 		if ($package === null)
 		{
@@ -207,7 +208,7 @@ class InstallModel extends BaseDatabaseModel
 		else
 		{
 			// Package installed successfully.
-			$msg = Text::sprintf('COM_INSTALLER_INSTALL_SUCCESS', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$msg = Text::sprintf('COM_INSTALLER_INSTALL_SUCCESS', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($installLang . $package['type'])));
 			$result = true;
 			$msgType = 'message';
 		}
@@ -226,8 +227,7 @@ class InstallModel extends BaseDatabaseModel
 		// Cleanup the install files.
 		if (!is_file($package['packagefile']))
 		{
-			$config = Factory::getConfig();
-			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
+			$package['packagefile'] = $app->get('tmp_path') . '/' . $package['packagefile'];
 		}
 
 		InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
@@ -414,8 +414,7 @@ class InstallModel extends BaseDatabaseModel
 			return false;
 		}
 
-		$config   = Factory::getConfig();
-		$tmp_dest = $config->get('tmp_path');
+		$tmp_dest = Factory::getApplication()->get('tmp_path');
 
 		// Unpack the downloaded package file.
 		$package = InstallerHelper::unpack($tmp_dest . '/' . $p_file, true);

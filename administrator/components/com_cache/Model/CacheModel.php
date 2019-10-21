@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cache
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,14 +11,15 @@ namespace Joomla\Component\Cache\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\CacheController;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Cache Model
@@ -63,6 +64,7 @@ class CacheModel extends ListModel
 				'group',
 				'count',
 				'size',
+				'client_id',
 			);
 		}
 
@@ -182,13 +184,13 @@ class CacheModel extends ListModel
 	 */
 	public function getCache()
 	{
-		$conf = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		$options = array(
 			'defaultgroup' => '',
-			'storage'      => $conf->get('cache_handler', ''),
+			'storage'      => $app->get('cache_handler', ''),
 			'caching'      => true,
-			'cachebase'    => $conf->get('cache_path', JPATH_CACHE)
+			'cachebase'    => $app->get('cache_path', JPATH_CACHE)
 		);
 
 		return Cache::getInstance('', $options);
@@ -236,7 +238,7 @@ class CacheModel extends ListModel
 	{
 		try
 		{
-			return $this->getCache()->clean($group);
+			$this->getCache()->clean($group);
 		}
 		catch (CacheConnectingException $exception)
 		{
@@ -246,6 +248,10 @@ class CacheModel extends ListModel
 		{
 			return false;
 		}
+
+		Factory::getApplication()->triggerEvent('onAfterPurge', array($group));
+
+		return true;
 	}
 
 	/**
@@ -279,7 +285,7 @@ class CacheModel extends ListModel
 	{
 		try
 		{
-			return Factory::getCache('')->gc();
+			Factory::getCache('')->gc();
 		}
 		catch (CacheConnectingException $exception)
 		{
@@ -289,5 +295,9 @@ class CacheModel extends ListModel
 		{
 			return false;
 		}
+
+		Factory::getApplication()->triggerEvent('onAfterPurge', array());
+
+		return true;
 	}
 }

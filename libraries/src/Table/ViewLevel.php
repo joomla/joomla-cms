@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
@@ -16,7 +16,7 @@ use Joomla\Database\DatabaseDriver;
 /**
  * Viewlevels table class.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class ViewLevel extends Table
 {
@@ -25,7 +25,7 @@ class ViewLevel extends Table
 	 *
 	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
@@ -40,14 +40,14 @@ class ViewLevel extends Table
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function bind($array, $ignore = '')
 	{
 		// Bind the rules as appropriate.
 		if (isset($array['rules']))
 		{
-			if (is_array($array['rules']))
+			if (\is_array($array['rules']))
 			{
 				$array['rules'] = json_encode($array['rules']);
 			}
@@ -61,7 +61,7 @@ class ViewLevel extends Table
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{

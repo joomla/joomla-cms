@@ -3,19 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\Html $this */
 
-HTMLHelper::_('jquery.framework');
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('script', 'com_joomlaupdate/default.min.js', array('version' => 'auto', 'relative' => true));
 Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
@@ -27,7 +26,7 @@ Text::script('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_WARNING_UNKNOWN');
 $latestJoomlaVersion = $this->updateInfo['latest'];
 ?>
 
-<div id="joomlaupdate-wrapper" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>">
+<div id="joomlaupdate-wrapper" class="mt-3" data-joomla-target-version="<?php echo $latestJoomlaVersion; ?>">
 	<?php if ($this->showUploadAndUpdate) : ?>
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'joomlaupdate-tabs', array('active' => $this->shouldDisplayPreUpdateCheck() ? 'pre-update-check' : 'online-update')); ?>
 		<?php if ($this->shouldDisplayPreUpdateCheck()) : ?>

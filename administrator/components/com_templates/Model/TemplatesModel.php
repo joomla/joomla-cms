@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,9 +13,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Methods supporting a list of template extension records.
@@ -68,9 +70,50 @@ class TemplatesModel extends ListModel
 		{
 			$client = ApplicationHelper::getClientInfo($item->client_id);
 			$item->xmldata = TemplatesHelper::parseXMLTemplateFile($client->path, $item->element);
+			$num = $this->updated($item->extension_id);
+
+			if ($num)
+			{
+				$item->updated = $num;
+			}
 		}
 
 		return $items;
+	}
+
+	/**
+	 * Check if template extension have any updated override.
+	 *
+	 * @param   integer  $exid  Extension id of template.
+	 *
+	 * @return   boolean  False if records not found/else integer.
+	 *
+	 * @since   4.0.0
+	 */
+	public function updated($exid)
+	{
+		$db = Factory::getDbo();
+
+		// Select the required fields from the table
+		$query = $db->getQuery(true)
+			->select($db->quoteName('template'))
+			->from($db->quoteName('#__template_overrides'))
+			->where($db->quoteName('extension_id') . ' = :extensionid')
+			->where($db->quoteName('state') . ' = 0')
+			->bind(':extensionid', $exid, ParameterType::INTEGER);
+
+		// Reset the query.
+		$db->setQuery($query);
+
+		// Load the results as a list of stdClass objects.
+		$num = count($db->loadObjectList());
+
+		if ($num > 0)
+		{
+			return $num;
+		}
+
+		return false;
 	}
 
 	/**
@@ -93,22 +136,29 @@ class TemplatesModel extends ListModel
 				'a.extension_id, a.name, a.element, a.client_id'
 			)
 		);
+		$clientId = (int) $this->getState('client_id');
 		$query->from($db->quoteName('#__extensions', 'a'))
-			->where($db->quoteName('a.client_id') . ' = ' . (int) $this->getState('client_id'))
+			->where($db->quoteName('a.client_id') . ' = :clientid')
 			->where($db->quoteName('a.enabled') . ' = 1')
-			->where($db->quoteName('a.type') . ' = ' . $db->quote('template'));
+			->where($db->quoteName('a.type') . ' = ' . $db->quote('template'))
+			->bind(':clientid', $clientId, ParameterType::INTEGER);
 
 		// Filter by search in title.
 		if ($search = $this->getState('filter.search'))
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where($db->quoteName('a.id') . ' = ' . (int) substr($search, 3));
+				$ids = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :id');
+				$query->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . strtolower($search) . '%');
-				$query->where('(' . ' LOWER(a.element) LIKE ' . $search . ' OR LOWER(a.name) LIKE ' . $search . ')');
+				$search = '%' . strtolower($search) . '%';
+				$query->where('LOWER(' . $db->quoteName('a.element') . ') LIKE :element')
+					->orWhere('LOWER(' .  $db->quoteName('a.name') . ') LIKE :name')
+					->bind(':element', $search)
+					->bind(':name', $search);
 			}
 		}
 

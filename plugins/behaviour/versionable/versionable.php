@@ -3,18 +3,18 @@
  * @package     Joomla.Plugin
  * @subpackage  Taggable
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event as CmsEvent;
+use Joomla\CMS\Helper\ContentHistoryHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\Event\DispatcherInterface;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Helper\ContentHistoryHelper;
-use Joomla\CMS\Event as CmsEvent;
 
 /**
  * Implements the Taggable behaviour which allows extensions to automatically support tags for their content items.
@@ -192,7 +192,7 @@ class PlgBehaviourVersionable extends CMSPlugin
 		}
 
 		return preg_replace_callback('/{([^}]+)}/',
-			function($matches) use ($table)
+			function ($matches) use ($table)
 			{
 				return $table->{$matches[1]};
 			},

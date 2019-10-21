@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.pagebreak
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
- * Editor Pagebreak buton
+ * Editor Pagebreak button
  *
  * @since  1.5
  */
@@ -65,6 +65,9 @@ class PlgButtonPagebreak extends CMSPlugin
 		$button->link    = $link;
 		$button->text    = Text::_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK');
 		$button->name    = 'copy';
+		$button->iconSVG = '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M26 8h-6v-2l-6-6h-14v24h12v8h20v-18l-6-6zM26 10.828l3.172 3'
+							. '.172h-3.172v-3.172zM14 2.828l3.172 3.172h-3.172v-3.172zM2 2h10v6h6v14h-16v-20zM30 30h-16v-6h6v-14h4v6h6v14z"></pa'
+							. 'th></svg>';
 		$button->options = [
 			'height'     => '200px',
 			'width'      => '400px',

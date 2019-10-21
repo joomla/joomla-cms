@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -197,13 +197,13 @@ class ComponentlayoutField extends FormField
 						foreach ($files as $i => $file)
 						{
 							// Remove layout files that exist in the component folder
-							if (in_array(basename($file, '.php'), $component_layouts))
+							if (\in_array(basename($file, '.php'), $component_layouts))
 							{
 								unset($files[$i]);
 							}
 						}
 
-						if (count($files))
+						if (\count($files))
 						{
 							// Create the group for the template
 							$groups[$template->name] = array();

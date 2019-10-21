@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
  * Form Field class for the Joomla Platform.
  * Provides a grouped list select field.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class GroupedlistField extends FormField
 {
@@ -26,7 +26,7 @@ class GroupedlistField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Groupedlist';
 
@@ -35,7 +35,7 @@ class GroupedlistField extends FormField
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	protected function getGroups()
@@ -119,7 +119,7 @@ class GroupedlistField extends FormField
 
 					if ($groupLabel)
 					{
-						$label = count($groups);
+						$label = \count($groups);
 					}
 					break;
 
@@ -140,7 +140,7 @@ class GroupedlistField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{
@@ -178,9 +178,9 @@ class GroupedlistField extends FormField
 			);
 
 			// E.g. form field type tag sends $this->value as array
-			if ($this->multiple && is_array($this->value))
+			if ($this->multiple && \is_array($this->value))
 			{
-				if (!count($this->value))
+				if (!\count($this->value))
 				{
 					$this->value[] = '';
 				}

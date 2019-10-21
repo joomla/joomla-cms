@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Response
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,8 @@ namespace Joomla\CMS\Installation\Response;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * JSON Response class for the Joomla Installer.

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,18 +13,20 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
 
 /**
  * Menu Item Model for Menus.
@@ -102,27 +104,19 @@ class ItemModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		$user = Factory::getUser();
-
-		if (!empty($record->id))
+		if (empty($record->id) || $record->published != -2)
 		{
-			// Only delete trashed items
-			if ($record->published != -2)
-			{
-				return false;
-			}
-
-			$menuTypeId = 0;
-
-			if (!empty($record->menutype))
-			{
-				$menuTypeId = $this->getMenuTypeId($record->menutype);
-			}
-
-			return $user->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
+			return false;
 		}
 
-		return false;
+		$menuTypeId = 0;
+
+		if (!empty($record->menutype))
+		{
+			$menuTypeId = $this->getMenuTypeId($record->menutype);
+		}
+
+		return Factory::getUser()->authorise('core.delete', 'com_menus.menu.' . (int) $menuTypeId);
 	}
 
 	/**
@@ -213,7 +207,7 @@ class ItemModel extends AdminModel
 		$parents = array();
 
 		// Calculate the emergency stop count as a precaution against a runaway loop bug
-		$query->select('COUNT(id)')
+		$query->select('COUNT(' . $db->quoteName('id') . ')')
 			->from($db->quoteName('#__menu'));
 		$db->setQuery($query);
 
@@ -255,11 +249,17 @@ class ItemModel extends AdminModel
 			}
 
 			// Copy is a bit tricky, because we also need to copy the children
-			$query->clear()
-				->select('id')
+			$query = $db->getQuery(true)
+				->select($db->quoteName('id'))
 				->from($db->quoteName('#__menu'))
-				->where('lft > ' . (int) $table->lft)
-				->where('rgt < ' . (int) $table->rgt);
+				->where(
+					[
+						$db->quoteName('lft') . ' > :lft',
+						$db->quoteName('rgt') . ' < :rgt',
+					]
+				)
+				->bind(':lft', $table->lft, ParameterType::INTEGER)
+				->bind(':rgt', $table->rgt, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$childIds = $db->loadColumn();
 
@@ -368,7 +368,6 @@ class ItemModel extends AdminModel
 
 		$table = $this->getTable();
 		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
 
 		// Check that the parent exists.
 		if ($parentId)
@@ -444,10 +443,12 @@ class ItemModel extends AdminModel
 			if ($menuType != $table->menutype)
 			{
 				// Add the child node ids to the children array.
-				$query->clear()
+				$query = $db->getQuery(true)
 					->select($db->quoteName('id'))
 					->from($db->quoteName('#__menu'))
-					->where($db->quoteName('lft') . ' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
+					->where($db->quoteName('lft') . ' BETWEEN :lft AND :rgt')
+					->bind(':lft', $table->lft, ParameterType::INTEGER)
+					->bind(':rgt', $table->rgt, ParameterType::INTEGER);
 				$db->setQuery($query);
 				$children = array_merge($children, (array) $db->loadColumn());
 			}
@@ -485,14 +486,15 @@ class ItemModel extends AdminModel
 			$children = ArrayHelper::toInteger($children);
 
 			// Update the menutype field in all nodes where necessary.
-			$query->clear()
+			$query = $db->getQuery(true)
 				->update($db->quoteName('#__menu'))
-				->set($db->quoteName('menutype') . ' = ' . $db->quote($menuType))
-				->where($db->quoteName('id') . ' IN (' . implode(',', $children) . ')');
-			$db->setQuery($query);
+				->set($db->quoteName('menutype') . ' = :menuType')
+				->whereIn($db->quoteName('id'), $children)
+				->bind(':menuType', $menuType);
 
 			try
 			{
+				$db->setQuery($query);
 				$db->execute();
 			}
 			catch (\RuntimeException $e)
@@ -530,7 +532,7 @@ class ItemModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  mixed  A \JForm object on success, false on failure
+	 * @return  mixed  A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -626,7 +628,7 @@ class ItemModel extends AdminModel
 			$data['parent_id'] = (isset($filters['parent_id']) ? $filters['parent_id'] : null);
 			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
 			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
-			$data['access'] = (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access'));
+			$data['access'] = (!empty($filters['access']) ? $filters['access'] : Factory::getApplication()->get('access'));
 		}
 
 		if (isset($data['menutype']) && !$this->getState('item.menutypeid'))
@@ -635,6 +637,8 @@ class ItemModel extends AdminModel
 
 			$this->setState('item.menutypeid', $menuTypeId);
 		}
+
+		$data = (object) $data;
 
 		$this->preprocessData('com_menus.item', $data);
 
@@ -828,31 +832,68 @@ class ItemModel extends AdminModel
 	 */
 	public function getModules()
 	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+		$clientId = (int) $this->getState('item.client_id');
+		$id       = (int) $this->getState('item.id');
 
 		// Currently any setting that affects target page for a backend menu is not supported, hence load no modules.
-		if ($this->getState('item.client_id') == 1)
+		if ($clientId == 1)
 		{
 			return false;
 		}
+
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		/**
 		 * Join on the module-to-menu mapping table.
 		 * We are only interested if the module is displayed on ALL or THIS menu item (or the inverse ID number).
 		 * sqlsrv changes for modulelink to menu manager
 		 */
-		$query->select('a.id, a.title, a.position, a.published, map.menuid')
-			->from('#__modules AS a')
-			->join('LEFT', sprintf('#__modules_menu AS map ON map.moduleid = a.id AND map.menuid IN (0, %1$d, -%1$d)', $this->getState('item.id')))
-			->select('(SELECT COUNT(*) FROM #__modules_menu WHERE moduleid = a.id AND menuid < 0) AS ' . $db->quoteName('except'));
+		$query->select(
+			[
+				$db->quoteName('a.id'),
+				$db->quoteName('a.title'),
+				$db->quoteName('a.position'),
+				$db->quoteName('a.published'),
+				$db->quoteName('map.menuid'),
+			]
+		)
+			->from($db->quoteName('#__modules', 'a'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__modules_menu', 'map'),
+				$db->quoteName('map.moduleid') . ' = ' . $db->quoteName('a.id')
+					. ' AND ' . $db->quoteName('map.menuid') . ' IN (' . implode(',', $query->bindArray([0, $id, -$id])) . ')'
+			);
+
+		$subQuery = $db->getQuery(true)
+			->select('COUNT(*)')
+			->from($db->quoteName('#__modules_menu'))
+			->where(
+				[
+					$db->quoteName('moduleid') . ' = ' . $db->quoteName('a.id'),
+					$db->quoteName('menuid') . ' < 0',
+				]
+			);
+
+		$query->select('(' . $subQuery . ') AS ' . $db->quoteName('except'));
 
 		// Join on the asset groups table.
-		$query->select('ag.title AS access_title')
-			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access')
-			->where('a.published >= 0')
-			->where('a.client_id = ' . (int) $this->getState('item.client_id'))
-			->order('a.position, a.ordering');
+		$query->select($db->quoteName('ag.title', 'access_title'))
+			->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'))
+			->where(
+				[
+					$db->quoteName('a.published') . ' >= 0',
+					$db->quoteName('a.client_id') . ' = :clientId',
+				]
+			)
+			->bind(':clientId', $clientId, ParameterType::INTEGER)
+			->order(
+				[
+					$db->quoteName('a.position'),
+					$db->quoteName('a.ordering'),
+				]
+			);
 
 		$db->setQuery($query);
 
@@ -932,7 +973,9 @@ class ItemModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return array('menutype = ' . $this->_db->quote($table->get('menutype')));
+		return [
+			$this->_db->quoteName('menutype') . ' = ' . $this->_db->quote($table->menutype),
+		];
 	}
 
 	/**
@@ -952,14 +995,23 @@ class ItemModel extends AdminModel
 		$pk = $app->input->getInt('id');
 		$this->setState('item.id', $pk);
 
-		if (!($parentId = $app->getUserState('com_menus.edit.item.parent_id')))
+		if (!$app->isClient('api'))
+		{
+			$parentId = $app->getUserState('com_menus.edit.item.parent_id');
+			$menuType = $app->getUserStateFromRequest('com_menus.items.menutype', 'menutype', '', 'string');
+		}
+		else
+		{
+			$parentId = null;
+			$menuType = $app->input->get('com_menus.items.menutype');
+		}
+
+		if (!$parentId)
 		{
 			$parentId = $app->input->getInt('parent_id');
 		}
 
 		$this->setState('item.parent_id', $parentId);
-
-		$menuType = $app->getUserStateFromRequest('com_menus.items.menutype', 'menutype', '', 'string');
 
 		// If we have a menutype we take client_id from there, unless forced otherwise
 		if ($menuType)
@@ -974,11 +1026,19 @@ class ItemModel extends AdminModel
 		else
 		{
 			$menuTypeId = 0;
-			$clientId   = $app->getUserState('com_menus.items.client_id', 0);
+			$clientId   = $app->isClient('api') ? $app->input->get('client_id') :
+				$app->getUserState('com_menus.items.client_id', 0);
 		}
 
 		// Forced client id will override/clear menuType if conflicted
 		$forcedClientId = $app->input->get('client_id', null, 'string');
+
+		if (!$app->isClient('api'))
+		{
+			// Set the menu type and client id on the list view state, so we return to this menu after saving.
+			$app->setUserState('com_menus.items.menutype', $menuType);
+			$app->setUserState('com_menus.items.client_id', $clientId);
+		}
 
 		// Current item if not new, we don't allow changing client id at all
 		if ($pk)
@@ -994,10 +1054,6 @@ class ItemModel extends AdminModel
 			$menuType   = '';
 			$menuTypeId = 0;
 		}
-
-		// Set the menu type and client id on the list view state, so we return to this menu after saving.
-		$app->setUserState('com_menus.items.menutype', $menuType);
-		$app->setUserState('com_menus.items.client_id', $clientId);
 
 		$this->setState('item.menutype', $menuType);
 		$this->setState('item.client_id', $clientId);
@@ -1015,7 +1071,10 @@ class ItemModel extends AdminModel
 
 		$this->setState('item.type', $type);
 
-		if ($link = $app->getUserState('com_menus.edit.item.link'))
+		$link = $app->isClient('api') ? $app->input->get('link') :
+			$app->getUserState('com_menus.edit.item.link');
+
+		if ($link)
 		{
 			$this->setState('item.link', $link);
 		}
@@ -1062,7 +1121,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Method to preprocess the form.
 	 *
-	 * @param   \JForm  $form   A \JForm object.
+	 * @param   Form    $form   A Form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import.
 	 *
@@ -1071,7 +1130,7 @@ class ItemModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		$link     = $this->getState('item.link');
 		$type     = $this->getState('item.type');
@@ -1251,6 +1310,7 @@ class ItemModel extends AdminModel
 					$field->addAttribute('new', 'true');
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
+					$field->addAttribute('propagate', 'true');
 					$option = $field->addChild('option', 'COM_MENUS_ITEM_FIELD_ASSOCIATION_NO_VALUE');
 					$option->addAttribute('value', '');
 				}
@@ -1295,10 +1355,19 @@ class ItemModel extends AdminModel
 			return false;
 		}
 
-		$query->select('id, params')
-			->from('#__menu')
-			->where('params NOT LIKE ' . $db->quote('{%'))
-			->where('params <> ' . $db->quote(''));
+		$query->select(
+			[
+				$db->quoteName('id'),
+				$db->quoteName('params'),
+			]
+		)
+			->from($db->quoteName('#__menu'))
+			->where(
+				[
+					$db->quoteName('params') . ' NOT LIKE ' . $db->quote('{%'),
+					$db->quoteName('params') . ' <> ' . $db->quote(''),
+				]
+			);
 		$db->setQuery($query);
 
 		try
@@ -1312,19 +1381,27 @@ class ItemModel extends AdminModel
 			return false;
 		}
 
+		// Declare paramaters before binding.
+		$id     = 0;
+		$params = '';
+
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__menu'))
+			->set($db->quoteName('params') . ' = :params')
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':params', $params)
+			->bind(':id', $id, ParameterType::INTEGER);
+		$db->setQuery($query);
+
 		foreach ($items as &$item)
 		{
-			$registry = new Registry($item->params);
-			$params = (string) $registry;
-
-			$query->clear();
-			$query->update('#__menu')
-				->set('params = ' . $db->quote($params))
-				->where('id = ' . $item->id);
+			// Update query parameters.
+			$id     = $item->id;
+			$params = new Registry($item->params);
 
 			try
 			{
-				$db->setQuery($query)->execute();
+				$db->execute();
 			}
 			catch (\RuntimeException $e)
 			{
@@ -1332,8 +1409,6 @@ class ItemModel extends AdminModel
 
 				return false;
 			}
-
-			unset($registry);
 		}
 
 		// Clean the cache
@@ -1355,6 +1430,8 @@ class ItemModel extends AdminModel
 	{
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('item.id');
 		$isNew      = true;
+		$db      = $this->getDbo();
+		$query   = $db->getQuery(true);
 		$table   = $this->getTable();
 		$context = $this->option . '.' . $this->name;
 
@@ -1399,6 +1476,18 @@ class ItemModel extends AdminModel
 			{
 				$table->setLocation($data['parent_id'], 'last-child');
 			}
+
+			// Check if we are moving to a different menu
+			if ($data['menutype'] != $table->menutype)
+			{
+				// Add the child node ids to the children array.
+				$query->clear()
+					->select($db->quoteName('id'))
+					->from($db->quoteName('#__menu'))
+					->where($db->quoteName('lft') . ' BETWEEN ' . (int) $table->lft . ' AND ' . (int) $table->rgt);
+				$db->setQuery($query);
+				$children = (array) $db->loadColumn();
+			}
 		}
 		// We have a new item, so it is not a change.
 		else
@@ -1438,7 +1527,7 @@ class ItemModel extends AdminModel
 		}
 
 		// Trigger the before save event.
-		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew, $data));
 
 		// Store the data.
 		if (in_array(false, $result, true)|| !$table->store())
@@ -1457,6 +1546,33 @@ class ItemModel extends AdminModel
 			$this->setError($table->getError());
 
 			return false;
+		}
+
+		// Process the child rows
+		if (!empty($children))
+		{
+			// Remove any duplicates and sanitize ids.
+			$children = array_unique($children);
+			$children = ArrayHelper::toInteger($children);
+
+			// Update the menutype field in all nodes where necessary.
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__menu'))
+				->set($db->quoteName('menutype') . ' = :menutype')
+				->whereIn($db->quoteName('id'), $children)
+				->bind(':menutype', $data['menutype']);
+
+			try
+			{
+				$db->setQuery($query);
+				$db->execute();
+			}
+			catch (\RuntimeException $e)
+			{
+				$this->setError($e->getMessage());
+
+				return false;
+			}
 		}
 
 		$this->setState('item.id', $table->id);
@@ -1492,38 +1608,50 @@ class ItemModel extends AdminModel
 			$query = $db->getQuery(true)
 				->select($db->quoteName('key'))
 				->from($db->quoteName('#__associations'))
-				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
-				->where($db->quoteName('id') . ' = ' . (int) $table->id);
+				->where(
+					[
+						$db->quoteName('context') . ' = :context',
+						$db->quoteName('id') . ' = :id',
+					]
+				)
+				->bind(':context', $this->associationsContext)
+				->bind(':id', $table->id, ParameterType::INTEGER);
 			$db->setQuery($query);
-			$old_key = $db->loadResult();
+			$oldKey = $db->loadResult();
 
-			// Deleting old associations for the associated items
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__associations'))
-				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext));
-
-			if ($associations)
+			if ($associations || $oldKey !== null)
 			{
-				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')'
-				);
-			}
-			else
-			{
-				$query->where($db->quoteName('key') . ' = ' . $db->quote($old_key));
-			}
+				// Deleting old associations for the associated items
+				$where = [];
+				$query = $db->getQuery(true)
+					->delete($db->quoteName('#__associations'))
+					->where($db->quoteName('context') . ' = :context')
+					->bind(':context', $this->associationsContext);
 
-			$db->setQuery($query);
+				if ($associations)
+				{
+					$where[] = $db->quoteName('id') . ' IN (' . implode(',', $query->bindArray(array_values($associations))) . ')';
+				}
 
-			try
-			{
-				$db->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				$this->setError($e->getMessage());
+				if ($oldKey !== null)
+				{
+					$where[] = $db->quoteName('key') . ' = :oldKey';
+					$query->bind(':oldKey', $oldKey);
+				}
 
-				return false;
+				$query->extendWhere('AND', $where, 'OR');
+
+				try
+				{
+					$db->setQuery($query);
+					$db->execute();
+				}
+				catch (\RuntimeException $e)
+				{
+					$this->setError($e->getMessage());
+
+					return false;
+				}
 			}
 
 			// Adding self to the association
@@ -1535,19 +1663,33 @@ class ItemModel extends AdminModel
 			if (count($associations) > 1)
 			{
 				// Adding new association for these items
-				$key = md5(json_encode($associations));
-				$query->clear()
-					->insert('#__associations');
+				$key   = md5(json_encode($associations));
+				$query = $db->getQuery(true)
+					->insert($db->quoteName('#__associations'))
+					->columns(
+						[
+							$db->quoteName('id'),
+							$db->quoteName('context'),
+							$db->quoteName('key'),
+						]
+					);
 
 				foreach ($associations as $id)
 				{
-					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
+					$query->values(
+						implode(
+							',',
+							$query->bindArray(
+								[$id, $this->associationsContext, $key],
+								[ParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING]
+							)
+						)
+					);
 				}
-
-				$db->setQuery($query);
 
 				try
 				{
+					$db->setQuery($query);
 					$db->execute();
 				}
 				catch (\RuntimeException $e)
@@ -1608,7 +1750,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Method to change the home state of one or more items.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the home state.
 	 *
 	 * @return  boolean  True on success.
@@ -1695,7 +1837,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state.
 	 *
 	 * @return  boolean  True on success.

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,21 +11,21 @@ namespace Joomla\Component\Contenthistory\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\ItemModel;
-use Joomla\CMS\Table\Table;
-use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
-use Joomla\CMS\Table\ContentHistory;
-use Joomla\CMS\Table\ContentType;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Table\ContentHistory;
+use Joomla\CMS\Table\ContentType;
+use Joomla\CMS\Table\Table;
+use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
 
 /**
  * Methods supporting a list of contenthistory records.
  *
  * @since  3.2
  */
-class CompareModel extends ItemModel
+class CompareModel extends ListModel
 {
 	/**
 	 * Method to get a version history row.
@@ -103,7 +103,11 @@ class CompareModel extends ItemModel
 					{
 						if (array_key_exists($dateProperty, $object->data) && $object->data->$dateProperty->value != $nullDate)
 						{
-							$object->data->$dateProperty->value = HTMLHelper::_('date', $object->data->$dateProperty->value, Text::_('DATE_FORMAT_LC6'));
+							$object->data->$dateProperty->value = HTMLHelper::_(
+								'date',
+								$object->data->$dateProperty->value,
+								Text::_('DATE_FORMAT_LC6')
+							);
 						}
 					}
 

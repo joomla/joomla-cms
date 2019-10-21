@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,6 +26,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				<?php $dataShowOn = " data-showon='" . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . "'"; ?>
 			<?php endif; ?>
 			<div class="js-stools-field-filter"<?php echo $dataShowOn; ?>>
+				<span class="sr-only"><?php echo $field->label; ?></span>
 				<?php echo $field->input; ?>
 			</div>
 		<?php endif; ?>

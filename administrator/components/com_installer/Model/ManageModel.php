@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,13 +11,17 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Component\Templates\Administrator\Table\StyleTable;
-use Joomla\Database\DatabaseQuery;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Changelog\Changelog;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Extension;
+use Joomla\Component\Templates\Administrator\Table\StyleTable;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Installer Manage Model
@@ -64,6 +68,8 @@ class ManageModel extends InstallerModel
 	 *
 	 * @return  void
 	 *
+	 * @throws  \Exception
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = 'name', $direction = 'asc')
@@ -89,10 +95,12 @@ class ManageModel extends InstallerModel
 	/**
 	 * Enable/Disable an extension.
 	 *
-	 * @param   array  &$eid   Extension ids to un/publish
+	 * @param   array  $eid    Extension ids to un/publish
 	 * @param   int    $value  Publish value
 	 *
 	 * @return  boolean  True on success
+	 *
+	 * @throws  \Exception
 	 *
 	 * @since   1.5
 	 */
@@ -117,7 +125,7 @@ class ManageModel extends InstallerModel
 		}
 
 		// Get a table object for the extension type
-		$table = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$table = new Extension($this->getDbo());
 
 		// Enable the extension in the table and store it in the database
 		foreach ($eid as $i => $id)
@@ -145,6 +153,11 @@ class ManageModel extends InstallerModel
 			{
 				$table->enabled = $value;
 			}
+
+			$context = $this->option . '.' . $this->name;
+
+			PluginHelper::importPlugin('extension');
+			Factory::getApplication()->triggerEvent('onExtensionChangeState', array($context, $eid, $value));
 
 			if (!$table->store())
 			{
@@ -182,7 +195,7 @@ class ManageModel extends InstallerModel
 
 		// Get an installer object for the extension type
 		$installer = Installer::getInstance();
-		$result = 0;
+		$result    = 0;
 
 		// Uninstall the chosen extensions
 		foreach ($eid as $id)
@@ -199,6 +212,8 @@ class ManageModel extends InstallerModel
 	 * @param   array  $eid  An array of identifiers
 	 *
 	 * @return  boolean  True on success
+	 *
+	 * @throws  \Exception
 	 *
 	 * @since   1.5
 	 */
@@ -222,10 +237,10 @@ class ManageModel extends InstallerModel
 
 		// Get an installer object for the extension type
 		$installer = Installer::getInstance();
-		$row = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$row       = new \Joomla\CMS\Table\Extension($this->getDbo());
 
 		// Uninstall the chosen extensions
-		$msgs = array();
+		$msgs   = array();
 		$result = false;
 
 		foreach ($eid as $id)
@@ -235,7 +250,7 @@ class ManageModel extends InstallerModel
 			$result = false;
 
 			$langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
-			$rowtype = Text::_($langstring);
+			$rowtype    = Text::_($langstring);
 
 			if (strpos($rowtype, $langstring) !== false)
 			{
@@ -375,5 +390,81 @@ class ManageModel extends InstallerModel
 		// Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).
 
 		return $query;
+	}
+
+	/**
+	 * Load the changelog details for a given extension.
+	 *
+	 * @param   integer  $eid     The extension ID
+	 * @param   string   $source  The view the changelog is for, this is used to determine which version number to show
+	 *
+	 * @return  string  The output to show in the modal.
+	 *
+	 * @since   4.0.0
+	 */
+	public function loadChangelog($eid, $source)
+	{
+		// Get the changelog URL
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select(
+				$db->quoteName(
+					array(
+						'extensions.element',
+						'extensions.type',
+						'extensions.folder',
+						'extensions.changelogurl',
+						'extensions.manifest_cache',
+						'extensions.client_id'
+					)
+				)
+			)
+			->select($db->quoteName('updates.version', 'updateVersion'))
+			->from($db->quoteName('#__extensions', 'extensions'))
+			->leftJoin(
+				$db->quoteName('#__updates', 'updates')
+				. ' ON ' . $db->quoteName('updates.extension_id') . ' = ' . $db->quoteName('extensions.extension_id')
+			)
+			->where($db->quoteName('extensions.extension_id') . ' = ' . (int) $eid);
+		$db->setQuery($query);
+
+		$extensions = $db->loadObjectList();
+		$this->translate($extensions);
+		$extension = array_shift($extensions);
+
+		if (!$extension->changelogurl)
+		{
+			return '';
+		}
+
+		$changelog = new Changelog;
+		$changelog->setVersion($source === 'manage' ? $extension->version : $extension->updateVersion);
+		$changelog->loadFromXml($extension->changelogurl);
+
+		// Read all the entries
+		$entries = array(
+			'security' => array(),
+			'fix'      => array(),
+			'addition' => array(),
+			'change'   => array(),
+			'remove'   => array(),
+			'language' => array(),
+			'note'     => array()
+		);
+
+		array_walk(
+			$entries,
+			function (&$value, $name) use ($changelog) {
+				if ($field = $changelog->get($name))
+				{
+					$value = $changelog->get($name)->data;
+				}
+			}
+		);
+
+		$layout = new FileLayout('joomla.installer.changelog');
+		$output = $layout->render($entries);
+
+		return $output;
 	}
 }

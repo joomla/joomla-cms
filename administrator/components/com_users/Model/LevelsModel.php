@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,12 +12,13 @@ namespace Joomla\Component\Users\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\ParameterType;
 
 /**
  * Methods supporting a list of user access level records.
@@ -120,12 +121,15 @@ class LevelsModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$ids = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :id');
+				$query->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('a.title LIKE ' . $search);
+				$search = '%' . trim($search) . '%';
+				$query->where('a.title LIKE :title')
+					->bind(':title', $search);
 			}
 		}
 

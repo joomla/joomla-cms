@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,12 @@ namespace Joomla\Component\Languages\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Languages Strings Model
@@ -116,7 +116,7 @@ class StringsModel extends BaseDatabaseModel
 	/**
 	 * Method for searching language strings.
 	 *
-	 * @return  array|\Exception  Array of resuls on success, \Exception object otherwise.
+	 * @return  array|\Exception  Array of results on success, \Exception object otherwise.
 	 *
 	 * @since		2.5
 	 */
@@ -149,7 +149,8 @@ class StringsModel extends BaseDatabaseModel
 			}
 
 			// Consider the limitstart according to the 'more' parameter and load the results.
-			$db->setQuery($query, $limitstart, 10);
+			$query->setLimit(10, $limitstart);
+			$db->setQuery($query);
 			$results['results'] = $db->loadObjectList();
 
 			// Check whether there are more results than already loaded.

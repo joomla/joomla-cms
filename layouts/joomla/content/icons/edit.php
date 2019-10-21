@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ if ($legacy)
 }
 else
 {
-	$icon = $article->state ? 'pencil-square-o' : 'eye-slash';
+	$icon = $article->state ? 'edit' : 'eye-slash';
 
 	if (strtotime($article->publish_up) > strtotime(Factory::getDate())
 		|| ((strtotime($article->publish_down) < strtotime(Factory::getDate())) && $article->publish_down != Factory::getDbo()->getNullDate()))

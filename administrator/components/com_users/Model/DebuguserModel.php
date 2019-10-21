@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,12 +12,13 @@ namespace Joomla\Component\Users\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
-use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\ParameterType;
 
 /**
  * Methods supporting a list of User ACL permissions
@@ -88,19 +89,7 @@ class DebuguserModel extends ListModel
 				foreach ($actions as $action)
 				{
 					$name = $action[0];
-					$level = $action[1];
-
-					// Check that we check this action for the level of the asset.
-					if ($level === null || $level >= $asset->level)
-					{
-						// We need to test this action.
-						$asset->checks[$name] = $user->authorise($name, $asset->name);
-					}
-					else
-					{
-						// We ignore this action.
-						$asset->checks[$name] = 'skip';
-					}
+					$asset->checks[$name] = $user->authorise($name, $asset->name);
 				}
 			}
 		}
@@ -221,16 +210,13 @@ class DebuguserModel extends ListModel
 		// Filter the items over the search string if set.
 		if ($this->getState('filter.search'))
 		{
-			// Escape the search token.
-			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($this->getState('filter.search')), true) . '%'));
-
-			// Compile the different search clauses.
-			$searches = array();
-			$searches[] = 'a.name LIKE ' . $search;
-			$searches[] = 'a.title LIKE ' . $search;
+			$search = '%' . trim($this->getState('filter.search')) . '%';
 
 			// Add the clauses to the query.
-			$query->where('(' . implode(' OR ', $searches) . ')');
+			$query->where($db->quoteName('a.name') . ' LIKE :name')
+				->orWhere($db->quoteName('a.title') . ' LIKE :title')
+				->bind(':name', $search)
+				->bind(':title', $search);
 		}
 
 		// Filter on the start and end levels.
@@ -244,19 +230,31 @@ class DebuguserModel extends ListModel
 
 		if ($levelStart > 0)
 		{
-			$query->where('a.level >= ' . $levelStart);
+			$query->where($db->quoteName('a.level') . ' >= :levelStart')
+				->bind(':levelStart', $levelStart, ParameterType::INTEGER);
 		}
 
 		if ($levelEnd > 0)
 		{
-			$query->where('a.level <= ' . $levelEnd);
+			$query->where($db->quoteName('a.level') . ' <= :levelEnd')
+				->bind(':levelEnd', $levelEnd, ParameterType::INTEGER);
 		}
 
 		// Filter the items over the component if set.
 		if ($this->getState('filter.component'))
 		{
-			$component = $this->getState('filter.component');
-			$query->where('(a.name = ' . $db->quote($component) . ' OR a.name LIKE ' . $db->quote($component . '.%') . ')');
+			$component  = $this->getState('filter.component');
+			$lcomponent = $component . '%';
+			$query->extendWhere(
+				'AND',
+				[
+					$db->quoteName('a.name') . ' = :component',
+					$db->quoteName('a.name') . ' LIKE :lcomponent'
+				],
+				'OR'
+			)
+				->bind(':component', $component)
+				->bind(':lcomponent', $lcomponent);
 		}
 
 		// Add the list ordering clause.

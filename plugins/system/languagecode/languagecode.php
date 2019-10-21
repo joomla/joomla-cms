@@ -3,17 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagecode
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Language Code plugin class.
@@ -23,6 +22,14 @@ use Joomla\CMS\Language\LanguageHelper;
 class PlgSystemLanguagecode extends CMSPlugin
 {
 	/**
+	 * Application object
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  4.0.0
+	 */
+	protected $app;
+
+	/**
 	 * Plugin that changes the language code used in the <html /> tag.
 	 *
 	 * @return  void
@@ -31,16 +38,14 @@ class PlgSystemLanguagecode extends CMSPlugin
 	 */
 	public function onAfterRender()
 	{
-		$app = Factory::getApplication();
-
 		// Use this plugin only in site application.
-		if ($app->isClient('site'))
+		if ($this->app->isClient('site'))
 		{
 			// Get the response body.
-			$body = $app->getBody();
+			$body = $this->app->getBody();
 
 			// Get the current language code.
-			$code = Factory::getDocument()->getLanguage();
+			$code = $this->app->getDocument()->getLanguage();
 
 			// Get the new code.
 			$new_code  = $this->params->get($code);
@@ -65,7 +70,7 @@ class PlgSystemLanguagecode extends CMSPlugin
 			}
 
 			// Replace codes in <link hreflang="" /> attributes.
-			preg_match_all(chr(1) . '(<link.*\s+hreflang=")([0-9a-z\-]*)(".*\s+rel="alternate".*/>)' . chr(1) . 'i', $body, $matches);
+			preg_match_all(chr(1) . '(<link.*\s+hreflang=")([0-9a-z\-]*)(".*\s+rel="alternate".*>)' . chr(1) . 'i', $body, $matches);
 
 			foreach ($matches[2] as $match)
 			{
@@ -73,12 +78,12 @@ class PlgSystemLanguagecode extends CMSPlugin
 
 				if ($new_code)
 				{
-					$patterns[] = chr(1) . '(<link.*\s+hreflang=")(' . $match . ')(".*\s+rel="alternate".*/>)' . chr(1) . 'i';
+					$patterns[] = chr(1) . '(<link.*\s+hreflang=")(' . $match . ')(".*\s+rel="alternate".*>)' . chr(1) . 'i';
 					$replace[] = '${1}' . $new_code . '${3}';
 				}
 			}
 
-			preg_match_all(chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")([0-9A-Za-z\-]*)(".*/>)' . chr(1) . 'i', $body, $matches);
+			preg_match_all(chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")([0-9A-Za-z\-]*)(".*>)' . chr(1) . 'i', $body, $matches);
 
 			foreach ($matches[2] as $match)
 			{
@@ -86,13 +91,13 @@ class PlgSystemLanguagecode extends CMSPlugin
 
 				if ($new_code)
 				{
-					$patterns[] = chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")(' . $match . ')(".*/>)' . chr(1) . 'i';
+					$patterns[] = chr(1) . '(<link.*\s+rel="alternate".*\s+hreflang=")(' . $match . ')(".*>)' . chr(1) . 'i';
 					$replace[] = '${1}' . $new_code . '${3}';
 				}
 			}
 
 			// Replace codes in itemprop content
-			preg_match_all(chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")([0-9A-Za-z\-]*)(".*/>)' . chr(1) . 'i', $body, $matches);
+			preg_match_all(chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")([0-9A-Za-z\-]*)(".*>)' . chr(1) . 'i', $body, $matches);
 
 			foreach ($matches[2] as $match)
 			{
@@ -100,33 +105,27 @@ class PlgSystemLanguagecode extends CMSPlugin
 
 				if ($new_code)
 				{
-					$patterns[] = chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")(' . $match . ')(".*/>)' . chr(1) . 'i';
+					$patterns[] = chr(1) . '(<meta.*\s+itemprop="inLanguage".*\s+content=")(' . $match . ')(".*>)' . chr(1) . 'i';
 					$replace[] = '${1}' . $new_code . '${3}';
 				}
 			}
 
-			$app->setBody(preg_replace($patterns, $replace, $body));
+			$this->app->setBody(preg_replace($patterns, $replace, $body));
 		}
 	}
 
 	/**
 	 * Prepare form.
 	 *
-	 * @param   JForm  $form  The form to be altered.
+	 * @param   Form   $form  The form to be altered.
 	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
 	 * @since	2.5
 	 */
-	public function onContentPrepareForm($form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
-		// Check we have a form.
-		if (!($form instanceof Form))
-		{
-			throw new RuntimeException(Text::_('JERROR_NOT_A_FORM'), 500);
-		}
-
 		// Check we are manipulating the languagecode plugin.
 		if ($form->getName() !== 'com_plugins.plugin' || !$form->getField('languagecodeplugin', 'params'))
 		{
@@ -159,8 +158,8 @@ class PlgSystemLanguagecode extends CMSPlugin
 								/>
 							</fieldset>
 						</fields>
-					</form>
-				');
+					</form>'
+				);
 			}
 		}
 

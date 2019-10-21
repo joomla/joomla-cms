@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,23 +12,23 @@ namespace Joomla\CMS\Installation\Application;
 defined('_JEXEC') or die;
 
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\FactoryInterface;
+use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Document\Document;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Joomla! Installation Application class.
@@ -37,6 +37,8 @@ use Joomla\CMS\Filesystem\Folder;
  */
 final class InstallationApplication extends CMSApplication
 {
+	use \Joomla\CMS\Application\ExtensionNamespaceMapper;
+
 	/**
 	 * Class constructor.
 	 *
@@ -224,6 +226,9 @@ final class InstallationApplication extends CMSApplication
 	 */
 	protected function doExecute()
 	{
+		// Ensure we load the namespace loader
+		$this->createExtensionNamespaceMap();
+
 		// Initialise the application.
 		$this->initialiseApp();
 
@@ -278,7 +283,7 @@ final class InstallationApplication extends CMSApplication
 	 *
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	protected function fetchConfigurationData($file = '', $class = 'JConfig')
@@ -342,7 +347,6 @@ final class InstallationApplication extends CMSApplication
 		$ret = array();
 
 		$ret['language']   = (string) $xml->forceLang;
-		$ret['helpurl']    = (string) $xml->helpurl;
 		$ret['debug']      = (string) $xml->debug;
 		$ret['sampledata'] = (string) $xml->sampledata;
 
@@ -468,15 +472,8 @@ final class InstallationApplication extends CMSApplication
 			$options['language'] = 'en-GB';
 		}
 
-		// Check for custom helpurl.
-		if (empty($forced['helpurl']))
-		{
-			$options['helpurl'] = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
-		}
-		else
-		{
-			$options['helpurl'] = $forced['helpurl'];
-		}
+		// Set the official helpurl.
+		$options['helpurl'] = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
 
 		// Store helpurl in the session.
 		$this->getSession()->set('setup.helpurl', $options['helpurl']);

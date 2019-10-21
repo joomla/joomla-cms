@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset>
-		<field 
-			name="id" 
+	<fieldset addfieldprefix="Joomla\Component\Modules\Administrator\Field">
+		<field
+			name="id"
 			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
@@ -10,26 +10,24 @@
 		/>
 
 		<field
-			name="title" 
+			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
-			class="input-xxlarge input-large-text"
 			size="40"
 			maxlength="100"
 			required="true"
 		/>
 
 		<field
-			name="note" 
+			name="note"
 			type="text"
 			label="COM_MODULES_FIELD_NOTE_LABEL"
 			maxlength="255"
 			size="40"
-			class="span12"
 		/>
 
 		<field
-			name="module" 
+			name="module"
 			type="hidden"
 			label="COM_MODULES_FIELD_MODULE_LABEL"
 			readonly="readonly"
@@ -37,7 +35,7 @@
 		/>
 
 		<field
-			name="showtitle" 
+			name="showtitle"
 			type="radio"
 			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
 			class="switcher"
@@ -48,8 +46,8 @@
 			<option value="1">JSHOW</option>
 		</field>
 
-		<field 
-			name="published" 
+		<field
+			name="published"
 			type="list"
 			label="JSTATUS"
 			class="custom-select-color-state"
@@ -82,7 +80,7 @@
 		/>
 
 		<field
-			name="client_id" 
+			name="client_id"
 			type="hidden"
 			label="COM_MODULES_FIELD_CLIENT_ID_LABEL"
 			readonly="true"
@@ -90,22 +88,23 @@
 		/>
 
 		<field
-			name="position" 
-			type="moduleposition"
+			name="position"
+			type="ModulesPositionedit"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
 			default=""
 			maxlength="50"
+			client="administrator"
 		/>
 
 		<field
-			name="access" 
+			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
 			size="1"
 		/>
 
 		<field
-			name="ordering" 
+			name="ordering"
 			type="moduleorder"
 			label="JFIELD_ORDERING_LABEL"
 			linked="position"
@@ -122,7 +121,7 @@
 		</field>
 
 		<field
-			name="content" 
+			name="content"
 			type="editor"
 			label="COM_MODULES_FIELD_CONTENT_LABEL"
 			buttons="true"
@@ -138,8 +137,8 @@
 			filter="unset"
 		/>
 
-		<field 
-			name="rules" 
+		<field
+			name="rules"
 			type="rules"
 			label="JFIELD_RULES_LABEL"
 			translate_label="false"

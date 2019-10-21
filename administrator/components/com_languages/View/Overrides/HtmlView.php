@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,13 +11,12 @@ namespace Joomla\Component\Languages\Administrator\View\Overrides;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View for language overrides list.
@@ -51,14 +50,6 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * An array containing all frontend and backend languages
 	 *
 	 * @var    array
@@ -77,17 +68,17 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$this->state      = $this->get('State');
-		$this->items      = $this->get('Overrides');
-		$this->languages  = $this->get('Languages');
-		$this->pagination = $this->get('Pagination');
-
-		LanguagesHelper::addSubmenu('overrides');
+		$this->state         = $this->get('State');
+		$this->items         = $this->get('Overrides');
+		$this->languages     = $this->get('Languages');
+		$this->pagination    = $this->get('Pagination');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors));
+			throw new GenericDataException(implode("\n", $errors));
 		}
 
 		$this->addToolbar();
@@ -130,16 +121,5 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
-
-		\JHtmlSidebar::setAction('index.php?option=com_languages&view=overrides');
-
-		\JHtmlSidebar::addFilter(
-			'',
-			'filter_language_client',
-			HTMLHelper::_('select.options', $this->languages, null, 'text', $this->state->get('filter.language_client')),
-			true
-		);
-
-		$this->sidebar = \JHtmlSidebar::render();
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,6 @@ namespace Joomla\Component\Admin\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 
 /**
  * Utility class working with phpsetting
@@ -55,28 +54,5 @@ class PhpSetting
 	public function string($val)
 	{
 		return !empty($val) ? $val : Text::_('JNONE');
-	}
-
-	/**
-	 * Method to generate an integer from a value
-	 *
-	 * @param   string  $val  a php ini value
-	 *
-	 * @return  string html code
-	 *
-	 * @deprecated  4.0  Use intval() or casting instead.
-	 */
-	public function integer($val)
-	{
-		try
-		{
-			Log::add(sprintf('%s() is deprecated. Use intval() or casting instead.', __METHOD__), Log::WARNING, 'deprecated');
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		return (int) $val;
 	}
 }

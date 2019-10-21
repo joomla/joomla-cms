@@ -3,15 +3,15 @@
  * @package     Joomla.Plugin
  * @subpackage  System.sef
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Joomla! SEF Plugin.
@@ -44,7 +44,7 @@ class PlgSystemSef extends CMSPlugin
 			return;
 		}
 
-		$sefDomain = $this->params->get('domain', '');
+		$sefDomain = $this->params->get('domain', false);
 
 		// Don't add a canonical html tag if no alternative domain has added in SEF plugin domain field.
 		if (empty($sefDomain))
@@ -119,7 +119,7 @@ class PlgSystemSef extends CMSPlugin
 			$this->checkBuffer($buffer);
 		}
 
-		// Check for all unknown protocals (a protocol must contain at least one alpahnumeric character followed by a ":").
+		// Check for all unknown protocols (a protocol must contain at least one alpahnumeric character followed by a ":").
 		$protocols  = '[a-zA-Z0-9\-]+:';
 		$attributes = array('href=', 'src=', 'poster=');
 
@@ -156,7 +156,7 @@ class PlgSystemSef extends CMSPlugin
 			$this->checkBuffer($buffer);
 		}
 
-		// Replace all unknown protocals in javascript window open events.
+		// Replace all unknown protocols in javascript window open events.
 		if (strpos($buffer, 'window.open(') !== false)
 		{
 			$regex  = '#onclick="window.open\(\'(?!/|' . $protocols . '|\#)([^/]+[^\']*?\')#m';
