@@ -533,7 +533,7 @@ class MenusHelper extends ContentHelper
 			}
 
 			// Translate "hideitems" param value from "element" into "menu-item-id"
-			if ($item->type == 'container' && count($hideitems = (array) $item->params->get('hideitems')))
+			if ($item->type == 'container' && count($hideitems = (array) $item->getParams()->get('hideitems')))
 			{
 				foreach ($hideitems as &$hel)
 				{
@@ -549,7 +549,7 @@ class MenusHelper extends ContentHelper
 					->whereIn($db->quoteName('component_id'), $hideitems);
 				$hideitems = $db->setQuery($query)->loadColumn();
 
-				$item->params->set('hideitems', $hideitems);
+				$item->getParams()->set('hideitems', $hideitems);
 			}
 
 			$record = array(
@@ -567,7 +567,7 @@ class MenusHelper extends ContentHelper
 				'published'    => 1,
 				'language'     => '*',
 				'home'         => 0,
-				'params'       => (string) $item->params,
+				'params'       => (string) $item->getParams(),
 			);
 
 			if (!$table->bind($record))

@@ -67,7 +67,7 @@ abstract class Menu
 			// Populate automatic children for container items
 			if ($item->type === 'container')
 			{
-				$exclude    = (array) $item->params->get('hideitems') ?: array();
+				$exclude    = (array) $item->getParams()->get('hideitems') ?: array();
 				$components = MenusHelper::getMenuItems('main', false, $exclude);
 
 				// We are adding the nodes first to preprocess them, then sort them and add them again.
@@ -197,7 +197,7 @@ abstract class Menu
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
 			}
 
-			if ($item->type === 'separator' && $item->params->get('text_separator') == 0)
+			if ($item->type === 'separator' && $item->getParams()->get('text_separator') == 0)
 			{
 				$item->title = '';
 			}
