@@ -322,7 +322,7 @@ class MenusHelper extends ContentHelper
 	 */
 	public static function getMenuItems($menutype, $enabledOnly = false, $exclude = array())
 	{
-		$root = new MenuItem;
+		$root  = new MenuItem;
 		$db    = Factory::getContainer()->get(DatabaseInterface::class);
 		$query = $db->getQuery(true);
 
@@ -378,7 +378,12 @@ class MenusHelper extends ContentHelper
 		try
 		{
 			$db->setQuery($query);
-			$menuItems = $db->loadObjectList('id', '\Joomla\CMS\Menu\MenuItem');
+			$menuItems = [];
+
+			foreach ($db->loadAssocList('id') as $id => $data)
+			{
+				$menuItems[$id] = new MenuItem($data);
+			}
 
 			foreach ($menuItems as $menuitem)
 			{

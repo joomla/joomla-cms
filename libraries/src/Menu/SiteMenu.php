@@ -154,7 +154,14 @@ class SiteMenu extends AbstractMenu
 			// Set the query
 			$this->db->setQuery($query);
 
-			return $this->db->loadObjectList('id', MenuItem::class);
+			$items = [];
+
+			foreach ($this->db->loadAssocList('id') as $id => $data)
+			{
+				$items[$id] = new MenuItem($data);
+			}
+
+			return $items;
 		};
 
 		try
