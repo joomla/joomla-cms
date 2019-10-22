@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Installer\Administrator\Helper\InstallerHelper as CmsInstallerHelper;
 
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('script', 'com_installer/changelog.js', ['version' => 'auto', 'relative' => true]);
@@ -23,9 +21,6 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <div id="installer-update" class="clearfix">
-	<?php if ($this->missingDownloadKeys > 0): ?>
-	<?php endif; ?>
-
 	<form action="<?php echo Route::_('index.php?option=com_installer&view=update'); ?>" method="post" name="adminForm" id="adminForm">
 		<div class="row">
 			<div class="col-md-12">
