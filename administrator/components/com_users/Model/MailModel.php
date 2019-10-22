@@ -218,7 +218,7 @@ class MailModel extends AdminModel
 		if ($rs !== true)
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
-			$this->setError(Text::_('COM_USERS_MAIL_THE_MAIL_COULD_NOT_BE_SENT'));
+			$this->setError($mailer->ErrorInfo);
 
 			return false;
 		}
