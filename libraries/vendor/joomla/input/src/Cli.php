@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Input Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,8 @@ use Joomla\Filter;
 /**
  * Joomla! Input CLI Class
  *
- * @since  1.0
+ * @since       1.0
+ * @deprecated  2.0  Use a Symfony\Component\Console\Input\InputInterface implementation when using the `joomla/console` package
  */
 class Cli extends Input
 {
@@ -74,8 +75,7 @@ class Cli extends Input
 
 		// Remove $_ENV and $_SERVER from the inputs.
 		$inputs = $this->inputs;
-		unset($inputs['env']);
-		unset($inputs['server']);
+		unset($inputs['env'], $inputs['server']);
 
 		// Serialize the executable, args, options, data, and inputs.
 		return serialize(array($this->executable, $this->args, $this->options, $this->data, $inputs));
@@ -139,7 +139,7 @@ class Cli extends Input
 
 		$out = array();
 
-		for ($i = 0, $j = count($argv); $i < $j; $i++)
+		for ($i = 0, $j = \count($argv); $i < $j; $i++)
 		{
 			$arg = $argv[$i];
 
@@ -198,7 +198,7 @@ class Cli extends Input
 					}
 
 					// -a a-value
-					if ((count($chars) === 1) && ($i + 1 < $j) && ($argv[$i + 1][0] !== '-'))
+					if ((\count($chars) === 1) && ($i + 1 < $j) && ($argv[$i + 1][0] !== '-'))
 					{
 						$out[$key]      = $argv[$i + 1];
 						$i++;

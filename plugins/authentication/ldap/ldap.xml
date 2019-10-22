@@ -68,6 +68,19 @@
 				</field>
 
 				<field
+					name="ignore_reqcert_tls"
+					type="radio"
+					label="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_LABEL"
+					description="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_DESC"
+					default="0"
+					filter="integer"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
 					name="no_referrals"
 					type="radio"
 					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
@@ -157,6 +170,18 @@
 					default="uid"
 					size="20"
 				/>
+				<field
+					name="ldap_debug"
+					type="radio"
+					label="PLG_LDAP_FIELD_LDAPDEBUG_LABEL"
+					description="PLG_LDAP_FIELD_LDAPDEBUG_DESC"
+					default="0"
+					filter="integer"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
 			</fieldset>
 		</fields>
 	</config>

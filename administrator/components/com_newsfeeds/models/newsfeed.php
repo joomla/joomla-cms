@@ -54,26 +54,17 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id) || $record->published != -2)
 		{
-			if ($record->published != -2)
-			{
-				return false;
-			}
-
-			$user = JFactory::getUser();
-
-			if (!empty($record->catid))
-			{
-				return $user->authorise('core.delete', 'com_newsfeed.category.' . (int) $record->catid);
-			}
-			else
-			{
-				return parent::canDelete($record);
-			}
+			return false;
 		}
 
-		return false;
+		if (!empty($record->catid))
+		{
+			return JFactory::getUser()->authorise('core.delete', 'com_newsfeed.category.' . (int) $record->catid);
+		}
+
+		return parent::canDelete($record);
 	}
 
 	/**
@@ -87,16 +78,12 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
 		if (!empty($record->catid))
 		{
-			return $user->authorise('core.edit.state', 'com_newsfeeds.category.' . (int) $record->catid);
+			return JFactory::getUser()->authorise('core.edit.state', 'com_newsfeeds.category.' . (int) $record->catid);
 		}
-		else
-		{
-			return parent::canEditState($record);
-		}
+
+		return parent::canEditState($record);
 	}
 
 	/**
@@ -211,20 +198,22 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 
 		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
-		// Cast catid to integer for comparison
-		$catid = (int) $data['catid'];
+		// Create new category, if needed.
+		$createCategory = true;
 
-		// Check if New Category exists
-		if ($catid > 0)
+		// If category ID is provided, check if it's valid.
+		if (is_numeric($data['catid']) && $data['catid'])
 		{
-			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_newsfeeds');
+			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_newsfeeds');
 		}
 
 		// Save New Category
-		if ($catid == 0 && $this->canCreateCategory())
+		if ($createCategory && $this->canCreateCategory())
 		{
 			$table = array();
-			$table['title'] = $data['catid'];
+
+			// Remove #new# prefix, if exists.
+			$table['title'] = strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'];
 			$table['parent_id'] = 1;
 			$table['extension'] = 'com_newsfeeds';
 			$table['language'] = $data['language'];
@@ -413,6 +402,9 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		if ($this->canCreateCategory())
 		{
 			$form->setFieldAttribute('catid', 'allowAdd', 'true');
+
+			// Add a prefix for categories created on the fly.
+			$form->setFieldAttribute('catid', 'customPrefix', '#new#');
 		}
 
 		// Association newsfeeds items
@@ -448,35 +440,6 @@ class NewsfeedsModelNewsfeed extends JModelAdmin
 		}
 
 		parent::preprocessForm($form, $data, $group);
-	}
-
-	/**
-	 * Method to change the title & alias.
-	 *
-	 * @param   integer  $category_id  The id of the parent.
-	 * @param   string   $alias        The alias.
-	 * @param   string   $name         The title.
-	 *
-	 * @return  array  Contains the modified title and alias.
-	 *
-	 * @since   3.1
-	 */
-	protected function generateNewTitle($category_id, $alias, $name)
-	{
-		// Alter the title & alias
-		$table = $this->getTable();
-
-		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
-		{
-			if ($name == $table->name)
-			{
-				$name = StringHelper::increment($name);
-			}
-
-			$alias = StringHelper::increment($alias, 'dash');
-		}
-
-		return array($name, $alias);
 	}
 
 	/**

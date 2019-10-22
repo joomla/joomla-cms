@@ -17,7 +17,7 @@ $dispatcher = JEventDispatcher::getInstance();
 ?>
 
 <?php foreach ($this->documents as $i => $doc) : ?>
-	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$doc, &$params)); ?>
+	<?php $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$doc, &$params, 0)); ?>
 	<tr>
 		<?php if ($this->canDelete) : ?>
 			<td>
@@ -50,5 +50,5 @@ $dispatcher = JEventDispatcher::getInstance();
 		<?php endif; ?>
 
 	</tr>
-	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$doc, &$params)); ?>
+	<?php $dispatcher->trigger('onContentAfterDisplay', array('com_media.file', &$doc, &$params, 0)); ?>
 <?php endforeach; ?>

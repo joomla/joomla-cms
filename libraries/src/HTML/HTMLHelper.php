@@ -217,7 +217,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  mixed   Function result or false on error.
 	 *
-	 * @link    https://secure.php.net/manual/en/function.call-user-func-array.php
+	 * @link    https://www.php.net/manual/en/function.call-user-func-array.php
 	 * @since   1.6
 	 * @throws  \InvalidArgumentException
 	 */

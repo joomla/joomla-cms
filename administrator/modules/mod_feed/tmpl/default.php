@@ -83,7 +83,13 @@ else
 
 	<!-- Show items -->
 	<?php if (!empty($feed)) : ?>
-		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
+		<?php // postinstall override ?>
+		<?php if ($rssurl === 'https://www.joomla.org/announcements/release-news.feed?type=rss') : ?>
+			<?php $style = 'style="direction: ltr; text-align: left !important;"'; ?>
+			<ul class="newsfeed" <?php echo $style; ?>>
+		<?php else : ?>
+			<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?>">
+		<?php endif; ?>
 		<?php for ($i = 0; $i < $params->get('rssitems', 3); $i++) :
 
 			if (!$feed->offsetExists($i)) :

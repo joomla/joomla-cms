@@ -39,6 +39,7 @@ $options = array(
 					data-item="<?php echo $this->typeName; ?>"
 					data-id="<?php echo $this->referenceId; ?>"
 					data-title="<?php echo $this->referenceTitle; ?>"
+					data-title-value="<?php echo $this->referenceTitleValue; ?>"
 					data-language="<?php echo $this->referenceLanguage; ?>"
 					data-editurl="<?php echo JRoute::_($this->editUri); ?>">
 				</iframe>

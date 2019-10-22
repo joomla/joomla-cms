@@ -78,6 +78,15 @@ class ConfigControllerDisplay extends JControllerBase
 			$model     = new $modelClass;
 			$component = $model->getState()->get('component.option');
 
+			// Make sure com_joomlaupdate and com_privacy can only be accessed by SuperUser
+			if (in_array(strtolower($component), array('com_joomlaupdate', 'com_privacy'))
+				&& !JFactory::getUser()->authorise('core.admin'))
+			{
+				$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+
+				return;
+			}
+
 			// Access check.
 			if (!JFactory::getUser()->authorise('core.admin', $component)
 				&& !JFactory::getUser()->authorise('core.options', $component))

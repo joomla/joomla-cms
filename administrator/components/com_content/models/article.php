@@ -213,17 +213,12 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id) || $record->state != -2)
 		{
-			if ($record->state != -2)
-			{
-				return false;
-			}
-
-			return JFactory::getUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
+			return false;
 		}
 
-		return false;
+		return JFactory::getUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
 	}
 
 	/**
@@ -371,6 +366,7 @@ class ContentModelArticle extends JModelAdmin
 	public function getForm($data = array(), $loadData = true)
 	{
 		$app = JFactory::getApplication();
+		$user = JFactory::getUser();
 
 		// Get the form.
 		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
@@ -402,10 +398,14 @@ class ContentModelArticle extends JModelAdmin
 				$form->setFieldAttribute('catid', 'action', 'core.edit.own');
 			}
 			else
-			// Existing record. We can't edit the category in frontend.
+			// Existing record. We can't edit the category in frontend if not edit.state.
 			{
-				$form->setFieldAttribute('catid', 'readonly', 'true');
-				$form->setFieldAttribute('catid', 'filter', 'unset');
+				if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
+					|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
+				{
+					$form->setFieldAttribute('catid', 'readonly', 'true');
+					$form->setFieldAttribute('catid', 'filter', 'unset');
+				}
 			}
 		}
 		else
@@ -413,8 +413,6 @@ class ContentModelArticle extends JModelAdmin
 			// New record. Can only create in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
-
-		$user = JFactory::getUser();
 
 		// Check for existing article.
 		// Modify the form based on Edit State access controls.
@@ -570,20 +568,22 @@ class ContentModelArticle extends JModelAdmin
 
 		JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
 
-		// Cast catid to integer for comparison
-		$catid = (int) $data['catid'];
+		// Create new category, if needed.
+		$createCategory = true;
 
-		// Check if New Category exists
-		if ($catid > 0)
+		// If category ID is provided, check if it's valid.
+		if (is_numeric($data['catid']) && $data['catid'])
 		{
-			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
+			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
 		}
 
 		// Save New Category
-		if ($catid == 0 && $this->canCreateCategory())
+		if ($createCategory && $this->canCreateCategory())
 		{
 			$table = array();
-			$table['title'] = $data['catid'];
+
+			// Remove #new# prefix, if exists.
+			$table['title'] = strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'];
 			$table['parent_id'] = 1;
 			$table['extension'] = 'com_content';
 			$table['language'] = $data['language'];
@@ -807,6 +807,9 @@ class ContentModelArticle extends JModelAdmin
 		if ($this->canCreateCategory())
 		{
 			$form->setFieldAttribute('catid', 'allowAdd', 'true');
+
+			// Add a prefix for categories created on the fly.
+			$form->setFieldAttribute('catid', 'customPrefix', '#new#');
 		}
 
 		// Association content items

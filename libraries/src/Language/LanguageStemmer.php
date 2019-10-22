@@ -13,7 +13,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Stemmer base class.
  *
- * @since  3.0.0
+ * @since       3.0.0
+ * @deprecated  4.0 Use wamania/php-stemmer
  */
 abstract class LanguageStemmer
 {
