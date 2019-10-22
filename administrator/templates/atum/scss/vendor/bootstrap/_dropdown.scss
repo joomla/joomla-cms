@@ -5,6 +5,13 @@
   box-shadow: $dropdown-box-shadow;
   min-width: 100%;
 
+  [class^='icon-'],
+  [class*=' icon-'],
+  [class^='fa '],
+  [class*='fa'] {
+    width: 26px;
+  }
+
   joomla-toolbar-button {
     border: none;
   }
