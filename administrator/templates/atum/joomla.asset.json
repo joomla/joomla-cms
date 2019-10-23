@@ -35,6 +35,12 @@
       "css": [
         "bootstrap.min.css"
       ]
+    },
+    {
+      "name": "fontawesome-free",
+      "css": [
+        "vendor/fontawesome-free/fontawesome.min.css"
+      ]
     }
   ]
 }
