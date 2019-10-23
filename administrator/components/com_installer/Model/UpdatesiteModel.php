@@ -156,7 +156,7 @@ class UpdatesiteModel extends AdminModel
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__updates'))
 			->where($db->quoteName('update_site_id') . ' = :updateSiteId');
-		$query->bind('updateSiteId', $data['update_site_id'], ParameterType::INTEGER);
+		$query->bind(':updateSiteId', $data['update_site_id'], ParameterType::INTEGER);
 
 		try
 		{
