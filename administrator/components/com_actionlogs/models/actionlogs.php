@@ -149,7 +149,7 @@ class ActionlogsModelActionlogs extends JModelList
 			{
 				$query->where($db->quoteName('a.item_id') . ' = ' . (int) substr($search, 8));
 			}
-			elseif (strpos($search, 'uid:') === 0)
+			elseif (stripos($search, 'uid:') === 0)
 			{
 				$query->where($db->quoteName('a.user_id') . ' = ' . (int) substr($search, 4));
 			}
