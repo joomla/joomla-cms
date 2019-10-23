@@ -720,7 +720,7 @@ class MenusHelper extends ContentHelper
 	/**
 	 * Method to resolve the menu item alias type menu item
 	 *
-	 * @param   \stdClass  &$item  The alias object
+	 * @param   MenuItem  &$item  The alias object
 	 *
 	 * @return  void
 	 *
@@ -732,8 +732,7 @@ class MenusHelper extends ContentHelper
 
 		while ($obj->type == 'alias')
 		{
-			$params  = new Registry($obj->params);
-			$aliasTo = (int) $params->get('aliasoptions');
+			$aliasTo = (int) $obj->getParams()->get('aliasoptions');
 
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true);
@@ -752,7 +751,7 @@ class MenusHelper extends ContentHelper
 
 			try
 			{
-				$obj = $db->setQuery($query)->loadObject();
+				$obj = new MenuItem($db->setQuery($query)->loadAssoc());
 
 				if (!$obj)
 				{
