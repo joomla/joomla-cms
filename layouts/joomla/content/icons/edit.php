@@ -13,10 +13,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-$article  = $displayData['article'];
-$overlib  = $displayData['overlib'];
-$legacy   = $displayData['legacy'];
-$nowDate  = strtotime(Factory::getDate());
+$article = $displayData['article'];
+$overlib = $displayData['overlib'];
+$legacy  = $displayData['legacy'];
+$nowDate = strtotime(Factory::getDate());
 
 if ($legacy)
 {
