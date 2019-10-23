@@ -158,7 +158,7 @@ if (!$editoroptions)
 				<?php echo Text::_('JSAVE'); ?>
 			</button>
 			<button type="button" class="btn btn-danger" data-submit-task="article.cancel">
-				<span class="fa fa-times-cancel" aria-hidden="true"></span>
+				<span class="fa fa-times" aria-hidden="true"></span>
 				<?php echo Text::_('JCANCEL'); ?>
 			</button>
 			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>
