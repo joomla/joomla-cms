@@ -1112,7 +1112,7 @@ abstract class HTMLHelper
 		$singleHeader = ($singleHeader) ? "1" : "0";
 
 		// Format value when not nulldate ('0000-00-00 00:00:00'), otherwise blank it as it would result in 1970-01-01.
-		if ($value && $value !== Factory::getDbo()->getNullDate() && strtotime($value) !== false)
+		if ($value !== null && $value !== false && $value !== Factory::getDbo()->getNullDate() && strtotime($value) !== false)
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
