@@ -68,7 +68,7 @@ class BannersModel extends ListModel
 		$categoryId = $this->getState('filter.category_id');
 		$keywords   = $this->getState('filter.keywords');
 		$randomise  = ($ordering === 'random');
-		$nowDate    = $db->quote(Factory::getDate()->toSql());
+		$nowDate    = Factory::getDate()->toSql();
 
 		$query->select(
 			'a.id as id,'
