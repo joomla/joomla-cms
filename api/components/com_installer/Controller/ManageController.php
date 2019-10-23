@@ -13,6 +13,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\ApiController;
 
+/**
+ * The manage controller
+ *
+ * @since  4.0.0
+ */
 class ManageController extends ApiController
 {
 	/**
@@ -21,7 +26,7 @@ class ManageController extends ApiController
 	 * @var    string
 	 * @since  4.0.0
 	 */
-    protected $contentType = 'manage';
+	protected $contentType = 'manage';
 
 	/**
 	 * The default view for the display method.
@@ -29,6 +34,6 @@ class ManageController extends ApiController
 	 * @var    string
 	 * @since  3.0
 	 */
-    protected $default_view = 'manage';
+	protected $default_view = 'manage';
 
 }

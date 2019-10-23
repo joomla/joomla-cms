@@ -324,7 +324,7 @@ class ManageModel extends InstallerModel
 		$folder   = $this->getState('filter.folder');
 		$core     = $this->getState('filter.core');
 
-		if (isset($status) && $status !== '')
+		if (!is_null($status) && $status !== '')
 		{
 			if ($status === '2')
 			{
@@ -341,22 +341,22 @@ class ManageModel extends InstallerModel
 			}
 		}
 
-		if (isset($type) && $type)
+		if (!is_null($type) && $type)
 		{
 			$query->where('type = ' . $this->_db->quote($type));
 		}
 
-		if (isset($clientId) && $clientId !== '')
+		if (!is_null($clientId) && $clientId !== '')
 		{
 			$query->where('client_id = ' . (int) $clientId);
 		}
 
-		if (isset($folder) && $folder !== '')
+		if (!is_null($folder) && $folder !== '')
 		{
 			$query->where('folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
 		}
 
-		if (isset($core) && $core !== '')
+		if (!is_null($core) && $core !== '')
 		{
 			$coreExtensions = ExtensionHelper::getCoreExtensions();
 			$elements       = array();

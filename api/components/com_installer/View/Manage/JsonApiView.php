@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
- 
+
 namespace Joomla\Component\Installer\Api\View\Manage;
 
 defined('_JEXEC') or die;
@@ -26,7 +26,7 @@ class JsonApiView extends BaseApiView
 	 * @var  array
 	 * @since  4.0.0
 	 */
-    protected $fieldsToRenderList = [
+	protected $fieldsToRenderList = [
 		'id',
 		'name',
 		'type',
@@ -34,7 +34,7 @@ class JsonApiView extends BaseApiView
 		'folder',
 		'status',
 		'client_id'
-    ];
+	];
 
 	/**
 	 * Prepare item before render.
