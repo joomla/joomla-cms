@@ -255,7 +255,7 @@ class InstallerHelper
 		$query->bind(':type', $type, ParameterType::STRING);
 		$query->bind(':element', $element, ParameterType::STRING);
 		$query->bind(':client_id', $clientId, ParameterType::INTEGER);
-		$query->bind('folder', $folder, ParameterType::STRING);
+		$query->bind(':folder', $folder, ParameterType::STRING);
 
 		try
 		{
