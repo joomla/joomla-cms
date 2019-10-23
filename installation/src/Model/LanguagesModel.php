@@ -1265,7 +1265,7 @@ class LanguagesModel extends BaseInstallationModel
 			'created_by'       => (int) $this->getAdminId(),
 			'created_by_alias' => 'Joomla',
 			'publish_up'       => $currentDate,
-			'publish_down'     => $db->getNullDate(),
+			'publish_down'     => null,
 			'version'          => 1,
 			'catid'            => $categoryId,
 			'metadata'         => '{"robots":"","author":"","rights":"","tags":null}',
