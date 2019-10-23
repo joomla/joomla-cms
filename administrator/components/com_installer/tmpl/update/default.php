@@ -50,19 +50,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'u.name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="d-none d-md-table-cell">
+								<th scope="col">
 									<?php echo Text::_('COM_INSTALLER_CURRENT_VERSION'); ?>
 								</th>
 								<th scope="col">
 									<?php echo Text::_('COM_INSTALLER_NEW_VERSION'); ?>
 								</th>
-								<th scope="col">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
 								</th>
 								<th class="d-none d-md-table-cell">
@@ -88,19 +88,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<?php echo $item->description; ?>
 										</div>
 									</th>
-									<td class="center">
+									<td class="center d-none d-md-table-cell">
 										<?php echo $item->client_translated; ?>
 									</td>
-									<td class="center">
+									<td class="center d-none d-md-table-cell">
 										<?php echo $item->type_translated; ?>
 									</td>
-									<td class="d-none d-md-table-cell">
+									<td>
 										<span class="badge badge-warning"><?php echo $item->current_version; ?></span>
 									</td>
 									<td>
 										<span class="badge badge-success"><?php echo $item->version; ?></span>
 									</td>
-									<td class="hidden-sm-down text-center">
+									<td class="d-none d-md-table-cell text-center">
 										<?php if (!empty($item->changelogurl)) : ?>
 										<a href="#changelogModal<?php echo $item->extension_id; ?>" class="btn btn-info btn-xs changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="update" data-toggle="modal">
 											<?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
