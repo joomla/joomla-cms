@@ -122,13 +122,10 @@ class PlgContentAdaptiveImage extends CMSPlugin
 				$imgWidth = $imgWidth[0];
 				$extension = $imgName[1];
 				$imgName = base64_decode($imgName[0]) . "." . $extension;
-				
-				if (strpos($imgName, $imageName))
-				{
-					$imgData["width"] = $imgWidth;
-					$imgData["name"]  = Uri::base() . $this->cacheDir . "/" . $name;
-					array_push($cacheImages, $imgData);
-				}
+
+				$imgData["width"] = $imgWidth;
+				$imgData["name"]  = Uri::base() . $this->cacheDir . "/" . $name;
+				array_push($cacheImages, $imgData);
 			}
 			// Arranging widths in the order
 			arsort($cacheImages);
