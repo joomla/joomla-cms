@@ -134,8 +134,6 @@ class UpdatesiteModel extends AdminModel
 	public function save($data): bool
 	{
 		// Apply the extra_query. Always empty when saving a free extension's update site.
-		$extraQuery = '';
-
 		if (isset($data['extra_query']))
 		{
 			$data['extra_query'] = $data['downloadIdPrefix'] . $data['extra_query'] . $data['downloadIdSuffix'];
