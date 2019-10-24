@@ -25,57 +25,74 @@
 
     &[type="success"] {
       border-color: var(--success);
-     .alert-heading {
+
+      .alert-heading {
         background: var(--success);
       }
+
       hr {
         border-top-color: var(--success);
       }
+
       .alert-link {
         color: var(--success);
       }
     }
+
     &[type="info"] {
       border-color: var(--info);
+
       .alert-heading {
         background: var(--info);
       }
+
       hr {
         border-top-color: var(--info);
       }
+
       .alert-link {
         color: var(--info);
       }
     }
+
     &[type="warning"] {
       border-color: var(--warning);
+
       .alert-heading {
         background: var(--warning);
         color: var(--atum-text-dark)
       }
+
       hr {
         border-top-color: var(--warning);
       }
+
       .alert-link {
         color: var(--warning);
       }
     }
+
     &[type="danger"] {
       border-color: var(--danger);
+
       .alert-heading {
         background: var(--danger);
       }
+
       hr {
         border-top-color: var(--danger);
       }
+
       .alert-link {
         color: var(--danger);
       }
     }
+
     &.joomla-alert--show {
       display: block;
       opacity: 1;
     }
+
     .joomla-alert--close,
     .joomla-alert-button--close {
       position: relative;
@@ -85,6 +102,7 @@
       opacity: 1;
       text-shadow: none;
       cursor: pointer;
+
       &:hover,
       &:focus {
         text-decoration: none;
@@ -104,6 +122,7 @@
 }
 
 html[dir=rtl] #system-message-container joomla-alert {
+
   .joomla-alert--close,
   .joomla-alert-button--close {
     right: auto;

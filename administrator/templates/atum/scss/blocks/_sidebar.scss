@@ -29,6 +29,7 @@
   background-color: var(--atum-bg-dark);
   box-shadow: $atum-box-shadow;
   overflow: hidden;
+
   @include media-breakpoint-up(sm) {
     display: flex;
     flex-direction: column;
@@ -43,6 +44,7 @@
       bottom: 0;
       top: auto;
     }
+
     &:not(.sidebar-menu) {
       display: flex;
       flex-direction: column;
@@ -92,7 +94,7 @@
 
   .sidebar-toggle {
     position: relative;
-    background:var(--atum-bg-dark-50);
+    background: var(--atum-bg-dark-50);
 
     a {
       display: block;
@@ -147,7 +149,8 @@
       flex-grow: 2;
     }
 
-    .menu-dashboard, .menu-quicktask {
+    .menu-dashboard,
+    .menu-quicktask {
       position: relative;
       display: inline-block;
 
@@ -180,10 +183,13 @@
     }
 
     li {
-      .menu-dashboard, .menu-quicktask {
+
+      .menu-dashboard,
+      .menu-quicktask {
         > a {
           &.mm-active {
             background-color: var(--atum-bg-dark-80);
+
             &::before {
               display: none;
             }
@@ -213,6 +219,7 @@
       max-width: 11rem !important;
       display: inline-block;
     }
+
     @include media-breakpoint-down(xs) {
       max-width: 60vw !important;
       display: inline-block;
@@ -350,6 +357,7 @@
     margin-top: 0.65rem;
     font-size: .75rem;
     padding-left: 2.4rem;
+
     [dir=rtl] & {
       padding-left: 0;
       padding-right: 2.4rem;
@@ -357,7 +365,7 @@
   }
 
   .home-image {
-     padding: 0 0.4rem 0;
+    padding: 0 0.4rem 0;
   }
 
   .mm-collapse {
@@ -473,8 +481,9 @@
 @include media-breakpoint-down(xs) {
   #menu-collapse {
     display: none;
-    background:var(--atum-bg-dark-50);
+    background: var(--atum-bg-dark-50);
   }
+
   .toggler-burger {
     display: block;
     width: 70px;
@@ -491,6 +500,7 @@
       right: auto;
       left: 10px;
     }
+
     .navbar-toggler-icon {
       color: var(--toggle-color);
 

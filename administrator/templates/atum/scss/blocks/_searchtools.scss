@@ -6,7 +6,7 @@
   margin-bottom: 0.5rem;
 
   > div {
-      margin-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 
   .js-stools-container-filters {
@@ -44,12 +44,11 @@
 
   .js-stools-field-filter {
 
-      margin: 0 .5rem .5rem;
+    margin: 0 .5rem .5rem;
 
-      @include media-breakpoint-down(sm)
-      {
-          width: 100%;
-      }
+    @include media-breakpoint-down(sm) {
+      width: 100%;
+    }
 
     .custom-select {
 
@@ -67,18 +66,18 @@
   }
 
   .js-stools-container-selector,
-  .js-stools-container-selector-first  {
-     @include media-breakpoint-down(md){
-        float:none;
-        width:100%;
-        margin-right:0.5rem;
+  .js-stools-container-selector-first {
+    @include media-breakpoint-down(md) {
+      float: none;
+      width: 100%;
+      margin-right: 0.5rem;
     }
 
-    .js-stools-field-selector{
-        @include media-breakpoint-down(sm) {
-            max-width:100%;
-            margin-right:0.5rem;
-        }
+    .js-stools-field-selector {
+      @include media-breakpoint-down(sm) {
+        max-width: 100%;
+        margin-right: 0.5rem;
+      }
     }
   }
 
@@ -86,39 +85,43 @@
 
     .btn-toolbar {
 
-      .js-stools-btn-filter{
-        border:1px solid var(--border);
+      .js-stools-btn-filter {
+        border: 1px solid var(--border);
       }
+
       .js-stools-btn-clear {
         background-color: var(--atum-bg-dark);
         color: var(--atum-text-light);
-        border:1px solid var(--border);
+        border: 1px solid var(--border);
         border-left: 1px solid var(--atum-text-light);
 
         &.disabled,
-        &:disabled{
-            background-color: rgba($gray-300, 0.8);
-            border-color: rgba($gray-500, 0.8);
-            opacity:1;
-            color:var(--atum-text-dark);
-            cursor: not-allowed;
+        &:disabled {
+          background-color: rgba($gray-300, 0.8);
+          border-color: rgba($gray-500, 0.8);
+          opacity: 1;
+          color: var(--atum-text-dark);
+          cursor: not-allowed;
         }
       }
-      .js-stools-btn-filter{
-        border-right:1px solid var(--border);
+
+      .js-stools-btn-filter {
+        border-right: 1px solid var(--border);
+
         .fa {
           margin-left: 0.25rem;
         }
       }
 
-      .form-control{
-        height:auto;
+      .form-control {
+        height: auto;
       }
     }
 
-    .js-stools-field-list{
-      margin-bottom:0;
-      .custom-select{
+    .js-stools-field-list {
+      margin-bottom: 0;
+
+      .custom-select {
         box-shadow: none;
       }
     }

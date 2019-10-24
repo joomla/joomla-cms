@@ -43,8 +43,9 @@
 
     .controls {
       margin-left: 0;
+
       .switcher__legend {
-        float:none;
+        float: none;
         margin-left: 0;
       }
     }
@@ -59,6 +60,7 @@
   hr {
     width: 380px;
   }
+
   label {
     width: 440px;
   }
@@ -119,7 +121,7 @@ legend {
   position: relative;
 }
 
- /* set up hidden tooltip */
+/* set up hidden tooltip */
 [role="tooltip"]:not(.show) {
   display: none;
   padding: 0.25em;
@@ -130,7 +132,7 @@ legend {
   z-index: $zindex-tooltip;
 }
 
- /* reveal associated tooltip on focus */
+/* reveal associated tooltip on focus */
 :focus + [role="tooltip"],
 :hover + [role="tooltip"] {
   display: block;
@@ -142,9 +144,9 @@ legend {
 }
 
 .switcher__legend {
-    font-size: $label-font-size;
-    color: var(--atum-special-color);
-    margin-bottom: 0;
+  font-size: $label-font-size;
+  color: var(--atum-special-color);
+  margin-bottom: 0;
 }
 
 [class^="icon-"]:not(.input-group-text),
