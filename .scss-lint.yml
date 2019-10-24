@@ -46,7 +46,7 @@ linters:
     enabled: true
 
   DeclarationOrder:
-    enabled: true
+    enabled: false
 
   DisableLinterReason:
     enabled: false
@@ -133,8 +133,6 @@ linters:
     ignore_unspecified: false
     min_properties: 2
     separate_groups: false
-    exclude:
-      - _normalize.scss
     order:
       - position
       - top
