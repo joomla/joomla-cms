@@ -318,13 +318,13 @@ class ManageModel extends InstallerModel
 			->where('state = 0');
 
 		// Process select filters.
-		$status   = $this->getState('filter.status');
+		$status   = $this->getState('filter.status', '');
 		$type     = $this->getState('filter.type');
-		$clientId = $this->getState('filter.client_id');
+		$clientId = $this->getState('filter.client_id', '');
 		$folder   = $this->getState('filter.folder');
-		$core     = $this->getState('filter.core');
+		$core     = $this->getState('filter.core', '');
 
-		if (!is_null($status) && $status !== '')
+		if ($status !== '')
 		{
 			if ($status === '2')
 			{
@@ -341,22 +341,22 @@ class ManageModel extends InstallerModel
 			}
 		}
 
-		if (!is_null($type) && $type)
+		if ($type)
 		{
 			$query->where('type = ' . $this->_db->quote($type));
 		}
 
-		if (!is_null($clientId) && $clientId !== '')
+		if ($clientId !== '')
 		{
 			$query->where('client_id = ' . (int) $clientId);
 		}
 
-		if (!is_null($folder) && $folder !== '')
+		if ($folder)
 		{
 			$query->where('folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
 		}
 
-		if (!is_null($core) && $core !== '')
+		if ($core !== '')
 		{
 			$coreExtensions = ExtensionHelper::getCoreExtensions();
 			$elements       = array();
