@@ -46,7 +46,7 @@ linters:
     enabled: true
 
   DeclarationOrder:
-    enabled: false
+    enabled: true
 
   DisableLinterReason:
     enabled: false
