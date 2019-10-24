@@ -136,7 +136,7 @@ class BannersModelBanners extends JModelList
 		{
 			if (count($keywords) === 0)
 			{
-				$query->where('0');
+				$query->where('0 != 0');
 			}
 			else
 			{

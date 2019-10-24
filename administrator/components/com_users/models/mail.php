@@ -122,7 +122,7 @@ class UsersModelMail extends JModelAdmin
 		{
 			if (empty($to))
 			{
-				$query->where('0');
+				$query->where('0 != 0');
 			}
 			else
 			{
