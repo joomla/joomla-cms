@@ -70,7 +70,7 @@ class PlgQuickiconDownloadkey extends CMSPlugin
 			'image' => 'fa fa-key',
 			'icon'  => '',
 			'text'  => Text::_('PLG_QUICKICON_DOWNLOADKEY_OK'),
-			'class' => 'pulse success',
+			'class' => 'success',
 			'id'    => 'plg_quickicon_downloadkey',
 			'group' => 'MOD_QUICKICON_MAINTENANCE'
 		];
@@ -80,7 +80,7 @@ class PlgQuickiconDownloadkey extends CMSPlugin
 			$iconDefinition = array_merge($iconDefinition, [
 				'link'  => 'index.php?option=com_installer&view=updatesites&filter[supported]=-1',
 				'text'  => Text::plural('PLG_QUICKICON_DOWNLOADKEY_N_MISSING', $info['missing']),
-				'class' => 'pulse danger',
+				'class' => 'danger',
 				]
 			);
 		}
