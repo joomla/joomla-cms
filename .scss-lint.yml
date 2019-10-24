@@ -133,6 +133,8 @@ linters:
     ignore_unspecified: false
     min_properties: 2
     separate_groups: false
+    exclude:
+      - _normalize.scss
     order:
       - position
       - top
