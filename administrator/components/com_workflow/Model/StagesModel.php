@@ -163,7 +163,7 @@ class StagesModel extends ListModel
 
 		// Join over the users for the checked out user.
 		$query->select($db->quoteName('uc.name', 'editor'))
-			->join('LEFT', '#__users AS uc ON uc.id = s.checked_out');
+			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('s.checked_out'));
 
 		$status = (string) $this->getState('filter.published');
 
