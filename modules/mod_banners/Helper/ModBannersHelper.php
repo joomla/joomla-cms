@@ -57,11 +57,6 @@ class ModBannersHelper
 			}
 		}
 
-		if ($banners === false)
-		{
-			$app->enqueueMessage(implode(',', $model->getErrors()));
-		}
-
 		return $banners;
 	}
 }
