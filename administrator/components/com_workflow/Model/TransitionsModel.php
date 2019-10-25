@@ -138,6 +138,8 @@ class TransitionsModel extends ListModel
 			't.from_stage_id',
 			't.to_stage_id',
 			't.published',
+			't.checked_out',
+			't.checked_out_time',
 			't.ordering',
 			't.description',
 			)
@@ -157,6 +159,10 @@ class TransitionsModel extends ListModel
 				$db->quoteName('#__workflow_stages', 'f_stage') . ' ON ' . $db->quoteName('f_stage.id') . ' = ' . $db->quoteName('t.from_stage_id')
 			)
 			->leftJoin($joinTo);
+		
+		// Join over the users for the checked out user.
+		$query->select('uc.name AS editor')
+			->join('LEFT', '#__users AS uc ON uc.id = t.checked_out');
 
 		// Filter by extension
 		if ($workflowID = (int) $this->getState('filter.workflow_id'))

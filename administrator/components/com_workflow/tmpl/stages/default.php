@@ -90,8 +90,7 @@ if ($saveOrder)
 								$edit = Route::_('index.php?option=com_workflow&task=stage.edit&id=' . $item->id . '&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension);
 
 								$canEdit    = $user->authorise('core.edit', $this->extension . '.stage.' . $item->id);
-								// @TODO set proper checkin fields
-								$canCheckin = true || $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+								$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || $item->checked_out == 0;
 								$canChange  = $user->authorise('core.edit.stage', $this->extension . '.stage.' . $item->id) && $canCheckin;
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
@@ -125,6 +124,9 @@ if ($saveOrder)
 										<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'stages.', $canChange); ?>
 									</td>
 									<th scope="row">
+										<?php if ($item->checked_out) : ?>
+											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'stages.', $canCheckin); ?>
+										<?php endif; ?>
 										<?php if ($canEdit && !$isCore) : ?>
 											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes(Text::_($item->title))); ?>">
 												<?php echo $this->escape(Text::_($item->title)); ?>
