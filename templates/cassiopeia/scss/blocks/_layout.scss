@@ -91,8 +91,7 @@ header {
 }
 
 .container-sidebar-left,
-.container-sidebar-right,
-  {
+.container-sidebar-right {
   flex: 0 0 auto;
   width: calc(100% - #{$cassiopeia-grid-gutter});
   order: 1;
