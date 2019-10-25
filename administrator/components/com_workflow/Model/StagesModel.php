@@ -160,7 +160,7 @@ class StagesModel extends ListModel
 		{
 			$query->where($db->quoteName('s.condition') . ' = ' . (int) $db->escape($condition));
 		}
-		
+
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor')
 			->join('LEFT', '#__users AS uc ON uc.id = s.checked_out');
