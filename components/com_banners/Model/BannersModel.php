@@ -122,7 +122,7 @@ class BannersModel extends ListModel
 					$db->quoteName('cl.state') . ' = 1',
 				]
 			)
-				->bind(':clientId', $cid , ParameterType::INTEGER);
+				->bind(':clientId', $cid, ParameterType::INTEGER);
 		}
 
 		// Filter by a single or group of categories
