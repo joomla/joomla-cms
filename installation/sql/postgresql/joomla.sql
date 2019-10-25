@@ -396,6 +396,8 @@ COMMENT ON COLUMN "#__content"."language" IS 'The language code for the article.
 CREATE TABLE IF NOT EXISTS "#__content_frontpage" (
   "content_id" bigint DEFAULT 0 NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
+  "featured_up" timestamp without time zone,
+  "featured_down" timestamp without time zone,
   PRIMARY KEY ("content_id")
 );
 
