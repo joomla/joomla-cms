@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -108,24 +109,45 @@ class PlgContentContact extends CMSPlugin
 			return $contacts[$created_by];
 		}
 
-		$query = $this->db->getQuery(true);
+		$db         = $this->db;
+		$query      = $db->getQuery(true);
+		$created_by = (int) $created_by;
 
-		$query->select('MAX(contact.id) AS contactid, contact.alias, contact.catid, contact.webpage, contact.email_to');
-		$query->from($this->db->quoteName('#__contact_details', 'contact'));
-		$query->where('contact.published = 1');
-		$query->where('contact.user_id = ' . (int) $created_by);
+		$query->select($db->quoteName('contact.id', 'contactid'))
+			->select(
+				$db->quoteName(
+					[
+						'contact.alias',
+						'contact.catid',
+						'contact.webpage',
+						'contact.email_to',
+					]
+				)
+			)
+			->from($db->quoteName('#__contact_details', 'contact'))
+			->where(
+				[
+					$db->quoteName('contact.published') . ' = 1',
+					$db->quoteName('contact.user_id') . ' = :createdby',
+				]
+			)
+			->bind(':createdby', $created_by, ParameterType::INTEGER);
 
 		if (Multilanguage::isEnabled() === true)
 		{
-			$query->where('(contact.language in '
-				. '(' . $this->db->quote(Factory::getLanguage()->getTag()) . ',' . $this->db->quote('*') . ') '
-				. ' OR contact.language IS NULL)'
+			$query->where(
+				'(' . $db->quoteName('contact.language') . ' IN ('
+				. implode(',', $query->bindArray([Factory::getLanguage()->getTag(), '*'], ParameterType::STRING))
+				. ') OR ' . $db->quoteName('contact.language') . ' IS NULL)'
 			);
 		}
 
-		$this->db->setQuery($query);
+		$query->order($db->quoteName('contact.id') . ' DESC')
+			->setLimit(1);
 
-		$contacts[$created_by] = $this->db->loadObject();
+		$db->setQuery($query);
+
+		$contacts[$created_by] = $db->loadObject();
 
 		return $contacts[$created_by];
 	}
