@@ -193,6 +193,8 @@ class WorkflowsModel extends ListModel
 				'w.created',
 				'w.modified',
 				'w.published',
+				'w.checked_out',
+				'w.checked_out_time',
 				'w.ordering',
 				'w.default',
 				'w.core',
@@ -233,7 +235,11 @@ class WorkflowsModel extends ListModel
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 			$query->where('(' . $db->quoteName('w.title') . ' LIKE ' . $search . ' OR ' . $db->quoteName('w.description') . ' LIKE ' . $search . ')');
 		}
-
+		
+		// Join over the users for the checked out user.
+		$query->select('uc.name AS editor')
+			->join('LEFT', '#__users AS uc ON uc.id = w.checked_out');
+		
 		// Add the list ordering clause.
 		$orderCol	= $this->state->get('list.ordering', 'w.ordering');
 		$orderDirn 	= strtolower($this->state->get('list.direction', 'asc'));
