@@ -208,10 +208,12 @@ class BannersModel extends ListModel
 					$keyword = trim($keyword);
 
 					$condition1 = $db->quoteName('a.own_prefix') . ' = 1'
-						. ' AND ' . $db->quoteName('a.metakey_prefix') . ' = SUBSTRING(:aprefix' . $key .',1,LENGTH(' . $db->quoteName('a.metakey_prefix') . '))'
+						. ' AND ' . $db->quoteName('a.metakey_prefix')
+						. ' = SUBSTRING(:aprefix' . $key .',1,LENGTH(' . $db->quoteName('a.metakey_prefix') . '))'
 						. ' OR ' . $db->quoteName('a.own_prefix') . ' = 0'
 						. ' AND ' . $db->quoteName('cl.own_prefix') . ' = 1'
-						. ' AND ' . $db->quoteName('cl.metakey_prefix') . ' = SUBSTRING(:clprefix' . $key . ',1,LENGTH(' . $db->quoteName('cl.metakey_prefix') . '))'
+						. ' AND ' . $db->quoteName('cl.metakey_prefix')
+						. ' = SUBSTRING(:clprefix' . $key . ',1,LENGTH(' . $db->quoteName('cl.metakey_prefix') . '))'
 						. ' OR ' . $db->quoteName('a.own_prefix') . ' = 0'
 						. ' AND ' . $db->quoteName('cl.own_prefix') . ' = 0'
 						. ' AND ' . ($prefix == substr($keyword, 0, strlen($prefix)) ? '0 = 0' : '0 != 0');
