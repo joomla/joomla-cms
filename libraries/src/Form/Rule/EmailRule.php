@@ -46,9 +46,10 @@ class EmailRule extends FormRule
 	 * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
 	 * @param   Form               $form     The form object for which the field is being tested.
 	 *
-	 * @return  mixed  Boolean true if field value is valid, Exception on failure.
+	 * @return  mixed  Boolean true if field value is valid.
 	 *
 	 * @since   1.7.0
+	 * @throws  \UnexpectedValueException
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
