@@ -31,6 +31,14 @@
 
 			for(var i = 0, l = editors.length; i < l; i++) {
 				var editor = editors[i].querySelector('textarea');
+				if (editor.style) {
+					if (editor.style.width) {
+						pluginOptions.tinyMCE.default.width = editor.style.width;
+					}
+					if (editor.style.height) {
+						pluginOptions.tinyMCE.default.height = editor.style.height;
+					}
+				}
 				this.setupEditor(editor, pluginOptions);
 			}
 		},
