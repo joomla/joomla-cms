@@ -8,6 +8,7 @@ namespace Joomla\CMS\AdaptiveImage;
 defined('_JEXEC') or die;
 
 use Joomla\Image\Image;
+
 /**
  * Used for cropping of the images around
  * the focus points.
