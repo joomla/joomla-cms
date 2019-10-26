@@ -11,7 +11,6 @@ namespace Joomla\Component\Contact\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -178,14 +177,12 @@ class ContactController extends FormController
 			$sent = $this->_sendEmail($data, $contact, $contact->params->get('show_email_copy', 0));
 		}
 
+		$msg = '';
+
 		// Set the success message if it was a success
-		if (!($sent instanceof \Exception))
+		if ($sent)
 		{
 			$msg = Text::_('COM_CONTACT_EMAIL_THANKS');
-		}
-		else
-		{
-			$msg = '';
 		}
 
 		// Flush the data from the session

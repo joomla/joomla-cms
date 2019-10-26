@@ -32,14 +32,6 @@
 		/>
 
 		<menuitem
-			title="MOD_MENU_PURGE_EXPIRED_CACHE"
-			type="component"
-			element="com_cache"
-			link="index.php?option=com_cache&amp;view=purge"
-			permission="core.manage;com_cache"
-		/>
-
-		<menuitem
 			title="MOD_MENU_GLOBAL_CHECKIN"
 			type="component"
 			element="com_checkin"
@@ -261,6 +253,13 @@
 			type="component"
 			element="com_templates"
 			link="index.php?option=com_templates&amp;view=styles&amp;client_id=1"
+		/>
+
+		<menuitem
+				title="MOD_MENU_CONFIGURATION_MAILS"
+				type="component"
+				element="com_mails"
+				link="index.php?option=com_mails&amp;view=templates"
 		/>
 	</menuitem>
 

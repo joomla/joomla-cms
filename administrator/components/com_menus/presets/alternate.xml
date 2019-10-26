@@ -40,13 +40,6 @@
 		/>
 
 		<menuitem
-			title="MOD_MENU_PURGE_EXPIRED_CACHE"
-			type="component"
-			element="com_cache"
-			link="index.php?option=com_cache&amp;view=purge"
-		/>
-
-		<menuitem
 			title="MOD_MENU_SYSTEM_INFORMATION"
 			type="component"
 			element="com_admin"
@@ -453,6 +446,13 @@
 				type="component"
 				element="com_templates"
 				link="index.php?option=com_templates&amp;view=templates"
+			/>
+
+			<menuitem
+				title="MOD_MENU_COM_MAILS_TEMPLATES"
+				type="component"
+				element="com_mails"
+				link="index.php?option=com_mails&amp;view=templates"
 			/>
 		</menuitem>
 
