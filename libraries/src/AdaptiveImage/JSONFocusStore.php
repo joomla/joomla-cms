@@ -145,6 +145,7 @@ class JSONFocusStore implements FocusStoreInterface
 			return false;
 		}
 	}
+
 	/**
 	 * Function for removing the focus points for all widths
 	 * 
