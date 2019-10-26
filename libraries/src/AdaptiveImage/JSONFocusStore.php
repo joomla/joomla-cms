@@ -202,6 +202,7 @@ class JSONFocusStore implements FocusStoreInterface
 
 		return true;
 	}
+
 	/**
 	 * Check whether the file exists
 	 *
