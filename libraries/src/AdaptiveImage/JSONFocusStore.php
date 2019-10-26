@@ -221,6 +221,7 @@ class JSONFocusStore implements FocusStoreInterface
 		}
 		return true;
 	}
+
 	/**
 	 * Find the max value of all the focus areas selected
 	 * 
