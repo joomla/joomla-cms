@@ -275,7 +275,7 @@ class Content extends Table
 		}
 
 		// Check the featured down date is not earlier than featured up.
-		if ($this->featured_up && $this->featured_down && $this->featured_down < $this->featured_up)
+		if (!is_null($this->featured_up) && !is_null($this->featured_down) && $this->featured_down < $this->featured_up)
 		{
 			// Swap the dates.
 			$temp = $this->featured_up;
