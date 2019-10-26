@@ -19,7 +19,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
     div.innerHTML = '&shy;<style media="'+q+'"> #mq-test-1 { width: 42px; }</style>';
 
     docElem.insertBefore(fakeBody, refNode);
-    bool = div.offsetWidth == 42;
+    bool = div.offsetWidth === 42;
     docElem.removeChild(fakeBody);
 
     return { matches: bool, media: q };
@@ -289,7 +289,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 				}
 				callback( req.responseText );
 			}
-			if ( req.readyState == 4 ){
+			if ( req.readyState === 4 ){
 				return;
 			}
 			req.send( null );
