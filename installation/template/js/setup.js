@@ -117,6 +117,23 @@ Joomla.checkDbCredentials = function() {
   });
 };
 
+/**
+ * Method reset DB Encryption fields when localhost is chosen
+ *
+ * @return void
+ */
+Joomla.resetDbEncryptionFields = function() {
+	if (document.getElementById('jform_db_host').value === 'localhost') {
+		document.getElementById('jform_db_sslverifyservercert0').checked = true;
+		document.getElementById('jform_db_sslverifyservercert1').checked = false;
+		document.getElementById('jform_db_sslkey').value = '';
+		document.getElementById('jform_db_sslcert').value = '';
+		document.getElementById('jform_db_sslca').value = '';
+		document.getElementById('jform_db_sslcapath').value = '';
+		document.getElementById('jform_db_sslcipher').value = '';
+		document.getElementById('jform_db_encryption').value = 0;
+	}
+};
 
 (function() {
   // Merge options from the session storage
@@ -180,6 +197,12 @@ Joomla.checkDbCredentials = function() {
           if (document.getElementById('jform_db_type')) {
             document.getElementById('jform_db_type').focus();
           }
+
+		  // Attach event to dbhost field
+			var dbHostField = document.getElementById('jform_db_host');
+
+			dbHostField.addEventListener('change', Joomla.resetDbEncryptionFields);
+			dbHostField.addEventListener('keyup', Joomla.resetDbEncryptionFields);
         }
       }
     });
@@ -190,5 +213,5 @@ Joomla.checkDbCredentials = function() {
       Joomla.checkInputs();
     })
   }
-
+ 
 })();
