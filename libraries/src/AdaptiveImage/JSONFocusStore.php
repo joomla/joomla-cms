@@ -253,6 +253,7 @@ class JSONFocusStore implements FocusStoreInterface
 			"box-width"  => $maxX - $minX,
 			"box-height" => $maxY - $minY
 		);
+
 		return $maxFocus;
 	}
 }
