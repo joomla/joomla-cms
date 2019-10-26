@@ -251,6 +251,7 @@ class ExtensionHelper
 		array('plugin', 'user', 'privacy', 0),
 
 		// Core plugin extensions - quick icon
+		array('plugin', 'downloadkey', 'quickicon', 0),
 		array('plugin', 'extensionupdate', 'quickicon', 0),
 		array('plugin', 'joomlaupdate', 'quickicon', 0),
 		array('plugin', 'overridecheck', 'quickicon', 0),
