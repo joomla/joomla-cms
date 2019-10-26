@@ -265,18 +265,6 @@ class Content extends Table
 			$this->publish_down = null;
 		}
 
-		// Set featured_up to null if not set
-		if (!isset($this->featured_up))
-		{
-			$this->featured_up = null;
-		}
-
-		// Set featured_down to null if not set
-		if (!isset($this->featured_down))
-		{
-			$this->featured_down = null;
-		}
-
 		// Check the publish down date is not earlier than publish up.
 		if (!is_null($this->publish_up) && !is_null($this->publish_down) && $this->publish_down < $this->publish_up)
 		{
@@ -284,15 +272,6 @@ class Content extends Table
 			$temp = $this->publish_up;
 			$this->publish_up = $this->publish_down;
 			$this->publish_down = $temp;
-		}
-
-		// Check the featured down date is not earlier than featured up.
-		if (!is_null($this->featured_up) && !is_null($this->featured_down) && $this->featured_down < $this->featured_up)
-		{
-			// Swap the dates.
-			$temp = $this->featured_up;
-			$this->featured_up = $this->featured_down;
-			$this->featured_down = $temp;
 		}
 
 		// Clean up keywords -- eliminate extra spaces between phrases
