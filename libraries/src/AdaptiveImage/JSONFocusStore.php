@@ -219,6 +219,7 @@ class JSONFocusStore implements FocusStoreInterface
 			mkdir(static::$dataFolder);
 			touch($dataLocation);
 		}
+
 		return true;
 	}
 
