@@ -16,7 +16,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 JFactory::getDocument()->addScriptDeclaration("
-		var resetFilter = function() {
+		let resetFilter = function() {
 		document.getElementById('filter-search').value = '';
 	}
 ");
