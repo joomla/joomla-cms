@@ -15,8 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\Model\DatabaseModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;

@@ -354,6 +354,7 @@ class DatabaseModel extends InstallerModel
 		}
 		catch (\RuntimeException $e)
 		{
+			unlink($tmpFile);
 			Factory::getApplication()->enqueueMessage("Extract " . $tmpFile . " into " . $destDir, 'error');
 
 			return false;
@@ -367,6 +368,8 @@ class DatabaseModel extends InstallerModel
 		}
 		catch (UnsupportedAdapterException $e)
 		{
+			unlink($tmpFile);
+
 			return false;
 		}
 
@@ -374,9 +377,9 @@ class DatabaseModel extends InstallerModel
 
 		foreach ($tables as $table)
 		{
-			$percorso = $destDir . '/' . $table;
+			$tableFile = $destDir . '/' . $table;
 			$tableName = str_replace('.xml', '', $table);
-			$importer->from(file_get_contents($percorso));
+			$importer->from(file_get_contents($tableFile));
 
 			try
 			{
@@ -384,7 +387,8 @@ class DatabaseModel extends InstallerModel
 			}
 			catch (ExecutionFailureException $e)
 			{
-				unlink($percorso);
+				unlink($tableFile);
+				unlink($tmpFile);
 				Factory::getApplication()->enqueueMessage("Can't drop table " . $tableName, 'error');
 
 				return false;
@@ -396,7 +400,8 @@ class DatabaseModel extends InstallerModel
 			}
 			catch (\Exception $e)
 			{
-				unlink($percorso);
+				unlink($tableFile);
+				unlink($tmpFile);
 				Factory::getApplication()->enqueueMessage("Can't merge structure from table: " . $tableName, 'error');
 
 				return false;
@@ -408,13 +413,14 @@ class DatabaseModel extends InstallerModel
 			}
 			catch (\Exception $e)
 			{
-				unlink($percorso);
+				unlink($tableFile);
+				unlink($tmpFile);
 				Factory::getApplication()->enqueueMessage("Can't import data from table: " . $tableName, 'error');
 
 				return false;
 			}
 
-			unlink($percorso);
+			unlink($tableFile);
 		}
 
 		unlink($tmpFile);
