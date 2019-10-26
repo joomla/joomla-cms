@@ -169,6 +169,7 @@ class JSONFocusStore implements FocusStoreInterface
 		}
 		return true;
 	}
+
 	/**
 	 * Function for removing all the associated resized images
 	 * 
