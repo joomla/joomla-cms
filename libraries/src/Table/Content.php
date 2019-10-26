@@ -265,6 +265,18 @@ class Content extends Table
 			$this->publish_down = null;
 		}
 
+		// Set featured_up to null if not set
+		if (!isset($this->featured_up))
+		{
+			$this->featured_up = null;
+		}
+
+		// Set featured_down to null if not set
+		if (!isset($this->featured_down))
+		{
+			$this->featured_down = null;
+		}
+
 		// Check the publish down date is not earlier than publish up.
 		if (!is_null($this->publish_up) && !is_null($this->publish_down) && $this->publish_down < $this->publish_up)
 		{
