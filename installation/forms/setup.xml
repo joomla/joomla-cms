@@ -145,7 +145,7 @@
 			class="switcher"
 			default="0"
 			filter="boolean"
-			showon="db_encryption:1,2"
+			showon="db_host!:localhost[AND]db_encryption:1,2"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -157,7 +157,7 @@
 			label="INSTL_DATABASE_ENCRYPTION_KEY_LABEL"
 			filter="string"
 			size="250"
-			showon="db_encryption:2"
+			showon="db_host!:localhost[AND]db_encryption:2"
 		/>
 
 		<field
@@ -166,7 +166,7 @@
 			label="INSTL_DATABASE_ENCRYPTION_CERT_LABEL"
 			filter="string"
 			size="250"
-			showon="db_encryption:2"
+			showon="db_host!:localhost[AND]db_encryption:2"
 		/>
 
 		<field
@@ -175,7 +175,7 @@
 			label="INSTL_DATABASE_ENCRYPTION_CA_LABEL"
 			filter="string"
 			size="250"
-			showon="db_encryption:2"
+			showon="db_host!:localhost[AND]db_encryption:2"
 		/>
 
 		<field
@@ -184,7 +184,7 @@
 			label="INSTL_DATABASE_ENCRYPTION_CAPATH_LABEL"
 			filter="string"
 			size="250"
-			showon="db_encryption:2"
+			showon="db_host!:localhost[AND]db_type:mysql,mysqli[AND]db_encryption:2"
 		/>
 
 		<field
@@ -193,7 +193,7 @@
 			label="INSTL_DATABASE_ENCRYPTION_CIPHER_LABEL"
 			filter="string"
 			size="300"
-			showon="db_encryption:2"
+			showon="db_host!:localhost[AND]db_type:mysql,mysqli[AND]db_encryption:2"
 		/>
 
 	</fieldset>
