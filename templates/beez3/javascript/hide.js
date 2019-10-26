@@ -3,7 +3,7 @@
 /*global window, localStorage, Cookie, altopen, altclose, big, small, rightopen, rightclose, bildauf, bildzu */
 
 function saveIt(name) {
-	var x = document.getElementById(name).style.display;
+	let x = document.getElementById(name).style.display;
 
 	if (!x) {
 		alert('No cookie available');
@@ -32,37 +32,37 @@ jQuery(function($) {
 
 jQuery(function($) {
 		// get ankers
-		var $myankers = $('a.opencloselink');
+		let $myankers = $('a.opencloselink');
 		$myankers.each(function() {
-			var $element = $(this);
+			let $element = $(this);
 			$element.attr('role', 'tab');
-			var myid = $element.attr('id');
+			let myid = $element.attr('id');
 			myid = myid.split('_');
 			myid = 'module_' + myid[1];
 			$element.attr('aria-controls', myid);
 		});
 
-		var $list = $('div.moduletable_js');
+		let $list = $('div.moduletable_js');
 		$list.each(function() {
-			var $element = $(this);
+			let $element = $(this);
 			if ($element.find('div.module_content').length) {
-				var $el = $element.find('div.module_content');
+				let $el = $element.find('div.module_content');
 				$el.attr('role', 'tabpanel');
-				var myid = $el.attr('id');
+				let myid = $el.attr('id');
 				myid = myid.split('_');
 				myid = 'link_' + myid[1];
 				$el.attr('aria-labelledby', myid);
-				var myclass = $el.attr('class');
-				var one = myclass.split(' ');
+				let myclass = $el.attr('class');
+				let one = myclass.split(' ');
 				// search for active menu-item
-				var $listelement = $el.find('a.active').first();
-				var unique = $el.attr('id');
-				var nocookieset = readIt(unique);
+				let $listelement = $el.find('a.active').first();
+				let unique = $el.attr('id');
+				let nocookieset = readIt(unique);
 				if (($listelement.length) || ((one[1] == 'open') && (nocookieset == null))) {
 					$el.show();
-					var $eltern = $el.parent();
-					var $elternh = $eltern.find('h3').first();
-					var $elternbild = $eltern.find('img').first();
+					let $eltern = $el.parent();
+					let $elternh = $eltern.find('h3').first();
+					let $elternbild = $eltern.find('img').first();
 					$elternbild.attr('alt', altopen).attr('src', bildzu);
 					$elternbild.focus();
 				} else {
@@ -71,7 +71,7 @@ jQuery(function($) {
 				}
 
 				unique = $el.attr('id');
-				var cookieset = readIt(unique);
+				let cookieset = readIt(unique);
 				if (cookieset === 'block') {
 					$el.show();
 					$el.attr('aria-expanded', 'true');
@@ -82,16 +82,16 @@ jQuery(function($) {
 	});
 
 jQuery(function($) {
-	var $what = $('#right');
+	let $what = $('#right');
 	// if rightcolumn
 	if ($what.length) {
-		var whatid = $what.attr('id');
-		var rightcookie = readIt(whatid);
+		let whatid = $what.attr('id');
+		let rightcookie = readIt(whatid);
 		if (rightcookie === 'none') {
 			$what.hide();
 			$('#nav').addClass('leftbigger');
 			wrapperwidth(big);
-			var $grafik = $('#bild');
+			let $grafik = $('#bild');
 			$grafik.html(rightopen);
 			$grafik.focus();
 		}
@@ -99,8 +99,8 @@ jQuery(function($) {
 });
 
 function auf(key) {
-	var $ = jQuery.noConflict();
-	var $el = $('#' + key);
+	let $ = jQuery.noConflict();
+	let $el = $('#' + key);
 
 	if (!$el.is(':visible')) {
 		$el.show();
@@ -156,16 +156,16 @@ function auf(key) {
 // ########### Tabfunctions ####################
 
 jQuery(function($) {
-	var $alldivs = $('div.tabcontent');
-	var $outerdivs = $('div.tabouter');
+	let $alldivs = $('div.tabcontent');
+	let $outerdivs = $('div.tabouter');
 	//outerdivs = outerdivs.getProperty('id');
 
 	$outerdivs.each(function() {
-		var $alldivs = $(this).find('div.tabcontent');
-		var count = 0;
-		var countankers = 0;
+		let $alldivs = $(this).find('div.tabcontent');
+		let count = 0;
+		let countankers = 0;
 		$alldivs.each(function() {
-		var $el = $(this);
+		let $el = $(this);
 			count++;
 			$el.attr('role', 'tabpanel');
 			$el.attr('aria-hidden', 'false');
@@ -186,7 +186,7 @@ jQuery(function($) {
 
 		$allankers.each(function() {
 			countankers++;
-			var $el = $(this);
+			let $el = $(this);
 			$el.attr('aria-selected', 'true');
 			$el.attr('role', 'tab');
 			linkid = $el.attr('id');
@@ -203,17 +203,17 @@ jQuery(function($) {
 });
 
 function tabshow(elid) {
-	var $ = jQuery.noConflict();
-	var $el = $('#' + elid);
-	var $outerdiv = $el.parent();
+	let $ = jQuery.noConflict();
+	let $el = $('#' + elid);
+	let $outerdiv = $el.parent();
 
-	var $alldivs = $outerdiv.find('div.tabcontent');
-	var $liste = $outerdiv.find('ul.tabs').first();
+	let $alldivs = $outerdiv.find('div.tabcontent');
+	let $liste = $outerdiv.find('ul.tabs').first();
 
 	$liste.find('a').attr('aria-selected', 'false');
 
 	$alldivs.each(function() {
-		var $element = $(this);
+		let $element = $(this);
 		$element.addClass('tabclosed').removeClass('tabopen');
 		$element.attr('aria-hidden', 'true');
 		$element.attr('aria-expanded', 'false');
@@ -223,23 +223,23 @@ function tabshow(elid) {
 	$el.attr('aria-hidden', 'false');
 	$el.attr('aria-expanded', 'true');
 	$el.focus();
-	var getid = elid.split('_');
-	var activelink = '#link_' + getid[1];
+	let getid = elid.split('_');
+	let activelink = '#link_' + getid[1];
 	$(activelink).attr('aria-selected', 'true');
 	$liste.find('a').addClass('linkclosed').removeClass('linkopen');
 	$(activelink).addClass('linkopen').removeClass('linkclosed');
 }
 
 function nexttab(el) {
-	var $ = jQuery.noConflict();
-	var $outerdiv = $('#' + el).parent();
-	var $liste = $outerdiv.find('ul.tabs').first();
-	var getid = el.split('_');
-	var activelink = '#link_' + getid[1];
-	var aktiverlink = $(activelink).attr('aria-selected');
-	var $tablinks = $liste.find('a');
+	let $ = jQuery.noConflict();
+	let $outerdiv = $('#' + el).parent();
+	let $liste = $outerdiv.find('ul.tabs').first();
+	let getid = el.split('_');
+	let activelink = '#link_' + getid[1];
+	let aktiverlink = $(activelink).attr('aria-selected');
+	let $tablinks = $liste.find('a');
 
-	for (var i = 0; i < $tablinks.length; i++) {
+	for (let i = 0; i < $tablinks.length; i++) {
 		if ($($tablinks[i]).attr('id') === activelink) {
 			if ($($tablinks[i + 1]).length) {
 				$($tablinks[i + 1]).click();
@@ -250,24 +250,24 @@ function nexttab(el) {
 }
 
 // mobilemenuheader
-var mobileMenu = function(){
+let mobileMenu = function(){
 
-	var $ = jQuery.noConflict(), displayed = false, $mobile, $menu, $menuWrapper;
+	let $ = jQuery.noConflict(), displayed = false, $mobile, $menu, $menuWrapper;
 
-	var getX = function() {
+	let getX = function() {
 		return $(document).width();
 	};
 
-	var createElements = function () {
-		var Openmenu=Joomla.JText._('TPL_BEEZ3_OPENMENU');
-		var Closemenu=Joomla.JText._('TPL_BEEZ3_CLOSEMENU');
+	let createElements = function () {
+		let Openmenu=Joomla.JText._('TPL_BEEZ3_OPENMENU');
+		let Closemenu=Joomla.JText._('TPL_BEEZ3_CLOSEMENU');
 		$menu = $("#header").find('ul.menu').first();
 		$menuWrapper = $('<div>', {id : 'menuwrapper', role: 'menubar'});
 
 		// create the menu opener and assign events
 		$mobile = $('<div>', {id: 'mobile_select'}).html('<h2><a href="#" id="menuopener" onclick="return false;"><span>'+Openmenu+'</span></a></h2>').show();
 		$mobile.on('click', function(){
-			var state = $menuWrapper.css('display');
+			let state = $menuWrapper.css('display');
 			$menuWrapper.slideToggle();
 
 			if (state === 'none') {
@@ -288,13 +288,13 @@ var mobileMenu = function(){
 		$mobile = $('#mobile_select');
 
 	};
-	var display = function () {
+	let display = function () {
 		$menuWrapper.hide();
 		$mobile.show();
 		displayed = true;
 	};
 
-	var initialize = function () {
+	let initialize = function () {
 		// create the elements once
 		createElements();
 
@@ -331,5 +331,5 @@ jQuery(function () {
 
 
 //For discussion and comments, see: http://remysharp.com/2009/01/07/html5-enabling-script/
-(function(){if(!/*@cc_on!@*/0)return;var e = "abbr,article,aside,audio,canvas,datalist,details,eventsource,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video".split(','),i=e.length;while(i--){document.createElement(e[i])}})()
+(function(){if(!/*@cc_on!@*/0)return;let e = "abbr,article,aside,audio,canvas,datalist,details,eventsource,figure,footer,header,hgroup,mark,menu,meter,nav,output,progress,section,time,video".split(','),i=e.length;while(i--){document.createElement(e[i])}})()
 
