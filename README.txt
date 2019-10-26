@@ -1,3 +1,5 @@
+Joomla! CMS™
+
 1- What is this?
 	* This is a Joomla! installation/upgrade package to version 3.x
 	* Joomla! Official site: https://www.joomla.org
