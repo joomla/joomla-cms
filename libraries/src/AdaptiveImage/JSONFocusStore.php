@@ -199,6 +199,7 @@ class JSONFocusStore implements FocusStoreInterface
 				unlink(JPATH_SITE . $this->cacheDir . "/" . $name);
 			}
 		}
+
 		return true;
 	}
 	/**
