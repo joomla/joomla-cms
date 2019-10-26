@@ -7,7 +7,7 @@ label.invalid , label.required  span{ color: #B94A48; background:none
 
 /* -- Joomla edit buttons  Frontendediting*/
 #editor-xtd-buttons {
-	padding: 0px;
+	padding: 0;
 }
 .edit tr:hover  td {background:#eee}
 .button2-left,
@@ -161,7 +161,7 @@ figcaption {
 
 .error
 {
-	padding:0px;
+	padding:0;
 	margin-bottom: 20px;
 }
 
@@ -170,7 +170,7 @@ figcaption {
 	color:#000 !important;
 	font-size:1.4em !important;
 	text-transform:uppercase;
-	padding:0 0 0 0px !important
+	padding:0 0 0 0 !important
 }
 
 #system-message dt
@@ -181,14 +181,14 @@ figcaption {
 {
 	margin: 0 0 15px 0;
 	font-weight: bold;
-	text-indent: 0px;
+	text-indent: 0;
 	padding:0
 }
 #system-message dd ul
 {
 	color: #000;
 	list-style: none;
-	padding: 0px;
+	padding: 0;
 }
 #system-message dd ul li
 {
@@ -206,7 +206,6 @@ figcaption {
 #system-message dd.message  ul
 {
 	background: #fff  url(../images/system/notice-info.png) no-repeat;
-	padding-left:40px;
 	padding: 10px 10px 10px 40px;
 	border: 2px solid #90B203;
 	border-radius:10px
@@ -225,8 +224,7 @@ figcaption {
 #system-message dd.error ul
 {
 	background:#fff url(../images/system/notice-alert.png) no-repeat ;
-	padding-left:40px;
- 	padding: 10px 10px 10px 40px;
+	padding: 10px 10px 10px 40px;
 	border: 2px solid #990000;
 	border-radius:10px
 
@@ -245,7 +243,6 @@ figcaption {
 #system-message dd.notice  ul
 {
 	background:#fff url(../images/system/notice-note.png) no-repeat ;
-	padding-left:40px;
 	padding: 10px 10px 10px 40px;
 	border: 2px solid #FAA528;
 	border-radius:10px
@@ -255,7 +252,7 @@ figcaption {
 
 #system-message
 {
-	margin-bottom: 0px;
+	margin-bottom: 0;
 	padding: 0;
 }
 
@@ -453,7 +450,6 @@ span.optional
 	-moz-background-clip: padding;
 	background-clip: padding-box;
 	border: 1px solid #ccc;
-	border: 1px solid rgba(0,0,0,0.2);
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
@@ -576,7 +572,7 @@ body .nav-pills > .active > a, body .nav-pills > .active > a:hover, body .nav-pi
     background-color: transparent;
 }
 body .nav-pills > li > a {
-    border-radius: 0px;
+    border-radius: 0;
     line-height: 1.5em;
 }
 body a {
