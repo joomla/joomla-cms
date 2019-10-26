@@ -7,7 +7,7 @@ Build Status
 | ------------- | ------------- | ------------- |
 | [![Build Status](https://travis-ci.org/joomla/joomla-cms.svg?branch=staging)](https://travis-ci.org/joomla/joomla-cms)  | [![Build Status](https://ci.joomla.org/api/badges/joomla/joomla-cms/status.svg)](https://ci.joomla.org/joomla/joomla-cms)  | [![Build status](https://ci.appveyor.com/api/projects/status/ru6sxal8jmfckvjc/branch/staging?svg=true)](https://ci.appveyor.com/project/release-joomla/joomla-cms)  |
 
-Overview
+What is this?
 ---------------------
 * This is a Joomla! 3.x installation/upgrade package.
 * Joomla's [Official website](https://www.joomla.org).

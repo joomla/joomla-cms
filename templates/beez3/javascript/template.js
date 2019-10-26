@@ -17,8 +17,8 @@
 
 		$(".btn-group label:not(.active)").click(function()
 		{
-			var label = $(this);
-			var input = $('#' + label.attr('for'));
+			let label = $(this);
+			let input = $('#' + label.attr('for'));
 
 			if (!input.prop('checked')) {
 				label.closest('.btn-group').find("label").removeClass('active btn-success btn-danger btn-primary');

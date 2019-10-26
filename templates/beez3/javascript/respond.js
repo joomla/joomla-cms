@@ -2,7 +2,7 @@
 /*! NOTE: If you're already including a window.matchMedia polyfill via Modernizr or otherwise, you don't need this part */
 window.matchMedia = window.matchMedia || (function(doc, undefined){
 
-  var bool,
+  let bool,
       docElem  = doc.documentElement,
       refNode  = docElem.firstElementChild || docElem.firstChild,
       // fakeBody required for <FF4 when executed in <head>
@@ -44,8 +44,8 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 	//if media queries are supported, exit here
 	if ( respond.mediaQueriesSupported ){ return; }
 
-	//define vars
-	var doc            = win.document,
+	//define let s
+	let doc            = win.document,
 		docElem        = doc.documentElement,
 		mediastyles    = [],
 		rules          = [],
@@ -59,10 +59,10 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 
 		// Loop stylesheets, send text content to translate
 		ripCSS         = function(){
-			var sheets = links,
+			let sheets = links,
 				sl     = sheets.length,
 				i      = 0,
-				// Vars for loop:
+				// let s for loop:
 				sheet, href, media, isCSS;
 
 			for( ; i < sl; i++ ){
@@ -94,7 +94,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 		// Recurse through request queue, get css text
 		makeRequests = function(){
 			if ( requestQueue.length ){
-				var thisRequest = requestQueue.shift();
+				let thisRequest = requestQueue.shift();
 
 				ajax( thisRequest.href, function( styles ){
 					translate( styles, thisRequest.href, thisRequest.media );
@@ -106,7 +106,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 
 		// Find media blocks in css text, convert to style blocks
 		translate       = function( styles, href, media ){
-			var qs      = styles.match(  /@media[^\{]+\{([^\{\}]*\{[^\}\{]*\})+/gi ),
+			let qs      = styles.match(  /@media[^\{]+\{([^\{\}]*\{[^\}\{]*\})+/gi ),
 				ql      = qs && qs.length || 0,
 				// Try to get CSS path
 				href    = href.substring( 0, href.lastIndexOf( "/" )),
@@ -114,7 +114,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 					return css.replace( /(url\()['"]?([^\/\)'"][^:\)'"]+)['"]?(\))/g, "$1" + href + "$2$3" );
 				},
 				useMedia = !ql && media,
-				// Vars used in loop
+				// let s used in loop
 				i        = 0,
 				j, fullq, thisq, eachq, eql;
 
@@ -169,7 +169,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 
 		// Returns the value of 1em in pixels
 		getEmValue = function() {
-			var ret,
+			let ret,
 				div  = doc.createElement('div'),
 				body = doc.body,
 				fakeUsed = false;
@@ -205,7 +205,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 
 		// Enable/disable styles
 		applyMedia          = function( fromResize ){
-			var name        = "clientWidth",
+			let name        = "clientWidth",
 				docElemProp = docElem[ name ],
 				currWidth   = doc.compatMode === "CSS1Compat" && docElemProp || doc.body[ name ] || docElemProp,
 				styleBlocks = {},
@@ -222,8 +222,8 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 				lastCall = now;
 			}
 
-			for( var i in mediastyles ){
-				var thisstyle = mediastyles[ i ],
+			for( let i in mediastyles ){
+				let thisstyle = mediastyles[ i ],
 					min       = thisstyle.minw,
 					max       = thisstyle.maxw,
 					minnull   = min === null,
@@ -247,15 +247,15 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 			}
 
 			// Remove any existing respond style element(s)
-			for( var i in appendedEls ){
+			for( let i in appendedEls ){
 				if ( appendedEls[ i ] && appendedEls[ i ].parentNode === head ){
 					head.removeChild( appendedEls[ i ] );
 				}
 			}
 
 			// Inject active styles, grouped by media type
-			for( var i in styleBlocks ){
-				var ss  = doc.createElement( "style" ),
+			for( let i in styleBlocks ){
+				let ss  = doc.createElement( "style" ),
 					css = styleBlocks[ i ].join( "\n" );
 
 				ss.type  = "text/css";
@@ -278,7 +278,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 		},
 		// Tweaked Ajax functions from Quirksmode
 		ajax = function( url, callback ) {
-			var req = xmlHttp();
+			let req = xmlHttp();
 			if (!req){
 				return;
 			}
@@ -296,7 +296,7 @@ window.matchMedia = window.matchMedia || (function(doc, undefined){
 		},
 		// Define ajax obj
 		xmlHttp = (function() {
-			var xmlhttpmethod = false;
+			let xmlhttpmethod = false;
 			try {
 				xmlhttpmethod = new XMLHttpRequest();
 			}

@@ -1,7 +1,7 @@
 /*global window, localStorage, fontSizeTitle, bigger, reset, smaller, biggerTitle, resetTitle, smallerTitle, Cookie */
-var prefsLoaded = false;
-var defaultFontSize = 100;
-var currentFontSize = defaultFontSize;
+let prefsLoaded = false;
+let defaultFontSize = 100;
+let currentFontSize = defaultFontSize;
 
 
 
@@ -48,7 +48,7 @@ function readFontSize() {
 
 function setUserOptions() {
 	if (!prefsLoaded) {
-		var size = readFontSize();
+		let size = readFontSize();
 		currentFontSize = size ? size : defaultFontSize;
 		setFontSize(currentFontSize);
 		prefsLoaded = true;
@@ -56,8 +56,8 @@ function setUserOptions() {
 }
 
 function addControls() {
-	var container = document.id('fontsize');
-	var content = '<h3>'+ fontSizeTitle +'</h3><p><a title="'+ biggerTitle +'"  href="#" onclick="changeFontSize(2); return false">'+ bigger +'</a><span class="unseen">.</span><a href="#" title="'+resetTitle+'" onclick="revertStyles(); return false">'+ reset +'</a><span class="unseen">.</span><a href="#"  title="'+ smallerTitle +'" onclick="changeFontSize(-2); return false">'+ smaller +'</a></p>';
+	let container = document.id('fontsize');
+	let content = '<h3>'+ fontSizeTitle +'</h3><p><a title="'+ biggerTitle +'"  href="#" onclick="changeFontSize(2); return false">'+ bigger +'</a><span class="unseen">.</span><a href="#" title="'+resetTitle+'" onclick="revertStyles(); return false">'+ reset +'</a><span class="unseen">.</span><a href="#"  title="'+ smallerTitle +'" onclick="changeFontSize(-2); return false">'+ smaller +'</a></p>';
 	container.set('html', content);
 }
 
