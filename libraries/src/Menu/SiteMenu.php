@@ -156,9 +156,9 @@ class SiteMenu extends AbstractMenu
 
 			$items = [];
 
-			foreach ($this->db->loadAssocList('id') as $id => $data)
+			foreach ($this->db->getIterator('id') as $id => $data)
 			{
-				$items[$id] = new MenuItem($data);
+				$items[$id] = new MenuItem((array) $data);
 			}
 
 			return $items;

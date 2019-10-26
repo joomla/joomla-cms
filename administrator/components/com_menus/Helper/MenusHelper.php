@@ -380,9 +380,9 @@ class MenusHelper extends ContentHelper
 			$db->setQuery($query);
 			$menuItems = [];
 
-			foreach ($db->loadAssocList('id') as $id => $data)
+			foreach ($db->getIterator('id') as $id => $data)
 			{
-				$menuItems[$id] = new MenuItem($data);
+				$menuItems[$id] = new MenuItem((array) $data);
 			}
 
 			foreach ($menuItems as $menuitem)
