@@ -104,6 +104,7 @@ class AdaptiveImageController extends BaseController
 			$image = new SmartCrop(".." . $imgPath);
 			$image->compute($dataFocus, $width);
 		}
+
 		return true;
 	}
 }
