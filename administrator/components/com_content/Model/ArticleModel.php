@@ -85,7 +85,12 @@ class ArticleModel extends AdminModel
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->insert($db->quoteName('#__content_frontpage'))
-				->values($newId . ', 0, NULL, NULL');
+				->values(
+					$newId . ', 0, '
+					. (empty($table->featured_up) ? 'NULL' : $db->quote($table->featured_up))
+					. ', '
+					. (empty($table->featured_down) ? 'NULL' : $db->quote($table->featured_down))
+				);
 			$db->setQuery($query);
 			$db->execute();
 		}
