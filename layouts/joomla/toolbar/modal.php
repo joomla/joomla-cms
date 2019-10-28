@@ -31,13 +31,18 @@ $icon     = isset($displayData['icon']) ? $displayData['icon'] : 'fa fa-download
 $text     = isset($displayData['text']) ? $displayData['text'] : '';
 ?>
 
+<!-- Move Modal to body -->
+<script> function appendToBody(){
+        $("#modal_<?php echo $selector; ?>").appendTo("body");
+    }</script>
+
 <!-- Render the button -->
-<joomla-toolbar-button<?php echo $id; ?> onclick="document.getElementById('modal_<?php echo $selector; ?>').open()" class="<?php echo $class; ?>" data-toggle="modal">
+<joomla-toolbar-button<?php echo $id; ?> onclick="document.getElementById('modal_<?php echo $selector; ?>').open();appendToBody(); " class="<?php echo $class; ?>" data-toggle="modal">
+
 	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
 	<?php echo $text; ?>
 </joomla-toolbar-button>
 
-<!-- Render the modal -->
 <?php
 echo HTMLHelper::_('bootstrap.renderModal',
 	'modal_' . $selector,
@@ -50,11 +55,11 @@ echo HTMLHelper::_('bootstrap.renderModal',
 		'bodyHeight'  => 60,
 		'closeButton' => true,
 		'footer'      => '<a class="btn btn-secondary" data-dismiss="modal" type="button"'
-						. ' onclick="window.parent.Joomla.Modal.getCurrent().close();">'
-						. Text::_('COM_BANNERS_CANCEL') . '</a>'
-						. '<button class="btn btn-success" type="button"'
-						. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#modal_downloadModal\', buttonSelector: \'#exportBtn\'})">'
-						. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
+			. ' onclick="window.parent.Joomla.Modal.getCurrent().close();">'
+			. Text::_('COM_BANNERS_CANCEL') . '</a>'
+			. '<button class="btn btn-success" type="button"'
+			. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#modal_downloadModal\', buttonSelector: \'#exportBtn\'})">'
+			. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
 	]
 );
 ?>
