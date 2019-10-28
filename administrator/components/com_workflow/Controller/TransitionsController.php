@@ -14,7 +14,6 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
 
 /**
@@ -39,6 +38,14 @@ class TransitionsController extends AdminController
 	 * @since  4.0.0
 	 */
 	protected $extension;
+
+	/**
+	 * The prefix to use with controller messages.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $text_prefix = 'COM_WORKFLOW_TRANSITIONS';
 
 	/**
 	 * Constructor.
@@ -99,7 +106,7 @@ class TransitionsController extends AdminController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getRedirectToListAppend()
 	{

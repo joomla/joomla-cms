@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\Component\Config\Api\View\Application\JsonApiView;
+use Joomla\Component\Config\Api\View\Application\JsonapiView;
 use Joomla\Component\Config\Administrator\Model\ApplicationModel;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
@@ -55,7 +55,7 @@ class ApplicationController extends ApiController
 
 		try
 		{
-			/** @var JsonApiView $view */
+			/** @var JsonapiView $view */
 			$view = $this->getView(
 				$this->default_view,
 				$viewType,
@@ -73,7 +73,7 @@ class ApplicationController extends ApiController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Model failed to be created', 500);
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'), 500);
 		}
 
 		// Push the model into the view (as default)
@@ -99,7 +99,7 @@ class ApplicationController extends ApiController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Model failed to be created', 500);
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'), 500);
 		}
 
 		// Access check.
@@ -146,7 +146,7 @@ class ApplicationController extends ApiController
 
 		if (!$model->save($validData))
 		{
-			throw new \RuntimeException('Internal server error', 500);
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_SERVER'), 500);
 		}
 
 		return $this;
