@@ -31,13 +31,14 @@ $icon     = isset($displayData['icon']) ? $displayData['icon'] : 'fa fa-download
 $text     = isset($displayData['text']) ? $displayData['text'] : '';
 ?>
 
+?>
 <!-- Move Modal to body -->
-<script> function appendToBody(){
-        $("#modal_<?php echo $selector; ?>").appendTo("body");
-    }</script>
+<script> function appendToBody(){$("#modal_<?php echo $selector; ?>").appendTo("body");
+}</script>
 
 <!-- Render the button -->
-<joomla-toolbar-button<?php echo $id; ?> onclick="document.getElementById('modal_<?php echo $selector; ?>').open();appendToBody(); " class="<?php echo $class; ?>" data-toggle="modal">
+<joomla-toolbar-button<?php echo $id; ?> onclick="document.getElementById('modal_<?php echo $selector; ?>').open();appendToBody(); "
+										 class="<?php echo $class; ?>" data-toggle="modal">
 
 	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
 	<?php echo $text; ?>
