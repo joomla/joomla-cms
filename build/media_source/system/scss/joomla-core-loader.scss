@@ -23,13 +23,12 @@ $theme-colours: map-merge((
   position: relative;
   width: 300px;
   height: 300px;
-  top: -15%;
   margin: auto;
   transform: rotate(45deg);
 
   p {
     float: left;
-    margin: -20px 0 0 252px;
+    margin: -97px 0 0 172px;
     font: normal 1.25em/1em sans-serif;
     color: #999;
     transform: rotate(-45deg);
@@ -92,22 +91,22 @@ $theme-colours: map-merge((
 }
 
 .yellow {
-  margin: 0 0 0 182px;
+  margin: -77px 105px;
   transform: rotate(0deg);
 }
 
 .red {
-  margin: 182px 0 0 364px;
+  margin: 105px 287px;
   transform: rotate(90deg);
 }
 
 .blue {
-  margin: 364px 0 0 182px;
+  margin: 287px 105px;
   transform: rotate(180deg);
 }
 
 .green {
-  margin: 182px 0 0;
+  margin: 105px -77px;
   transform: rotate(270deg);
 }
 
