@@ -19,7 +19,7 @@ use Joomla\CMS\Uri\Uri;
 use Tobscure\JsonApi\Resource;
 
 /**
- * The consents view
+ * The actionlog view
  *
  * @since  4.0.0
  */
