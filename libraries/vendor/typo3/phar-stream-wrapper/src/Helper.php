@@ -52,7 +52,7 @@ class Helper
 
         while (count($parts)) {
             $currentPath = implode('/', $parts);
-            if (@is_file($currentPath)) {
+            if (@is_file($currentPath) && realpath($currentPath) !== false) {
                 return $currentPath;
             }
             array_pop($parts);
@@ -106,7 +106,7 @@ class Helper
      * @param string $path File path to process
      * @return string
      */
-    private static function normalizeWindowsPath($path)
+    public static function normalizeWindowsPath($path)
     {
         return str_replace('\\', '/', $path);
     }

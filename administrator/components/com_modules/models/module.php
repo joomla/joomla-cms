@@ -302,18 +302,14 @@ class ModulesModelModule extends JModelAdmin
 	 */
 	protected function canEditState($record)
 	{
-		$user = JFactory::getUser();
-
 		// Check for existing module.
 		if (!empty($record->id))
 		{
-			return $user->authorise('core.edit.state', 'com_modules.module.' . (int) $record->id);
+			return JFactory::getUser()->authorise('core.edit.state', 'com_modules.module.' . (int) $record->id);
 		}
+
 		// Default to component settings if module not known.
-		else
-		{
-			return parent::canEditState('com_modules');
-		}
+		return parent::canEditState($record);
 	}
 
 	/**

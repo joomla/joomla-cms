@@ -105,7 +105,7 @@ JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true
 					<div class="logoheader">
 						<h1 id="logo">
 						<?php if ($logo) : ?>
-							<img src="<?php echo $this->baseurl; ?>/<?php echo htmlspecialchars($logo); ?>"  alt="<?php echo htmlspecialchars($this->params->get('sitetitle')); ?>" />
+							<img src="<?php echo $this->baseurl; ?>/<?php echo htmlspecialchars($logo, ENT_QUOTES); ?>"  alt="<?php echo htmlspecialchars($this->params->get('sitetitle')); ?>" />
 						<?php endif;?>
 						<?php if (!$logo AND $this->params->get('sitetitle')) : ?>
 							<?php echo htmlspecialchars($this->params->get('sitetitle')); ?>

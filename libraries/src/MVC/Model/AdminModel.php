@@ -408,6 +408,7 @@ abstract class AdminModel extends FormModel
 		}
 
 		$newIds = array();
+		$db     = $this->getDbo();
 
 		// Parent exists so let's proceed
 		while (!empty($pks))
@@ -433,6 +434,12 @@ abstract class AdminModel extends FormModel
 					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
+			}
+
+			// Check for asset_id
+			if ($this->table->hasField($this->table->getColumnAlias('asset_id')))
+			{
+				$oldAssetId = $this->table->asset_id;
 			}
 
 			$this->generateTitle($categoryId, $this->table);
@@ -486,6 +493,21 @@ abstract class AdminModel extends FormModel
 
 			// Get the new item ID
 			$newId = $this->table->get('id');
+
+			if (!empty($oldAssetId))
+			{
+				// Copy rules
+				$query = $db->getQuery(true);
+				$query->clear()
+					->update($db->quoteName('#__assets', 't'))
+					->join('INNER', $db->quoteName('#__assets', 's') .
+						' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
+					)
+					->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
+					->where($db->quoteName('t.id') . ' = ' . $this->table->asset_id);
+
+				$db->setQuery($query)->execute();
+			}
 
 			$this->cleanupPostBatchCopy($this->table, $newId, $pk);
 
@@ -913,11 +935,18 @@ abstract class AdminModel extends FormModel
 	protected function generateNewTitle($category_id, $alias, $title)
 	{
 		// Alter the title & alias
-		$table = $this->getTable();
+		$table      = $this->getTable();
+		$aliasField = $table->getColumnAlias('alias');
+		$catidField = $table->getColumnAlias('catid');
+		$titleField = $table->getColumnAlias('title');
 
-		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
+		while ($table->load(array($aliasField => $alias, $catidField => $category_id)))
 		{
-			$title = StringHelper::increment($title);
+			if ($title === $table->$titleField)
+			{
+				$title = StringHelper::increment($title);
+			}
+
 			$alias = StringHelper::increment($alias, 'dash');
 		}
 
@@ -1531,9 +1560,11 @@ abstract class AdminModel extends FormModel
 	public function generateTitle($categoryId, $table)
 	{
 		// Alter the title & alias
-		$data = $this->generateNewTitle($categoryId, $table->alias, $table->title);
-		$table->title = $data['0'];
-		$table->alias = $data['1'];
+		$titleField         = $table->getColumnAlias('title');
+		$aliasField         = $table->getColumnAlias('alias');
+		$data               = $this->generateNewTitle($categoryId, $table->$aliasField, $table->$titleField);
+		$table->$titleField = $data['0'];
+		$table->$aliasField = $data['1'];
 	}
 
 	/**

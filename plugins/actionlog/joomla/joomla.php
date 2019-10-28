@@ -36,7 +36,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Context aliases
 	 *
 	 * @var    array
-	 * @since  3.9.0 
+	 * @since  3.9.0
 	 */
 	protected $contextAliases = array('com_content.form' => 'com_content.article');
 
@@ -847,7 +847,13 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$loggedOutUser      = User::getInstance($user['id']);
+		$loggedOutUser = User::getInstance($user['id']);
+
+		if ($loggedOutUser->block)
+		{
+			return;
+		}
+
 		$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_LOGGED_OUT';
 
 		$message = array(
@@ -965,10 +971,10 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'action'      => 'actionlogs',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
 			'id'          => $user->id,
-			'title'       => $user->name,
+			'title'       => $user->username,
 			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 			'userid'      => $user->id,
-			'username'    => $user->name,
+			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_LOG', $context, $user->id);
@@ -993,10 +999,10 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'action'      => 'actionlogs',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
 			'id'          => $user->id,
-			'title'       => $user->name,
+			'title'       => $user->username,
 			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 			'userid'      => $user->id,
-			'username'    => $user->name,
+			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_LOGEXPORT', $context, $user->id);
@@ -1027,10 +1033,10 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'action'      => 'cache',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
 			'id'          => $user->id,
-			'title'       => $user->name,
+			'title'       => $user->username,
 			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 			'userid'      => $user->id,
-			'username'    => $user->name,
+			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 			'group'       => $group,
 		);
