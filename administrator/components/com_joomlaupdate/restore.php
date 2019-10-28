@@ -123,7 +123,7 @@ function getQueryParam($key, $default = null)
 		$value = $_REQUEST[$key];
 	}
 
-	if (get_magic_quotes_gpc() && !is_null($value))
+	if (PHP_VERSION_ID < 50400 && get_magic_quotes_gpc() && !is_null($value))
 	{
 		$value = stripslashes($value);
 	}

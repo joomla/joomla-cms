@@ -114,12 +114,17 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 		else
 		{
-			$update_params = JComponentHelper::getParams('com_installer');
-			$cache_timeout = $update_params->get('cachetimeout', 6, 'int');
-			$cache_timeout = 3600 * $cache_timeout;
+			$cache_timeout = 3600 * JComponentHelper::getParams('com_installer')->get('cachetimeout', 6, 'int');
 		}
 
-		$updater = JUpdater::getInstance();
+		$updater               = JUpdater::getInstance();
+		$minimumStability      = JUpdater::STABILITY_STABLE;
+		$comJoomlaupdateParams = JComponentHelper::getParams('com_joomlaupdate');
+
+		if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), array('testing', 'custom')))
+		{
+			$minimumStability = $comJoomlaupdateParams->get('minimum_stability', JUpdater::STABILITY_STABLE);
+		}
 
 		$reflection = new ReflectionObject($updater);
 		$reflectionMethod = $reflection->getMethod('findUpdates');
@@ -128,11 +133,11 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		if (count($methodParameters) >= 4)
 		{
 			// Reinstall support is available in JUpdater
-			$updater->findUpdates(700, $cache_timeout, JUpdater::STABILITY_STABLE, true);
+			$updater->findUpdates(700, $cache_timeout, $minimumStability, true);
 		}
 		else
 		{
-			$updater->findUpdates(700, $cache_timeout, JUpdater::STABILITY_STABLE);
+			$updater->findUpdates(700, $cache_timeout, $minimumStability);
 		}
 	}
 
@@ -164,18 +169,41 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		if (is_null($updateObject))
 		{
+			// We have not found any update in the database we seem to run the latest version
 			$ret['latest'] = JVERSION;
 
 			return $ret;
 		}
 
-		$ret['latest']    = $updateObject->version;
-		$ret['hasUpdate'] = $updateObject->version != JVERSION;
+		// Check whether this is a valid update or not
+		if (version_compare($updateObject->version, JVERSION, '<'))
+		{
+			// This update points to an outdated version we should not offer to update to this
+			$ret['latest'] = JVERSION;
+
+			return $ret;
+		}
+
+		$ret['latest'] = $updateObject->version;
+
+		// Check whether this is an update or not.
+		if (version_compare($updateObject->version, JVERSION, '>'))
+		{
+			$ret['hasUpdate'] = true;
+		}
+
+		$minimumStability      = JUpdater::STABILITY_STABLE;
+		$comJoomlaupdateParams = JComponentHelper::getParams('com_joomlaupdate');
+
+		if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), array('testing', 'custom')))
+		{
+			$minimumStability = $comJoomlaupdateParams->get('minimum_stability', JUpdater::STABILITY_STABLE);
+		}
 
 		// Fetch the full update details from the update details URL.
 		jimport('joomla.updater.update');
 		$update = new JUpdate;
-		$update->loadFromXML($updateObject->detailsurl);
+		$update->loadFromXML($updateObject->detailsurl, $minimumStability);
 
 		$ret['object'] = $update;
 
