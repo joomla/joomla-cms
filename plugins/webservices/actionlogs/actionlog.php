@@ -14,7 +14,7 @@ use Joomla\CMS\Router\ApiRouter;
 use Joomla\Router\Route;
 
 /**
- * Web Services adapter for com_content.
+ * Web Services adapter for com_actionlogs
  *
  * @since  4.0.0
  */
