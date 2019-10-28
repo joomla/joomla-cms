@@ -11,7 +11,8 @@ $theme-colours: map-merge((
   top: 0;
   left: 0;
   z-index: 10000;
-  display: block;
+  display: flex;
+  align-items: center;
   width: 100%;
   height: 100%;
   overflow: hidden;
@@ -22,7 +23,8 @@ $theme-colours: map-merge((
   position: relative;
   width: 300px;
   height: 300px;
-  margin: 0 auto;
+  top: -15%;
+  margin: auto;
   transform: rotate(45deg);
 
   p {
