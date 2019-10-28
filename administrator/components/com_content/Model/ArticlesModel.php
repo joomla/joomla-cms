@@ -56,6 +56,8 @@ class ArticlesModel extends ListModel
 				'created_by_alias', 'a.created_by_alias',
 				'ordering', 'a.ordering',
 				'featured', 'a.featured',
+				'featured_up', 'fp.featured_up',
+				'featured_down', 'fp.featured_down',
 				'language', 'a.language',
 				'hits', 'a.hits',
 				'publish_up', 'a.publish_up',
@@ -205,9 +207,9 @@ class ArticlesModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
-				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
-				', a.publish_up, a.publish_down, a.introtext, a.note'
+				'a.id, a.asset_id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
+				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, fp.featured_up, fp.featured_down' .
+				', a.language, a.hits, a.publish_up, a.publish_down, a.introtext, a.note'
 			)
 		);
 		$query->from('#__content AS a');
@@ -215,6 +217,10 @@ class ArticlesModel extends ListModel
 		// Join over the language
 		$query->select('l.title AS language_title, l.image AS language_image')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+
+		// Join over the front page table.
+		$query->select('fp.ordering')
+			->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor')
@@ -278,7 +284,7 @@ class ArticlesModel extends ListModel
 		if (Associations::isEnabled())
 		{
 			$subQuery = $db->getQuery(true)
-				->select('CASE WHEN COUNT(' . $db->quoteName('asso1.id') . ') > 1 THEN 1 ELSE 0 END')
+				->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
 				->from($db->quoteName('#__associations', 'asso1'))
 				->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
 				->where(
@@ -603,7 +609,7 @@ class ArticlesModel extends ListModel
 
 	/**
 	 * Method to get a list of articles.
-	 * Overridden to add a check for access levels.
+	 * Overridden to add item type alias.
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
@@ -613,16 +619,9 @@ class ArticlesModel extends ListModel
 	{
 		$items = parent::getItems();
 
-		$asset = new \Joomla\CMS\Table\Asset($this->getDbo());
-
-		foreach (array_keys($items) as $x)
+		foreach ($items as $item)
 		{
-			$items[$x]->typeAlias = 'com_content.article';
-
-			$asset->loadByName('com_content.article.' . $items[$x]->id);
-
-			// Re-inject the asset id.
-			$items[$x]->asset_id = $asset->id;
+			$item->typeAlias = 'com_content.article';
 		}
 
 		return $items;

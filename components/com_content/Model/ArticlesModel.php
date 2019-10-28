@@ -196,6 +196,8 @@ class ArticlesModel extends ListModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
+		$now   = Factory::getDate()->toSql();
+
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
@@ -211,7 +213,7 @@ class ArticlesModel extends ListModel
 				// Use created if publish_up is null
 				'CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END as publish_up,' .
 				'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-				'a.hits, a.featured, a.language, ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
+				'a.hits, a.featured, fp.featured_up, fp.featured_down, a.language, ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
 			)
 		);
 
@@ -221,23 +223,29 @@ class ArticlesModel extends ListModel
 		$orderby_sec = $params->get('orderby_sec');
 
 		// Join over the frontpage articles if required.
+		$frontpageJoin = 'LEFT';
+
 		if ($this->getState('filter.frontpage'))
 		{
 			if ($orderby_sec === 'front')
 			{
 				$query->select('fp.ordering');
-				$query->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
+				$frontpageJoin = 'INNER';
 			}
 			else
 			{
 				$query->where('a.featured = 1');
 			}
+
+			$query->where('(' . $db->quoteName('fp.featured_up') . ' IS NULL OR fp.featured_up <= ' . $db->quote($now) . ')');
+			$query->where('(' . $db->quoteName('fp.featured_down') . ' IS NULL OR fp.featured_down >= ' . $db->quote($now) . ')');
 		}
 		elseif ($orderby_sec === 'front' || $this->getState('list.ordering') === 'fp.ordering')
 		{
 			$query->select('fp.ordering');
-			$query->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 		}
+
+		$query->join($frontpageJoin, '#__content_frontpage AS fp ON fp.content_id = a.id');
 
 		// Join over the states.
 		$query->select('wa.stage_id AS stage_id')
@@ -327,6 +335,8 @@ class ArticlesModel extends ListModel
 
 			case 'only':
 				$query->where('a.featured = 1');
+				$query->where('(' . $query->quoteName('fp.featured_up') . ' IS NULL OR fp.featured_up <= ' . $db->quote($now) . ')');
+				$query->where('(' . $query->quoteName('fp.featured_down') . ' IS NULL OR fp.featured_down >= ' . $db->quote($now) . ')');
 				break;
 
 			case 'show':
@@ -480,18 +490,31 @@ class ArticlesModel extends ListModel
 		switch ($dateFiltering)
 		{
 			case 'range':
-				$startDateRange = $db->quote($this->getState('filter.start_date_range'));
-				$endDateRange   = $db->quote($this->getState('filter.end_date_range'));
-				$query->where(
-					'(' . $dateField . ' >= ' . $startDateRange . ' AND ' . $dateField .
-					' <= ' . $endDateRange . ')'
-				);
+				$startDateRange = $this->getState('filter.start_date_range', '');
+				$endDateRange   = $this->getState('filter.end_date_range', '');
+
+				if ($startDateRange || $endDateRange)
+				{
+					$query->where($dateField . ' IS NOT NULL');
+
+					if ($startDateRange)
+					{
+						$query->where($dateField . ' >= ' . $db->quote($startDateRange));
+					}
+
+					if ($endDateRange)
+					{
+						$query->where($dateField . ' <= ' . $db->quote($endDateRange));
+					}
+				}
+
 				break;
 
 			case 'relative':
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
 				$query->where(
-					$dateField . ' >= ' . $query->dateAdd($nowDate, -1 * $relativeDate, 'DAY')
+					$dateField . ' IS NOT NULL AND '
+					. $dateField . ' >= ' . $query->dateAdd($nowDate, -1 * $relativeDate, 'DAY')
 				);
 				break;
 

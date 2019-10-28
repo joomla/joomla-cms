@@ -2,8 +2,8 @@ const Copydir = require('copy-dir');
 const Fs = require('fs');
 const FsExtra = require('fs-extra');
 const Path = require('path');
-const RootPath = require('./utils/rootpath.es6.js')._();
 
+const RootPath = process.cwd();
 const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
 
 /**
@@ -26,7 +26,7 @@ const cleanVendors = () => {
     FsExtra.removeSync(Path.join(RootPath, 'media/vendor/debugbar/vendor/jquery'));
   } else {
     // eslint-disable-next-line no-console
-    console.error('You need to run `npm install` AFTER the command `composer install`!!!. The debug plugin HASN\'T install all its front end assets');
+    console.error('You need to run `npm install` AFTER the command `composer install`!!!. The debug plugin HASN\'T installed all its front end assets');
     process.exit(1);
   }
 };

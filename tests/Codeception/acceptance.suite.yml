@@ -14,7 +14,7 @@ modules:
         JoomlaBrowser:
             url: 'http://localhost/test-install'     # the url that points to the joomla installation at /tests/system/joomla-cms
             browser: 'chrome'
-            window_size: false
+            window_size: 1920x1080
             capabilities:
               'goog:chromeOptions':
                 args: ["headless", "whitelisted-ips", "disable-gpu", "no-sandbox", "window-size=1920x1080", "--disable-dev-shm-usage"]

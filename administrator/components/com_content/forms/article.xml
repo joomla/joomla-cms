@@ -36,7 +36,6 @@
 			name="note"
 			type="text"
 			label="COM_CONTENT_FIELD_NOTE_LABEL"
-			class="span12"
 			size="40"
 			maxlength="255"
 		/>
@@ -224,6 +223,28 @@
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
+
+		<field
+			name="featured_up"
+			type="calendar"
+			label="COM_CONTENT_FIELD_FEATURED_UP_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc" 
+			showon="featured:1"
+		/>
+
+ 		<field
+			name="featured_down"
+			type="calendar"
+			label="COM_CONTENT_FIELD_FEATURED_DOWN_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc" 
+			showon="featured:1"
+		/>
 
 		<field
 			name="rules"

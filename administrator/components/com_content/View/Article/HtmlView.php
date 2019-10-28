@@ -25,8 +25,6 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-
 /**
  * View to edit an article.
  *
@@ -201,7 +199,7 @@ class HtmlView extends BaseHtmlView
 			{
 				$url = Route::link(
 					'site',
-					\ContentHelperRoute::getArticleRoute($this->item->id, $this->item->catid, $this->item->language),
+					\ContentHelperRoute::getArticleRoute($this->item->id . ':' . $this->item->alias, $this->item->catid, $this->item->language),
 					true
 				);
 

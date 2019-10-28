@@ -87,6 +87,7 @@
     "selenium-standalone": "^6.16.0",
     "uglify-es": "^3.3.9",
     "uglifycss": "^0.0.29",
+    "walk-sync": "^2.0.2",
     "watch": "^1.0.2"
   }
 }
