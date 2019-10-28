@@ -9,7 +9,7 @@
 
 namespace Joomla\Plugin\Quickicon\Joomlaupdate\Extension;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Extension\ExtensionHelper;

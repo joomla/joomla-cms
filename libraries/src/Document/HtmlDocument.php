@@ -298,7 +298,7 @@ class HtmlDocument extends Document
 		{
 			foreach ($data['metaTags'] as $type1 => $data1)
 			{
-				$booldog = $type1 == 'http-equiv' ? true : false;
+				$booldog = $type1 === 'http-equiv';
 
 				foreach ($data1 as $name2 => $data2)
 				{

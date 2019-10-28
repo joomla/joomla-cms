@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Workflow;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Trait for component workflow service.
@@ -28,6 +28,6 @@ trait WorkflowServiceTrait
 	 */
 	public static function getConditions($extension): array
 	{
-		return defined('self::CONDITION_NAMES') ? self::CONDITION_NAMES : Workflow::CONDITION_NAMES;
+		return \defined('self::CONDITION_NAMES') ? self::CONDITION_NAMES : Workflow::CONDITION_NAMES;
 	}
 }

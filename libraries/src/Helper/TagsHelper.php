@@ -371,7 +371,7 @@ class TagsHelper extends CMSHelper
 			$query->select($db->quoteName('t') . '.*');
 		}
 
-		$query->join('INNER', $db->quoteName('#__tags') . ' AS t ' . ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
+		$query->join('INNER', $db->quoteName('#__tags') . ' AS t ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
 
 		$db->setQuery($query);
 		$this->itemTags = $db->loadObjectList();
@@ -490,18 +490,18 @@ class TagsHelper extends CMSHelper
 		$query
 			->select(
 				'm.type_alias'
-				. ', ' . 'm.content_item_id'
-				. ', ' . 'm.core_content_id'
-				. ', ' . 'count(m.tag_id) AS match_count'
-				. ', ' . 'MAX(m.tag_date) as tag_date'
-				. ', ' . 'MAX(c.core_title) AS core_title'
-				. ', ' . 'MAX(c.core_params) AS core_params'
+				. ', m.content_item_id'
+				. ', m.core_content_id'
+				. ', count(m.tag_id) AS match_count'
+				. ', MAX(m.tag_date) as tag_date'
+				. ', MAX(c.core_title) AS core_title'
+				. ', MAX(c.core_params) AS core_params'
 			)
 			->select('MAX(c.core_alias) AS core_alias, MAX(c.core_body) AS core_body, MAX(c.core_state) AS core_state, MAX(c.core_access) AS core_access')
 			->select(
 				'MAX(c.core_metadata) AS core_metadata'
-				. ', ' . 'MAX(c.core_created_user_id) AS core_created_user_id'
-				. ', ' . 'MAX(c.core_created_by_alias) AS core_created_by_alias'
+				. ', MAX(c.core_created_user_id) AS core_created_user_id'
+				. ', MAX(c.core_created_by_alias) AS core_created_by_alias'
 			)
 			->select('MAX(c.core_created_time) as core_created_time, MAX(c.core_images) as core_images')
 			->select('CASE WHEN c.core_modified_time = ' . $nullDate . ' THEN c.core_created_time ELSE c.core_modified_time END as core_modified_time')
@@ -515,8 +515,9 @@ class TagsHelper extends CMSHelper
 				'#__ucm_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id AND c.core_state IN ('
 					. implode(',', $stateFilters) . ')'
 					. (\in_array('0', $stateFilters) ? '' : ' AND (c.core_publish_up = ' . $nullDate
-					. ' OR c.core_publish_up <= ' . $nowDate . ') '
-					. ' AND (c.core_publish_down = ' . $nullDate . ' OR  c.core_publish_down >= ' . $nowDate . ')')
+					. ' OR c.core_publish_up IS NULL OR c.core_publish_up <= ' . $nowDate . ') '
+					. ' AND (c.core_publish_down = ' . $nullDate
+					. ' OR c.core_publish_down IS NULL OR c.core_publish_down >= ' . $nowDate . ')')
 			)
 			->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias')
 
