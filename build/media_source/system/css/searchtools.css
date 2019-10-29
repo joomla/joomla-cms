@@ -28,7 +28,7 @@
 	margin-right: 8px;
 }
 html[dir=rtl] .js-stools .js-stools-container-selector {
-	float: right;
+	float: none;
 	margin-left: auto;
 	margin-right: 0;
 }
@@ -63,6 +63,10 @@ html[dir=rtl] .js-stools .chosen-container {
 .js-stools .js-stools-field-filter {
 	display: inline-block;
 	margin: 0 5px 5px 0;
+}
+html[dir=rtl] .js-stools .js-stools-field-list,
+.js-stools .js-stools-field-filter {
+	margin: 0 0 5px 5px;
 }
 .js-stools .js-stools-container-list .js-stools-field-list:last-child {
 	margin-right: 0;
