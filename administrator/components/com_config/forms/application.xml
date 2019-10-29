@@ -237,6 +237,7 @@
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_LABEL"
 			default="0"
 			filter="integer"
+			showon="host!:localhost"
 			>
 			<option value="0">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_VALUE_NONE</option>
 			<option value="1">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_VALUE_ONE_WAY</option>
@@ -250,7 +251,7 @@
 			class="switcher"
 			default="0"
 			filter="boolean"
-			showon="dbencryption:1,2"
+			showon="host!:localhost[AND]dbencryption:1,2"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -262,7 +263,7 @@
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_LABEL"
 			filter="string"
 			size="250"
-			showon="dbencryption:2"
+			showon="host!:localhost[AND]dbencryption:2"
 		/>
 
 		<field
@@ -271,7 +272,7 @@
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_LABEL"
 			filter="string"
 			size="250"
-			showon="dbencryption:2"
+			showon="host!:localhost[AND]dbencryption:2"
 		/>
 
 		<field
@@ -280,7 +281,7 @@
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_LABEL"
 			filter="string"
 			size="250"
-			showon="dbencryption:2"
+			showon="host!:localhost[AND]dbencryption:2"
 		/>
 
 		<field
@@ -289,7 +290,7 @@
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CAPATH_LABEL"
 			filter="string"
 			size="250"
-			showon="dbtype:mysql,mysqli[AND]dbencryption:2"
+			showon="host!:localhost[AND]dbtype:mysql,mysqli[AND]dbencryption:2"
 		/>
 
 		<field
@@ -298,7 +299,7 @@
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CIPHER_LABEL"
 			filter="string"
 			size="300"
-			showon="dbtype:mysql,mysqli[AND]dbencryption:2"
+			showon="host!:localhost[AND]dbtype:mysql,mysqli[AND]dbencryption:2"
 		/>
 
 	</fieldset>
