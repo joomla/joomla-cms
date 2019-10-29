@@ -1,14 +1,14 @@
-var errorLocale = window.errorLocale || null;
+let errorLocale = window.errorLocale || null;
 
 (function(document, errorLocale) {
   'use strict';
 
   if (errorLocale) {
-    var header = document.getElementById('headerText');
+    let header = document.getElementById('headerText');
 
     // Create links for all the languages
     Object.keys(errorLocale).forEach(function(key) {
-      var sel = document.getElementById('translatedLanguagesSelect'),
+      let sel = document.getElementById('translatedLanguagesSelect'),
           opt = document.createElement('option');
       opt.text = errorLocale[key].language;
       opt.value = key;
@@ -18,7 +18,7 @@ var errorLocale = window.errorLocale || null;
       }
 
       document.getElementById('translatedLanguagesSelect').addEventListener('change', function(e) {
-        var ref = e.target.value, helpLink, meta;
+        let ref = e.target.value, helpLink, meta;
 
         if (ref) {
           header.innerHTML = errorLocale[ref].header;
@@ -48,7 +48,7 @@ var errorLocale = window.errorLocale || null;
         // Append the translated strings
         header.innerHTML = errorLocale[key].header;
 
-        var helpLink = document.getElementById('linkHelp'), meta;
+        let helpLink = document.getElementById('linkHelp'), meta;
 
         if (helpLink) {
           helpLink.innerText = errorLocale[key]['help-url-text'];
