@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\ParameterType;
 
 /**
  * User notes model class.
@@ -97,16 +98,25 @@ class NotesModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$search3 = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :id');
+				$query->bind(':id', $search3, ParameterType::INTEGER);
 			}
 			elseif (stripos($search, 'uid:') === 0)
 			{
-				$query->where('a.user_id = ' . (int) substr($search, 4));
+				$search4 = (int) substr($search, 4);
+				$query->where($db->quoteName('a.user_id') . ' = :id');
+				$query->bind(':id', $search4, ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('((a.subject LIKE ' . $search . ') OR (u.name LIKE ' . $search . ') OR (u.username LIKE ' . $search . '))');
+				$search = '%' . trim($search) . '%';
+				$query->where($db->quoteName('a.subject') . ' LIKE :subject')
+					->orWhere($db->quoteName('u.name') . ' LIKE :name')
+					->orWhere($db->quoteName('u.username') . ' LIKE :username');
+				$query->bind(':subject', $search);
+				$query->bind(':name', $search);
+				$query->bind(':username', $search);
 			}
 		}
 
@@ -115,11 +125,12 @@ class NotesModel extends ListModel
 
 		if (is_numeric($published))
 		{
-			$query->where('a.state = ' . (int) $published);
+			$query->where($db->quoteName('a.state') . ' = :state')
+				->bind(':state', $published, ParameterType::INTEGER);
 		}
 		elseif ($published !== '*')
 		{
-			$query->where('(a.state IN (0, 1))');
+			$query->whereIn($db->quoteName('a.state'), [0, 1]);
 		}
 
 		// Filter by a single category.
@@ -127,7 +138,8 @@ class NotesModel extends ListModel
 
 		if ($categoryId)
 		{
-			$query->where('a.catid = ' . $categoryId);
+			$query->where($db->quoteName('a.catid') . ' = :catid')
+				->bind(':catid', $categoryId, ParameterType::INTEGER);
 		}
 
 		// Filter by a single user.
@@ -137,13 +149,16 @@ class NotesModel extends ListModel
 		{
 			// Add the body and where filter.
 			$query->select('a.body')
-				->where('a.user_id = ' . $userId);
+				->where($db->quoteName('a.user_id') . ' = :user_id')
+				->bind(':user_id', $userId, ParameterType::INTEGER);
 		}
 
 		// Filter on the level.
 		if ($level = $this->getState('filter.level'))
 		{
-			$query->where($db->quoteName('c.level') . ' <= ' . (int) $level);
+			$level = (int) $level;
+			$query->where($db->quoteName('c.level') . ' <= :level')
+				->bind(':level', $level, ParameterType::INTEGER);
 		}
 
 		// Add the list ordering clause.

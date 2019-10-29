@@ -308,16 +308,18 @@ class SysinfoModel extends BaseDatabaseModel
 		$db = $this->getDbo();
 
 		$this->info = array(
-			'php'                   => php_uname(),
-			'dbserver'              => $db->getServerType(),
-			'dbversion'             => $db->getVersion(),
-			'dbcollation'           => $db->getCollation(),
-			'dbconnectioncollation' => $db->getConnectionCollation(),
-			'phpversion'            => PHP_VERSION,
-			'server'                => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
-			'sapi_name'             => PHP_SAPI,
-			'version'               => (new Version)->getLongVersion(),
-			'useragent'             => $_SERVER['HTTP_USER_AGENT'] ?? '',
+			'php'                    => php_uname(),
+			'dbserver'               => $db->getServerType(),
+			'dbversion'              => $db->getVersion(),
+			'dbcollation'            => $db->getCollation(),
+			'dbconnectioncollation'  => $db->getConnectionCollation(),
+			'dbconnectionencryption' => $db->getConnectionEncryption(),
+			'dbconnencryptsupported' => $db->isConnectionEncryptionSupported(),
+			'phpversion'             => PHP_VERSION,
+			'server'                 => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
+			'sapi_name'              => PHP_SAPI,
+			'version'                => (new Version)->getLongVersion(),
+			'useragent'              => $_SERVER['HTTP_USER_AGENT'] ?? '',
 		);
 
 		return $this->info;

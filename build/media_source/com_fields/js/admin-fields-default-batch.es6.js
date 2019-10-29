@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   batchCopyMove.style.display = 'none';
 
   batchSelector.addEventListener('change', () => {
-    if (batchSelector.value === 'nogroup') {
+    if (batchSelector.value === 'nogroup' || batchSelector.value !== '') {
       batchCopyMove.style.display = 'block';
     } else {
       batchCopyMove.style.display = 'none';
