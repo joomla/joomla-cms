@@ -16,6 +16,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Database\ParameterType;
 
 /**
  * Banner model for the Joomla Banners component.
@@ -49,14 +50,16 @@ class BannerModel extends BaseDatabaseModel
 			throw new \Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);
 		}
 
-		$id = $this->getState('banner.id');
+		$id = (int) $this->getState('banner.id');
 
 		// Update click count
 		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->update('#__banners')
-			->set('clicks = (clicks + 1)')
-			->where('id = ' . (int) $id);
+		$query = $db->getQuery(true);
+
+		$query->update($db->quoteName('#__banners'))
+			->set($db->quoteName('clicks') . ' = ' . $db->quoteName('clicks') . ' + 1')
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
@@ -87,12 +90,19 @@ class BannerModel extends BaseDatabaseModel
 		{
 			$trackDate = Factory::getDate()->toSql();
 
-			$query->clear()
-				->select($db->quoteName('count'))
-				->from('#__banner_tracks')
-				->where('track_type=2')
-				->where('banner_id=' . (int) $id)
-				->where('track_date=' . $db->quote($trackDate));
+			$query = $db->getQuery(true);
+
+			$query->select($db->quoteName('count'))
+				->from($db->quoteName('#__banner_tracks'))
+				->where(
+					[
+						$db->quoteName('track_type') . ' = 2',
+						$db->quoteName('banner_id') . ' = :id',
+						$db->quoteName('track_date') . ' = :trackDate',
+					]
+				)
+				->bind(':id', $id, ParameterType::INTEGER)
+				->bind(':trackDate', $trackDate);
 
 			$db->setQuery($query);
 
@@ -107,28 +117,38 @@ class BannerModel extends BaseDatabaseModel
 
 			$count = $db->loadResult();
 
-			$query->clear();
+			$query = $db->getQuery(true);
 
 			if ($count)
 			{
 				// Update count
-				$query->update('#__banner_tracks')
-					->set($db->quoteName('count') . ' = (' . $db->quoteName('count') . ' + 1)')
-					->where('track_type=2')
-					->where('banner_id=' . (int) $id)
-					->where('track_date=' . $db->quote($trackDate));
+				$query->update($db->quoteName('#__banner_tracks'))
+					->set($db->quoteName('count') . ' = ' . $db->quoteName('count') . ' + 1')
+					->where(
+						[
+							$db->quoteName('track_type') . ' = 2',
+							$db->quoteName('banner_id') . ' = :id',
+							$db->quoteName('track_date') . ' = :trackDate',
+						]
+					)
+					->bind(':id', $id, ParameterType::INTEGER)
+					->bind(':trackDate', $trackDate);
 			}
 			else
 			{
 				// Insert new count
-				$query->insert('#__banner_tracks')
+				$query->insert($db->quoteName('#__banner_tracks'))
 					->columns(
-						array(
-							$db->quoteName('count'), $db->quoteName('track_type'),
-							$db->quoteName('banner_id'), $db->quoteName('track_date')
-						)
+						[
+							$db->quoteName('count'),
+							$db->quoteName('track_type'),
+							$db->quoteName('banner_id'),
+							$db->quoteName('track_date'),
+						]
 					)
-					->values('1, 2,' . (int) $id . ',' . $db->quote($trackDate));
+					->values('1, 2 , :id, :trackDate')
+					->bind(':id', $id, ParameterType::INTEGER)
+					->bind(':trackDate', $trackDate);
 			}
 
 			$db->setQuery($query);
@@ -158,25 +178,27 @@ class BannerModel extends BaseDatabaseModel
 			/** @var \Joomla\CMS\Cache\Controller\CallbackController $cache */
 			$cache = Factory::getCache('com_banners', 'callback');
 
-			$id = $this->getState('banner.id');
+			$id = (int) $this->getState('banner.id');
 
 			// For PHP 5.3 compat we can't use $this in the lambda function below, so grab the database driver now to use it
 			$db = $this->getDbo();
 
 			$loader = function ($id) use ($db)
 			{
-				$query = $db->getQuery(true)
-					->select(
-						array(
-							$db->quoteName('a.clickurl', 'clickurl'),
-							$db->quoteName('a.cid', 'cid'),
-							$db->quoteName('a.track_clicks', 'track_clicks'),
-							$db->quoteName('cl.track_clicks', 'client_track_clicks'),
-						)
-					)
+				$query = $db->getQuery(true);
+
+				$query->select(
+					[
+						$db->quoteName('a.clickurl'),
+						$db->quoteName('a.cid'),
+						$db->quoteName('a.track_clicks'),
+						$db->quoteName('cl.track_clicks', 'client_track_clicks'),
+					]
+				)
 					->from($db->quoteName('#__banners', 'a'))
-					->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid')
-					->where('a.id = ' . (int) $id);
+					->join('LEFT', $db->quoteName('#__banner_clients', 'cl'), $db->quoteName('cl.id') . ' = ' . $db->quoteName('a.cid'))
+					->where($db->quoteName('a.id') . ' = :id')
+					->bind(':id', $id, ParameterType::INTEGER);
 
 				$db->setQuery($query);
 
