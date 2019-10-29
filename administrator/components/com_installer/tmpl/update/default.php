@@ -77,16 +77,32 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</tr>
 							</thead>
 							<tbody>
-							<?php foreach ($this->items as $i => $item) : ?>
+							<?php
+							foreach ($this->items as $i => $item): ?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center">
+										<?php if($item->isMissingDownloadKey): ?>
+										<span class="fa fa-ban"></span>
+										<?php else: ?>
 										<?php echo HTMLHelper::_('grid.id', $i, $item->update_id); ?>
+										<?php endif; ?>
 									</td>
 									<th scope="row">
 										<span tabindex="0"><?php echo $this->escape($item->name); ?></span>
 										<div role="tooltip" id="tip<?php echo $i; ?>">
 											<?php echo $item->description; ?>
 										</div>
+										<?php if($item->isMissingDownloadKey): ?>
+										<br/>
+										<span class="badge badge-warning">
+											<span class="hasPopover"
+												  title="<?= Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
+												  data-content="<?= Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
+											>
+												<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?>
+												</span>
+										</span>
+										<?php endif; ?>
 									</th>
 									<td class="center d-none d-md-table-cell">
 										<?php echo $item->client_translated; ?>

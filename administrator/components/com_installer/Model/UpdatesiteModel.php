@@ -11,10 +11,12 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Item Model for an update site.
@@ -39,7 +41,7 @@ class UpdatesiteModel extends AdminModel
 	 *
 	 * @return  Form|boolean  A Form object on success, false on failure
 	 *
-	 * @throws  \Exception
+	 * @throws  Exception
 	 *
 	 * @since   4.0.0
 	 */
@@ -131,8 +133,38 @@ class UpdatesiteModel extends AdminModel
 	 */
 	public function save($data): bool
 	{
-		$data['extra_query'] = $data['downloadIdPrefix'] . $data['extra_query'] . $data['downloadIdSuffix'];
+		// Apply the extra_query. Always empty when saving a free extension's update site.
+		if (isset($data['extra_query']))
+		{
+			$data['extra_query'] = $data['downloadIdPrefix'] . $data['extra_query'] . $data['downloadIdSuffix'];
+		}
 
-		return parent::save($data);
+		// Force Joomla to recheck for updates
+		$data['last_check_timestamp'] = 0;
+
+		$result = parent::save($data);
+
+		if (!$result)
+		{
+			return $result;
+		}
+
+		// Delete update records forcing Joomla to fetch them again, applying the new extra_query.
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__updates'))
+			->where($db->quoteName('update_site_id') . ' = :updateSiteId');
+		$query->bind(':updateSiteId', $data['update_site_id'], ParameterType::INTEGER);
+
+		try
+		{
+			$db->setQuery($query)->execute();
+		}
+		catch (Exception $e)
+		{
+			// No problem if this fails for any reason.
+		}
+
+		return true;
 	}
 }
