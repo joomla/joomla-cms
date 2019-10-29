@@ -111,7 +111,7 @@ class DatabaseController extends BaseController
 			$this->app->getLogger()->warning(
 				Text::_(
 					'COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'
-				), array('category' => 'jerror')
+				), ['category' => 'jerror']
 			);
 		}
 		else
