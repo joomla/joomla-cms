@@ -101,8 +101,8 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				</div>
 
 				<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
-					<button class="navbar-toggler navbar-toggler-right" type="button" aria-hidden="true" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
-						<span class="fa fa-bars"></span>
+					<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
+						<span class="fa fa-bars" aria-hidden="true"></span>
 					</button>
 					<div class="collapse navbar-collapse" id="navbar">
 						<jdoc:include type="modules" name="menu" style="none" />
@@ -151,8 +151,8 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<div class="grid-child container-component">
 		<jdoc:include type="modules" name="main-top" style="cardGrey" />
 		<jdoc:include type="message" />
-		<jdoc:include type="component" />
 		<jdoc:include type="modules" name="breadcrumbs" style="none" />
+		<jdoc:include type="component" />
 		<jdoc:include type="modules" name="main-bottom" style="cardGrey" />
 	</div>
 

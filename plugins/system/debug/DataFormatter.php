@@ -51,16 +51,16 @@ class DataFormatter extends DebugBarDataFormatter
 			// If entry has Class/Method print it.
 			$string .= htmlspecialchars($call['class'] . $call['type'] . $call['function']) . '()';
 		}
-		elseif (isset($call['args']) && is_array($call['args'][0]))
+		elseif (isset($call['args']) && \is_array($call['args'][0]))
 		{
 			$string .= htmlspecialchars($call['function']) . ' (';
 
 			foreach ($call['args'][0] as $arg)
 			{
 				// Check if the arguments can be used as string
-				if (is_object($arg) && !method_exists($arg, '__toString'))
+				if (\is_object($arg) && !method_exists($arg, '__toString'))
 				{
-					$arg = get_class($arg);
+					$arg = \get_class($arg);
 				}
 
 				$string .= htmlspecialchars($arg) . ', ';

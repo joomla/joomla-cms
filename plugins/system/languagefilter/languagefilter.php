@@ -127,7 +127,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				}
 			}
 		}
-		// If language filter plugin is executed in an admin page (ex: JRoute site).
+		// If language filter plugin is executed in an admin page (ex: Route site).
 		else
 		{
 			// Set current language to default site language, fallback to en-GB if there is no content language for the default site language.
@@ -218,8 +218,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * Add build preprocess rule to router.
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -240,8 +240,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * Add build rule to router.
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -272,8 +272,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * postprocess build rule for SEF URLs
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -287,8 +287,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * postprocess build rule for non-SEF URLs
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -307,8 +307,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * Add parse rule to router.
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -662,10 +662,10 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 */
 	public function onUserLogin($user, $options = array())
 	{
-		$menu = $this->app->getMenu();
-
 		if ($this->app->isClient('site'))
 		{
+			$menu = $this->app->getMenu();
+
 			if ($this->params->get('automatic_change', 1))
 			{
 				$assoc = Associations::isEnabled();

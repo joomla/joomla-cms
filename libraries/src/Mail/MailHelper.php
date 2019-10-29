@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Mail;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\String\PunycodeHelper;
 
@@ -117,7 +117,7 @@ abstract class MailHelper
 		$local = substr($email, 0, $atIndex);
 
 		// Check Length of domain
-		$domainLen = strlen($domain);
+		$domainLen = \strlen($domain);
 
 		if ($domainLen < 1 || $domainLen > 255)
 		{
@@ -147,7 +147,7 @@ abstract class MailHelper
 		}
 
 		// Check Lengths
-		$localLen = strlen($local);
+		$localLen = \strlen($local);
 
 		if ($localLen < 1 || $localLen > 64)
 		{
@@ -182,7 +182,7 @@ abstract class MailHelper
 			}
 
 			// Check for a dash at the end of the domain
-			$length = strlen($domain) - 1;
+			$length = \strlen($domain) - 1;
 
 			if (strpos($domain, '-', $length) === $length)
 			{

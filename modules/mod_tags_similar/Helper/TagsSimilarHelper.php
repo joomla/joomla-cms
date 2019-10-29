@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\TagsSimilar\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -51,7 +51,6 @@ abstract class TagsSimilarHelper
 		$user       = Factory::getUser();
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$matchtype  = $params->get('matchtype', 'all');
-		$maximum    = $params->get('maximum', 5);
 		$ordering   = $params->get('ordering', 'count');
 		$tagsHelper = new TagsHelper;
 		$prefix     = $option . '.' . $view;
@@ -101,10 +100,12 @@ abstract class TagsSimilarHelper
 
 		// Only return published tags
 		$query->where($db->quoteName('cc.core_state') . ' = 1 ')
-			->where('(' . $db->quoteName('cc.core_publish_up') . '=' . $db->quote($nullDate) . ' OR '
+			->where('(' . $db->quoteName('cc.core_publish_up') . ' IS NULL OR '
+				. $db->quoteName('cc.core_publish_up') . '=' . $db->quote($nullDate) . ' OR '
 				. $db->quoteName('cc.core_publish_up') . '<=' . $db->quote($now) . ')'
 			)
-			->where('(' . $db->quoteName('cc.core_publish_down') . '=' . $db->quote($nullDate) . ' OR '
+			->where('(' . $db->quoteName('cc.core_publish_down') . ' IS NULL OR '
+				. $db->quoteName('cc.core_publish_down') . '=' . $db->quote($nullDate) . ' OR '
 				. $db->quoteName('cc.core_publish_down') . '>=' . $db->quote($now) . ')'
 			);
 
@@ -148,7 +149,8 @@ abstract class TagsSimilarHelper
 			$query->order($query->rand());
 		}
 
-		$db->setQuery($query, 0, $maximum);
+		$query->setLimit((int) $params->get('maximum', 5));
+		$db->setQuery($query);
 
 		try
 		{

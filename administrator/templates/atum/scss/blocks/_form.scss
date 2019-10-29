@@ -45,7 +45,7 @@
       margin-left: 0;
       .switcher__legend {
         float:none;
-		margin-left: 0;
+        margin-left: 0;
       }
     }
 
@@ -146,7 +146,12 @@ legend {
     color: var(--atum-special-color);
     margin-bottom: 0;
 }
+
 [class^="icon-"]:not(.input-group-text),
 [class*=" icon-"]:not(.input-group-text) {
   margin-right: 0.5em;
+}
+
+joomla-field-user [class*=" icon-"]:not(.input-group-text) {
+  margin-right: 0;
 }

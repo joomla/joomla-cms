@@ -28,6 +28,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Registration model class for Users.
@@ -74,15 +75,18 @@ class RegistrationModel extends FormModel
 	 */
 	public function getUserIdFromToken($token)
 	{
-		$db = $this->getDbo();
+		$db       = $this->getDbo();
+		$nulldate = $db->getNullDate();
 
 		// Get the user id based on the token.
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('activation') . ' = ' . $db->quote($token))
-			->where($db->quoteName('block') . ' = ' . 1)
-			->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote($db->getNullDate()));
+			->where($db->quoteName('activation') . ' = :activation')
+			->where($db->quoteName('block') . ' = 1')
+			->where($db->quoteName('lastvisitDate') . ' = :lastvisitDate')
+			->bind(':activation', $token)
+			->bind(':lastvisitDate', $nulldate);
 		$db->setQuery($query);
 
 		try
@@ -129,17 +133,19 @@ class RegistrationModel extends FormModel
 		// Admin activation is on and user is verifying their email
 		if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0))
 		{
-			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 			// Compile the admin notification mail values.
 			$data = $user->getProperties();
 			$data['activation'] = ApplicationHelper::getHash(UserHelper::genRandomPassword());
 			$user->set('activation', $data['activation']);
 			$data['siteurl'] = Uri::base();
-			$data['activate'] = Route::link('site',
+			$data['activate'] = Route::link(
+				'site',
 				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
 				false,
-				$linkMode
+				$linkMode,
+				true
 			);
 
 			$data['fromname'] = $app->get('fromname');
@@ -320,7 +326,7 @@ class RegistrationModel extends FormModel
 				// Here we could have a grouped field, let's check it
 				if (is_array($v))
 				{
-					$this->data->$k = new stdClass;
+					$this->data->$k = new \stdClass;
 
 					foreach ($v as $key => $val)
 					{
@@ -527,12 +533,14 @@ class RegistrationModel extends FormModel
 		if ($useractivation == 2)
 		{
 			// Set the link to confirm the user email.
-			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
-			$data['activate'] = Route::link('site',
+			$data['activate'] = Route::link(
+				'site',
 				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
 				false,
-				$linkMode
+				$linkMode,
+				true
 			);
 
 			$emailSubject = Text::sprintf(
@@ -568,12 +576,14 @@ class RegistrationModel extends FormModel
 		elseif ($useractivation == 1)
 		{
 			// Set the link to activate the user account.
-			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
-			$data['activate'] = Route::link('site',
+			$data['activate'] = Route::link(
+				'site',
 				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
 				false,
-				$linkMode
+				$linkMode,
+				true
 			);
 
 			$emailSubject = Text::sprintf(
@@ -755,22 +765,31 @@ class RegistrationModel extends FormModel
 
 			if (count($userids) > 0)
 			{
-				$jdate = new Date;
+				$jdate     = new Date;
+				$dateToSql = $jdate->toSql();
+				$subject   = Text::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT');
+				$message   = Text::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username']);
 
 				// Build the query to add the messages
 				foreach ($userids as $userid)
 				{
-					$values = array(
-						$db->quote($userid),
-						$db->quote($userid),
-						$db->quote($jdate->toSql()),
-						$db->quote(Text::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')),
-						$db->quote(Text::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username']))
-					);
+					$values = [
+						':user_id_from',
+						':user_id_to',
+						':date_time',
+						':subject',
+						':message',
+					];
 					$query->clear()
 						->insert($db->quoteName('#__messages'))
-						->columns($db->quoteName(array('user_id_from', 'user_id_to', 'date_time', 'subject', 'message')))
+						->columns($db->quoteName(['user_id_from', 'user_id_to', 'date_time', 'subject', 'message']))
 						->values(implode(',', $values));
+					$query->bind(':user_id_from', $userid, ParameterType::INTEGER)
+						->bind(':user_id_to', $userid, ParameterType::INTEGER)
+						->bind(':date_time', $dateToSql)
+						->bind(':subject', $subject)
+						->bind(':message', $message);
+
 					$db->setQuery($query);
 
 					try

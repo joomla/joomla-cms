@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\User;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
@@ -401,22 +401,27 @@ class User extends CMSObject
 		$db = Factory::getDbo();
 
 		$subQuery = $db->getQuery(true)
-			->select('id,asset_id')
-			->from('#__categories')
-			->where('extension = ' . $db->quote($component))
-			->where('published = 1');
+			->select($db->quoteName(['id', 'asset_id']))
+			->from($db->quoteName('#__categories'))
+			->where(
+				[
+					$db->quoteName('extension') . ' = :component',
+					$db->quoteName('published') . ' = 1',
+				]
+			);
 
 		$query = $db->getQuery(true)
-			->select('c.id AS id, a.name AS asset_name')
-			->from('(' . (string) $subQuery . ') AS c')
-			->join('INNER', '#__assets AS a ON c.asset_id = a.id');
+			->select($db->quoteName(['c.id', 'a.name']))
+			->from('(' . $subQuery . ') AS ' . $db->quoteName('c'))
+			->join('INNER', $db->quoteName('#__assets', 'a'), $db->quoteName('c.asset_id') . ' = ' . $db->quoteName('a.id'))
+			->bind(':component', $component);
 		$db->setQuery($query);
 		$allCategories = $db->loadObjectList('id');
 		$allowedCategories = array();
 
 		foreach ($allCategories as $category)
 		{
-			if ($this->authorise($action, $category->asset_name))
+			if ($this->authorise($action, $category->name))
 			{
 				$allowedCategories[] = (int) $category->id;
 			}
@@ -610,7 +615,7 @@ class User extends CMSObject
 			// Check that username is not greater than 150 characters
 			$username = $this->get('username');
 
-			if (strlen($username) > 150)
+			if (\strlen($username) > 150)
 			{
 				$username = substr($username, 0, 150);
 				$this->set('username', $username);
@@ -649,11 +654,11 @@ class User extends CMSObject
 			}
 		}
 
-		if (array_key_exists('params', $array))
+		if (\array_key_exists('params', $array))
 		{
 			$this->_params->loadArray($array['params']);
 
-			if (is_array($array['params']))
+			if (\is_array($array['params']))
 			{
 				$params = (string) $this->_params;
 			}
@@ -776,7 +781,7 @@ class User extends CMSObject
 
 			$result = Factory::getApplication()->triggerEvent('onUserBeforeSave', array($oldUser->getProperties(), $isNew, $this->getProperties()));
 
-			if (in_array(false, $result, true))
+			if (\in_array(false, $result, true))
 			{
 				// Plugin will have to raise its own error or throw an exception.
 				return false;

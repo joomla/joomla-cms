@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -84,7 +84,7 @@ class PasswordRule extends FormRule
 			return true;
 		}
 
-		$valueLength = strlen($value);
+		$valueLength = \strlen($value);
 
 		// Load language file of com_users component
 		Factory::getLanguage()->load('com_users');
@@ -101,7 +101,7 @@ class PasswordRule extends FormRule
 		// Set a variable to check if any errors are made in password
 		$validPassword = true;
 
-		if (strlen($valueTrim) !== $valueLength)
+		if (\strlen($valueTrim) !== $valueLength)
 		{
 			Factory::getApplication()->enqueueMessage(
 				Text::_('COM_USERS_MSG_SPACES_IN_PASSWORD'),
@@ -178,7 +178,7 @@ class PasswordRule extends FormRule
 		// Minimum length option
 		if (!empty($minimumLength))
 		{
-			if (strlen((string) $value) < $minimumLength)
+			if (\strlen((string) $value) < $minimumLength)
 			{
 				Factory::getApplication()->enqueueMessage(
 					Text::plural('COM_USERS_MSG_PASSWORD_TOO_SHORT_N', $minimumLength),

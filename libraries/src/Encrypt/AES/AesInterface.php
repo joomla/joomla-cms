@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Encrypt\AES;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Interface for AES encryption adapters

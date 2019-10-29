@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Schema;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
@@ -148,7 +148,7 @@ class ChangeSet
 	 */
 	public static function getInstance($db, $folder = null)
 	{
-		if (!is_object(static::$instance))
+		if (!\is_object(static::$instance))
 		{
 			static::$instance = new static($db, $folder);
 		}

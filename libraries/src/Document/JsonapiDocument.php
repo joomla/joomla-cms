@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Tobscure\JsonApi\Document;
@@ -46,7 +46,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
 		$this->_mime = 'application/vnd.api+json';
 		$this->_type = 'jsonapi';
 
-		if (array_key_exists('api_document', $options) && $options['api_document'] instanceof Document)
+		if (\array_key_exists('api_document', $options) && $options['api_document'] instanceof Document)
 		{
 			$this->document = $options['api_document'];
 		}

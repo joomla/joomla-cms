@@ -185,14 +185,14 @@ class HtmlView extends BaseHtmlView
 				$dropdown = $toolbar->dropdownButton('status-group')
 					->text('JTOOLBAR_CHANGE_STATUS')
 					->toggleSplit(false)
-					->icon('fa fa-globe')
-					->buttonClass('btn btn-info')
+					->icon('fa fa-ellipsis-h')
+					->buttonClass('btn btn-action')
 					->listCheck(true);
 
 				$childBar = $dropdown->getChildToolbar();
 
-				$childBar->publish('stages.publish')->listCheck(true);
-				$childBar->unpublish('stages.unpublish')->listCheck(true);
+				$childBar->publish('stages.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
+				$childBar->unpublish('stages.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
 				$childBar->makeDefault('stages.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
 
 				if ($canDo->get('core.admin'))
