@@ -420,7 +420,7 @@ class ComponentHelper
 			$components = [];
 			$db->setQuery($query);
 
-			foreach ($db->getIterator('option') as $component)
+			foreach ($db->getIterator() as $component)
 			{
 				$components[$component->option] = new ComponentRecord((array) $component);
 			}
