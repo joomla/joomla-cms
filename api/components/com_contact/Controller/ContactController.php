@@ -23,7 +23,6 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
-use Joomla\CMS\Language\Text;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\Inflector;
