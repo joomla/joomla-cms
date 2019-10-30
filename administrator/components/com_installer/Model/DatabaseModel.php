@@ -310,15 +310,19 @@ class DatabaseModel extends InstallerModel
 		}
 
 		$tables = $db->getTableList();
+		$prefix = $db->getPrefix();
 
 		$zipFile = JPATH_ROOT . '/tmp/joomla_db.zip';
 		$zipArchive = (new Archive)->getAdapter('zip');
 
 		foreach ($tables as $table)
 		{
-			$data = (string) $exporter->from($table)->withData(true);
-			$zipFilesArray[] = ['name' => $table . '.xml', 'data' => $data];
-			$zipArchive->create($zipFile, $zipFilesArray);
+			if (stristr($table, $prefix) != false)
+			{
+				$data = (string) $exporter->from($table)->withData(true);
+				$zipFilesArray[] = ['name' => $table . '.xml', 'data' => $data];
+				$zipArchive->create($zipFile, $zipFilesArray);
+			}
 		}
 
 		return true;
