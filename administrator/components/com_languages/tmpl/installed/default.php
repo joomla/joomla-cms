@@ -44,7 +44,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<th scope="col" style="width:15%">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'name', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:15%" class="d-none d-sm-table-cell">
+							<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'nativeName', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" class="text-center">
@@ -88,7 +88,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $this->escape($row->name); ?>
 								</label>
 							</th>
-							<td class="hidden-md-down">
+							<td class="d-none d-md-table-cell">
 								<?php echo $this->escape($row->nativeName); ?>
 							</td>
 							<td class="text-center">

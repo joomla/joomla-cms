@@ -213,6 +213,7 @@ class ExtensionHelper
 		array('plugin', 'radio', 'fields', 0),
 		array('plugin', 'repeatable', 'fields', 0),
 		array('plugin', 'sql', 'fields', 0),
+		array('plugin', 'subfields', 'fields', 0),
 		array('plugin', 'text', 'fields', 0),
 		array('plugin', 'textarea', 'fields', 0),
 		array('plugin', 'url', 'fields', 0),
@@ -250,6 +251,7 @@ class ExtensionHelper
 		array('plugin', 'user', 'privacy', 0),
 
 		// Core plugin extensions - quick icon
+		array('plugin', 'downloadkey', 'quickicon', 0),
 		array('plugin', 'extensionupdate', 'quickicon', 0),
 		array('plugin', 'joomlaupdate', 'quickicon', 0),
 		array('plugin', 'overridecheck', 'quickicon', 0),

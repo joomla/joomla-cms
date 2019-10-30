@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_mails
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ use Joomla\Database\QueryInterface;
 /**
  * Methods supporting a list of mail template records.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class TemplatesModel extends ListModel
 {
@@ -28,7 +28,7 @@ class TemplatesModel extends ListModel
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function __construct($config = array())
@@ -40,7 +40,7 @@ class TemplatesModel extends ListModel
 				'language', 'a.language',
 				'subject', 'a.subject',
 				'body', 'a.body',
-				'htmlnody', 'a.htmlbody'
+				'htmlbody', 'a.htmlbody'
 			);
 		}
 
@@ -61,7 +61,7 @@ class TemplatesModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -78,22 +78,25 @@ class TemplatesModel extends ListModel
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getItems()
 	{
 		$items = parent::getItems();
+		$id    = '';
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('language'))
 			->from($db->quoteName('#__mail_templates'))
-			->order('language ASC');
+			->where($db->quoteName('template_id') . ' = :id')
+			->where($db->quoteName('language') . ' != ' . $db->quote(''))
+			->order($db->quoteName('language') . ' ASC')
+			->bind(':id', $id);
 
 		foreach ($items as $item)
 		{
-			$query->clear('where')
-				->where($db->quoteName('template_id') . ' = ' . $db->quote($item->template_id));
+			$id = $item->template_id;
 			$db->setQuery($query);
 			$item->languages = $db->loadColumn();
 		}
@@ -106,7 +109,7 @@ class TemplatesModel extends ListModel
 	 *
 	 * @return  QueryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getListQuery()
 	{
@@ -118,54 +121,52 @@ class TemplatesModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.*'
+				$db->quoteName('a') . '.*'
 			)
 		);
 		$query->from($db->quoteName('#__mail_templates', 'a'))
-			->group(
-				$db->quoteName(
-					array(
-						'a.template_id',
-						'a.language',
-						'a.subject',
-						'a.body',
-						'a.htmlbody',
-						'a.attachments',
-						'a.params',
-					)
-				)
-			);
+			->where($db->quoteName('a.language') . ' = ' . $db->quote(''));
 
 		// Filter by search in title.
-		$search = $this->getState('filter.search');
-
-		if (!empty($search))
+		if ($search = trim($this->getState('filter.search')))
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where($db->quoteName('a.template_id') . ' = ' . $db->quote(substr($search, 3)));
+				$search = substr($search, 3);
+				$query->where($db->quoteName('a.template_id') . ' = :search')
+					->bind(':search', $search);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.template_id LIKE ' . $search
-					. ' OR a.subject LIKE ' . $search
-					. ' OR a.body LIKE ' . $search
-					. ' OR a.htmlbody LIKE ' . $search . ')'
-				);
+				$search = '%' . str_replace(' ', '%', $search) . '%';
+				$query->where(
+					'(' . $db->quoteName('a.template_id') . ' LIKE :search1'
+					. ' OR ' . $db->quoteName('a.subject') . ' LIKE :search2'
+					. ' OR ' . $db->quoteName('a.body') . ' LIKE :search3'
+					. ' OR ' . $db->quoteName('a.htmlbody') . ' LIKE :search4)'
+				)
+					->bind([':search1', ':search2', ':search3', ':search4'], $search);
 			}
 		}
 
 		// Filter on the extension.
-		if ($language = $this->getState('filter.extension'))
+		if ($extension = $this->getState('filter.extension'))
 		{
-			$query->where('a.template_id LIKE ' . $db->quote($language . '.%'));
+			$extension .= '.%';
+			$query->where($db->quoteName('a.template_id') . ' LIKE :extension')
+				->bind(':extension', $extension);
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
+			$query->join(
+				'INNER',
+				$db->quoteName('#__mail_templates', 'b'),
+				$db->quoteName('b.template_id') . ' = ' . $db->quoteName('a.template_id')
+				. ' AND ' . $db->quoteName('b.language') . ' = :language'
+			)
+				->bind(':language', $language);
 		}
 
 		return $query;
@@ -176,7 +177,7 @@ class TemplatesModel extends ListModel
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getLanguages()
 	{

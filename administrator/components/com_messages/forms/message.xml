@@ -3,7 +3,7 @@
 	<fieldset>
 		<field
 			name="user_id_to"
-			type="usermessages"
+			type="UserMessages"
 			label="COM_MESSAGES_FIELD_USER_ID_TO_LABEL"
 			default="0"
 			required="true"

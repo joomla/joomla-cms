@@ -93,11 +93,13 @@ HTMLHelper::_('searchtools.form', $data['options']['formSelector'], $data['optio
 	<?php // Add the itemtype and language selectors before the form filters. Do not display in modal. ?>
 	<?php $app = Factory::getApplication(); ?>
 		<?php $clientIdField = $data['view']->filterForm->getField('client_id'); ?>
+		<?php if ($clientIdField) : ?>
 		<div class="js-stools-container-selector-first">
 			<div class="js-stools-field-selector js-stools-client_id">
 				<?php echo $clientIdField->input; ?>
 			</div>
 		</div>
+		<?php endif; ?>
 	<?php endif; ?>
 	<?php if ($data['options']['showSelector']) : ?>
 	<div class="js-stools-container-selector">
