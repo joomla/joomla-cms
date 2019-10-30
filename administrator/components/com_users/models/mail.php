@@ -121,18 +121,18 @@ class UsersModelMail extends JModelAdmin
 		{
 			// Get all users email and group except for senders
 			$query = $db->getQuery(true)
-				->select('email')
-				->from('#__users')
-				->where('id != ' . (int) $user->id);
+				->select($db->quoteName('email'))
+				->from($db->quoteName('#__users'))
+				->where($db->quoteName('id') . ' != ' . (int) $user->id);
 
 			if ($grp !== 0)
 			{
-				$query->where('id IN (' . implode(',', $to) . ')');
+				$query->where($db->quoteName('id') . ' IN (' . implode(',', $to) . ')');
 			}
 
 			if ($disabled === 0)
 			{
-				$query->where('block = 0');
+				$query->where($db->quoteName('block') . ' = 0');
 			}
 
 			$db->setQuery($query);
