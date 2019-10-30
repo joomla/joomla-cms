@@ -379,7 +379,7 @@ class MenusHelper extends ContentHelper
 		{
 			$menuItems = [];
 			$db->setQuery($query);
-			
+
 			foreach ($db->getIterator() as $item)
 			{
 				$menuItems[$item->id] = new MenuItem((array) $item);
