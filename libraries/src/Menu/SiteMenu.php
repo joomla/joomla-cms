@@ -151,10 +151,15 @@ class SiteMenu extends AbstractMenu
 				->bind(':currentDate2', $currentDate)
 				->order($this->db->quoteName('m.lft'));
 
-			// Set the query
+			$items = [];
 			$this->db->setQuery($query);
 
-			return $this->db->loadObjectList('id', MenuItem::class);
+			foreach ($this->db->getIterator() as $item)
+			{
+				$items[$item->id] = new MenuItem((array) $item);
+			}
+
+			return $items;
 		};
 
 		try

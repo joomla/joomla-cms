@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\QueryInterface;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Prototype adapter class for the Finder indexer package.
@@ -549,7 +550,10 @@ abstract class Adapter extends CMSPlugin
 
 		// Get the item to index.
 		$this->db->setQuery($query);
-		$item = $this->db->loadObject(Result::class);
+		$item = $this->db->loadAssoc();
+
+		// Convert the item to a result object.
+		$item = ArrayHelper::toObject((array) $item, Result::class);
 
 		// Set the item type.
 		$item->type_id = $this->type_id;
@@ -576,10 +580,12 @@ abstract class Adapter extends CMSPlugin
 	{
 		// Get the content items to index.
 		$this->db->setQuery($this->getListQuery($query)->setLimit($limit, $offset));
-		$items = $this->db->loadObjectList(null, Result::class);
+		$items = $this->db->loadAssocList();
 
-		foreach ($items as $item)
+		foreach ($items as &$item)
 		{
+			$item = ArrayHelper::toObject($item, Result::class);
+
 			// Set the item type.
 			$item->type_id = $this->type_id;
 

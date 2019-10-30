@@ -111,7 +111,7 @@ class UpdatesiteModel extends AdminModel
 			->where($db->quoteName('update_sites.update_site_id') . ' = ' . (int) $item->get('update_site_id'));
 
 		$db->setQuery($query);
-		$extension = $db->loadObject(CMSObject::class);
+		$extension = new CMSObject($db->loadAssoc());
 
 		$downloadKey = InstallerHelper::getDownloadKey($extension);
 
