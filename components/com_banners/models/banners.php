@@ -136,7 +136,7 @@ class BannersModelBanners extends JModelList
 		{
 			if (count($keywords) === 0)
 			{
-				$query->where('0');
+				$query->where('0 != 0');
 			}
 			else
 			{
@@ -159,7 +159,7 @@ class BannersModelBanners extends JModelList
 						. ' AND cl.metakey_prefix=SUBSTRING(' . $db->quote($keyword) . ',1,LENGTH(cl.metakey_prefix)) '
 						. ' OR a.own_prefix=0 '
 						. ' AND cl.own_prefix=0 '
-						. ' AND ' . ($prefix == substr($keyword, 0, strlen($prefix)) ? '1' : '0');
+						. ' AND ' . ($prefix == substr($keyword, 0, strlen($prefix)) ? '0 = 0' : '0 != 0');
 
 					$condition2 = "a.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
 
