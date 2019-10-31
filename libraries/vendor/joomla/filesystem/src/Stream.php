@@ -19,11 +19,11 @@ use Joomla\Filesystem\Exception\FilesystemException;
  *
  * This class adheres to the stream wrapper operations:
  *
- * @link   https://secure.php.net/manual/en/function.stream-get-wrappers.php
- * @link   https://secure.php.net/manual/en/intro.stream.php PHP Stream Manual
- * @link   https://secure.php.net/manual/en/wrappers.php Stream Wrappers
- * @link   https://secure.php.net/manual/en/filters.php Stream Filters
- * @link   https://secure.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
+ * @link   https://www.php.net/manual/en/function.stream-get-wrappers.php
+ * @link   https://www.php.net/manual/en/intro.stream.php PHP Stream Manual
+ * @link   https://www.php.net/manual/en/wrappers.php Stream Wrappers
+ * @link   https://www.php.net/manual/en/filters.php Stream Filters
+ * @link   https://www.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
  * @since  1.0
  */
 class Stream
@@ -441,7 +441,7 @@ class Stream
 	/**
 	 * Retrieve the file size of the path
 	 *
-	 * @return  mixed
+	 * @return  integer|boolean
 	 *
 	 * @since   1.0
 	 * @throws  FilesystemException
@@ -508,7 +508,7 @@ class Stream
 	 *
 	 * @param   integer  $length  The number of bytes (optional) to read.
 	 *
-	 * @return  mixed
+	 * @return  string
 	 *
 	 * @since   1.0
 	 * @throws  FilesystemException
@@ -559,9 +559,9 @@ class Stream
 	 *
 	 * @param   integer  $length  Length of data to read
 	 *
-	 * @return  mixed
+	 * @return  string
 	 *
-	 * @link    https://secure.php.net/manual/en/function.fread.php
+	 * @link    https://www.php.net/manual/en/function.fread.php
 	 * @since   1.0
 	 * @throws  FilesystemException
 	 */
@@ -664,7 +664,7 @@ class Stream
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @link    https://secure.php.net/manual/en/function.fseek.php
+	 * @link    https://www.php.net/manual/en/function.fseek.php
 	 * @since   1.0
 	 * @throws  FilesystemException
 	 */
@@ -711,7 +711,7 @@ class Stream
 	/**
 	 * Returns the current position of the file read/write pointer.
 	 *
-	 * @return  mixed
+	 * @return  integer
 	 *
 	 * @since   1.0
 	 * @throws  FilesystemException
@@ -773,7 +773,7 @@ class Stream
 	 *
 	 * @return  boolean
 	 *
-	 * @link    https://secure.php.net/manual/en/function.fwrite.php
+	 * @link    https://www.php.net/manual/en/function.fwrite.php
 	 * @since   1.0
 	 * @throws  FilesystemException
 	 */
@@ -916,7 +916,7 @@ class Stream
 	 *
 	 * @return  array  header/metadata
 	 *
-	 * @link    https://secure.php.net/manual/en/function.stream-get-meta-data.php
+	 * @link    https://www.php.net/manual/en/function.stream-get-meta-data.php
 	 * @since   1.0
 	 * @throws  FilesystemException
 	 */
@@ -934,7 +934,7 @@ class Stream
 	 * Stream contexts
 	 * Builds the context from the array
 	 *
-	 * @return  mixed
+	 * @return  void
 	 *
 	 * @since   1.0
 	 */
@@ -960,7 +960,7 @@ class Stream
 	 *
 	 * @return  void
 	 *
-	 * @link    https://secure.php.net/stream_context_create
+	 * @link    https://www.php.net/stream_context_create
 	 * @since   1.0
 	 */
 	public function setContextOptions($context)
@@ -978,8 +978,8 @@ class Stream
 	 *
 	 * @return  void
 	 *
-	 * @link    https://secure.php.net/stream_context_create Stream Context Creation
-	 * @link    https://secure.php.net/manual/en/context.php Context Options for various streams
+	 * @link    https://www.php.net/stream_context_create Stream Context Creation
+	 * @link    https://www.php.net/manual/en/context.php Context Options for various streams
 	 * @since   1.0
 	 */
 	public function addContextEntry($wrapper, $name, $value)
@@ -996,7 +996,7 @@ class Stream
 	 *
 	 * @return  void
 	 *
-	 * @link    https://secure.php.net/stream_context_create
+	 * @link    https://www.php.net/stream_context_create
 	 * @since   1.0
 	 */
 	public function deleteContextEntry($wrapper, $name)
@@ -1028,7 +1028,7 @@ class Stream
 	 *
 	 * Use this to change the values of the context after you've opened a stream
 	 *
-	 * @return  mixed
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 * @throws  FilesystemException
@@ -1065,9 +1065,9 @@ class Stream
 	 * @param   integer  $readWrite   Optional. Defaults to STREAM_FILTER_READ.
 	 * @param   array    $params      An array of params for the stream_filter_append call.
 	 *
-	 * @return  mixed
+	 * @return  resource|boolean
 	 *
-	 * @link    https://secure.php.net/manual/en/function.stream-filter-append.php
+	 * @link    https://www.php.net/manual/en/function.stream-filter-append.php
 	 * @since   1.0
 	 * @throws  FilesystemException
 	 */
@@ -1105,9 +1105,9 @@ class Stream
 	 * @param   integer  $readWrite   Optional. Defaults to STREAM_FILTER_READ.
 	 * @param   array    $params      An array of params for the stream_filter_prepend call.
 	 *
-	 * @return  mixed
+	 * @return  resource|boolean
 	 *
-	 * @link    https://secure.php.net/manual/en/function.stream-filter-prepend.php
+	 * @link    https://www.php.net/manual/en/function.stream-filter-prepend.php
 	 * @since   1.0
 	 * @throws  FilesystemException
 	 */
@@ -1187,7 +1187,7 @@ class Stream
 	 * @param   boolean   $usePrefix  Controls the use of a prefix (optional).
 	 * @param   boolean   $relative   Determines if the filename given is relative. Relative paths do not have JPATH_ROOT stripped.
 	 *
-	 * @return  mixed
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 * @throws  FilesystemException
@@ -1244,7 +1244,7 @@ class Stream
 	 * @param   boolean   $usePrefix  Controls the use of a prefix (optional).
 	 * @param   boolean   $relative   Determines if the filename given is relative. Relative paths do not have JPATH_ROOT stripped.
 	 *
-	 * @return  mixed
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 * @throws  FilesystemException
@@ -1296,7 +1296,7 @@ class Stream
 	 * @param   boolean   $usePrefix  Controls the use of a prefix (optional).
 	 * @param   boolean   $relative   Determines if the filename given is relative. Relative paths do not have JPATH_ROOT stripped.
 	 *
-	 * @return  mixed
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 * @throws  FilesystemException
@@ -1346,7 +1346,7 @@ class Stream
 	 * @param   boolean   $usePrefix  Controls the use of a prefix (optional).
 	 * @param   boolean   $relative   Determines if the filename given is relative. Relative paths do not have JPATH_ROOT stripped.
 	 *
-	 * @return  mixed
+	 * @return  boolean
 	 *
 	 * @since   1.0
 	 * @throws  FilesystemException
