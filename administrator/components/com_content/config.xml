@@ -367,6 +367,39 @@
 		</field>
 
 		<field
+			name="show_configure_edit_options"
+			type="radio"
+			label="COM_CONTENT_SHOW_CONFIGURE_EDIT_LABEL"
+			class="switcher"
+			default="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="show_permissions"
+			type="radio"
+			label="COM_CONTENT_SHOW_PERMISSIONS_LABEL"
+			class="switcher"
+			default="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
+			name="show_associations_edit"
+			type="radio"
+			label="COM_CONTENT_SHOW_ASSOCIATIONS_LABEL"
+			class="switcher"
+			default="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+
+		<field
 			name="save_history"
 			type="radio"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
