@@ -433,17 +433,17 @@
     },
     {
         "name": "joomla/filesystem",
-        "version": "1.5.1",
-        "version_normalized": "1.5.1.0",
+        "version": "1.5.2",
+        "version_normalized": "1.5.2.0",
         "source": {
             "type": "git",
             "url": "https://github.com/joomla-framework/filesystem.git",
-            "reference": "5efa9b1fb651421c961ed366114dcab59c0e7acd"
+            "reference": "d8b8c7aff930b34fad6c850162d145bfc5852ca4"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/5efa9b1fb651421c961ed366114dcab59c0e7acd",
-            "reference": "5efa9b1fb651421c961ed366114dcab59c0e7acd",
+            "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/d8b8c7aff930b34fad6c850162d145bfc5852ca4",
+            "reference": "d8b8c7aff930b34fad6c850162d145bfc5852ca4",
             "shasum": ""
         },
         "require": {
@@ -459,7 +459,7 @@
         "suggest": {
             "paragonie/random_compat": "Required to use Joomla\\Filesystem\\Path::isOwner()"
         },
-        "time": "2019-08-05T15:52:31+00:00",
+        "time": "2019-10-31T22:04:06+00:00",
         "type": "joomla-package",
         "extra": {
             "branch-alias": {
