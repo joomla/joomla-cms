@@ -134,7 +134,7 @@ class BannersModelBanners extends JModelList
 
 		if ($tagSearch)
 		{
-			if (count($keywords) === 0)
+			if (!$keywords)
 			{
 				$query->where('0 != 0');
 			}
@@ -151,7 +151,6 @@ class BannersModelBanners extends JModelList
 
 				foreach ($keywords as $keyword)
 				{
-					$keyword = trim($keyword);
 					$condition1 = 'a.own_prefix=1 '
 						. ' AND a.metakey_prefix=SUBSTRING(' . $db->quote($keyword) . ',1,LENGTH( a.metakey_prefix)) '
 						. ' OR a.own_prefix=0 '
@@ -200,6 +199,23 @@ class BannersModelBanners extends JModelList
 	 */
 	public function getItems()
 	{
+		if ($this->getState('filter.tag_search'))
+		{
+			// Filter out empty keywords.
+			$keywords = array_values(array_filter(array_map('trim', $this->getState('filter.keywords')), 'strlen'));
+
+			// Re-set state before running the query.
+			$this->setState('filter.keywords', $keywords);
+
+			// If no keywords are provided, avoid running the query.
+			if (!$keywords)
+			{
+				$this->cache['items'] = array();
+
+				return $this->cache['items'];
+			}
+		}
+
 		if (!isset($this->cache['items']))
 		{
 			$this->cache['items'] = parent::getItems();
