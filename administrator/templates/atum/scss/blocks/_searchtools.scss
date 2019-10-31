@@ -99,6 +99,17 @@
         border:1px solid var(--border);
         border-left: 1px solid var(--atum-text-light);
 
+        [dir=rtl] & {
+          margin-left: 5px;
+          margin-right: -1px !important;
+        }
+
+        @include media-breakpoint-down(sm) {
+          [dir=rtl] & {
+            margin-left: 0 !important;
+          }
+        }
+
         &.disabled,
         &:disabled{
             background-color: rgba($gray-300, 0.8);
