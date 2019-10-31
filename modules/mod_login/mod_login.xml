@@ -68,6 +68,19 @@
 				</field>
 
 				<field
+					name="customRegLinkMenu"
+					type="modal_menu"
+					label="MOD_LOGIN_FIELD_REGISTRATION_MENU_LABEL"
+					disable="separator,alias,heading,url"
+					select="true"
+					new="true"
+					edit="true"
+					clear="true"
+					>
+					<option value="">JDEFAULT</option>
+				</field>
+
+				<field
 					name="greeting"
 					type="radio"
 					class="switcher"

@@ -81,7 +81,7 @@ class PlgWebservicesLanguages extends CMSPlugin
 				new Route(['GET'], $baseName, $controller . '.displayList', [], $getDefaults),
 				new Route(['GET'], $baseName . '/:id', $controller . '.displayItem', ['id' => '([A-Z0-9_]+)'], $getDefaults),
 				new Route(['POST'], $baseName, $controller . '.add', [], $overridesDefaults),
-				new Route(['PUT'], $baseName . '/:id', $controller . '.edit', ['id' => '([A-Z0-9_]+)'], $overridesDefaults),
+				new Route(['PATCH'], $baseName . '/:id', $controller . '.edit', ['id' => '([A-Z0-9_]+)'], $overridesDefaults),
 				new Route(['DELETE'], $baseName . '/:id', $controller . '.delete', ['id' => '([A-Z0-9_]+)'], $overridesDefaults),
 			];
 
@@ -95,7 +95,7 @@ class PlgWebservicesLanguages extends CMSPlugin
 				new Route(['GET'], $baseName, $controller . '.displayList', [], $getDefaults),
 				new Route(['GET'], $baseName . '/:id', $controller . '.displayItem', ['id' => '([A-Z0-9_]+)'], $getDefaults),
 				new Route(['POST'], $baseName, $controller . '.add', [], $overridesDefaults),
-				new Route(['PUT'], $baseName . '/:id', $controller . '.edit', ['id' => '([A-Z0-9_]+)'], $overridesDefaults),
+				new Route(['PATCH'], $baseName . '/:id', $controller . '.edit', ['id' => '([A-Z0-9_]+)'], $overridesDefaults),
 				new Route(['DELETE'], $baseName . '/:id', $controller . '.delete', ['id' => '([A-Z0-9_]+)'], $overridesDefaults),
 			];
 

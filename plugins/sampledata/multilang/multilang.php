@@ -1143,7 +1143,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		$query = $db->getQuery(true)
 			->insert($db->quoteName('#__content_frontpage'))
-			->values($newId . ', 0');
+			->values($newId . ', 0, NULL, NULL');
 
 		$db->setQuery($query);
 

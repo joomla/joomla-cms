@@ -72,7 +72,7 @@ class PlgWebservicesBanners extends CMSPlugin
 
 		$routes = [
 			new Route(['GET'], 'v1/banners/contenthistory/:id', 'history.displayList', ['id' => '(\d+)'], $getDefaults),
-			new Route(['PUT'], 'v1/banners/contenthistory/keep/:id', 'history.keep', ['id' => '(\d+)'], $defaults),
+			new Route(['PATCH'], 'v1/banners/contenthistory/keep/:id', 'history.keep', ['id' => '(\d+)'], $defaults),
 			new Route(['DELETE'], 'v1/banners/contenthistory/:id', 'history.delete', ['id' => '(\d+)'], $defaults),
 		];
 

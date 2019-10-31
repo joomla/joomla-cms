@@ -12,11 +12,13 @@ namespace Joomla\Component\Installer\Administrator\View\Updatesite;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Field\TextField;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Component\Installer\Administrator\Model\UpdatesiteModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -62,6 +64,15 @@ class HtmlView extends InstallerViewDefault
 		$model      = $this->getModel();
 		$this->form = $model->getForm();
 		$this->item = $model->getItem();
+
+		// Remove the extra_query field if it's a free download extension
+		$dlidSupportingSites = InstallerHelper::getDownloadKeySupportedSites(false);
+		$update_site_id = $this->item->get('update_site_id');
+
+		if (!in_array($update_site_id, $dlidSupportingSites))
+		{
+			$this->form->removeField('extra_query');
+		}
 
 		// Check for errors.
 		if (count($errors = $model->getErrors()))
