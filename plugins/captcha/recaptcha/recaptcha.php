@@ -146,7 +146,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		{
 			case '1.0':
 				$challenge = $input->get('recaptcha_challenge_field', '', 'string');
-				$response  = ($code) ? $code : $input->get('recaptcha_response_field', '', 'string');
+				$response  = $code ? $code : $input->get('recaptcha_response_field', '', 'string');
 				$spam      = ($challenge === '' || $response === '');
 				break;
 			case '2.0':
