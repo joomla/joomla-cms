@@ -368,20 +368,34 @@ class PlgUserJoomla extends CMSPlugin
 
 		if ($forceLogout)
 		{
+			// Fetch all session IDs for the user account so they can be destroyed
 			$query = $this->db->getQuery(true)
-				->delete($this->db->quoteName('#__session'))
-				->where($this->db->quoteName('userid') . ' = ' . (int) $user['id']);
+				->select($this->db->quoteName('session_id'))
+				->from($this->db->quoteName('#__session'))
+				->where($this->db->quoteName('userid') . ' = :userid')
+				->bind(':userid', $userid, ParameterType::INTEGER);
 
 			if (!$sharedSessions)
 			{
-				$query->where($this->db->quoteName('client_id') . ' = ' . (int) $options['clientid']);
+				$clientId = (int) $options['clientid'];
+
+				$query->where($this->db->quoteName('client_id') . ' = :clientId')
+					->bind(':clientId', $clientId, ParameterType::INTEGER);
 			}
 
 			try
 			{
-				$this->db->setQuery($query)->execute();
+				$sessionIds = $this->db->setQuery($query)->loadColumn();
 			}
-			catch (RuntimeException $e)
+			catch (ExecutionFailureException $e)
+			{
+				return false;
+			}
+
+			/** @var SessionManager $sessionManager */
+			$sessionManager = Factory::getContainer()->get('session.manager');
+
+			if (!$sessionManager->destroySessions($sessionIds))
 			{
 				return false;
 			}
