@@ -102,6 +102,13 @@ use Joomla\CMS\Language\Text;
 					<?php echo $this->form->getLabel('db_prefix'); ?>
 					<?php echo $this->form->getInput('db_prefix'); ?>
 				</div>
+				<?php echo $this->form->getField('db_encryption')->renderField(); ?>
+				<?php echo $this->form->getField('db_sslverifyservercert')->renderField(); ?>
+				<?php echo $this->form->getField('db_sslkey')->renderField(); ?>
+				<?php echo $this->form->getField('db_sslcert')->renderField(); ?>
+				<?php echo $this->form->getField('db_sslca')->renderField(); ?>
+				<?php echo $this->form->getField('db_sslcapath')->renderField(); ?>
+				<?php echo $this->form->getField('db_sslcipher')->renderField(); ?>
 				<div class="form-group">
 					<?php //echo $this->form->getLabel('db_old'); ?>
 					<?php echo $this->form->getInput('db_old'); ?>

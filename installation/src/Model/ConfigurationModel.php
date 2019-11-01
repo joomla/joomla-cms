@@ -275,7 +275,9 @@ class ConfigurationModel extends BaseInstallationModel
 				$options->db_user,
 				$options->db_pass_plain,
 				$options->db_name,
-				$options->db_prefix
+				$options->db_prefix,
+				true,
+				DatabaseHelper::getEncryptionSettings($options)
 			);
 		}
 		catch (\RuntimeException $e)
