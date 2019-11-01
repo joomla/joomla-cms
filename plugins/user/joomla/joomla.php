@@ -15,6 +15,7 @@ use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Session\SessionManager;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
@@ -65,35 +66,44 @@ class PlgUserJoomla extends CMSPlugin
 			return false;
 		}
 
-		$db     = $this->db;
 		$userid = (int) $user['id'];
 
-		// Only execute this query if using the database session handler
-		if ($this->app->get('session_handler', 'database') === 'database')
+		// Only execute this if the session metadata is tracked
+		if ($this->app->get('session_metadata', true))
 		{
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('userid') . ' = :userid')
-				->bind(':userid', $userid, ParameterType::INTEGER);
-
+			// Fetch all session IDs for the user account so they can be destroyed
 			try
 			{
-				$db->setQuery($query)->execute();
+				$sessionIds = $this->db->setQuery(
+					$this->db->getQuery(true)
+						->select($this->db->quoteName('session_id'))
+						->from($this->db->quoteName('#__session'))
+						->where($this->db->quoteName('userid') . ' = :userid')
+						->bind(':userid', $userid, ParameterType::INTEGER)
+				)->loadColumn();
 			}
 			catch (ExecutionFailureException $e)
 			{
 				return false;
 			}
-		}
 
-		$query = $db->getQuery(true)
-			->delete($db->quoteName('#__messages'))
-			->where($db->quoteName('user_id_from') . ' = :userid')
-			->bind(':userid', $userid, ParameterType::INTEGER);
+			/** @var SessionManager $sessionManager */
+			$sessionManager = Factory::getContainer()->get('session.manager');
+
+			if (!$sessionManager->destroySessions($sessionIds))
+			{
+				return false;
+			}
+		}
 
 		try
 		{
-			$db->setQuery($query)->execute();
+			$this->db->setQuery(
+				$this->db->getQuery(true)
+					->delete($this->db->quoteName('#__messages'))
+					->where($this->db->quoteName('user_id_from') . ' = :userid')
+					->bind(':userid', $userid, ParameterType::INTEGER)
+			)->execute();
 		}
 		catch (ExecutionFailureException $e)
 		{
