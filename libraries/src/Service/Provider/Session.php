@@ -30,6 +30,7 @@ use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\Priority;
 use Joomla\Registry\Registry;
+use Joomla\Session\HandlerInterface;
 use Joomla\Session\SessionEvents;
 use Joomla\Session\SessionInterface;
 use Joomla\Session\Storage\RuntimeStorage;
@@ -80,8 +81,15 @@ class Session implements ServiceProviderInterface
 					$options['force_ssl'] = true;
 				}
 
+				$handler = $container->get('session.factory')->createSessionHandler($options);
+
+				if (!$container->has('session.handler'))
+				{
+					$this->registerSessionHandlerAsService($container, $handler);
+				}
+
 				return $this->buildSession(
-					new JoomlaStorage($app->input, $container->get('session.factory')->createSessionHandler($options)),
+					new JoomlaStorage($app->input, $handler),
 					$app,
 					$container->get(DispatcherInterface::class),
 					$options
@@ -110,8 +118,15 @@ class Session implements ServiceProviderInterface
 					'expire' => $lifetime,
 				];
 
+				$handler = $container->get('session.factory')->createSessionHandler($options);
+
+				if (!$container->has('session.handler'))
+				{
+					$this->registerSessionHandlerAsService($container, $handler);
+				}
+
 				return $this->buildSession(
-					new JoomlaStorage($app->input, $container->get('session.factory')->createSessionHandler($options)),
+					new JoomlaStorage($app->input, $handler),
 					$app,
 					$container->get(DispatcherInterface::class),
 					$options
@@ -145,8 +160,15 @@ class Session implements ServiceProviderInterface
 					$options['force_ssl'] = true;
 				}
 
+				$handler = $container->get('session.factory')->createSessionHandler($options);
+
+				if (!$container->has('session.handler'))
+				{
+					$this->registerSessionHandlerAsService($container, $handler);
+				}
+
 				return $this->buildSession(
-					new JoomlaStorage($app->input, $container->get('session.factory')->createSessionHandler($options)),
+					new JoomlaStorage($app->input, $handler),
 					$app,
 					$container->get(DispatcherInterface::class),
 					$options
@@ -254,7 +276,10 @@ class Session implements ServiceProviderInterface
 	 *
 	 * @since   4.0
 	 */
-	private function buildSession(StorageInterface $storage, CMSApplicationInterface $app, DispatcherInterface $dispatcher,
+	private function buildSession(
+		StorageInterface $storage,
+		CMSApplicationInterface $app,
+		DispatcherInterface $dispatcher,
 		array $options
 	): SessionInterface
 	{
@@ -270,5 +295,32 @@ class Session implements ServiceProviderInterface
 		$session->addValidator(new ForwardedValidator($input, $session));
 
 		return $session;
+	}
+
+	/**
+	 * Registers the session handler as a service
+	 *
+	 * @param   Container                 $container       The container to register the service to.
+	 * @param   \SessionHandlerInterface  $sessionHandler  The session handler.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function registerSessionHandlerAsService(Container $container, \SessionHandlerInterface $sessionHandler): void
+	{
+		// Alias the session handler to the core SessionHandlerInterface for improved autowiring and discoverability
+		$container->alias(\SessionHandlerInterface::class, 'session.handler')
+			->share(
+				'session.handler',
+				$sessionHandler,
+				true
+			);
+
+		// If the session handler implements the extended interface, register an alias for that as well
+		if ($sessionHandler instanceof HandlerInterface)
+		{
+			$container->alias(HandlerInterface::class, 'session.handler');
+		}
 	}
 }
