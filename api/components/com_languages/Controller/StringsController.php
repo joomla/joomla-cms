@@ -12,6 +12,7 @@ namespace Joomla\Component\Languages\Api\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
