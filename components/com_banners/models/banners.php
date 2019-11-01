@@ -160,16 +160,17 @@ class BannersModelBanners extends JModelList
 						. ' AND cl.own_prefix=0 '
 						. ' AND ' . ($prefix == substr($keyword, 0, strlen($prefix)) ? '0 = 0' : '0 != 0');
 
-					$condition2 = "a.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
+					$regexp = $db->quote("[[:<:]]" . $db->escape($keyword) . "[[:>:]]");
+					$condition2 = "a.metakey " . $query->regexp($regexp) . " ";
 
 					if ($cid)
 					{
-						$condition2 .= " OR cl.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
+						$condition2 .= " OR cl.metakey " . $query->regexp($regexp) . " ";
 					}
 
 					if ($categoryId)
 					{
-						$condition2 .= " OR cat.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
+						$condition2 .= " OR cat.metakey " . $query->regexp($regexp) . " ";
 					}
 
 					$temp[] = "($condition1) AND ($condition2)";
