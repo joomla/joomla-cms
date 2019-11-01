@@ -152,7 +152,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 			case '2.0':
 				// Challenge Not needed in 2.0 but needed for getResponse call
 				$challenge = null;
-				$response  = ($code) ? $code : $input->get('g-recaptcha-response', '', 'string');
+				$response  = $code ? $code : $input->get('g-recaptcha-response', '', 'string');
 				$spam      = ($response === '');
 				break;
 		}
