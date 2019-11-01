@@ -145,7 +145,10 @@ class CoreContent extends Table
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if ($this->core_publish_down < $this->core_publish_up && $this->core_publish_down > $this->_db->getNullDate())
+		if ($this->core_publish_up !== null
+			&& $this->core_publish_down !== null
+			&& $this->core_publish_down < $this->core_publish_up
+			&& $this->core_publish_down > $this->_db->getNullDate())
 		{
 			// Swap the dates.
 			$temp = $this->core_publish_up;
