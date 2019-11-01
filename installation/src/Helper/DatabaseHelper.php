@@ -59,9 +59,11 @@ abstract class DatabaseHelper
 					'enable'             => true,
 					'verify_server_cert' => (bool) $ssl['dbsslverifyservercert'],
 				];
+
 				foreach (['cipher', 'ca', 'capath', 'key', 'cert'] as $value)
 				{
 					$confVal = trim($ssl['dbssl' . $value]);
+
 					if ($confVal !== '')
 					{
 						$options['ssl'][$value] = $confVal;
