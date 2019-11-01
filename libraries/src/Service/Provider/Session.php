@@ -22,6 +22,7 @@ use Joomla\CMS\Installation\Application\InstallationApplication;
 use Joomla\CMS\Session\EventListener\MetadataManagerListener;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\CMS\Session\SessionFactory;
+use Joomla\CMS\Session\SessionManager;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
@@ -217,6 +218,23 @@ class Session implements ServiceProviderInterface
 					$factory->setContainer($container);
 
 					return $factory;
+				},
+				true
+			);
+
+		$container->alias(SessionManager::class, 'session.manager')
+			->share(
+				'session.manager',
+				function (Container $container)
+				{
+					if (!$container->has('session.handler'))
+					{
+						throw new DependencyResolutionException(
+							'The "session.handler" service has not been created, make sure you have created the "session" service first.'
+						);
+					}
+
+					return new SessionManager($container->get('session.handler'));
 				},
 				true
 			);
