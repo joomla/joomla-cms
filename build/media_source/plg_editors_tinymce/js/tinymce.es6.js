@@ -91,8 +91,17 @@
         buttonValues.push(tmp);
       });
 
+      // Ensure tinymce is initialised in readonly mode if the textarea has readonly applied
+      let readOnlyMode = false;
+
+      if (element) {
+        readOnlyMode = element.readOnly;
+      }
+
       if (buttonValues.length) {
         options.setup = (editor) => {
+          editor.settings.readonly = readOnlyMode;
+
           Object.keys(icons).forEach((icon) => {
             editor.ui.registry.addIcon(icon, icons[icon]);
           });
@@ -102,6 +111,10 @@
             icon: 'joomla',
             fetch: callback => callback(buttonValues),
           });
+        };
+      } else {
+        options.setup = (editor) => {
+          editor.settings.readonly = readOnlyMode;
         };
       }
 
@@ -117,6 +130,8 @@
         setValue: text => Joomla.editors.instances[element.id].instance.setContent(text),
         getSelection: () => Joomla.editors.instances[element.id].instance.selection.getContent({ format: 'text' }),
         replaceSelection: text => Joomla.editors.instances[element.id].instance.execCommand('mceInsertContent', false, text),
+        // Required by Joomla's API for Mail Component Integration
+        disable: disabled => Joomla.editors.instances[element.id].instance.setMode(disabled ? 'readonly' : 'design'),
         // Some extra instance dependent
         id: element.id,
         instance: ed,

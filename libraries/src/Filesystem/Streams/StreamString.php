@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Filesystem\Streams;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\Support\Stringcontroller;
 
@@ -106,7 +106,7 @@ class StreamString
 
 		if ($this->currentString)
 		{
-			$this->len = strlen($this->currentString);
+			$this->len = \strlen($this->currentString);
 			$this->pos = 0;
 			$this->stat = $this->url_stat($path, 0);
 
@@ -154,12 +154,12 @@ class StreamString
 			'uid' => 0,
 			'gid' => 0,
 			'rdev' => 0,
-			'size' => strlen($string),
+			'size' => \strlen($string),
 			'atime' => $now,
 			'mtime' => $now,
 			'ctime' => $now,
 			'blksize' => '512',
-			'blocks' => ceil(strlen($string) / 512),
+			'blocks' => ceil(\strlen($string) / 512),
 		);
 
 		return $stat;

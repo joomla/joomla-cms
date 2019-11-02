@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Toolbar\Button;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Language\Text;

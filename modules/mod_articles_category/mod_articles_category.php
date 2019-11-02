@@ -61,7 +61,7 @@ $cacheparams->modeparams   = $cacheid;
 $list                       = ModuleHelper::moduleCache($module, $params, $cacheparams);
 $article_grouping           = $params->get('article_grouping', 'none');
 $article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
-$grouped                    = $article_grouping === 'none' ? false : true;
+$grouped                    = $article_grouping !== 'none';
 
 if ($list && $grouped)
 {

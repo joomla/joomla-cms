@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\Wrapper\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 

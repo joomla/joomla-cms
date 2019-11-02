@@ -17,6 +17,7 @@ $params->def('greeting', 1);
 
 $type             = LoginHelper::getType();
 $return           = LoginHelper::getReturnUrl($params, $type);
+$registerLink     = LoginHelper::getRegistrationUrl($params);
 $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 $user             = $app->getIdentity();
 $layout           = $params->get('layout', 'default');
