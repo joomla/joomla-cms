@@ -18,7 +18,7 @@ use PHPUnit\Framework\MockObject\MockObject;
  *
  * @since  __DEPLOY_VERSION__
  */
-class VersionTest extends UnitTestCase
+class SessionManagerTest extends UnitTestCase
 {
 	/**
 	 * Session manager being tested.
