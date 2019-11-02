@@ -25,4 +25,6 @@ catch (RuntimeException $e)
 	$app->enqueueMessage($e->getMessage(), 'error');
 }
 
+$countUnread = count($messages);
+
 require ModuleHelper::getLayoutPath('mod_messages', $params->get('layout', 'default'));
