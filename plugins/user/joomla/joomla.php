@@ -345,8 +345,10 @@ class PlgUserJoomla extends CMSPlugin
 		$my      = Factory::getUser();
 		$session = Factory::getSession();
 
+		$userid = (int) $user['id'];
+
 		// Make sure we're a valid user first
-		if ($user['id'] == 0 && !$my->get('tmp_user'))
+		if ($user['id'] === 0 && !$my->get('tmp_user'))
 		{
 			return true;
 		}
@@ -354,7 +356,7 @@ class PlgUserJoomla extends CMSPlugin
 		$sharedSessions = $this->app->get('shared_session', '0');
 
 		// Check to see if we're deleting the current session
-		if ($my->id == $user['id'] && ($sharedSessions || (!$sharedSessions && $options['clientid'] == $this->app->getClientId())))
+		if ($my->id == $userid && ($sharedSessions || (!$sharedSessions && $options['clientid'] == $this->app->getClientId())))
 		{
 			// Hit the user last visit field
 			$my->setLastVisit();
