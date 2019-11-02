@@ -265,12 +265,12 @@ CREATE TABLE IF NOT EXISTS `#__categories` (
 --
 
 INSERT INTO `#__categories` (`id`, `asset_id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `extension`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`, `modified_user_id`, `modified_time`, `hits`, `language`, `version`) VALUES
-(1, 0, 0, 0, 11, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, NULL, 1, '{}', '', '', '{}', 42, CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 0, '*', 1),
-(2, 27, 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":"","workflow_id":"use_default"}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 0, '*', 1),
-(3, 28, 1, 3, 4, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 0, '*', 1),
-(4, 29, 1, 5, 6, 1, 'uncategorised', 'com_contact', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 0, '*', 1),
-(5, 30, 1, 7, 8, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 0, '*', 1),
-(7, 32, 1, 9, 10, 1, 'uncategorised', 'com_users', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 0, '*', 1);
+(1, 0, 0, 0, 11, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, NULL, 1, '{}', '', '', '{}', 0, CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, '*', 1),
+(2, 27, 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":"","workflow_id":"use_default"}', '', '', '{"author":"","robots":""}', 0, CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, '*', 1),
+(3, 28, 1, 3, 4, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 0, CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, '*', 1),
+(4, 29, 1, 5, 6, 1, 'uncategorised', 'com_contact', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 0, CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, '*', 1),
+(5, 30, 1, 7, 8, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 0, CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, '*', 1),
+(7, 32, 1, 9, 10, 1, 'uncategorised', 'com_users', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 0, CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, '*', 1);
 
 -- --------------------------------------------------------
 
@@ -1793,7 +1793,7 @@ CREATE TABLE IF NOT EXISTS `#__tags` (
 --
 
 INSERT INTO `#__tags` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`, `created_by_alias`, `modified_user_id`, `modified_time`, `images`, `urls`, `hits`, `language`, `version`) VALUES
-(1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, NULL, 1, '', '', '', '', 42, CURRENT_TIMESTAMP(), '', 42, CURRENT_TIMESTAMP(), '', '', 0, '*', 1);
+(1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, NULL, 1, '', '', '', '', 0, CURRENT_TIMESTAMP(), '', 0, CURRENT_TIMESTAMP(), '', '', 0, '*', 1);
 
 -- --------------------------------------------------------
 
@@ -2321,7 +2321,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 --
 
 INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `core`,`ordering`, `created`, `created_by`, `modified`, `modified_by`, `checked_out_time`, `checked_out`) VALUES
-(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, 0);
+(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, CURRENT_TIMESTAMP(), 0, CURRENT_TIMESTAMP(), 0, NULL, 0);
 
 --
 -- Table structure for table `#__workflow_associations`
