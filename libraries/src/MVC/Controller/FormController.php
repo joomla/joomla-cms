@@ -141,6 +141,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 		// Apply, Save & New, and Save As copy should be standard on forms.
 		$this->registerTask('apply', 'save');
+		$this->registerTask('save2menu', 'save');
 		$this->registerTask('save2new', 'save');
 		$this->registerTask('save2copy', 'save');
 	}
