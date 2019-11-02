@@ -11,4 +11,18 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
+// Try to get the items from the messages model
+try
+{
+	$messagesModel = new \Joomla\Component\Messages\Administrator\Model\MessagesModel(['ignore_request' => true]);
+	$messages      = $messagesModel->getItems();
+}
+catch (RuntimeException $e)
+{
+	$messages = [];
+
+	// Still render the error message from the Exception object
+	$app->enqueueMessage($e->getMessage(), 'error');
+}
+
 require ModuleHelper::getLayoutPath('mod_messages', $params->get('layout', 'default'));
