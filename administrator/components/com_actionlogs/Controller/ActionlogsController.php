@@ -51,6 +51,9 @@ class ActionlogsController extends AdminController
 	{
 		parent::__construct($config, $factory, $app, $input);
 
+		// Load all actionlog plugins language files
+		ActionlogsHelper::loadActionLogPluginsLanguage();
+
 		$this->registerTask('exportSelectedLogs', 'exportLogs');
 	}
 
