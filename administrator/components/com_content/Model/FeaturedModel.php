@@ -50,6 +50,8 @@ class FeaturedModel extends ArticlesModel
 				'created_by_alias', 'a.created_by_alias',
 				'ordering', 'a.ordering',
 				'featured', 'a.featured',
+				'featured_up', 'fp.featured_up',
+				'featured_down', 'fp.featured_down',
 				'language', 'a.language',
 				'hits', 'a.hits',
 				'publish_up', 'a.publish_up',
@@ -61,6 +63,8 @@ class FeaturedModel extends ArticlesModel
 				'level',
 				'tag',
 				'rating_count', 'rating',
+				'condition',
+				'stage',
 			);
 		}
 
@@ -86,7 +90,7 @@ class FeaturedModel extends ArticlesModel
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
-					'a.created_by, a.featured, a.language, a.created_by_alias, a.publish_up, a.publish_down, a.note'
+				'a.created_by, a.featured, fp.featured_up, fp.featured_down, a.language, a.created_by_alias, a.publish_up, a.publish_down, a.note'
 			)
 		);
 		$query->from('#__content AS a');
@@ -95,7 +99,7 @@ class FeaturedModel extends ArticlesModel
 		$query->select('l.title AS language_title, l.image AS language_image')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
-		// Join over the content table.
+		// Join over the front page table.
 		$query->select('fp.ordering')
 			->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
 
@@ -112,8 +116,10 @@ class FeaturedModel extends ArticlesModel
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the parent categories.
-		$query->select('parent.title AS parent_category_title, parent.id AS parent_category_id, 
-								parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level')
+		$query->select(
+			'parent.title AS parent_category_title, parent.id AS parent_category_id, 
+			parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level'
+		)
 			->join('LEFT', '#__categories AS parent ON parent.id = c.parent_id');
 
 		// Join over the users for the author.
@@ -126,26 +132,27 @@ class FeaturedModel extends ArticlesModel
 
 		// Join over the workflow stages.
 		$query	->select(
-					$query->quoteName(
-					[
-						'ws.title',
-						'ws.condition',
-						'ws.workflow_id'
-					],
-					[
-						'stage_title',
-						'stage_condition',
-						'workflow_id'
-					]
-					)
-				)
-				->join('INNER', '#__workflow_stages AS ws ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
+			$db->quoteName(
+				[
+					'ws.title',
+					'ws.condition',
+					'ws.workflow_id'
+				],
+				[
+					'stage_title',
+					'stage_condition',
+					'workflow_id'
+				]
+			)
+		)
+			->join('INNER', '#__workflow_stages AS ws ON ' . $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'));
 
 		// Join on voting table
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
-							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
+				COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count'
+			)
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
 

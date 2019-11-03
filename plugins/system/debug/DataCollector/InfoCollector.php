@@ -115,7 +115,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 */
 	public function collect(): array
 	{
-		/* @type SiteApplication|AdministratorApplication $application */
+		/** @type SiteApplication|AdministratorApplication $application */
 		$application = Factory::getApplication();
 
 		$model = $application->bootComponent('com_admin')
@@ -206,6 +206,8 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 			'dbversion' => $info['dbversion'] ?? '',
 			'dbcollation' => $info['dbcollation'] ?? '',
 			'dbconnectioncollation' => $info['dbconnectioncollation'] ?? '',
+			'dbconnectionencryption' => $info['dbconnectionencryption'] ?? '',
+			'dbconnencryptsupported' => $info['dbconnencryptsupported'] ?? '',
 		];
 	}
 }

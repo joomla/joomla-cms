@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Filesystem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 
@@ -136,6 +136,7 @@ class Patcher
 				$done = false;
 
 				$regex = '#^([^/]*/)*#';
+
 				if ($patch['strip'] !== null)
 				{
 					$regex = '#^([^/]*/){' . (int) $patch['strip'] . '}#';
@@ -263,9 +264,9 @@ class Patcher
 	 *
 	 * The internal array pointer of $lines is on the next line after the finding
 	 *
-	 * @param   array   &$lines  The udiff array of lines
-	 * @param   string  &$src    The source file
-	 * @param   string  &$dst    The destination file
+	 * @param   array   $lines  The udiff array of lines
+	 * @param   string  $src    The source file
+	 * @param   string  $dst    The destination file
 	 *
 	 * @return  boolean  TRUE in case of success, FALSE in case of failure
 	 *
@@ -323,11 +324,11 @@ class Patcher
 	 *
 	 * The internal array pointer of $lines is on the next line after the finding
 	 *
-	 * @param   array   &$lines     The udiff array of lines
-	 * @param   string  &$src_line  The beginning of the patch for the source file
-	 * @param   string  &$src_size  The size of the patch for the source file
-	 * @param   string  &$dst_line  The beginning of the patch for the destination file
-	 * @param   string  &$dst_size  The size of the patch for the destination file
+	 * @param   array   $lines     The udiff array of lines
+	 * @param   string  $src_line  The beginning of the patch for the source file
+	 * @param   string  $src_size  The size of the patch for the source file
+	 * @param   string  $dst_line  The beginning of the patch for the destination file
+	 * @param   string  $dst_size  The size of the patch for the destination file
 	 *
 	 * @return  boolean  TRUE in case of success, false in case of failure
 	 *
@@ -343,6 +344,7 @@ class Patcher
 			$src_line = (int) $m[1];
 
 			$src_size = 1;
+
 			if ($m[3] !== '')
 			{
 				$src_size = (int) $m[3];
@@ -351,6 +353,7 @@ class Patcher
 			$dst_line = (int) $m[4];
 
 			$dst_size = 1;
+
 			if ($m[6] !== '')
 			{
 				$dst_size = (int) $m[6];
@@ -370,7 +373,7 @@ class Patcher
 	/**
 	 * Apply the patch
 	 *
-	 * @param   array   &$lines    The udiff array of lines
+	 * @param   array   $lines     The udiff array of lines
 	 * @param   string  $src       The source file
 	 * @param   string  $dst       The destination file
 	 * @param   string  $src_line  The beginning of the patch for the source file
@@ -453,7 +456,7 @@ class Patcher
 					if ($src_size > 0)
 					{
 						$dst_lines = & $this->getDestination($dst, $src);
-						$src_bottom = $src_line + count($source);
+						$src_bottom = $src_line + \count($source);
 
 						for ($l = $src_line;$l < $src_bottom;$l++)
 						{
@@ -463,7 +466,7 @@ class Patcher
 							}
 						}
 
-						array_splice($dst_lines, $dst_line, count($source), $destin);
+						array_splice($dst_lines, $dst_line, \count($source), $destin);
 					}
 					else
 					{
@@ -501,6 +504,7 @@ class Patcher
 		if (!isset($this->sources[$src]))
 		{
 			$this->sources[$src] = null;
+
 			if (is_readable($src))
 			{
 				$this->sources[$src] = self::splitLines(file_get_contents($src));

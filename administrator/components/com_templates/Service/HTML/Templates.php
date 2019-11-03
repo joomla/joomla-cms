@@ -49,8 +49,7 @@ class Templates
 
 			if (file_exists($preview))
 			{
-				$html = '<button type="button" data-target="#' . $template . '-Modal" class="thumbnail float-left hasTooltip" data-toggle="modal" title="' .
-					HTMLHelper::_('tooltipText', 'COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
+				$html = '<button type="button" data-target="#' . $template . '-Modal" class="thumbnail float-left" data-toggle="modal" title="'. Text::_('COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
 			}
 		}
 
@@ -86,7 +85,7 @@ class Templates
 				'bootstrap.renderModal',
 				$template . '-Modal',
 				array(
-					'title'  => Text::_('COM_TEMPLATES_BUTTON_PREVIEW'),
+					'title'  => Text::sprintf('COM_TEMPLATES_SCREENSHOT', ucfirst($template)),
 					'height' => '500px',
 					'width'  => '800px',
 					'footer' => $footer,

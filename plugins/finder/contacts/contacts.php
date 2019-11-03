@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseQuery;
@@ -283,6 +284,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		 * Add the metadata processing instructions based on the contact
 		 * configuration parameters.
 		 */
+
 		// Handle the contact position.
 		if ($item->params->get('show_position', true))
 		{
@@ -356,9 +358,9 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		$item->addTaxonomy('Type', 'Contact');
 
 		// Add the category taxonomy data.
-		$categories = JCategories::getInstance('com_contact');
+		$categories = Categories::getInstance('com_contact', ['published' => false, 'access' => false]);
 		$category = $categories->get($item->catid);
-		$item->addNestedTaxonomy('Category', $category, $category->published, $category->access, $category->language);
+		$item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
 
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);

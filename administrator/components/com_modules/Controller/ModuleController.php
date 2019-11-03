@@ -19,6 +19,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Database\ParameterType;
 
 /**
  * Module controller class.
@@ -47,7 +48,7 @@ class ModuleController extends FormController
 		}
 
 		// Look for the Extension ID.
-		$extensionId = $app->input->get('eid', 0, 'int');
+		$extensionId = $this->input->get('eid', 0, 'int');
 
 		if (empty($extensionId))
 		{
@@ -62,7 +63,7 @@ class ModuleController extends FormController
 		$app->setUserState('com_modules.add.module.params', null);
 
 		// Parameters could be coming in for a new item, so let's set them.
-		$params = $app->input->get('params', array(), 'array');
+		$params = $this->input->get('params', array(), 'array');
 		$app->setUserState('com_modules.add.module.params', $params);
 	}
 
@@ -138,7 +139,7 @@ class ModuleController extends FormController
 		}
 
 		// Check edit on the record asset (explicit or inherited)
-		if (Factory::getUser()->authorise('core.edit', 'com_modules.module.' . $recordId))
+		if ($this->app->getIdentity()->authorise('core.edit', 'com_modules.module.' . $recordId))
 		{
 			return true;
 		}
@@ -182,21 +183,20 @@ class ModuleController extends FormController
 	 */
 	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
 	{
-		$app = Factory::getApplication();
 		$task = $this->getTask();
 
 		switch ($task)
 		{
 			case 'save2new':
-				$app->setUserState('com_modules.add.module.extension_id', $model->getState('module.extension_id'));
+				$this->app->setUserState('com_modules.add.module.extension_id', $model->getState('module.extension_id'));
 				break;
 
 			default:
-				$app->setUserState('com_modules.add.module.extension_id', null);
+				$this->app->setUserState('com_modules.add.module.extension_id', null);
 				break;
 		}
 
-		$app->setUserState('com_modules.add.module.params', null);
+		$this->app->setUserState('com_modules.add.module.params', null);
 	}
 
 	/**
@@ -211,7 +211,7 @@ class ModuleController extends FormController
 	{
 		$this->checkToken();
 
-		if (Factory::getDocument()->getType() == 'json')
+		if ($this->app->getDocument()->getType() == 'json')
 		{
 			$model = $this->getModel();
 			$data  = $this->input->post->get('jform', array(), 'array');
@@ -251,7 +251,7 @@ class ModuleController extends FormController
 	 */
 	public function orderPosition()
 	{
-		$app = Factory::getApplication();
+		$app = $this->app;
 
 		// Send json mime type.
 		$app->mimeType = 'application/json';
@@ -266,16 +266,19 @@ class ModuleController extends FormController
 			$app->close();
 		}
 
-		$jinput   = $app->input;
-		$clientId = $jinput->getValue('client_id');
-		$position = $jinput->getValue('position');
+		$clientId = $this->input->getValue('client_id');
+		$position = $this->input->getValue('position');
 
 		$db    = Factory::getDbo();
+		$clientId = (int) $clientId;
 		$query = $db->getQuery(true)
-			->select('position, ordering, title')
-			->from('#__modules')
-			->where('client_id = ' . (int) $clientId . ' AND position = ' . $db->quote($position))
-			->order('ordering');
+			->select($db->quoteName(['position', 'ordering', 'title']))
+			->from($db->quoteName('#__modules'))
+			->where($db->quoteName('client_id') . ' = :clientid')
+			->where($db->quoteName('position') . ' = :position')
+			->order($db->quoteName('ordering'))
+			->bind(':clientid', $clientId, ParameterType::INTEGER)
+			->bind(':position', $position);
 
 		$db->setQuery($query);
 
@@ -285,7 +288,7 @@ class ModuleController extends FormController
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$app->enqueueMessage($e->getMessage(), 'error');
 
 			return '';
 		}

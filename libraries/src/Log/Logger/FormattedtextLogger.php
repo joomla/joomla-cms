@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Log\Logger;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
@@ -138,7 +138,7 @@ class FormattedtextLogger extends Logger
 		// Format all lines and write to file.
 		$lines = array_map(array($this, 'formatLine'), $this->deferredEntries);
 
-		if (!\JFile::append($this->path, implode("\n", $lines) . "\n"))
+		if (!File::append($this->path, implode("\n", $lines) . "\n"))
 		{
 			throw new \RuntimeException('Cannot write to log file.');
 		}
@@ -171,7 +171,7 @@ class FormattedtextLogger extends Logger
 			$line = $this->formatLine($entry);
 			$line .= "\n";
 
-			if (!\JFile::append($this->path, $line))
+			if (!File::append($this->path, $line))
 			{
 				throw new \RuntimeException('Cannot write to log file.');
 			}
@@ -208,7 +208,7 @@ class FormattedtextLogger extends Logger
 		}
 
 		// If the time field is missing or the date field isn't only the date we need to rework it.
-		if ((strlen($entry->date) != 10) || !isset($entry->time))
+		if ((\strlen($entry->date) != 10) || !isset($entry->time))
 		{
 			// Get the date and time strings in GMT.
 			$entry->datetime = $entry->date->toISO8601();
@@ -284,7 +284,7 @@ class FormattedtextLogger extends Logger
 		}
 
 		// Make sure the folder exists in which to create the log file.
-		Folder::create(dirname($this->path));
+		Folder::create(\dirname($this->path));
 
 		// Build the log file header.
 		$head = $this->generateFileHeader();

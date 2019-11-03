@@ -14,8 +14,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -31,7 +33,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The Model state
 	 *
-	 * @var  \JObject
+	 * @var  CMSObject
 	 */
 	protected $state;
 
@@ -45,7 +47,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * For loading the source form
 	 *
-	 * @var  \JForm
+	 * @var  Form
 	 */
 	protected $form;
 
@@ -72,6 +74,8 @@ class HtmlView extends BaseHtmlView
 
 	/**
 	 * List of available overrides
+	 *
+	 * @var   array
 	 */
 	protected $overridesList;
 
@@ -229,7 +233,7 @@ class HtmlView extends BaseHtmlView
 		$explodeArray = explode('.', $this->fileName);
 		$ext = end($explodeArray);
 
-		ToolbarHelper::title(Text::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'eye thememanager');
+		ToolbarHelper::title(Text::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'paint-brush thememanager');
 
 		// Only show file edit buttons for global SuperUser
 		if ($isSuperUser)
@@ -259,7 +263,11 @@ class HtmlView extends BaseHtmlView
 		// Add a Template preview button
 		if ($this->preview->client_id == 0)
 		{
-			$bar->appendButton('Popup', 'picture', 'COM_TEMPLATES_BUTTON_PREVIEW', Uri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id, 800, 520);
+			$bar->linkButton('preview')
+				->icon('icon-picture')
+				->text('COM_TEMPLATES_BUTTON_PREVIEW')
+				->url(Uri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id)
+				->attributes(['target' => '_new']);
 		}
 
 		// Only show file manage buttons for global SuperUser

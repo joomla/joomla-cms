@@ -20,10 +20,8 @@ Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 ?>
 
 <div class="alert alert-info">
-	<p>
-		<span class="icon icon-info" aria-hidden="true"></span>
-		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://downloads.joomla.org/latest'); ?>
-	</p>
+	<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+	<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPLOAD_INTRO', 'https://downloads.joomla.org/latest'); ?>
 </div>
 
 <?php if (count($this->warnings)) : ?>
@@ -41,7 +39,7 @@ Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 <?php endif; ?>
 
 <form enctype="multipart/form-data" action="index.php" method="post" id="uploadForm">
-	<fieldset class="uploadform">
+	<fieldset class="uploadform options-grid-form options-grid-form-full">
 		<legend><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD'); ?></legend>
 		<table class="table">
 			<tbody>

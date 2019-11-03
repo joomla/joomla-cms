@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Filesystem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
@@ -95,7 +95,7 @@ class File
 		// Prepend a base path if it exists
 		if ($path)
 		{
-			$src =  Path::clean($path . '/' . $src);
+			$src = Path::clean($path . '/' . $src);
 			$dest = Path::clean($path . '/' . $dest);
 		}
 
@@ -130,9 +130,9 @@ class File
 				$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 				// If the parent folder doesn't exist we must create it
-				if (!file_exists(dirname($dest)))
+				if (!file_exists(\dirname($dest)))
 				{
-					Folder::create(dirname($dest));
+					Folder::create(\dirname($dest));
 				}
 
 				// Translate the destination path for the FTP account
@@ -175,7 +175,7 @@ class File
 	{
 		$FTPOptions = ClientHelper::getCredentials('ftp');
 
-		if (is_array($file))
+		if (\is_array($file))
 		{
 			$files = $file;
 		}
@@ -325,9 +325,9 @@ class File
 		@set_time_limit(ini_get('max_execution_time'));
 
 		// If the destination directory doesn't exist we need to create it
-		if (!file_exists(dirname($file)))
+		if (!file_exists(\dirname($file)))
 		{
-			if (Folder::create(dirname($file)) == false)
+			if (Folder::create(\dirname($file)) == false)
 			{
 				return false;
 			}
@@ -365,7 +365,7 @@ class File
 			else
 			{
 				$file = Path::clean($file);
-				$ret = is_int(file_put_contents($file, $buffer)) ? true : false;
+				$ret = \is_int(file_put_contents($file, $buffer)) ? true : false;
 			}
 
 			return $ret;
@@ -426,7 +426,7 @@ class File
 			else
 			{
 				$file = Path::clean($file);
-				$ret = is_int(file_put_contents($file, $buffer, FILE_APPEND));
+				$ret = \is_int(file_put_contents($file, $buffer, FILE_APPEND));
 			}
 
 			return $ret;
@@ -472,7 +472,7 @@ class File
 		$dest = Path::clean($dest);
 
 		// Create the destination directory if it does not exist
-		$baseDir = dirname($dest);
+		$baseDir = \dirname($dest);
 
 		if (!file_exists($baseDir))
 		{

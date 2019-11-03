@@ -17,7 +17,6 @@ use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -26,6 +25,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -750,8 +750,9 @@ class UserModel extends AdminModel
 
 		// Update the reset flag
 		$query->update($db->quoteName('#__users'))
-			->set($db->quoteName('requireReset') . ' = ' . $value)
-			->where($db->quoteName('id') . ' IN (' . implode(',', $user_ids) . ')');
+			->set($db->quoteName('requireReset') . ' = :requireReset')
+			->whereIn($db->quoteName('id'), $user_ids)
+			->bind(':requireReset', $value, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
@@ -833,12 +834,13 @@ class UserModel extends AdminModel
 
 			// Remove users from the group
 			$query->delete($db->quoteName('#__user_usergroup_map'))
-				->where($db->quoteName('user_id') . ' IN (' . implode(',', $user_ids) . ')');
+				->whereIn($db->quoteName('user_id'), $user_ids);
 
 			// Only remove users from selected group
 			if ($doDelete == 'group')
 			{
-				$query->where($db->quoteName('group_id') . ' = ' . (int) $group_id);
+				$query->where($db->quoteName('group_id') . ' = :group_id')
+					->bind(':group_id', $group_id, ParameterType::INTEGER);
 			}
 
 			$db->setQuery($query);
@@ -863,7 +865,8 @@ class UserModel extends AdminModel
 			// First, we need to check if the user is already assigned to a group
 			$query->select($db->quoteName('user_id'))
 				->from($db->quoteName('#__user_usergroup_map'))
-				->where($db->quoteName('group_id') . ' = ' . (int) $group_id);
+				->where($db->quoteName('group_id') . ' = :group_id')
+				->bind(':group_id', $group_id, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$users = $db->loadColumn();
 
@@ -960,9 +963,9 @@ class UserModel extends AdminModel
 			}
 			else
 			{
-				$config = ComponentHelper::getParams('com_users');
+				$params = ComponentHelper::getParams('com_users');
 
-				if ($groupId = $config->get('new_usertype'))
+				if ($groupId = $params->get('new_usertype', $params->get('guest_usergroup', 1)))
 				{
 					$result[] = $groupId;
 				}
@@ -1005,7 +1008,8 @@ class UserModel extends AdminModel
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('id') . ' = ' . (int) $user_id);
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $user_id, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$item = $db->loadObject();
 
@@ -1045,9 +1049,12 @@ class UserModel extends AdminModel
 
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__users'))
-				->set($db->quoteName('otep') . '=' . $db->quote($encryptedOtep))
-				->set($db->quoteName('otpKey') . '=' . $db->quote($otpKey))
-				->where($db->quoteName('id') . ' = ' . $db->quote($user_id));
+				->set($db->quoteName('otep') . ' = :otep')
+				->set($db->quoteName('otpKey') . ' = :otpKey')
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':otep', $encryptedOtep)
+				->bind(':otpKey', $otpKey)
+				->bind(':id', $user_id, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$db->execute();
 		}

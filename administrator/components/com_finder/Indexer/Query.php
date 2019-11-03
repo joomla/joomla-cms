@@ -20,6 +20,8 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+\JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
+
 /**
  * Query class for the Finder indexer package.
  *
@@ -358,7 +360,7 @@ class Query
 				'q'    => $uri->getVar('q'),
 			);
 
-			$item = FinderHelperRoute::getItemid($query);
+			$item = \FinderHelperRoute::getItemid($query);
 
 			// Add the menu item id if present.
 			if ($item !== null)
@@ -1335,7 +1337,7 @@ class Query
 			// Add the term to the query.
 			$query->where('(t.term = ' . $db->quote($token->term) . ' OR t.stem = ' . $db->quote($token->stem) . ')')
 				->where('t.phrase = 0')
-				->where('t.language IN (\'*\',' . $query->q($token->language) . ')');
+				->where('t.language IN (\'*\',' . $db->quote($token->language) . ')');
 		}
 
 		// Get the terms.

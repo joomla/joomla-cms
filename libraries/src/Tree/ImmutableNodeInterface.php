@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Tree;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Interface for an immutable node class
@@ -39,9 +39,9 @@ interface ImmutableNodeInterface
 
 	/**
 	 * Get the root of the tree
-	 * 
+	 *
 	 * @return  ImmutableNodeInterface
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	public function getRoot();

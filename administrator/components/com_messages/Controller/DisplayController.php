@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Messages\Administrator\Helper\MessagesHelper;
 
 /**
  * Messages master display controller.
@@ -56,9 +55,6 @@ class DisplayController extends BaseController
 
 			return false;
 		}
-
-		// Load the submenu.
-		MessagesHelper::addSubmenu($this->input->get('view', 'messages'));
 
 		parent::display();
 	}

@@ -11,7 +11,6 @@ namespace Joomla\Component\Modules\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 

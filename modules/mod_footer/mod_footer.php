@@ -15,7 +15,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\String\StringHelper;
 
-$app        = Factory::getApplication();
 $date       = Factory::getDate();
 $cur_year   = HTMLHelper::_('date', $date, 'Y');
 $csite_name = $app->get('sitename');

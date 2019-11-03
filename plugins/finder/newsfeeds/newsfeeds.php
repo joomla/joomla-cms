@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseQuery;
@@ -276,6 +277,7 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		 * Add the metadata processing instructions based on the newsfeeds
 		 * configuration parameters.
 		 */
+
 		// Add the meta author.
 		$item->metaauthor = $item->metadata->get('author');
 
@@ -292,9 +294,9 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 		$item->addTaxonomy('Type', 'News Feed');
 
 		// Add the category taxonomy data.
-		$categories = JCategories::getInstance('com_newsfeeds');
+		$categories = Categories::getInstance('com_newsfeeds', ['published' => false, 'access' => false]);
 		$category = $categories->get($item->catid);
-		$item->addNestedTaxonomy('Category', $category, $category->published, $category->access, $category->language);
+		$item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
 
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);

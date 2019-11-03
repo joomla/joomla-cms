@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\Factory;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\MVC\Model\ModelInterface;

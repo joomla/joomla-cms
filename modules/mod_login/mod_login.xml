@@ -22,7 +22,7 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_LOGIN" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic" addfieldpath="/administrator/components/com_menus/models/fields">
+			<fieldset name="basic" addfieldprefix="Joomla\Component\Menus\Administrator\Field">
 				<field
 					name="pretext"
 					type="textarea"
@@ -58,6 +58,19 @@
 					name="logout"
 					type="modal_menu"
 					label="MOD_LOGIN_FIELD_LOGOUT_REDIRECTURL_LABEL"
+					disable="separator,alias,heading,url"
+					select="true"
+					new="true"
+					edit="true"
+					clear="true"
+					>
+					<option value="">JDEFAULT</option>
+				</field>
+
+				<field
+					name="customRegLinkMenu"
+					type="modal_menu"
+					label="MOD_LOGIN_FIELD_REGISTRATION_MENU_LABEL"
 					disable="separator,alias,heading,url"
 					select="true"
 					new="true"

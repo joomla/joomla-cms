@@ -190,7 +190,7 @@ Joomla = window.Joomla || {};
 		if (tabs) {
 			$.each(tabs, function(index, value) {
 
-				$.each($('#' + index + 'Content').find('.tab-pane'), function(i, v) {
+				$.each($('#' + index + 'Content').children('.tab-pane'), function(i, v) {
 					if ($(v).data('node')) {
 						var attribs = $(v).data('node').split('['),
 						    classLink = (attribs[0] != '') ? 'class="nav-link ' + attribs[0] + '"' : 'class="nav-link"';

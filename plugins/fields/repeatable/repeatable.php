@@ -7,12 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
-
 defined('_JEXEC') or die;
 
-JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRATOR);
+use Joomla\CMS\Form\Form;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 
 /**
  * Repeatable plugin.
@@ -22,17 +21,44 @@ JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRA
 class PlgFieldsRepeatable extends FieldsPlugin
 {
 	/**
+	 * Before prepares the field value.
+	 *
+	 * @param   string     $context  The context.
+	 * @param   \stdclass  $item     The item.
+	 * @param   \stdclass  $field    The field.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 */
+	public function onCustomFieldsBeforePrepareField($context, $item, $field)
+	{
+		if (!$this->app->isClient('api'))
+		{
+			return;
+		}
+
+		// Check if the field should be processed by us
+		if (!$this->isTypeSupported($field->type))
+		{
+			return;
+		}
+
+		$field->apivalue = (array) json_decode($field->value, true);
+	}
+
+	/**
 	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.
-	 * @param   JForm       $form    The form.
+	 * @param   Form        $form    The form.
 	 *
 	 * @return  DOMElement
 	 *
 	 * @since   3.9.0
 	 */
-	public function onCustomFieldsPrepareDom($field, DOMElement $parent, JForm $form)
+	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
 	{
 		$fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 
@@ -66,6 +92,11 @@ class PlgFieldsRepeatable extends FieldsPlugin
 			$child->addAttribute('name', $formField->fieldname);
 			$child->addAttribute('type', $formField->fieldtype);
 			$child->addAttribute('readonly', $readonly);
+
+			if (isset($formField->fieldfilter))
+			{
+				$child->addAttribute('filter', $formField->fieldfilter);
+			}
 		}
 
 		$fieldNode->setAttribute('formsource', $fieldsXml->asXML());

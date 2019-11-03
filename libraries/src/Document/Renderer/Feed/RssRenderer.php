@@ -8,8 +8,9 @@
 
 namespace Joomla\CMS\Document\Renderer\Feed;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -53,8 +54,8 @@ class RssRenderer extends DocumentRenderer
 
 		$data = $this->_doc;
 
-		// If the last build date from the document isn't a JDate object, create one
-		if (!($data->lastBuildDate instanceof \JDate))
+		// If the last build date from the document isn't a Date object, create one
+		if (!($data->lastBuildDate instanceof Date))
 		{
 			// Gets and sets timezone offset from site configuration
 			$data->lastBuildDate = Factory::getDate();
@@ -148,7 +149,7 @@ class RssRenderer extends DocumentRenderer
 
 		if (!empty($data->category))
 		{
-			if (is_array($data->category))
+			if (\is_array($data->category))
 			{
 				foreach ($data->category as $cat)
 				{
@@ -186,7 +187,7 @@ class RssRenderer extends DocumentRenderer
 			$feed .= "		<skipDays>" . htmlspecialchars($data->skipDays, ENT_COMPAT, 'UTF-8') . "</skipDays>\n";
 		}
 
-		for ($i = 0, $count = count($data->items); $i < $count; $i++)
+		for ($i = 0, $count = \count($data->items); $i < $count; $i++)
 		{
 			$itemlink = $data->items[$i]->link;
 
@@ -231,7 +232,7 @@ class RssRenderer extends DocumentRenderer
 
 			if (empty($data->items[$i]->category) === false)
 			{
-				if (is_array($data->items[$i]->category))
+				if (\is_array($data->items[$i]->category))
 				{
 					foreach ($data->items[$i]->category as $cat)
 					{

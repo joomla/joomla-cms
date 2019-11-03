@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -23,7 +24,7 @@ class PlgSystemSkipto extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @var    CMSApplicationInterface
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -37,9 +38,9 @@ class PlgSystemSkipto extends CMSPlugin
 	 */
 	public function onAfterDispatch()
 	{
-		$section = $this->params->get('section_skipto', 2);
+		$section = $this->params->get('section', 'administrator');
 
-		if ($section !== 3 && ($this->app->isClient('administrator') && $section !== 2 || $this->app->isClient('site') && $section !== 1))
+		if ($section !== 'both' && $this->app->isClient($section) !== true)
 		{
 			return;
 		}

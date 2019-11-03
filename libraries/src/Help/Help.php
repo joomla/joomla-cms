@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Help;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
@@ -54,15 +54,8 @@ class Help
 		}
 		else
 		{
-			// Get the user help URL.
-			$user = Factory::getUser();
-			$url  = $user->getParam('helpsite');
-
-			// If user hasn't specified a help URL, then get the global one.
-			if ($url == '')
-			{
-				$url = $app->get('helpurl');
-			}
+			// Get the global help URL.
+			$url = $app->get('helpurl');
 
 			// Component help URL overrides user and global.
 			if ($useComponent)
@@ -193,7 +186,7 @@ class Help
 			$option['text']  = 'English (GB) help.joomla.org';
 			$option['value'] = 'http://help.joomla.org';
 
-			$list[] = $option;
+			$list[] = (object) $option;
 		}
 		else
 		{
@@ -204,7 +197,7 @@ class Help
 				$option['text']  = (string) $site;
 				$option['value'] = (string) $site->attributes()->url;
 
-				$list[] = $option;
+				$list[] = (object) $option;
 			}
 		}
 

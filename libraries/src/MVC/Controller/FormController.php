@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\Controller;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
@@ -86,7 +86,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 * @since   3.0
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null,
-		FormFactoryInterface $formFactory = null)
+		FormFactoryInterface $formFactory = null
+	)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
@@ -110,12 +111,12 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$match = 'Controller';
 
 			// If there is a namespace append a backslash
-			if (strpos(get_class($this), '\\'))
+			if (strpos(\get_class($this), '\\'))
 			{
 				$match .= '\\\\';
 			}
 
-			if (!preg_match('/(.*)' . $match . '(.*)/i', get_class($this), $r))
+			if (!preg_match('/(.*)' . $match . '(.*)/i', \get_class($this), $r))
 			{
 				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_CONTROLLER_GET_NAME'), 500);
 			}
@@ -140,6 +141,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 
 		// Apply, Save & New, and Save As copy should be standard on forms.
 		$this->registerTask('apply', 'save');
+		$this->registerTask('save2menu', 'save');
 		$this->registerTask('save2new', 'save');
 		$this->registerTask('save2copy', 'save');
 	}
@@ -200,7 +202,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	{
 		$user = Factory::getUser();
 
-		return $user->authorise('core.create', $this->option) || count($user->getAuthorisedCategories($this->option, 'core.create'));
+		return $user->authorise('core.create', $this->option) || \count($user->getAuthorisedCategories($this->option, 'core.create'));
 	}
 
 	/**
@@ -336,7 +338,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		// Check if there is a return value
 		$return = $this->input->get('return', null, 'base64');
 
-		if (!is_null($return) && Uri::isInternal(base64_decode($return)))
+		if (!\is_null($return) && Uri::isInternal(base64_decode($return)))
 		{
 			$url = base64_decode($return);
 		}
@@ -381,7 +383,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		}
 
 		// Get the previous record id (if any) and the current record id.
-		$recordId = (int) (count($cid) ? $cid[0] : $this->input->getInt($urlVar));
+		$recordId = (int) (\count($cid) ? $cid[0] : $this->input->getInt($urlVar));
 		$checkin = $table->hasField('checked_out');
 
 		// Access check.
@@ -720,7 +722,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$errors = $model->getErrors();
 
 			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
+			for ($i = 0, $n = \count($errors); $i < $n && $i < 3; $i++)
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
@@ -838,7 +840,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 				// Check if there is a return value
 				$return = $this->input->get('return', null, 'base64');
 
-				if (!is_null($return) && Uri::isInternal(base64_decode($return)))
+				if (!\is_null($return) && Uri::isInternal(base64_decode($return)))
 				{
 					$url = base64_decode($return);
 				}

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -35,7 +35,7 @@ class FilelistField extends ListField
 	 * The filename filter.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $fileFilter;
 
@@ -213,14 +213,14 @@ class FilelistField extends ListField
 		$files = Folder::files($path, $this->fileFilter);
 
 		// Build the options list from the list of files.
-		if (is_array($files))
+		if (\is_array($files))
 		{
 			foreach ($files as $file)
 			{
 				// Check to see if the file is in the exclude mask.
 				if ($this->exclude)
 				{
-					if (preg_match(chr(1) . $this->exclude . chr(1), $file))
+					if (preg_match(\chr(1) . $this->exclude . \chr(1), $file))
 					{
 						continue;
 					}

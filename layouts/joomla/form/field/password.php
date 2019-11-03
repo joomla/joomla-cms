@@ -69,7 +69,7 @@ Text::script('JHIDE');
 
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-	!$autocomplete ? 'autocomplete="off"' : '',
+	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	$readonly ? 'readonly' : '',
 	$disabled ? 'disabled' : '',
@@ -96,7 +96,7 @@ $attributes = array(
 			<?php echo implode(' ', $attributes); ?>>
 		<span class="input-group-append">
 			<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-			<span class="input-group-text icon-eye" aria-hidden="true"></span>
+			<span class="input-group-text icon-eye input-password-toggle" aria-hidden="true"></span>
 		</span>
 	</div>
 </div>

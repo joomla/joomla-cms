@@ -16,7 +16,6 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -33,7 +32,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Array used for displaying the levels filter
 	 *
-	 * @return  \stdClass[]
+	 * @var    \stdClass[]
 	 * @since  4.0.0
 	 */
 	protected $f_levels;
@@ -74,14 +73,6 @@ class HtmlView extends BaseHtmlView
 	 * @since  4.0.0
 	 */
 	public $activeFilters;
-
-	/**
-	 * The sidebar markup
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
 
 	/**
 	 * Ordering of the items
@@ -293,7 +284,6 @@ class HtmlView extends BaseHtmlView
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
-			$this->sidebar = \JHtmlSidebar::render();
 
 			// We do not need to filter by language when multilingual is disabled
 			if (!Multilanguage::isEnabled())
@@ -364,8 +354,8 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
@@ -394,17 +384,17 @@ class HtmlView extends BaseHtmlView
 					$childBar->trash('items.trash')->listCheck(true);
 				}
 			}
-		}
 
-		// Add a batch button
-		if (!$protected && $user->authorise('core.create', 'com_menus')
-			&& $user->authorise('core.edit', 'com_menus')
-			&& $user->authorise('core.edit.state', 'com_menus'))
-		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
+			// Add a batch button
+			if (!$protected && $user->authorise('core.create', 'com_menus')
+				&& $user->authorise('core.edit', 'com_menus')
+				&& $user->authorise('core.edit.state', 'com_menus'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 		}
 
 		if (Factory::getUser()->authorise('core.admin'))

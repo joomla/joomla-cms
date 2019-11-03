@@ -101,7 +101,7 @@ class MessagesModel extends BaseDatabaseModel
 		$query->select(
 			$db->quoteName(
 				array
-			('postinstall_message_id',
+				('postinstall_message_id',
 											'extension_id',
 											'title_key',
 											'description_key',
@@ -115,7 +115,7 @@ class MessagesModel extends BaseDatabaseModel
 											'condition_method',
 											'version_introduced',
 											'enabled')
-									)
+			)
 		);
 
 		// Add a forced extension filtering to the list
@@ -156,7 +156,8 @@ class MessagesModel extends BaseDatabaseModel
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('extension_id') . ' = ' . (int) $eid);
 
-		$db->setQuery($query, 0, 1);
+		$query->setLimit(1);
+		$db->setQuery($query);
 
 		$extension = $db->loadObject();
 

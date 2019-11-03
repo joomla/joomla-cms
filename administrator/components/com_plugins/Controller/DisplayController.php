@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Plugins\Administrator\Helper\PluginsHelper;
 
 /**
  * Plugins master display controller.
@@ -43,9 +42,6 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		// Load the submenu.
-		PluginsHelper::addSubmenu($this->input->get('view', 'plugins'));
-
 		$view   = $this->input->get('view', 'plugins');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('extension_id');

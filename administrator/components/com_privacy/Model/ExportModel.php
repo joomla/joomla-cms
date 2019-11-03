@@ -20,6 +20,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Component\Privacy\Administrator\Export\Domain;
 use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
@@ -83,9 +84,8 @@ class ExportModel extends BaseDatabaseModel
 			$db->getQuery(true)
 				->select('id')
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = ' . $db->quote($table->email)),
-			0,
-			1
+				->where($db->quoteName('email') . ' = ' . $db->quote($table->email))
+				->setLimit(1)
 		)->loadResult();
 
 		$user = $userId ? User::getInstance($userId) : null;
@@ -340,14 +340,13 @@ class ExportModel extends BaseDatabaseModel
 	/**
 	 * Method to fetch an instance of the action log model.
 	 *
-	 * @return  void
+	 * @return  ActionlogModel
 	 *
 	 * @since   4.0.0
 	 */
-	private function getActionlogModel(): \ActionlogsModelActionlog
+	private function getActionlogModel(): ActionlogModel
 	{
-		BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
-
-		return BaseDatabaseModel::getInstance('Actionlog', 'ActionlogsModel');
+		return Factory::getApplication()->bootComponent('Actionlogs')
+			->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
 	}
 }

@@ -85,7 +85,7 @@ class HtmlView extends BaseHtmlView
 		$isNew = ($this->item->id == 0);
 		$canDo = ContentHelper::getActions('com_redirect');
 
-		ToolbarHelper::title($isNew ? Text::_('COM_REDIRECT_MANAGER_LINK_NEW') : Text::_('COM_REDIRECT_MANAGER_LINK_EDIT'), 'refresh redirect');
+		ToolbarHelper::title($isNew ? Text::_('COM_REDIRECT_MANAGER_LINK_NEW') : Text::_('COM_REDIRECT_MANAGER_LINK_EDIT'), 'map-signs redirect');
 
 		$toolbarButtons = [];
 

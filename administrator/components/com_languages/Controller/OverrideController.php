@@ -11,7 +11,6 @@ namespace Joomla\Component\Languages\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
@@ -38,7 +37,6 @@ class OverrideController extends FormController
 		// Do not cache the response to this, its a redirect
 		$this->app->allowCache(false);
 
-		$app     = Factory::getApplication();
 		$cid     = $this->input->post->get('cid', array(), 'array');
 		$context = "$this->option.edit.$this->context";
 
@@ -54,7 +52,7 @@ class OverrideController extends FormController
 			return;
 		}
 
-		$app->setUserState($context . '.data', null);
+		$this->app->setUserState($context . '.data', null);
 		$this->setRedirect('index.php?option=' . $this->option . '&view=' . $this->view_item . $this->getRedirectToItemAppend($recordId, 'id'));
 	}
 

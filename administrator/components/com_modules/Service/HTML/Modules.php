@@ -16,6 +16,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -183,6 +184,18 @@ class Modules
 		$customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
 		$editPositions   = true;
 		$customPositions = ModulesHelper::getPositions($clientId, $editPositions);
+
+		$app = Factory::getApplication();
+
+		$position = $app->getUserState('com_modules.modules.filter.position');
+
+		if ($position)
+		{
+			$customPositions[] = HTMLHelper::_('select.option', $position);
+
+			$customPositions = array_unique($customPositions, SORT_REGULAR);
+		}
+
 		$templateGroups[$customGroupText] = ModulesHelper::createOptionGroup($customGroupText, $customPositions);
 
 		return $templateGroups;
@@ -215,13 +228,15 @@ class Modules
 	 */
 	public function positionList($clientId = 0)
 	{
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('DISTINCT(position) as value')
-			->select('position as text')
+		$clientId = (int) $clientId;
+		$db       = Factory::getDbo();
+		$query    = $db->getQuery(true)
+			->select('DISTINCT ' . $db->quoteName('position', 'value'))
+			->select($db->quoteName('position', 'text'))
 			->from($db->quoteName('#__modules'))
-			->where($db->quoteName('client_id') . ' = ' . (int) $clientId)
-			->order('position');
+			->where($db->quoteName('client_id') . ' = :clientid')
+			->order($db->quoteName('position'))
+			->bind(':clientid', $clientId, ParameterType::INTEGER);
 
 		// Get the options.
 		$db->setQuery($query);

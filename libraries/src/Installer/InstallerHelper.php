@@ -8,18 +8,19 @@
 
 namespace Joomla\CMS\Installer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Archive\Archive;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Version;
 use Joomla\CMS\Updater\Update;
+use Joomla\CMS\Version;
 
 /**
  * Installer helper class
@@ -79,7 +80,7 @@ abstract class InstallerHelper
 
 		try
 		{
-			$response = \JHttpFactory::getHttp()->get($url, $headers);
+			$response = HttpFactory::getHttp()->get($url, $headers);
 		}
 		catch (\RuntimeException $exception)
 		{
@@ -155,7 +156,7 @@ abstract class InstallerHelper
 		$tmpdir = uniqid('install_');
 
 		// Clean the paths to use for archive extraction
-		$extractdir = Path::clean(dirname($p_filename) . '/' . $tmpdir);
+		$extractdir = Path::clean(\dirname($p_filename) . '/' . $tmpdir);
 		$archivename = Path::clean($archivename);
 
 		// Do the unpacking of the archive
@@ -208,7 +209,7 @@ abstract class InstallerHelper
 		 */
 		$dirList = array_merge((array) Folder::files($extractdir, ''), (array) Folder::folders($extractdir, ''));
 
-		if (count($dirList) === 1)
+		if (\count($dirList) === 1)
 		{
 			if (Folder::exists($extractdir . '/' . $dirList[0]))
 			{
@@ -252,7 +253,7 @@ abstract class InstallerHelper
 		// Search the install dir for an XML file
 		$files = Folder::files($p_dir, '\.xml$', 1, true);
 
-		if (!$files || !count($files))
+		if (!$files || !\count($files))
 		{
 			Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), Log::WARNING, 'jerror');
 
@@ -303,7 +304,7 @@ abstract class InstallerHelper
 	{
 		$default = uniqid();
 
-		if (!is_string($url) || strpos($url, '/') === false)
+		if (!\is_string($url) || strpos($url, '/') === false)
 		{
 			return $default;
 		}

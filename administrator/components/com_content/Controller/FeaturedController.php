@@ -11,7 +11,6 @@ namespace Joomla\Component\Content\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -33,7 +32,7 @@ class FeaturedController extends ArticlesController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 		$ids  = $this->input->get('cid', array(), 'array');
 
 		// Access checks.
@@ -43,13 +42,13 @@ class FeaturedController extends ArticlesController
 			{
 				// Prune items that you can't delete.
 				unset($ids[$i]);
-				Factory::getApplication()->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'notice');
+				$this->app->enqueueMessage(Text::_('JERROR_CORE_DELETE_NOT_PERMITTED'), 'notice');
 			}
 		}
 
 		if (empty($ids))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
+			$this->app->enqueueMessage(Text::_('JERROR_NO_ITEMS_SELECTED'), 'error');
 		}
 		else
 		{
@@ -60,7 +59,7 @@ class FeaturedController extends ArticlesController
 			// Remove the items.
 			if (!$model->featured($ids, 0))
 			{
-				Factory::getApplication()->enqueueMessage($model->getError(), 'error');
+				$this->app->enqueueMessage($model->getError(), 'error');
 			}
 		}
 

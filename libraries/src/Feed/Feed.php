@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Feed;
 
-defined('JPATH_PLATFORM') or die();
+\defined('JPATH_PLATFORM') or die();
 
 use Joomla\CMS\Date\Date;
 
@@ -76,7 +76,7 @@ class Feed implements \ArrayAccess, \Countable
 	 */
 	public function __set($name, $value)
 	{
-		// Ensure that setting a date always sets a JDate instance.
+		// Ensure that setting a date always sets a Date instance.
 		if ((($name == 'updatedDate') || ($name == 'publishedDate')) && !($value instanceof Date))
 		{
 			$value = new Date($value);
@@ -88,19 +88,19 @@ class Feed implements \ArrayAccess, \Countable
 			throw new \InvalidArgumentException(
 				sprintf(
 					'%1$s "author" must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
-					get_class($this),
-					gettype($value) === 'object' ? get_class($value) : gettype($value)
+					\get_class($this),
+					\gettype($value) === 'object' ? \get_class($value) : \gettype($value)
 				)
 			);
 		}
 
 		// Disallow setting categories or contributors directly.
-		if (in_array($name, array('categories', 'contributors')))
+		if (\in_array($name, array('categories', 'contributors')))
 		{
 			throw new \InvalidArgumentException(
 				sprintf(
 					'Cannot directly set %1$s property "%2$s".',
-					get_class($this),
+					\get_class($this),
 					$name
 				)
 			);
@@ -193,7 +193,7 @@ class Feed implements \ArrayAccess, \Countable
 	 */
 	public function count()
 	{
-		return count($this->entries);
+		return \count($this->entries);
 	}
 
 	/**
@@ -246,8 +246,8 @@ class Feed implements \ArrayAccess, \Countable
 			throw new \InvalidArgumentException(
 				sprintf(
 					'%1$s entries must be an instance of Joomla\\CMS\\Feed\\FeedPerson. %2$s given.',
-					get_class($this),
-					gettype($value) === 'object' ? get_class($value) : gettype($value)
+					\get_class($this),
+					\gettype($value) === 'object' ? \get_class($value) : \gettype($value)
 				)
 			);
 		}
@@ -370,7 +370,7 @@ class Feed implements \ArrayAccess, \Countable
 	 */
 	public function reverseItems()
 	{
-		if (is_array($this->entries) && !empty($this->entries))
+		if (\is_array($this->entries) && !empty($this->entries))
 		{
 			$this->entries = array_reverse($this->entries);
 		}
