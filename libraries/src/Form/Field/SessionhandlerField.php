@@ -12,7 +12,7 @@ namespace Joomla\CMS\Form\Field;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Session\Session;
+use Joomla\CMS\Session\Session;
 
 /**
  * Form Field class for the Joomla Platform.

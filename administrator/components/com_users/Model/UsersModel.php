@@ -428,6 +428,8 @@ class UsersModel extends ListModel
 				}
 				elseif ($dates['dNow'] === false)
 				{
+					$dStart = $dates['dStart']->format('Y-m-d H:i:s');
+
 					$query->where(
 						$db->quoteName('a.lastvisitDate') . ' < :lastvisitDate'
 					);
