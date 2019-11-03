@@ -17,13 +17,13 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
 use Joomla\Component\Messages\Administrator\Model\MessageModel;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * An example custom privacyconsent plugin.
