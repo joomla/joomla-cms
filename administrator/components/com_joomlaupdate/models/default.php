@@ -291,7 +291,6 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$packageURL  = trim($updateInfo['object']->reinstallurl->_data);
 			$packageType = trim($updateInfo['object']->reinstallurl->type);
 			$sources     = $updateInfo['object']->get('reinstallSources', array());
-
 		}
 
 		$headers = get_headers($packageURL, 1);
