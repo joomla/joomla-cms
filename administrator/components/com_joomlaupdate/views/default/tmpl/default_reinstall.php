@@ -23,8 +23,8 @@ defined('_JEXEC') or die;
 		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JVERSION); ?>
 	</div>
 
-<?php $reinstallUrl = isset($this->updateInfo['object']->reinstallurl->_data) ? $this->updateInfo['object']->reinstallurl->_data : $this->updateInfo['object']->downloadurl->_data; ?>
 	<?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof JUpdate)) : ?>
+	<?php $reinstallUrl = isset($this->updateInfo['object']->reinstallurl->_data) ? $this->updateInfo['object']->reinstallurl->_data : $this->updateInfo['object']->downloadurl->_data; ?>
 		<table class="table table-striped">
 			<tbody>
 			<tr>
