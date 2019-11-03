@@ -11,6 +11,7 @@ namespace Joomla\Component\Modules\Api\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Modules\Administrator\Model\SelectModel;
 use Joomla\Component\Modules\Api\View\Modules\JsonapiView;

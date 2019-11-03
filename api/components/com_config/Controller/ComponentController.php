@@ -15,6 +15,7 @@ use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Config\Api\View\Component\JsonapiView;
 use Joomla\Component\Config\Administrator\Model\ComponentModel;
