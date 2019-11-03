@@ -162,7 +162,7 @@ class TransitionsModel extends ListModel
 
 		// Join over the users for the checked out user.
 		$query->select($db->quoteName('uc.name', 'editor'))
-			->join('LEFT', '#__users AS uc ON uc.id = t.checked_out');
+			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('t.checked_out'));
 
 		// Filter by extension
 		if ($workflowID = (int) $this->getState('filter.workflow_id'))
