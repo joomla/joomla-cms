@@ -237,7 +237,7 @@ class WorkflowsModel extends ListModel
 		}
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor')
+		$query->select($db->quoteName('uc.name', 'editor'))
 			->join('LEFT', '#__users AS uc ON uc.id = w.checked_out');
 
 		// Add the list ordering clause.
