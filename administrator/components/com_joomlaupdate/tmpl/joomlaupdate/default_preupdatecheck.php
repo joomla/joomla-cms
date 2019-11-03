@@ -106,7 +106,7 @@ use Joomla\CMS\Language\Text;
 	<div class="col-md-6">
 		<fieldset class="options-grid-form options-grid-form-full">
 			<legend>
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
+				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
 			</legend>
 			<table class="table" id="preupdatecheckextensions">
 				<caption class="sr-only">
@@ -115,13 +115,13 @@ use Joomla\CMS\Language\Text;
 				<thead>
 					<tr>
 						<th scope="col">
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
+							<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
 						</th>
 						<th scope="col">
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE'); ?>
+							<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE'); ?>
 						</th>
 						<th scope="col">
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
+							<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
 						</th>
 					</tr>
 				</thead>
@@ -129,7 +129,7 @@ use Joomla\CMS\Language\Text;
 				<?php foreach ($this->nonCoreExtensions as $extension) : ?>
 					<tr>
 						<th scope="row">
-							<?php echo JText::_($extension->name); ?>
+							<?php echo Text::_($extension->name); ?>
 						</th>
 						<td class="extension-check"
 							data-extension-id="<?php echo $extension->extension_id; ?>"

@@ -28,6 +28,14 @@ use Joomla\String\StringHelper;
 class TagTable extends Nested
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  A database connector object
@@ -120,7 +128,7 @@ class TagTable extends Nested
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
+		if (!empty($this->publish_down) && !empty($this->publish_up) && $this->publish_down < $this->publish_up)
 		{
 			throw new \UnexpectedValueException(sprintf('End publish date is before start publish date.'));
 		}
@@ -161,9 +169,6 @@ class TagTable extends Nested
 			$this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
 		}
 
-		// Not Null sanity check
-		$date = Factory::getDate();
-
 		if (empty($this->params))
 		{
 			$this->params = '{}';
@@ -196,22 +201,17 @@ class TagTable extends Nested
 
 		if (!(int) $this->checked_out_time)
 		{
-			$this->checked_out_time = $date->toSql();
-		}
-
-		if (!(int) $this->modified_time)
-		{
-			$this->modified_time = $date->toSql();
+			$this->checked_out_time = null;
 		}
 
 		if (!(int) $this->publish_up)
 		{
-			$this->publish_up = $date->toSql();
+			$this->publish_up = null;
 		}
 
 		if (!(int) $this->publish_down)
 		{
-			$this->publish_down = $date->toSql();
+			$this->publish_down = null;
 		}
 
 		return true;
@@ -226,17 +226,16 @@ class TagTable extends Nested
 	 *
 	 * @since   3.1
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate();
 		$user = Factory::getUser();
-
-		$this->modified_time = $date->toSql();
 
 		if ($this->id)
 		{
 			// Existing item
 			$this->modified_user_id = $user->get('id');
+			$this->modified_time = $date->toSql();
 		}
 		else
 		{
@@ -250,6 +249,16 @@ class TagTable extends Nested
 			if (empty($this->created_user_id))
 			{
 				$this->created_user_id = $user->get('id');
+			}
+
+			if (!(int) $this->modified_time)
+			{
+				$this->modified_time = $this->created_time;
+			}
+
+			if (empty($this->modified_user_id))
+			{
+				$this->modified_user_id = $this->created_user_id;
 			}
 		}
 

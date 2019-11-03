@@ -40,7 +40,7 @@ class PlgWebservicesUsers extends CMSPlugin
 	{
 		$router->createCRUDRoutes('v1/users', 'users', ['component' => 'com_users']);
 
-		$this->createFiledsRoutes($router);
+		$this->createFieldsRoutes($router);
 	}
 
 	/**
@@ -52,7 +52,7 @@ class PlgWebservicesUsers extends CMSPlugin
 	 *
 	 * @since   4.0.0
 	 */
-	private function createFiledsRoutes(&$router)
+	private function createFieldsRoutes(&$router)
 	{
 		$router->createCRUDRoutes(
 			'v1/fields/users',

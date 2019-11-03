@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -49,16 +50,23 @@ class Menus
 			// Get the associated menu items
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('m.id, m.title')
-				->select('l.sef as lang_sef, l.lang_code')
-				->select('mt.title as menu_title')
-				->from('#__menu as m')
-				->join('LEFT', '#__menu_types as mt ON mt.menutype=m.menutype')
-				->where('m.id IN (' . implode(',', array_values($associations)) . ')')
-				->where('m.id != ' . $itemid)
-				->join('LEFT', '#__languages as l ON m.language=l.lang_code')
-				->select('l.image')
-				->select('l.title as language_title');
+				->select(
+					[
+						$db->quoteName('m.id'),
+						$db->quoteName('m.title'),
+						$db->quoteName('l.sef', 'lang_sef'),
+						$db->quoteName('l.lang_code'),
+						$db->quoteName('mt.title', 'menu_title'),
+						$db->quoteName('l.image'),
+						$db->quoteName('l.title', 'language_title'),
+					]
+				)
+				->from($db->quoteName('#__menu', 'm'))
+				->join('LEFT', $db->quoteName('#__menu_types', 'mt'), $db->quoteName('mt.menutype') . ' = ' . $db->quoteName('m.menutype'))
+				->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('m.language') . ' = ' . $db->quoteName('l.lang_code'))
+				->whereIn($db->quoteName('m.id'), array_values($associations))
+				->where($db->quoteName('m.id') . ' != :itemid')
+				->bind(':itemid', $itemid, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
