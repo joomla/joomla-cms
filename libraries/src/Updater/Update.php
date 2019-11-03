@@ -109,7 +109,7 @@ class Update extends \JObject
 	 * Update manifest `<reinstallsource>` elements
 	 *
 	 * @var    DownloadSource[]
-	 * @since  3.8.3
+	 * @since  __DEPLOY_VERION__
 	 */
 	protected $reinstallSources = array();
 
