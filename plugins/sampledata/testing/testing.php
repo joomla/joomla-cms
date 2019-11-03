@@ -128,7 +128,7 @@ class PlgSampledataTesting extends CMSPlugin
 			$tag   = array(
 				'id'              => 0,
 				'title'           => $title,
-				'alias'           => JApplicationHelper::stringURLSafe($title),
+				'alias'           => ApplicationHelper::stringURLSafe($title),
 				'parent_id'       => 1,
 				'published'       => 1,
 				'access'          => $access,
@@ -346,7 +346,7 @@ class PlgSampledataTesting extends CMSPlugin
 			$banner['id']               = 0;
 			$banner['type']             = 0;
 			$banner['state']            = 1;
-			$banner['alias']            = JApplicationHelper::stringURLSafe($banner['name']);
+			$banner['alias']            = ApplicationHelper::stringURLSafe($banner['name']);
 			$banner['custombannercode'] = '';
 			$banner['metakey']          = '';
 			$banner['purchase_type']    = -1;
@@ -4579,7 +4579,7 @@ class PlgSampledataTesting extends CMSPlugin
 			$category['created_user_id'] = $user->id;
 			$category['extension']       = $extension;
 			$category['level']           = $level;
-			$category['alias']           = JApplicationHelper::stringURLSafe($category['title']);
+			$category['alias']           = ApplicationHelper::stringURLSafe($category['title']);
 			$category['associations']    = array();
 			$category['params']          = array();
 
