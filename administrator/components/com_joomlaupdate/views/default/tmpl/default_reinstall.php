@@ -23,6 +23,7 @@ defined('_JEXEC') or die;
 		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JVERSION); ?>
 	</div>
 
+<?php $reinstallUrl = isset($this->updateInfo['object']->reinstallurl->_data) ? $this->updateInfo['object']->reinstallurl->_data : $this->updateInfo['object']->downloadurl->_data; ?>
 	<?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof JUpdate)) : ?>
 		<table class="table table-striped">
 			<tbody>
@@ -31,8 +32,8 @@ defined('_JEXEC') or die;
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE_REINSTALL'); ?>
 				</td>
 				<td>
-					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>" target="_blank" rel="noopener noreferrer">
-						<?php echo $this->updateInfo['object']->downloadurl->_data; ?>
+					<a href="<?php echo $reinstallUrl ?>" target="_blank" rel="noopener noreferrer">
+						<?php echo $reinstallUrl ?>
 						<span class="icon-out-2" aria-hidden="true"></span>
 						<span class="element-invisible"><?php echo JText::_('JBROWSERTARGET_NEW'); ?></span>
 					</a>
@@ -111,6 +112,7 @@ defined('_JEXEC') or die;
 					<button class="btn btn-warning" type="submit">
 						<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLAGAIN'); ?>
 					</button>
+					<input type="hidden" name="updatetype" value="reinstall" />
 				</td>
 			</tr>
 			</tfoot>

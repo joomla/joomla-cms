@@ -377,12 +377,13 @@ abstract class InstallerHelper
 	 *
 	 * @param   string   $packagefile   Location of the package to be installed
 	 * @param   JUpdate  $updateObject  The Update Object
+	 * @param   string   $packageType   The package type of the update to be installed
 	 *
 	 * @return  integer  one if the hashes match, zero if hashes doesn't match, two if hashes not found
 	 *
 	 * @since   3.9.0
 	 */
-	public static function isChecksumValid($packagefile, $updateObject)
+	public static function isChecksumValid($packagefile, $updateObject, $packageType = false)
 	{
 		$hashes     = array('sha256', 'sha384', 'sha512');
 		$hashOnFile = false;
@@ -392,7 +393,29 @@ abstract class InstallerHelper
 			if ($updateObject->get($hash, false))
 			{
 				$hashPackage = hash_file($hash, $packagefile);
-				$hashRemote  = $updateObject->$hash->_data;
+
+				// Loop over the hash array to choose the correct hash based on the package type
+				foreach ($updateObject->$hash as $hashObject)
+				{
+					if ($hashObject->type === $packageType)
+					{
+						$hashRemote = $hashObject->value;
+					}
+				}
+
+				// We have no package type or have not found any hash
+				if ($packageType === false || empty($hashRemote))
+				{
+					// Lets try the first hash as this should represet the b/c hash
+					$hashRemote = $updateObject->$hash[0]->value;
+				}
+
+				// We have still not found an hash to compare
+				if (empty($hashRemote))
+				{
+					return self::HASH_NOT_PROVIDED;
+				}
+
 				$hashOnFile  = true;
 
 				if ($hashPackage !== $hashRemote)

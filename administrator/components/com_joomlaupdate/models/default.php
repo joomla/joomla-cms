@@ -279,10 +279,22 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 */
 	public function download()
 	{
-		$updateInfo = $this->getUpdateInformation();
-		$packageURL = trim($updateInfo['object']->downloadurl->_data);
-		$sources    = $updateInfo['object']->get('downloadSources', array());
-		$headers    = get_headers($packageURL, 1);
+		$updateInfo  = $this->getUpdateInformation();
+		$packageURL  = trim($updateInfo['object']->downloadurl->_data);
+		$packageType = trim($updateInfo['object']->downloadurl->type);
+		$sources     = $updateInfo['object']->get('downloadSources', array());
+
+		$updatetype = JFactory::getApplication()->input->get('updatetype', 'update');
+
+		if ($updatetype === 'reinstall' && isset($updateInfo['object']->reinstallurl->_data))
+		{
+			$packageURL  = trim($updateInfo['object']->reinstallurl->_data);
+			$packageType = trim($updateInfo['object']->reinstallurl->type);
+			$sources     = $updateInfo['object']->get('reinstallSources', array());
+
+		}
+
+		$headers = get_headers($packageURL, 1);
 
 		// Follow the Location headers until the actual download URL is known
 		while (isset($headers['Location']))
@@ -315,8 +327,9 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 			while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
 			{
-				$name       = $sources[$mirror];
-				$packageURL = trim($name->url);
+				$name        = $sources[$mirror];
+				$packageURL  = trim($name->url);
+				$packageType = trim($name->type);
 				$mirror++;
 			}
 
@@ -333,8 +346,9 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 				while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
 				{
-					$name       = $sources[$mirror];
-					$packageURL = trim($name->url);
+					$name        = $sources[$mirror];
+					$packageURL  = trim($name->url);
+					$packageType = trim($name->type);
 					$mirror++;
 				}
 
@@ -345,7 +359,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			$response['basename'] = $basename;
 		}
 
-		$response['check'] = $this->isChecksumValid($target, $updateInfo['object']);
+		$response['check'] = $this->isChecksumValid($target, $updateInfo['object'], $packageType);
 
 		return $response;
 	}
@@ -355,6 +369,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 *
 	 * @param   string   $packagefile   Location of the package to be installed
 	 * @param   JUpdate  $updateObject  The Update Object
+	 * @param   string   $packageType   The package type of the update to be installed
 	 *
 	 * @return  boolean  False in case the validation did not work; true in any other case.
 	 *
@@ -363,7 +378,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	 *
 	 * @since   3.9.0
 	 */
-	private function isChecksumValid($packagefile, $updateObject)
+	private function isChecksumValid($packagefile, $updateObject, $packageType = false)
 	{
 		$hashes = array('sha256', 'sha384', 'sha512');
 
@@ -372,7 +387,19 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			if ($updateObject->get($hash, false))
 			{
 				$hashPackage = hash_file($hash, $packagefile);
-				$hashRemote  = $updateObject->$hash->_data;
+
+				foreach ($updateObject->$hash as $hashObject)
+				{
+					if ($hashObject->type === $packageType)
+					{
+						$hashRemote = $hashObject->value;
+					}
+				}
+
+				if ($packageType === false || empty($hashRemote))
+				{
+					$hashRemote = $updateObject->$hash[0]->value;
+				}
 
 				if ($hashPackage !== $hashRemote)
 				{

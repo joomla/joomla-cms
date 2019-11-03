@@ -403,8 +403,9 @@ class InstallerModelUpdate extends JModelList
 			return false;
 		}
 
-		$url     = trim($update->downloadurl->_data);
-		$sources = $update->get('downloadSources', array());
+		$url         = trim($update->downloadurl->_data);
+		$packageType = trim($update->downloadurl->type);
+		$sources     = $update->get('downloadSources', array());
 
 		if ($extra_query = $update->get('extra_query'))
 		{
@@ -416,8 +417,9 @@ class InstallerModelUpdate extends JModelList
 
 		while (!($p_file = InstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
 		{
-			$name = $sources[$mirror];
-			$url  = trim($name->url);
+			$name        = $sources[$mirror];
+			$url         = trim($name->url);
+			$packageType = trim($name->type);
 
 			if ($extra_query)
 			{
@@ -447,7 +449,7 @@ class InstallerModelUpdate extends JModelList
 		$update->set('type', $package['type']);
 
 		// Check the package
-		$check = InstallerHelper::isChecksumValid($package['packagefile'], $update);
+		$check = InstallerHelper::isChecksumValid($package['packagefile'], $update, $packageType);
 
 		// The validation was not successful. Just a warning for now.
 		// TODO: In Joomla 4 this will abort the installation

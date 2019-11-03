@@ -122,6 +122,7 @@ defined('_JEXEC') or die;
 				<button class="btn btn-primary" type="submit">
 					<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INSTALLUPDATE'); ?>
 				</button>
+				<input type="hidden" name="updatetype" value="update" />
 			</td>
 		</tr>
 		</tfoot>

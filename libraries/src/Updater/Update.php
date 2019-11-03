@@ -106,6 +106,14 @@ class Update extends \JObject
 	protected $downloadSources = array();
 
 	/**
+	 * Update manifest `<reinstallsource>` elements
+	 *
+	 * @var    DownloadSource[]
+	 * @since  3.8.3
+	 */
+	protected $reinstallSources = array();
+
+	/**
 	 * Update manifest `<tags>` element
 	 *
 	 * @var    string
@@ -270,6 +278,23 @@ class Update extends \JObject
 				$this->currentUpdate = new \stdClass;
 				break;
 
+			// Handle the array of hashes
+			case 'SHA256':
+			case 'SHA384':
+			case 'SHA512':
+				$hash = new Hashes;
+				$name = strtolower($name);
+
+				foreach ($attrs as $key => $data)
+				{
+					$key = strtolower($key);
+					$hash->$key = $data;
+				}
+
+				$this->$name[] = $hash;
+
+				break;
+
 			// Handle the array of download sources
 			case 'DOWNLOADSOURCE':
 				$source = new DownloadSource;
@@ -281,6 +306,20 @@ class Update extends \JObject
 				}
 
 				$this->downloadSources[] = $source;
+
+				break;
+
+			// Handle the array of reinstall sources
+			case 'REINSTALLSOURCE':
+				$source = new DownloadSource;
+
+				foreach ($attrs as $key => $data)
+				{
+					$key = strtolower($key);
+					$source->$key = $data;
+				}
+
+				$this->reinstallSources[] = $source;
 
 				break;
 
@@ -376,18 +415,6 @@ class Update extends \JObject
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
 
-						// MySQL and MariaDB use the same database driver but not the same version numbers
-						if ($dbType === 'mysql')
-						{
-							// Check whether we have a MariaDB version string and extract the proper version from it
-							if (stripos($dbVersion, 'mariadb') !== false)
-							{
-								// MariaDB: Strip off any leading '5.5.5-', if present
-								$dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
-								$dbType    = 'mariadb';
-							}
-						}
-
 						// Do we have an entry for the database?
 						if (isset($supportedDbs->$dbType))
 						{
@@ -476,6 +503,24 @@ class Update extends \JObject
 			// Grab the last source so we can append the URL
 			$source = end($this->downloadSources);
 			$source->url = $data;
+
+			return;
+		}
+
+		if ($tag == 'reinstallsource')
+		{
+			// Grab the last source so we can append the URL
+			$source = end($this->reinstallSources);
+			$source->url = $data;
+
+			return;
+		}
+
+		if (in_array($tag, array('sha256','sha384','sha512')))
+		{
+			// Grab the last source so we can append the hash value
+			$hash = end($this->$tag);
+			$hash->value = $data;
 
 			return;
 		}
