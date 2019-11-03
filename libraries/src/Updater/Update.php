@@ -530,7 +530,7 @@ class Update extends \JObject
 
 		if (in_array($tag, array('sha256','sha384','sha512')))
 		{
-			// Grab the last source so we can append the hash value
+			// Grab the last hash so we can append the hash value
 			$hash = end($this->$tag);
 			$hash->value = $data;
 
