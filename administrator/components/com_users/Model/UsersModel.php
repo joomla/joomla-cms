@@ -390,19 +390,19 @@ class UsersModel extends ListModel
 
 				if ($dates['dNow'] === false)
 				{
-					$query->where($db->quoteName('a.registerDate') . ' < :dStart');
-					$query->bind(':dStart', $dStart);
+					$query->where($db->quoteName('a.registerDate') . ' < :registerDate');
+					$query->bind(':registerDate', $dStart);
 				}
 				else
 				{
 					$dNow = $dates['dNow']->format('Y-m-d H:i:s');
 
 					$query->where(
-						$db->quoteName('a.registerDate') . ' >= :dStart' .
-						' AND ' . $db->quoteName('a.registerDate') . ' <= :dNow'
+						$db->quoteName('a.registerDate') . ' >= :registerDate1' .
+						' AND ' . $db->quoteName('a.registerDate') . ' <= :registerDate2'
 					);
-					$query->bind(':dStart', $dStart);
-					$query->bind(':dNow', $dNow);
+					$query->bind(':registerDate1', $dStart);
+					$query->bind(':registerDate2', $dNow);
 				}
 			}
 		}
@@ -441,11 +441,11 @@ class UsersModel extends ListModel
 					$dNow   = $dates['dNow']->format('Y-m-d H:i:s');
 
 					$query->where(
-						$db->quoteName('a.lastvisitDate') . ' >= :dStart' .
-						' AND ' . $db->quoteName('a.lastvisitDate') . ' <= :dNow'
+						$db->quoteName('a.lastvisitDate') . ' >= :lastvisitDate1' .
+						' AND ' . $db->quoteName('a.lastvisitDate') . ' <= :lastvisitDate2'
 					);
-					$query->bind(':dStart', $dStart);
-					$query->bind(':dNow', $dNow);
+					$query->bind(':lastvisitDate1', $dStart);
+					$query->bind(':lastvisitDate2', $dNow);
 				}
 			}
 		}
