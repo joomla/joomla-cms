@@ -18,6 +18,7 @@ use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
@@ -789,7 +790,7 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Cms tables and data post install process.
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   DatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  void
 	 *
@@ -800,9 +801,6 @@ class DatabaseModel extends BaseInstallationModel
 		// Update the cms data user ids.
 		$this->updateUserIds($db);
 
-		// Update the cms data dates.
-		$this->updateDates($db);
-
 		// Check for testing sampledata plugin.
 		$this->checkTestingSampledata($db);
 	}
@@ -810,7 +808,7 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to update the user id of sql data content to the new rand user id.
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   DatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  void
 	 *
@@ -834,6 +832,7 @@ class DatabaseModel extends BaseInstallationModel
 			'#__ucm_content'     => array('core_created_user_id', 'core_modified_user_id'),
 			'#__ucm_history'     => array('editor_user_id'),
 			'#__user_notes'      => array('created_user_id', 'modified_user_id'),
+			'#__workflows'       => array('created_by', 'modified_by'),
 		);
 
 		foreach ($updatesArray as $table => $fields)
@@ -861,70 +860,9 @@ class DatabaseModel extends BaseInstallationModel
 	}
 
 	/**
-	 * Method to update the dates of sql data content to the current date.
-	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 */
-	protected function updateDates($db)
-	{
-		// Get the current date.
-		$currentDate = Factory::getDate()->toSql();
-		$nullDate    = $db->getNullDate();
-
-		// Update all core tables date fields of the tables with the current date.
-		$updatesArray = array(
-			'#__banners'             => array('publish_up', 'publish_down', 'reset', 'created', 'modified'),
-			'#__banner_tracks'       => array('track_date'),
-			'#__categories'          => array('created_time', 'modified_time'),
-			'#__contact_details'     => array('publish_up', 'publish_down', 'created', 'modified'),
-			'#__content'             => array('publish_up', 'publish_down', 'created', 'modified'),
-			'#__contentitem_tag_map' => array('tag_date'),
-			'#__fields'              => array('created_time', 'modified_time'),
-			'#__finder_filters'      => array('created', 'modified'),
-			'#__finder_links'        => array('indexdate', 'publish_start_date', 'publish_end_date', 'start_date', 'end_date'),
-			'#__messages'            => array('date_time'),
-			'#__modules'             => array('publish_up', 'publish_down'),
-			'#__newsfeeds'           => array('publish_up', 'publish_down', 'created', 'modified'),
-			'#__redirect_links'      => array('created_date', 'modified_date'),
-			'#__tags'                => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
-			'#__ucm_content'         => array('core_created_time', 'core_modified_time', 'core_publish_up', 'core_publish_down'),
-			'#__ucm_history'         => array('save_date'),
-			'#__users'               => array('registerDate', 'lastvisitDate', 'lastResetTime'),
-			'#__user_notes'          => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
-		);
-
-		foreach ($updatesArray as $table => $fields)
-		{
-			foreach ($fields as $field)
-			{
-				$query = $db->getQuery(true)
-					->update($db->quoteName($table))
-					->set($db->quoteName($field) . ' = ' . $db->quote($currentDate))
-					->where($db->quoteName($field) . ' IS NOT NULL')
-					->where($db->quoteName($field) . ' != ' . $db->quote($nullDate));
-
-				$db->setQuery($query);
-
-				try
-				{
-					$db->execute();
-				}
-				catch (\RuntimeException $e)
-				{
-					Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-				}
-			}
-		}
-	}
-
-	/**
 	 * Method to check for the testing sampledata plugin.
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   DatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  void
 	 *
@@ -967,8 +905,8 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to backup all tables in a database with a given prefix.
 	 *
-	 * @param   \JDatabaseDriver  $db      JDatabaseDriver object.
-	 * @param   string            $prefix  Database table prefix.
+	 * @param   DatabaseDriver  $db      JDatabaseDriver object.
+	 * @param   string          $prefix  Database table prefix.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1025,10 +963,10 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to create a new database.
 	 *
-	 * @param   \JDatabaseDriver  $db       JDatabase object.
-	 * @param   \JObject          $options  JObject coming from "initialise" function to pass user
-	 *                                      and database name to database driver.
-	 * @param   boolean           $utf      True if the database supports the UTF-8 character set.
+	 * @param   DatabaseDriver  $db       Database object.
+	 * @param   CMSObject       $options  CMSObject coming from "initialise" function to pass user
+	 *                                    and database name to database driver.
+	 * @param   boolean         $utf      True if the database supports the UTF-8 character set.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1054,8 +992,8 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to delete all tables in a database with a given prefix.
 	 *
-	 * @param   \JDatabaseDriver  $db      JDatabaseDriver object.
-	 * @param   string            $prefix  Database table prefix.
+	 * @param   DatabaseDriver  $db      JDatabaseDriver object.
+	 * @param   string          $prefix  Database table prefix.
 	 *
 	 * @return  boolean  True on success.
 	 *
