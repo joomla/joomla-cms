@@ -397,10 +397,7 @@ class UsersModel extends ListModel
 				{
 					$dNow = $dates['dNow']->format('Y-m-d H:i:s');
 
-					$query->where(
-						$db->quoteName('a.registerDate') . ' >= :registerDate1' .
-						' AND ' . $db->quoteName('a.registerDate') . ' <= :registerDate2'
-					);
+					$query->where($db->quoteName('a.registerDate') . ' BETWEEN :registerDate1 AND :registerDate2');
 					$query->bind(':registerDate1', $dStart);
 					$query->bind(':registerDate2', $dNow);
 				}
@@ -427,19 +424,14 @@ class UsersModel extends ListModel
 
 				if ($dates['dNow'] === false)
 				{
-					$query->where(
-						$db->quoteName('a.lastvisitDate') . ' < :lastvisitDate'
-					);
+					$query->where($db->quoteName('a.lastvisitDate') . ' < :lastvisitDate');
 					$query->bind(':lastvisitDate', $dStart);
 				}
 				else
 				{
 					$dNow   = $dates['dNow']->format('Y-m-d H:i:s');
 
-					$query->where(
-						$db->quoteName('a.lastvisitDate') . ' >= :lastvisitDate1' .
-						' AND ' . $db->quoteName('a.lastvisitDate') . ' <= :lastvisitDate2'
-					);
+					$query->where($db->quoteName('a.lastvisitDate') . ' BETWEEN :lastvisitDate1 AND :lastvisitDate2');
 					$query->bind(':lastvisitDate1', $dStart);
 					$query->bind(':lastvisitDate2', $dNow);
 				}
