@@ -26,7 +26,7 @@ label {
 
     [dir=rtl] & {
       float: right;
-      text-align: right;;
+      text-align: right;
     }
 
     @include media-breakpoint-down(sm)
