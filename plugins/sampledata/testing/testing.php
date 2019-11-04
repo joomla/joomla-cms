@@ -1356,7 +1356,7 @@ class PlgSampledataTesting extends CMSPlugin
 			{
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
+				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
 
 				return $response;
 			}
@@ -2655,7 +2655,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
 			return $response;
 		}
@@ -2714,7 +2714,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
 			return $response;
 		}
@@ -2858,7 +2858,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
 			return $response;
 		}
@@ -2950,7 +2950,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
 			return $response;
 		}
@@ -3237,7 +3237,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = true;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 8, 'com_modules');
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 8, 'com_modules');
 
 			return $response;
 		}
@@ -4513,7 +4513,7 @@ class PlgSampledataTesting extends CMSPlugin
 				Factory::getLanguage()->load('com_modules');
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 8, Text::_($model->getError()));
+				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 8, Text::_($model->getError()));
 
 				return $response;
 			}
