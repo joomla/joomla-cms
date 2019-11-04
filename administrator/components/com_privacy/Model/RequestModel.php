@@ -439,7 +439,7 @@ class RequestModel extends AdminModel
 			->from($db->quoteName('#__privacy_requests'))
 			->where($db->quoteName('email') . ' = :email')
 			->where($db->quoteName('request_type') . ' = :requesttype')
-			->where($db->quoteName('status'), [0, 1])
+			->whereIn($db->quoteName('status'), [0, 1])
 			->bind(':email', $validatedData['email'])
 			->bind(':requesttype', $validatedData['request_type']);
 
