@@ -15,7 +15,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 try
 {
 	$messagesModel = new \Joomla\Component\Messages\Administrator\Model\MessagesModel(['ignore_request' => true]);
-	$messagesModel->setState('filter.state', 0);
+	$messagesModel->setState('filter.state', 1);
 	$messages      = $messagesModel->getItems();
 }
 catch (RuntimeException $e)
