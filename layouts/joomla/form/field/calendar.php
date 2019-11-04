@@ -103,9 +103,7 @@ HTMLHelper::_('script', 'system/fields/calendar.min.js', ['version' => 'auto', '
 HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, ['version' => 'auto', 'relative' => true]);
 ?>
 <div class="field-calendar">
-	<?php if (!$readonly && !$disabled) : ?>
 	<div class="input-group">
-	<?php endif; ?>
 		<input
 			type="text"
 			id="<?php echo $id; ?>"
@@ -136,7 +134,5 @@ HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, ['version' =
 				><span class="fa fa-calendar" aria-hidden="true"></span></button>
 			</span>
 		<?php endif; ?>
-	<?php if (!$readonly && !$disabled) : ?>
 	</div>
-	<?php endif; ?>
 </div>
