@@ -368,10 +368,10 @@ class UsersModel extends ListModel
 
 				// Add the clauses to the query.
 				$query->where(
-						'(' . $db->quoteName('a.name') . ' LIKE :name'
-						. ' OR ' . $db->quoteName('a.username') . ' LIKE :username'
-						. ' OR ' . $db->quoteName('a.email') . ' LIKE :email)'
-					)
+					'(' . $db->quoteName('a.name') . ' LIKE :name'
+					. ' OR ' . $db->quoteName('a.username') . ' LIKE :username'
+					. ' OR ' . $db->quoteName('a.email') . ' LIKE :email)'
+				)
 					->bind(':name', $search)
 					->bind(':username', $search)
 					->bind(':email', $search);
