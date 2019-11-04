@@ -52,7 +52,16 @@ class PlgWebservicesModules extends CMSPlugin
 
 		$router->addRoutes($routes);
 
-		$router->createCRUDRoutes('v1/modules/site', 'modules', ['component' => 'com_modules', 'client_id' => 0]);
-		$router->createCRUDRoutes('v1/modules/administrator', 'modules', ['component' => 'com_modules', 'client_id' => 1]);
+		$router->createCRUDRoutes(
+			'v1/modules/site',
+			'modules',
+			['component' => 'com_modules', 'client_id' => 0]
+		);
+
+		$router->createCRUDRoutes(
+			'v1/modules/administrator',
+			'modules',
+			['component' => 'com_modules', 'client_id' => 1]
+		);
 	}
 }
