@@ -12,12 +12,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
 
 $hideLinks = $app->input->getBool('hidemainmenu');
 $uri   = Uri::getInstance();
-$route = 'index.php?option=com_messages&view=messages&id=' . $user->id . '&return=' . base64_encode($uri);
-$app      = Factory::getApplication();
+$route = 'index.php?option=com_messages&view=messages&id=' . $app->getIdentity()->id . '&return=' . base64_encode($uri);
 ?>
 
 <div class="header-item-content">

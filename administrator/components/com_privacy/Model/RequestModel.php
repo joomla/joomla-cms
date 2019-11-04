@@ -267,8 +267,7 @@ class RequestModel extends AdminModel
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('email') . ' = :email')
 				->bind(':email', $table->email),
-			0,
-			1
+				->setLimit(1)
 		)->loadResult();
 
 		if ($userId)

@@ -82,8 +82,7 @@ class RemoveModel extends BaseDatabaseModel
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('email') . ' = :email')
 				->bind(':email', $table->email),
-			0,
-			1
+				->setLimit(1)
 		)->loadResult();
 
 		$user = $userId ? User::getInstance($userId) : null;

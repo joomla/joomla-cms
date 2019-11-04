@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
@@ -44,7 +44,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 		// Set the view name
 		if (empty($this->name))
 		{
-			if (array_key_exists('name', $config))
+			if (\array_key_exists('name', $config))
 			{
 				$this->name = $config['name'];
 			}
@@ -55,7 +55,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 		}
 
 		// Set the model state
-		if (array_key_exists('state', $config))
+		if (\array_key_exists('state', $config))
 		{
 			$this->state = $config['state'];
 		}
@@ -84,7 +84,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 		{
 			$r = null;
 
-			if (!preg_match('/Model(.*)/i', get_class($this), $r))
+			if (!preg_match('/Model(.*)/i', \get_class($this), $r))
 			{
 				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}

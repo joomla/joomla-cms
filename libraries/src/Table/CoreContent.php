@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -26,6 +26,14 @@ use Joomla\Utilities\ArrayHelper;
  */
 class CoreContent extends Table
 {
+	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
 	/**
 	 * Constructor
 	 *
@@ -52,31 +60,31 @@ class CoreContent extends Table
 	 */
 	public function bind($array, $ignore = '')
 	{
-		if (isset($array['core_params']) && is_array($array['core_params']))
+		if (isset($array['core_params']) && \is_array($array['core_params']))
 		{
 			$registry = new Registry($array['core_params']);
 			$array['core_params'] = (string) $registry;
 		}
 
-		if (isset($array['core_metadata']) && is_array($array['core_metadata']))
+		if (isset($array['core_metadata']) && \is_array($array['core_metadata']))
 		{
 			$registry = new Registry($array['core_metadata']);
 			$array['core_metadata'] = (string) $registry;
 		}
 
-		if (isset($array['core_images']) && is_array($array['core_images']))
+		if (isset($array['core_images']) && \is_array($array['core_images']))
 		{
 			$registry = new Registry($array['core_images']);
 			$array['core_images'] = (string) $registry;
 		}
 
-		if (isset($array['core_urls']) && is_array($array['core_urls']))
+		if (isset($array['core_urls']) && \is_array($array['core_urls']))
 		{
 			$registry = new Registry($array['core_urls']);
 			$array['core_urls'] = (string) $registry;
 		}
 
-		if (isset($array['core_body']) && is_array($array['core_body']))
+		if (isset($array['core_body']) && \is_array($array['core_body']))
 		{
 			$registry = new Registry($array['core_body']);
 			$array['core_body'] = (string) $registry;
@@ -137,7 +145,10 @@ class CoreContent extends Table
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if ($this->core_publish_down < $this->core_publish_up && $this->core_publish_down > $this->_db->getNullDate())
+		if ($this->core_publish_up !== null
+			&& $this->core_publish_down !== null
+			&& $this->core_publish_down < $this->core_publish_up
+			&& $this->core_publish_down > $this->_db->getNullDate())
 		{
 			// Swap the dates.
 			$temp = $this->core_publish_up;
@@ -245,7 +256,7 @@ class CoreContent extends Table
 	 *
 	 * @since   3.1
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate();
 		$user = Factory::getUser();
@@ -269,6 +280,16 @@ class CoreContent extends Table
 			if (empty($this->core_created_user_id))
 			{
 				$this->core_created_user_id = $user->get('id');
+			}
+
+			if (!(int) $this->core_modified_time)
+			{
+				$this->core_modified_time = $this->core_created_time;
+			}
+
+			if (empty($this->core_modified_user_id))
+			{
+				$this->core_modified_user_id = $this->core_created_user_id;
 			}
 
 			$isNew = true;
@@ -296,7 +317,7 @@ class CoreContent extends Table
 	 *
 	 * @since   3.1
 	 */
-	protected function storeUcmBase($updateNulls = false, $isNew = false)
+	protected function storeUcmBase($updateNulls = true, $isNew = false)
 	{
 		// Store the ucm_base row
 		$db         = $this->getDbo();
@@ -409,7 +430,7 @@ class CoreContent extends Table
 		}
 
 		// If checkin is supported and all rows were adjusted, check them in.
-		if ($checkin && count($pks) === $this->_db->getAffectedRows())
+		if ($checkin && \count($pks) === $this->_db->getAffectedRows())
 		{
 			// Checkin the rows.
 			foreach ($pks as $pk)
@@ -419,7 +440,7 @@ class CoreContent extends Table
 		}
 
 		// If the JTable instance value is in the list of primary keys that were set, set the instance.
-		if (in_array($this->$k, $pks))
+		if (\in_array($this->$k, $pks))
 		{
 			$this->core_state = $state;
 		}

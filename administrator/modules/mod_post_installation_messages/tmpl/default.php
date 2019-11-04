@@ -14,7 +14,7 @@ use Joomla\CMS\Router\Route;
 
 $hideLinks = $app->input->getBool('hidemainmenu');
 ?>
-<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
+<?php if ($app->getIdentity()->authorise('core.manage', 'com_postinstall')) : ?>
 	<div class="header-item-content dropdown d-flex">
 		<button class="dropdown-toggle d-flex flex-column align-items-stretch <?php echo ($hideLinks ? 'disabled' : ''); ?>" data-toggle="dropdown" type="button" <?php echo ($hideLinks ? 'disabled' : ''); ?>
 			title="<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>">

@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -64,11 +65,13 @@ class LevelController extends FormController
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		// Check for if Super Admin can edit
-		$db = Factory::getDbo();
+		$data['id'] = (int) $data['id'];
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__viewlevels'))
-			->where($db->quoteName('id') . ' = ' . (int) $data['id']);
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $data['id'], ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		$viewlevel = $db->loadAssoc();

@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -64,83 +65,132 @@ class BannersModel extends ListModel
 		$query      = $db->getQuery(true);
 		$ordering   = $this->getState('filter.ordering');
 		$tagSearch  = $this->getState('filter.tag_search');
-		$cid        = $this->getState('filter.client_id');
+		$cid        = (int) $this->getState('filter.client_id');
 		$categoryId = $this->getState('filter.category_id');
 		$keywords   = $this->getState('filter.keywords');
 		$randomise  = ($ordering === 'random');
-		$nowDate    = $db->quote(Factory::getDate()->toSql());
+		$nowDate    = Factory::getDate()->toSql();
 
 		$query->select(
-			'a.id as id,'
-				. 'a.type as type,'
-				. 'a.name as name,'
-				. 'a.clickurl as clickurl,'
-				. 'a.cid as cid,'
-				. 'a.description as description,'
-				. 'a.params as params,'
-				. 'a.custombannercode as custombannercode,'
-				. 'a.track_impressions as track_impressions,'
-				. 'cl.track_impressions as client_track_impressions'
+			[
+				$db->quoteName('a.id'),
+				$db->quoteName('a.type'),
+				$db->quoteName('a.name'),
+				$db->quoteName('a.clickurl'),
+				$db->quoteName('a.cid'),
+				$db->quoteName('a.description'),
+				$db->quoteName('a.params'),
+				$db->quoteName('a.custombannercode'),
+				$db->quoteName('a.track_impressions'),
+				$db->quoteName('cl.track_impressions', 'client_track_impressions'),
+			]
 		)
-			->from('#__banners as a')
-			->join('LEFT', '#__banner_clients AS cl ON cl.id = a.cid')
-			->where('a.state=1')
-			->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= ' . $db->quote($nowDate) . ')')
-			->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= ' . $db->quote($nowDate) . ')')
-			->where('(a.imptotal = 0 OR a.impmade <= a.imptotal)');
+			->from($db->quoteName('#__banners', 'a'))
+			->join('LEFT', $db->quoteName('#__banner_clients', 'cl'), $db->quoteName('cl.id') . ' = ' . $db->quoteName('a.cid'))
+			->where($db->quoteName('a.state') . ' = 1')
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('a.publish_up') . ' IS NULL',
+					$db->quoteName('a.publish_up') . ' <= :nowDate1',
+				],
+				'OR'
+			)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('a.publish_down') . ' IS NULL',
+					$db->quoteName('a.publish_down') . ' >= :nowDate2',
+				],
+				'OR'
+			)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('a.imptotal') . ' = 0',
+					$db->quoteName('a.impmade') . ' <= ' . $db->quoteName('a.imptotal'),
+				],
+				'OR'
+			)
+			->bind([':nowDate1', ':nowDate2'], $nowDate);
 
 		if ($cid)
 		{
-			$query->where('a.cid = ' . (int) $cid)
-				->where('cl.state = 1');
+			$query->where(
+				[
+					$db->quoteName('a.cid') . ' = :clientId',
+					$db->quoteName('cl.state') . ' = 1',
+				]
+			)
+				->bind(':clientId', $cid, ParameterType::INTEGER);
 		}
 
 		// Filter by a single or group of categories
 		if (is_numeric($categoryId))
 		{
-			$type = $this->getState('filter.category_id.include', true) ? '= ' : '<> ';
+			$categoryId = (int) $categoryId;
+			$type = $this->getState('filter.category_id.include', true) ? ' = ' : ' <> ';
 
 			// Add subcategory check
-			$includeSubcategories = $this->getState('filter.subcategories', false);
-			$categoryEquals = 'a.catid ' . $type . (int) $categoryId;
-
-			if ($includeSubcategories)
+			if ($this->getState('filter.subcategories', false))
 			{
 				$levels = (int) $this->getState('filter.max_category_levels', '1');
 
 				// Create a subquery for the subcategory list
 				$subQuery = $db->getQuery(true);
-				$subQuery->select('sub.id')
-					->from('#__categories as sub')
-					->join('INNER', '#__categories as this ON sub.lft > this.lft AND sub.rgt < this.rgt')
-					->where('this.id = ' . (int) $categoryId)
-					->where('sub.level <= this.level + ' . $levels);
+				$subQuery->select($db->quoteName('sub.id'))
+					->from($db->quoteName('#__categories', 'sub'))
+					->join(
+						'INNER',
+						$db->quoteName('#__categories', 'this'),
+						$db->quoteName('sub.lft') . ' > ' . $db->quoteName('this.lft')
+						. ' AND ' . $db->quoteName('sub.rgt') . ' < ' . $db->quoteName('this.rgt')
+					)
+					->where(
+						[
+							$db->quoteName('this.id') . ' = :categoryId1',
+							$db->quoteName('sub.level') . ' <= ' . $db->quoteName('this.level') . ' + :levels',
+						]
+					);
 
 				// Add the subquery to the main query
-				$query->where('(' . $categoryEquals . ' OR a.catid IN (' . (string) $subQuery . '))');
+				$query->extendWhere(
+					'AND',
+					[
+						$db->quoteName('a.catid') . $type . ':categoryId2',
+						$db->quoteName('a.catid') . ' IN (' . $subQuery . ')',
+					],
+					'OR'
+				)
+					->bind([':categoryId1', ':categoryId2'], $categoryId, ParameterType::INTEGER)
+					->bind(':levels', $levels, ParameterType::INTEGER);
 			}
 			else
 			{
-				$query->where($categoryEquals);
+				$query->where($db->quoteName('a.catid') . $type . ':categoryId')
+					->bind(':categoryId', $categoryId, ParameterType::INTEGER);
 			}
 		}
 		elseif (is_array($categoryId) && (count($categoryId) > 0))
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
-			$categoryId = implode(',', $categoryId);
 
-			if ($categoryId != '0')
+			if ($this->getState('filter.category_id.include', true))
 			{
-				$type = $this->getState('filter.category_id.include', true) ? 'IN' : 'NOT IN';
-				$query->where('a.catid ' . $type . ' (' . $categoryId . ')');
+				$query->whereIn($db->quoteName('a.catid'), $categoryId);
+			}
+			else
+			{
+				$query->whereNotIn($db->quoteName('a.catid'), $categoryId);
 			}
 		}
 
 		if ($tagSearch)
 		{
-			if (count($keywords) === 0)
+			if (!$keywords)
 			{
-				$query->where('0');
+				// No keywords, select nothing.
+				$query->where('0 != 0');
 			}
 			else
 			{
@@ -150,31 +200,40 @@ class BannersModel extends ListModel
 
 				if ($categoryId)
 				{
-					$query->join('LEFT', '#__categories as cat ON a.catid = cat.id');
+					$query->join('LEFT', $db->quoteName('#__categories', 'cat'), $db->quoteName('a.catid') . ' = ' . $db->quoteName('cat.id'));
 				}
 
-				foreach ($keywords as $keyword)
+				foreach ($keywords as $key => $keyword)
 				{
 					$keyword = trim($keyword);
-					$condition1 = 'a.own_prefix=1 '
-						. ' AND a.metakey_prefix=SUBSTRING(' . $db->quote($keyword) . ',1,LENGTH( a.metakey_prefix)) '
-						. ' OR a.own_prefix=0 '
-						. ' AND cl.own_prefix=1 '
-						. ' AND cl.metakey_prefix=SUBSTRING(' . $db->quote($keyword) . ',1,LENGTH(cl.metakey_prefix)) '
-						. ' OR a.own_prefix=0 '
-						. ' AND cl.own_prefix=0 '
-						. ' AND ' . ($prefix == substr($keyword, 0, strlen($prefix)) ? '1' : '0');
 
-					$condition2 = "a.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
+					$condition1 = $db->quoteName('a.own_prefix') . ' = 1'
+						. ' AND ' . $db->quoteName('a.metakey_prefix')
+						. ' = SUBSTRING(:aprefix' . $key . ',1,LENGTH(' . $db->quoteName('a.metakey_prefix') . '))'
+						. ' OR ' . $db->quoteName('a.own_prefix') . ' = 0'
+						. ' AND ' . $db->quoteName('cl.own_prefix') . ' = 1'
+						. ' AND ' . $db->quoteName('cl.metakey_prefix')
+						. ' = SUBSTRING(:clprefix' . $key . ',1,LENGTH(' . $db->quoteName('cl.metakey_prefix') . '))'
+						. ' OR ' . $db->quoteName('a.own_prefix') . ' = 0'
+						. ' AND ' . $db->quoteName('cl.own_prefix') . ' = 0'
+						. ' AND ' . ($prefix == substr($keyword, 0, strlen($prefix)) ? '0 = 0' : '0 != 0');
+
+					$query->bind([':aprefix' . $key, ':clprefix' . $key], $keyword);
+
+					$regexp     = '[[:<:]]' . $keyword . '[[:>:]]';
+					$condition2 = $db->quoteName('a.metakey') . ' ' . $query->regexp(':aregexp' . $key) . ' ';
+					$query->bind(':aregexp' . $key, $regexp);
 
 					if ($cid)
 					{
-						$condition2 .= " OR cl.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
+						$condition2 .= ' OR ' . $db->quoteName('cl.metakey') . ' ' . $query->regexp(':clregexp' . $key) . ' ';
+						$query->bind(':clregexp' . $key, $regexp);
 					}
 
 					if ($categoryId)
 					{
-						$condition2 .= " OR cat.metakey REGEXP '[[:<:]]" . $db->escape($keyword) . "[[:>:]]'";
+						$condition2 .= ' OR ' . $db->quoteName('cat.metakey') . ' ' . $query->regexp(':catregexp' . $key) . ' ';
+						$query->bind(':catregexp' . $key, $regexp);
 					}
 
 					$temp[] = "($condition1) AND ($condition2)";
@@ -187,10 +246,10 @@ class BannersModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*']);
 		}
 
-		$query->order('a.sticky DESC,' . ($randomise ? $query->rand() : 'a.ordering'));
+		$query->order($db->quoteName('a.sticky') . ' DESC, ' . ($randomise ? $query->rand() : $db->quoteName('a.ordering')));
 
 		return $query;
 	}
@@ -230,7 +289,7 @@ class BannersModel extends ListModel
 		$trackDate = Factory::getDate()->toSql();
 		$items     = $this->getItems();
 		$db        = $this->getDbo();
-		$query     = $db->getQuery(true);
+		$bid       = [];
 
 		if (!count($items))
 		{
@@ -243,10 +302,10 @@ class BannersModel extends ListModel
 		}
 
 		// Increment impression made
-		$query->clear()
-			->update('#__banners')
-			->set('impmade = (impmade + 1)')
-			->where('id IN (' . implode(',', $bid) . ')');
+		$query = $db->getQuery(true);
+		$query->update($db->quoteName('#__banners'))
+			->set($db->quoteName('impmade') . ' = ' . $db->quoteName('impmade') . ' + 1')
+			->whereIn($db->quoteName('id'), $bid);
 		$db->setQuery($query);
 
 		try
@@ -278,12 +337,18 @@ class BannersModel extends ListModel
 			{
 				// Is track already created?
 				// Update count
-				$query->clear();
-				$query->update('#__banner_tracks')
-					->set($db->quoteName('count') . ' = (' . $db->quoteName('count') . ' + 1)')
-					->where('track_type=1')
-					->where('banner_id=' . (int) $item->id)
-					->where('track_date=' . $db->quote($trackDate));
+				$query = $db->getQuery(true);
+				$query->update($db->quoteName('#__banner_tracks'))
+					->set($db->quoteName('count') . ' = ' . $db->quoteName('count') . ' + 1')
+					->where(
+						[
+							$db->quoteName('track_type') . ' = 1',
+							$db->quoteName('banner_id') . ' = :id',
+							$db->quoteName('track_date') . ' = :trackDate',
+						]
+					)
+					->bind(':id', $item->id, ParameterType::INTEGER)
+					->bind(':trackDate', $trackDate);
 
 				$db->setQuery($query);
 
@@ -299,16 +364,19 @@ class BannersModel extends ListModel
 				if ($db->getAffectedRows() === 0)
 				{
 					// Insert new count
-					$query->clear();
-
-					$query->insert('#__banner_tracks')
+					$query = $db->getQuery(true);
+					$query->insert($db->quoteName('#__banner_tracks'))
 						->columns(
-							array(
-								$db->quoteName('count'), $db->quoteName('track_type'),
-								$db->quoteName('banner_id'), $db->quoteName('track_date')
-							)
+							[
+								$db->quoteName('count'),
+								$db->quoteName('track_type'),
+								$db->quoteName('banner_id'),
+								$db->quoteName('track_date'),
+							]
 						)
-						->values('1, 1, ' . (int) $item->id . ', ' . $db->quote($trackDate));
+						->values('1, 1, :id, :trackDate')
+						->bind(':id', $item->id, ParameterType::INTEGER)
+						->bind(':trackDate', $trackDate);
 
 					$db->setQuery($query);
 

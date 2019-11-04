@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * The Categories List Controller
@@ -100,7 +99,7 @@ class CategoriesController extends AdminController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getRedirectToListAppend()
 	{
