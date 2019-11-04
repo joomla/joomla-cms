@@ -15,6 +15,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\Model\UpdatesitesModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
@@ -99,6 +100,9 @@ class HtmlView extends InstallerViewDefault
 	{
 		$canDo = ContentHelper::getActions('com_installer');
 
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
+
 		if ($canDo->get('core.edit'))
 		{
 			ToolbarHelper::editList('updatesite.edit');
@@ -106,20 +110,24 @@ class HtmlView extends InstallerViewDefault
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publish('updatesites.publish', 'JTOOLBAR_ENABLE', true);
-			ToolbarHelper::unpublish('updatesites.unpublish', 'JTOOLBAR_DISABLE', true);
-			ToolbarHelper::divider();
-		}
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
 
-		if ($canDo->get('core.delete'))
-		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'updatesites.delete');
-			ToolbarHelper::divider();
-		}
+			$childBar = $dropdown->getChildToolbar();
 
-		if ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::checkin('updatesites.checkin');
+			$childBar->publish('updatesites.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
+			$childBar->unpublish('updatesites.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
+
+			if ($canDo->get('core.delete'))
+			{
+				$childBar->delete('updatesites.delete')->listCheck(true);
+			}
+
+			$childBar->checkin('updatesites.checkin')->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))

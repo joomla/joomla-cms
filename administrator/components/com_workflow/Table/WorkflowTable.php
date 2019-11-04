@@ -212,6 +212,11 @@ class WorkflowTable extends Table
 			$this->modified = $this->created;
 		}
 
+		if (empty($this->modified_by))
+		{
+			$this->modified_by = $this->created_by;
+		}
+
 		if ($this->default == '1')
 		{
 			// Verify that the default is unique for this workflow

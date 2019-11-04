@@ -151,6 +151,7 @@ class HtmlView extends BaseHtmlView
 				function (Toolbar $childBar)
 				{
 					$childBar->save('article.save');
+					$childBar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
 					$childBar->save2new('article.save2new');
 				}
 			);
@@ -185,6 +186,7 @@ class HtmlView extends BaseHtmlView
 					// If checked out, we can still save
 					if ($canDo->get('core.create'))
 					{
+						$childBar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
 						$childBar->save2copy('article.save2copy');
 					}
 				}
@@ -206,60 +208,6 @@ class HtmlView extends BaseHtmlView
 				$toolbar->preview($url, 'JGLOBAL_PREVIEW')
 					->bodyHeight(80)
 					->modalWidth(90);
-
-				// Add necessary code for a new menu item modal
-
-				// Setup variables for display
-				$linkSuffix = '&amp;layout=modal&amp;client_id=0&amp;tmpl=component&amp;' . Session::getFormToken() . '=1';
-				$linkItem   = 'index.php?option=com_menus&amp;view=item' . $linkSuffix;
-
-				// Force the language of the menu item when multilang is implemented
-				if (Multilanguage::isEnabled() && $this->form->getValue('language') !== '*')
-				{
-					$linkItem .= '&amp;forcedLanguage=' . $this->form->getValue('language');
-				}
-
-				$urlNew  = $linkItem . '&amp;task=item.add';
-				$modalId = 'jform_request_id';
-
-				// Add button to open the modal
-				ToolbarHelper::modal('ModalNewItem_' . $modalId, 'icon-new', 'COM_CONTENT_ADD_NEW_MENU_ITEM');
-
-				// Add the modal field script to the document head.
-				HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
-
-				// Load the language files
-				$language = Factory::getLanguage();
-				$language->load('com_menus', JPATH_ADMINISTRATOR, null, false, true);
-
-				// Add the modal html to the document
-				echo HTMLHelper::_(
-					'bootstrap.renderModal',
-					'ModalNewItem_' . $modalId,
-					array(
-						'title' => Text::_('COM_MENUS_NEW_MENUITEM'),
-						'backdrop' => 'static',
-						'keyboard' => false,
-						'closeButton' => false,
-						'url' => $urlNew,
-						'height' => '400px',
-						'width' => '800px',
-						'bodyHeight' => 70,
-						'modalWidth' => 80,
-						'footer' => '<button type="button" class="btn btn-secondary" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $modalId . '\', \'add\', \'item\', \'cancel\', \'item-form\'); return false;">'
-							. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-							. '<button type="button" class="btn btn-primary" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $modalId . '\', \'add\', \'item\', \'save\', \'item-form\'); return false;">'
-							. Text::_('JSAVE') . '</button>'
-							. '<button type="button" class="btn btn-success" aria-hidden="true"'
-							. ' onclick="window.processModalEdit(this, \'' . $modalId . '\', \'add\', \'item\', \'apply\', \'item-form\'); return false;">'
-							. Text::_('JAPPLY') . '</button>'
-					)
-				);
-
-				echo '<input type="hidden" class="form-control" id="' . $modalId . '_name" value="">';
-				echo '<input type="hidden" id="' . $modalId . '_id" value="0">';
 			}
 		}
 

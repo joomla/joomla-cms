@@ -135,11 +135,6 @@ class NewsfeedTable extends Table
 			$this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
 		}
 
-		if (empty($this->modified))
-		{
-			$this->modified = $this->created;
-		}
-
 		return true;
 	}
 
@@ -175,6 +170,16 @@ class NewsfeedTable extends Table
 			if (empty($this->created_by))
 			{
 				$this->created_by = $user->get('id');
+			}
+
+			if (!(int) $this->modified)
+			{
+				$this->modified = $this->created;
+			}
+
+			if (empty($this->modified_by))
+			{
+				$this->modified_by = $this->created_by;
 			}
 		}
 
