@@ -2,13 +2,13 @@
 
 .com_config {
 
-	#fieldset-permissions {
-		grid-template-columns: 1fr;
-	}
+  #fieldset-permissions {
+    grid-template-columns: 1fr;
+  }
 
-	.tab-description {
-		grid-column: 1 / -1;
-	}
+  .tab-description {
+    grid-column: 1 / -1;
+  }
 
   .rule-notes,
   .filter-notes {
@@ -21,5 +21,17 @@
     .revert-controls .controls {
       margin-left: 0;
     }
+  }
+  
+  .control-group .control-label {
+    width: auto;
+  }
+
+  .switcher__legend {
+    width: auto;
+  }
+  
+  .spacer label {
+    width: auto;
   }
 }
