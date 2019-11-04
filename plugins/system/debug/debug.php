@@ -14,8 +14,7 @@ use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
@@ -32,6 +31,7 @@ use Joomla\Plugin\System\Debug\DataCollector\LanguageStringsCollector;
 use Joomla\Plugin\System\Debug\DataCollector\ProfileCollector;
 use Joomla\Plugin\System\Debug\DataCollector\QueryCollector;
 use Joomla\Plugin\System\Debug\DataCollector\SessionCollector;
+use Joomla\Plugin\System\Debug\JavascriptRenderer;
 use Joomla\Plugin\System\Debug\Storage\FileStorage;
 
 /**
@@ -92,7 +92,7 @@ class PlgSystemDebug extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    CMSApplication
+	 * @var    CMSApplicationInterface
 	 * @since  3.3
 	 */
 	protected $app;
@@ -139,18 +139,6 @@ class PlgSystemDebug extends CMSPlugin
 	{
 		parent::__construct($subject, $config);
 
-		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
-		if (!$this->app)
-		{
-			$this->app = Factory::getApplication();
-		}
-
-		// Get the db if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
-		if (!$this->db)
-		{
-			$this->db = Factory::getDbo();
-		}
-
 		$this->debugLang = $this->app->get('debug_lang');
 
 		// Skip the plugin if debug is off
@@ -162,9 +150,6 @@ class PlgSystemDebug extends CMSPlugin
 		$this->app->getConfig()->set('gzip', false);
 		ob_start();
 		ob_implicit_flush(false);
-
-		// @todo Remove when a standard autoloader is available.
-		JLoader::registerNamespace('Joomla\\Plugin\\System\\Debug', __DIR__, false, false, 'psr4');
 
 		/** @var \Joomla\Database\Monitor\DebugMonitor */
 		$this->queryMonitor = $this->db->getMonitor();
@@ -201,11 +186,22 @@ class PlgSystemDebug extends CMSPlugin
 		{
 			// Use our own jQuery and fontawesome instead of the debug bar shipped version
 			$assetManager = $this->app->getDocument()->getWebAssetManager();
-			$assetManager->enableAsset('jquery-noconflict');
-			$assetManager->enableAsset('fontawesome-free');
-
-			HTMLHelper::_('stylesheet', 'plg_system_debug/debug.css', array('version' => 'auto', 'relative' => true));
-			HTMLHelper::_('script', 'plg_system_debug/debug.min.js', array('version' => 'auto', 'relative' => true));
+			$assetManager->getRegistry()->add(
+				new Joomla\CMS\WebAsset\WebAssetItem(
+					'plg.system.debug',
+					[
+						'dependencies' => ['jquery', 'fontawesome-free'],
+						'css' => ['plg_system_debug/debug.css'],
+						'js'  => ['plg_system_debug/debug.min.js'],
+						'attribute' => [
+							'plg_system_debug/debug.min.js' => [
+								'defer' => true,
+							],
+						]
+					]
+				)
+			);
+			$assetManager->enableAsset('plg.system.debug');
 		}
 
 		// Disable asset media version if needed.
@@ -283,16 +279,19 @@ class PlgSystemDebug extends CMSPlugin
 			$this->debugBar->addCollector(new LanguageErrorsCollector($this->params));
 		}
 
-		$debugBarRenderer = $this->debugBar->getJavascriptRenderer();
+		// Only render for HTML output.
+		if ($this->app->getDocument()->getType() !== 'html')
+		{
+			$this->debugBar->stackData();
+
+			return;
+		}
+
+		$debugBarRenderer = new JavascriptRenderer($this->debugBar, Uri::root(true) . '/media/vendor/debugbar/');
 		$openHandlerUrl   = Uri::base(true) . '/index.php?option=com_ajax&plugin=debug&group=system&format=raw&action=openhandler';
 		$openHandlerUrl  .= '&' . Session::getFormToken() . '=1';
 
 		$debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
-		$debugBarRenderer->setBaseUrl(Uri::root(true) . '/media/vendor/debugbar/');
-
-		$debugBarRenderer->disableVendor('jquery');
-		$debugBarRenderer->setEnableJqueryNoConflict(false);
-		$debugBarRenderer->disableVendor('fontawesome');
 
 		/**
 		 * @todo disable highlightjs from the DebugBar, import it through NPM
@@ -300,14 +299,6 @@ class PlgSystemDebug extends CMSPlugin
 		 *       Also every DebuBar script and stylesheet needs to use Joomla's API
 		 *       $debugBarRenderer->disableVendor('highlightjs');
 		 */
-
-		// Only render for HTML output.
-		if (Factory::getDocument()->getType() !== 'html')
-		{
-			$this->debugBar->stackData();
-
-			return;
-		}
 
 		// Capture output.
 		$contents = ob_get_contents();
@@ -444,7 +435,7 @@ class PlgSystemDebug extends CMSPlugin
 
 		if (!empty($filterGroups))
 		{
-			$userGroups = Factory::getUser()->get('groups');
+			$userGroups = $this->app->getIdentity()->get('groups');
 
 			if (!array_intersect($filterGroups, $userGroups))
 			{

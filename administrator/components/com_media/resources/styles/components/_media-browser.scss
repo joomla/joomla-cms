@@ -22,8 +22,6 @@
   margin-right: $grid-gutter-width;
   margin-bottom: $grid-gutter-width;
   cursor: pointer;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   .media-browser-items-xs & {
     width: calc(#{$grid-item-width-xs} - #{$grid-gutter-width});

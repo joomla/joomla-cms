@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Frontpage View class
@@ -36,11 +37,11 @@ class FeedView extends AbstractView
 	{
 		// Parameters
 		$app       = Factory::getApplication();
-		$doc       = Factory::getDocument();
 		$params    = $app->getParams();
 		$feedEmail = $app->get('feed_email', 'none');
 		$siteEmail = $app->get('mailfrom');
-		$doc->link = Route::_('index.php?option=com_content&view=featured');
+
+		$this->document->link = Route::_('index.php?option=com_content&view=featured');
 
 		// Get some data from the model
 		$app->input->set('limit', $app->get('feed_limit'));
@@ -50,7 +51,7 @@ class FeedView extends AbstractView
 		foreach ($rows as $row)
 		{
 			// Strip html from feed item title
-			$title = $this->escape($row->title);
+			$title = htmlspecialchars($row->title, ENT_QUOTES, 'UTF-8');
 			$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
 			// Compute the article slug
@@ -74,7 +75,7 @@ class FeedView extends AbstractView
 
 			if (isset($introImage) && ($introImage != ''))
 			{
-				$image = preg_match('/http/', $introImage) ? $introImage : JURI::root() . $introImage;
+				$image = preg_match('/http/', $introImage) ? $introImage : Uri::root() . $introImage;
 				$description = '<p><img src="' . $image . '"></p>';
 			}
 
@@ -122,7 +123,7 @@ class FeedView extends AbstractView
 			$item->description = '<div class="feed-description">' . $description . '</div>';
 
 			// Loads item info into rss array
-			$doc->addItem($item);
+			$this->document->addItem($item);
 		}
 	}
 }

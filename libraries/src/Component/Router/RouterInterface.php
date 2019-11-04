@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Component\Router;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Component routing interface

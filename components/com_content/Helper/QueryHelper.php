@@ -120,7 +120,7 @@ class QueryHelper
 				break;
 
 			case 'random' :
-				$orderby = $db->getQuery(true)->Rand();
+				$orderby = $db->getQuery(true)->rand();
 				break;
 
 			case 'vote' :
@@ -189,11 +189,11 @@ class QueryHelper
 
 			// Use created if publish_up is not set
 			case 'published' :
-				$queryDate = ' CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END ';
+				$queryDate = ' CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END ';
 				break;
 
 			case 'unpublished' :
-				$queryDate = ' CASE WHEN a.publish_down = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_down END ';
+				$queryDate = ' CASE WHEN a.publish_down IS NULL THEN a.created ELSE a.publish_down END ';
 				break;
 			case 'created' :
 			default :

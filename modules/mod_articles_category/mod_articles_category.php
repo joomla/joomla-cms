@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\ArticlesCategory\Site\Helper\ArticlesCategoryHelper;
 
-$input = Factory::getApplication()->input;
+$input = $app->input;
 
 // Prep for Normal or Dynamic Modes
 $mode   = $params->get('mode', 'normal');
@@ -62,7 +61,7 @@ $cacheparams->modeparams   = $cacheid;
 $list                       = ModuleHelper::moduleCache($module, $params, $cacheparams);
 $article_grouping           = $params->get('article_grouping', 'none');
 $article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
-$grouped                    = $article_grouping === 'none' ? false : true;
+$grouped                    = $article_grouping !== 'none';
 
 if ($list && $grouped)
 {

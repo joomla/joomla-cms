@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Profiler\Profiler;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -43,7 +44,7 @@ abstract class ModuleHelper
 	{
 		$result = null;
 		$modules =& static::load();
-		$total = count($modules);
+		$total = \count($modules);
 
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -94,7 +95,7 @@ abstract class ModuleHelper
 
 		$modules =& static::load();
 
-		$total = count($modules);
+		$total = \count($modules);
 
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -104,7 +105,7 @@ abstract class ModuleHelper
 			}
 		}
 
-		if (count($result) === 0)
+		if (\count($result) === 0)
 		{
 			if ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
 			{
@@ -151,7 +152,7 @@ abstract class ModuleHelper
 		$app = Factory::getApplication();
 
 		// Check that $module is a valid module object
-		if (!is_object($module) || !isset($module->module) || !isset($module->params))
+		if (!\is_object($module) || !isset($module->module) || !isset($module->params))
 		{
 			if (JDEBUG)
 			{
@@ -327,7 +328,7 @@ abstract class ModuleHelper
 		$app->triggerEvent('onPrepareModuleList', array(&$modules));
 
 		// If the onPrepareModuleList event returns an array of modules, then ignore the default module list creation
-		if (!is_array($modules))
+		if (!\is_array($modules))
 		{
 			$modules = static::getModuleList();
 		}
@@ -348,47 +349,78 @@ abstract class ModuleHelper
 	 */
 	public static function getModuleList()
 	{
-		$app = Factory::getApplication();
-		$Itemid = $app->input->getInt('Itemid', 0);
-		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
-		$lang = Factory::getLanguage()->getTag();
+		$app      = Factory::getApplication();
+		$itemId   = $app->input->getInt('Itemid', 0);
+		$groups   = $app->getIdentity()->getAuthorisedViewLevels();
 		$clientId = (int) $app->getClientId();
 
 		// Build a cache ID for the resulting data object
-		$cacheId = $groups . '.' . $clientId . '.' . $Itemid;
+		$cacheId = implode(',', $groups) . '.' . $clientId . '.' . $itemId;
 
-		$db = Factory::getDbo();
-
-		$query = $db->getQuery(true)
-			->select('m.id, m.title, m.module, m.position, m.content, m.showtitle, m.params, mm.menuid')
-			->from('#__modules AS m')
-			->join('LEFT', '#__modules_menu AS mm ON mm.moduleid = m.id')
-			->where('m.published = 1')
-			->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id')
-			->where('e.enabled = 1');
-
+		$db      = Factory::getDbo();
+		$query   = $db->getQuery(true);
 		$nowDate = Factory::getDate()->toSql();
 
-		$query->where('(' . $query->isNullDatetime('m.publish_up') . ' OR m.publish_up <= ' . $db->quote($nowDate) . ')')
-			->where('(' . $query->isNullDatetime('m.publish_down') . ' OR m.publish_down >= ' . $db->quote($nowDate) . ')')
-			->where('m.access IN (' . $groups . ')')
-			->where('m.client_id = ' . $clientId)
-			->where('(mm.menuid = ' . $Itemid . ' OR mm.menuid <= 0)');
+		$query->select($db->quoteName(['m.id', 'm.title', 'm.module', 'm.position', 'm.content', 'm.showtitle', 'm.params', 'mm.menuid']))
+			->from($db->quoteName('#__modules', 'm'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__modules_menu', 'mm'),
+				$db->quoteName('mm.moduleid') . ' = ' . $db->quoteName('m.id')
+			)
+			->join(
+				'LEFT',
+				$db->quoteName('#__extensions', 'e'),
+				$db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
+				. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('m.client_id')
+			)
+			->where(
+				[
+					$db->quoteName('m.published') . ' = 1',
+					$db->quoteName('e.enabled') . ' = 1',
+					$db->quoteName('m.client_id') . ' = :clientId',
+				]
+			)
+			->bind(':clientId', $clientId, ParameterType::INTEGER)
+			->whereIn($db->quoteName('m.access'), $groups)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('m.publish_up') . ' IS NULL',
+					$db->quoteName('m.publish_up') . ' <= :publishUp',
+				],
+				'OR'
+			)
+			->bind(':publishUp', $nowDate)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('m.publish_down') . ' IS NULL',
+					$db->quoteName('m.publish_down') . ' >= :publishDown',
+				],
+				'OR'
+			)
+			->bind(':publishDown', $nowDate)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('mm.menuid') . ' = :itemId',
+					$db->quoteName('mm.menuid') . ' <= 0',
+				],
+				'OR'
+			)
+			->bind(':itemId', $itemId, ParameterType::INTEGER);
 
 		// Filter by language
-		if ($app->isClient('site') && $app->getLanguageFilter())
+		if ($app->isClient('site') && $app->getLanguageFilter() || $app->isClient('administrator') && static::isAdminMultilang())
 		{
-			$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
-			$cacheId .= $lang . '*';
+			$language = $app->getLanguage()->getTag();
+
+			$query->whereIn($db->quoteName('m.language'), [$language, '*'], ParameterType::STRING);
+			$cacheId .= $language . '*';
 		}
 
-		if ($app->isClient('administrator') && static::isAdminMultilang())
-		{
-			$query->where('m.language IN (' . $db->quote($lang) . ',' . $db->quote('*') . ')');
-			$cacheId .= $lang . '*';
-		}
-
-		$query->order('m.position, m.ordering');
+		$query->order($db->quoteName(['m.position', 'm.ordering']));
 
 		// Set the query
 		$db->setQuery($query);
@@ -506,7 +538,10 @@ abstract class ModuleHelper
 			->createCacheController('callback', ['defaultgroup' => $cacheparams->cachegroup]);
 
 		// Turn cache off for internal callers if parameters are set to off and for all logged in users
-		if ($moduleparams->get('owncache') === 0 || $moduleparams->get('owncache') === '0' || $app->get('caching') == 0 || $user->get('id'))
+		$ownCacheDisabled = $moduleparams->get('owncache') === 0 || $moduleparams->get('owncache') === '0';
+		$cacheDisabled = $moduleparams->get('cache') === 0 || $moduleparams->get('cache') === '0';
+
+		if ($ownCacheDisabled || $cacheDisabled || $app->get('caching') == 0 || $user->get('id'))
 		{
 			$cache->setCaching(false);
 		}
@@ -534,7 +569,7 @@ abstract class ModuleHelper
 			case 'safeuri':
 				$secureid = null;
 
-				if (is_array($cacheparams->modeparams))
+				if (\is_array($cacheparams->modeparams))
 				{
 					$input   = $app->input;
 					$uri     = $input->getArray();
@@ -597,7 +632,7 @@ abstract class ModuleHelper
 	{
 		static $enabled = false;
 
-		if (count(LanguageHelper::getInstalledLanguages(1)) > 1)
+		if (\count(LanguageHelper::getInstalledLanguages(1)) > 1)
 		{
 			$enabled = (bool) ComponentHelper::getParams('com_modules')->get('adminlangfilter', 0);
 		}
@@ -618,7 +653,7 @@ abstract class ModuleHelper
 	{
 		$modules =& static::load();
 
-		$total = count($modules);
+		$total = \count($modules);
 
 		for ($i = 0; $i < $total; $i++)
 		{

@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\ArticlesNews\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
@@ -87,13 +87,23 @@ abstract class ArticlesNewsHelper
 			$model->setState('filter.featured', 'hide');
 		}
 
+		// Filter by id in case it should be excluded
+		if ($params->get('exclude_current', true)
+			&& $app->input->get('option') === 'com_content'
+			&& $app->input->get('view') === 'article')
+		{
+			// Exclude the current article from displaying in this module
+			$model->setState('filter.article_id', $app->input->get('id', 0, 'UINT'));
+			$model->setState('filter.article_id.include', false);
+		}
+
 		// Set ordering
 		$ordering = $params->get('ordering', 'a.publish_up');
 		$model->setState('list.ordering', $ordering);
 
 		if (trim($ordering) === 'rand()')
 		{
-			$model->setState('list.ordering', Factory::getDbo()->getQuery(true)->Rand());
+			$model->setState('list.ordering', Factory::getDbo()->getQuery(true)->rand());
 		}
 		else
 		{
@@ -110,10 +120,10 @@ abstract class ArticlesNewsHelper
 
 		foreach ($items as &$item)
 		{
-			$item->readmore = strlen(trim($item->fulltext));
+			$item->readmore = \strlen(trim($item->fulltext));
 			$item->slug     = $item->id . ':' . $item->alias;
 
-			if ($access || in_array($item->access, $authorised))
+			if ($access || \in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
 				$item->link     = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));

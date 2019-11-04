@@ -28,8 +28,6 @@ if (!Joomla) {
     initialise() {
       webInstallerOptions.loaded = 1;
 
-      Joomla.loadingLayer('load', document.getElementById('web'));
-
       const cancelButton = document.getElementById('uploadform-web-cancel');
 
       cancelButton.addEventListener('click', () => {
@@ -258,11 +256,12 @@ if (!Joomla) {
     }
 
     static showLoadingLayer() {
-      Joomla.loadingLayer('show', document.getElementById('web'));
+      document.getElementById('web').appendChild(document.createElement('joomla-core-loader'));
     }
 
     static hideLoadingLayer() {
-      Joomla.loadingLayer('hide', document.getElementById('web'));
+      const spinnerElement = document.querySelector('#web joomla-core-loader');
+      spinnerElement.parentNode.removeChild(spinnerElement);
     }
 
     static clicker() {
