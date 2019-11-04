@@ -105,7 +105,7 @@ HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, ['version' =
 <div class="field-calendar">
 	<?php if (!$readonly && !$disabled) : ?>
 	<div class="input-group">
-		<?php endif; ?>
+	<?php endif; ?>
 		<input
 			type="text"
 			id="<?php echo $id; ?>"
@@ -115,26 +115,28 @@ HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, ['version' =
 			<?php echo $attributes; ?>
 			<?php echo !empty($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ''; ?>
 			data-alt-value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" autocomplete="off">
-		<span class="input-group-append">
-			<button type="button" class="<?php echo ($readonly || $disabled) ? 'hidden ' : ''; ?>btn btn-primary"
-				id="<?php echo $id; ?>_btn"
-				data-inputfield="<?php echo $id; ?>"
-				data-dayformat="<?php echo $format; ?>"
-				data-button="<?php echo $id; ?>_btn"
-				data-firstday="<?php echo Factory::getLanguage()->getFirstDay(); ?>"
-				data-weekend="<?php echo Factory::getLanguage()->getWeekEnd(); ?>"
-				data-today-btn="<?php echo $todaybutton; ?>"
-				data-week-numbers="<?php echo $weeknumbers; ?>"
-				data-show-time="<?php echo $showtime; ?>"
-				data-show-others="<?php echo $filltable; ?>"
-				data-time-24="<?php echo $timeformat; ?>"
-				data-only-months-nav="<?php echo $singleheader; ?>"
-				<?php echo isset($minYear) && strlen($minYear) ? 'data-min-year="' . $minYear . '"' : ''; ?>
-				<?php echo isset($maxYear) && strlen($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
-				title="<?php echo Text::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?>"
-			><span class="fa fa-calendar" aria-hidden="true"></span></button>
-		</span>
 		<?php if (!$readonly && !$disabled) : ?>
+			<span class="input-group-append">
+				<button type="button" class="btn btn-primary"
+					id="<?php echo $id; ?>_btn"
+					data-inputfield="<?php echo $id; ?>"
+					data-dayformat="<?php echo $format; ?>"
+					data-button="<?php echo $id; ?>_btn"
+					data-firstday="<?php echo Factory::getLanguage()->getFirstDay(); ?>"
+					data-weekend="<?php echo Factory::getLanguage()->getWeekEnd(); ?>"
+					data-today-btn="<?php echo $todaybutton; ?>"
+					data-week-numbers="<?php echo $weeknumbers; ?>"
+					data-show-time="<?php echo $showtime; ?>"
+					data-show-others="<?php echo $filltable; ?>"
+					data-time-24="<?php echo $timeformat; ?>"
+					data-only-months-nav="<?php echo $singleheader; ?>"
+					<?php echo isset($minYear) && strlen($minYear) ? 'data-min-year="' . $minYear . '"' : ''; ?>
+					<?php echo isset($maxYear) && strlen($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
+					title="<?php echo Text::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?>"
+				><span class="fa fa-calendar" aria-hidden="true"></span></button>
+			</span>
+		<?php endif; ?>
+	<?php if (!$readonly && !$disabled) : ?>
 	</div>
-<?php endif; ?>
+	<?php endif; ?>
 </div>
