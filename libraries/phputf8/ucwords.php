@@ -1,5 +1,5 @@
 <?php
-defined('_JEXEC') or die;
+defined('JPATH_LIBRARIES') or die;
 
 if (class_exists('JLog'))
 {
