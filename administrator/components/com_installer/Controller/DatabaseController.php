@@ -103,8 +103,7 @@ class DatabaseController extends BaseController
 	public function import()
 	{
 		// Get file to import in the database.
-		$input = Factory::getApplication()->input;
-		$file = $input->files->get('zip_file', null, 'raw');
+		$file = $this->$input->files->get('zip_file', null, 'raw');
 
 		if ($file['name'] == '')
 		{
