@@ -43,6 +43,14 @@ class StagesController extends AdminController
 	protected $extension;
 
 	/**
+	 * The prefix to use with controller messages.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $text_prefix = 'COM_WORKFLOW_STAGES';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
@@ -135,7 +143,7 @@ class StagesController extends AdminController
 		}
 		elseif (count($cid) > 1)
 		{
-			$this->setMessage(Text::_('COM_WORKFLOW_TOO_MANY_ITEMS'), 'error');
+			$this->setMessage(Text::_('COM_WORKFLOW_TOO_MANY_STAGES'), 'error');
 		}
 		else
 		{
@@ -170,7 +178,7 @@ class StagesController extends AdminController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getRedirectToListAppend()
 	{

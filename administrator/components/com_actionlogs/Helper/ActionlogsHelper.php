@@ -60,7 +60,7 @@ class ActionlogsHelper
 		$disabledText = Text::_('COM_ACTIONLOGS_DISABLED');
 
 		// Header row
-		yield ['Id', 'Message', 'Date', 'Extension', 'User', 'Ip'];
+		yield ['Id', 'Action', 'Extension', 'Date', 'Name', 'IP Address'];
 
 		foreach ($data as $log)
 		{
@@ -71,8 +71,8 @@ class ActionlogsHelper
 			yield array(
 				'id'         => $log->id,
 				'message'    => self::escapeCsvFormula(strip_tags(static::getHumanReadableLogMessage($log, false))),
-				'date'       => (new Date($log->log_date, new \DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
 				'extension'  => self::escapeCsvFormula(Text::_($extension)),
+				'date'       => (new Date($log->log_date, new \DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
 				'name'       => self::escapeCsvFormula($log->name),
 				'ip_address' => self::escapeCsvFormula($log->ip_address === 'COM_ACTIONLOGS_DISABLED' ? $disabledText : $log->ip_address)
 			);

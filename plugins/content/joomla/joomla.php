@@ -255,6 +255,7 @@ class PlgContentJoomla extends CMSPlugin
 			'com_contact' => array('table_name' => '#__contact_details'),
 			'com_content' => array('table_name' => '#__content'),
 			'com_newsfeeds' => array('table_name' => '#__newsfeeds'),
+			'com_users' => array('table_name' => '#__user_notes'),
 			'com_weblinks' => array('table_name' => '#__weblinks'),
 		);
 

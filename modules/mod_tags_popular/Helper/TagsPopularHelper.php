@@ -98,10 +98,12 @@ abstract class TagsPopularHelper
 		// Only return tags connected to published and authorised items
 		$query->where($db->quoteName('c.core_state') . ' = 1')
 			->whereIn($db->quoteName('c.core_access'), $groups)
-			->where('(' . $db->quoteName('c.core_publish_up') . ' = :nullDate2'
+			->where('(' . $db->quoteName('c.core_publish_up') . ' IS NULL'
+				. ' OR ' . $db->quoteName('c.core_publish_up') . ' = :nullDate2'
 				. ' OR ' . $db->quoteName('c.core_publish_up') . ' <= :nowDate2)'
 			)
-			->where('(' . $db->quoteName('c.core_publish_down') . ' = :nullDate3'
+			->where('(' . $db->quoteName('c.core_publish_down') . ' IS NULL'
+				. ' OR ' . $db->quoteName('c.core_publish_down') . ' = :nullDate3'
 				. ' OR ' . $db->quoteName('c.core_publish_down') . ' >= :nowDate3)'
 			)
 			->bind([':nullDate2', ':nullDate3'], $nullDate)
