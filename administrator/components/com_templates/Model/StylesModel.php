@@ -173,8 +173,8 @@ class StylesModel extends ListModel
 				$menuItemLanguageSubQuery = $db->getQuery(true);
 				$menuItemLanguageSubQuery->select($db->quoteName('language'))
 					->from($db->quoteName('#__menu'))
-					->where($db->quoteName('id') . ' = :menuitemid')
-					->bind(':menuiteid', $menuItemId, ParameterType::INTEGER);
+					->where($db->quoteName('id') . ' = :menuitemid');
+				$query->bind(':menuitemid', $menuItemId, ParameterType::INTEGER);
 
 				// Subquery to get the language of the selected menu item.
 				$templateStylesMenuItemsSubQuery = $db->getQuery(true);
