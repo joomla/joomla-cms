@@ -65,8 +65,6 @@ class ContentCest
 			'title' => 'Just for you',
 			'catid' => 2,
 			'articletext' => 'A dummy article to save to the database',
-			'metakey' => '',
-			'metadesc' => '',
 			'language' => '*',
 			'alias' => 'tobias'
 		];

@@ -587,7 +587,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
 		$context = $this->app->input->get('option');
-		$task    = $this->app->input->get->getCmd('task');
+		$task    = $this->app->input->post->get('task');
 
 		if (!$this->checkLoggable($context))
 		{
@@ -1015,7 +1015,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onAfterPurge($group = 'all')
 	{
 		$context = $this->app->input->get('option');
-		$user    = JFactory::getUser();
+		$user    = Factory::getUser();
 
 		if (!$this->checkLoggable($context))
 		{

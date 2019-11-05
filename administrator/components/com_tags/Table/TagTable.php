@@ -31,7 +31,7 @@ class TagTable extends Nested
 	 * Indicates that columns fully support the NULL value in the database
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $_supportNullValue = true;
 
@@ -231,12 +231,11 @@ class TagTable extends Nested
 		$date = Factory::getDate();
 		$user = Factory::getUser();
 
-		$this->modified_time = $date->toSql();
-
 		if ($this->id)
 		{
 			// Existing item
 			$this->modified_user_id = $user->get('id');
+			$this->modified_time = $date->toSql();
 		}
 		else
 		{
@@ -250,6 +249,16 @@ class TagTable extends Nested
 			if (empty($this->created_user_id))
 			{
 				$this->created_user_id = $user->get('id');
+			}
+
+			if (!(int) $this->modified_time)
+			{
+				$this->modified_time = $this->created_time;
+			}
+
+			if (empty($this->modified_user_id))
+			{
+				$this->modified_user_id = $this->created_user_id;
 			}
 		}
 
