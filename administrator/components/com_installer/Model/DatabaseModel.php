@@ -317,7 +317,7 @@ class DatabaseModel extends InstallerModel
 
 		foreach ($tables as $table)
 		{
-			if (stristr($table, $prefix) != false)
+			if (strpos($table, $prefix)  === 0)
 			{
 				$data = (string) $exporter->from($table)->withData(true);
 				$zipFilesArray[] = ['name' => $table . '.xml', 'data' => $data];
