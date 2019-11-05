@@ -127,6 +127,7 @@ foreach ($fieldSets as $name => $fieldSet)
 		{
 			if ($opentab > 1)
 			{
+				echo '</div>';
 				echo '</fieldset>';
 			}
 
