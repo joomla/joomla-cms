@@ -312,7 +312,7 @@ class DatabaseModel extends InstallerModel
 		$tables = $db->getTableList();
 		$prefix = $db->getPrefix();
 
-		$zipFile = JPATH_ROOT . '/tmp/joomla_db.zip';
+		$zipFile = Factory::getApplication()->get('tmp_path') . '/joomla_db.zip';
 		$zipArchive = (new Archive)->getAdapter('zip');
 
 		foreach ($tables as $table)

@@ -108,7 +108,7 @@ class HtmlView extends InstallerViewDefault
 		}
 
 		// Send the exporter archive to the browser as a download
-		$zipFile = JPATH_ROOT . '/tmp/joomla_db.zip';
+		$zipFile = Factory::getApplication()->get('tmp_path') . '/joomla_db.zip';
 
 		if (file_exists($zipFile))
 		{
