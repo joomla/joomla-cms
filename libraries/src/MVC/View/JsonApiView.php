@@ -112,6 +112,15 @@ abstract class JsonApiView extends JsonView
 		/** @var \Joomla\CMS\MVC\Model\ListModel $model */
 		$model = $this->getModel();
 
+		// Get page query
+		$currentUrl = Uri::getInstance();
+		$currentPageDefaultInformation = ['offset' => 0, 'limit' => 20];
+		$currentPageQuery = $currentUrl->getVar('page', $currentPageDefaultInformation);
+
+		// Set model start and limit params
+		$model->setState('list.start', $currentPageQuery['offset']);
+		$model->setState('list.limit', $currentPageQuery['limit']);
+
 		if ($items === null)
 		{
 			$items = [];
@@ -136,44 +145,52 @@ abstract class JsonApiView extends JsonView
 		}
 
 		// Set up links for pagination
-		$currentUrl = Uri::getInstance();
-		$currentPageDefaultInformation = array('offset' => $pagination->limitstart, 'limit' => $pagination->limit);
-		$currentPageQuery = $currentUrl->getVar('page', $currentPageDefaultInformation);
-		$totalPagesAvailable = ($pagination->pagesTotal * $pagination->limit);
+		$totalItemsCount = ($pagination->pagesTotal * $pagination->limit);
 
-		$firstPage = clone $currentUrl;
-		$firstPageQuery = $currentPageQuery;
-		$firstPageQuery['offset'] = 0;
-		$firstPage->setVar('page', $firstPageQuery);
+		$this->document->addMeta('total-pages', $pagination->pagesTotal)
+			->addLink('self', (string) $currentUrl);
 
-		$nextPage = clone $currentUrl;
-		$nextPageQuery = $currentPageQuery;
-		$nextOffset = $currentPageQuery['offset'] + $pagination->limit;
-		$nextPageQuery['offset'] = ($nextOffset > ($totalPagesAvailable * $pagination->limit)) ? $totalPagesAvailable - $pagination->limit : $nextOffset;
-		$nextPage->setVar('page', $nextPageQuery);
+		// Check for first and previous pages
+		if ($pagination->limitstart > 0)
+		{
+			$firstPage = clone $currentUrl;
+			$firstPageQuery = $currentPageQuery;
+			$firstPageQuery['offset'] = 0;
+			$firstPage->setVar('page', $firstPageQuery);
 
-		$previousPage = clone $currentUrl;
-		$previousPageQuery = $currentPageQuery;
-		$previousOffset = $currentPageQuery['offset'] - $pagination->limit;
-		$previousPageQuery['offset'] = $previousOffset >= 0 ? $previousOffset : 0;
-		$previousPage->setVar('page', $previousPageQuery);
+			$previousPage = clone $currentUrl;
+			$previousPageQuery = $currentPageQuery;
+			$previousOffset = $currentPageQuery['offset'] - $pagination->limit;
+			$previousPageQuery['offset'] = $previousOffset >= 0 ? $previousOffset : 0;
+			$previousPage->setVar('page', $previousPageQuery);
 
-		$lastPage = clone $currentUrl;
-		$lastPageQuery = $currentPageQuery;
-		$lastPageQuery['offset'] = $totalPagesAvailable - $pagination->limit;
-		$lastPage->setVar('page', $lastPageQuery);
+			$this->document->addLink('first', (string) $firstPage)
+			->addLink('previous', (string) $previousPage);
+		}
+
+		// Check for next and last pages
+		if ($pagination->limitstart + $pagination->limit < $totalItemsCount)
+		{
+			$nextPage = clone $currentUrl;
+			$nextPageQuery = $currentPageQuery;
+			$nextOffset = $currentPageQuery['offset'] + $pagination->limit;
+			$nextPageQuery['offset'] = ($nextOffset > ($pagination->pagesTotal * $pagination->limit)) ? $pagination->pagesTotal - $pagination->limit : $nextOffset;
+			$nextPage->setVar('page', $nextPageQuery);
+
+			$lastPage = clone $currentUrl;
+			$lastPageQuery = $currentPageQuery;
+			$lastPageQuery['offset'] = ($pagination->pagesTotal - 1) * $pagination->limit;
+			$lastPage->setVar('page', $lastPageQuery);
+
+			$this->document->addLink('next', (string) $nextPage)
+			->addLink('last', (string) $lastPage);
+		}
 
 		$collection = (new Collection($items, $this->serializer))
 			->fields([$this->type => $this->fieldsToRenderList]);
 
 		// Set the data into the document and render it
-		$this->document->addMeta('total-pages', $pagination->pagesTotal)
-			->setData($collection)
-			->addLink('self', (string) $currentUrl)
-			->addLink('first', (string) $firstPage)
-			->addLink('next', (string) $nextPage)
-			->addLink('previous', (string) $previousPage)
-			->addLink('last', (string) $lastPage);
+		$this->document->setData($collection);
 
 		return $this->document->render();
 	}
