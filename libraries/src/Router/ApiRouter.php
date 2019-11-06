@@ -66,7 +66,7 @@ class ApiRouter extends Router
 			new Route(['GET'], $baseName, $controller . '.displayList', [], $getDefaults),
 			new Route(['GET'], $baseName . '/:id', $controller . '.displayItem', ['id' => '(\d+)'], $getDefaults),
 			new Route(['POST'], $baseName, $controller . '.add', [], $defaults),
-			new Route(['PUT'], $baseName . '/:id', $controller . '.edit', ['id' => '(\d+)'], $defaults),
+			new Route(['PATCH'], $baseName . '/:id', $controller . '.edit', ['id' => '(\d+)'], $defaults),
 			new Route(['DELETE'], $baseName . '/:id', $controller . '.delete', ['id' => '(\d+)'], $defaults),
 		];
 

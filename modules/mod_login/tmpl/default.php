@@ -104,7 +104,7 @@ Text::script('JHIDE');
 			<ul class="mod-login__options list-unstyled">
 			<?php if ($usersConfig->get('allowUserRegistration')) : ?>
 				<li>
-					<a href="<?php echo Route::_('index.php?option=com_users&view=registration'); ?>">
+					<a href="<?php echo Route::_($registerLink); ?>">
 					<?php echo Text::_('MOD_LOGIN_REGISTER'); ?> <span class="icon-arrow-right"></span></a>
 				</li>
 			<?php endif; ?>

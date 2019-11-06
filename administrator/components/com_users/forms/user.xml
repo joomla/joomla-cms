@@ -195,6 +195,49 @@
 			</field>
 
 		</fieldset>
+		<!-- User accessibility settings -->
+		<fieldset name="accessibility" label="COM_USERS_A11Y_SETTINGS_FIELDSET_LABEL">
+			<field
+				name="a11y_mono"
+				type="radio"
+				label="COM_USERS_A11Y_SETTINGS_FIELD_MONOCHROME"
+				class="switcher"
+				default="0"
+				>
+				<option value="0">JNO</option>
+				<option value="monochrome">JYES</option>
+			</field>
+			<field
+				name="a11y_contrast"
+				type="radio"
+				label="COM_USERS_A11Y_SETTINGS_FIELD_CONTRAST"
+				class="switcher"
+				default="0"
+				>
+				<option value="0">JNO</option>
+				<option value="high_contrast">JYES</option>
+			</field>
+			<field
+				name="a11y_highlight"
+				type="radio"
+				label="COM_USERS_A11Y_SETTINGS_FIELD_HIGHLIGHT"
+				class="switcher"
+				default="0"
+				>
+				<option value="0">JNO</option>
+				<option value="highlight">JYES</option>
+			</field>
+			<field
+				name="a11y_font"
+				type="radio"
+				label="COM_USERS_A11Y_SETTINGS_FIELD_FONTSIZE"
+				class="switcher"
+				default="0"
+				>
+				<option value="0">JNO</option>
+				<option value="fontsize">JYES</option>
+			</field>
+		</fieldset>
 
 	</fields>
 </form>

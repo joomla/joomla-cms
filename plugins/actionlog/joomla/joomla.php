@@ -1021,7 +1021,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onAfterPurge($group = 'all')
 	{
 		$context = $this->app->input->get('option');
-		$user    = JFactory::getUser();
+		$user    = Factory::getUser();
 
 		if (!$this->checkLoggable($context))
 		{
