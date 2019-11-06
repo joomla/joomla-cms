@@ -331,6 +331,8 @@ class DatabaseModel extends InstallerModel
 	/**
 	 * Import all the database via XML
 	 *
+	 * @param   string  $file  A zip archive to extract
+	 *
 	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
