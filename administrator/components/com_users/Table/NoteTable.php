@@ -73,9 +73,10 @@ class NoteTable extends Table
 		else
 		{
 			// New record.
-			$this->created_time    = $date;
-			$this->created_user_id = $userId;
-			$this->modified_time   = $date;
+			$this->created_time     = $date;
+			$this->created_user_id  = $userId;
+			$this->modified_time    = $date;
+			$this->modified_user_id = $userId;
 		}
 
 		// Attempt to store the data.
@@ -105,6 +106,11 @@ class NoteTable extends Table
 		if (empty($this->modified_time))
 		{
 			$this->modified_time = $this->created_time;
+		}
+
+		if (empty($this->modified_user_id))
+		{
+			$this->modified_user_id = $this->created_user_id;
 		}
 
 		return true;
