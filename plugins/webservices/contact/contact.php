@@ -49,7 +49,11 @@ class PlgWebservicesContact extends CMSPlugin
 
 		$router->addRoute($route);
 
-		$router->createCRUDRoutes('v1/contact', 'contact', ['component' => 'com_contact']);
+		$router->createCRUDRoutes(
+			'v1/contact',
+			'contact',
+			['component' => 'com_contact']
+		);
 
 		$router->createCRUDRoutes(
 			'v1/contact/categories',

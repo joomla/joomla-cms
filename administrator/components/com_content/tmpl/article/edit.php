@@ -41,6 +41,11 @@ $input = $app->input;
 $assoc = Associations::isEnabled();
 $hasAssoc = ($this->form->getValue('language', null, '*') !== '*');
 
+if (!$assoc)
+{
+	$this->ignore_fieldsets[] = 'frontendassociations';
+}
+
 // In case of modal
 $isModal = $input->get('layout') === 'modal';
 $layout  = $isModal ? 'modal' : 'edit';
