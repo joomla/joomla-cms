@@ -99,6 +99,16 @@ class ContactTable extends Table
 			{
 				$this->created_by = $userId;
 			}
+
+			if (!(int) $this->modified)
+			{
+				$this->modified = $date;
+			}
+
+			if (empty($this->modified_by))
+			{
+				$this->modified_by = $userId;
+			}
 		}
 
 		// Store utf8 email as punycode
@@ -259,6 +269,11 @@ class ContactTable extends Table
 		if (!$this->modified)
 		{
 			$this->modified = $this->created;
+		}
+
+		if (empty($this->modified_by))
+		{
+			$this->modified_by = $this->created_by;
 		}
 
 		return true;
