@@ -61,13 +61,6 @@ class JFormFieldComponentlayout extends JFormField
 		$template = (string) $this->element['template'];
 		$template = preg_replace('#\W#', '', $template);
 
-		$template_style_id = '';
-		if ($this->form instanceof JForm)
-		{
-			$template_style_id = $this->form->getValue('template_style_id');
-			$template_style_id = preg_replace('#\W#', '', $template_style_id);
-		}
-
 		$view = (string) $this->element['view'];
 		$view = preg_replace('#\W#', '', $view);
 
@@ -93,12 +86,6 @@ class JFormFieldComponentlayout extends JFormField
 			if ($template)
 			{
 				$query->where('e.element = ' . $db->quote($template));
-			}
-
-			if ($template_style_id)
-			{
-				$query->join('LEFT', '#__template_styles as s on s.template=e.element')
-					->where('s.id=' . (int) $template_style_id);
 			}
 
 			// Set the query and load the templates.
