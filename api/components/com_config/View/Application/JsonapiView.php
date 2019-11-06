@@ -76,7 +76,7 @@ class JsonapiView extends BaseApiView
 			$previousPage->setVar('page', $previousPageQuery);
 
 			$this->document->addLink('first', (string) $firstPage)
-			->addLink('previous', (string) $previousPage);
+				->addLink('previous', (string) $previousPage);
 		}
 
 		// Check for next and last pages
@@ -94,7 +94,7 @@ class JsonapiView extends BaseApiView
 			$lastPage->setVar('page', $lastPageQuery);
 
 			$this->document->addLink('next', (string) $nextPage)
-			->addLink('last', (string) $lastPage);
+				->addLink('last', (string) $lastPage);
 		}
 
 		$collection = (new Collection($items, new JoomlaSerializer($this->type)));
