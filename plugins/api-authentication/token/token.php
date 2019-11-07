@@ -1,0 +1,412 @@
+<?php
+/**
+ * @package     Joomla.Plugin
+ * @subpackage  Authentication.joomla
+ *
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+defined('_JEXEC') or die;
+
+use Joomla\CMS\Application\ApiApplication;
+use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Registry\Registry;
+
+/**
+ * Joomla Authentication plugin
+ *
+ * @since  4.0.0
+ */
+class PlgApiAuthenticationToken extends CMSPlugin
+{
+	/**
+	 * The application object
+	 *
+	 * @var    ApiApplication
+	 * @since  4.0.0
+	 */
+	protected $app;
+
+	/**
+	 * The application object
+	 *
+	 * @var    DatabaseInterface
+	 * @since  4.0.0
+	 */
+	protected $db;
+
+	/**
+	 * The prefix of the user profile keys, without the dot.
+	 *
+	 * @var  string
+	 */
+	private $profileKeyPrefix = 'joomlatoken';
+
+	/**
+	 * Allowed HMAC algorithms for the token
+	 *
+	 * @var  array
+	 */
+	private $allowedAlgos = ['sha256', 'sha512'];
+
+	/**
+	 * This method should handle any authentication and report back to the subject
+	 *
+	 * @param   array   $credentials  Array holding the user credentials
+	 * @param   array   $options      Array of extra options
+	 * @param   object  $response     Authentication response object
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function onUserAuthenticate($credentials, $options, &$response): void
+	{
+		// Default response is authentication failure.
+		$response->type          = 'Token';
+		$response->status        = Authentication::STATUS_FAILURE;
+		$response->error_message = Text::_('JGLOBAL_AUTH_FAIL');
+
+		/**
+		 * First look for an HTTP Authentication header with the following format:
+		 * Authentication: Bearer <token>
+		 * Do keep in mind that Bearer is **case-sensitive**. Whitespace between Bearer and the
+		 * token, as well as any whitespace following the token is discarded.
+		 */
+		$authHeader              = $this->app->input->server->get('HTTP_AUTHENTICATION');
+
+		if (substr($authHeader, 0, 7) == 'Bearer ')
+		{
+			$parts       = explode(' ', $authHeader, 2);
+			$tokenString = trim($parts[1]);
+			$filter      = InputFilter::getInstance();
+			$tokenString = $filter->clean($tokenString, 'BASE64');
+		}
+
+		// Check for _authToken query param as a fallback to the Authentication header.
+		if (empty($tokenString))
+		{
+			$tokenString = $this->app->input->getBase64('_authToken', '');
+		}
+
+		// No token: authentication failure
+		if (empty($tokenString))
+		{
+			return;
+		}
+
+		// The token is a base64 encoded string. Make sure we can decode it.
+		$authString = @base64_decode($tokenString);
+
+		if (empty($authString) || (strpos($authString, ':') === false))
+		{
+			return;
+		}
+
+		/**
+		 * Deconstruct the decoded token string to its three discrete parts: algorithm, user ID and
+		 * HMAC of the token string saved in the database.
+		 */
+		$parts = explode(':', $authString, 3);
+
+		if (count($parts) != 3)
+		{
+			return;
+		}
+
+		list($algo, $userId, $tokenHMAC) = $parts;
+
+		/**
+		 * Verify the HMAC algorithm requested in the token string is allowed
+		 */
+		$allowedAlgo = in_array($algo, $this->allowedAlgos);
+
+		/**
+		 * Make sure the user ID is an integer
+		 */
+		$userId = (int) $userId;
+
+		/**
+		 * Calculate the reference token data HMAC
+		 */
+		try
+		{
+			$siteSecret = $this->app->get('secret');
+		}
+		catch (Exception $e)
+		{
+			return;
+		}
+
+		// An empty secret! What kind of monster are you?!
+		if (empty($siteSecret))
+		{
+			return;
+		}
+
+		$referenceTokenData = $this->getTokenSeedForUser($userId);
+		$referenceTokenData = empty($referenceTokenData) ? '' : $referenceTokenData;
+		$referenceTokenData = base64_decode($referenceTokenData);
+		$referenceHMAC      = hash_hmac($algo, $referenceTokenData, $siteSecret);
+
+		// Is the token enabled?
+		$enabled = $this->isTokenEnabledForUser($userId);
+
+		// Do the tokens match? Use a timing safe string comparison to prevent timing attacks.
+		$hashesMatch = $this->timingSafeEquals($referenceHMAC, $tokenHMAC);
+
+		// Is the user in the allowed user groups?
+		$inAllowedUserGroups = $this->isInAllowedUserGroup($userId);
+
+		/**
+		 * Can we log in?
+		 *
+		 * DO NOT concatenate in a single line. Due to boolean short-circuit evaluation it might
+		 * make timing attacks possible. Using separate lines of code with the previously calculated
+		 * boolean value to the right hand side forces PHP to evaluate the conditions in
+		 * approximately constant time.
+		 */
+
+		// We need non-empty reference token data (the user must have configured a token)
+		$canLogin = !empty($referenceTokenData);
+
+		// The token must be enabled
+		$canLogin = $enabled && $canLogin;
+
+		// The token hash must be calculated with an allowed algorithm
+		$canLogin = $allowedAlgo && $canLogin;
+
+		// The token HMAC hash coming into the request and our reference must match.
+		$canLogin = $hashesMatch && $canLogin;
+
+		// The user must belong in the allowed user groups
+		$canLogin = $inAllowedUserGroups && $canLogin;
+
+		/**
+		 * DO NOT try to be smart and do an early return when either of the individual conditions
+		 * are not met. There's a reason we only return after checking all three conditions: it
+		 * prevents timing attacks.
+		 */
+		if (!$canLogin)
+		{
+			return;
+		}
+
+		// Get the actual user record
+		$user = Factory::getUser($userId);
+
+		// Disallow login for blocked, inactive or password reset required users
+		if ($user->block || !empty(trim($user->activation)) || $user->requireReset)
+		{
+			$response->status = Authentication::STATUS_DENIED;
+
+			return;
+		}
+
+		// Update the response to indicate successful login
+		$response->status        = Authentication::STATUS_SUCCESS;
+		$response->error_message = '';
+		$response->username      = $user->username;
+		$response->email         = $user->email;
+		$response->fullname      = $user->name;
+		$response->timezone      = $user->get('timezone');
+		$response->language      = $user->get('language');
+	}
+
+	/**
+	 * Retrieve the token seed string for the given user ID.
+	 *
+	 * @param   int  $userId  The numeric user ID to return the token seed string for.
+	 *
+	 * @return  string|null  Null if there is no token configured or the user doesn't exist.
+	 */
+	private function getTokenSeedForUser(int $userId): ?string
+	{
+		try
+		{
+			$db    = $this->db;
+			$query = $db->getQuery(true)
+				->select($db->qn('profile_value'))
+				->from($db->qn('#__user_profiles'))
+				->where($db->qn('profile_key') . ' = ' . $db->q($this->profileKeyPrefix . '.token'))
+				->where($db->qn('user_id') . ' = ' . $db->q($userId));
+
+			return $db->setQuery($query)->loadResult();
+		}
+		catch (Exception $e)
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * Is the token enabled for a given user ID? If the user does not exist or has no token it
+	 * returns false.
+	 *
+	 * @param   int  $userId  The User ID to check whether the token is enabled on their account.
+	 *
+	 * @return  boolean
+	 */
+	private function isTokenEnabledForUser(int $userId): bool
+	{
+		try
+		{
+			$db    = $this->db;
+			$query = $db->getQuery(true)
+				->select($db->qn('profile_value'))
+				->from($db->qn('#__user_profiles'))
+				->where($db->qn('profile_key') . ' = ' . $db->q($this->profileKeyPrefix . '.enabled'))
+				->where($db->qn('user_id') . ' = ' . $db->q($userId));
+
+			$value = $db->setQuery($query)->loadResult();
+
+			return $value == 1;
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+	}
+
+	/**
+	 * Time safe string comparison.
+	 *
+	 * If available, it will use hash_equals(). Otherwise it will use a pure PHP implementation by
+	 * Anthony Ferrara.
+	 *
+	 * @see https://www.php.net/manual/en/function.hash-equals.php
+	 * @see https://blog.ircmaxell.com/2014/11/its-all-about-time.html
+	 *
+	 * @param   string  $knownString  The string we know and we are comparing against
+	 * @param   string  $userString   The string derived from user-submitted information.
+	 *
+	 * @return  boolean
+	 */
+	private function timingSafeEquals(string $knownString, string $userString): bool
+	{
+		if (function_exists('hash_equals'))
+		{
+			return hash_equals($knownString, $userString);
+		}
+
+		$safeLen = strlen($knownString);
+		$userLen = strlen($userString);
+
+		if ($userLen != $safeLen)
+		{
+			return false;
+		}
+
+		$result = 0;
+
+		for ($i = 0; $i < $userLen; $i++)
+		{
+			$result |= (ord($knownString[$i]) ^ ord($userString[$i]));
+		}
+
+		// They are only identical strings if $result is exactly 0...
+		return $result === 0;
+	}
+
+	/**
+	 * Retrieves a configuration parameter of a different plugin than the current one.
+	 *
+	 * @param   string  $folder  Plugin folder
+	 * @param   string  $plugin  Plugin name
+	 * @param   string  $param   Parameter name
+	 * @param   null    $default Default value, in case the parameter is missing
+	 *
+	 * @return  string|null
+	 */
+	private function getPluginParameter(string $folder, string $plugin, string $param,
+		$default = null
+	): ?string
+	{
+		if (!PluginHelper::isEnabled($folder, $plugin))
+		{
+			return $default;
+		}
+
+		$pluginObject = PluginHelper::getPlugin($folder, $plugin);
+
+		if (empty($pluginObject))
+		{
+			return $default;
+		}
+
+		if (!is_object($pluginObject) || !isset($pluginObject->params))
+		{
+			return $default;
+		}
+
+		$params = new Registry($pluginObject->params);
+
+		return $params->get($param, $default);
+	}
+
+	/**
+	 * Get the configured user groups which are allowed to have access to tokens.
+	 *
+	 * @return  int[]
+	 */
+	private function getAllowedUserGroups(): array
+	{
+		$userGroups = $this->getPluginParameter('user', 'token',
+			'allowedUserGroups', [8]
+		);
+
+		if (empty($userGroups))
+		{
+			return [];
+		}
+
+		if (!is_array($userGroups))
+		{
+			$userGroups = [$userGroups];
+		}
+
+		return $userGroups;
+	}
+
+	/**
+	 * Is the user with the given ID in the allowed User Groups with access to tokens?
+	 *
+	 * @param   int  $userId  The user ID to check
+	 *
+	 * @return  boolean  False when doesn't belong to allowed user groups, user not found, or guest
+	 */
+	private function isInAllowedUserGroup($userId)
+	{
+		$allowedUserGroups = $this->getAllowedUserGroups();
+
+		$user = Factory::getUser($userId);
+
+		if ($user->id != $userId)
+		{
+			return false;
+		}
+
+		if ($user->guest)
+		{
+			return false;
+		}
+
+		// No specifically allowed user groups: allow ALL user groups.
+		if (empty($allowedUserGroups))
+		{
+			return true;
+		}
+
+		$groups       = $user->getAuthorisedGroups();
+		$intersection = array_intersect($groups, $allowedUserGroups);
+
+		return !empty($intersection);
+	}
+}
