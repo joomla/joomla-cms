@@ -132,7 +132,7 @@ class FeaturedModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$language = [Factory::getLanguage()->getTag(), $db->quote('*')];
+			$language = [Factory::getLanguage()->getTag(), '*'];
 			$query->whereIn($db->quoteName('a.language'), $language);
 		}
 
