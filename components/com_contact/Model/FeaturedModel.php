@@ -117,8 +117,7 @@ class FeaturedModel extends ListModel
 			$query->bind(':published', $state, ParameterType::INTEGER);
 
 			// Filter by start and end dates.
-			$date = Factory::getDate();
-			$nowDate = $db->quote($date->toSql());
+			$nowDate = Factory::getDate()->toSql();
 
 			$query->where('(' . $db->quoteName('a.publish_up') .
 				' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)'
