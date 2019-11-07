@@ -133,7 +133,7 @@ class FeaturedModel extends ListModel
 		if ($this->getState('filter.language'))
 		{
 			$language = [Factory::getLanguage()->getTag(), '*'];
-			$query->whereIn($db->quoteName('a.language'), $language);
+			$query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
 		}
 
 		// Add the list ordering clause.
