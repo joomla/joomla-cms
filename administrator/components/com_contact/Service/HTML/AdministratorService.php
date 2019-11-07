@@ -65,7 +65,7 @@ class AdministratorService
 				->from($db->quoteName('#__contact_details', 'c'))
 				->join('LEFT', $db->quoteName('#__categories', 'cat'), $db->quoteName('cat.id') . ' = ' . $db->quoteName('c.catid'))
 				->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('c.language') . ' = ' . $db->quoteName('l.lang_code'))
-				->whereIn($db->quoteName('c.id'), array_values($associations), ParameterType::STRING)
+				->whereIn($db->quoteName('c.id'), array_values($associations))
 				->where($db->quoteName('c.id') . ' != :id')
 				->bind(':id', $contactid, ParameterType::INTEGER);
 			$db->setQuery($query);
