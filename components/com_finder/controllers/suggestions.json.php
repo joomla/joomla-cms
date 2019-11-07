@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 class FinderControllerSuggestions extends JControllerLegacy
 {
 	/**
-	 * Method to find search query suggestions. Uses jQuery and autocopleter.js
+	 * Method to find search query suggestions. Uses jQuery and autocompleter.js
 	 *
 	 * @return  void
 	 *
