@@ -23,7 +23,7 @@ use Joomla\CMS\Router\Route;
 class DisplayController extends BaseController
 {
 	/**
-	 * @var		string	The default view.
+	 * @var	    string	The default view.
 	 * @since   1.6
 	 */
 	protected $default_view = 'installed';
