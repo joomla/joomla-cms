@@ -69,7 +69,7 @@ $input    = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 	<?php foreach ($options as $i => $option) : ?>
 		<?php
 		// Initialize some option attributes.
-		$value      = $value === '' ? '0' : $value ;
+		$value      = $value === '' ? '0' : $value;
 		$checked    = ((string) $option->value == $value) ? 'checked="checked"' : '';
 		$active     = ((string) $option->value == $value) ? 'class="active"' : '';
 		$oid        = $id . $i;
