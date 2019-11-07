@@ -69,21 +69,13 @@ $input    = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 	<?php foreach ($options as $i => $option) : ?>
 		<?php
 		// Initialize some option attributes.
-		if (is_numeric($option->value))
-		{
-			$checked = ((int) $option->value == $value) ? 'checked="checked"' : '';
-			$active  = ((int) $option->value == $value) ? 'class="active"' : '';
-		}
-		else
-		{
-			$checked = ((string) $option->value == $value) ? 'checked="checked"' : '';
-			$active  = ((string) $option->value == $value) ? 'class="active"' : '';
-		}
-
-		$oid		= $id . $i;
-		$ovalue		= htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-		$attributes	= array_filter(array($checked, $active, null));
-		$text		= $options[$i]->text;
+		$value      = $value === '' ? '0' : $value ;
+		$checked    = ((string) $option->value == $value) ? 'checked="checked"' : '';
+		$active     = ((string) $option->value == $value) ? 'class="active"' : '';
+		$oid        = $id . $i;
+		$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
+		$attributes = array_filter(array($checked, $active, null));
+		$text       = $options[$i]->text;
 		?>
 		<?php echo sprintf($input, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
 		<?php echo '<label for="' . $oid . '">' . $text . '</label>'; ?>
