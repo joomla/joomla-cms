@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="token" addfieldpath="/plugins/user/token/field">
+        <fieldset name="token"
+                  label="PLG_USER_TOKEN_GROUP_LABEL"
+                  description="PLG_USER_TOKEN_GROUP_DESC"
+        >
+            <field name="token" type="joomlatoken"
+                   default="" size="30"
+                   algo="sha256"
+                   label="PLG_USER_TOKEN_TOKEN_LABEL"
+                   description="PLG_USER_TOKEN_TOKEN_DESC"
+                   readonly="true"
+                   class="input-xxlarge"/>
+
+            <field name="enabled" type="radio" default="1"
+                   label="PLG_USER_TOKEN_ENABLED_LABEL"
+                   description="PLG_USER_TOKEN_ENABLED_DESC"
+                   class="switcher btn-group">
+                <option value="0">JNo</option>
+                <option value="1">JYes</option>
+            </field>
+
+            <field name="reset" type="radio" default="0"
+                   label="PLG_USER_TOKEN_RESET_LABEL"
+                   description="PLG_USER_TOKEN_RESET_DESC"
+                   class="switcher btn-group">
+                <option value="0">JNo</option>
+                <option value="1">JYes</option>
+            </field>
+        </fieldset>
+    </fields>
+</form>

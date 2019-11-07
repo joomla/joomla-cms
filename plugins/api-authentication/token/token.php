@@ -17,10 +17,11 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
- * Joomla Authentication plugin
+ * Joomla Token Authentication plugin
  *
  * @since  4.0.0
  */
@@ -45,14 +46,16 @@ class PlgApiAuthenticationToken extends CMSPlugin
 	/**
 	 * The prefix of the user profile keys, without the dot.
 	 *
-	 * @var  string
+	 * @var    string
+	 * @since  4.0.0
 	 */
 	private $profileKeyPrefix = 'joomlatoken';
 
 	/**
 	 * Allowed HMAC algorithms for the token
 	 *
-	 * @var  array
+	 * @var    string[]
+	 * @since  4.0.0
 	 */
 	private $allowedAlgos = ['sha256', 'sha512'];
 
@@ -226,6 +229,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 	 * @param   int  $userId  The numeric user ID to return the token seed string for.
 	 *
 	 * @return  string|null  Null if there is no token configured or the user doesn't exist.
+	 * @since   4.0.0
 	 */
 	private function getTokenSeedForUser(int $userId): ?string
 	{
@@ -235,8 +239,12 @@ class PlgApiAuthenticationToken extends CMSPlugin
 			$query = $db->getQuery(true)
 				->select($db->qn('profile_value'))
 				->from($db->qn('#__user_profiles'))
-				->where($db->qn('profile_key') . ' = ' . $db->q($this->profileKeyPrefix . '.token'))
-				->where($db->qn('user_id') . ' = ' . $db->q($userId));
+				->where($db->qn('profile_key') . ' = :profileKey')
+				->where($db->qn('user_id') . ' = :userId');
+
+			$profileKey = $this->profileKeyPrefix . '.token';
+			$query->bind(':profileKey', $profileKey, ParameterType::STRING);
+			$query->bind(':userId', $userId, ParameterType::INTEGER);
 
 			return $db->setQuery($query)->loadResult();
 		}
@@ -253,6 +261,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 	 * @param   int  $userId  The User ID to check whether the token is enabled on their account.
 	 *
 	 * @return  boolean
+	 * @since   4.0.0
 	 */
 	private function isTokenEnabledForUser(int $userId): bool
 	{
@@ -262,8 +271,12 @@ class PlgApiAuthenticationToken extends CMSPlugin
 			$query = $db->getQuery(true)
 				->select($db->qn('profile_value'))
 				->from($db->qn('#__user_profiles'))
-				->where($db->qn('profile_key') . ' = ' . $db->q($this->profileKeyPrefix . '.enabled'))
-				->where($db->qn('user_id') . ' = ' . $db->q($userId));
+				->where($db->qn('profile_key') . ' = :profileKey')
+				->where($db->qn('user_id') . ' = :userId');
+
+			$profileKey = $this->profileKeyPrefix . '.enabled';
+			$query->bind(':profileKey', $profileKey, ParameterType::STRING);
+			$query->bind(':userId', $userId, ParameterType::INTEGER);
 
 			$value = $db->setQuery($query)->loadResult();
 
@@ -288,6 +301,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 	 * @param   string  $userString   The string derived from user-submitted information.
 	 *
 	 * @return  boolean
+	 * @since   4.0.0
 	 */
 	private function timingSafeEquals(string $knownString, string $userString): bool
 	{
@@ -324,6 +338,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 	 * @param   null    $default Default value, in case the parameter is missing
 	 *
 	 * @return  string|null
+	 * @since   4.0.0
 	 */
 	private function getPluginParameter(string $folder, string $plugin, string $param,
 		$default = null
@@ -355,6 +370,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 	 * Get the configured user groups which are allowed to have access to tokens.
 	 *
 	 * @return  int[]
+	 * @since   4.0.0
 	 */
 	private function getAllowedUserGroups(): array
 	{
@@ -381,6 +397,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 	 * @param   int  $userId  The user ID to check
 	 *
 	 * @return  boolean  False when doesn't belong to allowed user groups, user not found, or guest
+	 * @since   4.0.0
 	 */
 	private function isInAllowedUserGroup($userId)
 	{
