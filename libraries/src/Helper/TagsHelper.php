@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -952,6 +952,13 @@ class TagsHelper extends CMSHelper
 		if (isset($filters['published']) && is_numeric($filters['published']))
 		{
 			$query->where('a.published = ' . (int) $filters['published']);
+		}
+
+		// Filter on the access level
+		if (isset($filters['access']) && is_array($filters['access']) && count($filters['access']))
+		{
+			$groups = ArrayHelper::toInteger($filters['access']);
+			$query->where('a.access IN (' . implode(",", $groups) . ')');
 		}
 
 		// Filter by parent_id

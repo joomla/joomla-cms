@@ -75,6 +75,7 @@
 			description="COM_USERS_FIELD_REVIEW_TIME_DESC"
 			default="NOW"
 			translateformat="true"
+			filter="user_utc"
 		/>
 
 		<field

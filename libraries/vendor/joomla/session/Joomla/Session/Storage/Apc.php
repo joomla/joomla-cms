@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Session Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,7 @@ use Joomla\Session\Storage;
 /**
  * APC session storage handler for PHP
  *
- * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @link        https://www.php.net/manual/en/function.session-set-save-handler.php
  * @since       1.0
  * @deprecated  2.0  The Storage class chain will be removed.
  */
@@ -71,7 +71,7 @@ class Apc extends Storage
 	{
 		$sess_id = 'sess_' . $id;
 
-		return apc_store($sess_id, $session_data, ini_get("session.gc_maxlifetime"));
+		return apc_store($sess_id, $session_data, ini_get('session.gc_maxlifetime'));
 	}
 
 	/**
@@ -101,6 +101,6 @@ class Apc extends Storage
 	 */
 	public static function isSupported()
 	{
-		return extension_loaded('apc');
+		return \extension_loaded('apc');
 	}
 }

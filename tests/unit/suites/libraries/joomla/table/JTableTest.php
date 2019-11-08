@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,13 +14,13 @@ require_once __DIR__ . '/stubs/dbtestcomposite.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Table
- * @since       12.3
+ * @since       3.1.4
  */
 class JTableTest extends TestCaseDatabase
 {
 	/**
 	 * @var    JTable
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $object;
 
@@ -30,7 +30,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function setUp()
 	{
@@ -45,7 +45,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function tearDown()
 	{
@@ -58,7 +58,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetFields()
 	{
@@ -158,7 +158,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetInstance()
 	{
@@ -175,7 +175,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testAddIncludePath()
 	{
@@ -211,7 +211,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetTableName()
 	{
@@ -226,7 +226,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetKeyName()
 	{
@@ -241,7 +241,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetKeyNameComposite()
 	{
@@ -256,7 +256,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetDbo()
 	{
@@ -271,7 +271,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetDbo()
 	{
@@ -292,7 +292,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testReset()
 	{
@@ -325,7 +325,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testBind()
 	{
@@ -360,7 +360,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function getDataSet()
 	{
@@ -378,7 +378,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testLoad()
 	{
@@ -395,7 +395,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testCheck()
 	{
@@ -409,7 +409,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testStoreInsert()
 	{
@@ -427,7 +427,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testStoreUpdate()
 	{
@@ -449,7 +449,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSave()
 	{
@@ -484,7 +484,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testDelete()
 	{
@@ -502,7 +502,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testDeleteKeysProvided()
 	{
@@ -518,7 +518,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testCheckOut()
 	{
@@ -540,7 +540,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testCheckIn()
 	{
@@ -567,7 +567,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHasPrimaryKeyNoAutoincrementTrue()
 	{
@@ -582,7 +582,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHasPrimaryKeyNoAutoincrementFalse()
 	{
@@ -597,7 +597,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHasPrimaryKeyAutoincrementTrue()
 	{
@@ -614,7 +614,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHasPrimaryKeyAutoincrementFalse()
 	{
@@ -631,7 +631,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHit()
 	{
@@ -651,7 +651,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testIsCheckedOutFalse()
 	{
@@ -665,7 +665,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testIsCheckedOutTrue()
 	{
@@ -684,7 +684,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetNextOrder()
 	{
@@ -696,7 +696,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testReorder()
 	{
@@ -722,7 +722,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMove()
 	{
@@ -745,7 +745,7 @@ class JTableTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testPublish()
 	{

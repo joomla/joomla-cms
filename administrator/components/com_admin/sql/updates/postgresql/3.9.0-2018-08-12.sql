@@ -1,0 +1,1 @@
+ALTER TABLE "#__privacy_consents" ADD COLUMN "state" smallint DEFAULT 1 NOT NULL;
