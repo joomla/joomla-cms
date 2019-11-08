@@ -172,7 +172,7 @@ class HtmlView extends BaseHtmlView
 		// Else use the base title
 		else
 		{
-			$title = Text::_('COM_CATEGORIES_CATEGORY_BASE_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE');
+			$title = Text::sprintf('COM_CATEGORIES_CATEGORY_BASE_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE');
 		}
 
 		// Load specific css component
