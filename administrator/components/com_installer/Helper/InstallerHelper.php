@@ -160,7 +160,7 @@ class InstallerHelper
 
 		$xmlElement = simplexml_load_file($path);
 
-		return is_object($xmlElement) ? $xmlElement : null;
+		return ($xmlElement !== false) ? $xmlElement : null;
 	}
 
 	/**
