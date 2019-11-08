@@ -211,6 +211,40 @@ class PlgUserToken extends CMSPlugin
 		Form::addFormPath(dirname(__FILE__) . '/token');
 		$form->loadFile('token', false);
 
+		// No token: no reset
+		$userTokenSeed = $this->getTokenSeedForUser($userId);
+		$currentUser   = Factory::getUser();
+
+		if (empty($userTokenSeed))
+		{
+			$form->removeField('notokenforotherpeople', 'joomlatoken');
+			$form->removeField('reset', 'joomlatoken');
+			$form->removeField('token', 'joomlatoken');
+			$form->removeField('enabled', 'joomlatoken');
+		}
+		else
+		{
+			$form->removeField('saveme', 'joomlatoken');
+		}
+
+		if ($userId != $currentUser->id)
+		{
+			$form->removeField('token', 'joomlatoken');
+		}
+		else
+		{
+			$form->removeField('notokenforotherpeople', 'joomlatoken');
+		}
+
+		if (($userId != $currentUser->id) && empty($userTokenSeed))
+		{
+			$form->removeField('saveme', 'joomlatoken');
+		}
+		else
+		{
+			$form->removeField('savemeforotherpeople', 'joomlatoken');
+		}
+
 		return true;
 	}
 
