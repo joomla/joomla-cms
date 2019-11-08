@@ -113,7 +113,7 @@ class InstallerModelLanguages extends JModelList
 	{
 		$updateSite = $this->getUpdateSite();
 
-		// Check whether the the updateserver is found
+		// Check whether the updateserver is found
 		if (empty($updateSite))
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
