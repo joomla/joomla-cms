@@ -1,8 +1,10 @@
 <?php
 /**
- * @package     FOF
- * @copyright   Copyright (c)2010-2019 Nicholas K. Dionysopoulos / Akeeba Ltd
- * @license     GNU GPL version 2 or later
+ * @package     Joomla.Plugin
+ * @subpackage  User.token
+ *
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\CMS\Factory;
