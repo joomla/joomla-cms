@@ -124,7 +124,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
 			<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
 			<div>
-			<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>>
+			<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
 			</div>
 			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
