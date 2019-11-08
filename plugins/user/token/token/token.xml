@@ -5,6 +5,30 @@
                   label="PLG_USER_TOKEN_GROUP_LABEL"
                   description="PLG_USER_TOKEN_GROUP_DESC"
         >
+            <field name="saveme" type="note"
+				   label="PLG_USER_TOKEN_SAVEME_DESC"
+				   heading="p"
+				   description=""
+				   close="0"
+				   class="alert alert-warning"
+			/>
+
+            <field name="notokenforotherpeople" type="note"
+				   label="PLG_USER_TOKEN_NOTOKENFOROTHERPEOPLE_DESC"
+				   heading="p"
+				   description=""
+				   close="0"
+				   class="alert alert-warning"
+			/>
+
+            <field name="savemeforotherpeople" type="note"
+				   label="PLG_USER_TOKEN_SAVEMEFOROTHERPEOPLE_DESC"
+				   heading="p"
+				   description=""
+				   close="0"
+				   class="alert alert-warning"
+			/>
+
             <field name="token" type="joomlatoken"
                    default="" size="30"
                    algo="sha256"
