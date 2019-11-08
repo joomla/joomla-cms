@@ -86,6 +86,11 @@ class JFormFieldJoomlatoken extends TextField
 	 */
 	private function getTokenForDisplay(string $tokenSeed): string
 	{
+		if (empty($tokenSeed))
+		{
+			return '';
+		}
+
 		$algorithm = $this->getAttribute('algo', 'sha256');
 
 		try
