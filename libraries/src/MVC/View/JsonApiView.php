@@ -117,10 +117,6 @@ abstract class JsonApiView extends JsonView
 		$currentPageDefaultInformation = ['offset' => 0, 'limit' => 20];
 		$currentPageQuery = $currentUrl->getVar('page', $currentPageDefaultInformation);
 
-		// Set model start and limit params
-		$model->setState('list.start', $currentPageQuery['offset']);
-		$model->setState('list.limit', $currentPageQuery['limit']);
-
 		if ($items === null)
 		{
 			$items = [];
