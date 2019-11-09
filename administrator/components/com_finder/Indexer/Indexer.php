@@ -273,14 +273,15 @@ abstract class Indexer
 	/**
 	 * Method to remove a link from the index.
 	 *
-	 * @param   integer  $linkId  The id of the link.
+	 * @param   integer  $linkId            The id of the link.
+	 * @param   bool     $removeTaxonomies  Remove empty taxonomies
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function remove($linkId)
+	public function remove($linkId, $removeTaxonomies = true)
 	{
 		$db     = $this->db;
 		$query  = $db->getQuery(true);
@@ -319,7 +320,10 @@ abstract class Indexer
 		Taxonomy::removeMaps($linkId);
 
 		// Remove the orphaned taxonomy nodes.
-		Taxonomy::removeOrphanNodes();
+		if ($removeTaxonomies)
+		{
+			Taxonomy::removeOrphanNodes();
+		}
 
 		return true;
 	}
