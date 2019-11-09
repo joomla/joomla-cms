@@ -98,7 +98,7 @@ abstract class JHtmlSidebar
 	 * @param   string  $label      Label for the menu item.
 	 * @param   string  $name       Name for the filter. Also used as id.
 	 * @param   string  $options    Options for the select field.
-	 * @param   bool    $noDefault  Don't the label as the empty option
+	 * @param   bool    $noDefault  Don't show the label as the empty option
 	 *
 	 * @return  void
 	 *
