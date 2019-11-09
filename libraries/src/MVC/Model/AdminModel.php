@@ -1656,7 +1656,7 @@ abstract class AdminModel extends FormModel
 		// Deal with categories associations
 		if ($this->text_prefix === 'COM_CATEGORIES')
 		{
-			$extension       = $app->input->get('extension', 'com_content');
+			$extension       = '&extension=' . $app->input->get('extension', 'com_content');
 			$this->typeAlias = $extension . '.category';
 			$component       = strtolower($this->text_prefix);
 			$view            = 'category';
