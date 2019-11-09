@@ -47,15 +47,6 @@ class HtmlView extends BaseHtmlView
 	protected $pagination;
 
 	/**
-	 * The HTML markup for the sidebar
-	 *
-	 * @var  string
-	 *
-	 * @since  3.6.1
-	 */
-	protected $sidebar;
-
-	/**
 	 * The model state
 	 *
 	 * @var  \JObject
@@ -111,8 +102,6 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		FinderHelper::addSubmenu('maps');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -123,7 +112,6 @@ class HtmlView extends BaseHtmlView
 
 		// Prepare the view.
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
