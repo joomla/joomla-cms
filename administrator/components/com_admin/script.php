@@ -6295,7 +6295,7 @@ class JoomlaInstallerScript
 		$parentId    = $tableItem->id;
 		$componentId = ExtensionHelper::getExtensionRecord('com_finder')->extension_id;
 
-		// Add Contact Fields Menu Items.
+		// Add Finder Fields Menu Items.
 		$menuItems = [
 			[
 				'menutype'          => 'main',
