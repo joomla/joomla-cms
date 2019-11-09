@@ -128,7 +128,7 @@ class PlgSampledataTesting extends CMSPlugin
 			$tag   = array(
 				'id'              => 0,
 				'title'           => $title,
-				'alias'           => JApplicationHelper::stringURLSafe($title),
+				'alias'           => ApplicationHelper::stringURLSafe($title),
 				'parent_id'       => 1,
 				'published'       => 1,
 				'access'          => $access,
@@ -346,7 +346,7 @@ class PlgSampledataTesting extends CMSPlugin
 			$banner['id']               = 0;
 			$banner['type']             = 0;
 			$banner['state']            = 1;
-			$banner['alias']            = JApplicationHelper::stringURLSafe($banner['name']);
+			$banner['alias']            = ApplicationHelper::stringURLSafe($banner['name']);
 			$banner['custombannercode'] = '';
 			$banner['metakey']          = '';
 			$banner['purchase_type']    = -1;
@@ -1356,7 +1356,7 @@ class PlgSampledataTesting extends CMSPlugin
 			{
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
+				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 5, $e->getMessage());
 
 				return $response;
 			}
@@ -2655,7 +2655,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
 			return $response;
 		}
@@ -2714,7 +2714,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
 			return $response;
 		}
@@ -2858,7 +2858,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
 			return $response;
 		}
@@ -2950,7 +2950,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = false;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 7, $e->getMessage());
 
 			return $response;
 		}
@@ -3237,7 +3237,7 @@ class PlgSampledataTesting extends CMSPlugin
 		{
 			$response            = array();
 			$response['success'] = true;
-			$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 8, 'com_modules');
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_SKIPPED', 8, 'com_modules');
 
 			return $response;
 		}
@@ -4513,7 +4513,7 @@ class PlgSampledataTesting extends CMSPlugin
 				Factory::getLanguage()->load('com_modules');
 				$response            = array();
 				$response['success'] = false;
-				$response['message'] = JText::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 8, Text::_($model->getError()));
+				$response['message'] = Text::sprintf('PLG_SAMPLEDATA_TESTING_STEP_FAILED', 8, Text::_($model->getError()));
 
 				return $response;
 			}
@@ -4579,7 +4579,7 @@ class PlgSampledataTesting extends CMSPlugin
 			$category['created_user_id'] = $user->id;
 			$category['extension']       = $extension;
 			$category['level']           = $level;
-			$category['alias']           = JApplicationHelper::stringURLSafe($category['title']);
+			$category['alias']           = ApplicationHelper::stringURLSafe($category['title']);
 			$category['associations']    = array();
 			$category['params']          = array();
 
@@ -4624,12 +4624,13 @@ class PlgSampledataTesting extends CMSPlugin
 
 		$access = (int) $this->app->get('access', 1);
 		$user   = Factory::getUser();
-
-		/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
-		$model = $this->app->bootComponent('com_content')->getMVCFactory()->createModel('Article', 'Administrator', ['ignore_request' => true]);
+		$mvcFactory = $this->app->bootComponent('com_content')->getMVCFactory();
 
 		foreach ($articles as $i => $article)
 		{
+			/** @var \Joomla\Component\Content\Administrator\Model\ArticleModel $model */
+			$model = $mvcFactory->createModel('Article', 'Administrator', ['ignore_request' => true]);
+
 			// Set values from language strings.
 			$article['title']     = Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_ARTICLE_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_TITLE');
 			$article['introtext'] = Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_CONTENT_ARTICLE_' . str_pad($i, 2, '0', STR_PAD_LEFT) . '_INTROTEXT');
