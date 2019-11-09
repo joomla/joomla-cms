@@ -6125,7 +6125,7 @@ class JoomlaInstallerScript
 				continue;
 			}
 
-			$newTableItem   = new \Joomla\Component\Menus\Administrator\Table\MenuTable($db);
+			$newTableItem = new \Joomla\Component\Menus\Administrator\Table\MenuTable($db);
 
 			// Bind the data.
 			if (!$newTableItem->bind($menuItem))
