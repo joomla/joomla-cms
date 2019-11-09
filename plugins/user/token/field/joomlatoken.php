@@ -84,7 +84,7 @@ class JFormFieldJoomlatoken extends TextField
 	 * @param   string  $tokenSeed  The token seed data stored in the database
 	 *
 	 * @return  string
-	 * @simnce  4.0.0
+	 * @since   4.0.0
 	 */
 	private function getTokenForDisplay(string $tokenSeed): string
 	{
