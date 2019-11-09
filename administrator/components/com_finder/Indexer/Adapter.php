@@ -323,26 +323,29 @@ abstract class Adapter extends CMSPlugin
 		$this->setup();
 
 		// Remove the old item.
-		$this->remove($id);
+		$this->remove($id, false);
 
 		// Get the item.
 		$item = $this->getItem($id);
 
 		// Index the item.
 		$this->index($item);
+
+		Taxonomy::removeOrphanNodes();
 	}
 
 	/**
 	 * Method to remove an item from the index.
 	 *
-	 * @param   string  $id  The ID of the item to remove.
+	 * @param   string  $id                The ID of the item to remove.
+	 * @param   bool    $removeTaxonomies  Remove empty taxonomies
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function remove($id)
+	protected function remove($id, $removeTaxonomies = true)
 	{
 		// Get the item's URL
 		$url = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
@@ -364,7 +367,7 @@ abstract class Adapter extends CMSPlugin
 		// Remove the items.
 		foreach ($items as $item)
 		{
-			$this->indexer->remove($item);
+			$this->indexer->remove($item, $removeTaxonomies);
 		}
 
 		return true;
