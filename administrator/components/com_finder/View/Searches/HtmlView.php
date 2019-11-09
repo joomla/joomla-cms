@@ -102,8 +102,6 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		FinderHelper::addSubmenu('searches');
-
 		// Check if plugin is enabled
 		if (!$this->enabled)
 		{
@@ -112,7 +110,6 @@ class HtmlView extends BaseHtmlView
 
 		// Prepare the view.
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
