@@ -207,7 +207,6 @@ class PlgUserToken extends CMSPlugin
 		}
 
 		// Add the registration fields to the form.
-		$this->loadLanguage();
 		Form::addFormPath(dirname(__FILE__) . '/token');
 		$form->loadFile('token', false);
 
