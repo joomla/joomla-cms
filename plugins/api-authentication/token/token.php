@@ -93,12 +93,6 @@ class PlgApiAuthenticationToken extends CMSPlugin
 			$tokenString = $filter->clean($tokenString, 'BASE64');
 		}
 
-		// Check for _authToken query param as a fallback to the Authorization header.
-		if (empty($tokenString))
-		{
-			$tokenString = $this->app->input->getBase64('_authToken', '');
-		}
-
 		// No token: authentication failure
 		if (empty($tokenString))
 		{
