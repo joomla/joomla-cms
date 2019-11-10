@@ -85,7 +85,7 @@ class ExportModel extends BaseDatabaseModel
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('email') . ' = :email')
-				->bind(':email', $table->email),
+				->bind(':email', $table->email)
 				->setLimit(1)
 		)->loadResult();
 
