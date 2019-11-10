@@ -125,7 +125,7 @@ class Taxonomy
 
 		if ($parent && $parent->title != 'ROOT')
 		{
-			$parentId = self::addNestedNode($branch, $parent, $state, $access, $language = '', $branchId);
+			$parentId = self::addNestedNode($branch, $parent, $state, $access, $language, $branchId);
 		}
 		else
 		{
@@ -396,27 +396,32 @@ class Taxonomy
 	public static function removeOrphanNodes()
 	{
 		// Delete all orphaned nodes.
-		$db = Factory::getDbo();
-		$query     = $db->getQuery(true);
-		$subquery  = $db->getQuery(true);
-		$subquery1 = $db->getQuery(true);
+		$affectedRows = 0;
+		$db           = Factory::getDbo();
+		$nodeTable    = new MapTable($db);
+		$query        = $db->getQuery(true);
 
-		$subquery1->select($db->quoteName('t.id'))
+		$query->select($db->quoteName('t.id'))
 			->from($db->quoteName('#__finder_taxonomy', 't'))
 			->join('LEFT', $db->quoteName('#__finder_taxonomy_map', 'm') . ' ON ' . $db->quoteName('m.node_id') . '=' . $db->quoteName('t.id'))
 			->where($db->quoteName('t.parent_id') . ' > 1 ')
+			->where('t.lft + 1 = t.rgt')
 			->where($db->quoteName('m.link_id') . ' IS NULL');
 
-		$subquery->select($db->quoteName('id'))
-			->from('(' . $subquery1 . ') temp');
+		do
+		{
+			$db->setQuery($query);
+			$nodes = $db->loadColumn();
 
-		$query->delete($db->quoteName('#__finder_taxonomy'))
-			->where($db->quoteName('id') . ' IN (' . $subquery . ')');
+			foreach ($nodes as $node)
+			{
+				$nodeTable->delete($node);
+				$affectedRows++;
+			}
+		}
+		while ($nodes);
 
-		$db->setQuery($query);
-		$db->execute();
-
-		return $db->getAffectedRows();
+		return $affectedRows;
 	}
 
 	/**
