@@ -83,7 +83,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 		 * Do keep in mind that Bearer is **case-sensitive**. Whitespace between Bearer and the
 		 * token, as well as any whitespace following the token is discarded.
 		 */
-		$authHeader = $this->app->input->server->get('HTTP_AUTHENTICATION', '', 'string');
+		$authHeader = $this->app->input->server->get('HTTP_AUTHORIZATION', '', 'string');
 
 		if (substr($authHeader, 0, 7) == 'Bearer ')
 		{
