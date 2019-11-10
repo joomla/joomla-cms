@@ -78,8 +78,8 @@ class PlgApiAuthenticationToken extends CMSPlugin
 		$response->error_message = Text::_('JGLOBAL_AUTH_FAIL');
 
 		/**
-		 * First look for an HTTP Authentication header with the following format:
-		 * Authentication: Bearer <token>
+		 * First look for an HTTP Authorization header with the following format:
+		 * Authorization: Bearer <token>
 		 * Do keep in mind that Bearer is **case-sensitive**. Whitespace between Bearer and the
 		 * token, as well as any whitespace following the token is discarded.
 		 */
@@ -93,7 +93,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 			$tokenString = $filter->clean($tokenString, 'BASE64');
 		}
 
-		// Check for _authToken query param as a fallback to the Authentication header.
+		// Check for _authToken query param as a fallback to the Authorization header.
 		if (empty($tokenString))
 		{
 			$tokenString = $this->app->input->getBase64('_authToken', '');
