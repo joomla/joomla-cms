@@ -337,12 +337,12 @@ class PlgApiAuthenticationToken extends CMSPlugin
 	 * @param   string  $param   Parameter name
 	 * @param   null    $default Default value, in case the parameter is missing
 	 *
-	 * @return  string|null
+	 * @return  mixed
 	 * @since   4.0.0
 	 */
 	private function getPluginParameter(string $folder, string $plugin, string $param,
 		$default = null
-	): ?string
+	)
 	{
 		if (!PluginHelper::isEnabled($folder, $plugin))
 		{
