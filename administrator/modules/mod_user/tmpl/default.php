@@ -34,21 +34,21 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 		<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri); ?>
 		<div class="dropdown-item">
 			<a href="<?php echo Route::_($route); ?>">
-				<span class="fa fa-user"></span>
+				<span class="fa fa-user" aria-hidden="true"></span>
 				<?php echo Text::_('MOD_USER_EDIT_ACCOUNT'); ?>
 			</a>
 		</div>
 		<div class="dropdown-item">
-			<?php // TODO: route to accessibility settings ?>
-			<a href="#">
-				<span class="fa fa-universal-access"></span>
+			<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri); ?>
+			<a href="<?php echo Route::_($route); ?>">
+				<span class="fa fa-universal-access" aria-hidden="true"></span>
 				<?php echo Text::_('MOD_USER_ACCESSIBILITY_SETTINGS'); ?>
 			</a>
 		</div>
 		<div class="dropdown-item">
 			<?php $route = 'index.php?option=com_login&task=logout&amp;' . Session::getFormToken() . '=1'; ?>
 			<a href="<?php echo Route::_($route); ?>">
-				<span class="fa fa-power-off"></span>
+				<span class="fa fa-power-off" aria-hidden="true"></span>
 				<?php echo Text::_('JLOGOUT'); ?>
 			</a>
 		</div>
