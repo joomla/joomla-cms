@@ -38,7 +38,7 @@ $iconStates = array(
 	2  => 'icon-archive',
 );
 
-$this->document->addScriptOptions('assosiations-modal', ['func' => $function]);
+$this->document->addScriptOptions('associations-modal', ['func' => $function]);
 HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <div class="container-popup">
