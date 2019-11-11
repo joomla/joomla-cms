@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
@@ -157,7 +158,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 		$enabled = $this->isTokenEnabledForUser($userId);
 
 		// Do the tokens match? Use a timing safe string comparison to prevent timing attacks.
-		$hashesMatch = $this->timingSafeEquals($referenceHMAC, $tokenHMAC);
+		$hashesMatch = Crypt::timingSafeCompare($referenceHMAC, $tokenHMAC);
 
 		// Is the user in the allowed user groups?
 		$inAllowedUserGroups = $this->isInAllowedUserGroup($userId);
@@ -280,47 +281,6 @@ class PlgApiAuthenticationToken extends CMSPlugin
 		{
 			return false;
 		}
-	}
-
-	/**
-	 * Time safe string comparison.
-	 *
-	 * If available, it will use hash_equals(). Otherwise it will use a pure PHP implementation by
-	 * Anthony Ferrara.
-	 *
-	 * @see https://www.php.net/manual/en/function.hash-equals.php
-	 * @see https://blog.ircmaxell.com/2014/11/its-all-about-time.html
-	 *
-	 * @param   string  $knownString  The string we know and we are comparing against
-	 * @param   string  $userString   The string derived from user-submitted information.
-	 *
-	 * @return  boolean
-	 * @since   4.0.0
-	 */
-	private function timingSafeEquals(string $knownString, string $userString): bool
-	{
-		if (function_exists('hash_equals'))
-		{
-			return hash_equals($knownString, $userString);
-		}
-
-		$safeLen = strlen($knownString);
-		$userLen = strlen($userString);
-
-		if ($userLen != $safeLen)
-		{
-			return false;
-		}
-
-		$result = 0;
-
-		for ($i = 0; $i < $userLen; $i++)
-		{
-			$result |= (ord($knownString[$i]) ^ ord($userString[$i]));
-		}
-
-		// They are only identical strings if $result is exactly 0...
-		return $result === 0;
 	}
 
 	/**
