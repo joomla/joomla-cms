@@ -115,7 +115,7 @@ class UpdatesiteModel extends AdminModel
 			->bind(':updatesiteid', $updateSiteId, ParameterType::INTEGER);
 
 		$db->setQuery($query);
-		$extension = $db->loadObject(CMSObject::class);
+		$extension = new CMSObject($db->loadAssoc());
 
 		$downloadKey = InstallerHelper::getDownloadKey($extension);
 
