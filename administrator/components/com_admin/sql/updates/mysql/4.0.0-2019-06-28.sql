@@ -8,7 +8,7 @@ ALTER TABLE `#__banners` MODIFY `checked_out_time` datetime NULL DEFAULT NULL;
 
 ALTER TABLE `#__banner_clients` MODIFY `checked_out_time` datetime NULL DEFAULT NULL;
 
-UPDATE `#__banners` SET `modified` = `created` WHERE `modified` = '0000-00-00 00:00:00';
+UPDATE `#__banners` SET `modified` = `created`, `modified_by` = `created_by` WHERE `modified` = '0000-00-00 00:00:00';
 
 UPDATE `#__banners` SET `reset` = NULL WHERE `reset` = '0000-00-00 00:00:00';
 UPDATE `#__banners` SET `publish_up` = NULL WHERE `publish_up` = '0000-00-00 00:00:00';

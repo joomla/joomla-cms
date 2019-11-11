@@ -31,7 +31,7 @@
                 </div>
             </div>
         </div>
-        <media-infobar v-if="!this.isModal" ref="infobar"></media-infobar>
+        <media-infobar ref="infobar"></media-infobar>
     </div>
 </template>
 
