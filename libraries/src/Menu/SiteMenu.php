@@ -151,11 +151,10 @@ class SiteMenu extends AbstractMenu
 				->bind(':currentDate2', $currentDate)
 				->order($this->db->quoteName('m.lft'));
 
-			// Set the query
-			$components = [];
-			$this->db->setQuery($query);
+			$items    = [];
+			$iterator = $this->db->setQuery($query)->getIterator();
 
-			foreach ($this->db->getIterator() as $item)
+			foreach ($iterator as $item)
 			{
 				$items[$item->id] = new MenuItem((array) $item);
 			}
