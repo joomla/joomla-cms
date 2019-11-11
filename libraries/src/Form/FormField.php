@@ -1176,7 +1176,7 @@ abstract class FormField
 			return new \UnexpectedValueException($message);
 		}
 
-		return true;
+		return $valid;
 	}
 
 	/**
