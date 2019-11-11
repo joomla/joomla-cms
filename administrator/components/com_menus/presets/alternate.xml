@@ -237,7 +237,6 @@
 				icon="{sql:icon}"
 				class="class:menu"
 				quicktask="index.php?option=com_menus&amp;task=item.add&amp;client_id=1&amp;menutype={sql:menutype}"
-
 			/>
 		</menuitem>
 	</menuitem>
