@@ -255,6 +255,7 @@ class PlgContentJoomla extends CMSPlugin
 			'com_contact' => array('table_name' => '#__contact_details'),
 			'com_content' => array('table_name' => '#__content'),
 			'com_newsfeeds' => array('table_name' => '#__newsfeeds'),
+			'com_users' => array('table_name' => '#__user_notes'),
 			'com_weblinks' => array('table_name' => '#__weblinks'),
 		);
 
@@ -278,7 +279,7 @@ class PlgContentJoomla extends CMSPlugin
 				if ($count > 0)
 				{
 					$msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
-						. Text::plural('COM_CATEGORIES_N_ITEMS_ASSIGNED', $count);
+						. ' ' . Text::plural('COM_CATEGORIES_N_ITEMS_ASSIGNED', $count);
 					$this->app->enqueueMessage($msg, 'error');
 					$result = false;
 				}
@@ -295,7 +296,7 @@ class PlgContentJoomla extends CMSPlugin
 					elseif ($count > 0)
 					{
 						$msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
-							. Text::plural('COM_CATEGORIES_HAS_SUBCATEGORY_ITEMS', $count);
+							. ' ' . Text::plural('COM_CATEGORIES_HAS_SUBCATEGORY_ITEMS', $count);
 						$this->app->enqueueMessage($msg, 'error');
 						$result = false;
 					}
