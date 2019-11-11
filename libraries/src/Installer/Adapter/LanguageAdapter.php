@@ -124,10 +124,6 @@ class LanguageAdapter extends InstallerAdapter
 
 		$count = 0;
 
-		// Declare parameters before binding.
-		$userId   = 0;
-		$registry = '';
-
 		// Prepare the query.
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__users'))
