@@ -60,8 +60,56 @@ if (empty($options['to']))
 	exit(1);
 }
 
+// Directories to skip for the check (needs to include anything from J3 we want to keep)
+$previousReleaseExclude = [
+	$options['from'] . '/administrator/components/com_search',
+	$options['from'] . '/components/com_search',
+	$options['from'] . '/plugins/search',
+	$options['from'] . '/installation'
+];
+
+/**
+ * @param   SplFileInfo                      $file      The file being checked
+ * @param   mixed                            $key       ?
+ * @param   RecursiveCallbackFilterIterator  $iterator  The iterator being processed
+ *
+ * @return bool True if you need to recurse or if the item is acceptable
+ */
+$previousReleaseFilter = function ($file, $key, $iterator) use ($previousReleaseExclude) {
+	if ($iterator->hasChildren() && !in_array($file->getPathname(), $previousReleaseExclude))
+	{
+		return true;
+	}
+
+	return $file->isFile();
+};
+
+// Directories to skip for the check
+$newReleaseExclude = [
+	$options['to'] . '/installation'
+];
+
+/**
+ * @param   SplFileInfo                      $file      The file being checked
+ * @param   mixed                            $key       ?
+ * @param   RecursiveCallbackFilterIterator  $iterator  The iterator being processed
+ *
+ * @return bool True if you need to recurse or if the item is acceptable
+ */
+$newReleaseFilter = function ($file, $key, $iterator) use ($newReleaseExclude) {
+	if ($iterator->hasChildren() && !in_array($file->getPathname(), $newReleaseExclude))
+	{
+		return true;
+	}
+
+	return $file->isFile();
+};
+
 $previousReleaseDirIterator = new RecursiveDirectoryIterator($options['from'], RecursiveDirectoryIterator::SKIP_DOTS);
-$previousReleaseIterator = new RecursiveIteratorIterator($previousReleaseDirIterator, RecursiveIteratorIterator::SELF_FIRST);
+$previousReleaseIterator = new RecursiveIteratorIterator(
+	new RecursiveCallbackFilterIterator($previousReleaseDirIterator, $previousReleaseFilter),
+	RecursiveIteratorIterator::SELF_FIRST
+);
 $previousReleaseFiles = [];
 $previousReleaseFolders = [];
 
@@ -77,7 +125,10 @@ foreach ($previousReleaseIterator as $info)
 }
 
 $newReleaseDirIterator = new RecursiveDirectoryIterator($options['to'], RecursiveDirectoryIterator::SKIP_DOTS);
-$newReleaseIterator = new RecursiveIteratorIterator($newReleaseDirIterator, RecursiveIteratorIterator::SELF_FIRST);
+$newReleaseIterator = new RecursiveIteratorIterator(
+	new RecursiveCallbackFilterIterator($newReleaseDirIterator, $newReleaseFilter),
+	RecursiveIteratorIterator::SELF_FIRST
+);
 $newReleaseFiles = [];
 $newReleaseFolders = [];
 
