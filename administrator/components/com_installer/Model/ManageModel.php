@@ -379,11 +379,11 @@ class ManageModel extends InstallerModel
 			{
 				if ($core === '1')
 				{
-					$query->whereIn($db->quoteName('element'), $elements);
+					$query->whereIn($db->quoteName('element'), $elements, ParameterType::STRING);
 				}
 				elseif ($core === '0')
 				{
-					$query->whereNotIn($db->quoteName('element'), $elements);
+					$query->whereNotIn($db->quoteName('element'), $elements, ParameterType::STRING);
 				}
 			}
 		}
