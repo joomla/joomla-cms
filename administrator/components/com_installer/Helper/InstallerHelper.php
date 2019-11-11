@@ -130,7 +130,7 @@ class InstallerHelper
 	 */
 	public static function getInstallationXML(string $element, string $type, int $clientId = 1,
 		?string $folder = null
-	): SimpleXMLElement
+	): ?SimpleXMLElement
 	{
 		$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_ROOT;
 
@@ -158,7 +158,9 @@ class InstallerHelper
 				$path = JPATH_ADMINISTRATOR . '/manifests/packages/' . $element . '.xml';
 		}
 
-		return simplexml_load_file($path);
+		$xmlElement = simplexml_load_file($path);
+
+		return ($xmlElement !== false) ? $xmlElement : null;
 	}
 
 	/**

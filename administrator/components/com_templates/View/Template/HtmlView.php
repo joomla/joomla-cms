@@ -263,12 +263,11 @@ class HtmlView extends BaseHtmlView
 		// Add a Template preview button
 		if ($this->preview->client_id == 0)
 		{
-			$bar->popupButton('preview')
+			$bar->linkButton('preview')
 				->icon('icon-picture')
 				->text('COM_TEMPLATES_BUTTON_PREVIEW')
 				->url(Uri::root() . 'index.php?tp=1&templateStyle=' . $this->preview->id)
-				->iframeWidth(800)
-				->iframeHeight(520);
+				->attributes(['target' => '_new']);
 		}
 
 		// Only show file manage buttons for global SuperUser
