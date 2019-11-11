@@ -26,41 +26,14 @@ $this->useCoreUI = true;
 Text::script('ERROR');
 Text::script('JGLOBAL_VALIDATION_FORM_FAILED');
 
-Factory::getDocument()->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
-HTMLHelper::_('script', 'com_menus/admin-item-edit.min.js', ['version' => 'auto', 'relative' => true]);
-
-// Ajax for parent items
-$script = "
-jQuery(document).ready(function ($){
-	// Menu type Login Form specific
-	$('#item-form').on('submit', function() {
-		if ($('#jform_params_login_redirect_url') && $('#jform_params_logout_redirect_url')) {
-			// Login
-			if ($('#jform_params_login_redirect_url').closest('.control-group').css('display') === 'block') {
-				$('#jform_params_login_redirect_menuitem_id').val('');
-			}
-			if ($('#jform_params_login_redirect_menuitem_name').closest('.control-group').css('display') === 'block') {
-				$('#jform_params_login_redirect_url').val('');
-
-			}
-
-			// Logout
-			if ($('#jform_params_logout_redirect_url').closest('.control-group').css('display') === 'block') {
-				$('#jform_params_logout_redirect_menuitem_id').val('');
-			}
-			if ($('#jform_params_logout_redirect_menuitem_id').closest('.control-group').css('display') === 'block') {
-				$('#jform_params_logout_redirect_url').val('');
-			}
-		}
-	});
-});
-";
+$this->document->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
+HTMLHelper::_('script', 'com_menus/admin-item-edit.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
 
 $assoc = Associations::isEnabled();
 $input = Factory::getApplication()->input;
 
 // In case of modal
-$isModal  = $input->get('layout') == 'modal' ? true : false;
+$isModal  = $input->get('layout') === 'modal';
 $layout   = $isModal ? 'modal' : 'edit';
 $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 $clientId = $this->state->get('item.client_id', 0);
@@ -96,48 +69,52 @@ if ($clientId === 1)
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_MENUS_ITEM_DETAILS')); ?>
 		<div class="row">
-			<div class="col-md-9">
-				<?php
-				echo $this->form->renderField('type');
-
-				if ($this->item->type == 'alias')
-				{
-					echo $this->form->renderField('aliasoptions', 'params');
-				}
-
-				if ($this->item->type == 'separator')
-				{
-					echo $this->form->renderField('text_separator', 'params');
-				}
-
-				echo $this->form->renderFieldset('request');
-
-				if ($this->item->type == 'url')
-				{
-					$this->form->setFieldAttribute('link', 'readonly', 'false');
-					$this->form->setFieldAttribute('link', 'required', 'true');
-				}
-
-				echo $this->form->renderField('link');
-
-				if ($this->item->type == 'alias')
-				{
-					echo $this->form->renderField('alias_redirect', 'params');
-				}
-
-				echo $this->form->renderField('browserNav');
-				echo $this->form->renderField('template_style_id');
-
-				if (!$isModal && $this->item->type == 'container')
-				{
-					echo $this->loadTemplate('container');
-				}
-				?>
-			</div>
-			<div class="col-md-3">
-				<div class="card card-light">
+			<div class="col-lg-9">
+				<div class="card">
 					<div class="card-body">
-						<?php
+					<?php
+					echo $this->form->renderField('type');
+
+					if ($this->item->type == 'alias')
+					{
+						echo $this->form->renderField('aliasoptions', 'params');
+					}
+
+					if ($this->item->type == 'separator')
+					{
+						echo $this->form->renderField('text_separator', 'params');
+					}
+
+					echo $this->form->renderFieldset('request');
+
+					if ($this->item->type == 'url')
+					{
+						$this->form->setFieldAttribute('link', 'readonly', 'false');
+						$this->form->setFieldAttribute('link', 'required', 'true');
+					}
+
+					echo $this->form->renderField('link');
+
+					if ($this->item->type == 'alias')
+					{
+						echo $this->form->renderField('alias_redirect', 'params');
+					}
+
+					echo $this->form->renderField('browserNav');
+					echo $this->form->renderField('template_style_id');
+
+					if (!$isModal && $this->item->type == 'container')
+					{
+						echo $this->loadTemplate('container');
+					}
+					?>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-3">
+				<div class="card">
+					<div class="card-body">
+					<?php
 						// Set main fields.
 						$this->fields = array(
 							'id',
@@ -175,19 +152,26 @@ if ($clientId === 1)
 		?>
 
 		<?php if (!$isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
-			<?php if ($this->item->type !== 'alias' && $this->item->type !== 'url'
-				&& $this->item->type !== 'separator' && $this->item->type !== 'heading') : ?>
-				<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
-				<?php echo $this->loadTemplate('associations'); ?>
-				<?php echo HTMLHelper::_('uitab.endTab'); ?>
-			<?php endif; ?>
-		<?php elseif ($isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
-			<div class="hidden"><?php echo $this->loadTemplate('associations'); ?></div>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
+			<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
+			<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
+			<div>
+			<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+			</div>
+			</fieldset>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php elseif ($isModal && $assoc) : ?>
+			<div class="hidden"><?php echo LayoutHelper::render('joomla.edit.associations', $this); ?></div>
 		<?php endif; ?>
 
 		<?php if (!empty($this->modules)) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'modules', Text::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT')); ?>
-			<?php echo $this->loadTemplate('modules'); ?>
+			<fieldset id="fieldset-modules" class="options-grid-form options-grid-form-full">
+				<legend><?php echo Text::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT'); ?></legend>
+				<div>
+				<?php echo $this->loadTemplate('modules'); ?>
+				</div>
+			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 

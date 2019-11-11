@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Encrypt;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * This class provides an RFC6238-compliant Time-based One Time Passwords,
@@ -71,7 +71,7 @@ class Totp
 		$this->_secretLength   = $secretLength;
 		$this->_pinModulo      = pow(10, $this->_passCodeLength);
 
-		if (is_null($base32))
+		if (\is_null($base32))
 		{
 			$this->_base32 = new Base32;
 		}
@@ -92,7 +92,7 @@ class Totp
 	 */
 	public function getPeriod($time = null)
 	{
-		if (is_null($time))
+		if (\is_null($time))
 		{
 			$time = time();
 		}
@@ -141,10 +141,10 @@ class Totp
 		$secret = $this->_base32->decode($secret);
 
 		$time = pack("N", $period);
-		$time = str_pad($time, 8, chr(0), STR_PAD_LEFT);
+		$time = str_pad($time, 8, \chr(0), STR_PAD_LEFT);
 
 		$hash = hash_hmac('sha1', $time, $secret, true);
-		$offset = ord(substr($hash, -1));
+		$offset = \ord(substr($hash, -1));
 		$offset = $offset & 0xF;
 
 		$truncatedHash = $this->hashToInt($hash, $offset) & 0x7FFFFFFF;
@@ -163,7 +163,7 @@ class Totp
 	 */
 	protected function hashToInt($bytes, $start)
 	{
-		$input = substr($bytes, $start, strlen($bytes) - $start);
+		$input = substr($bytes, $start, \strlen($bytes) - $start);
 		$val2 = unpack("N", substr($input, 0, 4));
 
 		return $val2[1];

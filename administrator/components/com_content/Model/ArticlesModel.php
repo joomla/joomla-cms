@@ -19,6 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -55,6 +56,8 @@ class ArticlesModel extends ListModel
 				'created_by_alias', 'a.created_by_alias',
 				'ordering', 'a.ordering',
 				'featured', 'a.featured',
+				'featured_up', 'fp.featured_up',
+				'featured_down', 'fp.featured_down',
 				'language', 'a.language',
 				'hits', 'a.hits',
 				'publish_up', 'a.publish_up',
@@ -65,6 +68,8 @@ class ArticlesModel extends ListModel
 				'level',
 				'tag',
 				'rating_count', 'rating',
+				'condition',
+				'stage',
 			);
 
 			if (Associations::isEnabled())
@@ -202,9 +207,9 @@ class ArticlesModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
-				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
-				', a.publish_up, a.publish_down, a.introtext, a.note'
+				'a.id, a.asset_id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
+				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, fp.featured_up, fp.featured_down' .
+				', a.language, a.hits, a.publish_up, a.publish_down, a.introtext, a.note'
 			)
 		);
 		$query->from('#__content AS a');
@@ -212,6 +217,10 @@ class ArticlesModel extends ListModel
 		// Join over the language
 		$query->select('l.title AS language_title, l.image AS language_image')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+
+		// Join over the front page table.
+		$query->select('fp.ordering')
+			->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor')
@@ -237,15 +246,15 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join over the associations.
-		$query->select($query->quoteName('wa.stage_id', 'stage_id'))
+		$query->select($db->quoteName('wa.stage_id', 'stage_id'))
 			->innerJoin(
-				$query->quoteName('#__workflow_associations', 'wa')
-				. ' ON ' . $query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id')
+				$db->quoteName('#__workflow_associations', 'wa')
+				. ' ON ' . $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id')
 			);
 
 		// Join over the workflow stages.
 		$query->select(
-			$query->quoteName(
+			$db->quoteName(
 				[
 					'ws.title',
 					'ws.condition',
@@ -259,44 +268,9 @@ class ArticlesModel extends ListModel
 			)
 		)
 			->innerJoin(
-				$query->quoteName('#__workflow_stages', 'ws')
-				. ' ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id')
+				$db->quoteName('#__workflow_stages', 'ws')
+				. ' ON ' . $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id')
 			);
-
-		// Join on voting table
-		$associationsGroupBy = array(
-			'a.id',
-			'a.title',
-			'a.alias',
-			'a.checked_out',
-			'a.checked_out_time',
-			'a.state',
-			'a.access',
-			'a.created',
-			'a.created_by',
-			'a.created_by_alias',
-			'a.modified',
-			'a.ordering',
-			'a.featured',
-			'a.language',
-			'a.hits',
-			'a.publish_up',
-			'a.publish_down',
-			'a.catid',
-			'l.title',
-			'l.image',
-			'uc.name',
-			'ag.title',
-			'c.title',
-			'c.created_user_id',
-			'c.level',
-			'ua.name',
-			'ws.title',
-			'ws.workflow_id',
-			'ws.condition',
-			'wa.stage_id',
-			'parent.id',
-		);
 
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
@@ -304,17 +278,23 @@ class ArticlesModel extends ListModel
 				COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count'
 			)
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
-
-			array_push($associationsGroupBy, 'v.rating_sum', 'v.rating_count');
 		}
 
 		// Join over the associations.
 		if (Associations::isEnabled())
 		{
-			$query->select('CASE WHEN COUNT(asso2.id)>1 THEN 1 ELSE 0 END as association')
-				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
-				->join('LEFT', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'))
-				->group($db->quoteName($associationsGroupBy));
+			$subQuery = $db->getQuery(true)
+				->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
+				->from($db->quoteName('#__associations', 'asso1'))
+				->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
+				->where(
+					[
+						$db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
+						$db->quoteName('asso1.context') . ' = ' . $db->quote('com_content.item'),
+					]
+				);
+
+			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
 		}
 
 		// Filter by access level.
@@ -459,39 +439,58 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by a single or group of tags.
-		$hasTag = false;
-		$tagId  = $this->getState('filter.tag');
+		$tag = $this->getState('filter.tag');
 
-		if (is_numeric($tagId))
+		// Run simplified query when filtering by one tag.
+		if (\is_array($tag) && \count($tag) === 1)
 		{
-			$hasTag = true;
-
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
-		}
-		elseif (is_array($tagId))
-		{
-			$tagId = ArrayHelper::toInteger($tagId);
-			$tagId = implode(',', $tagId);
-
-			if (!empty($tagId))
-			{
-				$hasTag = true;
-
-				$query->where($db->quoteName('tagmap.tag_id') . ' IN (' . $tagId . ')');
-			}
+			$tag = $tag[0];
 		}
 
-		if ($hasTag)
+		if ($tag && \is_array($tag))
 		{
-			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
-				. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-				. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+			$tag = ArrayHelper::toInteger($tag);
+
+			$subQuery = $db->getQuery(true)
+				->select('DISTINCT ' . $db->quoteName('content_item_id'))
+				->from($db->quoteName('#__contentitem_tag_map'))
+				->where(
+					[
+						$db->quoteName('tag_id') . ' IN (' . implode(',', $query->bindArray($tag)) . ')',
+						$db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'),
+					]
+				);
+
+			$query->join(
+				'INNER',
+				'(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
+				$db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 			);
+		}
+		elseif ($tag = (int) $tag)
+		{
+			$query->join(
+				'INNER',
+				$db->quoteName('#__contentitem_tag_map', 'tagmap'),
+				$db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+			)
+				->where(
+					[
+						$db->quoteName('tagmap.tag_id') . ' = :tag',
+						$db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article'),
+					]
+				)
+				->bind(':tag', $tag, ParameterType::INTEGER);
 		}
 
 		// Add the list ordering clause.
 		$orderCol  = $this->state->get('list.ordering', 'a.id');
 		$orderDirn = $this->state->get('list.direction', 'DESC');
+
+		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
+		{
+			$orderCol = $db->quoteName('c.title') . ' ' . $orderDirn . ', ' . $db->quoteName('a.ordering');
+		}
 
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 
@@ -526,7 +525,7 @@ class ArticlesModel extends ListModel
 			return false;
 		}
 
-		$ids = ArrayHelper::getColumn($items, 'stage_id');
+		$ids = array_column($items, 'stage_id');
 		$ids = ArrayHelper::toInteger($ids);
 		$ids = array_unique(array_filter($ids));
 
@@ -610,7 +609,7 @@ class ArticlesModel extends ListModel
 
 	/**
 	 * Method to get a list of articles.
-	 * Overridden to add a check for access levels.
+	 * Overridden to add item type alias.
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
@@ -620,16 +619,9 @@ class ArticlesModel extends ListModel
 	{
 		$items = parent::getItems();
 
-		$asset = new \Joomla\CMS\Table\Asset($this->getDbo());
-
-		foreach (array_keys($items) as $x)
+		foreach ($items as $item)
 		{
-			$items[$x]->typeAlias = 'com_content.article';
-
-			$asset->loadByName('com_content.article.' . $items[$x]->id);
-
-			// Re-inject the asset id.
-			$items[$x]->asset_id = $asset->id;
+			$item->typeAlias = 'com_content.article';
 		}
 
 		return $items;

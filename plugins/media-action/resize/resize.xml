@@ -19,7 +19,12 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="batch" label="PLG_MEDIA-ACTION_RESIZE_BATCH_LABEL" description="PLG_MEDIA-ACTION_RESIZE_BATCH_DESC">
+			<fieldset 
+				name="batch"
+				label="PLG_MEDIA-ACTION_RESIZE_BATCH_LABEL"
+				description="PLG_MEDIA-ACTION_RESIZE_BATCH_DESC"
+				>
+
 				<field
 					name="batch_width"
 					type="text"

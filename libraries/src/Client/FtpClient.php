@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Client;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -26,7 +26,7 @@ use Joomla\CMS\Utility\BufferStreamHandler;
  * - 38 : Local filesystem error
  */
 
-if (!defined('CRLF'))
+if (!\defined('CRLF'))
 {
 	/**
 	 * Constant defining a line break
@@ -34,10 +34,10 @@ if (!defined('CRLF'))
 	 * @var    string
 	 * @since  1.5
 	 */
-	define('CRLF', "\r\n");
+	\define('CRLF', "\r\n");
 }
 
-if (!defined('FTP_AUTOASCII'))
+if (!\defined('FTP_AUTOASCII'))
 {
 	/**
 	 * Constant defining whether the FTP connection type will automatically determine ASCII support based on a file extension
@@ -45,10 +45,10 @@ if (!defined('FTP_AUTOASCII'))
 	 * @var    integer
 	 * @since  1.5
 	 */
-	define('FTP_AUTOASCII', -1);
+	\define('FTP_AUTOASCII', -1);
 }
 
-if (!defined('FTP_BINARY'))
+if (!\defined('FTP_BINARY'))
 {
 	/**
 	 * Stub of the native FTP_BINARY constant if PHP is running without the ftp extension enabled
@@ -56,10 +56,10 @@ if (!defined('FTP_BINARY'))
 	 * @var    integer
 	 * @since  1.5
 	 */
-	define('FTP_BINARY', 1);
+	\define('FTP_BINARY', 1);
 }
 
-if (!defined('FTP_ASCII'))
+if (!\defined('FTP_ASCII'))
 {
 	/**
 	 * Stub of the native FTP_ASCII constant if PHP is running without the ftp extension enabled
@@ -67,10 +67,10 @@ if (!defined('FTP_ASCII'))
 	 * @var    integer
 	 * @since  1.5
 	 */
-	define('FTP_ASCII', 0);
+	\define('FTP_ASCII', 0);
 }
 
-if (!defined('FTP_NATIVE'))
+if (!\defined('FTP_NATIVE'))
 {
 	/**
 	 * Constant defining whether native FTP support is available on the platform
@@ -78,7 +78,7 @@ if (!defined('FTP_NATIVE'))
 	 * @var    integer
 	 * @since  1.5
 	 */
-	define('FTP_NATIVE', function_exists('ftp_connect') ? 1 : 0);
+	\define('FTP_NATIVE', \function_exists('ftp_connect') ? 1 : 0);
 }
 
 /**
@@ -198,7 +198,7 @@ class FtpClient
 	 */
 	public function __destruct()
 	{
-		if (is_resource($this->_conn))
+		if (\is_resource($this->_conn))
 		{
 			$this->quit();
 		}
@@ -228,7 +228,7 @@ class FtpClient
 		$signature = $user . ':' . $pass . '@' . $host . ':' . $port;
 
 		// Create a new instance, or set the options of an existing one
-		if (!isset(static::$instances[$signature]) || !is_object(static::$instances[$signature]))
+		if (!isset(static::$instances[$signature]) || !\is_object(static::$instances[$signature]))
 		{
 			static::$instances[$signature] = new static($options);
 		}
@@ -291,7 +291,7 @@ class FtpClient
 		$err = null;
 
 		// If already connected, return
-		if (is_resource($this->_conn))
+		if (\is_resource($this->_conn))
 		{
 			return true;
 		}
@@ -347,7 +347,7 @@ class FtpClient
 	 */
 	public function isConnected()
 	{
-		return is_resource($this->_conn);
+		return \is_resource($this->_conn);
 	}
 
 	/**
@@ -392,7 +392,7 @@ class FtpClient
 		// Send the password
 		if (!$this->_putCmd('PASS ' . $pass, 230))
 		{
-			Log::add(Text::sprintf('JLIB_CLIENT_ERROR_JFTP_BAD_PASSWORD', $this->_response, str_repeat('*', strlen($pass))), Log::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_CLIENT_ERROR_JFTP_BAD_PASSWORD', $this->_response, str_repeat('*', \strlen($pass))), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -646,7 +646,7 @@ class FtpClient
 		}
 
 		// Convert the mode to a string
-		if (is_int($mode))
+		if (\is_int($mode))
 		{
 			$mode = decoct($mode);
 		}
@@ -1672,7 +1672,7 @@ class FtpClient
 					continue;
 				}
 
-				if (is_array($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..')
+				if (\is_array($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..')
 				{
 					$dir_list[] = $tmp_array;
 				}
@@ -1714,7 +1714,7 @@ class FtpClient
 					continue;
 				}
 
-				if (is_array($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..')
+				if (\is_array($tmp_array) && $tmp_array['name'] != '.' && $tmp_array['name'] != '..')
 				{
 					$dir_list[] = $tmp_array;
 				}
@@ -1737,7 +1737,7 @@ class FtpClient
 	protected function _putCmd($cmd, $expectedResponse)
 	{
 		// Make sure we have a connection to the server
-		if (!is_resource($this->_conn))
+		if (!\is_resource($this->_conn))
 		{
 			Log::add(Text::_('JLIB_CLIENT_ERROR_JFTP_PUTCMD_UNCONNECTED'), Log::WARNING, 'jerror');
 
@@ -1789,9 +1789,9 @@ class FtpClient
 		$this->_responseMsg = $parts[0];
 
 		// Did the server respond with the code we wanted?
-		if (is_array($expected))
+		if (\is_array($expected))
 		{
-			if (in_array($this->_responseCode, $expected))
+			if (\in_array($this->_responseCode, $expected))
 			{
 				$retval = true;
 			}
@@ -1830,7 +1830,7 @@ class FtpClient
 		$err = null;
 
 		// Make sure we have a connection to the server
-		if (!is_resource($this->_conn))
+		if (!\is_resource($this->_conn))
 		{
 			Log::add(Text::_('JLIB_CLIENT_ERROR_JFTP_PASSIVE_CONNECT_PORT'), Log::WARNING, 'jerror');
 
@@ -1917,7 +1917,7 @@ class FtpClient
 			$dot = strrpos($fileName, '.') + 1;
 			$ext = substr($fileName, $dot);
 
-			if (in_array($ext, $this->_autoAscii))
+			if (\in_array($ext, $this->_autoAscii))
 			{
 				$mode = FTP_ASCII;
 			}

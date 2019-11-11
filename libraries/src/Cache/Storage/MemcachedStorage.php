@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Cache\Storage;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheStorage;
@@ -129,7 +129,7 @@ class MemcachedStorage extends CacheStorage
 	protected function _getCacheId($id, $group)
 	{
 		$prefix   = Cache::getPlatformPrefix();
-		$length   = strlen($prefix);
+		$length   = \strlen($prefix);
 		$cache_id = parent::_getCacheId($id, $group);
 
 		if ($length)
@@ -188,7 +188,7 @@ class MemcachedStorage extends CacheStorage
 
 		$data = array();
 
-		if (is_array($keys))
+		if (\is_array($keys))
 		{
 			foreach ($keys as $key)
 			{
@@ -244,14 +244,14 @@ class MemcachedStorage extends CacheStorage
 
 		$index = static::$_db->get($this->_hash . '-index');
 
-		if (!is_array($index))
+		if (!\is_array($index))
 		{
 			$index = array();
 		}
 
 		$tmparr       = new \stdClass;
 		$tmparr->name = $cache_id;
-		$tmparr->size = strlen($data);
+		$tmparr->size = \strlen($data);
 
 		$index[] = $tmparr;
 		static::$_db->set($this->_hash . '-index', $index, 0);
@@ -283,7 +283,7 @@ class MemcachedStorage extends CacheStorage
 
 		$index = static::$_db->get($this->_hash . '-index');
 
-		if (is_array($index))
+		if (\is_array($index))
 		{
 			foreach ($index as $key => $value)
 			{
@@ -323,7 +323,7 @@ class MemcachedStorage extends CacheStorage
 
 		$index = static::$_db->get($this->_hash . '-index');
 
-		if (is_array($index))
+		if (\is_array($index))
 		{
 			$prefix = $this->_hash . '-cache-' . $group . '-';
 

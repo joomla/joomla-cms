@@ -324,26 +324,29 @@ abstract class Adapter extends CMSPlugin
 		$this->setup();
 
 		// Remove the old item.
-		$this->remove($id);
+		$this->remove($id, false);
 
 		// Get the item.
 		$item = $this->getItem($id);
 
 		// Index the item.
 		$this->index($item);
+
+		Taxonomy::removeOrphanNodes();
 	}
 
 	/**
 	 * Method to remove an item from the index.
 	 *
-	 * @param   string  $id  The ID of the item to remove.
+	 * @param   string  $id                The ID of the item to remove.
+	 * @param   bool    $removeTaxonomies  Remove empty taxonomies
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function remove($id)
+	protected function remove($id, $removeTaxonomies = true)
 	{
 		// Get the item's URL
 		$url = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
@@ -365,7 +368,7 @@ abstract class Adapter extends CMSPlugin
 		// Remove the items.
 		foreach ($items as $item)
 		{
-			$this->indexer->remove($item);
+			$this->indexer->remove($item, $removeTaxonomies);
 		}
 
 		return true;
@@ -550,10 +553,10 @@ abstract class Adapter extends CMSPlugin
 
 		// Get the item to index.
 		$this->db->setQuery($query);
-		$row = $this->db->loadAssoc();
+		$item = $this->db->loadAssoc();
 
 		// Convert the item to a result object.
-		$item = ArrayHelper::toObject((array) $row, Result::class);
+		$item = ArrayHelper::toObject((array) $item, Result::class);
 
 		// Set the item type.
 		$item->type_id = $this->type_id;
@@ -578,17 +581,13 @@ abstract class Adapter extends CMSPlugin
 	 */
 	protected function getItems($offset, $limit, $query = null)
 	{
-		$items = array();
-
 		// Get the content items to index.
-		$this->db->setQuery($this->getListQuery($query), $offset, $limit);
-		$rows = $this->db->loadAssocList();
+		$this->db->setQuery($this->getListQuery($query)->setLimit($limit, $offset));
+		$items = $this->db->loadAssocList();
 
-		// Convert the items to result objects.
-		foreach ($rows as $row)
+		foreach ($items as &$item)
 		{
-			// Convert the item to a result object.
-			$item = ArrayHelper::toObject((array) $row, Result::class);
+			$item = ArrayHelper::toObject($item, Result::class);
 
 			// Set the item type.
 			$item->type_id = $this->type_id;
@@ -598,15 +597,6 @@ abstract class Adapter extends CMSPlugin
 
 			// Set the item layout.
 			$item->layout = $this->layout;
-
-			// Set the extension if present
-			if (isset($row->extension))
-			{
-				$item->extension = $row->extension;
-			}
-
-			// Add the item to the stack.
-			$items[] = $item;
 		}
 
 		return $items;

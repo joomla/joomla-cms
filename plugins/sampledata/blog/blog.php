@@ -274,7 +274,6 @@ class PlgSampledataBlog extends CMSPlugin
 			$article['images']          = '';
 			$article['metakey']         = '';
 			$article['metadesc']        = '';
-			$article['xreference']      = '';
 
 			if (!isset($article['access']))
 			{
