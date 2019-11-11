@@ -155,7 +155,7 @@ class SiteMenu extends AbstractMenu
 			$components = [];
 			$this->db->setQuery($query);
 
-			$foreach ($this->db->getIterator() as $item)
+			foreach ($this->db->getIterator() as $item)
 			{
 				$items[$item->id] = new MenuItem((array) $item);
 			}
