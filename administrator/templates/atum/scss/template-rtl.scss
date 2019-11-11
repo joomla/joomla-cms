@@ -21,17 +21,6 @@ body {
 }
 
 .control-group {
-
-  .control-label {
-    float: right;
-    text-align: right;
-  }
-
-  .controls {
-    margin-right: 0;
-    margin-left: 0;
-  }
-
   .custom-select {
     float: right;
   }
@@ -267,7 +256,7 @@ body {
 }
 
 .field-calendar {
-  float: right;
+  float: none;
 }
 
 .form-text {
@@ -275,7 +264,7 @@ body {
 }
 
 .field-user-wrapper {
-  float: right;
+  float: none;
 }
 
 .field-media-input {
@@ -324,4 +313,9 @@ body {
       padding-left: auto;
     }
   }
+}
+
+// Redirect urls fields
+#jform_new_url, #jform_old_url, #new_url {
+  text-align: left;
 }

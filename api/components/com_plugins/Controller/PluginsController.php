@@ -11,6 +11,7 @@ namespace Joomla\Component\Plugins\Api\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\String\Inflector;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
