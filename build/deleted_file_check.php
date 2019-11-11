@@ -148,7 +148,7 @@ $filesDifference = array_diff($previousReleaseFiles, $newReleaseFiles);
 $foldersDifference = array_diff($previousReleaseFolders, $newReleaseFolders);
 
 asort($filesDifference);
-asort($foldersDifference);
+rsort($foldersDifference);
 
 // Write the deleted files list to a file for later reference
 file_put_contents(__DIR__ . '/deleted_files.txt', implode("\n", $filesDifference));
