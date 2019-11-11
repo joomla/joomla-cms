@@ -261,7 +261,7 @@ class InstallerHelper
 
 		try
 		{
-			$extension = $db->setQuery($query)->loadObject(CMSObject::class);
+			$extension = new CMSObject($db->setQuery($query)->loadAssoc());
 		}
 		catch (Exception $e)
 		{
@@ -419,7 +419,15 @@ class InstallerHelper
 		// Try to get all of the update sites, including related extension information
 		try
 		{
-			return $db->setQuery($query)->loadObjectList('', CMSObject::class);
+			$items = [];
+			$db->setQuery($query);
+
+			foreach ($db->getIterator() as $item)
+			{
+				$items[] = new CMSObject($item);
+			}
+
+			return $items;
 		}
 		catch (Exception $e)
 		{
