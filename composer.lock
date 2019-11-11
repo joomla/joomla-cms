@@ -758,12 +758,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "9323bfd7fb64ce170cd8714285f7774c724ba777"
+                "reference": "9013e0e238459fac2456279c7ff48aabf5233aaa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/9323bfd7fb64ce170cd8714285f7774c724ba777",
-                "reference": "9323bfd7fb64ce170cd8714285f7774c724ba777",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/9013e0e238459fac2456279c7ff48aabf5233aaa",
+                "reference": "9013e0e238459fac2456279c7ff48aabf5233aaa",
                 "shasum": ""
             },
             "require": {
@@ -778,8 +778,7 @@
                 "joomla/filesystem": "~1.3|~2.0",
                 "joomla/registry": "^1.4.5|~2.0",
                 "joomla/test": "~2.0",
-                "phpunit/dbunit": "~4.0",
-                "phpunit/phpunit": "~7.5",
+                "phpunit/phpunit": "~8.2",
                 "psr/log": "~1.1",
                 "symfony/phpunit-bridge": "~4.3"
             },
@@ -817,7 +816,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-10-30T14:39:36+00:00"
+            "time": "2019-11-11T04:05:51+00:00"
         },
         {
             "name": "joomla/di",
