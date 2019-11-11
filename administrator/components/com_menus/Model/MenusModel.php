@@ -98,7 +98,7 @@ class MenusModel extends ListModel
 		// Get the published menu counts.
 		try
 		{
-			$published = 1;
+			$published      = 1;
 			$countPublished = $db->loadAssocList('menutype', 'count_published');
 		}
 		catch (\RuntimeException $e)
@@ -111,7 +111,7 @@ class MenusModel extends ListModel
 		// Get the unpublished menu counts.
 		try
 		{
-			$published = 0;
+			$published        = 0;
 			$countUnpublished = $db->loadAssocList('menutype', 'count_published');
 		}
 		catch (\RuntimeException $e)
@@ -124,7 +124,7 @@ class MenusModel extends ListModel
 		// Get the trashed menu counts.
 		try
 		{
-			$published = -2;
+			$published    = -2;
 			$countTrashed = $db->loadAssocList('menutype', 'count_published');
 		}
 		catch (\RuntimeException $e)
