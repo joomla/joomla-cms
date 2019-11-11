@@ -152,13 +152,12 @@ class SiteMenu extends AbstractMenu
 				->order($this->db->quoteName('m.lft'));
 
 			// Set the query
+			$components = [];
 			$this->db->setQuery($query);
 
-			$items = [];
-
-			foreach ($this->db->getIterator('id') as $id => $data)
+			$foreach ($this->db->getIterator() as $item)
 			{
-				$items[$id] = new MenuItem((array) $data);
+				$items[$item->id] = new MenuItem((array) $item);
 			}
 
 			return $items;
