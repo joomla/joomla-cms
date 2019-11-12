@@ -85,6 +85,7 @@ class PlgApiAuthenticationToken extends CMSPlugin
 		 * token, as well as any whitespace following the token is discarded.
 		 */
 		$authHeader = $this->app->input->server->get('HTTP_AUTHORIZATION', '', 'string');
+		$tokenString = '';
 
 		if (substr($authHeader, 0, 7) == 'Bearer ')
 		{
@@ -92,6 +93,11 @@ class PlgApiAuthenticationToken extends CMSPlugin
 			$tokenString = trim($parts[1]);
 			$filter      = InputFilter::getInstance();
 			$tokenString = $filter->clean($tokenString, 'BASE64');
+		}
+
+		if (empty($tokenString))
+		{
+			$tokenString = $this->app->input->server->get('HTTP_X_JOOMLA_TOKEN', '', 'string');
 		}
 
 		// No token: authentication failure
