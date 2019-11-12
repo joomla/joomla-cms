@@ -106,8 +106,6 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 		}
 
 		Text::script('PLG_QUICKICON_JOOMLAUPDATE_ERROR');
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON');
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE');
 		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND');
 		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE');
 		Text::script('MESSAGE');
