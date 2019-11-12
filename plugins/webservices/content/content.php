@@ -39,7 +39,11 @@ class PlgWebservicesContent extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
-		$router->createCRUDRoutes('v1/content/article', 'articles', ['component' => 'com_content']);
+		$router->createCRUDRoutes(
+			'v1/content/article',
+			'articles',
+			['component' => 'com_content']
+		);
 
 		$router->createCRUDRoutes(
 			'v1/content/categories',
