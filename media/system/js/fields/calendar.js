@@ -798,6 +798,7 @@
 				self.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
 				self.inputField.setAttribute('value', '');
 				self.inputField.value = '';
+				self.inputField.onchange();
 			});
 
 		if (this.params.showsTodayBtn) {
