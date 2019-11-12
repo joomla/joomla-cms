@@ -157,7 +157,7 @@ class PlgSystemCache extends CMSPlugin
 	 *
 	 * @return   void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.12
 	 */
 	public function onAfterRender()
 	{
