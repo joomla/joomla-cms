@@ -934,7 +934,6 @@ class MenusHelper extends ContentHelper
 		$item->browserNav = (string) $node['target'];
 		$item->access     = (int) $node['access'];
 		$item->scope      = (string) $node['scope'] ?: 'default';
-		$item->permission = (string) $node['permission'];
 		$item->ajaxbadge  = (string) $node['ajax-badge'];
 		$item->dashboard  = (string) $node['dashboard'];
 

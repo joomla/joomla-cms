@@ -52,10 +52,12 @@ abstract class Menu
 
 		foreach ($children as $item)
 		{
+			$itemParams = $item->getParams();
+
 			// Exclude item with menu item option set to exclude from menu modules
-			if ($item->permission)
+			if ($itemParams->get('menu-permission'))
 			{
-				@list($action, $asset) = explode(';', $item->permission);
+				@list($action, $asset) = explode(';', $itemParams->get('menu-permission'));
 
 				if (!$user->authorise($action, $asset))
 				{
@@ -67,7 +69,7 @@ abstract class Menu
 			// Populate automatic children for container items
 			if ($item->type === 'container')
 			{
-				$exclude    = (array) $item->getParams()->get('hideitems') ?: array();
+				$exclude    = (array) $itemParams->get('hideitems') ?: array();
 				$components = MenusHelper::getMenuItems('main', false, $exclude);
 
 				// We are adding the nodes first to preprocess them, then sort them and add them again.
