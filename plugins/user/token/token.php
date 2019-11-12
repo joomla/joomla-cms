@@ -125,12 +125,6 @@ class PlgUserToken extends CMSPlugin
 			return true;
 		}
 
-		// Oh, cool, Joomla has already loaded the profile data for us.
-		if (isset($data->profile))
-		{
-			return true;
-		}
-
 		$data->{$this->profileKeyPrefix} = [];
 
 		// Load the profile data from the database.
@@ -196,6 +190,19 @@ class PlgUserToken extends CMSPlugin
 		if (!in_array($form->getName(), $this->allowedContexts))
 		{
 			return true;
+		}
+
+		// If we are on the save command, no data is passed to $data variable, we need to get it directly from request
+		$jformData = $this->app->input->get('jform', [], 'array');
+
+		if ($jformData && !$data)
+		{
+			$data = $jformData;
+		}
+
+		if (is_array($data))
+		{
+			$data = (object) $data;
 		}
 
 		// Check if the user belongs to an allowed user group
