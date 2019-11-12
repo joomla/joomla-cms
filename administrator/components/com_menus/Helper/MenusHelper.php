@@ -397,10 +397,10 @@ class MenusHelper extends ContentHelper
 
 				if ($menuitem->link = in_array($menuitem->type, array('separator', 'heading', 'container')) ? '#' : trim($menuitem->link))
 				{
-					$menuitem->submenu    = array();
-					$menuitem->class      = $menuitem->img ?? '';
-					$menuitem->scope      = $menuitem->scope ?? null;
-					$menuitem->browserNav = $menuitem->browserNav ? '_blank' : '';
+					$menuitem->submenu = array();
+					$menuitem->class   = $menuitem->img ?? '';
+					$menuitem->scope   = $menuitem->scope ?? null;
+					$menuitem->target  = $menuitem->browserNav ? '_blank' : '';
 				}
 
 				$menuitem->ajaxbadge  = $menuitem->getParams()->get('ajax-badge');
