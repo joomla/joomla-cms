@@ -295,8 +295,14 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 
 					if ($skip)
 					{
-						$this->out(JText::sprintf('FINDER_CLI_SKIPPING_PAUSE_LOW_BATCH_PROCESSING_TIME', $processingTime, $this->minimumBatchProcessingTime), true);
+						$this->out(
+							JText::sprintf('FINDER_CLI_SKIPPING_PAUSE_LOW_BATCH_PROCESSING_TIME',
+							$processingTime,
+							$this->minimumBatchProcessingTime),
+							true
+						);
 					}
+
 					// End of Pausing Section
 				}
 			}

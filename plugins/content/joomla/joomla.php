@@ -57,12 +57,17 @@ class PlgContentJoomla extends CMSPlugin
 	 * @param   boolean  $isNew    Is new item
 	 * @param   array    $data     The validated data
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
 	public function onContentBeforeSave($context, $table, $isNew, $data)
 	{
+		if ($context === 'com_menus.item')
+		{
+			return $this->checkMenuItemBeforeSave($context, $table, $isNew, $data);
+		}
+
 		// Check we are handling the frontend edit form.
 		if (!in_array($context, ['com_workflow.stage', 'com_workflow.workflow']) || $isNew)
 		{
@@ -84,6 +89,8 @@ class PlgContentJoomla extends CMSPlugin
 					return $this->_canDeleteStage($item->id);
 			}
 		}
+
+		return true;
 	}
 
 	/**
@@ -714,20 +721,21 @@ class PlgContentJoomla extends CMSPlugin
 	}
 
 	/**
-	* The save event.
-	*
-	* @param   string   $context  The context
-	* @param   object   $table    The item
-	* @param   boolean  $isNew    Is new item
-	*
-	* @return  void
-	*
-	* @since   3.9.12
-	*/
-	public function onContentBeforeSave($context, $table, $isNew)
+	 * The save event.
+	 *
+	 * @param   string   $context  The context
+	 * @param   object   $table    The item
+	 * @param   boolean  $isNew    Is new item
+	 * @param   array    $data     The validated data
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.12
+	 */
+	private function checkMenuItemBeforeSave($context, $table, $isNew, $data)
 	{
 		// Check we are handling the frontend edit form.
-		if ($context !== 'com_menus.item')
+		if ($context === 'com_menus.item')
 		{
 			return true;
 		}
@@ -747,5 +755,7 @@ class PlgContentJoomla extends CMSPlugin
 
 			return false;
 		}
+
+		return true;
 	}
 }
