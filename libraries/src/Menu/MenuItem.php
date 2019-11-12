@@ -193,14 +193,6 @@ class MenuItem implements NodeInterface
 	public $query = array();
 
 	/**
-	 * The `target` attribute of menu item link.
-	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public $target;
-
-	/**
 	 * Class constructor
 	 *
 	 * @param   array  $data  The menu item data to load
