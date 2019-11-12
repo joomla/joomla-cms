@@ -201,7 +201,7 @@ class UpdateModel extends BaseDatabaseModel
 
 		if (is_null($updateObject))
 		{
-			// We have not found any update in the database - we seem to running on the latest version
+			// We have not found any update in the database - we seem to be running the latest version.
 			$this->updateInformation['latest'] = \JVERSION;
 
 			return $this->updateInformation;
@@ -210,7 +210,7 @@ class UpdateModel extends BaseDatabaseModel
 		// Check whether this is a valid update or not
 		if (version_compare($updateObject->version, JVERSION, '<'))
 		{
-			// This update points to an outdated version we should not offer to update to this
+			// This update points to an outdated version. We should not offer to update to this.
 			$this->updateInformation['latest'] = JVERSION;
 
 			return $this->updateInformation;
