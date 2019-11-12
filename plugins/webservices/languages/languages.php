@@ -40,7 +40,11 @@ class PlgWebservicesLanguages extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
-		$router->createCRUDRoutes('v1/languages/content', 'languages', ['component' => 'com_languages']);
+		$router->createCRUDRoutes(
+			'v1/languages/content',
+			'languages',
+			['component' => 'com_languages']
+		);
 
 		$this->createLanguageOverridesRoutes($router);
 		$this->createLanguageInstallerRoutes($router);
