@@ -48,13 +48,11 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php $useDefList = ($params->get('show_modify_date') || $params->get('show_publish_date') || $params->get('show_create_date')
 	|| $params->get('show_hits') || $params->get('show_category') || $params->get('show_parent_category') || $params->get('show_author') || $assocParam); ?>
 
-	<?php if ($params->get('show_title') || $params->get('show_author')) : ?>
+	<?php if ($params->get('show_title')) : ?>
 	<div class="page-header">
-		<?php if ($params->get('show_title')) : ?>
-			<h2 itemprop="headline">
-				<?php echo $this->escape($this->item->title); ?>
-			</h2>
-		<?php endif; ?>
+		<h2 itemprop="headline">
+			<?php echo $this->escape($this->item->title); ?>
+		</h2>
 		<?php if ($this->item->condition == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
