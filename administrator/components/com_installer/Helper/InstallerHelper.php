@@ -37,8 +37,8 @@ class InstallerHelper
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT type')
-			->from('#__extensions');
+			->select('DISTINCT ' . $db->quoteName('type'))
+			->from($db->quoteName('#__extensions'));
 		$db->setQuery($query);
 		$types = $db->loadColumn();
 
@@ -61,11 +61,13 @@ class InstallerHelper
 	 */
 	public static function getExtensionGroups()
 	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
+		$nofolder = '';
+		$db       = Factory::getDbo();
+		$query    = $db->getQuery(true)
 			->select('DISTINCT ' . $db->quoteName('folder'))
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('folder') . ' != ' . $db->quote(''))
+			->where($db->quoteName('folder') . ' != :folder')
+			->bind(':folder', $nofolder)
 			->order($db->quoteName('folder'));
 		$db->setQuery($query);
 		$folders = $db->loadColumn();
