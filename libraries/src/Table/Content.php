@@ -351,9 +351,15 @@ class Content extends Table
 			}
 
 			// Set modified to created date if not set
-			if (!$this->modified)
+			if (!(int) $this->modified)
 			{
 				$this->modified = $this->created;
+			}
+
+			// Set modified_by to created_by user if not set
+			if (empty($this->modified_by))
+			{
+				$this->modified_by = $this->created_by;
 			}
 		}
 

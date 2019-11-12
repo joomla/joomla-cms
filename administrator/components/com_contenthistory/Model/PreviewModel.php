@@ -93,9 +93,15 @@ class PreviewModel extends ItemModel
 
 			foreach ($dateProperties as $dateProperty)
 			{
-				if (array_key_exists($dateProperty, $result->data) && $result->data->$dateProperty->value != $nullDate)
+				if (array_key_exists($dateProperty, $result->data)
+					&& $result->data->$dateProperty->value !== null
+					&& $result->data->$dateProperty->value !== $nullDate)
 				{
-					$result->data->$dateProperty->value = HTMLHelper::_('date', $result->data->$dateProperty->value, Text::_('DATE_FORMAT_LC6'));
+					$result->data->$dateProperty->value = HTMLHelper::_(
+						'date',
+						$result->data->$dateProperty->value,
+						Text::_('DATE_FORMAT_LC6')
+					);
 				}
 			}
 
