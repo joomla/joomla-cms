@@ -53,6 +53,7 @@ abstract class Menu
 		foreach ($children as $item)
 		{
 			$itemParams = $item->getParams();
+			$item->icon = $item->icon ?? '';
 
 			// Exclude item with menu item option set to exclude from menu modules
 			if ($itemParams->get('menu-permission'))
