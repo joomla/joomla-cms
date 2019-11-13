@@ -101,6 +101,16 @@ abstract class FormField
 	protected $hidden = false;
 
 	/**
+	 * Should the label be hidden when rendering the form field? This may be useful if you have the
+	 * label rendering in a legend in your form field itself for radio buttons in a fieldset etc.
+	 * If you use this flag you should ensure you display the label in your form (for a11y etc.)
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $hiddenLabel = false;
+
+	/**
 	 * True to translate the field label string.
 	 *
 	 * @var    boolean
@@ -510,9 +520,7 @@ abstract class FormField
 				break;
 
 			case 'autocomplete':
-				$value = (string) $value;
-				$value = ($value == 'on' || $value == '') ? 'on' : $value;
-				$this->$name = ($value === 'false' || $value === 'off' || $value === '0') ? false : $value;
+				$this->$name = (string) $value;
 				break;
 
 			case 'spellcheck':
@@ -949,7 +957,7 @@ abstract class FormField
 
 		$options['rel'] = '';
 
-		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel') || $this->class === 'switcher')
+		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel') || $this->hiddenLabel)
 		{
 			$options['hiddenLabel'] = true;
 		}
@@ -1168,7 +1176,7 @@ abstract class FormField
 			return new \UnexpectedValueException($message);
 		}
 
-		return true;
+		return $valid;
 	}
 
 	/**

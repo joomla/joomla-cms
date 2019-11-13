@@ -62,6 +62,7 @@
       option {
         color: var(--atum-text-dark);
         background-color: var(--white);
+        font-size: 0.875rem;
       }
     }
   }
@@ -78,6 +79,10 @@
         @include media-breakpoint-down(sm) {
             max-width:100%;
             margin-right:0.5rem;
+
+            [dir=rtl] & {
+              margin-right: 0;
+            }
         }
     }
   }
@@ -94,6 +99,17 @@
         color: var(--atum-text-light);
         border:1px solid var(--border);
         border-left: 1px solid var(--atum-text-light);
+
+        [dir=rtl] & {
+          margin-left: 5px;
+          margin-right: -1px !important;
+        }
+
+        @include media-breakpoint-down(sm) {
+          [dir=rtl] & {
+            margin-left: 0 !important;
+          }
+        }
 
         &.disabled,
         &:disabled{

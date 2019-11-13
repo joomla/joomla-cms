@@ -447,6 +447,13 @@
 				element="com_templates"
 				link="index.php?option=com_templates&amp;view=templates"
 			/>
+
+			<menuitem
+				title="MOD_MENU_COM_MAILS_TEMPLATES"
+				type="component"
+				element="com_mails"
+				link="index.php?option=com_mails&amp;view=templates"
+			/>
 		</menuitem>
 
 		<menuitem

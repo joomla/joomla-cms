@@ -60,15 +60,15 @@ if ($this->type == 'font')
 <div class="row mt-2">
 	<div class="col-md-8" id="conditional-section">
 	<?php if($this->type == 'file') : ?>
-		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->source->filename, $this->template->element); ?></p>
+		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . $this->source->filename, $this->template->element); ?></p>
 		<p class="lead path hidden"><?php echo $this->source->filename; ?></p>
 	<?php endif; ?>
 	<?php if($this->type == 'image') : ?>
-		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->image['path'], $this->template->element); ?></p>
+		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . $this->image['path'], $this->template->element); ?></p>
 		<p class="lead path hidden"><?php echo $this->image['path']; ?></p>
 	<?php endif; ?>
 	<?php if($this->type == 'font') : ?>
-		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', $this->font['rel_path'], $this->template->element); ?></p>
+		<p class="lead"><?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_FILENAME', '&#x200E;' . $this->font['rel_path'], $this->template->element); ?></p>
 		<p class="lead path hidden"><?php echo $this->font['rel_path']; ?></p>
 	<?php endif; ?>
 	</div>
@@ -146,10 +146,10 @@ if ($this->type == 'font')
 					<?php foreach ($this->archive as $file) : ?>
 						<li>
 							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR) : ?>
-								<span class="fa-fw fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
+								<span class="fa fa-folder fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
-								<span class="fa-fw fa fa-file" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
+								<span class="fa fa-file fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
