@@ -51,7 +51,13 @@ abstract class JHtmlTag
 			$config = (array) $config;
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(['a.id', 'a.title', 'a.level']))
+				->select(
+					[
+						$db->quoteName('a.id'),
+						$db->quoteName('a.title'),
+						$db->quoteName('a.level'),
+					]
+				)
 				->from($db->quoteName('#__tags', 'a'))
 				->where($db->quoteName('a.parent_id') . ' > 0');
 
@@ -118,7 +124,14 @@ abstract class JHtmlTag
 		$config = (array) $config;
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['a.id', 'a.title', 'a.level', 'a.parent_id']))
+			->select(
+				[
+					$db->quoteName('a.id'),
+					$db->quoteName('a.title'),
+					$db->quoteName('a.level'),
+					$db->quoteName('a.parent_id'),
+				]
+			)
 			->from($db->quoteName('#__tags', 'a'))
 			->where($db->quoteName('a.parent_id') . ' > 0');
 

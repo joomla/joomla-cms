@@ -48,7 +48,13 @@ abstract class JHtmlContentLanguage
 			$query = $db->getQuery(true);
 
 			// Build the query.
-			$query->select($db->quoteName(['a.lang_code', 'a.title', 'a.title_native'], ['value', 'text', null]))
+			$query->select(
+				[
+					$db->quoteName('a.lang_code', 'value'),
+					$db->quoteName('a.title', 'text'),
+					$db->quoteName('a.title_native'),
+				]
+			)
 				->from($db->quoteName('#__languages', 'a'))
 				->where($db->quoteName('a.published') . ' >= 0')
 				->order($db->quoteName('a.title'));

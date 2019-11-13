@@ -53,7 +53,14 @@ abstract class JHtmlCategory
 			$groups = $user->getAuthorisedViewLevels();
 
 			$query = $db->getQuery(true)
-				->select($db->quoteName(['a.id', 'a.title', 'a.level', 'a.language']))
+				->select(
+					[
+						$db->quoteName('a.id'),
+						$db->quoteName('a.title'),
+						$db->quoteName('a.level'),
+						$db->quoteName('a.language'),
+					]
+				)
 				->from($db->quoteName('#__categories', 'a'))
 				->where($db->quoteName('a.parent_id') . ' > 0');
 
@@ -153,7 +160,14 @@ abstract class JHtmlCategory
 			$user = Factory::getUser();
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(['a.id', 'a.title', 'a.level', 'a.parent_id']))
+				->select(
+					[
+						$db->quoteName('a.id'),
+						$db->quoteName('a.title'),
+						$db->quoteName('a.level'),
+						$db->quoteName('a.parent_id'),
+					]
+				)
 				->from($db->quoteName('#__categories', 'a'))
 				->where($db->quoteName('a.parent_id') . ' > 0');
 

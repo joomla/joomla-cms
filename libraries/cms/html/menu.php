@@ -55,9 +55,21 @@ abstract class JHtmlMenu
 			$db = Factory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select($db->quoteName(['id', 'menutype', 'title', 'client_id'], [null, 'value', 'text', null]))
+				->select(
+					[
+						$db->quoteName('id'),
+						$db->quoteName('menutype', 'value'),
+						$db->quoteName('title', 'text'),
+						$db->quoteName('client_id'),
+					]
+				)
 				->from($db->quoteName('#__menu_types'))
-				->order($db->quoteName(['client_id', 'title']));
+				->order(
+					[
+						$db->quoteName('client_id'),
+						$db->quoteName('title'),
+					]
+				);
 
 			if (isset($clientId))
 			{
@@ -93,7 +105,15 @@ abstract class JHtmlMenu
 
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(['a.id', 'a.title', 'a.level', 'a.menutype', 'a.client_id'], ['value', 'text', null, null, null]))
+				->select(
+					[
+						$db->quoteName('a.id', 'value'),
+						$db->quoteName('a.title', 'text'),
+						$db->quoteName('a.level'),
+						$db->quoteName('a.menutype'),
+						$db->quoteName('a.client_id'),
+					]
+				)
 				->from($db->quoteName('#__menu', 'a'))
 				->where($db->quoteName('a.parent_id') . ' > 0');
 
@@ -237,11 +257,20 @@ abstract class JHtmlMenu
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(['ordering', 'title'], ['value', 'text']))
+				->select(
+					[
+						$db->quoteName('ordering', 'value'),
+						$db->quoteName('title', 'text'),
+					]
+				)
 				->from($db->quoteName('#__menu'))
-				->where($db->quoteName('menutype') . ' = :menutype')
-				->where($db->quoteName('parent_id') . ' = :parent')
-				->where($db->quoteName('published') . ' != -2')
+				->where(
+					[
+						$db->quoteName('menutype') . ' = :menutype',
+						$db->quoteName('parent_id') . ' = :parent',
+						$db->quoteName('published') . ' != -2',
+					]
+				)
 				->order($db->quoteName('ordering'))
 				->bind(':menutype', $row->menutype)
 				->bind(':parent', $row->parent_id, ParameterType::INTEGER);
@@ -276,10 +305,24 @@ abstract class JHtmlMenu
 
 		// Get a list of the menu items
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['m.id', 'm.parent_id', 'm.title', 'm.menutype', 'm.client_id']))
+			->select(
+				[
+					$db->quoteName('m.id'),
+					$db->quoteName('m.parent_id'),
+					$db->quoteName('m.title'),
+					$db->quoteName('m.menutype'),
+					$db->quoteName('m.client_id'),
+				]
+			)
 			->from($db->quoteName('#__menu', 'm'))
 			->where($db->quoteName('m.published') . ' = 1')
-			->order($db->quoteName(['m.client_id', 'm.menutype', 'm.parent_id']));
+			->order(
+				[
+					$db->quoteName('m.client_id'),
+					$db->quoteName('m.menutype'),
+					$db->quoteName('m.parent_id'),
+				]
+			);
 
 		if (isset($clientId))
 		{

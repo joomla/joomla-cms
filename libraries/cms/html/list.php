@@ -187,7 +187,12 @@ abstract class JHtmlList
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['u.id', 'u.name'], ['value', 'text']))
+			->select(
+				[
+					$db->quoteName('u.id', 'value'),
+					$db->quoteName('u.name', 'text'),
+				]
+			)
 			->from($db->quoteName('#__users', 'u'))
 			->join('LEFT', $db->quoteName('#__user_usergroup_map', 'm'), $db->quoteName('m.user_id') . ' = ' . $db->quoteName('u.id'))
 			->where($db->quoteName('u.block') . ' = 0')
