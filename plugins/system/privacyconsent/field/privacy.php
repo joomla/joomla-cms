@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 
 /**
  * Provides input for privacy
@@ -79,9 +80,10 @@ class JFormFieldprivacy extends RadioField
 		{
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(array('id', 'alias', 'catid', 'language')))
+				->select($db->quoteName(['id', 'alias', 'catid', 'language']))
 				->from($db->quoteName('#__content'))
-				->where($db->quoteName('id') . ' = ' . (int) $privacyArticle);
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':id', $privacyArticle, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
@@ -89,7 +91,7 @@ class JFormFieldprivacy extends RadioField
 			$article->link  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
 		}
 
-		$extraData = array(
+		$extraData = [
 			'privacynote' => !empty($this->element['note']) ? $this->element['note'] : Text::_('PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_DEFAULT'),
 			'options' => $this->getOptions(),
 			'value'   => (string) $this->value,
@@ -98,7 +100,7 @@ class JFormFieldprivacy extends RadioField
 			'translateHint' => $this->translateHint,
 			'privacyArticle' => $privacyArticle,
 			'article' => $article,
-		);
+		];
 
 		return array_merge($data, $extraData);
 	}

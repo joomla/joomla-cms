@@ -38,6 +38,10 @@ class PlgWebservicesMessages extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
-		$router->createCRUDRoutes('v1/messages', 'messages', ['component' => 'com_messages']);
+		$router->createCRUDRoutes(
+			'v1/messages',
+			'messages',
+			['component' => 'com_messages']
+		);
 	}
 }

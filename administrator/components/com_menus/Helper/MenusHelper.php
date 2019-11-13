@@ -377,8 +377,15 @@ class MenusHelper extends ContentHelper
 
 		try
 		{
-			$db->setQuery($query);
-			$menuItems = $db->loadObjectList('id', '\Joomla\CMS\Menu\MenuItem');
+			$menuItems = [];
+			$iterator  = $db->setQuery($query)->getIterator();
+
+			foreach ($iterator as $item)
+			{
+				$menuItems[$item->id] = new MenuItem((array) $item);
+			}
+
+			unset($iterator);
 
 			foreach ($menuItems as $menuitem)
 			{
