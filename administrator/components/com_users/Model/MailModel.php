@@ -218,7 +218,7 @@ class MailModel extends AdminModel
 		if ($rs !== true)
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
-			$this->setError($rs->getError());
+			$this->setError($mailer->ErrorInfo);
 
 			return false;
 		}

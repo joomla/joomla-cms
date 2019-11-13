@@ -40,37 +40,37 @@ use Joomla\CMS\Router\Route;
 									<?php echo HTMLHelper::_('image', $image, $alt, 'class="' . $class . '"'); ?>
 								<?php endif; ?>
 								<?php echo ($params->get('menu_text', 1)) ? Text::_($item->title) : ''; ?>
-								<?php if ($params->get('menu-quicktask', false)) : ?>
-									<span class="menu-quicktask">
-										<?php
-										$link = $params->get('menu-quicktask-link');
-										$icon = $params->get('menu-quicktask-icon', 'plus');
-
-										$title = $params->get('menu-quicktask-title');
-
-										if (empty($params->get('menu-quicktask-title')))
-										{
-											$title = Text::_('MOD_MENU_QUICKTASK_NEW');
-											$sronly = Text::_($item->title) . ' - ' . Text::_('MOD_MENU_QUICKTASK_NEW');
-										}
-
-										$permission = $params->get('menu-quicktask-permission');
-										$scope = $item->scope !== 'default' ? $item->scope : null;
-										?>
-										<?php if (!$permission || $user->authorise($permission, $scope)) : ?>
-											<a href="<?php echo $link; ?>">
-												<span class="fa fa-<?php echo $icon; ?> fa-xs" title="<?php echo htmlentities($title); ?>" aria-hidden="true"></span>
-												<span class="sr-only"><?php echo htmlentities($sronly); ?></span>
-											</a>
-										<?php endif; ?>
-									</span>
-								<?php endif; ?>
 								<?php if ($item->ajaxbadge) : ?>
 									<span class="menu-badge">
 										<span class="fa fa-spin fa-spinner mt-1 system-counter" data-url="<?php echo $item->ajaxbadge; ?>"></span>
 									</span>
 								<?php endif; ?>
 							</a>
+							<?php if ($params->get('menu-quicktask', false)) : ?>
+								<span class="menu-quicktask">
+									<?php
+									$link = $params->get('menu-quicktask-link');
+									$icon = $params->get('menu-quicktask-icon', 'plus');
+
+									$title = $params->get('menu-quicktask-title');
+
+									if (empty($params->get('menu-quicktask-title')))
+									{
+										$title = Text::_('MOD_MENU_QUICKTASK_NEW');
+										$sronly = Text::_($item->title) . ' - ' . Text::_('MOD_MENU_QUICKTASK_NEW');
+									}
+
+									$permission = $params->get('menu-quicktask-permission');
+									$scope = $item->scope !== 'default' ? $item->scope : null;
+									?>
+									<?php if (!$permission || $user->authorise($permission, $scope)) : ?>
+										<a href="<?php echo $link; ?>">
+											<span class="fa fa-<?php echo $icon; ?> fa-xs" title="<?php echo htmlentities($title); ?>" aria-hidden="true"></span>
+											<span class="sr-only"><?php echo htmlentities($sronly); ?></span>
+										</a>
+									<?php endif; ?>
+								</span>
+							<?php endif; ?>
 							<?php if ($item->dashboard) : ?>
 								<span class="menu-dashboard">
 									<a href="<?php echo Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $item->dashboard); ?>">
