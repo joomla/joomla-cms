@@ -95,6 +95,13 @@ class ArticleModel extends AdminModel
 			$db->execute();
 		}
 
+		// Copy workflow association
+		$workflow = new Workflow(['extension' => 'com_content']);
+
+		$assoc = $workflow->getAssociation($oldId);
+
+		$workflow->createAssociation($newId, (int) $assoc->stage_id);
+
 		// Register FieldsHelper
 		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
