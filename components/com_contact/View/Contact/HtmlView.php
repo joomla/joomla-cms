@@ -493,7 +493,8 @@ class HtmlView extends BaseHtmlView
 		$id = (int) @$menu->query['id'];
 
 		// If the menu item does not concern this contact
-		if ($menu && ($menu->query['option'] !== 'com_contact' || $menu->query['view'] !== 'contact' || $id != $this->item->id))
+		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_contact' || $menu->query['view'] !== 'contact'
+			|| $id != $this->item->id))
 		{
 			// If this is not a single contact menu item, set the page title to the contact title
 			if ($this->item->name)
@@ -504,10 +505,8 @@ class HtmlView extends BaseHtmlView
 			$path = array(array('title' => $this->item->name, 'link' => ''));
 			$category = Categories::getInstance('Contact')->get($this->item->catid);
 
-			while ($category && ($menu->query['option'] !== 'com_contact'
-				|| $menu->query['view'] === 'contact'
-				|| $id != $category->id) && $category->id > 1
-			)
+			while ($category && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact'
+				|| $id != $category->id) && $category->id > 1)
 			{
 				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
