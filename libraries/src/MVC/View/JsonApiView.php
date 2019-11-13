@@ -160,8 +160,8 @@ abstract class JsonApiView extends JsonView
 			$previousPageQuery['offset'] = $previousOffset >= 0 ? $previousOffset : 0;
 			$previousPage->setVar('page', $previousPageQuery);
 
-			$this->document->addLink('first', (string) $firstPage)
-				->addLink('previous', (string) $previousPage);
+			$this->document->addLink('first', $this->queryEncode((string) $firstPage))
+				->addLink('previous', $this->queryEncode((string) $previousPage));
 		}
 
 		// Check for next and last pages
@@ -178,8 +178,8 @@ abstract class JsonApiView extends JsonView
 			$lastPageQuery['offset'] = ($pagination->pagesTotal - 1) * $pagination->limit;
 			$lastPage->setVar('page', $lastPageQuery);
 
-			$this->document->addLink('next', (string) $nextPage)
-				->addLink('last', (string) $lastPage);
+			$this->document->addLink('next', $this->queryEncode((string) $nextPage))
+				->addLink('last', $this->queryEncode((string) $lastPage));
 		}
 
 		$collection = (new Collection($items, $this->serializer))
@@ -252,4 +252,19 @@ abstract class JsonApiView extends JsonView
 	{
 		return $item;
 	}
+
+	/**
+	 * Encode square brackets in the URI query, according to JSON API specification.
+	 *
+	 * @param   string  $query  The URI query
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	protected function queryEncode($query)
+	{
+		return str_replace(array('[', ']'), array('%5B', '%5D'), $query);
+	}
+
 }

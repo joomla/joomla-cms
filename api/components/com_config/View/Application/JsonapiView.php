@@ -75,8 +75,8 @@ class JsonapiView extends BaseApiView
 			$previousPageQuery['offset'] = $previousOffset >= 0 ? $previousOffset : 0;
 			$previousPage->setVar('page', $previousPageQuery);
 
-			$this->document->addLink('first', (string) $firstPage)
-				->addLink('previous', (string) $previousPage);
+			$this->document->addLink('first', $this->queryEncode((string) $firstPage))
+				->addLink('previous', $this->queryEncode((string) $previousPage));
 		}
 
 		// Check for next and last pages
@@ -93,8 +93,8 @@ class JsonapiView extends BaseApiView
 			$lastPageQuery['offset'] = ($totalPagesAvailable - 1) * $limit;
 			$lastPage->setVar('page', $lastPageQuery);
 
-			$this->document->addLink('next', (string) $nextPage)
-				->addLink('last', (string) $lastPage);
+			$this->document->addLink('next', $this->queryEncode((string) $nextPage))
+				->addLink('last', $this->queryEncode((string) $lastPage));
 		}
 
 		$collection = (new Collection($items, new JoomlaSerializer($this->type)));
