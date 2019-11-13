@@ -38,20 +38,12 @@ abstract class JHtmlWorkflowstage
 
 		// Build the query.
 		$query->select(
-			$db->quoteName(
-				[
-					'ws.id',
-					'ws.title',
-					'w.id',
-					'w.title',
-				],
-				[
-					'workflow_stage_id',
-					'workflow_stage_title',
-					'workflow_id',
-					'workflow_title',
-				]
-			)
+			[
+				$db->quoteName('ws.id', 'workflow_stage_id'),
+				$db->quoteName('ws.title', 'workflow_stage_title'),
+				$db->quoteName('w.id', 'workflow_id'),
+				$db->quoteName('w.title', 'workflow_title'),
+			]
 		)
 			->from($db->quoteName('#__workflow_stages', 'ws'))
 			->join('LEFT', $db->quoteName('#__workflows', 'w'), $db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'))
