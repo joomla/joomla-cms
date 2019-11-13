@@ -883,9 +883,13 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   3.2
+	 *
+	 * @Deprecated 4.0 Use the custom element joomla-tab.
 	 */
 	public static function tabstate()
 	{
+		JLog::add('JHtmlBehavior::tabstate is deprecated. Use the custom element joomla-tab.', JLog::WARNING, 'deprecated');
+
 		if (isset(self::$loaded[__METHOD__]))
 		{
 			return;
