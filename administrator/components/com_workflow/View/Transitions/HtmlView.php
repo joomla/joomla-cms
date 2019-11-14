@@ -173,19 +173,18 @@ class HtmlView extends BaseHtmlView
 				$dropdown = $toolbar->dropdownButton('status-group')
 					->text('JTOOLBAR_CHANGE_STATUS')
 					->toggleSplit(false)
-					->icon('fa fa-globe')
-					->buttonClass('btn btn-info')
+					->icon('fa fa-ellipsis-h')
+					->buttonClass('btn btn-action')
 					->listCheck(true);
 
 				$childBar = $dropdown->getChildToolbar();
 
-				$childBar->publish('transitions.publish');
-				$childBar->unpublish('transitions.unpublish');
+				$childBar->publish('transitions.publish', 'JTOOLBAR_ENABLE');
+				$childBar->unpublish('transitions.unpublish', 'JTOOLBAR_DISABLE');
 
 				if ($canDo->get('core.admin'))
 				{
-					// @ToDo Imlement the checked_out for workflows
-					// $childBar->checkin('transitions.checkin', 'JTOOLBAR_CHECKIN', true);
+					$childBar->checkin('transitions.checkin')->listCheck(true);
 				}
 
 				if ($this->state->get('filter.published') !== '-2')

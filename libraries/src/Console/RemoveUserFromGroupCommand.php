@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
@@ -138,7 +138,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 				}
 			}
 
-			if (count(Access::getGroupsByUser($user->id, false)) < 2)
+			if (\count(Access::getGroupsByUser($user->id, false)) < 2)
 			{
 				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result . "'! Every user needs at least one group");
 

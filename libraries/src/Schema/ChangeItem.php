@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Schema;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Database\Exception\ExecutionFailureException;
@@ -211,7 +211,7 @@ abstract class ChangeItem
 				return $this->checkStatus;
 			}
 
-			if (count($rows) === $this->checkQueryExpected)
+			if (\count($rows) === $this->checkQueryExpected)
 			{
 				$this->checkStatus = 1;
 

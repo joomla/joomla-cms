@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Session\Storage;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Input\Input;
@@ -291,7 +291,7 @@ class JoomlaStorage extends NativeStorage
 		// Get the cookie object
 		$cookie = $this->input->cookie;
 
-		if (is_null($cookie->get($session_name)))
+		if (\is_null($cookie->get($session_name)))
 		{
 			$session_clean = $this->input->getString($session_name);
 

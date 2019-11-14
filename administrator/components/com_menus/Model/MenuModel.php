@@ -329,11 +329,18 @@ class MenuModel extends FormModel
 		$db = $this->getDbo();
 
 		$query = $db->getQuery(true)
-			->from('#__modules as a')
-			->select('a.id, a.title, a.params, a.position')
-			->where('module = ' . $db->quote('mod_menu'))
-			->select('ag.title AS access_title')
-			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+			->select(
+				[
+					$db->quoteName('a.id'),
+					$db->quoteName('a.title'),
+					$db->quoteName('a.params'),
+					$db->quoteName('a.position'),
+					$db->quoteName('ag.title', 'access_title'),
+				]
+			)
+			->from($db->quoteName('#__modules', 'a'))
+			->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'))
+			->where($db->quoteName('a.module') . ' = ' . $db->quote('mod_menu'));
 		$db->setQuery($query);
 
 		$modules = $db->loadObjectList();

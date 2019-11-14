@@ -8,8 +8,9 @@
 
 namespace Joomla\CMS\Router;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
@@ -69,8 +70,20 @@ class Route
 	{
 		try
 		{
+			// @deprecated  4.0 Before 3.9.7 this method silently converted $tls to integer
+			if (!is_int($tls))
+			{
+				Log::add(
+					__METHOD__ . '() called with incompatible variable type on parameter $tls.',
+					Log::WARNING,
+					'deprecated'
+				);
+
+				$tls = (int) $tls;
+			}
+
 			// @todo  Deprecate in 4.0 Before 3.9.7 this method accepted -1.
-			if ($tls == -1)
+			if ($tls === -1)
 			{
 				$tls = self::TLS_DISABLE;
 			}
@@ -109,7 +122,7 @@ class Route
 	public static function link($client, $url, $xhtml = true, $tls = self::TLS_IGNORE, $absolute = false)
 	{
 		// If we cannot process this $url exit early.
-		if (!is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
+		if (!\is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
 		{
 			return $url;
 		}
@@ -153,7 +166,7 @@ class Route
 		{
 			static $scheme_host_port;
 
-			if (!is_array($scheme_host_port))
+			if (!\is_array($scheme_host_port))
 			{
 				$uri2             = Uri::getInstance();
 				$scheme_host_port = array($uri2->getScheme(), $uri2->getHost(), $uri2->getPort());

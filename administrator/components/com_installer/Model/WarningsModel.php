@@ -64,13 +64,16 @@ class WarningsModel extends ListModel
 		{
 			case 'g':
 			case 'gb':
-				$val *= 1024;
+				$val *= (1024 * 1024 * 1024);
+				break;
 			case 'm':
 			case 'mb':
-				$val *= 1024;
+				$val *= (1024 * 1024);
+				break;
 			case 'k':
 			case 'kb':
 				$val *= 1024;
+				break;
 		}
 
 		return (int) $val;

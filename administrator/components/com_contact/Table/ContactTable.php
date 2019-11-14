@@ -55,6 +55,8 @@ class ContactTable extends Table
 		$this->typeAlias = 'com_contact.contact';
 
 		parent::__construct('#__contact_details', 'id', $db);
+
+		$this->setColumnAlias('title', 'name');
 	}
 
 	/**
@@ -96,6 +98,16 @@ class ContactTable extends Table
 			if (empty($this->created_by))
 			{
 				$this->created_by = $userId;
+			}
+
+			if (!(int) $this->modified)
+			{
+				$this->modified = $date;
+			}
+
+			if (empty($this->modified_by))
+			{
+				$this->modified_by = $userId;
 			}
 		}
 
@@ -257,6 +269,11 @@ class ContactTable extends Table
 		if (!$this->modified)
 		{
 			$this->modified = $this->created;
+		}
+
+		if (empty($this->modified_by))
+		{
+			$this->modified_by = $this->created_by;
 		}
 
 		return true;
