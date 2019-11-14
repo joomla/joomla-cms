@@ -588,27 +588,6 @@ class FieldsHelper
 	}
 
 	/**
-	 * Adds Count Items for Category Manager.
-	 *
-	 * @param   stdClass[]  &$items  The fieldgroup objects
-	 *
-	 * @return  stdClass[]
-	 *
-	 * @since   3.7.0
-	 */
-	public static function countItems(&$items)
-	{
-		$config = (object) array(
-			'related_tbl'   => 'fields',
-			'state_col'     => 'state',
-			'group_col'     => 'group_id',
-			'relation_type' => 'category_or_group',
-		);
-
-		return parent::countRelations($items, $config);
-	}
-
-	/**
 	 * Gets assigned categories titles for a field
 	 *
 	 * @param   stdClass[]  $fieldId  The field ID
