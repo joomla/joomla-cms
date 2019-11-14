@@ -38,6 +38,10 @@ class PlgWebservicesTags extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
-		$router->createCRUDRoutes('v1/tags', 'tags', ['component' => 'com_tags']);
+		$router->createCRUDRoutes(
+			'v1/tags',
+			'tags',
+			['component' => 'com_tags']
+		);
 	}
 }
