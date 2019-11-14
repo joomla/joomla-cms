@@ -163,7 +163,7 @@ class JsonapiView extends BaseApiView
 			$item->associations = $associations;
 		}
 
-		if (!empty($item->tags))
+		if ((!empty($item->tags)) && (!empty($item->tags->tags)))
 		{
 			$tagsIds   = explode(',', $item->tags->tags);
 			$tagsNames = $item->tagsHelper->getTagNames($tagsIds);
