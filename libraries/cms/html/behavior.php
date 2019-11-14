@@ -884,7 +884,7 @@ abstract class JHtmlBehavior
 	 *
 	 * @since   3.2
 	 *
-	 * @Deprecated 4.0 Use the custom element joomla-tab.
+	 * @deprecated 4.0 In Joomla 4 use the custom element joomla-tab.
 	 */
 	public static function tabstate()
 	{
