@@ -38,7 +38,11 @@ class PlgWebservicesUsers extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
-		$router->createCRUDRoutes('v1/users', 'users', ['component' => 'com_users']);
+		$router->createCRUDRoutes(
+			'v1/users',
+			'users',
+			['component' => 'com_users']
+		);
 
 		$this->createFieldsRoutes($router);
 	}

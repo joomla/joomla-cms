@@ -33,7 +33,7 @@ class RemindModel extends AdminModel
 	 *
 	 * @param   array  $data  The data expected for the form.
 	 *
-	 * @return  mixed  Exception | JException | boolean
+	 * @return  mixed  \Exception | JException | boolean
 	 *
 	 * @since   3.9.0
 	 */
@@ -76,10 +76,13 @@ class RemindModel extends AdminModel
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('r.id', 'r.user_id', 'r.token')));
+			->select($db->quoteName(['r.id', 'r.user_id', 'r.token']));
 		$query->from($db->quoteName('#__privacy_consents', 'r'));
-		$query->join('LEFT', $db->quoteName('#__users', 'u') . ' ON u.id = r.user_id');
-		$query->where($db->quoteName('u.email') . ' = ' . $db->quote($data['email']));
+		$query->join('LEFT', $db->quoteName('#__users', 'u'),
+			$db->quoteName('u.id') . ' = ' . $db->quoteName('r.user_id')
+		);
+		$query->where($db->quoteName('u.email') . ' = :email')
+			->bind(':email', $data['email']);
 		$query->where($db->quoteName('r.remind') . ' = 1');
 		$db->setQuery($query);
 
@@ -167,8 +170,8 @@ class RemindModel extends AdminModel
 	 *
 	 * @return  Table  A JTable object
 	 *
-	 * @since   3.9.0
 	 * @throws  \Exception
+	 * @since   3.9.0
 	 */
 	public function getTable($name = 'Consent', $prefix = 'Administrator', $options = [])
 	{

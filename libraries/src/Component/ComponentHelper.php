@@ -416,9 +416,16 @@ class ComponentHelper
 						$db->quoteName('enabled') . ' = 1',
 					]
 				);
+
+			$components = [];
 			$db->setQuery($query);
 
-			return $db->loadObjectList('option', ComponentRecord::class);
+			foreach ($db->getIterator() as $component)
+			{
+				$components[$component->option] = new ComponentRecord((array) $component);
+			}
+
+			return $components;
 		};
 
 		/** @var CallbackController $cache */
