@@ -87,9 +87,21 @@ abstract class TagsSimilarHelper
 				]
 			)
 			->from($db->quoteName('#__contentitem_tag_map', 'm'))
-			->join('INNER', $db->quoteName('#__tags', 't'), $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'))
-			->join('INNER', $db->quoteName('#__ucm_content', 'cc'), $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('cc.core_content_id'))
-			->join('INNER', $db->quoteName('#__content_types', 'ct'), $db->quoteName('m.type_alias') . ' = ' . $db->quoteName('ct.type_alias'))
+			->join(
+				'INNER',
+				$db->quoteName('#__tags', 't'),
+				$db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id')
+			)
+			->join(
+				'INNER',
+				$db->quoteName('#__ucm_content', 'cc'),
+				$db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('cc.core_content_id')
+			)
+			->join(
+				'INNER',
+				$db->quoteName('#__content_types', 'ct'),
+				$db->quoteName('m.type_alias') . ' = ' . $db->quoteName('ct.type_alias')
+			)
 			->whereIn($db->quoteName('m.tag_id'), $tagsToMatch)
 			->whereIn($db->quoteName('t.access'), $groups)
 			->where($db->quoteName('cc.core_state') . ' = 1')
