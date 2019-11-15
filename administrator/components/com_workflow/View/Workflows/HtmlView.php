@@ -152,8 +152,7 @@ class HtmlView extends BaseHtmlView
 
 			if ($canDo->get('core.admin'))
 			{
-				// @Todo implement the checked_out/checkin feature
-				// $childBar->checkin('workflows.checkin');
+				$childBar->checkin('workflows.checkin')->listCheck(true);
 			}
 
 			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)
