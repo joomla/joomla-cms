@@ -14,6 +14,7 @@
 		<field
 			name="featured"
 			type="list"
+			label="JFEATURED"
 			onchange="this.form.submit();"
 			default=""
 			>
