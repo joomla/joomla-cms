@@ -165,4 +165,3 @@ class MessagesModel extends ListModel
 		return $query;
 	}
 }
-								
