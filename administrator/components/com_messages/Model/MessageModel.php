@@ -185,7 +185,7 @@ class MessageModel extends AdminModel
 						->update($db->quoteName('#__messages'))
 						->set($db->quoteName('state') . ' = 1')
 						->where($db->quoteName('message_id') . ' = :messageid')
-						->bind(':messageid', $this->item->message_id ,ParameterType::INTEGER);
+						->bind(':messageid', $this->item->message_id, ParameterType::INTEGER);
 					$db->setQuery($query)->execute();
 				}
 			}
@@ -508,8 +508,8 @@ class MessageModel extends AdminModel
 			$query = $db->getQuery(true)
 				->select($db->quoteName('map.user_id'))
 				->from($db->quoteName('#__user_usergroup_map', 'map'))
-				->join('LEFT', 
-					$db->quoteName('#__users', 'u'), 
+				->join('LEFT',
+					$db->quoteName('#__users', 'u'),
 					$db->quoteName('u.id') . ' = ' . $db->quoteName('map.user_id')
 				)
 				->whereIn($db->quoteName('map.group_id'), $groups)
