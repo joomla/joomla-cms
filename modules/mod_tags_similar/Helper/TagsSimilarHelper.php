@@ -68,7 +68,7 @@ abstract class TagsSimilarHelper
 		}
 
 		$tagsToMatch = explode(',', $tagsToMatch);
-		$tagCount    = count($tagsToMatch);
+		$tagCount    = \count($tagsToMatch);
 
 		$query = $db->getQuery(true);
 		$query
