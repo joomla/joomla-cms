@@ -32,14 +32,14 @@ use Joomla\CMS\Router\Route;
 							if (!empty($params->get('menu_image'))) :
 								$image = htmlspecialchars($params->get('menu_image'), ENT_QUOTES, 'UTF-8');
 								$class = htmlspecialchars($params->get('menu_image_css'), ENT_QUOTES, 'UTF-8');
-								$alt = $params->get('menu_text') ? '' : htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');
+								$alt = $params->get('menu_text') ? '' : htmlspecialchars(Text::_($item->title), ENT_QUOTES, 'UTF-8');
 							endif;
 							?>
 							<a class="flex-grow-1" href="<?php echo $item->link; ?>"<?php echo !empty($item->target) ? ' target="' . $item->target . '"' : ''; ?>>
 								<?php if (!empty($params->get('menu_image'))) : ?>
 									<?php echo HTMLHelper::_('image', $image, $alt, 'class="' . $class . '"'); ?>
 								<?php endif; ?>
-								<?php echo ($params->get('menu_text', 1)) ? Text::_($item->title) : ''; ?>
+								<?php echo ($params->get('menu_text', 1)) ? Text::_($item->title) . $item->iconImage : ''; ?>
 								<?php if ($item->ajaxbadge) : ?>
 									<span class="menu-badge">
 										<span class="fa fa-spin fa-spinner mt-1 system-counter" data-url="<?php echo $item->ajaxbadge; ?>"></span>
@@ -52,20 +52,21 @@ use Joomla\CMS\Router\Route;
 									$link = $params->get('menu-quicktask-link');
 									$icon = $params->get('menu-quicktask-icon', 'plus');
 
-									$title = $params->get('menu-quicktask-title');
+									$title = Text::_($params->get('menu-quicktask-title'));
 
 									if (empty($params->get('menu-quicktask-title')))
 									{
 										$title = Text::_('MOD_MENU_QUICKTASK_NEW');
-										$sronly = Text::_($item->title) . ' - ' . Text::_('MOD_MENU_QUICKTASK_NEW');
 									}
+
+									$sronly = Text::_($item->title) . ' - ' . $title;
 
 									$permission = $params->get('menu-quicktask-permission');
 									$scope = $item->scope !== 'default' ? $item->scope : null;
 									?>
 									<?php if (!$permission || $user->authorise($permission, $scope)) : ?>
 										<a href="<?php echo $link; ?>">
-											<span class="fa fa-<?php echo $icon; ?> fa-xs" title="<?php echo htmlentities($title); ?>" aria-hidden="true"></span>
+											<span class="fa fa-<?php echo $icon; ?> fa-xs" title="<?php echo htmlentities(Text::_($item->title)); ?>" aria-hidden="true"></span>
 											<span class="sr-only"><?php echo htmlentities($sronly); ?></span>
 										</a>
 									<?php endif; ?>
