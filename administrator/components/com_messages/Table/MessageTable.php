@@ -135,11 +135,11 @@ class MessageTable extends Table
 
 		// Update the publishing state for rows with the given primary keys.
 
-		$query = $this->_db->getQuery(true)
-					->update($this->_db->quoteName($this->_tbl))
-					->set($this->_db->quoteName('state') . ' = :state')
-					->whereIn($this->_db->quoteName($k), $pks)
-					->bind(':state', $state ,ParameterType::INTEGER);
+		$query = $this->_db->getQuery(true);
+		$query->update($this->_db->quoteName($this->_tbl))
+			->set($this->_db->quoteName('state') . ' = :state')
+			->whereIn($this->_db->quoteName($k), $pks)
+			->bind(':state', $state ,ParameterType::INTEGER);
 
 		try
 		{
