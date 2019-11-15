@@ -363,7 +363,7 @@ class Updater extends \JAdapter
 						// We already have an update in the database lets check whether it has an extension_id
 						if ((int) $update->extension_id === 0 && $eid)
 						{
-							// The current update does not have an extension_id but we found one let's use them
+							// The current update does not have an extension_id but we found one. Let's use it.
 							$current_update->extension_id = $eid;
 						}
 
