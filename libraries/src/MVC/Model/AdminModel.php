@@ -1658,6 +1658,7 @@ abstract class AdminModel extends FormModel
 		{
 			$extension       = $app->input->get('extension', 'com_content');
 			$this->typeAlias = $extension . '.category';
+			$extension       = '&extension=' . $extension;
 			$component       = strtolower($this->text_prefix);
 			$view            = 'category';
 		}

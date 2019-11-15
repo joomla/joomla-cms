@@ -253,9 +253,14 @@ class FilterTable extends Table
 				$this->created_by = $userId;
 			}
 
-			if (empty($this->modified))
+			if (!(int) $this->modified)
 			{
 				$this->modified = $this->created;
+			}
+
+			if (empty($this->modified_by))
+			{
+				$this->modified_by = $this->created_by;
 			}
 		}
 

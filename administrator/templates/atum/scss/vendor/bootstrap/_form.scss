@@ -23,19 +23,35 @@ label {
     padding-top: 5px;
     padding-right: 5px;
     text-align: left;
-	@include media-breakpoint-down(sm)
-	{
-		float: none;
-		width: 100%;
-	}
+
+    [dir=rtl] & {
+      float: right;
+      text-align: right;
+    }
+
+    @include media-breakpoint-down(sm)
+    {
+      float: none;
+      width: 100%;
+    }
   }
 
   .controls {
     margin-left: 220px;
-	@include media-breakpoint-down(sm)
-	{
-		margin-left: 0;
-	}
+
+    [dir=rtl] & {
+      margin-right: 220px;
+      margin-left: 0;
+    }
+
+    @include media-breakpoint-down(sm)
+    {
+      margin-left: 0;
+
+      [dir=rtl] & {
+        margin-right: 0;
+      }
+    }
   }
 }
 
@@ -45,6 +61,10 @@ label {
 
     .controls {
       margin-left: 0;
+
+      [dir=rtl] & {
+        margin-right: auto;
+      }
     }
 
     .control-label {

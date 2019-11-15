@@ -10,7 +10,7 @@
 		/>
 		<field
 			name="state"
-			type="messagestates"
+			type="MessageStates"
 			label="JOPTION_SELECT_PUBLISHED"
 			onchange="this.form.submit();"
 			>
