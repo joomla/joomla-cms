@@ -113,8 +113,10 @@ class MessagesModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				$db->quoteName('a') . '.*',
-				$db->quoteName('u.name', 'user_from')
+				[
+					$db->quoteName('a') . '.*',
+					$db->quoteName('u.name', 'user_from'),
+				]
 			)
 		);
 		$query->from($db->quoteName('#__messages', 'a');
