@@ -238,13 +238,11 @@ class FieldsModel extends ListModel
 
 			if (in_array('0', $categories))
 			{
-				$query->extendWhere(
-					'AND',
-					[
-						$db->quoteName('fc.category_id') . ' IS NULL',
-						$db->quoteName('fc.category_id') . ' IN (' . implode(',', $query->bindArray($categories, ParameterType::INTEGER)) . ')'
-					],
-					'OR'
+				$query->where(
+					'(' .
+						$db->quoteName('fc.category_id') . ' IS NULL OR' .
+						$db->quoteName('fc.category_id') . ' IN (' . implode(',', $query->bindArray($categories, ParameterType::INTEGER)) . ')' .
+					')'
 				);
 			}
 			else
@@ -329,17 +327,25 @@ class FieldsModel extends ListModel
 			elseif (stripos($search, 'author:') === 0)
 			{
 				$search = '%' . substr($search, 7) . '%';
-				$query->where($db->quoteName('ua.name') . ' LIKE :name')
-					->orWhere($db->quoteName('ua.username') . ' LIKE :username')
+				$query->where(
+					'(' .
+						$db->quoteName('ua.name') . ' LIKE :name OR ' .
+						$db->quoteName('ua.username') . ' LIKE :username' .
+					')'
+				)
 					->bind(':name', $search)
 					->bind(':username', $search);
 			}
 			else
 			{
 				$search = '%' . str_replace(' ', '%', trim($search)) . '%';
-				$query->where($db->quoteName('a.title') . ' LIKE :title')
-					->orWhere($db->quoteName('a.name') . ' LIKE :sname')
-					->orWhere($db->quoteName('a.note') . ' LIKE :note')
+				$query->where(
+					'(' .
+						$db->quoteName('a.title') . ' LIKE :title OR ' .
+						$db->quoteName('a.name') . ' LIKE :sname OR ' .
+						$db->quoteName('a.note') . ' LIKE :note' .
+					')'
+				)
 					->bind(':title', $search)
 					->bind(':sname', $search)
 					->bind(':note', $search);
