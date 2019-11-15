@@ -69,7 +69,7 @@ abstract class TagsSimilarHelper
 
 		$query = $db->getQuery(true)
 			->select(
-				array(
+				[
 					$db->quoteName('m.core_content_id'),
 					$db->quoteName('m.content_item_id'),
 					$db->quoteName('m.type_alias'),
@@ -80,33 +80,52 @@ abstract class TagsSimilarHelper
 					$db->quoteName('cc.core_catid'),
 					$db->quoteName('cc.core_language'),
 					$db->quoteName('cc.core_params'),
-				)
-			);
-
-		$query->from($db->quoteName('#__contentitem_tag_map', 'm'));
-
-		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON m.tag_id = t.id')
-			->join('INNER', $db->quoteName('#__ucm_content', 'cc') . ' ON m.core_content_id = cc.core_content_id')
-			->join('INNER', $db->quoteName('#__content_types', 'ct') . ' ON m.type_alias = ct.type_alias');
-
-		$query->where($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')');
-		$query->where('t.access IN (' . $groups . ')');
-		$query->where('(cc.core_access IN (' . $groups . ') OR cc.core_access = 0)');
-
-		// Don't show current item
-		$query->where('(' . $db->quoteName('m.content_item_id') . ' <> ' . $id
-			. ' OR ' . $db->quoteName('m.type_alias') . ' <> ' . $db->quote($prefix) . ')'
-		);
-
-		// Only return published tags
-		$query->where($db->quoteName('cc.core_state') . ' = 1 ')
-			->where('(' . $db->quoteName('cc.core_publish_up') . ' IS NULL OR '
-				. $db->quoteName('cc.core_publish_up') . '=' . $db->quote($nullDate) . ' OR '
-				. $db->quoteName('cc.core_publish_up') . '<=' . $db->quote($now) . ')'
+				]
 			)
-			->where('(' . $db->quoteName('cc.core_publish_down') . ' IS NULL OR '
-				. $db->quoteName('cc.core_publish_down') . '=' . $db->quote($nullDate) . ' OR '
-				. $db->quoteName('cc.core_publish_down') . '>=' . $db->quote($now) . ')'
+			->from($db->quoteName('#__contentitem_tag_map', 'm'))
+			->join('INNER', $db->quoteName('#__tags', 't'), $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'))
+			->join('INNER', $db->quoteName('#__ucm_content', 'cc'), $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('cc.core_content_id'))
+			->join('INNER', $db->quoteName('#__content_types', 'ct'), $db->quoteName('m.type_alias') . ' = ' . $db->quoteName('ct.type_alias'))
+			->where(
+				[
+					$db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')',
+					$db->quoteName('t.access') . ' IN (' . $groups . ')',
+					$db->quoteName('cc.core_state') . ' = 1',
+				]
+			)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('cc.core_access') . ' IN (' . $groups . ')',
+					$db->quoteName('cc.core_access') . ' = 0',
+				],
+				'OR'
+			)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('m.content_item_id') . ' <> ' . $id,
+					$db->quoteName('m.type_alias') . ' <> ' . $db->quote($prefix),
+				],
+				'OR'
+			)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('cc.core_publish_up') . ' IS NULL',
+					$db->quoteName('cc.core_publish_up') . ' = ' . $db->quote($nullDate),
+					$db->quoteName('cc.core_publish_up') . ' <= ' . $db->quote($now),
+				],
+				'OR'
+			)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('cc.core_publish_down') . ' IS NULL',
+					$db->quoteName('cc.core_publish_down') . ' = ' . $db->quote($nullDate),
+					$db->quoteName('cc.core_publish_down') . ' >= ' . $db->quote($now),
+				],
+				'OR'
 			);
 
 		// Optionally filter on language
@@ -123,10 +142,17 @@ abstract class TagsSimilarHelper
 		}
 
 		$query->group(
-			$db->quoteName(
-				array('m.core_content_id', 'm.content_item_id', 'm.type_alias', 'ct.router', 'cc.core_title',
-				'cc.core_alias', 'cc.core_catid', 'cc.core_language', 'cc.core_params')
-			)
+			[
+				$db->quoteName('m.core_content_id'),
+				$db->quoteName('m.content_item_id'),
+				$db->quoteName('m.type_alias'),
+				$db->quoteName('ct.router'),
+				$db->quoteName('cc.core_title'),
+				$db->quoteName('cc.core_alias'),
+				$db->quoteName('cc.core_catid'),
+				$db->quoteName('cc.core_language'),
+				$db->quoteName('cc.core_params'),
+			]
 		);
 
 		if ($matchtype === 'all' && $tagCount > 0)
