@@ -139,7 +139,7 @@ class MessageTable extends Table
 		$query->update($this->_db->quoteName($this->_tbl))
 			->set($this->_db->quoteName('state') . ' = :state')
 			->whereIn($this->_db->quoteName($k), $pks)
-			->bind(':state', $state ,ParameterType::INTEGER);
+			->bind(':state', $state, ParameterType::INTEGER);
 
 		try
 		{
