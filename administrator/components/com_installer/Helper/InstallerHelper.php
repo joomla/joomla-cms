@@ -37,8 +37,8 @@ class InstallerHelper
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT type')
-			->from('#__extensions');
+			->select('DISTINCT ' . $db->quoteName('type'))
+			->from($db->quoteName('#__extensions'));
 		$db->setQuery($query);
 		$types = $db->loadColumn();
 
@@ -61,11 +61,13 @@ class InstallerHelper
 	 */
 	public static function getExtensionGroups()
 	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
+		$nofolder = '';
+		$db       = Factory::getDbo();
+		$query    = $db->getQuery(true)
 			->select('DISTINCT ' . $db->quoteName('folder'))
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('folder') . ' != ' . $db->quote(''))
+			->where($db->quoteName('folder') . ' != :folder')
+			->bind(':folder', $nofolder)
 			->order($db->quoteName('folder'));
 		$db->setQuery($query);
 		$folders = $db->loadColumn();
@@ -261,7 +263,7 @@ class InstallerHelper
 
 		try
 		{
-			$extension = $db->setQuery($query)->loadObject(CMSObject::class);
+			$extension = new CMSObject($db->setQuery($query)->loadAssoc());
 		}
 		catch (Exception $e)
 		{
@@ -419,7 +421,15 @@ class InstallerHelper
 		// Try to get all of the update sites, including related extension information
 		try
 		{
-			return $db->setQuery($query)->loadObjectList('', CMSObject::class);
+			$items = [];
+			$db->setQuery($query);
+
+			foreach ($db->getIterator() as $item)
+			{
+				$items[] = new CMSObject($item);
+			}
+
+			return $items;
 		}
 		catch (Exception $e)
 		{

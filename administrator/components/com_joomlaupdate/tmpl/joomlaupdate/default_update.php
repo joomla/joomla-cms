@@ -45,8 +45,10 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE'); ?>
 				</td>
 				<td>
-					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>">
+					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>" target="_blank" rel="noopener noreferrer">
 						<?php echo $this->updateInfo['object']->downloadurl->_data; ?>
+						<span class="icon-out-2" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('JBROWSERTARGET_NEW'); ?></span>
 					</a>
 				</td>
 			</tr>
@@ -57,8 +59,10 @@ use Joomla\CMS\Language\Text;
 						<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'); ?>
 					</td>
 					<td>
-						<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>">
+						<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>" target="_blank" rel="noopener noreferrer">
 							<?php echo $this->updateInfo['object']->get('infourl')->title; ?>
+							<span class="icon-out-2" aria-hidden="true"></span>
+							<span class="sr-only"><?php echo Text::_('JBROWSERTARGET_NEW'); ?></span>
 						</a>
 					</td>
 				</tr>

@@ -234,6 +234,15 @@ class JFormFieldConsentBox extends CheckboxesField
 			);
 		}
 
+		if (!is_object($article))
+		{
+			// We have not found the article object lets show a 404 to the user
+			return Route::_(
+				'index.php?option=com_content&view=article&id='
+				. $this->articleid . '&tmpl=component'
+			);
+		}
+
 		// Register ContentHelperRoute
 		JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
