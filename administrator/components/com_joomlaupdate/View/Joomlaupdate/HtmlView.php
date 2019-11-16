@@ -244,7 +244,7 @@ class HtmlView extends BaseHtmlView
 				->select('*')
 				->from($db->quoteName('#__updates'))
 				->where($db->quoteName('extension_id') . ' = :id')
-				->bind(':id', $id, ParameterType::INTEGER);
+				->bind(':id', $joomlaUpdateComponentId, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
