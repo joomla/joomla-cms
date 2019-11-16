@@ -52,10 +52,10 @@
     "tinymce": "5.0.14"
   },
   "devDependencies": {
-    "@babel/core": "^7.5.5",
-    "@babel/plugin-transform-classes": "^7.5.5",
-    "@babel/preset-env": "^7.5.5",
-    "@fortawesome/fontawesome-free": "^5.9.0",
+    "@babel/core": "^7.7.2",
+    "@babel/plugin-transform-classes": "^7.7.0",
+    "@babel/preset-env": "^7.7.1",
+    "@fortawesome/fontawesome-free": "^5.11.2",
     "@gfx/zopfli": "^1.0.14",
     "autoprefixer": "^9.6.1",
     "babel-plugin-add-header-comment": "^1.0.3",
