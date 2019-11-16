@@ -394,8 +394,9 @@ class AssociationsModel extends ListModel
 			if (count($typeNameExploded) > 1 && array_pop($typeNameExploded) === 'category')
 			{
 				$section = implode('.', $typeNameExploded);
+				$extensionNameSection = $extensionName . '.' . $section;
 				$query->where($db->quoteName('a.extension') . ' = :extensionsection')
-					->bind(':extensionsection', $extensionName . '.' . $section);
+					->bind(':extensionsection', $extensionNameSection);
 			}
 		}
 
