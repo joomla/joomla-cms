@@ -58,7 +58,7 @@ class ConfigModel extends FormModel
 	public function &getItem()
 	{
 		$item   = new CMSObject;
-		$userid = (int) $this->getState('user.id')
+		$userid = (int) $this->getState('user.id');
 
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
