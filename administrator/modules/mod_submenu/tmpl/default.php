@@ -66,7 +66,7 @@ use Joomla\CMS\Router\Route;
 									?>
 									<?php if (!$permission || $user->authorise($permission, $scope)) : ?>
 										<a href="<?php echo $link; ?>">
-											<span class="fa fa-<?php echo $icon; ?> fa-xs" title="<?php echo htmlentities(Text::_($item->title)); ?>" aria-hidden="true"></span>
+											<span class="fa fa-<?php echo $icon; ?> fa-xs" title="<?php echo htmlentities($title); ?>" aria-hidden="true"></span>
 											<span class="sr-only"><?php echo htmlentities($sronly); ?></span>
 										</a>
 									<?php endif; ?>
