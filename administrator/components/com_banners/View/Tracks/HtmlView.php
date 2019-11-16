@@ -15,7 +15,6 @@ use Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
@@ -118,19 +117,25 @@ class HtmlView extends BaseHtmlView
 
 		$bar = Toolbar::getInstance('toolbar');
 
-		// Instantiate a new FileLayout instance and render the export button
-		$layout = new FileLayout('joomla.toolbar.modal');
-
-		$dHtml = $layout->render(
-			[
-				'selector' => 'downloadModal',
-				'icon'     => 'icon-download',
-				'text'     => Text::_('JTOOLBAR_EXPORT'),
-				'doTask'   => Route::_('index.php?option=com_banners&view=download&tmpl=component'),
-			]
+		$bar->appendButton(
+			'Popup',
+			'download',
+			'JTOOLBAR_EXPORT',
+			'index.php?option=com_banners&view=download&tmpl=component',
+			500,
+			400,
+			0,
+			0,
+			'',
+			'JTOOLBAR_EXPORT',
+			'<button type="button" class="btn btn-secondary" data-dismiss="modal">'
+			. Text::_('COM_BANNERS_CANCEL')
+			. '</button>'
+			. '<button type="button" class="btn btn-success" data-dismiss="modal"'
+			. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#modal-download\', buttonSelector: \'#exportBtn\'})">'
+			. Text::_('COM_BANNERS_TRACKS_EXPORT')
+			. '</button>'
 		);
-
-		$bar->appendButton('Custom', $dHtml, 'download');
 
 		if ($canDo->get('core.delete'))
 		{
