@@ -61,7 +61,7 @@ class ConfigModel extends FormModel
 		$userid = (int) $this->getState('user.id');
 
 		$db = $this->getDbo();
-		$query = $db->getQuery(true)
+		$query = $db->getQuery(true);
 		$query->select(
 			[
 				$db->quoteName('cfg_name'),
