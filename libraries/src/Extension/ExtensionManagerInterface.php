@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Extension;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Loads extensions.
@@ -39,4 +39,16 @@ interface ExtensionManagerInterface
 	 * @since   4.0.0
 	 */
 	public function bootModule($module, $applicationName): ModuleInterface;
+
+	/**
+	 * Boots the plugin with the given name and type.
+	 *
+	 * @param   string  $plugin  The plugin name
+	 * @param   string  $type    The type of the plugin
+	 *
+	 * @return  PluginInterface
+	 *
+	 * @since   4.0.0
+	 */
+	public function bootPlugin($plugin, $type): PluginInterface;
 }

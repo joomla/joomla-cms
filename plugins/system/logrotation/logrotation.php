@@ -3,12 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  System.logrotation
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
@@ -18,7 +19,7 @@ use Joomla\Filesystem\Path;
  *
  * Rotate the log files created by Joomla core
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgSystemLogrotation extends JPlugin
 {
@@ -26,7 +27,7 @@ class PlgSystemLogrotation extends JPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -34,7 +35,7 @@ class PlgSystemLogrotation extends JPlugin
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $app;
 
@@ -42,7 +43,7 @@ class PlgSystemLogrotation extends JPlugin
 	 * Database object.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -51,7 +52,7 @@ class PlgSystemLogrotation extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onAfterRender()
 	{
@@ -75,13 +76,15 @@ class PlgSystemLogrotation extends JPlugin
 		// Update last run status
 		$this->params->set('lastrun', $now);
 
-		$db    = $this->db;
-		$query = $db->getQuery(true)
-			->update($db->qn('#__extensions'))
-			->set($db->qn('params') . ' = ' . $db->q($this->params->toString('JSON')))
-			->where($db->qn('type') . ' = ' . $db->q('plugin'))
-			->where($db->qn('folder') . ' = ' . $db->q('system'))
-			->where($db->qn('element') . ' = ' . $db->q('logrotation'));
+		$paramsJson = $this->params->toString('JSON');
+		$db         = $this->db;
+		$query      = $db->getQuery(true)
+			->update($db->quoteName('#__extensions'))
+			->set($db->quoteName('params') . ' = :params')
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
+			->where($db->quoteName('element') . ' = ' . $db->quote('logrotation'))
+			->bind(':params', $paramsJson);
 
 		try
 		{
@@ -167,7 +170,7 @@ class PlgSystemLogrotation extends JPlugin
 	 *
 	 * @return  array   The log files in the given path grouped by version number (not rotated files has number 0)
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function getLogFiles($path)
 	{
@@ -211,7 +214,7 @@ class PlgSystemLogrotation extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function rotate($path, $filename, $currentVersion)
 	{
@@ -243,11 +246,11 @@ class PlgSystemLogrotation extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
 	{
-		$conf = JFactory::getConfig();
+		$conf = Factory::getConfig();
 
 		foreach ($clearGroups as $group)
 		{

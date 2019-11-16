@@ -8,7 +8,7 @@
  *
  * Used for keeping the session alive
  *
- * @package  Joomla
+ * @package  Joomla.JavaScript
  * @since    3.7.0
  */
 ((document, Joomla) => {

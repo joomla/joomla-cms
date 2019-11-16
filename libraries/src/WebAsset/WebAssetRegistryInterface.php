@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\WebAsset;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 
@@ -59,7 +59,7 @@ interface WebAssetRegistryInterface
 	 *
 	 * @param   string  $name  Asset name
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */

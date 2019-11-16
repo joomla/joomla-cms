@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
@@ -32,7 +32,7 @@ abstract class InstallerAdapter
 	 * Changelog URL of extensions
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * */
 	protected $changelogurl = null;
 
@@ -160,9 +160,12 @@ abstract class InstallerAdapter
 		if (!$this->type)
 		{
 			// This assumes the adapter short class name in its namespace is `<foo>Adapter`, replace this logic in subclasses if needed
-			$reflection = new \ReflectionClass(get_called_class());
-			$this->type = strtolower(str_replace('Adapter', '', $reflection->getShortName()));
+			$reflection = new \ReflectionClass(\get_called_class());
+			$this->type = str_replace('Adapter', '', $reflection->getShortName());
 		}
+
+		// Extension type is stored as lowercase in the database
+		$this->type = strtolower($this->type);
 	}
 
 	/**
@@ -210,9 +213,6 @@ abstract class InstallerAdapter
 	 */
 	protected function checkExistingExtension()
 	{
-		// Extension type is stored as lowercase on the #__extensions table field type
-		$this->type = strtolower($this->type);
-
 		try
 		{
 			$this->currentExtensionId = $this->extension->find(
@@ -507,7 +507,7 @@ abstract class InstallerAdapter
 				return false;
 			}
 
-			// If installing with success and there is an uninstall script, add a installer rollback step to rollback if needed
+			// If installing with success and there is an uninstall script, add an installer rollback step to rollback if needed
 			if ($route === 'install' && isset($this->getManifest()->uninstall->sql))
 			{
 				$this->parent->pushStep(array('type' => 'query', 'script' => $this->getManifest()->uninstall->sql));
@@ -891,7 +891,7 @@ abstract class InstallerAdapter
 	protected function parseQueries()
 	{
 		// Let's run the queries for the extension
-		if (in_array($this->route, array('install', 'discover_install', 'uninstall')))
+		if (\in_array($this->route, array('install', 'discover_install', 'uninstall')))
 		{
 			// This method may throw an exception, but it is caught by the parent caller
 			if (!$this->doDatabaseTransactions())

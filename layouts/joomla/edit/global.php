@@ -33,6 +33,8 @@ $fields = $displayData->get('fields') ?: array(
 	array('published', 'state', 'enabled'),
 	array('category', 'catid'),
 	'featured',
+	'featured_up',
+	'featured_down',
 	'sticky',
 	'access',
 	'language',
@@ -41,7 +43,7 @@ $fields = $displayData->get('fields') ?: array(
 	'version_note',
 );
 
-$hiddenFields = $displayData->get('hidden_fields') ?: array();
+$hiddenFields   = $displayData->get('hidden_fields') ?: array();
 
 if (!$saveHistory)
 {

@@ -10,12 +10,12 @@ namespace Joomla\CMS\Console\Loader;
 
 use Joomla\Console\Loader\LoaderInterface;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Interface defining a writable command loader.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface WritableLoaderInterface extends LoaderInterface
 {
@@ -27,7 +27,7 @@ interface WritableLoaderInterface extends LoaderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function add(string $commandName, string $className);
 }

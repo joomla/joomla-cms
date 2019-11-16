@@ -2,16 +2,14 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Changelog;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -23,7 +21,7 @@ use RuntimeException;
 /**
  * Changelog class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class Changelog extends CMSObject
 {
@@ -31,7 +29,7 @@ class Changelog extends CMSObject
 	 * Update manifest `<element>` element
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $element;
 
@@ -39,7 +37,7 @@ class Changelog extends CMSObject
 	 * Update manifest `<type>` element
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $type;
 
@@ -47,7 +45,7 @@ class Changelog extends CMSObject
 	 * Update manifest `<version>` element
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $version;
 
@@ -55,7 +53,7 @@ class Changelog extends CMSObject
 	 * Update manifest `<security>` element
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $security = array();
 
@@ -63,7 +61,7 @@ class Changelog extends CMSObject
 	 * Update manifest `<fix>` element
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $fix = array();
 
@@ -71,7 +69,7 @@ class Changelog extends CMSObject
 	 * Update manifest `<language>` element
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $language = array();
 
@@ -79,7 +77,7 @@ class Changelog extends CMSObject
 	 * Update manifest `<addition>` element
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $addition = array();
 
@@ -87,7 +85,7 @@ class Changelog extends CMSObject
 	 * Update manifest `<change>` elements
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $change = array();
 
@@ -95,7 +93,7 @@ class Changelog extends CMSObject
 	 * Update manifest `<remove>` element
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $remove = array();
 
@@ -103,7 +101,7 @@ class Changelog extends CMSObject
 	 * Update manifest `<maintainer>` element
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $note = array();
 
@@ -111,7 +109,7 @@ class Changelog extends CMSObject
 	 * List of node items
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $items = array();
 
@@ -119,7 +117,7 @@ class Changelog extends CMSObject
 	 * Resource handle for the XML Parser
 	 *
 	 * @var    resource
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $xmlParser;
 
@@ -127,7 +125,7 @@ class Changelog extends CMSObject
 	 * Element call stack
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $stack = array('base');
 
@@ -135,7 +133,7 @@ class Changelog extends CMSObject
 	 * Object containing the current update data
 	 *
 	 * @var    \stdClass
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $currentChangelog;
 
@@ -143,7 +141,7 @@ class Changelog extends CMSObject
 	 * The version to match the changelog
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $matchVersion = '';
 
@@ -151,7 +149,7 @@ class Changelog extends CMSObject
 	 * Object containing the latest changelog data
 	 *
 	 * @var    \stdClass
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $latest;
 
@@ -160,7 +158,7 @@ class Changelog extends CMSObject
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getStackLocation()
 	{
@@ -172,11 +170,11 @@ class Changelog extends CMSObject
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getLastTag()
 	{
-		return $this->stack[count($this->stack) - 1];
+		return $this->stack[\count($this->stack) - 1];
 	}
 
 	/**
@@ -342,7 +340,7 @@ class Changelog extends CMSObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function loadFromXml($url)
 	{

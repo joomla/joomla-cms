@@ -19,6 +19,7 @@ use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Contact\Administrator\Service\HTML\AdministratorService;
@@ -67,7 +68,7 @@ class ContactComponent extends MVCComponent implements
 	 */
 	public function validateSection($section, $item = null)
 	{
-		if (Factory::getApplication()->isClient('site') && $section == 'contact' && $item instanceof \JForm)
+		if (Factory::getApplication()->isClient('site') && $section == 'contact' && $item instanceof Form)
 		{
 			// The contact form needs to be the mail section
 			$section = 'mail';
@@ -119,7 +120,7 @@ class ContactComponent extends MVCComponent implements
 	 */
 	protected function getTableNameForSection(string $section = null)
 	{
-		return '#__contact_details';
+		return ($section === 'category' ? 'categories' : 'contact_details');
 	}
 
 	/**

@@ -81,7 +81,6 @@ class CheckinModel extends ListModel
 	public function checkin($ids = array())
 	{
 		$db = $this->getDbo();
-		$nullDate = $db->getNullDate();
 
 		if (!is_array($ids))
 		{
@@ -91,32 +90,49 @@ class CheckinModel extends ListModel
 		// This int will hold the checked item count.
 		$results = 0;
 
+		$app = Factory::getApplication();
+
 		foreach ($ids as $tn)
 		{
 			// Make sure we get the right tables based on prefix.
-			if (stripos($tn, Factory::getApplication()->get('dbprefix')) !== 0)
+			if (stripos($tn, $app->get('dbprefix')) !== 0)
 			{
 				continue;
 			}
 
-			$fields = $db->getTableColumns($tn);
+			$fields = $db->getTableColumns($tn, false);
 
 			if (!(isset($fields['checked_out']) && isset($fields['checked_out_time'])))
 			{
 				continue;
 			}
 
-			$query = $db->getQuery(true)
-				->update($db->quoteName($tn))
-				->set('checked_out = 0')
-				->set('checked_out_time = ' . $db->quote($nullDate))
-				->where('checked_out > 0');
+			if ($fields['checked_out_time']->Null === 'YES')
+			{
+				$query = $db->getQuery(true)
+					->update($db->quoteName($tn))
+					->set($db->quoteName('checked_out') . ' = DEFAULT')
+					->set($db->quoteName('checked_out_time') . ' = NULL')
+					->where($db->quoteName('checked_out') . ' > 0');
+			}
+			else
+			{
+				$nullDate = $db->getNullDate();
+
+				$query = $db->getQuery(true)
+					->update($db->quoteName($tn))
+					->set($db->quoteName('checked_out') . ' = DEFAULT')
+					->set($db->quoteName('checked_out_time') . ' = :checkouttime')
+					->where($db->quoteName('checked_out') . ' > 0')
+					->bind(':checkouttime', $nullDate);
+			}
 
 			$db->setQuery($query);
 
 			if ($db->execute())
 			{
 				$results = $results + $db->getAffectedRows();
+				$app->triggerEvent('onAfterCheckin', array($tn));
 			}
 		}
 

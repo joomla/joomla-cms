@@ -18,6 +18,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
@@ -383,11 +384,11 @@ class CategoryModel extends AdminModel
 	 *
 	 * @return  mixed
 	 *
-	 * @see     \JFormField
+	 * @see     \Joomla\CMS\Form\FormField
 	 * @since   1.6
 	 * @throws  \Exception if there is an error in the form event.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		$lang = Factory::getLanguage();
 		$component = $this->getState('category.component');
@@ -490,6 +491,7 @@ class CategoryModel extends AdminModel
 					$field->addAttribute('new', 'true');
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
+					$field->addAttribute('propagate', 'true');
 				}
 
 				$form->load($addform, false);
@@ -646,7 +648,8 @@ class CategoryModel extends AdminModel
 			if ($associations)
 			{
 				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($oldKey) . ')');
+					. $db->quoteName('key') . ' = ' . $db->quote($oldKey) . ')'
+				);
 			}
 			else
 			{
@@ -1002,9 +1005,10 @@ class CategoryModel extends AdminModel
 				}
 			}
 
-			// Make a copy of the old ID and Parent ID
-			$oldId = $this->table->id;
+			// Make a copy of the old ID, Parent ID and Asset ID
+			$oldId       = $this->table->id;
 			$oldParentId = $this->table->parent_id;
+			$oldAssetId  = $this->table->asset_id;
 
 			// Reset the id because we are making a copy.
 			$this->table->id = 0;
@@ -1044,6 +1048,16 @@ class CategoryModel extends AdminModel
 
 			// Add the new ID to the array
 			$newIds[$pk] = $newId;
+
+			// Copy rules
+			$query->clear()
+				->update($db->quoteName('#__assets', 't'))
+				->join('INNER', $db->quoteName('#__assets', 's') .
+					' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
+				)
+				->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
+				->where($db->quoteName('t.id') . ' = ' . $this->table->asset_id);
+			$db->setQuery($query)->execute();
 
 			// Now we log the old 'parent' to the new 'parent'
 			$parents[$oldId] = $this->table->id;

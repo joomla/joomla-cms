@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\Menu\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\OutputController;
@@ -44,7 +44,8 @@ class MenuHelper
 		$key    = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
 
 		/** @var OutputController $cache */
-		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('output', ['defaultgroup' => 'mod_menu']);
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+			->createCacheController('output', ['defaultgroup' => 'mod_menu']);
 
 		if ($cache->contains($key))
 		{
@@ -73,15 +74,15 @@ class MenuHelper
 
 					if (($start && $start > $item->level)
 						|| ($end && $item->level > $end)
-						|| (!$showAll && $item->level > 1 && !in_array($item->parent_id, $path))
-						|| ($start > 1 && !in_array($item->tree[$start - 2], $path)))
+						|| (!$showAll && $item->level > 1 && !\in_array($item->parent_id, $path))
+						|| ($start > 1 && !\in_array($item->tree[$start - 2], $path)))
 					{
 						unset($items[$i]);
 						continue;
 					}
 
 					// Exclude item with menu item option set to exclude from menu modules
-					if (($item->params->get('menu_show', 1) == 0) || in_array($item->parent_id, $hidden_parents))
+					if (($item->params->get('menu_show', 1) == 0) || \in_array($item->parent_id, $hidden_parents))
 					{
 						$hidden_parents[] = $item->id;
 						unset($items[$i]);
@@ -123,6 +124,18 @@ class MenuHelper
 
 						case 'alias':
 							$item->flink = 'index.php?Itemid=' . $item->params->get('aliasoptions');
+
+							// Get the language of the target menu item when site is multilingual
+							if (Multilanguage::isEnabled())
+							{
+								$newItem = Factory::getApplication()->getMenu()->getItem((int) $item->params->get('aliasoptions'));
+
+								// Use language code if not set to ALL
+								if ($newItem != null && $newItem->language && $newItem->language !== '*')
+								{
+									$item->flink .= '&lang=' . $newItem->language;
+								}
+							}
 							break;
 
 						default:

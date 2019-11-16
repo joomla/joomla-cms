@@ -3,7 +3,7 @@
  * @package        Joomla.UnitTest
  * @subpackage     Toolbar
  *
- * @copyright      Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright      Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,8 +117,8 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 		$toolbar = $this->createToolbar();
 		$toolbar->setItems([
 			$this->createMock(ToolbarButton::class),
-			$this->createMock(ToolbarButton::class),
-		]);
+			$this->createMock(ToolbarButton::class),]
+		);
 
 		$button = $this->createMock(ToolbarButton::class);
 		$button->expects($this->once())
@@ -141,8 +141,8 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 		$toolbar = $this->createToolbar();
 		$toolbar->setItems([
 			$this->createMock(ToolbarButton::class),
-			$this->createMock(ToolbarButton::class),
-		]);
+			$this->createMock(ToolbarButton::class),]
+		);
 
 		$button = ['Separator', 'spacer', 25];
 
@@ -150,6 +150,12 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 		$this->assertEquals($button, $toolbar->getItems()[0]);
 	}
 
+	/**
+	 *
+	 * @return  void
+	 * @since   4.0.0
+	 * @throws \Exception
+	 */
 	public function testRenderButton()
 	{
 		$button     = ['Separator', 'spacer'];
@@ -175,10 +181,16 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 	}
 
 	/**
-	 * @expectedException \UnexpectedValueException
+	 * Tests render a button
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 * @throws \Exception
 	 */
 	public function testRenderButtonThrowsUnexpectedValueException()
 	{
+		$this->expectException(\UnexpectedValueException::class);
 		$button     = ['Separator', 'spacer'];
 		$toolbarFactoryMock = $this->createMock(ToolbarFactoryInterface::class);
 		$toolbarFactoryMock
@@ -250,9 +262,10 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 
 		$this->assertEquals('MyTestPath2' . DIRECTORY_SEPARATOR, $newValue[0]);
 		$this->assertEquals('MyTestPath1' . DIRECTORY_SEPARATOR, $newValue[1]);
+
 		for ($i = 0; $i < $initialCount; $i++)
 		{
-			$this->assertEquals($initialValue[$i], $newValue[$i+2]);
+			$this->assertEquals($initialValue[$i], $newValue[$i + 2]);
 		}
 	}
 
@@ -273,6 +286,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 		$newValue = $toolbar->getButtonPath();
 
 		$this->assertEquals('MyTestPath' . DIRECTORY_SEPARATOR, $newValue[0]);
+
 		for ($i = 0; $i < $initialCount; $i++)
 		{
 			$this->assertEquals($initialValue[$i], $newValue[$i + 1]);
@@ -282,9 +296,11 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Helper function to create a toolbar
 	 *
-	 * @param string $name
+	 * @param   string   $name  Name
 	 *
 	 * @return Toolbar
+	 *
+	 * @since   4.0.0
 	 */
 	protected function createToolbar($name = 'my-toolbar'): Toolbar
 	{

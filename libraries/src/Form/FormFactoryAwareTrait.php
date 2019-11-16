@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Defines the trait for a FormFactoryInterface Aware Class.

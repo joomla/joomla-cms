@@ -11,17 +11,15 @@ namespace Joomla\Component\Banners\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Bannerclient field.
  *
  * @since  1.6
  */
-class BannerclientField extends \JFormFieldList
+class BannerclientField extends ListField
 {
 	/**
 	 * The form field type.

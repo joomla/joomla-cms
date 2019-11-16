@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Utility class for the Joomla core UI Tab element.
  *
@@ -39,7 +41,7 @@ abstract class JHtmlUiTab
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include the custom element
-			JHtml::_('webcomponent', 'vendor/joomla-custom-elements/joomla-tab.min.js', ['version' => 'auto', 'relative' => true]);
+			HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-tab.min.js', ['version' => 'auto', 'relative' => true]);
 
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
@@ -51,6 +53,7 @@ abstract class JHtmlUiTab
 
 		// @TODO echo the recall attribute correctly, now it's hardcoded!!!
 		$recall = !isset($params['recall']) ? '' : 'recall';
+
 		return '<joomla-tab id="' . $selector . '" recall>';
 	}
 
@@ -81,7 +84,7 @@ abstract class JHtmlUiTab
 	{
 		$active = (static::$loaded['JHtmlUiTab::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
-		return '<section id="' . $id . '" class="' . $active . '" name="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '">';
+		return '<section id="' . $id . '"' . $active . ' name="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '">';
 
 	}
 

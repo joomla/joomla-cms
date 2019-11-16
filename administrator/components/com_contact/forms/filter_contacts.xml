@@ -12,6 +12,17 @@
 		/>
 
 		<field
+			name="featured"
+			type="list"
+			onchange="this.form.submit();"
+			default=""
+			>
+			<option value="">JOPTION_SELECT_FEATURED</option>
+			<option value="0">JUNFEATURED</option>
+			<option value="1">JFEATURED</option>
+		</field>
+
+		<field
 			name="published"
 			type="status"
 			label="JOPTION_SELECT_PUBLISHED"
@@ -54,11 +65,12 @@
 			name="tag"
 			type="tag"
 			label="JOPTION_SELECT_TAG"
+			multiple="true"
 			mode="nested"
+			custom="false"
+			hint="JOPTION_SELECT_TAG"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_TAG</option>
-		</field>
+		/>
 
 		<field
 			name="level"
@@ -98,18 +110,8 @@
 			<option value="ul.name DESC">COM_CONTACT_FIELD_LINKED_USER_LABEL_DESC</option>
 			<option value="access_level ASC">JGRID_HEADING_ACCESS_ASC</option>
 			<option value="access_level DESC">JGRID_HEADING_ACCESS_DESC</option>
-			<option
-				value="association ASC"
-				requires="associations"
-				>
-				JASSOCIATIONS_ASC
-			</option>
-			<option
-				value="association DESC"
-				requires="associations"
-				>
-				JASSOCIATIONS_DESC
-			</option>
+			<option value="association ASC" requires="associations">JASSOCIATIONS_ASC</option>
+			<option value="association DESC" requires="associations">JASSOCIATIONS_DESC</option>
 			<option value="language_title ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
 			<option value="language_title DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>

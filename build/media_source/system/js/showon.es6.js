@@ -88,7 +88,7 @@
         // Do some binding
         this.linkedOptions = this.linkedOptions.bind(this);
 
-        // Attach events to referenced element, to check condition on change
+        // Attach events to referenced element, to check condition on change and keyup
         Object.keys(this.fields).forEach((key) => {
           if (this.fields[key].origin.length) {
             this.fields[key].origin.forEach((elem) => {
@@ -97,6 +97,7 @@
 
               // Setup listeners
               elem.addEventListener('change', () => { self.linkedOptions(key); });
+              elem.addEventListener('keyup', () => { self.linkedOptions(key); });
             });
           }
         });
@@ -178,10 +179,12 @@
             // AND operator: both the previous and current conditions must be valid
             if (condition.op === 'AND' && condition.valid + elementShowonDatas[index - 1].valid < 2) {
               showfield = false;
+              condition.valid = 0;
             }
             // OR operator: one of the previous and current conditions must be valid
             if (condition.op === 'OR' && condition.valid + elementShowonDatas[index - 1].valid > 0) {
               showfield = true;
+              condition.valid = 1;
             }
           }
         });

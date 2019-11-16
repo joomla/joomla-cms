@@ -26,11 +26,11 @@
 			type="radio"
 			label="COM_REDIRECT_DEFAULT_IMPORT_STATE_LABEL"
 			description="COM_REDIRECT_DEFAULT_IMPORT_STATE_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			>
-			<option value="1">JENABLED</option>
 			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
 		</field>
 	</fieldset>
 

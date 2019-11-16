@@ -140,7 +140,7 @@ class MenuItemByTypeField extends GroupedlistField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFormField::setup()
+	 * @see     \Joomla\CMS\Form\FormField::setup()
 	 * @since   3.8.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
@@ -192,7 +192,8 @@ class MenuItemByTypeField extends GroupedlistField
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__menu_types'))
-				->where($db->quoteName('menutype') . ' = ' . $db->quote($menuType));
+				->where($db->quoteName('menutype') . ' = :menuType')
+				->bind(':menuType', $menuType);
 			$db->setQuery($query);
 
 			try

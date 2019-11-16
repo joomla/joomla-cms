@@ -8,10 +8,11 @@
 
 namespace Joomla\CMS\MVC\Model;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
@@ -70,7 +71,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		{
 			$r = null;
 
-			if (!preg_match('/(.*)Model/i', get_class($this), $r))
+			if (!preg_match('/(.*)Model/i', \get_class($this), $r))
 			{
 				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
@@ -78,19 +79,20 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			$this->option = ComponentHelper::getComponentName($this, $r[1]);
 		}
 
-		$this->setDbo(array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo());
+		$this->setDbo(\array_key_exists('dbo', $config) ? $config['dbo'] : Factory::getDbo());
 
 		// Set the default view search path
-		if (array_key_exists('table_path', $config))
+		if (\array_key_exists('table_path', $config))
 		{
 			$this->addTablePath($config['table_path']);
 		}
 		// @codeCoverageIgnoreStart
-		elseif (defined('JPATH_COMPONENT_ADMINISTRATOR'))
+		elseif (\defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/tables');
 			$this->addTablePath(JPATH_COMPONENT_ADMINISTRATOR . '/table');
 		}
+
 		// @codeCoverageIgnoreEnd
 
 		// Set the clean cache event
@@ -106,6 +108,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		if ($factory)
 		{
 			$this->setMVCFactory($factory);
+
 			return;
 		}
 
@@ -131,7 +134,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
-		if (is_string($query))
+		if (\is_string($query))
 		{
 			$query = $this->getDbo()->getQuery(true)->setQuery($query);
 		}
@@ -144,6 +147,11 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 
 	/**
 	 * Returns a record count for the query.
+	 *
+	 * Note: Current implementation of this method assumes that getListQuery() returns a set of unique rows,
+	 * thus it uses SELECT COUNT(*) to count the rows. In cases that getListQuery() uses DISTINCT
+	 * then either this method must be overriden by a custom implementation at the derived Model Class
+	 * or a GROUP BY clause should be used to make the set unique.
 	 *
 	 * @param   DatabaseQuery|string  $query  The query.
 	 *
@@ -199,7 +207,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	protected function _createTable($name, $prefix = 'Table', $config = array())
 	{
 		// Make sure we are returning a DBO object
-		if (!array_key_exists('dbo', $config))
+		if (!\array_key_exists('dbo', $config))
 		{
 			$config['dbo'] = $this->getDbo();
 		}
@@ -336,7 +344,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', $options);
 			$cache->clean();
 		}
-		catch (\JCacheException $exception)
+		catch (CacheExceptionInterface $exception)
 		{
 			$options['result'] = false;
 		}

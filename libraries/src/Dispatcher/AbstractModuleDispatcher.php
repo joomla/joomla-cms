@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Dispatcher;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Helper\ModuleHelper;
@@ -66,7 +66,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 		}
 
 		// Execute the layout without the module context
-		$loader = static function(array $displayData)
+		$loader = static function (array $displayData)
 		{
 			extract($displayData);
 			require ModuleHelper::getLayoutPath($displayData['module']->module, $displayData['params']->get('layout', 'default'));

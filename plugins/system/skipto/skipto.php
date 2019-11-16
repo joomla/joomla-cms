@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -16,84 +17,63 @@ use Joomla\CMS\Plugin\CMSPlugin;
 /**
  * Skipto plugin to add accessible keyboard navigation to the site and administrator templates.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgSystemSkipto extends CMSPlugin
 {
 	/**
-	 * If true, language files will be loaded automatically.
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    CMSApplicationInterface
 	 * @since  4.0.0
 	 */
 	protected $app;
 
 	/**
-	 * Add the css and javascript for the skipto navigation menu.
+	 * Add the CSS and JavaScript for the skipto navigation menu.
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function onBeforeCompileHead()
+	public function onAfterDispatch()
 	{
-		$section         = (int) $this->params->get('section_skipto', 2);
-		$current_section = 0;
+		$section = $this->params->get('section', 'administrator');
 
-		try
-		{
-			$app = $this->app;
-
-			if ($this->app->isClient('administrator'))
-			{
-				$current_section = 2;
-			}
-			elseif ($this->app->isClient('site'))
-			{
-				$current_section = 1;
-			}
-		}
-		catch (Exception $exc)
-		{
-			$current_section = 0;
-		}
-
-		if (!($current_section && $section))
+		if ($section !== 'both' && $this->app->isClient($section) !== true)
 		{
 			return;
 		}
 
-		// TODO remove this line when bug is fixed
-		$this->loadLanguage();
-
 		// Get the document object.
 		$document = $this->app->getDocument();
 
-		// Add strings for translations in Javascript.
+		if ($document->getType() !== 'html')
+		{
+			return;
+		}
+
+		// Load language file.
+		$this->loadLanguage();
+
+		// Add strings for translations in JavaScript.
 		$document->addScriptOptions(
 			'skipto-settings',
-				[
-					'settings' => [
-						'skipTo' => [
-							'buttonDivRole'		=> 'navigation',
-							'buttonDivLabel'	=> Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_KEYBOARD'),
-							'buttonLabel'		=> Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
-							'buttonDivTitle' 	=> '',
-							'menuLabel'		=> Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_AND_PAGE_OUTLINE'),
-							'landmarksLabel'	=> Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
-							'headingsLabel'		=> Text::_('PLG_SYSTEM_SKIPTO_PAGE_OUTLINE'),
-							'contentLabel'		=> Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
-						]
+			[
+				'settings' => [
+					'skipTo' => [
+						'buttonDivRole'  => 'navigation',
+						'buttonDivLabel' => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_KEYBOARD'),
+						'buttonLabel'    => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
+						'buttonDivTitle' => '',
+						'menuLabel'      => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_AND_PAGE_OUTLINE'),
+						'landmarksLabel' => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
+						'headingsLabel'	 => Text::_('PLG_SYSTEM_SKIPTO_PAGE_OUTLINE'),
+						// The following string begins with a space
+						'contentLabel'   => ' ' . Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
 					]
 				]
+			]
 		);
 
 		HTMLHelper::_('script', 'vendor/skipto/dropMenu.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
@@ -103,6 +83,7 @@ class PlgSystemSkipto extends CMSPlugin
 		$document->addScriptDeclaration("document.addEventListener('DOMContentLoaded', function() {
 			window.SkipToConfig = Joomla.getOptions('skipto-settings');
 			window.skipToMenuInit();
-		});");
+		});"
+		);
 	}
 }

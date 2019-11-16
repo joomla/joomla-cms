@@ -111,22 +111,25 @@ if (!$readonly)
 		<input <?php echo ArrayHelper::toString($inputAttributes); ?> readonly>
 		<?php if (!$readonly) : ?>
 			<span class="input-group-append">
-					<a class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER') ?>"><span class="fa fa-user icon-white" aria-hidden="true"></span></a>
-				<?php echo HTMLHelper::_(
-					'bootstrap.renderModal',
-					'userModal_' . $id,
-					array(
-						'url'         => $uri,
-						'title'       => Text::_('JLIB_FORM_CHANGE_USER'),
-						'closeButton' => true,
-						'height'      => '100%',
-						'width'       => '100%',
-						'modalWidth'  => 80,
-						'bodyHeight'  => 60,
-						'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>'
-					)
-				); ?>
-				</span>
+				<button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?>">
+					<span class="fa fa-user icon-white" aria-hidden="true"></span>
+					<span class="sr-only"><?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?></span>
+				</button>
+			</span>
+			<?php echo HTMLHelper::_(
+				'bootstrap.renderModal',
+				'userModal_' . $id,
+				array(
+					'url'         => $uri,
+					'title'       => Text::_('JLIB_FORM_CHANGE_USER'),
+					'closeButton' => true,
+					'height'      => '100%',
+					'width'       => '100%',
+					'modalWidth'  => 80,
+					'bodyHeight'  => 60,
+					'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>'
+				)
+			); ?>
 		<?php endif; ?>
 	</div>
 	<?php // Create the real field, hidden, that stored the user id. ?>

@@ -12,11 +12,11 @@ namespace Joomla\Component\Menus\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -50,16 +50,23 @@ class Menus
 			// Get the associated menu items
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('m.id, m.title')
-				->select('l.sef as lang_sef, l.lang_code')
-				->select('mt.title as menu_title')
-				->from('#__menu as m')
-				->join('LEFT', '#__menu_types as mt ON mt.menutype=m.menutype')
-				->where('m.id IN (' . implode(',', array_values($associations)) . ')')
-				->where('m.id != ' . $itemid)
-				->join('LEFT', '#__languages as l ON m.language=l.lang_code')
-				->select('l.image')
-				->select('l.title as language_title');
+				->select(
+					[
+						$db->quoteName('m.id'),
+						$db->quoteName('m.title'),
+						$db->quoteName('l.sef', 'lang_sef'),
+						$db->quoteName('l.lang_code'),
+						$db->quoteName('mt.title', 'menu_title'),
+						$db->quoteName('l.image'),
+						$db->quoteName('l.title', 'language_title'),
+					]
+				)
+				->from($db->quoteName('#__menu', 'm'))
+				->join('LEFT', $db->quoteName('#__menu_types', 'mt'), $db->quoteName('mt.menutype') . ' = ' . $db->quoteName('m.menutype'))
+				->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('m.language') . ' = ' . $db->quoteName('l.lang_code'))
+				->whereIn($db->quoteName('m.id'), array_values($associations))
+				->where($db->quoteName('m.id') . ' != :itemid')
+				->bind(':itemid', $itemid, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
@@ -78,160 +85,19 @@ class Menus
 				{
 					$text    = strtoupper($item->lang_sef);
 					$url     = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
-					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
-					$classes = 'hasPopover badge badge-secondary';
+					$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
+					$classes = 'badge badge-secondary';
 
-					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
-						. '" data-content="' . $tooltip . '" data-placement="top">'
-						. $text . '</a>';
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
+						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 				}
 			}
-
-			HTMLHelper::_('bootstrap.popover');
 
 			$html = LayoutHelper::render('joomla.content.associations', $items);
 		}
 
 		return $html;
-	}
-
-	/**
-	 * Returns a published state on a grid
-	 *
-	 * @param   integer  $value     The state value.
-	 * @param   integer  $i         The row index
-	 * @param   boolean  $enabled   An optional setting for access control on the action.
-	 * @param   string   $checkbox  An optional prefix for checkboxes.
-	 *
-	 * @return  string        The Html code
-	 *
-	 * @see JHtmlJGrid::state
-	 *
-	 * @since   1.7.1
-	 */
-	public function state($value, $i, $enabled = true, $checkbox = 'cb')
-	{
-		$states = array(
-			9  => array(
-				'unpublish',
-				'',
-				'COM_MENUS_HTML_UNPUBLISH_HEADING',
-				'',
-				true,
-				'publish',
-				'publish',
-			),
-			8  => array(
-				'publish',
-				'',
-				'COM_MENUS_HTML_PUBLISH_HEADING',
-				'',
-				true,
-				'unpublish',
-				'unpublish',
-			),
-			7  => array(
-				'unpublish',
-				'',
-				'COM_MENUS_HTML_UNPUBLISH_SEPARATOR',
-				'',
-				true,
-				'publish',
-				'publish',
-			),
-			6  => array(
-				'publish',
-				'',
-				'COM_MENUS_HTML_PUBLISH_SEPARATOR',
-				'',
-				true,
-				'unpublish',
-				'unpublish',
-			),
-			5  => array(
-				'unpublish',
-				'',
-				'COM_MENUS_HTML_UNPUBLISH_ALIAS',
-				'',
-				true,
-				'publish',
-				'publish',
-			),
-			4  => array(
-				'publish',
-				'',
-				'COM_MENUS_HTML_PUBLISH_ALIAS',
-				'',
-				true,
-				'unpublish',
-				'unpublish',
-			),
-			3  => array(
-				'unpublish',
-				'',
-				'COM_MENUS_HTML_UNPUBLISH_URL',
-				'',
-				true,
-				'publish',
-				'publish',
-			),
-			2  => array(
-				'publish',
-				'',
-				'COM_MENUS_HTML_PUBLISH_URL',
-				'',
-				true,
-				'unpublish',
-				'unpublish',
-			),
-			1  => array(
-				'unpublish',
-				'COM_MENUS_EXTENSION_PUBLISHED_ENABLED',
-				'COM_MENUS_HTML_UNPUBLISH_ENABLED',
-				'COM_MENUS_EXTENSION_PUBLISHED_ENABLED',
-				true,
-				'publish',
-				'publish',
-			),
-			0  => array(
-				'publish',
-				'COM_MENUS_EXTENSION_UNPUBLISHED_ENABLED',
-				'COM_MENUS_HTML_PUBLISH_ENABLED',
-				'COM_MENUS_EXTENSION_UNPUBLISHED_ENABLED',
-				true,
-				'unpublish',
-				'unpublish',
-			),
-			-1 => array(
-				'unpublish',
-				'COM_MENUS_EXTENSION_PUBLISHED_DISABLED',
-				'COM_MENUS_HTML_UNPUBLISH_DISABLED',
-				'COM_MENUS_EXTENSION_PUBLISHED_DISABLED',
-				true,
-				'warning',
-				'warning',
-			),
-			-2 => array(
-				'publish',
-				'COM_MENUS_EXTENSION_UNPUBLISHED_DISABLED',
-				'COM_MENUS_HTML_PUBLISH_DISABLED',
-				'COM_MENUS_EXTENSION_UNPUBLISHED_DISABLED',
-				true,
-				'trash',
-				'trash',
-			),
-			-3 => array(
-				'publish',
-				'',
-				'COM_MENUS_HTML_PUBLISH',
-				'',
-				true,
-				'trash',
-				'trash',
-			),
-		);
-
-		return HTMLHelper::_('jgrid.state', $states, $value, $i, 'items.', $enabled, true, $checkbox);
 	}
 
 	/**

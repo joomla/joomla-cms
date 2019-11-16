@@ -11,17 +11,15 @@ namespace Joomla\Component\Messages\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Messages\Administrator\Helper\MessagesHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Message States field.
  *
  * @since  3.6.0
  */
-class MessageStatesField extends \JFormFieldList
+class MessageStatesField extends ListField
 {
 	/**
 	 * The form field type.

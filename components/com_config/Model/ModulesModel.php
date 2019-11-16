@@ -64,8 +64,6 @@ class ModulesModel extends FormModel
 			return false;
 		}
 
-		$form->setFieldAttribute('position', 'client',  'site');
-
 		return $form;
 	}
 

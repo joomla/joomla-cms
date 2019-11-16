@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ use XMLReader;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.3
+ * @since       3.1.4
  */
 class RssParserTest extends UnitTestCase
 {
@@ -34,7 +34,8 @@ class RssParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleCategory()
 	{
@@ -63,7 +64,8 @@ class RssParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleCloud()
 	{
@@ -77,20 +79,28 @@ class RssParserTest extends UnitTestCase
 
 		// Its currently not possible to mock simple xml element
 		// @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
-		$xmlElement = new SimpleXMLElement('<cloud domain="' . $cloud['domain'] . '" port="' . $cloud['port'] . '" path="' . $cloud['path'] . '" registerProcedure="' . $cloud['registerProcedure'] . '" protocol="' . $cloud['protocol'] . '" />');
+		$xmlElement = new SimpleXMLElement('<cloud domain="' . $cloud['domain'] . '" port="' . $cloud['port'] .
+			'" path="' . $cloud['path'] . '" registerProcedure="' . $cloud['registerProcedure'] .
+			'" protocol="' . $cloud['protocol'] . '" />'
+		);
 
 		$feedMock = $this->createMock(Feed::class);
 		$feedMock
 			->expects($this->once())
 			->method('__set')
-			->with('cloud', $this->callback(function ($value) use ($cloud) {
-				return is_object($value)
-					&& $value->domain === $cloud['domain']
-					&& $value->port === $cloud['port']
-					&& $value->path === $cloud['path']
-					&& $value->registerProcedure ===$cloud['registerProcedure']
-					&& $value->protocol ===$cloud['protocol'];
-			}));
+			->with('cloud',
+				$this->callback(
+					function ($value) use ($cloud)
+					{
+						return is_object($value)
+							&& $value->domain === $cloud['domain']
+							&& $value->port === $cloud['port']
+							&& $value->path === $cloud['path']
+							&& $value->registerProcedure === $cloud['registerProcedure']
+							&& $value->protocol === $cloud['protocol'];
+					}
+				)
+			);
 
 		// Use reflection to test protected method
 		$rssParser = new RssParser($this->createMock(XMLReader::class));
@@ -105,7 +115,8 @@ class RssParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleCopyright()
 	{
@@ -134,7 +145,8 @@ class RssParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleDescription()
 	{
@@ -163,7 +175,8 @@ class RssParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleGenerator()
 	{
@@ -192,7 +205,8 @@ class RssParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleImage()
 	{
@@ -205,23 +219,31 @@ class RssParserTest extends UnitTestCase
 
 		// Its currently not possible to mock simple xml element
 		// @see https://github.com/se3bastianbergmann/phpunit-mock-objects/issues/417
-		$xmlElement = new SimpleXMLElement('<image><url>' . $image['url'] . '</url><title>' . $image['title'] . '</title><link>' . $image['link'] . '</link><description>' . $image['description'] . '</description></image>');
+		$xmlElement = new SimpleXMLElement('<image><url>' . $image['url'] . '</url><title>' . $image['title'] .
+			'</title><link>' . $image['link'] . '</link><description>' . $image['description'] .
+			'</description></image>'
+		);
 
 		$feedMock = $this->createMock(Feed::class);
 		$feedMock
 			->expects($this->once())
 			->method('__set')
-			->with('image', $this->callback(function ($value) use ($image) {
-				return $value instanceOf FeedLink
-					&& $value->uri === $image['url']
-					&& $value->relation === null
-					&& $value->type === 'logo'
-					&& $value->language === null
-					&& $value->title === $image['title']
-					&& $value->description === $image['description']
-					&& $value->height === ''
-					&& $value->width === '';
-			}));
+			->with('image',
+				$this->callback(
+					function ($value) use ($image)
+					{
+						return $value instanceOf FeedLink
+							&& $value->uri === $image['url']
+							&& $value->relation === null
+							&& $value->type === 'logo'
+							&& $value->language === null
+							&& $value->title === $image['title']
+							&& $value->description === $image['description']
+							&& $value->height === ''
+							&& $value->width === '';
+					}
+				)
+			);
 
 		// Use reflection to test protected method
 		$rssParser = new RssParser($this->createMock(XMLReader::class));
@@ -236,7 +258,8 @@ class RssParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleLanguage()
 	{
@@ -265,7 +288,8 @@ class RssParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleLastBuildDate()
 	{
@@ -294,7 +318,8 @@ class RssParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleLink()
 	{
@@ -308,9 +333,14 @@ class RssParserTest extends UnitTestCase
 		$feedMock
 			->expects($this->once())
 			->method('__set')
-			->with('link', $this->callback(function ($value) use ($link) {
-				return $value instanceOf FeedLink && $value->uri === $link;
-			}));
+			->with('link',
+				$this->callback(
+					function ($value) use ($link)
+					{
+						return $value instanceOf FeedLink && $value->uri === $link;
+					}
+				)
+			);
 
 		// Use reflection to test protected method
 		$rssParser = new RssParser($this->createMock(XMLReader::class));
@@ -325,7 +355,8 @@ class RssParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleManagingEditor()
 	{
@@ -342,11 +373,16 @@ class RssParserTest extends UnitTestCase
 		$feedMock
 			->expects($this->once())
 			->method('__set')
-			->with('author', $this->callback(function ($value) use ($editor) {
-				return $value instanceOf FeedPerson
-					&& $value->name === $editor['name']
-					&& $value->email === $editor['email'];
-			}));
+			->with('author',
+				$this->callback(
+					function ($value) use ($editor)
+					{
+						return $value instanceOf FeedPerson
+							&& $value->name === $editor['name']
+							&& $value->email === $editor['email'];
+					}
+				)
+			);
 
 		// Use reflection to test protected method
 		$rssParser = new RssParser($this->createMock(XMLReader::class));
@@ -361,7 +397,8 @@ class RssParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandlePubDate()
 	{
@@ -390,7 +427,8 @@ class RssParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleSkipDays()
 	{
@@ -419,7 +457,8 @@ class RssParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleSkipHours()
 	{
@@ -448,7 +487,8 @@ class RssParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleTitle()
 	{
@@ -477,7 +517,8 @@ class RssParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleTtl()
 	{
@@ -506,7 +547,8 @@ class RssParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testHandleWebmaster()
 	{
@@ -536,18 +578,22 @@ class RssParserTest extends UnitTestCase
 	/**
 	 * Tests RssParser::initialise()
 	 *
-	 * @since         12.3
+	 * @return void
+	 * @since         3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testInitialiseSetsVersion()
 	{
 		$version = '2.0';
 
 		$readerMock = $this->createMock(XMLReader::class);
+
 		$readerMock
 			->expects($this->once())
 			->method('getAttribute')
 			->with('version')
 			->willReturn($version);
+
 		$readerMock
 			->expects($this->any())
 			->method('read')
@@ -559,8 +605,10 @@ class RssParserTest extends UnitTestCase
 		$method = $reflectionClass->getMethod('initialise');
 		$method->setAccessible(true);
 		$method->invoke($rssParser);
+		$attribute = $reflectionClass->getProperty('version');
+		$attribute->setAccessible(true);
 
-		$this->assertAttributeEquals($version, 'version', $rssParser);
+		$this->assertEquals($version, $attribute->getValue($rssParser));
 	}
 
 	/**
@@ -568,7 +616,8 @@ class RssParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws \ReflectionException
 	 */
 	public function testProcessFeedEntry()
 	{
@@ -595,10 +644,13 @@ class RssParserTest extends UnitTestCase
 				<description>' . $entry['description'] . '</description>
 				<category>' . $entry['category'] . '</category>
 				<author>' . $entry['authorEmail'] . ' (' . $entry['authorName'] . ')</author>
-				<enclosure url="' . $entry['enclosureUrl'] . '" length="' . $entry['enclosureLength'] . '" type="' . $entry['enclosureType'] . '" />
+				<enclosure url="' . $entry['enclosureUrl'] . '" length="' . $entry['enclosureLength'] .
+			'" type="' . $entry['enclosureType'] . '" />
 			</entry>'
 		);
+
 		$feedEntryMock = $this->createMock(FeedEntry::class);
+
 		$feedEntryMock
 			->expects($this->any())
 			->method('__set')
@@ -611,25 +663,36 @@ class RssParserTest extends UnitTestCase
 				['guid', ''],
 				['isPermaLink', true],
 				['comments', ''],
-				['author', $this->callback(function($value) use ($entry) {
-					return $value instanceof FeedPerson
-						&& $value->name === $entry['authorName']
-						&& $value->email === $entry['authorEmail'];
-				})]
+				['author', $this->callback(
+					function ($value) use ($entry)
+					{
+						return $value instanceof FeedPerson
+							&& $value->name === $entry['authorName']
+							&& $value->email === $entry['authorEmail'];
+					}
+				)
+				]
 			);
+
 		$feedEntryMock
 			->expects($this->once())
 			->method('addCategory')
 			->with($entry['category'], '');
+
 		$feedEntryMock
 			->expects($this->once())
 			->method('addLink')
-			->with($this->callback(function($value) use ($entry) {
-				return $value instanceof FeedLink
-					&& $value->uri === $entry['enclosureUrl']
-					&& $value->type === $entry['enclosureType']
-					&& $value->length === (int) $entry['enclosureLength'];
-			}));
+			->with(
+				$this->callback(
+					function ($value) use ($entry)
+					{
+						return $value instanceof FeedLink
+							&& $value->uri === $entry['enclosureUrl']
+							&& $value->type === $entry['enclosureType']
+							&& $value->length === (int) $entry['enclosureLength'];
+					}
+				)
+			);
 
 		// Use reflection to test protected method
 		$rssParser = new RssParser($this->createMock(XMLReader::class));

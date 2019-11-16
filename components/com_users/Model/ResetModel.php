@@ -157,7 +157,6 @@ class ResetModel extends FormModel
 	{
 		// Get the form.
 		$form = $this->getResetCompleteForm();
-		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof \Exception)
@@ -257,7 +256,6 @@ class ResetModel extends FormModel
 	{
 		// Get the form.
 		$form = $this->getResetConfirmForm();
-		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if ($form instanceof \Exception)
@@ -290,13 +288,10 @@ class ResetModel extends FormModel
 		// Find the user id for the given token.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('activation')
-			->select('resetToken')
-			->select('lastResetTime')
-			->select('id')
-			->select('block')
+      ->select($db->quoteName(['activation', 'resetToken', 'lastResetTime', 'id', 'block']))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('username') . ' = ' . $db->quote($data['username']));
+			->where($db->quoteName('username') . ' = :username')
+			->bind(':username', $data['username']);
 
 		// Get the user id.
 		$db->setQuery($query);
@@ -425,9 +420,10 @@ class ResetModel extends FormModel
 		// Find the user id for the given email address.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('id')
+			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('email') . ' = ' . $db->quote($data['email']));
+			->where($db->quoteName('email') . ' = :email')
+			->bind(':email', $data['email']);
 
 		// Get the user object.
 		$db->setQuery($query);

@@ -135,7 +135,8 @@ class RemindModel extends FormModel
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('email') . ' = ' . $db->quote($data['email']));
+			->where($db->quoteName('email') . ' = :email')
+			->bind(':email', $data['email']);
 
 		// Get the user id.
 		$db->setQuery($query);
@@ -220,9 +221,9 @@ class RemindModel extends FormModel
 
 			return false;
 		}
-		else
-		{
-			return true;
-		}
+
+		Factory::getApplication()->triggerEvent('onUserAfterRemind', array($user));
+
+		return true;
 	}
 }

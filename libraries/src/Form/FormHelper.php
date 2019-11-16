@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\Path;
 use Joomla\String\Normalise;
@@ -249,13 +249,13 @@ class FormHelper
 		if ($pos = strpos($type, '_'))
 		{
 			// Add the complex type prefix to the paths.
-			for ($i = 0, $n = count($paths); $i < $n; $i++)
+			for ($i = 0, $n = \count($paths); $i < $n; $i++)
 			{
 				// Derive the new path.
 				$path = $paths[$i] . '/' . strtolower(substr($type, 0, $pos));
 
 				// If the path does not exist, add it.
-				if (!in_array($path, $paths))
+				if (!\in_array($path, $paths))
 				{
 					$paths[] = $path;
 				}
@@ -372,7 +372,7 @@ class FormHelper
 		// Add the new paths to the stack if not already there.
 		foreach ($new as $path)
 		{
-			if (!in_array($path, $paths))
+			if (!\in_array($path, $paths))
 			{
 				array_unshift($paths, trim($path));
 			}
@@ -472,7 +472,7 @@ class FormHelper
 		{
 			$prefix = trim($prefix);
 
-			if (in_array($prefix, $prefixes))
+			if (\in_array($prefix, $prefixes))
 			{
 				continue;
 			}
@@ -537,8 +537,25 @@ class FormHelper
 			$compareEqual     = strpos($showOnPart, '!:') === false;
 			$showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
 
+			if (strpos($showOnPartBlocks[0], '.') !== false)
+			{
+				if ($formControl)
+				{
+					$field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
+				}
+				else
+				{
+					$groupParts = explode('.', $showOnPartBlocks[0]);
+					$field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
+				}
+			}
+			else
+			{
+				$field = $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0];
+			}
+
 			$showOnData[] = array(
-				'field'  => $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0],
+				'field'  => $field,
 				'values' => explode(',', $showOnPartBlocks[1]),
 				'sign'   => $compareEqual === true ? '=' : '!=',
 				'op'     => $op,

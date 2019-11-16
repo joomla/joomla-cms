@@ -8,12 +8,13 @@
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -25,6 +26,14 @@ use Joomla\Utilities\ArrayHelper;
  */
 class User extends Table
 {
+	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $_supportNullValue = true;
+
 	/**
 	 * Associative array of group ids => group ids for the user
 	 *
@@ -90,13 +99,13 @@ class User extends Table
 		$this->_db->setQuery($query);
 		$data = (array) $this->_db->loadAssoc();
 
-		if (!count($data))
+		if (!\count($data))
 		{
 			return false;
 		}
 
 		// Convert email from punycode
-		$data['email'] = \JStringPunycode::emailToUTF8($data['email']);
+		$data['email'] = PunycodeHelper::emailToUTF8($data['email']);
 
 		// Bind the data to the table.
 		$return = $this->bind($data);
@@ -131,7 +140,7 @@ class User extends Table
 	 */
 	public function bind($array, $ignore = '')
 	{
-		if (array_key_exists('params', $array) && is_array($array['params']))
+		if (\array_key_exists('params', $array) && \is_array($array['params']))
 		{
 			$registry = new Registry($array['params']);
 			$array['params'] = (string) $registry;
@@ -204,7 +213,7 @@ class User extends Table
 			return false;
 		}
 
-		if (preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $this->username) || strlen(utf8_decode($this->username)) < 2
+		if (preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $this->username) || \strlen(utf8_decode($this->username)) < 2
 			|| $filterInput->clean($this->username, 'TRIM') !== $this->username)
 		{
 			$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
@@ -220,10 +229,10 @@ class User extends Table
 		}
 
 		// Convert email to punycode for storage
-		$this->email = \JStringPunycode::emailToPunycode($this->email);
+		$this->email = PunycodeHelper::emailToPunycode($this->email);
 
 		// Set the registration timestamp
-		if (empty($this->registerDate) || $this->registerDate == $this->_db->getNullDate())
+		if (empty($this->registerDate))
 		{
 			$this->registerDate = Factory::getDate()->toSql();
 		}
@@ -231,13 +240,13 @@ class User extends Table
 		// Set the lastvisitDate timestamp
 		if (empty($this->lastvisitDate))
 		{
-			$this->lastvisitDate = $this->_db->getNullDate();
+			$this->lastvisitDate = null;
 		}
 
 		// Set the lastResetTime timestamp
 		if (empty($this->lastResetTime))
 		{
-			$this->lastResetTime = $this->_db->getNullDate();
+			$this->lastResetTime = null;
 		}
 
 		// Check for existing username
@@ -309,7 +318,7 @@ class User extends Table
 	 *
 	 * @since   1.7.0
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		// Get the table key and key value.
 		$k = $this->_tbl_key;
@@ -338,7 +347,7 @@ class User extends Table
 		$query = $this->_db->getQuery(true);
 
 		// Store the group data if the user data was saved.
-		if (is_array($this->groups) && count($this->groups))
+		if (\is_array($this->groups) && \count($this->groups))
 		{
 			// Grab all usergroup entries for the user
 			$query -> clear()
@@ -350,11 +359,11 @@ class User extends Table
 			$result = $this->_db->loadObjectList();
 
 			// Loop through them and check if database contains something $this->groups does not
-			if (count($result))
+			if (\count($result))
 			{
 				foreach ($result as $map)
 				{
-					if (array_key_exists($map->group_id, $this->groups))
+					if (\array_key_exists($map->group_id, $this->groups))
 					{
 						// It already exists, no action required
 						unset($groups[$map->group_id]);
@@ -374,7 +383,7 @@ class User extends Table
 			}
 
 			// If there is anything left in this->groups it needs to be inserted
-			if (count($groups))
+			if (\count($groups))
 			{
 				// Set the new user group maps.
 				$query->clear()
@@ -478,7 +487,7 @@ class User extends Table
 	public function setLastVisit($timeStamp = null, $userId = null)
 	{
 		// Check for User ID
-		if (is_null($userId))
+		if (\is_null($userId))
 		{
 			if (isset($this))
 			{

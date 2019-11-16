@@ -3,28 +3,37 @@
  * @package        Joomla.UnitTest
  * @subpackage     Layout
  *
- * @copyright      Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright      Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Tests\Unit\Libraries\Cms\Layout;
 
 use Joomla\CMS\Layout\BaseLayout;
 use Joomla\Registry\Registry;
 use Joomla\Tests\Unit\UnitTestCase;
 
+/**
+ * BaseLayoutTest
+ *
+ * @since   4.0.0
+ */
 class BaseLayoutTest extends UnitTestCase
 {
 	/**
 	 * @var BaseLayout
+	 *
+	 * @since   4.0.0
 	 */
 	protected $baseLayout;
 
 	/**
 	 * Sets up the test by instantiating BaseLayout
 	 * This method is called before a test is executed.
+	 *
+	 * @return void
+	 * @since   4.0.0
 	 */
-	protected function setUp()
+	protected function setUp():void
 	{
 		$this->baseLayout = new BaseLayout;
 
@@ -33,8 +42,11 @@ class BaseLayoutTest extends UnitTestCase
 
 	/**
 	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 * @since   4.0.0
 	 */
-	protected function tearDown()
+	protected function tearDown():void
 	{
 		unset($this->baseLayout);
 
@@ -44,6 +56,7 @@ class BaseLayoutTest extends UnitTestCase
 	/**
 	 * @testdox  BaseLayout->setOptions() returns a BaseLayout instance with empty parameter.
 	 *
+	 * @return void
 	 * @since    3.3.7
 	 */
 	public function testSetOptionsReturnsInstanceWithEmptyParameters()
@@ -54,6 +67,7 @@ class BaseLayoutTest extends UnitTestCase
 	/**
 	 * @testdox  BaseLayout->setOptions() returns a BaseLayout instance with JRegistry parameter.
 	 *
+	 * @return void
 	 * @since    3.3.7
 	 */
 	public function testSetOptionsReturnsInstanceWithRegistryParameter()
@@ -66,6 +80,7 @@ class BaseLayoutTest extends UnitTestCase
 	/**
 	 * @testdox  BaseLayout->setOptions() returns a BaseLayout instance with an array parameter.
 	 *
+	 * @return void
 	 * @since    3.3.7
 	 */
 	public function testSetOptionsReturnsInstanceWithAnArrayParameter()
@@ -76,6 +91,7 @@ class BaseLayoutTest extends UnitTestCase
 	/**
 	 * @testdox  BaseLayout->getOptions() returns a JRegistry object when options parameter is empty.
 	 *
+	 * @return void
 	 * @since    3.3.7
 	 */
 	public function testGetOptionsReturnsAnEmptyRegistryObject()
@@ -89,6 +105,7 @@ class BaseLayoutTest extends UnitTestCase
 	/**
 	 * @testdox  BaseLayout->getOptions() returns a JRegistry object when options parameter is an array.
 	 *
+	 * @return void
 	 * @since    3.3.7
 	 */
 	public function testGetOptionsReturnsAnRegistryObjectWhenOptionsIsArray()
@@ -103,6 +120,7 @@ class BaseLayoutTest extends UnitTestCase
 	/**
 	 * @testdox  BaseLayout->getOptions() returns a JRegistry object when options parameter is a JRegistry object.
 	 *
+	 * @return void
 	 * @since    3.3.7
 	 */
 	public function testGetOptionsReturnsARegistryObjectWhenOptionsParameterIsRegistryObject()
@@ -118,6 +136,7 @@ class BaseLayoutTest extends UnitTestCase
 	/**
 	 * @testdox  BaseLayout->resetOptions() and check options is empty.
 	 *
+	 * @return void
 	 * @since    3.3.7
 	 */
 	public function testResetOptions()
@@ -132,6 +151,7 @@ class BaseLayoutTest extends UnitTestCase
 	/**
 	 * Tests the escape method.
 	 *
+	 * @return void
 	 * @since   3.3.7
 	 */
 	public function testEscapingSpecialCharactersIntoHtmlEntities()
@@ -164,6 +184,7 @@ class BaseLayoutTest extends UnitTestCase
 	/**
 	 * Test the adding of debug messages.
 	 *
+	 * @return void
 	 * @since   3.3.7
 	 */
 	public function testAddDebugMessageToTheQueue()
@@ -181,16 +202,18 @@ class BaseLayoutTest extends UnitTestCase
 	/**
 	 * @testdox  JLayoutBase->getDebugMessages() retrieves a list of debug messages in an array.
 	 *
+	 * @return void
 	 * @since    3.3.7
 	 */
 	public function testRetrievingTheListOfDebugMessagesIsAnArray()
 	{
-		$this->assertInternalType('array', $this->baseLayout->getDebugMessages());
+		$this->assertIsArray($this->baseLayout->getDebugMessages());
 	}
 
 	/**
 	 * @testdox  JLayoutBase->renderDebugMessages() returns debug message
 	 *
+	 * @return void
 	 * @since    3.3.7
 	 */
 	public function testRenderDebugMessageReturnsDebugMessage()
@@ -203,6 +226,7 @@ class BaseLayoutTest extends UnitTestCase
 	/**
 	 * @testdox  JLayoutBase->renderDebugMessages() returns string of messages separated by newline character.
 	 *
+	 * @return void
 	 * @since    3.3.7
 	 */
 	public function testRenderDebugMessageReturnsStringOfMessagesSeparatedByNewlineCharacter()
@@ -216,6 +240,7 @@ class BaseLayoutTest extends UnitTestCase
 	/**
 	 * @testdox  JLayoutBase->render() returns an empty string.
 	 *
+	 * @return void
 	 * @since    3.3.7
 	 */
 	public function testRenderReturnsAnEmptyString()

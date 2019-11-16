@@ -80,7 +80,9 @@ class DisplayController extends BaseController
 				$this->app->enqueueMessage($errorMessage, 'error');
 			}
 
-			return $this->mailto();
+			$this->mailto();
+
+			return;
 		}
 
 		// An array of email headers we do not want to allow as input
@@ -101,7 +103,7 @@ class DisplayController extends BaseController
 		{
 			foreach ($headers as $header)
 			{
-				if (strpos($value, $header) !== false)
+				if (is_string($value) && strpos($value, $header) !== false)
 				{
 					throw new \Exception('', 403);
 				}

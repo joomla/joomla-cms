@@ -244,17 +244,12 @@ abstract class CmsModel extends BaseDatabaseModel
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id) || $record->published != -2)
 		{
-			if ($record->published != -2)
-			{
-				return false;
-			}
-
-			$user = Factory::getUser();
-
-			return $user->authorise('core.delete', $this->option);
+			return false;
 		}
+
+		return Factory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -268,8 +263,6 @@ abstract class CmsModel extends BaseDatabaseModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = Factory::getUser();
-
-		return $user->authorise('core.edit.state', $this->option);
+		return Factory::getUser()->authorise('core.edit.state', $this->option);
 	}
 }

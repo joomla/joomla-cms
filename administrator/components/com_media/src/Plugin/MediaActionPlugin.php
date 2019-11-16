@@ -73,7 +73,7 @@ class MediaActionPlugin extends CMSPlugin
 	protected function loadJs()
 	{
 		HTMLHelper::_(
-		'script',
+			'script',
 			'plg_media-action_' . $this->_name . '/' . $this->_name . '.js',
 			['version' => 'auto', 'relative' => true]
 		);
@@ -89,7 +89,7 @@ class MediaActionPlugin extends CMSPlugin
 	protected function loadCss()
 	{
 		HTMLHelper::_(
-		'stylesheet',
+			'stylesheet',
 			'plg_media-action_' . $this->_name . '/' . $this->_name . '.css',
 			['version' => 'auto', 'relative' => true]
 		);

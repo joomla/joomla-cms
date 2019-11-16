@@ -15,9 +15,11 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Database\ParameterType;
 
 /**
  * Users mail model.
@@ -79,7 +81,7 @@ class MailModel extends AdminModel
 	 * @since   1.6
 	 * @throws  \Exception if there is an error loading the form.
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'user')
+	protected function preprocessForm(Form $form, $data, $group = 'user')
 	{
 		parent::preprocessForm($form, $data, $group);
 	}
@@ -126,10 +128,12 @@ class MailModel extends AdminModel
 		$to = $access->getUsersByGroup($grp, $recurse);
 
 		// Get all users email and group except for senders
+		$uid = (int) $user->get('id');
 		$query = $db->getQuery(true)
-			->select('email')
-			->from('#__users')
-			->where('id != ' . (int) $user->get('id'));
+			->select($db->quoteName('email'))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('id') . ' != :id')
+			->bind(':id', $uid, ParameterType::INTEGER);
 
 		if ($grp !== 0)
 		{
@@ -139,7 +143,7 @@ class MailModel extends AdminModel
 			}
 			else
 			{
-				$query->where('id IN (' . implode(',', $to) . ')');
+				$query->whereIn($db->quoteName('id'), $to);
 			}
 		}
 
@@ -214,7 +218,7 @@ class MailModel extends AdminModel
 		if ($rs !== true)
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
-			$this->setError($rs->getError());
+			$this->setError($mailer->ErrorInfo);
 
 			return false;
 		}
