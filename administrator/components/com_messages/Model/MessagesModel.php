@@ -119,7 +119,7 @@ class MessagesModel extends ListModel
 				]
 			)
 		);
-		$query->from($db->quoteName('#__messages', 'a');
+		$query->from($db->quoteName('#__messages', 'a'));
 
 		// Join over the users for message owner.
 		$query->join('INNER',
