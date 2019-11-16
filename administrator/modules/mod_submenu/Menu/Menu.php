@@ -176,10 +176,6 @@ abstract class Menu
 					{
 						$iconImage = '&nbsp;<span class="badge badge-secondary">' . substr($iconImage, 6) . '</span>';
 					}
-					else
-					{
-						$iconImage = '<span>' . HTMLHelper::_('image', $iconImage, null) . '</span>';
-					}
 
 					$item->title = $item->title . $iconImage;
 				}
