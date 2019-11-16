@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 ?>
-<button id="applyBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.apply');"></button>
-<button id="saveBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.save');"></button>
-<button id="closeBtn" type="button" class="hidden" onclick="Joomla.submitbutton('module.cancel');"></button>
+<button id="applyBtn" type="button" class="d-none" onclick="Joomla.submitbutton('module.apply');"></button>
+<button id="saveBtn" type="button" class="d-none" onclick="Joomla.submitbutton('module.save');"></button>
+<button id="closeBtn" type="button" class="d-none" onclick="Joomla.submitbutton('module.cancel');"></button>
 
 <div class="container-popup">
 	<?php $this->setLayout('edit'); ?>
