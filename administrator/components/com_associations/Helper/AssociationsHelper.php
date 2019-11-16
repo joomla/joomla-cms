@@ -259,14 +259,13 @@ class AssociationsHelper extends ContentHelper
 				if (isset($items[$langCode]['catid']))
 				{
 					$db = Factory::getDbo();
-					$id = $items[$langCode]['catid'];
 
 					// Get the category name
 					$query = $db->getQuery(true)
 						->select($db->quoteName('title'))
 						->from($db->quoteName('#__categories'))
 						->where($db->quoteName('id') . ' = :id')
-						->bind(':id', $id, ParameterType::INTEGER);
+						->bind(':id', $items[$langCode]['catid'], ParameterType::INTEGER);
 
 					$db->setQuery($query);
 					$categoryTitle = $db->loadResult();
