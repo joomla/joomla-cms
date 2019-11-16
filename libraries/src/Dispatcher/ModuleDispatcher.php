@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -40,7 +40,17 @@ class ModuleDispatcher extends AbstractModuleDispatcher
 		// Execute the layout without the module context
 		$loader = static function ($path, array $displayData)
 		{
-			extract($displayData);
+			// If $displayData doesn't exist in extracted data, unset the variable.
+			if (!\array_key_exists('displayData', $displayData))
+			{
+				extract($displayData);
+				unset($displayData);
+			}
+			else
+			{
+				extract($displayData);
+			}
+
 			include $path;
 		};
 

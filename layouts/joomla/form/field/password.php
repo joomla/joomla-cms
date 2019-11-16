@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);
@@ -45,12 +45,16 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
 if ($meter)
 {
-	HTMLHelper::_('behavior.formvalidator');
-	HTMLHelper::_('script', 'system/fields/passwordstrength.min.js', array('version' => 'auto', 'relative' => true));
+	$wa->useScript('field.passwordstrength');
 
 	$class = 'js-password-strength ' . $class;
 
@@ -60,12 +64,12 @@ if ($meter)
 	}
 }
 
-HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
+$wa->useScript('field.passwordview');
 
 Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
-Text::script('JSHOW');
-Text::script('JHIDE');
+Text::script('JSHOWPASSWORD');
+Text::script('JHIDEPASSWORD');
 
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
@@ -83,6 +87,7 @@ $attributes = array(
 	!empty($minUppercase) ? 'data-min-uppercase="' . $minUppercase . '"' : '',
 	!empty($minLowercase) ? 'data-min-lowercase="' . $minLowercase . '"' : '',
 	!empty($forcePassword) ? 'data-min-force="' . $forcePassword . '"' : '',
+	$dataAttribute,
 );
 
 ?>
@@ -95,8 +100,10 @@ $attributes = array(
 			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 			<?php echo implode(' ', $attributes); ?>>
 		<span class="input-group-append">
-			<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-			<span class="input-group-text icon-eye input-password-toggle" aria-hidden="true"></span>
+			<button type="button" class="btn btn-secondary input-password-toggle">
+				<span class="fas fa-eye fa-fw" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+			</button>
 		</span>
 	</div>
 </div>

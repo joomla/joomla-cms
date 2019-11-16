@@ -3,14 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 $msgList = $displayData['msgList'];
@@ -27,8 +27,17 @@ $alert = [
 	'message'                     => 'success'
 ];
 
+// Load JavaScript message titles
+Text::script('ERROR');
+Text::script('WARNING');
+Text::script('NOTICE');
+Text::script('MESSAGE');
+
 // Alerts progressive enhancement
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
+Factory::getDocument()->getWebAssetManager()
+	->useStyle('webcomponent.joomla-alert')
+	->useScript('webcomponent.joomla-alert');
+
 ?>
 <div id="system-message-container" aria-live="polite">
 	<div id="system-message">

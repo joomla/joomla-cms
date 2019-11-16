@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-<fieldset addfieldpath="/administrator/components/com_contacts/models/fields" />
 	<fields name="filter">
 
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_CONTACT_FILTER_SEARCH_LABEL"
 			description="COM_CONTACT_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -89,6 +89,7 @@
 			description="COM_CONTACT_LIST_FULL_ORDERING_DESC"
 			default="a.name ASC"
 			onchange="this.form.submit();"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

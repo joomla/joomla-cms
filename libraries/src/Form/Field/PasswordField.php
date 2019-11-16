@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -149,9 +149,9 @@ class PasswordField extends FormField
 			$this->maxLength    = $this->element['maxlength'] ? (int) $this->element['maxlength'] : 99;
 			$this->threshold    = $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 			$meter              = (string) $this->element['strengthmeter'];
-			$this->meter        = ($meter == 'true' || $meter == 'on' || $meter == '1');
+			$this->meter        = ($meter === 'true' || $meter === 'on' || $meter === '1');
 			$force              = (string) $this->element['forcePassword'];
-			$this->force        = (($force == 'true' || $force == 'on' || $force == '1') && $this->meter === true);
+			$this->force        = (($force === 'true' || $force === 'on' || $force === '1') && $this->meter === true);
 
 			// Set some initial values
 			$this->minLength    = 4;

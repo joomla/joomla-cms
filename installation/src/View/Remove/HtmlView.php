@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,6 +54,14 @@ class HtmlView extends DefaultView
 	protected $phpoptions;
 
 	/**
+	 * Array of PHP config options
+	 *
+	 * @var    \stdClass
+	 * @since  4.0.0
+	 */
+	protected $installed_languages;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -65,8 +73,14 @@ class HtmlView extends DefaultView
 	public function display($tpl = null)
 	{
 		$this->development = (new Version)->isInDevelopmentState();
-		$this->items       = $this->get('Items', 'Languages');
-		$this->phpoptions  = $this->get('PhpOptions', 'Checks');
+
+		$this->items = $this->get('Items', 'Languages');
+
+		$this->installed_languages = new \stdClass;
+		$this->installed_languages->administrator = $this->get('InstalledlangsAdministrator', 'Languages');
+		$this->installed_languages->frontend = $this->get('InstalledlangsFrontend', 'Languages');
+
+		$this->phpoptions = $this->get('PhpOptions', 'Checks');
 		$this->phpsettings = $this->get('PhpSettings', 'Checks');
 
 		return parent::display($tpl);

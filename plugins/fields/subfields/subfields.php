@@ -3,17 +3,16 @@
  * @package     Joomla.Plugin
  * @subpackage  Fields.Subfields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
-
-defined('_JEXEC') or die;
-
-JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRATOR);
+use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 
 /**
  * Fields subfields Plugin

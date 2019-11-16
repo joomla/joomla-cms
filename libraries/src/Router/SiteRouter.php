@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,7 +108,7 @@ class SiteRouter extends Router
 	 */
 	public function parseCheckSSL(&$router, &$uri)
 	{
-		if (strtolower($uri->getScheme()) != 'https')
+		if (strtolower($uri->getScheme()) !== 'https')
 		{
 			// Forward to https
 			$uri->setScheme('https');
@@ -253,14 +253,14 @@ class SiteRouter extends Router
 			}
 
 			// Menu links are not valid URLs. Find the first parent that isn't a menulink
-			if ($found && $found->type == 'menulink')
+			if ($found && $found->type === 'menulink')
 			{
-				while ($found->hasParent() && $found->type == 'menulink')
+				while ($found->hasParent() && $found->type === 'menulink')
 				{
 					$found = $found->getParent();
 				}
 
-				if ($found->type == 'menulink')
+				if ($found->type === 'menulink')
 				{
 					$found = null;
 				}
@@ -279,7 +279,7 @@ class SiteRouter extends Router
 			{
 				if ($found->type === 'alias')
 				{
-					$newItem = $this->menu->getItem($found->params->get('aliasoptions'));
+					$newItem = $this->menu->getItem($found->getParams()->get('aliasoptions'));
 
 					if ($newItem)
 					{
@@ -341,7 +341,7 @@ class SiteRouter extends Router
 
 		if ($item && $item->type === 'alias')
 		{
-			$newItem = $this->menu->getItem($item->params->get('aliasoptions'));
+			$newItem = $this->menu->getItem($item->getParams()->get('aliasoptions'));
 
 			if ($newItem)
 			{

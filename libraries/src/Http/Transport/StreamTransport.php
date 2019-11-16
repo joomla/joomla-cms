@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\Http\AbstractTransport;
 use Joomla\Http\Exception\InvalidResponseCodeException;
 use Joomla\Uri\Uri;
 use Joomla\Uri\UriInterface;
-use Zend\Diactoros\Stream as StreamResponse;
+use Laminas\Diactoros\Stream as StreamResponse;
 
 /**
  * HTTP transport class for using PHP streams.
@@ -143,7 +143,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 			)
 		);
 
-		// Authentification, if needed
+		// Authentication, if needed
 		if ($uri instanceof Uri && $this->getOption('userauth') && $this->getOption('passwordauth'))
 		{
 			$uri->setUser($this->getOption('userauth'));

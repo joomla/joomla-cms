@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -110,15 +110,15 @@ foreach ($fieldSets as $name => $fieldSet)
 		$label = Text::_($label);
 	}
 
-	$hasChildren = $xml->xpath('//fieldset[@name="' . $name . '"]//fieldset');
-	$hasParent = $xml->xpath('//fieldset//fieldset[@name="' . $name . '"]');
+	$hasChildren  = $xml->xpath('//fieldset[@name="' . $name . '"]//fieldset[not(ancestor::field/form/*)]');
+	$hasParent    = $xml->xpath('//fieldset//fieldset[@name="' . $name . '"]');
 	$isGrandchild = $xml->xpath('//fieldset//fieldset//fieldset[@name="' . $name . '"]');
 
 	if (!$isGrandchild && $hasParent)
 	{
-		echo '<fieldset id="fieldset-' . $name . '" class="form-no-margin options-grid-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
+		echo '<fieldset id="fieldset-' . $name . '" class="options-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
 		echo '<legend>' . $label . '</legend>';
-		echo '<div>';
+		echo '<div class="column-count-md-2 column-count-lg-3">';
 	}
 	// Tabs
 	elseif (!$hasParent)
@@ -143,18 +143,19 @@ foreach ($fieldSets as $name => $fieldSet)
 		// Directly add a fieldset if we have no children
 		if (!$hasChildren)
 		{
-			echo '<fieldset id="fieldset-' . $name . '" class="form-no-margin options-grid-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
+			echo '<fieldset id="fieldset-' . $name . '" class="options-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
 			echo '<legend>' . $label . '</legend>';
-			echo '<div>';
+
+			// Include the description when available
+			if (isset($fieldSet->description) && trim($fieldSet->description))
+			{
+				echo '<div class="alert alert-info">' . $this->escape(Text::_($fieldSet->description)) . '</div>';
+			}
+
+			echo '<div class="column-count-md-2 column-count-lg-3">';
 
 			$opentab = 2;
 		}
-	}
-
-	// Include the description when available
-	if (isset($fieldSet->description) && trim($fieldSet->description))
-	{
-		echo '<div class="alert alert-info">' . $this->escape(Text::_($fieldSet->description)) . '</div>';
 	}
 
 	// We're on the deepest level => output fields

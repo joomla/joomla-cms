@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+HTMLHelper::_('behavior.formvalidator');
+
 /** @var \Joomla\CMS\Installation\View\Preinstall\HtmlView $this */
 ?>
 <div id="installer-view" class="container" data-page-name="preinstall">
@@ -18,14 +20,14 @@ use Joomla\CMS\Language\Text;
 			<div class="col-md-12 mb-4">
 				<div class="j-install-step active">
 					<div class="j-install-step-header">
-						<span class="fa fa-check" aria-hidden="true"></span> <?php echo Text::_('INSTL_PRECHECK_TITLE'); ?>
+						<span class="fas fa-check" aria-hidden="true"></span> <?php echo Text::_('INSTL_PRECHECK_TITLE'); ?>
 					</div>
 					<div class="j-install-step-form">
 						<?php foreach ($this->options as $option) : ?>
 							<?php if ($option->state === 'JNO' || $option->state === false) : ?>
 								<div class="alert preinstall-alert">
 									<div class="alert-icon">
-										<span class="alert-icon fa fa-exclamation-triangle" aria-hidden="true"></span>
+										<span class="alert-icon fas fa-exclamation-triangle" aria-hidden="true"></span>
 									</div>
 									<div class="alert-text">
 										<strong><?php echo $option->label; ?></strong>
@@ -36,8 +38,8 @@ use Joomla\CMS\Language\Text;
 						<?php endforeach; ?>
 					</div>
 				</div>
-				
-						
+
+
 				<?php if ($option->state === false && preg_match('$configuration.php$', $option->label)) : ?>
 					<div id="ftpOptions" class="ftp-options mb-4 hidden">
 						<form action="index.php" method="post" id="ftpForm" class="form-validate">
@@ -61,7 +63,7 @@ use Joomla\CMS\Language\Text;
 								<div class="col-md-8 offset-md-2">
 									<?php echo $this->form->getLabel('ftp_host'); ?>
 									<div class="input-append d-flex">
-										<?php echo $this->form->getInput('ftp_host'); ?><button id="findbutton" class="btn btn-secondary ml-2" onclick="Joomla.installation.detectFtpRoot(this);"><span class="icon-folder-open"></span> <?php echo Text::_('INSTL_AUTOFIND_FTP_PATH'); ?></button>
+										<?php echo $this->form->getInput('ftp_host'); ?><button id="findbutton" class="btn btn-secondary ml-2" onclick="Joomla.installation.detectFtpRoot(this);"><span class="fas fa-folder-open"></span> <?php echo Text::_('INSTL_AUTOFIND_FTP_PATH'); ?></button>
 									</div>
 								</div>
 							</div>
@@ -73,7 +75,7 @@ use Joomla\CMS\Language\Text;
 							</div>
 							<div class="form-group row">
 								<div class="col-md-8 offset-md-2 justify-content-end d-flex">
-									<button id="verifybutton" class="btn btn-success"><span class="icon-ok icon-white"></span> <?php echo Text::_('INSTL_VERIFY_FTP_SETTINGS'); ?></button>
+									<button id="verifybutton" class="btn btn-success"><span class="fas fa-check icon-white"></span> <?php echo Text::_('INSTL_VERIFY_FTP_SETTINGS'); ?></button>
 								</div>
 							</div>
 							<input type="hidden" name="format" value="json">

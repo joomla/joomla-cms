@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,7 +61,7 @@ final class Version
 	 * @var    string
 	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'beta1-dev';
+	const EXTRA_VERSION = 'beta4-dev';
 
 	/**
 	 * Development status.
@@ -77,7 +77,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const CODENAME = 'Amani';
+	const CODENAME = 'Mañana';
 
 	/**
 	 * Release date.
@@ -85,7 +85,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '17-October-2019';
+	const RELDATE = '29-July-2020';
 
 	/**
 	 * Release time.
@@ -93,7 +93,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '20:21';
+	const RELTIME = '18:21';
 
 	/**
 	 * Release timezone.
@@ -109,7 +109,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const COPYRIGHT = 'Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.';
+	const COPYRIGHT = 'Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.';
 
 	/**
 	 * Link text.

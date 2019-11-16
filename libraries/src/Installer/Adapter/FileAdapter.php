@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -363,7 +363,7 @@ class FileAdapter extends InstallerAdapter
 		}
 
 		// Check for a valid XML root tag.
-		if ($xml->getName() != 'extension')
+		if ($xml->getName() !== 'extension')
 		{
 			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_MANIFEST'));
 		}

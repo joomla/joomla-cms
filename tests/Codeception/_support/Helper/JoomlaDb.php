@@ -3,7 +3,7 @@
  * @package     Joomla.Tests
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -104,7 +104,7 @@ class JoomlaDb extends Db
 	 *
 	 * @since   3.7.3
 	 */
-	public function grabFromDatabase($table, $column, $criteria = null)
+	public function grabFromDatabase($table, $column, $criteria = array())
 	{
 		$table = $this->addPrefix($table);
 
@@ -144,6 +144,24 @@ class JoomlaDb extends Db
 		$table = $this->addPrefix($table);
 
 		return parent::grabNumRecords($table, $criteria);
+	}
+
+	/**
+	 * Update an SQL record into a database.
+	 *
+	 * @param   string  $table     Table name
+	 * @param   array   $data      Data to update in the table. Key=> value is column name => data
+	 * @param   array   $criteria  Search criteria [Optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function updateInDatabase($table, array $data, array $criteria = [])
+	{
+		$table = $this->addPrefix($table);
+
+		parent::updateInDatabase($table, $data, $criteria);
 	}
 
 	/**

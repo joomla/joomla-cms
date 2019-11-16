@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,6 +31,22 @@ use Joomla\Registry\Registry;
  */
 class AdministratorApplication extends CMSApplication
 {
+	/**
+	 * List of allowed components for guests and users which do not have the core.login.admin privilege.
+	 *
+	 * By default we allow two core components:
+	 *
+	 * - com_login   Absolutely necessary to let users log into the backend of the site. Do NOT remove!
+	 * - com_ajax    Handle AJAX requests or other administrative callbacks without logging in. Required for
+	 *               passwordless authentication using WebAuthn.
+	 *
+	 * @var array
+	 */
+	protected $allowedUnprivilegedOptions = [
+		'com_login',
+		'com_ajax',
+	];
+
 	/**
 	 * Class constructor.
 	 *
@@ -90,8 +106,6 @@ class AdministratorApplication extends CMSApplication
 		switch ($document->getType())
 		{
 			case 'html':
-				$document->setMetaData('keywords', $this->get('MetaKeys'));
-
 				// Get the template
 				$template = $this->getTemplate(true);
 
@@ -100,9 +114,14 @@ class AdministratorApplication extends CMSApplication
 				$this->set('themeParams', $template->params);
 
 				// Add Asset registry files
-				$document->getWebAssetManager()->getRegistry()
-					->addRegistryFile('media/' . $component . '/joomla.asset.json')
-					->addRegistryFile('administrator/templates/' . $template->template . '/joomla.asset.json');
+				$wr = $document->getWebAssetManager()->getRegistry();
+
+				if ($component)
+				{
+					$wr->addExtensionRegistryFile($component);
+				}
+
+				$wr->addTemplateRegistryFile($template->template, $this->getClientId());
 
 				break;
 
@@ -132,7 +151,7 @@ class AdministratorApplication extends CMSApplication
 	protected function doExecute()
 	{
 		// Get the language from the (login) form or user state
-		$login_lang = ($this->input->get('option') == 'com_login') ? $this->input->get('lang') : '';
+		$login_lang = ($this->input->get('option') === 'com_login') ? $this->input->get('lang') : '';
 		$options    = array('language' => $login_lang ?: $this->getUserState('application.lang'));
 
 		// Initialise the application
@@ -459,9 +478,9 @@ class AdministratorApplication extends CMSApplication
 				$this->enqueueMessage(
 					Text::sprintf(
 						'JWARNING_REMOVE_ROOT_USER',
-						'index.php?option=com_config&task=config.removeroot&' . Session::getFormToken() . '=1'
+						'index.php?option=com_config&task=application.removeroot&' . Session::getFormToken() . '=1'
 					),
-					'error'
+					'warning'
 				);
 			}
 			// Show this message to superusers too
@@ -471,9 +490,9 @@ class AdministratorApplication extends CMSApplication
 					Text::sprintf(
 						'JWARNING_REMOVE_ROOT_USER_ADMIN',
 						$rootUser,
-						'index.php?option=com_config&task=config.removeroot&' . Session::getFormToken() . '=1'
+						'index.php?option=com_config&task=application.removeroot&' . Session::getFormToken() . '=1'
 					),
-					'error'
+					'warning'
 				);
 			}
 		}
@@ -523,20 +542,37 @@ class AdministratorApplication extends CMSApplication
 	 */
 	public function findOption(): string
 	{
-		$app = Factory::getApplication();
+		/** @var self $app */
+		$app    = Factory::getApplication();
 		$option = strtolower($app->input->get('option'));
-		$user = $app->getIdentity();
+		$user   = $app->getIdentity();
 
+		/**
+		 * Special handling for guest users and authenticated users without the Backend Login privilege.
+		 *
+		 * If the component they are trying to access is in the $this->allowedUnprivilegedOptions array we allow the
+		 * request to go through. Otherwise we force com_login to be loaded, letting the user (re)try authenticating
+		 * with a user account that has the Backend Login privilege.
+		 */
 		if ($user->get('guest') || !$user->authorise('core.login.admin'))
 		{
-			$option = 'com_login';
+			$option = in_array($option, $this->allowedUnprivilegedOptions) ? $option : 'com_login';
 		}
 
+		/**
+		 * If no component is defined in the request we will try to load com_cpanel, the administrator Control Panel
+		 * component. This allows the /administrator URL to display something meaningful after logging in instead of an
+		 * error.
+		 */
 		if (empty($option))
 		{
 			$option = 'com_cpanel';
 		}
 
+		/**
+		 * Force the option to the input object. This is necessary because we might have force-changed the component in
+		 * the two if-blocks above.
+		 */
 		$app->input->set('option', $option);
 
 		return $option;

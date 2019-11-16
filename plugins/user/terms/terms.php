@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.terms
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,21 +48,6 @@ class PlgUserTerms extends CMSPlugin
 	protected $db;
 
 	/**
-	 * Constructor
-	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
-	 *
-	 * @since   3.9.0
-	 */
-	public function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
-
-		FormHelper::addFieldPath(__DIR__ . '/field');
-	}
-
-	/**
 	 * Adds additional fields to the user registration form
 	 *
 	 * @param   Form   $form  The form to be altered.
@@ -83,7 +68,8 @@ class PlgUserTerms extends CMSPlugin
 		}
 
 		// Add the terms and conditions fields to the form.
-		Form::addFormPath(__DIR__ . '/terms');
+		FormHelper::addFieldPrefix('Joomla\\Plugin\\User\\Terms\\Field');
+		FormHelper::addFormPath(__DIR__ . '/forms');
 		$form->loadFile('terms');
 
 		$termsarticle = $this->params->get('terms_article');
@@ -143,15 +129,15 @@ class PlgUserTerms extends CMSPlugin
 	 * @param   boolean  $result  true if saving the user worked
 	 * @param   string   $error   error message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterSave($data, $isNew, $result, $error)
+	public function onUserAfterSave($data, $isNew, $result, $error): void
 	{
 		if (!$isNew || !$result)
 		{
-			return true;
+			return;
 		}
 
 		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');

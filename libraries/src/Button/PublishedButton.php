@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,31 +29,31 @@ class PublishedButton extends ActionButton
 	 */
 	protected function preprocess()
 	{
-		$this->addState(1, 'unpublish', 'publish', 'JLIB_HTML_UNPUBLISH_ITEM', ['tip_title' => 'JPUBLISHED']);
-		$this->addState(0, 'publish', 'unpublish', 'JLIB_HTML_PUBLISH_ITEM', ['tip_title' => 'JUNPUBLISHED']);
-		$this->addState(2, 'unpublish', 'archive', 'JLIB_HTML_UNPUBLISH_ITEM', ['tip_title' => 'JARCHIVED']);
-		$this->addState(-2, 'publish', 'trash', 'JLIB_HTML_PUBLISH_ITEM', ['tip_title' => 'JTRASHED']);
+		$this->addState(1, 'unpublish', 'publish', Text::_('JLIB_HTML_UNPUBLISH_ITEM'), ['tip_title' => Text::_('JPUBLISHED')]);
+		$this->addState(0, 'publish', 'unpublish', Text::_('JLIB_HTML_PUBLISH_ITEM'), ['tip_title' => Text::_('JUNPUBLISHED')]);
+		$this->addState(2, 'unpublish', 'archive', Text::_('JLIB_HTML_UNPUBLISH_ITEM'), ['tip_title' => Text::_('JARCHIVED')]);
+		$this->addState(-2, 'publish', 'trash', Text::_('JLIB_HTML_PUBLISH_ITEM'), ['tip_title' => Text::_('JTRASHED')]);
 	}
 
 	/**
 	 * Render action button by item value.
 	 *
-	 * @param   mixed        $value        Current value of this item.
-	 * @param   string       $row          The row number of this item.
-	 * @param   array        $options      The options to override group options.
-	 * @param   string|Date  $publishUp    The date which item publish up.
-	 * @param   string|Date  $publishDown  The date which item publish down.
+	 * @param   integer|null  $value        Current value of this item.
+	 * @param   integer|null  $row          The row number of this item.
+	 * @param   array         $options      The options to override group options.
+	 * @param   string|Date   $publishUp    The date which item publish up.
+	 * @param   string|Date   $publishDown  The date which item publish down.
 	 *
 	 * @return  string  Rendered HTML.
 	 *
 	 * @since  4.0.0
 	 */
-	public function render(string $value = null, string $row = null, array $options = [], $publishUp = null, $publishDown = null): string
+	public function render(?int $value = null, ?int $row = null, array $options = [], $publishUp = null, $publishDown = null): string
 	{
 		if ($publishUp || $publishDown)
 		{
 			$bakState = $this->getState($value);
-			$default  = $this->getState($value) ? : $this->getState('_default');
+			$default  = $this->getState($value) ?? $this->unknownState;
 
 			$nullDate = Factory::getDbo()->getNullDate();
 			$nowDate = Factory::getDate()->toUnix();
@@ -65,7 +65,7 @@ class PublishedButton extends ActionButton
 
 			// Add tips and special titles
 			// Create special titles for published items
-			if ($value === '1')
+			if ($value === 1)
 			{
 				// Create tip text, only we have publish up or down settings
 				$tips = array();
@@ -84,17 +84,17 @@ class PublishedButton extends ActionButton
 
 				$default['title'] = $tip;
 
-				$options['tip_title'] = 'JLIB_HTML_PUBLISHED_ITEM';
+				$options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_ITEM');
 
 				if ($publishUp && $nowDate < $publishUp->toUnix())
 				{
-					$options['tip_title'] = 'JLIB_HTML_PUBLISHED_PENDING_ITEM';
+					$options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_PENDING_ITEM');
 					$default['icon'] = 'pending';
 				}
 
 				if ($publishDown && $nowDate > $publishDown->toUnix())
 				{
-					$options['tip_title'] = 'JLIB_HTML_PUBLISHED_EXPIRED_ITEM';
+					$options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_EXPIRED_ITEM');
 					$default['icon'] = 'expired';
 				}
 			}

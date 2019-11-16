@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -16,7 +16,6 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.tabstate');
 
 $app = Factory::getApplication();
 $input = $app->input;
@@ -64,7 +63,7 @@ $this->useCoreUI = true;
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING', true)); ?>
 		<div class="row form-horizontal-desktop">
 			<div class="col-md-6">
-				<fieldset id="fieldset-rules" class="options-grid-form options-grid-form-full">
+				<fieldset id="fieldset-rules" class="options-form">
 					<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
 					<div>
 					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -79,7 +78,7 @@ $this->useCoreUI = true;
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'rules', Text::_('JGLOBAL_ACTION_PERMISSIONS_LABEL', true)); ?>
-			<fieldset id="fieldset-rules" class="options-grid-form options-grid-form-full">
+			<fieldset id="fieldset-rules" class="options-form">
 				<legend><?php echo Text::_('JGLOBAL_ACTION_PERMISSIONS_LABEL'); ?></legend>
 				<div>
 				<?php echo $this->form->getInput('rules'); ?>

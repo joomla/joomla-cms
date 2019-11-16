@@ -1,0 +1,120 @@
+@import "../../../../../media/vendor/bootstrap/scss/functions";
+
+// Cassiopea Variables
+@import "../../variables";
+
+// Mixins
+@import "../../mixin";
+
+@import "../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../media/vendor/bootstrap/scss/mixins";
+
+// choices.js
+@import "../../../../../node_modules/choices.js/src/styles/choices";
+
+
+// Fix position
+.choices__list--dropdown {
+  z-index: 10;
+}
+
+// Fix close button
+.choices__button_joomla {
+  position: relative;
+  text-indent: -9999px;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  appearance: none;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    text-align: center;
+    text-indent: 0;
+    content: "\00d7";
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.choices[data-type*="select-one"] {
+  .choices__button_joomla {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin-top: -10px;
+    margin-right: 25px;
+    border-radius: 10em;
+    opacity: .5;
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 2px #00bcd4;
+    }
+  }
+
+  &[dir="rtl"] {
+    .choices__button_joomla {
+      right: auto;
+      left: 0;
+      margin-right: 0;
+      margin-left: 25px;
+    }
+  }
+
+  &::after {
+    display: none;
+  }
+
+  .choices__inner {
+    padding: $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $custom-select-padding-y $custom-select-padding-x;
+    background: url("../../../images/select-bg.svg") no-repeat right center / $custom-select-bg-size;
+    background-color: $custom-select-bg;
+
+    [dir=rtl] & {
+      padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
+      background: url("../../../images/select-bg-rtl.svg") no-repeat left center / $custom-select-bg-size;
+      background-color: $custom-select-bg;
+    }
+  }
+}
+
+.choices[data-type*="select-multiple"],
+.choices[data-type*="text"] {
+  .choices__button_joomla {
+    position: relative;
+    display: inline-block;
+    width: 8px;
+    padding-left: 16px;
+    margin-top: 0;
+    margin-right: -4px;
+    margin-bottom: 0;
+    margin-left: 8px;
+    line-height: 1;
+    border-left: 1px solid #008fa1;
+    opacity: .75;
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+
+    &::before {
+      color: #fff;
+    }
+  }
+}

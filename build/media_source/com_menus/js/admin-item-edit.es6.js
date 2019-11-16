@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((Joomla) => {
@@ -39,8 +39,8 @@
     }
   };
 
-  const onChange = (event) => {
-    const menuType = event.target.value;
+  const onChange = ({ target }) => {
+    const menuType = target.value;
 
     Joomla.request({
       url: `index.php?option=com_menus&task=item.getParentItem&menutype=${menuType}`,
@@ -87,18 +87,18 @@
   document.getElementById('item-form').addEventListener('submit', () => {
     if (document.getElementById('jform_params_login_redirect_url') && document.getElementById('jform_params_logout_redirect_url')) {
       // Login
-      if (document.getElementById('jform_params_login_redirect_url').closest('.control-group').style.display === 'block') {
+      if (!document.getElementById('jform_params_login_redirect_url').closest('.control-group').classList.contains('hidden')) {
         document.getElementById('jform_params_login_redirect_menuitem_id').value = '';
       }
-      if (document.getElementById('jform_params_login_redirect_menuitem_name').closest('.control-group').style.display === 'block') {
+      if (!document.getElementById('jform_params_login_redirect_menuitem_name').closest('.control-group').classList.contains('hidden')) {
         document.getElementById('jform_params_login_redirect_url').value = '';
       }
 
       // Logout
-      if (document.getElementById('jform_params_logout_redirect_url').closest('.control-group').style.display === 'block') {
+      if (!document.getElementById('jform_params_logout_redirect_url').closest('.control-group').classList.contains('hidden')) {
         document.getElementById('jform_params_logout_redirect_menuitem_id').value = '';
       }
-      if (document.getElementById('jform_params_logout_redirect_menuitem_id').closest('.control-group').style.display === 'block') {
+      if (!document.getElementById('jform_params_logout_redirect_menuitem_id').closest('.control-group').classList.contains('hidden')) {
         document.getElementById('jform_params_logout_redirect_url').value = '';
       }
     }

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,7 +83,7 @@ class CheckboxField extends FormField
 		{
 			case 'checked':
 				$value = (string) $value;
-				$this->checked = ($value == 'true' || $value == $name || $value == '1');
+				$this->checked = ($value === 'true' || $value == $name || $value === '1');
 				break;
 
 			default:
@@ -122,7 +122,7 @@ class CheckboxField extends FormField
 		if ($return)
 		{
 			$checked = (string) $this->element['checked'];
-			$this->checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
+			$this->checked = ($checked === 'true' || $checked === 'checked' || $checked === '1');
 
 			empty($this->value) || $this->checked ? null : $this->checked = true;
 		}

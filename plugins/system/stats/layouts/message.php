@@ -3,26 +3,27 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
 
 extract($displayData);
 
 /**
  * Layout variables
  * -----------------
- * @var  PlgSystemStats             $plugin        Plugin rendering this layout
- * @var  \Joomla\Registry\Registry  $pluginParams  Plugin parameters
- * @var  array                      $statsData     Array containing the data that will be sent to the stats server
+ * @var  PlgSystemStats  $plugin        Plugin rendering this layout
+ * @var  Registry        $pluginParams  Plugin parameters
+ * @var  array           $statsData     Array containing the data that will be sent to the stats server
  */
 ?>
 
-<joomla-alert type="info" dismiss="true" class="js-pstats-alert" style="display:none;">
+<joomla-alert type="info" dismiss="true" class="js-pstats-alert hidden" role="alertdialog">
 	<div class="alert-heading"><?php echo Text::_('PLG_SYSTEM_STATS_LABEL_MESSAGE_TITLE'); ?></div>
 	<div>
 		<p>

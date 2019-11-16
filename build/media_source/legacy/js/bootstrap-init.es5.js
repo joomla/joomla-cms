@@ -159,7 +159,7 @@ Joomla = window.Joomla || {};
 					}
 					// @TODO throw the standard Joomla event
 				}).on('hide.bs.modal', function() {
-					$('.modal-body').css({'max-height': 'initial', 'overflow-y': 'initial'});
+					$('.modal-body').css({'max-height': 'initial'});
 					$('.modalTooltip').tooltip('dispose');
 					// @TODO throw the standard Joomla event
 				}).on('hidden.bs.modal', function() {

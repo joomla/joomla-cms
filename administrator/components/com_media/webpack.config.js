@@ -1,11 +1,13 @@
-var path = require('path');
-var webpack = require('webpack');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
+    mode: process.env.NODE_ENV,
     entry: [
-        './resources/scripts/mediamanager.js',
-        './resources/styles/mediamanager.scss',
+        './administrator/components/com_media/resources/scripts/mediamanager.js',
+        './administrator/components/com_media/resources/styles/mediamanager.scss',
     ],
     output: {
         path: path.resolve(__dirname, './../../../media/com_media/js'),
@@ -42,18 +44,30 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: false
+                        }
+                    },
+                    'sass-loader'
+                ]
             }
         ]
     },
     plugins: [
-        new ExtractTextPlugin({
-            filename: './../../../media/com_media/css/mediamanager.min.css',
-            allChunks: true,
+        new MiniCssExtractPlugin({
+            filename: './../css/mediamanager.min.css',
         }),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
         }),
+        new webpack.LoaderOptionsPlugin({
+            minimize: process.env.NODE_ENV === 'production'
+        }),
+        new VueLoaderPlugin()
     ],
     resolve: {
         alias: {
@@ -63,21 +77,5 @@ module.exports = {
     performance: {
         hints: false
     },
-    devtool: process.env.NODE_ENV === 'production' ? '#source-map' : '#eval-source-map'
+    devtool: process.env.NODE_ENV === 'production' ? 'source-map' : 'eval-source-map'
 };
-
-// Add plugins for minification when in build mode
-if (process.env.NODE_ENV === 'production') {
-    // http://vue-loader.vuejs.org/en/workflow/production.html
-    module.exports.plugins = (module.exports.plugins || []).concat([
-        new webpack.optimize.UglifyJsPlugin({
-            sourceMap: true,
-            compress: {
-                warnings: false
-            }
-        }),
-        new webpack.LoaderOptionsPlugin({
-            minimize: true
-        })
-    ])
-}

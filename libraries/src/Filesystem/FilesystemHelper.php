@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,12 +33,12 @@ class FilesystemHelper
 	{
 		$sch = parse_url($url, PHP_URL_SCHEME);
 
-		if (($sch != 'http') && ($sch != 'https') && ($sch != 'ftp') && ($sch != 'ftps'))
+		if (($sch !== 'http') && ($sch !== 'https') && ($sch !== 'ftp') && ($sch !== 'ftps'))
 		{
 			return false;
 		}
 
-		if (($sch == 'http') || ($sch == 'https'))
+		if (($sch === 'http') || ($sch === 'https'))
 		{
 			$headers = get_headers($url, 1);
 
@@ -50,7 +50,7 @@ class FilesystemHelper
 			return $headers['Content-Length'];
 		}
 
-		if (($sch == 'ftp') || ($sch == 'ftps'))
+		if (($sch === 'ftp') || ($sch === 'ftps'))
 		{
 			$server = parse_url($url, PHP_URL_HOST);
 			$port = parse_url($url, PHP_URL_PORT);
@@ -128,7 +128,7 @@ class FilesystemHelper
 	{
 		$sch = parse_url($url, PHP_URL_SCHEME);
 
-		if (($sch != 'ftp') && ($sch != 'ftps'))
+		if (($sch !== 'ftp') && ($sch !== 'ftps'))
 		{
 			return false;
 		}

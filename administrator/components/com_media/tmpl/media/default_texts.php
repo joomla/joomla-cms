@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -61,8 +61,10 @@ Text::script('COM_MEDIA_TOGGLE_LIST_VIEW', true);
 Text::script('COM_MEDIA_TOGGLE_SELECT_ITEM', true);
 Text::script('COM_MEDIA_TOOLBAR_LABEL', true);
 Text::script('COM_MEDIA_UPLOAD_SUCCESS', true);
+Text::script('ERROR', true);
 Text::script('JACTION_CREATE', true);
 Text::script('JAPPLY', true);
 Text::script('JCANCEL', true);
 Text::script('JGLOBAL_CONFIRM_DELETE', true);
 Text::script('JLIB_FORM_FIELD_REQUIRED_VALUE', true);
+Text::script('MESSAGE', true);

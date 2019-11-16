@@ -3,11 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -130,8 +130,9 @@ if ($refreshPage === true)
 	$attr2 .= ' data-refresh-catid="' . $refreshCatId . '" data-refresh-section="' . $refreshSection . '"';
 	$attr2 .= ' onchange="Joomla.categoryHasChanged(this)"';
 
-	HTMLHelper::_('script', 'layouts/joomla/form/field/category-change.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
-	HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
+	Factory::getDocument()->getWebAssetManager()
+		->registerAndUseScript('field.category-change', 'layouts/joomla/form/field/category-change.min.js', [], ['defer' => true], ['core'])
+		->useScript('webcomponent.core-loader');
 
 	// Pass the element id to the javascript
 	Factory::getDocument()->addScriptOptions('category-change', $id);
@@ -144,9 +145,9 @@ else
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
-Factory::getDocument()->getWebAssetManager()->enableAsset('choicesjs');
-
-HTMLHelper::_('webcomponent', 'system/fields/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
+Factory::getDocument()->getWebAssetManager()
+	->usePreset('choicesjs')
+	->useScript('webcomponent.field-fancy-select');
 ?>
 
 <joomla-field-fancy-select <?php echo $attr2; ?>><?php echo implode($html); ?></joomla-field-fancy-select>

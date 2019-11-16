@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,12 +15,12 @@ use Joomla\CMS\Language\Text;
 ?>
 
 <h2 class="mt-3 mb-3">
-	<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPATIBILITY_CHECK', '&#x200E;' . $this->updateInfo['latest']); ?>
+	<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK', '&#x200E;' . $this->updateInfo['latest']); ?>
 </h2>
 
 <div class="row">
 	<div class="col-md-6">
-		<fieldset class="options-grid-form options-grid-form-full">
+		<fieldset class="options-form">
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS'); ?>
 			</legend>
@@ -48,7 +48,7 @@ use Joomla\CMS\Language\Text;
 								<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
 									<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
 									<?php if ($option->notice) : ?>
-										<span class="icon-info icon-white" title="<?php echo $option->notice; ?>"></span>
+										<span class="fas fa-info icon-white" title="<?php echo $option->notice; ?>"></span>
 									<?php endif; ?>
 								</span>
 							</td>
@@ -60,7 +60,7 @@ use Joomla\CMS\Language\Text;
 	</div>
 
 	<div class="col-md-6">
-		<fieldset class="options-grid-form options-grid-form-full">
+		<fieldset class="options-form">
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS'); ?>
 			</legend>
@@ -103,8 +103,9 @@ use Joomla\CMS\Language\Text;
 	</div>
 </div>
 <div class="row">
+	<?php if (!empty($this->nonCoreExtensions)) : ?>
 	<div class="col-md-6">
-		<fieldset class="options-grid-form options-grid-form-full">
+		<fieldset class="options-form">
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
 			</legend>
@@ -146,7 +147,7 @@ use Joomla\CMS\Language\Text;
 		</fieldset>
 	</div>
 	<div class="col-md-6">
-		<fieldset class="options-grid-form options-grid-form-full">
+		<fieldset class="options-form">
 			<legend>
 				<?php echo Text::_('NOTICE'); ?>
 			</legend>
@@ -157,4 +158,14 @@ use Joomla\CMS\Language\Text;
 			</ul>
 		</fieldset>
 	</div>
+    <?php else: ?>
+    <div class="col-md-6">
+        <h3>
+            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
+        </h3>
+        <div class="alert alert-no-items">
+            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NONE'); ?>
+        </div>
+    </div>
+	<?php endif; ?>
 </div>

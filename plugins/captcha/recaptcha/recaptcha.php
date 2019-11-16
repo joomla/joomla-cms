@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Utilities\IpHelper;
@@ -32,6 +31,14 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  4.0.0
+	 */
+	protected $app;
 
 	/**
 	 * Reports the privacy related capabilities for this plugin to site administrators.
@@ -70,13 +77,13 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
 
-		// Load callback first for browser compatibility
-		HTMLHelper::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true));
+		$apiSrc = 'https://www.google.com/recaptcha/api.js?onload=JoomlainitReCaptcha2&render=explicit&hl='
+			. Factory::getLanguage()->getTag();
 
-		HTMLHelper::_(
-			'script',
-			'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . Factory::getLanguage()->getTag()
-		);
+		// Load assets, the callback should be first
+		$this->app->getDocument()->getWebAssetManager()
+			->registerAndUseScript('plg_captcha_recaptcha', 'plg_captcha_recaptcha/recaptcha.min.js', [], ['defer' => true])
+			->registerAndUseScript('plg_captcha_recaptcha.api', $apiSrc, [], ['defer' => true], ['plg_captcha_recaptcha']);
 
 		return true;
 	}
@@ -133,7 +140,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 		switch ($version)
 		{
 			case '2.0':
-				$response  = $input->get('g-recaptcha-response', '', 'string');
+				$response  = $code ?: $input->get('g-recaptcha-response', '', 'string');
 				$spam      = ($response === '');
 				break;
 		}

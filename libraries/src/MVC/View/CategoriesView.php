@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -145,11 +145,6 @@ class CategoriesView extends HtmlView
 		if ($this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
-
-		if ($this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))

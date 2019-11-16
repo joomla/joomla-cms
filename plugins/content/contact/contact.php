@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.Contact
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Contact\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -68,7 +69,13 @@ class PlgContentContact extends CMSPlugin
 			return;
 		}
 
-		$contact        = $this->getContactData($row->created_by);
+		$contact = $this->getContactData($row->created_by);
+
+		if ($contact === null)
+		{
+			return;
+		}
+
 		$row->contactid = $contact->contactid;
 		$row->webpage   = $contact->webpage;
 		$row->email     = $contact->email_to;
@@ -76,8 +83,7 @@ class PlgContentContact extends CMSPlugin
 
 		if ($row->contactid && $url === 'url')
 		{
-			JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
-			$row->contact_link = Route::_(ContactHelperRoute::getContactRoute($contact->contactid . ':' . $contact->alias, $contact->catid));
+			$row->contact_link = Route::_(RouteHelper::getContactRoute($contact->contactid . ':' . $contact->alias, $contact->catid));
 		}
 		elseif ($row->webpage && $url === 'webpage')
 		{
@@ -98,13 +104,14 @@ class PlgContentContact extends CMSPlugin
 	 *
 	 * @param   int  $created_by  Id of the user who created the contact
 	 *
-	 * @return  mixed|null|integer
+	 * @return  stdClass|null  Object containing contact details or null if not found
 	 */
 	protected function getContactData($created_by)
 	{
 		static $contacts = array();
 
-		if (isset($contacts[$created_by]))
+		// Note: don't use isset() because value could be null.
+		if (array_key_exists($created_by, $contacts))
 		{
 			return $contacts[$created_by];
 		}

@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Installation
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
@@ -65,7 +65,7 @@ Joomla.installation.detectFtpRoot = function(el) {
 
 if (document.getElementById('showFtp')) {
   // @TODO FTP??
-  document.getElementById('showFtp').style.display = 'none';
+  document.getElementById('showFtp').classList.add('hidden');
   document.getElementById('showFtp').addEventListener('click', function(e) {
     e.preventDefault();
     if (document.getElementById('ftpOptions')) {

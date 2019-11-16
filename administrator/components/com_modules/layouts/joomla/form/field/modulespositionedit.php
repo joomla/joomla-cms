@@ -3,11 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -72,8 +72,9 @@ if ($required)
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
-Factory::getDocument()->getWebAssetManager()->enableAsset('choicesjs');
-HTMLHelper::_('webcomponent', 'system/fields/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
+Factory::getDocument()->getWebAssetManager()
+	->usePreset('choicesjs')
+	->useScript('webcomponent.field-fancy-select');
 
 ?>
 <joomla-field-fancy-select <?php echo implode(' ', $attributes); ?>><?php

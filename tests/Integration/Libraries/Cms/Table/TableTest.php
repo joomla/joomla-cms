@@ -3,14 +3,14 @@
  * @package     Joomla.IntegrationTest
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Tests\Unit\Libraries\Cms\Table;
+namespace Joomla\Tests\Integration\Libraries\Cms\Table;
 
+use Joomla\CMS\Table\Table;
 use Joomla\Event\Dispatcher;
 use Joomla\Event\DispatcherInterface;
-use Joomla\CMS\Table\Table;
 use Joomla\Tests\Integration\DBTestInterface;
 use Joomla\Tests\Integration\DBTestTrait;
 use Joomla\Tests\Integration\IntegrationTestCase;

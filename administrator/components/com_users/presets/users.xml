@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<menu
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="urn:joomla.org"
+	xsi:schemaLocation="urn:joomla.org menu.xsd"
+	>
+	<menuitem
+		title="COM_USERS_MENUS_USERS"
+		type="heading"
+		icon="users"
+		class="class:users"
+		>
+		<menuitem
+			title="COM_USERS_MENUS_USER_MANAGER"
+			type="component"
+			element="com_users"
+			link="index.php?option=com_users&amp;view=users"
+			quicktask="index.php?option=com_users&amp;task=user.add"
+			quicktask-title="COM_USERS_MENUS_ADD_USER"
+		/>
+
+		<menuitem
+			title="COM_USERS_MENUS_GROUPS"
+			type="component"
+			element="com_users"
+			link="index.php?option=com_users&amp;view=groups"
+		/>
+
+		<menuitem
+			title="COM_USERS_MENUS_LEVELS"
+			type="component"
+			element="com_users"
+			link="index.php?option=com_users&amp;view=levels"
+		/>
+	</menuitem>
+
+	<menuitem
+		title="COM_USERS_MENUS_FIELDS"
+		type="heading"
+		icon="user-tag"
+		class="class:users"
+		>
+		<menuitem
+			title="MOD_MENU_FIELDS"
+			type="component"
+			element="com_fields"
+			link="index.php?option=com_fields&amp;view=fields&amp;context=com_users.user"
+		/>
+
+		<menuitem
+			title="MOD_MENU_FIELDS_GROUP"
+			type="component"
+			element="com_fields"
+			link="index.php?option=com_fields&amp;view=groups&amp;context=com_users.user"
+		/>
+	</menuitem>
+
+	<menuitem
+		title="COM_USERS_MENUS_MISC"
+		type="heading"
+		icon="user-edit"
+		class="class:users"
+		>
+		<menuitem
+			title="COM_USERS_MENUS_NOTES"
+			type="component"
+			element="com_users"
+			link="index.php?option=com_users&amp;view=notes"
+		/>
+
+		<menuitem
+			title="COM_USERS_MENUS_NOTE_CATEGORIES"
+			type="component"
+			element="com_categories"
+			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_users"
+		/>
+
+		<menuitem
+			title="MOD_MENU_MASS_MAIL_USERS"
+			type="component"
+			element="com_users"
+			link="index.php?option=com_users&amp;view=mail"
+			scope="massmail"
+		/>
+	</menuitem>
+</menu>

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -255,13 +255,13 @@ class ColorField extends FormField
 		$color = !$color && $color !== '0' ? '' : $color;
 
 		// Position of the panel can be: right (default), left, top or bottom (default RTL is left)
-		$position = ' data-position="' . (($lang->isRTL() && $this->position == 'default') ? 'left' : $this->position) . '"';
+		$position = ' data-position="' . (($lang->isRTL() && $this->position === 'default') ? 'left' : $this->position) . '"';
 
 		if ($color === '' || \in_array($color, array('none', 'transparent')))
 		{
 			$color = 'none';
 		}
-		elseif ($color[0] != '#' && $this->format == 'hex')
+		elseif ($color[0] !== '#' && $this->format === 'hex')
 		{
 			$color = '#' . $color;
 		}

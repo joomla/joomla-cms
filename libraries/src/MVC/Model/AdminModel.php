@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,8 +117,7 @@ abstract class AdminModel extends FormModel
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
-		'tag' => 'batchTag',
-		'workflowstage_id' => 'batchWorkflowStage',
+		'tag' => 'batchTag'
 	);
 
 	/**
@@ -536,7 +535,7 @@ abstract class AdminModel extends FormModel
 	}
 
 	/**
-	 * Function that can be overriden to do any data cleanup after batch copying data
+	 * Function that can be overridden to do any data cleanup after batch copying data
 	 *
 	 * @param   \JTableInterface  $table  The table object containing the newly created item
 	 * @param   integer           $newId  The id of the new item
@@ -1262,6 +1261,7 @@ abstract class AdminModel extends FormModel
 	{
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
+		$app        = Factory::getApplication();
 
 		if (\array_key_exists('tags', $data) && \is_array($data['tags']))
 		{
@@ -1269,7 +1269,7 @@ abstract class AdminModel extends FormModel
 		}
 
 		$key = $table->getKeyName();
-		$pk = (!empty($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+		$pk = (isset($data[$key])) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
 		$isNew = true;
 
 		// Include the plugins for the save events.
@@ -1305,7 +1305,7 @@ abstract class AdminModel extends FormModel
 			}
 
 			// Trigger the before save event.
-			$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
+			$result = $app->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
 
 			if (\in_array(false, $result, true))
 			{
@@ -1326,7 +1326,7 @@ abstract class AdminModel extends FormModel
 			$this->cleanCache();
 
 			// Trigger the after save event.
-			Factory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
+			$app->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
 		}
 		catch (\Exception $e)
 		{
@@ -1361,7 +1361,7 @@ abstract class AdminModel extends FormModel
 			// Show a warning if the item isn't assigned to a language but we have associations.
 			if ($associations && $table->language === '*')
 			{
-				Factory::getApplication()->enqueueMessage(
+				$app->enqueueMessage(
 					Text::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
 					'warning'
 				);
@@ -1442,6 +1442,11 @@ abstract class AdminModel extends FormModel
 				$db->setQuery($query);
 				$db->execute();
 			}
+		}
+
+		if ($app->input->get('task') == 'editAssociations')
+		{
+			return $this->redirectToAssociations($data);
 		}
 
 		return true;
@@ -1644,12 +1649,27 @@ abstract class AdminModel extends FormModel
 	 * @return  boolean  True if successful, false otherwise.
 	 *
 	 * @since   3.9.0
+	 *
+	 * @deprecated 5.0  It is handled by regular save method now.
 	 */
 	public function editAssociations($data)
 	{
 		// Save the item
-		$this->save($data);
+		return $this->save($data);
+	}
 
+	/**
+	 * Method to load an item in com_associations.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @throws \Exception
+	 * @since   3.9.17
+	 */
+	protected function redirectToAssociations($data)
+	{
 		$app = Factory::getApplication();
 		$id  = $data['id'];
 
@@ -1658,7 +1678,6 @@ abstract class AdminModel extends FormModel
 		{
 			$extension       = $app->input->get('extension', 'com_content');
 			$this->typeAlias = $extension . '.category';
-			$extension       = '&extension=' . $extension;
 			$component       = strtolower($this->text_prefix);
 			$view            = 'category';
 		}
@@ -1696,12 +1715,12 @@ abstract class AdminModel extends FormModel
 		$languages = LanguageHelper::getContentLanguages(array(0, 1));
 		$target    = '';
 
-		/*
+		/**
 		 * If the site contains only 2 languages and an association exists for the item
 		 * load directly the associated target item in the side by side view
 		 * otherwise select already the target language
 		 */
-		if (\count($languages) === 2)
+		if (count($languages) === 2)
 		{
 			foreach ($languages as $language)
 			{

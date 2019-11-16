@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="4.0" type="plugin" group="system" method="upgrade">
+<extension type="plugin" group="system" method="upgrade">
 	<name>plg_system_httpheaders</name>
 	<author>Joomla! Project</author>
 	<creationDate>October 2017</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -20,8 +20,10 @@
 					name="xframeoptions"
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADERS_XFRAMEOPTIONS"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
+					filter="integer"
+					validate="options"
 					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
@@ -44,6 +46,19 @@
 					<option value="unsafe-url">unsafe-url</option>
 				</field>
 				<field
+					name="coop"
+					type="list"
+					label="PLG_SYSTEM_HTTPHEADERS_COOP"
+					default="same-origin"
+					validate="options"
+					>
+					<option value="disabled">JDISABLED</option>
+					<option value="same-origin">same-origin</option>
+					<option value="same-origin-allow-popups">same-origin-allow-popups</option>
+					<option value="unsafe-none">unsafe-none</option>
+				</field>
+
+				<field
 					name="additional_httpheader"
 					type="subform"
 					label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER"
@@ -64,6 +79,7 @@
 							<option value="referrer-policy">Referrer-Policy</option>
 							<option value="expect-ct">Expect-CT</option>
 							<option value="feature-policy">Feature-Policy</option>
+							<option value="cross-origin-opener-policy">Cross-Origin-Opener-Policy</option>
 						</field>
 						<field
 							name="value"
@@ -76,6 +92,7 @@
 							type="radio"
 							label="PLG_SYSTEM_HTTPHEADERS_HEADER_CLIENT"
 							default="site"
+							validate="options"
 							class="col-md-12"
 							>
 							<option value="site">JSITE</option>
@@ -90,8 +107,10 @@
 					name="hsts"
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADERS_HSTS"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
+					filter="integer"
+					validate="options"
 					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
@@ -103,6 +122,8 @@
 					description="PLG_SYSTEM_HTTPHEADERS_HSTS_MAXAGE_DESC"
 					default="31536000"
 					filter="integer"
+					validate="number"
+					min="300"
 					showon="hsts:1"
 				/>
 				<field
@@ -110,8 +131,10 @@
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADERS_HSTS_SUBDOMAINS"
 					description="PLG_SYSTEM_HTTPHEADERS_HSTS_SUBDOMAINS_DESC"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
+					filter="integer"
+					validate="options"
 					showon="hsts:1"
 					>
 					<option value="0">JDISABLED</option>
@@ -122,8 +145,10 @@
 					type="radio"
 					label="PLG_SYSTEM_HTTPHEADERS_HSTS_PRELOAD"
 					description="PLG_SYSTEM_HTTPHEADERS_HSTS_PRELOAD_NOTE_DESC"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
+					filter="integer"
+					validate="options"
 					showon="hsts:1"
 					>
 					<option value="0">JDISABLED</option>

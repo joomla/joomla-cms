@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 Joomla = window.Joomla || {};
@@ -43,7 +43,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     imagePreview.src = data.contents;
     imagePreview.id = 'image-preview';
     imagePreview.style.maxWidth = '100%';
-    editContainer.style.display = 'none';
+    editContainer.classList.add('hidden');
 
     editContainer.appendChild(imageSrc);
     baseContainer.appendChild(editContainer);
@@ -252,10 +252,10 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
       // Couple the tabs with the plugin objects
       links.forEach((link) => {
-        link.addEventListener('joomla.tab.shown', (event) => {
+        link.addEventListener('joomla.tab.shown', ({ relatedTarget, target }) => {
           const container = document.getElementById('media-manager-edit-container');
-          if (event.relatedTarget) {
-            Joomla.MediaManager.Edit[event.relatedTarget.id.replace('tab-attrib-', '').toLowerCase()].Deactivate();
+          if (relatedTarget) {
+            Joomla.MediaManager.Edit[relatedTarget.id.replace('tab-attrib-', '').toLowerCase()].Deactivate();
 
             // Clear the DOM
             container.innerHTML = '';
@@ -269,10 +269,10 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
 
           // Move the container to the correct tab
-          const tab = document.getElementById(event.target.id.replace('tab-', ''));
+          const tab = document.getElementById(target.id.replace('tab-', ''));
           tab.insertAdjacentElement('afterbegin', container);
 
-          activate(event.target.id.replace('tab-attrib-', ''), data);
+          activate(target.id.replace('tab-attrib-', ''), data);
         });
 
         link.click();

@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -17,66 +17,43 @@ use Joomla\CMS\Uri\Uri;
 /** @var JDocumentHtml $this */
 
 $app   = Factory::getApplication();
-$lang  = $app->getLanguage();
 $input = $app->input;
 $wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
-$option     = $input->get('option', '');
-$view       = $input->get('view', '');
-$layout     = $input->get('layout', 'default');
-$task       = $input->get('task', 'display');
-$itemid     = $input->get('Itemid', '');
-$cpanel     = $option === 'com_cpanel';
-$hiddenMenu = $app->input->get('hidemainmenu');
-$joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
+$option = $input->get('option', '');
+$view   = $input->get('view', '');
+$layout = $input->get('layout', 'default');
+$task   = $input->get('task', 'display');
 
 require_once __DIR__ . '/Service/HTML/Atum.php';
 
 // Template params
-$siteLogo  = $this->params->get('siteLogo')
-	? Uri::root() . htmlspecialchars($this->params->get('siteLogo'), ENT_QUOTES)
-	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
+$logoBrandLarge  = $this->params->get('logoBrandLarge')
+	? Uri::root() . htmlspecialchars($this->params->get('logoBrandLarge'), ENT_QUOTES)
+	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-large.svg';
 $loginLogo = $this->params->get('loginLogo')
 	? Uri::root() . $this->params->get('loginLogo')
-	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
-$smallLogo = $this->params->get('smallLogo')
-	? Uri::root() . htmlspecialchars($this->params->get('smallLogo'), ENT_QUOTES)
-	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
+	: $this->baseurl . '/templates/' . $this->template . '/images/logos/login.svg';
+$logoBrandSmall = $this->params->get('logoBrandSmall')
+	? Uri::root() . htmlspecialchars($this->params->get('logoBrandSmall'), ENT_QUOTES)
+	: $this->baseurl . '/templates/' . $this->template . '/images/logos/brand-small.svg';
 
-$logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8');
-$logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8');
+$logoBrandLargeAlt = htmlspecialchars($this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8');
+$logoBrandSmallAlt = htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8');
 
 // Enable assets
-$wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
+$wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+	->useStyle('template.active.language')
+	->useStyle('template.user');
 
-// Load specific language related CSS
-HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
-
-// Load customer stylesheet if available
-HTMLHelper::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
-
-// Load specific template related JS
-// TODO: Adapt refactored build tools pt.2 @see https://issues.joomla.org/tracker/joomla-cms/23786
-HTMLHelper::_('script', 'media/templates/' . $this->template . '/js/template.min.js', ['version' => 'auto']);
+// Override 'template.active' asset to set correct ltr/rtl dependency
+$wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
-$this->addScriptDeclaration('cssVars();');
-
-// Opacity must be set before displaying the DOM, so don't move to a CSS file
-$css = '
-	.container-main > * {
-		opacity: 0;
-	}
-	.sidebar-wrapper > * {
-		opacity: 0;
-	}
-';
-
-$this->addStyleDeclaration($css);
 
 $monochrome = (bool) $this->params->get('monochrome');
 
@@ -100,15 +77,18 @@ Text::script('JGLOBAL_WARNCOOKIES');
 		<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 	</div>
 </noscript>
+<div class="ie11 alert alert-warning" role="alert">
+	<?php echo Text::_('JGLOBAL_WARNIE'); ?>
+</div>
 
 <header id="header" class="header">
 	<div class="d-flex">
 		<div class="header-title d-flex">
-			<div class="d-flex">
+			<div class="d-flex align-items-center">
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<div class="logo">
-					<img src="<?php echo $siteLogo; ?>" alt="<?php echo $logoAlt; ?>">
-					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="<?php echo $logoSmallAlt; ?>">
+					<img src="<?php echo $logoBrandLarge; ?>" alt="<?php echo $logoBrandLargeAlt; ?>">
+					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" alt="<?php echo $logoBrandSmallAlt; ?>">
 				</div>
 			</div>
 			<jdoc:include type="modules" name="title" />
@@ -123,9 +103,10 @@ Text::script('JGLOBAL_WARNCOOKIES');
 
 	<div class="container-fluid container-main order-1">
 		<section id="content" class="content h-100">
+			<jdoc:include type="message" />
 			<main class="d-flex justify-content-center align-items-center h-100">
 				<div class="login">
-					<div class="main-brand text-center">
+					<div class="main-brand logo text-center">
 						<img src="<?php echo $loginLogo; ?>"
 							 alt="<?php echo htmlspecialchars($this->params->get('altLoginLogo', ''), ENT_COMPAT, 'UTF-8'); ?>">
 					</div>
@@ -133,10 +114,6 @@ Text::script('JGLOBAL_WARNCOOKIES');
 				</div>
 			</main>
 		</section>
-
-		<div class="notify-alerts">
-			<jdoc:include type="message" />
-		</div>
 	</div>
 
 	<?php // Sidebar ?>

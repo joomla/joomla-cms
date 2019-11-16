@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -85,7 +85,7 @@ class Session extends BaseSession
 	 *
 	 * @return  array  An array of available session handlers
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getHandlers(): array
 	{
@@ -99,7 +99,7 @@ class Session extends BaseSession
 			$fileName = $file->getFilename();
 
 			// Only load for PHP files.
-			if (!$file->isFile() || $file->getExtension() != 'php')
+			if (!$file->isFile() || $file->getExtension() !== 'php')
 			{
 				continue;
 			}

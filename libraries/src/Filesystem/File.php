@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,6 +72,13 @@ class File
 	{
 		// Remove any trailing dots, as those aren't ever valid file names.
 		$file = rtrim($file, '.');
+
+		// Try transiterating the file name using the native php function
+		if (function_exists('transliterator_transliterate') && function_exists('iconv'))
+		{
+			// Using iconv to ignore characters that can't be transliterated
+			$file = iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $file));
+		}
 
 		$regex = array('#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#');
 

@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 (() => {
@@ -30,7 +30,7 @@
       const display = changed.nextElementSibling;
       let color = '';
       let pre = null;
-      const diff = JsDiff.diffLines(original.innerHTML, changed.innerHTML);
+      const diff = Diff.diffLines(original.innerHTML, changed.innerHTML);
       const fragment = document.createDocumentFragment();
 
       /* eslint-enable */

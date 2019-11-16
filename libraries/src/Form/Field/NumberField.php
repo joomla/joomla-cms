@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -155,7 +155,7 @@ class NumberField extends FormField
 			$component = Factory::getApplication()->input->getCmd('option');
 
 			// Get correct component for menu items
-			if ($component == 'com_menus')
+			if ($component === 'com_menus')
 			{
 				$link      = $this->form->getData()->get('link');
 				$uri       = new Uri($link);
@@ -172,7 +172,7 @@ class NumberField extends FormField
 			}
 
 			// Try with menu configuration
-			if (\is_null($value) && Factory::getApplication()->input->getCmd('option') == 'com_menus')
+			if (\is_null($value) && Factory::getApplication()->input->getCmd('option') === 'com_menus')
 			{
 				$value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
 			}

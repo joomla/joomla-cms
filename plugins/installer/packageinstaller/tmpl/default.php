@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Installer.packageinstaller
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,9 +18,11 @@ HTMLHelper::_('form.csrf');
 
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
+Text::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG');
 
 $return  = Factory::getApplication()->input->getBase64('return');
-$maxSize = FilesystemHelper::fileUploadMaxSize();
+$maxSizeBytes = FilesystemHelper::fileUploadMaxSize(false);
+$maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 ?>
 
 <legend><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
@@ -66,23 +68,24 @@ $maxSize = FilesystemHelper::fileUploadMaxSize();
 				</p>
 				<p>
 					<button id="select-file-button" type="button" class="btn btn-success">
-						<span class="icon-copy" aria-hidden="true"></span>
+						<span class="fas fa-copy" aria-hidden="true"></span>
 						<?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
 					</button>
 				</p>
 				<p>
-					<?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
+					<?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?>
 				</p>
 			</div>
 		</div>
 	</div>
 </div>
 
-<div id="legacy-uploader" style="display: none;">
+<div id="legacy-uploader" class="hidden">
 	<div class="control-group">
 		<label for="install_package" class="control-label"><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
 		<div class="controls">
 			<input class="form-control-file" id="install_package" name="install_package" type="file">
+			<input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>" />
 			<small class="form-text text-muted"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></small>
 		</div>
 	</div>

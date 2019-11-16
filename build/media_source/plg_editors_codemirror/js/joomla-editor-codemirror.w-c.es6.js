@@ -91,7 +91,7 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 
                 const info = ed.lineInfo(n);
                 const hasMarker = !!info.gutterMarkers && !!info.gutterMarkers['CodeMirror-markergutter'];
-                ed.setGutterMarker(n, 'CodeMirror-markergutter', hasMarker ? null : this.makeMarker());
+                ed.setGutterMarker(n, 'CodeMirror-markergutter', hasMarker ? null : this.constructor.makeMarker());
               });
 
               /* Some browsers do something weird with the fieldset which doesn't
@@ -103,7 +103,7 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 
             // Register Editor
             this.instance = window.CodeMirror.fromTextArea(this.element, this.options);
-            this.instance.disable = disabled => this.instance.setOption('readOnly', disabled ? 'nocursor' : false);
+            this.instance.disable = (disabled) => this.instance.setOption('readOnly', disabled ? 'nocursor' : false);
             Joomla.editors.instances[this.element.id] = this.instance;
           });
       });

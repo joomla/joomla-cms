@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\Exception\MissingComponentException;
+use Joomla\CMS\Dispatcher\ApiDispatcher;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -243,12 +244,12 @@ class ComponentHelper
 				// Override filter's default blacklist tags and attributes
 				if ($customListTags)
 				{
-					$filter->tagBlacklist = $customListTags;
+					$filter->blockedTags = $customListTags;
 				}
 
 				if ($customListAttributes)
 				{
-					$filter->attrBlacklist = $customListAttributes;
+					$filter->blockedAttributes = $customListAttributes;
 				}
 			}
 			// Blacklists take second precedence.
@@ -258,18 +259,23 @@ class ComponentHelper
 				$blackListTags       = array_diff($blackListTags, $whiteListTags);
 				$blackListAttributes = array_diff($blackListAttributes, $whiteListAttributes);
 
-				$filter = InputFilter::getInstance($blackListTags, $blackListAttributes, 1, 1);
+				$filter = InputFilter::getInstance(
+					$blackListTags,
+					$blackListAttributes,
+					InputFilter::ONLY_BLOCK_DEFINED_TAGS,
+					InputFilter::ONLY_BLOCK_DEFINED_ATTRIBUTES
+				);
 
 				// Remove whitelisted tags from filter's default blacklist
 				if ($whiteListTags)
 				{
-					$filter->tagBlacklist = array_diff($filter->tagBlacklist, $whiteListTags);
+					$filter->blockedTags = array_diff($filter->blockedTags, $whiteListTags);
 				}
 
 				// Remove whitelisted attributes from filter's default blacklist
 				if ($whiteListAttributes)
 				{
-					$filter->attrBlacklist = array_diff($filter->attrBlacklist, $whiteListAttributes);
+					$filter->blockedAttributes = array_diff($filter->blockedAttributes, $whiteListAttributes);
 				}
 			}
 			// Whitelists take third precedence.
@@ -310,8 +316,8 @@ class ComponentHelper
 		{
 			// Load template language files.
 			$template = $app->getTemplate(true)->template;
-			$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
+			$lang->load('tpl_' . $template, JPATH_BASE)
+			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template");
 		}
 
 		if (empty($option))
@@ -475,7 +481,7 @@ class ComponentHelper
 	{
 		$reflect = new \ReflectionClass($object);
 
-		if (!$reflect->getNamespaceName() || \get_class($object) == ComponentDispatcher::class)
+		if (!$reflect->getNamespaceName() || \get_class($object) === ComponentDispatcher::class || \get_class($object) === ApiDispatcher::class)
 		{
 			return 'com_' . strtolower($alternativeName);
 		}

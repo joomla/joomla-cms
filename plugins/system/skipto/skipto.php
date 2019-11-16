@@ -3,14 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  System.skipto
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
@@ -76,14 +75,18 @@ class PlgSystemSkipto extends CMSPlugin
 			]
 		);
 
-		HTMLHelper::_('script', 'vendor/skipto/dropMenu.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
-		HTMLHelper::_('script', 'vendor/skipto/skipTo.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
-		HTMLHelper::_('stylesheet', 'vendor/skipto/SkipTo.css', ['version' => 'auto', 'relative' => true]);
-
-		$document->addScriptDeclaration("document.addEventListener('DOMContentLoaded', function() {
-			window.SkipToConfig = Joomla.getOptions('skipto-settings');
-			window.skipToMenuInit();
-		});"
-		);
+		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = $document->getWebAssetManager();
+		$wa->useStyle('skipto')
+			->useScript('skipto.dropmenu')
+			->useScript('skipto')
+			->addInlineScript(
+				'document.addEventListener(\'DOMContentLoaded\', function() {'
+				. 'window.SkipToConfig = Joomla.getOptions(\'skipto-settings\');'
+				. 'window.skipToMenuInit();});',
+				[],
+				['type' => 'module'],
+				['skipto']
+			);
 	}
 }

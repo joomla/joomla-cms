@@ -3,11 +3,11 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
@@ -34,7 +34,7 @@ use Joomla\CMS\Language\Text;
 	<?php $fieldsnames = explode(',', $displayData->fieldsname); ?>
 	<?php foreach ($fieldsnames as $fieldname) : ?>
 		<?php foreach ($displayData->form->getFieldset($fieldname) as $field) : ?>
-			<div><?php echo $field->input; ?></div>
+			<div class="table-responsive"><?php echo $field->input; ?></div>
 		<?php endforeach; ?>
 	<?php endforeach; ?>
 </fieldset>

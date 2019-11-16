@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,9 +15,9 @@ use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -144,17 +144,45 @@ class HtmlDocument extends Document
 	public function getHeadData()
 	{
 		$data = array();
-		$data['title']       = $this->title;
-		$data['description'] = $this->description;
-		$data['link']        = $this->link;
-		$data['metaTags']    = $this->_metaTags;
-		$data['links']       = $this->_links;
-		$data['styleSheets'] = $this->_styleSheets;
-		$data['style']       = $this->_style;
-		$data['scripts']     = $this->_scripts;
-		$data['script']      = $this->_script;
-		$data['custom']      = $this->_custom;
-		$data['scriptText']  = Text::getScriptStrings();
+		$data['title']         = $this->title;
+		$data['description']   = $this->description;
+		$data['link']          = $this->link;
+		$data['metaTags']      = $this->_metaTags;
+		$data['links']         = $this->_links;
+		$data['styleSheets']   = $this->_styleSheets;
+		$data['style']         = $this->_style;
+		$data['scripts']       = $this->_scripts;
+		$data['script']        = $this->_script;
+		$data['custom']        = $this->_custom;
+
+		// @deprecated 5.0  This property is for backwards compatibility. Pass text through script options in the future
+		$data['scriptText']    = Text::getScriptStrings();
+
+		$data['scriptOptions'] = $this->scriptOptions;
+
+		// Get Asset manager state
+		$wa      = $this->getWebAssetManager();
+		$waState = $wa->getManagerState();
+
+		// Get asset objects and filter only manually added/enabled assets,
+		// Dependencies will be picked up from registry files
+		$waState['assets'] = [];
+
+		foreach ($waState['activeAssets'] as $assetType => $assetNames)
+		{
+			foreach ($assetNames as $assetName => $assetState)
+			{
+				if ($assetState === WebAssetManager::ASSET_STATE_ACTIVE)
+				{
+					$waState['assets'][$assetType][] = $wa->getAsset($assetType, $assetName);
+				}
+			}
+		}
+
+		// We have loaded asset objects, now can remove unused stuff
+		unset($waState['activeAssets']);
+
+		$data['assetManager'] = $waState;
 
 		return $data;
 	}
@@ -172,16 +200,17 @@ class HtmlDocument extends Document
 	{
 		if (\is_null($types))
 		{
-			$this->title        = '';
-			$this->description  = '';
-			$this->link         = '';
-			$this->_metaTags    = array();
-			$this->_links       = array();
-			$this->_styleSheets = array();
-			$this->_style       = array();
-			$this->_scripts     = array();
-			$this->_script      = array();
-			$this->_custom      = array();
+			$this->title         = '';
+			$this->description   = '';
+			$this->link          = '';
+			$this->_metaTags     = array();
+			$this->_links        = array();
+			$this->_styleSheets  = array();
+			$this->_style        = array();
+			$this->_scripts      = array();
+			$this->_script       = array();
+			$this->_custom       = array();
+			$this->scriptOptions = array();
 		}
 
 		if (\is_array($types))
@@ -229,6 +258,10 @@ class HtmlDocument extends Document
 				$realType = '_' . $type;
 				$this->{$realType} = array();
 				break;
+
+			case 'scriptOptions':
+				$this->{$type} = array();
+				break;
 		}
 	}
 
@@ -245,25 +278,42 @@ class HtmlDocument extends Document
 	{
 		if (empty($data) || !\is_array($data))
 		{
-			return;
+			return null;
 		}
 
-		$this->title        = $data['title'] ?? $this->title;
-		$this->description  = $data['description'] ?? $this->description;
-		$this->link         = $data['link'] ?? $this->link;
-		$this->_metaTags    = $data['metaTags'] ?? $this->_metaTags;
-		$this->_links       = $data['links'] ?? $this->_links;
-		$this->_styleSheets = $data['styleSheets'] ?? $this->_styleSheets;
-		$this->_style       = $data['style'] ?? $this->_style;
-		$this->_scripts     = $data['scripts'] ?? $this->_scripts;
-		$this->_script      = $data['script'] ?? $this->_script;
-		$this->_custom      = $data['custom'] ?? $this->_custom;
+		$this->title         = $data['title'] ?? $this->title;
+		$this->description   = $data['description'] ?? $this->description;
+		$this->link          = $data['link'] ?? $this->link;
+		$this->_metaTags     = $data['metaTags'] ?? $this->_metaTags;
+		$this->_links        = $data['links'] ?? $this->_links;
+		$this->_styleSheets  = $data['styleSheets'] ?? $this->_styleSheets;
+		$this->_style        = $data['style'] ?? $this->_style;
+		$this->_scripts      = $data['scripts'] ?? $this->_scripts;
+		$this->_script       = $data['script'] ?? $this->_script;
+		$this->_custom       = $data['custom'] ?? $this->_custom;
+		$this->scriptOptions = (isset($data['scriptOptions']) && !empty($data['scriptOptions'])) ? $data['scriptOptions'] : $this->scriptOptions;
 
-		if (isset($data['scriptText']) && !empty($data['scriptText']))
+		// Restore asset manager state
+		$wa = $this->getWebAssetManager();
+
+		if (!empty($data['assetManager']['registryFiles']))
 		{
-			foreach ($data['scriptText'] as $key => $string)
+			$waRegistry = $wa->getRegistry();
+
+			foreach ($data['assetManager']['registryFiles'] as $registryFile)
 			{
-				Text::script($key, $string);
+				$waRegistry->addRegistryFile($registryFile);
+			}
+		}
+
+		if (!empty($data['assetManager']['assets']))
+		{
+			foreach ($data['assetManager']['assets'] as $assetType => $assets)
+			{
+				foreach ($assets as $asset)
+				{
+					$wa->registerAsset($assetType, $asset)->useAsset($assetType, $asset->getName());
+				}
 			}
 		}
 
@@ -316,11 +366,14 @@ class HtmlDocument extends Document
 
 		if (isset($data['style']))
 		{
-			foreach ($data['style'] as $type => $stdata)
+			foreach ($data['style'] as $type => $styles)
 			{
-				if (!isset($this->_style[strtolower($type)]) || !stristr($stdata, $this->_style[strtolower($type)]))
+				foreach ($styles as $hash => $style)
 				{
-					$this->addStyleDeclaration($stdata, $type);
+					if (!isset($this->_style[strtolower($type)][$hash]))
+					{
+						$this->addStyleDeclaration($style, $type);
+					}
 				}
 			}
 		}
@@ -331,11 +384,14 @@ class HtmlDocument extends Document
 
 		if (isset($data['script']))
 		{
-			foreach ($data['script'] as $type => $sdata)
+			foreach ($data['script'] as $type => $scripts)
 			{
-				if (!isset($this->_script[strtolower($type)]) || !stristr($sdata, $this->_script[strtolower($type)]))
+				foreach ($scripts as $hash => $script)
 				{
-					$this->addScriptDeclaration($sdata, $type);
+					if (!isset($this->_script[strtolower($type)][$hash]))
+					{
+						$this->addScriptDeclaration($script, $type);
+					}
 				}
 			}
 		}
@@ -343,6 +399,38 @@ class HtmlDocument extends Document
 		$this->_custom = (isset($data['custom']) && !empty($data['custom']) && \is_array($data['custom']))
 			? array_unique(array_merge($this->_custom, $data['custom']))
 			: $this->_custom;
+
+		if (!empty($data['scriptOptions']))
+		{
+			foreach ($data['scriptOptions'] as $key => $scriptOptions)
+			{
+				$this->addScriptOptions($key, $scriptOptions, true);
+			}
+		}
+
+		// Restore asset manager state
+		$wa = $this->getWebAssetManager();
+
+		if (!empty($data['assetManager']['registryFiles']))
+		{
+			$waRegistry = $wa->getRegistry();
+
+			foreach ($data['assetManager']['registryFiles'] as $registryFile)
+			{
+				$waRegistry->addRegistryFile($registryFile);
+			}
+		}
+
+		if (!empty($data['assetManager']['assets']))
+		{
+			foreach ($data['assetManager']['assets'] as $assetType => $assets)
+			{
+				foreach ($assets as $asset)
+				{
+					$wa->registerAsset($assetType, $asset)->useAsset($assetType, $asset->getName());
+				}
+			}
+		}
 
 		return $this;
 	}
@@ -468,7 +556,7 @@ class HtmlDocument extends Document
 
 		$renderer = $this->loadRenderer($type);
 
-		if ($this->_caching == true && $type == 'modules')
+		if ($this->_caching == true && $type === 'modules')
 		{
 			/** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
 			$cache = CmsFactory::getCache('com_modules', '');
@@ -570,48 +658,53 @@ class HtmlDocument extends Document
 		}
 
 		$data = $this->_renderTemplate();
-		parent::render();
+		parent::render($caching, $params);
 
 		return $data;
 	}
 
 	/**
-	 * Count the modules based on the given condition
+	 * Count the modules in the given position
 	 *
-	 * @param   string  $condition  The condition to use
+	 * @param   string   $positionName     The position to use
+	 * @param   boolean  $withContentOnly  Count only a modules which actually has a content
 	 *
 	 * @return  integer  Number of modules found
 	 *
 	 * @since   1.7.0
 	 */
-	public function countModules($condition)
+	public function countModules(string $positionName, bool $withContentOnly = false)
 	{
-		$operators = '(\+|\-|\*|\/|==|\!=|\<\>|\<|\>|\<=|\>=|and|or|xor)';
-		$words = preg_split('# ' . $operators . ' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
-
-		if (\count($words) === 1)
+		if ((isset(parent::$_buffer['modules'][$positionName])) && (parent::$_buffer['modules'][$positionName] === false))
 		{
-			$name = strtolower($words[0]);
-			$result = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
-				? 0 : \count(ModuleHelper::getModules($name));
-
-			return $result;
+			return 0;
 		}
 
-		Log::add('Using an expression in HtmlDocument::countModules() is deprecated.', Log::WARNING, 'deprecated');
+		$modules = ModuleHelper::getModules($positionName);
 
-		for ($i = 0, $n = \count($words); $i < $n; $i += 2)
+		if (!$withContentOnly)
 		{
-			// Odd parts (modules)
-			$name = strtolower($words[$i]);
-			$words[$i] = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
-				? 0
-				: \count(ModuleHelper::getModules($name));
+			return \count($modules);
 		}
 
-		$str = 'return ' . implode(' ', $words) . ';';
+		// Now we need to count only modules which actually have a content
+		$result   = 0;
+		$renderer = $this->loadRenderer('module');
 
-		return eval($str);
+		foreach ($modules as $module)
+		{
+			if (empty($module->contentRendered))
+			{
+				$renderer->render($module, array('style' => 'raw'));
+			}
+
+			if (trim($module->content) !== '')
+			{
+				$result++;
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -728,8 +821,8 @@ class HtmlDocument extends Document
 		$lang = CmsFactory::getLanguage();
 
 		// 1.5 or core then 1.6
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-			|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
+		$lang->load('tpl_' . $template, JPATH_BASE)
+			|| $lang->load('tpl_' . $template, $directory . '/' . $template);
 
 		// Assign the variables
 		$this->template = $template;

@@ -3,9 +3,10 @@
 	<field
 		name="client_id"
 		type="list"
-		label="COM_MENUS_SELECT_CLIENT_FILTER"
+		label="JSITEADMIN"
 		filtermode="selector"
 		onchange="this.form.submit();"
+		validate="options"
 		>
 		<option value="0">JSITE</option>
 		<option value="1">JADMINISTRATOR</option>
@@ -14,6 +15,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_MENUS_MENUS_FILTER_SEARCH_LABEL"
 			description="COM_MENUS_MENUS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -26,6 +28,7 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.title ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>

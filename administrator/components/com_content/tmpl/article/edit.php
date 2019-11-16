@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,10 +19,12 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
 
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-
-HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->getRegistry()->addExtensionRegistryFile('com_contenthistory');
+$wa->useScript('keepalive')
+	->useScript('form.validate')
+	->useScript('com_contenthistory.admin-history-versions');
 
 $this->configFieldsets  = array('editorConfig');
 $this->hiddenFieldsets  = array('basic-limited');
@@ -61,7 +63,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
 		<div class="row">
 			<div class="col-lg-9">
-				<div class="card">
+				<div>
 					<div class="card-body">
 						<fieldset class="adminform">
 							<?php echo $this->form->getLabel('articletext'); ?>
@@ -85,7 +87,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<div class="row">
 				<div class="col-12 col-lg-6">
 				<?php foreach ($fieldsetsInImages as $fieldset) : ?>
-					<fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-grid-form options-grid-form-full">
+					<fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-form">
 						<legend><?php echo Text::_($this->form->getFieldsets()[$fieldset]->label); ?></legend>
 						<div>
 						<?php echo $this->form->renderFieldset($fieldset); ?>
@@ -95,7 +97,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				</div>
 				<div class="col-12 col-lg-6">
 				<?php foreach ($fieldsetsInLinks as $fieldset) : ?>
-					<fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-grid-form options-grid-form-full">
+					<fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-form">
 						<legend><?php echo Text::_($this->form->getFieldsets()[$fieldset]->label); ?></legend>
 						<div>
 						<?php echo $this->form->renderFieldset($fieldset); ?>
@@ -117,7 +119,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('COM_CONTENT_FIELDSET_PUBLISHING')); ?>
 			<div class="row">
 				<div class="col-12 col-lg-6">
-					<fieldset id="fieldset-publishingdata" class="options-grid-form options-grid-form-full">
+					<fieldset id="fieldset-publishingdata" class="options-form">
 						<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
 						<div>
 						<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -125,7 +127,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 					</fieldset>
 				</div>
 				<div class="col-12 col-lg-6">
-					<fieldset id="fieldset-metadata" class="options-grid-form options-grid-form-full">
+					<fieldset id="fieldset-metadata" class="options-form">
 						<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 						<div>
 						<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
@@ -138,7 +140,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if (!$isModal && $assoc && $params->get('show_associations_edit', 1) == 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
-			<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
+			<fieldset id="fieldset-associations" class="options-form">
 			<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
 			<div>
 			<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
@@ -151,9 +153,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if ($this->canDo->get('core.admin') && $params->get('show_configure_edit_options', 1) == 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_CONTENT_SLIDER_EDITOR_CONFIG')); ?>
-			<fieldset id="fieldset-editor" class="form-no-margin options-grid-form">
+			<fieldset id="fieldset-editor" class="options-form">
 				<legend><?php echo Text::_('COM_CONTENT_SLIDER_EDITOR_CONFIG'); ?></legend>
-				<div>
+				<div class="column-count-md-2 column-count-lg-3">
 				<?php echo $this->form->renderFieldset('editorConfig'); ?>
 				</div>
 			</fieldset>
@@ -162,7 +164,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if ($this->canDo->get('core.admin') && $params->get('show_permissions', 1) == 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_CONTENT_FIELDSET_RULES')); ?>
-			<fieldset id="fieldset-rules" class="options-grid-form options-grid-form-full">
+			<fieldset id="fieldset-rules" class="options-form">
 				<legend><?php echo Text::_('COM_CONTENT_FIELDSET_RULES'); ?></legend>
 				<div>
 				<?php echo $this->form->getInput('rules'); ?>

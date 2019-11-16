@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 
 extract($displayData);
 
@@ -45,6 +45,8 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   array    $spellcheck      Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
 // Initialize some field attributes.
@@ -76,6 +78,13 @@ if ($onchange)
 	$attributes['onchange'] = 'onchange="' . $onchange . '"';
 }
 
-HTMLHelper::_('webcomponent', 'system/fields/joomla-field-module-order.min.js', ['version' => 'auto', 'relative' => true]);
+if ($dataAttribute)
+{
+	$attributes['dataAttribute'] = $dataAttribute;
+}
+
+Factory::getDocument()->getWebAssetManager()
+	->useScript('webcomponent.field-module-order');
+
 ?>
-<joomla-field-module-order <?php echo implode($attributes, ' '); ?>></joomla-field-module-order>
+<joomla-field-module-order <?php echo implode(' ', $attributes); ?>></joomla-field-module-order>

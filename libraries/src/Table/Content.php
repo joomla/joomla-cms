@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,10 +12,11 @@ namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -24,7 +25,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.5
  */
-class Content extends Table
+class Content extends Table implements VersionableTableInterface
 {
 	/**
 	 * Indicates that columns fully support the NULL value in the database
@@ -95,11 +96,14 @@ class Content extends Table
 		// This is an article under a category.
 		if ($this->catid)
 		{
+			$catId = (int) $this->catid;
+
 			// Build the query to get the asset id for the parent category.
 			$query = $this->_db->getQuery(true)
 				->select($this->_db->quoteName('asset_id'))
 				->from($this->_db->quoteName('#__categories'))
-				->where($this->_db->quoteName('id') . ' = ' . (int) $this->catid);
+				->where($this->_db->quoteName('id') . ' = :catid')
+				->bind(':catid', $catId, ParameterType::INTEGER);
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
@@ -214,6 +218,14 @@ class Content extends Table
 			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
+		// Check for a valid category.
+		if (!$this->catid = (int) $this->catid)
+		{
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
+
+			return false;
+		}
+
 		if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '')
 		{
 			$this->fulltext = '';
@@ -281,27 +293,27 @@ class Content extends Table
 			// Only process if not empty
 
 			// Array of characters to remove
-			$bad_characters = array("\n", "\r", "\"", '<', '>');
+			$badCharacters = ["\n", "\r", "\"", '<', '>'];
 
 			// Remove bad characters
-			$after_clean = StringHelper::str_ireplace($bad_characters, '', $this->metakey);
+			$afterClean = StringHelper::str_ireplace($badCharacters, '', $this->metakey);
 
 			// Create array using commas as delimiter
-			$keys = explode(',', $after_clean);
+			$keys = explode(',', $afterClean);
 
-			$clean_keys = array();
+			$cleanKeys = [];
 
 			foreach ($keys as $key)
 			{
 				if (trim($key))
 				{
 					// Ignore blank keywords
-					$clean_keys[] = trim($key);
+					$cleanKeys[] = trim($key);
 				}
 			}
 
 			// Put array back together delimited by ", "
-			$this->metakey = implode(', ', $clean_keys);
+			$this->metakey = implode(', ', $cleanKeys);
 		}
 		else
 		{
@@ -377,40 +389,14 @@ class Content extends Table
 	}
 
 	/**
-	 * Overrides Table::store to load a row from the database.
+	 * Get the type alias for the history table
 	 *
-	 * @param   mixed    $keys   An optional primary key value to load the row by, or an array of fields to match.
-	 *                           If not set the instance property value is used.
-	 * @param   boolean  $reset  True to reset the default values before loading the new row.
+	 * @return  string  The alias as described above
 	 *
-	 * @return  boolean  True if successful. False if row not found.
-	 *
-	 * @since   1.7.0
-	 * @throws  \InvalidArgumentException
-	 * @throws  \RuntimeException
-	 * @throws  \UnexpectedValueException
+	 * @since   4.0.0
 	 */
-	public function load($keys = null, $reset = true)
+	public function getTypeAlias()
 	{
-		if ($ret = parent::load($keys, $reset, false))
-		{
-			// Load featuerd dates
-			$query = $this->_db->getQuery(true)
-				->select('featured_up, featured_down')
-				->from('#__content_frontpage')
-				->where('content_id = ' . (int) $this->id);
-			$this->_db->setQuery($query);
-
-			$row = $this->_db->loadAssoc();
-
-			// Check that we have a result.
-			if (!empty($row))
-			{
-				$this->featured_up = $row['featured_up'];
-				$this->featured_down = $row['featured_down'];
-			}
-		}
-
-		return $ret;
+		return 'com_content.article';
 	}
 }

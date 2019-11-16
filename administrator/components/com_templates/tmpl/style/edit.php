@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,6 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.tabstate');
 
 $this->useCoreUI = true;
 
@@ -87,7 +86,7 @@ $user = Factory::getUser();
 
 		<?php if ($description) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('JGLOBAL_FIELDSET_DESCRIPTION')); ?>
-			<fieldset id="fieldset-description" class="options-grid-form options-grid-form-full">
+			<fieldset id="fieldset-description" class="options-form">
 				<legend><?php echo Text::_('JGLOBAL_FIELDSET_DESCRIPTION'); ?></legend>
 				<div>
 				<?php echo $description; ?>
@@ -104,7 +103,7 @@ $user = Factory::getUser();
 
 		<?php if ($user->authorise('core.edit', 'com_menus') && $this->item->client_id == 0 && $this->canDo->get('core.edit.state')) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'assignment', Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT')); ?>
-			<fieldset id="fieldset-assignment" class="options-grid-form options-grid-form-full">
+			<fieldset id="fieldset-assignment" class="options-form">
 				<legend><?php echo Text::_('COM_TEMPLATES_MENUS_ASSIGNMENT'); ?></legend>
 				<div>
 				<?php echo $this->loadTemplate('assignment'); ?>

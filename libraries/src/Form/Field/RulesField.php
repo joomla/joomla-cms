@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -168,7 +168,7 @@ class RulesField extends FormField
 		// Iterate over the children and add to the actions.
 		foreach ($this->element->children() as $el)
 		{
-			if ($el->getName() == 'action')
+			if ($el->getName() === 'action')
 			{
 				$this->actions[] = (object) array(
 					'name' => (string) $el['name'],
@@ -246,14 +246,15 @@ class RulesField extends FormField
 		$data = parent::getLayoutData();
 
 		$extraData = array(
-			'groups'  		=> $this->groups,
-			'section'		=> $this->section,
-			'actions'		=> $this->actions,
-			'assetId'		=> $this->assetId,
-			'newItem'		=> $this->newItem,
-			'assetRules'		=> $this->assetRules,
-			'isGlobalConfig'	=> $this->isGlobalConfig,
-			'parentAssetId'		=> $this->parentAssetId,
+			'groups'         => $this->groups,
+			'section'        => $this->section,
+			'actions'        => $this->actions,
+			'assetId'        => $this->assetId,
+			'newItem'        => $this->newItem,
+			'assetRules'     => $this->assetRules,
+			'isGlobalConfig' => $this->isGlobalConfig,
+			'parentAssetId'  => $this->parentAssetId,
+			'component'      => $this->component,
 		);
 
 		return array_merge($data, $extraData);

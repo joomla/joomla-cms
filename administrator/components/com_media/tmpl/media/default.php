@@ -3,29 +3,24 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
 
 $params = ComponentHelper::getParams('com_media');
 
-// Make sure core.js is loaded before media scripts
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('behavior.keepalive');
-
-// Add javascripts
-HTMLHelper::_('script', 'media/com_media/js/mediamanager.js');
-
-// Add stylesheets
-HTMLHelper::_('stylesheet', 'media/com_media/css/mediamanager.css');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('keepalive')
+	->useStyle('com_media.mediamanager')
+	->useScript('com_media.mediamanager');
 
 // Populate the language
 $this->loadTemplate('texts');
@@ -35,7 +30,9 @@ $tmpl = Factory::getApplication()->input->getCmd('tmpl');
 // Load the toolbar when we are in an iframe
 if ($tmpl === 'component')
 {
+	echo '<div class="subhead noshadow">';
 	echo Toolbar::getInstance('toolbar')->render();
+	echo '</div>';
 }
 
 // Populate the media config

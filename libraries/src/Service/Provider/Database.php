@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -97,7 +97,7 @@ class Database implements ServiceProviderInterface
 							'verify_server_cert' => (bool) $conf->get('dbsslverifyservercert'),
 						];
 
-						foreach (['cipher', 'ca', 'capath', 'key', 'cert'] as $value)
+						foreach (['cipher', 'ca', 'key', 'cert'] as $value)
 						{
 							$confVal = trim($conf->get('dbssl' . $value, ''));
 

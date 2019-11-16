@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -158,7 +158,8 @@ class Updater extends \JAdapter
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__updates'))
-				->where($db->quoteName('update_site_id') . ' = ' . $db->quote($result['update_site_id']));
+				->where($db->quoteName('update_site_id') . ' = :id')
+				->bind(':id', $result['update_site_id'], ParameterType::INTEGER);
 			$db->setQuery($query);
 			$db->execute();
 

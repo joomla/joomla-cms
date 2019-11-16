@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -142,7 +142,7 @@ final class InstallationApplication extends CMSApplication
 
 			$guesses = array();
 
-			foreach ($orphans as $key => $occurance)
+			foreach ($orphans as $key => $occurence)
 			{
 				$guess = str_replace('_', ' ', $key);
 

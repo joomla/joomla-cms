@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_CSP_FILTER_SEARCH_LABEL"
 			description="COM_CSP_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -12,11 +13,38 @@
 		<field
 			name="published"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
-			filter="*,0,1,-2"
+			label="JSTATUS"
+			optionsFilter="*,0,1,-2"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
+		</field>
+
+		<field
+			name="directive"
+			type="sql"
+			label="COM_CSP_HEADING_DIRECTIVE"
+			sql_select="directive"
+			sql_from="#__csp"
+			sql_group="directive"
+			sql_order="directive ASC"
+			key_field="directive"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_CSP_FILTER_DIRECTIVE</option>
+		</field>
+
+		<field
+			name="client"
+			type="list"
+			label="JSITEADMIN"
+			filtermode="selector"
+			onchange="this.form.submit();"
+			validate="options"
+			>
+			<option value="">JGLOBAL_FILTER_CLIENT</option>
+			<option value="site">JSITE</option>
+			<option value="administrator">JADMINISTRATOR</option>
 		</field>
 	</fields>
 
@@ -28,6 +56,7 @@
 			default="a.id ASC"
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.published ASC">JSTATUS_ASC</option>

@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,44 +39,6 @@
   }
 
   /**
-   * Method that add a fade effect and transition on sidebar and content side
-   * after login and logout
-   *
-   * @since   4.0.0
-   */
-  function fade(fadeAction, transitAction) {
-    const sidebar = doc.querySelector('.sidebar-wrapper');
-    const sidebarChildren = sidebar ? sidebar.children : [];
-    const sideChildrenLength = sidebarChildren.length;
-    const contentMain = doc.querySelector('.container-main');
-    const contentChildren = contentMain ? contentMain.children : [];
-    const contChildrenLength = contentChildren.length;
-
-    for (let i = 0; i < sideChildrenLength; i += 1) {
-      sidebarChildren[i].classList.add(`load-fade${fadeAction}`);
-    }
-    for (let i = 0; i < contChildrenLength; i += 1) {
-      contentChildren[i].classList.add(`load-fade${fadeAction}`);
-    }
-    if (sidebar) {
-      if (transitAction) {
-        // Transition class depends on the width of the sidebar
-        if (storageEnabled
-          && localStorage.getItem('atum-sidebar') === 'closed') {
-          sidebar.classList.add(`transit-${transitAction}-closed`);
-          changeLogo('small');
-        } else {
-          sidebar.classList.add(`transit-${transitAction}`);
-        }
-      }
-      sidebar.classList.toggle('fade-done', fadeAction !== 'out');
-    }
-    if (contentMain) {
-      contentMain.classList.toggle('fade-done', fadeAction !== 'out');
-    }
-  }
-
-  /**
    * toggle arrow icon between down and up depending on position of the nav header
    *
    * @param {string} [positionTop] set if the nav header positioned to the 'top' otherwise 'bottom'
@@ -110,6 +72,11 @@
       const imgID = img.getAttribute('id');
       const imgClass = img.getAttribute('class');
       const imgURL = img.getAttribute('src');
+
+      // Check if we're manipulating a SVG file.
+      if (imgURL.substr(imgURL.length - 4).toLowerCase() !== '.svg') {
+        return;
+      }
 
       Joomla.request({
         url: imgURL,
@@ -170,7 +137,7 @@
         headerMoreBtn.setAttribute('type', 'button');
         headerMoreBtn.setAttribute('title', 'More Elements');
         const spanFa = document.createElement('span');
-        spanFa.className = 'fa fa-ellipsis-h';
+        spanFa.className = 'fas fa-ellipsis-h';
         spanFa.setAttribute('aria-hidden', 'true');
         const headerMoreMenu = document.createElement('div');
         headerMoreMenu.className = 'header-more-menu d-flex flex-wrap';
@@ -217,29 +184,6 @@
   }
 
   /**
-   * Trigger fade out on login and logout
-   *
-   * @since   4.0.0
-   */
-  function fadeLoginLogout() {
-    // Fade out login form when login was successful
-    const loginForm = doc.getElementById('form-login');
-    if (loginForm) {
-      loginForm.addEventListener('joomla:login', () => {
-        fade('out', 'narrow');
-      });
-    } else {
-      // Fade out dashboard on logout
-      const logoutBtn = doc.querySelector('.header-items a[href*="task=logout"]');
-      if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-          fade('out', 'wider');
-        });
-      }
-    }
-  }
-
-  /**
    * Change appearance for mobile devices
    *
    * @since   4.0.0
@@ -281,12 +225,17 @@
    * @since   4.0.0
    */
   function setDesktop() {
+    const sidebarNav = doc.querySelector('.sidebar-nav');
+    const subhead = doc.querySelector('.subhead');
     const sidebarWrapper = doc.querySelector('.sidebar-wrapper');
     if (!sidebarWrapper) {
       changeLogo('closed');
     } else {
       changeLogo();
     }
+
+    if (sidebarNav) sidebarNav.classList.remove('collapse');
+    if (subhead) subhead.classList.remove('collapse');
 
     toggleArrowIcon('top');
   }
@@ -328,8 +277,6 @@
 
   doc.addEventListener('DOMContentLoaded', () => {
     changeSVGLogoColor();
-    fade('in');
-    fadeLoginLogout();
     headerItemsInDropdown();
     reactToResize();
     subheadScrolling();
@@ -342,8 +289,8 @@
       if (!navigator.cookieEnabled) {
         Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
       }
-      window.addEventListener('joomla:menu-toggle', (event) => {
-        changeLogo(event.detail);
+      window.addEventListener('joomla:menu-toggle', ({ detail }) => {
+        changeLogo(detail);
       });
     }
   });

@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_MAILS_FILTER_SEARCH_LABEL"
 			description="COM_MAILS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -12,7 +13,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_SELECT_LANGUAGE"
+			label="JGRID_HEADING_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -22,7 +23,7 @@
 		<field
 			name="extension"
 			type="sql"
-			label="COM_MAILS_FILTER_OPTION_SELECT_EXTENSION"
+			label="COM_MAILS_HEADING_COMPONENT"
 			query="SELECT SUBSTRING(template_id, 1, POSITION('.' IN template_id) - 1) AS value, SUBSTRING(template_id, 1, POSITION('.' IN template_id) - 1) AS extension FROM #__mail_templates GROUP BY extension ORDER BY extension ASC"
 			translate="true"
 			onchange="this.form.submit();"
@@ -38,6 +39,7 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.id DESC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.title ASC">JGLOBAL_TITLE_ASC</option>

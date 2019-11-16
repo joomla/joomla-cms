@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-tinymce.PluginManager.add('jdragdrop', (editor) => {
+tinymce.PluginManager.add('jdragndrop', (editor) => {
   // Reset the drop area border
   tinyMCE.DOM.bind(document, 'dragleave', (e) => {
     e.stopPropagation();
@@ -9,108 +9,98 @@ tinymce.PluginManager.add('jdragdrop', (editor) => {
     return false;
   });
 
-  // The upload logic
-  const UploadFile = (file) => {
-    const fd = new FormData();
-    fd.append('Filedata', file);
-    fd.append('folder', tinyMCE.activeEditor.settings.mediaUploadPath);
+  // Fix for Chrome
+  editor.on('dragenter', (e) => {
+    e.stopPropagation();
 
-    const xhr = new XMLHttpRequest();
+    return false;
+  });
 
-    xhr.upload.onprogress = (e) => {
-      const percentComplete = (e.loaded / e.total) * 100;
-      document.querySelector('.bar').style.width = `${percentComplete}%`;
+
+  // Notify user when file is over the drop area
+  editor.on('dragover', (e) => {
+    e.preventDefault();
+    editor.contentAreaContainer.style.borderStyle = 'dashed';
+    editor.contentAreaContainer.style.borderWidth = '5px';
+
+    return false;
+  });
+
+  function uploadFile(name, content) {
+    const url = `${tinyMCE.activeEditor.settings.uploadUri}&path=${tinyMCE.activeEditor.settings.comMediaAdapter}`;
+    const data = {
+      [tinyMCE.activeEditor.settings.csrfToken]: '1',
+      name,
+      content,
+      parent: tinyMCE.activeEditor.settings.parentUploadFolder,
     };
 
-    const removeProgessBar = () => {
-      // @todo Promisify
-      setTimeout(() => {
-        const loader = document.querySelector('#jloader');
-        loader.parentNode.removeChild(loader);
-        editor.contentAreaContainer.style.borderWidth = '1px 0 0 0';
-      }, 200);
-    };
+    Joomla.request({
+      url,
+      method: 'POST',
+      data: JSON.stringify(data),
+      headers: { 'Content-Type': 'application/json' },
+      onSuccess: (resp) => {
+        let response;
 
-    xhr.onload = () => {
-      const resp = JSON.parse(xhr.responseText);
-
-      if (xhr.status === 200) {
-        if (resp.status === '0') {
-          removeProgessBar();
-
-          editor.windowManager.alert(`${resp.message}: ${tinyMCE.activeEditor.settings.setCustomDir}${resp.location}`);
+        try {
+          response = JSON.parse(resp);
+        } catch (e) {
+          editor.windowManager.alert(`${Joomla.Text._('JERROR')}: {e}`);
         }
 
-        if (resp.status === '1') {
-          removeProgessBar();
+        if (response.data && response.data.path) {
+          let urlPath;
+          // For local adapters use relative paths
+          if (/local-/.test(response.data.adapter)) {
+            const { rootFull } = Joomla.getOptions('system.paths');
 
-          // Create the image tag
-          const newNode = tinyMCE.activeEditor.getDoc().createElement('img');
-          newNode.src = tinyMCE.activeEditor.settings.setCustomDir + resp.location;
-          tinyMCE.activeEditor.execCommand('mceInsertContent', false, newNode.outerHTML);
+            urlPath = `${response.data.thumb_path.split(rootFull)[1]}`;
+          } else if (response.data.thumb_path) {
+            // Absolute path for different domain
+            urlPath = response.data.thumb_path;
+          }
+
+          tinyMCE.activeEditor.execCommand('mceInsertContent', false, `<img loading="lazy" src="${urlPath}" alt=""/>`);
         }
-      } else {
-        removeProgessBar();
-      }
+      },
+      onError: (xhr) => {
+        editor.windowManager.alert(`Error: ${xhr.statusText}`);
+      },
+    });
+  }
+
+  function readFile(file) {
+    // Create a new file reader instance
+    const reader = new FileReader();
+
+    // Add the on load callback
+    reader.onload = (progressEvent) => {
+      const { result } = progressEvent.target;
+      const splitIndex = result.indexOf('base64') + 7;
+      const content = result.slice(splitIndex, result.length);
+
+      // Upload the file
+      uploadFile(file.name, content);
     };
 
-    xhr.onerror = () => {
-      removeProgessBar();
-    };
-
-    xhr.open('POST', tinyMCE.activeEditor.settings.uploadUri, true);
-    xhr.send(fd);
-  };
+    reader.readAsDataURL(file);
+  }
 
   // Listers for drag and drop
   if (typeof FormData !== 'undefined') {
-    // Fix for Chrome
-    editor.on('dragenter', (e) => {
-      e.stopPropagation();
-
-      return false;
-    });
-
-
-    // Notify user when file is over the drop area
-    editor.on('dragover', (e) => {
-      e.preventDefault();
-      editor.contentAreaContainer.style.borderStyle = 'dashed';
-      editor.contentAreaContainer.style.borderWidth = '5px';
-
-      return false;
-    });
-
     // Logic for the dropped file
     editor.on('drop', (e) => {
+      e.preventDefault();
       // We override only for files
       if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
         const files = [].slice.call(e.dataTransfer.files);
         files.forEach((file) => {
           // Only images allowed
           if (file.name.toLowerCase().match(/\.(jpg|jpeg|png|gif)$/)) {
-            // Create and display the progress bar
-            const container = document.createElement('div');
-            container.id = 'jloader';
-            const innerDiv = document.createElement('div');
-            innerDiv.classList.add('progress');
-            innerDiv.classList.add('progress-success');
-            innerDiv.classList.add('progress-striped');
-            innerDiv.classList.add('active');
-            innerDiv.style.width = '100%';
-            innerDiv.style.height = '30px';
-            const progressBar = document.createElement('div');
-            progressBar.classList.add('bar');
-            progressBar.style.width = '0';
-            innerDiv.appendChild(progressBar);
-            container.appendChild(innerDiv);
-            document.querySelector('.mce-toolbar-grp').appendChild(container);
-
             // Upload the file(s)
-            UploadFile(file);
+            readFile(file);
           }
-
-          e.preventDefault();
         });
       }
       editor.contentAreaContainer.style.borderWidth = '1px 0 0';

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('behavior.tabstate');
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
@@ -37,17 +36,19 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 				?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
 					<table class="table" id="userList">
 						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_USERS_USERS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+							<?php echo Text::_('COM_USERS_USERS_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
-								<td style="width:1%" class="text-center">
+								<td class="w-1 text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col">
@@ -56,33 +57,33 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								<th scope="col" class="text-center d-none d-md-table-cell">
 									<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
 								</th>
-								<th scope="col" style="width:10%; " class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%;" class="text-center d-md-table-cell">
+								<th scope="col" class="w-5 text-center d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%;" class="text-center d-md-table-cell">
+								<th scope="col" class="w-5 text-center d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($tfa) : ?>
-								<th scope="col" style="width:5%" class="text-center d-none d-md-table-cell">
+								<th scope="col" class="w-5 text-center d-none d-md-table-cell">
 									<?php echo Text::_('COM_USERS_HEADING_TFA'); ?>
 								</th>
 								<?php endif; ?>
-								<th scope="col" style="width:12%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-12 d-none d-md-table-cell">
 									<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
 								</th>
-								<th scope="col" style="width:12%;" class="d-none d-xl-table-cell">
+								<th scope="col" class="w-12 d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="d-none d-xl-table-cell">
+								<th scope="col" class="w-12 d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="d-none d-xl-table-cell">
+								<th scope="col" class="w-12 d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-5 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -133,7 +134,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								</th>
 								<td class="text-center btns d-none d-md-table-cell">
 									<a href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
-										<span class="fa fa-list" aria-hidden="true"></span>
+										<span class="fas fa-list" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
 									</a>
 								</td>
@@ -155,14 +156,16 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									?>
 								</td>
 								<?php if ($tfa) : ?>
-								<td class="text-center d-none d-md-table-cell tbody-icon">
+								<td class="text-center d-none d-md-table-cell">
+									<span class="tbody-icon">
 									<?php if (!empty($item->otpKey)) : ?>
-										<span class="icon-publish" aria-hidden="true"></span>
+										<span class="fas fa-check" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_ACTIVE'); ?></span>
 									<?php else : ?>
-										<span class="icon-unpublish" aria-hidden="true"></span>
+										<span class="fas fa-times" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_NOTACTIVE'); ?></span>
 									<?php endif; ?>
+									</span>
 								</td>
 								<?php endif; ?>
 								<td class="d-none d-md-table-cell">

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Downloadkey
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,7 +67,7 @@ class PlgQuickiconDownloadkey extends CMSPlugin
 
 		$iconDefinition = [
 			'link'  => 'index.php?option=com_installer&view=updatesites&filter[supported]=1',
-			'image' => 'fa fa-key',
+			'image' => 'fas fa-key',
 			'icon'  => '',
 			'text'  => Text::_('PLG_QUICKICON_DOWNLOADKEY_OK'),
 			'class' => 'success',

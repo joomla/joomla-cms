@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.vote
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,7 +50,7 @@ for ($i = $rating; $i < 5; $i++)
 ?>
 <div class="content_rating">
 	<?php if ($rcount) : ?>
-		<p class="unseen sr-only" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+		<p class="sr-only" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
 			<?php echo Text::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
 			<meta itemprop="ratingCount" content="<?php echo $rcount; ?>">
 			<meta itemprop="worstRating" content="1">
