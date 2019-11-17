@@ -188,14 +188,17 @@ class PlgSystemDebug extends CMSPlugin
 			$assetManager = $this->app->getDocument()->getWebAssetManager();
 			$assetManager->registerStyle(
 				'plg.system.debug',
-				'plg_system_debug/debug.css'
+				'plg_system_debug/debug.css',
+				[],
+				[],
+				['fontawesome']
 			);
 			$assetManager->registerScript(
 				'plg.system.debug',
 				'plg_system_debug/debug.min.js',
 				[],
 				['defer' => true],
-				['jquery', 'fontawesome-free']
+				['jquery']
 			);
 			$assetManager->useStyle('plg.system.debug')->useScript('plg.system.debug');
 		}
