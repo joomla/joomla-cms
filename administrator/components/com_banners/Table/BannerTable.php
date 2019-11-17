@@ -11,7 +11,6 @@ namespace Joomla\Component\Banners\Administrator\Table;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
