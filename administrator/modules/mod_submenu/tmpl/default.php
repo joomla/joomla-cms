@@ -39,7 +39,7 @@ use Joomla\CMS\Router\Route;
 								<?php if (!empty($params->get('menu_image'))) : ?>
 									<?php echo HTMLHelper::_('image', $image, $alt, 'class="' . $class . '"'); ?>
 								<?php endif; ?>
-								<?php echo ($params->get('menu_text', 1)) ? htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . $item->iconImage : ''; ?>
+								<?php echo ($params->get('menu_text', 1)) ? htmlspecialchars(Text::_($item->title), ENT_QUOTES, 'UTF-8') . $item->iconImage : ''; ?>
 								<?php if ($item->ajaxbadge) : ?>
 									<span class="menu-badge">
 										<span class="fa fa-spin fa-spinner mt-1 system-counter" data-url="<?php echo $item->ajaxbadge; ?>"></span>
