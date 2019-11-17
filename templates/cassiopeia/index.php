@@ -42,7 +42,7 @@ $wa
 // Logo file or site title param
 if ($this->params->get('logoFile'))
 {
-	$logo = '<img src="' . Uri::root() . $this->params->get('logoFile') . '" alt="' . $sitename . '">';
+	$logo = '<img src="' . Uri::root() . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
 }
 elseif ($this->params->get('siteTitle'))
 {
@@ -104,8 +104,8 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				</div>
 
 				<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
-					<button class="navbar-toggler navbar-toggler-right" type="button" aria-hidden="true" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
-						<span class="fa fa-bars"></span>
+					<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
+						<span class="fa fa-bars" aria-hidden="true"></span>
 					</button>
 					<div class="collapse navbar-collapse" id="navbar">
 						<jdoc:include type="modules" name="menu" style="none" />

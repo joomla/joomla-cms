@@ -35,13 +35,13 @@ require_once __DIR__ . '/Service/HTML/Atum.php';
 
 // Template params
 $siteLogo  = $this->params->get('siteLogo')
-	? Uri::root() . $this->params->get('siteLogo')
+	? Uri::root() . htmlspecialchars($this->params->get('siteLogo'), ENT_QUOTES)
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
 $loginLogo = $this->params->get('loginLogo')
 	? Uri::root() . $this->params->get('loginLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 $smallLogo = $this->params->get('smallLogo')
-	? Uri::root() . $this->params->get('smallLogo')
+	? Uri::root() . htmlspecialchars($this->params->get('smallLogo'), ENT_QUOTES)
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
 $logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8');
