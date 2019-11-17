@@ -20,14 +20,6 @@
 		/>
 
 		<field
-			name="alias"
-			type="text"
-			label="JFIELD_ALIAS_LABEL"
-			size="40"
-			hint="JFIELD_ALIAS_PLACEHOLDER"
-		/>
-
-		<field
 			name="catid"
 			type="categoryedit"
 			label="JCATEGORY"

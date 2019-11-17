@@ -91,19 +91,6 @@ class BannerTable extends Table
 		// Set name
 		$this->name = htmlspecialchars_decode($this->name, ENT_QUOTES);
 
-		// Set alias
-		if (trim($this->alias) == '')
-		{
-			$this->alias = $this->name;
-		}
-
-		$this->alias = ApplicationHelper::stringURLSafe($this->alias, $this->language);
-
-		if (trim(str_replace('-', '', $this->alias)) == '')
-		{
-			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
-		}
-
 		// Set publish_up, publish_down to null if not set
 		if (!$this->publish_up)
 		{
@@ -261,17 +248,6 @@ class BannerTable extends Table
 			if (!$oldrow->load($this->id) && $oldrow->getError())
 			{
 				$this->setError($oldrow->getError());
-			}
-
-			// Verify that the alias is unique
-			/** @var BannerTable $table */
-			$table = Table::getInstance('BannerTable', __NAMESPACE__ . '\\', array('dbo' => $db));
-
-			if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
-			{
-				$this->setError(Text::_('COM_BANNERS_ERROR_UNIQUE_ALIAS'));
-
-				return false;
 			}
 
 			// Store the new row

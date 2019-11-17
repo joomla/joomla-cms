@@ -141,7 +141,6 @@ CREATE TABLE IF NOT EXISTS "#__banners" (
   "cid" bigint DEFAULT 0 NOT NULL,
   "type" bigint DEFAULT 0 NOT NULL,
   "name" varchar(255) DEFAULT '' NOT NULL,
-  "alias" varchar(255) DEFAULT '' NOT NULL,
   "imptotal" bigint DEFAULT 0 NOT NULL,
   "impmade" bigint DEFAULT 0 NOT NULL,
   "clicks" bigint DEFAULT 0 NOT NULL,

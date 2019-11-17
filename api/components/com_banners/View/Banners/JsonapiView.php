@@ -32,7 +32,6 @@ class JsonapiView extends BaseApiView
 		'cid',
 		'type',
 		'name',
-		'alias',
 		'imptotal',
 		'impmade',
 		'clicks',
@@ -74,7 +73,6 @@ class JsonapiView extends BaseApiView
 	protected $fieldsToRenderList = [
 		'id',
 		'name',
-		'alias',
 		'checked_out',
 		'checked_out_time',
 		'catid',

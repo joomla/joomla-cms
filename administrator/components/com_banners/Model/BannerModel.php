@@ -141,10 +141,7 @@ class BannerModel extends AdminModel
 	 */
 	public function generateTitle($categoryId, $table)
 	{
-		// Alter the title & alias
-		$data = $this->generateNewTitle($categoryId, $table->alias, $table->name);
-		$table->name = $data['0'];
-		$table->alias = $data['1'];
+
 	}
 
 	/**
@@ -419,27 +416,9 @@ class BannerModel extends AdminModel
 			$data['catid'] = CategoriesHelper::createCategory($table);
 		}
 
-		// Alter the name for save as copy
+		// Alter the state for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
-			/** @var \Joomla\Component\Banners\Administrator\Table\Banner $origTable */
-			$origTable = clone $this->getTable();
-			$origTable->load($input->getInt('id'));
-
-			if ($data['name'] == $origTable->name)
-			{
-				list($name, $alias) = $this->generateNewTitle($data['catid'], $data['alias'], $data['name']);
-				$data['name']       = $name;
-				$data['alias']      = $alias;
-			}
-			else
-			{
-				if ($data['alias'] == $origTable->alias)
-				{
-					$data['alias'] = '';
-				}
-			}
-
 			$data['state'] = 0;
 		}
 

@@ -135,7 +135,6 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
   `cid` int(11) NOT NULL DEFAULT 0,
   `type` int(11) NOT NULL DEFAULT 0,
   `name` varchar(255) NOT NULL DEFAULT '',
-  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `imptotal` int(11) NOT NULL DEFAULT 0,
   `impmade` int(11) NOT NULL DEFAULT 0,
   `clicks` int(11) NOT NULL DEFAULT 0,

@@ -38,7 +38,6 @@ class BannersModel extends ListModel
 				'id', 'a.id',
 				'cid', 'a.cid', 'client_name',
 				'name', 'a.name',
-				'alias', 'a.alias',
 				'state', 'a.state',
 				'ordering', 'a.ordering',
 				'language', 'a.language',
@@ -104,7 +103,6 @@ class BannersModel extends ListModel
 				'list.select',
 				'a.id AS id,'
 				. 'a.name AS name,'
-				. 'a.alias AS alias,'
 				. 'a.checked_out AS checked_out,'
 				. 'a.checked_out_time AS checked_out_time,'
 				. 'a.catid AS catid,'
@@ -180,7 +178,7 @@ class BannersModel extends ListModel
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.name LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
+				$query->where('(a.name LIKE ' . $search . ')');
 			}
 		}
 
