@@ -93,6 +93,5 @@ final class ApiDispatcher extends ComponentDispatcher
 		$controller = $this->getController($controller, ucfirst($this->app->getName()), $config);
 
 		$controller->execute($task);
-		$this->app->triggerEvent('onAfterWebservices', array());
 	}
 }
