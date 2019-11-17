@@ -1050,28 +1050,33 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	/**
 	 * On after Api dispatched
 	 *
-	 * Method is called after user perform an API request.
+	 * Method is called after user perform an API request better a onAfterDispatch.
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAfterWebservices()
+	public function onAfterDispatch()
 	{
+		if (!$this->app->isClient('api'))
+		{
+			return;
+		}
+
 		$context = $this->app->input->get('option');
-		$user    = Factory::getUser();
 
 		if (!$this->checkLoggable($context))
 		{
 			return;
 		}
 
+		$user = $this->app->getIdentity();
 		$message = array(
 			'action'      => 'API',
-			'verb'        => $_SERVER['REQUEST_METHOD'],
+			'verb'        => $this->app->input->server->getString('REQUEST_METHOD', ''),
 			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-			'url'         => $_SERVER['PATH_INFO'],
+			'url'         => $this->app->input->server->getString('PATH_INFO', ''),
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_API', $context, $user->id);
 	}
