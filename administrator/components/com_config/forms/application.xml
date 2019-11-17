@@ -201,6 +201,7 @@
 			label="COM_CONFIG_FIELD_DATABASE_HOST_LABEL"
 			required="true"
 			filter="string"
+			onchange="Joomla.resetDbEncryptionFields(this)"
 			size="30"
 		/>
 

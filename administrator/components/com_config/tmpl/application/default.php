@@ -20,6 +20,9 @@ HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.tabstate');
 
+// Load config JS
+HTMLHelper::_('script', 'com_config/admin-config-default.js', ['version' => 'auto', 'relative' => true]);
+
 // Load JS message titles
 Text::script('ERROR');
 Text::script('WARNING');
