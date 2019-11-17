@@ -303,6 +303,27 @@
 			link="index.php?option=com_users&amp;view=mail"
 			scope="massmail"
 		/>
+
+		<menuitem
+			title="MOD_MENU_MESSAGING"
+			type="component"
+			element="com_messages"
+			link="index.php?option=com_messages"
+			>
+			<menuitem
+				title="MOD_MENU_MESSAGING_NEW"
+				type="component"
+				element="com_messages"
+				link="index.php?option=com_messages&amp;task=message.add"
+			/>
+
+			<menuitem
+				title="MOD_MENU_MESSAGING_PRIVATE"
+				type="component"
+				element="com_messages"
+				link="index.php?option=com_messages&amp;view=messages"
+			/>
+		</menuitem>
 	</menuitem>
 
 	<menuitem
