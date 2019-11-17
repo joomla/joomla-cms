@@ -178,7 +178,7 @@ class BannersModel extends ListModel
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.name LIKE ' . $search . ')');
+				$query->where('a.name LIKE ' . $search);
 			}
 		}
 
