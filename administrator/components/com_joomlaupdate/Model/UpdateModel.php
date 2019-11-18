@@ -95,7 +95,7 @@ class UpdateModel extends BaseDatabaseModel
 				$updateURL = 'https://update.joomla.org/core/list.xml';
 		}
 
-		$id = (int) ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+		$id = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('us') . '.*')
