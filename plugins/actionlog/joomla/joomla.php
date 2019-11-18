@@ -1073,10 +1073,10 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		$user = $this->app->getIdentity();
 		$message = array(
 			'action'      => 'API',
-			'verb'        => $this->app->input->server->getString('REQUEST_METHOD', ''),
+			'verb'        => $this->app->input->getMethod(),
 			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-			'url'         => $this->app->input->server->getString('PATH_INFO', ''),
+			'url'         => $this->app->get('uri.base.path'),
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_API', $context, $user->id);
 	}
