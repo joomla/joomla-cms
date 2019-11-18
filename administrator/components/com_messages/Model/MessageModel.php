@@ -135,7 +135,7 @@ class MessageModel extends AdminModel
 				if (empty($this->item->message_id))
 				{
 					// Prepare data for a new record.
-					if ($replyId = $this->getState('reply.id'))
+					if ($replyId = (int) $this->getState('reply.id'))
 					{
 						// If replying to a message, preload some data.
 						$replyId = (int) $replyId;
