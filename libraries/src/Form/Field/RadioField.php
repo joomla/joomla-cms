@@ -95,7 +95,7 @@ class RadioField extends ListField
 		$data = parent::getLayoutData();
 
 		// Casting false as string returns an empty string so assign it 0
-		if (is_bool($this->value) && $this->value === false)
+		if ($this->value === false)
 		{
 			$this->value = '0';
 		}
