@@ -1076,7 +1076,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'verb'        => $this->app->input->getMethod(),
 			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-			'url'         => $this->app->get('uri.base.path'),
+			'url'         => $this->app->get('uri.route'),
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_API', $context, $user->id);
 	}
