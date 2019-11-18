@@ -475,12 +475,11 @@ class CssMenu
 			{
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR, null, false, true) ||
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
-
-				// Always load cpanel strings when system or help presets are in menu position
-				$language->load('com_cpanel', JPATH_ADMINISTRATOR, null, false, true) ||
-				$language->load('com_cpanel', JPATH_ADMINISTRATOR . '/components/com_cpanel', null, false, true);
-
 			}
+
+			// Always load cpanel strings when system or help presets are in menu position
+			$language->load('com_cpanel', JPATH_ADMINISTRATOR, null, false, true) ||
+			$language->load('com_cpanel', JPATH_ADMINISTRATOR . '/components/com_cpanel', null, false, true);
 
 			if ($item->type === 'separator' && $item->params->get('text_separator') == 0)
 			{
