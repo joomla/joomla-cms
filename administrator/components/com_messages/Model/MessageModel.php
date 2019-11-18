@@ -138,7 +138,6 @@ class MessageModel extends AdminModel
 					if ($replyId = (int) $this->getState('reply.id'))
 					{
 						// If replying to a message, preload some data.
-						$replyId = (int) $replyId;
 						$db    = $this->getDbo();
 						$query = $db->getQuery(true)
 							->select(
