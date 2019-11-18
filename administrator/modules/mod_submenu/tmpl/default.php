@@ -28,15 +28,13 @@ use Joomla\CMS\Router\Route;
 						<?php $params = $item->getParams(); ?>
 						<?php // Only if Menu-show = true
 							if ($params->get('menu_show', 1)) : ?>
-							<?php
-							if (!empty($params->get('menu_image'))) :
-								$image = htmlspecialchars($params->get('menu_image'), ENT_QUOTES, 'UTF-8');
-								$class = htmlspecialchars($params->get('menu_image_css'), ENT_QUOTES, 'UTF-8');
-								$alt = $params->get('menu_text') ? '' : htmlspecialchars(Text::_($item->title), ENT_QUOTES, 'UTF-8');
-							endif;
-							?>
 							<a class="flex-grow-1" href="<?php echo $item->link; ?>"<?php echo !empty($item->target) ? ' target="' . $item->target . '"' : ''; ?>>
 								<?php if (!empty($params->get('menu_image'))) : ?>
+									<?php
+									$image = htmlspecialchars($params->get('menu_image'), ENT_QUOTES, 'UTF-8');
+									$class = htmlspecialchars($params->get('menu_image_css'), ENT_QUOTES, 'UTF-8');
+									$alt   = $params->get('menu_text') ? '' : htmlspecialchars(Text::_($item->title), ENT_QUOTES, 'UTF-8');
+									?>
 									<?php echo HTMLHelper::_('image', $image, $alt, 'class="' . $class . '"'); ?>
 								<?php endif; ?>
 								<?php echo ($params->get('menu_text', 1)) ? htmlspecialchars(Text::_($item->title), ENT_QUOTES, 'UTF-8') . $item->iconImage : ''; ?>
