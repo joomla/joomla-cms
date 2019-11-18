@@ -3,7 +3,7 @@
 	<field
 		name="client_id"
 		type="list"
-		label="JSITEADMIN"
+		label="COM_TEMPLATES_SELECT_CLIENT_FILTER"
 		filtermode="selector"
 		onchange="Joomla.resetFilters(this)"
 		>
