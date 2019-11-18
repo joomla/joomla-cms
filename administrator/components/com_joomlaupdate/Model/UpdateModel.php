@@ -1373,17 +1373,17 @@ ENDDATA;
 				$db->quoteName('ex.client_id'),
 				$db->quoteName('si.location'),
 			]
-		)->from(
-			$db->quoteName('#__extensions', 'ex')
-		)->join('LEFT',
-			$db->quoteName('#__update_sites_extensions', 'se'),
-			$db->quoteName('se.extension_id') . ' = ' . $db->quoteName('ex.extension_id')
-		)->join('LEFT',
-			$db->quoteName('#__update_sites', 'si'),
-			$db->quoteName('si.update_site_id') . ' = ' . $db->quoteName('se.update_site_id')
-		)->where(
-			$db->quoteName('ex.package_id') . ' = 0'
-		);
+		)
+			->from($db->quoteName('#__extensions', 'ex'))
+			->join('LEFT',
+				$db->quoteName('#__update_sites_extensions', 'se'),
+				$db->quoteName('se.extension_id') . ' = ' . $db->quoteName('ex.extension_id')
+			)
+			->join('LEFT',
+				$db->quoteName('#__update_sites', 'si'),
+				$db->quoteName('si.update_site_id') . ' = ' . $db->quoteName('se.update_site_id')
+			)
+			->where($db->quoteName('ex.package_id') . ' = 0');
 
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
