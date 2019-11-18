@@ -234,10 +234,8 @@ class AssociationsModel extends ListModel
 			->select($db->quoteName('l.image', 'language_image'))
 			->join('LEFT',
 				$db->quoteName('#__languages', 'l'),
-				$db->quoteName('l.lang_code') . ' = :langcode'
-			)
-			->bind(':langcode', $fields['language']);
-
+				$db->quoteName('l.lang_code') . ' = ' . $fields['language']
+			);
 		$extensionNameItem = $extensionName . '.item';
 
 		// Join over the associations.
@@ -245,14 +243,13 @@ class AssociationsModel extends ListModel
 			->join(
 				'LEFT',
 				$db->quoteName('#__associations', 'asso'),
-				$db->quoteName('asso.id') . ' = :id'
+				$db->quoteName('asso.id') . ' = ' . $fields['id']
 				. ' AND ' . $db->quoteName('asso.context') . ' = :context'
 			)
 			->join('LEFT',
 				$db->quoteName('#__associations', 'asso2'),
 				$db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key')
 			)
-			->bind(':id', $fields['id'], ParameterType::INTEGER)
 			->bind(':context', $extensionNameItem);
 
 		// Prepare the group by clause.
@@ -283,9 +280,8 @@ class AssociationsModel extends ListModel
 			$query->select($db->quoteName('u.name', 'editor'))
 				->join('LEFT',
 					$db->quoteName('#__users', 'u'),
-					$db->quoteName('u.id') . ' = :userid'
-				)
-				->bind(':userid', $fields['checked_out'], ParameterType::INTEGER);
+					$db->quoteName('u.id') . ' = ' . $fields['checked_out']
+				);
 
 			$groupby[] = 'u.name';
 			$groupby[] = $fields['checked_out'];
@@ -325,9 +321,8 @@ class AssociationsModel extends ListModel
 			$query->select($db->quoteName('c.title', 'category_title'))
 				->join('LEFT',
 					$db->quoteName('#__categories', 'c'),
-					$db->quoteName('c.id') . ' = :catid'
-				)
-				->bind(':catid', $fields['catid'], ParameterType::INTEGER);
+					$db->quoteName('c.id') . ' = ' . $fields['catid']
+				);
 
 			$groupby[] = 'c.title';
 			$groupby[] = $fields['catid'];
@@ -343,9 +338,8 @@ class AssociationsModel extends ListModel
 				->select($db->quoteName('mt.id', 'menutypeid'))
 				->join('LEFT',
 					$db->quoteName('#__menu_types', 'mt'),
-					$db->quoteName('mt.menutype') . ' = :mtmenutype'
-				)
-				->bind(':mtmenutype', $fields['menutype']);
+					$db->quoteName('mt.menutype') . ' = ' . $fields['menutype']
+				);
 
 			$groupby[] = 'mt.title';
 			$groupby[] = 'mt.id';
@@ -361,9 +355,8 @@ class AssociationsModel extends ListModel
 			$query->select($db->quoteName('ag.title', 'access_level'))
 				->join('LEFT',
 					$db->quoteName('#__viewlevels', 'ag'),
-					$db->quoteName('ag.id') . ' = :access'
-				)
-				->bind(':access', $fields['access'], ParameterType::INTEGER);
+					$db->quoteName('ag.id') . ' = ' . $fields['access']
+				);
 
 			$groupby[] = 'ag.title';
 			$groupby[] = $fields['access'];
