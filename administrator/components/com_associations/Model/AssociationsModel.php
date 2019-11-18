@@ -234,7 +234,7 @@ class AssociationsModel extends ListModel
 			->select($db->quoteName('l.image', 'language_image'))
 			->join('LEFT',
 				$db->quoteName('#__languages', 'l'),
-				$db->quoteName('l.lang_code') . ' = ' . $fields['language']
+				$db->quoteName('l.lang_code') . ' = ' . $db->quoteName($fields['language'])
 			);
 		$extensionNameItem = $extensionName . '.item';
 
@@ -243,7 +243,7 @@ class AssociationsModel extends ListModel
 			->join(
 				'LEFT',
 				$db->quoteName('#__associations', 'asso'),
-				$db->quoteName('asso.id') . ' = ' . $fields['id']
+				$db->quoteName('asso.id') . ' = ' . $db->quoteName($fields['id'])
 				. ' AND ' . $db->quoteName('asso.context') . ' = :context'
 			)
 			->join('LEFT',
@@ -280,7 +280,7 @@ class AssociationsModel extends ListModel
 			$query->select($db->quoteName('u.name', 'editor'))
 				->join('LEFT',
 					$db->quoteName('#__users', 'u'),
-					$db->quoteName('u.id') . ' = ' . $fields['checked_out']
+					$db->quoteName('u.id') . ' = ' . $db->quoteName($fields['checked_out'])
 				);
 
 			$groupby[] = 'u.name';
@@ -321,7 +321,7 @@ class AssociationsModel extends ListModel
 			$query->select($db->quoteName('c.title', 'category_title'))
 				->join('LEFT',
 					$db->quoteName('#__categories', 'c'),
-					$db->quoteName('c.id') . ' = ' . $fields['catid']
+					$db->quoteName('c.id') . ' = ' . $db->quoteName($fields['catid'])
 				);
 
 			$groupby[] = 'c.title';
@@ -338,7 +338,7 @@ class AssociationsModel extends ListModel
 				->select($db->quoteName('mt.id', 'menutypeid'))
 				->join('LEFT',
 					$db->quoteName('#__menu_types', 'mt'),
-					$db->quoteName('mt.menutype') . ' = ' . $fields['menutype']
+					$db->quoteName('mt.menutype') . ' = ' . $db->quoteName($fields['menutype'])
 				);
 
 			$groupby[] = 'mt.title';
@@ -355,7 +355,7 @@ class AssociationsModel extends ListModel
 			$query->select($db->quoteName('ag.title', 'access_level'))
 				->join('LEFT',
 					$db->quoteName('#__viewlevels', 'ag'),
-					$db->quoteName('ag.id') . ' = ' . $fields['access']
+					$db->quoteName('ag.id') . ' = ' . $db->quoteName($fields['access'])
 				);
 
 			$groupby[] = 'ag.title';
