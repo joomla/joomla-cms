@@ -766,7 +766,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 */
 	public function onUserAfterLogin($options)
 	{
-		if ($options['action'] = 'core.api.login')
+		if ($options['action'] === 'core.login.api')
 		{
 			return;
 		}
