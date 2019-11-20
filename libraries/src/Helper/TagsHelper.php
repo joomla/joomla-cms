@@ -897,7 +897,7 @@ class TagsHelper extends CMSHelper
 		// Search in title or path
 		if (!empty($filters['like']))
 		{
-			$search = '%' . $filter['like'] . '%';
+			$search = '%' . $filters['like'] . '%';
 			$query->extendWhere(
 				'AND',
 				[
