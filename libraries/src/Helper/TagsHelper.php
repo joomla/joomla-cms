@@ -1061,16 +1061,18 @@ class TagsHelper extends CMSHelper
 	public function unTagItem($contentId, TableInterface $table, $tags = array())
 	{
 		$key = $table->getKeyName();
-		$id = $table->$key;
+		$id = (int) $table->$key;
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__contentitem_tag_map'))
 			->where(
 				[
-					$db->quoteName('type_alias') . ' = ' . $db->quote($this->typeAlias),
-					$db->quoteName('content_item_id') . ' = ' . (int) $id,
+					$db->quoteName('type_alias') . ' = :type',
+					$db->quoteName('content_item_id') . ' = :id',
 				]
-			);
+			)
+			->bind(':type', $this->typeAlias)
+			->bind(':id', $id, ParameterType::INTEGER);
 
 		if (\is_array($tags) && \count($tags) > 0)
 		{
