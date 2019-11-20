@@ -358,7 +358,7 @@ class TagsHelper extends CMSHelper
 				]
 			)
 			->bind(':contentType', $contentType)
-			->bind(':itemId', $id);
+			->bind(':id', $id);
 
 		$user = Factory::getUser();
 		$groups = $user->getAuthorisedViewLevels();
@@ -467,8 +467,8 @@ class TagsHelper extends CMSHelper
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$user = Factory::getUser();
-		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(Factory::getDate()->toSql());
+		$nullDate = $db->getNullDate();
+		$nowDate = Factory::getDate()->toSql();
 
 		// Force ids to array and sanitize
 		$tagIds = (array) $tagId;
@@ -497,95 +497,131 @@ class TagsHelper extends CMSHelper
 		$stateFilters = ArrayHelper::toInteger($stateFilters);
 
 		// M is the mapping table. C is the core_content table. Ct is the content_types table.
-		$query
-			->select(
-				'm.type_alias'
-				. ', m.content_item_id'
-				. ', m.core_content_id'
-				. ', count(m.tag_id) AS match_count'
-				. ', MAX(m.tag_date) as tag_date'
-				. ', MAX(c.core_title) AS core_title'
-				. ', MAX(c.core_params) AS core_params'
-			)
-			->select('MAX(c.core_alias) AS core_alias, MAX(c.core_body) AS core_body, MAX(c.core_state) AS core_state, MAX(c.core_access) AS core_access')
-			->select(
-				'MAX(c.core_metadata) AS core_metadata'
-				. ', MAX(c.core_created_user_id) AS core_created_user_id'
-				. ', MAX(c.core_created_by_alias) AS core_created_by_alias'
-			)
-			->select('MAX(c.core_created_time) as core_created_time, MAX(c.core_images) as core_images')
-			->select('CASE WHEN c.core_modified_time = ' . $nullDate . ' THEN c.core_created_time ELSE c.core_modified_time END as core_modified_time')
-			->select('MAX(c.core_language) AS core_language, MAX(c.core_catid) AS core_catid')
-			->select('MAX(c.core_publish_up) AS core_publish_up, MAX(c.core_publish_down) as core_publish_down')
-			->select('MAX(ct.type_title) AS content_type_title, MAX(ct.router) AS router')
-
-			->from('#__contentitem_tag_map AS m')
+		$query->select(
+			[
+				$db->quoteName('m.type_alias'),
+				$db->quoteName('m.content_item_id'),
+				$db->quoteName('m.core_content_id'),
+				'COUNT(' . $db->quoteName('m.tag_id') . ') AS ' . $db->quoteName('match_count'),
+				'MAX(' . $db->quoteName('m.tag_date') . ') AS ' . $db->quoteName('tag_date'),
+				'MAX(' . $db->quoteName('c.core_title') . ') AS ' . $db->quoteName('core_title'),
+				'MAX(' . $db->quoteName('c.core_params') . ') AS ' . $db->quoteName('core_params'),
+				'MAX(' . $db->quoteName('c.core_alias') . ') AS ' . $db->quoteName('core_alias'),
+				'MAX(' . $db->quoteName('c.core_body') . ') AS ' . $db->quoteName('core_body'),
+				'MAX(' . $db->quoteName('c.core_state') . ') AS ' . $db->quoteName('core_state'),
+				'MAX(' . $db->quoteName('c.core_access') . ') AS ' . $db->quoteName('core_access'),
+				'MAX(' . $db->quoteName('c.core_metadata') . ') AS ' . $db->quoteName('core_metadata'),
+				'MAX(' . $db->quoteName('c.core_created_user_id') . ') AS ' . $db->quoteName('core_created_user_id'),
+				'MAX(' . $db->quoteName('c.core_created_by_alias') . ') AS' . $db->quoteName('core_created_by_alias'),
+				'MAX(' . $db->quoteName('c.core_created_time') . ') AS ' . $db->quoteName('core_created_time'),
+				'MAX(' . $db->quoteName('c.core_images') . ') AS ' . $db->quoteName('core_images'),
+				'CASE WHEN ' . $db->quoteName('c.core_modified_time') . ' = :nullDate THEN ' . $db->quoteName('c.core_created_time')
+				. ' ELSE ' . $db->quoteName('c.core_modified_time') . ' END AS ' . $db->quoteName('core_modified_time'),
+				'MAX(' . $db->quoteName('c.core_language') . ') AS ' . $db->quoteName('core_language'),
+				'MAX(' . $db->quoteName('c.core_catid') . ') AS ' . $db->quoteName('core_catid'),
+				'MAX(' . $db->quoteName('c.core_publish_up') . ') AS ' . $db->quoteName('core_publish_up'),
+				'MAX(' . $db->quoteName('c.core_publish_down') . ') AS ' . $db->quoteName('core_publish_down'),
+				'MAX(' . $db->quoteName('ct.type_title') . ') AS ' . $db->quoteName('content_type_title'),
+				'MAX(' . $db->quoteName('ct.router') . ') AS ' . $db->quoteName('router'),
+				'CASE WHEN ' . $db->quoteName('c.core_created_by_alias') . ' > ' . $db->quote(' ')
+				. ' THEN ' . $db->quoteName('c.core_created_by_alias') . ' ELSE ' . $db->quoteName('ua.name') . ' END AS ' . $db->quoteName('author'),
+				$db->quoteName('ua.email', 'author_email'),
+			]
+		)
+			->bind(':nullDate', $nullDate)
+			->from($db->quoteName('#__contentitem_tag_map', 'm'))
 			->join(
 				'INNER',
-				'#__ucm_content AS c ON m.type_alias = c.core_type_alias AND m.core_content_id = c.core_content_id AND c.core_state IN ('
-					. implode(',', $stateFilters) . ')'
-					. (\in_array('0', $stateFilters) ? '' : ' AND (c.core_publish_up = ' . $nullDate
-					. ' OR c.core_publish_up IS NULL OR c.core_publish_up <= ' . $nowDate . ') '
-					. ' AND (c.core_publish_down = ' . $nullDate
-					. ' OR c.core_publish_down IS NULL OR c.core_publish_down >= ' . $nowDate . ')')
+				$db->quoteName('#__ucm_content', 'c'),
+				$db->quoteName('m.type_alias') . ' = ' . $db->quoteName('c.core_type_alias')
+				. ' AND ' . $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id')
 			)
-			->join('INNER', '#__content_types AS ct ON ct.type_alias = m.type_alias')
+			->join('INNER', $db->quoteName('#__content_types', 'ct'), $db->quoteName('ct.type_alias') . ' = ' . $db->quoteName('m.type_alias'));
 
-			// Join over categories for get only tags from published categories
-			->join('LEFT', '#__categories AS tc ON tc.id = c.core_catid')
+		// Join over categories to get only tags from published categories
+		$query->join('LEFT', $db->quoteName('#__categories', 'tc'), $db->quoteName('tc.id') . ' = ' . $db->quoteName('c.core_catid'));
 
-			// Join over the users for the author and email
-			->select("CASE WHEN c.core_created_by_alias > ' ' THEN c.core_created_by_alias ELSE ua.name END AS author")
-			->select('ua.email AS author_email')
-
-			->join('LEFT', '#__users AS ua ON ua.id = c.core_created_user_id')
-
-			->where('m.tag_id IN (' . implode(',', $tagIds) . ')')
-			->where('(c.core_catid = 0 OR tc.published = 1)');
-
-		// Optionally filter on language
-		if (empty($language))
-		{
-			$language = $languageFilter;
-		}
-
-		if ($language !== 'all')
-		{
-			if ($language === 'current_language')
-			{
-				$language = $this->getCurrentLanguage();
-			}
-
-			$query->where($db->quoteName('c.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
-		}
+		// Join over the users for the author and email
+		$query->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('c.core_created_user_id'))
+			->whereIn($db->quoteName('c.core_state'), $stateFilters)
+			->whereIn($db->quoteName('m.tag_id'), $tagIds)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('c.core_catid') . ' = 0',
+					$db->quoteName('tc.published') . ' = 1',
+				],
+				'OR'
+			);
 
 		// Get the type data, limited to types in the request if there are any specified.
 		$typesarray = self::getTypes('assocList', $typesr, false);
+		$query->whereIn($db->quoteName('m.type_alias'), $typesarray, ParameterType::STRING);
 
-		$typeAliases = array();
+		$groups   = array_unique($user->getAuthorisedViewLevels());
+		$groups[] = 0;
+		$query->whereIn($db->quoteName('c.core_access'), $groups);
 
-		foreach ($typesarray as $type)
+		if (\in_array('0', $stateFilters))
 		{
-			$typeAliases[] = $db->quote($type['type_alias']);
+			$query->extendWhere(
+				'AND',
+				[
+					$db->quoteName('c.core_publish_up') . ' = :nullDate1',
+					$db->quoteName('c.core_publish_up') . ' IS NULL',
+					$db->quoteName('c.core_publish_up') . ' <= :nowDate1',
+				],
+				'OR'
+			)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('c.core_publish_down') . ' = :nullDate2',
+					$db->quoteName('c.core_publish_down') . ' IS NULL',
+					$db->quoteName('c.core_publish_down') . ' >= :nowDate2',
+				],
+				'OR'
+			)
+			->bind([':nullDate1', ':nullDate2'], $nullDate)
+			->bind([':nowDate1', ':nowDate2'], $nowDate);
 		}
 
-		$query->where('m.type_alias IN (' . implode(',', $typeAliases) . ')');
+		// Optionally filter on language
+		if ($languageFilter !== 'all')
+		{
+			if ($languageFilter === 'current_language')
+			{
+				$languageFilter = $this->getCurrentLanguage();
+			}
 
-		$groups = '0,' . implode(',', array_unique($user->getAuthorisedViewLevels()));
-		$query->where('c.core_access IN (' . $groups . ')')
-			->group('m.type_alias, m.content_item_id, m.core_content_id, core_modified_time, core_created_time, core_created_by_alias, author, author_email');
+			$query->whereIn($db->quoteName('c.core_language'), [$languageFilter, '*'], ParameterType::STRING);
+		}
+
+		$query->group(
+			[
+				$db->quoteName('m.type_alias'),
+				$db->quoteName('m.content_item_id'),
+				$db->quoteName('m.core_content_id'),
+				$db->quoteName('core_modified_time'),
+				$db->quoteName('core_created_time'),
+				$db->quoteName('core_created_by_alias'),
+				$db->quoteName('author'),
+				$db->quoteName('author_email'),
+			]
+		);
 
 		// Use HAVING if matching all tags and we are matching more than one tag.
 		if ($ntagsr > 1 && $anyOrAll != 1 && $includeChildren != 1)
 		{
 			// The number of results should equal the number of tags requested.
-			$query->having("COUNT('m.tag_id') = " . (int) $ntagsr);
+			$query->having('COUNT(' . $db->quoteName('m.tag_id') . ') = :ntagsr')
+				->bind(':ntagsr', $ntagsr, ParameterType::INTEGER);
 		}
 
 		// Set up the order by using the option chosen
 		if ($orderByOption === 'match_count')
 		{
-			$orderBy = 'COUNT(m.tag_id)';
+			$orderBy = 'COUNT(' . $db->quoteName('m.tag_id') . ')';
 		}
 		else
 		{
@@ -618,8 +654,8 @@ class TagsHelper extends CMSHelper
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__tags'))
-				->whereIn($db->quoteName('id'), $tagIds);
-			$query->order($db->quoteName('title'));
+				->whereIn($db->quoteName('id'), $tagIds)
+				->order($db->quoteName('title'));
 
 			$db->setQuery($query);
 			$tagNames = $db->loadColumn();
