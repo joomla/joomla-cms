@@ -574,17 +574,17 @@ class TagsHelper extends CMSHelper
 				],
 				'OR'
 			)
-			->extendWhere(
-				'AND',
-				[
-					$db->quoteName('c.core_publish_down') . ' = :nullDate2',
-					$db->quoteName('c.core_publish_down') . ' IS NULL',
-					$db->quoteName('c.core_publish_down') . ' >= :nowDate2',
-				],
-				'OR'
-			)
-			->bind([':nullDate1', ':nullDate2'], $nullDate)
-			->bind([':nowDate1', ':nowDate2'], $nowDate);
+				->extendWhere(
+					'AND',
+					[
+						$db->quoteName('c.core_publish_down') . ' = :nullDate2',
+						$db->quoteName('c.core_publish_down') . ' IS NULL',
+						$db->quoteName('c.core_publish_down') . ' >= :nowDate2',
+					],
+					'OR'
+				)
+				->bind([':nullDate1', ':nullDate2'], $nullDate)
+				->bind([':nowDate1', ':nowDate2'], $nowDate);
 		}
 
 		// Optionally filter on language
