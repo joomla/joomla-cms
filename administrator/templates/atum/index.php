@@ -142,7 +142,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 				<div class="sidebar-toggle">
 					<a id="menu-collapse" href="#">
 						<span id="menu-collapse-icon" class="fa fa-toggle-off fa-fw" aria-hidden="true"></span>
-						<span class="sidebar-item-title"><?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?></span>
+						<span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
 					</a>
 				</div>
 				<jdoc:include type="modules" name="menu" style="none" />
