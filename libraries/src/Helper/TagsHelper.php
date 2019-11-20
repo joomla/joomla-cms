@@ -88,25 +88,26 @@ class TagsHelper extends CMSHelper
 		$query = $db->getQuery(true);
 		$query->insert('#__contentitem_tag_map');
 		$query->columns(
-			array(
-				$db->quoteName('type_alias'),
+			[
 				$db->quoteName('core_content_id'),
 				$db->quoteName('content_item_id'),
 				$db->quoteName('tag_id'),
-				$db->quoteName('tag_date'),
 				$db->quoteName('type_id'),
-			)
+				$db->quoteName('type_alias'),
+				$db->quoteName('tag_date'),
+			]
 		);
 
 		foreach ($tags as $tag)
 		{
 			$query->values(
-				$db->quote($this->typeAlias)
-				. ', ' . (int) $ucmId
-				. ', ' . (int) $item
-				. ', ' . $db->quote($tag)
-				. ', ' . $query->currentTimestamp()
-				. ', ' . (int) $typeId
+				implode(
+					',',
+					array_merge(
+						$query->bindArray([(int) $ucmId, (int) $item, (int) $tag, (int) $typeId]),
+						$query->bindArray([$this->typeAlias, $query->currentTimestamp()], ParameterType::STRING)
+					)
+				)
 			);
 		}
 
@@ -152,9 +153,14 @@ class TagsHelper extends CMSHelper
 				$db = Factory::getDbo();
 
 				$query = $db->getQuery(true)
-					->select('alias, title')
-					->from('#__tags')
-					->where('alias IN (' . implode(',', array_map(array($db, 'quote'), $aliases)) . ')');
+					->select(
+						[
+							$db->quoteName('alias'),
+							$db->quoteName('title'),
+						]
+					)
+					->from($db->quoteName('#__tags'))
+					->whereIn($db->quoteName('alias'), $aliases, ParameterType::STRING);
 				$db->setQuery($query);
 
 				try
