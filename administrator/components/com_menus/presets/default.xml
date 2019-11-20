@@ -84,7 +84,7 @@
 
 		<menuitem
 			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE"
-			quicktask-title="MOD_MENU_COM_CONTENT_NEW_MODULE"
+			quicktask-title="MOD_MENU_COM_CONTENT_NEW_SITE_MODULE"
 			type="component"
 			element="com_modules"
 			link="index.php?option=com_modules&amp;view=modules&amp;client_id=0"
@@ -93,9 +93,11 @@
 
 		<menuitem
 			title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR"
+			quicktask-title="MOD_MENU_COM_CONTENT_NEW_ADMIN_MODULE"
 			type="component"
 			element="com_modules"
 			link="index.php?option=com_modules&amp;view=modules&amp;client_id=1"
+			quicktask="index.php?option=com_modules&amp;view=select&amp;client_id=1"
 		/>
 	</menuitem>
 
@@ -143,7 +145,7 @@
 			>
 			<menuitem
 				title="{sql:title} "
-				quicktask-title="MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM"
+				quicktask-title="MOD_MENU_MENU_MANAGER_NEW_SITE_MENU_ITEM"
 				type="component"
 				element="com_menus"
 				link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
@@ -164,12 +166,13 @@
 			>
 			<menuitem
 				title="{sql:title}"
-				quicktask-title="MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM"
+				quicktask-title="MOD_MENU_MENU_MANAGER_NEW_ADMIN_MENU_ITEM"
 				type="component"
 				element="com_menus"
 				link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
 				icon="{sql:icon}"
 				class="class:menu"
+				quicktask="index.php?option=com_menus&amp;task=item.add&amp;client_id=1&amp;menutype={sql:menutype}"
 			/>
 		</menuitem>
 	</menuitem>

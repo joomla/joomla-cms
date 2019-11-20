@@ -117,8 +117,7 @@ class FeaturedModel extends ListModel
 			$query->bind(':published', $state, ParameterType::INTEGER);
 
 			// Filter by start and end dates.
-			$date = Factory::getDate();
-			$nowDate = $db->quote($date->toSql());
+			$nowDate = Factory::getDate()->toSql();
 
 			$query->where('(' . $db->quoteName('a.publish_up') .
 				' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)'
@@ -133,8 +132,8 @@ class FeaturedModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$language = [Factory::getLanguage()->getTag(), $db->quote('*')];
-			$query->whereIn($db->quoteName('a.language'), $language);
+			$language = [Factory::getLanguage()->getTag(), '*'];
+			$query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
 		}
 
 		// Add the list ordering clause.

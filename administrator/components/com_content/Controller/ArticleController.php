@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
@@ -47,6 +48,44 @@ class ArticleController extends FormController
 		{
 			$this->view_list = 'featured';
 			$this->view_item = 'article&return=featured';
+		}
+	}
+
+	/**
+	 * Function that allows child controller access to model data
+	 * after the data has been saved.
+	 *
+	 * @param   BaseDatabaseModel  $model      The data model object.
+	 * @param   array              $validData  The validated data.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
+	{
+		if ($this->getTask() === 'save2menu')
+		{
+			$editState = [];
+
+			$id = $model->getState('article.id');
+
+			$link = 'index.php?option=com_content&view=article';
+			$type = 'component';
+
+			$editState['id'] = $id;
+			$editState['link']  = $link;
+			$editState['title'] = $model->getItem($id)->title;
+			$editState['type']  = $type;
+			$editState['request']['id'] = $id;
+
+			$this->app->setUserState('com_menus.edit.item', array(
+				'data' => $editState,
+				'type' => $type,
+				'link' => $link)
+			);
+
+			$this->setRedirect(Route::_('index.php?option=com_menus&view=item&client_id=0&menutype=mainmenu&layout=edit', false));
 		}
 	}
 

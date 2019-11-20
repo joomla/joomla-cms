@@ -39,7 +39,11 @@ $app = Factory::getApplication();
 $input = $app->input;
 
 $assoc = Associations::isEnabled();
-$hasAssoc = ($this->form->getValue('language', null, '*') !== '*');
+
+if (!$assoc)
+{
+	$this->ignore_fieldsets[] = 'frontendassociations';
+}
 
 // In case of modal
 $isModal = $input->get('layout') === 'modal';
@@ -132,22 +136,20 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
-		<?php if (!$isModal && $assoc) : ?>
+		<?php if (!$isModal && $assoc && $params->get('show_associations_edit', 1) == 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
-			<?php if ($hasAssoc) : ?>
-				<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
-				<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
-				<div>
-				<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
-				</div>
-				</fieldset>
-			<?php endif; ?>
+			<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
+			<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
+			<div>
+			<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+			</div>
+			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php elseif ($isModal && $assoc) : ?>
 			<div class="hidden"><?php echo LayoutHelper::render('joomla.edit.associations', $this); ?></div>
 		<?php endif; ?>
 
-		<?php if ($this->canDo->get('core.admin')) : ?>
+		<?php if ($this->canDo->get('core.admin') && $params->get('show_configure_edit_options', 1) == 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'editor', Text::_('COM_CONTENT_SLIDER_EDITOR_CONFIG')); ?>
 			<fieldset id="fieldset-editor" class="form-no-margin options-grid-form">
 				<legend><?php echo Text::_('COM_CONTENT_SLIDER_EDITOR_CONFIG'); ?></legend>
@@ -158,7 +160,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
-		<?php if ($this->canDo->get('core.admin')) : ?>
+		<?php if ($this->canDo->get('core.admin') && $params->get('show_permissions', 1) == 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_CONTENT_FIELDSET_RULES')); ?>
 			<fieldset id="fieldset-rules" class="options-grid-form options-grid-form-full">
 				<legend><?php echo Text::_('COM_CONTENT_FIELDSET_RULES'); ?></legend>
