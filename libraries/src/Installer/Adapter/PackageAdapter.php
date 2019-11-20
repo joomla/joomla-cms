@@ -311,15 +311,13 @@ class PackageAdapter extends InstallerAdapter
 	 */
 	protected function finaliseUninstall(): bool
 	{
-		$extensionId = $this->extension->extension_id;
-
 		$db = $this->parent->getDbo();
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__schemas'))
 			->where($db->quoteName('extension_id') . ' = :extension_id')
-			->bind(':extension_id', $extensionId, ParameterType::INTEGER);
+			->bind(':extension_id', $this->extension->extension_id, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 
