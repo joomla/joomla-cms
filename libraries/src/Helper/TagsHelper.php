@@ -336,23 +336,28 @@ class TagsHelper extends CMSHelper
 	 */
 	public function getItemTags($contentType, $id, $getTagData = true)
 	{
+		// Cast as integer until method is typehinted.
+		$id = (int) $id;
+
 		// Initialize some variables.
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('m.tag_id'))
-			->from($db->quoteName('#__contentitem_tag_map') . ' AS m ')
+			->from($db->quoteName('#__contentitem_tag_map', 'm'))
 			->where(
-				array(
-					$db->quoteName('m.type_alias') . ' = ' . $db->quote($contentType),
-					$db->quoteName('m.content_item_id') . ' = ' . (int) $id,
+				[
+					$db->quoteName('m.type_alias') . ' = :contentType',
+					$db->quoteName('m.content_item_id') . ' = :id',
 					$db->quoteName('t.published') . ' = 1',
-				)
-			);
+				]
+			)
+			->bind(':contentType', $contentType)
+			->bind(':itemId', $id);
 
 		$user = Factory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$groups = $user->getAuthorisedViewLevels();
 
-		$query->where('t.access IN (' . $groups . ')');
+		$query->whereIn($db->quoteName('t.access'), $groups);
 
 		// Optionally filter on language
 		$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
@@ -364,7 +369,7 @@ class TagsHelper extends CMSHelper
 				$language = $this->getCurrentLanguage();
 			}
 
-			$query->where($db->quoteName('language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
+			$query->whereIn($db->quoteName('language'), [$language, '*'], ParameterType::STRING);
 		}
 
 		if ($getTagData)
@@ -372,7 +377,7 @@ class TagsHelper extends CMSHelper
 			$query->select($db->quoteName('t') . '.*');
 		}
 
-		$query->join('INNER', $db->quoteName('#__tags') . ' AS t ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
+		$query->join('INNER', $db->quoteName('#__tags', 't'), $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'));
 
 		$db->setQuery($query);
 		$this->itemTags = $db->loadObjectList();
@@ -416,13 +421,11 @@ class TagsHelper extends CMSHelper
 		// Load the tags.
 		$query = $db->getQuery(true)
 			->select($db->quoteName('t.id'))
-			->from($db->quoteName('#__tags') . ' AS t ')
-			->join(
-				'INNER', $db->quoteName('#__contentitem_tag_map') . ' AS m'
-				. ' ON ' . $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id')
-				. ' AND ' . $db->quoteName('m.type_alias') . ' = ' . $db->quote($prefix)
-				. ' AND ' . $db->quoteName('m.content_item_id') . ' IN ( ' . implode(',', $ids) . ')'
-			);
+			->from($db->quoteName('#__tags', 't'))
+			->join('INNER', $db->quoteName('#__contentitem_tag_map', 'm'), $db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id'))
+			->where($db->quoteName('m.type_alias') . ' = :prefix')
+			->whereIn($db->quoteName('m.content_item_id'), $ids)
+			->bind(':prefix', $prefix);
 
 		$db->setQuery($query);
 
