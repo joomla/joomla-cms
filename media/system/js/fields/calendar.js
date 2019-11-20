@@ -798,7 +798,7 @@
 				self.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
 				self.inputField.setAttribute('value', '');
 				self.inputField.value = '';
-				if(self.inputField.onchange) {
+				if (self.inputField.onchange) {
 					self.inputField.onchange();
 				}
 			});
