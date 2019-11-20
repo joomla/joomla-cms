@@ -78,7 +78,7 @@ class TagsHelper extends CMSHelper
 		}
 
 		// Prevent saving duplicate tags
-		$tags = array_unique($tags);
+		$tags = array_values(array_unique($tags));
 
 		if (!$tags)
 		{
@@ -148,7 +148,7 @@ class TagsHelper extends CMSHelper
 			if ($aliases)
 			{
 				// Remove duplicates
-				$aliases = array_unique($aliases);
+				$aliases = array_values(array_unique($aliases));
 
 				$db = Factory::getDbo();
 
