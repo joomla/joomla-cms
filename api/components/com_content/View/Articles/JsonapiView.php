@@ -151,10 +151,10 @@ class JsonapiView extends BaseApiView
 			$item->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
 		}
 
-		if (\Joomla\CMS\Language\Multilanguage::isEnabled())
-		{
-			$associations = [];
+		$associations = [];
 
+		if (\Joomla\CMS\Language\Multilanguage::isEnabled() && !empty($item->associations))
+		{
 			foreach ($item->associations as $language => $association)
 			{
 				$itemId = explode(':', $association)[0];
@@ -164,9 +164,9 @@ class JsonapiView extends BaseApiView
 					'language' => $language,
 				];
 			}
-
-			$item->associations = $associations;
 		}
+
+		$item->associations = $associations;
 
 		if (!empty($item->tags->tags))
 		{
