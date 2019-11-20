@@ -489,7 +489,7 @@ class TagsHelper extends CMSHelper
 				$this->getTagTreeArray($tag, $tagTreeArray);
 			}
 
-			$tagIds = array_unique(array_merge($tagIds, $tagTreeArray));
+			$tagIds = array_values(array_unique(array_merge($tagIds, $tagTreeArray)));
 		}
 
 		// Sanitize filter states
@@ -555,10 +555,11 @@ class TagsHelper extends CMSHelper
 			);
 
 		// Get the type data, limited to types in the request if there are any specified.
-		$typesarray = self::getTypes('assocList', $typesr, false);
-		$query->whereIn($db->quoteName('m.type_alias'), $typesarray, ParameterType::STRING);
+		$typesarray  = self::getTypes('assocList', $typesr, false);
+		$typeAliases = \array_column($typesarray, 'type_alias');
+		$query->whereIn($db->quoteName('m.type_alias'), $typeAliases, ParameterType::STRING);
 
-		$groups   = array_unique($user->getAuthorisedViewLevels());
+		$groups   = array_values(array_unique($user->getAuthorisedViewLevels()));
 		$groups[] = 0;
 		$query->whereIn($db->quoteName('c.core_access'), $groups);
 
