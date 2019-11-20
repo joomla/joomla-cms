@@ -105,7 +105,8 @@ class TagsHelper extends CMSHelper
 					',',
 					array_merge(
 						$query->bindArray([(int) $ucmId, (int) $item, (int) $tag, (int) $typeId]),
-						$query->bindArray([$this->typeAlias, $query->currentTimestamp()], ParameterType::STRING)
+						$query->bindArray([$this->typeAlias], ParameterType::STRING),
+						$query->currentTimestamp()
 					)
 				)
 			);
