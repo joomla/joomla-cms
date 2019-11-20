@@ -139,7 +139,7 @@ class JsonapiView extends BaseApiView
 		{
 			return $item;
 		}
-		
+
 		$item->text = $item->introtext . ' ' . $item->fulltext;
 
 		// Process the content plugins.
