@@ -17,6 +17,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMContent;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -608,7 +609,7 @@ class TagsHelper extends CMSHelper
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__tags'))
-				->where($db->quoteName('id') . ' IN (' . implode(',', $tagIds) . ')');
+				->whereIn($db->quoteName('id'), $tagIds);
 			$query->order($db->quoteName('title'));
 
 			$db->setQuery($query);
@@ -660,7 +661,7 @@ class TagsHelper extends CMSHelper
 	 *
 	 * @param   string   $arrayType    Optionally specify that the returned list consist of objects, associative arrays, or arrays.
 	 *                                 Options are: rowList, assocList, and objectList
-	 * @param   array    $selectTypes  Optional array of type ids to limit the results to. Often from a request.
+	 * @param   array    $selectTypes  Optional array of type ids or aliases to limit the results to. Often from a request.
 	 * @param   boolean  $useAlias     If true, the alias is used to match, if false the type_id is used.
 	 *
 	 * @return  array   Array of of types
@@ -680,15 +681,13 @@ class TagsHelper extends CMSHelper
 
 			if ($useAlias)
 			{
-				$selectTypes = array_map(array($db, 'quote'), $selectTypes);
-
-				$query->where($db->quoteName('type_alias') . ' IN (' . implode(',', $selectTypes) . ')');
+				$query->whereIn($db->quoteName('type_alias'), $selectTypes, ParameterType::STRING);
 			}
 			else
 			{
 				$selectTypes = ArrayHelper::toInteger($selectTypes);
 
-				$query->where($db->quoteName('type_id') . ' IN (' . implode(',', $selectTypes) . ')');
+				$query->whereIn($db->quoteName('type_id'), $selectTypes);
 			}
 		}
 
@@ -826,47 +825,64 @@ class TagsHelper extends CMSHelper
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value')
-			->select('a.path AS text')
-			->select('a.path')
-			->from('#__tags AS a')
-			->join('LEFT', $db->quoteName('#__tags', 'b') . ' ON a.lft > b.lft AND a.rgt < b.rgt');
-
-		// Filter language
-		if (!empty($filters['flanguage']))
-		{
-			$query->where('a.language IN (' . $db->quote($filters['flanguage']) . ',' . $db->quote('*') . ') ');
-		}
+			->select(
+				[
+					$db->quoteName('a.id', 'value'),
+					$db->quoteName('a.path', 'text'),
+					$db->quoteName('a.path'),
+				]
+			)
+			->from($db->quoteName('#__tags', 'a'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__tags', 'b'),
+				$db->quoteName('a.lft') . ' > ' . $db->quoteName('b.lft') . ' AND ' . $db->quoteName('a.rgt') . ' < ' . $db->quoteName('b.rgt')
+			);
 
 		// Do not return root
 		$query->where($db->quoteName('a.alias') . ' <> ' . $db->quote('root'));
 
+		// Filter language
+		if (!empty($filters['flanguage']))
+		{
+			$query->whereIn($db->quoteName('a.language'), [$filters['flanguage'], '*'], ParameterType::STRING);
+		}
+
 		// Search in title or path
 		if (!empty($filters['like']))
 		{
-			$query->where(
-				'(' . $db->quoteName('a.title') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%')
-					. ' OR ' . $db->quoteName('a.path') . ' LIKE ' . $db->quote('%' . $filters['like'] . '%') . ')'
-			);
+			$search = '%' . $filter['like'] . '%';
+			$query->extendWhere(
+				'AND',
+				[
+					$db->quoteName('a.title') . ' LIKE :search1',
+					$db->quoteName('a.path') . ' LIKE :search2',
+				],
+				'OR'
+			)
+				->bind([':search1', ':search2'], $search);
 		}
 
 		// Filter title
 		if (!empty($filters['title']))
 		{
-			$query->where($db->quoteName('a.title') . ' = ' . $db->quote($filters['title']));
+			$query->where($db->quoteName('a.title') . ' = :title')
+				->bind(':title', $filters['title']);
 		}
 
 		// Filter on the published state
 		if (isset($filters['published']) && is_numeric($filters['published']))
 		{
-			$query->where('a.published = ' . (int) $filters['published']);
+			$published = (int) $filters['published'];
+			$query->where($db->quoteName('a.published') . ' = :published')
+				->bind(':published', $filters['published'], ParameterType::INTEGER);
 		}
 
 		// Filter on the access level
 		if (isset($filters['access']) && \is_array($filters['access']) && \count($filters['access']))
 		{
 			$groups = ArrayHelper::toInteger($filters['access']);
-			$query->where('a.access IN (' . implode(",", $groups) . ')');
+			$query->whereIn($db->quoteName('a.access'), $groups);
 		}
 
 		// Filter by parent_id
@@ -877,17 +893,25 @@ class TagsHelper extends CMSHelper
 
 			if ($children = $tagTable->getTree($filters['parent_id']))
 			{
-				foreach ($children as $child)
-				{
-					$childrenIds[] = $child->id;
-				}
+				$childrenIds = \array_column($children, 'id');
 
-				$query->where('a.id IN (' . implode(',', $childrenIds) . ')');
+				$query->whereIn($db->quoteName('a.id'), $childrenIds);
 			}
 		}
 
-		$query->group('a.id, a.title, a.level, a.lft, a.rgt, a.parent_id, a.published, a.path')
-			->order('a.lft ASC');
+		$query->group(
+			[
+				$db->quoteName('a.id'),
+				$db->quoteName('a.title'),
+				$db->quoteName('a.level'),
+				$db->quoteName('a.lft'),
+				$db->quoteName('a.rgt'),
+				$db->quoteName('a.parent_id'),
+				$db->quoteName('a.published'),
+				$db->quoteName('a.path'),
+			]
+		)
+			->order($db->quoteName('a.lft') . ' ASC');
 
 		// Get the options.
 		$db->setQuery($query);
@@ -916,11 +940,15 @@ class TagsHelper extends CMSHelper
 	 */
 	public function tagDeleteInstances($tag_id)
 	{
+		// Cast as integer until method is typehinted.
+		$tag_id = (int) $tag_id;
+
 		// Delete the old tag maps.
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__contentitem_tag_map'))
-			->where($db->quoteName('tag_id') . ' = ' . (int) $tag_id);
+			->where($db->quoteName('tag_id') . ' = :id')
+			->bind(':id', $tag_id, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
 	}
@@ -990,15 +1018,19 @@ class TagsHelper extends CMSHelper
 		$id = $table->$key;
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->delete('#__contentitem_tag_map')
-			->where($db->quoteName('type_alias') . ' = ' . $db->quote($this->typeAlias))
-			->where($db->quoteName('content_item_id') . ' = ' . (int) $id);
+			->delete($db->quoteName('#__contentitem_tag_map'))
+			->where(
+				[
+					$db->quoteName('type_alias') . ' = ' . $db->quote($this->typeAlias),
+					$db->quoteName('content_item_id') . ' = ' . (int) $id,
+				]
+			);
 
 		if (\is_array($tags) && \count($tags) > 0)
 		{
 			$tags = ArrayHelper::toInteger($tags);
 
-			$query->where($db->quoteName('tag_id') . ' IN (' . implode(',', $tags) . ')');
+			$query->whereIn($db->quoteName('tag_id'), $tags);
 		}
 
 		$db->setQuery($query);
