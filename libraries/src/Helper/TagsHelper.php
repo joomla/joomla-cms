@@ -921,7 +921,7 @@ class TagsHelper extends CMSHelper
 		{
 			$published = (int) $filters['published'];
 			$query->where($db->quoteName('a.published') . ' = :published')
-				->bind(':published', $filters['published'], ParameterType::INTEGER);
+				->bind(':published', $published, ParameterType::INTEGER);
 		}
 
 		// Filter on the access level
