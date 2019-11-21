@@ -16,13 +16,15 @@ use Joomla\CMS\Language\Text;
 $article = $displayData['article'];
 $overlib = $displayData['overlib'];
 $legacy  = $displayData['legacy'];
+$nowDate = strtotime(Factory::getDate());
 
 if ($legacy)
 {
 	$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
 
-	if (strtotime($article->publish_up) > strtotime(Factory::getDate())
-		|| ((strtotime($article->publish_down) < strtotime(Factory::getDate())) && $article->publish_down != Factory::getDbo()->getNullDate()))
+	if (($article->publish_up !== null && strtotime($article->publish_up) > $nowDate)
+		|| ($article->publish_down !== null && strtotime($article->publish_down) < $nowDate
+			&& $article->publish_down !== Factory::getDbo()->getNullDate()))
 	{
 		$icon = 'edit_unpublished.png';
 	}
@@ -31,8 +33,9 @@ else
 {
 	$icon = $article->state ? 'edit' : 'eye-slash';
 
-	if (strtotime($article->publish_up) > strtotime(Factory::getDate())
-		|| ((strtotime($article->publish_down) < strtotime(Factory::getDate())) && $article->publish_down != Factory::getDbo()->getNullDate()))
+	if (($article->publish_up !== null && strtotime($article->publish_up) > $nowDate)
+		|| ($article->publish_down !== null && strtotime($article->publish_down) < $nowDate
+			&& $article->publish_down !== Factory::getDbo()->getNullDate()))
 	{
 		$icon = 'eye-slash';
 	}

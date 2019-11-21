@@ -58,19 +58,21 @@
 	<menuitem
 		type="separator"
 		title="JADMINISTRATOR"
+		icon="desktop"
 		hidden="false"
 		sql_select="title, menutype"
 		sql_from="#__menu_types"
 		sql_where="client_id = 1"
 		sql_order="id DESC"
+		sql_target="self"
 		>
 		<menuitem
 			title="{sql:title}"
 			type="component"
 			element="com_menus"
 			link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
-			icon="{sql:icon}"
 			class="class:menu"
+			quicktask="index.php?option=com_menus&amp;task=item.add&amp;client_id=1&amp;menutype={sql:menutype}"
 		/>
 	</menuitem>
 </menu>

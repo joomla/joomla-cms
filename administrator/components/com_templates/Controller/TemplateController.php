@@ -398,6 +398,9 @@ class TemplateController extends BaseController
 	 */
 	public function overrides()
 	{
+		// Check for request forgeries.
+		$this->checkToken('get');
+
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
 		$file     = $this->input->get('file');

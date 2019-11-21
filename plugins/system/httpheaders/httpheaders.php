@@ -50,6 +50,22 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	protected $db;
 
 	/**
+	 * The generated csp nonce value
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	private $cspNonce;
+
+	/**
+	 * The params of the com_csp component
+	 *
+	 * @var    Registry
+	 * @since  4.0.0
+	 */
+	private $comCspParams;
+
+	/**
 	 * The list of the supported HTTP headers
 	 *
 	 * @var    array
@@ -88,18 +104,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	{
 		parent::__construct($subject, $config);
 
-		// Get the application if not done by JPlugin.
-		if (!$this->app)
-		{
-			$this->app = Factory::getApplication();
-		}
-
-		// Get the db if not done by JPlugin.
-		if (!$this->db)
-		{
-			$this->db = Factory::getDbo();
-		}
-
 		// Get the com_csp params that include the content-security-policy configuration
 		$this->comCspParams = ComponentHelper::getParams('com_csp');
 
@@ -128,7 +132,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function applyHashesToCspRule(): void
 	{

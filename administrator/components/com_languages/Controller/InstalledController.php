@@ -84,9 +84,15 @@ class InstalledController extends BaseController
 		$cid   = $this->input->get('cid', '');
 		$model = $this->getModel('installed');
 
-		// Fetching the language name from the xx-XX.xml
+		// Fetching the language name from the xx-XX.xml or langmetadata.xml respectively.
 		$file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/' . $cid . '.xml';
-		$info = Installer::parseXMLInstallFile($file);
+
+		if (!is_file($file))
+		{
+			$file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/langmetadata.xml';
+		}
+
+		$info         = Installer::parseXMLInstallFile($file);
 		$languageName = $info['name'];
 
 		if ($model->switchAdminLanguage($cid))
