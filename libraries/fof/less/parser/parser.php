@@ -4,6 +4,7 @@
  * @subpackage  less
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
@@ -345,7 +346,7 @@ class FOFLessParser
 				{
 					foreach ($block->tags as $tag)
 					{
-						if (!is_string($tag) || $tag{0} != $this->lessc->mPrefix)
+						if (!is_string($tag) || $tag[0] != $this->lessc->mPrefix)
 						{
 							$hidden = false;
 							break;
@@ -428,7 +429,7 @@ class FOFLessParser
 		// Move @ tags out of variable namespace
 		foreach ($tags as &$tag)
 		{
-			if ($tag{0} == $this->lessc->vPrefix)
+			if ($tag[0] == $this->lessc->vPrefix)
 			{
 				$tag[0] = $this->lessc->mPrefix;
 			}
@@ -1676,7 +1677,7 @@ class FOFLessParser
 		{
 			return true;
 		}
-		elseif ($this->count == strlen($this->buffer) || $this->buffer{$this->count} == '}')
+		elseif ($this->count == strlen($this->buffer) || $this->buffer[$this->count] == '}')
 		{
 			// If there is end of file or a closing block next then we don't need a ;
 			return true;
