@@ -485,10 +485,6 @@ class CssMenu
 			$item->text = Text::_($item->title);
 		}
 
-		// Always load cpanel strings when system or help presets are in menu position
-		$language->load('com_cpanel', JPATH_ADMINISTRATOR, null, false, true) ||
-		$language->load('com_cpanel', JPATH_ADMINISTRATOR . '/components/com_cpanel', null, false, true);
-
 		// If last one was a separator remove it too.
 		$last = end($parent->getChildren());
 
