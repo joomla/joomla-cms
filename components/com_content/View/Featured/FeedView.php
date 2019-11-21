@@ -60,15 +60,6 @@ class FeedView extends AbstractView
 			// URL link to article
 			$link = Route::_(\ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
 
-			// Get row fulltext
-			$db = Factory::getDbo();
-			$query = $db->getQuery(true)
-				->select($db->quoteName('fulltext'))
-				->from($db->quoteName('#__content'))
-				->where($db->quoteName('id') . ' = ' . $row->id);
-			$db->setQuery($query);
-			$row->fulltext = $db->loadResult();
-
 			$description = '';
 			$obj = json_decode($row->images);
 			$introImage = $obj->{'image_intro'} ?? '';

@@ -111,7 +111,7 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function onAfterInitialise()
 	{
-		if ($this->app->isClient('administrator') || $this->app->get('offline', '0') || count($this->app->getMessageQueue()))
+		if ($this->app->isClient('administrator') || $this->app->get('offline', '0') || $this->app->getMessageQueue())
 		{
 			return;
 		}
@@ -121,9 +121,8 @@ class PlgSystemCache extends CMSPlugin
 
 		$results = $this->app->triggerEvent('onPageCacheSetCaching');
 		$caching = !in_array(false, $results, true);
-		$user    = Factory::getUser();
 
-		if ($caching && $user->get('guest') && $this->app->input->getMethod() == 'GET')
+		if ($caching && Factory::getUser()->guest && $this->app->input->getMethod() === 'GET')
 		{
 			$this->_cache->setCaching(true);
 		}
@@ -137,7 +136,7 @@ class PlgSystemCache extends CMSPlugin
 			$this->app->setBody($data);
 
 			// Dumps HTML page.
-			echo $this->app->toString();
+			echo $this->app->toString((bool) $this->app->get('gzip'));
 
 			// Mark afterCache in debug and run debug onAfterRespond events.
 			// e.g., show Joomla Debug Console if debug is active.
@@ -153,25 +152,31 @@ class PlgSystemCache extends CMSPlugin
 	}
 
 	/**
-	 * After Route Event.
+	 * After Render Event.
 	 * Verify if current page is not excluded from cache.
 	 *
 	 * @return   void
 	 *
-	 * @since   3.9.0
+	 * @since   3.9.12
 	 */
-	public function onAfterRoute()
+	public function onAfterRender()
 	{
-		if ($this->app->isClient('administrator') || $this->app->get('offline', '0') || count($this->app->getMessageQueue()))
+		if ($this->_cache->getCaching() === false)
 		{
 			return;
 		}
 
+		// We need to check if user is guest again here, because auto-login plugins have not been fired before the first aid check.
 		// Page is excluded if excluded in plugin settings.
-		if ($this->isExcluded())
+		if (!JFactory::getUser()->guest || $this->app->getMessageQueue() || $this->isExcluded() === true)
 		{
 			$this->_cache->setCaching(false);
+
+			return;
 		}
+
+		// Disable compression before caching the page.
+		$this->app->set('gzip', false);
 	}
 
 	/**
@@ -184,17 +189,13 @@ class PlgSystemCache extends CMSPlugin
 	 */
 	public function onAfterRespond()
 	{
-		if ($this->app->isClient('administrator') || $this->app->get('offline', '0') || count($this->app->getMessageQueue()))
+		if ($this->_cache->getCaching() === false)
 		{
 			return;
 		}
 
-		// We need to check if user is guest again here, because auto-login plugins have not been fired before the first aid check.
-		if (Factory::getUser()->get('guest'))
-		{
-			// Saves current page in cache.
-			$this->_cache->store(null, $this->getCacheKey());
-		}
+		// Saves current page in cache.
+		$this->_cache->store($this->app->getBody(), $this->getCacheKey());
 	}
 
 	/**
@@ -253,11 +254,6 @@ class PlgSystemCache extends CMSPlugin
 
 		$results = $this->app->triggerEvent('onPageCacheIsExcluded');
 
-		if (in_array(true, $results, true))
-		{
-			return true;
-		}
-
-		return false;
+		return in_array(true, $results, true);
 	}
 }

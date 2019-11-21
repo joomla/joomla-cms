@@ -353,7 +353,8 @@ class CssMenu
 			{
 				continue;
 			}
-			elseif ($item->link === 'index.php?option=com_cpanel&view=help')
+			elseif ($item->link === 'index.php?option=com_cpanel&view=help'
+				|| $item->link === 'index.php?option=com_cpanel&view=cpanel&dashboard=help')
 			{
 				if ($this->params->get('showhelp', 1))
 				{
