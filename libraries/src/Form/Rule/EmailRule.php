@@ -46,9 +46,10 @@ class EmailRule extends FormRule
 	 * @param   Registry           $input    An optional Registry object with the entire data set to validate against the entire form.
 	 * @param   Form               $form     The form object for which the field is being tested.
 	 *
-	 * @return  mixed  Boolean true if field value is valid, Exception on failure.
+	 * @return  mixed  Boolean true if field value is valid.
 	 *
 	 * @since   1.7.0
+	 * @throws  \UnexpectedValueException
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
@@ -80,7 +81,7 @@ class EmailRule extends FormRule
 			// Test the value against the regular expression.
 			if (!parent::test($element, $value, $group, $input, $form))
 			{
-				return new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
+				throw new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
 			}
 		}
 		else
@@ -95,7 +96,7 @@ class EmailRule extends FormRule
 				// Test the value against the regular expression.
 				if (!parent::test($element, $value, $group, $input, $form))
 				{
-					return new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
+					throw new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
 				}
 			}
 		}
@@ -164,7 +165,7 @@ class EmailRule extends FormRule
 				// If domain is not allowed, fail validation. Otherwise continue.
 				if (!$allowed)
 				{
-					return new \UnexpectedValueException(Text::sprintf('JGLOBAL_EMAIL_DOMAIN_NOT_ALLOWED', $emailDomain));
+					throw new \UnexpectedValueException(Text::sprintf('JGLOBAL_EMAIL_DOMAIN_NOT_ALLOWED', $emailDomain));
 				}
 			}
 		}
@@ -199,7 +200,7 @@ class EmailRule extends FormRule
 
 			if ($duplicate)
 			{
-				return new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'));
+				throw new \UnexpectedValueException(Text::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'));
 			}
 		}
 

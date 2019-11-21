@@ -11,7 +11,6 @@ namespace Joomla\Component\Contact\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -266,8 +265,6 @@ class ContactController extends FormController
 			$sent = $mail->Send();
 
 			// If we are supposed to copy the sender, do so.
-
-			// Check whether email copy function activated
 			if ($copy_email_activated == true && !empty($data['contact_email_copy']))
 			{
 				$copytext = Text::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);

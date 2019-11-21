@@ -43,11 +43,11 @@ $table_head = '';
 if (!empty($groupByFieldset))
 {
 	foreach ($tmpl->getFieldsets() as $fieldset) {
-		$table_head .= '<th>' . Text::_($fieldset->label);
+		$table_head .= '<th scope="col" style="width:45%">' . Text::_($fieldset->label);
 
 		if ($fieldset->description)
 		{
-			$table_head .= '<br><small style="font-weight:normal">' . Text::_($fieldset->description) . '</small>';
+			$table_head .= '<span class="fa fa-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-' . $field->id . '">' . Text::_($field->description) . '</div>';
 		}
 
 		$table_head .= '</th>';
@@ -58,11 +58,11 @@ if (!empty($groupByFieldset))
 else
 {
 	foreach ($tmpl->getGroup('') as $field) {
-		$table_head .= '<th>' . strip_tags($field->label);
+		$table_head .= '<th scope="col" style="width:45%">' . strip_tags($field->label);
 
 		if ($field->description)
 		{
-			$table_head .= '<br><small style="font-weight:normal">' . Text::_($field->description) . '</small>';
+			$table_head .= '<span class="fa fa-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-' . $field->id . '">' . Text::_($field->description) . '</div>';
 		}
 
 		$table_head .= '</th>';
@@ -82,20 +82,23 @@ else
 			button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
 			repeatable-element=".subform-repeatable-group"
 			rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
-
-		<table class="adminlist table table-striped table-bordered">
+		<table class="table" id="subfieldList">
+			<caption id="captionTable" class="sr-only">
+				<?php echo Text::_('JGLOBAL_REPEATABLE_FIELDS_TABLE_CAPTION'); ?>
+			</caption>
 			<thead>
 				<tr>
 					<?php echo $table_head; ?>
 					<?php if (!empty($buttons)) : ?>
-					<th style="width:8%;">
-					<?php if (!empty($buttons['add'])) : ?>
-						<div class="btn-group">
-							<a class="group-add btn btn-sm button btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>" tabindex="0">
-								<span class="fa fa-plus icon-white" aria-hidden="true"></span> </a>
-						</div>
-					<?php endif; ?>
-					</th>
+						<th style="width:8%;">
+							<?php if (!empty($buttons['add'])) : ?>
+								<div class="btn-group">
+									<button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
+										<span class="fa fa-plus" aria-hidden="true"></span>
+									</button>
+								</div>
+							<?php endif; ?>
+						</th>
 					<?php endif; ?>
 				</tr>
 			</thead>
@@ -108,9 +111,9 @@ else
 			</tbody>
 		</table>
 		<?php if ($multiple) : ?>
-		<template class="subform-repeatable-template-section" style="display: none;"><?php
-			echo trim($this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons)));
-		?></template>
+		<template class="subform-repeatable-template-section" style="display: none;">
+		<?php echo trim($this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons))); ?>
+		</template>
 		<?php endif; ?>
 		</joomla-field-subform>
 	</div>

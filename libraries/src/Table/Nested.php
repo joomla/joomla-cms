@@ -1648,7 +1648,7 @@ class Nested extends Table
 		// Check for no $row returned
 		if (empty($row))
 		{
-			$e = new \UnexpectedValueException(sprintf('%s::_getNode(%d, %s) failed.', \get_class($this), $id, $key));
+			$e = new \UnexpectedValueException(sprintf('%s::_getNode(%d, %s) failed.', \get_class($this), $id, $k));
 			$this->setError($e);
 
 			return false;
@@ -1741,9 +1741,9 @@ class Nested extends Table
 
 		if ($this->_debug)
 		{
-			echo "\nRepositioning Data for $position" . "\n-----------------------------------" . "\nLeft Where:    $data->left_where"
-				. "\nRight Where:   $data->right_where" . "\nNew Lft:       $data->new_lft" . "\nNew Rgt:       $data->new_rgt"
-				. "\nNew Parent ID: $data->new_parent_id" . "\nNew Level:     $data->new_level" . "\n";
+			echo "\nRepositioning Data for $position\n-----------------------------------\nLeft Where:    $data->left_where"
+				. "\nRight Where:   $data->right_where\nNew Lft:       $data->new_lft\nNew Rgt:       $data->new_rgt"
+				. "\nNew Parent ID: $data->new_parent_id\nNew Level:     $data->new_level\n";
 		}
 
 		return $data;

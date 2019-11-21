@@ -11,6 +11,7 @@ namespace Joomla\Component\Plugins\Api\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\String\Inflector;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
@@ -54,8 +55,7 @@ class PluginsController extends ApiController
 
 		if (!$recordId)
 		{
-			// TODO: Lang string for exception
-			throw new ResourceNotFound('Record does not exist', 404);
+			throw new Exception\ResourceNotFound(Text::_('JLIB_APPLICATION_ERROR_RECORD'), 404);
 		}
 
 		$data = json_decode($this->input->json->getRaw(), true);
@@ -73,7 +73,7 @@ class PluginsController extends ApiController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Unable to create the model');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
 		try

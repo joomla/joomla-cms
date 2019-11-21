@@ -22,7 +22,7 @@ $app   = Factory::getApplication();
 $input = $app->input;
 
 // In case of modal
-$isModal = $input->get('layout') == 'modal' ? true : false;
+$isModal = $input->get('layout') === 'modal';
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 

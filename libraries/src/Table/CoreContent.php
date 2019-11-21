@@ -27,6 +27,14 @@ use Joomla\Utilities\ArrayHelper;
 class CoreContent extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  A database connector object
@@ -137,7 +145,10 @@ class CoreContent extends Table
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if ($this->core_publish_down < $this->core_publish_up && $this->core_publish_down > $this->_db->getNullDate())
+		if ($this->core_publish_up !== null
+			&& $this->core_publish_down !== null
+			&& $this->core_publish_down < $this->core_publish_up
+			&& $this->core_publish_down > $this->_db->getNullDate())
 		{
 			// Swap the dates.
 			$temp = $this->core_publish_up;
@@ -245,7 +256,7 @@ class CoreContent extends Table
 	 *
 	 * @since   3.1
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate();
 		$user = Factory::getUser();
@@ -269,6 +280,16 @@ class CoreContent extends Table
 			if (empty($this->core_created_user_id))
 			{
 				$this->core_created_user_id = $user->get('id');
+			}
+
+			if (!(int) $this->core_modified_time)
+			{
+				$this->core_modified_time = $this->core_created_time;
+			}
+
+			if (empty($this->core_modified_user_id))
+			{
+				$this->core_modified_user_id = $this->core_created_user_id;
 			}
 
 			$isNew = true;
@@ -296,7 +317,7 @@ class CoreContent extends Table
 	 *
 	 * @since   3.1
 	 */
-	protected function storeUcmBase($updateNulls = false, $isNew = false)
+	protected function storeUcmBase($updateNulls = true, $isNew = false)
 	{
 		// Store the ucm_base row
 		$db         = $this->getDbo();

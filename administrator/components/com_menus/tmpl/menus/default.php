@@ -33,9 +33,9 @@ foreach ($this->items as $item)
 	}
 }
 
-Factory::getDocument()->addScriptOptions('menus-default', ['items' => $itemIds]);
+$this->document->addScriptOptions('menus-default', ['items' => $itemIds]);
 HTMLHelper::_('jquery.framework');
-HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=menus'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -93,7 +93,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
-								<td>
+								<th scope="row">
 									<div class="name break-word">
 										<?php if ($canEdit) : ?>
 											<a href="<?php echo Route::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>">
@@ -108,7 +108,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 											</div>
 										<?php endif; ?>
 									</div>
-								</td>
+								</th>
 								<td class="text-center btns">
 									<?php if ($canManageItems) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype); ?>">
@@ -116,34 +116,34 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 										</a>
 									<?php endif; ?>
 								</td>
-								<td class="text-center btns d-none d-md-table-cell">
+								<td class="text-center btns d-none d-md-table-cell itemnumber">
 									<?php if ($canManageItems) : ?>
-										<a class="badge<?php echo ($item->count_published > 0) ? ' badge-success' : ' badge-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
+										<a class="btn<?php echo ($item->count_published > 0) ? ' btn-success' : ' btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=1'); ?>">
 											<?php echo $item->count_published; ?></a>
 									<?php else : ?>
-										<span class="badge<?php echo ($item->count_published > 0) ? ' badge-success' : ' badge-secondary'; ?>">
+										<span class="btn<?php echo ($item->count_published > 0) ? ' btn-success' : ' btn-secondary'; ?>">
 											<?php echo $item->count_published; ?></span>
 									<?php endif; ?>
 								</td>
-								<td class="text-center btns d-none d-md-table-cell">
+								<td class="text-center btns d-none d-md-table-cell itemnumber">
 									<?php if ($canManageItems) : ?>
-										<a class="badge<?php echo ($item->count_unpublished > 0) ? ' badge-danger' : ' badge-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
+										<a class="btn<?php echo ($item->count_unpublished > 0) ? ' btn-danger' : ' btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=0'); ?>">
 											<?php echo $item->count_unpublished; ?></a>
 									<?php else : ?>
-										<span class="badge<?php echo ($item->count_unpublished > 0) ? ' badge-danger' : ' badge-secondary'; ?>">
+										<span class="btn<?php echo ($item->count_unpublished > 0) ? ' btn-danger' : ' btn-secondary'; ?>">
 											<?php echo $item->count_unpublished; ?></span>
 									<?php endif; ?>
 								</td>
-								<td class="text-center btns d-none d-md-table-cell">
+								<td class="text-center btns d-none d-md-table-cell itemnumber">
 									<?php if ($canManageItems) : ?>
-										<a class="badge<?php echo ($item->count_trashed > 0) ? ' badge-danger' : ' badge-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
+										<a class="btn<?php echo ($item->count_trashed > 0) ? ' btn-danger' : ' btn-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_menus&view=items&menutype=' . $item->menutype . '&filter[published]=-2'); ?>">
 											<?php echo $item->count_trashed; ?></a>
 									<?php else : ?>
-										<span class="badge<?php echo ($item->count_trashed > 0) ? ' badge-danger' : ' badge-secondary'; ?>">
+										<span class="btn<?php echo ($item->count_trashed > 0) ? ' btn-danger' : ' btn-secondary'; ?>">
 											<?php echo $item->count_trashed; ?></span>
 									<?php endif; ?>
 								</td>
-								<td class="text-center d-none d-lg-table-cell">
+								<td class="text-center d-none d-lg-table-cell itemnumber">
 									<?php if (isset($this->modules[$item->menutype])) : ?>
 										<div class="dropdown">
 											<button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
@@ -178,10 +178,10 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 															'width'       => '800px',
 															'bodyHeight'  => 70,
 															'modalWidth'  => 80,
-															'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal"'
+															'footer'      => '<button type="button" class="btn btn-danger" data-dismiss="modal"'
 																	. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#closeBtn\'})">'
 																	. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-																	. '<button type="button" class="btn btn-primary"'
+																	. '<button type="button" class="btn btn-success"'
 																	. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#saveBtn\'})">'
 																	. Text::_('JSAVE') . '</button>'
 																	. '<button type="button" class="btn btn-success"'

@@ -5,7 +5,6 @@
 			name="id"
 			type="hidden"
 			label="COM_CONTENT_ID_LABEL"
-			class="inputbox"
 			id="id"
 			size="10"
 			default="0"
@@ -31,7 +30,6 @@
 			type="text"
 			label="JGLOBAL_TITLE"
 			id="title"
-			class="inputbox"
 			size="30"
 			required="true"
 		/>
@@ -42,7 +40,6 @@
 			label="JFIELD_ALIAS_LABEL"
 			id="alias"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
-			class="inputbox"
 			size="45"
 		/>
 
@@ -52,7 +49,6 @@
 			label="CONTENT_TEXT_LABEL"
 			description="CONTENT_TEXT_DESC"
 			buttons="true"
-			class="inputbox"
 			filter="JComponentHelper::filterText"
 			asset_id="com_content"
 		/>
@@ -71,7 +67,6 @@
 			type="list"
 			label="JGLOBAL_FIELD_FEATURED_LABEL"
 			id="featured"
-			class="inputbox"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -79,12 +74,33 @@
 		</field>
 
 		<field
+			name="featured_up"
+			type="calendar"
+			label="COM_CONTENT_FIELD_FEATURED_UP_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc" 
+			showon="featured:1"
+		/>
+
+ 		<field
+			name="featured_down"
+			type="calendar"
+			label="COM_CONTENT_FIELD_FEATURED_DOWN_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc" 
+			showon="featured:1"
+		/>
+
+		<field
 			name="catid"
 			type="categoryedit"
 			label="JCATEGORY"
 			id="catid"
 			extension="com_content"
-			class="inputbox"
 			required="true"
 		/>
 
@@ -108,7 +124,6 @@
 			type="text"
 			label="JGLOBAL_FIELD_CREATED_BY_ALIAS_LABEL"
 			id="created_by_alias"
-			class="inputbox"
 			size="20"
 		/>
 
@@ -116,7 +131,6 @@
 			name="note"
 			type="text"
 			label="COM_CONTENT_FIELD_NOTE_LABEL"
-			class="inputbox"
 			size="40"
 			maxlength="255"
 		/>
@@ -125,7 +139,6 @@
 			name="version_note"
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-			class="inputbox"
 			maxlength="255"
 			size="45"
 		/>
@@ -135,7 +148,6 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
 			id="publish_up"
-			class="inputbox"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -147,7 +159,6 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
 			id="publish_down"
-			class="inputbox"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -158,7 +169,6 @@
 			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
-			class="inputbox"
 			>
 			<option value="*">JALL</option>
 		</field>
@@ -167,7 +177,6 @@
 			name="tags"
 			type="tag"
 			label="JTAG"
-			class="inputbox"
 			multiple="true"
 			size="45"
 		/>
@@ -177,7 +186,6 @@
 			type="textarea"
 			label="JFIELD_META_KEYWORDS_LABEL"
 			id="metakey"
-			class="inputbox"
 			rows="5"
 			cols="50"
 		/>
@@ -187,7 +195,6 @@
 			type="textarea"
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			id="metadesc"
-			class="inputbox"
 			rows="5"
 			cols="50"
 		/>
@@ -197,7 +204,6 @@
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
 			id="access"
-			class="inputbox"
 			size="1"
 		/>
 
@@ -221,7 +227,6 @@
 				name="image_intro_alt"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
-				class="inputbox"
 				size="20"
 			/>
 
@@ -229,7 +234,6 @@
 				name="image_intro_caption"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
-				class="inputbox"
 				size="20"
 			/>
 
@@ -255,7 +259,6 @@
 				name="image_fulltext_alt"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
-				class="inputbox"
 				size="20"
 			/>
 
@@ -263,7 +266,6 @@
 				name="image_fulltext_caption"
 				type="text"
 				label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
-				class="inputbox"
 				size="20"
 			/>
 
@@ -293,7 +295,6 @@
 			name="urlatext"
 			type="text"
 			label="COM_CONTENT_FIELD_URLA_LINK_TEXT_LABEL"
-			class="inputbox"
 			size="20"
 		/>
 
@@ -315,7 +316,6 @@
 			name="urlbtext"
 			type="text"
 			label="COM_CONTENT_FIELD_URLB_LINK_TEXT_LABEL"
-			class="inputbox"
 			size="20"
 		/>
 
@@ -337,7 +337,6 @@
 			name="urlctext"
 			type="text"
 			label="COM_CONTENT_FIELD_URLC_LINK_TEXT_LABEL"
-			class="inputbox"
 			size="20"
 		/>
 

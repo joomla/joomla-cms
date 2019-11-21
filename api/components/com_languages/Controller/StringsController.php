@@ -12,6 +12,7 @@ namespace Joomla\Component\Languages\Api\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
 
@@ -71,7 +72,7 @@ class StringsController extends ApiController
 
 		try
 		{
-			/** @var \Joomla\Component\Languages\Api\View\Strings\JsonApiView $view */
+			/** @var \Joomla\Component\Languages\Api\View\Strings\JsonapiView $view */
 			$view = $this->getView(
 				$viewName,
 				$viewType,
@@ -89,7 +90,7 @@ class StringsController extends ApiController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Unable to create the model');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
 		// Push the model into the view (as default)
@@ -116,7 +117,7 @@ class StringsController extends ApiController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Unable to create the model');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
 		$result = $model->refresh();
