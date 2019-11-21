@@ -16,6 +16,7 @@ defined('_JEXEC') or die;
  */
 class UsersControllerMail extends JControllerLegacy
 {
+	
 	/**
 	 * Send the mail
 	 *
@@ -23,7 +24,31 @@ class UsersControllerMail extends JControllerLegacy
 	 *
 	 * @since 1.6
 	 */
-	public function send()
+	public function send() 
+	{
+		$this->sendMail("index.php?option=com_users&view=mail");
+	}
+	
+	/**
+	 * Send the mail and go back to dashboard
+	 *
+	 * @return void
+	 *
+	 * @since 1.6
+	 */
+	public function sendAndClose() 
+	{
+		$this->sendMail("index.php");
+	}
+	
+	/**
+	 * Send the mail
+	 *
+	 * @return void
+	 *
+	 * @since 1.6
+	 */
+	private function sendMail($redirect)
 	{
 		// Redirect to admin index if mass mailer disabled in conf
 		if (JFactory::getApplication()->get('massmailoff', 0) == 1)
@@ -46,8 +71,9 @@ class UsersControllerMail extends JControllerLegacy
 		}
 
 		$msg = $model->getError();
-		$this->setredirect('index.php?option=com_users&view=mail', $msg, $type);
+		$this->setredirect($redirect, $msg, $type);
 	}
+	
 
 	/**
 	 * Cancel the mail
