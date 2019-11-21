@@ -77,7 +77,7 @@
 			<option value="a.state ASC">JSTATUS_ASC</option>
 			<option value="a.state DESC">JSTATUS_DESC</option>
 			<option value="a.name ASC">JGLOBAL_NAME_ASC</option>
-			<option value="a.name DESC">JGLOBAL_NAME_DEC</option>
+			<option value="a.name DESC">JGLOBAL_NAME_DESC</option>
 			<option value="category_title ASC">JCATEGORY_ASC</option>
 			<option value="category_title DESC">JCATEGORY_DESC</option>
 			<option value="a.sticky ASC">COM_BANNERS_HEADING_STICKY_ASC</option>

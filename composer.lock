@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
-            "version": "v3.0.2",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/algo26-matthias/idna-convert.git",
-                "reference": "262d9e4d8bde4f76c60825ee4b32cb5a7cded53b"
+                "reference": "367d19e971232c48fb531183fef6c737aee7f550"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/262d9e4d8bde4f76c60825ee4b32cb5a7cded53b",
-                "reference": "262d9e4d8bde4f76c60825ee4b32cb5a7cded53b",
+                "url": "https://api.github.com/repos/algo26-matthias/idna-convert/zipball/367d19e971232c48fb531183fef6c737aee7f550",
+                "reference": "367d19e971232c48fb531183fef6c737aee7f550",
                 "shasum": ""
             },
             "require": {
@@ -45,8 +45,8 @@
             "authors": [
                 {
                     "name": "Matthias Sommerfeld",
-                    "role": "Developer",
-                    "email": "matthias.sommerfeld@algo26.de"
+                    "email": "matthias.sommerfeld@algo26.de",
+                    "role": "Developer"
                 }
             ],
             "description": "A library for encoding and decoding internationalized domain names",
@@ -56,7 +56,7 @@
                 "idna",
                 "php"
             ],
-            "time": "2019-07-29T15:11:31+00:00"
+            "time": "2019-10-09T14:34:20+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -920,16 +920,16 @@
         },
         {
             "name": "joomla/filesystem",
-            "version": "1.5.0",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/filesystem.git",
-                "reference": "d8757954138b245d5a0f1f1272051eb9d954f875"
+                "reference": "d8b8c7aff930b34fad6c850162d145bfc5852ca4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/d8757954138b245d5a0f1f1272051eb9d954f875",
-                "reference": "d8757954138b245d5a0f1f1272051eb9d954f875",
+                "url": "https://api.github.com/repos/joomla-framework/filesystem/zipball/d8b8c7aff930b34fad6c850162d145bfc5852ca4",
+                "reference": "d8b8c7aff930b34fad6c850162d145bfc5852ca4",
                 "shasum": ""
             },
             "require": {
@@ -967,7 +967,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-03-10T15:19:21+00:00"
+            "time": "2019-10-31T22:04:06+00:00"
         },
         {
             "name": "joomla/filter",
@@ -3038,16 +3038,16 @@
         },
         {
             "name": "typo3/phar-stream-wrapper",
-            "version": "v3.1.2",
+            "version": "v3.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3/phar-stream-wrapper.git",
-                "reference": "df7609a2f6cc4013d7bd12f1a2412d127b28f771"
+                "reference": "586ff60beea128e069a5dc271d3d8133a9bc460a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/df7609a2f6cc4013d7bd12f1a2412d127b28f771",
-                "reference": "df7609a2f6cc4013d7bd12f1a2412d127b28f771",
+                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/586ff60beea128e069a5dc271d3d8133a9bc460a",
+                "reference": "586ff60beea128e069a5dc271d3d8133a9bc460a",
                 "shasum": ""
             },
             "require": {
@@ -3084,7 +3084,7 @@
                 "security",
                 "stream-wrapper"
             ],
-            "time": "2019-05-14T13:14:14+00:00"
+            "time": "2019-10-18T11:57:16+00:00"
         },
         {
             "name": "wamania/php-stemmer",
