@@ -144,7 +144,14 @@ class UpdateModel extends BaseDatabaseModel
 			$cache_timeout = 3600 * $cache_timeout;
 		}
 
-		$updater = Updater::getInstance();
+		$updater               = Updater::getInstance();
+		$minimumStability      = Updater::STABILITY_STABLE;
+		$comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
+
+		if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), array('testing', 'custom')))
+		{
+			$minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
+		}
 
 		$reflection = new \ReflectionObject($updater);
 		$reflectionMethod = $reflection->getMethod('findUpdates');
@@ -153,11 +160,11 @@ class UpdateModel extends BaseDatabaseModel
 		if (count($methodParameters) >= 4)
 		{
 			// Reinstall support is available in Updater
-			$updater->findUpdates(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id, $cache_timeout, Updater::STABILITY_STABLE, true);
+			$updater->findUpdates(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id, $cache_timeout, $minimumStability, true);
 		}
 		else
 		{
-			$updater->findUpdates(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id, $cache_timeout, Updater::STABILITY_STABLE);
+			$updater->findUpdates(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id, $cache_timeout, $minimumStability);
 		}
 	}
 
@@ -194,17 +201,40 @@ class UpdateModel extends BaseDatabaseModel
 
 		if (is_null($updateObject))
 		{
+			// We have not found any update in the database - we seem to be running the latest version.
 			$this->updateInformation['latest'] = \JVERSION;
 
 			return $this->updateInformation;
 		}
 
-		$this->updateInformation['latest']    = $updateObject->version;
-		$this->updateInformation['hasUpdate'] = $updateObject->version != \JVERSION;
+		// Check whether this is a valid update or not
+		if (version_compare($updateObject->version, JVERSION, '<'))
+		{
+			// This update points to an outdated version. We should not offer to update to this.
+			$this->updateInformation['latest'] = JVERSION;
+
+			return $this->updateInformation;
+		}
+
+		$this->updateInformation['latest'] = $updateObject->version;
+
+		// Check whether this is an update or not.
+		if (version_compare($updateObject->version, JVERSION, '>'))
+		{
+			$this->updateInformation['hasUpdate'] = true;
+		}
+
+		$minimumStability      = Updater::STABILITY_STABLE;
+		$comJoomlaupdateParams = ComponentHelper::getParams('com_joomlaupdate');
+
+		if (in_array($comJoomlaupdateParams->get('updatesource', 'nochange'), array('testing', 'custom')))
+		{
+			$minimumStability = $comJoomlaupdateParams->get('minimum_stability', Updater::STABILITY_STABLE);
+		}
 
 		// Fetch the full update details from the update details URL.
 		$update = new Update;
-		$update->loadFromXML($updateObject->detailsurl);
+		$update->loadFromXML($updateObject->detailsurl, $minimumStability);
 
 		$this->updateInformation['object'] = $update;
 
@@ -1197,7 +1227,7 @@ ENDDATA;
 		// Check for output buffering.
 		$setting = new \stdClass;
 		$setting->label = Text::_('INSTL_OUTPUT_BUFFERING');
-		$setting->state = (bool) ini_get('output_buffering');
+		$setting->state = (int) ini_get('output_buffering') !== 0;
 		$setting->recommended = false;
 		$settings[] = $setting;
 

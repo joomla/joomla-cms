@@ -349,6 +349,13 @@ class MessageModel extends AdminModel
 			return false;
 		}
 
+		$key = $table->getKeyName();
+
+		if (isset($table->$key))
+		{
+			$this->setState($this->getName() . '.id', $table->$key);
+		}
+
 		if ($config->get('mail_on_new', true))
 		{
 			// Load the user details (already valid from table check).
@@ -490,9 +497,12 @@ class MessageModel extends AdminModel
 			}
 
 			$query = $db->getQuery(true)
-				->select($db->quoteName('user_id'))
-				->from($db->quoteName('#__user_usergroup_map'))
-				->where($db->quoteName('group_id') . ' IN(' . implode(',', $groups) . ')');
+				->select($db->quoteName('map.user_id'))
+				->from($db->quoteName('#__user_usergroup_map', 'map'))
+				->join('LEFT', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('u.id') . ' = ' . $db->quoteName('map.user_id'))
+				->where($db->quoteName('map.group_id') . ' IN(' . implode(',', $groups) . ')')
+				->where($db->quoteName('u.block') . ' = 0')
+				->where($db->quoteName('u.sendEmail') . ' = 1');
 
 			$userIDs = $db->setQuery($query)->loadColumn(0);
 

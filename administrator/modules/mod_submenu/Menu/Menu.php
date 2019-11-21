@@ -9,11 +9,10 @@
 
 namespace Joomla\Module\Submenu\Administrator\Menu;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\MenuItem;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
@@ -140,7 +139,7 @@ abstract class Menu
 				list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
 			}
 			// Special case for components which only allow super user access
-			elseif (in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin'))
+			elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin'))
 			{
 				$parent->removeChild($item);
 				continue;
@@ -169,18 +168,15 @@ abstract class Menu
 				{
 					if (substr($iconImage, 0, 6) === 'class:' && substr($iconImage, 6) === 'icon-home')
 					{
-						$iconImage = '<span class="home-image icon-featured"></span>';
+						$iconImage = '<span class="home-image icon-featured" aria-hidden="true"></span>';
+						$iconImage .= '<span class="sr-only">' . Text::_('JDEFAULT') . '</span>';
 					}
 					elseif (substr($iconImage, 0, 6) === 'image:')
 					{
 						$iconImage = '&nbsp;<span class="badge badge-secondary">' . substr($iconImage, 6) . '</span>';
 					}
-					else
-					{
-						$iconImage = '<span>' . HTMLHelper::_('image', $iconImage, null) . '</span>';
-					}
 
-					$item->title = $item->title . $iconImage;
+					$item->iconImage = $iconImage;
 				}
 			}
 

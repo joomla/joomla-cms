@@ -23,6 +23,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -101,8 +102,12 @@ class UpdateModel extends ListModel
 			->select('u.*')
 			->select($db->quoteName('e.manifest_cache'))
 			->from($db->quoteName('#__updates', 'u'))
-			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('u.extension_id'))
-			->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(0));
+			->join(
+				'LEFT',
+				$db->quoteName('#__extensions', 'e'),
+				$db->quoteName('e.extension_id') . ' = ' . $db->quoteName('u.extension_id')
+			)
+			->where($db->quoteName('u.extension_id') . ' != 0');
 
 		// Process select filters.
 		$clientId    = $this->getState('filter.client_id');
@@ -112,27 +117,36 @@ class UpdateModel extends ListModel
 
 		if ($type)
 		{
-			$query->where($db->quoteName('u.type') . ' = ' . $db->quote($type));
+			$query->where($db->quoteName('u.type') . ' = :type')
+				->bind(':type', $type);
 		}
 
 		if ($clientId != '')
 		{
-			$query->where($db->quoteName('u.client_id') . ' = ' . (int) $clientId);
+			$clientId = (int) $clientId;
+			$query->where($db->quoteName('u.client_id') . ' = :clientid')
+				->bind(':clientid', $clientId, ParameterType::INTEGER);
 		}
 
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where($db->quoteName('u.folder') . ' = ' . $db->quote($folder == '*' ? '' : $folder));
+			$folder = $folder === '*' ? '' : $folder;
+			$query->where($db->quoteName('u.folder') . ' = :folder')
+				->bind(':folder', $folder);
 		}
 
 		if ($extensionId)
 		{
-			$query->where($db->quoteName('u.extension_id') . ' = ' . $db->quote((int) $extensionId));
+			$extensionId = (int) $extensionId;
+			$query->where($db->quoteName('u.extension_id') . ' = :extensionid')
+				->bind(':extensionid', $extensionId, ParameterType::INTEGER);
 		}
 		else
 		{
-			$query->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(0))
-				->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id));
+			$eid = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+			$query->where($db->quoteName('u.extension_id') . ' != 0')
+				->where($db->quoteName('u.extension_id') . ' != :eid')
+				->bind(':eid', $eid, ParameterType::INTEGER);
 		}
 
 		// Process search filter.
@@ -142,21 +156,29 @@ class UpdateModel extends ListModel
 		{
 			if (stripos($search, 'eid:') !== false)
 			{
-				$query->where($db->quoteName('u.extension_id') . ' = ' . (int) substr($search, 4));
+				$sid = (int) substr($search, 4);
+				$query->where($db->quoteName('u.extension_id') . ' = :sid')
+					->bind(':sid', $sid, ParameterType::INTEGER);
 			}
 			else
 			{
 				if (stripos($search, 'uid:') !== false)
 				{
-					$query->where($db->quoteName('u.update_site_id') . ' = ' . (int) substr($search, 4));
+					$suid = (int) substr($search, 4);
+					$query->where($db->quoteName('u.update_site_id') . ' = :suid')
+						->bind(':suid', $suid, ParameterType::INTEGER);
 				}
 				elseif (stripos($search, 'id:') !== false)
 				{
-					$query->where($db->quoteName('u.update_id') . ' = ' . (int) substr($search, 3));
+					$uid = (int) substr($search, 3);
+					$query->where($db->quoteName('u.update_id') . ' = :uid')
+						->bind(':uid', $uid, ParameterType::INTEGER);
 				}
 				else
 				{
-					$query->where($db->quoteName('u.name') . ' LIKE ' . $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true)) . '%'));
+					$search = '%' . str_replace(' ', '%', trim($search)) . '%';
+					$query->where($db->quoteName('u.name') . ' LIKE :search')
+						->bind(':search', $search);
 				}
 			}
 		}
@@ -302,41 +324,6 @@ class UpdateModel extends ListModel
 		$db->setQuery($query);
 		$db->execute();
 		$this->_message = Text::_('JLIB_INSTALLER_PURGED_UPDATES');
-
-		return true;
-	}
-
-	/**
-	 * Enables any disabled rows in #__update_sites table
-	 *
-	 * @return  boolean result of operation
-	 *
-	 * @since   1.6
-	 */
-	public function enableSites()
-	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->update($db->quoteName('#__update_sites'))
-			->set($db->quoteName('enabled') . ' = 1')
-			->where($db->quoteName('enabled') . ' = 0');
-		$db->setQuery($query);
-
-		try
-		{
-			$db->execute();
-		}
-		catch (ExecutionFailureException $e)
-		{
-			$this->_message .= Text::_('COM_INSTALLER_FAILED_TO_ENABLE_UPDATES');
-
-			return false;
-		}
-
-		if ($rows = $db->getAffectedRows())
-		{
-			$this->_message .= Text::plural('COM_INSTALLER_ENABLED_UPDATES', $rows);
-		}
 
 		return true;
 	}

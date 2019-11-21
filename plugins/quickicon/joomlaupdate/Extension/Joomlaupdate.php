@@ -9,7 +9,7 @@
 
 namespace Joomla\Plugin\Quickicon\Joomlaupdate\Extension;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Extension\ExtensionHelper;
@@ -106,8 +106,6 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 		}
 
 		Text::script('PLG_QUICKICON_JOOMLAUPDATE_ERROR');
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON');
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE');
 		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND');
 		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE');
 		Text::script('MESSAGE');
