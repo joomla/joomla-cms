@@ -19,6 +19,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Database\ParameterType;
 
 /**
  * Users mail model.
@@ -33,7 +34,7 @@ class MailModel extends AdminModel
 	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm	A \JForm object on success, false on failure
+	 * @return  Form	A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -123,37 +124,40 @@ class MailModel extends AdminModel
 			return false;
 		}
 
-		// Get users in the group out of the ACL
-		$to = $access->getUsersByGroup($grp, $recurse);
+		// Get users in the group out of the ACL, if group is provided.
+		$to = $grp !== 0 ? $access->getUsersByGroup($grp, $recurse) : array();
 
-		// Get all users email and group except for senders
-		$query = $db->getQuery(true)
-			->select('email')
-			->from('#__users')
-			->where('id != ' . (int) $user->get('id'));
-
-		if ($grp !== 0)
+		// When group is provided but no users are found in the group.
+		if ($grp !== 0 && !$to)
 		{
-			if (empty($to))
-			{
-				$query->where('0');
-			}
-			else
-			{
-				$query->where('id IN (' . implode(',', $to) . ')');
-			}
+			$rows = array();
 		}
-
-		if ($disabled == 0)
+		else
 		{
-			$query->where('block = 0');
-		}
+			// Get all users email and group except for senders
+			$uid = (int) $user->id;
+			$query = $db->getQuery(true)
+				->select($db->quoteName('email'))
+				->from($db->quoteName('#__users'))
+				->where($db->quoteName('id') . ' != :id')
+				->bind(':id', $uid, ParameterType::INTEGER);
 
-		$db->setQuery($query);
-		$rows = $db->loadColumn();
+			if ($grp !== 0)
+			{
+				$query->whereIn($db->quoteName('id'), $to);
+			}
+
+			if ($disabled === 0)
+			{
+				$query->where($db->quoteName('block') . ' = 0');
+			}
+
+			$db->setQuery($query);
+			$rows = $db->loadColumn();
+		}
 
 		// Check to see if there are any users in this group before we continue
-		if (!count($rows))
+		if (!$rows)
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
 
@@ -215,7 +219,7 @@ class MailModel extends AdminModel
 		if ($rs !== true)
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
-			$this->setError($rs->getError());
+			$this->setError($mailer->ErrorInfo);
 
 			return false;
 		}

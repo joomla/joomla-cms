@@ -78,9 +78,10 @@ class RemoveModel extends BaseDatabaseModel
 
 		$userId = (int) $db->setQuery(
 			$db->getQuery(true)
-				->select('id')
+				->select($db->quoteName('id'))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = ' . $db->quote($table->email))
+				->where($db->quoteName('email') . ' = :email')
+				->bind(':email', $table->email)
 				->setLimit(1)
 		)->loadResult();
 
@@ -127,8 +128,8 @@ class RemoveModel extends BaseDatabaseModel
 	 *
 	 * @return  Table  A Table object
 	 *
-	 * @since   3.9.0
 	 * @throws  \Exception
+	 * @since   3.9.0
 	 */
 	public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
 	{

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,20 +13,22 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
+use PHPMailer\PHPMailer\Exception as phpmailerException;
 
 /**
  * Email Templating Class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MailTemplate
 {
 	/**
 	 * Mailer object to send the actual mail.
 	 *
-	 * @var    Joomla\CMS\Mail\Mail
-	 * @since  __DEPLOY_VERSION__
+	 * @var    \Joomla\CMS\Mail\Mail
+	 * @since  4.0.0
 	 */
 	protected $mailer;
 
@@ -34,7 +36,7 @@ class MailTemplate
 	 * Identifier of the mail template.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $template_id;
 
@@ -48,21 +50,22 @@ class MailTemplate
 	/**
 	 *
 	 * @var    string[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $data = array();
 
 	/**
 	 *
 	 * @var    string[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $attachments = array();
 
 	/**
+	 * List of recipients of the email
 	 *
-	 * @var    string[]
-	 * @since  __DEPLOY_VERSION__
+	 * @var    \stdClass[]
+	 * @since  4.0.0
 	 */
 	protected $recipients = array();
 
@@ -73,7 +76,7 @@ class MailTemplate
 	 * @param   string  $language     Language of the template to use.
 	 * @param   Mail    $mailer       Mail object to send the mail with.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($template_id, $language, Mail $mailer = null)
 	{
@@ -98,7 +101,7 @@ class MailTemplate
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addAttachment($name, $file)
 	{
@@ -117,7 +120,7 @@ class MailTemplate
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addRecipient($mail, $name, $type = 'to')
 	{
@@ -135,7 +138,7 @@ class MailTemplate
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addTemplateData($data)
 	{
@@ -147,13 +150,16 @@ class MailTemplate
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
+	 * @throws  phpmailerException
 	 */
 	public function send()
 	{
 		$config = ComponentHelper::getParams('com_mails');
 
 		$mail = self::getTemplate($this->template_id, $this->language);
+
+		/** @var Registry $params */
 		$params = $mail->params;
 		$gconfig = Factory::getConfig();
 
@@ -265,7 +271,7 @@ class MailTemplate
 	 *
 	 * @return  string  Rendered mail template
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function replaceTags($text, $tags)
 	{
@@ -308,17 +314,18 @@ class MailTemplate
 	 *
 	 * @return  object  An object with the data of the mail
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getTemplate($key, $language)
 	{
 		$db = Factory::getDBO();
 		$query = $db->getQuery(true);
 		$query->select('*')
-			->from('#__mail_templates')
-			->where('template_id = ' . $db->quote($key))
-			->where('language IN (\'\',' . $db->quote($language) . ')')
-			->order('language DESC');
+			->from($db->quoteName('#__mail_templates'))
+			->where($db->quoteName('template_id') . ' = :key')
+			->whereIn($db->quoteName('language'), ['', $language], ParameterType::STRING)
+			->order($db->quoteName('language') . ' DESC')
+			->bind(':key', $key);
 		$db->setQuery($query);
 		$mail = $db->loadObject();
 
@@ -341,7 +348,7 @@ class MailTemplate
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function createTemplate($key, $subject, $body, $tags, $htmlbody = '')
 	{
@@ -371,7 +378,7 @@ class MailTemplate
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function updateTemplate($key, $subject, $body, $tags, $htmlbody = '')
 	{
@@ -397,14 +404,15 @@ class MailTemplate
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function deleteTemplate($key)
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
-		$query->delete('#__mail_templates')
-			->where($query->gn('template_id') . ' = ' . $query->q($key));
+		$query->delete($db->quoteName('#__mail_templates'))
+			->where($db->quoteName('template_id') . ' = :key')
+			->bind(':key', $key);
 		$db->setQuery($query);
 
 		return $db->execute();

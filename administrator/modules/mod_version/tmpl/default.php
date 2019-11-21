@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 ?>
-<diV class="header-item-content">
-	<div class="joomlaversion d-flex">
+<div class="header-item-content">
+	<div class="joomlaversion d-flex text-muted">
 		<div class="d-flex align-items-end mx-auto">
 			<span class="fab fa-joomla" aria-hidden="true"></span>
 		</div>
@@ -22,4 +22,4 @@ use Joomla\CMS\Language\Text;
 			<span aria-hidden="true"><?php echo $version; ?></span>
 		</div>
 	</div>
-</diV>
+</div>

@@ -50,19 +50,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'u.name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="d-none d-md-table-cell">
+								<th scope="col">
 									<?php echo Text::_('COM_INSTALLER_CURRENT_VERSION'); ?>
 								</th>
 								<th scope="col">
 									<?php echo Text::_('COM_INSTALLER_NEW_VERSION'); ?>
 								</th>
-								<th scope="col">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
 								</th>
 								<th class="d-none d-md-table-cell">
@@ -77,30 +77,46 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</tr>
 							</thead>
 							<tbody>
-							<?php foreach ($this->items as $i => $item) : ?>
+							<?php
+							foreach ($this->items as $i => $item): ?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center">
+										<?php if($item->isMissingDownloadKey): ?>
+										<span class="fa fa-ban"></span>
+										<?php else: ?>
 										<?php echo HTMLHelper::_('grid.id', $i, $item->update_id); ?>
+										<?php endif; ?>
 									</td>
 									<th scope="row">
 										<span tabindex="0"><?php echo $this->escape($item->name); ?></span>
 										<div role="tooltip" id="tip<?php echo $i; ?>">
 											<?php echo $item->description; ?>
 										</div>
+										<?php if($item->isMissingDownloadKey): ?>
+										<br/>
+										<span class="badge badge-warning">
+											<span class="hasPopover"
+												  title="<?= Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
+												  data-content="<?= Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
+											>
+												<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?>
+												</span>
+										</span>
+										<?php endif; ?>
 									</th>
-									<td class="center">
+									<td class="center d-none d-md-table-cell">
 										<?php echo $item->client_translated; ?>
 									</td>
-									<td class="center">
+									<td class="center d-none d-md-table-cell">
 										<?php echo $item->type_translated; ?>
 									</td>
-									<td class="d-none d-md-table-cell">
+									<td>
 										<span class="badge badge-warning"><?php echo $item->current_version; ?></span>
 									</td>
 									<td>
 										<span class="badge badge-success"><?php echo $item->version; ?></span>
 									</td>
-									<td class="hidden-sm-down text-center">
+									<td class="d-none d-md-table-cell text-center">
 										<?php if (!empty($item->changelogurl)) : ?>
 										<a href="#changelogModal<?php echo $item->extension_id; ?>" class="btn btn-info btn-xs changelogModal" data-js-extensionid="<?php echo $item->extension_id; ?>" data-js-view="update" data-toggle="modal">
 											<?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
