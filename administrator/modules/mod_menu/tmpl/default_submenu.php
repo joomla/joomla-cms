@@ -105,7 +105,8 @@ if ($iconImage)
 {
 	if (substr($iconImage, 0, 6) == 'class:' && substr($iconImage, 6) == 'icon-home')
 	{
-		$iconImage = '<span class="home-image icon-featured"></span>';
+		$iconImage = '<span class="home-image icon-featured" aria-hidden="true"></span>';
+		$iconImage .= '<span class="sr-only">' . Text::_('JDEFAULT') . '</span>';
 	}
 	elseif (substr($iconImage, 0, 6) == 'image:')
 	{
@@ -113,7 +114,7 @@ if ($iconImage)
 	}
 	else
 	{
-		$iconImage = '<span>' . HTMLHelper::_('image', $iconImage, null) . '</span>';
+		$iconImage = '';
 	}
 }
 

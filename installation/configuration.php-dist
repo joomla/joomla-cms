@@ -44,6 +44,13 @@ class JConfig
 	public $password = '';                   // DB password
 	public $db = '';                         // DB database name
 	public $dbprefix = 'jos_';               // Do not change unless you need to!
+	public $dbencryption = 0;
+	public $dbsslverifyservercert = false;
+	public $dbsslkey = '';
+	public $dbsslcert = '';
+	public $dbsslca = '';
+	public $dbsslcapath = '';
+	public $dbsslcipher = '';
 
 	/* Server Settings */
 	public $secret = 'FBVtggIk5lAzEU9H';     // Change this to something more secure

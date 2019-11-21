@@ -141,6 +141,12 @@ class BannerTable extends Table
 			$this->modified = $this->created;
 		}
 
+		// Set modified_by to created_by if not set
+		if (empty($this->modified_by))
+		{
+			$this->modified_by = $this->created_by;
+		}
+
 		return true;
 	}
 

@@ -30,7 +30,7 @@ class FilterTable extends Table
 	 * Indicates that columns fully support the NULL value in the database
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $_supportNullValue = true;
 
@@ -253,9 +253,14 @@ class FilterTable extends Table
 				$this->created_by = $userId;
 			}
 
-			if (empty($this->modified))
+			if (!(int) $this->modified)
 			{
 				$this->modified = $this->created;
+			}
+
+			if (empty($this->modified_by))
+			{
+				$this->modified_by = $this->created_by;
 			}
 		}
 

@@ -30,7 +30,7 @@ class CoreContent extends Table
 	 * Indicates that columns fully support the NULL value in the database
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $_supportNullValue = true;
 
@@ -145,7 +145,10 @@ class CoreContent extends Table
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if ($this->core_publish_down < $this->core_publish_up && $this->core_publish_down > $this->_db->getNullDate())
+		if ($this->core_publish_up !== null
+			&& $this->core_publish_down !== null
+			&& $this->core_publish_down < $this->core_publish_up
+			&& $this->core_publish_down > $this->_db->getNullDate())
 		{
 			// Swap the dates.
 			$temp = $this->core_publish_up;
@@ -282,6 +285,11 @@ class CoreContent extends Table
 			if (!(int) $this->core_modified_time)
 			{
 				$this->core_modified_time = $this->core_created_time;
+			}
+
+			if (empty($this->core_modified_user_id))
+			{
+				$this->core_modified_user_id = $this->core_created_user_id;
 			}
 
 			$isNew = true;
