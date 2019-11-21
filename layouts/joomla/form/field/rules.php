@@ -81,11 +81,11 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 	<?php
 	if ($section === 'component' || !$section)
 	{
-		echo Text::_('JLIB_RULES_SETTING_NOTES');
+		echo Text::alt('JLIB_RULES_SETTING_NOTES', $component);
 	}
 	else
 	{
-		echo Text::_('JLIB_RULES_SETTING_NOTES_ITEM');
+		echo Text::alt('JLIB_RULES_SETTING_NOTES_ITEM', $component . '_' . $section);
 	}
 	?>
 	</div>
