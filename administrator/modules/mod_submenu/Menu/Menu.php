@@ -13,7 +13,6 @@ namespace Joomla\Module\Submenu\Administrator\Menu;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\MenuItem;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
@@ -180,7 +179,7 @@ abstract class Menu
 						$iconImage = '&nbsp;<span class="badge badge-secondary">' . substr($iconImage, 6) . '</span>';
 					}
 
-					$item->title = $item->title . $iconImage;
+					$item->iconImage = $iconImage;
 				}
 			}
 
