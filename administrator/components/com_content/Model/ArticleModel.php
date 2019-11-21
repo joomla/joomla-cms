@@ -85,10 +85,22 @@ class ArticleModel extends AdminModel
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->insert($db->quoteName('#__content_frontpage'))
-				->values($newId . ', 0');
+				->values(
+					$newId . ', 0, '
+					. (empty($table->featured_up) ? 'NULL' : $db->quote($table->featured_up))
+					. ', '
+					. (empty($table->featured_down) ? 'NULL' : $db->quote($table->featured_down))
+				);
 			$db->setQuery($query);
 			$db->execute();
 		}
+
+		// Copy workflow association
+		$workflow = new Workflow(['extension' => 'com_content']);
+
+		$assoc = $workflow->getAssociation($oldId);
+
+		$workflow->createAssociation($newId, (int) $assoc->stage_id);
 
 		// Register FieldsHelper
 		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
