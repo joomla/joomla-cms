@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\Breadcrumbs\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
@@ -52,7 +52,7 @@ class BreadcrumbsHelper
 			$home  = $menu->getDefault();
 		}
 
-		$count = count($items);
+		$count = \count($items);
 
 		// Don't use $items here as it references JPathway properties directly
 		$crumbs = array();

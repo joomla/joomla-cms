@@ -31,50 +31,50 @@
 	</fields>
 
 	<!-- Add fields to the parameters object for the layout. -->
-<fields name="params">
-	<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
-		<field 
-			name="spacer1" 
-			type="spacer" 
-			label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
-			class="text"
+	<fields name="params">
+		<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
+			<field
+				name="spacer1"
+				type="spacer"
+				label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
+				class="text"
 			/>
 
-			<field 
-				name="show_category_title" 
+			<field
+				name="show_category_title"
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_description" 
+			<field
+				name="show_description"
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_description_image" 
+			<field
+				name="show_description_image"
 				type="list"
 				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="maxLevel" 
+			<field
+				name="maxLevel"
 				type="list"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 				useglobal="true"
@@ -88,44 +88,44 @@
 				<option value="5">J5</option>
 			</field>
 
-			<field 
-				name="show_empty_categories" 
+			<field
+				name="show_empty_categories"
 				type="list"
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_subcat_desc" 
+			<field
+				name="show_subcat_desc"
 				type="list"
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
+			<field
 				name="show_cat_items"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
 				id="show_cat_items"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 		</fieldset>
 		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
-			<field 
-				name="spacer2" 
-				type="spacer" 
+			<field
+				name="spacer2"
+				type="spacer"
 				label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
 				class="text"
 			/>
@@ -136,18 +136,18 @@
 				label="JGLOBAL_FILTER_FIELD_LABEL"
 				default=""
 				useglobal="true"
-				class="chzn-color"				
+				class="custom-select-color-state"
 				>
 				<option value="hide">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
+			<field
 				name="show_pagination_limit"
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -159,7 +159,7 @@
 				label="JGLOBAL_SHOW_HEADINGS_LABEL"
 				id="show_headings"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -171,7 +171,7 @@
 				label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
 				id="show_articles"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -183,18 +183,18 @@
 				label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
 				id="show_link"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
+			<field
 				name="show_pagination"
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -206,7 +206,7 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -214,50 +214,49 @@
 		</fieldset>
 
 		<fieldset name="newsfeed" label="COM_NEWSFEEDS_FIELDSET_MORE_OPTIONS_LABEL">
-
-			<field 
-				name="show_feed_image" 
+			<field
+				name="show_feed_image"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_feed_description" 
+			<field
+				name="show_feed_description"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="show_item_description" 
+			<field
+				name="show_item_description"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 
-			<field 
-				name="feed_character_count" 
+			<field
+				name="feed_character_count"
 				type="number"
 				description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
 				label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 				useglobal="true"
 			/>
-			
-			<field 
-				name="feed_display_order" 
+
+			<field
+				name="feed_display_order"
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
 				useglobal="true"

@@ -101,7 +101,7 @@ class HtmlView extends BaseHtmlView
 		$params              = ComponentHelper::getParams('com_actionlogs');
 		$this->showIpColumn  = (bool) $params->get('ip_logging', 0);
 
-		if (count($errors = $this->get('Errors')))
+		if (count($errors = $model->getErrors()))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}

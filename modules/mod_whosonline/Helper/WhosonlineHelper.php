@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\Whosonline\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
@@ -53,7 +53,7 @@ class WhosonlineHelper
 			$sessions = [];
 		}
 
-		if (count($sessions))
+		if (\count($sessions))
 		{
 			foreach ($sessions as $session)
 			{

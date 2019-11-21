@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\Languages\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Factory;
@@ -80,9 +80,9 @@ abstract class LanguagesHelper
 				$class = str_replace('com_', '', $option) . 'HelperAssociation';
 				\JLoader::register($class, JPATH_SITE . '/components/' . $option . '/helpers/association.php');
 
-				if (class_exists($class) && is_callable(array($class, 'getAssociations')))
+				if (class_exists($class) && \is_callable(array($class, 'getAssociations')))
 				{
-					$cassociations = call_user_func(array($class, 'getAssociations'));
+					$cassociations = \call_user_func(array($class, 'getAssociations'));
 				}
 			}
 		}
@@ -95,7 +95,7 @@ abstract class LanguagesHelper
 		foreach ($languages as $i => &$language)
 		{
 			// Do not display language without frontend UI
-			if (!array_key_exists($language->lang_code, $sitelangs))
+			if (!\array_key_exists($language->lang_code, $sitelangs))
 			{
 				unset($languages[$i]);
 			}
@@ -105,7 +105,7 @@ abstract class LanguagesHelper
 				unset($languages[$i]);
 			}
 			// Do not display language without authorized access level
-			elseif (isset($language->access) && $language->access && !in_array($language->access, $levels))
+			elseif (isset($language->access) && $language->access && !\in_array($language->access, $levels))
 			{
 				unset($languages[$i]);
 			}

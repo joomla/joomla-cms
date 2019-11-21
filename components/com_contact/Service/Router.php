@@ -21,6 +21,7 @@ use Joomla\CMS\Component\Router\Rules\NomenuRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 
 /**
  * Routing class from com_contact
@@ -143,10 +144,12 @@ class Router extends RouterView
 	{
 		if (!strpos($id, ':'))
 		{
+			$id = (int) $id;
 			$dbquery = $this->db->getQuery(true);
-			$dbquery->select($dbquery->quoteName('alias'))
-				->from($dbquery->quoteName('#__contact_details'))
-				->where('id = ' . $dbquery->quote((int) $id));
+			$dbquery->select($this->db->quoteName('alias'))
+				->from($this->db->quoteName('#__contact_details'))
+				->where($this->db->quoteName('id') . ' = :id')
+				->bind(':id', $id, ParameterType::INTEGER);
 			$this->db->setQuery($dbquery);
 
 			$id .= ':' . $this->db->loadResult();
@@ -227,10 +230,16 @@ class Router extends RouterView
 		if ($this->noIDs)
 		{
 			$dbquery = $this->db->getQuery(true);
-			$dbquery->select($dbquery->quoteName('id'))
-				->from($dbquery->quoteName('#__contact_details'))
-				->where('alias = ' . $dbquery->quote($segment))
-				->where('catid = ' . $dbquery->quote($query['id']));
+			$dbquery->select($this->db->quoteName('id'))
+				->from($this->db->quoteName('#__contact_details'))
+				->where(
+					[
+						$this->db->quoteName('alias') . ' = :alias',
+						$this->db->quoteName('catid') . ' = :catid',
+					]
+				)
+				->bind(':alias', $segment)
+				->bind(':catid', $query['id'], ParameterType::INTEGER);
 			$this->db->setQuery($dbquery);
 
 			return (int) $this->db->loadResult();

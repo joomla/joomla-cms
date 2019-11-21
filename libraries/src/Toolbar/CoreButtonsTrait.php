@@ -47,7 +47,7 @@ trait CoreButtonsTrait
 	 *
 	 * @param   string  $url        The name of the popup file (excluding the file extension)
 	 * @param   string  $text       The text of button.
-	 * @param   bool    $newWindow  Whether to option the preview in _blank or just a modal
+	 * @param   bool    $newWindow  Whether to open the preview in _blank or just a modal
 	 *
 	 * @return  PopupButton|LinkButton
 	 *
@@ -75,7 +75,7 @@ trait CoreButtonsTrait
 	}
 
 	/**
-	 * Writes a preview button for a given option (opens a popup window).
+	 * Writes a help button for a given option (opens a popup window).
 	 *
 	 * @param   string  $ref           The name of the popup file (excluding the file extension for an xml file).
 	 * @param   bool    $useComponent  Use the help file in the component directory.

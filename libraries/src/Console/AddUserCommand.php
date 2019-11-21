@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
@@ -24,7 +24,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 /**
  * Console command for adding a user
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class AddUserCommand extends AbstractCommand
 {
@@ -32,21 +32,21 @@ class AddUserCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $defaultName = 'user:add';
 
 	/**
 	 * SymfonyStyle Object
 	 * @var   object
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $ioStyle;
 
 	/**
 	 * Stores the Input Object
 	 * @var   object
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $cliInput;
 
@@ -55,7 +55,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $user;
 
@@ -64,7 +64,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $password;
 
@@ -73,7 +73,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $name;
 
@@ -82,7 +82,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $email;
 
@@ -91,7 +91,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $userGroups = [];
 
@@ -103,7 +103,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @return  integer  The command exit code
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
@@ -115,7 +115,7 @@ class AddUserCommand extends AbstractCommand
 		$this->password = $this->getStringFromOption('password', 'Please enter a password');
 		$this->userGroups = $this->getUserGroups();
 
-		if (in_array("error", $this->userGroups))
+		if (\in_array("error", $this->userGroups))
 		{
 			$this->ioStyle->error("'" . $this->userGroups[1] . "' user group doesn't exist!");
 
@@ -164,7 +164,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getGroupId($groupName)
 	{
@@ -187,7 +187,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getStringFromOption($option, $question): string
 	{
@@ -213,7 +213,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getUserGroups(): array
 	{
@@ -276,7 +276,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function configureIO(InputInterface $input, OutputInterface $output)
 	{
@@ -289,7 +289,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function configure(): void
 	{

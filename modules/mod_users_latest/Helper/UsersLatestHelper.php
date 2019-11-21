@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\UsersLatest\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -54,7 +54,8 @@ class UsersLatestHelper
 				->where($db->quoteName('ug.id') . ' <> 1');
 		}
 
-		$db->setQuery($query, 0, $params->get('shownumber', 5));
+		$query->setLimit((int) $params->get('shownumber', 5));
+		$db->setQuery($query);
 
 		try
 		{

@@ -151,7 +151,7 @@ class ActionlogsModel extends ListModel
 			$date = $this->buildDateRange($dateRange);
 
 			// If the chosen range is not more than a year ago
-			if ($date['dNow'] != false)
+			if ($date['dNow'] !== false && $date['dStart'] !== false)
 			{
 				$dStart = $date['dStart']->format('Y-m-d H:i:s');
 				$dNow   = $date['dNow']->format('Y-m-d H:i:s');
@@ -426,7 +426,7 @@ class ActionlogsModel extends ListModel
 		// Add ip sort options to sort dropdown
 		if ($form && $ipLogging)
 		{
-			/* @var JFormFieldList $field */
+			/* @var \Joomla\CMS\Form\Field\ListField $field */
 			$field = $form->getField('fullordering', 'list');
 			$field->addOption(Text::_('COM_ACTIONLOGS_IP_ADDRESS_ASC'), array('value' => 'a.ip_address ASC'));
 			$field->addOption(Text::_('COM_ACTIONLOGS_IP_ADDRESS_DESC'), array('value' => 'a.ip_address DESC'));

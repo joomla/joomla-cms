@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
 $this->name        = Text::_('COM_CONFIG_PERMISSION_SETTINGS');
 $this->description = '';
 $this->fieldsname  = 'permissions';
-$this->formclass   = 'form-no-margin options-grid-form options-grid-form-half';
+$this->formclass   = 'form-no-margin options-grid-form options-grid-form-full';
 $this->showlabel   = false;
 
 echo LayoutHelper::render('joomla.content.options_default', $this);

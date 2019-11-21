@@ -458,11 +458,21 @@ final class SiteApplication extends CMSApplication
 			// Load styles
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('id, home, template, s.params')
-				->from('#__template_styles as s')
-				->where('s.client_id = 0')
-				->where('e.enabled = 1')
-				->join('LEFT', '#__extensions as e ON e.element=s.template AND e.type=' . $db->quote('template') . ' AND e.client_id=s.client_id');
+				->select($db->quoteName(['id', 'home', 'template', 's.params']))
+				->from($db->quoteName('#__template_styles', 's'))
+				->where(
+					[
+						$db->quoteName('s.client_id') . ' = 0',
+						$db->quoteName('e.enabled') . ' = 1',
+					]
+				)
+				->join(
+					'LEFT',
+					$db->quoteName('#__extensions', 'e'),
+					$db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
+						. ' AND ' . $db->quoteName('e.type') . ' = ' . $db->quote('template')
+						. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
+				);
 
 			$db->setQuery($query);
 			$templates = $db->loadObjectList('id');
