@@ -43,6 +43,7 @@ $document = Factory::getDocument();
  * @var   array    $groups          Available user groups.
  * @var   array    $actions         Actions for the asset.
  * @var   integer  $assetId         Access parameters.
+ * @var   string   $component       The component.
  * @var   string   $section         The section.
  * @var   boolean  $isGlobalConfig  Current view is global config?
  * @var   boolean  $newItem         The new item.
