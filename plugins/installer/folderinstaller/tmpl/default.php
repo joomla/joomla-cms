@@ -14,19 +14,15 @@ JHtml::_('bootstrap.tooltip');
 $app = JFactory::getApplication('administrator');
 
 JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbuttonfolder = function()
-	{
+	Joomla.submitbuttonfolder = function() {
 		var form = document.getElementById("adminForm");
 
-		// do field validation 
-		if (form.install_directory.value == "")
-		{
+		// do field validation
+		if (form.install_directory.value == "") {
 			alert("' . JText::_('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH', true) . '");
-		}
-		else
-		{
+		} else {
 			JoomlaInstaller.showLoading();
-			form.installtype.value = "folder"
+			form.installtype.value = "folder";
 			form.submit();
 		}
 	};
@@ -34,13 +30,11 @@ JFactory::getDocument()->addScriptDeclaration('
 ?>
 <legend><?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></legend>
 <div class="control-group">
-	<label for="install_directory" class="control-label"><?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></label>
+	<label class="control-label" for="install_directory"><?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></label>
 	<div class="controls">
-		<input type="text" id="install_directory" name="install_directory" class="span5 input_box" size="70"
-			value="<?php echo $app->input->get('install_directory', $app->get('tmp_path')); ?>" />
+		<input id="install_directory" class="span5 input_box" type="text" name="install_directory" size="70" value="<?php echo $app->input->get('install_directory', $app->get('tmp_path')); ?>" />
 	</div>
 </div>
 <div class="form-actions">
-	<input type="button" class="btn btn-primary" id="installbutton_directory"
-		value="<?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_BUTTON'); ?>" onclick="Joomla.submitbuttonfolder()" />
+	<input id="installbutton_directory" class="btn btn-primary" type="button" value="<?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_BUTTON'); ?>" onclick="Joomla.submitbuttonfolder()" />
 </div>

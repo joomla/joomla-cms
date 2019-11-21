@@ -16,19 +16,15 @@ JText::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
 JText::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
 
 JFactory::getDocument()->addScriptDeclaration('
-	Joomla.submitbuttonpackage = function()
-	{
+	Joomla.submitbuttonpackage = function() {
 		var form = document.getElementById("adminForm");
 
-		// do field validation 
-		if (form.install_package.value == "")
-		{
+		// do field validation
+		if (form.install_package.value == "") {
 			alert("' . JText::_('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE', true) . '");
-		}
-		else
-		{
+		} else {
 			JoomlaInstaller.showLoading();
-			form.installtype.value = "upload"
+			form.installtype.value = "upload";
 			form.submit();
 		}
 	};
@@ -49,13 +45,13 @@ JFactory::getDocument()->addScriptDeclaration(
 		}
 
 		var uploading = false;
-		var dragZone  = $('#dragarea');
+		var dragZone = $('#dragarea');
 		var fileInput = $('#install_package');
-		var button    = $('#select-file-button');
-		var url       = 'index.php?option=com_installer&task=install.ajax_upload';
+		var button = $('#select-file-button');
+		var url = 'index.php?option=com_installer&task=install.ajax_upload';
 		var returnUrl = $('#installer-return').val();
-		var actions   = $('.upload-actions');
-		var progress  = $('.upload-progress');
+		var actions = $('.upload-actions');
+		var progress = $('.upload-progress');
 		var progressBar = progress.find('.bar');
 		var percentage = progress.find('.uploading-number');
 
@@ -67,7 +63,7 @@ JFactory::getDocument()->addScriptDeclaration(
 			fileInput.click();
 		});
 
-		fileInput.on('change', function (e) {
+		fileInput.on('change', function(e) {
 			if (uploading) {
 				return;
 			}
@@ -97,6 +93,7 @@ JFactory::getDocument()->addScriptDeclaration(
 		dragZone.on('dragleave', function(e) {
 			e.preventDefault();
 			e.stopPropagation();
+
 			dragZone.removeClass('hover');
 
 			return false;
@@ -120,7 +117,7 @@ JFactory::getDocument()->addScriptDeclaration(
 
 			var file = files[0];
 
-			var data = new FormData;
+			var data = new FormData();
 			data.append('install_package', file);
 			data.append('installtype', 'upload');
 
@@ -134,7 +131,7 @@ JFactory::getDocument()->addScriptDeclaration(
 				processData: false,
 				cache: false,
 				contentType: false,
-				xhr: function () {
+				xhr: function() {
 					var xhr = new window.XMLHttpRequest();
 
 					progressBar.css('width', 0);
@@ -142,46 +139,51 @@ JFactory::getDocument()->addScriptDeclaration(
 					percentage.text(0);
 
 					// Upload progress
-					xhr.upload.addEventListener("progress", function (evt) {
-						if (evt.lengthComputable) {
-							var percentComplete = evt.loaded / evt.total;
-							var number = Math.round(percentComplete * 100);
-							progressBar.css('width', number + '%');
-							progressBar.attr('aria-valuenow', number);
-							percentage.text(number);
+					xhr.upload.addEventListener(
+						'progress',
+						function(evt) {
+							if (evt.lengthComputable) {
+								var percentComplete = evt.loaded / evt.total;
+								var number = Math.round(percentComplete * 100);
+								progressBar.css('width', number + '%');
+								progressBar.attr('aria-valuenow', number);
+								percentage.text(number);
 
-							if (number === 100) {
-								dragZone.attr('data-state', 'installing');
+								if (number === 100) {
+									dragZone.attr('data-state', 'installing');
+								}
 							}
-						}
-					}, false);
+						},
+						false
+					);
 
 					return xhr;
 				}
 			})
-			.done(function (res) {
-				// Handle extension fatal error
-				if (!res || (!res.success && !res.data)) {
-					showError(res);
-					return;
-				}
+				.done(function(res) {
+					// Handle extension fatal error
+					if (!res || (!res.success && !res.data)) {
+						showError(res);
+						return;
+					}
 
-				// Always redirect that can show message queue from session 
-				if (res.data.redirect) {
-					location.href = res.data.redirect;
-				} else {
-					location.href = 'index.php?option=com_installer&view=install';
-				}
-			}).error(function (error) {
-				uploading = false;
+					// Always redirect that can show message queue from session
+					if (res.data.redirect) {
+						location.href = res.data.redirect;
+					} else {
+						location.href = 'index.php?option=com_installer&view=install';
+					}
+				})
+				.error(function(error) {
+					uploading = false;
 
-				if (error.status === 200) {
-					var res = error.responseText || error.responseJSON;
-					showError(res);
-				} else {
-					showError(error.statusText);
-				}
-			});
+					if (error.status === 200) {
+						var res = error.responseText || error.responseJSON;
+						showError(res);
+					} else {
+						showError(error.statusText);
+					}
+				});
 
 			function showError(res) {
 				dragZone.attr('data-state', 'pending');
@@ -197,7 +199,9 @@ JFactory::getDocument()->addScriptDeclaration(
 					message = res.message;
 				}
 
-				Joomla.renderMessages({error: [message]});
+				Joomla.renderMessages({
+					error: [message]
+				});
 			}
 		});
 	});
@@ -226,7 +230,7 @@ JFactory::getDocument()->addStyleDeclaration(
 		margin: 0;
 		line-height: 175%;
 		color: #999;
-		transition: all .2s;
+		transition: all 0.2s;
 	}
 
 	#dragarea.hover {
@@ -239,40 +243,41 @@ JFactory::getDocument()->addStyleDeclaration(
 		color: #666;
 	}
 
-	 .upload-progress, .install-progress {
+	.upload-progress,
+	.install-progress {
 		width: 50%;
 		margin: 5px auto;
-	 }
+	}
 
 	/* Default transition (.3s) is too slow, progress will not run to 100% */
 	.upload-progress .progress .bar {
-		-webkit-transition: width .1s;
-		-moz-transition: width .1s;
-		-o-transition: width .1s;
-		transition: width .1s;
+		-webkit-transition: width 0.1s;
+		-moz-transition: width 0.1s;
+		-o-transition: width 0.1s;
+		transition: width 0.1s;
 	}
 
-	#dragarea[data-state=pending] .upload-progress {
+	#dragarea[data-state='pending'] .upload-progress {
 		display: none;
 	}
 
-	#dragarea[data-state=pending] .install-progress {
+	#dragarea[data-state='pending'] .install-progress {
 		display: none;
 	}
 
-	#dragarea[data-state=uploading] .install-progress {
+	#dragarea[data-state='uploading'] .install-progress {
 		display: none;
 	}
 
-	#dragarea[data-state=uploading] .upload-actions {
+	#dragarea[data-state='uploading'] .upload-actions {
 		display: none;
 	}
 
-	#dragarea[data-state=installing] .upload-progress {
+	#dragarea[data-state='installing'] .upload-progress {
 		display: none;
 	}
 
-	#dragarea[data-state=installing] .upload-actions {
+	#dragarea[data-state='installing'] .upload-actions {
 		display: none;
 	}
 CSS
@@ -281,7 +286,6 @@ CSS
 $maxSize = JFilesystemHelper::fileUploadMaxSize();
 ?>
 <legend><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
-
 <div id="uploader-wrapper">
 	<div id="dragarea" data-state="pending">
 		<div id="dragarea-content" class="text-center">
@@ -290,13 +294,7 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 			</p>
 			<div class="upload-progress">
 				<div class="progress progress-striped active">
-					<div class="bar bar-success"
-						style="width: 0;"
-						role="progressbar"
-						aria-valuenow="0"
-						aria-valuemin="0"
-						aria-valuemax="100"
-					></div>
+					<div class="bar bar-success" style="width: 0;" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
 				</div>
 				<p class="lead">
 					<span class="uploading-text">
@@ -320,7 +318,7 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 					<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_DRAG_FILE_HERE'); ?>
 				</p>
 				<p>
-					<button id="select-file-button" type="button" class="btn btn-success">
+					<button id="select-file-button" class="btn btn-success" type="button">
 						<span class="icon-copy" aria-hidden="true"></span>
 						<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
 					</button>
@@ -335,18 +333,17 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 
 <div id="legacy-uploader" style="display: none;">
 	<div class="control-group">
-		<label for="install_package" class="control-label"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
+		<label class="control-label" for="install_package"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
 		<div class="controls">
-			<input class="input_box" id="install_package" name="install_package" type="file" size="57" /><br>
+			<input id="install_package" class="input_box" name="install_package" type="file" size="57" /><br>
 			<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
 		</div>
 	</div>
 	<div class="form-actions">
-		<button class="btn btn-primary" type="button" id="installbutton_package" onclick="Joomla.submitbuttonpackage()">
+		<button id="installbutton_package" class="btn btn-primary" type="button" onclick="Joomla.submitbuttonpackage()">
 			<?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_AND_INSTALL'); ?>
 		</button>
 	</div>
-
 	<input id="installer-return" name="return" type="hidden" value="<?php echo $return; ?>" />
 	<input id="installer-token" name="return" type="hidden" value="<?php echo $token; ?>" />
 </div>
