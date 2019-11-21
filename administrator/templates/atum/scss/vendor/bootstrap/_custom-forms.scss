@@ -32,7 +32,7 @@
     &.custom-select-danger {
       color: theme-color("danger");
       background-color: theme-color("danger");
-    border-color: theme-color("danger");
+      border-color: theme-color("danger");
 
       option {
         color: $custom-select-color;
@@ -42,5 +42,6 @@
   }
   optgroup, option {
     background-color: $white;
+    color: var(--atum-text-dark);
   }
 }

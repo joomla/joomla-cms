@@ -11,6 +11,8 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Exception;
+use JDatabaseQuery;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
@@ -19,8 +21,10 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Table\UpdateSite as UpdateSiteTable;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\ParameterType;
+use RuntimeException;
 
 /**
  * Installer Update Sites Model
@@ -38,21 +42,25 @@ class UpdatesitesModel extends InstallerModel
 	 * @since   1.6
 	 * @see     \Joomla\CMS\MVC\Model\ListModel
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
+	public function __construct($config = [], MVCFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array(
+			$config['filter_fields'] = [
 				'update_site_name',
 				'name',
 				'client_id',
-				'client', 'client_translated',
+				'client',
+				'client_translated',
 				'status',
-				'type', 'type_translated',
-				'folder', 'folder_translated',
+				'type',
+				'type_translated',
+				'folder',
+				'folder_translated',
 				'update_site_id',
 				'enabled',
-			);
+				'supported'
+			];
 		}
 
 		parent::__construct($config, $factory);
@@ -66,15 +74,15 @@ class UpdatesitesModel extends InstallerModel
 	 *
 	 * @return  boolean  True on success
 	 *
+	 * @throws  Exception on ACL error
 	 * @since   3.4
 	 *
-	 * @throws  \Exception on ACL error
 	 */
-	public function publish(&$eid = array(), $value = 1)
+	public function publish(&$eid = [], $value = 1)
 	{
 		if (!Factory::getUser()->authorise('core.edit.state', 'com_installer'))
 		{
-			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
+			throw new Exception(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 403);
 		}
 
 		$result = true;
@@ -82,11 +90,11 @@ class UpdatesitesModel extends InstallerModel
 		// Ensure eid is an array of extension ids
 		if (!is_array($eid))
 		{
-			$eid = array($eid);
+			$eid = [$eid];
 		}
 
 		// Get a table object for the extension type
-		$table = new \Joomla\CMS\Table\UpdateSite($this->getDbo());
+		$table = new UpdateSiteTable($this->getDbo());
 
 		// Enable the update site in the table and store it in the database
 		foreach ($eid as $i => $id)
@@ -111,21 +119,21 @@ class UpdatesitesModel extends InstallerModel
 	 *
 	 * @return  void
 	 *
+	 * @throws  Exception on ACL error
 	 * @since   3.6
 	 *
-	 * @throws  \Exception on ACL error
 	 */
-	public function delete($ids = array())
+	public function delete($ids = [])
 	{
 		if (!Factory::getUser()->authorise('core.delete', 'com_installer'))
 		{
-			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+			throw new Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
 		}
 
 		// Ensure eid is an array of extension ids
 		if (!is_array($ids))
 		{
-			$ids = array($ids);
+			$ids = [$ids];
 		}
 
 		$db  = $this->getDbo();
@@ -135,9 +143,9 @@ class UpdatesitesModel extends InstallerModel
 
 		// Gets the update site names.
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('update_site_id', 'name')))
+			->select($db->quoteName(['update_site_id', 'name']))
 			->from($db->quoteName('#__update_sites'))
-			->where($db->quoteName('update_site_id') . ' IN (' . implode(', ', $ids) . ')');
+			->whereIn($db->quoteName('update_site_id'), $ids);
 		$db->setQuery($query);
 		$updateSitesNames = $db->loadObjectList('update_site_id');
 
@@ -157,29 +165,38 @@ class UpdatesitesModel extends InstallerModel
 			// Delete the update site from all tables.
 			try
 			{
+				$id = (int) $id;
 				$query = $db->getQuery(true)
 					->delete($db->quoteName('#__update_sites'))
-					->where($db->quoteName('update_site_id') . ' = ' . (int) $id);
+					->where($db->quoteName('update_site_id') . ' = :id')
+					->bind(':id', $id, ParameterType::INTEGER);
 				$db->setQuery($query);
 				$db->execute();
 
 				$query = $db->getQuery(true)
 					->delete($db->quoteName('#__update_sites_extensions'))
-					->where($db->quoteName('update_site_id') . ' = ' . (int) $id);
+					->where($db->quoteName('update_site_id') . ' = :id')
+					->bind(':id', $id, ParameterType::INTEGER);
 				$db->setQuery($query);
 				$db->execute();
 
 				$query = $db->getQuery(true)
 					->delete($db->quoteName('#__updates'))
-					->where($db->quoteName('update_site_id') . ' = ' . (int) $id);
+					->where($db->quoteName('update_site_id') . ' = :id')
+					->bind(':id', $id, ParameterType::INTEGER);
 				$db->setQuery($query);
 				$db->execute();
 
 				$count++;
 			}
-			catch (\RuntimeException $e)
+			catch (RuntimeException $e)
 			{
-				$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_UPDATESITES_DELETE_ERROR', $updateSitesNames[$id]->name, $e->getMessage()), 'error');
+				$app->enqueueMessage(
+					Text::sprintf(
+						'COM_INSTALLER_MSG_UPDATESITES_DELETE_ERROR',
+						$updateSitesNames[$id]->name, $e->getMessage()
+					), 'error'
+				);
 			}
 		}
 
@@ -204,18 +221,21 @@ class UpdatesitesModel extends InstallerModel
 
 		// Fetch the Joomla core update sites ids and their extension ids. We search for all except the core joomla extension with update sites.
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('use.update_site_id', 'e.extension_id')))
+			->select($db->quoteName(['use.update_site_id', 'e.extension_id']))
 			->from($db->quoteName('#__update_sites_extensions', 'use'))
 			->join(
-				'LEFT', $db->quoteName('#__update_sites', 'us')
-				. ' ON ' . $db->quoteName('us.update_site_id') . ' = ' . $db->quoteName('use.update_site_id')
+				'LEFT',
+				$db->quoteName('#__update_sites', 'us'),
+				$db->quoteName('us.update_site_id') . ' = ' . $db->quoteName('use.update_site_id')
 			)
 			->join(
-				'LEFT', $db->quoteName('#__extensions', 'e')
-				. ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('use.extension_id')
+				'LEFT',
+				$db->quoteName('#__extensions', 'e'),
+				$db->quoteName('e.extension_id') . ' = ' . $db->quoteName('use.extension_id')
 			)
 			->where('('
-				. '(' . $db->quoteName('e.type') . ' = ' . $db->quote('file') . ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quote('joomla') . ')'
+				. '(' . $db->quoteName('e.type') . ' = ' . $db->quote('file') .
+				' AND ' . $db->quoteName('e.element') . ' = ' . $db->quote('joomla') . ')'
 				. ' OR (' . $db->quoteName('e.type') . ' = ' . $db->quote('package') . ' AND ' . $db->quoteName('e.element')
 				. ' = ' . $db->quote('pkg_en-GB') . ') OR (' . $db->quoteName('e.type') . ' = ' . $db->quote('component')
 				. ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quote('com_joomlaupdate') . ')'
@@ -232,15 +252,15 @@ class UpdatesitesModel extends InstallerModel
 	 *
 	 * @return  void
 	 *
+	 * @throws  Exception on ACL error
 	 * @since   3.6
 	 *
-	 * @throws  \Exception on ACL error
 	 */
 	public function rebuild(): void
 	{
 		if (!Factory::getUser()->authorise('core.admin', 'com_installer'))
 		{
-			throw new \Exception(Text::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_NOT_PERMITTED'), 403);
+			throw new Exception(Text::_('COM_INSTALLER_MSG_UPDATESITES_REBUILD_NOT_PERMITTED'), 403);
 		}
 
 		$db  = $this->getDbo();
@@ -265,10 +285,10 @@ class UpdatesitesModel extends InstallerModel
 			return;
 		}
 
-		$clients               = array(JPATH_SITE, JPATH_ADMINISTRATOR);
-		$extensionGroupFolders = array('components', 'modules', 'plugins', 'templates', 'language', 'manifests');
+		$clients               = [JPATH_SITE, JPATH_ADMINISTRATOR];
+		$extensionGroupFolders = ['components', 'modules', 'plugins', 'templates', 'language', 'manifests'];
 
-		$pathsToSearch = array();
+		$pathsToSearch = [];
 
 		// Identifies which folders to search for manifest files.
 		foreach ($clients as $clientPath)
@@ -283,11 +303,12 @@ class UpdatesitesModel extends InstallerModel
 						$pathsToSearch[] = $extensionFolderPath;
 					}
 				}
-
-				// Plugins (another directory level is needed)
 				else
 				{
-					foreach (glob($clientPath . '/' . $extensionGroupFolderName . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $pluginGroupFolderPath)
+					// Plugins (another directory level is needed)
+					foreach (glob($clientPath . '/' . $extensionGroupFolderName . '/*',
+						GLOB_NOSORT | GLOB_ONLYDIR
+					) as $pluginGroupFolderPath)
 					{
 						foreach (glob($pluginGroupFolderPath . '/*', GLOB_NOSORT | GLOB_ONLYDIR) as $extensionFolderPath)
 						{
@@ -299,31 +320,31 @@ class UpdatesitesModel extends InstallerModel
 		}
 
 		// Gets Joomla core update sites Ids.
-		$joomlaUpdateSitesIds = implode(', ', $this->getJoomlaUpdateSitesIds(0));
+		$joomlaUpdateSitesIds = $this->getJoomlaUpdateSitesIds(0);
 
 		// Delete from all tables (except joomla core update sites).
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__update_sites'))
-			->where($db->quoteName('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+			->whereNotIn($db->quoteName('update_site_id'), $joomlaUpdateSitesIds);
 		$db->setQuery($query);
 		$db->execute();
 
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__update_sites_extensions'))
-			->where($db->quoteName('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+			->whereNotIn($db->quoteName('update_site_id'), $joomlaUpdateSitesIds);
 		$db->setQuery($query);
 		$db->execute();
 
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__updates'))
-			->where($db->quoteName('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+			->whereNotIn($db->quoteName('update_site_id'), $joomlaUpdateSitesIds);
 		$db->setQuery($query);
 		$db->execute();
 
 		$count = 0;
 
 		// Gets Joomla core extension Ids.
-		$joomlaCoreExtensionIds = implode(', ', $this->getJoomlaUpdateSitesIds(1));
+		$joomlaCoreExtensionIds = $this->getJoomlaUpdateSitesIds(1);
 
 		// Search for updateservers in manifest files inside the folders to search.
 		foreach ($pathsToSearch as $extensionFolderPath)
@@ -350,17 +371,25 @@ class UpdatesitesModel extends InstallerModel
 
 					if ($manifest !== null)
 					{
-						// Search if the extension exists in the extensions table. Excluding joomla core extensions (id < 10000) and discovered extensions.
+						/**
+						 * Search if the extension exists in the extensions table. Excluding Joomla
+						 * core extensions (id < 10000) and discovered extensions.
+						 */
 						$query = $db->getQuery(true)
 							->select($db->quoteName('extension_id'))
 							->from($db->quoteName('#__extensions'))
-							->where(
-								'(' . $db->quoteName('name') . ' = ' . $db->quote($manifest->name)
-								. ' OR ' . $db->quoteName('name') . ' = ' . $db->quote($manifest->packagename) . ')'
+							->where($db->quoteName('type') . ' = :type')
+							->extendWhere(
+								'AND',
+								$db->quoteName('name') . ' = :name',
+								$db->quoteName('name') . ' = :pkgname',
+								'OR'
 							)
-							->where($db->quoteName('type') . ' = ' . $db->quote($manifest['type']))
-							->where($db->quoteName('extension_id') . ' NOT IN (' . $joomlaCoreExtensionIds . ')')
-							->where($db->quoteName('state') . ' != -1');
+							->whereNotIn($db->quoteName('extension_id'), $joomlaCoreExtensionIds)
+							->where($db->quoteName('state') . ' != -1')
+							->bind(':name', $manifest->name)
+							->bind(':pkgname', $manifest->packagename)
+							->bind(':type', $manifest['type']);
 						$db->setQuery($query);
 
 						$eid = (int) $db->loadResult();
@@ -375,7 +404,7 @@ class UpdatesitesModel extends InstallerModel
 							PluginHelper::importPlugin('extension', 'joomla');
 
 							// Fire the onExtensionAfterUpdate
-							$app->triggerEvent('onExtensionAfterUpdate', array('installer' => $tmpInstaller, 'eid' => $eid));
+							$app->triggerEvent('onExtensionAfterUpdate', ['installer' => $tmpInstaller, 'eid' => $eid]);
 
 							$count++;
 						}
@@ -406,8 +435,7 @@ class UpdatesitesModel extends InstallerModel
 		$items = parent::getItems();
 
 		array_walk($items,
-			static function ($item)
-			{
+			static function ($item) {
 				$data              = new CMSObject($item);
 				$item->downloadKey = InstallerHelper::getDownloadKey($data);
 			}
@@ -431,11 +459,37 @@ class UpdatesitesModel extends InstallerModel
 	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
 		// Load the filter state.
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
-		$this->setState('filter.enabled', $this->getUserStateFromRequest($this->context . '.filter.enabled', 'filter_enabled', '', 'string'));
-		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
-		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
+		$stateKeys = [
+			'search'    => 'string',
+			'client_id' => 'int',
+			'enabled'   => 'string',
+			'type'      => 'string',
+			'folder'    => 'string',
+			'supported' => 'bool',
+		];
+
+		foreach ($stateKeys as $key => $filterType)
+		{
+			$stateKey = 'filter.' . $key;
+
+			switch ($filterType)
+			{
+				case 'int':
+				case 'bool':
+					$default = null;
+					break;
+
+				default:
+					$default = '';
+					break;
+			}
+
+			$stateValue = $this->getUserStateFromRequest(
+				$this->context . '.' . $stateKey, 'filter_' . $key, $default, $filterType
+			);
+
+			$this->setState($stateKey, $stateValue);
+		}
 
 		parent::populateState($ordering, $direction);
 	}
@@ -443,7 +497,7 @@ class UpdatesitesModel extends InstallerModel
 	/**
 	 * Method to get the database query
 	 *
-	 * @return  \JDatabaseQuery  The database query
+	 * @return  JDatabaseQuery  The database query
 	 *
 	 * @since   3.4
 	 */
@@ -494,28 +548,33 @@ class UpdatesitesModel extends InstallerModel
 				)
 			)
 			->from($db->quoteName('#__update_sites', 's'))
-			->innerJoin(
+			->join(
+				'INNER',
 				$db->quoteName('#__update_sites_extensions', 'se'),
 				$db->quoteName('se.update_site_id') . ' = ' . $db->quoteName('s.update_site_id')
 			)
-			->innerJoin(
+			->join(
+				'INNER',
 				$db->quoteName('#__extensions', 'e'),
 				$db->quoteName('e.extension_id') . ' = ' . $db->quoteName('se.extension_id')
 			)
-			->leftJoin(
+			->join(
+				'LEFT',
 				$db->quoteName('#__users', 'u'),
 				$db->quoteName('s.checked_out') . ' = ' . $db->quoteName('u.id')
 			)
 			->where($db->quoteName('state') . ' = 0');
 
 		// Process select filters.
-		$enabled  = $this->getState('filter.enabled');
-		$type     = $this->getState('filter.type');
-		$clientId = $this->getState('filter.client_id');
-		$folder   = $this->getState('filter.folder');
+		$supported = $this->getState('filter.supported');
+		$enabled   = $this->getState('filter.enabled');
+		$type      = $this->getState('filter.type');
+		$clientId  = $this->getState('filter.client_id');
+		$folder    = $this->getState('filter.folder');
 
 		if ($enabled !== '')
 		{
+			$enabled = (int) $enabled;
 			$query->where($db->quoteName('s.enabled') . ' = :enabled')
 				->bind(':enabled', $enabled, ParameterType::INTEGER);
 		}
@@ -528,14 +587,16 @@ class UpdatesitesModel extends InstallerModel
 
 		if ($clientId !== null && $clientId !== '')
 		{
+			$clientId = (int) $clientId;
 			$query->where($db->quoteName('e.client_id') . ' = :clientId')
 				->bind(':clientId', $clientId, ParameterType::INTEGER);
 		}
 
 		if ($folder !== '' && in_array($type, ['plugin', 'library', ''], true))
 		{
+			$folderForBinding = $folder === '*' ? '' : $folder;
 			$query->where($db->quoteName('e.folder') . ' = :folder')
-				->bind(':folder', $folder === '*' ? '' : $folder);
+				->bind(':folder', $folderForBinding);
 		}
 
 		// Process search filter (update site id).
@@ -543,11 +604,47 @@ class UpdatesitesModel extends InstallerModel
 
 		if (!empty($search) && stripos($search, 'id:') === 0)
 		{
+			$uid = (int) substr($search, 3);
 			$query->where($db->quoteName('s.update_site_id') . ' = :siteId')
-				->bind(':siteId', substr($search, 3), ParameterType::INTEGER);
+				->bind(':siteId', $uid, ParameterType::INTEGER);
 		}
 
-		// Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).
+		if ($supported != 0)
+		{
+			switch ($supported)
+			{
+				// Show Update Sites which support Download Keys
+				case 1:
+					$supportedIDs = InstallerHelper::getDownloadKeySupportedSites($enabled);
+					break;
+
+				// Show Update Sites which are missing Download Keys
+				case -1:
+					$supportedIDs = InstallerHelper::getDownloadKeyExistsSites(false, $enabled);
+					break;
+
+				// Show Update Sites which have valid Download Keys
+				case 2:
+					$supportedIDs = InstallerHelper::getDownloadKeyExistsSites(true, $enabled);
+					break;
+			}
+
+			if (!empty($supportedIDs))
+			{
+				// Don't remove array_values(). whereIn expect a zero-based array.
+				$query->whereIn($db->qn('s.update_site_id'), array_values($supportedIDs));
+			}
+			else
+			{
+				// In case of an empty list of IDs we apply a fake filter to effectively return no data
+				$query->where($db->qn('s.update_site_id') . ' = 0');
+			}
+		}
+
+		/**
+		 * Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in
+		 * extension.php).
+		 */
 
 		return $query;
 	}

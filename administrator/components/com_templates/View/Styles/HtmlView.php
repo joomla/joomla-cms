@@ -87,6 +87,13 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->preview       = ComponentHelper::getParams('com_templates')->get('template_positions_display');
 
+		// Remove the menu item filter for administrator styles.
+		if ((int) $this->state->get('client_id') !== 0)
+		{
+			unset($this->activeFilters['menuitem']);
+			$this->filterForm->removeField('menuitem', 'filter');
+		}
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

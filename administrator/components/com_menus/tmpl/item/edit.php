@@ -27,37 +27,9 @@ Text::script('ERROR');
 Text::script('JGLOBAL_VALIDATION_FORM_FAILED');
 
 $this->document->addScriptOptions('menu-item', ['itemId' => (int) $this->item->id]);
-HTMLHelper::_('script', 'com_menus/admin-item-edit.min.js', ['version' => 'auto', 'relative' => true]);
-
-// Ajax for parent items
-$script = "
-jQuery(document).ready(function ($){
-	// Menu type Login Form specific
-	$('#item-form').on('submit', function() {
-		if ($('#jform_params_login_redirect_url') && $('#jform_params_logout_redirect_url')) {
-			// Login
-			if ($('#jform_params_login_redirect_url').closest('.control-group').css('display') === 'block') {
-				$('#jform_params_login_redirect_menuitem_id').val('');
-			}
-			if ($('#jform_params_login_redirect_menuitem_name').closest('.control-group').css('display') === 'block') {
-				$('#jform_params_login_redirect_url').val('');
-
-			}
-
-			// Logout
-			if ($('#jform_params_logout_redirect_url').closest('.control-group').css('display') === 'block') {
-				$('#jform_params_logout_redirect_menuitem_id').val('');
-			}
-			if ($('#jform_params_logout_redirect_menuitem_id').closest('.control-group').css('display') === 'block') {
-				$('#jform_params_logout_redirect_url').val('');
-			}
-		}
-	});
-});
-";
+HTMLHelper::_('script', 'com_menus/admin-item-edit.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
 
 $assoc = Associations::isEnabled();
-$hasAssoc = ($this->form->getValue('language', null, '*') !== '*');
 $input = Factory::getApplication()->input;
 
 // In case of modal
@@ -181,14 +153,12 @@ if ($clientId === 1)
 
 		<?php if (!$isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
-			<?php if ($hasAssoc) : ?>
-				<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
-				<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
-				<div>
-				<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
-				</div>
-				</fieldset>
-			<?php endif; ?>
+			<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
+			<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
+			<div>
+			<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+			</div>
+			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php elseif ($isModal && $assoc) : ?>
 			<div class="hidden"><?php echo LayoutHelper::render('joomla.edit.associations', $this); ?></div>

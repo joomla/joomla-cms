@@ -38,7 +38,16 @@ class PlgWebservicesTemplates extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
-		$router->createCRUDRoutes('v1/templates/styles/site', 'styles', ['component' => 'com_templates', 'client_id' => 0]);
-		$router->createCRUDRoutes('v1/templates/styles/administrator', 'styles', ['component' => 'com_templates', 'client_id' => 1]);
+		$router->createCRUDRoutes(
+			'v1/templates/styles/site',
+			'styles',
+			['component' => 'com_templates', 'client_id' => 0]
+		);
+
+		$router->createCRUDRoutes(
+			'v1/templates/styles/administrator',
+			'styles',
+			['component' => 'com_templates', 'client_id' => 1]
+		);
 	}
 }
