@@ -39,9 +39,17 @@ class PlgWebservicesBanners extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
-		$router->createCRUDRoutes('v1/banners', 'banners', ['component' => 'com_banners']);
+		$router->createCRUDRoutes(
+			'v1/banners',
+			'banners',
+			['component' => 'com_banners']
+		);
 
-		$router->createCRUDRoutes('v1/banners/clients', 'clients', ['component' => 'com_banners']);
+		$router->createCRUDRoutes(
+			'v1/banners/clients',
+			'clients',
+			['component' => 'com_banners']
+		);
 
 		$router->createCRUDRoutes(
 			'v1/banners/categories',

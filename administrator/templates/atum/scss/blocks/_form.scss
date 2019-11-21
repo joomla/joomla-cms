@@ -141,10 +141,15 @@ legend {
   bottom: 100%;
 }
 
+.container-popup [id="filter[search]-desc"] {
+  top: 100%;
+  bottom: auto;
+}
+
 .switcher__legend {
-    font-size: $label-font-size;
-    color: var(--atum-special-color);
-    margin-bottom: 0;
+  font-size: $label-font-size;
+  color: var(--atum-special-color);
+  margin-bottom: 0;
 }
 
 [class^="icon-"]:not(.input-group-text),
