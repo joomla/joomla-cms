@@ -58,18 +58,4 @@ class JsonapiView extends BaseApiView
 		'item_id',
 		'ip_address',
 	];
-
-	/**
-	 * Prepare item before render.
-	 *
-	 * @param   object  $item  The model item
-	 *
-	 * @return  object
-	 *
-	 * @since   4.0.0
-	 */
-	protected function prepareItem($item)
-	{
-		return parent::prepareItem($item);
-	}
 }
