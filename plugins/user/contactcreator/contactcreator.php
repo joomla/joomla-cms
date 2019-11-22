@@ -162,14 +162,12 @@ class PlgUserContactCreator extends CMSPlugin
 	/**
 	 * Get an instance of the contact table
 	 *
-	 * @return  ContactTableContact
+	 * @return  \Joomla\Component\Contact\Administrator\Table\ContactTable|false
 	 *
 	 * @since   3.2.3
 	 */
 	protected function getContactTable()
 	{
-		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_contact/tables');
-
-		return Table::getInstance('contact', 'ContactTable');
+		return Table::getInstance('ContactTable', '\\Joomla\\Component\\Contact\\Administrator\\Table\\');
 	}
 }
