@@ -19,6 +19,7 @@ use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\IpHelper;
 
 /**
@@ -170,5 +171,29 @@ class ActionlogModel extends BaseDatabaseModel
 		{
 			throw new GenericDataException(Text::_('JERROR_SENDING_EMAIL'), 500);
 		}
+	}
+
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param   integer  $pk  The id of the primary key.
+	 *
+	 * @return  mixed  Object on success, false on failure.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getItem($pk = null)
+	{
+		$pk = (!empty($pk)) ? $pk : (int) $this->getState('actionlog.id');
+
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+		$query->select('*')
+			->from($db->quoteName('#__action_logs'))
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $pk, );
+
+		$db->setQuery($query);
+		return $db->loadObject();
 	}
 }
