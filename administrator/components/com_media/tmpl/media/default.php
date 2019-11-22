@@ -22,10 +22,10 @@ HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.keepalive');
 
 // Add javascripts
-HTMLHelper::_('script', 'media/com_media/js/mediamanager.js');
+HTMLHelper::_('script', 'com_media/mediamanager.js', ['version' => 'auto', 'relative' => true]);
 
 // Add stylesheets
-HTMLHelper::_('stylesheet', 'media/com_media/css/mediamanager.css');
+HTMLHelper::_('stylesheet', 'com_media/mediamanager.css', ['version' => 'auto', 'relative' => true]);
 
 // Populate the language
 $this->loadTemplate('texts');
