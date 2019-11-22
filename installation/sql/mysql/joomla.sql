@@ -2196,7 +2196,7 @@ INSERT INTO `#__action_logs_extensions` (`id`, `extension`) VALUES
 (16, 'com_templates'),
 (17, 'com_users'),
 (18, 'com_checkin'),
-(19, 'com_actionlog');
+(19, 'com_actionlogs');
 
 --
 -- Table structure for table `#__action_log_config`
