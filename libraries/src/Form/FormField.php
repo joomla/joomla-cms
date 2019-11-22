@@ -1215,6 +1215,12 @@ abstract class FormField
 
 		$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 
+                // Casting false as string returns an empty string so assign it 0
+		if ($this->value === false)
+		{
+			$this->value = '0';
+		}
+
 		return array(
 			'autocomplete'   => $this->autocomplete,
 			'autofocus'      => $this->autofocus,
