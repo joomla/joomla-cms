@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 ?>
 
 <h2 class="mt-3 mb-3">
-	<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPATIBILITY_CHECK', '&#x200E;' . $this->updateInfo['latest']); ?>
+	<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK', '&#x200E;' . $this->updateInfo['latest']); ?>
 </h2>
 
 <div class="row">
@@ -103,6 +103,7 @@ use Joomla\CMS\Language\Text;
 	</div>
 </div>
 <div class="row">
+	<?php if (!empty($this->nonCoreExtensions)) : ?>
 	<div class="col-md-6">
 		<fieldset class="options-grid-form options-grid-form-full">
 			<legend>
@@ -145,6 +146,7 @@ use Joomla\CMS\Language\Text;
 			</table>
 		</fieldset>
 	</div>
+	<?php endif; ?>
 	<div class="col-md-6">
 		<fieldset class="options-grid-form options-grid-form-full">
 			<legend>
