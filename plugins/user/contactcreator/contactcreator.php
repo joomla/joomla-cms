@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Contact\Administrator\Table\ContactTable;
 use Joomla\String\StringHelper;
 
 /**
@@ -32,12 +33,20 @@ class PlgUserContactCreator extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Application object
+	 * Application Instance
 	 *
 	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
+
+	/**
+	 * Database Driver Instance
+	 *
+	 * @var    \Joomla\Database\DatabaseDriver
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $db;
 
 	/**
 	 * Utility method to act on a user after it has been saved.
@@ -169,12 +178,17 @@ class PlgUserContactCreator extends CMSPlugin
 	/**
 	 * Get an instance of the contact table
 	 *
-	 * @return  \Joomla\Component\Contact\Administrator\Table\ContactTable|false
+	 * @return  ContactTable|false
 	 *
 	 * @since   3.2.3
 	 */
 	protected function getContactTable()
 	{
-		return Table::getInstance('ContactTable', '\\Joomla\\Component\\Contact\\Administrator\\Table\\');
+		if (!class_exists(ContactTable::class))
+		{
+			return false;
+		}
+
+		return new ContactTable($this->db);
 	}
 }
