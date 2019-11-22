@@ -359,7 +359,7 @@ class TagsHelper extends CMSHelper
 				]
 			)
 			->bind(':contentType', $contentType)
-			->bind(':id', $id);
+			->bind(':id', $id, ParameterType::INTEGER);
 
 		$user = Factory::getUser();
 		$groups = $user->getAuthorisedViewLevels();
