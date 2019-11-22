@@ -178,17 +178,12 @@ class PlgUserContactCreator extends CMSPlugin
 	/**
 	 * Get an instance of the contact table
 	 *
-	 * @return  ContactTable|false
+	 * @return  ContactTable|null
 	 *
 	 * @since   3.2.3
 	 */
 	protected function getContactTable()
 	{
-		if (!class_exists(ContactTable::class))
-		{
-			return false;
-		}
-
-		return new ContactTable($this->db);
+		return $this->app->bootComponent('com_contact')->getMVCFactory()->createTable('Contact', 'Administrator', ['dbo' => $this->db]);
 	}
 }
