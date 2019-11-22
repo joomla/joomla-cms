@@ -35,25 +35,4 @@ class ActionlogsController extends ApiController
 	 * @since  4.0
 	 */
 	protected $default_view = 'actionlogs';
-
-	/**
-	 * Basic display of an item view
-	 *
-	 * @param   integer  $id  The primary key to display. Leave empty if you want to retrieve data from the actionlogs
-	 *
-	 * @return  static  A \JControllerLegacy object to support chaining.
-	 *
-	 * @since   4.0.0
-	 */
-	public function displayItem($id = null)
-	{
-		if ($id === null)
-		{
-			$id = $this->input->get('id', 0, 'int');
-		}
-
-		$this->input->set('model', $this->contentType);
-
-		return parent::displayItem($id);
-	}
 }
