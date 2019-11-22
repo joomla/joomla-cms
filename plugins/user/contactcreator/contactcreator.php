@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
@@ -31,6 +30,14 @@ class PlgUserContactCreator extends CMSPlugin
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * Application object
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
 
 	/**
 	 * Utility method to act on a user after it has been saved.
@@ -73,7 +80,7 @@ class PlgUserContactCreator extends CMSPlugin
 
 		if (empty($categoryId))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'), 'error');
+			$this->app->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'), 'error');
 
 			return false;
 		}
@@ -93,7 +100,7 @@ class PlgUserContactCreator extends CMSPlugin
 			$contact->user_id  = $user_id;
 			$contact->email_to = $user['email'];
 			$contact->catid    = $categoryId;
-			$contact->access   = (int) Factory::getApplication()->get('access');
+			$contact->access   = (int) $this->app->get('access');
 			$contact->language = '*';
 			$contact->generateAlias();
 
@@ -126,7 +133,7 @@ class PlgUserContactCreator extends CMSPlugin
 			}
 		}
 
-		Factory::getApplication()->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_FAILED_CREATING_CONTACT'), 'error');
+		$this->app->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_FAILED_CREATING_CONTACT'), 'error');
 
 		return false;
 	}
