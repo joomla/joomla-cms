@@ -65,4 +65,77 @@ class ArticlesController extends ApiController
 
 		return parent::save($recordKey);
 	}
+
+	/**
+	 * Basic display of a list view
+	 *
+	 * @return  static  A \JControllerLegacy object to support chaining.
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayList()
+	{
+		$this->input->set('model_state',
+			[
+				'filter.author_id' => $this->getAuthorIdFromInput(),
+				'filter.condition' => $this->getConditionFromInput(),
+				'filter.stage'     => $this->getStageFromInput(),
+				'filter.language'  => $this->getLanguageFromInput(),
+			]
+		);
+
+		return parent::displayList();
+	}
+
+	/**
+	 * Get author id from input
+	 *
+	 * @return string
+	 *
+	 * @since 4.0
+	 */
+	private function getAuthorIdFromInput()
+	{
+		return $this->input->exists('author') ?
+			$this->input->get('author') : $this->input->post->get('author');
+	}
+
+	/**
+	 * Get condition from input
+	 *
+	 * @return string
+	 *
+	 * @since 4.0
+	 */
+	private function getConditionFromInput()
+	{
+		return $this->input->exists('condition') ?
+			$this->input->get('condition') : $this->input->post->get('condition');
+	}
+
+	/**
+	 * Get stage from input
+	 *
+	 * @return string
+	 *
+	 * @since 4.0
+	 */
+	private function getStageFromInput()
+	{
+		return $this->input->exists('stage') ?
+			$this->input->get('stage') : $this->input->post->get('stage');
+	}
+
+	/**
+	 * Get language from input
+	 *
+	 * @return string
+	 *
+	 * @since 4.0
+	 */
+	private function getLanguageFromInput()
+	{
+		return $this->input->exists('language') ?
+			$this->input->get('language') : $this->input->post->get('language');
+	}
 }
