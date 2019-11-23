@@ -174,7 +174,7 @@ body.site.fluid{
 /* Headings */
 
 h1, h2, h3, h4, h5, h6 {
-  	margin: (@baseLineHeight / 1.5) 0;
+	margin: (@baseLineHeight / 1.5) 0;
 	word-wrap: break-word;
 }
 h1 { font-size: 26px; line-height: 28px; }
@@ -238,7 +238,7 @@ p {
 }
 .breadcrumb > li,
 .breadcrumb > .active {
-   color: #515151;
+	color: #515151;
 }
 /* mod_login */
 #login-form {
@@ -270,7 +270,7 @@ p {
 	text-align: center;
 }
 
-.img_caption  {
+.img_caption {
 	text-align: center!important;
 }
 
@@ -319,8 +319,8 @@ figcaption {
 		.border-radius(6px);
 		.box-shadow(0 5px 10px rgba(0,0,0,.2));
 		-webkit-background-clip: padding-box;
-		 -moz-background-clip: padding;
-		      background-clip: padding-box;
+		-moz-background-clip: padding;
+		background-clip: padding-box;
 
 		// Aligns the dropdown menu to right
 		&.pull-right {
@@ -356,35 +356,35 @@ figcaption {
 	}
 	.nav > li {
 		&:before {
-		  position: absolute;
-		  top: 100%;
-		  right: 0;
-		  left: 0;
-		  height: 6px;
-		  content: '';
+			position: absolute;
+			top: 100%;
+			right: 0;
+			left: 0;
+			height: 6px;
+			content: '';
 		}
 	}
 	.nav > li > .nav-child {
 		&:before {
-		  position: absolute;
-		  top: -7px;
-		  left: 9px;
-		  display: inline-block;
-		  border-right: 7px solid transparent;
-		  border-bottom: 7px solid #ccc;
-		  border-left: 7px solid transparent;
-		  border-bottom-color: rgba(0, 0, 0, 0.2);
-		  content: '';
+			position: absolute;
+			top: -7px;
+			left: 9px;
+			display: inline-block;
+			border-right: 7px solid transparent;
+			border-bottom: 7px solid #ccc;
+			border-left: 7px solid transparent;
+			border-bottom-color: rgba(0, 0, 0, 0.2);
+			content: '';
 		}
 		&:after {
-		  position: absolute;
-		  top: -6px;
-		  left: 10px;
-		  display: inline-block;
-		  border-right: 6px solid transparent;
-		  border-bottom: 6px solid #ffffff;
-		  border-left: 6px solid transparent;
-		  content: '';
+			position: absolute;
+			top: -6px;
+			left: 10px;
+			display: inline-block;
+			border-right: 6px solid transparent;
+			border-bottom: 6px solid #ffffff;
+			border-left: 6px solid transparent;
+			content: '';
 		}
 	}
 	.nav li li .nav-child {
@@ -419,10 +419,10 @@ figcaption {
 .navigation .nav-child li > a:hover,
 .navigation .nav-child li > a:focus,
 .navigation .nav-child:hover > a {
-  text-decoration: none;
-  color: @dropdownLinkColorHover;
-  background-color: @dropdownLinkBackgroundHover;
-  #gradient > .vertical(@dropdownLinkBackgroundHover, darken(@dropdownLinkBackgroundHover, 5%));
+	text-decoration: none;
+	color: @dropdownLinkColorHover;
+	background-color: @dropdownLinkBackgroundHover;
+	#gradient > .vertical(@dropdownLinkBackgroundHover, darken(@dropdownLinkBackgroundHover, 5%));
 }
 
 // Category collapse
@@ -442,7 +442,7 @@ figcaption {
 	}
 }
 @media (max-width: 768px) {
-  /* Fix ios scrolling inside boottrap modals */
+	/* Fix ios scrolling inside boottrap modals */
 	body {
 		-webkit-overflow-scrolling: touch;
 		padding-top: 0;
@@ -535,7 +535,7 @@ figcaption {
 	.nav-pills > li > a {
 		margin-bottom: 3px;
 	}
-	.nav-pills  > li:last-child > a {
+	.nav-pills > li:last-child > a {
 		margin-bottom: 1px;
 	}
 	.form-search > .pull-left,
@@ -659,8 +659,8 @@ dd.result-text {
 
 /* Prevent scrolling on the parent window of a modal */
 body.modal-open {
-  overflow: hidden;
-  -ms-overflow-style: none;
+	overflow: hidden;
+	-ms-overflow-style: none;
 }
 
 /* Align fields for the profile display */
@@ -716,23 +716,23 @@ li {
 }
 
 ul.manager .height-50 .icon-folder-2 {
-    height: 35px;
-    width: 35px;
-    line-height: 35px;
-    font-size: 30px;
+	height: 35px;
+	width: 35px;
+	line-height: 35px;
+	font-size: 30px;
 }
 /* Popover minimum height - overwrite bootstrap default */
 .popover-content {
-    min-height: 33px;
+	min-height: 33px;
 }
 
 /* Smart search select field margin */
 .finder-selects {
-    margin: 0 15px 15px 0;
+	margin: 0 15px 15px 0;
 }
 
 /* mod_search in position-0 */
 .header-search .mod-languages ul {
 	margin: 0 0 5px 0;
-	}
+}
 @import "template_rtl.less"; // Specific for rtl. Always load last.
