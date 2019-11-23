@@ -35,4 +35,51 @@ class ActionlogsController extends ApiController
 	 * @since  4.0
 	 */
 	protected $default_view = 'actionlogs';
+
+
+	/**
+	 * Basic display of a list view
+	 *
+	 * @return  static  A \JControllerLegacy object to support chaining.
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayList()
+	{
+		$this->input->set('model_state',
+			[
+				'filter.extension' => $this->getExtensionFromInput(),
+				'filter.user' => $this->getUserIdFromInput(),
+			]
+		);
+
+		return parent::displayList();
+	}
+
+	/**
+	 * Get extension from input
+	 *
+	 * @return string
+	 *
+	 * @since 4.0
+	 */
+	private function getExtensionFromInput()
+	{
+		return $this->input->exists('extension') ?
+			$this->input->get('extension') : $this->input->post->get('extension');
+	}
+
+	/**
+	 * Get user id from input
+	 *
+	 * @return string
+	 *
+	 * @since 4.0
+	 */
+	private function getUserIdFromInput()
+	{
+		return $this->input->exists('user') ?
+			$this->input->get('user') : $this->input->post->get('user');
+	}
+
 }
