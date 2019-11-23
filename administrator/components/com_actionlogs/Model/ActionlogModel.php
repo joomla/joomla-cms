@@ -191,7 +191,7 @@ class ActionlogModel extends BaseDatabaseModel
 		$query->select('*')
 			->from($db->quoteName('#__action_logs'))
 			->where($db->quoteName('id') . ' = :id')
-			->bind(':id', $pk, );
+			->bind(':id', $pk, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 		return $db->loadObject();
