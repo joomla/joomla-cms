@@ -113,6 +113,10 @@ html[dir=rtl] .target-text {
 		width: 100%;
 	}
 
+	.sidebyside #reference-association {
+		margin-top: 0;
+	}
+
 	.sidebyside #left-panel .inner-panel {
 		padding: 0;
 	}
