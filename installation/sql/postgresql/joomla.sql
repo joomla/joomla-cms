@@ -2199,7 +2199,7 @@ INSERT INTO "#__action_logs_extensions" ("id", "extension") VALUES
 (18, 'com_checkin'),
 (19, 'com_actionlogs');
 
-SELECT setval('#__action_logs_extensions_id_seq', 18, false);
+SELECT setval('#__action_logs_extensions_id_seq', 20, false);
 -- --------------------------------------------------------
 
 --
