@@ -153,6 +153,20 @@ body .container-main {
   list-style: none;
 }
 
+// Multilingual Associations Mobile specific
+#fieldset-associations {
+
+  .input-group > .form-control,
+  .input-group > .form-control-plaintext,
+  .input-group > .custom-select,
+  .input-group > .custom-file {
+
+    @include media-breakpoint-down(sm) {
+      width: auto;
+    }
+  }
+}
+
 // Quickicon specific
 .message-alert {
   text-align: right !important;
