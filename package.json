@@ -31,7 +31,7 @@
     "@webcomponents/webcomponentsjs": "2.1.2",
     "awesomplete": "1.1.4",
     "bootstrap": "~4.3",
-    "choices.js": "^7.0.0",
+    "choices.js": "^9.0.0",
     "chosen-js": "1.6.2",
     "codemirror": "5.40.0",
     "cropperjs": "1.2.2",
