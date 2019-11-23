@@ -194,6 +194,7 @@ class ActionlogModel extends BaseDatabaseModel
 			->bind(':id', $pk, ParameterType::INTEGER);
 
 		$db->setQuery($query);
+
 		return $db->loadObject();
 	}
 }
