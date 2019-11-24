@@ -1,62 +1,44 @@
-export_languages: ["en-GB"]
+export_languages:
+  - en-GB
 files:
-  # Administrator
-  # INI
   - source: /administrator/language/en-GB/*.ini
     translation: /administrator/language/%locale%/%original_file_name%
     update_option: update_as_unapproved
-
-  # XML
   - source: /administrator/language/en-GB/*.xml
     translation: /administrator/language/%locale%/%original_file_name%
     update_option: update_as_unapproved
     content_segmentation: 0
-
-    # localise.php
   - source: /administrator/language/en-GB/localise.php
     dest: /administrator/language/en-GB/localise.txt
     translation: /administrator/language/%locale%/localise.php
     update_option: update_as_unapproved
-
-    # Site
-    # INI
   - source: /language/en-GB/*.ini
     translation: /language/%locale%/%original_file_name%
     update_option: update_as_unapproved
-
-    # XML
   - source: /language/en-GB/*.xml
     translation: /language/%locale%/%original_file_name%
     update_option: update_as_unapproved
     content_segmentation: 0
-
-    # localise.php
   - source: /language/en-GB/localise.php
     dest: /language/en-GB/localise.txt
     translation: /language/%locale%/localise.php
     update_option: update_as_unapproved
-
-    # Installation
   - source: /installation/language/en-GB/joomla.ini
     translation: /installation/language/%locale%/joomla.ini
     update_option: update_as_unapproved
-  - source: /installation/language/en-GB/joomla.xml
-    translation: /installation/language/%locale%/joomla.xml
-    update_option: update_as_unapproved
+  - source: /installation/language/en-GB/langmetadata.xml
+    translation: /installation/language/%locale%/langmetadata.xml
     content_segmentation: 0
-
-    # Testing Sampledata Plugin
+    update_option: update_as_unapproved
   - source: /plugins/sampledata/testing/language/en-GB/*.ini
     ignore:
-    - /plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini
-    - /plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini
-
-    # Media
+      - >-
+        /plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini
+      - >-
+        /plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini
   - source: /build/media_source/system/js/fields/calendar-locales/en.es5.js
     translation: /build/media_source/system/js/fields/calendar-locales/%locale%.es5.js
     update_option: update_as_unapproved
-
-    # Package XML
   - source: /administrator/manifests/packages/pkg_en-GB.xml
     dest: /pkg_en-GB.xml
     translation: /pkg_%locale%.xml
