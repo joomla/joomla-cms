@@ -291,32 +291,30 @@ class MysqlChangeItem extends ChangeItem
 	 */
 	private function fixUtf8mb4TypeChecks($type)
 	{
-		$fixedType = str_replace(';', '', $type);
+		$uType = strtoupper(str_replace(';', '', $type));
 
 		if ($this->db->hasUTF8mb4Support())
 		{
-			$uType = strtoupper($fixedType);
-
 			if ($uType === 'TINYTEXT')
 			{
-				$typeCheck = 'type IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')';
+				$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')';
 			}
 			elseif ($uType === 'TEXT')
 			{
-				$typeCheck = 'type IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')';
+				$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')';
 			}
 			elseif ($uType === 'MEDIUMTEXT')
 			{
-				$typeCheck = 'type IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')';
+				$typeCheck = 'UPPER(type) IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')';
 			}
 			else
 			{
-				$typeCheck = 'type = ' . $this->db->quote($fixedType);
+				$typeCheck = 'UPPER(type) = ' . $this->db->quote($uType);
 			}
 		}
 		else
 		{
-			$typeCheck = 'type = ' . $this->db->quote($fixedType);
+			$typeCheck = 'UPPER(type) = ' . $this->db->quote($uType);
 		}
 
 		return $typeCheck;
