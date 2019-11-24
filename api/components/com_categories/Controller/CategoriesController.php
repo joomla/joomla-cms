@@ -60,7 +60,13 @@ class CategoriesController extends ApiController
 	 */
 	public function displayList()
 	{
-		$this->input->set('model_state', ['filter.extension' => $this->getExtensionFromInput()]);
+		$this->input->set('model_state',
+			[
+				'filter.extension' => $this->getExtensionFromInput(),
+				'filter.published' => $this->getPublishedFromInput(),
+				'filter.language' => $this->getLanguageFromInput(),
+			]
+		);
 
 		return parent::displayList();
 	}
@@ -76,5 +82,31 @@ class CategoriesController extends ApiController
 	{
 		return $this->input->exists('extension') ?
 			$this->input->get('extension') : $this->input->post->get('extension');
+	}
+
+	/**
+	 * Get published from input
+	 *
+	 * @return string
+	 *
+	 * @since 4.0
+	 */
+	private function getPublishedFromInput()
+	{
+		return $this->input->exists('published') ?
+			$this->input->get('published') : $this->input->post->get('published');
+	}
+
+	/**
+	 * Get language from input
+	 *
+	 * @return string
+	 *
+	 * @since 4.0
+	 */
+	private function getLanguageFromInput()
+	{
+		return $this->input->exists('language') ?
+			$this->input->get('language') : $this->input->post->get('language');
 	}
 }
