@@ -20,6 +20,9 @@ body {
   &.a11y_contrast {
     filter: invert(100%);
   }
+  &.monochrome.a11y_contrast  {
+    filter: grayscale(1) invert(100%);
+  }
   &.a11y_highlight {
     a {
       padding: 3px;
