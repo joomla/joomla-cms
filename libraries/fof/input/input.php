@@ -4,6 +4,7 @@
  * @subpackage  input
  * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 // Protect from unauthorized access
 defined('FOF_INCLUDED') or die;
@@ -99,7 +100,7 @@ class FOFInput extends JInput
 
 		// Magic quotes GPC handling (something JInput simply can't handle at all)
 
-		if (($hash == 'REQUEST') && get_magic_quotes_gpc() && class_exists('JRequest', true))
+		if (($hash == 'REQUEST') && PHP_VERSION_ID < 50400 && get_magic_quotes_gpc() && class_exists('JRequest', true))
 		{
 			$source = JRequest::get('REQUEST', 2);
 		}

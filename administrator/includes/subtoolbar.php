@@ -106,7 +106,7 @@ abstract class JSubMenuHelper
 	 * @param   string   $label      Label for the menu item.
 	 * @param   string   $name       name for the filter. Also used as id.
 	 * @param   string   $options    options for the select field.
-	 * @param   boolean  $noDefault  Don't the label as the empty option
+	 * @param   boolean  $noDefault  Don't show the label as the empty option
 	 *
 	 * @return  void
 	 *
