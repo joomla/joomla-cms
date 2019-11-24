@@ -28,7 +28,9 @@
   padding-bottom: 1rem;
 
   > div {
+    display: inline-block;
     break-inside: avoid;
+    width: 100%;
   }
 }
 
