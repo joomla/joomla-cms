@@ -30,12 +30,6 @@ files:
     translation: /installation/language/%locale%/langmetadata.xml
     content_segmentation: 0
     update_option: update_as_unapproved
-  - source: /plugins/sampledata/testing/language/en-GB/*.ini
-    ignore:
-      - >-
-        /plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini
-      - >-
-        /plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini
   - source: /build/media_source/system/js/fields/calendar-locales/en.es5.js
     translation: /build/media_source/system/js/fields/calendar-locales/%locale%.es5.js
     update_option: update_as_unapproved
