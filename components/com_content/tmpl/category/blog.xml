@@ -28,8 +28,8 @@
 				name="filter_tag"
 				type="tag"
 				label="JTAG"
-				description="JTAG_FIELD_SELECT_DESC"
 				multiple="true"
+				mode="nested"
 			/>
 		</fieldset>
 	</fields>
@@ -167,7 +167,6 @@
 		</fieldset>
 
 		<fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS">
-
 				<field
 					name="bloglayout"
 					type="spacer"

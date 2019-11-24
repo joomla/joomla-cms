@@ -363,6 +363,13 @@ joomla-toolbar-button {
       margin-left: 0 !important;
       margin-right: 0.75rem;
       margin-bottom: 0.75rem;
+
+      @include media-breakpoint-down(sm) {
+        [dir=rtl] & {
+          margin-left: 0.75rem;
+          margin-right: 0 !important;
+        }
+      }
     }
   }
 
@@ -397,11 +404,25 @@ joomla-toolbar-button {
     .ordering-select,
     .js-stools-container-selector {
       margin-right: .5rem;
+
+      @include media-breakpoint-down(sm) {
+        [dir=rtl] & {
+          margin-right: 0 !important;
+        }
+      }
     }
 
     .btn-group {
       @include media-breakpoint-down(sm) {
         margin-right: 0;
+      }
+    }
+
+    .js-stools-container-bar {
+      .js-stools-field-list {
+        @include media-breakpoint-down(sm) {
+          margin-bottom: .75rem;
+        }
       }
     }
 
@@ -451,6 +472,10 @@ joomla-toolbar-button {
       [class^='fa-'],
       [class*=' fa-'] {
         float: left;
+
+        [dir=rtl] & {
+          float: right;
+        }
       }
     }
   }

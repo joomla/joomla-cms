@@ -143,6 +143,11 @@ legend {
   bottom: 100%;
 }
 
+.container-popup [id="filter[search]-desc"] {
+  top: 100%;
+  bottom: auto;
+}
+
 .switcher__legend {
   font-size: $label-font-size;
   color: var(--atum-special-color);
@@ -152,6 +157,11 @@ legend {
 [class^="icon-"]:not(.input-group-text),
 [class*=" icon-"]:not(.input-group-text) {
   margin-right: 0.5em;
+
+  [dir=rtl] & {
+    margin-left: 0.5em;
+    margin-right: 0;
+  }
 }
 
 joomla-field-user [class*=" icon-"]:not(.input-group-text) {

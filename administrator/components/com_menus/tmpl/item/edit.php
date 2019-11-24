@@ -30,7 +30,6 @@ $this->document->addScriptOptions('menu-item', ['itemId' => (int) $this->item->i
 HTMLHelper::_('script', 'com_menus/admin-item-edit.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
 
 $assoc = Associations::isEnabled();
-$hasAssoc = ($this->form->getValue('language', null, '*') !== '*');
 $input = Factory::getApplication()->input;
 
 // In case of modal
@@ -154,14 +153,12 @@ if ($clientId === 1)
 
 		<?php if (!$isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
-			<?php if ($hasAssoc) : ?>
-				<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
-				<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
-				<div>
-				<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
-				</div>
-				</fieldset>
-			<?php endif; ?>
+			<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
+			<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
+			<div>
+			<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+			</div>
+			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php elseif ($isModal && $assoc) : ?>
 			<div class="hidden"><?php echo LayoutHelper::render('joomla.edit.associations', $this); ?></div>

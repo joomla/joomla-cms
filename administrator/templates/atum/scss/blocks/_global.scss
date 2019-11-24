@@ -78,7 +78,8 @@ textarea {
   word-wrap: break-word;
 }
 
-.content {
+.content,
+.container-popup {
   font-size: $content-font-size;
 }
 

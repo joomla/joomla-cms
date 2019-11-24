@@ -6,7 +6,7 @@
   margin-bottom: 20px;
   background-color: $cassiopeia-template-color;
   background-image: $cassiopeia-header-grad;
-  box-shadow: 0 5px 5px rgba(0,0,0,.03) inset;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, .03) inset;
 
   header {
     width: 100%;
@@ -124,6 +124,7 @@
 
   .form-inline {
     margin-left: 1.5rem;
+
     @include media-breakpoint-down(md) {
       margin: 1rem 0;
     }
@@ -173,7 +174,7 @@
     display: block;
     height: 180px;
     content: "";
-    background-image: linear-gradient(0deg, rgba(0,0,0,.5) 0%, transparent 100%);
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, .5) 0%, transparent 100%);
 
   }
 
@@ -185,11 +186,13 @@
   bottom: -20px;
   left: 0;
   border-bottom: 20px solid #fafafa;
+
   canvas {
     display: block;
     width: 100%;
     visibility: hidden;
   }
+
   svg {
     position: absolute;
     bottom: 0;
