@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="3.9" client="installation">
+<metafile
+	version="3.9"
+	client="installation">
 	<name>Slovenščina (Slovenia)</name>
 	<version>3.9.12</version>
 	<creationDate>September 2019</creationDate>
