@@ -208,6 +208,7 @@
   .sidebar-item-title {
     word-break: break-word;
     padding: 0.6rem 0;
+    margin-right: auto;
 
     @include media-breakpoint-up(sm) {
       max-width: 11rem !important;
@@ -238,7 +239,7 @@
     }
 
     > a {
-      display: block;
+      display: flex;
       padding: 0 0.35rem;
 
       &:hover {
@@ -380,11 +381,10 @@
 
   // Dropdown indicator
   .has-arrow::after {
-    position: absolute;
-    top: 0.8rem;
-    right: 1.4rem;
-    width: .5rem;
-    height: .5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1rem;
     color: var(--atum-text-light);
     content: "\f054";
     font-weight: 900;
@@ -395,9 +395,7 @@
   .mm-active {
 
     > .has-arrow::after {
-      filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
       transform: rotate(90deg);
-      transform-origin: 0.4rem 0.7rem;
     }
   }
 
