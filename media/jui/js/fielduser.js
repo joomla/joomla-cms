@@ -109,10 +109,16 @@
 		});
 	};
 
-	// Initialise all defaults
-	$(document).ready(function(){
-		$('.field-user-wrapper').fieldUser();
-	});
+	// Initialise all defaults on load and again when subform rows are added
+	$(function($) {
+		initUserField();
+		$(document).on('subform-row-add', initUserField);
+
+		function initUserField (event, container)
+		{
+			$(container || document).find('.field-user-wrapper').fieldUser();
+		}
+ 	});
 
 })(jQuery);
 

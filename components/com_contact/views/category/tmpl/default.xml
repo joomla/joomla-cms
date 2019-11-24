@@ -327,6 +327,17 @@
 
 		<fieldset name="contact" label="COM_CONTACT_BASIC_OPTIONS_FIELDSET_LABEL"
 			addfieldpath="/administrator/components/com_fields/models/fields">
+			
+			<field
+				name="contact_layout"
+				type="componentlayout"
+				label="JGLOBAL_FIELD_LAYOUT_LABEL"
+				description="JGLOBAL_FIELD_LAYOUT_DESC"
+				menuitems="true"
+				extension="com_contact"
+				view="contact"
+			/>
+			
 			<field
 				name="presentation_style"
 				type="list"
@@ -364,6 +375,18 @@
 				<option value="1">JSHOW</option>
 			</field>
 
+			<field 
+				name="show_name"
+				type="list"
+				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
+				description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
+				useglobal="true"
+				class="chzn-color"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
+
 			<field
 				name="show_tags"
 				type="list"
@@ -382,19 +405,6 @@
 				label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
 				description="COM_CONTACT_FIELD_SHOW_INFO_DESC"
 				useglobal="true"
-				class="chzn-color"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field
-				name="show_name"
-				type="list"
-				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
-				description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
-				useglobal="true"
-				showon="show_info:1"
 				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>

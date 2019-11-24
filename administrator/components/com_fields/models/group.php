@@ -71,10 +71,7 @@ class FieldsModelGroup extends JModelAdmin
 	 */
 	public function getTable($name = 'Group', $prefix = 'FieldsTable', $options = array())
 	{
-		if (strpos(JPATH_COMPONENT, 'com_fields') === false)
-		{
-			$this->addTablePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
-		}
+		$this->addTablePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 
 		return JTable::getInstance($name, $prefix, $options);
 	}
@@ -324,31 +321,6 @@ class FieldsModelGroup extends JModelAdmin
 			if (property_exists($item, 'params'))
 			{
 				$item->params = new Registry($item->params);
-			}
-
-			// Convert the created and modified dates to local user time for display in the form.
-			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
-
-			if ((int) $item->created)
-			{
-				$date = new JDate($item->created);
-				$date->setTimezone($tz);
-				$item->created = $date->toSql(true);
-			}
-			else
-			{
-				$item->created = null;
-			}
-
-			if ((int) $item->modified)
-			{
-				$date = new JDate($item->modified);
-				$date->setTimezone($tz);
-				$item->modified = $date->toSql(true);
-			}
-			else
-			{
-				$item->modified = null;
 			}
 		}
 

@@ -343,34 +343,6 @@ class FieldsModelField extends JModelAdmin
 
 			$db->setQuery($query);
 			$result->assigned_cat_ids = $db->loadColumn() ?: array(0);
-
-			// Convert the created and modified dates to local user time for
-			// display in the form.
-			$tz = new DateTimeZone(JFactory::getApplication()->get('offset'));
-
-			if ((int) $result->created_time)
-			{
-				$date = new JDate($result->created_time);
-				$date->setTimezone($tz);
-
-				$result->created_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->created_time = null;
-			}
-
-			if ((int) $result->modified_time)
-			{
-				$date = new JDate($result->modified_time);
-				$date->setTimezone($tz);
-
-				$result->modified_time = $date->toSql(true);
-			}
-			else
-			{
-				$result->modified_time = null;
-			}
 		}
 
 		return $result;
@@ -772,19 +744,14 @@ class FieldsModelField extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id) || $record->state != -2)
 		{
-			if ($record->state != -2)
-			{
-				return false;
-			}
-
-			$parts = FieldsHelper::extract($record->context);
-
-			return JFactory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
+			return false;
 		}
 
-		return false;
+		$parts = FieldsHelper::extract($record->context);
+
+		return JFactory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
 	}
 
 	/**

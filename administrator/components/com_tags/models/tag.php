@@ -53,29 +53,12 @@ class TagsModelTag extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id) || $record->published != -2)
 		{
-			if ($record->published != -2)
-			{
-				return false;
-			}
-
-			return parent::canDelete($record);
+			return false;
 		}
-	}
 
-	/**
-	 * Method to test whether a record can have its state changed.
-	 *
-	 * @param   object  $record  A record object.
-	 *
-	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
-	 *
-	 * @since   3.1
-	 */
-	protected function canEditState($record)
-	{
-		return parent::canEditState($record);
+		return parent::canDelete($record);
 	}
 
 	/**

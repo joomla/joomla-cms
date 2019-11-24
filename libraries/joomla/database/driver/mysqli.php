@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQLi database driver
  *
- * @link   https://secure.php.net/manual/en/book.mysqli.php
+ * @link   https://www.php.net/manual/en/book.mysqli.php
  * @since  3.0.0
  */
 class JDatabaseDriverMysqli extends JDatabaseDriver

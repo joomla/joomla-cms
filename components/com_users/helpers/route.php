@@ -61,7 +61,7 @@ class UsersHelperRoute
 		// Search for a suitable menu id.
 		foreach ($items as $item)
 		{
-			if (isset($item->query['view']) && $item->query['view'] === 'login')
+			if (isset($item->query['view']) && $item->query['view'] === 'login' && (empty($item->query['layout']) || $item->query['layout'] === 'default'))
 			{
 				return $item->id;
 			}

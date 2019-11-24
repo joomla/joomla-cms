@@ -245,7 +245,7 @@ class PlgUserJoomla extends JPlugin
 		// Purge the old session
 		$query = $this->db->getQuery(true)
 			->delete('#__session')
-			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($oldSessionId));
+			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quoteBinary($oldSessionId));
 
 		try
 		{
@@ -367,10 +367,10 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// TODO : move this out of the plugin
-		$config = ComponentHelper::getParams('com_users');
+		$params = ComponentHelper::getParams('com_users');
 
-		// Hard coded default to match the default value from com_users.
-		$defaultUserGroup = $config->get('new_usertype', 2);
+		// Read the default user group option from com_users
+		$defaultUserGroup = $params->get('new_usertype', $params->get('guest_usergroup', 1));
 
 		$instance->id = 0;
 		$instance->name = $user['fullname'];

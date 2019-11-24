@@ -68,7 +68,7 @@ class UrlRule extends FormRule
 		 * Note that parse_url() does not always parse accurately without a scheme,
 		 * but at least the path should be set always. Note also that parse_url()
 		 * returns False for seriously malformed URLs instead of an associative array.
-		 * @link https://secure.php.net/manual/en/function.parse-url.php
+		 * @link https://www.php.net/manual/en/function.parse-url.php
 		 */
 		if ($urlParts === false || !array_key_exists('scheme', $urlParts))
 		{

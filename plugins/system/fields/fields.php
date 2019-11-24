@@ -52,6 +52,23 @@ class PlgSystemFields extends JPlugin
 		// Loop over all fields
 		foreach ($form->getGroup('com_fields') as $field)
 		{
+			if ($field->disabled === true)
+			{
+				/**
+				 * Disabled fields should NEVER be added to the request as
+				 * they should NEVER be added by the browser anyway so nothing to check against
+				 * as "disabled" means no interaction at all.
+				 */
+
+				// Make sure the data object has an entry before delete it
+				if (isset($data->com_fields[$field->fieldname]))
+				{
+					unset($data->com_fields[$field->fieldname]);
+				}
+
+				continue;
+			}
+
 			// Make sure the data object has an entry
 			if (isset($data->com_fields[$field->fieldname]))
 			{

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+
 /**
  * Pagenavigation plugin class.
  *

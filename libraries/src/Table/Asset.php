@@ -105,7 +105,7 @@ class Asset extends Nested
 				return true;
 			}
 
-			$this->setError('Invalid Parent ID');
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_INVALID_PARENT_ID'));
 
 			return false;
 		}
