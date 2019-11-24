@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,6 +45,10 @@ class InstallationFormFieldSample extends JFormFieldRadio
 		elseif ($type === 'sqlsrv')
 		{
 			$type = 'sqlazure';
+		}
+		elseif ($type === 'pgsql')
+		{
+			$type = 'postgresql';
 		}
 
 		// Get a list of files in the search path with the given filter.

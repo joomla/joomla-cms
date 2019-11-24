@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,10 +72,13 @@ class ContactViewContact extends JViewLegacy
 		$item = $this->get('Item');
 		$state = $this->get('State');
 
-		if (empty($item->catid))
-		{
-			$app->setUserState('com_contact.contact.data', array('catid' => $item->catid));
-		}
+		// Get submitted values
+		$data = $app->getUserState('com_contact.contact.data', array());
+
+		// Add catid for selecting custom fields
+		$data['catid'] = $item->catid;
+
+		$app->setUserState('com_contact.contact.data', $data);
 
 		$this->form = $this->get('Form');
 
@@ -412,7 +415,8 @@ class ContactViewContact extends JViewLegacy
 		$id = (int) @$menu->query['id'];
 
 		// If the menu item does not concern this contact
-		if ($menu && ($menu->query['option'] !== 'com_contact' || $menu->query['view'] !== 'contact' || $id != $this->item->id))
+		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_contact' || $menu->query['view'] !== 'contact'
+			|| $id != $this->item->id))
 		{
 			// If this is not a single contact menu item, set the page title to the contact title
 			if ($this->item->name)
@@ -423,7 +427,8 @@ class ContactViewContact extends JViewLegacy
 			$path = array(array('title' => $this->contact->name, 'link' => ''));
 			$category = JCategories::getInstance('Contact')->get($this->contact->catid);
 
-			while ($category && ($menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact' || $id != $category->id) && $category->id > 1)
+			while ($category && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact'
+				|| $id != $category->id) && $category->id > 1)
 			{
 				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($this->contact->catid));
 				$category = $category->getParent();

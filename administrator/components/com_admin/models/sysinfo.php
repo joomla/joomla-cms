@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -308,7 +308,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		$this->info = array(
 			'php'                   => php_uname(),
-			'dbserver'		=> $db->getServerType(),
+			'dbserver'              => $db->getServerType(),
 			'dbversion'             => $db->getVersion(),
 			'dbcollation'           => $db->getCollation(),
 			'dbconnectioncollation' => $db->getConnectionCollation(),
@@ -530,7 +530,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		foreach ($admin_langs as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -546,7 +546,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		foreach ($manifests as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -569,7 +569,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		foreach ($image_folders as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -587,7 +587,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		foreach ($site_langs as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -605,7 +605,7 @@ class AdminModelSysInfo extends JModelLegacy
 
 		foreach ($plugin_groups as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}

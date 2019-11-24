@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Event Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -86,7 +86,7 @@ class Event extends AbstractEvent
 	 */
 	public function clearArguments()
 	{
-		$arguments = $this->arguments;
+		$arguments       = $this->arguments;
 		$this->arguments = array();
 
 		return $arguments;
@@ -118,7 +118,7 @@ class Event extends AbstractEvent
 	 */
 	public function offsetSet($name, $value)
 	{
-		if (is_null($name))
+		if ($name === null)
 		{
 			throw new InvalidArgumentException('The argument name cannot be null.');
 		}
