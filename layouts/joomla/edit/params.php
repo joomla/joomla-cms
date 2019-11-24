@@ -118,7 +118,7 @@ foreach ($fieldSets as $name => $fieldSet)
 	{
 		echo '<fieldset id="fieldset-' . $name . '" class="form-no-margin options-grid-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
 		echo '<legend>' . $label . '</legend>';
-		echo '<div>';
+		echo '<div class="column-count-md-2 column-count-lg-3">';
 	}
 	// Tabs
 	elseif (!$hasParent)
@@ -145,7 +145,7 @@ foreach ($fieldSets as $name => $fieldSet)
 		{
 			echo '<fieldset id="fieldset-' . $name . '" class="form-no-margin options-grid-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
 			echo '<legend>' . $label . '</legend>';
-			echo '<div>';
+			echo '<div class="column-count-md-2 column-count-lg-3">';
 
 			$opentab = 2;
 		}
