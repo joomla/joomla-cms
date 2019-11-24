@@ -65,4 +65,49 @@ class UsersController extends ApiController
 
 		return parent::save($recordKey);
 	}
+
+	/**
+	 * Basic display of a list view
+	 *
+	 * @return  static  A \JControllerLegacy object to support chaining.
+	 *
+	 * @since   4.0.0
+	 */
+	public function displayList()
+	{
+		$this->input->set('model_state',
+			[
+				'filter.state'    => $this->getStateFromInput(),
+				'filter.group_id' => $this->getGroupIdFromInput(),
+			]
+		);
+
+		return parent::displayList();
+	}
+
+	/**
+	 * Get state from input
+	 *
+	 * @return string
+	 *
+	 * @since 4.0
+	 */
+	private function getStateFromInput()
+	{
+		return $this->input->exists('state') ?
+			$this->input->get('state') : $this->input->post->get('state');
+	}
+
+	/**
+	 * Get group id from input
+	 *
+	 * @return string
+	 *
+	 * @since 4.0
+	 */
+	private function getGroupIdFromInput()
+	{
+		return $this->input->exists('groupid') ?
+			$this->input->get('groupid') : $this->input->post->get('groupid');
+	}
 }
