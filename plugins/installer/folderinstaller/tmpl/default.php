@@ -30,7 +30,7 @@ JFactory::getDocument()->addScriptDeclaration('
 ?>
 <legend><?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></legend>
 <div class="control-group">
-	<label class="control-label" for="install_directory"><?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></label>
+	<label for="install_directory" class="control-label"><?php echo JText::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?></label>
 	<div class="controls">
 		<input id="install_directory" class="span5 input_box" type="text" name="install_directory" size="70" value="<?php echo $app->input->get('install_directory', $app->get('tmp_path')); ?>" />
 	</div>

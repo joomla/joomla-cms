@@ -333,7 +333,7 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 
 <div id="legacy-uploader" style="display: none;">
 	<div class="control-group">
-		<label class="control-label" for="install_package"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
+		<label for="install_package" class="control-label"><?php echo JText::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
 		<div class="controls">
 			<input id="install_package" class="input_box" name="install_package" type="file" size="57" /><br>
 			<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>

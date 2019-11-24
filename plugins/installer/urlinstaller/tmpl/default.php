@@ -28,7 +28,7 @@ JFactory::getDocument()->addScriptDeclaration('
 ?>
 <legend><?php echo JText::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></legend>
 <div class="control-group">
-	<label class="control-label" for="install_url"><?php echo JText::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></label>
+	<label for="install_url" class="control-label"><?php echo JText::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></label>
 	<div class="controls">
 		<input id="install_url" class="span5 input_box" type="text" name="install_url" size="70" placeholder="https://" />
 	</div>
