@@ -5,7 +5,7 @@
 	xsi:schemaLocation="urn:joomla.org menu.xsd"
 	>
 	<menuitem
-		title="COM_CPANEL_DASHBOARD_HELP_FIND_HELP"
+		title="MOD_MENU_HELP_PARENT_FIND_HELP"
 		type="heading"
 		icon="question-circle"
 		permission="core.admin"
@@ -40,7 +40,7 @@
 	</menuitem>
 
 	<menuitem
-		title="COM_CPANEL_DASHBOARD_HELP_MEET_JOOMLERS"
+		title="MOD_MENU_HELP_PARENT_MEET_JOOMLERS"
 		type="heading"
 		icon="users"
 		>
@@ -67,7 +67,7 @@
 	</menuitem>
 
 	<menuitem
-		title="COM_CPANEL_DASHBOARD_HELP_NEWS"
+		title="MOD_MENU_HELP_PARENT_NEWS"
 		type="heading"
 		icon="bullhorn"
 		>
@@ -94,7 +94,7 @@
 	</menuitem>
 
 	<menuitem
-		title="COM_CPANEL_DASHBOARD_HELP_RESOURCES"
+		title="MOD_MENU_HELP_PARENT_RESOURCES"
 		type="heading"
 		icon="cloud-download-alt"
 		permission="core.manage;com_installer"
@@ -136,7 +136,7 @@
 	</menuitem>
 
 	<menuitem
-		title="COM_CPANEL_DASHBOARD_HELP_GET_INVOLVED"
+		title="MOD_MENU_HELP_PARENT_GET_INVOLVED"
 		type="heading"
 		icon="handshake"
 		>

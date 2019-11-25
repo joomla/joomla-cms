@@ -51,8 +51,9 @@ form:not(.form-no-margin) {
 
     .controls {
       margin-left: 0;
+
       .switcher__legend {
-        float:none;
+        float: none;
       }
     }
 
@@ -69,6 +70,7 @@ form:not(.form-no-margin) {
 .custom-select {
   max-width: $input-max-width;
 }
+
 .form-inline .custom-select {
   width: auto;
 }

@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
 use Joomla\Module\PrivacyStatus\Administrator\Helper\PrivacyStatusHelper;
 
@@ -29,8 +28,6 @@ $app->bootComponent('com_privacy');
 $lang = $app->getLanguage();
 $lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true)
 	|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy', null, false, true);
-
-HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/html');
 
 $privacyPolicyInfo            = PrivacyStatusHelper::getPrivacyPolicyInfo();
 $requestFormPublished         = PrivacyStatusHelper::getRequestFormPublished();
