@@ -20,6 +20,9 @@ body {
   &.a11y_contrast {
     filter: contrast(115%);
   }
+  &.monochrome.a11y_contrast  {
+    filter: grayscale(1) contrast(115%);
+  }
   &.a11y_highlight {
     a {
       padding: 3px;
