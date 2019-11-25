@@ -17,3 +17,49 @@
   display: none;
   visibility: hidden;
 }
+
+
+// Column Count
+
+[class^='column-'],
+[class*=' column-'] {
+  display: block !important; // This can be removed if grid forms removed globally
+  column-gap: 2rem;
+  padding-bottom: 1rem;
+
+  > div {
+    display: inline-block;
+    break-inside: avoid;
+    width: 100%;
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .column-count-sm-2 {
+    column-count: 2;
+  }
+
+  .column-count-sm-3 {
+    column-count: 3;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  .column-count-md-2 {
+    column-count: 2;
+  }
+
+  .column-count-md-3 {
+    column-count: 3;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .column-count-lg-2 {
+    column-count: 2;
+  }
+
+  .column-count-lg-3 {
+    column-count: 3;
+  }
+}

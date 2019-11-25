@@ -184,10 +184,12 @@ class LinksModel extends ListModel
 			else
 			{
 				$search = '%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%');
-				$query->where($db->quoteName('old_url') . ' LIKE :oldurl')
-					->orWhere($db->quoteName('new_url') . ' LIKE :newurl')
-					->orWhere($db->quoteName('comment') . ' LIKE :comment')
-					->orWhere($db->quoteName('referer') . ' LIKE :referer')
+				$query->where(
+					'(' . $db->quoteName('old_url') . ' LIKE :oldurl'
+					. ' OR ' . $db->quoteName('new_url') . ' LIKE :newurl'
+					. ' OR ' . $db->quoteName('comment') . ' LIKE :comment'
+					. ' OR ' . $db->quoteName('referer') . ' LIKE :referer)'
+				)
 					->bind(':oldurl', $search)
 					->bind(':newurl', $search)
 					->bind(':comment', $search)
