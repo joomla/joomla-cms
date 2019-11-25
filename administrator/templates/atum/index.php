@@ -95,7 +95,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	<jdoc:include type="styles" />
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : '') . ($a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome || $a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
 <noscript>
 	<div class="alert alert-danger" role="alert">
 		<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
@@ -142,7 +142,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 				<div class="sidebar-toggle">
 					<a id="menu-collapse" href="#">
 						<span id="menu-collapse-icon" class="fa fa-toggle-off fa-fw" aria-hidden="true"></span>
-						<span class="sidebar-item-title"><?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?></span>
+						<span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
 					</a>
 				</div>
 				<jdoc:include type="modules" name="menu" style="none" />
