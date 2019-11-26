@@ -39,7 +39,6 @@
 
   @include media-breakpoint-down(xs) {
     &.sidebar-menu {
-      /*height: 0;*/
       bottom: 0;
       top: auto;
     }
@@ -108,13 +107,6 @@
       }
     }
   }
-
-  .card {
-    background: var(--atum-bg-dark);
-    box-shadow: none;
-  }
-
-
 }
 
 .menu-toggle-icon {
@@ -191,14 +183,6 @@
         }
       }
     }
-
-    .menu-dashboard {
-      a {
-        .fa {
-          align-items: flex-start;
-        }
-      }
-    }
   }
 
   span.fa {
@@ -206,17 +190,9 @@
   }
 
   .sidebar-item-title {
+    display: inline-block;
     word-break: break-word;
     padding: 0.6rem 0;
-
-    @include media-breakpoint-up(sm) {
-      max-width: 11rem !important;
-      display: inline-block;
-    }
-    @include media-breakpoint-down(xs) {
-      max-width: 60vw !important;
-      display: inline-block;
-    }
   }
 
   // All links
@@ -306,16 +282,6 @@
           color: $white;
           background-color: var(--atum-bg-dark-90);
           box-shadow: 0 1px 4px -1px rgba(0, 0, 0, .5);
-
-          &::before {
-            position: absolute;
-            top: 0.15rem;
-            bottom: 0.15rem;
-            left: 0;
-            width: 0.275rem;
-            content: "";
-            background-color: var(--atum-contrast);
-          }
         }
       }
 
