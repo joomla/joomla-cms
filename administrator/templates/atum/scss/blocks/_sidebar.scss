@@ -208,7 +208,6 @@
   .sidebar-item-title {
     word-break: break-word;
     padding: 0.6rem 0;
-    margin-right: auto;
 
     @include media-breakpoint-up(sm) {
       max-width: 11rem !important;
@@ -222,6 +221,7 @@
 
   // All links
   a {
+    display: flex;
     position: relative;
     color: var(--atum-text-light);
 
