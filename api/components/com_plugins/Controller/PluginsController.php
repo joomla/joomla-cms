@@ -113,51 +113,12 @@ class PluginsController extends ApiController
 	{
 		$this->input->set('model_state',
 			[
-				'filter.element' => $this->getElementFromInput(),
-				'filter.enabled' => $this->getEnabledFromInput(),
-				'filter.folder'  => $this->getFolderFromInput(),
+				'filter.element' => $this->input->get('element', $this->input->post->get('element')),
+				'filter.enabled' => $this->input->get('enabled', $this->input->post->get('enabled')),
+				'filter.folder'  => $this->input->get('folder', $this->input->post->get('folder')),
 			]
 		);
 
 		return parent::displayList();
-	}
-
-	/**
-	 * Get element from input
-	 *
-	 * @return string
-	 *
-	 * @since 4.0
-	 */
-	private function getElementFromInput()
-	{
-		return $this->input->exists('element') ?
-			$this->input->get('element') : $this->input->post->get('element');
-	}
-
-	/**
-	 * Get enabled from input
-	 *
-	 * @return string
-	 *
-	 * @since 4.0
-	 */
-	private function getEnabledFromInput()
-	{
-		return $this->input->exists('enabled') ?
-			$this->input->get('enabled') : $this->input->post->get('enabled');
-	}
-
-	/**
-	 * Get folder from input
-	 *
-	 * @return string
-	 *
-	 * @since 4.0
-	 */
-	private function getFolderFromInput()
-	{
-		return $this->input->exists('folder') ?
-			$this->input->get('folder') : $this->input->post->get('folder');
 	}
 }
