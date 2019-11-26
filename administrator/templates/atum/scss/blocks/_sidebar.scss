@@ -239,7 +239,6 @@
     }
 
     > a {
-      display: flex;
       padding: 0 0.35rem;
 
       &:hover {
@@ -270,7 +269,6 @@
     }
 
     a {
-      display: block;
       padding: 0 1rem 0 2.4rem;
       color: var(--atum-text-light);
       font-size: 0.9rem;
@@ -358,7 +356,7 @@
   }
 
   .home-image {
-     padding: 0 0.4rem 0;
+     padding: .7rem .4rem;
   }
 
   .mm-collapse {
@@ -380,16 +378,22 @@
   }
 
   // Dropdown indicator
-  .has-arrow::after {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 1rem;
-    color: var(--atum-text-light);
-    content: "\f054";
-    font-weight: 900;
-    font-family: "Font Awesome 5 Free";
-    transition: all .3s ease-out;
+  .has-arrow {
+    .sidebar-item-title {
+      margin-right: auto;
+    }
+    
+    &::after {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 1.5rem;
+      color: var(--atum-text-light);
+      content: "\f054";
+      font-weight: 900;
+      font-family: "Font Awesome 5 Free";
+      transition: all .3s ease-out;
+    }
   }
 
   .mm-active {
