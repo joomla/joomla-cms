@@ -18,7 +18,10 @@ body {
     filter: grayscale(1);
   }
   &.a11y_contrast {
-    filter: invert(100%);
+    filter: contrast(115%);
+  }
+  &.monochrome.a11y_contrast  {
+    filter: grayscale(1) contrast(115%);
   }
   &.a11y_highlight {
     a {
@@ -74,7 +77,8 @@ textarea {
   word-wrap: break-word;
 }
 
-.content {
+.content,
+.container-popup {
   font-size: $content-font-size;
 }
 
