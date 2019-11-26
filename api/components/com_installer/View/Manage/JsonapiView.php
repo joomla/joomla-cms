@@ -33,7 +33,7 @@ class JsonapiView extends BaseApiView
 		'version',
 		'folder',
 		'status',
-		'client_id'
+		'client_id',
 	];
 
 	/**
