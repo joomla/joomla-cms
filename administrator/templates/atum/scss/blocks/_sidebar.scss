@@ -302,7 +302,6 @@
         padding-left: 3rem;
 
         &.mm-active {
-          color: $white;
           background-color: var(--atum-bg-dark-90);
           box-shadow: 0 1px 4px -1px rgba(0, 0, 0, .5);
 
@@ -397,7 +396,6 @@
   }
 
   .mm-active {
-
     > .has-arrow::after {
       transform: rotate(90deg);
     }
@@ -412,6 +410,11 @@
     text-align: center;
     vertical-align: top;
     transition: all .2s ease-in-out;
+  }
+
+  .badge {
+    align-self: center;
+    margin: 0 4px;
   }
 }
 
