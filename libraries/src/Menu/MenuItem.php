@@ -106,7 +106,7 @@ class MenuItem implements NodeInterface
 	/**
 	 * The click behaviour of the link
 	 *
-	 * @var    string
+	 * @var    integer
 	 * @since  3.7.0
 	 */
 	public $browserNav;

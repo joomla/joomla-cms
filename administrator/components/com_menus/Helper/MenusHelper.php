@@ -17,7 +17,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Menu\MenuItem;
+use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
@@ -316,13 +316,13 @@ class MenusHelper extends ContentHelper
 	 * @param   boolean  $enabledOnly  Whether to load only enabled/published menu items.
 	 * @param   int[]    $exclude      The menu items to exclude from the list
 	 *
-	 * @return  MenuItem  A root node with the menu items as children
+	 * @return  AdministratorMenuItem  A root node with the menu items as children
 	 *
 	 * @since   4.0.0
 	 */
 	public static function getMenuItems($menutype, $enabledOnly = false, $exclude = array())
 	{
-		$root  = new MenuItem;
+		$root  = new AdministratorMenuItem;
 		$db    = Factory::getContainer()->get(DatabaseInterface::class);
 		$query = $db->getQuery(true);
 
@@ -382,7 +382,7 @@ class MenusHelper extends ContentHelper
 
 			foreach ($iterator as $item)
 			{
-				$menuItems[$item->id] = new MenuItem((array) $item);
+				$menuItems[$item->id] = new AdministratorMenuItem((array) $item);
 			}
 
 			unset($iterator);
@@ -454,8 +454,8 @@ class MenusHelper extends ContentHelper
 	/**
 	 * Method to install a preset menu item into database and link it to the given menutype
 	 *
-	 * @param   MenuItem  $node      The parent node of the items to process
-	 * @param   string    $menutype  The target menutype
+	 * @param   AdministratorMenuItem  $node      The parent node of the items to process
+	 * @param   string                 $menutype  The target menutype
 	 *
 	 * @return  void
 	 *
@@ -565,7 +565,7 @@ class MenusHelper extends ContentHelper
 				'alias'        => $item->alias,
 				'type'         => $item->type,
 				'link'         => $item->link,
-				'browserNav'   => $item->browserNav ? 1 : 0,
+				'browserNav'   => $item->browserNav,
 				'img'          => $item->class,
 				'access'       => $item->access,
 				'component_id' => array_search($item->element, $components) ?: 0,
@@ -687,11 +687,11 @@ class MenusHelper extends ContentHelper
 	/**
 	 * Load the menu items from a preset file into a hierarchical list of objects
 	 *
-	 * @param   string    $name      The preset name
-	 * @param   bool      $fallback  Fallback to default (joomla) preset if the specified one could not be loaded?
-	 * @param   MenuItem  $parent    Root node of the menu
+	 * @param   string                 $name      The preset name
+	 * @param   bool                   $fallback  Fallback to default (joomla) preset if the specified one could not be loaded?
+	 * @param   AdministratorMenuItem  $parent    Root node of the menu
 	 *
-	 * @return  MenuItem
+	 * @return  AdministratorMenuItem
 	 *
 	 * @since   4.0.0
 	 */
@@ -701,7 +701,7 @@ class MenusHelper extends ContentHelper
 
 		if (!$parent)
 		{
-			$parent = new MenuItem;
+			$parent = new AdministratorMenuItem;
 		}
 
 		if (isset($presets[$name]) && ($xml = simplexml_load_file($presets[$name]->path, null, LIBXML_NOCDATA)) && $xml instanceof \SimpleXMLElement)
@@ -722,7 +722,7 @@ class MenusHelper extends ContentHelper
 	/**
 	 * Method to resolve the menu item alias type menu item
 	 *
-	 * @param   MenuItem  &$item  The alias object
+	 * @param   AdministratorMenuItem  &$item  The alias object
 	 *
 	 * @return  void
 	 *
@@ -753,7 +753,7 @@ class MenusHelper extends ContentHelper
 
 			try
 			{
-				$obj = new MenuItem($db->setQuery($query)->loadAssoc());
+				$obj = new AdministratorMenuItem($db->setQuery($query)->loadAssoc());
 
 				if (!$obj)
 				{
@@ -779,7 +779,7 @@ class MenusHelper extends ContentHelper
 	/**
 	 * Parse the flat list of menu items and prepare the hierarchy of them using parent-child relationship.
 	 *
-	 * @param   MenuItem  $item  Menu item to preprocess
+	 * @param   AdministratorMenuItem  $item  Menu item to preprocess
 	 *
 	 * @return  void
 	 *
@@ -795,18 +795,18 @@ class MenusHelper extends ContentHelper
 
 		if ($item->link = in_array($item->type, array('separator', 'heading', 'container')) ? '#' : trim($item->link))
 		{
-			$item->class      = $item->img ?? '';
-			$item->scope      = $item->scope ?? null;
-			$item->browserNav = $item->browserNav ? '_blank' : '';
+			$item->class  = $item->img ?? '';
+			$item->scope  = $item->scope ?? null;
+			$item->target = $item->browserNav ? '_blank' : '';
 		}
 	}
 
 	/**
 	 * Load a menu tree from an XML file
 	 *
-	 * @param   \SimpleXMLElement[]  $elements  The xml menuitem nodes
-	 * @param   MenuItem             $parent    The menu hierarchy list to be populated
-	 * @param   string[]             $replace   The substring replacements for iterator type items
+	 * @param   \SimpleXMLElement[]    $elements  The xml menuitem nodes
+	 * @param   AdministratorMenuItem  $parent    The menu hierarchy list to be populated
+	 * @param   string[]               $replace   The substring replacements for iterator type items
 	 *
 	 * @return  void
 	 *
@@ -920,7 +920,7 @@ class MenusHelper extends ContentHelper
 	 */
 	protected static function parseXmlNode($node, $replace = array())
 	{
-		$item = new MenuItem;
+		$item = new AdministratorMenuItem;
 
 		$item->id         = null;
 		$item->type       = (string) $node['type'];
@@ -931,7 +931,6 @@ class MenusHelper extends ContentHelper
 		$item->element    = (string) $node['element'];
 		$item->class      = (string) $node['class'];
 		$item->icon       = (string) $node['icon'];
-		$item->browserNav = (string) $node['target'];
 		$item->access     = (int) $node['access'];
 		$item->scope      = (string) $node['scope'] ?: 'default';
 		$item->ajaxbadge  = (string) $node['ajax-badge'];
