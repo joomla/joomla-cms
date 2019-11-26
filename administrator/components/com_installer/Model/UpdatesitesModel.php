@@ -145,7 +145,7 @@ class UpdatesitesModel extends InstallerModel
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['update_site_id', 'name']))
 			->from($db->quoteName('#__update_sites'))
-			->where($db->quoteName('update_site_id') . ' IN (' . implode(', ', $ids) . ')');
+			->whereIn($db->quoteName('update_site_id'), $ids);
 		$db->setQuery($query);
 		$updateSitesNames = $db->loadObjectList('update_site_id');
 
@@ -165,21 +165,25 @@ class UpdatesitesModel extends InstallerModel
 			// Delete the update site from all tables.
 			try
 			{
+				$id = (int) $id;
 				$query = $db->getQuery(true)
 					->delete($db->quoteName('#__update_sites'))
-					->where($db->quoteName('update_site_id') . ' = ' . (int) $id);
+					->where($db->quoteName('update_site_id') . ' = :id')
+					->bind(':id', $id, ParameterType::INTEGER);
 				$db->setQuery($query);
 				$db->execute();
 
 				$query = $db->getQuery(true)
 					->delete($db->quoteName('#__update_sites_extensions'))
-					->where($db->quoteName('update_site_id') . ' = ' . (int) $id);
+					->where($db->quoteName('update_site_id') . ' = :id')
+					->bind(':id', $id, ParameterType::INTEGER);
 				$db->setQuery($query);
 				$db->execute();
 
 				$query = $db->getQuery(true)
 					->delete($db->quoteName('#__updates'))
-					->where($db->quoteName('update_site_id') . ' = ' . (int) $id);
+					->where($db->quoteName('update_site_id') . ' = :id')
+					->bind(':id', $id, ParameterType::INTEGER);
 				$db->setQuery($query);
 				$db->execute();
 
@@ -220,13 +224,14 @@ class UpdatesitesModel extends InstallerModel
 			->select($db->quoteName(['use.update_site_id', 'e.extension_id']))
 			->from($db->quoteName('#__update_sites_extensions', 'use'))
 			->join(
-				'LEFT', $db->quoteName('#__update_sites', 'us')
-				. ' ON ' . $db->quoteName('us.update_site_id') . ' = ' . $db->quoteName('use.update_site_id')
+				'LEFT',
+				$db->quoteName('#__update_sites', 'us'),
+				$db->quoteName('us.update_site_id') . ' = ' . $db->quoteName('use.update_site_id')
 			)
 			->join(
-				'LEFT', $db->quoteName('#__extensions', 'e')
-				. ' ON ' . $db->quoteName('e.extension_id') . ' = ' .
-				$db->quoteName('use.extension_id')
+				'LEFT',
+				$db->quoteName('#__extensions', 'e'),
+				$db->quoteName('e.extension_id') . ' = ' . $db->quoteName('use.extension_id')
 			)
 			->where('('
 				. '(' . $db->quoteName('e.type') . ' = ' . $db->quote('file') .
@@ -315,31 +320,31 @@ class UpdatesitesModel extends InstallerModel
 		}
 
 		// Gets Joomla core update sites Ids.
-		$joomlaUpdateSitesIds = implode(', ', $this->getJoomlaUpdateSitesIds(0));
+		$joomlaUpdateSitesIds = $this->getJoomlaUpdateSitesIds(0);
 
 		// Delete from all tables (except joomla core update sites).
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__update_sites'))
-			->where($db->quoteName('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+			->whereNotIn($db->quoteName('update_site_id'), $joomlaUpdateSitesIds);
 		$db->setQuery($query);
 		$db->execute();
 
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__update_sites_extensions'))
-			->where($db->quoteName('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+			->whereNotIn($db->quoteName('update_site_id'), $joomlaUpdateSitesIds);
 		$db->setQuery($query);
 		$db->execute();
 
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__updates'))
-			->where($db->quoteName('update_site_id') . ' NOT IN (' . $joomlaUpdateSitesIds . ')');
+			->whereNotIn($db->quoteName('update_site_id'), $joomlaUpdateSitesIds);
 		$db->setQuery($query);
 		$db->execute();
 
 		$count = 0;
 
 		// Gets Joomla core extension Ids.
-		$joomlaCoreExtensionIds = implode(', ', $this->getJoomlaUpdateSitesIds(1));
+		$joomlaCoreExtensionIds = $this->getJoomlaUpdateSitesIds(1);
 
 		// Search for updateservers in manifest files inside the folders to search.
 		foreach ($pathsToSearch as $extensionFolderPath)
@@ -373,13 +378,18 @@ class UpdatesitesModel extends InstallerModel
 						$query = $db->getQuery(true)
 							->select($db->quoteName('extension_id'))
 							->from($db->quoteName('#__extensions'))
-							->where(
-								'(' . $db->quoteName('name') . ' = ' . $db->quote($manifest->name)
-								. ' OR ' . $db->quoteName('name') . ' = ' . $db->quote($manifest->packagename) . ')'
+							->where($db->quoteName('type') . ' = :type')
+							->extendWhere(
+								'AND',
+								$db->quoteName('name') . ' = :name',
+								$db->quoteName('name') . ' = :pkgname',
+								'OR'
 							)
-							->where($db->quoteName('type') . ' = ' . $db->quote($manifest['type']))
-							->where($db->quoteName('extension_id') . ' NOT IN (' . $joomlaCoreExtensionIds . ')')
-							->where($db->quoteName('state') . ' != -1');
+							->whereNotIn($db->quoteName('extension_id'), $joomlaCoreExtensionIds)
+							->where($db->quoteName('state') . ' != -1')
+							->bind(':name', $manifest->name)
+							->bind(':pkgname', $manifest->packagename)
+							->bind(':type', $manifest['type']);
 						$db->setQuery($query);
 
 						$eid = (int) $db->loadResult();
@@ -538,15 +548,18 @@ class UpdatesitesModel extends InstallerModel
 				)
 			)
 			->from($db->quoteName('#__update_sites', 's'))
-			->innerJoin(
+			->join(
+				'INNER',
 				$db->quoteName('#__update_sites_extensions', 'se'),
 				$db->quoteName('se.update_site_id') . ' = ' . $db->quoteName('s.update_site_id')
 			)
-			->innerJoin(
+			->join(
+				'INNER',
 				$db->quoteName('#__extensions', 'e'),
 				$db->quoteName('e.extension_id') . ' = ' . $db->quoteName('se.extension_id')
 			)
-			->leftJoin(
+			->join(
+				'LEFT',
 				$db->quoteName('#__users', 'u'),
 				$db->quoteName('s.checked_out') . ' = ' . $db->quoteName('u.id')
 			)
@@ -561,6 +574,7 @@ class UpdatesitesModel extends InstallerModel
 
 		if ($enabled !== '')
 		{
+			$enabled = (int) $enabled;
 			$query->where($db->quoteName('s.enabled') . ' = :enabled')
 				->bind(':enabled', $enabled, ParameterType::INTEGER);
 		}
@@ -573,6 +587,7 @@ class UpdatesitesModel extends InstallerModel
 
 		if ($clientId !== null && $clientId !== '')
 		{
+			$clientId = (int) $clientId;
 			$query->where($db->quoteName('e.client_id') . ' = :clientId')
 				->bind(':clientId', $clientId, ParameterType::INTEGER);
 		}
@@ -589,8 +604,9 @@ class UpdatesitesModel extends InstallerModel
 
 		if (!empty($search) && stripos($search, 'id:') === 0)
 		{
+			$uid = (int) substr($search, 3);
 			$query->where($db->quoteName('s.update_site_id') . ' = :siteId')
-				->bind(':siteId', substr($search, 3), ParameterType::INTEGER);
+				->bind(':siteId', $uid, ParameterType::INTEGER);
 		}
 
 		if ($supported != 0)
