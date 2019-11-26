@@ -23,7 +23,6 @@
 
 [class^='column-'],
 [class*=' column-'] {
-  display: block !important; // This can be removed if grid forms removed globally
   column-gap: 2rem;
   padding-bottom: 1rem;
 

@@ -79,7 +79,7 @@ $xml = $this->form->getXml();
 					<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', $name, Text::_($label)); ?>
 
 
-					<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-grid-form options-grid-form-full options-menu">
+					<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-form options-menu">
 						<legend><?php echo Text::_($fieldSet->label); ?></legend>
 						<div>
 							<?php if (!empty($fieldSet->description)) : ?>
