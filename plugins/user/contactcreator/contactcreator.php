@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Contact\Administrator\Table\ContactTable;
 use Joomla\String\StringHelper;
 
 /**
@@ -31,6 +31,22 @@ class PlgUserContactCreator extends CMSPlugin
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * Application Instance
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
+
+	/**
+	 * Database Driver Instance
+	 *
+	 * @var    \Joomla\Database\DatabaseDriver
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $db;
 
 	/**
 	 * Utility method to act on a user after it has been saved.
@@ -73,7 +89,7 @@ class PlgUserContactCreator extends CMSPlugin
 
 		if (empty($categoryId))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'), 'error');
+			$this->app->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'), 'error');
 
 			return false;
 		}
@@ -93,7 +109,7 @@ class PlgUserContactCreator extends CMSPlugin
 			$contact->user_id  = $user_id;
 			$contact->email_to = $user['email'];
 			$contact->catid    = $categoryId;
-			$contact->access   = (int) Factory::getApplication()->get('access');
+			$contact->access   = (int) $this->app->get('access');
 			$contact->language = '*';
 			$contact->generateAlias();
 
@@ -126,7 +142,7 @@ class PlgUserContactCreator extends CMSPlugin
 			}
 		}
 
-		Factory::getApplication()->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_FAILED_CREATING_CONTACT'), 'error');
+		$this->app->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_FAILED_CREATING_CONTACT'), 'error');
 
 		return false;
 	}
@@ -162,14 +178,12 @@ class PlgUserContactCreator extends CMSPlugin
 	/**
 	 * Get an instance of the contact table
 	 *
-	 * @return  ContactTableContact
+	 * @return  ContactTable|null
 	 *
 	 * @since   3.2.3
 	 */
 	protected function getContactTable()
 	{
-		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_contact/tables');
-
-		return Table::getInstance('contact', 'ContactTable');
+		return $this->app->bootComponent('com_contact')->getMVCFactory()->createTable('Contact', 'Administrator', ['dbo' => $this->db]);
 	}
 }

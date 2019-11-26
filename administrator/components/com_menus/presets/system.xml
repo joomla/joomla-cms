@@ -5,7 +5,7 @@
 	xsi:schemaLocation="urn:joomla.org menu.xsd"
 	>
 	<menuitem
-		title="COM_CPANEL_SYSTEM_SETUP"
+		title="MOD_MENU_SYSTEM_PARENT_SETUP"
 		type="heading"
 		icon="cog"
 		permission="core.admin"
