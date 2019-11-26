@@ -258,6 +258,16 @@
       &.mm-active {
         color: $white;
         background-color: var(--atum-bg-dark-80);
+
+        &::before {
+          position: absolute;
+          top: 0.15rem;
+          bottom: 0.15rem;
+          left: 0;
+          width: 0.25rem;
+          content: "";
+          background-color: var(--atum-contrast);
+        }
       }
     }
 
