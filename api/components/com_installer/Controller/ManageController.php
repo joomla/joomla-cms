@@ -32,7 +32,7 @@ class ManageController extends ApiController
 	 * The default view for the display method.
 	 *
 	 * @var    string
-	 * @since  3.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $default_view = 'manage';
 
