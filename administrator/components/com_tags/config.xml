@@ -91,7 +91,7 @@
 			name="tag_list_orderby_direction"
 			type="radio"
 			label="JGLOBAL_ORDER_DIRECTION_LABEL"
-			class="switcher switcher-primary"
+			class="switcher"
 			default="ASC"
 			>
 			<option value="ASC">JGLOBAL_ORDER_ASCENDING</option>
@@ -171,7 +171,7 @@
 			name="return_any_or_all"
 			type="radio"
 			label="COM_TAGS_SEARCH_TYPE_LABEL"
-			class="switcher switcher-primary"
+			class="switcher"
 			default="1"
 			>
 			<option value="0">COM_TAGS_ALL</option>
@@ -241,7 +241,7 @@
 			name="all_tags_orderby_direction"
 			type="radio"
 			label="JGLOBAL_ORDER_DIRECTION_LABEL"
-			class="switcher switcher-primary"
+			class="switcher"
 			default="ASC"
 			>
 			<option value="ASC">JGLOBAL_ORDER_ASCENDING</option>

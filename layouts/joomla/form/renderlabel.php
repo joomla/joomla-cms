@@ -21,8 +21,7 @@ extract($displayData);
  */
 
 $classes = array_filter((array) $classes);
-
-$id = $for . '-lbl';
+$id      = $for . '-lbl';
 
 if ($required)
 {

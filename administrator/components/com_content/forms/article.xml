@@ -36,7 +36,6 @@
 			name="note"
 			type="text"
 			label="COM_CONTENT_FIELD_NOTE_LABEL"
-			class="span12"
 			size="40"
 			maxlength="255"
 		/>
@@ -226,6 +225,28 @@
 		</field>
 
 		<field
+			name="featured_up"
+			type="calendar"
+			label="COM_CONTENT_FIELD_FEATURED_UP_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+			showon="featured:1"
+		/>
+
+ 		<field
+			name="featured_down"
+			type="calendar"
+			label="COM_CONTENT_FIELD_FEATURED_DOWN_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+			showon="featured:1"
+		/>
+
+		<field
 			name="rules"
 			type="rules"
 			label="JFIELD_RULES_LABEL"
@@ -268,7 +289,7 @@
 					label="JGLOBAL_LINKED_TITLES_LABEL"
 					useglobal="true"
 					>
-					<option	value="0">JNO</option>
+					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
 
@@ -311,8 +332,8 @@
 					label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
 					useglobal="true"
 					>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 			</fieldset>
 
@@ -323,8 +344,8 @@
 					label="JGLOBAL_SHOW_CATEGORY_LABEL"
 					useglobal="true"
 					>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -333,8 +354,8 @@
 					label="JGLOBAL_LINK_CATEGORY_LABEL"
 					useglobal="true"
 					>
-					<option	value="0">JNO</option>
-					<option	value="1">JYES</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
 				<field
@@ -343,8 +364,8 @@
 					label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
 					useglobal="true"
 					>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -353,10 +374,13 @@
 					label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
 					useglobal="true"
 					>
-					<option	value="0">JNO</option>
-					<option	value="1">JYES</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 
+			</fieldset>
+
+			<fieldset name="frontendassociations" label="JGLOBAL_FIELDSET_ASSOCIATIONS">
 				<field
 					name="show_associations"
 					type="assoc"
@@ -365,6 +389,17 @@
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+				</field>
+
+				<field
+					name="flags"
+					type="list"
+					label="JGLOBAL_SHOW_FLAG_LABEL"
+					useglobal="true"
+					showon="show_associations:1"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 
@@ -375,8 +410,8 @@
 					label="JGLOBAL_SHOW_AUTHOR_LABEL"
 					useglobal="true"
 					>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -385,8 +420,8 @@
 					label="JGLOBAL_LINK_AUTHOR_LABEL"
 					useglobal="true"
 					>
-					<option	value="0">JNO</option>
-					<option	value="1">JYES</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 
@@ -397,8 +432,8 @@
 					label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
 					useglobal="true"
 					>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -407,8 +442,8 @@
 					label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
 					useglobal="true"
 					>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -417,8 +452,8 @@
 					label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
 					useglobal="true"
 					>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 			</fieldset>
 
@@ -430,7 +465,7 @@
 					useglobal="true"
 					>
 					<option value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -440,7 +475,7 @@
 					useglobal="true"
 					>
 					<option value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
@@ -449,8 +484,8 @@
 					label="JGLOBAL_SHOW_HITS_LABEL"
 					useglobal="true"
 					>
-					<option	value="0">JHIDE</option>
-					<option	value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field

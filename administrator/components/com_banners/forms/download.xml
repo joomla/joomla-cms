@@ -18,14 +18,8 @@
 			name="basename"
 			type="text"
 			label="COM_BANNERS_FIELD_BASENAME_LABEL"
-			size="40"
-		/>
-
-		<field
-			name="basename_info"
-			type="note"
 			description="COM_BANNERS_FIELD_BASENAME_DESC"
-			class="alert alert-info"
+			size="40"
 		/>
 	</fieldset>
 </form>

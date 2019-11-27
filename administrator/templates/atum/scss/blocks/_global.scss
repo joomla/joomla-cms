@@ -2,6 +2,9 @@
 
 html {
    height: 100%;
+   &.a11y_font {
+     font-size: 18px;
+   }
 }
 
 body {
@@ -13,6 +16,19 @@ body {
   margin: 0;
   &.monochrome {
     filter: grayscale(1);
+  }
+  &.a11y_contrast {
+    filter: contrast(115%);
+  }
+  &.monochrome.a11y_contrast  {
+    filter: grayscale(1) contrast(115%);
+  }
+  &.a11y_highlight {
+    a {
+      padding: 3px;
+      text-decoration: underline !important;
+      border: red dotted 1px;
+    }
   }
 }
 
@@ -61,7 +77,8 @@ textarea {
   word-wrap: break-word;
 }
 
-.content {
+.content,
+.container-popup {
   font-size: $content-font-size;
 }
 
