@@ -128,22 +128,17 @@ class MetasRenderer extends DocumentRenderer
 
 		// Generate scripts options
 		$scriptOptions = $this->_doc->getScriptOptions();
-
 		if (!empty($scriptOptions))
 		{
 			$nonce = '';
-
 			if ($this->_doc->cspNonce)
 			{
 				$nonce = ' nonce="' . $this->_doc->cspNonce . '"';
 			}
-
 			$buffer .= $tab . '<script type="application/json" class="joomla-script-options new"' . $nonce . '>';
-
 			$prettyPrint = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
 			$jsonOptions = json_encode($scriptOptions, $prettyPrint);
 			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
-
 			$buffer .= $jsonOptions;
 			$buffer .= '</script>' . $lnEnd;
 		}

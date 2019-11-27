@@ -24,7 +24,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
     if (!Joomla) {
       throw new Error('Joomla API is not properly initiated');
     }
-    
+
     this.onChange = this.onChange.bind(this);
 
     this.addEventListener('click', event => this.executeTask(event));

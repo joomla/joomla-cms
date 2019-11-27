@@ -159,7 +159,6 @@ class ScriptsRenderer extends DocumentRenderer
 		{
 			$buffer .= $tab . $custom . $lnEnd;
 		}
-
 		return ltrim($buffer, $tab);
 	}
 }
