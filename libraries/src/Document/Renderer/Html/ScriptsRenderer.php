@@ -154,28 +154,6 @@ class ScriptsRenderer extends DocumentRenderer
 			$buffer .= $tab . '</script>' . $lnEnd;
 		}
 
-        // Generate scripts options
-        $scriptOptions = $this->_doc->getScriptOptions();
-
-        if (!empty($scriptOptions))
-        {
-            $nonce = '';
-
-            if ($this->_doc->cspNonce)
-            {
-                $nonce = ' nonce="' . $this->_doc->cspNonce . '"';
-            }
-
-            $buffer .= $tab . '<script type="application/json" class="joomla-script-options new"' . $nonce . '>';
-
-            $prettyPrint = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
-            $jsonOptions = json_encode($scriptOptions, $prettyPrint);
-            $jsonOptions = $jsonOptions ? $jsonOptions : '{}';
-
-            $buffer .= $jsonOptions;
-            $buffer .= '</script>' . $lnEnd;
-        }
-
 		// Output the custom tags - array_unique makes sure that we don't output the same tags twice
 		foreach (array_unique($this->_doc->_custom) as $custom)
 		{
