@@ -85,41 +85,6 @@ body {
   }
 }
 
-// Sidebar
-.main-nav {
-
-  .collapse-level-2 {
-    right: 100%;
-    left: auto;
-    border-radius: $border-radius 0 0 $border-radius;
-  } 
-
-  .has-arrow {
-    .sidebar-item-title {
-      margin-right: 0;
-      margin-left: auto;
-    }
-  }
-
-  ul a {
-    padding: 0 2.4rem 0 1rem;
-  }
-
-  .dropdown-submenu .no-dropdown .sidebar-item-title {
-    margin-right: 22px;
-  }
-
-  ul ul a::before {
-    right: 34px;
-    left: 0;
-  }
-}
-
-.child-open > .open > a::before {
-  right: 0;
-  left: auto;
-}
-
 // Status
 .status {
   margin-right: 250px;

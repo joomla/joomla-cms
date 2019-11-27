@@ -29,6 +29,7 @@
   background-color: var(--atum-bg-dark);
   box-shadow: $atum-box-shadow;
   overflow: hidden;
+
   @include media-breakpoint-up(sm) {
     display: flex;
     flex-direction: column;
@@ -42,6 +43,7 @@
       bottom: 0;
       top: auto;
     }
+
     &:not(.sidebar-menu) {
       display: flex;
       flex-direction: column;
@@ -91,7 +93,7 @@
 
   .sidebar-toggle {
     position: relative;
-    background:var(--atum-bg-dark-50);
+    background: var(--atum-bg-dark-50);
 
     a {
       display: block;
@@ -139,7 +141,8 @@
       flex-grow: 2;
     }
 
-    .menu-dashboard, .menu-quicktask {
+    .menu-dashboard,
+    .menu-quicktask {
       position: relative;
       display: inline-block;
 
@@ -172,10 +175,13 @@
     }
 
     li {
-      .menu-dashboard, .menu-quicktask {
+
+      .menu-dashboard,
+      .menu-quicktask {
         > a {
           &.mm-active {
             background-color: var(--atum-bg-dark-80);
+
             &::before {
               display: none;
             }
@@ -242,10 +248,16 @@
         box-shadow: 0 0 6px -6px rgba(0, 0, 0, .8)
       }
 
+      > a {
+        padding: 0 1rem 0 2.4rem;
+
+        [dir=rtl] & {
+          padding: 0 2.4rem 0 1rem;
+        }
+      }
     }
 
     a {
-      padding: 0 1rem 0 2.4rem;
       color: var(--atum-text-light);
       font-size: 0.9rem;
 
@@ -275,7 +287,13 @@
       background-color: var(--atum-bg-dark-80);
 
       a {
-        padding-left: 3rem;
+        [dir=ltr] & {
+          padding-left: 3rem;
+        }
+
+        [dir=rtl] & {
+          padding-right: 3rem;
+        }
 
         &.mm-active {
           background-color: var(--atum-bg-dark-90);
@@ -284,7 +302,13 @@
       }
 
       a::before {
-        left: 1.25rem;
+        [dir=ltr] & {
+          left: 1.25rem;
+        }
+
+        [dir=rtl] & {
+          right: 1.25rem;
+        }
       }
 
       //4th level
@@ -313,15 +337,18 @@
   .menuitem-group {
     margin-top: 0.65rem;
     font-size: .75rem;
-    padding-left: 2.4rem;
+
+    [dir=ltr] & {
+      padding-left: 2.4rem;
+    }
+
     [dir=rtl] & {
-      padding-left: 0;
       padding-right: 2.4rem;
     }
   }
 
   .home-image {
-     padding: .7rem .4rem;
+    padding: .7rem .4rem;
   }
 
   .mm-collapse {
@@ -345,9 +372,15 @@
   // Dropdown indicator
   .has-arrow {
     .sidebar-item-title {
-      margin-right: auto;
+      [dir=ltr] & {
+        margin-right: auto;
+      }
+
+      [dir=rtl] & {
+        margin-left: auto;
+      }
     }
-    
+
     &::after {
       display: flex;
       align-items: center;
@@ -402,7 +435,6 @@
     transition: all .2s ease-in-out;
   }
 
-
   .sidebar-wrapper {
     flex: 1 0 $sidebar-width-closed;
     max-width: $sidebar-width-closed;
@@ -444,8 +476,9 @@
 @include media-breakpoint-down(xs) {
   #menu-collapse {
     display: none;
-    background:var(--atum-bg-dark-50);
+    background: var(--atum-bg-dark-50);
   }
+
   .toggler-burger {
     display: block;
     width: 70px;
@@ -462,6 +495,7 @@
       right: auto;
       left: 10px;
     }
+
     .navbar-toggler-icon {
       color: var(--toggle-color);
 
@@ -498,7 +532,6 @@
         overflow-y: scroll;
 
       }
-
     }
 
     &:not(.show) {
