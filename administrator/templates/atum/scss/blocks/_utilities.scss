@@ -31,6 +31,10 @@
     break-inside: avoid;
     width: 100%;
   }
+
+  .form-no-columns & {
+    column-count: auto;
+  }
 }
 
 @include media-breakpoint-up(sm) {
