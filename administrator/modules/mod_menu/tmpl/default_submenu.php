@@ -114,7 +114,7 @@ if ($iconImage)
 	}
 	else
 	{
-		$iconImage = '<span>' . HTMLHelper::_('image', $iconImage, null) . '</span>';
+		$iconImage = '';
 	}
 }
 

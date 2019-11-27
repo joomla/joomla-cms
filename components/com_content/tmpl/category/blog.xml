@@ -29,6 +29,7 @@
 				type="tag"
 				label="JTAG"
 				multiple="true"
+				mode="nested"
 			/>
 		</fieldset>
 	</fields>
@@ -166,7 +167,6 @@
 		</fieldset>
 
 		<fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS">
-
 				<field
 					name="bloglayout"
 					type="spacer"
