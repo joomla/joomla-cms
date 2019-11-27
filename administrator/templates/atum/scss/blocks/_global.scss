@@ -146,6 +146,11 @@ body .container-main {
   width: auto !important;
 }
 
+// Multiple buttons wrapping
+.input-group input {
+  min-width: 220px;
+}
+
 // Multilingual associations specific
 .item-associations {
   padding: 0;

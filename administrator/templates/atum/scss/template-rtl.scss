@@ -85,69 +85,6 @@ body {
   }
 }
 
-// Sidebar
-.main-nav {
-
-  .open > a {
-
-    + ul {
-      right: 60px;
-      left: auto;
-    }
-  }
-
-  li {
-    > a.btn-dashboard {
-      left: 30px;
-      right: auto;
-    }
-  }
-
-  .collapse-level-2 {
-    right: 100%;
-    left: auto;
-    border-radius: $border-radius 0 0 $border-radius;
-  }
-
-  .parent .collapse-arrow::after {
-    right: auto;
-    left: 15px;
-    content: "\f0d9";
-  }
-
-  .has-arrow::after {
-    left: 1rem;
-    right: inherit;
-    transform: rotate(180deg) translate(0, -180%);
-  }
-
-  ul a {
-    padding: 0 1.4rem 0 0;
-  }
-
-  .active .no-dropdown .sidebar-item-title {
-    margin-right: 1rem;
-  }
-
-  .dropdown-submenu .sidebar-item-title {
-    margin-right: 1rem;
-  }
-
-  .dropdown-submenu .no-dropdown .sidebar-item-title {
-    margin-right: 44px;
-  }
-
-  ul ul a::before {
-    right: 34px;
-    left: 0;
-  }
-}
-
-.child-open > .open > a::before {
-  right: 0;
-  left: auto;
-}
-
 // Status
 .status {
   margin-right: 250px;

@@ -22,7 +22,6 @@ HTMLHelper::_('script', 'com_templates/admin-template-toggle-switch.min.js', arr
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.tabstate');
 HTMLHelper::_('behavior.multiselect', 'updateForm');
 
 $input = Factory::getApplication()->input;
