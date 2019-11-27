@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
@@ -95,14 +96,13 @@ class PlgSystemCache extends CMSPlugin
 	}
 
 	/**
-	 * After Initialise Event.
 	 * Checks if URL exists in cache, if so dumps it directly and closes.
 	 *
 	 * @return  void
 	 *
-	 * @since   1.5
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAfterInitialise()
+	public function onAfterRoute()
 	{
 		if ($this->app->isClient('administrator') || $this->app->get('offline', '0') || $this->app->getMessageQueue())
 		{
@@ -134,6 +134,10 @@ class PlgSystemCache extends CMSPlugin
 			// Mark afterCache in debug and run debug onAfterRespond events, e.g. show Joomla Debug Console if debug is active.
 			if (JDEBUG)
 			{
+				// Create a document instance and load it into the application.
+				$document = Factory::getContainer()->get('document.factory')->createDocument($this->app->input->get('format', 'html'));
+				$this->app->loadDocument($document);
+
 				Profiler::getInstance('Application')->mark('afterCache');
 				$this->app->triggerEvent('onAfterRespond');
 			}
