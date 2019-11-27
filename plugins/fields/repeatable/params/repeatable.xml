@@ -29,6 +29,7 @@
 								<option value="number">PLG_FIELDS_REPEATABLE_PARAMS_FIELDNAME_TYPE_NUMBER</option>
 								<option value="text">PLG_FIELDS_REPEATABLE_PARAMS_FIELDNAME_TYPE_TEXT</option>
 								<option value="textarea">PLG_FIELDS_REPEATABLE_PARAMS_FIELDNAME_TYPE_TEXTAREA</option>
+								<option value="url">PLG_FIELDS_REPEATABLE_PARAMS_FIELDNAME_TYPE_URL</option>
 							</field>
 							<field
 								name="fieldfilter"
