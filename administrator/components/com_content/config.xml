@@ -370,7 +370,7 @@
 			name="show_configure_edit_options"
 			type="radio"
 			label="COM_CONTENT_SHOW_CONFIGURE_EDIT_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -381,7 +381,7 @@
 			name="show_permissions"
 			type="radio"
 			label="COM_CONTENT_SHOW_PERMISSIONS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -392,7 +392,7 @@
 			name="show_associations_edit"
 			type="radio"
 			label="COM_CONTENT_SHOW_ASSOCIATIONS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
