@@ -134,9 +134,11 @@ class ReportsModel extends ListModel
 			else
 			{
 				$search = '%' . trim($search) . '%';
-				$query->where($db->quoteName('a.document_uri') . ' LIKE :documenturi')
-					->orWhere($db->quoteName('a.blocked_uri') . ' LIKE :blockeduri')
-					->orWhere($db->quoteName('a.directive') . ' LIKE :directive')
+				$query->where(
+					'(' . $db->quoteName('a.document_uri') . ' LIKE :documenturi'
+					. ' OR ' . $db->quoteName('a.blocked_uri') . ' LIKE :blockeduri'
+					. ' OR ' . $db->quoteName('a.directive') . ' LIKE :directive)'
+				)
 					->bind(':documenturi', $search)
 					->bind(':blockeduri', $search)
 					->bind(':directive', $search);

@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Module\PrivacyDashboard\Administrator\Helper\PrivacyDashboardHelper;
 
 // Only super user can view this data
@@ -26,8 +25,6 @@ $app->bootComponent('com_privacy');
 $lang = $app->getLanguage();
 $lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true)
 	|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy', null, false, true);
-
-HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/html');
 
 $list = PrivacyDashboardHelper::getData();
 
