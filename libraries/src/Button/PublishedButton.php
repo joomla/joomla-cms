@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -60,8 +60,8 @@ class PublishedButton extends ActionButton
 
 			$tz = Factory::getUser()->getTimezone();
 
-			$publishUp   = ($publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimeZone($tz) : null;
-			$publishDown = ($publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimeZone($tz) : null;
+			$publishUp   = ($publishUp !== null && $publishUp !== $nullDate) ? Factory::getDate($publishUp, 'UTC')->setTimeZone($tz) : false;
+			$publishDown = ($publishDown !== null && $publishDown !== $nullDate) ? Factory::getDate($publishDown, 'UTC')->setTimeZone($tz) : false;
 
 			// Add tips and special titles
 			// Create special titles for published items
@@ -86,13 +86,13 @@ class PublishedButton extends ActionButton
 
 				$options['tip_title'] = 'JLIB_HTML_PUBLISHED_ITEM';
 
-				if ($publishUp > $nullDate && $nowDate < $publishUp->toUnix())
+				if ($publishUp && $nowDate < $publishUp->toUnix())
 				{
 					$options['tip_title'] = 'JLIB_HTML_PUBLISHED_PENDING_ITEM';
 					$default['icon'] = 'pending';
 				}
 
-				if ($publishDown > $nullDate && $nowDate > $publishDown->toUnix())
+				if ($publishDown && $nowDate > $publishDown->toUnix())
 				{
 					$options['tip_title'] = 'JLIB_HTML_PUBLISHED_EXPIRED_ITEM';
 					$default['icon'] = 'expired';

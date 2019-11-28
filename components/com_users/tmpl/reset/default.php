@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,19 +28,10 @@ HTMLHelper::_('behavior.formvalidator');
 	<form id="user-registration" action="<?php echo Route::_('index.php?option=com_users&task=reset.request'); ?>" method="post" class="com-users-reset__form form-validate form-horizontal well">
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<fieldset>
-				<p><?php echo Text::_($fieldset->label); ?></p>
-				<?php foreach ($this->form->getFieldset($fieldset->name) as $name => $field) : ?>
-					<?php if ($field->hidden === false) : ?>
-						<div class="control-group">
-							<div class="control-label">
-								<?php echo $field->label; ?>
-							</div>
-							<div class="controls">
-								<?php echo $field->input; ?>
-							</div>
-						</div>
-					<?php endif; ?>
-				<?php endforeach; ?>
+				<?php if (isset($fieldset->label)) : ?>
+					<p><?php echo Text::_($fieldset->label); ?></p>
+				<?php endif; ?>
+				<?php echo $this->form->renderFieldset($fieldset->name); ?>
 			</fieldset>
 		<?php endforeach; ?>
 		<div class="com-users-reset__submit control-group">

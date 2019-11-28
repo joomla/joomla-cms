@@ -2,29 +2,26 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
 
 // Import the com_menus helper.
 require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
-
-FormHelper::loadFieldClass('GroupedList');
 
 /**
  * Supports an HTML select list of menus
  *
  * @since  1.6
  */
-class MenuField extends \JFormFieldGroupedList
+class MenuField extends GroupedlistField
 {
 	/**
 	 * The form field type.
@@ -54,7 +51,7 @@ class MenuField extends \JFormFieldGroupedList
 			->from($db->quoteName('#__menu_types'))
 			->order('client_id, title');
 
-		if (strlen($clientId))
+		if (\strlen($clientId))
 		{
 			$query->where('client_id = ' . (int) $clientId);
 		}
@@ -105,7 +102,7 @@ class MenuField extends \JFormFieldGroupedList
 		$options = array_merge($opts, $menus);
 		$groups  = array();
 
-		if (strlen($clientId))
+		if (\strlen($clientId))
 		{
 			$groups[0] = $options;
 		}

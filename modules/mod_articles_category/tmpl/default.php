@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,13 +11,19 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+
+if (!$list)
+{
+	return;
+}
 
 ?>
-<ul class="mod-articlescategory category-module">
+<ul class="mod-articlescategory category-module mod-list">
 	<?php if ($grouped) : ?>
 		<?php foreach ($list as $group_name => $group) : ?>
 		<li>
-			<div class="mod-articles-category-group"><?php echo $group_name; ?></div>
+			<div class="mod-articles-category-group"><?php echo Text::_($group_name); ?></div>
 			<ul>
 				<?php foreach ($group as $item) : ?>
 					<li>
@@ -49,6 +55,12 @@ use Joomla\CMS\Language\Text;
 
 						<?php if ($item->displayDate) : ?>
 							<span class="mod-articles-category-date"><?php echo $item->displayDate; ?></span>
+						<?php endif; ?>
+
+						<?php if ($params->get('show_tags', 0) && $item->tags->itemTags) : ?>
+							<div class="mod-articles-category-tags">
+								<?php echo LayoutHelper::render('joomla.content.tags', $item->tags->itemTags); ?>
+							</div>
 						<?php endif; ?>
 
 						<?php if ($params->get('show_introtext')) : ?>
@@ -113,6 +125,12 @@ use Joomla\CMS\Language\Text;
 					<span class="mod-articles-category-date">
 						<?php echo $item->displayDate; ?>
 					</span>
+				<?php endif; ?>
+
+				<?php if ($params->get('show_tags', 0) && $item->tags->itemTags) : ?>
+					<div class="mod-articles-category-tags">
+						<?php echo LayoutHelper::render('joomla.content.tags', $item->tags->itemTags); ?>
+					</div>
 				<?php endif; ?>
 
 				<?php if ($params->get('show_introtext')) : ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -244,17 +244,12 @@ abstract class CmsModel extends BaseDatabaseModel
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id) || $record->published != -2)
 		{
-			if ($record->published != -2)
-			{
-				return false;
-			}
-
-			$user = Factory::getUser();
-
-			return $user->authorise('core.delete', $this->option);
+			return false;
 		}
+
+		return Factory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -268,8 +263,6 @@ abstract class CmsModel extends BaseDatabaseModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = Factory::getUser();
-
-		return $user->authorise('core.edit.state', $this->option);
+		return Factory::getUser()->authorise('core.edit.state', $this->option);
 	}
 }

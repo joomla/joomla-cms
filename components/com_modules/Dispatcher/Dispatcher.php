@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,7 +31,6 @@ class Dispatcher extends ComponentDispatcher
 	 */
 	protected function loadLanguage()
 	{
-		$this->app->getLanguage()->load('joomla', JPATH_ADMINISTRATOR);
 		$this->app->getLanguage()->load('com_modules', JPATH_ADMINISTRATOR);
 	}
 

@@ -2,18 +2,20 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Model;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Form\Form;
 
 /**
  * Interface for a form model.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface FormModelInterface
 {
@@ -25,7 +27,7 @@ interface FormModelInterface
 	 *
 	 * @return  Form
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @throws \Exception
 	 */

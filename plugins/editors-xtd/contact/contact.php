@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,6 +56,9 @@ class PlgButtonContact extends CMSPlugin
 		$button->link    = $link;
 		$button->text    = Text::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT');
 		$button->name    = 'address';
+		$button->iconSVG = '<svg viewBox="0 0 32 32" width="24" height="24"><path d="M2 14h3v5h-3zM2 8h3v5h-3zM2 20h3v5h-3zM2 26h3v5h-3zM6 0v32h'
+							. '24v-32h-24zM18 8.010c2.203 0 3.99 1.786 3.99 3.99s-1.786 3.99-3.99 3.99c-2.203 0-3.99-1.786-3.99-3.99s1.786-3.99 3'
+							. '.99-3.99zM24 24h-12v-2c0-2.209 1.791-4 4-4v0h4c2.209 0 4 1.791 4 4v2zM2 2h3v5h-3z"></path></svg>';
 		$button->options = [
 			'height' => '300px',
 			'width'  => '800px',

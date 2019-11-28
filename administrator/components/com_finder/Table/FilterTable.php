@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,8 @@ namespace Joomla\Component\Finder\Administrator\Table;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
@@ -25,6 +27,14 @@ use Joomla\Utilities\ArrayHelper;
 class FilterTable extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  Database Driver connector object.
@@ -34,6 +44,8 @@ class FilterTable extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__finder_filters', 'filter_id', $db);
+
+		$this->setColumnAlias('published', 'state');
 	}
 
 	/**
@@ -92,27 +104,21 @@ class FilterTable extends Table
 
 		if (trim(str_replace('-', '', $this->alias)) === '')
 		{
-			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		$params = new Registry($this->params);
 
-		$nullDate = $this->_db->getNullDate();
-		$d1 = $params->get('d1', $nullDate);
-		$d2 = $params->get('d2', $nullDate);
+		$d1 = $params->get('d1', '');
+		$d2 = $params->get('d2', '');
 
 		// Check the end date is not earlier than the start date.
-		if ($d2 > $nullDate && $d2 < $d1)
+		if (!empty($d1) && !empty($d2) && $d2 < $d1)
 		{
 			// Swap the dates.
 			$params->set('d1', $d2);
 			$params->set('d2', $d1);
 			$this->params = (string) $params;
-		}
-
-		if (empty($this->modified))
-		{
-			$this->modified = $nullDate;
 		}
 
 		return true;
@@ -151,7 +157,7 @@ class FilterTable extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}
@@ -222,10 +228,10 @@ class FilterTable extends Table
 	 *
 	 * @since   2.5
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
-		$date = \JFactory::getDate()->toSql();
-		$userId = \JFactory::getUser()->id;
+		$date = Factory::getDate()->toSql();
+		$userId = Factory::getUser()->id;
 
 		if ($this->filter_id)
 		{
@@ -246,6 +252,16 @@ class FilterTable extends Table
 			{
 				$this->created_by = $userId;
 			}
+
+			if (!(int) $this->modified)
+			{
+				$this->modified = $this->created;
+			}
+
+			if (empty($this->modified_by))
+			{
+				$this->modified_by = $this->created_by;
+			}
 		}
 
 		if (is_array($this->data))
@@ -264,7 +280,7 @@ class FilterTable extends Table
 
 		if ($table->load(array('alias' => $this->alias)) && ($table->filter_id != $this->filter_id || $this->filter_id == 0))
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
 
 			return false;
 		}

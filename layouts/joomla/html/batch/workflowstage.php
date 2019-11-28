@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ use Joomla\CMS\Language\Text;
  */
 
 ?>
-<label id="batch-workflowstage-lbl" for="batch-workflowstage-id" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'JLIB_HTML_BATCH_WORKFLOW_STAGE_LABEL', 'JLIB_HTML_BATCH_WORKFLOW_STAGE_LABEL_DESC'); ?>">
+<label id="batch-workflowstage-lbl" for="batch-workflowstage-id">
 	<?php echo Text::_('JLIB_HTML_BATCH_WORKFLOW_STAGE_LABEL'); ?>
 </label>
 

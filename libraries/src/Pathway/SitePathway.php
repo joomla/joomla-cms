@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Pathway;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
@@ -50,7 +50,7 @@ class SitePathway extends Pathway
 				$home  = $menu->getDefault();
 			}
 
-			if (is_object($home) && ($item->id != $home->id))
+			if (\is_object($home) && ($item->id != $home->id))
 			{
 				foreach ($item->tree as $menupath)
 				{

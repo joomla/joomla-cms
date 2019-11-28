@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Build
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ const _JEXEC = 1;
 // Import namespaced classes
 use Joomla\CMS\Application\CliApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
@@ -65,10 +66,10 @@ class MediawikiCli extends CliApplication
 
 		// Get the version data for the script
 		$minorVersion = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
-		$namespace    = 'Help' . $minorVersion . ':';
+		$namespace    = 'Help' . str_replace('.', '', $minorVersion) . ':';
 
 		// Set up HTTP driver for MediaWiki
-		$http = new \Joomla\Mediawiki\Http([], JHttpFactory::getAvailableDriver());
+		$http = new \Joomla\Mediawiki\Http([], HttpFactory::getAvailableDriver());
 
 		// Set up options for JMediawiki
 		$options = new Registry;

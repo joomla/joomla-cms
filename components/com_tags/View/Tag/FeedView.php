@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,9 +11,9 @@ namespace Joomla\Component\Tags\Site\View\Tag;
 
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
 
 defined('_JEXEC') or die;
 
@@ -33,19 +33,36 @@ class FeedView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app            = Factory::getApplication();
-		$document       = Factory::getDocument();
-		$document->link = Route::_(TagsHelperRoute::getTagRoute($app->input->getInt('id')));
+		$app    = Factory::getApplication();
+		$ids    = $app->input->get('id', array(), 'array');
+		$i      = 0;
+		$tagIds = '';
+		$filter = new InputFilter;
+
+		foreach ($ids as $id)
+		{
+			if ($i !== 0)
+			{
+				$tagIds .= '&';
+			}
+
+			$tagIds .= 'id[' . $i . ']=' . $filter->clean($id, 'INT');
+
+			$i++;
+		}
+
+		$this->document->link = Route::_('index.php?option=com_tags&view=tag&' . $tagIds);
 
 		$app->input->set('limit', $app->get('feed_limit'));
-		$siteEmail        = $app->get('mailfrom');
-		$fromName         = $app->get('fromname');
-		$feedEmail        = $app->get('feed_email', 'none');
-		$document->editor = $fromName;
+		$siteEmail = $app->get('mailfrom');
+		$fromName  = $app->get('fromname');
+		$feedEmail = $app->get('feed_email', 'none');
+
+		$this->document->editor = $fromName;
 
 		if ($feedEmail !== 'none')
 		{
-			$document->editorEmail = $siteEmail;
+			$this->document->editorEmail = $siteEmail;
 		}
 
 		// Get some data from the model
@@ -83,7 +100,7 @@ class FeedView extends BaseHtmlView
 				}
 
 				// Loads item info into RSS array
-				$document->addItem($feeditem);
+				$this->document->addItem($feeditem);
 			}
 		}
 	}

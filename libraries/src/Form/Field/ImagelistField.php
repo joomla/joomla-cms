@@ -2,24 +2,20 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
-
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('filelist');
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Supports an HTML select list of image
  *
  * @since  1.7.0
  */
-class ImagelistField extends \JFormFieldFileList
+class ImagelistField extends FilelistField
 {
 	/**
 	 * The form field type.
@@ -40,7 +36,7 @@ class ImagelistField extends \JFormFieldFileList
 	protected function getOptions()
 	{
 		// Define the image file type filter.
-		$this->filter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$|\.jpeg$|\.psd$|\.eps$';
+		$this->fileFilter = '\.png$|\.gif$|\.jpg$|\.bmp$|\.ico$|\.jpeg$|\.psd$|\.eps$';
 
 		// Get the field options.
 		return parent::getOptions();

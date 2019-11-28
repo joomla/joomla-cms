@@ -3,13 +3,12 @@
  * @package     Joomla.Site
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -28,7 +27,7 @@ if (!empty($feed) && is_string($feed))
 }
 else
 {
-	$lang      = Factory::getLanguage();
+	$lang      = $app->getLanguage();
 	$myrtl     = $params->get('rssrtl', 0);
 	$direction = ' ';
 
@@ -81,6 +80,12 @@ else
 				</h2>
 			<?php
 		}
+		// Feed date
+		if ($params->get('rssdate', 1)) : ?>
+			<h3>
+			<?php echo HtmlHelper::_('date', $feed->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
+			</h3>
+		<?php endif;
 		// Feed description
 		if ($params->get('rssdesc', 1))
 		{
@@ -112,6 +117,12 @@ else
 						<?php echo trim($feed[$i]->title); ?></a></span>
 					<?php else : ?>
 						<span class="feed-link"><?php echo trim($feed[$i]->title); ?></span>
+					<?php endif; ?>
+
+					<?php if ($params->get('rssitemdate', 0)) : ?>
+						<div class="feed-item-date">
+							<?php echo HtmlHelper::_('date', $feed[$i]->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
+						</div>
 					<?php endif; ?>
 
 					<?php if ($params->get('rssitemdesc', 1) && $text !== '') : ?>

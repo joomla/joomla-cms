@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
@@ -138,6 +138,8 @@ class TransitionsModel extends ListModel
 			't.from_stage_id',
 			't.to_stage_id',
 			't.published',
+			't.checked_out',
+			't.checked_out_time',
 			't.ordering',
 			't.description',
 			)
@@ -157,6 +159,10 @@ class TransitionsModel extends ListModel
 				$db->quoteName('#__workflow_stages', 'f_stage') . ' ON ' . $db->quoteName('f_stage.id') . ' = ' . $db->quoteName('t.from_stage_id')
 			)
 			->leftJoin($joinTo);
+
+		// Join over the users for the checked out user.
+		$query->select($db->quoteName('uc.name', 'editor'))
+			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('t.checked_out'));
 
 		// Filter by extension
 		if ($workflowID = (int) $this->getState('filter.workflow_id'))

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Rule;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
@@ -57,7 +57,7 @@ class ColorRule extends FormRule
 		$value = ltrim($value, '#');
 
 		// The value must be 6 or 3 characters long
-		if (!((strlen($value) == 6 || strlen($value) == 3) && ctype_xdigit($value)))
+		if (!((\strlen($value) == 6 || \strlen($value) == 3) && ctype_xdigit($value)))
 		{
 			return false;
 		}

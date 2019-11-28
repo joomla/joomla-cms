@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Build
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ const _JEXEC = 1;
 
 // Import namespaced classes
 use Joomla\CMS\Application\CliApplication;
+use Joomla\CMS\Factory;
 
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
@@ -96,9 +97,36 @@ PHP;
 
 		$this->out('Stubs file written', true);
 	}
+
+	/**
+	 * Gets the name of the current running application.
+	 *
+	 * @return  string  The name of the application.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getName()
+	{
+		return 'cli-stubgen';
+	}
+
+	/**
+	 * Get the menu object.
+	 *
+	 * @param string $name    The application name for the menu
+	 * @param array  $options An array of options to initialise the menu with
+	 *
+	 * @return  \Joomla\CMS\Menu\AbstractMenu|null  A AbstractMenu object or null if not set.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getMenu($name = null, $options = array())
+	{
+		throw new \BadMethodCallException('CLI Application has no menu');
+	}
 }
 
-JFactory::getContainer()->share(
+Factory::getContainer()->share(
 	'StubGenerator',
 	function (\Joomla\DI\Container $container)
 	{
@@ -114,6 +142,6 @@ JFactory::getContainer()->share(
 	true
 );
 
-$app = JFactory::getContainer()->get('StubGenerator');
-JFactory::$application = $app;
+$app = Factory::getContainer()->get('StubGenerator');
+Factory::$application = $app;
 $app->execute();

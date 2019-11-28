@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,7 +35,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</th>
 						<?php foreach ($this->actions as $key => $action) : ?>
 						<th style="width:6%" class="text-center" scope="col">
-							<span class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $key, $action[1]); ?>"><?php echo Text::_($key); ?></span>
+							<?php echo Text::_($key); ?>
 						</th>
 						<?php endforeach; ?>
 						<th style="width:6%" scope="col">

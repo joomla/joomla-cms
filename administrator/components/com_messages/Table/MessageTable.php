@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,6 +34,8 @@ class MessageTable extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__messages', 'message_id', $db);
+
+		$this->setColumnAlias('published', 'state');
 	}
 
 	/**

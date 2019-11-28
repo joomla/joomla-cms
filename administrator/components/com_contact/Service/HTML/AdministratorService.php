@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,11 +12,11 @@ namespace Joomla\Component\Contact\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -51,16 +51,23 @@ class AdministratorService
 			// Get the associated contact items
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('c.id, c.name as title')
-				->select('l.sef as lang_sef, lang_code')
-				->from('#__contact_details as c')
-				->select('cat.title as category_title')
-				->join('LEFT', '#__categories as cat ON cat.id=c.catid')
-				->where('c.id IN (' . implode(',', array_values($associations)) . ')')
-				->where('c.id != ' . $contactid)
-				->join('LEFT', '#__languages as l ON c.language=l.lang_code')
-				->select('l.image')
-				->select('l.title as language_title');
+				->select(
+					[
+						$db->quoteName('c.id'),
+						$db->quoteName('c.name', 'title'),
+						$db->quoteName('l.sef', 'lang_sef'),
+						$db->quoteName('lang_code'),
+						$db->quoteName('cat.title', 'category_title'),
+						$db->quoteName('l.image'),
+						$db->quoteName('l.title', 'language_title'),
+					]
+				)
+				->from($db->quoteName('#__contact_details', 'c'))
+				->join('LEFT', $db->quoteName('#__categories', 'cat'), $db->quoteName('cat.id') . ' = ' . $db->quoteName('c.catid'))
+				->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('c.language') . ' = ' . $db->quoteName('l.lang_code'))
+				->whereIn($db->quoteName('c.id'), array_values($associations))
+				->where($db->quoteName('c.id') . ' != :id')
+				->bind(':id', $contactid, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
@@ -78,16 +85,14 @@ class AdministratorService
 				{
 					$text = strtoupper($item->lang_sef);
 					$url = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
-					$tooltip = htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
-					$classes = 'hasPopover badge badge-secondary';
+					$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+					$classes = 'badge badge-secondary';
 
-					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes
-						. '" data-content="' . $tooltip . '" data-placement="top">'
-						. $text . '</a>';
+					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
+						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
 				}
 			}
-
-			HTMLHelper::_('bootstrap.popover');
 
 			$html = LayoutHelper::render('joomla.content.associations', $items);
 		}
@@ -106,9 +111,8 @@ class AdministratorService
 	 *
 	 * @since   1.6
 	 */
-	public function featured($value = 0, $i, $canChange = true)
+	public function featured($value, $i, $canChange = true)
 	{
-
 		// Array of image, task, title, action
 		$states = array(
 			0 => array('unfeatured', 'contacts.featured', 'COM_CONTACT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
@@ -119,14 +123,14 @@ class AdministratorService
 
 		if ($canChange)
 		{
-			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . HTMLHelper::_('tooltipText', $state[3])
+			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon'
+				. ($value == 1 ? ' active' : '') . '" title="' . Text::_($state[3])
 				. '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 		else
 		{
-			$html = '<a class="tbody-icon hasTooltip disabled' . ($value == 1 ? ' active' : '')
-				. '" title="' . HTMLHelper::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
+			$html = '<a class="tbody-icon disabled' . ($value == 1 ? ' active' : '')
+				. '" title="' . Text::_($state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 
 		return $html;

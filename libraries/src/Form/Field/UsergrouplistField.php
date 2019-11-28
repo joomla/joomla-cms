@@ -2,27 +2,24 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Helper\UserGroupsHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Field to load a dropdown list of available user groups
  *
  * @since  3.2
  */
-class UsergrouplistField extends \JFormFieldList
+class UsergrouplistField extends ListField
 {
 	/**
 	 * The form field type.
@@ -55,7 +52,7 @@ class UsergrouplistField extends \JFormFieldList
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
-		if (is_string($value) && strpos($value, ',') !== false)
+		if (\is_string($value) && strpos($value, ',') !== false)
 		{
 			$value = explode(',', $value);
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
@@ -137,6 +137,8 @@ class StagesModel extends ListModel
 				's.condition',
 				's.default',
 				's.published',
+				's.checked_out',
+				's.checked_out_time',
 				's.description'
 			)
 		);
@@ -158,6 +160,10 @@ class StagesModel extends ListModel
 		{
 			$query->where($db->quoteName('s.condition') . ' = ' . (int) $db->escape($condition));
 		}
+
+		// Join over the users for the checked out user.
+		$query->select($db->quoteName('uc.name', 'editor'))
+			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('s.checked_out'));
 
 		$status = (string) $this->getState('filter.published');
 

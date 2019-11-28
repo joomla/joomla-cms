@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,8 +53,6 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 		// Set required to true as this field is not displayed at all if not required.
 		$this->required = true;
 
-		HTMLHelper::_('behavior.modal');
-
 		// Build the class for the label.
 		$class = !empty($this->description) ? 'hasPopover' : '';
 		$class = $class . ' required';
@@ -66,23 +64,25 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
 			$label .= ' data-content="' . htmlspecialchars(
 				$this->translateDescription ? Text::_($this->description) : $this->description,
 				ENT_COMPAT,
 				'UTF-8'
 			) . '"';
+
+			if (Factory::getLanguage()->isRtl())
+			{
+				$label .= ' data-placement="left"';
+			}
 		}
 
 		$tosArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
 		if ($tosArticle)
 		{
-			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
-
-			$attribs          = array();
-			$attribs['class'] = 'modal';
-			$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
+			$attribs                = [];
+			$attribs['data-toggle'] = 'modal';
+			$attribs['data-target'] = '#tosModal';
 
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
@@ -94,7 +94,7 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 
 			if (Associations::isEnabled())
 			{
-				$tosAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $tosarticle);
+				$tosAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $tosArticle);
 			}
 
 			$currentLang = Factory::getLanguage()->getTag();
@@ -114,6 +114,21 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
 				$link = HTMLHelper::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
 			}
+
+			echo HTMLHelper::_(
+				'bootstrap.renderModal',
+				'tosModal',
+				array(
+					'url'    => Route::_($url . '&tmpl=component'),
+					'title'  => $text,
+					'height' => '100%',
+					'width'  => '100%',
+					'modalWidth'  => '800',
+					'bodyHeight'  => '500',
+					'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
+						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
+				)
+			);
 		}
 		else
 		{

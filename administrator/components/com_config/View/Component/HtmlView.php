@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -103,13 +103,9 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'equalizer config');
-		ToolbarHelper::saveGroup(
-			[
-				['apply', 'component.apply'],
-				['save', 'component.save']
-			],
-			'btn-success'
-		);
+		ToolbarHelper::apply('component.apply');
+		ToolbarHelper::divider();
+		ToolbarHelper::save('component.save');
 		ToolbarHelper::divider();
 		ToolbarHelper::cancel('component.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::divider();

@@ -2,17 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
-
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('list');
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -21,7 +17,7 @@ FormHelper::loadFieldClass('list');
  * @link   http://www.w3.org/TR/html-markup/command.radio.html#command.radio
  * @since  1.7.0
  */
-class RadioField extends \JFormFieldList
+class RadioField extends ListField
 {
 	/**
 	 * The form field type.
@@ -62,8 +58,7 @@ class RadioField extends \JFormFieldList
 		// The layout for Switcher
 		if (!$element['layout'] && strpos(trim($this->class), 'switcher') === 0)
 		{
-
-			$this->skipLabelFor = true;
+			$this->hiddenLabel = true;
 			$this->layout = 'joomla.form.field.radio.switcher';
 		}
 

@@ -14,10 +14,10 @@
                 <dt>{{ translate('COM_MEDIA_MEDIA_TYPE') }}</dt>
                 <dd>{{ item.type || '-' }}</dd>
 
-                <dt>{{ translate('COM_MEDIA_MEDIA_CREATED_AT') }}</dt>
+                <dt>{{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}</dt>
                 <dd>{{ item.create_date_formatted }}</dd>
 
-                <dt>{{ translate('COM_MEDIA_MEDIA_MODIFIED_AT') }}</dt>
+                <dt>{{ translate('COM_MEDIA_MEDIA_DATE_MODIFIED') }}</dt>
                 <dd>{{ item.modified_date_formatted }}</dd>
 
                 <dt>{{ translate('COM_MEDIA_MEDIA_DIMENSION') }}</dt>

@@ -2,26 +2,23 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Content Type field.
  *
  * @since  3.1
  */
-class ContenttypeField extends \JFormFieldList
+class ContenttypeField extends ListField
 {
 	/**
 	 * A flexible tag list that respects access controls
@@ -40,14 +37,14 @@ class ContenttypeField extends \JFormFieldList
 	 */
 	protected function getInput()
 	{
-		if (!is_array($this->value))
+		if (!\is_array($this->value))
 		{
-			if (is_object($this->value))
+			if (\is_object($this->value))
 			{
 				$this->value = $this->value->tags;
 			}
 
-			if (is_string($this->value))
+			if (\is_string($this->value))
 			{
 				$this->value = explode(',', $this->value);
 			}
@@ -85,9 +82,6 @@ class ContenttypeField extends \JFormFieldList
 			return array();
 		}
 
-		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $options);
-
 		foreach ($options as $option)
 		{
 			// Make up the string from the component sys.ini file
@@ -106,6 +100,9 @@ class ContenttypeField extends \JFormFieldList
 				$option->text = Text::_($option->string);
 			}
 		}
+
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::getOptions(), $options);
 
 		return $options;
 	}

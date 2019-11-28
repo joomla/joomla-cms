@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,7 +44,7 @@ $checkboxName = $options['checkbox_name'];
 		<?php endif; ?>
 
 		title="<?php echo HTMLHelper::_('tooltipText', Text::_($tipTitle ? : $title), '', 0); ?>"
-		data-content="<?php echo HTMLHelper::_('tooltipText', Text::_($title), '', 0); ?>"
+		data-content="<?php echo HTMLHelper::_('tooltipText', $title, '', 0); ?>"
 		data-placement="top"
 		onclick="Joomla.toggleAllNextElements(this, 'd-none')"
 	>
@@ -54,8 +54,8 @@ $checkboxName = $options['checkbox_name'];
 	<div class="d-none">
 		<?php
 			$default = [
-				JHtml::_('select.option', '', $this->escape($options['stage'])),
-				JHtml::_('select.option', '-1', '--------', ['disable' => true])
+				HTMLHelper::_('select.option', '', $this->escape($options['stage'])),
+				HTMLHelper::_('select.option', '-1', '--------', ['disable' => true])
 			];
 
 			$transitions = array_merge($default, $options['transitions']);

@@ -9,7 +9,8 @@
 
 namespace Joomla\Plugin\System\Debug\Storage;
 
-use Joomla\Filesystem\Folder;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Stores collected data into files
@@ -37,7 +38,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 
 		$dataStr = '<?php die(); ?>#(^-^)#' . json_encode($data);
 
-		file_put_contents($this->makeFilename($id), $dataStr);
+		File::write($this->makeFilename($id), $dataStr);
 	}
 
 	/**
@@ -72,6 +73,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 	{
 		// Loop through all .php files and remember the modified time and id.
 		$files = [];
+
 		foreach (new \DirectoryIterator($this->dirname) as $file)
 		{
 			if ($file->getExtension() == 'php')
@@ -94,6 +96,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 		// Load the metadata and filter the results.
 		$results = [];
 		$i = 0;
+
 		foreach ($files as $file)
 		{
 			// When filter is empty, skip loading the offset
@@ -112,13 +115,13 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 				$results[] = $meta;
 			}
 
-			if (count($results) >= ($max + $offset))
+			if (\count($results) >= ($max + $offset))
 			{
 				break;
 			}
 		}
 
-		return array_slice($results, $offset, $max);
+		return \array_slice($results, $offset, $max);
 	}
 
 	/**

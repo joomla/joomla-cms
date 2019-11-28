@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class SysInfoModel extends BaseDatabaseModel
+class SysinfoModel extends BaseDatabaseModel
 {
 	/**
 	 * Some PHP settings
@@ -308,16 +308,18 @@ class SysInfoModel extends BaseDatabaseModel
 		$db = $this->getDbo();
 
 		$this->info = array(
-			'php'                   => php_uname(),
-			'dbserver'		=> $db->getServerType(),
-			'dbversion'             => $db->getVersion(),
-			'dbcollation'           => $db->getCollation(),
-			'dbconnectioncollation' => $db->getConnectionCollation(),
-			'phpversion'            => PHP_VERSION,
-			'server'                => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
-			'sapi_name'             => PHP_SAPI,
-			'version'               => (new Version)->getLongVersion(),
-			'useragent'             => $_SERVER['HTTP_USER_AGENT'] ?? '',
+			'php'                    => php_uname(),
+			'dbserver'               => $db->getServerType(),
+			'dbversion'              => $db->getVersion(),
+			'dbcollation'            => $db->getCollation(),
+			'dbconnectioncollation'  => $db->getConnectionCollation(),
+			'dbconnectionencryption' => $db->getConnectionEncryption(),
+			'dbconnencryptsupported' => $db->isConnectionEncryptionSupported(),
+			'phpversion'             => PHP_VERSION,
+			'server'                 => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
+			'sapi_name'              => PHP_SAPI,
+			'version'                => (new Version)->getLongVersion(),
+			'useragent'              => $_SERVER['HTTP_USER_AGENT'] ?? '',
 		);
 
 		return $this->info;
@@ -530,7 +532,7 @@ class SysInfoModel extends BaseDatabaseModel
 
 		foreach ($admin_langs as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -546,7 +548,7 @@ class SysInfoModel extends BaseDatabaseModel
 
 		foreach ($manifests as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -569,7 +571,7 @@ class SysInfoModel extends BaseDatabaseModel
 
 		foreach ($image_folders as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -587,7 +589,7 @@ class SysInfoModel extends BaseDatabaseModel
 
 		foreach ($site_langs as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -605,7 +607,7 @@ class SysInfoModel extends BaseDatabaseModel
 
 		foreach ($plugin_groups as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}

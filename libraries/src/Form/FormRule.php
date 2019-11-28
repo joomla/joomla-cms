@@ -2,26 +2,32 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 
 // Detect if we have full UTF-8 and unicode PCRE support.
-if (!defined('JCOMPAT_UNICODE_PROPERTIES'))
+if (!\defined('JCOMPAT_UNICODE_PROPERTIES'))
 {
-	define('JCOMPAT_UNICODE_PROPERTIES', (bool) @preg_match('/\pL/u', 'a'));
+	/**
+	 * Flag indicating UTF-8 and PCRE support is present
+	 *
+	 * @var    boolean
+	 * @since  1.6
+	 */
+	\define('JCOMPAT_UNICODE_PROPERTIES', (bool) @preg_match('/\pL/u', 'a'));
 }
 
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since  1.7.0
+ * @since  1.6
  */
 class FormRule
 {
@@ -29,7 +35,7 @@ class FormRule
 	 * The regular expression to use in testing a form field value.
 	 *
 	 * @var    string
-	 * @since  1.7.0
+	 * @since  1.6
 	 */
 	protected $regex;
 
@@ -37,7 +43,7 @@ class FormRule
 	 * The regular expression modifiers to use when testing a form field value.
 	 *
 	 * @var    string
-	 * @since  1.7.0
+	 * @since  1.6
 	 */
 	protected $modifiers;
 
@@ -54,7 +60,7 @@ class FormRule
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
-	 * @since   1.7.0
+	 * @since   1.6
 	 * @throws  \UnexpectedValueException if rule is invalid.
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
@@ -62,7 +68,7 @@ class FormRule
 		// Check for a valid regex.
 		if (empty($this->regex))
 		{
-			throw new \UnexpectedValueException(sprintf('%s has invalid regex.', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s has invalid regex.', \get_class($this)));
 		}
 
 		// Add unicode property support if available.
@@ -72,7 +78,7 @@ class FormRule
 		}
 
 		// Test the value against the regular expression.
-		if (preg_match(chr(1) . $this->regex . chr(1) . $this->modifiers, $value))
+		if (preg_match(\chr(1) . $this->regex . \chr(1) . $this->modifiers, $value))
 		{
 			return true;
 		}

@@ -2,28 +2,25 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Supports an HTML select list of folder
  *
  * @since  1.7.0
  */
-class FolderlistField extends \JFormFieldList
+class FolderlistField extends ListField
 {
 	/**
 	 * The form field type.
@@ -34,12 +31,12 @@ class FolderlistField extends \JFormFieldList
 	protected $type = 'Folderlist';
 
 	/**
-	 * The filter.
+	 * The folder name filter.
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  4.0.0
 	 */
-	protected $filter;
+	protected $folderFilter;
 
 	/**
 	 * The exclude.
@@ -94,7 +91,7 @@ class FolderlistField extends \JFormFieldList
 	{
 		switch ($name)
 		{
-			case 'filter':
+			case 'folderFilter':
 			case 'exclude':
 			case 'recursive':
 			case 'hideNone':
@@ -120,7 +117,7 @@ class FolderlistField extends \JFormFieldList
 	{
 		switch ($name)
 		{
-			case 'filter':
+			case 'folderFilter':
 			case 'directory':
 			case 'exclude':
 			case 'recursive':
@@ -158,8 +155,8 @@ class FolderlistField extends \JFormFieldList
 
 		if ($return)
 		{
-			$this->filter  = (string) $this->element['filter'];
-			$this->exclude = (string) $this->element['exclude'];
+			$this->folderFilter = (string) $this->element['folderFilter'];
+			$this->exclude      = (string) $this->element['exclude'];
 
 			$recursive       = (string) $this->element['recursive'];
 			$this->recursive = ($recursive == 'true' || $recursive == 'recursive' || $recursive == '1');
@@ -209,24 +206,24 @@ class FolderlistField extends \JFormFieldList
 		}
 
 		// Get a list of folders in the search path with the given filter.
-		$folders = Folder::folders($path, $this->filter, $this->recursive, true);
+		$folders = Folder::folders($path, $this->folderFilter, $this->recursive, true);
 
 		// Build the options list from the list of folders.
-		if (is_array($folders))
+		if (\is_array($folders))
 		{
 			foreach ($folders as $folder)
 			{
 				// Check to see if the file is in the exclude mask.
 				if ($this->exclude)
 				{
-					if (preg_match(chr(1) . $this->exclude . chr(1), $folder))
+					if (preg_match(\chr(1) . $this->exclude . \chr(1), $folder))
 					{
 						continue;
 					}
 				}
 
 				// Remove the root part and the leading /
-				$folder = trim(str_replace($path, '', $folder), '/');
+				$folder = trim(str_replace($path, '', $folder), DIRECTORY_SEPARATOR);
 
 				$options[] = HTMLHelper::_('select.option', $folder, $folder);
 			}

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_mailto
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,7 +80,9 @@ class DisplayController extends BaseController
 				$this->app->enqueueMessage($errorMessage, 'error');
 			}
 
-			return $this->mailto();
+			$this->mailto();
+
+			return;
 		}
 
 		// An array of email headers we do not want to allow as input
@@ -101,7 +103,7 @@ class DisplayController extends BaseController
 		{
 			foreach ($headers as $header)
 			{
-				if (strpos($value, $header) !== false)
+				if (is_string($value) && strpos($value, $header) !== false)
 				{
 					throw new \Exception('', 403);
 				}

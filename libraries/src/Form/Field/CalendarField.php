@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -175,8 +175,8 @@ class CalendarField extends FormField
 			$this->filltable    = (string) $this->element['filltable'] ? (string) $this->element['filltable'] : 'true';
 			$this->timeformat   = (int) $this->element['timeformat'] ? (int) $this->element['timeformat'] : 24;
 			$this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : 'false';
-			$this->minyear      = strlen((string) $this->element['minyear']) ? (string) $this->element['minyear'] : null;
-			$this->maxyear      = strlen((string) $this->element['maxyear']) ? (string) $this->element['maxyear'] : null;
+			$this->minyear      = \strlen((string) $this->element['minyear']) ? (string) $this->element['minyear'] : null;
+			$this->maxyear      = \strlen((string) $this->element['maxyear']) ? (string) $this->element['maxyear'] : null;
 
 			if ($this->maxyear < 0 || $this->minyear > 0)
 			{
@@ -205,6 +205,9 @@ class CalendarField extends FormField
 		{
 			$showTime = (string) $this->element['showtime'];
 
+			$lang  = Factory::getLanguage();
+			$debug = $lang->setDebug(false);
+
 			if ($showTime && $showTime != 'false')
 			{
 				$this->format = Text::_('DATE_FORMAT_CALENDAR_DATETIME');
@@ -213,6 +216,8 @@ class CalendarField extends FormField
 			{
 				$this->format = Text::_('DATE_FORMAT_CALENDAR_DATE');
 			}
+
+			$lang->setDebug($debug);
 		}
 
 		// If a known filter is given use it.
@@ -329,14 +334,14 @@ class CalendarField extends FormField
 	 *
 	 * @return  mixed   The filtered value.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function filter($value, $group = null, Registry $input = null)
 	{
 		// Make sure there is a valid SimpleXMLElement.
 		if (!($this->element instanceof \SimpleXMLElement))
 		{
-			throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
 		}
 
 		// Get the field filter type.

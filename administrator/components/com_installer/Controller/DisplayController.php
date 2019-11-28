@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,11 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
+use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Router\Route;
 
 /**
  * Installer Controller
@@ -41,6 +44,17 @@ class DisplayController extends BaseController
 		$vName   = $this->input->get('view', 'install');
 		$vFormat = $document->getType();
 		$lName   = $this->input->get('layout', 'default', 'string');
+		$id      = $this->input->getInt('update_site_id');
+
+		// Check for edit form.
+		if ($vName === 'updatesite' && $lName === 'edit' && !$this->checkEditId('com_installer.edit.updatesite', $id))
+		{
+			// Somehow the person just went to the form - we don't allow that.
+			$this->setMessage(Text::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id), 'error');
+			$this->setRedirect(Route::_('index.php?option=com_installer&view=updatesites', false));
+
+			$this->redirect();
+		}
 
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))
@@ -58,11 +72,28 @@ class DisplayController extends BaseController
 			// Push document object into the view.
 			$view->document = $document;
 
-			// Load the submenu.
-			InstallerHelper::addSubmenu($vName);
 			$view->display();
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Provide the data for a badge in a menu item via JSON
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function getMenuBadgeData()
+	{
+		if (!Factory::getUser()->authorise('core.manage', 'com_installer'))
+		{
+			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+		}
+
+		$model = $this->getModel('Warnings');
+
+		echo new JsonResponse(count($model->getItems()));
 	}
 }

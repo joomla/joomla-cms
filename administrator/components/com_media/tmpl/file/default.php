@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,8 +22,8 @@ HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.formvalidator');
 
 // Add stylesheets
-HTMLHelper::_('stylesheet', 'media/com_media/css/mediamanager.css');
-HTMLHelper::_('script', 'com_media/edit-images.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'com_media/mediamanager.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'com_media/edit-images.js', ['version' => 'auto', 'relative' => true]);
 
 $params = ComponentHelper::getParams('com_media');
 
@@ -51,7 +51,7 @@ $config = [
 	'contents'                => $this->file->content,
 ];
 
-Factory::getDocument()->addScriptOptions('com_media', $config);
+$this->document->addScriptOptions('com_media', $config);
 
 $this->useCoreUI = true;
 ?>

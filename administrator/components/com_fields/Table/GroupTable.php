@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,6 +25,14 @@ use Joomla\Registry\Registry;
  */
 class GroupTable extends Table
 {
+	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
 	/**
 	 * Class constructor.
 	 *
@@ -107,9 +115,19 @@ class GroupTable extends Table
 				$this->created = $date->toSql();
 			}
 
+			if (!(int) $this->modified)
+			{
+				$this->modified = $this->created;
+			}
+
 			if (empty($this->created_by))
 			{
 				$this->created_by = $user->get('id');
+			}
+
+			if (empty($this->modified_by))
+			{
+				$this->modified_by = $this->created_by;
 			}
 		}
 
@@ -119,6 +137,21 @@ class GroupTable extends Table
 		}
 
 		return true;
+	}
+
+	/**
+	 * Overloaded store function
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  mixed  False on failure, positive integer on success.
+	 *
+	 * @see     Table::store()
+	 * @since   4.0.0
+	 */
+	public function store($updateNulls = true)
+	{
+		return parent::store($updateNulls);
 	}
 
 	/**

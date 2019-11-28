@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,9 @@ namespace Joomla\Component\Finder\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -33,7 +35,7 @@ class StatisticsModel extends BaseDatabaseModel
 		// Initialise
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$data = new \JObject;
+		$data = new CMSObject;
 
 		$query->select('COUNT(term_id)')
 			->from($db->quoteName('#__finder_terms'));
@@ -69,7 +71,7 @@ class StatisticsModel extends BaseDatabaseModel
 		$db->setQuery($query);
 		$data->type_list = $db->loadObjectList();
 
-		$lang  = \JFactory::getLanguage();
+		$lang  = Factory::getLanguage();
 		$plugins = PluginHelper::getPlugin('finder');
 
 		foreach ($plugins as $plugin)

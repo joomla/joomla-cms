@@ -2,16 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Usergroup table class.
@@ -104,7 +105,7 @@ class Usergroup extends Table
 		$right = $left + 1;
 
 		// Execute this function recursively over all children
-		for ($i = 0, $n = count($children); $i < $n; $i++)
+		for ($i = 0, $n = \count($children); $i < $n; $i++)
 		{
 			// $right is the current right value, which is incremented on recursion return
 			$right = $this->rebuild($children[$i], $right);
@@ -125,7 +126,7 @@ class Usergroup extends Table
 		{
 			$db->execute();
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			return false;
 		}
@@ -174,12 +175,12 @@ class Usergroup extends Table
 
 		if ($this->id == 0)
 		{
-			throw new \UnexpectedValueException('Global Category not found');
+			throw new \UnexpectedValueException('Usergroup not found');
 		}
 
 		if ($this->parent_id == 0)
 		{
-			throw new \UnexpectedValueException('Root categories cannot be deleted.');
+			throw new \UnexpectedValueException('Root usergroup cannot be deleted.');
 		}
 
 		if ($this->lft == 0 || $this->rgt == 0)
@@ -202,9 +203,6 @@ class Usergroup extends Table
 		{
 			throw new \UnexpectedValueException('Left-Right data inconsistency. Cannot delete usergroup.');
 		}
-
-		// Delete the category dependencies
-		// @todo Remove all related threads, posts and subscriptions
 
 		// Delete the usergroup and its children
 		$query->clear()
@@ -246,7 +244,7 @@ class Usergroup extends Table
 		if (!empty($match_ids))
 		{
 			$query->clear()
-				->set('rules=' . str_repeat('replace(', 4 * count($ids)) . 'rules' . implode('', $replace))
+				->set('rules=' . str_repeat('replace(', 4 * \count($ids)) . 'rules' . implode('', $replace))
 				->update('#__viewlevels')
 				->where('id IN (' . implode(',', $match_ids) . ')');
 			$db->setQuery($query);

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,15 +12,24 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Updater\Update;
 
-/** @var JoomlaupdateViewDefault $this */
+/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView $this */
 ?>
-<fieldset>
-	<legend><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATES'); ?></legend>
+<fieldset class="options-grid-form options-grid-form-full">
+	<legend>
+		<?php echo Text::_('COM_JOOMLAUPDATE_UPDATE_CHECK'); ?>
+	</legend>
+	<p class="alert alert-info">
+		<span class="fa fa-info-circle" aria-hidden="true"></span>
+		<span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
+		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATES'); ?>
+	</p>
 	<p><?php echo Text::sprintf($this->langKey, $this->updateSourceKey); ?></p>
-	<div class="alert alert-success">
+	<p class="alert alert-success">
+		<span class="fa fa-check-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
 		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', '&#x200E;' . JVERSION); ?>
-	</div>
+	</p>
 	<?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof Update)) : ?>
+	<div>
 		<table class="table">
 			<tbody>
 			<tr>
@@ -28,8 +37,10 @@ use Joomla\CMS\Updater\Update;
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE_REINSTALL'); ?>
 				</td>
 				<td>
-					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>">
+					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>" target="_blank" rel="noopener noreferrer">
 						<?php echo $this->updateInfo['object']->downloadurl->_data; ?>
+						<span class="icon-out-2" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('JBROWSERTARGET_NEW'); ?></span>
 					</a>
 				</td>
 			</tr>
@@ -40,8 +51,10 @@ use Joomla\CMS\Updater\Update;
 						<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'); ?>
 					</td>
 					<td>
-						<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>">
+						<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>" target="_blank" rel="noopener noreferrer">
 							<?php echo $this->updateInfo['object']->get('infourl')->title; ?>
+							<span class="icon-out-2" aria-hidden="true"></span>
+							<span class="sr-only"><?php echo Text::_('JBROWSERTARGET_NEW'); ?></span>
 						</a>
 					</td>
 				</tr>
@@ -106,6 +119,7 @@ use Joomla\CMS\Updater\Update;
 			</tr>
 			</tfoot>
 		</table>
+	</div>
 	<?php endif; ?>
 
 </fieldset>

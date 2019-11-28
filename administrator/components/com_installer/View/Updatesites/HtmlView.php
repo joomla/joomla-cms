@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,24 +11,53 @@ namespace Joomla\Component\Installer\Administrator\View\Updatesites;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Installer\Administrator\Model\UpdatesitesModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 /**
  * Extension Manager Update Sites View
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       3.4
+ * @since  3.4
  */
 class HtmlView extends InstallerViewDefault
 {
+	/**
+	 * The search tools form
+	 *
+	 * @var    Form
+	 * @since  3.4
+	 */
+	public $filterForm;
+
+	/**
+	 * The active search filters
+	 *
+	 * @var    array
+	 * @since  3.4
+	 */
+	public $activeFilters = [];
+
+	/**
+	 * List of updatesites
+	 *
+	 * @var    \stdClass[]
+	 * @since 3.4
+	 */
 	protected $items;
 
+	/**
+	 * Pagination object
+	 *
+	 * @var    Pagination
+	 * @since 3.4
+	 */
 	protected $pagination;
-
-	protected $form;
 
 	/**
 	 * Display the view
@@ -41,18 +70,19 @@ class HtmlView extends InstallerViewDefault
 	 *
 	 * @throws  \Exception on errors
 	 */
-	public function display($tpl = null)
+	public function display($tpl = null): void
 	{
-		// Get data from the model
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+		/** @var UpdatesitesModel $model */
+		$model               = $this->getModel();
+		$this->items         = $model->getItems();
+		$this->pagination    = $model->getPagination();
+		$this->filterForm    = $model->getFilterForm();
+		$this->activeFilters = $model->getActiveFilters();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (count($errors = $model->getErrors()))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Display the view
@@ -66,21 +96,38 @@ class HtmlView extends InstallerViewDefault
 	 *
 	 * @since   3.4
 	 */
-	protected function addToolbar()
+	protected function addToolbar(): void
 	{
 		$canDo = ContentHelper::getActions('com_installer');
 
-		if ($canDo->get('core.edit.state'))
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
+
+		if ($canDo->get('core.edit'))
 		{
-			ToolbarHelper::publish('updatesites.publish', 'JTOOLBAR_ENABLE', true);
-			ToolbarHelper::unpublish('updatesites.unpublish', 'JTOOLBAR_DISABLE', true);
-			ToolbarHelper::divider();
+			ToolbarHelper::editList('updatesite.edit');
 		}
 
-		if ($canDo->get('core.delete'))
+		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'updatesites.delete', 'JTOOLBAR_DELETE');
-			ToolbarHelper::divider();
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
+
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->publish('updatesites.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
+			$childBar->unpublish('updatesites.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
+
+			if ($canDo->get('core.delete'))
+			{
+				$childBar->delete('updatesites.delete')->listCheck(true);
+			}
+
+			$childBar->checkin('updatesites.checkin')->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
@@ -88,9 +135,8 @@ class HtmlView extends InstallerViewDefault
 			ToolbarHelper::custom('updatesites.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 		}
 
-		\JHtmlSidebar::setAction('index.php?option=com_installer&view=updatesites');
-
 		parent::addToolbar();
+
 		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATESITES');
 	}
 }

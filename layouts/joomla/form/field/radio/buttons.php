@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -111,7 +111,7 @@ if ($readonly || $disabled)
 			$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
 			$oid        = $id . $i;
 			$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-			$attributes = array_filter(array($checked, $optionClass, $disabled, $style, $onchange, $onclick));
+			$attributes = array_filter(array($checked, $disabled, $style, $onchange, $onclick));
 			?>
 			<?php if ($required) : ?>
 				<?php $attributes[] = 'required'; ?>
