@@ -5,7 +5,7 @@
 	<field
 		name="client_id"
 		type="list"
-		label=""
+		label="JSITEADMIN"
 		filtermode="selector"
 		onchange="Joomla.resetFilters(this)"
 		>
