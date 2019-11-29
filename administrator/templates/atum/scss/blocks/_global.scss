@@ -18,7 +18,10 @@ body {
     filter: grayscale(1);
   }
   &.a11y_contrast {
-    filter: invert(100%);
+    filter: contrast(115%);
+  }
+  &.monochrome.a11y_contrast  {
+    filter: grayscale(1) contrast(115%);
   }
   &.a11y_highlight {
     a {
@@ -141,6 +144,11 @@ body .container-main {
 // Chosen (TEMPORARY)
 .chzn-container-single {
   width: auto !important;
+}
+
+// Multiple buttons wrapping
+.input-group input {
+  min-width: 220px;
 }
 
 // Multilingual associations specific
