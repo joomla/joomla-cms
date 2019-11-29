@@ -53,7 +53,7 @@ abstract class DatabaseHelper
 				'select'   => $select,
 			];
 
-			if (isset($ssl['dbencryption']) === true && (int) $ssl['dbencryption'] !== 0)
+			if (!empty($ssl['dbencryption']))
 			{
 				$options['ssl'] = [
 					'enable'             => true,
