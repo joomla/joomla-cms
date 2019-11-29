@@ -103,7 +103,7 @@ class UpdateModel extends BaseDatabaseModel
 			->join(
 				'INNER',
 				$db->quoteName('#__update_sites', 'us'),
-				$db->quoteName('us.update_site_id') . ' = ' . $db->quoteName('map.update_site_id'),
+				$db->quoteName('us.update_site_id') . ' = ' . $db->quoteName('map.update_site_id')
 			)
 			->where($db->quoteName('map.extension_id') . ' = :id')
 			->bind(':id', $id, ParameterType::INTEGER);
