@@ -6,11 +6,11 @@
 Joomla = window.Joomla || {};
 
 ((window, document, Joomla) => {
-  Joomla.initReCaptcha2 = () => {
+  Joomla.initReCaptchaInvisible = () => {
     'use strict';
 
     const elements = [].slice.call(document.getElementsByClassName('g-recaptcha'));
-    const optionKeys = ['sitekey', 'theme', 'size', 'tabindex', 'callback', 'expired-callback', 'error-callback'];
+    const optionKeys = ['sitekey', 'badge', 'size', 'tabindex', 'callback', 'expired-callback', 'error-callback'];
 
     elements.forEach((element) => {
       let options = {};
@@ -19,9 +19,10 @@ Joomla = window.Joomla || {};
         options = element.dataset;
       } else {
         optionKeys.forEach((key) => {
-          const optionKeyFq = `data-${key}`;
+          const optionKeyFq = `data-${optionKeys[key]}`;
+
           if (element.hasAttribute(optionKeyFq)) {
-            options[key] = element.getAttribute(optionKeyFq);
+            options[optionKeys[key]] = element.getAttribute(optionKeyFq);
           }
         });
       }
@@ -31,6 +32,9 @@ Joomla = window.Joomla || {};
         'data-recaptcha-widget-id',
         window.grecaptcha.render(element, options),
       );
+
+      // Execute the invisible reCAPTCHA
+      window.grecaptcha.execute(element.getAttribute('data-recaptcha-widget-id'));
     });
   };
 })(window, document, Joomla);
