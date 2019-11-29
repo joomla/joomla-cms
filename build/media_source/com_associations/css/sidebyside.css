@@ -86,7 +86,11 @@ html[dir=rtl] .target-text {
 }
 
 /* Responsive layout */
-@media (max-width: 991.98px) {
+@media (max-width: 1140px) {
+	.sidebyside #reference-association {
+		margin-top: 6.2rem;
+	}
+
 	.sidebyside .langtarget {
 		float: none;
 	}
