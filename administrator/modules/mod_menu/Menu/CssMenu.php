@@ -9,12 +9,12 @@
 
 namespace Joomla\Module\Menu\Administrator\Menu;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Menu\MenuItem;
+use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
@@ -31,16 +31,16 @@ class CssMenu
 	/**
 	 * The root of the menu
 	 *
-	 * @var    MenuItem
+	 * @var    AdministratorMenuItem
 	 *
 	 * @since  4.0.0
 	 */
 	protected $root;
 
 	/**
-	 * An array of MenuItem nodes
+	 * An array of AdministratorMenuItem nodes
 	 *
-	 * @var    MenuItem[]
+	 * @var    AdministratorMenuItem[]
 	 *
 	 * @since  4.0.0
 	 */
@@ -92,7 +92,7 @@ class CssMenu
 	public function __construct(CMSApplication $application)
 	{
 		$this->application = $application;
-		$this->root = new MenuItem;
+		$this->root = new AdministratorMenuItem;
 	}
 
 	/**
@@ -101,7 +101,7 @@ class CssMenu
 	 * @param   Registry  $params   Menu configuration parameters
 	 * @param   bool      $enabled  Whether the menu should be enabled or disabled
 	 *
-	 * @return  MenuItem  Root node of the menu tree
+	 * @return  AdministratorMenuItem  Root node of the menu tree
 	 *
 	 * @since   3.7.0
 	 */
@@ -113,7 +113,7 @@ class CssMenu
 
 		if ($menutype === '*')
 		{
-			$name   = $this->params->get('preset', 'joomla');
+			$name   = $this->params->get('preset', 'default');
 			$this->root = MenusHelper::loadPreset($name);
 		}
 		else
@@ -128,21 +128,21 @@ class CssMenu
 				$this->params->set('recovery', true);
 
 				// In recovery mode, load the preset inside a special root node.
-				$this->root = new MenuItem(['level' => 0]);
-				$heading = new MenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading']);
+				$this->root = new AdministratorMenuItem(['level' => 0]);
+				$heading = new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading']);
 				$this->root->addChild($heading);
 
-				MenusHelper::loadPreset('joomla', true, $heading);
+				MenusHelper::loadPreset('default', true, $heading);
 
 				$this->preprocess($this->root);
 
-				$this->root->addChild(new MenuItem(['type' => 'separator']));
+				$this->root->addChild(new AdministratorMenuItem(['type' => 'separator']));
 
 				// Add link to exit recovery mode
 				$uri = clone Uri::getInstance();
 				$uri->setVar('recover_menu', 0);
 
-				$this->root->addChild(new MenuItem(['title' => 'MOD_MENU_RECOVERY_EXIT', 'type' => 'url', 'url' => $uri->toString()]));
+				$this->root->addChild(new AdministratorMenuItem(['title' => 'MOD_MENU_RECOVERY_EXIT', 'type' => 'url', 'url' => $uri->toString()]));
 
 				return $this->root;
 			}
@@ -156,8 +156,8 @@ class CssMenu
 	/**
 	 * Method to render a given level of a menu using provided layout file
 	 *
-	 * @param   string    $layoutFile  The layout file to be used to render
-	 * @param   MenuItem  $node        Node to render the children of
+	 * @param   string                 $layoutFile  The layout file to be used to render
+	 * @param   AdministratorMenuItem  $node        Node to render the children of
 	 *
 	 * @return  void
 	 *
@@ -182,8 +182,8 @@ class CssMenu
 	/**
 	 * Check the flat list of menu items for important links
 	 *
-	 * @param   MenuItem  $node    The menu items array
-	 * @param   Registry  $params  Module options
+	 * @param   AdministratorMenuItem  $node    The menu items array
+	 * @param   Registry               $params  Module options
 	 *
 	 * @return  boolean  Whether to show recovery menu
 	 *
@@ -201,11 +201,11 @@ class CssMenu
 		}
 
 		$items      = $node->getChildren(true);
-		$types      = ArrayHelper::getColumn($items, 'type');
-		$elements   = ArrayHelper::getColumn($items, 'element');
-		$rMenu      = $authMenus && !in_array('com_menus', $elements);
-		$rModule    = $authModules && !in_array('com_modules', $elements);
-		$rContainer = !in_array('container', $types);
+		$types      = array_column($items, 'type');
+		$elements   = array_column($items, 'element');
+		$rMenu      = $authMenus && !\in_array('com_menus', $elements);
+		$rModule    = $authModules && !\in_array('com_modules', $elements);
+		$rContainer = !\in_array('container', $types);
 
 		if ($rMenu || $rModule || $rContainer)
 		{
@@ -253,7 +253,7 @@ class CssMenu
 	/**
 	 * Filter and perform other preparatory tasks for loaded menu items based on access rights and module configurations for display
 	 *
-	 * @param   MenuItem  $parent  A menu item to process
+	 * @param   AdministratorMenuItem  $parent  A menu item to process
 	 *
 	 * @return  array
 	 *
@@ -269,15 +269,17 @@ class CssMenu
 
 		/**
 		 * Trigger onPreprocessMenuItems for the current level of backend menu items.
-		 * $children is an array of MenuItem objects. A plugin can traverse the whole tree,
+		 * $children is an array of AdministratorMenuItem objects. A plugin can traverse the whole tree,
 		 * but new nodes will only be run through this method if their parents have not been processed yet.
 		 */
 		$this->application->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.module', $children, $this->params, $this->enabled));
 
 		foreach ($children as $item)
 		{
+			$itemParams = $item->getParams();
+
 			// Exclude item with menu item option set to exclude from menu modules
-			if ($item->getParams()->get('menu_show', 1) == 0)
+			if ($itemParams->get('menu_show', 1) == 0)
 			{
 				$parent->removeChild($item);
 				continue;
@@ -353,7 +355,8 @@ class CssMenu
 			{
 				continue;
 			}
-			elseif ($item->link === 'index.php?option=com_cpanel&view=help')
+			elseif ($item->link === 'index.php?option=com_cpanel&view=help'
+				|| $item->link === 'index.php?option=com_cpanel&view=cpanel&dashboard=help')
 			{
 				if ($this->params->get('showhelp', 1))
 				{
@@ -385,7 +388,7 @@ class CssMenu
 				list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
 			}
 			// Special case for components which only allow super user access
-			elseif (in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin'))
+			elseif (\in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin'))
 			{
 				$parent->removeChild($item);
 				continue;
@@ -413,7 +416,7 @@ class CssMenu
 			}
 
 			// Exclude if link is invalid
-			if (!in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === '')
+			if (!\in_array($item->type, array('separator', 'heading', 'container')) && trim($item->link) === '')
 			{
 				$parent->removeChild($item);
 				continue;
@@ -428,7 +431,7 @@ class CssMenu
 			// Populate automatic children for container items
 			if ($item->type === 'container')
 			{
-				$exclude    = (array) $item->params->get('hideitems') ?: array();
+				$exclude    = (array) $itemParams->get('hideitems') ?: array();
 				$components = MenusHelper::getMenuItems('main', false, $exclude);
 
 				// We are adding the nodes first to preprocess them, then sort them and add them again.
@@ -447,7 +450,7 @@ class CssMenu
 			}
 
 			// Exclude if there are no child items under heading or container
-			if (in_array($item->type, array('heading', 'container')) && !$item->hasChildren() && empty($item->components))
+			if (\in_array($item->type, array('heading', 'container')) && !$item->hasChildren() && empty($item->components))
 			{
 				$parent->removeChild($item);
 				continue;
@@ -476,7 +479,7 @@ class CssMenu
 				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
 			}
 
-			if ($item->type === 'separator' && $item->params->get('text_separator') == 0)
+			if ($item->type === 'separator' && $itemParams->get('text_separator') == 0)
 			{
 				$item->title = '';
 			}
@@ -497,7 +500,7 @@ class CssMenu
 	 * Method to get the CSS class name for an icon identifier or create one if
 	 * a custom image path is passed as the identifier
 	 *
-	 * @param   MenuItem  $node  Node to get icon data from
+	 * @param   AdministratorMenuItem  $node  Node to get icon data from
 	 *
 	 * @return  string	CSS class name
 	 *
@@ -530,7 +533,7 @@ class CssMenu
 			$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
 		}
 
-		$html = 'fa-fw fa fa-' . $class;
+		$html = 'fa fa-' . $class . ' fa-fw';
 
 		return $html;
 	}

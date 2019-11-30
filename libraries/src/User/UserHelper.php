@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\User;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Authentication\Password\Argon2idHandler;
 use Joomla\Authentication\Password\Argon2iHandler;
@@ -117,7 +117,7 @@ abstract class UserHelper
 		$user = new User($userId);
 
 		// Add the user to the group if necessary.
-		if (!in_array($groupId, $user->groups))
+		if (!\in_array($groupId, $user->groups))
 		{
 			// Check whether the group exists.
 			$db = Factory::getDbo();
@@ -247,7 +247,7 @@ abstract class UserHelper
 		$results = $db->loadObjectList();
 
 		// Set the titles for the user groups.
-		for ($i = 0, $n = count($results); $i < $n; $i++)
+		for ($i = 0, $n = \count($results); $i < $n; $i++)
 		{
 			$user->groups[$results[$i]->id] = $results[$i]->id;
 		}
@@ -314,7 +314,6 @@ abstract class UserHelper
 	public static function activateUser($activation)
 	{
 		$db       = Factory::getDbo();
-		$nullDate = $db->getNullDate();
 
 		// Let's get the id of the user we want to activate
 		$query = $db->getQuery(true)
@@ -322,9 +321,8 @@ abstract class UserHelper
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('activation') . ' = :activation')
 			->where($db->quoteName('block') . ' = 1')
-			->where($db->quoteName('lastvisitDate') . ' = :nullDate')
-			->bind(':activation', $activation)
-			->bind(':nullDate', $nullDate);
+			->where($db->quoteName('lastvisitDate') . ' IS NULL')
+			->bind(':activation', $activation);
 		$db->setQuery($query);
 		$id = (int) $db->loadResult();
 
@@ -509,7 +507,7 @@ abstract class UserHelper
 	public static function genRandomPassword($length = 8)
 	{
 		$salt = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-		$base = strlen($salt);
+		$base = \strlen($salt);
 		$makepass = '';
 
 		/*
@@ -520,12 +518,12 @@ abstract class UserHelper
 		 * predictable.
 		 */
 		$random = Crypt::genRandomBytes($length + 1);
-		$shift = ord($random[0]);
+		$shift = \ord($random[0]);
 
 		for ($i = 1; $i <= $length; ++$i)
 		{
-			$makepass .= $salt[($shift + ord($random[$i])) % $base];
-			$shift += ord($random[$i]);
+			$makepass .= $salt[($shift + \ord($random[$i])) % $base];
+			$shift += \ord($random[$i]);
 		}
 
 		return $makepass;

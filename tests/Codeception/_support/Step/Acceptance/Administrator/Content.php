@@ -20,6 +20,35 @@ use Page\Acceptance\Administrator\ContentListPage;
  */
 class Content extends Admin
 {
+
+	/**
+	 * Method to create a article.
+	 *
+	 * @param  Array  articleDetails Array with Article Details like Title, Alias, Content etc
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
+	public function createArticle($articleDetails)
+	{
+		$I = $this;
+		$I->amOnPage(ContentListPage::$url);
+		$I->waitForElement(ContentListPage::$pageTitle);
+		$I->clickToolbarButton('New');
+		$I->waitForElement(ContentListPage::$articleTitleField, 30);
+		$I->fillField(ContentListPage::$articleTitleField, $articleDetails['title']);
+		$I->fillField(ContentListPage::$articleAliasField, $articleDetails['alias']);
+		$I->clickToolbarButton('Save & Close');
+		$I->waitForElement(ContentListPage::$articleSearchField, $I->getConfig('timeout'));
+		$I->click(ContentListPage::$systemMessageAlertClose);
+		$I->fillField(ContentListPage::$articleSearchField, $articleDetails['title']);
+		$I->click(ContentListPage::$searchButton);
+		$I->see($articleDetails['title']);
+	}
+
 	/**
 	 * Method to feature a article.
 	 *
@@ -35,11 +64,14 @@ class Content extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(ContentListPage::$url);
-		$I->waitForElement(ContentListPage::$filterSearch, TIMEOUT);
-		$I->searchForItem($title);
+		$I->waitForElement(ContentListPage::$filterSearch, $I->getConfig('timeout'));
+		$I->searchForArticle($title);
 		$I->checkAllResults();
+		$I->clickToolbarButton('Action');
+		$I->wait(2);
 		$I->clickToolbarButton('feature');
-		$I->seeNumberOfElements(ContentListPage::$seeFeatured, 1);
+		$I->wait(2);
+		$I->see($title);
 	}
 
 	/**
@@ -58,15 +90,15 @@ class Content extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(ContentListPage::$url);
-		$I->waitForElement(ContentListPage::$filterSearch, TIMEOUT);
+		$I->waitForElement(ContentListPage::$filterSearch, $I->getConfig('timeout'));
 		$I->searchForItem($title);
 		$I->checkAllResults();
 		$I->click($title);
-		$I->waitForElement(['id' => "jform_access"], TIMEOUT);
+		$I->waitForElement(['id' => "jform_access"], $I->getConfig('timeout'));
 		$I->selectOption(['id' => "jform_access"], $accessLevel);
 		$I->click(ContentListPage::$dropDownToggle);
 		$I->clickToolbarButton('Save & Close');
-		$I->waitForElement(ContentListPage::$filterSearch, TIMEOUT);
+		$I->waitForElement(ContentListPage::$filterSearch, $I->getConfig('timeout'));
 		$I->see($accessLevel, ContentListPage::$seeAccessLevel);
 	}
 
@@ -84,11 +116,36 @@ class Content extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(ContentListPage::$url);
-		$I->waitForElement(ContentListPage::$filterSearch, TIMEOUT);
-		$I->searchForItem($title);
+		$I->waitForElement(ContentListPage::$filterSearch, $I->getConfig('timeout'));
+		$I->searchForArticle($title);
 		$I->checkAllResults();
+		$I->clickToolbarButton('Action');
+		$I->wait(2);
 		$I->clickToolbarButton('unpublish');
-		$I->seeNumberOfElements(ContentListPage::$seeUnpublished, 1);
+		$I->filterByCondition($title, "Unpublished");
+	}
+
+	/**
+	 * Method to Publish an article.
+	 *
+	 * @param   string  $title  Title
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 * @throws Exception
+	 */
+	public function publishArticle($title)
+	{
+		$I = $this;
+		$I->amOnPage(ContentListPage::$url);
+		$I->waitForElement(ContentListPage::$filterSearch, $I->getConfig('timeout'));
+		$I->searchForArticle($title);
+		$I->checkAllResults();
+		$I->clickToolbarButton('Action');
+		$I->wait(2);
+		$I->clickToolbarButton('publish');
+		$I->filterByCondition($title, "Published");
 	}
 
 	/**
@@ -106,10 +163,54 @@ class Content extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(ContentListPage::$url);
-		$I->waitForElement(ContentListPage::$filterSearch, TIMEOUT);
-		$this->articleManagerPage->haveItemUsingSearch($title);
+		$I->waitForElement(ContentListPage::$filterSearch, $I->getConfig('timeout'));
+		$I->searchForArticle($title);
+		$I->checkAllResults();
+		$I->clickToolbarButton('Action');
+		$I->wait(2);
 		$I->clickToolbarButton('trash');
-		$I->searchForItem($title);
-		$I->dontSee($title);
+		$I->filterByCondition($title, "Trashed");
+	}
+
+	/**
+	 * Method to Delete an article.
+	 *
+	 * @param   string  $title  Title
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
+	public function deleteArticle($title)
+	{
+		$I = $this;
+		$I->amOnPage(ContentListPage::$url);
+		$I->waitForElement(ContentListPage::$filterSearch, $I->getConfig('timeout'));
+		$I->filterByCondition($title, "Trashed");
+		$I->searchForArticle($title);
+		$I->checkAllResults();
+		$I->clickToolbarButton('empty trash');
+		$I->wait(2);
+		$I->acceptPopup();
+	}
+
+	public function searchForArticle($title)
+	{
+		$I = $this;
+		$I->waitForElement(ContentListPage::$articleSearchField, $I->getConfig('timeout'));
+		$I->fillField(ContentListPage::$articleSearchField, $title);
+		$I->click(ContentListPage::$searchButton);
+		$I->see($title);
+	}
+
+	public function filterByCondition($title, $condition)
+	{
+		$I = $this;
+		$I->click("//div[@class='js-stools-container-bar']//button[contains(text(), 'Filter')]");
+		$I->wait(2);
+		$I->selectOptionInChosenByIdUsingJs('filter_condition', $condition);
+		$I->see($title);
 	}
 }

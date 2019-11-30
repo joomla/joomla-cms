@@ -14,8 +14,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-$document = Factory::getDocument();
-
 $app = Factory::getApplication();
 
 $function  = $app->input->getCmd('function');
@@ -33,17 +31,10 @@ endif;
 	<?php $name = $this->escape($item->name); ?>
 	<?php $desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
 
-	<?php if ($document->direction != 'rtl') : ?>
 	<li class="list-group-item">
 		<a href="<?php echo Route::_($link); ?>" class="mr-2<?php echo $function ? ' select-link" data-function="' . $this->escape($function) : ''; ?>">
 			<strong><?php echo $name; ?></strong></a>
 		<small><?php echo $desc; ?></small>
 	</li>
-	<?php else : ?>
-	<li class="list-group-item">
-		<small><?php echo $desc; ?></small>
-		<a href="<?php echo Route::_($link); ?>" class="mr-2<?php echo $function ? ' select-link" data-function="' . $this->escape($function) : ''; ?>"><strong><?php echo $name; ?></strong></a>
-	</li>
-	<?php endif; ?>
 <?php endforeach; ?>
 </ul>

@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\Version\Administrator\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Version;
 

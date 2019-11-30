@@ -363,7 +363,7 @@ class PlgSystemStats extends CMSPlugin
 	 */
 	private function getStatsData()
 	{
-		return [
+		$data = [
 			'unique_id'   => $this->getUniqueId(),
 			'php_version' => PHP_VERSION,
 			'db_type'     => $this->db->name,
@@ -371,6 +371,14 @@ class PlgSystemStats extends CMSPlugin
 			'cms_version' => JVERSION,
 			'server_os'   => php_uname('s') . ' ' . php_uname('r'),
 		];
+
+		// Check if we have a MariaDB version string and extract the proper version from it
+		if (preg_match('/^(?:5\.5\.5-)?(mariadb-)?(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)/i', $data['db_version'], $versionParts))
+		{
+			$data['db_version'] = $versionParts['major'] . '.' . $versionParts['minor'] . '.' . $versionParts['patch'];
+		}
+
+		return $data;
 	}
 
 	/**

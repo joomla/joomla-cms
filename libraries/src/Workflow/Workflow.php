@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Workflow;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Database\ParameterType;
@@ -134,7 +134,7 @@ class Workflow
 	 */
 	protected function getComponent()
 	{
-		if (is_null($this->component))
+		if (\is_null($this->component))
 		{
 			$parts = explode('.', $this->extension);
 
@@ -154,7 +154,7 @@ class Workflow
 	 */
 	public function executeTransition($pks, $transition_id)
 	{
-		if (!is_array($pks))
+		if (!\is_array($pks))
 		{
 			$pks = [(int) $pks];
 		}
@@ -162,7 +162,7 @@ class Workflow
 		$pks = ArrayHelper::toInteger($pks);
 		$pks = array_filter($pks);
 
-		if (!count($pks))
+		if (!\count($pks))
 		{
 			return true;
 		}
@@ -196,7 +196,7 @@ class Workflow
 		{
 			$assoc = $this->getAssociation($pk);
 
-			if (!in_array($transition->from_stage_id, [-1, $assoc->stage_id]))
+			if (!\in_array($transition->from_stage_id, [-1, $assoc->stage_id]))
 			{
 				return false;
 			}
@@ -292,7 +292,7 @@ class Workflow
 	 */
 	public function updateAssociations($pks, $state)
 	{
-		if (!is_array($pks))
+		if (!\is_array($pks))
 		{
 			$pks = [$pks];
 		}

@@ -12,7 +12,6 @@ namespace Joomla\Component\Finder\Administrator\View\Maps;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -119,8 +118,6 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 		// Prepare the view.
 		$this->addToolbar();
 		$this->sidebar = \JHtmlSidebar::render();
@@ -149,8 +146,8 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
@@ -160,14 +157,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		Toolbar::getInstance('toolbar')->appendButton(
-			'Popup',
-			'bars',
-			'COM_FINDER_STATISTICS',
-			'index.php?option=com_finder&view=statistics&tmpl=component',
-			550,
-			350
-		);
+		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', 'COM_FINDER_STATISTICS_TITLE');
 		ToolbarHelper::divider();
 
 		if ($canDo->get('core.delete'))

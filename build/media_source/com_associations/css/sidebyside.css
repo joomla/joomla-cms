@@ -32,9 +32,26 @@
 	border: 0 !important;
 }
 
+.sidebyside .langtarget {
+	float: left;
+}
+
+.sidebyside .modaltarget {
+	float: left;
+	margin-left: .5rem;
+}
+
+.sidebyside #target-association {
+	margin-top: .5rem;
+}
+
+.sidebyside #reference-association {
+	margin-top: 3.35rem;
+}
+
 .target-text {
 	float: left;
-	width: 30%;
+	width: auto;
 }
 
 /* RTL overrides */
@@ -54,15 +71,54 @@ html[dir=rtl] .sidebyside .full-width .inner-panel {
 	padding: 0 !important;
 }
 
+html[dir=rtl] .sidebyside .langtarget {
+	float: right;
+}
+
+html[dir=rtl] .sidebyside .modaltarget {
+	float: right;
+	margin-left: 0;
+	margin-right: .5rem;
+}
+
 html[dir=rtl] .target-text {
 	float: right;
 }
 
 /* Responsive layout */
-@media (max-width: 767px) {
+@media (max-width: 1140px) {
+	.sidebyside #reference-association {
+		margin-top: 6.2rem;
+	}
+
+	.sidebyside .langtarget {
+		float: none;
+	}
+
+	.sidebyside .modaltarget {
+		float: left;
+		margin-left: 0;
+	}
+
+	html[dir=rtl] .sidebyside .langtarget {
+		float: none;
+	}
+
+	html[dir=rtl] .sidebyside .modaltarget {
+		float: right;
+		margin-left: 0;
+		margin-right: 0;
+	}
+}
+
+@media (max-width: 767.98px) {
 	.sidebyside .outer-panel {
 		float: none;
 		width: 100%;
+	}
+
+	.sidebyside #reference-association {
+		margin-top: 0;
 	}
 
 	.sidebyside #left-panel .inner-panel {

@@ -4,7 +4,7 @@
  * @subpackage  com_actionlogs
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Component\Actionlogs\Administrator\Field;
@@ -58,12 +58,12 @@ class LogcreatorField extends ListField
 			// Construct the query
 			$query = $db->getQuery(true)
 				->select($db->quoteName('u.id', 'value'))
-				->select($db->quoteName('u.name', 'text'))
+				->select($db->quoteName('u.username', 'text'))
 				->from($db->quoteName('#__users', 'u'))
 				->join('INNER', $db->quoteName('#__action_logs', 'c') . ' ON ' . $db->quoteName('c.user_id') . ' = ' . $db->quoteName('u.id'))
 				->group($db->quoteName('u.id'))
-				->group($db->quoteName('u.name'))
-				->order($db->quoteName('u.name'));
+				->group($db->quoteName('u.username'))
+				->order($db->quoteName('u.username'));
 
 			// Setup the query
 			$db->setQuery($query);
