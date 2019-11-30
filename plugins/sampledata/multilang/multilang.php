@@ -1254,7 +1254,13 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		foreach ($langlist as $lang)
 		{
-			$file          = $path . '/' . $lang . '/' . $lang . '.xml';
+			$file = $path . '/' . $lang . '/' . $lang . '.xml';
+
+			if (!is_file($file))
+			{
+				$file = $path . '/' . $lang . '/langmetadata.xml';
+			}
+
 			$info          = Installer::parseXMLInstallFile($file);
 			$row           = new stdClass;
 			$row->language = $lang;
