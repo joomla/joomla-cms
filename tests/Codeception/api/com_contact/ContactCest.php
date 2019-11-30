@@ -80,7 +80,7 @@ class ContactCest
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendGET('/contact/1', ['name' => 'Frankie Blogs']);
+		$I->sendPATCH('/contact/1', ['name' => 'Frankie Blogs', 'state' => -2]);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amHttpAuthenticated('admin', 'admin');
