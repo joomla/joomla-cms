@@ -333,7 +333,7 @@ final class SiteApplication extends CMSApplication
 				// Get show_page_heading from com_menu global settings
 				$params[$hash]->def('show_page_heading', $temp->get('show_page_heading'));
 
-				$params[$hash]->merge($menu->params);
+				$params[$hash]->merge($menu->getParams());
 				$title = $menu->title;
 			}
 			else
