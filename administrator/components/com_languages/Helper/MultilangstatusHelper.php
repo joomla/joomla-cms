@@ -74,7 +74,7 @@ abstract class MultilangstatusHelper
 		// Check for published Content Languages.
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName('a.lang_code','lang_code'))
+			->select($db->quoteName('a.lang_code', 'lang_code'))
 			->select($db->quoteName('a.published', 'published'))
 			->from($db->quoteName('#__languages', 'a'));
 		$db->setQuery($query);
@@ -157,7 +157,7 @@ abstract class MultilangstatusHelper
 		$query = $db->getQuery(true)
 			->select('u.name, (' . $alang . ') as alang, (' . $slang . ') as slang, (' . $mlang . ') as mlang')
 			->from($db->quoteName('#__users', 'u'))
-			->join('LEFT', $db->quoteName('#__contact_details', 'cd'). ' ON ' . $db->quoteName('cd.user_id') . ' = ' . $db->quoteName('u.id'))
+			->join('LEFT', $db->quoteName('#__contact_details', 'cd') . ' ON ' . $db->quoteName('cd.user_id') . ' = ' . $db->quoteName('u.id'))
 			->where('EXISTS (SELECT 1 from' . $db->quoteName('#__content', 'c') . ' where ' . $db->quoteName('c.created_by') . ' = ' . $db->quoteName('u.id') . ')')
 			->group('u.id, u.name');
 
