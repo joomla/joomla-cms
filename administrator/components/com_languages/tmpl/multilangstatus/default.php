@@ -64,7 +64,7 @@ $home_pages        = array_column($this->homepages, 'language');
 				<div class="alert alert-warning">
 					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
 					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_HOME_NOTPUBLISHED', $status->lang_code, $status->lang_code); ?>
+					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_HOME_UNPUBLISHED', $status->lang_code, $status->lang_code); ?>
 				</div>
 			<?php endif; ?>
 			<?php // Displays error when both Content Language and Home page are unpublished. ?>
