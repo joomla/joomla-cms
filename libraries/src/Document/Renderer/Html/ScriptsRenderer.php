@@ -9,7 +9,7 @@
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
 
@@ -58,7 +58,7 @@ class ScriptsRenderer extends DocumentRenderer
 			$buffer .= $tab;
 
 			// This is for IE conditional statements support.
-			if (!is_null($conditional))
+			if (!\is_null($conditional))
 			{
 				$buffer .= '<!--[if ' . $conditional . ']>';
 			}
@@ -75,13 +75,13 @@ class ScriptsRenderer extends DocumentRenderer
 				}
 
 				// Don't add type attribute if document is HTML5 and it's a default mime type. 'mime' is for B/C.
-				if (in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && in_array($value, $defaultJsMimes))
+				if (\in_array($attrib, array('type', 'mime')) && $this->_doc->isHtml5() && \in_array($value, $defaultJsMimes))
 				{
 					continue;
 				}
 
 				// B/C: If defer and async is false or empty don't render the attribute.
-				if (in_array($attrib, array('defer', 'async')) && !$value)
+				if (\in_array($attrib, array('defer', 'async')) && !$value)
 				{
 					continue;
 				}
@@ -92,7 +92,7 @@ class ScriptsRenderer extends DocumentRenderer
 					$attrib = 'type';
 				}
 				// B/C defer and async can be set to yes when using the old method.
-				elseif (in_array($attrib, array('defer', 'async')) && $value === true)
+				elseif (\in_array($attrib, array('defer', 'async')) && $value === true)
 				{
 					$value = $attrib;
 				}
@@ -100,7 +100,7 @@ class ScriptsRenderer extends DocumentRenderer
 				// Add attribute to script tag output.
 				$buffer .= ' ' . htmlspecialchars($attrib, ENT_COMPAT, 'UTF-8');
 
-				if (!($this->_doc->isHtml5() && in_array($attrib, $html5NoValueAttributes)))
+				if (!($this->_doc->isHtml5() && \in_array($attrib, $html5NoValueAttributes)))
 				{
 					// Json encode value if it's an array.
 					$value = !is_scalar($value) ? json_encode($value) : $value;
@@ -112,7 +112,7 @@ class ScriptsRenderer extends DocumentRenderer
 			$buffer .= '></script>';
 
 			// This is for IE conditional statements support.
-			if (!is_null($conditional))
+			if (!\is_null($conditional))
 			{
 				$buffer .= '<![endif]-->';
 			}
@@ -124,7 +124,7 @@ class ScriptsRenderer extends DocumentRenderer
 		foreach ($this->_doc->_script as $type => $contents)
 		{
 			// Test for B.C. in case someone still store script declarations as single string
-			if (is_string($contents))
+			if (\is_string($contents))
 			{
 				$contents = [$contents];
 			}
@@ -133,7 +133,7 @@ class ScriptsRenderer extends DocumentRenderer
 			{
 				$buffer .= $tab . '<script';
 
-				if (!is_null($type) && (!$this->_doc->isHtml5() || !in_array($type, $defaultJsMimes)))
+				if (!\is_null($type) && (!$this->_doc->isHtml5() || !\in_array($type, $defaultJsMimes)))
 				{
 					$buffer .= ' type="' . $type . '"';
 				}

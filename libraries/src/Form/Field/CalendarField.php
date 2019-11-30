@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -175,8 +175,8 @@ class CalendarField extends FormField
 			$this->filltable    = (string) $this->element['filltable'] ? (string) $this->element['filltable'] : 'true';
 			$this->timeformat   = (int) $this->element['timeformat'] ? (int) $this->element['timeformat'] : 24;
 			$this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : 'false';
-			$this->minyear      = strlen((string) $this->element['minyear']) ? (string) $this->element['minyear'] : null;
-			$this->maxyear      = strlen((string) $this->element['maxyear']) ? (string) $this->element['maxyear'] : null;
+			$this->minyear      = \strlen((string) $this->element['minyear']) ? (string) $this->element['minyear'] : null;
+			$this->maxyear      = \strlen((string) $this->element['maxyear']) ? (string) $this->element['maxyear'] : null;
 
 			if ($this->maxyear < 0 || $this->minyear > 0)
 			{
@@ -341,7 +341,7 @@ class CalendarField extends FormField
 		// Make sure there is a valid SimpleXMLElement.
 		if (!($this->element instanceof \SimpleXMLElement))
 		{
-			throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
 		}
 
 		// Get the field filter type.

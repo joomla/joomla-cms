@@ -17,7 +17,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('behavior.tabstate');
 
 $user      = Factory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -82,7 +81,7 @@ if ($saveOrder)
 						<td class="text-center">
 							<?php echo HTMLHelper::_('grid.id', $i, $item->extension_id); ?>
 						</td>
-						<td class="order text-center d-none d-md-table-cell">
+						<td class="text-center d-none d-md-table-cell">
 							<?php
 							$iconClass = '';
 							if (!$canChange)

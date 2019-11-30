@@ -80,8 +80,8 @@ class RequestModel extends AdminModel
 	 *
 	 * @return  Table  A Table object
 	 *
-	 * @since   3.9.0
 	 * @throws  \Exception
+	 * @since   3.9.0
 	 */
 	public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
 	{
@@ -263,11 +263,11 @@ class RequestModel extends AdminModel
 
 		$userId = (int) $db->setQuery(
 			$db->getQuery(true)
-				->select('id')
+				->select($db->quoteName('id'))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = ' . $db->quote($table->email)),
-			0,
-			1
+				->where($db->quoteName('email') . ' = :email')
+				->bind(':email', $table->email)
+				->setLimit(1)
 		)->loadResult();
 
 		if ($userId)
@@ -316,13 +316,13 @@ class RequestModel extends AdminModel
 		{
 			$app = Factory::getApplication();
 
-			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 			$substitutions = [
 				'[SITENAME]' => $app->get('sitename'),
 				'[URL]'      => Uri::root(),
-				'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode),
-				'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode),
+				'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode, true),
+				'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode, true),
 				'[TOKEN]'    => $token,
 				'\\n'        => "\n",
 			];
@@ -436,10 +436,12 @@ class RequestModel extends AdminModel
 
 		$query = $db->getQuery(true)
 			->select('COUNT(id)')
-			->from('#__privacy_requests')
-			->where('email = ' . $db->quote($validatedData['email']))
-			->where('request_type = ' . $db->quote($validatedData['request_type']))
-			->where('status IN (0, 1)');
+			->from($db->quoteName('#__privacy_requests'))
+			->where($db->quoteName('email') . ' = :email')
+			->where($db->quoteName('request_type') . ' = :requesttype')
+			->whereIn($db->quoteName('status'), [0, 1])
+			->bind(':email', $validatedData['email'])
+			->bind(':requesttype', $validatedData['request_type']);
 
 		$activeRequestCount = (int) $db->setQuery($query)->loadResult();
 

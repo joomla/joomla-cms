@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -155,8 +154,6 @@ class HtmlView extends BaseHtmlView
 			Factory::getApplication()->enqueueMessage(Text::_('COM_FINDER_INDEX_NO_DATA') . '  ' . Text::_('COM_FINDER_INDEX_TIP'), 'notice');
 		}
 
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 		// Configure the toolbar.
 		$this->addToolbar();
 		$this->sidebar = \JHtmlSidebar::render();
@@ -190,8 +187,8 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
@@ -200,7 +197,7 @@ class HtmlView extends BaseHtmlView
 			$childBar->unpublish('index.unpublish')->listCheck(true);
 		}
 
-		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
+		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', 'COM_FINDER_STATISTICS_TITLE');
 
 		if ($canDo->get('core.delete'))
 		{

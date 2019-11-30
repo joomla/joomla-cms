@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\View;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -142,7 +142,7 @@ class CategoryView extends HtmlView
 		// Check whether category access level allows access.
 		$groups = $user->getAuthorisedViewLevels();
 
-		if (!in_array($category->access, $groups))
+		if (!\in_array($category->access, $groups))
 		{
 			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -150,7 +150,7 @@ class CategoryView extends HtmlView
 		// Check whether category access level allows access.
 		$groups = $user->getAuthorisedViewLevels();
 
-		if (!in_array($category->access, $groups))
+		if (!\in_array($category->access, $groups))
 		{
 			throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
@@ -159,7 +159,7 @@ class CategoryView extends HtmlView
 		$pagination = $this->get('Pagination');
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}

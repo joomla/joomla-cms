@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
@@ -52,7 +52,7 @@ class UsergrouplistField extends ListField
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
-		if (is_string($value) && strpos($value, ',') !== false)
+		if (\is_string($value) && strpos($value, ',') !== false)
 		{
 			$value = explode(',', $value);
 		}

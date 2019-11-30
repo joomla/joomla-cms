@@ -115,13 +115,13 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 				$results[] = $meta;
 			}
 
-			if (count($results) >= ($max + $offset))
+			if (\count($results) >= ($max + $offset))
 			{
 				break;
 			}
 		}
 
-		return array_slice($results, $offset, $max);
+		return \array_slice($results, $offset, $max);
 	}
 
 	/**

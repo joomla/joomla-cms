@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -209,14 +209,14 @@ class FolderlistField extends ListField
 		$folders = Folder::folders($path, $this->folderFilter, $this->recursive, true);
 
 		// Build the options list from the list of folders.
-		if (is_array($folders))
+		if (\is_array($folders))
 		{
 			foreach ($folders as $folder)
 			{
 				// Check to see if the file is in the exclude mask.
 				if ($this->exclude)
 				{
-					if (preg_match(chr(1) . $this->exclude . chr(1), $folder))
+					if (preg_match(\chr(1) . $this->exclude . \chr(1), $folder))
 					{
 						continue;
 					}

@@ -26,7 +26,7 @@ if ($app->isClient('site'))
 }
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('script', 'com_menus/admin-items-modal.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_menus/admin-items-modal.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
 
 $function     = $app->input->get('function', 'jSelectMenuItem', 'cmd');
 $editor    = $app->input->getCmd('editor', '');
@@ -37,7 +37,7 @@ $link         = 'index.php?option=com_menus&view=items&layout=modal&tmpl=compone
 if (!empty($editor))
 {
 	// This view is used also in com_menus. Load the xtd script only if the editor is set!
-	Factory::getDocument()->addScriptOptions('xtd-menus', array('editor' => $editor));
+	$this->document->addScriptOptions('xtd-menus', array('editor' => $editor));
 	$onclick = "jSelectMenuItem";
 	$link    = 'index.php?option=com_menus&view=items&layout=modal&tmpl=component&editor=' . $editor . '&' . Session::getFormToken() . '=1';
 }
