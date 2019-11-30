@@ -103,8 +103,7 @@ $userId = $user->id;
 
 							$isCore     = !empty($item->core);
 							$canEdit    = $user->authorise('core.edit', $extension . '.workflow.' . $item->id);
-							// @TODO set proper checkin fields
-							$canCheckin = true || $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+							$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || $item->checked_out == 0;
 							$canEditOwn = $user->authorise('core.edit.own',   $extension . '.workflow.' . $item->id) && $item->created_by == $userId;
 							$canChange  = $user->authorise('core.edit.state', $extension . '.workflow.' . $item->id) && $canCheckin;
 							?>
@@ -135,6 +134,9 @@ $userId = $user->id;
 									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'workflows.', $canChange && !$isCore); ?>
 								</td>
 								<th scope="row">
+									<?php if ($item->checked_out) : ?>
+										<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'workflows.', $canCheckin); ?>
+									<?php endif; ?>
 									<?php if (!$isCore && ($canEdit || $canEditOwn)) : ?>
 										<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT', true); ?> <?php echo Text::_($item->title, true); ?>">
 											<?php echo $this->escape(Text::_($item->title)); ?>

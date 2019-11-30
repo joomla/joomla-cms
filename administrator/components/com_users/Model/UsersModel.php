@@ -367,9 +367,11 @@ class UsersModel extends ListModel
 				$search = '%' . trim($search) . '%';
 
 				// Add the clauses to the query.
-				$query->where($db->quoteName('a.name') . ' LIKE :name')
-					->orWhere($db->quoteName('a.username') . ' LIKE :username')
-					->orWhere($db->quoteName('a.email') . ' LIKE :email')
+				$query->where(
+					'(' . $db->quoteName('a.name') . ' LIKE :name'
+					. ' OR ' . $db->quoteName('a.username') . ' LIKE :username'
+					. ' OR ' . $db->quoteName('a.email') . ' LIKE :email)'
+				)
 					->bind(':name', $search)
 					->bind(':username', $search)
 					->bind(':email', $search);
@@ -397,10 +399,7 @@ class UsersModel extends ListModel
 				{
 					$dNow = $dates['dNow']->format('Y-m-d H:i:s');
 
-					$query->where(
-						$db->quoteName('a.registerDate') . ' >= :registerDate1' .
-						' AND ' . $db->quoteName('a.registerDate') . ' <= :registerDate2'
-					);
+					$query->where($db->quoteName('a.registerDate') . ' BETWEEN :registerDate1 AND :registerDate2');
 					$query->bind(':registerDate1', $dStart);
 					$query->bind(':registerDate2', $dNow);
 				}
@@ -415,35 +414,26 @@ class UsersModel extends ListModel
 		{
 			$dates = $this->buildDateRange($lastvisitrange);
 
-			if ($dates['dStart'] !== false)
+			if ($dates['dStart'] === false)
+			{
+				$query->where($db->quoteName('a.lastvisitDate') . ' IS NULL');
+			}
+			else
 			{
 				$query->where($db->quoteName('a.lastvisitDate') . ' IS NOT NULL');
 
-				if (is_string($dates['dStart']))
-				{
-					$query->where(
-						$db->quoteName('a.lastvisitDate') . ' = :lastvisitDate'
-					);
-					$query->bind(':lastvisitDate', $dates['dStart']);
-				}
-				elseif ($dates['dNow'] === false)
-				{
-					$dStart = $dates['dStart']->format('Y-m-d H:i:s');
+				$dStart = $dates['dStart']->format('Y-m-d H:i:s');
 
-					$query->where(
-						$db->quoteName('a.lastvisitDate') . ' < :lastvisitDate'
-					);
+				if ($dates['dNow'] === false)
+				{
+					$query->where($db->quoteName('a.lastvisitDate') . ' < :lastvisitDate');
 					$query->bind(':lastvisitDate', $dStart);
 				}
 				else
 				{
-					$dStart = $dates['dStart']->format('Y-m-d H:i:s');
 					$dNow   = $dates['dNow']->format('Y-m-d H:i:s');
 
-					$query->where(
-						$db->quoteName('a.lastvisitDate') . ' >= :lastvisitDate1' .
-						' AND ' . $db->quoteName('a.lastvisitDate') . ' <= :lastvisitDate2'
-					);
+					$query->where($db->quoteName('a.lastvisitDate') . ' BETWEEN :lastvisitDate1 AND :lastvisitDate2');
 					$query->bind(':lastvisitDate1', $dStart);
 					$query->bind(':lastvisitDate2', $dNow);
 				}

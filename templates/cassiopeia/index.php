@@ -35,11 +35,15 @@ $wa->enableAsset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 
 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
+HTMLHelper::_('stylesheet', 'https://fonts.googleapis.com/css?family=Fira+Sans:400', []);
+
+// Preload the stylesheet for the font, actually we need to preload the font
+$this->getPreloadManager()->preload('https://fonts.googleapis.com/css?family=Fira+Sans:400', array('as' => 'stylesheet'));
 
 // Logo file or site title param
 if ($this->params->get('logoFile'))
 {
-	$logo = '<img src="' . Uri::root() . $this->params->get('logoFile') . '" alt="' . $sitename . '">';
+	$logo = '<img src="' . Uri::root() . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '">';
 }
 elseif ($this->params->get('siteTitle'))
 {

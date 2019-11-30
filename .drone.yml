@@ -197,7 +197,6 @@ steps:
   - name: system-tests-mysql8
     depends_on: [ system-tests-mysql ]
     image: joomlaprojects/docker-images:systemtests
-    failure: ignore
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8
 
@@ -298,6 +297,6 @@ services:
 
 ---
 kind: signature
-hmac: 1f8eaa619ff21c79d04d71f2323bb2600024fb54ae56e57a9238d8da0e63255c
+hmac: 9269cc571ec30d3d18ba3bb5f7dc132c36608b54ec777ae6d9c6dde224255fc8
 
 ...

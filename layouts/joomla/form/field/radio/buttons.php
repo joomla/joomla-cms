@@ -111,7 +111,7 @@ if ($readonly || $disabled)
 			$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
 			$oid        = $id . $i;
 			$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-			$attributes = array_filter(array($checked, $optionClass, $disabled, $style, $onchange, $onclick));
+			$attributes = array_filter(array($checked, $disabled, $style, $onchange, $onclick));
 			?>
 			<?php if ($required) : ?>
 				<?php $attributes[] = 'required'; ?>

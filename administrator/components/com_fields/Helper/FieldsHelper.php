@@ -590,7 +590,7 @@ class FieldsHelper
 	/**
 	 * Gets assigned categories ids for a field
 	 *
-	 * @param   stdClass[]  $fieldId  The field ID
+	 * @param   \stdClass[]  $fieldId  The field ID
 	 *
 	 * @return  array  Array with the assigned category ids
 	 *

@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 
 /**
  * Utility class working with menu select lists
@@ -54,13 +55,27 @@ abstract class JHtmlMenu
 			$db = Factory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select($db->quoteName(array('id', 'menutype', 'title', 'client_id'), array('id', 'value', 'text', 'client_id')))
+				->select(
+					[
+						$db->quoteName('id'),
+						$db->quoteName('menutype', 'value'),
+						$db->quoteName('title', 'text'),
+						$db->quoteName('client_id'),
+					]
+				)
 				->from($db->quoteName('#__menu_types'))
-				->order('client_id, title');
+				->order(
+					[
+						$db->quoteName('client_id'),
+						$db->quoteName('title'),
+					]
+				);
 
 			if (isset($clientId))
 			{
-				$query->where('client_id = ' . (int) $clientId);
+				$clientId = (int) $clientId;
+				$query->where($db->quoteName('client_id') . ' = :client')
+					->bind(':client', $clientId, ParameterType::INTEGER);
 			}
 
 			static::$menus[$key] = $db->setQuery($query)->loadObjectList();
@@ -90,14 +105,23 @@ abstract class JHtmlMenu
 
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('a.id AS value, a.title AS text, a.level, a.menutype, a.client_id')
-				->from('#__menu AS a')
-				->where('a.parent_id > 0');
+				->select(
+					[
+						$db->quoteName('a.id', 'value'),
+						$db->quoteName('a.title', 'text'),
+						$db->quoteName('a.level'),
+						$db->quoteName('a.menutype'),
+						$db->quoteName('a.client_id'),
+					]
+				)
+				->from($db->quoteName('#__menu', 'a'))
+				->where($db->quoteName('a.parent_id') . ' > 0');
 
 			// Filter on the client id
 			if (isset($clientId))
 			{
-				$query->where('a.client_id = ' . (int) $clientId);
+				$query->where($db->quoteName('a.client_id') . ' = :client')
+					->bind(':client', $clientId, ParameterType::INTEGER);
 			}
 
 			// Filter on the published state
@@ -105,15 +129,16 @@ abstract class JHtmlMenu
 			{
 				if (is_numeric($config['published']))
 				{
-					$query->where('a.published = ' . (int) $config['published']);
+					$query->where($db->quoteName('a.published') . ' = :published')
+						->bind(':published', $config['published'], ParameterType::INTEGER);
 				}
 				elseif ($config['published'] === '')
 				{
-					$query->where('a.published IN (0,1)');
+					$query->where($db->quoteName('a.published') . ' IN (0,1)');
 				}
 			}
 
-			$query->order('a.lft');
+			$query->order($db->quoteName('a.lft'));
 
 			$db->setQuery($query);
 			$items = $db->loadObjectList();
@@ -232,12 +257,23 @@ abstract class JHtmlMenu
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('ordering AS value, title AS text')
+				->select(
+					[
+						$db->quoteName('ordering', 'value'),
+						$db->quoteName('title', 'text'),
+					]
+				)
 				->from($db->quoteName('#__menu'))
-				->where($db->quoteName('menutype') . ' = ' . $db->quote($row->menutype))
-				->where($db->quoteName('parent_id') . ' = ' . (int) $row->parent_id)
-				->where($db->quoteName('published') . ' != -2')
-				->order('ordering');
+				->where(
+					[
+						$db->quoteName('menutype') . ' = :menutype',
+						$db->quoteName('parent_id') . ' = :parent',
+						$db->quoteName('published') . ' != -2',
+					]
+				)
+				->order($db->quoteName('ordering'))
+				->bind(':menutype', $row->menutype)
+				->bind(':parent', $row->parent_id, ParameterType::INTEGER);
 			$order = HTMLHelper::_('list.genericordering', $query);
 			$ordering = HTMLHelper::_(
 				'select.genericlist', $order, 'ordering',
@@ -269,14 +305,30 @@ abstract class JHtmlMenu
 
 		// Get a list of the menu items
 		$query = $db->getQuery(true)
-			->select('m.id, m.parent_id, m.title, m.menutype, m.client_id')
-			->from($db->quoteName('#__menu') . ' AS m')
+			->select(
+				[
+					$db->quoteName('m.id'),
+					$db->quoteName('m.parent_id'),
+					$db->quoteName('m.title'),
+					$db->quoteName('m.menutype'),
+					$db->quoteName('m.client_id'),
+				]
+			)
+			->from($db->quoteName('#__menu', 'm'))
 			->where($db->quoteName('m.published') . ' = 1')
-			->order('m.client_id, m.menutype, m.parent_id');
+			->order(
+				[
+					$db->quoteName('m.client_id'),
+					$db->quoteName('m.menutype'),
+					$db->quoteName('m.parent_id'),
+				]
+			);
 
 		if (isset($clientId))
 		{
-			$query->where('m.client_id = ' . (int) $clientId);
+			$clientId = (int) $clientId;
+			$query->where($db->quoteName('m.client_id') . ' = :client')
+				->bind(':client', $clientId, ParameterType::INTEGER);
 		}
 
 		$db->setQuery($query);
