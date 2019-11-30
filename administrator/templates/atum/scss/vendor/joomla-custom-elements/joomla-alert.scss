@@ -1,3 +1,16 @@
+@import "../../../../../../media/vendor/bootstrap/scss/functions";
+
+// Atum Variables
+@import "../../variables";
+
+// Mixins
+@import "../../mixin";
+
+@import "../../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../../media/vendor/bootstrap/scss/mixins";
+
+@import "../../../../../../node_modules/joomla-ui-custom-elements/dist/css/joomla-alert";
+
 #system-message-container {
   background: var(--atum-bg-light);
   box-shadow: 3px 3px 11px 0px rgba(0, 0, 0, 0.3);
@@ -25,7 +38,7 @@
 
     &[type="success"] {
       border-color: var(--success);
-     .alert-heading {
+      .alert-heading {
         background: var(--success);
       }
       hr {
