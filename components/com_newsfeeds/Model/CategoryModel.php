@@ -181,8 +181,8 @@ class CategoryModel extends ListModel
 
 		if ($this->getState('filter.publish_date'))
 		{
-			$query->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= ' . $db->quote($nowDate) . ')')
-				->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= ' . $db->quote($nowDate) . ')');
+			$query->where('(a.publish_up IS NULL OR a.publish_up <= ' . $db->quote($nowDate) . ')')
+				->where('(a.publish_down IS NULL OR a.publish_down >= ' . $db->quote($nowDate) . ')');
 		}
 
 		// Filter by search in title
@@ -287,11 +287,14 @@ class CategoryModel extends ListModel
 			$app = Factory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new Registry;
 
 			if ($active)
 			{
-				$params->loadString($active->params);
+				$params = $active->getParams();
+			}
+			else
+			{
+				$params = new Registry;
 			}
 
 			$options = array();

@@ -5,7 +5,7 @@
 	xsi:schemaLocation="urn:joomla.org menu.xsd"
 	>
 	<menuitem
-		title="COM_CPANEL_SYSTEM_SETUP"
+		title="MOD_MENU_SYSTEM_PARENT_SETUP"
 		type="heading"
 		icon="cog"
 		permission="core.admin"
@@ -28,14 +28,6 @@
 			type="component"
 			element="com_cache"
 			link="index.php?option=com_cache"
-			permission="core.manage;com_cache"
-		/>
-
-		<menuitem
-			title="MOD_MENU_PURGE_EXPIRED_CACHE"
-			type="component"
-			element="com_cache"
-			link="index.php?option=com_cache&amp;view=purge"
 			permission="core.manage;com_cache"
 		/>
 
@@ -261,6 +253,13 @@
 			type="component"
 			element="com_templates"
 			link="index.php?option=com_templates&amp;view=styles&amp;client_id=1"
+		/>
+
+		<menuitem
+				title="MOD_MENU_CONFIGURATION_MAILS"
+				type="component"
+				element="com_mails"
+				link="index.php?option=com_mails&amp;view=templates"
 		/>
 	</menuitem>
 

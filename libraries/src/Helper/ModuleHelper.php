@@ -386,7 +386,7 @@ abstract class ModuleHelper
 			->extendWhere(
 				'AND',
 				[
-					$query->isNullDatetime($db->quoteName('m.publish_up')),
+					$db->quoteName('m.publish_up') . ' IS NULL',
 					$db->quoteName('m.publish_up') . ' <= :publishUp',
 				],
 				'OR'
@@ -395,7 +395,7 @@ abstract class ModuleHelper
 			->extendWhere(
 				'AND',
 				[
-					$query->isNullDatetime($db->quoteName('m.publish_down')),
+					$db->quoteName('m.publish_down') . ' IS NULL',
 					$db->quoteName('m.publish_down') . ' >= :publishDown',
 				],
 				'OR'

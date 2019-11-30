@@ -50,6 +50,8 @@ class FeaturedModel extends ArticlesModel
 				'created_by_alias', 'a.created_by_alias',
 				'ordering', 'a.ordering',
 				'featured', 'a.featured',
+				'featured_up', 'fp.featured_up',
+				'featured_down', 'fp.featured_down',
 				'language', 'a.language',
 				'hits', 'a.hits',
 				'publish_up', 'a.publish_up',
@@ -88,7 +90,7 @@ class FeaturedModel extends ArticlesModel
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid, a.state, a.access, a.created, a.hits,' .
-					'a.created_by, a.featured, a.language, a.created_by_alias, a.publish_up, a.publish_down, a.note'
+				'a.created_by, a.featured, fp.featured_up, fp.featured_down, a.language, a.created_by_alias, a.publish_up, a.publish_down, a.note'
 			)
 		);
 		$query->from('#__content AS a');
@@ -97,7 +99,7 @@ class FeaturedModel extends ArticlesModel
 		$query->select('l.title AS language_title, l.image AS language_image')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
 
-		// Join over the content table.
+		// Join over the front page table.
 		$query->select('fp.ordering')
 			->join('INNER', '#__content_frontpage AS fp ON fp.content_id = a.id');
 
@@ -130,7 +132,7 @@ class FeaturedModel extends ArticlesModel
 
 		// Join over the workflow stages.
 		$query	->select(
-			$query->quoteName(
+			$db->quoteName(
 				[
 					'ws.title',
 					'ws.condition',
@@ -143,7 +145,7 @@ class FeaturedModel extends ArticlesModel
 				]
 			)
 		)
-			->join('INNER', '#__workflow_stages AS ws ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
+			->join('INNER', '#__workflow_stages AS ws ON ' . $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'));
 
 		// Join on voting table
 		if (PluginHelper::isEnabled('content', 'vote'))

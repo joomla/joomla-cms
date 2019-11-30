@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\RelatedItems\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
@@ -61,7 +61,6 @@ abstract class RelatedItemsHelper
 		$temp = explode(':', $temp);
 		$id   = (int) $temp[0];
 
-		$nullDate = $db->getNullDate();
 		$now      = Factory::getDate()->toSql();
 		$related  = [];
 		$query    = $db->getQuery(true);
@@ -101,7 +100,7 @@ abstract class RelatedItemsHelper
 				}
 			}
 
-			if (count($likes))
+			if (\count($likes))
 			{
 				// Select other items based on the metakey field 'like' the keys found
 				$query->clear()
@@ -131,16 +130,15 @@ abstract class RelatedItemsHelper
 				}
 
 				$query->extendWhere('AND', $wheres, 'OR')
-					->extendWhere('AND', [ $db->quoteName('a.publish_up') . ' = :nullDate1', $db->quoteName('a.publish_up') . ' <= :nowDate1'], 'OR')
+					->extendWhere('AND', [ $db->quoteName('a.publish_up') . ' IS NULL', $db->quoteName('a.publish_up') . ' <= :nowDate1'], 'OR')
 					->extendWhere(
 						'AND',
 						[
-							$db->quoteName('a.publish_down') . ' = :nullDate2',
+							$db->quoteName('a.publish_down') . ' IS NULL',
 							$db->quoteName('a.publish_down') . ' >= :nowDate2'
 						],
 						'OR'
 					)
-					->bind([':nullDate1', ':nullDate2'], $nullDate)
 					->bind([':nowDate1', ':nowDate2'], $now);
 
 				// Filter by language
@@ -163,7 +161,7 @@ abstract class RelatedItemsHelper
 					return [];
 				}
 
-				if (count($articleIds))
+				if (\count($articleIds))
 				{
 					$articles->setState('filter.article_id', $articleIds);
 					$articles->setState('filter.published', 1);
@@ -174,7 +172,7 @@ abstract class RelatedItemsHelper
 			}
 		}
 
-		if (count($related))
+		if (\count($related))
 		{
 			// Prepare data for display using display options
 			foreach ($related as &$item)

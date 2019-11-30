@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\UCM;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Factory;

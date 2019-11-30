@@ -13,8 +13,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Router\Route;
 
 /**
  * Utility class for JavaScript behaviors
@@ -267,26 +265,6 @@ abstract class JHtmlBehavior
 		static::$loaded[__METHOD__][$sig] = true;
 
 		return;
-	}
-
-	/**
-	 * Add unobtrusive JavaScript support to keep a tab state.
-	 *
-	 * Note that keeping tab state only works for inner tabs if in accordance with the following example:
-	 *
-	 * ```
-	 * parent tab = permissions
-	 * child tab = permission-<identifier>
-	 * ```
-	 *
-	 * Each tab header `<a>` tag also should have a unique href attribute
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public static function tabstate()
-	{
 	}
 
 	/**

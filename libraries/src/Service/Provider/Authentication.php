@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Service\Provider;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Authentication\Password\Argon2idHandler as BaseArgon2idHandler;
 use Joomla\Authentication\Password\Argon2iHandler as BaseArgon2iHandler;

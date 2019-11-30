@@ -75,7 +75,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 
 		HTMLHelper::_(
 			'script',
-			'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . Factory::getLanguage()->getTag()
+			'https://www.google.com/recaptcha/api.js?onload=Joomla.initReCaptcha2&render=explicit&hl=' . Factory::getLanguage()->getTag()
 		);
 
 		return true;
