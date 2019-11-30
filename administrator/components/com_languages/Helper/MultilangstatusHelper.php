@@ -102,7 +102,7 @@ abstract class MultilangstatusHelper
 		// Select the language home pages.
 		$query->select($db->quoteName('l.home', 'home'))
 			->select($db->quoteName('l.published', 'home_published'))
-			->join('LEFT', $db->quoteName('#__menu', 'l') . ' ON ' . $db->quoteName('l.language') . ' = ' . $db->quoteName('a.lang_code') . ' AND ' . $db->quoteName('l.home') . ' = 1' . ' AND ' . $db->quoteName('l.language') . ' <> \'*\'')
+			->join('LEFT', $db->quoteName('#__menu', 'l') . ' ON ' . $db->quoteName('l.language') . ' = ' . $db->quoteName('a.lang_code') . ' AND ' . $db->quoteName('l.home') . ' = 1  AND ' . $db->quoteName('l.language') . ' <> \'*\'')
 			->select($db->quoteName('e.enabled', 'enabled'))
 			->select($db->quoteName('e.element', 'element'))
 			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('a.lang_code'))
@@ -157,7 +157,7 @@ abstract class MultilangstatusHelper
 		$query = $db->getQuery(true)
 			->select('u.name, (' . $alang . ') as alang, (' . $slang . ') as slang, (' . $mlang . ') as mlang')
 			->from($db->quoteName('#__users', 'u'))
-			->join('LEFT', $db->quoteName('#__contact_details', 'cd') . ' ON ' . $db->quoteName('cd.user_id') . ' = ' . $db->quoteName('u.id'))
+			->join('LEFT', $db->quoteName('#__contact_details', 'cd'). ' ON ' . $db->quoteName('cd.user_id') . ' = ' . $db->quoteName('u.id'))
 			->where('EXISTS (SELECT 1 from' . $db->quoteName('#__content', 'c') . ' where ' . $db->quoteName('c.created_by') . ' = ' . $db->quoteName('u.id') . ')')
 			->group('u.id, u.name');
 
