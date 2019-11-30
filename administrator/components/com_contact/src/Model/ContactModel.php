@@ -130,7 +130,6 @@ class ContactModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		// We ignore the requirement for an item to be trashed when calling delete from the API
 		if (empty($record->id) || $record->published != -2)
 		{
 			return false;
