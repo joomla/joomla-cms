@@ -279,7 +279,7 @@ class SiteRouter extends Router
 			{
 				if ($found->type === 'alias')
 				{
-					$newItem = $this->menu->getItem($found->params->get('aliasoptions'));
+					$newItem = $this->menu->getItem($found->getParams()->get('aliasoptions'));
 
 					if ($newItem)
 					{
@@ -341,7 +341,7 @@ class SiteRouter extends Router
 
 		if ($item && $item->type === 'alias')
 		{
-			$newItem = $this->menu->getItem($item->params->get('aliasoptions'));
+			$newItem = $this->menu->getItem($item->getParams()->get('aliasoptions'));
 
 			if ($newItem)
 			{

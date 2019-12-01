@@ -271,11 +271,13 @@ class CategoryModel extends ListModel
 		$params = ComponentHelper::getParams('com_contact');
 
 		// Get list ordering default from the parameters
-		$menuParams = new Registry;
-
 		if ($menu = $app->getMenu()->getActive())
 		{
-			$menuParams->loadString($menu->params);
+			$menuParams = $menu->getParams();
+		}
+		else
+		{
+			$menuParams = new Registry;
 		}
 
 		$mergedParams = clone $params;
@@ -361,11 +363,14 @@ class CategoryModel extends ListModel
 			$app = Factory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new Registry;
 
 			if ($active)
 			{
-				$params->loadString($active->params);
+				$params = $active->getParams();
+			}
+			else
+			{
+				$params = new Registry;
 			}
 
 			$options = array();
