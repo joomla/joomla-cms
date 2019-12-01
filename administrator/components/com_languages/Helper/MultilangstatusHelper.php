@@ -233,8 +233,8 @@ abstract class MultilangstatusHelper
 			->where(
 				[
 					$db->quoteName('home') . ' = ' . $db->quote('1'),
-					$db->quoteName('published') . ' = ' . $db->quote('1'),
-					$db->quoteName('client_id') . ' = ' . $db->quote('0'),
+					$db->quoteName('published') . ' = 1',
+					$db->quoteName('client_id') . ' = 0',
 					$db->quoteName('language') . ' = ' . $db->quote('*'),
 				]
 			);
@@ -250,8 +250,8 @@ abstract class MultilangstatusHelper
 			->where(
 				[
 					$db->quoteName('module') . ' = ' . $db->quote('mod_menu'),
-					$db->quoteName('published') . ' = ' . $db->quote('1'),
-					$db->quoteName('client_id') . ' = ' . $db->quote('0'),
+					$db->quoteName('published') . ' = 1',
+					$db->quoteName('client_id') . ' = 0',
 				]
 			);
 
@@ -295,8 +295,8 @@ abstract class MultilangstatusHelper
 			->where(
 				[
 					$db->quoteName('module') . ' = ' . $db->quote($moduleName),
-					$db->quoteName('published') . ' = ' . $db->quote('1'),
-					$db->quoteName('client_id') . ' = ' . $db->quote('0'),
+					$db->quoteName('published') . ' = 1',
+					$db->quoteName('client_id') . ' = 0',
 				]
 			);
 
