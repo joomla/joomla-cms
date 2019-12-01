@@ -77,7 +77,7 @@ class SitePathway extends Pathway
 
 						case 'alias':
 							// If this is an alias use the item id stored in the parameters to make the link.
-							$url = 'index.php?Itemid=' . $link->params->get('aliasoptions');
+							$url = 'index.php?Itemid=' . $link->getParams()->get('aliasoptions');
 							break;
 
 						default:
