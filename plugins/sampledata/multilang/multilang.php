@@ -476,7 +476,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep8()
 	{
-		if (!Session::checkToken('get') || $this->app->input->get('type') !== $this->_name)
+		if ($this->app->input->get('type') !== $this->_name)
 		{
 			return;
 		}
