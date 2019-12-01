@@ -282,7 +282,7 @@
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_LABEL"
 			filter="string"
 			size="250"
-			showon="host!:localhost[AND]dbencryption:2"
+			showon="host!:localhost[AND]dbencryption:1,2[AND]dbsslverifyservercert:1"
 		/>
 
 		<field
@@ -291,7 +291,7 @@
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CAPATH_LABEL"
 			filter="string"
 			size="250"
-			showon="host!:localhost[AND]dbtype:mysql,mysqli[AND]dbencryption:2"
+			showon="host!:localhost[AND]dbtype:mysql,mysqli[AND]dbencryption:1,2[AND]dbsslverifyservercert:1"
 		/>
 
 		<field
