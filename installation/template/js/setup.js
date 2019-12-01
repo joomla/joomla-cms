@@ -83,8 +83,17 @@ Joomla.checkDbCredentials = function() {
     perform: true,
     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     onSuccess: function(response, xhr){
-      response = JSON.parse(response);
       var loaderElement = document.querySelector('joomla-core-loader');
+      try {
+        response = JSON.parse(response);
+      } catch (e) {
+        loaderElement.parentNode.removeChild(loaderElement);
+        console.error('Error in DB Check Endpoint');
+        console.error(response);
+        Joomla.renderMessages({'error': [Joomla.JText._('INSTL_DATABASE_RESPONSE_ERROR')]});
+
+        return false;
+      }
 
       if (response.messages) {
         Joomla.renderMessages(response.messages);

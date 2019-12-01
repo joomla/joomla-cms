@@ -53,12 +53,16 @@ $logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COM
 
 // Enable assets
 $wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
+$wa->enableAsset('fontawesome-free');
 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
 
 // Load customer stylesheet if available
 HTMLHelper::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
+
+// TODO: remove the following line whenever the assets are fixed to respect the ovverides
+HTMLHelper::_('stylesheet', 'vendor/choicesjs/choices.css', array('version' => 'auto', 'relative' => true));
 
 // Load specific template related JS
 // TODO: Adapt refactored build tools pt.2 @see https://issues.joomla.org/tracker/joomla-cms/23786

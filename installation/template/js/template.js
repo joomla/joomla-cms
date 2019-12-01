@@ -185,9 +185,20 @@
       data: data,
       perform: true,
       onSuccess: function(response, xhr){
-        response = JSON.parse(response);
-        Joomla.replaceTokens(response.token);
         var spinnerElement = document.querySelector('joomla-core-loader');
+
+        try {
+          response = JSON.parse(response);
+        } catch (e) {
+          spinnerElement.parentNode.removeChild(spinnerElement);
+          console.error('Error in ' + task + ' Endpoint');
+          console.error(response);
+          Joomla.renderMessages({'error': [Joomla.JText._('INSTL_DATABASE_RESPONSE_ERROR')]});
+
+          return false;
+        }
+
+        Joomla.replaceTokens(response.token);
 
         if (response.error === true)
         {
