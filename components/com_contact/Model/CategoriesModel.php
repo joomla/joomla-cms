@@ -114,11 +114,14 @@ class CategoriesModel extends ListModel
 			$app = Factory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new Registry;
 
 			if ($active)
 			{
-				$params->loadString($active->params);
+				$params = $active->getParams();
+			}
+			else
+			{
+				$params = new Registry;
 			}
 
 			$options = array();
