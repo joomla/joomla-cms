@@ -381,7 +381,7 @@ abstract class FormField
 		{
 			$parts = Normalise::fromCamelCase(\get_called_class(), true);
 
-			if ($parts[0] == 'J')
+			if ($parts[0] === 'J')
 			{
 				$this->type = StringHelper::ucfirst($parts[\count($parts) - 1], '_');
 			}

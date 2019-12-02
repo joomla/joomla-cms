@@ -1621,7 +1621,7 @@ class Form
 		{
 			$default = (string) ($element['default'] ? $element['default'] : $element->default);
 
-			if (($translate = $element['translate_default']) && ((string) $translate === 'true' || (string) $translate == '1'))
+			if (($translate = $element['translate_default']) && ((string) $translate === 'true' || (string) $translate === '1'))
 			{
 				$lang = Factory::getLanguage();
 

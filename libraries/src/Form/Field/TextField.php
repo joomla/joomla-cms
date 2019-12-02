@@ -125,7 +125,7 @@ class TextField extends FormField
 
 			case 'dirname':
 				$value = (string) $value;
-				$this->dirname = ($value == $name || $value === 'true' || $value == '1');
+				$this->dirname = ($value == $name || $value === 'true' || $value === '1');
 				break;
 
 			case 'inputmode':
@@ -185,7 +185,7 @@ class TextField extends FormField
 			}
 
 			// Set the dirname.
-			$dirname = ((string) $dirname === 'dirname' || $dirname === 'true' || $dirname == '1');
+			$dirname = ((string) $dirname === 'dirname' || $dirname === 'true' || $dirname === '1');
 			$this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
 
 			$this->maxLength = (int) $this->element['maxlength'];

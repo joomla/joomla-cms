@@ -108,14 +108,14 @@ class ListField extends FormField
 			$text  = trim((string) $option) != '' ? trim((string) $option) : $value;
 
 			$disabled = (string) $option['disabled'];
-			$disabled = ($disabled === 'true' || $disabled === 'disabled' || $disabled == '1');
+			$disabled = ($disabled === 'true' || $disabled === 'disabled' || $disabled === '1');
 			$disabled = $disabled || ($this->readonly && $value != $this->value);
 
 			$checked = (string) $option['checked'];
-			$checked = ($checked === 'true' || $checked === 'checked' || $checked == '1');
+			$checked = ($checked === 'true' || $checked === 'checked' || $checked === '1');
 
 			$selected = (string) $option['selected'];
-			$selected = ($selected === 'true' || $selected === 'selected' || $selected == '1');
+			$selected = ($selected === 'true' || $selected === 'selected' || $selected === '1');
 
 			$tmp = array(
 					'value'    => $value,
