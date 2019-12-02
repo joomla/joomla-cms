@@ -232,7 +232,7 @@ abstract class MultilangstatusHelper
 			->from($db->quoteName('#__menu'))
 			->where(
 				[
-					$db->quoteName('home') . ' = ' . $db->quote('1'),
+					$db->quoteName('home') . ' = 1',
 					$db->quoteName('published') . ' = 1',
 					$db->quoteName('client_id') . ' = 0',
 					$db->quoteName('language') . ' = ' . $db->quote('*'),
