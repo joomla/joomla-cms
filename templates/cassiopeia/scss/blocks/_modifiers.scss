@@ -1,15 +1,18 @@
 // Modifiers
 
 // com_modules
-[class^='container-'], [class*=' container-'] {
+[class^='container-'],
+[class*=' container-'] {
   .span-col-2 {
     flex: 0 0 50%;
     max-width: calc(50% - #{$cassiopeia-grid-gutter});
   }
+
   .span-col-3 {
     flex: 0 0 33.333%;
     max-width: calc(33.333% - #{$cassiopeia-grid-gutter});
   }
+
   .span-col-4 {
     flex: 0 0 25%;
     max-width: calc(25% - #{$cassiopeia-grid-gutter});
@@ -17,12 +20,15 @@
 }
 
 @supports (display: grid) {
-  [class^='span-'], [class*=' span-'] {
+
+  [class^='span-'],
+  [class*=' span-'] {
     grid-column-end: auto;
     grid-row-end: auto;
   }
 
-  [class^='span-col'], [class*=' span-col'] {
+  [class^='span-col'],
+  [class*=' span-col'] {
     @include media-breakpoint-up(sm) {
       grid-column-end: span 2;
     }
@@ -32,25 +38,33 @@
     .span-col-2 {
       grid-column-end: span 2;
     }
+
     .span-col-3 {
       grid-column-end: span 3;
     }
+
     .span-col-4 {
       grid-column-end: span 4;
     }
+
     .span-row-2 {
       grid-row-end: span 2;
     }
+
     .span-row-3 {
       grid-row-end: span 3;
     }
+
     .span-row-4 {
       grid-row-end: span 4;
     }
   }
 
-  [class^='container-'], [class*=' container-'] {
-    [class^='span-'], [class*=' span-'] {
+  [class^='container-'],
+  [class*=' container-'] {
+
+    [class^='span-'],
+    [class*=' span-'] {
       flex: 0 1 auto;
       max-width: none;
     }
@@ -73,11 +87,13 @@
         width: 50%;
       }
     }
+
     &.columns-3 {
       > div {
         width: 33.33333%;
       }
     }
+
     &.columns-4 {
       > div {
         width: 25%;
@@ -90,40 +106,52 @@
   padding: 0 ($cassiopeia-grid-gutter / 2) $cassiopeia-grid-gutter ($cassiopeia-grid-gutter / 2);
   display: flex;
   flex-direction: column;
+
   .boxed & {
     background-color: #fff;
     box-shadow: 0 0 2px rgba(52, 58, 67, 0.1), 0 2px 5px rgba(52, 58, 67, 0.08), 0 5px 15px rgba(52, 58, 67, 0.08), inset 0 3px 0 $cassiopeia-template-color;
+
     .item-content {
       padding: 25px;
     }
   }
-  .image-left &, .image-right & {
+
+  .image-left &,
+  .image-right & {
     flex-direction: row;
   }
+
   .item-image {
     margin-top: 3px;
     margin-bottom: 15px;
     overflow: hidden;
+
     .boxed & {
       margin-bottom: 0;
     }
+
     .image-right & {
       order: 1;
     }
+
     .image-bottom & {
       order: 1;
       margin-top: -15px;
     }
   }
+
   .item-content {
     .image-left & {
       padding-left: 25px;
     }
+
     .image-right & {
       padding-right: 25px;
     }
   }
-  .image-left &, .image-right & {
+
+  .image-left &,
+  .image-right & {
     flex-direction: column;
 
     @include media-breakpoint-up(sm) {
@@ -139,10 +167,13 @@
     grid-template-columns: 1fr;
     grid-auto-flow: row;
     margin: 0 0 $cassiopeia-grid-gutter;
+
     .blog-item {
       padding: 0;
     }
-    &[class^='columns-'], &[class*=' columns-'] {
+
+    &[class^='columns-'],
+    &[class*=' columns-'] {
       > div {
         flex: 0 1 auto;
         width: auto;
@@ -154,9 +185,11 @@
       &.columns-2 {
         grid-template-columns: 1fr 1fr;
       }
+
       &.columns-3 {
         grid-template-columns: 1fr 1fr 1fr;
       }
+
       &.columns-4 {
         grid-template-columns: 1fr 1fr 1fr 1fr;
       }
@@ -165,9 +198,12 @@
 }
 
 .blog-items {
-  &[class^='masonry-'], &[class*=' masonry-'] {
+
+  &[class^='masonry-'],
+  &[class*=' masonry-'] {
     display: block;
     column-gap: $cassiopeia-grid-gutter;
+
     .blog-item {
       margin-bottom: $cassiopeia-grid-gutter;
       page-break-inside: avoid;
@@ -179,9 +215,11 @@
     &.masonry-2 {
       column-count: 2;
     }
+
     &.masonry-3 {
       column-count: 3;
     }
+
     &.masonry-4 {
       column-count: 4;
     }
@@ -194,6 +232,7 @@
       order: 0;
     }
   }
+
   &.image-left {
     .blog-item:nth-of-type(2n+1) {
       .item-image {
@@ -203,6 +242,7 @@
       }
     }
   }
+
   &.image-top {
     .blog-item:nth-of-type(2n+1) {
       .item-image {
