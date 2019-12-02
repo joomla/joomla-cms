@@ -56,9 +56,11 @@ $options = [
 		<div class="outer-panel" id="right-panel">
 			<div class="inner-panel">
 				<div class="language-selector">
-					<h3 class="target-text"><?php echo Text::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
-					<?php echo $this->form->getInput('modalassociation'); ?>
-					<?php echo $this->form->getInput('itemlanguage'); ?>
+					<div class="clearfix">
+						<h3 class="target-text"><?php echo Text::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
+					</div>
+					<div class="langtarget"><?php echo $this->form->getInput('itemlanguage'); ?></div>
+					<div class="modaltarget"><?php echo $this->form->getInput('modalassociation'); ?></div>
 				</div>
 				<iframe id="target-association" name="target-association" title="target-association"
 					src="<?php echo $this->defaultTargetSrc; ?>"
@@ -72,7 +74,6 @@ $options = [
 				</iframe>
 			</div>
 		</div>
-
 	</div>
 
 	<input type="hidden" name="task" value="">
