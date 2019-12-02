@@ -82,7 +82,6 @@ abstract class DatabaseHelper
 	public static function getPrefix(int $size = 15)
 	{
 		// Create the random prefix.
-		$prefix  = '';
 		$chars   = range('a', 'z');
 		$numbers = range(0, 9);
 
