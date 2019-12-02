@@ -88,7 +88,7 @@ abstract class DatabaseHelper
 
 		// We want the first character to be a random letter.
 		shuffle($chars);
-		$prefix .= $chars[0];
+		$prefix = $chars[0];
 
 		// Next we combine the numbers and characters to get the other characters.
 		$symbols = array_merge($numbers, $chars);
