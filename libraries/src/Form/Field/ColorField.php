@@ -261,7 +261,7 @@ class ColorField extends FormField
 		{
 			$color = 'none';
 		}
-		elseif ($color[0] != '#' && $this->format === 'hex')
+		elseif ($color[0] !== '#' && $this->format === 'hex')
 		{
 			$color = '#' . $color;
 		}

@@ -185,7 +185,7 @@ class TextField extends FormField
 			}
 
 			// Set the dirname.
-			$dirname = ((string) $dirname === 'dirname' || $dirname === 'true' || $dirname === '1');
+			$dirname = ($dirname === 'dirname' || $dirname === 'true' || $dirname === '1');
 			$this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
 
 			$this->maxLength = (int) $this->element['maxlength'];
