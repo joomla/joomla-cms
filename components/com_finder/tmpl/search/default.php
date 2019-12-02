@@ -13,7 +13,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 Text::script('MOD_FINDER_SEARCH_VALUE', true);
 
