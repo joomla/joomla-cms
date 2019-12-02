@@ -1227,7 +1227,7 @@ ENDDATA;
 		// Check for output buffering.
 		$setting = new \stdClass;
 		$setting->label = Text::_('INSTL_OUTPUT_BUFFERING');
-		$setting->state = (bool) ini_get('output_buffering');
+		$setting->state = (int) ini_get('output_buffering') !== 0;
 		$setting->recommended = false;
 		$settings[] = $setting;
 

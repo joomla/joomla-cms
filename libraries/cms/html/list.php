@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\String\StringHelper;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Utility class for creating different select lists
@@ -82,8 +83,8 @@ abstract class JHtmlList
 	/**
 	 * Returns an array of options
 	 *
-	 * @param   string   $query  SQL with 'ordering' AS value and 'name field' AS text
-	 * @param   integer  $chop   The length of the truncated headline
+	 * @param   DatabaseQuery|string   $query  SQL with 'ordering' AS value and 'name field' AS text
+	 * @param   integer                $chop   The length of the truncated headline
 	 *
 	 * @return  array  An array of objects formatted for JHtml list processing
 	 *
@@ -186,12 +187,17 @@ abstract class JHtmlList
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('u.id AS value, u.name AS text')
-			->from('#__users AS u')
-			->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = u.id')
-			->where('u.block = 0')
+			->select(
+				[
+					$db->quoteName('u.id', 'value'),
+					$db->quoteName('u.name', 'text'),
+				]
+			)
+			->from($db->quoteName('#__users', 'u'))
+			->join('LEFT', $db->quoteName('#__user_usergroup_map', 'm'), $db->quoteName('m.user_id') . ' = ' . $db->quoteName('u.id'))
+			->where($db->quoteName('u.block') . ' = 0')
 			->order($order)
-			->group('u.id');
+			->group($db->quoteName('u.id'));
 		$db->setQuery($query);
 
 		if ($nouser)
