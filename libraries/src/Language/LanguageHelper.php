@@ -686,7 +686,7 @@ class LanguageHelper
 		}
 
 		// Check that it's a metadata file
-		if ((string) $xml->getName() != 'metafile')
+		if ((string) $xml->getName() !== 'metafile')
 		{
 			return;
 		}

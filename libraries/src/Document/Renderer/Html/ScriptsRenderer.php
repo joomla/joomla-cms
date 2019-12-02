@@ -146,7 +146,7 @@ class ScriptsRenderer extends DocumentRenderer
 				$buffer .= '>' . $lnEnd;
 
 				// This is for full XHTML support.
-				if ($this->_doc->_mime != 'text/html')
+				if ($this->_doc->_mime !== 'text/html')
 				{
 					$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
 				}
@@ -154,7 +154,7 @@ class ScriptsRenderer extends DocumentRenderer
 				$buffer .= $content . $lnEnd;
 
 				// See above note
-				if ($this->_doc->_mime != 'text/html')
+				if ($this->_doc->_mime !== 'text/html')
 				{
 					$buffer .= $tab . $tab . '//]]>' . $lnEnd;
 				}

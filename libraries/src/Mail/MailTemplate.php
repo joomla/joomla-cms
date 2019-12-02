@@ -165,7 +165,7 @@ class MailTemplate
 
 		if ($config->get('alternative_mailconfig'))
 		{
-			if ($this->mailer->Mailer == 'smtp' || $params->get('mailer') == 'smtp')
+			if ($this->mailer->Mailer === 'smtp' || $params->get('mailer') === 'smtp')
 			{
 				$smtpauth = ($params->get('smtpauth', $gconfig->get('smtpauth')) == 0) ? null : 1;
 				$smtpuser = $params->get('smtpuser', $gconfig->get('smtpuser'));
@@ -176,7 +176,7 @@ class MailTemplate
 				$this->mailer->useSmtp($smtpauth, $smtphost, $smtpuser, $smtppass, $smtpsecure, $smtpport);
 			}
 
-			if ($params->get('mailer') == 'sendmail')
+			if ($params->get('mailer') === 'sendmail')
 			{
 				$this->mailer->isSendmail();
 			}
@@ -195,20 +195,20 @@ class MailTemplate
 		$mail->subject = $this->replaceTags(Text::_($mail->subject), $this->data);
 		$this->mailer->setSubject($mail->subject);
 
-		if ($config->get('mail_style', 'plaintext') == 'plaintext')
+		if ($config->get('mail_style', 'plaintext') === 'plaintext')
 		{
 			$mail->body = $this->replaceTags(Text::_($mail->body), $this->data);
 			$this->mailer->setBody($mail->body);
 		}
 
-		if ($config->get('mail_style', 'plaintext') == 'html')
+		if ($config->get('mail_style', 'plaintext') === 'html')
 		{
 			$this->mailer->IsHTML(true);
 			$mail->htmlbody = $this->replaceTags(Text::_($mail->htmlbody), $this->data);
 			$this->mailer->setBody($mail->htmlbody);
 		}
 
-		if ($config->get('mail_style', 'plaintext') == 'both')
+		if ($config->get('mail_style', 'plaintext') === 'both')
 		{
 			$this->mailer->IsHTML(true);
 			$mail->htmlbody = $this->replaceTags(Text::_($mail->htmlbody), $this->data);
