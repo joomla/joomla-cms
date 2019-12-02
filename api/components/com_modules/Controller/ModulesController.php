@@ -67,9 +67,9 @@ class ModulesController extends ApiController
 		$this->input->set('model_state',
 			[
 				'client_id'       => $this->getClientIdFromInput(),
-				'filter.position' => $this->getPositionFromInput(),
-				'filter.state'    => $this->getStateFromInput(),
-				'filter.language' => $this->getLanguageFromInput(),
+				'filter.position' => $this->input->get('position', $this->input->post->get('position')),
+				'filter.state'    => $this->input->get('state', $this->input->post->get('state')),
+				'filter.language' => $this->input->get('language', $this->input->post->get('language')),
 			]
 		);
 
@@ -134,44 +134,5 @@ class ModulesController extends ApiController
 	{
 		return $this->input->exists('client_id') ?
 			$this->input->get('client_id') : $this->input->post->get('client_id');
-	}
-
-	/**
-	 * Get position from input
-	 *
-	 * @return string
-	 *
-	 * @since 4.0
-	 */
-	private function getPositionFromInput()
-	{
-		return $this->input->exists('position') ?
-			$this->input->get('position') : $this->input->post->get('position');
-	}
-
-	/**
-	 * Get state from input
-	 *
-	 * @return string
-	 *
-	 * @since 4.0
-	 */
-	private function getStateFromInput()
-	{
-		return $this->input->exists('state') ?
-			$this->input->get('state') : $this->input->post->get('state');
-	}
-
-	/**
-	 * Get language from input
-	 *
-	 * @return string
-	 *
-	 * @since 4.0
-	 */
-	private function getLanguageFromInput()
-	{
-		return $this->input->exists('language') ?
-			$this->input->get('language') : $this->input->post->get('language');
 	}
 }
