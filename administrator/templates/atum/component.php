@@ -24,7 +24,7 @@ $wa->enableAsset('fontawesome-free');
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
 
-// Load customer stylesheet if available
+// Load custom stylesheet if available
 HTMLHelper::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
 
 // TODO: remove the following line whenever the assets are fixed to respect the overrides
