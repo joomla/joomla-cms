@@ -1851,7 +1851,7 @@ class Form
 			$forms[$name] = Factory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
 
 			// Load the data.
-			if (substr($data, 0, 1) == '<')
+			if (substr($data, 0, 1) === '<')
 			{
 				if ($forms[$name]->load($data, $replace, $xpath) == false)
 				{

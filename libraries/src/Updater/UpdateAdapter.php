@@ -237,7 +237,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 
 		if ($this->appendExtension && (substr($url, -4) !== '.xml'))
 		{
-			if (substr($url, -1) != '/')
+			if (substr($url, -1) !== '/')
 			{
 				$url .= '/';
 			}
