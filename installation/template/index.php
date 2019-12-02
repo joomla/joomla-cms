@@ -44,6 +44,7 @@ Text::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
 Text::script('JLIB_JS_AJAX_ERROR_OTHER');
 Text::script('JLIB_JS_AJAX_ERROR_PARSE');
 Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
+Text::script('INSTL_DATABASE_RESPONSE_ERROR');
 
 // Load the JavaScript translated messages
 Text::script('INSTL_PROCESS_BUSY');
