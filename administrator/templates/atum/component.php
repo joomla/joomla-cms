@@ -15,7 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 /** @var JDocumentHtml $this */
 
 $lang = Factory::getLanguage();
-$wa    = $this->getWebAssetManager();
+$wa   = $this->getWebAssetManager();
 
 // Enable assets
 $wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
