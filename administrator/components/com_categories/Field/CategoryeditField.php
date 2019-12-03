@@ -198,7 +198,7 @@ class CategoryeditField extends ListField
 		else
 		{
 			$query->where($db->quoteName('a.extension') . ' = :extension')
-				->bind(':extension', $extension);;
+				->bind(':extension', $extension);
 		}
 
 		// Filter language
@@ -236,13 +236,14 @@ class CategoryeditField extends ListField
 			// Prevent parenting to children of this item.
 			// To rearrange parents and children move the children up, not the parents down.
 			$query->join(
-				'LEFT', 
+				'LEFT',
 				$db->quoteName('#__categories', 'p'),
 				$db->quoteName('p.id') . ' = :oldcat'
 			)
 				->bind(':oldcat', $oldCat, ParameterType::INTEGER)
-				->where('NOT(' . $db->quoteName('a.lft') . ' >= ' . $db->quoteName('p.lft') .
-					' AND ' . $db->quoteName('a.rgt') . ' <= ' . $db->quoteName('p.rgt') . ')');			
+				->where('NOT(' . $db->quoteName('a.lft') . ' >= ' . $db->quoteName('p.lft')
+					. ' AND ' . $db->quoteName('a.rgt') . ' <= ' . $db->quoteName('p.rgt') . ')'
+				);
 		}
 
 		// Get the options.
@@ -348,13 +349,13 @@ class CategoryeditField extends ListField
 			&& !isset($options[0])
 			&& isset($this->element['show_root']))
 		{
-			$rowQuery = $db->getQuery(true)			
+			$rowQuery = $db->getQuery(true)
 				->select(
 					[
 						$db->quoteName('a.id', 'value'),
 						$db->quoteName('a.title', 'text'),
 						$db->quoteName('a.level'),
-						$db->quoteName('a.parent_id'),					
+						$db->quoteName('a.parent_id'),
 					]
 				)
 				->from($db->quoteName('#__categories', 'a'))
@@ -362,7 +363,7 @@ class CategoryeditField extends ListField
 				->bind(':aid', $oldCat, ParameterType::INTEGER);
 			$db->setQuery($rowQuery);
 			$row = $db->loadObject();
-			
+
 			if ($row->parent_id == '1')
 			{
 				$parent = new \stdClass;
