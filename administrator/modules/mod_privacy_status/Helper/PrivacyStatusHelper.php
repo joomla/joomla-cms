@@ -68,10 +68,21 @@ class PrivacyStatusHelper
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName('id') . ', ' . $db->quoteName('published') . ', ' . $db->quoteName('language'))
+			->select(
+				[
+					$db->quoteName('id'),
+					$db->quoteName('published'),
+					$db->quoteName('language'),
+				]
+			)
 			->from($db->quoteName('#__menu'))
-			->where($db->quoteName('client_id') . ' = 0')
-			->where($db->quoteName('link') . ' = ' . $db->quote('index.php?option=com_privacy&view=request'));
+			->where(
+				[
+					$db->quoteName('client_id') . ' = 0',
+					$db->quoteName('link') . ' = ' . $db->quote('index.php?option=com_privacy&view=request'),
+				]
+			)
+			->setLimit(1);
 		$db->setQuery($query);
 
 		$menuItem = $db->loadObject();
@@ -112,9 +123,15 @@ class PrivacyStatusHelper
 				$query = $db->getQuery(true)
 					->select($db->quoteName('id'))
 					->from($db->quoteName('#__menu'))
-					->where($db->quoteName('client_id') . ' = 0')
-					->where($db->quoteName('home') . ' = 1')
-					->where($db->quoteName('language') . ' = ' . $db->quote($defaultSiteLanguage));
+					->where(
+						[
+							$db->quoteName('client_id') . ' = 0',
+							$db->quoteName('home') . ' = 1',
+							$db->quoteName('language') . ' = :language',
+						]
+					)
+					->bind(':language', $defaultSiteLanguage)
+					->setLimit(1);
 				$db->setQuery($query);
 
 				$homeId = (int) $db->loadResult();
@@ -151,11 +168,15 @@ class PrivacyStatusHelper
 		$period = '-' . $notify;
 
 		$db    = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select('COUNT(*)');
-		$query->from($db->quoteName('#__privacy_requests'));
-		$query->where($db->quoteName('status') . ' = 1 ');
-		$query->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('requested_at'));
+		$query = $db->getQuery(true);
+		$query->select('COUNT(*)')
+			->from($db->quoteName('#__privacy_requests'))
+			->where(
+				[
+					$db->quoteName('status') . ' = 1',
+					$query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('requested_at'),
+				]
+			);
 		$db->setQuery($query);
 
 		return (int) $db->loadResult();
