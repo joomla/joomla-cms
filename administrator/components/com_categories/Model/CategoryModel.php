@@ -637,9 +637,9 @@ class CategoryModel extends AdminModel
 			$query = $db->getQuery(true)
 				->select($db->quoteName('key'))
 				->from($db->quoteName('#__associations'))
-				->where($db->quoteName('context') . ' = :associationscontext')
-				->bind('associationscontext', $this->associationsContext)
+				->where($db->quoteName('context') . ' = :associationscontext')				
 				->where($db->quoteName('id') . ' = :id')
+				->bind(':associationscontext', $this->associationsContext)
 				->bind(':id', $id, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$oldKey = $db->loadResult();
@@ -648,7 +648,7 @@ class CategoryModel extends AdminModel
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__associations'))
 				->where($db->quoteName('context') . ' = :associationscontext')
-				->bind('associationscontext', $this->associationsContext);
+				->bind(':associationscontext', $this->associationsContext);
 
 			if ($associations)
 			{
