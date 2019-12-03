@@ -213,7 +213,7 @@ class CategoryeditField extends ListField
 				$language = $this->element['language'];
 			}
 
-			$query->whereIn($db->quoteName('a.language'), $language);
+			$query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
 		}
 
 		// Filter on the published state
