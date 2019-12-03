@@ -218,7 +218,7 @@ class GetConfigurationCommand extends AbstractCommand
 	{
 		if ($value === false)
 		{
-			return "false";
+			return 'false';
 		}
 		elseif ($value === true)
 		{
