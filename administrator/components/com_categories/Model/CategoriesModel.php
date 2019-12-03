@@ -184,7 +184,7 @@ class CategoriesModel extends ListModel
 			);
 
 		// Join over the users for the checked out user.
-		$query->select($db->quoteName('uc.name ', 'editor'))
+		$query->select($db->quoteName('uc.name', 'editor'))
 			->join(
 				'LEFT',
 				$db->quoteName('#__users', 'uc'),
