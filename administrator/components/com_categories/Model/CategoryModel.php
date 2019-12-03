@@ -655,7 +655,7 @@ class CategoryModel extends AdminModel
 				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $query->bindArray($associations)) . ') OR '
 					. $db->quoteName('key') . ' = :oldkey' . ')'
 				)
-				->bind(':oldkey', $oldKey);
+					->bind(':oldkey', $oldKey);
 			}
 			else
 			{
@@ -857,10 +857,10 @@ class CategoryModel extends AdminModel
 
 			$query->clear();
 
-			$query->update($db->quoteName('#__content')
+			$query->update($db->quoteName('#__content'))
 				->set($db->quoteName('ordering') . ' = :max - ' . $db->quoteName('ordering'))
 				->where($db->quoteName('catid') . ' = :catid')
-				->bind(':max', $max, ParameterType::INTEGER);
+				->bind(':max', $max, ParameterType::INTEGER)
 				->bind(':catid', $id, ParameterType::INTEGER);
 
 			$db->setQuery($query);
@@ -1070,7 +1070,7 @@ class CategoryModel extends AdminModel
 			// Copy rules
 			$query->clear()
 				->update($db->quoteName('#__assets', 't'))
-				->join('INNER', 
+				->join('INNER',
 					$db->quoteName('#__assets', 's'),
 					$db->quoteName('s.id') . ' = :oldid',
 				)
@@ -1209,6 +1209,7 @@ class CategoryModel extends AdminModel
 			{
 				$lft = (int) $this->table->lft;
 				$rgt = (int) $this->table->rgt;
+
 				// Add the child node ids to the children array.
 				$query->clear()
 					->select($db->quoteName('id'))
