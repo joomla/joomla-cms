@@ -246,7 +246,8 @@ class AssociationsModel extends ListModel
 				$db->quoteName('asso.id') . ' = ' . $db->quoteName($fields['id'])
 				. ' AND ' . $db->quoteName('asso.context') . ' = :context'
 			)
-			->join('LEFT',
+			->join(
+				'LEFT',
 				$db->quoteName('#__associations', 'asso2'),
 				$db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key')
 			)
@@ -278,7 +279,8 @@ class AssociationsModel extends ListModel
 
 			// Join over the users.
 			$query->select($db->quoteName('u.name', 'editor'))
-				->join('LEFT',
+				->join(
+					'LEFT',
 					$db->quoteName('#__users', 'u'),
 					$db->quoteName('u.id') . ' = ' . $db->quoteName($fields['checked_out'])
 				);
@@ -319,7 +321,8 @@ class AssociationsModel extends ListModel
 
 			// Join over the categories.
 			$query->select($db->quoteName('c.title', 'category_title'))
-				->join('LEFT',
+				->join(
+					'LEFT',
 					$db->quoteName('#__categories', 'c'),
 					$db->quoteName('c.id') . ' = ' . $db->quoteName($fields['catid'])
 				);
@@ -336,7 +339,8 @@ class AssociationsModel extends ListModel
 			// Join over the menu types.
 			$query->select($db->quoteName('mt.title', 'menutype_title'))
 				->select($db->quoteName('mt.id', 'menutypeid'))
-				->join('LEFT',
+				->join(
+					'LEFT',
 					$db->quoteName('#__menu_types', 'mt'),
 					$db->quoteName('mt.menutype') . ' = ' . $db->quoteName($fields['menutype'])
 				);
@@ -353,7 +357,8 @@ class AssociationsModel extends ListModel
 
 			// Join over the access levels.
 			$query->select($db->quoteName('ag.title', 'access_level'))
-				->join('LEFT',
+				->join(
+					'LEFT',
 					$db->quoteName('#__viewlevels', 'ag'),
 					$db->quoteName('ag.id') . ' = ' . $db->quoteName($fields['access'])
 				);
