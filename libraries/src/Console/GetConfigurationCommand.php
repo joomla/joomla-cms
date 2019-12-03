@@ -226,7 +226,7 @@ class GetConfigurationCommand extends AbstractCommand
 		}
 		elseif ($value === null)
 		{
-			return "Not Set";
+			return 'Not Set';
 		}
 		else
 		{
