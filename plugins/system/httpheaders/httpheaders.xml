@@ -72,7 +72,7 @@
 						/>
 						<field
 							name="client"
-							type="Switcher"
+							type="radio"
 							label="PLG_SYSTEM_HTTPHEADERS_HEADER_CLIENT"
 							default="site"
 							class="col-md-12"
