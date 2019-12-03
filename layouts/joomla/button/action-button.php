@@ -8,7 +8,6 @@
  */
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('bootstrap.popover');
 
@@ -37,5 +36,5 @@ $tipTitle = $options['tip_title'];
 	<?php endif; ?>
 >
 	<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
-	<span class="sr-only"><?php echo Text::_($title); ?></span>
+	<span class="sr-only"><?php echo $title; ?></span>
 </button>
