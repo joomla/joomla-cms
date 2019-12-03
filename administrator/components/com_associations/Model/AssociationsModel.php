@@ -232,7 +232,8 @@ class AssociationsModel extends ListModel
 		$query->select($db->quoteName($fields['language'], 'language'))
 			->select($db->quoteName('l.title', 'language_title'))
 			->select($db->quoteName('l.image', 'language_image'))
-			->join('LEFT',
+			->join(
+				'LEFT',
 				$db->quoteName('#__languages', 'l'),
 				$db->quoteName('l.lang_code') . ' = ' . $db->quoteName($fields['language'])
 			);
