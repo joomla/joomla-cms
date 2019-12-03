@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 
 /**
  * Methods supporting a list of article records.
@@ -231,16 +232,27 @@ class AssociationsModel extends ListModel
 		$query->select($db->quoteName($fields['language'], 'language'))
 			->select($db->quoteName('l.title', 'language_title'))
 			->select($db->quoteName('l.image', 'language_image'))
-			->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON ' . $db->quoteName('l.lang_code') . ' = ' . $db->quoteName($fields['language']));
+			->join(
+				'LEFT',
+				$db->quoteName('#__languages', 'l'),
+				$db->quoteName('l.lang_code') . ' = ' . $db->quoteName($fields['language'])
+			);
+		$extensionNameItem = $extensionName . '.item';
 
 		// Join over the associations.
 		$query->select('COUNT(' . $db->quoteName('asso2.id') . ') > 1 AS ' . $db->quoteName('association'))
 			->join(
 				'LEFT',
-				$db->quoteName('#__associations', 'asso') . ' ON ' . $db->quoteName('asso.id') . ' = ' . $db->quoteName($fields['id'])
-				. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote($extensionName . '.item')
+				$db->quoteName('#__associations', 'asso'),
+				$db->quoteName('asso.id') . ' = ' . $db->quoteName($fields['id'])
+				. ' AND ' . $db->quoteName('asso.context') . ' = :context'
 			)
-			->join('LEFT', $db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'));
+			->join(
+				'LEFT',
+				$db->quoteName('#__associations', 'asso2'),
+				$db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key')
+			)
+			->bind(':context', $extensionNameItem);
 
 		// Prepare the group by clause.
 		$groupby = array(
@@ -268,7 +280,11 @@ class AssociationsModel extends ListModel
 
 			// Join over the users.
 			$query->select($db->quoteName('u.name', 'editor'))
-				->join('LEFT', $db->quoteName('#__users', 'u') . ' ON ' . $db->quoteName('u.id') . ' = ' . $db->quoteName($fields['checked_out']));
+				->join(
+					'LEFT',
+					$db->quoteName('#__users', 'u'),
+					$db->quoteName('u.id') . ' = ' . $db->quoteName($fields['checked_out'])
+				);
 
 			$groupby[] = 'u.name';
 			$groupby[] = $fields['checked_out'];
@@ -306,7 +322,11 @@ class AssociationsModel extends ListModel
 
 			// Join over the categories.
 			$query->select($db->quoteName('c.title', 'category_title'))
-				->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName($fields['catid']));
+				->join(
+					'LEFT',
+					$db->quoteName('#__categories', 'c'),
+					$db->quoteName('c.id') . ' = ' . $db->quoteName($fields['catid'])
+				);
 
 			$groupby[] = 'c.title';
 			$groupby[] = $fields['catid'];
@@ -320,7 +340,11 @@ class AssociationsModel extends ListModel
 			// Join over the menu types.
 			$query->select($db->quoteName('mt.title', 'menutype_title'))
 				->select($db->quoteName('mt.id', 'menutypeid'))
-				->join('LEFT', $db->quoteName('#__menu_types', 'mt') . ' ON ' . $db->quoteName('mt.menutype') . ' = ' . $db->quoteName($fields['menutype']));
+				->join(
+					'LEFT',
+					$db->quoteName('#__menu_types', 'mt'),
+					$db->quoteName('mt.menutype') . ' = ' . $db->quoteName($fields['menutype'])
+				);
 
 			$groupby[] = 'mt.title';
 			$groupby[] = 'mt.id';
@@ -334,7 +358,11 @@ class AssociationsModel extends ListModel
 
 			// Join over the access levels.
 			$query->select($db->quoteName('ag.title', 'access_level'))
-				->join('LEFT', $db->quoteName('#__viewlevels', 'ag') . ' ON ' . $db->quoteName('ag.id') . ' = ' . $db->quoteName($fields['access']));
+				->join(
+					'LEFT',
+					$db->quoteName('#__viewlevels', 'ag'),
+					$db->quoteName('ag.id') . ' = ' . $db->quoteName($fields['access'])
+				);
 
 			$groupby[] = 'ag.title';
 			$groupby[] = $fields['access'];
@@ -342,7 +370,8 @@ class AssociationsModel extends ListModel
 			// Implement View Level Access.
 			if (!$user->authorise('core.admin', $extensionName))
 			{
-				$query->where($fields['access'] . ' IN (' . implode(',', $user->getAuthorisedViewLevels()) . ')');
+				$groups = $user->getAuthorisedViewLevels();
+				$query->whereIn($db->quoteName($fields['access']), $groups);
 			}
 		}
 
@@ -356,21 +385,25 @@ class AssociationsModel extends ListModel
 		// If component item type is category we need to remove all other component categories.
 		if ($typeName === 'category')
 		{
-			$query->where($db->quoteName('a.extension') . ' = ' . $db->quote($extensionName));
+			$query->where($db->quoteName('a.extension') . ' = :extensionname')
+				->bind(':extensionname', $extensionName);
 		}
 		elseif ($typeNameExploded = explode('.', $typeName))
 		{
 			if (count($typeNameExploded) > 1 && array_pop($typeNameExploded) === 'category')
 			{
 				$section = implode('.', $typeNameExploded);
-				$query->where($db->quoteName('a.extension') . ' = ' . $db->quote($extensionName . '.' . $section));
+				$extensionNameSection = $extensionName . '.' . $section;
+				$query->where($db->quoteName('a.extension') . ' = :extensionsection')
+					->bind(':extensionsection', $extensionNameSection);
 			}
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('language'))
 		{
-			$query->where($db->quoteName($fields['language']) . ' = ' . $db->quote($language));
+			$query->where($db->quoteName($fields['language']) . ' = :language')
+				->bind(':language', $language);
 		}
 
 		// Filter by item state.
@@ -378,11 +411,13 @@ class AssociationsModel extends ListModel
 
 		if (is_numeric($state))
 		{
-			$query->where($db->quoteName($fields['state']) . ' = ' . (int) $state);
+			$state = (int) $state;
+			$query->where($db->quoteName($fields['state']) . ' = :state')
+				->bind(':state', $state, ParameterType::INTEGER);
 		}
 		elseif ($state === '')
 		{
-			$query->where($db->quoteName($fields['state']) . ' IN (0, 1)');
+			$query->whereIn($db->quoteName($fields['state']), [0, 1]);
 		}
 
 		// Filter on the category.
@@ -394,26 +429,35 @@ class AssociationsModel extends ListModel
 			$categoryTable->load($categoryId);
 			$baselevel = (int) $categoryTable->level;
 
-			$query->where($db->quoteName('c.lft') . ' >= ' . (int) $categoryTable->lft)
-				->where($db->quoteName('c.rgt') . ' <= ' . (int) $categoryTable->rgt);
+			$lft = (int) $categoryTable->lft;
+			$rgt = (int) $categoryTable->rgt;
+			$query->where($db->quoteName('c.lft') . ' >= :lft')
+				->where($db->quoteName('c.rgt') . ' <= :rgt')
+				->bind(':lft', $lft, ParameterType::INTEGER)
+				->bind(':rgt', $rgt, ParameterType::INTEGER);
 		}
 
 		// Filter on the level.
 		if ($level = $this->getState('filter.level'))
 		{
-			$query->where($db->quoteName('a.level') . ' <= ' . ((int) $level + (int) $baselevel - 1));
+			$queryLevel = ((int) $level + (int) $baselevel - 1);
+			$query->where($db->quoteName('a.level') . ' <= :alevel')
+				->bind(':alevel', $queryLevel, ParameterType::INTEGER);
 		}
 
 		// Filter by menu type.
 		if ($menutype = $this->getState('filter.menutype'))
 		{
-			$query->where($fields['menutype'] . ' = ' . $db->quote($menutype));
+			$query->where($db->quoteName($fields['menutype']) . ' = :menutype2')
+				->bind(':menutype2', $menutype);
 		}
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
-			$query->where($fields['access'] . ' = ' . (int) $access);
+			$access = (int) $access;
+			$query->where($db->quoteName($fields['access']) . ' = :access')
+				->bind(':access', $access, ParameterType::INTEGER);
 		}
 
 		// Filter by search in name.
@@ -421,14 +465,18 @@ class AssociationsModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where($db->quoteName($fields['id']) . ' = ' . (int) substr($search, 3));
+				$search = (int) substr($search, 3);
+				$query->where($db->quoteName($fields['id']) . ' = :searchid')
+					->bind(':searchid', $search, ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(' . $db->quoteName($fields['title']) . ' LIKE ' . $search
-					. ' OR ' . $db->quoteName($fields['alias']) . ' LIKE ' . $search . ')'
-				);
+				$search = '%' . str_replace(' ', '%', trim($search)) . '%';
+				$query->where('(' . $db->quoteName($fields['title']) . ' LIKE :title'
+					. ' OR ' . $db->quoteName($fields['alias']) . ' LIKE :alias)'
+				)
+					->bind(':title', $search)
+					->bind(':alias', $search);
 			}
 		}
 
@@ -463,13 +511,15 @@ class AssociationsModel extends ListModel
 		// Filter by associations context.
 		if ($context)
 		{
-			$query->where($db->quoteName('context') . ' = ' . $db->quote($context));
+			$query->where($db->quoteName('context') . ' = :context')
+				->bind(':context', $context);
 		}
 
 		// Filter by key.
 		if ($key)
 		{
-			$query->where($db->quoteName('key') . ' = ' . $db->quote($key));
+			$query->where($db->quoteName('key') . ' = :key')
+				->bind(':key', $key);
 		}
 
 		$db->setQuery($query);
@@ -516,13 +566,15 @@ class AssociationsModel extends ListModel
 		// Filter by associations context.
 		if ($context)
 		{
-			$query->where($db->quoteName('context') . ' = ' . $db->quote($context));
+			$query->where($db->quoteName('context') . ' = :context')
+				->bind(':context', $context);
 		}
 
 		// Filter by key.
 		if ($key)
 		{
-			$query->where($db->quoteName('key') . ' = ' . $db->quote($key));
+			$query->where($db->quoteName('key') . ' = :key')
+				->bind(':key', $key);
 		}
 
 		$db->setQuery($query);
@@ -536,7 +588,8 @@ class AssociationsModel extends ListModel
 		{
 			$query->clear()
 				->delete($db->quoteName('#__associations'))
-				->where($db->quoteName('key') . ' = ' . $db->quote($value->key));
+				->where($db->quoteName('key') . ' = :valuekey')
+				->bind(':valuekey', $value->key);
 
 			$db->setQuery($query);
 
