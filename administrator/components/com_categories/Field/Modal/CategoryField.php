@@ -17,6 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\Database\ParameterType;
 
 /**
  * Supports a modal category picker.
@@ -116,10 +117,12 @@ class CategoryField extends FormField
 		if ($value)
 		{
 			$db    = Factory::getDbo();
+			$value = (int) $value;
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__categories'))
-				->where($db->quoteName('id') . ' = ' . (int) $value);
+				->where($db->quoteName('id') . ' = :value')
+				->bind(':value', $value, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
