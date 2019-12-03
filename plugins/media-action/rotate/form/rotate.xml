@@ -29,7 +29,7 @@
 
 		<field
 			name="rotate_distinct"
-			type="Switcher"
+			type="radio"
 			hiddenLabel="true"
 			class="btn-group btn-group-rotate"
 			default=""

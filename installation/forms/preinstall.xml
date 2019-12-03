@@ -14,7 +14,7 @@
 	<fieldset name="basic">
 		<field
 			name="ftp_enable"
-			type="Switcher"
+			type="radio"
 			label="INSTL_FTP_ENABLE_LABEL"
 			id="ftp_enable"
 			class="btn-group btn-group-reverse"
@@ -70,7 +70,7 @@
 		/>
 		<field
 			name="ftp_save"
-			type="Switcher"
+			type="radio"
 			label="INSTL_FTP_SAVE_LABEL"
 			id="ftp_save"
 			class="btn-group btn-group-reverse"
