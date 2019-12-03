@@ -288,7 +288,7 @@ class CategoriesModel extends ListModel
 				$query->extendWhere(
 					'AND',
 					[
-						$db->quoteName('a.title') . ' LIKE :title ',
+						$db->quoteName('a.title') . ' LIKE :title',
 						$db->quoteName('a.alias') . ' LIKE :alias',
 						$db->quoteName('a.note') . ' LIKE :note',
 					],
