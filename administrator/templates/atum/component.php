@@ -28,7 +28,7 @@ HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . 
 HTMLHelper::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
 
 // TODO: remove the following line whenever the assets are fixed to respect the overrides
-HTMLHelper::_('stylesheet', 'vendor/choicesjs/choices.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'vendor/choicesjs/choices.css', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <!DOCTYPE html>
