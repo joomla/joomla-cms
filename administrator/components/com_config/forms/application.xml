@@ -971,7 +971,7 @@
 
 		<field
 			name="offline"
-			type="radio"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_SITE_OFFLINE_LABEL"
 			default="0"
 			filter="boolean"
