@@ -28,8 +28,8 @@ $tip = !empty($options['tip']);
 $tipTitle = $options['tip_title'];
 ?>
 <button type="submit" class="tbody-icon data-state-<?php echo $this->escape($value ?? ''); ?><?php echo $tip ? ' hasPopover' : ''; ?>"
-		title="<?php echo HTMLHelper::_('tooltipText', Text::_($tipTitle ? : $title), '', 0); ?>"
-		data-content="<?php echo HTMLHelper::_('tooltipText', Text::_($title), '', 0); ?>"
+		title="<?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, '', 0); ?>"
+		data-content="<?php echo HTMLHelper::_('tooltipText', $title, '', 0); ?>"
 		data-placement="top"
 	<?php echo !empty($disabled) ? 'disabled' : ''; ?>
 	<?php if (!empty($task) && empty($disabled)) : ?>
