@@ -653,7 +653,7 @@ class CategoryModel extends AdminModel
 			if ($associations)
 			{
 				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $query->bindArray($associations)) . ') OR '
-					. $db->quoteName('key') . ' = :oldkey' . ')'
+					. $db->quoteName('key') . ' = :oldkey)'
 				)
 					->bind(':oldkey', $oldKey);
 			}
