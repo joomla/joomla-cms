@@ -290,7 +290,7 @@ class CategoriesModel extends ListModel
 					[
 						$db->quoteName('a.title') . ' LIKE :title ',
 						$db->quoteName('a.alias') . ' LIKE :alias',
-						$db->quoteName('a.note') . ' LIKE :note ',
+						$db->quoteName('a.note') . ' LIKE :note',
 					],
 					'OR'
 				)
