@@ -692,7 +692,7 @@ class CategoryModel extends AdminModel
 				foreach ($associations as $id)
 				{
 					$id = (int) $id;
-					$query->values(':id$id , :associationscontext$id, :key$id')
+					$query->values(':id$id, :associationscontext$id, :key$id')
 						->bind(':id$id', $id, ParameterType::INTEGER)
 						->bind(':associationscontext$id', $this->associationsContext)
 						->bind(':key$id', $key);
