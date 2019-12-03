@@ -475,7 +475,6 @@ class SetConfigurationCommand extends AbstractCommand
 
 		$valid = $this->validateOptions($options);
 
-
 		if (!$valid)
 		{
 			return self::CONFIG_VALIDATION_FAILED;
