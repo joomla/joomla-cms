@@ -140,10 +140,10 @@ $home_pages        = array_column($this->homepages, 'language');
 		<table class="table table-sm">
 			<thead>
 				<tr>
-					<th>
+					<th scope="col">
 						<?php echo Text::_('JDETAILS'); ?>
 					</th>
-					<th class="text-center">
+					<th class="text-center" scope="col">
 						<?php echo Text::_('JSTATUS'); ?>
 					</th>
 				</tr>
@@ -195,16 +195,16 @@ $home_pages        = array_column($this->homepages, 'language');
 		<table class="table table-sm">
 			<thead>
 				<tr>
-					<th>
+					<th scope="col">
 						<?php echo Text::_('JGRID_HEADING_LANGUAGE'); ?>
 					</th>
-					<th class="text-center">
+					<th class="text-center" scope="col">
 						<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_SITE_LANG_PUBLISHED'); ?>
 					</th>
-					<th class="text-center">
+					<th class="text-center" scope="col">
 						<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_PUBLISHED'); ?>
 					</th>
-					<th class="text-center">
+					<th class="text-center" scope="col">
 						<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_PUBLISHED'); ?>
 					</th>
 				</tr>
@@ -213,9 +213,9 @@ $home_pages        = array_column($this->homepages, 'language');
 				<?php foreach ($this->statuses as $status) : ?>
 					<?php if ($status->element) : ?>
 						<tr>
-							<td>
+							<th scope="row">
 								<?php echo $status->element; ?>
-							</td>
+							</th>
 					<?php endif; ?>
 					<?php // Published Site languages ?>
 					<?php if ($status->element) : ?>
