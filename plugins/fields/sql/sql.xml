@@ -33,7 +33,7 @@
 
 				<field
 					name="multiple"
-					type="switcher"
+					type="Switcher"
 					default="0"
 					label="PLG_FIELDS_SQL_PARAMS_MULTIPLE_LABEL"
 					filter="integer"

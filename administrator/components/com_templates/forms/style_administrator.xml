@@ -3,7 +3,7 @@
 	<fieldset>
 		<field
 			name="home"
-			type="switcher"
+			type="Switcher"
 			label="COM_TEMPLATES_FIELD_HOME_LABEL"
 			default="0"
 			>

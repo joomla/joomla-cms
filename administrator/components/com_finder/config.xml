@@ -8,7 +8,7 @@
 
 		<field
 			name="show_taxonomy"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_SHOW_TAXONOMY_LABEL"
 			default="1"
 			>
@@ -18,7 +18,7 @@
 
 		<field
 			name="show_description"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_SHOW_DESCRIPTION_LABEL"
 			default="1"
 			>
@@ -37,7 +37,7 @@
 
 		<field
 			name="show_date"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_SHOW_DATE_LABEL"
 			default="1"
 			>
@@ -47,7 +47,7 @@
 
 		<field
 			name="show_url"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_SHOW_URL_LABEL"
 			default="1"
 			>
@@ -57,7 +57,7 @@
 
 		<field
 			name="logging_enabled"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
 			default="0"
 			>
@@ -67,7 +67,7 @@
 
 		<field
 			name="allow_empty_query"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_ALLOW_EMPTY_QUERY_LABEL"
 			default="0"
 			>
@@ -77,7 +77,7 @@
 
 		<field
 			name="show_autosuggest"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_SHOW_AUTOSUGGEST_LABEL"
 			default="1"
 			>
@@ -87,7 +87,7 @@
 
 		<field
 			name="show_suggested_query"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_LABEL"
 			default="1"
 			validate="options"
@@ -98,7 +98,7 @@
 
 		<field
 			name="show_explained_query"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_LABEL"
 			default="1"
 			validate="options"
@@ -109,7 +109,7 @@
 
 		<field
 			name="show_advanced"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_SHOW_ADVANCED_LABEL"
 			default="1"
 			>
@@ -119,7 +119,7 @@
 
 		<field
 			name="show_advanced_tips"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_SHOW_ADVANCED_TIPS_LABEL"
 			default="1"
 			showon="show_advanced:1"
@@ -130,7 +130,7 @@
 
 		<field
 			name="expand_advanced"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_EXPAND_ADVANCED_LABEL"
 			default="0"
 			showon="show_advanced:1"
@@ -141,7 +141,7 @@
 
 		<field
 			name="show_date_filters"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_LABEL"
 			default="0"
 			showon="show_advanced:1"
@@ -175,7 +175,7 @@
 
 		<field
 			name="highlight_terms"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_HILIGHT_CONTENT_SEARCH_TERMS_LABEL"
 			default="1"
 			>
@@ -185,7 +185,7 @@
 
 		<field
 			name="opensearch"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_OPENSEARCH_LABEL"
 			default="1"
 			>
@@ -294,7 +294,7 @@
 
 		<field
 			name="enable_logging"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_ENABLE_LOGGING_LABEL"
 			default="0"
 			>
@@ -314,7 +314,7 @@
 
 		<field
 			name="filter_commonwords"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_FILTER_COMMONWORDS_LABEL"
 			default="0"
 			>
@@ -324,7 +324,7 @@
 
 		<field
 			name="filter_numerics"
-			type="switcher"
+			type="Switcher"
 			label="COM_FINDER_CONFIG_FILTER_NUMERICS_LABEL"
 			default="0"
 			>

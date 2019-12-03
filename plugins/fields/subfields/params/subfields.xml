@@ -10,7 +10,7 @@
 
 			<field
 				name="repeat"
-				type="switcher"
+				type="Switcher"
 				label="PLG_FIELDS_SUBFIELDS_PARAMS_REPEAT_LABEL"
 				default="1"
 				>
@@ -40,7 +40,7 @@
 
 					<field
 						name="render_values"
-						type="switcher"
+						type="Switcher"
 						label="PLG_FIELDS_SUBFIELDS_PARAMS_RENDER_VALUES_LABEL"
 						default="1"
 						>

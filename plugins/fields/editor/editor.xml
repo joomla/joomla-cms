@@ -23,7 +23,7 @@
 			<fieldset name="basic">
 				<field
 					name="buttons"
-					type="switcher"
+					type="Switcher"
 					label="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_LABEL"
 					default="0"
 					filter="integer"

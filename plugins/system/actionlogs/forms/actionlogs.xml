@@ -4,7 +4,7 @@
 		<fields name="actionlogs">
 			<field
 				name="actionlogsNotify"
-				type="switcher"
+				type="Switcher"
 				label="PLG_SYSTEM_ACTIONLOGS_NOTIFICATIONS"
 				description="PLG_SYSTEM_ACTIONLOGS_NOTIFICATIONS_DESC"
 				default="0"

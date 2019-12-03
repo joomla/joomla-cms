@@ -37,7 +37,7 @@
 
 				<field
 					name="relative"
-					type="switcher"
+					type="Switcher"
 					label="PLG_FIELDS_URL_PARAMS_RELATIVE_LABEL"
 					default="1"
 					filter="integer"

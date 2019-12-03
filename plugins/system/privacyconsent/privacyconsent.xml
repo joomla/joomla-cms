@@ -60,7 +60,7 @@
 			>
 				<field
 					name="enabled"
-					type="switcher"
+					type="Switcher"
 					label="PLG_SYSTEM_PRIVACYCONSENT_FIELD_ENABLED_LABEL"
 					description="PLG_SYSTEM_PRIVACYCONSENT_FIELD_ENABLED_DESC"
 					default="0"

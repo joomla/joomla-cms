@@ -25,7 +25,7 @@
 			<fieldset name="basic">
 				<field
 					name="serverinfo"
-					type="switcher"
+					type="Switcher"
 					label="MOD_STATS_FIELD_SERVERINFO_LABEL"
 					default="0"
 					filter="integer"
@@ -36,7 +36,7 @@
 
 				<field
 					name="siteinfo"
-					type="switcher"
+					type="Switcher"
 					label="MOD_STATS_FIELD_SITEINFO_LABEL"
 					default="0"
 					filter="integer"

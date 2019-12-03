@@ -67,7 +67,7 @@
 
 		<field
 			name="required"
-			type="switcher"
+			type="Switcher"
 			label="COM_FIELDS_FIELD_REQUIRED_LABEL"
 			default="0"
 			>
@@ -249,7 +249,7 @@
 
 				<field
 					name="showlabel"
-					type="switcher"
+					type="Switcher"
 					label="COM_FIELDS_FIELD_SHOWLABEL_LABEL"
 					default="1"
 					>

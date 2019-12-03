@@ -9,7 +9,7 @@
 		<fieldset name="basic" label="JOPTIONS">
 			<field
 				name="ajax-badge"
-				type="switcher"
+				type="Switcher"
 				label="COM_POSTINSTALL_MESSAGES_VIEW_DISPLAY_BADGE"
 				default=""
 				>

@@ -36,7 +36,7 @@
 
 		<field
 			name="showtitle"
-			type="switcher"
+			type="Switcher"
 			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
 			default="1"
 			size="1"

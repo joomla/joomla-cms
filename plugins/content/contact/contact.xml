@@ -33,7 +33,7 @@
 
 				<field
 					name="link_to_alias"
-					type="switcher"
+					type="Switcher"
 					label="PLG_CONTENT_CONTACT_PARAM_ALIAS_LABEL"
 					description="PLG_CONTENT_CONTACT_PARAM_ALIAS_DESCRIPTION"
 					default="0"

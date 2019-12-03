@@ -15,7 +15,7 @@
 
 		<field
 			name="cache_platformprefix"
-			type="switcher"
+			type="Switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
 			filter="integer"
@@ -47,7 +47,7 @@
 
 		<field
 			name="memcached_persist"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
 			default="1"
 			showon="cache_handler:memcached"
@@ -59,7 +59,7 @@
 
 		<field
 			name="memcached_compress"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
 			default="0"
 			showon="cache_handler:memcached"
@@ -93,7 +93,7 @@
 
 		<field
 			name="redis_persist"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
 			default="1"
 			filter="boolean"
@@ -156,7 +156,7 @@
 
 		<field
 			name="cache_platformprefix"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
 			default="0"
 			filter="boolean"
@@ -242,7 +242,7 @@
 
 		<field
 			name="dbsslverifyservercert"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_VERIFY_SERVER_CERT_LABEL"
 			default="0"
 			filter="boolean"
@@ -305,7 +305,7 @@
 
 		<field
 			name="debug"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_DEBUG_SYSTEM_LABEL"
 			default="0"
 			filter="boolean"
@@ -316,7 +316,7 @@
 
 		<field
 			name="debug_lang"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_DEBUG_LANG_LABEL"
 			default="0"
 			filter="boolean"
@@ -327,7 +327,7 @@
 
 		<field
 			name="debug_lang_const"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_DEBUG_CONST_LANG_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_CONST_LANG_DESC"
 			default="1"
@@ -344,7 +344,7 @@
 
 		<field
 			name="ftp_enable"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_FTP_ENABLE_LABEL"
 			default="0"
 			filter="boolean"
@@ -411,7 +411,7 @@
 
 		<field
 			name="proxy_enable"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_PROXY_ENABLE_LABEL"
 			default="0"
 			filter="boolean"
@@ -484,7 +484,7 @@
 
 		<field
 			name="mailonline"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_MAIL_MAILONLINE_LABEL"
 			default="1"
 			filter="boolean"
@@ -495,7 +495,7 @@
 
 		<field
 			name="massmailoff"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_LABEL"
 			default="0"
 			filter="boolean"
@@ -604,7 +604,7 @@
 
 		<field
 			name="smtpauth"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_LABEL"
 			default="0"
 			showon="mailonline:1[AND]mailer:smtp"
@@ -681,7 +681,7 @@
 
 		<field
 			name="MetaAuthor"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_METAAUTHOR_LABEL"
 			default="1"
 			filter="boolean"
@@ -692,7 +692,7 @@
 
 		<field
 			name="MetaVersion"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_METAVERSION_LABEL"
 			default="0"
 			filter="boolean"
@@ -709,7 +709,7 @@
 
 		<field
 			name="sef"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
 			default="1"
 			filter="boolean"
@@ -720,7 +720,7 @@
 
 		<field
 			name="sef_rewrite"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_SEF_REWRITE_LABEL"
 			description="COM_CONFIG_FIELD_SEF_REWRITE_DESC"
 			default="0"
@@ -733,7 +733,7 @@
 
 		<field
 			name="sef_suffix"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_SEF_SUFFIX_LABEL"
 			default="0"
 			filter="boolean"
@@ -745,7 +745,7 @@
 
 		<field
 			name="unicodeslugs"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_UNICODESLUGS_LABEL"
 			default="0"
 			filter="boolean"
@@ -783,7 +783,7 @@
 
 		<field
 			name="gzip"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_GZIP_COMPRESSION_LABEL"
 			default="0"
 			filter="boolean"
@@ -865,7 +865,7 @@
 
 		<field
 			name="session_redis_persist"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
 			default="1"
@@ -933,7 +933,7 @@
 
 		<field
 			name="shared_session"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_SHARED_SESSION_LABEL"
 			description="COM_CONFIG_FIELD_SHARED_SESSION_DESC"
 			default="0"
@@ -945,7 +945,7 @@
 
 		<field
 			name="session_metadata"
-			type="switcher"
+			type="Switcher"
 			default="1"
 			label="COM_CONFIG_FIELD_SESSION_METADATA_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_METADATA_DESC"

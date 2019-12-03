@@ -4,7 +4,7 @@
 		<fieldset name="fieldparams">
 			<field
 				name="showtime"
-				type="switcher"
+				type="Switcher"
 				label="PLG_FIELDS_CALENDAR_PARAMS_SHOWTIME_LABEL"
 				description="PLG_FIELDS_CALENDAR_PARAMS_SHOWTIME_DESC"
 				size="20"

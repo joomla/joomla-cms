@@ -193,7 +193,7 @@
 
 		<field
 			name="sticky"
-			type="switcher"
+			type="Switcher"
 			label="COM_BANNERS_FIELD_STICKY_LABEL"
 			description="COM_BANNERS_FIELD_STICKY_DESC"
 			default="0"
@@ -280,7 +280,7 @@
 
 		<field
 			name="own_prefix"
-			type="switcher"
+			type="Switcher"
 			label="COM_BANNERS_FIELD_BANNEROWNPREFIX_LABEL"
 			default="0"
 			>

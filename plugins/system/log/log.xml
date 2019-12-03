@@ -21,7 +21,7 @@
 			<fieldset name="basic">
 				<field
 					name="log_username"
-					type="switcher"
+					type="Switcher"
 					label="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_LABEL"
 					default="0"
 					filter="integer"

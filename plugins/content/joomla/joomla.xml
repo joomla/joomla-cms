@@ -21,7 +21,7 @@
 			<fieldset name="basic">
 				<field
 					name="check_categories"
-					type="switcher"
+					type="Switcher"
 					label="PLG_CONTENT_JOOMLA_FIELD_CHECK_CATEGORIES_LABEL"
 					description="PLG_CONTENT_JOOMLA_FIELD_CHECK_CATEGORIES_DESC"
 					default="1"
@@ -33,7 +33,7 @@
 
 				<field
 					name="email_new_fe"
-					type="switcher"
+					type="Switcher"
 					label="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_FE_LABEL"
 					description="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_FE_DESC"
 					default="1"
@@ -45,7 +45,7 @@
 
 				<field
 					name="email_new_stage"
-					type="switcher"
+					type="Switcher"
 					label="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_STAGE_LABEL"
 					description="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_STAGE_DESC"
 					default="0"

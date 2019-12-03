@@ -48,7 +48,7 @@
 		</field>
 		<field
 			name="default"
-			type="switcher"
+			type="Switcher"
 			label="COM_WORKFLOW_FIELD_IS_DEFAULT_LABEL"
 			default="0"
 			>

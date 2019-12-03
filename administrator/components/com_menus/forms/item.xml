@@ -159,7 +159,7 @@
 
 		<field
 			name="home"
-			type="switcher"
+			type="Switcher"
 			label="COM_MENUS_ITEM_FIELD_HOME_LABEL"
 			default="0"
 			filter="integer"
@@ -214,7 +214,7 @@
 
 		<field
 			name="toggle_modules_assigned"
-			type="switcher"
+			type="Switcher"
 			label="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_LABEL"
 			default="1"
 			filter="integer"
@@ -225,7 +225,7 @@
 
 		<field
 			name="toggle_modules_published"
-			type="switcher"
+			type="Switcher"
 			label="COM_MENUS_ITEM_FIELD_HIDE_UNPUBLISHED_LABEL"
 			default="1"
 			filter="integer"

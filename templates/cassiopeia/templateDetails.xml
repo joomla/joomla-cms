@@ -72,7 +72,7 @@
 
 				<field
 					name="fluidContainer"
-					type="switcher"
+					type="Switcher"
 					default="0"
 					label="TPL_CASSIOPEIA_FLUID_LABEL"
 				>

@@ -37,7 +37,7 @@
 
 				<field
 					name="autopublish"
-					type="switcher"
+					type="Switcher"
 					label="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_LABEL"
 					default="0"
 					filter="integer"

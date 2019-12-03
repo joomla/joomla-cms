@@ -6,7 +6,7 @@
 		>
 		<field
 			name="mode"
-			type="switcher"
+			type="Switcher"
 			label="COM_REDIRECT_MODE_LABEL"
 			default="0"
 			>
@@ -22,7 +22,7 @@
 		/>
 		<field
 			name="defaultImportState"
-			type="switcher"
+			type="Switcher"
 			label="COM_REDIRECT_DEFAULT_IMPORT_STATE_LABEL"
 			description="COM_REDIRECT_DEFAULT_IMPORT_STATE_DESC"
 			default="0"

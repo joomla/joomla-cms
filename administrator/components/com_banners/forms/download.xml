@@ -5,7 +5,7 @@
 
 		<field
 			name="compressed"
-			type="switcher"
+			type="Switcher"
 			label="COM_BANNERS_FIELD_COMPRESSED_LABEL"
 			default="0"
 			>

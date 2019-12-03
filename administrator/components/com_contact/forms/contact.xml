@@ -193,7 +193,7 @@
 
 		<field
 			name="featured"
-			type="switcher"
+			type="Switcher"
 			label="JFEATURED"
 			default="0"
 			>

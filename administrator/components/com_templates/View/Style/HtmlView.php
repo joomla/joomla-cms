@@ -79,7 +79,7 @@ class HtmlView extends BaseHtmlView
 
 		if ((!Multilanguage::isEnabled()) && ($this->item->client_id == 0))
 		{
-			$this->form->setFieldAttribute('home', 'type', 'switcher');
+			$this->form->setFieldAttribute('home', 'type', 'Switcher');
 		}
 
 		$this->addToolbar();

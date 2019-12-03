@@ -82,7 +82,7 @@
 
 				<field
 					name="display_count"
-					type="switcher"
+					type="Switcher"
 					label="MOD_TAGS_POPULAR_FIELD_DISPLAY_COUNT_LABEL"
 					default="0"
 					filter="integer"
@@ -93,7 +93,7 @@
 
 				<field
 					name="no_results_text"
-					type="switcher"
+					type="Switcher"
 					label="MOD_TAGS_POPULAR_FIELD_NO_RESULTS_LABEL"
 					default="0"
 					filter="integer"

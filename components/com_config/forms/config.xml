@@ -37,7 +37,7 @@
 		label="CONFIG_SEO_SETTINGS_LABEL">
 		<field
 			name="sef"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
 			default="1"
 			filter="integer"
@@ -75,7 +75,7 @@
 
 		<field
 			name="offline"
-			type="switcher"
+			type="Switcher"
 			label="COM_CONFIG_FIELD_SITE_OFFLINE_LABEL"
 			default="0"
 			filter="integer"

@@ -142,7 +142,7 @@
 		<fieldset name="basic">
 			<field
 				name="display_readonly"
-				type="switcher"
+				type="Switcher"
 				label="JFIELD_DISPLAY_READONLY_LABEL"
 				default="1"
 				>

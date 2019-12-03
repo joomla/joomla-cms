@@ -21,7 +21,7 @@
 			<fieldset name="basic">
 				<field
 					name="multiple"
-					type="switcher"
+					type="Switcher"
 					label="PLG_FIELDS_LIST_PARAMS_MULTIPLE_LABEL"
 					default="0"
 					filter="integer"

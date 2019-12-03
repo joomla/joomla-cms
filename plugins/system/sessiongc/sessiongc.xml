@@ -21,7 +21,7 @@
 			<fieldset name="basic">
 				<field
 					name="enable_session_gc"
-					type="switcher"
+					type="Switcher"
 					label="PLG_SYSTEM_SESSIONGC_ENABLE_SESSION_GC_LABEL"
 					description="PLG_SYSTEM_SESSIONGC_ENABLE_SESSION_GC_DESC"
 					default="1"
@@ -33,7 +33,7 @@
 
 				<field
 					name="enable_session_metadata_gc"
-					type="switcher"
+					type="Switcher"
 					label="PLG_SYSTEM_SESSIONGC_ENABLE_SESSION_METADATA_GC_LABEL"
 					description="PLG_SYSTEM_SESSIONGC_ENABLE_SESSION_METADATA_GC_DESC"
 					default="1"

@@ -25,7 +25,7 @@
 			<fieldset name="basic">
 				<field
 					name="showHere"
-					type="switcher"
+					type="Switcher"
 					label="MOD_BREADCRUMBS_FIELD_SHOWHERE_LABEL"
 					default="1"
 					filter="integer"
@@ -36,7 +36,7 @@
 
 				<field
 					name="showHome"
-					type="switcher"
+					type="Switcher"
 					label="MOD_BREADCRUMBS_FIELD_SHOWHOME_LABEL"
 					default="1"
 					filter="integer"
@@ -55,7 +55,7 @@
 
 				<field
 					name="showLast"
-					type="switcher"
+					type="Switcher"
 					label="MOD_BREADCRUMBS_FIELD_SHOWLAST_LABEL"
 					default="1"
 					filter="integer"

@@ -35,7 +35,7 @@
 
 				<field
 					name="rssrtl"
-					type="switcher"
+					type="Switcher"
 					label="MOD_FEED_FIELD_RTL_LABEL"
 					default="0"
 					filter="integer"
@@ -46,7 +46,7 @@
 
 				<field
 					name="rsstitle"
-					type="switcher"
+					type="Switcher"
 					label="MOD_FEED_FIELD_RSSTITLE_LABEL"
 					default="1"
 					filter="integer"
@@ -57,7 +57,7 @@
 
 				<field
 					name="rssdesc"
-					type="switcher"
+					type="Switcher"
 					label="MOD_FEED_FIELD_DESCRIPTION_LABEL"
 					default="1"
 					filter="integer"
@@ -68,7 +68,7 @@
 
 				<field
 					name="rssdate"
-					type="switcher"
+					type="Switcher"
 					label="MOD_FEED_FIELD_DATE_LABEL"
 					default="0"
 					>
@@ -78,7 +78,7 @@
 
 				<field
 					name="rssimage"
-					type="switcher"
+					type="Switcher"
 					label="MOD_FEED_FIELD_IMAGE_LABEL"
 					default="1"
 					filter="integer"
@@ -97,7 +97,7 @@
 
 				<field
 					name="rssitemdesc"
-					type="switcher"
+					type="Switcher"
 					label="MOD_FEED_FIELD_ITEMDESCRIPTION_LABEL"
 					default="1"
 					filter="integer"
@@ -108,7 +108,7 @@
 
 				<field
 					name="rssitemdate"
-					type="switcher"
+					type="Switcher"
 					label="MOD_FEED_FIELD_ITEMDATE_LABEL"
 					default="0"
 					filter="integer"
