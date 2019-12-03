@@ -319,7 +319,7 @@ class CategoriesModel extends ListModel
 				->join(
 					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
 					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = :typealias')
+					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = :typealias'
 				)
 				->bind(':typealias', $typeAlias);
 		}
