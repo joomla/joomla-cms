@@ -84,17 +84,17 @@ class PublishedButton extends ActionButton
 
 				$default['title'] = $tip;
 
-				$options['tip_title'] = 'JLIB_HTML_PUBLISHED_ITEM';
+				$options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_ITEM');
 
 				if ($publishUp && $nowDate < $publishUp->toUnix())
 				{
-					$options['tip_title'] = 'JLIB_HTML_PUBLISHED_PENDING_ITEM';
+					$options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_PENDING_ITEM');
 					$default['icon'] = 'pending';
 				}
 
 				if ($publishDown && $nowDate > $publishDown->toUnix())
 				{
-					$options['tip_title'] = 'JLIB_HTML_PUBLISHED_EXPIRED_ITEM';
+					$options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_EXPIRED_ITEM');
 					$default['icon'] = 'expired';
 				}
 			}
