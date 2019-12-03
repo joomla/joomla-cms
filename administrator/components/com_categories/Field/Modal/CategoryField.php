@@ -117,7 +117,6 @@ class CategoryField extends FormField
 		if ($value)
 		{
 			$db    = Factory::getDbo();
-			$value = (int) $value;
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__categories'))
