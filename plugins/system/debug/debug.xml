@@ -247,7 +247,6 @@
 					name="log_category_mode"
 					type="Switcher"
 					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
-					class="switcher switcher-danger"
 					default="0"
 					>
 					<option value="0">PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_INCLUDE</option>
