@@ -72,7 +72,7 @@ class MenuController extends FormController
 		}
 
 		$data['menutype'] = InputFilter::getInstance()->clean($data['menutype'], 'TRIM');
-		
+
 		// Populate the row id from the session.
 		$data['id'] = $recordId;
 
