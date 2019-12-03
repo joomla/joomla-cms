@@ -19,9 +19,8 @@
 
 			<field
 				name="alias_redirect"
-				type="radio"
+				type="switcher"
 				label="COM_MENUS_ITEM_FIELD_ALIAS_REDIRECT_LABEL"
-				class="switcher"
 				default="0"
 				filter="integer"
 				>
@@ -61,9 +60,8 @@
 
 			<field
 				name="menu_text"
-				type="radio"
+				type="switcher"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
-				class="switcher"
 				default="1"
 				filter="integer"
 				>
@@ -73,11 +71,10 @@
 
 			<field
 				name="menu_show"
-				type="radio"
+				type="switcher"
 				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
 				default="1"
 				filter="integer"
-				class="switcher"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>

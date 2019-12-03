@@ -23,10 +23,9 @@
 			<fieldset name="basic">
 				<field
 					name="refresh_assets"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_REFRESH_ASSETS_LABEL"
 					description="PLG_DEBUG_FIELD_REFRESH_ASSETS_DESC"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -45,9 +44,8 @@
 
 				<field
 					name="memory"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -57,9 +55,8 @@
 
 				<field
 					name="request"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_REQUEST_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -69,9 +66,8 @@
 
 				<field
 					name="session"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_SESSION_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -81,9 +77,8 @@
 
 				<field
 					name="profile"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_PROFILING_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -93,9 +88,8 @@
 
 				<field
 					name="queries"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_QUERIES_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -105,9 +99,8 @@
 
 				<field
 					name="query_traces"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_QUERY_TRACES_LABEL"
-					class="switcher"
 					default="0"
 					showon="queries:1"
 					filter="integer"
@@ -118,9 +111,8 @@
 
 				<field
 					name="query_profiles"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_QUERY_PROFILES_LABEL"
-					class="switcher"
 					default="0"
 					showon="queries:1"
 					filter="integer"
@@ -131,9 +123,8 @@
 
 				<field
 					name="query_explains"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_QUERY_EXPLAINS_LABEL"
-					class="switcher"
 					default="0"
 					showon="queries:1"
 					filter="integer"
@@ -150,9 +141,8 @@
 
 				<field
 					name="language_errorfiles"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -162,9 +152,8 @@
 
 				<field
 					name="language_files"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -174,9 +163,8 @@
 
 				<field
 					name="language_strings"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -186,9 +174,8 @@
 
 				<field
 					name="strip-first"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -221,9 +208,8 @@
 				>
 				<field
 					name="logs"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_LOGS_LABEL"
-					class="switcher"
 					default="1"
 					>
 					<option value="0">JHIDE</option>
@@ -259,7 +245,7 @@
 
 				<field
 					name="log_category_mode"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
 					class="switcher switcher-danger"
 					default="0"
@@ -270,9 +256,8 @@
 
 				<field
 					name="log-deprecated"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
-					class="switcher"
 					default="0"
 					filter="integer"
 					>
@@ -282,9 +267,8 @@
 
 				<field
 					name="log-deprecated-core"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_CORE_LABEL"
-					class="switcher"
 					default="0"
 					filter="integer"
 					>
@@ -294,9 +278,8 @@
 
 				<field
 					name="log-everything"
-					type="radio"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_LOG_EVERYTHING_LABEL"
-					class="switcher"
 					default="0"
 					filter="integer"
 					>

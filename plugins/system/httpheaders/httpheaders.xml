@@ -18,9 +18,8 @@
 			<fieldset name="basic">
 				<field
 					name="xframeoptions"
-					type="radio"
+					type="switcher"
 					label="PLG_SYSTEM_HTTPHEADERS_XFRAMEOPTIONS"
-					class="switcher"
 					default="1"
 					>
 					<option value="0">JDISABLED</option>
@@ -73,7 +72,7 @@
 						/>
 						<field
 							name="client"
-							type="radio"
+							type="switcher"
 							label="PLG_SYSTEM_HTTPHEADERS_HEADER_CLIENT"
 							default="site"
 							class="col-md-12"
@@ -88,9 +87,8 @@
 			<fieldset name="hsts" label="Strict-Transport-Security (HSTS)">
 				<field
 					name="hsts"
-					type="radio"
+					type="switcher"
 					label="PLG_SYSTEM_HTTPHEADERS_HSTS"
-					class="switcher"
 					default="0"
 					>
 					<option value="0">JDISABLED</option>
@@ -107,10 +105,9 @@
 				/>
 				<field
 					name="hsts_subdomains"
-					type="radio"
+					type="switcher"
 					label="PLG_SYSTEM_HTTPHEADERS_HSTS_SUBDOMAINS"
 					description="PLG_SYSTEM_HTTPHEADERS_HSTS_SUBDOMAINS_DESC"
-					class="switcher"
 					default="0"
 					showon="hsts:1"
 					>
@@ -119,10 +116,9 @@
 				</field>
 				<field
 					name="hsts_preload"
-					type="radio"
+					type="switcher"
 					label="PLG_SYSTEM_HTTPHEADERS_HSTS_PRELOAD"
 					description="PLG_SYSTEM_HTTPHEADERS_HSTS_PRELOAD_NOTE_DESC"
-					class="switcher"
 					default="0"
 					showon="hsts:1"
 					>

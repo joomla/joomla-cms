@@ -72,8 +72,7 @@
 
 				<field
 					name="fluidContainer"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					default="0"
 					label="TPL_CASSIOPEIA_FLUID_LABEL"
 				>

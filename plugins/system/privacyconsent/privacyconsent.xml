@@ -60,10 +60,9 @@
 			>
 				<field
 					name="enabled"
-					type="radio"
+					type="switcher"
 					label="PLG_SYSTEM_PRIVACYCONSENT_FIELD_ENABLED_LABEL"
 					description="PLG_SYSTEM_PRIVACYCONSENT_FIELD_ENABLED_DESC"
-					class="switcher"
 					default="0"
 					filter="integer"
 					>

@@ -25,9 +25,8 @@
 			<fieldset name="basic">
 				<field
 					name="showHere"
-					type="radio"
+					type="switcher"
 					label="MOD_BREADCRUMBS_FIELD_SHOWHERE_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -37,9 +36,8 @@
 
 				<field
 					name="showHome"
-					type="radio"
+					type="switcher"
 					label="MOD_BREADCRUMBS_FIELD_SHOWHOME_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -57,10 +55,9 @@
 
 				<field
 					name="showLast"
-					type="radio"
+					type="switcher"
 					label="MOD_BREADCRUMBS_FIELD_SHOWLAST_LABEL"
 					default="1"
-					class="switcher"
 					filter="integer"
 					>
 					<option value="0">JHIDE</option>

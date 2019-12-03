@@ -3,9 +3,8 @@
 	<fieldset>
 		<field
 			name="home"
-			type="radio"
+			type="switcher"
 			label="COM_TEMPLATES_FIELD_HOME_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>

@@ -24,10 +24,9 @@
 		>
 		<field
 			name="adminlangfilter"
-			type="radio"
+			type="switcher"
 			label="COM_MODULES_ADMIN_LANG_FILTER_LABEL"
 			description="COM_MODULES_ADMIN_LANG_FILTER_DESC"
-			class="switcher"
 			default="0"
 			filter="integer"
 			>

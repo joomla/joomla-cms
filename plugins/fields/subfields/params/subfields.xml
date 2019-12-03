@@ -10,9 +10,8 @@
 
 			<field
 				name="repeat"
-				type="radio"
+				type="switcher"
 				label="PLG_FIELDS_SUBFIELDS_PARAMS_REPEAT_LABEL"
-				class="switcher"
 				default="1"
 				>
 				<option value="0">JNO</option>
@@ -41,9 +40,8 @@
 
 					<field
 						name="render_values"
-						type="radio"
+						type="switcher"
 						label="PLG_FIELDS_SUBFIELDS_PARAMS_RENDER_VALUES_LABEL"
-						class="switcher"
 						default="1"
 						>
 						<option value="0">JNO</option>

@@ -6,9 +6,8 @@
 		>
 		<field
 			name="mode"
-			type="radio"
+			type="switcher"
 			label="COM_REDIRECT_MODE_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -23,10 +22,9 @@
 		/>
 		<field
 			name="defaultImportState"
-			type="radio"
+			type="switcher"
 			label="COM_REDIRECT_DEFAULT_IMPORT_STATE_LABEL"
 			description="COM_REDIRECT_DEFAULT_IMPORT_STATE_DESC"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JDISABLED</option>

@@ -4,10 +4,9 @@
 		<fields name="actionlogs">
 			<field
 				name="actionlogsNotify"
-				type="radio"
+				type="switcher"
 				label="PLG_SYSTEM_ACTIONLOGS_NOTIFICATIONS"
 				description="PLG_SYSTEM_ACTIONLOGS_NOTIFICATIONS_DESC"
-				class="switcher"
 				default="0"
 				filter="integer"
 				required="true"

@@ -31,10 +31,9 @@
 
     <field
         name="mobile"
-        type="radio"
+        type="switcher"
         label="PLG_TINY_FIELD_MOBILE_LABEL"
-        class="switcher"
-        default="0"
+                default="0"
         >
         <option value="0">JOFF</option>
         <option value="1">JON</option>
@@ -42,10 +41,9 @@
 
     <field
         name="drag_drop"
-        type="radio"
+        type="switcher"
         label="PLG_TINY_FIELD_DRAG_DROP_LABEL"
-        class="switcher"
-        default="1"
+                default="1"
         >
         <option value="0">JOFF</option>
         <option value="1">JON</option>
@@ -71,10 +69,9 @@
 
     <field
         name="lang_mode"
-        type="radio"
+        type="switcher"
         label="PLG_TINY_FIELD_LANGSELECT_LABEL"
-        class="switcher"
-        default="1"
+                default="1"
         >
         <option value="0">JOFF</option>
         <option value="1">JON</option>
@@ -105,11 +102,10 @@
 
     <field
         name="content_css"
-        type="radio"
+        type="switcher"
         label="PLG_TINY_FIELD_CSS_LABEL"
         description="PLG_TINY_FIELD_CSS_DESC"
-        class="switcher"
-        default="1"
+                default="1"
         >
         <option value="0">JOFF</option>
         <option value="1">JON</option>
@@ -144,10 +140,9 @@
 
     <field
         name="use_config_textfilters"
-        type="radio"
+        type="switcher"
         label="PLG_TINY_CONFIG_TEXTFILTER_ACL_LABEL"
-        class="switcher"
-        default="0"
+                default="0"
         >
         <option value="0">JOFF</option>
         <option value="1">JON</option>
@@ -179,10 +174,9 @@
     <!-- Extra plugins -->
     <field
         name="resizing"
-        type="radio"
+        type="switcher"
         label="PLG_TINY_FIELD_RESIZING_LABEL"
-        class="switcher"
-        default="1"
+                default="1"
         >
         <option value="0">JOFF</option>
         <option value="1">JON</option>
@@ -190,10 +184,9 @@
 
     <field
         name="resize_horizontal"
-        type="radio"
+        type="switcher"
         label="PLG_TINY_FIELD_RESIZE_HORIZONTAL_LABEL"
-        class="switcher"
-        default="1"
+                default="1"
         showon="resizing:1"
         >
         <option value="0">JOFF</option>
@@ -202,10 +195,9 @@
 
     <field
         name="element_path"
-        type="radio"
+        type="switcher"
         label="PLG_TINY_FIELD_PATH_LABEL"
-        class="switcher"
-        default="0"
+                default="0"
         >
         <option value="0">JOFF</option>
         <option value="1">JON</option>
@@ -213,10 +205,9 @@
 
     <field
         name="wordcount"
-        type="radio"
+        type="switcher"
         label="PLG_TINY_FIELD_WORDCOUNT_LABEL"
-        class="switcher"
-        default="1"
+                default="1"
         >
         <option value="0">JOFF</option>
         <option value="1">JON</option>
@@ -224,10 +215,9 @@
 
     <field
         name="image_advtab"
-        type="radio"
+        type="switcher"
         label="PLG_TINY_FIELD_ADVIMAGE_LABEL"
-        class="switcher"
-        default="1"
+                default="1"
         >
         <option value="0">JOFF</option>
         <option value="1">JON</option>
@@ -235,10 +225,9 @@
 
     <field
         name="advlist"
-        type="radio"
+        type="switcher"
         label="PLG_TINY_FIELD_ADVLIST_LABEL"
-        class="switcher"
-        default="1"
+                default="1"
         >
         <option value="0">JOFF</option>
         <option value="1">JON</option>
@@ -246,10 +235,9 @@
 
     <field
         name="contextmenu"
-        type="radio"
+        type="switcher"
         label="PLG_TINY_FIELD_CONTEXTMENU_LABEL"
-        class="switcher"
-        default="1"
+                default="1"
         >
         <option value="0">JOFF</option>
         <option value="1">JON</option>

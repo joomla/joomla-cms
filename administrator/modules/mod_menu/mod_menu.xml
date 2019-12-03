@@ -45,10 +45,9 @@
 
 				<field
 					name="check"
-					type="radio"
+					type="switcher"
 					label="MOD_MENU_FIELD_CHECK_LABEL"
 					description="MOD_MENU_FIELD_CHECK_DESC"
-					class="switcher"
 					default="1"
 					filter="integer"
 					showon="menutype!:*"
@@ -59,9 +58,8 @@
 
 				<field
 					name="shownew"
-					type="radio"
+					type="switcher"
 					label="MOD_MENU_FIELD_SHOWNEW"
-					class="switcher"
 					default="1"
 					filter="integer"
 					showon="menutype:*"
@@ -72,9 +70,8 @@
 
 				<field
 					name="showhelp"
-					type="radio"
+					type="switcher"
 					label="MOD_MENU_FIELD_SHOWHELP"
-					class="switcher"
 					default="1"
 					filter="integer"
 					showon="menutype:*"

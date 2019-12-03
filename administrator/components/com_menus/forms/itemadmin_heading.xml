@@ -46,9 +46,8 @@
 
 			<field
 				name="menu_text"
-				type="radio"
+				type="switcher"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
-				class="switcher"
 				default="1"
 				filter="integer"
 				>
@@ -58,9 +57,8 @@
 
 			<field
 				name="menu_show"
-				type="radio"
+				type="switcher"
 				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
-				class="switcher"
 				default="1"
 				filter="integer"
 				>

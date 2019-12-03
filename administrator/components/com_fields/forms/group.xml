@@ -142,9 +142,8 @@
 		<fieldset name="basic">
 			<field
 				name="display_readonly"
-				type="radio"
+				type="switcher"
 				label="JFIELD_DISPLAY_READONLY_LABEL"
-				class="switcher"
 				default="1"
 				>
 				<option value="0">JNO</option>

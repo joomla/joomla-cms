@@ -36,8 +36,7 @@
 
 				<field
 					name="show_on_article_page"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_DESC"
 					default="1"
@@ -82,8 +81,7 @@
 
 				<field
 					name="category_filtering_type"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_CATFILTERINGTYPE_LABEL"
 					default="1"
 					filter="integer"
@@ -104,8 +102,7 @@
 
 				<field
 					name="show_child_category_articles"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWCHILDCATEGORYARTICLES_LABEL"
 					default="0"
 					filter="integer"
@@ -147,8 +144,7 @@
 
 				<field
 					name="author_filtering_type"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORFILTERING_LABEL"
 					default="1"
 					filter="integer"
@@ -174,8 +170,7 @@
 
 				<field
 					name="author_alias_filtering_type"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIASFILTERING_LABEL"
 					default="1"
 					filter="integer"
@@ -369,8 +364,7 @@
 
 				<field
 					name="link_titles"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_LINKTITLES_LABEL"
 					default="1"
 					filter="integer"
@@ -381,8 +375,7 @@
 
 				<field
 					name="show_date"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="JDATE"
 					default="0"
 					filter="integer"
@@ -414,8 +407,7 @@
 
 				<field
 					name="show_category"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="JCATEGORY"
 					default="0"
 					filter="integer"
@@ -426,8 +418,7 @@
 
 				<field
 					name="show_hits"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWHITS_LABEL"
 					default="0"
 					filter="integer"
@@ -438,8 +429,7 @@
 
 				<field
 					name="show_author"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="JAUTHOR"
 					default="0"
 					filter="integer"
@@ -450,8 +440,7 @@
 
 				<field
 					name="show_tags"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="JTAG"
 					default="0"
 					filter="integer"
@@ -462,8 +451,7 @@
 
 				<field
 					name="show_introtext"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWINTROTEXT_LABEL"
 					default="0"
 					filter="integer"
@@ -483,8 +471,7 @@
 
 				<field
 					name="show_readmore"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="JGLOBAL_SHOW_READMORE_LABEL"
 					default="0"
 					filter="integer"
@@ -495,8 +482,7 @@
 
 				<field
 					name="show_readmore_title"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
 					default="1"
 					filter="integer"

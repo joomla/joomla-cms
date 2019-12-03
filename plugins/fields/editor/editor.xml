@@ -23,9 +23,8 @@
 			<fieldset name="basic">
 				<field
 					name="buttons"
-					type="radio"
+					type="switcher"
 					label="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_LABEL"
-					class="switcher"
 					default="0"
 					filter="integer"
 					>

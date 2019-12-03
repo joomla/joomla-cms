@@ -48,9 +48,8 @@
 		</field>
 		<field
 			name="default"
-			type="radio"
+			type="switcher"
 			label="COM_WORKFLOW_FIELD_IS_DEFAULT_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>

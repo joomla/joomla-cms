@@ -3,9 +3,8 @@
 	<fieldset name="actionlogs" label="COM_ACTIONLOGS_OPTIONS">
 		<field
 			name="ip_logging"
-			type="radio"
+			type="switcher"
 			label="COM_ACTIONLOGS_IP_LOGGING_LABEL"
-			class="switcher"
 			default="0"
 			filter="integer"
 			>

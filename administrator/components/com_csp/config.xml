@@ -3,9 +3,8 @@
 	<fieldset name="csp" label="Content-Security-Policy (CSP)">
 		<field
 			name="contentsecuritypolicy"
-			type="radio"
+			type="switcher"
 			label="COM_CSP_CONTENTSECURITYPOLICY"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JDISABLED</option>
@@ -25,10 +24,9 @@
 		</field>
 		<field
 			name="contentsecuritypolicy_report_only"
-			type="radio"
+			type="switcher"
 			label="COM_CSP_CONTENTSECURITYPOLICY_REPORT_ONLY"
 			description="COM_CSP_CONTENTSECURITYPOLICY_REPORT_ONLY_DESC"
-			class="switcher"
 			default="1"
 			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
 			>
@@ -37,10 +35,9 @@
 		</field>
 		<field
 			name="nonce_enabled"
-			type="radio"
+			type="switcher"
 			label="COM_CSP_CONTENTSECURITYPOLICY_NONCE_ENABLED"
 			description="COM_CSP_CONTENTSECURITYPOLICY_NONCE_ENABLED_DESC"
-			class="switcher"
 			default="0"
 			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
 			>
@@ -49,10 +46,9 @@
 		</field>
 		<field
 			name="script_hashes_enabled"
-			type="radio"
+			type="switcher"
 			label="COM_CSP_CONTENTSECURITYPOLICY_SCRIPT_HASHES_ENABLED"
 			description="COM_CSP_CONTENTSECURITYPOLICY_SCRIPT_HASHES_ENABLED_DESC"
-			class="switcher"
 			default="0"
 			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
 			>
@@ -61,10 +57,9 @@
 		</field>
 		<field
 			name="style_hashes_enabled"
-			type="radio"
+			type="switcher"
 			label="COM_CSP_CONTENTSECURITYPOLICY_STYLE_HASHES_ENABLED"
 			description="COM_CSP_CONTENTSECURITYPOLICY_STYLE_HASHES_ENABLED_DESC"
-			class="switcher"
 			default="0"
 			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
 			>
@@ -94,7 +89,7 @@
 				/>
 				<field
 					name="client"
-					type="radio"
+					type="switcher"
 					label="COM_CSP_HEADER_CLIENT"
 					default="site"
 					class="col-md-12"

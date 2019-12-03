@@ -27,8 +27,7 @@
 			<fieldset name="basic">
 				<field
 					name="lineNumbers"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
 					default="1"
 					filter="integer"
@@ -39,9 +38,8 @@
 
 				<field
 					name="codeFolding"
-					type="radio"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_CODEFOLDING_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -51,9 +49,8 @@
 
 				<field
 					name="markerGutter"
-					type="radio"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -63,9 +60,8 @@
 
 				<field
 					name="lineWrapping"
-					type="radio"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_LINEWRAPPING_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -75,9 +71,8 @@
 
 				<field
 					name="activeLine"
-					type="radio"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_ACTIVELINE_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -87,8 +82,7 @@
 
 				<field
 					name="selectionMatches"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_SELECTIONMATCHES_LABEL"
 					default="1"
 					filter="integer"
@@ -99,8 +93,7 @@
 
 				<field
 					name="matchTags"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_MATCHTAGS_LABEL"
 					default="1"
 					filter="integer"
@@ -111,8 +104,7 @@
 
 				<field
 					name="matchBrackets"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_LABEL"
 					default="1"
 					filter="integer"
@@ -123,8 +115,7 @@
 
 				<field
 					name="autoCloseTags"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_LABEL"
 					default="1"
 					filter="integer"
@@ -135,8 +126,7 @@
 
 				<field
 					name="autoCloseBrackets"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_LABEL"
 					default="1"
 					filter="integer"

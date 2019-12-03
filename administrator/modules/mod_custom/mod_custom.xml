@@ -26,10 +26,9 @@
 			<fieldset name="options" label="COM_MODULES_BASIC_FIELDSET_LABEL">
 				<field
 					name="prepare_content"
-					type="radio"
+					type="switcher"
 					label="MOD_CUSTOM_FIELD_PREPARE_CONTENT_LABEL"
 					description="MOD_CUSTOM_FIELD_PREPARE_CONTENT_DESC"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>

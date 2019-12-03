@@ -16,10 +16,9 @@
 		<fields name="params">
 			<field
 				name="text_separator"
-				type="radio"
+				type="switcher"
 				label="COM_MENUS_ITEM_FIELD_TEXT_SEPARATOR_LABEL"
 				description="COM_MENUS_ITEM_FIELD_TEXT_SEPARATOR_DESC"
-				class="switcher"
 				default="0"
 				filter="integer"
 				>

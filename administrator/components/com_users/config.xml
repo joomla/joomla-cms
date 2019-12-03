@@ -5,9 +5,8 @@
 		label="COM_USERS_CONFIG_USER_OPTIONS" >
 		<field
 			name="allowUserRegistration"
-			type="radio"
+			type="switcher"
 			label="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -32,9 +31,8 @@
 
 		<field
 			name="sendpassword"
-			type="radio"
+			type="switcher"
 			label="COM_USERS_CONFIG_FIELD_SENDPASSWORD_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JNO</option>
@@ -54,9 +52,8 @@
 
 		<field
 			name="mail_to_admin"
-			type="radio"
+			type="switcher"
 			label="COM_USERS_CONFIG_FIELD_MAILTOADMIN_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JNO</option>
@@ -76,9 +73,8 @@
 
 		<field
 			name="frontend_userparams"
-			type="radio"
+			type="switcher"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -87,9 +83,8 @@
 
 		<field
 			name="site_language"
-			type="radio"
+			type="switcher"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_LABEL"
-			class="switcher"
 			default="0"
 			showon="frontend_userparams:1"
 			>
@@ -99,9 +94,8 @@
 
 		<field
 			name="change_login_name"
-			type="radio"
+			type="switcher"
 			label="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -219,9 +213,8 @@
 
 		<field
 			name="save_history"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -269,9 +262,8 @@
 		>
 			<field
 				name="custom_fields_enable"
-				type="radio"
+				type="switcher"
 				label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
-				class="switcher"
 				default="1"
 				>
 				<option value="0">JNO</option>

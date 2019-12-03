@@ -9,9 +9,8 @@
 		<fieldset name="basic" label="JOPTIONS">
 			<field
 				name="ajax-badge"
-				type="radio"
+				type="switcher"
 				label="COM_INSTALLER_DISCOVER_VIEW_DISPLAY_BADGE"
-				class="switcher"
 				default=""
 				>
 				<option value="">JHIDE</option>

@@ -15,8 +15,7 @@
 
 		<field
 			name="cache_platformprefix"
-			type="radio"
-			class="switcher"
+			type="switcher"
 			default="0"
 			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
 			filter="integer"
@@ -48,9 +47,8 @@
 
 		<field
 			name="memcached_persist"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_MEMCACHE_PERSISTENT_LABEL"
-			class="switcher"
 			default="1"
 			showon="cache_handler:memcached"
 			filter="boolean"
@@ -61,9 +59,8 @@
 
 		<field
 			name="memcached_compress"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_MEMCACHE_COMPRESSION_LABEL"
-			class="switcher"
 			default="0"
 			showon="cache_handler:memcached"
 			filter="boolean"
@@ -96,9 +93,8 @@
 
 		<field
 			name="redis_persist"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
-			class="switcher"
 			default="1"
 			filter="boolean"
 			showon="cache_handler:redis"
@@ -160,9 +156,8 @@
 
 		<field
 			name="cache_platformprefix"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
-			class="switcher"
 			default="0"
 			filter="boolean"
 			>
@@ -247,9 +242,8 @@
 
 		<field
 			name="dbsslverifyservercert"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_VERIFY_SERVER_CERT_LABEL"
-			class="switcher"
 			default="0"
 			filter="boolean"
 			showon="host!:localhost[AND]dbencryption:1,2"
@@ -311,9 +305,8 @@
 
 		<field
 			name="debug"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_DEBUG_SYSTEM_LABEL"
-			class="switcher"
 			default="0"
 			filter="boolean"
 			>
@@ -323,9 +316,8 @@
 
 		<field
 			name="debug_lang"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_DEBUG_LANG_LABEL"
-			class="switcher"
 			default="0"
 			filter="boolean"
 			>
@@ -335,10 +327,9 @@
 
 		<field
 			name="debug_lang_const"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_DEBUG_CONST_LANG_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_CONST_LANG_DESC"
-			class="switcher"
 			default="1"
 			filter="integer"
 			showon="debug_lang:1"
@@ -353,9 +344,8 @@
 
 		<field
 			name="ftp_enable"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_FTP_ENABLE_LABEL"
-			class="switcher"
 			default="0"
 			filter="boolean"
 			>
@@ -421,9 +411,8 @@
 
 		<field
 			name="proxy_enable"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_PROXY_ENABLE_LABEL"
-			class="switcher"
 			default="0"
 			filter="boolean"
 			>
@@ -495,9 +484,8 @@
 
 		<field
 			name="mailonline"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_MAIL_MAILONLINE_LABEL"
-			class="switcher"
 			default="1"
 			filter="boolean"
 			>
@@ -507,9 +495,8 @@
 
 		<field
 			name="massmailoff"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_MAIL_MASSMAILOFF_LABEL"
-			class="switcher"
 			default="0"
 			filter="boolean"
 			showon="mailonline:1"
@@ -617,8 +604,7 @@
 
 		<field
 			name="smtpauth"
-			type="radio"
-			class="switcher"
+			type="switcher"
 			label="COM_CONFIG_FIELD_MAIL_SMTP_AUTH_LABEL"
 			default="0"
 			showon="mailonline:1[AND]mailer:smtp"
@@ -695,9 +681,8 @@
 
 		<field
 			name="MetaAuthor"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_METAAUTHOR_LABEL"
-			class="switcher"
 			default="1"
 			filter="boolean"
 			>
@@ -707,9 +692,8 @@
 
 		<field
 			name="MetaVersion"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_METAVERSION_LABEL"
-			class="switcher"
 			default="0"
 			filter="boolean"
 			>
@@ -725,9 +709,8 @@
 
 		<field
 			name="sef"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
-			class="switcher"
 			default="1"
 			filter="boolean"
 			>
@@ -737,10 +720,9 @@
 
 		<field
 			name="sef_rewrite"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_SEF_REWRITE_LABEL"
 			description="COM_CONFIG_FIELD_SEF_REWRITE_DESC"
-			class="switcher"
 			default="0"
 			filter="boolean"
 			showon="sef:1"
@@ -751,9 +733,8 @@
 
 		<field
 			name="sef_suffix"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_SEF_SUFFIX_LABEL"
-			class="switcher"
 			default="0"
 			filter="boolean"
 			showon="sef:1"
@@ -764,9 +745,8 @@
 
 		<field
 			name="unicodeslugs"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_UNICODESLUGS_LABEL"
-			class="switcher"
 			default="0"
 			filter="boolean"
 			showon="sef:1"
@@ -803,9 +783,8 @@
 
 		<field
 			name="gzip"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_GZIP_COMPRESSION_LABEL"
-			class="switcher"
 			default="0"
 			filter="boolean"
 			>
@@ -886,10 +865,9 @@
 
 		<field
 			name="session_redis_persist"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
-			class="switcher"
 			default="1"
 			filter="integer"
 			showon="session_handler:redis"
@@ -955,10 +933,9 @@
 
 		<field
 			name="shared_session"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_SHARED_SESSION_LABEL"
 			description="COM_CONFIG_FIELD_SHARED_SESSION_DESC"
-			class="switcher"
 			default="0"
 			filter="boolean"
 			>
@@ -968,8 +945,7 @@
 
 		<field
 			name="session_metadata"
-			type="radio"
-			class="switcher"
+			type="switcher"
 			default="1"
 			label="COM_CONFIG_FIELD_SESSION_METADATA_LABEL"
 			description="COM_CONFIG_FIELD_SESSION_METADATA_DESC"
@@ -997,7 +973,6 @@
 			name="offline"
 			type="radio"
 			label="COM_CONFIG_FIELD_SITE_OFFLINE_LABEL"
-			class="switcher"
 			default="0"
 			filter="boolean"
 			>

@@ -39,9 +39,8 @@
 				/>
 				<field
 					name="show_global"
-					type="radio"
+					type="switcher"
 					label="MOD_QUICKICON_SHOW_GLOBAL_LABEL"
-					class="switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -109,9 +108,8 @@
 				</field>
 				<field
 					name="show_media"
-					type="radio"
+					type="switcher"
 					label="MOD_QUICKICON_SHOW_MEDIA_LABEL"
-					class="switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -139,9 +137,8 @@
 				</field>
 				<field
 					name="show_templates"
-					type="radio"
+					type="switcher"
 					label="MOD_QUICKICON_SHOW_TEMPLATES_LABEL"
-					class="switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>

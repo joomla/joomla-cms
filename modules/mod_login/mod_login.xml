@@ -82,8 +82,7 @@
 
 				<field
 					name="greeting"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="MOD_LOGIN_FIELD_GREETING_LABEL"
 					default="1"
 					filter="integer"
@@ -94,8 +93,7 @@
 
 				<field
 					name="name"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="MOD_LOGIN_FIELD_NAME_LABEL"
 					default="0"
 					filter="integer"
@@ -107,9 +105,8 @@
 
 				<field
 					name="profilelink"
-					type="radio"
+					type="switcher"
 					label="MOD_LOGIN_FIELD_PROFILE_LABEL"
-					class="switcher"
 					default="0"
 					filter="integer"
 					>
@@ -119,8 +116,7 @@
 
 				<field
 					name="usetext"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="MOD_LOGIN_FIELD_USETEXT_LABEL"
 					default="0"
 					filter="integer"

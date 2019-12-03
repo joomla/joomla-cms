@@ -17,9 +17,8 @@
 
 		<field
 			name="alternative_mailconfig"
-			type="radio"
+			type="switcher"
 			label="COM_MAILS_CONFIG_FIELD_ALTERNATIVE_MAILCONFIG_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -28,9 +27,8 @@
 
 		<field
 			name="copy_mails"
-			type="radio"
+			type="switcher"
 			label="COM_MAILS_CONFIG_FIELD_COPY_MAILS_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JDISABLED</option>

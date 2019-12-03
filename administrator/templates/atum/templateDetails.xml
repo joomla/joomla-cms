@@ -95,9 +95,8 @@
 				/>
 				<field
 					name="monochrome"
-					type="radio"
+					type="switcher"
 					label="TPL_ATUM_COLORS_SETTINGS_MONOCHROME_LABEL"
-					class="switcher"
 					default="0"
 					>
 					<option value="0">JNO</option>

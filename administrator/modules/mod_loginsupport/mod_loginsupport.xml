@@ -61,9 +61,8 @@
 
 				<field
 					name="automatic_title"
-					type="radio"
+					type="switcher"
 					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>

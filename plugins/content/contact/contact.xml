@@ -33,11 +33,10 @@
 
 				<field
 					name="link_to_alias"
-					type="radio"
+					type="switcher"
 					label="PLG_CONTENT_CONTACT_PARAM_ALIAS_LABEL"
 					description="PLG_CONTENT_CONTACT_PARAM_ALIAS_DESCRIPTION"
 					default="0"
-					class="switcher"
 					filter="integer"
 					>
 					<option value="0">JNO</option>

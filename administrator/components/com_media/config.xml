@@ -49,10 +49,9 @@
 
 		<field
 			name="restrict_uploads"
-			type="radio"
+			type="switcher"
 			label="COM_MEDIA_FIELD_RESTRICT_UPLOADS_LABEL"
 			description="COM_MEDIA_FIELD_RESTRICT_UPLOADS_DESC"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JNO</option>
@@ -61,10 +60,9 @@
 
 		<field
 			name="check_mime"
-			type="radio"
+			type="switcher"
 			label="COM_MEDIA_FIELD_CHECK_MIME_LABEL"
 			description="COM_MEDIA_FIELD_CHECK_MIME_DESC"
-			class="switcher"
 			default="1"
 			showon="restrict_uploads:1"
 			>

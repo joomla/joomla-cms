@@ -5,8 +5,7 @@
 
 		<field
 			name="compressed"
-			type="radio"
-			class="switcher"
+			type="switcher"
 			label="COM_BANNERS_FIELD_COMPRESSED_LABEL"
 			default="0"
 			>

@@ -215,9 +215,8 @@
 
 		<field
 			name="featured"
-			type="radio"
+			type="switcher"
 			label="JFEATURED"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>

@@ -159,10 +159,9 @@
 
 		<field
 			name="home"
-			type="radio"
+			type="switcher"
 			label="COM_MENUS_ITEM_FIELD_HOME_LABEL"
 			default="0"
-			class="switcher"
 			filter="integer"
 			>
 			<option value="0">JNO</option>
@@ -215,10 +214,9 @@
 
 		<field
 			name="toggle_modules_assigned"
-			type="radio"
+			type="switcher"
 			label="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_LABEL"
 			default="1"
-			class="switcher"
 			filter="integer"
 			>
 			<option value="0">JHIDE</option>
@@ -227,10 +225,9 @@
 
 		<field
 			name="toggle_modules_published"
-			type="radio"
+			type="switcher"
 			label="COM_MENUS_ITEM_FIELD_HIDE_UNPUBLISHED_LABEL"
 			default="1"
-			class="switcher"
 			filter="integer"
 			>
 			<option value="0">JHIDE</option>

@@ -39,8 +39,7 @@
 
 				<field
 					name="show_description"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_LABEL"
 					default="0"
 					filter="integer"
@@ -51,8 +50,7 @@
 
 				<field
 					name="numitems"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_LABEL"
 					default="0"
 					filter="integer"
@@ -63,8 +61,7 @@
 
 				<field
 					name="show_children"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_LABEL"
 					default="0"
 					filter="integer"

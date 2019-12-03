@@ -7,9 +7,8 @@
 
 		<field
 			name="template_positions_display"
-			type="radio"
+			type="switcher"
 			label="COM_TEMPLATES_CONFIG_POSITIONS_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JDISABLED</option>

@@ -35,9 +35,8 @@
 
 				<field
 					name="rssrtl"
-					type="radio"
+					type="switcher"
 					label="MOD_FEED_FIELD_RTL_LABEL"
-					class="switcher"
 					default="0"
 					filter="integer"
 					>
@@ -47,9 +46,8 @@
 
 				<field
 					name="rssdate"
-					type="radio"
+					type="switcher"
 					label="MOD_FEED_FIELD_DATE_LABEL"
-					class="switcher"
 					default="0"
 					>
 					<option value="1">JYES</option>
@@ -58,9 +56,8 @@
 
 				<field
 					name="rssdesc"
-					type="radio"
+					type="switcher"
 					label="MOD_FEED_FIELD_DESCRIPTION_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -70,9 +67,8 @@
 
 				<field
 					name="rssimage"
-					type="radio"
+					type="switcher"
 					label="MOD_FEED_FIELD_IMAGE_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -90,9 +86,8 @@
 
 				<field
 					name="rssitemdesc"
-					type="radio"
+					type="switcher"
 					label="MOD_FEED_FIELD_ITEMDESCRIPTION_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>
@@ -102,9 +97,8 @@
 
 				<field
 					name="rssitemdate"
-					type="radio"
+					type="switcher"
 					label="MOD_FEED_FIELD_ITEMDATE_LABEL"
-					class="switcher"
 					default="0"
 					filter="integer"
 					>

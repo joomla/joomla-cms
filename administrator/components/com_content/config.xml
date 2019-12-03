@@ -18,9 +18,8 @@
 
 		<field
 			name="show_title"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_TITLE_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -29,9 +28,8 @@
 
 		<field
 			name="link_titles"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_LINKED_TITLES_LABEL"
-			class="switcher"
 			default="1"
 			showon="show_title:1"
 			>
@@ -41,9 +39,8 @@
 
 		<field
 			name="show_intro"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_INTRO_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -63,9 +60,8 @@
 
 		<field
 			name="info_block_show_title"
-			type="radio"
+			type="switcher"
 			label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -74,9 +70,8 @@
 
 		<field
 			name="show_category"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_CATEGORY_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -85,9 +80,8 @@
 
 		<field
 			name="link_category"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_LINK_CATEGORY_LABEL"
-			class="switcher"
 			default="1"
 			showon="show_category:1"
 			>
@@ -97,9 +91,8 @@
 
 		<field
 			name="show_parent_category"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -108,9 +101,8 @@
 
 		<field
 			name="link_parent_category"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
-			class="switcher"
 			default="1"
 			showon="show_parent_category:1"
 			>
@@ -126,9 +118,8 @@
 
 		<field
 			name="show_associations"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -137,9 +128,8 @@
 
 		<field
 			name="flags"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_FLAG_LABEL"
-			class="switcher"
 			default="1"
 			showon="show_associations:1"
 			>
@@ -155,9 +145,8 @@
 
 		<field
 			name="show_author"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_AUTHOR_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -166,9 +155,8 @@
 
 		<field
 			name="link_author"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_LINK_AUTHOR_LABEL"
-			class="switcher"
 			default="0"
 			showon="show_author:1"
 			>
@@ -178,9 +166,8 @@
 
 		<field
 			name="show_create_date"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -189,9 +176,8 @@
 
 		<field
 			name="show_modify_date"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -200,9 +186,8 @@
 
 		<field
 			name="show_publish_date"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -211,9 +196,8 @@
 
 		<field
 			name="show_item_navigation"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_NAVIGATION_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -222,9 +206,8 @@
 
 		<field
 			name="show_vote"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_VOTE_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -233,9 +216,8 @@
 
 		<field
 			name="show_readmore"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_READMORE_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -244,9 +226,8 @@
 
 		<field
 			name="show_readmore_title"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
-			class="switcher"
 			default="1"
 			showon="show_readmore:1"
 			>
@@ -264,10 +245,9 @@
 
 		<field
 			name="show_tags"
-			type="radio"
+			type="switcher"
 			label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
 			id="show_tags"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -282,9 +262,8 @@
 
 		<field
 			name="show_hits"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_HITS_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -293,10 +272,9 @@
 
 		<field
 			name="record_hits"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_RECORD_HITS_LABEL"
 			description="JGLOBAL_RECORD_HITS_DESC"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JNO</option>
@@ -305,10 +283,9 @@
 
 		<field
 			name="show_noauth"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
 			description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -317,9 +294,8 @@
 
 		<field
 			name="urls_position"
-			type="radio"
+			type="switcher"
 			label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
@@ -346,9 +322,8 @@
 
 		<field
 			name="show_publishing_options"
-			type="radio"
+			type="switcher"
 			label="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -357,9 +332,8 @@
 
 		<field
 			name="show_article_options"
-			type="radio"
+			type="switcher"
 			label="COM_CONTENT_SHOW_ARTICLE_OPTIONS_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -368,9 +342,8 @@
 
 		<field
 			name="show_configure_edit_options"
-			type="radio"
+			type="switcher"
 			label="COM_CONTENT_SHOW_CONFIGURE_EDIT_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -379,9 +352,8 @@
 
 		<field
 			name="show_permissions"
-			type="radio"
+			type="switcher"
 			label="COM_CONTENT_SHOW_PERMISSIONS_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -390,9 +362,8 @@
 
 		<field
 			name="show_associations_edit"
-			type="radio"
+			type="switcher"
 			label="COM_CONTENT_SHOW_ASSOCIATIONS_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -401,9 +372,8 @@
 
 		<field
 			name="save_history"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -421,9 +391,8 @@
 
 		<field
 			name="show_urls_images_frontend"
-			type="radio"
+			type="switcher"
 			label="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -432,9 +401,8 @@
 
 		<field
 			name="show_urls_images_backend"
-			type="radio"
+			type="switcher"
 			label="COM_CONTENT_SHOW_IMAGES_URLS_BACK_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -539,9 +507,8 @@
 
 		<field
 			name="show_category_heading_title_text"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -550,9 +517,8 @@
 
 		<field
 			name="show_category_title"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -561,9 +527,8 @@
 
 		<field
 			name="show_description"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -572,9 +537,8 @@
 
 		<field
 			name="show_description_image"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -598,9 +562,8 @@
 
 		<field
 			name="show_empty_categories"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -609,9 +572,8 @@
 
 		<field
 			name="show_no_articles"
-			type="radio"
+			type="switcher"
 			label="COM_CONTENT_NO_ARTICLES_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -620,10 +582,9 @@
 
 		<field
 			name="show_subcat_desc"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			default="1"
-			class="switcher"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -631,9 +592,8 @@
 
 		<field
 			name="show_cat_num_articles"
-			type="radio"
+			type="switcher"
 			label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -642,10 +602,9 @@
 
 		<field
 			name="show_cat_tags"
-			type="radio"
+			type="switcher"
 			label="COM_CONTENT_FIELD_SHOW_CAT_TAGS_LABEL"
 			default="1"
-			class="switcher"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -660,9 +619,8 @@
 		>
 		<field
 			name="show_base_description"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -686,9 +644,8 @@
 
 		<field
 			name="show_empty_categories_cat"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-			class="switcher"
 			default="0"
 			showon="maxLevelcat:-1,1,2,3,4,5"
 			>
@@ -698,9 +655,8 @@
 
 		<field
 			name="show_subcat_desc_cat"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
-			class="switcher"
 			default="1"
 			showon="maxLevelcat:-1,1,2,3,4,5"
 			>
@@ -710,9 +666,8 @@
 
 		<field
 			name="show_cat_num_articles_cat"
-			type="radio"
+			type="switcher"
 			label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -779,9 +734,8 @@
 
 		<field
 			name="show_pagination_limit"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -804,9 +758,8 @@
 
 		<field
 			name="show_headings"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -835,9 +788,8 @@
 
 		<field
 			name="list_show_hits"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_LIST_HITS_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -846,9 +798,8 @@
 
 		<field
 			name="list_show_author"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_LIST_AUTHOR_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -859,7 +810,6 @@
 			name="list_show_votes"
 			type="voteradio"
 			label="JGLOBAL_LIST_VOTES_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -870,7 +820,6 @@
 			name="list_show_ratings"
 			type="voteradio"
 			label="JGLOBAL_LIST_RATINGS_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -944,9 +893,8 @@
 
 		<field
 			name="show_pagination_results"
-			type="radio"
+			type="switcher"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-			class="switcher"
 			default="1"
 			showon="show_pagination:1,2"
 			>
@@ -979,9 +927,8 @@
 
 			<field
 				name="show_feed_link"
-				type="radio"
+				type="switcher"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
-				class="switcher"
 				default="1"
 				>
 				<option value="0">JHIDE</option>
@@ -1001,10 +948,9 @@
 
 			<field
 				name="feed_show_readmore"
-				type="radio"
+				type="switcher"
 				label="JGLOBAL_FEED_SHOW_READMORE_LABEL"
 				description="JGLOBAL_FEED_SHOW_READMORE_DESC"
-				class="switcher"
 				default="0"
 				showon="show_feed_link:1[AND]feed_summary:0"
 				>
@@ -1020,8 +966,7 @@
 
 			<field
 				name="sef_ids"
-				type="radio"
-				class="switcher"
+				type="switcher"
 				default="0"
 				label="JGLOBAL_SEF_NOIDS_LABEL"
 				filter="integer"
@@ -1039,9 +984,8 @@
 
 			<field
 				name="custom_fields_enable"
-				type="radio"
+				type="switcher"
 				label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
-				class="switcher"
 				default="1"
 				>
 				<option value="0">JNO</option>
@@ -1050,9 +994,8 @@
 
 			<field
 				name="workflows_enable"
-				type="radio"
+				type="switcher"
 				label="JGLOBAL_WORKFLOWS_ENABLE_LABEL"
-				class="switcher"
 				default="1"
 				>
 				<option value="0">JNO</option>

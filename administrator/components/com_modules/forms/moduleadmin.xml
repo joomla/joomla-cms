@@ -36,9 +36,8 @@
 
 		<field
 			name="showtitle"
-			type="radio"
+			type="switcher"
 			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
-			class="switcher"
 			default="1"
 			size="1"
 			>

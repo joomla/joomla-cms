@@ -67,9 +67,8 @@
 
 		<field
 			name="required"
-			type="radio"
+			type="switcher"
 			label="COM_FIELDS_FIELD_REQUIRED_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -250,9 +249,8 @@
 
 				<field
 					name="showlabel"
-					type="radio"
+					type="switcher"
 					label="COM_FIELDS_FIELD_SHOWLABEL_LABEL"
-					class="switcher"
 					default="1"
 					>
 					<option value="0">JHIDE</option>

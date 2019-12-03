@@ -22,8 +22,7 @@
 
 		<field
 			name="track_impressions"
-			type="radio"
-			class="switcher"
+			type="switcher"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			default="0"
 			>
@@ -33,9 +32,8 @@
 
 		<field
 			name="track_robots_impressions"
-			type="radio"
+			type="switcher"
 			label="COM_BANNERS_FIELD_TRACKROBOTSIMPRESSION_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JNO</option>
@@ -44,8 +42,7 @@
 
 		<field
 			name="track_clicks"
-			type="radio"
-			class="switcher"
+			type="switcher"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
 			default="0"
 			>
@@ -71,8 +68,7 @@
 
 		<field
 			name="save_history"
-			type="radio"
-			class="switcher"
+			type="switcher"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			default="0"
 			>

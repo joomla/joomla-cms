@@ -3,9 +3,8 @@
 	<fieldset>
 		<field
 			name="lock"
-			type="radio"
+			type="switcher"
 			label="COM_MESSAGES_FIELD_LOCK_LABEL"
-			class="switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -14,9 +13,8 @@
 
 		<field
 			name="mail_on_new"
-			type="radio"
+			type="switcher"
 			label="COM_MESSAGES_FIELD_MAIL_ON_NEW_LABEL"
-			class="switcher"
 			default="1"
 			>
 			<option value="0">JNO</option>

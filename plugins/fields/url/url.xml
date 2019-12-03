@@ -37,9 +37,8 @@
 
 				<field
 					name="relative"
-					type="radio"
+					type="switcher"
 					label="PLG_FIELDS_URL_PARAMS_RELATIVE_LABEL"
-					class="switcher"
 					default="1"
 					filter="integer"
 					>

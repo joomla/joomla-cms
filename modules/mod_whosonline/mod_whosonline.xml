@@ -37,8 +37,7 @@
 
 				<field
 					name="filter_groups"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_LABEL"
 					description="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_DESC"
 					default="0"

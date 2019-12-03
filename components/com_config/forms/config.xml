@@ -37,10 +37,9 @@
 		label="CONFIG_SEO_SETTINGS_LABEL">
 		<field
 			name="sef"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_SEF_URL_LABEL"
 			default="1"
-			class="switcher"
 			filter="integer"
 			>
 			<option value="0">JNO</option>
@@ -76,10 +75,9 @@
 
 		<field
 			name="offline"
-			type="radio"
+			type="switcher"
 			label="COM_CONFIG_FIELD_SITE_OFFLINE_LABEL"
 			default="0"
-			class="switcher"
 			filter="integer"
 			>
 			<option value="0">JNO</option>

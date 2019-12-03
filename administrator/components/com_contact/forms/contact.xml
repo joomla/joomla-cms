@@ -193,8 +193,7 @@
 
 		<field
 			name="featured"
-			type="radio"
-			class="switcher"
+			type="switcher"
 			label="JFEATURED"
 			default="0"
 			>

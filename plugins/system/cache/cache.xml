@@ -21,8 +21,7 @@
 			<fieldset name="basic">
 				<field
 					name="browsercache"
-					type="radio"
-					class="switcher"
+					type="switcher"
 					label="PLG_CACHE_FIELD_BROWSERCACHE_LABEL"
 					default="0"
 					filter="integer"
