@@ -12,6 +12,7 @@ namespace Joomla\Component\Menus\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
@@ -70,6 +71,8 @@ class MenuController extends FormController
 			return false;
 		}
 
+		$data['menutype'] = InputFilter::getInstance()->clean($data['menutype'], 'TRIM');
+		
 		// Populate the row id from the session.
 		$data['id'] = $recordId;
 
