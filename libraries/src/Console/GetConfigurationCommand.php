@@ -164,6 +164,7 @@ class GetConfigurationCommand extends AbstractCommand
 	public function formatConfig($configs)
 	{
 		$newConfig = [];
+
 		foreach ($configs as $key => $config)
 		{
 			$config = $config === false ? "false" : $config;
