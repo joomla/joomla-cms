@@ -1072,7 +1072,7 @@ class CategoryModel extends AdminModel
 				->update($db->quoteName('#__assets', 't'))
 				->join('INNER',
 					$db->quoteName('#__assets', 's'),
-					$db->quoteName('s.id') . ' = :oldid',
+					$db->quoteName('s.id') . ' = :oldid'
 				)
 				->bind(':oldid', $oldAssetId, ParameterType::INTEGER)
 				->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
