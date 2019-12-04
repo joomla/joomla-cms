@@ -2,18 +2,19 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\MVC\Factory;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryAwareInterface;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
+use Joomla\CMS\MVC\Model\ModelInterface;
 use Joomla\Input\Input;
 
 /**
@@ -86,7 +87,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Optional configuration array for the model.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model object
+	 * @return  ModelInterface  The model object
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
@@ -96,12 +97,6 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 		// Clean the parameters
 		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
-
-		// When the front uses a back end model
-		if (!$prefix && !empty($config['base_path']) && strpos($config['base_path'], '/administrator/') !== false)
-		{
-			$prefix = 'Administrator';
-		}
 
 		if (!$prefix)
 		{
@@ -137,7 +132,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 	 * @param   string  $type    Optional type of view.
 	 * @param   array   $config  Optional configuration array for the view.
 	 *
-	 * @return  \Joomla\CMS\MVC\View\AbstractView  The view object
+	 * @return  \Joomla\CMS\MVC\View\ViewInterface  The view object
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
@@ -148,12 +143,6 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 		$type   = preg_replace('/[^A-Z0-9_]/i', '', $type);
-
-		// When the front uses a back end view
-		if (!$prefix && !empty($config['base_path']) && strpos($config['base_path'], '/administrator/') !== false)
-		{
-			$prefix = 'Administrator';
-		}
 
 		if (!$prefix)
 		{
@@ -220,7 +209,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 			return null;
 		}
 
-		if (array_key_exists('dbo', $config))
+		if (\array_key_exists('dbo', $config))
 		{
 			$db = $config['dbo'];
 		}
@@ -242,7 +231,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 	 *
 	 * @since   4.0.0
 	 */
-	private function getClassName(string $suffix, string $prefix)
+	protected function getClassName(string $suffix, string $prefix)
 	{
 		if (!$prefix)
 		{

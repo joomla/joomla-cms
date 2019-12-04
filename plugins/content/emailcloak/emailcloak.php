@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.emailcloak
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,14 @@ use Joomla\String\StringHelper;
 class PlgContentEmailcloak extends CMSPlugin
 {
 	/**
+	 * The Application object
+	 *
+	 * @var    JApplicationSite
+	 * @since  3.9.0
+	 */
+	protected $app;
+
+	/**
 	 * Plugin that cloaks all emails in content from spambots via Javascript.
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin.
@@ -28,22 +36,29 @@ class PlgContentEmailcloak extends CMSPlugin
 	 * @param   mixed    &$params  Additional parameters. See {@see PlgContentEmailcloak()}.
 	 * @param   integer  $page     Optional page number. Unused. Defaults to zero.
 	 *
-	 * @return  boolean	True on success.
+	 * @return  void
 	 */
 	public function onContentPrepare($context, &$row, &$params, $page = 0)
 	{
-		// Don't run this plugin when the content is being indexed
-		if ($context === 'com_finder.indexer')
+		if ($this->app->isClient('api'))
 		{
 			return true;
 		}
 
-		if (is_object($row))
+		// Don't run this plugin when the content is being indexed
+		if ($context === 'com_finder.indexer')
 		{
-			return $this->_cloak($row->text, $params);
+			return;
 		}
 
-		return $this->_cloak($row, $params);
+		if (is_object($row))
+		{
+			$this->_cloak($row->text, $params);
+
+			return;
+		}
+
+		$this->_cloak($row, $params);
 	}
 
 	/**
@@ -68,7 +83,7 @@ class PlgContentEmailcloak extends CMSPlugin
 	 * @param   mixed   &$params  Additional parameters. Parameter "mode" (integer, default 1)
 	 *                             replaces addresses with "mailto:" links if nonzero.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 */
 	protected function _cloak(&$text, &$params)
 	{
@@ -80,13 +95,13 @@ class PlgContentEmailcloak extends CMSPlugin
 		{
 			$text = StringHelper::str_ireplace('{emailcloak=off}', '', $text);
 
-			return true;
+			return;
 		}
 
 		// Simple performance check to determine whether bot should process further.
 		if (StringHelper::strpos($text, '@') === false)
 		{
-			return true;
+			return;
 		}
 
 		$mode = (int) $this->params->def('mode', 1);
@@ -413,9 +428,9 @@ class PlgContentEmailcloak extends CMSPlugin
 		/*
 		 * Search for plain text email addresses, such as email@example.org but not within HTML tags:
 		 * <img src="..." title="email@example.org"> or <input type="text" placeholder="email@example.org">
-		 * The negative lookahead '(?![^<]*>)' is used to exclude this kind of occurrences
+		 * The '<[^<]*>(*SKIP)(*F)|' trick is used to exclude this kind of occurrences
 		 */
-		$pattern = '~(?![^<>]*>)' . $searchEmail . '~i';
+		$pattern = '~<[^<]*>(*SKIP)(*F)|' . $searchEmail . '~i';
 
 		while (preg_match($pattern, $text, $regs, PREG_OFFSET_CAPTURE))
 		{
@@ -426,6 +441,6 @@ class PlgContentEmailcloak extends CMSPlugin
 			$text = substr_replace($text, $replacement, $regs[1][1], strlen($mail));
 		}
 
-		return true;
+		return;
 	}
 }

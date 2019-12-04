@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,6 +28,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Registration model class for Users.
@@ -64,33 +65,31 @@ class RegistrationModel extends FormModel
 	}
 
 	/**
-	 * Method to activate a user account.
+	 * Method to get the user ID from the given token
 	 *
 	 * @param   string  $token  The activation token.
 	 *
-	 * @return  mixed    False on failure, user object on success.
+	 * @return  mixed   False on failure, id of the user on success
 	 *
-	 * @since   1.6
-	 * @throws  \Exception
+	 * @since   3.8.13
 	 */
-	public function activate($token)
+	public function getUserIdFromToken($token)
 	{
-		$app = Factory::getApplication();
-		$userParams = ComponentHelper::getParams('com_users');
-		$db = $this->getDbo();
+		$db       = $this->getDbo();
 
 		// Get the user id based on the token.
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('activation') . ' = ' . $db->quote($token))
-			->where($db->quoteName('block') . ' = ' . 1)
-			->where($db->quoteName('lastvisitDate') . ' = ' . $db->quote($db->getNullDate()));
+			->where($db->quoteName('activation') . ' = :activation')
+			->where($db->quoteName('block') . ' = 1')
+			->where($db->quoteName('lastvisitDate') . ' IS NULL')
+			->bind(':activation', $token);
 		$db->setQuery($query);
 
 		try
 		{
-			$userId = (int) $db->loadResult();
+			return (int) $db->loadResult();
 		}
 		catch (\RuntimeException $e)
 		{
@@ -98,6 +97,22 @@ class RegistrationModel extends FormModel
 
 			return false;
 		}
+	}
+
+	/**
+	 * Method to activate a user account.
+	 *
+	 * @param   string  $token  The activation token.
+	 *
+	 * @return  mixed    False on failure, user object on success.
+	 *
+	 * @since   1.6
+	 */
+	public function activate($token)
+	{
+		$app        = Factory::getApplication();
+		$userParams = ComponentHelper::getParams('com_users');
+		$userId     = $this->getUserIdFromToken($token);
 
 		// Check for a valid user id.
 		if (!$userId)
@@ -116,22 +131,20 @@ class RegistrationModel extends FormModel
 		// Admin activation is on and user is verifying their email
 		if (($userParams->get('useractivation') == 2) && !$user->getParam('activate', 0))
 		{
-			$uri = Uri::getInstance();
+			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 			// Compile the admin notification mail values.
 			$data = $user->getProperties();
 			$data['activation'] = ApplicationHelper::getHash(UserHelper::genRandomPassword());
 			$user->set('activation', $data['activation']);
 			$data['siteurl'] = Uri::base();
-			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			$data['activate'] = $base . Route::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
-
-			// Remove administrator/ from activate URL in case this method is called from admin
-			if (Factory::getApplication()->isClient('administrator'))
-			{
-				$adminPos         = strrpos($data['activate'], 'administrator/');
-				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
-			}
+			$data['activate'] = Route::link(
+				'site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode,
+				true
+			);
 
 			$data['fromname'] = $app->get('fromname');
 			$data['mailfrom'] = $app->get('mailfrom');
@@ -153,7 +166,8 @@ class RegistrationModel extends FormModel
 			);
 
 			// Get all admin users
-			$query->clear()
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
 				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('sendEmail') . ' = 1')
@@ -310,7 +324,7 @@ class RegistrationModel extends FormModel
 				// Here we could have a grouped field, let's check it
 				if (is_array($v))
 				{
-					$this->data->$k = new stdClass;
+					$this->data->$k = new \stdClass;
 
 					foreach ($v as $key => $val)
 					{
@@ -330,8 +344,8 @@ class RegistrationModel extends FormModel
 			// Get the groups the user should be added to after registration.
 			$this->data->groups = array();
 
-			// Get the default new user group, Registered if not specified.
-			$system = $params->get('new_usertype', 2);
+			// Get the default new user group, guest or public group if not specified.
+			$system = $params->get('new_usertype', $params->get('guest_usergroup', 1));
 
 			$this->data->groups[] = $system;
 
@@ -517,16 +531,15 @@ class RegistrationModel extends FormModel
 		if ($useractivation == 2)
 		{
 			// Set the link to confirm the user email.
-			$uri = Uri::getInstance();
-			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			$data['activate'] = $base . Route::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
-			// Remove administrator/ from activate URL in case this method is called from admin
-			if (Factory::getApplication()->isClient('administrator'))
-			{
-				$adminPos         = strrpos($data['activate'], 'administrator/');
-				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
-			}
+			$data['activate'] = Route::link(
+				'site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode,
+				true
+			);
 
 			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
@@ -561,16 +574,15 @@ class RegistrationModel extends FormModel
 		elseif ($useractivation == 1)
 		{
 			// Set the link to activate the user account.
-			$uri = Uri::getInstance();
-			$base = $uri->toString(array('scheme', 'user', 'pass', 'host', 'port'));
-			$data['activate'] = $base . Route::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
+			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
-			// Remove administrator/ from activate URL in case this method is called from admin
-			if (Factory::getApplication()->isClient('administrator'))
-			{
-				$adminPos         = strrpos($data['activate'], 'administrator/');
-				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
-			}
+			$data['activate'] = Route::link(
+				'site',
+				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
+				false,
+				$linkMode,
+				true
+			);
 
 			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
@@ -751,22 +763,31 @@ class RegistrationModel extends FormModel
 
 			if (count($userids) > 0)
 			{
-				$jdate = new Date;
+				$jdate     = new Date;
+				$dateToSql = $jdate->toSql();
+				$subject   = Text::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT');
+				$message   = Text::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username']);
 
 				// Build the query to add the messages
 				foreach ($userids as $userid)
 				{
-					$values = array(
-						$db->quote($userid),
-						$db->quote($userid),
-						$db->quote($jdate->toSql()),
-						$db->quote(Text::_('COM_USERS_MAIL_SEND_FAILURE_SUBJECT')),
-						$db->quote(Text::sprintf('COM_USERS_MAIL_SEND_FAILURE_BODY', $return, $data['username']))
-					);
+					$values = [
+						':user_id_from',
+						':user_id_to',
+						':date_time',
+						':subject',
+						':message',
+					];
 					$query->clear()
 						->insert($db->quoteName('#__messages'))
-						->columns($db->quoteName(array('user_id_from', 'user_id_to', 'date_time', 'subject', 'message')))
+						->columns($db->quoteName(['user_id_from', 'user_id_to', 'date_time', 'subject', 'message']))
 						->values(implode(',', $values));
+					$query->bind(':user_id_from', $userid, ParameterType::INTEGER)
+						->bind(':user_id_to', $userid, ParameterType::INTEGER)
+						->bind(':date_time', $dateToSql)
+						->bind(':subject', $subject)
+						->bind(':message', $message);
+
 					$db->setQuery($query);
 
 					try

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,25 +44,21 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  */
 
-// Initialize some field attributes.
-$autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete === 'autocomplete="on"' ? '' : $autocomplete;
-
 $attributes = array(
 	$columns ?: '',
 	$rows ?: '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
+	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	$onchange ? 'onchange="' . $onchange . '"' : '',
 	$onclick ? 'onclick="' . $onclick . '"' : '',
 	$required ? 'required' : '',
-	$autocomplete,
+	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	$autofocus ? 'autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
 	$maxlength ? $maxlength: ''
-
 );
 ?>
 <textarea name="<?php

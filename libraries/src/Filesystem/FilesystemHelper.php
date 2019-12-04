@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Filesystem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * File system helper
@@ -22,11 +22,11 @@ class FilesystemHelper
 	/**
 	 * Remote file size function for streams that don't support it
 	 *
-	 * @param   string  $url  TODO Add text
+	 * @param   string  $url  Link identifier
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/function.filesize.php#71098
+	 * @link    https://www.php.net/manual/en/function.filesize.php
 	 * @since   1.7.0
 	 */
 	public static function remotefsize($url)
@@ -42,7 +42,7 @@ class FilesystemHelper
 		{
 			$headers = get_headers($url, 1);
 
-			if ((!array_key_exists('Content-Length', $headers)))
+			if ((!\array_key_exists('Content-Length', $headers)))
 			{
 				return false;
 			}
@@ -121,7 +121,7 @@ class FilesystemHelper
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/function.ftp-chmod.php
+	 * @link    https://www.php.net/manual/en/function.ftp-chmod.php
 	 * @since   1.7.0
 	 */
 	public static function ftpChmod($url, $mode)
@@ -265,7 +265,7 @@ class FilesystemHelper
 		{
 			$files = new \DirectoryIterator(__DIR__ . '/Streams');
 
-			/* @type  $file  DirectoryIterator */
+			/** @var  $file  DirectoryIterator */
 			foreach ($files as $file)
 			{
 				// Only load for php files.
@@ -292,7 +292,7 @@ class FilesystemHelper
 	 */
 	public static function isJoomlaStream($streamname)
 	{
-		return in_array($streamname, self::getJStreams());
+		return \in_array($streamname, self::getJStreams());
 	}
 
 	/**

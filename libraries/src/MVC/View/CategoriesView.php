@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\View;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -52,6 +52,7 @@ class CategoriesView extends HtmlView
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   3.2
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -62,7 +63,7 @@ class CategoriesView extends HtmlView
 		$app = Factory::getApplication();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			$app->enqueueMessage($errors, 'error');
 
@@ -97,7 +98,7 @@ class CategoriesView extends HtmlView
 
 		$this->prepareDocument();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**

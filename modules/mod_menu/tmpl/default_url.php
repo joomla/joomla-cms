@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,7 @@ if ($item->menu_image)
 		$linktype = HTMLHelper::_('image', $item->menu_image, $item->title);
 	}
 
-	if ($item->params->get('menu_text', 1))
+	if ($itemParams->get('menu_text', 1))
 	{
 		$linktype .= '<span class="image-title">' . $item->title . '</span>';
 	}
@@ -53,6 +53,11 @@ if ($item->browserNav == 1)
 {
 	$attributes['target'] = '_blank';
 	$attributes['rel'] = 'noopener noreferrer';
+
+	if ($item->anchor_rel == 'nofollow')
+	{
+		$attributes['rel'] .= ' nofollow';
+	}
 }
 elseif ($item->browserNav == 2)
 {

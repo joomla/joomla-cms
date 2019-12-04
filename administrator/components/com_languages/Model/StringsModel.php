@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -149,7 +149,8 @@ class StringsModel extends BaseDatabaseModel
 			}
 
 			// Consider the limitstart according to the 'more' parameter and load the results.
-			$db->setQuery($query, $limitstart, 10);
+			$query->setLimit(10, $limitstart);
+			$db->setQuery($query);
 			$results['results'] = $db->loadObjectList();
 
 			// Check whether there are more results than already loaded.

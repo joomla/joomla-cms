@@ -12,8 +12,8 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
 use DebugBar\DataCollector\AssetProvider;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\Monitor\DebugMonitor;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
-use Joomla\Plugin\System\Debug\DebugMonitor;
 use Joomla\Registry\Registry;
 
 /**
@@ -114,7 +114,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 				'xdebug_link'              => $this->getXdebugLinkTemplate(),
 				'root_path'                => JPATH_ROOT
 			],
-			'count'      => \count($this->queryMonitor->getLog()),
+			'count'      => \count($this->queryMonitor->getLogs()),
 		];
 	}
 
@@ -179,13 +179,13 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	private function getStatements(): array
 	{
 		$statements    = [];
-		$log           = $this->queryMonitor->getLog();
+		$logs          = $this->queryMonitor->getLogs();
 		$timings       = $this->queryMonitor->getTimings();
 		$memoryLogs    = $this->queryMonitor->getMemoryLogs();
 		$stacks        = $this->queryMonitor->getCallStacks();
 		$collectStacks = $this->params->get('query_traces');
 
-		foreach ($log as $id => $item)
+		foreach ($logs as $id => $item)
 		{
 			$queryTime   = 0;
 			$queryMemory = 0;

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -19,7 +19,7 @@ use Joomla\CMS\Form\FormField;
  * Text field for passwords
  *
  * @link   http://www.w3.org/TR/html-markup/input.password.html#input.password
- * @note   Two password fields may be validated as matching using JFormRuleEquals
+ * @note   Two password fields may be validated as matching using \Joomla\CMS\Form\Rule\EqualsRule
  * @since  1.7.0
  */
 class PasswordField extends FormField

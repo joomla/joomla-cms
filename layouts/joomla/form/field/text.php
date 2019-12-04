@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,13 +53,10 @@ if ($options)
 	$list = 'list="' . $id . '_datalist"';
 }
 
-$autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
-
 $attributes = array(
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	!empty($size) ? 'size="' . $size . '"' : '',
-	!empty($description) ? 'title="' . $description . '"' : '',
+	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	$list,
@@ -67,7 +64,7 @@ $attributes = array(
 	$onchange ? ' onchange="' . $onchange . '"' : '',
 	!empty($maxLength) ? $maxLength : '',
 	$required ? 'required' : '',
-	$autocomplete,
+	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	$autofocus ? ' autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
 	!empty($inputmode) ? $inputmode : '',

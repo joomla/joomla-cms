@@ -3,13 +3,13 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Plugin\System\Stats\Field;
 
-defined('JPATH_BASE') or die;
+\defined('JPATH_BASE') or die;
 
 /**
  * Unique ID Field class for the Stats Plugin.

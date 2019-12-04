@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -105,6 +105,8 @@ class ConfigurationModel extends BaseInstallationModel
 	 */
 	public function createConfiguration($options)
 	{
+		$saveFtp = isset($options->ftp_save) && $options->ftp_save;
+
 		// Create a new registry to build the configuration options.
 		$registry = new Registry;
 
@@ -122,14 +124,22 @@ class ConfigurationModel extends BaseInstallationModel
 		// Debug settings.
 		$registry->set('debug', false);
 		$registry->set('debug_lang', false);
+		$registry->set('debug_lang_const', true);
 
 		// Database settings.
 		$registry->set('dbtype', $options->db_type);
 		$registry->set('host', $options->db_host);
 		$registry->set('user', $options->db_user);
-		$registry->set('password', $options->db_pass);
+		$registry->set('password', $options->db_pass_plain);
 		$registry->set('db', $options->db_name);
 		$registry->set('dbprefix', $options->db_prefix);
+		$registry->set('dbencryption', 0);
+		$registry->set('dbsslverifyservercert', false);
+		$registry->set('dbsslkey', '');
+		$registry->set('dbsslcert', '');
+		$registry->set('dbsslca', '');
+		$registry->set('dbsslcapath', '');
+		$registry->set('dbsslcipher', '');
 
 		// Server settings.
 		$registry->set('live_site', '');
@@ -139,9 +149,9 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('helpurl', $options->helpurl);
 		$registry->set('ftp_host', $options->ftp_host ?? '');
 		$registry->set('ftp_port', isset($options->ftp_host) ? $options->ftp_port : '');
-		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
-		$registry->set('ftp_pass', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_pass)) ? $options->ftp_pass : '');
-		$registry->set('ftp_root', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_root)) ? $options->ftp_root : '');
+		$registry->set('ftp_user', ($saveFtp && isset($options->ftp_user)) ? $options->ftp_user : '');
+		$registry->set('ftp_pass', ($saveFtp && isset($options->ftp_pass)) ? $options->ftp_pass : '');
+		$registry->set('ftp_root', ($saveFtp && isset($options->ftp_root)) ? $options->ftp_root : '');
 		$registry->set('ftp_enable', (isset($options->ftp_host) && null === $options->ftp_host) ? $options->ftp_enable : 0);
 
 		// Locale settings.
@@ -263,7 +273,7 @@ class ConfigurationModel extends BaseInstallationModel
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,
-				$options->db_pass,
+				$options->db_pass_plain,
 				$options->db_name,
 				$options->db_prefix
 			);
@@ -275,7 +285,7 @@ class ConfigurationModel extends BaseInstallationModel
 			return false;
 		}
 
-		$cryptpass = UserHelper::hashPassword($options->admin_password);
+		$cryptpass = UserHelper::hashPassword($options->admin_password_plain);
 
 		// Take the admin user id - we'll need to leave this in the session for sample data install later on.
 		$userId = DatabaseModel::getUserId();
@@ -283,7 +293,6 @@ class ConfigurationModel extends BaseInstallationModel
 		// Create the admin user.
 		date_default_timezone_set('UTC');
 		$installdate = date('Y-m-d H:i:s');
-		$nullDate    = $db->getNullDate();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
@@ -307,14 +316,14 @@ class ConfigurationModel extends BaseInstallationModel
 		{
 			$query->clear()
 				->update($db->quoteName('#__users'))
-				->set($db->quoteName('name') . ' = ' . $db->quote('Super User'))
-				->set($db->quoteName('username') . ' = ' . $db->quote(trim($options->admin_user)))
+				->set($db->quoteName('name') . ' = ' . $db->quote(trim($options->admin_user)))
+				->set($db->quoteName('username') . ' = ' . $db->quote(trim($options->admin_username)))
 				->set($db->quoteName('email') . ' = ' . $db->quote($options->admin_email))
 				->set($db->quoteName('password') . ' = ' . $db->quote($cryptpass))
 				->set($db->quoteName('block') . ' = 0')
 				->set($db->quoteName('sendEmail') . ' = 1')
 				->set($db->quoteName('registerDate') . ' = ' . $db->quote($installdate))
-				->set($db->quoteName('lastvisitDate') . ' = ' . $db->quote($nullDate))
+				->set($db->quoteName('lastvisitDate') . ' = NULL')
 				->set($db->quoteName('activation') . ' = ' . $db->quote('0'))
 				->set($db->quoteName('params') . ' = ' . $db->quote(''))
 				->where($db->quoteName('id') . ' = ' . $db->quote($userId));
@@ -322,7 +331,8 @@ class ConfigurationModel extends BaseInstallationModel
 		else
 		{
 			$columns = array(
-				$db->quoteName('id'), $db->quoteName('name'),
+				$db->quoteName('id'),
+				$db->quoteName('name'),
 				$db->quoteName('username'),
 				$db->quoteName('email'),
 				$db->quoteName('password'),
@@ -337,9 +347,9 @@ class ConfigurationModel extends BaseInstallationModel
 				->insert('#__users', true)
 				->columns($columns)
 				->values(
-					$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
+					$db->quote($userId) . ', ' . $db->quote(trim($options->admin_user)) . ', ' . $db->quote(trim($options->admin_username)) . ', ' .
 					$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
-					$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
+					$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', NULL, ' .
 					$db->quote('0') . ', ' . $db->quote('')
 				);
 		}

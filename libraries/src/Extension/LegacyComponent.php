@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Extension;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Categories\CategoryInterface;
@@ -24,7 +24,6 @@ use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
-use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 
@@ -134,7 +133,7 @@ class LegacyComponent
 	{
 		$helper = $this->loadHelper();
 
-		if (!$helper || !is_callable(array($helper, 'countItems')))
+		if (!$helper || !\is_callable(array($helper, 'countItems')))
 		{
 			return;
 		}
@@ -157,7 +156,7 @@ class LegacyComponent
 	{
 		$helper = $this->loadHelper();
 
-		if (!$helper || !is_callable(array($helper, 'countTagItems')))
+		if (!$helper || !\is_callable(array($helper, 'countTagItems')))
 		{
 			return;
 		}
@@ -180,7 +179,7 @@ class LegacyComponent
 	{
 		$helper = $this->loadHelper();
 
-		if (!$helper || !is_callable(array($helper, 'validateSection')))
+		if (!$helper || !\is_callable(array($helper, 'validateSection')))
 		{
 			return $section;
 		}
@@ -199,7 +198,7 @@ class LegacyComponent
 	{
 		$helper = $this->loadHelper();
 
-		if (!$helper || !is_callable(array($helper, 'getContexts')))
+		if (!$helper || !\is_callable(array($helper, 'getContexts')))
 		{
 			return [];
 		}
@@ -238,7 +237,7 @@ class LegacyComponent
 		{
 			$reflection = new \ReflectionClass($class);
 
-			if (in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
+			if (\in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
 			{
 				return new $class($application, $menu);
 			}
@@ -250,7 +249,7 @@ class LegacyComponent
 	/**
 	 * Returns the classname of the legacy helper class. If none is found it returns false.
 	 *
-	 * @return  bool|string
+	 * @return  boolean|string
 	 *
 	 * @since   4.0.0
 	 */

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,11 @@ use Joomla\CMS\Helper\ContentHelper;
  */
 class NewsfeedsHelper extends ContentHelper
 {
+	/**
+	 * Name of the extension
+	 *
+	 * @var    string
+	 */
 	public static $extension = 'com_newsfeeds';
 
 	/**

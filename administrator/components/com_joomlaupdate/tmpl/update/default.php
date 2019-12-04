@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ $returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . Factory
 
 HTMLHelper::_('script', 'com_joomlaupdate/admin-update-default.js', ['version' => 'auto', 'relative' => true]);
 
-Factory::getDocument()->addScriptOptions(
+$this->document->addScriptOptions(
 	'joomlaupdate',
 	[
 		'password' => $password,

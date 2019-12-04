@@ -2,20 +2,20 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Cache\Storage;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
 
 /**
  * WinCache cache storage handler
  *
- * @link   https://secure.php.net/manual/en/book.wincache.php
+ * @link   https://www.php.net/manual/en/book.wincache.php
  * @since  1.7.0
  */
 class WincacheStorage extends CacheStorage
@@ -194,6 +194,6 @@ class WincacheStorage extends CacheStorage
 	 */
 	public static function isSupported()
 	{
-		return extension_loaded('wincache') && function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), '1');
+		return \extension_loaded('wincache') && \function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), '1');
 	}
 }

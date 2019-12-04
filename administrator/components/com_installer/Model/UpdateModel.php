@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Installer\Installer;
@@ -22,6 +23,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -100,8 +102,12 @@ class UpdateModel extends ListModel
 			->select('u.*')
 			->select($db->quoteName('e.manifest_cache'))
 			->from($db->quoteName('#__updates', 'u'))
-			->join('LEFT', $db->quoteName('#__extensions', 'e') . ' ON ' . $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('u.extension_id'))
-			->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(0));
+			->join(
+				'LEFT',
+				$db->quoteName('#__extensions', 'e'),
+				$db->quoteName('e.extension_id') . ' = ' . $db->quoteName('u.extension_id')
+			)
+			->where($db->quoteName('u.extension_id') . ' != 0');
 
 		// Process select filters.
 		$clientId    = $this->getState('filter.client_id');
@@ -111,27 +117,36 @@ class UpdateModel extends ListModel
 
 		if ($type)
 		{
-			$query->where($db->quoteName('u.type') . ' = ' . $db->quote($type));
+			$query->where($db->quoteName('u.type') . ' = :type')
+				->bind(':type', $type);
 		}
 
 		if ($clientId != '')
 		{
-			$query->where($db->quoteName('u.client_id') . ' = ' . (int) $clientId);
+			$clientId = (int) $clientId;
+			$query->where($db->quoteName('u.client_id') . ' = :clientid')
+				->bind(':clientid', $clientId, ParameterType::INTEGER);
 		}
 
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where($db->quoteName('u.folder') . ' = ' . $db->quote($folder == '*' ? '' : $folder));
+			$folder = $folder === '*' ? '' : $folder;
+			$query->where($db->quoteName('u.folder') . ' = :folder')
+				->bind(':folder', $folder);
 		}
 
 		if ($extensionId)
 		{
-			$query->where($db->quoteName('u.extension_id') . ' = ' . $db->quote((int) $extensionId));
+			$extensionId = (int) $extensionId;
+			$query->where($db->quoteName('u.extension_id') . ' = :extensionid')
+				->bind(':extensionid', $extensionId, ParameterType::INTEGER);
 		}
 		else
 		{
-			$query->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(0))
-				->where($db->quoteName('u.extension_id') . ' != ' . $db->quote(700));
+			$eid = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+			$query->where($db->quoteName('u.extension_id') . ' != 0')
+				->where($db->quoteName('u.extension_id') . ' != :eid')
+				->bind(':eid', $eid, ParameterType::INTEGER);
 		}
 
 		// Process search filter.
@@ -141,21 +156,29 @@ class UpdateModel extends ListModel
 		{
 			if (stripos($search, 'eid:') !== false)
 			{
-				$query->where($db->quoteName('u.extension_id') . ' = ' . (int) substr($search, 4));
+				$sid = (int) substr($search, 4);
+				$query->where($db->quoteName('u.extension_id') . ' = :sid')
+					->bind(':sid', $sid, ParameterType::INTEGER);
 			}
 			else
 			{
 				if (stripos($search, 'uid:') !== false)
 				{
-					$query->where($db->quoteName('u.update_site_id') . ' = ' . (int) substr($search, 4));
+					$suid = (int) substr($search, 4);
+					$query->where($db->quoteName('u.update_site_id') . ' = :suid')
+						->bind(':suid', $suid, ParameterType::INTEGER);
 				}
 				elseif (stripos($search, 'id:') !== false)
 				{
-					$query->where($db->quoteName('u.update_id') . ' = ' . (int) substr($search, 3));
+					$uid = (int) substr($search, 3);
+					$query->where($db->quoteName('u.update_id') . ' = :uid')
+						->bind(':uid', $uid, ParameterType::INTEGER);
 				}
 				else
 				{
-					$query->where($db->quoteName('u.name') . ' LIKE ' . $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true)) . '%'));
+					$search = '%' . str_replace(' ', '%', trim($search)) . '%';
+					$query->where($db->quoteName('u.name') . ' LIKE :search')
+						->bind(':search', $search);
 				}
 			}
 		}
@@ -166,7 +189,7 @@ class UpdateModel extends ListModel
 	/**
 	 * Translate a list of objects
 	 *
-	 * @param   array  &$items  The array of objects
+	 * @param   array  $items  The array of objects
 	 *
 	 * @return  array The array of translated objects
 	 *
@@ -179,6 +202,7 @@ class UpdateModel extends ListModel
 			$item->client_translated  = $item->client_id ? Text::_('JADMINISTRATOR') : Text::_('JSITE');
 			$manifest                 = json_decode($item->manifest_cache);
 			$item->current_version    = $manifest->version ?? Text::_('JLIB_UNKNOWN');
+			$item->description        = $manifest->description ?? Text::_('COM_INSTALLER_MSG_UPDATE_NODESC');
 			$item->type_translated    = Text::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
 			$item->folder_translated  = $item->folder ?: Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE');
 			$item->install_type       = $item->extension_id ? Text::_('COM_INSTALLER_MSG_UPDATE_UPDATE') : Text::_('COM_INSTALLER_NEW_INSTALL');
@@ -266,9 +290,6 @@ class UpdateModel extends ListModel
 	 */
 	public function findUpdates($eid = 0, $cache_timeout = 0, $minimum_stability = Updater::STABILITY_STABLE)
 	{
-		// Purge the updates list
-		$this->purge();
-
 		Updater::getInstance()->findUpdates($eid, $cache_timeout, $minimum_stability);
 
 		return true;
@@ -303,41 +324,6 @@ class UpdateModel extends ListModel
 		$db->setQuery($query);
 		$db->execute();
 		$this->_message = Text::_('JLIB_INSTALLER_PURGED_UPDATES');
-
-		return true;
-	}
-
-	/**
-	 * Enables any disabled rows in #__update_sites table
-	 *
-	 * @return  boolean result of operation
-	 *
-	 * @since   1.6
-	 */
-	public function enableSites()
-	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->update($db->quoteName('#__update_sites'))
-			->set($db->quoteName('enabled') . ' = 1')
-			->where($db->quoteName('enabled') . ' = 0');
-		$db->setQuery($query);
-
-		try
-		{
-			$db->execute();
-		}
-		catch (ExecutionFailureException $e)
-		{
-			$this->_message .= Text::_('COM_INSTALLER_FAILED_TO_ENABLE_UPDATES');
-
-			return false;
-		}
-
-		if ($rows = $db->getAffectedRows())
-		{
-			$this->_message .= Text::plural('COM_INSTALLER_ENABLED_UPDATES', $rows);
-		}
 
 		return true;
 	}
@@ -416,7 +402,7 @@ class UpdateModel extends ListModel
 			return false;
 		}
 
-		$url     = $update->downloadurl->_data;
+		$url     = trim($update->downloadurl->_data);
 		$sources = $update->get('downloadSources', array());
 
 		if ($extra_query = $update->get('extra_query'))
@@ -430,7 +416,7 @@ class UpdateModel extends ListModel
 		while (!($p_file = InstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
 		{
 			$name = $sources[$mirror];
-			$url  = $name->url;
+			$url  = trim($name->url);
 
 			if ($extra_query)
 			{
@@ -459,25 +445,40 @@ class UpdateModel extends ListModel
 		$installer = Installer::getInstance();
 		$update->set('type', $package['type']);
 
+		// Check the package
+		$check = InstallerHelper::isChecksumValid($package['packagefile'], $update);
+
+		// The validation was not successful. Just a warning for now.
+		// TODO: In Joomla 4 this will abort the installation
+		if ($check === InstallerHelper::HASH_NOT_VALIDATED)
+		{
+			$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'error');
+		}
+
 		// Install the package
 		if (!$installer->update($package['dir']))
 		{
 			// There was an error updating the package
-			$msg    = Text::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$app->enqueueMessage(
+				Text::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR',
+					Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+				), 'error'
+			);
 			$result = false;
 		}
 		else
 		{
 			// Package updated successfully
-			$msg    = Text::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$app->enqueueMessage(
+				Text::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS',
+					Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+				)
+			);
 			$result = true;
 		}
 
 		// Quick change
 		$this->type = $package['type'];
-
-		// Set some model state values
-		$app->enqueueMessage($msg);
 
 		// TODO: Reconfigure this code when you have more battery life left
 		$this->setState('name', $installer->get('name'));

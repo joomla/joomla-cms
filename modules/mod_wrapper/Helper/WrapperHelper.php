@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  mod_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Module\Wrapper\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
@@ -34,9 +34,9 @@ class WrapperHelper
 		$params->def('url', '');
 		$params->def('scrolling', 'auto');
 		$params->def('height', '200');
-		$params->def('height_auto', '0');
+		$params->def('height_auto', 0);
 		$params->def('width', '100%');
-		$params->def('add', '1');
+		$params->def('add', 1);
 		$params->def('name', 'wrapper');
 
 		$url = $params->get('url');

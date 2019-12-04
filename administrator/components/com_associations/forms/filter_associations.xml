@@ -3,8 +3,9 @@
 	<field
 		name="itemtype"
 		type="itemtype"
+		label="COM_ASSOCIATIONS_FILTER_SELECT_ITEM"
 		filtermode="selector"
-		onchange="jQuery('select[id^=\'filter_\']').val('');jQuery('select[id^=\'list_\']').val('');this.form.submit();"
+		onchange="Joomla.resetFilters(this)"
 		>
 		<option value="">COM_ASSOCIATIONS_FILTER_SELECT_ITEM_TYPE</option>
 	</field>
@@ -12,7 +13,7 @@
 	<field
 		name="language"
 		type="contentlanguage"
-		label="JOPTION_SELECT_LANGUAGE"
+		label="COM_ASSOCIATIONS_FILTER_SELECT_LANGUAGE"
 		filtermode="selector"
 		onchange="this.form.submit();"
 		>

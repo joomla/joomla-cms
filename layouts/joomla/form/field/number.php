@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,11 +44,9 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  */
 
-$autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
-
 $attributes = array(
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
+	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
@@ -57,7 +55,7 @@ $attributes = array(
 	!empty($step) ? 'step="' . $step . '"' : '',
 	isset($min) ? 'min="' . $min . '"' : '',
 	$required ? 'required' : '',
-	$autocomplete,
+	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	$autofocus ? 'autofocus' : ''
 );
 
@@ -73,6 +71,7 @@ else
 ?>
 <input
 	type="number"
+	inputmode="numeric"
 	name="<?php echo $name; ?>"
 	id="<?php echo $id; ?>"
 	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,10 +13,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -53,6 +56,8 @@ class ArticlesModel extends ListModel
 				'created_by_alias', 'a.created_by_alias',
 				'ordering', 'a.ordering',
 				'featured', 'a.featured',
+				'featured_up', 'fp.featured_up',
+				'featured_down', 'fp.featured_down',
 				'language', 'a.language',
 				'hits', 'a.hits',
 				'publish_up', 'a.publish_up',
@@ -63,6 +68,8 @@ class ArticlesModel extends ListModel
 				'level',
 				'tag',
 				'rating_count', 'rating',
+				'condition',
+				'stage',
 			);
 
 			if (Associations::isEnabled())
@@ -106,6 +113,9 @@ class ArticlesModel extends ListModel
 
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
+
+		$featured = $this->getUserStateFromRequest($this->context . '.filter.featured', 'filter_featured', '');
+		$this->setState('filter.featured', $featured);
 
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
@@ -182,7 +192,7 @@ class ArticlesModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -197,9 +207,9 @@ class ArticlesModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
-				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
-				', a.publish_up, a.publish_down'
+				'a.id, a.asset_id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
+				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, fp.featured_up, fp.featured_down' .
+				', a.language, a.hits, a.publish_up, a.publish_down, a.introtext, a.note'
 			)
 		);
 		$query->from('#__content AS a');
@@ -207,6 +217,10 @@ class ArticlesModel extends ListModel
 		// Join over the language
 		$query->select('l.title AS language_title, l.image AS language_image')
 			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+
+		// Join over the front page table.
+		$query->select('fp.ordering')
+			->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
 
 		// Join over the users for the checked out user.
 		$query->select('uc.name AS editor')
@@ -217,23 +231,30 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the categories.
-		$query->select('c.title AS category_title')
+		$query->select('c.title AS category_title, c.created_user_id AS category_uid, c.level AS category_level')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
+
+		// Join over the parent categories.
+		$query->select(
+			'parent.title AS parent_category_title, parent.id AS parent_category_id,' .
+			'parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level'
+		)
+			->join('LEFT', '#__categories AS parent ON parent.id = c.parent_id');
 
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join over the associations.
-		$query->select($query->quoteName('wa.stage_id', 'stage_id'))
+		$query->select($db->quoteName('wa.stage_id', 'stage_id'))
 			->innerJoin(
-				$query->quoteName('#__workflow_associations', 'wa') 
-				. ' ON ' . $query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id')
+				$db->quoteName('#__workflow_associations', 'wa')
+				. ' ON ' . $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id')
 			);
 
 		// Join over the workflow stages.
 		$query->select(
-			$query->quoteName(
+			$db->quoteName(
 				[
 					'ws.title',
 					'ws.condition',
@@ -246,59 +267,34 @@ class ArticlesModel extends ListModel
 				]
 			)
 		)
-		->innerJoin(
-			$query->quoteName('#__workflow_stages', 'ws')
-			. ' ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id')
-		);
-
-		// Join on voting table
-		$associationsGroupBy = array(
-			'a.id',
-			'a.title',
-			'a.alias',
-			'a.checked_out',
-			'a.checked_out_time',
-			'a.state',
-			'a.access',
-			'a.created',
-			'a.created_by',
-			'a.created_by_alias',
-			'a.modified',
-			'a.ordering',
-			'a.featured',
-			'a.language',
-			'a.hits',
-			'a.publish_up',
-			'a.publish_down',
-			'a.catid',
-			'l.title',
-			'l.image',
-			'uc.name',
-			'ag.title',
-			'c.title',
-			'ua.name',
-			'ws.title',
-			'ws.workflow_id',
-			'ws.condition',
-			'wa.stage_id'
-		);
+			->innerJoin(
+				$db->quoteName('#__workflow_stages', 'ws')
+				. ' ON ' . $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id')
+			);
 
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
-					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
+				COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count'
+			)
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
-
-			array_push($associationsGroupBy, 'v.rating_sum', 'v.rating_count');
 		}
 
 		// Join over the associations.
 		if (Associations::isEnabled())
 		{
-			$query->select('COUNT(asso2.id)>1 as association')
-				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
-				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
-				->group($db->quoteName($associationsGroupBy));
+			$subQuery = $db->getQuery(true)
+				->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
+				->from($db->quoteName('#__associations', 'asso1'))
+				->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
+				->where(
+					[
+						$db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
+						$db->quoteName('asso1.context') . ' = ' . $db->quote('com_content.item'),
+					]
+				);
+
+			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
 		}
 
 		// Filter by access level.
@@ -313,6 +309,14 @@ class ArticlesModel extends ListModel
 			$access = ArrayHelper::toInteger($access);
 			$access = implode(',', $access);
 			$query->where('a.access IN (' . $access . ')');
+		}
+
+		// Filter by featured.
+		$featured = (string) $this->getState('filter.featured');
+
+		if (in_array($featured, ['0','1']))
+		{
+			$query->where('a.featured =' . (int) $featured);
 		}
 
 		// Filter by access level on categories.
@@ -366,7 +370,7 @@ class ArticlesModel extends ListModel
 		if (count($categoryId))
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
-			$categoryTable = \JTable::getInstance('Category', 'JTable');
+			$categoryTable = Table::getInstance('Category', 'JTable');
 			$subCatItemsWhere = array();
 
 			foreach ($categoryId as $filter_catid)
@@ -416,10 +420,15 @@ class ArticlesModel extends ListModel
 				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
 				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
 			}
+			elseif (stripos($search, 'content:') === 0)
+			{
+				$search = $db->quote('%' . $db->escape(substr($search, 8), true) . '%');
+				$query->where('(a.introtext LIKE ' . $search . ' OR a.fulltext LIKE ' . $search . ')');
+			}
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
+				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
 
@@ -430,39 +439,58 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by a single or group of tags.
-		$hasTag = false;
-		$tagId  = $this->getState('filter.tag');
+		$tag = $this->getState('filter.tag');
 
-		if (is_numeric($tagId))
+		// Run simplified query when filtering by one tag.
+		if (\is_array($tag) && \count($tag) === 1)
 		{
-			$hasTag = true;
-
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
-		}
-		elseif (is_array($tagId))
-		{
-			$tagId = ArrayHelper::toInteger($tagId);
-			$tagId = implode(',', $tagId);
-
-			if (!empty($tagId))
-			{
-				$hasTag = true;
-
-				$query->where($db->quoteName('tagmap.tag_id') . ' IN (' . $tagId . ')');
-			}
+			$tag = $tag[0];
 		}
 
-		if ($hasTag)
+		if ($tag && \is_array($tag))
 		{
-			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
-				. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-				. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+			$tag = ArrayHelper::toInteger($tag);
+
+			$subQuery = $db->getQuery(true)
+				->select('DISTINCT ' . $db->quoteName('content_item_id'))
+				->from($db->quoteName('#__contentitem_tag_map'))
+				->where(
+					[
+						$db->quoteName('tag_id') . ' IN (' . implode(',', $query->bindArray($tag)) . ')',
+						$db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'),
+					]
+				);
+
+			$query->join(
+				'INNER',
+				'(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
+				$db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 			);
+		}
+		elseif ($tag = (int) $tag)
+		{
+			$query->join(
+				'INNER',
+				$db->quoteName('#__contentitem_tag_map', 'tagmap'),
+				$db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+			)
+				->where(
+					[
+						$db->quoteName('tagmap.tag_id') . ' = :tag',
+						$db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article'),
+					]
+				)
+				->bind(':tag', $tag, ParameterType::INTEGER);
 		}
 
 		// Add the list ordering clause.
 		$orderCol  = $this->state->get('list.ordering', 'a.id');
 		$orderDirn = $this->state->get('list.direction', 'DESC');
+
+		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
+		{
+			$orderCol = $db->quoteName('c.title') . ' ' . $orderDirn . ', ' . $db->quoteName('a.ordering');
+		}
 
 		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
 
@@ -472,7 +500,7 @@ class ArticlesModel extends ListModel
 	/**
 	 * Method to get all transitions at once for all articles
 	 *
-	 * @return  array
+	 * @return  array|boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -492,7 +520,12 @@ class ArticlesModel extends ListModel
 
 		$items = $this->getItems();
 
-		$ids = ArrayHelper::getColumn($items, 'stage_id');
+		if ($items === false)
+		{
+			return false;
+		}
+
+		$ids = array_column($items, 'stage_id');
 		$ids = ArrayHelper::toInteger($ids);
 		$ids = array_unique(array_filter($ids));
 
@@ -557,7 +590,7 @@ class ArticlesModel extends ListModel
 						// Update the transition text with final state value
 						$conditionName = $workflow->getConditionName($transition['stage_condition']);
 
-						$transitions[$key]['text'] .= ' [' . \JText::_($conditionName) . ']';
+						$transitions[$key]['text'] .= ' [' . Text::_($conditionName) . ']';
 					}
 				}
 
@@ -576,28 +609,19 @@ class ArticlesModel extends ListModel
 
 	/**
 	 * Method to get a list of articles.
-	 * Overridden to add a check for access levels.
+	 * Overridden to add item type alias.
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   1.6.1
+	 * @since   4.0.0
 	 */
 	public function getItems()
 	{
 		$items = parent::getItems();
 
-		if (Factory::getApplication()->isClient('site'))
+		foreach ($items as $item)
 		{
-			$groups = Factory::getUser()->getAuthorisedViewLevels();
-
-			foreach (array_keys($items) as $x)
-			{
-				// Check the access level. Remove articles the user shouldn't see
-				if (!in_array($items[$x]->access, $groups))
-				{
-					unset($items[$x]);
-				}
-			}
+			$item->typeAlias = 'com_content.article';
 		}
 
 		return $items;

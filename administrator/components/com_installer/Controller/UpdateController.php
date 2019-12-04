@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,10 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Updater\Updater;
@@ -37,9 +39,9 @@ class UpdateController extends BaseController
 	public function update()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
 
 		$uid = $this->input->get('cid', array(), 'array');
@@ -84,7 +86,7 @@ class UpdateController extends BaseController
 	 */
 	public function find()
 	{
-		(Session::checkToken() or Session::checkToken('get')) or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		// Get the caching duration.
 		$params        = ComponentHelper::getComponent('com_installer')->getParams();
@@ -95,7 +97,7 @@ class UpdateController extends BaseController
 		$minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 
 		// Find updates.
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
 
 		$disabledUpdateSites = $model->getDisabledUpdateSites();
@@ -120,17 +122,11 @@ class UpdateController extends BaseController
 	public function purge()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
 		$model->purge();
-
-		/**
-		 * We no longer need to enable update sites in Joomla! 3.4 as we now allow the users to manage update sites
-		 * themselves.
-		 * $model->enableSites();
-		 */
 
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=update', false), $model->_message);
 	}
@@ -150,9 +146,12 @@ class UpdateController extends BaseController
 		{
 			$app->setHeader('status', 403, true);
 			$app->sendHeaders();
-			echo Text::_('JINVALID_TOKEN');
+			echo Text::_('JINVALID_TOKEN_NOTICE');
 			$app->close();
 		}
+
+		// Close the session before we make a long running request
+		$app->getSession()->abort();
 
 		$eid               = $this->input->getInt('eid', 0);
 		$skip              = $this->input->get('skip', array(), 'array');
@@ -172,7 +171,7 @@ class UpdateController extends BaseController
 			$minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 		}
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
+		/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('update');
 		$model->findUpdates($eid, $cache_timeout, $minimum_stability);
 
@@ -203,5 +202,24 @@ class UpdateController extends BaseController
 		echo json_encode($updates);
 
 		$app->close();
+	}
+
+	/**
+	 * Provide the data for a badge in a menu item via JSON
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function getMenuBadgeData()
+	{
+		if (!Factory::getUser()->authorise('core.manage', 'com_installer'))
+		{
+			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+		}
+
+		$model = $this->getModel('Update');
+
+		echo new JsonResponse(count($model->getItems()));
 	}
 }

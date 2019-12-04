@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\View;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -109,14 +109,14 @@ class HtmlView extends AbstractView
 		parent::__construct($config);
 
 		// Set the charset (used by the variable escaping functions)
-		if (array_key_exists('charset', $config))
+		if (\array_key_exists('charset', $config))
 		{
 			Log::add('Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.', Log::WARNING, 'deprecated');
 			$this->_charset = $config['charset'];
 		}
 
 		// Set a base path for use by the view
-		if (array_key_exists('base_path', $config))
+		if (\array_key_exists('base_path', $config))
 		{
 			$this->_basePath = $config['base_path'];
 		}
@@ -126,7 +126,7 @@ class HtmlView extends AbstractView
 		}
 
 		// Set the default template search path
-		if (array_key_exists('template_path', $config))
+		if (\array_key_exists('template_path', $config))
 		{
 			// User-defined dirs
 			$this->_setPath('template', $config['template_path']);
@@ -153,7 +153,7 @@ class HtmlView extends AbstractView
 		}
 
 		// Set the default helper search path
-		if (array_key_exists('helper_path', $config))
+		if (\array_key_exists('helper_path', $config))
 		{
 			// User-defined dirs
 			$this->_setPath('helper', $config['helper_path']);
@@ -164,7 +164,7 @@ class HtmlView extends AbstractView
 		}
 
 		// Set the layout
-		if (array_key_exists('layout', $config))
+		if (\array_key_exists('layout', $config))
 		{
 			$this->setLayout($config['layout']);
 		}
@@ -181,19 +181,15 @@ class HtmlView extends AbstractView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
+	 * @throws  \Exception
 	 * @see     \JViewLegacy::loadTemplate()
 	 * @since   3.0
 	 */
 	public function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
-
-		if ($result instanceof \Exception)
-		{
-			return $result;
-		}
 
 		echo $result;
 	}
@@ -207,6 +203,8 @@ class HtmlView extends AbstractView
 	 * @param   mixed  $var  The output to escape.
 	 *
 	 * @return  mixed  The escaped value.
+	 *
+	 * @note the ENT_COMPAT flag will be replaced by ENT_QUOTES in Joomla 4.0 to also escape single quotes
 	 *
 	 * @since   3.0
 	 */
@@ -352,7 +350,11 @@ class HtmlView extends AbstractView
 		// Change the template folder if alternative layout is in different template
 		if (isset($layoutTemplate) && $layoutTemplate !== '_' && $layoutTemplate != $template)
 		{
-			$this->_path['template'] = str_replace($template, $layoutTemplate, $this->_path['template']);
+			$this->_path['template'] = str_replace(
+				JPATH_THEMES . DIRECTORY_SEPARATOR . $template,
+				JPATH_THEMES . DIRECTORY_SEPARATOR . $layoutTemplate,
+				$this->_path['template']
+			);
 		}
 
 		// Load the template script
@@ -528,7 +530,7 @@ class HtmlView extends AbstractView
 	 */
 	public function getForm()
 	{
-		if (!is_object($this->form))
+		if (!\is_object($this->form))
 		{
 			$this->form = $this->get('Form');
 		}

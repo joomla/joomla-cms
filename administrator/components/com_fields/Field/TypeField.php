@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,19 +12,20 @@ namespace Joomla\Component\Fields\Administrator\Field;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Fields Type
  *
  * @since  3.7.0
  */
-class TypeField extends \JFormFieldList
+class TypeField extends ListField
 {
+	/**
+	 * @var    string
+	 */
 	public $type = 'Type';
 
 	/**
@@ -44,7 +45,7 @@ class TypeField extends \JFormFieldList
 	{
 		$return = parent::setup($element, $value, $group);
 
-		$this->onchange = 'typeHasChanged(this);';
+		$this->onchange = 'Joomla.typeHasChanged(this);';
 
 		return $return;
 	}
@@ -76,22 +77,11 @@ class TypeField extends \JFormFieldList
 			}
 		);
 
-		$js = <<<JS
-(function () {
-  window.typeHasChanged = function(element) {
-    Joomla.loadingLayer('show');
-    document.querySelector('input[name=task]').value = 'field.reload';
-    element.form.submit();
-  };
+		// Loadd the Joomla spinner
+		HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
 
-  document.addEventListener('DOMContentLaoded', function() {
-    Joomla.loadingLayer('load');
-  });
-})();
-JS;
-
-		// @todo move the script to a file
-		Factory::getDocument()->addScriptDeclaration($js);
+		// Load the field interactivity script
+		HTMLHelper::_('script', 'com_fields/admin-field-typehaschanged.min.js', ['relative' => true, 'version' => 'auto']);
 
 		return $options;
 	}

@@ -2,23 +2,28 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\MVC\Model;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\UCM\UCMType;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -77,6 +82,14 @@ abstract class AdminModel extends FormModel
 	 * @since  1.6
 	 */
 	protected $event_before_save = null;
+
+	/**
+	 * The event to trigger before changing the published state of the data.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $event_before_change_state = null;
 
 	/**
 	 * The event to trigger after changing the published state of the data.
@@ -214,6 +227,15 @@ abstract class AdminModel extends FormModel
 			$this->event_before_save = 'onContentBeforeSave';
 		}
 
+		if (isset($config['event_before_change_state']))
+		{
+			$this->event_before_change_state = $config['event_before_change_state'];
+		}
+		elseif (empty($this->event_before_change_state))
+		{
+			$this->event_before_change_state = 'onContentBeforeChangeState';
+		}
+
 		if (isset($config['event_change_state']))
 		{
 			$this->event_change_state = $config['event_change_state'];
@@ -234,7 +256,7 @@ abstract class AdminModel extends FormModel
 			), $config['events_map']
 		);
 
-		// Guess the \JText message prefix. Defaults to the option.
+		// Guess the \Text message prefix. Defaults to the option.
 		if (isset($config['text_prefix']))
 		{
 			$this->text_prefix = strtoupper($config['text_prefix']);
@@ -288,7 +310,7 @@ abstract class AdminModel extends FormModel
 			{
 				$result = $this->batchCopy($commands[$this->batch_copymove], $pks, $contexts);
 
-				if (is_array($result))
+				if (\is_array($result))
 				{
 					foreach ($result as $old => $new)
 					{
@@ -405,6 +427,7 @@ abstract class AdminModel extends FormModel
 		}
 
 		$newIds = array();
+		$db     = $this->getDbo();
 
 		// Parent exists so let's proceed
 		while (!empty($pks))
@@ -430,6 +453,12 @@ abstract class AdminModel extends FormModel
 					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
+			}
+
+			// Check for asset_id
+			if ($this->table->hasField($this->table->getColumnAlias('asset_id')))
+			{
+				$oldAssetId = $this->table->asset_id;
 			}
 
 			$this->generateTitle($categoryId, $this->table);
@@ -479,6 +508,23 @@ abstract class AdminModel extends FormModel
 			// Get the new item ID
 			$newId = $this->table->get('id');
 
+			if (!empty($oldAssetId))
+			{
+				// Copy rules
+				$query = $db->getQuery(true);
+				$query->clear()
+					->update($db->quoteName('#__assets', 't'))
+					->join('INNER', $db->quoteName('#__assets', 's') .
+						' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
+					)
+					->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
+					->where($db->quoteName('t.id') . ' = ' . $this->table->asset_id);
+
+				$db->setQuery($query)->execute();
+			}
+
+			$this->cleanupPostBatchCopy($this->table, $newId, $pk);
+
 			// Add the new ID to the array
 			$newIds[$pk] = $newId;
 		}
@@ -487,6 +533,21 @@ abstract class AdminModel extends FormModel
 		$this->cleanCache();
 
 		return $newIds;
+	}
+
+	/**
+	 * Function that can be overriden to do any data cleanup after batch copying data
+	 *
+	 * @param   \JTableInterface  $table  The table object containing the newly created item
+	 * @param   integer           $newId  The id of the new item
+	 * @param   integer           $oldId  The original item id
+	 *
+	 * @return  void
+	 *
+	 * @since  3.8.12
+	 */
+	protected function cleanupPostBatchCopy(\JTableInterface $table, $newId, $oldId)
+	{
 	}
 
 	/**
@@ -772,11 +833,11 @@ abstract class AdminModel extends FormModel
 	 */
 	public function delete(&$pks)
 	{
-		$pks = (array) $pks;
+		$pks   = ArrayHelper::toInteger((array) $pks);
 		$table = $this->getTable();
 
 		// Include the plugins for the delete events.
-		\JPluginHelper::importPlugin($this->events_map['delete']);
+		PluginHelper::importPlugin($this->events_map['delete']);
 
 		// Iterate the items to delete each one.
 		foreach ($pks as $i => $pk)
@@ -790,7 +851,7 @@ abstract class AdminModel extends FormModel
 					// Trigger the before delete event.
 					$result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
 
-					if (in_array(false, $result, true))
+					if (\in_array(false, $result, true))
 					{
 						$this->setError($table->getError());
 
@@ -802,11 +863,22 @@ abstract class AdminModel extends FormModel
 					{
 						$db = $this->getDbo();
 						$query = $db->getQuery(true)
-							->select('COUNT(*) as count, ' . $db->quoteName('as1.key'))
-							->from($db->quoteName('#__associations') . ' AS as1')
-							->join('LEFT', $db->quoteName('#__associations') . ' AS as2 ON ' . $db->quoteName('as1.key') . ' =  ' . $db->quoteName('as2.key'))
-							->where($db->quoteName('as1.context') . ' = ' . $db->quote($this->associationsContext))
-							->where($db->quoteName('as1.id') . ' = ' . (int) $pk)
+							->select(
+								[
+									'COUNT(*) AS ' . $db->quoteName('count'),
+									$db->quoteName('as1.key'),
+								]
+							)
+							->from($db->quoteName('#__associations', 'as1'))
+							->join('LEFT', $db->quoteName('#__associations', 'as2'), $db->quoteName('as1.key') . ' = ' . $db->quoteName('as2.key'))
+							->where(
+								[
+									$db->quoteName('as1.context') . ' = :context',
+									$db->quoteName('as1.id') . ' = :pk',
+								]
+							)
+							->bind(':context', $this->associationsContext)
+							->bind(':pk', $pk, ParameterType::INTEGER)
 							->group($db->quoteName('as1.key'));
 
 						$db->setQuery($query);
@@ -816,12 +888,19 @@ abstract class AdminModel extends FormModel
 						{
 							$query = $db->getQuery(true)
 								->delete($db->quoteName('#__associations'))
-								->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
-								->where($db->quoteName('key') . ' = ' . $db->quote($row['key']));
+								->where(
+									[
+										$db->quoteName('context') . ' = :context',
+										$db->quoteName('key') . ' = :key',
+									]
+								)
+								->bind(':context', $this->associationsContext)
+								->bind(':key', $row['key']);
 
 							if ($row['count'] > 2)
 							{
-								$query->where($db->quoteName('id') . ' = ' . (int) $pk);
+								$query->where($db->quoteName('id') . ' = :pk')
+									->bind(':pk', $pk, ParameterType::INTEGER);
 							}
 
 							$db->setQuery($query);
@@ -887,11 +966,18 @@ abstract class AdminModel extends FormModel
 	protected function generateNewTitle($category_id, $alias, $title)
 	{
 		// Alter the title & alias
-		$table = $this->getTable();
+		$table      = $this->getTable();
+		$aliasField = $table->getColumnAlias('alias');
+		$catidField = $table->getColumnAlias('catid');
+		$titleField = $table->getColumnAlias('title');
 
-		while ($table->load(array('alias' => $alias, 'catid' => $category_id)))
+		while ($table->load(array($aliasField => $alias, $catidField => $category_id)))
 		{
-			$title = StringHelper::increment($title);
+			if ($title === $table->$titleField)
+			{
+				$title = StringHelper::increment($title);
+			}
+
 			$alias = StringHelper::increment($alias, 'dash');
 		}
 
@@ -1004,8 +1090,10 @@ abstract class AdminModel extends FormModel
 		$table = $this->getTable();
 		$pks = (array) $pks;
 
+		$context = $this->option . '.' . $this->name;
+
 		// Include the plugins for the change of state event.
-		\JPluginHelper::importPlugin($this->events_map['change_state']);
+		PluginHelper::importPlugin($this->events_map['change_state']);
 
 		// Access checks.
 		foreach ($pks as $i => $pk)
@@ -1034,7 +1122,36 @@ abstract class AdminModel extends FormModel
 
 					return false;
 				}
+
+				/**
+				 * Prune items that are already at the given state.  Note: Only models whose table correctly
+				 * sets 'published' column alias (if different than published) will benefit from this
+				 */
+				$publishedColumnName = $table->getColumnAlias('published');
+
+				if (property_exists($table, $publishedColumnName) && $table->get($publishedColumnName, $value) == $value)
+				{
+					unset($pks[$i]);
+
+					continue;
+				}
 			}
+		}
+
+		// Check if there are items to change
+		if (!\count($pks))
+		{
+			return true;
+		}
+
+		// Trigger the before change state event.
+		$result = Factory::getApplication()->triggerEvent($this->event_before_change_state, array($context, $pks, $value));
+
+		if (\in_array(false, $result, true))
+		{
+			$this->setError($table->getError());
+
+			return false;
 		}
 
 		// Attempt to change the state of the records.
@@ -1045,12 +1162,10 @@ abstract class AdminModel extends FormModel
 			return false;
 		}
 
-		$context = $this->option . '.' . $this->name;
-
 		// Trigger the change state event.
 		$result = Factory::getApplication()->triggerEvent($this->event_change_state, array($context, $pks, $value));
 
-		if (in_array(false, $result, true))
+		if (\in_array(false, $result, true))
 		{
 			$this->setError($table->getError());
 
@@ -1148,7 +1263,7 @@ abstract class AdminModel extends FormModel
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
 
-		if (array_key_exists('tags', $data) && is_array($data['tags']))
+		if (\array_key_exists('tags', $data) && \is_array($data['tags']))
 		{
 			$table->newTags = $data['tags'];
 		}
@@ -1158,7 +1273,7 @@ abstract class AdminModel extends FormModel
 		$isNew = true;
 
 		// Include the plugins for the save events.
-		\JPluginHelper::importPlugin($this->events_map['save']);
+		PluginHelper::importPlugin($this->events_map['save']);
 
 		// Allow an exception to be thrown.
 		try
@@ -1192,7 +1307,7 @@ abstract class AdminModel extends FormModel
 			// Trigger the before save event.
 			$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
 
-			if (in_array(false, $result, true))
+			if (\in_array(false, $result, true))
 			{
 				$this->setError($table->getError());
 
@@ -1254,31 +1369,42 @@ abstract class AdminModel extends FormModel
 
 			// Get associationskey for edited item
 			$db    = $this->getDbo();
+			$id    = (int) $table->$key;
 			$query = $db->getQuery(true)
 				->select($db->quoteName('key'))
 				->from($db->quoteName('#__associations'))
-				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
-				->where($db->quoteName('id') . ' = ' . (int) $table->$key);
+				->where($db->quoteName('context') . ' = :context')
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':context', $this->associationsContext)
+				->bind(':id', $id, ParameterType::INTEGER);
 			$db->setQuery($query);
-			$old_key = $db->loadResult();
+			$oldKey = $db->loadResult();
 
-			// Deleting old associations for the associated items
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__associations'))
-				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext));
-
-			if ($associations)
+			if ($associations || $oldKey !== null)
 			{
-				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')');
-			}
-			else
-			{
-				$query->where($db->quoteName('key') . ' = ' . $db->quote($old_key));
-			}
+				// Deleting old associations for the associated items
+				$query = $db->getQuery(true)
+					->delete($db->quoteName('#__associations'))
+					->where($db->quoteName('context') . ' = :context')
+					->bind(':context', $this->associationsContext);
 
-			$db->setQuery($query);
-			$db->execute();
+				$where = [];
+
+				if ($associations)
+				{
+					$where[] = $db->quoteName('id') . ' IN (' . implode(',', $query->bindArray(array_values($associations))) . ')';
+				}
+
+				if ($oldKey !== null)
+				{
+					$where[] = $db->quoteName('key') . ' = :oldKey';
+					$query->bind(':oldKey', $oldKey);
+				}
+
+				$query->extendWhere('AND', $where, 'OR');
+				$db->setQuery($query);
+				$db->execute();
+			}
 
 			// Adding self to the association
 			if ($table->language !== '*')
@@ -1286,16 +1412,31 @@ abstract class AdminModel extends FormModel
 				$associations[$table->language] = (int) $table->$key;
 			}
 
-			if (count($associations) > 1)
+			if (\count($associations) > 1)
 			{
 				// Adding new association for these items
 				$key   = md5(json_encode($associations));
 				$query = $db->getQuery(true)
-					->insert('#__associations');
+					->insert($db->quoteName('#__associations'))
+					->columns(
+						[
+							$db->quoteName('id'),
+							$db->quoteName('context'),
+							$db->quoteName('key'),
+						]
+					);
 
 				foreach ($associations as $id)
 				{
-					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
+					$query->values(
+						implode(
+							',',
+							$query->bindArray(
+								[$id, $this->associationsContext, $key],
+								[ParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING]
+							)
+						)
+					);
 				}
 
 				$db->setQuery($query);
@@ -1458,9 +1599,11 @@ abstract class AdminModel extends FormModel
 	public function generateTitle($categoryId, $table)
 	{
 		// Alter the title & alias
-		$data = $this->generateNewTitle($categoryId, $table->alias, $table->title);
-		$table->title = $data['0'];
-		$table->alias = $data['1'];
+		$titleField         = $table->getColumnAlias('title');
+		$aliasField         = $table->getColumnAlias('alias');
+		$data               = $this->generateNewTitle($categoryId, $table->$aliasField, $table->$titleField);
+		$table->$titleField = $data['0'];
+		$table->$aliasField = $data['1'];
 	}
 
 	/**
@@ -1483,13 +1626,110 @@ abstract class AdminModel extends FormModel
 			$this->table = $this->getTable();
 
 			// Get table class name
-			$tc = explode('\\', get_class($this->table));
+			$tc = explode('\\', \get_class($this->table));
 			$this->tableClassName = end($tc);
 
 			// Get UCM Type data
-			$this->contentType = new \JUcmType;
+			$this->contentType = new UCMType;
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName)
 				?: $this->contentType->getTypeByAlias($this->typeAlias);
 		}
+	}
+
+	/**
+	 * Method to load an item in com_associations.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @since   3.9.0
+	 */
+	public function editAssociations($data)
+	{
+		// Save the item
+		$this->save($data);
+
+		$app = Factory::getApplication();
+		$id  = $data['id'];
+
+		// Deal with categories associations
+		if ($this->text_prefix === 'COM_CATEGORIES')
+		{
+			$extension       = $app->input->get('extension', 'com_content');
+			$this->typeAlias = $extension . '.category';
+			$extension       = '&extension=' . $extension;
+			$component       = strtolower($this->text_prefix);
+			$view            = 'category';
+		}
+		else
+		{
+			$aliasArray = explode('.', $this->typeAlias);
+			$component  = $aliasArray[0];
+			$view       = $aliasArray[1];
+			$extension  = '';
+		}
+
+		// Menu item redirect needs admin client
+		$client = $component === 'com_menus' ? '&client_id=0' : '';
+
+		if ($id == 0)
+		{
+			$app->enqueueMessage(Text::_('JGLOBAL_ASSOCIATIONS_NEW_ITEM_WARNING'), 'error');
+			$app->redirect(
+				Route::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
+			);
+
+			return false;
+		}
+
+		if ($data['language'] === '*')
+		{
+			$app->enqueueMessage(Text::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
+			$app->redirect(
+				Route::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
+			);
+
+			return false;
+		}
+
+		$languages = LanguageHelper::getContentLanguages(array(0, 1));
+		$target    = '';
+
+		/*
+		 * If the site contains only 2 languages and an association exists for the item
+		 * load directly the associated target item in the side by side view
+		 * otherwise select already the target language
+		 */
+		if (\count($languages) === 2)
+		{
+			foreach ($languages as $language)
+			{
+				$lang_code[] = $language->lang_code;
+			}
+
+			$refLang    = array($data['language']);
+			$targetLang = array_diff($lang_code, $refLang);
+			$targetLang = implode(',', $targetLang);
+			$targetId   = $data['associations'][$targetLang];
+
+			if ($targetId)
+			{
+				$target = '&target=' . $targetLang . '%3A' . $targetId . '%3Aedit';
+			}
+			else
+			{
+				$target = '&target=' . $targetLang . '%3A0%3Aadd';
+			}
+		}
+
+		$app->redirect(
+			Route::_(
+				'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
+				. '&task=association.edit&id=' . $id . $target, false
+			)
+		);
+
+		return true;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,7 +44,7 @@ class HtmlView extends CategoryView
 	/**
 	 * Run the standard Joomla plugins
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 * @since  3.5
 	 */
 	protected $runPlugins = true;
@@ -59,6 +59,9 @@ class HtmlView extends CategoryView
 	public function display($tpl = null)
 	{
 		parent::commonCategoryDisplay();
+
+		// Flag indicates to not add limitstart=0 to URL
+		$this->pagination->hideEmptyLimitstart = true;
 
 		// Prepare the data.
 		// Compute the contact slug.
@@ -99,12 +102,14 @@ class HtmlView extends CategoryView
 		$menu = $this->menu;
 		$id = (int) @$menu->query['id'];
 
-		if ($menu && ($menu->query['option'] != $this->extension || $menu->query['view'] == $this->viewName || $id != $this->category->id))
+		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] != $this->extension || $menu->query['view'] == $this->viewName
+			|| $id != $this->category->id))
 		{
 			$path = array(array('title' => $this->category->title, 'link' => ''));
 			$category = $this->category->getParent();
 
-			while (($menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact' || $id != $category->id) && $category->id > 1)
+			while ((!isset($menu->query['option']) || $menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact'
+				|| $id != $category->id) && $category->id > 1)
 			{
 				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();

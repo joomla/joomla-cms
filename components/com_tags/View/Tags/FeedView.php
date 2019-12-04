@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,19 +32,19 @@ class FeedView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app            = Factory::getApplication();
-		$document       = Factory::getDocument();
-		$document->link = Route::_('index.php?option=com_tags&view=tags');
+		$app                  = Factory::getApplication();
+		$this->document->link = Route::_('index.php?option=com_tags&view=tags');
 
 		$app->input->set('limit', $app->get('feed_limit'));
-		$siteEmail        = $app->get('mailfrom');
-		$fromName         = $app->get('fromname');
-		$feedEmail        = $app->get('feed_email', 'none');
-		$document->editor = $fromName;
+		$siteEmail = $app->get('mailfrom');
+		$fromName  = $app->get('fromname');
+		$feedEmail = $app->get('feed_email', 'none');
+
+		$this->document->editor = $fromName;
 
 		if ($feedEmail !== 'none')
 		{
-			$document->editorEmail = $siteEmail;
+			$this->document->editorEmail = $siteEmail;
 		}
 
 		// Get some data from the model
@@ -81,7 +81,7 @@ class FeedView extends BaseHtmlView
 			}
 
 			// Loads item info into RSS array
-			$document->addItem($feeditem);
+			$this->document->addItem($feeditem);
 		}
 	}
 }

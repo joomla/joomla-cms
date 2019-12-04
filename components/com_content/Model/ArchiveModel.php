@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -70,7 +70,7 @@ class ArchiveModel extends ArticlesModel
 		$articleOrderDate = $params->get('order_date');
 
 		// No category ordering
-		$secondary = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate);
+		$secondary = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate, $this->getDbo());
 
 		$this->setState('list.ordering', $secondary . ', a.created DESC');
 		$this->setState('list.direction', '');
@@ -102,7 +102,7 @@ class ArchiveModel extends ArticlesModel
 
 		// Filter on month, year
 		// First, get the date field
-		$queryDate = QueryHelper::getQueryDate($articleOrderDate);
+		$queryDate = QueryHelper::getQueryDate($articleOrderDate, $this->getDbo());
 
 		if ($month = $this->getState('filter.month'))
 		{
@@ -187,11 +187,12 @@ class ArchiveModel extends ArticlesModel
 	public function getYears()
 	{
 		$db = $this->getDbo();
-		$nullDate = $db->quote($db->getNullDate());
-		$nowDate  = $db->quote(Factory::getDate()->toSql());
+
+		$nowDate = $db->quote(Factory::getDate()->toSql());
 
 		$query = $db->getQuery(true);
 		$years = $query->year($db->quoteName('c.created'));
+
 		$query->select('DISTINCT (' . $years . ')')
 			->from($db->quoteName('#__content', 'c'))
 			->from($db->quoteName('#__workflow_associations', 'wa'))
@@ -199,8 +200,8 @@ class ArchiveModel extends ArticlesModel
 			->where($db->quoteName('c.id') . ' = ' . $db->quoteName('wa.item_id'))
 			->where($db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
 			->where($db->quoteName('ws.condition') . '= ' . (int) ContentComponent::CONDITION_ARCHIVED)
-			->where('(c.publish_up = ' . $nullDate . ' OR c.publish_up <= ' . $nowDate . ')')
-			->where('(c.publish_down = ' . $nullDate . ' OR c.publish_down >= ' . $nowDate . ')')
+			->where('(c.publish_up IS NULL OR c.publish_up <= ' . $nowDate . ')')
+			->where('(c.publish_down IS NULL OR c.publish_down >= ' . $nowDate . ')')
 			->order('1 ASC');
 
 		$db->setQuery($query);
@@ -209,16 +210,16 @@ class ArchiveModel extends ArticlesModel
 	}
 
 	/**
-	* Generate column expression for slug or catslug.
-	*
-	* @param   \JDatabaseQuery  $query  Current query instance.
-	* @param   string           $id     Column id name.
-	* @param   string           $alias  Column alias name.
-	*
-	* @return  string
-	*
-	* @since   4.0.0
-	*/
+	 * Generate column expression for slug or catslug.
+	 *
+	 * @param   \JDatabaseQuery  $query  Current query instance.
+	 * @param   string           $id     Column id name.
+	 * @param   string           $alias  Column alias name.
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
 	private function getSlugColumn($query, $id, $alias)
 	{
 		return 'CASE WHEN '
@@ -226,6 +227,6 @@ class ArchiveModel extends ArticlesModel
 			. ' THEN '
 			. $query->concatenate(array($query->castAsChar($id), $alias), ':')
 			. ' ELSE '
-			. $id . ' END';
+			. $query->castAsChar($id) . ' END';
 	}
 }

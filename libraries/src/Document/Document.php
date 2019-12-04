@@ -2,18 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractWebApplication;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory as CmsFactory;
-use Joomla\CMS\WebAsset\WebAssetRegistry;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Symfony\Component\WebLink\HttpHeaderSerializer;
 
 /**
@@ -249,7 +249,7 @@ class Document
 	/**
 	 * Web Asset instance
 	 *
-	 * @var    WebAssetRegistry
+	 * @var    WebAssetManager
 	 * @since  4.0.0
 	 */
 	protected $webAssetManager = null;
@@ -263,47 +263,47 @@ class Document
 	 */
 	public function __construct($options = array())
 	{
-		if (array_key_exists('lineend', $options))
+		if (\array_key_exists('lineend', $options))
 		{
 			$this->setLineEnd($options['lineend']);
 		}
 
-		if (array_key_exists('charset', $options))
+		if (\array_key_exists('charset', $options))
 		{
 			$this->setCharset($options['charset']);
 		}
 
-		if (array_key_exists('language', $options))
+		if (\array_key_exists('language', $options))
 		{
 			$this->setLanguage($options['language']);
 		}
 
-		if (array_key_exists('direction', $options))
+		if (\array_key_exists('direction', $options))
 		{
 			$this->setDirection($options['direction']);
 		}
 
-		if (array_key_exists('tab', $options))
+		if (\array_key_exists('tab', $options))
 		{
 			$this->setTab($options['tab']);
 		}
 
-		if (array_key_exists('link', $options))
+		if (\array_key_exists('link', $options))
 		{
 			$this->setLink($options['link']);
 		}
 
-		if (array_key_exists('base', $options))
+		if (\array_key_exists('base', $options))
 		{
 			$this->setBase($options['base']);
 		}
 
-		if (array_key_exists('mediaversion', $options))
+		if (\array_key_exists('mediaversion', $options))
 		{
 			$this->setMediaVersion($options['mediaversion']);
 		}
 
-		if (array_key_exists('factory', $options))
+		if (\array_key_exists('factory', $options))
 		{
 			$this->setFactory($options['factory']);
 		}
@@ -312,7 +312,7 @@ class Document
 			$this->setFactory(new Factory);
 		}
 
-		if (array_key_exists('preloadManager', $options))
+		if (\array_key_exists('preloadManager', $options))
 		{
 			$this->setPreloadManager($options['preloadManager']);
 		}
@@ -321,13 +321,16 @@ class Document
 			$this->setPreloadManager(new PreloadManager);
 		}
 
-		if (array_key_exists('webAsset', $options))
+		if (\array_key_exists('webAssetManager', $options))
 		{
-			$this->setWebAssetManager($options['webAsset']);
+			$this->setWebAssetManager($options['webAssetManager']);
 		}
 		else
 		{
-			$this->setWebAssetManager(\Joomla\CMS\Factory::getContainer()->get('webasset'));
+			$webAssetManager = new WebAssetManager(\Joomla\CMS\Factory::getContainer()->get('webassetregistry'));
+			$webAssetManager->setDispatcher(CmsFactory::getApplication()->getDispatcher());
+
+			$this->setWebAssetManager($webAssetManager);
 		}
 	}
 
@@ -441,7 +444,7 @@ class Document
 	public function getMetaData($name, $attribute = 'name')
 	{
 		// B/C old http_equiv parameter.
-		if (!is_string($attribute))
+		if (!\is_string($attribute))
 		{
 			$attribute = $attribute == true ? 'http-equiv' : 'name';
 		}
@@ -476,13 +479,13 @@ class Document
 	public function setMetaData($name, $content, $attribute = 'name')
 	{
 		// Pop the element off the end of array if target function expects a string or this http_equiv parameter.
-		if (is_array($content) && (in_array($name, array('generator', 'description')) || !is_string($attribute)))
+		if (\is_array($content) && (\in_array($name, array('generator', 'description')) || !\is_string($attribute)))
 		{
 			$content = array_pop($content);
 		}
 
 		// B/C old http_equiv parameter.
-		if (!is_string($attribute))
+		if (!\is_string($attribute))
 		{
 			$attribute = $attribute == true ? 'http-equiv' : 'name';
 		}
@@ -540,14 +543,14 @@ class Document
 	 */
 	public function addScriptDeclaration($content, $type = 'text/javascript')
 	{
-		if (!isset($this->_script[strtolower($type)]))
+		$type = strtolower($type);
+
+		if (empty($this->_script[$type]))
 		{
-			$this->_script[strtolower($type)] = $content;
+			$this->_script[$type] = array();
 		}
-		else
-		{
-			$this->_script[strtolower($type)] .= chr(13) . $content;
-		}
+
+		$this->_script[$type][md5($content)] = $content;
 
 		return $this;
 	}
@@ -570,9 +573,9 @@ class Document
 			$this->scriptOptions[$key] = array();
 		}
 
-		if ($merge && is_array($options))
+		if ($merge && \is_array($options))
 		{
-			$this->scriptOptions[$key] = array_merge($this->scriptOptions[$key], $options);
+			$this->scriptOptions[$key] = array_replace_recursive($this->scriptOptions[$key], $options);
 		}
 		else
 		{
@@ -648,14 +651,14 @@ class Document
 	 */
 	public function addStyleDeclaration($content, $type = 'text/css')
 	{
-		if (!isset($this->_style[strtolower($type)]))
+		$type = strtolower($type);
+
+		if (empty($this->_style[$type]))
 		{
-			$this->_style[strtolower($type)] = $content;
+			$this->_style[$type] = array();
 		}
-		else
-		{
-			$this->_style[strtolower($type)] .= chr(13) . $content;
-		}
+
+		$this->_style[$type][md5($content)] = $content;
 
 		return $this;
 	}
@@ -831,13 +834,13 @@ class Document
 	/**
 	 * Set WebAsset manager
 	 *
-	 * @param   WebAssetRegistry  $webAsset  The WebAsset instance
+	 * @param   WebAssetManager  $webAsset  The WebAsset instance
 	 *
 	 * @return  Document
 	 *
 	 * @since   4.0.0
 	 */
-	public function setWebAssetManager(WebAssetRegistry $webAsset): self
+	public function setWebAssetManager(WebAssetManager $webAsset): self
 	{
 		$this->webAssetManager = $webAsset;
 
@@ -847,11 +850,11 @@ class Document
 	/**
 	 * Return WebAsset manager
 	 *
-	 * @return  WebAssetRegistry
+	 * @return  WebAssetManager
 	 *
 	 * @since   4.0.0
 	 */
-	public function getWebAssetManager(): WebAssetRegistry
+	public function getWebAssetManager(): WebAssetManager
 	{
 		return $this->webAssetManager;
 	}
@@ -980,14 +983,14 @@ class Document
 	 */
 	public function setModifiedDate($date)
 	{
-		if (!is_string($date) && !($date instanceof Date))
+		if (!\is_string($date) && !($date instanceof Date))
 		{
 			throw new \InvalidArgumentException(
 				sprintf(
 					'The $date parameter of %1$s must be a string or a %2$s instance, a %3$s was given.',
 					__METHOD__ . '()',
 					'Joomla\\CMS\\Date\\Date',
-					gettype($date) === 'object' ? (get_class($date) . ' instance') : gettype($date)
+					\gettype($date) === 'object' ? (\get_class($date) . ' instance') : \gettype($date)
 				)
 			);
 		}
@@ -1208,7 +1211,7 @@ class Document
 				{
 					$this->getPreloadManager()->dnsPrefetch($link);
 				}
-				elseif (in_array($preloadMethod, $this->preloadTypes))
+				elseif (\in_array($preloadMethod, $this->preloadTypes))
 				{
 					$this->getPreloadManager()->$preloadMethod($link);
 				}
@@ -1234,7 +1237,7 @@ class Document
 				{
 					$this->getPreloadManager()->dnsPrefetch($link);
 				}
-				elseif (in_array($preloadMethod, $this->preloadTypes))
+				elseif (\in_array($preloadMethod, $this->preloadTypes))
 				{
 					$this->getPreloadManager()->$preloadMethod($link);
 				}

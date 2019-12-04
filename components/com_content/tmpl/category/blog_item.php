@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,14 +30,14 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 <div class="item-content">
 	<?php if ($this->item->stage_condition == ContentComponent::CONDITION_UNPUBLISHED || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
-		|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != Factory::getDbo()->getNullDate())) : ?>
+		|| (!is_null($this->item->publish_down) && strtotime($this->item->publish_down) < strtotime(Factory::getDate()))) : ?>
 		<div class="system-unpublished">
 	<?php endif; ?>
 
 	<?php echo LayoutHelper::render('joomla.content.blog_style_default_item_title', $this->item); ?>
 
-	<?php if ($canEdit || $params->get('show_print_icon') || $params->get('show_email_icon')) : ?>
-		<?php echo LayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item, 'print' => false)); ?>
+	<?php if ($canEdit) : ?>
+		<?php echo LayoutHelper::render('joomla.content.icons', array('params' => $params, 'item' => $this->item)); ?>
 	<?php endif; ?>
 
 	<?php // Todo Not that elegant would be nice to group the params ?>
@@ -46,9 +46,9 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 	<?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
 		<?php echo LayoutHelper::render('joomla.content.info_block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
-		<?php if ($info == 0 && $params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
-			<?php echo LayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
-		<?php endif; ?>
+	<?php endif; ?>
+	<?php if ($info == 0 && $params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
+		<?php echo LayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
 	<?php endif; ?>
 
 	<?php if (!$params->get('show_intro')) : ?>
@@ -61,8 +61,10 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 	<?php echo $this->item->introtext; ?>
 
-	<?php if ($useDefList && ($info == 1 || $info == 2)) : ?>
-		<?php echo LayoutHelper::render('joomla.content.info_block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
+	<?php if ($info == 1 || $info == 2) : ?>
+		<?php if ($useDefList) : ?>
+			<?php echo LayoutHelper::render('joomla.content.info_block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
+		<?php endif; ?>
 		<?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
 			<?php echo LayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
 		<?php endif; ?>
@@ -84,7 +86,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php endif; ?>
 
 	<?php if ($this->item->stage_condition == ContentComponent::CONDITION_UNPUBLISHED || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
-		|| ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && $this->item->publish_down != Factory::getDbo()->getNullDate())) : ?>
+		|| (!is_null($this->item->publish_down) && strtotime($this->item->publish_down) < strtotime(Factory::getDate()))) : ?>
 	</div>
 	<?php endif; ?>
 </div>

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 
@@ -75,7 +75,7 @@ abstract class PredefinedlistField extends ListField
 
 			foreach ($this->predefinedOptions as $value => $text)
 			{
-				if (empty($filter) || in_array($value, $filter))
+				if (empty($filter) || \in_array($value, $filter))
 				{
 					$text = $this->translate ? Text::_($text) : $text;
 

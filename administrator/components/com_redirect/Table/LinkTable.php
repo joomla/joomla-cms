@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -105,8 +105,9 @@ class LinkTable extends Table
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->select($db->quoteName('old_url'))
-			->from('#__redirect_links')
-			->where($db->quoteName('old_url') . ' = ' . $db->quote($this->old_url));
+			->from($db->quoteName('#__redirect_links'))
+			->where($db->quoteName('old_url') . ' = :url')
+			->bind(':url', $this->old_url);
 		$db->setQuery($query);
 		$urls = $db->loadAssocList();
 
@@ -118,11 +119,6 @@ class LinkTable extends Table
 
 				return false;
 			}
-		}
-
-		if (empty($this->modified_date))
-		{
-			$this->modified_date = $this->getDbo()->getNullDate();
 		}
 
 		return true;
@@ -146,6 +142,11 @@ class LinkTable extends Table
 			// New record.
 			$this->created_date = $date;
 			$this->modified_date = $date;
+		}
+
+		if (empty($this->modified_date))
+		{
+			$this->modified_date = $this->created_date;
 		}
 
 		return parent::store($updateNulls);

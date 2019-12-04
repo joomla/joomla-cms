@@ -6,12 +6,10 @@
  * npm install
  *
  * For dedicated tasks, please run:
- * node build.js --buildcheck     === will create the error page (for incomplete repo build)
- * node build.js --installer       === will create the error page (for unsupported PHP version)
- * node build.js --copy-assets     === will clean the media/vendor folder and then will populate the folder from node_modules
- * node build.js --compile-js      === will transpile ES6 files and also uglify the ES6,ES5 files
- * node build.js --compile-ce      === will compile all the given CE or WC with their relative css files
- * node build.js --compile-css     === will compile all the scss defined files and also create a minified version of the css
+ * node build.js --build-pages  === will create the error pages (for incomplete repo build PHP+NPM)
+ * node build.js --copy-assets  === will clean the media/vendor folder and then will populate the folder from node_modules
+ * node build.js --compile-js   === will transpile ES6 files and also uglify the ES6,ES5 files
+ * node build.js --compile-css  === will compile all the scss defined files and also create a minified version of the css
  *
  */
 
@@ -20,12 +18,12 @@ const Program = require('commander');
 // eslint-disable-next-line import/no-extraneous-dependencies
 
 // Joomla Build modules
-const buildCheck = require('./build/build-modules-js/build-check');
-const copyAssets = require('./build/build-modules-js/update');
-const compileCSS = require('./build/build-modules-js/compilescss');
-const compileJS = require('./build/build-modules-js/compilejs');
-const compileWebComponents = require('./build/build-modules-js/compilecejs');
-const minifyVendor = require('./build/build-modules-js/minify-vendor');
+const errorPages = require('./build/build-modules-js/error-pages.es6.js');
+const init = require('./build/build-modules-js/init.es6.js');
+const compileCSS = require('./build/build-modules-js/compilecss.es6.js');
+const compileJS = require('./build/build-modules-js/compilejs.es6.js');
+const minifyVendor = require('./build/build-modules-js/javascript/minify-vendor.es6.js');
+const watch = require('./build/build-modules-js/watch.es6.js');
 
 // The settings
 const options = require('./package.json');
@@ -40,11 +38,10 @@ if ('settings' in settings) {
 Program
   .version(options.version)
   .option('--copy-assets', 'Moving files from node_modules to media folder')
-  .option('--compile-js, --compile-js path', 'Compiles ES6 to ES5 scripts')
+  .option('--build-pages', 'Creates the error pages for unsupported PHP version & incomplete environment')
+  .option('--compile-js, --compile-js path', 'Handles ES6, ES5 and web component scripts')
   .option('--compile-css, --compile-css path', 'Compiles all the scss files to css')
-  .option('--compile-ce, --compile-ce path', 'Compiles/traspiles all the custom elements files')
-  .option('--watch, --watch path', 'Watch file changes and re-compile (Only work for compile-css and compile-js now).')
-  .option('--build-check', 'Creates the error pages for unsupported PHP version & incomplete environment')
+  .option('--watch', 'Watch file changes and re-compile (ATM only works for the js in the media_source).')
   .on('--help', () => {
     // eslint-disable-next-line no-console
     console.log(`Version: ${options.version}`);
@@ -62,7 +59,7 @@ if (!process.argv.slice(2).length) {
 // Update the vendor folder
 if (Program.copyAssets) {
   Promise.resolve()
-    .then(copyAssets.copyAssets(options))
+    .then(init.copyAssets(options))
     .then(minifyVendor.compile(options))
 
     // Exit with success
@@ -78,29 +75,30 @@ if (Program.copyAssets) {
 
 
 // Creates the error pages for unsupported PHP version & incomplete environment
-if (Program.buildCheck) {
-    buildCheck.buildCheck(options);
+if (Program.buildPages) {
+  Promise.resolve()
+    .then(() => {
+      errorPages.run(options);
+      })
+    // Handle errors
+    .catch((err) => {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      process.exit(-1);
+    });
 }
 
 // Convert scss to css
 if (Program.compileCss) {
-  if (Program.watch) {
-    compileCSS.watch(options, null, true);
-  } else {
-    compileCSS.compileCSS(options, Program.args[0]);
-  }
+  compileCSS.compile(options, Program.args[0]);
 }
 
 // Compress/transpile the javascript files
 if (Program.compileJs) {
-  if (Program.watch) {
-    compileJS.watch(options, null, false);
-  } else {
-    compileJS.compileJS(options, Program.args[0]);
-  }
+  compileJS.compileJS(options, Program.args[0]);
 }
 
-// Compress/transpile the Custom Elements files
-if (Program.compileCe) {
-  compileWebComponents.compile(options, Program.args[0]);
+// Compress/transpile the javascript files
+if (Program.watch) {
+  watch.run();
 }

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Crypt;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Crypt\Crypt as JCrypt;
 
@@ -57,7 +57,7 @@ class Crypt extends JCrypt
 
 		if ($exists === null)
 		{
-			$exists = function_exists('mb_strlen');
+			$exists = \function_exists('mb_strlen');
 		}
 
 		if ($exists)
@@ -95,7 +95,7 @@ class Crypt extends JCrypt
 
 		if ($exists === null)
 		{
-			$exists = function_exists('mb_substr');
+			$exists = \function_exists('mb_substr');
 		}
 
 		if ($exists)

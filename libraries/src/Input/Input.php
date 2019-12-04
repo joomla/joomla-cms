@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Input;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
 
@@ -24,11 +24,21 @@ use Joomla\CMS\Filter\InputFilter;
  * @property-read   Input   $post
  * @property-read   Input   $request
  * @property-read   Input   $server
+ * @property-read   Input   $env
  * @property-read   Files   $files
  * @property-read   Cookie  $cookie
  */
 class Input extends \Joomla\Input\Input
 {
+	/**
+	 * Container with allowed superglobals
+	 *
+	 * @var    array
+	 * @since  3.8.9
+	 * @deprecated  5.0  Use Joomla\Input\Input instead
+	 */
+	private static $allowedGlobals = array('REQUEST', 'GET', 'POST', 'FILES', 'SERVER', 'ENV');
+
 	/**
 	 * Input objects
 	 *
@@ -85,7 +95,7 @@ class Input extends \Joomla\Input\Input
 
 		$superGlobal = '_' . strtoupper($name);
 
-		if (isset($GLOBALS[$superGlobal]))
+		if (\in_array(strtoupper($name), self::$allowedGlobals, true) && isset($GLOBALS[$superGlobal]))
 		{
 			$this->inputs[$name] = new Input($GLOBALS[$superGlobal], $this->options);
 
@@ -138,7 +148,7 @@ class Input extends \Joomla\Input\Input
 	 */
 	protected function getArrayRecursive(array $vars = array(), $datasource = null, $defaultFilter = 'unknown', $recursion = false)
 	{
-		if (empty($vars) && is_null($datasource))
+		if (empty($vars) && \is_null($datasource))
 		{
 			$vars = $this->data;
 		}
@@ -154,9 +164,9 @@ class Input extends \Joomla\Input\Input
 
 		foreach ($vars as $k => $v)
 		{
-			if (is_array($v))
+			if (\is_array($v))
 			{
-				if (is_null($datasource))
+				if (\is_null($datasource))
 				{
 					$results[$k] = $this->getArrayRecursive($v, $this->get($k, null, 'array'), $defaultFilter, true);
 				}
@@ -169,7 +179,7 @@ class Input extends \Joomla\Input\Input
 			{
 				$filter = $defaultFilter ?? $v;
 
-				if (is_null($datasource))
+				if (\is_null($datasource))
 				{
 					$results[$k] = $this->get($k, null, $filter);
 				}

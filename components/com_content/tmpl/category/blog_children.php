@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
 				<?php if ($lang->isRtl()) : ?>
 				<h3 class="page-header item-title">
 					<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
-						<span class="badge badge-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
+						<span class="badge badge-info tip">
 							<?php echo $child->getNumItems(true); ?>
 						</span>
 					<?php endif; ?>
@@ -36,21 +36,21 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) : ?
 					<?php echo $this->escape($child->title); ?></a>
 
 					<?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
-						<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-xs float-right" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
+						<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-sm float-right" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
 					<?php endif; ?>
 				</h3>
 				<?php else : ?>
 				<h3 class="page-header item-title"><a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($child->id, $child->language)); ?>">
 					<?php echo $this->escape($child->title); ?></a>
 					<?php if ( $this->params->get('show_cat_num_articles', 1)) : ?>
-						<span class="badge badge-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTENT_NUM_ITEMS_TIP'); ?>">
+						<span class="badge badge-info">
 							<?php echo Text::_('COM_CONTENT_NUM_ITEMS'); ?>&nbsp;
 							<?php echo $child->getNumItems(true); ?>
 						</span>
 					<?php endif; ?>
 
 					<?php if ($this->maxLevel > 1 && count($child->getChildren()) > 0) : ?>
-						<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-xs float-right" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
+						<a href="#category-<?php echo $child->id; ?>" data-toggle="collapse" data-toggle="button" class="btn btn-sm float-right" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
 					<?php endif; ?>
 				</h3>
 				<?php endif; ?>

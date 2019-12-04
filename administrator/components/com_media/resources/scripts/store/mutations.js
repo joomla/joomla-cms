@@ -187,7 +187,7 @@ export default {
      * @param payload
      */
     [types.RENAME_SUCCESS]: (state, payload) => {
-
+        state.selectedItems[state.selectedItems.length - 1].name = payload.newName;
         const item = payload.item;
         const oldPath = payload.oldPath;
         if (item.type === 'file') {

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,7 @@ use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -151,7 +152,7 @@ class PlgUserProfile extends CMSPlugin
 		else
 		{
 			// Convert website URL to utf8 for display
-			$value = JStringPunycode::urlToUTF8(htmlspecialchars($value));
+			$value = PunycodeHelper::urlToUTF8(htmlspecialchars($value));
 
 			if (strpos($value, 'http') === 0)
 			{
@@ -222,20 +223,15 @@ class PlgUserProfile extends CMSPlugin
 	/**
 	 * Adds additional fields to the user editing form
 	 *
-	 * @param   JForm  $form  The form to be altered.
+	 * @param   Form   $form  The form to be altered.
 	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   1.6
 	 */
-	public function onContentPrepareForm($form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
-		if (!($form instanceof Form))
-		{
-			throw new RuntimeException(Text::_('JERROR_NOT_A_FORM'), 500);
-		}
-
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
 
@@ -282,11 +278,11 @@ class PlgUserProfile extends CMSPlugin
 			$form->setFieldAttribute('tos', 'description', 'PLG_USER_PROFILE_FIELD_TOS_DESC_SITE', 'profile');
 		}
 
-		$tosarticle = $this->params->get('register_tos_article');
-		$tosenabled = $this->params->get('register-require_tos', 0);
+		$tosArticle = $this->params->get('register_tos_article');
+		$tosEnabled = $this->params->get('register-require_tos', 0);
 
 		// We need to be in the registration form and field needs to be enabled
-		if ($name !== 'com_users.registration' || !$tosenabled)
+		if ($name !== 'com_users.registration' || !$tosEnabled)
 		{
 			// We only want the TOS in the registration form
 			$form->removeField('tos', 'profile');
@@ -294,7 +290,7 @@ class PlgUserProfile extends CMSPlugin
 		else
 		{
 			// Push the TOS article ID into the TOS field.
-			$form->setFieldAttribute('tos', 'article', $tosarticle, 'profile');
+			$form->setFieldAttribute('tos', 'article', $tosArticle, 'profile');
 		}
 
 		foreach ($fields as $field)
@@ -391,11 +387,11 @@ class PlgUserProfile extends CMSPlugin
 		// Check that the tos is checked if required ie only in registration from frontend.
 		$task       = Factory::getApplication()->input->getCmd('task');
 		$option     = Factory::getApplication()->input->getCmd('option');
-		$tosarticle = $this->params->get('register_tos_article');
-		$tosenabled = ($this->params->get('register-require_tos', 0) == 2);
+		$tosArticle = $this->params->get('register_tos_article');
+		$tosEnabled = ($this->params->get('register-require_tos', 0) == 2);
 
 		// Check that the tos is checked.
-		if ($task === 'register' && $tosenabled && $tosarticle && $option === 'com_users' && !$data['profile']['tos'])
+		if ($task === 'register' && $tosEnabled && $tosArticle && $option === 'com_users' && !$data['profile']['tos'])
 		{
 			throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
 		}

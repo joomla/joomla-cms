@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,11 +28,13 @@ class PreviewModel extends ItemModel
 	/**
 	 * Method to get a version history row.
 	 *
+	 * @param   integer  $pk  The id of the item
+	 *
 	 * @return  \stdClass|boolean    On success, standard object with row data. False on failure.
 	 *
 	 * @since   3.2
 	 */
-	public function getItem()
+	public function getItem($pk = null)
 	{
 		/** @var \Joomla\CMS\Table\ContentHistory $table */
 		$table = $this->getTable('ContentHistory');
@@ -91,9 +93,15 @@ class PreviewModel extends ItemModel
 
 			foreach ($dateProperties as $dateProperty)
 			{
-				if (array_key_exists($dateProperty, $result->data) && $result->data->$dateProperty->value != $nullDate)
+				if (array_key_exists($dateProperty, $result->data)
+					&& $result->data->$dateProperty->value !== null
+					&& $result->data->$dateProperty->value !== $nullDate)
 				{
-					$result->data->$dateProperty->value = HTMLHelper::_('date', $result->data->$dateProperty->value, Text::_('DATE_FORMAT_LC6'));
+					$result->data->$dateProperty->value = HTMLHelper::_(
+						'date',
+						$result->data->$dateProperty->value,
+						Text::_('DATE_FORMAT_LC6')
+					);
 				}
 			}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
 
 HTMLHelper::_('behavior.core');
 
@@ -118,9 +119,9 @@ $n         = count($this->items);
 					</span>
 				<?php endif; ?>
 
-				<?php if ($this->params->get('all_tags_show_tag_description') || $this->params->get('all_tags_show_tag_hits')) : ?>
+				<?php if (($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) || $this->params->get('all_tags_show_tag_hits')) : ?>
 					<div class="caption">
-						<?php if ($this->params->get('all_tags_show_tag_description')) : ?>
+						<?php if ($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) : ?>
 							<span class="tag-body">
 								<?php echo HTMLHelper::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
 							</span>

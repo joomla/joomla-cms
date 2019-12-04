@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,13 +13,17 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Category;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
@@ -63,151 +67,61 @@ class ArticleModel extends AdminModel
 	protected $associationsContext = 'com_content.item';
 
 	/**
-	 * Batch copy items to a new category or current.
+	 * Function that can be overriden to do any data cleanup after batch copying data
 	 *
-	 * @param   integer  $value     The new category.
-	 * @param   array    $pks       An array of row IDs.
-	 * @param   array    $contexts  An array of item contexts.
+	 * @param   TableInterface  $table  The table object containing the newly created item
+	 * @param   integer         $newId  The id of the new item
+	 * @param   integer         $oldId  The original item id
 	 *
-	 * @return  mixed  An array of new IDs on success, boolean false on failure.
+	 * @return  void
 	 *
-	 * @since   1.7.0
+	 * @since  3.8.12
 	 */
-	protected function batchCopy($value, $pks, $contexts)
+	protected function cleanupPostBatchCopy(TableInterface $table, $newId, $oldId)
 	{
-		$categoryId = (int) $value;
-
-		$newIds = array();
-
-		if (!$this->checkCategoryId($categoryId))
+		// Check if the article was featured and update the #__content_frontpage table
+		if ($table->featured == 1)
 		{
-			return false;
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+				->insert($db->quoteName('#__content_frontpage'))
+				->values(
+					$newId . ', 0, '
+					. (empty($table->featured_up) ? 'NULL' : $db->quote($table->featured_up))
+					. ', '
+					. (empty($table->featured_down) ? 'NULL' : $db->quote($table->featured_down))
+				);
+			$db->setQuery($query);
+			$db->execute();
 		}
 
-		PluginHelper::importPlugin('system');
+		// Copy workflow association
+		$workflow = new Workflow(['extension' => 'com_content']);
 
-		// Parent exists so we let's proceed
-		while (!empty($pks))
+		$assoc = $workflow->getAssociation($oldId);
+
+		$workflow->createAssociation($newId, (int) $assoc->stage_id);
+
+		// Register FieldsHelper
+		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+
+		$oldItem = $this->getTable();
+		$oldItem->load($oldId);
+		$fields = FieldsHelper::getFields('com_content.article', $oldItem, true);
+
+		$fieldsData = array();
+
+		if (!empty($fields))
 		{
-			// Pop the first ID off the stack
-			$pk = array_shift($pks);
+			$fieldsData['com_fields'] = array();
 
-			$this->table->reset();
-
-			// Check that the row actually exists
-			if (!$this->table->load($pk))
+			foreach ($fields as $field)
 			{
-				if ($error = $this->table->getError())
-				{
-					// Fatal error
-					$this->setError($error);
-
-					return false;
-				}
-				else
-				{
-					// Not fatal error
-					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
-					continue;
-				}
+				$fieldsData['com_fields'][$field->name] = $field->rawvalue;
 			}
-
-			$fields = FieldsHelper::getFields('com_content.article', $this->table, true);
-			$fieldsData = array();
-
-			if (!empty($fields))
-			{
-				$fieldsData['com_fields'] = array();
-
-				foreach ($fields as $field)
-				{
-					$fieldsData['com_fields'][$field->name] = $field->rawvalue;
-				}
-			}
-
-			// Alter the title & alias
-			$data = $this->generateNewTitle($categoryId, $this->table->alias, $this->table->title);
-			$this->table->title = $data['0'];
-			$this->table->alias = $data['1'];
-
-			// Reset the ID because we are making a copy
-			$this->table->id = 0;
-
-			// Reset hits because we are making a copy
-			$this->table->hits = 0;
-
-			// Unpublish because we are making a copy
-			$this->table->state = 0;
-
-			// New category ID
-			$this->table->catid = $categoryId;
-
-			// TODO: Deal with ordering?
-			// $table->ordering	= 1;
-
-			// Get the featured state
-			$featured = $this->table->featured;
-
-			$workflow = $this->getWorkflowByCategory($categoryId);
-
-			if (empty($workflow->id))
-			{
-				$this->setError(Text::_('COM_CONTENT_WORKFLOW_NOT_FOUND'));
-
-				return false;
-			}
-
-			$stageId = (int) $workflow->stage_id;
-
-			// B/C state
-			$this->table->state = (int) $workflow->condition;
-
-			// Check the row.
-			if (!$this->table->check())
-			{
-				$this->setError($this->table->getError());
-
-				return false;
-			}
-
-			// Store the row.
-			if (!$this->table->store())
-			{
-				$this->setError($this->table->getError());
-
-				return false;
-			}
-
-			// Get the new item ID
-			$newId = (int) $this->table->get('id');
-
-			// Add workflow stage
-			$workflow = new Workflow(['extension' => 'com_content']);
-
-			$workflow->createAssociation($newId, $stageId);
-
-			// Add the new ID to the array
-			$newIds[$pk] = $newId;
-
-			// Check if the article was featured and update the #__content_frontpage table
-			if ($featured == 1)
-			{
-				$db = $this->getDbo();
-				$query = $db->getQuery(true)
-					->insert($db->quoteName('#__content_frontpage'))
-					->values($newId . ', 0');
-				$db->setQuery($query);
-				$db->execute();
-			}
-
-			// Run event for copied article
-			Factory::getApplication()->triggerEvent('onContentAfterSave', array('com_content.article', &$this->table, false, $fieldsData));
 		}
 
-		// Clean the cache
-		$this->cleanCache();
-
-		return $newIds;
+		Factory::getApplication()->triggerEvent('onContentAfterSave', array('com_content.article', &$this->table, false, $fieldsData));
 	}
 
 	/**
@@ -370,13 +284,13 @@ class ArticleModel extends AdminModel
 	{
 		if (!empty($record->id))
 		{
-			$stage = new StageTable($this->_db);
+			$stage = new StageTable($this->getDbo());
 
 			$workflow = new Workflow(['extension' => 'com_content']);
 
 			$assoc = $workflow->getAssociation($record->id);
 
-			if (!$stage->load($assoc->stage_id) || $stage->condition != ContentComponent::CONDITION_TRASHED)
+			if (!$stage->load($assoc->stage_id) || ($stage->condition != ContentComponent::CONDITION_TRASHED && !Factory::getApplication()->isClient('api')))
 			{
 				return false;
 			}
@@ -428,14 +342,14 @@ class ArticleModel extends AdminModel
 	protected function prepareTable($table)
 	{
 		// Set the publish date to now
-		if ($table->state == 1 && (int) $table->publish_up == 0)
+		if ($table->state == Workflow::CONDITION_PUBLISHED && (int) $table->publish_up == 0)
 		{
 			$table->publish_up = Factory::getDate()->toSql();
 		}
 
-		if ($table->state == 1 && intval($table->publish_down) == 0)
+		if ($table->state == Workflow::CONDITION_PUBLISHED && intval($table->publish_down) == 0)
 		{
-			$table->publish_down = $this->getDbo()->getNullDate();
+			$table->publish_down = null;
 		}
 
 		// Increment the content version number.
@@ -446,6 +360,116 @@ class ArticleModel extends AdminModel
 		{
 			$table->reorder('catid = ' . (int) $table->catid . ' AND state >= 0');
 		}
+	}
+
+	/**
+	 * Method to change the published state of one or more records.
+	 *
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   4.0.0
+	 */
+	public function publish(&$pks, $value = 1)
+	{
+		$input = Factory::getApplication()->input;
+
+		$user = Factory::getUser();
+		$table = $this->getTable();
+		$pks = (array) $pks;
+
+		$itrans = $input->get('publish_transitions', [], 'array');
+
+		// Include the plugins for the change of state event.
+		PluginHelper::importPlugin($this->events_map['change_state']);
+
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true);
+
+		$select = $db->quoteName(
+			[
+				'wt.id',
+				'wa.item_id'
+			]
+		);
+
+		$query->select($select)
+			->from($db->quoteName('#__workflow_transitions', 'wt'))
+			->from($db->quoteName('#__workflow_stages', 'ws'))
+			->from($db->quoteName('#__workflow_stages', 'ws2'))
+			->from($db->quoteName('#__workflow_associations', 'wa'))
+			->where('(' . $db->quoteName('wt.from_stage_id') . ' = -1 OR ' .
+				$db->quoteName('wt.from_stage_id') . ' = ' . $db->quoteName('wa.stage_id') . ')'
+			)
+			->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
+			->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws2.id'))
+			->where($db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws.workflow_id'))
+			->where($db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws2.workflow_id'))
+			->where($db->quoteName('wt.to_stage_id') . ' != ' . $db->quoteName('wa.stage_id'))
+			->whereIn($db->quoteName('wa.item_id'), $pks)
+			->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
+			->where($db->quoteName('ws.condition') . ' = ' . (int) $value);
+
+		$transitions = $db->setQuery($query)->loadObjectList();
+
+		$items = [];
+
+		foreach ($transitions as $transition)
+		{
+			if ($user->authorise('core.execute.transition', 'com_content.transition.' . $transition->id))
+			{
+				if (!isset($itrans[$transition->item_id]) || $itrans[$transition->item_id] == $transition->id)
+				{
+					$items[$transition->item_id] = $transition->id;
+				}
+			}
+		}
+
+		// Access checks.
+		foreach ($pks as $i => $pk)
+		{
+			$table->reset();
+
+			if ($table->load($pk))
+			{
+				if (!isset($items[$pk]))
+				{
+					// Prune items that you can't change.
+					unset($pks[$i]);
+
+					Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+
+					return false;
+				}
+
+				// If the table is checked out by another user, drop it and report to the user trying to change its state.
+				if ($table->hasField('checked_out') && $table->checked_out && ($table->checked_out != $user->id))
+				{
+					Log::add(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), Log::WARNING, 'jerror');
+
+					// Prune items that you can't change.
+					unset($pks[$i]);
+
+					return false;
+				}
+			}
+		}
+
+		foreach ($pks as $i => $pk)
+		{
+			if (!$this->runTransition($pk, $items[$pk]))
+			{
+				return false;
+			}
+		}
+
+		// Clear the component's cache
+		$this->cleanCache();
+
+		return true;
 	}
 
 	/**
@@ -479,7 +503,7 @@ class ArticleModel extends AdminModel
 
 			if (!empty($item->id))
 			{
-				$item->tags = new \JHelperTags;
+				$item->tags = new TagsHelper;
 				$item->tags->getTagIds($item->id, 'com_content.article');
 			}
 		}
@@ -517,6 +541,9 @@ class ArticleModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
+		$app  = Factory::getApplication();
+		$user = $app->getIdentity();
+
 		// Get the form.
 		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
 
@@ -525,9 +552,7 @@ class ArticleModel extends AdminModel
 			return false;
 		}
 
-		$jinput = Factory::getApplication()->input;
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
+		$jinput = $app->input;
 
 		/*
 		 * The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
@@ -542,7 +567,20 @@ class ArticleModel extends AdminModel
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
 
 			// Existing record. Can only edit own articles in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit.own');
+			if ($app->isClient('administrator'))
+			{
+				$form->setFieldAttribute('catid', 'action', 'core.edit.own');
+			}
+			else
+			// Existing record. We can't edit the category in frontend if not edit.state.
+			{
+				if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
+					|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
+				{
+					$form->setFieldAttribute('catid', 'readonly', 'true');
+					$form->setFieldAttribute('catid', 'filter', 'unset');
+				}
+			}
 
 			$table = $this->getTable();
 
@@ -558,11 +596,47 @@ class ArticleModel extends AdminModel
 		}
 		else
 		{
+			// For new articles we load the potential state + associations
+			if ($formField = $form->getField('catid'))
+			{
+				$assignedCatids = (int) ($data['catid'] ?? $form->getValue('catid'));
+
+				$assignedCatids = is_array($assignedCatids)
+					? (int) reset($assignedCatids)
+					: (int) $assignedCatids;
+
+				// Try to get the category from the html code of the field
+				if (empty($assignedCatids))
+				{
+					$assignedCatids = $formField->getAttribute('default', null);
+
+					// Choose the first category available
+					$xml = new \DOMDocument;
+					libxml_use_internal_errors(true);
+					$xml->loadHTML($formField->__get('input'));
+					libxml_clear_errors();
+					libxml_use_internal_errors(false);
+					$options = $xml->getElementsByTagName('option');
+
+					if (!$assignedCatids && $firstChoice = $options->item(0))
+					{
+						$assignedCatids = $firstChoice->getAttribute('value');
+					}
+				}
+
+				// Activate the reload of the form when category is changed
+				$form->setFieldAttribute('catid', 'refresh-enabled', true);
+				$form->setFieldAttribute('catid', 'refresh-cat-id', $assignedCatids);
+				$form->setFieldAttribute('catid', 'refresh-section', 'article');
+
+				$workflow = $this->getWorkflowByCategory($assignedCatids);
+
+				$form->setFieldAttribute('transition', 'workflow_stage', (int) $workflow->stage_id);
+			}
+
 			// New record. Can only create in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
-
-		$user = Factory::getUser();
 
 		// Check for existing article.
 		// Modify the form based on Edit State access controls.
@@ -571,6 +645,8 @@ class ArticleModel extends AdminModel
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('featured', 'disabled', 'true');
+			$form->setFieldAttribute('featured_up', 'disabled', 'true');
+			$form->setFieldAttribute('featured_down', 'disabled', 'true');
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
 			$form->setFieldAttribute('publish_up', 'disabled', 'true');
 			$form->setFieldAttribute('publish_down', 'disabled', 'true');
@@ -579,6 +655,8 @@ class ArticleModel extends AdminModel
 			// Disable fields while saving.
 			// The controller has already verified this is an article you can edit.
 			$form->setFieldAttribute('featured', 'filter', 'unset');
+			$form->setFieldAttribute('featured_up', 'filter', 'unset');
+			$form->setFieldAttribute('featured_down', 'filter', 'unset');
 			$form->setFieldAttribute('ordering', 'filter', 'unset');
 			$form->setFieldAttribute('publish_up', 'filter', 'unset');
 			$form->setFieldAttribute('publish_down', 'filter', 'unset');
@@ -586,7 +664,6 @@ class ArticleModel extends AdminModel
 		}
 
 		// Prevent messing with article language and category when editing existing article with associations
-		$app = Factory::getApplication();
 		$assoc = Associations::isEnabled();
 
 		// Check if article is associated
@@ -663,7 +740,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
-	 * @see     JFormRule
+	 * @see     \Joomla\CMS\Form\FormRule
 	 * @see     JFilterInput
 	 * @since   3.7.0
 	 */
@@ -719,20 +796,22 @@ class ArticleModel extends AdminModel
 			$data['images'] = (string) $registry;
 		}
 
-		// Cast catid to integer for comparison
-		$catid = (int) $data['catid'];
+		// Create new category, if needed.
+		$createCategory = true;
 
-		// Check if New Category exists
-		if ($catid > 0)
+		// If category ID is provided, check if it's valid.
+		if (is_numeric($data['catid']) && $data['catid'])
 		{
-			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
+			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
 		}
 
 		// Save New Category
-		if ($catid == 0 && $this->canCreateCategory())
+		if ($createCategory && $this->canCreateCategory())
 		{
 			$table = array();
-			$table['title'] = $data['catid'];
+
+			// Remove #new# prefix, if exists.
+			$table['title'] = strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'];
 			$table['parent_id'] = 1;
 			$table['extension'] = 'com_content';
 			$table['language'] = $data['language'];
@@ -789,7 +868,6 @@ class ArticleModel extends AdminModel
 			}
 		}
 
-		$workflowId = 0;
 		$stageId = 0;
 
 		// Set status depending on category
@@ -805,19 +883,13 @@ class ArticleModel extends AdminModel
 			}
 
 			$stageId = (int) $workflow->stage_id;
-			$workflowId = (int) $workflow->id;
 
 			// B/C state
 			$data['state'] = (int) $workflow->condition;
-
-			// No transition for new articles
-			if (isset($data['transition']))
-			{
-				unset($data['transition']);
-			}
 		}
+
 		// Calculate new status depending on transition
-		elseif (!empty($data['transition']))
+		if (!empty($data['transition']))
 		{
 			// Check if the user is allowed to execute this transition
 			if (!$user->authorise('core.execute.transition', 'com_content.transition.' . (int) $data['transition']))
@@ -830,13 +902,13 @@ class ArticleModel extends AdminModel
 			// Set the new state
 			$query = $db->getQuery(true);
 
-			$query	->select($db->quoteName(['ws.id', 'ws.condition']))
-					->from($db->quoteName('#__workflow_stages', 'ws'))
-					->from($db->quoteName('#__workflow_transitions', 'wt'))
-					->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
-					->where($db->quoteName('wt.id') . ' = ' . (int) $data['transition'])
-					->where($db->quoteName('ws.published') . ' = 1')
-					->where($db->quoteName('wt.published') . ' = 1');
+			$query->select($db->quoteName(['ws.id', 'ws.condition']))
+				->from($db->quoteName('#__workflow_stages', 'ws'))
+				->from($db->quoteName('#__workflow_transitions', 'wt'))
+				->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
+				->where($db->quoteName('wt.id') . ' = ' . (int) $data['transition'])
+				->where($db->quoteName('ws.published') . ' = 1')
+				->where($db->quoteName('wt.published') . ' = 1');
 
 			$stage = $db->setQuery($query)->loadObject();
 
@@ -848,7 +920,6 @@ class ArticleModel extends AdminModel
 			}
 
 			$data['state'] = (int) $stage->condition;
-
 		}
 
 		// Automatic handling of alias for empty fields
@@ -865,7 +936,7 @@ class ArticleModel extends AdminModel
 					$data['alias'] = \JFilterOutput::stringURLSafe($data['title']);
 				}
 
-				$table = \JTable::getInstance('Content', 'JTable');
+				$table = Table::getInstance('Content', 'JTable');
 
 				if ($table->load(array('alias' => $data['alias'], 'catid' => $data['catid'])))
 				{
@@ -888,13 +959,12 @@ class ArticleModel extends AdminModel
 		{
 			if (isset($data['featured']))
 			{
-				$this->featured($this->getState($this->getName() . '.id'), $data['featured']);
-			}
-
-			// Run the transition and update the workflow association
-			if (!empty($data['transition']))
-			{
-				$this->runTransition((int) $this->getState($this->getName() . '.id'), (int) $data['transition']);
+				$this->featured(
+					$this->getState($this->getName() . '.id'),
+					$data['featured'],
+					$data['featured_up'] ?? null,
+					$data['featured_down'] ?? null
+				);
 			}
 
 			// Let's check if we have workflow association (perhaps something went wrong before)
@@ -919,7 +989,6 @@ class ArticleModel extends AdminModel
 					}
 
 					$stageId = (int) $workflow->stage_id;
-					$workflowId = (int) $workflow->id;
 
 					// B/C state
 					$table->state = $workflow->condition;
@@ -934,6 +1003,12 @@ class ArticleModel extends AdminModel
 				$workflow->createAssociation($this->getState($this->getName() . '.id'), (int) $stageId);
 			}
 
+			// Run the transition and update the workflow association
+			if (!empty($data['transition']))
+			{
+				$this->runTransition((int) $this->getState($this->getName() . '.id'), (int) $data['transition']);
+			}
+
 			return true;
 		}
 
@@ -943,12 +1018,14 @@ class ArticleModel extends AdminModel
 	/**
 	 * Method to toggle the featured setting of articles.
 	 *
-	 * @param   array    $pks    The ids of the items to toggle.
-	 * @param   integer  $value  The value to toggle to.
+	 * @param   array        $pks           The ids of the items to toggle.
+	 * @param   integer      $value         The value to toggle to.
+	 * @param   string|Date  $featuredUp    The date which item featured up.
+	 * @param   string|Date  $featuredDown  The date which item featured down.
 	 *
 	 * @return  boolean  True on success.
 	 */
-	public function featured($pks, $value = 0)
+	public function featured($pks, $value = 0, $featuredUp = null, $featuredDown = null)
 	{
 		// Sanitize the ids.
 		$pks = (array) $pks;
@@ -994,6 +1071,18 @@ class ArticleModel extends AdminModel
 
 				$oldFeatured = $db->loadColumn();
 
+				// Update old featured articles
+				if (count($oldFeatured))
+				{
+					$query = $db->getQuery(true)
+						->update($db->quoteName('#__content_frontpage'))
+						->set('featured_up = ' . (empty($featuredUp) ? 'NULL' : $db->quote($featuredUp)))
+						->set('featured_down = ' . (empty($featuredDown) ? 'NULL' : $db->quote($featuredDown)))
+						->where('content_id IN (' . implode(',', $oldFeatured) . ')');
+					$db->setQuery($query);
+					$db->execute();
+				}
+
 				// We diff the arrays to get a list of the articles that are newly featured
 				$newFeatured = array_diff($pks, $oldFeatured);
 
@@ -1002,12 +1091,12 @@ class ArticleModel extends AdminModel
 
 				foreach ($newFeatured as $pk)
 				{
-					$tuples[] = $pk . ', 0';
+					$tuples[] = implode(',', [$pk, 0, (empty($featuredUp) ? 'NULL' : $db->quote($featuredUp)), (empty($featuredDown) ? 'NULL' : $db->quote($featuredDown))]);
 				}
 
 				if (count($tuples))
 				{
-					$columns = array('content_id', 'ordering');
+					$columns = array('content_id', 'ordering', 'featured_up', 'featured_down');
 					$query = $db->getQuery(true)
 						->insert($db->quoteName('#__content_frontpage'))
 						->columns($db->quoteName($columns))
@@ -1048,7 +1137,7 @@ class ArticleModel extends AdminModel
 	}
 
 	/**
-	 * Allows preprocessing of the \JForm object.
+	 * Allows preprocessing of the Form object.
 	 *
 	 * @param   Form    $form   The form object
 	 * @param   array   $data   The data to be merged into the form object
@@ -1058,11 +1147,14 @@ class ArticleModel extends AdminModel
 	 *
 	 * @since   3.0
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		if ($this->canCreateCategory())
 		{
 			$form->setFieldAttribute('catid', 'allowAdd', 'true');
+
+			// Add a prefix for categories created on the fly.
+			$form->setFieldAttribute('catid', 'customPrefix', '#new#');
 		}
 
 		// Association content items
@@ -1090,6 +1182,7 @@ class ArticleModel extends AdminModel
 					$field->addAttribute('new', 'true');
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
+					$field->addAttribute('propagate', 'true');
 				}
 
 				$form->load($addform, false);
@@ -1147,7 +1240,7 @@ class ArticleModel extends AdminModel
 	/**
 	 * Delete #__content_frontpage items if the deleted articles was featured
 	 *
-	 * @param   object  &$pks  The primary key related to the contents that was deleted.
+	 * @param   object  $pks  The primary key related to the contents that was deleted.
 	 *
 	 * @return  boolean
 	 *
@@ -1222,22 +1315,22 @@ class ArticleModel extends AdminModel
 		{
 			$query  = $db->getQuery(true);
 
-			$query	->select(
-						$db->quoteName(
-							[
-								'w.id',
-								'ws.condition'
-							]
-						)
-					)
-					->select($db->quoteName('ws.id', 'stage_id'))
-					->from($db->quoteName('#__workflow_stages', 'ws'))
-					->from($db->quoteName('#__workflows', 'w'))
-					->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
-					->where($db->quoteName('ws.default') . ' = 1')
-					->where($db->quoteName('w.published') . ' = 1')
-					->where($db->quoteName('ws.published') . ' = 1')
-					->where($db->quoteName('w.id') . ' = ' . (int) $workflow_id);
+			$query->select(
+				$db->quoteName(
+					[
+						'w.id',
+						'ws.condition'
+					]
+				)
+			)
+				->select($db->quoteName('ws.id', 'stage_id'))
+				->from($db->quoteName('#__workflow_stages', 'ws'))
+				->from($db->quoteName('#__workflows', 'w'))
+				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
+				->where($db->quoteName('ws.default') . ' = 1')
+				->where($db->quoteName('w.published') . ' = 1')
+				->where($db->quoteName('ws.published') . ' = 1')
+				->where($db->quoteName('w.id') . ' = ' . (int) $workflow_id);
 
 			$workflow = $db->setQuery($query)->loadObject();
 
@@ -1250,22 +1343,22 @@ class ArticleModel extends AdminModel
 		// Use default workflow
 		$query  = $db->getQuery(true);
 
-		$query	->select(
-				$db->quoteName(
-						[
-							'w.id',
-							'ws.condition'
-						]
-					)
-				)
-				->select($db->quoteName('ws.id', 'stage_id'))
-				->from($db->quoteName('#__workflow_stages', 'ws'))
-				->from($db->quoteName('#__workflows', 'w'))
-				->where($db->quoteName('ws.default') . ' = 1')
-				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
-				->where($db->quoteName('w.published') . ' = 1')
-				->where($db->quoteName('ws.published') . ' = 1')
-				->where($db->quoteName('w.default') . ' = 1');
+		$query->select(
+			$db->quoteName(
+				[
+					'w.id',
+					'ws.condition'
+				]
+			)
+		)
+			->select($db->quoteName('ws.id', 'stage_id'))
+			->from($db->quoteName('#__workflow_stages', 'ws'))
+			->from($db->quoteName('#__workflows', 'w'))
+			->where($db->quoteName('ws.default') . ' = 1')
+			->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
+			->where($db->quoteName('w.published') . ' = 1')
+			->where($db->quoteName('ws.published') . ' = 1')
+			->where($db->quoteName('w.default') . ' = 1');
 
 		$workflow = $db->setQuery($query)->loadObject();
 
@@ -1305,10 +1398,10 @@ class ArticleModel extends AdminModel
 		$context = $this->option . '.' . $this->name;
 
 		// Include the plugins for the change of stage event.
-		\JPluginHelper::importPlugin($this->events_map['change_state']);
+		PluginHelper::importPlugin($this->events_map['change_state']);
 
 		// Trigger the change stage event.
-		\JFactory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $transition_id]);
+		Factory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $workflow->getConditionForTransition($transition_id)]);
 
 		return true;
 	}

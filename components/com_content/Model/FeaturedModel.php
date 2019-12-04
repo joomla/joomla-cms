@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,11 +55,14 @@ class FeaturedModel extends ArticlesModel
 		$this->setState('list.start', $limitstart);
 
 		$params = $this->state->params;
-		$menuParams = new Registry;
 
 		if ($menu = $app->getMenu()->getActive())
 		{
-			$menuParams->loadString($menu->params);
+			$menuParams = $menu->getParams();
+		}
+		else
+		{
+			$menuParams = new Registry;
 		}
 
 		$mergedParams = clone $menuParams;
@@ -104,7 +107,7 @@ class FeaturedModel extends ArticlesModel
 		$articleOrderDate = $params->get('order_date');
 		$categoryOrderby  = $params->def('orderby_pri', '');
 
-		$secondary = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate);
+		$secondary = QueryHelper::orderbySecondary($articleOrderby, $articleOrderDate, $this->getDbo());
 		$primary   = QueryHelper::orderbyPrimary($categoryOrderby);
 
 		$this->setState('list.ordering', $primary . $secondary . ', a.created DESC');

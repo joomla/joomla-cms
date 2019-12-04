@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
@@ -117,10 +117,12 @@ class StageModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || $record->published != -2)
-		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+		$table = $this->getTable('Workflow', 'Administrator');
 
+		$table->load($record->workflow_id);
+
+		if (empty($record->id) || $record->published != -2 || $table->core)
+		{
 			return false;
 		}
 
@@ -155,6 +157,15 @@ class StageModel extends AdminModel
 		$user = Factory::getUser();
 		$app = Factory::getApplication();
 		$extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', null, 'cmd');
+
+		$table = $this->getTable('Workflow', 'Administrator');
+
+		$table->load($record->workflow_id);
+
+		if ($table->core)
+		{
+			return false;
+		}
 
 		// Check for existing workflow.
 		if (!empty($record->id))
@@ -313,7 +324,7 @@ class StageModel extends AdminModel
 		{
 			foreach ($pks as $i => $pk)
 			{
-				if ($table->load(array('id' => $pk)) && $table->default)
+				if ($table->load($pk) && $table->default)
 				{
 					// Prune items that you can't change.
 					$app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');

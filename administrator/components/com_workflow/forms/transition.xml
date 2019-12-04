@@ -24,6 +24,7 @@
 			required="true"
 			sql_select="id as value, title as from_stage_id"
 			sql_from="#__workflow_stages"
+			sql_order="ordering"
 			translate="true"
 			>
 			<option value="-1">JALL</option>
@@ -35,12 +36,15 @@
 			required="true"
 			sql_select="id as value, title as to_stage_id"
 			sql_from="#__workflow_stages"
+			sql_order="ordering"
 			translate="true"
 		/>
 		<field
 			name="description"
-			type="text"
+			type="textarea"
 			label="COM_WORKFLOW_TRANSITION_NOTE"
+			rows="3"
+			cols="60"
 		/>
 	</fieldset>
 
@@ -69,7 +73,6 @@
 			name="rules"
 			type="rules"
 			label="JCONFIG_PERMISSIONS_LABEL"
-			class="inputbox"
 			validate="rules"
 			filter="rules"
 			component="com_workflow"

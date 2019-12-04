@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,6 +45,7 @@ abstract class JSONController extends BaseController
 			$this->app->setHeader('status', 500);
 			echo '{"token":"' . Session::getFormToken(true) . '","lang":"' . Factory::getLanguage()->getTag()
 				. '","error":true,"header":"' . Text::_('INSTL_HEADER_ERROR') . '","message":"' . Text::_('INSTL_WARNJSON') . '"}';
+
 			return;
 		}
 
@@ -70,6 +71,6 @@ abstract class JSONController extends BaseController
 	public function checkValidToken()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or $this->sendJsonResponse(new \Exception(Text::_('JINVALID_TOKEN'), 403));
+		Session::checkToken() or $this->sendJsonResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
 	}
 }

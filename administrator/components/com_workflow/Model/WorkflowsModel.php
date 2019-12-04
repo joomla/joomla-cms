@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
@@ -36,7 +36,7 @@ class WorkflowsModel extends ListModel
 			$config['filter_fields'] = array(
 				'id', 'w.id',
 				'title', 'w.title',
-				'state', 'w.state',
+				'published', 'w.published',
 				'created_by', 'w.created_by',
 				'created', 'w.created',
 				'ordering', 'w.ordering',
@@ -193,8 +193,11 @@ class WorkflowsModel extends ListModel
 				'w.created',
 				'w.modified',
 				'w.published',
+				'w.checked_out',
+				'w.checked_out_time',
 				'w.ordering',
 				'w.default',
+				'w.core',
 				'w.created_by',
 				'w.description',
 				'u.name'
@@ -232,6 +235,10 @@ class WorkflowsModel extends ListModel
 			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
 			$query->where('(' . $db->quoteName('w.title') . ' LIKE ' . $search . ' OR ' . $db->quoteName('w.description') . ' LIKE ' . $search . ')');
 		}
+
+		// Join over the users for the checked out user.
+		$query->select($db->quoteName('uc.name', 'editor'))
+			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('w.checked_out'));
 
 		// Add the list ordering clause.
 		$orderCol	= $this->state->get('list.ordering', 'w.ordering');

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -129,6 +129,12 @@ class PluginsField extends ListField
 				->where('enabled = 1')
 				->order('ordering, name');
 
+			if ((string) $this->element['useaccess'] === 'true')
+			{
+				$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
+				$query->where($db->quoteName('access') . ' IN (' . $groups . ')');
+			}
+
 			$options   = $db->setQuery($query)->loadObjectList();
 			$lang      = Factory::getLanguage();
 			$useGlobal = $this->element['useglobal'];
@@ -159,22 +165,5 @@ class PluginsField extends ListField
 		}
 
 		return array_merge($parentOptions, $options);
-	}
-
-	/**
-	 * Method to get input and also set field readonly.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   3.8.7
-	 */
-	protected function getInput()
-	{
-		if (count($this->options) === 1 && $this->options[0]->text === Text::_('JOPTION_DO_NOT_USE'))
-		{
-			$this->readonly = true;
-		}
-
-		return parent::getInput();
 	}
 }

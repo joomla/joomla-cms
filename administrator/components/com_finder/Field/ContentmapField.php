@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\GroupedlistField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
 /**
@@ -84,6 +86,7 @@ class ContentmapField extends GroupedlistField
 		if ($contentMap)
 		{
 			$lang = Factory::getLanguage();
+			$name = '';
 
 			foreach ($contentMap as $branch)
 			{
@@ -102,7 +105,7 @@ class ContentmapField extends GroupedlistField
 					else
 					{
 						$key = FinderHelperLanguage::branchSingular($branch->text);
-						$text = $lang->hasKey($key) ? \JText::_($key) : $branch->text;
+						$text = $lang->hasKey($key) ? Text::_($key) : $branch->text;
 					}
 
 					// Initialize the group if necessary.
@@ -111,7 +114,7 @@ class ContentmapField extends GroupedlistField
 						$groups[$name] = array();
 					}
 
-					$groups[$name][] = \JHtml::_('select.option', $branch->value, $levelPrefix . $text);
+					$groups[$name][] = HTMLHelper::_('select.option', $branch->value, $levelPrefix . $text);
 				}
 			}
 		}

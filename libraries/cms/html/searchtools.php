@@ -3,14 +3,13 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Registry\Registry;
 
@@ -51,9 +50,7 @@ abstract class JHtmlSearchtools
 			$options = static::optionsToRegistry($options);
 
 			// Load the script && css files
-			HTMLHelper::_('behavior.core');
-			HTMLHelper::_('script', 'system/searchtools.min.js', array('version' => 'auto', 'relative' => true));
-			HTMLHelper::_('stylesheet', 'system/searchtools.css', array('version' => 'auto', 'relative' => true));
+			Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('searchtools');
 
 			Factory::getDocument()->addScriptOptions('searchtools', $options);
 
@@ -100,7 +97,8 @@ abstract class JHtmlSearchtools
 	 * @return  string
 	 */
 	public static function sort($title, $order, $direction = 'asc', $selected = 0, $task = null, $new_direction = 'asc', $tip = '', $icon = null,
-		$formName = 'adminForm')
+		$formName = 'adminForm'
+	)
 	{
 		$direction = strtolower($direction);
 		$orderIcons = array('icon-arrow-up-3', 'icon-arrow-down-3');

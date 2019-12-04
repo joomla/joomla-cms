@@ -2,21 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -120,14 +117,14 @@ class Form
 	 */
 	public function bind($data)
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
-			return false;
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 		}
 
 		// The data must be an object or array.
-		if (!is_object($data) && !is_array($data))
+		if (!\is_object($data) && !\is_array($data))
 		{
 			return false;
 		}
@@ -150,7 +147,7 @@ class Form
 	protected function bindLevel($group, $data)
 	{
 		// Ensure the input data is an array.
-		if (is_object($data))
+		if (\is_object($data))
 		{
 			if ($data instanceof Registry)
 			{
@@ -179,64 +176,12 @@ class Form
 				// If the field exists set the value.
 				$this->data->set($level, $v);
 			}
-			elseif (is_object($v) || ArrayHelper::isAssociative($v))
+			elseif (\is_object($v) || ArrayHelper::isAssociative($v))
 			{
 				// If the value is an object or an associative array, hand it off to the recursive bind level method.
 				$this->bindLevel($level, $v);
 			}
 		}
-	}
-
-	/**
-	 * Method to filter the form data.
-	 *
-	 * @param   array   $data   An array of field values to filter.
-	 * @param   string  $group  The dot-separated form group path on which to filter the fields.
-	 *
-	 * @return  mixed  Array or false.
-	 *
-	 * @since   1.7.0
-	 */
-	public function filter($data, $group = null)
-	{
-		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof \SimpleXMLElement))
-		{
-			return false;
-		}
-
-		$input = new Registry($data);
-		$output = new Registry;
-
-		// Get the fields for which to filter the data.
-		$fields = $this->findFieldsByGroup($group);
-
-		if (!$fields)
-		{
-			// PANIC!
-			return false;
-		}
-
-		// Filter the fields.
-		foreach ($fields as $field)
-		{
-			$name = (string) $field['name'];
-
-			// Get the field groups for the element.
-			$attrs = $field->xpath('ancestor::fields[@name]/@name');
-			$groups = array_map('strval', $attrs ? $attrs : array());
-			$group = implode('.', $groups);
-
-			$key = $group ? $group . '.' . $name : $name;
-
-			// Filter the value if it exists.
-			if ($input->exists($key))
-			{
-				$output->set($key, $this->filterField($field, $input->get($key, (string) $field['default'])));
-			}
-		}
-
-		return $output->toArray();
 	}
 
 	/**
@@ -252,7 +197,7 @@ class Form
 	}
 
 	/**
-	 * Method to get a form field represented as a JFormField object.
+	 * Method to get a form field represented as a FormField object.
 	 *
 	 * @param   string  $name   The name of the form field.
 	 * @param   string  $group  The optional dot-separated form group path on which to find the field.
@@ -264,10 +209,10 @@ class Form
 	 */
 	public function getField($name, $group = null, $value = null)
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
-			return false;
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 		}
 
 		// Attempt to find the field by name and group.
@@ -298,17 +243,17 @@ class Form
 	 */
 	public function getFieldAttribute($name, $attribute, $default = null, $group = null)
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
-			throw new \UnexpectedValueException(sprintf('%s::getFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 		}
 
 		// Find the form field element from the definition.
 		$element = $this->findField($name, $group);
 
 		// If the element exists and the attribute exists for the field return the attribute value.
-		if (($element instanceof \SimpleXMLElement) && strlen((string) $element[$attribute]))
+		if (($element instanceof \SimpleXMLElement) && \strlen((string) $element[$attribute]))
 		{
 			return (string) $element[$attribute];
 		}
@@ -321,12 +266,12 @@ class Form
 	}
 
 	/**
-	 * Method to get an array of JFormField objects in a given fieldset by name.  If no name is
+	 * Method to get an array of FormField objects in a given fieldset by name.  If no name is
 	 * given then all fields are returned.
 	 *
 	 * @param   string  $set  The optional name of the fieldset.
 	 *
-	 * @return  array  The array of JFormField objects in the fieldset.
+	 * @return  FormField[]  The array of FormField objects in the fieldset.
 	 *
 	 * @since   1.7.0
 	 */
@@ -384,10 +329,10 @@ class Form
 		$fieldsets = array();
 		$sets = array();
 
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
-			return $fieldsets;
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 		}
 
 		if ($group)
@@ -495,13 +440,13 @@ class Form
 	}
 
 	/**
-	 * Method to get an array of JFormField objects in a given field group by name.
+	 * Method to get an array of FormField objects in a given field group by name.
 	 *
 	 * @param   string   $group   The dot-separated form group path for which to get the form fields.
 	 * @param   boolean  $nested  True to also include fields in nested groups that are inside of the
 	 *                            group for which to find fields.
 	 *
-	 * @return  array    The array of JFormField objects in the field group.
+	 * @return  FormField[]  The array of FormField objects in the field group.
 	 *
 	 * @since   1.7.0
 	 */
@@ -685,25 +630,19 @@ class Form
 	public function load($data, $replace = true, $xpath = false)
 	{
 		// If the data to load isn't already an XML element or string return false.
-		if ((!($data instanceof \SimpleXMLElement)) && (!is_string($data)))
+		if ((!($data instanceof \SimpleXMLElement)) && (!\is_string($data)))
 		{
 			return false;
 		}
 
 		// Attempt to load the XML if a string.
-		if (is_string($data))
+		if (\is_string($data))
 		{
 			try
 			{
 				$data = new \SimpleXMLElement($data);
 			}
 			catch (\Exception $e)
-			{
-				return false;
-			}
-
-			// Make sure the XML loaded correctly.
-			if (!$data)
 			{
 				return false;
 			}
@@ -840,10 +779,10 @@ class Form
 	 */
 	public function removeField($name, $group = null)
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
-			throw new \UnexpectedValueException(sprintf('%s::removeField `xml` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 		}
 
 		// Find the form field element from the definition.
@@ -873,10 +812,10 @@ class Form
 	 */
 	public function removeGroup($group)
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
-			throw new \UnexpectedValueException(sprintf('%s::removeGroup `xml` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 		}
 
 		// Get the fields elements for a given group.
@@ -931,10 +870,10 @@ class Form
 	 */
 	public function setField(\SimpleXMLElement $element, $group = null, $replace = true, $fieldset = 'default')
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
-			throw new \UnexpectedValueException(sprintf('%s::setField `xml` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 		}
 
 		// Find the form field element from the definition.
@@ -1024,10 +963,10 @@ class Form
 	 */
 	public function setFieldAttribute($name, $attribute, $value, $group = null)
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
-			throw new \UnexpectedValueException(sprintf('%s::setFieldAttribute `xml` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 		}
 
 		// Find the form field element from the definition.
@@ -1068,10 +1007,10 @@ class Form
 	 */
 	public function setFields(&$elements, $group = null, $replace = true, $fieldset = 'default')
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
-			throw new \UnexpectedValueException(sprintf('%s::setFields `xml` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 		}
 
 		// Make sure the elements to set are valid.
@@ -1079,7 +1018,7 @@ class Form
 		{
 			if (!($element instanceof \SimpleXMLElement))
 			{
-				throw new \UnexpectedValueException(sprintf('$element not SimpleXMLElement in %s::setFields', get_class($this)));
+				throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 			}
 		}
 
@@ -1134,6 +1073,88 @@ class Form
 	}
 
 	/**
+	 * Method to process the form data.
+	 *
+	 * @param   array   $data   An array of field values to filter.
+	 * @param   string  $group  The dot-separated form group path on which to filter the fields.
+	 *
+	 * @return  mixed  Array or false.
+	 *
+	 * @since   4.0.0
+	 */
+	public function process($data, $group = null)
+	{
+		$data = $this->filter($data, $group);
+
+		$valid = $this->validate($data, $group);
+
+		if (!$valid)
+		{
+			return $valid;
+		}
+
+		return $this->postProcess($data, $group);
+	}
+
+	/**
+	 * Method to filter the form data.
+	 *
+	 * @param   array   $data   An array of field values to filter.
+	 * @param   string  $group  The dot-separated form group path on which to filter the fields.
+	 *
+	 * @return  mixed  Array or false.
+	 *
+	 * @since   4.0.0
+	 */
+	public function filter($data, $group = null)
+	{
+		// Make sure there is a valid Form XML document.
+		if (!($this->xml instanceof \SimpleXMLElement))
+		{
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+		}
+
+		$input = new Registry($data);
+		$output = new Registry;
+
+		// Get the fields for which to filter the data.
+		$fields = $this->findFieldsByGroup($group);
+
+		if (!$fields)
+		{
+			// PANIC!
+			return false;
+		}
+
+		// Filter the fields.
+		foreach ($fields as $field)
+		{
+			$name = (string) $field['name'];
+
+			// Get the field groups for the element.
+			$attrs = $field->xpath('ancestor::fields[@name]/@name');
+			$groups = array_map('strval', $attrs ? $attrs : array());
+			$attrGroup = implode('.', $groups);
+
+			$key = $attrGroup ? $attrGroup . '.' . $name : $name;
+
+			// Filter the value if it exists.
+			if ($input->exists($key))
+			{
+				$fieldObj = $this->loadField($field, $group);
+
+				// Only set into the output if the field was supposed to render on the page (i.e. setup returned true)
+				if ($fieldObj)
+				{
+					$output->set($key, $fieldObj->filter($input->get($key, (string) $field['default']), $group, $input));
+				}
+			}
+		}
+
+		return $output->toArray();
+	}
+
+	/**
 	 * Method to validate form data.
 	 *
 	 * Validation warnings will be pushed into JForm::errors and should be
@@ -1149,10 +1170,10 @@ class Form
 	 */
 	public function validate($data, $group = null)
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
-			return false;
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 		}
 
 		$return = true;
@@ -1172,32 +1193,53 @@ class Form
 		// Validate the fields.
 		foreach ($fields as $field)
 		{
-			$value = null;
-			$name = (string) $field['name'];
+			$name     = (string) $field['name'];
 
-			// Get the group names as strings for ancestor fields elements.
-			$attrs = $field->xpath('ancestor::fields[@name]/@name');
-			$groups = array_map('strval', $attrs ? $attrs : array());
-			$group = implode('.', $groups);
-
-			// Get the value from the input data.
-			if ($group)
+			// Define field name for messages
+			if ($field['label'])
 			{
-				$value = $input->get($group . '.' . $name);
+				$fieldLabel = \JText::_($field['label']);
 			}
 			else
 			{
-				$value = $input->get($name);
+				$fieldLabel = \JText::_($name);
 			}
 
-			// Validate the field.
-			$valid = $this->validateField($field, $group, $value, $input);
+			$disabled = ((string) $field['disabled'] == 'true' || (string) $field['disabled'] == 'disabled');
 
-			// Check for an error.
-			if ($valid instanceof \Exception)
+			$fieldExistsInRequestData = $input->exists($name) || $input->exists($group . '.' . $name);
+
+			// If the field is disabled but it is passed in the request this is invalid as disabled fields are not added to the request
+			if ($disabled && $fieldExistsInRequestData)
 			{
-				$this->errors[] = $valid;
-				$return         = false;
+				throw new \RuntimeException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $fieldLabel));
+			}
+
+			// Get the field groups for the element.
+			$attrs = $field->xpath('ancestor::fields[@name]/@name');
+			$groups = array_map('strval', $attrs ? $attrs : array());
+			$attrGroup = implode('.', $groups);
+
+			$key = $attrGroup ? $attrGroup . '.' . $name : $name;
+
+			$fieldObj = $this->loadField($field, $attrGroup);
+
+			if ($fieldObj)
+			{
+				$valid = $fieldObj->validate($input->get($key), $attrGroup, $input);
+
+				// Check for an error.
+				if ($valid instanceof \Exception)
+				{
+					$this->errors[] = $valid;
+					$return         = false;
+				}
+			}
+			elseif (!$fieldObj && $input->exists($key))
+			{
+				// The field returned false from setup and shouldn't be included in the page body - yet we received
+				// a value for it. This is probably some sort of injection attack and should be rejected
+				$this->errors[] = new \RuntimeException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $key));
 			}
 		}
 
@@ -1205,346 +1247,57 @@ class Form
 	}
 
 	/**
-	 * Method to apply an input filter to a value based on field data.
+	 * Method to post-process form data.
 	 *
-	 * @param   string  $element  The XML element object representation of the form field.
-	 * @param   mixed   $value    The value to filter for the field.
+	 * @param   array   $data   An array of field values to post-process.
+	 * @param   string  $group  The optional dot-separated form group path on which to filter the
+	 *                          fields to be validated.
 	 *
-	 * @return  mixed   The filtered value.
+	 * @return  mixed  Array or false.
 	 *
-	 * @since   1.7.0
+	 * @since   4.0
 	 */
-	protected function filterField($element, $value)
+	public function postProcess($data, $group = null)
 	{
-		// Make sure there is a valid SimpleXMLElement.
-		if (!($element instanceof \SimpleXMLElement))
+		// Make sure there is a valid SimpleXMLElement
+		if (!($this->xml instanceof \SimpleXMLElement))
 		{
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
+		}
+
+		$input = new Registry($data);
+		$output = new Registry;
+
+		// Get the fields for which to postProcess the data.
+		$fields = $this->findFieldsByGroup($group);
+
+		if (!$fields)
+		{
+			// PANIC!
 			return false;
 		}
 
-		// Get the field filter type.
-		$filter = (string) $element['filter'];
-
-		// Process the input value based on the filter.
-		$return = null;
-
-		switch (strtoupper($filter))
+		// Filter the fields.
+		foreach ($fields as $field)
 		{
-			// Access Control Rules.
-			case 'RULES':
-				$return = array();
+			$name = (string) $field['name'];
 
-				foreach ((array) $value as $action => $ids)
-				{
-					// Build the rules array.
-					$return[$action] = array();
+			// Get the field groups for the element.
+			$attrs = $field->xpath('ancestor::fields[@name]/@name');
+			$groups = array_map('strval', $attrs ? $attrs : array());
+			$attrGroup = implode('.', $groups);
 
-					foreach ($ids as $id => $p)
-					{
-						if ($p !== '')
-						{
-							$return[$action][$id] = ($p == '1' || $p == 'true') ? true : false;
-						}
-					}
-				}
-				break;
+			$key = $attrGroup ? $attrGroup . '.' . $name : $name;
 
-			// Do nothing, thus leaving the return value as null.
-			case 'UNSET':
-				break;
-
-			// No Filter.
-			case 'RAW':
-				$return = $value;
-				break;
-
-			// Filter the input as an array of integers.
-			case 'INT_ARRAY':
-				// Make sure the input is an array.
-				if (is_object($value))
-				{
-					$value = get_object_vars($value);
-				}
-
-				$value = is_array($value) ? $value : array($value);
-
-				$value = ArrayHelper::toInteger($value);
-				$return = $value;
-				break;
-
-			// Filter safe HTML.
-			case 'SAFEHTML':
-				$return = InputFilter::getInstance(null, null, 1, 1)->clean($value, 'html');
-				break;
-
-			// Convert a date to UTC based on the server timezone offset.
-			case 'SERVER_UTC':
-				if ((int) $value > 0)
-				{
-					// Check if we have a localised date format
-					$translateFormat = (string) $element['translateformat'];
-
-					if ($translateFormat && $translateFormat != 'false')
-					{
-						$showTime = (string) $element['showtime'];
-						$showTime = ($showTime && $showTime != 'false');
-						$format   = ($showTime) ? Text::_('DATE_FORMAT_FILTER_DATETIME') : Text::_('DATE_FORMAT_FILTER_DATE');
-						$date     = date_parse_from_format($format, $value);
-						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
-
-						if ($showTime)
-						{
-							$value .= ' ' . (int) $date['hour'] . ':' . (int) $date['minute'] . ':' . (int) $date['second'];
-						}
-					}
-
-					// Get the server timezone setting.
-					$offset = Factory::getApplication()->get('offset');
-
-					// Return an SQL formatted datetime string in UTC.
-					try
-					{
-						$return = Factory::getDate($value, $offset)->toSql();
-					}
-					catch (\Exception $e)
-					{
-						Factory::getApplication()->enqueueMessage(
-							Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', Text::_((string) $element['label'])),
-							'warning'
-						);
-
-						$return = '';
-					}
-				}
-				else
-				{
-					$return = '';
-				}
-				break;
-
-			// Convert a date to UTC based on the user timezone offset.
-			case 'USER_UTC':
-				if ((int) $value > 0)
-				{
-					// Check if we have a localised date format
-					$translateFormat = (string) $element['translateformat'];
-
-					if ($translateFormat && $translateFormat != 'false')
-					{
-						$showTime = (string) $element['showtime'];
-						$showTime = ($showTime && $showTime != 'false');
-						$format   = ($showTime) ? Text::_('DATE_FORMAT_FILTER_DATETIME') : Text::_('DATE_FORMAT_FILTER_DATE');
-						$date     = date_parse_from_format($format, $value);
-						$value    = (int) $date['year'] . '-' . (int) $date['month'] . '-' . (int) $date['day'];
-
-						if ($showTime)
-						{
-							$value .= ' ' . (int) $date['hour'] . ':' . (int) $date['minute'] . ':' . (int) $date['second'];
-						}
-					}
-
-					// Get the user timezone setting defaulting to the server timezone setting.
-					$offset = Factory::getUser()->getTimezone();
-
-					// Return a MySQL formatted datetime string in UTC.
-					try
-					{
-						$return = Factory::getDate($value, $offset)->toSql();
-					}
-					catch (\Exception $e)
-					{
-						Factory::getApplication()->enqueueMessage(
-							Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', Text::_((string) $element['label'])),
-							'warning'
-						);
-
-						$return = '';
-					}
-				}
-				else
-				{
-					$return = '';
-				}
-				break;
-
-			/*
-			 * Ensures a protocol is present in the saved field unless the relative flag is set.
-			 * Only use when the only permitted protocols require '://'.
-			 * See JFormRuleUrl for list of these.
-			 */
-
-			case 'URL':
-				if (empty($value))
-				{
-					return false;
-				}
-
-				// This cleans some of the more dangerous characters but leaves special characters that are valid.
-				$value = InputFilter::getInstance()->clean($value, 'html');
-				$value = trim($value);
-
-				// <>" are never valid in a uri see http://www.ietf.org/rfc/rfc1738.txt.
-				$value = str_replace(array('<', '>', '"'), '', $value);
-
-				// Check for a protocol
-				$protocol = parse_url($value, PHP_URL_SCHEME);
-
-				// If there is no protocol and the relative option is not specified,
-				// we assume that it is an external URL and prepend http://.
-				if (($element['type'] == 'url' && !$protocol &&  !$element['relative'])
-					|| (!$element['type'] == 'url' && !$protocol))
-				{
-					$protocol = 'http';
-
-					// If it looks like an internal link, then add the root.
-					if (substr($value, 0, 9) == 'index.php')
-					{
-						$value = Uri::root() . $value;
-					}
-
-					// Otherwise we treat it as an external link.
-					else
-					{
-						// Put the url back together.
-						$value = $protocol . '://' . $value;
-					}
-				}
-
-				// If relative URLS are allowed we assume that URLs without protocols are internal.
-				elseif (!$protocol && $element['relative'])
-				{
-					$host = Uri::getInstance('SERVER')->gethost();
-
-					// If it starts with the host string, just prepend the protocol.
-					if (substr($value, 0) == $host)
-					{
-						$value = 'http://' . $value;
-					}
-
-					// Otherwise if it doesn't start with "/" prepend the prefix of the current site.
-					elseif (substr($value, 0, 1) != '/')
-					{
-						$value = Uri::root(true) . '/' . $value;
-					}
-				}
-
-				$value = PunycodeHelper::urlToPunycode($value);
-				$return = $value;
-				break;
-
-			case 'TEL':
-				$value = trim($value);
-
-				// Does it match the NANP pattern?
-				if (preg_match('/^(?:\+?1[-. ]?)?\(?([2-9][0-8][0-9])\)?[-. ]?([2-9][0-9]{2})[-. ]?([0-9]{4})$/', $value) == 1)
-				{
-					$number = (string) preg_replace('/[^\d]/', '', $value);
-
-					if (substr($number, 0, 1) == 1)
-					{
-						$number = substr($number, 1);
-					}
-
-					if (substr($number, 0, 2) == '+1')
-					{
-						$number = substr($number, 2);
-					}
-
-					$result = '1.' . $number;
-				}
-
-				// If not, does it match ITU-T?
-				elseif (preg_match('/^\+(?:[0-9] ?){6,14}[0-9]$/', $value) == 1)
-				{
-					$countrycode = substr($value, 0, strpos($value, ' '));
-					$countrycode = (string) preg_replace('/[^\d]/', '', $countrycode);
-					$number = strstr($value, ' ');
-					$number = (string) preg_replace('/[^\d]/', '', $number);
-					$result = $countrycode . '.' . $number;
-				}
-
-				// If not, does it match EPP?
-				elseif (preg_match('/^\+[0-9]{1,3}\.[0-9]{4,14}(?:x.+)?$/', $value) == 1)
-				{
-					if (strstr($value, 'x'))
-					{
-						$xpos = strpos($value, 'x');
-						$value = substr($value, 0, $xpos);
-					}
-
-					$result = str_replace('+', '', $value);
-				}
-
-				// Maybe it is already ccc.nnnnnnn?
-				elseif (preg_match('/[0-9]{1,3}\.[0-9]{4,14}$/', $value) == 1)
-				{
-					$result = $value;
-				}
-
-				// If not, can we make it a string of digits?
-				else
-				{
-					$value = (string) preg_replace('/[^\d]/', '', $value);
-
-					if ($value != null && strlen($value) <= 15)
-					{
-						$length = strlen($value);
-
-						// If it is fewer than 13 digits assume it is a local number
-						if ($length <= 12)
-						{
-							$result = '.' . $value;
-						}
-						else
-						{
-							// If it has 13 or more digits let's make a country code.
-							$cclen = $length - 12;
-							$result = substr($value, 0, $cclen) . '.' . substr($value, $cclen);
-						}
-					}
-
-					// If not let's not save anything.
-					else
-					{
-						$result = '';
-					}
-				}
-
-				$return = $result;
-
-				break;
-			default:
-				// Check for a callback filter.
-				if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
-				{
-					$return = call_user_func(explode('::', $filter), $value);
-				}
-
-				// Filter using a callback function if specified.
-				elseif (function_exists($filter))
-				{
-					$return = call_user_func($filter, $value);
-				}
-
-				// Check for empty value and return empty string if no value is required,
-				// otherwise filter using InputFilter. All HTML code is filtered by default.
-				else
-				{
-					$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
-
-					if (($value === '' || $value === null) && ! $required)
-					{
-						$return = '';
-					}
-					else
-					{
-						$return = InputFilter::getInstance()->clean($value, $filter);
-					}
-				}
-				break;
+			// Filter the value if it exists.
+			if ($input->exists($key))
+			{
+				$fieldobj = $this->loadField($field, $group);
+				$output->set($key, $fieldobj->postProcess($input->get($key, (string) $field['default']), $group, $input));
+			}
 		}
 
-		return $return;
+		return $output->toArray();
 	}
 
 	/**
@@ -1562,10 +1315,10 @@ class Form
 		$element = false;
 		$fields = array();
 
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
-			return false;
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 		}
 
 		// Let's get the appropriate field element based on the method arguments.
@@ -1652,10 +1405,10 @@ class Form
 	{
 		$false = false;
 
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
-			return $false;
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 		}
 
 		/*
@@ -1686,10 +1439,10 @@ class Form
 		$false = false;
 		$fields = array();
 
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
-			return $false;
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 		}
 
 		// Get only fields in a specific group?
@@ -1760,10 +1513,10 @@ class Form
 		$groups = array();
 		$tmp = array();
 
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
-			return $false;
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 		}
 
 		// Make sure there is actually a group to find.
@@ -1784,10 +1537,10 @@ class Form
 			}
 
 			// Iterate through the nested groups to find any matching form field groups.
-			for ($i = 1, $n = count($group); $i < $n; $i++)
+			for ($i = 1, $n = \count($group); $i < $n; $i++)
 			{
 				// Initialise some loop variables.
-				$validNames = array_slice($group, 0, $i + 1);
+				$validNames = \array_slice($group, 0, $i + 1);
 				$current = $tmp;
 				$tmp = array();
 
@@ -1828,7 +1581,7 @@ class Form
 	}
 
 	/**
-	 * Method to load, setup and return a JFormField object based on field data.
+	 * Method to load, setup and return a FormField object based on field data.
 	 *
 	 * @param   string  $element  The XML element object representation of the form field.
 	 * @param   string  $group    The optional dot-separated form group path on which to find the field.
@@ -1843,19 +1596,19 @@ class Form
 		// Make sure there is a valid SimpleXMLElement.
 		if (!($element instanceof \SimpleXMLElement))
 		{
-			return false;
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 		}
 
 		// Get the field type.
 		$type = $element['type'] ? (string) $element['type'] : 'text';
 
-		// Load the JFormField object for the field.
-		$field = $this->loadFieldType($type);
+		// Load the FormField object for the field.
+		$field = FormHelper::loadFieldType($type);
 
 		// If the object could not be loaded, get a text field object.
 		if ($field === false)
 		{
-			$field = $this->loadFieldType('text');
+			$field = FormHelper::loadFieldType('text');
 		}
 
 		/*
@@ -1887,7 +1640,7 @@ class Form
 			$value = $this->getValue((string) $element['name'], $group, $default);
 		}
 
-		// Setup the JFormField object.
+		// Setup the FormField object.
 		$field->setForm($this);
 
 		if ($field->setup($element, $value, $group))
@@ -1901,37 +1654,6 @@ class Form
 	}
 
 	/**
-	 * Proxy for {@link FormHelper::loadFieldType()}.
-	 *
-	 * @param   string   $type  The field type.
-	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
-	 *
-	 * @return  FormField|boolean  FormField object on success, false otherwise.
-	 *
-	 * @since   1.7.0
-	 */
-	protected function loadFieldType($type, $new = true)
-	{
-		return FormHelper::loadFieldType($type, $new);
-	}
-
-	/**
-	 * Proxy for FormHelper::loadRuleType().
-	 *
-	 * @param   string   $type  The rule type.
-	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
-	 *
-	 * @return  FormRule|boolean  FormRule object on success, false otherwise.
-	 *
-	 * @see     FormHelper::loadRuleType()
-	 * @since   1.7.0
-	 */
-	protected function loadRuleType($type, $new = true)
-	{
-		return FormHelper::loadRuleType($type, $new);
-	}
-
-	/**
 	 * Method to synchronize any field, form or rule paths contained in the XML document.
 	 *
 	 * @return  boolean  True on success.
@@ -1941,10 +1663,10 @@ class Form
 	 */
 	protected function syncPaths()
 	{
-		// Make sure there is a valid JForm XML document.
+		// Make sure there is a valid Form XML document.
 		if (!($this->xml instanceof \SimpleXMLElement))
 		{
-			return false;
+			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 		}
 
 		// Get any addfieldpath attributes from the form definition.
@@ -1980,6 +1702,17 @@ class Form
 			self::addRulePath($path);
 		}
 
+		// Get any addrulepath attributes from the form definition.
+		$paths = $this->xml->xpath('//*[@addfilterpath]/@addfilterpath');
+		$paths = array_map('strval', $paths ? $paths : array());
+
+		// Add the rule paths.
+		foreach ($paths as $path)
+		{
+			$path = JPATH_ROOT . '/' . ltrim($path, '/\\');
+			self::addFilterPath($path);
+		}
+
 		// Get any addfieldprefix attributes from the form definition.
 		$prefixes = $this->xml->xpath('//*[@addfieldprefix]/@addfieldprefix');
 		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
@@ -2010,92 +1743,14 @@ class Form
 			FormHelper::addRulePrefix($prefix);
 		}
 
-		return true;
-	}
+		// Get any addruleprefix attributes from the form definition.
+		$prefixes = $this->xml->xpath('//*[@addfilterprefix]/@addfilterprefix');
+		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
 
-	/**
-	 * Method to validate a JFormField object based on field data.
-	 *
-	 * @param   \SimpleXMLElement  $element  The XML element object representation of the form field.
-	 * @param   string             $group    The optional dot-separated form group path on which to find the field.
-	 * @param   mixed              $value    The optional value to use as the default for the field.
-	 * @param   Registry           $input    An optional Registry object with the entire data set to validate
-	 *                                      against the entire form.
-	 *
-	 * @return  boolean  Boolean true if field value is valid, Exception on failure.
-	 *
-	 * @since   1.7.0
-	 * @throws  \InvalidArgumentException
-	 * @throws  \UnexpectedValueException
-	 */
-	protected function validateField(\SimpleXMLElement $element, $group = null, $value = null, Registry $input = null)
-	{
-		$valid = true;
-
-		// Check if the field is required.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
-
-		if ($required)
+		// Add the field prefixes.
+		foreach ($prefixes as $prefix)
 		{
-			// If the field is required and the value is empty return an error message.
-			if (($value === '') || ($value === null))
-			{
-				if ($element['label'])
-				{
-					$message = Text::_($element['label']);
-				}
-				else
-				{
-					$message = Text::_($element['name']);
-				}
-
-				$message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
-
-				return new \RuntimeException($message);
-			}
-		}
-
-		// Get the field validation rule.
-		if ($type = (string) $element['validate'])
-		{
-			// Load the JFormRule object for the field.
-			$rule = $this->loadRuleType($type);
-
-			// If the object could not be loaded return an error message.
-			if ($rule === false)
-			{
-				throw new \UnexpectedValueException(sprintf('%s::validateField() rule `%s` missing.', get_class($this), $type));
-			}
-
-			// Run the field validation rule test.
-			$valid = $rule->test($element, $value, $group, $input, $this);
-
-			// Check for an error in the validation test.
-			if ($valid instanceof \Exception)
-			{
-				return $valid;
-			}
-		}
-
-		// Check if the field is valid.
-		if ($valid === false)
-		{
-			// Does the field have a defined error message?
-			$message = (string) $element['message'];
-
-			if ($message)
-			{
-				$message = Text::_($element['message']);
-
-				return new \UnexpectedValueException($message);
-			}
-			else
-			{
-				$message = Text::_($element['label']);
-				$message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
-
-				return new \UnexpectedValueException($message);
-			}
+			FormHelper::addFilterPrefix($prefix);
 		}
 
 		return true;
@@ -2146,6 +1801,21 @@ class Form
 	}
 
 	/**
+	 * Proxy for FormHelper::addFilterPath().
+	 *
+	 * @param   mixed  $new  A path or array of paths to add.
+	 *
+	 * @return  array  The list of paths that have been added.
+	 *
+	 * @see     FormHelper::addFilterPath()
+	 * @since   4.0.0
+	 */
+	public static function addFilterPath($new = null)
+	{
+		return FormHelper::addFilterPath($new);
+	}
+
+	/**
 	 * Method to get an instance of a form.
 	 *
 	 * @param   string          $name     The name of the form.
@@ -2174,7 +1844,7 @@ class Form
 
 			if (empty($data))
 			{
-				throw new \InvalidArgumentException(sprintf('%1$s(%2$s, *%3$s*)', __METHOD__, $name, gettype($data)));
+				throw new \InvalidArgumentException(sprintf('%1$s(%2$s, *%3$s*)', __METHOD__, $name, \gettype($data)));
 			}
 
 			// Instantiate the form.
@@ -2326,17 +1996,11 @@ class Form
 	{
 		if ($this->xml instanceof \SimpleXMLElement)
 		{
-			$attributes = $this->xml->attributes();
+			$value = $this->xml->attributes()->$name;
 
-			// Ensure that the attribute exists
-			if (property_exists($attributes, $name))
+			if ($value !== null)
 			{
-				$value = $attributes->$name;
-
-				if ($value !== null)
-				{
-					return (string) $value;
-				}
+				return (string) $value;
 			}
 		}
 

@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  mod_stats
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Module\Stats\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -36,10 +36,10 @@ class StatsHelper
 		$db         = Factory::getDbo();
 		$rows       = array();
 		$query      = $db->getQuery(true);
-		$serverinfo = $params->get('serverinfo');
-		$siteinfo   = $params->get('siteinfo');
-		$counter    = $params->get('counter');
-		$increase   = $params->get('increase');
+		$serverinfo = $params->get('serverinfo', 0);
+		$siteinfo   = $params->get('siteinfo', 0);
+		$counter    = $params->get('counter', 0);
+		$increase   = $params->get('increase', 0);
 
 		$i = 0;
 

@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Association;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
@@ -189,7 +189,7 @@ abstract class AssociationExtensionHelper  implements AssociationExtensionInterf
 	{
 		$type = $this->getType($typeName);
 
-		if (!array_key_exists('title', $type))
+		if (!\array_key_exists('title', $type))
 		{
 			return '';
 		}
@@ -211,7 +211,7 @@ abstract class AssociationExtensionHelper  implements AssociationExtensionInterf
 	{
 		$type = $this->getType($typeName);
 
-		if (!array_key_exists($part, $type))
+		if (!\array_key_exists($part, $type))
 		{
 			return array();
 		}
@@ -233,7 +233,7 @@ abstract class AssociationExtensionHelper  implements AssociationExtensionInterf
 	{
 		$fields = $this->getTypeFields($typeName);
 
-		if (!array_key_exists($fieldName, $fields))
+		if (!\array_key_exists($fieldName, $fields))
 		{
 			return '';
 		}

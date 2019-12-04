@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,7 +53,7 @@ class ApiController extends BaseController
 			// Check token for requests which do modify files (all except get requests)
 			if ($method !== 'GET' && !Session::checkToken('json'))
 			{
-				throw new \InvalidArgumentException(Text::_('JINVALID_TOKEN'), 403);
+				throw new \InvalidArgumentException(Text::_('JINVALID_TOKEN_NOTICE'), 403);
 			}
 
 			$doTask = strtolower($method) . ucfirst($task);

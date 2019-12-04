@@ -3,17 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Router\Route;
+use Joomla\Input\Input;
 
 /**
  * Workflow Transitions controller
@@ -39,12 +40,20 @@ class TransitionsController extends AdminController
 	protected $extension;
 
 	/**
+	 * The prefix to use with controller messages.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $text_prefix = 'COM_WORKFLOW_TRANSITIONS';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException when no extension or workflow id is set
@@ -93,41 +102,15 @@ class TransitionsController extends AdminController
 	}
 
 	/**
-	 * Deletes and returns correctly.
+	 * Gets the URL arguments to append to a list redirect.
 	 *
-	 * @return  void
-	 *
-	 * @since  4.0.0
-	 */
-	public function delete()
-	{
-		parent::delete();
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->extension
-				. '&workflow_id=' . $this->workflowId, false
-			)
-		);
-	}
-
-	/**
-	 * Method to publish a list of items
-	 *
-	 * @return  void
+	 * @return  string  The arguments to append to the redirect URL.
 	 *
 	 * @since   4.0.0
 	 */
-	public function publish()
+	protected function getRedirectToListAppend()
 	{
-		parent::publish();
-
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->extension
-				. '&workflow_id=' . $this->workflowId, false
-			)
-		);
+		return '&extension=' . $this->extension
+			. '&workflow_id=' . $this->workflowId;
 	}
 }

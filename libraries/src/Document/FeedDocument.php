@@ -2,17 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Feed\FeedImage;
 use Joomla\CMS\Document\Feed\FeedItem;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -65,10 +65,10 @@ class FeedDocument extends Document
 	/**
 	 * Lastbuild date feed element
 	 *
-	 * @var    \JDate
+	 * @var    \Joomla\CMS\Date\Date
 	 * @since  1.7.0
 	 */
-	public $lastBuildDate = '';
+	public $lastBuildDate;
 
 	/**
 	 * Editor feed element
@@ -181,8 +181,8 @@ class FeedDocument extends Document
 		$this->_type = 'feed';
 
 		// Gets and sets timezone offset from site configuration
-		$this->lastBuildDate = Factory::getDate();
-		$this->lastBuildDate->setTimeZone(new \DateTimeZone(Factory::getApplication()->get('offset', 'UTC')));
+		$this->lastBuildDate = CmsFactory::getDate();
+		$this->lastBuildDate->setTimeZone(new \DateTimeZone(CmsFactory::getApplication()->get('offset', 'UTC')));
 	}
 
 	/**
@@ -200,7 +200,7 @@ class FeedDocument extends Document
 	public function render($cache = false, $params = array())
 	{
 		// Get the feed type
-		$type = Factory::getApplication()->input->get('type', 'rss');
+		$type = CmsFactory::getApplication()->input->get('type', 'rss');
 
 		// Instantiate feed renderer and set the mime encoding
 		$renderer = $this->loadRenderer(($type) ? $type : 'rss');

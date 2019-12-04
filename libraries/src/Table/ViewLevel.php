@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
@@ -47,7 +47,7 @@ class ViewLevel extends Table
 		// Bind the rules as appropriate.
 		if (isset($array['rules']))
 		{
-			if (is_array($array['rules']))
+			if (\is_array($array['rules']))
 			{
 				$array['rules'] = json_encode($array['rules']);
 			}

@@ -10,6 +10,7 @@
 				class="switcher"
 				size="20"
 				default="0"
+				filter="integer"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>

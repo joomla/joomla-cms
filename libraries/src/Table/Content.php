@@ -2,17 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
@@ -26,6 +26,14 @@ use Joomla\String\StringHelper;
  */
 class Content extends Table
 {
+	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
 	/**
 	 * Constructor
 	 *
@@ -144,20 +152,20 @@ class Content extends Table
 			}
 		}
 
-		if (isset($array['attribs']) && is_array($array['attribs']))
+		if (isset($array['attribs']) && \is_array($array['attribs']))
 		{
 			$registry = new Registry($array['attribs']);
 			$array['attribs'] = (string) $registry;
 		}
 
-		if (isset($array['metadata']) && is_array($array['metadata']))
+		if (isset($array['metadata']) && \is_array($array['metadata']))
 		{
 			$registry = new Registry($array['metadata']);
 			$array['metadata'] = (string) $registry;
 		}
 
 		// Bind the rules.
-		if (isset($array['rules']) && is_array($array['rules']))
+		if (isset($array['rules']) && \is_array($array['rules']))
 		{
 			$rules = new Rules($array['rules']);
 			$this->setRules($rules);
@@ -240,33 +248,30 @@ class Content extends Table
 			{
 				$this->metadata = '{}';
 			}
+
+			// Hits must be zero on a new item
+			$this->hits = 0;
 		}
 
-		// Set publish_up to null date if not set
+		// Set publish_up to null if not set
 		if (!$this->publish_up)
 		{
-			$this->publish_up = $this->_db->getNullDate();
+			$this->publish_up = null;
 		}
 
-		// Set publish_down to null date if not set
+		// Set publish_down to null if not set
 		if (!$this->publish_down)
 		{
-			$this->publish_down = $this->_db->getNullDate();
+			$this->publish_down = null;
 		}
 
 		// Check the publish down date is not earlier than publish up.
-		if ($this->publish_down < $this->publish_up && $this->publish_down > $this->_db->getNullDate())
+		if (!is_null($this->publish_up) && !is_null($this->publish_down) && $this->publish_down < $this->publish_up)
 		{
 			// Swap the dates.
 			$temp = $this->publish_up;
 			$this->publish_up = $this->publish_down;
 			$this->publish_down = $temp;
-		}
-
-		// Set modified to null date if not set
-		if (!$this->modified)
-		{
-			$this->modified = $this->_db->getNullDate();
 		}
 
 		// Clean up keywords -- eliminate extra spaces between phrases
@@ -298,32 +303,17 @@ class Content extends Table
 			// Put array back together delimited by ", "
 			$this->metakey = implode(', ', $clean_keys);
 		}
+		else
+		{
+			$this->metakey = '';
+		}
+
+		if ($this->metadesc === null)
+		{
+			$this->metadesc = '';
+		}
 
 		return true;
-	}
-
-	/**
-	 * Gets the default asset values for a component.
-	 *
-	 * @param   string  $component  The component asset name to search for
-	 *
-	 * @return  Rules  The Rules object for the asset
-	 *
-	 * @since   3.4
-	 * @deprecated  3.4 Class will be removed upon completion of transition to UCM
-	 */
-	protected function getDefaultAssetValues($component)
-	{
-		// Need to find the asset id by the name of the component.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__assets'))
-			->where($db->quoteName('name') . ' = ' . $db->quote($component));
-		$db->setQuery($query);
-		$assetId = (int) $db->loadResult();
-
-		return Access::getAssetRules($assetId);
 	}
 
 	/**
@@ -335,7 +325,7 @@ class Content extends Table
 	 *
 	 * @since   1.6
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate();
 		$user = Factory::getUser();
@@ -359,6 +349,18 @@ class Content extends Table
 			{
 				$this->created_by = $user->get('id');
 			}
+
+			// Set modified to created date if not set
+			if (!(int) $this->modified)
+			{
+				$this->modified = $this->created;
+			}
+
+			// Set modified_by to created_by user if not set
+			if (empty($this->modified_by))
+			{
+				$this->modified_by = $this->created_by;
+			}
 		}
 
 		// Verify that the alias is unique
@@ -372,5 +374,43 @@ class Content extends Table
 		}
 
 		return parent::store($updateNulls);
+	}
+
+	/**
+	 * Overrides Table::store to load a row from the database.
+	 *
+	 * @param   mixed    $keys   An optional primary key value to load the row by, or an array of fields to match.
+	 *                           If not set the instance property value is used.
+	 * @param   boolean  $reset  True to reset the default values before loading the new row.
+	 *
+	 * @return  boolean  True if successful. False if row not found.
+	 *
+	 * @since   1.7.0
+	 * @throws  \InvalidArgumentException
+	 * @throws  \RuntimeException
+	 * @throws  \UnexpectedValueException
+	 */
+	public function load($keys = null, $reset = true)
+	{
+		if ($ret = parent::load($keys, $reset, false))
+		{
+			// Load featuerd dates
+			$query = $this->_db->getQuery(true)
+				->select('featured_up, featured_down')
+				->from('#__content_frontpage')
+				->where('content_id = ' . (int) $this->id);
+			$this->_db->setQuery($query);
+
+			$row = $this->_db->loadAssoc();
+
+			// Check that we have a result.
+			if (!empty($row))
+			{
+				$this->featured_up = $row['featured_up'];
+				$this->featured_down = $row['featured_down'];
+			}
+		}
+
+		return $ret;
 	}
 }

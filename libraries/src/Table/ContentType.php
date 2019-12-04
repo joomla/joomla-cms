@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
@@ -142,9 +142,9 @@ class ContentType extends Table
 		$result = false;
 		$tableInfo = json_decode($this->table);
 
-		if (is_object($tableInfo) && isset($tableInfo->special))
+		if (\is_object($tableInfo) && isset($tableInfo->special))
 		{
-			if (is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix))
+			if (\is_object($tableInfo->special) && isset($tableInfo->special->type) && isset($tableInfo->special->prefix))
 			{
 				$class = $tableInfo->special->class ?? 'Joomla\\CMS\\Table\\Table';
 

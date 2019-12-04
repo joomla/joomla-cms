@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -38,6 +38,14 @@ class WorkflowconditionField extends ListField
 	protected $extension = '';
 
 	/**
+	 * Determinate if the "All" value should be added
+	 *
+	 * @var boolean
+	 * @since  4.0.0
+	 */
+	protected $hideAll = false;
+
+	/**
 	 * Method to attach a Form object to the field.
 	 *
 	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
@@ -56,13 +64,18 @@ class WorkflowconditionField extends ListField
 
 		if ($success)
 		{
-			if (strlen($element['extension']))
+			if (\strlen($element['extension']))
 			{
 				$this->extension = (string) $element['extension'];
 			}
 			else
 			{
 				$this->extension = Factory::getApplication()->input->getCmd('extension');
+			}
+
+			if (\strlen($element['hide_all']))
+			{
+				$this->hideAll = (string) $element['hide_all'] === 'true' || (string) $element['hide_all'] === 'yes';
 			}
 		}
 
@@ -108,12 +121,15 @@ class WorkflowconditionField extends ListField
 			$options[] = (object) $tmp;
 		}
 
-		$options[] = (object) array(
-			'value'    => '*',
-			'text'     => Text::_('JALL'),
-			'selected' => $this->value === '*',
-			'checked'  => $this->value === '*',
-		);
+		if (!$this->hideAll)
+		{
+			$options[] = (object) array(
+				'value'    => '*',
+				'text'     => Text::_('JALL'),
+				'selected' => $this->value === '*',
+				'checked'  => $this->value === '*',
+			);
+		}
 
 		// Merge any additional options in the XML definition.
 		return array_merge(parent::getOptions(), $options);

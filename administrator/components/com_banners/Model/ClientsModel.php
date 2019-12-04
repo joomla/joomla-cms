@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Methods supporting a list of banner records.
@@ -211,7 +210,7 @@ class ClientsModel extends ListModel
 
 		// Get the clients in the list.
 		$db = $this->getDbo();
-		$clientIds = ArrayHelper::getColumn($items, 'id');
+		$clientIds = array_column($items, 'id');
 
 		// Quote the strings.
 		$clientIds = implode(

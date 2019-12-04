@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -35,12 +35,11 @@ class BannersHelper extends ContentHelper
 	public static function updateReset()
 	{
 		$db       = Factory::getDbo();
-		$nullDate = $db->getNullDate();
 		$query    = $db->getQuery(true)
 			->select('*')
 			->from('#__banners')
 			->where($db->quote(Factory::getDate()) . ' >= ' . $db->quote('reset'))
-			->where($db->quoteName('reset') . ' != ' . $db->quote($nullDate) . ' AND ' . $db->quoteName('reset') . '!= NULL')
+			->where($db->quoteName('reset') . ' IS NOT NULL')
 			->where(
 				'(' . $db->quoteName('checked_out') . ' = 0 OR ' . $db->quoteName('checked_out') . ' = '
 				. (int) $db->quote(Factory::getUser()->id) . ')'
@@ -64,7 +63,7 @@ class BannersHelper extends ContentHelper
 
 			if ($purchaseType < 0 && $row->cid)
 			{
-				/** @var \Joomla\Component\Banners\Administrator\Table\Client $client */
+				/** @var \Joomla\Component\Banners\Administrator\Table\ClientTable $client */
 				$client = Table::getInstance('Client', '\\Joomla\\Component\\Banners\\Administrator\\Table\\');
 				$client->load($row->cid);
 				$purchaseType = $client->purchase_type;
@@ -79,7 +78,7 @@ class BannersHelper extends ContentHelper
 			switch ($purchaseType)
 			{
 				case 1:
-					$reset = $nullDate;
+					$reset = null;
 					break;
 				case 2:
 					$date = Factory::getDate('+1 year ' . date('Y-m-d'));
