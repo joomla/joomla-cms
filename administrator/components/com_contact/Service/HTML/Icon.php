@@ -116,6 +116,9 @@ class Icon
 			return '';
 		}
 
+		// Set the link class
+		$attribs['class'] = 'dropdown-item';
+
 		// Show checked_out icon if the contact is checked out by a different user
 		if (property_exists($contact, 'checked_out')
 			&& property_exists($contact, 'checked_out_time')
@@ -154,16 +157,16 @@ class Icon
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= Text::sprintf('COM_CONTACT_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
 
-		$icon = $contact->published ? 'edit' : 'eye-close';
+		$icon = $contact->published ? 'edit' : 'eye-slash';
 
 		if (strtotime($contact->publish_up) > strtotime(Factory::getDate())
 			|| ((strtotime($contact->publish_down) < strtotime(Factory::getDate())) && $contact->publish_down != Factory::getDbo()->getNullDate()))
 		{
-			$icon = 'eye-close';
+			$icon = 'eye-slash';
 		}
 
-		$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="'
-			. HTMLHelper::tooltipText(Text::_('COM_CONTACT_EDIT_CONTACT'), $overlib, 0, 0) . '"></span>';
+		$text = '<span class="hasTooltip fa fa-' . $icon . '" title="'
+			. HTMLHelper::tooltipText(Text::_('COM_CONTACT_EDIT_CONTACT'), $overlib, 0, 0) . '"></span> ';
 		$text .= Text::_('JGLOBAL_EDIT');
 
 		$attribs['title'] = Text::_('COM_CONTACT_EDIT_CONTACT');
