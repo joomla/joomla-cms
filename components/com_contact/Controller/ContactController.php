@@ -11,7 +11,6 @@ namespace Joomla\Component\Contact\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -77,7 +76,6 @@ class ContactController extends FormController
 
 		$app    = Factory::getApplication();
 		$model  = $this->getModel('contact');
-		$params = ComponentHelper::getParams('com_contact');
 		$stub   = $this->input->getString('id');
 		$id     = (int) $stub;
 
@@ -87,6 +85,13 @@ class ContactController extends FormController
 		// Get item
 		$model->setState('filter.published', 1);
 		$contact = $model->getItem($id);
+
+		if ($contact === false)
+		{
+			$this->setMessage($model->getError(), 'error');
+
+			return false;
+		}
 
 		// Get item params, take menu parameters into account if necessary
 		$active = $app->getMenu()->getActive();
@@ -109,13 +114,13 @@ class ContactController extends FormController
 		// Check if the contact form is enabled
 		if (!$contact->params->get('show_email_form'))
 		{
-			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
+			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
 
 			return false;
 		}
 
 		// Check for a valid session cookie
-		if ($params->get('validate_session', 0))
+		if ($contact->params->get('validate_session', 0))
 		{
 			if (Factory::getSession()->getState() !== 'active')
 			{
@@ -184,19 +189,17 @@ class ContactController extends FormController
 		// Send the email
 		$sent = false;
 
-		if (!$params->get('custom_reply'))
+		if (!$contact->params->get('custom_reply'))
 		{
-			$sent = $this->_sendEmail($data, $contact, $params->get('show_email_copy', 0));
+			$sent = $this->_sendEmail($data, $contact, $contact->params->get('show_email_copy', 0));
 		}
 
+		$msg = '';
+
 		// Set the success message if it was a success
-		if (!($sent instanceof \Exception))
+		if ($sent)
 		{
 			$msg = Text::_('COM_CONTACT_EMAIL_THANKS');
-		}
-		else
-		{
-			$msg = '';
 		}
 
 		// Flush the data from the session
@@ -279,8 +282,6 @@ class ContactController extends FormController
 			$sent = $mail->Send();
 
 			// If we are supposed to copy the sender, do so.
-
-			// Check whether email copy function activated
 			if ($copy_email_activated == true && !empty($data['contact_email_copy']))
 			{
 				$copytext = Text::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);

@@ -28,7 +28,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
 	 * Application object
 	 *
 	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -36,7 +36,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
 	 * Database object
 	 *
 	 * @var    \Joomla\Database\DatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $db;
 
@@ -64,13 +64,15 @@ class PlgAuthenticationJoomla extends CMSPlugin
 			return;
 		}
 
-		$query = $this->db->getQuery(true)
-			->select('id, password')
-			->from('#__users')
-			->where('username=' . $this->db->quote($credentials['username']));
+		$db    = $this->db;
+		$query = $db->getQuery(true)
+			->select($db->quoteName(['id', 'password']))
+			->from($db->quoteName('#__users'))
+			->where($db->quoteName('username') . ' = :username')
+			->bind(':username', $credentials['username']);
 
-		$this->db->setQuery($query);
-		$result = $this->db->loadObject();
+		$db->setQuery($query);
+		$result = $db->loadObject();
 
 		if ($result)
 		{

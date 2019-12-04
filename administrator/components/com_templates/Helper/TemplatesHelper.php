@@ -16,6 +16,8 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\Database\ParameterType;
 
 /**
  * Templates component helper.
@@ -24,27 +26,6 @@ use Joomla\CMS\Language\Text;
  */
 class TemplatesHelper
 {
-	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 */
-	public static function addSubmenu($vName)
-	{
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_TEMPLATES_SUBMENU_STYLES'),
-			'index.php?option=com_templates&view=styles',
-			$vName == 'styles'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_TEMPLATES_SUBMENU_TEMPLATES'),
-			'index.php?option=com_templates&view=templates',
-			$vName == 'templates'
-		);
-	}
-
 	/**
 	 * Get a list of filter options for the application clients.
 	 *
@@ -84,7 +65,9 @@ class TemplatesHelper
 
 		if ($clientId != '*')
 		{
-			$query->where($db->quoteName('client_id') . ' = ' . (int) $clientId);
+			$clientId = (int) $clientId;
+			$query->where($db->quoteName('client_id') . ' = :clientid')
+				->bind(':clientid', $clientId, ParameterType::INTEGER);
 		}
 
 		$db->setQuery($query);
@@ -103,7 +86,7 @@ class TemplatesHelper
 	 */
 	public static function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
-		$data = new \JObject;
+		$data = new CMSObject;
 
 		// Check of the xml file exists
 		$filePath = Path::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -181,7 +181,8 @@ class TemplateAdapter extends InstallerAdapter
 	 */
 	protected function finaliseUninstall(): bool
 	{
-		$db = $this->parent->getDbo();
+		$db    = $this->parent->getDbo();
+		$query = $db->getQuery(true);
 
 		$element     = $this->extension->element;
 		$clientId    = $this->extension->client_id;
@@ -189,13 +190,19 @@ class TemplateAdapter extends InstallerAdapter
 
 		// Set menu that assigned to the template back to default template
 		$subQuery = $db->getQuery(true)
-			->select('s.id')
+			->select($db->quoteName('s.id'))
 			->from($db->quoteName('#__template_styles', 's'))
-			->where($db->quoteName('s.template') . ' = ' . $db->quote(strtolower($this->extension->element)))
-			->where($db->quoteName('s.client_id') . ' = ' . (int) $this->extension->client_id);
+			->where(
+				[
+					$db->quoteName('s.template') . ' = :element',
+					$db->quoteName('s.client_id') . ' = :clientId',
+				]
+			);
 
-		$query = $db->getQuery(true)
-			->update($db->quoteName('#__menu'))
+		$query->bind(':element', $element)
+			->bind(':clientId', $clientId, ParameterType::INTEGER);
+
+		$query->update($db->quoteName('#__menu'))
 			->set($db->quoteName('template_style_id') . ' = 0')
 			->where($db->quoteName('template_style_id') . ' IN (' . (string) $subQuery . ')');
 
@@ -205,8 +212,12 @@ class TemplateAdapter extends InstallerAdapter
 		// Remove the template's styles
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__template_styles'))
-			->where($db->quoteName('template') . ' = :template')
-			->where($db->quoteName('client_id') . ' = :client_id')
+			->where(
+				[
+					$db->quoteName('template') . ' = :template',
+					$db->quoteName('client_id') . ' = :client_id',
+				]
+			)
 			->bind(':template', $element)
 			->bind(':client_id', $clientId, ParameterType::INTEGER);
 		$db->setQuery($query);
@@ -214,8 +225,8 @@ class TemplateAdapter extends InstallerAdapter
 
 		// Remove the schema version
 		$query = $db->getQuery(true)
-			->delete('#__schemas')
-			->where('extension_id = :extension_id')
+			->delete($db->quoteName('#__schemas'))
+			->where($db->quoteName('extension_id') . ' = :extension_id')
 			->bind(':extension_id', $extensionId, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$db->execute();
@@ -269,7 +280,7 @@ class TemplateAdapter extends InstallerAdapter
 			$client = 'ADMINISTRATOR';
 		}
 
-		$base = constant('JPATH_' . strtoupper($client));
+		$base = \constant('JPATH_' . strtoupper($client));
 		$extension = 'tpl_' . $this->getName();
 		$source    = $path ?: $base . '/templates/' . $this->getName();
 
@@ -299,32 +310,41 @@ class TemplateAdapter extends InstallerAdapter
 	 */
 	protected function parseQueries()
 	{
-		if (in_array($this->route, array('install', 'discover_install')))
+		if (\in_array($this->route, array('install', 'discover_install')))
 		{
 			$db    = $this->db;
+			$query = $db->getQuery(true);
 			$lang  = Factory::getLanguage();
 			$debug = $lang->setDebug(false);
 
-			$columns = array(
+			$columns = [
 				$db->quoteName('template'),
 				$db->quoteName('client_id'),
 				$db->quoteName('home'),
 				$db->quoteName('title'),
 				$db->quoteName('params'),
-			);
+			];
 
-			$values = array(
-				$db->quote($this->extension->element),
-				$this->extension->client_id,
-				$db->quote(0),
-				$db->quote(Text::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', Text::_($this->extension->name))),
-				$db->quote($this->extension->params),
+			$values = $query->bindArray(
+				[
+					$this->extension->element,
+					$this->extension->client_id,
+					'0',
+					Text::sprintf('JLIB_INSTALLER_DEFAULT_STYLE', Text::_($this->extension->name)),
+					$this->extension->params,
+				],
+				[
+					ParameterType::STRING,
+					ParameterType::INTEGER,
+					ParameterType::STRING,
+					ParameterType::STRING,
+					ParameterType::STRING,
+				]
 			);
 
 			$lang->setDebug($debug);
 
 			// Insert record in #__template_styles
-			$query = $db->getQuery(true);
 			$query->insert($db->quoteName('#__template_styles'))
 				->columns($columns)
 				->values(implode(',', $values));
@@ -343,8 +363,8 @@ class TemplateAdapter extends InstallerAdapter
 	 */
 	public function prepareDiscoverInstall()
 	{
-		$client = ApplicationHelper::getClientInfo($this->extension->client_id);
-		$manifestPath = $client->path . '/templates/' . $this->extension->element . '/templateDetails.xml';
+		$client                 = ApplicationHelper::getClientInfo($this->extension->client_id);
+		$manifestPath           = $client->path . '/templates/' . $this->extension->element . '/templateDetails.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$this->setManifest($this->parent->getManifest());
@@ -398,13 +418,13 @@ class TemplateAdapter extends InstallerAdapter
 				throw new \RuntimeException(Text::sprintf('JLIB_INSTALLER_ABORT_TPL_INSTALL_UNKNOWN_CLIENT', $cname));
 			}
 
-			$basePath = $client->path;
+			$basePath       = $client->path;
 			$this->clientId = $client->id;
 		}
 		else
 		{
 			// No client attribute was found so we assume the site as the client
-			$basePath = JPATH_SITE;
+			$basePath       = JPATH_SITE;
 			$this->clientId = 0;
 		}
 
@@ -446,9 +466,13 @@ class TemplateAdapter extends InstallerAdapter
 		$db = $this->parent->getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(*)')
-			->from('#__template_styles')
-			->where('home = 1')
-			->where('template = :template')
+			->from($db->quoteName('#__template_styles'))
+			->where(
+				[
+					$db->quoteName('home') . ' = ' . $db->quote('1'),
+					$db->quoteName('template') . ' = :template',
+				]
+			)
 			->bind(':template', $name);
 		$db->setQuery($query);
 
@@ -537,12 +561,13 @@ class TemplateAdapter extends InstallerAdapter
 			$this->extension->element = $this->element;
 
 			// There is no folder for templates
-			$this->extension->folder    = '';
-			$this->extension->enabled   = 1;
-			$this->extension->protected = 0;
-			$this->extension->access    = 1;
-			$this->extension->client_id = $this->clientId;
-			$this->extension->params    = $this->parent->getParams();
+			$this->extension->folder       = '';
+			$this->extension->enabled      = 1;
+			$this->extension->protected    = 0;
+			$this->extension->access       = 1;
+			$this->extension->client_id    = $this->clientId;
+			$this->extension->params       = $this->parent->getParams();
+			$this->extension->changelogurl = $this->changelogurl;
 		}
 
 		// Name might change in an update
@@ -550,6 +575,8 @@ class TemplateAdapter extends InstallerAdapter
 
 		// Update the manifest cache for the entry
 		$this->extension->manifest_cache = $this->parent->generateManifestCache();
+
+		$this->extension->changelogurl = $this->changelogurl;
 
 		if (!$this->extension->store())
 		{
@@ -571,10 +598,10 @@ class TemplateAdapter extends InstallerAdapter
 	 */
 	public function discover()
 	{
-		$results = array();
-		$site_list = Folder::folders(JPATH_SITE . '/templates');
+		$results    = array();
+		$site_list  = Folder::folders(JPATH_SITE . '/templates');
 		$admin_list = Folder::folders(JPATH_ADMINISTRATOR . '/templates');
-		$site_info = ApplicationHelper::getClientInfo('site', true);
+		$site_info  = ApplicationHelper::getClientInfo('site', true);
 		$admin_info = ApplicationHelper::getClientInfo('administrator', true);
 
 		foreach ($site_list as $template)
@@ -588,7 +615,7 @@ class TemplateAdapter extends InstallerAdapter
 				}
 
 				$manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . "/templates/$template/templateDetails.xml");
-				$extension = Table::getInstance('extension');
+				$extension        = Table::getInstance('extension');
 				$extension->set('type', 'template');
 				$extension->set('client_id', $site_info->id);
 				$extension->set('element', $template);
@@ -612,7 +639,7 @@ class TemplateAdapter extends InstallerAdapter
 				}
 
 				$manifest_details = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . "/templates/$template/templateDetails.xml");
-				$extension = Table::getInstance('extension');
+				$extension        = Table::getInstance('extension');
 				$extension->set('type', 'template');
 				$extension->set('client_id', $admin_info->id);
 				$extension->set('element', $template);
@@ -638,14 +665,14 @@ class TemplateAdapter extends InstallerAdapter
 	public function refreshManifestCache()
 	{
 		// Need to find to find where the XML file is since we don't store this normally.
-		$client = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . '/templates/' . $this->parent->extension->element . '/templateDetails.xml';
+		$client                 = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$manifestPath           = $client->path . '/templates/' . $this->parent->extension->element . '/templateDetails.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
-		$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->name = $manifest_details['name'];
+		$this->parent->extension->name           = $manifest_details['name'];
 
 		try
 		{

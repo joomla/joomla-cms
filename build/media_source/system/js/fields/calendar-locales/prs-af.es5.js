@@ -15,6 +15,6 @@ window.JoomlaCalLocale = {
 	minYear : 1268,
 	maxYear : 1458,
 	exit: "بستن",
-	save: "پاک",
+	clear: "پاک",
 	localLangNumbers: ["۰","۱","۲","۳","۴","۵","۶","۷","۸","۹"]
 };

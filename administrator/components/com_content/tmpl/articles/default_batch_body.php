@@ -43,11 +43,11 @@ $user = Factory::getUser();
 			</div>
 		</div>
 		<?php if ($user->authorise('core.admin', 'com_content')) : ?>
-        <div class="form-group col-md-6">
-            <div class="controls">
+		<div class="form-group col-md-6">
+			<div class="controls">
 				<?php echo LayoutHelper::render('joomla.html.batch.workflowstage', ['extension' => 'com_content']); ?>
-            </div>
-        </div>
+			</div>
+		</div>
 		<?php endif; ?>
 	</div>
 </div>

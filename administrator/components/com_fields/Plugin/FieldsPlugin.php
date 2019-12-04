@@ -189,6 +189,7 @@ abstract class FieldsPlugin extends CMSPlugin
 		$node->setAttribute('name', $field->name);
 		$node->setAttribute('type', $field->type);
 		$node->setAttribute('label', $field->label);
+		$node->setAttribute('labelclass', $field->params->get('label_class'));
 		$node->setAttribute('description', $field->description);
 		$node->setAttribute('class', $field->params->get('class'));
 		$node->setAttribute('hint', $field->params->get('hint'));
@@ -244,10 +245,33 @@ abstract class FieldsPlugin extends CMSPlugin
 	 */
 	public function onContentPrepareForm(Form $form, $data)
 	{
+		$path = $this->getFormPath($form, $data);
+
+		if ($path === null)
+		{
+			return;
+		}
+
+		// Load the specific plugin parameters
+		$form->load(file_get_contents($path), true, '/form/*');
+	}
+
+	/**
+	 * Returns the path of the XML definition file for the field parameters
+	 *
+	 * @param   Form      $form  The form
+	 * @param   stdClass  $data  The data
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getFormPath(Form $form, $data)
+	{
 		// Check if the field form is calling us
 		if (strpos($form->getName(), 'com_fields.field') !== 0)
 		{
-			return;
+			return null;
 		}
 
 		// Ensure it is an object
@@ -264,7 +288,7 @@ abstract class FieldsPlugin extends CMSPlugin
 		// Not us
 		if (!$this->isTypeSupported($type))
 		{
-			return;
+			return null;
 		}
 
 		$path = JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/params/' . $type . '.xml';
@@ -272,11 +296,10 @@ abstract class FieldsPlugin extends CMSPlugin
 		// Check if params file exists
 		if (!file_exists($path))
 		{
-			return;
+			return null;
 		}
 
-		// Load the specific plugin parameters
-		$form->load(file_get_contents($path), true, '/form/*');
+		return $path;
 	}
 
 	/**

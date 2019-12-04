@@ -4,7 +4,7 @@
              @dblclick.stop.prevent="onPreviewDblClick()">
             <div class="file-background">
                 <div class="folder-icon">
-                    <span class="fa fa-folder-o"></span>
+                    <span class="fa fa-folder"></span>
                 </div>
             </div>
         </div>

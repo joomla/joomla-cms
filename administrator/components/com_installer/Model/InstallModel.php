@@ -103,6 +103,7 @@ class InstallModel extends BaseDatabaseModel
 		}
 
 		$installType = $app->input->getWord('installtype');
+		$installLang = $app->input->getWord('package');
 
 		if ($package === null)
 		{
@@ -183,29 +184,6 @@ class InstallModel extends BaseDatabaseModel
 			}
 		}
 
-		// Check the package
-		$children = $installer->manifest->updateservers->children();
-
-		foreach ($children as $child)
-		{
-			$check = InstallerHelper::isChecksumValid($package['packagefile'], (string) $child);
-
-			switch ($check)
-			{
-				case 0:
-					$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'warning');
-					break;
-
-				case 1:
-					$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_CORRECT'), 'message');
-					break;
-
-				case 2:
-					$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'notice');
-					break;
-			}
-		}
-
 		// Was the package unpacked?
 		if (!$package || !$package['type'])
 		{
@@ -230,7 +208,7 @@ class InstallModel extends BaseDatabaseModel
 		else
 		{
 			// Package installed successfully.
-			$msg = Text::sprintf('COM_INSTALLER_INSTALL_SUCCESS', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])));
+			$msg = Text::sprintf('COM_INSTALLER_INSTALL_SUCCESS', Text::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($installLang . $package['type'])));
 			$result = true;
 			$msgType = 'message';
 		}

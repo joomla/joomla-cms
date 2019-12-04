@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
@@ -90,8 +91,11 @@ class HtmlView extends BaseHtmlView
 
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
+
+		// Flag indicates to not add limitstart=0 to URL
+		$this->pagination->hideEmptyLimitstart = true;
 
 		// Check whether access level allows access.
 		// @todo: Should already be computed in $item->params->get('access-view')
@@ -120,7 +124,7 @@ class HtmlView extends BaseHtmlView
 		$active = Factory::getApplication()->getMenu()->getActive();
 
 		// Load layout from active query (in case it is an alternative menu item)
-		if ($active && $active->query['option'] === 'com_tags' && $active->query['view'] === 'tags')
+		if ($active && isset($active->query['option']) && $active->query['option'] === 'com_tags' && $active->query['view'] === 'tags')
 		{
 			if (isset($active->query['layout']))
 			{
@@ -165,7 +169,7 @@ class HtmlView extends BaseHtmlView
 			$this->params->def('page_heading', Text::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
 		}
 
-		if ($menu && $menu->query['option'] !== 'com_tags')
+		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_tags'))
 		{
 			$this->params->set('page_subheading', $menu->title);
 		}

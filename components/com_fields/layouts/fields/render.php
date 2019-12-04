@@ -44,20 +44,39 @@ else
 	$fields = $item->jcfields ?: FieldsHelper::getFields($context, $item, true);
 }
 
-if (!$fields)
+if (empty($fields))
+{
+	return;
+}
+
+$output = array();
+
+foreach ($fields as $field)
+{
+	// If the value is empty do nothing
+	if (!isset($field->value) || trim($field->value) === '')
+	{
+		continue;
+	}
+
+	$class = $field->params->get('render_class');
+	$layout = $field->params->get('layout', 'render');
+	$content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
+
+	// If the content is empty do nothing
+	if (trim($content) === '')
+	{
+		continue;
+	}
+
+	$output[] = '<dd class="field-entry ' . $class . '">' . $content . '</dd>';
+}
+
+if (empty($output))
 {
 	return;
 }
 ?>
 <dl class="fields-container">
-	<?php foreach ($fields as $field) : ?>
-		<?php // If the value is empty do nothing ?>
-		<?php if (!isset($field->value) || $field->value == '') : ?>
-			<?php continue; ?>
-		<?php endif; ?>
-		<?php $class = $field->params->get('render_class'); ?>
-		<dd class="field-entry <?php echo $class; ?>">
-			<?php echo FieldsHelper::render($context, 'field.render', array('field' => $field)); ?>
-		</dd>
-	<?php endforeach; ?>
+	<?php echo implode("\n", $output); ?>
 </dl>

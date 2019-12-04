@@ -12,10 +12,8 @@ namespace Joomla\Component\Users\Administrator\Table;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * User notes table class
@@ -24,6 +22,14 @@ use Joomla\Utilities\ArrayHelper;
  */
 class NoteTable extends Table
 {
+	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
 	/**
 	 * Constructor
 	 *
@@ -48,15 +54,14 @@ class NoteTable extends Table
 	 *
 	 * @since   2.5
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate()->toSql();
 		$userId = Factory::getUser()->get('id');
 
 		if (!((int) $this->review_time))
 		{
-			// Null date.
-			$this->review_time = $this->getDbo()->getNullDate();
+			$this->review_time = null;
 		}
 
 		if ($this->id)
@@ -68,8 +73,10 @@ class NoteTable extends Table
 		else
 		{
 			// New record.
-			$this->created_time = $date;
-			$this->created_user_id = $userId;
+			$this->created_time     = $date;
+			$this->created_user_id  = $userId;
+			$this->modified_time    = $date;
+			$this->modified_user_id = $userId;
 		}
 
 		// Attempt to store the data.
@@ -98,7 +105,12 @@ class NoteTable extends Table
 
 		if (empty($this->modified_time))
 		{
-			$this->modified_time = $this->getDbo()->getNullDate();
+			$this->modified_time = $this->created_time;
+		}
+
+		if (empty($this->modified_user_id))
+		{
+			$this->modified_user_id = $this->created_user_id;
 		}
 
 		return true;

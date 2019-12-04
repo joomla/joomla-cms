@@ -11,6 +11,7 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use DebugBar\DataCollector\AssetProvider;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 
 /**
@@ -52,6 +53,7 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 		foreach ($paths as $extension => $files)
 		{
 			$loaded[$extension] = [];
+
 			foreach ($files as $file => $status)
 			{
 				$loaded[$extension][$file] = $status;
@@ -120,8 +122,8 @@ class LanguageFilesCollector extends AbstractDataCollector implements AssetProvi
 	public function getAssets(): array
 	{
 		return array(
-			'js' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.js',
-			'css' => \JUri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.css',
+			'js' => Uri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.js',
+			'css' => Uri::root(true) . '/media/plg_system_debug/widgets/languageFiles/widget.min.css',
 		);
 	}
 }

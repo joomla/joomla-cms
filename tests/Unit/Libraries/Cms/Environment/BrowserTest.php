@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Environment
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,8 @@ use Joomla\Tests\Unit\UnitTestCase;
 
 /**
  * Test class for JBrowser.
+ *
+ * @since   4.0.0
  */
 class BrowserTest extends UnitTestCase
 {
@@ -21,6 +23,10 @@ class BrowserTest extends UnitTestCase
 	 * Backup of the SERVER superglobal
 	 *
 	 * @var  array
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
 	 */
 	protected $backupServer;
 
@@ -28,6 +34,8 @@ class BrowserTest extends UnitTestCase
 	 * Object being tested
 	 *
 	 * @var  Browser
+	 *
+	 * @since   4.0.0
 	 */
 	protected $browser;
 
@@ -35,8 +43,10 @@ class BrowserTest extends UnitTestCase
 	 * This method is called before a test is executed.
 	 *
 	 * @return  void
+	 *
+	 * @since   4.0.0
 	 */
-	protected function setUp()
+	protected function setUp():void
 	{
 		$this->browser = new Browser;
 
@@ -47,8 +57,10 @@ class BrowserTest extends UnitTestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @return  void
+	 *
+	 * @since   4.0.0
 	 */
-	protected function tearDown()
+	protected function tearDown():void
 	{
 		unset($this->browser);
 
@@ -59,10 +71,19 @@ class BrowserTest extends UnitTestCase
 	 * Data provider for the testBrowserMatching method
 	 *
 	 * @return  array
+	 *
+	 * @since   4.0.0
 	 */
 	public function dataMatch(): array
 	{
 		return [
+			'Edge 75' => [
+				'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3738.0 Safari/537.36 Edg/75.0.107.0',
+				'edg',
+				'win',
+				'75',
+				false,
+			],
 			'Edge 14' => [
 				'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393',
 				'edge',
@@ -99,7 +120,8 @@ class BrowserTest extends UnitTestCase
 				false,
 			],
 			'Chrome 12 Ubuntu' => [
-				'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.30 (KHTML, like Gecko) Ubuntu/10.04 Chromium/12.0.742.112 Chrome/12.0.742.112 Safari/534.30',
+				'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/534.30 (KHTML, like Gecko)
+				 Ubuntu/10.04 Chromium/12.0.742.112 Chrome/12.0.742.112 Safari/534.30',
 				'chrome',
 				'unix',
 				'12',
@@ -147,6 +169,9 @@ class BrowserTest extends UnitTestCase
 	 * @param   string   $expectedPlatform      The expected platform value
 	 * @param   string   $expectedMajorVersion  The expected major version value
 	 * @param   boolean  $expectedMobile        The expected mobile state
+	 *
+	 * @return  void
+	 * @since   4.0.0
 	 */
 	public function testBrowserMatching($userAgent, $expectedBrowser, $expectedPlatform, $expectedMajorVersion, $expectedMobile)
 	{

@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Stage table
@@ -23,13 +24,21 @@ use Joomla\CMS\Table\Table;
 class StageTable extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object
 	 *
 	 * @since  4.0.0
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__workflow_stages', 'id', $db);
 
@@ -166,7 +175,7 @@ class StageTable extends Table
 	 * @see     Table::store()
 	 * @since   4.0
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$table = new StageTable($this->getDbo());
 

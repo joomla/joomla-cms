@@ -55,7 +55,7 @@
                             :aria-label="translate('COM_MEDIA_ACTION_EDIT')" @keyup.enter="editItem()" @keyup.space="editItem()"
                             @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions()"
                             @keyup.up="$refs.actionRename.focus()" @keyup.down="$refs.actionShare.focus()">
-                            <span class="image-browser-action fa fa-pencil" aria-hidden="true" @click.stop="editItem()"></span>
+                            <span class="image-browser-action fa fa-pencil-alt" aria-hidden="true" @click.stop="editItem()"></span>
                         </button>
                     </li>
                     <li>
@@ -114,7 +114,7 @@
             /* Opening confirm delete modal */
             openConfirmDeleteModal(){
                 this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-	        this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
+                this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
                 this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL);
             },
             /* Rename an item */

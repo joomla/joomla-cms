@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Language;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Class to transliterate strings
@@ -35,7 +35,7 @@ class Transliterate
 
 		if ($case <= 0)
 		{
-			if (is_null($UTF8_LOWER_ACCENTS))
+			if (\is_null($UTF8_LOWER_ACCENTS))
 			{
 				$UTF8_LOWER_ACCENTS = array(
 					'à' => 'a',
@@ -151,7 +151,7 @@ class Transliterate
 
 		if ($case >= 0)
 		{
-			if (is_null($UTF8_UPPER_ACCENTS))
+			if (\is_null($UTF8_UPPER_ACCENTS))
 			{
 				$UTF8_UPPER_ACCENTS = array(
 					'À' => 'A',

@@ -3,10 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Joomla\Tests\Unit\Libraries\Cms\Html;
 
 use JHtmlString;
@@ -141,8 +140,10 @@ class JHtmlStringTest extends UnitTestCase
 				true,
 				'...',
 			],
-			// TODO: Check these tests: 'Plain html over the limit splitting first word' (duplicate keys, only the last of the duplicates gets executed)
-			// Don't return invalid HTML
+			/*
+			 *  TODO: Check these tests: 'Plain html over the limit splitting first word'
+				(duplicate keys, only the last of the duplicates gets executed) Don't return invalid HTML
+			 */
 			'Plain html over the limit splitting first word' => [
 				'<span>Plain text</span>',
 				1,
@@ -150,8 +151,10 @@ class JHtmlStringTest extends UnitTestCase
 				true,
 				'...',
 			],
-			// TODO: Check these tests: 'Plain html over the limit splitting first word' (duplicate keys, only the last of the duplicates gets executed)
-			// Don't return invalid HTML
+			/*
+			 *  TODO: Check these tests: 'Plain html over the limit splitting first word'
+				(duplicate keys, only the last of the duplicates gets executed) Don't return invalid HTML
+			 */
 			'Plain html over the limit splitting first word' => [
 				'<span>Plain text</span>',
 				4,
@@ -325,15 +328,20 @@ class JHtmlStringTest extends UnitTestCase
 				true,
 				'<span>Plain</span>...'
 			],
-			// TODO: Check these tests: 'Plain html over the limit splitting first word' (duplicate keys, only the last of the duplicates gets executed)
-			// TODO: Check this test: When the key is renamed and the test runs, it fails.
+			/*
+			 *  TODO: Check these tests: 'Plain html over the limit splitting first word'
+				(duplicate keys, only the last of the duplicates gets executed) Don't return invalid HTML
+			 */
 			'Plain html over the limit splitting first word' => [
 				'<span>Plain text</span>',
 				4,
 				false,
 				'<span>P</span>...'
 			],
-			// TODO: Check these tests: 'Plain html over the limit splitting first word' (duplicate keys, only the last of the duplicates gets executed)
+			/*
+			 *  TODO: Check these tests: 'Plain html over the limit splitting first word'
+				(duplicate keys, only the last of the duplicates gets executed) Don't return invalid HTML
+			 */
 			'Plain html over the limit splitting first word' => [
 				'<span>Plain text</span>',
 				1,

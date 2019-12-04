@@ -1,15 +1,16 @@
 {
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "cassiopeia",
   "version": "4.0.0",
   "description": "Cassiopeia is the Joomla 4 site template",
-  "license": "GPL-2.0+",
-  "assets": {
-    "template.cassiopeia.base": {
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
       "name": "template.cassiopeia.base",
       "dependencies": [
         "core",
         "jquery-noconflict",
-        "font-awesome",
+        "fontawesome-free",
         "bootstrap.js.bundle"
       ],
       "js": [
@@ -17,7 +18,7 @@
         "user.js"
       ]
     },
-    "template.cassiopeia.ltr": {
+    {
       "name": "template.cassiopeia.ltr",
       "dependencies": ["template.cassiopeia.base"],
       "css": [
@@ -25,7 +26,7 @@
         "user.css"
       ]
     },
-    "template.cassiopeia.rtl": {
+    {
       "name": "template.cassiopeia.rtl",
       "dependencies": ["template.cassiopeia.base"],
       "css": [
@@ -33,5 +34,5 @@
         "user.css"
       ]
     }
-  }
+  ]
 }

@@ -10,10 +10,11 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Module\RelatedItems\Site\Helper\RelatedItemsHelper;
 
-$cacheparams = new \stdClass;
+$cacheparams               = new \stdClass;
 $cacheparams->cachemode    = 'safeuri';
-$cacheparams->class        = 'Joomla\Module\RelatedItems\Site\Helper\RelatedItemsHelper';
+$cacheparams->class        = RelatedItemsHelper::class;
 $cacheparams->method       = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams   = array('id' => 'int', 'Itemid' => 'int');
@@ -25,7 +26,6 @@ if (!count($list))
 	return;
 }
 
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
-$showDate        = $params->get('showDate', 0);
+$showDate = $params->get('showDate', 0);
 
 require ModuleHelper::getLayoutPath('mod_related_items', $params->get('layout', 'default'));

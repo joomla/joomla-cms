@@ -12,6 +12,8 @@ namespace Joomla\Component\Menus\Administrator\Table;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 
 /**
  * Menu table
@@ -40,9 +42,55 @@ class MenuTable extends \JTableMenu
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__modules_menu'))
-				->where($db->quoteName('menuid') . ' = ' . $pk);
+				->where($db->quoteName('menuid') . ' = :pk')
+				->bind(':pk', $pk, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$db->execute();
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Overloaded check function
+	 *
+	 * @return  boolean  True on success, false on failure
+	 *
+	 * @see     JTable::check
+	 * @since   4.0.0
+	 */
+	public function check()
+	{
+		$return = parent::check();
+
+		if ($return)
+		{
+			// Set publish_up to null date if not set
+			if (!$this->publish_up)
+			{
+				$this->publish_up = null;
+			}
+
+			// Set publish_down to null date if not set
+			if (!$this->publish_down)
+			{
+				$this->publish_down = null;
+			}
+
+			// Check the publish down date is not earlier than publish up.
+			if (!is_null($this->publish_down) && !is_null($this->publish_up) && $this->publish_down < $this->publish_up)
+			{
+				$this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+
+				return false;
+			}
+
+			if ((int) $this->home)
+			{
+				// Set the publish down/up always for home.
+				$this->publish_up   = null;
+				$this->publish_down = null;
+			}
 		}
 
 		return $return;

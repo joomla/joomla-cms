@@ -26,18 +26,6 @@ class PluginsHelper
 	public static $extension = 'com_plugins';
 
 	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 */
-	public static function addSubmenu($vName)
-	{
-		// No submenu for this component.
-	}
-
-	/**
 	 * Returns an array of standard published state filter options.
 	 *
 	 * @return  string    The HTML code for the select tag
@@ -53,7 +41,7 @@ class PluginsHelper
 	}
 
 	/**
-	 * Returns an array of standard published state filter options.
+	 * Returns a list of folders filter options.
 	 *
 	 * @return  string    The HTML code for the select tag
 	 */
@@ -66,6 +54,33 @@ class PluginsHelper
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 			->order('folder');
 
+		$db->setQuery($query);
+
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Returns a list of elements filter options.
+	 *
+	 * @return  string    The HTML code for the select tag
+	 */
+	public static function elementOptions()
+	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select('DISTINCT(element) AS value, element AS text')
+			->from('#__extensions')
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->order('element');
 		$db->setQuery($query);
 
 		try

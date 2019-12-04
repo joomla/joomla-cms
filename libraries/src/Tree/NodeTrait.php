@@ -8,10 +8,7 @@
 
 namespace Joomla\CMS\Tree;
 
-defined('JPATH_PLATFORM') or die;
-
-use Joomla\CMS\Tree\ImmutableNodeTrait;
-use Joomla\CMS\Tree\NodeInterface;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Defines the trait for a Node Interface Trait Class.
@@ -35,7 +32,7 @@ trait NodeTrait
 	 */
 	public function setParent(NodeInterface $parent)
 	{
-		if (!is_null($this->_parent))
+		if (!\is_null($this->_parent))
 		{
 			$key = array_search($this, $this->_parent->_children);
 			unset($this->_parent->_children[$key]);
@@ -45,7 +42,7 @@ trait NodeTrait
 
 		$this->_parent->_children[] = &$this;
 
-		if (count($this->_parent->_children) > 1)
+		if (\count($this->_parent->_children) > 1)
 		{
 			end($this->_parent->_children);
 			$this->_leftSibling = prev($this->_parent->_children);

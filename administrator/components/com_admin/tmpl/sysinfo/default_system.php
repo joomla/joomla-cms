@@ -12,6 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
+
 ?>
 <div class="sysinfo">
 	<table class="table">
@@ -67,6 +69,22 @@ use Joomla\CMS\Language\Text;
 				</th>
 				<td>
 					<?php echo $this->info['dbconnectioncollation']; ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_DATABASE_CONNECTION_ENCRYPTION'); ?>
+				</th>
+				<td>
+					<?php echo $this->info['dbconnectionencryption'] ?: Text::_('JNONE'); ?>
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					<?php echo Text::_('COM_ADMIN_DATABASE_CONNECTION_ENCRYPTION_SUPPORTED'); ?>
+				</th>
+				<td>
+					<?php echo $this->info['dbconnencryptsupported'] ? Text::_('JYES') : Text::_('JNO'); ?>
 				</td>
 			</tr>
 			<tr>

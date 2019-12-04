@@ -1,7 +1,8 @@
 const Fs = require('fs');
 const Recurs = require('recursive-readdir');
 const HandleFile = require('./javascript/handle-file.es6.js');
-const RootPath = require('./utils/rootpath.es6.js')._();
+
+const RootPath = process.cwd();
 
 /**
  * Method that will crawl the media_source folder and
@@ -44,11 +45,11 @@ module.exports.compileJS = (options, path) => {
           (files) => {
             files.forEach(
               (file) => {
-                HandleFile.run(file, options);
+                HandleFile.run(file);
               },
               (error) => {
                 // eslint-disable-next-line no-console
-                console.error(`something exploded ${error}`);
+                console.error(error.formatted);
               },
             );
           },

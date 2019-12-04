@@ -15,20 +15,20 @@ use Joomla\CMS\HTML\HTMLHelper;
 /** @var JDocumentHtml $this */
 
 $lang = Factory::getLanguage();
+$wa   = $this->getWebAssetManager();
 
-// Add JavaScript Frameworks
-HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
-
-// Load template CSS file
-HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'font-awesome.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
-
-// Load custom CSS file
-HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
+// Enable assets
+$wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
+$wa->enableAsset('fontawesome-free');
 
 // Load specific language related CSS
-HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
+HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
+
+// Load custom stylesheet if available
+HTMLHelper::_('stylesheet', 'custom.css', ['version' => 'auto', 'relative' => true]);
+
+// TODO: remove the following line whenever the assets are fixed to respect the overrides
+HTMLHelper::_('stylesheet', 'vendor/choicesjs/choices.css', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <!DOCTYPE html>

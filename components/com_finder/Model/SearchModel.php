@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\String\StringHelper;
@@ -129,7 +130,7 @@ class SearchModel extends ListModel
 	protected function getListQuery()
 	{
 		// Get the current user for authorisation checks
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Create a new query object.
@@ -150,13 +151,12 @@ class SearchModel extends ListModel
 			->where('l.state = 1')
 			->where('l.published = 1');
 
-		// Get the null date and the current date, minus seconds.
-		$nullDate = $db->quote($db->getNullDate());
-		$nowDate = $db->quote(substr_replace(\JFactory::getDate()->toSql(), '00', -2));
+		// Get the current date, minus seconds.
+		$nowDate = $db->quote(substr_replace(Factory::getDate()->toSql(), '00', -2));
 
 		// Add the publish up and publish down filters.
-		$query->where('(l.publish_start_date = ' . $nullDate . ' OR l.publish_start_date <= ' . $nowDate . ')')
-			->where('(l.publish_end_date = ' . $nullDate . ' OR l.publish_end_date >= ' . $nowDate . ')');
+		$query->where('(l.publish_start_date IS NULL OR l.publish_start_date <= ' . $nowDate . ')')
+			->where('(l.publish_end_date IS NULL OR l.publish_end_date >= ' . $nowDate . ')');
 
 		$query->group('l.link_id');
 		$query->group('l.object');
@@ -228,7 +228,7 @@ class SearchModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('l.language IN (' . $db->quote(\JFactory::getLanguage()->getTag()) . ', ' . $db->quote('*') . ')');
+			$query->where('l.language IN (' . $db->quote(Factory::getLanguage()->getTag()) . ', ' . $db->quote('*') . ')');
 		}
 
 		// Get the result ordering and direction.
@@ -382,11 +382,11 @@ class SearchModel extends ListModel
 	protected function populateState($ordering = null, $direction = null)
 	{
 		// Get the configuration options.
-		$app      = \JFactory::getApplication();
+		$app      = Factory::getApplication();
 		$input    = $app->input;
 		$params   = $app->getParams();
-		$user     = \JFactory::getUser();
-		$language = \JFactory::getLanguage();
+		$user     = Factory::getUser();
+		$language = Factory::getLanguage();
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
 
@@ -428,7 +428,8 @@ class SearchModel extends ListModel
 		$this->setState('list.start', $input->get('limitstart', 0, 'uint'));
 		$this->setState('list.limit', $input->get('limit', $app->get('list_limit', 20), 'uint'));
 
-		/* Load the sort ordering.
+		/*
+		 * Load the sort ordering.
 		 * Currently this is 'hard' coded via menu item parameter but may not satisfy a users need.
 		 * More flexibility was way more user friendly. So we allow the user to pass a custom value
 		 * from the pool of fields that are indexed like the 'title' field.
@@ -436,6 +437,7 @@ class SearchModel extends ListModel
 		 */
 		$order = $input->getWord('filter_order', $params->get('sort_order', 'relevance'));
 		$order = StringHelper::strtolower($order);
+
 		switch ($order)
 		{
 			case 'date':
@@ -460,13 +462,15 @@ class SearchModel extends ListModel
 				break;
 		}
 
-		/* Load the sort direction.
+		/*
+		 * Load the sort direction.
 		 * Currently this is 'hard' coded via menu item parameter but may not satisfy a users need.
 		 * More flexibility was way more user friendly. So we allow to be inverted.
 		 * Also, we allow this parameter to be passed in either case (lower/upper).
 		 */
 		$dirn = $input->getWord('filter_order_Dir', $params->get('sort_direction', 'desc'));
 		$dirn = StringHelper::strtolower($dirn);
+
 		switch ($dirn)
 		{
 			case 'asc':
@@ -513,7 +517,7 @@ class SearchModel extends ListModel
 		// Use the external cache if data is persistent.
 		if ($persistent)
 		{
-			$data = \JFactory::getCache($this->context, 'output')->get($id);
+			$data = Factory::getCache($this->context, 'output')->get($id);
 			$data = $data ? unserialize($data) : null;
 		}
 
@@ -545,7 +549,7 @@ class SearchModel extends ListModel
 		// Store the data in external cache if data is persistent.
 		if ($persistent)
 		{
-			return \JFactory::getCache($this->context, 'output')->store(serialize($data), $id);
+			return Factory::getCache($this->context, 'output')->store(serialize($data), $id);
 		}
 
 		return true;

@@ -53,7 +53,7 @@ class ApiController extends BaseController
 			// Check token for requests which do modify files (all except get requests)
 			if ($method !== 'GET' && !Session::checkToken('json'))
 			{
-				throw new \InvalidArgumentException(Text::_('JINVALID_TOKEN'), 403);
+				throw new \InvalidArgumentException(Text::_('JINVALID_TOKEN_NOTICE'), 403);
 			}
 
 			$doTask = strtolower($method) . ucfirst($task);

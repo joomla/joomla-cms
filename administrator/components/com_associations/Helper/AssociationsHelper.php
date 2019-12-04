@@ -15,11 +15,11 @@ use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -32,8 +32,7 @@ class AssociationsHelper extends ContentHelper
 	/**
 	 * Array of Registry objects of extensions
 	 *
-	 * var      array   $extensionsSupport
-	 *
+	 * @var    array
 	 * @since  3.7.0
 	 */
 	public static $extensionsSupport = null;
@@ -41,8 +40,7 @@ class AssociationsHelper extends ContentHelper
 	/**
 	 * List of extensions name with support
 	 *
-	 * var      array   $supportedExtensionsList
-	 *
+	 * @var    array
 	 * @since  3.7.0
 	 */
 	public static $supportedExtensionsList = array();
@@ -266,12 +264,13 @@ class AssociationsHelper extends ContentHelper
 					$query = $db->getQuery(true)
 						->select($db->quoteName('title'))
 						->from($db->quoteName('#__categories'))
-						->where($db->quoteName('id') . ' = ' . $db->quote($items[$langCode]['catid']));
+						->where($db->quoteName('id') . ' = :id')
+						->bind(':id', $items[$langCode]['catid'], ParameterType::INTEGER);
 
 					$db->setQuery($query);
-					$category_title = $db->loadResult();
+					$categoryTitle = $db->loadResult();
 
-					$additional = '<strong>' . Text::sprintf('JCATEGORY_SPRINTF', $category_title) . '</strong> <br>';
+					$additional = '<strong>' . Text::sprintf('JCATEGORY_SPRINTF', $categoryTitle) . '</strong> <br>';
 				}
 				elseif (isset($items[$langCode]['menutype']))
 				{
@@ -281,12 +280,13 @@ class AssociationsHelper extends ContentHelper
 					$query = $db->getQuery(true)
 						->select($db->quoteName('title'))
 						->from($db->quoteName('#__menu_types'))
-						->where($db->quoteName('menutype') . ' = ' . $db->quote($items[$langCode]['menutype']));
+						->where($db->quoteName('menutype') . ' = :menutype')
+						->bind(':menutype', $items[$langCode]['menutype']);
 
 					$db->setQuery($query);
-					$menutype_title = $db->loadResult();
+					$menutypeTitle = $db->loadResult();
 
-					$additional = '<strong>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br>';
+					$additional = '<strong>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $menutypeTitle) . '</strong><br>';
 				}
 
 				$labelClass  = 'badge-secondary';
@@ -323,15 +323,13 @@ class AssociationsHelper extends ContentHelper
 			$url     = $allow && $addLink ? $url : '';
 			$text    = strtoupper($language->sef);
 
-			$tooltip = htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
-			$classes = 'hasPopover badge ' . $labelClass;
+			$tooltip = '<strong>' . htmlspecialchars($language->title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+				. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
+			$classes = 'badge ' . $labelClass;
 
-			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes
-						. '" data-content="' . $tooltip . '" data-placement="top">'
-						. $text . '</a>';
+			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes . '">' . $text . '</a>'
+				. '<div role="tooltip">' . $tooltip . '</div>';
 		}
-
-		HTMLHelper::_('bootstrap.popover');
 
 		return LayoutHelper::render('joomla.content.associations', $items);
 	}
@@ -425,6 +423,7 @@ class AssociationsHelper extends ContentHelper
 			$languageKey = $typeName;
 
 			$typeNameExploded = explode('.', $typeName);
+
 			if (array_pop($typeNameExploded) === 'category')
 			{
 				$languageKey = strtoupper($extensionName) . '_CATEGORIES';
