@@ -265,9 +265,9 @@ $home_pages        = array_column($this->homepages, 'language');
 				<?php foreach ($this->contentlangs as $contentlang) : ?>
 					<?php if (!array_key_exists($contentlang->lang_code, $this->site_langs)) : ?>
 						<tr>
-							<td>
+							<th scope="row">
 								<?php echo $contentlang->lang_code; ?>
-							</td>
+							</th>
 							<td class="text-center">
 								<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
@@ -300,9 +300,9 @@ $home_pages        = array_column($this->homepages, 'language');
 				<?php foreach ($sitelangs as $sitelang) : ?>
 					<?php if (!in_array($sitelang, $content_languages) && in_array($sitelang, $home_pages)) : ?>
 						<tr>
-							<td>
+							<th scope="row">
 								<?php echo $sitelang; ?>
-							</td>
+							</th>
 							<td class="text-center">
 								<span class="fa fa-check" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
