@@ -226,7 +226,7 @@ $home_pages        = array_column($this->homepages, 'language');
 								<span class="fa fa-check" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
 							<?php elseif ($status->lang_code && $status->published == 0) : ?>
-								<span class="icon-pending" aria-hidden="true"></span>
+								<span class="fa fa-times" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							<?php elseif ($status->lang_code && $status->published == -2) : ?>
 								<span class="icon-trash" aria-hidden="true"></span>
