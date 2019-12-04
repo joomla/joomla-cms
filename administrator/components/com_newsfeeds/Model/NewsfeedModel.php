@@ -318,7 +318,7 @@ class NewsfeedModel extends AdminModel
 			{
 				$db = $this->getDbo();
 				$query = $db->getQuery(true)
-					->select('MAX(ordering)')
+					->select('MAX(' . $db->quoteName('ordering') . ')')
 					->from($db->quoteName('#__newsfeeds'));
 				$db->setQuery($query);
 				$max = $db->loadResult();
