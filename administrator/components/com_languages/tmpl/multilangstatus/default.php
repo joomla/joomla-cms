@@ -51,14 +51,6 @@ $home_pages        = array_column($this->homepages, 'language');
 			</div>
 		<?php endif; ?>
 		<?php foreach ($this->statuses as $status) : ?>
-			<?php // Displays error when the Content Language is trashed. ?>
-			<?php if ($status->element && $status->published == -2) : ?>
-				<div class="alert alert-warning">
-					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_TRASHED', $status->element); ?>
-				</div>
-			<?php endif; ?>
 			<?php // Displays error when Site language and Content language are published but Home page is unpublished, trashed or missing. ?>
 			<?php if ($status->lang_code && $status->published == 1 && $status->home_published != 1) : ?>
 				<div class="alert alert-warning">
@@ -109,7 +101,7 @@ $home_pages        = array_column($this->homepages, 'language');
 				<div class="alert alert-warning">
 					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
 					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_CONTENT_LANGUAGE_TRASHED', $contentlang->lang_code); ?>
+					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_TRASHED', $contentlang->lang_code); ?>
 				</div>
 			<?php endif; ?>
 		<?php endforeach; ?>
