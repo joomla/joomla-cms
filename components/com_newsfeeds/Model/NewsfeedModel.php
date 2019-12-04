@@ -109,15 +109,15 @@ class NewsfeedModel extends ItemModel
 					->where($db->quoteName('a.id') . ' = :id')
 					->bind(':id', $pk, ParameterType::INTEGER);
 
-				// Filter by start and end dates.
-				$nowDate = Factory::getDate()->toSql();
-
 				// Filter by published state.
 				$published = $this->getState('filter.published');
 				$archived  = $this->getState('filter.archived');
 
 				if (is_numeric($published))
 				{
+					// Filter by start and end dates.
+					$nowDate = Factory::getDate()->toSql();
+
 					$published = (int) $published;
 					$archived  = (int) $archived;
 
