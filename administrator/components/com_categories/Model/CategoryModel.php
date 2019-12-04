@@ -637,7 +637,7 @@ class CategoryModel extends AdminModel
 			$query = $db->getQuery(true)
 				->select($db->quoteName('key'))
 				->from($db->quoteName('#__associations'))
-				->where($db->quoteName('context') . ' = :associationscontext')		
+				->where($db->quoteName('context') . ' = :associationscontext')
 				->where($db->quoteName('id') . ' = :id')
 				->bind(':associationscontext', $this->associationsContext)
 				->bind(':id', $id, ParameterType::INTEGER);
