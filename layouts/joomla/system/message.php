@@ -34,7 +34,7 @@ HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js
 	<div id="system-message">
 		<?php if (is_array($msgList) && !empty($msgList)) : ?>
 			<?php foreach ($msgList as $type => $msgs) : ?>
-				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true">
+				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true" auto-dismiss="4000">
 					<?php if (!empty($msgs)) : ?>
 						<div class="alert-heading"><?php echo Text::_($type); ?></div>
 						<div>
