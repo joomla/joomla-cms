@@ -48,6 +48,7 @@ $document = Factory::getDocument();
  * @var   array    $checkedOptions  Options that will be set as checked.
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
  *
  * Calendar Specific
  * @var   string   $localesPath     The relative path for the locale file
@@ -78,6 +79,13 @@ empty($onchange)  ? null : $attributes['onchange'] = $onchange;
 if ($required)
 {
 	$attributes['required'] = '';
+}
+
+// Data attributes - data-*
+$dataAttribute = '';
+foreach ($dataAttributes as $key => $attrValue)
+{
+	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
 }
 
 // Handle the special case for "now".
@@ -113,6 +121,7 @@ HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, ['version' =
 			value="<?php echo htmlspecialchars(($value !== '0000-00-00 00:00:00') ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"
 			<?php echo !empty($description) ? ' aria-describedby="' . $name . '-desc"' : ''; ?>
 			<?php echo $attributes; ?>
+			<?php echo $dataAttribute; ?>
 			<?php echo !empty($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ''; ?>
 			data-alt-value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" autocomplete="off">
 		<span class="input-group-append">

@@ -44,6 +44,7 @@ extract($displayData);
  * @var   array    $checked         Is this field checked?
  * @var   array    $position        Is this field checked?
  * @var   array    $control         Is this field checked?
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
  */
 
 if ($validate !== 'color' && in_array($format, array('rgb', 'rgba'), true))
@@ -71,6 +72,12 @@ $autocomplete = !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' :
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
 $direction = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
 
+$dataAttribute = '';
+foreach ($dataAttributes as $key => $value)
+{
+	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+}
+
 HTMLHelper::_('jquery.framework');
 HTMLHelper::_('script', 'vendor/minicolors/jquery.minicolors.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('stylesheet', 'vendor/minicolors/jquery.minicolors.css', array('version' => 'auto', 'relative' => true));
@@ -90,5 +97,6 @@ HTMLHelper::_('script', 'system/fields/color-field-adv-init.min.js', array('vers
 		$format,
 		$keywords,
 		$direction,
-		$validate;
+		$validate,
+		$dataAttribute;
 ?>/>

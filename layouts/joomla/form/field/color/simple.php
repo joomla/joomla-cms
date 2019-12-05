@@ -47,17 +47,23 @@ extract($displayData, null);
  * @var   array    $position        Is this field checked?
  * @var   array    $control         Is this field checked?
  * @var   array    $colors          The specified colors
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
  */
 
 $class    = ' class="custom-select ' . trim($class) . '"';
 $disabled = $disabled ? ' disabled' : '';
 $readonly = $readonly ? ' readonly' : '';
+$dataAttribute = '';
+foreach ($dataAttributes as $key => $value)
+{
+	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+}
 
 HTMLHelper::_('webcomponent', 'system/fields/joomla-field-simple-color.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <joomla-field-simple-color text-select="<?php echo Text::_('JFIELD_COLOR_SELECT'); ?>" text-color="<?php echo Text::_('JFIELD_COLOR_VALUE'); ?>" text-close="<?php echo Text::_('JLIB_HTML_BEHAVIOR_CLOSE'); ?>" text-transparent="<?php echo Text::_('JFIELD_COLOR_TRANSPARENT'); ?>">
 	<select name="<?php echo $name; ?>" id="<?php echo $id; ?>"<?php
-	echo $disabled; ?><?php echo $readonly; ?><?php echo $required; ?><?php echo $class; ?><?php echo $position; ?><?php
+	echo $disabled; ?><?php echo $readonly; ?><?php echo $dataAttribute; ?><?php echo $required; ?><?php echo $class; ?><?php echo $position; ?><?php
 	echo $onchange; ?><?php echo $autofocus; ?> style="visibility:hidden;width:22px;height:1px">
 		<?php foreach ($colors as $i => $c) : ?>
 			<option<?php echo ($c === $color ? ' selected="selected"' : ''); ?> value="<?php echo $c; ?>"></option>

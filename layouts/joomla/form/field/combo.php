@@ -40,6 +40,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
  * @var   array    $options         Options available for this field.
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
  */
 
 HTMLHelper::_('behavior.combobox');
@@ -56,6 +57,14 @@ $attr .= !empty($description) ? ' aria-describedby="' . $name . '-desc"' : '';
 
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
+
+// Data attributes - data-*
+$dataAttribute = '';
+foreach ($dataAttributes as $key => $value)
+{
+	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+}
+
 $val  = [];
 
 foreach ($options as $option)
@@ -70,4 +79,5 @@ foreach ($options as $option)
 	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 	<?php echo $attr; ?>
 	data-list="<?php echo implode(', ', $val); ?>"
+	"<?php echo $dataAttribute; ?>"
 />
