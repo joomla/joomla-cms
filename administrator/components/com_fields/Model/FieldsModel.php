@@ -283,7 +283,7 @@ class FieldsModel extends ListModel
 			{
 				$query->extendWhere(
 					'AND',
-					[		
+					[
 						$db->quoteName('a.group_id') . ' = 0',
 						$db->quoteName('g.state') . ' = :gstate',
 					],
