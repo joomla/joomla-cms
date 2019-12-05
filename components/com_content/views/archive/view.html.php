@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,6 +39,9 @@ class ContentViewArchive extends JViewLegacy
 		$state      = $this->get('State');
 		$items      = $this->get('Items');
 		$pagination = $this->get('Pagination');
+
+		// Flag indicates to not add limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
 
 		// Get the page/component configuration
 		$params = &$state->params;
