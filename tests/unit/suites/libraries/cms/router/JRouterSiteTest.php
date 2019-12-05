@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1191,6 +1191,11 @@ class JRouterSiteTest extends TestCaseDatabase
 				'url'      => 'test?limitstart=42',
 				'mode'     => JROUTER_MODE_SEF,
 				'expected' => 'test?start=42'
+			),
+			'limitstart_zero' => array(
+				'url'      => 'test?limitstart=0',
+				'mode'     => JROUTER_MODE_SEF,
+				'expected' => 'test?start=0'
 			),
 		);
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -430,7 +430,7 @@ class MenusHelper
 	/**
 	 * Method to install a preset menu item into database and link it to the given menutype
 	 *
-	 * @param   stdClass[]  &$items    The single menuitem instance with a list of its descendants
+	 * @param   stdClass[]  $items     The single menuitem instance with a list of its descendants
 	 * @param   string      $menutype  The target menutype
 	 * @param   int         $parent    The parent id or object
 	 *

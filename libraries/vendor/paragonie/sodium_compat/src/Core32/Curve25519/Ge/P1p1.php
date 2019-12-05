@@ -37,6 +37,9 @@ class ParagonIE_Sodium_Core32_Curve25519_Ge_P1p1
      * @param ParagonIE_Sodium_Core32_Curve25519_Fe|null $y
      * @param ParagonIE_Sodium_Core32_Curve25519_Fe|null $z
      * @param ParagonIE_Sodium_Core32_Curve25519_Fe|null $t
+     *
+     * @throws SodiumException
+     * @throws TypeError
      */
     public function __construct(
         ParagonIE_Sodium_Core32_Curve25519_Fe $x = null,

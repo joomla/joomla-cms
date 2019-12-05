@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -239,7 +239,8 @@ class ContentHelperQuery
 	 *
 	 * @return  array  Reordered array to achieve desired ordering down columns
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  4.0 
 	 */
 	public static function orderDownColumns(&$articles, $numColumns = 1)
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.remember
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -116,7 +116,7 @@ class PlgSystemRemember extends JPlugin
 		}
 
 		// Irrelevant, because password was not changed by user
-		if ($data['password_clear'] == '')
+		if (empty($data['password_clear']))
 		{
 			return true;
 		}
