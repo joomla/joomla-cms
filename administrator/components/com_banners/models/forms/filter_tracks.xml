@@ -64,7 +64,6 @@
 			format="%Y-%m-%d"
 			size="10"
 			filter="user_utc"
-			onchange="this.form.submit();"
 		/>
 
 		<field
@@ -76,7 +75,6 @@
 			format="%Y-%m-%d"
 			size="10"
 			filter="user_utc"
-			onchange="this.form.submit();"
 		/>
     </fields>
 	<fields name="list">
