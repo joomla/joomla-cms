@@ -67,7 +67,7 @@ class ImageDocument extends Document
 
 		$this->_charset = null;
 
-		parent::render();
+		parent::render($cache, $params);
 
 		return $this->getBuffer();
 	}
