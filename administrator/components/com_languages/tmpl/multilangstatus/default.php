@@ -241,7 +241,7 @@ $home_pages        = array_column($this->homepages, 'language');
 							<?php if ($status->home_published == 1) : ?>
 								<span class="fa fa-check" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
-							<?php elseif ($status->home_published === 0) : ?>
+							<?php elseif ($status->home_published == 0) : ?>
 								<span class="fa fa-times" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('JNO'); ?></span>
 							<?php elseif ($status->home_published == -2) : ?>
