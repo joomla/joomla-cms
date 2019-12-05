@@ -9,16 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Date\Date;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Plugin\CMSPlugin;
-
 /**
  * Plugin to check the PHP version and display a warning about its support status
  *
  * @since  3.7.0
  */
-class PlgQuickiconPhpVersionCheck extends CMSPlugin
+class PlgQuickiconPhpVersionCheck extends JPlugin
 {
 	/**
 	 * Constant representing the active PHP version being fully supported
@@ -47,7 +43,7 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @var    JApplicationCms
 	 * @since  3.7.0
 	 */
 	protected $app;
@@ -65,7 +61,7 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 	 *
 	 * @param   string  $context  The calling context
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
@@ -73,7 +69,7 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 	{
 		if (!$this->shouldDisplayMessage())
 		{
-			return [];
+			return;
 		}
 
 		$supportStatus = $this->getPhpSupport();
@@ -89,13 +85,11 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 					break;
 
 				case self::PHP_UNSUPPORTED:
-					$this->app->enqueueMessage($supportStatus['message'], 'danger');
+					$this->app->enqueueMessage($supportStatus['message'], 'error');
 
 					break;
 			}
 		}
-
-		return [];
 	}
 
 	/**
@@ -111,6 +105,30 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 	private function getPhpSupport()
 	{
 		$phpSupportData = array(
+			'5.3' => array(
+				'security' => '2013-07-11',
+				'eos'      => '2014-08-14',
+			),
+			'5.4' => array(
+				'security' => '2014-09-14',
+				'eos'      => '2015-09-14',
+			),
+			'5.5' => array(
+				'security' => '2015-07-10',
+				'eos'      => '2016-07-21',
+			),
+			'5.6' => array(
+				'security' => '2017-01-19',
+				'eos'      => '2018-12-31',
+			),
+			'7.0' => array(
+				'security' => '2017-12-03',
+				'eos'      => '2018-12-03',
+			),
+			'7.1' => array(
+				'security' => '2018-12-01',
+				'eos'      => '2019-12-01',
+			),
 			'7.2' => array(
 				'security' => '2019-11-30',
 				'eos'      => '2020-11-30',
@@ -138,8 +156,8 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 		if (isset($phpSupportData[$activePhpVersion]))
 		{
 			// First check if the version has reached end of support
-			$today           = new Date;
-			$phpEndOfSupport = new Date($phpSupportData[$activePhpVersion]['eos']);
+			$today           = new JDate;
+			$phpEndOfSupport = new JDate($phpSupportData[$activePhpVersion]['eos']);
 
 			if ($phpNotSupported = $today > $phpEndOfSupport)
 			{
@@ -149,24 +167,27 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 				 */
 				foreach ($phpSupportData as $version => $versionData)
 				{
-					$versionEndOfSupport = new Date($versionData['eos']);
+					$versionEndOfSupport = new JDate($versionData['eos']);
 
 					if (version_compare($version, $activePhpVersion, 'ge') && ($today < $versionEndOfSupport))
 					{
-						$recommendedVersion             = $version;
-						$recommendedVersionEndOfSupport = $versionEndOfSupport;
+						$supportStatus['status']  = self::PHP_UNSUPPORTED;
+						$supportStatus['message'] = JText::sprintf(
+							'PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED',
+							PHP_VERSION,
+							$version,
+							$versionEndOfSupport->format(JText::_('DATE_FORMAT_LC4'))
+						);
 
-						break;
+						return $supportStatus;
 					}
 				}
 
+				// PHP version is not supported and we don't know of any supported versions.
 				$supportStatus['status']  = self::PHP_UNSUPPORTED;
-				$supportStatus['message'] = Text::sprintf(
-					'PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED',
-					PHP_VERSION,
-					$recommendedVersion,
-					$recommendedVersionEndOfSupport->format(Text::_('DATE_FORMAT_LC4'))
-				);
+				$supportStatus['message'] = JText::sprintf('PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED_JOOMLA_OUTDATED', PHP_VERSION);
+
+				return $supportStatus;
 			}
 
 			// If the version is still supported, check if it has reached eol minus 3 month
@@ -176,8 +197,8 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 			if (!$phpNotSupported && $today > $securityWarningDate)
 			{
 				$supportStatus['status']  = self::PHP_SECURITY_ONLY;
-				$supportStatus['message'] = Text::sprintf(
-					'PLG_QUICKICON_PHPVERSIONCHECK_SECURITY_ONLY', PHP_VERSION, $phpEndOfSupport->format(Text::_('DATE_FORMAT_LC4'))
+				$supportStatus['message'] = JText::sprintf(
+					'PLG_QUICKICON_PHPVERSIONCHECK_SECURITY_ONLY', PHP_VERSION, $phpEndOfSupport->format(JText::_('DATE_FORMAT_LC4'))
 				);
 			}
 		}
@@ -201,7 +222,7 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 		}
 
 		// Only if authenticated
-		if ($this->app->getIdentity()->guest)
+		if (JFactory::getUser()->guest)
 		{
 			return false;
 		}
