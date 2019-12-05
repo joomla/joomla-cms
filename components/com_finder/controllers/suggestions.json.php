@@ -25,8 +25,12 @@ class FinderControllerSuggestions extends JControllerLegacy
 	 */
 	public function suggest()
 	{
+		/** @var \Joomla\CMS\Application\CMSApplication $app */
 		$app = JFactory::getApplication();
 		$app->mimeType = 'application/json';
+
+		// Ensure caching is disabled as it depends on the query param in the model
+		$app->allowCache(false);
 
 		$suggestions = $this->getSuggestions();
 
@@ -50,8 +54,12 @@ class FinderControllerSuggestions extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
+		/** @var \Joomla\CMS\Application\CMSApplication $app */
 		$app = JFactory::getApplication();
 		$app->mimeType = 'application/json';
+
+		// Ensure caching is disabled as it depends on the query param in the model
+		$app->allowCache(false);
 
 		$suggestions = $this->getSuggestions();
 
