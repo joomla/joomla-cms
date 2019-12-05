@@ -553,7 +553,7 @@ class HtmlDocument extends Document
 		}
 
 		$data = $this->_renderTemplate();
-		parent::render();
+		parent::render($caching, $params);
 
 		return $data;
 	}

@@ -7,19 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Finder\Site\Controller;
-
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Controller\BaseController;
-
 /**
- * Suggestions \JSON controller for Finder.
+ * Suggestions JSON controller for Finder.
  *
  * @since  2.5
  */
-class SuggestionsController extends BaseController
+class FinderControllerSuggestions extends JControllerLegacy
 {
 	/**
 	 * Method to find search query suggestions. Uses jQuery and autocompleter.js
@@ -30,8 +25,12 @@ class SuggestionsController extends BaseController
 	 */
 	public function suggest()
 	{
-		$app = $this->app;
+		/** @var \Joomla\CMS\Application\CMSApplication $app */
+		$app = JFactory::getApplication();
 		$app->mimeType = 'application/json';
+
+		// Ensure caching is disabled as it depends on the query param in the model
+		$app->allowCache(false);
 
 		$suggestions = $this->getSuggestions();
 
@@ -39,28 +38,36 @@ class SuggestionsController extends BaseController
 		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
 		$app->sendHeaders();
 		echo '{ "suggestions": ' . json_encode($suggestions) . ' }';
+		$app->close();
 	}
 
 	/**
-	 * Method to find search query suggestions for OpenSearch
+	 * Method to find search query suggestions. Uses Mootools and autocompleter.js
+	 *
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   2.5
+	 * @deprecated 3.4
 	 */
-	public function opensearchsuggest()
+	public function display($cachable = false, $urlparams = false)
 	{
-		$app = $this->app;
+		/** @var \Joomla\CMS\Application\CMSApplication $app */
+		$app = JFactory::getApplication();
 		$app->mimeType = 'application/json';
-		$result = array();
-		$result[] = $app->input->request->get('q', '', 'string');
 
-		$result[] = $this->getSuggestions();
+		// Ensure caching is disabled as it depends on the query param in the model
+		$app->allowCache(false);
+
+		$suggestions = $this->getSuggestions();
 
 		// Send the response.
 		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
 		$app->sendHeaders();
-		echo json_encode($result);
+		echo json_encode($suggestions);
+		$app->close();
 	}
 
 	/**
@@ -74,12 +81,12 @@ class SuggestionsController extends BaseController
 	{
 		$return = array();
 
-		$params = ComponentHelper::getParams('com_finder');
+		$params = JComponentHelper::getParams('com_finder');
 
 		if ($params->get('show_autosuggest', 1))
 		{
 			// Get the suggestions.
-			$model = $this->getModel('Suggestions');
+			$model = $this->getModel('Suggestions', 'FinderModel');
 			$return = $model->getItems();
 		}
 

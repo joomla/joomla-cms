@@ -47,7 +47,7 @@ class RawDocument extends Document
 	 */
 	public function render($cache = false, $params = array())
 	{
-		parent::render();
+		parent::render($cache, $params);
 
 		return $this->getBuffer();
 	}
