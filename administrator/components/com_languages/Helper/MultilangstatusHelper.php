@@ -160,7 +160,7 @@ abstract class MultilangstatusHelper
 		$slang = $db->getQuery(true)
 			->select('count(distinct(l.lang_code))')
 			->from($db->quoteName('#__languages', 'l'))
-			->join('LEFT', $db->quoteName('#__contact_details', 'cd') . ' ON ' . $db->quoteName('cd.language') . '= ' . $db->quoteName('l.lang_code'))
+			->join('LEFT', $db->quoteName('#__contact_details', 'cd'), $db->quoteName('cd.language') . ' = ' . $db->quoteName('l.lang_code'))
 			->where(
 				[
 					$db->quoteName('cd.user_id') . ' = ' . $db->quoteName('u.id'),
@@ -173,7 +173,7 @@ abstract class MultilangstatusHelper
 		$mlang = $db->getQuery(true)
 			->select('count(*)')
 			->from($db->quoteName('#__languages', 'l'))
-			->join('LEFT', $db->quoteName('#__contact_details', 'cd') . ' ON ' . $db->quoteName('cd.language') . ' = ' . $db->quoteName('l.lang_code'))
+			->join('LEFT', $db->quoteName('#__contact_details', 'cd'), $db->quoteName('cd.language') . ' = ' . $db->quoteName('l.lang_code'))
 			->where(
 				[
 					$db->quoteName('cd.user_id') . ' = ' . $db->quoteName('u.id'),
@@ -188,7 +188,7 @@ abstract class MultilangstatusHelper
 		$query = $db->getQuery(true)
 			->select('u.name, (' . $alang . ') as alang, (' . $slang . ') as slang, (' . $mlang . ') as mlang')
 			->from($db->quoteName('#__users', 'u'))
-			->join('LEFT', $db->quoteName('#__contact_details', 'cd') . ' ON ' . $db->quoteName('cd.user_id') . ' = ' . $db->quoteName('u.id'))
+			->join('LEFT', $db->quoteName('#__contact_details', 'cd'), $db->quoteName('cd.user_id') . ' = ' . $db->quoteName('u.id'))
 			->where('EXISTS (SELECT 1 from' . $db->quoteName('#__content', 'c') . ' where ' . $db->quoteName('c.created_by') . ' = ' . $db->quoteName('u.id') . ')')
 			->group('u.id, u.name');
 
