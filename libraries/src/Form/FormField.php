@@ -572,7 +572,7 @@ abstract class FormField
 				{
 					if (property_exists(__CLASS__, $name))
 					{
-						\JLog::add("Cannot access protected / private property $name of " . __CLASS__);
+						Log::add("Cannot access protected / private property $name of " . __CLASS__);
 					}
 					else
 					{
