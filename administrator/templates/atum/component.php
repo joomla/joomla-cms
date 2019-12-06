@@ -26,8 +26,6 @@ $wa
 	->registerStyle('template.language.related', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['dependencies' => [$assetName]])
 	->useStyle('template.language.related');
 
-// TODO: remove the following line whenever the assets are fixed to respect the overrides
-HTMLHelper::_('stylesheet', 'vendor/choicesjs/choices.css', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <!DOCTYPE html>

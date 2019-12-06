@@ -11,7 +11,7 @@
       "dependencies": [
         "jquery"
       ],
-      "uri": "media/legacy/js/jquery-noconflict.min.js"
+      "uri": "legacy/jquery-noconflict.min.js"
     },
     {
       "name": "jquery.ui.core",
@@ -19,7 +19,7 @@
       "dependencies": [
         "jquery"
       ],
-      "uri": "media/vendor/jquery-ui/js/jquery.ui.core.js"
+      "uri": "vendor/jquery-ui/jquery.ui.core.js"
     },
     {
       "name": "jquery.ui.sortable",
@@ -27,7 +27,7 @@
       "dependencies": [
         "jquery.ui.core"
       ],
-      "uri": "media/vendor/jquery-ui/js/jquery.ui.sortable.js"
+      "uri": "vendor/jquery-ui/jquery.ui.sortable.js"
     }
   ]
 }

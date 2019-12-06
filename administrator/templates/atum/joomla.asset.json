@@ -27,11 +27,6 @@
       "uri": "user.css"
     },
     {
-      "name": "fontawesome",
-      "type": "style",
-      "uri": "vendor/fontawesome-free/fontawesome.min.css"
-    },
-    {
       "name": "template.atum",
       "type": "script",
       "uri": "templates/atum/template.min.js",

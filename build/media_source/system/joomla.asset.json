@@ -9,7 +9,7 @@
       "name": "core",
       "type": "script",
       "class": "CoreAssetItem",
-      "uri": "media/system/js/core.min.js"
+      "uri": "system/core.min.js"
     },
     {
       "name": "keepalive",
@@ -18,7 +18,7 @@
       "dependencies": [
         "core"
       ],
-      "uri": "media/system/js/keepalive.min.js"
+      "uri": "system/keepalive.min.js"
     },
     {
       "name": "multiselect",
@@ -26,7 +26,7 @@
       "dependencies": [
         "core"
       ],
-      "uri": "media/system/js/multiselect.min.js"
+      "uri": "system/multiselect.min.js"
     },
     {
       "name": "searchtools",
@@ -34,7 +34,7 @@
       "dependencies": [
         "core"
       ],
-      "uri": "media/system/js/searchtools.min.js"
+      "uri": "system/searchtools.min.js"
     },
     {
       "name": "searchtools",
@@ -55,7 +55,7 @@
       "dependencies": [
         "core"
       ],
-      "uri": "media/system/js/showon.min.js"
+      "uri": "system/showon.min.js"
     },
     {
       "name": "switcher",

@@ -279,9 +279,7 @@ const copyFiles = (options) => {
 
           // Check for external path
           if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
-            const ext = assetInfo.type === 'style' ? 'css' : 'js';
-
-            itemPath = `media/vendor/${vendorName}/${ext}/${itemPath}`;
+            itemPath = `vendor/${vendorName}/${itemPath}`;
           }
 
           registryItem.uri = itemPath;
