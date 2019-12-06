@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 
 /**
  * Menu table
@@ -41,7 +42,8 @@ class MenuTable extends \JTableMenu
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__modules_menu'))
-				->where($db->quoteName('menuid') . ' = ' . $pk);
+				->where($db->quoteName('menuid') . ' = :pk')
+				->bind(':pk', $pk, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$db->execute();
 		}

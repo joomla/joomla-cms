@@ -14,6 +14,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 
 /**
  * Menu Ordering field.
@@ -43,31 +44,39 @@ class MenuOrderingField extends ListField
 		$options = array();
 
 		// Get the parent
-		$parent_id = $this->form->getValue('parent_id', 0);
+		$parent_id = (int) $this->form->getValue('parent_id', 0);
 
-		if (empty($parent_id))
+		if (!$parent_id)
 		{
 			return false;
 		}
 
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.client_id AS ' . $db->quoteName('clientId'))
-			->from('#__menu AS a')
+			->select(
+				[
+					$db->quoteName('a.id', 'value'),
+					$db->quoteName('a.title', 'text'),
+					$db->quoteName('a.client_id', 'clientId'),
+				]
+			)
+			->from($db->quoteName('#__menu', 'a'))
 
-			->where('a.published >= 0')
-			->where('a.parent_id =' . (int) $parent_id);
+			->where($db->quoteName('a.published') . ' >= 0')
+			->where($db->quoteName('a.parent_id') . ' = :parentId')
+			->bind(':parentId', $parent_id, ParameterType::INTEGER);
 
 		if ($menuType = $this->form->getValue('menutype'))
 		{
-			$query->where('a.menutype = ' . $db->quote($menuType));
+			$query->where($db->quoteName('a.menutype') . ' = :menuType')
+				->bind(':menuType', $menuType);
 		}
 		else
 		{
-			$query->where('a.menutype != ' . $db->quote(''));
+			$query->where($db->quoteName('a.menutype') . ' != ' . $db->quote(''));
 		}
 
-		$query->order('a.lft ASC');
+		$query->order($db->quoteName('a.lft') . ' ASC');
 
 		// Get the options.
 		$db->setQuery($query);

@@ -4,12 +4,25 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 TRUNCATE TABLE "#__finder_filters";
 ALTER TABLE "#__finder_filters" ALTER COLUMN "created_by" SET DEFAULT 0;
 ALTER TABLE "#__finder_filters" ALTER COLUMN "created_by_alias" SET DEFAULT '';
+ALTER TABLE "#__finder_filters" ALTER COLUMN "created" DROP DEFAULT;
+ALTER TABLE "#__finder_filters" ALTER COLUMN "modified" DROP DEFAULT;
+ALTER TABLE "#__finder_filters" ALTER COLUMN "checked_out_time" DROP NOT NULL;
+ALTER TABLE "#__finder_filters" ALTER COLUMN "checked_out_time" DROP DEFAULT;
 
 TRUNCATE TABLE "#__finder_links";
 ALTER TABLE "#__finder_links" ALTER COLUMN "state" SET NOT NULL;
 ALTER TABLE "#__finder_links" ALTER COLUMN "access" SET NOT NULL;
 ALTER TABLE "#__finder_links" ALTER COLUMN "language" TYPE character varying(7);
 ALTER TABLE "#__finder_links" ALTER COLUMN "language" SET DEFAULT '';
+ALTER TABLE "#__finder_links" ALTER COLUMN "indexdate" DROP DEFAULT;
+ALTER TABLE "#__finder_links" ALTER COLUMN "publish_start_date" DROP NOT NULL;
+ALTER TABLE "#__finder_links" ALTER COLUMN "publish_start_date" DROP DEFAULT;
+ALTER TABLE "#__finder_links" ALTER COLUMN "publish_end_date" DROP NOT NULL;
+ALTER TABLE "#__finder_links" ALTER COLUMN "publish_end_date" DROP DEFAULT;
+ALTER TABLE "#__finder_links" ALTER COLUMN "start_date" DROP NOT NULL;
+ALTER TABLE "#__finder_links" ALTER COLUMN "start_date" DROP DEFAULT;
+ALTER TABLE "#__finder_links" ALTER COLUMN "end_date" DROP NOT NULL;
+ALTER TABLE "#__finder_links" ALTER COLUMN "end_date" DROP DEFAULT;
 CREATE INDEX "#__finder_links_idx_language" on "#__finder_links" ("language");
 
 CREATE TABLE "#__finder_links_terms" (
