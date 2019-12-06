@@ -35,14 +35,22 @@ use Joomla\CMS\Uri\Uri;
  * @var  integer  $size The size text
  * @var  string   $value The value text
  * @var  string   $src The path and filename of the image
+ * @var   array   $dataAttribute   Miscellaneous data attribute for eg, data-*
  */
 extract($displayData);
 
 $attr = '';
+$dataAttribute = '';
+
+foreach ($dataAttributes as $key => $attrValue)
+{
+	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+}
 
 // Initialize some field attributes.
 $attr .= !empty($class) ? ' class="form-control field-media-input ' . $class . '"' : ' class="form-control field-media-input"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
+$attr .= $dataAttribute;
 
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';

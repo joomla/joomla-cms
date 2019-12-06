@@ -42,7 +42,16 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
  */
+
+// Data attributes - data-*
+$dataAttribute = '';
+
+foreach ($dataAttributes as $key => $attrValue)
+{
+	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+}
 
 $attributes = array(
 	$columns ?: '',
@@ -58,7 +67,8 @@ $attributes = array(
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	$autofocus ? 'autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
-	$maxlength ? $maxlength: ''
+	$maxlength ? $maxlength: '',
+	$dataAttribute,
 );
 ?>
 <textarea name="<?php

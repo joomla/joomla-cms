@@ -50,6 +50,7 @@ $disabled = $disabled ? ' disabled' : '';
 $onchange = $onchange ? ' onchange="' . $onchange . '"' : '';
 
 $dataAttribute = '';
+
 foreach ($dataAttributes as $key => $value)
 {
 	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';

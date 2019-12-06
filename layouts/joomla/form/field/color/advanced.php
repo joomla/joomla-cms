@@ -73,6 +73,7 @@ $autocomplete = !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' :
 $direction = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
 
 $dataAttribute = '';
+
 foreach ($dataAttributes as $key => $value)
 {
 	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';

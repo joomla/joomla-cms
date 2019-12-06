@@ -54,6 +54,7 @@ $class    = ' class="custom-select ' . trim($class) . '"';
 $disabled = $disabled ? ' disabled' : '';
 $readonly = $readonly ? ' readonly' : '';
 $dataAttribute = '';
+
 foreach ($dataAttributes as $key => $value)
 {
 	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';

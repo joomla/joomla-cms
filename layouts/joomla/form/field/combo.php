@@ -60,6 +60,7 @@ $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
 
 // Data attributes - data-*
 $dataAttribute = '';
+
 foreach ($dataAttributes as $key => $value)
 {
 	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';

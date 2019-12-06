@@ -45,6 +45,7 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   array    $spellcheck      Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
  */
 
 // Initialize some field attributes.
@@ -74,6 +75,14 @@ if ($size)
 if ($onchange)
 {
 	$attributes['onchange'] = 'onchange="' . $onchange . '"';
+}
+
+// Data attributes - data-*
+$dataAttribute = '';
+
+foreach ($dataAttributes as $key => $attrValue)
+{
+	$attributes[$key] = $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
 }
 
 HTMLHelper::_('webcomponent', 'system/fields/joomla-field-module-order.min.js', ['version' => 'auto', 'relative' => true]);

@@ -50,6 +50,7 @@ extract($displayData);
 
 // Data attributes - data-*
 $dataAttribute = '';
+
 foreach ($dataAttributes as $key => $attrValue)
 {
 	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';

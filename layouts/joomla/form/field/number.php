@@ -42,7 +42,16 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   array    $spellcheck      Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
  */
+
+// Data attributes - data-*
+$dataAttribute = '';
+
+foreach ($dataAttributes as $key => $attrValue)
+{
+	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+}
 
 $attributes = array(
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
@@ -56,7 +65,8 @@ $attributes = array(
 	isset($min) ? 'min="' . $min . '"' : '',
 	$required ? 'required' : '',
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
-	$autofocus ? 'autofocus' : ''
+	$autofocus ? 'autofocus' : '',
+	$dataAttribute
 );
 
 if (is_numeric($value))
