@@ -19,6 +19,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -263,12 +264,13 @@ class AssociationsHelper extends ContentHelper
 					$query = $db->getQuery(true)
 						->select($db->quoteName('title'))
 						->from($db->quoteName('#__categories'))
-						->where($db->quoteName('id') . ' = ' . $db->quote($items[$langCode]['catid']));
+						->where($db->quoteName('id') . ' = :id')
+						->bind(':id', $items[$langCode]['catid'], ParameterType::INTEGER);
 
 					$db->setQuery($query);
-					$category_title = $db->loadResult();
+					$categoryTitle = $db->loadResult();
 
-					$additional = '<strong>' . Text::sprintf('JCATEGORY_SPRINTF', $category_title) . '</strong> <br>';
+					$additional = '<strong>' . Text::sprintf('JCATEGORY_SPRINTF', $categoryTitle) . '</strong> <br>';
 				}
 				elseif (isset($items[$langCode]['menutype']))
 				{
@@ -278,12 +280,13 @@ class AssociationsHelper extends ContentHelper
 					$query = $db->getQuery(true)
 						->select($db->quoteName('title'))
 						->from($db->quoteName('#__menu_types'))
-						->where($db->quoteName('menutype') . ' = ' . $db->quote($items[$langCode]['menutype']));
+						->where($db->quoteName('menutype') . ' = :menutype')
+						->bind(':menutype', $items[$langCode]['menutype']);
 
 					$db->setQuery($query);
-					$menutype_title = $db->loadResult();
+					$menutypeTitle = $db->loadResult();
 
-					$additional = '<strong>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $menutype_title) . '</strong><br>';
+					$additional = '<strong>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $menutypeTitle) . '</strong><br>';
 				}
 
 				$labelClass  = 'badge-secondary';

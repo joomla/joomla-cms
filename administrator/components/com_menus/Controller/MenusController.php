@@ -198,10 +198,6 @@ class MenusController extends BaseController
 			return;
 		}
 
-		// Declare variables before binding.
-		$componentId = 0;
-		$itemId      = 0;
-
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__menu'))
 			->set($db->quoteName('component_id') . ' = :componentId')
