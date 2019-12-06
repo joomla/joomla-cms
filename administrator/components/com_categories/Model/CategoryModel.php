@@ -644,23 +644,28 @@ class CategoryModel extends AdminModel
 			$db->setQuery($query);
 			$oldKey = $db->loadResult();
 
-			// Deleting old associations for the associated items
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__associations'))
-				->where($db->quoteName('context') . ' = :associationscontext')
-				->bind(':associationscontext', $this->associationsContext);
+			if ($associations || $oldKey !== null)
+			{
+				$where = [];
 
-			if ($associations)
-			{
-				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $query->bindArray($associations)) . ') OR '
-					. $db->quoteName('key') . ' = :oldkey)'
-				)
-					->bind(':oldkey', $oldKey);
-			}
-			else
-			{
-				$query->where($db->quoteName('key') . ' = :key')
-					->bind(':key', $oldKey);
+				// Deleting old associations for the associated items
+				$query = $db->getQuery(true)
+					->delete($db->quoteName('#__associations'))
+					->where($db->quoteName('context') . ' = :associationscontext')
+					->bind(':associationscontext', $this->associationsContext);
+
+				if ($associations)
+				{
+					$where[] = $db->quoteName('id') . ' IN (' . implode(',', $query->bindArray(array_values($associations))) . ')';
+				}
+
+				if ($oldKey !== null)
+				{
+					$where[] = $db->quoteName('key') . ' = :oldKey';
+					$query->bind(':oldKey', $oldKey);
+				}
+
+				$query->extendWhere('AND', $where, 'OR');
 			}
 
 			$db->setQuery($query);
@@ -687,15 +692,28 @@ class CategoryModel extends AdminModel
 				// Adding new association for these items
 				$key = md5(json_encode($associations));
 				$query->clear()
-					->insert($db->quoteName('#__associations'));
+					->insert($db->quoteName('#__associations'))
+					->columns(
+						[
+							$db->quoteName('id'),
+							$db->quoteName('context'),
+							$db->quoteName('key'),
+						]
+					);
 
 				foreach ($associations as $id)
 				{
 					$id = (int) $id;
-					$query->values(':id$id, :associationscontext$id, :key$id')
-						->bind(':id$id', $id, ParameterType::INTEGER)
-						->bind(':associationscontext$id', $this->associationsContext)
-						->bind(':key$id', $key);
+
+					$query->values(
+						implode(
+							',',
+							$query->bindArray(
+								[$id, $this->associationsContext, $key],
+								[ParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING]
+							)
+						)
+					);
 				}
 
 				$db->setQuery($query);
