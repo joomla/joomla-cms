@@ -60,6 +60,9 @@ $wa
 	->registerStyle('template.language.related', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['dependencies' => [$assetName]])
 	->useStyle('template.language.related');
 
+// TODO: remove the following line whenever the assets are fixed to respect the ovverides
+HTMLHelper::_('stylesheet', 'vendor/choicesjs/choices.css', array('version' => 'auto', 'relative' => true));
+
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
@@ -91,7 +94,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	<jdoc:include type="styles" />
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : '') . ($a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome || $a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
 <noscript>
 	<div class="alert alert-danger" role="alert">
 		<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>

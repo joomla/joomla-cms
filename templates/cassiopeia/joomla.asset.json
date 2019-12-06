@@ -8,17 +8,28 @@
     {
       "name": "template.cassiopeia.ltr",
       "type": "style",
-      "uri": "template.min.css"
+      "uri": "template.min.css",
+      "dependencies": [
+        "template.cassiopeia.googlefont"
+      ]
     },
     {
       "name": "template.cassiopeia.rtl",
       "type": "style",
-      "uri": "template-rtl.min.css"
+      "uri": "template-rtl.min.css",
+      "dependencies": [
+        "template.cassiopeia.googlefont"
+      ]
     },
     {
       "name": "template.cassiopeia.user",
       "type": "style",
       "uri": "user.css"
+    },
+    {
+      "name": "template.cassiopeia.googlefont",
+      "type": "style",
+      "uri": "https://fonts.googleapis.com/css?family=Fira+Sans:400"
     },
     {
       "name": "template.cassiopeia",

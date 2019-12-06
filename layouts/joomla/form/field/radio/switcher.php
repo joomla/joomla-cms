@@ -73,7 +73,7 @@ $input    = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 		$active		= ((string) $option->value == $value) ? 'class="active"' : '';
 		$oid		= $id . $i;
 		$ovalue		= htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-		$attributes	= array_filter(array($checked, $active, null));
+		$attributes	= array_filter([$checked, $active]);
 		$text		= $options[$i]->text;
 		?>
 		<?php echo sprintf($input, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
