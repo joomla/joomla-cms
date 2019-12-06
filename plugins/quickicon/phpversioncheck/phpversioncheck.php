@@ -171,20 +171,23 @@ class PlgQuickiconPhpVersionCheck extends JPlugin
 
 					if (version_compare($version, $activePhpVersion, 'ge') && ($today < $versionEndOfSupport))
 					{
-						$recommendedVersion             = $version;
-						$recommendedVersionEndOfSupport = $versionEndOfSupport;
+						$supportStatus['status']  = self::PHP_UNSUPPORTED;
+						$supportStatus['message'] = JText::sprintf(
+							'PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED',
+							PHP_VERSION,
+							$version,
+							$versionEndOfSupport->format(JText::_('DATE_FORMAT_LC4'))
+						);
 
-						break;
+						return $supportStatus;
 					}
 				}
 
+				// PHP version is not supported and we don't know of any supported versions.
 				$supportStatus['status']  = self::PHP_UNSUPPORTED;
-				$supportStatus['message'] = JText::sprintf(
-					'PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED',
-					PHP_VERSION,
-					$recommendedVersion,
-					$recommendedVersionEndOfSupport->format(JText::_('DATE_FORMAT_LC4'))
-				);
+				$supportStatus['message'] = JText::sprintf('PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED_JOOMLA_OUTDATED', PHP_VERSION);
+
+				return $supportStatus;
 			}
 
 			// If the version is still supported, check if it has reached eol minus 3 month
