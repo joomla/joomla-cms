@@ -18,14 +18,13 @@ $lang = Factory::getLanguage();
 $wa   = $this->getWebAssetManager();
 
 // Enable assets
-$wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
-$wa->enableAsset('fontawesome-free');
+$assetName = 'template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr');
+$wa->usePreset($assetName);
 
 // Load specific language related CSS
-HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
-
-// Load custom stylesheet if available
-HTMLHelper::_('stylesheet', 'custom.css', ['version' => 'auto', 'relative' => true]);
+$wa
+	->registerStyle('template.language.related', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['dependencies' => [$assetName]])
+	->useStyle('template.language.related');
 
 // TODO: remove the following line whenever the assets are fixed to respect the overrides
 HTMLHelper::_('stylesheet', 'vendor/choicesjs/choices.css', ['version' => 'auto', 'relative' => true]);
