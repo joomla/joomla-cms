@@ -105,7 +105,7 @@ class PlgEditorCodemirror extends CMSPlugin
 		LayoutHelper::render('editors.codemirror.styles', $displayData, __DIR__ . '/layouts');
 		ob_end_clean();
 
-		Factory::getApplication()->triggerEvent('onCodeMirrorAfterInit', array(&$this->params));
+		Factory::getApplication()->triggerEvent('onCodeMirrorAfterInit', array(&$this->params, &$this->basePath, &$this->modePath));
 	}
 
 	/**
