@@ -19,9 +19,6 @@ use Joomla\CMS\String\PunycodeHelper;
 
 /** @var PrivacyViewRequests $this */
 
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/html');
-
 HTMLHelper::_('behavior.multiselect');
 
 $user      = Factory::getUser();
@@ -31,6 +28,7 @@ $now       = Factory::getDate();
 
 $urgentRequestDate = clone $now;
 $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_privacy&view=requests'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container">
