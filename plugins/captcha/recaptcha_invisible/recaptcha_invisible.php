@@ -77,7 +77,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 
 		// Load Google reCAPTCHA api js
 		$file = 'https://www.google.com/recaptcha/api.js'
-			. '?onload=JoomlaInitReCaptchaInvisible'
+			. '?onload=Joomla.initReCaptchaInvisible'
 			. '&render=explicit'
 			. '&hl=' . Factory::getLanguage()->getTag();
 		HTMLHelper::_(

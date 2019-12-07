@@ -67,7 +67,8 @@ class ExtensionHelper
 		array('component', 'com_joomlaupdate', '', 1),
 		array('component', 'com_languages', '', 1),
 		array('component', 'com_login', '', 1),
-		array('component', 'com_mailto', '', 0),
+		array('component', 'com_mails', '', 1),
+		array('component', 'com_mailto', '', 1),
 		array('component', 'com_media', '', 1),
 		array('component', 'com_menus', '', 1),
 		array('component', 'com_messages', '', 1),
@@ -81,7 +82,7 @@ class ExtensionHelper
 		array('component', 'com_templates', '', 1),
 		array('component', 'com_users', '', 1),
 		array('component', 'com_workflow', '', 1),
-		array('component', 'com_wrapper', '', 0),
+		array('component', 'com_wrapper', '', 1),
 
 		// Core file extensions
 		array('file', 'joomla', '', 0),
@@ -251,6 +252,7 @@ class ExtensionHelper
 		array('plugin', 'user', 'privacy', 0),
 
 		// Core plugin extensions - quick icon
+		array('plugin', 'downloadkey', 'quickicon', 0),
 		array('plugin', 'extensionupdate', 'quickicon', 0),
 		array('plugin', 'joomlaupdate', 'quickicon', 0),
 		array('plugin', 'overridecheck', 'quickicon', 0),

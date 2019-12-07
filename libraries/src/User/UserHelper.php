@@ -304,7 +304,6 @@ abstract class UserHelper
 	public static function activateUser($activation)
 	{
 		$db       = Factory::getDbo();
-		$nullDate = $db->getNullDate();
 
 		// Let's get the id of the user we want to activate
 		$query = $db->getQuery(true)
@@ -312,9 +311,8 @@ abstract class UserHelper
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('activation') . ' = :activation')
 			->where($db->quoteName('block') . ' = 1')
-			->where($db->quoteName('lastvisitDate') . ' = :nullDate')
-			->bind(':activation', $activation)
-			->bind(':nullDate', $nullDate);
+			->where($db->quoteName('lastvisitDate') . ' IS NULL')
+			->bind(':activation', $activation);
 		$db->setQuery($query);
 		$id = (int) $db->loadResult();
 

@@ -180,7 +180,6 @@ class HtmlView extends BaseHtmlView
 		FinderHelper::logSearch($this->query, $this->total);
 
 		// Push out the query data.
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 		$this->suggested = HTMLHelper::_('query.suggested', $this->query);
 		$this->explained = HTMLHelper::_('query.explained', $this->query);
 

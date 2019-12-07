@@ -35,13 +35,13 @@ require_once __DIR__ . '/Service/HTML/Atum.php';
 
 // Template params
 $siteLogo  = $this->params->get('siteLogo')
-	? Uri::root() . $this->params->get('siteLogo')
+	? Uri::root() . htmlspecialchars($this->params->get('siteLogo'), ENT_QUOTES)
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
 $loginLogo = $this->params->get('loginLogo')
 	? Uri::root() . $this->params->get('loginLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 $smallLogo = $this->params->get('smallLogo')
-	? Uri::root() . $this->params->get('smallLogo')
+	? Uri::root() . htmlspecialchars($this->params->get('smallLogo'), ENT_QUOTES)
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
 $logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8');
@@ -52,6 +52,7 @@ $wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')
 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
+$wa->enableAsset('fontawesome-free');
 
 // Load customer stylesheet if available
 HTMLHelper::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));

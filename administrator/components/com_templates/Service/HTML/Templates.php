@@ -85,7 +85,7 @@ class Templates
 				'bootstrap.renderModal',
 				$template . '-Modal',
 				array(
-					'title'  => Text::_('COM_TEMPLATES_BUTTON_PREVIEW'),
+					'title'  => Text::sprintf('COM_TEMPLATES_SCREENSHOT', ucfirst($template)),
 					'height' => '500px',
 					'width'  => '800px',
 					'footer' => $footer,
