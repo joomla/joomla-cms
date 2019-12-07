@@ -112,7 +112,7 @@ EOF;
 	 *
 	 * @param   string  $path  Path to the extension zip file
 	 *
-	 * @return bool|int
+	 * @return boolean|integer
 	 *
 	 * @since 4.0
 	 *

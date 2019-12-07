@@ -170,7 +170,7 @@ class CoreInstallCommand extends AbstractCommand
 	 *
 	 * @param   array  $options  Options array
 	 *
-	 * @return bool|\Joomla\Database\DatabaseInterface
+	 * @return boolean|\Joomla\Database\DatabaseInterface
 	 *
 	 * @since 4.0
 	 * @throws \Exception
@@ -273,9 +273,9 @@ class CoreInstallCommand extends AbstractCommand
 		{
 			$this->getApplication()->enqueueMessage(
 				Text::sprintf(
-					'Check your database credentials, database type, database name or hostname. 
-					If you have MySQL 8 installed then please read 
-					https://docs.joomla.org/Joomla_and_MySQL_8#Workaround_to_get_Joomla_working_with_MySQL_8 
+					'Check your database credentials, database type, database name or hostname.
+					If you have MySQL 8 installed then please read
+					https://docs.joomla.org/Joomla_and_MySQL_8#Workaround_to_get_Joomla_working_with_MySQL_8
 					for more information.',
 					null
 				),
@@ -302,7 +302,7 @@ class CoreInstallCommand extends AbstractCommand
 		{
 			$this->getApplication()->enqueueMessage('Unable to locate the specified file', 'error');
 
-			return;
+			return null;
 		}
 
 		$allowedExtension = ['json', 'ini'];
@@ -312,7 +312,7 @@ class CoreInstallCommand extends AbstractCommand
 		{
 			$this->getApplication()->enqueueMessage('The file type specified is not supported');
 
-			return;
+			return null;
 		}
 
 		$options = $this->registry->loadFile($file, $ext)->toArray();
@@ -328,7 +328,7 @@ class CoreInstallCommand extends AbstractCommand
 			$remainingKeys = implode(', ', $diff);
 			$this->ioStyle->error("These options are required in your file: [$remainingKeys]");
 
-			return;
+			return null;
 		}
 
 		array_walk(

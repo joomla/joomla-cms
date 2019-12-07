@@ -48,7 +48,7 @@ class ExtensionsListCommand extends AbstractCommand
 
 	/**
 	 * SymfonyStyle Object
-	 * @var
+	 * @var SymfonyStyle
 	 * @since 4.0
 	 */
 	private $ioStyle;

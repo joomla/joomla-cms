@@ -270,7 +270,7 @@ class SetConfigurationCommand extends AbstractCommand
 			'All options you want to set'
 		);
 
-		$help = "The <info>%command.name%</info> 
+		$help = "The <info>%command.name%</info>
 				Sets a value for a configuration option
 				\nUsage: <info>php %command.full_name%</info> <option> <value>";
 
@@ -333,7 +333,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @param   array  $options  Options array
 	 *
-	 * @return bool|\Joomla\Database\DatabaseInterface
+	 * @return boolean|\Joomla\Database\DatabaseInterface
 	 *
 	 * @since 4.0
 	 * @throws \Exception
@@ -348,7 +348,6 @@ class SetConfigurationCommand extends AbstractCommand
 			'db_pass' => $options['password'],
 			'db_user' => $options['user'],
 		];
-
 
 		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
