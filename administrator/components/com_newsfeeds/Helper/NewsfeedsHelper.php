@@ -51,7 +51,7 @@ class NewsfeedsHelper extends ContentHelper
 			->from($db->quoteName('#__newsfeeds'))
 			->where($db->quoteName('catid') . ' = :id')
 			->bind(':id', $id, ParameterType::INTEGER)
-			->group($db->quoteName('state'))
+			->group($db->quoteName('state'));
 		$db->setQuery($query);
 
 		foreach ($items as $item)
@@ -61,7 +61,7 @@ class NewsfeedsHelper extends ContentHelper
 			$item->count_unpublished = 0;
 			$item->count_published = 0;
 
-			$id       = (int) $item->id
+			$id       = (int) $item->id;
 			$newfeeds = $db->loadObjectList();
 
 			foreach ($newfeeds as $newsfeed)
@@ -123,17 +123,17 @@ class NewsfeedsHelper extends ContentHelper
 
 		if ($section === 'category')
 		{
-			$query->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('ct.content_item_id') . ' = ' . $db->quoteName('c.id');
+			$query->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('ct.content_item_id') . ' = ' . $db->quoteName('c.id'));
 		}
 		else
 		{
-			$query->join('LEFT', $db->quoteName('#__newsfeeds', 'c'), $db->quoteName('ct.content_item_id') . ' = ' . $db->quoteName('c.id');
+			$query->join('LEFT', $db->quoteName('#__newsfeeds', 'c'), $db->quoteName('ct.content_item_id') . ' = ' . $db->quoteName('c.id'));
 		}
 
 		$query->where(
 			[
 				$db->quoteName('ct.tag_id') . ' = :id',
-					$db->quoteName('ct.type_alias') . ' = :extension',
+				$db->quoteName('ct.type_alias') . ' = :extension',
 			]
 		)
 			->bind(':id', $id, ParameterType::INTEGER)

@@ -322,13 +322,13 @@ class NewsfeedsModel extends ListModel
 		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
 		{
 			$ordering = [
-				$db->escape($db->quoteName('c.title') . ' ' . $orderDirn),
-				$db->escape($db->quoteName('a.ordering') . ' ' . $orderDirn),
+				$db->quoteName('c.title') . ' ' . $db->escape($orderDirn),
+				$db->quoteName('a.ordering') . ' ' . $db->escape($orderDirn),
 			];
 		}
 		else
 		{
-			$ordering = $db->escape($db->quoteName($orderCol) . ' ' . $orderDirn);
+			$ordering = $db->quoteName($db->escape($orderCol)) . ' ' . $db->escape($orderDirn);
 		}
 
 		$query->order($ordering);
