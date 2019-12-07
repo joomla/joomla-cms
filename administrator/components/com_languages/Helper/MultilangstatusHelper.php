@@ -189,7 +189,7 @@ abstract class MultilangstatusHelper
 			->select('u.name, (' . $alang . ') as alang, (' . $slang . ') as slang, (' . $mlang . ') as mlang')
 			->from($db->quoteName('#__users', 'u'))
 			->join('LEFT', $db->quoteName('#__contact_details', 'cd'), $db->quoteName('cd.user_id') . ' = ' . $db->quoteName('u.id'))
-			->where('EXISTS (SELECT 1 from' . $db->quoteName('#__content', 'c') . ' where ' . $db->quoteName('c.created_by') . ' = ' . $db->quoteName('u.id') . ')')
+			->where('EXISTS (SELECT 1 FROM' . $db->quoteName('#__content', 'c') . ' WHERE ' . $db->quoteName('c.created_by') . ' = ' . $db->quoteName('u.id') . ')')
 			->group('u.id, u.name');
 
 		$db->setQuery($query);
