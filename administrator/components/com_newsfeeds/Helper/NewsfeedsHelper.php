@@ -149,6 +149,7 @@ class NewsfeedsHelper extends ContentHelper
 			$item->count_unpublished = 0;
 			$item->count_published = 0;
 
+			// Update ID used in database query.
 			$id        = (int) $item->id;
 			$newsfeeds = $db->loadObjectList();
 
