@@ -1381,10 +1381,6 @@ class ItemModel extends AdminModel
 			return false;
 		}
 
-		// Declare paramaters before binding.
-		$id     = 0;
-		$params = '';
-
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__menu'))
 			->set($db->quoteName('params') . ' = :params')
