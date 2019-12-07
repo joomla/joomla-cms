@@ -69,4 +69,38 @@ abstract class DatabaseHelper
 
 		return $db;
 	}
+
+	/**
+	 * Generates random prefix string for DB table
+	 *
+	 * @param   int  $size  Size of the Prefix
+	 *
+	 * @return string
+	 *
+	 * @since 4.0
+	 */
+	public static function getPrefix(int $size = 15)
+	{
+		// Create the random prefix.
+		$chars   = range('a', 'z');
+		$numbers = range(0, 9);
+
+		// We want the first character to be a random letter.
+		shuffle($chars);
+		$prefix = $chars[0];
+
+		// Next we combine the numbers and characters to get the other characters.
+		$symbols = array_merge($numbers, $chars);
+		shuffle($symbols);
+
+		for ($i = 1, $j = $size - 1; $i < $j; ++$i)
+		{
+			$prefix .= $symbols[$i];
+		}
+
+		// Add in the underscore.
+		$prefix .= '_';
+
+		return $prefix;
+	}
 }

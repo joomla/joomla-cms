@@ -575,7 +575,7 @@ class DatabaseModel extends BaseInstallationModel
 		$serverType = $db->getServerType();
 
 		// Set the appropriate schema script based on UTF-8 support.
-		$schema = 'sql/' . $serverType . '/joomla.sql';
+		$schema = JPATH_INSTALLATION . '/sql/' . $serverType . '/joomla.sql';
 
 		// Check if the schema is a valid file
 		if (!is_file($schema))
@@ -700,7 +700,7 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		// Load the localise.sql for translating the data in joomla.sql.
-		$dblocalise = 'sql/' . $serverType . '/localise.sql';
+		$dblocalise = JPATH_INSTALLATION . '/sql/' . $serverType . '/localise.sql';
 
 		if (is_file($dblocalise))
 		{
@@ -722,7 +722,7 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		// Handle default backend language setting. This feature is available for localized versions of Joomla.
-		$languages = Factory::getApplication()->getLocaliseAdmin($db);
+		$languages = $this->getLocaliseAdmin($db);
 
 		if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site']))
 		{
@@ -765,6 +765,109 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Returns the installed language in the administrative and frontend area.
+	 *
+	 * @param   DatabaseInterface  $db  Database driver.
+	 *
+	 * @return  array  Array with installed language packs in admin and site area.
+	 *
+	 * @since   4.0
+	 */
+	public function getLocaliseAdmin(DatabaseInterface $db = null)
+	{
+		$langfiles = [];
+
+		// If db connection, fetch them from the database.
+		if ($db)
+		{
+			foreach (LanguageHelper::getInstalledLanguages() as $clientId => $languages)
+			{
+				$clientName = $clientId === 0 ? 'site' : 'admin';
+
+				foreach ($languages as $language)
+				{
+					$langfiles[$clientName][] = $language->element;
+				}
+			}
+
+			return $langfiles;
+		}
+
+		// Read the folder names in the site and admin area.
+		return [
+			'site' => Folder::folders(LanguageHelper::getLanguagePath(JPATH_SITE)),
+			'admin' => Folder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR)),
+		];
+	}
+
+	/**
+	 * Method to install the sample data.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.1
+	 */
+	public function installSampleData()
+	{
+		$db = Factory::getDbo();
+
+		// Build the path to the sample data file.
+		$type = $db->getServerType();
+
+		if (Factory::getApplication()->input->get('sample_file', ''))
+		{
+			$sample_file = Factory::getApplication()->input->get('sample_file', '');
+		}
+		else
+		{
+			$sample_file = 'sample_testing.sql';
+		}
+
+		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $sample_file;
+
+		// Attempt to import the database schema if one is chosen.
+		if ($sample_file != '')
+		{
+			if (!file_exists($data))
+			{
+				Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_FILE_DOES_NOT_EXIST', $data), 'error');
+
+				return false;
+			}
+			elseif (!$this->populateDatabase($db, $data))
+			{
+				return false;
+			}
+
+			$this->postInstallSampleData($db, $sample_file);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Sample data tables and data post install process.
+	 *
+	 * @param   \JDatabaseDriver  $db              Database connector object $db*.
+	 * @param   string            $sampleFileName  The sample dats filename.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function postInstallSampleData($db, $sampleFileName = '')
+	{
+		// Update the sample data user ids.
+		$this->updateUserIds($db);
+
+		// If not joomla sample data for testing, update the sample data dates.
+		if ($sampleFileName !== 'sample_testing.sql')
+		{
+			$this->updateDates($db);
+		}
 	}
 
 	/**

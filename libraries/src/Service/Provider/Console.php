@@ -11,8 +11,21 @@ namespace Joomla\CMS\Service\Provider;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
+use Joomla\CMS\Console\CheckUpdatesCommand;
+use Joomla\CMS\Console\CleanCacheCommand;
+use Joomla\CMS\Console\CoreInstallCommand;
+use Joomla\CMS\Console\ExtensionInstallCommand;
+use Joomla\CMS\Console\ExtensionRemoveCommand;
+use Joomla\CMS\Console\ExtensionsListCommand;
+use Joomla\CMS\Console\GetConfigurationCommand;
+use Joomla\CMS\Console\RemoveOldFilesCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
+use Joomla\CMS\Console\SetConfigurationCommand;
+use Joomla\CMS\Console\SiteDownCommand;
+use Joomla\CMS\Console\SiteUpCommand;
+use Joomla\CMS\Console\UpdateCoreCommand;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Database\Command\ExportCommand;
 use Joomla\Database\Command\ImportCommand;
@@ -61,6 +74,69 @@ class Console implements ServiceProviderInterface
 			},
 			true
 		);
+
+		$container->share(
+			UpdateCoreCommand::class,
+			function (Container $container)
+			{
+				return new UpdateCoreCommand($container->get('db'));
+			},
+			true
+		);
+
+		$this->registerAvailableCommands($container);
+	}
+
+
+	/**
+	 * Gets an array of available command names.
+	 * This method makes it cleaner to add the commands inside the register
+	 * method instead of typing the whole command array there.
+	 *
+	 * @return array
+	 *
+	 * @since 4.0
+	 */
+	protected function getAvailableCommandNames(): array
+	{
+		return [
+			CleanCacheCommand::class,
+			CheckUpdatesCommand::class,
+			RemoveOldFilesCommand::class,
+			ExtensionsListCommand::class,
+			ExtensionInstallCommand::class,
+			ExtensionRemoveCommand::class,
+			CheckJoomlaUpdatesCommand::class,
+			GetConfigurationCommand::class,
+			SetConfigurationCommand::class,
+			SiteDownCommand::class,
+			SiteUpCommand::class,
+			CoreInstallCommand::class,
+		];
+	}
+
+	/**
+	 * Registers Console Commands
+	 *
+	 * @param   Container  $container  The DI Container
+	 *
+	 * @return void
+	 *
+	 * @since 4.0
+	 */
+	protected function registerAvailableCommands(Container $container)
+	{
+		foreach ($names = $this->getAvailableCommandNames() as $className)
+		{
+			$container->share(
+				$className,
+				function (Container $container) use ($className)
+				{
+					return new $className;
+				},
+				true
+			);
+		}
 
 		$container->share(
 			ExportCommand::class,

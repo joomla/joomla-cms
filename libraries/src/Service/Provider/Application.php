@@ -14,11 +14,25 @@ namespace Joomla\CMS\Service\Provider;
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Application\ConsoleApplication;
+use Joomla\CMS\Application\ExtensionNamespaceMapper;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Console\Loader\WritableContainerLoader;
 use Joomla\CMS\Console\Loader\WritableLoaderInterface;
+use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
+use Joomla\CMS\Console\CheckUpdatesCommand;
+use Joomla\CMS\Console\CleanCacheCommand;
+use Joomla\CMS\Console\CoreInstallCommand;
+use Joomla\CMS\Console\ExtensionInstallCommand;
+use Joomla\CMS\Console\ExtensionRemoveCommand;
+use Joomla\CMS\Console\ExtensionsListCommand;
+use Joomla\CMS\Console\GetConfigurationCommand;
+use Joomla\CMS\Console\RemoveOldFilesCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
+use Joomla\CMS\Console\SetConfigurationCommand;
+use Joomla\CMS\Console\SiteDownCommand;
+use Joomla\CMS\Console\SiteUpCommand;
+use Joomla\CMS\Console\UpdateCoreCommand;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Console\Application as BaseConsoleApplication;
@@ -38,6 +52,7 @@ use Psr\Log\LoggerInterface;
  */
 class Application implements ServiceProviderInterface
 {
+	use ExtensionNamespaceMapper;
 	/**
 	 * Registers the service provider with a DI container.
 	 *
@@ -49,6 +64,9 @@ class Application implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
+		// Registers the Extension Loader
+		$this->createExtensionNamespaceMap();
+
 		$container->alias(AdministratorApplication::class, 'JApplicationAdministrator')
 			->share(
 				'JApplicationAdministrator',
@@ -126,14 +144,7 @@ class Application implements ServiceProviderInterface
 				LoaderInterface::class,
 				function (Container $container)
 				{
-					$mapping = [
-						SessionGcCommand::getDefaultName()         => SessionGcCommand::class,
-						SessionMetadataGcCommand::getDefaultName() => SessionMetadataGcCommand::class,
-						ExportCommand::getDefaultName()            => ExportCommand::class,
-						ImportCommand::getDefaultName()            => ImportCommand::class,
-					];
-
-					return new WritableContainerLoader($container, $mapping);
+					return new WritableContainerLoader($container, $this->getCommandMapping());
 				},
 				true
 			);
@@ -158,5 +169,35 @@ class Application implements ServiceProviderInterface
 				},
 				true
 			);
+	}
+
+	/**
+	 * Get Command Mapping
+	 *
+	 * @return array
+	 *
+	 * @since 4.0
+	 */
+	protected function getCommandMapping(): array
+	{
+		return [
+			SessionGcCommand::getDefaultName()         		=> SessionGcCommand::class,
+			SessionMetadataGcCommand::getDefaultName() 		=> SessionMetadataGcCommand::class,
+			SiteDownCommand::getDefaultName() 		   		=> SiteDownCommand::class,
+			SiteUpCommand::getDefaultName() 		   		=> SiteUpCommand::class,
+			CoreInstallCommand::getDefaultName() 	   		=> CoreInstallCommand::class,
+			SetConfigurationCommand::getDefaultName()  		=> SetConfigurationCommand::class,
+			GetConfigurationCommand::getDefaultName()  		=> GetConfigurationCommand::class,
+			CheckJoomlaUpdatesCommand::getDefaultName() 	=> CheckJoomlaUpdatesCommand::class,
+			ExtensionRemoveCommand::getDefaultName() 		=> ExtensionRemoveCommand::class,
+			ExtensionInstallCommand::getDefaultName() 		=> ExtensionInstallCommand::class,
+			ExtensionsListCommand::getDefaultName() 		=> ExtensionsListCommand::class,
+			UpdateCoreCommand::getDefaultName() 		   	=> UpdateCoreCommand::class,
+			RemoveOldFilesCommand::getDefaultName() 		=> RemoveOldFilesCommand::class,
+			CheckUpdatesCommand::getDefaultName() 		   	=> CheckUpdatesCommand::class,
+			CleanCacheCommand::getDefaultName() 		   	=> CleanCacheCommand::class,
+			ExportCommand::getDefaultName()            		=> ExportCommand::class,
+			ImportCommand::getDefaultName()            		=> ImportCommand::class,
+		];
 	}
 }

@@ -18,7 +18,16 @@ if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
 	|| (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10)
 	|| (file_exists(JPATH_INSTALLATION . '/index.php') && (false === (new Version)->isInDevelopmentState())))
 {
-	if (file_exists(JPATH_INSTALLATION . '/index.php'))
+	// Prevents the script from falling back to $_SERVER['REQUEST_URI'] as it will throw an error in CLI mode.
+	if (php_sapi_name() === 'cli')
+	{
+		// This is been defined because some core scripts needs it defined.
+		define('JDEBUG', false);
+
+		// We pass control back to the calling script - joomla.php to allow commands like core:install to run
+		return;
+	}
+	elseif (file_exists(JPATH_INSTALLATION . '/index.php'))
 	{
 		header('Location: ' . substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php')) . 'installation/index.php');
 

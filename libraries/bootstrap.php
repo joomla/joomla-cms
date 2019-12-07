@@ -83,3 +83,9 @@ JLoader::register('Crypto', JPATH_PLATFORM . '/php-encryption/Crypto.php');
 
 // Register the PasswordHash library.
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
+
+// Registers the Installation namespace
+if (file_exists(JPATH_INSTALLATION . '/index.php'))
+{
+	JLoader::registerNamespace('Joomla\\CMS\\Installation', JPATH_INSTALLATION . '/src', false, false, 'psr4');
+}

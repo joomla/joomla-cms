@@ -14,6 +14,7 @@ use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Version;
 use Joomla\Console\Application;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
@@ -22,6 +23,8 @@ use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -56,6 +59,14 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @since  4.0.0
 	 */
 	private $session;
+
+	/**
+	 * The client identifier.
+	 *
+	 * @var    integer
+	 * @since  4.0
+	 */
+	protected $clientId = 4;
 
 	/**
 	 * Class constructor.
@@ -163,8 +174,11 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->createExtensionNamespaceMap();
 
 		// Import CMS plugin groups to be able to subscribe to events
-		PluginHelper::importPlugin('system');
-		PluginHelper::importPlugin('console');
+		if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
+		{
+			PluginHelper::importPlugin('system');
+			PluginHelper::importPlugin('console');
+		}
 
 		parent::execute();
 	}
@@ -305,6 +319,31 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->session = $session;
 
 		return $this;
+	}
+
+
+	/**
+	 * Flush the media version to refresh versionable assets
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0
+	 */
+	public function flushAssets()
+	{
+		(new Version)->refreshMediaVersion();
+	}
+
+	/**
+	 * Gets the client id of the current running application.
+	 *
+	 * @return  integer  A client identifier.
+	 *
+	 * @since   4.0
+	 */
+	public function getClientId()
+	{
+		return $this->clientId;
 	}
 
 	/**

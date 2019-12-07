@@ -12,6 +12,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Installation\Helper\DatabaseHelper;
 
 /**
  * Database Prefix field.
@@ -45,9 +46,9 @@ class PrefixField extends FormField
 		$disabled  = (string) $this->element['disabled'] === 'true' ? ' disabled="disabled"' : '';
 
 		// Make sure somebody doesn't put in a too large prefix size value.
-		if ($size > 10)
+		if ($size > 15)
 		{
-			$size = 10;
+			$size = 15;
 		}
 
 		// If a prefix is already set, use it instead.
@@ -55,26 +56,7 @@ class PrefixField extends FormField
 
 		if (empty($session['db_prefix']))
 		{
-			// Create the random prefix.
-			$prefix  = '';
-			$chars   = range('a', 'z');
-			$numbers = range(0, 9);
-
-			// We want the fist character to be a random letter.
-			shuffle($chars);
-			$prefix .= $chars[0];
-
-			// Next we combine the numbers and characters to get the other characters.
-			$symbols = array_merge($numbers, $chars);
-			shuffle($symbols);
-
-			for ($i = 0, $j = $size - 1; $i < $j; ++$i)
-			{
-				$prefix .= $symbols[$i];
-			}
-
-			// Add in the underscore.
-			$prefix .= '_';
+			$prefix = DatabaseHelper::getPrefix();
 		}
 		else
 		{
