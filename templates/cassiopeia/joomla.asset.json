@@ -22,6 +22,12 @@
       ]
     },
     {
+      "name": "template.active.language",
+      "type": "style",
+      "uri": "",
+      "class": "LangActiveAssetItem"
+    },
+    {
       "name": "template.cassiopeia.user",
       "type": "style",
       "uri": "user.css"
@@ -63,6 +69,7 @@
       "dependencies": [
         "template.cassiopeia.base",
         "template.cassiopeia.ltr#style",
+        "template.active.language#style",
         "template.cassiopeia.user#style"
       ]
     },
@@ -72,6 +79,7 @@
       "dependencies": [
         "template.cassiopeia.base",
         "template.cassiopeia.rtl#style",
+        "template.active.language#style",
         "template.cassiopeia.user#style"
       ]
     }

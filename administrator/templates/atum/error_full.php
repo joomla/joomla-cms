@@ -49,11 +49,6 @@ $logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COM
 $assetName = 'template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr');
 $wa->usePreset($assetName);
 
-// Load specific language related CSS
-$wa
-	->registerStyle('template.language.related', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['dependencies' => [$assetName]])
-	->useStyle('template.language.related');
-
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss

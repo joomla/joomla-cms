@@ -22,6 +22,13 @@
       ]
     },
     {
+      "name": "template.active.language",
+      "type": "style",
+      "uri": "",
+      "class": "LangActiveAssetItem",
+      "client": "administrator"
+    },
+    {
       "name": "template.atum.user",
       "type": "style",
       "uri": "user.css"
@@ -51,6 +58,7 @@
       "dependencies": [
         "template.atum.base",
         "template.atum.ltr#style",
+        "template.active.language#style",
         "template.atum.user#style"
       ]
     },
@@ -60,6 +68,7 @@
       "dependencies": [
         "template.atum.base",
         "template.atum.rtl#style",
+        "template.active.language#style",
         "template.atum.user#style"
       ]
     }

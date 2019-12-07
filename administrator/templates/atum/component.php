@@ -20,11 +20,6 @@ $wa   = $this->getWebAssetManager();
 $assetName = 'template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr');
 $wa->usePreset($assetName);
 
-// Load specific language related CSS
-$wa
-	->registerStyle('template.language.related', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['dependencies' => [$assetName]])
-	->useStyle('template.language.related');
-
 ?>
 
 <!DOCTYPE html>

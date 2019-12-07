@@ -33,11 +33,6 @@ $pageclass = $menu->getParams()->get('pageclass_sfx');
 $assetName = 'template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr');
 $wa->usePreset($assetName);
 
-// Load specific language related CSS
-$wa
-	->registerStyle('template.language.related', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['dependencies' => [$assetName]])
-	->useStyle('template.language.related');
-
 // Preload the stylesheet for the font, actually we need to preload the font
 $this->getPreloadManager()->preload('https://fonts.googleapis.com/css?family=Fira+Sans:400', array('as' => 'stylesheet'));
 
