@@ -47,7 +47,7 @@ extract($displayData, null);
  * @var   array    $position        Is this field checked?
  * @var   array    $control         Is this field checked?
  * @var   array    $colors          The specified colors
- * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
 $class    = ' class="custom-select ' . trim($class) . '"';
@@ -55,9 +55,12 @@ $disabled = $disabled ? ' disabled' : '';
 $readonly = $readonly ? ' readonly' : '';
 $dataAttribute = '';
 
-foreach ($dataAttributes as $key => $value)
+if (!empty($dataAttributes))
 {
-	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+	foreach ($dataAttributes as $key => $value)
+	{
+		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+	}
 }
 
 HTMLHelper::_('webcomponent', 'system/fields/joomla-field-simple-color.min.js', ['version' => 'auto', 'relative' => true]);

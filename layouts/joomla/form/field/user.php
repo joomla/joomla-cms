@@ -46,7 +46,7 @@ extract($displayData);
  * @var   string   $userName        The user name
  * @var   mixed    $groups          The filtering groups (null means no filtering)
  * @var   mixed    $excluded        The users to exclude from the list of users
- * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
 if (!$readonly)
@@ -99,9 +99,12 @@ if (!$readonly)
 	$inputAttributes['placeholder'] = Text::_('JLIB_FORM_SELECT_USER');
 }
 
-foreach ($dataAttributes as $key => $attrValue)
+if (!empty($dataAttributes))
 {
-	$inputAttributes[$key] .= htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8');
+	foreach ($dataAttributes as $key => $attrValue)
+	{
+		$inputAttributes[$key] .= htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8');
+	}
 }
 ?>
 <?php // Create a dummy text field with the user name. ?>

@@ -41,7 +41,7 @@ extract($displayData);
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
- * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
 
 // Initialize some field attributes.
@@ -51,9 +51,12 @@ $onchange = $onchange ? ' onchange="' . $onchange . '"' : '';
 
 $dataAttribute = '';
 
-foreach ($dataAttributes as $key => $value)
+if (!empty($dataAttributes))
 {
-	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+	foreach ($dataAttributes as $key => $value)
+	{
+		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+	}
 }
 ?>
 <input

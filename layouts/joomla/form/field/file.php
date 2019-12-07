@@ -47,18 +47,21 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   array    $spellcheck      Options available for this field.
  * @var   string   $accept          File types that are accepted.
- * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
 
 $maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize());
 
-// Data attributes - data-*
 $dataAttribute = '';
 
-foreach ($dataAttributes as $key => $attrValue)
+if (!empty($dataAttributes))
 {
-	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+	foreach ($dataAttributes as $key => $attrValue)
+	{
+		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+	}
 }
+
 ?>
 <input type="file"
 	name="<?php echo $name; ?>"

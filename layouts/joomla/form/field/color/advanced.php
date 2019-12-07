@@ -44,7 +44,7 @@ extract($displayData);
  * @var   array    $checked         Is this field checked?
  * @var   array    $position        Is this field checked?
  * @var   array    $control         Is this field checked?
- * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
+ * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
 if ($validate !== 'color' && in_array($format, array('rgb', 'rgba'), true))
@@ -74,9 +74,12 @@ $direction = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
 
 $dataAttribute = '';
 
-foreach ($dataAttributes as $key => $value)
+if (!empty($dataAttributes))
 {
-	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+	foreach ($dataAttributes as $key => $value)
+	{
+		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+	}
 }
 
 HTMLHelper::_('jquery.framework');

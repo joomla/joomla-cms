@@ -35,16 +35,19 @@ use Joomla\CMS\Uri\Uri;
  * @var  integer  $size The size text
  * @var  string   $value The value text
  * @var  string   $src The path and filename of the image
- * @var   array   $dataAttribute   Miscellaneous data attribute for eg, data-*
+ * @var  array    $dataAttributes   Miscellaneous data attribute for eg, data-*
  */
 extract($displayData);
 
 $attr = '';
 $dataAttribute = '';
 
-foreach ($dataAttributes as $key => $attrValue)
+if (!empty($dataAttributes))
 {
-	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+	foreach ($dataAttributes as $key => $attrValue)
+	{
+		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+	}
 }
 
 // Initialize some field attributes.

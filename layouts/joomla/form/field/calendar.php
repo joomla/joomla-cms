@@ -48,7 +48,7 @@ $document = Factory::getDocument();
  * @var   array    $checkedOptions  Options that will be set as checked.
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
- * @var   array    $dataAttribute   Miscellaneous data attribute for eg, data-*.
+ * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  *
  * Calendar Specific
  * @var   string   $localesPath     The relative path for the locale file
@@ -65,6 +65,7 @@ $document = Factory::getDocument();
  */
 
 $inputvalue = '';
+$dataAttribute = '';
 
 // Build the attributes array.
 $attributes = array();
@@ -81,12 +82,12 @@ if ($required)
 	$attributes['required'] = '';
 }
 
-// Data attributes - data-*
-$dataAttribute = '';
-
-foreach ($dataAttributes as $key => $attrValue)
+if (!empty($dataAttributes))
 {
-	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+	foreach ($dataAttributes as $key => $attrValue)
+	{
+		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+	}
 }
 
 // Handle the special case for "now".
