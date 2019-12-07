@@ -63,7 +63,7 @@ class JoomlaupdateViewDefault extends JViewLegacy
 		$this->loadHelper('select');
 
 		// Assign view variables.
-		$this->ftp           = $model->getFTPOptions();
+		$this->ftp     = $model->getFTPOptions();
 		$defaultMethod = $this->ftp['enabled'] ? 'hybrid' : 'direct';
 
 		$this->updateInfo         = $model->getUpdateInformation();
