@@ -40,6 +40,7 @@ class ModuleDispatcher extends AbstractModuleDispatcher
 		// Execute the layout without the module context
 		$loader = static function ($path, array $displayData)
 		{
+			// If $displayData doesn't exist in extracted data, unset the variable.
 			if (!\array_key_exists('displayData', $displayData))
 			{
 				extract($displayData);
