@@ -207,11 +207,11 @@ Joomla.resetDbEncryptionFields = function() {
             document.getElementById('jform_db_type').focus();
           }
 
-		  // Attach event to dbhost field
-			var dbHostField = document.getElementById('jform_db_host');
+          // Attach event to dbhost field
+          var dbHostField = document.getElementById('jform_db_host');
 
-			dbHostField.addEventListener('change', Joomla.resetDbEncryptionFields);
-			dbHostField.addEventListener('keyup', Joomla.resetDbEncryptionFields);
+          dbHostField.addEventListener('change', Joomla.resetDbEncryptionFields);
+          dbHostField.addEventListener('keyup', Joomla.resetDbEncryptionFields);
         }
       }
     });
