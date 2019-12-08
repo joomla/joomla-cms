@@ -63,14 +63,6 @@ class MetasRenderer extends DocumentRenderer
 			}
 		}
 
-		foreach ($wa->getAssets('preset', true) as $asset)
-		{
-			if ($asset instanceof WebAssetAttachBehaviorInterface)
-			{
-				$asset->onAttachCallback($this->_doc);
-			}
-		}
-
 		// Trigger the onBeforeCompileHead event
 		$app->triggerEvent('onBeforeCompileHead');
 
