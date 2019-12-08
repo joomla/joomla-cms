@@ -222,5 +222,5 @@ Joomla.resetDbEncryptionFields = function() {
       Joomla.checkInputs();
     })
   }
- 
+
 })();
