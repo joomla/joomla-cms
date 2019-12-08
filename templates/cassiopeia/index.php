@@ -30,8 +30,10 @@ $menu     = $app->getMenu()->getActive();
 $pageclass = $menu->getParams()->get('pageclass_sfx');
 
 // Enable assets
-$assetName = 'template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr');
-$wa->usePreset($assetName);
+$wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+	->useStyle('template.active.language')
+	->useStyle('template.user')
+	->useScript('template.user');
 
 // Preload the stylesheet for the font, actually we need to preload the font
 $this->getPreloadManager()->preload('https://fonts.googleapis.com/css?family=Fira+Sans:400', array('as' => 'stylesheet'));

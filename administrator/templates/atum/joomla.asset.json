@@ -29,7 +29,7 @@
       "client": "administrator"
     },
     {
-      "name": "template.atum.user",
+      "name": "template.user",
       "type": "style",
       "uri": "user.css"
     },
@@ -57,9 +57,7 @@
       "type": "preset",
       "dependencies": [
         "template.atum.base",
-        "template.atum.ltr#style",
-        "template.active.language#style",
-        "template.atum.user#style"
+        "template.atum.ltr#style"
       ]
     },
     {
@@ -67,9 +65,7 @@
       "type": "preset",
       "dependencies": [
         "template.atum.base",
-        "template.atum.rtl#style",
-        "template.active.language#style",
-        "template.atum.user#style"
+        "template.atum.rtl#style"
       ]
     }
   ]

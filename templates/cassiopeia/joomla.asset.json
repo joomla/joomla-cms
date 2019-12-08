@@ -10,6 +10,7 @@
       "type": "style",
       "uri": "template.min.css",
       "dependencies": [
+        "fontawesome",
         "template.cassiopeia.googlefont"
       ]
     },
@@ -18,8 +19,14 @@
       "type": "style",
       "uri": "template-rtl.min.css",
       "dependencies": [
+        "fontawesome",
         "template.cassiopeia.googlefont"
       ]
+    },
+    {
+      "name": "template.offline",
+      "type": "style",
+      "uri": "offline.css"
     },
     {
       "name": "template.active.language",
@@ -28,7 +35,7 @@
       "class": "LangActiveAssetItem"
     },
     {
-      "name": "template.cassiopeia.user",
+      "name": "template.user",
       "type": "style",
       "uri": "user.css"
     },
@@ -48,39 +55,26 @@
       ]
     },
     {
-      "name": "template.cassiopeia.user",
+      "name": "template.user",
       "type": "script",
       "uri":  "user.js",
       "dependencies": ["template.cassiopeia"]
     },
 
     {
-      "name": "template.cassiopeia.base",
-      "type": "preset",
-      "dependencies": [
-        "fontawesome#style",
-        "template.cassiopeia#script",
-        "template.cassiopeia.user#script"
-      ]
-    },
-    {
       "name": "template.cassiopeia.ltr",
       "type": "preset",
       "dependencies": [
-        "template.cassiopeia.base",
         "template.cassiopeia.ltr#style",
-        "template.active.language#style",
-        "template.cassiopeia.user#style"
+        "template.cassiopeia#script"
       ]
     },
     {
       "name": "template.cassiopeia.rtl",
       "type": "preset",
       "dependencies": [
-        "template.cassiopeia.base",
         "template.cassiopeia.rtl#style",
-        "template.active.language#style",
-        "template.cassiopeia.user#style"
+        "template.cassiopeia#script"
       ]
     }
   ]

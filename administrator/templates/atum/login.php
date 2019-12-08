@@ -48,8 +48,9 @@ $logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, '
 $logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8');
 
 // Enable assets
-$assetName = 'template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr');
-$wa->usePreset($assetName);
+$wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+	->useStyle('template.active.language')
+	->useStyle('template.user');
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');

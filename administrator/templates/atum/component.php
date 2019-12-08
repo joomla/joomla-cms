@@ -17,8 +17,9 @@ $lang = Factory::getLanguage();
 $wa   = $this->getWebAssetManager();
 
 // Enable assets
-$assetName = 'template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr');
-$wa->usePreset($assetName);
+$wa->useStyle('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+	->useStyle('template.active.language')
+	->useStyle('template.user');
 
 ?>
 
