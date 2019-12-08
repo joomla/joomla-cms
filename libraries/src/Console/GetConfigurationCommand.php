@@ -66,13 +66,13 @@ class GetConfigurationCommand extends AbstractCommand
 	 * @since 4.0
 	 */
 	const MAIL_GROUP = [
-				'name' => 'mail',
-				'options' => [
-					'mailonline', 'mailer', 'mailfrom',
-					'fromname', 'sendmail', 'smtpauth',
-					'smtpuser', 'smtppass', 'smtphost',
-					'smtpsecure', 'smtpport'
-				]
+		'name' => 'mail',
+		'options' => [
+			'mailonline', 'mailer', 'mailfrom',
+			'fromname', 'sendmail', 'smtpauth',
+			'smtpuser', 'smtppass', 'smtphost',
+			'smtpsecure', 'smtpport'
+		]
 	];
 
 	/**
@@ -146,9 +146,9 @@ class GetConfigurationCommand extends AbstractCommand
 	public function getGroups()
 	{
 		return [
-				self::DB_GROUP,
-				self::MAIL_GROUP,
-				self::SESSION_GROUP
+			self::DB_GROUP,
+			self::MAIL_GROUP,
+			self::SESSION_GROUP
 		];
 	}
 

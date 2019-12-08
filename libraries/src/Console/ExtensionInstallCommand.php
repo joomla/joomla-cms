@@ -201,12 +201,10 @@ EOF;
 
 				return self::INSTALLATION_FAILED;
 			}
-			else
-			{
-				$this->ioStyle->success('Extension installed successfully.');
 
-				return self::INSTALLATION_SUCCESSFUL;
-			}
+			$this->ioStyle->success('Extension installed successfully.');
+
+			return self::INSTALLATION_SUCCESSFUL;
 		}
 		elseif ($url = $this->cliInput->getOption('url'))
 		{
@@ -218,18 +216,14 @@ EOF;
 
 				return self::INSTALLATION_FAILED;
 			}
-			else
-			{
-				$this->ioStyle->success('Extension installed successfully.');
 
-				return self::INSTALLATION_SUCCESSFUL;
-			}
-		}
-		else
-		{
-			$this->ioStyle->error('Invalid argument supplied for command.');
+			$this->ioStyle->success('Extension installed successfully.');
 
-			return self::INSTALLATION_FAILED;
+			return self::INSTALLATION_SUCCESSFUL;
 		}
+
+		$this->ioStyle->error('Invalid argument supplied for command.');
+
+		return self::INSTALLATION_FAILED;
 	}
 }

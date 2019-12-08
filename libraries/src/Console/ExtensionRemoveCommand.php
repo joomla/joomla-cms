@@ -146,11 +146,9 @@ EOF;
 
 			return 0;
 		}
-		else
-		{
-			$this->ioStyle->warning('Invalid response');
 
-			return 2;
-		}
+		$this->ioStyle->warning('Invalid response');
+
+		return 2;
 	}
 }
