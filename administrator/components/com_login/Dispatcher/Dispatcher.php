@@ -37,6 +37,9 @@ class Dispatcher extends ComponentDispatcher
 			$this->input->set('task', '');
 		}
 
+		// Reset controller name
+		$this->input->set('controller', null);
+
 		parent::dispatch();
 	}
 

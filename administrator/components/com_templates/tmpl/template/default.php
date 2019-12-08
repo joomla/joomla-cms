@@ -22,7 +22,6 @@ HTMLHelper::_('script', 'com_templates/admin-template-toggle-switch.min.js', arr
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.tabstate');
 HTMLHelper::_('behavior.multiselect', 'updateForm');
 
 $input = Factory::getApplication()->input;
@@ -146,10 +145,10 @@ if ($this->type == 'font')
 					<?php foreach ($this->archive as $file) : ?>
 						<li>
 							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR) : ?>
-								<span class="fa-fw fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
+								<span class="fa fa-folder fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
-								<span class="fa-fw fa fa-file" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
+								<span class="fa fa-file fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>

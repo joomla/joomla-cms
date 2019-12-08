@@ -164,6 +164,7 @@ class GetConfigurationCommand extends AbstractCommand
 	public function formatConfig($configs)
 	{
 		$newConfig = [];
+
 		foreach ($configs as $key => $config)
 		{
 			$config = $config === false ? "false" : $config;
@@ -218,7 +219,7 @@ class GetConfigurationCommand extends AbstractCommand
 	{
 		if ($value === false)
 		{
-			return "false";
+			return 'false';
 		}
 		elseif ($value === true)
 		{
@@ -226,7 +227,7 @@ class GetConfigurationCommand extends AbstractCommand
 		}
 		elseif ($value === null)
 		{
-			return "Not Set";
+			return 'Not Set';
 		}
 		else
 		{
