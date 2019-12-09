@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ class ConfigControllerModulesSave extends JControllerBase
 	/**
 	 * Method to save module editing.
 	 *
-	 * @return  bool	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.2
 	 */
@@ -47,7 +47,7 @@ class ConfigControllerModulesSave extends JControllerBase
 		// Set FTP credentials, if given.
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		// Get sumitted module id
+		// Get submitted module id
 		$moduleId = '&id=' . $this->input->get('id');
 
 		// Get returnUri

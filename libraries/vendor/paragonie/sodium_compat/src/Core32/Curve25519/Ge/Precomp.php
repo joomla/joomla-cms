@@ -32,6 +32,8 @@ class ParagonIE_Sodium_Core32_Curve25519_Ge_Precomp
      * @param ParagonIE_Sodium_Core32_Curve25519_Fe $yplusx
      * @param ParagonIE_Sodium_Core32_Curve25519_Fe $yminusx
      * @param ParagonIE_Sodium_Core32_Curve25519_Fe $xy2d
+     * @throws SodiumException
+     * @throws TypeError
      */
     public function __construct(
         ParagonIE_Sodium_Core32_Curve25519_Fe $yplusx = null,

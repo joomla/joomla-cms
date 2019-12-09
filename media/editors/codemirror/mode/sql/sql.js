@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -21,7 +21,10 @@ CodeMirror.defineMode("sql", function(config, parserConfig) {
       operatorChars  = parserConfig.operatorChars || /^[*+\-%<>!=&|~^]/,
       support        = parserConfig.support || {},
       hooks          = parserConfig.hooks || {},
-      dateSQL        = parserConfig.dateSQL || {"date" : true, "time" : true, "timestamp" : true};
+      dateSQL        = parserConfig.dateSQL || {"date" : true, "time" : true, "timestamp" : true},
+      backslashStringEscapes = parserConfig.backslashStringEscapes !== false,
+      brackets       = parserConfig.brackets || /^[\{}\(\)\[\]]/,
+      punctuation    = parserConfig.punctuation || /^[;.,:]/
 
   function tokenBase(stream, state) {
     var ch = stream.next();
@@ -64,9 +67,6 @@ CodeMirror.defineMode("sql", function(config, parserConfig) {
       // charset casting: _utf8'str', N'str', n'str'
       // ref: http://dev.mysql.com/doc/refman/5.5/en/string-literals.html
       return "keyword";
-    } else if (/^[\(\),\;\[\]]/.test(ch)) {
-      // no highlighting
-      return null;
     } else if (support.commentSlashSlash && ch == "/" && stream.eat("/")) {
       // 1-line comment
       stream.skipToEnd();
@@ -95,7 +95,15 @@ CodeMirror.defineMode("sql", function(config, parserConfig) {
     } else if (operatorChars.test(ch)) {
       // operators
       stream.eatWhile(operatorChars);
-      return null;
+      return "operator";
+    } else if (brackets.test(ch)) {
+      // brackets
+      stream.eatWhile(brackets);
+      return "bracket";
+    } else if (punctuation.test(ch)) {
+      // punctuation
+      stream.eatWhile(punctuation);
+      return "punctuation";
     } else if (ch == '{' &&
         (stream.match(/^( )*(d|D|t|T|ts|TS)( )*'[^']*'( )*}/) || stream.match(/^( )*(d|D|t|T|ts|TS)( )*"[^"]*"( )*}/))) {
       // dates (weird ODBC syntax)
@@ -125,7 +133,7 @@ CodeMirror.defineMode("sql", function(config, parserConfig) {
           state.tokenize = tokenBase;
           break;
         }
-        escaped = !escaped && ch == "\\";
+        escaped = backslashStringEscapes && !escaped && ch == "\\";
       }
       return "string";
     };
@@ -193,7 +201,8 @@ CodeMirror.defineMode("sql", function(config, parserConfig) {
 
     blockCommentStart: "/*",
     blockCommentEnd: "*/",
-    lineComment: support.commentSlashSlash ? "//" : support.commentHash ? "#" : "--"
+    lineComment: support.commentSlashSlash ? "//" : support.commentHash ? "#" : "--",
+    closeBrackets: "()[]{}''\"\"``"
   };
 });
 
@@ -287,11 +296,14 @@ CodeMirror.defineMode("sql", function(config, parserConfig) {
 
   CodeMirror.defineMIME("text/x-mssql", {
     name: "sql",
-    client: set("charset clear connect edit ego exit go help nopager notee nowarning pager print prompt quit rehash source status system tee"),
-    keywords: set(sqlKeywords + "begin trigger proc view index for add constraint key primary foreign collate clustered nonclustered declare exec"),
+    client: set("$partition binary_checksum checksum connectionproperty context_info current_request_id error_line error_message error_number error_procedure error_severity error_state formatmessage get_filestream_transaction_context getansinull host_id host_name isnull isnumeric min_active_rowversion newid newsequentialid rowcount_big xact_state object_id"),
+    keywords: set(sqlKeywords + "begin trigger proc view index for add constraint key primary foreign collate clustered nonclustered declare exec go if use index holdlock nolock nowait paglock readcommitted readcommittedlock readpast readuncommitted repeatableread rowlock serializable snapshot tablock tablockx updlock with"),
     builtin: set("bigint numeric bit smallint decimal smallmoney int tinyint money float real char varchar text nchar nvarchar ntext binary varbinary image cursor timestamp hierarchyid uniqueidentifier sql_variant xml table "),
-    atoms: set("false true null unknown"),
-    operatorChars: /^[*+\-%<>!=]/,
+    atoms: set("is not null like and or in left right between inner outer join all any some cross unpivot pivot exists"),
+    operatorChars: /^[*+\-%<>!=^\&|\/]/,
+    brackets: /^[\{}\(\)]/,
+    punctuation: /^[;.,:/]/,
+    backslashStringEscapes: false,
     dateSQL: set("date datetimeoffset datetime2 smalldatetime datetime time"),
     hooks: {
       "@":   hookVar
@@ -434,7 +446,7 @@ CodeMirror.defineMode("sql", function(config, parserConfig) {
   // Spark SQL
   CodeMirror.defineMIME("text/x-sparksql", {
     name: "sql",
-    keywords: set("add after all alter analyze and anti archive array as asc at between bucket buckets by cache cascade case cast change clear cluster clustered codegen collection column columns comment commit compact compactions compute concatenate cost create cross cube current current_date current_timestamp database databases datata dbproperties defined delete delimited desc describe dfs directories distinct distribute drop else end escaped except exchange exists explain export extended external false fields fileformat first following for format formatted from full function functions global grant group grouping having if ignore import in index indexes inner inpath inputformat insert intersect interval into is items join keys last lateral lazy left like limit lines list load local location lock locks logical macro map minus msck natural no not null nulls of on option options or order out outer outputformat over overwrite partition partitioned partitions percent preceding principals purge range recordreader recordwriter recover reduce refresh regexp rename repair replace reset restrict revoke right rlike role roles rollback rollup row rows schema schemas select semi separated serde serdeproperties set sets show skewed sort sorted start statistics stored stratify struct table tables tablesample tblproperties temp temporary terminated then to touch transaction transactions transform true truncate unarchive unbounded uncache union unlock unset use using values view when where window with"),
+    keywords: set("add after all alter analyze and anti archive array as asc at between bucket buckets by cache cascade case cast change clear cluster clustered codegen collection column columns comment commit compact compactions compute concatenate cost create cross cube current current_date current_timestamp database databases datata dbproperties defined delete delimited deny desc describe dfs directories distinct distribute drop else end escaped except exchange exists explain export extended external false fields fileformat first following for format formatted from full function functions global grant group grouping having if ignore import in index indexes inner inpath inputformat insert intersect interval into is items join keys last lateral lazy left like limit lines list load local location lock locks logical macro map minus msck natural no not null nulls of on optimize option options or order out outer outputformat over overwrite partition partitioned partitions percent preceding principals purge range recordreader recordwriter recover reduce refresh regexp rename repair replace reset restrict revoke right rlike role roles rollback rollup row rows schema schemas select semi separated serde serdeproperties set sets show skewed sort sorted start statistics stored stratify struct table tables tablesample tblproperties temp temporary terminated then to touch transaction transactions transform true truncate unarchive unbounded uncache union unlock unset use using values view when where window with"),
     builtin: set("tinyint smallint int bigint boolean float double string binary timestamp decimal array map struct uniontype delimited serde sequencefile textfile rcfile inputformat outputformat"),
     atoms: set("false true null"),
     operatorChars: /^[*+\-%<>!=~&|^]/,
