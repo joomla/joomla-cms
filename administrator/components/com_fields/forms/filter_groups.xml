@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldprefix="Joomla\Component\Fields\Administrator\Field">
+<form>
 	<fieldset name="group">
 		<field
 			name="context"
 			type="fieldcontexts"
-			filtermode="selector"
 			onchange="this.form.submit();"
 		/>
 	</fieldset>
@@ -12,7 +11,7 @@
 		<field
 			name="search"
 			type="text"
-			inputmode="search"
+			description="COM_FIELDS_GROUPS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 			class="js-stools-search-string"
 		/>
@@ -20,7 +19,6 @@
 		<field
 			name="state"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -29,7 +27,6 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_SELECT_ACCESS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -38,7 +35,6 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_SELECT_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -62,8 +58,8 @@
 			<option value="a.title DESC">JGLOBAL_TITLE_DESC</option>
 			<option value="a.access ASC">JGRID_HEADING_ACCESS_ASC</option>
 			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
-			<option value="a.language ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
-			<option value="a.language DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="a.language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="a.language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
@@ -71,7 +67,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="JGLOBAL_LIST_LIMIT"
+			class="input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>
