@@ -1,0 +1,79 @@
+<?php
+/**
+ * @package     Acorn Template
+ * @subpackage
+ * @version     30-Sep-19
+ * @copyright   Copyright(c) 2016-2019 Troy T. Hall
+ * @license     GPL2
+ */
+defined('_JEXEC') or die;
+
+// insure mainbody is below header area
+/** @var string $nav_Location */
+/** @var $nav_Location */
+/** @var $menu_module */
+/** @var $nav_wide */
+/** @var $navbarBrand */
+/** @var $nav_style */
+
+?>
+<script type="text/javascript">
+    "use strict";
+    <!-- find out how high the header is -->
+    jQuery(document).ready(function () {
+        var bottom = jQuery('nav.navbar').outerHeight(true);
+        jQuery('#page').css({'margin-top': bottom});
+    });
+    <!--When window is resized we need to recompute the height-->
+    jQuery(window).resize(function () {
+        var bottom = jQuery('nav.navbar').outerHeight(true);
+        jQuery('#page').css({'margin-top': bottom});
+    })
+</script>
+
+<nav class="navbar <?php echo $nav_style . ' ' . $nav_Location; ?>">
+	<div class="<?php echo $nav_wide; ?>">
+		<div class="navigation">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button"  class="navbar-toggle"
+				        data-toggle="offcanvas" data-target=".navbar-offcanvas"
+				        data-canvas="body" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+
+				<?php if ($navbarBrand) { ?>
+					<!-- Brand -->
+					<div class="navbar-brand">
+						<jdoc:include type="modules" name="navbar-brand" style="html5" />
+					</div>
+				<?php } elseif ($logo) { ?>
+					<div class="logo">
+						<?php echo $logo; ?>
+					</div>
+				<?php } ?>
+			</div>
+			<!-- Collapsible Navbar -->
+			<div class="navbar-offcanvas offcanvas collapse navbar-collapse">
+				<jdoc:include type="modules" name="menu" style="none" />
+			</div>
+
+			<!-- social icons -->
+			<?php
+			if($socialiconsNav){
+				echo $socialiconsData;
+			};
+			?>
+
+			<?php if ($this->countModules('navbar')) : ?>
+				<div class="navbar-search hidden-xs">
+					<jdoc:include type="modules" name="navbar" style="bootstrap" />
+				</div>
+			<?php endif; ?>
+		</div>
+	</div>
+</nav>
+<div id='end-header' class="clearfix"></div>

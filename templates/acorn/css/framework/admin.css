@@ -1,0 +1,177 @@
+/*
+	Admin area styling
+ * @Created on : Jun 6, 2015, 9:59:03 PM
+ * @copyright   Copyright (C) 2015 Troy T. Hall All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+*/
+
+/* fonts */
+h1.acorn-intro {
+	color: #4a4a4a;
+	font-size: 32px;
+	font-weight: 900;
+	line-height: 1;
+	text-align: center;
+	text-shadow: 1px 1px 2px #aaa;
+	}
+
+/*_______________________ tabs style for joomla > 3 __________________________*/
+ul#myTabTabs li a {
+	background: #fff2f5;
+	background: -moz-linear-gradient(top, #f4f5f7 0%, #eaebed 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f4f5f7), color-stop(100%, #eaebed));
+	background: -o-linear-gradient(top, #f4f5f7, #eaebed);
+	background: linear-gradient(to bottom, #f4f5f7, #eaebed);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#F4F5F7', endColorstr='#EAEBED', GradientType=0);
+	-webkit-box-shadow: 0 2px 1px rgba(134, 134, 134, 0.12);
+	-moz-box-shadow: 0 2px 1px rgba(134, 134, 134, 0.12);
+	box-shadow: 0 2px 1px rgba(134, 134, 134, 0.12);
+	border: 1px solid #dedede;
+	color: #3c3c3d !important;
+	font-size: 11px;
+	text-transform: uppercase;
+	}
+
+ul#myTabTabs li.active a {
+	background: #00a5e4;
+	background: -moz-linear-gradient(top, #58a8f4 0%, #348ddf 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #58a8f4), color-stop(100%, #348ddf));
+	background: -o-linear-gradient(top, #58a8f4, #348ddf);
+	background: linear-gradient(to bottom, #58a8f4, #348ddf);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#58A8F4', endColorstr='#348DDF', GradientType=0);
+	-webkit-box-shadow: 0 2px 1px rgba(0, 0, 0, 0.19), 0 2px 1px rgba(255, 255, 255, 0.2) inset;
+	-moz-box-shadow: 0 2px 1px rgba(0, 0, 0, 0.19), 0 2px 1px rgba(255, 255, 255, 0.2) inset;
+	box-shadow: 0 2px 1px rgba(0, 0, 0, 0.19), 0 2px 1px rgba(255, 255, 255, 0.2) inset;
+	border: 1px solid #1f6db6;
+	color: #fff !important;
+	}
+
+/* EASTER EGG */
+i.acorn-intro:hover {
+	content: url('../../images/bear.jpg');
+	width: auto;
+	}
+
+i.acorn-intro {
+	content: url('../../images/logo.png');
+	height: 160px;
+	}
+
+/* controls layout of the logo information in the details tabs for the logo */
+.details {
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	}
+
+.light-gray {
+	background-color: lightgray !important;
+	}
+
+/* limits the width of the modal table */
+.tiny-input + [id*="jform_params"], [id*="jform_params"].tiny-input {
+	max-width: 60px !important;
+	}
+
+.small-input + [id*="jform_params"], [id*="jform_params"].small-input {
+	max-width: 90px !important;
+	}
+
+.medium-input + [id*="jform_params"], [id*="jform_params"].medium-input {
+	max-width: 120px !important;
+	}
+
+.large-input + [id*="jform_params"], [id*="jform_params"].large-input {
+	max-width: 150px !important;
+	}
+
+/* fonts column */
+[id*=jform_Font] {
+	max-width: 180px !important;
+	}
+
+/* set width by specified column
+ * THIS JFORM_ MUST END WITH THE NAME OF THE FIELD!!
+*/
+[id*=jform_Weight],
+[id*=jform_Style],
+[id*=jform_mainmenulinkDecoration],
+[id*=jform_mainmenuactiveDecoration],
+[id*=jform_mainmenuhoverDecoration],
+[id*=jform_mainmenuBorder],
+[id*=jform_mainmenuitemBorder],
+[id*=jform_logoAlignment],
+[id*=jform_mainmenuborderPlacement],
+[id*=jform_mainmenuborderStyle],
+[id*=jform_mainmenuitemborderPlacement],
+[id*=jform_mainmenuitemborderStyle],
+div#jform_mainmenudropdownDecoration_1_chzn,
+div#jform_mainmenudropdownhoverDecoration_1_chzn {
+	max-width: 120px !important;
+	}
+
+/**
+ * ==================================================
+ * Hide form controls for single line modals
+ * ==================================================
+ */
+table#jform_params_mainmenucolorParams_table .btn-group,
+table#jform_params_mainmenuborderParams_table .btn-group,
+table#jform_params_logoParams_table .btn-group,
+table#jform_params_headerParams_table .btn-group,
+table#jform_params_footerwideParams_table .btn-group,
+table#jform_params_footerParams_table .btn-group {
+	display: none;
+	}
+
+/* Move text in advanced params modal to left */
+button#jform_params_advancedParams_button {
+	text-align: left;
+	display: inline-flex;
+	}
+
+p.advancedparams {
+	text-align: left;
+	}
+
+/* temporary backend form height override J! ver 3.5.0 */
+div#jform_params_headerParams_modal,
+div#jform_params_footerParams_modal {
+	height: 50%;
+	}
+
+/* spacer hr */
+hr.spacer {
+	margin: .5em 0;
+	border-color: #e4e4e4;
+	}
+
+form#adminForm li > a, form#adminForm label.hasTooltip, form#adminForm input.hasTooltip, form#adminForm .chzn-container {
+	display: inline-block !important;
+	}
+
+
+/*
+	Subform Sections
+ */
+
+/* margin below Section name */
+.nav_extended_params legend {
+	margin-bottom: 0px;
+	}
+
+/* margin at bottom of section */
+.nav_extended_params {
+	margin-bottom: 20px;
+	}
+
+/* Left hand margin is stupid! Let's be reasonable! */
+#attrib-acorn_MAINMENU.active .subform-repeatable-wrapper.subform-table-layout {
+	margin-left: -80px;
+	}
+
+/* bottom margin for table layouts */
+td.nav_extended_params .controls {
+	margin-bottom: 8px;
+	}

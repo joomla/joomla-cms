@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css?family=Big+Shoulders+Text|Roboto|Yeon+Sung');
+/*
+font-family: 'Roboto', sans-serif;
+font-family: 'Big Shoulders Text', cursive;
+font-family: 'Yeon Sung', cursive;
+*/
+.navbar-header .logo img{ 
+	height: 90px;
+	min-height: 90px;
+	max-height: 90px;
+}
+.logo {
+	justify-self: start;
+	align-self: end;
+}
+nav.navbar.navbar-standard #nav-toggle{
+ padding-left: 0;
+ padding-right: 0;
+}
+nav.navbar.navbar-standard{
+	justify-content: center;
+	align-items: center;
+}
+ul.mm-list > .dropdown i.icon-arrow-down-3,
+ul.mm-list > .dropdown span.icon-arrow-down-3,
+ul.mm-list > .dropdown span.caret,
+ul.mm-list > .dropdown i.caret{
+	transform: rotate(-90deg);
+}
+span.fab.fa-facebook{
+ font-size: 20px;
+ line-height: 20px;
+ padding: 2px;
+}
+span.fab.fa-twitter{
+ font-size: 20px;
+ line-height: 20px;
+ padding: 2px;
+}
+span.fab.fa-youtube{
+ font-size: 20px;
+ line-height: 20px;
+ padding: 2px;
+}
+.header-col3{
+ flex-direction: row;
+}
+.socialicons{
+ justify-content: flex-end;
+ align-items: flex-start;
+}

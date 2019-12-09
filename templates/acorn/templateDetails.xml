@@ -1,0 +1,1454 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version = "3.8" type = "template" client = "site" method = "upgrade">
+    <name>acorn</name>
+    <creationDate>$file.lastModified</creationDate>
+    <copyright>Copyright (C) ${copyright_range} Troy T. Hall All rights reserved.</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <authorEmail>troy.hall@abivia.net</authorEmail>
+    <authorUrl>www.abivia.net</authorUrl>
+    <author>N6REJ</author>
+    <version>J3.9.2019.12.07</version>
+    <description>TPL_ACORN_XML_DESC</description>
+
+    <scriptfile>installer.php</scriptfile>
+
+    <files>
+        <filename>component.php</filename>
+        <filename>index.php</filename>
+        <filename>template_preview.png</filename>
+        <filename>template_thumbnail.png</filename>
+        <filename>templateDetails.xml</filename>
+        <filename>module-positions.jpg</filename>
+        <folder>css</folder>
+        <folder>framework</folder>
+        <folder>html</folder>
+        <folder>images</folder>
+        <folder>js</folder>
+        <folder>language</folder>
+        <folder>webfonts</folder>
+
+
+    </files>
+    <positions>
+        <position>pagetop</position>
+        <position>pagetop-wide</position>
+        <position>navbar-brand</position>
+        <position>navbar</position>
+        <position>above-media</position>
+        <position>above-media-wide</position>
+        <position>search</position>
+        <position>banner</position>
+        <position>menu</position>
+        <position>slideshow</position>
+        <position>slideshow-wide</position>
+        <position>jumbotron</position>
+        <position>jumbotron-wide</position>
+        <position>floor</position>
+        <position>floor-wide</position>
+        <position>row1</position>
+        <position>row1-wide</position>
+        <position>row2</position>
+        <position>row2-wide</position>
+        <position>breadcrumb</position>
+        <position>breadcrumb-wide</position>
+        <position>above</position>
+        <position>above-wide</position>
+        <position>above-content</position>
+        <position>below-content</position>
+        <position>testimonials</position>
+        <position>testimonials-wide</position>
+        <position>left</position>
+        <position>right</position>
+        <position>bottom</position>
+        <position>bottom-wide</position>
+        <position>footer</position>
+        <position>footer-wide</position>
+        <position>copyright</position>
+        <position>debug</position>
+    </positions>
+
+    <config>
+        <fields name = "params">
+            <fieldset name = "acorn_LOGOAREA">
+                <field
+                        name = "logoImage"
+                        class = ""
+                        type = "media"
+                        default = ""
+                        label = "TPL_ACORN_LOGO_IMAGE_LABEL"
+                        description = "TPL_ACORN_LOGO_IMAGE_DESC"
+                />
+                <field
+                        name = "favicon"
+                        class = ""
+                        type = "media"
+                        default = ""
+                        label = "TPL_ACORN_FAVICON_LABEL"
+                        description = "TPL_ACORN_FAVICON_DESC"
+                />
+                <field
+                        name = "logoaltText"
+                        type = "text"
+                        class = ""
+                        label = "TPL_ACORN_ALT_TEXT_LABEL"
+                        description = "TPL_ACORN_ALT_TEXT_DESC"
+                        default = ""
+                />
+                <field name = "spacer" type = "spacer" class = "spacer" hr = "true" />
+                <field
+                        name = "extendedlogoParams"
+                        type = "radio"
+                        class = "btn-group btn-group-yesno"
+                        default = "0"
+                        label = "TPL_ACORN_EXTENDED_LOGO_PARAMS_LABEL"
+                        description = "TPL_ACORN_EXTENDED_LOGO_PARAMS_DESC"
+                >
+                    <option value = "1">JYES</option>
+                    <option value = "0">JNO</option>
+                </field>
+
+                <field
+                        name = "logoWidth"
+                        type = "text"
+                        class = "small-input"
+                        showon = "extendedlogoParams:1"
+                        label = "TPL_ACORN_WIDTH_LABEL"
+                        description = "TPL_ACORN_NO_DESC"
+                        default = ""
+                />
+                <field
+                        name = "logoHeight"
+                        type = "text"
+                        class = "small-input"
+                        showon = "extendedlogoParams:1"
+                        label = "TPL_ACORN_HEIGHT_LABEL"
+                        description = "TPL_ACORN_NO_DESC"
+                        default = ""
+                />
+                <field
+                        name = "logoMargin"
+                        type = "text"
+                        class = "small-input"
+                        showon = "extendedlogoParams:1"
+                        label = "TPL_ACORN_MARGIN_LABEL"
+                        description = "TPL_ACORN_NO_DESC"
+                        default = ""
+                />
+                <field
+                        name = "logoPadding"
+                        type = "text"
+                        class = "small-input"
+                        showon = "extendedlogoParams:1"
+                        label = "TPL_ACORN_PADDING_LABEL"
+                        description = "TPL_ACORN_NO_DESC"
+                        default = ""
+                />
+                <field name = "logohorizontal_alignment"
+                       type = "list"
+                       class = "small-input"
+                       showon = "extendedlogoParams:1"
+                       label = "TPL_ACORN_LOGO_HORZ_ALIGNMENT_LABEL"
+                       description = "TPL_ACORN_NO_DESC"
+                       default = "start"
+                >
+                    <option value = "start">Left</option>
+                    <option value = "center">Center</option>
+                    <option value = "end">Right</option>
+                </field>
+                <field name = "logovertical_alignment"
+                       type = "list"
+                       class = "small-input"
+                       showon = "extendedlogoParams:1"
+                       label = "TPL_ACORN_LOGO_VERT_ALIGNMENT_LABEL"
+                       description = "TPL_ACORN_LOGO_VERT_ALIGNMENT_DESC"
+                       default = "end"
+                >
+                    <option value = "start">Top</option>
+                    <option value = "center">Middle</option>
+                    <option value = "end">Bottom</option>
+                </field>
+
+
+                <field
+                        name = "brandText"
+                        class = ""
+                        showon = "extendedlogoParams:1"
+                        type = "editor"
+                        buttons = "true"
+                        default = ""
+                        cols = "4"
+                        rows = "4"
+                        width = "300"
+                        height = "600"
+                        label = "TPL_ACORN_BRAND_TEXT_LABEL"
+                        description = "TPL_ACORN_BRAND_TEXT_DESC"
+                        filter = "safehtml"
+                />
+            </fieldset>
+
+
+            <fieldset name = "acorn_LAYOUT">
+
+                <field name = "templateTheme"
+                       type = "filelist"
+                       default = ""
+                       class = "small-input"
+                       directory = "templates/acorn/css/"
+                       filter = "css"
+                       stripext = "true"
+                       hide_none = "false"
+                       hide_default = "true"
+                       label = "TPL_ACORN_TEMPLATE_THEME_LABEL"
+                       description = "TPL_ACORN_TEMPLATE_THEME_DESC"
+                >
+                </field>
+                <field
+                        name = "noteSpacer"
+                        type = "note"
+                        class = "legend"
+                />
+                <field
+                        name = "sidebarLeftWidth"
+                        type = "list"
+                        default = "4"
+                        class = "small-input"
+                        label = "TPL_ACORN_SIDEBAR_LEFT_WIDTH_LABEL"
+                        description = "TPL_ACORN_SIDEBAR_LEFT_WIDTH_DESC"
+                >
+                    <option value = "2">TPL_ACORN_OPTION_SIDEBAR_LEFT_COLS2</option>
+                    <option value = "3">TPL_ACORN_OPTION_SIDEBAR_LEFT_COLS3</option>
+                    <option value = "4">TPL_ACORN_OPTION_SIDEBAR_LEFT_COLS4</option>
+                    <option value = "5">TPL_ACORN_OPTION_SIDEBAR_LEFT_COLS5</option>
+                </field>
+                <field
+                        name = "sidebarRightWidth"
+                        type = "list"
+                        default = "4"
+                        class = "small-input"
+                        label = "TPL_ACORN_SIDEBAR_RIGHT_WIDTH_LABEL"
+                        description = "TPL_ACORN_SIDEBAR_RIGHT_WIDTH_DESC"
+                >
+                    <option value = "2">TPL_ACORN_OPTION_SIDEBAR_RIGHT_COLS2</option>
+                    <option value = "3">TPL_ACORN_OPTION_SIDEBAR_RIGHT_COLS3</option>
+                    <option value = "4">TPL_ACORN_OPTION_SIDEBAR_RIGHT_COLS4</option>
+                    <option value = "5">TPL_ACORN_OPTION_SIDEBAR_RIGHT_COLS5</option>
+                    <option value = "6">TPL_ACORN_OPTION_SIDEBAR_RIGHT_COLS6</option>
+                </field>
+
+                <field
+                        name = "bodyclass"
+                        class = "small-input"
+                        type = "text"
+                        default = ""
+                        label = "TPL_ACORN_BODYCLASS_LABEL"
+                        description = "TPL_ACORN_BODYCLASS_DESC"
+                        filter = "string"
+                />
+                <field
+                        name = "bodytopMargin"
+                        class = "tiny-input"
+                        size = "6"
+                        type = "text"
+                        default = ""
+                        label = "TPL_ACORN_BODY_TOP_MARGIN_LABEL"
+                        description = "TPL_ACORN_BODY_TOP_MARGIN_DESC"
+                        filter = "string"
+                />
+                <field
+                        name = "customCSS"
+                        type = "radio"
+                        class = "btn-group btn-group-yesno"
+                        default = "0"
+                        label = "TPL_ACORN_CUSTOM_CSS_LABEL"
+                        description = "TPL_ACORN_CUSTOM_CSS_DESC"
+                >
+                    <option value = "1">JYES</option>
+                    <option value = "0">JNO</option>
+                </field>
+                <field
+                        name = "usecustomjsFiles"
+                        type = "radio"
+                        class = "btn-group btn-group-yesno"
+                        default = "0"
+                        label = "TPL_ACORN_USE_CUSTOM_JS_FILES_LABEL"
+                        description = "TPL_ACORN_USE_CUSTOM_JS_FILES_DESC"
+                >
+                    <option value = "1">JYES</option>
+                    <option value = "0">JNO</option>
+                </field>
+            </fieldset>
+            <fieldset name = "acorn_TYPOGRAPHY">
+                <field
+                        name = "typography"
+                        type = "subform"
+                        label = "TPL_ACORN_TYPOGRAPHY_SUBFORM_LABEL"
+                        description = "TPL_ACORN_TYPOGRAPHY_SUBFORM_DESC"
+                        multiple = "true"
+                        min = "1"
+                        max = "6"
+                        groupByFieldset = "true"
+                        layout = "joomla.form.field.subform.repeatable"
+                >
+                    <form>
+                        <fieldset name = "typography_H_element_section"
+                                  label = "TPL_ACORN_TYPOGRAPHY_H_SUBFORM_SELECT"
+                        >
+                            <field
+                                    name = "typographyElement"
+                                    type = "headertag"
+                                    class="tiny-input"
+                                    default="h3"
+                                    label = "TPL_ACORN_TYPOGRAPHY_SUBFORM_ELEMENT"
+                                    description = "TPL_ACORN_NO_DESC"
+                            >
+                            </field>
+                            <field
+                                    name = "typographyClass"
+                                    type = "text"
+                                    class="large-input"
+                                    default=""
+                                    label = "TPL_ACORN_CLASS_LABEL"
+                                    description = "TPL_ACORN_NO_DESC"
+                            >
+                            </field>
+                            <field
+                                    name = "typographyFont"
+                                    type = "text"
+                                    class = ""
+                                    label = "TPL_ACORN_FONT_NAME_LABEL"
+                                    description = "TPL_ACORN_FONT_NAME_DESC"
+                            />
+                            <field
+                                    name = "typographyColor"
+                                    type = "color"
+                                    class = "small-input"
+                                    label = "TPL_ACORN_TEXT_COLOR_LABEL"
+                                    description = "TPL_ACORN_NO_DESC"
+                            />
+                            <field
+                                    name = "typographyfontSize"
+                                    type = "text"
+                                    class = "tiny-input"
+                                    label = "TPL_ACORN_FONT_SIZE"
+                                    description = "TPL_ACORN_NO_DESC"
+                            />
+                            <field
+                                    name = "typographyMargin"
+                                    type = "text"
+                                    class = "tiny-input"
+                                    label = "TPL_ACORN_MARGIN_LABEL"
+                                    description = "TPL_ACORN_NO_DESC"
+                            />
+                            <field
+                                    name = "typographyPadding"
+                                    type = "small"
+                                    class = "tiny-input"
+                                    label = "TPL_ACORN_PADDING_LABEL"
+                                    description = "TPL_ACORN_NO_DESC"
+                            />
+                        </fieldset>
+                    </form>
+                </field>
+            </fieldset>
+            <fieldset name = "acorn_MAINMENU">
+                <field
+                        name = "nav_Location"
+                        type = "radio"
+                        class = "btn-group btn-group-yesno tiny-input"
+                        default = "navbar-standard"
+                        label = "TPL_ACORN_NAV_LOCATION_LABEL"
+                        description = "TPL_ACORN_NAV_LOCATION_DESC"
+                >
+                    <option value = "navbar-fixed-top">Sticky Top</option>
+                    <option value = "navbar-static-top">Top</option>
+                    <option value = "navbar-fixed-bottom">Bottom</option>
+                    <option value = "navbar-standard">Standard</option>
+                </field>
+                <field
+                        name = "nav_wide"
+                        type = "radio"
+                        class = "btn-group btn-group-yesno tiny-input"
+                        default = "container"
+                        label = "TPL_ACORN_NAV_WIDE_LABEL"
+                        description = "TPL_ACORN_NO_DESC"
+                >
+                    <option value = "container">Fixed</option>
+                    <option value = "container-fluid">Fluid</option>
+                </field>
+                <field
+                        name = "nav_style"
+                        type = "radio"
+                        class = "btn-group btn-group-yesno tiny-input"
+                        default = "navbar-default"
+                        label = "TPL_ACORN_NAV_STYLE_LABEL"
+                        description = "TPL_ACORN_NAV_STYLE_DESC"
+                >
+
+                    <option value = "navbar-default">JNO</option>
+                    <option value = "navbar-inverse">JYES</option>
+                </field>
+                <field name = "nav_horizontal_alignment"
+                       type = "radio"
+                       class = "btn-group tiny-input"
+                       label = "TPL_ACORN_NAV_HORZ_ALIGNMENT_LABEL"
+                       description = "TPL_ACORN_NAV_HORZ_ALIGNMENT_DESC"
+                       default = "flex-start"
+                >
+                    <option value = "flex-start">Left</option>
+                    <option value = "center">Center</option>
+                    <option value = "flex-end">Right</option>
+                </field>
+                <field name = "nav_vertical_alignment"
+                       type = "radio"
+                       class = "btn-group tiny-input"
+                       label = "TPL_ACORN_NAV_VERT_ALIGNMENT_LABEL"
+                       description = "TPL_ACORN_NAV_VERT_ALIGNMENT_DESC"
+                       default = "center"
+                       showon = "nav_Location:navbar-inline"
+                >
+                    <option value = "flex-start">Top</option>
+                    <option value = "center">Middle</option>
+                    <option value = "flex-end">Bottom</option>
+                </field>
+                <field name = "spacer" type = "spacer" class = "spacer" hr = "true" />
+                <field
+                        name = "extendedmainmenuParams"
+                        type = "radio"
+                        class = "btn-group btn-group-yesno"
+                        default = "0"
+                        label = "TPL_ACORN_EXTENDED_MAINMENU_PARAMS_LABEL"
+                        description = "TPL_ACORN_EXTENDED_MAINMENU_PARAMS_DESC"
+                >
+                    <option value = "1">JYES</option>
+                    <option value = "0">JNO</option>
+                </field>
+                <field
+                        name = "nav_extendedParams"
+                        type = "subform"
+                        multiple = "false"
+                        layout = "joomla.form.field.subform.repeatable-table"
+                        groupByFieldset = "true"
+                        showon = "extendedmainmenuParams:1"
+                        class = "subform-box"
+                        label = "TPL_ACORN_NO_DESC"
+                        min = "0"
+                        max = "1"
+                        description = "TPL_ACORN_NAV_COLOR_PARAMS_DESC"
+                >
+                    <form>
+                        <fieldset name = "nav_extended_area_section"
+                                  label = "TPL_ACORN_NAV_EXTENDED_AREA_LABEL"
+                                  class = "nav_extended_params">
+
+                            <field name = "nav_backgroundColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_NAV_BACKGROUND_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "nav_menubackgroundColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_NAV_MENU_BACKGROUND_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                                   validate = "color"
+                            >
+                            </field>
+                            <field name = "nav_activebackgroundColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_NAV_ACTIVE_BACKGROUND_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "nav_hoverbackgroundColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_NAV_HOVER_BACKGROUND_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "nav_textColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_TEXT_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "nav_texthoverColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_TEXT_HOVER_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                        </fieldset>
+                        <fieldset name = "nav_extended_link_section"
+                                  label = "TPL_ACORN_NAV_EXTENDED_LINKS_LABEL"
+                                  class = "nav_extended_params">
+
+                            <field name = "nav_linkColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_LINK_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "nav_linkhoverColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_LINK_HOVER_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+
+                            <field name = "nav_linkbackgroundColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_NAV_LINK_BACKGROUND_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "nav_linkhoverbackgroundColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_NAV_LINK_HOVER_BACKGROUND_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "nav_activeColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_ACTIVE_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "nav_activehoverColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_ACTIVE_HOVER_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                        </fieldset>
+                        <fieldset name = "nav_extended_dropdown_section"
+                                  label = "TPL_ACORN_NAV_EXTENDED_DROPDOWN_LABEL"
+                                  class = "nav_extended_params">
+
+                            <field name = "nav_dropdownbackgroundColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_NAV_DROPDOWN_BACKGROUND_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "nav_dropdownhoverbackgroundColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_NAV_DROPDOWN_HOVER_BACKGROUND_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "nav_dropdownColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_DROPDOWN_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "nav_dropdownhoverColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_NAV_DROPDOWN_HOVER_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "nav_dropdownlinkColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_NAV_DROPDOWN_LINK_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                        </fieldset>
+                        <fieldset name = "nav_extended_border_section"
+                                  label = "TPL_ACORN_NAV_EXTENDED_BORDER_AREA_LABEL"
+                                  class = "nav_extended_params">
+
+                            <field name = "nav_borderPlacement"
+                                   type = "list"
+                                   default = ""
+                                   class = ""
+                                   label = "TPL_ACORN_BORDER_PLACEMENT_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                                <option value = ''>- Select -</option>
+                                <option value = "top">Top</option>
+                                <option value = "right">Right</option>
+                                <option value = "bottom">Bottom</option>
+                                <option value = "left">Left</option>
+                                <option value = "topandbottom">Top and Bottom</option>
+                                <option value = "leftandright">Left and Right</option>
+                                <option value = "all">All</option>
+                                <option value = "none">None</option>
+                            </field>
+                            <field name = "nav_borderColor"
+                                   type = "color"
+                                   class = "small-input"
+                                   default = ""
+                                   label = "TPL_ACORN_BORDER_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                            </field>
+                            <field name = "nav_borderStyle"
+                                   type = "list"
+                                   class = ""
+                                   default = ""
+                                   label = "TPL_ACORN_BORDER_STYLE_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                                <option value = ''>- Select -</option>
+                                <option value = "none">none</option>
+                                <option value = "hidden">hidden</option>
+                                <option value = "dotted">dotted</option>
+                                <option value = "dashed">dashed</option>
+                                <option value = "solid">solid</option>
+                                <option value = "double">double</option>
+                                <option value = "groove">groove</option>
+                                <option value = "ridge">ridge</option>
+                                <option value = "inset">inset</option>
+                                <option value = "outset">outset</option>
+                                <option value = "initial">initial</option>
+                                <option value = "inherit">inherit</option>
+                            </field>
+                            <field name = "nav_borderSize"
+                                   type = "text"
+                                   class = "tiny-input"
+                                   label = "TPL_ACORN_BORDER_SIZE_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                        </fieldset>
+                        <fieldset name = "nav_extended_border_item_section"
+                                  label = "TPL_ACORN_NAV_EXTENDED_BORDER_ITEM_LABEL"
+                                  class = "nav_extended_params">
+
+                            <field name = "nav_itemborderPlacement"
+                                   type = "list"
+                                   default = ''
+                                   class = ""
+                                   label = "TPL_ACORN_NAV_ITEM_BORDER_PLACEMENT_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                                <option value = ''>- Select -</option>
+                                <option value = "top">Top</option>
+                                <option value = "right">Right</option>
+                                <option value = "bottom">Bottom</option>
+                                <option value = "left">Left</option>
+                                <option value = "topandbottom">Top and Bottom</option>
+                                <option value = "leftandright">Left and Right</option>
+                                <option value = "all">All</option>
+                                <option value = "none">None</option>
+                            </field>
+                            <field name = "nav_itemborderColor"
+                                   type = "color"
+                                   class = "small-input"
+                                   default = ""
+                                   label = "TPL_ACORN_NAV_ITEM_BORDER_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                            </field>
+                            <field name = "nav_itemborderStyle"
+                                   type = "list"
+                                   class = ""
+                                   default = ""
+                                   label = "TPL_ACORN_NAV_ITEM_BORDER_STYLE_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                                <option value = ''>- Select -</option>
+                                <option value = "none">none</option>
+                                <option value = "hidden">hidden</option>
+                                <option value = "dotted">dotted</option>
+                                <option value = "dashed">dashed</option>
+                                <option value = "solid">solid</option>
+                                <option value = "double">double</option>
+                                <option value = "groove">groove</option>
+                                <option value = "ridge">ridge</option>
+                                <option value = "inset">inset</option>
+                                <option value = "outset">outset</option>
+                                <option value = "initial">initial</option>
+                                <option value = "inherit">inherit</option>
+                            </field>
+                            <field name = "nav_itemborderSize"
+                                   type = "text"
+                                   class = "tiny-input"
+                                   label = "TPL_ACORN_NAV_ITEM_BORDER_SIZE_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "spacer" type = "spacer" class = "spacer" hr = "true" />
+                        </fieldset>
+                    </form>
+                </field>
+
+
+                <field name = "nav_itemHeight"
+                       default = ""
+                       type = "text"
+                       class = "small-input"
+                       showon = "extendedmainmenuParams:1"
+                       label = "TPL_ACORN_NAV_ITEM_HEIGHT_LABEL"
+                       description = "TPL_ACORN_NAV_ITEM_HEIGHT_DESC"
+                >
+                </field>
+                <field name = "nav_lineheight"
+                       default = ""
+                       type = "text"
+                       class = "small-input"
+                       showon = "extendedmainmenuParams:1"
+                       label = "TPL_ACORN_NAV_LINE_HEIGHT_LABEL"
+                       description = "TPL_ACORN_NAV_LINE_HEIGHT_DESC"
+                >
+                </field>
+                <field
+                        name = "icondownCaret"
+                        type = "text"
+                        class = ""
+                        default = "icon-arrow-down-3"
+                        label = "TPL_ACORN_ICON_DOWN_CARET_LABEL"
+                        description = "TPL_ACORN_ICON_DOWN_CARET_DESC"
+                />
+                <option value = '0'>JNO</option>
+                <option value = '1'>JYES</option>
+                <field
+                        name = "iconupCaret"
+                        type = "text"
+                        class = ""
+                        default = "icon-arrow-up-3"
+                        label = "TPL_ACORN_ICON_UP_CARET_LABEL"
+                        description = "TPL_ACORN_UP_DOWN_CARET_DESC"
+                />
+                <option value = '0'>JNO</option>
+                <option value = '1'>JYES</option>
+
+            </fieldset>
+            <fieldset name = "acorn_OFFCANVAS">
+                <field
+                        name = "iconhomeClass"
+                        type = "text"
+                        class = ""
+                        default = "glyphicon glyphicon-home"
+                        label = "TPL_ACORN_ICON_HOME_LABEL"
+                        description = "TPL_ACORN_ICON_CSS_CLASS"
+                />
+                <field
+                        name = "iconcloseClass"
+                        type = "text"
+                        class = ""
+                        default = "glyphicon glyphicon-remove-circle"
+                        label = "TPL_ACORN_ICON_CLOSE_LABEL"
+                        description = "TPL_ACORN_ICON_CSS_CLASS"
+                />
+                <field
+                        name = "iconhamburgerClass"
+                        type = "text"
+                        class = ""
+                        default = "glyphicon glyphicon-menu-hamburger"
+                        label = "TPL_ACORN_ICON_HAMBURGER_LABEL"
+                        description = "TPL_ACORN_ICON_CSS_CLASS"
+                />
+                <field
+                        name = "mmenuslide"
+                        type = "radio"
+                        class = "btn-group"
+                        default = "left"
+                        label = "TPL_ACORN_MMENUSLIDE_LABEL"
+                        description = "TPL_ACORN_MMENUSLIDE_DESC"
+                >
+                    <option value = "left">Left</option>
+                    <option value = "right">Right</option>
+                    <option value = "top">Top</option>
+                    <option value = "bottom">Bottom</option>
+                </field>
+                <field name = "mmenueffect"
+                       type = "radio"
+                       class = "btn-group"
+                       default = "behind"
+                       label = "TPL_ACORN_MMENUEFFECT_LABEL"
+                       description = "TPL_ACORN_MMENUEFFECT_DESC"
+                >
+                    <option value = "behind">Behind</option>
+                    <option value = "next">Next To</option>
+                    <option value = "front">In Front</option>
+                </field>
+                <field name = "mmenucolor"
+                       type = "radio"
+                       class = "btn-group"
+                       default = "mm-light"
+                       label = "TPL_ACORN_MMENUCOLOR_LABEL"
+                       description = "TPL_ACORN_MMENUCOLOR_DESC"
+                >
+                    <option value = "mm-gray">Dark Gray</option>
+                    <option value = "mm-light">Light</option>
+                    <option value = "mm-black">Black</option>
+                    <option value = "mm-white">White</option>
+                </field>
+
+                <field
+                        name = "mmenuheader"
+                        type = "radio"
+                        class = "btn-group"
+                        default = "true"
+                        label = "TPL_ACORN_MMENUHEADER_LABEL"
+                        description = "TPL_ACORN_MMENUHEADER_DESC"
+                >
+                    <option value = "true">Display</option>
+                    <option value = "false">Hide</option>
+                </field>
+
+                <field
+                        name = "mmenutitle"
+                        type = "text"
+                        class = ""
+                        default = "Menu"
+                        label = "TPL_ACORN_MMENUTITLE_LABEL"
+                        description = "TPL_ACORN_MMENUTITLE_DESC"
+                />
+                <field
+                        name = "mmenuhamburgerColor"
+                        type = "color"
+                        class = ""
+                        default = ""
+                        label = "TPL_ACORN_MMENU_HAMBURGER_COLOR_LABEL"
+                        description = "TPL_ACORN_MMENU_HAMBURGER_COLOR_DESC"
+                />
+                <field
+                        name = "mmenuhamburgerBackground"
+                        type = "color"
+                        class = ""
+                        default = ""
+                        label = "TPL_ACORN_MMENU_HAMBURGER_BACKGROUND_LABEL"
+                        description = "TPL_ACORN_MMENU_HAMBURGER_BACKGROUND_DESC"
+                />
+                <field
+                        name = "mmenuhamburgerSize"
+                        type = "text"
+                        class = ""
+                        default = ""
+                        label = "TPL_ACORN_MMENU_HAMBURGER_SIZE_LABEL"
+                        description = "TPL_ACORN_MMENU_HAMBURGER_SIZE_DESC"
+                />
+            </fieldset>
+            <fieldset name = "acorn_FOOTER">
+                <field
+                        name = "footer_extendedParams"
+                        type = "subform"
+                        multiple = "false"
+                        layout = "joomla.form.field.subform.repeatable-table"
+                        groupByFieldset = "true"
+                        class = "subform-box"
+                        label = "TPL_ACORN_NO_DESC"
+                        min = "0"
+                        max = "1"
+                        description = "TPL_ACORN_FOOTER_PARAMS_DESC"
+                >
+                    <form>
+                        <fieldset name = "footer_extended_section"
+                                  label = "TPL_ACORN_FOOTER_PARAMS_SELECT"
+                                  class = "footer_extended_params">
+
+                            <field name = "footerbackgroundColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_BACKGROUND_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "footertextColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_TEXT_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "footertexthoverColor"
+                                   type = "color"
+                                   label = "TPL_ACORN_TEXT_HOVER_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "footerlinkColor"
+                                   type = "color"
+                                   default = ""
+                                   label = "TPL_ACORN_LINK_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                            </field>
+                            <field name = "footerfontSize"
+                                   type = "text"
+                                   class = "tiny-input"
+                                   label = "TPL_ACORN_FONT_SIZE_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "footerMargin"
+                                   type = "text"
+                                   default = ""
+                                   class = "tiny-input"
+                                   label = "TPL_ACORN_MARGIN_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                            </field>
+                            <field name = "footerPadding"
+                                   type = "text"
+                                   class = "tiny-input"
+                                   default = ""
+                                   label = "TPL_ACORN_PADDING_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                            </field>
+                            <field name = "footerborderPlacement"
+                                   type = "list"
+                                   default = ""
+                                   class = ""
+                                   label = "TPL_ACORN_BORDER_PLACEMENT_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                                <option value = ''>- Select -</option>
+                                <option value = "top">Top</option>
+                                <option value = "right">Right</option>
+                                <option value = "bottom">Bottom</option>
+                                <option value = "left">Left</option>
+                                <option value = "topandbottom">Top and Bottom</option>
+                                <option value = "leftandright">Left and Right</option>
+                                <option value = "all">All</option>
+                                <option value = "none">None</option>
+                            </field>
+                            <field name = "footerborderColor"
+                                   type = "color"
+                                   class = ""
+                                   default = ""
+                                   label = "TPL_ACORN_BORDER_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                            </field>
+                            <field name = "footerborderStyle"
+                                   type = "list"
+                                   class = ""
+                                   default = ""
+                                   label = "TPL_ACORN_BORDER_STYLE_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                                <option value = ''>- Select -</option>
+                                <option value = "none">none</option>
+                                <option value = "hidden">hidden</option>
+                                <option value = "dotted">dotted</option>
+                                <option value = "dashed">dashed</option>
+                                <option value = "solid">solid</option>
+                                <option value = "double">double</option>
+                                <option value = "groove">groove</option>
+                                <option value = "ridge">ridge</option>
+                                <option value = "inset">inset</option>
+                                <option value = "outset">outset</option>
+                                <option value = "initial">initial</option>
+                                <option value = "inherit">inherit</option>
+                            </field>
+                            <field name = "footerborderSize"
+                                   type = "text"
+                                   class = "tiny-input"
+                                   default = ""
+                                   label = "TPL_ACORN_BORDER_SIZE_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                            </field>
+                        </fieldset>
+
+
+                        <fieldset name = "footer_extended_wide_section"
+                                  label = "TPL_ACORN_FOOTER_WIDE_PARAMS_SELECT"
+                                  class = "footer_extended_params">
+
+                            <field name = "footerwidebackgroundColor"
+                                   type = "color"
+                                   default = ""
+                                   label = "TPL_ACORN_BACKGROUND_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                            </field>
+                            <field name = "footerwidetextColor"
+                                   type = "color"
+                                   default = ""
+                                   label = "TPL_ACORN_TEXT_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                            </field>
+                            <field name = "footerwidehoverColor"
+                                   type = "color"
+                                   default = ""
+                                   label = "TPL_ACORN_TEXT_HOVER_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                            </field>
+                            <field name = "footerwidelinkColor"
+                                   type = "color"
+                                   default = ""
+                                   label = "TPL_ACORN_LINK_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                            </field>
+                            <field name = "footerwidefontSize"
+                                   type = "text"
+                                   class = "tiny-input"
+                                   label = "TPL_ACORN_FONT_SIZE_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                                   default = ""
+                            >
+                            </field>
+                            <field name = "footerwideMargin"
+                                   type = "text"
+                                   default = ""
+                                   class = "tiny-input"
+                                   label = "TPL_ACORN_MARGIN_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                            </field>
+                            <field name = "footerwidePadding"
+                                   type = "text"
+                                   class = "tiny-input"
+                                   default = ""
+                                   label = "TPL_ACORN_PADDING_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                            </field>
+                            <field name = "footerwideborderPlacement"
+                                   type = "list"
+                                   default = ""
+                                   class = ""
+                                   label = "TPL_ACORN_BORDER_PLACEMENT_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                                <option value = ''>- Select -</option>
+                                <option value = "top">Top</option>
+                                <option value = "right">Right</option>
+                                <option value = "bottom">Bottom</option>
+                                <option value = "left">Left</option>
+                                <option value = "topandbottom">Top and Bottom</option>
+                                <option value = "leftandright">Left and Right</option>
+                                <option value = "all">All</option>
+                                <option value = "none">None</option>
+                            </field>
+                            <field name = "footerwideborderColor"
+                                   type = "color"
+                                   class = ""
+                                   default = ""
+                                   label = "TPL_ACORN_BORDER_COLOR_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                            </field>
+                            <field name = "footerwideborderStyle"
+                                   type = "list"
+                                   class = ""
+                                   default = ""
+                                   label = "TPL_ACORN_BORDER_STYLE_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                                <option value = ''>- Select -</option>
+                                <option value = "none">none</option>
+                                <option value = "hidden">hidden</option>
+                                <option value = "dotted">dotted</option>
+                                <option value = "dashed">dashed</option>
+                                <option value = "solid">solid</option>
+                                <option value = "double">double</option>
+                                <option value = "groove">groove</option>
+                                <option value = "ridge">ridge</option>
+                                <option value = "inset">inset</option>
+                                <option value = "outset">outset</option>
+                                <option value = "initial">initial</option>
+                                <option value = "inherit">inherit</option>
+                            </field>
+                            <field name = "footerwideborderSize"
+                                   type = "text"
+                                   class = "tiny-input"
+                                   default = ""
+                                   label = "TPL_ACORN_BORDER_SIZE_LABEL"
+                                   description = "TPL_ACORN_NO_DESC"
+                            >
+                            </field>
+                        </fieldset>
+                    </form>
+                </field>
+            </fieldset>
+
+            <fieldset name = "acorn_COPYRIGHT">
+                <field
+                        name = "copyright"
+                        type = "radio"
+                        class = "btn-group btn-group-yesno"
+                        default = "0"
+                        label = "TPL_ACORN_COPYRIGHT_LABEL"
+                        description = "TPL_ACORN_COPYRIGHT_DESC"
+                >
+                    <option value = "1">JYES</option>
+                    <option value = "0">JNO</option>
+                </field>
+                <field
+                        name = "copyrightText"
+                        class = ""
+                        showon = "copyright:1"
+                        type = "editor"
+                        default = ""
+                        cols = "2"
+                        rows = "4"
+                        width = "300px"
+                        height = "300px"
+                        label = "TPL_ACORN_COPYRIGHT_TEXT_LABEL"
+                        filter = "safehtml"
+                />
+                <field name = "copyrightreplaceText"
+                       type = "text"
+                       showon = "copyright:1"
+                       default = "(c)"
+                       label = "TPL_ACORN_COPYRIGHT_REPLACEMENT_LABEL"
+                       description = "TPL_ACORN_COPYRIGHT_REPLACEMENT_DESC"
+                />
+                <field name = "copyrightstartYear"
+                       type = "number"
+                       showon = "copyright:1"
+                       default = "2015"
+                       label = "TPL_ACORN_COPYRIGHT_START_YEAR_LABEL"
+                       description = "TPL_ACORN_COPYRIGHT_START_YEAR"
+                />
+
+            </fieldset>
+            <fieldset name = "acorn_MISCELLANEOUS">
+                <field
+                        name = "setGeneratorTag"
+                        type = "text"
+                        default = "acorn 1.0 with Bootstrap 3"
+                        label = "TPL_ACORN_CUSTOMIZE_METATAG_OUTPUT_LABEL"
+                        description = "TPL_ACORN_CUSTOMIZE_METATAG_OUTPUT_DESC"
+                        size = "80"
+                />
+                <field
+                        name = "frontpageshow"
+                        type = "radio"
+                        class = "btn-group btn-group-yesno"
+                        default = "1"
+                        label = "TPL_ACORN_FRONTPAGESHOW_LABEL"
+                        description = "TPL_ACORN_FRONTPAGESHOW_DESC"
+                >
+                    <option value = "1">JYES</option>
+                    <option value = "0">JNO</option>
+                </field>
+                <field
+                        name = "usetagTitle"
+                        type = "radio"
+                        class = "btn-group btn-group-yesno"
+                        default = "0"
+                        label = "TPL_ACORN_USE_TAG_TITLE_LABEL"
+                        description = "TPL_ACORN_USE_TAG_TITLE_DESC"
+                >
+                    <option value = "1">JYES</option>
+                    <option value = "0">JNO</option>
+                </field>
+                <field name = "spacer" type = "spacer" class = "spacer" hr = "true" />
+                <field name = "gotop"
+                       type = "radio"
+                       class = "btn-group btn-group-yesno"
+                       default = "1"
+                       label = "TPL_ACORN_GOTOP_LABEL"
+                       description = "TPL_ACORN_GOTOP_DESC"
+                >
+                    <option value = "1">JYES</option>
+                    <option value = "0">JNO</option>
+                </field>
+                <field name = "gotopParams"
+                       type = "subform"
+                       showon = "gotop:1"
+                       label = "TPL_ACORN_NO_LABEL"
+                       description = "TPL_ACORN_NO_DESC"
+                       multiple = "false"
+                >
+
+                    <form>
+                        <field name = "gotopiconClass"
+                               type = "text"
+                               class = "small-input"
+                               size = "20"
+                               default = "glyphicon glyphicon-arrow-up"
+                               label = "TPL_ACORN_GOTOP_ICON_CLASS_LABEL"
+                               description = "TPL_ACORN_NO_DESC"
+                        />
+
+                        <field name = "gotopText"
+                               type = "text"
+                               class = "small-input"
+                               default = "Go To Top"
+                               label = "TPL_ACORN_GOTOP_TEXT_LABEL"
+                               description = "TPL_ACORN_NO_DESC"
+                        />
+                        <field name = "gotopColor"
+                               class = "small-input"
+                               label = "TPL_ACORN_FONT_COLOR_LABEL"
+                               description = "TPL_ACORN_NO_DESC"
+                               type = "color"
+                               default = ''
+                        />
+                        <field name = "gotopfontSize"
+                               type = "text"
+                               class = "tiny-input"
+                               default = ""
+                               label = "TPL_ACORN_FONT_SIZE_LABEL"
+                               description = "TPL_ACORN_NO_DESC"
+                        />
+                        <field name = "gotopbackgroundColor"
+                               class = "small-input"
+                               label = "TPL_ACORN_BACKGROUND_COLOR_LABEL"
+                               description = "TPL_ACORN_NO_DESC"
+                               type = "color"
+                               default = ''
+                        />
+                        <field name = "gotopbuttonClass"
+                               type = "text"
+                               class = "small-input"
+                               default = "btn-default"
+                               label = "TPL_ACORN_GOTOP_BUTTON_CLASS_LABEL"
+                               description = "TPL_ACORN_NO_DESC"
+                        />
+                        <field name = "gotopbuttonColor"
+                               class = "small-input"
+                               label = "TPL_ACORN_GOTOP_BUTTON_COLOR_LABEL"
+                               description = "TPL_ACORN_NO_DESC"
+                               type = "color"
+                               default = ''
+                        />
+                    </form>
+                </field>
+            </fieldset>
+
+            <fieldset name = "acorn_GOOGLE">
+                <field
+                        name = "gaId"
+                        type = "text"
+                        class = "medium-input"
+                        default = ""
+                        label = "TPL_ACORN_GA_LABEL"
+                        description = "TPL_ACORN_GA_DESC"
+                />
+                <field
+                        name = "googleMap"
+                        type = "radio"
+                        class = "btn-group btn-group-yesno"
+                        default = "1"
+                        label = "TPL_ACORN_MAP_LABEL"
+                        description = "TPL_ACORN_MAP_DESC"
+                >
+                    <option value = "1">JYES</option>
+                    <option value = "0">JNO</option>
+                </field>
+                <field
+                        name = "mapApi"
+                        type = "text"
+                        showon = "googleMap:1"
+                        default = "AIzaSyAnLWCZ-7fivVs20uOuGNf-2pYmeNv6luY"
+                        class = "xl-input"
+                        label = "TPL_ACORN_MAP_API_LABEL"
+                        description = "TPL_ACORN_MAP_API_DESC"
+                />
+                <field
+                        name = "mapWidth"
+                        type = "text"
+                        class = "tiny-input"
+                        default = "100%"
+                        showon = "googleMap:1"
+                        label = "TPL_ACORN_MAP_WIDTH_LABEL"
+                        description = "TPL_ACORN_MAP_WIDTH_DESC"
+                />
+                <field
+                        name = "mapHeight"
+                        type = "text"
+                        class = "tiny-input"
+                        default = "100%"
+                        showon = "googleMap:1"
+                        label = "TPL_ACORN_MAP_HEIGHT_LABEL"
+                        description = "TPL_ACORN_MAP_HEIGHT_DESC"
+                />
+                <field
+                        name = "maptopMargin"
+                        type = "text"
+                        class = "tiny-input"
+                        default = "20px"
+                        showon = "googleMap:1"
+                        label = "TPL_ACORN_MAP_TOP_MARGIN_LABEL"
+                        description = "TPL_ACORN_MAP_TOP_MARGIN_DESC"
+                />
+                <field
+                        name = "mapbottomMargin"
+                        type = "text"
+                        class = "tiny-input"
+                        default = "20px"
+                        showon = "googleMap:1"
+                        label = "TPL_ACORN_MAP_BOTTOM_MARGIN_LABEL"
+                        description = "TPL_ACORN_MAP_BOTTOM_MARGIN_DESC"
+                />
+                <field
+                        name = "useAddress"
+                        type = "radio"
+                        class = "btn-group btn-group-yesno"
+                        default = "1"
+                        showon = "googleMap:1"
+                        label = "TPL_ACORN_MAP_USE_ADDRESS_LABEL"
+                        description = "TPL_ACORN_USE_ADDRESS_DESC"
+                >
+                    <option value = "1">JYES</option>
+                    <option value = "0">JNO</option>
+                </field>
+                <field
+                        name = "useName"
+                        type = "radio"
+                        class = "btn-group btn-group-yesno"
+                        showon = "googleMap:1"
+                        default = "1"
+                        label = "TPL_ACORN_MAP_USE_NAME_LABEL"
+                        description = "TPL_ACORN_MAP_USE_NAME_DESC"
+                >
+                    <option value = "1">JYES</option>
+                    <option value = "0">JNO</option>
+                </field>
+
+                <field name = "googleFont"
+                       label = "TPL_ACORN_GOOGLE_FONT_URL_LABEL"
+                       description = "TPL_ACORN_GOOGLE_FONT_URL_DESC"
+                       class = "medium-input"
+                       filter = "SAFEHTML"
+                       type = "text"
+                       default = ''
+                />
+                <field name = "googlefontCSS"
+                       label = "TPL_ACORN_GOOGLE_FONT_CSS_LABEL"
+                       description = "TPL_ACORN_GOOGLE_FONT_CSS_DESC"
+                       type = "textarea"
+                       class = "large-input"
+                       filter = "string"
+                       rows = "6"
+                       cols = "70"
+                       hint = "TPL_ACORN_GOOGLE_FONT_CSS_HINT"
+                />
+            </fieldset>
+
+            <fieldset name = "acorn_SOCIAL">
+                <field name = "socialIcons"
+                       type = "radio"
+                       class = "btn-group btn-group-yesno"
+                       default = "0"
+                       label = "TPL_ACORN_SOCIALICONS_LABEL"
+                       description = "TPL_ACORN_SOCIALICONS_DESC"
+                >
+                    <option value = "1">JYES</option>
+                    <option value = "0">JNO</option>
+                </field>
+                <field name = "socialiconsLocation"
+                       type = "radio"
+                       showon = "socialIcons:1"
+                       class = "btn-group btn-group-yesno"
+                       default = "navbar"
+                       label = "TPL_ACORN_SOCIALICONS_LOCATION_LABEL"
+                       description = "TPL_ACORN_SOCIALICONS_LOCATION_DESC"
+                >
+                    <option value = "pagetop">Page Top</option>
+                    <option value = "navbar">Navbar</option>
+                    <option value = "footer">Footer</option>
+                </field>
+                <field name = "socialiconsRow"
+                       type = "radio"
+                       class = "btn-group"
+                       showon = "socialIcons:1"
+                       label = "TPL_ACORN_SOCIALICONS_ROW_LABEL"
+                       description = "TPL_ACORN_SOCIALICONS_ROW_DESC"
+                       default = "flex-start"
+                >
+                    <option value = "flex-start">Top</option>
+                    <option value = "center">Middle</option>
+                    <option value = "flex-end">Bottom</option>
+                </field>
+                <field name = "socialiconsColumn"
+                       type = "radio"
+                       class = "btn-group"
+                       showon = "socialIcons:1"
+                       label = "TPL_ACORN_SOCIALICONS_COLUMN_LABEL"
+                       description = "TPL_ACORN_SOCIALICONS_COLUMN_DESC"
+                       default = "flex-end"
+                >
+                    <option value = "flex-start">left</option>
+                    <option value = "center">Center</option>
+                    <option value = "flex-end">Right</option>
+                </field>
+                <field name = "socialiconscolumnReverse"
+                       type = "radio"
+                       class = "btn-group btn-group-yesno"
+                       default = "row"
+                       label = "TPL_ACORN_SOCIALICONS_COLUMN_REVERSE_LABEL"
+                       description = "TPL_ACORN_SOCIALICONS_COLUMN_REVERSE_DESC"
+                >
+                    <option value = "row">Row</option>
+                    <option value = "row-reverse">Row Reverse</option>
+                    <option value = "column">Column</option>
+                    <option value = "column-reverse">Column Reverse</option>
+
+                </field>
+                <field
+                        name = "socialiconSize"
+                        type = "text"
+                        size = "6"
+                        class = "tiny-input"
+                        filter = "string"
+                        label = "TPL_ACORN_ICON_SIZE_LABEL"
+                        description = "TPL_ACORN_NO_DESC"
+                />
+                <field name = "socialArray"
+                       type = "repeatable"
+                       label = "TPL_ACORN_NO_LABEL"
+                       description = "TPL_ACORN_NO_DESC"
+                       repeat = "true"
+                       class = "btn-group"
+                       showon = "socialIcons:1"
+                       select = "TPL_ACORN_SET_SOCIAL_ICONS_SELECT"
+
+                       default = '{"socialiconname":["Facebook","Twitter","Youtube","LinkedIn","Instagram","Pinterest","Flickr","Vimeo"],
+				"socialiconclass":["fab fa-facebook","fab fa-twitter","fab fa-youtube","fab fa-linkedin","fab fa-instagram","fab fa-pinterest","fab fa-flicker","fab fa-videmo"],
+				"socialiconurl":["","","","","","","",""]}'
+                >
+                    <fieldset hidden = "true" name = "socialArray_modal" repeat = "true">
+
+                        <field
+                                name = "socialiconname"
+                                type = "text"
+                                select = "TPL_ACORN_NAME_LABEL"
+                                description = "TPL_ACORN_NO_DESC"
+                        />
+                        <field
+                                name = "socialiconclass"
+                                type = "text"
+                                select = "TPL_ACORN_CLASS_LABEL"
+                                description = "TPL_ACORN_NO_DESC"
+                        />
+                        <field
+                                name = "socialiconurl"
+                                type = "url"
+                                select = "TPL_ACORN_URL_LABEL"
+                                description = "TPL_ACORN_NO_DESC"
+
+                        />
+                    </fieldset>
+
+                </field>
+            </fieldset>
+
+        </fields>
+    </config>
+</extension>

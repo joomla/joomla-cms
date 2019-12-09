@@ -1,0 +1,258 @@
+/**
+ * @package   Visario Joomla! 3.0 Template
+ * @version   1.0
+ * @author    7Studio Tomasz Herudzinski http://www.7studio.eu
+ * @copyright Copyright (C) 2009 - 2012 7Studio Tomasz Herudzinski
+ * @license   Commercial - ThemeForest Regular License - http://themeforest.net/licenses/regular_extended
+**/
+
+ /* Basics
+-----------------------------------------------------------------------------------*/
+body {
+	background-color: #ffffff;
+	line-height: 24px;
+	font-family: Arial, Helvetica, Sans Serif;
+	font-size: 12px;
+	color: #333333;
+}
+
+img  {
+	width: auto;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+form    { 
+	margin: auto; 
+}
+
+form p  { 
+	padding: 0; 
+}
+
+form fieldset { 
+	border: 0 none; 
+	margin: 0em; 
+	padding: 0.2em;
+}
+
+label  { 
+	display: block; 
+	float: left; 
+}
+
+input  { 
+	padding: 1px; 
+}
+
+label {
+	margin: 5px 0px 2px 0px; 
+	width: 10em;
+}
+
+form p  { 
+	padding: 0.2em 0 0.2em 0; 
+}
+
+form br  { 
+	display: none; 
+}
+
+input    { 
+	border: 1px solid #0E67A1; 
+}
+
+
+ /* Form Style
+-----------------------------------------------------------------------------------*/
+#frame {
+	overflow: hidden;
+	margin: 80px auto;
+	max-width: 350px;
+	padding: 30px;
+	border: 0;
+	background: transparent;
+}
+
+#frame h1 {
+	padding: 15px 18px; 
+	margin: 30px 5px 15px 5px; 
+	color: #222;  
+	font-size: 36px;
+	text-align: center;	
+}
+
+#frame .offline-msg {
+	color: #111;
+	text-align: center;
+	font-size: 16px;
+	line-height: 24px;
+	font-style: italic;
+	margin-top: 24px;
+	margin-bottom: 0;
+	padding: 15px 0;
+	border-top: 1px solid #f4f4f4;
+	border-bottom: 1px solid #f4f4f4;
+}
+ 
+textarea,
+input[type="text"],
+input[type="password"] {
+	padding: 18px; 
+	width: 300px; 
+	border: 1px solid #eaeaea;
+	border-top: 1px solid #d8d8d8;
+	-webkit-box-shadow: inset 0px 1px 2px 1px #F0F0F0;
+	   -moz-box-shadow: inset 0px 1px 2px 1px #F0F0F0;
+			box-shadow: inset 0px 1px 2px 1px #F0F0F0; 
+}
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus {
+	border-color: rgba(82, 168, 236, 0.8);
+	outline: 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+	   -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+			box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(82,168,236,.6);
+}
+
+#form-login-remember {
+	display: block;
+	width: 100%;
+	overflow: hidden;
+}
+
+#form-login-remember label {
+	width: auto; 
+	display: inline;
+	float: left;
+	font-size: 11px;
+}
+
+#form-login-remember input {
+	float: left;
+}
+
+#form-login-remember input[type="radio"],
+#form-login-remember input[type="checkbox"] {
+	margin: 10px 0 0 8px;
+	*margin-top: 0;
+	margin-top: 1px \9;
+	line-height: normal;
+}
+
+#form-login .btn {  
+	font-family: Arial, Helvetica, Sans Serif;
+	margin:0;
+	margin-top: 15px;
+	padding: 14px 30px;
+	border: 0;
+    color: #FFFFFF;  
+	cursor: pointer;
+	background: #008ae0;
+	-webkit-transition: all 200ms ease-in-out;
+	-moz-transition: all 200ms ease-in-out;
+	-o-transition: all 200ms ease-in-out;
+	transition: all 200ms ease-in-out;
+}  
+
+#form-login .btn:hover {
+	background: #000;
+}
+
+#form-login .offline-message-text { 
+	font-size: 14px;
+	color: #565656;
+	padding: 24px 10px;
+	border-top: 1px solid #f0f0f0; 
+	border-bottom: 1px solid #f0f0f0; 
+	margin-bottom:0px;
+}
+
+
+p#form-login-password label,
+p#form-login-username label {
+	font-weight: bold;
+	padding: 5px 0;
+	display: block;
+}
+
+ /* Alerts
+-----------------------------------------------------------------------------------*/
+.alert .close {
+	position: relative;
+	float: right;
+	top: -2px;
+	right: -21px;
+	line-height: 24px;
+	right: -40px;
+	font-size: 28px;
+	cursor: pointer;
+}
+
+.alert-block {
+	padding-top: 14px;
+	padding-bottom: 14px;
+}
+
+.alert-block > p,
+.alert-block > ul {
+	margin-bottom: 0;
+}
+
+.alert-block p + p {
+	margin-top: 5px;
+}
+
+.alert {
+	padding: 30px 60px;
+	margin-bottom: 24px;
+	font-size: 14px;
+	text-shadow: none;
+	background-color: #9cc902;
+	border: 0;
+}
+
+.alert p {
+	margin: 0;
+}
+
+.alert,
+.alert h4 {
+	color: #ffffff;
+	margin: 0;
+}
+
+.alert-warning,
+.alert-danger,
+.alert-error {
+	padding-left: 90px;
+	background-color: #e10000;
+	background-image: url(../../images/alert-error-icon.png);
+	background-repeat: no-repeat;
+	background-position: 15px 25px;
+	border-color: #e10000;
+	color: #ffffff;
+}
+
+.alert-info,
+.alert-notice {
+padding-left: 90px;
+	background-color: #0293c9;
+	background-image: url(../../images/alert-notice-icon.png);
+	background-repeat: no-repeat;
+	background-position: 15px 25px;
+}
+
+.alert-success,
+.alert-message {
+	padding-left: 90px;
+	background-image: url(../../images/alert-message-icon.png);
+	background-repeat: no-repeat;
+	background-position: 15px 25px;
+}
+
+
+

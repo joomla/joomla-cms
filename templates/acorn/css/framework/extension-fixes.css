@@ -1,0 +1,21 @@
+/*
+This is for extension specific hacks...
+Remove as extension is fixed.
+The reason to put them here is to keep our 
+"template" code pure.
+*/
+/* 
+    Created on : Mar 18, 2017, 3:55:36 PM
+    Author     : Bear
+*/
+
+/*	++++++++++++++++++++++++++
+		UNITE REVOLUTION
+	++++++++++++++++++++++++++ */
+/* revolution slider tweaks */
+.revolution .fullwidthbanner-container {
+	width: 100% !important;
+	}
+
+/* end - revolution slider tweaks */
+

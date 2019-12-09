@@ -1,0 +1,26 @@
+/*
+*	CSS FOR WHEN DEBUG IS ACTIVE.
+*/
+header {
+  border: 2px dotted purple; }
+
+.search {
+  border: 2px #75e4a5; }
+
+.navbar {
+  border: 1px dodgerblue solid; }
+
+.footer {
+  border: 1px dotted green; }
+
+.copyrightbar {
+  border: 1px dashed rebeccapurple; }
+
+.container, .container-fluid {
+  border: 1px dotted darkcyan; }
+
+.sidebar-left, .sidebar-right {
+  border: 1px dashed saddlebrown; }
+
+form {
+  border: 3px solid fuchsia; }

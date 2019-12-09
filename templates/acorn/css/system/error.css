@@ -1,0 +1,57 @@
+body {
+	height: 100%;
+	background-image: url('../../images/error-background.jpg');
+	background-position: center center;
+	background-repeat:  no-repeat;
+	background-attachment: fixed;
+	background-size: 100% 100%;
+}
+.panel-footer{
+	background-color: #F0F0F0;
+}
+.jumbotron{
+	background: transparent;	
+}
+
+#debug.btn-danger, a.btn-danger{
+	padding: 8px;
+}
+h1, h2, h3 {
+	text-align: center;
+}
+
+
+h2 {
+	font-size: 46px;
+	line-height: 60px;
+}
+
+h3 {
+	font-size: 23px;
+	line-height: 36px;
+	margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+
+	h2 {
+		font-size: 36px;
+		line-height: 48px;
+
+	}
+
+	h3 {
+		font-size: 18px;
+		line-height: 30px;
+	}
+}
+
+/* url is wrong when used in error.php from bootstrap.css */
+@font-face {
+  font-family: 'Glyphicons Halflings';
+	src: url('/templates/acorn/webfonts/glyphicons-halflings-regular.eot');
+	src: url('/templates/acorn/webfonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('/templates/acorn/webfonts/glyphicons-halflings-regular.woff2') format('woff2'), url('/templates/acorn/webfonts/glyphicons-halflings-regular.woff') format('woff'), url('/templates/acorn/webfonts/glyphicons-halflings-regular.ttf') format('truetype'), url('/templates/acorn/webfonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
+/* Move glyphicon down slightly to better center it */
+.glyphicon{ top: 4px;}
