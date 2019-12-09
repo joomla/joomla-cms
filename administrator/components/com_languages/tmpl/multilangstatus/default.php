@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$notice_homes     = $this->homes == 2 || $this->homes == 1 || $this->homes - 1 != count($this->contentlangs) && ($this->language_filter || $this->switchers != 0);
 $notice_disabled  = !$this->language_filter && ($this->homes > 1 || $this->switchers != 0);
 $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_filter);
 
@@ -41,13 +40,6 @@ $home_pages        = array_column($this->homepages, 'language');
 				<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_DEFAULT_HOME_MODULE_PUBLISHED'); ?>
-			</div>
-		<?php endif; ?>
-		<?php if ($notice_homes) : ?>
-			<div class="alert alert-warning">
-				<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_MISSING'); ?>
 			</div>
 		<?php endif; ?>
 		<?php foreach ($this->statuses as $status) : ?>
