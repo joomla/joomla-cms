@@ -35,6 +35,23 @@ $home_pages        = array_column($this->homepages, 'language');
 			</div>
 		<?php endif; ?>
 	<?php else : ?>
+		<?php if (!in_array($this->default_lang, $content_languages)) : ?>
+			<div class="alert alert-error">
+				<span class="fa fa-exclamation" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
+				<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_DEFAULT_CONTENT_LANGUAGE', $this->default_lang); ?>
+			</div>
+		<?php else : ?>
+			<?php foreach ($this->contentlangs as $contentlang) : ?>
+				<?php if ($contentlang->lang_code == $this->default_lang && $contentlang->published != 1) : ?>
+					<div class="alert alert-error">
+						<span class="fa fa-exclamation" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
+						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_DEFAULT_CONTENT_LANGUAGE', $this->default_lang); ?>
+					</div>
+				<?php endif; ?>
+			<?php endforeach; ?>
+		<?php endif; ?>
 		<?php if ($this->defaultHome == true) : ?>
 			<div class="alert alert-warning">
 				<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
@@ -75,7 +92,7 @@ $home_pages        = array_column($this->homepages, 'language');
 			</div>
 		<?php endif; ?>
 		<?php foreach ($this->contentlangs as $contentlang) : ?>
-			<?php if (array_key_exists($contentlang->lang_code, $this->homepages) && (!array_key_exists($contentlang->lang_code, $this->site_langs) || $contentlang->published !== 1)) : ?>
+			<?php if (array_key_exists($contentlang->lang_code, $this->homepages) && (!array_key_exists($contentlang->lang_code, $this->site_langs) || $contentlang->published != 1)) : ?>
 				<div class="alert alert-warning">
 					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
 					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
