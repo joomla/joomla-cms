@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -59,9 +60,11 @@ class BannerTable extends Table
 	 */
 	public function clicks()
 	{
-		$query = 'UPDATE #__banners'
-			. ' SET clicks = (clicks + 1)'
-			. ' WHERE id = ' . (int) $this->id;
+		$query = $this->_db->getQuery(true)
+			->update($this->_db->quoteName('#__banners'))
+			->set($this->_db->quoteName('clicks') . ' = ' . $this->_db->quoteName('clicks') . ' + 1')
+			->where($this->_db->quoteName('id') . ' = :id')
+			->bind(':id', $this->id, ParameterType::INTEGER);
 
 		$this->_db->setQuery($query);
 		$this->_db->execute();
