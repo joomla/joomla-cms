@@ -75,10 +75,14 @@ class BannersModel extends ListModel
 		{
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
-				->select('MAX(ordering) as ' . $db->quoteName('max') . ', catid')
-				->select('catid')
-				->from('#__banners')
-				->group('catid');
+				->select(
+					[
+						'MAX(' . $db->quoteName('ordering') . ') AS ' . $db->quoteName('max'),
+						$db->quoteName('catid'),
+					]
+				)
+				->from($db->quoteName('#__banners'))
+				->group($db->quoteName('catid'));
 			$db->setQuery($query);
 			$this->cache['categoryorders'] = $db->loadAssocList('catid', 0);
 		}
