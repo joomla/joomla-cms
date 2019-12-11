@@ -105,7 +105,7 @@ class ClientTable extends Table
 				],
 				'OR'
 			)
-			->bind(':userId', $userId, ParameterType::INTEGER);
+				->bind(':userId', $userId, ParameterType::INTEGER);
 		}
 
 		// Update the publishing state for rows with the given primary keys.
