@@ -60,11 +60,12 @@ class BannerTable extends Table
 	 */
 	public function clicks()
 	{
+		$id    = (int) $this->id;
 		$query = $this->_db->getQuery(true)
 			->update($this->_db->quoteName('#__banners'))
 			->set($this->_db->quoteName('clicks') . ' = ' . $this->_db->quoteName('clicks') . ' + 1')
 			->where($this->_db->quoteName('id') . ' = :id')
-			->bind(':id', $this->id, ParameterType::INTEGER);
+			->bind(':id', $id, ParameterType::INTEGER);
 
 		$this->_db->setQuery($query);
 		$this->_db->execute();
@@ -135,7 +136,7 @@ class BannerTable extends Table
 		elseif (empty($this->ordering))
 		{
 			// Set ordering to last if ordering was 0
-			$this->ordering = self::getNextOrder($this->_db->quoteName('catid') . '=' . $this->_db->quote($this->catid) . ' AND state>=0');
+			$this->ordering = self::getNextOrder($this->_db->quoteName('catid') . ' = ' . ((int) $this->catid) . ' AND ' . $this->_db->quoteName('state') . ' >= 0');
 		}
 
 		// Set modified to created if not set
@@ -284,7 +285,7 @@ class BannerTable extends Table
 			if ($oldrow->state >= 0 && ($this->state < 0 || $oldrow->catid != $this->catid))
 			{
 				// Reorder the oldrow
-				$this->reorder($this->_db->quoteName('catid') . '=' . $this->_db->quote($oldrow->catid) . ' AND state>=0');
+				$this->reorder($this->_db->quoteName('catid') . ' = ' . ((int) $oldrow->catid) . ' AND ' . $this->_db->quoteName('state') . ' >= 0');
 			}
 		}
 
