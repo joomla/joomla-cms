@@ -220,7 +220,7 @@ class BannersModel extends ListModel
 		{
 			if ($orderCol === 'client_name')
 			{
-				$orderCol === 'cl.name';
+				$orderCol = 'cl.name';
 			}
 
 			$ordering = $db->quoteName($db->escape($orderCol)) . ' ' . $db->escape($orderDirn);
