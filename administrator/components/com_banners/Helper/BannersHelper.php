@@ -45,7 +45,7 @@ class BannersHelper extends ContentHelper
 			->from($db->quoteName('#__banners'))
 			->where(
 				[
-					':date >= ' . $db->quoteName('reset'),
+					$db->quoteName('reset') . ' <= :date',
 					$db->quoteName('reset') . ' IS NOT NULL',
 				]
 			)
