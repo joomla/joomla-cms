@@ -87,7 +87,7 @@ class ClientTable extends Table
 			}
 		}
 
-		// Build the WHERE clause for the primary keys.
+		// Update the publishing state for rows with the given primary keys.
 		$query = $this->_db->getQuery(true)
 			->update($this->_db->quoteName($this->_tbl))
 			->set($this->_db->quoteName('state') . ' = :state')
@@ -108,7 +108,6 @@ class ClientTable extends Table
 				->bind(':userId', $userId, ParameterType::INTEGER);
 		}
 
-		// Update the publishing state for rows with the given primary keys.
 		$this->_db->setQuery($query);
 
 		try
