@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 
 /**
  * Methods supporting a list of banner records.
@@ -144,7 +145,9 @@ class BannersModel extends ListModel
 
 		if (is_numeric($published))
 		{
-			$query->where($db->quoteName('a.state') . ' = ' . (int) $published);
+			$published = (int) $published;
+			$query->where($db->quoteName('a.state') . ' = :published')
+				->bind(':published', $published, ParameterType::INTEGER);
 		}
 		elseif ($published === '')
 		{
@@ -156,7 +159,9 @@ class BannersModel extends ListModel
 
 		if (is_numeric($categoryId))
 		{
-			$query->where($db->quoteName('a.catid') . ' = ' . (int) $categoryId);
+			$categoryId = (int) $categoryId;
+			$query->where($db->quoteName('a.catid') . ' = :categoryId')
+				->bind(':categoryId', $categoryId, ParameterType::INTEGER);
 		}
 
 		// Filter by client.
@@ -164,52 +169,64 @@ class BannersModel extends ListModel
 
 		if (is_numeric($clientId))
 		{
-			$query->where($db->quoteName('a.cid') . ' = ' . (int) $clientId);
+			$clientId = (int) $clientId;
+			$query->where($db->quoteName('a.cid') . ' = :clientId')
+				->bind(':clientId', $clientId, ParameterType::INTEGER);
 		}
 
 		// Filter by search in title
-		$search = $this->getState('filter.search');
-
-		if (!empty($search))
+		if ($search = $this->getState('filter.search'))
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where($db->quoteName('a.id') . ' = ' . (int) substr($search, 3));
+				$search = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :search')
+					->bind(':search', $search, ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.name LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
+				$search = '%' . str_replace(' ', '%', trim($search)) . '%';
+				$query->where('(' . $db->quoteName('a.name') . ' LIKE :search1 OR ' . $db->quoteName('a.alias') . ' LIKE :search2)')
+					->bind([':search1', ':search2'], $search);
 			}
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
+			$query->where($db->quoteName('a.language') . ' = :language')
+				->bind(':language', $language);
 		}
 
 		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
+		if ($level = (int) $this->getState('filter.level'))
 		{
-			$query->where($db->quoteName('c.level') . ' <= ' . (int) $level);
+			$query->where($db->quoteName('c.level') . ' <= :level')
+				->bind(':level', $level, ParameterType::INTEGER);
 		}
 
 		// Add the list ordering clause.
 		$orderCol  = $this->state->get('list.ordering', 'a.name');
 		$orderDirn = $this->state->get('list.direction', 'ASC');
 
-		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
+		if ($orderCol === 'a.ordering' || $orderCol === 'category_title')
 		{
-			$orderCol = 'c.title ' . $orderDirn . ', a.ordering';
+			$ordering = [
+				$db->quoteName('c.title') . ' ' . $db->escape($orderDirn),
+				$db->quoteName('a.ordering') . ' ' . $db->escape($orderDirn),
+			];
+		}
+		else
+		{
+			if ($orderCol === 'client_name')
+			{
+				$orderCol === 'cl.name';
+			}
+
+			$ordering = $db->quoteName($db->escape($orderCol)) . ' ' . $db->escape($orderDirn);
 		}
 
-		if ($orderCol == 'client_name')
-		{
-			$orderCol = 'cl.name';
-		}
-
-		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		$query->order($ordering);
 
 		return $query;
 	}
