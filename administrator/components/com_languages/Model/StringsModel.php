@@ -93,13 +93,16 @@ class StringsModel extends BaseDatabaseModel
 		{
 			$strings = LanguagesHelper::parseFile($file);
 
-			if ($strings && count($strings))
+			if ($strings)
 			{
-				$query->clear('values');
+				$file = Path::clean($file);
+
+				$query->clear('values')
+					->clear('bounded');
 
 				foreach ($strings as $key => $string)
 				{
-					$query->values($db->quote($key) . ',' . $db->quote($string) . ',' . $db->quote(Path::clean($file)));
+					$query->values(implode(',', $query->bindArray([$key, $string, $file], ParameterType::STRING)));
 				}
 
 				try
