@@ -129,12 +129,7 @@ class LanguagesModel extends ListModel
 				'LEFT',
 				$db->quoteName('#__menu', 'l'),
 				$db->quoteName('l.language') . ' = ' . $db->quoteName('a.lang_code')
-			)
-			->where(
-				[
-					$db->quoteName('l.home'). ' = 1',
-					$db->quoteName('l.language') . ' <> ' . $db->quote('*'),
-				]
+					. 'AND ' . $db->quoteName('l.home'). ' = 1 AND ' . $db->quoteName('l.language') . ' <> ' . $db->quote('*')
 			);
 
 		// Filter on the published state.
