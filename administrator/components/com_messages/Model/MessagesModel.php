@@ -153,7 +153,7 @@ class MessagesModel extends ListModel
 				'AND',
 				[
 					$db->quoteName('a.subject') . ' LIKE :subject',
-					$db->quoteName('a.message') . ' LIKE :message ',
+					$db->quoteName('a.message') . ' LIKE :message',
 				],
 				'OR'
 			)
