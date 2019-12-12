@@ -294,15 +294,17 @@ abstract class MultilangstatusHelper
 			->from($db->quoteName('#__modules'))
 			->where(
 				[
-					$db->quoteName('module') . ' = ' . $db->quote($moduleName),
+					$db->quoteName('module') . ' = :module',
 					$db->quoteName('published') . ' = 1',
 					$db->quoteName('client_id') . ' = 0',
 				]
-			);
+			)
+			->bind(':module', $moduleName);
 
 		if ($instanceTitle)
 		{
-			$query->where($db->quoteName('title') . ' = ' . $db->quote($instanceTitle));
+			$query->where($db->quoteName('title') . ' = :title')
+				->bind(':title', $instanceTitle);
 		}
 
 		$db->setQuery($query);
