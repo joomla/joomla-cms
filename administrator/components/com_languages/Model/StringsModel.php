@@ -17,6 +17,7 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Languages Strings Model
@@ -52,7 +53,13 @@ class StringsModel extends BaseDatabaseModel
 		// Create the insert query.
 		$query = $db->getQuery(true)
 			->insert($db->quoteName('#__overrider'))
-			->columns('constant, string, file');
+			->columns(
+				[
+					$db->quoteName('constant'),
+					$db->quoteName('string'),
+					$db->quoteName('file'),
+				]
+			);
 
 		// Initialize some variables.
 		$client   = $app->getUserState('com_languages.overrides.filter.client', 'site') ? 'administrator' : 'site';
@@ -132,21 +139,29 @@ class StringsModel extends BaseDatabaseModel
 
 		try
 		{
-			$searchstring = $db->quote('%' . $filter->clean($searchTerm, 'TRIM') . '%');
+			$searchstring = '%' . $filter->clean($searchTerm, 'TRIM') . '%';
 
 			// Create the search query.
 			$query = $db->getQuery(true)
-				->select('constant, string, file')
+				->select(
+					[
+						$db->quoteName('constant'),
+						$db->quoteName('string'),
+						$db->quoteName('file'),
+					]
+				)
 				->from($db->quoteName('#__overrider'));
 
-			if ($input->get('searchtype') == 'constant')
+			if ($input->get('searchtype') === 'constant')
 			{
-				$query->where('constant LIKE ' . $searchstring);
+				$query->where($db->quoteName('constant') . ' LIKE :search');
 			}
 			else
 			{
-				$query->where('string LIKE ' . $searchstring);
+				$query->where($db->quoteName('string') . ' LIKE :search');
 			}
+
+			$query->bind(':search', $searchstring);
 
 			// Consider the limitstart according to the 'more' parameter and load the results.
 			$query->setLimit(10, $limitstart);
@@ -154,8 +169,9 @@ class StringsModel extends BaseDatabaseModel
 			$results['results'] = $db->loadObjectList();
 
 			// Check whether there are more results than already loaded.
-			$query->clear('select')->clear('limit')
-				->select('COUNT(id)');
+			$query->clear('select')
+				->clear('limit')
+				->select('COUNT(' . $db->quoteName('id') . ')');
 			$db->setQuery($query);
 
 			if ($db->loadResult() > $limitstart + 10)
