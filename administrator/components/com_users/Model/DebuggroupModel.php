@@ -232,8 +232,10 @@ class DebuggroupModel extends ListModel
 			$search = '%' . trim($this->getState('filter.search')) . '%';
 
 			// Add the clauses to the query.
-			$query->where($db->quoteName('a.name') . ' LIKE :name')
-				->orWhere($db->quoteName('a.title') . ' LIKE :title')
+			$query->where(
+				'(' . $db->quoteName('a.name') . ' LIKE :name'
+				. ' OR ' . $db->quoteName('a.title') . ' LIKE :title)'
+			)
 				->bind(':name', $search)
 				->bind(':title', $search);
 		}
@@ -264,8 +266,10 @@ class DebuggroupModel extends ListModel
 		{
 			$component  = $this->getState('filter.component');
 			$lcomponent = $component . '%';
-			$query->where($db->quoteName('a.name') . ' = :component')
-				->orWhere($db->quoteName('a.name') . ' LIKE :lcomponent')
+			$query->where(
+				'(' . $db->quoteName('a.name') . ' = :component'
+				. ' OR ' . $db->quoteName('a.name') . ' LIKE :lcomponent)'
+			)
 				->bind(':component', $component)
 				->bind(':lcomponent', $lcomponent);
 		}
