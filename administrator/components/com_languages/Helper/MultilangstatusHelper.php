@@ -86,11 +86,11 @@ abstract class MultilangstatusHelper
 		$query = $db->getQuery(true)
 			->select(
 				[
-					$db->quoteName('a.lang_code', 'lang_code'),
-					$db->quoteName('a.published', 'published'),
+					$db->quoteName('lang_code'),
+					$db->quoteName('published'),
 				]
 			)
-			->from($db->quoteName('#__languages', 'a'));
+			->from($db->quoteName('#__languages'));
 
 		$db->setQuery($query);
 
@@ -146,7 +146,7 @@ abstract class MultilangstatusHelper
 
 		// Get the number of contact with all as language
 		$alang = $db->getQuery(true)
-			->select('count(*)')
+			->select('COUNT(*)')
 			->from($db->quoteName('#__contact_details', 'cd'))
 			->where(
 				[
@@ -290,7 +290,17 @@ abstract class MultilangstatusHelper
 		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select('id, title, module, position, content, showtitle, params')
+			->select(
+				[
+					$db->quoteName('id'),
+					$db->quoteName('title'),
+					$db->quoteName('module'),
+					$db->quoteName('position'),
+					$db->quoteName('content'),
+					$db->quoteName('showtitle'),
+					$db->quoteName('params'),
+				]
+			)
 			->from($db->quoteName('#__modules'))
 			->where(
 				[
