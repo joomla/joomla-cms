@@ -119,7 +119,6 @@ class LanguagesModel extends ListModel
 					$db->quoteName('a') . '.*',
 					$db->quoteName('l.home'),
 					$db->quoteName('ag.title', 'access_level'),
-
 				]
 			)
 		)
