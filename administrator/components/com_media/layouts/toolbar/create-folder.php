@@ -16,6 +16,9 @@ HTMLHelper::_('webcomponent', 'system/joomla-toolbar-button.min.js', ['version' 
 
 $title = Text::_('COM_MEDIA_CREATE_NEW_FOLDER');
 ?>
-<joomla-toolbar-button class="btn btn-sm btn-info" onclick="MediaManager.Event.fire('onClickCreateFolder');">
-	<span class="icon-folder-close"></span> <?php echo $title; ?>
+<joomla-toolbar-button>
+	<button class="btn btn-sm btn-info" onclick="MediaManager.Event.fire('onClickCreateFolder');">
+		<span class="icon-folder-close" aria-hidden="true"></span>
+		<?php echo $title; ?>
+	</button>
 </joomla-toolbar-button>

@@ -16,6 +16,9 @@ HTMLHelper::_('webcomponent', 'system/joomla-toolbar-button.min.js', ['version' 
 
 $title = Text::_('JTOOLBAR_UPLOAD');
 ?>
-<joomla-toolbar-button class="btn btn-sm btn-success" onclick="MediaManager.Event.fire('onClickUpload');">
-	<span class="icon-upload"></span> <?php echo $title; ?>
+<joomla-toolbar-button>
+	<button class="btn btn-sm btn-success" onclick="MediaManager.Event.fire('onClickUpload');">
+		<span class="icon-upload" aria-hidden="true"></span>
+		<?php echo $title; ?>
+	</button>
 </joomla-toolbar-button>
