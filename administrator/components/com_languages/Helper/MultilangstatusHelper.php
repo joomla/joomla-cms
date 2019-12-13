@@ -110,15 +110,15 @@ abstract class MultilangstatusHelper
 
 		// Select all fields from the languages table.
 		$query->select(
-				[
-					$db->quoteName('a') . '.*',
-					$db->quoteName('a.published'),
-					$db->quoteName('a.lang_code'),
-					$db->quoteName('e.enabled'),
-					$db->quoteName('e.element'),
-					$db->quoteName('l.home'),
-					$db->quoteName('l.published', 'home_published'),
-				]
+			[
+				$db->quoteName('a') . '.*',
+				$db->quoteName('a.published'),
+				$db->quoteName('a.lang_code'),
+				$db->quoteName('e.enabled'),
+				$db->quoteName('e.element'),
+				$db->quoteName('l.home'),
+				$db->quoteName('l.published', 'home_published'),
+			]
 		)
 			->from($db->quoteName('#__languages', 'a'))
 			->join(
