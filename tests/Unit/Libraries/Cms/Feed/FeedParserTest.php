@@ -388,7 +388,7 @@ class FeedParserTest extends UnitTestCase
 	 */
 	protected function getXmlReader($xml, $moveTo): XMLReader
 	{
-		// it's hard to mock the xml reader stream, so we use the real object here (but set xml directly)
+		// It's hard to mock the xml reader stream, so we use the real object here (but set xml directly)
 		$xmlReader = new XMLReader;
 
 		// Set the XML for the internal reader and move the stream to the element.
