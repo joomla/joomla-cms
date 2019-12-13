@@ -103,7 +103,7 @@ class MultilangstatusAdminHelper
 			{
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__modules'))
-					->set($db->quoteName('published') . ' = ' . (int) 1)
+					->set($db->quoteName('published') . ' = 1')
 					->where($db->quoteName('module') . ' = ' . $db->quote('mod_multilangstatus'));
 
 				try
