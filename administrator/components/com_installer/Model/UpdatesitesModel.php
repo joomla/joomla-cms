@@ -359,7 +359,7 @@ class UpdatesitesModel extends InstallerModel
 			// Search for children manifests (lower priority)
 			$allXmlFiles = Folder::files($tmpInstaller->getPath('source'), '.xml$', 1, true);
 
-			// Create an unique array of files ordered by priority
+			// Create a unique array of files ordered by priority
 			$xmlfiles = array_unique(array_merge($parentXmlfiles, $allXmlFiles));
 
 			if (!empty($xmlfiles))
