@@ -165,7 +165,7 @@ abstract class MultilangstatusHelper
 
 		// Get the number of languages for the contact
 		$slang = $db->getQuery(true)
-			->select('COUNT(DISTINCT l.lang_code)')
+			->select('COUNT(DISTINCT ' . $db->quoteName('l.lang_code') . ')')
 			->from($db->quoteName('#__languages', 'l'))
 			->join('LEFT', $db->quoteName('#__contact_details', 'cd'), $db->quoteName('cd.language') . ' = ' . $db->quoteName('l.lang_code'))
 			->where(
