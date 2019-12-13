@@ -336,11 +336,11 @@ class LanguagesModel extends BaseInstallationModel
 
 		foreach ($langlist as $lang)
 		{
-			$file = $path . '/' . $lang . '/' . $lang . '.xml';
+			$file = $path . '/' . $lang . '/langmetadata.xml';
 
 			if (!is_file($file))
 			{
-				$file = $path . '/' . $lang . '/langmetadata.xml';
+				$file = $path . '/' . $lang . '/' . $lang . '.xml';
 			}
 
 			$info = Installer::parseXMLInstallFile($file);
