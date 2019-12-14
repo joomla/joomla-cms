@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 \JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php');
@@ -49,7 +50,7 @@ abstract class TagsSimilarHelper
 
 		$db         = Factory::getDbo();
 		$user       = Factory::getUser();
-		$groups     = implode(',', $user->getAuthorisedViewLevels());
+		$groups     = $user->getAuthorisedViewLevels();
 		$matchtype  = $params->get('matchtype', 'all');
 		$ordering   = $params->get('ordering', 'count');
 		$tagsHelper = new TagsHelper;
@@ -58,18 +59,21 @@ abstract class TagsSimilarHelper
 		$now        = Factory::getDate()->toSql();
 		$nullDate   = $db->getNullDate();
 
+		// This returns a comma separated string of IDs.
 		$tagsToMatch = $tagsHelper->getTagIds($id, $prefix);
 
-		if (!$tagsToMatch || $tagsToMatch === null)
+		if (!$tagsToMatch)
 		{
 			return array();
 		}
 
-		$tagCount = substr_count($tagsToMatch, ',') + 1;
+		$tagsToMatch = explode(',', $tagsToMatch);
+		$tagCount    = \count($tagsToMatch);
 
-		$query = $db->getQuery(true)
+		$query = $db->getQuery(true);
+		$query
 			->select(
-				array(
+				[
 					$db->quoteName('m.core_content_id'),
 					$db->quoteName('m.content_item_id'),
 					$db->quoteName('m.type_alias'),
@@ -80,34 +84,67 @@ abstract class TagsSimilarHelper
 					$db->quoteName('cc.core_catid'),
 					$db->quoteName('cc.core_language'),
 					$db->quoteName('cc.core_params'),
-				)
-			);
-
-		$query->from($db->quoteName('#__contentitem_tag_map', 'm'));
-
-		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON m.tag_id = t.id')
-			->join('INNER', $db->quoteName('#__ucm_content', 'cc') . ' ON m.core_content_id = cc.core_content_id')
-			->join('INNER', $db->quoteName('#__content_types', 'ct') . ' ON m.type_alias = ct.type_alias');
-
-		$query->where($db->quoteName('m.tag_id') . ' IN (' . $tagsToMatch . ')');
-		$query->where('t.access IN (' . $groups . ')');
-		$query->where('(cc.core_access IN (' . $groups . ') OR cc.core_access = 0)');
-
-		// Don't show current item
-		$query->where('(' . $db->quoteName('m.content_item_id') . ' <> ' . $id
-			. ' OR ' . $db->quoteName('m.type_alias') . ' <> ' . $db->quote($prefix) . ')'
-		);
-
-		// Only return published tags
-		$query->where($db->quoteName('cc.core_state') . ' = 1 ')
-			->where('(' . $db->quoteName('cc.core_publish_up') . ' IS NULL OR '
-				. $db->quoteName('cc.core_publish_up') . '=' . $db->quote($nullDate) . ' OR '
-				. $db->quoteName('cc.core_publish_up') . '<=' . $db->quote($now) . ')'
+				]
 			)
-			->where('(' . $db->quoteName('cc.core_publish_down') . ' IS NULL OR '
-				. $db->quoteName('cc.core_publish_down') . '=' . $db->quote($nullDate) . ' OR '
-				. $db->quoteName('cc.core_publish_down') . '>=' . $db->quote($now) . ')'
-			);
+			->from($db->quoteName('#__contentitem_tag_map', 'm'))
+			->join(
+				'INNER',
+				$db->quoteName('#__tags', 't'),
+				$db->quoteName('m.tag_id') . ' = ' . $db->quoteName('t.id')
+			)
+			->join(
+				'INNER',
+				$db->quoteName('#__ucm_content', 'cc'),
+				$db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('cc.core_content_id')
+			)
+			->join(
+				'INNER',
+				$db->quoteName('#__content_types', 'ct'),
+				$db->quoteName('m.type_alias') . ' = ' . $db->quoteName('ct.type_alias')
+			)
+			->whereIn($db->quoteName('m.tag_id'), $tagsToMatch)
+			->whereIn($db->quoteName('t.access'), $groups)
+			->where($db->quoteName('cc.core_state') . ' = 1')
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('cc.core_access') . ' IN (' . implode(',', $query->bindArray($groups)) . ')',
+					$db->quoteName('cc.core_access') . ' = 0',
+				],
+				'OR'
+			)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('m.content_item_id') . ' <> :currentId',
+					$db->quoteName('m.type_alias') . ' <> :prefix',
+				],
+				'OR'
+			)
+			->bind(':currentId', $id, ParameterType::INTEGER)
+			->bind(':prefix', $prefix)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('cc.core_publish_up') . ' IS NULL',
+					$db->quoteName('cc.core_publish_up') . ' = :nullDateUp',
+					$db->quoteName('cc.core_publish_up') . ' <= :nowDateUp',
+				],
+				'OR'
+			)
+			->bind(':nullDateUp', $nullDate)
+			->bind(':nowDateUp', $now)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('cc.core_publish_down') . ' IS NULL',
+					$db->quoteName('cc.core_publish_down') . ' = :nullDateDown',
+					$db->quoteName('cc.core_publish_down') . ' >= :nowDateDown',
+				],
+				'OR'
+			)
+			->bind(':nullDateDown', $nullDate)
+			->bind(':nowDateDown', $now);
 
 		// Optionally filter on language
 		$language = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
@@ -119,24 +156,33 @@ abstract class TagsSimilarHelper
 				$language = ContentHelper::getCurrentLanguage();
 			}
 
-			$query->where($db->quoteName('cc.core_language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
+			$query->whereIn($db->quoteName('cc.core_language'), [$language, '*'], ParameterType::STRING);
 		}
 
 		$query->group(
-			$db->quoteName(
-				array('m.core_content_id', 'm.content_item_id', 'm.type_alias', 'ct.router', 'cc.core_title',
-				'cc.core_alias', 'cc.core_catid', 'cc.core_language', 'cc.core_params')
-			)
+			[
+				$db->quoteName('m.core_content_id'),
+				$db->quoteName('m.content_item_id'),
+				$db->quoteName('m.type_alias'),
+				$db->quoteName('ct.router'),
+				$db->quoteName('cc.core_title'),
+				$db->quoteName('cc.core_alias'),
+				$db->quoteName('cc.core_catid'),
+				$db->quoteName('cc.core_language'),
+				$db->quoteName('cc.core_params'),
+			]
 		);
 
 		if ($matchtype === 'all' && $tagCount > 0)
 		{
-			$query->having('COUNT( ' . $db->quoteName('tag_id') . ')  = ' . $tagCount);
+			$query->having('COUNT( ' . $db->quoteName('tag_id') . ')  = :tagCount')
+				->bind(':tagCount', $tagCount, ParameterType::INTEGER);
 		}
 		elseif ($matchtype === 'half' && $tagCount > 0)
 		{
 			$tagCountHalf = ceil($tagCount / 2);
-			$query->having('COUNT( ' . $db->quoteName('tag_id') . ')  >= ' . $tagCountHalf);
+			$query->having('COUNT( ' . $db->quoteName('tag_id') . ')  >= :tagCount')
+				->bind(':tagCount', $tagCountHalf, ParameterType::INTEGER);
 		}
 
 		if ($ordering === 'count' || $ordering === 'countrandom')

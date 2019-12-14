@@ -333,7 +333,7 @@ final class SiteApplication extends CMSApplication
 				// Get show_page_heading from com_menu global settings
 				$params[$hash]->def('show_page_heading', $temp->get('show_page_heading'));
 
-				$params[$hash]->merge($menu->params);
+				$params[$hash]->merge($menu->getParams());
 				$title = $menu->title;
 			}
 			else
@@ -585,6 +585,13 @@ final class SiteApplication extends CMSApplication
 		{
 			$guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 			$user->groups = array($guestUsergroup);
+		}
+
+		if ($plugin = PluginHelper::getPlugin('system', 'languagefilter'))
+		{
+			$pluginParams = new Registry($plugin->params);
+			$this->setLanguageFilter(true);
+			$this->setDetectBrowser($pluginParams->get('detect_browser', 1) == 1);
 		}
 
 		if (empty($options['language']))

@@ -268,7 +268,7 @@ abstract class QuickIconHelper
 						'name'    => null,
 						'linkadd' => null,
 						'access'  => true,
-						'class'   => true,
+						'class'   => null,
 						'group'   => 'MOD_QUICKICON',
 					);
 

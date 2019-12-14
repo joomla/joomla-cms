@@ -76,7 +76,6 @@ class RegistrationModel extends FormModel
 	public function getUserIdFromToken($token)
 	{
 		$db       = $this->getDbo();
-		$nulldate = $db->getNullDate();
 
 		// Get the user id based on the token.
 		$query = $db->getQuery(true);
@@ -84,9 +83,8 @@ class RegistrationModel extends FormModel
 			->from($db->quoteName('#__users'))
 			->where($db->quoteName('activation') . ' = :activation')
 			->where($db->quoteName('block') . ' = 1')
-			->where($db->quoteName('lastvisitDate') . ' = :lastvisitDate')
-			->bind(':activation', $token)
-			->bind(':lastvisitDate', $nulldate);
+			->where($db->quoteName('lastvisitDate') . ' IS NULL')
+			->bind(':activation', $token);
 		$db->setQuery($query);
 
 		try
@@ -748,8 +746,8 @@ class RegistrationModel extends FormModel
 			$query->clear()
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('block') . ' = ' . (int) 0)
-				->where($db->quoteName('sendEmail') . ' = ' . (int) 1);
+				->where($db->quoteName('block') . ' = 0')
+				->where($db->quoteName('sendEmail') . ' = 1');
 			$db->setQuery($query);
 
 			try
