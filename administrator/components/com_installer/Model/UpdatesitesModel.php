@@ -381,8 +381,10 @@ class UpdatesitesModel extends InstallerModel
 							->where($db->quoteName('type') . ' = :type')
 							->extendWhere(
 								'AND',
-								$db->quoteName('name') . ' = :name',
-								$db->quoteName('name') . ' = :pkgname',
+								[
+									$db->quoteName('name') . ' = :name',
+									$db->quoteName('name') . ' = :pkgname',
+								],
 								'OR'
 							)
 							->whereNotIn($db->quoteName('extension_id'), $joomlaCoreExtensionIds)
