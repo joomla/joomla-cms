@@ -14,7 +14,6 @@ namespace Joomla\CMS\Document\Renderer\Html;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\WebAsset\WebAssetAttachBehaviorInterface;
 use Joomla\Utilities\ArrayHelper;
 
