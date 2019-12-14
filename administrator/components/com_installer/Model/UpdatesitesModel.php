@@ -378,7 +378,12 @@ class UpdatesitesModel extends InstallerModel
 						$query = $db->getQuery(true)
 							->select($db->quoteName('extension_id'))
 							->from($db->quoteName('#__extensions'))
-							->where($db->quoteName('type') . ' = :type')
+							->where(
+								[
+									$db->quoteName('type') . ' = :type',
+									$db->quoteName('state') . ' != -1',
+								]
+							)
 							->extendWhere(
 								'AND',
 								[
@@ -388,7 +393,6 @@ class UpdatesitesModel extends InstallerModel
 								'OR'
 							)
 							->whereNotIn($db->quoteName('extension_id'), $joomlaCoreExtensionIds)
-							->where($db->quoteName('state') . ' != -1')
 							->bind(':name', $manifest->name)
 							->bind(':pkgname', $manifest->packagename)
 							->bind(':type', $manifest['type']);
