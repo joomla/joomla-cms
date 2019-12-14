@@ -84,12 +84,12 @@ class InstalledController extends BaseController
 		$cid   = $this->input->get('cid', '');
 		$model = $this->getModel('installed');
 
-		// Fetching the language name from the xx-XX.xml or langmetadata.xml respectively.
-		$file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/' . $cid . '.xml';
+		// Fetching the language name from the langmetadata.xml or xx-XX.xml respectively.
+		$file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/langmetadata.xml';
 
 		if (!is_file($file))
 		{
-			$file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/langmetadata.xml';
+			$file = JPATH_ADMINISTRATOR . '/language/' . $cid . '/' . $cid . '.xml';
 		}
 
 		$info         = Installer::parseXMLInstallFile($file);
