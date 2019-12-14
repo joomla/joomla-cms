@@ -388,7 +388,7 @@ abstract class JHtmlBootstrap
 	public static function startAccordion($selector = 'myAccordian', $params = array())
 	{
 		// Only load once
-		if (!empty(static::$loaded[__METHOD__][$selector]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
@@ -438,8 +438,8 @@ abstract class JHtmlBootstrap
 	 */
 	public static function addSlide($selector, $text, $id, $class = '')
 	{
-		$in        = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? ' show' : '';
-		$collapsed = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? '' : ' collapsed';
+		$in        = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] === $id ? ' show' : '';
+		$collapsed = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] === $id ? '' : ' collapsed';
 		$parent    = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
 			' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
 		$class     = (!empty($class)) ? ' ' . $class : '';
