@@ -35,16 +35,14 @@ $option          = 'options=' . json_encode($options);
 $editor          = 'editor="' . ltrim(HTMLHelper::_('script',  $basePath . 'lib/codemirror' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '"';
 $addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '"';
 
-HTMLHelper::_('stylesheet', $basePath . 'lib/codemirror' . $extCSS, array('version' => 'auto'));
-HTMLHelper::_('stylesheet', $basePath . 'lib/addons' . $extCSS, array('version' => 'auto'));
-
 Factory::getDocument()->getWebAssetManager()
-	->registerScript(
+	->registerAndUseStyle('codemirror.lib.main', $basePath . 'lib/codemirror' . $extCSS)
+	->registerAndUseStyle('codemirror.lib.addons', $basePath . 'lib/addons' . $extCSS, [], [], ['codemirror.lib.main'])
+	->registerAndUseScript(
 		'webcomponent.editor-codemirror',
 		'plg_editors_codemirror/joomla-editor-codemirror.min.js',
 		['webcomponent' => true]
-	)
-	->useScript('webcomponent.editor-codemirror');
+	);
 
 ?>
 <joomla-editor-codemirror <?php echo $editor, $addons, $modPath, $fsCombo, $option; ?>>
