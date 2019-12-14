@@ -134,7 +134,7 @@
           "public/assets/styles/choices.css": "css/choices.css",
           "public/assets/styles/choices.min.css": "css/choices.min.css"
         },
-        "provideAssets":[
+        "provideAssets": [
           {
             "name": "choicesjs",
             "type": "style",
@@ -386,7 +386,7 @@
         "filesExtra": {
           "jquery.minicolors.png": "css/jquery.minicolors.png"
         },
-        "provideAssets":[
+        "provideAssets": [
           {
             "name": "minicolors",
             "type": "style",
@@ -508,17 +508,7 @@
           "qrcode_SJIS.js": "js/qrcode_SJIS.js",
           "qrcode_UTF8.js": "js/qrcode_UTF8.js"
         },
-        "provideAssets1": [
-          {
-            "name": null,
-            "js": [
-              "qrcode.js",
-              "qrcode_SJIS.js",
-              "qrcode_UTF8.js"
-            ]
-          }
-        ],
-        "provideAssets":[
+        "provideAssets": [
           {
             "name": "qrcode",
             "type": "script",
@@ -528,13 +518,13 @@
             "name": "qrcode_SJIS",
             "type": "script",
             "uri": "qrcode_SJIS.js",
-            "dependencies":["qrcode"]
+            "dependencies": ["qrcode"]
           },
           {
             "name": "qrcode_UTF8",
             "type": "script",
             "uri": "qrcode_UTF8.js",
-            "dependencies":["qrcode"]
+            "dependencies": ["qrcode"]
           },
           {
             "name": "qrcode",
