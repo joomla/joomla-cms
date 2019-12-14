@@ -19,14 +19,17 @@ use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
  * Web Asset Manager class
  *
  * @method WebAssetManager registerStyle(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
+ * @method WebAssetManager registerAndUseStyle(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
  * @method WebAssetManager useStyle($name)
  * @method WebAssetManager disableStyle($name)
  *
  * @method WebAssetManager registerScript(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
+ * @method WebAssetManager registerAndUseScript(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
  * @method WebAssetManager useScript($name)
  * @method WebAssetManager disableScript($name)
  *
  * @method WebAssetManager registerPreset(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
+ * @method WebAssetManager registerAndUsePreset(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
  * @method WebAssetManager usePreset($name)
  * @method WebAssetManager disablePreset($name)
  *
@@ -188,14 +191,25 @@ class WebAssetManager implements WebAssetManagerInterface
 
 		if (0 === strpos($method, 'register'))
 		{
-			$type = strtolower(substr($method, 8));
+			// Check for registerAndUse<Type>
+			$andUse = strtolower(substr($method, 8, 6)) === 'anduse';
+
+			// Extract the type
+			$type = $andUse ? strtolower(substr($method, 14)) : strtolower(substr($method, 8));
 
 			if (empty($arguments[0]))
 			{
 				throw new \BadMethodCallException('An asset instance or an asset name are required');
 			}
 
-			return $this->registerAsset($type, ...$arguments);
+			if ($andUse)
+			{
+				return $this->registerAsset($type, ...$arguments)->useAsset($type, $arguments[0]);
+			}
+			else
+			{
+				return $this->registerAsset($type, ...$arguments);
+			}
 		}
 
 		throw new \BadMethodCallException(sprintf('Undefined method %s in class %s', $method, get_class($this)));
