@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Utility\Utility;
 
@@ -17,6 +18,8 @@ use Joomla\CMS\Utility\Utility;
 
 HTMLHelper::_('behavior.core');
 Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
+
+$app = Factory::getApplication();
 ?>
 
 <div class="alert alert-info">
@@ -66,7 +69,7 @@ Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_HOSTNAME'); ?>
 				</td>
 				<td>
-					<input class="form-control" type="text" name="ftp_host" value="<?php echo $this->ftp['host']; ?>">
+					<input class="form-control" type="text" name="ftp_host" value="<?php echo $app->get('ftp_host'); ?>">
 				</td>
 			</tr>
 			<tr id="upload_ftp_port" <?php echo $this->ftpFieldsDisplay; ?>>
@@ -74,7 +77,7 @@ Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PORT'); ?>
 				</td>
 				<td>
-					<input class="form-control" type="text" name="ftp_port" value="<?php echo $this->ftp['port']; ?>">
+					<input class="form-control" type="text" name="ftp_port" value="<?php echo $app->get('ftp_port'); ?>">
 				</td>
 			</tr>
 			<tr id="upload_ftp_username" <?php echo $this->ftpFieldsDisplay; ?>>
@@ -82,7 +85,7 @@ Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_USERNAME'); ?>
 				</td>
 				<td>
-					<input class="form-control" type="text" name="ftp_user" value="<?php echo $this->ftp['username']; ?>">
+					<input class="form-control" type="text" name="ftp_user" value="<?php echo $app->get('ftp_username'); ?>">
 				</td>
 			</tr>
 			<tr id="upload_ftp_password" <?php echo $this->ftpFieldsDisplay; ?>>
@@ -90,7 +93,7 @@ Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_PASSWORD'); ?>
 				</td>
 				<td>
-					<input class="form-control" type="password" name="ftp_pass" value="<?php echo $this->ftp['password']; ?>">
+					<input class="form-control" type="password" name="ftp_pass" value="<?php echo $app->get('ftp_password'); ?>">
 				</td>
 			</tr>
 			<tr id="upload_ftp_directory" <?php echo $this->ftpFieldsDisplay; ?>>
@@ -98,7 +101,7 @@ Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_DIRECTORY'); ?>
 				</td>
 				<td>
-					<input class="form-control" type="text" name="ftp_root" value="<?php echo $this->ftp['directory']; ?>">
+					<input class="form-control" type="text" name="ftp_root" value="<?php echo $app->get('ftp_root'); ?>">
 				</td>
 			</tr>
 			</tbody>
