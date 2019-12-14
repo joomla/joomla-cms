@@ -403,10 +403,11 @@ abstract class JHtmlBootstrap
 		$opt['onShown'] = isset($params['onShown']) ? (string) $params['onShown'] : null;
 		$opt['onHide'] = isset($params['onHide']) ? (string) $params['onHide'] : null;
 		$opt['onHidden'] = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
+		$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
 
 		Factory::getDocument()->addScriptOptions('bootstrap.accordion', array($selector => $opt));
 
-		static::$loaded[__METHOD__][$selector] = true;
+		static::$loaded[__METHOD__][$selector] = $opt;
 
 		return '<div id="' . $selector . '" class="accordion" role="tablist">';
 	}
