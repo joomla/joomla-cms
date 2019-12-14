@@ -53,8 +53,11 @@ $document = Factory::getDocument();
 
 // Add Javascript for permission change
 HTMLHelper::_('form.csrf');
-HTMLHelper::_('webcomponent', 'system/fields/joomla-field-permissions.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-tab.min.js', ['version' => 'auto', 'relative' => true]);
+Factory::getDocument()->getWebAssetManager()
+	->useStyle('webcomponent.field-permissions')
+	->useScript('webcomponent.field-permissions')
+	->useStyle('webcomponent.joomla-tab')
+	->useScript('webcomponent.joomla-tab');
 
 // Load JavaScript message titles
 Text::script('ERROR');

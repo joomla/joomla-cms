@@ -10,6 +10,7 @@
 // No direct access
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Uri\Uri;
 
@@ -36,7 +37,14 @@ $addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/a
 
 HTMLHelper::_('stylesheet', $basePath . 'lib/codemirror' . $extCSS, array('version' => 'auto'));
 HTMLHelper::_('stylesheet', $basePath . 'lib/addons' . $extCSS, array('version' => 'auto'));
-HTMLHelper::_('webcomponent', 'plg_editors_codemirror/joomla-editor-codemirror.min.js', array('version' => 'auto', 'relative' => true));
+
+Factory::getDocument()->getWebAssetManager()
+	->registerScript(
+		'webcomponent.editor-codemirror',
+		'plg_editors_codemirror/joomla-editor-codemirror.min.js',
+		['webcomponent' => true]
+	)
+	->useScript('webcomponent.editor-codemirror');
 
 ?>
 <joomla-editor-codemirror <?php echo $editor, $addons, $modPath, $fsCombo, $option; ?>>

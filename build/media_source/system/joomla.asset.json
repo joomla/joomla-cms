@@ -159,6 +159,30 @@
       "type": "script",
       "uri": "system/joomla-toolbar-button.min.js",
       "webcomponent": true
+    },
+    {
+      "name": "webcomponent.joomla-alert",
+      "type": "style",
+      "uri": "vendor/joomla-custom-elements/joomla-alert.min.css",
+      "webcomponent": true
+    },
+    {
+      "name": "webcomponent.joomla-alert",
+      "type": "script",
+      "uri": "vendor/joomla-custom-elements/joomla-alert.min.js",
+      "webcomponent": true
+    },
+    {
+      "name": "webcomponent.joomla-tab",
+      "type": "style",
+      "uri": "vendor/joomla-custom-elements/joomla-tab.min.css",
+      "webcomponent": true
+    },
+    {
+      "name": "webcomponent.joomla-tab",
+      "type": "script",
+      "uri": "vendor/joomla-custom-elements/joomla-tab.min.js",
+      "webcomponent": true
     }
   ]
 }

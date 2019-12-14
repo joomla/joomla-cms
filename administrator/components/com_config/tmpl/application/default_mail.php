@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -16,7 +17,8 @@ use Joomla\CMS\Session\Session;
 defined('_JEXEC') or die;
 
 HTMLHelper::_('form.csrf');
-HTMLHelper::_('webcomponent', 'system/fields/joomla-field-send-test-mail.min.js', ['version' => 'auto', 'relative' => true]);
+Factory::getDocument()->getWebAssetManager()
+	->useScript('webcomponent.field-send-test-mail');
 
 // Load JavaScript message titles
 Text::script('ERROR');

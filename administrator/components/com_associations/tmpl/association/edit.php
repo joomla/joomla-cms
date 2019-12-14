@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -22,7 +23,9 @@ HTMLHelper::_('jquery.framework');
 
 HTMLHelper::_('script', 'com_associations/sidebyside.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['version' => 'auto', 'relative' => true]);
+
+Factory::getDocument()->getWebAssetManager()
+	->useScript('webcomponent.core-loader');
 
 $options = [
 	'layout'   => $this->app->input->get('layout', '', 'string'),
