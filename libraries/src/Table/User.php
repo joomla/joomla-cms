@@ -404,7 +404,7 @@ class User extends Table
 		}
 
 		// If a user is blocked, delete the cookie login rows
-		if ($this->block == (int) 1)
+		if ($this->block == 1)
 		{
 			$query->clear()
 				->delete($this->_db->quoteName('#__user_keys'))

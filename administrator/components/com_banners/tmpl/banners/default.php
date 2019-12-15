@@ -20,7 +20,6 @@ use Joomla\CMS\Session\Session;
 /** @var \Joomla\Component\Banners\Administrator\View\Banners\HtmlView $this */
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('behavior.tabstate');
 
 $user      = Factory::getUser();
 $userId    = $user->get('id');

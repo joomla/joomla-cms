@@ -233,10 +233,10 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 													->removeState(1)
 													->removeState(2)
 													->removeState(-2)
-													->addState(ContentComponent::CONDITION_PUBLISHED, '', 'publish', 'COM_CONTENT_CHANGE_STAGE', ['tip_title' => 'JPUBLISHED'])
-													->addState(ContentComponent::CONDITION_UNPUBLISHED, '', 'unpublish', 'COM_CONTENT_CHANGE_STAGE', ['tip_title' => 'JUNPUBLISHED'])
-													->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', 'COM_CONTENT_CHANGE_STAGE', ['tip_title' => 'JARCHIVED'])
-													->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', 'COM_CONTENT_CHANGE_STAGE', ['tip_title' => 'JTRASHED'])
+													->addState(ContentComponent::CONDITION_PUBLISHED, '', 'publish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JPUBLISHED')])
+													->addState(ContentComponent::CONDITION_UNPUBLISHED, '', 'unpublish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JUNPUBLISHED')])
+													->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JARCHIVED')])
+													->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JTRASHED')])
 													->setLayout('joomla.button.transition-button')
 													->render($item->stage_condition, $i, $options, $item->publish_up, $item->publish_down);
 										?>
@@ -265,7 +265,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 											<?php
 											$ParentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
 											$CurrentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content');
-											$EditCatTxt = Text::_('JACTION_EDIT') . ' ' . Text::_('JCATEGORY');
+											$EditCatTxt = Text::_('COM_CONTENT_EDIT_CATEGORY');
 											echo Text::_('JCATEGORY') . ': ';
 											if ($item->category_level != '1') :
 												if ($item->parent_category_level != '1') :

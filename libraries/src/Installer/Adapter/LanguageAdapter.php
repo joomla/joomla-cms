@@ -124,10 +124,6 @@ class LanguageAdapter extends InstallerAdapter
 
 		$count = 0;
 
-		// Declare parameters before binding.
-		$userId   = 0;
-		$registry = '';
-
 		// Prepare the query.
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__users'))
@@ -524,8 +520,15 @@ class LanguageAdapter extends InstallerAdapter
 		// Create an unpublished content language.
 		if ((int) $clientId === 0)
 		{
+			$manifestfile = JPATH_SITE . '/language/' . $this->tag . '/langmetadata.xml';
+
+			if (!is_file($manifestfile))
+			{
+				$manifestfile = JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml';
+			}
+
 			// Load the site language manifest.
-			$siteLanguageManifest = LanguageHelper::parseXMLLanguageFile(JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml');
+			$siteLanguageManifest = LanguageHelper::parseXMLLanguageFile($manifestfile);
 
 			// Set the content language title as the language metadata name.
 			$contentLanguageTitle = $siteLanguageManifest['name'];
@@ -542,7 +545,14 @@ class LanguageAdapter extends InstallerAdapter
 			// Try to load a language string from the installation language var. Will be removed in 4.0.
 			if ($contentLanguageNativeTitle === $contentLanguageTitle)
 			{
-				if (file_exists(JPATH_INSTALLATION . '/language/' . $this->tag . '/' . $this->tag . '.xml'))
+				$manifestfile = JPATH_INSTALLATION . '/language/' . $this->tag . '/langmetadata.xml';
+
+				if (!is_file($manifestfile))
+				{
+					$manifestfile = JPATH_INSTALLATION . '/language/' . $this->tag . '/' . $this->tag . '.xml';
+				}
+
+				if (file_exists($manifestfile))
 				{
 					$installationLanguage = new Language($this->tag);
 					$installationLanguage->load('', JPATH_INSTALLATION);
@@ -903,8 +913,14 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	public function refreshManifestCache()
 	{
-		$client                 = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath           = $client->path . '/language/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
+		$client       = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
+		$manifestPath = $client->path . '/language/' . $this->parent->extension->element . '/langmetadata.xml';
+
+		if (!is_file($manifestPath))
+		{
+			$manifestPath = $client->path . '/language/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
+		}
+
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));

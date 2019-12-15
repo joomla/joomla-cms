@@ -23,6 +23,7 @@ use Joomla\CMS\Version;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\Exception\UnsupportedAdapterException;
+use Joomla\Database\ParameterType;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
@@ -466,7 +467,7 @@ class DatabaseModel extends InstallerModel
 		$query = $db->getQuery(true)
 			->select(
 				$db->quoteName(
-					array(
+					[
 						'extensions.client_id',
 						'extensions.element',
 						'extensions.extension_id',
@@ -475,7 +476,7 @@ class DatabaseModel extends InstallerModel
 						'extensions.name',
 						'extensions.type',
 						'schemas.version_id'
-					)
+					]
 				)
 			)
 			->from(
@@ -485,13 +486,8 @@ class DatabaseModel extends InstallerModel
 				)
 			)->join(
 				'INNER',
-				$db->quoteName(
-					'#__extensions', 'extensions'
-				) . ' ON (' . $db->quoteName(
-					'schemas.extension_id'
-				) . ' = ' . $db->quoteName(
-					'extensions.extension_id'
-				) . ')'
+				$db->quoteName('#__extensions', 'extensions'),
+				$db->quoteName('schemas.extension_id') . ' = ' . $db->quoteName('extensions.extension_id')
 			);
 
 		$type        = $this->getState('filter.type');
@@ -501,22 +497,29 @@ class DatabaseModel extends InstallerModel
 
 		if ($type)
 		{
-			$query->where($db->quoteName('extensions.type') . ' = ' . $db->quote($type));
+			$query->where($db->quoteName('extensions.type') . ' = :type')
+				->bind(':type', $type);
 		}
 
 		if ($clientId != '')
 		{
-			$query->where($db->quoteName('extensions.client_id') . ' = ' . (int) $clientId);
+			$clientId = (int) $clientId;
+			$query->where($db->quoteName('extensions.client_id') . ' = :clientid')
+				->bind(':clientid', $clientId, ParameterType::INTEGER);
 		}
 
 		if ($extensionId != '')
 		{
-			$query->where($db->quoteName('extensions.extension_id') . ' = ' . (int) $extensionId);
+			$extensionId = (int) $extensionId;
+			$query->where($db->quoteName('extensions.extension_id') . ' = :extensionid')
+				->bind(':extensionid', $extensionId, ParameterType::INTEGER);
 		}
 
 		if ($folder != '' && in_array($type, array('plugin', 'library', '')))
 		{
-			$query->where($db->quoteName('extensions.folder') . ' = ' . $db->quote($folder == '*' ? '' : $folder));
+			$folder = $folder === '*' ? '' : $folder;
+			$query->where($db->quoteName('extensions.folder') . ' = :folder')
+				->bind(':folder', $folder);
 		}
 
 		// Process search filter (update site id).
@@ -524,7 +527,9 @@ class DatabaseModel extends InstallerModel
 
 		if (!empty($search) && stripos($search, 'id:') === 0)
 		{
-			$query->where($db->quoteName('schemas.extension_id') . ' = ' . (int) substr($search, 3));
+			$ids = (int) substr($search, 3);
+			$query->where($db->quoteName('schemas.extension_id') . ' = :eid')
+				->bind(':eid', $ids, ParameterType::INTEGER);
 		}
 
 		return $query;
@@ -568,11 +573,13 @@ class DatabaseModel extends InstallerModel
 	 */
 	public function getSchemaVersion($extensionId)
 	{
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true)
+		$db          = $this->getDbo();
+		$extensionId = (int) $extensionId;
+		$query       = $db->getQuery(true)
 			->select($db->quoteName('version_id'))
 			->from($db->quoteName('#__schemas'))
-			->where($db->quoteName('extension_id') . ' = ' . (int) $extensionId);
+			->where($db->quoteName('extension_id') . ' = :extensionid')
+			->bind(':extensionid', $extensionId, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		return $db->loadResult();
@@ -602,17 +609,21 @@ class DatabaseModel extends InstallerModel
 		}
 
 		// Delete old row.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
+		$extensionId = (int) $extensionId;
+		$db          = $this->getDbo();
+		$query       = $db->getQuery(true)
 			->delete($db->quoteName('#__schemas'))
-			->where($db->quoteName('extension_id') . ' = ' . (int) $extensionId);
+			->where($db->quoteName('extension_id') . ' = :extensionid')
+			->bind(':extensionid', $extensionId, ParameterType::INTEGER);
 		$db->setQuery($query)->execute();
 
 		// Add new row.
 		$query->clear()
 			->insert($db->quoteName('#__schemas'))
 			->columns($db->quoteName('extension_id') . ',' . $db->quoteName('version_id'))
-			->values((int) $extensionId . ', ' . $db->quote($schema));
+			->values(':extensionid, :schema')
+			->bind(':extensionid', $extensionId, ParameterType::INTEGER)
+			->bind(':schema', $schema);
 		$db->setQuery($query);
 
 		try
