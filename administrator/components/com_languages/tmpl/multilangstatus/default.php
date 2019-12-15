@@ -11,9 +11,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$notice_homes     = $this->homes == 2 || $this->homes == 1 || $this->homes - 1 != count($this->contentlangs) && ($this->language_filter || $this->switchers != 0);
-$notice_disabled  = !$this->language_filter	&& ($this->homes > 1 || $this->switchers != 0);
+$notice_disabled  = !$this->language_filter && ($this->homes > 1 || $this->switchers != 0);
 $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_filter);
+
+// Defining arrays
+$content_languages = array_column($this->contentlangs, 'lang_code');
+$sitelangs         = array_column($this->site_langs, 'element');
+$home_pages        = array_column($this->homepages, 'language');
 ?>
 <div class="mod-multilangstatus">
 	<?php if (!$this->language_filter && $this->switchers == 0) : ?>
@@ -31,6 +35,23 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 			</div>
 		<?php endif; ?>
 	<?php else : ?>
+		<?php if (!in_array($this->default_lang, $content_languages)) : ?>
+			<div class="alert alert-error">
+				<span class="fa fa-exclamation" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
+				<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_DEFAULT_CONTENT_LANGUAGE', $this->default_lang); ?>
+			</div>
+		<?php else : ?>
+			<?php foreach ($this->contentlangs as $contentlang) : ?>
+				<?php if ($contentlang->lang_code == $this->default_lang && $contentlang->published != 1) : ?>
+					<div class="alert alert-error">
+						<span class="fa fa-exclamation" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
+						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_DEFAULT_CONTENT_LANGUAGE', $this->default_lang); ?>
+					</div>
+				<?php endif; ?>
+			<?php endforeach; ?>
+		<?php endif; ?>
 		<?php if ($this->defaultHome == true) : ?>
 			<div class="alert alert-warning">
 				<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
@@ -38,13 +59,24 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_DEFAULT_HOME_MODULE_PUBLISHED'); ?>
 			</div>
 		<?php endif; ?>
-		<?php if ($notice_homes) : ?>
-			<div class="alert alert-warning">
-				<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_MISSING'); ?>
-			</div>
-		<?php endif; ?>
+		<?php foreach ($this->statuses as $status) : ?>
+			<?php // Displays error when Site language and Content language are published but Home page is unpublished, trashed or missing. ?>
+			<?php if ($status->lang_code && $status->published == 1 && $status->home_published != 1) : ?>
+				<div class="alert alert-warning">
+					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_HOME_UNPUBLISHED', $status->lang_code, $status->lang_code); ?>
+				</div>
+			<?php endif; ?>
+			<?php // Displays error when both Content Language and Home page are unpublished. ?>
+			<?php if ($status->lang_code && $status->published == 0 && $status->home_published != 1) : ?>
+				<div class="alert alert-warning">
+					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_HOME_UNPUBLISHED', $status->lang_code, $status->lang_code); ?>
+				</div>
+			<?php endif; ?>
+		<?php endforeach; ?>
 		<?php if ($notice_disabled) : ?>
 			<div class="alert alert-warning">
 				<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
@@ -60,7 +92,7 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 			</div>
 		<?php endif; ?>
 		<?php foreach ($this->contentlangs as $contentlang) : ?>
-			<?php if (array_key_exists($contentlang->lang_code, $this->homepages) && (!array_key_exists($contentlang->lang_code, $this->site_langs) || !$contentlang->published)) : ?>
+			<?php if (array_key_exists($contentlang->lang_code, $this->homepages) && (!array_key_exists($contentlang->lang_code, $this->site_langs) || $contentlang->published != 1)) : ?>
 				<div class="alert alert-warning">
 					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
 					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
@@ -78,7 +110,7 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 				<div class="alert alert-warning">
 					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
 					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_ERROR_CONTENT_LANGUAGE_TRASHED', $contentlang->lang_code); ?>
+					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_TRASHED', $contentlang->lang_code); ?>
 				</div>
 			<?php endif; ?>
 		<?php endforeach; ?>
@@ -96,13 +128,23 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 				</ul>
 			</div>
 		<?php endif; ?>
+		<?php // Displays error when the Content Language has been deleted ?>
+		<?php foreach ($sitelangs as $sitelang) : ?>
+			<?php if (!in_array($sitelang, $content_languages) && in_array($sitelang, $home_pages)) : ?>
+				<div class="alert alert-warning">
+					<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+					<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+					<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_MISSING', $sitelang); ?>
+				</div>
+			<?php endif; ?>
+		<?php endforeach; ?>
 		<table class="table table-sm">
 			<thead>
 				<tr>
-					<th>
+					<th scope="col">
 						<?php echo Text::_('JDETAILS'); ?>
 					</th>
-					<th class="text-center">
+					<th class="text-center" scope="col">
 						<?php echo Text::_('JSTATUS'); ?>
 					</th>
 				</tr>
@@ -154,16 +196,16 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 		<table class="table table-sm">
 			<thead>
 				<tr>
-					<th>
+					<th scope="col">
 						<?php echo Text::_('JGRID_HEADING_LANGUAGE'); ?>
 					</th>
-					<th class="text-center">
+					<th class="text-center" scope="col">
 						<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_SITE_LANG_PUBLISHED'); ?>
 					</th>
-					<th class="text-center">
+					<th class="text-center" scope="col">
 						<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_PUBLISHED'); ?>
 					</th>
-					<th class="text-center">
+					<th class="text-center" scope="col">
 						<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_HOMES_PUBLISHED'); ?>
 					</th>
 				</tr>
@@ -172,9 +214,9 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 				<?php foreach ($this->statuses as $status) : ?>
 					<?php if ($status->element) : ?>
 						<tr>
-							<td>
+							<th scope="row">
 								<?php echo $status->element; ?>
-							</td>
+							</th>
 					<?php endif; ?>
 					<?php // Published Site languages ?>
 					<?php if ($status->element) : ?>
@@ -188,60 +230,58 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 							</td>
 					<?php endif; ?>
 					<?php // Published Content languages ?>
-					<?php if ($status->lang_code && $status->published == 1) : ?>
-							<td class="text-center">
+						<td class="text-center">
+							<?php if ($status->lang_code && $status->published == 1) : ?>
 								<span class="fa fa-check" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
-							</td>
-					<?php elseif ($status->lang_code && $status->published == 0) : ?>
-						<td class="text-center">
-							<span class="icon-pending" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-						</td>
-					<?php elseif ($status->lang_code && $status->published == -2) : ?>
-						<td class="text-center">
-							<span class="icon-trash" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-						</td>
-					<?php else : ?>
-							<td class="text-center">
+							<?php elseif ($status->lang_code && $status->published == 0) : ?>
+								<span class="fa fa-times" aria-hidden="true"></span>
+								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+							<?php elseif ($status->lang_code && $status->published == -2) : ?>
+								<span class="fa fa-trash" aria-hidden="true"></span>
+								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+							<?php else : ?>
 								<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-							</td>
-					<?php endif; ?>
+							<?php endif; ?>
+						</td>
 					<?php // Published Home pages ?>
-					<?php if ($status->home_language) : ?>
-							<td class="text-center">
+						<td class="text-center">
+							<?php if ($status->home_published == 1) : ?>
 								<span class="fa fa-check" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
-							</td>
-					<?php else : ?>
-							<td class="text-center">
+							<?php elseif ($status->home_published == 0) : ?>
 								<span class="fa fa-times" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('JNO'); ?></span>
-							</td>
-					<?php endif; ?>
+							<?php elseif ($status->home_published == -2) : ?>
+								<span class="fa fa-trash" aria-hidden="true"></span>
+								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+							<?php else : ?>
+								<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+							<?php endif; ?>
+						</td>
 					</tr>
 				<?php endforeach; ?>
 				<?php foreach ($this->contentlangs as $contentlang) : ?>
 					<?php if (!array_key_exists($contentlang->lang_code, $this->site_langs)) : ?>
 						<tr>
-							<td>
+							<th scope="row">
 								<?php echo $contentlang->lang_code; ?>
-							</td>
+							</th>
 							<td class="text-center">
 								<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 							</td>
 							<td class="text-center">
-								<?php if ($contentlang->published) : ?>
+								<?php if ($contentlang->published == 1) : ?>
 									<span class="fa fa-check" aria-hidden="true"></span>
 									<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
-								<?php elseif (!$contentlang->published && array_key_exists($contentlang->lang_code, $this->homepages)) : ?>
+								<?php elseif ($contentlang->published == 0 && array_key_exists($contentlang->lang_code, $this->homepages)) : ?>
 									<span class="fa fa-times" aria-hidden="true"></span>
 									<span class="sr-only"><?php echo Text::_('JNO'); ?></span>
-								<?php elseif (!$contentlang->published) : ?>
-									<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+								<?php elseif ($contentlang->published == -2 && array_key_exists($contentlang->lang_code, $this->homepages)) : ?>
+									<span class="fa fa-trash" aria-hidden="true"></span>
 									<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 								<?php endif; ?>
 							</td>
@@ -257,6 +297,28 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 						</tr>
 					<?php endif; ?>
 				<?php endforeach; ?>
+				<?php // Display error when the Content Language has been deleted ?>
+				<?php foreach ($sitelangs as $sitelang) : ?>
+					<?php if (!in_array($sitelang, $content_languages) && in_array($sitelang, $home_pages)) : ?>
+						<tr>
+							<th scope="row">
+								<?php echo $sitelang; ?>
+							</th>
+							<td class="text-center">
+								<span class="fa fa-check" aria-hidden="true"></span>
+								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
+							</td>
+							<td class="text-center">
+								<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+								<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+							</td>
+							<td class="text-center">
+								<span class="fa fa-check" aria-hidden="true"></span>
+								<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
+							</td>
+						</tr>
+ 					<?php endif; ?>
+ 				<?php endforeach; ?>
 			</tbody>
 		</table>
 	<?php endif; ?>
