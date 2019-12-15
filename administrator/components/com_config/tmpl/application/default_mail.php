@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -17,7 +16,7 @@ use Joomla\CMS\Session\Session;
 defined('_JEXEC') or die;
 
 HTMLHelper::_('form.csrf');
-Factory::getDocument()->getWebAssetManager()
+$this->document->getWebAssetManager()
 	->useScript('webcomponent.field-send-test-mail');
 
 // Load JavaScript message titles
