@@ -42,6 +42,15 @@
       ]
     },
     {
+      "name": "template.active",
+      "type": "script",
+      "uri": "",
+      "description": "A dummy asset to allow to extensions to use it as dependency to active template",
+      "dependencies": [
+        "template.atum"
+      ]
+    },
+    {
       "name": "template.atum.base",
       "type": "preset",
       "dependencies": [

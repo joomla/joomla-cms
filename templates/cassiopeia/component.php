@@ -18,6 +18,9 @@ $wa->useStyle('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'lt
 	->useStyle('template.user')
 	->useScript('template.user');
 
+// Override 'template.active' asset to set correct ltr/rtl dependency
+$wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
