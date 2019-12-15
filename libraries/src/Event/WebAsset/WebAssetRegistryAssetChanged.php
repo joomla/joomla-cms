@@ -36,17 +36,17 @@ class WebAssetRegistryAssetChanged extends AbstractEvent
 		parent::__construct($name, $arguments);
 
 		// Check for required arguments
-		if (!array_key_exists('asset', $arguments) || !($arguments['asset'] instanceof WebAssetItemInterface))
+		if (!\array_key_exists('asset', $arguments) || !($arguments['asset'] instanceof WebAssetItemInterface))
 		{
 			throw new BadMethodCallException("Argument 'asset' of event $name is not of the expected type");
 		}
 
-		if (!array_key_exists('assetType', $arguments) || !is_string($arguments['assetType']))
+		if (!\array_key_exists('assetType', $arguments) || !is_string($arguments['assetType']))
 		{
 			throw new BadMethodCallException("Argument 'assetType' of event $name is not of the expected type");
 		}
 
-		if (!array_key_exists('change', $arguments) || !is_string($arguments['change']))
+		if (!\array_key_exists('change', $arguments) || !is_string($arguments['change']))
 		{
 			throw new BadMethodCallException("Argument 'change' of event $name is not of the expected type");
 		}

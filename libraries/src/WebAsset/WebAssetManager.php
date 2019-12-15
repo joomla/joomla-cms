@@ -204,7 +204,9 @@ class WebAssetManager implements WebAssetManagerInterface
 
 			if ($andUse)
 			{
-				return $this->registerAsset($type, ...$arguments)->useAsset($type, $arguments[0]);
+				$name = $arguments[0] instanceof WebAssetItemInterface ? $arguments[0]->getName() : $arguments[0];
+
+				return $this->registerAsset($type, ...$arguments)->useAsset($type, $name);
 			}
 			else
 			{
