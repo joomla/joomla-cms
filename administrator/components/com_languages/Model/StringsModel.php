@@ -73,20 +73,20 @@ class StringsModel extends BaseDatabaseModel
 		// Parse common language directory.
 		if (is_dir($path))
 		{
-			$files = Folder::files($path, $language . '.*ini$', false, true);
+			$files = Folder::files($path, '.*ini$', false, true);
 		}
 
 		// Parse language directories of components.
-		$files = array_merge($files, Folder::files($base . '/components', $language . '.*ini$', 3, true));
+		$files = array_merge($files, Folder::files($base . '/components', '.*ini$', 3, true));
 
 		// Parse language directories of modules.
-		$files = array_merge($files, Folder::files($base . '/modules', $language . '.*ini$', 3, true));
+		$files = array_merge($files, Folder::files($base . '/modules', '.*ini$', 3, true));
 
 		// Parse language directories of templates.
-		$files = array_merge($files, Folder::files($base . '/templates', $language . '.*ini$', 3, true));
+		$files = array_merge($files, Folder::files($base . '/templates', '.*ini$', 3, true));
 
 		// Parse language directories of plugins.
-		$files = array_merge($files, Folder::files(JPATH_PLUGINS, $language . '.*ini$', 4, true));
+		$files = array_merge($files, Folder::files(JPATH_PLUGINS, '.*ini$', 4, true));
 
 		// Parse all found ini files and add the strings to the database cache.
 		foreach ($files as $file)
