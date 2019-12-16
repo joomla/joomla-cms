@@ -146,8 +146,8 @@ abstract class FormModel extends BaseForm
 		}
 
 		//  Register the paths for the form.
-		Form::addFormPath(JPATH_COMPONENT . '/forms');
-		Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
+		Form::addFormPath(JPATH_SITE . '/components/com_config/forms');
+		Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_config/forms');
 
 		try
 		{
