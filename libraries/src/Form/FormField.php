@@ -466,7 +466,7 @@ abstract class FormField
 
 			default:
 				// Check for data attribute
-				if (strpos($name, "data-") === 0 && array_key_exists($name, $this->dataAttributes))
+				if (strpos($name, 'data-') === 0 && array_key_exists($name, $this->dataAttributes))
 				{
 					return $this->dataAttributes[$name];
 				}
