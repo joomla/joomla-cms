@@ -564,7 +564,7 @@ abstract class FormField
 
 			default:
 				// Detect data attribute(s)
-				if (strpos($name, "data-") === 0)
+				if (strpos($name, 'data-') === 0)
 				{
 					$this->dataAttributes[$name] = $value;
 				}
