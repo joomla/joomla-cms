@@ -87,4 +87,4 @@ if (!empty($dataAttributes))
 
 HTMLHelper::_('webcomponent', 'system/fields/joomla-field-module-order.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
-<joomla-field-module-order <?php echo implode($attributes, ' '); ?>></joomla-field-module-order>
+<joomla-field-module-order <?php echo implode(' ', $attributes); ?>></joomla-field-module-order>

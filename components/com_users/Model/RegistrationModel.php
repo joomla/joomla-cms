@@ -746,8 +746,8 @@ class RegistrationModel extends FormModel
 			$query->clear()
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('block') . ' = ' . (int) 0)
-				->where($db->quoteName('sendEmail') . ' = ' . (int) 1);
+				->where($db->quoteName('block') . ' = 0')
+				->where($db->quoteName('sendEmail') . ' = 1');
 			$db->setQuery($query);
 
 			try
