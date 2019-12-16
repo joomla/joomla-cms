@@ -650,7 +650,7 @@ abstract class FormField
 		// Lets detect miscellaneous data attribute. For eg, data-*
 		foreach ($this->element->attributes() as $key => $value)
 		{
-			if (strpos($key, "data-") === 0)
+			if (strpos($key, 'data-') === 0)
 			{
 				// Data attribute key value pair
 				$this->dataAttributes[$key] = $value;
