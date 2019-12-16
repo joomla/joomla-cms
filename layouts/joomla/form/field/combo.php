@@ -81,5 +81,5 @@ foreach ($options as $option)
 	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 	<?php echo $attr; ?>
 	data-list="<?php echo implode(', ', $val); ?>"
-	"<?php echo $dataAttribute; ?>"
+	<?php echo $dataAttribute; ?>
 />
