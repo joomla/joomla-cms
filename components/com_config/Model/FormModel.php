@@ -145,26 +145,13 @@ abstract class FormModel extends BaseForm
 			return $this->_forms[$hash];
 		}
 
-		// Get the form.
-		// Register the paths for the form -- failing here
-		$paths = new \SplPriorityQueue;
-		$paths->insert(JPATH_COMPONENT_ADMINISTRATOR . '/model/form', 'normal');
-		$paths->insert(JPATH_COMPONENT_ADMINISTRATOR . '/model/field', 'normal');
-		$paths->insert(JPATH_COMPONENT . '/model/form', 'normal');
-		$paths->insert(JPATH_COMPONENT . '/model/field', 'normal');
-		$paths->insert(JPATH_COMPONENT . '/model/rule', 'normal');
-
-		// Legacy support to be removed in 4.0.  -- failing here
-		$paths->insert(JPATH_COMPONENT . '/models/forms', 'normal');
-		$paths->insert(JPATH_COMPONENT . '/models/fields', 'normal');
-		$paths->insert(JPATH_COMPONENT . '/models/rules', 'normal');
-
-		// Solution until JForm supports splqueue
+		//  Register the paths for the form.
 		Form::addFormPath(JPATH_COMPONENT . '/forms');
 		Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
 
 		try
 		{
+			// Get the form.
 			$form = Form::getInstance($name, $source, $options, false, $xpath);
 
 			if (isset($options['load_data']) && $options['load_data'])
