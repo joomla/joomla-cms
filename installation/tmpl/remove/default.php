@@ -116,9 +116,9 @@ use Joomla\CMS\Uri\Uri;
 				<p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET2'); ?></p>
 			<?php else : ?>
 			<form action="index.php" method="post" id="languagesForm" class="form-validate">
-				<p id="wait_installing" style="display: none;">
+				<p id="wait_installing" class="hidden">
 					<?php echo Text::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT'); ?><br>
-				<div id="wait_installing_spinner" class="spinner spinner-img" style="display: none;"></div>
+				<div id="wait_installing_spinner" class="spinner spinner-img" class="hidden"></div>
 				</p>
 				<table class="table table-sm">
 				<caption id="install_languages_desc"><?php echo Text::_('INSTL_LANGUAGES_DESC'); ?></caption>
