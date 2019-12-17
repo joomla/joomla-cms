@@ -229,6 +229,14 @@ class LibraryAdapter extends InstallerAdapter
 	{
 		$group = (string) $this->getManifest()->libraryname;
 
+		// Don't install libraries which would override core folders
+		$restricedFolders = array('cms', 'fof', 'idna_convert', 'joomla', 'legacy', 'php-encryption', 'phpass', 'phputf8', 'src', 'vendor');
+
+		if (in_array($group, $restricedFolders))
+		{
+			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_CORE_FOLDER'));
+		}
+
 		if (!$group)
 		{
 			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_NOFILE'));
