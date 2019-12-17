@@ -42,6 +42,7 @@
 			type="list"
 			onchange="this.form.submit();"
 			default="a.lft ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.title ASC">COM_USERS_HEADING_ASSET_TITLE_ASC</option>
