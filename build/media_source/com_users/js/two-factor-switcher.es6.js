@@ -18,7 +18,7 @@ Joomla = window.Joomla || {};
           return;
         }
 
-        document.getElementById(el.id).classList.add('hidden');
+        document.getElementById(el.id).classList.remove('hidden');
       });
     };
   });
