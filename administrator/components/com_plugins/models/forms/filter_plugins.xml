@@ -54,6 +54,7 @@
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="folder ASC"
+			validate="options"
 		>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

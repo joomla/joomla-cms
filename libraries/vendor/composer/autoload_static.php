@@ -67,7 +67,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
             'Joomla\\Image\\' => 13,
             'Joomla\\Filter\\' => 14,
             'Joomla\\Filesystem\\' => 18,
-            'Joomla\\Event\\Tests\\' => 19,
             'Joomla\\Event\\' => 13,
             'Joomla\\Data\\Tests\\' => 18,
             'Joomla\\Data\\' => 12,
@@ -161,10 +160,6 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Filesystem\\' => 
         array (
             0 => __DIR__ . '/..' . '/joomla/filesystem/src',
-        ),
-        'Joomla\\Event\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/joomla/event/Tests',
         ),
         'Joomla\\Event\\' => 
         array (

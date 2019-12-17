@@ -174,7 +174,7 @@ class ErrorDocument extends Document
 		// Load
 		$data = $this->_loadTemplate($directory . '/' . $template, $file);
 
-		parent::render();
+		parent::render($cache, $params);
 
 		return $data;
 	}
