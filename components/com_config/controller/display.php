@@ -106,6 +106,7 @@ class ConfigControllerDisplay extends JControllerBase
 			// Reply for service requests
 			if ($viewFormat === 'json')
 			{
+				$this->app->allowCache(false);
 				return $view->render();
 			}
 
