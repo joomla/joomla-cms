@@ -89,6 +89,7 @@
 			label="JGLOBAL_SORT_BY"
 			default="id ASC"
 			onchange="this.form.submit();"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="state ASC">JSTATUS_ASC</option>
