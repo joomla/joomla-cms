@@ -118,7 +118,7 @@ use Joomla\CMS\Uri\Uri;
 			<form action="index.php" method="post" id="languagesForm" class="form-validate">
 				<p id="wait_installing" class="hidden">
 					<?php echo Text::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT'); ?><br>
-				<div id="wait_installing_spinner" class="spinner spinner-img" class="hidden"></div>
+				<div id="wait_installing_spinner" class="spinner spinner-img hidden"></div>
 				</p>
 				<table class="table table-sm">
 				<caption id="install_languages_desc"><?php echo Text::_('INSTL_LANGUAGES_DESC'); ?></caption>

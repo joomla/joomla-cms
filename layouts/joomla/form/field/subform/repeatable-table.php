@@ -111,7 +111,7 @@ else
 			</tbody>
 		</table>
 		<?php if ($multiple) : ?>
-		<template class="subform-repeatable-template-section" style="display: none;">
+		<template class="subform-repeatable-template-section" class="hidden">
 		<?php echo trim($this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons))); ?>
 		</template>
 		<?php endif; ?>
