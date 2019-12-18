@@ -197,7 +197,7 @@ $(function() {
 
 	// set display to none to avoid a layout bug in IE
 	// http://dev.jquery.com/ticket/4014
-	body.removeChild( div ).classList.add('hidden');
+	body.removeChild( div ).style.display = "none";
 });
 
 // support: jQuery <1.8
