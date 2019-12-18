@@ -45,7 +45,7 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   array    $spellcheck      Options available for this field.
  * @var   string   $accept          File types that are accepted.
- * @var   array    $dataAttributes   Miscellaneous data attribute for eg, data-*.
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
 $dataAttribute = '';
