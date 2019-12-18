@@ -34,7 +34,7 @@ use Joomla\CMS\Uri\Uri;
  * @var  boolean  $readonly        True if field is readonly
  * @var  integer  $size            The size text
  * @var  string   $value           The value text
- * @var  string   $src 		   The path and filename of the image
+ * @var  string   $src             The path and filename of the image
  * @var  array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
 extract($displayData);
