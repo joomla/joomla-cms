@@ -147,9 +147,9 @@ defined('_JEXEC') or die;
 <?php else: ?>
 	<div class="row-fluid">
 		<div class="span6">
-			<legend>
+			<p>
 				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
-			</legend>
+			</p>
 			<p>
 				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NONE'); ?>
 			</p>
