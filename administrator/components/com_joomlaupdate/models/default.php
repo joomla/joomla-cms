@@ -1391,16 +1391,9 @@ ENDDATA;
 			$db->qn('ex.type') . ', ' .
 			$db->qn('ex.folder') . ', ' .
 			$db->qn('ex.element') . ', ' .
-			$db->qn('ex.client_id') . ', ' .
-			$db->qn('si.location')
+			$db->qn('ex.client_id')
 		)->from(
 			$db->qn('#__extensions', 'ex')
-		)->leftJoin(
-			$db->qn('#__update_sites_extensions', 'se') .
-			' ON ' . $db->qn('se.extension_id') . ' = ' . $db->qn('ex.extension_id')
-		)->leftJoin(
-			$db->qn('#__update_sites', 'si') .
-			' ON ' . $db->qn('si.update_site_id') . ' = ' . $db->qn('se.update_site_id')
 		)->where(
 			$db->qn('ex.package_id') . ' = 0'
 		);
@@ -1457,25 +1450,26 @@ ENDDATA;
 	 */
 	public function fetchCompatibility($extensionID, $joomlaTargetVersion)
 	{
-		$updateFileUrl = $this->getUpdateSiteLocation($extensionID);
+		$updateFileUrls = $this->getUpdateSiteLocations($extensionID);
 
-		if (!$updateFileUrl)
+		if (!$updateFileUrls)
 		{
 			return (object) array('state' => 2);
 		}
-		else
+
+		foreach ($updateFileUrls as $updateFileUrl)
 		{
 			$compatibleVersion = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
 
 			if ($compatibleVersion)
 			{
+				// Return the compatible version
 				return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
 			}
-			else
-			{
-				return (object) array('state' => 0);
-			}
 		}
+
+		// In any other case we mark this extension as not compatible
+		return (object) array('state' => 0);
 	}
 
 	/**
@@ -1483,11 +1477,11 @@ ENDDATA;
 	 *
 	 * @param   int  $extensionID  The extension ID
 	 *
-	 * @return  mixed  URL or false
+	 * @return  mixed  array of Update URLs or false
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function getUpdateSiteLocation($extensionID)
+	private function getUpdateSiteLocations($extensionID)
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -1502,9 +1496,9 @@ ENDDATA;
 
 		$db->setQuery($query);
 
-		$rows = $db->loadObjectList();
+		$rows = $db->loadColumn();
 
-		return count($rows) >= 1 ? end($rows)->location : false;
+		return !empty($rows) ? $rows : false;
 	}
 
 	/**
