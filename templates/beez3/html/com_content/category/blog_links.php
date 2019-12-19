@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-$params = &$this->item->params;
-$app = JFactory::getApplication();
-
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 ?>
