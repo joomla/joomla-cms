@@ -16,6 +16,7 @@
 			element="com_content"
 			link="index.php?option=com_content&amp;view=articles"
 			quicktask="index.php?option=com_content&amp;task=article.add"
+			quicktask-title="MOD_MENU_COM_CONTENT_NEW_ARTICLE"
 		/>
 
 		<menuitem
@@ -24,6 +25,7 @@
 			element="com_categories"
 			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_content"
 			quicktask="index.php?option=com_categories&amp;extension=com_content&amp;task=category.add"
+			quicktask-title="MOD_MENU_COM_CONTENT_NEW_CATEGORY"
 		/>
 
 		<menuitem
@@ -84,6 +86,7 @@
 			element="com_modules"
 			link="index.php?option=com_modules&amp;view=modules&amp;client_id=0"
 			quicktask="index.php?option=com_modules&amp;view=select&amp;client_id=0"
+			quicktask-title="MOD_MENU_COM_CONTENT_NEW_SITE_MODULE"
 		/>
 
 		<menuitem
