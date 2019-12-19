@@ -1498,7 +1498,7 @@ ENDDATA;
 
 		$rows = $db->loadColumn();
 
-		return !empty($rows) ? $rows : false;
+		return $rows ?: false;
 	}
 
 	/**
