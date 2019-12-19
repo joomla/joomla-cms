@@ -1533,6 +1533,12 @@ class PlgSystemDebug extends JPlugin
 			foreach ($log as $k => $query)
 			{
 				$dbVersion56 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '5.6', '>=');
+				$dbVersion80 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '8.0', '>=');
+
+				if ($dbVersion80)
+				{
+					$dbVersion56 = false; 
+				}
 
 				if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0))))
 				{
@@ -2016,8 +2022,11 @@ class PlgSystemDebug extends JPlugin
 		// In PHP 5.4.0 or later we have pretty print option.
 		if (version_compare(PHP_VERSION, '5.4', '>='))
 		{
-			$json = json_encode($json, JSON_PRETTY_PRINT);
+			$json = json_encode($json, JSON_UNESCAPED_SLASHES|JSON_PRETTY_PRINT);
 		}
+
+		// Escape HTML in session vars
+		$json = htmlentities($json);
 
 		// Add some colors
 		$json = preg_replace('#"([^"]+)":#', '<span class=\'black\'>"</span><span class=\'green\'>$1</span><span class=\'black\'>"</span>:', $json);

@@ -26,15 +26,6 @@ $itemid   = $app->input->getCmd('Itemid', '');
 $format   = $app->input->getCmd('format', 'html');
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 
-if ($task === 'edit' || $layout === 'form')
-{
-	$fullWidth = 1;
-}
-else
-{
-	$fullWidth = 0;
-}
-
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
@@ -74,6 +65,9 @@ else
 	<?php // If Right-to-Left ?>
 	<?php if ($this->direction === 'rtl') : ?>
 		<link href="<?php echo JUri::root(true); ?>/media/jui/css/bootstrap-rtl.css" rel="stylesheet" />
+	<?php endif; ?>
+	<?php if (file_exists('templates/' . $this->template . '/css/user.css')) : ?>
+		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/user.css" rel="stylesheet" />
 	<?php endif; ?>
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 	<?php // Template color ?>

@@ -123,7 +123,7 @@ class AdministratorApplication extends CMSApplication
 		$this->initialiseApp($options);
 
 		// Test for magic quotes
-		if (get_magic_quotes_gpc())
+		if (PHP_VERSION_ID < 50400 && get_magic_quotes_gpc())
 		{
 			$lang = $this->getLanguage();
 

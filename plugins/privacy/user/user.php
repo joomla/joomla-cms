@@ -141,7 +141,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 		foreach ($sessionIds as $sessionId)
 		{
 			$store->destroy($sessionId);
-			$quotedIds[] = $this->db->quote($sessionId);
+			$quotedIds[] = $this->db->quoteBinary($sessionId);
 		}
 
 		$this->db->setQuery(

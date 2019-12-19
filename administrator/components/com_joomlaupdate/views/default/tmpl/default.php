@@ -63,13 +63,15 @@ JS
 			<?php echo $this->loadTemplate('updatemefirst'); ?>
 		<?php else : ?>
 			<?php if ((!isset($this->updateInfo['object']->downloadurl->_data)
-				&& $this->updateInfo['installed'] < $this->updateInfo['latest'])
+				&& !$this->updateInfo['hasUpdate'])
 				|| !$this->getModel()->isDatabaseTypeSupported()
 				|| !$this->getModel()->isPhpVersionSupported()) : ?>
-				<?php // If we have no download URL or our PHP version or our DB type is not supported we can't reinstall or update ?>
+		<?php // If we have no download URL or our PHP version or our DB type is not supported we can't reinstall or update ?>
+				<?php echo $this->loadTemplate('noupdate'); ?>
+			<?php elseif (!isset($this->updateInfo['object']->downloadurl->_data)) : ?>
 				<?php echo $this->loadTemplate('nodownload'); ?>
 			<?php elseif (!$this->updateInfo['hasUpdate']) : ?>
-				<?php // If we have no update we can reinstall the core ?>
+				<?php // If we have no update but we have a downloadurl we can reinstall the core ?>
 				<?php echo $this->loadTemplate('reinstall'); ?>
 			<?php else : ?>
 				<?php // Ok let's show the update template ?>

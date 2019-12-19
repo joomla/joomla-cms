@@ -23,7 +23,6 @@ if ($app->input->get('view') === 'items' && $app->input->get('layout') === 'moda
 	}
 }
 
-$lang->load('joomla', JPATH_ADMINISTRATOR);
 $lang->load('com_menus', JPATH_ADMINISTRATOR);
 
 // Trigger the controller
