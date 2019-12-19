@@ -169,7 +169,7 @@ class PlgSystemDebug extends JPlugin
 			}
 
 			// Split into an array at any character other than alphabet, numbers, _, ., or -
-			$categories = array_filter(preg_split('/[^A-Z0-9_\.-]/i', $this->params->get('log_categories', '')));
+			$categories = preg_split('/[^\w.-]+/', $this->params->get('log_categories', ''), -1, PREG_SPLIT_NO_EMPTY);
 			$mode       = $this->params->get('log_category_mode', 0);
 
 			JLog::addLogger(array('logger' => 'callback', 'callback' => array($this, 'logger')), $priority, $categories, $mode);
