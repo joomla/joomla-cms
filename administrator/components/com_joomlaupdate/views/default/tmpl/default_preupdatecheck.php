@@ -146,13 +146,13 @@ defined('_JEXEC') or die;
 	</div>
 <?php else: ?>
 	<div class="row-fluid">
-		<div class="span6">
-			<p>
+	<div class="span6">
+			<h3>
 				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
-			</p>
-			<p>
+			</h3>
+			<div class="alert alert-no-items">
 				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NONE'); ?>
-			</p>
+			</div>
 		</div>
 	</div>
 <?php endif; ?>
