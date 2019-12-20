@@ -35,19 +35,19 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 						<thead>
 							<tr>
 								<th scope="col" style="min-width:100px">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
+									<?php echo Text::_('JGLOBAL_TITLE'); ?>
 								</th>
 								<th scope="col" style="width:15%" class="d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MAILS_HEADING_COMPONENT', 'a.component', $listDirn, $listOrder); ?>
+									<?php echo Text::_('COM_MAILS_HEADING_COMPONENT'); ?>
 								</th>
 								<th scope="col" style="width:15%"  class="d-md-table-cell">
-									<?php echo Text::_('COM_MAILS_HEADING_LANGUAGES'); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_MAILS_HEADING_LANGUAGES', 'a.language', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:30%" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_DESCRIPTION'); ?>
 								</th>
 								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.template_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
