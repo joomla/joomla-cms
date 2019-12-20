@@ -652,6 +652,9 @@ class User extends CMSObject
 			{
 				$array['password'] = $this->password;
 			}
+
+			// Prevent updating current registration date
+			unset($array['registerDate']);
 		}
 
 		if (\array_key_exists('params', $array))
