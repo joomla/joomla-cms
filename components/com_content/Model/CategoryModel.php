@@ -143,11 +143,14 @@ class CategoryModel extends ListModel
 
 		// Load the parameters. Merge Global and Menu Item params into new object
 		$params = $app->getParams();
-		$menuParams = new Registry;
 
 		if ($menu = $app->getMenu()->getActive())
 		{
-			$menuParams->loadString($menu->params);
+			$menuParams = $menu->getParams();
+		}
+		else
+		{
+			$menuParams = new Registry;
 		}
 
 		$mergedParams = clone $menuParams;

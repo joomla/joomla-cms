@@ -300,7 +300,7 @@ class HtmlView extends BaseHtmlView
 		// Highest priority for "Browser Page Title".
 		if ($menu)
 		{
-			$title = $menu->params->get('page_title', '');
+			$title = $menu->getParams()->get('page_title', '');
 		}
 
 		if ($this->tags_title)

@@ -37,9 +37,9 @@
       ]
     },
     {
-      "name": "fontawesome",
+      "name": "fontawesome-free",
       "css": [
-        "fontawesome.min.css"
+        "vendor/fontawesome-free/fontawesome.min.css"
       ]
     }
   ]
