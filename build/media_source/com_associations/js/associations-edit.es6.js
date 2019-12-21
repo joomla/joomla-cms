@@ -175,7 +175,7 @@ Joomla = window.Joomla || {};
           element.classList.remove('hidden');
 
           // Check if there was an association selected for this language
-          if (!existsAssociations && document.getElementById(`${formControl}_associations_${languageCode}_name`).value !== '') {
+          if (!existsAssociations && document.getElementById(`${formControl}_associations_${languageCode}_id`).value !== '') {
             existsAssociations = true;
           }
 

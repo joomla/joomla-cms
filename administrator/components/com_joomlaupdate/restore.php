@@ -1751,7 +1751,7 @@ class AKPostprocFTP extends AKAbstractPostproc
 					}
 					else
 					{
-						// it's already absolute
+						// It's already absolute
 						$tempDir = $userdir;
 					}
 					// Does the directory exist?
@@ -2336,7 +2336,7 @@ class AKPostprocSFTP extends AKAbstractPostproc
 					}
 					else
 					{
-						// it's already absolute
+						// It's already absolute
 						$tempDir = $userdir;
 					}
 					// Does the directory exist?
@@ -3009,7 +3009,7 @@ class AKPostprocHybrid extends AKAbstractPostproc
 					}
 					else
 					{
-						// it's already absolute
+						// It's already absolute
 						$tempDir = $userdir;
 					}
 					// Does the directory exist?
