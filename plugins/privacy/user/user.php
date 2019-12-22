@@ -163,6 +163,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 		foreach ($items as $item)
 		{
 			$param = json_decode($item['params'], true);
+
 			if ($param['privacy_related'])
 			{
 				$this->db->setQuery(
