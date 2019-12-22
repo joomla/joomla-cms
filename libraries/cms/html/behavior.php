@@ -204,6 +204,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated   4.0
 	 */
 	public static function switcher()
 	{
@@ -280,6 +282,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated   4.0
 	 */
 	public static function tooltip($selector = '.hasTip', $params = array())
 	{
@@ -511,6 +515,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated   4.0
 	 */
 	public static function tree($id, $params = array(), $root = array())
 	{
