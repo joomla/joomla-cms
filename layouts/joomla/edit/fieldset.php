@@ -54,7 +54,7 @@ if (!empty($displayData->showOptions) || $displayData->get('show_options', 1))
 else
 {
 	$html = array();
-	$html[] = '<div style="display:none;">';
+	$html[] = '<div class="hidden">';
 	foreach ($fieldSet as $field)
 	{
 		$html[] = $field->input;

@@ -255,7 +255,7 @@
 
     if (container) {
       container.classList.remove('no-js');
-      container.style.display = "block";
+      container.classList.remove('hidden');
     }
   });
 })();
