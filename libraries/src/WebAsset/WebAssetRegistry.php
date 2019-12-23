@@ -366,7 +366,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 	}
 
 	/**
-	 * Dispatch an even to notify a listeners about an asset changes: new, remove, override
+	 * Dispatch an event to notify listeners about asset changes: new, remove, override
 	 * Events:
 	 *  - onWebAssetRegistryChangedAssetNew       When new asset added to the registry
 	 *  - onWebAssetRegistryChangedAssetOverride  When the asset overridden
