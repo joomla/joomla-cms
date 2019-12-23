@@ -640,7 +640,7 @@ class LocalAdapter implements AdapterInterface
 	}
 
 	/**
-	 * Returns an url which can be used to display an image from within the "images" directory.
+	 * Returns a url which can be used to display an image from within the "images" directory.
 	 *
 	 * @param   string  $path  Path of the file relative to adapter
 	 *
