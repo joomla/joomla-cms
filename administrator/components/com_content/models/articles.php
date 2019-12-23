@@ -219,11 +219,8 @@ class ContentModelArticles extends JModelList
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join on voting table
-		$assogroup = 'a.id, l.title, l.image, uc.name, ag.title, c.title, ua.name, c.created_user_id, c.level, parent.id';
-
 		if (JPluginHelper::isEnabled('content', 'vote'))
 		{
-			$assogroup .= ', v.rating_sum, v.rating_count';
 			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
@@ -232,10 +229,18 @@ class ContentModelArticles extends JModelList
 		// Join over the associations.
 		if (JLanguageAssociations::isEnabled())
 		{
-			$query->select('CASE WHEN COUNT(asso2.id)>1 THEN 1 ELSE 0 END as association')
-				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
-				->join('LEFT', '#__associations AS asso2 ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'))
-				->group($assogroup);
+			$subQuery = $db->getQuery(true)
+				->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
+				->from($db->quoteName('#__associations', 'asso1'))
+				->join('INNER', $db->quoteName('#__associations', 'asso2') . ' ON ' . $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
+				->where(
+					array(
+						$db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
+						$db->quoteName('asso1.context') . ' = ' . $db->quote('com_content.item'),
+					)
+				);
+
+			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
 		}
 
 		// Filter by access level.
