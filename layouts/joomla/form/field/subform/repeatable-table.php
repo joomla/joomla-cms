@@ -82,7 +82,7 @@ else
 			button-add=".group-add" button-remove=".group-remove" button-move="<?php echo empty($buttons['move']) ? '' : '.group-move' ?>"
 			repeatable-element=".subform-repeatable-group"
 			rows-container="tbody.subform-repeatable-container" minimum="<?php echo $min; ?>" maximum="<?php echo $max; ?>">
-		<table class="table" id="subfieldList">
+		<table class="table table-responsive" id="subfieldList">
 			<caption id="captionTable" class="sr-only">
 				<?php echo Text::_('JGLOBAL_REPEATABLE_FIELDS_TABLE_CAPTION'); ?>
 			</caption>
@@ -111,7 +111,7 @@ else
 			</tbody>
 		</table>
 		<?php if ($multiple) : ?>
-		<template class="subform-repeatable-template-section" style="display: none;">
+		<template class="subform-repeatable-template-section hidden">
 		<?php echo trim($this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons))); ?>
 		</template>
 		<?php endif; ?>
