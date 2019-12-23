@@ -13,13 +13,13 @@
     switch (value) {
       case '0':
         // Image
-        imgWrapper.style.display = 'block';
-        custom.style.display = 'none';
+        imgWrapper.classList.remove('hidden');
+        custom.classList.add('hidden');
         break;
       case '1':
         // Custom
-        imgWrapper.style.display = 'none';
-        custom.style.display = 'block';
+        imgWrapper.classList.add('hidden');
+        custom.classList.remove('hidden');
         break;
       default:
         // Do nothing

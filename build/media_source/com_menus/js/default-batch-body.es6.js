@@ -9,9 +9,9 @@
 
   const onChange = () => {
     if (batchSelector.value !== 0 || batchSelector.value !== '') {
-      batchCopyMove.style.display = 'block';
+      batchCopyMove.classList.remove('hidden');
     } else {
-      batchCopyMove.style.display = 'none';
+      batchCopyMove.classList.add('hidden');
     }
   };
 
