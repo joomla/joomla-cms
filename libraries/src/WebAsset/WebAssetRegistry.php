@@ -341,7 +341,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 			if (empty($item['type']))
 			{
 				throw new \RuntimeException(
-					sprintf('Fail parsing of asset registry file "%s". Property "type" are required for asset "%s"', $path, $item['name'])
+					sprintf('Failed parsing asset registry file "%s". Property "type" is required for asset "%s"', $path, $item['name'])
 				);
 			}
 
