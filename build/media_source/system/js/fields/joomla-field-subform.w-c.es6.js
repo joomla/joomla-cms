@@ -22,6 +22,39 @@
     return false;
   });
 
+  /**
+   * Helper to find a closest parent element
+   *
+   * @param {HTMLElement} element
+   * @param {String}      selector
+   *
+   * @returns {HTMLElement|null}
+   */
+  function closest(element, selector) {
+    let parent;
+
+    // Traverse parents
+    while (element) {
+      parent = element.parentElement;
+      if (parent && parent[matchesFn](selector)) {
+        return parent;
+      }
+      element = parent;
+    }
+
+    return null;
+  }
+
+  /**
+   * Helper for testing whether a selection modifier is pressed
+   * @param {Event} event
+   *
+   * @returns {boolean|*}
+   */
+  function hasModifier(event) {
+    return (event.ctrlKey || event.metaKey || event.shiftKey);
+  }
+
   class JoomlaFieldSubform extends HTMLElement {
     // Attribute getters
     get buttonAdd() { return this.getAttribute('button-add'); }
@@ -67,7 +100,7 @@
         }
       }
 
-      // Keep track of row index, this is important to to avoid a name duplications
+      // Keep track of row index, this is important to avoid a name duplication
       // Note: php side should reset the indexes each time, eg: $value = array_values($value);
       this.lastRowIndex = this.getRows().length - 1;
 
@@ -271,7 +304,7 @@
           .replace(/(\]\[)/g, '__')
           .replace(/\[/g, '_')
           .replace(/\]/g, '')
-          .replace(/\W/g, '_');   // id from name
+          .replace(/\W/g, '_'); // id from name
         const nameNew = name.replace(`[${group}][`, `[${groupnew}][`); // New name
         let idNew = id.replace(group, groupnew); // Count new id
         let countMulti = 0; // count for multiple radio/checkboxes
@@ -572,36 +605,5 @@
 
   customElements.define('joomla-field-subform', JoomlaFieldSubform);
 
-  /**
-   * Helper to find a closest parent element
-   *
-   * @param {HTMLElement} element
-   * @param {String}      selector
-   *
-   * @returns {HTMLElement|null}
-   */
-  function closest(element, selector) {
-    let parent;
 
-    // Traverse parents
-    while (element) {
-      parent = element.parentElement;
-      if (parent && parent[matchesFn](selector)) {
-        return parent;
-      }
-      element = parent;
-    }
-
-    return null;
-  }
-
-  /**
-   * Helper for testing whether a selection modifier is pressed
-   * @param {Event} event
-   *
-   * @returns {boolean|*}
-   */
-  function hasModifier(event) {
-    return (event.ctrlKey || event.metaKey || event.shiftKey);
-  }
 }(customElements));
