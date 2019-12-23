@@ -346,7 +346,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				$found = true;
 				$lang_code = $this->sefs[$sef]->lang_code;
 
-				// If we found our language, but its the default language and we don't want a prefix for that, we are on a wrong URL.
+				// If we found our language, but it's the default language and we don't want a prefix for that, we are on a wrong URL.
 				// Or we try to change the language back to the default language. We need a redirect to the proper URL for the default language.
 				if ($lang_code === $this->default_lang && $this->params->get('remove_default_prefix', 0))
 				{
