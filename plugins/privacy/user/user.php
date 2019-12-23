@@ -150,7 +150,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 				->where($this->db->quoteName('session_id') . ' IN (' . implode(', ', $quotedIds) . ')')
 		)->execute();
 
-		// Remove sensible user custom field data
+		// Remove sensitive user custom field data
 		$query = $this->db->getQuery(true);
 		$query->select($this->db->quoteName(array('params', 'field_id', 'item_id')))
 			->from($this->db->quoteName('#__fields'))
