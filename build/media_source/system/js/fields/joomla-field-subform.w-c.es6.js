@@ -39,6 +39,8 @@
       if (parent && parent[matchesFn](selector)) {
         return parent;
       }
+
+      // eslint-disable-next-line no-param-reassign
       element = parent;
     }
 
