@@ -28,7 +28,7 @@
 		// check rows container
 		this.$containerRows = this.options.rowsContainer ? this.$container.find(this.options.rowsContainer) : this.$container;
 
-		// Keep track of amount of rows, this is important to to avoid a name duplications
+		// Keep track of amount of rows, this is important to avoid a name duplication
 		this.lastRowNum = this.$containerRows.find(this.options.repeatableElement).length;
 
 		// To avoid scope issues,
