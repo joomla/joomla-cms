@@ -65,7 +65,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 										<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.language', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" class="w-15 text-center d-none d-md-table-cell text-center">
+								<th scope="col" class="w-15 d-none d-md-table-cell text-center">
 									<?php echo Text::_('COM_FINDER_INDEX_HEADING_DETAILS'); ?>
 								</th>
 								<th scope="col" class="w-30 d-none d-md-table-cell">
