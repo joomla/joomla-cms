@@ -53,7 +53,7 @@ $stateMsgs  = array(
 						<th scope="col" class="w-5 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="10%">
+						<th scope="col" class="w-10">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'u.username', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" width="10%">
