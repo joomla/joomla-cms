@@ -92,7 +92,7 @@ $itemImage = $currentParams->get('menu_image');
 
 // Get the menu icon
 $icon      = $this->getIconClass($current);
-$iconClass = ($icon != '' && $current->level == 1) ? '<span class="' . $icon . '" aria-hidden="true"></span>' : '';
+$iconClass = ($icon != '' && $current->level == 1) ? '<span class="' . $icon . '" aria-hidden="true" title="' . Text::_($current->title) . '"></span>' : '';
 $ajax      = $current->ajaxbadge ? '<span class="menu-badge"><span class="fa fa-spin fa-spinner mt-1 system-counter" data-url="' . $current->ajaxbadge . '"></span></span>' : '';
 $iconImage = $current->icon;
 $homeImage = '';
@@ -123,19 +123,19 @@ $itemImage = (empty($itemIconClass) && $itemImage) ? '&nbsp;<img src="' . Uri::r
 
 if ($link != '' && $current->target != '')
 {
-	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->target . "\">"
+	echo '<a' . $linkClass . $dataToggle . ' href="' . $link . '" target="' . $current->target . '">'
 		. $iconClass
 		. '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
 }
 elseif ($link != '' && $current->type !== 'separator')
 {
-	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\">"
+	echo '<a' . $linkClass . $dataToggle . ' href="' . $link . '">'
 		. $iconClass
 		. '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $iconImage . '</a>';
 }
 elseif ($current->title != '' && $current->type !== 'separator')
 {
-	echo "<a" . $linkClass . $dataToggle . ">"
+	echo '<a' . $linkClass . $dataToggle . '>'
 		. $iconClass
 		. '<span class="sidebar-item-title">'. $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
 }
