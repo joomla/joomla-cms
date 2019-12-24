@@ -13,13 +13,173 @@
   clip-path: inset(50%);
 }
 
+// Font sizes
+.font-18px {
+  font-size: 18px;
+}
+
+.font-1dot2 {
+  font-size: 1.2em;
+}
+
+.line-1dot3em {
+  line-height: 1.3em;
+}
+
+// Display
 .hidden {
   display: none;
   visibility: hidden;
 }
 
+.inline-block {
+  display: inline-block;
+}
+
 .table-row {
   display: table-row;
+}
+
+// Messages
+.red {
+  color: red;
+}
+
+// Feed (rtl & ltr)
+.rtl {
+  direction: rtl;
+  text-align: right !important;
+}
+
+.ltr {
+  direction: ltr;
+  text-align: left !important;
+}
+
+// Width classes
+.min-width-85 {
+  min-width: 85px;
+}
+
+.min-width-100 {
+  min-width: 100px;
+}
+
+.max-w-100 {
+  max-width: 100%;
+}
+
+.w-1 {
+  width: 1%;
+}
+
+.w-3 {
+  width: 3%;
+}
+
+.w-5 {
+  width: 5%;
+}
+
+.w-6 {
+  width: 6%;
+}
+
+.w-7 {
+  width: 7%;
+}
+
+.w-8 {
+  width: 8%;
+}
+
+.w-10 {
+  width: 10%;
+}
+
+.w-12 {
+  width: 12%;
+}
+
+.w-15 {
+  width: 15%;
+}
+
+.w-20 {
+  width: 20%;
+}
+
+.w-25 {
+  width: 25%;
+}
+
+.w-30 {
+  width: 30%;
+}
+
+.w-35 {
+  width: 35%;
+}
+
+.w-40 {
+  width: 40%;
+}
+
+.w-45 {
+  width: 45%;
+}
+
+.w-50 {
+  width: 50%;
+}
+
+.w-60 {
+  width: 60%;
+}
+
+.w-80 {
+  width: 80%;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.width-120 {
+  width: 120px;
+}
+
+.width-250 {
+  width: 250px;
+}
+
+.width-300 {
+  width: 300px;
+}
+
+.width-850 {
+  width: 850px;
+}
+
+// calendar
+.a-incell {
+  display: inline;
+  padding: 2px 6px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+// Joomla\CMS\.Toolbar.Button PopupButton
+.zero {
+  margin: 0;
+  padding: 0;
+  width: 0;
+}
+
+// sampledata testing hr
+.pagebreak-gray {
+  color: gray;
+  border: 1px dashed gray;
 }
 
 joomla-alert {

@@ -140,7 +140,7 @@ class PopupButton extends ToolbarButton
 			$params['modalWidth'] = $options['modalWidth'] ?? null;
 
 			// Place modal div and scripts in a new div
-			$html[] = '<div class="btn-group" style="width: 0; margin: 0; padding: 0;">';
+			$html[] = '<div class="btn-group zero">';
 
 			$selector = $options['selector'];
 

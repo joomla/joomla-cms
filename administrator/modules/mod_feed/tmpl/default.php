@@ -64,7 +64,7 @@ else
 		$iUrl   = $feed->image ?? null;
 		$iTitle = $feed->imagetitle ?? null;
 		?>
-		<div style="direction: <?php echo $rssrtl ? 'rtl' : 'ltr'; ?>; text-align: <?php echo $rssrtl ? 'right' : 'left'; ?> !important" class="feed">
+		<div class="feed <?php echo $rssrtl ? 'rtl' : 'ltr'; ?>">
 		<?php
 
 		// Feed title

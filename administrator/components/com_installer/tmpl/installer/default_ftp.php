@@ -24,7 +24,7 @@ use Joomla\CMS\Language\Text;
 	<table class="adminform">
 		<tbody>
 			<tr>
-				<td style="width:120">
+				<td class="width-120">
 					<label for="username"><?php echo Text::_('JGLOBAL_USERNAME'); ?></label>
 				</td>
 				<td>
@@ -32,7 +32,7 @@ use Joomla\CMS\Language\Text;
 				</td>
 			</tr>
 			<tr>
-				<td style="width:120">
+				<td class="width-120">
 					<label for="password"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 				</td>
 				<td>

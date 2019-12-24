@@ -12,7 +12,7 @@
                 this.$el.empty()
                 for (var orphan in data.orphans) {
                     var tr = $('<tr />')
-                    $('<th valign="top" style="width:10%" />').text(orphan).appendTo(tr)
+                    $('<th valign="top" class="w-10" />').text(orphan).appendTo(tr)
                     var td = $('<th />').appendTo(tr)
 
                     var ul = $('<ul />').appendTo(td)

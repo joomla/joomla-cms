@@ -69,7 +69,7 @@ $hint         = strlen($hint) ? ' placeholder="' . $this->escape($hint) . '"' : 
 $autocomplete = !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '';
 
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
-$direction = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
+$direction = $lang->isRtl() ? ' dir="ltr" class="text-right"' : '';
 
 HTMLHelper::_('jquery.framework');
 HTMLHelper::_('script', 'vendor/minicolors/jquery.minicolors.min.js', array('version' => 'auto', 'relative' => true));

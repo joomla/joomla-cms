@@ -231,3 +231,12 @@ a[target="_blank"]::before {
   font-size: $font-size-vsm;
   line-height: 1.4rem;
 }
+
+.code-inline {
+  color: inherit;
+  white-space: pre-wrap;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: inherit;
+}

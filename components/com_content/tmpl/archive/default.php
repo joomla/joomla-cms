@@ -42,7 +42,7 @@ use Joomla\CMS\Router\Route;
 		<?php echo $this->form->limitField; ?>
 		</div>
 
-		<button type="submit" class="btn btn-primary" style="vertical-align: top;"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
+		<button type="submit" class="btn btn-primary align-top"><?php echo Text::_('JGLOBAL_FILTER_BUTTON'); ?></button>
 		<input type="hidden" name="view" value="archive">
 		<input type="hidden" name="option" value="com_content">
 		<input type="hidden" name="limitstart" value="0">

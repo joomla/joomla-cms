@@ -24,7 +24,7 @@ Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 <table class="table">
 	<thead>
 		<tr>
-			<th style="width:25%"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
+			<th class="w-25"><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_FIELD'); ?></th>
 			<th><?php echo Text::_('COM_CONTENTHISTORY_PREVIEW_VALUE'); ?></th>
 		</tr>
 	</thead>

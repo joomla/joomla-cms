@@ -43,7 +43,7 @@ $table_head = '';
 if (!empty($groupByFieldset))
 {
 	foreach ($tmpl->getFieldsets() as $fieldset) {
-		$table_head .= '<th scope="col" style="width:45%">' . Text::_($fieldset->label);
+		$table_head .= '<th scope="col" class="w-45">' . Text::_($fieldset->label);
 
 		if ($fieldset->description)
 		{
@@ -58,7 +58,7 @@ if (!empty($groupByFieldset))
 else
 {
 	foreach ($tmpl->getGroup('') as $field) {
-		$table_head .= '<th scope="col" style="width:45%">' . strip_tags($field->label);
+		$table_head .= '<th scope="col" class="w-45">' . strip_tags($field->label);
 
 		if ($field->description)
 		{
@@ -90,7 +90,7 @@ else
 				<tr>
 					<?php echo $table_head; ?>
 					<?php if (!empty($buttons)) : ?>
-						<th style="width:8%;">
+						<th class="w-8">
 							<?php if (!empty($buttons['add'])) : ?>
 								<div class="btn-group">
 									<button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">

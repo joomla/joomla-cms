@@ -52,7 +52,7 @@ $maxSize = FilesystemHelper::fileUploadMaxSize();
 			</div>
 			<div class="install-progress">
 				<div class="progress progress-striped active">
-					<div class="bar" style="width: 100%;"></div>
+					<div class="bar w-100"></div>
 				</div>
 				<p class="lead">
 					<span class="installing-text">

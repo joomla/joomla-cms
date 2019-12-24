@@ -590,7 +590,7 @@
 				cell.calendar = cal;
 				cell.navtype = navtype;
 				if (navtype !== 0 && Math.abs(navtype) <= 2) {
-					cell.innerHTML = "<a " + classes + " style='display:inline;padding:2px 6px;cursor:pointer;text-decoration:none;' unselectable='on'>" + text + "</a>";
+					cell.innerHTML = "<a " + classes + " class='a-incell' unselectable='on'>" + text + "</a>";
 				} else {
 					cell.innerHTML = cs ? "<div unselectable='on'" + classes + ">" + text + "</div>" : text;
 					if (!cs && classes) {
@@ -604,7 +604,7 @@
 			row = createElement("tr", thead);
 			row.className = "calendar-head-row";
 			this._nav_py = hh("&lsaquo;", 1, -2, '', {"text-align": "center", "font-size": "18px", "line-height": "18px"}, 'js-btn btn-prev-year');                   // Previous year button
-			this.title = hh('<div style="text-align:center;font-size:18px"><span></span></div>', this.params.weekNumbers ? 6 : 5, 300);
+			this.title = hh('<div class="text-center font-18px"><span></span></div>', this.params.weekNumbers ? 6 : 5, 300);
 			this.title.className = "title";
 			this._nav_ny = hh(" &rsaquo;", 1, 2, '', {"text-align": "center", "font-size": "18px", "line-height": "18px"}, 'js-btn btn-next-year');                   // Next year button
 		}
@@ -612,7 +612,7 @@
 		row = createElement("tr", thead);                                                                   // Head - month
 		row.className = "calendar-head-row";
 		this._nav_pm = hh("&lsaquo;", 1, -1, '', {"text-align": "center", "font-size": "2em", "line-height": "1em"}, 'js-btn btn-prev-month');                       // Previous month button
-		this._nav_month = hh('<div style="text-align:center;font-size:1.2em"><span></span></div>', this.params.weekNumbers ? 6 : 5, 888, 'td', {'textAlign': 'center'});
+		this._nav_month = hh('<div class="text-center font-1dot2"><span></span></div>', this.params.weekNumbers ? 6 : 5, 888, 'td', {'textAlign': 'center'});
 		this._nav_month.className = "title";
 		this._nav_nm = hh(" &rsaquo;", 1, 1, '', {"text-align": "center", "font-size": "2em", "line-height": "1em"}, 'js-btn btn-next-month');                       // Next month button
 

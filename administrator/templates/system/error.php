@@ -31,12 +31,12 @@ $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error-
 <body>
 	<table class="outline">
 		<tr>
-			<td style="text-align: center;">
+			<td class="text-center">
 				<h1><?php echo $this->error->getCode() ?> - <?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>
 			</td>
 		</tr>
 		<tr>
-			<td style="text-align: center;">
+			<td class="text-center">
 				<p>
 					<?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?>
 					<?php if ($this->debug) : ?>
