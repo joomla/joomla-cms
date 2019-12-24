@@ -64,9 +64,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								</td>
 								<td class="d-md-table-cell">
 									<?php foreach ($this->languages as $language) : ?>
-										<?php $exists = in_array($language->lang_code, $item->languages); ?>
-										<a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>"
-											<?php echo !$exists ? ' style=""' : ''; ?>>
+										<a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">
 											<?php if ($language->image) : ?>
 												<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
 											<?php else : ?>
