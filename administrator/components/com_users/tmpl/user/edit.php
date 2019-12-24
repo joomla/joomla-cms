@@ -77,7 +77,7 @@ $this->useCoreUI = true;
 	<div id="com_users_twofactor_forms_container">
 		<?php foreach ($this->tfaform as $form) : ?>
 		<?php $hide = $form['method'] == $this->otpConfig->method ? '' : ' class="hidden"'; ?>
-		<div id="com_users_twofactor_<?php echo $form['method'] .'"'. $hide; ?>>
+		<div id="com_users_twofactor_<?php echo $form['method'] . '"' . $hide; ?>>
 			<?php echo $form['form'] ?>
 		</div>
 		<?php endforeach; ?>
