@@ -117,8 +117,8 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</ul>
-				<joomla-alert id="noresultsfound" type="warning" style="display:none;"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
-				<div style="display:none" id="treeselectmenu">
+				<joomla-alert id="noresultsfound" type="warning" class="hidden"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+				<div class="hidden" id="treeselectmenu">
 					<div class="nav-hover treeselect-menu">
 						<div class="dropdown">
 							<button type="button" data-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-light">
