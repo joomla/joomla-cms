@@ -47,6 +47,7 @@
 			type="list"
 			onchange="this.form.submit();"
 			default="l.title ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="l.published ASC">JSTATUS_ASC</option>
