@@ -71,7 +71,7 @@ if (!empty($editor))
 						<th scope="col" class="w-5 text-center d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" class="w-5 d-none d-md-table-cell">
+						<th scope="col" class="w-10 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="w-15 d-none d-md-table-cell">
