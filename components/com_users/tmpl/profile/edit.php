@@ -93,7 +93,7 @@ HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' 
 				<div id="com_users_twofactor_forms_container" class="com-users-profile__twofactor-form">
 					<?php foreach ($this->twofactorform as $form) : ?>
 						<?php $hide = $form['method'] == $this->otpConfig->method ? '' : ' class="hidden"'; ?>
-						<div id="com_users_twofactor_<?php echo $form['method'] . '"'. $hide; ?>>
+						<div id="com_users_twofactor_<?php echo $form['method'] . '"' . $hide; ?>>
 							<?php echo $form['form']; ?>
 						</div>
 					<?php endforeach; ?>
