@@ -48,8 +48,7 @@ class RawView extends BaseHtmlView
 
 		$this->document->setMimeEncoding('application/zip');
 
-		$app
-			->setHeader(
+		$app->setHeader(
 			'Content-disposition',
 			'attachment; filename="' . $download . '"',
 			true
