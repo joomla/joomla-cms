@@ -10,12 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Utilities\IpHelper;
-use ReCaptcha\ReCaptcha;
 
 /**
  * Recaptcha Plugin
@@ -23,7 +18,7 @@ use ReCaptcha\ReCaptcha;
  *
  * @since  2.5
  */
-class PlgCaptchaRecaptcha extends CMSPlugin
+class PlgCaptchaRecaptcha extends JPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -45,8 +40,8 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 		$this->loadLanguage();
 
 		return array(
-			Text::_('PLG_CAPTCHA_RECAPTCHA') => array(
-				Text::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
+			JText::_('PLG_CAPTCHA_RECAPTCHA') => array(
+				JText::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
 			)
 		);
 	}
@@ -67,16 +62,28 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 
 		if ($pubkey === '')
 		{
-			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
+			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
 
-		// Load callback first for browser compatibility
-		HTMLHelper::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true));
+		if ($this->params->get('version', '1.0') === '1.0')
+		{
+			JHtml::_('jquery.framework');
 
-		HTMLHelper::_(
-			'script',
-			'https://www.google.com/recaptcha/api.js?onload=Joomla.initReCaptcha2&render=explicit&hl=' . Factory::getLanguage()->getTag()
-		);
+			$theme  = $this->params->get('theme', 'clean');
+			$file   = 'https://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
+
+			JHtml::_('script', $file);
+			JFactory::getDocument()->addScriptDeclaration('jQuery( document ).ready(function()
+				{Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '",' . $this->_getLanguage() . 'tabindex: 0});});');
+		}
+		else
+		{
+			// Load callback first for browser compatibility
+			JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true));
+
+			$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . JFactory::getLanguage()->getTag();
+			JHtml::_('script', $file);
+		}
 
 		return true;
 	}
@@ -98,14 +105,21 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 		$ele = $dom->createElement('div');
 		$ele->setAttribute('id', $id);
 
-		$ele->setAttribute('class', ((trim($class) == '') ? 'g-recaptcha' : ($class . ' g-recaptcha')));
-		$ele->setAttribute('data-sitekey', $this->params->get('public_key', ''));
-		$ele->setAttribute('data-theme', $this->params->get('theme2', 'light'));
-		$ele->setAttribute('data-size', $this->params->get('size', 'normal'));
-		$ele->setAttribute('data-tabindex', $this->params->get('tabindex', '0'));
-		$ele->setAttribute('data-callback', $this->params->get('callback', ''));
-		$ele->setAttribute('data-expired-callback', $this->params->get('expired_callback', ''));
-		$ele->setAttribute('data-error-callback', $this->params->get('error_callback', ''));
+		if ($this->params->get('version', '1.0') === '1.0')
+		{
+			$ele->setAttribute('class', $class);
+		}
+		else
+		{
+			$ele->setAttribute('class', ((trim($class) == '') ? 'g-recaptcha' : ($class . ' g-recaptcha')));
+			$ele->setAttribute('data-sitekey', $this->params->get('public_key', ''));
+			$ele->setAttribute('data-theme', $this->params->get('theme2', 'light'));
+			$ele->setAttribute('data-size', $this->params->get('size', 'normal'));
+			$ele->setAttribute('data-tabindex', $this->params->get('tabindex', '0'));
+			$ele->setAttribute('data-callback', $this->params->get('callback', ''));
+			$ele->setAttribute('data-expired-callback', $this->params->get('expired_callback', ''));
+			$ele->setAttribute('data-error-callback', $this->params->get('error_callback', ''));
+		}
 
 		$dom->appendChild($ele);
 		return $dom->saveHTML($ele);
@@ -123,17 +137,22 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 	 */
 	public function onCheckAnswer($code = null)
 	{
-		$input      = Factory::getApplication()->input;
+		$input      = \JFactory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
-		$version    = $this->params->get('version', '2.0');
+		$version    = $this->params->get('version', '1.0');
 		$remoteip   = IpHelper::getIp();
-		$response   = null;
-		$spam       = false;
 
 		switch ($version)
 		{
+			case '1.0':
+				$challenge = $input->get('recaptcha_challenge_field', '', 'string');
+				$response  = $code ? $code : $input->get('recaptcha_response_field', '', 'string');
+				$spam      = ($challenge === '' || $response === '');
+				break;
 			case '2.0':
-				$response  = $input->get('g-recaptcha-response', '', 'string');
+				// Challenge Not needed in 2.0 but needed for getResponse call
+				$challenge = null;
+				$response  = $code ? $code : $input->get('g-recaptcha-response', '', 'string');
 				$spam      = ($response === '');
 				break;
 		}
@@ -141,22 +160,22 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 		// Check for Private Key
 		if (empty($privatekey))
 		{
-			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'), 500);
+			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'));
 		}
 
 		// Check for IP
 		if (empty($remoteip))
 		{
-			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_IP'), 500);
+			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_IP'));
 		}
 
 		// Discard spam submissions
 		if ($spam)
 		{
-			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'), 500);
+			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'));
 		}
 
-		return $this->getResponse($privatekey, $remoteip, $response);
+		return $this->getResponse($privatekey, $remoteip, $response, $challenge);
 	}
 
 	/**
@@ -165,34 +184,168 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 	 * @param   string  $privatekey  The private key for authentication.
 	 * @param   string  $remoteip    The remote IP of the visitor.
 	 * @param   string  $response    The response received from Google.
+	 * @param   string  $challenge   The challenge field from the reCaptcha. Only for 1.0
 	 *
-	 * @return  bool True if response is good | False if response is bad.
+	 * @return bool True if response is good | False if response is bad.
 	 *
 	 * @since   3.4
 	 * @throws  \RuntimeException
 	 */
-	private function getResponse(string $privatekey, string $remoteip, string $response)
+	private function getResponse($privatekey, $remoteip, $response, $challenge = null)
 	{
-		$version = $this->params->get('version', '2.0');
+		$version = $this->params->get('version', '1.0');
 
 		switch ($version)
 		{
-			case '2.0':
-				$apiResponse = (new ReCaptcha($privatekey, new HttpBridgePostRequestMethod))->verify($response, $remoteip);
+			case '1.0':
+				$response = $this->_recaptcha_http_post(
+					'www.google.com', '/recaptcha/api/verify',
+					array(
+						'privatekey' => $privatekey,
+						'remoteip'   => $remoteip,
+						'challenge'  => $challenge,
+						'response'   => $response
+					)
+				);
 
-				if (!$apiResponse->isSuccess())
+				$answers = explode("\n", $response[1]);
+
+				if (trim($answers[0]) !== 'true')
 				{
-					foreach ($apiResponse->getErrorCodes() as $error)
+					// @todo use exceptions here
+					$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_' . strtoupper(str_replace('-', '_', $answers[1]))));
+
+					return false;
+				}
+				break;
+			case '2.0':
+				$reCaptcha = new \ReCaptcha\ReCaptcha($privatekey, new HttpBridgePostRequestMethod);
+				$response = $reCaptcha->verify($response, $remoteip);
+
+				if (!$response->isSuccess())
+				{
+					foreach ($response->getErrorCodes() as $error)
 					{
-						throw new \RuntimeException($error, 403);
+						throw new \RuntimeException($error);
 					}
 
 					return false;
 				}
-
 				break;
 		}
 
 		return true;
+	}
+
+	/**
+	 * Encodes the given data into a query string format.
+	 *
+	 * @param   array  $data  Array of string elements to be encoded
+	 *
+	 * @return  string  Encoded request
+	 *
+	 * @since  2.5
+	 */
+	private function _recaptcha_qsencode($data)
+	{
+		$req = '';
+
+		foreach ($data as $key => $value)
+		{
+			$req .= $key . '=' . urlencode(stripslashes($value)) . '&';
+		}
+
+		// Cut the last '&'
+		$req = rtrim($req, '&');
+
+		return $req;
+	}
+
+	/**
+	 * Submits an HTTP POST to a reCAPTCHA server.
+	 *
+	 * @param   string  $host  Host name to POST to.
+	 * @param   string  $path  Path on host to POST to.
+	 * @param   array   $data  Data to be POSTed.
+	 * @param   int     $port  Optional port number on host.
+	 *
+	 * @return  array   Response
+	 *
+	 * @since  2.5
+	 */
+	private function _recaptcha_http_post($host, $path, $data, $port = 80)
+	{
+		$req = $this->_recaptcha_qsencode($data);
+
+		$http_request  = "POST $path HTTP/1.0\r\n";
+		$http_request .= "Host: $host\r\n";
+		$http_request .= "Content-Type: application/x-www-form-urlencoded;\r\n";
+		$http_request .= "Content-Length: " . strlen($req) . "\r\n";
+		$http_request .= "User-Agent: reCAPTCHA/PHP\r\n";
+		$http_request .= "\r\n";
+		$http_request .= $req;
+
+		$response = '';
+
+		if (($fs = @fsockopen($host, $port, $errno, $errstr, 10)) === false)
+		{
+			die('Could not open socket');
+		}
+
+		fwrite($fs, $http_request);
+
+		while (!feof($fs))
+		{
+			// One TCP-IP packet
+			$response .= fgets($fs, 1160);
+		}
+
+		fclose($fs);
+		$response = explode("\r\n\r\n", $response, 2);
+
+		return $response;
+	}
+
+	/**
+	 * Get the language tag or a custom translation
+	 *
+	 * @return  string
+	 *
+	 * @since  2.5
+	 */
+	private function _getLanguage()
+	{
+		$language = JFactory::getLanguage();
+
+		$tag = explode('-', $language->getTag());
+		$tag = $tag[0];
+		$available = array('en', 'pt', 'fr', 'de', 'nl', 'ru', 'es', 'tr');
+
+		if (in_array($tag, $available))
+		{
+			return "lang : '" . $tag . "',";
+		}
+
+		// If the default language is not available, let's search for a custom translation
+		if ($language->hasKey('PLG_RECAPTCHA_CUSTOM_LANG'))
+		{
+			$custom[] = 'custom_translations : {';
+			$custom[] = "\t" . 'instructions_visual : "' . JText::_('PLG_RECAPTCHA_INSTRUCTIONS_VISUAL') . '",';
+			$custom[] = "\t" . 'instructions_audio : "' . JText::_('PLG_RECAPTCHA_INSTRUCTIONS_AUDIO') . '",';
+			$custom[] = "\t" . 'play_again : "' . JText::_('PLG_RECAPTCHA_PLAY_AGAIN') . '",';
+			$custom[] = "\t" . 'cant_hear_this : "' . JText::_('PLG_RECAPTCHA_CANT_HEAR_THIS') . '",';
+			$custom[] = "\t" . 'visual_challenge : "' . JText::_('PLG_RECAPTCHA_VISUAL_CHALLENGE') . '",';
+			$custom[] = "\t" . 'audio_challenge : "' . JText::_('PLG_RECAPTCHA_AUDIO_CHALLENGE') . '",';
+			$custom[] = "\t" . 'refresh_btn : "' . JText::_('PLG_RECAPTCHA_REFRESH_BTN') . '",';
+			$custom[] = "\t" . 'help_btn : "' . JText::_('PLG_RECAPTCHA_HELP_BTN') . '",';
+			$custom[] = "\t" . 'incorrect_try_again : "' . JText::_('PLG_RECAPTCHA_INCORRECT_TRY_AGAIN') . '",';
+			$custom[] = '},';
+			$custom[] = "lang : '" . $tag . "',";
+
+			return implode("\n", $custom);
+		}
+
+		// If nothing helps fall back to english
+		return '';
 	}
 }
