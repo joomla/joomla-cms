@@ -126,15 +126,16 @@
 		<field
 			name="db_encryption"
 			type="list"
-			label="INSTL_DATABASE_ENCRYPTION_ENABLE_LABEL"
+			label="INSTL_DATABASE_ENCRYPTION_MODE_LABEL"
+			description="INSTL_DATABASE_ENCRYPTION_MODE_DESCR"
 			class="custom-select"
 			required="true"
 			default="0"
 			filter="integer"
 			>
-			<option value="0">INSTL_DATABASE_ENCRYPTION_ENABLE_VALUE_NONE</option>
-			<option value="1">INSTL_DATABASE_ENCRYPTION_ENABLE_VALUE_ONE_WAY</option>
-			<option value="2">INSTL_DATABASE_ENCRYPTION_ENABLE_VALUE_TWO_WAY</option>
+			<option value="0">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_NONE</option>
+			<option value="1">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_ONE_WAY</option>
+			<option value="2">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_TWO_WAY</option>
 		</field>
 
 		<field
