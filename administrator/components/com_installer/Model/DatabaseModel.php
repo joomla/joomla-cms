@@ -290,6 +290,18 @@ class DatabaseModel extends InstallerModel
 	}
 
 	/**
+	 * Get the filename of the temporary database archive
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getZipFilename()
+	{
+		return Factory::getApplication()->get('tmp_path') . '/joomla_db.zip';
+	}
+
+	/**
 	 * Export all the database via XML
 	 *
 	 * @return  boolean
@@ -313,7 +325,7 @@ class DatabaseModel extends InstallerModel
 		$tables = $db->getTableList();
 		$prefix = $db->getPrefix();
 
-		$zipFile = Factory::getApplication()->get('tmp_path') . '/joomla_db.zip';
+		$zipFile = $this->getZipFilename();
 		$zipArchive = (new Archive)->getAdapter('zip');
 
 		foreach ($tables as $table)

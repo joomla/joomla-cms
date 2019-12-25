@@ -78,19 +78,22 @@ class DatabaseController extends BaseController
 	 */
 	public function export()
 	{
-		/** @var DatabaseModel $model */
-		$model = $this->getModel('Database');
-
-		if ($model->export())
+		if ($view = $this->getView('Database', 'raw'))
 		{
-			$this->setMessage(Text::_('COM_INSTALLER_MSG_DATABASE_EXPORT_OK'));
-		}
-		else
-		{
-			$this->setMessage(Text::_('COM_INSTALLER_MSG_DATABASE_EXPORT_ERROR'));
-		}
+			/** @var DatabaseModel $model */
+			$model = $this->getModel('Database');
 
-		$this->setRedirect(Route::_('index.php?option=com_installer&view=database', false));
+			if ($model->export())
+			{
+				// Push the model into the view (as default).
+				$view->setModel($model, true);
+
+				// Push document object into the view.
+				$view->document = $this->app->getDocument();
+
+				$view->display();
+			}
+		}
 	}
 
 	/**
