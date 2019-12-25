@@ -176,7 +176,7 @@ if ($saveOrder && !empty($this->items))
 									<span class="fa fa-ellipsis-v"></span>
 								</span>
 								<?php if ($canChange && $saveOrder) : ?>
-									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>">
+									<input type="text" class="hidden" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>">
 								<?php endif; ?>
 							</td>
 							<td class="text-center">

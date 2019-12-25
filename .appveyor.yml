@@ -42,7 +42,7 @@ install:
         }
     - appveyor-retry cinst -y sqlite
     - cd C:\tools\php
-    # Get the MSSQL DLL's
+    # Get the MSSQL DLLs
     - ps: >-
         If ($env:PHP -eq "1") {
             cd c:\tools\php\ext
