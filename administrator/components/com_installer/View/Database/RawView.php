@@ -51,7 +51,9 @@ class RawView extends BaseHtmlView
 		$app
 			->setHeader(
 			'Content-disposition',
-			'attachment; filename="' . $download . '"', true)
+			'attachment; filename="' . $download . '"',
+			true
+			)
 			->setHeader('Content-Length', filesize($zipFile), true)
 			->sendHeaders();
 
