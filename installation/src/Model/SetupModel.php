@@ -12,6 +12,9 @@ namespace Joomla\CMS\Installation\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Language\LanguageHelper;
@@ -269,6 +272,8 @@ class SetupModel extends BaseInstallationModel
 		$lang = Factory::getLanguage();
 		$currentLang = $lang->getTag();
 
+		$optionsChanged = false;
+
 		// Load the selected language
 		if (LanguageHelper::exists($currentLang, JPATH_ADMINISTRATOR))
 		{
@@ -354,6 +359,225 @@ class SetupModel extends BaseInstallationModel
 			}
 		}
 
+		// Validate database connection encryption options
+		if ($options->db_encryption === 0)
+		{
+			// Reset unused options
+			if (!empty($options->db_sslkey))
+			{
+				$options->db_sslkey = '';
+				$optionsChanged     = true;
+			}
+
+			if (!empty($options->db_sslcert))
+			{
+				$options->db_sslcert = '';
+				$optionsChanged      = true;
+			}
+
+			if ($options->db_sslverifyservercert)
+			{
+				$options->db_sslverifyservercert = false;
+				$optionsChanged                  = true;
+			}
+
+			if (!empty($options->db_sslca))
+			{
+				$options->db_sslca = '';
+				$optionsChanged    = true;
+			}
+
+			if (!empty($options->db_sslcapath))
+			{
+				$options->db_sslcapath = '';
+				$optionsChanged        = true;
+			}
+
+			if (!empty($options->db_sslcipher))
+			{
+				$options->db_sslcipher = '';
+				$optionsChanged        = true;
+			}
+		}
+		else
+		{
+			// Check localhost
+			if (strtolower($options->db_host) === 'localhost')
+			{
+				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_ENCRYPTION_MSG_LOCALHOST'), 'warning');
+
+				return false;
+			}
+
+			// Check CA file and folder depending on database type if server certificate verification
+			if ($options->db_sslverifyservercert)
+			{
+				if (in_array($options->db_type, ['mysql', 'mysqli']))
+				{
+					if (empty($options->db_sslca) && empty($options->db_sslcapath))
+					{
+						Factory::getApplication()->enqueueMessage(
+							Text::sprintf(
+								'INSTL_DATABASE_ENCRYPTION_MSG_2_FIELDS_EMPTY',
+								Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL'),
+								Text::_('INSTL_DATABASE_ENCRYPTION_CAPATH_LABEL')
+							),
+							'warning'
+						);
+
+						return false;
+					}
+
+					if (!empty($options->db_sslca))
+					{
+						if (!File::exists(Path::clean($options->db_sslca)))
+						{
+							Factory::getApplication()->enqueueMessage(
+								Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL')),
+								'warning'
+							);
+
+							return false;
+						}
+
+						// Reset unused option
+						$options->db_sslcapath = '';
+						$optionsChanged        = true;
+					}
+
+					if (!empty($options->db_sslcapath))
+					{
+						if (!Folder::exists(Path::clean($options->db_sslcapath)))
+						{
+							Factory::getApplication()->enqueueMessage(
+								Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FOLDER_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CAPATH_LABEL')),
+								'warning'
+							);
+
+							return false;
+						}
+
+						// Reset unused option
+						$options->db_sslca = '';
+						$optionsChanged    = true;
+					}
+
+				}
+
+				if (in_array($options->db_type, ['pgsql', 'postgresql']))
+				{
+					if (empty($options->db_sslca))
+					{
+						Factory::getApplication()->enqueueMessage(
+							Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL')),
+							'warning'
+						);
+
+						return false;
+					}
+
+					if (!File::exists(Path::clean($options->db_sslca)))
+					{
+						Factory::getApplication()->enqueueMessage(
+							Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL')),
+							'warning'
+						);
+
+						return false;
+					}
+
+					// Reset unused option
+					if (!empty($options->db_sslcapath))
+					{
+						$options->db_sslcapath = '';
+						$optionsChanged        = true;
+					}
+				}
+			}
+			else
+			{
+				// Reset unused options
+				if (!empty($options->db_sslca))
+				{
+					$options->db_sslca = '';
+					$optionsChanged    = true;
+				}
+
+				if (!empty($options->db_sslcapath))
+				{
+					$options->db_sslcapath = '';
+					$optionsChanged        = true;
+				}
+			}
+
+			// Check key and certificate if two-way encryption
+			if ($options->db_encryption === 2)
+			{
+				if (empty($options->db_sslkey))
+				{
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_KEY_LABEL')),
+						'warning'
+					);
+
+					return false;
+				}
+
+				if (!File::exists(Path::clean($options->db_sslkey)))
+				{
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_KEY_LABEL')),
+						'warning'
+					);
+
+					return false;
+				}
+
+				if (empty($options->db_sslcert))
+				{
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_CERT_LABEL')),
+						'warning'
+					);
+
+					return false;
+				}
+
+				if (!File::exists(Path::clean($options->db_sslcert)))
+				{
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CERT_LABEL')),
+						'warning'
+					);
+
+					return false;
+				}
+			}
+			else
+			{
+				// Reset unused options
+				if (!empty($options->db_sslkey))
+				{
+					$options->db_sslkey = '';
+					$optionsChanged     = true;
+				}
+
+				if (!empty($options->db_sslcert))
+				{
+					$options->db_sslcert = '';
+					$optionsChanged      = true;
+				}
+			}
+		}
+
+		// Save options to session data if changed
+		if ($optionsChanged)
+		{
+			$session = Factory::getSession();
+			$optsArr = ArrayHelper::fromObject($options);
+			$session->set('setup.options', $optsArr);
+		}
+
 		// Get a database object.
 		try
 		{
@@ -364,7 +588,8 @@ class SetupModel extends BaseInstallationModel
 				$options->db_pass_plain,
 				$options->db_name,
 				$options->db_prefix,
-				isset($options->db_select) ? $options->db_select : false
+				isset($options->db_select) ? $options->db_select : false,
+				DatabaseHelper::getEncryptionSettings($options)
 			);
 
 			$db->connect();
