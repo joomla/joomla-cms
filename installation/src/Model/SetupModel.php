@@ -461,7 +461,6 @@ class SetupModel extends BaseInstallationModel
 						$options->db_sslca = '';
 						$optionsChanged    = true;
 					}
-
 				}
 
 				if (in_array($options->db_type, ['pgsql', 'postgresql']))
