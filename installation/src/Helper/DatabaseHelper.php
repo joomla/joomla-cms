@@ -60,7 +60,7 @@ abstract class DatabaseHelper
 					'verify_server_cert' => (bool) $ssl['dbsslverifyservercert'],
 				];
 
-				foreach (['cipher', 'ca', 'capath', 'key', 'cert'] as $value)
+				foreach (['cipher', 'ca', 'key', 'cert'] as $value)
 				{
 					$confVal = trim($ssl['dbssl' . $value]);
 
@@ -106,7 +106,6 @@ abstract class DatabaseHelper
 			'dbsslkey'              => $options->db_sslkey,
 			'dbsslcert'             => $options->db_sslcert,
 			'dbsslca'               => $options->db_sslca,
-			'dbsslcapath'           => $options->db_sslcapath,
 			'dbsslcipher'           => $options->db_sslcipher,
 		];
 	}

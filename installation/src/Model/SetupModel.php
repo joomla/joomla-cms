@@ -387,12 +387,6 @@ class SetupModel extends BaseInstallationModel
 				$optionsChanged    = true;
 			}
 
-			if (!empty($options->db_sslcapath))
-			{
-				$options->db_sslcapath = '';
-				$optionsChanged        = true;
-			}
-
 			if (!empty($options->db_sslcipher))
 			{
 				$options->db_sslcipher = '';
@@ -412,100 +406,33 @@ class SetupModel extends BaseInstallationModel
 			// Check CA file and folder depending on database type if server certificate verification
 			if ($options->db_sslverifyservercert)
 			{
-				if (in_array($options->db_type, ['mysql', 'mysqli']))
+				if (empty($options->db_sslca))
 				{
-					if (empty($options->db_sslca) && empty($options->db_sslcapath))
-					{
-						Factory::getApplication()->enqueueMessage(
-							Text::sprintf(
-								'INSTL_DATABASE_ENCRYPTION_MSG_2_FIELDS_EMPTY',
-								Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL'),
-								Text::_('INSTL_DATABASE_ENCRYPTION_CAPATH_LABEL')
-							),
-							'error'
-						);
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL')),
+						'error'
+					);
 
-						return false;
-					}
-
-					if (!empty($options->db_sslca))
-					{
-						if (!File::exists(Path::clean($options->db_sslca)))
-						{
-							Factory::getApplication()->enqueueMessage(
-								Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL')),
-								'error'
-							);
-
-							return false;
-						}
-
-						// Reset unused option
-						$options->db_sslcapath = '';
-						$optionsChanged        = true;
-					}
-
-					if (!empty($options->db_sslcapath))
-					{
-						if (!Folder::exists(Path::clean($options->db_sslcapath)))
-						{
-							Factory::getApplication()->enqueueMessage(
-								Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FOLDER_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CAPATH_LABEL')),
-								'error'
-							);
-
-							return false;
-						}
-
-						// Reset unused option
-						$options->db_sslca = '';
-						$optionsChanged    = true;
-					}
+					return false;
 				}
 
-				if (in_array($options->db_type, ['pgsql', 'postgresql']))
+				if (!File::exists(Path::clean($options->db_sslca)))
 				{
-					if (empty($options->db_sslca))
-					{
-						Factory::getApplication()->enqueueMessage(
-							Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL')),
-							'error'
-						);
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL')),
+						'error'
+					);
 
-						return false;
-					}
-
-					if (!File::exists(Path::clean($options->db_sslca)))
-					{
-						Factory::getApplication()->enqueueMessage(
-							Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL')),
-							'error'
-						);
-
-						return false;
-					}
-
-					// Reset unused option
-					if (!empty($options->db_sslcapath))
-					{
-						$options->db_sslcapath = '';
-						$optionsChanged        = true;
-					}
+					return false;
 				}
 			}
 			else
 			{
-				// Reset unused options
+				// Reset unused option
 				if (!empty($options->db_sslca))
 				{
 					$options->db_sslca = '';
 					$optionsChanged    = true;
-				}
-
-				if (!empty($options->db_sslcapath))
-				{
-					$options->db_sslcapath = '';
-					$optionsChanged        = true;
 				}
 			}
 
@@ -592,8 +519,6 @@ class SetupModel extends BaseInstallationModel
 			);
 
 			$db->connect();
-
-			return true;
 		}
 		catch (\RuntimeException $e)
 		{
@@ -601,5 +526,23 @@ class SetupModel extends BaseInstallationModel
 
 			return false;
 		}
+
+		if ($options->db_encryption !== 0 && empty($db->getConnectionEncryption()))
+		{
+			if ($db->isConnectionEncryptionSupported())
+			{
+				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_ENCRYPTION_MSG_CONN_NOT_ENCRYPT'), 'error');
+			}
+			else
+			{
+				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_ENCRYPTION_MSG_SRV_NOT_SUPPORTS'), 'error');
+			}
+
+			$db->disconnect();
+
+			return false;
+		}
+
+		return true;
 	}
 }

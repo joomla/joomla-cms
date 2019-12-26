@@ -150,7 +150,6 @@
 			name="db_sslcert"
 			type="text"
 			label="INSTL_DATABASE_ENCRYPTION_CERT_LABEL"
-			description="INSTL_DATABASE_ENCRYPTION_CERT_DESCR"
 			filter="path"
 			showon="db_encryption:2"
 		/>
@@ -175,15 +174,6 @@
 			label="INSTL_DATABASE_ENCRYPTION_CA_LABEL"
 			filter="path"
 			showon="db_encryption:1,2[AND]db_sslverifyservercert:1"
-		/>
-
-		<field
-			name="db_sslcapath"
-			type="text"
-			label="INSTL_DATABASE_ENCRYPTION_CAPATH_LABEL"
-			description="INSTL_DATABASE_ENCRYPTION_CAPATH_DESCR"
-			filter="path"
-			showon="db_type:mysql,mysqli[AND]db_encryption:1,2[AND]db_sslverifyservercert:1"
 		/>
 
 		<field

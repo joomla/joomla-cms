@@ -138,7 +138,6 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('dbsslkey', $options->db_sslkey);
 		$registry->set('dbsslcert', $options->db_sslcert);
 		$registry->set('dbsslca', $options->db_sslca);
-		$registry->set('dbsslcapath', $options->db_sslcapath);
 		$registry->set('dbsslcipher', $options->db_sslcipher);
 
 		// Server settings.

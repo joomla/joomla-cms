@@ -107,7 +107,6 @@ use Joomla\CMS\Language\Text;
 				<?php echo $this->form->getField('db_sslkey')->renderField(); ?>
 				<?php echo $this->form->getField('db_sslcert')->renderField(); ?>
 				<?php echo $this->form->getField('db_sslca')->renderField(); ?>
-				<?php echo $this->form->getField('db_sslcapath')->renderField(); ?>
 				<?php echo $this->form->getField('db_sslcipher')->renderField(); ?>
 				<div class="form-group">
 					<?php //echo $this->form->getLabel('db_old'); ?>
