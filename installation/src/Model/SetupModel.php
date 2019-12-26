@@ -288,7 +288,7 @@ class SetupModel extends BaseInstallationModel
 		// Ensure a database type was selected.
 		if (empty($options->db_type))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_TYPE'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_TYPE'), 'error');
 
 			return false;
 		}
@@ -296,7 +296,7 @@ class SetupModel extends BaseInstallationModel
 		// Ensure that a hostname and user name were input.
 		if (empty($options->db_host) || empty($options->db_user))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'error');
 
 			return false;
 		}
@@ -304,7 +304,7 @@ class SetupModel extends BaseInstallationModel
 		// Ensure that a database name was input.
 		if (empty($options->db_name))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_EMPTY_NAME'), 'error');
 
 			return false;
 		}
@@ -312,7 +312,7 @@ class SetupModel extends BaseInstallationModel
 		// Validate database table prefix.
 		if (!preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_PREFIX_MSG'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_PREFIX_MSG'), 'error');
 
 			return false;
 		}
@@ -320,7 +320,7 @@ class SetupModel extends BaseInstallationModel
 		// Validate length of database table prefix.
 		if (strlen($options->db_prefix) > 15)
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_TOO_LONG'), 'error');
 
 			return false;
 		}
@@ -328,7 +328,7 @@ class SetupModel extends BaseInstallationModel
 		// Validate length of database name.
 		if (strlen($options->db_name) > 64)
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_TOO_LONG'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_TOO_LONG'), 'error');
 
 			return false;
 		}
@@ -336,14 +336,14 @@ class SetupModel extends BaseInstallationModel
 		// Validate database name.
 		if (in_array($options->db_type, ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRESQL'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRESQL'), 'error');
 
 			return false;
 		}
 
 		if (in_array($options->db_type, ['mysql', 'mysqli']) && preg_match('#[\\\\\/\.]#', $options->db_name))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG_MYSQL'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG_MYSQL'), 'error');
 
 			return false;
 		}
@@ -353,7 +353,7 @@ class SetupModel extends BaseInstallationModel
 		{
 			if (strtolower($options->db_prefix) != $options->db_prefix)
 			{
-				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
+				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_LOWERCASE'), 'error');
 
 				return false;
 			}
@@ -404,7 +404,7 @@ class SetupModel extends BaseInstallationModel
 			// Check localhost
 			if (strtolower($options->db_host) === 'localhost')
 			{
-				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_ENCRYPTION_MSG_LOCALHOST'), 'warning');
+				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_ENCRYPTION_MSG_LOCALHOST'), 'error');
 
 				return false;
 			}
@@ -422,7 +422,7 @@ class SetupModel extends BaseInstallationModel
 								Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL'),
 								Text::_('INSTL_DATABASE_ENCRYPTION_CAPATH_LABEL')
 							),
-							'warning'
+							'error'
 						);
 
 						return false;
@@ -434,7 +434,7 @@ class SetupModel extends BaseInstallationModel
 						{
 							Factory::getApplication()->enqueueMessage(
 								Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL')),
-								'warning'
+								'error'
 							);
 
 							return false;
@@ -451,7 +451,7 @@ class SetupModel extends BaseInstallationModel
 						{
 							Factory::getApplication()->enqueueMessage(
 								Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FOLDER_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CAPATH_LABEL')),
-								'warning'
+								'error'
 							);
 
 							return false;
@@ -469,7 +469,7 @@ class SetupModel extends BaseInstallationModel
 					{
 						Factory::getApplication()->enqueueMessage(
 							Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL')),
-							'warning'
+							'error'
 						);
 
 						return false;
@@ -479,7 +479,7 @@ class SetupModel extends BaseInstallationModel
 					{
 						Factory::getApplication()->enqueueMessage(
 							Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CA_LABEL')),
-							'warning'
+							'error'
 						);
 
 						return false;
@@ -516,7 +516,7 @@ class SetupModel extends BaseInstallationModel
 				{
 					Factory::getApplication()->enqueueMessage(
 						Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_KEY_LABEL')),
-						'warning'
+						'error'
 					);
 
 					return false;
@@ -526,7 +526,7 @@ class SetupModel extends BaseInstallationModel
 				{
 					Factory::getApplication()->enqueueMessage(
 						Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_KEY_LABEL')),
-						'warning'
+						'error'
 					);
 
 					return false;
@@ -536,7 +536,7 @@ class SetupModel extends BaseInstallationModel
 				{
 					Factory::getApplication()->enqueueMessage(
 						Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_EMPTY', Text::_('INSTL_DATABASE_ENCRYPTION_CERT_LABEL')),
-						'warning'
+						'error'
 					);
 
 					return false;
@@ -546,7 +546,7 @@ class SetupModel extends BaseInstallationModel
 				{
 					Factory::getApplication()->enqueueMessage(
 						Text::sprintf('INSTL_DATABASE_ENCRYPTION_MSG_FILE_FIELD_BAD', Text::_('INSTL_DATABASE_ENCRYPTION_CERT_LABEL')),
-						'warning'
+						'error'
 					);
 
 					return false;
