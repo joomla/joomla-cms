@@ -141,7 +141,7 @@ class ApplicationModel extends FormModel
 				'verify_server_cert' => (bool) $data['dbsslverifyservercert'],
 			];
 
-			foreach (['cipher', 'ca', 'capath', 'key', 'cert'] as $value)
+			foreach (['cipher', 'ca', 'key', 'cert'] as $value)
 			{
 				$confVal = trim($data['dbssl' . $value]);
 
