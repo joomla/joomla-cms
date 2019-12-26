@@ -58,6 +58,7 @@ class RawView extends BaseHtmlView
 
 		ob_end_clean();
 		readfile($zipFile);
+		flush();
 		unlink($zipFile);
 	}
 }
