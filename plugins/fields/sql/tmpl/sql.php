@@ -28,18 +28,15 @@ $bindNames = $query->bindArray($value, ParameterType::STRING);
 // Run the query with a having condition because it supports aliases
 $query->setQuery($sql . ' HAVING VALUE IN (' . implode(',', $bindNames) . ')');
 
-$db->setQuery($query);
-
 try
 {
+	$db->setQuery($query);
 	$items = $db->loadObjectlist();
 }
 catch (Exception $e)
 {
 	// If the query failed, we fetch all elements
-	$query->clear()
-		->setQuery($sql);
-	$db->setQuery($query);
+	$db->setQuery($sql);
 	$items = $db->loadObjectlist();
 }
 
