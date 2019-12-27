@@ -78,6 +78,7 @@
 			default="a.lft ASC"
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.lft ASC">JGRID_HEADING_ORDERING_ASC</option>

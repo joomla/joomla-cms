@@ -64,7 +64,6 @@
 			format="%Y-%m-%d"
 			size="10"
 			filter="user_utc"
-			onchange="this.form.submit();"
 		/>
 
 		<field
@@ -76,7 +75,6 @@
 			format="%Y-%m-%d"
 			size="10"
 			filter="user_utc"
-			onchange="this.form.submit();"
 		/>
     </fields>
 	<fields name="list">
@@ -87,6 +85,7 @@
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="b.name ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="b.name ASC">COM_BANNERS_HEADING_NAME_ASC</option>
