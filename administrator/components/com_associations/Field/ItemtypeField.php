@@ -11,18 +11,16 @@ namespace Joomla\Component\Associations\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
-
-FormHelper::loadFieldClass('groupedlist');
 
 /**
  * A drop down containing all component item types that implement associations.
  *
  * @since  3.7.0
  */
-class ItemtypeField extends \JFormFieldGroupedList
+class ItemtypeField extends GroupedlistField
 {
 	/**
 	 * The form field type.

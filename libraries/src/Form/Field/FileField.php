@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormField;
 
@@ -122,7 +122,7 @@ class FileField extends FormField
 	 * @return  string  The field input markup.
 	 *
 	 * @note    The field does not include an upload mechanism.
-	 * @see     JFormFieldMedia
+	 * @see     \Joomla\CMS\Form\Field\MediaField
 	 * @since   1.7.0
 	 */
 	protected function getInput()

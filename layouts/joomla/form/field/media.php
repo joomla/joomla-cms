@@ -41,7 +41,7 @@ extract($displayData);
 $attr = '';
 
 // Initialize some field attributes.
-$attr .= !empty($class) ? ' class="form-control hasTooltip field-media-input ' . $class . '"' : ' class="form-control hasTooltip field-media-input"';
+$attr .= !empty($class) ? ' class="form-control field-media-input ' . $class . '"' : ' class="form-control field-media-input"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 
 // Initialize JavaScript field attributes.
@@ -100,7 +100,7 @@ $url    = ($readonly ? ''
 	: ($link ? $link
 		: 'index.php?option=com_media&amp;tmpl=component&amp;asset='
 		. $asset . '&amp;author=' . $authorId)
-	. '&amp;fieldid={field-media-id}&amp;path=' . $folder);
+	. '&amp;fieldid={field-media-id}&amp;path=local-0:/' . $folder);
 ?>
 <joomla-field-media class="field-media-wrapper"
 		type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?>

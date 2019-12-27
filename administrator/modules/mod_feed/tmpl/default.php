@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -30,7 +29,7 @@ if (!empty($feed) && is_string($feed))
 }
 else
 {
-	$lang      = Factory::getLanguage();
+	$lang      = $app->getLanguage();
 	$myrtl     = $params->get('rssrtl', 0);
 	$direction = ' ';
 

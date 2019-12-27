@@ -25,7 +25,6 @@
 					label="PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_LABEL"
 					description="PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_DESC"
 					hint="PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_DEFAULT"
-					class="span12"
 					rows="7"
 					cols="20"
 					filter="html"

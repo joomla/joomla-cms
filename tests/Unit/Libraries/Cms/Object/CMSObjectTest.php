@@ -29,6 +29,8 @@ class CMSObjectTest extends UnitTestCase
 	 * @group     JObject
 	 * @covers    JObject::__construct
 	 * @return void
+	 *
+	 * @since   4.0.0
 	 */
 	public function testIsConstructable()
 	{
@@ -43,6 +45,8 @@ class CMSObjectTest extends UnitTestCase
 	 * @group     JObject
 	 * @covers    JObject::def
 	 * @return void
+	 *
+	 * @since   4.0.0
 	 */
 	public function testDef()
 	{
@@ -62,6 +66,8 @@ class CMSObjectTest extends UnitTestCase
 	 * @group     JObject
 	 * @covers    JObject::get
 	 * @return void
+	 *
+	 * @since   4.0.0
 	 */
 	public function testGet()
 	{
@@ -80,14 +86,17 @@ class CMSObjectTest extends UnitTestCase
 	 * @group     JObject
 	 * @covers    JObject::getProperties
 	 * @return void
+	 *
+	 * @since   4.0.0
 	 */
 	public function testGetProperties()
 	{
 		$object = new CMSObject([
 			'_privateproperty1' => 'valuep1',
 			'property1'         => 'value1',
-			'property2'         => 5
-		]);
+			'property2'         => 5]
+		);
+
 		$this->assertEquals(
 			[
 				'_errors'           => [],
@@ -98,6 +107,7 @@ class CMSObjectTest extends UnitTestCase
 			$object->getProperties(false),
 			'Should get all properties, including private ones'
 		);
+
 		$this->assertEquals(
 			[
 				'property1' => 'value1',
@@ -114,6 +124,8 @@ class CMSObjectTest extends UnitTestCase
 	 * @group     JObject
 	 * @covers    JObject::getError
 	 * @return void
+	 *
+	 * @since   4.0.0
 	 */
 	public function testGetError()
 	{
@@ -122,11 +134,13 @@ class CMSObjectTest extends UnitTestCase
 		$object->setError(1234);
 		$object->setError('Second Test Error');
 		$object->setError('Third Test Error');
+
 		$this->assertEquals(
 			1234,
 			$object->getError(0, false),
 			'Should return the test error as number'
 		);
+
 		$this->assertEquals(
 			'Second Test Error',
 			$object->getError(1),
@@ -137,6 +151,7 @@ class CMSObjectTest extends UnitTestCase
 			$object->getError(),
 			'Should return the third test error'
 		);
+
 		$this->assertFalse(
 			$object->getError(20),
 			'Should return false, since the error does not exist'
@@ -156,6 +171,8 @@ class CMSObjectTest extends UnitTestCase
 	 * @group     JObject
 	 * @covers    JObject::getErrors
 	 * @return void
+	 *
+	 * @since   4.0.0
 	 */
 	public function testGetErrors()
 	{
@@ -181,6 +198,8 @@ class CMSObjectTest extends UnitTestCase
 	 * @group     JObject
 	 * @covers    JObject::set
 	 * @return void
+	 *
+	 * @since   4.0.0
 	 */
 	public function testSet()
 	{
@@ -197,6 +216,8 @@ class CMSObjectTest extends UnitTestCase
 	 * @group     JObject
 	 * @covers    JObject::setProperties
 	 * @return void
+	 *
+	 * @since   4.0.0
 	 */
 	public function testSetProperties()
 	{
@@ -216,6 +237,8 @@ class CMSObjectTest extends UnitTestCase
 	 * @group     JObject
 	 * @covers    JObject::setError
 	 * @return void
+	 *
+	 * @since   4.0.0
 	 */
 	public function testSetError()
 	{

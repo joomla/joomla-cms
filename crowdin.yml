@@ -693,6 +693,12 @@ files:
   - source: /administrator/language/en-GB/en-GB.plg_privacy_user.sys.ini
     translation: /administrator/language/%locale%/%locale%.plg_privacy_user.sys.ini
     update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_quickicon_downloadkey.ini
+    translation: /administrator/language/%locale%/%locale%.plg_quickicon_downloadkey.ini
+    update_option: update_as_unapproved
+  - source: /administrator/language/en-GB/en-GB.plg_quickicon_downloadkey.sys.ini
+    translation: /administrator/language/%locale%/%locale%.plg_quickicon_downloadkey.sys.ini
+    update_option: update_as_unapproved
   - source: /administrator/language/en-GB/en-GB.plg_quickicon_extensionupdate.ini
     translation: /administrator/language/%locale%/%locale%.plg_quickicon_extensionupdate.ini
     update_option: update_as_unapproved
@@ -1203,6 +1209,12 @@ files:
     translation: /installation/language/%locale%/%locale%.xml
     update_option: update_as_unapproved
     content_segmentation: 0
+
+    # Testing Sampledata Plugin
+  - source: /plugins/sampledata/testing/language/en-GB/*.ini
+    ignore:
+    - /plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.ini
+    - /plugins/sampledata/testing/language/en-GB/en-GB.plg_sampledata_testing.sys.ini
 
     # Media
   - source: /build/media_source/system/js/fields/calendar-locales/en.es5.js

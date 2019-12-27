@@ -125,7 +125,7 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_REQUEST_ADD_REQUEST'), 'lock');
 
-			ToolbarHelper::apply('request.save');
+			ToolbarHelper::save('request.save');
 			ToolbarHelper::cancel('request.cancel');
 			ToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUEST_EDIT');
 		}

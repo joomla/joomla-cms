@@ -272,7 +272,7 @@ class ArticleModel extends AdminModel
 	{
 		if (!empty($record->id))
 		{
-			$stage = new StageTable($this->_db);
+			$stage = new StageTable($this->getDbo());
 
 			$workflow = new Workflow(['extension' => 'com_content']);
 
@@ -337,7 +337,7 @@ class ArticleModel extends AdminModel
 
 		if ($table->state == Workflow::CONDITION_PUBLISHED && intval($table->publish_down) == 0)
 		{
-			$table->publish_down = $this->getDbo()->getNullDate();
+			$table->publish_down = null;
 		}
 
 		// Increment the content version number.
@@ -633,6 +633,8 @@ class ArticleModel extends AdminModel
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('featured', 'disabled', 'true');
+			$form->setFieldAttribute('featured_up', 'disabled', 'true');
+			$form->setFieldAttribute('featured_down', 'disabled', 'true');
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
 			$form->setFieldAttribute('publish_up', 'disabled', 'true');
 			$form->setFieldAttribute('publish_down', 'disabled', 'true');
@@ -641,6 +643,8 @@ class ArticleModel extends AdminModel
 			// Disable fields while saving.
 			// The controller has already verified this is an article you can edit.
 			$form->setFieldAttribute('featured', 'filter', 'unset');
+			$form->setFieldAttribute('featured_up', 'filter', 'unset');
+			$form->setFieldAttribute('featured_down', 'filter', 'unset');
 			$form->setFieldAttribute('ordering', 'filter', 'unset');
 			$form->setFieldAttribute('publish_up', 'filter', 'unset');
 			$form->setFieldAttribute('publish_down', 'filter', 'unset');
@@ -724,7 +728,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
-	 * @see     JFormRule
+	 * @see     \Joomla\CMS\Form\FormRule
 	 * @see     JFilterInput
 	 * @since   3.7.0
 	 */
@@ -780,20 +784,22 @@ class ArticleModel extends AdminModel
 			$data['images'] = (string) $registry;
 		}
 
-		// Cast catid to integer for comparison
-		$catid = (int) $data['catid'];
+		// Create new category, if needed.
+		$createCategory = true;
 
-		// Check if New Category exists
-		if ($catid > 0)
+		// If category ID is provided, check if it's valid.
+		if (is_numeric($data['catid']) && $data['catid'])
 		{
-			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
+			$createCategory = !CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
 		}
 
 		// Save New Category
-		if ($catid == 0 && $this->canCreateCategory())
+		if ($createCategory && $this->canCreateCategory())
 		{
 			$table = array();
-			$table['title'] = $data['catid'];
+
+			// Remove #new# prefix, if exists.
+			$table['title'] = strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'];
 			$table['parent_id'] = 1;
 			$table['extension'] = 'com_content';
 			$table['language'] = $data['language'];
@@ -941,7 +947,7 @@ class ArticleModel extends AdminModel
 		{
 			if (isset($data['featured']))
 			{
-				$this->featured($this->getState($this->getName() . '.id'), $data['featured']);
+				$this->featured($this->getState($this->getName() . '.id'), $data['featured'], $data['featured_up'], $data['featured_down']);
 			}
 
 			// Let's check if we have workflow association (perhaps something went wrong before)
@@ -995,12 +1001,14 @@ class ArticleModel extends AdminModel
 	/**
 	 * Method to toggle the featured setting of articles.
 	 *
-	 * @param   array    $pks    The ids of the items to toggle.
-	 * @param   integer  $value  The value to toggle to.
+	 * @param   array        $pks           The ids of the items to toggle.
+	 * @param   integer      $value         The value to toggle to.
+	 * @param   string|Date  $featuredUp    The date which item featured up.
+	 * @param   string|Date  $featuredDown  The date which item featured down.
 	 *
 	 * @return  boolean  True on success.
 	 */
-	public function featured($pks, $value = 0)
+	public function featured($pks, $value = 0, $featuredUp = null, $featuredDown = null)
 	{
 		// Sanitize the ids.
 		$pks = (array) $pks;
@@ -1046,6 +1054,18 @@ class ArticleModel extends AdminModel
 
 				$oldFeatured = $db->loadColumn();
 
+				// Update old featured articles
+				if (count($oldFeatured))
+				{
+					$query = $db->getQuery(true)
+						->update($db->quoteName('#__content_frontpage'))
+						->set('featured_up = ' . (empty($featuredUp) ? 'NULL' : $db->quote($featuredUp)))
+						->set('featured_down = ' . (empty($featuredDown) ? 'NULL' : $db->quote($featuredDown)))
+						->where('content_id IN (' . implode(',', $oldFeatured) . ')');
+					$db->setQuery($query);
+					$db->execute();
+				}
+
 				// We diff the arrays to get a list of the articles that are newly featured
 				$newFeatured = array_diff($pks, $oldFeatured);
 
@@ -1054,12 +1074,12 @@ class ArticleModel extends AdminModel
 
 				foreach ($newFeatured as $pk)
 				{
-					$tuples[] = $pk . ', 0';
+					$tuples[] = implode(',', [$pk, 0, (empty($featuredUp) ? 'NULL' : $db->quote($featuredUp)), (empty($featuredDown) ? 'NULL' : $db->quote($featuredDown))]);
 				}
 
 				if (count($tuples))
 				{
-					$columns = array('content_id', 'ordering');
+					$columns = array('content_id', 'ordering', 'featured_up', 'featured_down');
 					$query = $db->getQuery(true)
 						->insert($db->quoteName('#__content_frontpage'))
 						->columns($db->quoteName($columns))
@@ -1115,6 +1135,9 @@ class ArticleModel extends AdminModel
 		if ($this->canCreateCategory())
 		{
 			$form->setFieldAttribute('catid', 'allowAdd', 'true');
+
+			// Add a prefix for categories created on the fly.
+			$form->setFieldAttribute('catid', 'customPrefix', '#new#');
 		}
 
 		// Association content items

@@ -27,6 +27,8 @@ class FeedEntryTest extends UnitTestCase
 {
 	/**
 	 * @var FeedEntry
+	 *
+	 * @since   4.0.0
 	 */
 	protected $feedEntry;
 
@@ -231,6 +233,7 @@ class FeedEntryTest extends UnitTestCase
 
 		$feedCategories = $this->feedEntry->categories;
 		$this->assertCount(3, $feedCategories);
+
 		foreach ($categories as $category)
 		{
 			$this->assertArrayHasKey($category['name'], $feedCategories);
@@ -301,6 +304,7 @@ class FeedEntryTest extends UnitTestCase
 
 		$feedContributors = $this->feedEntry->contributors;
 		$this->assertCount(3, $feedContributors);
+
 		foreach ($contributors as $index => $contributor)
 		{
 			$this->assertEquals($contributor['name'], $feedContributors[$index]->name);

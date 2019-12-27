@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Plugin;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
@@ -122,7 +122,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 			$reflection = new \ReflectionClass($this);
 			$appProperty = $reflection->getProperty('app');
 
-			if ($appProperty->isPrivate() === false && is_null($this->app))
+			if ($appProperty->isPrivate() === false && \is_null($this->app))
 			{
 				$this->app = Factory::getApplication();
 			}
@@ -133,7 +133,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 			$reflection = new \ReflectionClass($this);
 			$dbProperty = $reflection->getProperty('db');
 
-			if ($dbProperty->isPrivate() === false && is_null($this->db))
+			if ($dbProperty->isPrivate() === false && \is_null($this->db))
 			{
 				$this->db = Factory::getDbo();
 			}
@@ -221,7 +221,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 			$parameters = $method->getParameters();
 
 			// If the parameter count is not 1 it is by definition a legacy listener
-			if (count($parameters) != 1)
+			if (\count($parameters) != 1)
 			{
 				$this->registerLegacyListener($method->name);
 

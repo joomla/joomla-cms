@@ -1,17 +1,18 @@
 {
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "joomla",
   "version": "4.0.0",
   "description": "Joomla CMS",
-  "license": "GPL-2.0+",
-  "assets": {
-    "core": {
+  "license": "GPL-2.0-or-later",
+  "assets": [
+    {
       "name": "core",
       "class": "CoreAssetItem",
       "js": [
         "media/system/js/core.min.js"
       ]
     },
-    "keepalive": {
+    {
       "name": "keepalive",
       "class": "KeepaliveAssetItem",
       "dependencies": [
@@ -21,7 +22,7 @@
         "media/system/js/keepalive.min.js"
       ]
     },
-    "multiselect": {
+    {
       "name": "multiselect",
       "dependencies": [
         "core"
@@ -30,7 +31,7 @@
         "media/system/js/multiselect.min.js"
       ]
     },
-    "searchtools": {
+    {
       "name": "searchtools",
       "dependencies": [
         "core"
@@ -42,7 +43,7 @@
         "system/searchtools.css"
       ]
     },
-    "showon": {
+    {
       "name": "showon",
       "dependencies": [
         "core"
@@ -51,13 +52,13 @@
         "media/system/js/showon.min.js"
       ]
     },
-    "switcher": {
+    {
       "name": "switcher",
       "css": [
         "media/system/css/fields/switcher.min.css"
       ]
     },
-    "fields.validate": {
+    {
       "name": "fields.validate",
       "dependencies": [
         "core",
@@ -67,5 +68,5 @@
         "media/system/js/fields/validate.min.js"
       ]
     }
-  }
+  ]
 }

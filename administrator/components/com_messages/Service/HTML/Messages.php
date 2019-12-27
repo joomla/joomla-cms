@@ -11,7 +11,7 @@ namespace Joomla\Component\Messages\Administrator\Service\HTML;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -46,8 +46,8 @@ class Messages
 
 		if ($canChange)
 		{
-			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-sm hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . HTMLHelper::_('tooltipText', $state[3]) . '"><span class="icon-'
+			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon'
+				. ($value == 1 ? ' active' : '') . '" title="' . Text::_($state[3]) . '"><span class="icon-'
 				. $icon . '" aria-hidden="true"></span></a>';
 		}
 

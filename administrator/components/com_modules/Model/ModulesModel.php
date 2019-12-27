@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -314,8 +315,11 @@ class ModulesModel extends ListModel
 		);
 
 		// Filter by client.
-		$clientId = $this->getState('client_id');
-		$query->where($db->quoteName('a.client_id') . ' = ' . (int) $clientId . ' AND ' . $db->quoteName('e.client_id') . ' = ' . (int) $clientId);
+		$clientId = (int) $this->getState('client_id');
+		$query->where($db->quoteName('a.client_id') . ' = :aclientid')
+			->where($db->quoteName('e.client_id') . ' = :eclientid')
+			->bind(':aclientid', $clientId, ParameterType::INTEGER)
+			->bind(':eclientid', $clientId, ParameterType::INTEGER);
 
 		// Filter by current user access level.
 		$user = Factory::getUser();
@@ -323,14 +327,16 @@ class ModulesModel extends ListModel
 		// Get the current user for authorisation checks
 		if ($user->authorise('core.admin') !== true)
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
+			$groups = $user->getAuthorisedViewLevels();
+			$query->whereIn($db->quoteName('a.access'), $groups);
 		}
 
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
-			$query->where($db->quoteName('a.access') . ' = ' . (int) $access);
+			$access = (int) $access;
+			$query->where($db->quoteName('a.access') . ' = :access')
+				->bind(':access', $access, ParameterType::INTEGER);
 		}
 
 		// Filter by published state.
@@ -338,23 +344,28 @@ class ModulesModel extends ListModel
 
 		if (is_numeric($state))
 		{
-			$query->where($db->quoteName('a.published') . ' = ' . (int) $state);
+			$state = (int) $state;
+			$query->where($db->quoteName('a.published') . ' = :state')
+				->bind(':state', $state, ParameterType::INTEGER);
 		}
 		elseif ($state === '')
 		{
-			$query->where($db->quoteName('a.published') . ' IN (0, 1)');
+			$query->whereIn($db->quoteName('a.published'), [0, 1]);
 		}
 
 		// Filter by position.
 		if ($position = $this->getState('filter.position'))
 		{
-			$query->where($db->quoteName('a.position') . ' = ' . $db->quote(($position === 'none') ? '' : $position));
+			$position = ($position === 'none') ? '' : $position;
+			$query->where($db->quoteName('a.position') . ' = :position')
+				->bind(':position', $position);
 		}
 
 		// Filter by module.
 		if ($module = $this->getState('filter.module'))
 		{
-			$query->where($db->quoteName('a.module') . ' = ' . $db->quote($module));
+			$query->where($db->quoteName('a.module') . ' = :module')
+				->bind(':module', $module);
 		}
 
 		// Filter by menuitem id (only for site client).
@@ -375,16 +386,17 @@ class ModulesModel extends ListModel
 					->where($db->quoteName('moduleid') . ' = ' . $db->quoteName('a.id'));
 
 				// Modules in "Selected" pages that have the chosen menu item id.
+				$menuItemId = (int) $menuItemId;
 				$subQuery2 = $db->getQuery(true);
 				$subQuery2->select($db->quoteName('moduleid'))
 					->from($db->quoteName('#__modules_menu'))
-					->where($db->quoteName('menuid') . ' = ' . (int) $menuItemId);
+					->where($db->quoteName('menuid') . ' = :menuitemid2');
 
 				// Modules in "All except selected" pages that doesn't have the chosen menu item id.
 				$subQuery3 = $db->getQuery(true);
 				$subQuery3->select($db->quoteName('moduleid'))
 					->from($db->quoteName('#__modules_menu'))
-					->where($db->quoteName('menuid') . ' = -' . (int) $menuItemId);
+					->where($db->quoteName('menuid') . ' = - :menuitemid3');
 
 				// Filter by modules assigned to the selected menu item.
 				$query->where('(
@@ -393,6 +405,8 @@ class ModulesModel extends ListModel
 					OR ((' . $subQuery1 . ') < 0 AND ' . $db->quoteName('a.id') . ' NOT IN (' . $subQuery3 . '))
 					)'
 				);
+				$query->bind(':menuitemid2', $menuItemId, ParameterType::INTEGER);
+				$query->bind(':menuitemid3', $menuItemId, ParameterType::INTEGER);
 			}
 		}
 
@@ -403,12 +417,17 @@ class ModulesModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where($db->quoteName('a.id') . ' = ' . (int) substr($search, 3));
+				$ids = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :id')
+					->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . strtolower($search) . '%');
-				$query->where('(LOWER(a.title) LIKE ' . $search . ' OR LOWER(a.note) LIKE ' . $search . ')');
+				$search = '%' . strtolower($search) . '%';
+				$query->where('LOWER(' . $db->quoteName('a.title') . ') LIKE :title')
+					->orWhere('LOWER(' . $db->quoteName('a.note') . ') LIKE :note')
+					->bind(':title', $search)
+					->bind(':note', $search);
 			}
 		}
 
@@ -417,11 +436,13 @@ class ModulesModel extends ListModel
 		{
 			if ($language === 'current')
 			{
-				$query->where($db->quoteName('a.language') . ' IN (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+				$language = [Factory::getLanguage()->getTag(), '*'];
+				$query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
 			}
 			else
 			{
-				$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
+				$query->where($db->quoteName('a.language') . ' = :language')
+					->bind(':language', $language);
 			}
 		}
 
