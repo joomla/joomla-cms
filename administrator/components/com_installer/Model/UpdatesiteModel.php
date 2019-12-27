@@ -85,8 +85,9 @@ class UpdatesiteModel extends AdminModel
 	{
 		$item = parent::getItem($pk);
 
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true)
+		$db           = $this->getDbo();
+		$updateSiteId = (int) $item->get('update_site_id');
+		$query        = $db->getQuery(true)
 			->select(
 				$db->quoteName(
 					[
@@ -100,15 +101,18 @@ class UpdatesiteModel extends AdminModel
 				)
 			)
 			->from($db->quoteName('#__update_sites', 'update_sites'))
-			->innerJoin(
+			->join(
+				'INNER',
 				$db->quoteName('#__update_sites_extensions', 'update_sites_extensions'),
 				$db->quoteName('update_sites_extensions.update_site_id') . ' = ' . $db->quoteName('update_sites.update_site_id')
 			)
-			->innerJoin(
+			->join(
+				'INNER',
 				$db->quoteName('#__extensions', 'extensions'),
 				$db->quoteName('extensions.extension_id') . ' = ' . $db->quoteName('update_sites_extensions.extension_id')
 			)
-			->where($db->quoteName('update_sites.update_site_id') . ' = ' . (int) $item->get('update_site_id'));
+			->where($db->quoteName('update_sites.update_site_id') . ' = :updatesiteid')
+			->bind(':updatesiteid', $updateSiteId, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 		$extension = new CMSObject($db->loadAssoc());

@@ -198,10 +198,6 @@ class MenusController extends BaseController
 			return;
 		}
 
-		// Declare variables before binding.
-		$componentId = 0;
-		$itemId      = 0;
-
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__menu'))
 			->set($db->quoteName('component_id') . ' = :componentId')
@@ -231,7 +227,7 @@ class MenusController extends BaseController
 					$componentId = -1;
 				}
 
-				// Check for mis-matched component id's in the menu link.
+				// Check for mis-matched component ids in the menu link.
 				if ($item->component_id != $componentId)
 				{
 					// Update the menu table.

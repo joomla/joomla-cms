@@ -1,6 +1,7 @@
 @import "template";
 
-body, .dropdown-item {
+body,
+.dropdown-item {
   text-align: right;
 }
 
@@ -12,7 +13,8 @@ body, .dropdown-item {
   float: right !important;
 }
 
-.control-group, form:not(.form-no-margin) .control-group {
+.control-group,
+form:not(.form-no-margin) .control-group {
   .control-label {
     float: right;
     text-align: right;
@@ -28,11 +30,17 @@ body, .dropdown-item {
   }
 }
 
-.input-group > .input-group-append > .btn, .input-group > .input-group-append > .input-group-text, .input-group > .input-group-prepend:not(:first-child) > .btn, .input-group > .input-group-prepend:not(:first-child) > .input-group-text, .input-group > .input-group-prepend:first-child > .btn:not(:first-child), .input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
+.input-group > .input-group-append > .btn,
+.input-group > .input-group-append > .input-group-text,
+.input-group > .input-group-prepend:not(:first-child) > .btn,
+.input-group > .input-group-prepend:not(:first-child) > .input-group-text,
+.input-group > .input-group-prepend:first-child > .btn:not(:first-child),
+.input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
   border-radius: .25rem 0 0 .25rem;
 }
 
-.input-group-prepend .btn, .input-group-append .btn {
+.input-group-prepend .btn,
+.input-group-append .btn {
   right: -1px;
 }
 

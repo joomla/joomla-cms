@@ -213,8 +213,10 @@ class DebuguserModel extends ListModel
 			$search = '%' . trim($this->getState('filter.search')) . '%';
 
 			// Add the clauses to the query.
-			$query->where($db->quoteName('a.name') . ' LIKE :name')
-				->orWhere($db->quoteName('a.title') . ' LIKE :title')
+			$query->where(
+				'(' . $db->quoteName('a.name') . ' LIKE :name'
+				. ' OR ' . $db->quoteName('a.title') . ' LIKE :title)'
+			)
 				->bind(':name', $search)
 				->bind(':title', $search);
 		}

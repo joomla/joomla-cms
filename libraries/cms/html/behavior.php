@@ -268,26 +268,6 @@ abstract class JHtmlBehavior
 	}
 
 	/**
-	 * Add unobtrusive JavaScript support to keep a tab state.
-	 *
-	 * Note that keeping tab state only works for inner tabs if in accordance with the following example:
-	 *
-	 * ```
-	 * parent tab = permissions
-	 * child tab = permission-<identifier>
-	 * ```
-	 *
-	 * Each tab header `<a>` tag also should have a unique href attribute
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public static function tabstate()
-	{
-	}
-
-	/**
 	 * Add javascript polyfills.
 	 *
 	 * @param   string|array  $polyfillTypes       The polyfill type(s). Examples: event, array('event', 'classlist').
