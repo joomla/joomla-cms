@@ -138,7 +138,7 @@ class ApplicationModel extends FormModel
 
 			if ((bool) $data['dbsslverifyservercert'] === true)
 			{
-				$data['dbsslverifyservercert'] = 'false';
+				$data['dbsslverifyservercert'] = false;
 			}
 
 			if (!empty($data['dbsslca']))
