@@ -127,7 +127,7 @@ class DatabaseController extends BaseController
 			}
 			else
 			{
-				$this->setMessage(Text::_('COM_INSTALLER_MSG_DATABASE_IMPORT_ERROR'));
+				$this->setMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_ERROR', $file['name']), 'error');
 			}
 		}
 

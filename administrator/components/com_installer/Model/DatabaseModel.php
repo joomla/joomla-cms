@@ -352,19 +352,20 @@ class DatabaseModel extends InstallerModel
 	 */
 	public function import($file)
 	{
+		$app = Factory::getApplication();
 		$db = $this->getDbo();
 
 		// Make sure that file uploads are enabled in php.
 		if (!(bool) ini_get('file_uploads'))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 'error');
+			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 'error');
 
 			return false;
 		}
 
-		$tmpFile = Factory::getApplication()->get('tmp_path') . '/' . $file['name'];
+		$tmpFile = $app->get('tmp_path') . '/' . $file['name'];
 		File::upload($file['tmp_name'], $tmpFile, false, true);
-		$destDir = Path::clean(Factory::getApplication()->get('tmp_path') . '/');
+		$destDir = Path::clean($app->get('tmp_path') . '/');
 		$zipArchive = (new Archive)->getAdapter('zip');
 
 		try
@@ -374,7 +375,7 @@ class DatabaseModel extends InstallerModel
 		catch (\RuntimeException $e)
 		{
 			unlink($tmpFile);
-			Factory::getApplication()->enqueueMessage("Extract " . $tmpFile . " into " . $destDir, 'error');
+			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_EXTRACT_ERROR', $tmpFile, $destDir), 'error');
 
 			return false;
 		}
@@ -408,7 +409,7 @@ class DatabaseModel extends InstallerModel
 			{
 				unlink($tableFile);
 				unlink($tmpFile);
-				Factory::getApplication()->enqueueMessage("Can't drop table " . $tableName, 'error');
+				$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_DROP_ERROR', $tableName), 'error');
 
 				return false;
 			}
@@ -421,7 +422,7 @@ class DatabaseModel extends InstallerModel
 			{
 				unlink($tableFile);
 				unlink($tmpFile);
-				Factory::getApplication()->enqueueMessage("Can't merge structure from table: " . $tableName, 'error');
+				$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_MERGE_ERROR', $tableName), 'error');
 
 				return false;
 			}
@@ -434,7 +435,7 @@ class DatabaseModel extends InstallerModel
 			{
 				unlink($tableFile);
 				unlink($tmpFile);
-				Factory::getApplication()->enqueueMessage("Can't import data from table: " . $tableName, 'error');
+				$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_DATA_ERROR', $tableName), 'error');
 
 				return false;
 			}
