@@ -26,14 +26,15 @@ if ($tagId = $params->get('tag_id', ''))
 <ul<?php echo $id; ?> class="mod-menu nav<?php echo $class_sfx; ?> mod-list">
 <?php foreach ($list as $i => &$item)
 {
-	$class = 'nav-item';
+	$itemParams = $item->getParams();
+	$class      = 'nav-item';
 
 	if ($item->id == $default_id)
 	{
 		$class .= ' default';
 	}
 
-	if ($item->id == $active_id || ($item->type === 'alias' && $item->params->get('aliasoptions') == $active_id))
+	if ($item->id == $active_id || ($item->type === 'alias' && $itemParams->get('aliasoptions') == $active_id))
 	{
 		$class .= ' current';
 	}
@@ -44,7 +45,7 @@ if ($tagId = $params->get('tag_id', ''))
 	}
 	elseif ($item->type === 'alias')
 	{
-		$aliasToId = $item->params->get('aliasoptions');
+		$aliasToId = $itemParams->get('aliasoptions');
 
 		if (count($path) > 0 && $aliasToId == $path[count($path) - 1])
 		{

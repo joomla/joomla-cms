@@ -14,7 +14,6 @@ use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CLI\CliInput;
 use Joomla\CMS\Application\CLI\CliOutput;
 use Joomla\CMS\Application\CLI\Output\Stdout;
-use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\DI\Container;
@@ -149,10 +148,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	public function execute()
 	{
 		// Trigger the onBeforeExecute event
-		$this->getDispatcher()->dispatch(
-			'onBeforeExecute',
-			new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
-		);
+		$this->triggerEevent('onBeforeExecute');
 
 		// Perform application routines.
 		$this->doExecute();

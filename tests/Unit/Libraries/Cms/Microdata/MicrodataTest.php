@@ -884,7 +884,7 @@ class MicrodataTest extends UnitTestCase
 			]
 		);
 
-		// Use reflection to test protected method (its easier than testing this using the public interface)
+		// Use reflection to test protected method (it's easier than testing this using the public interface)
 		$reflectionClass = new ReflectionClass($microdata);
 		$method          = $reflectionClass->getMethod('getExpectedDisplayType');
 		$method->setAccessible(true);
