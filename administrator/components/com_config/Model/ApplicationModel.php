@@ -167,7 +167,10 @@ class ApplicationModel extends FormModel
 				if (empty($data['dbsslca']))
 				{
 					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_EMPTY', Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_LABEL')),
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_EMPTY',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_LABEL')
+						),
 						'error'
 					);
 
@@ -177,7 +180,10 @@ class ApplicationModel extends FormModel
 				if (!File::exists(Path::clean($data['dbsslca'])))
 				{
 					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD', Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_LABEL')),
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_LABEL')
+						),
 						'error'
 					);
 
@@ -199,7 +205,10 @@ class ApplicationModel extends FormModel
 				if (empty($data['dbsslkey']))
 				{
 					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_EMPTY', Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_LABEL')),
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_EMPTY',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_LABEL')
+						),
 						'error'
 					);
 
@@ -209,7 +218,10 @@ class ApplicationModel extends FormModel
 				if (!File::exists(Path::clean($data['dbsslkey'])))
 				{
 					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD', Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_LABEL')),
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_LABEL')
+						),
 						'error'
 					);
 
@@ -219,7 +231,10 @@ class ApplicationModel extends FormModel
 				if (empty($data['dbsslcert']))
 				{
 					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_EMPTY', Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_LABEL')),
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_EMPTY',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_LABEL')
+						),
 						'error'
 					);
 
@@ -229,7 +244,10 @@ class ApplicationModel extends FormModel
 				if (!File::exists(Path::clean($data['dbsslcert'])))
 				{
 					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD', Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_LABEL')),
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_LABEL')
+						),
 						'error'
 					);
 
