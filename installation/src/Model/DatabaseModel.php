@@ -199,7 +199,6 @@ class DatabaseModel extends BaseInstallationModel
 
 				return false;
 			}
-
 		}
 
 		// Security check for remote db hosts: Check env var if disabled
