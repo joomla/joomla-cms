@@ -13,12 +13,12 @@
     const folderModalFolders = [].slice.call(document.querySelectorAll('#folderModal .folder-url'));
     // Hide all the folders when the page loads
     innerLists.forEach((innerList) => {
-      innerList.style.display = 'none';
+      innerList.classList.add('hidden');
     });
 
     // Show all the lists in the path of an open file
     openLists.forEach((openList) => {
-      openList.style.display = 'block';
+      openList.classList.remove('hidden');
     });
 
     // Stop the default action of anchor tag on a click event and release the inner list
@@ -28,10 +28,10 @@
 
         const list = folder.parentNode.querySelector('ul');
 
-        if (list.style.display !== 'none') {
-          list.style.display = 'none';
+        if (!list.classList.contains('hidden')) {
+          list.classList.add('hidden');
         } else {
-          list.style.display = 'block';
+          list.classList.remove('hidden');
         }
       });
     });
