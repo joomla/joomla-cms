@@ -223,7 +223,7 @@ class AssociationsHelper extends ContentHelper
 		$titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
 		// Get all content languages.
-		$languages = LanguageHelper::getContentLanguages(array(0, 1));
+		$languages = LanguageHelper::getContentLanguages(array(0, 1), false);
 
 		$canEditReference = self::allowEdit($extensionName, $typeName, $itemId);
 		$canCreate        = self::allowAdd($extensionName, $typeName);
