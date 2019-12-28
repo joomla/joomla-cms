@@ -44,7 +44,7 @@ class RawView extends BaseHtmlView
 
 		// Send the exporter archive to the browser as a download
 		$zipFile = $model->getZipFilename();
-		$download = 'joomla_db-' . date("Y-m-d\TH-i-s") . '.zip';
+		$download = $app->get('sitename') . '_DB_' . date("Y-m-d\TH-i-s") . '.zip';
 
 		$this->document->setMimeEncoding('application/zip');
 
