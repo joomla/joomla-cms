@@ -123,19 +123,19 @@ $itemImage = (empty($itemIconClass) && $itemImage) ? '&nbsp;<img src="' . Uri::r
 
 if ($link != '' && $current->target != '')
 {
-	echo "<a " . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->target . "\">"
+	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->target . "\">"
 		. $iconClass
 		. '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
 }
 elseif ($link != '' && $current->type !== 'separator')
 {
-	echo "<a " . $linkClass . $dataToggle . " href=\"" . $link . "\" aria-label=\"" . Text::_($current->title) . "\">"
+	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" aria-label=\"" . Text::_($current->title) . "\">"
 		. $iconClass
 		. '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $iconImage . '</a>';
 }
 elseif ($current->title != '' && $current->type !== 'separator')
 {
-	echo "<a d" . $linkClass . $dataToggle . ">"
+	echo "<a" . $linkClass . $dataToggle . ">"
 		. $iconClass
 		. '<span class="sidebar-item-title">'. $itemImage . Text::_($current->title) . '</span>' . $ajax . '</a>';
 }
