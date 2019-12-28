@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Installer\Administrator\Model\DatabaseModel;
 
@@ -44,7 +45,7 @@ class RawView extends BaseHtmlView
 
 		// Send the exporter archive to the browser as a download
 		$zipFile = $model->getZipFilename();
-		$download = $app->get('sitename') . '_DB_' . date("Y-m-d\TH-i-s") . '.zip';
+		$download = OutputFilter::stringURLSafe($app->get('sitename')) . '_DB_' . date("Y-m-d\TH-i-s") . '.zip';
 
 		$this->document->setMimeEncoding('application/zip');
 
