@@ -279,16 +279,27 @@ class DatabaseModel extends BaseInstallationModel
 					return false;
 				}
 
-				if (Factory::getSession()->get('remoteDbFileUnwritable', false) === true && !File::exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
+				if (Factory::getSession()->get('remoteDbFileUnwritable', false) === true)
 				{
 					// Add the general message
 					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 
-					// Request to create the file manually
-					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile, 'installation'),
-						'error'
-					);
+					if (File::exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
+					{
+						// Request to delete the file
+						Factory::getApplication()->enqueueMessage(
+							Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE_BEFORE', $remoteDbFile, 'installation'),
+							'error'
+						);
+					}
+					else
+					{
+						// Request to create the file manually
+						Factory::getApplication()->enqueueMessage(
+							Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile, 'installation'),
+							'error'
+						);
+					}
 
 					return false;
 				}
