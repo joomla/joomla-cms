@@ -457,7 +457,7 @@
 
   .main-nav a:hover .sidebar-item-title {
     display: inline-block;
-    min-width: 16rem;
+    min-width: $sidebar-width;
     background-color: var(--atum-bg-dark-80);
   }
 
