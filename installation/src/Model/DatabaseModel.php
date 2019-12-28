@@ -19,6 +19,7 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
@@ -199,8 +200,9 @@ class DatabaseModel extends BaseInstallationModel
 				return false;
 			}
 
-			// @TODO implement the security check
-			/**
+		}
+
+		// Security check for remote db hosts: Check env var if disabled
 		$shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
 
 		// Per Default allowed DB Hosts
@@ -231,7 +233,7 @@ class DatabaseModel extends BaseInstallationModel
 					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 
 					// This is the file you need to remove if you want to use a remote database
-					$remoteDbFile = '_Joomla' . JUserHelper::genRandomPassword(21) . '.txt';
+					$remoteDbFile = '_Joomla' . UserHelper::genRandomPassword(21) . '.txt';
 					Factory::getSession()->set('remoteDbFile', $remoteDbFile);
 
 					// Get the path
@@ -242,7 +244,7 @@ class DatabaseModel extends BaseInstallationModel
 					{
 						// Request to create the file manually
 						Factory::getApplication()->enqueueMessage(
-							Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile),
+							Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile, 'installation'),
 							'error'
 						);
 
@@ -256,7 +258,7 @@ class DatabaseModel extends BaseInstallationModel
 
 					// Request to delete that file
 					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile),
+						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile, 'installation'),
 						'error'
 					);
 
@@ -264,26 +266,28 @@ class DatabaseModel extends BaseInstallationModel
 				}
 
 				if (Factory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true
-					&& file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
+					&& File::exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
 				{
 					// Add the general message
 					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 
+					// Request to delete the file
 					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile),
+						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile, 'installation'),
 						'error'
 					);
 
 					return false;
 				}
 
-				if (Factory::getSession()->get('remoteDbFileUnwritable', false) === true && !file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
+				if (Factory::getSession()->get('remoteDbFileUnwritable', false) === true && !File::exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
 				{
 					// Add the general message
 					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 
+					// Request to create the file manually
 					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile),
+						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile, 'installation'),
 						'error'
 					);
 
@@ -293,8 +297,6 @@ class DatabaseModel extends BaseInstallationModel
 				// All tests for this session passed set it to the session
 				Factory::getSession()->set('remoteDbFileTestsPassed', true);
 			}
-		}
-		*/
 		}
 
 		// Get a database object.
