@@ -9,6 +9,9 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+
 extract($displayData);
 
 /**
@@ -42,12 +45,23 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   boolean  $charcounter     Does this field support a character counter?
  */
 
+ // Initialize some field attributes.
+if ($charcounter)
+{
+	// Load the js file
+	Factory::getDocument()->getWebAssetManager()->enableAsset('short-and-sweet');
+	// Set the css class to be used as the trigger
+	$charcounter = 'charcount';
+	// Set the text
+	$counterlabel = 'data-counter-label="' . Text::_('COM_CONFIG_METADESC_COUNTER') . '"';
+}
 $attributes = array(
 	$columns ?: '',
 	$rows ?: '',
-	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
+	!empty($class) ? 'class="form-control ' . $class . $charcounter . '"' : 'class="form-control ' . $charcounter . '"',
 	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$disabled ? 'disabled' : '',
@@ -58,7 +72,8 @@ $attributes = array(
 	!empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '',
 	$autofocus ? 'autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
-	$maxlength ? $maxlength: ''
+	$maxlength ? $maxlength: '',
+	!empty($counterlabel) ? $counterlabel : ''
 );
 ?>
 <textarea name="<?php

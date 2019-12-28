@@ -259,6 +259,16 @@ const copyFiles = (options) => {
       Fs.writeFileSync(chosenPath, ChosenJs, { encoding: 'UTF-8' });
     }
 
+    // Append initialising code to the end of the Short-and-Sweet javascript
+    if (packageName === 'short-and-sweet') {
+      const dest = Path.join(mediaVendorPath, vendorName);
+      const shortandsweetPath = `${dest}/${options.settings.vendors[packageName].js['dist/short-and-sweet.min.js']}`;
+      let ShortandsweetJs = Fs.readFileSync(shortandsweetPath, { encoding: 'UTF-8' });
+      ShortandsweetJs = ShortandsweetJs.concat(`document.addEventListener('DOMContentLoaded', function()`
+          + `{shortAndSweet('textarea.charcount', {counterClassName: 'small text-muted'}); });`);
+      Fs.writeFileSync(shortandsweetPath, ShortandsweetJs, { encoding: 'UTF-8' });
+    }
+
     // Add provided Assets to a registry, if any
     if (vendor.provideAssets && vendor.provideAssets.length) {
       vendor.provideAssets.forEach((assetInfo) => {

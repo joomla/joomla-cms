@@ -48,6 +48,7 @@
     "punycode": "1.4.1",
     "qrcode-generator": "^1.4.3",
     "roboto-fontface": "^0.10.0",
+    "short-and-sweet": "^1.0.2",
     "skipto": "^2.0.4",
     "tinymce": "5.0.14"
   },
