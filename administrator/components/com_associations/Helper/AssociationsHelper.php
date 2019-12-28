@@ -224,6 +224,16 @@ class AssociationsHelper extends ContentHelper
 
 		// Get all content languages.
 		$languages = LanguageHelper::getContentLanguages(array(0, 1));
+		$content_languages = array_column($languages, 'lang_code');
+
+		// Display warning if Content Language is trashed or deleted
+		foreach ($items as $item)
+		{
+			if (!in_array($item['language'], $content_languages))
+			{
+				Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_ASSOCIATIONS_CONTENTLANGUAGE_WARNING', $item['language']), 'warning');
+			}
+		}
 
 		$canEditReference = self::allowEdit($extensionName, $typeName, $itemId);
 		$canCreate        = self::allowAdd($extensionName, $typeName);
