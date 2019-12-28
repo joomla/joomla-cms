@@ -1287,7 +1287,7 @@ class ItemModel extends AdminModel
 		// Association menu items, we currently do not support this for admin menu… may be later
 		if ($clientId == 0 && Associations::isEnabled())
 		{
-			$languages = LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{
