@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
@@ -264,7 +265,7 @@ class PlgSystemLogrotation extends JPlugin
 							$conf->get('cache_path', JPATH_SITE . '/cache')
 					);
 
-					$cache = JCache::getInstance('callback', $options);
+					$cache = Cache::getInstance('callback', $options);
 					$cache->clean();
 				}
 				catch (Exception $e)
