@@ -394,7 +394,7 @@ class SetupModel extends BaseInstallationModel
 					$remoteDbPath = JPATH_INSTALLATION . '/' . $remoteDbFile;
 
 					// When the path is not writable the user needs to create the file manually
-					if (!File::write($remoteDbPath, ''))
+					if (!is_writable(JPATH_INSTALLATION) || !File::write($remoteDbPath, ''))
 					{
 						// Request to create the file manually
 						Factory::getApplication()->enqueueMessage(
