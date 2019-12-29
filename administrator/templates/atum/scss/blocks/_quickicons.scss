@@ -2,12 +2,12 @@
 
 .quick-icons {
   background-color: $white;
-  
+
   li {
     padding: 0;
   }
   a {
-    color: var(--atum-text-dark);
+    color: var(--atum-link-color);
     width: 100%;
     transition: all .25s ease;
 
@@ -16,12 +16,12 @@
       color: $white;
       background: var(--atum-bg-dark);
     }
-	
+
     .fa,
     .fab {
       font-size: $quickicon-icon-size;
       margin: 0 auto;
-	  
+
       &.big {
             font-size: $quickicon-icon-size-big;
           }
@@ -59,27 +59,27 @@
       max-width: calc(100% - 1rem);
       flex: 1 1 calc(100% - 1rem);
     }
-	
+
     .quickicon-linkadd {
       background-color: var(--atum-bg-light);
       width: 2rem;
-     } 
+     }
     }
-  
-  // Single icon 
+
+  // Single icon
   .quickicon-single {
     width: calc(33.333% - 1rem);
     max-width: calc(33.333% - 1rem);
     flex: 1 1 calc(33.333% - 1rem);
     background: $quickicon-bg;
   }
-  
+
   .quickicon-single,
   .quickicon-group {
     border: 1px solid $gray-400;
     margin: 0.5rem;
     min-height: 5.7rem;
-	
+
     @media (max-width: 1350px) {
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
@@ -101,7 +101,7 @@
       flex: 1 1 calc(100% - 1rem);
     }
   }
-	
+
   .quickicon a {
     display: inline-flex;
     height: 100%;
@@ -204,8 +204,8 @@
       text-decoration: none;
       color: $white;
       background: var(--atum-bg-dark);
-    }  
-  }	 
+    }
+  }
 }
 
 #content {
