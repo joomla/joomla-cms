@@ -54,7 +54,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 		$response->type = 'Basic';
 
 		$username = $this->app->input->server->get('PHP_AUTH_USER');
-		$password = $this->app->input->server->get('PHP_AUTH_PW');
+		$password = $this->app->input->server->get('PHP_AUTH_PW', null, 'string');
 
 		if (empty($password))
 		{
