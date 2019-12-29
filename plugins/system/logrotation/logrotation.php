@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
@@ -22,7 +23,7 @@ use Joomla\Filesystem\Path;
  *
  * @since  3.9.0
  */
-class PlgSystemLogrotation extends JPlugin
+class PlgSystemLogrotation extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
