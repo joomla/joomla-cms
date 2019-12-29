@@ -243,7 +243,12 @@ class DatabaseModel extends BaseInstallationModel
 					{
 						// Request to create the file manually
 						Factory::getApplication()->enqueueMessage(
-							Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile, 'installation'),
+							Text::sprintf(
+								'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE',
+								$remoteDbFile,
+								'installation',
+								Text::_('INSTL_INSTALL_JOOMLA')
+							),
 							'error'
 						);
 
@@ -257,7 +262,12 @@ class DatabaseModel extends BaseInstallationModel
 
 					// Request to delete that file
 					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile, 'installation'),
+						Text::sprintf(
+							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE',
+							$remoteDbFile,
+							'installation',
+							Text::_('INSTL_INSTALL_JOOMLA')
+						),
 						'error'
 					);
 
@@ -272,7 +282,12 @@ class DatabaseModel extends BaseInstallationModel
 
 					// Request to delete the file
 					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile, 'installation'),
+						Text::sprintf(
+							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE',
+							$remoteDbFile,
+							'installation',
+							Text::_('INSTL_INSTALL_JOOMLA')
+						),
 						'error'
 					);
 
@@ -286,7 +301,12 @@ class DatabaseModel extends BaseInstallationModel
 
 					// Request to create the file manually
 					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile, 'installation'),
+						Text::sprintf(
+							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE',
+							$remoteDbFile,
+							'installation',
+							Text::_('INSTL_INSTALL_JOOMLA')
+						),
 						'error'
 					);
 
