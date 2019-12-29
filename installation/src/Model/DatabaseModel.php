@@ -249,7 +249,7 @@ class DatabaseModel extends BaseInstallationModel
 								'installation',
 								Text::_('INSTL_INSTALL_JOOMLA')
 							),
-							'error'
+							'notice'
 						);
 
 						Factory::getSession()->set('remoteDbFileUnwritable', true);
@@ -268,7 +268,7 @@ class DatabaseModel extends BaseInstallationModel
 							'installation',
 							Text::_('INSTL_INSTALL_JOOMLA')
 						),
-						'error'
+						'notice'
 					);
 
 					return false;
@@ -288,7 +288,7 @@ class DatabaseModel extends BaseInstallationModel
 							'installation',
 							Text::_('INSTL_INSTALL_JOOMLA')
 						),
-						'error'
+						'notice'
 					);
 
 					return false;
@@ -307,7 +307,7 @@ class DatabaseModel extends BaseInstallationModel
 							'installation',
 							Text::_('INSTL_INSTALL_JOOMLA')
 						),
-						'error'
+						'notice'
 					);
 
 					return false;
