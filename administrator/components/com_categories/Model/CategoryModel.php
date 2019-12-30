@@ -468,7 +468,7 @@ class CategoryModel extends AdminModel
 		// Association category items
 		if ($this->getAssoc())
 		{
-			$languages = LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{
