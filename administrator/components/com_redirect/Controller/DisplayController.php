@@ -43,45 +43,22 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		// Load the submenu.
-		RedirectHelper::addSubmenu($this->input->get('view', 'links'));
-
 		$view   = $this->input->get('view', 'links');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
 
-		if ($view === 'links')
+		$pluginEnabled = PluginHelper::isEnabled('system', 'redirect');
+
+		if ($view === 'links' && !$pluginEnabled)
 		{
-			$pluginEnabled      = PluginHelper::isEnabled('system', 'redirect');
-			$collectUrlsEnabled = RedirectHelper::collectUrlsEnabled();
-
-			// Show messages about the enabled plugin and if the plugin should collect URLs
-			if ($pluginEnabled && $collectUrlsEnabled)
-			{
-				$this->app->enqueueMessage(Text::sprintf('COM_REDIRECT_COLLECT_URLS_ENABLED', Text::_('COM_REDIRECT_PLUGIN_ENABLED')), 'notice');
-			}
-			else
-			{
-				$redirectPluginId = RedirectHelper::getRedirectPluginId();
-				$link = HTMLHelper::_(
-					'link',
-					'#plugin' . $redirectPluginId . 'Modal',
-					Text::_('COM_REDIRECT_SYSTEM_PLUGIN'),
-					'class="alert-link" data-toggle="modal" id="title-' . $redirectPluginId . '"'
-				);
-
-				if ($pluginEnabled && !$collectUrlsEnabled)
-				{
-					$this->app->enqueueMessage(
-						Text::sprintf('COM_REDIRECT_COLLECT_MODAL_URLS_DISABLED', Text::_('COM_REDIRECT_PLUGIN_ENABLED'), $link),
-						'notice'
-					);
-				}
-				else
-				{
-					$this->app->enqueueMessage(Text::sprintf('COM_REDIRECT_PLUGIN_MODAL_DISABLED', $link), 'error');
-				}
-			}
+			$redirectPluginId = RedirectHelper::getRedirectPluginId();
+			$link = HTMLHelper::_(
+				'link',
+				'#plugin' . $redirectPluginId . 'Modal',
+				Text::_('COM_REDIRECT_SYSTEM_PLUGIN'),
+				'class="alert-link" data-toggle="modal" id="title-' . $redirectPluginId . '"'
+			);
+			$this->app->enqueueMessage(Text::sprintf('COM_REDIRECT_PLUGIN_MODAL_DISABLED', $link), 'error');
 		}
 
 		// Check for edit form.
