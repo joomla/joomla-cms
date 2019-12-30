@@ -19,7 +19,6 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Newsfeeds\Administrator\Helper\NewsfeedsHelper;
 
 /**
  * View class for a list of newsfeeds.
