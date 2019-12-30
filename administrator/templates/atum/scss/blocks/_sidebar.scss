@@ -28,7 +28,6 @@
   z-index: $zindex-sidebar;
   background-color: var(--atum-bg-dark);
   box-shadow: $atum-box-shadow;
-  overflow: hidden;
 
   @include media-breakpoint-up(sm) {
     display: flex;
@@ -465,6 +464,13 @@
   .has-arrow::after {
     display: none;
   }
+
+  .main-nav a:hover .sidebar-item-title {
+    display: inline-block;
+    min-width: $sidebar-width;
+    background-color: var(--atum-bg-dark-80);
+  }
+
 
   .main-nav {
 
