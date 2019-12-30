@@ -286,7 +286,7 @@ abstract class AbstractMenu
 	{
 		if ($menu = $this->getItem($id))
 		{
-			return $menu->params;
+			return $menu->getParams();
 		}
 
 		return new Registry;

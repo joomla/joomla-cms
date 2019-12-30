@@ -20,7 +20,6 @@ use Joomla\CMS\Session\Session;
 /** @var \Joomla\Component\Banners\Administrator\View\Banners\HtmlView $this */
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('behavior.tabstate');
 
 $user      = Factory::getUser();
 $userId    = $user->get('id');
@@ -118,8 +117,8 @@ if ($saveOrder && !empty($this->items))
 											<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
-											<input type="text" style="display:none" name="order[]" size="5"
-												value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
+											<input type="text" name="order[]" size="5"
+												value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 										<?php endif; ?>
 									</td>
 									<td class="text-center">
