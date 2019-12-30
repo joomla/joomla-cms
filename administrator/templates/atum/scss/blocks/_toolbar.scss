@@ -25,8 +25,10 @@ joomla-toolbar-button {
 
     > joomla-toolbar-button,
     > .btn-group {
-      margin-left: .75rem;
-
+        margin-left: .75rem;
+      [dir=rtl] & {
+        margin-left: 0rem;
+      }
       &:first-child {
         margin-left: 0;
       }
