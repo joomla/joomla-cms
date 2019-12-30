@@ -70,7 +70,7 @@
   .js-stools-container-selector,
   .js-stools-container-selector-first  {
      @include media-breakpoint-down(md){
-        float:none;
+        float:none !important;
         width:100%;
         margin-right:0.5rem;
     }
