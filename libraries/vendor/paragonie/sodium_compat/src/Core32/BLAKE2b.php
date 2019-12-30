@@ -138,9 +138,15 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
     public static function load64($x, $i)
     {
         /** @var int $l */
-        $l = $x[$i]   | ($x[$i+1]<<8) | ($x[$i+2]<<16) | ($x[$i+3]<<24);
+        $l = (int) ($x[$i])
+             | ((int) ($x[$i+1]) << 8)
+             | ((int) ($x[$i+2]) << 16)
+             | ((int) ($x[$i+3]) << 24);
         /** @var int $h */
-        $h = $x[$i+4] | ($x[$i+5]<<8) | ($x[$i+6]<<16) | ($x[$i+7]<<24);
+        $h = (int) ($x[$i+4])
+             | ((int) ($x[$i+5]) << 8)
+             | ((int) ($x[$i+6]) << 16)
+             | ((int) ($x[$i+7]) << 24);
         return self::new64($h, $l);
     }
 
@@ -557,7 +563,7 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
     public static function SplFixedArrayToString(SplFixedArray $a)
     {
         /**
-         * @var array<mixed, int>
+         * @var array<int, string|int>
          */
         $arr = $a->toArray();
         $c = $a->count();
@@ -609,16 +615,19 @@ abstract class ParagonIE_Sodium_Core32_BLAKE2b extends ParagonIE_Sodium_Core_Uti
         # uint8_t buf[2 * 128];
         $str .= self::SplFixedArrayToString($ctx[3]);
 
+        /** @var int $ctx4 */
+        $ctx4 = $ctx[4];
+
         # size_t buflen;
         $str .= implode('', array(
-            self::intToChr($ctx[4] & 0xff),
-            self::intToChr(($ctx[4] >> 8) & 0xff),
-            self::intToChr(($ctx[4] >> 16) & 0xff),
-            self::intToChr(($ctx[4] >> 24) & 0xff),
-            self::intToChr(($ctx[4] >> 32) & 0xff),
-            self::intToChr(($ctx[4] >> 40) & 0xff),
-            self::intToChr(($ctx[4] >> 48) & 0xff),
-            self::intToChr(($ctx[4] >> 56) & 0xff)
+            self::intToChr($ctx4 & 0xff),
+            self::intToChr(($ctx4 >> 8) & 0xff),
+            self::intToChr(($ctx4 >> 16) & 0xff),
+            self::intToChr(($ctx4 >> 24) & 0xff),
+            self::intToChr(($ctx4 >> 32) & 0xff),
+            self::intToChr(($ctx4 >> 40) & 0xff),
+            self::intToChr(($ctx4 >> 48) & 0xff),
+            self::intToChr(($ctx4 >> 56) & 0xff)
         ));
         # uint8_t last_node;
         return $str . "\x00";

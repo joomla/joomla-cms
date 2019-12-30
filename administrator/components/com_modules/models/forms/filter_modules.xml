@@ -86,6 +86,7 @@
 			statuses="*,0,1,-2"
 			onchange="this.form.submit();"
 			default="a.position ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

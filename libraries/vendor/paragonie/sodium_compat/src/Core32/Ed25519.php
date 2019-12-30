@@ -16,6 +16,7 @@ abstract class ParagonIE_Sodium_Core32_Ed25519 extends ParagonIE_Sodium_Core32_C
      * @internal You should not use this directly from another application
      *
      * @return string (96 bytes)
+     * @throws Exception
      * @throws SodiumException
      * @throws TypeError
      */

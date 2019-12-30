@@ -162,6 +162,23 @@
 			type="separator"
 		/>
 		<menuitem
+			title="MOD_MENU_COM_PRIVACY"
+			type="component"
+			element="com_privacy"
+			link="index.php?option=com_privacy"
+			class="class:privacy"
+		/>
+		<menuitem
+			title="MOD_MENU_COM_ACTIONLOGS"
+			type="component"
+			element="com_actionlogs"
+			link="index.php?option=com_actionlogs"
+			class="class:userlogs"
+		/>		
+		<menuitem
+			type="separator"
+		/>
+		<menuitem
 			title="MOD_MENU_MASS_MAIL_USERS"
 			type="component"
 			element="com_users"

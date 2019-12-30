@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -637,6 +637,8 @@ class PlgSystemDebug extends JPlugin
 		$totalTime = 0;
 		$totalMem  = 0;
 		$marks     = array();
+		$bars      = array();
+		$barsMem   = array();
 
 		foreach (JProfiler::getInstance('Application')->getMarks() as $mark)
 		{
@@ -662,8 +664,8 @@ class PlgSystemDebug extends JPlugin
 			);
 		}
 
-		$avgTime = $totalTime / count($marks);
-		$avgMem  = $totalMem / count($marks);
+		$avgTime = $totalTime / max(count($marks), 1);
+		$avgMem  = $totalMem / max(count($marks), 1);
 
 		foreach ($marks as $mark)
 		{
@@ -1531,6 +1533,12 @@ class PlgSystemDebug extends JPlugin
 			foreach ($log as $k => $query)
 			{
 				$dbVersion56 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '5.6', '>=');
+				$dbVersion80 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '8.0', '>=');
+
+				if ($dbVersion80)
+				{
+					$dbVersion56 = false; 
+				}
 
 				if ((stripos($query, 'select') === 0) || ($dbVersion56 && ((stripos($query, 'delete') === 0) || (stripos($query, 'update') === 0))))
 				{
@@ -2037,7 +2045,7 @@ class PlgSystemDebug extends JPlugin
 		$app    = JFactory::getApplication();
 		$domain = $app->isClient('site') ? 'site' : 'admin';
 		$input  = $app->input;
-		$file   = $app->get('log_path') . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
+		$file   = $app->get('log_path') . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql.php';
 
 		// Get the queries from log.
 		$current = '';
@@ -2060,7 +2068,13 @@ class PlgSystemDebug extends JPlugin
 			JFile::delete($file);
 		}
 
+		$head   = array('#');
+		$head[] = '#<?php die(\'Forbidden.\'); ?>';
+		$head[] = '#Date: ' . gmdate('Y-m-d H:i:s') . ' UTC';
+		$head[] = '#Software: ' . \JPlatform::getLongVersion();
+		$head[] = "\n";
+
 		// Write new file.
-		JFile::write($file, $current);
+		JFile::write($file, implode("\n", $head) . $current);
 	}
 }
