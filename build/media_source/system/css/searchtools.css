@@ -28,7 +28,7 @@
 	margin-right: 8px;
 }
 html[dir=rtl] .js-stools .js-stools-container-selector {
-	float: none;
+	float: right;
 	margin-left: auto;
 	margin-right: 0;
 }
