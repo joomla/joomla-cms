@@ -24,38 +24,5 @@ use Joomla\CMS\Helper\ContentHelper;
  */
 class WorkflowHelper extends ContentHelper
 {
-	/**
-	 * Configure the Linkbar. Must be implemented by each extension.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	public static function addSubmenu($vName)
-	{
-		$extension = Factory::getApplication()->input->getCmd('extension');
 
-		$parts = explode('.', $extension);
-
-		$component = reset($parts);
-
-		$eName = ucfirst(str_replace('com_', '', $component));
-		$cName = $eName . 'Helper';
-
-		$class = '\\Joomla\\Component\\' . $eName . '\\Administrator\\Helper\\' . $cName;
-
-		if (class_exists($class) && is_callable([$class, 'addSubmenu']))
-		{
-			$lang = Factory::getLanguage();
-
-			// Loading language file from the administrator/language directory then
-			// loading language file from the administrator/components/*extension*/language directory
-			$lang->load($component, JPATH_BASE, null, false, true)
-			|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
-
-			call_user_func([$class, 'addSubmenu'], $vName);
-		}
-	}
 }

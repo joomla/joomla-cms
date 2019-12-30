@@ -91,8 +91,6 @@ class HtmlView extends BaseHtmlView
 			$this->activeFilters = $this->get('ActiveFilters');
 		}
 
-		MenusHelper::addSubmenu('menus');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

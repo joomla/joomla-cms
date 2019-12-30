@@ -94,9 +94,6 @@ class DisplayController extends BaseController
 			// Push document object into the view.
 			$view->document = $document;
 
-			// Load the submenu.
-			PrivacyHelper::addSubmenu($this->input->get('view', $this->default_view));
-
 			$view->display();
 		}
 

@@ -69,12 +69,6 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		// Modal layout doesn't need the submenu.
-		if ($this->getLayout() !== 'modal')
-		{
-			NewsfeedsHelper::addSubmenu('newsfeeds');
-		}
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

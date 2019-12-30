@@ -126,10 +126,6 @@ class HtmlView extends BaseHtmlView
 		$this->workflowID    = $this->workflow->id;
 		$this->extension     = $this->workflow->extension;
 
-		WorkflowHelper::addSubmenu('transitions');
-
-		$this->sidebar       = \JHtmlSidebar::render();
-
 		$this->addToolbar();
 
 		return parent::display($tpl);
