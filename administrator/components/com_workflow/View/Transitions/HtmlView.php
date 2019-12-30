@@ -20,7 +20,7 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
- * Workflows view class for the Workflow package.
+ * Transitions view class for the Workflow package.
  *
  * @since  4.0.0
  */
