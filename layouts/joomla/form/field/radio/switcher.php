@@ -63,12 +63,6 @@ $input    = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 $attr = 'id="' . $id . '"';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 
-// To avoid user's confusion, readonly="readonly" should imply disabled="disabled".
-if ($readonly || $disabled)
-{
-	$attr .= ' disabled="disabled"';
-}
-
 ?>
 <fieldset <?php echo $attr; ?>>
 	<legend class="switcher__legend">
