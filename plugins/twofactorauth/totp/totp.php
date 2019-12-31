@@ -111,7 +111,6 @@ class PlgTwofactorauthTotp extends CMSPlugin
 
 		// These are used by Google Authenticator to tell accounts apart
 		$username = Factory::getUser($user_id)->username;
-		$hostname = Uri::getInstance()->getHost();
 		$sitename = Factory::getApplication()->get('sitename');
 
 
