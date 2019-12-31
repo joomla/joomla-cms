@@ -26,7 +26,7 @@ $sql   = $fieldParams->get('query', '');
 $bindNames = $query->bindArray($value, ParameterType::STRING);
 
 // Run the query with a having condition because it supports aliases
-$query->setQuery($sql . ' HAVING VALUE IN (' . implode(',', $bindNames) . ')');
+$query->setQuery($sql . ' HAVING ' . $db->quoteName('value') . ' IN (' . implode(',', $bindNames) . ')');
 
 try
 {
