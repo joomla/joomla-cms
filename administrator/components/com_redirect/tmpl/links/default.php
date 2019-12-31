@@ -33,7 +33,7 @@ $link = HTMLHelper::_(
 	Text::_('COM_REDIRECT_SYSTEM_PLUGIN'),
 	'class="alert-link" data-toggle="modal" id="title-' . $redirectPluginId . '"'
 );
-if (!$pluginEnabled && !$collectUrlsEnabled)
+if (!$pluginEnabled)
 {
 	$this->msg = Text::sprintf('COM_REDIRECT_PLUGIN_MODAL_DISABLED', $link);
 }
