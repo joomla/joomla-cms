@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -101,6 +102,14 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
+	 * The id of the finder plugin in mysql
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $finderPluginId = 0;
+
+	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
@@ -121,6 +130,7 @@ class HtmlView extends BaseHtmlView
 		$this->pluginState   = $this->get('pluginState');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$this->finderPluginId = FinderHelper::getFinderPluginId();
 
 		FinderHelper::addSubmenu('index');
 
@@ -141,12 +151,18 @@ class HtmlView extends BaseHtmlView
 		{
 			if (Factory::getUser()->authorise('core.manage', 'com_plugin'))
 			{
-				$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FinderHelper::getFinderPluginId());
-				Factory::getApplication()->enqueueMessage(Text::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED_LINK', $link), 'warning');
+				$link = HTMLHelper::_(
+					'link',
+					'#plugin' . $this->finderPluginId . 'Modal',
+					Text::_('COM_FINDER_INDEX_PLUGIN'),
+					'class="alert-link" data-toggle="modal" id="title-' . $this->finderPluginId . '"'
+				);
+
+				$this->msg = Text::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED_LINK', $link);
 			}
 			else
 			{
-				Factory::getApplication()->enqueueMessage(Text::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED'), 'warning');
+				$this->msg = Text::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED');
 			}
 		}
 		elseif ($this->get('TotalIndexed') === 0)
