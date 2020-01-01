@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Document;
 
-\defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Opensearch\OpensearchImage;
 use Joomla\CMS\Document\Opensearch\OpensearchUrl;
@@ -58,6 +58,7 @@ class OpensearchDocument extends Document
 	 * @param   array  $options  Associative array of options
 	 *
 	 * @since  1.7.0
+	 * @throws \Exception
 	 */
 	public function __construct($options = array())
 	{
@@ -108,8 +109,33 @@ class OpensearchDocument extends Document
 				$favicon->type = 'image/vnd.microsoft.icon';
 
 				$this->addImage($favicon);
+			}
 
-				break;
+			if (file_exists($dir . '/favicon.svg'))
+			{
+				$path = str_replace(JPATH_BASE, '', $dir);
+				$path = str_replace('\\', '/', $path);
+				$favicon = new OpensearchImage;
+
+				if ($path == '')
+				{
+					$favicon->data = Uri::base() . 'favicon.svg';
+				}
+				else
+				{
+					if ($path[0] == '/')
+					{
+						$path = substr($path, 1);
+					}
+
+					$favicon->data = Uri::base() . $path . '/favicon.svg';
+				}
+
+				$favicon->height = '16';
+				$favicon->width = '16';
+				$favicon->type = 'image/svg+xml';
+
+				$this->addImage($favicon);
 			}
 		}
 	}
@@ -128,7 +154,7 @@ class OpensearchDocument extends Document
 	{
 		$xml = new \DOMDocument('1.0', 'utf-8');
 
-		if (\defined('JDEBUG') && JDEBUG)
+		if (defined('JDEBUG') && JDEBUG)
 		{
 			$xml->formatOutput = true;
 		}
