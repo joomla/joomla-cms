@@ -111,7 +111,7 @@ class PlgTwofactorauthTotp extends CMSPlugin
 
 		// These are used by Google Authenticator to tell accounts apart
 		$username = Factory::getUser($user_id)->username;
-		$sitename = Factory::getApplication()->get('sitename');
+		$sitename = rawurlencode(Factory::getApplication()->get('sitename'));
 
 
 		// This is the URL to the QR code for Google Authenticator
