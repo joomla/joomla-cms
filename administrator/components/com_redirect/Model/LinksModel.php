@@ -15,6 +15,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 use Joomla\Database\ParameterType;
 
 /**
@@ -201,6 +203,53 @@ class LinksModel extends ListModel
 		$query->order($db->escape($this->getState('list.ordering', 'a.old_url')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
+	}
+
+	/**
+	 * Detect if the redirect plugin is enabled and proper configured
+	 *
+	 * @return array Information messages
+	 */
+	public function getInformationMessages(): array
+	{
+		$messages = [];
+		$pluginEnabled      = PluginHelper::isEnabled('system', 'redirect');
+		$collectUrlsEnabled = RedirectHelper::collectUrlsEnabled();
+
+		if ($pluginEnabled && $collectUrlsEnabled)
+		{
+			return $messages;
+		}
+
+		$redirectPluginId = RedirectHelper::getRedirectPluginId();
+
+		$link = HTMLHelper::_(
+			'link',
+			'#plugin' . $redirectPluginId . 'Modal',
+			Text::_('COM_REDIRECT_SYSTEM_PLUGIN'),
+			'class="alert-link" data-toggle="modal" id="title-' . $redirectPluginId . '"'
+		);
+
+		if (!$pluginEnabled)
+		{
+			$messages[] = [
+				'message' => [
+					'COM_REDIRECT_PLUGIN_MODAL_DISABLED',
+					$link,
+				],
+			];
+		}
+		elseif (!$collectUrlsEnabled)
+		{
+			$messages[] = [
+				'COM_REDIRECT_COLLECT_MODAL_URLS_DISABLED',
+				$link,
+			];
+		}
+
+		Text::sprintf(...$messages[]);
+
+		return $messages;
 	}
 
 	/**

@@ -14,44 +14,25 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 
 HTMLHelper::_('behavior.multiselect');
 
 $user      = Factory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-
-$pluginEnabled      = PluginHelper::isEnabled('system', 'redirect');
-$collectUrlsEnabled = RedirectHelper::collectUrlsEnabled();
-$redirectPluginId   = RedirectHelper::getRedirectPluginId();
-$link = HTMLHelper::_(
-	'link',
-	'#plugin' . $redirectPluginId . 'Modal',
-	Text::_('COM_REDIRECT_SYSTEM_PLUGIN'),
-	'class="alert-link" data-toggle="modal" id="title-' . $redirectPluginId . '"'
-);
-if (!$pluginEnabled)
-{
-	$this->msg = Text::sprintf('COM_REDIRECT_PLUGIN_MODAL_DISABLED', $link);
-}
-if ($pluginEnabled && !$collectUrlsEnabled)
-{
-	$this->msg = Text::sprintf('COM_REDIRECT_COLLECT_MODAL_URLS_DISABLED', Text::_('COM_REDIRECT_PLUGIN_ENABLED'), $link);
-}
-
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_redirect&view=links'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container" class="j-main-container">
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-		<?php if (!empty($this->msg)) : ?>
+		<?php if (!empty($this->informationMessages)) : ?>
+		<?php foreach($this->informationMessages as $message): ?>
 			<div class="alert alert-info" aria-live="polite">
 				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
-				<?php echo $this->msg; ?>
+				<?php echo Text::sprintf(...$message['message']); ?>
 			</div>
+		<?php endforeach ?>
 		<?php endif; ?>
 		<?php if ($this->redirectPluginId) : ?>
 			<?php $link = Route::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->redirectPluginId . '&tmpl=component&layout=modal'); ?>
