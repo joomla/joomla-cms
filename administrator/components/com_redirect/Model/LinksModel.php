@@ -208,13 +208,13 @@ class LinksModel extends ListModel
 	}
 
 	/**
-	 * Detect if the redirect plugin is enabled and proper configured
+	 * Detect if the redirect plugin is enabled and properly configured
 	 *
 	 * @return array Information messages
 	 */
 	public function getInformationMessages(): array
 	{
-		$messages = [];
+		$messages           = [];
 		$pluginEnabled      = PluginHelper::isEnabled('system', 'redirect');
 		$collectUrlsEnabled = RedirectHelper::collectUrlsEnabled();
 
