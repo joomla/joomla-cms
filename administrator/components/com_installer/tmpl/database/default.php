@@ -23,8 +23,11 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 ?>
 <div id="installer-database" class="clearfix">
 	<form enctype="multipart/form-data" action="<?php echo Route::_('index.php?option=com_installer&view=database'); ?>" method="post" name="adminForm" id="adminForm">
-		<table class="table">
-			<tbody>
+
+		<fieldset class="exportform options-grid-form options-grid-form-full">
+			<legend><?php echo Text::_('COM_INSTALLER_IMPORT_TITLE'); ?></legend>
+			<table class="table">
+				<tbody>
 				<tr>
 					<td>
 						<?php echo Text::_('COM_INSTALLER_FILE_IMPORTER_TEXT'); ?>
@@ -35,8 +38,18 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 						<small class="form-text text-muted"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></small>
 					</td>
 				</tr>
-			</tbody>
-		</table>
+				</tbody>
+				<tfoot>
+				<tr>
+					<td>&nbsp;</td>
+					<td>
+						<button id="importButton" class="btn btn-primary" type="button" onclick="Joomla.submitbutton('database.import');"><?php echo Text::_('COM_INSTALLER_IMPORT_BUTTON'); ?></button>
+					</td>
+				</tr>
+				</tfoot>
+			</table>
+		</fieldset>
+
 		<div class="row">
 			<div class="col-md-12">
 				<div id="j-main-container" class="j-main-container">
