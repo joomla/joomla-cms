@@ -27,7 +27,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 	<div id="j-main-container" class="j-main-container">
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (!empty($this->informationMessages)) : ?>
-		<?php foreach($this->informationMessages as $message): ?>
+		<?php foreach($this->informationMessages as $message) : ?>
 			<div class="alert alert-info" aria-live="polite">
 				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::sprintf(...$message['message']); ?>
