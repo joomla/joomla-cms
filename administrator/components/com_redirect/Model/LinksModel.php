@@ -13,6 +13,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -242,12 +244,12 @@ class LinksModel extends ListModel
 		elseif (!$collectUrlsEnabled)
 		{
 			$messages[] = [
-				'COM_REDIRECT_COLLECT_MODAL_URLS_DISABLED',
-				$link,
+				'message' => [
+					'COM_REDIRECT_COLLECT_MODAL_URLS_DISABLED',
+					$link,
+				],
 			];
 		}
-
-		Text::sprintf(...$messages[]);
 
 		return $messages;
 	}
