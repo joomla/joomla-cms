@@ -27,6 +27,7 @@
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.date_time DESC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.subject ASC">COM_MESSAGES_HEADING_SUBJECT_ASC</option>

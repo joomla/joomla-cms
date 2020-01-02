@@ -48,6 +48,7 @@
 			type="list"
 			onchange="this.form.submit();"
 			default="d.branch_title ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="d.branch_title ASC">JGLOBAL_TITLE_ASC</option>

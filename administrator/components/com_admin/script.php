@@ -2267,6 +2267,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem/support',
 			'/libraries/joomla/filesystem/wrapper',
 			'/libraries/joomla/filesystem',
+			'/libraries/vendor/phpmailer/phpmailer/composer.lock',
 		);
 
 		jimport('joomla.filesystem.file');
