@@ -25,7 +25,7 @@ use Joomla\Input\Input;
 class WorkflowController extends FormController
 {
 	/**
-	 * The extension for which the categories apply.
+	 * The extension for which the workflows apply.
 	 *
 	 * @var    string
 	 * @since  4.0.0

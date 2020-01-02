@@ -202,7 +202,7 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that its possible to navigate to a subfolder using double click.
+	 * Test that it's possible to navigate to a subfolder using double click.
 	 *
 	 * @param   Media  $I
 	 *
@@ -212,7 +212,7 @@ class MediaListCest
 	 */
 	public function navigateUsingDoubleClickOnFolder(Media $I)
 	{
-		$I->wantToTest('that its possible to navigate to a subfolder using double click.');
+		$I->wantToTest('that it is possible to navigate to a subfolder using double click.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->doubleClick(MediaListPage::item('banners'));
@@ -222,7 +222,7 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that its possible to navigate to a subfolder using tree.
+	 * Test that it's possible to navigate to a subfolder using tree.
 	 *
 	 * @param   Media  $I
 	 *
@@ -232,7 +232,7 @@ class MediaListCest
 	 */
 	public function navigateUsingTree(Media $I)
 	{
-		$I->wantToTest('that its possible to navigate to a subfolder using tree.');
+		$I->wantToTest('that it is possible to navigate to a subfolder using tree.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->clickOnLinkInTree('banners');
@@ -242,7 +242,7 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that its possible to navigate to a subfolder using breadcrumb.
+	 * Test that it's possible to navigate to a subfolder using breadcrumb.
 	 *
 	 * @param   Media  $I
 	 *
@@ -252,7 +252,7 @@ class MediaListCest
 	 */
 	public function navigateUsingBreadcrumb(Media $I)
 	{
-		$I->wantToTest('that its possible to navigate to a subfolder using breadcrumb.');
+		$I->wantToTest('that it is possible to navigate to a subfolder using breadcrumb.');
 		$I->amOnPage(MediaListPage::$url . 'banners');
 		$I->waitForMediaLoaded();
 		$I->clickOnLinkInBreadcrumb('images');
@@ -298,7 +298,7 @@ class MediaListCest
 	 * Test the upload of a single file using toolbar button.
 	 *
 	 * @skip    We need to skip this test, because of a bug in acceptPopup in chrome.
-	 *          Its throws an Facebook\WebDriver\Exception\UnexpectedAlertOpenException and does not accept the popup
+	 *          It throws a Facebook\WebDriver\Exception\UnexpectedAlertOpenException and does not accept the popup.
 	 *
 	 * @param   Media  $I  Acceptance Helper Object
 	 *
@@ -693,7 +693,7 @@ class MediaListCest
 	 */
 	public function closePreviewModalUsingCloseButton(Media $I)
 	{
-		$I->wantToTest('that its possible to close the preview modal using the close button.');
+		$I->wantToTest('that it is possible to close the preview modal using the close button.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->doubleClick(MediaListPage::item('powered_by.png'));
@@ -715,7 +715,7 @@ class MediaListCest
 	 */
 	public function closePreviewModalUsingEscapeKey(Media $I)
 	{
-		$I->wantToTest('that its possible to close the preview modal using escape key.');
+		$I->wantToTest('that it is possible to close the preview modal using escape key.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->doubleClick(MediaListPage::item('powered_by.png'));
@@ -849,7 +849,7 @@ class MediaListCest
 	 */
 	public function toggleListViewUsingToolbarButton(Media $I)
 	{
-		$I->wantToTest('that its possible to toggle the list view (grid/table) using the toolbar button.');
+		$I->wantToTest('that it is possible to toggle the list view (grid/table) using the toolbar button.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->seeElement(MediaListPage::$mediaBrowserGrid);
@@ -873,7 +873,7 @@ class MediaListCest
 	 */
 	public function selectAllItemsUsingToolbarButton(Media $I)
 	{
-		$I->wantToTest('that its possible to select all items using toolbar button.');
+		$I->wantToTest('that it is possible to select all items using toolbar button.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->click(MediaListPage::$selectAllButton);

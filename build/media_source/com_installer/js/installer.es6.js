@@ -83,7 +83,7 @@ Joomla = window.Joomla || {};
     Joomla.displayLoader = () => {
       const loading = document.getElementById('loading');
       if (loading) {
-        loading.style.display = 'block';
+        loading.classList.remove('hidden');
       }
     };
 
@@ -95,7 +95,7 @@ Joomla = window.Joomla || {};
       loading.style.left = 0;
       loading.style.width = '100%';
       loading.style.height = '100%';
-      loading.style.display = 'none';
+      loading.classList.add('hidden');
       loading.style.marginTop = '-10px';
     }
 
@@ -108,8 +108,8 @@ Joomla = window.Joomla || {};
 
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof FormData === 'undefined') {
-    document.querySelector('#legacy-uploader').style.display = 'block';
-    document.querySelector('#uploader-wrapper').style.display = 'none';
+    document.querySelector('#legacy-uploader').classList.remove('hidden');
+    document.querySelector('#uploader-wrapper').classList.add('hidden');
     return;
   }
 

@@ -758,18 +758,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "c5cd726fb6137dede3a0f141df4271df310a9568"
+                "reference": "9013e0e238459fac2456279c7ff48aabf5233aaa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/c5cd726fb6137dede3a0f141df4271df310a9568",
-                "reference": "c5cd726fb6137dede3a0f141df4271df310a9568",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/9013e0e238459fac2456279c7ff48aabf5233aaa",
+                "reference": "9013e0e238459fac2456279c7ff48aabf5233aaa",
                 "shasum": ""
             },
             "require": {
                 "joomla/event": "~2.0",
-                "php": "~7.2",
-                "psr/log": "~1.0"
+                "php": "~7.2"
             },
             "require-dev": {
                 "joomla/archive": "~2.0",
@@ -778,9 +777,10 @@
                 "joomla/di": "~1.0|~2.0",
                 "joomla/filesystem": "~1.3|~2.0",
                 "joomla/registry": "^1.4.5|~2.0",
-                "joomla/test": "~1.2",
-                "phpunit/dbunit": "~3.0",
-                "phpunit/phpunit": "~6.3"
+                "joomla/test": "~2.0",
+                "phpunit/phpunit": "~8.2",
+                "psr/log": "~1.1",
+                "symfony/phpunit-bridge": "~4.3"
             },
             "suggest": {
                 "ext-mysqli": "To connect to a MySQL database via MySQLi",
@@ -791,7 +791,8 @@
                 "joomla/console": "To use the ExportCommand and ImportCommand classes, install joomla/console",
                 "joomla/di": "To use the Database ServiceProviderInterface objects, install joomla/di.",
                 "joomla/filesystem": "To use the ExportCommand and ImportCommand classes, install joomla/filesystem",
-                "joomla/registry": "To use the Database ServiceProviderInterface objects, install joomla/registry."
+                "joomla/registry": "To use the Database ServiceProviderInterface objects, install joomla/registry.",
+                "psr/log": "To use the LoggingMonitor, install psr/log."
             },
             "type": "joomla-package",
             "extra": {
@@ -815,7 +816,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-09-10T10:17:45+00:00"
+            "time": "2019-11-11T04:05:51+00:00"
         },
         {
             "name": "joomla/di",
@@ -3625,9 +3626,9 @@
             "authors": [
                 {
                     "name": "Franck Nijhof",
-                    "role": "Developer / IT Manager",
                     "email": "franck.nijhof@dealerdirect.com",
-                    "homepage": "http://www.frenck.nl"
+                    "homepage": "http://www.frenck.nl",
+                    "role": "Developer / IT Manager"
                 }
             ],
             "description": "PHP_CodeSniffer Standards Composer Installer Plugin",
@@ -4728,12 +4729,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "08dc4fb70c005db326122bb525aecc0d002f6fac"
+                "reference": "a811a32eda8e686c9224f1f8754760edfa0ea1f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/08dc4fb70c005db326122bb525aecc0d002f6fac",
-                "reference": "08dc4fb70c005db326122bb525aecc0d002f6fac",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/a811a32eda8e686c9224f1f8754760edfa0ea1f1",
+                "reference": "a811a32eda8e686c9224f1f8754760edfa0ea1f1",
                 "shasum": ""
             },
             "require": {
@@ -4771,7 +4772,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2019-11-18T17:28:42+00:00"
+            "time": "2019-12-18T15:19:49+00:00"
         },
         {
             "name": "joomla/cms-coding-standards",
@@ -5010,18 +5011,18 @@
             "authors": [
                 {
                     "name": "Arne Blankerts",
-                    "role": "Developer",
-                    "email": "arne@blankerts.de"
+                    "email": "arne@blankerts.de",
+                    "role": "Developer"
                 },
                 {
                     "name": "Sebastian Heuer",
-                    "role": "Developer",
-                    "email": "sebastian@phpeople.de"
+                    "email": "sebastian@phpeople.de",
+                    "role": "Developer"
                 },
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "Developer",
-                    "email": "sebastian@phpunit.de"
+                    "email": "sebastian@phpunit.de",
+                    "role": "Developer"
                 }
             ],
             "description": "Component for reading phar.io manifest information from a PHP Archive (PHAR)",
@@ -5441,8 +5442,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "lead",
-                    "email": "sebastian@phpunit.de"
+                    "email": "sebastian@phpunit.de",
+                    "role": "lead"
                 }
             ],
             "description": "FilterIterator implementation that filters files based on a list of suffixes.",
@@ -5483,8 +5484,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "lead",
-                    "email": "sebastian@phpunit.de"
+                    "email": "sebastian@phpunit.de",
+                    "role": "lead"
                 }
             ],
             "description": "Simple template engine.",
@@ -5532,8 +5533,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "lead",
-                    "email": "sebastian@phpunit.de"
+                    "email": "sebastian@phpunit.de",
+                    "role": "lead"
                 }
             ],
             "description": "Utility class for timing",
@@ -6279,8 +6280,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "lead",
-                    "email": "sebastian@phpunit.de"
+                    "email": "sebastian@phpunit.de",
+                    "role": "lead"
                 }
             ],
             "description": "Collection of value objects that represent the types of the PHP type system",
@@ -6322,8 +6323,8 @@
             "authors": [
                 {
                     "name": "Sebastian Bergmann",
-                    "role": "lead",
-                    "email": "sebastian@phpunit.de"
+                    "email": "sebastian@phpunit.de",
+                    "role": "lead"
                 }
             ],
             "description": "Library that helps with managing the version number of Git-hosted PHP projects",
@@ -6972,8 +6973,8 @@
             "authors": [
                 {
                     "name": "Arne Blankerts",
-                    "role": "Developer",
-                    "email": "arne@blankerts.de"
+                    "email": "arne@blankerts.de",
+                    "role": "Developer"
                 }
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
