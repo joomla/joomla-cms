@@ -19,7 +19,6 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Newsfeeds\Administrator\Helper\NewsfeedsHelper;
 
 /**
  * View class for a list of newsfeeds.
@@ -68,12 +67,6 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-
-		// Modal layout doesn't need the submenu.
-		if ($this->getLayout() !== 'modal')
-		{
-			NewsfeedsHelper::addSubmenu('newsfeeds');
-		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
