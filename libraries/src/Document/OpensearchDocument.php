@@ -83,62 +83,42 @@ class OpensearchDocument extends Document
 		$dirs  = [JPATH_THEMES . '/' . $app->getTemplate(), JPATH_BASE];
 		$icons = ['/favicon.ico', '/favicon.gif', '/favicon.jpg', '/favicon.jpeg', '/favicon.png', '/favicon.svg'];
 
-		foreach ($dirs as $dir)
+		// Try to find a favicon by checking the template and root folder
+		$icons = [
+			'favicon.ico'  => 'image/vnd.microsoft.icon',
+			'favicon.gif'  => 'image/gif',
+			'favicon.jpg'  => 'image/jpeg',
+			'favicon.jpeg' => 'image/jpeg',
+			'favicon.png'  => 'image/png',
+			'favicon.svg'  => 'image/svg+xml',
+		];
+
+		foreach ($dirs as $path)
 		{
-			foreach ($icons as $icon)
-			{
-				if (file_exists($dir . $icon))
+			$dir = \dir($path);
+
+			while (false !== ($entry = $d->read())) {
+				if (\array_key_exists($entry, $icons))
 				{
-					$path    = str_replace(JPATH_BASE, '', $dir);
-					$path    = str_replace('\\', '/', $path);
 					$favicon = new OpensearchImage;
+					$url     = \str_replace([JPATH_BASE, '\\'], ['', '/'], $dir->path);
 
 					if ($path == '')
 					{
-						$favicon->data = Uri::base() . $icon;
+						$favicon->data = Uri::base() . '/' . $entry;
 					}
 					else
 					{
 						if ($path[0] == '/')
 						{
-							$path = substr($path, 1);
+							$path = \substr($path, 1);
 						}
 
-						$favicon->data = Uri::base() . $path . $icon;
+						$favicon->data = Uri::base() . $path . '/' . $entry;
 					}
 
 					$favicon->height = '16';
 					$favicon->width  = '16';
-
-					if ($icon == '/favicon.ico')
-					{
-						$favicon->type = 'image/vnd.microsoft.icon';
-					}
-
-					if ($icon == '/favicon.jpg')
-					{
-						$favicon->type = 'image/jpeg';
-					}
-
-					if ($icon == '/favicon.jpeg')
-					{
-						$favicon->type = 'image/jpeg';
-					}
-
-					if ($icon == '/favicon.png')
-					{
-						$favicon->type = 'image/png';
-					}
-
-					if ($icon == '/favicon.gif')
-					{
-						$favicon->type = 'image/gif';
-					}
-
-					if ($icon == '/favicon.svg')
-					{
-						$favicon->type = 'image/svg+xml';
-					}
 
 					$this->addImage($favicon);
 				}

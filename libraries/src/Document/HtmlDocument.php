@@ -20,6 +20,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
+use function array_key_exists;
 
 /**
  * HtmlDocument class, provides an easy interface to parse and display a HTML document
@@ -681,46 +682,24 @@ class HtmlDocument extends Document
 		}
 
 		// Try to find a favicon by checking the template and root folder
-		$icons = ['/favicon.ico', '/favicon.gif', '/favicon.jpg', '/favicon.jpeg', '/favicon.png', '/favicon.svg'];
+		$icons = [
+			'favicon.ico'  => 'image/vnd.microsoft.icon',
+			'favicon.gif'  => 'image/gif',
+			'favicon.jpg'  => 'image/jpeg',
+			'favicon.jpeg' => 'image/jpeg',
+			'favicon.png'  => 'image/png',
+			'favicon.svg'  => 'image/svg+xml',
+		];
 
-		foreach (array(JPATH_BASE, $directory) as $dir)
+		foreach ([JPATH_BASE, $directory] as $path)
 		{
-			foreach ($icons as $icon)
-			{
-				if (file_exists($dir . $icon))
+			$dir = \dir($path);
+
+			while (false !== ($entry = $d->read())) {
+				if (\array_key_exists($entry, $icons))
 				{
-					$path = str_replace(JPATH_BASE, '', $dir);
-					$path = str_replace('\\', '/', $path);
-
-					if ($icon == '/favicon.ico')
-					{
-						$this->addFavicon(Uri::base(true) . $path . $icon);
-					}
-
-					if ($icon == '/favicon.gif')
-					{
-						$this->addFavicon(Uri::base(true) . $path . $icon, 'image/gif');
-					}
-
-					if ($icon == '/favicon.jpg')
-					{
-						$this->addFavicon(Uri::base(true) . $path . $icon, 'image/jpeg');
-					}
-
-					if ($icon == '/favicon.jpeg')
-					{
-						$this->addFavicon(Uri::base(true) . $path . $icon, 'image/jpeg');
-					}
-
-					if ($icon == '/favicon.png')
-					{
-						$this->addFavicon(Uri::base(true) . $path . $icon, 'image/png');
-					}
-
-					if ($icon == '/favicon.svg')
-					{
-						$this->addFavicon(Uri::base(true) . $path . $icon, 'image/svg+xml', 'icon');
-					}
+					$url = \str_replace([JPATH_BASE, '\\'], ['', '/'], $dir->path) . '/' . $entry;
+					$this->addFavicon(Uri::base(true) . $url);
 				}
 			}
 		}
