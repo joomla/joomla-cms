@@ -117,22 +117,22 @@ class OpensearchDocument extends Document
 
 					if ($icon == '/favicon.jpg')
 					{
-						$favicon->type = 'image/vnd.microsoft.icon';
+						$favicon->type = 'image/jpeg';
 					}
 
 					if ($icon == '/favicon.jpeg')
 					{
-						$favicon->type = 'image/vnd.microsoft.icon';
+						$favicon->type = 'image/jpeg';
 					}
 
 					if ($icon == '/favicon.png')
 					{
-						$favicon->type = 'image/vnd.microsoft.icon';
+						$favicon->type = 'image/png';
 					}
 
-					if ($icon == '/favicon.ico')
+					if ($icon == '/favicon.gif')
 					{
-						$favicon->type = 'image/vnd.microsoft.icon';
+						$favicon->type = 'image/gif';
 					}
 
 					if ($icon == '/favicon.svg')
