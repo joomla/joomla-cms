@@ -681,23 +681,47 @@ class HtmlDocument extends Document
 		}
 
 		// Try to find a favicon by checking the template and root folder
-		$icon = '/favicon.ico';
-		$svgicon = '/favicon.svg';
+		$icons = ['/favicon.ico', '/favicon.gif', '/favicon.jpg', '/favicon.jpeg', '/favicon.png', '/favicon.svg'];
 
 		foreach (array(JPATH_BASE, $directory) as $dir)
 		{
-			if (file_exists($dir . $icon))
+			foreach ($icons as $icon)
 			{
-				$path = str_replace(JPATH_BASE, '', $dir);
-				$path = str_replace('\\', '/', $path);
-				$this->addFavicon(Uri::base(true) . $path . $icon);
-			}
+				if (file_exists($dir . $icon))
+				{
+					$path = str_replace(JPATH_BASE, '', $dir);
+					$path = str_replace('\\', '/', $path);
 
-			if (file_exists($dir . $svgicon))
-			{
-				$path = str_replace(JPATH_BASE, '', $dir);
-				$path = str_replace('\\', '/', $path);
-				$this->addFavicon(Uri::base(true) . $path . $svgicon, 'image/svg+xml', 'icon');
+					if ($icon == '/favicon.ico')
+					{
+						$this->addFavicon(Uri::base(true) . $path . $icon);
+					}
+
+					if ($icon == '/favicon.gif')
+					{
+						$this->addFavicon(Uri::base(true) . $path . $icon, 'image/gif');
+					}
+
+					if ($icon == '/favicon.jpg')
+					{
+						$this->addFavicon(Uri::base(true) . $path . $icon, 'image/jpeg');
+					}
+
+					if ($icon == '/favicon.jpeg')
+					{
+						$this->addFavicon(Uri::base(true) . $path . $icon, 'image/jpeg');
+					}
+
+					if ($icon == '/favicon.png')
+					{
+						$this->addFavicon(Uri::base(true) . $path . $icon, 'image/png');
+					}
+
+					if ($icon == '/favicon.svg')
+					{
+						$this->addFavicon(Uri::base(true) . $path . $icon, 'image/svg+xml', 'icon');
+					}
+				}
 			}
 		}
 

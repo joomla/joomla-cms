@@ -71,71 +71,77 @@ class OpensearchDocument extends Document
 		$this->_mime = 'application/opensearchdescription+xml';
 
 		// Add the URL for self updating
-		$update = new OpensearchUrl;
-		$update->type = 'application/opensearchdescription+xml';
-		$update->rel = 'self';
+		$update           = new OpensearchUrl;
+		$update->type     = 'application/opensearchdescription+xml';
+		$update->rel      = 'self';
 		$update->template = Route::_(Uri::getInstance());
 		$this->addUrl($update);
 
 		// Add the favicon as the default image
 		// Try to find a favicon by checking the template and root folder
-		$app = Factory::getApplication();
-		$dirs = array(JPATH_THEMES . '/' . $app->getTemplate(), JPATH_BASE);
+		$app   = Factory::getApplication();
+		$dirs  = [JPATH_THEMES . '/' . $app->getTemplate(), JPATH_BASE];
+		$icons = ['/favicon.ico', '/favicon.gif', '/favicon.jpg', '/favicon.jpeg', '/favicon.png', '/favicon.svg'];
 
 		foreach ($dirs as $dir)
 		{
-			if (file_exists($dir . '/favicon.ico'))
+			foreach ($icons as $icon)
 			{
-				$path = str_replace(JPATH_BASE, '', $dir);
-				$path = str_replace('\\', '/', $path);
-				$favicon = new OpensearchImage;
+				if (file_exists($dir . $icon))
+				{
+					$path    = str_replace(JPATH_BASE, '', $dir);
+					$path    = str_replace('\\', '/', $path);
+					$favicon = new OpensearchImage;
 
-				if ($path == '')
-				{
-					$favicon->data = Uri::base() . 'favicon.ico';
-				}
-				else
-				{
-					if ($path[0] == '/')
+					if ($path == '')
 					{
-						$path = substr($path, 1);
+						$favicon->data = Uri::base() . $icon;
+					}
+					else
+					{
+						if ($path[0] == '/')
+						{
+							$path = substr($path, 1);
+						}
+
+						$favicon->data = Uri::base() . $path . $icon;
 					}
 
-					$favicon->data = Uri::base() . $path . '/favicon.ico';
-				}
+					$favicon->height = '16';
+					$favicon->width  = '16';
 
-				$favicon->height = '16';
-				$favicon->width = '16';
-				$favicon->type = 'image/vnd.microsoft.icon';
-
-				$this->addImage($favicon);
-			}
-
-			if (file_exists($dir . '/favicon.svg'))
-			{
-				$path = str_replace(JPATH_BASE, '', $dir);
-				$path = str_replace('\\', '/', $path);
-				$favicon = new OpensearchImage;
-
-				if ($path == '')
-				{
-					$favicon->data = Uri::base() . 'favicon.svg';
-				}
-				else
-				{
-					if ($path[0] == '/')
+					if ($icon == '/favicon.ico')
 					{
-						$path = substr($path, 1);
+						$favicon->type = 'image/vnd.microsoft.icon';
 					}
 
-					$favicon->data = Uri::base() . $path . '/favicon.svg';
+					if ($icon == '/favicon.jpg')
+					{
+						$favicon->type = 'image/vnd.microsoft.icon';
+					}
+
+					if ($icon == '/favicon.jpeg')
+					{
+						$favicon->type = 'image/vnd.microsoft.icon';
+					}
+
+					if ($icon == '/favicon.png')
+					{
+						$favicon->type = 'image/vnd.microsoft.icon';
+					}
+
+					if ($icon == '/favicon.ico')
+					{
+						$favicon->type = 'image/vnd.microsoft.icon';
+					}
+
+					if ($icon == '/favicon.svg')
+					{
+						$favicon->type = 'image/svg+xml';
+					}
+
+					$this->addImage($favicon);
 				}
-
-				$favicon->height = '16';
-				$favicon->width = '16';
-				$favicon->type = 'image/svg+xml';
-
-				$this->addImage($favicon);
 			}
 		}
 	}
