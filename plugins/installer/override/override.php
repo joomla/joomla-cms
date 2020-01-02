@@ -333,7 +333,7 @@ class PlgInstallerOverride extends CMSPlugin
 			'client_id',
 		];
 
-		// Create a insert query.
+		// Create an insert query.
 		$insertQuery = $this->db->getQuery(true)
 			->insert($this->db->quoteName('#__template_overrides'))
 			->columns($this->db->quoteName($columns));

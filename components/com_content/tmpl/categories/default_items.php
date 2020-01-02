@@ -9,12 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-
-$lang  = Factory::getLanguage();
 
 if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 ?>

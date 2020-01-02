@@ -29,10 +29,10 @@ class PublishedButton extends ActionButton
 	 */
 	protected function preprocess()
 	{
-		$this->addState(1, 'unpublish', 'publish', 'JLIB_HTML_UNPUBLISH_ITEM', ['tip_title' => 'JPUBLISHED']);
-		$this->addState(0, 'publish', 'unpublish', 'JLIB_HTML_PUBLISH_ITEM', ['tip_title' => 'JUNPUBLISHED']);
-		$this->addState(2, 'unpublish', 'archive', 'JLIB_HTML_UNPUBLISH_ITEM', ['tip_title' => 'JARCHIVED']);
-		$this->addState(-2, 'publish', 'trash', 'JLIB_HTML_PUBLISH_ITEM', ['tip_title' => 'JTRASHED']);
+		$this->addState(1, 'unpublish', 'publish', Text::_('JLIB_HTML_UNPUBLISH_ITEM'), ['tip_title' => Text::_('JPUBLISHED')]);
+		$this->addState(0, 'publish', 'unpublish', Text::_('JLIB_HTML_PUBLISH_ITEM'), ['tip_title' => Text::_('JUNPUBLISHED')]);
+		$this->addState(2, 'unpublish', 'archive', Text::_('JLIB_HTML_UNPUBLISH_ITEM'), ['tip_title' => Text::_('JARCHIVED')]);
+		$this->addState(-2, 'publish', 'trash', Text::_('JLIB_HTML_PUBLISH_ITEM'), ['tip_title' => Text::_('JTRASHED')]);
 	}
 
 	/**
@@ -84,17 +84,17 @@ class PublishedButton extends ActionButton
 
 				$default['title'] = $tip;
 
-				$options['tip_title'] = 'JLIB_HTML_PUBLISHED_ITEM';
+				$options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_ITEM');
 
 				if ($publishUp && $nowDate < $publishUp->toUnix())
 				{
-					$options['tip_title'] = 'JLIB_HTML_PUBLISHED_PENDING_ITEM';
+					$options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_PENDING_ITEM');
 					$default['icon'] = 'pending';
 				}
 
 				if ($publishDown && $nowDate > $publishDown->toUnix())
 				{
-					$options['tip_title'] = 'JLIB_HTML_PUBLISHED_EXPIRED_ITEM';
+					$options['tip_title'] = Text::_('JLIB_HTML_PUBLISHED_EXPIRED_ITEM');
 					$default['icon'] = 'expired';
 				}
 			}

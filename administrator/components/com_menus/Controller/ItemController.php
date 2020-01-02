@@ -401,7 +401,6 @@ class ItemController extends FormController
 			}
 
 			$data['link'] = 'index.php?' . urldecode(http_build_query($args, '', '&'));
-			unset($data['request']);
 		}
 
 		// Check for validation errors.

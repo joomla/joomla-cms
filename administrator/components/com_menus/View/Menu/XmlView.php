@@ -149,9 +149,9 @@ class XmlView extends BaseHtmlView
 			$node['target'] = '_blank';
 		}
 
-		if (count($item->params))
+		if (count($item->getParams()))
 		{
-			$hideitems = $item->params->get('hideitems');
+			$hideitems = $item->getParams()->get('hideitems');
 
 			if (count($hideitems))
 			{
@@ -166,10 +166,10 @@ class XmlView extends BaseHtmlView
 
 				$hideitems = $db->setQuery($query)->loadColumn();
 
-				$item->params->set('hideitems', $hideitems);
+				$item->getParams()->set('hideitems', $hideitems);
 			}
 
-			$node->addChild('params', (string) $item->params);
+			$node->addChild('params', (string) $item->getParams());
 		}
 
 		foreach ($item->submenu as $sub)

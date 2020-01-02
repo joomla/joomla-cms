@@ -26,7 +26,6 @@ $route = 'index.php?option=com_messages&view=messages&id=' . $app->getIdentity()
 		<div class="tiny">
 			<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>
 		</div>
-		<?php $countUnread = $app->getSession()->get('messages.unread'); ?>
 		<?php if ($countUnread > 0) : ?>
 			<span class="badge badge-pill badge-danger"><?php echo $countUnread; ?></span>
 		<?php endif; ?>
