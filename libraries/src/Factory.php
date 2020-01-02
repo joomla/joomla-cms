@@ -438,11 +438,11 @@ abstract class Factory
 	/**
 	 * Get a mailer object.
 	 *
-	 * Returns the global {@link \JMail} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link Mail} object, only creating it if it doesn't already exist.
 	 *
-	 * @return  \JMail object
+	 * @return  Mail object
 	 *
-	 * @see     JMail
+	 * @see     Mail
 	 * @since   1.7.0
 	 */
 	public static function getMailer()
@@ -705,9 +705,9 @@ abstract class Factory
 	/**
 	 * Create a mailer object
 	 *
-	 * @return  \JMail object
+	 * @return  Mail object
 	 *
-	 * @see     \JMail
+	 * @see     Mail
 	 * @since   1.7.0
 	 */
 	protected static function createMailer()

@@ -20,7 +20,6 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
  * The HTML Menus Menu Items View.
@@ -100,12 +99,6 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-
-		// We don't need toolbar in the modal window.
-		if ($this->getLayout() !== 'modal')
-		{
-			MenusHelper::addSubmenu('items');
-		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

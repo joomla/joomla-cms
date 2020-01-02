@@ -9,16 +9,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /** @var JoomlaupdateViewDefault $this */
 ?>
 <fieldset>
 	<legend>
-		<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATES'); ?>
+		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATES'); ?>
 	</legend>
 	<p>
-		<?php echo JText::sprintf($this->langKey, $this->updateSourceKey); ?>
+		<?php echo Text::sprintf($this->langKey, $this->updateSourceKey); ?>
 	</p>
 	<div class="alert alert-success">
-		<?php echo JText::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JVERSION); ?>
+		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JVERSION); ?>
 	</div>
 </fieldset>

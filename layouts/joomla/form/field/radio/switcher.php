@@ -60,8 +60,11 @@ Factory::getApplication()->getDocument()->getWebAssetManager()->useStyle('switch
  */
 $input    = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 
+$attr = 'id="' . $id . '"';
+$attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
+
 ?>
-<fieldset>
+<fieldset <?php echo $attr; ?>>
 	<legend class="switcher__legend">
 		<?php echo $label; ?>
 	</legend>

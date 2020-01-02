@@ -58,7 +58,7 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 		endforeach;
 		?>
 		<?php if ($multiple) : ?>
-		<template class="subform-repeatable-template-section" style="display: none;"><?php
+		<template class="subform-repeatable-template-section hidden"><?php
 			echo trim($this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons)));
 		?></template>
 		<?php endif; ?>
