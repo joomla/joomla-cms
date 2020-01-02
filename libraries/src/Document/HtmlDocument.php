@@ -695,11 +695,12 @@ class HtmlDocument extends Document
 		{
 			$dir = \dir($path);
 
-			while (false !== ($entry = $d->read())) {
-				if (\array_key_exists($entry, $icons))
+			while (false !== ($entry = $dir->read()))
+			{
+				if (isset($icons[$entry]))
 				{
 					$url = \str_replace([JPATH_BASE, '\\'], ['', '/'], $dir->path) . '/' . $entry;
-					$this->addFavicon(Uri::base(true) . $url);
+					$this->addFavicon(Uri::base(true) . $url, $icons[$entry]);
 				}
 			}
 		}
