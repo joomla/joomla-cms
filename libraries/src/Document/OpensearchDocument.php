@@ -79,8 +79,8 @@ class OpensearchDocument extends Document
 
 		// Add the favicon as the default image
 		// Try to find a favicon by checking the template and root folder
-		$app   = Factory::getApplication();
-		$dirs  = [JPATH_THEMES . '/' . $app->getTemplate(), JPATH_BASE];
+		$app  = Factory::getApplication();
+		$dirs = [JPATH_THEMES . '/' . $app->getTemplate(), JPATH_BASE];
 
 		// Try to find a favicon by checking the template and root folder
 		$icons = [
@@ -100,8 +100,8 @@ class OpensearchDocument extends Document
 			{
 				if (isset($icons[$entry]))
 				{
-					$path = str_replace(JPATH_BASE, '', $dir);
-					$path = str_replace('\\', '/', $path);
+					$path    = str_replace(JPATH_BASE, '', $dir);
+					$path    = str_replace('\\', '/', $path);
 					$favicon = new OpensearchImage;
 
 					if ($path == '')
@@ -120,7 +120,7 @@ class OpensearchDocument extends Document
 
 					$favicon->height = '16';
 					$favicon->width  = '16';
-					$favicon->type = $icons[$entry];
+					$favicon->type   = $icons[$entry];
 
 					$this->addImage($favicon);
 				}

@@ -143,7 +143,7 @@ class HtmlDocument extends Document
 	 */
 	public function getHeadData()
 	{
-		$data = array();
+		$data                = array();
 		$data['title']       = $this->title;
 		$data['description'] = $this->description;
 		$data['link']        = $this->link;
@@ -226,7 +226,7 @@ class HtmlDocument extends Document
 			case 'scripts':
 			case 'script':
 			case 'custom':
-				$realType = '_' . $type;
+				$realType          = '_' . $type;
 				$this->{$realType} = array();
 				break;
 		}
@@ -286,13 +286,13 @@ class HtmlDocument extends Document
 			return;
 		}
 
-		$this->title = (isset($data['title']) && !empty($data['title']) && !stristr($this->title, $data['title']))
+		$this->title       = (isset($data['title']) && !empty($data['title']) && !stristr($this->title, $data['title']))
 			? $this->title . $data['title']
 			: $this->title;
 		$this->description = (isset($data['description']) && !empty($data['description']) && !stristr($this->description, $data['description']))
 			? $this->description . $data['description']
 			: $this->description;
-		$this->link = $data['link'] ?? $this->link;
+		$this->link        = $data['link'] ?? $this->link;
 
 		if (isset($data['metaTags']))
 		{
@@ -307,7 +307,7 @@ class HtmlDocument extends Document
 			}
 		}
 
-		$this->_links = (isset($data['links']) && !empty($data['links']) && \is_array($data['links']))
+		$this->_links       = (isset($data['links']) && !empty($data['links']) && \is_array($data['links']))
 			? array_unique(array_merge($this->_links, $data['links']), SORT_REGULAR)
 			: $this->_links;
 		$this->_styleSheets = (isset($data['styleSheets']) && !empty($data['styleSheets']) && \is_array($data['styleSheets']))
@@ -366,8 +366,8 @@ class HtmlDocument extends Document
 	public function addHeadLink($href, $relation, $relType = 'rel', $attribs = array())
 	{
 		$this->_links[$href]['relation'] = $relation;
-		$this->_links[$href]['relType'] = $relType;
-		$this->_links[$href]['attribs'] = $attribs;
+		$this->_links[$href]['relType']  = $relType;
+		$this->_links[$href]['attribs']  = $attribs;
 
 		return $this;
 	}
@@ -470,9 +470,9 @@ class HtmlDocument extends Document
 
 		if ($this->_caching == true && $type == 'modules')
 		{
-			/** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
-			$cache = CmsFactory::getCache('com_modules', '');
-			$hash = md5(serialize(array($name, $attribs, null, get_class($renderer))));
+			/** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer $renderer */
+			$cache   = CmsFactory::getCache('com_modules', '');
+			$hash    = md5(serialize(array($name, $attribs, null, get_class($renderer))));
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))
@@ -481,9 +481,9 @@ class HtmlDocument extends Document
 			}
 			else
 			{
-				$options = array();
-				$options['nopathway'] = 1;
-				$options['nomodules'] = 1;
+				$options               = array();
+				$options['nopathway']  = 1;
+				$options['nomodules']  = 1;
 				$options['modulemode'] = 1;
 
 				$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
@@ -519,10 +519,10 @@ class HtmlDocument extends Document
 		// The following code is just for backward compatibility.
 		if (\func_num_args() > 1 && !\is_array($options))
 		{
-			$args = \func_get_args();
-			$options = array();
-			$options['type'] = $args[1];
-			$options['name'] = $args[2] ?? null;
+			$args             = \func_get_args();
+			$options          = array();
+			$options['type']  = $args[1];
+			$options['name']  = $args[2] ?? null;
 			$options['title'] = $args[3] ?? null;
 		}
 
@@ -587,11 +587,11 @@ class HtmlDocument extends Document
 	public function countModules($condition)
 	{
 		$operators = '(\+|\-|\*|\/|==|\!=|\<\>|\<|\>|\<=|\>=|and|or|xor)';
-		$words = preg_split('# ' . $operators . ' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
+		$words     = preg_split('# ' . $operators . ' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
 
 		if (\count($words) === 1)
 		{
-			$name = strtolower($words[0]);
+			$name   = strtolower($words[0]);
 			$result = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
 				? 0 : \count(ModuleHelper::getModules($name));
 
@@ -603,7 +603,7 @@ class HtmlDocument extends Document
 		for ($i = 0, $n = \count($words); $i < $n; $i += 2)
 		{
 			// Odd parts (modules)
-			$name = strtolower($words[$i]);
+			$name      = strtolower($words[$i]);
 			$words[$i] = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
 				? 0
 				: \count(ModuleHelper::getModules($name));
@@ -627,10 +627,10 @@ class HtmlDocument extends Document
 
 		if (!isset($children))
 		{
-			$db = CmsFactory::getDbo();
-			$app = CmsFactory::getApplication();
-			$menu = $app->getMenu();
-			$active = $menu->getActive();
+			$db       = CmsFactory::getDbo();
+			$app      = CmsFactory::getApplication();
+			$menu     = $app->getMenu();
+			$active   = $menu->getActive();
 			$children = 0;
 
 			if ($active)
@@ -720,9 +720,9 @@ class HtmlDocument extends Document
 	{
 		// Check
 		$directory = $params['directory'] ?? 'templates';
-		$filter = InputFilter::getInstance();
-		$template = $filter->clean($params['template'], 'cmd');
-		$file = $filter->clean($params['file'], 'cmd');
+		$filter    = InputFilter::getInstance();
+		$template  = $filter->clean($params['template'], 'cmd');
+		$file      = $filter->clean($params['file'], 'cmd');
 
 		if (!file_exists($directory . '/' . $template . '/' . $file))
 		{
@@ -739,12 +739,12 @@ class HtmlDocument extends Document
 
 		// 1.5 or core then 1.6
 		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-			|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
+		|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
 
 		// Assign the variables
 		$this->template = $template;
-		$this->baseurl = Uri::base(true);
-		$this->params = $params['params'] ?? new Registry;
+		$this->baseurl  = Uri::base(true);
+		$this->params   = $params['params'] ?? new Registry;
 
 		// Load
 		$this->_template = $this->_loadTemplate($directory . '/' . $template, $file);
@@ -765,16 +765,16 @@ class HtmlDocument extends Document
 
 		if (preg_match_all('#<jdoc:include\ type="([^"]+)"(.*)\/>#iU', $this->_template, $matches))
 		{
-			$messages = [];
+			$messages            = [];
 			$template_tags_first = [];
-			$template_tags_last = [];
+			$template_tags_last  = [];
 
 			// Step through the jdocs in reverse order.
 			for ($i = \count($matches[0]) - 1; $i >= 0; $i--)
 			{
-				$type = $matches[1][$i];
+				$type    = $matches[1][$i];
 				$attribs = empty($matches[2][$i]) ? array() : Utility::parseAttributes($matches[2][$i]);
-				$name = $attribs['name'] ?? null;
+				$name    = $attribs['name'] ?? null;
 
 				// Separate buffers to be executed first and last
 				if ($type === 'module' || $type === 'modules')
@@ -807,12 +807,12 @@ class HtmlDocument extends Document
 	protected function _renderTemplate()
 	{
 		$replace = [];
-		$with = [];
+		$with    = [];
 
 		foreach ($this->_template_tags as $jdoc => $args)
 		{
 			$replace[] = $jdoc;
-			$with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
+			$with[]    = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
 		}
 
 		return str_replace($replace, $with, $this->_template);
