@@ -104,13 +104,13 @@ class OpensearchDocument extends Document
 					$path    = str_replace('\\', '/', $path);
 					$favicon = new OpensearchImage;
 
-					if ($path == '')
+					if ($path === '')
 					{
 						$favicon->data = Uri::base() . '/' . $entry;
 					}
 					else
 					{
-						if ($path[0] == '/')
+						if ($path[0] === '/')
 						{
 							$path = \substr($path, 1);
 						}
