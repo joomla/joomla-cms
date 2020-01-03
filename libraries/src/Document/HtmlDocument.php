@@ -692,14 +692,16 @@ class HtmlDocument extends Document
 
 		foreach ([JPATH_BASE, $directory] as $path)
 		{
-			$dir = \dir($path);
+			$path = \str_replace(['\\', 'api/'], ['/', ''], $path);
+			$dir  = \dir($path);
 
 			while (($entry = $dir->read()) !== false)
 			{
 				if (isset($icons[$entry]))
 				{
-					$url = \str_replace([JPATH_BASE, '\\'], ['', '/'], $dir->path) . '/' . $entry;
-					$this->addFavicon(Uri::base(true) . $url, $icons[$entry]);
+					$url = uri::base() . 'templates/' . $this->template . '/' . $entry;
+					$url = \str_replace(['\\'], ['/'], $url);
+					$this->addFavicon($url, $icons[$entry]);
 				}
 			}
 		}

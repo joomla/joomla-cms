@@ -94,7 +94,8 @@ class OpensearchDocument extends Document
 
 		foreach ($dirs as $path)
 		{
-			$dir = \dir($path);
+			$path = \str_replace(['\\', 'api/'], ['/', ''], $path);
+			$dir  = \dir($path);
 
 			while (($entry = $dir->read()) !== false)
 			{
