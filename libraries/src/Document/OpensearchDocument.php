@@ -101,8 +101,8 @@ class OpensearchDocument extends Document
 			{
 				if (isset($icons[$entry]))
 				{
-					$path    = str_replace(JPATH_BASE, '', $dir);
-					$path    = str_replace('\\', '/', $path);
+					$path    = \str_replace(JPATH_BASE, '', $dir);
+					$path    = \str_replace('\\', '/', $path);
 					$favicon = new OpensearchImage;
 
 					if ($path === '')
