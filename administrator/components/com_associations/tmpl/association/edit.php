@@ -66,9 +66,6 @@ $options = [
 						<?php echo $this->form->getInput('itemlanguage'); ?>
 					</div>
 					<div class="modaltarget">
-						<div class="sr-only">
-							<?php echo $this->form->getLabel('modalassociation'); ?>
-						</div>
 						<?php echo $this->form->getInput('modalassociation'); ?>
 					</div>
 				</div>
