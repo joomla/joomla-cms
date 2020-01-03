@@ -694,7 +694,7 @@ class HtmlDocument extends Document
 		{
 			$dir = \dir($path);
 
-			while (false !== ($entry = $dir->read()))
+			while (($entry = $dir->read()) !== false)
 			{
 				if (isset($icons[$entry]))
 				{
