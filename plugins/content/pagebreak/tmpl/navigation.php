@@ -20,7 +20,7 @@ $lang = JFactory::getLanguage();
 		$ariaLabel = JText::_('JPREVIOUS') . ': ' . $title . ' (' . JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $page, $n) . ')';
 		?>
 		<a class="hasTooltip" href="<?php echo $links['previous']; ?>" title="<?php echo $title; ?>" aria-label="<?php echo $ariaLabel; ?>" rel="prev">
-			<?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span> <span aria-hidden="true">' . JText::_('JPREV') . '</span>'; ?>
+			<?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span> ' . JText::_('JPREV'); ?>
 		</a>
 		<?php endif; ?>
 	</li>
@@ -31,7 +31,7 @@ $lang = JFactory::getLanguage();
 		$ariaLabel = JText::_('JNEXT') . ': ' . $title . ' (' . JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', ($page + 2), $n) . ')';
 		?>
 		<a class="hasTooltip" href="<?php echo $links['next']; ?>" title="<?php echo $title; ?>" aria-label="<?php echo $ariaLabel; ?>" rel="next">
-			<?php echo '<span aria-hidden="true">' . JText::_('JNEXT') . '</span> <span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
+			<?php echo JText::_('JNEXT') . ' <span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
 		</a>
 		<?php endif; ?>
 	</li>
