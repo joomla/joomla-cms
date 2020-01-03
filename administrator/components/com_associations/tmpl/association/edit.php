@@ -59,8 +59,18 @@ $options = [
 					<div class="clearfix">
 						<h3 class="target-text"><?php echo Text::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
 					</div>
-					<div class="langtarget"><?php echo $this->form->getInput('itemlanguage'); ?></div>
-					<div class="modaltarget"><?php echo $this->form->getInput('modalassociation'); ?></div>
+					<div class="langtarget">
+						<div class="sr-only">
+							<?php echo $this->form->getLabel('itemlanguage'); ?>
+						</div>
+						<?php echo $this->form->getInput('itemlanguage'); ?>
+					</div>
+					<div class="modaltarget">
+						<div class="sr-only">
+							<?php echo $this->form->getLabel('modalassociation'); ?>
+						</div>
+						<?php echo $this->form->getInput('modalassociation'); ?>
+					</div>
 				</div>
 				<iframe id="target-association" name="target-association" title="target-association"
 					src="<?php echo $this->defaultTargetSrc; ?>"
