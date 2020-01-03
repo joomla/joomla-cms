@@ -53,10 +53,10 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 	{
 		$response->type = 'Basic';
 
-		$username = $this->app->input->server->get('PHP_AUTH_USER');
-		$password = $this->app->input->server->get('PHP_AUTH_PW');
+		$username = $this->app->input->server->get('PHP_AUTH_USER', '', 'USERNAME');
+		$password = $this->app->input->server->get('PHP_AUTH_PW', '', 'RAW');
 
-		if (empty($password))
+		if ($password === '')
 		{
 			$response->status        = Authentication::STATUS_FAILURE;
 			$response->error_message = Text::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
