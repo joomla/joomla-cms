@@ -7,7 +7,7 @@
     padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
     background-position-x: 0%;
     background-image: url(../images/select-bg-rtl.svg);
-    }
+  }
 
   &[multiple] {
     padding: 0;
