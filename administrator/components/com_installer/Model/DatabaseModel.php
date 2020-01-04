@@ -408,7 +408,7 @@ class DatabaseModel extends InstallerModel
 		}
 		catch (FilesystemException $e)
 		{
-			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_UPLOAD_ERROR', $file['tmp_name']), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_UPLOAD_ERROR', $file['name']), 'error');
 
 			return false;
 		}
