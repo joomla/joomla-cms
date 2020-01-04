@@ -13,6 +13,7 @@ use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Utilities\IpHelper;
 
 /**
@@ -20,7 +21,7 @@ use Joomla\Utilities\IpHelper;
  *
  * @since  3.9.0
  */
-class PlgCaptchaRecaptcha_Invisible extends \JPlugin
+class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.

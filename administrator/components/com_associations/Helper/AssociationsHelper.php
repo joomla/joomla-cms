@@ -223,7 +223,7 @@ class AssociationsHelper extends ContentHelper
 		$titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
 		// Get all content languages.
-		$languages = LanguageHelper::getContentLanguages(array(0, 1));
+		$languages = LanguageHelper::getContentLanguages(array(0, 1), false);
 		$content_languages = array_column($languages, 'lang_code');
 
 		// Display warning if Content Language is trashed or deleted

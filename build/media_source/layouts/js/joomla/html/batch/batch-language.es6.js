@@ -34,9 +34,7 @@
 
     if (batchCopyMove) {
       batchCopyMove.classList.add('hidden');
-    }
-
-    if (batchCopyMove) {
+      batchSelector = batchCopyMove;
       batchSelector.addEventListener('change', onChange);
     }
 
