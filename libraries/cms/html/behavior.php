@@ -205,7 +205,7 @@ abstract class JHtmlBehavior
 	 *
 	 * @since   1.5
 	 *
-	 * @deprecated   4.0
+	 * @deprecated   4.0  No replacement, only used in Hathor.
 	 */
 	public static function switcher()
 	{
@@ -283,7 +283,7 @@ abstract class JHtmlBehavior
 	 *
 	 * @since   1.5
 	 *
-	 * @deprecated   4.0
+	 * @deprecated   4.0  Use JHtmlBootstrap::tooltip() instead.
 	 */
 	public static function tooltip($selector = '.hasTip', $params = array())
 	{
@@ -516,7 +516,7 @@ abstract class JHtmlBehavior
 	 *
 	 * @since   1.5
 	 *
-	 * @deprecated   4.0
+	 * @deprecated   4.0  No replacement, not used since 3.0.
 	 */
 	public static function tree($id, $params = array(), $root = array())
 	{
