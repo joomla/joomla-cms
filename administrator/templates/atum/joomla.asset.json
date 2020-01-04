@@ -41,6 +41,18 @@
       "css": [
         "vendor/fontawesome-free/fontawesome.min.css"
       ]
+    },
+    {
+      "name": "searchtools",
+      "dependencies": [
+        "core"
+      ],
+      "js": [
+        "system/searchtools.min.js"
+      ],
+      "css": [
+        "system/searchtools/searchtools.min.css"
+      ]
     }
   ]
 }

@@ -38,9 +38,6 @@
       ],
       "js": [
         "media/system/js/searchtools.min.js"
-      ],
-      "css": [
-        "system/searchtools.css"
       ]
     },
     {
