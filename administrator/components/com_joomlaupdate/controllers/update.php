@@ -504,7 +504,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel('default');
-		$updateFileUrl = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
+		$compatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
 
 		$this->app = JFactory::getApplication();
 		$this->app->mimeType = 'application/json';
@@ -514,7 +514,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		try
 		{
-			echo new JResponseJson($updateFileUrl);
+			echo new JResponseJson($compatibilityStatus);
 		}
 		catch (Exception $e)
 		{
