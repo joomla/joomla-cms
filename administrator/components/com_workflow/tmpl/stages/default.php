@@ -1,7 +1,5 @@
 <?php
 /**
- * Items Model for a Workflow Component.
- *
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
