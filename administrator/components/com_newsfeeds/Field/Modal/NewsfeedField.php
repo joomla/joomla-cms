@@ -48,7 +48,7 @@ class NewsfeedField extends FormField
 		$allowSelect    = ((string) $this->element['select'] != 'false');
 		$allowPropagate = ((string) $this->element['propagate'] == 'true');
 
-		$languages = LanguageHelper::getContentLanguages(array(0, 1));
+		$languages = LanguageHelper::getContentLanguages(array(0, 1), false);
 
 		// Load language
 		Factory::getLanguage()->load('com_newsfeeds', JPATH_ADMINISTRATOR);
