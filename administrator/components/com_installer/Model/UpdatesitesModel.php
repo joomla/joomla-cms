@@ -359,7 +359,7 @@ class UpdatesitesModel extends InstallerModel
 			// Search for children manifests (lower priority)
 			$allXmlFiles = Folder::files($tmpInstaller->getPath('source'), '.xml$', 1, true);
 
-			// Create an unique array of files ordered by priority
+			// Create a unique array of files ordered by priority
 			$xmlfiles = array_unique(array_merge($parentXmlfiles, $allXmlFiles));
 
 			if (!empty($xmlfiles))
@@ -378,15 +378,21 @@ class UpdatesitesModel extends InstallerModel
 						$query = $db->getQuery(true)
 							->select($db->quoteName('extension_id'))
 							->from($db->quoteName('#__extensions'))
-							->where($db->quoteName('type') . ' = :type')
+							->where(
+								[
+									$db->quoteName('type') . ' = :type',
+									$db->quoteName('state') . ' != -1',
+								]
+							)
 							->extendWhere(
 								'AND',
-								$db->quoteName('name') . ' = :name',
-								$db->quoteName('name') . ' = :pkgname',
+								[
+									$db->quoteName('name') . ' = :name',
+									$db->quoteName('name') . ' = :pkgname',
+								],
 								'OR'
 							)
 							->whereNotIn($db->quoteName('extension_id'), $joomlaCoreExtensionIds)
-							->where($db->quoteName('state') . ' != -1')
 							->bind(':name', $manifest->name)
 							->bind(':pkgname', $manifest->packagename)
 							->bind(':type', $manifest['type']);

@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -286,7 +287,7 @@ class TemplateModel extends AdminModel
 		$isNew = true;
 
 		// Include the plugins for the save events.
-		\JPluginHelper::importPlugin($this->events_map['save']);
+		PluginHelper::importPlugin($this->events_map['save']);
 
 		// Allow an exception to be thrown.
 		try

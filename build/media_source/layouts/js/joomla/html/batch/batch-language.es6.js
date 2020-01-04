@@ -14,9 +14,9 @@
     const onChange = () => {
       if (!batchSelector.value
           || (batchSelector.value && parseInt(batchSelector.value, 10) === 0)) {
-        batchCopyMove.style.display = 'none';
+        batchCopyMove.classList.add('hidden');
       } else {
-        batchCopyMove.style.display = 'block';
+        batchCopyMove.classList.remove('hidden');
       }
     };
 
@@ -33,10 +33,8 @@
     }
 
     if (batchCopyMove) {
-      batchCopyMove.style.display = 'none';
-    }
-
-    if (batchCopyMove) {
+      batchCopyMove.classList.add('hidden');
+      batchSelector = batchCopyMove;
       batchSelector.addEventListener('change', onChange);
     }
 

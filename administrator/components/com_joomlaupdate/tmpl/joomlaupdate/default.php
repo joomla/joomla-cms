@@ -77,7 +77,7 @@ $latestJoomlaVersion = $this->updateInfo['latest'];
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	<?php endif; ?>
 
-	<div id="download-message" style="display:none">
+	<div id="download-message" class="hidden">
 		<p class="nowarning"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DOWNLOAD_IN_PROGRESS'); ?></p>
 		<div class="joomlaupdate_spinner"></div>
 	</div>
