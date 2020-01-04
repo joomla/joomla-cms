@@ -388,7 +388,7 @@ abstract class JHtmlBootstrap
 	public static function startAccordion($selector = 'myAccordian', $params = array())
 	{
 		// Only load once
-		if (!empty(static::$loaded[__METHOD__][$selector]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
@@ -403,10 +403,11 @@ abstract class JHtmlBootstrap
 		$opt['onShown'] = isset($params['onShown']) ? (string) $params['onShown'] : null;
 		$opt['onHide'] = isset($params['onHide']) ? (string) $params['onHide'] : null;
 		$opt['onHidden'] = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
+		$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
 
 		Factory::getDocument()->addScriptOptions('bootstrap.accordion', array($selector => $opt));
 
-		static::$loaded[__METHOD__][$selector] = true;
+		static::$loaded[__METHOD__][$selector] = $opt;
 
 		return '<div id="' . $selector . '" class="accordion" role="tablist">';
 	}
@@ -437,8 +438,8 @@ abstract class JHtmlBootstrap
 	 */
 	public static function addSlide($selector, $text, $id, $class = '')
 	{
-		$in        = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? ' in' : '';
-		$collapsed = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? '' : ' collapsed';
+		$in        = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] === $id ? ' show' : '';
+		$collapsed = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] === $id ? '' : ' collapsed';
 		$parent    = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
 			' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
 		$class     = (!empty($class)) ? ' ' . $class : '';
