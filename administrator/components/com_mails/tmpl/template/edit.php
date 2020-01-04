@@ -94,13 +94,13 @@ $doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 		</div>
 		<?php endif; ?>
 
-		<?php echo JHtml::_('uitab.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php if (count($this->form->getFieldset('basic'))) : ?>
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php endif; ?>
 
-		<?php echo JHtml::_('uitab.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	</div>
 	<?php echo $this->form->renderField('template_id'); ?>
 	<?php echo $this->form->renderField('language'); ?>

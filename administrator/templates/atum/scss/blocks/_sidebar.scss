@@ -28,7 +28,6 @@
   z-index: $zindex-sidebar;
   background-color: var(--atum-bg-dark);
   box-shadow: $atum-box-shadow;
-  overflow: hidden;
 
   @include media-breakpoint-up(sm) {
     display: flex;
@@ -387,16 +386,26 @@
       justify-content: center;
       width: 1.5rem;
       color: var(--atum-text-light);
-      content: "\f054";
       font-weight: 900;
       font-family: "Font Awesome 5 Free";
       transition: all .3s ease-out;
+      [dir=ltr] & {
+        content: "\f054";
+      }
+      [dir=rtl] & {
+        content: "\f053";
+      }
     }
   }
 
   .mm-active {
     > .has-arrow::after {
-      transform: rotate(90deg);
+      [dir=ltr] & {
+        transform: rotate(90deg);
+      }
+      [dir=rtl] & {
+        transform: rotate(-90deg);
+      }
     }
   }
 
@@ -455,6 +464,13 @@
   .has-arrow::after {
     display: none;
   }
+
+  .main-nav a:hover .sidebar-item-title {
+    display: inline-block;
+    min-width: $sidebar-width;
+    background-color: var(--atum-bg-dark-80);
+  }
+
 
   .main-nav {
 

@@ -227,7 +227,7 @@ class MenusController extends BaseController
 					$componentId = -1;
 				}
 
-				// Check for mis-matched component id's in the menu link.
+				// Check for mis-matched component ids in the menu link.
 				if ($item->component_id != $componentId)
 				{
 					// Update the menu table.
