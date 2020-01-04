@@ -21,6 +21,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 
 /**
  * Methods supporting a list of contenthistory records.
@@ -379,24 +380,41 @@ class HistoryModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+		$db     = $this->getDbo();
+		$query  = $db->getQuery(true);
+		$itemId = (int) $this->getState('item_id');
+		$typeId = (int) $this->getState('type_id');
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
-				'h.version_id, h.ucm_item_id, h.ucm_type_id, h.version_note, h.save_date, h.editor_user_id,' .
-				'h.character_count, h.sha1_hash, h.version_data, h.keep_forever'
+				[
+					$db->quoteName('h.version_id'),
+					$db->quoteName('h.ucm_item_id'),
+					$db->quoteName('h.ucm_type_id'),
+					$db->quoteName('h.version_note'),
+					$db->quoteName('h.save_date'),
+					$db->quoteName('h.editor_user_id'),
+					$db->quoteName('h.character_count'),
+					$db->quoteName('h.sha1_hash'),
+					$db->quoteName('h.version_data'),
+					$db->quoteName('h.keep_forever'),
+				]
 			)
 		)
-			->from($db->quoteName('#__ucm_history') . ' AS h')
-			->where($db->quoteName('h.ucm_item_id') . ' = ' . (int) $this->getState('item_id'))
-			->where($db->quoteName('h.ucm_type_id') . ' = ' . (int) $this->getState('type_id'))
+			->from($db->quoteName('#__ucm_history', 'h'))
+			->where($db->quoteName('h.ucm_item_id') . ' = :itemid')
+			->where($db->quoteName('h.ucm_type_id') . ' = :typeid')
+			->bind(':itemid', $itemId, ParameterType::INTEGER)
+			->bind(':typeid', $typeId, ParameterType::INTEGER)
 
 		// Join over the users for the editor
-			->select('uc.name AS editor')
-			->join('LEFT', '#__users AS uc ON uc.id = h.editor_user_id');
+			->select($db->quoteName('uc.name', 'editor'))
+			->join('LEFT',
+				$db->quoteName('#__users', 'uc'),
+				$db->quoteName('uc.id') . ' = ' . $db->quoteName('h.editor_user_id')
+			);
 
 		// Add the list ordering clause.
 		$orderCol = $this->state->get('list.ordering');
