@@ -365,7 +365,7 @@ class DatabaseModel extends InstallerModel
 
 		while ($file = @zip_read($zip))
 		{
-			if (strpos(zip_entry_name($file), $db->getPrefix()) === FALSE)
+			if (strpos(zip_entry_name($file), $db->getPrefix()) === false)
 			{
 				$checked = false;
 			}
@@ -406,7 +406,7 @@ class DatabaseModel extends InstallerModel
 		{
 			File::upload($file['tmp_name'], $tmpFile);
 		}
-		catch(FilesystemException $e)
+		catch (FilesystemException $e)
 		{
 			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_UPLOAD_ERROR', $file['tmp_name']), 'error');
 
@@ -418,7 +418,7 @@ class DatabaseModel extends InstallerModel
 			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_IMPORT_XML_ERROR'), 'error');
 			unlink($tmpFile);
 
-  		return false;
+			return false;
 		}
 
 		$destDir = Path::clean($app->get('tmp_path') . '/');
