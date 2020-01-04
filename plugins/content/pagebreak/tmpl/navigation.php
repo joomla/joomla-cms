@@ -9,27 +9,30 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-
+JHtml::_('bootstrap.tooltip');
+$lang = JFactory::getLanguage();
 ?>
 <ul>
 	<li>
-		<?php if ($links['previous']) : ?>
-		<a href="<?php echo Route::_($links['previous']); ?>">
-			<?php echo trim(str_repeat(Text::_('JGLOBAL_LT'), 2) . ' ' . Text::_('JPREV')); ?>
+		<?php if ($links['previous']) :
+		$direction = $lang->isRtl() ? 'right' : 'left';
+		$title = htmlspecialchars($this->list[$page]->title, ENT_QUOTES, 'UTF-8');
+		$ariaLabel = JText::_('JPREVIOUS') . ': ' . $title . ' (' . JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $page, $n) . ')';
+		?>
+		<a class="hasTooltip" href="<?php echo $links['previous']; ?>" title="<?php echo $title; ?>" aria-label="<?php echo $ariaLabel; ?>" rel="prev">
+			<?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span> ' . JText::_('JPREV'); ?>
 		</a>
-		<?php else: ?>
-		<?php echo Text::_('JPREV'); ?>
 		<?php endif; ?>
 	</li>
 	<li>
-		<?php if ($links['next']) : ?>
-		<a href="<?php echo Route::_($links['next']); ?>">
-			<?php echo trim(Text::_('JNEXT') . ' ' . str_repeat(Text::_('JGLOBAL_GT'), 2)); ?>
+		<?php if ($links['next']) :
+		$direction = $lang->isRtl() ? 'left' : 'right';
+		$title = htmlspecialchars($this->list[$page + 2]->title, ENT_QUOTES, 'UTF-8');
+		$ariaLabel = JText::_('JNEXT') . ': ' . $title . ' (' . JText::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', ($page + 2), $n) . ')';
+		?>
+		<a class="hasTooltip" href="<?php echo $links['next']; ?>" title="<?php echo $title; ?>" aria-label="<?php echo $ariaLabel; ?>" rel="next">
+			<?php echo JText::_('JNEXT') . ' <span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
 		</a>
-		<?php else: ?>
-		<?php echo Text::_('JNEXT'); ?>
 		<?php endif; ?>
 	</li>
 </ul>

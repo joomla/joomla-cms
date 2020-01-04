@@ -9,20 +9,16 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Utility\Utility;
-use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\String\StringHelper;
+
+jimport('joomla.utilities.utility');
+
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Page break plugin
  *
- * <strong>Usage:</strong>
+ * <b>Usage:</b>
  * <code><hr class="system-pagebreak" /></code>
  * <code><hr class="system-pagebreak" title="The page title" /></code>
  * or
@@ -34,8 +30,16 @@ use Joomla\String\StringHelper;
  *
  * @since  1.6
  */
-class PlgContentPagebreak extends CMSPlugin
+class PlgContentPagebreak extends JPlugin
 {
+	/**
+	 * The navigation list with all page objects if parameter 'multipage_toc' is active.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $list = array();
+
 	/**
 	 * Plugin that adds a pagebreak into the text and truncates text at that point
 	 *
@@ -44,7 +48,7 @@ class PlgContentPagebreak extends CMSPlugin
 	 * @param   mixed    &$params  The article params
 	 * @param   integer  $page     The 'page' number
 	 *
-	 * @return  void
+	 * @return  mixed  Always returns void or true
 	 *
 	 * @since   1.6
 	 */
@@ -60,9 +64,9 @@ class PlgContentPagebreak extends CMSPlugin
 		$style = $this->params->get('style', 'pages');
 
 		// Expression to search for.
-		$regex = '#<hr(.*)class="system-pagebreak"(.*)\/?>#iU';
+		$regex = '#<hr(.*)class="system-pagebreak"(.*)\/>#iU';
 
-		$input = Factory::getApplication()->input;
+		$input = JFactory::getApplication()->input;
 
 		$print = $input->getBool('print');
 		$showall = $input->getBool('showall');
@@ -74,9 +78,9 @@ class PlgContentPagebreak extends CMSPlugin
 
 		if ($print)
 		{
-			$row->text = preg_replace($regex, '<br>', $row->text);
+			$row->text = preg_replace($regex, '<br />', $row->text);
 
-			return;
+			return true;
 		}
 
 		// Simple performance check to determine whether bot should process further.
@@ -84,10 +88,10 @@ class PlgContentPagebreak extends CMSPlugin
 		{
 			if ($page > 0)
 			{
-				throw new Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);
+				throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
 			}
 
-			return;
+			return true;
 		}
 
 		$view = $input->getString('view');
@@ -127,9 +131,9 @@ class PlgContentPagebreak extends CMSPlugin
 				$row->toc = '';
 			}
 
-			$row->text = preg_replace($regex, '<br>', $row->text);
+			$row->text = preg_replace($regex, '<br />', $row->text);
 
-			return;
+			return true;
 		}
 
 		// Split the text around the plugin.
@@ -137,7 +141,7 @@ class PlgContentPagebreak extends CMSPlugin
 
 		if (!isset($text[$page]))
 		{
-			throw new Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);
+			throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
 		}
 
 		// Count the number of pages.
@@ -152,7 +156,7 @@ class PlgContentPagebreak extends CMSPlugin
 			// Adds heading or title to <site> Title.
 			if ($title && $page && isset($matches[$page - 1], $matches[$page - 1][2]))
 			{
-				$attrs = Utility::parseAttributes($matches[$page - 1][1]);
+				$attrs = JUtility::parseAttributes($matches[$page - 1][1]);
 
 				if (isset($attrs['title']))
 				{
@@ -176,7 +180,7 @@ class PlgContentPagebreak extends CMSPlugin
 				}
 
 				// Traditional mos page navigation
-				$pageNav = new Pagination($n, $page, 1);
+				$pageNav = new JPagination($n, $page, 1);
 
 				// Flag indicates to not add limitstart=0 to URL
 				$pageNav->hideEmptyLimitstart = true;
@@ -190,7 +194,7 @@ class PlgContentPagebreak extends CMSPlugin
 				$text[$page] = str_replace('<hr id="system-readmore" />', '', $text[$page]);
 				$row->text .= $text[$page];
 
-				// $row->text .= '<br>';
+				// $row->text .= '<br />';
 				$row->text .= '<div class="pager">';
 
 				// Adds navigation between pages to bottom of text.
@@ -211,23 +215,14 @@ class PlgContentPagebreak extends CMSPlugin
 			{
 				$t[] = $text[0];
 
-				if ($style === 'tabs')
-				{
-					$t[] = (string) HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'article' . $row->id . '-' . $style . '0'));
-				}
-				else
-				{
-					$t[] = (string) HTMLHelper::_('bootstrap.startAccordion', 'myAccordion', array('active' => 'article' . $row->id . '-' . $style . '0'));
-				}
+				$t[] = (string) JHtml::_($style . '.start', 'article' . $row->id . '-' . $style);
 
 				foreach ($text as $key => $subtext)
 				{
-					$index = 'article' . $row->id . '-' . $style . $key;
-
 					if ($key >= 1)
 					{
 						$match = $matches[$key - 1];
-						$match = (array) Utility::parseAttributes($match[0]);
+						$match = (array) JUtility::parseAttributes($match[0]);
 
 						if (isset($match['alt']))
 						{
@@ -239,43 +234,22 @@ class PlgContentPagebreak extends CMSPlugin
 						}
 						else
 						{
-							$title = Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
+							$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
 						}
-					}
 
-					if ($style === 'tabs')
-					{
-						$t[] = (string) HTMLHelper::_('uitab.addTab', 'myTab', $index, $title);
-					}
-					else
-					{
-						$t[] = (string) HTMLHelper::_('bootstrap.addSlide', 'myAccordion', $title, $index);
+						$t[] = (string) JHtml::_($style . '.panel', $title, 'article' . $row->id . '-' . $style . $key);
 					}
 
 					$t[] = (string) $subtext;
-
-					if ($style === 'tabs')
-					{
-						$t[] = (string) HTMLHelper::_('uitab.endTab');
-					}
-					else
-					{
-						$t[] = (string) HTMLHelper::_('bootstrap.endSlide');
-					}
 				}
 
-				if ($style === 'tabs')
-				{
-					$t[] = (string) HTMLHelper::_('uitab.endTabSet');
-				}
-				else
-				{
-					$t[] = (string) HTMLHelper::_('bootstrap.endAccordion');
-				}
+				$t[] = (string) JHtml::_($style . '.end');
 
 				$row->text = implode(' ', $t);
 			}
 		}
+
+		return true;
 	}
 
 	/**
@@ -291,16 +265,15 @@ class PlgContentPagebreak extends CMSPlugin
 	 */
 	protected function _createToc(&$row, &$matches, &$page)
 	{
-		$heading     = $row->title ?? Text::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
-		$input       = Factory::getApplication()->input;
+		$heading     = isset($row->title) ? $row->title : JText::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
+		$input       = JFactory::getApplication()->input;
 		$limitstart  = $input->getUInt('limitstart', 0);
 		$showall     = $input->getInt('showall', 0);
 		$headingtext = '';
-		$list        = array();
 
 		if ($this->params->get('article_index', 1) == 1)
 		{
-			$headingtext = Text::_('PLG_CONTENT_PAGEBREAK_ARTICLE_INDEX');
+			$headingtext = JText::_('PLG_CONTENT_PAGEBREAK_ARTICLE_INDEX');
 
 			if ($this->params->get('article_index_text'))
 			{
@@ -309,10 +282,11 @@ class PlgContentPagebreak extends CMSPlugin
 		}
 
 		// TOC first Page link.
-		$list[1]         = new stdClass;
-		$list[1]->link   = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
-		$list[1]->title  = $heading;
-		$list[1]->active = ($limitstart === 0 && $showall === 0);
+		$this->list[1]          = new stdClass;
+		$this->list[1]->liClass = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
+		$this->list[1]->class   = $this->list[1]->liClass;
+		$this->list[1]->link    = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
+		$this->list[1]->title   = $heading;
 
 		$i = 2;
 
@@ -320,7 +294,7 @@ class PlgContentPagebreak extends CMSPlugin
 		{
 			if (@$bot[0])
 			{
-				$attrs2 = Utility::parseAttributes($bot[0]);
+				$attrs2 = JUtility::parseAttributes($bot[0]);
 
 				if (@$attrs2['alt'])
 				{
@@ -332,31 +306,34 @@ class PlgContentPagebreak extends CMSPlugin
 				}
 				else
 				{
-					$title = Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
+					$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 				}
 			}
 			else
 			{
-				$title = Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
+				$title = JText::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 			}
 
-			$list[$i]         = new stdClass;
-			$list[$i]->link   = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($i - 1);
-			$list[$i]->title  = $title;
-			$list[$i]->active = ($limitstart === $i - 1);
+			$this->list[$i]          = new stdClass;
+			$this->list[$i]->link    = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($i - 1));
+			$this->list[$i]->title   = $title;
+			$this->list[$i]->liClass = ($limitstart === $i - 1) ? 'active' : '';
+			$this->list[$i]->class   = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
 
 			$i++;
 		}
 
 		if ($this->params->get('showall'))
 		{
-			$list[$i]         = new stdClass;
-			$list[$i]->link   = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1';
-			$list[$i]->title  = Text::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES');
-			$list[$i]->active = ($limitstart === $i - 1);
+			$this->list[$i]          = new stdClass;
+			$this->list[$i]->link    = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1');
+			$this->list[$i]->liClass = ($showall === 1) ? 'active' : '';
+			$this->list[$i]->class   = ($showall === 1) ? 'toclink active' : 'toclink';
+			$this->list[$i]->title   = JText::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES');
 		}
 
-		$path = PluginHelper::getLayoutPath('content', 'pagebreak', 'toc');
+		$list = $this->list;
+		$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'toc');
 		ob_start();
 		include $path;
 		$row->toc = ob_get_clean();
@@ -366,8 +343,8 @@ class PlgContentPagebreak extends CMSPlugin
 	 * Creates the navigation for the item
 	 *
 	 * @param   object  &$row  The article object.  Note $article->text is also available
-	 * @param   int     $page  The total number of pages
-	 * @param   int     $n     The page number
+	 * @param   int     $page  The page number
+	 * @param   int     $n     The total number of pages
 	 *
 	 * @return  void
 	 *
@@ -382,20 +359,22 @@ class PlgContentPagebreak extends CMSPlugin
 
 		if ($page < $n - 1)
 		{
-			$links['next'] = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($page + 1);
+			$links['next'] = JRoute::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($page + 1));
 		}
 
 		if ($page > 0)
 		{
-			$links['previous'] = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
+			$links['previous'] = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language);
 
 			if ($page > 1)
 			{
 				$links['previous'] .= '&limitstart=' . ($page - 1);
 			}
+
+			$links['previous'] = JRoute::_($links['previous']);
 		}
 
-		$path = PluginHelper::getLayoutPath('content', 'pagebreak', 'navigation');
+		$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'navigation');
 		ob_start();
 		include $path;
 		$row->text .= ob_get_clean();
