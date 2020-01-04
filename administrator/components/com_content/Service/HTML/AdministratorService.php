@@ -89,7 +89,7 @@ class AdministratorService
 						$classes = 'badge badge-secondary';
 
 						$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
-							. '<div role="tooltip" id="tip' . (int) $articleid . (int) $item->id . '">' . $tooltip . '</div>';
+							. '<div role="tooltip" id="tip-' . (int) $articleid . '-' . (int) $item->id . '">' . $tooltip . '</div>';
 					}
 					else
 					{
