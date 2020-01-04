@@ -25,6 +25,7 @@ use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\Exception\UnsupportedAdapterException;
 use Joomla\Database\ParameterType;
 use Joomla\Database\UTF8MB4SupportInterface;
+use Joomla\Filesystem\Exception\FilesystemException;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Registry\Registry;
@@ -342,6 +343,42 @@ class DatabaseModel extends InstallerModel
 	}
 
 	/**
+	 * Checks if the zip file contains database export files
+	 *
+	 * @param   string  $file  A zip archive to analyze
+	 *
+	 * @return  boolean True on success
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	private function checkZipFile($archive)
+	{
+		$db = $this->getDbo();
+		$zip = zip_open($archive);
+		$checked = true;
+
+		if (!\is_resource($zip))
+		{
+			throw new \RuntimeException('Unable to open archive');
+		}
+
+		while ($file = @zip_read($zip))
+		{
+			if (strpos(zip_entry_name($file), $db->getPrefix()) === FALSE)
+			{
+				$checked = false;
+			}
+
+			zip_entry_close($file);
+		}
+
+		@zip_close($zip);
+
+		return $checked;
+	}
+
+	/**
 	 * Import all the database via XML
 	 *
 	 * @param   string  $file  A zip archive to extract
@@ -364,7 +401,26 @@ class DatabaseModel extends InstallerModel
 		}
 
 		$tmpFile = $app->get('tmp_path') . '/' . $file['name'];
-		File::upload($file['tmp_name'], $tmpFile, false, true);
+
+		try
+		{
+			File::upload($file['tmp_name'], $tmpFile);
+		}
+		catch(FilesystemException $e)
+		{
+			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_UPLOAD_ERROR', $file['tmp_name']), 'error');
+
+			return false;
+		}
+
+		if ($this->checkZipFile($tmpFile) == false)
+		{
+			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_IMPORT_XML_ERROR'), 'error');
+			unlink($tmpFile);
+
+  		return false;
+		}
+
 		$destDir = Path::clean($app->get('tmp_path') . '/');
 		$zipArchive = (new Archive)->getAdapter('zip');
 
@@ -374,8 +430,8 @@ class DatabaseModel extends InstallerModel
 		}
 		catch (\RuntimeException $e)
 		{
-			unlink($tmpFile);
 			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_EXTRACT_ERROR', $tmpFile, $destDir), 'error');
+			unlink($tmpFile);
 
 			return false;
 		}
