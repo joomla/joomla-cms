@@ -1569,7 +1569,7 @@ ENDDATA;
 			if ((string) $extension['element'] === $updateSiteInfo['ext_element']
 				&& (string) $extension['type'] === $updateSiteInfo['ext_type']
 				&& (string) $extension['folder'] === $updateSiteInfo['ext_folder']
-				&& preg_match('/^' . $extension['targetplatformversion'] . '/', $joomlaTargetVersion))
+				&& preg_match('/^' . (string) $extension['targetplatformversion'] . '/', $joomlaTargetVersion))
 			{
 				$return[] = (string) $extension['detailsurl'];
 			}
