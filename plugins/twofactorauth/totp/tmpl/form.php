@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-Factory::getDocument()->getWebAssetManager()->enableAsset('qrcode');
+Factory::getDocument()->getWebAssetManager()->usePreset('qrcode');
 
 $js = "
 (function(document)
