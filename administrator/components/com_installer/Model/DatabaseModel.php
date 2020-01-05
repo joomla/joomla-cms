@@ -347,7 +347,7 @@ class DatabaseModel extends InstallerModel
 	 *
 	 * @param   string  $file  A zip archive to analyze
 	 *
-	 * @return  boolean True on success
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \RuntimeException
@@ -356,7 +356,6 @@ class DatabaseModel extends InstallerModel
 	{
 		$db = $this->getDbo();
 		$zip = zip_open($archive);
-		$checked = true;
 
 		if (!\is_resource($zip))
 		{
@@ -367,15 +366,15 @@ class DatabaseModel extends InstallerModel
 		{
 			if (strpos(zip_entry_name($file), $db->getPrefix()) === false)
 			{
-				$checked = false;
+				zip_entry_close($file);
+				@zip_close($zip);
+				throw new \RuntimeException('Unable to find prefix');
 			}
 
 			zip_entry_close($file);
 		}
 
 		@zip_close($zip);
-
-		return $checked;
 	}
 
 	/**
@@ -413,9 +412,13 @@ class DatabaseModel extends InstallerModel
 			return false;
 		}
 
-		if ($this->checkZipFile($tmpFile) === false)
+		try
 		{
-			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_IMPORT_XML_ERROR'), 'error');
+			$this->checkZipFile($tmpFile);
+		}
+		catch (\RuntimeException $e)
+		{
+			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_CHECK_ERROR', $e->getMessage()), 'error');
 			unlink($tmpFile);
 
 			return false;
