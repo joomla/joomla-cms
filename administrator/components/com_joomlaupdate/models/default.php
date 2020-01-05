@@ -1491,7 +1491,7 @@ ENDDATA;
 	}
 
 	/**
-	 * Returns the update site records for an extension with ID $extensionID.
+	 * Returns records with update sites and extension information for a given extension ID.
 	 *
 	 * @param   int  $extensionID  The extension ID
 	 *
