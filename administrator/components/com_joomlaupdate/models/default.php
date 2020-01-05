@@ -1465,7 +1465,7 @@ ENDDATA;
 
 				foreach ($updateFileUrls as $updateFileUrl)
 				{
-					$compatibleVersion = $this->checkCompatibility(updateFileUrl, $joomlaTargetVersion);
+					$compatibleVersion = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
 
 					if ($compatibleVersion)
 					{
@@ -1507,9 +1507,9 @@ ENDDATA;
 		$query->select(
 			$db->qn('us.type') . ', ' .
 			$db->qn('us.location') . ', ' .
-			$db->qn('e.element') . ' AS ' . $db->quoteName('ext_element') . ', ' .
-			$db->qn('e.type') . ' AS ' . $db->quoteName('ext_type') . ', ' .
-			$db->qn('e.folder') . ' AS ' . $db->quoteName('ext_folder')
+			$db->qn('e.element') . ' AS ' . $db->qn('ext_element') . ', ' .
+			$db->qn('e.type') . ' AS ' . $db->qn('ext_type') . ', ' .
+			$db->qn('e.folder') . ' AS ' . $db->qn('ext_folder')
 		)->from(
 			$db->qn('#__update_sites', 'us')
 		)->leftJoin(
@@ -1566,12 +1566,12 @@ ENDDATA;
 
 		foreach ($updateSiteXML->extension as $extension)
 		{
-			if ($extension->element === $updateSiteInfo['ext_element']
-				&& $extension->type === $updateSiteInfo['ext_type']
-				&& $extension->folder === $updateSiteInfo['ext_folder']
-				&& preg_match('/^' . $extension->targetplatformversion . '/', $joomlaTargetVersion))
+			if ((string) $extension['element'] === $updateSiteInfo['ext_element']
+				&& (string) $extension['type'] === $updateSiteInfo['ext_type']
+				&& (string) $extension['folder'] === $updateSiteInfo['ext_folder']
+				&& preg_match('/^' . $extension['targetplatformversion'] . '/', $joomlaTargetVersion))
 			{
-				$return[] = $extension->detailsurl;
+				$return[] = (string) $extension['detailsurl'];
 			}
 		}
 
