@@ -1567,9 +1567,9 @@ ENDDATA;
 		foreach ($updateSiteXML->extension as $extension)
 		{
 			if ($extension->element === $updateSiteInfo['ext_element']
-			&& $extension->type === $updateSiteInfo['ext_type']
-			&& $extension->folder === $updateSiteInfo['ext_folder']
-			&& preg_match('/^' . $extension->targetplatformversion . '/', $joomlaTargetVersion))
+				&& $extension->type === $updateSiteInfo['ext_type']
+				&& $extension->folder === $updateSiteInfo['ext_folder']
+				&& preg_match('/^' . $extension->targetplatformversion . '/', $joomlaTargetVersion))
 			{
 				$return[] = $extension->detailsurl;
 			}
