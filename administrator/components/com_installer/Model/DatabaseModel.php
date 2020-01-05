@@ -413,7 +413,7 @@ class DatabaseModel extends InstallerModel
 			return false;
 		}
 
-		if ($this->checkZipFile($tmpFile) == false)
+		if ($this->checkZipFile($tmpFile) === false)
 		{
 			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_IMPORT_XML_ERROR'), 'error');
 			unlink($tmpFile);
