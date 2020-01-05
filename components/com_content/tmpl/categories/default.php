@@ -28,12 +28,6 @@ $js = <<<JS
 			var buttons = [].slice.call(document.querySelectorAll('.categories-list'));
 
 			buttons.forEach(function(button) {
-				var span = button.querySelector('span');
-
-				if(span) {
-				  span.classList.toggle('icon-plus')
-				  span.classList.toggle('icon-minus')
-				}
 
 				if (button.getAttribute('aria-label') === Joomla.JText._('JGLOBAL_EXPAND_CATEGORIES'))
 				{
