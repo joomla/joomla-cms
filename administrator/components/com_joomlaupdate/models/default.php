@@ -1566,10 +1566,22 @@ ENDDATA;
 
 		foreach ($updateSiteXML->extension as $extension)
 		{
-			if ((string) $extension['element'] === $updateSiteInfo['ext_element']
-				&& (string) $extension['type'] === $updateSiteInfo['ext_type']
-				&& (string) $extension['folder'] === $updateSiteInfo['ext_folder']
-				&& preg_match('/^' . (string) $extension['targetplatformversion'] . '/', $joomlaTargetVersion))
+			$attribs = new stdClass;
+
+			$attribs->element               = '';
+			$attribs->type                  = '';
+			$attribs->folder                = '';
+			$attribs->targetplatformversion = '';
+
+			foreach ($extension->attributes() as $key => $value)
+			{
+				$attribs->$key = (string) $value;
+			}
+
+			if ($attribs->element === $updateSiteInfo['ext_element']
+				&& $attribs->type === $updateSiteInfo['ext_type']
+				&& $attribs->folder === $updateSiteInfo['ext_folder']
+				&& preg_match('/^' . $attribs->targetplatformversion . '/', $joomlaTargetVersion))
 			{
 				$return[] = (string) $extension['detailsurl'];
 			}
