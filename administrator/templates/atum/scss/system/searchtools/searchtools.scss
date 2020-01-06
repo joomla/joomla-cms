@@ -1,95 +1,21 @@
-
 // Search tools
 @import "../../variables";
 @import "../../../../../../media/vendor/bootstrap/scss/variables";
 @import "../../../../../../media/vendor/bootstrap/scss/mixins";
 
-.js-stools {
-  width: 100%;
-}
-.js-stools-container-filters {
-  display: none;
-  margin: 10px 0;
-}
-.js-stools-container-bar .input-append {
-  margin-bottom: 0;
-}
-/* Use up caret to hide the search filters */
-.js-stools-container-bar .btn-primary .caret {
-  border-top: 0;
-  border-bottom: 4px solid #FFF;
-  margin-top: 7px;
-  margin-bottom: 8px;
-}
-.js-stools .btn-wrapper {
-  display: inline-block;
-  margin: 0 5px 0 0;
-}
-/* Fixed filter fields (selector) */
-.js-stools .js-stools-container-selector {
-  float: left;
-  margin-right: auto;
-}
-.js-stools .js-stools-container-selector-first {
-  margin-right: 8px;
-}
-html[dir=rtl] .js-stools .js-stools-container-selector {
-  float: none;
-  margin-left: auto;
-  margin-right: 0;
-}
-html[dir=rtl] .js-stools .js-stools-container-selector-first {
-  margin-left: 8px;
-  margin-right: 0;
-}
-.js-stools .js-stools-container-bar .btn-toolbar{
-  justify-content: flex-end;
-}
-.js-stools .js-stools-container-list {
-  float: right;
-  text-align: right;
-}
-html[dir=rtl] .js-stools .js-stools-container-list {
-  float: left;
-  text-align: left;
-}
-.js-stools .chosen-container {
-  text-align: left;
-}
-html[dir=rtl] .js-stools .chosen-container {
-  text-align: right;
-}
-.js-stools .js-stools-container-filters-visible {
-  display: inline-block;
-}
-.js-stools .chzn-container-single .chzn-single span {
-  overflow: visible;
-}
-.js-stools .js-stools-field-list,
-.js-stools .js-stools-field-filter {
-  display: inline-block;
-  margin: 0 5px 5px 0;
-}
-html[dir=rtl] .js-stools .js-stools-field-list,
-.js-stools .js-stools-field-filter {
-  margin: 0 0 5px 5px;
-}
-.js-stools .js-stools-container-list .js-stools-field-list:last-child {
-  margin-right: 0;
-}
 
 /* Media queries */
 @media (max-width: 480px) {
-  .js-stools-container-filters {
+  .js-stools .js-stools-container-filters {
     display: block;
   }
-  .js-stools-container-filters .btn-group {
+  .js-stools .js-stools-container-filters .btn-group {
     display: block;
   }
-  .js-stools-container-filters .btn-wrapper {
+  .js-stools .js-stools-container-filters .btn-wrapper {
     width: 100%
   }
-  .js-stools-container-bar {
+  .js-stools .js-stools-container-bar {
     margin-top: 20px;
   }
 }
@@ -97,18 +23,18 @@ html[dir=rtl] .js-stools .js-stools-field-list,
   .js-stools .js-stools-container-selector,
   .js-stools .js-stools-container-bar,
   .js-stools .js-stools-container-list {
-    float: none;
     display: block;
   }
 }
 
 .js-stools {
   position: relative;
+  width: 100%;
   padding: 0.25rem 0 0;
   margin-bottom: 0.5rem;
 
   > div {
-      margin-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 
   .js-stools-container-filters {
@@ -146,12 +72,12 @@ html[dir=rtl] .js-stools .js-stools-field-list,
 
   .js-stools-field-filter {
 
-      margin: 0 .5rem .5rem;
+    margin: 0 .5rem .5rem;
 
-      @include media-breakpoint-down(sm)
-      {
-          width: 100%;
-      }
+    @include media-breakpoint-down(sm)
+    {
+      width: 100%;
+    }
 
     .custom-select {
 
@@ -169,33 +95,105 @@ html[dir=rtl] .js-stools .js-stools-field-list,
     }
   }
 
+  .js-stools-container-selector {
+    [dir=ltr] & {
+      float: left;
+      margin-right: 0.5rem;
+    }
+
+    [dir=rtl] & {
+      float: right;
+      margin-left: 0.5rem;
+      margin-right: 0;
+    }
+  }
+
+  .js-stools-container-selector-first {
+    [dir=ltr] & {
+      margin-right: 0.5rem;
+    }
+
+    [dir=rtl] & {
+      margin-left: 0.5rem;
+    }
+  }
+
   .js-stools-container-selector,
-  .js-stools-container-selector-first  {
-     @include media-breakpoint-down(md){
-        float:none;
-        width:100%;
-        margin-right:0.5rem;
+  .js-stools-container-selector-first {
+
+    @include media-breakpoint-down(sm) {
+      float: none !important;
+      width: 100%;
+
+      [dir=ltr] & {
+        margin-right: 0;
+      }
+
+      [dir=rtl] & {
+        margin-right: 0;
+      }
     }
 
-    .js-stools-field-selector{
-        @include media-breakpoint-down(sm) {
-            max-width:100%;
-            margin-right:0.5rem;
+    .js-stools-field-selector {
+      @include media-breakpoint-down(sm) {
+        max-width: 100%;
+        margin-right: 0;
 
-            [dir=rtl] & {
-              margin-right: 0;
-            }
+        [dir=rtl] & {
+          margin-right: 0;
         }
+      }
     }
+  }
+
+  .js-stools-container-list {
+    [dir=ltr] & {
+      float: right;
+      text-align: right;
+    }
+
+    [dir=rtl] & {
+      float: left;
+      text-align: left;
+    }
+  }
+
+  .chosen-container {
+    [dir=ltr] & {
+      text-align: right;
+    }
+
+    [dir=rtl] & {
+      text-align: left;
+    }
+  }
+
+  .js-stools-container-filters-visible {
+    display: inline-block;
+  }
+
+  .chzn-container-single .chzn-single span {
+    overflow: visible;
+  }
+
+  .js-stools-field-list,
+  .js-stools-field-filter {
+    display: inline-block;
+  }
+
+  .js-stools-container-list .js-stools-field-list:last-child {
+    margin-right: 0;
   }
 
   .js-stools-container-bar {
 
     .btn-toolbar {
+      justify-content: flex-end;
 
-      .js-stools-btn-filter{
+      .js-stools-btn-filter {
         border:1px solid var(--border);
       }
+
       .js-stools-btn-clear {
         background-color: var(--atum-bg-dark);
         color: var(--atum-text-light);
@@ -214,35 +212,44 @@ html[dir=rtl] .js-stools .js-stools-field-list,
         }
 
         &.disabled,
-        &:disabled{
-            background-color: rgba($gray-300, 0.8);
-            border-color: rgba($gray-500, 0.8);
-            opacity:1;
-            color:var(--atum-text-dark);
-            cursor: not-allowed;
+        &:disabled {
+          background-color: rgba($gray-300, 0.8);
+          border-color: rgba($gray-500, 0.8);
+          opacity:1;
+          color:var(--atum-text-dark);
+          cursor: not-allowed;
         }
       }
-      .js-stools-btn-filter{
+      .js-stools-btn-filter {
         border-right:1px solid var(--border);
+
         .fa {
           margin-left: 0.25rem;
         }
       }
 
-      .form-control{
+      .form-control {
         height:auto;
       }
     }
 
-    .js-stools-field-list{
+    .js-stools-field-list {
       margin-bottom:0;
-      .custom-select{
+
+      .custom-select {
         box-shadow: none;
       }
     }
 
     .input-append {
       margin-bottom: 0;
+    }
+
+    .btn-primary .caret {
+      border-top: 0;
+      border-bottom: 4px solid #FFF;
+      margin-top: 7px;
+      margin-bottom: 8px;
     }
   }
 }

@@ -79,15 +79,8 @@
     },
     {
       "name": "searchtools",
-      "dependencies": [
-        "core"
-      ],
-      "js": [
-        "system/searchtools.min.js"
-      ],
-      "css": [
-        "system/searchtools/searchtools.min.css"
-      ]
+      "type": "style",
+      "uri": "system/searchtools/searchtools.min.css"
     }
   ]
 }
