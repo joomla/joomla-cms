@@ -28,7 +28,6 @@ $js = <<<JS
 			var buttons = [].slice.call(document.querySelectorAll('.categories-list'));
 
 			buttons.forEach(function(button) {
-
 				if (button.getAttribute('aria-label') === Joomla.JText._('JGLOBAL_EXPAND_CATEGORIES'))
 				{
 					button.setAttribute('aria-label', Joomla.JText._('JGLOBAL_COLLAPSE_CATEGORIES'));
