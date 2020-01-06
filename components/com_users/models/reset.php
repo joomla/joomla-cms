@@ -212,6 +212,7 @@ class UsersModelReset extends JModelForm
 		$user->password = JUserHelper::hashPassword($data['password1']);
 		$user->activation = '';
 		$user->password_clear = $data['password1'];
+		$user->requireReset = 0;
 
 		// Save the user to the database.
 		if (!$user->save(true))
