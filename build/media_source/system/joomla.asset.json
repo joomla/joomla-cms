@@ -7,63 +7,74 @@
   "assets": [
     {
       "name": "core",
+      "type": "script",
       "class": "CoreAssetItem",
-      "js": [
-        "media/system/js/core.min.js"
-      ]
+      "uri": "system/core.min.js"
     },
     {
       "name": "keepalive",
+      "type": "script",
       "class": "KeepaliveAssetItem",
       "dependencies": [
         "core"
       ],
-      "js": [
-        "media/system/js/keepalive.min.js"
-      ]
+      "uri": "system/keepalive.min.js"
+    },
+    {
+      "name": "template.active",
+      "type": "style",
+      "uri": "",
+      "description": "A dummy asset to allow to extensions to use it as dependency to active template"
+    },
+    {
+      "name": "template.active",
+      "type": "script",
+      "uri": "",
+      "description": "A dummy asset to allow to extensions to use it as dependency to active template"
     },
     {
       "name": "multiselect",
+      "type": "script",
       "dependencies": [
         "core"
       ],
-      "js": [
-        "media/system/js/multiselect.min.js"
-      ]
+      "uri": "system/multiselect.min.js"
     },
     {
       "name": "searchtools",
+      "type": "script",
       "dependencies": [
         "core"
       ],
-      "js": [
-        "media/system/js/searchtools.min.js"
-      ]
+      "uri": "system/searchtools.min.js"
+    },
+    {
+      "name": "searchtools",
+      "type": "style",
+      "uri": ""
     },
     {
       "name": "showon",
+      "type": "script",
       "dependencies": [
         "core"
       ],
-      "js": [
-        "media/system/js/showon.min.js"
-      ]
+      "uri": "system/showon.min.js"
     },
     {
       "name": "switcher",
-      "css": [
-        "media/system/css/fields/switcher.min.css"
-      ]
+      "type": "style",
+      "uri": "media/system/css/fields/switcher.min.css"
     },
     {
-      "name": "fields.validate",
+      "name": "form.validate",
+      "type": "script",
+      "class": "FormValidateAssetItem",
       "dependencies": [
         "core",
         "punycode"
       ],
-      "js": [
-        "media/system/js/fields/validate.min.js"
-      ]
+      "uri": "media/system/js/fields/validate.min.js"
     }
   ]
 }

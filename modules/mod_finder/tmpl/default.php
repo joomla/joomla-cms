@@ -52,7 +52,7 @@ Text::script('MOD_FINDER_SEARCH_VALUE', true);
  */
 if ($params->get('show_autosuggest', 1))
 {
-	$app->getDocument()->getWebAssetManager()->enableAsset('awesomplete');
+	$app->getDocument()->getWebAssetManager()->usePreset('awesomplete');
 	$app->getDocument()->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
 }
 ?>
