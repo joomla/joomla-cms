@@ -101,7 +101,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 										<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
 									</noscript>
 								</div>
-								<div id="container-installation" class="container-installation flex no-js" data-base-url="<?php echo Uri::root(); ?>" style="display:none">
+								<div id="container-installation" class="container-installation flex no-js hidden" data-base-url="<?php echo Uri::root(); ?>">
 									<jdoc:include type="component" />
 								</div>
 							</div>

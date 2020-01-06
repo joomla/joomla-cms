@@ -186,22 +186,20 @@ class PlgSystemDebug extends CMSPlugin
 		{
 			// Use our own jQuery and fontawesome instead of the debug bar shipped version
 			$assetManager = $this->app->getDocument()->getWebAssetManager();
-			$assetManager->getRegistry()->add(
-				new Joomla\CMS\WebAsset\WebAssetItem(
-					'plg.system.debug',
-					[
-						'dependencies' => ['jquery', 'fontawesome-free'],
-						'css' => ['plg_system_debug/debug.css'],
-						'js'  => ['plg_system_debug/debug.min.js'],
-						'attribute' => [
-							'plg_system_debug/debug.min.js' => [
-								'defer' => true,
-							],
-						]
-					]
-				)
+			$assetManager->registerAndUseStyle(
+				'plg.system.debug',
+				'plg_system_debug/debug.css',
+				[],
+				[],
+				['fontawesome']
 			);
-			$assetManager->enableAsset('plg.system.debug');
+			$assetManager->registerAndUseScript(
+				'plg.system.debug',
+				'plg_system_debug/debug.min.js',
+				[],
+				['defer' => true],
+				['jquery']
+			);
 		}
 
 		// Disable asset media version if needed.
