@@ -38,11 +38,11 @@ abstract class JHtmlBehavior
 	 *
 	 * @since   3.3
 	 *
-	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enableAsset();
+	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enable();
 	 */
 	public static function core()
 	{
-		Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('core');
+		Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('core');
 	}
 
 	/**
@@ -65,16 +65,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include core
-		static::core();
-
-		// Add validate.js language strings
-		Text::script('JLIB_FORM_CONTAINS_INVALID_FIELDS');
-		Text::script('JLIB_FORM_FIELD_REQUIRED_VALUE');
-		Text::script('JLIB_FORM_FIELD_REQUIRED_CHECK');
-		Text::script('JLIB_FORM_FIELD_INVALID_VALUE');
-
-		Factory::getDocument()->getWebAssetManager()->enableAsset('fields.validate');
+		Factory::getDocument()->getWebAssetManager()->useScript('form.validate');
 
 		static::$loaded[__METHOD__] = true;
 	}
@@ -91,7 +82,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function combobox()
 	{
-		Factory::getDocument()->getWebAssetManager()->enableAsset('awesomplete');
+		Factory::getDocument()->getWebAssetManager()->usePreset('awesomplete');
 	}
 
 	/**
@@ -111,7 +102,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		Factory::getDocument()->getWebAssetManager()->enableAsset('multiselect');
+		Factory::getDocument()->getWebAssetManager()->useScript('multiselect');
 
 		// Pass the required options to the javascript
 		Factory::getDocument()->addScriptOptions('js-multiselect', ['formName' => $id]);
@@ -127,11 +118,11 @@ abstract class JHtmlBehavior
 	 *
 	 * @since   1.5
 	 *
-	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enableAsset();
+	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enable();
 	 */
 	public static function keepalive()
 	{
-		Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('keepalive');
+		Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('keepalive');
 
 		return;
 	}
@@ -170,13 +161,12 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include core
-		static::core();
+		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
-		// Include jQuery
-		HTMLHelper::_('jquery.framework');
-
-		HTMLHelper::_('script', 'legacy/highlighter.min.js', array('version' => 'auto', 'relative' => true));
+		$wa
+			->registerScript('joomla.highlighter', 'legacy/highlighter.min.js', ['dependencies' => ['core', 'jquery']])
+			->useScript('joomla.highlighter');
 
 		foreach ($terms as $i => $term)
 		{
