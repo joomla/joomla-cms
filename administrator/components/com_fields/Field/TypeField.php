@@ -77,8 +77,9 @@ class TypeField extends ListField
 			}
 		);
 
-		// Loadd the Joomla spinner
-		HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
+		// Load the Joomla spinner
+		Factory::getDocument()->getWebAssetManager()
+			->useScript('webcomponent.core-loader');
 
 		// Load the field interactivity script
 		HTMLHelper::_('script', 'com_fields/admin-field-typehaschanged.min.js', ['relative' => true, 'version' => 'auto']);
