@@ -276,9 +276,11 @@
           width: 0.25rem;
           content: "";
           background-color: var(--atum-contrast);
+          
           [dir=ltr] & {
             left: 0;
           }
+          
           [dir=rtl] & {
             right: 0;
           }
