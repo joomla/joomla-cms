@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Updater\Updater;
 use Joomla\Component\Joomlaupdate\Administrator\Helper\Select as JoomlaupdateHelperSelect;
+use Joomla\Database\ParameterType;
 
 /**
  * Joomla! Update's Default View
@@ -242,7 +243,8 @@ class HtmlView extends BaseHtmlView
 			$query = $db->getQuery(true)
 				->select('*')
 				->from($db->quoteName('#__updates'))
-				->where($db->quoteName('extension_id') . ' = ' . $db->quote($joomlaUpdateComponentId));
+				->where($db->quoteName('extension_id') . ' = :id')
+				->bind(':id', $joomlaUpdateComponentId, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
