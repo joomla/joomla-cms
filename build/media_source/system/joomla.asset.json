@@ -51,15 +51,7 @@
     {
       "name": "searchtools",
       "type": "style",
-      "uri": "system/searchtools.css"
-    },
-    {
-      "name": "searchtools",
-      "type": "preset",
-      "dependencies": [
-        "searchtools#style",
-        "searchtools#script"
-      ]
+      "uri": ""
     },
     {
       "name": "showon",
