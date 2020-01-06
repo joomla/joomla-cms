@@ -26,7 +26,7 @@
           input.type = 'text';
 
           // Update the text for screenreaders
-          srText.innerText = Joomla.JText._('JSHOW');
+          srText.innerText = Joomla.Text._('JHIDE');
         } else if (target.classList.contains('icon-eye-close')) {
           // Update the icon class
           target.classList.add('icon-eye');
@@ -36,7 +36,7 @@
           input.type = 'password';
 
           // Update the text for screenreaders
-          srText.innerText = Joomla.JText._('JHIDE');
+          srText.innerText = Joomla.Text._('JSHOW');
         }
       });
     });
