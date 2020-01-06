@@ -15,7 +15,7 @@
 
       inputGroup.addEventListener('click', (e) => {
         const { target } = e;
-        const srText = target.previousSibling;
+        const srText = target.firstElementChild;
 
         if (target.classList.contains('icon-eye')) {
           // Update the icon class

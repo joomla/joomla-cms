@@ -51,8 +51,9 @@ Text::script('JHIDE');
 				<div class="input-group">
 					<input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" autocomplete="current-password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
 					<span class="input-group-append">
-						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-						<span class="input-group-text icon-eye" aria-hidden="true"></span>
+						<button type="button" class="input-group-text icon-eye input-password-toggle">
+							<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+						</button>
 					</span>
 				</div>
 			<?php else : ?>
