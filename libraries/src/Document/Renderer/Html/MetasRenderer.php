@@ -15,6 +15,7 @@ use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\WebAsset\WebAssetAttachBehaviorInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -49,13 +50,24 @@ class MetasRenderer extends DocumentRenderer
 			HTMLHelper::_('behavior.core');
 		}
 
-		// Attach Assets
-		$wa = $this->_doc->getWebAssetManager();
-		$wa->attachActiveAssetsToDocument($this->_doc);
+		/** @var \Joomla\CMS\Application\CMSApplication $app */
+		$app = Factory::getApplication();
+		$wa  = $this->_doc->getWebAssetManager();
+
+		// Check for AttachBehavior
+		foreach ($wa->getAssets('script', true) as $asset)
+		{
+			if ($asset instanceof WebAssetAttachBehaviorInterface)
+			{
+				$asset->onAttachCallback($this->_doc);
+			}
+		}
 
 		// Trigger the onBeforeCompileHead event
-		$app = Factory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
+
+		// Lock the AssetManager
+		$wa->lock();
 
 		// Get line endings
 		$lnEnd        = $this->_doc->_getLineEnd();

@@ -189,7 +189,7 @@ class GroupsModel extends ListModel
 	 */
 	private function populateExtraData(array $items)
 	{
-		// First pass: get list of the group id's and reset the counts.
+		// First pass: get list of the group ids and reset the counts.
 		$groupsByKey = array();
 
 		foreach ($items as $item)

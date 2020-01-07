@@ -28,7 +28,7 @@ Joomla = window.Joomla || {};
       const list = [].slice.call(document.querySelectorAll('tr.no'));
 
       list.forEach((item) => {
-        item.style.display = 'table-row';
+        item.classList.add('table-row');
       });
     });
   }
@@ -38,7 +38,7 @@ Joomla = window.Joomla || {};
       const list = [].slice.call(document.querySelectorAll('tr.no'));
 
       list.forEach((item) => {
-        item.style.display = 'none';
+        item.classList.add('hidden');
       });
     });
   }
@@ -48,7 +48,7 @@ Joomla = window.Joomla || {};
       const list = [].slice.call(document.querySelectorAll('.table tr.unpublished'));
 
       list.forEach((item) => {
-        item.style.display = 'table-row';
+        item.classList.add('table-row');
       });
     });
   }
@@ -58,7 +58,7 @@ Joomla = window.Joomla || {};
       const list = [].slice.call(document.querySelectorAll('.table tr.unpublished'));
 
       list.forEach((item) => {
-        item.style.display = 'none';
+        item.classList.add('hidden');
       });
     });
   }
