@@ -21,7 +21,7 @@ class LanguagesControllerStrings extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function refresh()
 	{
@@ -33,7 +33,7 @@ class LanguagesControllerStrings extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function search()
 	{

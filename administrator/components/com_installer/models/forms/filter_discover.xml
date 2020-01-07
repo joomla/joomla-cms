@@ -44,6 +44,7 @@
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="name ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="name ASC">COM_INSTALLER_HEADING_NAME_ASC</option>

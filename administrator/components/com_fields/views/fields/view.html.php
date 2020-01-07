@@ -92,10 +92,9 @@ class FieldsViewFields extends JViewLegacy
 		if ($this->getLayout() !== 'modal')
 		{
 			$this->addToolbar();
+			FieldsHelper::addSubmenu($this->state->get('filter.context'), 'fields');
 			$this->sidebar = JHtmlSidebar::render();
 		}
-
-		FieldsHelper::addSubmenu($this->state->get('filter.context'), 'fields');
 
 		return parent::display($tpl);
 	}

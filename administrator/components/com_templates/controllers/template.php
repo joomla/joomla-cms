@@ -320,6 +320,9 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function overrides()
 	{
+		// Check for request forgeries.
+		$this->checkToken('get');
+
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
 		$file     = $app->input->get('file');

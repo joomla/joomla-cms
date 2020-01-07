@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Multilanguage;
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 // Create some shortcuts.
-$params     = &$this->item->params;
 $n          = count($this->items);
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
@@ -271,7 +270,7 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 			<?php if ($isEditable) : ?>
 				<td headers="categorylist_header_edit" class="list-edit">
 					<?php if ($article->params->get('access-edit')) : ?>
-						<?php echo JHtml::_('icon.edit', $article, $params); ?>
+						<?php echo JHtml::_('icon.edit', $article, $article->params); ?>
 					<?php endif; ?>
 				</td>
 			<?php endif; ?>
