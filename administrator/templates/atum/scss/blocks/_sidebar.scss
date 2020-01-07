@@ -273,10 +273,17 @@
           position: absolute;
           top: 0.15rem;
           bottom: 0.15rem;
-          left: 0;
           width: 0.25rem;
           content: "";
           background-color: var(--atum-contrast);
+          
+          [dir=ltr] & {
+            left: 0;
+          }
+          
+          [dir=rtl] & {
+            right: 0;
+          }
         }
       }
     }

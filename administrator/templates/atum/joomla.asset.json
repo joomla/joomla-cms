@@ -76,6 +76,11 @@
         "template.atum.base",
         "template.atum.rtl#style"
       ]
+    },
+    {
+      "name": "searchtools",
+      "type": "style",
+      "uri": "system/searchtools/searchtools.min.css"
     }
   ]
 }
