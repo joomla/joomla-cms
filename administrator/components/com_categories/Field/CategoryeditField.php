@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -176,17 +177,28 @@ class CategoryeditField extends ListField
 		$user = Factory::getUser();
 
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.title AS text, a.level, a.published, a.lft, a.language')
-			->from('#__categories AS a');
+			->select(
+				[
+					$db->quoteName('a.id', 'value'),
+					$db->quoteName('a.title', 'text'),
+					$db->quoteName('a.level'),
+					$db->quoteName('a.published'),
+					$db->quoteName('a.lft'),
+					$db->quoteName('a.language'),
+				]
+			)
+			->from($db->quoteName('#__categories', 'a'));
 
 		// Filter by the extension type
 		if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
 		{
-			$query->where('(a.extension = ' . $db->quote($extension) . ' OR a.parent_id = 0)');
+			$query->where('(' . $db->quoteName('a.extension') . ' = :extension OR ' . $db->quoteName('a.parent_id') . ' = 0)')
+				->bind(':extension', $extension);
 		}
 		else
 		{
-			$query->where('(a.extension = ' . $db->quote($extension) . ')');
+			$query->where($db->quoteName('a.extension') . ' = :extension')
+				->bind(':extension', $extension);
 		}
 
 		// Filter language
@@ -194,43 +206,44 @@ class CategoryeditField extends ListField
 		{
 			if (strpos($this->element['language'], ',') !== false)
 			{
-				$language = implode(',', $db->quote(explode(',', $this->element['language'])));
+				$language = explode(',', $this->element['language']);
 			}
 			else
 			{
-				$language = $db->quote($this->element['language']);
+				$language = $this->element['language'];
 			}
 
-			$query->where($db->quoteName('a.language') . ' IN (' . $language . ')');
+			$query->whereIn($db->quoteName('a.language'), $language, ParameterType::STRING);
 		}
 
 		// Filter on the published state
-		$query->where('a.published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
+		$state = ArrayHelper::toInteger($published);
+		$query->whereIn($db->quoteName('a.published'), $state);
 
 		// Filter categories on User Access Level
 		// Filter by access level on categories.
 		if (!$user->authorise('core.admin'))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
+			$groups = $user->getAuthorisedViewLevels();
+			$query->whereIn($db->quoteName('a.access'), $groups);
 		}
 
-		$query->order('a.lft ASC');
+		$query->order($db->quoteName('a.lft') . ' ASC');
 
 		// If parent isn't explicitly stated but we are in com_categories assume we want parents
 		if ($oldCat != 0 && ($this->element['parent'] == true || $jinput->get('option') == 'com_categories'))
 		{
 			// Prevent parenting to children of this item.
 			// To rearrange parents and children move the children up, not the parents down.
-			$query->join('LEFT', $db->quoteName('#__categories') . ' AS p ON p.id = ' . (int) $oldCat)
-				->where('NOT(a.lft >= p.lft AND a.rgt <= p.rgt)');
-
-			$rowQuery = $db->getQuery(true);
-			$rowQuery->select('a.id AS value, a.title AS text, a.level, a.parent_id')
-				->from('#__categories AS a')
-				->where('a.id = ' . (int) $oldCat);
-			$db->setQuery($rowQuery);
-			$row = $db->loadObject();
+			$query->join(
+				'LEFT',
+				$db->quoteName('#__categories', 'p'),
+				$db->quoteName('p.id') . ' = :oldcat'
+			)
+				->bind(':oldcat', $oldCat, ParameterType::INTEGER)
+				->where('NOT(' . $db->quoteName('a.lft') . ' >= ' . $db->quoteName('p.lft')
+					. ' AND ' . $db->quoteName('a.rgt') . ' <= ' . $db->quoteName('p.rgt') . ')'
+				);
 		}
 
 		// Get the options.
@@ -332,10 +345,25 @@ class CategoryeditField extends ListField
 			}
 		}
 
-		if (($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
-			&& (isset($row) && !isset($options[0]))
+		if ($oldCat != 0 && ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
+			&& !isset($options[0])
 			&& isset($this->element['show_root']))
 		{
+			$rowQuery = $db->getQuery(true)
+				->select(
+					[
+						$db->quoteName('a.id', 'value'),
+						$db->quoteName('a.title', 'text'),
+						$db->quoteName('a.level'),
+						$db->quoteName('a.parent_id'),
+					]
+				)
+				->from($db->quoteName('#__categories', 'a'))
+				->where($db->quoteName('a.id') . ' = :aid')
+				->bind(':aid', $oldCat, ParameterType::INTEGER);
+			$db->setQuery($rowQuery);
+			$row = $db->loadObject();
+
 			if ($row->parent_id == '1')
 			{
 				$parent = new \stdClass;
