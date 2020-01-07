@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_USERS_SEARCH_GROUPS_LABEL"
 			description="COM_USERS_SEARCH_IN_GROUPS"
 			hint="JSEARCH_FILTER"
