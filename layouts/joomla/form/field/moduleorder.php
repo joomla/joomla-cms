@@ -87,5 +87,6 @@ if (!empty($dataAttributes))
 
 Factory::getDocument()->getWebAssetManager()
 	->useScript('webcomponent.field-module-order');
+
 ?>
 <joomla-field-module-order <?php echo implode(' ', $attributes); ?>></joomla-field-module-order>
