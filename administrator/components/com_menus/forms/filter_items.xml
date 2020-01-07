@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form addfieldprefix="Joomla\Component\Menus\Administrator\Field">
+<form>
 	<field
 		name="client_id"
 		type="list"
-		label="JSITEADMIN"
+		label=""
 		filtermode="selector"
-		onchange="Joomla.resetFilters(this)"
+		onchange="this.form.submit();"
 		>
 		<option value="0">JSITE</option>
 		<option value="1">JADMINISTRATOR</option>
@@ -13,7 +13,8 @@
 	<field
 		name="menutype"
 		type="menu"
-		label="COM_MENUS_SELECT_MENU_FILTER"
+		label="COM_MENUS_FILTER_CATEGORY"
+		description="JOPTION_FILTER_CATEGORY_DESC"
 		accesstype="manage"
 		clientid=""
 		showAll="false"
@@ -27,13 +28,16 @@
 			name="search"
 			type="text"
 			inputmode="search"
+			label="COM_MENUS_ITEMS_SEARCH_FILTER_LABEL"
+			description="COM_MENUS_ITEMS_SEARCH_FILTER"
 			hint="JSEARCH_FILTER"
 			noresults="JGLOBAL_NO_MATCHING_RESULTS"
 		/>
 		<field
 			name="published"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="COM_MENUS_FILTER_PUBLISHED"
+			description="COM_MENUS_FILTER_PUBLISHED_DESC"
 			filter="*,0,1,-2"
 			onchange="this.form.submit();"
 			>
@@ -42,7 +46,8 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_SELECT_ACCESS"
+			label="JOPTION_FILTER_ACCESS"
+			description="JOPTION_FILTER_ACCESS_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -50,7 +55,8 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_SELECT_LANGUAGE"
+			label="JOPTION_FILTER_LANGUAGE"
+			description="JOPTION_FILTER_LANGUAGE_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -59,7 +65,8 @@
 		<field
 			name="level"
 			type="integer"
-			label="JOPTION_SELECT_MAX_LEVELS"
+			label="JOPTION_FILTER_LEVEL"
+			description="JOPTION_FILTER_LEVEL_DESC"
 			first="1"
 			last="10"
 			step="1"
@@ -70,8 +77,9 @@
 		</field>
 		<field
 			name="parent_id"
-			type="MenuItemByType"
+			type="menuitembytype"
 			label="COM_MENUS_FILTER_PARENT_MENU_ITEM_LABEL"
+			description="COM_MENUS_FILTER_PARENT_MENU_ITEM_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_MENUS_FILTER_SELECT_PARENT_MENU_ITEM</option>
@@ -82,6 +90,7 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
+			description="JGLOBAL_SORT_BY"
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
 			default="a.lft ASC"
@@ -102,15 +111,17 @@
 			<option value="a.access DESC">JGRID_HEADING_ACCESS_DESC</option>
 			<option value="association ASC" requires="associations">JASSOCIATIONS_ASC</option>
 			<option value="association DESC" requires="associations">JASSOCIATIONS_DESC</option>
-			<option value="language ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
-			<option value="language DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="a.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
 		<field
 			name="limit"
 			type="limitbox"
-			label="JGLOBAL_LIST_LIMIT"
+			label="COM_MENUS_LIST_LIMIT"
+			description="COM_MENUS_LIST_LIMIT_DESC"
+			class="input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>
