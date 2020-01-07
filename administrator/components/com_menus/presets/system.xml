@@ -39,6 +39,15 @@
 			permission="core.manage;com_checkin"
 			ajax-badge="index.php?option=com_checkin&amp;task=getMenuBadgeData&amp;format=json"
 		/>
+
+		<menuitem
+			title="MOD_MENU_TRASH"
+			type="component"
+			element="com_trash"
+			link="index.php?option=com_trash"
+			permission="core.admin;com_trash"
+			ajax-badge="index.php?option=com_trash&amp;task=getMenuBadgeData&amp;format=json"
+		/>
 	</menuitem>
 
 	<menuitem
