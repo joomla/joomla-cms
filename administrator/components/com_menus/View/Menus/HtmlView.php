@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
  * The HTML Menus Menu Menus View.
@@ -90,8 +89,6 @@ class HtmlView extends BaseHtmlView
 			$this->filterForm    = $this->get('FilterForm');
 			$this->activeFilters = $this->get('ActiveFilters');
 		}
-
-		MenusHelper::addSubmenu('menus');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
