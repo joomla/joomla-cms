@@ -86,11 +86,11 @@ abstract class MultilangstatusHelper
 		$query = $db->getQuery(true)
 			->select(
 				[
-					$db->quoteName('a.lang_code', 'lang_code'),
-					$db->quoteName('a.published', 'published'),
+					$db->quoteName('lang_code'),
+					$db->quoteName('published'),
 				]
 			)
-			->from($db->quoteName('#__languages', 'a'));
+			->from($db->quoteName('#__languages'));
 
 		$db->setQuery($query);
 
@@ -109,17 +109,24 @@ abstract class MultilangstatusHelper
 		$query = $db->getQuery(true);
 
 		// Select all fields from the languages table.
-		$query->select('a.*', 'l.home')
-			->select($db->quoteName('a.published', 'published'))
-			->select($db->quoteName('a.lang_code', 'lang_code'))
-			->from($db->quoteName('#__languages', 'a'));
-
-		// Select the language home pages.
-		$query->select($db->quoteName('l.home', 'home'))
-			->select($db->quoteName('l.published', 'home_published'))
-			->join('LEFT', $db->quoteName('#__menu', 'l') . ' ON ' . $db->quoteName('l.language') . ' = ' . $db->quoteName('a.lang_code') . ' AND ' . $db->quoteName('l.home') . ' = 1  AND ' . $db->quoteName('l.language') . ' <> \'*\'')
-			->select($db->quoteName('e.enabled', 'enabled'))
-			->select($db->quoteName('e.element', 'element'))
+		$query->select(
+			[
+				$db->quoteName('a') . '.*',
+				$db->quoteName('a.published'),
+				$db->quoteName('a.lang_code'),
+				$db->quoteName('e.enabled'),
+				$db->quoteName('e.element'),
+				$db->quoteName('l.home'),
+				$db->quoteName('l.published', 'home_published'),
+			]
+		)
+			->from($db->quoteName('#__languages', 'a'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__menu', 'l'),
+				$db->quoteName('l.language') . ' = ' . $db->quoteName('a.lang_code')
+					. ' AND ' . $db->quoteName('l.home') . ' = 1  AND ' . $db->quoteName('l.language') . ' <> ' . $db->quote('*')
+			)
 			->join('LEFT', $db->quoteName('#__extensions', 'e'), $db->quoteName('e.element') . ' = ' . $db->quoteName('a.lang_code'))
 			->where(
 				[
@@ -146,7 +153,7 @@ abstract class MultilangstatusHelper
 
 		// Get the number of contact with all as language
 		$alang = $db->getQuery(true)
-			->select('count(*)')
+			->select('COUNT(*)')
 			->from($db->quoteName('#__contact_details', 'cd'))
 			->where(
 				[
@@ -158,7 +165,7 @@ abstract class MultilangstatusHelper
 
 		// Get the number of languages for the contact
 		$slang = $db->getQuery(true)
-			->select('count(distinct(l.lang_code))')
+			->select('COUNT(DISTINCT ' . $db->quoteName('l.lang_code') . ')')
 			->from($db->quoteName('#__languages', 'l'))
 			->join('LEFT', $db->quoteName('#__contact_details', 'cd'), $db->quoteName('cd.language') . ' = ' . $db->quoteName('l.lang_code'))
 			->where(
@@ -171,7 +178,7 @@ abstract class MultilangstatusHelper
 
 		// Get the number of multiple contact/language
 		$mlang = $db->getQuery(true)
-			->select('count(*)')
+			->select('COUNT(*)')
 			->from($db->quoteName('#__languages', 'l'))
 			->join('LEFT', $db->quoteName('#__contact_details', 'cd'), $db->quoteName('cd.language') . ' = ' . $db->quoteName('l.lang_code'))
 			->where(
@@ -182,15 +189,32 @@ abstract class MultilangstatusHelper
 				]
 			)
 			->group($db->quoteName('l.lang_code'))
-			->having('count(*) > 1');
+			->having('COUNT(*) > 1');
 
 		// Get the contacts
+		$subQuery = $db->getQuery(true)
+			->select('1')
+			->from($db->quoteName('#__content', 'c'))
+			->where($db->quoteName('c.created_by') . ' = ' . $db->quoteName('u.id'));
+
 		$query = $db->getQuery(true)
-			->select('u.name, (' . $alang . ') as alang, (' . $slang . ') as slang, (' . $mlang . ') as mlang')
+			->select(
+				[
+					$db->quoteName('u.name'),
+					'(' . $alang . ') AS ' . $db->quoteName('alang'),
+					'(' . $slang . ') AS ' . $db->quoteName('slang'),
+					'(' . $mlang . ') AS ' . $db->quoteName('mlang'),
+				]
+			)
 			->from($db->quoteName('#__users', 'u'))
 			->join('LEFT', $db->quoteName('#__contact_details', 'cd'), $db->quoteName('cd.user_id') . ' = ' . $db->quoteName('u.id'))
-			->where('EXISTS (SELECT 1 FROM ' . $db->quoteName('#__content', 'c') . ' WHERE ' . $db->quoteName('c.created_by') . ' = ' . $db->quoteName('u.id') . ')')
-			->group('u.id, u.name');
+			->where('EXISTS (' . $subQuery . ')')
+			->group(
+				[
+					$db->quoteName('u.id'),
+					$db->quoteName('u.name'),
+				]
+			);
 
 		$db->setQuery($query);
 		$warnings = $db->loadObjectList();
@@ -290,19 +314,31 @@ abstract class MultilangstatusHelper
 		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
-			->select('id, title, module, position, content, showtitle, params')
+			->select(
+				[
+					$db->quoteName('id'),
+					$db->quoteName('title'),
+					$db->quoteName('module'),
+					$db->quoteName('position'),
+					$db->quoteName('content'),
+					$db->quoteName('showtitle'),
+					$db->quoteName('params'),
+				]
+			)
 			->from($db->quoteName('#__modules'))
 			->where(
 				[
-					$db->quoteName('module') . ' = ' . $db->quote($moduleName),
+					$db->quoteName('module') . ' = :module',
 					$db->quoteName('published') . ' = 1',
 					$db->quoteName('client_id') . ' = 0',
 				]
-			);
+			)
+			->bind(':module', $moduleName);
 
 		if ($instanceTitle)
 		{
-			$query->where($db->quoteName('title') . ' = ' . $db->quote($instanceTitle));
+			$query->where($db->quoteName('title') . ' = :title')
+				->bind(':title', $instanceTitle);
 		}
 
 		$db->setQuery($query);
