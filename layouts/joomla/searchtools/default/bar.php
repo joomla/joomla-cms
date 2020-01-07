@@ -40,7 +40,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 		<div class="btn-wrapper input-append">
 			<?php echo $filters['filter_search']->input; ?>
 			<?php if ($filters['filter_search']->description) : ?>
-				<?php JHtmlBootstrap::tooltip('#filter_search', array('title' => JText::_($filters['filter_search']->description))); ?>
+				<?php JHtml::_('bootstrap.tooltip', '#filter_search', array('title' => JText::_($filters['filter_search']->description))); ?>
 			<?php endif; ?>
 			<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>" aria-label="<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>">
 				<span class="icon-search" aria-hidden="true"></span>

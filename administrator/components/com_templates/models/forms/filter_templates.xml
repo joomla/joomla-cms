@@ -28,6 +28,7 @@
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.element ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.element ASC">COM_TEMPLATES_HEADING_TEMPLATE_ASC</option>

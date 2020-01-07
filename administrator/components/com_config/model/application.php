@@ -59,6 +59,9 @@ class ConfigModelApplication extends ConfigModelForm
 		$config = new JConfig;
 		$data   = ArrayHelper::fromObject($config);
 
+		// Get the correct driver at runtime
+		$data['dbtype'] = JFactory::getDbo()->getName();
+
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
 
