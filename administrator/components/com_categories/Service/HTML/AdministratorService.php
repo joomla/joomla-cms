@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -50,15 +51,25 @@ class AdministratorService
 			// Get the associated categories
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('c.id, c.title')
-				->select('l.sef as lang_sef')
-				->select('l.lang_code')
-				->from('#__categories as c')
-				->where('c.id IN (' . implode(',', array_values($associations)) . ')')
-				->where('c.id != ' . $catid)
-				->join('LEFT', '#__languages as l ON c.language=l.lang_code')
-				->select('l.image')
-				->select('l.title as language_title');
+				->select(
+					[
+						$db->quoteName('c.id'),
+						$db->quoteName('c.title'),
+						$db->quoteName('l.sef', 'lang_sef'),
+						$db->quoteName('l.lang_code'),
+						$db->quoteName('l.image'),
+						$db->quoteName('l.title', 'language_title'),
+					]
+				)
+				->from($db->quoteName('#__categories', 'c'))
+				->whereIn($db->quoteName('c.id'), array_values($associations))
+				->where($db->quoteName('c.id') . ' != :catid')
+				->bind(':catid', $catid, ParameterType::INTEGER)
+				->join(
+					'LEFT',
+					$db->quoteName('#__languages', 'l'),
+					$db->quoteName('c.language') . ' = ' . $db->quoteName('l.lang_code')
+				);
 			$db->setQuery($query);
 
 			try
