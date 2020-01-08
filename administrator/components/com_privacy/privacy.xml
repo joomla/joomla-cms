@@ -19,7 +19,7 @@
 		<folder>views</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_privacy.ini</language>
+		<language tag="en-GB">language/en-GB/com_privacy.ini</language>
 	</languages>
 	<administration>
 		<files folder="admin">
@@ -33,8 +33,8 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_privacy.ini</language>
-			<language tag="en-GB">language/en-GB.com_privacy.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_privacy.ini</language>
+			<language tag="en-GB">language/en-GB/com_privacy.sys.ini</language>
 		</languages>
 	</administration>
 </extension>
