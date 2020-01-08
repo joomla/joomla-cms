@@ -7,17 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Users\Site\Model;
-
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -25,15 +16,15 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class RemindModel extends FormModel
+class UsersModelRemind extends JModelForm
 {
 	/**
 	 * Method to get the username remind request form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interrogate.
+	 * @param   array    $data      An optional array of data for the form to interogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm     A Form object on success, false on failure
+	 * @return  JFor     A JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -53,17 +44,17 @@ class RemindModel extends FormModel
 	/**
 	 * Override preprocessForm to load the user plugin group instead of content.
 	 *
-	 * @param   Form    $form   A Form object.
+	 * @param   JForm   $form   A JForm object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
 	 * @return  void
 	 *
-	 * @throws	\Exception if there is an error in the form event.
+	 * @throws	Exception if there is an error in the form event.
 	 *
 	 * @since   1.6
 	 */
-	protected function preprocessForm(Form $form, $data, $group = 'user')
+	protected function preprocessForm(JForm $form, $data, $group = 'user')
 	{
 		parent::preprocessForm($form, $data, 'user');
 	}
@@ -76,12 +67,11 @@ class RemindModel extends FormModel
 	 * @return  void
 	 *
 	 * @since   1.6
-	 * @throws  \Exception
 	 */
 	protected function populateState()
 	{
 		// Get the application object.
-		$app = Factory::getApplication();
+		$app = JFactory::getApplication();
 		$params = $app->getParams('com_users');
 
 		// Load the parameters.
@@ -101,7 +91,7 @@ class RemindModel extends FormModel
 	{
 		// Get the form.
 		$form = $this->getForm();
-		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
+		$data['email'] = JStringPunycode::emailToPunycode($data['email']);
 
 		// Check for an error.
 		if (empty($form))
@@ -113,7 +103,7 @@ class RemindModel extends FormModel
 		$data = $this->validate($form, $data);
 
 		// Check for an error.
-		if ($data instanceof \Exception)
+		if ($data instanceof Exception)
 		{
 			return false;
 		}
@@ -135,8 +125,7 @@ class RemindModel extends FormModel
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('email') . ' = :email')
-			->bind(':email', $data['email']);
+			->where('LOWER(' . $db->quoteName('email') . ') = LOWER(' . $db->quote($data['email']) . ')');
 
 		// Get the user id.
 		$db->setQuery($query);
@@ -145,9 +134,9 @@ class RemindModel extends FormModel
 		{
 			$user = $db->loadObject();
 		}
-		catch (\RuntimeException $e)
+		catch (RuntimeException $e)
 		{
-			$this->setError(Text::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
+			$this->setError(JText::sprintf('COM_USERS_DATABASE_ERROR', $e->getMessage()), 500);
 
 			return false;
 		}
@@ -155,7 +144,7 @@ class RemindModel extends FormModel
 		// Check for a user.
 		if (empty($user))
 		{
-			$this->setError(Text::_('COM_USERS_USER_NOT_FOUND'));
+			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
 
 			return false;
 		}
@@ -163,66 +152,49 @@ class RemindModel extends FormModel
 		// Make sure the user isn't blocked.
 		if ($user->block)
 		{
-			$this->setError(Text::_('COM_USERS_USER_BLOCKED'));
+			$this->setError(JText::_('COM_USERS_USER_BLOCKED'));
 
 			return false;
 		}
 
-		$app = Factory::getApplication();
+		$config = JFactory::getConfig();
 
 		// Assemble the login link.
 		$link = 'index.php?option=com_users&view=login';
-		$mode = $app->get('force_ssl', 0) == 2 ? 1 : (-1);
+		$mode = $config->get('force_ssl', 0) == 2 ? 1 : (-1);
 
 		// Put together the email template data.
 		$data = ArrayHelper::fromObject($user);
-		$data['fromname'] = $app->get('fromname');
-		$data['mailfrom'] = $app->get('mailfrom');
-		$data['sitename'] = $app->get('sitename');
-		$data['link_text'] = Route::_($link, false, $mode);
-		$data['link_html'] = Route::_($link, true, $mode);
+		$data['fromname'] = $config->get('fromname');
+		$data['mailfrom'] = $config->get('mailfrom');
+		$data['sitename'] = $config->get('sitename');
+		$data['link_text'] = JRoute::_($link, false, $mode);
+		$data['link_html'] = JRoute::_($link, true, $mode);
 
-		$subject = Text::sprintf(
+		$subject = JText::sprintf(
 			'COM_USERS_EMAIL_USERNAME_REMINDER_SUBJECT',
 			$data['sitename']
 		);
-		$body = Text::sprintf(
+		$body = JText::sprintf(
 			'COM_USERS_EMAIL_USERNAME_REMINDER_BODY',
 			$data['sitename'],
 			$data['username'],
 			$data['link_text']
 		);
 
-		// Try to send the password reset request email.
-		try
-		{
-			$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
-		}
-		catch (\Exception $exception)
-		{
-			try
-			{
-				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
-
-				$return = false;
-			}
-			catch (\RuntimeException $exception)
-			{
-				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
-
-				$return = false;
-			}
-		}
+		// Send the password reset request email.
+		$return = JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
 
 		// Check for an error.
 		if ($return !== true)
 		{
-			$this->setError(Text::_('COM_USERS_MAIL_FAILED'), 500);
+			$this->setError(JText::_('COM_USERS_MAIL_FAILED'), 500);
 
 			return false;
 		}
 
-		Factory::getApplication()->triggerEvent('onUserAfterRemind', array($user));
+		$dispatcher = \JEventDispatcher::getInstance();
+		$dispatcher->trigger('onUserAfterRemind', array($user));
 
 		return true;
 	}

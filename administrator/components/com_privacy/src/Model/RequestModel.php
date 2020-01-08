@@ -7,46 +7,30 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Privacy\Administrator\Model;
-
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Form;
-use Joomla\CMS\Language\Language;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Mail\Exception\MailDisabledException;
-use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\User\User;
-use Joomla\CMS\User\UserHelper;
-use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
-use Joomla\Component\Privacy\Administrator\Table\RequestTable;
-use Joomla\Database\Exception\ExecutionFailureException;
-use PHPMailer\PHPMailer\Exception as phpmailerException;
 
 /**
  * Request item model class.
  *
  * @since  3.9.0
  */
-class RequestModel extends AdminModel
+class PrivacyModelRequest extends JModelAdmin
 {
 	/**
 	 * Clean the cache
 	 *
-	 * @param   string  $group  The cache group
+	 * @param   string   $group      The cache group
+	 * @param   integer  $client_id  The ID of the client
 	 *
 	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	protected function cleanCache($group = 'com_privacy')
+	protected function cleanCache($group = 'com_privacy', $client_id = 1)
 	{
-		parent::cleanCache('com_privacy');
+		parent::cleanCache('com_privacy', 1);
 	}
 
 	/**
@@ -55,14 +39,14 @@ class RequestModel extends AdminModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  Form|boolean  A Form object on success, false on failure
+	 * @return  JForm|boolean  A JForm object on success, false on failure
 	 *
 	 * @since   3.9.0
 	 */
-	public function getForm($data = [], $loadData = true)
+	public function getForm($data = array(), $loadData = true)
 	{
 		// Get the form.
-		$form = $this->loadForm('com_privacy.request', 'request', ['control' => 'jform', 'load_data' => $loadData]);
+		$form = $this->loadForm('com_privacy.request', 'request', array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form))
 		{
@@ -79,12 +63,12 @@ class RequestModel extends AdminModel
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  Table  A Table object
+	 * @return  JTable  A JTable object
 	 *
-	 * @throws  \Exception
 	 * @since   3.9.0
+	 * @throws  \Exception
 	 */
-	public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
+	public function getTable($name = 'Request', $prefix = 'PrivacyTable', $options = array())
 	{
 		return parent::getTable($name, $prefix, $options);
 	}
@@ -99,7 +83,7 @@ class RequestModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = Factory::getApplication()->getUserState('com_privacy.edit.request.data', []);
+		$data = JFactory::getApplication()->getUserState('com_privacy.edit.request.data', array());
 
 		if (empty($data))
 		{
@@ -120,7 +104,7 @@ class RequestModel extends AdminModel
 	 */
 	public function logRequestCompleted($id)
 	{
-		/** @var RequestTable $table */
+		/** @var PrivacyTableRequest $table */
 		$table = $this->getTable();
 
 		if (!$table->load($id))
@@ -130,9 +114,11 @@ class RequestModel extends AdminModel
 			return false;
 		}
 
-		$user = Factory::getUser();
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
 
-		$message = [
+		$user = JFactory::getUser();
+
+		$message = array(
 			'action'       => 'request-completed',
 			'requesttype'  => $table->request_type,
 			'subjectemail' => $table->email,
@@ -141,9 +127,11 @@ class RequestModel extends AdminModel
 			'userid'       => $user->id,
 			'username'     => $user->username,
 			'accountlink'  => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-		];
+		);
 
-		$this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_ADMIN_COMPLETED_REQUEST', 'com_privacy.request', $user->id);
+		/** @var ActionlogsModelActionlog $model */
+		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+		$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_ADMIN_COMPLETED_REQUEST', 'com_privacy.request', $user->id);
 
 		return true;
 	}
@@ -159,7 +147,7 @@ class RequestModel extends AdminModel
 	 */
 	public function logRequestCreated($id)
 	{
-		/** @var RequestTable $table */
+		/** @var PrivacyTableRequest $table */
 		$table = $this->getTable();
 
 		if (!$table->load($id))
@@ -169,9 +157,11 @@ class RequestModel extends AdminModel
 			return false;
 		}
 
-		$user = Factory::getUser();
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
 
-		$message = [
+		$user = JFactory::getUser();
+
+		$message = array(
 			'action'       => 'request-created',
 			'requesttype'  => $table->request_type,
 			'subjectemail' => $table->email,
@@ -180,9 +170,11 @@ class RequestModel extends AdminModel
 			'userid'       => $user->id,
 			'username'     => $user->username,
 			'accountlink'  => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-		];
+		);
 
-		$this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_ADMIN_CREATED_REQUEST', 'com_privacy.request', $user->id);
+		/** @var ActionlogsModelActionlog $model */
+		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+		$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_ADMIN_CREATED_REQUEST', 'com_privacy.request', $user->id);
 
 		return true;
 	}
@@ -198,7 +190,7 @@ class RequestModel extends AdminModel
 	 */
 	public function logRequestInvalidated($id)
 	{
-		/** @var RequestTable $table */
+		/** @var PrivacyTableRequest $table */
 		$table = $this->getTable();
 
 		if (!$table->load($id))
@@ -208,9 +200,11 @@ class RequestModel extends AdminModel
 			return false;
 		}
 
-		$user = Factory::getUser();
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
 
-		$message = [
+		$user = JFactory::getUser();
+
+		$message = array(
 			'action'       => 'request-invalidated',
 			'requesttype'  => $table->request_type,
 			'subjectemail' => $table->email,
@@ -219,9 +213,11 @@ class RequestModel extends AdminModel
 			'userid'       => $user->id,
 			'username'     => $user->username,
 			'accountlink'  => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-		];
+		);
 
-		$this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_ADMIN_INVALIDATED_REQUEST', 'com_privacy.request', $user->id);
+		/** @var ActionlogsModelActionlog $model */
+		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+		$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_ADMIN_INVALIDATED_REQUEST', 'com_privacy.request', $user->id);
 
 		return true;
 	}
@@ -240,7 +236,7 @@ class RequestModel extends AdminModel
 	 */
 	public function notifyUserAdminCreatedRequest($id)
 	{
-		/** @var RequestTable $table */
+		/** @var PrivacyTableRequest $table */
 		$table = $this->getTable();
 
 		if (!$table->load($id))
@@ -258,22 +254,22 @@ class RequestModel extends AdminModel
 		 * Error messages will still be displayed to the administrator, so those messages should continue to use the Text class.
 		 */
 
-		$lang = Factory::getLanguage();
+		$lang = JFactory::getLanguage();
 
 		$db = $this->getDbo();
 
 		$userId = (int) $db->setQuery(
 			$db->getQuery(true)
-				->select($db->quoteName('id'))
+				->select('id')
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = :email')
-				->bind(':email', $table->email)
-				->setLimit(1)
+				->where('LOWER(' . $db->quoteName('email') . ') = LOWER(' . $db->quote($table->email) . ')'),
+			0,
+			1
 		)->loadResult();
 
 		if ($userId)
 		{
-			$receiver = User::getInstance($userId);
+			$receiver = JUser::getInstance($userId);
 
 			/*
 			 * We don't know if the user has admin access, so we will check if they have an admin language in their parameters,
@@ -287,25 +283,25 @@ class RequestModel extends AdminModel
 				$langCode = $receiver->getParam('language', $lang->getTag());
 			}
 
-			$lang = Language::getInstance($langCode, $lang->getDebug());
+			$lang = JLanguage::getInstance($langCode, $lang->getDebug());
 		}
 
 		// Ensure the right language files have been loaded
-		$lang->load('com_privacy', JPATH_ADMINISTRATOR)
-			|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
+		$lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy', null, false, true);
 
 		// Regenerate the confirmation token
-		$token       = ApplicationHelper::getHash(UserHelper::genRandomPassword());
-		$hashedToken = UserHelper::hashPassword($token);
+		$token       = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
+		$hashedToken = JUserHelper::hashPassword($token);
 
 		$table->confirm_token            = $hashedToken;
-		$table->confirm_token_created_at = Factory::getDate()->toSql();
+		$table->confirm_token_created_at = JFactory::getDate()->toSql();
 
 		try
 		{
 			$table->store();
 		}
-		catch (ExecutionFailureException $exception)
+		catch (JDatabaseException $exception)
 		{
 			$this->setError($exception->getMessage());
 
@@ -315,18 +311,18 @@ class RequestModel extends AdminModel
 		// The mailer can be set to either throw Exceptions or return boolean false, account for both
 		try
 		{
-			$app = Factory::getApplication();
+			$app = JFactory::getApplication();
 
 			$linkMode = $app->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
-			$substitutions = [
+			$substitutions = array(
 				'[SITENAME]' => $app->get('sitename'),
-				'[URL]'      => Uri::root(),
-				'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode, true),
-				'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode, true),
+				'[URL]'      => JUri::root(),
+				'[TOKENURL]' => JRoute::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode, true),
+				'[FORMURL]'  => JRoute::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode, true),
 				'[TOKEN]'    => $token,
 				'\\n'        => "\n",
-			];
+			);
 
 			switch ($table->request_type)
 			{
@@ -343,7 +339,7 @@ class RequestModel extends AdminModel
 					break;
 
 				default:
-					$this->setError(Text::_('COM_PRIVACY_ERROR_UNKNOWN_REQUEST_TYPE'));
+					$this->setError(JText::_('COM_PRIVACY_ERROR_UNKNOWN_REQUEST_TYPE'));
 
 					return false;
 			}
@@ -354,12 +350,19 @@ class RequestModel extends AdminModel
 				$emailBody    = str_replace($k, $v, $emailBody);
 			}
 
-			$mailer = Factory::getMailer();
+			$mailer = JFactory::getMailer();
 			$mailer->setSubject($emailSubject);
 			$mailer->setBody($emailBody);
 			$mailer->addRecipient($table->email);
 
-			if ($mailer->Send() === false)
+			$mailResult = $mailer->Send();
+
+			if ($mailResult instanceof JException)
+			{
+				// JError was already called so we just need to return now
+				return false;
+			}
+			elseif ($mailResult === false)
 			{
 				$this->setError($mailer->ErrorInfo);
 
@@ -368,7 +371,7 @@ class RequestModel extends AdminModel
 
 			return true;
 		}
-		catch (MailDisabledException | phpmailerException $exception)
+		catch (phpmailerException $exception)
 		{
 			$this->setError($exception->getMessage());
 
@@ -391,9 +394,9 @@ class RequestModel extends AdminModel
 		$key   = $table->getKeyName();
 		$pk    = !empty($data[$key]) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
 
-		if (!$pk && !Factory::getConfig()->get('mailonline', 1))
+		if (!$pk && !JFactory::getConfig()->get('mailonline', 1))
 		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
+			$this->setError(JText::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
 
 			return false;
 		}
@@ -410,7 +413,7 @@ class RequestModel extends AdminModel
 	 *
 	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
-	 * @see     \Joomla\CMS\Form\FormRule
+	 * @see     JFormRule
 	 * @see     JFilterInput
 	 * @since   3.9.0
 	 */
@@ -425,9 +428,9 @@ class RequestModel extends AdminModel
 		}
 
 		// The user cannot create a request for their own account
-		if (strtolower(Factory::getUser()->email) === strtolower($validatedData['email']))
+		if (strtolower(JFactory::getUser()->email) === strtolower($validatedData['email']))
 		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_FOR_SELF'));
+			$this->setError(JText::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_FOR_SELF'));
 
 			return false;
 		}
@@ -437,35 +440,20 @@ class RequestModel extends AdminModel
 
 		$query = $db->getQuery(true)
 			->select('COUNT(id)')
-			->from($db->quoteName('#__privacy_requests'))
-			->where($db->quoteName('email') . ' = :email')
-			->where($db->quoteName('request_type') . ' = :requesttype')
-			->whereIn($db->quoteName('status'), [0, 1])
-			->bind(':email', $validatedData['email'])
-			->bind(':requesttype', $validatedData['request_type']);
+			->from('#__privacy_requests')
+			->where('email = ' . $db->quote($validatedData['email']))
+			->where('request_type = ' . $db->quote($validatedData['request_type']))
+			->where('status IN (0, 1)');
 
 		$activeRequestCount = (int) $db->setQuery($query)->loadResult();
 
 		if ($activeRequestCount > 0)
 		{
-			$this->setError(Text::_('COM_PRIVACY_ERROR_ACTIVE_REQUEST_FOR_EMAIL'));
+			$this->setError(JText::_('COM_PRIVACY_ERROR_ACTIVE_REQUEST_FOR_EMAIL'));
 
 			return false;
 		}
 
 		return $validatedData;
-	}
-
-	/**
-	 * Method to fetch an instance of the action log model.
-	 *
-	 * @return  ActionlogModel
-	 *
-	 * @since   4.0.0
-	 */
-	private function getActionlogModel(): ActionlogModel
-	{
-		return Factory::getApplication()->bootComponent('Actionlogs')
-			->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
 	}
 }
