@@ -19,7 +19,7 @@
 	</media>
 	<administration>
 		<files folder="admin">
-			<filename>contenthistory.xml</filename>			
+			<filename>contenthistory.xml</filename>
 			<folder>Controller</folder>
 			<folder>Dispatcher</folder>
 			<folder>Helper</folder>
@@ -30,8 +30,8 @@
 			<folder>View</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_contenthistory.ini</language>
-			<language tag="en-GB">language/en-GB.com_contenthistory.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_contenthistory.ini</language>
+			<language tag="en-GB">language/en-GB/com_contenthistory.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

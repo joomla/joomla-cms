@@ -520,11 +520,11 @@ class LanguageAdapter extends InstallerAdapter
 		// Create an unpublished content language.
 		if ((int) $clientId === 0)
 		{
-			$manifestfile = JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml';
+			$manifestfile = JPATH_SITE . '/language/' . $this->tag . '/langmetadata.xml';
 
 			if (!is_file($manifestfile))
 			{
-				$manifestfile = JPATH_SITE . '/language/' . $this->tag . '/langmetadata.xml';
+				$manifestfile = JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml';
 			}
 
 			// Load the site language manifest.
@@ -545,11 +545,11 @@ class LanguageAdapter extends InstallerAdapter
 			// Try to load a language string from the installation language var. Will be removed in 4.0.
 			if ($contentLanguageNativeTitle === $contentLanguageTitle)
 			{
-				$manifestfile = JPATH_INSTALLATION . '/language/' . $this->tag . '/' . $this->tag . '.xml';
+				$manifestfile = JPATH_INSTALLATION . '/language/' . $this->tag . '/langmetadata.xml';
 
 				if (!is_file($manifestfile))
 				{
-					$manifestfile = JPATH_INSTALLATION . '/language/' . $this->tag . '/langmetadata.xml';
+					$manifestfile = JPATH_INSTALLATION . '/language/' . $this->tag . '/' . $this->tag . '.xml';
 				}
 
 				if (file_exists($manifestfile))
@@ -914,11 +914,11 @@ class LanguageAdapter extends InstallerAdapter
 	public function refreshManifestCache()
 	{
 		$client       = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
-		$manifestPath = $client->path . '/language/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
+		$manifestPath = $client->path . '/language/' . $this->parent->extension->element . '/langmetadata.xml';
 
 		if (!is_file($manifestPath))
 		{
-			$manifestPath = $client->path . '/language/' . $this->parent->extension->element . '/langmetadata.xml';
+			$manifestPath = $client->path . '/language/' . $this->parent->extension->element . '/' . $this->parent->extension->element . '.xml';
 		}
 
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);

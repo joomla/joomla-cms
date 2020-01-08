@@ -9,10 +9,12 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::_('webcomponent', 'system/joomla-toolbar-button.min.js', ['version' => 'auto', 'relative' => true]);
+Factory::getDocument()->getWebAssetManager()
+	->useScript('webcomponent.toolbar-button');
 
 /**
  * Generic toolbar button layout to open a modal
@@ -57,4 +59,4 @@ echo HTMLHelper::_('bootstrap.renderModal',
 						. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
 	]
 );
-?>
+

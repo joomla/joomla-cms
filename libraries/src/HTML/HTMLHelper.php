@@ -750,6 +750,10 @@ abstract class HTMLHelper
 	 * @see     HTMLHelper::script()
 	 *
 	 * @return  void
+	 *
+	 * @deprecated 4.0
+	 *
+	 * @TODO: Remove the method after installation will use AssetManager
 	 */
 	public static function webcomponent(string $file, array $options = [])
 	{
