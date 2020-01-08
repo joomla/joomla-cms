@@ -98,8 +98,12 @@ class Session implements ServiceProviderInterface
 				$config = $container->get('config');
 				$app    = Factory::getApplication();
 
-				// Generate a session name.
-				$name = ApplicationHelper::getHash($config->get('session_name', InstallationApplication::class));
+				/**
+				 * Generate a session name - unlike all the other apps we don't have either a secret or a session name
+				 * (that's not the app name) until we complete installation which then leads to us dropping things like
+				 * language preferences after installation as the app refreshes.
+				 */
+				$name = md5(InstallationApplication::class);
 
 				// Calculate the session lifetime.
 				$lifetime = $config->get('lifetime') ? $config->get('lifetime') * 60 : 900;
