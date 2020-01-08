@@ -58,9 +58,14 @@ class Banner
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('id As value, name As text')
-			->from('#__banner_clients AS a')
-			->order('a.name');
+			->select(
+				[
+					$db->quoteName('id', 'value'),
+					$db->quoteName('name', 'text'),
+				]
+			)
+			->from($db->quoteName('#__banner_clients'))
+			->order($db->quoteName('name'));
 
 		// Get the options.
 		$db->setQuery($query);

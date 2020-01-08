@@ -1693,7 +1693,7 @@ abstract class AdminModel extends FormModel
 			return false;
 		}
 
-		$languages = LanguageHelper::getContentLanguages(array(0, 1));
+		$languages = LanguageHelper::getContentLanguages(array(0, 1), false);
 		$target    = '';
 
 		/*

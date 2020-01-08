@@ -38,6 +38,11 @@
     font-size: 2rem;
     color: $white-offset;
 
+    [dir=rtl] & {
+      margin-left: auto;
+      margin-right: 0;
+    }
+
     img {
       width: 290px;
       min-width: 290px;
