@@ -17,6 +17,9 @@ Factory::getDocument()->getWebAssetManager()
 
 $title = Text::_('JTOOLBAR_DELETE');
 ?>
-<joomla-toolbar-button id="mediaDelete" class="btn btn-sm btn-danger" onclick="MediaManager.Event.fire('onClickDelete');">
-	<span class="icon-delete"></span> <?php echo $title; ?>
+<joomla-toolbar-button>
+	<button id="mediaDelete" class="btn btn-sm btn-danger" onclick="MediaManager.Event.fire('onClickDelete');">
+		<span class="icon-delete" aria-hidden="true"></span>
+		<?php echo $title; ?>
+	</button>
 </joomla-toolbar-button>
