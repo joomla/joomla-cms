@@ -40,6 +40,13 @@
 		/>
 
 		<menuitem
+			title="MOD_MENU_EMPTY_TRASH"
+			type="component"
+			element="com_trash"
+			link="index.php?option=com_trash"
+		/>
+
+		<menuitem
 			title="MOD_MENU_SYSTEM_INFORMATION"
 			type="component"
 			element="com_admin"
