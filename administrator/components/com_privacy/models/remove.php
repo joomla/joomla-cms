@@ -70,7 +70,7 @@ class PrivacyModelRemove extends JModelLegacy
 			$db->getQuery(true)
 				->select('id')
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = ' . $db->quote($table->email)),
+				->where('LOWER(' . $db->quoteName('email') . ') = LOWER(' . $db->quote($table->email) . ')'),
 			0,
 			1
 		)->loadResult();
