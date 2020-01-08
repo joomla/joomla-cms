@@ -99,6 +99,12 @@ class Session implements ServiceProviderInterface
 				$app    = Factory::getApplication();
 
 				/**
+				 * Session handler for the session is always filesystem so it doesn't flip to the database after
+				 * configuration.php has been written to
+				 */
+				$config->set('session_handler', 'filesystem');
+
+				/**
 				 * Generate a session name - unlike all the other apps we don't have either a secret or a session name
 				 * (that's not the app name) until we complete installation which then leads to us dropping things like
 				 * language preferences after installation as the app refreshes.
