@@ -37,7 +37,8 @@ HTMLHelper::_('script', 'legacy/treeselectmenu.min.js', ['version' => 'auto', 'r
 				<a id="treeCheckAll" href="javascript://"><?php echo Text::_('JNONE'); ?></a>
 			</span>
 			<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query"
-				autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>" aria-invalid="false" tabindex="-1">
+				autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
+				aria-invalid="false" aria-label="<?php echo Text::_('JSEARCH_FILTER'); ?>">
 		</div>
 
 		<hr>
