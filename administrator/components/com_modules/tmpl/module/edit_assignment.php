@@ -49,7 +49,7 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 				</span>
 				<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query float-right" size="16"
 					autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
-					aria-invalid="false" aria-label=<?php echo Text::_('JSEARCH_FILTER'); ?>>
+					aria-invalid="false" aria-label="<?php echo Text::_('JSEARCH_FILTER'); ?>">
 			</div>
 			<div class="card-body">
 				<ul class="treeselect">
