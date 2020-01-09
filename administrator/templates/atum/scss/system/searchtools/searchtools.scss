@@ -198,7 +198,6 @@
         background-color: var(--atum-bg-dark);
         color: var(--atum-text-light);
         border:1px solid var(--border);
-        border-left: 1px solid var(--atum-text-light);
 
         [dir=rtl] & {
           margin-left: 5px;
@@ -214,7 +213,6 @@
         &.disabled,
         &:disabled {
           background-color: rgba($gray-300, 0.8);
-          border-color: rgba($gray-500, 0.8);
           opacity:1;
           color:var(--atum-text-dark);
           cursor: not-allowed;
@@ -243,6 +241,12 @@
 
     .input-append {
       margin-bottom: 0;
+    }
+
+    .input-group-append {
+      .btn {
+        border-color: var(--border);
+      }
     }
 
     .btn-primary .caret {
