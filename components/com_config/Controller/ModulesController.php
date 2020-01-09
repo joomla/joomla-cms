@@ -75,7 +75,7 @@ class ModulesController extends BaseController
 		$this->checkToken();
 
 		// Check if the user is authorized to do this.
-		$user = Factory::getUser();
+		$user = $this->app->getIdentity();
 
 		if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id'))
 			&& !$user->authorise('module.edit.frontend', 'com_modules'))
@@ -105,19 +105,19 @@ class ModulesController extends BaseController
 		// Reset Uri cache.
 		Uri::reset();
 
+		// Get a document object
+		$document = $this->app->getDocument();
+
 		// Load application dependencies.
 		$app->loadLanguage($this->app->getLanguage());
-		$app->loadDocument($this->app->getDocument());
-		$app->loadIdentity($this->app->getIdentity());
+		$app->loadDocument($document);
+		$app->loadIdentity($user);
 
 		/** @var \Joomla\CMS\Dispatcher\ComponentDispatcher $dispatcher */
 		$dispatcher = $app->bootComponent('com_modules')->getDispatcher($app);
 
 		/** @var ModuleController $controllerClass */
 		$controllerClass = $dispatcher->getController('Module');
-
-		// Get a document object
-		$document = Factory::getDocument();
 
 		// Set backend required params
 		$document->setType('json');
