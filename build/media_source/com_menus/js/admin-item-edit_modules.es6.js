@@ -15,7 +15,7 @@ Joomla = window.Joomla || {};
     window.menuId = parseInt(options.itemId, 10);
   }
 
-  const baseLink = 'index.php?option=com_modules&amp;client_id=0&amp;task=module.edit&amp;tmpl=component&amp;view=module&amp;layout=modal&amp;id=';
+  const baseLink = 'index.php?option=com_modules&client_id=0&task=module.edit&tmpl=component&view=module&layout=modal&id=';
   const assigned1 = document.getElementById('jform_toggle_modules_assigned1');
   const assigned0 = document.getElementById('jform_toggle_modules_assigned0');
   const published1 = document.getElementById('jform_toggle_modules_published1');
@@ -66,17 +66,17 @@ Joomla = window.Joomla || {};
   if (linkElements.length) {
     linkElements.forEach((linkElement) => {
       linkElement.addEventListener('click', (event) => {
-        const link = baseLink + event.target.getAttribute('data-moduleId');
+        const link = baseLink + event.target.getAttribute('data-module-id');
         const modal = document.getElementById('moduleEditModal');
+        const body = modal.querySelector('.modal-body');
+        const iFrame = document.createElement('iframe');
 
-        modal.addEventListener('show.bs.modal', (ev) => {
-          const iFrame = document.createElement('iframe');
-          iFrame.src = link;
-          iFrame.setAttribute('class', 'class="iframe jviewport-height70"');
-          const body = ev.target.querySelector('.modal-body');
-          body.innerHTML = '';
-          body.appendChild(iFrame);
-        });
+        iFrame.src = link;
+        iFrame.setAttribute('class', 'class="iframe jviewport-height70"');
+        body.innerHTML = '';
+        body.appendChild(iFrame);
+
+        modal.open();
       });
     });
   }
@@ -88,8 +88,8 @@ Joomla = window.Joomla || {};
 
         if (target) {
           const iframe = document.querySelector('#moduleEditModal iframe');
-          iframe.contents().querySelector(target).click();
-        }
+          const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+          iframeDocument.querySelector(target).click();        }
       });
     });
   }
