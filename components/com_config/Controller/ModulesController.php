@@ -102,6 +102,9 @@ class ModulesController extends BaseController
 		/** @var AdministratorApplication $app */
 		$app = Factory::getContainer()->get(AdministratorApplication::class);
 
+		// Reset Uri cache.
+		Uri::reset();
+
 		// Load application dependencies.
 		$app->loadLanguage($this->app->getLanguage());
 		$app->loadDocument($this->app->getDocument());
