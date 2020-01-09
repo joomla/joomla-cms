@@ -122,7 +122,7 @@ class TemplatesController extends BaseController
 		$this->setMessage($message);
 
 		// Redirect back to com_config display
-		$this->redirect(Route::_('index.php?option=com_config&view=templates', false));
+		$this->setRedirect(Route::_('index.php?option=com_config&view=templates', false));
 
 		return true;
 	}
