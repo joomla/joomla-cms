@@ -110,14 +110,7 @@
     @include media-breakpoint-down(sm) {
       float: none !important;
       width: 100%;
-
-      [dir=ltr] & {
-        margin-right: 0;
-      }
-
-      [dir=rtl] & {
-        margin-right: 0;
-      }
+      margin-right: 0;
     }
 
     @include media-breakpoint-down(xs) {
@@ -168,14 +161,7 @@
     @include media-breakpoint-down(sm) {
       float: none !important;
       width: 100%;
-
-      [dir=ltr] & {
-        margin-right: 0;
-      }
-
-      [dir=rtl] & {
-        margin-right: 0;
-      }
+      margin-right: 0;
     }
 
     @include media-breakpoint-down(xs) {
