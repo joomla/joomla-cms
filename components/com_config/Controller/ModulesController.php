@@ -101,7 +101,11 @@ class ModulesController extends BaseController
 
 		/** @var AdministratorApplication $app */
 		$app = Factory::getContainer()->get(AdministratorApplication::class);
+
+		// Load application dependencies.
 		$app->loadLanguage($this->app->getLanguage());
+		$app->loadDocument($this->app->getDocument());
+		$app->loadIdentity($this->app->getIdentity());
 
 		/** @var \Joomla\CMS\Dispatcher\ComponentDispatcher $dispatcher */
 		$dispatcher = $app->bootComponent('com_modules')->getDispatcher($app);
