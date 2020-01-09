@@ -113,8 +113,8 @@ class TrashModel extends ListModel
 			}
 
 			$query = $db->getQuery(true)
-					->delete($db->quoteName($tn))
-					->where( $column . ' = -2');
+				->delete($db->quoteName($tn))
+				->where($column . ' = -2');
 
 			$db->setQuery($query);
 
@@ -179,13 +179,12 @@ class TrashModel extends ListModel
 
 				$fields = $db->getTableColumns($tn);
 
-				// only work with the tables that have a state or published column
+				// Only work with the tables that have either a state or a published column
 				if (!(isset($fields['state'])) && !(isset($fields['published'])))
 				{
 					unset($tables[$i]);
 					continue;
 				}
-
 			}
 
 			foreach ($tables as $tn)
@@ -205,7 +204,7 @@ class TrashModel extends ListModel
 				$query = $db->getQuery(true)
 					->select('COUNT(*)')
 					->from($db->quoteName($tn))
-					->where( $column . ' = -2');
+					->where($column . ' = -2');
 
 				$db->setQuery($query);
 
