@@ -89,7 +89,8 @@ Joomla = window.Joomla || {};
         if (target) {
           const iframe = document.querySelector('#moduleEditModal iframe');
           const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-          iframeDocument.querySelector(target).click();        }
+          iframeDocument.querySelector(target).click();
+        }
       });
     });
   }
