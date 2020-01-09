@@ -114,22 +114,17 @@
     }
 
     @include media-breakpoint-down(xs) {
-      float: none !important;
-      width: 100%;
-
       [dir=ltr] & {
         margin-right: 0;
       }
 
       [dir=rtl] & {
-        margin-right: 0;
         margin-left: 0;
       }
     }
 
     .js-stools-field-selector {
       @include media-breakpoint-down(sm) {
-        max-width: 100%;
         margin-right: 0;
 
         [dir=rtl] & {
@@ -138,11 +133,9 @@
       }
 
       @include media-breakpoint-down(xs) {
-        max-width: 100%;
         margin-right: .5rem;
 
         [dir=rtl] & {
-          margin-right: 0;
           margin-left: 0;
         }
       }
@@ -165,15 +158,12 @@
     }
 
     @include media-breakpoint-down(xs) {
-      float: none !important;
-      width: 100%;
-
       [dir=ltr] & {
         margin-right: 0;
       }
 
       [dir=rtl] & {
-        margin-right: 0;
+        //margin-right: 0;
         margin-left: 0;
       }
     }
@@ -189,7 +179,6 @@
       }
 
       @include media-breakpoint-down(xs) {
-        max-width: 100%;
         margin-right: .5rem;
 
         [dir=rtl] & {
