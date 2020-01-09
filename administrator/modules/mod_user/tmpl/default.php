@@ -31,7 +31,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 	<div class="dropdown-menu dropdown-menu-right icons-left">
 		<div class="dropdown-header"><?php echo $user->name; ?></div>
 		<?php $uri   = Uri::getInstance(); ?>
-		<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri); ?>
+		<?php $route = 'index.php?option=com_admin&task=profile.edit&id=' . $user->id . '&return=' . base64_encode($uri); ?>
 		<div class="dropdown-item">
 			<a href="<?php echo Route::_($route); ?>">
 				<span class="fa fa-user" aria-hidden="true"></span>
@@ -39,7 +39,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			</a>
 		</div>
 		<div class="dropdown-item">
-			<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri); ?>
+			<?php $route = 'index.php?option=com_admin&task=profile.edit&id=' . $user->id . '&return=' . base64_encode($uri); ?>
 			<a href="<?php echo Route::_($route); ?>">
 				<span class="fa fa-universal-access" aria-hidden="true"></span>
 				<?php echo Text::_('MOD_USER_ACCESSIBILITY_SETTINGS'); ?>
