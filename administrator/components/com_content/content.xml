@@ -23,7 +23,7 @@
 		<folder>View</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_content.ini</language>
+		<language tag="en-GB">language/en-GB/com_content.ini</language>
 	</languages>
 	<media destination="com_content" folder="media">
 		<folder>js</folder>
@@ -47,8 +47,8 @@
 			<folder>View</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_content.ini</language>
-			<language tag="en-GB">language/en-GB.com_content.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_content.ini</language>
+			<language tag="en-GB">language/en-GB/com_content.sys.ini</language>
 		</languages>
 	</administration>
 </extension>
