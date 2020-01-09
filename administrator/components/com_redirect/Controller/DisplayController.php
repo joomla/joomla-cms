@@ -43,9 +43,6 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		// Load the submenu.
-		RedirectHelper::addSubmenu($this->input->get('view', 'links'));
-
 		$view   = $this->input->get('view', 'links');
 		$layout = $this->input->get('layout', 'default');
 		$id     = $this->input->getInt('id');
