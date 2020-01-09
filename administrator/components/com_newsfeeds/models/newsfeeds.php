@@ -157,7 +157,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$query->select(
 			$this->getState(
 				'list.select',
-				'DISTINCT a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid,' .
+				'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid,' .
 				' a.numarticles, a.cache_time, a.created_by,' .
 				' a.published, a.access, a.ordering, a.language, a.publish_up, a.publish_down'
 			)
@@ -253,33 +253,47 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		}
 
 		// Filter by a single or group of tags.
-		$hasTag = false;
-		$tagId  = $this->getState('filter.tag');
+		$tag = $this->getState('filter.tag');
 
-		if (is_numeric($tagId))
+		// Run simplified query when filtering by one tag.
+		if (\is_array($tag) && \count($tag) === 1)
 		{
-			$hasTag = true;
-
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
-		}
-		elseif (is_array($tagId))
-		{
-			$tagId = implode(',', ArrayHelper::toInteger($tagId));
-
-			if (!empty($tagId))
-			{
-				$hasTag = true;
-
-				$query->where($db->quoteName('tagmap.tag_id') . ' IN (' . $tagId . ')');
-			}
+			$tag = $tag[0];
 		}
 
-		if ($hasTag)
+		if ($tag && \is_array($tag))
 		{
-			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
-				. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-				. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_newsfeeds.newsfeed')
+			$tag = ArrayHelper::toInteger($tag);
+
+			$subQuery = $db->getQuery(true)
+				->select('DISTINCT ' . $db->quoteName('content_item_id'))
+				->from($db->quoteName('#__contentitem_tag_map'))
+				->where(
+					array(
+						$db->quoteName('tag_id') . ' IN (' . implode(',', $tag) . ')',
+						$db->quoteName('type_alias') . ' = ' . $db->quote('com_newsfeeds.newsfeed'),
+					)
+				);
+
+			$query->join(
+				'INNER',
+				'(' . $subQuery . ') AS ' . $db->quoteName('tagmap')
+					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 			);
+		}
+		elseif ($tag = (int) $tag)
+		{
+			$query->join(
+				'INNER',
+				$db->quoteName('#__contentitem_tag_map', 'tagmap')
+				. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+			)
+				->where(
+					array(
+						$db->quoteName('tagmap.tag_id') . ' = ' . $tag,
+						$db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_newsfeeds.newsfeed'),
+					)
+				);
 		}
 
 		// Add the list ordering clause.

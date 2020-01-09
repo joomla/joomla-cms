@@ -92,4 +92,4 @@ JLoader::register('LogException', JPATH_PLATFORM . '/legacy/log/logexception.php
 JLoader::register('JXMLElement', JPATH_PLATFORM . '/legacy/utilities/xmlelement.php');
 JLoader::register('JCli', JPATH_PLATFORM . '/legacy/application/cli.php');
 JLoader::register('JDaemon', JPATH_PLATFORM . '/legacy/application/daemon.php');
-JLoader::register('JApplication', JPATH_LIBRARIES . '/legacy/application/application.php');
+JLoader::register('JApplication', JPATH_PLATFORM . '/legacy/application/application.php');

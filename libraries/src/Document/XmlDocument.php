@@ -63,7 +63,7 @@ class XmlDocument extends Document
 	 */
 	public function render($cache = false, $params = array())
 	{
-		parent::render();
+		parent::render($cache, $params);
 
 		$disposition = $this->isDownload ? 'attachment' : 'inline';
 
