@@ -122,7 +122,6 @@
   }
 
   .cpanel-add-module {
-    background-color: var(--atum-bg-light);
     border: 0.125rem dashed var(--atum-link-color);
     position: relative;
     transition: all .3s ease-in;
@@ -130,7 +129,6 @@
     @include hover-focus-active() {
       border-color: var(--atum-bg-dark);
       text-decoration: none;
-      background-color: var(--white);
 
       .cpanel-add-module-icon {
 
