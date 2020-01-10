@@ -44,6 +44,7 @@ Text::script('JLIB_JS_AJAX_ERROR_NO_CONTENT');
 Text::script('JLIB_JS_AJAX_ERROR_OTHER');
 Text::script('JLIB_JS_AJAX_ERROR_PARSE');
 Text::script('JLIB_JS_AJAX_ERROR_TIMEOUT');
+Text::script('INSTL_DATABASE_RESPONSE_ERROR');
 
 // Load the JavaScript translated messages
 Text::script('INSTL_PROCESS_BUSY');
@@ -100,7 +101,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 										<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
 									</noscript>
 								</div>
-								<div id="container-installation" class="container-installation flex no-js" data-base-url="<?php echo Uri::root(); ?>" style="display:none">
+								<div id="container-installation" class="container-installation flex no-js hidden" data-base-url="<?php echo Uri::root(); ?>">
 									<jdoc:include type="component" />
 								</div>
 							</div>

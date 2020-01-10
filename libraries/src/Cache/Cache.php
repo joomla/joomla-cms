@@ -810,7 +810,7 @@ class Cache
 	 */
 	public static function getPlatformPrefix()
 	{
-		// No prefix when Global Config is set to no platfom specific prefix
+		// No prefix when Global Config is set to no platform specific prefix
 		if (!Factory::getApplication()->get('cache_platformprefix', '0'))
 		{
 			return '';

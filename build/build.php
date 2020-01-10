@@ -327,6 +327,7 @@ $doNotPackage = array(
 	'RoboFile.php',
 	'CODE_OF_CONDUCT.md',
 	'phpunit-pgsql.xml.dist',
+	'selenium.log',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',

@@ -21,17 +21,17 @@
 		</sql>
 	</uninstall>
 	<files folder="site">
-		<filename>dispatcher.php</filename>				
+		<filename>dispatcher.php</filename>
 		<filename>router.php</filename>
 		<folder>Controller</folder>
 		<folder>Helper</folder>
 		<folder>helpers</folder>
-		<folder>Model</folder>		
+		<folder>Model</folder>
 		<folder>tmpl</folder>
 		<folder>View</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_newsfeeds.ini</language>
+		<language tag="en-GB">language/en-GB/com_newsfeeds.ini</language>
 	</languages>
 	<media destination="com_newsfeeds" folder="media">
 		<folder>js</folder>
@@ -65,8 +65,8 @@
 			<folder>View</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_newsfeeds.ini</language>
-			<language tag="en-GB">language/en-GB.com_newsfeeds.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_newsfeeds.ini</language>
+			<language tag="en-GB">language/en-GB/com_newsfeeds.sys.ini</language>
 		</languages>
 	</administration>
 </extension>
