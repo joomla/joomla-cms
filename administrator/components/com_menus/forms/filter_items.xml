@@ -26,6 +26,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			hint="JSEARCH_FILTER"
 			noresults="JGLOBAL_NO_MATCHING_RESULTS"
 		/>

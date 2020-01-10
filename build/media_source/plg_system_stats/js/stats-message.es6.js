@@ -72,7 +72,7 @@ Joomla = window.Joomla || {};
           const json = JSON.parse(response);
           if (json && json.html) {
             messageContainer.innerHTML = json.html;
-            messageContainer.querySelector('.js-pstats-alert').style.display = 'block';
+            messageContainer.querySelector('.js-pstats-alert').classList.remove('hidden');
             initStatsEvents(getJson);
           }
         } catch (e) {
