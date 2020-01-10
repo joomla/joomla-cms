@@ -434,12 +434,11 @@ abstract class JLoader
 	 *
 	 * @throws  RuntimeException
 	 *
-	 * @note    The default argument of $type will be changed in J4 to be 'psr4'
 	 * @since   3.1.4
 	 */
-	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false, $type = 'psr0')
+	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false, $type = 'psr4')
 	{
-		if ($type !== 'psr0' && $type !== 'psr4')
+		if ($type !== 'psr4' && $type !== 'psr0')
 		{
 			throw new InvalidArgumentException('Type needs to be prs0 or psr4!');
 		}
