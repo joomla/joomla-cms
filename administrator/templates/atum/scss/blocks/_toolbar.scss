@@ -375,8 +375,7 @@ joomla-toolbar-button {
             width:100%;
         }
      }
-     .ordering-select,
-     .js-stools-container-selector {
+     .ordering-select {
         margin-right:.5rem;
         @include media-breakpoint-down(sm) {
           [dir=rtl] & {
