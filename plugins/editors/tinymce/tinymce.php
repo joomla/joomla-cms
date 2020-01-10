@@ -989,6 +989,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'nonbreaking'    => array('label' => 'Nonbreaking space', 'plugin' => 'nonbreaking'),
 			'emoticons'      => array('label' => 'Emoticons', 'plugin' => 'emoticons'),
 			'media'          => array('label' => 'Insert/edit video', 'plugin' => 'media'),
+			'image'          => array('label' => 'Insert/edit image', 'plugin' => 'image'),
 			'pagebreak'      => array('label' => 'Page break', 'plugin' => 'pagebreak'),
 			'print'          => array('label' => 'Print', 'plugin' => 'print'),
 			'preview'        => array('label' => 'Preview', 'plugin' => 'preview'),
