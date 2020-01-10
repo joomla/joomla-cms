@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @link   http://www.w3.org/TR/html-markup/input.password.html#input.password
  * @note   Two password fields may be validated as matching using JFormRuleEquals
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldPassword extends JFormField
 {
@@ -23,7 +23,7 @@ class JFormFieldPassword extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Password';
 
@@ -146,7 +146,7 @@ class JFormFieldPassword extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

@@ -125,6 +125,16 @@
 		/>
 
 		<field
+			name="note"
+			type="text"
+			label="COM_CONTENT_FIELD_NOTE_LABEL"
+			description="COM_CONTENT_FIELD_NOTE_DESC"
+			class="inputbox"
+			size="40"
+			maxlength="255"
+		/>
+
+		<field
 			name="version_note"
 			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
