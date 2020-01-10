@@ -6,6 +6,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_PRIVACY_FILTER_SEARCH_LABEL"
 			description="COM_PRIVACY_SEARCH_IN_USERNAME"
 			hint="JSEARCH_FILTER"
@@ -47,11 +48,12 @@
 			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.id DESC"
+			validate="options"
 			>
-			<option value="u.username ASC">COM_PRIVACY_HEADING_USERNAME_ASC</option>
-			<option value="u.username DESC">COM_PRIVACY_HEADING_USERNAME_DESC</option>
 			<option value="a.state ASC">COM_PRIVACY_HEADING_STATUS_ASC</option>
 			<option value="a.state DESC">COM_PRIVACY_HEADING_STATUS_DESC</option>
+			<option value="u.username ASC">COM_PRIVACY_HEADING_USERNAME_ASC</option>
+			<option value="u.username DESC">COM_PRIVACY_HEADING_USERNAME_DESC</option>
 			<option value="u.user_id ASC">COM_PRIVACY_HEADING_USERID_ASC</option>
 			<option value="u.user_id DESC">COM_PRIVACY_HEADING_USERID_DESC</option>
 			<option value="a.created ASC">COM_PRIVACY_HEADING_CREATED_ASC</option>
