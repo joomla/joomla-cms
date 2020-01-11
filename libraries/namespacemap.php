@@ -211,34 +211,35 @@ class JNamespacePsr4Map
 				}
 
 				// Normalize the namespace string
-				$namespace = str_replace('\\', '\\\\', $namespace) . '\\\\';
+				$namespace     = str_replace('\\', '\\\\', $namespace) . '\\\\';
+				$namespacePath = rtrim($extensionPath . $namespaceNode->attributes()->path, '/');
 
 				if ($type === 'plugin' || $type === 'library')
 				{
 					$baseDir = $type === 'plugin' ? 'JPATH_PLUGINS . \'' : 'JPATH_LIBRARIES . \'';
-					$path    = str_replace($type === 'plugin' ? JPATH_PLUGINS : JPATH_LIBRARIES, '', $extensionPath);
+					$path    = str_replace($type === 'plugin' ? JPATH_PLUGINS : JPATH_LIBRARIES, '', $namespacePath);
 
 					// Set the namespace
-					$extensions[$namespace] = $baseDir . $path . $namespaceNode->attributes()->path . '\'';
+					$extensions[$namespace] = $baseDir . $path . '\'';
 
 					continue;
 				}
 
 				// Check if we need to use administrator path
-				$isAdministrator = strpos($extensionPath, JPATH_ADMINISTRATOR) === 0;
-				$path            = str_replace($isAdministrator ? JPATH_ADMINISTRATOR : JPATH_SITE, '', $extensionPath);
+				$isAdministrator = strpos($namespacePath, JPATH_ADMINISTRATOR) === 0;
+				$path            = str_replace($isAdministrator ? JPATH_ADMINISTRATOR : JPATH_SITE, '', $namespacePath);
 
 				// Add the site path when a component
 				if ($type === 'component')
 				{
 					if (is_dir(JPATH_SITE . $path))
 					{
-						$extensions[$namespace . 'Site\\\\'] = 'JPATH_SITE . \'' . $path . $namespaceNode->attributes()->path . '\'';
+						$extensions[$namespace . 'Site\\\\'] = 'JPATH_SITE . \'' . $path . '\'';
 					}
 
 					if (is_dir(JPATH_API . $path))
 					{
-						$extensions[$namespace . 'Api\\\\'] = 'JPATH_API . \'' . $path . $namespaceNode->attributes()->path . '\'';
+						$extensions[$namespace . 'Api\\\\'] = 'JPATH_API . \'' . $path . '\'';
 					}
 				}
 
@@ -247,7 +248,7 @@ class JNamespacePsr4Map
 				$namespace .= $isAdministrator ? 'Administrator\\\\' : 'Site\\\\';
 
 				// Set the namespace
-				$extensions[$namespace] = $baseDir . $path . $namespaceNode->attributes()->path . '\'';
+				$extensions[$namespace] = $baseDir . $path . '\'';
 			}
 		}
 
