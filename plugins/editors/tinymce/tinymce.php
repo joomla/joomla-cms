@@ -959,6 +959,9 @@ class PlgEditorTinymce extends CMSPlugin
 			'outdent'       => array('label' => 'Decrease indent'),
 			'indent'        => array('label' => 'Increase indent'),
 
+			'forecolor'     => array('label' => 'Text colour'),
+			'backcolor'     => array('label' => 'Background text colour'),
+
 			'bullist'       => array('label' => 'Bullet list'),
 			'numlist'       => array('label' => 'Numbered list'),
 
