@@ -66,7 +66,7 @@ class JNamespacePsr4Map
 			$this->getNamespaces('component'),
 			$this->getNamespaces('module'),
 			$this->getNamespaces('plugin'),
-			$this->getNamespaces('library'),
+			$this->getNamespaces('library')
 		);
 
 		$this->writeNamespaceFile($extensions);
