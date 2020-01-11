@@ -19,8 +19,8 @@ HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
 
-Text::script('JSHOW');
-Text::script('JHIDE');
+Text::script('JSHOWPASSWORD');
+Text::script('JHIDEPASSWORD');
 ?>
 <form id="login-form-<?php echo $module->id; ?>" class="mod-login" action="<?php echo Route::_('index.php', true); ?>" method="post">
 
@@ -34,7 +34,7 @@ Text::script('JHIDE');
 		<div class="mod-login__username form-group">
 			<?php if (!$params->get('usetext', 0)) : ?>
 				<div class="input-group">
-					<input id="modlgn-username-<?php echo $module->id; ?>" type="text" name="username" class="form-control" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
+					<input id="modlgn-username-<?php echo $module->id; ?>" type="text" name="username" class="form-control" autocomplete="username" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 					<span class="input-group-append">
 						<label for="modlgn-username-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
 						<span class="input-group-text icon-user" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>"></span>
@@ -42,22 +42,23 @@ Text::script('JHIDE');
 				</div>
 			<?php else : ?>
 				<label for="modlgn-username-<?php echo $module->id; ?>"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
-				<input id="modlgn-username-<?php echo $module->id; ?>" type="text" name="username" class="form-control" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
+				<input id="modlgn-username-<?php echo $module->id; ?>" type="text" name="username" class="form-control" autocomplete="username" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 			<?php endif; ?>
 		</div>
 
 		<div class="mod-login__password form-group">
 			<?php if (!$params->get('usetext', 0)) : ?>
 				<div class="input-group">
-					<input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
+					<input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" autocomplete="current-password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
 					<span class="input-group-append">
-						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-						<span class="input-group-text icon-eye" aria-hidden="true"></span>
+						<button type="button" class="input-group-text icon-eye input-password-toggle">
+							<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+						</button>
 					</span>
 				</div>
 			<?php else : ?>
 				<label for="modlgn-passwd-<?php echo $module->id; ?>"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
-				<input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
+				<input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" autocomplete="current-password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
 			<?php endif; ?>
 		</div>
 
@@ -104,7 +105,7 @@ Text::script('JHIDE');
 			<ul class="mod-login__options list-unstyled">
 			<?php if ($usersConfig->get('allowUserRegistration')) : ?>
 				<li>
-					<a href="<?php echo Route::_('index.php?option=com_users&view=registration'); ?>">
+					<a href="<?php echo Route::_($registerLink); ?>">
 					<?php echo Text::_('MOD_LOGIN_REGISTER'); ?> <span class="icon-arrow-right"></span></a>
 				</li>
 			<?php endif; ?>

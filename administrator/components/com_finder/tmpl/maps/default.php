@@ -26,10 +26,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 ?>
 <form action="<?php echo Route::_('index.php?option=com_finder&view=maps'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<div id="j-sidebar-container" class="col-md-2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<div class="col-md-10">
+		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
@@ -106,26 +103,26 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 								<?php endif; ?>
 							</th>
 							<?php if (!$branchFilter) : ?>
-							<td class="text-center btns">
+							<td class="text-center btns itemnumber">
 							<?php if ($item->rgt - $item->lft > 1) : ?>
 								<a href="<?php echo Route::_('index.php?option=com_finder&view=maps&filter[branch]=' . $item->id); ?>">
-									<span class="badge badge-info"><?php echo floor(($item->rgt - $item->lft) / 2); ?></span></a>
+									<span class="btn btn-info"><?php echo floor(($item->rgt - $item->lft) / 2); ?></span></a>
 							<?php else : ?>
 								-
 							<?php endif; ?>
 							</td>
 							<?php endif; ?>
-							<td class="text-center btns">
+							<td class="text-center btns itemnumber">
 							<?php if ($item->level > 1) : ?>
-								<a class="badge <?php if ((int) $item->count_published > 0) echo 'badge-success'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=1&filter[content_map]=' . $item->id); ?>">
+								<a class="btn <?php if ((int) $item->count_published > 0) echo 'btn-success'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=1&filter[content_map]=' . $item->id); ?>">
 								<?php echo (int) $item->count_published; ?></a>
 							<?php else : ?>
 								-
 							<?php endif; ?>
 							</td>
-							<td class="text-center btns">
+							<td class="text-center btns itemnumber">
 							<?php if ($item->level > 1) : ?>
-								<a class="badge <?php echo ((int) $item->count_unpublished > 0) ? 'badge-danger' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=0&filter[content_map]=' . $item->id); ?>">
+								<a class="btn <?php echo ((int) $item->count_unpublished > 0) ? 'btn-danger' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=0&filter[content_map]=' . $item->id); ?>">
 								<?php echo (int) $item->count_unpublished; ?></a>
 							<?php else : ?>
 								-

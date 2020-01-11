@@ -43,6 +43,7 @@ $document = Factory::getDocument();
  * @var   array    $groups          Available user groups.
  * @var   array    $actions         Actions for the asset.
  * @var   integer  $assetId         Access parameters.
+ * @var   string   $component       The component.
  * @var   string   $section         The section.
  * @var   boolean  $isGlobalConfig  Current view is global config?
  * @var   boolean  $newItem         The new item.
@@ -52,8 +53,11 @@ $document = Factory::getDocument();
 
 // Add Javascript for permission change
 HTMLHelper::_('form.csrf');
-HTMLHelper::_('webcomponent', 'system/fields/joomla-field-permissions.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-tab.min.js', ['version' => 'auto', 'relative' => true]);
+Factory::getDocument()->getWebAssetManager()
+	->useStyle('webcomponent.field-permissions')
+	->useScript('webcomponent.field-permissions')
+	->useStyle('webcomponent.joomla-tab')
+	->useScript('webcomponent.joomla-tab');
 
 // Load JavaScript message titles
 Text::script('ERROR');
@@ -81,11 +85,11 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 	<?php
 	if ($section === 'component' || !$section)
 	{
-		echo Text::_('JLIB_RULES_SETTING_NOTES');
+		echo Text::alt('JLIB_RULES_SETTING_NOTES', $component);
 	}
 	else
 	{
-		echo Text::_('JLIB_RULES_SETTING_NOTES_ITEM');
+		echo Text::alt('JLIB_RULES_SETTING_NOTES_ITEM', $component . '_' . $section);
 	}
 	?>
 	</div>

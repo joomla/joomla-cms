@@ -19,7 +19,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('behavior.tabstate');
 
 $user      = Factory::getUser();
 $userId    = $user->get('id');
@@ -66,7 +65,7 @@ if ($saveOrder && !empty($this->items))
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%">
+								<th scope="col" style="width:10%" class="d-none">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTACT_FIELD_LINKED_USER_LABEL', 'ul.name', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
@@ -103,7 +102,7 @@ if ($saveOrder && !empty($this->items))
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
-								<td class="order text-center d-none d-md-table-cell">
+								<td class="text-center d-none d-md-table-cell">
 									<?php
 									$iconClass = '';
 									if (!$canChange)
@@ -119,8 +118,8 @@ if ($saveOrder && !empty($this->items))
 										<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 									</span>
 									<?php if ($canChange && $saveOrder) : ?>
-										<input type="text" style="display:none" name="order[]" size="5"
-											value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
+										<input type="text" name="order[]" size="5"
+											value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 									<?php endif; ?>
 								</td>
 								<td class="text-center">
@@ -149,7 +148,7 @@ if ($saveOrder && !empty($this->items))
 										</div>
 									</div>
 								</th>
-								<td class="small">
+								<td class="small d-none">
 									<?php if (!empty($item->linked_user)) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . $item->user_id); ?>"><?php echo $item->linked_user; ?></a>
 										<div class="small"><?php echo $item->email; ?></div>

@@ -2,8 +2,8 @@ const Copydir = require('copy-dir');
 const Fs = require('fs');
 const FsExtra = require('fs-extra');
 const Path = require('path');
-const RootPath = require('./utils/rootpath.es6.js')._();
 
+const RootPath = process.cwd();
 const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
 
 /**
@@ -26,7 +26,7 @@ const cleanVendors = () => {
     FsExtra.removeSync(Path.join(RootPath, 'media/vendor/debugbar/vendor/jquery'));
   } else {
     // eslint-disable-next-line no-console
-    console.error('You need to run `npm install` AFTER the command `composer install`!!!. The debug plugin HASN\'T install all its front end assets');
+    console.error('You need to run `npm install` AFTER the command `composer install`!!!. The debug plugin HASN\'T installed all its front end assets');
     process.exit(1);
   }
 };
@@ -266,49 +266,23 @@ const copyFiles = (options) => {
           package: packageName,
           name: assetInfo.name || vendorName,
           version: moduleOptions.version,
+          type: assetInfo.type,
         };
 
         if (assetInfo.dependencies && assetInfo.dependencies.length) {
           registryItem.dependencies = assetInfo.dependencies;
         }
 
-        // Update path for JS and CSS files
-        if (assetInfo.js && assetInfo.js.length) {
-          registryItem.js = [];
+        // Update path to file
+        if (assetInfo.uri && (assetInfo.type === 'script' || assetInfo.type === 'style' || assetInfo.type === 'webcomponent')) {
+          let itemPath = assetInfo.uri;
 
-          assetInfo.js.forEach((assetJS) => {
-            let itemPath = assetJS;
+          // Check for external path
+          if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
+            itemPath = `vendor/${vendorName}/${itemPath}`;
+          }
 
-            // Check for external path
-            if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
-              itemPath = `media/vendor/${vendorName}/js/${itemPath}`;
-            }
-            registryItem.js.push(itemPath);
-
-            // Check if there are any attribute to this file, then update the path
-            if (assetInfo.attribute && assetInfo.attribute[assetJS]) {
-              registryItem.attribute[itemPath] = assetInfo.attribute[assetJS];
-            }
-          });
-        }
-
-        if (assetInfo.css && assetInfo.css.length) {
-          registryItem.css = [];
-
-          assetInfo.css.forEach((assetCSS) => {
-            let itemPath = assetCSS;
-
-            // Check for external path
-            if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
-              itemPath = `media/vendor/${vendorName}/css/${itemPath}`;
-            }
-            registryItem.css.push(itemPath);
-
-            // Check if there are any attribute to this file, then update the path
-            if (assetInfo.attribute && assetInfo.attribute[assetCSS]) {
-              registryItem.attribute[itemPath] = assetInfo.attribute[assetCSS];
-            }
-          });
+          registryItem.uri = itemPath;
         }
 
         registry.assets.push(registryItem);

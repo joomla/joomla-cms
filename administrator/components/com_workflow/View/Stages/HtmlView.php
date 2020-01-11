@@ -19,7 +19,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Workflow\Workflow;
-use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
  * Stages view class for the Workflow package.
@@ -127,10 +126,6 @@ class HtmlView extends BaseHtmlView
 		$this->workflowID    = $this->workflow->id;
 		$this->extension     = $this->workflow->extension;
 
-		WorkflowHelper::addSubmenu('stages');
-
-		$this->sidebar       = \JHtmlSidebar::render();
-
 		if (!empty($this->stages))
 		{
 			$extension = Factory::getApplication()->input->getCmd('extension');
@@ -191,14 +186,13 @@ class HtmlView extends BaseHtmlView
 
 				$childBar = $dropdown->getChildToolbar();
 
-				$childBar->publish('stages.publish')->listCheck(true);
-				$childBar->unpublish('stages.unpublish')->listCheck(true);
+				$childBar->publish('stages.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
+				$childBar->unpublish('stages.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
 				$childBar->makeDefault('stages.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
 
 				if ($canDo->get('core.admin'))
 				{
-					// @ToDo Imlement the checked_out for workflows
-					// $childBar->checkin('stages.checkin', 'JTOOLBAR_CHECKIN', true);
+					$childBar->checkin('stages.checkin')->listCheck(true);
 				}
 
 				if ($this->state->get('filter.published') !== '-2')

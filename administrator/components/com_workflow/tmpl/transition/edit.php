@@ -18,7 +18,7 @@ HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 
 // In case of modal
-$isModal = $this->input->get('layout') == 'modal' ? true : false;
+$isModal = $this->input->get('layout') === 'modal';
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $this->input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 

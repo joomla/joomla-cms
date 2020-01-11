@@ -76,8 +76,7 @@ $this->useCoreUI = true;
 	</div>
 	<div id="com_users_twofactor_forms_container">
 		<?php foreach ($this->tfaform as $form) : ?>
-		<?php $style = $form['method'] == $this->otpConfig->method ? 'display: block' : 'display: none'; ?>
-		<div id="com_users_twofactor_<?php echo $form['method'] ?>" style="<?php echo $style; ?>">
+		<div id="com_users_twofactor_<?php echo $form['method'] ?>" class="hidden">
 			<?php echo $form['form'] ?>
 		</div>
 		<?php endforeach; ?>
@@ -111,6 +110,6 @@ $this->useCoreUI = true;
 	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 	<input type="hidden" name="task" value="">
-	<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>">
+	<input type="hidden" name="return" value="<?php echo $input->getBase64('return'); ?>">
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

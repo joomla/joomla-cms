@@ -31,6 +31,7 @@ $parts     = explode('.', $extension);
 $component = $parts[0];
 $section   = null;
 $mode      = false;
+$status    = $component === 'com_content' ? 'condition' : 'published';
 
 if (count($parts) > 1)
 {
@@ -160,7 +161,7 @@ if ($saveOrder && !empty($this->items))
 							<td class="text-center">
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
-							<td class="order text-center d-none d-md-table-cell">
+							<td class="text-center d-none d-md-table-cell">
 								<?php
 								$iconClass = '';
 								if (!$canChange)
@@ -176,7 +177,7 @@ if ($saveOrder && !empty($this->items))
 									<span class="fa fa-ellipsis-v"></span>
 								</span>
 								<?php if ($canChange && $saveOrder) : ?>
-									<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>">
+									<input type="text" class="hidden" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>">
 								<?php endif; ?>
 							</td>
 							<td class="text-center">
@@ -203,26 +204,26 @@ if ($saveOrder && !empty($this->items))
 							</th>
 
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
-							<td class="text-center btns d-none d-md-table-cell">
-								<a class="badge <?php echo $item->count_published > 0 ? 'badge-success' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=1'); ?>">
+							<td class="text-center btns d-none d-md-table-cell itemnumber">
+								<a class="btn <?php echo $item->count_published > 0 ? 'btn-success' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[' . $status . ']=1'); ?>">
 									<?php echo $item->count_published; ?></a>
 							</td>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
-							<td class="text-center btns d-none d-md-table-cell">
-								<a class="badge <?php echo $item->count_unpublished > 0 ? 'badge-danger' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=0'); ?>">
+							<td class="text-center btns d-none d-md-table-cell itemnumber">
+								<a class="btn <?php echo $item->count_unpublished > 0 ? 'btn-danger' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[' . $status . ']=0'); ?>">
 									<?php echo $item->count_unpublished; ?></a>
 							</td>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
-							<td class="text-center btns d-none d-md-table-cell">
-								<a class="badge <?php echo $item->count_archived > 0 ? 'badge-info' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=2'); ?>">
+							<td class="text-center btns d-none d-md-table-cell itemnumber">
+								<a class="btn <?php echo $item->count_archived > 0 ? 'btn-info' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[' . $status . ']=2'); ?>">
 									<?php echo $item->count_archived; ?></a>
 							</td>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
-							<td class="text-center btns d-none d-md-table-cell">
-								<a class="badge <?php echo $item->count_trashed > 0 ? 'badge-danger' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[published]=-2'); ?>">
+							<td class="text-center btns d-none d-md-table-cell itemnumber">
+								<a class="btn <?php echo $item->count_trashed > 0 ? 'btn-danger' : 'btn-secondary'; ?>" title="<?php echo Text::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=' . $component . ($mode ? '&extension=' . $section : '&view=' . $section) . '&filter[tag]=' . (int) $item->id . '&filter[' . $status . ']=-2'); ?>">
 									<?php echo $item->count_trashed; ?></a>
 							</td>
 						<?php endif; ?>

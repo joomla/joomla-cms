@@ -21,7 +21,8 @@ use Joomla\CMS\Uri\Uri;
  * =========================================================================================================
  */
 /** @var  \Joomla\Module\Menu\Administrator\Menu\CssMenu  $this */
-$class   = '';
+$class         = '';
+$currentParams = $current->getParams();
 
 // Build the CSS class suffix
 if (!$this->enabled)
@@ -40,7 +41,7 @@ elseif ($current->hasChildren())
 	{
 		$class = ' class="parent"';
 	}
-	elseif ($current->get('class') === 'scrollable-menu')
+	elseif ($current->class === 'scrollable-menu')
 	{
 		$class = ' class="dropdown scrollable-menu"';
 	}
@@ -81,19 +82,19 @@ else
 $linkClass = ' class="' . implode(' ', $linkClass) . '" ';
 
 // Get the menu link
-$link = $current->get('link');
+$link = $current->link;
 
 // Get the menu image class
-$itemIconClass = $current->get('params')['menu_icon'];
+$itemIconClass = $currentParams->get('menu_icon');
 
 // Get the menu image
-$itemImage = $current->get('params')['menu_image'];
+$itemImage = $currentParams->get('menu_image');
 
 // Get the menu icon
 $icon      = $this->getIconClass($current);
 $iconClass = ($icon != '' && $current->level == 1) ? '<span class="' . $icon . '" aria-hidden="true"></span>' : '';
 $ajax      = $current->ajaxbadge ? '<span class="menu-badge"><span class="fa fa-spin fa-spinner mt-1 system-counter" data-url="' . $current->ajaxbadge . '"></span></span>' : '';
-$iconImage = $current->get('icon');
+$iconImage = $current->icon;
 $homeImage = '';
 
 if ($iconClass === '' && $itemIconClass)
@@ -105,7 +106,8 @@ if ($iconImage)
 {
 	if (substr($iconImage, 0, 6) == 'class:' && substr($iconImage, 6) == 'icon-home')
 	{
-		$iconImage = '<span class="home-image icon-featured"></span>';
+		$iconImage = '<span class="home-image icon-featured" aria-hidden="true"></span>';
+		$iconImage .= '<span class="sr-only">' . Text::_('JDEFAULT') . '</span>';
 	}
 	elseif (substr($iconImage, 0, 6) == 'image:')
 	{
@@ -113,7 +115,7 @@ if ($iconImage)
 	}
 	else
 	{
-		$iconImage = '<span>' . HTMLHelper::_('image', $iconImage, null) . '</span>';
+		$iconImage = '';
 	}
 }
 
@@ -127,7 +129,7 @@ if ($link != '' && $current->target != '')
 }
 elseif ($link != '' && $current->type !== 'separator')
 {
-	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\">"
+	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" aria-label=\"" . Text::_($current->title) . "\">"
 		. $iconClass
 		. '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $iconImage . '</a>';
 }
@@ -146,7 +148,7 @@ else
 	echo '<span>' . Text::_($current->title) . '</span>' . $ajax;
 }
 
-if ($current->getParams()->get('menu-quicktask', false))
+if ($currentParams->get('menu-quicktask', false))
 {
 	$params = $current->getParams();
 	$user = $this->application->getIdentity();
@@ -180,13 +182,13 @@ if ($this->enabled && $current->hasChildren())
 {
 	if ($current->level > 1)
 	{
-		$id = $current->get('id') ? ' id="menu-' . strtolower($current->get('id')) . '"' : '';
+		$id = $current->id ? ' id="menu-' . strtolower($current->id) . '"' : '';
 
-		echo '<ul' . $id . ' class="collapse collapse-level-' . $current->level . '">' . "\n";
+		echo '<ul' . $id . ' class="mm-collapse collapse-level-' . $current->level . '">' . "\n";
 	}
 	else
 	{
-		echo '<ul id="collapse' . $this->getCounter() . '" class="collapse-level-1 collapse">' . "\n";
+		echo '<ul id="collapse' . $this->getCounter() . '" class="collapse-level-1 mm-collapse">' . "\n";
 	}
 
 	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call

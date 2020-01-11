@@ -2,6 +2,13 @@
 
 .custom-select {
   max-width: $input-max-width;
+  
+  [dir=rtl] & {
+    padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
+    background-position-x: 0%;
+    background-image: url(../images/select-bg-rtl.svg);
+  }
+
   &[multiple] {
     padding: 0;
     background-color: var(--white-offset);
@@ -32,7 +39,7 @@
     &.custom-select-danger {
       color: theme-color("danger");
       background-color: theme-color("danger");
-    border-color: theme-color("danger");
+      border-color: theme-color("danger");
 
       option {
         color: $custom-select-color;
@@ -42,5 +49,6 @@
   }
   optgroup, option {
     background-color: $white;
+    color: var(--atum-text-dark);
   }
 }

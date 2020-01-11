@@ -476,6 +476,11 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep8()
 	{
+		if ($this->app->input->get('type') !== $this->_name)
+		{
+			return;
+		}
+
 		$response['success'] = true;
 		$response['message'] = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP8_SUCCESS');
 
@@ -1107,7 +1112,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'created_by'       => (int) $this->getAdminId(),
 			'created_by_alias' => 'Joomla',
 			'publish_up'       => $currentDate,
-			'publish_down'     => $db->getNullDate(),
+			'publish_down'     => null,
 			'version'          => 1,
 			'catid'            => $categoryId,
 			'metadata'         => '{"robots":"","author":"","rights":"","tags":null}',
@@ -1143,7 +1148,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		$query = $db->getQuery(true)
 			->insert($db->quoteName('#__content_frontpage'))
-			->values($newId . ', 0');
+			->values($newId . ', 0, NULL, NULL');
 
 		$db->setQuery($query);
 
@@ -1249,7 +1254,13 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		foreach ($langlist as $lang)
 		{
-			$file          = $path . '/' . $lang . '/' . $lang . '.xml';
+			$file = $path . '/' . $lang . '/' . $lang . '.xml';
+
+			if (!is_file($file))
+			{
+				$file = $path . '/' . $lang . '/langmetadata.xml';
+			}
+
 			$info          = Installer::parseXMLInstallFile($file);
 			$row           = new stdClass;
 			$row->language = $lang;

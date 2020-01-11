@@ -90,7 +90,7 @@ if ($saveOrder && !empty($this->items))
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									<?php endif; ?>
 								</td>
-								<td class="order text-center d-none d-md-table-cell">
+								<td class="text-center d-none d-md-table-cell">
 									<?php
 									$iconClass = '';
 									if (!$canChange)
@@ -106,7 +106,7 @@ if ($saveOrder && !empty($this->items))
 										<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 									</span>
 									<?php if ($canChange && $saveOrder) : ?>
-										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
+										<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 									<?php endif; ?>
 								</td>
 								<th scope="row">

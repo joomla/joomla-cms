@@ -4,6 +4,8 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  'use strict';
+
   const title = document.getElementById('jform_title');
   title.dpOldValue = title.value;
 

@@ -68,7 +68,7 @@ abstract class QuickIconHelper
 				$tmp = [
 					'image'   => 'fa fa-users',
 					'link'    => Route::_('index.php?option=com_users&view=users'),
-					'linkadd' => Route::_('index.php?option=com_users&task=users.add'),
+					'linkadd' => Route::_('index.php?option=com_users&task=user.add'),
 					'name'    => 'MOD_QUICKICON_USER_MANAGER',
 					'access'  => array('core.manage', 'com_users', 'core.create', 'com_users'),
 					'group'   => 'MOD_QUICKICON_SITE',
@@ -268,7 +268,7 @@ abstract class QuickIconHelper
 						'name'    => null,
 						'linkadd' => null,
 						'access'  => true,
-						'class'   => true,
+						'class'   => null,
 						'group'   => 'MOD_QUICKICON',
 					);
 

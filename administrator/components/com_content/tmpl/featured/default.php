@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Button\ActionButton;
+use Joomla\CMS\Button\FeaturedButton;
 use Joomla\CMS\Button\PublishedButton;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -64,11 +64,7 @@ $js = <<<JS
 JS;
 
 // @todo mode the script to a file
-Factory::getDocument()->addScriptDeclaration($js);
-
-$featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
-	->addState(0, 'articles.featured', 'unfeatured', 'COM_CONTENT_UNFEATURED')
-	->addState(1, 'articles.unfeatured', 'featured', 'COM_CONTENT_FEATURED');
+$this->document->addScriptDeclaration($js);
 
 HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
 
@@ -190,7 +186,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
-								<td class="order text-center d-none d-md-table-cell">
+								<td class="text-center d-none d-md-table-cell">
 									<?php
 									$iconClass = '';
 
@@ -207,11 +203,19 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 									</span>
 									<?php if ($canChange && $saveOrder) : ?>
-										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
+										<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 									<?php endif; ?>
 								</td>
 								<td class="text-center">
-									<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
+									<?php
+
+										$options = [
+											'disabled' => !$canChange
+										];
+
+										echo (new FeaturedButton)
+											->render($item->featured, $i, $options, $item->featured_up, $item->featured_down);
+									?>
 								</td>
 								<td class="article-status">
 									<div class="d-flex">
@@ -229,10 +233,10 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 													->removeState(1)
 													->removeState(2)
 													->removeState(-2)
-													->addState(ContentComponent::CONDITION_PUBLISHED, '', 'publish', 'COM_CONTENT_CHANGE_STAGE', ['tip_title' => 'JPUBLISHED'])
-													->addState(ContentComponent::CONDITION_UNPUBLISHED, '', 'unpublish', 'COM_CONTENT_CHANGE_STAGE', ['tip_title' => 'JUNPUBLISHED'])
-													->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', 'COM_CONTENT_CHANGE_STAGE', ['tip_title' => 'JARCHIVED'])
-													->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', 'COM_CONTENT_CHANGE_STAGE', ['tip_title' => 'JTRASHED'])
+													->addState(ContentComponent::CONDITION_PUBLISHED, '', 'publish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JPUBLISHED')])
+													->addState(ContentComponent::CONDITION_UNPUBLISHED, '', 'unpublish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JUNPUBLISHED')])
+													->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JARCHIVED')])
+													->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JTRASHED')])
 													->setLayout('joomla.button.transition-button')
 													->render($item->stage_condition, $i, $options, $item->publish_up, $item->publish_down);
 										?>
@@ -261,7 +265,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 											<?php
 											$ParentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
 											$CurrentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content');
-											$EditCatTxt = Text::_('JACTION_EDIT') . ' ' . Text::_('JCATEGORY');
+											$EditCatTxt = Text::_('COM_CONTENT_EDIT_CATEGORY');
 											echo Text::_('JCATEGORY') . ': ';
 											if ($item->category_level != '1') :
 												if ($item->parent_category_level != '1') :

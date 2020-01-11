@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -60,9 +61,7 @@ class NewsfeedsModel extends ListModel
 				'tag',
 			);
 
-			$assoc = Associations::isEnabled();
-
-			if ($assoc)
+			if (Associations::isEnabled())
 			{
 				$config['filter_fields'][] = 'association';
 			}
@@ -156,76 +155,64 @@ class NewsfeedsModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'DISTINCT a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid,' .
-				' a.numarticles, a.cache_time, a.created_by,' .
-				' a.published, a.access, a.ordering, a.language, a.publish_up, a.publish_down'
+				[
+					$db->quoteName('a.id'),
+					$db->quoteName('a.name'),
+					$db->quoteName('a.alias'),
+					$db->quoteName('a.checked_out'),
+					$db->quoteName('a.checked_out_time'),
+					$db->quoteName('a.catid'),
+					$db->quoteName('a.numarticles'),
+					$db->quoteName('a.cache_time'),
+					$db->quoteName('a.created_by'),
+					$db->quoteName('a.published'),
+					$db->quoteName('a.access'),
+					$db->quoteName('a.ordering'),
+					$db->quoteName('a.language'),
+					$db->quoteName('a.publish_up'),
+					$db->quoteName('a.publish_down'),
+					$db->quoteName('l.title', 'language_title'),
+					$db->quoteName('l.image', 'language_image'),
+					$db->quoteName('uc.name', 'editor'),
+					$db->quoteName('ag.title', 'access_level'),
+					$db->quoteName('c.title', 'category_title'),
+				]
 			)
-		);
-		$query->from($db->quoteName('#__newsfeeds', 'a'));
-
-		// Join over the language
-		$query->select($db->quoteName('l.title', 'language_title'))
-			->select($db->quoteName('l.image', 'language_image'))
-			->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON ' . $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'));
-
-		// Join over the users for the checked out user.
-		$query->select($db->quoteName('uc.name', 'editor'))
-			->join('LEFT', $db->quoteName('#__users', 'uc') . ' ON ' . $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'));
-
-		// Join over the asset groups.
-		$query->select($db->quoteName('ag.title', 'access_level'))
-			->join('LEFT', $db->quoteName('#__viewlevels', 'ag') . ' ON ' . $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'));
-
-		// Join over the categories.
-		$query->select($db->quoteName('c.title', 'category_title'))
-			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'));
+		)
+			->from($db->quoteName('#__newsfeeds', 'a'))
+			->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'))
+			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'))
+			->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'))
+			->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'));
 
 		// Join over the associations.
-		$assoc = Associations::isEnabled();
-
-		if ($assoc)
+		if (Associations::isEnabled())
 		{
-			$query->select('COUNT(asso2.id)>1 AS association')
-				->join('LEFT', $db->quoteName('#__associations', 'asso') . ' ON asso.id = a.id AND asso.context = ' . $db->quote('com_newsfeeds.item'))
-				->join('LEFT', $db->quoteName('#__associations', 'asso2') . ' ON asso2.key = asso.key')
-				->group(
-					$db->quoteName(
-						array(
-							'a.id',
-							'a.name',
-							'a.alias',
-							'a.checked_out',
-							'a.checked_out_time',
-							'a.catid',
-							'a.numarticles',
-							'a.cache_time',
-							'a.created_by',
-							'a.published',
-							'a.access',
-							'a.ordering',
-							'a.language',
-							'a.publish_up',
-							'a.publish_down',
-							'l.title',
-							'l.image',
-							'uc.name',
-							'ag.title',
-							'c.title',
-						)
-					)
+			$subQuery = $db->getQuery(true)
+				->select('COUNT(' . $db->quoteName('asso1.id') . ') > 1')
+				->from($db->quoteName('#__associations', 'asso1'))
+				->join('INNER', $db->quoteName('#__associations', 'asso2'), $db->quoteName('asso1.key') . ' = ' . $db->quoteName('asso2.key'))
+				->where(
+					[
+						$db->quoteName('asso1.id') . ' = ' . $db->quoteName('a.id'),
+						$db->quoteName('asso1.context') . ' = ' . $db->quote('com_newsfeeds.item'),
+					]
 				);
+
+			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('association'));
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
+		if ($access = (int) $this->getState('filter.access'))
 		{
-			$query->where($db->quoteName('a.access') . ' = ' . (int) $access);
+			$query->where($db->quoteName('a.access') . ' = :access')
+				->bind(':access', $access, ParameterType::INTEGER);
 		}
 
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-			$query->where($db->quoteName('a.access') . ' IN (' . implode(',', $user->getAuthorisedViewLevels()) . ')');
+			$query->whereIn($db->quoteName('a.access'), $user->getAuthorisedViewLevels());
 		}
 
 		// Filter by published state.
@@ -233,7 +220,9 @@ class NewsfeedsModel extends ListModel
 
 		if (is_numeric($published))
 		{
-			$query->where($db->quoteName('a.published') . ' = ' . (int) $published);
+			$published = (int) $published;
+			$query->where($db->quoteName('a.published') . ' = :published')
+				->bind(':published', $published, ParameterType::INTEGER);
 		}
 		elseif ($published === '')
 		{
@@ -245,65 +234,85 @@ class NewsfeedsModel extends ListModel
 
 		if (is_numeric($categoryId))
 		{
-			$query->where($db->quoteName('a.catid') . ' = ' . (int) $categoryId);
+			$categoryId = (int) $categoryId;
+			$query->where($db->quoteName('a.catid') . ' = :categoryId')
+				->bind(':categoryId', $categoryId, ParameterType::INTEGER);
 		}
 
 		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
+		if ($level = (int) $this->getState('filter.level'))
 		{
-			$query->where($db->quoteName('c.level') . ' <= ' . (int) $level);
+			$query->where($db->quoteName('c.level') . ' <= :level')
+				->bind(':level', $level, ParameterType::INTEGER);
 		}
 
 		// Filter by search in title
-		$search = $this->getState('filter.search');
-
-		if (!empty($search))
+		if ($search = $this->getState('filter.search'))
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where($db->quoteName('a.id') . ' = ' . (int) substr($search, 3));
+				$search = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :search')
+					->bind(':search', $search, ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.name LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
+				$search = '%' . str_replace(' ', '%', trim($search)) . '%';
+				$query->where('(' . $db->quoteName('a.name') . ' LIKE :search1 OR ' . $db->quoteName('a.alias') . ' LIKE :search2)')
+					->bind([':search1', ':search2'], $search);
 			}
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
+			$query->where($db->quoteName('a.language') . ' = :language')
+				->bind(':language', $language);
 		}
 
 		// Filter by a single or group of tags.
-		$hasTag = false;
-		$tagId  = $this->getState('filter.tag');
+		$tag = $this->getState('filter.tag');
 
-		if (is_numeric($tagId))
+		// Run simplified query when filtering by one tag.
+		if (\is_array($tag) && \count($tag) === 1)
 		{
-			$hasTag = true;
-
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
-		}
-		elseif (is_array($tagId))
-		{
-			$tagId = implode(',', ArrayHelper::toInteger($tagId));
-
-			if (!empty($tagId))
-			{
-				$hasTag = true;
-
-				$query->where($db->quoteName('tagmap.tag_id') . ' IN (' . $tagId . ')');
-			}
+			$tag = $tag[0];
 		}
 
-		if ($hasTag)
+		if ($tag && \is_array($tag))
 		{
-			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
-				. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-				. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_newsfeeds.newsfeed')
+			$tag = ArrayHelper::toInteger($tag);
+
+			$subQuery = $db->getQuery(true)
+				->select('DISTINCT ' . $db->quoteName('content_item_id'))
+				->from($db->quoteName('#__contentitem_tag_map'))
+				->where(
+					[
+						$db->quoteName('tag_id') . ' IN (' . implode(',', $query->bindArray($tag)) . ')',
+						$db->quoteName('type_alias') . ' = ' . $db->quote('com_newsfeeds.newsfeed'),
+					]
+				);
+
+			$query->join(
+				'INNER',
+				'(' . $subQuery . ') AS ' . $db->quoteName('tagmap'),
+				$db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
 			);
+		}
+		elseif ($tag = (int) $tag)
+		{
+			$query->join(
+				'INNER',
+				$db->quoteName('#__contentitem_tag_map', 'tagmap'),
+				$db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+			)
+				->where(
+					[
+						$db->quoteName('tagmap.tag_id') . ' = :tag',
+						$db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_newsfeeds.newsfeed'),
+					]
+				)
+				->bind(':tag', $tag, ParameterType::INTEGER);
 		}
 
 		// Add the list ordering clause.
@@ -312,10 +321,17 @@ class NewsfeedsModel extends ListModel
 
 		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
 		{
-			$orderCol = 'c.title ' . $orderDirn . ', a.ordering';
+			$ordering = [
+				$db->quoteName('c.title') . ' ' . $db->escape($orderDirn),
+				$db->quoteName('a.ordering') . ' ' . $db->escape($orderDirn),
+			];
+		}
+		else
+		{
+			$ordering = $db->quoteName($db->escape($orderCol)) . ' ' . $db->escape($orderDirn);
 		}
 
-		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		$query->order($ordering);
 
 		return $query;
 	}

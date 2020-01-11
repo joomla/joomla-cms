@@ -104,8 +104,9 @@ else
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
-Factory::getDocument()->getWebAssetManager()->enableAsset('choicesjs');
-HTMLHelper::_('webcomponent', 'system/fields/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
+Factory::getDocument()->getWebAssetManager()
+	->usePreset('choicesjs')
+	->useScript('webcomponent.field-fancy-select');
 
 ?>
 

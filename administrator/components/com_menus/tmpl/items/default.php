@@ -138,7 +138,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
 								<?php if ($menuType) : ?>
-									<td class="order text-center d-none d-md-table-cell">
+									<td class="text-center d-none d-md-table-cell">
 										<?php
 										$iconClass = '';
 
@@ -155,7 +155,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 											<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
-											<input type="text" style="display:none" name="order[]" size="5"
+											<input type="text" class="hidden" name="order[]" size="5"
 												   value="<?php echo $orderkey + 1; ?>">
 										<?php endif; ?>
 									</td>

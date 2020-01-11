@@ -11,6 +11,7 @@ namespace Joomla\Component\Modules\Api\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Modules\Administrator\Model\SelectModel;
 use Joomla\Component\Modules\Api\View\Modules\JsonapiView;
@@ -83,7 +84,7 @@ class ModulesController extends ApiController
 
 		try
 		{
-			/** @var JsonApiView $view */
+			/** @var JsonapiView $view */
 			$view = $this->getView(
 				$viewName,
 				$viewType,
@@ -101,7 +102,7 @@ class ModulesController extends ApiController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Unable to create the model.');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
 		$model->setState('client_id', $this->getClientIdFromInput());

@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.formvalidator');
@@ -20,15 +19,15 @@ HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('script', 'system/fields/passwordview.min.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'mod_login/admin-login.min.js', ['version' => 'auto', 'relative' => true]);
 
-Text::script('JSHOW');
-Text::script('JHIDE');
+Text::script('JSHOWPASSWORD');
+Text::script('JHIDEPASSWORD');
 // Load JS message titles
 Text::script('ERROR');
 Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
 ?>
-<form class="login-initial form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post"
+<form class="login-initial hidden form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post"
 	id="form-login">
 	<fieldset>
 		<div class="form-group">
@@ -38,12 +37,13 @@ Text::script('MESSAGE');
 			<div class="input-group">
 
 				<input
-						name="username"
-						id="mod-login-username"
-						type="text"
-						class="form-control input-full"
-						required="required"
-						autofocus
+					name="username"
+					id="mod-login-username"
+					type="text"
+					class="form-control"
+					required="required"
+					autofocus
+					autocomplete="username"
 				>
 			</div>
 		</div>
@@ -54,15 +54,16 @@ Text::script('MESSAGE');
 			<div class="input-group">
 
 				<input
-						name="passwd"
-						id="mod-login-password"
-						type="password"
-						class="form-control input-full"
-						required="required"
+					name="passwd"
+					id="mod-login-password"
+					type="password"
+					class="form-control input-full"
+					required="required"
+					autocomplete="current-password"
 				>
 				<span class="input-group-append ml-2">
 					<button type="button" class="input-group-text icon-eye input-password-toggle">
-						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+						<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 					</button>
 				</span>
 
@@ -80,11 +81,11 @@ Text::script('MESSAGE');
 				<div class="input-group">
 
 					<input
-							name="secretkey"
-							autocomplete="off"
-							id="mod-login-secretkey"
-							type="text"
-							class="form-control input-full"
+						name="secretkey"
+						autocomplete="off"
+						id="mod-login-secretkey"
+						type="text"
+						class="form-control"
 					>
 				</div>
 			</div>

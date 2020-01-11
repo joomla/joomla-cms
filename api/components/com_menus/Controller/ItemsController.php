@@ -12,9 +12,10 @@ namespace Joomla\Component\Menus\Api\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Component\Menus\Api\View\Items\JsonApiView;
+use Joomla\Component\Menus\Api\View\Items\JsonapiView;
 
 /**
  * The items controller
@@ -136,7 +137,7 @@ class ItemsController extends ApiController
 
 		try
 		{
-			/** @var JsonApiView $view */
+			/** @var JsonapiView $view */
 			$view = $this->getView(
 				$viewName,
 				$viewType,
@@ -154,7 +155,7 @@ class ItemsController extends ApiController
 
 		if (!$model)
 		{
-			throw new \RuntimeException('Unable to create the model.');
+			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
 		$model->setState('client_id', $this->getClientIdFromInput());

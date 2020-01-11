@@ -20,7 +20,6 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
-use Joomla\String\StringHelper;
 
 /**
  * Newsfeed model.
@@ -319,7 +318,7 @@ class NewsfeedModel extends AdminModel
 			{
 				$db = $this->getDbo();
 				$query = $db->getQuery(true)
-					->select('MAX(ordering)')
+					->select('MAX(' . $db->quoteName('ordering') . ')')
 					->from($db->quoteName('#__newsfeeds'));
 				$db->setQuery($query);
 				$max = $db->loadResult();
@@ -398,7 +397,7 @@ class NewsfeedModel extends AdminModel
 		// Association newsfeeds items
 		if (Associations::isEnabled())
 		{
-			$languages = LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{

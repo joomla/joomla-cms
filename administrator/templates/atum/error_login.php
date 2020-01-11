@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentHtml $this */
@@ -46,17 +45,12 @@ $logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, '
 $logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8');
 
 // Enable assets
-$wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
+$wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+	->useStyle('template.active.language')
+	->useStyle('template.user');
 
-// Load specific language related CSS
-HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
-
-// Load customer stylesheet if available
-HTMLHelper::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
-
-// Load specific template related JS
-// TODO: Adapt refactored build tools pt.2 @see https://issues.joomla.org/tracker/joomla-cms/23786
-HTMLHelper::_('script', 'media/templates/' . $this->template . '/js/template.min.js', ['version' => 'auto']);
+// Override 'template.active' asset to set correct ltr/rtl dependency
+$wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');

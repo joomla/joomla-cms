@@ -121,11 +121,6 @@ class LinkTable extends Table
 			}
 		}
 
-		if (empty($this->modified_date))
-		{
-			$this->modified_date = $this->getDbo()->getNullDate();
-		}
-
 		return true;
 	}
 
@@ -147,6 +142,11 @@ class LinkTable extends Table
 			// New record.
 			$this->created_date = $date;
 			$this->modified_date = $date;
+		}
+
+		if (empty($this->modified_date))
+		{
+			$this->modified_date = $this->created_date;
 		}
 
 		return parent::store($updateNulls);

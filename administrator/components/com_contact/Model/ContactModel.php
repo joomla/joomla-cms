@@ -22,7 +22,6 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -437,7 +436,7 @@ class ContactModel extends AdminModel
 		// Association contact items
 		if (Associations::isEnabled())
 		{
-			$languages = LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{

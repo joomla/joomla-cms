@@ -106,7 +106,7 @@ if ($saveOrder && !empty($this->items))
 									<td class="text-center">
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
-									<td class="order text-center d-none d-md-table-cell">
+									<td class="text-center d-none d-md-table-cell">
 										<?php $iconClass = ''; ?>
 										<?php if (!$canChange) : ?>
 											<?php $iconClass = ' inactive'; ?>
@@ -117,7 +117,7 @@ if ($saveOrder && !empty($this->items))
 											<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
-											<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>">
+											<input type="text" class="hidden" name="order[]" size="5" value="<?php echo $item->ordering; ?>">
 										<?php endif; ?>
 									</td>
 									<td class="text-center">
@@ -148,7 +148,8 @@ if ($saveOrder && !empty($this->items))
 													<?php if ($categories) : ?>
 														<?php echo implode(', ', $categories); ?>
 													<?php else: ?>
-														<?php echo Text::_('JALL'); ?>
+														<?php $category_ids = FieldsHelper::getAssignedCategoriesIds($item->id); ?>
+														<?php echo (in_array('-1', $category_ids)) ? Text::_('JNONE') : Text::_('JALL'); ?>
 													<?php endif; ?>
 												</div>
 											<?php endif; ?>

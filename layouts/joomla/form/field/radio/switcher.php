@@ -10,7 +10,6 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 extract($displayData, null);
 
@@ -50,7 +49,7 @@ if (empty($options))
 }
 
 // Load the css files
-Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('switcher');
+Factory::getApplication()->getDocument()->getWebAssetManager()->useStyle('switcher');
 
 /**
  * The format of the input tag to be filled in using sprintf.
@@ -61,8 +60,11 @@ Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('swi
  */
 $input    = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 
+$attr = 'id="' . $id . '"';
+$attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
+
 ?>
-<fieldset>
+<fieldset <?php echo $attr; ?>>
 	<legend class="switcher__legend">
 		<?php echo $label; ?>
 	</legend>
@@ -74,7 +76,7 @@ $input    = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 		$active		= ((string) $option->value == $value) ? 'class="active"' : '';
 		$oid		= $id . $i;
 		$ovalue		= htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-		$attributes	= array_filter(array($checked, $active, null));
+		$attributes	= array_filter([$checked, $active]);
 		$text		= $options[$i]->text;
 		?>
 		<?php echo sprintf($input, $oid, $name, $ovalue, implode(' ', $attributes)); ?>

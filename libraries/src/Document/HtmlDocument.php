@@ -298,7 +298,7 @@ class HtmlDocument extends Document
 		{
 			foreach ($data['metaTags'] as $type1 => $data1)
 			{
-				$booldog = $type1 == 'http-equiv' ? true : false;
+				$booldog = $type1 === 'http-equiv';
 
 				foreach ($data1 as $name2 => $data2)
 				{
@@ -470,8 +470,9 @@ class HtmlDocument extends Document
 
 		if ($this->_caching == true && $type == 'modules')
 		{
+			/** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
 			$cache = CmsFactory::getCache('com_modules', '');
-			$hash = md5(serialize(array($name, $attribs, null, $renderer)));
+			$hash = md5(serialize(array($name, $attribs, null, get_class($renderer))));
 			$cbuffer = $cache->get('cbuffer_' . $type);
 
 			if (isset($cbuffer[$hash]))
