@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -132,19 +133,16 @@ class MessageTable extends Table
 			}
 		}
 
-		// Build the WHERE clause for the primary keys.
-		$where = $k . ' IN (' . implode(',', $pks) . ')';
-
 		// Update the publishing state for rows with the given primary keys.
-		$this->_db->setQuery(
-			'UPDATE ' . $this->_db->quoteName($this->_tbl)
-			. ' SET ' . $this->_db->quoteName('state') . ' = ' . (int) $state
-			. ' WHERE (' . $where . ')'
-		);
+		$query = $this->_db->getQuery(true);
+		$query->update($this->_db->quoteName($this->_tbl))
+			->set($this->_db->quoteName('state') . ' = :state')
+			->whereIn($this->_db->quoteName($k), $pks)
+			->bind(':state', $state, ParameterType::INTEGER);
 
 		try
 		{
-			$this->_db->execute();
+			$this->_db->setQuery($query)->execute();
 		}
 		catch (\RuntimeException $e)
 		{

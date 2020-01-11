@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
 
 /**
  * View class for a list of search terms.
@@ -102,8 +101,6 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		FinderHelper::addSubmenu('searches');
-
 		// Check if plugin is enabled
 		if (!$this->enabled)
 		{
@@ -112,7 +109,6 @@ class HtmlView extends BaseHtmlView
 
 		// Prepare the view.
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
