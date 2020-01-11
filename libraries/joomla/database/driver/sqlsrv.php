@@ -772,7 +772,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 			return false;
 		}
 
-		if (!sqlsrv_query($this->connection, 'USE ' . $database, null, array('scrollable' => SQLSRV_CURSOR_STATIC)))
+		if (!sqlsrv_query($this->connection, 'USE [' . $database .']', null, array('scrollable' => SQLSRV_CURSOR_STATIC)))
 		{
 			throw new JDatabaseExceptionConnecting('Could not connect to SQL Server database.');
 		}
