@@ -51,8 +51,11 @@ spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass
 // Register the class aliases for Framework classes that have replaced their Platform equivalents
 require_once JPATH_LIBRARIES . '/classmap.php';
 
-// Register the global exception handler. We will try and set a better Joomla Application Handler
-// once we know the request type (JSON, HTML, Cli etc) so it's fine for this to be HTML Specific.
+/**
+ * Register the global exception handler. We will try and set a better Joomla Application Handler
+ * once we know the request type (JSON, HTML, Cli etc) as we execute the application so it's
+ * fine for this to be HTML Specific.
+ */
 \Symfony\Component\ErrorHandler\ErrorHandler::register(
 	(new \Symfony\Component\ErrorHandler\ErrorHandler)
 		->setExceptionHandler([new \Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer(false), 'render'])
