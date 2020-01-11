@@ -155,7 +155,7 @@ class JNamespacePsr4Map
 		{
 			$directories = Folder::folders(JPATH_PLUGINS, '.', false, true);
 		}
-		elseif ($type === 'library')
+		else
 		{
 			$directories = [JPATH_LIBRARIES];
 		}
