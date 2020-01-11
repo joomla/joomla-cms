@@ -49,9 +49,7 @@
       "type": "script",
       "uri": "template.js",
       "dependencies": [
-        "core",
-        "jquery",
-        "bootstrap.js.bundle"
+        "core"
       ]
     },
     {
