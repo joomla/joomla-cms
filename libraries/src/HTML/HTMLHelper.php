@@ -738,6 +738,18 @@ abstract class HTMLHelper
 	}
 
 	/**
+	 * Helper method to quick access to Web Asset Manager
+	 *
+	 * @return \Joomla\CMS\WebAsset\WebAssetManager
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public static function webAsset()
+	{
+		return Factory::getApplication()->getDocument()->getWebAssetManager();
+	}
+
+	/**
 	 * Loads the path of a custom element or webcomponent into the scriptOptions object
 	 *
 	 * @param   string  $file     The path of the web component (expects the ES6 version). File need to have also an

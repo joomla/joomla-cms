@@ -9,7 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
@@ -104,7 +103,7 @@ else
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
-Factory::getDocument()->getWebAssetManager()
+HTMLHelper::webAsset()
 	->usePreset('choicesjs')
 	->useScript('webcomponent.field-fancy-select');
 
