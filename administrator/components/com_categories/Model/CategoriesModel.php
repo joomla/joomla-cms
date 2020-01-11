@@ -252,7 +252,6 @@ class CategoriesModel extends ListModel
 			$categoryTable = Table::getInstance('Category', 'JTable');
 			$subCatItemsWhere = array();
 			foreach ($categoryId as $filter_catid)
-
 			{
 				$categoryTable->load($filter_catid);
 				$subCatItemsWhere[] = '(' .
