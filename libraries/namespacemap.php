@@ -226,12 +226,15 @@ class JNamespacePsr4Map
 
 				// Check if we need to use administrator path
 				$isAdministrator = strpos($extensionPath, JPATH_ADMINISTRATOR) === 0;
-				$path            = str_replace($isAdministrator ? JPATH_ADMINISTRATOR : JPATH_ROOT, '', $extensionPath);
+				$path            = str_replace($isAdministrator ? JPATH_ADMINISTRATOR : JPATH_SITE, '', $extensionPath);
 
 				// Add the site path when a component
 				if ($type === 'component')
 				{
-					$extensions[$namespace . 'Site\\\\'] = 'JPATH_SITE . \'' . $path . $namespaceNode->attributes()->path . '\'';
+					if (is_dir(JPATH_SITE . $path))
+					{
+						$extensions[$namespace . 'Site\\\\'] = 'JPATH_SITE . \'' . $path . $namespaceNode->attributes()->path . '\'';
+					}
 
 					if (is_dir(JPATH_API . $path))
 					{
