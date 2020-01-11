@@ -25,8 +25,8 @@
             <folder>View</folder>
         </files>
         <languages folder="admin">
-            <language tag="en-GB">language/en-GB.com_workflow.ini</language>
-            <language tag="en-GB">language/en-GB.com_workflow.sys.ini</language>
+            <language tag="en-GB">language/en-GB/com_workflow.ini</language>
+            <language tag="en-GB">language/en-GB/com_workflow.sys.ini</language>
         </languages>
     </administration>
 </extension>

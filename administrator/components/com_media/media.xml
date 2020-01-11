@@ -15,7 +15,7 @@
 		<folder>helpers</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_media.ini</language>
+		<language tag="en-GB">language/en-GB/com_media.ini</language>
 	</languages>
 	<namespace path="src">Joomla\Component\Media</namespace>
 	<administration>
@@ -29,8 +29,8 @@
 			<folder>views</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_media.ini</language>
-			<language tag="en-GB">language/en-GB.com_media.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_media.ini</language>
+			<language tag="en-GB">language/en-GB/com_media.sys.ini</language>
 		</languages>
 	</administration>
 </extension>
