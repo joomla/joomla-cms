@@ -58,15 +58,6 @@ class HtmlView extends BaseHtmlView
 	protected $pluginState;
 
 	/**
-	 * The HTML markup for the sidebar
-	 *
-	 * @var  string
-	 *
-	 * @since  3.6.1
-	 */
-	protected $sidebar;
-
-	/**
 	 * The model state
 	 *
 	 * @var  mixed
@@ -122,8 +113,6 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		FinderHelper::addSubmenu('index');
-
 		// We do not need to filter by language when multilingual is disabled
 		if (!Multilanguage::isEnabled())
 		{
@@ -156,7 +145,6 @@ class HtmlView extends BaseHtmlView
 
 		// Configure the toolbar.
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}

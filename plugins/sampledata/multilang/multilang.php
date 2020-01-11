@@ -476,6 +476,11 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep8()
 	{
+		if ($this->app->input->get('type') !== $this->_name)
+		{
+			return;
+		}
+
 		$response['success'] = true;
 		$response['message'] = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP8_SUCCESS');
 
@@ -1249,7 +1254,13 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		foreach ($langlist as $lang)
 		{
-			$file          = $path . '/' . $lang . '/' . $lang . '.xml';
+			$file = $path . '/' . $lang . '/' . $lang . '.xml';
+
+			if (!is_file($file))
+			{
+				$file = $path . '/' . $lang . '/langmetadata.xml';
+			}
+
 			$info          = Installer::parseXMLInstallFile($file);
 			$row           = new stdClass;
 			$row->language = $lang;
