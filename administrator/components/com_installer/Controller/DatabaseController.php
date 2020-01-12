@@ -37,6 +37,9 @@ class DatabaseController extends BaseController
 	 */
 	public function fix()
 	{
+		// Specify the title of the message
+		$title = sprintf('[%s]', Text::sprintf('COM_INSTALLER_VIEW_DEFAULT_TAB_FIX'));
+
 		// Check for request forgeries.
 		$this->checkToken();
 
@@ -45,6 +48,7 @@ class DatabaseController extends BaseController
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
+			$this->app->getLogger()->warning($title, array('category' => 'jerror'));
 			$this->app->getLogger()->warning(
 				Text::_(
 					'COM_INSTALLER_ERROR_NO_EXTENSIONS_SELECTED'
@@ -105,11 +109,15 @@ class DatabaseController extends BaseController
 	 */
 	public function import()
 	{
+		// Specify the title of the message
+		$title = sprintf('[%s]', Text::sprintf('COM_INSTALLER_VIEW_DEFAULT_TAB_IMPORT'));
+
 		// Get file to import in the database.
 		$file = $this->input->files->get('zip_file', null, 'raw');
 
 		if ($file['name'] == '')
 		{
+			$this->app->getLogger()->warning($title, ['category' => 'jerror']);
 			$this->app->getLogger()->warning(
 				Text::_(
 					'COM_INSTALLER_MSG_INSTALL_NO_FILE_SELECTED'
@@ -123,10 +131,12 @@ class DatabaseController extends BaseController
 
 			if ($model->import($file))
 			{
+				$this->app->enqueueMessage($title, 'message');
 				$this->setMessage(Text::_('COM_INSTALLER_MSG_DATABASE_IMPORT_OK'));
 			}
 			else
 			{
+				$this->app->enqueueMessage($title, 'error');
 				$this->setMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_ERROR', $file['name']), 'error');
 			}
 		}

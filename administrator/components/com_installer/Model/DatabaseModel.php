@@ -388,12 +388,16 @@ class DatabaseModel extends InstallerModel
 	 */
 	public function import($file)
 	{
+		// Specify the title of the message
+		$title = sprintf('[%s]', Text::sprintf('COM_INSTALLER_VIEW_DEFAULT_TAB_IMPORT'));
+
 		$app = Factory::getApplication();
 		$db = $this->getDbo();
 
 		// Make sure that file uploads are enabled in php.
 		if (!(bool) ini_get('file_uploads'))
 		{
+			$app->enqueueMessage($title, 'error');
 			$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLFILE'), 'error');
 
 			return false;
@@ -407,6 +411,7 @@ class DatabaseModel extends InstallerModel
 		}
 		catch (FilesystemException $e)
 		{
+			$app->enqueueMessage($title, 'error');
 			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_UPLOAD_ERROR', $file['name']), 'error');
 
 			return false;
@@ -418,6 +423,7 @@ class DatabaseModel extends InstallerModel
 		}
 		catch (\RuntimeException $e)
 		{
+			$app->enqueueMessage($title, 'error');
 			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_CHECK_ERROR', $e->getMessage()), 'error');
 			unlink($tmpFile);
 
@@ -433,6 +439,7 @@ class DatabaseModel extends InstallerModel
 		}
 		catch (\RuntimeException $e)
 		{
+			$app->enqueueMessage($title, 'error');
 			$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_EXTRACT_ERROR', $tmpFile, $destDir), 'error');
 			unlink($tmpFile);
 
@@ -468,6 +475,7 @@ class DatabaseModel extends InstallerModel
 			{
 				unlink($tableFile);
 				unlink($tmpFile);
+				$app->enqueueMessage($title, 'error');
 				$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_DROP_ERROR', $tableName), 'error');
 
 				return false;
@@ -481,6 +489,7 @@ class DatabaseModel extends InstallerModel
 			{
 				unlink($tableFile);
 				unlink($tmpFile);
+				$app->enqueueMessage($title, 'error');
 				$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_MERGE_ERROR', $tableName), 'error');
 
 				return false;
@@ -494,6 +503,7 @@ class DatabaseModel extends InstallerModel
 			{
 				unlink($tableFile);
 				unlink($tmpFile);
+				$app->enqueueMessage($title, 'error');
 				$app->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_DATABASE_IMPORT_DATA_ERROR', $tableName), 'error');
 
 				return false;

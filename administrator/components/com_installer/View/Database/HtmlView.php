@@ -82,6 +82,9 @@ class HtmlView extends InstallerViewDefault
 		// Get the application
 		$app = Factory::getApplication();
 
+		// Specify the title of the message
+		$title = sprintf('[%s]', Text::sprintf('COM_INSTALLER_VIEW_DEFAULT_TAB_FIX'));
+
 		// Get data from the model.
 		/** @var DatabaseModel $model */
 		$model = $this->getModel();
@@ -92,6 +95,7 @@ class HtmlView extends InstallerViewDefault
 		}
 		catch (\Exception $exception)
 		{
+			$app->enqueueMessage($title, 'error');
 			$app->enqueueMessage($exception->getMessage(), 'error');
 		}
 
@@ -102,9 +106,16 @@ class HtmlView extends InstallerViewDefault
 
 		if ($this->changeSet)
 		{
-			($this->errorCount === 0)
-			? $app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_CORE_OK'), 'info')
-			: $app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_CORE_ERRORS'), 'warning');
+			if ($this->errorCount === 0)
+			{
+				$app->enqueueMessage($title);
+				$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_CORE_OK'));
+			}
+			else
+			{
+				$app->enqueueMessage($title, 'warning');
+				$app->enqueueMessage(Text::_('COM_INSTALLER_MSG_DATABASE_CORE_ERRORS'), 'warning');
+			}
 		}
 
 		parent::display($tpl);
