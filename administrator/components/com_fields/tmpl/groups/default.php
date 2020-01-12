@@ -22,7 +22,7 @@ HTMLHelper::_('behavior.multiselect');
 $app       = Factory::getApplication();
 $user      = Factory::getUser();
 $userId    = $user->get('id');
-print_r($this->countItems);
+
 $component = '';
 $parts     = FieldsHelper::extract($this->state->get('filter.context'));
 
