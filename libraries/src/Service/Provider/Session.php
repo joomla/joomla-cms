@@ -109,7 +109,7 @@ class Session implements ServiceProviderInterface
 				 * (that's not the app name) until we complete installation which then leads to us dropping things like
 				 * language preferences after installation as the app refreshes.
 				 */
-				$name = md5(InstallationApplication::class);
+				$name = md5(serialize(JPATH_ROOT . InstallationApplication::class));
 
 				// Calculate the session lifetime.
 				$lifetime = $config->get('lifetime') ? $config->get('lifetime') * 60 : 900;
