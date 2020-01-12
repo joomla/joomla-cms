@@ -391,7 +391,7 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 
 		// Check if the elementpath should be displayed
-		$elementpath       = (bool) $levelParams->get('element_path', true);
+		$elementpath = (bool) $levelParams->get('element_path', true);
 
 		// Set of always available plugins
 		$plugins  = array(
