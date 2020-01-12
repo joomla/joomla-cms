@@ -180,7 +180,97 @@ use Joomla\CMS\Uri\Uri;
 			</form>
 			</div>
 		</fieldset>
-
+		<!-- brian start -->
+		<fieldset id="configLanguages" class="j-install-step">
+			<legend class="j-install-step-header">
+				<span class="fa fa-language" aria-hidden="true"></span> <?php echo Text::_('INSTL_DEFAULTLANGUAGE_MULTILANGUAGE_TITLE'); ?>
+			</legend>
+			<div class="j-install-step-form">
+				<form action="index.php" method="post" id="languagesForm" class="form-validate">
+					<h2><?php echo JText::_('INSTL_DEFAULTLANGUAGE_ADMINISTRATOR'); ?></h2>
+					<table class="table table-sm">
+						<thead>
+							<tr>
+								<th>
+									<?php echo JText::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_SELECT'); ?>
+								</th>
+								<th>
+									<?php echo JText::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_LANGUAGE'); ?>
+								</th>
+								<th>
+									<?php echo JText::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_TAG'); ?>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+						<?php foreach ($this->items->administrator as $i => $lang) : ?>
+							<tr>
+								<td>
+									<input
+										id="admin-language-cb<?php echo $i; ?>"
+										type="radio"
+										name="administratorlang"
+										value="<?php echo $lang->language; ?>"
+										<?php if ($lang->published) echo 'checked="checked"'; ?>
+									/>
+								</td>
+								<td>
+									<label for="admin-language-cb<?php echo $i; ?>">
+										<?php echo $lang->name; ?>
+									</label>
+								</td>
+								<td>
+									<?php echo $lang->language; ?>
+								</td>
+							</tr>
+						<?php endforeach; ?>
+						</tbody>
+					</table>
+					<h2><?php echo JText::_('INSTL_DEFAULTLANGUAGE_FRONTEND'); ?></h2>
+					<table class="table table-sm">
+						<thead>
+							<tr>
+								<th>
+									<?php echo JText::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_SELECT'); ?>
+								</th>
+								<th>
+									<?php echo JText::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_LANGUAGE'); ?>
+								</th>
+								<th>
+									<?php echo JText::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_TAG'); ?>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($this->items->frontend as $i => $lang) : ?>
+								<tr>
+									<td>
+										<input
+											id="site-language-cb<?php echo $i; ?>"
+											type="radio"
+											name="frontendlang"
+											value="<?php echo $lang->language; ?>"
+											<?php if ($lang->published) echo 'checked="checked"'; ?>
+										/>
+									</td>
+									<td>
+										<label for="site-language-cb<?php echo $i; ?>">
+											<?php echo $lang->name; ?>
+										</label>
+									</td>
+									<td>
+										<?php echo $lang->language; ?>
+									</td>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+					<h2><?php echo JText::_('INSTL_DEFAULTLANGUAGE_MULTILANGUAGE_TITLE'); ?></h2>
+					<pre>Load the form here</pre>
+				</form>
+			</div>
+		</fieldset>
+		<!-- brian end -->
 		<fieldset id="installFinal" class="j-install-step">
 			<legend class="j-install-step-header">
 				<span class="fab fa-joomla" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_FINAL'); ?>

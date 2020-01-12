@@ -116,6 +116,73 @@ class GroupsModel extends ListModel
 	}
 
 	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since  4.0.0
+	 */
+	public function getItems()
+	{
+		$items = parent::getItems();
+
+		if ($items)
+		{
+			$this->countItems($items);
+		}
+
+		return $items;
+	}
+
+	/**
+	 * Add the number of fields in each state
+	 *
+	 * @param   array  $items  The field items
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since  4.0.0
+	 */
+	protected function countItems($items)
+	{
+		$db = $this->getDbo();
+
+		$ids = [0];
+
+		foreach ($items as $item)
+		{
+			$ids[] = (int) $item->id;
+			$item->count_published = 0;
+			$item->count_unpublished = 0;
+			$item->count_archived = 0;
+			$item->count_deleted = 0;
+		}
+
+		$query = $db->getQuery(true);
+
+		$query	->select('state, count(*) AS count')
+			->from($db->quoteName('#__fields'))
+			->group($db->quoteName('state'));
+		// Filter by context
+		if ($context = $this->getState('filter.context', 'com_fields'))
+		{
+			$query->where($db->quoteName('context') . ' = :context')
+				->bind(':context', $context);
+		}
+
+		$count = $db->setQuery($query)->loadObjectList('state');
+print_r($count);
+		foreach ($items as $item)
+		{
+			if (isset($count[$item->id]))
+			{
+				$item->count_states = (int) $count[$item->id]->count;
+			}
+		}
+
+	}
+
+	/**
 	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
 	 *
 	 * @return  \JDatabaseQuery   A JDatabaseQuery object to retrieve the data set.

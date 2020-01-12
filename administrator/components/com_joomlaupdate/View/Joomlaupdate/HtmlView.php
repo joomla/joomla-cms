@@ -139,7 +139,7 @@ class HtmlView extends BaseHtmlView
 			// Show the message if an update is found.
 			Factory::getApplication()->enqueueMessage(Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATE_NOTICE'), 'warning');
 		}
-
+print_r($this->ftp);
 		$this->ftpFieldsDisplay = $this->ftp['enabled'] ? '' : 'style = "display: none"';
 		$params                 = ComponentHelper::getParams('com_joomlaupdate');
 

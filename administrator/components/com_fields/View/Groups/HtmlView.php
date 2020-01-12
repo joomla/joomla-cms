@@ -67,6 +67,14 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
+	 * @var  \JObject
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+
+	 protected $status;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -83,6 +91,7 @@ class HtmlView extends BaseHtmlView
 		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
+		$this->status        = $this->get('Status');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

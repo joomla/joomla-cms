@@ -390,6 +390,10 @@ class PlgEditorTinymce extends CMSPlugin
 			$resizing = 'both';
 		}
 
+
+		// Check if the context menu should be displayed
+		$contextmenu       = (bool) $levelParams->get('contextmenu', true);
+
 		// Set of always available plugins
 		$plugins  = array(
 			'autolink',
@@ -596,6 +600,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'width'              => $html_width,
 				'resize'             => $resizing,
 				'templates'          => $templates,
+				'contextmenu'        => $contextmenu,
 				'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
 				'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
 

@@ -69,6 +69,10 @@ class HtmlView extends DefaultView
 		$this->phpoptions  = $this->get('PhpOptions', 'Checks');
 		$this->phpsettings = $this->get('PhpSettings', 'Checks');
 
+		// $this->items->administrator = $this->model->getInstalledlangsAdministrator();
+		// $this->items->frontend      = $this->model->getInstalledlangsFrontend();
+		// $this->form                 = $this->model->getForm();
+
 		return parent::display($tpl);
 	}
 }

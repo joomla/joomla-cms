@@ -39,13 +39,13 @@ h4 {
 }
 
 a:link, a:visited {
-	color: #1B57B1; 
+	color: #1B57B1;
 	text-decoration: none;
 	font-weight: normal;
 }
 
 a:hover {
-	color: #00c;	
+	color: #00c;
 	text-decoration: underline;
 	font-weight: normal;
 }
