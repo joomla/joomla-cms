@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
       // Use the API
       if (window.parent.Joomla && window.parent.Joomla.editors
         && window.parent.Joomla.editors.instances
-        && window.parent.Joomla.editors.instances.hasOwnProperty(editor)) {
-        window.parent.Joomla.editors.instances[editor].replaceSelection(`{loadmoduleid ${modid}}`);
+        && Object.prototype.hasOwnProperty.call(window.parent.Joomla.editors.instances, editor)) {
+        window.parent.Joomla.editors.instances[editor].replaceSelection('{loadmoduleid ${modid}}');
       }
     });
   });
@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Use the API
       if (window.Joomla && window.Joomla.editors && Joomla.editors.instances
         && Joomla.editors.instances.hasOwnProperty(editor)) {
-        Joomla.editors.instances[editor].replaceSelection(`{loadposition ${position}}`);
+        Joomla.editors.instances[editor].replaceSelection('{loadposition ${position}}');
       }
     });
   });
