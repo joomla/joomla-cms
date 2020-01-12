@@ -390,6 +390,9 @@ class PlgEditorTinymce extends CMSPlugin
 			$resizing = 'both';
 		}
 
+		// Check if the elementpath should be displayed
+		$elementpath       = (bool) $levelParams->get('element_path', true);
+
 		// Set of always available plugins
 		$plugins  = array(
 			'autolink',
@@ -594,6 +597,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'image_title'        => true,
 				'height'             => $html_height,
 				'width'              => $html_width,
+				'elementpath'        => $elementpath,
 				'resize'             => $resizing,
 				'templates'          => $templates,
 				'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
