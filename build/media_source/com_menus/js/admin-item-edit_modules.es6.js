@@ -29,6 +29,7 @@ Joomla = window.Joomla || {};
 
       list.forEach((item) => {
         item.classList.add('table-row');
+        item.classList.remove('hidden');
       });
     });
   }
@@ -49,6 +50,7 @@ Joomla = window.Joomla || {};
 
       list.forEach((item) => {
         item.classList.add('table-row');
+        item.classList.remove('hidden');
       });
     });
   }
