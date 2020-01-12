@@ -657,7 +657,8 @@ class PlgEditorTinymce extends JPlugin
 			'templates'          => $templates,
 			'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
 			'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
-
+			'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
+			'elementpath'        => (bool) $levelParams->get('element_path', true),
 		)
 		);
 
