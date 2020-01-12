@@ -670,7 +670,10 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	private function _toogleButton($name)
 	{
-		return LayoutHelper::render('joomla.tinymce.togglebutton', $name);
+		if (!$this->app->client->mobile)
+		{
+			return LayoutHelper::render('joomla.tinymce.togglebutton', $name);
+		}
 	}
 
 	/**
