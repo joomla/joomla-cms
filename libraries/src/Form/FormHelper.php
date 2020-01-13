@@ -331,14 +331,11 @@ class FormHelper
 		// Add the new paths to the stack if not already there.
 		foreach ($new as $path)
 		{
+			$path = trim($path);
+
 			if (!in_array($path, $paths))
 			{
-				array_unshift($paths, trim($path));
-			}
-
-			if (!is_dir($path))
-			{
-				array_unshift($paths, trim($path));
+				array_unshift($paths, $path);
 			}
 		}
 
