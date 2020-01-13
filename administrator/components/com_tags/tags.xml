@@ -20,7 +20,7 @@
 		<folder>views</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_tags.ini</language>
+		<language tag="en-GB">language/en-GB/com_tags.ini</language>
 	</languages>
 	<media destination="com_tags" folder="media">
 		<folder>js</folder>
@@ -38,8 +38,8 @@
 			<folder>View</folder>
 			<folder>views</folder>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_tags.ini</language>
-			<language tag="en-GB">language/en-GB.com_tags.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_tags.ini</language>
+			<language tag="en-GB">language/en-GB/com_tags.sys.ini</language>
 		</languages>
 		<menu link="option=com_tags">com_tags</menu>
 	</administration>
