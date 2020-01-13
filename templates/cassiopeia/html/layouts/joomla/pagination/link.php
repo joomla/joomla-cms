@@ -71,27 +71,10 @@ else
 {
 	$class = (property_exists($item, 'active') && $item->active) ? 'active' : 'disabled';
 }
-
-// Retrieving the URL for anchor with limitstart param added/modified
-$currentURL = JUri::current();
-$urlParts = parse_url($currentURL);
-
-if (isset($urlParts['query']))
-{
-	parse_str($urlParts['query'], $params);
-}
-else
-{
-	$params = array();
-}
-
-$params['limitstart'] = $item->base ?: 0;
-$urlParts['query'] = http_build_query($params);
-$updatedURL = http_build_url($urlParts);
 ?>
 <?php if ($displayData['active']) : ?>
 	<li class="<?php echo $class; ?> page-link">
-		<a aria-label="<?php echo $aria; ?>" href="<?php echo $updatedURL; ?>">
+		<a aria-label="<?php echo $aria; ?>" href="<?php echo $item->link; ?>">
 			<?php echo $display; ?>
 		</a>
 	</li>
