@@ -78,7 +78,7 @@ $maxSize = FilesystemHelper::fileUploadMaxSize();
 	</div>
 </div>
 
-<div id="legacy-uploader" style="display: none;">
+<div id="legacy-uploader" class="hidden">
 	<div class="control-group">
 		<label for="install_package" class="control-label"><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
 		<div class="controls">

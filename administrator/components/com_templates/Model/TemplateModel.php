@@ -220,7 +220,7 @@ class TemplateModel extends FormModel
 	/**
 	 * Method to get a list of all the core files of override files.
 	 *
-	 * @return  array  A array of all core files.
+	 * @return  array  An array of all core files.
 	 *
 	 * @since   4.0.0
 	 */

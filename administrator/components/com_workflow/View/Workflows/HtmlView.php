@@ -16,7 +16,6 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
  * Workflows view class for the Workflow package.
@@ -105,9 +104,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->extension = $this->state->get('filter.extension');
-
-		WorkflowHelper::addSubmenu($this->state->get('filter.extension'));
-		$this->sidebar       = \JHtmlSidebar::render();
 
 		$this->addToolbar();
 

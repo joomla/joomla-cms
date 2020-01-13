@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.tabstate');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
 
