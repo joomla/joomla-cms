@@ -73,7 +73,7 @@ else
 }
 
 // Retrieving the URL for anchor with limitstart param added/modified
-$currentURL = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$currentURL = JUri::current();
 $urlParts = parse_url($currentURL);
 
 if (isset($urlParts['query']))
