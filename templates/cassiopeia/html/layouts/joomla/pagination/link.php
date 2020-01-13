@@ -54,18 +54,7 @@ if ($icon !== null)
 
 if ($displayData['active'])
 {
-
-	if ($item->base > 0)
-	{
-		$limit = 'limitstart.value=' . $item->base;
-	}
-	else
-	{
-		$limit = 'limitstart.value=0';
-	}
-
 	$class = 'active';
-	$onClick = 'document.adminForm.' . $item->prefix . $limit . '; Joomla.submitform();return false;';
 }
 else
 {
