@@ -12,6 +12,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label=""
 			hint="JSEARCH_FILTER"
 			class="js-stools-search-string"

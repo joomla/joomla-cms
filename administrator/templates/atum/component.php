@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /** @var JDocumentHtml $this */
 
@@ -18,17 +17,13 @@ $lang = Factory::getLanguage();
 $wa   = $this->getWebAssetManager();
 
 // Enable assets
-$wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
-$wa->enableAsset('fontawesome-free');
+$wa->useStyle('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+	->useStyle('template.active.language')
+	->useStyle('template.user');
 
-// Load specific language related CSS
-HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
+// Override 'template.active' asset to set correct ltr/rtl dependency
+$wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
-// Load custom stylesheet if available
-HTMLHelper::_('stylesheet', 'custom.css', ['version' => 'auto', 'relative' => true]);
-
-// TODO: remove the following line whenever the assets are fixed to respect the overrides
-HTMLHelper::_('stylesheet', 'vendor/choicesjs/choices.css', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <!DOCTYPE html>

@@ -38,7 +38,7 @@ HTMLHelper::_('bootstrap.framework');
 		<?php else : ?>
 		<tr>
 			<td colspan="2">
-				<?php echo Text::_('MOD_LATEST_ACTIONS_NO_MATCHING_RESULTS'); ?>
+				<?php echo Text::_('MOD_LATESTACTIONS_NO_MATCHING_RESULTS'); ?>
 			</td>
 		</tr>
 		<?php endif; ?>

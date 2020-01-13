@@ -85,7 +85,7 @@
         "psr/link": "~1.0",
         "psr/log": "~1.0",
         "symfony/console": "4.3.*",
-        "symfony/debug": "4.3.*",
+        "symfony/error-handler": "4.4.*",
         "symfony/ldap": "4.3.*",
         "symfony/options-resolver": "4.3.*",
         "symfony/polyfill-php73": "^1.10",

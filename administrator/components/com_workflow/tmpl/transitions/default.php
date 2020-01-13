@@ -1,7 +1,5 @@
 <?php
 /**
- * Transitions View for a Workflow Component.
- *
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
