@@ -22,7 +22,7 @@
 			<fieldset name="basic">
 				<field
 					name="collect_urls"
-					type="Switcher"
+					type="switcher"
 					label="PLG_SYSTEM_REDIRECT_FIELD_COLLECT_URLS_LABEL"
 					default="1"
 					filter="integer"
@@ -32,7 +32,7 @@
 				</field>
 				<field
 					name="includeUrl"
-					type="Switcher"
+					type="switcher"
 					label="PLG_SYSTEM_REDIRECT_FIELD_STORE_FULL_URL_LABEL"
 					default="1"
 					filter="integer"

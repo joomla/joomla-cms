@@ -3,7 +3,7 @@
 	<fieldset name="csp" label="Content-Security-Policy (CSP)">
 		<field
 			name="contentsecuritypolicy"
-			type="Switcher"
+			type="switcher"
 			label="COM_CSP_CONTENTSECURITYPOLICY"
 			default="0"
 			>
@@ -24,7 +24,7 @@
 		</field>
 		<field
 			name="contentsecuritypolicy_report_only"
-			type="Switcher"
+			type="switcher"
 			label="COM_CSP_CONTENTSECURITYPOLICY_REPORT_ONLY"
 			description="COM_CSP_CONTENTSECURITYPOLICY_REPORT_ONLY_DESC"
 			default="1"
@@ -35,7 +35,7 @@
 		</field>
 		<field
 			name="nonce_enabled"
-			type="Switcher"
+			type="switcher"
 			label="COM_CSP_CONTENTSECURITYPOLICY_NONCE_ENABLED"
 			description="COM_CSP_CONTENTSECURITYPOLICY_NONCE_ENABLED_DESC"
 			default="0"
@@ -46,7 +46,7 @@
 		</field>
 		<field
 			name="script_hashes_enabled"
-			type="Switcher"
+			type="switcher"
 			label="COM_CSP_CONTENTSECURITYPOLICY_SCRIPT_HASHES_ENABLED"
 			description="COM_CSP_CONTENTSECURITYPOLICY_SCRIPT_HASHES_ENABLED_DESC"
 			default="0"
@@ -57,7 +57,7 @@
 		</field>
 		<field
 			name="style_hashes_enabled"
-			type="Switcher"
+			type="switcher"
 			label="COM_CSP_CONTENTSECURITYPOLICY_STYLE_HASHES_ENABLED"
 			description="COM_CSP_CONTENTSECURITYPOLICY_STYLE_HASHES_ENABLED_DESC"
 			default="0"
@@ -89,7 +89,7 @@
 				/>
 				<field
 					name="client"
-					type="Switcher"
+					type="switcher"
 					label="COM_CSP_HEADER_CLIENT"
 					default="site"
 					class="col-md-12"

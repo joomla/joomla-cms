@@ -56,7 +56,7 @@
 		<fieldset name="advanced">
 			<field
 				name="height_auto"
-				type="Switcher"
+				type="switcher"
 				label="COM_WRAPPER_FIELD_HEIGHTAUTO_LABEL"
 				default="0"
 				>
@@ -66,7 +66,7 @@
 
 			<field
 				name="add_scheme"
-				type="Switcher"
+				type="switcher"
 				label="COM_WRAPPER_FIELD_ADD_LABEL"
 				description="COM_WRAPPER_FIELD_ADD_DESC"
 				default="1"
@@ -77,7 +77,7 @@
 
 			<field
 				name="frameborder"
-				type="Switcher"
+				type="switcher"
 				label="COM_WRAPPER_FIELD_FRAME_LABEL"
 				default="1"
 				>

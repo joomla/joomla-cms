@@ -49,7 +49,7 @@
 
 		<field
 			name="restrict_uploads"
-			type="Switcher"
+			type="switcher"
 			label="COM_MEDIA_FIELD_RESTRICT_UPLOADS_LABEL"
 			description="COM_MEDIA_FIELD_RESTRICT_UPLOADS_DESC"
 			default="1"
@@ -60,7 +60,7 @@
 
 		<field
 			name="check_mime"
-			type="Switcher"
+			type="switcher"
 			label="COM_MEDIA_FIELD_CHECK_MIME_LABEL"
 			description="COM_MEDIA_FIELD_CHECK_MIME_DESC"
 			default="1"

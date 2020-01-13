@@ -41,7 +41,7 @@
 
 				<field
 					name="use_ldapV3"
-					type="Switcher"
+					type="switcher"
 					label="PLG_LDAP_FIELD_V3_LABEL"
 					default="0"
 					filter="integer"
@@ -52,7 +52,7 @@
 
 				<field
 					name="negotiate_tls"
-					type="Switcher"
+					type="switcher"
 					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
 					default="0"
 					filter="integer"
@@ -63,7 +63,7 @@
 
 				<field
 					name="ignore_reqcert_tls"
-					type="Switcher"
+					type="switcher"
 					label="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_LABEL"
 					description="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_DESC"
 					default="0"
@@ -75,7 +75,7 @@
 
 				<field
 					name="no_referrals"
-					type="Switcher"
+					type="switcher"
 					label="PLG_LDAP_FIELD_REFERRALS_LABEL"
 					default="0"
 					filter="integer"
@@ -161,7 +161,7 @@
 				/>
 				<field
 					name="ldap_debug"
-					type="Switcher"
+					type="switcher"
 					label="PLG_LDAP_FIELD_LDAPDEBUG_LABEL"
 					description="PLG_LDAP_FIELD_LDAPDEBUG_DESC"
 					default="0"

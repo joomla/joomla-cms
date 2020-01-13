@@ -16,7 +16,7 @@
 		<fields name="params">
 			<field
 				name="text_separator"
-				type="Switcher"
+				type="switcher"
 				label="COM_MENUS_ITEM_FIELD_TEXT_SEPARATOR_LABEL"
 				description="COM_MENUS_ITEM_FIELD_TEXT_SEPARATOR_DESC"
 				default="0"

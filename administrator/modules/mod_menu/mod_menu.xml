@@ -45,7 +45,7 @@
 
 				<field
 					name="check"
-					type="Switcher"
+					type="switcher"
 					label="MOD_MENU_FIELD_CHECK_LABEL"
 					description="MOD_MENU_FIELD_CHECK_DESC"
 					default="1"
@@ -58,7 +58,7 @@
 
 				<field
 					name="shownew"
-					type="Switcher"
+					type="switcher"
 					label="MOD_MENU_FIELD_SHOWNEW"
 					default="1"
 					filter="integer"
@@ -70,7 +70,7 @@
 
 				<field
 					name="showhelp"
-					type="Switcher"
+					type="switcher"
 					label="MOD_MENU_FIELD_SHOWHELP"
 					default="1"
 					filter="integer"

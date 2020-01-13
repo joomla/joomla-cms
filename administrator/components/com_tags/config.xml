@@ -17,7 +17,7 @@
 
 		<field
 			name="save_history"
-			type="Switcher"
+			type="switcher"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			default="0"
 			>
@@ -36,7 +36,7 @@
 
 		<field
 			name="show_tag_title"
-			type="Switcher"
+			type="switcher"
 			label="COM_TAGS_SHOW_TAG_TITLE_LABEL"
 			default="0"
 			>
@@ -46,7 +46,7 @@
 
 		<field
 			name="tag_list_show_tag_image"
-			type="Switcher"
+			type="switcher"
 			label="COM_TAGS_SHOW_TAG_IMAGE_LABEL"
 			default="1"
 			>
@@ -56,7 +56,7 @@
 
 		<field
 			name="tag_list_show_tag_description"
-			type="Switcher"
+			type="switcher"
 			label="COM_TAGS_SHOW_TAG_DESCRIPTION_LABEL"
 			default="1"
 			>
@@ -85,7 +85,7 @@
 
 		<field
 			name="tag_list_orderby_direction"
-			type="Switcher"
+			type="switcher"
 			label="JGLOBAL_ORDER_DIRECTION_LABEL"
 			default="ASC"
 			>
@@ -95,7 +95,7 @@
 
 		<field
 			name="show_headings"
-			type="Switcher"
+			type="switcher"
 			label="COM_TAGS_TAG_LIST_SHOW_HEADINGS_LABEL"
 			default="1"			
 			>
@@ -117,7 +117,7 @@
 
 		<field
 			name="tag_list_show_item_image"
-			type="Switcher"
+			type="switcher"
 			label="COM_TAGS_SHOW_ITEM_IMAGE_LABEL"
 			default="1"
 			>
@@ -127,7 +127,7 @@
 
 		<field
 			name="tag_list_show_item_description"
-			type="Switcher"
+			type="switcher"
 			label="COM_TAGS_TAG_LIST_SHOW_ITEM_DESCRIPTION_LABEL"
 			>
 			<option value="0">JHIDE</option>
@@ -161,7 +161,7 @@
 
 		<field
 			name="return_any_or_all"
-			type="Switcher"
+			type="switcher"
 			label="COM_TAGS_SEARCH_TYPE_LABEL"
 			default="1"
 			>
@@ -171,7 +171,7 @@
 
 		<field
 			name="include_children"
-			type="Switcher"
+			type="switcher"
 			label="COM_TAGS_INCLUDE_CHILDREN_LABEL"
 			default="0"
 			>
@@ -229,7 +229,7 @@
 
 		<field
 			name="all_tags_orderby_direction"
-			type="Switcher"
+			type="switcher"
 			label="JGLOBAL_ORDER_DIRECTION_LABEL"
 			default="ASC"
 			>
@@ -239,7 +239,7 @@
 
 		<field
 			name="all_tags_show_tag_image"
-			type="Switcher"
+			type="switcher"
 			label="COM_TAGS_SHOW_ITEM_IMAGE_LABEL"
 			default="1"
 			>
@@ -249,7 +249,7 @@
 
 		<field
 			name="all_tags_show_tag_description"
-			type="Switcher"
+			type="switcher"
 			label="COM_TAGS_SHOW_ITEM_DESCRIPTION_LABEL"
 			default="1"
 			>
@@ -267,7 +267,7 @@
 
 		<field
 			name="all_tags_show_tag_hits"
-			type="Switcher"
+			type="switcher"
 			label="JGLOBAL_HITS"
 			default="0"
 			>
@@ -284,7 +284,7 @@
 
 		<field
 			name="filter_field"
-			type="Switcher"
+			type="switcher"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			default="1"
 			>
@@ -294,7 +294,7 @@
 
 		<field
 			name="show_pagination_limit"
-			type="Switcher"
+			type="switcher"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
 			default="1"
 			>
@@ -315,7 +315,7 @@
 
 		<field
 			name="show_pagination_results"
-			type="Switcher"
+			type="switcher"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 			default="1"
 			showon="show_pagination:1,2"
@@ -333,7 +333,7 @@
 
 		<field
 			name="tag_field_ajax_mode"
-			type="Switcher"
+			type="switcher"
 			label="COM_TAGS_TAG_FIELD_MODE_LABEL"
 			default="1"
 			>
@@ -354,7 +354,7 @@
 		>
 			<field
 				name="show_feed_link"
-				type="Switcher"
+				type="switcher"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				default="1"
 				>

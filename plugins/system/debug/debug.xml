@@ -23,7 +23,7 @@
 			<fieldset name="basic">
 				<field
 					name="refresh_assets"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_REFRESH_ASSETS_LABEL"
 					description="PLG_DEBUG_FIELD_REFRESH_ASSETS_DESC"
 					default="1"
@@ -44,7 +44,7 @@
 
 				<field
 					name="memory"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
 					default="1"
 					filter="integer"
@@ -55,7 +55,7 @@
 
 				<field
 					name="request"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_REQUEST_LABEL"
 					default="1"
 					filter="integer"
@@ -66,7 +66,7 @@
 
 				<field
 					name="session"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_SESSION_LABEL"
 					default="1"
 					filter="integer"
@@ -77,7 +77,7 @@
 
 				<field
 					name="profile"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_PROFILING_LABEL"
 					default="1"
 					filter="integer"
@@ -88,7 +88,7 @@
 
 				<field
 					name="queries"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_QUERIES_LABEL"
 					default="1"
 					filter="integer"
@@ -99,7 +99,7 @@
 
 				<field
 					name="query_traces"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_QUERY_TRACES_LABEL"
 					default="0"
 					showon="queries:1"
@@ -111,7 +111,7 @@
 
 				<field
 					name="query_profiles"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_QUERY_PROFILES_LABEL"
 					default="0"
 					showon="queries:1"
@@ -123,7 +123,7 @@
 
 				<field
 					name="query_explains"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_QUERY_EXPLAINS_LABEL"
 					default="0"
 					showon="queries:1"
@@ -141,7 +141,7 @@
 
 				<field
 					name="language_errorfiles"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
 					default="1"
 					filter="integer"
@@ -152,7 +152,7 @@
 
 				<field
 					name="language_files"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
 					default="1"
 					filter="integer"
@@ -163,7 +163,7 @@
 
 				<field
 					name="language_strings"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
 					default="1"
 					filter="integer"
@@ -174,7 +174,7 @@
 
 				<field
 					name="strip-first"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
 					default="1"
 					filter="integer"
@@ -208,7 +208,7 @@
 				>
 				<field
 					name="logs"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_LOGS_LABEL"
 					default="1"
 					>
@@ -245,7 +245,7 @@
 
 				<field
 					name="log_category_mode"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_LOG_CATEGORY_MODE_LABEL"
 					default="0"
 					>
@@ -255,7 +255,7 @@
 
 				<field
 					name="log-deprecated"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
 					default="0"
 					filter="integer"
@@ -266,7 +266,7 @@
 
 				<field
 					name="log-deprecated-core"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_CORE_LABEL"
 					default="0"
 					filter="integer"
@@ -277,7 +277,7 @@
 
 				<field
 					name="log-everything"
-					type="Switcher"
+					type="switcher"
 					label="PLG_DEBUG_FIELD_LOG_EVERYTHING_LABEL"
 					default="0"
 					filter="integer"

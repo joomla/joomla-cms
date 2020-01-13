@@ -69,7 +69,7 @@
 
 				<field
 					name="tag_search"
-					type="Switcher"
+					type="switcher"
 					label="MOD_BANNERS_FIELD_TAG_LABEL"
 					default="0"
 					filter="integer"

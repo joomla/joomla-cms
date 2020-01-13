@@ -57,7 +57,7 @@
 
 			<field
 				name="menu_text"
-				type="Switcher"
+				type="switcher"
 				label="COM_MENUS_ITEM_FIELD_MENU_TEXT_LABEL"
 				default="1" filter="integer"
 				>
@@ -67,7 +67,7 @@
 
 			<field
 				name="menu_show"
-				type="Switcher"
+				type="switcher"
 				label="COM_MENUS_ITEM_FIELD_MENU_SHOW_LABEL"
 				default="1"
 				filter="integer"

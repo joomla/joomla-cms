@@ -5,7 +5,7 @@
 		label="COM_USERS_CONFIG_USER_OPTIONS" >
 		<field
 			name="allowUserRegistration"
-			type="Switcher"
+			type="switcher"
 			label="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_LABEL"
 			default="0"
 			>
@@ -31,7 +31,7 @@
 
 		<field
 			name="sendpassword"
-			type="Switcher"
+			type="switcher"
 			label="COM_USERS_CONFIG_FIELD_SENDPASSWORD_LABEL"
 			default="1"
 			>
@@ -52,7 +52,7 @@
 
 		<field
 			name="mail_to_admin"
-			type="Switcher"
+			type="switcher"
 			label="COM_USERS_CONFIG_FIELD_MAILTOADMIN_LABEL"
 			default="1"
 			>
@@ -73,7 +73,7 @@
 
 		<field
 			name="frontend_userparams"
-			type="Switcher"
+			type="switcher"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_LABEL"
 			default="1"
 			>
@@ -83,7 +83,7 @@
 
 		<field
 			name="site_language"
-			type="Switcher"
+			type="switcher"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_LABEL"
 			default="0"
 			showon="frontend_userparams:1"
@@ -94,7 +94,7 @@
 
 		<field
 			name="change_login_name"
-			type="Switcher"
+			type="switcher"
 			label="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_LABEL"
 			default="0"
 			>
@@ -213,7 +213,7 @@
 
 		<field
 			name="save_history"
-			type="Switcher"
+			type="switcher"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			default="0"
 			>
@@ -262,7 +262,7 @@
 		>
 			<field
 				name="custom_fields_enable"
-				type="Switcher"
+				type="switcher"
 				label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
 				default="1"
 				>

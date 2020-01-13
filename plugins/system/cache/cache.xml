@@ -21,7 +21,7 @@
 			<fieldset name="basic">
 				<field
 					name="browsercache"
-					type="Switcher"
+					type="switcher"
 					label="PLG_CACHE_FIELD_BROWSERCACHE_LABEL"
 					default="0"
 					filter="integer"

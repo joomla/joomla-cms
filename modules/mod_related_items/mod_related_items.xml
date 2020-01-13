@@ -25,7 +25,7 @@
 			<fieldset name="basic">
 				<field
 					name="showDate"
-					type="Switcher"
+					type="switcher"
 					label="MOD_RELATED_FIELD_SHOWDATE_LABEL"
 					default="0"
 					filter="integer"

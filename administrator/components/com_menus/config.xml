@@ -14,7 +14,7 @@
 
 		<field
 			name="show_page_heading"
-			type="Switcher"
+			type="switcher"
 			label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
 			default="0"
 			filter="integer"

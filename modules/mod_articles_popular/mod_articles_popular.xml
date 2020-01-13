@@ -42,7 +42,7 @@
 
 				<field
 					name="show_front"
-					type="Switcher"
+					type="switcher"
 					label="MOD_POPULAR_FIELD_FEATURED_LABEL"
 					default="1"
 					filter="integer"

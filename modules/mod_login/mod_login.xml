@@ -82,7 +82,7 @@
 
 				<field
 					name="greeting"
-					type="Switcher"
+					type="switcher"
 					label="MOD_LOGIN_FIELD_GREETING_LABEL"
 					default="1"
 					filter="integer"
@@ -93,7 +93,7 @@
 
 				<field
 					name="name"
-					type="Switcher"
+					type="switcher"
 					label="MOD_LOGIN_FIELD_NAME_LABEL"
 					default="0"
 					filter="integer"
@@ -105,7 +105,7 @@
 
 				<field
 					name="profilelink"
-					type="Switcher"
+					type="switcher"
 					label="MOD_LOGIN_FIELD_PROFILE_LABEL"
 					default="0"
 					filter="integer"
@@ -116,7 +116,7 @@
 
 				<field
 					name="usetext"
-					type="Switcher"
+					type="switcher"
 					label="MOD_LOGIN_FIELD_USETEXT_LABEL"
 					default="0"
 					filter="integer"

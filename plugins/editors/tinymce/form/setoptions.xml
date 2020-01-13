@@ -31,7 +31,7 @@
 
 	<field
 		name="mobile"
-		type="Switcher"
+		type="switcher"
 		label="PLG_TINY_FIELD_MOBILE_LABEL"
 		default="0"
 		>
@@ -41,7 +41,7 @@
 
 	<field
 		name="drag_drop"
-		type="Switcher"
+		type="switcher"
 		label="PLG_TINY_FIELD_DRAG_DROP_LABEL"
 		default="1"
 		>
@@ -69,7 +69,7 @@
 
 	<field
 		name="lang_mode"
-		type="Switcher"
+		type="switcher"
 		label="PLG_TINY_FIELD_LANGSELECT_LABEL"
 		default="1"
 		>
@@ -102,7 +102,7 @@
 
 	<field
 		name="content_css"
-		type="Switcher"
+		type="switcher"
 		label="PLG_TINY_FIELD_CSS_LABEL"
 		description="PLG_TINY_FIELD_CSS_DESC"
 		default="1"
@@ -140,7 +140,7 @@
 
 	<field
 		name="use_config_textfilters"
-		type="Switcher"
+		type="switcher"
 		label="PLG_TINY_CONFIG_TEXTFILTER_ACL_LABEL"
 		default="0"
 		>
@@ -174,7 +174,7 @@
 	<!-- Extra plugins -->
 	<field
 		name="resizing"
-		type="Switcher"
+		type="switcher"
 		label="PLG_TINY_FIELD_RESIZING_LABEL"
 		default="1"
 		>
@@ -184,7 +184,7 @@
 
 	<field
 		name="resize_horizontal"
-		type="Switcher"
+		type="switcher"
 		label="PLG_TINY_FIELD_RESIZE_HORIZONTAL_LABEL"
 		default="1"
 		showon="resizing:1"
@@ -195,7 +195,7 @@
 
 	<field
 		name="element_path"
-		type="Switcher"
+		type="switcher"
 		label="PLG_TINY_FIELD_PATH_LABEL"
 		default="0"
 		>
@@ -205,7 +205,7 @@
 
 	<field
 		name="wordcount"
-		type="Switcher"
+		type="switcher"
 		label="PLG_TINY_FIELD_WORDCOUNT_LABEL"
 		default="1"
 		>
@@ -215,7 +215,7 @@
 
 	<field
 		name="image_advtab"
-		type="Switcher"
+		type="switcher"
 		label="PLG_TINY_FIELD_ADVIMAGE_LABEL"
 		default="1"
 		>
@@ -225,7 +225,7 @@
 
 	<field
 		name="advlist"
-		type="Switcher"
+		type="switcher"
 		label="PLG_TINY_FIELD_ADVLIST_LABEL"
 		default="1"
 		>
@@ -235,7 +235,7 @@
 
 	<field
 		name="contextmenu"
-		type="Switcher"
+		type="switcher"
 		label="PLG_TINY_FIELD_CONTEXTMENU_LABEL"
 		default="1"
 		>

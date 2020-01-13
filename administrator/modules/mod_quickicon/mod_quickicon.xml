@@ -39,7 +39,7 @@
 				/>
 				<field
 					name="show_global"
-					type="Switcher"
+					type="switcher"
 					label="MOD_QUICKICON_SHOW_GLOBAL_LABEL"
 					default="0"
 					>
@@ -108,7 +108,7 @@
 				</field>
 				<field
 					name="show_media"
-					type="Switcher"
+					type="switcher"
 					label="MOD_QUICKICON_SHOW_MEDIA_LABEL"
 					default="0"
 					>
@@ -137,7 +137,7 @@
 				</field>
 				<field
 					name="show_templates"
-					type="Switcher"
+					type="switcher"
 					label="MOD_QUICKICON_SHOW_TEMPLATES_LABEL"
 					default="0"
 					>

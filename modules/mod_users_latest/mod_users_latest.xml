@@ -33,7 +33,7 @@
 
 				<field
 					name="filter_groups"
-					type="Switcher"
+					type="switcher"
 					label="MOD_USERS_LATEST_FIELD_FILTER_GROUPS_LABEL"
 					default="0"
 					filter="integer"

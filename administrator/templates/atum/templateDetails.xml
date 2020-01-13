@@ -95,7 +95,7 @@
 				/>
 				<field
 					name="monochrome"
-					type="Switcher"
+					type="switcher"
 					label="TPL_ATUM_COLORS_SETTINGS_MONOCHROME_LABEL"
 					default="0"
 					>

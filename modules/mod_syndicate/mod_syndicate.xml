@@ -25,7 +25,7 @@
 			<fieldset name="basic">
 				<field
 					name="display_text"
-					type="Switcher"
+					type="switcher"
 					label="MOD_SYNDICATE_FIELD_DISPLAYTEXT_LABEL"
 					description="MOD_SYNDICATE_FIELD_DISPLAYTEXT_DESC"
 					default="1"

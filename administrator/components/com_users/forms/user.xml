@@ -100,7 +100,7 @@
 
 		<field
 			name="sendEmail"
-			type="Switcher"
+			type="switcher"
 			label="COM_USERS_USER_FIELD_SENDEMAIL_LABEL"
 			default="0"
 			>
@@ -110,7 +110,7 @@
 
 		<field
 			name="block"
-			type="Switcher"
+			type="switcher"
 			label="COM_USERS_USER_FIELD_BLOCK_LABEL"
 			default="0"
 			>
@@ -120,7 +120,7 @@
 
 		<field
 			name="requireReset"
-			type="Switcher"
+			type="switcher"
 			label="COM_USERS_USER_FIELD_REQUIRERESET_LABEL"
 			default="0"
 			>
@@ -196,7 +196,7 @@
 		<fieldset name="accessibility" label="COM_USERS_A11Y_SETTINGS_FIELDSET_LABEL">
 			<field
 				name="a11y_mono"
-				type="Switcher"
+				type="switcher"
 				label="COM_USERS_A11Y_SETTINGS_FIELD_MONOCHROME"
 				default="0"
 				>
@@ -205,7 +205,7 @@
 			</field>
 			<field
 				name="a11y_contrast"
-				type="Switcher"
+				type="switcher"
 				label="COM_USERS_A11Y_SETTINGS_FIELD_CONTRAST"
 				default="0"
 				>
@@ -214,7 +214,7 @@
 			</field>
 			<field
 				name="a11y_highlight"
-				type="Switcher"
+				type="switcher"
 				label="COM_USERS_A11Y_SETTINGS_FIELD_HIGHLIGHT"
 				default="0"
 				>
@@ -223,7 +223,7 @@
 			</field>
 			<field
 				name="a11y_font"
-				type="Switcher"
+				type="switcher"
 				label="COM_USERS_A11Y_SETTINGS_FIELD_FONTSIZE"
 				default="0"
 				>

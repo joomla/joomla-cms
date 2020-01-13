@@ -3,7 +3,7 @@
 	<fieldset>
 		<field
 			name="lock"
-			type="Switcher"
+			type="switcher"
 			label="COM_MESSAGES_FIELD_LOCK_LABEL"
 			default="0"
 			>
@@ -13,7 +13,7 @@
 
 		<field
 			name="mail_on_new"
-			type="Switcher"
+			type="switcher"
 			label="COM_MESSAGES_FIELD_MAIL_ON_NEW_LABEL"
 			default="1"
 			>

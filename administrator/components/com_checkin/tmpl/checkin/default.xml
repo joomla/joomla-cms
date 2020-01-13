@@ -9,7 +9,7 @@
 		<fieldset name="basic" label="JOPTIONS">
 			<field
 				name="ajax-badge"
-				type="Switcher"
+				type="switcher"
 				label="COM_CHECKIN_CHECKIN_VIEW_DISPLAY_BADGE"
 				default=""
 				>

@@ -7,7 +7,7 @@
 
 		<field
 			name="template_positions_display"
-			type="Switcher"
+			type="switcher"
 			label="COM_TEMPLATES_CONFIG_POSITIONS_LABEL"
 			default="0"
 			>

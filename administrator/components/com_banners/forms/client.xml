@@ -105,7 +105,7 @@
 
 		<field
 			name="own_prefix"
-			type="Switcher"
+			type="switcher"
 			label="COM_BANNERS_FIELD_CLIENTOWNPREFIX_LABEL"
 			default="0"
 			>

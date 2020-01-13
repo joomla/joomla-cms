@@ -84,7 +84,7 @@
 
 				<field
 					name="showAllChildren"
-					type="Switcher"
+					type="switcher"
 					label="MOD_MENU_FIELD_ALLCHILDREN_LABEL"
 					default="1"
 					filter="integer"

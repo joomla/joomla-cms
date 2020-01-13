@@ -27,7 +27,7 @@
 			<fieldset name="basic">
 				<field
 					name="lineNumbers"
-					type="Switcher"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_LINENUMBERS_LABEL"
 					default="1"
 					filter="integer"
@@ -38,7 +38,7 @@
 
 				<field
 					name="codeFolding"
-					type="Switcher"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_CODEFOLDING_LABEL"
 					default="1"
 					filter="integer"
@@ -49,7 +49,7 @@
 
 				<field
 					name="markerGutter"
-					type="Switcher"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_MARKERGUTTER_LABEL"
 					default="1"
 					filter="integer"
@@ -60,7 +60,7 @@
 
 				<field
 					name="lineWrapping"
-					type="Switcher"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_LINEWRAPPING_LABEL"
 					default="1"
 					filter="integer"
@@ -71,7 +71,7 @@
 
 				<field
 					name="activeLine"
-					type="Switcher"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_ACTIVELINE_LABEL"
 					default="1"
 					filter="integer"
@@ -82,7 +82,7 @@
 
 				<field
 					name="selectionMatches"
-					type="Switcher"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_SELECTIONMATCHES_LABEL"
 					default="1"
 					filter="integer"
@@ -93,7 +93,7 @@
 
 				<field
 					name="matchTags"
-					type="Switcher"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_MATCHTAGS_LABEL"
 					default="1"
 					filter="integer"
@@ -104,7 +104,7 @@
 
 				<field
 					name="matchBrackets"
-					type="Switcher"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_MATCHBRACKETS_LABEL"
 					default="1"
 					filter="integer"
@@ -115,7 +115,7 @@
 
 				<field
 					name="autoCloseTags"
-					type="Switcher"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_AUTOCLOSETAGS_LABEL"
 					default="1"
 					filter="integer"
@@ -126,7 +126,7 @@
 
 				<field
 					name="autoCloseBrackets"
-					type="Switcher"
+					type="switcher"
 					label="PLG_CODEMIRROR_FIELD_AUTOCLOSEBRACKET_LABEL"
 					default="1"
 					filter="integer"

@@ -72,7 +72,7 @@
 
 				<field
 					name="automatic_title"
-					type="Switcher"
+					type="switcher"
 					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
 					default="0"
 					filter="integer"

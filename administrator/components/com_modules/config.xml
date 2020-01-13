@@ -24,7 +24,7 @@
 		>
 		<field
 			name="adminlangfilter"
-			type="Switcher"
+			type="switcher"
 			label="COM_MODULES_ADMIN_LANG_FILTER_LABEL"
 			description="COM_MODULES_ADMIN_LANG_FILTER_DESC"
 			default="0"

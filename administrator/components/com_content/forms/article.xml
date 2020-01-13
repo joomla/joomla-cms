@@ -215,7 +215,7 @@
 
 		<field
 			name="featured"
-			type="Switcher"
+			type="switcher"
 			label="JFEATURED"
 			default="0"
 			>

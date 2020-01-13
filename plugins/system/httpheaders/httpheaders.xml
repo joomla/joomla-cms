@@ -18,7 +18,7 @@
 			<fieldset name="basic">
 				<field
 					name="xframeoptions"
-					type="Switcher"
+					type="switcher"
 					label="PLG_SYSTEM_HTTPHEADERS_XFRAMEOPTIONS"
 					default="1"
 					>
@@ -87,7 +87,7 @@
 			<fieldset name="hsts" label="Strict-Transport-Security (HSTS)">
 				<field
 					name="hsts"
-					type="Switcher"
+					type="switcher"
 					label="PLG_SYSTEM_HTTPHEADERS_HSTS"
 					default="0"
 					>
@@ -105,7 +105,7 @@
 				/>
 				<field
 					name="hsts_subdomains"
-					type="Switcher"
+					type="switcher"
 					label="PLG_SYSTEM_HTTPHEADERS_HSTS_SUBDOMAINS"
 					description="PLG_SYSTEM_HTTPHEADERS_HSTS_SUBDOMAINS_DESC"
 					default="0"
@@ -116,7 +116,7 @@
 				</field>
 				<field
 					name="hsts_preload"
-					type="Switcher"
+					type="switcher"
 					label="PLG_SYSTEM_HTTPHEADERS_HSTS_PRELOAD"
 					description="PLG_SYSTEM_HTTPHEADERS_HSTS_PRELOAD_NOTE_DESC"
 					default="0"
