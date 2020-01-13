@@ -173,7 +173,7 @@ class UsersModel extends ListModel
 			// Joining the groups with the main query is a performance hog.
 			// Find the information only on the result set.
 
-			// First pass: get list of the user id's and reset the counts.
+			// First pass: get list of the user ids and reset the counts.
 			$userIds = array();
 
 			foreach ($items as $item)

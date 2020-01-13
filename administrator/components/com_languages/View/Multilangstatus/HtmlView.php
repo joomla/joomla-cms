@@ -11,6 +11,7 @@ namespace Joomla\Component\Languages\Administrator\View\Multilangstatus;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -41,6 +42,7 @@ class HtmlView extends BaseHtmlView
 		$this->statuses        = MultilangstatusHelper::getStatus();
 		$this->homepages       = Multilanguage::getSiteHomePages();
 		$this->defaultHome     = MultilangstatusHelper::getDefaultHomeModule();
+		$this->default_lang    = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 
 		parent::display($tpl);
 	}

@@ -65,7 +65,7 @@ Joomla.installation.detectFtpRoot = function(el) {
 
 if (document.getElementById('showFtp')) {
   // @TODO FTP??
-  document.getElementById('showFtp').style.display = 'none';
+  document.getElementById('showFtp').classList.add('hidden');
   document.getElementById('showFtp').addEventListener('click', function(e) {
     e.preventDefault();
     if (document.getElementById('ftpOptions')) {
