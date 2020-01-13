@@ -18,10 +18,9 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
- * Workflows view class for the Workflow package.
+ * Transitions view class for the Workflow package.
  *
  * @since  4.0.0
  */
@@ -125,10 +124,6 @@ class HtmlView extends BaseHtmlView
 		$this->workflow      = $this->get('Workflow');
 		$this->workflowID    = $this->workflow->id;
 		$this->extension     = $this->workflow->extension;
-
-		WorkflowHelper::addSubmenu('transitions');
-
-		$this->sidebar       = \JHtmlSidebar::render();
 
 		$this->addToolbar();
 

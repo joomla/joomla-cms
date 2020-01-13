@@ -80,7 +80,6 @@ class MenusModel extends ListModel
 		$db = $this->getDbo();
 		$menuTypes = array_column((array) $items, 'menutype');
 
-		// Get the published menu counts.
 		$query = $db->getQuery(true)
 			->select(
 				[
@@ -89,14 +88,17 @@ class MenusModel extends ListModel
 				]
 			)
 			->from($db->quoteName('#__menu', 'm'))
-			->where($db->quoteName('m.published') . ' = 1')
+			->where($db->quoteName('m.published') . ' = :published')
 			->whereIn($db->quoteName('m.menutype'), $menuTypes, ParameterType::STRING)
-			->group($db->quoteName('m.menutype'));
+			->group($db->quoteName('m.menutype'))
+			->bind(':published', $published, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
+		// Get the published menu counts.
 		try
 		{
+			$published      = 1;
 			$countPublished = $db->loadAssocList('menutype', 'count_published');
 		}
 		catch (\RuntimeException $e)
@@ -107,14 +109,9 @@ class MenusModel extends ListModel
 		}
 
 		// Get the unpublished menu counts.
-		$query->clear('where')
-			->bind()
-			->where($db->quoteName('m.published') . ' = 0')
-			->whereIn($db->quoteName('m.menutype'), $menuTypes, ParameterType::STRING);
-		$db->setQuery($query);
-
 		try
 		{
+			$published        = 0;
 			$countUnpublished = $db->loadAssocList('menutype', 'count_published');
 		}
 		catch (\RuntimeException $e)
@@ -125,14 +122,9 @@ class MenusModel extends ListModel
 		}
 
 		// Get the trashed menu counts.
-		$query->clear('where')
-			->bind()
-			->where($db->quoteName('m.published') . ' = -2')
-			->whereIn($db->quoteName('m.menutype'), $menuTypes, ParameterType::STRING);
-		$db->setQuery($query);
-
 		try
 		{
+			$published    = -2;
 			$countTrashed = $db->loadAssocList('menutype', 'count_published');
 		}
 		catch (\RuntimeException $e)

@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -57,15 +56,6 @@ class HtmlView extends BaseHtmlView
 	 * @since  3.6.1
 	 */
 	protected $pluginState;
-
-	/**
-	 * The HTML markup for the sidebar
-	 *
-	 * @var  string
-	 *
-	 * @since  3.6.1
-	 */
-	protected $sidebar;
 
 	/**
 	 * The model state
@@ -123,8 +113,6 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		FinderHelper::addSubmenu('index');
-
 		// We do not need to filter by language when multilingual is disabled
 		if (!Multilanguage::isEnabled())
 		{
@@ -155,11 +143,8 @@ class HtmlView extends BaseHtmlView
 			Factory::getApplication()->enqueueMessage(Text::_('COM_FINDER_INDEX_NO_DATA') . '  ' . Text::_('COM_FINDER_INDEX_TIP'), 'notice');
 		}
 
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 		// Configure the toolbar.
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}

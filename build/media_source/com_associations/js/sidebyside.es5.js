@@ -66,10 +66,12 @@ jQuery(document).ready(function($) {
       target.find('#jform_associations_' + referenceLang).val('');
 
       // Reset switcher after removing association
-      var currentSwitcher = $('#jform_itemlanguage').val();
+      var currentLangSelect = $('#jform_itemlanguage');
+      var currentSwitcher = currentLangSelect.val();
       var currentLang = targetLang.replace(/_/,'-');
       $('#jform_itemlanguage option[value=\"' + currentSwitcher + '\"]').val(currentLang + ':0:add');
-      $('#jform_itemlanguage').val('');
+      currentLangSelect.val('');
+      Joomla.Event.dispatch(currentLangSelect[0], 'change');
 
       // Save one of the items to confirm action
       Joomla.submitbutton('reference');
@@ -177,7 +179,9 @@ jQuery(document).ready(function($) {
 
     // Iframe load finished, hide Joomla loading layer.
     var spinner = document.querySelector('joomla-core-loader');
-    spinner.parentNode.removeChild(spinner);
+    if (spinner) {
+      spinner.parentNode.removeChild(spinner);
+    }
   });
 
   // Attach behaviour to target frame load event.
@@ -288,7 +292,9 @@ jQuery(document).ready(function($) {
 
       // Iframe load finished, hide Joomla loading layer.
       var spinner = document.querySelector('joomla-core-loader');
-      spinner.parentNode.removeChild(spinner);
+      if (spinner) {
+        spinner.parentNode.removeChild(spinner);
+      }
     }
   });
 });
