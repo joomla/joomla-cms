@@ -23,7 +23,7 @@ switch ((string) $item->text)
 		break;
 
 	// Check for "Prev" item
-	case $item->text === Text::_('JPREV') :
+	case Text::_('JPREV') :
 		$item->text = Text::_('JPREVIOUS');
 		$icon = 'fa fa-angle-left';
 		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
