@@ -233,9 +233,9 @@
 			default="0"
 			filter="integer"
 			>
-			<option value="0">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_VALUE_NONE</option>
-			<option value="1">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_VALUE_ONE_WAY</option>
-			<option value="2">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_VALUE_TWO_WAY</option>
+			<option value="0">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_MODE_VALUE_NONE</option>
+			<option value="1">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_MODE_VALUE_ONE_WAY</option>
+			<option value="2">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_MODE_VALUE_TWO_WAY</option>
 		</field>
 
 		<field
