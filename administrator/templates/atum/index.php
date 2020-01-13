@@ -149,7 +149,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	<div class="container-fluid container-main">
 		<?php if (!$cpanel) : ?>
 			<?php // Subheader ?>
-			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-toggle="collapse" data-target=".subhead" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
+			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-toggle="collapse" data-target=".subhead" aria-controls="subhead" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
 				<span class="toggler-toolbar-icon"></span>
 			</button>
 			<div id="subhead" class="subhead mb-3">

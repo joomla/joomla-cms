@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -143,24 +144,25 @@ class CategoryModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$user = Factory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$user   = Factory::getUser();
+		$groups = $user->getAuthorisedViewLevels();
 
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Select required fields from the categories.
-		$query->select($this->getState('list.select', 'a.*'))
-			->from($db->quoteName('#__newsfeeds') . ' AS a')
-			->where('a.access IN (' . $groups . ')');
+		$query->select($this->getState('list.select', $db->quoteName('a') . '.*'))
+			->from($db->quoteName('#__newsfeeds', 'a'))
+			->whereIn($db->quoteName('a.access'), $groups);
 
 		// Filter by category.
-		if ($categoryId = $this->getState('category.id'))
+		if ($categoryId = (int) $this->getState('category.id'))
 		{
-			$query->where('a.catid = ' . (int) $categoryId)
-				->join('LEFT', '#__categories AS c ON c.id = a.catid')
-				->where('c.access IN (' . $groups . ')');
+			$query->where($db->quoteName('a.catid') . ' = :categoryId')
+				->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
+				->whereIn($db->quoteName('c.access'), $groups)
+				->bind(':categoryId', $categoryId, ParameterType::INTEGER);
 		}
 
 		// Filter by state
@@ -168,36 +170,51 @@ class CategoryModel extends ListModel
 
 		if (is_numeric($state))
 		{
-			$query->where('a.published = ' . (int) $state);
+			$state = (int) $state;
+			$query->where($db->quoteName('a.published') . ' = :state')
+				->bind(':state', $state, ParameterType::INTEGER);
 		}
 		else
 		{
-			$query->where('(a.published IN (0,1,2))');
+			$query->where($db->quoteName('a.published') . ' IN (0,1,2)');
 		}
 
 		// Filter by start and end dates.
-		$date = Factory::getDate();
-		$nowDate = $db->quote($date->format($db->getDateFormat()));
-
 		if ($this->getState('filter.publish_date'))
 		{
-			$query->where('(a.publish_up IS NULL OR a.publish_up <= ' . $db->quote($nowDate) . ')')
-				->where('(a.publish_down IS NULL OR a.publish_down >= ' . $db->quote($nowDate) . ')');
+			$nowDate = Factory::getDate()->toSql();
+
+			$query->extendWhere(
+				'AND',
+				[
+					$db->quoteName('a.publish_up') . ' IS NULL',
+					$db->quoteName('a.publish_up') . ' <= :nowDate1',
+				],
+				'OR'
+			)
+				->extendWhere(
+					'AND',
+					[
+						$db->quoteName('a.publish_down') . ' IS NULL',
+						$db->quoteName('a.publish_down') . ' >= :nowDate2',
+					],
+					'OR'
+				)
+				->bind([':nowDate1', ':nowDate2'], $nowDate);
 		}
 
 		// Filter by search in title
-		$search = $this->getState('list.filter');
-
-		if (!empty($search))
+		if ($search = $this->getState('list.filter'))
 		{
-			$search = $db->quote('%' . $db->escape($search, true) . '%');
-			$query->where('(a.name LIKE ' . $search . ')');
+			$search = '%' . $search . '%';
+			$query->where($db->quoteName('a.name') . ' LIKE :search')
+				->bind(':search', $search);
 		}
 
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*']);
 		}
 
 		// Add the list ordering clause.

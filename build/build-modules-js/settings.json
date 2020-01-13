@@ -310,24 +310,28 @@
         },
         "provideAssets": [
           {
-            "name": "joomla-alert",
+            "name": "webcomponent.joomla-alert",
             "type": "style",
-            "uri": "joomla-alert.min.css"
+            "uri": "joomla-alert.min.css",
+            "webcomponent": true
           },
           {
-            "name": "joomla-tab",
+            "name": "webcomponent.joomla-tab",
             "type": "style",
-            "uri": "joomla-tab.min.css"
+            "uri": "joomla-tab.min.css",
+            "webcomponent": true
           },
           {
-            "name": "joomla-alert",
-            "type": "webcomponent",
-            "uri": "joomla-alert.min.js"
+            "name": "webcomponent.joomla-alert",
+            "type": "script",
+            "uri": "joomla-alert.min.js",
+            "webcomponent": true
           },
           {
-            "name": "joomla-tab",
-            "type": "webcomponent",
-            "uri": "joomla-tab.min.js"
+            "name": "webcomponent.joomla-tab",
+            "type": "script",
+            "uri": "joomla-tab.min.js",
+            "webcomponent": true
           }
         ],
         "dependencies": [],
