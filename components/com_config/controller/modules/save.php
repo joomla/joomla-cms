@@ -47,7 +47,7 @@ class ConfigControllerModulesSave extends JControllerBase
 		// Set FTP credentials, if given.
 		JClientHelper::setCredentialsFromRequest('ftp');
 
-		// Get sumitted module id
+		// Get submitted module id
 		$moduleId = '&id=' . $this->input->get('id');
 
 		// Get returnUri
