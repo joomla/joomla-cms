@@ -54,7 +54,7 @@ $output = array();
 foreach ($fields as $field)
 {
 	// If the value is empty do nothing
-	if (!isset($field->value) || $field->value == '')
+	if (!isset($field->value) || trim($field->value) === '')
 	{
 		continue;
 	}
@@ -62,6 +62,12 @@ foreach ($fields as $field)
 	$class = $field->params->get('render_class');
 	$layout = $field->params->get('layout', 'render');
 	$content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
+
+	// If the content is empty do nothing
+	if (trim($content) === '') 
+	{
+		continue;
+	}
 
 	$output[] = '<dd class="field-entry ' . $class . '">' . $content . '</dd>';
 }

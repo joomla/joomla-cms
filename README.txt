@@ -67,6 +67,5 @@
 
 Copyright:
 	* Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
-	* Special Thanks: https://docs.joomla.org/Special:MyLanguage/Joomla!_Credits_and_Thanks
 	* Distributed under the GNU General Public License version 2 or later
-	* See Licenses details at https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses
+	* See License details at https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses
