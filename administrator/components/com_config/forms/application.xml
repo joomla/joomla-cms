@@ -196,7 +196,6 @@
 			label="COM_CONFIG_FIELD_DATABASE_HOST_LABEL"
 			required="true"
 			filter="string"
-			onchange="Joomla.resetDbEncryptionFields(this)"
 			size="30"
 		/>
 
@@ -230,10 +229,9 @@
 		<field
 			name="dbencryption"
 			type="list"
-			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_LABEL"
+			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_MODE_LABEL"
 			default="0"
 			filter="integer"
-			showon="host!:localhost"
 			>
 			<option value="0">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_VALUE_NONE</option>
 			<option value="1">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_VALUE_ONE_WAY</option>
@@ -241,51 +239,39 @@
 		</field>
 
 		<field
-			name="dbsslverifyservercert"
-			type="Switcher"
-			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_VERIFY_SERVER_CERT_LABEL"
-			default="0"
-			filter="boolean"
-			showon="host!:localhost[AND]dbencryption:1,2"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
 			name="dbsslkey"
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_LABEL"
-			filter="string"
-			size="250"
-			showon="host!:localhost[AND]dbencryption:2"
+			filter="path"
+			showon="dbencryption:2"
 		/>
 
 		<field
 			name="dbsslcert"
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_LABEL"
-			filter="string"
-			size="250"
-			showon="host!:localhost[AND]dbencryption:2"
+			filter="path"
+			showon="dbencryption:2"
 		/>
+
+		<field
+			name="dbsslverifyservercert"
+			type="Switcher"
+			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_VERIFY_SERVER_CERT_LABEL"
+			default="0"
+			filter="boolean"
+			showon="dbencryption:1,2"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
 
 		<field
 			name="dbsslca"
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_LABEL"
-			filter="string"
-			size="250"
-			showon="host!:localhost[AND]dbencryption:2"
-		/>
-
-		<field
-			name="dbsslcapath"
-			type="text"
-			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CAPATH_LABEL"
-			filter="string"
-			size="250"
-			showon="host!:localhost[AND]dbtype:mysql,mysqli[AND]dbencryption:2"
+			filter="path"
+			showon="dbencryption:1,2[AND]dbsslverifyservercert:1"
 		/>
 
 		<field
@@ -293,8 +279,7 @@
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CIPHER_LABEL"
 			filter="string"
-			size="300"
-			showon="host!:localhost[AND]dbtype:mysql,mysqli[AND]dbencryption:2"
+			showon="dbtype:mysql,mysqli[AND]dbencryption:2"
 		/>
 
 	</fieldset>
