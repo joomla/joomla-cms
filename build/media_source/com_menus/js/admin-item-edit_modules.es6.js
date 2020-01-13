@@ -40,6 +40,7 @@ Joomla = window.Joomla || {};
 
       list.forEach((item) => {
         item.classList.add('hidden');
+        item.classList.remove('table-row');
       });
     });
   }
@@ -61,6 +62,7 @@ Joomla = window.Joomla || {};
 
       list.forEach((item) => {
         item.classList.add('hidden');
+        item.classList.remove('table-row');
       });
     });
   }
