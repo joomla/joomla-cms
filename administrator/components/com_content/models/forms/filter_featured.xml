@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_CONTENT_FILTER_SEARCH_LABEL"
 			description="COM_CONTENT_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -97,6 +98,7 @@
 			description="COM_CONTENT_LIST_FULL_ORDERING_DESC"
 			onchange="this.form.submit();"
 			default="a.title ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="fp.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

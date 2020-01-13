@@ -7,10 +7,10 @@ clone:
 
 steps:
   - name: phpcs
-    image: joomlaprojects/docker-phpcs
+    image: joomlaprojects/docker-images:phpcs1.5
     commands:
       - echo $(date)
-      - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
+      - /usr/local/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
       - echo $(date)
 
   - name: restore-cache
@@ -25,7 +25,7 @@ steps:
         path: /cache
 
   - name: javascript
-    image: joomlaprojects/docker-systemtests:latest
+    image: joomlaprojects/docker-images:systemtests
     commands:
       - echo $(date)
       - export DISPLAY=:0
@@ -56,7 +56,8 @@ steps:
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
       - if [ $DRONE_REPO_NAMESPACE != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
-      - rips-cli rips:scan:start -a 1 -t 1 -p $(pwd) -t 1 -R -k -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+      - rips-cli rips:list --table=scans -n -p filter='{"__and":[{"__lessThan":{"percent":100}}]}'
+      - rips-cli rips:scan:start -G -a 1 -t 1 -p $(pwd) -t 1 -R -k -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
     environment:
       RIPS_EMAIL:
         from_secret: RIPS_EMAIL
@@ -72,6 +73,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: 55a4ff8c455100893666ba43f1d67989e823e86ef113578c14ba604d8a32c783
+hmac: 7d1fbc23a21067e251bb5d22a875c5db23c88520d0384f1913a73aa0c992d017
 
 ...

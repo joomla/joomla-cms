@@ -29,14 +29,14 @@ class LanguagesControllerOverrides extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function delete()
 	{
 		// Check for request forgeries.
 		$this->checkToken();
 
-		// Get items to dlete from the request.
+		// Get items to delete from the request.
 		$cid = $this->input->get('cid', array(), 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
