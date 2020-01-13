@@ -6,6 +6,7 @@
   li {
     padding: 0;
   }
+
   a {
     color: var(--atum-bg-dark-50);
     width: 100%;
@@ -17,16 +18,16 @@
       background: var(--atum-bg-dark);
     }
 
-    .fa,
+    .fas,
     .fab {
       font-size: $quickicon-icon-size;
       margin: 0 auto;
 
       &.big {
-            font-size: $quickicon-icon-size-big;
-          }
-       }
+        font-size: $quickicon-icon-size-big;
+      }
     }
+  }
 
   // Group link to the overview and link to the edit form in a container
   .quickicon-group {
@@ -39,21 +40,24 @@
       padding: 0;
     }
 
-    @media (max-width: 1350px)  {
+    @media (max-width: 1350px) {
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
       flex: 1 1 calc(50% - 1rem);
     }
+
     @media (max-width: 1150px) {
       width: calc(100% - 1rem);
       max-width: calc(100% - 1rem);
       flex: 1 1 calc(100% - 1rem);
     }
+
     @include media-breakpoint-down(sm) {
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
       flex: 1 1 calc(50% - 1rem);
     }
+
     @media (max-width: 430px) {
       width: calc(100% - 1rem);
       max-width: calc(100% - 1rem);
@@ -63,8 +67,8 @@
     .quickicon-linkadd {
       background-color: var(--atum-bg-light);
       width: 2rem;
-     }
     }
+  }
 
   // Single icon
   .quickicon-single {
@@ -85,16 +89,19 @@
       max-width: calc(50% - 1rem);
       flex: 1 1 calc(50% - 1rem);
     }
+
     @media (max-width: 1150px) {
       width: calc(100% - 1rem);
       max-width: calc(100% - 1rem);
       flex: 1 1 calc(100% - 1rem);
     }
+
     @include media-breakpoint-down(sm) {
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
       flex: 1 1 calc(50% - 1rem);
     }
+
     @media (max-width: 430px) {
       width: calc(100% - 1rem);
       max-width: calc(100% - 1rem);
@@ -119,7 +126,8 @@
         margin: .8rem auto 0;
 
         &.big {
-          .fa,
+
+          .fas,
           .fab {
             font-size: $quickicon-icon-size-big;
           }
@@ -159,8 +167,9 @@
     &.danger {
       background: $danger-bg;
       border: 1px solid lighten($danger-txt, 30%);
+      color: $danger-txt;
 
-      .fa,
+      .fas,
       .fab {
         color: $danger-txt;
       }
@@ -169,7 +178,7 @@
         background: var(--danger);
         color: var(--white);
 
-        .fa,
+        .fas,
         .fab {
           &::before {
             color: var(--white);
@@ -182,7 +191,7 @@
       color: $success-txt;
       border: 1px solid lighten($success-txt, 20%);
 
-      .fa,
+      .fas,
       .fab {
         color: var(--success);
       }
@@ -191,7 +200,7 @@
         background: var(--success);
         color: var(--white);
 
-        .fa,
+        .fas,
         .fab {
           &::before {
             color: var(--white);
@@ -222,23 +231,9 @@
   }
 }
 
-#cpanel-modules {
-  .cpanel-quickicons,
-  .cpanel {
-    .card-columns {
-      @include media-breakpoint-down(md) {
-        column-count: 2;
-      }
-
-      @include media-breakpoint-down(sm) {
-        column-count: 1;
-      }
-    }
-  }
-}
-
 #wrapper.closed {
   .quick-icons {
+
     .quickicon-single,
     .quickicon-group {
       @media (max-width: 1180px) {
@@ -261,4 +256,3 @@
     }
   }
 }
-

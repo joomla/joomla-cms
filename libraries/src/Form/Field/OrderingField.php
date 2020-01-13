@@ -15,6 +15,7 @@ use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\ParameterType;
 
 /**
  * Ordering field.
@@ -135,13 +136,13 @@ class OrderingField extends FormField
 		// Create a read-only list (no name) with a hidden input to store the value.
 		if ($this->readonly)
 		{
-			$html[] = HTMLHelper::_('list.ordering', '', $query, trim($attr), $this->value, $itemId ? 0 : 1);
+			$html[] = HTMLHelper::_('list.ordering', '', $query, trim($attr), $this->value, $itemId ? 0 : 1, $this->id);
 			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '">';
 		}
 		else
 		{
 			// Create a regular list.
-			$html[] = HTMLHelper::_('list.ordering', $this->name, $query, trim($attr), $this->value, $itemId ? 0 : 1);
+			$html[] = HTMLHelper::_('list.ordering', $this->name, $query, trim($attr), $this->value, $itemId ? 0 : 1, $this->id);
 		}
 
 		return implode($html);
@@ -174,10 +175,11 @@ class OrderingField extends FormField
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select(array($db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')))
+		$query->select([$db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')])
 			->from($db->quoteName(json_decode($ucmRow->table)->special->dbtable))
-			->where($db->quoteName('catid') . ' = ' . (int) $categoryId)
-			->order('ordering');
+			->where($db->quoteName('catid') . ' = :categoryId')
+			->order($db->quoteName('ordering'))
+			->bind(':categoryId', $categoryId, ParameterType::INTEGER);
 
 		return $query;
 	}

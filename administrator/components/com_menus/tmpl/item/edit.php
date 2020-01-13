@@ -41,7 +41,7 @@ $lang     = Factory::getLanguage()->getTag();
 // Load mod_menu.ini file when client is administrator
 if ($clientId === 1)
 {
-	Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+	Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR);
 }
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
@@ -50,7 +50,7 @@ if ($clientId === 1)
 
 	<?php // Add the translation of the menu item title when client is administrator ?>
 	<?php if ($clientId === 1 && $this->item->id != 0) : ?>
-		<div class="row title-alias form-vertical form-no-margin mb-3">
+		<div class="row title-alias form-vertical mb-3">
 			<div class="col-12">
 				<div class="control-group">
 					<div class="control-label">
@@ -154,7 +154,7 @@ if ($clientId === 1)
 
 		<?php if (!$isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
-			<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
+			<fieldset id="fieldset-associations" class="options-form">
 			<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
 			<div>
 			<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
@@ -167,7 +167,7 @@ if ($clientId === 1)
 
 		<?php if (!empty($this->modules)) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'modules', Text::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT')); ?>
-			<fieldset id="fieldset-modules" class="options-grid-form options-grid-form-full">
+			<fieldset id="fieldset-modules" class="options-form">
 				<legend><?php echo Text::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT'); ?></legend>
 				<div>
 				<?php echo $this->loadTemplate('modules'); ?>
