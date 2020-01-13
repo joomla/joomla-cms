@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Use the API
       if (window.Joomla && window.Joomla.editors && Joomla.editors.instances
-        && Joomla.editors.instances.hasOwnProperty(editor)) {
+        && Object.prototype.hasOwnProperty.call(window.parent.Joomla.editors.instances, editor)) {
         Joomla.editors.instances[editor].replaceSelection(`{loadmoduleid ${position}}`);
       }
     });
