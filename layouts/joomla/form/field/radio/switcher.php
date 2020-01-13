@@ -49,7 +49,7 @@ if (empty($options))
 }
 
 // Load the css files
-Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('switcher');
+Factory::getApplication()->getDocument()->getWebAssetManager()->useStyle('switcher');
 
 /**
  * The format of the input tag to be filled in using sprintf.
@@ -60,8 +60,11 @@ Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('swi
  */
 $input = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 
+$attr = 'id="' . $id . '"';
+$attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
+
 ?>
-<fieldset>
+<fieldset <?php echo $attr; ?>>
 	<legend class="switcher__legend">
 		<?php echo $label; ?>
 	</legend>

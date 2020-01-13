@@ -112,9 +112,17 @@
 
       // eslint-disable-next-line no-new
       new window.Cropper(image, {
-        viewMode: 0,
+        viewMode: 1,
         scalable: true,
-        zoomable: true,
+        zoomable: false,
+        movable: false,
+        dragMode: 'crop',
+        cropBoxMovable: true,
+        cropBoxResizable: true,
+        autoCrop: true,
+        autoCropArea: 1,
+        background: true,
+        center: true,
         minCanvasWidth: width,
         minCanvasHeight: height,
       });

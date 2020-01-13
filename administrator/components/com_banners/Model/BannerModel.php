@@ -337,8 +337,8 @@ class BannerModel extends AdminModel
 			{
 				$db = $this->getDbo();
 				$query = $db->getQuery(true)
-					->select('MAX(ordering)')
-					->from('#__banners');
+					->select('MAX(' . $db->quoteName('ordering') . ')')
+					->from($db->quoteName('#__banners'));
 
 				$db->setQuery($query);
 				$max = $db->loadResult();
