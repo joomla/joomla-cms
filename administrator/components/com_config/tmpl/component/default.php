@@ -75,7 +75,7 @@ $xml = $this->form->getXml();
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
 
 					<?php if (!$isGrandchild && $hasParent) : ?>
-						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-grid-form options-grid-form-full">
+						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-grid-form options-grid-form-full options-menu">
 							<legend><?php echo Text::_($fieldSet->label); ?></legend>
 							<div>
 					<?php elseif (!$hasParent) : ?>
