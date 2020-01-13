@@ -8,7 +8,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Version;
@@ -16,18 +15,19 @@ use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentHtml $this */
 
-// Add Stylesheets
-// Load the template CSS file
-HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'installation/template/css/joomla-alert.min.css', ['version' => 'auto']);
+// Add required assets
+$this->getWebAssetManager()
+	->registerAndUseStyle('template.installation', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css')
+	->useScript('core')
+	->useScript('keepalive')
+	->useScript('form.validate')
+	->registerAndUseScript('template.installation', 'installation/template/js/template.js', [], [], ['core', 'form.validate']);
 
-// Add scripts
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('script', 'installation/template/js/template.js', ['version' => 'auto']);
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
+$this->getWebAssetManager()
+	->useStyle('webcomponent.joomla-alert')
+	->useScript('webcomponent.joomla-alert')
+	->useScript('webcomponent.core-loader');
+
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);

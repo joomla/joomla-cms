@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Database\ParameterType;
 
 /**
  * Message configuration model.
@@ -56,13 +57,20 @@ class ConfigModel extends FormModel
 	 */
 	public function &getItem()
 	{
-		$item = new CMSObject;
+		$item   = new CMSObject;
+		$userid = (int) $this->getState('user.id');
 
 		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select('cfg_name, cfg_value')
-			->from('#__messages_cfg')
-			->where($db->quoteName('user_id') . ' = ' . (int) $this->getState('user.id'));
+		$query = $db->getQuery(true);
+		$query->select(
+			[
+				$db->quoteName('cfg_name'),
+				$db->quoteName('cfg_value'),
+			]
+		)
+			->from($db->quoteName('#__messages_cfg'))
+			->where($db->quoteName('user_id') . ' = :userid')
+			->bind(':userid', $userid, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
@@ -127,7 +135,8 @@ class ConfigModel extends FormModel
 		{
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__messages_cfg'))
-				->where($db->quoteName('user_id') . '=' . (int) $userId);
+				->where($db->quoteName('user_id') . ' = :userid')
+				->bind(':userid', $userId, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
@@ -145,11 +154,25 @@ class ConfigModel extends FormModel
 			{
 				$query = $db->getQuery(true)
 					->insert($db->quoteName('#__messages_cfg'))
-					->columns($db->quoteName(array('user_id', 'cfg_name', 'cfg_value')));
+					->columns(
+						[
+							$db->quoteName('user_id'),
+							$db->quoteName('cfg_name'),
+							$db->quoteName('cfg_value'),
+						]
+					);
 
 				foreach ($data as $k => $v)
 				{
-					$query->values($userId . ', ' . $db->quote($k) . ', ' . $db->quote($v));
+					$query->values(
+						implode(
+							',',
+							$query->bindArray(
+								[$userId , $k, $v],
+								[ParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING]
+							)
+						)
+					);
 				}
 
 				$db->setQuery($query);
