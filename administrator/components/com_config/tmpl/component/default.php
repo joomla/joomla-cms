@@ -96,7 +96,7 @@ $xml = $this->form->getXml();
 
 						<?php if (!$hasChildren) : ?>
 
-						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-grid-form options-grid-form-full">
+						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-grid-form options-grid-form-full options-menu">
 							<legend><?php echo Text::_($fieldSet->label); ?></legend>
 							<div>
 						<?php $opentab = 2; ?>
