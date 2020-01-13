@@ -4,7 +4,7 @@
  */
 
 .outline {
-	margin: 0 auto; 
+	margin: 0 auto;
 	width: 550px;
 	border: 1px solid #cccccc;
 	background: #ffffff;
@@ -40,9 +40,7 @@ h1 {
 }
 
 td {
-	padding: 3px;
-	padding-left: 5px;
-	padding-right: 5px;
+	padding: 3px 5px;
 	border: solid 1px #bbbbbb;
 	font-size: 10px;
 }
