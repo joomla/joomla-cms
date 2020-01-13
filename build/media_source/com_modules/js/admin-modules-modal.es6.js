@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (window.parent.Joomla.Modal) {
-          window.parent.Joomla.Modal.getCurrent().close();
+        window.parent.Joomla.Modal.getCurrent().close();
       }
     });
   });
