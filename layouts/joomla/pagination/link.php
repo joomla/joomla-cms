@@ -26,7 +26,7 @@ switch ((string) $item->text)
 	case $item->text === Text::_('JPREV') :
 		$item->text = Text::_('JPREVIOUS');
 		$icon = 'fa fa-angle-left';
-		$aria =Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
+		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "Next" item
@@ -54,6 +54,17 @@ if ($icon !== null)
 
 if ($displayData['active'])
 {
+	$uriScript = "var re = new RegExp('([?&])' + 'limitstart' + '=.*?(&|$)', 'i');";
+	$uriScript .= "var uri = document.adminForm.action;";
+	$uriScript .= "var separator = uri.indexOf('?') !== -1 ? '&' : '?';";
+	$uriScript .= "var value = " . ($item->base ?: 0) . ";";
+	$uriScript .= "if (uri.match(re)) {";
+	$uriScript .= "uri = uri.replace(re, '$1' + 'limitstart' + '=' + value + '$2');";
+	$uriScript .= "}else {";
+	$uriScript .= "uri = uri + separator + 'limitstart' + '=' + value;";
+	$uriScript .= "}";
+	$uriScript .= "document.adminForm.action = uri;";
+
 	if ($item->base > 0)
 	{
 		$limit = 'limitstart.value=' . $item->base;
@@ -64,7 +75,7 @@ if ($displayData['active'])
 	}
 
 	$class = 'active';
-	$onClick = 'document.adminForm.' . $item->prefix . $limit . '; Joomla.submitform();return false;';
+	$onClick = 'document.adminForm.' . $item->prefix . $limit . ';' . $uriScript . ' Joomla.submitform();return false;';
 }
 else
 {
