@@ -36,8 +36,8 @@
 			<folder>View</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_fields.ini</language>
-			<language tag="en-GB">language/en-GB.com_fields.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_fields.ini</language>
+			<language tag="en-GB">language/en-GB/com_fields.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

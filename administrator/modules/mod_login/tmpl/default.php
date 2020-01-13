@@ -19,8 +19,8 @@ HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('script', 'system/fields/passwordview.min.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'mod_login/admin-login.min.js', ['version' => 'auto', 'relative' => true]);
 
-Text::script('JSHOW');
-Text::script('JHIDE');
+Text::script('JSHOWPASSWORD');
+Text::script('JHIDEPASSWORD');
 // Load JS message titles
 Text::script('ERROR');
 Text::script('WARNING');
@@ -63,7 +63,7 @@ Text::script('MESSAGE');
 				>
 				<span class="input-group-append ml-2">
 					<button type="button" class="input-group-text icon-eye input-password-toggle">
-						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+						<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 					</button>
 				</span>
 

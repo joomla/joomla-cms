@@ -52,6 +52,11 @@ class ScriptsRenderer extends DocumentRenderer
 		{
 			$asset = $item instanceof WebAssetItemInterface ? $item : null;
 
+			if ($asset && $asset->getOption('webcomponent'))
+			{
+				continue;
+			}
+
 			if ($asset)
 			{
 				$src = $asset->getUri();

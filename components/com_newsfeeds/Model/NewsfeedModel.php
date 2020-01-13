@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -75,7 +76,7 @@ class NewsfeedModel extends ItemModel
 	 */
 	public function &getItem($pk = null)
 	{
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('newsfeed.id');
+		$pk = (int) $pk ?: (int) $this->getState('newsfeed.id');
 
 		if ($this->_item === null)
 		{
@@ -88,43 +89,80 @@ class NewsfeedModel extends ItemModel
 			{
 				$db = $this->getDbo();
 				$query = $db->getQuery(true)
-					->select($this->getState('item.select', 'a.*'))
-					->from('#__newsfeeds AS a');
-
-				// Join on category table.
-				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
-					->join('LEFT', '#__categories AS c on c.id = a.catid');
-
-				// Join on user table.
-				$query->select('u.name AS author')
-					->join('LEFT', '#__users AS u on u.id = a.created_by');
-
-				// Join over the categories to get parent category titles
-				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
-					->join('LEFT', '#__categories as parent ON parent.id = c.parent_id')
-
-					->where('a.id = ' . (int) $pk);
-
-				// Filter by start and end dates.
-				$nowDate = $db->quote(Factory::getDate()->toSql());
+					->select(
+						[
+							$this->getState('item.select', $db->quoteName('a') . '.*'),
+							$db->quoteName('c.title', 'category_title'),
+							$db->quoteName('c.alias', 'category_alias'),
+							$db->quoteName('c.access', 'category_access'),
+							$db->quoteName('u.name', 'author'),
+							$db->quoteName('parent.title', 'parent_title'),
+							$db->quoteName('parent.id', 'parent_id'),
+							$db->quoteName('parent.path', 'parent_route'),
+							$db->quoteName('parent.alias', 'parent_alias'),
+						]
+					)
+					->from($db->quoteName('#__newsfeeds', 'a'))
+					->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
+					->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('a.created_by'))
+					->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'))
+					->where($db->quoteName('a.id') . ' = :id')
+					->bind(':id', $pk, ParameterType::INTEGER);
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
-				$archived = $this->getState('filter.archived');
+				$archived  = $this->getState('filter.archived');
 
 				if (is_numeric($published))
 				{
-					$query->where('(a.published = ' . (int) $published . ' OR a.published =' . (int) $archived . ')')
-						->where('(a.publish_up IS NULL OR a.publish_up <= ' . $db->quote($nowDate) . ')')
-						->where('(a.publish_down IS NULL OR a.publish_down >= ' . $db->quote($nowDate) . ')')
-						->where('(c.published = ' . (int) $published . ' OR c.published =' . (int) $archived . ')');
+					// Filter by start and end dates.
+					$nowDate = Factory::getDate()->toSql();
+
+					$published = (int) $published;
+					$archived  = (int) $archived;
+
+					$query->extendWhere(
+						'AND',
+						[
+							$db->quoteName('a.published') . ' = :published1',
+							$db->quoteName('a.published') . ' = :archived1',
+						],
+						'OR'
+					)
+						->extendWhere(
+							'AND',
+							[
+								$db->quoteName('a.publish_up') . ' IS NULL',
+								$db->quoteName('a.publish_up') . ' <= :nowDate1',
+							],
+							'OR'
+						)
+						->extendWhere(
+							'AND',
+							[
+								$db->quoteName('a.publish_down') . ' IS NULL',
+								$db->quoteName('a.publish_down') . ' >= :nowDate2',
+							],
+							'OR'
+						)
+						->extendWhere(
+							'AND',
+							[
+								$db->quoteName('c.published') . ' = :published2',
+								$db->quoteName('c.published') . ' = :archived2',
+							],
+							'OR'
+						)
+						->bind([':published1', ':published2'], $published, ParameterType::INTEGER)
+						->bind([':archived1', ':archived2'], $archived, ParameterType::INTEGER)
+						->bind([':nowDate1', ':nowDate2'], $nowDate);
 				}
 
 				$db->setQuery($query);
 
 				$data = $db->loadObject();
 
-				if (empty($data))
+				if ($data === null)
 				{
 					throw new \Exception(Text::_('COM_NEWSFEEDS_ERROR_FEED_NOT_FOUND'), 404);
 				}
