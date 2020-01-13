@@ -17,7 +17,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('behavior.tabstate');
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 
@@ -51,13 +50,15 @@ if ($clientId === 1)
 
 	<?php // Add the translation of the menu item title when client is administrator ?>
 	<?php if ($clientId === 1 && $this->item->id != 0) : ?>
-		<div class="form-inline form-inline-header">
-			<div class="control-group">
-				<div class="control-label">
-					<label for="menus_title_translation"><?php echo Text::sprintf('COM_MENUS_TITLE_TRANSLATION', $lang); ?></label>
-				</div>
-				<div class="controls">
-					<input id="menus_title_translation" class="form-control" value="<?php echo Text::_($this->item->title); ?>" readonly="readonly" type="text">
+		<div class="row title-alias form-vertical form-no-margin mb-3">
+			<div class="col-12">
+				<div class="control-group">
+					<div class="control-label">
+						<label for="menus_title_translation"><?php echo Text::sprintf('COM_MENUS_TITLE_TRANSLATION', $lang); ?></label>
+					</div>
+					<div class="controls">
+						<input id="menus_title_translation" class="form-control" value="<?php echo Text::_($this->item->title); ?>" readonly="readonly" type="text">
+					</div>
 				</div>
 			</div>
 		</div>
