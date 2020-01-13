@@ -37,8 +37,8 @@
 			<folder>View</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_modules.ini</language>
-			<language tag="en-GB">language/en-GB.com_modules.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_modules.ini</language>
+			<language tag="en-GB">language/en-GB/com_modules.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

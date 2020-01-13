@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 
 /**
  * Categories Component Categories Model
@@ -167,23 +168,44 @@ class CategoriesModel extends ListModel
 				', a.language'
 			)
 		);
-		$query->from('#__categories AS a');
+		$query->from($db->quoteName('#__categories', 'a'));
 
 		// Join over the language
-		$query->select('l.title AS language_title, l.image AS language_image')
-			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+		$query->select(
+			[
+				$db->quoteName('l.title', 'language_title'),
+				$db->quoteName('l.image', 'language_image'),
+			]
+		)
+			->join(
+				'LEFT',
+				$db->quoteName('#__languages', 'l'),
+				$db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language')
+			);
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor')
-			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		$query->select($db->quoteName('uc.name', 'editor'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__users', 'uc'),
+				$db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out')
+			);
 
 		// Join over the asset groups.
-		$query->select('ag.title AS access_level')
-			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
+		$query->select($db->quoteName('ag.title', 'access_level'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__viewlevels', 'ag'),
+				$db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access')
+			);
 
 		// Join over the users for the author.
-		$query->select('ua.name AS author_name')
-			->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
+		$query->select($db->quoteName('ua.name', 'author_name'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__users', 'ua'),
+				$db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_user_id')
+			);
 
 		// Join over the associations.
 		$assoc = $this->getAssoc();
@@ -191,34 +213,46 @@ class CategoriesModel extends ListModel
 		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 as association')
-				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_categories.item'))
-				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
+				->join(
+					'LEFT',
+					$db->quoteName('#__associations', 'asso'),
+					$db->quoteName('asso.id') . ' = ' . $db->quoteName('a.id')
+					. ' AND ' . $db->quoteName('asso.context') . ' = ' . $db->quote('com_categories.item')
+				)
+				->join(
+					'LEFT',
+					$db->quoteName('#__associations', 'asso2'),
+					$db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key')
+				)
 				->group('a.id, l.title, uc.name, ag.title, ua.name');
 		}
 
 		// Filter by extension
 		if ($extension = $this->getState('filter.extension'))
 		{
-			$query->where('a.extension = ' . $db->quote($extension));
+			$query->where($db->quoteName('a.extension') . ' = :extension')
+				->bind(':extension', $extension);
 		}
 
 		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
+		if ($level = (int) $this->getState('filter.level'))
 		{
-			$query->where('a.level <= ' . (int) $level);
+			$query->where($db->quoteName('a.level') . ' <= :level')
+				->bind(':level', $level, ParameterType::INTEGER);
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
+		if ($access = (int) $this->getState('filter.access'))
 		{
-			$query->where('a.access = ' . (int) $access);
+			$query->where($db->quoteName('a.access') . ' = :access')
+				->bind(':access', $access, ParameterType::INTEGER);
 		}
 
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
+			$groups = $user->getAuthorisedViewLevels();
+			$query->whereIn($db->quoteName('a.access'), $groups);
 		}
 
 		// Filter by published state
@@ -226,11 +260,13 @@ class CategoriesModel extends ListModel
 
 		if (is_numeric($published))
 		{
-			$query->where('a.published = ' . (int) $published);
+			$published = (int) $published;
+			$query->where($db->quoteName('a.published') . ' = :published')
+				->bind(':published', $published, ParameterType::INTEGER);
 		}
 		elseif ($published === '')
 		{
-			$query->where('(a.published IN (0, 1))');
+			$query->whereIn($db->quoteName('a.published'), [0, 1]);
 		}
 
 		// Filter by search in title
@@ -240,19 +276,33 @@ class CategoriesModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$search = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :search')
+					->bind(':search', $search, ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
+				$search = '%' . str_replace(' ', '%', trim($search)) . '%';
+				$query->extendWhere(
+					'AND',
+					[
+						$db->quoteName('a.title') . ' LIKE :title',
+						$db->quoteName('a.alias') . ' LIKE :alias',
+						$db->quoteName('a.note') . ' LIKE :note',
+					],
+					'OR'
+				)
+					->bind(':title', $search)
+					->bind(':alias', $search)
+					->bind(':note', $search);
 			}
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = ' . $db->quote($language));
+			$query->where($db->quoteName('a.language') . ' = :language')
+				->bind(':language', $language);
 		}
 
 		// Filter by a single tag.
@@ -260,12 +310,16 @@ class CategoriesModel extends ListModel
 
 		if (is_numeric($tagId))
 		{
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
+			$tagId = (int) $tagId;
+			$typeAlias = $extension . '.category';
+			$query->where($db->quoteName('tagmap.tag_id') . ' = :tagid')
+				->bind(':tagid', $tagId, ParameterType::INTEGER)
 				->join(
 					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
 					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote($extension . '.category')
-				);
+					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = :typealias'
+				)
+				->bind(':typealias', $typeAlias);
 		}
 
 		// Add the list ordering clause

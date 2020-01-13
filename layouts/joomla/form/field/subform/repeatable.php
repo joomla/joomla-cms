@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -33,8 +33,10 @@ extract($displayData);
 // Add script
 if ($multiple)
 {
-	HTMLHelper::_('webcomponent', 'system/fields/joomla-field-subform.min.js', ['version' => 'auto', 'relative' => true]);
+	Factory::getDocument()->getWebAssetManager()
+		->useScript('webcomponent.field-subform');
 }
+
 $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 ?>
 
@@ -56,7 +58,7 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 		endforeach;
 		?>
 		<?php if ($multiple) : ?>
-		<template class="subform-repeatable-template-section" style="display: none;"><?php
+		<template class="subform-repeatable-template-section hidden"><?php
 			echo trim($this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons)));
 		?></template>
 		<?php endif; ?>
