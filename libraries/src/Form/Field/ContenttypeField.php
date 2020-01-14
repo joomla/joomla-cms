@@ -65,10 +65,15 @@ class ContenttypeField extends ListField
 		$lang = Factory::getLanguage();
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.type_id AS value, a.type_title AS text, a.type_alias AS alias')
-			->from('#__content_types AS a')
-
-			->order('a.type_title ASC');
+			->select(
+				[
+					$db->quoteName('a.type_id', 'value'),
+					$db->quoteName('a.type_title', 'text'),
+					$db->quoteName('a.type_alias', 'alias'),
+				]
+			)
+			->from($db->quoteName('#__content_types', 'a'))
+			->order($db->quoteName('a.type_title') . ' ASC');
 
 		// Get the options.
 		$db->setQuery($query);
