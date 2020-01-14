@@ -107,7 +107,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 							<?php echo HTMLHelper::_('date', $item->save_date, Text::_('DATE_FORMAT_LC6')); ?>
 						</a>
 						<?php if ($item->sha1_hash == $hash) : ?>
-							<span class="icon-featured" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('JFEATURED'); ?></span>
+							<span class="icon-featured" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('JCURRENT'); ?></span>
 						<?php endif; ?>
 					</th>
 					<td class="d-none d-md-table-cell">
