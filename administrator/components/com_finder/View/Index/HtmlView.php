@@ -21,7 +21,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
 /**
  * Index view class for Finder.
@@ -103,7 +103,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Load plugin language files.
-		FinderHelperLanguage::loadPluginLanguage();
+		LanguageHelper::loadPluginLanguage();
 
 		$this->items         = $this->get('Items');
 		$this->total         = $this->get('Total');
