@@ -12,7 +12,7 @@ namespace Joomla\Component\Newsfeeds\Site\View\Category;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\CategoryView;
-use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
+use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper as NewsfeedsHelperRoute;
 
 /**
  * HTML View class for the Newsfeeds component
