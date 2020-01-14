@@ -45,7 +45,8 @@ form:not(.form-no-margin) .control-group {
 }
 
 dd {
-  -webkit-margin-start: 0;
+  margin-right: 0;
+  margin-left: auto;
 }
 
 .form-check {

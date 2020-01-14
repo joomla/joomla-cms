@@ -14,7 +14,6 @@ namespace Joomla\CMS\Document\Renderer\Html;
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\WebAsset\WebAssetAttachBehaviorInterface;
 use Joomla\Utilities\ArrayHelper;
 
@@ -45,23 +44,31 @@ class MetasRenderer extends DocumentRenderer
 			$this->_doc->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($this->_doc->_metaTags['name']['tags']));
 		}
 
-		if ($this->_doc->getScriptOptions())
-		{
-			HTMLHelper::_('behavior.core');
-		}
-
 		/** @var \Joomla\CMS\Application\CMSApplication $app */
 		$app = Factory::getApplication();
 		$wa  = $this->_doc->getWebAssetManager();
+		$wc  = $this->_doc->getScriptOptions('webcomponents');
 
-		// Check for AttachBehavior
+		if ($this->_doc->getScriptOptions())
+		{
+			$wa->useScript('core');
+		}
+
+		// Check for AttachBehavior and web components
 		foreach ($wa->getAssets('script', true) as $asset)
 		{
 			if ($asset instanceof WebAssetAttachBehaviorInterface)
 			{
 				$asset->onAttachCallback($this->_doc);
 			}
+
+			if ($asset->getOption('webcomponent'))
+			{
+				$wc[] = $asset->getUri();
+			}
 		}
+
+		$this->_doc->addScriptOptions('webcomponents', $wc);
 
 		// Trigger the onBeforeCompileHead event
 		$app->triggerEvent('onBeforeCompileHead');
