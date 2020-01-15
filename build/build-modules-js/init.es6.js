@@ -223,7 +223,7 @@ const copyFiles = (options) => {
 
       // Update the XML file for tinyMCE
       let tinyXml = Fs.readFileSync(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, { encoding: 'UTF-8' });
-      tinyXml = tinyXml.replace(xmlVersionStr, `$1${options.dependencies.tinymce}$3`);
+      tinyXml = tinyXml.replace(xmlVersionStr, `$1${moduleOptions.version}$3`);
       Fs.writeFileSync(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, tinyXml, { encoding: 'UTF-8' });
 
       // Remove that sourcemap...
