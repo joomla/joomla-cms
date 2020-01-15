@@ -22,6 +22,14 @@ Joomla = window.Joomla || {};
 		if (iframe) {
 			var button = iframe.contentWindow.document.querySelector(options.buttonSelector);
 			if (button) {
+
+				// Reload the page when frame updated, if requested
+				if (options.reloadParent) {
+					iframe.addEventListener('load', function (event) {
+						location.reload();
+					});
+				}
+
 				button.click();
 			}
 		}

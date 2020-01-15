@@ -39,10 +39,13 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 					</div>
 				<?php endif; ?>
 				<?php if ($this->finderPluginId) : ?>
-			<?php $link = Route::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->finderPluginId . '&tmpl=component&layout=modal'); ?>
-			<?php echo HTMLHelper::_(
+			<?php
+				$link          = Route::_('index.php?option=com_plugins&client_id=0&task=plugin.edit&extension_id=' . $this->finderPluginId . '&tmpl=component&layout=modal');
+				$pluginModalId = 'plugin' . $this->finderPluginId . 'Modal';
+
+				echo HTMLHelper::_(
 				'bootstrap.renderModal',
-				'plugin' . $this->finderPluginId . 'Modal',
+				$pluginModalId,
 				array(
 					'url'         => $link,
 					'title'       => Text::_('COM_FINDER_EDIT_PLUGIN_SETTINGS'),
@@ -54,11 +57,11 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 					'backdrop'    => 'static',
 					'keyboard'    => false,
 					'footer'      => '<button type="button" class="btn" data-dismiss="modal"'
-						. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
+						. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#' . $pluginModalId . '\', buttonSelector: \'#closeBtn\'})">'
 						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-						. '<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
+						. '<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#' . $pluginModalId . '\', buttonSelector: \'#saveBtn\', reloadParent: true})">'
 						. Text::_("JSAVE") . '</button>'
-						. '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->finderPluginId . 'Modal\', buttonSelector: \'#applyBtn\'}); return false;">'
+						. '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#' . $pluginModalId . '\', buttonSelector: \'#applyBtn\'}); return false;">'
 						. Text::_("JAPPLY") . '</button>'
 				)
 			); ?>
