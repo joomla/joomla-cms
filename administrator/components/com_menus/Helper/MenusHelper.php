@@ -139,7 +139,7 @@ class MenusHelper extends ContentHelper
 	 */
 	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published = array(), $languages = array(), $clientId = 0)
 	{
-		$hasClientId = $clientId === null;
+		$hasClientId = $clientId !== null;
 		$clientId    = (int) $clientId;
 
 		$db = Factory::getDbo();

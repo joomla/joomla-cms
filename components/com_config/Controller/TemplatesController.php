@@ -109,20 +109,17 @@ class TemplatesController extends BaseController
 			$app->setUserState('com_config.config.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
-			$message = Text::sprintf('JERROR_SAVE_FAILED');
-
-			$app->redirect(Route::_('index.php?option=com_config&view=templates', false), $message, 'error');
+			$this->setMessage(Text::sprintf('JERROR_SAVE_FAILED'), 'error');
+			$this->setRedirect(Route::_('index.php?option=com_config&view=templates', false));
 
 			return false;
 		}
 
 		// Set the success message.
-		$message = Text::_('COM_CONFIG_SAVE_SUCCESS');
-
-		$this->setMessage($message);
+		$this->setMessage(Text::_('COM_CONFIG_SAVE_SUCCESS'));
 
 		// Redirect back to com_config display
-		$this->redirect(Route::_('index.php?option=com_config&view=templates', false));
+		$this->setRedirect(Route::_('index.php?option=com_config&view=templates', false));
 
 		return true;
 	}

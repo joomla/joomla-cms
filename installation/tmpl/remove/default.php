@@ -116,9 +116,9 @@ use Joomla\CMS\Uri\Uri;
 				<p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET2'); ?></p>
 			<?php else : ?>
 			<form action="index.php" method="post" id="languagesForm" class="form-validate">
-				<p id="wait_installing" style="display: none;">
+				<p id="wait_installing" class="hidden">
 					<?php echo Text::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT'); ?><br>
-				<div id="wait_installing_spinner" class="spinner spinner-img" style="display: none;"></div>
+				<div id="wait_installing_spinner" class="spinner spinner-img hidden"></div>
 				</p>
 				<table class="table table-sm">
 				<caption id="install_languages_desc"><?php echo Text::_('INSTL_LANGUAGES_DESC'); ?></caption>
@@ -187,10 +187,6 @@ use Joomla\CMS\Uri\Uri;
 			</legend>
 			<div class="j-install-step-form">
 				<p><?php echo Text::_('INSTL_COMPLETE_FINAL_DESC'); ?></p>
-				<div class="form-group">
-					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>"><span class="fa fa-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
-					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>administrator/"><span class="fa fa-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
-				</div>
 			</div>
 		</fieldset>
 
