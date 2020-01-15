@@ -22,7 +22,7 @@ use Joomla\CMS\Language\Multilanguage;
  * @subpackage  com_contact
  * @since       1.5
  */
-abstract class Route
+abstract class RouteHelper
 {
 	/**
 	 * Get the URL route for a contact from a contact ID, contact category ID and language
