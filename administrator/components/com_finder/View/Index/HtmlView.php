@@ -185,7 +185,7 @@ class HtmlView extends BaseHtmlView
 			$childBar->unpublish('index.unpublish')->listCheck(true);
 		}
 
-		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view`=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
+		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
 
 		if ($canDo->get('core.delete'))
 		{
