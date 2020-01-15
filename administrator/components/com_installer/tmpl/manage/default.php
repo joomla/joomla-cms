@@ -53,7 +53,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%">
@@ -98,7 +98,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo $item->description; ?>
 									</div>
 								</th>
-								<td>
+								<td class="d-none d-md-table-cell">
 									<?php echo $item->client_translated; ?>
 								</td>
 								<td>

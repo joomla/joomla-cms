@@ -53,7 +53,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<th scope="col" style="width:5%" class="text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DEFAULT', 'published', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:5%" class="text-center">
+							<th scope="col" style="width:5%" class="d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_VERSION', 'version', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
@@ -97,7 +97,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<td class="text-center">
 								<?php echo HTMLHelper::_('jgrid.isdefault', $row->published, $i, 'installed.', !$row->published && $canChange); ?>
 							</td>
-							<td class="text-center">
+							<td class="d-none d-md-table-cell text-center">
 							<?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
 							<?php // Display a Note if language pack version is not equal to Joomla version ?>
 							<?php if (strpos($row->version, $minorVersion) !== 0 || strpos($row->version, $currentShortVersion) !== 0) : ?>
