@@ -71,6 +71,14 @@ textarea {
   }
 }
 
+// Default focus highlighting
+.btn {
+
+  &.focus {
+  outline: auto 2px var(--focus);
+  }
+}
+
 // Break up text in cells to prevent overflow
 .break-word {
   word-break: break-all;
