@@ -201,7 +201,7 @@ const copyFiles = (options) => {
 
       // Update the XML file for Codemirror
       let codemirrorXml = Fs.readFileSync(`${RootPath}/plugins/editors/codemirror/codemirror.xml`, { encoding: 'UTF-8' });
-      codemirrorXml = codemirrorXml.replace(xmlVersionStr, `$1${options.dependencies.codemirror}$3`);
+      codemirrorXml = codemirrorXml.replace(xmlVersionStr, `$1${moduleOptions.version}$3`);
       Fs.writeFileSync(`${RootPath}/plugins/editors/codemirror/codemirror.xml`, codemirrorXml, { encoding: 'UTF-8' });
     } else if (packageName === 'tinymce') {
       const itemvendorPath = Path.join(RootPath, `media/vendor/${packageName}`);
