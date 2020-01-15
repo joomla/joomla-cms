@@ -47,7 +47,7 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 					<a id="treeExpandAll" href="javascript://"><?php echo Text::_('JALL'); ?></a>,
 					<a id="treeCollapseAll" href="javascript://"><?php echo Text::_('JNONE'); ?></a>
 				</span>
-				<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query float-right" size="16"
+				<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query"
 					autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
 					aria-invalid="false" aria-label="<?php echo Text::_('JSEARCH_FILTER'); ?>">
 			</div>
