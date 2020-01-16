@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -58,7 +58,7 @@ class Finder
 
 		foreach ($rows as $row)
 		{
-			$key       = $lang->hasKey(FinderHelperLanguage::branchPlural($row->text)) ? FinderHelperLanguage::branchPlural($row->text) : $row->text;
+			$key       = $lang->hasKey(LanguageHelper::branchPlural($row->text)) ? LanguageHelper::branchPlural($row->text) : $row->text;
 			$options[] = HTMLHelper::_('select.option', $row->value, Text::sprintf('COM_FINDER_ITEM_X_ONLY', Text::_($key)));
 		}
 
@@ -97,7 +97,7 @@ class Finder
 
 		foreach ($branches as $branch)
 		{
-			$key = FinderHelperLanguage::branchPlural($branch->text);
+			$key = LanguageHelper::branchPlural($branch->text);
 			$branch->translatedText = $lang->hasKey($key) ? Text::_($key) : $branch->text;
 		}
 
