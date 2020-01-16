@@ -17,7 +17,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
 /**
  * Groups view class for Finder.
@@ -90,7 +90,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Load plugin language files.
-		FinderHelperLanguage::loadPluginLanguage();
+		LanguageHelper::loadPluginLanguage();
 
 		// Load the view data.
 		$this->items         = $this->get('Items');
