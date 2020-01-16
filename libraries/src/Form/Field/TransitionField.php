@@ -160,7 +160,7 @@ class TransitionField extends ListField
 
 			foreach ($items as $item)
 			{
-				$conditionName = $workflow->getConditionName($item->condition);
+				$conditionName = $workflow->getConditionName((int) $item->condition);
 
 				$item->text .= ' [' . Text::_($conditionName) . ']';
 			}
