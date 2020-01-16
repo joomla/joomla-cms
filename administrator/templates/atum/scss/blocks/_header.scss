@@ -209,7 +209,6 @@
   .dropdown-item {
     color: $white;
     background-color: var(--atum-bg-dark-70);
-    padding: 0;
 
     a {
       display: inline-block;
@@ -231,8 +230,9 @@
     }
 
     .fa {
-      padding: 1rem;
-      width: 3rem;
+      text-align: center;
+      width: 2.25rem;
+      padding-right: $dropdown-item-padding-x;
     }
   }
 
