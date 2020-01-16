@@ -285,8 +285,8 @@ class Workflow
 	/**
 	 * Update an existing association with a new state
 	 *
-	 * @param   array  $pks    An Array of item IDs which should be changed
-	 * @param   integer    $state  The new state ID
+	 * @param   array    $pks    An Array of item IDs which should be changed
+	 * @param   integer  $state  The new state ID
 	 *
 	 * @return  boolean
 	 *
