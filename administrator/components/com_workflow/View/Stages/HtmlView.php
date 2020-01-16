@@ -133,7 +133,7 @@ class HtmlView extends BaseHtmlView
 
 			foreach ($this->stages as $i => $item)
 			{
-				$item->condition = $workflow->getConditionName($item->condition);
+				$item->condition = $workflow->getConditionName((int) $item->condition);
 			}
 		}
 

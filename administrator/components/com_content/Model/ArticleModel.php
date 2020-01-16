@@ -98,9 +98,9 @@ class ArticleModel extends AdminModel
 		// Copy workflow association
 		$workflow = new Workflow(['extension' => 'com_content']);
 
-		$assoc = $workflow->getAssociation($oldId);
+		$assoc = $workflow->getAssociation((int) $oldId);
 
-		$workflow->createAssociation($newId, (int) $assoc->stage_id);
+		$workflow->createAssociation((int) $newId, (int) $assoc->stage_id);
 
 		// Register FieldsHelper
 		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
@@ -135,7 +135,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @since   4.0.0
 	 */
-	protected function batchWorkflowStage($value, $pks, $contexts)
+	protected function batchWorkflowStage(int $value, array $pks, array $contexts)
 	{
 		$user = Factory::getUser();
 
@@ -288,7 +288,7 @@ class ArticleModel extends AdminModel
 
 			$workflow = new Workflow(['extension' => 'com_content']);
 
-			$assoc = $workflow->getAssociation($record->id);
+			$assoc = $workflow->getAssociation((int) $record->id);
 
 			if (!$stage->load($assoc->stage_id) || ($stage->condition != ContentComponent::CONDITION_TRASHED && !Factory::getApplication()->isClient('api')))
 			{
@@ -423,7 +423,7 @@ class ArticleModel extends AdminModel
 			{
 				if (!isset($itrans[$transition->item_id]) || $itrans[$transition->item_id] == $transition->id)
 				{
-					$items[$transition->item_id] = $transition->id;
+					$items[$transition->item_id] = (int) $transition->id;
 				}
 			}
 		}
@@ -970,7 +970,7 @@ class ArticleModel extends AdminModel
 			// Let's check if we have workflow association (perhaps something went wrong before)
 			if (empty($stageId))
 			{
-				$assoc = $workflow->getAssociation($this->getState($this->getName() . '.id'));
+				$assoc = $workflow->getAssociation((int) $this->getState($this->getName() . '.id'));
 
 				// If not, reset the state and let's create the associations
 				if (empty($assoc->item_id))
@@ -979,7 +979,7 @@ class ArticleModel extends AdminModel
 
 					$table->load((int) $this->getState($this->getName() . '.id'));
 
-					$workflow = $this->getWorkflowByCategory($table->catid);
+					$workflow = $this->getWorkflowByCategory((int) $table->catid);
 
 					if (empty($workflow->id))
 					{
@@ -1000,7 +1000,7 @@ class ArticleModel extends AdminModel
 			// If we have a new state, create the workflow association
 			if (!empty($stageId))
 			{
-				$workflow->createAssociation($this->getState($this->getName() . '.id'), (int) $stageId);
+				$workflow->createAssociation((int) $this->getState($this->getName() . '.id'), (int) $stageId);
 			}
 
 			// Run the transition and update the workflow association
@@ -1271,11 +1271,11 @@ class ArticleModel extends AdminModel
 	/**
 	 * Load the assigned workflow information by a given category ID
 	 *
-	 * @param   int  $catId  The give category
+	 * @param   integer  $catId  The given category
 	 *
 	 * @return  integer|boolean  If found, the workflow ID, otherwise false
 	 */
-	protected function getWorkflowByCategory($catId)
+	protected function getWorkflowByCategory(int $catId)
 	{
 		$db = $this->getDbo();
 
@@ -1381,11 +1381,11 @@ class ArticleModel extends AdminModel
 	 *
 	 * @since   4.0.0
 	 */
-	public function runTransition($pk, $transition_id)
+	public function runTransition(int $pk, int $transition_id): bool
 	{
 		$workflow = new Workflow(['extension' => 'com_content']);
 
-		$runTransaction = $workflow->executeTransition($pk, $transition_id);
+		$runTransaction = $workflow->executeTransition([$pk], $transition_id);
 
 		if (!$runTransaction)
 		{
