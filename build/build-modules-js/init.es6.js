@@ -4,7 +4,7 @@ const FsExtra = require('fs-extra');
 const Path = require('path');
 
 const RootPath = process.cwd();
-const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
+const xmlVersionStr = /(<version>)(.+)(<\/version>)/;
 
 /**
  * Method that will erase the media/vendor folder
