@@ -107,11 +107,16 @@ class ActionlogModel extends BaseDatabaseModel
 	 *
 	 * @since   3.9.0
 	 *
-	 * @throws  \RuntimeException   if the mail function is disabled
 	 * @throws  phpmailerException  if sending mail failed
 	 */
 	protected function sendNotificationEmails($messages, $username, $context)
 	{
+		// Check if send mail option is enabled.
+		if (!Factory::getContainer()->get('config')->get('mailonline'))
+		{
+			return;
+		}
+
 		$db           = $this->getDbo();
 		$query        = $db->getQuery(true);
 		$params       = ComponentHelper::getParams('com_actionlogs');
