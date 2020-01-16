@@ -22,7 +22,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class UsersHelperDebug
+class DebugHelper
 {
 	/**
 	 * Get a list of the components.

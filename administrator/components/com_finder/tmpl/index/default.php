@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -87,7 +87,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 								</th>
 								<td class="small d-none d-md-table-cell">
 									<?php
-									$key = FinderHelperLanguage::branchSingular($item->t_title);
+									$key = LanguageHelper::branchSingular($item->t_title);
 									echo $lang->hasKey($key) ? Text::_($key) : $item->t_title;
 									?>
 								</td>
