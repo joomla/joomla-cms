@@ -113,6 +113,7 @@ class FieldsHelper
 		}
 
 		self::$fieldsCache->setState('filter.context', $context);
+		self::$fieldsCache->setState('filter.assigned_cat_ids', array());
 
 		/*
 		 * If item has assigned_cat_ids parameter display only fields which
