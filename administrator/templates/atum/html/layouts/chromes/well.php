@@ -68,10 +68,9 @@ if ($module->content) :
 					<?php endif; ?>
 
 					<?php if ($module->showtitle) : ?>
-						<?php if ($module->showtitle) : ?>
-						 <h2 <?php echo $headerClass; ?>>
-							 <?php echo $headerIcon; ?>
-							 <?php echo htmlspecialchars($module->title); ?>
+						<h2 <?php echo $headerClass; ?>>
+							<?php echo $headerIcon; ?>
+							<?php echo htmlspecialchars($module->title); ?>
 						</h2>
 					<?php endif; ?>
 				</div>
