@@ -15,8 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /**
  * Pagenavigation plugin class.
@@ -197,7 +196,7 @@ class PlgContentPagenavigation extends CMSPlugin
 			if ($row->prev)
 			{
 				$row->prev_label = ($this->params->get('display', 0) == 0) ? Text::_('JPREV') : $row->prev->title;
-				$row->prev = Route::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catid, $row->prev->language));
+				$row->prev = Route::_(RouteHelper::getArticleRoute($row->prev->slug, $row->prev->catid, $row->prev->language));
 			}
 			else
 			{
@@ -208,7 +207,7 @@ class PlgContentPagenavigation extends CMSPlugin
 			if ($row->next)
 			{
 				$row->next_label = ($this->params->get('display', 0) == 0) ? Text::_('JNEXT') : $row->next->title;
-				$row->next = Route::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catid, $row->next->language));
+				$row->next = Route::_(RouteHelper::getArticleRoute($row->next->slug, $row->next->catid, $row->next->language));
 			}
 			else
 			{
