@@ -116,60 +116,60 @@ class Mail extends PHPMailer
 	 */
 	public function Send()
 	{
-		if (Factory::getApplication()->get('mailonline', 1))
+		if (!Factory::getApplication()->get('mailonline', 1))
 		{
-			if (($this->Mailer == 'mail') && !\function_exists('mail'))
+			throw new MailDisabledException(
+				MailDisabledException::REASON_USER_DISABLED,
+				Text::_('JLIB_MAIL_FUNCTION_OFFLINE'),
+				500
+			);
+		}
+
+		if (($this->Mailer == 'mail') && !\function_exists('mail'))
+		{
+			throw new MailDisabledException(
+				MailDisabledException::REASON_MAIL_FUNCTION_NOT_AVAILABLE,
+				Text::_('JLIB_MAIL_FUNCTION_DISABLED'),
+				500
+			);
+		}
+
+		try
+		{
+			$result = parent::send();
+		}
+		catch (phpmailerException $e)
+		{
+			// If auto TLS is disabled just let this bubble up
+			if (!$this->SMTPAutoTLS)
 			{
-				throw new MailDisabledException(
-					MailDisabledException::REASON_MAIL_FUNCTION_NOT_AVAILABLE,
-					Text::_('JLIB_MAIL_FUNCTION_DISABLED'),
-					500
-				);
+				throw $e;
 			}
+
+			$result = false;
+		}
+
+		/*
+		 * If sending failed and auto TLS is enabled, retry sending with the feature disabled
+		 *
+		 * See https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting#opportunistic-tls for more info
+		 */
+		if (!$result && $this->SMTPAutoTLS)
+		{
+			$this->SMTPAutoTLS = false;
 
 			try
 			{
 				$result = parent::send();
 			}
-			catch (phpmailerException $e)
+			finally
 			{
-				// If auto TLS is disabled just let this bubble up
-				if (!$this->SMTPAutoTLS)
-				{
-					throw $e;
-				}
-
-				$result = false;
+				// Reset the value for any future emails
+				$this->SMTPAutoTLS = true;
 			}
-
-			/*
-			 * If sending failed and auto TLS is enabled, retry sending with the feature disabled
-			 *
-			 * See https://github.com/PHPMailer/PHPMailer/wiki/Troubleshooting#opportunistic-tls for more info
-			 */
-			if (!$result && $this->SMTPAutoTLS)
-			{
-				$this->SMTPAutoTLS = false;
-
-				try
-				{
-					$result = parent::send();
-				}
-				finally
-				{
-					// Reset the value for any future emails
-					$this->SMTPAutoTLS = true;
-				}
-			}
-
-			return $result;
 		}
 
-		throw new MailDisabledException(
-			MailDisabledException::REASON_USER_DISABLED,
-			Text::_('JLIB_MAIL_FUNCTION_OFFLINE'),
-			500
-		);
+		return $result;
 	}
 
 	/**
