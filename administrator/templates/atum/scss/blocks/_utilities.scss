@@ -33,6 +33,10 @@
     display: inline-block;
     break-inside: avoid;
     width: 100%;
+
+    &.hidden {
+      display: none;
+    }
   }
 
   .form-no-columns & {
