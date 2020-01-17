@@ -13,6 +13,7 @@ namespace Joomla\CMS\Mail;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 use PHPMailer\PHPMailer\PHPMailer;
 
@@ -110,8 +111,8 @@ class Mail extends PHPMailer
 	 *
 	 * @since   1.7.0
 	 *
-	 * @throws  Exception\MailDisabledException  if the mail function is disabled
-	 * @throws  phpmailerException               if sending failed
+	 * @throws  MailDisabledException  if the mail function is disabled
+	 * @throws  phpmailerException     if sending failed
 	 */
 	public function Send()
 	{
@@ -119,8 +120,8 @@ class Mail extends PHPMailer
 		{
 			if (($this->Mailer == 'mail') && !\function_exists('mail'))
 			{
-				throw new Exception\MailDisabledException(
-					Exception\MailDisabledException::REASON_MAIL_FUNCTION_NOT_AVAILABLE,
+				throw new MailDisabledException(
+					MailDisabledException::REASON_MAIL_FUNCTION_NOT_AVAILABLE,
 					Text::_('JLIB_MAIL_FUNCTION_DISABLED'),
 					500
 				);
@@ -164,8 +165,8 @@ class Mail extends PHPMailer
 			return $result;
 		}
 
-		throw new Exception\MailDisabledException(
-			Exception\MailDisabledException::REASON_USER_DISABLED,
+		throw new MailDisabledException(
+			MailDisabledException::REASON_USER_DISABLED,
 			Text::_('JLIB_MAIL_FUNCTION_OFFLINE'),
 			500
 		);
@@ -640,8 +641,8 @@ class Mail extends PHPMailer
 	 *
 	 * @since   1.7.0
 	 *
-	 * @throws  Exception\MailDisabledException  if the mail function is disabled
-	 * @throws  phpmailerException               if exception throwing is enabled
+	 * @throws  MailDisabledException  if the mail function is disabled
+	 * @throws  phpmailerException     if exception throwing is enabled
 	 */
 	public function sendMail($from, $fromName, $recipient, $subject, $body, $mode = false, $cc = null, $bcc = null, $attachment = null,
 		$replyTo = null, $replyToName = null
