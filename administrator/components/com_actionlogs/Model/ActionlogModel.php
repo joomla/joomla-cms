@@ -11,7 +11,6 @@ namespace Joomla\Component\Actionlogs\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -43,7 +42,7 @@ class ActionlogModel extends BaseDatabaseModel
 	 *
 	 * @since   3.9.0
 	 *
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
