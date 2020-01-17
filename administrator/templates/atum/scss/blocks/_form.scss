@@ -128,6 +128,7 @@ legend {
   background: $black;
   max-width: 100%;
   z-index: $zindex-tooltip;
+  text-align: left;
 }
 
  /* reveal associated tooltip on focus */
