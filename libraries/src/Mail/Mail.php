@@ -125,7 +125,7 @@ class Mail extends PHPMailer
 			);
 		}
 
-		if (($this->Mailer == 'mail') && !\function_exists('mail'))
+		if ($this->Mailer === 'mail' && !\function_exists('mail'))
 		{
 			throw new MailDisabledException(
 				MailDisabledException::REASON_MAIL_FUNCTION_NOT_AVAILABLE,
