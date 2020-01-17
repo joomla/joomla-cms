@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /**
  * HTML View class for the Content component
@@ -255,7 +256,7 @@ class HtmlView extends CategoryView
 			while ((!isset($menu->query['option']) || $menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article'
 				|| $id != $category->id) && $category->id > 1)
 			{
-				$path[] = array('title' => $category->title, 'link' => \ContentHelperRoute::getCategoryRoute($category->id, $category->language));
+				$path[] = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
 			}
 

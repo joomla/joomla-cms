@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /**
  * Content Component Association Helper
@@ -91,7 +92,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 
 				foreach ($associations as $tag => $item)
 				{
-					$return[$tag] = \ContentHelperRoute::getArticleRoute($item->id, (int) $item->catid, $item->language, $layout);
+					$return[$tag] = RouteHelper::getArticleRoute($item->id, (int) $item->catid, $item->language, $layout);
 				}
 
 				return $return;

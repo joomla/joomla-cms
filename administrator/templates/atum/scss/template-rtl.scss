@@ -64,6 +64,8 @@ body {
     margin-right: 0;
     margin-left: 15px;
   }
+
+  .logo svg,
   .logo img {
     margin-right: .8rem;
     margin-left: auto;
@@ -207,10 +209,6 @@ body {
 
 .field-user-wrapper {
   float: none;
-}
-
-.field-media-input {
-  margin-right: 220px;
 }
 
 // Quickicon specific

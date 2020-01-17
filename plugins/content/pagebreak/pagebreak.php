@@ -16,6 +16,7 @@ use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Utility\Utility;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\String\StringHelper;
 
 /**
@@ -309,7 +310,7 @@ class PlgContentPagebreak extends CMSPlugin
 
 		// TOC first Page link.
 		$list[1]         = new stdClass;
-		$list[1]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language);
+		$list[1]->link   = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
 		$list[1]->title  = $heading;
 		$list[1]->active = ($limitstart === 0 && $showall === 0);
 
@@ -340,7 +341,7 @@ class PlgContentPagebreak extends CMSPlugin
 			}
 
 			$list[$i]         = new stdClass;
-			$list[$i]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($i - 1);
+			$list[$i]->link   = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($i - 1);
 			$list[$i]->title  = $title;
 			$list[$i]->active = ($limitstart === $i - 1);
 
@@ -350,7 +351,7 @@ class PlgContentPagebreak extends CMSPlugin
 		if ($this->params->get('showall'))
 		{
 			$list[$i]         = new stdClass;
-			$list[$i]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1';
+			$list[$i]->link   = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1';
 			$list[$i]->title  = Text::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES');
 			$list[$i]->active = ($limitstart === $i - 1);
 		}
@@ -381,12 +382,12 @@ class PlgContentPagebreak extends CMSPlugin
 
 		if ($page < $n - 1)
 		{
-			$links['next'] = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($page + 1);
+			$links['next'] = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($page + 1);
 		}
 
 		if ($page > 0)
 		{
-			$links['previous'] = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language);
+			$links['previous'] = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
 
 			if ($page > 1)
 			{
