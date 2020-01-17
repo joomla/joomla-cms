@@ -19,6 +19,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\String\StringHelper;
 
 /**
@@ -262,7 +263,7 @@ abstract class ArticlesCategoryHelper
 			if ($access || \in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->link = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 			else
 			{
@@ -293,7 +294,7 @@ abstract class ArticlesCategoryHelper
 
 			if ($item->catid)
 			{
-				$item->displayCategoryLink  = Route::_(\ContentHelperRoute::getCategoryRoute($item->catid, $item->category_language));
+				$item->displayCategoryLink  = Route::_(RouteHelper::getCategoryRoute($item->catid, $item->category_language));
 				$item->displayCategoryTitle = $show_category ? '<a href="' . $item->displayCategoryLink . '">' . $item->category_title . '</a>' : '';
 			}
 			else

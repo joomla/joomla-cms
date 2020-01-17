@@ -12,10 +12,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 $params = $this->params;
 ?>
-
 <div id="archive-items" class="com-content-archive__items">
 	<?php foreach ($this->items as $i => $item) : ?>
 		<?php $info = $item->params->get('info_block_position', 0); ?>
@@ -23,7 +23,7 @@ $params = $this->params;
 			<div class="page-header">
 				<h2 itemprop="headline">
 					<?php if ($params->get('link_titles')) : ?>
-						<a href="<?php echo Route::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)); ?>" itemprop="url">
+						<a href="<?php echo Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language)); ?>" itemprop="url">
 							<?php echo $this->escape($item->title); ?>
 						</a>
 					<?php else : ?>
@@ -61,7 +61,7 @@ $params = $this->params;
 							<?php $title = $this->escape($item->parent_title); ?>
 							<?php if ($params->get('link_parent_category') && !empty($item->parent_id)) : ?>
 								<?php $url = '<a href="' . Route::_(
-									ContentHelperRoute::getCategoryRoute($item->parent_id, $item->parent_language)
+									RouteHelper::getCategoryRoute($item->parent_id, $item->parent_language)
 									)
 									. '" itemprop="genre">' . $title . '</a>'; ?>
 								<?php echo Text::sprintf('COM_CONTENT_PARENT', $url); ?>
@@ -77,7 +77,7 @@ $params = $this->params;
 							<?php $title = $this->escape($item->category_title); ?>
 							<?php if ($params->get('link_category') && $item->catid) : ?>
 								<?php $url = '<a href="' . Route::_(
-									ContentHelperRoute::getCategoryRoute($item->catid, $item->category_language)
+									RouteHelper::getCategoryRoute($item->catid, $item->category_language)
 									)
 									. '" itemprop="genre">' . $title . '</a>'; ?>
 								<?php echo Text::sprintf('COM_CONTENT_CATEGORY', $url); ?>
@@ -153,7 +153,7 @@ $params = $this->params;
 								<?php $title = $this->escape($item->parent_title); ?>
 								<?php if ($params->get('link_parent_category') && $item->parent_id) : ?>
 									<?php $url = '<a href="' . Route::_(
-										ContentHelperRoute::getCategoryRoute($item->parent_id, $item->parent_language)
+										RouteHelper::getCategoryRoute($item->parent_id, $item->parent_language)
 										)
 										. '" itemprop="genre">' . $title . '</a>'; ?>
 									<?php echo Text::sprintf('COM_CONTENT_PARENT', $url); ?>
@@ -169,7 +169,7 @@ $params = $this->params;
 								<?php $title = $this->escape($item->category_title); ?>
 								<?php if ($params->get('link_category') && $item->catid) : ?>
 									<?php $url = '<a href="' . Route::_(
-										ContentHelperRoute::getCategoryRoute($item->catid, $item->category_language)
+										RouteHelper::getCategoryRoute($item->catid, $item->category_language)
 										)
 										. '" itemprop="genre">' . $title . '</a>'; ?>
 									<?php echo Text::sprintf('COM_CONTENT_CATEGORY', $url); ?>
