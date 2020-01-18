@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a885da972a3f235d5b139b7d34fa7542",
+    "content-hash": "c82df6ccb38650998b7bc8b674d61b01",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -3974,6 +3974,7 @@
                 "selenium",
                 "webdriver"
             ],
+            "abandoned": "php-webdriver/webdriver",
             "time": "2019-06-13T08:02:18+00:00"
         },
         {
@@ -7183,13 +7184,13 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.2",
+        "php": ">=7.2.5",
         "ext-json": "*",
         "ext-simplexml": "*",
         "ext-gd": "*"
     },
     "platform-dev": [],
     "platform-overrides": {
-        "php": "7.2"
+        "php": "7.2.5"
     }
 }
