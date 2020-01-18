@@ -130,11 +130,11 @@ legend {
   z-index: $zindex-tooltip;
 
   [dir=ltr] & {
-  text-align: left;
+    text-align: left;
   }
 
   [dir=rtl] & {
-  text-align: right;
+    text-align: right;
   }
 }
 
