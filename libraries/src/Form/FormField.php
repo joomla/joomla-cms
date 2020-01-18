@@ -1012,6 +1012,26 @@ abstract class FormField
 				return '';
 			}
 
+			// Check for a callback filter
+			if (strpos($filter, '::') !== false && \is_callable(explode('::', $filter)))
+			{
+				return \call_user_func(explode('::', $filter), $value);
+			}
+
+			// Load the FormRule object for the field. FormRule objects take precedence over PHP functions
+			$obj = FormHelper::loadFilterType($filter);
+
+			// Run the filter rule.
+			if ($obj)
+			{
+				return $obj->filter($this->element, $value, $group, $input, $this->form);
+			}
+
+			if (\function_exists($filter))
+			{
+				return \call_user_func($filter, $value);
+			}
+
 			// Dirty way of ensuring required fields in subforms are submitted and filtered the way other fields are
 			if ($this instanceof SubformField)
 			{
@@ -1032,26 +1052,6 @@ abstract class FormField
 				}
 
 				return $return;
-			}
-
-			// Check for a callback filter
-			if (strpos($filter, '::') !== false && \is_callable(explode('::', $filter)))
-			{
-				return \call_user_func(explode('::', $filter), $value);
-			}
-
-			// Load the FormRule object for the field. FormRule objects take precedence over PHP functions
-			$obj = FormHelper::loadFilterType($filter);
-
-			// Run the filter rule.
-			if ($obj)
-			{
-				return $obj->filter($this->element, $value, $group, $input, $this->form);
-			}
-
-			if (\function_exists($filter))
-			{
-				return \call_user_func($filter, $value);
 			}
 		}
 
