@@ -6,11 +6,12 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Serializer;
+namespace Joomla\Component\Content\Api\Serializer;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Uri\Uri;
 use Tobscure\JsonApi\Collection;
 use Tobscure\JsonApi\Relationship;
