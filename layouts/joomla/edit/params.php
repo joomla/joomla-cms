@@ -110,8 +110,8 @@ foreach ($fieldSets as $name => $fieldSet)
 		$label = Text::_($label);
 	}
 
-	$hasChildren = $xml->xpath('//fieldset[@name="' . $name . '"]//fieldset');
-	$hasParent = $xml->xpath('//fieldset//fieldset[@name="' . $name . '"]');
+	$hasChildren  = $xml->xpath('//fieldset[@name="' . $name . '"]//fieldset[not(ancestor::field/form/*)]');
+	$hasParent    = $xml->xpath('//fieldset//fieldset[@name="' . $name . '"]');
 	$isGrandchild = $xml->xpath('//fieldset//fieldset//fieldset[@name="' . $name . '"]');
 
 	if (!$isGrandchild && $hasParent)
