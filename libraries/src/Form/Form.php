@@ -2155,7 +2155,7 @@ class Form
 			$field   = $this->loadField($element);
 			$subForm = $field->loadSubForm();
 
-			if ($field->multiple)
+			if ($field->multiple && $value)
 			{
 				foreach ($value as $key => $val)
 				{
