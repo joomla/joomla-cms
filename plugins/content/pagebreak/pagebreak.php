@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Utility\Utility;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\String\StringHelper;
@@ -383,7 +382,7 @@ class PlgContentPagebreak extends CMSPlugin
 
 		if ($page < $n - 1)
 		{
-			$links['next'] = Route::_(RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($page + 1));
+			$links['next'] = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($page + 1);
 		}
 
 		if ($page > 0)
@@ -394,8 +393,6 @@ class PlgContentPagebreak extends CMSPlugin
 			{
 				$links['previous'] .= '&limitstart=' . ($page - 1);
 			}
-
-			$links['previous'] = Route::_($links['previous']);
 		}
 
 		$path = PluginHelper::getLayoutPath('content', 'pagebreak', 'navigation');
