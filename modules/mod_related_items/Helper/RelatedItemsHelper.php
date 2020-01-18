@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 
 /**
@@ -178,7 +179,7 @@ abstract class RelatedItemsHelper
 			foreach ($related as &$item)
 			{
 				$item->slug  = $item->id . ':' . $item->alias;
-				$item->route = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->route = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 		}
 

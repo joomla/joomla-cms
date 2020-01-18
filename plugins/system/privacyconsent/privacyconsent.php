@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
@@ -751,7 +752,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 							$conf->get('cache_path', JPATH_SITE . '/cache')
 					];
 
-					$cache = JCache::getInstance('callback', $options);
+					$cache = Cache::getInstance('callback', $options);
 					$cache->clean();
 				}
 				catch (Exception $e)

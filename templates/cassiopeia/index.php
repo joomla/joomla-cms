@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
@@ -31,11 +30,13 @@ $menu     = $app->getMenu()->getActive();
 $pageclass = $menu->getParams()->get('pageclass_sfx');
 
 // Enable assets
-$wa->enableAsset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
+$wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+	->useStyle('template.active.language')
+	->useStyle('template.user')
+	->useScript('template.user');
 
-// Load specific language related CSS
-HTMLHelper::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
-HTMLHelper::_('stylesheet', 'https://fonts.googleapis.com/css?family=Fira+Sans:400', []);
+// Override 'template.active' asset to set correct ltr/rtl dependency
+$wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
 // Preload the stylesheet for the font, actually we need to preload the font
 $this->getPreloadManager()->preload('https://fonts.googleapis.com/css?family=Fira+Sans:400', array('as' => 'stylesheet'));

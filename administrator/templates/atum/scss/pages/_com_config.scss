@@ -20,6 +20,10 @@
   .options-menu {
     .revert-controls .controls {
       margin-left: 0;
+
+      [dir=rtl] & {
+        margin-right: 0;
+      }
     }
   }
 }

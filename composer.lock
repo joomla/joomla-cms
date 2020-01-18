@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "850a90a4b12fd564225cb6f74993eefd",
+    "content-hash": "98a2aa4375f3807fcdb9b27629d6bc03",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -1073,54 +1073,6 @@
                 "joomla"
             ],
             "time": "2019-07-18T00:24:34+00:00"
-        },
-        {
-            "name": "joomla/image",
-            "version": "dev-2.0-dev",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joomla-framework/image.git",
-                "reference": "0222c4a6dba784ea05715d8c060911cb57091953"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/image/zipball/0222c4a6dba784ea05715d8c060911cb57091953",
-                "reference": "0222c4a6dba784ea05715d8c060911cb57091953",
-                "shasum": ""
-            },
-            "require": {
-                "ext-gd": "*",
-                "php": "~7.0",
-                "psr/log": "~1.0"
-            },
-            "require-dev": {
-                "joomla/coding-standards": "~2.0@alpha",
-                "joomla/test": "~1.0",
-                "phpunit/phpunit": "~6.3"
-            },
-            "type": "joomla-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-2.0-dev": "2.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Joomla\\Image\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0-or-later"
-            ],
-            "description": "Joomla Image Package",
-            "homepage": "https://github.com/joomla-framework/image",
-            "keywords": [
-                "framework",
-                "image",
-                "joomla"
-            ],
-            "time": "2018-05-25T02:30:04+00:00"
         },
         {
             "name": "joomla/input",
@@ -2203,16 +2155,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.1.0",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
+                "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
-                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/446d54b4cb6bf489fc9d75f55843658e6f25d801",
+                "reference": "446d54b4cb6bf489fc9d75f55843658e6f25d801",
                 "shasum": ""
             },
             "require": {
@@ -2221,7 +2173,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.1.x-dev"
                 }
             },
             "autoload": {
@@ -2246,7 +2198,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2018-11-20T15:27:04+00:00"
+            "time": "2019-11-01T11:05:21+00:00"
         },
         {
             "name": "symfony/console",
@@ -2325,16 +2277,16 @@
         },
         {
             "name": "symfony/debug",
-            "version": "v4.3.4",
+            "version": "v4.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "afcdea44a2e399c1e4b52246ec8d54c715393ced"
+                "reference": "5c4c1db977dc70bb3250e1308d3e8c6341aa38f5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/afcdea44a2e399c1e4b52246ec8d54c715393ced",
-                "reference": "afcdea44a2e399c1e4b52246ec8d54c715393ced",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/5c4c1db977dc70bb3250e1308d3e8c6341aa38f5",
+                "reference": "5c4c1db977dc70bb3250e1308d3e8c6341aa38f5",
                 "shasum": ""
             },
             "require": {
@@ -2345,12 +2297,12 @@
                 "symfony/http-kernel": "<3.4"
             },
             "require-dev": {
-                "symfony/http-kernel": "~3.4|~4.0"
+                "symfony/http-kernel": "^3.4|^4.0|^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.3-dev"
+                    "dev-master": "4.4-dev"
                 }
             },
             "autoload": {
@@ -2377,7 +2329,63 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2019-08-20T14:27:59+00:00"
+            "time": "2019-12-16T14:46:54+00:00"
+        },
+        {
+            "name": "symfony/error-handler",
+            "version": "v4.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/error-handler.git",
+                "reference": "6d7d7712a6ff5215ec26215672293b154f1db8c1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/error-handler/zipball/6d7d7712a6ff5215ec26215672293b154f1db8c1",
+                "reference": "6d7d7712a6ff5215ec26215672293b154f1db8c1",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "psr/log": "~1.0",
+                "symfony/debug": "^4.4",
+                "symfony/var-dumper": "^4.4|^5.0"
+            },
+            "require-dev": {
+                "symfony/http-kernel": "^4.4|^5.0",
+                "symfony/serializer": "^4.4|^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\ErrorHandler\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony ErrorHandler Component",
+            "homepage": "https://symfony.com",
+            "time": "2019-12-16T14:46:54+00:00"
         },
         {
             "name": "symfony/ldap",
@@ -2781,16 +2789,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.3.4",
+            "version": "v4.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "641043e0f3e615990a0f29479f9c117e8a6698c6"
+                "reference": "be330f919bdb395d1e0c3f2bfb8948512d6bdd99"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/641043e0f3e615990a0f29479f9c117e8a6698c6",
-                "reference": "641043e0f3e615990a0f29479f9c117e8a6698c6",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/be330f919bdb395d1e0c3f2bfb8948512d6bdd99",
+                "reference": "be330f919bdb395d1e0c3f2bfb8948512d6bdd99",
                 "shasum": ""
             },
             "require": {
@@ -2804,9 +2812,9 @@
             },
             "require-dev": {
                 "ext-iconv": "*",
-                "symfony/console": "~3.4|~4.0",
-                "symfony/process": "~3.4|~4.0",
-                "twig/twig": "~1.34|~2.4"
+                "symfony/console": "^3.4|^4.0|^5.0",
+                "symfony/process": "^4.4|^5.0",
+                "twig/twig": "^1.34|^2.4|^3.0"
             },
             "suggest": {
                 "ext-iconv": "To convert non-UTF-8 strings to UTF-8 (or symfony/polyfill-iconv in case ext-iconv cannot be used).",
@@ -2819,7 +2827,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.3-dev"
+                    "dev-master": "4.4-dev"
                 }
             },
             "autoload": {
@@ -2853,7 +2861,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2019-08-26T08:26:39+00:00"
+            "time": "2019-12-18T13:41:29+00:00"
         },
         {
             "name": "symfony/web-link",
@@ -3247,6 +3255,7 @@
                 "psr",
                 "psr-7"
             ],
+            "abandoned": "laminas/laminas-diactoros",
             "time": "2019-07-10T16:13:25+00:00"
         }
     ],
@@ -4729,12 +4738,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "08dc4fb70c005db326122bb525aecc0d002f6fac"
+                "reference": "a811a32eda8e686c9224f1f8754760edfa0ea1f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/08dc4fb70c005db326122bb525aecc0d002f6fac",
-                "reference": "08dc4fb70c005db326122bb525aecc0d002f6fac",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/a811a32eda8e686c9224f1f8754760edfa0ea1f1",
+                "reference": "a811a32eda8e686c9224f1f8754760edfa0ea1f1",
                 "shasum": ""
             },
             "require": {
@@ -4772,7 +4781,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2019-11-18T17:28:42+00:00"
+            "time": "2019-12-18T15:19:49+00:00"
         },
         {
             "name": "joomla/cms-coding-standards",
@@ -4924,6 +4933,50 @@
                 "mediawiki"
             ],
             "time": "2018-10-16T23:34:41+00:00"
+        },
+        {
+            "name": "joomla/test",
+            "version": "1.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joomla-framework/test.git",
+                "reference": "9bceb0387fe76156554d1de765200abefcbf9166"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joomla-framework/test/zipball/9bceb0387fe76156554d1de765200abefcbf9166",
+                "reference": "9bceb0387fe76156554d1de765200abefcbf9166",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.10"
+            },
+            "require-dev": {
+                "joomla/database": "~1.0"
+            },
+            "suggest": {
+                "joomla/database": "To use the database test case, install joomla/database"
+            },
+            "type": "joomla-package",
+            "autoload": {
+                "psr-4": {
+                    "Joomla\\Test\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "description": "Joomla Test Helper Package",
+            "homepage": "https://github.com/joomla-framework/test",
+            "keywords": [
+                "framework",
+                "joomla",
+                "phpunit",
+                "reflection",
+                "unit test"
+            ],
+            "time": "2017-01-21T22:54:27+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -7044,7 +7097,6 @@
         "joomla/di": 20,
         "joomla/event": 20,
         "joomla/http": 20,
-        "joomla/image": 20,
         "joomla/ldap": 20,
         "joomla/oauth1": 20,
         "joomla/oauth2": 20,
@@ -7064,7 +7116,8 @@
     "platform": {
         "php": ">=7.2",
         "ext-json": "*",
-        "ext-simplexml": "*"
+        "ext-simplexml": "*",
+        "ext-gd": "*"
     },
     "platform-dev": [],
     "platform-overrides": {

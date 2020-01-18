@@ -16,7 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\User\User;
-use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
+use Joomla\Component\Users\Administrator\Helper\DebugHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
@@ -63,7 +63,7 @@ class DebuguserModel extends ListModel
 	{
 		$component = $this->getState('filter.component');
 
-		return UsersHelperDebug::getDebugActions($component);
+		return DebugHelper::getDebugActions($component);
 	}
 
 	/**
