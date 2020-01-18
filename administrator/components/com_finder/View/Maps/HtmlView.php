@@ -17,8 +17,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
 /**
  * Groups view class for Finder.
@@ -44,15 +43,6 @@ class HtmlView extends BaseHtmlView
 	 * @since  3.6.1
 	 */
 	protected $pagination;
-
-	/**
-	 * The HTML markup for the sidebar
-	 *
-	 * @var  string
-	 *
-	 * @since  3.6.1
-	 */
-	protected $sidebar;
 
 	/**
 	 * The model state
@@ -100,7 +90,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Load plugin language files.
-		FinderHelperLanguage::loadPluginLanguage();
+		LanguageHelper::loadPluginLanguage();
 
 		// Load the view data.
 		$this->items         = $this->get('Items');
@@ -110,8 +100,6 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		FinderHelper::addSubmenu('maps');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -120,7 +108,6 @@ class HtmlView extends BaseHtmlView
 
 		// Prepare the view.
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}

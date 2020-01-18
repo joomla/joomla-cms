@@ -12,7 +12,7 @@ namespace Joomla\Component\Finder\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\LanguageHelper as CMSLanguageHelper;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -20,7 +20,7 @@ use Joomla\CMS\Language\Text;
  *
  * @since  2.5
  */
-class FinderHelperLanguage
+class LanguageHelper
 {
 	/**
 	 * Method to return a plural language code for a taxonomy branch.
@@ -78,7 +78,7 @@ class FinderHelperLanguage
 		}
 		else
 		{
-			$languages = LanguageHelper::getLanguages('lang_code');
+			$languages = CMSLanguageHelper::getLanguages('lang_code');
 
 			if (isset($languages[$branchName]))
 			{

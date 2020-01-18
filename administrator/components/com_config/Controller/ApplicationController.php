@@ -145,6 +145,29 @@ class ApplicationController extends BaseController
 			return false;
 		}
 
+		// Validate database connection data.
+		$data   = $return;
+		$return = $model->validateDbConnection($data);
+
+		// Check for validation errors.
+		if ($return === false)
+		{
+			/*
+			 * The validateDbConnection method enqueued all messages for us.
+			 */
+
+			// Save the posted data in the session.
+			$this->app->setUserState('com_config.config.global.data', $data);
+
+			// Redirect back to the edit screen.
+			$this->setRedirect(Route::_('index.php?option=com_config', false));
+
+			return false;
+		}
+
+		// Save the validated data in the session.
+		$this->app->setUserState('com_config.config.global.data', $return);
+
 		// Attempt to save the configuration.
 		$data   = $return;
 		$return = $model->save($data);

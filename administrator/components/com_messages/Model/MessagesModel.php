@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 
 /**
  * Messages Component Messages Model
@@ -106,31 +107,40 @@ class MessagesModel extends ListModel
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 		$user = Factory::getUser();
+		$id   = (int) $user->get('id');
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.*, ' .
-					'u.name AS user_from'
+				[
+					$db->quoteName('a') . '.*',
+					$db->quoteName('u.name', 'user_from'),
+				]
 			)
 		);
-		$query->from('#__messages AS a');
+		$query->from($db->quoteName('#__messages', 'a'));
 
 		// Join over the users for message owner.
-		$query->join('INNER', '#__users AS u ON u.id = a.user_id_from')
-			->where('a.user_id_to = ' . (int) $user->get('id'));
+		$query->join('INNER',
+			$db->quoteName('#__users', 'u'),
+			$db->quoteName('u.id') . ' = ' . $db->quoteName('a.user_id_from')
+		)
+			->where($db->quoteName('a.user_id_to') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
 
 		// Filter by published state.
 		$state = $this->getState('filter.state');
 
 		if (is_numeric($state))
 		{
-			$query->where('a.state = ' . (int) $state);
+			$state = (int) $state;
+			$query->where($db->quoteName('a.state') . ' = :state')
+				->bind(':state', $state, ParameterType::INTEGER);
 		}
 		elseif ($state !== '*')
 		{
-			$query->where('(a.state IN (0, 1))');
+			$query->whereIn($db->quoteName('a.state'), [0, 1]);
 		}
 
 		// Filter by search in subject or message.
@@ -138,8 +148,17 @@ class MessagesModel extends ListModel
 
 		if (!empty($search))
 		{
-			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(a.subject LIKE ' . $search . ' OR a.message LIKE ' . $search . ')');
+			$search = '%' . str_replace(' ', '%', trim($search)) . '%';
+			$query->extendWhere(
+				'AND',
+				[
+					$db->quoteName('a.subject') . ' LIKE :subject',
+					$db->quoteName('a.message') . ' LIKE :message',
+				],
+				'OR'
+			)
+				->bind(':subject', $search)
+				->bind(':message', $search);
 		}
 
 		// Add the list ordering clause.
