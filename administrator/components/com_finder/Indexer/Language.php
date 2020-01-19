@@ -11,7 +11,11 @@ namespace Joomla\Component\Finder\Administrator\Indexer;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\String\StringHelper;
+use Wamania\Snowball\NotFoundException;
+use Wamania\Snowball\StemmerFactory;
+use Wamania\Snowball\Stemmer\Stemmer;
 
 /**
  * Language support class for the Finder indexer package.
@@ -45,6 +49,43 @@ class Language
 	public $spacer = ' ';
 
 	/**
+	 * The stemmer object.
+	 *
+	 * @var    Stemmer
+	 * @since  4.0.0
+	 */
+	protected $stemmer = null;
+
+	/**
+	 * Method to construct the language object.
+	 *
+	 * @since   4.0.0
+	 *
+	 * @throws Exception
+	 */
+	public function __construct($locale = null)
+	{
+		if ($locale !== null)
+		{
+			$this->language = $locale;
+		}
+
+		if ($this->language === null)
+		{
+			throw new Exception('Can\'t initial stemmer, locale is not set', 500);
+		}
+
+		try
+		{
+			$this->stemmer = StemmerFactory::create($this->language);
+		}
+		catch (NotFoundException $e)
+		{
+			// We don't have a stemmer for the language
+		}
+	}
+
+	/**
 	 * Method to get a language support object.
 	 *
 	 * @param   string  $language  The language of the support object.
@@ -60,25 +101,14 @@ class Language
 			return self::$instances[$language];
 		}
 
-		if ($language == '*')
-		{
-			self::$instances[$language] = new self;
+		$locale = '*';
 
-			return self::$instances[$language];
+		if ($language !== '*')
+		{
+			$locale = Helper::getPrimaryLanguage($language);
 		}
 
-		$locale = Helper::getPrimaryLanguage($language);
-		$class = '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Language\\' . ucfirst($locale);
-
-		if (class_exists($class))
-		{
-			self::$instances[$language] = new $class;
-		}
-		else
-		{
-			self::$instances[$language] = new self;
-			self::$instances[$language]->language = $locale;
-		}
+		self::$instances[$language] = new self($locale);
 
 		return self::$instances[$language];
 	}
@@ -137,6 +167,11 @@ class Language
 	 */
 	public function stem($token)
 	{
+		if ($this->stemmer !== null)
+		{
+			return $this->stemmer->stem($token);
+		}
+
 		return $token;
 	}
 }
