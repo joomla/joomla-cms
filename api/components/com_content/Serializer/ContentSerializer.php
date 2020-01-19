@@ -33,17 +33,20 @@ class ContentSerializer extends JoomlaSerializer
 	 *
 	 * @since 4.0
 	 */
-	public function associations($model)
+	public function languageAssociations($model)
 	{
 		$resources = [];
 
+		// TODO: This can't be hardcoded in the future?
+		$serializer = new JoomlaSerializer($this->type);
+
 		foreach ($model->associations as $association)
 		{
-			$resources[] = (new Resource($association, new JoomlaSerializer($this->type)))
+			$resources[] = (new Resource($association, $serializer))
 				->addLink('self', Route::link('site', Uri::root() . '/api/index.php/v1/content/article/' . $association->id));
 		}
 
-		$collection = new Collection($resources, new JoomlaSerializer($this->type));
+		$collection = new Collection($resources, $serializer);
 
 		return new Relationship($collection);
 	}
