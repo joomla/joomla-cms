@@ -42,7 +42,7 @@ use Joomla\CMS\Utility\Utility;
 		<tr>
 			<td>&nbsp;</td>
 			<td>
-				<button id="importButton" class="btn btn-primary" type="button" onclick="Joomla.submitbutton('database.import');"><?php echo Text::_('COM_INSTALLER_IMPORT_BUTTON'); ?></button>
+				<button id="importButton" class="btn btn-primary" type="button" onclick="Joomla.submitbutton('database.import');" disabled><?php echo Text::_('COM_INSTALLER_IMPORT_BUTTON'); ?></button>
 			</td>
 		</tr>
 		</tfoot>
@@ -58,6 +58,16 @@ function checkSize(inputFile) {
 	    oFiles = document.getElementById("zip_file").files;
 	nBytes = oFiles[0].size;
 	sizeLimit = parseInt(document.getElementById("max-size").value);
-	inputFile.className = nBytes > sizeLimit ? "form-control-file is-invalid" : "form-control-file is-valid";
+	
+	if (nBytes > sizeLimit)
+	{
+		inputFile.className = "form-control-file is-invalid";
+		document.getElementById("importButton").disabled = true;
+	}
+	else
+	{
+		inputFile.className = "form-control-file is-valid";
+		document.getElementById("importButton").disabled = false;
+	}
 }
 </script>
