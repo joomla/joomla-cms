@@ -77,8 +77,8 @@ class UsersController extends ApiController
 	{
 		$this->input->set('model_state',
 			[
-				'filter.state'    => $this->input->get('state', $this->input->post->get('state')),
-				'filter.group_id' => $this->input->get('group_id', $this->input->post->get('group_id')),
+				'filter.state'    => $this->input->get('state', $this->input->get->get('state')),
+				'filter.group_id' => $this->input->get('group_id', $this->input->get->get('group_id')),
 			]
 		);
 
