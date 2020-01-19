@@ -14,6 +14,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_MENUS_MENUS_FILTER_SEARCH_LABEL"
 			description="COM_MENUS_MENUS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"

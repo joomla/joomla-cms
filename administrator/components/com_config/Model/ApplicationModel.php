@@ -112,6 +112,167 @@ class ApplicationModel extends FormModel
 	}
 
 	/**
+	 * Method to validate the db connection properties.
+	 *
+	 * @param   array  $data  An array containing all global config data.
+	 *
+	 * @return  array|boolean  Array with the validated global config data or boolean false on a validation failure.
+	 *
+	 * @since	4.0.0
+	 */
+	public function validateDbConnection($data)
+	{
+		// Validate database connection encryption options
+		if ((int) $data['dbencryption'] === 0)
+		{
+			// Reset unused options
+			if (!empty($data['dbsslkey']))
+			{
+				$data['dbsslkey'] = '';
+			}
+
+			if (!empty($data['dbsslcert']))
+			{
+				$data['dbsslcert'] = '';
+			}
+
+			if ((bool) $data['dbsslverifyservercert'] === true)
+			{
+				$data['dbsslverifyservercert'] = false;
+			}
+
+			if (!empty($data['dbsslca']))
+			{
+				$data['dbsslca'] = '';
+			}
+
+			if (!empty($data['dbsslcipher']))
+			{
+				$data['dbsslcipher'] = '';
+			}
+		}
+		else
+		{
+			// Check localhost
+			if (strtolower($data['host']) === 'localhost')
+			{
+				Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_DATABASE_ENCRYPTION_LOCALHOST'), 'error');
+
+				return false;
+			}
+
+			// Check CA file and folder depending on database type if server certificate verification
+			if ((bool) $data['dbsslverifyservercert'] === true)
+			{
+				if (empty($data['dbsslca']))
+				{
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_EMPTY',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_LABEL')
+						),
+						'error'
+					);
+
+					return false;
+				}
+
+				if (!File::exists(Path::clean($data['dbsslca'])))
+				{
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_LABEL')
+						),
+						'error'
+					);
+
+					return false;
+				}
+			}
+			else
+			{
+				// Reset unused option
+				if (!empty($data['dbsslca']))
+				{
+					$data['dbsslca'] = '';
+				}
+			}
+
+			// Check key and certificate if two-way encryption
+			if ((int) $data['dbencryption'] === 2)
+			{
+				if (empty($data['dbsslkey']))
+				{
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_EMPTY',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_LABEL')
+						),
+						'error'
+					);
+
+					return false;
+				}
+
+				if (!File::exists(Path::clean($data['dbsslkey'])))
+				{
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_LABEL')
+						),
+						'error'
+					);
+
+					return false;
+				}
+
+				if (empty($data['dbsslcert']))
+				{
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_EMPTY',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_LABEL')
+						),
+						'error'
+					);
+
+					return false;
+				}
+
+				if (!File::exists(Path::clean($data['dbsslcert'])))
+				{
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_LABEL')
+						),
+						'error'
+					);
+
+					return false;
+				}
+			}
+			else
+			{
+				// Reset unused options
+				if (!empty($data['dbsslkey']))
+				{
+					$data['dbsslkey'] = '';
+				}
+
+				if (!empty($data['dbsslcert']))
+				{
+					$data['dbsslcert'] = '';
+				}
+			}
+		}
+
+		return $data;
+	}
+
+	/**
 	 * Method to save the configuration data.
 	 *
 	 * @param   array  $data  An array containing all global config data.
@@ -141,7 +302,7 @@ class ApplicationModel extends FormModel
 				'verify_server_cert' => (bool) $data['dbsslverifyservercert'],
 			];
 
-			foreach (['cipher', 'ca', 'capath', 'key', 'cert'] as $value)
+			foreach (['cipher', 'ca', 'key', 'cert'] as $value)
 			{
 				$confVal = trim($data['dbssl' . $value]);
 
@@ -160,6 +321,20 @@ class ApplicationModel extends FormModel
 		catch (\Exception $e)
 		{
 			$app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_DATABASE_NOT_AVAILABLE', $e->getCode(), $e->getMessage()), 'error');
+
+			return false;
+		}
+
+		if ((int) $data['dbencryption'] !== 0 && empty($revisedDbo->getConnectionEncryption()))
+		{
+			if ($revisedDbo->isConnectionEncryptionSupported())
+			{
+				Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_DATABASE_ENCRYPTION_CONN_NOT_ENCRYPT'), 'error');
+			}
+			else
+			{
+				Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_DATABASE_ENCRYPTION_SRV_NOT_SUPPORTS'), 'error');
+			}
 
 			return false;
 		}

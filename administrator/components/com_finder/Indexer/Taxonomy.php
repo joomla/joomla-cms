@@ -219,7 +219,7 @@ class Taxonomy
 
 			if ($error instanceof \Exception)
 			{
-				// \Joomla\CMS\Table\NestedTable set's errors of exceptions, so in this case we can pass on more
+				// \Joomla\CMS\Table\NestedTable sets errors of exceptions, so in this case we can pass on more
 				// information
 				throw new \RuntimeException(
 					$error->getMessage(),
@@ -239,7 +239,7 @@ class Taxonomy
 
 			if ($error instanceof \Exception)
 			{
-				// \Joomla\CMS\Table\NestedTable set's errors of exceptions, so in this case we can pass on more
+				// \Joomla\CMS\Table\NestedTable sets errors of exceptions, so in this case we can pass on more
 				// information
 				throw new \RuntimeException(
 					$error->getMessage(),

@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
@@ -18,6 +17,7 @@ use Joomla\CMS\Uri\Uri;
 
 $app  = Factory::getApplication();
 $lang = Factory::getLanguage();
+$wa   = $this->getWebAssetManager();
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -27,25 +27,16 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
-$pageclass = $menu !== null ? $menu->params->get('pageclass_sfx', '') : '';
+$pageclass = $menu !== null ? $menu->getParams()->get('pageclass_sfx', '') : '';
 
-// Add JavaScript Frameworks
-HTMLHelper::_('bootstrap.framework');
+// Enable assets
+$wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+	->useStyle('template.active.language')
+	->useStyle('template.user')
+	->useScript('template.user');
 
-// Add template js
-HTMLHelper::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
-
-// Load custom Javascript file
-HTMLHelper::_('script', 'user.js', ['version' => 'auto', 'relative' => true]);
-
-// Load template CSS file
-HTMLHelper::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
-
-// Load custom CSS file
-HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
-
-// Load specific language related CSS
-HTMLHelper::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
+// Override 'template.active' asset to set correct ltr/rtl dependency
+$wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
 // Logo file or site title param
 if ($this->params->get('logoFile'))

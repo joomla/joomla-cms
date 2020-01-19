@@ -18,7 +18,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
- * View class to add or edit Workflow
+ * View class to add or edit a workflow
  *
  * @since  4.0.0
  */

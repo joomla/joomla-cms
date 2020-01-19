@@ -87,18 +87,18 @@
   document.getElementById('item-form').addEventListener('submit', () => {
     if (document.getElementById('jform_params_login_redirect_url') && document.getElementById('jform_params_logout_redirect_url')) {
       // Login
-      if (document.getElementById('jform_params_login_redirect_url').closest('.control-group').style.display === 'block') {
+      if (!document.getElementById('jform_params_login_redirect_url').closest('.control-group').classList.contains('hidden')) {
         document.getElementById('jform_params_login_redirect_menuitem_id').value = '';
       }
-      if (document.getElementById('jform_params_login_redirect_menuitem_name').closest('.control-group').style.display === 'block') {
+      if (!document.getElementById('jform_params_login_redirect_menuitem_name').closest('.control-group').classList.contains('hidden')) {
         document.getElementById('jform_params_login_redirect_url').value = '';
       }
 
       // Logout
-      if (document.getElementById('jform_params_logout_redirect_url').closest('.control-group').style.display === 'block') {
+      if (!document.getElementById('jform_params_logout_redirect_url').closest('.control-group').classList.contains('hidden')) {
         document.getElementById('jform_params_logout_redirect_menuitem_id').value = '';
       }
-      if (document.getElementById('jform_params_logout_redirect_menuitem_id').closest('.control-group').style.display === 'block') {
+      if (!document.getElementById('jform_params_logout_redirect_menuitem_id').closest('.control-group').classList.contains('hidden')) {
         document.getElementById('jform_params_logout_redirect_url').value = '';
       }
     }

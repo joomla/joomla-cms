@@ -15,7 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -771,7 +771,7 @@ class Query
 		foreach (Taxonomy::getBranchTitles() as $branch)
 		{
 			// Add the pattern.
-			$patterns[$branch] = StringHelper::strtolower(Text::_(FinderHelperLanguage::branchSingular($branch)));
+			$patterns[$branch] = StringHelper::strtolower(Text::_(LanguageHelper::branchSingular($branch)));
 		}
 
 		// Container for search terms and phrases.
