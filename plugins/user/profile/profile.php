@@ -74,8 +74,6 @@ class PlgUserProfile extends CMSPlugin
 		{
 			return true;
 		}
-
-		if (is_object($data))
 		{
 			$userId = (int) $data->id ?? 0;
 
@@ -84,15 +82,15 @@ class PlgUserProfile extends CMSPlugin
 				// Load the profile data from the database.
 				$db    = Factory::getDbo();
 				$query = $db->getQuery(true)
-				            ->select([
-					            $db->quoteName('profile_key'),
-					            $db->quoteName('profile_value'),
-				            ])
-				            ->from($db->quoteName('#__user_profiles'))
-				            ->where($db->quoteName('user_id') . ' = :userid')
-				            ->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'))
-				            ->order($db->quoteName('ordering'))
-				            ->bind(':userid', $userId, ParameterType::INTEGER);
+										->select([
+											$db->quoteName('profile_key'),
+											$db->quoteName('profile_value'),
+										])
+										->from($db->quoteName('#__user_profiles'))
+										->where($db->quoteName('user_id') . ' = :userid')
+										->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'))
+										->order($db->quoteName('ordering'))
+										->bind(':userid', $userId, ParameterType::INTEGER);
 
 				$db->setQuery($query);
 				$results = $db->loadRowList();
