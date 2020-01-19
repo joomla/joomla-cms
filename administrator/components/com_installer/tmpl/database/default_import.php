@@ -29,7 +29,13 @@ use Joomla\CMS\Utility\Utility;
 				<?php echo Text::_('COM_INSTALLER_FILE_IMPORTER_TEXT'); ?>
 			</td>
 			<td>
-				<input class="form-control-file" id="zip_file" name="zip_file" type="file" accept="application/zip" size="57">
+				<input class="form-control-file" id="zip_file" name="zip_file" type="file" accept="application/zip" onchange="checkSize(this);" size="57">
+				<div class="invalid-feedback">
+					Your file size is too big!
+				</div>
+				<div class="valid-feedback">
+					Your file size looks good!
+				</div>
 				<?php $maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize()); ?>
 				<small class="form-text text-muted"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></small>
 			</td>
@@ -46,3 +52,15 @@ use Joomla\CMS\Utility\Utility;
 	</table>
 </fieldset>
 <?php echo HTMLHelper::_('form.token'); ?>
+<input type="hidden" id="max-size" value="<?php echo Utility::getMaxUploadSize(); ?>">
+
+<script>
+function checkSize(inputFile) {
+	let nBytes = 0,
+	    sizeLimit = 0,
+	    oFiles = document.getElementById("zip_file").files;
+	nBytes = oFiles[0].size;
+	sizeLimit = parseInt(document.getElementById("max-size").value);
+	inputFile.className = nBytes > sizeLimit ? "form-control-file is-invalid" : "form-control-file is-valid";
+}
+</script>
