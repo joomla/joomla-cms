@@ -17,6 +17,8 @@ Joomla = window.Joomla || {};
       // do field validation
       if (form.install_package.value === '') {
         alert(Joomla.JText._('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE'), true);
+      } else if (form.install_package.files[0].size > form.max_upload_size.value) {
+        alert(Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
       } else {
         Joomla.displayLoader();
 
