@@ -166,19 +166,18 @@ class Workflow
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
-		$select = $db->quoteName(
+		$query->select(
 			[
-				't.id',
-				't.to_stage_id',
-				't.from_stage_id',
-				's.condition',
+				$db->quoteName('t.id'),
+				$db->quoteName('t.to_stage_id'),
+				$db->quoteName('t.from_stage_id'),
+				$db->quoteName('s.condition'),
 			]
-		);
-
-		$query->select($select)
+		)
 			->from($db->quoteName('#__workflow_transitions', 't'))
-			->leftJoin($db->quoteName('#__workflow_stages', 's') . ' ON ' . $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_stage_id'))
-			->where($db->quoteName('t.id') . ' = ' . $transition_id);
+			->join('LEFT', $db->quoteName('#__workflow_stages', 's'), $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_stage_id'))
+			->where($db->quoteName('t.id') . ' = :id')
+			->bind(':id', $transition_id, ParameterType::INTEGER);
 
 		if (!empty($this->options['published']))
 		{
@@ -269,8 +268,17 @@ class Workflow
 			$query = $db->getQuery(true);
 
 			$query->insert($db->quoteName('#__workflow_associations'))
-				->columns($db->quoteName(array('item_id', 'stage_id', 'extension')))
-				->values($pk . ', ' . $state . ', ' . $db->quote($this->extension));
+				->columns(
+					[
+						$db->quoteName('item_id'),
+						$db->quoteName('stage_id'),
+						$db->quoteName('extension'),
+					]
+				)
+				->values(':pk, :state, :extension')
+				->bind(':pk', $pk, ParameterType::INTEGER)
+				->bind(':state', $state, ParameterType::INTEGER)
+				->bind(':extension', $this->extension);
 
 			$db->setQuery($query)->execute();
 		}
@@ -302,9 +310,11 @@ class Workflow
 			$query = $db->getQuery(true);
 
 			$query->update($db->quoteName('#__workflow_associations'))
-				->set($db->quoteName('stage_id') . '=' . $state)
+				->set($db->quoteName('stage_id') . ' = :state')
 				->whereIn($db->quoteName('item_id'), $pks)
-				->where($db->quoteName('extension') . '=' . $db->quote($this->extension));
+				->where($db->quoteName('extension') . ' = :extension')
+				->bind(':state', $state, ParameterType::INTEGER)
+				->bind(':extension', $this->extension);
 
 			$db->setQuery($query)->execute();
 		}
@@ -337,7 +347,8 @@ class Workflow
 			$query
 				->delete($db->quoteName('#__workflow_associations'))
 				->whereIn($db->quoteName('item_id'), $pks)
-				->andWhere($db->quoteName('extension') . '=' . $db->quote($this->extension));
+				->where($db->quoteName('extension') . ' = :extension')
+				->bind(':extension', $this->extension);
 
 			$db->setQuery($query)->execute();
 		}
@@ -360,21 +371,24 @@ class Workflow
 	 */
 	public function getAssociation(int $item_id): ?\stdClass
 	{
-		$db = Factory::getDbo();
-
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
-		$select = $db->quoteName(
+		$query->select(
 			[
-				'item_id',
-				'stage_id'
+				$db->quoteName('item_id'),
+				$db->quoteName('stage_id'),
 			]
-		);
-
-		$query->select($select)
+		)
 			->from($db->quoteName('#__workflow_associations'))
-			->where($db->quoteName('item_id') . ' = ' . $item_id)
-			->where($db->quoteName('extension') . ' = ' . $db->quote($this->extension));
+			->where(
+				[
+					$db->quoteName('item_id') . ' = :id',
+					$db->quoteName('extension') . ' = :extension',
+				]
+			)
+			->bind(':id', $item_id, ParameterType::INTEGER)
+			->bind(':extension', $this->extension);
 
 		return $db->setQuery($query)->loadObject();
 	}
