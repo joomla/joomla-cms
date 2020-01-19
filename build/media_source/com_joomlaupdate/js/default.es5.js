@@ -25,8 +25,33 @@ Joomla = window.Joomla || {};
 		if (form.install_package.value == '') {
 			alert(Joomla.JText._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE'), true);
 		}
+		else if (form.install_package.files[0].size > form.max_upload_size.value) {
+			alert(Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
+		}
 		else {
 			form.submit();
+		}
+	};
+
+	Joomla.installpackageChange = function() {
+		var form = document.getElementById('uploadForm');
+		var fileSizeAct = form.install_package.files[0].size;
+		var fileSizeDisplay = document.getElementById('file_size');
+		var warningElement = document.getElementById('max_upload_size_warn');
+
+		if (form.install_package.value == '') {
+			fileSizeDisplay.classList.add('hidden');
+			warningElement.classList.add('hidden');
+		}
+		else if (fileSizeAct) {
+			fileSizeDisplay.classList.remove('hidden');
+			fileSizeDisplay.innerHTML = Joomla.JText._('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE').replace('%s', fileSizeAct + ' Bytes');
+
+			if (fileSizeAct > form.max_upload_size.value) {
+				warningElement.classList.remove('hidden');
+			} else {
+				warningElement.classList.add('hidden');
+			}
 		}
 	};
 
