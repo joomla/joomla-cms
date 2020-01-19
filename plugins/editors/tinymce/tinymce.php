@@ -594,10 +594,12 @@ class PlgEditorTinymce extends CMSPlugin
 				'image_title'        => true,
 				'height'             => $html_height,
 				'width'              => $html_width,
+				'elementpath'        => (bool) $levelParams->get('element_path', true),
 				'resize'             => $resizing,
 				'templates'          => $templates,
 				'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
 				'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
+				'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
 
 				// Drag and drop specific
 				'dndEnabled' => $dragdrop,
