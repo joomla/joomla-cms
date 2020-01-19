@@ -29,6 +29,7 @@ Joomla = window.Joomla || {};
 
       list.forEach((item) => {
         item.classList.add('table-row');
+        item.classList.remove('hidden');
       });
     });
   }
@@ -39,6 +40,7 @@ Joomla = window.Joomla || {};
 
       list.forEach((item) => {
         item.classList.add('hidden');
+        item.classList.remove('table-row');
       });
     });
   }
@@ -49,6 +51,7 @@ Joomla = window.Joomla || {};
 
       list.forEach((item) => {
         item.classList.add('table-row');
+        item.classList.remove('hidden');
       });
     });
   }
@@ -59,6 +62,7 @@ Joomla = window.Joomla || {};
 
       list.forEach((item) => {
         item.classList.add('hidden');
+        item.classList.remove('table-row');
       });
     });
   }
