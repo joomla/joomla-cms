@@ -12,6 +12,7 @@ namespace Joomla\Component\Content\Api\View\Articles;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Api\Serializer\ContentSerializer;
@@ -115,10 +116,10 @@ class JsonapiView extends BaseApiView
 			$this->fieldsToRenderItem[] = $field->name;
 		}
 
-		if (\Joomla\CMS\Language\Multilanguage::isEnabled())
+		if (Multilanguage::isEnabled())
 		{
-			$this->fieldsToRenderItem[] = 'associations';
-			$this->relationship[]       = 'associations';
+			$this->fieldsToRenderItem[] = 'languageAssociations';
+			$this->relationship[]       = 'languageAssociations';
 		}
 
 		return parent::displayItem();
@@ -146,7 +147,7 @@ class JsonapiView extends BaseApiView
 			$item->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
 		}
 
-		if (\Joomla\CMS\Language\Multilanguage::isEnabled())
+		if (Multilanguage::isEnabled())
 		{
 			$associations = [];
 
