@@ -89,7 +89,7 @@ class PlgUserProfile extends CMSPlugin
 			if (!isset($data->profile) && $userId > 0)
 			{
 				// Load the profile data from the database.
-				$db    = Factory::getDbo();
+				$db    = $this->db;
 				$query = $db->getQuery(true)
 										->select([
 											$db->quoteName('profile_key'),
