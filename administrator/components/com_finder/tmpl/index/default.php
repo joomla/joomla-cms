@@ -106,7 +106,13 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 										<span class="sr-only"><?php echo Text::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?></span>
 									</span>
 									<div role="tooltip" id="tip<?php echo $i; ?>">
-										<?php echo Text::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?>
+										<?php
+											$publishStartDate = $item->publish_start_date !== null ? HTMLHelper::_('date', $item->publish_start_date, Text::_('DATE_FORMAT_LC5'), 'UTC') : '';
+											$publishEndDate   = $item->publish_end_date !== null ? HTMLHelper::_('date', $item->publish_end_date, Text::_('DATE_FORMAT_LC5'), 'UTC') : '';
+											$startDate        = $item->start_date !== null ? HTMLHelper::_('date', $item->start_date, Text::_('DATE_FORMAT_LC5'), 'UTC') : '';
+											$endDate          = $item->end_date !== null ? HTMLHelper::_('date', $item->end_date, Text::_('DATE_FORMAT_LC5'), 'UTC') : '';
+										?>
+										<?php echo Text::sprintf('COM_FINDER_INDEX_DATE_INFO', $publishStartDate, $publishEndDate, $startDate, $endDate); ?>
 									</div>
 								<?php endif; ?>
 								</td>
