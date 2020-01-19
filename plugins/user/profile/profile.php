@@ -42,6 +42,9 @@ class PlgUserProfile extends CMSPlugin
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
+	
+	public $db;
+
 
 	/**
 	 * Constructor
