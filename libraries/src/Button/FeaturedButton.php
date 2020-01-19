@@ -29,8 +29,8 @@ class FeaturedButton extends ActionButton
 	 */
 	protected function preprocess()
 	{
-		$this->addState(0, 'articles.featured', 'unfeatured', 'COM_CONTENT_UNFEATURED', ['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']);
-		$this->addState(1, 'articles.unfeatured', 'featured', 'COM_CONTENT_FEATURED', ['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']);
+		$this->addState(0, 'articles.featured', 'unfeatured', Text::_('COM_CONTENT_UNFEATURED'), ['tip_title' => Text::_('JGLOBAL_TOGGLE_FEATURED')]);
+		$this->addState(1, 'articles.unfeatured', 'featured', Text::_('COM_CONTENT_FEATURED'), ['tip_title' => Text::_('JGLOBAL_TOGGLE_FEATURED')]);
 	}
 
 	/**
@@ -88,17 +88,17 @@ class FeaturedButton extends ActionButton
 
 				$default['title'] = $tip;
 
-				$options['tip_title'] = 'JLIB_HTML_FEATURED_ITEM';
+				$options['tip_title'] = Text::_('JLIB_HTML_FEATURED_ITEM');
 
 				if ($featuredUp && $nowDate < $featuredUp->toUnix())
 				{
-					$options['tip_title'] = 'JLIB_HTML_FEATURED_PENDING_ITEM';
+					$options['tip_title'] = Text::_('JLIB_HTML_FEATURED_PENDING_ITEM');
 					$default['icon'] = 'pending';
 				}
 
 				if ($featuredDown && $nowDate > $featuredDown->toUnix())
 				{
-					$options['tip_title'] = 'JLIB_HTML_FEATURED_EXPIRED_ITEM';
+					$options['tip_title'] = Text::_('JLIB_HTML_FEATURED_EXPIRED_ITEM');
 					$default['icon'] = 'expired';
 				}
 			}

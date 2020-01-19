@@ -47,8 +47,9 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 					<a id="treeExpandAll" href="javascript://"><?php echo Text::_('JALL'); ?></a>,
 					<a id="treeCollapseAll" href="javascript://"><?php echo Text::_('JNONE'); ?></a>
 				</span>
-				<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query float-right" size="16"
-					autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>" aria-invalid="false" tabindex="-1">
+				<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query"
+					autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
+					aria-invalid="false" aria-label="<?php echo Text::_('JSEARCH_FILTER'); ?>">
 			</div>
 			<div class="card-body">
 				<ul class="treeselect">
@@ -117,8 +118,8 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</ul>
-				<joomla-alert id="noresultsfound" type="warning" style="display:none;"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
-				<div style="display:none" id="treeselectmenu">
+				<joomla-alert id="noresultsfound" type="warning" class="hidden"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+				<div class="hidden" id="treeselectmenu">
 					<div class="nav-hover treeselect-menu">
 						<div class="dropdown">
 							<button type="button" data-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-light">
