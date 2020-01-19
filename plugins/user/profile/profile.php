@@ -43,7 +43,13 @@ class PlgUserProfile extends CMSPlugin
 	 */
 	protected $autoloadLanguage = true;
 	
-	public $db;
+	/**
+	 * Database object
+	 *
+	 * @var    \Joomla\Database\DatabaseInterface
+	 * @since  4.0
+	 */
+	protected $db;
 
 
 	/**
