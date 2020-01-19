@@ -10,20 +10,19 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\CheckboxesField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
-
-FormHelper::loadFieldClass('Checkboxes');
 
 /**
  * Consentbox Field class for the Confirm Consent Plugin.
  *
  * @since  3.9.1
  */
-class JFormFieldConsentBox extends JFormFieldCheckboxes
+class JFormFieldConsentBox extends CheckboxesField
 {
 	/**
 	 * The form field type.
@@ -103,7 +102,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @see     JFormField::setup()
+	 * @see     \Joomla\CMS\Form\FormField::setup()
 	 * @since   3.9.1
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
@@ -236,13 +235,19 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 			);
 		}
 
-		// Register ContentHelperRoute
-		JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
+		if (!is_object($article))
+		{
+			// We have not found the article object lets show a 404 to the user
+			return Route::_(
+				'index.php?option=com_content&view=article&id='
+				. $this->articleid . '&tmpl=component'
+			);
+		}
 
 		if (!Associations::isEnabled())
 		{
 			return Route::_(
-				ContentHelperRoute::getArticleRoute(
+				RouteHelper::getArticleRoute(
 					$article->id,
 					$article->catid,
 					$article->language
@@ -256,7 +261,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 		if (isset($associatedArticles) && $currentLang !== $article->language && array_key_exists($currentLang, $associatedArticles))
 		{
 			return Route::_(
-				ContentHelperRoute::getArticleRoute(
+				RouteHelper::getArticleRoute(
 					$associatedArticles[$currentLang]->id,
 					$associatedArticles[$currentLang]->catid,
 					$associatedArticles[$currentLang]->language

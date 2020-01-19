@@ -15,7 +15,6 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Uri\Uri;
 
-$doc    = Factory::getDocument();
 $params = ComponentHelper::getParams('com_media');
 
 // Make sure core.js is loaded before media scripts
@@ -23,10 +22,10 @@ HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.keepalive');
 
 // Add javascripts
-HTMLHelper::_('script', 'media/com_media/js/mediamanager.js');
+HTMLHelper::_('script', 'com_media/mediamanager.js', ['version' => 'auto', 'relative' => true]);
 
 // Add stylesheets
-HTMLHelper::_('stylesheet', 'media/com_media/css/mediamanager.css');
+HTMLHelper::_('stylesheet', 'com_media/mediamanager.css', ['version' => 'auto', 'relative' => true]);
 
 // Populate the language
 $this->loadTemplate('texts');
@@ -34,7 +33,7 @@ $this->loadTemplate('texts');
 $tmpl = Factory::getApplication()->input->getCmd('tmpl');
 
 // Load the toolbar when we are in an iframe
-if ($tmpl == 'component')
+if ($tmpl === 'component')
 {
 	echo Toolbar::getInstance('toolbar')->render();
 }
@@ -51,8 +50,8 @@ $config = array(
 	'maxUploadSizeMb'         => $params->get('upload_maxsize', 10),
 	'providers'               => (array) $this->providers,
 	'currentPath'             => $this->currentPath,
-	'isModal'                 => Factory::getApplication()->input->getCmd('tmpl', '') === 'component' ? true : false,
+	'isModal'                 => $tmpl === 'component',
 );
-$doc->addScriptOptions('com_media', $config);
+$this->document->addScriptOptions('com_media', $config);
 ?>
 <div id="com-media"></div>

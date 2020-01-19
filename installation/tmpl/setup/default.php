@@ -49,12 +49,16 @@ use Joomla\CMS\Language\Text;
 		</fieldset>
 		<fieldset id="installStep2" class="j-install-step">
 			<legend class="j-install-step-header">
-				<span class="fa fa-heart" aria-hidden="true"></span> <?php echo Text::_('INSTL_LOGIN_DATA'); ?>
+				<span class="fa fa-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_LOGIN_DATA'); ?>
 			</legend>
 			<div class="j-install-step-form">
 				<div class="form-group">
 					<?php echo $this->form->getLabel('admin_user'); ?>
 					<?php echo $this->form->getInput('admin_user'); ?>
+				</div>
+				<div class="form-group">
+					<?php echo $this->form->getLabel('admin_username'); ?>
+					<?php echo $this->form->getInput('admin_username'); ?>
 				</div>
 				<div class="form-group">
 					<?php echo $this->form->getLabel('admin_password'); ?>
@@ -98,6 +102,12 @@ use Joomla\CMS\Language\Text;
 					<?php echo $this->form->getLabel('db_prefix'); ?>
 					<?php echo $this->form->getInput('db_prefix'); ?>
 				</div>
+				<?php echo $this->form->getField('db_encryption')->renderField(); ?>
+				<?php echo $this->form->getField('db_sslverifyservercert')->renderField(); ?>
+				<?php echo $this->form->getField('db_sslkey')->renderField(); ?>
+				<?php echo $this->form->getField('db_sslcert')->renderField(); ?>
+				<?php echo $this->form->getField('db_sslca')->renderField(); ?>
+				<?php echo $this->form->getField('db_sslcipher')->renderField(); ?>
 				<div class="form-group">
 					<?php //echo $this->form->getLabel('db_old'); ?>
 					<?php echo $this->form->getInput('db_old'); ?>

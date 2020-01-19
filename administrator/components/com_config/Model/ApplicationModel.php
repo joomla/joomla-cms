@@ -24,12 +24,14 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -80,6 +82,9 @@ class ApplicationModel extends FormModel
 		$config = new \JConfig;
 		$data   = ArrayHelper::fromObject($config);
 
+		// Get the correct driver at runtime
+		$data['dbtype'] = Factory::getDbo()->getName();
+
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;
 
@@ -107,6 +112,167 @@ class ApplicationModel extends FormModel
 	}
 
 	/**
+	 * Method to validate the db connection properties.
+	 *
+	 * @param   array  $data  An array containing all global config data.
+	 *
+	 * @return  array|boolean  Array with the validated global config data or boolean false on a validation failure.
+	 *
+	 * @since	4.0.0
+	 */
+	public function validateDbConnection($data)
+	{
+		// Validate database connection encryption options
+		if ((int) $data['dbencryption'] === 0)
+		{
+			// Reset unused options
+			if (!empty($data['dbsslkey']))
+			{
+				$data['dbsslkey'] = '';
+			}
+
+			if (!empty($data['dbsslcert']))
+			{
+				$data['dbsslcert'] = '';
+			}
+
+			if ((bool) $data['dbsslverifyservercert'] === true)
+			{
+				$data['dbsslverifyservercert'] = false;
+			}
+
+			if (!empty($data['dbsslca']))
+			{
+				$data['dbsslca'] = '';
+			}
+
+			if (!empty($data['dbsslcipher']))
+			{
+				$data['dbsslcipher'] = '';
+			}
+		}
+		else
+		{
+			// Check localhost
+			if (strtolower($data['host']) === 'localhost')
+			{
+				Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_DATABASE_ENCRYPTION_LOCALHOST'), 'error');
+
+				return false;
+			}
+
+			// Check CA file and folder depending on database type if server certificate verification
+			if ((bool) $data['dbsslverifyservercert'] === true)
+			{
+				if (empty($data['dbsslca']))
+				{
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_EMPTY',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_LABEL')
+						),
+						'error'
+					);
+
+					return false;
+				}
+
+				if (!File::exists(Path::clean($data['dbsslca'])))
+				{
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_LABEL')
+						),
+						'error'
+					);
+
+					return false;
+				}
+			}
+			else
+			{
+				// Reset unused option
+				if (!empty($data['dbsslca']))
+				{
+					$data['dbsslca'] = '';
+				}
+			}
+
+			// Check key and certificate if two-way encryption
+			if ((int) $data['dbencryption'] === 2)
+			{
+				if (empty($data['dbsslkey']))
+				{
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_EMPTY',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_LABEL')
+						),
+						'error'
+					);
+
+					return false;
+				}
+
+				if (!File::exists(Path::clean($data['dbsslkey'])))
+				{
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_LABEL')
+						),
+						'error'
+					);
+
+					return false;
+				}
+
+				if (empty($data['dbsslcert']))
+				{
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_EMPTY',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_LABEL')
+						),
+						'error'
+					);
+
+					return false;
+				}
+
+				if (!File::exists(Path::clean($data['dbsslcert'])))
+				{
+					Factory::getApplication()->enqueueMessage(
+						Text::sprintf(
+							'COM_CONFIG_ERROR_DATABASE_ENCRYPTION_FILE_FIELD_BAD',
+							Text::_('COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_LABEL')
+						),
+						'error'
+					);
+
+					return false;
+				}
+			}
+			else
+			{
+				// Reset unused options
+				if (!empty($data['dbsslkey']))
+				{
+					$data['dbsslkey'] = '';
+				}
+
+				if (!empty($data['dbsslcert']))
+				{
+					$data['dbsslcert'] = '';
+				}
+			}
+		}
+
+		return $data;
+	}
+
+	/**
 	 * Method to save the configuration data.
 	 *
 	 * @param   array  $data  An array containing all global config data.
@@ -126,8 +292,26 @@ class ApplicationModel extends FormModel
 			'user'     => $data['user'],
 			'password' => $app->get('password'),
 			'database' => $data['db'],
-			'prefix'   => $data['dbprefix']
+			'prefix'   => $data['dbprefix'],
 		);
+
+		if ((int) $data['dbencryption'] !== 0)
+		{
+			$options['ssl'] = [
+				'enable'             => true,
+				'verify_server_cert' => (bool) $data['dbsslverifyservercert'],
+			];
+
+			foreach (['cipher', 'ca', 'key', 'cert'] as $value)
+			{
+				$confVal = trim($data['dbssl' . $value]);
+
+				if ($confVal !== '')
+				{
+					$options['ssl'][$value] = $confVal;
+				}
+			}
+		}
 
 		try
 		{
@@ -136,7 +320,21 @@ class ApplicationModel extends FormModel
 		}
 		catch (\Exception $e)
 		{
-			$app->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_CONNECT'), 'error');
+			$app->enqueueMessage(Text::sprintf('COM_CONFIG_ERROR_DATABASE_NOT_AVAILABLE', $e->getCode(), $e->getMessage()), 'error');
+
+			return false;
+		}
+
+		if ((int) $data['dbencryption'] !== 0 && empty($revisedDbo->getConnectionEncryption()))
+		{
+			if ($revisedDbo->isConnectionEncryptionSupported())
+			{
+				Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_DATABASE_ENCRYPTION_CONN_NOT_ENCRYPT'), 'error');
+			}
+			else
+			{
+				Factory::getApplication()->enqueueMessage(Text::_('COM_CONFIG_ERROR_DATABASE_ENCRYPTION_SRV_NOT_SUPPORTS'), 'error');
+			}
 
 			return false;
 		}
@@ -829,10 +1027,11 @@ class ApplicationModel extends FormModel
 		try
 		{
 			// Get the asset id by the name of the component.
-			$query = $this->getDbo()->getQuery(true)
-				->select($this->getDbo()->quoteName('id'))
-				->from($this->getDbo()->quoteName('#__assets'))
-				->where($this->getDbo()->quoteName('name') . ' = ' . $this->getDbo()->quote($permission['component']));
+			$query = $this->_db->getQuery(true)
+				->select($this->_db->quoteName('id'))
+				->from($this->_db->quoteName('#__assets'))
+				->where($this->_db->quoteName('name') . ' = :component')
+				->bind(':component', $permission['component']);
 
 			$this->_db->setQuery($query);
 
@@ -855,7 +1054,8 @@ class ApplicationModel extends FormModel
 				$query->clear()
 					->select($this->_db->quoteName('parent_id'))
 					->from($this->_db->quoteName('#__assets'))
-					->where($this->_db->quoteName('id') . ' = ' . $assetId);
+					->where($this->_db->quoteName('id') . ' = :assetid')
+					->bind(':assetid', $assetId, ParameterType::INTEGER);
 
 				$this->_db->setQuery($query);
 
@@ -863,10 +1063,12 @@ class ApplicationModel extends FormModel
 			}
 
 			// Get the group parent id of the current group.
+			$rule = (int) $permission['rule'];
 			$query->clear()
 				->select($this->_db->quoteName('parent_id'))
 				->from($this->_db->quoteName('#__usergroups'))
-				->where($this->_db->quoteName('id') . ' = ' . (int) $permission['rule']);
+				->where($this->_db->quoteName('id') . ' = :rule')
+				->bind(':rule', $rule, ParameterType::INTEGER);
 
 			$this->_db->setQuery($query);
 
@@ -876,7 +1078,8 @@ class ApplicationModel extends FormModel
 			$query->clear()
 				->select('COUNT(' . $this->_db->quoteName('id') . ')')
 				->from($this->_db->quoteName('#__usergroups'))
-				->where($this->_db->quoteName('parent_id') . ' = ' . (int) $permission['rule']);
+				->where($this->_db->quoteName('parent_id') . ' = :rule')
+				->bind(':rule', $rule, ParameterType::INTEGER);
 
 			$this->_db->setQuery($query);
 
@@ -1005,6 +1208,7 @@ class ApplicationModel extends FormModel
 	{
 		// Set the new values to test with the current settings
 		$app = Factory::getApplication();
+		$user = Factory::getUser();
 		$input = $app->input->json;
 
 		$app->set('smtpauth', $input->get('smtpauth'));
@@ -1020,11 +1224,17 @@ class ApplicationModel extends FormModel
 
 		$mail = Factory::getMailer();
 
-		// Prepare email and send try to send it
-		$mailSubject = Text::sprintf('COM_CONFIG_SENDMAIL_SUBJECT', $app->get('sitename'));
-		$mailBody    = Text::sprintf('COM_CONFIG_SENDMAIL_BODY', Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer)));
+		// Prepare email and try to send it
+		$mailer = new MailTemplate('com_config.test_mail', $user->getParam('language', $app->get('language')), $mail);
+		$mailer->addTemplateData(
+			array(
+				'sitename' => $app->get('sitename'),
+				'method' => Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer))
+			)
+		);
+		$mailer->addRecipient($app->get('mailfrom'), $app->get('fromname'));
 
-		if ($mail->sendMail($app->get('mailfrom'), $app->get('fromname'), $app->get('mailfrom'), $mailSubject, $mailBody) === true)
+		if ($mailer->send() === true)
 		{
 			$methodName = Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer));
 

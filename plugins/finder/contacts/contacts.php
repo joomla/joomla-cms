@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\Component\Contact\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Registry\Registry;
 
@@ -269,7 +270,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
 
 		// Build the necessary route and path information.
-		$item->route = ContactHelperRoute::getContactRoute($item->slug, $item->catslug, $item->language);
+		$item->route = RouteHelper::getContactRoute($item->slug, $item->catslug, $item->language);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);
@@ -358,9 +359,9 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		$item->addTaxonomy('Type', 'Contact');
 
 		// Add the category taxonomy data.
-		$categories = Categories::getInstance('com_contact');
+		$categories = Categories::getInstance('com_contact', ['published' => false, 'access' => false]);
 		$category = $categories->get($item->catid);
-		$item->addNestedTaxonomy('Category', $category, $category->published, $category->access, $category->language);
+		$item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
 
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);
@@ -393,9 +394,6 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	 */
 	protected function setup()
 	{
-		// Load dependent classes.
-		JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
-
 		return true;
 	}
 

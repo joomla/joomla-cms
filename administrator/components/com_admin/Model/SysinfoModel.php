@@ -308,16 +308,18 @@ class SysinfoModel extends BaseDatabaseModel
 		$db = $this->getDbo();
 
 		$this->info = array(
-			'php'                   => php_uname(),
-			'dbserver'              => $db->getServerType(),
-			'dbversion'             => $db->getVersion(),
-			'dbcollation'           => $db->getCollation(),
-			'dbconnectioncollation' => $db->getConnectionCollation(),
-			'phpversion'            => PHP_VERSION,
-			'server'                => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
-			'sapi_name'             => PHP_SAPI,
-			'version'               => (new Version)->getLongVersion(),
-			'useragent'             => $_SERVER['HTTP_USER_AGENT'] ?? '',
+			'php'                    => php_uname(),
+			'dbserver'               => $db->getServerType(),
+			'dbversion'              => $db->getVersion(),
+			'dbcollation'            => $db->getCollation(),
+			'dbconnectioncollation'  => $db->getConnectionCollation(),
+			'dbconnectionencryption' => $db->getConnectionEncryption(),
+			'dbconnencryptsupported' => $db->isConnectionEncryptionSupported(),
+			'phpversion'             => PHP_VERSION,
+			'server'                 => $_SERVER['SERVER_SOFTWARE'] ?? getenv('SERVER_SOFTWARE'),
+			'sapi_name'              => PHP_SAPI,
+			'version'                => (new Version)->getLongVersion(),
+			'useragent'              => $_SERVER['HTTP_USER_AGENT'] ?? '',
 		);
 
 		return $this->info;
@@ -530,7 +532,7 @@ class SysinfoModel extends BaseDatabaseModel
 
 		foreach ($admin_langs as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -546,7 +548,7 @@ class SysinfoModel extends BaseDatabaseModel
 
 		foreach ($manifests as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -569,7 +571,7 @@ class SysinfoModel extends BaseDatabaseModel
 
 		foreach ($image_folders as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -587,7 +589,7 @@ class SysinfoModel extends BaseDatabaseModel
 
 		foreach ($site_langs as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}
@@ -605,7 +607,7 @@ class SysinfoModel extends BaseDatabaseModel
 
 		foreach ($plugin_groups as $folder)
 		{
-			if (!$folder->isDir() || $folder->isDot())
+			if ($folder->isDot() || !$folder->isDir())
 			{
 				continue;
 			}

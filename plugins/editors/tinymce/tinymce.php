@@ -187,6 +187,28 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 		}
 
+		// load external plugins
+		if (isset($extraOptions->external_plugins) && $extraOptions->external_plugins)
+		{
+			foreach (json_decode(json_encode($extraOptions->external_plugins), true) as $external)
+			{
+				// get the path for readability
+				$path = $external['path'];
+
+				// if we have a name and path, add it to the list
+				if ($external['name'] != '' && $path != '')
+				{
+					if (substr($path, 0, 1) == '/')
+					{
+						// treat as a local path, so add the root
+						$path = Uri::root() . substr($path, 1);
+					}
+
+					$externalPlugins[$external['name']] = $path;
+				}
+			}
+		}
+
 		// Merge the params
 		$levelParams->loadObject($toolbarParams);
 		$levelParams->loadObject($extraOptions);
@@ -242,7 +264,7 @@ class PlgEditorTinymce extends CMSPlugin
 			->where(
 				[
 					$db->quoteName('client_id') . ' = 0',
-					$db->quoteName('home') . ' = 1'
+					$db->quoteName('home') . ' = ' . $db->quote('1')
 				]
 			);
 
@@ -504,19 +526,10 @@ class PlgEditorTinymce extends CMSPlugin
 				$isSubDir = Uri::root(true);
 			}
 
-			// Get specific path
-			$tempPath = $levelParams->get('path', '');
-
-			if (!empty($tempPath))
-			{
-				// Remove the root images path
-				$tempPath = str_replace(ComponentHelper::getParams('com_media')->get('image_path') . '/', '', $tempPath);
-			}
-
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 
 			$scriptOptions['setCustomDir']    = $isSubDir;
-			$scriptOptions['mediaUploadPath'] = $tempPath;
+			$scriptOptions['mediaUploadPath'] = $levelParams->get('path', '');
 			$scriptOptions['uploadUri']       = $uploadUrl;
 		}
 
@@ -581,10 +594,12 @@ class PlgEditorTinymce extends CMSPlugin
 				'image_title'        => true,
 				'height'             => $html_height,
 				'width'              => $html_width,
+				'elementpath'        => (bool) $levelParams->get('element_path', true),
 				'resize'             => $resizing,
 				'templates'          => $templates,
 				'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
 				'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
+				'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
 
 				// Drag and drop specific
 				'dndEnabled' => $dragdrop,
@@ -946,6 +961,9 @@ class PlgEditorTinymce extends CMSPlugin
 			'outdent'       => array('label' => 'Decrease indent'),
 			'indent'        => array('label' => 'Increase indent'),
 
+			'forecolor'     => array('label' => 'Text colour'),
+			'backcolor'     => array('label' => 'Background text colour'),
+
 			'bullist'       => array('label' => 'Bullet list'),
 			'numlist'       => array('label' => 'Numbered list'),
 
@@ -976,6 +994,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'nonbreaking'    => array('label' => 'Nonbreaking space', 'plugin' => 'nonbreaking'),
 			'emoticons'      => array('label' => 'Emoticons', 'plugin' => 'emoticons'),
 			'media'          => array('label' => 'Insert/edit video', 'plugin' => 'media'),
+			'image'          => array('label' => 'Insert/edit image', 'plugin' => 'image'),
 			'pagebreak'      => array('label' => 'Page break', 'plugin' => 'pagebreak'),
 			'print'          => array('label' => 'Print', 'plugin' => 'print'),
 			'preview'        => array('label' => 'Preview', 'plugin' => 'preview'),

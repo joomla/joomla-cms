@@ -22,8 +22,8 @@ use Joomla\Utilities\ArrayHelper;
  * Prototype form model.
  *
  * @see    JForm
- * @see    JFormField
- * @see    JFormRule
+ * @see    \Joomla\CMS\Form\FormField
+ * @see    \Joomla\CMS\Form\FormRule
  * @since  3.2
  */
 abstract class FormModel extends BaseForm
@@ -145,27 +145,13 @@ abstract class FormModel extends BaseForm
 			return $this->_forms[$hash];
 		}
 
-		// Get the form.
-		// Register the paths for the form -- failing here
-		$paths = new \SplPriorityQueue;
-		$paths->insert(JPATH_COMPONENT . '/model/form', 'normal');
-		$paths->insert(JPATH_COMPONENT . '/model/field', 'normal');
-		$paths->insert(JPATH_COMPONENT . '/model/rule', 'normal');
-
-		// Legacy support to be removed in 4.0.  -- failing here
-		$paths->insert(JPATH_COMPONENT . '/models/forms', 'normal');
-		$paths->insert(JPATH_COMPONENT . '/models/fields', 'normal');
-		$paths->insert(JPATH_COMPONENT . '/models/rules', 'normal');
-
-		// Solution until JForm supports splqueue
-		Form::addFormPath(JPATH_COMPONENT . '/forms');
-		Form::addFormPath(JPATH_COMPONENT . '/models/forms');
-		Form::addFieldPath(JPATH_COMPONENT . '/models/fields');
-		Form::addFormPath(JPATH_COMPONENT . '/model/form');
-		Form::addFieldPath(JPATH_COMPONENT . '/model/field');
+		//  Register the paths for the form.
+		Form::addFormPath(JPATH_SITE . '/components/com_config/forms');
+		Form::addFormPath(JPATH_ADMINISTRATOR . '/components/com_config/forms');
 
 		try
 		{
+			// Get the form.
 			$form = Form::getInstance($name, $source, $options, false, $xpath);
 
 			if (isset($options['load_data']) && $options['load_data'])
@@ -239,7 +225,7 @@ abstract class FormModel extends BaseForm
 	 *
 	 * @return  void
 	 *
-	 * @see     JFormField
+	 * @see     \Joomla\CMS\Form\FormField
 	 * @since   3.2
 	 * @throws  \Exception if there is an error in the form event.
 	 */
@@ -261,7 +247,7 @@ abstract class FormModel extends BaseForm
 	 *
 	 * @return  mixed  Array of filtered data if valid, false otherwise.
 	 *
-	 * @see     JFormRule
+	 * @see     \Joomla\CMS\Form\FormRule
 	 * @see     JFilterInput
 	 * @since   3.2
 	 */

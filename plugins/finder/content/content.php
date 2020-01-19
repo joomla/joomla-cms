@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Registry\Registry;
 
@@ -283,7 +284,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
 
 		// Build the necessary route and path information.
-		$item->route = ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language);
+		$item->route = RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);
@@ -317,9 +318,9 @@ class PlgFinderContent extends FinderIndexerAdapter
 		}
 
 		// Add the category taxonomy data.
-		$categories = Categories::getInstance('com_content');
+		$categories = Categories::getInstance('com_content', ['published' => false, 'access' => false]);
 		$category = $categories->get($item->catid);
-		$item->addNestedTaxonomy('Category', $category, $category->published, $category->access, $category->language);
+		$item->addNestedTaxonomy('Category', $category, $this->translateState($category->published), $category->access, $category->language);
 
 		// Add the language taxonomy data.
 		$item->addTaxonomy('Language', $item->language);

@@ -26,6 +26,14 @@ use Joomla\Registry\Registry;
 class GroupTable extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   DatabaseDriver  $db  DatabaseDriver object.
@@ -102,17 +110,24 @@ class GroupTable extends Table
 		}
 		else
 		{
-			$this->modified = $this->getDbo()->getNullDate();
-			$this->modified_by = 0;
-
 			if (!(int) $this->created)
 			{
 				$this->created = $date->toSql();
 			}
 
+			if (!(int) $this->modified)
+			{
+				$this->modified = $this->created;
+			}
+
 			if (empty($this->created_by))
 			{
 				$this->created_by = $user->get('id');
+			}
+
+			if (empty($this->modified_by))
+			{
+				$this->modified_by = $this->created_by;
 			}
 		}
 
@@ -122,6 +137,21 @@ class GroupTable extends Table
 		}
 
 		return true;
+	}
+
+	/**
+	 * Overloaded store function
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  mixed  False on failure, positive integer on success.
+	 *
+	 * @see     Table::store()
+	 * @since   4.0.0
+	 */
+	public function store($updateNulls = true)
+	{
+		return parent::store($updateNulls);
 	}
 
 	/**
@@ -178,7 +208,8 @@ class GroupTable extends Table
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__assets'))
-			->where($db->quoteName('name') . ' = ' . $db->quote($component[0]));
+			->where($db->quoteName('name') . ' = :name')
+			->bind(':name', $component[0]);
 		$db->setQuery($query);
 
 		if ($assetId = (int) $db->loadResult())

@@ -11,10 +11,8 @@ namespace Joomla\Component\Fields\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -22,6 +20,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Model\FieldsModel;
+use Joomla\Database\ParameterType;
 
 /**
  * FieldsHelper
@@ -589,6 +588,36 @@ class FieldsHelper
 	}
 
 	/**
+	 * Gets assigned categories ids for a field
+	 *
+	 * @param   \stdClass[]  $fieldId  The field ID
+	 *
+	 * @return  array  Array with the assigned category ids
+	 *
+	 * @since   4.0.0
+	 */
+	public static function getAssignedCategoriesIds($fieldId)
+	{
+		$fieldId = (int) $fieldId;
+
+		if (!$fieldId)
+		{
+			return array();
+		}
+
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select($db->quoteName('a.category_id'))
+			->from($db->quoteName('#__fields_categories', 'a'))
+			->where('a.field_id = ' . $fieldId);
+
+		$db->setQuery($query);
+
+		return $db->loadColumn();
+	}
+
+	/**
 	 * Gets assigned categories titles for a field
 	 *
 	 * @param   \stdClass[]  $fieldId  The field ID
@@ -603,7 +632,7 @@ class FieldsHelper
 
 		if (!$fieldId)
 		{
-			return array();
+			return [];
 		}
 
 		$db    = Factory::getDbo();
@@ -612,7 +641,8 @@ class FieldsHelper
 		$query->select($db->quoteName('c.title'))
 			->from($db->quoteName('#__fields_categories', 'a'))
 			->join('INNER', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
-			->where('field_id = ' . $fieldId);
+			->where($db->quoteName('field_id') . ' = :fieldid')
+			->bind(':fieldid', $fieldId, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
@@ -647,56 +677,6 @@ class FieldsHelper
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $context  The context the fields are used for
-	 * @param   string  $vName    The view currently active
-	 *
-	 * @return  void
-	 *
-	 * @since    3.7.0
-	 */
-	public static function addSubmenu($context, $vName)
-	{
-		$parts = self::extract($context);
-
-		if (!$parts)
-		{
-			return;
-		}
-
-		$component = $parts[0];
-
-		// Avoid nonsense situation.
-		if ($component == 'com_fields')
-		{
-			return;
-		}
-
-		// Try to find the component helper.
-		$eName = str_replace('com_', '', $component);
-		$file  = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
-
-		if (!file_exists($file))
-		{
-			return;
-		}
-
-		require_once $file;
-
-		$cName = ucfirst($eName) . 'Helper';
-
-		if (class_exists($cName) && is_callable(array($cName, 'addSubmenu')))
-		{
-			$lang = Factory::getLanguage();
-			$lang->load($component, JPATH_ADMINISTRATOR)
-			|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
-
-			$cName::addSubmenu('fields.' . $vName);
-		}
 	}
 
 	/**

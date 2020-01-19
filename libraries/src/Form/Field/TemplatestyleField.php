@@ -8,12 +8,13 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Database\ParameterType;
 
 /**
  * Supports a select grouped list of template styles
@@ -144,11 +145,23 @@ class TemplatestyleField extends GroupedlistField
 		$query = $db->getQuery(true);
 
 		// Build the query.
-		$query->select('s.id, s.title, e.name as name, s.template')
-			->from('#__template_styles as s')
-			->where('s.client_id = ' . (int) $client->id)
-			->order('template')
-			->order('title');
+		$query->select(
+			[
+				$db->quoteName('s.id'),
+				$db->quoteName('s.title'),
+				$db->quoteName('e.name'),
+				$db->quoteName('s.template'),
+			]
+		)
+			->from($db->quoteName('#__template_styles', 's'))
+			->where($db->quoteName('s.client_id') . ' = :clientId')
+			->bind(':clientId', $client->id, ParameterType::INTEGER)
+			->order(
+				[
+					$db->quoteName('template'),
+					$db->quoteName('title'),
+				]
+			);
 
 		if ($template)
 		{

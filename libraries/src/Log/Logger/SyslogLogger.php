@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Log\Logger;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
@@ -129,7 +129,7 @@ class SyslogLogger extends Logger
 	public function addEntry(LogEntry $entry)
 	{
 		// Generate the value for the priority based on predefined constants.
-		$priority = constant(strtoupper('LOG_' . $this->priorities[$entry->priority]));
+		$priority = \constant(strtoupper('LOG_' . $this->priorities[$entry->priority]));
 
 		// Send the entry to Syslog.
 		syslog($priority, '[' . $entry->category . '] ' . $entry->message);

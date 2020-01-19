@@ -20,8 +20,8 @@
 			<folder>View</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_cpanel.ini</language>
-			<language tag="en-GB">language/en-GB.com_cpanel.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_cpanel.ini</language>
+			<language tag="en-GB">language/en-GB/com_cpanel.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

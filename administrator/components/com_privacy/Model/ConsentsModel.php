@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -39,6 +40,7 @@ class ConsentsModel extends ListModel
 				'id', 'a.id', 'a.user_id',
 				'created', 'a.created',
 				'username', 'u.username',
+				'name', 'u.name',
 				'state', 'a.state',
 			];
 		}
@@ -63,8 +65,9 @@ class ConsentsModel extends ListModel
 		$query->select($this->getState('list.select', 'a.*'));
 		$query->from($db->quoteName('#__privacy_consents', 'a'));
 
-		// Join over the users for the username.
-		$query->select($db->quoteName('u.username', 'username'));
+		// Join over the users for the username and name.
+		$query->select($db->quoteName('u.username', 'username'))
+			->select($db->quoteName('u.name', 'name'));
 		$query->join('LEFT', $db->quoteName('#__users', 'u') . ' ON u.id = a.user_id');
 
 		// Filter by search in email
@@ -74,16 +77,27 @@ class ConsentsModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where($db->quoteName('a.id') . ' = ' . (int) substr($search, 3));
+				$ids = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :id')
+					->bind(':id', $ids, ParameterType::INTEGER);
 			}
 			elseif (stripos($search, 'uid:') === 0)
 			{
-				$query->where($db->quoteName('a.user_id') . ' = ' . (int) substr($search, 4));
+				$uid = (int) substr($search, 4);
+				$query->where($db->quoteName('a.user_id') . ' = :uid')
+					->bind(':uid', $uid, ParameterType::INTEGER);
+			}
+			elseif (stripos($search, 'name:') === 0)
+			{
+				$search = '%' . substr($search, 5) . '%';
+				$query->where($db->quoteName('u.name') . ' LIKE :search')
+					->bind(':search', $search);
 			}
 			else
 			{
-				$search = $db->quote('%' . $db->escape($search, true) . '%');
-				$query->where('(' . $db->quoteName('u.username') . ' LIKE ' . $search . ')');
+				$search = '%' . $search . '%';
+				$query->where('(' . $db->quoteName('u.username') . ' LIKE :search)')
+					->bind(':search', $search);
 			}
 		}
 
@@ -91,7 +105,9 @@ class ConsentsModel extends ListModel
 
 		if ($state != '')
 		{
-			$query->where($db->quoteName('a.state') . ' = ' . (int) $state);
+			$state = (int) $state;
+			$query->where($db->quoteName('a.state') . ' = :state')
+				->bind(':state', $state, ParameterType::INTEGER);
 		}
 
 		// Handle the list ordering.
@@ -183,7 +199,7 @@ class ConsentsModel extends ListModel
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__privacy_consents'))
 				->set($db->quoteName('state') . ' = -1')
-				->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')')
+				->whereIn($db->quoteName('id'), $pks)
 				->where($db->quoteName('state') . ' = 1');
 			$db->setQuery($query);
 			$db->execute();
@@ -213,8 +229,9 @@ class ConsentsModel extends ListModel
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__privacy_consents'))
 				->set($db->quoteName('state') . ' = -1')
-				->where($db->quoteName('subject') . ' = ' . $db->quote($subject))
-				->where($db->quoteName('state') . ' = 1');
+				->where($db->quoteName('subject') . ' = :subject')
+				->where($db->quoteName('state') . ' = 1')
+				->bind(':subject', $subject);
 			$db->setQuery($query);
 			$db->execute();
 		}

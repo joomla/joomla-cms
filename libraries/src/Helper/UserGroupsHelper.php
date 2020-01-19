@@ -8,9 +8,10 @@
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\Database\ParameterType;
 
 /**
  * Helper to deal with user groups.
@@ -94,7 +95,7 @@ final class UserGroupsHelper
 	 */
 	public function count()
 	{
-		return count($this->groups);
+		return \count($this->groups);
 	}
 
 	/**
@@ -172,7 +173,7 @@ final class UserGroupsHelper
 	 */
 	public function has($id)
 	{
-		return (array_key_exists($id, $this->groups) && $this->groups[$id] !== false);
+		return (\array_key_exists($id, $this->groups) && $this->groups[$id] !== false);
 	}
 
 	/**
@@ -201,8 +202,8 @@ final class UserGroupsHelper
 			$db = Factory::getDbo();
 
 			$query = $db->getQuery(true)
-				->select('count(id)')
-				->from('#__usergroups');
+				->select('COUNT(' . $db->quoteName('id') . ')')
+				->from($db->quoteName('#__usergroups'));
 
 			$db->setQuery($query);
 
@@ -223,12 +224,16 @@ final class UserGroupsHelper
 	 */
 	public function load($id)
 	{
+		// Cast as integer until method is typehinted.
+		$id = (int) $id;
+
 		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select('*')
-			->from('#__usergroups')
-			->where('id = ' . (int) $id);
+			->from($db->quoteName('#__usergroups'))
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
@@ -257,8 +262,8 @@ final class UserGroupsHelper
 
 		$query = $db->getQuery(true)
 			->select('*')
-			->from('#__usergroups')
-			->order('lft ASC');
+			->from($db->quoteName('#__usergroups'))
+			->order($db->quoteName('lft') . ' ASC');
 
 		$db->setQuery($query);
 
@@ -321,7 +326,7 @@ final class UserGroupsHelper
 		}
 
 		$group->path = array_merge($parentGroup->path, array($group->id));
-		$group->level = count($group->path) - 1;
+		$group->level = \count($group->path) - 1;
 
 		return $group;
 	}
@@ -339,7 +344,7 @@ final class UserGroupsHelper
 	{
 		$this->groups = $groups;
 		$this->populateGroupsData();
-		$this->total  = count($groups);
+		$this->total  = \count($groups);
 
 		return $this;
 	}

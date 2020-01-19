@@ -9,12 +9,12 @@
 
 namespace Joomla\CMS\Document\Renderer\Html;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\WebAsset\WebAssetAttachBehaviorInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -44,18 +44,37 @@ class MetasRenderer extends DocumentRenderer
 			$this->_doc->_metaTags['name']['tags'] = implode(', ', $tagsHelper->getTagNames($this->_doc->_metaTags['name']['tags']));
 		}
 
+		/** @var \Joomla\CMS\Application\CMSApplication $app */
+		$app = Factory::getApplication();
+		$wa  = $this->_doc->getWebAssetManager();
+		$wc  = $this->_doc->getScriptOptions('webcomponents');
+
 		if ($this->_doc->getScriptOptions())
 		{
-			HTMLHelper::_('behavior.core');
+			$wa->useScript('core');
 		}
 
-		// Attach Assets
-		$wa = $this->_doc->getWebAssetManager();
-		$wa->attachActiveAssetsToDocument($this->_doc);
+		// Check for AttachBehavior and web components
+		foreach ($wa->getAssets('script', true) as $asset)
+		{
+			if ($asset instanceof WebAssetAttachBehaviorInterface)
+			{
+				$asset->onAttachCallback($this->_doc);
+			}
+
+			if ($asset->getOption('webcomponent'))
+			{
+				$wc[] = $asset->getUri();
+			}
+		}
+
+		$this->_doc->addScriptOptions('webcomponents', $wc);
 
 		// Trigger the onBeforeCompileHead event
-		$app = Factory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');
+
+		// Lock the AssetManager
+		$wa->lock();
 
 		// Get line endings
 		$lnEnd        = $this->_doc->_getLineEnd();
@@ -117,7 +136,7 @@ class MetasRenderer extends DocumentRenderer
 		{
 			$buffer .= $tab . '<link href="' . $link . '" ' . $linkAtrr['relType'] . '="' . $linkAtrr['relation'] . '"';
 
-			if (is_array($linkAtrr['attribs']))
+			if (\is_array($linkAtrr['attribs']))
 			{
 				if ($temp = ArrayHelper::toString($linkAtrr['attribs']))
 				{

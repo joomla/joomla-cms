@@ -31,19 +31,14 @@ HTMLHelper::_('bootstrap.framework');
 				<?php echo $item->message; ?>
 			</td>
 			<td>
-				<span class="badge badge-secondary badge-pill">
-					<span class="small">
-						<span class="icon-calendar" aria-hidden="true"></span>
-						<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC5')); ?>
-					</span>
-				</span>
+				<?php echo HTMLHelper::_('date', $item->log_date, Text::_('DATE_FORMAT_LC5')); ?>
 			</td>
 		</tr>
 		<?php endforeach; ?>
 		<?php else : ?>
 		<tr>
 			<td colspan="2">
-				<?php echo Text::_('MOD_LATEST_ACTIONS_NO_MATCHING_RESULTS'); ?>
+				<?php echo Text::_('MOD_LATESTACTIONS_NO_MATCHING_RESULTS'); ?>
 			</td>
 		</tr>
 		<?php endif; ?>

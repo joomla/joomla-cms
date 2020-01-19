@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Updater\Updater;
 use Joomla\Component\Joomlaupdate\Administrator\Helper\Select as JoomlaupdateHelperSelect;
+use Joomla\Database\ParameterType;
 
 /**
  * Joomla! Update's Default View
@@ -121,13 +122,11 @@ class HtmlView extends BaseHtmlView
 		$this->nonCoreExtensions = $model->getNonCoreExtensions();
 
 		// Set the toolbar information.
-		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'loop install');
+		ToolbarHelper::title(Text::_('COM_JOOMLAUPDATE_OVERVIEW'), 'joomla install');
 		ToolbarHelper::custom('update.purge', 'loop', 'loop', 'COM_JOOMLAUPDATE_TOOLBAR_CHECK', false);
 
 		// Add toolbar buttons.
-		$user = Factory::getUser();
-
-		if ($user->authorise('core.admin', 'com_joomlaupdate') || $user->authorise('core.options', 'com_joomlaupdate'))
+		if (Factory::getUser()->authorise('core.admin'))
 		{
 			ToolbarHelper::preferences('com_joomlaupdate');
 		}
@@ -244,7 +243,8 @@ class HtmlView extends BaseHtmlView
 			$query = $db->getQuery(true)
 				->select('*')
 				->from($db->quoteName('#__updates'))
-				->where($db->quoteName('extension_id') . ' = ' . $db->quote($joomlaUpdateComponentId));
+				->where($db->quoteName('extension_id') . ' = :id')
+				->bind(':id', $joomlaUpdateComponentId, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try

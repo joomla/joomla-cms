@@ -28,6 +28,14 @@ use Joomla\String\StringHelper;
 class FieldTable extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   DatabaseDriver  $db  DatabaseDriver object.
@@ -65,6 +73,34 @@ class FieldTable extends Table
 
 		if (isset($src['fieldparams']) && is_array($src['fieldparams']))
 		{
+			// Make sure $registry->options contains no duplicates when the field type is subfields
+			if (isset($src['type']) && $src['type'] == 'subfields' && isset($src['fieldparams']['options']))
+			{
+				// Fast lookup map to check which custom field ids we have already seen
+				$seen_customfields = array();
+
+				// Container for the new $src['fieldparams']['options']
+				$options = array();
+
+				// Iterate through the old options
+				$i = 0;
+
+				foreach ($src['fieldparams']['options'] as $option)
+				{
+					// Check whether we have not yet seen this custom field id
+					if (!isset($seen_customfields[$option['customfield']]))
+					{
+						// We haven't, so add it to the final options
+						$seen_customfields[$option['customfield']] = true;
+						$options['option' . $i] = $option;
+						$i++;
+					}
+				}
+
+				// And replace the options with the deduplicated ones.
+				$src['fieldparams']['options'] = $options;
+			}
+
 			$registry = new Registry;
 			$registry->loadArray($src['fieldparams']);
 			$src['fieldparams'] = (string) $registry;
@@ -148,17 +184,24 @@ class FieldTable extends Table
 		}
 		else
 		{
-			$this->modified_time = $this->getDbo()->getNullDate();
-			$this->modified_by = 0;
-
 			if (!(int) $this->created_time)
 			{
 				$this->created_time = $date->toSql();
 			}
 
+			if (!(int) $this->modified_time)
+			{
+				$this->modified_time = $this->created_time;
+			}
+
 			if (empty($this->created_user_id))
 			{
 				$this->created_user_id = $user->get('id');
+			}
+
+			if (empty($this->modified_by))
+			{
+				$this->modified_by = $this->created_user_id;
 			}
 		}
 
@@ -168,6 +211,21 @@ class FieldTable extends Table
 		}
 
 		return true;
+	}
+
+	/**
+	 * Overloaded store function
+	 *
+	 * @param   boolean  $updateNulls  True to update fields even if they are null.
+	 *
+	 * @return  mixed  False on failure, positive integer on success.
+	 *
+	 * @see     Table::store()
+	 * @since   4.0.0
+	 */
+	public function store($updateNulls = true)
+	{
+		return parent::store($updateNulls);
 	}
 
 	/**
@@ -259,7 +317,8 @@ class FieldTable extends Table
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__assets'))
-			->where($db->quoteName('name') . ' = ' . $db->quote($name));
+			->where($db->quoteName('name') . ' = :name')
+			->bind(':name', $name);
 
 		// Get the asset id from the database.
 		$db->setQuery($query);

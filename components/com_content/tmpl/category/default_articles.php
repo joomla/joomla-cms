@@ -19,6 +19,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 // Create some shortcuts.
 $params     = &$this->item->params;
@@ -187,7 +188,7 @@ if (!empty($this->items))
 			<?php endif; ?>
 			<td headers="categorylist_header_title" class="list-title">
 				<?php if (in_array($article->access, $this->user->getAuthorisedViewLevels())) : ?>
-					<a href="<?php echo Route::_(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
+					<a href="<?php echo Route::_(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language)); ?>">
 						<?php echo $this->escape($article->title); ?>
 					</a>
 					<?php if (Associations::isEnabled() && $this->params->get('show_associations')) : ?>
@@ -207,7 +208,7 @@ if (!empty($this->items))
 					echo $this->escape($article->title) . ' : ';
 					$itemId = Factory::getApplication()->getMenu()->getActive()->id;
 					$link   = new Uri(Route::_('index.php?option=com_users&view=login&Itemid=' . $itemId, false));
-					$link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language)));
+					$link->setVar('return', base64_encode(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language)));
 					?>
 					<a href="<?php echo $link; ?>" class="register">
 						<?php echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
@@ -235,7 +236,7 @@ if (!empty($this->items))
 						<?php echo Text::_('JNOTPUBLISHEDYET'); ?>
 					</span>
 				<?php endif; ?>
-				<?php if ((strtotime($article->publish_down) < strtotime(Factory::getDate())) && $article->publish_down != Factory::getDbo()->getNullDate()) : ?>
+				<?php if (!is_null($article->publish_down) && strtotime($article->publish_down) < strtotime(Factory::getDate())) : ?>
 					<span class="list-published badge badge-warning">
 						<?php echo Text::_('JEXPIRED'); ?>
 					</span>

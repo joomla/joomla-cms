@@ -8,12 +8,13 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_BASE') or die;
+\defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -67,7 +68,7 @@ class TransitionField extends ListField
 		{
 			$input = Factory::getApplication()->input;
 
-			if (strlen($element['extension']))
+			if (\strlen($element['extension']))
 			{
 				$this->extension = (string) $element['extension'];
 			}
@@ -76,7 +77,7 @@ class TransitionField extends ListField
 				$this->extension = $input->getCmd('extension');
 			}
 
-			if (strlen($element['workflow_stage']))
+			if (\strlen($element['workflow_stage']))
 			{
 				$this->workflowStage = (int) $element['workflow_stage'];
 			}
@@ -104,25 +105,41 @@ class TransitionField extends ListField
 		// Initialise variable.
 		$db = Factory::getDbo();
 		$extension = $this->extension;
-		$workflowStage = $this->workflowStage;
+		$workflowStage = (int) $this->workflowStage;
 
 		$query = $db->getQuery(true)
-			->select($db->quoteName(['t.id', 't.title', 's.condition'], ['value', 'text', 'condition']))
-			->from($db->quoteName('#__workflow_transitions', 't'))
-			->from($db->quoteName('#__workflow_stages', 's'))
-			->from($db->quoteName('#__workflow_stages', 's2'))
-			->where($db->quoteName('t.from_stage_id') . ' IN(-1, ' . (int) $workflowStage . ')')
-			->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
-			->where($db->quoteName('t.to_stage_id') . ' != ' . (int) $workflowStage)
-			->where($db->quoteName('s.workflow_id') . ' = ' . $db->quoteName('s2.workflow_id'))
-			->where($db->quoteName('s2.id') . ' = ' . (int) $workflowStage)
-			->where($db->quoteName('t.published') . '= 1')
-			->where($db->quoteName('s.published') . '= 1')
+			->select(
+				[
+					$db->quoteName('t.id', 'value'),
+					$db->quoteName('t.title', 'text'),
+					$db->quoteName('s.condition'),
+				]
+			)
+			->from(
+				[
+					$db->quoteName('#__workflow_transitions', 't'),
+					$db->quoteName('#__workflow_stages', 's'),
+					$db->quoteName('#__workflow_stages', 's2'),
+				]
+			)
+			->whereIn($db->quoteName('t.from_stage_id'), [-1, $workflowStage])
+			->where(
+				[
+					$db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'),
+					$db->quoteName('t.to_stage_id') . ' != :stage1',
+					$db->quoteName('s.workflow_id') . ' = ' . $db->quoteName('s2.workflow_id'),
+					$db->quoteName('s2.id') . ' = :stage2',
+					$db->quoteName('t.published') . ' = 1',
+					$db->quoteName('s.published') . ' = 1',
+				]
+			)
+			->bind(':stage1', $workflowStage, ParameterType::INTEGER)
+			->bind(':stage2', $workflowStage, ParameterType::INTEGER)
 			->order($db->quoteName('t.ordering'));
 
 		$items = $db->setQuery($query)->loadObjectList();
 
-		if (count($items))
+		if (\count($items))
 		{
 			$user = Factory::getUser();
 
@@ -143,18 +160,18 @@ class TransitionField extends ListField
 
 			foreach ($items as $item)
 			{
-				$conditionName = $workflow->getConditionName($item->condition);
+				$conditionName = $workflow->getConditionName((int) $item->condition);
 
 				$item->text .= ' [' . Text::_($conditionName) . ']';
 			}
 		}
 
 		// Get workflow stage title
-		$query
-			->clear()
+		$query = $db->getQuery(true)
 			->select($db->quoteName('title'))
 			->from($db->quoteName('#__workflow_stages'))
-			->where($db->quoteName('id') . ' = ' . (int) $workflowStage);
+			->where($db->quoteName('id') . ' = :stage')
+			->bind(':stage', $workflowStage, ParameterType::INTEGER);
 
 		$workflowName = $db->setQuery($query)->loadResult();
 
@@ -162,7 +179,7 @@ class TransitionField extends ListField
 
 		$options = array_merge(parent::getOptions(), $items);
 
-		if (count($options))
+		if (\count($options))
 		{
 			$default[] = HTMLHelper::_('select.option', '-1', '--------', ['disable' => true]);
 		}

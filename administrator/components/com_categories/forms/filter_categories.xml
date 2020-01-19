@@ -6,6 +6,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_CATEGORIES_FILTER_SEARCH_LABEL"
 			description="COM_CATEGORIES_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -43,12 +44,12 @@
 			name="tag"
 			type="tag"
 			label="JOPTION_SELECT_TAG"
+			hint="JOPTION_SELECT_TAG"
+			multiple="true"
 			mode="nested"
 			custom="false"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_TAG</option>
-		</field>
+		/>
 
 		<field
 			name="level"

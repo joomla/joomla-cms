@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -24,6 +25,14 @@ use Joomla\Utilities\ArrayHelper;
 class ClientTable extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor
 	 *
 	 * @param   DatabaseDriver  $db  Database connector object
@@ -33,7 +42,7 @@ class ClientTable extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		$this->typeAlias        = 'com_banners.client';
-		$this->checked_out_time = $db->getNullDate();
+		$this->checked_out_time = null;
 
 		$this->setColumnAlias('published', 'state');
 
@@ -78,26 +87,28 @@ class ClientTable extends Table
 			}
 		}
 
-		// Build the WHERE clause for the primary keys.
-		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
+		// Update the publishing state for rows with the given primary keys.
+		$query = $this->_db->getQuery(true)
+			->update($this->_db->quoteName($this->_tbl))
+			->set($this->_db->quoteName('state') . ' = :state')
+			->whereIn($this->_db->quoteName($k), $pks)
+			->bind(':state', $state, ParameterType::INTEGER);
 
 		// Determine if there is checkin support for the table.
-		if (!$this->hasField('checked_out') || !$this->hasField('checked_out_time'))
+		if ($this->hasField('checked_out') && $this->hasField('checked_out_time'))
 		{
-			$checkin = '';
-		}
-		else
-		{
-			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
+			$query->extendWhere(
+				'AND',
+				[
+					$this->_db->quoteName('checked_out') . ' = 0',
+					$this->_db->quoteName('checked_out') . ' = :userId',
+				],
+				'OR'
+			)
+				->bind(':userId', $userId, ParameterType::INTEGER);
 		}
 
-		// Update the publishing state for rows with the given primary keys.
-		$this->_db->setQuery(
-			'UPDATE ' . $this->_db->quoteName($this->_tbl)
-			. ' SET ' . $this->_db->quoteName('state') . ' = ' . (int) $state
-			. ' WHERE (' . $where . ')'
-			. $checkin
-		);
+		$this->_db->setQuery($query);
 
 		try
 		{

@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_WORKFLOW_FILTER_SEARCH_LABEL"
 			hint="JSEARCH_FILTER"
 		/>
@@ -52,8 +53,8 @@
 			<option vaule="t.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
 			<option value="t.published ASC">JSTATUS_ASC</option>
 			<option value="t.published DESC">JSTATUS_DESC</option>
-			<option value="t.title ASC">JGLOBAL_TITLE_ASC</option>
-			<option value="t.title DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="t.title ASC">JGLOBAL_NAME_ASC</option>
+			<option value="t.title DESC">JGLOBAL_NAME_DESC</option>
 			<option value="t.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="t.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>

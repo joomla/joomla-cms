@@ -336,9 +336,15 @@ class LanguagesModel extends BaseInstallationModel
 
 		foreach ($langlist as $lang)
 		{
-			$file          = $path . '/' . $lang . '/' . $lang . '.xml';
-			$info          = Installer::parseXMLInstallFile($file);
-			$row           = new \stdClass;
+			$file = $path . '/' . $lang . '/langmetadata.xml';
+
+			if (!is_file($file))
+			{
+				$file = $path . '/' . $lang . '/' . $lang . '.xml';
+			}
+
+			$info = Installer::parseXMLInstallFile($file);
+			$row  = new \stdClass;
 			$row->language = $lang;
 
 			if (!is_array($info))
@@ -1268,7 +1274,7 @@ class LanguagesModel extends BaseInstallationModel
 			'publish_down'     => $db->getNullDate(),
 			'version'          => 1,
 			'catid'            => $categoryId,
-			'metadata'         => '{"robots":"","author":"","rights":"","xreference":"","tags":null}',
+			'metadata'         => '{"robots":"","author":"","rights":"","tags":null}',
 			'metakey'          => '',
 			'metadesc'         => '',
 			'language'         => $itemLanguage->language,

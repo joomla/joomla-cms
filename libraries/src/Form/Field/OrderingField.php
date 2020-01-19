@@ -8,13 +8,14 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\Database\DatabaseQuery;
+use Joomla\Database\ParameterType;
 
 /**
  * Ordering field.
@@ -161,12 +162,12 @@ class OrderingField extends FormField
 		$ucmRow       = $ucmType->getType($ucmType->getTypeId($this->contentType));
 		$ucmMapCommon = json_decode($ucmRow->field_mappings)->common;
 
-		if (is_object($ucmMapCommon))
+		if (\is_object($ucmMapCommon))
 		{
 			$ordering = $ucmMapCommon->core_ordering;
 			$title    = $ucmMapCommon->core_title;
 		}
-		elseif (is_array($ucmMapCommon))
+		elseif (\is_array($ucmMapCommon))
 		{
 			$ordering = $ucmMapCommon[0]->core_ordering;
 			$title    = $ucmMapCommon[0]->core_title;
@@ -174,10 +175,11 @@ class OrderingField extends FormField
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
-		$query->select(array($db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')))
+		$query->select([$db->quoteName($ordering, 'value'), $db->quoteName($title, 'text')])
 			->from($db->quoteName(json_decode($ucmRow->table)->special->dbtable))
-			->where($db->quoteName('catid') . ' = ' . (int) $categoryId)
-			->order('ordering');
+			->where($db->quoteName('catid') . ' = :categoryId')
+			->order($db->quoteName('ordering'))
+			->bind(':categoryId', $categoryId, ParameterType::INTEGER);
 
 		return $query;
 	}

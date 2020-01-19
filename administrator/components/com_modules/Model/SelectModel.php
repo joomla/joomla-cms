@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -43,7 +44,7 @@ class SelectModel extends ListModel
 		$app = Factory::getApplication();
 
 		// Load the filter state.
-		$clientId = $app->getUserState('com_modules.modules.client_id', 0);
+		$clientId = $app->getUserStateFromRequest('com_modules.modules.client_id', 'client_id', 0);
 		$this->setState('client_id', (int) $clientId);
 
 		// Load the parameters.
@@ -94,17 +95,18 @@ class SelectModel extends ListModel
 				'a.extension_id, a.name, a.element AS module'
 			)
 		);
-		$query->from($db->quoteName('#__extensions') . ' AS a');
+		$query->from($db->quoteName('#__extensions', 'a'));
 
 		// Filter by module
-		$query->where('a.type = ' . $db->quote('module'));
+		$query->where($db->quoteName('a.type') . ' = ' . $db->quote('module'));
 
 		// Filter by client.
-		$clientId = $this->getState('client_id');
-		$query->where('a.client_id = ' . (int) $clientId);
+		$clientId = (int) $this->getState('client_id');
+		$query->where($db->quoteName('a.client_id') . ' = :clientid')
+			->bind(':clientid', $clientId, ParameterType::INTEGER);
 
 		// Filter by enabled
-		$query->where('a.enabled = 1');
+		$query->where($db->quoteName('a.enabled') . ' = 1');
 
 		// Add the list ordering clause.
 		$query->order($db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));

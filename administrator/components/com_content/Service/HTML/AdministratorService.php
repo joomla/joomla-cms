@@ -12,12 +12,11 @@ namespace Joomla\Component\Content\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Content HTML helper
@@ -76,59 +75,31 @@ class AdministratorService
 
 			if ($items)
 			{
+				$languages = LanguageHelper::getContentLanguages(array(0, 1));
+				$content_languages = array_column($languages, 'lang_code');
+
 				foreach ($items as &$item)
 				{
-					$text    = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
-					$url     = Route::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
-					$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
-						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
-					$classes = 'badge badge-secondary';
+					if (in_array($item->lang_code, $content_languages))
+					{
+						$text    = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
+						$url     = Route::_('index.php?option=com_content&task=article.edit&id=' . (int) $item->id);
+						$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+							. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+						$classes = 'badge badge-secondary';
 
-					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
-						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
+						$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
+							. '<div role="tooltip" id="tip-' . (int) $articleid . '-' . (int) $item->id . '">' . $tooltip . '</div>';
+					}
+					else
+					{
+						// Display warning if Content Language is trashed or deleted
+						Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_ASSOCIATIONS_CONTENTLANGUAGE_WARNING', $item->lang_code), 'warning');
+					}
 				}
 			}
 
 			$html = LayoutHelper::render('joomla.content.associations', $items);
-		}
-
-		return $html;
-	}
-
-	/**
-	 * Show the feature/unfeature links
-	 *
-	 * @param   integer  $value      The state value
-	 * @param   integer  $i          Row number
-	 * @param   boolean  $canChange  Is user allowed to change?
-	 *
-	 * @return  string       HTML code
-	 */
-	public function featured($value = 0, $i = 0, $canChange = true)
-	{
-		if ($i === 0)
-		{
-			throw new \InvalidArgumentException('$i is not allowed to be 0');
-		}
-
-		// Array of image, task, title, action
-		$states = array(
-			0 => array('unfeatured', 'articles.featured', 'COM_CONTENT_UNFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
-			1 => array('featured', 'articles.unfeatured', 'COM_CONTENT_FEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
-		);
-		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
-		$icon  = $state[0];
-
-		if ($canChange)
-		{
-			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon hasTooltip'
-				. ($value == 1 ? ' active' : '') . '" title="' . HTMLHelper::_('tooltipText', $state[3])
-				. '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
-		}
-		else
-		{
-			$html = '<a class="tbody-icon hasTooltip disabled' . ($value == 1 ? ' active' : '') . '" title="'
-				. HTMLHelper::_('tooltipText', $state[2]) . '"><span class="icon-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 
 		return $html;

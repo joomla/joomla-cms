@@ -28,8 +28,7 @@ if ($noUser)
 	$optionNo = '<option value="0">' . Text::_('JLIB_HTML_BATCH_USER_NOUSER') . '</option>';
 }
 ?>
-<label id="batch-user-lbl" for="batch-user" class="modalTooltip" title="<?php
-echo HTMLHelper::_('tooltipText', 'JLIB_HTML_BATCH_USER_LABEL', 'JLIB_HTML_BATCH_USER_LABEL_DESC'); ?>">
+<label id="batch-user-lbl" for="batch-user">
 	<?php echo Text::_('JLIB_HTML_BATCH_USER_LABEL'); ?>
 </label>
 <select name="batch[user_id]" class="custom-select" id="batch-user-id">

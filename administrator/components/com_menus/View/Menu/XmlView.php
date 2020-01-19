@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Menu\MenuHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
@@ -150,25 +149,27 @@ class XmlView extends BaseHtmlView
 			$node['target'] = '_blank';
 		}
 
-		if (count($item->params))
+		if (count($item->getParams()))
 		{
-			$hideitems = $item->params->get('hideitems');
+			$hideitems = $item->getParams()->get('hideitems');
 
 			if (count($hideitems))
 			{
 				$db    = Factory::getDbo();
 				$query = $db->getQuery(true);
 
-				$query->select('e.element')->from('#__extensions e')
-					->join('inner', '#__menu m ON m.component_id = e.extension_id')
-					->where('m.id IN (' . implode(', ', $db->quote($hideitems)) . ')');
+				$query
+					->select($db->quoteName('e.element'))
+					->from($db->quoteName('#__extensions', 'e'))
+					->join('INNER', $db->quoteName('#__menu', 'm'), $db->quoteName('m.component_id') . ' = ' . $db->quoteName('e.extension_id'))
+					->whereIn($db->quoteName('m.id'), $hideitems);
 
 				$hideitems = $db->setQuery($query)->loadColumn();
 
-				$item->params->set('hideitems', $hideitems);
+				$item->getParams()->set('hideitems', $hideitems);
 			}
 
-			$node->addChild('params', (string) $item->params);
+			$node->addChild('params', (string) $item->getParams());
 		}
 
 		foreach ($item->submenu as $sub)

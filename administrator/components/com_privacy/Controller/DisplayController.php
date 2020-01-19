@@ -11,13 +11,12 @@ namespace Joomla\Component\Privacy\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
 use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
 
 /**
@@ -33,7 +32,7 @@ class DisplayController extends BaseController
 	 * @var    string
 	 * @since  3.9.0
 	 */
-	protected $default_view = 'dashboard';
+	protected $default_view = 'requests';
 
 	/**
 	 * Method to display a view.
@@ -61,23 +60,13 @@ class DisplayController extends BaseController
 			$model = $this->getModel($vName);
 			$view->setModel($model, true);
 
-			// For the dashboard view, we need to also push the requests model into the view
-			if ($vName === 'dashboard')
-			{
-				$requestsModel = $this->getModel('Requests');
-
-				$view->setModel($requestsModel, false);
-			}
-
 			if ($vName === 'request')
 			{
 				// For the default layout, we need to also push the action logs model into the view
 				if ($lName === 'default')
 				{
-					\JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
-					BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
-
-					$logsModel = BaseDatabaseModel::getInstance('Actionlogs', 'ActionlogsModel');
+					$logsModel = Factory::getApplication()->bootComponent('Actionlogs')
+						->getMVCFactory()->createModel('Actionlogs', 'Administrator', ['ignore_request' => true]);
 
 					// Set default ordering for the context
 					$logsModel->setState('list.fullordering', 'a.log_date DESC');
@@ -103,9 +92,6 @@ class DisplayController extends BaseController
 
 			// Push document object into the view.
 			$view->document = $document;
-
-			// Load the submenu.
-			PrivacyHelper::addSubmenu($this->input->get('view', $this->default_view));
 
 			$view->display();
 		}

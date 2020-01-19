@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -37,14 +37,14 @@ class ContenttypeField extends ListField
 	 */
 	protected function getInput()
 	{
-		if (!is_array($this->value))
+		if (!\is_array($this->value))
 		{
-			if (is_object($this->value))
+			if (\is_object($this->value))
 			{
 				$this->value = $this->value->tags;
 			}
 
-			if (is_string($this->value))
+			if (\is_string($this->value))
 			{
 				$this->value = explode(',', $this->value);
 			}
@@ -65,10 +65,15 @@ class ContenttypeField extends ListField
 		$lang = Factory::getLanguage();
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.type_id AS value, a.type_title AS text, a.type_alias AS alias')
-			->from('#__content_types AS a')
-
-			->order('a.type_title ASC');
+			->select(
+				[
+					$db->quoteName('a.type_id', 'value'),
+					$db->quoteName('a.type_title', 'text'),
+					$db->quoteName('a.type_alias', 'alias'),
+				]
+			)
+			->from($db->quoteName('#__content_types', 'a'))
+			->order($db->quoteName('a.type_title') . ' ASC');
 
 		// Get the options.
 		$db->setQuery($query);

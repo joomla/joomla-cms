@@ -29,8 +29,8 @@
 			<folder>View</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_joomlaupdate.ini</language>
-			<language tag="en-GB">language/en-GB.com_joomlaupdate.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_joomlaupdate.ini</language>
+			<language tag="en-GB">language/en-GB/com_joomlaupdate.sys.ini</language>
 		</languages>
 	</administration>
 	<updateservers>

@@ -53,7 +53,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col">
@@ -84,25 +84,24 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</td>
 								<th scope="row">
 									<label for="cb<?php echo $i; ?>">
-										<span class="bold hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $item->name, $item->description, 0); ?>"><?php echo $item->name; ?></span>
+										<?php echo $item->name; ?>
+										<div class="small"><?php echo $item->description; ?></div>
 									</label>
 								</th>
-								<td>
+								<td class="d-none d-md-table-cell">
 									<?php echo $item->client_translated; ?>
 								</td>
 								<td>
 									<?php echo $item->type_translated; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<?php echo @$item->version != '' ? $item->version : '&#160;'; ?>
+									<?php echo !empty($item->version) ? $item->version : '&#160;'; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
+									<?php echo !empty($item->creationDate) ? $item->creationDate : '&#160;'; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<span class="editlinktip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', Text::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
-										<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
-									</span>
+									<?php echo !empty($item->author) ? $item->author : '&#160;'; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo $item->folder_translated; ?>

@@ -20,7 +20,6 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
  * The HTML Menus Menu Items View.
@@ -100,12 +99,6 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-
-		// We don't need toolbar in the modal window.
-		if ($this->getLayout() !== 'modal')
-		{
-			MenusHelper::addSubmenu('items');
-		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -354,8 +347,8 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
+				->icon('fa fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
@@ -384,17 +377,17 @@ class HtmlView extends BaseHtmlView
 					$childBar->trash('items.trash')->listCheck(true);
 				}
 			}
-		}
 
-		// Add a batch button
-		if (!$protected && $user->authorise('core.create', 'com_menus')
-			&& $user->authorise('core.edit', 'com_menus')
-			&& $user->authorise('core.edit.state', 'com_menus'))
-		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
+			// Add a batch button
+			if (!$protected && $user->authorise('core.create', 'com_menus')
+				&& $user->authorise('core.edit', 'com_menus')
+				&& $user->authorise('core.edit.state', 'com_menus'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 		}
 
 		if (Factory::getUser()->authorise('core.admin'))
