@@ -31,10 +31,7 @@ use Joomla\CMS\Utility\Utility;
 			<td>
 				<input class="form-control-file" id="zip_file" name="zip_file" type="file" accept="application/zip" onchange="checkSize(this);" size="57">
 				<div class="invalid-feedback">
-					Your file size is too big!
-				</div>
-				<div class="valid-feedback">
-					Your file size looks good!
+					<?php echo Text::_('COM_INSTALLER_MSG_WARNINGS_SMALLUPLOADSIZE'); ?>
 				</div>
 				<?php $maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize()); ?>
 				<small class="form-text text-muted"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></small>
