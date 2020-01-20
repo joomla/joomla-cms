@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset name="user_details">
+	<fieldset
+		name="user_details"
+		label="COM_ADMIN_USER_FIELDSET_USER_DETAILS_LABEL"
+	>
 		<field
 			name="name"
 			type="text"
@@ -89,9 +92,10 @@
 
 	<fields name="params">
 
-		<!--  Basic user account settings. -->
-		<fieldset name="settings" label="COM_ADMIN_USER_SETTINGS_FIELDSET_LABEL">
-
+		<fieldset
+			name="settings"
+			label="COM_ADMIN_USER_FIELDSET_SETTINGS_LABEL"
+		>
 			<field
 				name="admin_style"
 				type="templatestyle"
