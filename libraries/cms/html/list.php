@@ -136,12 +136,13 @@ abstract class JHtmlList
 	 * @param   string   $attribs   HTML tag attributes
 	 * @param   string   $selected  The selected item
 	 * @param   integer  $neworder  1 if new and first, -1 if new and last, 0  or null if existing item
+	 * @param   string   $id        ID attribute for the resulting <select> element
 	 *
 	 * @return  string   HTML markup for the select list
 	 *
 	 * @since   1.6
 	 */
-	public static function ordering($name, $query, $attribs = null, $selected = null, $neworder = null)
+	public static function ordering($name, $query, $attribs = null, $selected = null, $neworder = null, ?string $id = null)
 	{
 		if (empty($attribs))
 		{
@@ -151,7 +152,7 @@ abstract class JHtmlList
 		if (empty($neworder))
 		{
 			$orders = HTMLHelper::_('list.genericordering', $query);
-			$html = HTMLHelper::_('select.genericlist', $orders, $name, array('list.attr' => $attribs, 'list.select' => (int) $selected));
+			$html = HTMLHelper::_('select.genericlist', $orders, $name, ['list.attr' => $attribs, 'list.select' => (int) $selected, 'id' => $id]);
 		}
 		else
 		{
