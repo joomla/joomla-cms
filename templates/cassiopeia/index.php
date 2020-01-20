@@ -77,21 +77,6 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 $stickyHeader = $this->params->get('stickyHeader') ? 'sticky-header' : '';
 
-// Stick the header
-if ($stickyHeader === 'sticky-header')
-{
-	$css = '
-		.sticky-header {
-			margin: 0 0 20px 0 !important;
-			position: -webkit-sticky !important;
-			position: sticky !important;
-			top: 0;
-		}
-	';
-
-	$this->addStyleDeclaration($css);
-}
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

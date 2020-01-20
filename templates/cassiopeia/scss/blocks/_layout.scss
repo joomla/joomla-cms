@@ -19,7 +19,13 @@
   .system-debug {
     display: block;
   }
+}
 
+.sticky-header {
+  margin: 0 0 20px 0 !important;
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: 0;
 }
 
 header {
