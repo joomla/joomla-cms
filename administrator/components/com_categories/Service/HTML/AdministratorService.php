@@ -96,7 +96,7 @@ class AdministratorService
 							. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');
 						$classes  = 'badge badge-secondary';
 
-						$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
+						$item->link = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
 							. '<div role="tooltip" id="tip-' . (int) $catid . '-' . (int) $item->id . '">' . $tooltip . '</div>';
 					}
 					else
