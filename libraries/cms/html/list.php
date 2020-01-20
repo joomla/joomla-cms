@@ -152,7 +152,12 @@ abstract class JHtmlList
 		if (empty($neworder))
 		{
 			$orders = HTMLHelper::_('list.genericordering', $query);
-			$html = HTMLHelper::_('select.genericlist', $orders, $name, ['list.attr' => $attribs, 'list.select' => (int) $selected, 'id' => $id]);
+			$html   = HTMLHelper::_(
+				'select.genericlist',
+				$orders,
+				$name,
+				['list.attr' => $attribs, 'list.select' => (int) $selected, 'id' => $id ?? false]
+			);
 		}
 		else
 		{
