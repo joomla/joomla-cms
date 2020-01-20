@@ -19,7 +19,14 @@ HTMLHelper::_('behavior.formvalidator');
 $fieldsets = $this->form->getFieldsets();
 
 ?>
-<form action="<?php echo Route::_('index.php?option=com_admin&view=profile&layout=edit&id=' . $this->item->id); ?>" method="post" name="adminForm" id="profile-form" enctype="multipart/form-data" class="form-validate">
+<form
+	action="<?php echo Route::_('index.php?option=com_admin&view=profile&layout=edit&id=' . $this->item->id); ?>
+	method="post"
+	name="adminForm"
+	id="profile-form"
+	enctype="multipart/form-data"
+	class="form-validate"
+>
 	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'user_details')); ?>
 	<?php foreach ($fieldsets as $fieldset) : ?>
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', $fieldset->name, Text::_($fieldset->label)); ?>
