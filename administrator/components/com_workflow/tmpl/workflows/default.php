@@ -1,7 +1,5 @@
 <?php
 /**
- * Items Model for a Workflow Component.
- *
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
@@ -127,7 +125,7 @@ $userId = $user->id;
 										<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 									</span>
 									<?php if ($canChange && $saveOrder) : ?>
-										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
+										<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 									<?php endif; ?>
 								</td>
 								<td class="text-center">

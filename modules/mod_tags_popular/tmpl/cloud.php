@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Tags\Site\Helper\RouteHelper;
 
 $minsize = $params->get('minsize', 1);
 $maxsize = $params->get('maxsize', 2);
 
-JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php');
 ?>
 <div class="mod-tagspopular-cloud tagspopular tagscloud">
 <?php
@@ -49,7 +49,7 @@ if (!count($list)) : ?>
 		endif;
 ?>
 		<span class="tag">
-			<a class="tag-name" style="font-size: <?php echo $fontsize . 'em'; ?>" href="<?php echo Route::_(TagsHelperRoute::getTagRoute($item->tag_id . ':' . $item->alias)); ?>">
+			<a class="tag-name" style="font-size: <?php echo $fontsize . 'em'; ?>" href="<?php echo Route::_(RouteHelper::getTagRoute($item->tag_id . ':' . $item->alias)); ?>">
 				<?php echo htmlspecialchars($item->title, ENT_COMPAT, 'UTF-8'); ?></a>
 			<?php if ($display_count) : ?>
 				<span class="tag-count badge badge-info"><?php echo $item->count; ?></span>

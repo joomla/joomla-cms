@@ -11,6 +11,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 ?>
 <dd class="category-name">
@@ -18,7 +19,7 @@ use Joomla\CMS\Router\Route;
 	<?php $title = $this->escape($displayData['item']->category_title); ?>
 	<?php if ($displayData['params']->get('link_category') && !empty($displayData['item']->catid)) : ?>
 		<?php $url = '<a href="' . Route::_(
-			ContentHelperRoute::getCategoryRoute($displayData['item']->catid, $displayData['item']->category_language)
+			RouteHelper::getCategoryRoute($displayData['item']->catid, $displayData['item']->category_language)
 			)
 			. '" itemprop="genre">' . $title . '</a>'; ?>
 		<?php echo Text::sprintf('COM_CONTENT_CATEGORY', $url); ?>

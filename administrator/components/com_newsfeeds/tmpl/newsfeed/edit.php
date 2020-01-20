@@ -67,7 +67,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'images', Text::_('JGLOBAL_FIELDSET_OPTIONS')); ?>
 		<div class="row">
 			<div class="col-md-6">
-				<fieldset id="fieldset-image" class="options-grid-form options-grid-form-full">
+				<fieldset id="fieldset-image" class="options-form">
 					<legend><?php echo Text::_('JGLOBAL_FIELDSET_IMAGE_OPTIONS'); ?></legend>
 					<div>
 					<?php foreach ($this->form->getGroup('images') as $field) : ?>
@@ -87,7 +87,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row">
 			<div class="col-md-6">
-				<fieldset id="fieldset-publishingdata" class="options-grid-form options-grid-form-full">
+				<fieldset id="fieldset-publishingdata" class="options-form">
 					<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
 					<div>
 					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -95,7 +95,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				</fieldset>
 			</div>
 			<div class="col-md-6">
-				<fieldset id="fieldset-metadata" class="options-grid-form options-grid-form-full">
+				<fieldset id="fieldset-metadata" class="options-form">
 					<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 					<div>
 					<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
@@ -107,7 +107,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if (!$isModal && $assoc) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
-			<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
+			<fieldset id="fieldset-associations" class="options-form">
 			<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
 			<div>
 			<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>

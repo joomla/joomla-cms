@@ -166,7 +166,7 @@ class MenuField extends FormField
 	protected function getInput()
 	{
 		$clientId    = (int) $this->element['clientid'];
-		$languages   = LanguageHelper::getContentLanguages(array(0, 1));
+		$languages   = LanguageHelper::getContentLanguages(array(0, 1), false);
 
 		// Load language
 		Factory::getLanguage()->load('com_menus', JPATH_ADMINISTRATOR);
