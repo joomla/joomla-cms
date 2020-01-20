@@ -37,48 +37,4 @@ class ProfileController extends FormController
 	{
 		return isset($data['id']) && $data['id'] == $this->app->getIdentity()->id;
 	}
-
-	/**
-	 * Overrides parent save method to check the submitted passwords match.
-	 *
-	 * @param   string  $key     The name of the primary key of the URL variable.
-	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
-	 *
-	 * @return  boolean  True if successful, false otherwise.
-	 *
-	 * @since   3.2
-	 */
-	public function save($key = null, $urlVar = null)
-	{
-		$this->setRedirect(Route::_('index.php?option=com_admin&view=profile&layout=edit&id=' . $this->app->getIdentity()->id, false));
-
-		$return = parent::save();
-
-		if ($this->getTask() != 'apply')
-		{
-			// Redirect to the main page.
-			$this->setRedirect(Route::_('index.php', false));
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Method to cancel an edit.
-	 *
-	 * @param   string  $key  The name of the primary key of the URL variable.
-	 *
-	 * @return  boolean  True if access level checks pass, false otherwise.
-	 *
-	 * @since   1.6
-	 */
-	public function cancel($key = null)
-	{
-		$return = parent::cancel($key);
-
-		// Redirect to the main page.
-		$this->setRedirect(Route::_('index.php', false));
-
-		return $return;
-	}
 }

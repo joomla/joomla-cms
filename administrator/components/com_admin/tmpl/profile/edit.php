@@ -9,18 +9,21 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
 
+$input = Factory::getApplication()->input;
+
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
 
 ?>
 <form
-	action="<?php echo Route::_('index.php?option=com_admin&view=profile&layout=edit&id=' . $this->item->id); ?>
+	action="<?php echo Route::_('index.php?option=com_admin&view=profile&layout=edit&id=' . $this->item->id); ?>"
 	method="post"
 	name="adminForm"
 	id="profile-form"
@@ -37,5 +40,6 @@ $fieldsets = $this->form->getFieldsets();
 	<?php endforeach; ?>
 	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	<input type="hidden" name="task" value="">
+	<input type="hidden" name="return" value="<?php echo $input->get('return', '', 'BASE64'); ?>">
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>
