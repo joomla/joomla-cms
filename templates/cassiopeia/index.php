@@ -74,6 +74,24 @@ $headerMargin = !$this->countModules('banner') ? ' mb-4' : '';
 $wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
+
+$stickyHeader = $this->params->get('stickyHeader') ? 'sticky-header' : '';
+
+// Stick the header
+if ($stickyHeader === 'sticky-header')
+{
+	$css = '
+		.sticky-header {
+			margin: 0 0 20px 0 !important;
+			position: -webkit-sticky !important;
+			position: sticky !important;
+			top: 0;
+		}
+	';
+
+	$this->addStyleDeclaration($css);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -93,7 +111,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	. $hasClass;
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-	<div class="grid-child container-header full-width">
+	<div class="grid-child container-header full-width <?php echo $stickyHeader; ?>">
 		<header class="header">
 			<nav class="grid-child navbar navbar-expand-lg">
 				<div class="navbar-brand">
