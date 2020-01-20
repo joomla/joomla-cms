@@ -105,7 +105,7 @@ abstract class JHtmlList
 			return $options;
 		}
 
-		$options[] = HTMLHelper::_('select.option', 0, '0 ' . Text::_('JOPTION_ORDER_FIRST'));
+		$options[] = HTMLHelper::_('select.option', 0, '0. ' . Text::_('JOPTION_ORDER_FIRST'));
 
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
@@ -123,7 +123,7 @@ abstract class JHtmlList
 			$options[] = HTMLHelper::_('select.option', $items[$i]->value, $items[$i]->value . '. ' . $text);
 		}
 
-		$options[] = HTMLHelper::_('select.option', $items[$i - 1]->value + 1, ($items[$i - 1]->value + 1) . ' ' . Text::_('JOPTION_ORDER_LAST'));
+		$options[] = HTMLHelper::_('select.option', $items[$i - 1]->value + 1, ($items[$i - 1]->value + 1) . '. ' . Text::_('JOPTION_ORDER_LAST'));
 
 		return $options;
 	}
