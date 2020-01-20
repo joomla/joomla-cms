@@ -55,7 +55,6 @@
       "type": "preset",
       "dependencies": [
         "core#script",
-        "bootstrap.js.bundle#script",
         "css-vars-ponyfill#script",
         "focus-visible#script",
         "template.atum#script"

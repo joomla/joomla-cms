@@ -10,8 +10,9 @@
   .tox-editor-container {
     > .target {
       min-height: 2.5rem;
-	}
+	  }
   }
+  margin-left: -220px;
 }
 
 // Drag & Drop Handler
@@ -32,5 +33,4 @@
   overflow: hidden;
   padding: 0;
   text-transform: normal;
-
 }

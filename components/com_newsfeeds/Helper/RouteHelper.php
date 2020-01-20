@@ -19,7 +19,7 @@ use Joomla\CMS\Language\Multilanguage;
  *
  * @since  1.5
  */
-abstract class Route
+abstract class RouteHelper
 {
 	/**
 	 * getNewsfeedRoute

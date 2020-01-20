@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /**
  * Frontpage View class
@@ -58,7 +59,7 @@ class FeedView extends AbstractView
 			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
 			// URL link to article
-			$link = Route::_(\ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
+			$link = Route::_(RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language));
 
 			$description = '';
 			$obj = json_decode($row->images);

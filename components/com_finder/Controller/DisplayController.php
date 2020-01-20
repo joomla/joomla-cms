@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
 /**
  * Finder Component Controller.
@@ -39,7 +39,7 @@ class DisplayController extends BaseController
 		$cachable = true;
 
 		// Load plugin language files.
-		FinderHelperLanguage::loadPluginLanguage();
+		LanguageHelper::loadPluginLanguage();
 
 		// Set the default view name and format from the Request.
 		$viewName = $input->get('view', 'search', 'word');
