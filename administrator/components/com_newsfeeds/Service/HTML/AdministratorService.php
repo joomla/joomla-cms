@@ -99,7 +99,7 @@ class AdministratorService
 							. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
 						$classes = 'badge badge-secondary';
 
-						$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
+						$item->link = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
 							. '<div role="tooltip" id="tip-' . (int) $newsfeedid . '-' . (int) $item->id . '">' . $tooltip . '</div>';
 					}
 					else
