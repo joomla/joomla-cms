@@ -88,8 +88,8 @@
 					default="0"
 					label="TPL_CASSIOPEIA_STICKY_LABEL"
 				>
-					<option value="1">JYES</option>
 					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 		</fields>
