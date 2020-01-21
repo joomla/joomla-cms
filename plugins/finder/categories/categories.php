@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -324,7 +325,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		}
 		else
 		{
-			$item->route = ContentHelperRoute::getCategoryRoute($item->id, $item->language);
+			$item->route = RouteHelper::getCategoryRoute($item->id, $item->language);
 		}
 
 		// Get the menu title if it exists.

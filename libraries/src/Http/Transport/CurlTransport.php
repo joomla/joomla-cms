@@ -17,7 +17,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Http\AbstractTransport;
 use Joomla\Http\Exception\InvalidResponseCodeException;
 use Joomla\Uri\UriInterface;
-use Zend\Diactoros\Stream as StreamResponse;
+use Laminas\Diactoros\Stream as StreamResponse;
 
 /**
  * HTTP transport class for using cURL.
