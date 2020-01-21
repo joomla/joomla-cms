@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
@@ -113,7 +114,7 @@ class PlgFinderContent extends Adapter
 	 * Method to remove the link information for items that have been deleted.
 	 *
 	 * @param   string  $context  The context of the action being performed.
-	 * @param   JTable  $table    A JTable object containing the record to be deleted
+	 * @param   Table   $table    A Table object containing the record to be deleted
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -146,7 +147,7 @@ class PlgFinderContent extends Adapter
 	 * category to which it belongs has changed.
 	 *
 	 * @param   string   $context  The context of the content passed to the plugin.
-	 * @param   JTable   $row      A JTable object.
+	 * @param   Table    $row      A Table object.
 	 * @param   boolean  $isNew    True if the content has just been created.
 	 *
 	 * @return  boolean  True on success.
@@ -188,7 +189,7 @@ class PlgFinderContent extends Adapter
 	 * This event is fired before the data is actually saved.
 	 *
 	 * @param   string   $context  The context of the content passed to the plugin.
-	 * @param   JTable   $row      A JTable object.
+	 * @param   Table    $row      A Table object.
 	 * @param   boolean  $isNew    If the content is just about to be created.
 	 *
 	 * @return  boolean  True on success.
@@ -337,9 +338,9 @@ class PlgFinderContent extends Adapter
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed  $query  A JDatabaseQuery object or null.
+	 * @param   mixed  $query  A DatabaseQuery object or null.
 	 *
-	 * @return  JDatabaseQuery  A database object.
+	 * @return  DatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */

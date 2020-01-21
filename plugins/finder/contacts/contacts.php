@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
@@ -111,7 +112,7 @@ class PlgFinderContacts extends Adapter
 	 * This event will fire when contacts are deleted and when an indexed item is deleted.
 	 *
 	 * @param   string  $context  The context of the action being performed.
-	 * @param   JTable  $table    A JTable object containing the record to be deleted
+	 * @param   Table   $table    A Table object containing the record to be deleted
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -141,7 +142,7 @@ class PlgFinderContacts extends Adapter
 	 * Method to determine if the access level of an item changed.
 	 *
 	 * @param   string   $context  The context of the content passed to the plugin.
-	 * @param   JTable   $row      A JTable object
+	 * @param   Table    $row      A Table object
 	 * @param   boolean  $isNew    If the content has just been created
 	 *
 	 * @return  boolean  True on success.
@@ -184,7 +185,7 @@ class PlgFinderContacts extends Adapter
 	 * to queue the item to be indexed later.
 	 *
 	 * @param   string   $context  The context of the content passed to the plugin.
-	 * @param   JTable   $row      A JTable object
+	 * @param   Table    $row      A Table object
 	 * @param   boolean  $isNew    If the content is just about to be created
 	 *
 	 * @return  boolean  True on success.
@@ -402,9 +403,9 @@ class PlgFinderContacts extends Adapter
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed  $query  A JDatabaseQuery object or null.
+	 * @param   mixed  $query  A DatabaseQuery object or null.
 	 *
-	 * @return  JDatabaseQuery  A database object.
+	 * @return  DatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */

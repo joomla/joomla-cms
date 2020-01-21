@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
@@ -86,7 +87,7 @@ class PlgFinderTags extends Adapter
 	 * Method to remove the link information for items that have been deleted.
 	 *
 	 * @param   string  $context  The context of the action being performed.
-	 * @param   JTable  $table    A JTable object containing the record to be deleted
+	 * @param   Table   $table    A Table object containing the record to be deleted
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -116,7 +117,7 @@ class PlgFinderTags extends Adapter
 	 * Method to determine if the access level of an item changed.
 	 *
 	 * @param   string   $context  The context of the content passed to the plugin.
-	 * @param   JTable   $row      A JTable object
+	 * @param   Table    $row      A Table object
 	 * @param   boolean  $isNew    If the content has just been created
 	 *
 	 * @return  boolean  True on success.
@@ -149,7 +150,7 @@ class PlgFinderTags extends Adapter
 	 * to queue the item to be indexed later.
 	 *
 	 * @param   string   $context  The context of the content passed to the plugin.
-	 * @param   JTable   $row      A JTable object
+	 * @param   Table    $row      A Table object
 	 * @param   boolean  $isNew    If the content is just about to be created
 	 *
 	 * @return  boolean  True on success.
@@ -287,9 +288,9 @@ class PlgFinderTags extends Adapter
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed  $query  A JDatabaseQuery object or null.
+	 * @param   mixed  $query  A DatabaseQuery object or null.
 	 *
-	 * @return  JDatabaseQuery  A database object.
+	 * @return  DatabaseQuery  A database object.
 	 *
 	 * @since   3.1
 	 */
@@ -329,7 +330,7 @@ class PlgFinderTags extends Adapter
 	/**
 	 * Method to get a SQL query to load the published and access states for the given tag.
 	 *
-	 * @return  JDatabaseQuery  A database object.
+	 * @return  DatabaseQuery  A database object.
 	 *
 	 * @since   3.1
 	 */
@@ -349,7 +350,7 @@ class PlgFinderTags extends Adapter
 	 *
 	 * @param   string  $time  The modified timestamp.
 	 *
-	 * @return  JDatabaseQuery  A database object.
+	 * @return  DatabaseQuery  A database object.
 	 *
 	 * @since   3.1
 	 */

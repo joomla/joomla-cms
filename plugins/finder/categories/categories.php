@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
@@ -98,7 +99,7 @@ class PlgFinderCategories extends Adapter
 	 * Method to remove the link information for items that have been deleted.
 	 *
 	 * @param   string  $context  The context of the action being performed.
-	 * @param   JTable  $table    A JTable object containing the record to be deleted
+	 * @param   Table   $table    A Table object containing the record to be deleted
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -130,7 +131,7 @@ class PlgFinderCategories extends Adapter
 	 * It also makes adjustments if the access level of the category has changed.
 	 *
 	 * @param   string   $context  The context of the category passed to the plugin.
-	 * @param   JTable   $row      A JTable object.
+	 * @param   Table    $row      A Table object.
 	 * @param   boolean  $isNew    True if the category has just been created.
 	 *
 	 * @return  boolean  True on success.
@@ -168,7 +169,7 @@ class PlgFinderCategories extends Adapter
 	 * This event is fired before the data is actually saved.
 	 *
 	 * @param   string   $context  The context of the category passed to the plugin.
-	 * @param   JTable   $row      A JTable object.
+	 * @param   Table    $row      A Table object.
 	 * @param   boolean  $isNew    True if the category is just about to be created.
 	 *
 	 * @return  boolean  True on success.
@@ -358,9 +359,9 @@ class PlgFinderCategories extends Adapter
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed  $query  A JDatabaseQuery object or null.
+	 * @param   mixed  $query  A DatabaseQuery object or null.
 	 *
-	 * @return  JDatabaseQuery  A database object.
+	 * @return  DatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */
@@ -431,7 +432,7 @@ class PlgFinderCategories extends Adapter
 	 * Method to get a SQL query to load the published and access states for
 	 * a category and its parents.
 	 *
-	 * @return  JDatabaseQuery  A database object.
+	 * @return  DatabaseQuery  A database object.
 	 *
 	 * @since   2.5
 	 */
