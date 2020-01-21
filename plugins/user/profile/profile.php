@@ -100,10 +100,12 @@ class PlgUserProfile extends CMSPlugin
 				// Load the profile data from the database.
 				$db    = $this->db;
 				$query = $db->getQuery(true)
-					->select([
-						$db->quoteName('profile_key'),
-						$db->quoteName('profile_value'),
-					])
+					->select(
+						[
+							$db->quoteName('profile_key'),
+							$db->quoteName('profile_value'),
+						]
+					)
 					->from($db->quoteName('#__user_profiles'))
 					->where($db->quoteName('user_id') . ' = :userid')
 					->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'))
