@@ -9,13 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
 // Load Bootstrap JS for dropdowns.
-$app->getDocument()->getWebAssetManager()->useScript('bootstrap.js.bundle');
+HTMLHelper::_('bootstrap.framework');
 
 $hideLinks = $app->input->getBool('hidemainmenu');
 ?>
