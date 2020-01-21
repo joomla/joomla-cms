@@ -75,7 +75,7 @@ $wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-sta
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
-$stickyHeader = $this->params->get('stickyHeader') ? 'sticky-header' : '';
+$stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top' : '';
 
 ?>
 <!DOCTYPE html>
