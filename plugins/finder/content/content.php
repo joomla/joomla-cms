@@ -13,17 +13,19 @@ use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Component\Finder\Administrator\Indexer\Adapter;
+use Joomla\Component\Finder\Administrator\Indexer\Helper;
+use Joomla\Component\Finder\Administrator\Indexer\Indexer;
+use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Registry\Registry;
-
-JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
 
 /**
  * Smart Search adapter for com_content.
  *
  * @since  2.5
  */
-class PlgFinderContent extends FinderIndexerAdapter
+class PlgFinderContent extends Adapter
 {
 	/**
 	 * The plugin identifier.
@@ -248,16 +250,16 @@ class PlgFinderContent extends FinderIndexerAdapter
 	}
 
 	/**
-	 * Method to index an item. The item must be a FinderIndexerResult object.
+	 * Method to index an item. The item must be a Result object.
 	 *
-	 * @param   FinderIndexerResult  $item  The item to index as a FinderIndexerResult object.
+	 * @param   Result  $item  The item to index as a Result object.
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	protected function index(FinderIndexerResult $item)
+	protected function index(Result $item)
 	{
 		$item->setLanguage();
 
@@ -277,8 +279,8 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$item->metadata = new Registry($item->metadata);
 
 		// Trigger the onContentPrepare event.
-		$item->summary = FinderIndexerHelper::prepareContent($item->summary, $item->params, $item);
-		$item->body    = FinderIndexerHelper::prepareContent($item->body, $item->params, $item);
+		$item->summary = Helper::prepareContent($item->summary, $item->params, $item);
+		$item->body    = Helper::prepareContent($item->body, $item->params, $item);
 
 		// Create a URL as identifier to recognise items again.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
@@ -299,11 +301,11 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$item->metaauthor = $item->metadata->get('author');
 
 		// Add the metadata processing instructions.
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metakey');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metadesc');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'metaauthor');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'author');
-		$item->addInstruction(FinderIndexer::META_CONTEXT, 'created_by_alias');
+		$item->addInstruction(Indexer::META_CONTEXT, 'metakey');
+		$item->addInstruction(Indexer::META_CONTEXT, 'metadesc');
+		$item->addInstruction(Indexer::META_CONTEXT, 'metaauthor');
+		$item->addInstruction(Indexer::META_CONTEXT, 'author');
+		$item->addInstruction(Indexer::META_CONTEXT, 'created_by_alias');
 
 		// Translate the state. Articles should only be published if the category is published.
 		$item->state = $this->translateState($item->state, $item->cat_state);
@@ -326,7 +328,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		$item->addTaxonomy('Language', $item->language);
 
 		// Get content extras.
-		FinderIndexerHelper::getContentExtras($item);
+		Helper::getContentExtras($item);
 
 		// Index the item.
 		$this->indexer->index($item);
