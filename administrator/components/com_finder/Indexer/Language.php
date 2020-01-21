@@ -60,8 +60,6 @@ class Language
 	 * Method to construct the language object.
 	 *
 	 * @since   4.0.0
-	 *
-	 * @throws Exception
 	 */
 	public function __construct($locale = null)
 	{
@@ -70,9 +68,10 @@ class Language
 			$this->language = $locale;
 		}
 
+		// Use our generic language handler if no language is set
 		if ($this->language === null)
 		{
-			throw new Exception('Can\'t initial stemmer, locale is not set', 500);
+			$this->language = '*';
 		}
 
 		try
@@ -106,9 +105,17 @@ class Language
 		if ($language !== '*')
 		{
 			$locale = Helper::getPrimaryLanguage($language);
+			$class = '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Language\\' . ucfirst($locale);
 		}
 
-		self::$instances[$language] = new self($locale);
+		if (class_exists($class))
+		{
+			self::$instances[$language] = new $class;
+		}
+		else
+		{
+			self::$instances[$language] = new self($locale);
+		}
 
 		return self::$instances[$language];
 	}
