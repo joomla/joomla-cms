@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+// Load Bootstrap JS for dropdowns.
+$app->getDocument()->getWebAssetManager()->useScript('bootstrap.js.bundle');
+
 $hideLinks = $app->input->getBool('hidemainmenu');
 ?>
 <?php if ($app->getIdentity()->authorise('core.manage', 'com_postinstall')) : ?>
