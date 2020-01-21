@@ -427,7 +427,6 @@ class PlgEditorTinymce extends JPlugin
 		$plugins  = array(
 			'autolink',
 			'lists',
-			'save',
 			'colorpicker',
 			'importcss',
 		);
