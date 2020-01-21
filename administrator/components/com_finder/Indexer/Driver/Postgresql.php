@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
+use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
 use Joomla\Database\ParameterType;
 
@@ -28,8 +29,8 @@ class Postgresql extends Indexer
 	/**
 	 * Method to index a content item.
 	 *
-	 * @param   FinderIndexerResult  $item    The content item to index.
-	 * @param   string               $format  The format of the content. [optional]
+	 * @param   Result  $item    The content item to index.
+	 * @param   string  $format  The format of the content. [optional]
 	 *
 	 * @return  integer  The ID of the record in the links table.
 	 *

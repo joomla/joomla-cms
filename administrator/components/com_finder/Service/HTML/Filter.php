@@ -17,6 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Registry\Registry;
 
 /**
@@ -212,8 +213,8 @@ class Filter
 	/**
 	 * Method to generate filters using select box dropdown controls.
 	 *
-	 * @param   \FinderIndexerQuery  $idxQuery  A FinderIndexerQuery object.
-	 * @param   array                $options   An array of options.
+	 * @param   Query  $idxQuery  A Query object.
+	 * @param   array  $options   An array of options.
 	 *
 	 * @return  mixed  A rendered HTML widget on success, null otherwise.
 	 *
@@ -439,8 +440,8 @@ class Filter
 	/**
 	 * Method to generate fields for filtering dates
 	 *
-	 * @param   \FinderIndexerQuery  $idxQuery  A FinderIndexerQuery object.
-	 * @param   array                $options   An array of options.
+	 * @param   Query  $idxQuery  A Query object.
+	 * @param   array  $options   An array of options.
 	 *
 	 * @return  mixed  A rendered HTML widget on success, null otherwise.
 	 *

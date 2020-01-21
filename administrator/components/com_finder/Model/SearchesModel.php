@@ -137,9 +137,6 @@ class SearchesModel extends ListModel
 	{
 		$items = parent::getItems();
 
-		\JLoader::register('FinderIndexerQuery', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/indexer/query.php');
-		\JLoader::register('FinderIndexerToken', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/indexer/token.php');
-
 		foreach ($items as $item)
 		{
 			$item->query = unserialize($item->query);

@@ -20,9 +20,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
-
-// Register dependent classes.
-\JLoader::register('FinderIndexer', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php');
+use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 
 /**
  * Indexer controller class for Finder.
@@ -69,7 +67,7 @@ class IndexerController extends BaseController
 		ob_start();
 
 		// Reset the indexer state.
-		\FinderIndexer::resetState();
+		Indexer::resetState();
 
 		// Import the finder plugins.
 		PluginHelper::importPlugin('finder');
@@ -85,7 +83,7 @@ class IndexerController extends BaseController
 			$this->app->triggerEvent('onStartIndex');
 
 			// Get the indexer state.
-			$state = \FinderIndexer::getState();
+			$state = Indexer::getState();
 			$state->start = 1;
 
 			// Send the response.
@@ -140,13 +138,13 @@ class IndexerController extends BaseController
 		@set_time_limit(0);
 
 		// Get the indexer state.
-		$state = \FinderIndexer::getState();
+		$state = Indexer::getState();
 
 		// Reset the batch offset.
 		$state->batchOffset = 0;
 
 		// Update the indexer state.
-		\FinderIndexer::setState($state);
+		Indexer::setState($state);
 
 		// Import the finder plugins.
 		PluginHelper::importPlugin('finder');
@@ -199,7 +197,7 @@ class IndexerController extends BaseController
 			Factory::getApplication()->triggerEvent('onBuildIndex');
 
 			// Get the indexer state.
-			$state = \FinderIndexer::getState();
+			$state = Indexer::getState();
 			$state->start = 0;
 			$state->complete = 0;
 
@@ -258,10 +256,10 @@ class IndexerController extends BaseController
 		try
 		{
 			// Optimize the index
-			\FinderIndexer::getInstance()->optimize();
+			Indexer::getInstance()->optimize();
 
 			// Get the indexer state.
-			$state = \FinderIndexer::getState();
+			$state = Indexer::getState();
 			$state->start = 0;
 			$state->complete = 1;
 
