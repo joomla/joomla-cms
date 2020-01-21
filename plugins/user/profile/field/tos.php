@@ -89,9 +89,9 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
-			$query->select($db->quoteName(['id, alias, catid, language']))
+			$query->select($db->quoteName(['id', 'alias', 'catid', 'language']))
 				->from($db->quoteName('#__content'))
-				->where($db->quoteName('id') .' = :id')
+				->where($db->quoteName('id') . ' = :id')
 				->bind(':id', $tosArticle, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$article = $db->loadObject();

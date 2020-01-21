@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
@@ -28,12 +28,12 @@ use Joomla\Utilities\ArrayHelper;
 class PlgUserProfile extends CMSPlugin
 {
 	/**
-	 * Date of birth.
+	 * Application object.
 	 *
-	 * @var    string
-	 * @since  3.1
+	 * @var    JApplicationCms
+	 * @since  4.0
 	 */
-	private $date = '';
+	protected $app;
 
 	/**
 	 * Load the language file on instantiation.
@@ -42,15 +42,22 @@ class PlgUserProfile extends CMSPlugin
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
-	
+
+	/**
+	 * Date of birth.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	private $date = '';
+
 	/**
 	 * Database object
 	 *
-	 * @var    \Joomla\Database\DatabaseInterface
+	 * @var    DatabaseInterface
 	 * @since  4.0
 	 */
 	protected $db;
-
 
 	/**
 	 * Constructor
@@ -83,6 +90,8 @@ class PlgUserProfile extends CMSPlugin
 		{
 			return true;
 		}
+
+		if (is_object($data))
 		{
 			$userId = (int) $data->id ?? 0;
 
@@ -267,9 +276,7 @@ class PlgUserProfile extends CMSPlugin
 		];
 
 		// Change fields description when displayed in frontend or backend profile editing
-		$app = Factory::getApplication();
-
-		if ($app->isClient('site') || $name === 'com_users.user' || $name === 'com_admin.profile')
+		if ($this->app->isClient('site') || $name === 'com_users.user' || $name === 'com_admin.profile')
 		{
 			$form->setFieldAttribute('address1', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
 			$form->setFieldAttribute('address2', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
@@ -392,8 +399,8 @@ class PlgUserProfile extends CMSPlugin
 		}
 
 		// Check that the tos is checked if required ie only in registration from frontend.
-		$task       = Factory::getApplication()->input->getCmd('task');
-		$option     = Factory::getApplication()->input->getCmd('option');
+		$task       = $this->app->input->getCmd('task');
+		$option     = $this->app->input->getCmd('option');
 		$tosArticle = $this->params->get('register_tos_article');
 		$tosEnabled = ($this->params->get('register-require_tos', 0) == 2);
 
