@@ -26,6 +26,18 @@
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
+
+			<field
+				name="show_text"
+				type="radio"
+				class="switcher"
+				label="PLG_FIELDS_URL_PARAMS_SHOW_TEXT"
+				default="1"
+				filter="integer"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 		</fieldset>
 	</fields>
 </form>
