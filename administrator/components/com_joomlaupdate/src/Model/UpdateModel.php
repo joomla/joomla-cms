@@ -1450,21 +1450,39 @@ ENDDATA;
 	 */
 	public function fetchCompatibility($extensionID, $joomlaTargetVersion)
 	{
-		$updateFileUrls = $this->getUpdateSiteLocations($extensionID);
+		$updateSites = $this->getUpdateSitesInfo($extensionID);
 
-		if (!$updateFileUrls)
+		if (empty($updateSites))
 		{
 			return (object) array('state' => 2);
 		}
 
-		foreach ($updateFileUrls as $updateFileUrl)
+		foreach ($updateSites as $updateSite)
 		{
-			$compatibleVersion = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
-
-			if ($compatibleVersion)
+			if ($updateSite['type'] === 'collection')
 			{
-				// Return the compatible version
-				return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
+				$updateFileUrls = $this->getCollectionDetailsUrls($updateSite, $joomlaTargetVersion);
+
+				foreach ($updateFileUrls as $updateFileUrl)
+				{
+					$compatibleVersion = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
+
+					if ($compatibleVersion)
+					{
+						// Return the compatible version
+						return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
+					}
+				}
+			}
+			else
+			{
+				$compatibleVersion = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
+
+				if ($compatibleVersion)
+				{
+					// Return the compatible version
+					return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
+				}
 			}
 		}
 
@@ -1473,32 +1491,103 @@ ENDDATA;
 	}
 
 	/**
-	 * Get the URL to the update server for a given extension ID
+	 * Returns records with update sites and extension information for a given extension ID.
 	 *
 	 * @param   int  $extensionID  The extension ID
 	 *
-	 * @return  mixed  array of Update URLs or false
+	 * @return  array
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function getUpdateSiteLocations($extensionID)
+	private function getUpdateSitesInfo($extensionID)
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->qn('us.location'))
-			->from($db->qn('#__update_sites', 'us'))
-			->leftJoin(
-				$db->qn('#__update_sites_extensions', 'e')
-				. ' ON ' . $db->qn('e.update_site_id') . ' = ' . $db->qn('us.update_site_id')
-			)
-			->where($db->qn('e.extension_id') . ' = ' . (int) $extensionID);
+		$query->select(
+			$db->qn('us.type') . ', ' .
+			$db->qn('us.location') . ', ' .
+			$db->qn('e.element') . ' AS ' . $db->qn('ext_element') . ', ' .
+			$db->qn('e.type') . ' AS ' . $db->qn('ext_type') . ', ' .
+			$db->qn('e.folder') . ' AS ' . $db->qn('ext_folder')
+		)->from(
+			$db->qn('#__update_sites', 'us')
+		)->leftJoin(
+				$db->qn('#__update_sites_extensions', 'ue')
+				. ' ON ' . $db->qn('ue.update_site_id') . ' = ' . $db->qn('us.update_site_id')
+		)->leftJoin(
+				$db->qn('#__extensions', 'e')
+				. ' ON ' . $db->qn('e.extension_id') . ' = ' . $db->qn('ue.extension_id')
+		)->where($db->qn('e.extension_id') . ' = ' . (int) $extensionID);
 
 		$db->setQuery($query);
 
-		$rows = $db->loadColumn();
+		$result = $db->loadAssocList();
 
-		return $rows ?: false;
+		if (!is_array($result))
+		{
+			return array();
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Method to get details URLs from a colletion update site for given extension and Joomla target version.
+	 *
+	 * @param   array   $updateSiteInfo       The update site and extension information record to process
+	 * @param   string  $joomlaTargetVersion  The Joomla! version to test against,
+	 *
+	 * @return  array  An array of URLs.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getCollectionDetailsUrls($updateSiteInfo, $joomlaTargetVersion)
+	{
+		$return = array();
+
+		$http = new JHttp;
+
+		try
+		{
+			$response = $http->get($updateSiteInfo['location']);
+		}
+		catch (RuntimeException $e)
+		{
+			$response = null;
+		}
+
+		if ($response === null || $response->code !== 200)
+		{
+			return $return;
+		}
+
+		$updateSiteXML = simplexml_load_string($response->body);
+
+		foreach ($updateSiteXML->extension as $extension)
+		{
+			$attribs = new stdClass;
+
+			$attribs->element               = '';
+			$attribs->type                  = '';
+			$attribs->folder                = '';
+			$attribs->targetplatformversion = '';
+
+			foreach ($extension->attributes() as $key => $value)
+			{
+				$attribs->$key = (string) $value;
+			}
+
+			if ($attribs->element === $updateSiteInfo['ext_element']
+				&& $attribs->type === $updateSiteInfo['ext_type']
+				&& $attribs->folder === $updateSiteInfo['ext_folder']
+				&& preg_match('/^' . $attribs->targetplatformversion . '/', $joomlaTargetVersion))
+			{
+				$return[] = (string) $extension['detailsurl'];
+			}
+		}
+
+		return $return;
 	}
 
 	/**
