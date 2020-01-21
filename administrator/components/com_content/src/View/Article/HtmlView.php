@@ -149,10 +149,15 @@ class HtmlView extends BaseHtmlView
 			$saveGroup = $toolbar->dropdownButton('save-group');
 
 			$saveGroup->configure(
-				function (Toolbar $childBar)
+				function (Toolbar $childBar) use ($user)
 				{
 					$childBar->save('article.save');
-					$childBar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
+
+					if ($user->authorise('core.create', 'com_menus.menu'))
+					{
+						$childBar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
+					}
+
 					$childBar->save2new('article.save2new');
 				}
 			);
@@ -170,7 +175,7 @@ class HtmlView extends BaseHtmlView
 			$saveGroup = $toolbar->dropdownButton('save-group');
 
 			$saveGroup->configure(
-				function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo)
+				function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo, $user)
 				{
 					// Can't save the record if it's checked out and editable
 					if (!$checkedOut && $itemEditable)
@@ -184,10 +189,15 @@ class HtmlView extends BaseHtmlView
 						}
 					}
 
+					// If checked out, we can still save2menu
+					if ($user->authorise('core.create', 'com_menus.menu'))
+					{
+						$childBar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
+					}
+
 					// If checked out, we can still save
 					if ($canDo->get('core.create'))
 					{
-						$childBar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
 						$childBar->save2copy('article.save2copy');
 					}
 				}
