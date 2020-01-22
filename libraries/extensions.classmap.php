@@ -31,7 +31,6 @@ JLoader::registerAlias('FinderIndexerHelper',   '\\Joomla\\Component\\Finder\\Ad
 JLoader::registerAlias('FinderIndexer',         '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Indexer', '5.0');
 JLoader::registerAlias('FinderIndexerParser',   '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Parser', '5.0');
 JLoader::registerAlias('FinderIndexerQuery',    '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Query', '5.0');
-JLoader::registerAlias('FinderIndexerResponse', '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Response', '5.0');
 JLoader::registerAlias('FinderIndexerResult',   '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Result', '5.0');
 JLoader::registerAlias('FinderIndexerTaxonomy', '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Taxonomy', '5.0');
 JLoader::registerAlias('FinderIndexerToken',    '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Token', '5.0');
