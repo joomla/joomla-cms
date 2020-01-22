@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Finder\Administrator\Helper;
+namespace Joomla\Component\Finder\Administrator\Response;
 
 defined('_JEXEC') or die;
 
@@ -21,7 +21,7 @@ use Joomla\CMS\Log\Log;
  *
  * @since  2.5
  */
-class ResponseHelper
+class Response
 {
 	/**
 	 * Class Constructor
