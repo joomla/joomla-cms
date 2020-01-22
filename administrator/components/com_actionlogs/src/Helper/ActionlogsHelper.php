@@ -215,7 +215,7 @@ class ActionlogsHelper
 			{
 				if (!isset($links[$value]))
 				{
-					$links[$value] = Route::link('administrator', $value, false, $linkMode);
+					$links[$value] = Route::link('administrator', $value, false, $linkMode, true);
 				}
 
 				$value = $links[$value];
