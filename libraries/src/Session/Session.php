@@ -917,7 +917,7 @@ class Session implements \IteratorAggregate
 		// Set name
 		if (isset($options['name']))
 		{
-			$this->_handler->setName(md5($options['name']));
+			$this->_handler->setName('joomla_' . md5($options['name']));
 		}
 
 		// Set id
