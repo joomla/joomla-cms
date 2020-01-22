@@ -161,15 +161,13 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	}
 
 	/**
-	 * Method to get a control group with label and input.
+	 * Method to get the field input markup.
 	 *
-	 * @param   array  $options  Options to be passed into the rendering of the field
+	 * @return  string  The field input markup.
 	 *
-	 * @return  string  A string containing the html for the control group
-	 *
-	 * @since   3.9.1
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function renderField($options = array())
+	protected function getInput()
 	{
 		$modalHtml  = '';
 		$layoutData = $this->getLayoutData();
@@ -183,7 +181,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 			$modalHtml = HTMLHelper::_('bootstrap.renderModal', 'modal-' . $this->id, $modalParams);
 		}
 
-		return $modalHtml . parent::renderField($options);
+		return $modalHtml . parent::getInput();
 	}
 
 	/**
