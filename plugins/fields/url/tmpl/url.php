@@ -30,7 +30,7 @@ else
 	$text       = Text::_('JVISIT_LINK');
 }
 
-if ($fieldParams->get('show_text', 0))
+if ($fieldParams->get('show_url', 0))
 	{
 		$text = $value;
 	}

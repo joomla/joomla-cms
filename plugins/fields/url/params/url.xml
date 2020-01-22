@@ -28,10 +28,10 @@
 			</field>
 
 			<field
-				name="show_text"
+				name="show_url"
 				type="radio"
 				class="switcher"
-				label="PLG_FIELDS_URL_PARAMS_SHOW_TEXT"
+				label="PLG_FIELDS_URL_PARAMS_SHOW_URL"
 				default="1"
 				filter="integer"
 				>
