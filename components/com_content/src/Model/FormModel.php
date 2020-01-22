@@ -216,9 +216,9 @@ class FormModel extends \Joomla\Component\Content\Administrator\Model\ArticleMod
 	{
 		$params = $this->getState()->get('params');
 
-		if ($params && $params->get('enable_category') == 1)
+		if ($params && $params->get('enable_category') == 1 && $params->get('catid'))
 		{
-			$form->setFieldAttribute('catid', 'default', $params->get('catid', 1));
+			$form->setFieldAttribute('catid', 'default', $params->get('catid'));
 			$form->setFieldAttribute('catid', 'readonly', 'true');
 		}
 
