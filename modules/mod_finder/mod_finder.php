@@ -19,13 +19,6 @@ use Joomla\Module\Finder\Site\Helper\FinderHelper;
 
 JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
 
-if (!defined('FINDER_PATH_INDEXER'))
-{
-	define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
-}
-
-JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
-
 $cparams = ComponentHelper::getParams('com_finder');
 
 // Check for OpenSearch

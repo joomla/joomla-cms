@@ -14,6 +14,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Registry\Registry;
 
 /**
@@ -550,7 +551,7 @@ class PlgSystemFields extends CMSPlugin
 					foreach ($fields as $field)
 					{
 						// Adding the instructions how to handle the text
-						$item->addInstruction(FinderIndexer::TEXT_CONTEXT, $field->name);
+						$item->addInstruction(Indexer::TEXT_CONTEXT, $field->name);
 
 						// Adding the field value as a field
 						$item->{$field->name} = $field->value;
