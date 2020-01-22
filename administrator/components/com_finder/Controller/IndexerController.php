@@ -20,7 +20,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
-use Joomla\Component\Finder\Administrator\Indexer\Response;
+use Joomla\Component\Finder\Administrator\Helper\ResponseHelper;
 
 // Register dependent classes.
 \JLoader::register('FinderIndexer', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php');
@@ -317,7 +317,7 @@ class IndexerController extends BaseController
 		}
 
 		// Create the response object.
-		$response = new Response($data);
+		$response = new ResponseHelper($data);
 
 		// Add the buffer.
 		$response->buffer = \JDEBUG ? ob_get_contents() : ob_end_clean();
