@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    Joomla.UnitTest
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
  * @license    GNU General Public License
  */
 
