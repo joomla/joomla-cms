@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 2.5//DTD template 1.0//EN" "https://www.joomla.org/xml/dtd/2.5/template-install.dtd">
+<extension version="3.1" type="template" client="administrator">
+	<name>isis</name>
+	<version>1.0</version>
+	<creationDate>3/30/2012</creationDate>
+	<author>Kyle Ledbetter</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.</copyright>
+	<description>TPL_ISIS_XML_DESCRIPTION</description>
+	<files>
+		<filename>component.php</filename>
+		<filename>cpanel.php</filename>
+		<filename>favicon.ico</filename>
+		<filename>index.php</filename>
+		<filename>login.php</filename>
+		<filename>templateDetails.xml</filename>
+		<filename>template_preview.png</filename>
+		<filename>template_thumbnail.png</filename>
+		<folder>css</folder>
+		<folder>html</folder>
+		<folder>images</folder>
+		<folder>img</folder>
+		<folder>js</folder>
+		<folder>language</folder>
+	<folder>less</folder>
+	</files>
+	<positions>
+		<position>menu</position>
+		<position>submenu</position>
+		<position>toolbar</position>
+		<position>title</position>
+		<position>status</position>
+		<position>icon</position>
+		<position>cp_shell</position>
+		<position>cpanel</position>
+		<position>bottom</position>
+		<position>footer</position>
+		<position>login</position>
+		<position>debug</position>
+	</positions>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.tpl_isis.ini</language>
+		<language tag="en-GB">en-GB/en-GB.tpl_isis.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="advanced">
+
+				<field 
+					name="templateColor" 
+					type="color" 
+					label="TPL_ISIS_COLOR_LABEL"
+					description="TPL_ISIS_COLOR_DESC" 
+					class="" 
+					default="#10223E"
+					validate="color"
+				/>
+
+				<field 
+					name="headerColor" 
+					type="color" 
+					label="TPL_ISIS_COLOR_HEADER_LABEL"
+					description="TPL_ISIS_COLOR_HEADER_DESC" 
+					class="" 
+					default="#1A3867"
+					validate="color"
+				/>
+
+				<field 
+					name="sidebarColor" 
+					type="color" 
+					label="TPL_ISIS_COLOR_SIDEBAR_LABEL"
+					description="TPL_ISIS_COLOR_SIDEBAR_DESC" 
+					class="" 
+					default="#3071a9"
+					validate="color"
+				/>
+
+				<field 
+					name="linkColor" 
+					type="color" 
+					label="TPL_ISIS_COLOR_LINK_LABEL"
+					description="TPL_ISIS_COLOR_LINK_DESC" 
+					class="" 
+					default="#3071a9"
+					validate="color"
+				/>
+
+				<field 
+					name="loginBackgroundColor" 
+					type="color" 
+					label="TPL_ISIS_COLOR_LOGIN_BACKGROUND_LABEL"
+					description="TPL_ISIS_COLOR_LOGIN_BACKGROUND_DESC"
+					class="" 
+					default="#17568C"
+					validate="color"
+				/>
+
+				<field 
+					name="logoFile" 
+					type="media" 
+					label="TPL_ISIS_LOGO_LABEL"
+					description="TPL_ISIS_LOGO_DESC"
+					class="" 
+					default=""
+				 />
+
+				<field 
+					name="loginLogoFile" 
+					type="media" 
+					label="TPL_ISIS_LOGIN_LOGO_LABEL"
+					description="TPL_ISIS_LOGIN_LOGO_DESC"
+					class="" 
+					default=""
+				 />
+
+				<field 
+					name="admin_menus"
+					type="radio"
+					label="TPL_ISIS_FIELD_ADMIN_MENUS_LABEL"
+					description="TPL_ISIS_FIELD_ADMIN_MENUS_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field 
+					name="displayHeader" 
+					type="radio"
+					label="TPL_ISIS_HEADER_LABEL"
+					description="TPL_ISIS_HEADER_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field 
+					name="statusFixed" 
+					type="list"
+					label="TPL_ISIS_STATUS_LABEL"
+					description="TPL_ISIS_STATUS_DESC"
+					default="1"
+					filter="integer"
+					>
+					<option value="1">TPL_ISIS_STATUS_BOTTOM</option>
+					<option value="0">TPL_ISIS_STATUS_TOP</option>
+				</field>
+
+				<field 
+					name="stickyToolbar" 
+					type="radio"
+					label="TPL_ISIS_STICKY_LABEL"
+					description="TPL_ISIS_STICKY_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+			</fieldset>
+		</fields>
+	</config>
+</extension>

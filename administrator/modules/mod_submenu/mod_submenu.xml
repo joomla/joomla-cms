@@ -2,17 +2,15 @@
 <extension type="module" version="3.1" client="administrator" method="upgrade">
 	<name>mod_submenu</name>
 	<author>Joomla! Project</author>
-	<creationDate>February 2019</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<creationDate>February 2006</creationDate>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_SUBMENU_XML_DESCRIPTION</description>
-	<namespace path="src">Joomla\Module\Submenu</namespace>
 	<files>
 		<filename module="mod_submenu">mod_submenu.php</filename>
-		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
@@ -22,37 +20,19 @@
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_SUBMENU" />
 	<config>
 		<fields name="params">
-			<fieldset name="basic" addfieldprefix="Joomla\Component\Menus\Administrator\Field">
-				<field
-					name="menutype"
-					type="menu"
-					label="MOD_SUBMENU_FIELD_MENUTYPE_LABEL"
-					clientid="1"
-					>
-					<option value="*">MOD_SUBMENU_FIELD_MENUTYPE_OPTION_PREDEFINED</option>
-				</field>
-
-				<field
-					name="preset"
-					type="menuPreset"
-					label="MOD_SUBMENU_FIELD_PRESET_LABEL"
-					addfieldpath="administrator/components/com_menus/models/fields"
-					showon="menutype:*"
-				/>
-			</fieldset>
-
 			<fieldset name="advanced">
 				<field
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
+					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
 				/>
 			</fieldset>

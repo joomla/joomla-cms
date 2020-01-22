@@ -1,0 +1,37 @@
+/**
+ * @copyright	Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+.outline {
+  border: 1px solid #cccccc;
+  background: #ffffff;
+  padding: 2px;
+}
+
+.manager table td,
+.manager table th {
+	font-family: Arial, helvetica, sans-serif;
+	font-size: 11px;
+	border-right: 1px dashed #E7E7E7;
+	border-bottom: 1px solid #E7E7E7;
+	border-left: 1px solid #fff;
+	text-align: center;
+}
+
+.manager table td.filesize {
+	text-align: right;
+}
+
+.manager table td.description {
+	text-align: left;
+}
+
+.manager table th {
+	border-top: 1px solid #E7E7E7;
+	border-right: 1px solid #E7E7E7;
+	border-bottom: 1px solid #999;
+	background: #F0F0F0;
+	padding: 4px;
+	color: #666;
+}

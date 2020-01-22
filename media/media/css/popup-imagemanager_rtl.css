@@ -1,0 +1,47 @@
+/**
+ * @copyright	Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+#messages {
+	right: 175px;
+	float: right;
+}
+
+/* added Angie */
+
+#imageForm fieldset,
+#uploadform,
+#upload-noflash {
+	text-align: right;
+}
+
+.fltrt {
+	float: left;
+}
+
+.fltlft {
+	float: right;
+}
+
+fieldset input,
+fieldset textarea,
+fieldset select,
+fieldset img,
+fieldset button {
+	float: right;
+    margin: 5px 0 5px 5px;
+}
+
+label.hidelabeltxt {
+	text-indent: -9999em;
+}
+#imageForm fieldset label,
+#uploadform fieldset label {
+    float: right;
+    clear: none;
+    clear: right;
+}
+.swiff-uploader-box {
+        right:auto!important;
+}

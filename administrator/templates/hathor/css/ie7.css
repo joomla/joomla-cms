@@ -1,0 +1,121 @@
+@charset "UTF-8";
+
+/**
+ * @package		Joomla.Administrator
+ * @subpackage	templates.hathor
+ * @copyright	Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @since		1.6
+ *
+ * CSS file for IE7
+ */
+
+/**
+ * Special Styles for Internet Explorer 7
+ */
+
+input {
+	border-width: expression(this.type == "radio" ? '0px' : this.type == "checkbox" ? '0px' : '1px');
+}
+
+div.toolbar-box {
+	height: 65px;
+}
+
+div.toolbar-list span {
+	margin: 0;
+	position: relative
+}
+
+div.toolbar-list a {
+	position: relative;
+}
+
+div#subheader {
+	height: 2em;
+}
+
+#login-page .pagetitle h2 {
+	margin: 0px;
+	padding: 0px;
+}
+
+*:first-child+html .clearfix {
+	min-height: 1px;
+}
+
+.menu-links li,
+.menu-links li label {
+	height: 2em;
+}
+
+div.article-edit,
+div.category-edit {
+	zoom: 1;
+}
+
+div.pane-sliders,
+div.panel,
+div.pane-slider,
+div.rules-section,
+div.mypanel,
+div.containerpg,
+div.pagination,
+div.upload-queue {
+	zoom: 1;
+}
+
+div.width-20 fieldset.adminform,
+div.width-30 fieldset.adminform,
+div.width-35 fieldset.adminform,
+div.width-40 fieldset.adminform,
+div.width-45 fieldset.adminform,
+div.width-50 fieldset.adminform,
+div.width-55 fieldset.adminform,
+div.width-60 fieldset.adminform,
+div.width-65 fieldset.adminform,
+div.width-70 fieldset.adminform,
+div.width-80 fieldset.adminform,
+div.width-100 fieldset.adminform {
+	zoom: 1;
+	margin-bottom:10px;
+}
+
+div.toggle-editor {
+	margin-top: -5px;
+	margin-bottom: 5px;
+}
+
+table.adminlist {
+	border-bottom-width: 1px;
+}
+
+div.current dd {
+	width: 100%;
+	position: relative;
+}
+
+#permissions-sliders ul#rules table.group-rules caption span {
+	height: 0;
+	overflow: hidden;
+	position: absolute;
+	padding:0;
+	margin:0;
+}
+
+div.current ul.menu-links {
+	zoom: 1;
+	width: 25%;
+	margin: 0;
+	padding:0;
+	list-style-position: inside;
+}
+
+div#position-icon.pane-sliders div.pane-down div.icon-wrapper {
+	margin: 0;
+}
+
+fieldset.panelform fieldset.checkboxes.impunlimited {
+	float: none;
+	width: 170px;
+}

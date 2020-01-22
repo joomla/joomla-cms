@@ -1,0 +1,74 @@
+/**
+ * @copyright	Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+.outline {
+	border: 1px solid #cccccc;
+	background: #ffffff;
+	padding: 2px;
+}
+
+body {
+	height: 100%;
+	padding: 0;
+	font-family: Arial, Helvetica, Sans Serif;
+	font-size: 11px;
+	color: #2c2c2c;
+	background: #ffffff;
+	width: 80%;
+	min-width: 400px;
+	margin: 15px auto;
+}
+
+div {
+	background-color: #f9fade;
+	padding: 8px;
+	border: solid 1px #c7c8b2;
+	margin-top: 13px;
+	margin-bottom: 25px;
+}
+
+.frame {
+	background-color: #f9fade;
+	padding: 8px;
+	border: solid 1px #c7c8b2;
+	margin-top: 13px;
+	margin-bottom: 25px;
+}
+
+.table {
+	border-collapse: collapse;
+	margin-top: 13px;
+}
+
+a {
+	border: 1px solid #c7c8b2;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+	background-color: #ffffff;
+	color: #2c2c2c;
+	padding: 3px 20px;
+	text-decoration: none;
+}
+
+a:hover, a:focus, a:active {
+	background-color: #e3e4ca;
+	text-decoration: none;
+}
+
+td {
+	padding: 3px;
+	padding-left: 5px;
+	padding-right: 5px;
+	border: solid 1px #c7c8b2;
+	font-size: 10px;
+}
+
+.type {
+	background-color: #cc0000;
+	color: #ffffff;
+	font-weight: bold;
+	padding: 3px;
+}
