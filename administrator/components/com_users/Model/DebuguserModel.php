@@ -246,7 +246,7 @@ class DebuguserModel extends ListModel
 		if ($this->getState('filter.component'))
 		{
 			$component  = $this->getState('filter.component');
-			$lcomponent = $component . '%';
+			$lcomponent = $component . '.%';
 			$query->where(
 				'(' . $db->quoteName('a.name') . ' = :component'
 				. ' OR ' . $db->quoteName('a.name') . ' LIKE :lcomponent)'
