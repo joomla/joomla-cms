@@ -15,6 +15,8 @@ use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
  * Newsfeeds Component Route Helper
  *
  * @since  1.5
+ *
+ * @deprecated  5.0  Use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper instead
  */
 abstract class NewsfeedsHelperRoute extends RouteHelper
 {

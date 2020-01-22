@@ -15,6 +15,8 @@ defined('_JEXEC') or die;
  * @package     Joomla.Site
  * @subpackage  com_mailto
  * @since       1.6.1
+ *
+ * @deprecated  5.0  Use \Joomla\Component\Mailto\Site\Helper\MailtoHelper instead
  */
 abstract class MailtoHelper extends \Joomla\Component\Mailto\Site\Helper\MailtoHelper
 {
