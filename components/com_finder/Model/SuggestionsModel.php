@@ -15,9 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
-
-define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
-\JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
+use Joomla\Component\Finder\Administrator\Indexer\Helper;
 
 /**
  * Suggestions model class for the Finder package.
@@ -67,7 +65,7 @@ class SuggestionsModel extends ListModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$lang = \FinderIndexerHelper::getPrimaryLanguage($this->getState('language'));
+		$lang = Helper::getPrimaryLanguage($this->getState('language'));
 
 		// Select required fields
 		$query->select('t.term')
@@ -135,7 +133,7 @@ class SuggestionsModel extends ListModel
 		}
 		else
 		{
-			$lang = \FinderIndexerHelper::getDefaultLanguage();
+			$lang = Helper::getDefaultLanguage();
 		}
 
 		$this->setState('language', $lang);
