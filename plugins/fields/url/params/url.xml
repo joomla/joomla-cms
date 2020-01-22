@@ -30,8 +30,8 @@
 			<field
 				name="show_url"
 				type="radio"
-				class="switcher"
 				label="PLG_FIELDS_URL_PARAMS_SHOW_URL"
+				class="switcher"
 				default="1"
 				filter="integer"
 				>

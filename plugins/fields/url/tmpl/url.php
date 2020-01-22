@@ -31,9 +31,9 @@ else
 }
 
 if ($fieldParams->get('show_url', 0))
-	{
-		$text = $value;
-	}
+{
+	$text = $value;
+}
 
 echo sprintf('<a href="%s"%s>%s</a>',
 	htmlspecialchars($value),
