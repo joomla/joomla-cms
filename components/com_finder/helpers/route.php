@@ -16,7 +16,7 @@ use Joomla\Component\Finder\Site\Helper\RouteHelper;
  *
  * @since  2.5
  *
- * @deprecated  5.0 Use \Joomla\Component\Finder\Site\Helper\RouteHelper instead
+ * @deprecated  5.0  Use \Joomla\Component\Finder\Site\Helper\RouteHelper instead
  */
 class FinderHelperRoute extends RouteHelper
 {
