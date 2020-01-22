@@ -42,13 +42,13 @@ class El extends Language
 		// Override parent constructor since we don't need to load an externel stemmer
 	}
 
-		/**
+	/**
 	 * Method to tokenise a text string. It takes into account the odd punctuation commonly used in Greek text, mapping
 	 * it to ASCII punctuation.
 	 *
 	 * Reference: http://www.teicrete.gr/users/kutrulis/Glosika/Stixi.htm
 	 *
-	 * @param   string  $input  The input to tokenise.
+	 * @param string $input The input to tokenise.
 	 *
 	 * @return  array  An array of term strings.
 	 *
