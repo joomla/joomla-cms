@@ -20,6 +20,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -198,6 +199,9 @@ class ArticlesModel extends ListModel
 
 		$now = Factory::getDate()->toSql();
 
+		$conditionArchived    = (int) ContentComponent::CONDITION_ARCHIVED;
+		$conditionUnpublished = (int) ContentComponent::CONDITION_UNPUBLISHED;
+
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
@@ -214,11 +218,6 @@ class ArticlesModel extends ListModel
 					$db->quoteName('a.created'),
 					$db->quoteName('a.created_by'),
 					$db->quoteName('a.created_by_alias'),
-					// Published/archived article in archived category is treated as archived article
-					// If category is not published then force 0
-					'CASE WHEN ' . $db->quoteName('c.published') .' = 2 AND ' . $db->quoteName('ws.condition') . ' > 0 THEN ' . (int) ContentComponent::CONDITION_ARCHIVED
-						. ' WHEN ' . $db->quoteName('c.published') . ' != 1 THEN ' . (int) ContentComponent::CONDITION_UNPUBLISHED
-						. ' ELSE ' . $db->quoteName('ws.condition') . ' END AS ' . $db->quoteName('state'),
 					$db->quoteName('a.modified'),
 					$db->quoteName('a.modified_by'),
 					$db->quoteName('uam.name', 'modified_by_name'),
@@ -243,6 +242,16 @@ class ArticlesModel extends ListModel
 			)
 		)
 			->from($db->quoteName('#__content', 'a'));
+
+		// Published/archived article in archived category is treated as archived article
+		// If category is not published then force 0
+		$query->select(
+			'CASE WHEN ' . $db->quoteName('c.published') .' = 2 AND ' . $db->quoteName('ws.condition') . ' > 0 THEN :conditionArchived'
+				. ' WHEN ' . $db->quoteName('c.published') . ' != 1 THEN :conditionUnpublished'
+				. ' ELSE ' . $db->quoteName('ws.condition') . ' END AS ' . $db->quoteName('state')
+		)
+			->bind(':conditionArchived', $conditionArchived, ParameterType::INTEGER)
+			->bind(':conditionUnpublished', $conditionUnpublished, ParameterType::INTEGER);
 
 		$params      = $this->getState('params');
 		$orderby_sec = $params->get('orderby_sec');
