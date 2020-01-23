@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 $app = Factory::getApplication();
 
@@ -103,7 +104,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</td>
 							<th scope="row">
 								<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
-								<a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', null, '<?php echo $this->escape(ContentHelperRoute::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
+								<a href="javascript:void(0)" onclick="if (window.parent) window.parent.<?php echo $this->escape($function); ?>('<?php echo $item->id; ?>', '<?php echo $this->escape(addslashes($item->title)); ?>', null, '<?php echo $this->escape(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>', '<?php echo $this->escape($lang); ?>', null);">
 									<?php echo $this->escape($item->title); ?></a>
 								<span class="small" title="<?php echo $this->escape($item->path); ?>">
 									<?php if (empty($item->note)) : ?>

@@ -599,6 +599,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'templates'          => $templates,
 				'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
 				'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
+				'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
 
 				// Drag and drop specific
 				'dndEnabled' => $dragdrop,
@@ -656,7 +657,10 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	private function _toogleButton($name)
 	{
-		return LayoutHelper::render('joomla.tinymce.togglebutton', $name);
+		if (!$this->app->client->mobile)
+		{
+			return LayoutHelper::render('joomla.tinymce.togglebutton', $name);
+		}
 	}
 
 	/**

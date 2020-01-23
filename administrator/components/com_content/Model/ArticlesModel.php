@@ -588,7 +588,7 @@ class ArticlesModel extends ListModel
 					else
 					{
 						// Update the transition text with final state value
-						$conditionName = $workflow->getConditionName($transition['stage_condition']);
+						$conditionName = $workflow->getConditionName((int) $transition['stage_condition']);
 
 						$transitions[$key]['text'] .= ' [' . Text::_($conditionName) . ']';
 					}
