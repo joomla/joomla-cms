@@ -167,7 +167,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 							$canEditParCat    = $user->authorise('core.edit',       'com_content.category.' . $item->parent_category_id);
 							$canEditOwnParCat = $user->authorise('core.edit.own',   'com_content.category.' . $item->parent_category_id) && $item->parent_category_uid == $userId;
 
-							$transitions = ContentHelper::filterTransitions($this->transitions, $item->stage_id, $item->workflow_id);
+							$transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
 
 							$publish = 0;
 							$unpublish = 0;
