@@ -238,13 +238,39 @@ class ArticlesModel extends ListModel
 					$db->quoteName('a.language'),
 					$query->length($db->quoteName('a.fulltext')) . ' AS ' . $db->quoteName('readmore'),
 					$db->quoteName('a.ordering'),
+					$db->quoteName('wa.stage_id', 'stage_id'),
+					$db->quoteName('ws.title', 'state_title'),
+					$db->quoteName('ws.condition', 'stage_condition'),
+					$db->quoteName('c.title', 'category_title'),
+					$db->quoteName('c.path', 'category_route'),
+					$db->quoteName('c.access', 'category_access'),
+					$db->quoteName('c.alias', 'category_alias'),
+					$db->quoteName('c.language', 'category_language'),
+					$db->quoteName('c.published'),
+					$db->quoteName('c.published', 'parents_published'),
+					$db->quoteName('c.lft'),
+					'CASE WHEN ' . $db->quoteName('a.created_by_alias') . ' > ' . $db->quote(' ')
+						. ' THEN ' . $db->quoteName('a.created_by_alias') . ' ELSE ' . $db->quoteName('ua.name') . ' END AS ' . $db->quoteName('author'),
+					$db->quoteName('ua.email', 'author_email'),
+					$db->quoteName('parent.title', 'parent_title'),
+					$db->quoteName('parent.id', 'parent_id'),
+					$db->quoteName('parent.path', 'parent_route'),
+					$db->quoteName('parent.alias', 'parent_alias'),
+					$db->quoteName('parent.language', 'parent_language'),
 				]
 			)
 		)
-			->from($db->quoteName('#__content', 'a'));
+			->from($db->quoteName('#__content', 'a'))
+			->join('LEFT', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
+			->join('LEFT', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
+			->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
+			->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
+			->join('LEFT', $db->quoteName('#__users', 'uam'), $db->quoteName('uam.id') . ' = ' . $db->quoteName('a.modified_by'))
+			->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'));
 
 		// Published/archived article in archived category is treated as archived article
 		// If category is not published then force 0
+		// Note: this select is taken out of list.select state because of bound variable use
 		$query->select(
 			'CASE WHEN ' . $db->quoteName('c.published') .' = 2 AND ' . $db->quoteName('ws.condition') . ' > 0 THEN :conditionArchived'
 				. ' WHEN ' . $db->quoteName('c.published') . ' != 1 THEN :conditionUnpublished'
@@ -263,58 +289,34 @@ class ArticlesModel extends ListModel
 		{
 			if ($orderby_sec === 'front')
 			{
-				$query->select('fp.ordering');
+				$query->select($db->quoteName('fp.ordering'));
 				$frontpageJoin = 'INNER';
 			}
 			else
 			{
-				$query->where('a.featured = 1');
+				$query->where($db->quoteName('a.featured') . ' = 1');
 			}
 
-			$query->where('(' . $db->quoteName('fp.featured_up') . ' IS NULL OR fp.featured_up <= ' . $db->quote($now) . ')');
-			$query->where('(' . $db->quoteName('fp.featured_down') . ' IS NULL OR fp.featured_down >= ' . $db->quote($now) . ')');
+			$query->where('(' . $db->quoteName('fp.featured_up') . ' IS NULL OR ' . $db->quoteName('fp.featured_up') . ' <= ' . $db->quote($now) . ')');
+			$query->where('(' . $db->quoteName('fp.featured_down') . ' IS NULL OR ' . $db->quoteName('fp.featured_down') . ' >= ' . $db->quote($now) . ')');
 		}
 		elseif ($orderby_sec === 'front' || $this->getState('list.ordering') === 'fp.ordering')
 		{
-			$query->select('fp.ordering');
+			$query->select($db->quoteName('fp.ordering'));
 		}
 
-		$query->join($frontpageJoin, '#__content_frontpage AS fp ON fp.content_id = a.id');
-
-		// Join over the states.
-		$query->select('wa.stage_id AS stage_id')
-			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
-
-		// Join over the states.
-		$query->select('ws.title AS state_title, ws.condition AS stage_condition')
-			->join('LEFT', '#__workflow_stages AS ws ON ws.id = wa.stage_id');
-
-		// Join over the categories.
-		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias,' .
-			'c.language AS category_language'
-		)
-			->select('c.published, c.published AS parents_published, c.lft')
-			->join('LEFT', '#__categories AS c ON c.id = a.catid');
-
-		// Join over the users for the author and modified_by names.
-		$query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author")
-			->select('ua.email AS author_email')
-			->join('LEFT', '#__users AS ua ON ua.id = a.created_by')
-			->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
-
-		// Join over the categories to get parent category titles
-		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias,' .
-			'parent.language as parent_language'
-		)
-			->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
+		$query->join($frontpageJoin, $db->quoteName('#__content_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'));
 
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			// Join on voting table
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
-							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count'
+			$query->select(
+				[
+					'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0), 0), 0) AS ' . $db->quoteName('rating'),
+					'COALESCE(NULLIF(' . $db->quoteName('v.rating_count') . ', 0), 0) AS rating_count',
+				]
 			)
-				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+				->join('LEFT', $db->quoteName('#__content_rating', 'v'), $db->quoteName('a.id') . ' = ' . $db->quoteName('v.content_id'));
 		}
 
 		// Filter by access level.
