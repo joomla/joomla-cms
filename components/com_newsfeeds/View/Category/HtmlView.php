@@ -12,7 +12,7 @@ namespace Joomla\Component\Newsfeeds\Site\View\Category;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\CategoryView;
-use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
+use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
 /**
  * HTML View class for the Newsfeeds component
@@ -87,7 +87,7 @@ class HtmlView extends CategoryView
 			while ((!isset($menu->query['option']) || $menu->query['option'] !== 'com_newsfeeds' || $menu->query['view'] === 'newsfeed'
 				|| $id != $category->id) && $category->id > 1)
 			{
-				$path[] = array('title' => $category->title, 'link' => NewsfeedsHelperRoute::getCategoryRoute($category->id, $category->language));
+				$path[] = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
 			}
 
