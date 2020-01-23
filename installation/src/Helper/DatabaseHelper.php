@@ -30,12 +30,13 @@ abstract class DatabaseHelper
 	 * @param   string   $database  The database to use.
 	 * @param   string   $prefix    The table prefix to use.
 	 * @param   boolean  $select    True if the database should be selected.
+	 * @param   array    $ssl       Database TLS connection options.
 	 *
 	 * @return  DatabaseInterface
 	 *
 	 * @since   1.6
 	 */
-	public static function getDbo($driver, $host, $user, $password, $database, $prefix, $select = true)
+	public static function getDbo($driver, $host, $user, $password, $database, $prefix, $select = true, array $ssl = [])
 	{
 		static $db;
 
@@ -51,6 +52,24 @@ abstract class DatabaseHelper
 				'prefix'   => $prefix,
 				'select'   => $select,
 			];
+
+			if (!empty($ssl['dbencryption']))
+			{
+				$options['ssl'] = [
+					'enable'             => true,
+					'verify_server_cert' => (bool) $ssl['dbsslverifyservercert'],
+				];
+
+				foreach (['cipher', 'ca', 'key', 'cert'] as $value)
+				{
+					$confVal = trim($ssl['dbssl' . $value]);
+
+					if ($confVal !== '')
+					{
+						$options['ssl'][$value] = $confVal;
+					}
+				}
+			}
 
 			// Enable utf8mb4 connections for mysql adapters
 			if (strtolower($driver) === 'mysqli')
@@ -68,5 +87,26 @@ abstract class DatabaseHelper
 		}
 
 		return $db;
+	}
+
+	/**
+	 * Convert encryption options to array.
+	 *
+	 * @param   \stdClass  $options  The session options
+	 *
+	 * @return  array  The encryption settings
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getEncryptionSettings($options)
+	{
+		return [
+			'dbencryption'          => $options->db_encryption,
+			'dbsslverifyservercert' => $options->db_sslverifyservercert,
+			'dbsslkey'              => $options->db_sslkey,
+			'dbsslcert'             => $options->db_sslcert,
+			'dbsslca'               => $options->db_sslca,
+			'dbsslcipher'           => $options->db_sslcipher,
+		];
 	}
 }

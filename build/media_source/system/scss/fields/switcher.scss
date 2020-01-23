@@ -124,6 +124,7 @@ $switcher-height: 28px;
 
   [dir=rtl] & {
     margin-left: 0;
+    margin-right: -220px;
     float: right;
     text-align: right;
   }
