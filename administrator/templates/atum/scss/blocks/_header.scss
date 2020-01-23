@@ -187,12 +187,6 @@
     min-width: 18rem;
     background-color: var(--atum-bg-dark-70);
 
-    &.icons-left .dropdown-item {
-      a {
-        padding-left: 0;
-      }
-    }
-
     .dropdown-header {
       color: $white;
       background-color: var(--atum-bg-dark);
@@ -209,30 +203,19 @@
   .dropdown-item {
     color: $white;
     background-color: var(--atum-bg-dark-70);
-    padding: 0;
 
-    a {
-      display: inline-block;
-      width: 100%;
-      color: var(--atum-text-light);
-      padding-left: 0.75rem;
-      line-height: 3;
-
-      &:hover {
-        text-decoration: none;
-        background: var(--atum-bg-dark);
-      }
-
-      [dir=rtl] & {
-        text-align: right;
-        padding-right: .75rem;
-        padding-left: 0;
-      }
+    [dir=rtl] & {
+      text-align: right;
     }
 
     .fa {
-      padding: 1rem;
-      width: 3rem;
+      [dir=ltr] & {
+        margin-right: $dropdown-item-padding-x;
+      }
+
+      [dir=rtl] & {
+        margin-left: $dropdown-item-padding-x;
+      }
     }
   }
 
