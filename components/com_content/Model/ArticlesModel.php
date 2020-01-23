@@ -196,28 +196,53 @@ class ArticlesModel extends ListModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$now   = Factory::getDate()->toSql();
+		$now = Factory::getDate()->toSql();
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
-				'a.checked_out, a.checked_out_time,' .
-				'a.catid, a.created, a.created_by, a.created_by_alias, ' .
-				// Published/archived article in archive category is treats as archive article
-				// If category is not published then force 0
-				'CASE WHEN c.published = 2 AND ws.condition > 0 THEN ' . (int) ContentComponent::CONDITION_ARCHIVED .
-				' WHEN c.published != 1 THEN ' . (int) ContentComponent::CONDITION_UNPUBLISHED . ' ELSE ws.condition END as state,' .
-				'a.modified, a.modified_by, uam.name as modified_by_name,' .
-				// Use created if publish_up is null
-				'CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END as publish_up,' .
-				'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-				'a.hits, a.featured, fp.featured_up, fp.featured_down, a.language, ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
+				[
+					$db->quoteName('a.id'),
+					$db->quoteName('a.title'),
+					$db->quoteName('a.alias'),
+					$db->quoteName('a.introtext'),
+					$db->quoteName('a.fulltext'),
+					$db->quoteName('a.checked_out'),
+					$db->quoteName('a.checked_out_time'),
+					$db->quoteName('a.catid'),
+					$db->quoteName('a.created'),
+					$db->quoteName('a.created_by'),
+					$db->quoteName('a.created_by_alias'),
+					// Published/archived article in archived category is treated as archived article
+					// If category is not published then force 0
+					'CASE WHEN ' . $db->quoteName('c.published') .' = 2 AND ' . $db->quoteName('ws.condition') . ' > 0 THEN ' . (int) ContentComponent::CONDITION_ARCHIVED
+						. ' WHEN ' . $db->quoteName('c.published') . ' != 1 THEN ' . (int) ContentComponent::CONDITION_UNPUBLISHED
+						. ' ELSE ' . $db->quoteName('ws.condition') . ' END AS ' . $db->quoteName('state'),
+					$db->quoteName('a.modified'),
+					$db->quoteName('a.modified_by'),
+					$db->quoteName('uam.name', 'modified_by_name'),
+					// Use created if publish_up is null
+					'CASE WHEN ' . $db->quoteName('a.publish_up') . ' IS NULL THEN ' . $db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.publish_up') . ' END AS ' . $db->quoteName('publish_up'),
+					$db->quoteName('a.publish_down'),
+					$db->quoteName('a.images'),
+					$db->quoteName('a.urls'),
+					$db->quoteName('a.attribs'),
+					$db->quoteName('a.metadata'),
+					$db->quoteName('a.metakey'),
+					$db->quoteName('a.metadesc'),
+					$db->quoteName('a.access'),
+					$db->quoteName('a.hits'),
+					$db->quoteName('a.featured'),
+					$db->quoteName('fp.featured_up'),
+					$db->quoteName('fp.featured_down'),
+					$db->quoteName('a.language'),
+					$query->length($db->quoteName('a.fulltext')) . ' AS ' . $db->quoteName('readmore'),
+					$db->quoteName('a.ordering'),
+				]
 			)
-		);
-
-		$query->from('#__content AS a');
+		)
+			->from($db->quoteName('#__content', 'a'));
 
 		$params      = $this->getState('params');
 		$orderby_sec = $params->get('orderby_sec');
