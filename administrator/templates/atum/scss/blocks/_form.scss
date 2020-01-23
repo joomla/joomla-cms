@@ -28,6 +28,15 @@
 
   .controls {
     margin-left: 220px;
+
+    @include media-breakpoint-down(sm)
+    {
+      margin-left: 0;
+
+      [dir=rtl] & {
+        margin-right: 0;
+      }
+    }	
   }
 }
 
