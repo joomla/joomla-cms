@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Provides input for TOS
@@ -87,9 +88,11 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
-			$query->select('id, alias, catid, language')
-				->from('#__content')
-				->where('id = ' . $tosArticle);
+
+			$query->select($db->quoteName(['id', 'alias', 'catid', 'language']))
+				->from($db->quoteName('#__content'))
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':id', $tosArticle, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
@@ -119,7 +122,7 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 			echo HTMLHelper::_(
 				'bootstrap.renderModal',
 				'tosModal',
-				array(
+				[
 					'url'    => Route::_($url . '&tmpl=component'),
 					'title'  => $text,
 					'height' => '100%',
@@ -128,7 +131,7 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 					'bodyHeight'  => '500',
 					'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-				)
+				]
 			);
 		}
 		else
