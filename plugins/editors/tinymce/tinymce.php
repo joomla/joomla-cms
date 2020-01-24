@@ -641,20 +641,6 @@ class PlgEditorTinymce extends CMSPlugin
 			array('title' => 'Tag', 'value' => 'tag'),
 		);
 
-		/**
-		 * Shrink the buttons if not on a mobile or if mobile view is off.
-		 * If mobile view is on force into simple mode and enlarge the buttons
-		 */
-		if (!$this->app->client->mobile)
-		{
-			$scriptOptions['toolbar_items_size'] = 'small';
-		}
-		elseif ($levelParams->get('mobile', 0))
-		{
-			$scriptOptions['menubar'] = false;
-			unset($scriptOptions['toolbar2']);
-		}
-
 		$options['tinyMCE']['default'] = $scriptOptions;
 
 		$doc->addScriptOptions('plg_editor_tinymce', $options);
@@ -671,7 +657,10 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	private function _toogleButton($name)
 	{
-		return LayoutHelper::render('joomla.tinymce.togglebutton', $name);
+		if (!$this->app->client->mobile)
+		{
+			return LayoutHelper::render('joomla.tinymce.togglebutton', $name);
+		}
 	}
 
 	/**

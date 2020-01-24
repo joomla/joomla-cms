@@ -95,7 +95,7 @@ class Menus
 							. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
 						$classes = 'badge badge-secondary';
 
-						$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
+						$item->link = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
 							. '<div role="tooltip" id="tip-' . (int) $itemid . '-' . (int) $item->id . '">' . $tooltip . '</div>';
 					}
 					else
