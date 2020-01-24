@@ -481,8 +481,9 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($authorId))
 		{
-			$type        = $this->getState('filter.author_id.include', true) ? '= ' : '<> ';
-			$authorWhere = 'a.created_by ' . $type . (int) $authorId;
+			$type        = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
+			$authorWhere = $db->quoteName('a.created_by') . $type . ':authorId';
+			$query->bind(':authorId', $authorId, ParameterType::INTEGER);
 		}
 		elseif (is_array($authorId))
 		{
@@ -490,9 +491,8 @@ class ArticlesModel extends ListModel
 
 			if ($authorId)
 			{
-				$authorId    = implode(',', $authorId);
-				$type        = $this->getState('filter.author_id.include', true) ? 'IN' : 'NOT IN';
-				$authorWhere = 'a.created_by ' . $type . ' (' . $authorId . ')';
+				$type        = $this->getState('filter.author_id.include', true) ? ' IN' : ' NOT IN';
+				$authorWhere = $db->quoteName('a.created_by') . $type . '(' . implode(',', $query->bindArray($authorId)) . ')';
 			}
 		}
 
@@ -502,8 +502,9 @@ class ArticlesModel extends ListModel
 
 		if (is_string($authorAlias))
 		{
-			$type             = $this->getState('filter.author_alias.include', true) ? '= ' : '<> ';
-			$authorAliasWhere = 'a.created_by_alias ' . $type . $db->quote($authorAlias);
+			$type             = $this->getState('filter.author_alias.include', true) ? ' = ' : ' <> ';
+			$authorAliasWhere = $db->quoteName('a.created_by_alias') . $type . ':authorAlias';
+			$query->bind(':authorAlias', $authorAlias);
 		}
 		elseif (is_array($authorAlias))
 		{
@@ -520,9 +521,8 @@ class ArticlesModel extends ListModel
 
 				if ($authorAlias)
 				{
-					$type             = $this->getState('filter.author_alias.include', true) ? 'IN' : 'NOT IN';
-					$authorAliasWhere = 'a.created_by_alias ' . $type . ' (' . $authorAlias .
-						')';
+					$type             = $this->getState('filter.author_alias.include', true) ? ' IN' : ' NOT IN';
+					$authorAliasWhere = $db->quoteName('a.created_by_alias') . $type . ' (' . implode(',', $query->bindArray($authorAlias, ParameterType::STRING)) . ')';
 				}
 			}
 		}
