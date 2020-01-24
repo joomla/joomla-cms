@@ -197,7 +197,7 @@ class ArticlesModel extends ListModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$now = Factory::getDate()->toSql();
+		$nowDate = Factory::getDate()->toSql();
 
 		$conditionArchived    = (int) ContentComponent::CONDITION_ARCHIVED;
 		$conditionUnpublished = (int) ContentComponent::CONDITION_UNPUBLISHED;
@@ -303,8 +303,8 @@ class ArticlesModel extends ListModel
 					'(' . $db->quoteName('fp.featured_down') . ' IS NULL OR ' . $db->quoteName('fp.featured_down') . ' >= :frontpageDown)',
 				]
 			)
-			->bind(':frontpageUp', $now)
-			->bind(':frontpageDown', $now);
+			->bind(':frontpageUp', $nowDate)
+			->bind(':frontpageDown', $nowDate);
 		}
 		elseif ($orderby_sec === 'front' || $this->getState('list.ordering') === 'fp.ordering')
 		{
@@ -379,8 +379,8 @@ class ArticlesModel extends ListModel
 						'(' . $db->quoteName('fp.featured_down') . ' IS NULL OR ' . $db->quoteName('fp.featured_down') . ' >= :featuredDown)',
 					]
 				)
-					->bind(':featuredUp', $now)
-					->bind(':featuredDown', $now);
+					->bind(':featuredUp', $nowDate)
+					->bind(':featuredDown', $nowDate);
 				break;
 
 			case 'show':
@@ -541,18 +541,22 @@ class ArticlesModel extends ListModel
 			$query->where($authorWhere . $authorAliasWhere);
 		}
 
-		$nowDate  = $db->quote(Factory::getDate()->toSql());
-
 		// Filter by start and end dates.
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
-			$query->where('(a.publish_up IS NULL OR a.publish_up <= ' . $nowDate . ')')
-				->where('(a.publish_down IS NULL OR a.publish_down >= ' . $nowDate . ')');
+			$query->where(
+				[
+					'(' . $db->quoteName('a.publish_up') . ' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publishUp)',
+					'(' . $db->quoteName('a.publish_down') . ' IS NULL OR ' . $db->quoteName('a.publish_down') . ' >= :publishDown)',
+				]
+			)
+				->bind(':publishUp', $nowDate)
+				->bind(':publishDown', $nowDate);
 		}
 
 		// Filter by Date Range or Relative Date
 		$dateFiltering = $this->getState('filter.date_filtering', 'off');
-		$dateField     = $this->getState('filter.date_field', 'a.created');
+		$dateField     = $db->escape($this->getState('filter.date_field', 'a.created'));
 
 		switch ($dateFiltering)
 		{
@@ -562,16 +566,18 @@ class ArticlesModel extends ListModel
 
 				if ($startDateRange || $endDateRange)
 				{
-					$query->where($dateField . ' IS NOT NULL');
+					$query->where($db->quoteName($dateField) . ' IS NOT NULL');
 
 					if ($startDateRange)
 					{
-						$query->where($dateField . ' >= ' . $db->quote($startDateRange));
+						$query->where($db->quoteName($dateField) . ' >= :startDateRange')
+							->bind(':startDateRange', $startDateRange);
 					}
 
 					if ($endDateRange)
 					{
-						$query->where($dateField . ' <= ' . $db->quote($endDateRange));
+						$query->where($db->quoteName($dateField) . ' <= :endDateRange')
+							->bind(':endDateRange', $endDateRange);
 					}
 				}
 
@@ -580,8 +586,8 @@ class ArticlesModel extends ListModel
 			case 'relative':
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
 				$query->where(
-					$dateField . ' IS NOT NULL AND '
-					. $dateField . ' >= ' . $query->dateAdd($nowDate, -1 * $relativeDate, 'DAY')
+					$db->quoteName($dateField) . ' IS NOT NULL AND '
+					. $db->quoteName($dateField) . ' >= ' . $query->dateAdd($nowDate, -1 * $relativeDate, 'DAY')
 				);
 				break;
 
