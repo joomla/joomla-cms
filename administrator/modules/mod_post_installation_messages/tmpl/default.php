@@ -45,9 +45,8 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			<?php endif; ?>
 			<?php foreach ($messages as $message) : ?>
 				<?php $route = 'index.php?option=com_postinstall&amp;eid=' . $joomlaFilesExtensionId; ?>
-				<?php $title = Text::_($message->title_key); ?>
-				<a class="dropdown-item" href="<?php echo Route::_($route); ?>" title="<?php echo $title; ?>">
-					<?php echo $title; ?>
+				<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
+					<?php echo Text::_($message->title_key); ?>
 				</a>
 			<?php endforeach; ?>
 		</div>
