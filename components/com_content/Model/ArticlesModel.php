@@ -418,45 +418,60 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($categoryId))
 		{
-			$type = $this->getState('filter.category_id.include', true) ? '= ' : '<> ';
+			$type = $this->getState('filter.category_id.include', true) ? ' = ' : ' <> ';
 
 			// Add subcategory check
 			$includeSubcategories = $this->getState('filter.subcategories', false);
-			$categoryEquals       = 'a.catid ' . $type . (int) $categoryId;
 
 			if ($includeSubcategories)
 			{
-				$levels = (int) $this->getState('filter.max_category_levels', '1');
+				$categoryId = (int) $categoryId;
+				$levels     = (int) $this->getState('filter.max_category_levels', 1);
 
 				// Create a subquery for the subcategory list
 				$subQuery = $db->getQuery(true)
-					->select('sub.id')
-					->from('#__categories as sub')
-					->join('INNER', '#__categories as this ON sub.lft > this.lft AND sub.rgt < this.rgt')
-					->where('this.id = ' . (int) $categoryId);
+					->select($db->quoteName('sub.id'))
+					->from($db->quoteName('#__categories', 'sub'))
+					->join(
+						'INNER',
+						$db->quoteName('#__categories', 'this'),
+						$db->quoteName('sub.lft') . ' > ' . $db->quoteName('this.lft')
+							. ' AND ' . $db->quoteName('sub.rgt') . ' < ' . $db->quoteName('this.rgt')
+					)
+					->where($db->quoteName('this.id') . ' = :subCategoryId');
+
+				$query->bind(':subCategoryId', $categoryId, ParameterType::INTEGER);
 
 				if ($levels >= 0)
 				{
-					$subQuery->where('sub.level <= this.level + ' . $levels);
+					$subQuery->where($db->quoteName('sub.level') . ' <= ' . $db->quoteName('this.level') . ' + :levels');
+					$query->bind(':levels', $levels, ParameterType::INTEGER);
 				}
 
 				// Add the subquery to the main query
-				$query->where('(' . $categoryEquals . ' OR a.catid IN (' . (string) $subQuery . '))');
+				$query->where('(' . $db->quoteName('a.catid') . $type . ':categoryId OR a.catid IN (' . (string) $subQuery . '))');
+				$query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
 			}
 			else
 			{
-				$query->where($categoryEquals);
+				$query->where($db->quoteName('a.catid') . $type . ':categoryId');
+				$query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
 			}
 		}
 		elseif (is_array($categoryId) && (count($categoryId) > 0))
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
-			$categoryId = implode(',', $categoryId);
 
 			if (!empty($categoryId))
 			{
-				$type = $this->getState('filter.category_id.include', true) ? 'IN' : 'NOT IN';
-				$query->where('a.catid ' . $type . ' (' . $categoryId . ')');
+				if ($this->getState('filter.category_id.include', true))
+				{
+					$query->whereIn($db->quoteName('a.catid'), $categoryId);
+				}
+				else
+				{
+					$query->whereNotIn($db->quoteName('a.catid'), $categoryId);
+				}
 			}
 		}
 
