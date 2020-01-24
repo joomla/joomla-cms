@@ -394,15 +394,23 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($articleId))
 		{
-			$type = $this->getState('filter.article_id.include', true) ? '= ' : '<> ';
-			$query->where('a.id ' . $type . (int) $articleId);
+			$articleId = (int) $articleId;
+			$type      = $this->getState('filter.article_id.include', true) ? ' = ' : ' <> ';
+			$query->where($db->quoteName('a.id') . $type . ':articleId')
+				->bind(':articleId', $articleId, ParameterType::INTEGER);
 		}
 		elseif (is_array($articleId))
 		{
 			$articleId = ArrayHelper::toInteger($articleId);
-			$articleId = implode(',', $articleId);
-			$type      = $this->getState('filter.article_id.include', true) ? 'IN' : 'NOT IN';
-			$query->where('a.id ' . $type . ' (' . $articleId . ')');
+
+			if ($this->getState('filter.article_id.include', true))
+			{
+				$query->whereIn($db->quoteName('a.id'), $articleId);
+			}
+			else
+			{
+				$query->whereNotIn($db->quoteName('a.id'), $articleId);
+			}
 		}
 
 		// Filter by a single or group of categories
