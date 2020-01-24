@@ -93,7 +93,7 @@ class PlgUserProfile extends CMSPlugin
 
 		if (is_object($data))
 		{
-			$userId = (int) $data->id ?? 0;
+			$userId = $data->id ?? 0;
 
 			if (!isset($data->profile) && $userId > 0)
 			{
