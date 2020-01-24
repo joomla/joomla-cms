@@ -609,13 +609,15 @@ class ArticlesModel extends ListModel
 			{
 				case 'author':
 					$query->where(
-						'LOWER( CASE WHEN a.created_by_alias > ' . $db->quote(' ') .
-						' THEN a.created_by_alias ELSE ua.name END ) LIKE ' . $filter . ' '
-					);
+						'LOWER(CASE WHEN ' . $db->quoteName('a.created_by_alias') . ' > ' . $db->quote(' ')
+						. ' THEN ' . $db->quoteName('a.created_by_alias') . ' ELSE ' . $db->quoteName('ua.name') . ' END) LIKE :search'
+					)
+						->bind(':search', $filter);
 					break;
 
 				case 'hits':
-					$query->where('a.hits >= ' . $hitsFilter . ' ');
+					$query->where($db->quoteName('a.hits') . ' >= :hits')
+						->bind(':hits', $hitsFilter);
 					break;
 
 				case 'month':
@@ -636,7 +638,8 @@ class ArticlesModel extends ListModel
 				case 'title':
 				default:
 					// Default to 'title' if parameter is not valid
-					$query->where('LOWER( a.title ) LIKE ' . $filter);
+					$query->where('LOWER(' . $db->quoteName('a.title') . ') LIKE :search')
+						->bind(':search', $filter);
 					break;
 			}
 		}
