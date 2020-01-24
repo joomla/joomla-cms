@@ -166,17 +166,14 @@ class PlgContentPagenavigation extends CMSPlugin
 				$query->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('a.created_by'));
 			}
 
-			$catid = $row->catid;
-			$state = $row->state;
-
 			$query->where(
 				[
 					$db->quoteName('a.catid') . ' = :catid',
 					$db->quoteName('a.state') . ' = :state',
 				]
 			)
-				->bind(':catid', $catid, ParameterType::INTEGER)
-				->bind(':state', $state, ParameterType::INTEGER);
+				->bind(':catid', $row->catid, ParameterType::INTEGER)
+				->bind(':state', $row->state, ParameterType::INTEGER);
 
 			if ($canPublish)
 			{
