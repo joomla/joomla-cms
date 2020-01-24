@@ -297,8 +297,14 @@ class ArticlesModel extends ListModel
 				$query->where($db->quoteName('a.featured') . ' = 1');
 			}
 
-			$query->where('(' . $db->quoteName('fp.featured_up') . ' IS NULL OR ' . $db->quoteName('fp.featured_up') . ' <= ' . $db->quote($now) . ')');
-			$query->where('(' . $db->quoteName('fp.featured_down') . ' IS NULL OR ' . $db->quoteName('fp.featured_down') . ' >= ' . $db->quote($now) . ')');
+			$query->where(
+				[
+					'(' . $db->quoteName('fp.featured_up') . ' IS NULL OR ' . $db->quoteName('fp.featured_up') . ' <= :frontpageUp)',
+					'(' . $db->quoteName('fp.featured_down') . ' IS NULL OR ' . $db->quoteName('fp.featured_down') . ' >= :frontpageDown)',
+				]
+			)
+			->bind(':frontpageUp', $now)
+			->bind(':frontpageDown', $now);
 		}
 		elseif ($orderby_sec === 'front' || $this->getState('list.ordering') === 'fp.ordering')
 		{
@@ -352,17 +358,8 @@ class ArticlesModel extends ListModel
 		}
 		elseif (is_array($condition))
 		{
-			$condition = array_map(
-				function ($data) use ($db)
-				{
-					return $db->quote($data);
-				},
-				$condition
-			);
-			$condition = implode(',', $condition);
-
 			// Category has to be published
-			$query->where('c.published = 1 AND ws.condition IN (' . $condition . ')');
+			$query->where($db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('ws.condition') . ' IN (' . implode(',', $query->bindArray($condition)) . ')');
 		}
 
 		// Filter by featured state
@@ -371,13 +368,19 @@ class ArticlesModel extends ListModel
 		switch ($featured)
 		{
 			case 'hide':
-				$query->where('a.featured = 0');
+				$query->where($db->quoteName('a.featured') . ' = 0');
 				break;
 
 			case 'only':
-				$query->where('a.featured = 1');
-				$query->where('(' . $query->quoteName('fp.featured_up') . ' IS NULL OR fp.featured_up <= ' . $db->quote($now) . ')');
-				$query->where('(' . $query->quoteName('fp.featured_down') . ' IS NULL OR fp.featured_down >= ' . $db->quote($now) . ')');
+				$query->where(
+					[
+						$db->quoteName('a.featured') . ' = 1',
+						'(' . $db->quoteName('fp.featured_up') . ' IS NULL OR ' . $db->quoteName('fp.featured_up') . ' <= :featuredUp)',
+						'(' . $db->quoteName('fp.featured_down') . ' IS NULL OR ' . $db->quoteName('fp.featured_down') . ' >= :featuredDown)',
+					]
+				)
+					->bind(':featuredUp', $now)
+					->bind(':featuredDown', $now);
 				break;
 
 			case 'show':
