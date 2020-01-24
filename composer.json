@@ -1,9 +1,9 @@
 {
-    "name": "astridx/joomla-cms",
+    "name": "joomla/joomla-cms",
     "type": "project",
     "description": "Joomla CMS",
     "keywords": ["joomla", "cms"],
-    "homepage": "https://github.com/astridx/joomla-cms",
+    "homepage": "https://github.com/joomla/joomla-cms",
     "license": "GPL-2.0-or-later",
     "config": {
         "optimize-autoloader": true,
