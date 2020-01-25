@@ -36,7 +36,7 @@ class SkinsField extends ListField
 	{
 		$options = array();
 
-		$directories = glob(JPATH_ROOT . '/media/vendor/tinymce/skins/ui' . '/*', GLOB_ONLYDIR);
+		$directories = glob(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/*', GLOB_ONLYDIR);
 
 		for ($i = 0, $iMax = \count($directories); $i < $iMax; ++$i)
 		{
