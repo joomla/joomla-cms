@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
@@ -50,16 +52,16 @@ class PlgContentConfirmConsent extends CMSPlugin
 	/**
 	 * Add additional fields to the supported forms
 	 *
-	 * @param   JForm  $form  The form to be altered.
+	 * @param   Form   $form  The form to be altered.
 	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   3.9.0
 	 */
-	public function onContentPrepareForm(JForm $form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
-		if ($this->app->isClient('administrator') || !in_array($form->getName(), $this->supportedContext))
+		if ($this->app->isClient('administrator') || !\in_array($form->getName(), $this->supportedContext))
 		{
 			return true;
 		}
@@ -68,12 +70,14 @@ class PlgContentConfirmConsent extends CMSPlugin
 		$consentboxText  = (string) $this->params->get('consentbox_text', Text::_('PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_DEFAULT'));
 		$privacyArticle  = $this->params->get('privacy_article', false);
 
+		FormHelper::addFieldPrefix('Joomla\\Plugin\\Content\\ConfirmConsent\\Field');
+
 		$form->load('
 			<form>
-				<fieldset name="default" addfieldpath="/plugins/content/confirmconsent/fields">
+				<fieldset name="default">
 					<field
 						name="consentbox"
-						type="consentbox"
+						type="ConsentBox"
 						articleid="' . $privacyArticle . '"
 						label="PLG_CONTENT_CONFIRMCONSENT_CONSENTBOX_LABEL"
 						required="true"
