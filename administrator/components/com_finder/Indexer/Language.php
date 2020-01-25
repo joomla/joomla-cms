@@ -104,17 +104,17 @@ class Language
 		if ($language !== '*')
 		{
 			$locale = Helper::getPrimaryLanguage($language);
-			$class = '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Language\\' . ucfirst($locale);
+			$class  = '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Language\\' . ucfirst($locale);
+
+			if (class_exists($class))
+			{
+				self::$instances[$language] = new $class;
+
+				return self::$instances[$language];
+			}
 		}
 
-		if (class_exists($class))
-		{
-			self::$instances[$language] = new $class;
-		}
-		else
-		{
-			self::$instances[$language] = new self($locale);
-		}
+		self::$instances[$language] = new self($locale);
 
 		return self::$instances[$language];
 	}
