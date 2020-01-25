@@ -7,7 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Plugin\Editors\TinyMCE\Field;
+
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -19,7 +21,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  * @subpackage  Editors.tinymce
  * @since       3.4
  */
-class JFormFieldSkins extends ListField
+class SkinsField extends ListField
 {
 	protected $type = 'skins';
 
@@ -36,7 +38,7 @@ class JFormFieldSkins extends ListField
 
 		$directories = glob(JPATH_ROOT . '/media/vendor/tinymce/skins/ui' . '/*', GLOB_ONLYDIR);
 
-		for ($i = 0, $iMax = count($directories); $i < $iMax; ++$i)
+		for ($i = 0, $iMax = \count($directories); $i < $iMax; ++$i)
 		{
 			$dir = basename($directories[$i]);
 			$options[] = HTMLHelper::_('select.option', $i, $dir);

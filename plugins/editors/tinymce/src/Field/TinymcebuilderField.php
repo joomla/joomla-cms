@@ -7,7 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Plugin\Editors\TinyMCE\Field;
+
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -22,7 +24,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  * @subpackage  Editors.tinymce
  * @since       3.7.0
  */
-class JFormFieldTinymceBuilder extends FormField
+class TinymcebuilderField extends FormField
 {
 	/**
 	 * The form field type.
@@ -85,9 +87,9 @@ class JFormFieldTinymceBuilder extends FormField
 
 		$data['menus']         = $menus;
 		$data['menubarSource'] = array_keys($menus);
-		$data['buttons']       = PlgEditorTinymce::getKnownButtons();
+		$data['buttons']       = \PlgEditorTinymce::getKnownButtons();
 		$data['buttonsSource'] = array_keys($data['buttons']);
-		$data['toolbarPreset'] = PlgEditorTinymce::getToolbarPreset();
+		$data['toolbarPreset'] = \PlgEditorTinymce::getToolbarPreset();
 		$data['setsAmount']    = $setsAmount;
 
 		// Get array of sets names
@@ -98,10 +100,11 @@ class JFormFieldTinymceBuilder extends FormField
 
 		// Prepare the forms for each set
 		$setsForms  = array();
-		$formsource = JPATH_PLUGINS . '/editors/tinymce/form/setoptions.xml';
+		$formsource = JPATH_PLUGINS . '/editors/tinymce/forms/setoptions.xml';
 
 		// Preload an old params for B/C
-		$setParams = new stdClass;
+		$setParams = new \stdClass;
+
 		if (!empty($paramsAll->html_width) && empty($paramsAll->configuration['setoptions']))
 		{
 			$plugin = PluginHelper::getPlugin('editors', 'tinymce');

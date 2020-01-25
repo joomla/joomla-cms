@@ -9,10 +9,11 @@
 	<copyright>Tiny Technologies, Inc</copyright>
 	<license>LGPL</license>
 	<description>PLG_TINY_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Editors\TinyMCE</namespace>
 	<files>
 		<filename plugin="tinymce">tinymce.php</filename>
-		<folder>fields</folder>
-		<folder>form</folder>
+		<folder>forms</folder>
+		<folder>src</folder>
 	</files>
 	<media destination="editors" folder="media">
 		<folder>tinymce</folder>
@@ -23,7 +24,7 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="basic">
+			<fieldset name="basic" addfieldprefix="Joomla\Plugin\Editors\TinyMCE\Field">
 				<field
 					name="configuration"
 					type="tinymcebuilder"
