@@ -16,10 +16,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-
-\JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php');
 
 /**
  * Helper for mod_tags_similar
@@ -210,7 +209,7 @@ abstract class TagsSimilarHelper
 
 		foreach ($results as $result)
 		{
-			$result->link = \TagsHelperRoute::getItemRoute(
+			$result->link = RouteHelper::getItemRoute(
 				$result->content_item_id,
 				$result->core_alias,
 				$result->core_catid,

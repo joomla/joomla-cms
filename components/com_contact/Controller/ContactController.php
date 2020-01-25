@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -22,6 +23,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Utilities\ArrayHelper;
+use PHPMailer\PHPMailer\Exception as phpMailerException;
 
 /**
  * Controller for single contact view
@@ -297,7 +299,7 @@ class ContactController extends FormController
 				$sent = $mail->Send();
 			}
 		}
-		catch (\Exception $exception)
+		catch (MailDisabledException | phpMailerException $exception)
 		{
 			try
 			{

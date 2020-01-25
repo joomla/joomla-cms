@@ -16,6 +16,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 HTMLHelper::_('behavior.core');
 $canDo   = ContactHelper::getActions('com_contact', 'category', $this->category->id);
@@ -76,7 +77,7 @@ $userId  = Factory::getUser()->id;
 							<?php $contact_width = 7; ?>
 							<div class="col-md-2">
 								<?php if ($this->items[$i]->image) : ?>
-									<a href="<?php echo Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid, $item->language)); ?>">
+									<a href="<?php echo Route::_(RouteHelper::getContactRoute($item->slug, $item->catid, $item->language)); ?>">
 										<?php echo HTMLHelper::_('image', $this->items[$i]->image, Text::_('COM_CONTACT_IMAGE_DETAILS'), array('class' => 'contact-thumbnail img-thumbnail')); ?></a>
 								<?php endif; ?>
 							</div>
@@ -85,7 +86,7 @@ $userId  = Factory::getUser()->id;
 						<?php endif; ?>
 
 						<div class="list-title col-md-<?php echo $contact_width; ?>">
-							<a href="<?php echo Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid, $item->language)); ?>">
+							<a href="<?php echo Route::_(RouteHelper::getContactRoute($item->slug, $item->catid, $item->language)); ?>">
 								<?php echo $item->name; ?></a>
 							<?php if ($this->items[$i]->published == 0) : ?>
 								<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>

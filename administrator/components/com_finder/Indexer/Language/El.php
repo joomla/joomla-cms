@@ -33,12 +33,22 @@ class El extends Language
 	public $language = 'el';
 
 	/**
+	 * Method to construct the language object.
+	 *
+	 * @since   4.0.0
+	 */
+	public function __construct($locale = null)
+	{
+		// Override parent constructor since we don't need to load an externel stemmer
+	}
+
+	/**
 	 * Method to tokenise a text string. It takes into account the odd punctuation commonly used in Greek text, mapping
 	 * it to ASCII punctuation.
 	 *
 	 * Reference: http://www.teicrete.gr/users/kutrulis/Glosika/Stixi.htm
 	 *
-	 * @param   string  $input  The input to tokenise.
+	 * @param string $input The input to tokenise.
 	 *
 	 * @return  array  An array of term strings.
 	 *
