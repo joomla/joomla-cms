@@ -12,10 +12,9 @@
 	<namespace path="src">Joomla\Plugin\Editors\CodeMirror</namespace>
 	<files>
 		<filename plugin="codemirror">codemirror.php</filename>
-		<filename>styles.css</filename>
-		<filename>styles.min.css</filename>
 		<filename>fonts.json</filename>
-		<filename>fonts.php</filename>
+		<folder>layouts</folder>
+		<folder>src</folder>
 	</files>
 
 	<languages>
