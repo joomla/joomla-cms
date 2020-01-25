@@ -53,7 +53,7 @@ $xml = $this->form->getXml();
 		</div>
 		<?php // End Sidebar ?>
 
-		<div class="col-md-9" id="config">
+		<div class="col-md-9 mt-2" id="config">
 			<?php if ($this->fieldsets) : ?>
 				<?php $opentab = 0; ?>
 
@@ -75,7 +75,7 @@ $xml = $this->form->getXml();
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
 
 					<?php if (!$isGrandchild && $hasParent) : ?>
-						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-grid-form options-grid-form-full options-menu">
+						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form">
 							<legend><?php echo Text::_($fieldSet->label); ?></legend>
 							<div>
 					<?php elseif (!$hasParent) : ?>
@@ -96,7 +96,7 @@ $xml = $this->form->getXml();
 
 						<?php if (!$hasChildren) : ?>
 
-						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-grid-form options-grid-form-full options-menu">
+						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form">
 							<legend><?php echo Text::_($fieldSet->label); ?></legend>
 							<div>
 						<?php $opentab = 2; ?>
