@@ -164,13 +164,16 @@ class ExceptionHandler
 		// Let global handler to handle the error, @see bootstrap.php
 		if (isset($e))
 		{
-			// Here the thing, at this point we have 2 exceptions:
-			// $e - the error caused by error renderer
-			// $error - the main error
-			//
-			// Both we need to show without loosing of a trace information
-			// So use a bit of magic to merge them
-			try {
+			/*
+			 * Here the thing, at this point we have 2 exceptions:
+			 * $e - the error caused by error renderer
+			 * $error - the main error
+			 *
+			 * Both we need to show without loosing of a trace information
+			 * So use a bit of magic to merge them
+			 */
+			try
+			{
 				try
 				{
 					throw $error;

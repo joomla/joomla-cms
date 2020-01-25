@@ -36,7 +36,7 @@ define('_JEXEC', 1);
  * Constant that enable debugging of boot up process of the application.
  * Make sure it disabled on production environment.
  */
-//define('JDEBUG_BOOTUP', 1);
+// define('JDEBUG_BOOTUP', 1);
 
 // Run the application - All executable code should be triggered through this file
 require_once dirname(__FILE__) . '/includes/app.php';
