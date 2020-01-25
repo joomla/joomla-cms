@@ -59,19 +59,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	protected $db;
 
 	/**
-	 * Constructor
-	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
-	 *
-	 * @since   3.9.0
-	 */
-	public function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
-	}
-
-	/**
 	 * Adds additional fields to the user editing form
 	 *
 	 * @param   Form   $form  The form to be altered.
