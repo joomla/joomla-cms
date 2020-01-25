@@ -24,10 +24,28 @@ use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
  */
 class HtmlView extends BaseHtmlView
 {
+	/**
+	 * The model state
+	 *
+	 * @var    \Joomla\CMS\Object\CMSObject
+	 * @since  3.2
+	 */
 	public $state;
 
+	/**
+	 * The form object
+	 *
+	 * @var    \Joomla\CMS\Form\Form
+	 * @since  3.2
+	 */
 	public $form;
 
+	/**
+	 * An object with the information for the component
+	 *
+	 * @var    \Joomla\CMS\Component\ComponentRecord
+	 * @since  3.2
+	 */
 	public $component;
 
 	/**

@@ -30,16 +30,6 @@
 	/>
 
 	<field
-		name="mobile"
-		type="switcher"
-		label="PLG_TINY_FIELD_MOBILE_LABEL"
-		default="0"
-		>
-		<option value="0">JOFF</option>
-		<option value="1">JON</option>
-	</field>
-
-	<field
 		name="drag_drop"
 		type="switcher"
 		label="PLG_TINY_FIELD_DRAG_DROP_LABEL"

@@ -15,7 +15,7 @@ use Joomla\CMS\Router\Route;
 
 ?>
 
-<fieldset class="options-grid-form options-grid-form-full">
+<fieldset class="options-form">
 	<legend>
 		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_COMPLETE_HEADING'); ?>
 	</legend>

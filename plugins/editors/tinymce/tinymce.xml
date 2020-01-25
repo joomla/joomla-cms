@@ -25,9 +25,9 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-				       name="configuration"
-				       type="tinymcebuilder"
-				       hiddenLabel="true"
+					name="configuration"
+					type="tinymcebuilder"
+					hiddenLabel="true"
 				 />
 			</fieldset>
 

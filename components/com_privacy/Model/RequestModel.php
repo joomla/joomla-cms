@@ -15,6 +15,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
@@ -217,7 +218,7 @@ class RequestModel extends AdminModel
 			// The email sent and the record is saved, everything is good to go from here
 			return true;
 		}
-		catch (phpmailerException $exception)
+		catch (MailDisabledException | phpmailerException $exception)
 		{
 			$this->setError($exception->getMessage());
 
