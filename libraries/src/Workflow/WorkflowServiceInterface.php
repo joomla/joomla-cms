@@ -61,5 +61,5 @@ interface WorkflowServiceInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function getWorkflowTableBySection(?string $section = null) : string;
+	public function getWorkflowTableBySection(?string $section = null): string;
 }
