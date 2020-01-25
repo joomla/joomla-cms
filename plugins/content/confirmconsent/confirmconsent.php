@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
@@ -70,11 +69,9 @@ class PlgContentConfirmConsent extends CMSPlugin
 		$consentboxText  = (string) $this->params->get('consentbox_text', Text::_('PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_DEFAULT'));
 		$privacyArticle  = $this->params->get('privacy_article', false);
 
-		FormHelper::addFieldPrefix('Joomla\\Plugin\\Content\\ConfirmConsent\\Field');
-
 		$form->load('
 			<form>
-				<fieldset name="default">
+				<fieldset name="default" addfieldprefix="Joomla\\Plugin\\Content\\ConfirmConsent\\Field">
 					<field
 						name="consentbox"
 						type="ConsentBox"
