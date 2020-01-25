@@ -7,8 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Plugin\Editors\CodeMirror\Field;
+
 // No direct access
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -20,7 +22,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  * @subpackage  Editors.codemirror
  * @since       3.4
  */
-class JFormFieldFonts extends ListField
+class FontsField extends ListField
 {
 	/**
 	 * The form field type.
@@ -39,7 +41,7 @@ class JFormFieldFonts extends ListField
 	 */
 	protected function getOptions()
 	{
-		$fonts = json_decode(file_get_contents(__DIR__ . '/fonts.json'));
+		$fonts = json_decode(file_get_contents(JPATH_PLUGINS . '/editors/codemirror/fonts.json'));
 		$options = array();
 
 		foreach ($fonts as $key => $info)
