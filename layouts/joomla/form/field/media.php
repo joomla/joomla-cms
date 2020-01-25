@@ -19,6 +19,7 @@ use Joomla\CMS\Uri\Uri;
  * Layout variables
  * ---------------------
  *
+ * @var  string   $alt_text The alternative text for the image
  * @var  string   $asset The asset text
  * @var  string   $authorField The label text
  * @var  integer  $authorId The author id
@@ -29,7 +30,6 @@ use Joomla\CMS\Uri\Uri;
  * @var  string   $link The link text
  * @var  string   $name The name text
  * @var  string   $preview The preview image relative path
- * @var  string   $alt_text The alternative text for the image
  * @var  integer  $previewHeight The image preview height
  * @var  integer  $previewWidth The image preview width
  * @var  string   $onchange  The onchange text
@@ -160,7 +160,7 @@ Factory::getDocument()->getWebAssetManager()
 			</div>
 		<?php endif; ?>
 		<?php if ($alt_text !== '' && $alt_text !== 'false') : ?>
-			<input type="text" name="<?php echo $name; ?>_alt" id="<?php echo $id; ?>_alt" value="" placeholder="<?php echo Text::_('JGLOBAL_ALTERNATIVE_TEXT'); ?>">
+			<input type="text" name="<?php echo $name; ?>_alt" id="<?php echo $id; ?>_alt" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" placeholder="<?php echo Text::_('JGLOBAL_ALTERNATIVE_TEXT'); ?>">
 		<?php endif; ?>
 	</div>
 </joomla-field-media>
