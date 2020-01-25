@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -66,7 +66,7 @@ class ContenttypesField extends ListField
 		// Translate.
 		foreach ($contentTypes as $contentType)
 		{
-			$key = FinderHelperLanguage::branchSingular($contentType->text);
+			$key = LanguageHelper::branchSingular($contentType->text);
 			$contentType->translatedText = $lang->hasKey($key) ? Text::_($key) : $contentType->text;
 		}
 

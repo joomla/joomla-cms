@@ -189,7 +189,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @since   4.0.0
 	 */
-	public function getWorkflowTableBySection(string $section = null) : string
+	public function getWorkflowTableBySection(?string $section = null): string
 	{
 		return '#__content';
 	}
@@ -204,7 +204,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @since  4.0.0
 	 */
-	public function filterTransitions($transitions, $pk): array
+	public function filterTransitions(array $transitions, int $pk): array
 	{
 		return ContentHelper::filterTransitions($transitions, $pk);
 	}
@@ -283,7 +283,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @since   4.0.0
 	 */
-	public static function updateContentState($pks, $condition): bool
+	public static function updateContentState(array $pks, int $condition): bool
 	{
 		return ContentHelper::updateContentState($pks, $condition);
 	}

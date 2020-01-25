@@ -18,8 +18,10 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Database\ParameterType;
+use PHPMailer\PHPMailer\Exception as phpMailerException;
 
 /**
  * Users mail model.
@@ -199,7 +201,7 @@ class MailModel extends AdminModel
 			// Send the Mail
 			$rs = $mailer->Send();
 		}
-		catch (\Exception $exception)
+		catch (MailDisabledException | phpMailerException $exception)
 		{
 			try
 			{

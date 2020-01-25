@@ -440,7 +440,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$staticHeaderConfiguration = [];
 
 		// X-frame-options
-		if ($this->params->get('xframeoptions'))
+		if ($this->params->get('xframeoptions', 1) === 1)
 		{
 			$staticHeaderConfiguration['x-frame-options#both'] = 'SAMEORIGIN';
 		}
@@ -454,20 +454,17 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		}
 
 		// Generate the strict-transport-security header
-		$strictTransportSecurity = (int) $this->params->get('hsts', 0);
-
-		if ($strictTransportSecurity)
+		if ($this->params->get('hsts', 0) === 1)
 		{
-			$maxAge        = (int) $this->params->get('hsts_maxage', 31536000);
 			$hstsOptions   = [];
-			$hstsOptions[] = $maxAge < 300 ? 'max-age=300' : 'max-age=' . $maxAge;
+			$hstsOptions[] = 'max-age=' . (int) $this->params->get('hsts_maxage', 31536000);
 
-			if ($this->params->get('hsts_subdomains', 0))
+			if ($this->params->get('hsts_subdomains', 0) === 1)
 			{
 				$hstsOptions[] = 'includeSubDomains';
 			}
 
-			if ($this->params->get('hsts_preload', 0))
+			if ($this->params->get('hsts_preload', 0) === 1)
 			{
 				$hstsOptions[] = 'preload';
 			}
