@@ -23,17 +23,30 @@ if ($class)
 $value  = (array) $field->value;
 $buffer = '';
 
-$alt = ' alt=""';
-
-foreach ($value as $path)
+foreach ($value as $imagedata)
 {
-	if (!$path)
+	if (!$imagedata)
 	{
 		continue;
 	}
+	
+	$imagedata = json_decode($imagedata , true);
 
+	$filename = '';
+	$alt = ' alt=""';
+
+	if ((is_array($imagedata) && array_key_exists('filename', $imagedata)))
+	{
+		$filename = $imagedata['filename'];
+	}
+
+	if ((is_array($imagedata) && array_key_exists('alt', $imagedata)))
+	{
+		$alt = ' alt="' . $imagedata['alt'] . '"';
+	}
+	
 	$buffer .= sprintf('<img src="%s"%s%s>',
-		htmlentities($path, ENT_COMPAT, 'UTF-8', true),
+		htmlentities($filename, ENT_COMPAT, 'UTF-8', true),
 		$class,
 		$alt
 	);
