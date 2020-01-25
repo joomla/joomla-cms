@@ -161,32 +161,34 @@ class ExceptionHandler
 			// Pass the error down
 		}
 
-		/*
-		 * To reach this point in the code means there was an error creating the error page.
-		 * We try to send at least something back other than a WSOD at this point.
-		 */
-		if (!$isCli && !headers_sent())
+		// Let global handler to handle the error, @see bootstrap.php
+		if (isset($e))
 		{
-			header('HTTP/1.1 500 Internal Server Error');
-		}
-
-		$message = 'Error';
-
-		// Make sure we do not display sensitive data in production environments
-		if (ini_get('display_errors'))
-		{
-			$message .= ': ';
-
-			if (isset($e))
-			{
-				$message .= $e->getMessage() . ': ';
+			// Here the thing, at this point we have 2 exceptions:
+			// $e - the error caused by error renderer
+			// $error - the main error
+			//
+			// Both we need to show without loosing of a trace information
+			// So use a bit of magic to merge them
+			try {
+				try
+				{
+					throw $error;
+				}
+				finally
+				{
+					throw $e;
+				}
 			}
-
-			$message .= $error->getMessage();
+			catch (\Throwable $finalEror)
+			{
+				throw $finalEror;
+			}
+		}
+		else
+		{
+			throw $error;
 		}
 
-		echo $message;
-
-		jexit(1);
 	}
 }
