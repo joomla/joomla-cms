@@ -192,6 +192,7 @@ abstract class FieldsPlugin extends CMSPlugin
 		$node->setAttribute('labelclass', $field->params->get('label_class'));
 		$node->setAttribute('description', $field->description);
 		$node->setAttribute('class', $field->params->get('class'));
+		$node->setAttribute('alt_text', $field->fieldparams->get('alt_text'));
 		$node->setAttribute('hint', $field->params->get('hint'));
 		$node->setAttribute('required', $field->required ? 'true' : 'false');
 

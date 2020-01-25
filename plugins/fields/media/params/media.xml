@@ -31,10 +31,13 @@
 
 			<field
 				name="alt_text"
-				type="textarea"
+				type="list"
 				label="PLG_FIELDS_MEDIA_PARAMS_ALT_TEXT_LABEL"
-				size="40"
-			/>
+				default="true"
+				>
+				<option value="true">JYES</option>
+				<option value="false">JNO</option>
+			</field>
 		</fieldset>
 	</fields>
 </form>

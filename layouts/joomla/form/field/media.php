@@ -29,6 +29,7 @@ use Joomla\CMS\Uri\Uri;
  * @var  string   $link The link text
  * @var  string   $name The name text
  * @var  string   $preview The preview image relative path
+ * @var  string   $alt_text The alternative text for the image
  * @var  integer  $previewHeight The image preview height
  * @var  integer  $previewWidth The image preview width
  * @var  string   $onchange  The onchange text
@@ -157,6 +158,9 @@ Factory::getDocument()->getWebAssetManager()
 				<button type="button" class="btn btn-secondary button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
 				<button type="button" class="btn btn-secondary button-clear"><span class="fa fa-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
 			</div>
+		<?php endif; ?>
+		<?php if ($alt_text !== '' && $alt_text !== 'false') : ?>
+			<input type="text" name="alt_<?php echo $name; ?>" id="alt_<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" placeholder="<?php echo Text::_('JGLOBAL_ALTERNATIVE_TEXT'); ?>">
 		<?php endif; ?>
 	</div>
 </joomla-field-media>

@@ -78,6 +78,14 @@ class MediaField extends FormField
 	protected $preview;
 
 	/**
+	 * The alternative text.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $alt_text;
+
+	/**
 	 * The preview.
 	 *
 	 * @var    string
@@ -123,6 +131,7 @@ class MediaField extends FormField
 		switch ($name)
 		{
 			case 'authorField':
+			case 'alt_text':
 			case 'asset':
 			case 'link':
 			case 'width':
@@ -157,6 +166,7 @@ class MediaField extends FormField
 			case 'width':
 			case 'height':
 			case 'preview':
+			case 'alt_text':
 			case 'directory':
 				$this->$name = (string) $value;
 				break;
@@ -199,6 +209,7 @@ class MediaField extends FormField
 			$this->width  	     = isset($this->element['width']) ? (int) $this->element['width'] : 800;
 			$this->height 	     = isset($this->element['height']) ? (int) $this->element['height'] : 500;
 			$this->preview       = (string) $this->element['preview'];
+			$this->alt_text      = (string) $this->element['alt_text'];
 			$this->directory     = (string) $this->element['directory'];
 			$this->previewWidth  = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
 			$this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
@@ -265,6 +276,7 @@ class MediaField extends FormField
 			'folder'        => $this->folder,
 			'link'          => $this->link,
 			'preview'       => $this->preview,
+			'alt_text'      => $this->alt_text,
 			'previewHeight' => $this->previewHeight,
 			'previewWidth'  => $this->previewWidth,
 		);
