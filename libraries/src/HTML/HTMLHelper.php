@@ -389,8 +389,9 @@ abstract class HTMLHelper
 		{
 			$debugMode = true;
 		}
-		
-		if (is_array($file) && array_key_exists('filename', $file)) {
+
+		if (is_array($file) && array_key_exists('filename', $file))
+		{
 			$file = $file['filename'];
 		}
 

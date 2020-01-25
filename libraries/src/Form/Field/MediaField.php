@@ -253,7 +253,14 @@ class MediaField extends FormField
 			$asset = Factory::getApplication()->input->get('option');
 		}
 
-		if (is_array($this->value) && $this->value['filename'] && file_exists(JPATH_ROOT . '/' . $this->value['filename']))
+		if (!is_array($this->value) && file_exists(JPATH_ROOT . '/' . $this->value))
+		{
+			$this->folder = explode('/', $this->value);
+			$this->folder = array_diff_assoc($this->folder, explode('/', ComponentHelper::getParams('com_media')->get('image_path', 'images')));
+			array_pop($this->folder);
+			$this->folder = implode('/', $this->folder);
+		}
+		elseif (is_array($this->value) && $this->value['filename'] && file_exists(JPATH_ROOT . '/' . $this->value['filename']))
 		{
 			$this->folder = explode('/', $this->value['filename']);
 			$this->folder = array_diff_assoc($this->folder, explode('/', ComponentHelper::getParams('com_media')->get('image_path', 'images')));

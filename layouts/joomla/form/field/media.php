@@ -65,18 +65,23 @@ switch ($preview)
 		break;
 }
 
-if (!is_array($value))
+if (!is_array($value) && json_decode($value, true) !== null)
 {
 	$value = json_decode($value, true);
 }
 
-if ((is_array($value) && !array_key_exists('filename', $value)) || !is_array($value))
+if (!is_array($value) && json_decode($value, true) == null)
+{
+	$value = array('filename' => $value, 'alt' => '');
+}
+
+if ((is_array($value) && !array_key_exists('filename', $value)))
 {
 	$value = array('filename' => '', 'alt' => '');
 }
 
 // Pre fill the contents of the popover
-if ($showPreview)
+	if ($showPreview)
 {
 	if (is_array($value) && $value['filename'] && file_exists(JPATH_ROOT . '/' . $value['filename']))
 	{
