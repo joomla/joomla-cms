@@ -274,7 +274,6 @@
 			name="record_hits"
 			type="switcher"
 			label="JGLOBAL_RECORD_HITS_LABEL"
-			description="JGLOBAL_RECORD_HITS_DESC"
 			default="1"
 			>
 			<option value="0">JNO</option>
