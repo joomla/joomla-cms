@@ -110,7 +110,7 @@ $n         = count($this->items);
 							<div class="float-<?php echo htmlspecialchars($imgfloat); ?> item-image">
 								<img
 									<?php if ($images->image_intro_caption) : ?>
-										<?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_intro_caption) . '"'; ?>
+										<?php echo 'class="caption" title="' . htmlspecialchars($images->image_intro_caption) . '"'; ?>
 									<?php endif; ?>
 									src="<?php echo $images->image_intro; ?>"
 									alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>">
