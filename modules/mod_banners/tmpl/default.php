@@ -27,7 +27,7 @@ use Joomla\Component\Banners\Site\Helper\BannerHelper;
 			<?php // Text based banners ?>
 			<?php echo str_replace(array('{CLICKURL}', '{NAME}'), array($link, $item->name), $item->custombannercode); ?>
 		<?php else : ?>
-			<?php $imageurl = $item->params->get('imageurl'); ?>
+			<?php $imageurl = $item->params->get('imageurl')->filename; ?>
 			<?php $width = $item->params->get('width'); ?>
 			<?php $height = $item->params->get('height'); ?>
 			<?php if (BannerHelper::isImage($imageurl)) : ?>
