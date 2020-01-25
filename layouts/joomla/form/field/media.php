@@ -65,12 +65,22 @@ switch ($preview)
 		break;
 }
 
+if (!is_array($value))
+{
+	$value = json_decode($value , true);
+}
+
+if ((is_array($value) && !array_key_exists('filename', $value)) || !is_array($value))
+{
+	$value = array('filename' => '', 'alt' => '');
+}
+
 // Pre fill the contents of the popover
 if ($showPreview)
 {
-	if ($value && file_exists(JPATH_ROOT . '/' . $value))
+	if (is_array($value) && $value['filename'] && file_exists(JPATH_ROOT . '/' . $value['filename']))
 	{
-		$src = Uri::root() . $value;
+		$src = Uri::root() . $value['filename'];
 	}
 	else
 	{
@@ -152,7 +162,7 @@ Factory::getDocument()->getWebAssetManager()
 		</div>
 	<?php endif; ?>
 	<div class="input-group">
-		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>>
+		<input type="text" name="<?php echo $name; ?>[filename]" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value['filename'], ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>>
 		<?php if ($disabled != true) : ?>
 			<div class="input-group-append">
 				<button type="button" class="btn btn-secondary button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
@@ -160,7 +170,7 @@ Factory::getDocument()->getWebAssetManager()
 			</div>
 		<?php endif; ?>
 		<?php if ($alt_text !== '' && $alt_text !== 'false') : ?>
-			<input type="text" name="<?php echo $name; ?>_alt" id="<?php echo $id; ?>_alt" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" placeholder="<?php echo Text::_('JGLOBAL_ALTERNATIVE_TEXT'); ?>">
+			<input type="text" name="<?php echo $name; ?>[alt]" value="<?php echo htmlspecialchars($value['alt'], ENT_COMPAT, 'UTF-8'); ?>" placeholder="<?php echo Text::_('JGLOBAL_ALTERNATIVE_TEXT'); ?>">
 		<?php endif; ?>
 	</div>
 </joomla-field-media>
