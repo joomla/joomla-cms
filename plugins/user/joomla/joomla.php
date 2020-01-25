@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -438,5 +439,50 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		return $instance;
+	}
+
+		/**
+	 * Method is called before user data is stored in the database
+	 * Prevent new user register themself as Super Admin in frontend
+	 *
+	 * @param   array    $user   Holds the old user data.
+	 * @param   boolean  $isnew  True if a new user is stored.
+	 * @param   array    $data   Holds the new user data.
+	 *
+	 * @return    boolean
+	 *
+	 * @since   3.8.6
+	 */
+	public function onUserBeforeSave($user, $isnew, $data)
+	{
+		// No check for old users
+		if (!$isnew)
+		{
+			return true;
+		}
+
+		// No check for admin side
+		if ($this->app->isClient('administrator'))
+		{
+			return true;
+		}
+
+		// Check that at i'm not a Super Admin
+		$imSuperAdmin = false;
+		$myGroups     = $data['groups'];
+
+		foreach ($myGroups as $group)
+		{
+			$imSuperAdmin = $imSuperAdmin ?: Access::checkGroup($group, 'core.admin');
+		}
+
+		if ($imSuperAdmin)
+		{
+			$this->app->enqueueMessage(Text::_('PLG_USER_JOOMLA_CANNOT_BE_SUPERADMIN'), 'error');
+
+			return false;
+		}
+
+		return true;
 	}
 }
