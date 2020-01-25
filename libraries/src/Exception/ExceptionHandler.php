@@ -187,9 +187,9 @@ class ExceptionHandler
 					throw $e;
 				}
 			}
-			catch (\Throwable $finalEror)
+			catch (\Throwable $finalError)
 			{
-				throw $finalEror;
+				throw $finalError;
 			}
 		}
 		else
