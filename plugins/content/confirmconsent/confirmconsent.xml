@@ -12,6 +12,7 @@
 	<namespace path="src">Joomla\Plugin\Content\ConfirmConsent</namespace>
 	<files>
 		<filename plugin="confirmconsent">confirmconsent.php</filename>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_content_confirmconsent.ini</language>
