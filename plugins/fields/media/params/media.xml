@@ -28,6 +28,13 @@
 				label="PLG_FIELDS_MEDIA_PARAMS_IMAGE_CLASS_LABEL"
 				size="40"
 			/>
+
+			<field
+				name="alt_text"
+				type="textarea"
+				label="PLG_FIELDS_MEDIA_PARAMS_ALT_TEXT_LABEL"
+				size="40"
+			/>
 		</fieldset>
 	</fields>
 </form>
