@@ -485,7 +485,7 @@ class ArticlesModel extends ListModel
 		}
 		elseif (is_array($authorId))
 		{
-			$authorId = array_filter($authorId, 'is_numeric');
+			$authorId = array_values(array_filter($authorId, 'is_numeric'));
 
 			if ($authorId)
 			{
