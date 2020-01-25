@@ -67,7 +67,7 @@ switch ($preview)
 
 if (!is_array($value))
 {
-	$value = json_decode($value , true);
+	$value = json_decode($value, true);
 }
 
 if ((is_array($value) && !array_key_exists('filename', $value)) || !is_array($value))
