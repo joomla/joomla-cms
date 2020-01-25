@@ -81,7 +81,7 @@ if ((is_array($value) && !array_key_exists('filename', $value)))
 }
 
 // Pre fill the contents of the popover
-	if ($showPreview)
+if ($showPreview)
 {
 	if (is_array($value) && $value['filename'] && file_exists(JPATH_ROOT . '/' . $value['filename']))
 	{
