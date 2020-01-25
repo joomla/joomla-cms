@@ -23,6 +23,8 @@ if ($class)
 $value  = (array) $field->value;
 $buffer = '';
 
+$alt = ' alt=""';
+
 foreach ($value as $path)
 {
 	if (!$path)
@@ -30,9 +32,10 @@ foreach ($value as $path)
 		continue;
 	}
 
-	$buffer .= sprintf('<img src="%s"%s>',
+	$buffer .= sprintf('<img src="%s"%s%s>',
 		htmlentities($path, ENT_COMPAT, 'UTF-8', true),
-		$class
+		$class,
+		$alt
 	);
 }
 
