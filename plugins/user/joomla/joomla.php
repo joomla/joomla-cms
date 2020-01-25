@@ -441,7 +441,7 @@ class PlgUserJoomla extends JPlugin
 		return $instance;
 	}
 
-		/**
+	/**
 	 * Method is called before user data is stored in the database
 	 * Prevent new user register themself as Super Admin in frontend
 	 *
@@ -451,7 +451,7 @@ class PlgUserJoomla extends JPlugin
 	 *
 	 * @return    boolean
 	 *
-	 * @since   3.8.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onUserBeforeSave($user, $isnew, $data)
 	{
