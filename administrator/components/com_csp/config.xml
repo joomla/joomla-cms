@@ -89,7 +89,7 @@
 				/>
 				<field
 					name="client"
-					type="switcher"
+					type="radio"
 					label="COM_CSP_HEADER_CLIENT"
 					default="site"
 					class="col-md-12"
