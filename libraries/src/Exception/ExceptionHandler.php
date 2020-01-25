@@ -161,7 +161,11 @@ class ExceptionHandler
 			// Pass the error down
 		}
 
-		// Let global handler to handle the error, @see bootstrap.php
+		/*
+		 * To reach this point in the code means there was an error creating the error page.
+		 *
+		 * Let global handler to handle the error, @see bootstrap.php
+		 */
 		if (isset($e))
 		{
 			/*
