@@ -246,7 +246,7 @@ class PlgUserProfile extends CMSPlugin
 
 		// Add the registration fields to the form.
 		FormHelper::addFieldPrefix('Joomla\\Plugin\\User\\Profile\\Field');
-		Form::addFormPath(__DIR__ . '/forms');
+		FormHelper::addFormPath(__DIR__ . '/forms');
 		$form->loadFile('profile');
 
 		$fields = [
