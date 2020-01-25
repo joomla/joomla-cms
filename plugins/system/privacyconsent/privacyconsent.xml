@@ -12,7 +12,7 @@
 	<namespace path="src">Joomla\Plugin\System\PrivacyConsent</namespace>
 	<files>
 		<filename plugin="privacyconsent">privacyconsent.php</filename>
-		<folder>privacyconsent</folder>
+		<folder>forms</folder>
 		<folder>src</folder>
 	</files>
 	<languages>
