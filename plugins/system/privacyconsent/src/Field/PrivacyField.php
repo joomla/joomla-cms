@@ -7,7 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\Plugin\System\PrivacyConsent\Field;
+
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\RadioField;
@@ -20,7 +22,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.9.0
  */
-class JFormFieldprivacy extends RadioField
+class PrivacyField extends RadioField
 {
 	/**
 	 * The form field type.

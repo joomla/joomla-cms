@@ -69,8 +69,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
-
-		FormHelper::addFieldPath(__DIR__ . '/field');
 	}
 
 	/**
@@ -105,6 +103,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		}
 
 		// Add the privacy policy fields to the form.
+		FormHelper::addFieldPrefix('Joomla\\Plugin\\System\\PrivacyConsent\\Field');
 		Form::addFormPath(__DIR__ . '/privacyconsent');
 		$form->loadFile('privacyconsent');
 
