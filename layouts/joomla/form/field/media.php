@@ -160,7 +160,7 @@ Factory::getDocument()->getWebAssetManager()
 			</div>
 		<?php endif; ?>
 		<?php if ($alt_text !== '' && $alt_text !== 'false') : ?>
-			<input type="text" name="alt_<?php echo $name; ?>" id="alt_<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" placeholder="<?php echo Text::_('JGLOBAL_ALTERNATIVE_TEXT'); ?>">
+			<input type="text" name="<?php echo $name; ?>_alt" id="<?php echo $id; ?>_alt" value="" placeholder="<?php echo Text::_('JGLOBAL_ALTERNATIVE_TEXT'); ?>">
 		<?php endif; ?>
 	</div>
 </joomla-field-media>
