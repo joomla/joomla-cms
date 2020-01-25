@@ -389,6 +389,10 @@ abstract class HTMLHelper
 		{
 			$debugMode = true;
 		}
+		
+		if (is_array($file) && array_key_exists('filename', $file)) {
+			$file = $file['filename'];
+		}
 
 		// If http is present in filename
 		if (strpos($file, 'http') === 0 || strpos($file, '//') === 0)
