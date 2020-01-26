@@ -208,7 +208,7 @@
       text-align: right;
     }
 
-    .fa {
+    .fas {
       [dir=ltr] & {
         margin-right: $dropdown-item-padding-x;
       }
@@ -264,7 +264,7 @@
       width: 3.8rem;
       height: 100%;
       border: 0;
-      .fa {
+      .fas {
         margin: auto;
       }
       &:hover {

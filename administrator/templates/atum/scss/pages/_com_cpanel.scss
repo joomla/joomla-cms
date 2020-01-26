@@ -134,7 +134,7 @@
 
       .cpanel-add-module-icon {
 
-        .fa {
+        .fas {
           opacity: 0.3;
         }
       }
@@ -151,7 +151,7 @@
       right: 0;
       bottom: 0;
 
-      .fa {
+      .fas {
         transition: all .3s ease-in;
         font-size: 7rem;
         transform: translateX(-100%);
@@ -165,7 +165,7 @@
     background:var(--toolbar-bg);
   }
 
-  .list-group-item a > span.fa {
+  .list-group-item a > span.fas {
     background: var(--atum-link-color);
     color: rgba(255,255,255,.9);
     display: block;

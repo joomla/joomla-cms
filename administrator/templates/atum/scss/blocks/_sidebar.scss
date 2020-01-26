@@ -150,7 +150,7 @@
         display: inline-block;
         height: 100%;
 
-        > .fa {
+        > .fas {
           display: flex;
           padding: 1rem;
           align-items: center;
@@ -161,7 +161,7 @@
         &.mm-active {
           background-color: var(--atum-bg-dark-70);
 
-          .fa {
+          .fas {
             color: var(--atum-contrast);
           }
         }
@@ -190,7 +190,7 @@
     }
   }
 
-  span.fa {
+  span.fas {
     padding: 1rem 0;
   }
 
@@ -276,11 +276,11 @@
           width: 0.25rem;
           content: "";
           background-color: var(--atum-contrast);
-          
+
           [dir=ltr] & {
             left: 0;
           }
-          
+
           [dir=rtl] & {
             right: 0;
           }
@@ -417,7 +417,7 @@
   }
 
   // Parent icons
-  .fa {
+  .fas {
     position: relative;
     display: inline-block;
     margin: 0 0.6rem;
@@ -433,7 +433,7 @@
   }
 }
 
-.sidebar-toggle .fa {
+.sidebar-toggle .fas {
   position: relative;
   top: -1px;
   display: inline-block;
@@ -446,7 +446,7 @@
 // Sidebar Closed
 .closed {
 
-  .main-nav span.fa {
+  .main-nav span.fas {
     transform: scale(1.3);
     transition: all .2s ease-in-out;
   }
