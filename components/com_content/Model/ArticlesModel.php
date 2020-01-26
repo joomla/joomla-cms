@@ -222,7 +222,8 @@ class ArticlesModel extends ListModel
 					$db->quoteName('a.modified_by'),
 					$db->quoteName('uam.name', 'modified_by_name'),
 					// Use created if publish_up is null
-					'CASE WHEN ' . $db->quoteName('a.publish_up') . ' IS NULL THEN ' . $db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.publish_up') . ' END AS ' . $db->quoteName('publish_up'),
+					'CASE WHEN ' . $db->quoteName('a.publish_up') . ' IS NULL THEN ' . $db->quoteName('a.created')
+						. ' ELSE ' . $db->quoteName('a.publish_up') . ' END AS ' . $db->quoteName('publish_up'),
 					$db->quoteName('a.publish_down'),
 					$db->quoteName('a.images'),
 					$db->quoteName('a.urls'),
@@ -249,8 +250,8 @@ class ArticlesModel extends ListModel
 					$db->quoteName('c.published'),
 					$db->quoteName('c.published', 'parents_published'),
 					$db->quoteName('c.lft'),
-					'CASE WHEN ' . $db->quoteName('a.created_by_alias') . ' > ' . $db->quote(' ')
-						. ' THEN ' . $db->quoteName('a.created_by_alias') . ' ELSE ' . $db->quoteName('ua.name') . ' END AS ' . $db->quoteName('author'),
+					'CASE WHEN ' . $db->quoteName('a.created_by_alias') . ' > ' . $db->quote(' ') . ' THEN ' . $db->quoteName('a.created_by_alias')
+						. ' ELSE ' . $db->quoteName('ua.name') . ' END AS ' . $db->quoteName('author'),
 					$db->quoteName('ua.email', 'author_email'),
 					$db->quoteName('parent.title', 'parent_title'),
 					$db->quoteName('parent.id', 'parent_id'),
@@ -318,7 +319,8 @@ class ArticlesModel extends ListModel
 			// Join on voting table
 			$query->select(
 				[
-					'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0), 0), 0) AS ' . $db->quoteName('rating'),
+					'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0), 0), 0)'
+						. ' AS ' . $db->quoteName('rating'),
 					'COALESCE(NULLIF(' . $db->quoteName('v.rating_count') . ', 0), 0) AS ' . $db->quoteName('rating_count'),
 				]
 			)
@@ -359,7 +361,10 @@ class ArticlesModel extends ListModel
 		elseif (is_array($condition))
 		{
 			// Category has to be published
-			$query->where($db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('ws.condition') . ' IN (' . implode(',', $query->bindArray($condition)) . ')');
+			$query->where(
+				$db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('ws.condition')
+					. ' IN (' . implode(',', $query->bindArray($condition)) . ')'
+			);
 		}
 
 		// Filter by featured state
@@ -522,7 +527,8 @@ class ArticlesModel extends ListModel
 				if ($authorAlias)
 				{
 					$type             = $this->getState('filter.author_alias.include', true) ? ' IN' : ' NOT IN';
-					$authorAliasWhere = $db->quoteName('a.created_by_alias') . $type . ' (' . implode(',', $query->bindArray($authorAlias, ParameterType::STRING)) . ')';
+					$authorAliasWhere = $db->quoteName('a.created_by_alias') . $type
+						. ' (' . implode(',', $query->bindArray($authorAlias, ParameterType::STRING)) . ')';
 				}
 			}
 		}
