@@ -663,27 +663,33 @@ class ArticlesModel extends ListModel
 
 		if (is_array($tagId))
 		{
-			$tagId = implode(',', ArrayHelper::toInteger($tagId));
+			$tagId = ArrayHelper::toInteger($tagId);
 
 			if ($tagId)
 			{
 				$subQuery = $db->getQuery(true)
 					->select('DISTINCT content_item_id')
 					->from($db->quoteName('#__contentitem_tag_map'))
-					->where('tag_id IN (' . $tagId . ')')
-					->where('type_alias = ' . $db->quote('com_content.article'));
+					->whereIn($db->quoteName('tag_id'), $tagId)
+					->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
 
-				$query->innerJoin('(' . (string) $subQuery . ') AS tagmap ON tagmap.content_item_id = a.id');
+				$query->join(
+					'INNER',
+					'(' . (string) $subQuery . ') AS ' . $db->quoteName('tagmap'),
+					$db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+				);
 			}
 		}
-		elseif ($tagId)
+		elseif ($tagId = (int) $tagId)
 		{
-			$query->innerJoin(
-				$db->quoteName('#__contentitem_tag_map', 'tagmap')
-				. ' ON tagmap.tag_id = ' . (int) $tagId
-				. ' AND tagmap.content_item_id = a.id'
-				. ' AND tagmap.type_alias = ' . $db->quote('com_content.article')
-			);
+			$query->join(
+				'INNER',
+				$db->quoteName('#__contentitem_tag_map', 'tagmap'),
+				$db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+			)
+				->where($db->quoteName('tagmap.tag_id') . ' = :tagId')
+				->bind(':tagId', $tagId, ParameterType::INTEGER);
 		}
 
 		// Add the list ordering clause.
