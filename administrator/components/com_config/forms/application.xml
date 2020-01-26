@@ -307,6 +307,18 @@
 		</field>
 
 		<field
+			name="debug_lang"
+			type="radio"
+			label="COM_CONFIG_FIELD_DEBUG_LANG_LABEL"
+			class="switcher"
+			default="0"
+			filter="boolean"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
 			name="debug_lang_const"
 			type="radio"
 			label="COM_CONFIG_FIELD_DEBUG_CONST_LANG_LABEL"
@@ -318,18 +330,6 @@
 			>
 			<option value="0">COM_CONFIG_FIELD_DEBUG_CONST</option>
 			<option value="1">COM_CONFIG_FIELD_DEBUG_VALUE</option>
-		</field>
-
-		<field
-			name="debug_lang"
-			type="radio"
-			label="COM_CONFIG_FIELD_DEBUG_LANG_LABEL"
-			class="switcher"
-			default="0"
-			filter="boolean"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
 		</field>
 
 	</fieldset>
