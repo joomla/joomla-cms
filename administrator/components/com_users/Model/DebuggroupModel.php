@@ -17,7 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
+use Joomla\Component\Users\Administrator\Helper\DebugHelper;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\ParameterType;
 
@@ -64,7 +64,7 @@ class DebuggroupModel extends ListModel
 	{
 		$component = $this->getState('filter.component');
 
-		return UsersHelperDebug::getDebugActions($component);
+		return DebugHelper::getDebugActions($component);
 	}
 
 	/**
@@ -265,7 +265,7 @@ class DebuggroupModel extends ListModel
 		if ($this->getState('filter.component'))
 		{
 			$component  = $this->getState('filter.component');
-			$lcomponent = $component . '%';
+			$lcomponent = $component . '.%';
 			$query->where(
 				'(' . $db->quoteName('a.name') . ' = :component'
 				. ' OR ' . $db->quoteName('a.name') . ' LIKE :lcomponent)'
