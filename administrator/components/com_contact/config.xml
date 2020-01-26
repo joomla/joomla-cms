@@ -78,8 +78,8 @@
 			label="COM_CONTACT_FIELD_SHOW_INFO_LABEL"
 			default="1"
 			>
-			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
 		</field>
 
 		<field
