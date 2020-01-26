@@ -35,19 +35,20 @@ Joomla = window.Joomla || {};
 
 	Joomla.installpackageChange = function() {
 		var form = document.getElementById('uploadForm');
-		var fileSizeAct = form.install_package.files[0].size;
-		var fileSizeDisplay = document.getElementById('file_size');
+		var fileSize = form.install_package.files[0].size;
+		var fileSizeMB = fileSize * 1.0 / 1024.0 / 1024.0;
+		var fileSizeElement = document.getElementById('file_size');
 		var warningElement = document.getElementById('max_upload_size_warn');
 
 		if (form.install_package.value == '') {
-			fileSizeDisplay.classList.add('hidden');
+			fileSizeElement.classList.add('hidden');
 			warningElement.classList.add('hidden');
 		}
-		else if (fileSizeAct) {
-			fileSizeDisplay.classList.remove('hidden');
-			fileSizeDisplay.innerHTML = Joomla.JText._('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE').replace('%s', fileSizeAct + ' Bytes');
+		else if (fileSize) {
+			fileSizeElement.classList.remove('hidden');
+			fileSizeElement.innerHTML = Joomla.JText._('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE').replace('%s', fileSizeMB.toFixed(2) + ' MB');
 
-			if (fileSizeAct > form.max_upload_size.value) {
+			if (fileSize > form.max_upload_size.value) {
 				warningElement.classList.remove('hidden');
 			} else {
 				warningElement.classList.add('hidden');
