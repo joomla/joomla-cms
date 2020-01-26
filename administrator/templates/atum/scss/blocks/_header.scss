@@ -154,12 +154,6 @@
     transition: all .2s ease-in-out;
   }
 
-  .dropdown-menu {
-    min-width: 17.5rem;
-    padding: 0;
-    z-index: 1041;
-  }
-
   .badge {
     position: absolute;
     left: 50%;
@@ -185,6 +179,7 @@
   .dropdown-menu {
     z-index: $zindex-popover;
     min-width: 18rem;
+    padding: 0;
     background-color: var(--atum-bg-dark-70);
 
     .dropdown-header {
