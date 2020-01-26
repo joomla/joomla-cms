@@ -18,7 +18,7 @@ use Joomla\CMS\Uri\Uri;
 
 	<fieldset id="installCongrat" class="j-install-step active">
 		<legend class="j-install-step-header">
-			<span class="fa fa-trophy" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_CONGRAT'); ?>
+			<span class="fas fa-trophy" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_CONGRAT'); ?>
 		</legend>
 		<div class="j-install-step-form" id="customInstallation">
 			<h2><?php echo Text::_('INSTL_COMPLETE_TITLE'); ?></h2>
@@ -100,7 +100,7 @@ use Joomla\CMS\Uri\Uri;
 
 		<fieldset id="installLanguages" class="j-install-step">
 			<legend class="j-install-step-header">
-				<span class="fa fa-commenting-o" aria-hidden="true"></span> <?php echo Text::_('INSTL_LANGUAGES'); ?>
+				<span class="far fa-comment-dots" aria-hidden="true"></span> <?php echo Text::_('INSTL_LANGUAGES'); ?>
 			</legend>
 			<div class="j-install-step-form">
 				<?php if (!$this->items) : ?>

@@ -51,7 +51,7 @@ HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.
 				<legend><?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
 				<div>
 				<div class="alert alert-info">
-					<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+					<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?>
 				</div>
 				<?php echo $this->form->renderField('searchtype'); ?>

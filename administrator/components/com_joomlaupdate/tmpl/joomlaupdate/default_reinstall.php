@@ -19,7 +19,7 @@ use Joomla\CMS\Updater\Update;
 		<?php echo Text::_('COM_JOOMLAUPDATE_UPDATE_CHECK'); ?>
 	</legend>
 	<p class="alert alert-info">
-		<span class="fa fa-info-circle" aria-hidden="true"></span>
+		<span class="fas fa-info-circle" aria-hidden="true"></span>
 		<span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
 		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATES'); ?>
 	</p>
