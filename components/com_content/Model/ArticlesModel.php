@@ -273,7 +273,7 @@ class ArticlesModel extends ListModel
 		// If category is not published then force 0
 		// Note: this select is taken out of list.select state because of bound variable use
 		$query->select(
-			'CASE WHEN ' . $db->quoteName('c.published') .' = 2 AND ' . $db->quoteName('ws.condition') . ' > 0 THEN :conditionArchived'
+			'CASE WHEN ' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('ws.condition') . ' > 0 THEN :conditionArchived'
 				. ' WHEN ' . $db->quoteName('c.published') . ' != 1 THEN :conditionUnpublished'
 				. ' ELSE ' . $db->quoteName('ws.condition') . ' END AS ' . $db->quoteName('state')
 		)
@@ -304,8 +304,8 @@ class ArticlesModel extends ListModel
 					'(' . $db->quoteName('fp.featured_down') . ' IS NULL OR ' . $db->quoteName('fp.featured_down') . ' >= :frontpageDown)',
 				]
 			)
-			->bind(':frontpageUp', $nowDate)
-			->bind(':frontpageDown', $nowDate);
+				->bind(':frontpageUp', $nowDate)
+				->bind(':frontpageDown', $nowDate);
 		}
 		elseif ($orderby_sec === 'front' || $this->getState('list.ordering') === 'fp.ordering')
 		{
@@ -629,7 +629,6 @@ class ArticlesModel extends ListModel
 				case 'month':
 					if ($monthFilter != '')
 					{
-
 						$monthStart = date("Y-m-d", strtotime($monthFilter)) . ' 00:00:00';
 						$monthEnd   = date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59';
 
@@ -639,8 +638,8 @@ class ArticlesModel extends ListModel
 								':monthEnd >= CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END',
 							]
 						)
-						->bind(':monthStart', $monthStart)
-						->bind(':monthEnd', $monthEnd);
+							->bind(':monthStart', $monthStart)
+							->bind(':monthEnd', $monthEnd);
 					}
 					break;
 
