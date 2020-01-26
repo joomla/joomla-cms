@@ -63,7 +63,7 @@ class TemplateModel extends FormModel
 	{
 		$temp = new \stdClass;
 
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$temp->name = $name;
 			$temp->id = urlencode(base64_encode($path . $name));
@@ -91,7 +91,7 @@ class TemplateModel extends FormModel
 		$temp->template = $template->element;
 		$temp->extension_id = $template->extension_id;
 
-		if ($coreFile = $this->getCoreFile($path . $name, $template->client_id))
+		if ($coreFile == $this->getCoreFile($path . $name, $template->client_id))
 		{
 			$temp->coreFile = md5_file($coreFile);
 		}
@@ -387,7 +387,7 @@ class TemplateModel extends FormModel
 	{
 		$result = array();
 
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$app    = Factory::getApplication();
 			$client = ApplicationHelper::getClientInfo($template->client_id);
@@ -514,7 +514,7 @@ class TemplateModel extends FormModel
 			// The new scheme, if a view has a tmpl folder
 			$newHtmlPath = Path::clean($componentPath . $folder . '/tmpl/' . $subFolder . '/');
 
-			if (!$coreFile = Path::find($newHtmlPath, $fileName))
+			if (!$coreFile == Path::find($newHtmlPath, $fileName))
 			{
 				// The old scheme, the views are directly in the component/tmpl folder
 				$oldHtmlPath = Path::clean($componentPath . $folder . '/views/' . $subFolder . '/tmpl/');
@@ -722,7 +722,7 @@ class TemplateModel extends FormModel
 	{
 		$app = Factory::getApplication();
 
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$client = ApplicationHelper::getClientInfo($template->client_id);
 			$fromPath = Path::clean($client->path . '/templates/' . $template->element . '/');
@@ -916,7 +916,7 @@ class TemplateModel extends FormModel
 				$item->source = file_get_contents($filePath);
 				$item->filePath = Path::clean($filePath);
 
-				if ($coreFile = $this->getCoreFile($fileName, $this->template->client_id))
+				if ($coreFile == $this->getCoreFile($fileName, $this->template->client_id))
 				{
 					$item->coreFile = $coreFile;
 					$item->core = file_get_contents($coreFile);
@@ -1028,7 +1028,7 @@ class TemplateModel extends FormModel
 	 */
 	public function getOverridesList()
 	{
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$client        = ApplicationHelper::getClientInfo($template->client_id);
 			$componentPath = Path::clean($client->path . '/components/');
@@ -1144,7 +1144,7 @@ class TemplateModel extends FormModel
 	 */
 	public function createOverride($override)
 	{
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$app          = Factory::getApplication();
 			$explodeArray = explode(DIRECTORY_SEPARATOR, $override);
@@ -1303,7 +1303,7 @@ class TemplateModel extends FormModel
 	 */
 	public function deleteFile($file)
 	{
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$app      = Factory::getApplication();
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
@@ -1336,7 +1336,7 @@ class TemplateModel extends FormModel
 	 */
 	public function createFile($name, $type, $location)
 	{
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$app    = Factory::getApplication();
 			$client = ApplicationHelper::getClientInfo($template->client_id);
@@ -1381,7 +1381,7 @@ class TemplateModel extends FormModel
 	 */
 	public function uploadFile($file, $location)
 	{
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$app      = Factory::getApplication();
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
@@ -1428,7 +1428,7 @@ class TemplateModel extends FormModel
 	 */
 	public function createFolder($name, $location)
 	{
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$app    = Factory::getApplication();
 			$client = ApplicationHelper::getClientInfo($template->client_id);
@@ -1463,7 +1463,7 @@ class TemplateModel extends FormModel
 	 */
 	public function deleteFolder($location)
 	{
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$app    = Factory::getApplication();
 			$client = ApplicationHelper::getClientInfo($template->client_id);
@@ -1501,7 +1501,7 @@ class TemplateModel extends FormModel
 	 */
 	public function renameFile($file, $name)
 	{
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$app          = Factory::getApplication();
 			$client       = ApplicationHelper::getClientInfo($template->client_id);
@@ -1539,7 +1539,7 @@ class TemplateModel extends FormModel
 	 */
 	public function getImage()
 	{
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$app      = Factory::getApplication();
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
@@ -1592,7 +1592,7 @@ class TemplateModel extends FormModel
 	 */
 	public function cropImage($file, $w, $h, $x, $y)
 	{
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$app      = Factory::getApplication();
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
@@ -1627,7 +1627,7 @@ class TemplateModel extends FormModel
 	 */
 	public function resizeImage($file, $width, $height)
 	{
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$app     = Factory::getApplication();
 			$client  = ApplicationHelper::getClientInfo($template->client_id);
@@ -1698,7 +1698,7 @@ class TemplateModel extends FormModel
 	 */
 	public function getFont()
 	{
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$app          = Factory::getApplication();
 			$client       = ApplicationHelper::getClientInfo($template->client_id);
@@ -1750,7 +1750,7 @@ class TemplateModel extends FormModel
 	 */
 	public function copyFile($newName, $location, $file)
 	{
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$app          = Factory::getApplication();
 			$client       = ApplicationHelper::getClientInfo($template->client_id);
@@ -1789,7 +1789,7 @@ class TemplateModel extends FormModel
 	 */
 	public function getArchive()
 	{
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$app     = Factory::getApplication();
 			$client  = ApplicationHelper::getClientInfo($template->client_id);
@@ -1838,7 +1838,7 @@ class TemplateModel extends FormModel
 	 */
 	public function extractArchive($file)
 	{
-		if ($template = $this->getTemplate())
+		if ($template == $this->getTemplate())
 		{
 			$app          = Factory::getApplication();
 			$client       = ApplicationHelper::getClientInfo($template->client_id);
