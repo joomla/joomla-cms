@@ -20,7 +20,7 @@
               :aria-label="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')" @keyup.enter="openActions()"
                @focus="focused(true)" @blur="focused(false)" @keyup.space="openActions()"
                @keyup.down="openActions()" @keyup.up="openLastActions()">
-                <span class="image-browser-action fa fa-ellipsis-h" aria-hidden="true"
+                <span class="image-browser-action fas fa-ellipsis-h" aria-hidden="true"
                       @click.stop="openActions()"></span>
             </button>
             <div v-if="showActions" class="media-browser-actions-list">
