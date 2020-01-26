@@ -269,8 +269,7 @@ class ArticlesModel extends ListModel
 			->join('LEFT', $db->quoteName('#__users', 'uam'), $db->quoteName('uam.id') . ' = ' . $db->quoteName('a.modified_by'))
 			->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'));
 
-		// Published/archived article in archived category is treated as archived article
-		// If category is not published then force 0
+		// Published/archived article in archived category is treated as archived article. If category is not published then force 0.
 		// Note: this select is taken out of list.select state because of bound variable use
 		$query->select(
 			'CASE WHEN ' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('ws.condition') . ' > 0 THEN :conditionArchived'
