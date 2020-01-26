@@ -865,6 +865,17 @@ class ArticlesModel extends ListModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
+		// Get the list query.
+		$listQuery = $this->getListQuery();
+		$bounded   = $listQuery->getBounded();
+
+		// Bind list query variables to our new query.
+		$keys      = array_keys($bounded);
+		$values    = array_column($bounded, 'value');
+		$dataTypes = array_column($bounded, 'dataType');
+
+		$query->bind($keys, $values, $dataTypes);
+
 		$query
 			->select('DATE(' .
 				$query->concatenate(
