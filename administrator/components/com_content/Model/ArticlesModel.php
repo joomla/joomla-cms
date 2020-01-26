@@ -541,38 +541,31 @@ class ArticlesModel extends ListModel
 
 				$query = $db->getQuery(true);
 
-				$select = $db->quoteName(
-					array(
-						't.id',
-						't.title',
-						't.from_stage_id',
-						't.to_stage_id',
-						's.id',
-						's.title',
-						's.condition',
-						's.workflow_id'
-					),
-					array(
-						'value',
-						'text',
-						'from_stage_id',
-						'to_stage_id',
-						'stage_id',
-						'stage_title',
-						'stage_condition',
-						'workflow_id'
-					)
-				);
-
-				$query->select($select)
+				$query->select(
+					[
+						$db->quoteName('t.id', 'value'),
+						$db->quoteName('t.title', 'text'),
+						$db->quoteName('t.from_stage_id'),
+						$db->quoteName('t.to_stage_id'),
+						$db->quoteName('s.id', 'stage_id'),
+						$db->quoteName('s.title', 'stage_title'),
+						$db->quoteName('s.condition', 'stage_condition'),
+						$db->quoteName('s.workflow_id'),
+					]
+				)
 					->from($db->quoteName('#__workflow_transitions', 't'))
-					->leftJoin(
-						$db->quoteName('#__workflow_stages', 's') . ' ON '
-						. $db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $ids) . ')'
+					->join(
+						'LEFT',
+						$db->quoteName('#__workflow_stages', 's'),
+						$db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $ids) . ')'
 					)
-					->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
-					->where($db->quoteName('t.published') . ' = 1')
-					->where($db->quoteName('s.published') . ' = 1')
+					->where(
+						[
+							$db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'),
+							$db->quoteName('t.published') . ' = 1',
+							$db->quoteName('s.published') . ' = 1',
+						]
+					)
 					->order($db->quoteName('t.ordering'));
 
 				$transitions = $db->setQuery($query)->loadAssocList();
