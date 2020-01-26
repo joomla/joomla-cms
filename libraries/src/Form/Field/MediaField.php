@@ -70,7 +70,7 @@ class MediaField extends FormField
 	protected $height;
 
 	/**
-	 * The authorField.
+	 * The preview.
 	 *
 	 * @var    string
 	 * @since  3.2
@@ -78,7 +78,7 @@ class MediaField extends FormField
 	protected $preview;
 
 	/**
-	 * The preview.
+	 * The directory.
 	 *
 	 * @var    string
 	 * @since  3.2
