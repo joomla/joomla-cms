@@ -1,7 +1,7 @@
 // Form
 
 label {
-	margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .control-group {
@@ -29,8 +29,7 @@ label {
       text-align: right;
     }
 
-    @include media-breakpoint-down(sm)
-    {
+    @include media-breakpoint-down(sm) {
       float: none;
       width: 100%;
     }
@@ -44,8 +43,7 @@ label {
       margin-left: 0;
     }
 
-    @include media-breakpoint-down(sm)
-    {
+    @include media-breakpoint-down(sm) {
       margin-left: 0;
 
       [dir=rtl] & {
@@ -137,9 +135,9 @@ select.form-control {
 
 @include media-breakpoint-down(xs) {
   .control-group {
-    .control-label{
-      float:none;
-	  max-width: 100%;
+    .control-label {
+      float: none;
+      max-width: 100%;
     }
   }
 }
@@ -153,9 +151,11 @@ select.form-control {
     width: 100%;
     max-width: none;
   }
+
   .button-select {
     background-color: darken(theme-color("success"), 8%);
   }
+
   .button-clear {
     background-color: darken(theme-color("danger"), 8%);
   }
@@ -164,4 +164,3 @@ select.form-control {
     min-width: 100%;
   }
 }
-
