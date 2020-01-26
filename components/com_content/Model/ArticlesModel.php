@@ -272,10 +272,12 @@ class ArticlesModel extends ListModel
 		// If category is not published then force 0
 		// Note: this select is taken out of list.select state because of bound variable use
 		$query->select(
-			'CASE WHEN ' . $db->quoteName('c.published') .' = 2 AND ' . $db->quoteName('ws.condition') . ' > 0 THEN ' . $conditionArchived
-				. ' WHEN ' . $db->quoteName('c.published') . ' != 1 THEN ' . $conditionUnpublished
+			'CASE WHEN ' . $db->quoteName('c.published') .' = 2 AND ' . $db->quoteName('ws.condition') . ' > 0 THEN :conditionArchived'
+				. ' WHEN ' . $db->quoteName('c.published') . ' != 1 THEN :conditionUnpublished'
 				. ' ELSE ' . $db->quoteName('ws.condition') . ' END AS ' . $db->quoteName('state')
-		);
+		)
+			->bind(':conditionArchived', $conditionArchived, ParameterType::INTEGER)
+			->bind(':conditionUnpublished', $conditionUnpublished, ParameterType::INTEGER);
 
 		$params      = $this->getState('params');
 		$orderby_sec = $params->get('orderby_sec');
