@@ -73,32 +73,13 @@
         ". debug debug debug debug .";
     }
 
-    .container-header {
-      margin-top: 0;
-      margin-bottom: 20px;
-
-      + div:not(.container-banner):not(.container-sidebar-left):not(.container-component) {
-        margin-top: $cassiopeia-grid-gutter;
-      }
-    }
-
     &.wrapper-fluid {
       grid-template-columns: [full-start] minmax(0, 1fr) [main-start] repeat(4, minmax(0, 25%)) [main-end] minmax(0, 1fr) [full-end];
     }
   }
 
   .container-banner {
-    z-index: 5;
-    margin: -2rem 0 0;
     padding: 0 ($cassiopeia-grid-gutter / 2);
-
-    p {
-      margin-bottom: 0;
-    }
-
-    @include media-breakpoint-up(xl) {
-      margin-top: -3rem;
-    }
   }
 }
 

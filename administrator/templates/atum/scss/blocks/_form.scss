@@ -28,6 +28,14 @@
 
   .controls {
     margin-left: 220px;
+
+    @include media-breakpoint-down(sm) {
+      margin-left: 0;
+
+      [dir=rtl] & {
+        margin-right: 0;
+      }
+    }	
   }
 }
 
@@ -35,6 +43,19 @@
   .switcher__legend {
     font-size: $label-font-size;
   }
+}
+
+.col-md-9 .control-group .switcher__legend,
+.col-md-12 .control-group .switcher__legend {
+
+  @include media-breakpoint-down(sm) {
+    margin-left: 0;
+    float: none;
+
+    [dir=rtl] & {
+      margin-right: 0;
+    }
+  }	
 }
 
 .form-no-margin {
@@ -128,6 +149,14 @@ legend {
   background: $black;
   max-width: 100%;
   z-index: $zindex-tooltip;
+
+  [dir=ltr] & {
+    text-align: left;
+  }
+
+  [dir=rtl] & {
+    text-align: right;
+  }
 }
 
  /* reveal associated tooltip on focus */
