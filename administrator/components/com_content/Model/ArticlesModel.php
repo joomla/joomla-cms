@@ -527,7 +527,7 @@ class ArticlesModel extends ListModel
 
 		$ids = array_column($items, 'stage_id');
 		$ids = ArrayHelper::toInteger($ids);
-		$ids = array_unique(array_filter($ids));
+		$ids = array_values(array_unique(array_filter($ids)));
 
 		$ids[] = -1;
 
@@ -557,7 +557,7 @@ class ArticlesModel extends ListModel
 					->join(
 						'LEFT',
 						$db->quoteName('#__workflow_stages', 's'),
-						$db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $ids) . ')'
+						$db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')'
 					)
 					->where(
 						[
