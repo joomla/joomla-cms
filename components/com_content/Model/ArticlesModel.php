@@ -896,10 +896,10 @@ class ArticlesModel extends ListModel
 						$query->month($db->quoteName('publish_up')),
 						$db->quote('-01')
 					)
-				) . ') AS d'
+				) . ') AS ' . $db->quoteName('d')
 			)
-			->select('COUNT(*) AS c')
-			->from('(' . $this->getListQuery() . ') AS b')
+			->select('COUNT(*) AS ' . $db->quoteName('c'))
+			->from('(' . $this->getListQuery() . ') AS ' . $db->quoteName('b'))
 			->group($db->quoteName('d'))
 			->order($db->quoteName('d') . ' DESC');
 
