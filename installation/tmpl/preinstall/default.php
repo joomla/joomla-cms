@@ -25,7 +25,7 @@ use Joomla\CMS\Language\Text;
 							<?php if ($option->state === 'JNO' || $option->state === false) : ?>
 								<div class="alert preinstall-alert">
 									<div class="alert-icon">
-										<span class="alert-icon fa fa-exclamation-triangle" aria-hidden="true"></span>
+										<span class="alert-icon fas fa-exclamation-triangle" aria-hidden="true"></span>
 									</div>
 									<div class="alert-text">
 										<strong><?php echo $option->label; ?></strong>
@@ -36,8 +36,8 @@ use Joomla\CMS\Language\Text;
 						<?php endforeach; ?>
 					</div>
 				</div>
-				
-						
+
+
 				<?php if ($option->state === false && preg_match('$configuration.php$', $option->label)) : ?>
 					<div id="ftpOptions" class="ftp-options mb-4 hidden">
 						<form action="index.php" method="post" id="ftpForm" class="form-validate">

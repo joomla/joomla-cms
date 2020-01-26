@@ -92,7 +92,7 @@ $this->useCoreUI = true;
 		</div>
 		<?php if (empty($this->otpConfig->otep)) : ?>
 			<div class="alert alert-warning">
-				<span class="fa fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+				<span class="fas fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 				<?php echo Text::_('COM_USERS_USER_OTEPS_WAIT_DESC'); ?>
 			</div>
 		<?php else : ?>

@@ -46,7 +46,7 @@ extract($displayData);
 			<?php endif; ?>
 			<?php if (!empty($buttons['move'])) : ?>
 				<button type="button" class="group-move btn btn-sm btn-primary" aria-label="<?php echo Text::_('JGLOBAL_FIELD_MOVE'); ?>">
-					<span class="fa fa-arrows-alt" aria-hidden="true"></span>
+					<span class="fas fa-arrows-alt" aria-hidden="true"></span>
 				</button>
 			<?php endif; ?>
 		</div>

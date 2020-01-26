@@ -109,7 +109,7 @@ use Joomla\CMS\Uri\Uri;
 					<a href="#"
 							class="btn btn-primary"
 							onclick="return Install.goToPage('remove');">
-						<span class="fa fa-arrow-left icon-white" aria-hidden="true"></span>
+						<span class="fas fa-arrow-left icon-white" aria-hidden="true"></span>
 						<?php echo Text::_('INSTL_LANGUAGES_WARNING_BACK_BUTTON'); ?>
 					</a>
 				</p>
