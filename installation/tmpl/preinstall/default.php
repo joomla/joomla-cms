@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
 			<div class="col-md-12 mb-4">
 				<div class="j-install-step active">
 					<div class="j-install-step-header">
-						<span class="fa fa-check" aria-hidden="true"></span> <?php echo Text::_('INSTL_PRECHECK_TITLE'); ?>
+						<span class="fas fa-check" aria-hidden="true"></span> <?php echo Text::_('INSTL_PRECHECK_TITLE'); ?>
 					</div>
 					<div class="j-install-step-form">
 						<?php foreach ($this->options as $option) : ?>

@@ -94,7 +94,7 @@ HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' =
 								</th>
 								<td class="text-center btns">
 									<a href="<?php echo Route::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
-										<span class="fa fa-list" aria-hidden="true"></span>
+										<span class="fas fa-list" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
 									</a>
 								</td>

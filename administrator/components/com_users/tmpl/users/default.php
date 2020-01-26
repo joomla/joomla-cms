@@ -132,7 +132,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								</th>
 								<td class="text-center btns d-none d-md-table-cell">
 									<a href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
-										<span class="fa fa-list" aria-hidden="true"></span>
+										<span class="fas fa-list" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
 									</a>
 								</td>
