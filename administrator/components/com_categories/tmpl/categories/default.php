@@ -174,7 +174,7 @@ if ($saveOrder && !empty($this->items))
 										}
 										?>
 										<span class="sortable-handler<?php echo $iconClass ?>">
-											<span class="fa fa-ellipsis-v"></span>
+											<span class="fas fa-ellipsis-v"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" class="hidden" name="order[]" size="5" value="<?php echo $item->lft; ?>">
