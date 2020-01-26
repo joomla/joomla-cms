@@ -22,7 +22,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-class ModBannersHelper
+class BannersHelper
 {
 	/**
 	 * Retrieve list of banners
