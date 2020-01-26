@@ -155,9 +155,8 @@
 
 		<field
 			name="db_sslverifyservercert"
-			type="radio"
+			type="switcher"
 			label="INSTL_DATABASE_ENCRYPTION_VERIFY_SERVER_CERT_LABEL"
-			class="switcher"
 			default="0"
 			filter="boolean"
 			showon="db_encryption:1,2"
