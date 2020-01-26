@@ -270,7 +270,7 @@ class ArticlesModel extends ListModel
 			->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'));
 
 		// Published/archived article in archived category is treated as archived article. If category is not published then force 0.
-		// Note: this select is taken out of list.select state because of bound variable use
+		// Note: this select is taken out of list.select state because of bound variable use.
 		$query->select(
 			'CASE WHEN ' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('ws.condition') . ' > 0 THEN :conditionArchived'
 				. ' WHEN ' . $db->quoteName('c.published') . ' != 1 THEN :conditionUnpublished'
@@ -608,7 +608,7 @@ class ArticlesModel extends ListModel
 			$filter      = StringHelper::strtolower($filter);
 			$monthFilter = $filter;
 			$hitsFilter  = (int) $filter;
-			$filter      = $db->quote('%' . $db->escape($filter, true) . '%', false);
+			$textFilter  = '%' . $filter . '%';
 
 			switch ($params->get('filter_field'))
 			{
@@ -617,7 +617,7 @@ class ArticlesModel extends ListModel
 						'LOWER(CASE WHEN ' . $db->quoteName('a.created_by_alias') . ' > ' . $db->quote(' ')
 						. ' THEN ' . $db->quoteName('a.created_by_alias') . ' ELSE ' . $db->quoteName('ua.name') . ' END) LIKE :search'
 					)
-						->bind(':search', $filter);
+						->bind(':search', $textFilter);
 					break;
 
 				case 'hits':
@@ -646,7 +646,7 @@ class ArticlesModel extends ListModel
 				default:
 					// Default to 'title' if parameter is not valid
 					$query->where('LOWER(' . $db->quoteName('a.title') . ') LIKE :search')
-						->bind(':search', $filter);
+						->bind(':search', $textFilter);
 					break;
 			}
 		}
