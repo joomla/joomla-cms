@@ -174,7 +174,7 @@ class ExceptionHandler
 			 * $error - the main error
 			 *
 			 * Both we need to show without loosing of a trace information
-			 * So use a bit of magic to merge them
+			 * So use a bit of magic to merge them, use exception nesting.
 			 */
 			try
 			{

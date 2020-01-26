@@ -58,10 +58,7 @@ $errorHandler = \Symfony\Component\ErrorHandler\ErrorHandler::register();
 
 // Make sure we do not display sensitive data in production environments
 // Disable a detailed error message by default
-if (!defined('JDEBUG_BOOTUP'))
-{
-	$errorHandler->scopeAt(0, true);
-}
+$errorHandler->scopeAt(0, true);
 
 // Register the error handler which processes E_USER_DEPRECATED errors
 set_error_handler(['JErrorPage', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);

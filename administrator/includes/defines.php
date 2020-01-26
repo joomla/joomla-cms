@@ -25,10 +25,3 @@ define('JPATH_CACHE',         JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'cache
 define('JPATH_MANIFESTS',     JPATH_ADMINISTRATOR . DIRECTORY_SEPARATOR . 'manifests');
 define('JPATH_API',           JPATH_ROOT . DIRECTORY_SEPARATOR . 'api');
 define('JPATH_CLI',           JPATH_ROOT . DIRECTORY_SEPARATOR . 'cli');
-
-/**
- * Constant that enable debugging of boot up process of the application.
- * Make sure it disabled on production environment.
- *
- * define('JDEBUG_BOOTUP', 1);
- */
