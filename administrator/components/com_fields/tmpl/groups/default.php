@@ -106,7 +106,7 @@ $context = $this->escape($this->state->get('filter.context'));
 											<?php $iconClass = ' inactive" title="' . Text::_('JORDERINGDISABLED'); ?>
 										<?php endif; ?>
 										<span class="sortable-handler<?php echo $iconClass; ?>">
-											<span class="fas fa-ellipsis-v" aria-hidden="true"></span>
+											<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" class="hidden" name="order[]" size="5" value="<?php echo $item->ordering; ?>">

@@ -103,7 +103,7 @@ if ($saveOrder && !empty($this->items))
 									}
 									?>
 									<span class="sortable-handler<?php echo $iconClass ?>">
-										<span class="fas fa-ellipsis-v" aria-hidden="true"></span>
+										<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 									</span>
 									<?php if ($canChange && $saveOrder) : ?>
 										<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
