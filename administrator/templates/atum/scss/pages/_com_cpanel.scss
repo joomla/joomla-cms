@@ -3,7 +3,8 @@
 .cpanel-add-module-icon,
 .com-cpanel {
 
-  &-help, &-system {
+  &-help,
+  &-system {
 
     .list-group-item {
       padding: 0;
@@ -162,12 +163,12 @@
 
 .cpanel-modules {
   .list-group-item:hover {
-    background:var(--toolbar-bg);
+    background: var(--toolbar-bg);
   }
 
   .list-group-item a > span.fa {
     background: var(--atum-link-color);
-    color: rgba(255,255,255,.9);
+    color: rgba(255, 255, 255, .9);
     display: block;
     padding: 0.5rem;
     box-shadow: $atum-box-shadow;
@@ -177,7 +178,7 @@
     }
   }
 
-   h2 {
-      font-size: $h4-font-size;
-    }
+  h2 {
+    font-size: $h4-font-size;
+  }
 }
