@@ -621,15 +621,18 @@ class ArticlesModel extends ListModel
 				case 'month':
 					if ($monthFilter != '')
 					{
-						$query->where(
-							$db->quote(date("Y-m-d", strtotime($monthFilter)) . ' 00:00:00')
-							. ' <= CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END'
-						);
+
+						$monthStart = date("Y-m-d", strtotime($monthFilter)) . ' 00:00:00';
+						$monthEnd   = date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59';
 
 						$query->where(
-							$db->quote(date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59')
-							. ' >= CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END'
-						);
+							[
+								':monthStart <= CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END',
+								':monthEnd >= CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END',
+							]
+						)
+						->bind(':monthStart', $monthStart)
+						->bind(':monthEnd', $monthEnd);
 					}
 					break;
 
