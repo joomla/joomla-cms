@@ -38,6 +38,16 @@ class Zh extends Language
 	public $spacer = '';
 
 	/**
+	 * Method to construct the language object.
+	 *
+	 * @since   4.0.0
+	 */
+	public function __construct($locale = null)
+	{
+		// Override parent constructor since we don't need to load an externel stemmer
+	}
+
+	/**
 	 * Method to tokenise a text string.
 	 *
 	 * @param   string  $input  The input to tokenise.

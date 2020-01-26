@@ -12,9 +12,10 @@ namespace Joomla\Component\Content\Api\View\Articles;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Serializer\ContentSerializer;
+use Joomla\Component\Content\Api\Serializer\ContentSerializer;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
@@ -39,7 +40,7 @@ class JsonapiView extends BaseApiView
 		'tags',
 		'language',
 		'state',
-		'catid',
+		'category',
 		'created',
 	];
 
@@ -58,8 +59,18 @@ class JsonapiView extends BaseApiView
 		'tags',
 		'language',
 		'state',
-		'catid',
+		'category',
 		'created',
+	];
+
+	/**
+	 * The relationships the item has
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $relationship = [
+		'category',
 	];
 
 	/**
@@ -115,10 +126,10 @@ class JsonapiView extends BaseApiView
 			$this->fieldsToRenderItem[] = $field->name;
 		}
 
-		if (\Joomla\CMS\Language\Multilanguage::isEnabled())
+		if (Multilanguage::isEnabled())
 		{
-			$this->fieldsToRenderItem[] = 'associations';
-			$this->relationship[]       = 'associations';
+			$this->fieldsToRenderItem[] = 'languageAssociations';
+			$this->relationship[]       = 'languageAssociations';
 		}
 
 		return parent::displayItem();
@@ -146,7 +157,7 @@ class JsonapiView extends BaseApiView
 			$item->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
 		}
 
-		if (\Joomla\CMS\Language\Multilanguage::isEnabled())
+		if (Multilanguage::isEnabled())
 		{
 			$associations = [];
 
@@ -163,12 +174,16 @@ class JsonapiView extends BaseApiView
 			$item->associations = $associations;
 		}
 
-		if (!empty($item->tags))
+		if (!empty($item->tags->tags))
 		{
 			$tagsIds   = explode(',', $item->tags->tags);
 			$tagsNames = $item->tagsHelper->getTagNames($tagsIds);
 
 			$item->tags = array_combine($tagsIds, $tagsNames);
+		}
+		else
+		{
+			$item->tags = [];
 		}
 
 		return parent::prepareItem($item);

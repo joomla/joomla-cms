@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
@@ -367,7 +368,7 @@ class RequestModel extends AdminModel
 
 			return true;
 		}
-		catch (phpmailerException $exception)
+		catch (MailDisabledException | phpmailerException $exception)
 		{
 			$this->setError($exception->getMessage());
 
