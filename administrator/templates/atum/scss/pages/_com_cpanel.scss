@@ -129,6 +129,7 @@
     @include hover-focus-active() {
       border-color: var(--atum-bg-dark);
       text-decoration: none;
+      background-color: var(--white);
 
       .cpanel-add-module-icon {
 
