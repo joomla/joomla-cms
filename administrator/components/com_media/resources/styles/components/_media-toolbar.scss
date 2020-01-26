@@ -31,18 +31,16 @@
 
 .media-view-icons {
   display: flex;
-}
-
-.media-view-icons {
-  .disabled {
-    span {
-      opacity: .3;
-    }
-    &:hover, span:hover {
-      cursor: default;
-    }
+    .disabled {
+      span {
+        opacity: .3;
+      }
+      &:hover, span:hover {
+        cursor: default;
+      }
   }
 }
+
 
 .media-view-search-input {
   display: flex;
