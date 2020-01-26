@@ -693,7 +693,9 @@ class ArticlesModel extends ListModel
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->getState('list.ordering', 'a.ordering') . ' ' . $this->getState('list.direction', 'ASC'));
+		$query->order(
+			$db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC'))
+		);
 
 		return $query;
 	}
