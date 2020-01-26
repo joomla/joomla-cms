@@ -147,6 +147,32 @@ $filesDifference = array_diff($previousReleaseFiles, $newReleaseFiles);
 
 $foldersDifference = array_diff($previousReleaseFolders, $newReleaseFolders);
 
+// Remove any specific files (e.g. language files) that we want to keep on upgrade
+$filesToRemove = [
+	"'/administrator/language/en-GB/en-GB.com_search.ini',",
+	"'/administrator/language/en-GB/en-GB.com_search.sys.ini',",
+	"'/language/en-GB/en-GB.com_search.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_search_categories.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_search_categories.sys.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_search_contacts.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_search_contacts.sys.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_search_content.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_search_content.sys.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_search_newsfeeds.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_search_newsfeeds.sys.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_search_tags.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_search_tags.sys.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_search_weblinks.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_search_weblinks.sys.ini',",
+];
+
+foreach ($filesToRemove as $file)
+{
+	if (($key = array_search($file, $filesDifference)) !== false) {
+		unset($filesDifference[$key]);
+	}
+}
+
 asort($filesDifference);
 rsort($foldersDifference);
 
