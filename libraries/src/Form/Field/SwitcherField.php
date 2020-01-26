@@ -78,11 +78,11 @@ class SwitcherField extends ListField
 	}
 
 	/**
-	 * Method to get the radio button field input markup.
+	 * Method to get the field options.
 	 *
-	 * @return  string  The field input markup.
+	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since  __DEPLOY_VERSION__
 	 *
 	 * @throws  \UnexpectedValueException
 	 */
