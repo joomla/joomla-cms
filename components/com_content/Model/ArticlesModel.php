@@ -673,7 +673,7 @@ class ArticlesModel extends ListModel
 			if ($tagId)
 			{
 				$subQuery = $db->getQuery(true)
-					->select('DISTINCT content_item_id')
+					->select('DISTINCT ' . $db->quoteName('content_item_id'))
 					->from($db->quoteName('#__contentitem_tag_map'))
 					->whereIn($db->quoteName('tag_id'), $tagId)
 					->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
