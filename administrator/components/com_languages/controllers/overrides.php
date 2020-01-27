@@ -71,6 +71,9 @@ class LanguagesControllerOverrides extends JControllerAdmin
 	 */
 	public function purge()
 	{
+		// Check for request forgeries.
+		$this->checkToken();
+
 		$model = $this->getModel('overrides');
 		$model->purge();
 		$this->setRedirect(JRoute::_('index.php?option=com_languages&view=overrides', false));
