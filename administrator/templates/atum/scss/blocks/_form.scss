@@ -31,6 +31,10 @@
     min-width: 210px;
   }
 
+  .form-vertical & {
+    flex-direction: column;
+  }
+
 }
 
 .control-group {
