@@ -199,8 +199,8 @@ class ArticlesModel extends ListModel
 
 		$nowDate = Factory::getDate()->toSql();
 
-		$conditionArchived    = (int) ContentComponent::CONDITION_ARCHIVED;
-		$conditionUnpublished = (int) ContentComponent::CONDITION_UNPUBLISHED;
+		$conditionArchived    = ContentComponent::CONDITION_ARCHIVED;
+		$conditionUnpublished = ContentComponent::CONDITION_UNPUBLISHED;
 
 		// Select the required fields from the table.
 		$query->select(
