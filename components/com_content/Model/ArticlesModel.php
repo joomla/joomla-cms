@@ -242,6 +242,10 @@ class ArticlesModel extends ListModel
 					$db->quoteName('wa.stage_id', 'stage_id'),
 					$db->quoteName('ws.title', 'state_title'),
 					$db->quoteName('ws.condition', 'stage_condition'),
+					// Published/archived article in archived category is treated as archived article. If category is not published then force 0.
+					'CASE WHEN ' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('ws.condition') . ' > 0 THEN ' . $conditionArchived
+						. ' WHEN ' . $db->quoteName('c.published') . ' != 1 THEN ' . $conditionUnpublished
+						. ' ELSE ' . $db->quoteName('ws.condition') . ' END AS ' . $db->quoteName('state'),
 					$db->quoteName('c.title', 'category_title'),
 					$db->quoteName('c.path', 'category_route'),
 					$db->quoteName('c.access', 'category_access'),
@@ -268,16 +272,6 @@ class ArticlesModel extends ListModel
 			->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
 			->join('LEFT', $db->quoteName('#__users', 'uam'), $db->quoteName('uam.id') . ' = ' . $db->quoteName('a.modified_by'))
 			->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'));
-
-		// Published/archived article in archived category is treated as archived article. If category is not published then force 0.
-		// Note: this select is taken out of list.select state because of bound variable use.
-		$query->select(
-			'CASE WHEN ' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('ws.condition') . ' > 0 THEN :conditionArchived'
-				. ' WHEN ' . $db->quoteName('c.published') . ' != 1 THEN :conditionUnpublished'
-				. ' ELSE ' . $db->quoteName('ws.condition') . ' END AS ' . $db->quoteName('state')
-		)
-			->bind(':conditionArchived', $conditionArchived, ParameterType::INTEGER)
-			->bind(':conditionUnpublished', $conditionUnpublished, ParameterType::INTEGER);
 
 		$params      = $this->getState('params');
 		$orderby_sec = $params->get('orderby_sec');
