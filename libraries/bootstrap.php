@@ -52,13 +52,14 @@ spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass
 require_once JPATH_LIBRARIES . '/classmap.php';
 
 /**
- * Register the global exception handler.
+ * Register the global exception handler. And set error level to server default error level.
+ * The error level may be changed later in boot up process, after application config will be loaded.
+ * Do not remove the variable, to allow to use it further, after including this file.
  */
 $errorHandler = \Symfony\Component\ErrorHandler\ErrorHandler::register();
 
-// Make sure we do not display sensitive data in production environments
-// Disable a detailed error message by default
-$errorHandler->scopeAt(0, true);
+// Use server default error level, initially
+$errorHandler->scopeAt(error_reporting(), true);
 
 // Register the error handler which processes E_USER_DEPRECATED errors
 set_error_handler(['JErrorPage', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
