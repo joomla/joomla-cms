@@ -337,11 +337,11 @@ class ArticlesModel extends ListModel
 			 * If category is archived then article has to be published or archived.
 			 * Or categogy is published then article has to be archived.
 			 */
-			$query->where('((' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('ws.condition') . ' > :wsConditionUnpublished)'
-				. ' OR (' . $db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('ws.condition') . ' = :wsConditionArchived))'
+			$query->where('((' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('ws.condition') . ' > :conditionUnpublished)'
+				. ' OR (' . $db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('ws.condition') . ' = :conditionArchived))'
 			)
-				->bind(':wsConditionUnpublished', $conditionUnpublished, ParameterType::INTEGER)
-				->bind(':wsConditionArchived', $conditionArchived, ParameterType::INTEGER);
+				->bind(':conditionUnpublished', $conditionUnpublished, ParameterType::INTEGER)
+				->bind(':conditionArchived', $conditionArchived, ParameterType::INTEGER);
 		}
 		elseif (is_numeric($condition))
 		{
