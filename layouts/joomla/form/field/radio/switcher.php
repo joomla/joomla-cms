@@ -63,6 +63,8 @@ $input    = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 $attr = 'id="' . $id . '"';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 
+// Make sure the options are first value 0 and then value 1.
+usort($options, function($a, $b) {return $a->value - $b->value;});
 ?>
 <fieldset <?php echo $attr; ?>>
 	<legend class="switcher__legend">
