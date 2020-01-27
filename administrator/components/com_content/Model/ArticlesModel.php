@@ -252,6 +252,7 @@ class ArticlesModel extends ListModel
 			)
 		)
 			->from($db->quoteName('#__content', 'a'))
+			->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
 			->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'))
 			->join('LEFT', $db->quoteName('#__content_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'))
 			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'))
@@ -296,13 +297,14 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($access))
 		{
-			$query->where('a.access = ' . (int) $access);
+			$access = (int) $access;
+			$query->where($db->quoteName('a.access') . ' = :access')
+				->bind(':access', $access, ParameterType::INTEGER);
 		}
 		elseif (is_array($access))
 		{
 			$access = ArrayHelper::toInteger($access);
-			$access = implode(',', $access);
-			$query->where('a.access IN (' . $access . ')');
+			$query->whereIn($db->quoteName('a.access'), $access);
 		}
 
 		// Filter by featured.
@@ -310,15 +312,17 @@ class ArticlesModel extends ListModel
 
 		if (in_array($featured, ['0','1']))
 		{
-			$query->where('a.featured =' . (int) $featured);
+			$featured = (int) $featured;
+			$query->where($db->quoteName('a.featured') . ' = :featured')
+				->bind(':featured', $featured, ParameterType::INTEGER);
 		}
 
 		// Filter by access level on categories.
 		if (!$user->authorise('core.admin'))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
-			$query->where('c.access IN (' . $groups . ')');
+			$groups = $user->getAuthorisedViewLevels();
+			$query->whereIn($db->quoteName('a.access'), $groups);
+			$query->whereIn($db->quoteName('c.access'), $groups);
 		}
 
 		// Filter by published state
@@ -326,7 +330,9 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($workflowStage))
 		{
-			$query->where('wa.stage_id = ' . (int) $workflowStage);
+			$workflowStage = (int) $workflowStage;
+			$query->where($db->quoteName('wa.stage_id') . ' = :stage')
+				->bind(':stage', $workflowStage, ParameterType::INTEGER);
 		}
 
 		$condition = (string) $this->getState('filter.condition');
@@ -335,7 +341,9 @@ class ArticlesModel extends ListModel
 		{
 			if (is_numeric($condition))
 			{
-				$query->where($db->quoteName('ws.condition') . ' = ' . (int) $condition);
+				$condition = (int) $condition;
+				$query->where($db->quoteName('ws.condition') . ' = :condition')
+					->bind(':condition', $condition, ParameterType::INTEGER);
 			}
 			elseif (!is_numeric($workflowStage))
 			{
@@ -343,13 +351,11 @@ class ArticlesModel extends ListModel
 					$db->quoteName('ws.condition'),
 					[
 						ContentComponent::CONDITION_PUBLISHED,
-						ContentComponent::CONDITION_UNPUBLISHED
+						ContentComponent::CONDITION_UNPUBLISHED,
 					]
 				);
 			}
 		}
-
-		$query->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'));
 
 		// Filter by categories and by level
 		$categoryId = $this->getState('filter.category_id', array());
