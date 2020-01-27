@@ -116,7 +116,7 @@ Factory::getDocument()->addScriptDeclaration('
 								</span>
 							</td>
 							<td>
-								<?php echo $item->name; ?>
+								<?php echo $this->escape($item->name); ?>
 							</td>
 							<?php if ($this->showIpColumn) : ?>
 								<td>

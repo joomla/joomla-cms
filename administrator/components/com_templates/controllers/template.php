@@ -348,6 +348,9 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function less()
 	{
+		// Check for request forgeries
+		$this->checkToken();
+
 		$app   = JFactory::getApplication();
 		$model = $this->getModel();
 		$id    = $app->input->get('id');
