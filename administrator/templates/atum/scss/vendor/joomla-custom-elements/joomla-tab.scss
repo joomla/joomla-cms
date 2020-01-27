@@ -254,9 +254,9 @@ joomla-tab {
 
           .respTable, .respTable thead, .respTable tbody, .respTable tr, .respTable th, .respTable td {
             display: block;
-	      }
+          }
 
-		  .respTable thead {
+          .respTable thead {
             position: absolute;
             top: -1111px;
             left: -1111px;
@@ -270,8 +270,8 @@ joomla-tab {
           }
 
           .respTable td:nth-child(1) {
-	        font-weight: bold;
-	      }
+            font-weight: bold;
+          }
 
 	      .respTable td:last-child {
             border-bottom: 1em var(--atum-bg-dark-80) solid;
