@@ -453,7 +453,9 @@ class ArticlesModel extends ListModel
 				}
 
 				// Add the subquery to the main query
-				$query->where('(' . $db->quoteName('a.catid') . $type . ':categoryId OR ' . $db->quoteName('a.catid') . ' IN (' . (string) $subQuery . '))');
+				$query->where(
+					'(' . $db->quoteName('a.catid') . $type . ':categoryId OR ' . $db->quoteName('a.catid') . ' IN (' . (string) $subQuery . '))'
+				);
 				$query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
 			}
 			else
