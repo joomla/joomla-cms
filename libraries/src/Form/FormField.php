@@ -1129,7 +1129,7 @@ abstract class FormField
 		{
 			$subForm = $this->loadSubForm();
 
-			if ($this->multiple && $value)
+			if ($this->multiple)
 			{
 				foreach ($value as $key => $val)
 				{
