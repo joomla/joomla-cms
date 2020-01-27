@@ -485,6 +485,7 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($authorId))
 		{
+			$authorId    = (int) $authorId;
 			$type        = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
 			$authorWhere = $db->quoteName('a.created_by') . $type . ':authorId';
 			$query->bind(':authorId', $authorId, ParameterType::INTEGER);
