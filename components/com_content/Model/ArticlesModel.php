@@ -622,7 +622,7 @@ class ArticlesModel extends ListModel
 
 				case 'hits':
 					$query->where($db->quoteName('a.hits') . ' >= :hits')
-						->bind(':hits', $hitsFilter);
+						->bind(':hits', $hitsFilter, ParameterType::INTEGER);
 					break;
 
 				case 'month':
