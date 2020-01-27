@@ -208,24 +208,4 @@ class HtmlView extends BaseHtmlView
 
 		$toolbar->help('JHELP_COMPONENTS_FIELDS_FIELD_GROUPS');
 	}
-
-	/**
-	 * Returns the sort fields.
-	 *
-	 * @return  array
-	 *
-	 * @since   3.7.0
-	 */
-	protected function getSortFields()
-	{
-		return array(
-			'a.ordering'  => Text::_('JGRID_HEADING_ORDERING'),
-			'a.state'     => Text::_('JSTATUS'),
-			'a.title'     => Text::_('JGLOBAL_TITLE'),
-			'a.access'    => Text::_('JGRID_HEADING_ACCESS'),
-			'language'    => Text::_('JGRID_HEADING_LANGUAGE'),
-			'a.context'   => Text::_('JGRID_HEADING_CONTEXT'),
-			'a.id'        => Text::_('JGRID_HEADING_ID'),
-		);
-	}
 }
