@@ -64,7 +64,11 @@
     label {
       margin-bottom: 0;
     }
-    .inactive .fa, .inactive [class^=icon-] {
+    .inactive .fa,
+    .inactive .fas,
+    .inactive .far,
+    .inactive .fab,
+    .inactive [class^=icon-] {
       color: $gray-400;
     }
 
