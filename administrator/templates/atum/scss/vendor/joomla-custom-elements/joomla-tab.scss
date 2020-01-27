@@ -251,29 +251,35 @@ joomla-tab {
           .respTable {
             text-align: right;
           }
+
           .respTable, .respTable thead, .respTable tbody, .respTable tr, .respTable th, .respTable td {
             display: block;
 	      }
-          .respTable thead {
+
+		  .respTable thead {
             position: absolute;
             top: -1111px;
             left: -1111px;
-		  }
+          }
+
           .respTable td:before {
             float: left;
             padding: 0 2em 0 0;
             content: attr(data-label) ":";
             font-weight: bold;
-          }		  
+          }
+
           .respTable td:nth-child(1) {
 	        font-weight: bold;
 	      }
+
 	      .respTable td:last-child {
-	        border-bottom: 1em var(--atum-bg-dark-80) solid;
+            border-bottom: 1em var(--atum-bg-dark-80) solid;
 	      }
-	      .oddCol {
-	        background: $gray-100;
-	      }
+
+          .oddCol {
+            background: $gray-100;
+          }
         }
       }
     }
