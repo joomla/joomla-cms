@@ -22,7 +22,9 @@ HTMLHelper::_('jquery.framework');
 
 HTMLHelper::_('script', 'com_associations/sidebyside.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['version' => 'auto', 'relative' => true]);
+
+$this->document->getWebAssetManager()
+	->useScript('webcomponent.core-loader');
 
 $options = [
 	'layout'   => $this->app->input->get('layout', '', 'string'),

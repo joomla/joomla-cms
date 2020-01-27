@@ -17,6 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\Database\ParameterType;
 
 /**
  * Supports a modal newsfeeds picker.
@@ -105,11 +106,13 @@ class NewsfeedField extends FormField
 
 		if ($value)
 		{
+			$id    = (int) $value;
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('name'))
 				->from($db->quoteName('#__newsfeeds'))
-				->where($db->quoteName('id') . ' = ' . (int) $value);
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':id', $id, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try

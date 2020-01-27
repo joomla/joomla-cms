@@ -52,21 +52,12 @@ $logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, '
 $logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8');
 
 // Enable assets
-$wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
-$wa->enableAsset('fontawesome-free');
+$wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+	->useStyle('template.active.language')
+	->useStyle('template.user');
 
-// Load specific language related CSS
-HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
-
-// Load customer stylesheet if available
-HTMLHelper::_('stylesheet', 'custom.css', array('version' => 'auto', 'relative' => true));
-
-// TODO: remove the following line whenever the assets are fixed to respect the ovverides
-HTMLHelper::_('stylesheet', 'vendor/choicesjs/choices.css', array('version' => 'auto', 'relative' => true));
-
-// Load specific template related JS
-// TODO: Adapt refactored build tools pt.2 @see https://issues.joomla.org/tracker/joomla-cms/23786
-HTMLHelper::_('script', 'media/templates/' . $this->template . '/js/template.min.js', ['version' => 'auto']);
+// Override 'template.active' asset to set correct ltr/rtl dependency
+$wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
@@ -158,7 +149,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	<div class="container-fluid container-main">
 		<?php if (!$cpanel) : ?>
 			<?php // Subheader ?>
-			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-toggle="collapse" data-target=".subhead" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
+			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-toggle="collapse" data-target=".subhead" aria-controls="subhead" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
 				<span class="toggler-toolbar-icon"></span>
 			</button>
 			<div id="subhead" class="subhead mb-3">

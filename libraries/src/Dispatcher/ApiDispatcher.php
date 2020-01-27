@@ -65,8 +65,9 @@ final class ApiDispatcher extends ComponentDispatcher
 	protected function loadLanguage()
 	{
 		// Load common and local language files.
-		$this->app->getLanguage()->load($this->option, JPATH_BASE, null, false, true) ||
-		$this->app->getLanguage()->load($this->option, JPATH_COMPONENT_ADMINISTRATOR, null, false, true);
+		$this->app->getLanguage()->load($this->option, JPATH_BASE) ||
+		$this->app->getLanguage()->load($this->option, JPATH_ADMINISTRATOR) ||
+		$this->app->getLanguage()->load($this->option, JPATH_COMPONENT_ADMINISTRATOR);
 	}
 
 	/**

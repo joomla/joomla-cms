@@ -9,8 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+
+// Load Bootstrap JS for dropdowns.
+HTMLHelper::_('bootstrap.framework');
 
 $hideLinks = $app->input->getBool('hidemainmenu');
 ?>
@@ -35,20 +39,15 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 				<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>
 			</div>
 			<?php if (empty($messages)) : ?>
-				<div class="dropdown-item">
-					<a href="<?php echo Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId); ?>">
-						<?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?>
-					</a>
-				</div>
+				<a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId); ?>">
+					<?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?>
+				</a>
 			<?php endif; ?>
 			<?php foreach ($messages as $message) : ?>
-				<div class="dropdown-item">
-					<?php $route = 'index.php?option=com_postinstall&amp;eid=' . $joomlaFilesExtensionId; ?>
-					<?php $title = Text::_($message->title_key); ?>
-					<a href="<?php echo Route::_($route); ?>" title="<?php echo $title; ?>">
-						<?php echo $title; ?>
-					</a>
-				</div>
+				<?php $route = 'index.php?option=com_postinstall&amp;eid=' . $joomlaFilesExtensionId; ?>
+				<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
+					<?php echo Text::_($message->title_key); ?>
+				</a>
 			<?php endforeach; ?>
 		</div>
 		<?php endif; ?>

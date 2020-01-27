@@ -19,8 +19,8 @@ HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
 
-Text::script('JSHOW');
-Text::script('JHIDE');
+Text::script('JSHOWPASSWORD');
+Text::script('JHIDEPASSWORD');
 ?>
 <form id="login-form-<?php echo $module->id; ?>" class="mod-login" action="<?php echo Route::_('index.php', true); ?>" method="post">
 
@@ -49,10 +49,12 @@ Text::script('JHIDE');
 		<div class="mod-login__password form-group">
 			<?php if (!$params->get('usetext', 0)) : ?>
 				<div class="input-group">
+					<label for="modlgn-passwd-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 					<input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" autocomplete="current-password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
 					<span class="input-group-append">
-						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-						<span class="input-group-text icon-eye" aria-hidden="true"></span>
+						<button type="button" class="input-group-text icon-eye input-password-toggle">
+							<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+						</button>
 					</span>
 				</div>
 			<?php else : ?>

@@ -71,7 +71,7 @@ use Joomla\CMS\Router\Route;
 			<td>
 				<div><?php echo Text::_('COM_PRIVACY_STATUS_CHECK_REQUEST_FORM_MENU_ITEM_PUBLISHED'); ?></div>
 				<?php if ($requestFormPublished['link'] !== '') : ?>
-					<small><a href="<?php echo $requestFormPublished['link']; ?>"><?php echo $requestFormPublished['link']; ?></a></small>
+					<small><a href="<?php echo $requestFormPublished['link']; ?>" class="break-word"><?php echo $requestFormPublished['link']; ?></a></small>
 				<?php endif; ?>
 			</td>
 		</tr>

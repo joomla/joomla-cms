@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
@@ -31,11 +30,13 @@ $menu     = $app->getMenu()->getActive();
 $pageclass = $menu->getParams()->get('pageclass_sfx');
 
 // Enable assets
-$wa->enableAsset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
+$wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+	->useStyle('template.active.language')
+	->useStyle('template.user')
+	->useScript('template.user');
 
-// Load specific language related CSS
-HTMLHelper::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
-HTMLHelper::_('stylesheet', 'https://fonts.googleapis.com/css?family=Fira+Sans:400', []);
+// Override 'template.active' asset to set correct ltr/rtl dependency
+$wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
 // Preload the stylesheet for the font, actually we need to preload the font
 $this->getPreloadManager()->preload('https://fonts.googleapis.com/css?family=Fira+Sans:400', array('as' => 'stylesheet'));
@@ -51,7 +52,7 @@ elseif ($this->params->get('siteTitle'))
 }
 else
 {
-	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg' . '" class="logo d-inline-block" alt="' . $sitename . '">';
+	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
 }
 
 $hasClass = '';
@@ -65,9 +66,6 @@ if ($this->countModules('sidebar-right'))
 {
 	$hasClass .= ' has-sidebar-right';
 }
-
-// Header bottom margin
-$headerMargin = !$this->countModules('banner') ? ' mb-4' : '';
 
 // Container
 $wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
@@ -121,16 +119,9 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			</nav>
 			<?php if ($this->countModules('banner')) : ?>
 			<div class="grid-child container-banner">
-				<jdoc:include type="modules" name="banner" style="xhtml" />
+				<jdoc:include type="modules" name="banner" style="html5" />
 			</div>
 			<?php endif; ?>
-			<div class="header-shadow"></div>
-			<div class="header-shape-bottom">
-				<canvas width="736" height="15"></canvas>
-				<svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 736 15">
-					<path d="M1040,301V285s-75,12-214,12-284-26-524,0v4Z" transform="translate(-302 -285)" fill="#fafafa"/>
-				</svg>
-			</div>
 		</header>
 	</div>
 

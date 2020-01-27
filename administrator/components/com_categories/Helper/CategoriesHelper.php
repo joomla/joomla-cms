@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 
 /**
  * Categories helper.
@@ -35,20 +36,21 @@ class CategoriesHelper
 		$langAssociations = Associations::getAssociations($extension, '#__categories', 'com_categories.item', $pk, 'id', 'alias', '');
 		$associations     = array();
 		$user             = Factory::getUser();
-		$groups           = implode(',', $user->getAuthorisedViewLevels());
+		$groups           = $user->getAuthorisedViewLevels();
 
 		foreach ($langAssociations as $langAssociation)
 		{
 			// Include only published categories with user access
-			$arrId    = explode(':', $langAssociation->id);
-			$assocId  = $arrId[0];
-			$db       = Factory::getDbo();
+			$arrId   = explode(':', $langAssociation->id);
+			$assocId = (int) $arrId[0];
+			$db      = Factory::getDbo();
 
 			$query = $db->getQuery(true)
 				->select($db->quoteName('published'))
 				->from($db->quoteName('#__categories'))
-				->where('access IN (' . $groups . ')')
-				->where($db->quoteName('id') . ' = ' . (int) $assocId);
+				->whereIn($db->quoteName('access'), $groups)
+				->where($db->quoteName('id') . ' = :associd')
+				->bind(':associd', $assocId, ParameterType::INTEGER);
 
 			$result = (int) $db->setQuery($query)->loadResult();
 
