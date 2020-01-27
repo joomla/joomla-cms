@@ -207,77 +207,71 @@ class ArticlesModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.asset_id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
-				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, fp.featured_up, fp.featured_down' .
-				', a.language, a.hits, a.publish_up, a.publish_down, a.introtext, a.note'
-			)
-		);
-		$query->from('#__content AS a');
-
-		// Join over the language
-		$query->select('l.title AS language_title, l.image AS language_image')
-			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
-
-		// Join over the front page table.
-		$query->select('fp.ordering')
-			->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
-
-		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor')
-			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
-
-		// Join over the asset groups.
-		$query->select('ag.title AS access_level')
-			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
-
-		// Join over the categories.
-		$query->select('c.title AS category_title, c.created_user_id AS category_uid, c.level AS category_level')
-			->join('LEFT', '#__categories AS c ON c.id = a.catid');
-
-		// Join over the parent categories.
-		$query->select(
-			'parent.title AS parent_category_title, parent.id AS parent_category_id,' .
-			'parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level'
-		)
-			->join('LEFT', '#__categories AS parent ON parent.id = c.parent_id');
-
-		// Join over the users for the author.
-		$query->select('ua.name AS author_name')
-			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
-
-		// Join over the associations.
-		$query->select($db->quoteName('wa.stage_id', 'stage_id'))
-			->innerJoin(
-				$db->quoteName('#__workflow_associations', 'wa')
-				. ' ON ' . $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id')
-			);
-
-		// Join over the workflow stages.
-		$query->select(
-			$db->quoteName(
 				[
-					'ws.title',
-					'ws.condition',
-					'ws.workflow_id'
-				],
-				[
-					'stage_title',
-					'stage_condition',
-					'workflow_id'
+					$db->quoteName('a.id'),
+					$db->quoteName('a.asset_id'),
+					$db->quoteName('a.title'),
+					$db->quoteName('a.alias'),
+					$db->quoteName('a.checked_out'),
+					$db->quoteName('a.checked_out_time'),
+					$db->quoteName('a.catid'),
+					$db->quoteName('a.state'),
+					$db->quoteName('a.access'),
+					$db->quoteName('a.created'),
+					$db->quoteName('a.created_by'),
+					$db->quoteName('a.created_by_alias'),
+					$db->quoteName('a.modified'),
+					$db->quoteName('a.ordering'),
+					$db->quoteName('a.featured'),
+					$db->quoteName('a.language'),
+					$db->quoteName('a.hits'),
+					$db->quoteName('a.publish_up'),
+					$db->quoteName('a.publish_down'),
+					$db->quoteName('a.introtext'),
+					$db->quoteName('a.note'),
+					$db->quoteName('fp.featured_up'),
+					$db->quoteName('fp.featured_down'),
+					$db->quoteName('fp.ordering'),
+					$db->quoteName('l.title', 'language_title'),
+					$db->quoteName('l.image', 'language_image'),
+					$db->quoteName('uc.name', 'editor'),
+					$db->quoteName('ag.title', 'access_level'),
+					$db->quoteName('c.title', 'category_title'),
+					$db->quoteName('c.created_user_id', 'category_uid'),
+					$db->quoteName('c.level', 'category_level'),
+					$db->quoteName('parent.title', 'parent_category_title'),
+					$db->quoteName('parent.id', 'parent_category_id'),
+					$db->quoteName('parent.created_user_id', 'parent_category_uid'),
+					$db->quoteName('parent.level', 'parent_category_level'),
+					$db->quoteName('ua.name', 'author_name'),
+					$db->quoteName('wa.stage_id', 'stage_id'),
+					$db->quoteName('ws.title', 'stage_title'),
+					$db->quoteName('ws.condition', 'stage_condition'),
+					$db->quoteName('ws.workflow_id', 'workflow_id'),
 				]
 			)
 		)
-			->innerJoin(
-				$db->quoteName('#__workflow_stages', 'ws')
-				. ' ON ' . $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id')
-			);
+			->from($db->quoteName('#__content', 'a'))
+			->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'))
+			->join('LEFT', $db->quoteName('#__content_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'))
+			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'))
+			->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'))
+			->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
+			->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'))
+			->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
+			->join('INNER', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
+			->join('INNER', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'));
 
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
-				COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count'
+			$query->select(
+				[
+					'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0), 0), 0)'
+						. ' AS ' . $db->quoteName('rating'),
+					'COALESCE(NULLIF(' . $db->quoteName('v.rating_count') . ', 0), 0) AS ' . $db->quoteName('rating_count'),
+				]
 			)
-				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+				->join('LEFT', $db->quoteName('#__content_rating', 'v'), $db->quoteName('a.id') . ' = ' . $db->quoteName('v.content_id'));
 		}
 
 		// Join over the associations.
