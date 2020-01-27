@@ -15,6 +15,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Component\Content\Site\Model\ArticlesModel;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -132,7 +133,7 @@ abstract class ArticlesLatestHelper
 			if ($access || \in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->link = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 			else
 			{

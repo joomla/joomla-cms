@@ -27,20 +27,20 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	/**
 	 * Check if state can be deleted
 	 *
-	 * @param   int  $stateID  Id of state to delete
+	 * @param   int  $id  Id of state to delete
 	 *
 	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
-	public static function canDeleteState($stateID)
+	public static function canDeleteState(int $id): bool
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('id')
 			->from($db->quoteName('#__content'))
-			->where('state = ' . (int) $stateID);
+			->where('state = ' . $id);
 		$db->setQuery($query);
 		$states = $db->loadResult();
 
@@ -58,7 +58,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 *
 	 * @since   4.0.0
 	 */
-	public static function filterTransitions($transitions, $pk, $workflow_id = 0): array
+	public static function filterTransitions(array $transitions, int $pk, int $workflow_id = 0): array
 	{
 		return array_values(
 			array_filter(
@@ -81,7 +81,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 *
 	 * @since   4.0.0
 	 */
-	public static function updateContentState($pks, $condition): bool
+	public static function updateContentState(array $pks, int $condition): bool
 	{
 		if (empty($pks))
 		{

@@ -28,6 +28,14 @@
 
   .controls {
     margin-left: 220px;
+
+    @include media-breakpoint-down(sm) {
+      margin-left: 0;
+
+      [dir=rtl] & {
+        margin-right: 0;
+      }
+    }	
   }
 }
 
@@ -37,14 +45,28 @@
   }
 }
 
+.col-md-9 .control-group .switcher__legend,
+.col-md-12 .control-group .switcher__legend {
+
+  @include media-breakpoint-down(sm) {
+    margin-left: 0;
+    float: none;
+
+    [dir=rtl] & {
+      margin-right: 0;
+    }
+  }	
+}
+
 .form-no-margin {
 
   .control-group {
 
     .controls {
       margin-left: 0;
+
       .switcher__legend {
-        float:none;
+        float: none;
         margin-left: 0;
       }
     }
@@ -59,6 +81,7 @@
   hr {
     width: 380px;
   }
+
   label {
     width: 440px;
   }
@@ -119,7 +142,7 @@ legend {
   position: relative;
 }
 
- /* set up hidden tooltip */
+/* set up hidden tooltip */
 [role="tooltip"]:not(.show) {
   display: none;
   padding: 0.25em;
@@ -128,9 +151,17 @@ legend {
   background: $black;
   max-width: 100%;
   z-index: $zindex-tooltip;
+
+  [dir=ltr] & {
+    text-align: left;
+  }
+
+  [dir=rtl] & {
+    text-align: right;
+  }
 }
 
- /* reveal associated tooltip on focus */
+/* reveal associated tooltip on focus */
 :focus + [role="tooltip"],
 :hover + [role="tooltip"] {
   display: block;
