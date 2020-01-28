@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.9.0</version>
 	<description>MOD_PRIVACY_DASHBOARD_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\PrivacyDashboard</namespace>
+	<namespace path="src">Joomla\Module\PrivacyDashboard</namespace>
 	<files>
 		<filename module="mod_privacy_dashboard">mod_privacy_dashboard.php</filename>
 		<folder>Helper</folder>

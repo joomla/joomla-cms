@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.9.0</version>
 	<description>MOD_LATESTACTIONS_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\LatestActions</namespace>
+	<namespace path="src">Joomla\Module\LatestActions</namespace>
 	<files>
 		<filename module="mod_latestactions">mod_latestactions.php</filename>
 		<folder>Helper</folder>
