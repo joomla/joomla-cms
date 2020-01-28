@@ -11,8 +11,8 @@
 	<description>PLG_QUICKICON_JOOMLAUPDATE_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Plugin\Quickicon\Joomlaupdate</namespace>
 	<files>
-		<folder>Extension</folder>
 		<folder>services</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_quickicon_joomlaupdate.ini</language>

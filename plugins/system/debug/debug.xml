@@ -12,7 +12,7 @@
 	<namespace path="src">Joomla\Plugin\System\Debug</namespace>
 	<files>
 		<filename plugin="debug">debug.php</filename>
-		<filename>debugmonitor.php</filename>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_system_debug.ini</language>
