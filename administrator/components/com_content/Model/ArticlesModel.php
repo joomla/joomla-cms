@@ -396,14 +396,15 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($authorId))
 		{
-			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
-			$query->where('a.created_by ' . $type . (int) $authorId);
+			$authorId = (int) $authorId;
+			$type = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
+			$query->where($db->quoteName('a.created_by') . $type . ':authorId')
+				->bind(':authorId', $authorId, ParameterType::INTEGER);
 		}
 		elseif (is_array($authorId))
 		{
 			$authorId = ArrayHelper::toInteger($authorId);
-			$authorId = implode(',', $authorId);
-			$query->where('a.created_by IN (' . $authorId . ')');
+			$query->whereIn($db->quoteName('a.created_by'), $authorId);
 		}
 
 		// Filter by search in title.
@@ -413,29 +414,38 @@ class ArticlesModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$search = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :search')
+					->bind(':search', $search, ParameterType::INTEGER);
 			}
 			elseif (stripos($search, 'author:') === 0)
 			{
-				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
-				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
+				$search = '%' . substr($search, 7) . '%';
+				$query->where('(' . $db->quoteName('ua.name') . ' LIKE :search1 OR ' . $db->quoteName('ua.username') . ' LIKE :search2)')
+					->bind([':search1', ':search2'], $search);
 			}
 			elseif (stripos($search, 'content:') === 0)
 			{
-				$search = $db->quote('%' . $db->escape(substr($search, 8), true) . '%');
-				$query->where('(a.introtext LIKE ' . $search . ' OR a.fulltext LIKE ' . $search . ')');
+				$search = '%' . substr($search, 8) . '%';
+				$query->where('(' . $db->quoteName('a.introtext') . ' LIKE :search1 OR ' . $db->quoteName('a.fulltext') . ' LIKE :search2)')
+					->bind([':search1', ':search2'], $search);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
+				$search = '%' . str_replace(' ', '%', trim($search)) . '%';
+				$query->where(
+					'(' . $db->quoteName('a.title') . ' LIKE :search1 OR ' . $db->quoteName('a.alias') . ' LIKE :search2'
+						.' OR ' . $db->quoteName('a.note') . ' LIKE :search3)'
+				)
+					->bind([':search1', ':search2', ':search3'], $search);
 			}
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = ' . $db->quote($language));
+			$query->where($db->quoteName('a.language') . ' = :language')
+				->bind(':language', $language);
 		}
 
 		// Filter by a single or group of tags.
