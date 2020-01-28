@@ -396,9 +396,10 @@ class ArticlesModel extends ListModel
 		}
 
 		// Case: Using only the by level filter
-		elseif ($level)
+		elseif ($level = (int) $level)
 		{
-			$query->where('c.level <= ' . (int) $level);
+			$query->where($db->quoteName('c.level') . ' <= :level')
+				->bind(':level', $level, ParameterType::INTEGER);
 		}
 
 		// Filter by author
@@ -507,12 +508,19 @@ class ArticlesModel extends ListModel
 		$orderCol  = $this->state->get('list.ordering', 'a.id');
 		$orderDirn = $this->state->get('list.direction', 'DESC');
 
-		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
+		if ($orderCol === 'a.ordering' || $orderCol === 'category_title')
 		{
-			$orderCol = $db->quoteName('c.title') . ' ' . $orderDirn . ', ' . $db->quoteName('a.ordering');
+			$ordering = [
+				$db->quoteName('c.title') . ' ' . $db->escape($orderDirn),
+				$db->quoteName('a.ordering') . ' ' . $db->escape($orderDirn),
+			];
+		}
+		else
+		{
+			$ordering = $db->quoteName($db->escape($orderCol)) . ' ' . $db->escape($orderDirn);
 		}
 
-		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
+		$query->order($ordering);
 
 		return $query;
 	}
