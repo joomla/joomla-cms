@@ -47,7 +47,7 @@ class CategoriesController extends ApiController
 	 */
 	public function displayItem($id = null)
 	{
-		$this->input->set('model_state', ['filter.extension' => $this->getExtensionFromInput()]);
+		$this->modelState->set('filter.extension', $this->getExtensionFromInput());
 
 		return parent::displayItem($id);
 	}
@@ -60,7 +60,7 @@ class CategoriesController extends ApiController
 	 */
 	public function displayList()
 	{
-		$this->input->set('model_state', ['filter.extension' => $this->getExtensionFromInput()]);
+		$this->modelState->set('filter.extension', $this->getExtensionFromInput());
 
 		return parent::displayList();
 	}
