@@ -286,6 +286,11 @@ class ItemsModel extends ListModel
 					$db->quoteName('a.client_id'),
 					$db->quoteName('a.publish_up'),
 					$db->quoteName('a.publish_down'),
+				]
+			)
+		)
+			->select(
+				[
 					$db->quoteName('l.title', 'language_title'),
 					$db->quoteName('l.image', 'language_image'),
 					$db->quoteName('l.sef', 'language_sef'),
@@ -296,13 +301,10 @@ class ItemsModel extends ListModel
 					$db->quoteName('mt.title', 'menutype_title'),
 					$db->quoteName('e.enabled'),
 					$db->quoteName('e.name'),
+					'CASE WHEN ' . $db->quoteName('a.type') . ' = ' . $db->quote('component')
+					. ' THEN ' . $db->quoteName('a.published') . ' +2 * (' . $db->quoteName('e.enabled') . ' -1)'
+					. ' ELSE ' . $db->quoteName('a.published') . ' END AS ' . $db->quoteName('published'),
 				]
-			)
-		)
-			->select(
-				'CASE WHEN ' . $db->quoteName('a.type') . ' = ' . $db->quote('component')
-				. ' THEN ' . $db->quoteName('a.published') . ' +2 * (' . $db->quoteName('e.enabled') . ' -1)'
-				. ' ELSE ' . $db->quoteName('a.published') . ' END AS ' . $db->quoteName('published')
 			)
 			->from($db->quoteName('#__menu', 'a'));
 
