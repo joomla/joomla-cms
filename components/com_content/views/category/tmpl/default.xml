@@ -26,6 +26,15 @@
 				edit="true"
 				clear="true"
 			/>
+
+			<field
+				name="filter_tag"
+				type="tag"
+				label="JTAG"
+				description="JTAG_FIELD_SELECT_DESC"
+				multiple="true"
+				mode="nested"
+			/>
 		</fieldset>
 	</fields>
 

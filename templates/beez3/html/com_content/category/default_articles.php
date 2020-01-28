@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.beez3
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,6 @@ $app = JFactory::getApplication();
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.framework');
 
-$params    = &$this->item->params;
 $n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -186,7 +185,7 @@ if (!empty($this->items))
 					<?php if ($isEditable) : ?>
 						<td class="list-edit">
 							<?php if ($article->params->get('access-edit')) : ?>
-								<?php echo JHtml::_('icon.edit', $article, $params, array(), true); ?>
+								<?php echo JHtml::_('icon.edit', $article, $article->params, array(), true); ?>
 							<?php endif; ?>
 						</td>
 					<?php endif; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,9 @@ $this->setHtml5(true);
 
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
+
+// Add template js
+JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
 
 // Add html5 shiv
 JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
