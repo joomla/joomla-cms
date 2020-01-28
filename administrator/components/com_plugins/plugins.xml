@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_PLUGINS_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Plugins</namespace>
+	<namespace path="src">Joomla\Component\Plugins</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>access.xml</filename>

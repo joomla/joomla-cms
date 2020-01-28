@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_CHECKIN_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Checkin</namespace>
+	<namespace path="src">Joomla\Component\Checkin</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>checkin.xml</filename>

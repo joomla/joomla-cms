@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_INSTALLER_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Installer</namespace>
+	<namespace path="src">Joomla\Component\Installer</namespace>
 	<media destination="com_installer" folder="media">
 		<folder>css</folder>
 		<folder>js</folder>

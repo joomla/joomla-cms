@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_MESSAGES_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Messages</namespace>
+	<namespace path="src">Joomla\Component\Messages</namespace>
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB/com_messages.ini</language>
 	</languages>

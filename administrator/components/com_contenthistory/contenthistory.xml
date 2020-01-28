@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_CONTENTHISTORY_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Contenthistory</namespace>
+	<namespace path="src">Joomla\Component\Contenthistory</namespace>
 	<files folder="site">
 			<folder>Controller</folder>
 			<folder>Dispatcher</folder>

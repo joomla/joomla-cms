@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_ASSOCIATIONS_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Associations</namespace>
+	<namespace path="src">Joomla\Component\Associations</namespace>
 	<media destination="com_associations" folder="media">
 		<folder>css</folder>
 		<folder>js</folder>

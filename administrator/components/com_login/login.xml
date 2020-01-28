@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_LOGIN_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Login</namespace>
+	<namespace path="src">Joomla\Component\Login</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>login.xml</filename>

@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_CPANEL_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Cpanel</namespace>
+	<namespace path="src">Joomla\Component\Cpanel</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>cpanel.xml</filename>

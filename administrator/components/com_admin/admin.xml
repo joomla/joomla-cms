@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_ADMIN_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Admin</namespace>
+	<namespace path="src">Joomla\Component\Admin</namespace>
 	<media />
 	<administration>
 		<files folder="admin">

@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_CONTENT_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Content</namespace>
+	<namespace path="src">Joomla\Component\Content</namespace>
 	<files folder="site">
 		<filename>router.php</filename>
 		<folder>Controller</folder>
