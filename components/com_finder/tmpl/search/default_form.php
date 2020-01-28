@@ -51,7 +51,7 @@ if ($this->params->get('show_autosuggest', 1))
 					</button>
 				<?php endif; ?>
 				<?php if ($this->params->get('show_advanced', 1)) : ?>
-					<a href="#advancedSearch" data-toggle="collapse" class="btn btn-secondary" aria-hidden="true">
+					<a href="#advancedSearch" data-toggle="collapse" class="btn btn-secondary">
 						<span class="fa fa-search-plus" aria-hidden="true"></span>
 						<?php echo Text::_('COM_FINDER_ADVANCED_SEARCH_TOGGLE'); ?></a>
 				<?php endif; ?>
