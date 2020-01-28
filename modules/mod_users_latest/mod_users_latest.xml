@@ -12,8 +12,8 @@
 	<namespace path="src">Joomla\Module\UsersLatest</namespace>
 	<files>
 		<filename module="mod_users_latest">mod_users_latest.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_users_latest.ini</language>

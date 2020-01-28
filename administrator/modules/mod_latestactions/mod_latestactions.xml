@@ -12,7 +12,7 @@
 	<namespace path="src">Joomla\Module\LatestActions</namespace>
 	<files>
 		<filename module="mod_latestactions">mod_latestactions.php</filename>
-		<folder>Helper</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

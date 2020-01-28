@@ -12,6 +12,7 @@
 	<namespace path="src">Joomla\Module\Multilangstatus</namespace>
 	<files>
 		<filename module="mod_multilangstatus">mod_multilangstatus.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 

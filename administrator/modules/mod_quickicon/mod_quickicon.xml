@@ -12,8 +12,9 @@
 	<namespace path="src">Joomla\Module\Quickicon</namespace>
 	<files>
 		<filename module="mod_quickicon">mod_quickicon.php</filename>
+		<folder>services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_quickicon.ini</language>

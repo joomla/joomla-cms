@@ -12,8 +12,8 @@
 	<namespace path="src">Joomla\Module\ArticlesArchive</namespace>
 	<files>
 		<filename module="mod_articles_archive">mod_articles_archive.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_articles_archive.ini</language>

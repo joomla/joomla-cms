@@ -12,8 +12,8 @@
 	<namespace path="src">Joomla\Module\StatsAdmin</namespace>
 	<files>
 		<filename module="mod_stats_admin">mod_stats_admin.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_stats.ini</language>

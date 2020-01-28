@@ -12,7 +12,7 @@
 	<namespace path="src">Joomla\Module\PrivacyStatus</namespace>
 	<files>
 		<filename module="mod_privacy_status">mod_privacy_status.php</filename>
-		<folder>Helper</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

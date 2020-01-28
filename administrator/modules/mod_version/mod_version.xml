@@ -12,8 +12,8 @@
 	<namespace path="src">Joomla\Module\Version</namespace>
 	<files>
 		<filename module="mod_version">mod_version.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.mod_version.ini</language>
