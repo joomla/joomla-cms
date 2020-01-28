@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Tags\Site\Service;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
@@ -19,7 +21,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.3
  */
-class TagsRouter extends RouterBase
+class Router extends RouterBase
 {
 	/**
 	 * Build the route for the com_tags component
