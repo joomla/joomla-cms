@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_QUICKICON_JOOMLAUPDATE_XML_DESCRIPTION</description>
-	<namespace>Joomla\Plugin\Quickicon\Joomlaupdate</namespace>
+	<namespace path="src">Joomla\Plugin\Quickicon\Joomlaupdate</namespace>
 	<files>
 		<folder>Extension</folder>
 		<folder>services</folder>
