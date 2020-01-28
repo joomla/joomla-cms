@@ -52,7 +52,7 @@ elseif ($this->params->get('siteTitle'))
 }
 else
 {
-	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg' . '" class="logo d-inline-block" alt="' . $sitename . '">';
+	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
 }
 
 $hasClass = '';
@@ -66,9 +66,6 @@ if ($this->countModules('sidebar-right'))
 {
 	$hasClass .= ' has-sidebar-right';
 }
-
-// Header bottom margin
-$headerMargin = !$this->countModules('banner') ? ' mb-4' : '';
 
 // Container
 $wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
@@ -122,16 +119,9 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			</nav>
 			<?php if ($this->countModules('banner')) : ?>
 			<div class="grid-child container-banner">
-				<jdoc:include type="modules" name="banner" style="xhtml" />
+				<jdoc:include type="modules" name="banner" style="html5" />
 			</div>
 			<?php endif; ?>
-			<div class="header-shadow"></div>
-			<div class="header-shape-bottom">
-				<canvas width="736" height="15"></canvas>
-				<svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 736 15">
-					<path d="M1040,301V285s-75,12-214,12-284-26-524,0v4Z" transform="translate(-302 -285)" fill="#fafafa"/>
-				</svg>
-			</div>
 		</header>
 	</div>
 

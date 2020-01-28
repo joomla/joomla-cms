@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);
@@ -55,25 +54,30 @@ extract($displayData);
  * @var   JLayoutFile  $this       Context
  */
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('stylesheet', 'media/vendor/tinymce/skins/ui/oxide/skin.min.css', array('version' => 'auto', 'relative' => false));
-HTMLHelper::_('stylesheet', 'plg_editors_tinymce/tinymce-builder.css', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('stylesheet', 'vendor/dragula/dragula.css', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'vendor/dragula/dragula.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'plg_editors_tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\Document\HtmlDocument $doc */
+$doc = Factory::getApplication()->getDocument();
+$wa  = $doc->getWebAssetManager();
 
+// Add assets
+$wa->registerAndUseStyle('tinymce.skin', 'media/vendor/tinymce/skins/ui/oxide/skin.min.css')
+	->registerAndUseStyle('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.css', [], [], ['tinymce.skin', 'dragula'])
+	->registerAndUseScript('plg_editors_tinymce.builder', 'plg_editors_tinymce/tinymce-builder.js', [], ['defer' => true], ['core', 'dragula'])
+	->useScript('bootstrap.js.bundle'); // Need for tabs, can be safely removed when tabs will be moved to CE
+
+// Add TinyMCE language file to translate the buttons
 if ($languageFile)
 {
-	HTMLHelper::_('script', $languageFile, array('version' => 'auto', 'relative' => false));
+	$wa->registerAndUseScript('tinymce.language', $languageFile, [], ['defer' => true]);
 }
 
-Factory::getDocument()->addScriptOptions('plg_editors_tinymce_builder',
-	array(
+// Add the builder options
+$doc->addScriptOptions('plg_editors_tinymce_builder',
+	[
 		'menus'         => $menus,
 		'buttons'       => $buttons,
 		'toolbarPreset' => $toolbarPreset,
 		'formControl'   => $name . '[toolbars]',
-	)
+	]
 );
 
 ?>

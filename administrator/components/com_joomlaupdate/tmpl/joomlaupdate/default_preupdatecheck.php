@@ -20,7 +20,7 @@ use Joomla\CMS\Language\Text;
 
 <div class="row">
 	<div class="col-md-6">
-		<fieldset class="options-grid-form options-grid-form-full">
+		<fieldset class="options-form">
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS'); ?>
 			</legend>
@@ -60,7 +60,7 @@ use Joomla\CMS\Language\Text;
 	</div>
 
 	<div class="col-md-6">
-		<fieldset class="options-grid-form options-grid-form-full">
+		<fieldset class="options-form">
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS'); ?>
 			</legend>
@@ -105,7 +105,7 @@ use Joomla\CMS\Language\Text;
 <div class="row">
 	<?php if (!empty($this->nonCoreExtensions)) : ?>
 	<div class="col-md-6">
-		<fieldset class="options-grid-form options-grid-form-full">
+		<fieldset class="options-form">
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
 			</legend>
@@ -148,7 +148,7 @@ use Joomla\CMS\Language\Text;
 	</div>
 	<?php endif; ?>
 	<div class="col-md-6">
-		<fieldset class="options-grid-form options-grid-form-full">
+		<fieldset class="options-form">
 			<legend>
 				<?php echo Text::_('NOTICE'); ?>
 			</legend>

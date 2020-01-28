@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
@@ -84,11 +84,11 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 								<?php
 								if (trim($item->branch_title, '**') === 'Language')
 								{
-									$title = FinderHelperLanguage::branchLanguageTitle($item->title);
+									$title = LanguageHelper::branchLanguageTitle($item->title);
 								}
 								else
 								{
-									$key = FinderHelperLanguage::branchSingular($item->title);
+									$key = LanguageHelper::branchSingular($item->title);
 									$title = $lang->hasKey($key) ? Text::_($key) : $item->title;
 								}
 								?>
