@@ -160,6 +160,8 @@
   }
 
   .fa,
+  .fas,
+  .far,
   .fab {
     font-size: 1.2rem;
     vertical-align: middle;
@@ -276,7 +278,8 @@
       height: 100%;
       border: 0;
 
-      .fa {
+      .fa,
+      .fas {
         margin: auto;
       }
 
