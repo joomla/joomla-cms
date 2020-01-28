@@ -148,7 +148,8 @@
     }
   }
 
-  .fa, .fas, .far, .fab {
+  .fa,
+  .fab {
     font-size: 1.2rem;
     vertical-align: middle;
     transition: all .2s ease-in-out;
@@ -264,7 +265,7 @@
       width: 3.8rem;
       height: 100%;
       border: 0;
-      .fas {
+      .fa {
         margin: auto;
       }
       &:hover {
