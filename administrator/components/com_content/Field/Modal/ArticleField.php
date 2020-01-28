@@ -163,7 +163,7 @@ class ArticleField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalNew' . $modalId . '">'
-				. '<span class="icon-new" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
+				. '<span class="fas fa-plus" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
 				. '</button>';
 		}
 
