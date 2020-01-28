@@ -21,12 +21,9 @@
 			<filename>joomlaupdate.xml</filename>
 			<filename>restore.php</filename>
 			<filename>restore_finalisation.php</filename>
-			<folder>Controller</folder>
-			<folder>Helper</folder>
-			<folder>Model</folder>
 			<folder>services</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_joomlaupdate.ini</language>

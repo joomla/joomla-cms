@@ -13,9 +13,8 @@
 	<namespace path="src">Joomla\Component\Wrapper</namespace>
 	<files folder="site">
 		<filename>router.php</filename>
-		<folder>Controller</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<folder>View</folder>
 	</files>
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB/com_wrapper.ini</language>

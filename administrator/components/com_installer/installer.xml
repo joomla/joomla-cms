@@ -19,15 +19,11 @@
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>installer.xml</filename>
-			<folder>Controller</folder>
-			<folder>Field</folder>
 			<folder>forms</folder>
-			<folder>Helper</folder>
 			<folder>helpers</folder>
-			<folder>Model</folder>
 			<folder>services</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_installer.ini</language>

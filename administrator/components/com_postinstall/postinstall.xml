@@ -15,12 +15,9 @@
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>postinstall.xml</filename>
-			<folder>Controller</folder>
-			<folder>Helper</folder>
-			<folder>Model</folder>
 			<folder>services</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_postinstall.ini</language>

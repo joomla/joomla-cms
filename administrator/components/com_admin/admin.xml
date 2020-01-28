@@ -15,16 +15,11 @@
 		<files folder="admin">
 			<filename>admin.xml</filename>
 			<filename>script.php</filename>
-			<folder>Controller</folder>
-			<folder>Dispatcher</folder>
-			<folder>Extension</folder>
 			<folder>forms</folder>
-			<folder>Model</folder>
 			<folder>postinstall</folder>
-			<folder>Service</folder>
 			<folder>services</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_admin.ini</language>

@@ -14,14 +14,11 @@
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
-			<folder>Controller</folder>
+			<filename>mails.xml</filename>
 			<folder>forms</folder>
-			<folder>Helper</folder>
-			<folder>Model</folder>
 			<folder>services</folder>
-			<folder>Table</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_mails.ini</language>

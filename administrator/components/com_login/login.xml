@@ -13,13 +13,9 @@
 	<administration>
 		<files folder="admin">
 			<filename>login.xml</filename>
-			<folder>Controller</folder>
-			<folder>Dispatcher</folder>
-			<folder>Extension</folder>
-			<folder>Model</folder>
 			<folder>services</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_login.ini</language>
