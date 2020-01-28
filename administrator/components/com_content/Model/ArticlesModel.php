@@ -373,13 +373,23 @@ class ArticlesModel extends ListModel
 			$categoryTable = Table::getInstance('Category', 'JTable');
 			$subCatItemsWhere = array();
 
-			foreach ($categoryId as $filter_catid)
+			foreach ($categoryId as $key => $filter_catid)
 			{
 				$categoryTable->load($filter_catid);
-				$subCatItemsWhere[] = '(' .
-					($level ? 'c.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
-					'c.lft >= ' . (int) $categoryTable->lft . ' AND ' .
-					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
+				$categoryWhere = '';
+
+				if ($level)
+				{
+					$categoryLevel = (int) $level + (int) $categoryTable->level - 1;
+					$categoryWhere = $db->quoteName('c.level') . ' <= :level' . $key . ' AND ';
+					$query->bind(':level' . $key, $categoryLevel, ParameterType::INTEGER);
+				}
+
+				$categoryWhere .= $db->quoteName('c.lft') . ' >= :lft' . $key . ' AND ' . $db->quoteName('c.rgt') . ' <= :rgt' . $key;
+				$query->bind(':lft' . $key, $categoryTable->lft, ParameterType::INTEGER)
+					->bind(':rgt' . $key, $categoryTable->rgt, ParameterType::INTEGER);
+
+				$subCatItemsWhere[] = '(' . $categoryWhere . ')';
 			}
 
 			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
