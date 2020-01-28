@@ -6,6 +6,7 @@
   li {
     padding: 0;
   }
+
   a {
     color: var(--atum-bg-dark-50);
     width: 100%;
@@ -25,10 +26,10 @@
       margin: 0 auto;
 
       &.big {
-            font-size: $quickicon-icon-size-big;
-          }
-       }
+        font-size: $quickicon-icon-size-big;
+      }
     }
+  }
 
   // Group link to the overview and link to the edit form in a container
   .quickicon-group {
@@ -41,21 +42,24 @@
       padding: 0;
     }
 
-    @media (max-width: 1350px)  {
+    @media (max-width: 1350px) {
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
       flex: 1 1 calc(50% - 1rem);
     }
+
     @media (max-width: 1150px) {
       width: calc(100% - 1rem);
       max-width: calc(100% - 1rem);
       flex: 1 1 calc(100% - 1rem);
     }
+
     @include media-breakpoint-down(sm) {
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
       flex: 1 1 calc(50% - 1rem);
     }
+
     @media (max-width: 430px) {
       width: calc(100% - 1rem);
       max-width: calc(100% - 1rem);
@@ -65,8 +69,8 @@
     .quickicon-linkadd {
       background-color: var(--atum-bg-light);
       width: 2rem;
-     }
     }
+  }
 
   // Single icon
   .quickicon-single {
@@ -87,16 +91,19 @@
       max-width: calc(50% - 1rem);
       flex: 1 1 calc(50% - 1rem);
     }
+
     @media (max-width: 1150px) {
       width: calc(100% - 1rem);
       max-width: calc(100% - 1rem);
       flex: 1 1 calc(100% - 1rem);
     }
+
     @include media-breakpoint-down(sm) {
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
       flex: 1 1 calc(50% - 1rem);
     }
+
     @media (max-width: 430px) {
       width: calc(100% - 1rem);
       max-width: calc(100% - 1rem);
@@ -121,6 +128,7 @@
         margin: .8rem auto 0;
 
         &.big {
+
           .fa,
           .fas,
           .far,
@@ -227,6 +235,7 @@
 }
 
 #cpanel-modules {
+
   .cpanel-quickicons,
   .cpanel {
     .card-columns {
@@ -243,6 +252,7 @@
 
 #wrapper.closed {
   .quick-icons {
+
     .quickicon-single,
     .quickicon-group {
       @media (max-width: 1180px) {
@@ -265,4 +275,3 @@
     }
   }
 }
-
