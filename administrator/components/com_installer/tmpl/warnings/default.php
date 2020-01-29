@@ -32,8 +32,8 @@ use Joomla\CMS\Router\Route;
 						</div>
 					<?php else: ?>
 						<div class="alert alert-info">
-							<h4 class="alert-heading"><?php echo Text::_('INFO'); ?></h4>
-							<p class="mb-0"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGS_NONE'); ?></p>
+							<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<?php echo Text::_('COM_INSTALLER_MSG_WARNINGS_NONE'); ?>
 						</div>
 					<?php endif; ?>
 					<div>
