@@ -21,7 +21,6 @@
 		</sql>
 	</uninstall>
 	<files folder="site">
-		<filename>router.php</filename>
 		<folder>Controller</folder>
 		<folder>Helper</folder>
 		<folder>helpers</folder>
