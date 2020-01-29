@@ -301,7 +301,7 @@ class LanguageAdapter extends InstallerAdapter
 			$this->parent
 				->setPath(
 					'source',
-					($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/language/' . $this->parent->extension->element
+					ApplicationHelper::getClientInfo($this->parent->extension->client_id)->path . '/language/' . $this->parent->extension->element
 				);
 		}
 
@@ -619,7 +619,6 @@ class LanguageAdapter extends InstallerAdapter
 		return $row->get('extension_id');
 	}
 
-
 	/**
 	 * Gets a unique language SEF string.
 	 *
@@ -818,43 +817,29 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	public function discover()
 	{
-		$results         = array();
-		$site_languages  = Folder::folders(JPATH_SITE . '/language');
-		$admin_languages = Folder::folders(JPATH_ADMINISTRATOR . '/language');
+		$results = array();
+		$clients = [0 => JPATH_SITE, 1 => JPATH_ADMINISTRATOR, 3 => JPATH_API];
 
-		foreach ($site_languages as $language)
+		foreach ($clients as $clientId => $basePath)
 		{
-			if (file_exists(JPATH_SITE . '/language/' . $language . '/' . $language . '.xml'))
-			{
-				$manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . '/language/' . $language . '/' . $language . '.xml');
-				$extension = Table::getInstance('extension');
-				$extension->set('type', 'language');
-				$extension->set('client_id', 0);
-				$extension->set('element', $language);
-				$extension->set('folder', '');
-				$extension->set('name', $language);
-				$extension->set('state', -1);
-				$extension->set('manifest_cache', json_encode($manifest_details));
-				$extension->set('params', '{}');
-				$results[] = $extension;
-			}
-		}
+			$languages = Folder::folders($basePath . '/language');
 
-		foreach ($admin_languages as $language)
-		{
-			if (file_exists(JPATH_ADMINISTRATOR . '/language/' . $language . '/' . $language . '.xml'))
+			foreach ($languages as $language)
 			{
-				$manifest_details = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . '/language/' . $language . '/' . $language . '.xml');
-				$extension = Table::getInstance('extension');
-				$extension->set('type', 'language');
-				$extension->set('client_id', 1);
-				$extension->set('element', $language);
-				$extension->set('folder', '');
-				$extension->set('name', $language);
-				$extension->set('state', -1);
-				$extension->set('manifest_cache', json_encode($manifest_details));
-				$extension->set('params', '{}');
-				$results[] = $extension;
+				if (file_exists($basePath . '/language/' . $language . '/' . $language . '.xml'))
+				{
+					$manifest_details = Installer::parseXMLInstallFile($basePath . '/language/' . $language . '/' . $language . '.xml');
+					$extension = Table::getInstance('extension');
+					$extension->set('type', 'language');
+					$extension->set('client_id', 0);
+					$extension->set('element', $language);
+					$extension->set('folder', '');
+					$extension->set('name', $language);
+					$extension->set('state', -1);
+					$extension->set('manifest_cache', json_encode($manifest_details));
+					$extension->set('params', '{}');
+					$results[] = $extension;
+				}
 			}
 		}
 
