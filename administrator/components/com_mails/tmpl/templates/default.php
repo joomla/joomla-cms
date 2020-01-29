@@ -57,20 +57,35 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="break-word">
-									<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
+									<div class="dropdown">
+										<a class="dropdown-toggle" href="#" role="button" id="mTemplate<?php echo $i; ?>" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+											<?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
+										</a>
+										<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+											<?php foreach ($this->languages as $language) : ?>
+												<a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">
+													<?php if (in_array($language->lang_code, $item->languages)) : ?>
+														<?php echo JText::sprintf('COM_MAILS_LIST_EDIT_TEMPLATE', $language->title); ?>
+													<?php else: ?>
+														<?php echo JText::sprintf('COM_MAILS_LIST_CREATE_TEMPLATE', $language->title); ?>
+													<?php endif; ?>
+												</a>
+											<?php endforeach; ?>
+										</div>
+									</div>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo Text::_($component); ?>
 								</td>
 								<td class="d-md-table-cell">
 									<?php foreach ($this->languages as $language) : ?>
-										<a href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">
+										<?php if (in_array($language->lang_code, $item->languages)) : ?>
 											<?php if ($language->image) : ?>
 												<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
 											<?php else : ?>
 												<span class="badge badge-secondary"><?php echo strtoupper($language->sef); ?></span>
 											<?php endif; ?>
-										</a>
+										<?php endif; ?>
 									<?php endforeach; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
