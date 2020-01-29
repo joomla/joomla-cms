@@ -285,7 +285,7 @@ class UpdatesitesModel extends InstallerModel
 			return;
 		}
 
-		$clients               = [JPATH_SITE, JPATH_ADMINISTRATOR];
+		$clients               = [JPATH_SITE, JPATH_ADMINISTRATOR, JPATH_API];
 		$extensionGroupFolders = ['components', 'modules', 'plugins', 'templates', 'language', 'manifests'];
 
 		$pathsToSearch = [];
