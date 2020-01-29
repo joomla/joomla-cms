@@ -23,7 +23,7 @@ class Router extends RouterBase
 	/**
 	 * Build the route for the com_wrapper component
 	 *
-	 * @param   array  &$query  An array of URL arguments
+	 * @param   array  $query  An array of URL arguments
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 *
@@ -42,7 +42,7 @@ class Router extends RouterBase
 	/**
 	 * Parse the segments of a URL.
 	 *
-	 * @param   array  &$segments  The segments of the URL to parse.
+	 * @param   array  $segments  The segments of the URL to parse.
 	 *
 	 * @return  array  The URL attributes to be used by the application.
 	 *
