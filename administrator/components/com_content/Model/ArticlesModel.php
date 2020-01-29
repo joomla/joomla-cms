@@ -229,6 +229,11 @@ class ArticlesModel extends ListModel
 					$db->quoteName('a.publish_down'),
 					$db->quoteName('a.introtext'),
 					$db->quoteName('a.note'),
+				]
+			)
+		)
+			->select(
+				[
 					$db->quoteName('fp.featured_up'),
 					$db->quoteName('fp.featured_down'),
 					$db->quoteName('fp.ordering'),
@@ -250,7 +255,6 @@ class ArticlesModel extends ListModel
 					$db->quoteName('ws.workflow_id', 'workflow_id'),
 				]
 			)
-		)
 			->from($db->quoteName('#__content', 'a'))
 			->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
 			->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'))
