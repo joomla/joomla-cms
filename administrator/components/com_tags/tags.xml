@@ -12,7 +12,6 @@
 	<namespace>Joomla\Component\Tags</namespace>
 	<files folder="site">
 		<folder>Controller</folder>
-		<filename>router.php</filename>
 		<folder>Helper</folder>
 		<folder>helpers</folder>
 		<folder>models</folder>
