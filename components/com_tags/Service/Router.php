@@ -11,9 +11,11 @@ namespace Joomla\Component\Tags\Site\Service;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterBase;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -23,6 +25,23 @@ use Joomla\Utilities\ArrayHelper;
  */
 class Router extends RouterBase
 {
+	/**
+	 * Tags Component router constructor
+	 *
+	 * @param   SiteApplication           $app              The application object
+	 * @param   AbstractMenu              $menu             The menu object to work with
+	 * @param   CategoryFactoryInterface  $categoryFactory  The category object
+	 * @param   DatabaseInterface         $db               The database object
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function __construct(SiteApplication $app, AbstractMenu $menu, CategoryFactoryInterface $categoryFactory = null, DatabaseInterface $db)
+	{
+		$this->db = $db;
+
+		parent::__construct($app, $menu);
+	}
+
 	/**
 	 * Build the route for the com_tags component
 	 *
@@ -174,17 +193,15 @@ class Router extends RouterBase
 	 */
 	protected function fixSegment($segment)
 	{
-		$db = Factory::getDbo();
-
 		// Try to find tag id
 		$alias = str_replace(':', '-', $segment);
 
-		$query = $db->getQuery(true)
+		$query = $this->db->getQuery(true)
 			->select('id')
-			->from($db->quoteName('#__tags'))
-			->where($db->quoteName('alias') . " = " . $db->quote($alias));
+			->from($this->db->quoteName('#__tags'))
+			->where($this->db->quoteName('alias') . " = " . $this->db->quote($alias));
 
-		$id = $db->setQuery($query)->loadResult();
+		$id = $this->db->setQuery($query)->loadResult();
 
 		if ($id)
 		{
