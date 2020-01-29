@@ -220,7 +220,6 @@ class ArticlesModel extends ListModel
 					$db->quoteName('a.created_by_alias'),
 					$db->quoteName('a.modified'),
 					$db->quoteName('a.modified_by'),
-					$db->quoteName('uam.name', 'modified_by_name'),
 					// Use created if publish_up is null
 					'CASE WHEN ' . $db->quoteName('a.publish_up') . ' IS NULL THEN ' . $db->quoteName('a.created')
 						. ' ELSE ' . $db->quoteName('a.publish_up') . ' END AS ' . $db->quoteName('publish_up'),
@@ -234,8 +233,6 @@ class ArticlesModel extends ListModel
 					$db->quoteName('a.access'),
 					$db->quoteName('a.hits'),
 					$db->quoteName('a.featured'),
-					$db->quoteName('fp.featured_up'),
-					$db->quoteName('fp.featured_down'),
 					$db->quoteName('a.language'),
 					$query->length($db->quoteName('a.fulltext')) . ' AS ' . $db->quoteName('readmore'),
 					$db->quoteName('a.ordering'),
@@ -244,6 +241,8 @@ class ArticlesModel extends ListModel
 		)
 			->select(
 				[
+					$db->quoteName('fp.featured_up'),
+					$db->quoteName('fp.featured_down'),
 					$db->quoteName('wa.stage_id', 'stage_id'),
 					$db->quoteName('ws.title', 'state_title'),
 					$db->quoteName('ws.condition', 'stage_condition'),
@@ -262,6 +261,7 @@ class ArticlesModel extends ListModel
 					'CASE WHEN ' . $db->quoteName('a.created_by_alias') . ' > ' . $db->quote(' ') . ' THEN ' . $db->quoteName('a.created_by_alias')
 						. ' ELSE ' . $db->quoteName('ua.name') . ' END AS ' . $db->quoteName('author'),
 					$db->quoteName('ua.email', 'author_email'),
+					$db->quoteName('uam.name', 'modified_by_name'),
 					$db->quoteName('parent.title', 'parent_title'),
 					$db->quoteName('parent.id', 'parent_id'),
 					$db->quoteName('parent.path', 'parent_route'),
