@@ -95,20 +95,53 @@ class ArticleModel extends ItemModel
 			try
 			{
 				$db = $this->getDbo();
-				$query = $db->getQuery(true)
-					->select(
-						$this->getState(
-							'item.select', 'a.id, a.asset_id, a.title, a.alias, a.introtext, a.fulltext, ' .
-							'a.state, a.catid, a.created, a.created_by, a.created_by_alias, ' .
-							'a.modified, a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
-							'a.images, a.urls, a.attribs, a.version, a.ordering, ' .
-							'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, fp.featured_up, fp.featured_down, a.language'
-						)
-					);
-				$query->from('#__content AS a')
-					->where('a.id = ' . (int) $pk);
+				$query = $db->getQuery(true);
 
-				$query->select($db->quoteName('ws.condition'))
+				$query->select(
+						$this->getState(
+							'item.select',
+							[
+								$db->quoteName('a.id'),
+								$db->quoteName('a.asset_id'),
+								$db->quoteName('a.title'),
+								$db->quoteName('a.alias'),
+								$db->quoteName('a.introtext'),
+								$db->quoteName('a.fulltext'),
+								$db->quoteName('a.state'),
+								$db->quoteName('a.catid'),
+								$db->quoteName('a.created'),
+								$db->quoteName('a.created_by'),
+								$db->quoteName('a.created_by_alias'),
+								$db->quoteName('a.modified'),
+								$db->quoteName('a.modified_by'),
+								$db->quoteName('a.checked_out'),
+								$db->quoteName('a.checked_out_time'),
+								$db->quoteName('a.publish_up'),
+								$db->quoteName('a.publish_down'),
+								$db->quoteName('a.images'),
+								$db->quoteName('a.urls'),
+								$db->quoteName('a.attribs'),
+								$db->quoteName('a.version'),
+								$db->quoteName('a.ordering'),
+								$db->quoteName('a.metakey'),
+								$db->quoteName('a.metadesc'),
+								$db->quoteName('a.access'),
+								$db->quoteName('a.hits'),
+								$db->quoteName('a.metadata'),
+								$db->quoteName('a.featured'),
+								$db->quoteName('a.language'),
+							]
+						)
+					)
+						->select(
+							[
+								$db->quoteName('fp.featured_up'),
+								$db->quoteName('fp.featured_down'),
+								$db->quoteName('ws.condition'),
+							]
+						)
+					->from($db->quoteName('#__content', 'a'))
+					->where($db->quoteName('a.id') . ' = ' . (int) $pk)
 					->join(
 						'INNER',
 						$db->quoteName('#__workflow_associations', 'wa'),
