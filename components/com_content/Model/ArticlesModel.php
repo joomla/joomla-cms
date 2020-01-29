@@ -239,6 +239,11 @@ class ArticlesModel extends ListModel
 					$db->quoteName('a.language'),
 					$query->length($db->quoteName('a.fulltext')) . ' AS ' . $db->quoteName('readmore'),
 					$db->quoteName('a.ordering'),
+				]
+			)
+		)
+			->select(
+				[
 					$db->quoteName('wa.stage_id', 'stage_id'),
 					$db->quoteName('ws.title', 'state_title'),
 					$db->quoteName('ws.condition', 'stage_condition'),
@@ -264,7 +269,6 @@ class ArticlesModel extends ListModel
 					$db->quoteName('parent.language', 'parent_language'),
 				]
 			)
-		)
 			->from($db->quoteName('#__content', 'a'))
 			->join('LEFT', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
 			->join('LEFT', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
