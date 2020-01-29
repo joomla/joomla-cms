@@ -94,7 +94,7 @@ abstract class JHtmlJGrid
 
 			if ($active_class === 'protected')
 			{
-				$html[] = '<span class="icon-lock" aria-hidden="true"></span>';
+				$html[] = '<span class="fas fa-lock" aria-hidden="true"></span>';
 			}
 			else
 			{
