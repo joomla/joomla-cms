@@ -831,7 +831,7 @@ class LanguageAdapter extends InstallerAdapter
 					$manifest_details = Installer::parseXMLInstallFile($basePath . '/language/' . $language . '/' . $language . '.xml');
 					$extension = Table::getInstance('extension');
 					$extension->set('type', 'language');
-					$extension->set('client_id', 0);
+					$extension->set('client_id', $clientId);
 					$extension->set('element', $language);
 					$extension->set('folder', '');
 					$extension->set('name', $language);
