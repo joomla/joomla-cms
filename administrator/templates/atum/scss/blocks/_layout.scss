@@ -24,8 +24,9 @@
       background: transparent;
     }
   }
-  a{
-    &:hover{
+
+  a {
+    &:hover {
       color: var(--atum-text-light);
       background-color: var(--atum-bg-dark);
     }
@@ -33,18 +34,18 @@
 }
 
 .options-form {
-	background-color: var(--white);
-	color: var(--atum-text-dark);
-	padding: 1rem;
-	margin-bottom: 1rem;
-	box-shadow: $atum-box-shadow;
-	width: 100%;
+  background-color: var(--white);
+  color: var(--atum-text-dark);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: $atum-box-shadow;
+  width: 100%;
 
-	> legend {
-		font-weight: bold;
-		padding: 0 .5rem;
-		background-color: var(--atum-bg-dark);
-		color: var(--atum-text-light);
-		width: auto;
-	}
+  > legend {
+    font-weight: bold;
+    padding: 0 .5rem;
+    background-color: var(--atum-bg-dark);
+    color: var(--atum-text-light);
+    width: auto;
+  }
 }
