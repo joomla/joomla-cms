@@ -12,7 +12,6 @@
 	<description>COM_WRAPPER_XML_DESCRIPTION</description>
 	<namespace>Joomla\Component\Wrapper</namespace>
 	<files folder="site">
-		<filename>router.php</filename>
 		<folder>Controller</folder>
 		<folder>tmpl</folder>
 		<folder>View</folder>
