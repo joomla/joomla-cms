@@ -197,9 +197,10 @@ class Router extends RouterBase
 		$alias = str_replace(':', '-', $segment);
 
 		$query = $this->db->getQuery(true)
-			->select('id')
+			->select($this->db->quoteName('id'))
 			->from($this->db->quoteName('#__tags'))
-			->where($this->db->quoteName('alias') . " = " . $this->db->quote($alias));
+			->where($this->db->quoteName('alias') . ' = :alias')
+			->bind(':alias', $alias);
 
 		$id = $this->db->setQuery($query)->loadResult();
 
