@@ -7,7 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Component\Wrapper\Site\Service;
+
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\Router\RouterBase;
 
@@ -16,7 +18,7 @@ use Joomla\CMS\Component\Router\RouterBase;
  *
  * @since  3.3
  */
-class WrapperRouter extends RouterBase
+class Router extends RouterBase
 {
 	/**
 	 * Build the route for the com_wrapper component
