@@ -346,6 +346,9 @@ class ArticleModel extends ItemModel
 	 */
 	public function storeVote($pk = 0, $rate = 0)
 	{
+		$pk   = (int) $pk;
+		$rate = (int) $rate;
+
 		if ($rate >= 1 && $rate <= 5 && $pk > 0)
 		{
 			$userIP = IpHelper::getIp();
@@ -357,7 +360,8 @@ class ArticleModel extends ItemModel
 			// Create the base select statement.
 			$query->select('*')
 				->from($db->quoteName('#__content_rating'))
-				->where($db->quoteName('content_id') . ' = ' . (int) $pk);
+				->where($db->quoteName('content_id') . ' = :pk')
+				->bind(':pk', $pk, ParameterType::INTEGER);
 
 			// Set the query and load the result.
 			$db->setQuery($query);
@@ -381,8 +385,18 @@ class ArticleModel extends ItemModel
 
 				// Create the base insert statement.
 				$query->insert($db->quoteName('#__content_rating'))
-					->columns([$db->quoteName('content_id'), $db->quoteName('lastip'), $db->quoteName('rating_sum'), $db->quoteName('rating_count')])
-					->values((int) $pk . ', ' . $db->quote($userIP) . ',' . (int) $rate . ', 1');
+					->columns(
+						[
+							$db->quoteName('content_id'),
+							$db->quoteName('lastip'),
+							$db->quoteName('rating_sum'),
+							$db->quoteName('rating_count'),
+						]
+					)
+					->values(':pk, :ip, :rate, 1')
+					->bind(':pk', $pk, ParameterType::INTEGER)
+					->bind(':ip', $userIP)
+					->bind(':rate', $rate, ParameterType::INTEGER);
 
 				// Set the query and execute the insert.
 				$db->setQuery($query);
@@ -406,10 +420,17 @@ class ArticleModel extends ItemModel
 
 					// Create the base update statement.
 					$query->update($db->quoteName('#__content_rating'))
-						->set($db->quoteName('rating_count') . ' = rating_count + 1')
-						->set($db->quoteName('rating_sum') . ' = rating_sum + ' . (int) $rate)
-						->set($db->quoteName('lastip') . ' = ' . $db->quote($userIP))
-						->where($db->quoteName('content_id') . ' = ' . (int) $pk);
+						->set(
+							[
+								$db->quoteName('rating_count') . ' = ' . $db->quoteName('rating_count') . ' + 1',
+								$db->quoteName('rating_sum') . ' = ' . $db->quoteName('rating_sum') . ' + :rate',
+								$db->quoteName('lastip') . ' = :ip',
+							]
+						)
+						->where($db->quoteName('content_id') . ' = :pk')
+						->bind(':rate', $rate, ParameterType::INTEGER)
+						->bind(':ip', $userIP)
+						->bind(':pk', $pk, ParameterType::INTEGER);
 
 					// Set the query and execute the update.
 					$db->setQuery($query);
