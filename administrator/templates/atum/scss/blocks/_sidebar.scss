@@ -516,12 +516,10 @@
     bottom: 20px;
     right: 10px;
     z-index: $zindex-mobile-toggle;
-
     [dir=rtl] & {
       right: auto;
       left: 10px;
-    } 
-    
+    }
     .navbar-toggler-icon {
       color: var(--toggle-color);
 
@@ -537,7 +535,6 @@
         content: "\f0c9";
       }
     }
-
   }
 
   .sidebar-menu {
