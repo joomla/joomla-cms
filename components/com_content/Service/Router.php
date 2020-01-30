@@ -49,7 +49,7 @@ class Router extends RouterView
 	/**
 	 * The category cache
 	 *
-	 * @var array
+	 * @var  array
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -271,9 +271,9 @@ class Router extends RouterView
 	/**
 	 * Method to get categories from cache
 	 *
-	 * @param   array   $options    The options for retrieving categories
+	 * @param   array  $options   The options for retrieving categories
 	 *
-	 * @return  CategoryInterface   The object containing categories
+	 * @return  CategoryInterface  The object containing categories
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
