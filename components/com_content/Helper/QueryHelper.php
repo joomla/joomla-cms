@@ -212,6 +212,8 @@ class QueryHelper
 	 * @return  array  A named array with "select" and "join" keys.
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated  5.0  Not used in core, deprecated without replacement
 	 */
 	public static function buildVotingQuery($params = null)
 	{
