@@ -150,7 +150,8 @@ class ArticleModel extends ItemModel
 							$db->quoteName('parent.path', 'parent_route'),
 							$db->quoteName('parent.alias', 'parent_alias'),
 							$db->quoteName('parent.language', 'parent_language'),
-							'ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0)' . ' AS ' . $db->quoteName('rating'),
+							'ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0) AS '
+								. $db->quoteName('rating'),
 							$db->quoteName('v.rating_count', 'rating_count'),
 						]
 					)
@@ -173,7 +174,7 @@ class ArticleModel extends ItemModel
 					->join('LEFT', $db->quoteName('#__content_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'))
 					->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('a.created_by'))
 					->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'))
-					->join('LEFT', $db->quoteName('#__content_rating', 'v'), $db->quoteName('a.id') .' = ' . $db->quoteName('v.content_id'))
+					->join('LEFT', $db->quoteName('#__content_rating', 'v'), $db->quoteName('a.id') . ' = ' . $db->quoteName('v.content_id'))
 					->where(
 						[
 							$db->quoteName('a.id') . ' = :pk',
@@ -181,7 +182,7 @@ class ArticleModel extends ItemModel
 							$db->quoteName('c.published') . ' > 0',
 						]
 					)
-						->bind(':pk', $pk, ParameterType::INTEGER);
+					->bind(':pk', $pk, ParameterType::INTEGER);
 
 				// Filter by language
 				if ($this->getState('filter.language'))
