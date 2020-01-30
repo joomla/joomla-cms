@@ -148,7 +148,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
     // Submit the form.
     // Create the input type="submit"
     const button = document.createElement('input');
-    button.style.display = 'none';
+    button.classList.add('hidden');
     button.type = 'submit';
 
     // Append it and click it
@@ -540,7 +540,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       }
 
       // Fix Chrome bug not updating element height
-      messageContainer.style.display = 'none';
+      messageContainer.classList.add('hidden');
       delete messageContainer.offsetHeight;
       messageContainer.style.display = '';
     }

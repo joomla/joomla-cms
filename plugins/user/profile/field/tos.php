@@ -14,6 +14,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Provides input for TOS
@@ -86,9 +88,11 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
-			$query->select('id, alias, catid, language')
-				->from('#__content')
-				->where('id = ' . $tosArticle);
+
+			$query->select($db->quoteName(['id', 'alias', 'catid', 'language']))
+				->from($db->quoteName('#__content'))
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':id', $tosArticle, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
@@ -101,7 +105,7 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 
 			if (isset($tosAssociated) && $currentLang !== $article->language && array_key_exists($currentLang, $tosAssociated))
 			{
-				$url  = ContentHelperRoute::getArticleRoute(
+				$url  = RouteHelper::getArticleRoute(
 					$tosAssociated[$currentLang]->id,
 					$tosAssociated[$currentLang]->catid,
 					$tosAssociated[$currentLang]->language
@@ -111,14 +115,14 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 			else
 			{
 				$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
+				$url  = RouteHelper::getArticleRoute($slug, $article->catid, $article->language);
 				$link = HTMLHelper::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
 			}
 
 			echo HTMLHelper::_(
 				'bootstrap.renderModal',
 				'tosModal',
-				array(
+				[
 					'url'    => Route::_($url . '&tmpl=component'),
 					'title'  => $text,
 					'height' => '100%',
@@ -127,7 +131,7 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 					'bodyHeight'  => '500',
 					'footer' => '<button type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
 						. Text::_("JLIB_HTML_BEHAVIOR_CLOSE") . '</button>'
-				)
+				]
 			);
 		}
 		else

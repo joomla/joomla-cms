@@ -10,25 +10,20 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /** @var JDocumentHtml $this */
 
 $lang = Factory::getLanguage();
+$wa   = $this->getWebAssetManager();
 
-// Add JavaScript Frameworks
-HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
+// Enable assets
+$wa->useStyle('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+	->useStyle('template.active.language')
+	->useStyle('template.user');
 
-// Load template CSS file
-HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'vendor/fontawesome-free/fontawesome.min.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
+// Override 'template.active' asset to set correct ltr/rtl dependency
+$wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
-// Load custom CSS file
-HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
-
-// Load specific language related CSS
-HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 ?>
 
 <!DOCTYPE html>
