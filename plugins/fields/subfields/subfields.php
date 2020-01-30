@@ -10,10 +10,9 @@
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin;
 
 defined('_JEXEC') or die;
-
-JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRATOR);
 
 /**
  * Fields subfields Plugin
