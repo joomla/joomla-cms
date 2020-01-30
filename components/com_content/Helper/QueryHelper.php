@@ -213,7 +213,7 @@ class QueryHelper
 	 *
 	 * @since   1.5
 	 *
-	 * @deprecated  5.0  Not used in core, deprecated without replacement
+	 * @deprecated  5.0  Deprecated without replacement, not used in core
 	 */
 	public static function buildVotingQuery($params = null)
 	{
