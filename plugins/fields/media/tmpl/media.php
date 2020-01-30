@@ -23,16 +23,29 @@ if ($class)
 $value  = (array) $field->value;
 $buffer = '';
 
-foreach ($value as $path)
+foreach ($value as $imagedata)
 {
-	if (!$path)
+
+	if (!$imagedata)
 	{
 		continue;
 	}
+	
+	$path = $imagedata;
+	$alt = ' alt=""';
+	
+	// Parameter alt_text is set to YES
+	if (json_decode($imagedata, true) !== null)
+	{
+		$accessiblemedia = json_decode($imagedata, true)['accessiblemedia'];
+		$path = $accessiblemedia['imagefile'];
+		$alt = $accessiblemedia['alt_text'];
+	}
 
-	$buffer .= sprintf('<img src="%s"%s>',
+	$buffer .= sprintf('<img src="%s"%s%s>',
 		htmlentities($path, ENT_COMPAT, 'UTF-8', true),
-		$class
+		$class,
+		$alt
 	);
 }
 
