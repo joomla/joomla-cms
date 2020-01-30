@@ -6,7 +6,9 @@
 }
 
 .control-group {
-  margin-bottom: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 0 1rem 0;
 
   > .form-check {
     display: inline-block;
@@ -19,16 +21,25 @@
   }
 
   .control-label {
-    float: left;
-    width: 220px;
-    padding-top: 5px;
-    padding-right: 5px;
-    text-align: left;
+    width: 240px;
+    padding: .3rem 0;
   }
 
   .controls {
-    margin-left: 220px;
+    position: relative;
+    flex: 1;
+    min-width: 210px;
+
+    + div {
+      width: 100%;
+      margin: 5px 0 10px;
+    }
   }
+
+  .form-vertical & {
+    flex-direction: column;
+  }
+
 }
 
 .control-group {
@@ -37,28 +48,11 @@
   }
 }
 
-.form-no-margin {
-
-  .control-group {
-
-    .controls {
-      margin-left: 0;
-      .switcher__legend {
-        float:none;
-        margin-left: 0;
-      }
-    }
-
-    .control-label {
-      float: none;
-    }
-  }
-}
-
 .spacer {
   hr {
     width: 380px;
   }
+
   label {
     width: 440px;
   }
@@ -113,13 +107,7 @@ legend {
   opacity: 0.3;
 }
 
-// Search Input Tooltip
-/* make the containers relative */
-.control-group > .controls {
-  position: relative;
-}
-
- /* set up hidden tooltip */
+/* set up hidden tooltip */
 [role="tooltip"]:not(.show) {
   display: none;
   padding: 0.25em;
@@ -138,7 +126,7 @@ legend {
   }
 }
 
- /* reveal associated tooltip on focus */
+/* reveal associated tooltip on focus */
 :focus + [role="tooltip"],
 :hover + [role="tooltip"] {
   display: block;

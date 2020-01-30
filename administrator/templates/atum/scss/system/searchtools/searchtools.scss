@@ -9,17 +9,22 @@
   .js-stools .js-stools-container-filters {
     display: block;
   }
+
   .js-stools .js-stools-container-filters .btn-group {
     display: block;
   }
+
   .js-stools .js-stools-container-filters .btn-wrapper {
     width: 100%
   }
+
   .js-stools .js-stools-container-bar {
     margin-top: 20px;
   }
 }
+
 @media (min-width: 768px) and (max-width: 979px) {
+
   .js-stools .js-stools-container-selector,
   .js-stools .js-stools-container-bar,
   .js-stools .js-stools-container-list {
@@ -74,8 +79,7 @@
 
     margin: 0 .5rem .5rem;
 
-    @include media-breakpoint-down(sm)
-    {
+    @include media-breakpoint-down(sm) {
       width: 100%;
     }
 
@@ -85,6 +89,10 @@
         color: var(--white);
         background: $custom-select-bg $custom-select-indicator-active no-repeat right center;
         background-size: $custom-select-bg-size;
+
+        [dir=rtl] & {
+          background: $custom-select-bg $custom-select-indicator-active-rtl no-repeat left center;
+        }
       }
 
       option {
@@ -233,13 +241,13 @@
       justify-content: flex-end;
 
       .js-stools-btn-filter {
-        border:1px solid var(--border);
+        border: 1px solid var(--border);
       }
 
       .js-stools-btn-clear {
         background-color: var(--atum-bg-dark);
         color: var(--atum-text-light);
-        border:1px solid var(--border);
+        border: 1px solid var(--border);
         border-left: 1px solid var(--atum-text-light);
 
         [dir=rtl] & {
@@ -257,13 +265,14 @@
         &:disabled {
           background-color: rgba($gray-300, 0.8);
           border-color: rgba($gray-500, 0.8);
-          opacity:1;
-          color:var(--atum-text-dark);
+          opacity: 1;
+          color: var(--atum-text-dark);
           cursor: not-allowed;
         }
       }
+
       .js-stools-btn-filter {
-        border-right:1px solid var(--border);
+        border-right: 1px solid var(--border);
 
         .fa {
           margin-left: 0.25rem;
@@ -271,12 +280,12 @@
       }
 
       .form-control {
-        height:auto;
+        height: auto;
       }
     }
 
     .js-stools-field-list {
-      margin-bottom:0;
+      margin-bottom: 0;
 
       .custom-select {
         box-shadow: none;

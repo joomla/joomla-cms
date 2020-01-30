@@ -38,11 +38,9 @@ if ($module->content) :
 	// Get the module icon
 	$headerIcon = '';
 
-	$margin = Factory::getLanguage()->isRtl() ? ' ml-2' : ' mr-2';
-
 	if (!empty($params->get('header_icon')))
 	{
-		$headerIcon = '<span class="' . htmlspecialchars($params->get('header_icon')) .  $margin . '" aria-hidden="true"></span>';
+		$headerIcon = '<span class="' . htmlspecialchars($params->get('header_icon')) . '" aria-hidden="true"></span>';
 	}
 	?>
 	<div class="module-wrapper">
@@ -70,7 +68,10 @@ if ($module->content) :
 					<?php endif; ?>
 
 					<?php if ($module->showtitle) : ?>
-						<h2<?php echo $headerClass; ?>><?php echo $headerIcon . htmlspecialchars($module->title); ?></h2>
+						<h2 <?php echo $headerClass; ?>>
+							<?php echo $headerIcon; ?>
+							<?php echo htmlspecialchars($module->title); ?>
+						</h2>
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>

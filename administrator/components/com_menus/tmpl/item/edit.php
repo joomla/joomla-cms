@@ -50,7 +50,7 @@ if ($clientId === 1)
 
 	<?php // Add the translation of the menu item title when client is administrator ?>
 	<?php if ($clientId === 1 && $this->item->id != 0) : ?>
-		<div class="row title-alias form-vertical form-no-margin mb-3">
+		<div class="row title-alias form-vertical mb-3">
 			<div class="col-12">
 				<div class="control-group">
 					<div class="control-label">
