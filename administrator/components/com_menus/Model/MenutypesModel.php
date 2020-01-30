@@ -120,8 +120,8 @@ class MenutypesModel extends BaseDatabaseModel
 						if (isset($option->request['option']))
 						{
 							$componentLanguageFolder = JPATH_ADMINISTRATOR . '/components/' . $option->request['option'];
-							$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-								|| $lang->load($option->request['option'] . '.sys', $componentLanguageFolder, null, false, true);
+							$lang->load($option->request['option'] . '.sys', JPATH_ADMINISTRATOR)
+								|| $lang->load($option->request['option'] . '.sys', $componentLanguageFolder);
 						}
 					}
 				}
@@ -532,8 +532,8 @@ class MenutypesModel extends BaseDatabaseModel
 			if (is_dir($folder . '/html/' . $component . '/' . $view))
 			{
 				$template = basename($folder);
-				$lang->load('tpl_' . $template . '.sys', $client->path, null, false, true)
-				|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, null, false, true);
+				$lang->load('tpl_' . $template . '.sys', $client->path)
+				|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template);
 
 				$templateLayouts = Folder::files($folder . '/html/' . $component . '/' . $view, '.xml$', false, true);
 
