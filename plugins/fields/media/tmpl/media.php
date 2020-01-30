@@ -39,7 +39,7 @@ foreach ($value as $imagedata)
 	{
 		$accessiblemedia = json_decode($imagedata, true)['accessiblemedia'];
 		$path = $accessiblemedia['imagefile'];
-		$alt = ' alt="' . $accessiblemedia['alt_text'] . '"';
+		$alt = ' alt="' . htmlentities($accessiblemedia['alt_text'], ENT_COMPAT, 'UTF-8', true) . '"';
 	}
 
 	$buffer .= sprintf('<img src="%s"%s%s>',
