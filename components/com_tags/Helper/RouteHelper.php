@@ -13,14 +13,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\RouteHelper;
+use Joomla\CMS\Helper\RouteHelper as CMSRouteHelper;
 
 /**
  * Tags Component Route Helper.
  *
  * @since  3.1
  */
-class TagsHelperRoute extends RouteHelper
+class RouteHelper extends CMSRouteHelper
 {
 	/**
 	 * Lookup-table for menu items
@@ -71,7 +71,7 @@ class TagsHelperRoute extends RouteHelper
 		if ($link === '')
 		{
 			// Create a fallback link in case we can't find the component router
-			$router = new RouteHelper;
+			$router = new CMSRouteHelper;
 			$link = $router->getRoute($contentItemId, $typeAlias, $link, $language, $contentCatId);
 		}
 

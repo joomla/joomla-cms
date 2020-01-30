@@ -16,12 +16,14 @@ use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
+use PHPMailer\PHPMailer\Exception as phpMailerException;
 
 // Uncomment the following line to enable debug mode (update notification email sent every single time)
 // define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);
@@ -283,7 +285,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 				$mailer->setBody($email_body);
 				$mailer->Send();
 			}
-			catch (\Exception $exception)
+			catch (MailDisabledException | phpMailerException $exception)
 			{
 				try
 				{
