@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\IpHelper;
 
@@ -83,7 +84,7 @@ class ArticleModel extends ItemModel
 	{
 		$user = Factory::getUser();
 
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
+		$pk = (int) ($pk ?: $this->getState('article.id'));
 
 		if ($this->_item === null)
 		{
@@ -172,18 +173,18 @@ class ArticleModel extends ItemModel
 					->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'))
 					->where(
 						[
-							$db->quoteName('a.id') . ' = ' . (int) $pk,
+							$db->quoteName('a.id') . ' = :pk',
 							$db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'),
 							$db->quoteName('c.published') . ' > 0',
 						]
-					);
+					)
+						->bind(':pk', $pk, ParameterType::INTEGER);
 
 				// Filter by language
 				if ($this->getState('filter.language'))
 				{
-					$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+					$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
 				}
-
 
 				// Join on voting table
 				$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
@@ -194,12 +195,24 @@ class ArticleModel extends ItemModel
 				)
 				{
 					// Filter by start and end dates.
-					$date = Factory::getDate();
+					$nowDate = Factory::getDate()->toSql();
 
-					$nowDate = $db->quote($date->toSql());
-
-					$query->where('(a.publish_up IS NULL OR a.publish_up <= ' . $nowDate . ')')
-						->where('(a.publish_down IS NULL OR a.publish_down >= ' . $nowDate . ')');
+					$query->extendWhere(
+						'AND',
+						['a.publish_up IS NULL',
+							'a.publish_up <= :publishUp',
+						],
+						'OR'
+					)
+						->extendWhere(
+							'AND',
+							[
+								'a.publish_down IS NULL',
+								'a.publish_down >= :publishDown',
+							],
+							'OR'
+						)
+						->bind([':publishUp', ':publishDown'], $nowDate);
 				}
 
 				// Filter by published state.
