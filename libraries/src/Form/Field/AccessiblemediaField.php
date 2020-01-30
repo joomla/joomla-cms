@@ -1,0 +1,49 @@
+<?php
+/**
+ * Joomla! Content Management System
+ *
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace Joomla\CMS\Form\Field;
+
+\defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Field\SubformField;
+
+/**
+ * The Field to load the form inside current form
+ *
+ * @since  3.6
+ */
+class AccessiblemediaField extends SubformField
+{
+	/**
+	 * Form source
+	 * @var string
+	 */
+	protected $formsource = JPATH_SITE . '/plugins/fields/media/accessiblemedia/accessiblemedia.xml';
+	/**
+	 * Method to attach a Form object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.6
+	 */
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
+	{
+		parent::setup($element, $value, $group);
+
+		$file = JPATH_ROOT . '/plugins/fields/media/accessiblemedia/accessiblemedia.xml';
+
+		$this->formsource = Path::clean($file);
+
+		return true;
+	}
+}
