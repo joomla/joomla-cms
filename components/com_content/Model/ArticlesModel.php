@@ -497,7 +497,7 @@ class ArticlesModel extends ListModel
 			if ($authorId)
 			{
 				$type        = $this->getState('filter.author_id.include', true) ? ' IN' : ' NOT IN';
-				$authorWhere = $db->quoteName('a.created_by') . $type . '(' . implode(',', $query->bindArray($authorId)) . ')';
+				$authorWhere = $db->quoteName('a.created_by') . $type . ' (' . implode(',', $query->bindArray($authorId)) . ')';
 			}
 		}
 
