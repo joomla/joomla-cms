@@ -98,50 +98,60 @@ class ArticleModel extends ItemModel
 				$query = $db->getQuery(true);
 
 				$query->select(
-						$this->getState(
-							'item.select',
-							[
-								$db->quoteName('a.id'),
-								$db->quoteName('a.asset_id'),
-								$db->quoteName('a.title'),
-								$db->quoteName('a.alias'),
-								$db->quoteName('a.introtext'),
-								$db->quoteName('a.fulltext'),
-								$db->quoteName('a.state'),
-								$db->quoteName('a.catid'),
-								$db->quoteName('a.created'),
-								$db->quoteName('a.created_by'),
-								$db->quoteName('a.created_by_alias'),
-								$db->quoteName('a.modified'),
-								$db->quoteName('a.modified_by'),
-								$db->quoteName('a.checked_out'),
-								$db->quoteName('a.checked_out_time'),
-								$db->quoteName('a.publish_up'),
-								$db->quoteName('a.publish_down'),
-								$db->quoteName('a.images'),
-								$db->quoteName('a.urls'),
-								$db->quoteName('a.attribs'),
-								$db->quoteName('a.version'),
-								$db->quoteName('a.ordering'),
-								$db->quoteName('a.metakey'),
-								$db->quoteName('a.metadesc'),
-								$db->quoteName('a.access'),
-								$db->quoteName('a.hits'),
-								$db->quoteName('a.metadata'),
-								$db->quoteName('a.featured'),
-								$db->quoteName('a.language'),
-							]
-						)
+					$this->getState(
+						'item.select',
+						[
+							$db->quoteName('a.id'),
+							$db->quoteName('a.asset_id'),
+							$db->quoteName('a.title'),
+							$db->quoteName('a.alias'),
+							$db->quoteName('a.introtext'),
+							$db->quoteName('a.fulltext'),
+							$db->quoteName('a.state'),
+							$db->quoteName('a.catid'),
+							$db->quoteName('a.created'),
+							$db->quoteName('a.created_by'),
+							$db->quoteName('a.created_by_alias'),
+							$db->quoteName('a.modified'),
+							$db->quoteName('a.modified_by'),
+							$db->quoteName('a.checked_out'),
+							$db->quoteName('a.checked_out_time'),
+							$db->quoteName('a.publish_up'),
+							$db->quoteName('a.publish_down'),
+							$db->quoteName('a.images'),
+							$db->quoteName('a.urls'),
+							$db->quoteName('a.attribs'),
+							$db->quoteName('a.version'),
+							$db->quoteName('a.ordering'),
+							$db->quoteName('a.metakey'),
+							$db->quoteName('a.metadesc'),
+							$db->quoteName('a.access'),
+							$db->quoteName('a.hits'),
+							$db->quoteName('a.metadata'),
+							$db->quoteName('a.featured'),
+							$db->quoteName('a.language'),
+						]
 					)
-						->select(
-							[
-								$db->quoteName('fp.featured_up'),
-								$db->quoteName('fp.featured_down'),
-								$db->quoteName('ws.condition'),
-							]
-						)
+				)
+					->select(
+						[
+							$db->quoteName('fp.featured_up'),
+							$db->quoteName('fp.featured_down'),
+							$db->quoteName('ws.condition'),
+							$db->quoteName('c.title', 'category_title'),
+							$db->quoteName('c.alias', 'category_alias'),
+							$db->quoteName('c.access', 'category_access'),
+							$db->quoteName('c.language', 'category_language'),
+							$db->quoteName('fp.ordering'),
+							$db->quoteName('u.name', 'author'),
+							$db->quoteName('parent.title', 'parent_title'),
+							$db->quoteName('parent.id', 'parent_id'),
+							$db->quoteName('parent.path', 'parent_route'),
+							$db->quoteName('parent.alias', 'parent_alias'),
+							$db->quoteName('parent.language', 'parent_language'),
+						]
+					)
 					->from($db->quoteName('#__content', 'a'))
-					->where($db->quoteName('a.id') . ' = ' . (int) $pk)
 					->join(
 						'INNER',
 						$db->quoteName('#__workflow_associations', 'wa'),
@@ -152,22 +162,21 @@ class ArticleModel extends ItemModel
 						$db->quoteName('#__workflow_stages', 'ws'),
 						$db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id')
 					)
-					->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'));
-
-				// Join on category table.
-				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access,' .
-					'c.language AS category_language'
-				)
-					->innerJoin('#__categories AS c on c.id = a.catid')
-					->where('c.published > 0');
-
-				// Join over the front page table.
-				$query->select('fp.ordering')
-					->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
-
-				// Join on user table.
-				$query->select('u.name AS author')
-					->join('LEFT', '#__users AS u on u.id = a.created_by');
+					->join(
+						'INNER',
+						$db->quoteName('#__categories', 'c'),
+						$db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid')
+					)
+					->join('LEFT', $db->quoteName('#__content_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'))
+					->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('a.created_by'))
+					->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'))
+					->where(
+						[
+							$db->quoteName('a.id') . ' = ' . (int) $pk,
+							$db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'),
+							$db->quoteName('c.published') . ' > 0',
+						]
+					);
 
 				// Filter by language
 				if ($this->getState('filter.language'))
@@ -175,11 +184,6 @@ class ArticleModel extends ItemModel
 					$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 				}
 
-				// Join over the categories to get parent category titles
-				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route,' .
-					'parent.alias as parent_alias, parent.language as parent_language'
-				)
-					->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
 				// Join on voting table
 				$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
