@@ -10,13 +10,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Date\Date;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -27,12 +28,12 @@ use Joomla\Utilities\ArrayHelper;
 class PlgUserProfile extends CMSPlugin
 {
 	/**
-	 * Date of birth.
+	 * Application object.
 	 *
-	 * @var    string
-	 * @since  3.1
+	 * @var    JApplicationCms
+	 * @since  4.0
 	 */
-	private $date = '';
+	protected $app;
 
 	/**
 	 * Load the language file on instantiation.
@@ -41,6 +42,22 @@ class PlgUserProfile extends CMSPlugin
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * Date of birth.
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	private $date = '';
+
+	/**
+	 * Database object
+	 *
+	 * @var    DatabaseInterface
+	 * @since  4.0
+	 */
+	protected $db;
 
 	/**
 	 * Constructor
@@ -69,7 +86,7 @@ class PlgUserProfile extends CMSPlugin
 	public function onContentPrepareData($context, $data)
 	{
 		// Check we are manipulating a valid form.
-		if (!in_array($context, array('com_users.profile', 'com_users.user', 'com_users.registration', 'com_admin.profile')))
+		if (!in_array($context, ['com_users.profile', 'com_users.user', 'com_users.registration', 'com_admin.profile']))
 		{
 			return true;
 		}
@@ -81,24 +98,25 @@ class PlgUserProfile extends CMSPlugin
 			if (!isset($data->profile) && $userId > 0)
 			{
 				// Load the profile data from the database.
-				$db = Factory::getDbo();
+				$db    = $this->db;
 				$query = $db->getQuery(true)
 					->select(
-						array(
+						[
 							$db->quoteName('profile_key'),
 							$db->quoteName('profile_value'),
-						)
+						]
 					)
-					->from('#__user_profiles')
-					->where($db->quoteName('user_id') . ' = ' . $db->quote((int) $userId))
+					->from($db->quoteName('#__user_profiles'))
+					->where($db->quoteName('user_id') . ' = :userid')
 					->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'))
-					->order($db->quoteName('ordering'));
+					->order($db->quoteName('ordering'))
+					->bind(':userid', $userId, ParameterType::INTEGER);
 
 				$db->setQuery($query);
 				$results = $db->loadRowList();
 
 				// Merge the profile data.
-				$data->profile = array();
+				$data->profile = [];
 
 				foreach ($results as $v)
 				{
@@ -114,22 +132,22 @@ class PlgUserProfile extends CMSPlugin
 
 			if (!HTMLHelper::isRegistered('users.url'))
 			{
-				HTMLHelper::register('users.url', array(__CLASS__, 'url'));
+				HTMLHelper::register('users.url', [__CLASS__, 'url']);
 			}
 
 			if (!HTMLHelper::isRegistered('users.calendar'))
 			{
-				HTMLHelper::register('users.calendar', array(__CLASS__, 'calendar'));
+				HTMLHelper::register('users.calendar', [__CLASS__, 'calendar']);
 			}
 
 			if (!HTMLHelper::isRegistered('users.tos'))
 			{
-				HTMLHelper::register('users.tos', array(__CLASS__, 'tos'));
+				HTMLHelper::register('users.tos', [__CLASS__, 'tos']);
 			}
 
 			if (!HTMLHelper::isRegistered('users.dob'))
 			{
-				HTMLHelper::register('users.dob', array(__CLASS__, 'dob'));
+				HTMLHelper::register('users.dob', [__CLASS__, 'dob']);
 			}
 		}
 
@@ -235,7 +253,7 @@ class PlgUserProfile extends CMSPlugin
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
 
-		if (!in_array($name, array('com_admin.profile', 'com_users.user', 'com_users.profile', 'com_users.registration')))
+		if (!in_array($name, ['com_admin.profile', 'com_users.user', 'com_users.profile', 'com_users.registration']))
 		{
 			return true;
 		}
@@ -244,7 +262,7 @@ class PlgUserProfile extends CMSPlugin
 		Form::addFormPath(__DIR__ . '/profiles');
 		$form->loadFile('profile');
 
-		$fields = array(
+		$fields = [
 			'address1',
 			'address2',
 			'city',
@@ -257,12 +275,10 @@ class PlgUserProfile extends CMSPlugin
 			'aboutme',
 			'dob',
 			'tos',
-		);
+		];
 
 		// Change fields description when displayed in frontend or backend profile editing
-		$app = Factory::getApplication();
-
-		if ($app->isClient('site') || $name === 'com_users.user' || $name === 'com_admin.profile')
+		if ($this->app->isClient('site') || $name === 'com_users.user' || $name === 'com_admin.profile')
 		{
 			$form->setFieldAttribute('address1', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
 			$form->setFieldAttribute('address2', 'description', 'PLG_USER_PROFILE_FILL_FIELD_DESC_SITE', 'profile');
@@ -385,8 +401,8 @@ class PlgUserProfile extends CMSPlugin
 		}
 
 		// Check that the tos is checked if required ie only in registration from frontend.
-		$task       = Factory::getApplication()->input->getCmd('task');
-		$option     = Factory::getApplication()->input->getCmd('option');
+		$task       = $this->app->input->getCmd('task');
+		$option     = $this->app->input->getCmd('option');
 		$tosArticle = $this->params->get('register_tos_article');
 		$tosEnabled = ($this->params->get('register-require_tos', 0) == 2);
 
@@ -415,7 +431,7 @@ class PlgUserProfile extends CMSPlugin
 
 		if ($userId && $result && isset($data['profile']) && count($data['profile']))
 		{
-			$db = Factory::getDbo();
+			$db = $this->db;
 
 			// Sanitize the date
 			if (!empty($data['profile']['dob']))
@@ -428,20 +444,21 @@ class PlgUserProfile extends CMSPlugin
 			foreach ($keys as &$key)
 			{
 				$key = 'profile.' . $key;
-				$key = $db->quote($key);
 			}
 
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__user_profiles'))
-				->where($db->quoteName('user_id') . ' = ' . (int) $userId)
-				->where($db->quoteName('profile_key') . ' IN (' . implode(',', $keys) . ')');
+				->where($db->quoteName('user_id') . ' = :userid')
+				->whereIn($db->quoteName('profile_key'), $keys, ParameterType::STRING)
+				->bind(':userid', $userId, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$db->execute();
 
 			$query->clear()
 				->select($db->quoteName('ordering'))
 				->from($db->quoteName('#__user_profiles'))
-				->where($db->quoteName('user_id') . ' = ' . (int) $userId);
+				->where($db->quoteName('user_id') . ' = :userid')
+				->bind(':userid', $userId, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$usedOrdering = $db->loadColumn();
 
@@ -456,7 +473,25 @@ class PlgUserProfile extends CMSPlugin
 					$order++;
 				}
 
-				$query->values(implode(', ', $db->quote([$userId, 'profile.' . $k, json_encode($v), $order++])));
+				$query->values(
+					implode(
+						',',
+						$query->bindArray(
+							[
+								$userId,
+								'profile.' . $k,
+								json_encode($v),
+								$order++
+							],
+							[
+								ParameterType::INTEGER,
+								ParameterType::STRING,
+								ParameterType::STRING,
+								ParameterType::INTEGER
+							]
+						)
+					)
+				);
 			}
 
 			$db->setQuery($query);
@@ -488,11 +523,12 @@ class PlgUserProfile extends CMSPlugin
 
 		if ($userId)
 		{
-			$db = Factory::getDbo();
+			$db = $this->db;
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__user_profiles'))
-				->where($db->quoteName('user_id') . ' = ' . $db->quote((int) $userId))
-				->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'));
+				->where($db->quoteName('user_id') . ' = :userid')
+				->where($db->quoteName('profile_key') . ' LIKE ' . $db->quote('profile.%'))
+				->bind('userid', $userId, ParameterType::INTEGER);
 
 			$db->setQuery($query);
 			$db->execute();

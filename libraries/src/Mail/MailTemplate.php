@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
@@ -151,6 +152,7 @@ class MailTemplate
 	 * @return  boolean  True on success
 	 *
 	 * @since   4.0.0
+	 * @throws  MailDisabledException
 	 * @throws  phpmailerException
 	 */
 	public function send()
