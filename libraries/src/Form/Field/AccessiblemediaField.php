@@ -16,15 +16,10 @@ use Joomla\CMS\Form\Field\SubformField;
 /**
  * The Field to load the form inside current form
  *
- * @since  3.6
+ * @since  __DEPLOY_VERSION__
  */
 class AccessiblemediaField extends SubformField
 {
-	/**
-	 * Form source
-	 * @var string
-	 */
-	protected $formsource = JPATH_SITE . '/plugins/fields/media/accessiblemedia/accessiblemedia.xml';
 	/**
 	 * Method to attach a Form object to the field.
 	 *
@@ -34,7 +29,7 @@ class AccessiblemediaField extends SubformField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   3.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
