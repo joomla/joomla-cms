@@ -20,12 +20,6 @@ body {
   }
 }
 
-.control-group {
-  .custom-select {
-    float: right;
-  }
-}
-
 .dropdown-menu-right {
 
   &::after {
@@ -47,10 +41,6 @@ body {
 
 .switcher {
   float: right;
-}
-
-.form-no-margin .control-group .controls .switcher__legend {
-  text-align: right;
 }
 
 // Alerts
