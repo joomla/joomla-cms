@@ -38,7 +38,7 @@ class AccessiblemediaField extends SubformField
 		$file = __DIR__ . '/accessiblemedia/accessiblemedia.xml';
 
 		$this->formsource = Path::clean($file);
-		$this->layout = 'joomla.form.field.subform.repeatable';
+		$this->layout = 'joomla.form.field.media.accessiblemedia';
 
 		return true;
 	}
