@@ -86,7 +86,7 @@ class MediaControllerFile extends JControllerLegacy
 				return false;
 			}
 
-			// No files wered provided.
+			// No files were provided.
 			$this->setMessage(JText::_('COM_MEDIA_ERROR_UPLOAD_INPUT'), 'warning');
 
 			return false;
