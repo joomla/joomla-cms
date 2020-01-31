@@ -135,7 +135,7 @@ class ReportsModel extends ListModel
 		if (!empty($directive))
 		{
 			$query->where($db->quoteName('a.directive') . ' = :directive')
-				->bind(':directive', $directive, ParameterType::STRING);
+				->bind(':directive', $directive);
 		}
 
 		// Filter by search in title
