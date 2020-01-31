@@ -5,7 +5,7 @@
 ((Joomla) => {
   'use strict';
 
-  if (window.parent.Joomla) {
+  if (!window.parent.Joomla) {
     throw new Error('core.js was not properly initialised');
   }
 
