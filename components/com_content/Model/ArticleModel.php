@@ -200,16 +200,16 @@ class ArticleModel extends ItemModel
 					$query->extendWhere(
 						'AND',
 						[
-							'a.publish_up IS NULL',
-							'a.publish_up <= :publishUp',
+							$db->quoteName('a.publish_up') . ' IS NULL',
+							$db->quoteName('a.publish_up') . ' <= :publishUp',
 						],
 						'OR'
 					)
 						->extendWhere(
 							'AND',
 							[
-								'a.publish_down IS NULL',
-								'a.publish_down >= :publishDown',
+								$db->quoteName('a.publish_down') . ' IS NULL',
+								$db->quoteName('a.publish_down') . ' >= :publishDown',
 							],
 							'OR'
 						)
