@@ -45,6 +45,9 @@ class MediaControllerFile extends JControllerLegacy
 		$return       = JFactory::getSession()->get('com_media.return_url');
 		$this->folder = $this->input->get('folder', '', 'path');
 
+		// Instantiate the media helper
+		$mediaHelper = new JHelperMedia;
+
 		// Don't redirect to an external URL.
 		if (!JUri::isInternal($return))
 		{
@@ -60,9 +63,6 @@ class MediaControllerFile extends JControllerLegacy
 		{
 			$this->setRedirect('index.php?option=com_media&folder=' . $this->folder);
 		}
-
-		// Instantiate the media helper
-		$mediaHelper = new JHelperMedia;
 
 		// First check against unfiltered input.
 		if (!$this->input->files->get('Filedata', null, 'RAW'))
