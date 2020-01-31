@@ -696,7 +696,7 @@
 				type="media"
 				label="COM_CONTENT_FIELD_INTRO_LABEL"
 			/>
-			
+
 			<field
 				name="float_intro"
 				type="list"
