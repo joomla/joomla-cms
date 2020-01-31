@@ -56,4 +56,3 @@ foreach ($formfields as $formfield)
 	<?php echo $field->renderField(); ?>
 <?php endforeach; ?>
 </div>
-
