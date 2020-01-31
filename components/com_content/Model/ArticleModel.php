@@ -199,7 +199,8 @@ class ArticleModel extends ItemModel
 
 					$query->extendWhere(
 						'AND',
-						['a.publish_up IS NULL',
+						[
+							'a.publish_up IS NULL',
 							'a.publish_up <= :publishUp',
 						],
 						'OR'
