@@ -89,7 +89,7 @@ if ($showPreview)
 
 	$img = HTMLHelper::_('image', $src, Text::_('JLIB_FORM_MEDIA_PREVIEW_ALT'), $imgattr);
 
-	$previewImg = '<div id="' . $id . '_preview_img"' . '>' . $img . '</div>';
+	$previewImg = '<div id="' . $id . '_preview_img">' . $img . '</div>';
 	$previewImgEmpty = '<div id="' . $id . '_preview_empty"' . ($src ? ' class="hidden"' : '') . '>'
 		. Text::_('JLIB_FORM_MEDIA_PREVIEW_EMPTY') . '</div>';
 

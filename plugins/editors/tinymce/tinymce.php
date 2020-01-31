@@ -594,10 +594,12 @@ class PlgEditorTinymce extends CMSPlugin
 				'image_title'        => true,
 				'height'             => $html_height,
 				'width'              => $html_width,
+				'elementpath'        => (bool) $levelParams->get('element_path', true),
 				'resize'             => $resizing,
 				'templates'          => $templates,
 				'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
 				'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
+				'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
 
 				// Drag and drop specific
 				'dndEnabled' => $dragdrop,
@@ -639,20 +641,6 @@ class PlgEditorTinymce extends CMSPlugin
 			array('title' => 'Tag', 'value' => 'tag'),
 		);
 
-		/**
-		 * Shrink the buttons if not on a mobile or if mobile view is off.
-		 * If mobile view is on force into simple mode and enlarge the buttons
-		 */
-		if (!$this->app->client->mobile)
-		{
-			$scriptOptions['toolbar_items_size'] = 'small';
-		}
-		elseif ($levelParams->get('mobile', 0))
-		{
-			$scriptOptions['menubar'] = false;
-			unset($scriptOptions['toolbar2']);
-		}
-
 		$options['tinyMCE']['default'] = $scriptOptions;
 
 		$doc->addScriptOptions('plg_editor_tinymce', $options);
@@ -669,7 +657,10 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	private function _toogleButton($name)
 	{
-		return LayoutHelper::render('joomla.tinymce.togglebutton', $name);
+		if (!$this->app->client->mobile)
+		{
+			return LayoutHelper::render('joomla.tinymce.togglebutton', $name);
+		}
 	}
 
 	/**
@@ -959,6 +950,9 @@ class PlgEditorTinymce extends CMSPlugin
 			'outdent'       => array('label' => 'Decrease indent'),
 			'indent'        => array('label' => 'Increase indent'),
 
+			'forecolor'     => array('label' => 'Text colour'),
+			'backcolor'     => array('label' => 'Background text colour'),
+
 			'bullist'       => array('label' => 'Bullet list'),
 			'numlist'       => array('label' => 'Numbered list'),
 
@@ -989,6 +983,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'nonbreaking'    => array('label' => 'Nonbreaking space', 'plugin' => 'nonbreaking'),
 			'emoticons'      => array('label' => 'Emoticons', 'plugin' => 'emoticons'),
 			'media'          => array('label' => 'Insert/edit video', 'plugin' => 'media'),
+			'image'          => array('label' => 'Insert/edit image', 'plugin' => 'image'),
 			'pagebreak'      => array('label' => 'Page break', 'plugin' => 'pagebreak'),
 			'print'          => array('label' => 'Print', 'plugin' => 'print'),
 			'preview'        => array('label' => 'Preview', 'plugin' => 'preview'),

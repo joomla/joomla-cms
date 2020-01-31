@@ -11,7 +11,7 @@ namespace Joomla\Component\Finder\Administrator\Service\HTML;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
 defined('_JEXEC') or die;
 
@@ -93,7 +93,7 @@ class Query
 				foreach ($nodes as $title => $id)
 				{
 					// Translate the title for Types
-					$key = FinderHelperLanguage::branchPlural($title);
+					$key = LanguageHelper::branchPlural($title);
 
 					if ($lang->hasKey($key))
 					{
@@ -108,7 +108,7 @@ class Query
 
 					// Add the node to the explanation.
 					$parts[] = '<span class="query-taxonomy">'
-						. Text::sprintf('COM_FINDER_QUERY_TAXONOMY_NODE', $title, Text::_(FinderHelperLanguage::branchSingular($branch)))
+						. Text::sprintf('COM_FINDER_QUERY_TAXONOMY_NODE', $title, Text::_(LanguageHelper::branchSingular($branch)))
 						. '</span>';
 				}
 			}

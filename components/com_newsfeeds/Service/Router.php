@@ -21,6 +21,7 @@ use Joomla\CMS\Component\Router\Rules\NomenuRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 
 /**
  * Routing class from com_newsfeeds
@@ -142,10 +143,12 @@ class Router extends RouterView
 	{
 		if (!strpos($id, ':'))
 		{
+			$id      = (int) $id;
 			$dbquery = $this->db->getQuery(true);
 			$dbquery->select($this->db->quoteName('alias'))
 				->from($this->db->quoteName('#__newsfeeds'))
-				->where('id = ' . $this->db->quote((int) $id));
+				->where($this->db->quoteName('id') . ' = :id')
+				->bind(':id', $id, ParameterType::INTEGER);
 			$this->db->setQuery($dbquery);
 
 			$id .= ':' . $this->db->loadResult();
@@ -228,8 +231,14 @@ class Router extends RouterView
 			$dbquery = $this->db->getQuery(true);
 			$dbquery->select($this->db->quoteName('id'))
 				->from($this->db->quoteName('#__newsfeeds'))
-				->where('alias = ' . $this->db->quote($segment))
-				->where('catid = ' . $this->db->quote($query['id']));
+				->where(
+					[
+						$this->db->quoteName('alias') . ' = :segment',
+						$this->db->quoteName('catid') . ' = :id',
+					]
+				)
+				->bind(':segment', $segment)
+				->bind(':id', $query['id'], ParameterType::INTEGER);
 			$this->db->setQuery($dbquery);
 
 			return (int) $this->db->loadResult();
