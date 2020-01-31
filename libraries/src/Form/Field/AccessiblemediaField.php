@@ -21,6 +21,156 @@ use Joomla\CMS\Form\Field\SubformField;
 class AccessiblemediaField extends SubformField
 {
 	/**
+	 * The form field type.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $type = 'Accessiblemedia';
+
+	/**
+	 * The authorField.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $authorField;
+
+	/**
+	 * The asset.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $asset;
+
+	/**
+	 * The link.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $link;
+
+	/**
+	 * Modal width.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $width;
+
+	/**
+	 * Modal height.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $height;
+
+	/**
+	 * The preview.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $preview;
+
+	/**
+	 * The directory.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $directory;
+
+	/**
+	 * The previewWidth.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $previewWidth;
+
+	/**
+	 * The previewHeight.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $previewHeight;
+
+	/**
+	 * Layout to render
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $layout;
+
+	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
+	 * @param   string  $name  The property name for which to get the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'asset':
+			case 'authorField':
+			case 'directory':
+			case 'height':
+			case 'link':
+			case 'preview':
+			case 'previewHeight':
+			case 'previewWidth':
+			case 'width':
+				return $this->$name;
+		}
+
+		return parent::__get($name);
+	}
+
+	/**
+	 * Method to set certain otherwise inaccessible properties of the form field object.
+	 *
+	 * @param   string  $name   The property name for which to set the value.
+	 * @param   mixed   $value  The value of the property.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __set($name, $value)
+	{
+		switch ($name)
+		{
+			case 'asset':
+			case 'authorField':
+			case 'directory':
+			case 'height':
+			case 'link':
+			case 'preview':
+			case 'width':
+				$this->$name = (string) $value;
+				break;
+
+			case 'previewHeight':
+			case 'previewWidth':
+				$this->$name = (int) $value;
+				break;
+
+			default:
+				parent::__set($name, $value);
+		}
+	}
+
+	/**
 	 * Method to attach a Form object to the field.
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
@@ -33,7 +183,20 @@ class AccessiblemediaField extends SubformField
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
-		parent::setup($element, $value, $group);
+		if (!parent::setup($element, $value, $group))
+		{
+			return false;
+		}
+
+		$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
+		$this->authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
+		$this->directory = (string) $this->element['directory'];
+		$this->height = isset($this->element['height']) ? (int) $this->element['height'] : 500;
+		$this->link = (string) $this->element['link'];
+		$this->preview = (string) $this->element['preview'];
+		$this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
+		$this->previewWidth = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
+		$this->width = isset($this->element['width']) ? (int) $this->element['width'] : 800;
 
 		$file = __DIR__ . '/accessiblemedia/accessiblemedia.xml';
 

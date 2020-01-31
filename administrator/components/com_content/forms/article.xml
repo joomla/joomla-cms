@@ -698,6 +698,12 @@
 			/>
 
 			<field
+				name="image_intro2"
+				type="accessiblemedia"
+				label="COM_CONTENT_FIELD_INTRO2_LABEL"
+			/>
+			
+			<field
 				name="float_intro"
 				type="list"
 				label="COM_CONTENT_FLOAT_LABEL"

@@ -42,11 +42,14 @@ foreach ($value as $imagedata)
 		$alt = ' alt="' . htmlentities($accessiblemedia['alt_text'], ENT_COMPAT, 'UTF-8', true) . '"';
 	}
 
-	$buffer .= sprintf('<img src="%s"%s%s>',
-		htmlentities($path, ENT_COMPAT, 'UTF-8', true),
-		$class,
-		$alt
-	);
+	if (file_exists($path))
+	{
+		$buffer .= sprintf('<img src="%s"%s%s>',
+			htmlentities($path, ENT_COMPAT, 'UTF-8', true),
+			$class,
+			$alt
+		);
+	}
 }
 
 echo $buffer;
