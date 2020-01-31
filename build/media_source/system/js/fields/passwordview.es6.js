@@ -17,20 +17,20 @@
         const icon = toggleButton.firstElementChild;
         const srText = toggleButton.lastElementChild;
 
-        if (icon.classList.contains('fa-eye')) {
+        if (icon.classList.contains('icon-eye')) {
           // Update the icon class
-          icon.classList.remove('fa-eye');
-          icon.classList.add('fa-eye-slash');
+          icon.classList.remove('icon-eye');
+          icon.classList.add('icon-eye-close');
 
           // Update the input type
           input.type = 'text';
 
           // Update the text for screenreaders
           srText.innerText = Joomla.Text._('JHIDEPASSWORD');
-        } else if (icon.classList.contains('fa-eye-slash')) {
+        } else if (icon.classList.contains('icon-eye-close')) {
           // Update the icon class
-          icon.classList.add('fa-eye');
-          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('icon-eye');
+          icon.classList.remove('icon-eye-close');
 
           // Update the input type
           input.type = 'password';
