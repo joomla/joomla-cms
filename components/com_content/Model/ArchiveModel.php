@@ -117,7 +117,8 @@ class ArchiveModel extends ArticlesModel
 
 		if ($year = (int) $this->getState('filter.year'))
 		{
-			$query->where($query->year($queryDate) . ' = :year');
+			$query->where($query->year($queryDate) . ' = :year')
+				->bind(':year', $year, ParameterType::INTEGER);
 		}
 
 		if (count($catids) > 0)
