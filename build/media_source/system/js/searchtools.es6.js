@@ -308,6 +308,7 @@ Joomla = window.Joomla || {};
         tmpEl.classList.add('active');
       }
     }
+
     // eslint-disable-next-line class-methods-use-this
     deactiveFilter(element) {
       element.classList.remove('active');
