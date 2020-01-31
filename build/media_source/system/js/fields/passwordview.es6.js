@@ -17,7 +17,7 @@
         const icon = toggleButton.firstElementChild;
         const srText = toggleButton.lastElementChild;
 
-        if (icon.classList.contains('icon-eye')) {
+        if (input.type === 'password') {
           // Update the icon class
           icon.classList.remove('icon-eye');
           icon.classList.add('icon-eye-close');
@@ -27,7 +27,7 @@
 
           // Update the text for screenreaders
           srText.innerText = Joomla.Text._('JHIDEPASSWORD');
-        } else if (icon.classList.contains('icon-eye-close')) {
+        } else if (input.type === 'text') {
           // Update the icon class
           icon.classList.add('icon-eye');
           icon.classList.remove('icon-eye-close');
