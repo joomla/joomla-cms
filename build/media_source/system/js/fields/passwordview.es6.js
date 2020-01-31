@@ -7,30 +7,30 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     [].slice.call(document.querySelectorAll('input[type="password"]')).forEach((input) => {
-      const inputGroup = input.parentNode.querySelector('.input-password-toggle');
+      const toggleButton = input.parentNode.querySelector('.input-password-toggle');
 
-      if (!inputGroup) {
+      if (!toggleButton) {
         return;
       }
 
-      inputGroup.addEventListener('click', (e) => {
-        const { target } = e;
-        const srText = target.firstElementChild;
+      toggleButton.addEventListener('click', () => {
+        const icon = toggleButton.firstElementChild;
+        const srText = toggleButton.lastElementChild;
 
-        if (target.classList.contains('icon-eye')) {
+        if (icon.classList.contains('fa-eye')) {
           // Update the icon class
-          target.classList.remove('icon-eye');
-          target.classList.add('icon-eye-close');
+          icon.classList.remove('fa-eye');
+          icon.classList.add('fa-eye-slash');
 
           // Update the input type
           input.type = 'text';
 
           // Update the text for screenreaders
           srText.innerText = Joomla.Text._('JHIDEPASSWORD');
-        } else if (target.classList.contains('icon-eye-close')) {
+        } else if (icon.classList.contains('fa-eye-slash')) {
           // Update the icon class
-          target.classList.add('icon-eye');
-          target.classList.remove('icon-eye-close');
+          icon.classList.add('fa-eye');
+          icon.classList.remove('fa-eye-slash');
 
           // Update the input type
           input.type = 'password';

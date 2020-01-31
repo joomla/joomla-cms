@@ -37,7 +37,9 @@ Text::script('JHIDEPASSWORD');
 					<input id="modlgn-username-<?php echo $module->id; ?>" type="text" name="username" class="form-control" autocomplete="username" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 					<span class="input-group-append">
 						<label for="modlgn-username-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
-						<span class="input-group-text icon-user" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>"></span>
+						<span class="input-group-text" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
+							<span class="fas fa-fw fa-user" aria-hidden="true"></span>
+						</span>
 					</span>
 				</div>
 			<?php else : ?>
@@ -52,7 +54,8 @@ Text::script('JHIDEPASSWORD');
 					<label for="modlgn-passwd-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 					<input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" autocomplete="current-password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
 					<span class="input-group-append">
-						<button type="button" class="input-group-text icon-eye input-password-toggle">
+						<button type="button" class="btn btn-secondary input-password-toggle">
+							<span class="fas fa-fw fa-eye" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 						</button>
 					</span>
