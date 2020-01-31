@@ -112,7 +112,7 @@ class ReportsModel extends ListModel
 		if (!empty($client))
 		{
 			$query->where($db->quoteName('a.client') . ' = :client')
-				->bind(':client', $client, ParameterType::STRING);
+				->bind(':client', $client);
 		}
 
 		// Filter by published state
