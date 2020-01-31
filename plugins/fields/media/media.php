@@ -38,12 +38,8 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 			return $fieldNode;
 		}
 
-		if ($field->fieldparams->get('alt_text', 0))
-		{
-			$fieldNode->setAttribute('type', 'accessiblemedia');
-		}
-
-		$fieldNode->setAttribute('hide_default', 'true');
+		$fieldNode->setAttribute('type', 'accessiblemedia');
+		$fieldNode->setAttribute('hide_default', 'false');
 
 		return $fieldNode;
 	}

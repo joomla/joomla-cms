@@ -28,18 +28,6 @@
 				label="PLG_FIELDS_MEDIA_PARAMS_IMAGE_CLASS_LABEL"
 				size="40"
 			/>
-
-			<field
-				name="alt_text"
-				type="radio"
-				label="PLG_FIELDS_MEDIA_PARAMS_ALT_TEXT_LABEL"
-				class="switcher"
-				default="0"
-				filter="integer"
-				>
-				<option value="0">JNO</option>
-				<option value="1">JYES</option>
-			</field>
 		</fieldset>
 	</fields>
 </form>
