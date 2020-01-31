@@ -29,7 +29,6 @@
 			sql_group="directive"
 			sql_order="directive ASC"
 			key_field="directive"
-			translate="true"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_CSP_FILTER_DIRECTIVE</option>
