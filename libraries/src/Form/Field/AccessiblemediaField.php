@@ -35,7 +35,7 @@ class AccessiblemediaField extends SubformField
 	{
 		parent::setup($element, $value, $group);
 
-		$file = JPATH_ROOT . '/plugins/fields/media/accessiblemedia/accessiblemedia.xml';
+		$file = __DIR__ . '/accessiblemedia/accessiblemedia.xml';
 
 		$this->formsource = Path::clean($file);
 		$this->layout = 'joomla.form.field.subform.repeatable';
