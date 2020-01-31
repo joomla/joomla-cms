@@ -92,7 +92,7 @@ class FiltersField extends FormField
 		$html = array();
 
 		// Open the table.
-		$html[] = '<table id="filter-config" class="table">';
+		$html[] = '<table id="filter-config" class="table table-responsive">';
 
 		// The table heading.
 		$html[] = '	<thead>';
