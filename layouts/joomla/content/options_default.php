@@ -25,18 +25,18 @@ use Joomla\CMS\HTML\HTMLHelper;
 			<?php foreach ($displayData->form->getFieldset($fieldname) as $field) : ?>
 				<?php $datashowon = ''; ?>
 				<?php $groupClass = $field->type === 'Spacer' ? ' field-spacer' : ''; ?>
+				<?php $groupClass .= $fieldname == 'permissions' ? 'revert-controls' : ''; ?>
 				<?php if ($field->showon) : ?>
 					<?php HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true)); ?>
 					<?php $datashowon = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
 				<?php endif; ?>
-
-					<?php if (isset($displayData->showlabel)) : ?>
+				<?php if (isset($displayData->showlabel)) : ?>
 					<div class="control-group<?php echo $groupClass; ?>"<?php echo $datashowon; ?>>
 						<div class="controls"><?php echo $field->input; ?></div>
 					</div>
-					<?php else : ?>
-						<?php echo $field->renderField(); ?>
-					<?php endif; ?>
+				<?php else : ?>
+					<?php echo $field->renderField(); ?>
+				<?php endif; ?>
 			<?php endforeach; ?>
 		<?php endforeach; ?>
 		</div>
