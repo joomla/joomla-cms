@@ -36,10 +36,6 @@ textarea.noResize {
   }
 }
 
-.j-install-step-header .fa {
-  display: inline;
-}
-
 .lang-select {
   left: 0;
 }
@@ -90,5 +86,10 @@ textarea.noResize {
 
 #jform_db_prefix {
   direction: ltr;
+  text-align: right;
+}
+
+// Language Table
+caption {
   text-align: right;
 }
