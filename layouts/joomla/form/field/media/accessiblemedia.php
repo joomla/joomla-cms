@@ -35,6 +35,7 @@ extract($displayData);
 $form = $forms[0];
 
 $formfields = $form->getGroup('');
+
 foreach ($formfields as $formfield)
 {
 	if ($formfield->type === 'Media')
@@ -47,6 +48,18 @@ foreach ($formfields as $formfield)
 		$formfield->previewHeight = $field->previewHeight;
 		$formfield->previewWidth = $field->previewWidth;
 		$formfield->width = $field->width;
+	}
+	
+	foreach ($displayData as $key => $value)
+	{
+		switch ($key)
+		{
+			case 'value':
+				break;
+
+			default:
+				$formfield->$key = $value;
+		}
 	}
 }
 ?>
