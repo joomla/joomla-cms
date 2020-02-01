@@ -86,16 +86,6 @@ class WebAssetManager implements WebAssetManagerInterface
 	protected $activeAssets = [];
 
 	/**
-	 * Array with positions of inline asset.
-	 * How "inline" asset should be positioned for its parent "non inline" asset (handle)
-	 *
-	 * @var    array
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $inlinePositionRelation = [];
-
-	/**
 	 * Internal marker to check the manager state,
 	 * to prevent use of the manager after an assets are rendered
 	 *
