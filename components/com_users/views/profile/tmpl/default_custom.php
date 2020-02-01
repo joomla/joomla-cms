@@ -59,7 +59,37 @@ foreach ($tmp as $customField)
 							<?php elseif (JHtml::isRegistered('users.' . $field->type)) : ?>
 								<?php echo JHtml::_('users.' . $field->type, $field->value); ?>
 							<?php else : ?>
-								<?php echo JHtml::_('users.value', $field->value); ?>
+								<?php
+									switch ($field->fieldname)
+									{
+										case "actionlogsNotify":
+											if ($field->value)
+											{
+												$notify = true;
+												echo JText::_('JYES');
+											}
+											else
+											{
+												$notify = false;
+												echo JText::_('JNO');
+											}
+											break;
+
+										case "actionlogsExtensions":
+											if ($notify)
+											{
+												echo implode('</br>', $field->value);
+											}
+											else
+											{
+												echo JText::_('JNONE');
+											}
+											break;
+
+										default:
+											echo JHtml::_('users.value', $field->value);
+									}
+								?>
 							<?php endif; ?>
 						</dd>
 					<?php endif; ?>
