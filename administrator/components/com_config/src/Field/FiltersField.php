@@ -58,16 +58,16 @@ class FiltersField extends FormField
 
 					if($(this).children("option:selected").val() === "NONE") {
 						var child = $("#filter-config select[data-parent=" + $(this).attr("data-id") + "]");
-					
+
 						while(child.length !== 0) {
 							if(child.children("option:selected").val() !== "NONE") {
 								alert(Joomla.JText._("COM_CONFIG_TEXT_FILTERS_NOTE"));
 								break;
 							}
-							
+
 							child = $("#filter-config select[data-parent=" + child.attr("data-id") + "]");
 						}
-						
+
 						return;
 					}
 
@@ -78,7 +78,7 @@ class FiltersField extends FormField
 							alert(Joomla.JText._("COM_CONFIG_TEXT_FILTERS_NOTE"));
 							break;
 						}
-						
+
 						parent = $("#filter-config select[data-id=" + parent.attr("data-parent") + "]")
 					}
 				});
@@ -92,7 +92,7 @@ class FiltersField extends FormField
 		$html = array();
 
 		// Open the table.
-		$html[] = '<table id="filter-config" class="table table-responsive">';
+		$html[] = '<table id="filter-config" class="table">';
 
 		// The table heading.
 		$html[] = '	<thead>';
