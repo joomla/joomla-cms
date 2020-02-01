@@ -89,8 +89,12 @@ class PlgFieldsSubfields extends FieldsPlugin
 		{
 			$valuefield->setAttribute('context', $formData->context);
 		}
+		
+		// Don't allow the 'required' attribute to be edited
+		// because technically it always has a value.
+		$form->setFieldAttribute('required', 'readonly', 'true');
 
-		// When this is not a new instance (editing an existing instance)
+		// When this is not a new instance (editing an e xisting instance)
 		if (isset($formData->id) && $formData->id > 0)
 		{
 			// Don't allow the 'repeat' attribute to be edited
