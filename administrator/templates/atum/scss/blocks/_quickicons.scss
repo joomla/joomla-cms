@@ -127,9 +127,7 @@
 
         &.big {
 
-          .fa,
           .fas,
-          .far,
           .fab {
             font-size: $quickicon-icon-size-big;
           }
@@ -171,7 +169,6 @@
       border: 1px solid lighten($danger-txt, 30%);
       color: $danger-txt;
 
-      .fa,
       .fas,
       .fab {
         color: $danger-txt;
@@ -181,7 +178,6 @@
         background: var(--danger);
         color: var(--white);
 
-        .fa,
         .fas,
         .fab {
           &::before {
@@ -195,7 +191,6 @@
       color: $success-txt;
       border: 1px solid lighten($success-txt, 20%);
 
-      .fa,
       .fas,
       .fab {
         color: var(--success);
@@ -205,7 +200,6 @@
         background: var(--success);
         color: var(--white);
 
-        .fa,
         .fas,
         .fab {
           &::before {
