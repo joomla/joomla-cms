@@ -3,18 +3,18 @@
 	<fields name="accessiblemedia">
 		<fieldset 
 			name="accessiblemedia"
-			label="PLG_FIELDS_ACCESSIBLEMEDIA_LABEL"
+			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_LABEL"
 		>
 			<field
 				name="imagefile"
 				type="media"
-				label="PLG_FIELDS_ACCESSIBLEMEDIA_PARAMS_IMAGEFILE_LABEL"
+				label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_IMAGEFILE_LABEL"
 			/>
 
 			<field
 				name="alt_text"
 				type="text"
-				label="PLG_FIELDS_ACCESSIBLEMEDIA_PARAMS_ALT_TEXT_LABEL"
+				label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_ALT_TEXT_LABEL"
 			/>
 		</fieldset>
 	</fields>
