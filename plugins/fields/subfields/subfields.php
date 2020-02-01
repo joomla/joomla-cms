@@ -94,7 +94,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 		// because technically it always has a value.
 		$form->setFieldAttribute('required', 'type', 'hidden');
 
-		// When this is not a new instance (editing an e xisting instance)
+		// When this is not a new instance (editing an existing instance)
 		if (isset($formData->id) && $formData->id > 0)
 		{
 			// Don't allow the 'repeat' attribute to be edited
