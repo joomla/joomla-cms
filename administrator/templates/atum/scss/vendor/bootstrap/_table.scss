@@ -69,6 +69,8 @@
     }
 
     .inactive .fa,
+    .inactive .fas,
+    .inactive .fab,
     .inactive [class^=icon-] {
       color: $gray-400;
     }
