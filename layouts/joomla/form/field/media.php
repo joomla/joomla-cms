@@ -19,23 +19,23 @@ use Joomla\CMS\Uri\Uri;
  * Layout variables
  * ---------------------
  *
- * @var  string   $asset The asset text
- * @var  string   $authorField The label text
- * @var  integer  $authorId The author id
- * @var  string   $class The class text
- * @var  boolean  $disabled True if field is disabled
- * @var  string   $folder The folder text
- * @var  string   $id The label text
- * @var  string   $link The link text
- * @var  string   $name The name text
- * @var  string   $preview The preview image relative path
- * @var  integer  $previewHeight The image preview height
- * @var  integer  $previewWidth The image preview width
- * @var  string   $onchange  The onchange text
- * @var  boolean  $readonly True if field is readonly
- * @var  integer  $size The size text
- * @var  string   $value The value text
- * @var  string   $src The path and filename of the image
+ * @var  string   $asset          The asset text
+ * @var  string   $authorField    The label text
+ * @var  integer  $authorId       The author id
+ * @var  string   $class          The class text
+ * @var  boolean  $disabled       True if field is disabled
+ * @var  string   $folder         The folder text
+ * @var  string   $id             The label text
+ * @var  string   $link           The link text
+ * @var  string   $name           The name text
+ * @var  string   $preview        The preview image relative path
+ * @var  integer  $previewHeight  The image preview height
+ * @var  integer  $previewWidth   The image preview width
+ * @var  string   $onchange       The onchange text
+ * @var  boolean  $readonly       True if field is readonly
+ * @var  integer  $size           The size text
+ * @var  string   $value          The value text
+ * @var  string   $src            The path and filename of the image
  */
 extract($displayData);
 
