@@ -1201,10 +1201,9 @@ class ApplicationModel extends FormModel
 	/**
 	 * Method to send a test mail which is called via an AJAX request
 	 *
-	 * @return boolean
+	 * @return   boolean
 	 *
-	 * @since   3.5
-	 * @throws \Exception
+	 * @since  3.5
 	 */
 	public function sendTestMail()
 	{
