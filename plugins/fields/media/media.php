@@ -39,7 +39,6 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 		}
 
 		$fieldNode->setAttribute('type', 'accessiblemedia');
-		$fieldNode->setAttribute('hide_default', 'false');
 
 		return $fieldNode;
 	}
