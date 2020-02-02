@@ -124,7 +124,7 @@ class ItemsModel extends ListModel
 		// Load mod_menu.ini file when client is administrator
 		if ($clientId == 1)
 		{
-			Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+			Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR);
 		}
 
 		$currentMenuType = $app->getUserState($this->context . '.menutype', '');
@@ -622,8 +622,8 @@ class ItemsModel extends ListModel
 				{
 					if ($extension = $item->componentname)
 					{
-						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
-						|| $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
+						$lang->load("$extension.sys", JPATH_ADMINISTRATOR)
+						|| $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension);
 					}
 
 					// Translate component name
