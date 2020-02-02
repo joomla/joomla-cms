@@ -24,6 +24,7 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Table\Asset;
@@ -34,6 +35,7 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+use PHPMailer\PHPMailer\Exception as phpMailerException;
 
 /**
  * Model for the global configuration
@@ -1199,10 +1201,9 @@ class ApplicationModel extends FormModel
 	/**
 	 * Method to send a test mail which is called via an AJAX request
 	 *
-	 * @return boolean
+	 * @return   boolean
 	 *
-	 * @since   3.5
-	 * @throws \Exception
+	 * @since  3.5
 	 */
 	public function sendTestMail()
 	{
@@ -1234,12 +1235,23 @@ class ApplicationModel extends FormModel
 		);
 		$mailer->addRecipient($app->get('mailfrom'), $app->get('fromname'));
 
-		if ($mailer->send() === true)
+		try
+		{
+			$mailSent = $mailer->Send();
+		}
+		catch (MailDisabledException | phpMailerException $e)
+		{
+			$app->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
+
+		if ($mailSent === true)
 		{
 			$methodName = Text::_('COM_CONFIG_SENDMAIL_METHOD_' . strtoupper($mail->Mailer));
 
 			// If JMail send the mail using PHP Mail as fallback.
-			if ($mail->Mailer != $app->get('mailer'))
+			if ($mail->Mailer !== $app->get('mailer'))
 			{
 				$app->enqueueMessage(Text::sprintf('COM_CONFIG_SENDMAIL_SUCCESS_FALLBACK', $app->get('mailfrom'), $methodName), 'warning');
 			}
