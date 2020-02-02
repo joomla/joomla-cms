@@ -98,8 +98,8 @@ class TemplatesModel extends FormModel
 		$template = Factory::getApplication()->getTemplate();
 
 		// Load the core and/or local language file(s).
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-		|| $lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template, null, false, true);
+		$lang->load('tpl_' . $template, JPATH_BASE)
+		|| $lang->load('tpl_' . $template, JPATH_BASE . '/templates/' . $template);
 
 		// Look for com_config.xml, which contains fileds to display
 		$formFile = Path::clean(JPATH_BASE . '/templates/' . $template . '/com_config.xml');

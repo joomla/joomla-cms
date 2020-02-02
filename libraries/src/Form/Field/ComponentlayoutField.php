@@ -86,8 +86,8 @@ class ComponentlayoutField extends FormField
 		{
 			// Load language file
 			$lang = Factory::getLanguage();
-			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
+			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
+			|| $lang->load($extension . '.sys', JPATH_ADMINISTRATOR . '/components/' . $extension);
 
 			// Get the database object and a new query object.
 			$db = Factory::getDbo();
@@ -191,8 +191,8 @@ class ComponentlayoutField extends FormField
 				foreach ($templates as $template)
 				{
 					// Load language file
-					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, true)
-						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, true);
+					$lang->load('tpl_' . $template->element . '.sys', $client->path)
+						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element);
 
 					$template_path = Path::clean(
 						$client->path

@@ -470,8 +470,8 @@ class Users
 
 			if ($title)
 			{
-				$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, null, false, true)
-				|| $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, null, false, true);
+				$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR)
+				|| $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value);
 				$lang->load($title . '.sys');
 
 				return Text::_($title);

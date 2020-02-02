@@ -155,8 +155,8 @@ class HtmlView extends BaseHtmlView
 
 		// Need to load the menu language file as mod_menu hasn't been loaded yet.
 		$lang = Factory::getLanguage();
-		$lang->load($component, JPATH_BASE, null, false, true)
-		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component, null, false, true);
+		$lang->load($component, JPATH_BASE)
+		|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
 
 		// If a component categories title string is present, let's use it.
 		if ($lang->hasKey($component_title_key = strtoupper($component . ($section ? "_$section" : '')) . '_CATEGORIES_TITLE'))
