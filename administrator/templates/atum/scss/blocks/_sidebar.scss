@@ -276,11 +276,11 @@
           width: 0.25rem;
           content: "";
           background-color: var(--atum-contrast);
-          
+
           [dir=ltr] & {
             left: 0;
           }
-          
+
           [dir=rtl] & {
             right: 0;
           }
@@ -396,9 +396,11 @@
       font-weight: 900;
       font-family: "Font Awesome 5 Free";
       transition: all .3s ease-out;
+
       [dir=ltr] & {
         content: "\f054";
       }
+
       [dir=rtl] & {
         content: "\f053";
       }
@@ -410,6 +412,7 @@
       [dir=ltr] & {
         transform: rotate(90deg);
       }
+
       [dir=rtl] & {
         transform: rotate(-90deg);
       }
