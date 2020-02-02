@@ -111,11 +111,7 @@ class HtmlView extends BaseHtmlView
 		if ($canDo->get('core.edit.state'))
 		{
 			ToolbarHelper::divider();
-			if ($state->get('filter.state') == 1)
-			{
-
-				ToolbarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ', true);
-			}
+			ToolbarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ', true);
 			ToolbarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD', true);
 		}
 

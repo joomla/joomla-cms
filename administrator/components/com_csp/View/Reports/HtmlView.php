@@ -130,7 +130,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publish('reports.publish', 'JTOOLBAR_PUBLISH', false);
+			ToolbarHelper::publish('reports.publish', 'JTOOLBAR_PUBLISH', true);
 			ToolbarHelper::unpublish('reports.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 		}
 

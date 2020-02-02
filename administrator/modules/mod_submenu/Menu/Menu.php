@@ -161,11 +161,6 @@ abstract class Menu
 					continue;
 				}
 			}
-			elseif ($item->element && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $item->element))
-			{
-				$parent->removeChild($item);
-				continue;
-			}
 			elseif ($item->element === 'com_menus')
 			{
 				// Get badges for Menus containing a Home page.
