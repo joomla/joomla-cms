@@ -89,8 +89,8 @@ class PlgFieldsSubfields extends FieldsPlugin
 		{
 			$valuefield->setAttribute('context', $formData->context);
 		}
-		
-		// Don't show the 'required' attribute 
+
+		// Don't show the 'required' attribute
 		// because technically it always has a value.
 		$form->setFieldAttribute('required', 'type', 'hidden');
 
