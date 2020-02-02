@@ -474,7 +474,6 @@ class PlgSystemActionLogs extends JPlugin
 		}
 	}
 
-
 	/**
 	 * Method to render a value.
 	 *
