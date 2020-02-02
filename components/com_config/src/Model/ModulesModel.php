@@ -87,8 +87,8 @@ class ModulesModel extends FormModel
 		$formFile = Path::clean($basePath . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
-		$lang->load($module, $basePath, null, false, true)
-			||	 $lang->load($module, $basePath . '/modules/' . $module, null, false, true);
+		$lang->load($module, $basePath)
+			||	 $lang->load($module, $basePath . '/modules/' . $module);
 
 		if (file_exists($formFile))
 		{
@@ -136,8 +136,8 @@ class ModulesModel extends FormModel
 			if (isset($xml->positions[0]))
 			{
 				// Load language files
-				$lang->load('tpl_' . $templateName . '.sys', JPATH_BASE, null, false, true)
-				||	$lang->load('tpl_' . $templateName . '.sys', JPATH_BASE . '/templates/' . $templateName, null, false, true);
+				$lang->load('tpl_' . $templateName . '.sys', JPATH_BASE)
+				||	$lang->load('tpl_' . $templateName . '.sys', JPATH_BASE . '/templates/' . $templateName);
 
 				foreach ($xml->positions[0] as $position)
 				{
