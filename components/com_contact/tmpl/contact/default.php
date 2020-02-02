@@ -17,7 +17,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
-$cparams = ComponentHelper::getParams('com_media');
 $tparams = $this->item->params;
 ?>
 
