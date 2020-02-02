@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Contact\Site\Helper\RouteHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -137,7 +138,7 @@ class Icon
 			return $output;
 		}
 
-		$contactUrl = \Joomla\Component\Contact\Site\Helper\RouteHelper::getContactRoute($contact->slug, $contact->catid, $contact->language);
+		$contactUrl = RouteHelper::getContactRoute($contact->slug, $contact->catid, $contact->language);
 		$url        = $contactUrl . '&task=contact.edit&id=' . $contact->id . '&return=' . base64_encode($uri);
 
 		if ($contact->published == 0)
