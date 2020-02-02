@@ -1129,19 +1129,16 @@ abstract class FormField
 		{
 			$subForm = $this->loadSubForm();
 
-			if ($this->multiple)
+			if ($this->multiple && $value)
 			{
-				if ($value)
+				foreach ($value as $key => $val)
 				{
-					foreach ($value as $key => $val)
-					{
-						$val = (array) $val;
-						$valid = $subForm->validate($val);
+					$val = (array) $val;
+					$valid = $subForm->validate($val);
 
-						if ($valid === false)
-						{
-							break;
-						}
+					if ($valid === false)
+					{
+						break;
 					}
 				}
 			}
@@ -1217,6 +1214,12 @@ abstract class FormField
 		$description = !empty($description) && $this->translateDescription ? Text::_($description) : $description;
 
 		$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
+
+		// Casting false as string returns an empty string so assign it 0
+		if ($this->value === false)
+		{
+			$this->value = '0';
+		}
 
 		return array(
 			'autocomplete'   => $this->autocomplete,
