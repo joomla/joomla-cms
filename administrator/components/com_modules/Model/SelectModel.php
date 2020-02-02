@@ -144,8 +144,8 @@ class SelectModel extends ListModel
 
 			// 1.5 Format; Core files or language packs then
 			// 1.6 3PD Extension Support
-			$lang->load($item->module . '.sys', $client->path, null, false, true)
-				|| $lang->load($item->module . '.sys', $client->path . '/modules/' . $item->module, null, false, true);
+			$lang->load($item->module . '.sys', $client->path)
+				|| $lang->load($item->module . '.sys', $client->path . '/modules/' . $item->module);
 			$item->name = Text::_($item->name);
 
 			if (isset($item->xml) && $text = trim($item->xml->description))
