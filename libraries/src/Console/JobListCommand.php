@@ -89,7 +89,7 @@ class JobListCommand extends AbstractCommand
 			$nextrun    = ', next run will be at the next schedule';
 			$taskParams = json_decode($job->params, true);
 			$lastrun    = $taskParams['lastrun'];
-			$runned     = $taskParams['taskid'];
+			$lastcount  = $taskParams['taskid'];
 			$timeout    = $taskParams['cachetimeout'];
 			$unit       = $taskParams['unit'];
 			$timeout    = ($unit * $timeout);
@@ -99,7 +99,7 @@ class JobListCommand extends AbstractCommand
 				$nextrun = ', next run will be after ' . abs($now - $lastrun - $timeout);
 			}
 
-			$symfonyStyle->note('Job: ' . $job->element . ' runned ' . $runned . ' times' . $nextrun);
+			$symfonyStyle->note('Job: ' . $job->element . ' has run ' . $lastcount . ' times' . $nextrun);
 		}
 
 		$symfonyStyle->success('Job list finished in ' . round(microtime(true) - $this->time, 3));

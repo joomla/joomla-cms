@@ -13,8 +13,8 @@
 		<filename plugin="scheduler">scheduler.php</filename>
 	</files>
 	<languages folder="language">
-		<language tag="en-GB">en-GB.plg_system_scheduler.ini</language>
-		<language tag="en-GB">en-GB.plg_system_scheduler.sys.ini</language>
+		<language tag="en-GB">plg_system_scheduler.ini</language>
+		<language tag="en-GB">plg_system_scheduler.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

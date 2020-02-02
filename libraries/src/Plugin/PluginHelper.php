@@ -359,7 +359,7 @@ abstract class PluginHelper
 	{
 		// Prevent multiple execution
 		$db       = Factory::getDbo();
-		$lockdate = '1918-01-01 00:00:00';
+		$lockdate = '1970-01-01 00:00:00';
 		$query    = $db->getQuery(true);
 		$query->update($db->quoteName('#__extensions'))
 			->set($db->quoteName('checked_out_time') . ' = :checked_out_time')
@@ -409,7 +409,7 @@ abstract class PluginHelper
 	{
 		$taskid   = null;
 		$db       = Factory::getDbo();
-		$lockdate = '1918-01-01 00:00:00';
+		$lockdate = '1970-01-01 00:00:00';
 		$query    = $db->getQuery(true);
 		$query->select($db->quoteName('params'))
 			->from($db->quoteName('#__extensions'))
