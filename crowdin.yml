@@ -12,6 +12,9 @@ files:
     dest: /administrator/language/en-GB/localise.txt
     translation: /administrator/language/%locale%/localise.php
     update_option: update_as_unapproved
+  - source: /api/language/en-GB/*.ini
+    translation: /api/language/%locale%/%original_file_name%
+    update_option: update_as_unapproved
   - source: /language/en-GB/*.ini
     translation: /language/%locale%/%original_file_name%
     update_option: update_as_unapproved
