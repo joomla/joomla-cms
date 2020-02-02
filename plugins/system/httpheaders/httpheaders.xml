@@ -22,6 +22,8 @@
 					label="PLG_SYSTEM_HTTPHEADERS_XFRAMEOPTIONS"
 					class="switcher"
 					default="1"
+					filter="integer"
+					validate="options"
 					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
@@ -76,6 +78,7 @@
 							type="radio"
 							label="PLG_SYSTEM_HTTPHEADERS_HEADER_CLIENT"
 							default="site"
+							validate="options"
 							class="col-md-12"
 							>
 							<option value="site">JSITE</option>
@@ -92,6 +95,8 @@
 					label="PLG_SYSTEM_HTTPHEADERS_HSTS"
 					class="switcher"
 					default="0"
+					filter="integer"
+					validate="options"
 					>
 					<option value="0">JDISABLED</option>
 					<option value="1">JENABLED</option>
@@ -103,6 +108,8 @@
 					description="PLG_SYSTEM_HTTPHEADERS_HSTS_MAXAGE_DESC"
 					default="31536000"
 					filter="integer"
+					validate="number"
+					min="300"
 					showon="hsts:1"
 				/>
 				<field
@@ -112,6 +119,8 @@
 					description="PLG_SYSTEM_HTTPHEADERS_HSTS_SUBDOMAINS_DESC"
 					class="switcher"
 					default="0"
+					filter="integer"
+					validate="options"
 					showon="hsts:1"
 					>
 					<option value="0">JDISABLED</option>
@@ -124,6 +133,8 @@
 					description="PLG_SYSTEM_HTTPHEADERS_HSTS_PRELOAD_NOTE_DESC"
 					class="switcher"
 					default="0"
+					filter="integer"
+					validate="options"
 					showon="hsts:1"
 					>
 					<option value="0">JDISABLED</option>

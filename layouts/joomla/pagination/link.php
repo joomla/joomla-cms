@@ -9,10 +9,12 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 $item    = $displayData['data'];
 $display = $item->text;
+$app = Factory::getApplication();
 
 switch ((string) $item->text)
 {
@@ -64,16 +66,25 @@ if ($displayData['active'])
 	}
 
 	$class = 'active';
-	$onClick = 'document.adminForm.' . $item->prefix . 'limitstart.value=' . ($item->base > 0 ? $item->base : '0') . '; Joomla.submitform();return false;';
+
+	if ($app->isClient('administrator'))
+	{
+		$link = 'href="#" onclick="document.adminForm.' . $item->prefix . $limit . '; Joomla.submitform();return false;"';
+	}
+	elseif ($app->isClient('site'))
+	{
+		$link = 'href="' . $item->link . '"';
+	}
 }
 else
 {
 	$class = (property_exists($item, 'active') && $item->active) ? 'active' : 'disabled';
 }
+
 ?>
 <?php if ($displayData['active']) : ?>
 	<li class="<?php echo $class; ?> page-link">
-		<a aria-label="<?php echo $aria; ?>" href="#" onclick="<?php echo $onClick; ?>">
+		<a aria-label="<?php echo $aria; ?>" <?php echo $link; ?>>
 			<?php echo $display; ?>
 		</a>
 	</li>

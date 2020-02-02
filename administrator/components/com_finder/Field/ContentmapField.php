@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
 /**
  * Supports a select grouped list of finder content map.
@@ -100,11 +100,11 @@ class ContentmapField extends GroupedlistField
 
 					if (trim($name, '**') === 'Language')
 					{
-						$text = FinderHelperLanguage::branchLanguageTitle($branch->text);
+						$text = LanguageHelper::branchLanguageTitle($branch->text);
 					}
 					else
 					{
-						$key = FinderHelperLanguage::branchSingular($branch->text);
+						$key = LanguageHelper::branchSingular($branch->text);
 						$text = $lang->hasKey($key) ? Text::_($key) : $branch->text;
 					}
 

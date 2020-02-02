@@ -123,16 +123,30 @@ class PluginsField extends ListField
 			// Get list of plugins
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('element AS value, name AS text')
-				->from('#__extensions')
-				->where('folder = ' . $db->quote($folder))
-				->where('enabled = 1')
-				->order('ordering, name');
+				->select(
+					[
+						$db->quoteName('element', 'value'),
+						$db->quoteName('name', 'text'),
+					]
+				)
+				->from($db->quoteName('#__extensions'))
+				->where(
+					[
+						$db->quoteName('folder') . ' = :folder',
+						$db->quoteName('enabled') . ' = 1',
+					]
+				)
+				->bind(':folder', $folder)
+				->order(
+					[
+						$db->quoteName('ordering'),
+						$db->quoteName('name'),
+					]
+				);
 
 			if ((string) $this->element['useaccess'] === 'true')
 			{
-				$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
-				$query->where($db->quoteName('access') . ' IN (' . $groups . ')');
+				$query->whereIn($db->quoteName('access'), Factory::getUser()->getAuthorisedViewLevels());
 			}
 
 			$options   = $db->setQuery($query)->loadObjectList();

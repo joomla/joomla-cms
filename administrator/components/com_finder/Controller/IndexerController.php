@@ -20,6 +20,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Finder\Administrator\Response\Response;
 
 // Register dependent classes.
 \JLoader::register('FinderIndexer', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/indexer.php');
@@ -316,92 +317,12 @@ class IndexerController extends BaseController
 		}
 
 		// Create the response object.
-		$response = new FinderIndexerResponse($data);
+		$response = new Response($data);
 
 		// Add the buffer.
 		$response->buffer = \JDEBUG ? ob_get_contents() : ob_end_clean();
 
 		// Send the JSON response.
 		echo json_encode($response);
-	}
-}
-
-/**
- * Finder Indexer JSON Response Class
- *
- * @since  2.5
- */
-class FinderIndexerResponse
-{
-	/**
-	 * Class Constructor
-	 *
-	 * @param   mixed  $state  The processing state for the indexer
-	 *
-	 * @since   2.5
-	 */
-	public function __construct($state)
-	{
-		$params = ComponentHelper::getParams('com_finder');
-
-		if ($params->get('enable_logging', '0'))
-		{
-			$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
-			$options['text_file'] = 'indexer.php';
-			Log::addLogger($options);
-		}
-
-		// The old token is invalid so send a new one.
-		$this->token = Factory::getSession()->getFormToken();
-
-		// Check if we are dealing with an error.
-		if ($state instanceof \Exception)
-		{
-			// Log the error
-			try
-			{
-				Log::add($state->getMessage(), Log::ERROR);
-			}
-			catch (\RuntimeException $exception)
-			{
-				// Informational log only
-			}
-
-			// Prepare the error response.
-			$this->error = true;
-			$this->header = Text::_('COM_FINDER_INDEXER_HEADER_ERROR');
-			$this->message = $state->getMessage();
-		}
-		else
-		{
-			// Prepare the response data.
-			$this->batchSize = (int) $state->batchSize;
-			$this->batchOffset = (int) $state->batchOffset;
-			$this->totalItems = (int) $state->totalItems;
-			$this->pluginState = $state->pluginState;
-
-			$this->startTime = $state->startTime;
-			$this->endTime = Factory::getDate()->toSql();
-
-			$this->start = !empty($state->start) ? (int) $state->start : 0;
-			$this->complete = !empty($state->complete) ? (int) $state->complete : 0;
-
-			// Set the appropriate messages.
-			if ($this->totalItems <= 0 && $this->complete)
-			{
-				$this->header = Text::_('COM_FINDER_INDEXER_HEADER_COMPLETE');
-				$this->message = Text::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE');
-			}
-			elseif ($this->totalItems <= 0)
-			{
-				$this->header = Text::_('COM_FINDER_INDEXER_HEADER_OPTIMIZE');
-				$this->message = Text::_('COM_FINDER_INDEXER_MESSAGE_OPTIMIZE');
-			}
-			else
-			{
-				$this->header = Text::_('COM_FINDER_INDEXER_HEADER_RUNNING');
-				$this->message = Text::_('COM_FINDER_INDEXER_MESSAGE_RUNNING');
-			}
-		}
 	}
 }
