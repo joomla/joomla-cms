@@ -84,8 +84,8 @@ class ModulelayoutField extends FormField
 		{
 			// Load language file
 			$lang = Factory::getLanguage();
-			$lang->load($module . '.sys', $client->path, null, false, true)
-				|| $lang->load($module . '.sys', $client->path . '/modules/' . $module, null, false, true);
+			$lang->load($module . '.sys', $client->path)
+				|| $lang->load($module . '.sys', $client->path . '/modules/' . $module);
 
 			// Get the database object and a new query object.
 			$db = Factory::getDbo();
@@ -158,8 +158,8 @@ class ModulelayoutField extends FormField
 				foreach ($templates as $template)
 				{
 					// Load language file
-					$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, true)
-						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, true);
+					$lang->load('tpl_' . $template->element . '.sys', $client->path)
+						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element);
 
 					$template_path = Path::clean($client->path . '/templates/' . $template->element . '/html/' . $module);
 

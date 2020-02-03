@@ -162,8 +162,8 @@ class PositionsModel extends ListModel
 
 					if (isset($xml->positions[0]))
 					{
-						$lang->load('tpl_' . $template->element . '.sys', $client->path, null, false, true)
-						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element, null, false, true);
+						$lang->load('tpl_' . $template->element . '.sys', $client->path)
+						|| $lang->load('tpl_' . $template->element . '.sys', $client->path . '/templates/' . $template->element);
 
 						foreach ($xml->positions[0] as $position)
 						{

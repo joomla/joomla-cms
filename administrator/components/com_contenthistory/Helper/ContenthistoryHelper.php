@@ -281,11 +281,11 @@ class ContenthistoryHelper
 			 * Loading language file from the administrator/language directory then
 			 * loading language file from the administrator/components/extension/language directory
 			 */
-			$lang->load($component, JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+			$lang->load($component, JPATH_ADMINISTRATOR)
+			|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
 			// Force loading of backend global language file
-			$lang->load('joomla', Path::clean(JPATH_ADMINISTRATOR), null, false, true);
+			$lang->load('joomla', Path::clean(JPATH_ADMINISTRATOR));
 		}
 	}
 
