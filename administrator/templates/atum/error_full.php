@@ -171,7 +171,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 					<?php endif; ?>
 					<p>
 						<a href="<?php echo $this->baseurl; ?>" class="btn btn-secondary">
-							<span class="fa fa-dashboard" aria-hidden="true"></span>
+							<span class="fas fa-dashboard" aria-hidden="true"></span>
 							<?php echo Text::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a>
 					</p>
 				</div>

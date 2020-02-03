@@ -533,7 +533,7 @@ class CssMenu
 			$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
 		}
 
-		$html = 'fa fa-' . $class . ' fa-fw';
+		$html = 'fas fa-' . $class . ' fa-fw';
 
 		return $html;
 	}
