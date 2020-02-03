@@ -80,8 +80,8 @@ class HtmlView extends BaseHtmlView
 				$prefix = strtoupper($parts[0]) . '_DASHBOARD';
 
 				// Need to load the language file
-				$lang->load($parts[0], JPATH_BASE, null, false, true)
-				|| $lang->load($parts[0], JPATH_ADMINISTRATOR . '/components/' . $parts[0], null, false, true);
+				$lang->load($parts[0], JPATH_BASE)
+				|| $lang->load($parts[0], JPATH_ADMINISTRATOR . '/components/' . $parts[0]);
 				$lang->load($parts[0]);
 			}
 
