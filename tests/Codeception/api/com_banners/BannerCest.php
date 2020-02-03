@@ -10,13 +10,13 @@
 use Codeception\Util\HttpCode;
 
 /**
- * Class ContactCest.
+ * Class BannerCest.
  *
- * Basic com_contact (contact) tests.
+ * Basic com_banners (banner) tests.
  *
  * @since   4.0.0
  */
-class ContactCest
+class BannerCest
 {
 	/**
 	 * Api test before running.
@@ -45,7 +45,7 @@ class ContactCest
 	}
 
 	/**
-	 * Test the crud endpoints of com_contact from the API.
+	 * Test the crud endpoints of com_banners from the API.
 	 *
 	 * @param   mixed   ApiTester  $I  Api tester
 	 *
@@ -53,44 +53,51 @@ class ContactCest
 	 *
 	 * @since   4.0.0
 	 *
-	 * @TODO: Make these separate tests but requires sample data being installed so there are existing contacts
+	 * @TODO: Make these separate tests but requires sample data being installed so there are existing banners
 	 */
-	public function testCrudOnContact(ApiTester $I)
+	public function testCrudOnBanner(ApiTester $I)
 	{
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
-		$testarticle = [
-			'alias' => 'contact-the-ceo',
-			'catid' => 4,
-			'language' => '*',
-			'name' => 'Francine Blogs'
+		$testBanner = [
+			'name' => 'My Custom Advert',
+			'catid' => 3,
+			'description' => '',
+			'custombannercode' => '',
+			'metakey' => '',
+			'params' => [
+				'imageurl' => '',
+				'width' => '',
+				'height' => '',
+				'alt' => ''
+			],
 		];
 
-		$I->sendPOST('/contact', $testarticle);
+		$I->sendPOST('/banners', $testBanner);
 
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendGET('/contact/1');
+		$I->sendGET('/banners/1');
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendPATCH('/contact/1', ['name' => 'Frankie Blogs', 'state' => -2]);
+		$I->sendPATCH('/banners/1', ['name' => 'Different Custom Advert', 'state' => -2]);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendDELETE('/contact/1');
+		$I->sendDELETE('/banners/1');
 		$I->seeResponseCodeIs(HttpCode::NO_CONTENT);
 	}
 
 	/**
-	 * Test the category crud endpoints of com_contact from the API.
+	 * Test the category crud endpoints of com_banners from the API.
 	 *
 	 * @param   mixed   ApiTester  $I  Api tester
 	 *
@@ -106,32 +113,29 @@ class ContactCest
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
-		$testContact = [
+		$testarticle = [
 			'title' => 'A test category',
-			'parent_id' => 4,
-			'params' => [
-				'workflow_id' => 'inherit'
-			]
+			'parent_id' => 3
 		];
 
-		$I->sendPOST('/contact/categories', $testContact);
+		$I->sendPOST('/banners/categories', $testarticle);
 
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendGET('/contact/categories/8');
+		$I->sendGET('/banners/categories/8');
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendPATCH('/contact/categories/8', ['title' => 'Another Title']);
+		$I->sendPATCH('/banners/categories/8', ['title' => 'Another Title']);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendDELETE('/contact/categories/8');
+		$I->sendDELETE('/banners/categories/8');
 		$I->seeResponseCodeIs(HttpCode::NO_CONTENT);
 	}
 }
