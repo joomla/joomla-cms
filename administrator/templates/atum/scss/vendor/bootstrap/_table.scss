@@ -68,7 +68,8 @@
       margin-bottom: 0;
     }
 
-    .inactive .fa,
+    .inactive .fas,
+    .inactive .fab,
     .inactive [class^=icon-] {
       color: $gray-400;
     }

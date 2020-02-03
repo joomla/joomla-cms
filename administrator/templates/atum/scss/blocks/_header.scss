@@ -159,7 +159,7 @@
     }
   }
 
-  .fa,
+  .fas,
   .fab {
     font-size: 1.2rem;
     vertical-align: middle;
@@ -215,7 +215,7 @@
       text-align: right;
     }
 
-    .fa {
+    .fas {
       [dir=ltr] & {
         margin-right: $dropdown-item-padding-x;
       }
@@ -276,7 +276,7 @@
       height: 100%;
       border: 0;
 
-      .fa {
+      .fas {
         margin: auto;
       }
 

@@ -79,7 +79,7 @@ echo HTMLHelper::_(
 	<div class="col-md-6">
 		<button type="button" data-toggle="modal" data-target="#moduleDashboardAddModal" class="cpanel-add-module text-center py-5 w-100 d-block">
 			<div class="cpanel-add-module-icon text-center">
-				<span class="fa fa-plus-square text-light mt-2"></span>
+				<span class="fas fa-plus-square text-light mt-2"></span>
 			</div>
 			<span><?php echo Text::_('COM_CPANEL_ADD_DASHBOARD_MODULE'); ?></span>
 		</button>
