@@ -53,7 +53,7 @@ class ContentCest
 	}
 
 	/**
-	 * Test the crud endpoints of com_content from the API.
+	 * Test the article crud endpoints of com_content from the API.
 	 *
 	 * @param   mixed   ApiTester  $I  Api tester
 	 *
@@ -99,7 +99,7 @@ class ContentCest
 	}
 
 	/**
-	 * Test the crud endpoints of com_content from the API.
+	 * Test the category crud endpoints of com_content from the API.
 	 *
 	 * @param   mixed   ApiTester  $I  Api tester
 	 *
@@ -116,13 +116,31 @@ class ContentCest
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
 		$testarticle = [
-			'title' => 'Just for you',
-			'catid' => 2,
-			'articletext' => 'A dummy article to save to the database',
-			'language' => '*',
-			'alias' => 'tobias'
+			'title' => 'A test category',
+			'parent_id' => 2,
+			'params' => [
+				'workflow_id' => 'inherit'
+			]
 		];
 
-		$I->sendPOST('/content/article', $testarticle);
+		$I->sendPOST('/content/categories', $testarticle);
+
+		$I->seeResponseCodeIs(HttpCode::OK);
+
+		$I->amHttpAuthenticated('admin', 'admin');
+		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
+		$I->sendGET('/content/categories/8');
+		$I->seeResponseCodeIs(HttpCode::OK);
+
+		$I->amHttpAuthenticated('admin', 'admin');
+		$I->haveHttpHeader('Content-Type', 'application/json');
+		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
+		$I->sendPATCH('/content/categories/8', ['title' => 'Another Title']);
+		$I->seeResponseCodeIs(HttpCode::OK);
+
+		$I->amHttpAuthenticated('admin', 'admin');
+		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
+		$I->sendDELETE('/content/categories/8');
+		$I->seeResponseCodeIs(HttpCode::NO_CONTENT);
 	}
 }
