@@ -532,12 +532,11 @@
       }
     }
 
-    &.mm-collapsed {
+    &.collapsed {
       .navbar-toggler-icon::before {
         content: "\f0c9";
       }
     }
-
   }
 
   .sidebar-menu {
