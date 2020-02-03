@@ -32,6 +32,7 @@
 	<media destination="com_banners" folder="media">
 		<folder>js</folder>
 	</media>
+	
 	<administration>
 		<menu img="class:banners">com_banners</menu>
 		<submenu>
