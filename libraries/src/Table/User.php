@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -245,7 +245,7 @@ class User extends Table
 		$query->clear()
 			->select($this->_db->quoteName('id'))
 			->from($this->_db->quoteName('#__users'))
-			->where($this->_db->quoteName('email') . ' = ' . $this->_db->quote($this->email))
+			->where('LOWER(' . $this->_db->quoteName('email') . ') = LOWER(' . $this->_db->quote($this->email) . ')')
 			->where($this->_db->quoteName('id') . ' != ' . (int) $this->id);
 		$this->_db->setQuery($query);
 		$xid = (int) $this->_db->loadResult();

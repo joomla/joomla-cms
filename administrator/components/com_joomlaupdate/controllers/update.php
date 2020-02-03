@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -504,7 +504,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel('default');
-		$updateFileUrl = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
+		$compatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
 
 		$this->app = JFactory::getApplication();
 		$this->app->mimeType = 'application/json';
@@ -514,7 +514,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		try
 		{
-			echo new JResponseJson($updateFileUrl);
+			echo new JResponseJson($compatibilityStatus);
 		}
 		catch (Exception $e)
 		{

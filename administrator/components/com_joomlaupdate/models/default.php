@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1391,16 +1391,9 @@ ENDDATA;
 			$db->qn('ex.type') . ', ' .
 			$db->qn('ex.folder') . ', ' .
 			$db->qn('ex.element') . ', ' .
-			$db->qn('ex.client_id') . ', ' .
-			$db->qn('si.location')
+			$db->qn('ex.client_id')
 		)->from(
 			$db->qn('#__extensions', 'ex')
-		)->leftJoin(
-			$db->qn('#__update_sites_extensions', 'se') .
-			' ON ' . $db->qn('se.extension_id') . ' = ' . $db->qn('ex.extension_id')
-		)->leftJoin(
-			$db->qn('#__update_sites', 'si') .
-			' ON ' . $db->qn('si.update_site_id') . ' = ' . $db->qn('se.update_site_id')
 		)->where(
 			$db->qn('ex.package_id') . ' = 0'
 		);
@@ -1457,54 +1450,144 @@ ENDDATA;
 	 */
 	public function fetchCompatibility($extensionID, $joomlaTargetVersion)
 	{
-		$updateFileUrl = $this->getUpdateSiteLocation($extensionID);
+		$updateSites = $this->getUpdateSitesInfo($extensionID);
 
-		if (!$updateFileUrl)
+		if (empty($updateSites))
 		{
 			return (object) array('state' => 2);
 		}
-		else
-		{
-			$compatibleVersion = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
 
-			if ($compatibleVersion)
+		foreach ($updateSites as $updateSite)
+		{
+			if ($updateSite['type'] === 'collection')
 			{
-				return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
+				$updateFileUrls = $this->getCollectionDetailsUrls($updateSite, $joomlaTargetVersion);
+
+				foreach ($updateFileUrls as $updateFileUrl)
+				{
+					$compatibleVersion = $this->checkCompatibility($updateFileUrl, $joomlaTargetVersion);
+
+					if ($compatibleVersion)
+					{
+						// Return the compatible version
+						return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
+					}
+				}
 			}
 			else
 			{
-				return (object) array('state' => 0);
+				$compatibleVersion = $this->checkCompatibility($updateSite['location'], $joomlaTargetVersion);
+
+				if ($compatibleVersion)
+				{
+					// Return the compatible version
+					return (object) array('state' => 1, 'compatibleVersion' => $compatibleVersion->_data);
+				}
 			}
 		}
+
+		// In any other case we mark this extension as not compatible
+		return (object) array('state' => 0);
 	}
 
 	/**
-	 * Get the URL to the update server for a given extension ID
+	 * Returns records with update sites and extension information for a given extension ID.
 	 *
 	 * @param   int  $extensionID  The extension ID
 	 *
-	 * @return  mixed  URL or false
+	 * @return  array
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
-	private function getUpdateSiteLocation($extensionID)
+	private function getUpdateSitesInfo($extensionID)
 	{
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$query->select($db->qn('us.location'))
-			->from($db->qn('#__update_sites', 'us'))
-			->leftJoin(
-				$db->qn('#__update_sites_extensions', 'e')
-				. ' ON ' . $db->qn('e.update_site_id') . ' = ' . $db->qn('us.update_site_id')
-			)
-			->where($db->qn('e.extension_id') . ' = ' . (int) $extensionID);
+		$query->select(
+			$db->qn('us.type') . ', ' .
+			$db->qn('us.location') . ', ' .
+			$db->qn('e.element') . ' AS ' . $db->qn('ext_element') . ', ' .
+			$db->qn('e.type') . ' AS ' . $db->qn('ext_type') . ', ' .
+			$db->qn('e.folder') . ' AS ' . $db->qn('ext_folder')
+		)->from(
+			$db->qn('#__update_sites', 'us')
+		)->leftJoin(
+				$db->qn('#__update_sites_extensions', 'ue')
+				. ' ON ' . $db->qn('ue.update_site_id') . ' = ' . $db->qn('us.update_site_id')
+		)->leftJoin(
+				$db->qn('#__extensions', 'e')
+				. ' ON ' . $db->qn('e.extension_id') . ' = ' . $db->qn('ue.extension_id')
+		)->where($db->qn('e.extension_id') . ' = ' . (int) $extensionID);
 
 		$db->setQuery($query);
 
-		$rows = $db->loadObjectList();
+		$result = $db->loadAssocList();
 
-		return count($rows) >= 1 ? end($rows)->location : false;
+		if (!is_array($result))
+		{
+			return array();
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Method to get details URLs from a colletion update site for given extension and Joomla target version.
+	 *
+	 * @param   array   $updateSiteInfo       The update site and extension information record to process
+	 * @param   string  $joomlaTargetVersion  The Joomla! version to test against,
+	 *
+	 * @return  array  An array of URLs.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getCollectionDetailsUrls($updateSiteInfo, $joomlaTargetVersion)
+	{
+		$return = array();
+
+		$http = new JHttp;
+
+		try
+		{
+			$response = $http->get($updateSiteInfo['location']);
+		}
+		catch (RuntimeException $e)
+		{
+			$response = null;
+		}
+
+		if ($response === null || $response->code !== 200)
+		{
+			return $return;
+		}
+
+		$updateSiteXML = simplexml_load_string($response->body);
+
+		foreach ($updateSiteXML->extension as $extension)
+		{
+			$attribs = new stdClass;
+
+			$attribs->element               = '';
+			$attribs->type                  = '';
+			$attribs->folder                = '';
+			$attribs->targetplatformversion = '';
+
+			foreach ($extension->attributes() as $key => $value)
+			{
+				$attribs->$key = (string) $value;
+			}
+
+			if ($attribs->element === $updateSiteInfo['ext_element']
+				&& $attribs->type === $updateSiteInfo['ext_type']
+				&& $attribs->folder === $updateSiteInfo['ext_folder']
+				&& preg_match('/^' . $attribs->targetplatformversion . '/', $joomlaTargetVersion))
+			{
+				$return[] = (string) $extension['detailsurl'];
+			}
+		}
+
+		return $return;
 	}
 
 	/**
