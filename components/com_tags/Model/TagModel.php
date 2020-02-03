@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
+use Joomla\Component\Tags\Site\Helper\RouteHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -100,7 +100,7 @@ class TagModel extends ListModel
 		{
 			foreach ($items as $item)
 			{
-				$item->link = TagsHelperRoute::getItemRoute(
+				$item->link = RouteHelper::getItemRoute(
 					$item->content_item_id,
 					$item->core_alias,
 					$item->core_catid,

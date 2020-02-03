@@ -22,7 +22,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
 /**
  * Index view class for Finder.
@@ -57,15 +57,6 @@ class HtmlView extends BaseHtmlView
 	 * @since  3.6.1
 	 */
 	protected $pluginState;
-
-	/**
-	 * The HTML markup for the sidebar
-	 *
-	 * @var  string
-	 *
-	 * @since  3.6.1
-	 */
-	protected $sidebar;
 
 	/**
 	 * The model state
@@ -121,7 +112,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Load plugin language files.
-		FinderHelperLanguage::loadPluginLanguage();
+		LanguageHelper::loadPluginLanguage();
 
 		$this->items         = $this->get('Items');
 		$this->total         = $this->get('Total');
@@ -131,8 +122,6 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->finderPluginId = FinderHelper::getFinderPluginId();
-
-		FinderHelper::addSubmenu('index');
 
 		// We do not need to filter by language when multilingual is disabled
 		if (!Multilanguage::isEnabled())
@@ -172,7 +161,6 @@ class HtmlView extends BaseHtmlView
 
 		// Configure the toolbar.
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
@@ -195,7 +183,7 @@ class HtmlView extends BaseHtmlView
 
 		$toolbar->appendButton(
 			'Popup', 'archive', 'COM_FINDER_INDEX', 'index.php?option=com_finder&view=indexer&tmpl=component', 500, 210, 0, 0,
-			'window.parent.location.reload()', 'COM_FINDER_HEADING_INDEXER'
+			'window.parent.location.reload()', Text::_('COM_FINDER_HEADING_INDEXER')
 		);
 
 		if ($canDo->get('core.edit.state'))
@@ -213,7 +201,7 @@ class HtmlView extends BaseHtmlView
 			$childBar->unpublish('index.unpublish')->listCheck(true);
 		}
 
-		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', 'COM_FINDER_STATISTICS_TITLE');
+		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
 
 		if ($canDo->get('core.delete'))
 		{

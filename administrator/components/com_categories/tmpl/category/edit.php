@@ -70,7 +70,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row">
 			<div class="col-12 col-lg-6">
-				<fieldset id="fieldset-publishingdata" class="options-grid-form options-grid-form-full">
+				<fieldset id="fieldset-publishingdata" class="options-form">
 					<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
 					<div>
 					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -78,7 +78,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 				</fieldset>
 			</div>
 			<div class="col-12 col-lg-6">
-				<fieldset id="fieldset-metadata" class="options-grid-form options-grid-form-full">
+				<fieldset id="fieldset-metadata" class="options-form">
 					<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 					<div>
 					<?php echo LayoutHelper::render('joomla.edit.metadata', $this); ?>
@@ -91,7 +91,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if (!$isModal && $assoc && $extensionassoc) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
-			<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
+			<fieldset id="fieldset-associations" class="options-form">
 			<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
 			<div>
 			<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
@@ -105,7 +105,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php if ($this->canDo->get('core.admin')) : ?>
 
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'rules', Text::_('COM_CATEGORIES_FIELDSET_RULES')); ?>
-			<fieldset id="fieldset-rules" class="options-grid-form options-grid-form-full">
+			<fieldset id="fieldset-rules" class="options-form">
 				<legend><?php echo Text::_('COM_CATEGORIES_FIELDSET_RULES'); ?></legend>
 				<div>
 				<?php echo $this->form->getInput('rules'); ?>

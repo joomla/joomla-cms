@@ -1393,7 +1393,8 @@ ENDDATA;
 		{
 			$decode = json_decode($extension->manifest_cache);
 			$this->translateExtensionName($extension);
-			$extension->version = $decode->version;
+			$extension->version
+				= isset($decode->version) ? $decode->version : Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
 			unset($extension->manifest_cache);
 		}
 
@@ -1553,10 +1554,10 @@ ENDDATA;
 				$source = $path . '/templates/' . $item->element;
 		}
 
-		$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
-		|| $lang->load("$extension.sys", $source, null, false, true);
-		$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
-		|| $lang->load($extension, $source, null, false, true);
+		$lang->load("$extension.sys", JPATH_ADMINISTRATOR)
+		|| $lang->load("$extension.sys", $source);
+		$lang->load($extension, JPATH_ADMINISTRATOR)
+		|| $lang->load($extension, $source);
 
 		// Translate the extension name if possible
 		$item->name = Text::_($item->name);

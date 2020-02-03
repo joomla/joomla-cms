@@ -60,7 +60,11 @@ abstract class JHtmlContent
 	 */
 	public static function months($state)
 	{
-		$model = BaseDatabaseModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		/** @var \Joomla\Component\Content\Administrator\Extension\ContentComponent $contentComponent */
+		$contentComponent = Factory::getApplication()->bootComponent('com_content');
+
+		$model = $contentComponent->getMVCFactory()
+			->createModel('Articles', '', ['ignore_request' => true]);
 
 		foreach ($state as $key => $value)
 		{
