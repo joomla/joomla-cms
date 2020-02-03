@@ -89,6 +89,10 @@
         color: var(--white);
         background: $custom-select-bg $custom-select-indicator-active no-repeat right center;
         background-size: $custom-select-bg-size;
+
+        [dir=rtl] & {
+          background: $custom-select-bg $custom-select-indicator-active-rtl no-repeat left center;
+        }
       }
 
       option {
@@ -270,7 +274,7 @@
       .js-stools-btn-filter {
         border-right: 1px solid var(--border);
 
-        .fa {
+        .fas {
           margin-left: 0.25rem;
         }
       }

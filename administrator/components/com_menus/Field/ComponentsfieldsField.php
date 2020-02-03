@@ -75,8 +75,8 @@ class ComponentsFieldsField extends \JFormFieldList
 				{
 					// Load language
 					$source = JPATH_ADMINISTRATOR . '/components/' . $item->value;
-					$lang->load($item->value . 'sys', JPATH_ADMINISTRATOR, null, false, true)
-						|| $lang->load($item->value . 'sys', $source, null, false, true);
+					$lang->load($item->value . 'sys', JPATH_ADMINISTRATOR)
+						|| $lang->load($item->value . 'sys', $source);
 
 					// Translate component name
 					$item->text = Text::_($item->text);

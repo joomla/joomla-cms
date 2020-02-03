@@ -139,8 +139,8 @@ class HtmlView extends BaseHtmlView
 				case 'component':
 				default:
 					// Load language
-						$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-					|| $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->componentname, null, false, true);
+						$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR)
+					|| $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->componentname);
 
 					if (!empty($item->componentname))
 					{
@@ -190,8 +190,8 @@ class HtmlView extends BaseHtmlView
 								$file = JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $item->componentname . '/' . $vars['view'] . '/' . $temp[1] . '.xml';
 
 								// Load template language file
-								$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE, null, false, true)
-								||	$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0], null, false, true);
+								$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE)
+								||	$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0]);
 							}
 							else
 							{
@@ -347,7 +347,7 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-ellipsis-h')
+				->icon('fas fa-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
