@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
@@ -81,16 +82,27 @@ class AdministratorService
 
 			if ($items)
 			{
+				$languages = LanguageHelper::getContentLanguages(array(0, 1));
+				$content_languages = array_column($languages, 'lang_code');
+
 				foreach ($items as &$item)
 				{
-					$text = strtoupper($item->lang_sef);
-					$url = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
-					$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
-						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
-					$classes = 'badge badge-secondary';
+					if (in_array($item->lang_code, $content_languages))
+					{
+						$text = strtoupper($item->lang_sef);
+						$url = Route::_('index.php?option=com_contact&task=contact.edit&id=' . (int) $item->id);
+						$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+							. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('JCATEGORY_SPRINTF', $item->category_title);
+						$classes = 'badge badge-secondary';
 
-					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
-						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
+						$item->link = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
+							. '<div role="tooltip" id="tip-' . (int) $contactid . '-' . (int) $item->id . '">' . $tooltip . '</div>';
+					}
+					else
+					{
+						// Display warning if Content Language is trashed or deleted
+						Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_ASSOCIATIONS_CONTENTLANGUAGE_WARNING', $item->lang_code), 'warning');
+					}
 				}
 			}
 

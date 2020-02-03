@@ -12,9 +12,12 @@ namespace Joomla\Component\Categories\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -48,15 +51,25 @@ class AdministratorService
 			// Get the associated categories
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('c.id, c.title')
-				->select('l.sef as lang_sef')
-				->select('l.lang_code')
-				->from('#__categories as c')
-				->where('c.id IN (' . implode(',', array_values($associations)) . ')')
-				->where('c.id != ' . $catid)
-				->join('LEFT', '#__languages as l ON c.language=l.lang_code')
-				->select('l.image')
-				->select('l.title as language_title');
+				->select(
+					[
+						$db->quoteName('c.id'),
+						$db->quoteName('c.title'),
+						$db->quoteName('l.sef', 'lang_sef'),
+						$db->quoteName('l.lang_code'),
+						$db->quoteName('l.image'),
+						$db->quoteName('l.title', 'language_title'),
+					]
+				)
+				->from($db->quoteName('#__categories', 'c'))
+				->whereIn($db->quoteName('c.id'), array_values($associations))
+				->where($db->quoteName('c.id') . ' != :catid')
+				->bind(':catid', $catid, ParameterType::INTEGER)
+				->join(
+					'LEFT',
+					$db->quoteName('#__languages', 'l'),
+					$db->quoteName('c.language') . ' = ' . $db->quoteName('l.lang_code')
+				);
 			$db->setQuery($query);
 
 			try
@@ -70,16 +83,27 @@ class AdministratorService
 
 			if ($items)
 			{
+				$languages = LanguageHelper::getContentLanguages(array(0, 1));
+				$content_languages = array_column($languages, 'lang_code');
+
 				foreach ($items as &$item)
 				{
-					$text     = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
-					$url      = Route::_('index.php?option=com_categories&task=category.edit&id=' . (int) $item->id . '&extension=' . $extension);
-					$tooltip  = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
-						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');
-					$classes  = 'badge badge-secondary';
+					if (in_array($item->lang_code, $content_languages))
+					{
+						$text     = $item->lang_sef ? strtoupper($item->lang_sef) : 'XX';
+						$url      = Route::_('index.php?option=com_categories&task=category.edit&id=' . (int) $item->id . '&extension=' . $extension);
+						$tooltip  = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+							. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');
+						$classes  = 'badge badge-secondary';
 
-					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
-						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
+						$item->link = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
+							. '<div role="tooltip" id="tip-' . (int) $catid . '-' . (int) $item->id . '">' . $tooltip . '</div>';
+					}
+					else
+					{
+						// Display warning if Content Language is trashed or deleted
+						Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_ASSOCIATIONS_CONTENTLANGUAGE_WARNING', $item->lang_code), 'warning');
+					}
 				}
 			}
 

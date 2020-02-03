@@ -12,7 +12,7 @@ namespace Joomla\Component\Users\Administrator\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\Field\ListField;
-use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
+use Joomla\Component\Users\Administrator\Helper\DebugHelper;
 
 /**
  * Access Levels field.
@@ -39,6 +39,6 @@ class LevelsField extends ListField
 	protected function getOptions()
 	{
 		// Merge any additional options in the XML definition.
-		return array_merge(parent::getOptions(), UsersHelperDebug::getLevelsOptions());
+		return array_merge(parent::getOptions(), DebugHelper::getLevelsOptions());
 	}
 }

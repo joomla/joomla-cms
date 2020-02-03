@@ -751,7 +751,7 @@ class PlgContentJoomla extends CMSPlugin
 
 		if ($params['enable_category'] == 1 && empty($params['catid']))
 		{
-			$table->setError(JText::_('COM_CONTENT_CREATE_ARTICLE_ERROR'));
+			$table->setError(Text::_('COM_CONTENT_CREATE_ARTICLE_ERROR'));
 
 			return false;
 		}

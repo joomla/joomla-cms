@@ -9,13 +9,13 @@ Joomla = window.Joomla || {};
 	'use strict';
 
 	Joomla.extractionMethodHandler = function(element, prefix) {
-		var displayStyle = element.value === 'direct' ? 'none' : 'table-row';
+		var displayStyle = element.value === 'direct' ? 'hidden' : 'table-row';
 
-		document.getElementById(prefix + '_hostname').style.display = displayStyle;
-		document.getElementById(prefix + '_port').style.display = displayStyle;
-		document.getElementById(prefix + '_username').style.display = displayStyle;
-		document.getElementById(prefix + '_password').style.display = displayStyle;
-		document.getElementById(prefix + '_directory').style.display = displayStyle;
+		document.getElementById(prefix + '_hostname').classList.add(displayStyle);
+		document.getElementById(prefix + '_port').classList.add(displayStyle);
+		document.getElementById(prefix + '_username').classList.add(displayStyle);
+		document.getElementById(prefix + '_password').classList.add(displayStyle);
+		document.getElementById(prefix + '_directory').classList.add(displayStyle);
 	}
 
 	Joomla.submitbuttonUpload = function() {
@@ -25,8 +25,34 @@ Joomla = window.Joomla || {};
 		if (form.install_package.value == '') {
 			alert(Joomla.JText._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE'), true);
 		}
+		else if (form.install_package.files[0].size > form.max_upload_size.value) {
+			alert(Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
+		}
 		else {
 			form.submit();
+		}
+	};
+
+	Joomla.installpackageChange = function() {
+		var form = document.getElementById('uploadForm');
+		var fileSize = form.install_package.files[0].size;
+		var fileSizeMB = fileSize * 1.0 / 1024.0 / 1024.0;
+		var fileSizeElement = document.getElementById('file_size');
+		var warningElement = document.getElementById('max_upload_size_warn');
+
+		if (form.install_package.value == '') {
+			fileSizeElement.classList.add('hidden');
+			warningElement.classList.add('hidden');
+		}
+		else if (fileSize) {
+			fileSizeElement.classList.remove('hidden');
+			fileSizeElement.innerHTML = Joomla.JText._('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE').replace('%s', fileSizeMB.toFixed(2) + ' MB');
+
+			if (fileSize > form.max_upload_size.value) {
+				warningElement.classList.remove('hidden');
+			} else {
+				warningElement.classList.add('hidden');
+			}
 		}
 	};
 
@@ -52,7 +78,7 @@ Joomla = window.Joomla || {};
 		if (uploadButton) {
 			uploadButton.addEventListener('click', function(event) {
 				if (downloadMsg) {
-					downloadMsg.style.display = 'block';
+					downloadMsg.classList.remove('hidden');
 				}
 			});
 		}
