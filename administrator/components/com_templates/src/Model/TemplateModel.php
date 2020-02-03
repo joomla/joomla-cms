@@ -395,8 +395,8 @@ class TemplateModel extends FormModel
 			$lang   = Factory::getLanguage();
 
 			// Load the core and/or local language file(s).
-			$lang->load('tpl_' . $template->element, $client->path, null, false, true) ||
-			$lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element, null, false, true);
+			$lang->load('tpl_' . $template->element, $client->path) ||
+			$lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element);
 			$this->element = $path;
 
 			if (!is_writable($path))
