@@ -45,6 +45,9 @@ class MediaControllerFile extends JControllerLegacy
 		$return       = JFactory::getSession()->get('com_media.return_url');
 		$this->folder = $this->input->get('folder', '', 'path');
 
+		// Instantiate the media helper
+		$mediaHelper = new JHelperMedia;
+
 		// Don't redirect to an external URL.
 		if (!JUri::isInternal($return))
 		{
@@ -61,10 +64,38 @@ class MediaControllerFile extends JControllerLegacy
 			$this->setRedirect('index.php?option=com_media&folder=' . $this->folder);
 		}
 
+		// First check against unfiltered input.
+		if (!$this->input->files->get('Filedata', null, 'RAW'))
+		{
+			// Total length of post back data in bytes.
+			$contentLength = $this->input->server->get('CONTENT_LENGTH', 0, 'INT');
+
+			// Maximum allowed size of post back data in MB.
+			$postMaxSize = $mediaHelper->toBytes(ini_get('post_max_size'));
+
+			// Maximum allowed size of script execution in MB.
+			$memoryLimit = $mediaHelper->toBytes(ini_get('memory_limit'));
+
+			// Check for the total size of post back data.
+			if (($postMaxSize > 0 && $contentLength > $postMaxSize)
+				|| ($memoryLimit != -1 && $contentLength > $memoryLimit))
+			{
+				// Files are too large.
+				JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNUPLOADTOOLARGE'));
+
+				return false;
+			}
+
+			// No files were provided.
+			$this->setMessage(JText::_('COM_MEDIA_ERROR_UPLOAD_INPUT'), 'warning');
+
+			return false;
+		}
+
 		if (!$files)
 		{
-			// If we could not get any data from the request we can not upload it.
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_MEDIA_ERROR_WARNFILENOTSAFE'), 'error');
+			// Files were provided but are unsafe to upload.
+			$this->setMessage(JText::_('COM_MEDIA_ERROR_WARNFILENOTSAFE'), 'error');
 
 			return false;
 		}
@@ -72,33 +103,6 @@ class MediaControllerFile extends JControllerLegacy
 		// Authorize the user
 		if (!$this->authoriseUser('create'))
 		{
-			return false;
-		}
-
-		// If there are no files to upload - then bail
-		if (empty($files))
-		{
-			return false;
-		}
-
-		// Total length of post back data in bytes.
-		$contentLength = (int) $_SERVER['CONTENT_LENGTH'];
-
-		// Instantiate the media helper
-		$mediaHelper = new JHelperMedia;
-
-		// Maximum allowed size of post back data in MB.
-		$postMaxSize = $mediaHelper->toBytes(ini_get('post_max_size'));
-
-		// Maximum allowed size of script execution in MB.
-		$memoryLimit = $mediaHelper->toBytes(ini_get('memory_limit'));
-
-		// Check for the total size of post back data.
-		if (($postMaxSize > 0 && $contentLength > $postMaxSize)
-			|| ($memoryLimit != -1 && $contentLength > $memoryLimit))
-		{
-			JError::raiseWarning(100, JText::_('COM_MEDIA_ERROR_WARNUPLOADTOOLARGE'));
-
 			return false;
 		}
 

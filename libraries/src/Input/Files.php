@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Input;
 
-\defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
 
@@ -34,7 +34,7 @@ class Files extends Input
 	 *
 	 * @param   array  $source   The source argument is ignored. $_FILES is always used.
 	 * @param   array  $options  An optional array of configuration options:
-	 *                           filter : a custom InputFilter object.
+	 *                           filter : a custom JFilterInput object.
 	 *
 	 * @since   3.0.0
 	 * @deprecated  5.0  Use Joomla\Input\Files instead
@@ -66,7 +66,7 @@ class Files extends Input
 	 *
 	 * @return  mixed  The filtered input value.
 	 *
-	 * @see     InputFilter::clean()
+	 * @see     JFilterInput::clean()
 	 * @since   1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Files instead
 	 */
@@ -84,8 +84,8 @@ class Files extends Input
 				)
 			);
 
-			// Prevent returning an unsafe file unless speciffically requested
-			if ($filter !== 'raw')
+			// Prevent returning an unsafe file unless specifically requested
+			if (strtoupper($filter) !== 'RAW')
 			{
 				$isSafe = InputFilter::isSafeFile($results);
 
@@ -115,7 +115,7 @@ class Files extends Input
 	{
 		$result = array();
 
-		if (\is_array($data[0]))
+		if (is_array($data[0]))
 		{
 			foreach ($data[0] as $k => $v)
 			{
