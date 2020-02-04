@@ -31,13 +31,13 @@
 
 .media-view-icons {
   display: flex;
-    .disabled {
-      span {
-        opacity: .3;
-      }
-      &:hover, span:hover {
-        cursor: default;
-      }
+  .disabled {
+    span {
+      opacity: .3;
+    }
+    &:hover, span:hover {
+      cursor: default;
+    }
   }
 }
 
