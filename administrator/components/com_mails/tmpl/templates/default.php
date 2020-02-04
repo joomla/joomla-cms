@@ -40,8 +40,11 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MAILS_HEADING_COMPONENT', 'a.component', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:15%"  class="d-md-table-cell">
-									<?php echo Text::_('COM_MAILS_HEADING_LANGUAGES'); ?>
+								<th scope="col" style="width:10%"  class="d-md-table-cell">
+									<?php echo Text::_('COM_MAILS_HEADING_TEMPLATES_FOR_LANGUAGES'); ?>
+								</th>
+								<th scope="col" style="width:10%"  class="d-md-table-cell">
+									<?php echo Text::_('COM_MAILS_HEADING_NO_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
 								<th scope="col" style="width:30%" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_DESCRIPTION'); ?>
@@ -80,6 +83,17 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<td class="d-md-table-cell">
 									<?php foreach ($this->languages as $language) : ?>
 										<?php if (in_array($language->lang_code, $item->languages)) : ?>
+											<?php if ($language->image) : ?>
+												<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+											<?php else : ?>
+												<span class="badge badge-secondary"><?php echo strtoupper($language->sef); ?></span>
+											<?php endif; ?>
+										<?php endif; ?>
+									<?php endforeach; ?>
+								</td>
+								<td class="d-md-table-cell">
+									<?php foreach ($this->languages as $language) : ?>
+										<?php if (!in_array($language->lang_code, $item->languages)) : ?>
 											<?php if ($language->image) : ?>
 												<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
 											<?php else : ?>
