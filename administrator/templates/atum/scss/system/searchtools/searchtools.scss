@@ -87,11 +87,13 @@
 
       &.active {
         color: var(--white);
-        background: $custom-select-bg $custom-select-indicator-active no-repeat right center;
+        background: $custom-select-indicator-active no-repeat right center;
+        background-color: $custom-select-bg;
         background-size: $custom-select-bg-size;
 
         [dir=rtl] & {
-          background: $custom-select-bg $custom-select-indicator-active-rtl no-repeat left center;
+          background: $custom-select-indicator-active-rtl no-repeat left center;
+          background-color: $custom-select-bg;
         }
       }
 
