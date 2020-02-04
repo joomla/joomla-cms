@@ -502,8 +502,9 @@
         },
         "provideAssets": [
           {
-            "name": null,
-            "js": ["short-and-sweet.min.js"]
+            "name": "short-and-sweet",
+            "type": "script",
+            "uri": ["short-and-sweet.min.js"]
           }
         ]
       },
