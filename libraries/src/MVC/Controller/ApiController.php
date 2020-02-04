@@ -555,7 +555,7 @@ class ApiController extends BaseController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function preprocessSaveData(array $data)
+	protected function preprocessSaveData(array $data): array
 	{
 		return $data;
 	}

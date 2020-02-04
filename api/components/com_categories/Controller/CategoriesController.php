@@ -45,7 +45,7 @@ class CategoriesController extends ApiController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function preprocessSaveData(array $data)
+	protected function preprocessSaveData(array $data): array
 	{
 		$data['extension'] = $this->getExtensionFromInput();
 
