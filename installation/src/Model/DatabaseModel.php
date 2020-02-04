@@ -328,7 +328,8 @@ class DatabaseModel extends BaseInstallationModel
 				$options->db_pass_plain,
 				$options->db_name,
 				$options->db_prefix,
-				isset($options->db_select) ? $options->db_select : false
+				isset($options->db_select) ? $options->db_select : false,
+				DatabaseHelper::getEncryptionSettings($options)
 			);
 		}
 		catch (\RuntimeException $e)
@@ -401,6 +402,7 @@ class DatabaseModel extends BaseInstallationModel
 					'password' => $options->db_pass_plain,
 					'prefix'   => $options->db_prefix,
 					'select'   => $options->db_select,
+					DatabaseHelper::getEncryptionSettings($options),
 				);
 
 				$altDB = DatabaseDriver::getInstance($altDBoptions);

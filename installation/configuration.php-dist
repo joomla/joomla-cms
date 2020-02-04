@@ -49,7 +49,6 @@ class JConfig
 	public $dbsslkey = '';
 	public $dbsslcert = '';
 	public $dbsslca = '';
-	public $dbsslcapath = '';
 	public $dbsslcipher = '';
 
 	/* Server Settings */

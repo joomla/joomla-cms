@@ -38,11 +38,9 @@ if ($module->content) :
 	// Get the module icon
 	$headerIcon = '';
 
-	$margin = Factory::getLanguage()->isRtl() ? ' ml-2' : ' mr-2';
-
 	if (!empty($params->get('header_icon')))
 	{
-		$headerIcon = '<span class="' . htmlspecialchars($params->get('header_icon')) .  $margin . '" aria-hidden="true"></span>';
+		$headerIcon = '<span class="' . htmlspecialchars($params->get('header_icon')) . '" aria-hidden="true"></span>';
 	}
 	?>
 	<div class="module-wrapper">
@@ -52,8 +50,8 @@ if ($module->content) :
 					<?php if ($canEdit || $canChange) : ?>
 						<?php $dropdownPosition = Factory::getLanguage()->isRTL() ? 'left' : 'right'; ?>
 						<div class="module-actions dropdown">
-							<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-link" id="dropdownMenuButton-<?php echo $id; ?>">
-								<span class="fa fa-cog" aria-hidden="true"></span>
+							<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn" id="dropdownMenuButton-<?php echo $id; ?>">
+								<span class="fas fa-cog" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::sprintf('JACTION_EDIT_MODULE', $module->title); ?></span>
 							</button>
 							<div class="dropdown-menu dropdown-menu-<?php echo $dropdownPosition; ?>" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">
@@ -70,7 +68,10 @@ if ($module->content) :
 					<?php endif; ?>
 
 					<?php if ($module->showtitle) : ?>
-						<h2<?php echo $headerClass; ?>><?php echo $headerIcon . htmlspecialchars($module->title); ?></h2>
+						<h2 <?php echo $headerClass; ?>>
+							<?php echo $headerIcon; ?>
+							<?php echo htmlspecialchars($module->title); ?>
+						</h2>
 					<?php endif; ?>
 				</div>
 			<?php endif; ?>

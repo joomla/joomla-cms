@@ -9,35 +9,37 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 $item    = $displayData['data'];
 $display = $item->text;
+$app = Factory::getApplication();
 
 switch ((string) $item->text)
 {
 	// Check for "Start" item
 	case Text::_('JLIB_HTML_START') :
-		$icon = 'fa fa-angle-double-left';
+		$icon = 'fas fa-angle-double-left';
 		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "Prev" item
 	case $item->text === Text::_('JPREV') :
 		$item->text = Text::_('JPREVIOUS');
-		$icon = 'fa fa-angle-left';
+		$icon = 'fas fa-angle-left';
 		$aria =Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "Next" item
 	case Text::_('JNEXT') :
-		$icon = 'fa fa-angle-right';
+		$icon = 'fas fa-angle-right';
 		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "End" item
 	case Text::_('JLIB_HTML_END') :
-		$icon = 'fa fa-angle-double-right';
+		$icon = 'fas fa-angle-double-right';
 		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
@@ -64,16 +66,25 @@ if ($displayData['active'])
 	}
 
 	$class = 'active';
-	$onClick = 'document.adminForm.' . $item->prefix . 'limitstart.value=' . ($item->base > 0 ? $item->base : '0') . '; Joomla.submitform();return false;';
+
+	if ($app->isClient('administrator'))
+	{
+		$link = 'href="#" onclick="document.adminForm.' . $item->prefix . $limit . '; Joomla.submitform();return false;"';
+	}
+	elseif ($app->isClient('site'))
+	{
+		$link = 'href="' . $item->link . '"';
+	}
 }
 else
 {
 	$class = (property_exists($item, 'active') && $item->active) ? 'active' : 'disabled';
 }
+
 ?>
 <?php if ($displayData['active']) : ?>
 	<li class="<?php echo $class; ?> page-link">
-		<a aria-label="<?php echo $aria; ?>" href="#" onclick="<?php echo $onClick; ?>">
+		<a aria-label="<?php echo $aria; ?>" <?php echo $link; ?>>
 			<?php echo $display; ?>
 		</a>
 	</li>

@@ -21,18 +21,18 @@
 		</sql>
 	</uninstall>
 	<files folder="site">
-		<filename>router.php</filename>
 		<folder>Controller</folder>
 		<folder>Helper</folder>
 		<folder>helpers</folder>
 		<folder>Model</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_banners.ini</language>
+		<language tag="en-GB">language/en-GB/com_banners.ini</language>
 	</languages>
 	<media destination="com_banners" folder="media">
 		<folder>js</folder>
 	</media>
+	
 	<administration>
 		<menu img="class:banners">com_banners</menu>
 		<submenu>
@@ -92,8 +92,8 @@
 			<folder>View</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_banners.ini</language>
-			<language tag="en-GB">language/en-GB.com_banners.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_banners.ini</language>
+			<language tag="en-GB">language/en-GB/com_banners.sys.ini</language>
 		</languages>
 	</administration>
 </extension>
