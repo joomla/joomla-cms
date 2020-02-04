@@ -9,10 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.html.html.bootstrap');
-
 $tparams = $this->item->params;
-
 ?>
 
 <div class="contact<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Person">
