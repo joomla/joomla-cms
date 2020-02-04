@@ -2,6 +2,8 @@
 
 .custom-select {
   max-width: $input-max-width;
+  background: $custom-select-background;
+  background-color: $custom-select-bg;
 
   [dir=rtl] & {
     padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
