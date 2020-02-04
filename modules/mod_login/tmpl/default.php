@@ -70,13 +70,17 @@ Text::script('JHIDEPASSWORD');
 			<div class="mod-login__twofactor form-group">
 				<?php if (!$params->get('usetext', 0)) : ?>
 					<div class="input-group">
-						<span class="input-group-prepend">
-							<span class="input-group-text icon-star" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>"></span>
+						<span class="input-group-prepend" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
+							<span class="input-group-text">
+								<span class="icon-star"></span>
+							</span>
 							<label for="modlgn-secretkey-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 						</span>
 						<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 						<span class="input-group-append" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-							<span class="input-group-text icon-help"></span>
+							<span class="input-group-text">
+								<span class="icon-help"></span>
+							</span>
 						</span>
 					</div>
 				<?php else : ?>
