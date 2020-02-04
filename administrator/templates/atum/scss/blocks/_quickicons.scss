@@ -18,7 +18,7 @@
       background: var(--atum-bg-dark);
     }
 
-    .fa,
+    .fas,
     .fab {
       font-size: $quickicon-icon-size;
       margin: 0 auto;
@@ -127,7 +127,7 @@
 
         &.big {
 
-          .fa,
+          .fas,
           .fab {
             font-size: $quickicon-icon-size-big;
           }
@@ -167,8 +167,9 @@
     &.danger {
       background: $danger-bg;
       border: 1px solid lighten($danger-txt, 30%);
+      color: $danger-txt;
 
-      .fa,
+      .fas,
       .fab {
         color: $danger-txt;
       }
@@ -177,7 +178,7 @@
         background: var(--danger);
         color: var(--white);
 
-        .fa,
+        .fas,
         .fab {
           &::before {
             color: var(--white);
@@ -190,7 +191,7 @@
       color: $success-txt;
       border: 1px solid lighten($success-txt, 20%);
 
-      .fa,
+      .fas,
       .fab {
         color: var(--success);
       }
@@ -199,7 +200,7 @@
         background: var(--success);
         color: var(--white);
 
-        .fa,
+        .fas,
         .fab {
           &::before {
             color: var(--white);

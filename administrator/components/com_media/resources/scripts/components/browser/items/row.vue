@@ -1,5 +1,5 @@
 <template>
-    <tr @dblclick.stop.prevent="onDblClick()" @click="onClick" :class="{selected: this.isSelected()}">
+    <tr class="media-browser-item" @dblclick.stop.prevent="onDblClick()" @click="onClick" :class="{selected: this.isSelected()}">
         <td class="type" :data-type="item.extension">
         </td>
         <th scope="row" class="name">
