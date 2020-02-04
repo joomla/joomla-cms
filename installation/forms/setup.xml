@@ -6,7 +6,7 @@
 			type="installation.language"
 			label="INSTL_SELECT_LANGUAGE_TITLE"
 			id="language"
-			class="custom-select-sm required"
+			class="required"
 			default="en-GB"
 		/>
 		<field
@@ -122,5 +122,65 @@
 			id="db_old"
 			default="backup"
 		/>
+
+		<field
+			name="db_encryption"
+			type="list"
+			label="INSTL_DATABASE_ENCRYPTION_MODE_LABEL"
+			class="custom-select"
+			required="true"
+			default="0"
+			filter="integer"
+			>
+			<option value="0">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_NONE</option>
+			<option value="1">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_ONE_WAY</option>
+			<option value="2">INSTL_DATABASE_ENCRYPTION_MODE_VALUE_TWO_WAY</option>
+		</field>
+
+		<field
+			name="db_sslkey"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_KEY_LABEL"
+			filter="path"
+			showon="db_encryption:2"
+		/>
+
+		<field
+			name="db_sslcert"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_CERT_LABEL"
+			filter="path"
+			showon="db_encryption:2"
+		/>
+
+		<field
+			name="db_sslverifyservercert"
+			type="radio"
+			label="INSTL_DATABASE_ENCRYPTION_VERIFY_SERVER_CERT_LABEL"
+			class="switcher"
+			default="0"
+			filter="boolean"
+			showon="db_encryption:1,2"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="db_sslca"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_CA_LABEL"
+			filter="path"
+			showon="db_encryption:1,2[AND]db_sslverifyservercert:1"
+		/>
+
+		<field
+			name="db_sslcipher"
+			type="text"
+			label="INSTL_DATABASE_ENCRYPTION_CIPHER_LABEL"
+			filter="string"
+			showon="db_type:mysql,mysqli[AND]db_encryption:2"
+		/>
+
 	</fieldset>
 </form>

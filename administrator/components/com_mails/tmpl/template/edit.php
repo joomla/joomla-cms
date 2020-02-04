@@ -40,7 +40,7 @@ $doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_MAILS_MAIL_CONTENT')); ?>
 		<div class="row">
 			<div class="col-md-12">
-				<h1><?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
+				<h1><?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?> - <?php echo $this->escape($this->item->language); ?>
 					<span class="small">(<?php echo $this->escape($this->master->template_id); ?>)</span>
 				</h1>
 				<p><?php echo Text::_($component . '_MAIL_' . $sub_id . '_DESC'); ?></p>

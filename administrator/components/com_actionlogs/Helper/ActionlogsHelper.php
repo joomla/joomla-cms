@@ -135,13 +135,13 @@ class ActionlogsHelper
 
 		}
 
-		$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load($extension, $source, null, false, true);
+		$lang->load($extension, JPATH_ADMINISTRATOR)
+			|| $lang->load($extension, $source);
 
 		if (!$lang->hasKey(strtoupper($extension)))
 		{
-			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-				|| $lang->load($extension . '.sys', $source, null, false, true);
+			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
+				|| $lang->load($extension . '.sys', $source);
 		}
 
 		$cache[$extension] = true;
@@ -333,12 +333,12 @@ class ActionlogsHelper
 				continue;
 			}
 
-			$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load($extension, JPATH_PLUGINS . '/' . $type . '/' . $name, null, false, true);
+			$lang->load($extension, JPATH_ADMINISTRATOR)
+			|| $lang->load($extension, JPATH_PLUGINS . '/' . $type . '/' . $name);
 		}
 
 		// Load com_privacy too.
-		$lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true);
+		$lang->load('com_privacy', JPATH_ADMINISTRATOR);
 	}
 
 	/**

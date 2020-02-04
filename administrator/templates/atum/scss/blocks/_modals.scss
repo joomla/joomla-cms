@@ -10,7 +10,7 @@
     padding: 0 22px;
     font-size: 1rem;
     line-height: 2.375rem;
-    box-shadow: 1px 1px 1px 0 rgba(0,0,0,.25);
+    box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, .25);
 
 
   }
@@ -20,44 +20,40 @@
   .btn-danger:not([href]),
   .btn-secondary:not([href]) {
     color: var(--atum-text-dark);
-    border:1px solid var(--atum-text-dark);
-    background:var(--white);
+    border: 1px solid var(--atum-text-dark);
+    background: var(--white);
 
 
   }
 
-  .btn-primary:not([href])
-  {
+  .btn-primary:not([href]) {
     &:hover {
       color: var(--white);
-      background:var(--primary);
+      background: var(--primary);
       border-color: var(--primary);
     }
   }
 
-  .btn-secondary:not([href])
-  {
+  .btn-secondary:not([href]) {
     &:hover {
       color: var(--white);
-      background:var(--secondary);
+      background: var(--secondary);
       border-color: var(--secondary);
     }
   }
 
-  .btn-success:not([href])
-  {
+  .btn-success:not([href]) {
     &:hover {
       color: var(--white);
-      background:var(--success);
+      background: var(--success);
       border-color: var(--success);
     }
   }
 
-  .btn-danger:not([href])
-  {
+  .btn-danger:not([href]) {
     &:hover {
       color: var(--white);
-      background:var(--danger);
+      background: var(--danger);
       border-color: var(--danger);
     }
   }
@@ -66,9 +62,9 @@
   .btn.btn-danger [class*=" icon-"],
   .btn.btn-danger [class^=fa-],
   .btn.btn-danger [class^=icon-],
-  .btn.btn-danger span{
+  .btn.btn-danger span {
     background-color: var(--danger);
-    color: hsla(0,0%,100%,.9);
+    color: hsla(0, 0%, 100%, .9);
 
     display: inline-block;
     width: 2.375rem;
@@ -81,9 +77,9 @@
   .btn.btn-success [class*=" icon-"],
   .btn.btn-success [class^=fa-],
   .btn.btn-success [class^=icon-],
-  .btn.btn-success span{
+  .btn.btn-success span {
     background-color: var(--success);
-    color: hsla(0,0%,100%,.9);
+    color: hsla(0, 0%, 100%, .9);
 
     display: inline-block;
     width: 2.375rem;
@@ -170,7 +166,7 @@
     li {
       margin-bottom: .15rem;
 
-      &:last-of-type{
+      &:last-of-type {
         margin-bottom: 0;
       }
     }

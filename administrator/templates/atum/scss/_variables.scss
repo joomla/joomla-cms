@@ -87,7 +87,7 @@ $alert-border-level:               0;
 $alert-color-level:                0;
 
 // Global
-$atum-box-shadow:                  1px 1px 1px 0px rgba($black,0.25);
+$atum-box-shadow:                  1px 1px 1px 0 rgba($black,0.25);
 $enable-rounded:                   false;
 $border-radius:                    none;
 $input-btn-padding-y:              .6rem;
@@ -213,7 +213,8 @@ $custom-select-indicator-padding:    3rem;
 $custom-select-bg:                   var(--atum-bg-dark);
 $custom-select-bg-size:              116rem;
 $custom-select-indicator:            url(../images/select-bg.svg);
-$custom-select-indicator-active:     url(../images/select-bg-active.svg);
+$custom-select-indicator-active:     url(../../../images/select-bg-active.svg);
+$custom-select-indicator-active-rtl: url(../../../images/select-bg-active-rtl.svg);
 $custom-select-background:           $custom-select-indicator no-repeat right center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 $custom-select-box-shadow:           $atum-box-shadow;
 $custom-select-bg-size-sm:           75rem;

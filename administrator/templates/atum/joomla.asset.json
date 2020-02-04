@@ -55,7 +55,6 @@
       "type": "preset",
       "dependencies": [
         "core#script",
-        "bootstrap.js.bundle#script",
         "css-vars-ponyfill#script",
         "focus-visible#script",
         "template.atum#script"
@@ -76,6 +75,11 @@
         "template.atum.base",
         "template.atum.rtl#style"
       ]
+    },
+    {
+      "name": "searchtools",
+      "type": "style",
+      "uri": "system/searchtools/searchtools.min.css"
     }
   ]
 }
