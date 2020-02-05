@@ -59,6 +59,7 @@ if ($charcounter)
 	// Set the text
 	$counterlabel = 'data-counter-label="' . Text::_('COM_CONFIG_METADESC_COUNTER') . '"';
 }
+
 $attributes = array(
 	$columns ?: '',
 	$rows ?: '',
