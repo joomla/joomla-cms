@@ -43,7 +43,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<th scope="col" style="width:10%" class="d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
-								<th scope="col" style="width:10%"  class="d-md-table-cell">
+								<th scope="col" style="width:10%" class="d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_NO_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
 								<th scope="col" style="width:30%" class="d-none d-md-table-cell">
