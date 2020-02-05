@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
@@ -324,6 +325,9 @@ abstract class Indexer
 		{
 			Taxonomy::removeOrphanNodes();
 		}
+
+		PluginHelper::importPlugin('finder');
+		Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', array($linkId));
 
 		return true;
 	}
