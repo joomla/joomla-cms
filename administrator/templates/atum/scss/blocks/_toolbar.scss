@@ -439,16 +439,7 @@ joomla-toolbar-button {
 
 @include media-breakpoint-down(xs) {
   .toggler-toolbar {
-    position: fixed;
     top: 20px;
-    bottom: 20px;
-    z-index: $zindex-alerts;
-    display: block;
-    width: 70px;
-    height: 70px;
-    background: var(--atum-link-color);
-    border: 8px solid var(--atum-bg-light);
-    border-radius: 40px;
 
     [dir=ltr] & {
       right: 10px;
