@@ -254,8 +254,8 @@ class GroupModel extends AdminModel
 			if (file_exists($path))
 			{
 				$lang = Factory::getLanguage();
-				$lang->load($component, JPATH_BASE, null, false, true);
-				$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
+				$lang->load($component, JPATH_BASE);
+				$lang->load($component, JPATH_BASE . '/components/' . $component);
 
 				if (!$form->loadFile($path, false))
 				{

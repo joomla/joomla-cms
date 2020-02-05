@@ -95,7 +95,7 @@ class DisplayController extends BaseController
 
 				$app->getSession()->set('application.queue', $messages);
 
-				$response = new JsonResponse((object) ['return' => $return], null, false, true);
+				$response = new JsonResponse((object) ['return' => $return]);
 			}
 			else
 			{

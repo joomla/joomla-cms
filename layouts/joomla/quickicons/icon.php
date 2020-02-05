@@ -56,9 +56,9 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 		<li class="quickicon-group col mb-3 d-flex">
 		<ul class="list-unstyled d-flex w-100">
 			<li class="quickicon flex-grow-1">
-	<?php else: ?>		
+	<?php else: ?>
 		<li class="quickicon quickicon-single col mb-3">
-	<?php endif; ?>	
+	<?php endif; ?>
 
 		<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 			<?php if (isset($displayData['image'])): ?>
@@ -68,7 +68,7 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 			<?php endif; ?>
 			<?php if (isset($displayData['ajaxurl'])) : ?>
 				<div class="quickicon-amount" <?php echo $dataUrl ?> aria-hidden="true">
-					<span class="fa fa-spinner" aria-hidden="true"></span>
+					<span class="fas fa-spinner" aria-hidden="true"></span>
 				</div>
 				<div class="quickicon-sr-desc sr-only"></div>
 			<?php endif; ?>
@@ -90,7 +90,7 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 	if (isset($displayData['linkadd'])): ?>
 		<li class="btn-block quickicon-linkadd j-links-link d-flex">
 			<a class="d-flex align-items-center" href="<?php echo $displayData['linkadd']; ?>" title="<?php echo Text::_($displayData['name'] . '_ADD'); ?>">
-				<span class="fa fa-plus" aria-hidden="true"></span>
+				<span class="fas fa-plus" aria-hidden="true"></span>
 			</a>
 		</li>
 	</ul>

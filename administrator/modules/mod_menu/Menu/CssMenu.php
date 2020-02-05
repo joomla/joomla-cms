@@ -475,8 +475,8 @@ class CssMenu
 			// Ok we passed everything, load language at last only
 			if ($item->element)
 			{
-				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR, null, false, true) ||
-				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
+				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR) ||
+				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element);
 			}
 
 			if ($item->type === 'separator' && $itemParams->get('text_separator') == 0)
@@ -533,7 +533,7 @@ class CssMenu
 			$class = preg_replace('#\.\.[^A-Za-z0-9\.\_\- ]#', '', $class);
 		}
 
-		$html = 'fa fa-' . $class . ' fa-fw';
+		$html = 'fas fa-' . $class . ' fa-fw';
 
 		return $html;
 	}
