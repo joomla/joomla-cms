@@ -21,7 +21,7 @@ use Joomla\Component\Actionlogs\Administrator\View\Actionlogs\HtmlView;
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 
-HTMLHelper::_('script', 'com_actiologs/admin-actionlogs-default.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_actionlogs/admin-actionlogs-default.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="adminForm" id="adminForm">
