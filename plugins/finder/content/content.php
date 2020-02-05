@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Adapter;
@@ -331,7 +332,11 @@ class PlgFinderContent extends Adapter
 		Helper::getContentExtras($item);
 
 		// Index the item.
-		$this->indexer->index($item);
+		$linkId = $this->indexer->index($item);
+
+		if($linkId) {
+			Factory::getApplication()->triggerEvent('onFinderIndexAfterIndex', array($item));
+		}
 	}
 
 	/**
