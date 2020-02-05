@@ -1,5 +1,15 @@
 joomla-toolbar-button {
   border: 1px solid var(--border);
+
+  [class^='icon-'],
+  [class*=' icon-'] {
+    margin-right: .5rem;
+
+    [dir=rtl] & {
+      margin-left: .5em;
+      margin-right: 0;
+    }
+  }
 }
 
 .toggle-toolbar {
