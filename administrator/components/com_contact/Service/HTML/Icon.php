@@ -166,7 +166,7 @@ class Icon
 			$icon = 'eye-slash';
 		}
 
-		$text = '<span class="hasTooltip fa fa-' . $icon . '" title="'
+		$text = '<span class="hasTooltip fas fa-' . $icon . '" title="'
 			. HTMLHelper::tooltipText(Text::_('COM_CONTACT_EDIT_CONTACT'), $overlib, 0, 0) . '"></span> ';
 		$text .= Text::_('JGLOBAL_EDIT');
 
