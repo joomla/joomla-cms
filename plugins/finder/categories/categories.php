@@ -356,7 +356,8 @@ class PlgFinderCategories extends Adapter
 		// Index the item.
 		$linkId = $this->indexer->index($item);
 
-		if($linkId) {
+		if ($linkId)
+		{
 			Factory::getApplication()->triggerEvent('onFinderIndexAfterIndex', array($item));
 		}
 	}
