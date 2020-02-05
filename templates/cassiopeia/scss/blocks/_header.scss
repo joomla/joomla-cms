@@ -8,6 +8,10 @@
   background-image: $cassiopeia-header-grad;
   box-shadow: 0 5px 5px rgba(0, 0, 0, .03) inset;
 
+  @include media-breakpoint-down(sm) {
+    position: relative !important;
+  }
+
   header {
     width: 100%;
     max-width: 1155px;

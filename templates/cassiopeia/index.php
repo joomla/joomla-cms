@@ -71,6 +71,9 @@ if ($this->countModules('sidebar-right'))
 $wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
+
+$stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top' : '';
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -90,7 +93,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	. $hasClass;
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-	<div class="grid-child container-header full-width">
+	<div class="grid-child container-header full-width <?php echo $stickyHeader; ?>">
 		<header class="header">
 			<nav class="grid-child navbar navbar-expand-lg">
 				<div class="navbar-brand">
