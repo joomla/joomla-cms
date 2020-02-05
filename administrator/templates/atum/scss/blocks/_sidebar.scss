@@ -514,8 +514,11 @@
     border: 8px solid var(--atum-bg-light);
     position: fixed;
     bottom: 20px;
-    right: 10px;
-    z-index: $zindex-mobile-toggle;
+    z-index: $zindex-alerts;
+
+    [dir=ltr] & {
+      right: 10px;
+    }
 
     [dir=rtl] & {
       right: auto;
@@ -532,7 +535,7 @@
       }
     }
 
-    &.mm-collapsed {
+    &.collapsed {
       .navbar-toggler-icon::before {
         content: "\f0c9";
       }
