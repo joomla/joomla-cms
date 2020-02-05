@@ -25,37 +25,31 @@ class VoteradioField extends RadioField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  3.7.1
+	 * @since  3.8.0
 	 */
 	protected $type = 'Voteradio';
 
 	/**
-	 * Method to get the field Label.
+	 * Method to attach a form object to the field.
 	 *
-	 * @return string The field label
+	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed              $value    The form field value to validate.
+	 * @param   string             $group    The field name group control value. This acts as as an array container for the field.
+	 *                                       For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                       full field name would end up being "bar[foo]".
 	 *
-	 * @throws \Exception
+	 * @return  boolean  True on success.
 	 *
-	 * @since  3.8.2
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getLabel()
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		// Requires vote plugin enabled
-		return PluginHelper::isEnabled('content', 'vote') ? parent::getLabel() : null;
-	}
+		if (!PluginHelper::isEnabled('content', 'vote'))
+		{
+			return false;
+		}
 
-	/**
-	 * Method to get the field options.
-	 *
-	 * @return array The field option objects.
-	 *
-	 * @throws \Exception
-	 *
-	 * @since  3.7.1
-	 */
-	public function getOptions()
-	{
-		// Requires vote plugin enabled
-		return PluginHelper::isEnabled('content', 'vote') ? parent::getOptions() : array();
+		return parent::setup($element, $value, $group);
 	}
 }

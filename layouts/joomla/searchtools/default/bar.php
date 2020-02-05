@@ -48,7 +48,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				<?php endif; ?>
 				<span class="input-group-append">
 					<button type="submit" class="btn btn-primary" aria-label="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>">
-						<span class="fa fa-search" aria-hidden="true"></span>
+						<span class="fas fa-search" aria-hidden="true"></span>
 					</button>
 				</span>
 			</div>
@@ -57,7 +57,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 			<?php if ($filterButton) : ?>
 				<button type="button" class="btn btn-primary js-stools-btn-filter">
 					<?php echo Text::_('JFILTER_OPTIONS'); ?>
-					<span class="fa fa-angle-down" aria-hidden="true"></span>
+					<span class="fas fa-angle-down" aria-hidden="true"></span>
 				</button>
 			<?php endif; ?>
 			<button type="button" class="btn btn-primary js-stools-btn-clear mr-2">
