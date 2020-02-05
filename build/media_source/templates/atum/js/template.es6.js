@@ -170,7 +170,7 @@
         headerMoreBtn.setAttribute('type', 'button');
         headerMoreBtn.setAttribute('title', 'More Elements');
         const spanFa = document.createElement('span');
-        spanFa.className = 'fa fa-ellipsis-h';
+        spanFa.className = 'fas fa-ellipsis-h';
         spanFa.setAttribute('aria-hidden', 'true');
         const headerMoreMenu = document.createElement('div');
         headerMoreMenu.className = 'header-more-menu d-flex flex-wrap';

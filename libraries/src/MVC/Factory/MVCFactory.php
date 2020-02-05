@@ -270,6 +270,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 		}
 		catch (\UnexpectedValueException $e)
 		{
+			// Ignore it
 		}
 	}
 }
