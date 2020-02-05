@@ -162,7 +162,7 @@ class PluginsField extends ListField
 			{
 				$source    = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;
 				$extension = 'plg_' . $folder . '_' . $item->value;
-				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true) || $lang->load($extension . '.sys', $source, null, false, true);
+				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR) || $lang->load($extension . '.sys', $source);
 				$options[$i]->text = Text::_($item->text);
 
 				// If we are using useglobal update the use global value text with the plugin text.
