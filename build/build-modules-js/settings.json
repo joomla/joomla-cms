@@ -499,14 +499,7 @@
         "licenseFilename": "LICENSE",
         "js": {
           "dist/short-and-sweet.min.js": "js/short-and-sweet.min.js"
-        },
-        "provideAssets": [
-          {
-            "name": "short-and-sweet",
-            "type": "script",
-            "uri": ["short-and-sweet.min.js"]
-          }
-        ]
+        }
       },
       "skipto": {
         "name": "skipto",

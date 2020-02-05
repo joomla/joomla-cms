@@ -10,6 +10,7 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);
@@ -52,9 +53,9 @@ extract($displayData);
 if ($charcounter)
 {
 	// Load the js file
-	Factory::getDocument()->getWebAssetManager()->enableAsset('short-and-sweet');
+	HTMLHelper::_('script', 'vendor/short-and-sweet/short-and-sweet.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 	// Set the css class to be used as the trigger
-	$charcounter = 'charcount';
+	$charcounter = ' charcount';
 	// Set the text
 	$counterlabel = 'data-counter-label="' . Text::_('COM_CONFIG_METADESC_COUNTER') . '"';
 }
