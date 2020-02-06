@@ -20,12 +20,6 @@ body {
   }
 }
 
-.control-group {
-  .custom-select {
-    float: right;
-  }
-}
-
 .dropdown-menu-right {
 
   &::after {
@@ -47,10 +41,6 @@ body {
 
 .switcher {
   float: right;
-}
-
-.form-no-margin .control-group .controls .switcher__legend {
-  text-align: right;
 }
 
 // Alerts
@@ -120,10 +110,6 @@ body {
     [class*=' #{$fa-css-prefix}-'] {
       margin: 0 -27px 0 27px;
     }
-  }
-
-  .btn-group {
-    margin-left: .75rem !important;
   }
 
   .btn-toolbar > * {
@@ -266,4 +252,10 @@ body {
 #jform_old_url,
 #new_url {
   text-align: left;
+}
+
+// Database prefix
+#jform_dbprefix {
+  direction: ltr;
+  text-align: right;
 }

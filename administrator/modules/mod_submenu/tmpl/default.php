@@ -19,7 +19,7 @@ use Joomla\CMS\Router\Route;
 	<?php if ($child->hasChildren()) : ?>
 		<div class="card">
 			<h2 class="card-header">
-				<?php if ($child->icon) : ?><span class="fa fa-<?php echo $child->icon; ?>" aria-hidden="true"></span><?php endif; ?>
+				<?php if ($child->icon) : ?><span class="fas fa-<?php echo $child->icon; ?>" aria-hidden="true"></span><?php endif; ?>
 				<?php echo Text::_($child->title); ?>
 			</h2>
 			<ul class="list-group list-group-flush">
@@ -40,7 +40,7 @@ use Joomla\CMS\Router\Route;
 								<?php echo ($params->get('menu_text', 1)) ? htmlspecialchars(Text::_($item->title), ENT_QUOTES, 'UTF-8') . $item->iconImage : ''; ?>
 								<?php if ($item->ajaxbadge) : ?>
 									<span class="menu-badge">
-										<span class="fa fa-spin fa-spinner mt-1 system-counter" data-url="<?php echo $item->ajaxbadge; ?>"></span>
+										<span class="fas fa-spin fa-spinner mt-1 system-counter" data-url="<?php echo $item->ajaxbadge; ?>"></span>
 									</span>
 								<?php endif; ?>
 							</a>
@@ -63,7 +63,7 @@ use Joomla\CMS\Router\Route;
 										$sronly = Text::_($item->title) . ' - ' . $title;
 										?>
 										<a href="<?php echo $link; ?>">
-											<span class="fa fa-<?php echo $icon; ?> fa-xs" title="<?php echo htmlentities($title); ?>" aria-hidden="true"></span>
+											<span class="fas fa-<?php echo $icon; ?> fa-xs" title="<?php echo htmlentities($title); ?>" aria-hidden="true"></span>
 											<span class="sr-only"><?php echo htmlentities($sronly); ?></span>
 										</a>
 									</span>
@@ -72,7 +72,7 @@ use Joomla\CMS\Router\Route;
 							<?php if ($item->dashboard) : ?>
 								<span class="menu-dashboard">
 									<a href="<?php echo Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $item->dashboard); ?>">
-										<span class="fa fa-th-large" title="<?php echo htmlentities(Text::_('MOD_MENU_DASHBOARD_LINK')); ?>"></span>
+										<span class="fas fa-th-large" title="<?php echo htmlentities(Text::_('MOD_MENU_DASHBOARD_LINK')); ?>"></span>
 									</a>
 								</span>
 							<?php endif; ?>

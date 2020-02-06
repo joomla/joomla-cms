@@ -88,8 +88,8 @@ class HtmlView extends BaseHtmlView
 
 			// Load the com_actionlogs language strings for use in the layout
 			$lang = Factory::getLanguage();
-			$lang->load('com_actionlogs', JPATH_ADMINISTRATOR, null, false, true)
-				|| $lang->load('com_actionlogs', JPATH_ADMINISTRATOR . '/components/com_actionlogs', null, false, true);
+			$lang->load('com_actionlogs', JPATH_ADMINISTRATOR)
+				|| $lang->load('com_actionlogs', JPATH_ADMINISTRATOR . '/components/com_actionlogs');
 		}
 
 		// Variables only required for the edit layout
