@@ -127,7 +127,7 @@ $userId  = Factory::getUser()->id;
 								<?php echo Text::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br>
 							<?php endif; ?>
 						</div>
-						<?php if ($canEdit || ($canDo->get('core.edit.own') && $item->created_by == $userId)) : ?>
+						<?php if ($canEdit || ($canDo->get('core.edit.own') && $item->created_by === $userId)) : ?>
 							<div><?php echo HTMLHelper::_('contacticon.edit', $item, $this->params); ?></div>
 						<?php endif; ?>
 
