@@ -21,7 +21,7 @@
                 <dd>{{ item.modified_date_formatted }}</dd>
 
                 <dt>{{ translate('COM_MEDIA_MEDIA_DIMENSION') }}</dt>
-                <dd v-if="item.width || item.height">{{ item.width }}px * {{ item.height}}px</dd>
+                <dd v-if="item.width || item.height">{{ item.width }}px * {{ item.height }}px</dd>
                 <dd v-else>-</dd>
 
                 <dt>{{ translate('COM_MEDIA_MEDIA_SIZE') }}</dt>
