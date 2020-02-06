@@ -115,5 +115,4 @@
   // Initialise Masonry layout on full load,
   // to be sure all images/fonts are loaded, and so cards have a "final" size
   window.addEventListener('load', MasonryLayout.initialise);
-
 })(window, document, window.Joomla);
