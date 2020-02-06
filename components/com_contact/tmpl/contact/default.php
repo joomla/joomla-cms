@@ -20,7 +20,7 @@ use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 $tparams = $this->item->params;
 $canDo   = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
-$canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == Factory::getUser()->id);
+$canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by === Factory::getUser()->id);
 ?>
 
 <div class="com-contact contact" itemscope itemtype="https://schema.org/Person">
