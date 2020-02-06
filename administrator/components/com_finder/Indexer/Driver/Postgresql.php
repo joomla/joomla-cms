@@ -404,7 +404,7 @@ class Postgresql extends Indexer
 		// Mark afterTruncating in the profiler.
 		static::$profiler ? static::$profiler->mark('afterTruncating') : null;
 
-		//trigger a plugin event after indexing
+		// trigger a plugin event after indexing
 		PluginHelper::importPlugin('finder');
 		Factory::getApplication()->triggerEvent('onFinderIndexAfterIndex', array($item, $linkId));
 
