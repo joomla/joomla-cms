@@ -29,12 +29,12 @@ use Joomla\CMS\Router\Route;
 					</span>
 				<?php elseif ($privacyPolicyInfo['published'] && !$privacyPolicyInfo['articlePublished']) : ?>
 					<span class="badge badge-warning">
-						<span class="icon-warning" aria-hidden="true"></span>
+						<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
 						<?php echo Text::_('JUNPUBLISHED'); ?>
 					</span>
 				<?php else : ?>
 					<span class="badge badge-warning">
-						<span class="icon-warning" aria-hidden="true"></span>
+						<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
 						<?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
 					</span>
 				<?php endif; ?>
@@ -58,12 +58,12 @@ use Joomla\CMS\Router\Route;
 					</span>
 				<?php elseif (!$requestFormPublished['published'] && $requestFormPublished['exists']) : ?>
 					<span class="badge badge-warning">
-						<span class="icon-warning" aria-hidden="true"></span>
+						<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
 						<?php echo Text::_('JUNPUBLISHED'); ?>
 					</span>
 				<?php else : ?>
 					<span class="badge badge-warning">
-						<span class="icon-warning" aria-hidden="true"></span>
+						<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
 						<?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
 					</span>
 				<?php endif; ?>
@@ -84,7 +84,7 @@ use Joomla\CMS\Router\Route;
 					</span>
 				<?php else : ?>
 					<span class="badge badge-danger">
-						<span class="icon-warning" aria-hidden="true"></span>
+						<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
 						<?php echo Text::_('WARNING'); ?>
 					</span>
 				<?php endif; ?>
@@ -106,7 +106,7 @@ use Joomla\CMS\Router\Route;
 					</span>
 				<?php else : ?>
 					<span class="badge badge-danger">
-						<span class="icon-warning" aria-hidden="true"></span>
+						<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
 						<?php echo Text::_('JDISABLED'); ?>
 					</span>
 				<?php endif; ?>
@@ -129,7 +129,7 @@ use Joomla\CMS\Router\Route;
 					</span>
 				<?php else : ?>
 					<span class="badge badge-warning">
-						<span class="icon-warning" aria-hidden="true"></span>
+						<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
 						<?php echo Text::_('COM_PRIVACY_STATUS_CHECK_NOT_AVAILABLE'); ?>
 					</span>
 				<?php endif; ?>
