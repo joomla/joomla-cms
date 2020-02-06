@@ -26,7 +26,7 @@
 
                 <dt>{{ translate('COM_MEDIA_MEDIA_SIZE') }}</dt>
                 <dd v-if="item.size">{{ (item.size / 1024).toFixed(2) }} KB</dd>
-				<dd v-else>-</dd>
+                <dd v-else>-</dd>
 
                 <dt>{{ translate('COM_MEDIA_MEDIA_MIME_TYPE') }}</dt>
                 <dd>{{ item.mime_type }}</dd>
