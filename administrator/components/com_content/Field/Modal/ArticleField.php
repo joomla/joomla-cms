@@ -176,7 +176,7 @@ class ArticleField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalEdit' . $modalId . '">'
-				. '<span class="icon-edit" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
+				. '<span class="fas fa-pen-square" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
 				. '</button>';
 		}
 
@@ -188,7 +188,7 @@ class ArticleField extends FormField
 				. ' id="' . $this->id . '_clear"'
 				. ' type="button"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
-				. '<span class="icon-remove" aria-hidden="true"></span> ' . Text::_('JCLEAR')
+				. '<span class="fas fa-times" aria-hidden="true"></span> ' . Text::_('JCLEAR')
 				. '</button>';
 		}
 
