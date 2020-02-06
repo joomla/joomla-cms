@@ -156,6 +156,7 @@
       display: block;
       text-overflow: ellipsis;
       overflow: hidden;
+      transition: all .2s ease-in-out;
     }
   }
 

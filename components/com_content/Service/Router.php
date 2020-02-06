@@ -22,6 +22,7 @@ use Joomla\CMS\Component\Router\Rules\NomenuRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 
 /**
  * Routing class of com_content
@@ -258,8 +259,14 @@ class Router extends RouterView
 			$dbquery = $this->db->getQuery(true);
 			$dbquery->select($this->db->quoteName('id'))
 				->from($this->db->quoteName('#__content'))
-				->where('alias = ' . $this->db->quote($segment))
-				->where('catid = ' . $this->db->quote($query['id']));
+				->where(
+					[
+						$this->db->quoteName('alias') . ' = :alias',
+						$this->db->quoteName('catid') . ' = :catid',
+					]
+				)
+				->bind(':alias', $segment)
+				->bind(':catid', $query['id'], ParameterType::INTEGER);
 			$this->db->setQuery($dbquery);
 
 			return (int) $this->db->loadResult();

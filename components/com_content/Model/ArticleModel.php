@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\IpHelper;
 
@@ -83,7 +84,7 @@ class ArticleModel extends ItemModel
 	{
 		$user = Factory::getUser();
 
-		$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
+		$pk = (int) ($pk ?: $this->getState('article.id'));
 
 		if ($this->_item === null)
 		{
@@ -95,20 +96,66 @@ class ArticleModel extends ItemModel
 			try
 			{
 				$db = $this->getDbo();
-				$query = $db->getQuery(true)
-					->select(
-						$this->getState(
-							'item.select', 'a.id, a.asset_id, a.title, a.alias, a.introtext, a.fulltext, ' .
-							'a.state, a.catid, a.created, a.created_by, a.created_by_alias, ' .
-							'a.modified, a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
-							'a.images, a.urls, a.attribs, a.version, a.ordering, ' .
-							'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, fp.featured_up, fp.featured_down, a.language'
-						)
-					);
-				$query->from('#__content AS a')
-					->where('a.id = ' . (int) $pk);
+				$query = $db->getQuery(true);
 
-				$query->select($db->quoteName('ws.condition'))
+				$query->select(
+					$this->getState(
+						'item.select',
+						[
+							$db->quoteName('a.id'),
+							$db->quoteName('a.asset_id'),
+							$db->quoteName('a.title'),
+							$db->quoteName('a.alias'),
+							$db->quoteName('a.introtext'),
+							$db->quoteName('a.fulltext'),
+							$db->quoteName('a.state'),
+							$db->quoteName('a.catid'),
+							$db->quoteName('a.created'),
+							$db->quoteName('a.created_by'),
+							$db->quoteName('a.created_by_alias'),
+							$db->quoteName('a.modified'),
+							$db->quoteName('a.modified_by'),
+							$db->quoteName('a.checked_out'),
+							$db->quoteName('a.checked_out_time'),
+							$db->quoteName('a.publish_up'),
+							$db->quoteName('a.publish_down'),
+							$db->quoteName('a.images'),
+							$db->quoteName('a.urls'),
+							$db->quoteName('a.attribs'),
+							$db->quoteName('a.version'),
+							$db->quoteName('a.ordering'),
+							$db->quoteName('a.metakey'),
+							$db->quoteName('a.metadesc'),
+							$db->quoteName('a.access'),
+							$db->quoteName('a.hits'),
+							$db->quoteName('a.metadata'),
+							$db->quoteName('a.featured'),
+							$db->quoteName('a.language'),
+						]
+					)
+				)
+					->select(
+						[
+							$db->quoteName('fp.featured_up'),
+							$db->quoteName('fp.featured_down'),
+							$db->quoteName('ws.condition'),
+							$db->quoteName('c.title', 'category_title'),
+							$db->quoteName('c.alias', 'category_alias'),
+							$db->quoteName('c.access', 'category_access'),
+							$db->quoteName('c.language', 'category_language'),
+							$db->quoteName('fp.ordering'),
+							$db->quoteName('u.name', 'author'),
+							$db->quoteName('parent.title', 'parent_title'),
+							$db->quoteName('parent.id', 'parent_id'),
+							$db->quoteName('parent.path', 'parent_route'),
+							$db->quoteName('parent.alias', 'parent_alias'),
+							$db->quoteName('parent.language', 'parent_language'),
+							'ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0) AS '
+								. $db->quoteName('rating'),
+							$db->quoteName('v.rating_count', 'rating_count'),
+						]
+					)
+					->from($db->quoteName('#__content', 'a'))
 					->join(
 						'INNER',
 						$db->quoteName('#__workflow_associations', 'wa'),
@@ -119,50 +166,54 @@ class ArticleModel extends ItemModel
 						$db->quoteName('#__workflow_stages', 'ws'),
 						$db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id')
 					)
-					->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'));
-
-				// Join on category table.
-				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access,' .
-					'c.language AS category_language'
-				)
-					->innerJoin('#__categories AS c on c.id = a.catid')
-					->where('c.published > 0');
-
-				// Join over the front page table.
-				$query->select('fp.ordering')
-					->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
-
-				// Join on user table.
-				$query->select('u.name AS author')
-					->join('LEFT', '#__users AS u on u.id = a.created_by');
+					->join(
+						'INNER',
+						$db->quoteName('#__categories', 'c'),
+						$db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid')
+					)
+					->join('LEFT', $db->quoteName('#__content_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'))
+					->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('a.created_by'))
+					->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'))
+					->join('LEFT', $db->quoteName('#__content_rating', 'v'), $db->quoteName('a.id') . ' = ' . $db->quoteName('v.content_id'))
+					->where(
+						[
+							$db->quoteName('a.id') . ' = :pk',
+							$db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'),
+							$db->quoteName('c.published') . ' > 0',
+						]
+					)
+					->bind(':pk', $pk, ParameterType::INTEGER);
 
 				// Filter by language
 				if ($this->getState('filter.language'))
 				{
-					$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+					$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
 				}
-
-				// Join over the categories to get parent category titles
-				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route,' .
-					'parent.alias as parent_alias, parent.language as parent_language'
-				)
-					->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
-
-				// Join on voting table
-				$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
-					->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 
 				if (!$user->authorise('core.edit.state', 'com_content.article.' . $pk)
 					&& !$user->authorise('core.edit', 'com_content.article.' . $pk)
 				)
 				{
 					// Filter by start and end dates.
-					$date = Factory::getDate();
+					$nowDate = Factory::getDate()->toSql();
 
-					$nowDate = $db->quote($date->toSql());
-
-					$query->where('(a.publish_up IS NULL OR a.publish_up <= ' . $nowDate . ')')
-						->where('(a.publish_down IS NULL OR a.publish_down >= ' . $nowDate . ')');
+					$query->extendWhere(
+						'AND',
+						[
+							$db->quoteName('a.publish_up') . ' IS NULL',
+							$db->quoteName('a.publish_up') . ' <= :publishUp',
+						],
+						'OR'
+					)
+						->extendWhere(
+							'AND',
+							[
+								$db->quoteName('a.publish_down') . ' IS NULL',
+								$db->quoteName('a.publish_down') . ' >= :publishDown',
+							],
+							'OR'
+						)
+						->bind([':publishUp', ':publishDown'], $nowDate);
 				}
 
 				// Filter by published state.
@@ -296,6 +347,9 @@ class ArticleModel extends ItemModel
 	 */
 	public function storeVote($pk = 0, $rate = 0)
 	{
+		$pk   = (int) $pk;
+		$rate = (int) $rate;
+
 		if ($rate >= 1 && $rate <= 5 && $pk > 0)
 		{
 			$userIP = IpHelper::getIp();
@@ -307,7 +361,8 @@ class ArticleModel extends ItemModel
 			// Create the base select statement.
 			$query->select('*')
 				->from($db->quoteName('#__content_rating'))
-				->where($db->quoteName('content_id') . ' = ' . (int) $pk);
+				->where($db->quoteName('content_id') . ' = :pk')
+				->bind(':pk', $pk, ParameterType::INTEGER);
 
 			// Set the query and load the result.
 			$db->setQuery($query);
@@ -331,8 +386,18 @@ class ArticleModel extends ItemModel
 
 				// Create the base insert statement.
 				$query->insert($db->quoteName('#__content_rating'))
-					->columns([$db->quoteName('content_id'), $db->quoteName('lastip'), $db->quoteName('rating_sum'), $db->quoteName('rating_count')])
-					->values((int) $pk . ', ' . $db->quote($userIP) . ',' . (int) $rate . ', 1');
+					->columns(
+						[
+							$db->quoteName('content_id'),
+							$db->quoteName('lastip'),
+							$db->quoteName('rating_sum'),
+							$db->quoteName('rating_count'),
+						]
+					)
+					->values(':pk, :ip, :rate, 1')
+					->bind(':pk', $pk, ParameterType::INTEGER)
+					->bind(':ip', $userIP)
+					->bind(':rate', $rate, ParameterType::INTEGER);
 
 				// Set the query and execute the insert.
 				$db->setQuery($query);
@@ -356,10 +421,17 @@ class ArticleModel extends ItemModel
 
 					// Create the base update statement.
 					$query->update($db->quoteName('#__content_rating'))
-						->set($db->quoteName('rating_count') . ' = rating_count + 1')
-						->set($db->quoteName('rating_sum') . ' = rating_sum + ' . (int) $rate)
-						->set($db->quoteName('lastip') . ' = ' . $db->quote($userIP))
-						->where($db->quoteName('content_id') . ' = ' . (int) $pk);
+						->set(
+							[
+								$db->quoteName('rating_count') . ' = ' . $db->quoteName('rating_count') . ' + 1',
+								$db->quoteName('rating_sum') . ' = ' . $db->quoteName('rating_sum') . ' + :rate',
+								$db->quoteName('lastip') . ' = :ip',
+							]
+						)
+						->where($db->quoteName('content_id') . ' = :pk')
+						->bind(':rate', $rate, ParameterType::INTEGER)
+						->bind(':ip', $userIP)
+						->bind(':pk', $pk, ParameterType::INTEGER);
 
 					// Set the query and execute the update.
 					$db->setQuery($query);
