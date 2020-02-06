@@ -39,13 +39,13 @@
             isDir() {
                 return (this.item.type === 'dir');
             },
-			/* The size of a file in KB */
-			size() {
-				if (!this.item.size) {
-					return '';
-				}
-				return `${(this.item.size / 1024).toFixed(2)} KB`;
-			},
+            /* The size of a file in KB */
+            size() {
+                if (!this.item.size) {
+                    return '';
+                }
+                return `${(this.item.size / 1024).toFixed(2)} KB`;
+            },
         },
 
         methods: {
