@@ -71,28 +71,28 @@
     document.removeEventListener('DOMContentLoaded', onBoot);
   };
 
-  function resizeGridItem(item){
-    grid = document.getElementsByClassName("card-columns")[0];
+  function resizeGridItem(item) {
+    grid = document.getElementsByClassName('card-columns')[0];
     rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
     rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap'));
-    rowSpan = Math.ceil((item.querySelector('.card').getBoundingClientRect().height+rowGap)/(rowHeight+rowGap));
-      item.style.gridRowEnd = "span "+rowSpan;
+    rowSpan = Math.ceil((item.querySelector('.card').getBoundingClientRect().height + rowGap) / (rowHeight + rowGap));
+    item.style.gridRowEnd = `span ${rowSpan}`;
   }
 
-  function resizeAllGridItems(){
-    allItems = document.getElementsByClassName("module-wrapper");
-    for(x=0;x<allItems.length;x++){
+  function resizeAllGridItems() {
+    allItems = document.getElementsByClassName('module-wrapper');
+    for (x = 0; x < allItems.length; x++) {
       resizeGridItem(allItems[x]);
     }
   }
 
-  function resizeInstance(instance){
+  function resizeInstance(instance) {
     item = instance.elements[0];
     resizeGridItem(item);
   }
 
   window.onload = resizeAllGridItems();
-  window.addEventListener("resize", resizeAllGridItems);
+  window.addEventListener('resize', resizeAllGridItems);
 
   // Initialise
   document.addEventListener('DOMContentLoaded', onBoot);
