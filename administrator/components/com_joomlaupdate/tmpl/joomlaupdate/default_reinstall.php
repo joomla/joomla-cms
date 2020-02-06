@@ -39,7 +39,7 @@ use Joomla\CMS\Updater\Update;
 				<td>
 					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>" target="_blank" rel="noopener noreferrer">
 						<?php echo $this->updateInfo['object']->downloadurl->_data; ?>
-						<span class="icon-out-2" aria-hidden="true"></span>
+						<span class="fas fa-external-link-alt" aria-hidden="true"></span>
 						<span class="sr-only"><?php echo Text::_('JBROWSERTARGET_NEW'); ?></span>
 					</a>
 				</td>
@@ -53,7 +53,7 @@ use Joomla\CMS\Updater\Update;
 					<td>
 						<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>" target="_blank" rel="noopener noreferrer">
 							<?php echo $this->updateInfo['object']->get('infourl')->title; ?>
-							<span class="icon-out-2" aria-hidden="true"></span>
+							<span class="fas fa-external-link-alt" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('JBROWSERTARGET_NEW'); ?></span>
 						</a>
 					</td>
