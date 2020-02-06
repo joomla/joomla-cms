@@ -133,8 +133,8 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 								<a class="dropdown-item uncheckall" href="javascript://"><span class="icon-checkbox-unchecked" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_DESELECT'); ?></a>
 								<div class="treeselect-menu-expand">
 									<div class="dropdown-divider"></div>
-									<a class="dropdown-item expandall" href="javascript://"><span class="icon-plus" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_EXPAND'); ?></a>
-									<a class="dropdown-item collapseall" href="javascript://"><span class="icon-minus" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_COLLAPSE'); ?></a>
+									<a class="dropdown-item expandall" href="javascript://"><span class="fas fa-plus" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_EXPAND'); ?></a>
+									<a class="dropdown-item collapseall" href="javascript://"><span class="fas fa-minus" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_COLLAPSE'); ?></a>
 								</div>
 							</div>
 						</div>
