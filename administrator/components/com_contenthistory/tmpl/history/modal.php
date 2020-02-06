@@ -57,7 +57,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 				<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_COMPARE'); ?></span>
 			</button>
 			<button onclick="if (document.adminForm.boxchecked.value==0){<?php echo $deleteMessage; ?>}else{ Joomla.submitbutton('history.keep')}" class="btn btn-secondary pointer" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_KEEP_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_KEEP_DESC'); ?>">
-				<span class="icon-lock" aria-hidden="true"></span>
+				<span class="fas fa-lock" aria-hidden="true"></span>
 				<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_KEEP'); ?></span>
 			</button>
 			<button onclick="if (document.adminForm.boxchecked.value==0){<?php echo $deleteMessage; ?>}else{ Joomla.submitbutton('history.delete')}" class="btn btn-secondary pointer" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_DELETE_DESC'); ?>">
@@ -117,7 +117,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 						<?php if ($item->keep_forever) : ?>
 							<a class="btn btn-secondary btn-sm active" rel="tooltip" href="javascript:void(0);"
 								onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')">
-								<?php echo Text::_('JYES'); ?>&nbsp;<span class="icon-lock" aria-hidden="true"></span>
+								<?php echo Text::_('JYES'); ?>&nbsp;<span class="fas fa-lock" aria-hidden="true"></span>
 							</a>
 						<?php else : ?>
 							<a class="btn btn-secondary btn-sm active" rel="tooltip" href="javascript:void(0);"
