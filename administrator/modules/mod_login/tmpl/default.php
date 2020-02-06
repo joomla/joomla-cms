@@ -63,7 +63,7 @@ Text::script('MESSAGE');
 				>
 				<span class="input-group-append ml-2">
 					<button type="button" class="btn btn-secondary input-password-toggle">
-						<span class="icon-eye" aria-hidden="true"></span>
+						<span class="fas fa-eye" aria-hidden="true"></span>
 						<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 					</button>
 				</span>
