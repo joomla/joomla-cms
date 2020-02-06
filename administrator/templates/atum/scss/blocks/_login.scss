@@ -27,12 +27,8 @@
     width: 100vw;
     height: 100vh;
     background-image: linear-gradient(45deg,
-            rgba(var(--atum-bg-dark), .9) 30%,
-            rgba(color("atum-bg-light"), .2) 100%);
-  }
-
-  .login-initial {
-    display: none;
+        rgba(var(--atum-bg-dark), .9) 30%,
+        rgba(color("atum-bg-light"), .2) 100%);
   }
 
   .login-logo {
@@ -83,13 +79,8 @@
 
     #btn-login-submit {
       background: var(--atum-bg-dark);
-      color:rgba(255,255,255,0.8);
+      color: rgba(255, 255, 255, 0.8);
     }
-  }
-
-  .input-password-toggle {
-    border-color: var(--atum-bg-dark-80);
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
   }
 
   .login-box {
@@ -199,13 +190,13 @@
 
     @include media-breakpoint-down(sm) {
       flex-wrap: wrap;
-      display:flex !important;
+      display: flex !important;
     }
   }
 
-  .header{
-    .logo{
-      &.small{
+  .header {
+    .logo {
+      &.small {
         line-height: 2.5rem;
       }
     }
@@ -239,20 +230,20 @@ label {
   color: var(--atum-text-light);
 }
 
-.view-login{
-  #wrapper.d-flex{
-      @include media-breakpoint-down(sm) {
-        display:flex !important;
-     }
-  }
-
-  #sidebar-wrapper:not(.show):not(.collapse){
+.view-login {
+  #wrapper.d-flex {
     @include media-breakpoint-down(sm) {
-      display:block;
+      display: flex !important;
     }
   }
 
- .invalid .form-control-feedback {
+  #sidebar-wrapper:not(.show):not(.collapse) {
+    @include media-breakpoint-down(sm) {
+      display: block;
+    }
+  }
+
+  .invalid .form-control-feedback {
     color: theme-color("danger");
   }
 }

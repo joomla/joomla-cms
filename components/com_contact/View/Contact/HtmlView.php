@@ -20,7 +20,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 /**
  * HTML Contact View class for the Contact component
@@ -365,10 +365,10 @@ class HtmlView extends BaseHtmlView
 		{
 			foreach ($contacts as &$contact)
 			{
-				$contact->link = Route::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid, $contact->language));
+				$contact->link = Route::_(RouteHelper::getContactRoute($contact->slug, $contact->catid, $contact->language));
 			}
 
-			$item->link = Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid, $item->language), false);
+			$item->link = Route::_(RouteHelper::getContactRoute($item->slug, $item->catid, $item->language), false);
 		}
 
 		// Process the content plugins.
@@ -493,7 +493,8 @@ class HtmlView extends BaseHtmlView
 		$id = (int) @$menu->query['id'];
 
 		// If the menu item does not concern this contact
-		if ($menu && ($menu->query['option'] !== 'com_contact' || $menu->query['view'] !== 'contact' || $id != $this->item->id))
+		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_contact' || $menu->query['view'] !== 'contact'
+			|| $id != $this->item->id))
 		{
 			// If this is not a single contact menu item, set the page title to the contact title
 			if ($this->item->name)
@@ -504,12 +505,10 @@ class HtmlView extends BaseHtmlView
 			$path = array(array('title' => $this->item->name, 'link' => ''));
 			$category = Categories::getInstance('Contact')->get($this->item->catid);
 
-			while ($category && ($menu->query['option'] !== 'com_contact'
-				|| $menu->query['view'] === 'contact'
-				|| $id != $category->id) && $category->id > 1
-			)
+			while ($category && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact'
+				|| $id != $category->id) && $category->id > 1)
 			{
-				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($category->id, $category->language));
+				$path[] = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
 			}
 

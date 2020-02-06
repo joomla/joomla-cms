@@ -17,7 +17,6 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.tabstate');
 
 $this->fieldsets = $this->form->getFieldsets('params');
 $this->useCoreUI = true;
@@ -98,7 +97,7 @@ $tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=
 							<?php endif; ?>
 							<?php else : ?>
 								<div class="alert alert-danger">
-								<span class="fa fa-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
+								<span class="fas fa-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
 									<?php echo Text::_('COM_PLUGINS_XML_ERR'); ?>
 								</div>
 							<?php endif; ?>

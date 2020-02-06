@@ -39,7 +39,7 @@ if ($saveOrder && !empty($this->items))
 
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -90,7 +90,7 @@ if ($saveOrder && !empty($this->items))
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									<?php endif; ?>
 								</td>
-								<td class="order text-center d-none d-md-table-cell">
+								<td class="text-center d-none d-md-table-cell">
 									<?php
 									$iconClass = '';
 									if (!$canChange)
@@ -103,10 +103,10 @@ if ($saveOrder && !empty($this->items))
 									}
 									?>
 									<span class="sortable-handler<?php echo $iconClass ?>">
-										<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
+										<span class="fas fa-ellipsis-v" aria-hidden="true"></span>
 									</span>
 									<?php if ($canChange && $saveOrder) : ?>
-										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
+										<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 									<?php endif; ?>
 								</td>
 								<th scope="row">

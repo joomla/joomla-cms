@@ -16,24 +16,11 @@ use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
 /** @var PrivacyViewRequest $this */
 
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/html');
-
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 
-$js = <<< JS
-Joomla.submitbutton = function(task) {
-	if (task === 'request.cancel' || document.formvalidator.isValid(document.getElementById('item-form'))) {
-		Joomla.submitform(task, document.getElementById('item-form'));
-	}
-};
-JS;
-
-$this->document->addScriptDeclaration($js);
 ?>
-
-<form action="<?php echo Route::_('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate" data-cancel-task="request.cancel">
 	<div class="row mt-3">
 		<div class="col-12 col-md-6 mb-3">
 			<div class="card">
@@ -61,7 +48,7 @@ $this->document->addScriptDeclaration($js);
 				<div class="card-body">
 					<?php if (empty($this->actionlogs)) : ?>
 						<div class="alert alert-info">
-							<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 						</div>
 					<?php else : ?>

@@ -26,7 +26,7 @@ class TransitionTable extends Table
 	 * Indicates that columns fully support the NULL value in the database
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $_supportNullValue = true;
 
@@ -52,7 +52,7 @@ class TransitionTable extends Table
 	 * @return  mixed  False on failure, positive integer on success.
 	 *
 	 * @see     Table::store()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function store($updateNulls = true)
 	{

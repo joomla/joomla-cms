@@ -63,11 +63,10 @@ $input = Factory::getApplication()->input;
 										<?php echo $created_date > 0 ? HTMLHelper::_('date', $created_date, Text::_('DATE_FORMAT_FILTER_DATETIME')) : '-'; ?>
 									</td>
 									<td>
-										<?php if ($value->modified_date === Factory::getDbo()->getNullDate()) : ?>
+										<?php if (is_null($value->modified_date)) : ?>
 											<span class="badge badge-warning"><?php echo Text::_('COM_TEMPLATES_OVERRIDE_CORE_REMOVED'); ?></span>
 										<?php else : ?>
-											<?php $modified_date = $value->modified_date; ?>
-											<?php echo $modified_date > 0 ? HTMLHelper::_('date', $modified_date, Text::_('DATE_FORMAT_FILTER_DATETIME')) : '-'; ?>
+											<?php echo HTMLHelper::_('date', $value->modified_date, Text::_('DATE_FORMAT_FILTER_DATETIME')); ?>
 										<?php endif; ?>
 									</td>
 									<td>
@@ -82,7 +81,7 @@ $input = Factory::getApplication()->input;
 					<?php echo HTMLHelper::_('form.token'); ?>
 				<?php else : ?>
 					<div class="alert alert-success">
-						<span class="fa fa-check-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
+						<span class="fas fa-check-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
 						<?php echo Text::_('COM_TEMPLATES_OVERRIDE_UPTODATE'); ?>
 					</div>
 				<?php endif; ?>

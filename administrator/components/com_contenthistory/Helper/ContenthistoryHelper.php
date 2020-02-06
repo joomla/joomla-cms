@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 
 /**
  * Categories helper.
@@ -207,13 +208,15 @@ class ContenthistoryHelper
 	{
 		$result = false;
 
-		if (isset($lookup->sourceColumn) && isset($lookup->targetTable) && isset($lookup->targetColumn)&& isset($lookup->displayColumn))
+		if (isset($lookup->sourceColumn) && isset($lookup->targetTable) && isset($lookup->targetColumn) && isset($lookup->displayColumn))
 		{
-			$db = Factory::getDbo();
+			$db    = Factory::getDbo();
+			$value = (int) $value;
 			$query = $db->getQuery(true);
 			$query->select($db->quoteName($lookup->displayColumn))
 				->from($db->quoteName($lookup->targetTable))
-				->where($db->quoteName($lookup->targetColumn) . ' = ' . $db->quote($value));
+				->where($db->quoteName($lookup->targetColumn) . ' = :value')
+				->bind(':value', $value, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
@@ -278,11 +281,11 @@ class ContenthistoryHelper
 			 * Loading language file from the administrator/language directory then
 			 * loading language file from the administrator/components/extension/language directory
 			 */
-			$lang->load($component, JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component), null, false, true);
+			$lang->load($component, JPATH_ADMINISTRATOR)
+			|| $lang->load($component, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component));
 
 			// Force loading of backend global language file
-			$lang->load('joomla', Path::clean(JPATH_ADMINISTRATOR), null, false, true);
+			$lang->load('joomla', Path::clean(JPATH_ADMINISTRATOR));
 		}
 	}
 

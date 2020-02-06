@@ -18,11 +18,14 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
+use Joomla\Database\ParameterType;
+use PHPMailer\PHPMailer\Exception as phpMailerException;
 
 /**
  * Private Message model.
@@ -134,14 +137,20 @@ class MessageModel extends AdminModel
 				if (empty($this->item->message_id))
 				{
 					// Prepare data for a new record.
-					if ($replyId = $this->getState('reply.id'))
+					if ($replyId = (int) $this->getState('reply.id'))
 					{
 						// If replying to a message, preload some data.
 						$db    = $this->getDbo();
 						$query = $db->getQuery(true)
-							->select($db->quoteName(array('subject', 'user_id_from')))
+							->select(
+								[
+									$db->quoteName('subject'),
+									$db->quoteName('user_id_from'),
+								]
+							)
 							->from($db->quoteName('#__messages'))
-							->where($db->quoteName('message_id') . ' = ' . (int) $replyId);
+							->where($db->quoteName('message_id') . ' = :messageid')
+							->bind(':messageid', $replyId, ParameterType::INTEGER);
 
 						try
 						{
@@ -176,7 +185,8 @@ class MessageModel extends AdminModel
 					$query = $db->getQuery(true)
 						->update($db->quoteName('#__messages'))
 						->set($db->quoteName('state') . ' = 1')
-						->where($db->quoteName('message_id') . ' = ' . $this->item->message_id);
+						->where($db->quoteName('message_id') . ' = :messageid')
+						->bind(':messageid', $this->item->message_id, ParameterType::INTEGER);
 					$db->setQuery($query)->execute();
 				}
 			}
@@ -424,7 +434,7 @@ class MessageModel extends AdminModel
 
 				$mailer->Send();
 			}
-			catch (\Exception $exception)
+			catch (MailDisabledException | phpMailerException $exception)
 			{
 				try
 				{
@@ -485,7 +495,7 @@ class MessageModel extends AdminModel
 			{
 				if ($enabled)
 				{
-					$groups[] = $db->quote($g);
+					$groups[] = $g;
 				}
 			}
 
@@ -497,9 +507,15 @@ class MessageModel extends AdminModel
 			}
 
 			$query = $db->getQuery(true)
-				->select($db->quoteName('user_id'))
-				->from($db->quoteName('#__user_usergroup_map'))
-				->where($db->quoteName('group_id') . ' IN(' . implode(',', $groups) . ')');
+				->select($db->quoteName('map.user_id'))
+				->from($db->quoteName('#__user_usergroup_map', 'map'))
+				->join('LEFT',
+					$db->quoteName('#__users', 'u'),
+					$db->quoteName('u.id') . ' = ' . $db->quoteName('map.user_id')
+				)
+				->whereIn($db->quoteName('map.group_id'), $groups)
+				->where($db->quoteName('u.block') . ' = 0')
+				->where($db->quoteName('u.sendEmail') . ' = 1');
 
 			$userIDs = $db->setQuery($query)->loadColumn(0);
 

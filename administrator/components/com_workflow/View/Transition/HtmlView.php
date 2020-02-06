@@ -18,7 +18,7 @@ use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\StageHelper;
 
 /**
- * View class to add or edit Workflow
+ * View class to add or edit a transition of a workflow
  *
  * @since  4.0.0
  */

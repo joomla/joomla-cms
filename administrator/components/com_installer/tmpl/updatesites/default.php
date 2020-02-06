@@ -16,6 +16,8 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
+HTMLHelper::_('bootstrap.popover');
+HTMLHelper::_('bootstrap.popover', 'span.hasPopover');
 
 $user      = Factory::getApplication()->getIdentity();
 $userId    = $user->get('id');
@@ -30,7 +32,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
 						<div class="alert alert-info">
-							<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 						</div>
 					<?php else : ?>
@@ -84,13 +86,17 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo HTMLHelper::_('updatesites.state', $item->enabled, $i, $item->enabled < 2, 'cb'); ?>
 									<?php endif; ?>
 								</td>
-								<th scope="row">
+								<td scope="row">
 									<label for="cb<?php echo $i; ?>">
 										<?php if ($item->checked_out) : ?>
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'updatesites.', $canCheckin); ?>
 										<?php endif; ?>
 										<?php if ($canEdit) : ?>
-											<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
+											<a class="hasPopover"
+											   href="<?php echo Route::_('index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id); ?>"
+											   title="<?= Text::_('COM_INSTALLER_UPDATESITE_EDIT_TITLE') ?>"
+											   data-content="<?= Text::sprintf('COM_INSTALLER_UPDATESITE_EDIT_TIP', Text::_($item->update_site_name), Text::_($item->name)) ?>"
+											>
 												<?php echo Text::_($item->update_site_name); ?>
 											</a>
 										<?php else : ?>
@@ -106,11 +112,20 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<span class="badge badge-info">
 												<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_EXTRA_QUERY_LABEL'); ?>
 											</span>
-											<?php echo $item->downloadKey['value']; ?>
+											<code><?php echo $item->downloadKey['value']; ?></code>
+											<?php elseif ($item->downloadKey['supported']) : ?>
+											<span class="badge badge-warning">
+												<span class="hasPopover"
+													  title="<?= Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
+													  data-content="<?= Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
+												>
+												<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?>
+												</span>
+											</span>
 											<?php endif; ?>
 										</span>
 									</label>
-								</th>
+								</td>
 								<td class="d-none d-md-table-cell">
 									<span tabindex="0">
 										<?php echo $item->name; ?>

@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_CONFIG_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Config</namespace>
+	<namespace path="src">Joomla\Component\Config</namespace>
 	<files folder="site">
 		<folder>Controller</folder>
 		<folder>Dispatcher</folder>
@@ -19,7 +19,7 @@
 		<folder>View</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_config.ini</language>
+		<language tag="en-GB">language/en-GB/com_config.ini</language>
 	</languages>
 		<media destination="com_config" folder="media">
 		<folder>js</folder>
@@ -39,8 +39,8 @@
 			<folder>View</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_config.ini</language>
-			<language tag="en-GB">language/en-GB.com_config.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_config.ini</language>
+			<language tag="en-GB">language/en-GB/com_config.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

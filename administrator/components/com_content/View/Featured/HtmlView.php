@@ -171,7 +171,7 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-ellipsis-h')
+				->icon('fas fa-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -186,10 +186,6 @@ class HtmlView extends BaseHtmlView
 
 			if ($canDo->get('core.edit.state'))
 			{
-				$childBar->standardButton('featured')
-					->text('JFEATURE')
-					->task('articles.featured')
-					->listCheck(true);
 				$childBar->standardButton('unfeatured')
 					->text('JUNFEATURE')
 					->task('articles.unfeatured')

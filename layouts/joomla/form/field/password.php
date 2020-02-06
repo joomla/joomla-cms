@@ -64,8 +64,8 @@ HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 
 
 Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
-Text::script('JSHOW');
-Text::script('JHIDE');
+Text::script('JSHOWPASSWORD');
+Text::script('JHIDEPASSWORD');
 
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
@@ -95,8 +95,10 @@ $attributes = array(
 			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 			<?php echo implode(' ', $attributes); ?>>
 		<span class="input-group-append">
-			<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-			<span class="input-group-text icon-eye input-password-toggle" aria-hidden="true"></span>
+			<button type="button" class="btn btn-secondary input-password-toggle">
+				<span class="icon-eye" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+			</button>
 		</span>
 	</div>
 </div>

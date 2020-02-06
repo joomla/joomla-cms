@@ -333,7 +333,7 @@ final class SiteApplication extends CMSApplication
 				// Get show_page_heading from com_menu global settings
 				$params[$hash]->def('show_page_heading', $temp->get('show_page_heading'));
 
-				$params[$hash]->merge($menu->params);
+				$params[$hash]->merge($menu->getParams());
 				$title = $menu->title;
 			}
 			else
@@ -587,6 +587,13 @@ final class SiteApplication extends CMSApplication
 			$user->groups = array($guestUsergroup);
 		}
 
+		if ($plugin = PluginHelper::getPlugin('system', 'languagefilter'))
+		{
+			$pluginParams = new Registry($plugin->params);
+			$this->setLanguageFilter(true);
+			$this->setDetectBrowser($pluginParams->get('detect_browser', 1) == 1);
+		}
+
 		if (empty($options['language']))
 		{
 			// Detect the specified language
@@ -675,8 +682,8 @@ final class SiteApplication extends CMSApplication
 		 * Try the lib_joomla file in the current language (without allowing the loading of the file in the default language)
 		 * Fallback to the default language if necessary
 		 */
-		$this->getLanguage()->load('lib_joomla', JPATH_SITE, null, false, true)
-			|| $this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR, null, false, true);
+		$this->getLanguage()->load('lib_joomla', JPATH_SITE)
+			|| $this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**

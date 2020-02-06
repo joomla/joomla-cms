@@ -11,15 +11,17 @@ namespace Joomla\Component\Menus\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Menu\MenuItem;
+use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -106,12 +108,14 @@ class MenusHelper extends ContentHelper
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.menutype')
-			->from('#__menu_types AS a');
+			->select($db->quoteName('a.menutype'))
+			->from($db->quoteName('#__menu_types', 'a'));
 
 		if (isset($clientId))
 		{
-			$query->where('a.client_id = ' . (int) $clientId);
+			$clientId = (int) $clientId;
+			$query->where($db->quoteName('a.client_id') . ' = :clientId')
+				->bind(':clientId', $clientId, ParameterType::INTEGER);
 		}
 
 		$db->setQuery($query);
@@ -136,77 +140,84 @@ class MenusHelper extends ContentHelper
 	 */
 	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published = array(), $languages = array(), $clientId = 0)
 	{
+		$hasClientId = $clientId !== null;
+		$clientId    = (int) $clientId;
+
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT(a.id) AS value,
-					  a.title AS text,
-					  a.alias,
-					  a.level,
-					  a.menutype,
-					  a.client_id,
-					  a.type,
-					  a.published,
-					  a.template_style_id,
-					  a.checked_out,
-					  a.language,
-					  a.lft'
+			->select(
+				[
+					'DISTINCT ' . $db->quoteName('a.id', 'value'),
+					$db->quoteName('a.title', 'text'),
+					$db->quoteName('a.alias'),
+					$db->quoteName('a.level'),
+					$db->quoteName('a.menutype'),
+					$db->quoteName('a.client_id'),
+					$db->quoteName('a.type'),
+					$db->quoteName('a.published'),
+					$db->quoteName('a.template_style_id'),
+					$db->quoteName('a.checked_out'),
+					$db->quoteName('a.language'),
+					$db->quoteName('a.lft'),
+					$db->quoteName('e.name', 'componentname'),
+					$db->quoteName('e.element'),
+				]
 			)
-			->from('#__menu AS a');
-
-		$query->select('e.name as componentname, e.element')
-			->join('left', '#__extensions e ON e.extension_id = a.component_id');
+			->from($db->quoteName('#__menu', 'a'))
+			->join('LEFT', $db->quoteName('#__extensions', 'e'), $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('a.component_id'));
 
 		if (Multilanguage::isEnabled())
 		{
-			$query->select('l.title AS language_title, l.image AS language_image, l.sef AS language_sef')
-				->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
+			$query->select(
+				[
+					$db->quoteName('l.title', 'language_title'),
+					$db->quoteName('l.image', 'language_image'),
+					$db->quoteName('l.sef', 'language_sef'),
+				]
+			)
+				->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'));
 		}
 
 		// Filter by the type if given, this is more specific than client id
 		if ($menuType)
 		{
-			$query->where('(a.menutype = ' . $db->quote($menuType) . ' OR a.parent_id = 0)');
+			$query->where('(' . $db->quoteName('a.menutype') . ' = :menuType OR ' . $db->quoteName('a.parent_id') . ' = 0)')
+				->bind(':menuType', $menuType);
 		}
-		elseif (isset($clientId))
+		elseif ($hasClientId)
 		{
-			$query->where('a.client_id = ' . (int) $clientId);
+			$query->where($db->quoteName('a.client_id') . ' = :clientId')
+				->bind(':clientId', $clientId, ParameterType::INTEGER);
 		}
 
 		// Prevent the parent and children from showing if requested.
 		if ($parentId && $mode == 2)
 		{
-			$query->join('LEFT', '#__menu AS p ON p.id = ' . (int) $parentId)
-				->where('(a.lft <= p.lft OR a.rgt >= p.rgt)');
+			$query->join('LEFT', $db->quoteName('#__menu', 'p'), $db->quoteName('p.id') . ' = :parentId')
+				->where(
+					'(' . $db->quoteName('a.lft') . ' <= ' . $db->quoteName('p.lft')
+					. ' OR ' . $db->quoteName('a.rgt') . ' >= ' . $db->quoteName('p.rgt') . ')'
+				)
+				->bind(':parentId', $parentId, ParameterType::INTEGER);
 		}
 
 		if (!empty($languages))
 		{
-			if (is_array($languages))
-			{
-				$languages = '(' . implode(',', array_map(array($db, 'quote'), $languages)) . ')';
-			}
-
-			$query->where('a.language IN ' . $languages);
+			$query->whereIn($db->quoteName('a.language'), (array) $languages, ParameterType::STRING);
 		}
 
 		if (!empty($published))
 		{
-			if (is_array($published))
-			{
-				$published = '(' . implode(',', $published) . ')';
-			}
-
-			$query->where('a.published IN ' . $published);
+			$query->whereIn($db->quoteName('a.published'), (array) $published);
 		}
 
-		$query->where('a.published != -2');
-		$query->order('a.lft ASC');
-
-		// Get the options.
-		$db->setQuery($query);
+		$query->where($db->quoteName('a.published') . ' != -2');
+		$query->order($db->quoteName('a.lft') . ' ASC');
 
 		try
 		{
+			// Get the options.
+			$db->setQuery($query);
 			$links = $db->loadObjectList();
 		}
 		catch (\RuntimeException $e)
@@ -219,21 +230,26 @@ class MenusHelper extends ContentHelper
 		if (empty($menuType))
 		{
 			// If the menutype is empty, group the items by menutype.
-			$query->clear()
+			$query = $db->getQuery(true)
 				->select('*')
-				->from('#__menu_types')
-				->where('menutype <> ' . $db->quote(''))
-				->order('title, menutype');
+				->from($db->quoteName('#__menu_types'))
+				->where($db->quoteName('menutype') . ' <> ' . $db->quote(''))
+				->order(
+					[
+						$db->quoteName('title'),
+						$db->quoteName('menutype'),
+					]
+				);
 
-			if (isset($clientId))
+			if ($hasClientId)
 			{
-				$query->where('client_id = ' . (int) $clientId);
+				$query->where($db->quoteName('client_id') . ' = :clientId')
+					->bind(':clientId', $clientId, ParameterType::INTEGER);
 			}
-
-			$db->setQuery($query);
 
 			try
 			{
+				$db->setQuery($query);
 				$menuTypes = $db->loadObjectList();
 			}
 			catch (\RuntimeException $e)
@@ -301,63 +317,79 @@ class MenusHelper extends ContentHelper
 	 * @param   boolean  $enabledOnly  Whether to load only enabled/published menu items.
 	 * @param   int[]    $exclude      The menu items to exclude from the list
 	 *
-	 * @return  MenuItem  A root node with the menu items as children
+	 * @return  AdministratorMenuItem  A root node with the menu items as children
 	 *
 	 * @since   4.0.0
 	 */
 	public static function getMenuItems($menutype, $enabledOnly = false, $exclude = array())
 	{
-		$root = new MenuItem;
+		$root  = new AdministratorMenuItem;
 		$db    = Factory::getContainer()->get(DatabaseInterface::class);
 		$query = $db->getQuery(true);
 
 		// Prepare the query.
-		$query->select('m.*')
-			->from('#__menu AS m')
-			->where('m.menutype = ' . $db->quote($menutype))
-			->where('m.client_id = 1')
-			->where('m.id > 1');
+		$query->select($db->quoteName('m') . '.*')
+			->from($db->quoteName('#__menu', 'm'))
+			->where(
+				[
+					$db->quoteName('m.menutype') . ' = :menutype',
+					$db->quoteName('m.client_id') . ' = 1',
+					$db->quoteName('m.id') . ' > 1',
+				]
+			)
+			->bind(':menutype', $menutype);
 
 		if ($enabledOnly)
 		{
-			$query->where('m.published = 1');
+			$query->where($db->quoteName('m.published') . ' = 1');
 		}
 
 		// Filter on the enabled states.
-		$query->select('e.element')
-			->join('LEFT', '#__extensions AS e ON m.component_id = e.extension_id')
-			->where('(e.enabled = 1 OR e.enabled IS NULL)');
+		$query->select($db->quoteName('e.element'))
+			->join('LEFT', $db->quoteName('#__extensions', 'e'), $db->quoteName('m.component_id') . ' = ' . $db->quoteName('e.extension_id'))
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('e.enabled') . ' = 1',
+					$db->quoteName('e.enabled') . ' IS NULL',
+				],
+				'OR'
+			);
 
 		if (count($exclude))
 		{
-			$exId = array_filter($exclude, 'is_numeric');
+			$exId = array_map('intval', array_filter($exclude, 'is_numeric'));
 			$exEl = array_filter($exclude, 'is_string');
 
 			if ($exId)
 			{
-				$query->where('m.id NOT IN (' . implode(', ', array_map('intval', $exId)) . ')');
-				$query->where('m.parent_id NOT IN (' . implode(', ', array_map('intval', $exId)) . ')');
+				$query->whereNotIn($db->quoteName('m.id'), $exId)
+					->whereNotIn($db->quoteName('m.parent_id'), $exId);
 			}
 
 			if ($exEl)
 			{
-				$query->where('e.element NOT IN (' . implode(', ', $db->quote($exEl)) . ')');
+				$query->whereNotIn($db->quoteName('e.element'), $exEl, ParameterType::STRING);
 			}
 		}
 
 		// Order by lft.
-		$query->order('m.lft');
-
-		$db->setQuery($query);
+		$query->order($db->quoteName('m.lft'));
 
 		try
 		{
-			$menuItems = $db->loadObjectList('id', '\Joomla\CMS\Menu\MenuItem');
+			$menuItems = [];
+			$iterator  = $db->setQuery($query)->getIterator();
+
+			foreach ($iterator as $item)
+			{
+				$menuItems[$item->id] = new AdministratorMenuItem((array) $item);
+			}
+
+			unset($iterator);
 
 			foreach ($menuItems as $menuitem)
 			{
-				$menuitem->params = new Registry($menuitem->params);
-
 				// Resolve the alias item to get the original item
 				if ($menuitem->type == 'alias')
 				{
@@ -366,10 +398,10 @@ class MenusHelper extends ContentHelper
 
 				if ($menuitem->link = in_array($menuitem->type, array('separator', 'heading', 'container')) ? '#' : trim($menuitem->link))
 				{
-					$menuitem->submenu    = array();
-					$menuitem->class      = $menuitem->img ?? '';
-					$menuitem->scope      = $menuitem->scope ?? null;
-					$menuitem->browserNav = $menuitem->browserNav ? '_blank' : '';
+					$menuitem->submenu = array();
+					$menuitem->class   = $menuitem->img ?? '';
+					$menuitem->scope   = $menuitem->scope ?? null;
+					$menuitem->target  = $menuitem->browserNav ? '_blank' : '';
 				}
 
 				$menuitem->ajaxbadge  = $menuitem->getParams()->get('ajax-badge');
@@ -423,8 +455,8 @@ class MenusHelper extends ContentHelper
 	/**
 	 * Method to install a preset menu item into database and link it to the given menutype
 	 *
-	 * @param   MenuItem  $node      The parent node of the items to process
-	 * @param   string    $menutype  The target menutype
+	 * @param   AdministratorMenuItem  $node      The parent node of the items to process
+	 * @param   string                 $menutype  The target menutype
 	 *
 	 * @return  void
 	 *
@@ -442,7 +474,14 @@ class MenusHelper extends ContentHelper
 
 		if (!$components)
 		{
-			$query->select('extension_id, element')->from('#__extensions')->where('type = ' . $db->quote('component'));
+			$query->select(
+				[
+					$db->quoteName('extension_id'),
+					$db->quoteName('element'),
+				]
+			)
+				->from($db->quoteName('#__extensions'))
+				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 			$components = $db->setQuery($query)->loadObjectList();
 			$components = array_column((array) $components, 'element', 'extension_id');
 		}
@@ -455,6 +494,11 @@ class MenusHelper extends ContentHelper
 			$table = Table::getInstance('Menu');
 
 			$item->alias = $menutype . '-' . $item->title;
+
+			// Temporarily set unicodeslugs if a menu item has an unicode alias
+			$unicode     = Factory::getConfig()->set('unicodeslugs', 1);
+			$item->alias = ApplicationHelper::stringURLSafe($item->alias);
+			Factory::getConfig()->set('unicodeslugs', $unicode);
 
 			if ($item->type == 'separator')
 			{
@@ -502,7 +546,7 @@ class MenusHelper extends ContentHelper
 			}
 
 			// Translate "hideitems" param value from "element" into "menu-item-id"
-			if ($item->type == 'container' && count($hideitems = (array) $item->params->get('hideitems')))
+			if ($item->type == 'container' && count($hideitems = (array) $item->getParams()->get('hideitems')))
 			{
 				foreach ($hideitems as &$hel)
 				{
@@ -512,10 +556,13 @@ class MenusHelper extends ContentHelper
 					}
 				}
 
-				$query->clear()->select('id')->from('#__menu')->where('component_id IN (' . implode(', ', $hideitems) . ')');
+				$query = $db->getQuery(true)
+					->select($db->quoteName('id'))
+					->from($db->quoteName('#__menu'))
+					->whereIn($db->quoteName('component_id'), $hideitems);
 				$hideitems = $db->setQuery($query)->loadColumn();
 
-				$item->params->set('hideitems', $hideitems);
+				$item->getParams()->set('hideitems', $hideitems);
 			}
 
 			$record = array(
@@ -524,7 +571,7 @@ class MenusHelper extends ContentHelper
 				'alias'        => $item->alias,
 				'type'         => $item->type,
 				'link'         => $item->link,
-				'browserNav'   => $item->browserNav ? 1 : 0,
+				'browserNav'   => $item->browserNav,
 				'img'          => $item->class,
 				'access'       => $item->access,
 				'component_id' => array_search($item->element, $components) ?: 0,
@@ -533,7 +580,7 @@ class MenusHelper extends ContentHelper
 				'published'    => 1,
 				'language'     => '*',
 				'home'         => 0,
-				'params'       => (string) $item->params,
+				'params'       => (string) $item->getParams(),
 			);
 
 			if (!$table->bind($record))
@@ -646,11 +693,11 @@ class MenusHelper extends ContentHelper
 	/**
 	 * Load the menu items from a preset file into a hierarchical list of objects
 	 *
-	 * @param   string    $name      The preset name
-	 * @param   bool      $fallback  Fallback to default (joomla) preset if the specified one could not be loaded?
-	 * @param   MenuItem  $parent    Root node of the menu
+	 * @param   string                 $name      The preset name
+	 * @param   bool                   $fallback  Fallback to default (joomla) preset if the specified one could not be loaded?
+	 * @param   AdministratorMenuItem  $parent    Root node of the menu
 	 *
-	 * @return  MenuItem
+	 * @return  AdministratorMenuItem
 	 *
 	 * @since   4.0.0
 	 */
@@ -660,7 +707,7 @@ class MenusHelper extends ContentHelper
 
 		if (!$parent)
 		{
-			$parent = new MenuItem;
+			$parent = new AdministratorMenuItem;
 		}
 
 		if (isset($presets[$name]) && ($xml = simplexml_load_file($presets[$name]->path, null, LIBXML_NOCDATA)) && $xml instanceof \SimpleXMLElement)
@@ -681,7 +728,7 @@ class MenusHelper extends ContentHelper
 	/**
 	 * Method to resolve the menu item alias type menu item
 	 *
-	 * @param   \stdClass  &$item  The alias object
+	 * @param   AdministratorMenuItem  &$item  The alias object
 	 *
 	 * @return  void
 	 *
@@ -693,19 +740,26 @@ class MenusHelper extends ContentHelper
 
 		while ($obj->type == 'alias')
 		{
-			$params  = new Registry($obj->params);
-			$aliasTo = $params->get('aliasoptions');
+			$aliasTo = (int) $obj->getParams()->get('aliasoptions');
 
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true);
-			$query->select('a.id, a.link, a.type, e.element')
-				->from('#__menu a')
-				->where('a.id = ' . (int) $aliasTo)
-				->join('left', '#__extensions e ON e.id = a.component_id = e.id');
+			$query->select(
+				[
+					$db->quoteName('a.id'),
+					$db->quoteName('a.link'),
+					$db->quoteName('a.type'),
+					$db->quoteName('e.element'),
+				]
+			)
+				->from($db->quoteName('#__menu', 'a'))
+				->join('LEFT', $db->quoteName('#__extensions', 'e'), $db->quoteName('e.extension_id') . ' = ' . $db->quoteName('a.component_id'))
+				->where($db->quoteName('a.id') . ' = :aliasTo')
+				->bind(':aliasTo', $aliasTo, ParameterType::INTEGER);
 
 			try
 			{
-				$obj = $db->setQuery($query)->loadObject();
+				$obj = new AdministratorMenuItem($db->setQuery($query)->loadAssoc());
 
 				if (!$obj)
 				{
@@ -731,7 +785,7 @@ class MenusHelper extends ContentHelper
 	/**
 	 * Parse the flat list of menu items and prepare the hierarchy of them using parent-child relationship.
 	 *
-	 * @param   MenuItem  $item  Menu item to preprocess
+	 * @param   AdministratorMenuItem  $item  Menu item to preprocess
 	 *
 	 * @return  void
 	 *
@@ -747,18 +801,18 @@ class MenusHelper extends ContentHelper
 
 		if ($item->link = in_array($item->type, array('separator', 'heading', 'container')) ? '#' : trim($item->link))
 		{
-			$item->class      = $item->img ?? '';
-			$item->scope      = $item->scope ?? null;
-			$item->browserNav = $item->browserNav ? '_blank' : '';
+			$item->class  = $item->img ?? '';
+			$item->scope  = $item->scope ?? null;
+			$item->target = $item->browserNav ? '_blank' : '';
 		}
 	}
 
 	/**
 	 * Load a menu tree from an XML file
 	 *
-	 * @param   \SimpleXMLElement[]  $elements  The xml menuitem nodes
-	 * @param   MenuItem             $parent    The menu hierarchy list to be populated
-	 * @param   string[]             $replace   The substring replacements for iterator type items
+	 * @param   \SimpleXMLElement[]    $elements  The xml menuitem nodes
+	 * @param   AdministratorMenuItem  $parent    The menu hierarchy list to be populated
+	 * @param   string[]               $replace   The substring replacements for iterator type items
 	 *
 	 * @return  void
 	 *
@@ -811,12 +865,12 @@ class MenusHelper extends ContentHelper
 
 				if ($lJoin)
 				{
-					$query->leftJoin($lJoin);
+					$query->join('LEFT', $lJoin);
 				}
 
 				if ($iJoin)
 				{
-					$query->innerJoin($iJoin);
+					$query->join('INNER', $iJoin);
 				}
 
 				$results = $db->setQuery($query)->loadObjectList();
@@ -872,30 +926,28 @@ class MenusHelper extends ContentHelper
 	 */
 	protected static function parseXmlNode($node, $replace = array())
 	{
-		$item = new MenuItem;
+		$item = new AdministratorMenuItem;
 
 		$item->id         = null;
 		$item->type       = (string) $node['type'];
 		$item->title      = (string) $node['title'];
-		$item->target     = (string) $node['target'];
 		$item->alias      = (string) $node['alias'];
 		$item->link       = (string) $node['link'];
 		$item->target     = (string) $node['target'];
 		$item->element    = (string) $node['element'];
 		$item->class      = (string) $node['class'];
 		$item->icon       = (string) $node['icon'];
-		$item->browserNav = (string) $node['target'];
 		$item->access     = (int) $node['access'];
 		$item->scope      = (string) $node['scope'] ?: 'default';
-		$item->permission = (string) $node['permission'];
 		$item->ajaxbadge  = (string) $node['ajax-badge'];
 		$item->dashboard  = (string) $node['dashboard'];
-		$item->setParams(new Registry(trim($node->params)));
-		$item->getParams()->set('menu-permission', (string) $node['permission']);
+
+		$params = new Registry(trim($node->params));
+		$params->set('menu-permission', (string) $node['permission']);
 
 		if ($item->type == 'separator' && trim($item->title, '- '))
 		{
-			$item->getParams()->set('text_separator', 1);
+			$params->set('text_separator', 1);
 		}
 
 		if ($item->type == 'heading' || $item->type == 'container')
@@ -905,11 +957,11 @@ class MenusHelper extends ContentHelper
 
 		if ((string) $node['quicktask'])
 		{
-			$item->getParams()->set('menu-quicktask', true);
-			$item->getParams()->set('menu-quicktask-link', (string) $node['quicktask']);
-			$item->getParams()->set('menu-quicktask-title', (string) $node['quicktask-title']);
-			$item->getParams()->set('menu-quicktask-icon', (string) $node['quicktask-icon']);
-			$item->getParams()->set('menu-quicktask-permission', (string) $node['quicktask-permission']);
+			$params->set('menu-quicktask', true);
+			$params->set('menu-quicktask-link', (string) $node['quicktask']);
+			$params->set('menu-quicktask-title', (string) $node['quicktask-title']);
+			$params->set('menu-quicktask-icon', (string) $node['quicktask-icon']);
+			$params->set('menu-quicktask-permission', (string) $node['quicktask-permission']);
 		}
 
 		// Translate attributes for iterator values
@@ -920,9 +972,10 @@ class MenusHelper extends ContentHelper
 			$item->link    = str_replace("{sql:$var}", $val, $item->link);
 			$item->class   = str_replace("{sql:$var}", $val, $item->class);
 			$item->icon    = str_replace("{sql:$var}", $val, $item->icon);
-			$params = $item->getParams();
 			$params->set('menu-quicktask-link', str_replace("{sql:$var}", $val, $params->get('menu-quicktask-link')));
 		}
+
+		$item->setParams($params);
 
 		return $item;
 	}

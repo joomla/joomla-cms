@@ -15,13 +15,13 @@ use Joomla\CMS\Router\Route;
 
 ?>
 
-<fieldset class="options-grid-form options-grid-form-full">
+<fieldset class="options-form">
 	<legend>
 		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_COMPLETE_HEADING'); ?>
 	</legend>
 	<div>
 		<div class="alert alert-success">
-			<span class="fa fa-check-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
+			<span class="fas fa-check-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
 			<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_COMPLETE_MESSAGE', JVERSION); ?>
 		</div>
 	</div>

@@ -50,6 +50,22 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	protected $db;
 
 	/**
+	 * The generated csp nonce value
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	private $cspNonce;
+
+	/**
+	 * The params of the com_csp component
+	 *
+	 * @var    Registry
+	 * @since  4.0.0
+	 */
+	private $comCspParams;
+
+	/**
 	 * The list of the supported HTTP headers
 	 *
 	 * @var    array
@@ -88,18 +104,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	{
 		parent::__construct($subject, $config);
 
-		// Get the application if not done by JPlugin.
-		if (!$this->app)
-		{
-			$this->app = Factory::getApplication();
-		}
-
-		// Get the db if not done by JPlugin.
-		if (!$this->db)
-		{
-			$this->db = Factory::getDbo();
-		}
-
 		// Get the com_csp params that include the content-security-policy configuration
 		$this->comCspParams = ComponentHelper::getParams('com_csp');
 
@@ -128,7 +132,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function applyHashesToCspRule(): void
 	{
@@ -436,7 +440,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$staticHeaderConfiguration = [];
 
 		// X-frame-options
-		if ($this->params->get('xframeoptions'))
+		if ($this->params->get('xframeoptions', 1) === 1)
 		{
 			$staticHeaderConfiguration['x-frame-options#both'] = 'SAMEORIGIN';
 		}
@@ -450,20 +454,17 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		}
 
 		// Generate the strict-transport-security header
-		$strictTransportSecurity = (int) $this->params->get('hsts', 0);
-
-		if ($strictTransportSecurity)
+		if ($this->params->get('hsts', 0) === 1)
 		{
-			$maxAge        = (int) $this->params->get('hsts_maxage', 31536000);
 			$hstsOptions   = [];
-			$hstsOptions[] = $maxAge < 300 ? 'max-age=300' : 'max-age=' . $maxAge;
+			$hstsOptions[] = 'max-age=' . (int) $this->params->get('hsts_maxage', 31536000);
 
-			if ($this->params->get('hsts_subdomains', 0))
+			if ($this->params->get('hsts_subdomains', 0) === 1)
 			{
 				$hstsOptions[] = 'includeSubDomains';
 			}
 
-			if ($this->params->get('hsts_preload', 0))
+			if ($this->params->get('hsts_preload', 0) === 1)
 			{
 				$hstsOptions[] = 'preload';
 			}

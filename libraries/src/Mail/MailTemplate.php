@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
@@ -20,7 +21,7 @@ use PHPMailer\PHPMailer\Exception as phpmailerException;
 /**
  * Email Templating Class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MailTemplate
 {
@@ -28,7 +29,7 @@ class MailTemplate
 	 * Mailer object to send the actual mail.
 	 *
 	 * @var    \Joomla\CMS\Mail\Mail
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $mailer;
 
@@ -36,7 +37,7 @@ class MailTemplate
 	 * Identifier of the mail template.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $template_id;
 
@@ -50,14 +51,14 @@ class MailTemplate
 	/**
 	 *
 	 * @var    string[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $data = array();
 
 	/**
 	 *
 	 * @var    string[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $attachments = array();
 
@@ -65,7 +66,7 @@ class MailTemplate
 	 * List of recipients of the email
 	 *
 	 * @var    \stdClass[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $recipients = array();
 
@@ -76,7 +77,7 @@ class MailTemplate
 	 * @param   string  $language     Language of the template to use.
 	 * @param   Mail    $mailer       Mail object to send the mail with.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($template_id, $language, Mail $mailer = null)
 	{
@@ -101,7 +102,7 @@ class MailTemplate
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addAttachment($name, $file)
 	{
@@ -120,7 +121,7 @@ class MailTemplate
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addRecipient($mail, $name, $type = 'to')
 	{
@@ -138,7 +139,7 @@ class MailTemplate
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addTemplateData($data)
 	{
@@ -150,7 +151,8 @@ class MailTemplate
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
+	 * @throws  MailDisabledException
 	 * @throws  phpmailerException
 	 */
 	public function send()
@@ -271,7 +273,7 @@ class MailTemplate
 	 *
 	 * @return  string  Rendered mail template
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function replaceTags($text, $tags)
 	{
@@ -314,7 +316,7 @@ class MailTemplate
 	 *
 	 * @return  object  An object with the data of the mail
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getTemplate($key, $language)
 	{
@@ -348,7 +350,7 @@ class MailTemplate
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function createTemplate($key, $subject, $body, $tags, $htmlbody = '')
 	{
@@ -378,7 +380,7 @@ class MailTemplate
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function updateTemplate($key, $subject, $body, $tags, $htmlbody = '')
 	{
@@ -404,7 +406,7 @@ class MailTemplate
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function deleteTemplate($key)
 	{

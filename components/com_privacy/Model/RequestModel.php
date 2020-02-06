@@ -15,6 +15,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
@@ -89,10 +90,12 @@ class RequestModel extends AdminModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(id)')
-			->from('#__privacy_requests')
-			->where('email = ' . $db->quote($data['email']))
-			->where('request_type = ' . $db->quote($data['request_type']))
-			->where('status IN (0, 1)');
+			->from($db->quoteName('#__privacy_requests'))
+			->where($db->quoteName('email') . ' = :email')
+			->where($db->quoteName('request_type') . ' = :requesttype')
+			->whereIn($db->quoteName('status'), [0, 1])
+			->bind(':email', $data['email'])
+			->bind(':requesttype', $data['request_type']);
 
 		try
 		{
@@ -215,7 +218,7 @@ class RequestModel extends AdminModel
 			// The email sent and the record is saved, everything is good to go from here
 			return true;
 		}
-		catch (phpmailerException $exception)
+		catch (MailDisabledException | phpmailerException $exception)
 		{
 			$this->setError($exception->getMessage());
 
@@ -247,8 +250,8 @@ class RequestModel extends AdminModel
 	 *
 	 * @return  Table  A JTable object
 	 *
-	 * @since   3.9.0
 	 * @throws  \Exception
+	 * @since   3.9.0
 	 */
 	public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
 	{

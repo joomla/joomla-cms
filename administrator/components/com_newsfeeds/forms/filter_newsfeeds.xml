@@ -6,6 +6,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_NEWSFEEDS_FILTER_SEARCH_LABEL"
 			description="COM_NEWSFEEDS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -99,18 +100,8 @@
 			<option value="numarticles DESC">COM_NEWSFEEDS_NUM_ARTICLES_HEADING_DESC</option>
 			<option value="a.cache_time ASC">COM_NEWSFEEDS_CACHE_TIME_HEADING_ASC</option>
 			<option value="a.cache_time DESC">COM_NEWSFEEDS_CACHE_TIME_HEADING_DESC</option>
-			<option
-				value="association ASC"
-				requires="associations"
-				>
-				JASSOCIATIONS_ASC
-			</option>
-			<option
-				value="association DESC"
-				requires="associations"
-				>
-				JASSOCIATIONS_DESC
-			</option>
+			<option value="association ASC" requires="associations">JASSOCIATIONS_ASC</option>
+			<option value="association DESC" requires="associations">JASSOCIATIONS_DESC</option>
 			<option value="language_title ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
 			<option value="language_title DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.id ASC">JGRID_HEADING_ID_ASC</option>

@@ -85,10 +85,22 @@ class ArticleModel extends AdminModel
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->insert($db->quoteName('#__content_frontpage'))
-				->values($newId . ', 0');
+				->values(
+					$newId . ', 0, '
+					. (empty($table->featured_up) ? 'NULL' : $db->quote($table->featured_up))
+					. ', '
+					. (empty($table->featured_down) ? 'NULL' : $db->quote($table->featured_down))
+				);
 			$db->setQuery($query);
 			$db->execute();
 		}
+
+		// Copy workflow association
+		$workflow = new Workflow(['extension' => 'com_content']);
+
+		$assoc = $workflow->getAssociation((int) $oldId);
+
+		$workflow->createAssociation((int) $newId, (int) $assoc->stage_id);
 
 		// Register FieldsHelper
 		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
@@ -123,7 +135,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @since   4.0.0
 	 */
-	protected function batchWorkflowStage($value, $pks, $contexts)
+	protected function batchWorkflowStage(int $value, array $pks, array $contexts)
 	{
 		$user = Factory::getUser();
 
@@ -152,7 +164,7 @@ class ArticleModel extends AdminModel
 		$workflow = new Workflow(['extension' => 'com_content']);
 
 		// Update content state value and workflow associations
-		return ContentHelper::updateContentState($pks, $stage->condition)
+		return ContentHelper::updateContentState($pks, (int) $stage->condition)
 				&& $workflow->updateAssociations($pks, $value);
 	}
 
@@ -276,7 +288,7 @@ class ArticleModel extends AdminModel
 
 			$workflow = new Workflow(['extension' => 'com_content']);
 
-			$assoc = $workflow->getAssociation($record->id);
+			$assoc = $workflow->getAssociation((int) $record->id);
 
 			if (!$stage->load($assoc->stage_id) || ($stage->condition != ContentComponent::CONDITION_TRASHED && !Factory::getApplication()->isClient('api')))
 			{
@@ -411,7 +423,7 @@ class ArticleModel extends AdminModel
 			{
 				if (!isset($itrans[$transition->item_id]) || $itrans[$transition->item_id] == $transition->id)
 				{
-					$items[$transition->item_id] = $transition->id;
+					$items[$transition->item_id] = (int) $transition->id;
 				}
 			}
 		}
@@ -633,6 +645,8 @@ class ArticleModel extends AdminModel
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('featured', 'disabled', 'true');
+			$form->setFieldAttribute('featured_up', 'disabled', 'true');
+			$form->setFieldAttribute('featured_down', 'disabled', 'true');
 			$form->setFieldAttribute('ordering', 'disabled', 'true');
 			$form->setFieldAttribute('publish_up', 'disabled', 'true');
 			$form->setFieldAttribute('publish_down', 'disabled', 'true');
@@ -641,6 +655,8 @@ class ArticleModel extends AdminModel
 			// Disable fields while saving.
 			// The controller has already verified this is an article you can edit.
 			$form->setFieldAttribute('featured', 'filter', 'unset');
+			$form->setFieldAttribute('featured_up', 'filter', 'unset');
+			$form->setFieldAttribute('featured_down', 'filter', 'unset');
 			$form->setFieldAttribute('ordering', 'filter', 'unset');
 			$form->setFieldAttribute('publish_up', 'filter', 'unset');
 			$form->setFieldAttribute('publish_down', 'filter', 'unset');
@@ -943,13 +959,18 @@ class ArticleModel extends AdminModel
 		{
 			if (isset($data['featured']))
 			{
-				$this->featured($this->getState($this->getName() . '.id'), $data['featured']);
+				$this->featured(
+					$this->getState($this->getName() . '.id'),
+					$data['featured'],
+					$data['featured_up'] ?? null,
+					$data['featured_down'] ?? null
+				);
 			}
 
 			// Let's check if we have workflow association (perhaps something went wrong before)
 			if (empty($stageId))
 			{
-				$assoc = $workflow->getAssociation($this->getState($this->getName() . '.id'));
+				$assoc = $workflow->getAssociation((int) $this->getState($this->getName() . '.id'));
 
 				// If not, reset the state and let's create the associations
 				if (empty($assoc->item_id))
@@ -958,7 +979,7 @@ class ArticleModel extends AdminModel
 
 					$table->load((int) $this->getState($this->getName() . '.id'));
 
-					$workflow = $this->getWorkflowByCategory($table->catid);
+					$workflow = $this->getWorkflowByCategory((int) $table->catid);
 
 					if (empty($workflow->id))
 					{
@@ -979,7 +1000,7 @@ class ArticleModel extends AdminModel
 			// If we have a new state, create the workflow association
 			if (!empty($stageId))
 			{
-				$workflow->createAssociation($this->getState($this->getName() . '.id'), (int) $stageId);
+				$workflow->createAssociation((int) $this->getState($this->getName() . '.id'), (int) $stageId);
 			}
 
 			// Run the transition and update the workflow association
@@ -997,12 +1018,14 @@ class ArticleModel extends AdminModel
 	/**
 	 * Method to toggle the featured setting of articles.
 	 *
-	 * @param   array    $pks    The ids of the items to toggle.
-	 * @param   integer  $value  The value to toggle to.
+	 * @param   array        $pks           The ids of the items to toggle.
+	 * @param   integer      $value         The value to toggle to.
+	 * @param   string|Date  $featuredUp    The date which item featured up.
+	 * @param   string|Date  $featuredDown  The date which item featured down.
 	 *
 	 * @return  boolean  True on success.
 	 */
-	public function featured($pks, $value = 0)
+	public function featured($pks, $value = 0, $featuredUp = null, $featuredDown = null)
 	{
 		// Sanitize the ids.
 		$pks = (array) $pks;
@@ -1048,6 +1071,18 @@ class ArticleModel extends AdminModel
 
 				$oldFeatured = $db->loadColumn();
 
+				// Update old featured articles
+				if (count($oldFeatured))
+				{
+					$query = $db->getQuery(true)
+						->update($db->quoteName('#__content_frontpage'))
+						->set('featured_up = ' . (empty($featuredUp) ? 'NULL' : $db->quote($featuredUp)))
+						->set('featured_down = ' . (empty($featuredDown) ? 'NULL' : $db->quote($featuredDown)))
+						->where('content_id IN (' . implode(',', $oldFeatured) . ')');
+					$db->setQuery($query);
+					$db->execute();
+				}
+
 				// We diff the arrays to get a list of the articles that are newly featured
 				$newFeatured = array_diff($pks, $oldFeatured);
 
@@ -1056,12 +1091,12 @@ class ArticleModel extends AdminModel
 
 				foreach ($newFeatured as $pk)
 				{
-					$tuples[] = $pk . ', 0';
+					$tuples[] = implode(',', [$pk, 0, (empty($featuredUp) ? 'NULL' : $db->quote($featuredUp)), (empty($featuredDown) ? 'NULL' : $db->quote($featuredDown))]);
 				}
 
 				if (count($tuples))
 				{
-					$columns = array('content_id', 'ordering');
+					$columns = array('content_id', 'ordering', 'featured_up', 'featured_down');
 					$query = $db->getQuery(true)
 						->insert($db->quoteName('#__content_frontpage'))
 						->columns($db->quoteName($columns))
@@ -1125,7 +1160,7 @@ class ArticleModel extends AdminModel
 		// Association content items
 		if (Associations::isEnabled())
 		{
-			$languages = LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{
@@ -1236,11 +1271,11 @@ class ArticleModel extends AdminModel
 	/**
 	 * Load the assigned workflow information by a given category ID
 	 *
-	 * @param   int  $catId  The give category
+	 * @param   integer  $catId  The given category
 	 *
 	 * @return  integer|boolean  If found, the workflow ID, otherwise false
 	 */
-	protected function getWorkflowByCategory($catId)
+	protected function getWorkflowByCategory(int $catId)
 	{
 		$db = $this->getDbo();
 
@@ -1346,11 +1381,11 @@ class ArticleModel extends AdminModel
 	 *
 	 * @since   4.0.0
 	 */
-	public function runTransition($pk, $transition_id)
+	public function runTransition(int $pk, int $transition_id): bool
 	{
 		$workflow = new Workflow(['extension' => 'com_content']);
 
-		$runTransaction = $workflow->executeTransition($pk, $transition_id);
+		$runTransaction = $workflow->executeTransition([$pk], $transition_id);
 
 		if (!$runTransaction)
 		{
