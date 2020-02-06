@@ -222,18 +222,17 @@ a[target="_blank"]::before {
   min-width: 1rem;
 }
 
-.cpanel-help .card-columns,
-.cpanel-system .card-columns {
-  @include media-breakpoint-up(md) {
-    column-count: 3;
-  }
+.card-columns {
+  display: grid;
+  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(40%,1fr));
+  grid-auto-rows: 10px;
 }
 
-.card-columns {
-  @include media-breakpoint-up(md) {
-    column-count: 2;
+.cpanel-help .card-columns,
+.cpanel-system .card-columns {
+  grid-template-columns: repeat(auto-fill, minmax(30%,1fr));
   }
-}
 
 .tiny {
   font-size: $font-size-vsm;
