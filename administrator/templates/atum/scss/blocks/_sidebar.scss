@@ -514,7 +514,7 @@
     border: 8px solid var(--atum-bg-light);
     position: fixed;
     bottom: 20px;
-    z-index: $zindex-alerts;
+    z-index: $zindex-mobile-toggle;
 
     [dir=ltr] & {
       right: 10px;
