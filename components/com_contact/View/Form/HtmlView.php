@@ -167,7 +167,7 @@ class HtmlView extends BaseHtmlView
 
 		$title = $this->params->def('page_title', Text::_('COM_CONTACT_FORM_EDIT_CONTACT'));
 
-		if ($app->get('sitename_pagetitles', 0) == 1)
+		if ($app->get('sitename_pagetitles', 0) === 1)
 		{
 			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
