@@ -25,6 +25,9 @@
           // Update the input type
           input.type = 'text';
 
+          // Focus the input field
+          input.focus();
+
           // Update the text for screenreaders
           srText.innerText = Joomla.Text._('JHIDEPASSWORD');
         } else if (input.type === 'text') {
