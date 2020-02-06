@@ -1,8 +1,12 @@
 // Overrides for jQuery Minicolors
 
-.minicolors-theme-bootstrap .minicolors-swatch {
+.minicolors-theme-bootstrap .minicolors-swatch>.minicolors-sprite {
   top: 50%;
   left: 8px;
   border-radius: 0;
   transform: translateY(-50%);
+}
+
+span.minicolors-swatch-color {
+  cursor: pointer;
 }
