@@ -396,7 +396,7 @@ class Mysql extends Indexer
 		// Mark afterTruncating in the profiler.
 		static::$profiler ? static::$profiler->mark('afterTruncating') : null;
 
-		// trigger a plugin event after indexing
+		// Trigger a plugin event after indexing
 		PluginHelper::importPlugin('finder');
 		Factory::getApplication()->triggerEvent('onFinderIndexAfterIndex', array($item, $linkId));
 
