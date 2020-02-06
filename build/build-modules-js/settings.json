@@ -493,7 +493,7 @@
           "dist/metismenujs.min.js": "js/metismenujs.min.js",
           "dist/metismenujs.min.js.map": "js/metismenujs.min.js.map"
         }
-			},
+      },
       "short-and-sweet": {
         "name": "short-and-sweet",
         "licenseFilename": "LICENSE",
