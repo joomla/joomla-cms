@@ -89,7 +89,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 						<span class="fas fa-times icon-white" aria-hidden="true"></span> <?php echo Text::_('JCANCEL'); ?>
 					</a>
 					<button tabindex="5" class="btn btn-primary btn-lg">
-						<span class="icon-play icon-white" aria-hidden="true"></span> <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
+						<span class="fas fa-play icon-white" aria-hidden="true"></span> <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
 					</button>
 				</div>
 			</div>
