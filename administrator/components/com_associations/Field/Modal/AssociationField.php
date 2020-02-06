@@ -67,7 +67,7 @@ class AssociationField extends FormField
 			. ' data-select="' . Text::_('COM_ASSOCIATIONS_SELECT_TARGET') . '"'
 			. ' data-change="' . Text::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
 			. ' data-target="#associationSelect' . $this->id . 'Modal">'
-			. '<span class="icon-file" aria-hidden="true"></span> '
+			. '<span class="fas fa-check" aria-hidden="true"></span> '
 			. '<span id="select-change-text"></span>'
 			. '</button>';
 
