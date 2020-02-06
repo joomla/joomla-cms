@@ -272,16 +272,14 @@ const copyFiles = (options) => {
     // Add provided Assets to a registry, if any
     if (vendor.provideAssets && vendor.provideAssets.length) {
       vendor.provideAssets.forEach((assetInfo) => {
-        const registryItem = {
+        const registryItemBase = {
           package: packageName,
           name: assetInfo.name || vendorName,
           version: moduleOptions.version,
           type: assetInfo.type,
         };
 
-        if (assetInfo.dependencies && assetInfo.dependencies.length) {
-          registryItem.dependencies = assetInfo.dependencies;
-        }
+        const registryItem = Object.assign(assetInfo, registryItemBase);
 
         // Update path to file
         if (assetInfo.uri && (assetInfo.type === 'script' || assetInfo.type === 'style' || assetInfo.type === 'webcomponent')) {
