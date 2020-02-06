@@ -17,6 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\Database\ParameterType;
 
 /**
  * Supports a modal article picker.
@@ -54,7 +55,7 @@ class ArticleField extends FormField
 		Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
 		// The active article id field.
-		$value = (int) $this->value > 0 ? (int) $this->value : '';
+		$value = ((int) $this->value) ?: '';
 
 		// Create the modal id.
 		$modalId = 'Article_' . $this->id;
@@ -111,7 +112,8 @@ class ArticleField extends FormField
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__content'))
-				->where($db->quoteName('id') . ' = ' . (int) $value);
+				->where($db->quoteName('id') . ' = :value')
+				->bind(':value', $value, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
