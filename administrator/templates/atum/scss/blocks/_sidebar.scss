@@ -514,11 +514,13 @@
     border: 8px solid var(--atum-bg-light);
     position: fixed;
     bottom: 20px;
-    right: 10px;
     z-index: $zindex-mobile-toggle;
 
+    [dir=ltr] & {
+      right: 10px;
+    }
+
     [dir=rtl] & {
-      right: auto;
       left: 10px;
     }
 
