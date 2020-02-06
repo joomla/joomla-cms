@@ -224,15 +224,17 @@ a[target="_blank"]::before {
 
 .card-columns {
   display: grid;
-  grid-gap: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(40%,1fr));
-  grid-auto-rows: 10px;
+  grid-gap: 0 15px;
+  grid-template-columns: repeat(auto-fill, minmax(700px,1fr));
 }
 
-.cpanel-help .card-columns,
-.cpanel-system .card-columns {
-  grid-template-columns: repeat(auto-fill, minmax(30%,1fr));
+.cpanel-help,
+.cpanel-system {
+
+  .card-columns {
+    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
   }
+}
 
 .tiny {
   font-size: $font-size-vsm;

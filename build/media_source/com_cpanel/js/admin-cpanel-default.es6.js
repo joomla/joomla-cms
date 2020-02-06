@@ -71,29 +71,46 @@
     document.removeEventListener('DOMContentLoaded', onBoot);
   };
 
-  function resizeGridItem(item) {
-    grid = document.getElementsByClassName('card-columns')[0];
-    rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
-    rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-row-gap'));
-    rowSpan = Math.ceil((item.querySelector('.card').getBoundingClientRect().height + rowGap) / (rowHeight + rowGap));
-    item.style.gridRowEnd = `span ${rowSpan}`;
-  }
-
-  function resizeAllGridItems() {
-    allItems = document.getElementsByClassName('module-wrapper');
-    for (x = 0; x < allItems.length; x++) {
-      resizeGridItem(allItems[x]);
-    }
-  }
-
-  function resizeInstance(instance) {
-    item = instance.elements[0];
-    resizeGridItem(item);
-  }
-
-  window.onload = resizeAllGridItems();
-  window.addEventListener('resize', resizeAllGridItems);
-
   // Initialise
   document.addEventListener('DOMContentLoaded', onBoot);
+
+  // Masonry layout for cpanel cards
+  const MasonryLayout = {
+    $gridBox: null,
+
+    // Calculate "grid-row-end" property
+    resizeGridItem: function($cell, rowHeight, rowGap) {
+      const $content = $cell.querySelector('.card');
+      const rowSpan  = Math.ceil(($content.getBoundingClientRect().height + rowGap) / (rowHeight + rowGap));
+
+      $cell.style.gridRowEnd = `span ${rowSpan}`
+    },
+
+    // Check a size of every cell in the grid
+    resizeAllGridItems: function() {
+      const $gridCells   = [].slice.call(MasonryLayout.$gridBox.children);
+      const gridStyle    = window.getComputedStyle(MasonryLayout.$gridBox);
+      const gridAutoRows = parseInt(gridStyle.getPropertyValue('grid-auto-rows')) || 0;
+      const gridRowGap   = parseInt(gridStyle.getPropertyValue('grid-row-gap')) || 10;
+
+      $gridCells.forEach(($cell) => {
+        MasonryLayout.resizeGridItem($cell, gridAutoRows, gridRowGap);
+      });
+    },
+
+    initialise: function() {
+      MasonryLayout.$gridBox = document.querySelector('#cpanel-modules .card-columns');
+      MasonryLayout.resizeAllGridItems();
+
+      // Watch on window resize
+      let resizeTimer;
+      window.addEventListener('resize', () => {
+        window.clearTimeout(resizeTimer);
+        resizeTimer = window.setTimeout(MasonryLayout.resizeAllGridItems, 300);
+      });
+    }
+  };
+
+  // Initialise Masonry layout on full load, to be sure all images/fonts are loaded, and so cards have a "final" size
+  window.addEventListener('load', MasonryLayout.initialise);
 })(window, document, window.Joomla);
