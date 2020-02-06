@@ -53,7 +53,7 @@ HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' =
 									<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
 								</th>
 								<th scope="col" style="width:10%" class="text-center">
-									<span class="icon-publish" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
+									<span class="fas fa-check" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
 									<span class="sr-only"><?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?></span>
 								</th>
 								<th scope="col" style="width:10%" class="text-center">

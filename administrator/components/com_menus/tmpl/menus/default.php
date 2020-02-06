@@ -64,7 +64,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', ['version' => 'a
 									<?php echo Text::_('COM_MENUS_MENUS'); ?>
 								</th>
 								<th scope="col" style="width:10%" class="text-center  d-none d-md-table-cell">
-									<span class="icon-publish" aria-hidden="true"></span>
+									<span class="fas fa-check" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" style="width:10%" class="text-center d-none d-md-table-cell">
