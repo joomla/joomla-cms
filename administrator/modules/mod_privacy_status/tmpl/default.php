@@ -24,7 +24,7 @@ use Joomla\CMS\Router\Route;
 			<td>
 				<?php if ($privacyPolicyInfo['published'] && $privacyPolicyInfo['articlePublished']) : ?>
 					<span class="badge badge-success">
-						<span class="icon-checkbox" aria-hidden="true"></span>
+						<span class="fas fa-check-square" aria-hidden="true"></span>
 						<?php echo Text::_('JPUBLISHED'); ?>
 					</span>
 				<?php elseif ($privacyPolicyInfo['published'] && !$privacyPolicyInfo['articlePublished']) : ?>
@@ -53,7 +53,7 @@ use Joomla\CMS\Router\Route;
 			<td>
 				<?php if ($requestFormPublished['published'] && $requestFormPublished['exists']) : ?>
 					<span class="badge badge-success">
-						<span class="icon-checkbox" aria-hidden="true"></span>
+						<span class="fas fa-check-square" aria-hidden="true"></span>
 						<?php echo Text::_('JPUBLISHED'); ?>
 					</span>
 				<?php elseif (!$requestFormPublished['published'] && $requestFormPublished['exists']) : ?>
@@ -79,7 +79,7 @@ use Joomla\CMS\Router\Route;
 			<td>
 				<?php if ($numberOfUrgentRequests === 0) : ?>
 					<span class="badge badge-success">
-						<span class="icon-checkbox" aria-hidden="true"></span>
+						<span class="fas fa-check-square" aria-hidden="true"></span>
 						<?php echo Text::_('JNONE'); ?>
 					</span>
 				<?php else : ?>
@@ -101,7 +101,7 @@ use Joomla\CMS\Router\Route;
 			<td>
 				<?php if ($sendMailEnabled) : ?>
 					<span class="badge badge-success">
-						<span class="icon-checkbox" aria-hidden="true"></span>
+						<span class="fas fa-check-square" aria-hidden="true"></span>
 						<?php echo Text::_('JENABLED'); ?>
 					</span>
 				<?php else : ?>
@@ -124,7 +124,7 @@ use Joomla\CMS\Router\Route;
 			<td>
 				<?php if ($databaseConnectionEncryption !== '') : ?>
 					<span class="badge badge-success">
-						<span class="icon-checkbox" aria-hidden="true"></span>
+						<span class="fas fa-check-square" aria-hidden="true"></span>
 						<?php echo Text::_('JENABLED'); ?>
 					</span>
 				<?php else : ?>
