@@ -79,26 +79,27 @@
     $gridBox: null,
 
     // Calculate "grid-row-end" property
-    resizeGridItem: function($cell, rowHeight, rowGap) {
+    resizeGridItem ($cell, rowHeight, rowGap) {
       const $content = $cell.querySelector('.card');
-      const rowSpan  = Math.ceil(($content.getBoundingClientRect().height + rowGap) / (rowHeight + rowGap));
+      const contentHeight = $content.getBoundingClientRect().height + rowGap;
+      const rowSpan = Math.ceil(contentHeight / (rowHeight + rowGap));
 
-      $cell.style.gridRowEnd = `span ${rowSpan}`
+      $cell.style.gridRowEnd = `span ${rowSpan}`;
     },
 
     // Check a size of every cell in the grid
-    resizeAllGridItems: function() {
-      const $gridCells   = [].slice.call(MasonryLayout.$gridBox.children);
-      const gridStyle    = window.getComputedStyle(MasonryLayout.$gridBox);
-      const gridAutoRows = parseInt(gridStyle.getPropertyValue('grid-auto-rows')) || 0;
-      const gridRowGap   = parseInt(gridStyle.getPropertyValue('grid-row-gap')) || 10;
+    resizeAllGridItems () {
+      const $gridCells = [].slice.call(MasonryLayout.$gridBox.children);
+      const gridStyle = window.getComputedStyle(MasonryLayout.$gridBox);
+      const gridAutoRows = parseInt(gridStyle.getPropertyValue('grid-auto-rows'), 10) || 0;
+      const gridRowGap = parseInt(gridStyle.getPropertyValue('grid-row-gap'), 10) || 10;
 
       $gridCells.forEach(($cell) => {
         MasonryLayout.resizeGridItem($cell, gridAutoRows, gridRowGap);
       });
     },
 
-    initialise: function() {
+    initialise () {
       MasonryLayout.$gridBox = document.querySelector('#cpanel-modules .card-columns');
       MasonryLayout.resizeAllGridItems();
 
@@ -111,6 +112,8 @@
     }
   };
 
-  // Initialise Masonry layout on full load, to be sure all images/fonts are loaded, and so cards have a "final" size
+  // Initialise Masonry layout on full load,
+  // to be sure all images/fonts are loaded, and so cards have a "final" size
   window.addEventListener('load', MasonryLayout.initialise);
+
 })(window, document, window.Joomla);
