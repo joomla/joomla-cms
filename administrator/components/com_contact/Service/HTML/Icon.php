@@ -124,7 +124,7 @@ class Icon
 		if (property_exists($contact, 'checked_out')
 			&& property_exists($contact, 'checked_out_time')
 			&& $contact->checked_out > 0
-			&& $contact->checked_out != $user->get('id'))
+			&& $contact->checked_out !== $user->get('id'))
 		{
 			$checkoutUser = Factory::getUser($contact->checked_out);
 			$date         = HTMLHelper::_('date', $contact->checked_out_time);
