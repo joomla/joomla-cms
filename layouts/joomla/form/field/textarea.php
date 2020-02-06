@@ -57,7 +57,7 @@ if ($charcounter)
 	// Set the css class to be used as the trigger
 	$charcounter = ' charcount';
 	// Set the text
-	$counterlabel = 'data-counter-label="' . Text::_('COM_CONFIG_METADESC_COUNTER') . '"';
+	$counterlabel = 'data-counter-label="' . Text::_('JFIELD_META_DESCRIPTION_COUNTER') . '"';
 }
 
 $attributes = array(
