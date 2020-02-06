@@ -80,7 +80,7 @@ class ContactComponent extends MVCComponent implements
 			$section = 'mail';
 		}
 
-		if (Factory::getApplication()->isClient('site') && ($section == 'category' || $section == 'form'))
+		if (Factory::getApplication()->isClient('site') && ($section === 'category' || $section === 'form'))
 		{
 			// The contact form needs to be the mail section
 			$section = 'contact';
