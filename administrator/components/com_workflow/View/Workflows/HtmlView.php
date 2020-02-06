@@ -172,20 +172,4 @@ class HtmlView extends BaseHtmlView
 
 		$toolbar->help('JHELP_WORKFLOWS_LIST');
 	}
-
-	/**
-	 * Returns an array of fields the table can be sorted by
-	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value
-	 *
-	 * @since  4.0.0
-	 */
-	protected function getSortFields()
-	{
-		return array(
-			'a.published' => Text::_('JSTATUS'),
-			'a.title'     => Text::_('JGLOBAL_TITLE'),
-			'a.id'        => Text::_('JGRID_HEADING_ID'),
-		);
-	}
 }
