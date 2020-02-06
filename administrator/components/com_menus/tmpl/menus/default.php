@@ -72,7 +72,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', ['version' => 'a
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" style="width:10%" class="text-center d-none d-md-table-cell">
-									<span class="icon-trash" aria-hidden="true"></span>
+									<span class="fas fa-trash" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" style="width:10%" class="text-center d-none d-lg-table-cell">
