@@ -160,7 +160,7 @@ class Icon
 
 		$icon = $contact->published ? 'edit' : 'eye-slash';
 
-		if (strtotime($contact->publish_up) > strtotime(Factory::getDate())
+		if ($contact->publish_up !== null && (strtotime($contact->publish_up) > strtotime(Factory::getDate()))
 			|| ($contact->publish_down !== null && (strtotime($contact->publish_down) < strtotime(Factory::getDate())))
 		{
 			$icon = 'eye-slash';
