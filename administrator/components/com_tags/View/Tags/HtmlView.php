@@ -182,23 +182,4 @@ class HtmlView extends BaseHtmlView
 
 		$toolbar->help('JHELP_COMPONENTS_TAGS_MANAGER');
 	}
-
-	/**
-	 * Returns an array of fields the table can be sorted by
-	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value
-	 *
-	 * @since   3.0
-	 */
-	protected function getSortFields()
-	{
-		return array(
-			'a.lft'      => Text::_('JGRID_HEADING_ORDERING'),
-			'a.state'    => Text::_('JSTATUS'),
-			'a.title'    => Text::_('JGLOBAL_TITLE'),
-			'a.access'   => Text::_('JGRID_HEADING_ACCESS'),
-			'a.language' => Text::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'       => Text::_('JGRID_HEADING_ID')
-		);
-	}
 }
