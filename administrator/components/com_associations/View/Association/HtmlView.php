@@ -370,13 +370,13 @@ class HtmlView extends BaseHtmlView
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
-			. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
+			. 'class="btn btn-sm btn-success"><span class="fas fa-save" aria-hidden="true"></span>'
 			. Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
 		);
 
 		$bar->appendButton(
 			'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
-			. 'class="btn btn-sm btn-success"><span class="icon-apply" aria-hidden="true"></span>'
+			. 'class="btn btn-sm btn-success"><span class="fas fa-save" aria-hidden="true"></span>'
 			. Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
 		);
 
