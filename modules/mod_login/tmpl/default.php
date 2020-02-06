@@ -38,7 +38,7 @@ Text::script('JHIDEPASSWORD');
 					<span class="input-group-append">
 						<label for="modlgn-username-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
 						<span class="input-group-text" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
-							<span class="icon-user" aria-hidden="true"></span>
+							<span class="fas fa-user" aria-hidden="true"></span>
 						</span>
 					</span>
 				</div>
