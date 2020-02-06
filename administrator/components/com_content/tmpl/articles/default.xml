@@ -43,6 +43,7 @@
 				label="COM_MENUS_ADMIN_AUTHOR_LABEL"
 				description="COM_MENUS_ADMIN_AUTHOR_DESC"
 				multiple="true"
+				layout="joomla.form.field.list-fancy-select"
 				class="multipleAuthors"
 				filter="int_array"
 				>
@@ -65,6 +66,7 @@
 				label="COM_MENUS_ADMIN_ACCESS_LABEL"
 				description="COM_MENUS_ADMIN_ACCESS_DESC"
 				multiple="true"
+				layout="joomla.form.field.list-fancy-select"
 				filter="int_array"
 			/>
 
