@@ -97,6 +97,8 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	</div>
 </noscript>
 
+<jdoc:include type="modules" name="customtop" style="none" />
+
 <?php // Header ?>
 <header id="header" class="header">
 	<div class="d-flex">
