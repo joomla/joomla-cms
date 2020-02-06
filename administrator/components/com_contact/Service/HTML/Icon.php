@@ -158,10 +158,12 @@ class Icon
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= Text::sprintf('COM_CONTACT_WRITTEN_BY', htmlspecialchars($author, ENT_COMPAT, 'UTF-8'));
 
-		$icon = $contact->published ? 'edit' : 'eye-slash';
+		$nowDate = strtotime(Factory::getDate());
+		$icon    = $contact->published ? 'edit' : 'eye-slash';
 
-		if ($contact->publish_up !== null && (strtotime($contact->publish_up) > strtotime(Factory::getDate()))
-			|| ($contact->publish_down !== null && (strtotime($contact->publish_down) < strtotime(Factory::getDate())))
+		if (($contact->publish_up !== null && strtotime($contact->publish_up) > $nowDate)
+			|| ($contact->publish_down !== null && strtotime($contact->publish_down) < $nowDate
+			    && $contact->publish_down !== Factory::getDbo()->getNullDate()))
 		{
 			$icon = 'eye-slash';
 		}
