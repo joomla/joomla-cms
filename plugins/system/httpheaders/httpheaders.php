@@ -409,13 +409,13 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			}
 
 			// Append the script hashes placeholder
-			if ($scriptHashesEnabled && strpos($cspValue->directive, 'script-src') === 0)
+			if ($scriptHashesEnabled && strpos($row->directive, 'script-src') === 0)
 			{
 				$cspHeaderValue = '{script-hashes} ' . $cspHeaderValue;
 			}
 
 			// Append the style hashes placeholder
-			if ($styleHashesEnabled && strpos($cspValue->directive, 'style-src') === 0)
+			if ($styleHashesEnabled && strpos($row->directive, 'style-src') === 0)
 			{
 				$cspHeaderValue = '{style-hashes} ' . $cspHeaderValue;
 			}
