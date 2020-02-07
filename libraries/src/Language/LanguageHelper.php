@@ -653,6 +653,7 @@ class LanguageHelper
 				}
 				catch (\RuntimeException $e)
 				{
+					// Ignore it
 				}
 			}
 		}

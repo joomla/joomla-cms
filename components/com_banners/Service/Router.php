@@ -7,7 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Component\Banners\Site\Service;
+
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\Router\RouterBase;
 
@@ -16,12 +18,12 @@ use Joomla\CMS\Component\Router\RouterBase;
  *
  * @since  3.3
  */
-class BannersRouter extends RouterBase
+class Router extends RouterBase
 {
 	/**
 	 * Build the route for the com_banners component
 	 *
-	 * @param   array  &$query  An array of URL arguments
+	 * @param   array  $query  An array of URL arguments
 	 *
 	 * @return  array  The URL arguments to use to assemble the subsequent URL.
 	 *
@@ -43,7 +45,7 @@ class BannersRouter extends RouterBase
 			unset($query['id']);
 		}
 
-		$total = count($segments);
+		$total = \count($segments);
 
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -56,7 +58,7 @@ class BannersRouter extends RouterBase
 	/**
 	 * Parse the segments of a URL.
 	 *
-	 * @param   array  &$segments  The segments of the URL to parse.
+	 * @param   array  $segments  The segments of the URL to parse.
 	 *
 	 * @return  array  The URL attributes to be used by the application.
 	 *
@@ -64,7 +66,7 @@ class BannersRouter extends RouterBase
 	 */
 	public function parse(&$segments)
 	{
-		$total = count($segments);
+		$total = \count($segments);
 		$vars = array();
 
 		for ($i = 0; $i < $total; $i++)
@@ -73,14 +75,14 @@ class BannersRouter extends RouterBase
 		}
 
 		// View is always the first element of the array
-		$count = count($segments);
+		$count = \count($segments);
 
 		if ($count)
 		{
 			$count--;
 			$segment = array_shift($segments);
 
-			if (is_numeric($segment))
+			if (\is_numeric($segment))
 			{
 				$vars['id'] = $segment;
 			}
@@ -94,7 +96,7 @@ class BannersRouter extends RouterBase
 		{
 			$segment = array_shift($segments);
 
-			if (is_numeric($segment))
+			if (\is_numeric($segment))
 			{
 				$vars['id'] = $segment;
 			}

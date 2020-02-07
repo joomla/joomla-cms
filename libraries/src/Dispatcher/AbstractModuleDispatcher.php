@@ -126,8 +126,8 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 		if (!$langPaths || (!isset($langPaths[$coreLanguageDirectory]) && !isset($langPaths[$extensionLanguageDirectory])))
 		{
 			// 1.5 or Core then 1.6 3PD
-			$language->load($this->module->module, $coreLanguageDirectory, null, false, true) ||
-			$language->load($this->module->module, $extensionLanguageDirectory, null, false, true);
+			$language->load($this->module->module, $coreLanguageDirectory) ||
+			$language->load($this->module->module, $extensionLanguageDirectory);
 		}
 	}
 }

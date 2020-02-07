@@ -59,7 +59,7 @@ class HtmlView extends BaseHtmlView
 		$extension = ApplicationHelper::stringURLSafe($app->input->getCmd('dashboard'));
 
 		$title = Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE');
-		$icon  = 'fa fa-home';
+		$icon  = 'fas fa-home';
 
 		$position = ApplicationHelper::stringURLSafe($extension);
 
@@ -80,8 +80,8 @@ class HtmlView extends BaseHtmlView
 				$prefix = strtoupper($parts[0]) . '_DASHBOARD';
 
 				// Need to load the language file
-				$lang->load($parts[0], JPATH_BASE, null, false, true)
-				|| $lang->load($parts[0], JPATH_ADMINISTRATOR . '/components/' . $parts[0], null, false, true);
+				$lang->load($parts[0], JPATH_BASE)
+				|| $lang->load($parts[0], JPATH_ADMINISTRATOR . '/components/' . $parts[0]);
 				$lang->load($parts[0]);
 			}
 
@@ -100,23 +100,23 @@ class HtmlView extends BaseHtmlView
 				// Default core icons.
 				if ($parts[0] === 'content')
 				{
-					$icon = 'fa fa-file-alt';
+					$icon = 'fas fa-file-alt';
 				}
 				elseif ($parts[0] === 'components')
 				{
-					$icon = 'fa fa-puzzle-piece';
+					$icon = 'fas fa-puzzle-piece';
 				}
 				elseif ($parts[0] === 'menus')
 				{
-					$icon = 'fa fa-list';
+					$icon = 'fas fa-list';
 				}
 				elseif ($parts[0] === 'system')
 				{
-					$icon = 'fa fa-wrench';
+					$icon = 'fas fa-wrench';
 				}
 				elseif ($parts[0] === 'users')
 				{
-					$icon = 'fa fa-users';
+					$icon = 'fas fa-users';
 				}
 				elseif ($parts[0] === 'privacy')
 				{
@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
 				}
 				elseif ($parts[0] === 'help')
 				{
-					$icon = 'fa fa-info-circle';
+					$icon = 'fas fa-info-circle';
 				}
 				elseif ($lang->hasKey($keyIcon))
 				{
