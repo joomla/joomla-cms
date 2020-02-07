@@ -65,7 +65,7 @@ $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 
 ?>
 <fieldset <?php echo $attr; ?>>
-	<legend class="switcher__legend">
+	<legend class="switcher__legend sr-only">
 		<?php echo $label; ?>
 	</legend>
 	<div class="switcher">

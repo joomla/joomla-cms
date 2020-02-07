@@ -53,42 +53,4 @@ class RadioField extends ListField
 
 		return array_merge($data, $extraData);
 	}
-
-	/**
-	 * Method to get the field label markup.
-	 *
-	 * @return  string  The field label markup.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function getLabel()
-	{
-		// Switcher uses <legend> element inside field layout as label.
-		if ($this->layout === 'joomla.form.field.radio.switcher')
-		{
-			return '';
-		}
-
-		return parent::getLabel();
-	}
-
-	/**
-	 * Method to render field with label and input.
-	 *
-	 * @param   array  $options  Options to be passed into the rendering of the field
-	 *
-	 * @return  string  A string containing the HTML of the field
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function renderField($options = [])
-	{
-		// Switcher uses <legend> element inside field layout as label.
-		if ($this->layout === 'joomla.form.field.radio.switcher')
-		{
-			$options['hiddenLabel'] = true;
-		}
-
-		return parent::renderField($options);
-	}
 }

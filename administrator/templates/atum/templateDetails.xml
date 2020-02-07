@@ -40,6 +40,7 @@
 		<position>cpanel</position>
 		<position>icon</position>
 		<position>login</position>
+		<position>customtop</position>
 	</positions>
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.tpl_atum.ini</language>

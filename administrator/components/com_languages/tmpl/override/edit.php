@@ -51,7 +51,7 @@ HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.
 				<legend><?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
 				<div>
 				<div class="alert alert-info">
-					<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+					<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?>
 				</div>
 				<?php echo $this->form->renderField('searchtype'); ?>
@@ -68,7 +68,7 @@ HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.
 								</button>
 							</span>
 							<span id="refresh-status" class="help-block">
-								<span class="fa fa-sync fa-spin" aria-hidden="true"></span>
+								<span class="fas fa-sync fa-spin" aria-hidden="true"></span>
 								<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?>
 							</span>
 						</div>
@@ -79,10 +79,10 @@ HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.
 
 			<fieldset id="results-container" class="adminform">
 				<legend><?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_RESULTS_LEGEND'); ?></legend>
-				<div id="overrider-spinner" class="overrider-spinner text-center" data-search-string-expired="<?php echo $expired; ?>"><span class="fa fa-spinner fa-spin" aria-hidden="true"></span></div>
+				<div id="overrider-spinner" class="overrider-spinner text-center" data-search-string-expired="<?php echo $expired; ?>"><span class="fas fa-spinner fa-spin" aria-hidden="true"></span></div>
 				<span id="more-results" class="mt-2">
 					<button type="button" id="more-results-button" class="btn btn-secondary">
-						<span id="overrider-spinner-btn" class="overrider-spinner-btn fa fa-spinner fa-spin" aria-hidden="true"></span>
+						<span id="overrider-spinner-btn" class="overrider-spinner-btn fas fa-spinner fa-spin" aria-hidden="true"></span>
 						<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_MORE_RESULTS'); ?>
 					</button>
 				</span>

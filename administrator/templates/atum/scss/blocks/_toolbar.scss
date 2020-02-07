@@ -1,5 +1,15 @@
 joomla-toolbar-button {
   border: 1px solid var(--border);
+
+  [class^='icon-'],
+  [class*=' icon-'] {
+    margin-right: .5rem;
+
+    [dir=rtl] & {
+      margin-left: .5em;
+      margin-right: 0;
+    }
+  }
 }
 
 .toggle-toolbar {
@@ -370,7 +380,7 @@ joomla-toolbar-button {
 
       @include media-breakpoint-down(sm) {
         [dir=rtl] & {
-          margin-left: 0.75rem;
+          margin-left: 0.75rem !important;
           margin-right: 0 !important;
         }
       }
@@ -440,6 +450,15 @@ joomla-toolbar-button {
 @include media-breakpoint-down(xs) {
   .toggler-toolbar {
     top: 20px;
+    z-index: $zindex-alerts;
+
+    [dir=ltr] & {
+      right: 10px;
+    }
+
+    [dir=rtl] & {
+      left: 10px;
+    }
 
     .toggler-toolbar-icon::before {
       font: normal normal normal 30px/1 'Font Awesome 5 Free';
@@ -458,6 +477,9 @@ joomla-toolbar-button {
     .btn-group,
     .btn {
       width: 100%;
+    }
+    .dropdown-toggle-split {
+      width: auto;
     }
 
     .btn {
