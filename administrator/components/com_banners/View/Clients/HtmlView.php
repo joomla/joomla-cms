@@ -163,23 +163,4 @@ class HtmlView extends BaseHtmlView
 
 		$toolbar->help('JHELP_COMPONENTS_BANNERS_CLIENTS');
 	}
-
-	/**
-	 * Returns an array of fields the table can be sorted by
-	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value
-	 *
-	 * @since   3.0
-	 */
-	protected function getSortFields(): array
-	{
-		return [
-			'a.status'    => Text::_('JSTATUS'),
-			'a.name'      => Text::_('COM_BANNERS_HEADING_CLIENT'),
-			'contact'     => Text::_('COM_BANNERS_HEADING_CONTACT'),
-			'client_name' => Text::_('COM_BANNERS_HEADING_CLIENT'),
-			'nbanners'    => Text::_('COM_BANNERS_HEADING_ACTIVE'),
-			'a.id'        => Text::_('JGRID_HEADING_ID')
-		];
-	}
 }
