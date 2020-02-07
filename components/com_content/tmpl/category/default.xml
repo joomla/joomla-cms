@@ -239,7 +239,6 @@
 				name="list_show_votes"
 				type="list"
 				label="JGLOBAL_LIST_VOTES_LABEL"
-				class="switcher"
 				useglobal="true"
 				>
 				<option value="0" requires="vote">JHIDE</option>

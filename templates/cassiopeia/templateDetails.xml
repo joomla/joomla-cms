@@ -79,12 +79,11 @@
 					<option value="1">TPL_CASSIOPEIA_FLUID</option>
 					<option value="0">TPL_CASSIOPEIA_STATIC</option>
 				</field>
-				
+
 				<field
 					name="stickyHeader"
-					type="radio"
+					type="switcher"
 					label="TPL_CASSIOPEIA_STICKY_LABEL"
-					class="switcher"
 					default="0"
 					filter="integer"
 					>
