@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Route;
 */
 if ($this->params->get('show_autosuggest', 1))
 {
-	$this->document->getWebAssetManager()->enableAsset('awesomplete');
+	$this->document->getWebAssetManager()->usePreset('awesomplete');
 	$this->document->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
 }
 
@@ -41,18 +41,18 @@ if ($this->params->get('show_autosuggest', 1))
 				<span class="input-group-append">
 				<?php if ($this->escape($this->query->input) != '' || $this->params->get('allow_empty_query')) : ?>
 					<button name="Search" type="submit" class="btn btn-primary">
-						<span class="fa fa-search icon-white" aria-hidden="true"></span>
+						<span class="fas fa-search icon-white" aria-hidden="true"></span>
 						<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>
 					</button>
 				<?php else : ?>
 					<button name="Search" type="submit" class="btn btn-primary disabled">
-						<span class="fa fa-search icon-white" aria-hidden="true"></span>
+						<span class="fas fa-search icon-white" aria-hidden="true"></span>
 						<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>
 					</button>
 				<?php endif; ?>
 				<?php if ($this->params->get('show_advanced', 1)) : ?>
-					<a href="#advancedSearch" data-toggle="collapse" class="btn btn-secondary" aria-hidden="true">
-						<span class="fa fa-search-plus" aria-hidden="true"></span>
+					<a href="#advancedSearch" data-toggle="collapse" class="btn btn-secondary">
+						<span class="fas fa-search-plus" aria-hidden="true"></span>
 						<?php echo Text::_('COM_FINDER_ADVANCED_SEARCH_TOGGLE'); ?></a>
 				<?php endif; ?>
 				</span>

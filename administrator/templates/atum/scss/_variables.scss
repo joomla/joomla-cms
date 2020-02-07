@@ -27,11 +27,11 @@ $purple:                           #6f42c1; //used in bootstrap
 $pink:                             #971250; //used in bootstrap
 $red:                              #c52827; //used in bootstrap
 $red-dark:                         #3b0d0c; //used for alerts error
-$yellow:                           #ffb107; //used in bootstrap
+$yellow:                           #ffb514; //used in bootstrap
 $green:                            #2f7d32; //used in bootstrap
 $green-dark:                       #0f2f21; //used for alert success
 $teal:                             #20c997; //used in bootstrap
-$cyan:                             #108193; //used in bootstrap
+$cyan:                             #107D8E; //used in bootstrap
 
 $base-color:                       $blue;
 
@@ -87,7 +87,7 @@ $alert-border-level:               0;
 $alert-color-level:                0;
 
 // Global
-$atum-box-shadow:                  1px 1px 1px 0px rgba($black,0.25);
+$atum-box-shadow:                  1px 1px 1px 0 rgba($black,0.25);
 $enable-rounded:                   false;
 $border-radius:                    none;
 $input-btn-padding-y:              .6rem;
@@ -188,7 +188,7 @@ $success-txt:                      #114b0c;
 $warning-bg:                       #fcd9b6;
 $warning-txt:                      #462a16;
 
-$danger-bg:                        #f9acaa;
+$danger-bg:                        #F5B9B7;
 $danger-txt:                       #3b0d0c;
 
 // Input Group
@@ -213,7 +213,8 @@ $custom-select-indicator-padding:    3rem;
 $custom-select-bg:                   var(--atum-bg-dark);
 $custom-select-bg-size:              116rem;
 $custom-select-indicator:            url(../images/select-bg.svg);
-$custom-select-indicator-active:     url(../images/select-bg-active.svg);
+$custom-select-indicator-active:     url(../../../images/select-bg-active.svg);
+$custom-select-indicator-active-rtl: url(../../../images/select-bg-active-rtl.svg);
 $custom-select-background:           $custom-select-indicator no-repeat right center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 $custom-select-box-shadow:           $atum-box-shadow;
 $custom-select-bg-size-sm:           75rem;
@@ -250,8 +251,8 @@ $fadetime:                         1s;
 // Z-Index list
 $zindex-negative:                  -1;
 $zindex-actions:                   auto;
-$zindex-sidebar:                   1000;
-$zindex-toolbar:                   1010;
+$zindex-toolbar:                   1000;
+$zindex-sidebar:                   1010;
 $zindex-header:                    1020;
 $zindex-alerts:                    1030;
 $zindex-modal-backdrop:            1040;

@@ -28,6 +28,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\UCM\UCMType;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -415,8 +416,8 @@ class CategoryModel extends AdminModel
 
 		if (file_exists($path))
 		{
-			$lang->load($component, JPATH_BASE, null, false, true);
-			$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
+			$lang->load($component, JPATH_BASE);
+			$lang->load($component, JPATH_BASE . '/components/' . $component);
 
 			if (!$form->loadFile($path, false))
 			{
@@ -468,7 +469,7 @@ class CategoryModel extends AdminModel
 		// Association category items
 		if ($this->getAssoc())
 		{
-			$languages = LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{
@@ -632,28 +633,39 @@ class CategoryModel extends AdminModel
 
 			// Get associationskey for edited item
 			$db    = $this->getDbo();
+			$id    = (int) $table->id;
 			$query = $db->getQuery(true)
 				->select($db->quoteName('key'))
 				->from($db->quoteName('#__associations'))
-				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
-				->where($db->quoteName('id') . ' = ' . (int) $table->id);
+				->where($db->quoteName('context') . ' = :associationscontext')
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':associationscontext', $this->associationsContext)
+				->bind(':id', $id, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$oldKey = $db->loadResult();
 
-			// Deleting old associations for the associated items
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__associations'))
-				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext));
+			if ($associations || $oldKey !== null)
+			{
+				$where = [];
 
-			if ($associations)
-			{
-				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($oldKey) . ')'
-				);
-			}
-			else
-			{
-				$query->where($db->quoteName('key') . ' = ' . $db->quote($oldKey));
+				// Deleting old associations for the associated items
+				$query = $db->getQuery(true)
+					->delete($db->quoteName('#__associations'))
+					->where($db->quoteName('context') . ' = :associationscontext')
+					->bind(':associationscontext', $this->associationsContext);
+
+				if ($associations)
+				{
+					$where[] = $db->quoteName('id') . ' IN (' . implode(',', $query->bindArray(array_values($associations))) . ')';
+				}
+
+				if ($oldKey !== null)
+				{
+					$where[] = $db->quoteName('key') . ' = :oldKey';
+					$query->bind(':oldKey', $oldKey);
+				}
+
+				$query->extendWhere('AND', $where, 'OR');
 			}
 
 			$db->setQuery($query);
@@ -680,11 +692,28 @@ class CategoryModel extends AdminModel
 				// Adding new association for these items
 				$key = md5(json_encode($associations));
 				$query->clear()
-					->insert('#__associations');
+					->insert($db->quoteName('#__associations'))
+					->columns(
+						[
+							$db->quoteName('id'),
+							$db->quoteName('context'),
+							$db->quoteName('key'),
+						]
+					);
 
 				foreach ($associations as $id)
 				{
-					$query->values(((int) $id) . ',' . $db->quote($this->associationsContext) . ',' . $db->quote($key));
+					$id = (int) $id;
+
+					$query->values(
+						implode(
+							',',
+							$query->bindArray(
+								[$id, $this->associationsContext, $key],
+								[ParameterType::INTEGER, ParameterType::STRING, ParameterType::STRING]
+							)
+						)
+					);
 				}
 
 				$db->setQuery($query);
@@ -834,9 +863,10 @@ class CategoryModel extends AdminModel
 		 */
 		foreach ($pks as $id)
 		{
-			$query->select('MAX(ordering)')
-				->from('#__content')
-				->where($db->quoteName('catid') . ' = ' . $db->quote($id));
+			$query->select('MAX(' . $db->quoteName('ordering') . ')')
+				->from($db->quoteName('#__content'))
+				->where($db->quoteName('catid') . ' = :catid')
+				->bind(':catid', $id, ParameterType::INTEGER);
 
 			$db->setQuery($query);
 
@@ -845,9 +875,11 @@ class CategoryModel extends AdminModel
 
 			$query->clear();
 
-			$query->update('#__content')
-				->set($db->quoteName('ordering') . ' = ' . $max . ' - ' . $db->quoteName('ordering'))
-				->where($db->quoteName('catid') . ' = ' . $db->quote($id));
+			$query->update($db->quoteName('#__content'))
+				->set($db->quoteName('ordering') . ' = :max - ' . $db->quoteName('ordering'))
+				->where($db->quoteName('catid') . ' = :catid')
+				->bind(':max', $max, ParameterType::INTEGER)
+				->bind(':catid', $id, ParameterType::INTEGER);
 
 			$db->setQuery($query);
 
@@ -946,7 +978,7 @@ class CategoryModel extends AdminModel
 
 		// Calculate the emergency stop count as a precaution against a runaway loop bug
 		$query = $db->getQuery(true)
-			->select('COUNT(id)')
+			->select('COUNT(' . $db->quoteName('id') . ')')
 			->from($db->quoteName('#__categories'));
 		$db->setQuery($query);
 
@@ -988,11 +1020,15 @@ class CategoryModel extends AdminModel
 			}
 
 			// Copy is a bit tricky, because we also need to copy the children
+			$lft = (int) $this->table->lft;
+			$rgt = (int) $this->table->rgt;
 			$query->clear()
-				->select('id')
+				->select($db->quoteName('id'))
 				->from($db->quoteName('#__categories'))
-				->where('lft > ' . (int) $this->table->lft)
-				->where('rgt < ' . (int) $this->table->rgt);
+				->where($db->quoteName('lft') . ' > :lft')
+				->where($db->quoteName('rgt') . ' < :rgt')
+				->bind(':lft', $lft, ParameterType::INTEGER)
+				->bind(':rgt', $rgt, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$childIds = $db->loadColumn();
 
@@ -1052,11 +1088,14 @@ class CategoryModel extends AdminModel
 			// Copy rules
 			$query->clear()
 				->update($db->quoteName('#__assets', 't'))
-				->join('INNER', $db->quoteName('#__assets', 's') .
-					' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
+				->join('INNER',
+					$db->quoteName('#__assets', 's'),
+					$db->quoteName('s.id') . ' = :oldid'
 				)
+				->bind(':oldid', $oldAssetId, ParameterType::INTEGER)
 				->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
-				->where($db->quoteName('t.id') . ' = ' . $this->table->asset_id);
+				->where($db->quoteName('t.id') . ' = :assetid')
+				->bind(':assetid', $this->table->asset_id, ParameterType::INTEGER);
 			$db->setQuery($query)->execute();
 
 			// Now we log the old 'parent' to the new 'parent'
@@ -1186,11 +1225,16 @@ class CategoryModel extends AdminModel
 			// Check if we are moving to a different parent
 			if ($parentId != $this->table->parent_id)
 			{
+				$lft = (int) $this->table->lft;
+				$rgt = (int) $this->table->rgt;
+
 				// Add the child node ids to the children array.
 				$query->clear()
-					->select('id')
+					->select($db->quoteName('id'))
 					->from($db->quoteName('#__categories'))
-					->where($db->quoteName('lft') . ' BETWEEN ' . (int) $this->table->lft . ' AND ' . (int) $this->table->rgt);
+					->where($db->quoteName('lft') . ' BETWEEN :lft AND :rgt')
+					->bind(':lft', $lft, ParameterType::INTEGER)
+					->bind(':rgt', $rgt, ParameterType::INTEGER);
 				$db->setQuery($query);
 
 				try

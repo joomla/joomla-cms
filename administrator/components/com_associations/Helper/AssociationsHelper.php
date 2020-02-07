@@ -223,7 +223,17 @@ class AssociationsHelper extends ContentHelper
 		$titleFieldName = self::getTypeFieldName($extensionName, $typeName, 'title');
 
 		// Get all content languages.
-		$languages = LanguageHelper::getContentLanguages(array(0, 1));
+		$languages = LanguageHelper::getContentLanguages(array(0, 1), false);
+		$content_languages = array_column($languages, 'lang_code');
+
+		// Display warning if Content Language is trashed or deleted
+		foreach ($items as $item)
+		{
+			if (!in_array($item['language'], $content_languages))
+			{
+				Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_ASSOCIATIONS_CONTENTLANGUAGE_WARNING', $item['language']), 'warning');
+			}
+		}
 
 		$canEditReference = self::allowEdit($extensionName, $typeName, $itemId);
 		$canCreate        = self::allowAdd($extensionName, $typeName);
@@ -327,7 +337,7 @@ class AssociationsHelper extends ContentHelper
 				. htmlspecialchars($title, ENT_QUOTES, 'UTF-8') . '<br><br>' . $additional;
 			$classes = 'badge ' . $labelClass;
 
-			$items[$langCode]['link'] = '<a href="' . $url . '" title="' . $language->title . '" class="' . $classes . '">' . $text . '</a>'
+			$items[$langCode]['link'] = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
 				. '<div role="tooltip">' . $tooltip . '</div>';
 		}
 

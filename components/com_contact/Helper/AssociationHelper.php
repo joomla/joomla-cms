@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
-use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 /**
  * Contact Component Association Helper
@@ -49,7 +49,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 
 				foreach ($associations as $tag => $item)
 				{
-					$return[$tag] = ContactHelperRoute::getContactRoute($item->id, (int) $item->catid, $item->language);
+					$return[$tag] = RouteHelper::getContactRoute($item->id, (int) $item->catid, $item->language);
 				}
 
 				return $return;

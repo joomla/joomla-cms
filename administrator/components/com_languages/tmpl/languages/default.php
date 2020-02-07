@@ -37,7 +37,7 @@ if ($saveOrder && !empty($this->items))
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -62,10 +62,10 @@ if ($saveOrder && !empty($this->items))
 								<th scope="col" class="title d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'a.title_native', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="text-center">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_TAG', 'a.lang_code', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="text-center">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_LANG_CODE', 'a.sef', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
@@ -103,9 +103,9 @@ if ($saveOrder && !empty($this->items))
 											$disableClassName = 'inactive';
 										endif; ?>
 										<span class="sortable-handler <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
-											<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
+											<span class="fas fa-ellipsis-v" aria-hidden="true"></span>
 										</span>
-										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
+										<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 									<?php else : ?>
 										<span class="sortable-handler inactive">
 											<span class="icon-menu" aria-hidden="true"></span>
@@ -126,10 +126,10 @@ if ($saveOrder && !empty($this->items))
 								<td class="d-none d-md-table-cell">
 									<?php echo $this->escape($item->title_native); ?>
 								</td>
-								<td class="text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php echo $this->escape($item->lang_code); ?>
 								</td>
-								<td class="text-center">
+								<td class="d-none d-md-table-cell text-center">
 									<?php echo $this->escape($item->sef); ?>
 								</td>
 								<td class="d-none d-md-table-cell text-center">

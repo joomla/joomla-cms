@@ -3,7 +3,8 @@
 .cpanel-add-module-icon,
 .com-cpanel {
 
-  &-help, &-system {
+  &-help,
+  &-system {
 
     .list-group-item {
       padding: 0;
@@ -122,7 +123,6 @@
   }
 
   .cpanel-add-module {
-    background-color: var(--atum-bg-light);
     border: 0.125rem dashed var(--atum-link-color);
     position: relative;
     transition: all .3s ease-in;
@@ -134,7 +134,7 @@
 
       .cpanel-add-module-icon {
 
-        .fa {
+        .fas {
           opacity: 0.3;
         }
       }
@@ -151,7 +151,7 @@
       right: 0;
       bottom: 0;
 
-      .fa {
+      .fas {
         transition: all .3s ease-in;
         font-size: 7rem;
         transform: translateX(-100%);
@@ -162,12 +162,12 @@
 
 .cpanel-modules {
   .list-group-item:hover {
-    background:var(--toolbar-bg);
+    background: var(--toolbar-bg);
   }
 
-  .list-group-item a > span.fa {
+  .list-group-item a > span.fas {
     background: var(--atum-link-color);
-    color: rgba(255,255,255,.9);
+    color: rgba(255, 255, 255, .9);
     display: block;
     padding: 0.5rem;
     box-shadow: $atum-box-shadow;
@@ -177,7 +177,7 @@
     }
   }
 
-   h2 {
-      font-size: $h4-font-size;
-    }
+  h2 {
+    font-size: $h4-font-size;
+  }
 }

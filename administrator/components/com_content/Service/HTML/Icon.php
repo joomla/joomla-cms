@@ -19,6 +19,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Component\Mailto\Site\Helper\MailtoHelper;
 use Joomla\Registry\Registry;
 
@@ -104,7 +105,7 @@ class Icon
 		$uri      = Uri::getInstance();
 		$base     = $uri->toString(array('scheme', 'host', 'port'));
 		$template = $this->application->getTemplate();
-		$link     = $base . Route::_(\ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false);
+		$link     = $base . Route::_(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language), false);
 		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailtoHelper::addLink($link);
 
 		$height = Factory::getApplication()->get('captcha', '0') === '0' ? 450 : 550;
@@ -173,7 +174,7 @@ class Icon
 			return $output;
 		}
 
-		$contentUrl = \ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
+		$contentUrl = RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language);
 		$url        = $contentUrl . '&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
 
 		if ($article->state == Workflow::CONDITION_UNPUBLISHED)
@@ -215,7 +216,7 @@ class Icon
 	 */
 	public function print_popup($article, $params, $attribs = array(), $legacy = false)
 	{
-		$url  = \ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
+		$url  = RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language);
 		$url .= '&tmpl=component&print=1&layout=default';
 
 		$status = 'status=no,toolbar=no,scrollbars=yes,titlebar=no,menubar=no,resizable=yes,width=640,height=480,directories=no,location=no';

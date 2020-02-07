@@ -22,6 +22,41 @@
     return false;
   });
 
+  /**
+   * Helper to find a closest parent element
+   *
+   * @param {HTMLElement} element
+   * @param {String}      selector
+   *
+   * @returns {HTMLElement|null}
+   */
+  function closest(element, selector) {
+    let parent;
+
+    // Traverse parents
+    while (element) {
+      parent = element.parentElement;
+      if (parent && parent[matchesFn](selector)) {
+        return parent;
+      }
+
+      // eslint-disable-next-line no-param-reassign
+      element = parent;
+    }
+
+    return null;
+  }
+
+  /**
+   * Helper for testing whether a selection modifier is pressed
+   * @param {Event} event
+   *
+   * @returns {boolean|*}
+   */
+  function hasModifier(event) {
+    return (event.ctrlKey || event.metaKey || event.shiftKey);
+  }
+
   class JoomlaFieldSubform extends HTMLElement {
     // Attribute getters
     get buttonAdd() { return this.getAttribute('button-add'); }
@@ -66,6 +101,10 @@
           }
         }
       }
+
+      // Keep track of row index, this is important to avoid a name duplication
+      // Note: php side should reset the indexes each time, eg: $value = array_values($value);
+      this.lastRowIndex = this.getRows().length - 1;
 
       // Template for the repeating group
       this.template = '';
@@ -125,16 +164,12 @@
     }
 
     /**
-         * Search for existing rows
-         * @returns {HTMLElement[]}
-         */
+     * Search for existing rows
+     * @returns {HTMLElement[]}
+     */
     getRows() {
       const rows = this.containerWithRows.children;
-
-
       const matchesFn = document.body.msMatchesSelector ? 'msMatchesSelector' : 'matches';
-
-
       const result = [];
 
       // Filter out the rows
@@ -148,8 +183,8 @@
     }
 
     /**
-         * Prepare a row template
-         */
+     * Prepare a row template
+     */
     prepareTemplate() {
       const tmplElement = [].slice.call(this.children).filter(el => el.classList.contains('subform-repeatable-template-section'));
 
@@ -163,10 +198,10 @@
     }
 
     /**
-         * Add new row
-         * @param {HTMLElement} after
-         * @returns {HTMLElement}
-         */
+     * Add new row
+     * @param {HTMLElement} after
+     * @returns {HTMLElement}
+     */
     addRow(after) {
       // Count how much we already have
       const count = this.getRows().length;
@@ -217,9 +252,9 @@
     }
 
     /**
-         * Remove the row
-         * @param {HTMLElement} row
-         */
+     * Remove the row
+     * @param {HTMLElement} row
+     */
     removeRow(row) {
       // Count how much we have
       const count = this.getRows().length;
@@ -241,26 +276,23 @@
     }
 
     /**
-         * Fix names ind id`s for field that in the row
-         * @param {HTMLElement} row
-         * @param {Number} count
-         */
+     * Fix names ind id`s for field that in the row
+     * @param {HTMLElement} row
+     * @param {Number} count
+     */
     fixUniqueAttributes(row, count) {
       count = count || 0;
 
-      const group = row.getAttribute('data-group');
-      // current group name
-
+      const group = row.getAttribute('data-group'); // current group name
       const basename = row.getAttribute('data-base-name');
+      const countnew = Math.max(this.lastRowIndex, count);
+      const groupnew = basename + countnew; // new group name
 
-      const groupnew = basename + count; // new group name
-
+      this.lastRowIndex = countnew + 1;
       row.setAttribute('data-group', groupnew);
 
       // Fix inputs that have a "name" attribute
       let haveName = row.querySelectorAll('[name]');
-
-
       const ids = {}; // Collect id for fix checkboxes and radio
 
       // Filter out nested
@@ -268,28 +300,16 @@
 
       for (let i = 0, l = haveName.length; i < l; i++) {
         const $el = haveName[i];
-
-
         const name = $el.getAttribute('name');
-
-
         const id = name
           .replace(/(\[\]$)/g, '')
           .replace(/(\]\[)/g, '__')
           .replace(/\[/g, '_')
           .replace(/\]/g, '')
-          .replace(/\W/g, '_');
-        // id from name
-
-        const nameNew = name.replace(`[${group}][`, `[${groupnew}][`);
-        // New name
-
-        let idNew = id.replace(group, groupnew);
-        // Count new id
-
-        let countMulti = 0;
-        // count for multiple radio/checkboxes
-
+          .replace(/\W/g, '_'); // id from name
+        const nameNew = name.replace(`[${group}][`, `[${groupnew}][`); // New name
+        let idNew = id.replace(group, groupnew); // Count new id
+        let countMulti = 0; // count for multiple radio/checkboxes
         let forOldAttr = id; // Fix "for" in the labels
 
         if ($el.type === 'checkbox' && name.match(/\[\]$/)) { // <input type="checkbox" name="name[]"> fix
@@ -359,10 +379,10 @@
     }
 
     /**
-         * Use of HTML Drag and Drop API
-         * https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
-         * https://www.sitepoint.com/accessible-drag-drop/
-         */
+     * Use of HTML Drag and Drop API
+     * https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
+     * https://www.sitepoint.com/accessible-drag-drop/
+     */
     setUpDragSort() {
       const that = this; // Self reference
       let item = null; // Storing the selected item
@@ -381,7 +401,7 @@
       // Helper method to test whether Handler was clicked
       function getMoveHandler(element) {
         return !element.form // This need to test whether the element is :input
-                && element[matchesFn](that.buttonMove) ? element : closest(element, that.buttonMove);
+        && element[matchesFn](that.buttonMove) ? element : closest(element, that.buttonMove);
       }
 
       // Helper method to mover row to selected position
@@ -477,7 +497,7 @@
       // - "esc" to cancel selection
       this.addEventListener('keydown', (event) => {
         if ((event.keyCode !== KEYCODE.ESC && event.keyCode !== KEYCODE.SPACE && event.keyCode !== KEYCODE.ENTER)
-                    || event.target.form || !event.target[matchesFn](that.repeatableElement)) {
+          || event.target.form || !event.target[matchesFn](that.repeatableElement)) {
           return;
         }
 
@@ -587,36 +607,5 @@
 
   customElements.define('joomla-field-subform', JoomlaFieldSubform);
 
-  /**
-     * Helper to find a closest parent element
-     *
-     * @param {HTMLElement} element
-     * @param {String}      selector
-     *
-     * @returns {HTMLElement|null}
-     */
-  function closest(element, selector) {
-    let parent;
 
-    // Traverse parents
-    while (element) {
-      parent = element.parentElement;
-      if (parent && parent[matchesFn](selector)) {
-        return parent;
-      }
-      element = parent;
-    }
-
-    return null;
-  }
-
-  /**
-     * Helper for testing whether a selection modifier is pressed
-     * @param {Event} event
-     *
-     * @returns {boolean|*}
-     */
-  function hasModifier(event) {
-    return (event.ctrlKey || event.metaKey || event.shiftKey);
-  }
 }(customElements));

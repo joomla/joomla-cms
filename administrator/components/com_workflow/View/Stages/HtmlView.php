@@ -19,7 +19,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Workflow\Workflow;
-use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
  * Stages view class for the Workflow package.
@@ -127,10 +126,6 @@ class HtmlView extends BaseHtmlView
 		$this->workflowID    = $this->workflow->id;
 		$this->extension     = $this->workflow->extension;
 
-		WorkflowHelper::addSubmenu('stages');
-
-		$this->sidebar       = \JHtmlSidebar::render();
-
 		if (!empty($this->stages))
 		{
 			$extension = Factory::getApplication()->input->getCmd('extension');
@@ -138,7 +133,7 @@ class HtmlView extends BaseHtmlView
 
 			foreach ($this->stages as $i => $item)
 			{
-				$item->condition = $workflow->getConditionName($item->condition);
+				$item->condition = $workflow->getConditionName((int) $item->condition);
 			}
 		}
 
@@ -160,9 +155,7 @@ class HtmlView extends BaseHtmlView
 
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		$workflow = !empty($this->state->get('active_workflow', '')) ? Text::_($this->state->get('active_workflow', '')) . ': ' : '';
-
-		ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_STAGES_LIST', $this->escape($workflow)), 'address contact');
+		ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_STAGES_LIST', Text::_($this->state->get('active_workflow', ''))), 'address contact');
 
 		$isCore = $this->workflow->core;
 		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
@@ -185,7 +178,7 @@ class HtmlView extends BaseHtmlView
 				$dropdown = $toolbar->dropdownButton('status-group')
 					->text('JTOOLBAR_CHANGE_STATUS')
 					->toggleSplit(false)
-					->icon('fa fa-ellipsis-h')
+					->icon('fas fa-ellipsis-h')
 					->buttonClass('btn btn-action')
 					->listCheck(true);
 
@@ -216,21 +209,5 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->help('JHELP_WORKFLOW_STAGES_LIST');
-	}
-
-	/**
-	 * Returns an array of fields the table can be sorted by
-	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value
-	 *
-	 * @since  4.0.0
-	 */
-	protected function getSortFields()
-	{
-		return array(
-			'a.published' => Text::_('JSTATUS'),
-			'a.title'     => Text::_('JGLOBAL_TITLE'),
-			'a.id'        => Text::_('JGRID_HEADING_ID'),
-		);
 	}
 }

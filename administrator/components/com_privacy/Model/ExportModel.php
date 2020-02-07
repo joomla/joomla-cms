@@ -205,8 +205,8 @@ class ExportModel extends BaseDatabaseModel
 		}
 
 		// Ensure the right language files have been loaded
-		$lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy', null, false, true);
+		$lang->load('com_privacy', JPATH_ADMINISTRATOR)
+			|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
 
 		// The mailer can be set to either throw Exceptions or return boolean false, account for both
 		try

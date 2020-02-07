@@ -5,6 +5,18 @@
 		label="COM_CONFIG_CACHE_SETTINGS_LABEL">
 
 		<field
+			name="caching"
+			type="list"
+			label="COM_CONFIG_FIELD_CACHE_LABEL"
+			default="2"
+			filter="integer"
+			>
+			<option value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
+			<option value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
+			<option value="2">COM_CONFIG_FIELD_VALUE_CACHE_PROGRESSIVE</option>
+		</field>
+		
+		<field
 			name="cache_handler"
 			type="cachehandler"
 			label="COM_CONFIG_FIELD_CACHE_HANDLER_LABEL"
@@ -41,9 +53,9 @@
 			name="cache_path"
 			type="text"
 			label="COM_CONFIG_FIELD_CACHE_PATH_LABEL"
-			showon="cache_handler:file"
 			filter="path"
 			size="50"
+			showon="cache_handler:file[AND]caching:1,2"
 		/>
 
 		<field
@@ -148,40 +160,6 @@
 			showon="cache_handler:redis"
 		/>
 
-		<field
-			name="cachetime"
-			type="number"
-			label="COM_CONFIG_FIELD_CACHE_TIME_LABEL"
-			min="1"
-			default="15"
-			filter="integer"
-			validate="number"
-		/>
-
-		<field
-			name="cache_platformprefix"
-			type="radio"
-			label="COM_CONFIG_FIELD_CACHE_PLATFORMPREFIX_LABEL"
-			class="switcher"
-			default="0"
-			filter="boolean"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
-			name="caching"
-			type="list"
-			label="COM_CONFIG_FIELD_CACHE_LABEL"
-			default="2"
-			filter="integer"
-			>
-			<option value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
-			<option value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
-			<option value="2">COM_CONFIG_FIELD_VALUE_CACHE_PROGRESSIVE</option>
-		</field>
-
 	</fieldset>
 
 	<fieldset
@@ -201,7 +179,6 @@
 			label="COM_CONFIG_FIELD_DATABASE_HOST_LABEL"
 			required="true"
 			filter="string"
-			onchange="Joomla.resetDbEncryptionFields(this)"
 			size="30"
 		/>
 
@@ -235,15 +212,30 @@
 		<field
 			name="dbencryption"
 			type="list"
-			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_LABEL"
+			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_MODE_LABEL"
 			default="0"
 			filter="integer"
-			showon="host!:localhost"
 			>
-			<option value="0">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_VALUE_NONE</option>
-			<option value="1">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_VALUE_ONE_WAY</option>
-			<option value="2">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_ENABLE_VALUE_TWO_WAY</option>
+			<option value="0">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_MODE_VALUE_NONE</option>
+			<option value="1">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_MODE_VALUE_ONE_WAY</option>
+			<option value="2">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_MODE_VALUE_TWO_WAY</option>
 		</field>
+
+		<field
+			name="dbsslkey"
+			type="text"
+			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_LABEL"
+			filter="path"
+			showon="dbencryption:2"
+		/>
+
+		<field
+			name="dbsslcert"
+			type="text"
+			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_LABEL"
+			filter="path"
+			showon="dbencryption:2"
+		/>
 
 		<field
 			name="dbsslverifyservercert"
@@ -252,46 +244,18 @@
 			class="switcher"
 			default="0"
 			filter="boolean"
-			showon="host!:localhost[AND]dbencryption:1,2"
+			showon="dbencryption:1,2"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 
 		<field
-			name="dbsslkey"
-			type="text"
-			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_KEY_LABEL"
-			filter="string"
-			size="250"
-			showon="host!:localhost[AND]dbencryption:2"
-		/>
-
-		<field
-			name="dbsslcert"
-			type="text"
-			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CERT_LABEL"
-			filter="string"
-			size="250"
-			showon="host!:localhost[AND]dbencryption:2"
-		/>
-
-		<field
 			name="dbsslca"
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CA_LABEL"
-			filter="string"
-			size="250"
-			showon="host!:localhost[AND]dbencryption:2"
-		/>
-
-		<field
-			name="dbsslcapath"
-			type="text"
-			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CAPATH_LABEL"
-			filter="string"
-			size="250"
-			showon="host!:localhost[AND]dbtype:mysql,mysqli[AND]dbencryption:2"
+			filter="path"
+			showon="dbencryption:1,2[AND]dbsslverifyservercert:1"
 		/>
 
 		<field
@@ -299,8 +263,7 @@
 			type="text"
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_CIPHER_LABEL"
 			filter="string"
-			size="300"
-			showon="host!:localhost[AND]dbtype:mysql,mysqli[AND]dbencryption:2"
+			showon="dbtype:mysql,mysqli[AND]dbencryption:2"
 		/>
 
 	</fieldset>
@@ -661,6 +624,8 @@
 			filter="string"
 			cols="60"
 			rows="3"
+			maxlength="160"
+			charcounter="true"
 		/>
 
 		<field

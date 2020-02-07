@@ -8,7 +8,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Version;
@@ -16,18 +15,19 @@ use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentHtml $this */
 
-// Add Stylesheets
-// Load the template CSS file
-HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'installation/template/css/joomla-alert.min.css', ['version' => 'auto']);
+// Add required assets
+$this->getWebAssetManager()
+	->registerAndUseStyle('template.installation', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css')
+	->useScript('core')
+	->useScript('keepalive')
+	->useScript('form.validate')
+	->registerAndUseScript('template.installation', 'installation/template/js/template.js', [], [], ['core', 'form.validate']);
 
-// Add scripts
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('script', 'installation/template/js/template.js', ['version' => 'auto']);
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
+$this->getWebAssetManager()
+	->useStyle('webcomponent.joomla-alert')
+	->useScript('webcomponent.joomla-alert')
+	->useScript('webcomponent.core-loader');
+
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
@@ -74,7 +74,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 					</div>
 					<div class="d-flex flex-wrap align-items-center mx-auto">
 						<h1 class="h2 mx-1 d-flex align-items-baseline">
-							<span class="fa fa-cogs d-none d-md-block mx-2 alig-items-center" aria-hidden="true"></span>
+							<span class="fas fa-cogs d-none d-md-block mx-2 alig-items-center" aria-hidden="true"></span>
 							<?php echo Text::_('INSTL_PAGE_TITLE'); ?>
 						</h1>
 						<span class="small mx-1">
@@ -83,7 +83,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 					</div>
 					<div class="m-2 d-flex align-items-center">
 						<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla" target="_blank">
-							<span class="fa fa-question" aria-hidden="true"></span>
+							<span class="fas fa-question" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
 						</a>
 					</div>
@@ -101,7 +101,7 @@ Text::script('INSTL_COMPLETE_REMOVE_FOLDER');
 										<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
 									</noscript>
 								</div>
-								<div id="container-installation" class="container-installation flex no-js" data-base-url="<?php echo Uri::root(); ?>" style="display:none">
+								<div id="container-installation" class="container-installation flex no-js hidden" data-base-url="<?php echo Uri::root(); ?>">
 									<jdoc:include type="component" />
 								</div>
 							</div>

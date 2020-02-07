@@ -38,11 +38,11 @@ abstract class JHtmlBehavior
 	 *
 	 * @since   3.3
 	 *
-	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enableAsset();
+	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enable();
 	 */
 	public static function core()
 	{
-		Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('core');
+		Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('core');
 	}
 
 	/**
@@ -65,30 +65,9 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include core
-		static::core();
-
-		// Add validate.js language strings
-		Text::script('JLIB_FORM_CONTAINS_INVALID_FIELDS');
-		Text::script('JLIB_FORM_FIELD_REQUIRED_VALUE');
-		Text::script('JLIB_FORM_FIELD_REQUIRED_CHECK');
-		Text::script('JLIB_FORM_FIELD_INVALID_VALUE');
-
-		Factory::getDocument()->getWebAssetManager()->enableAsset('fields.validate');
+		Factory::getDocument()->getWebAssetManager()->useScript('form.validate');
 
 		static::$loaded[__METHOD__] = true;
-	}
-
-	/**
-	 * Add unobtrusive JavaScript support for submenu switcher support
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function switcher()
-	{
-		// Files removed!
 	}
 
 	/**
@@ -103,38 +82,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function combobox()
 	{
-		Factory::getDocument()->getWebAssetManager()->enableAsset('awesomplete');
-	}
-
-	/**
-	 * Add unobtrusive JavaScript support for a hover tooltips.
-	 *
-	 * Add a title attribute to any element in the form
-	 * title="title::text"
-	 *
-	 * Uses the core Tips class in MooTools.
-	 *
-	 * @param   string  $selector  The class selector for the tooltip.
-	 * @param   array   $params    An array of options for the tooltip.
-	 *                             Options for the tooltip can be:
-	 *                             - maxTitleChars  integer   The maximum number of characters in the tooltip title (defaults to 50).
-	 *                             - offsets        object    The distance of your tooltip from the mouse (defaults to {'x': 16, 'y': 16}).
-	 *                             - showDelay      integer   The millisecond delay the show event is fired (defaults to 100).
-	 *                             - hideDelay      integer   The millisecond delay the hide hide is fired (defaults to 100).
-	 *                             - className      string    The className your tooltip container will get.
-	 *                             - fixed          boolean   If set to true, the toolTip will not follow the mouse.
-	 *                             - onShow         function  The default function for the show event, passes the tip element
-	 *                               and the currently hovered element.
-	 *                             - onHide         function  The default function for the hide event, passes the currently
-	 *                               hovered element.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function tooltip($selector = '.hasTip', $params = array())
-	{
-		// Files removed!!
+		Factory::getDocument()->getWebAssetManager()->usePreset('awesomplete');
 	}
 
 	/**
@@ -154,7 +102,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		Factory::getDocument()->getWebAssetManager()->enableAsset('multiselect');
+		Factory::getDocument()->getWebAssetManager()->useScript('multiselect');
 
 		// Pass the required options to the javascript
 		Factory::getDocument()->addScriptOptions('js-multiselect', ['formName' => $id]);
@@ -164,33 +112,17 @@ abstract class JHtmlBehavior
 	}
 
 	/**
-	 * Add unobtrusive javascript support for a collapsible tree.
-	 *
-	 * @param   string  $id      An index
-	 * @param   array   $params  An array of options.
-	 * @param   array   $root    The root node
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 */
-	public static function tree($id, $params = array(), $root = array())
-	{
-		// Files removed!!
-	}
-
-	/**
 	 * Keep session alive, for example, while editing or creating an article.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.5
 	 *
-	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enableAsset();
+	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enable();
 	 */
 	public static function keepalive()
 	{
-		Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('keepalive');
+		Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('keepalive');
 
 		return;
 	}
@@ -229,13 +161,12 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include core
-		static::core();
+		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
-		// Include jQuery
-		HTMLHelper::_('jquery.framework');
-
-		HTMLHelper::_('script', 'legacy/highlighter.min.js', array('version' => 'auto', 'relative' => true));
+		$wa
+			->registerScript('joomla.highlighter', 'legacy/highlighter.min.js', ['dependencies' => ['core', 'jquery']])
+			->useScript('joomla.highlighter');
 
 		foreach ($terms as $i => $term)
 		{

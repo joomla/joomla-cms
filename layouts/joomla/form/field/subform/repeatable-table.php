@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -34,7 +33,8 @@ extract($displayData);
 // Add script
 if ($multiple)
 {
-	HTMLHelper::_('webcomponent', 'system/fields/joomla-field-subform.min.js', ['version' => 'auto', 'relative' => true]);
+	Factory::getDocument()->getWebAssetManager()
+		->useScript('webcomponent.field-subform');
 }
 
 // Build heading
@@ -47,7 +47,7 @@ if (!empty($groupByFieldset))
 
 		if ($fieldset->description)
 		{
-			$table_head .= '<span class="fa fa-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-' . $field->id . '">' . Text::_($field->description) . '</div>';
+			$table_head .= '<span class="fas fa-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-' . $field->id . '">' . Text::_($field->description) . '</div>';
 		}
 
 		$table_head .= '</th>';
@@ -62,7 +62,7 @@ else
 
 		if ($field->description)
 		{
-			$table_head .= '<span class="fa fa-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-' . $field->id . '">' . Text::_($field->description) . '</div>';
+			$table_head .= '<span class="fas fa-info-circle" aria-hidden="true" tabindex="0"></span><div role="tooltip" id="tip-' . $field->id . '">' . Text::_($field->description) . '</div>';
 		}
 
 		$table_head .= '</th>';
@@ -94,7 +94,7 @@ else
 							<?php if (!empty($buttons['add'])) : ?>
 								<div class="btn-group">
 									<button type="button" class="group-add btn btn-sm btn-success" aria-label="<?php echo Text::_('JGLOBAL_FIELD_ADD'); ?>">
-										<span class="fa fa-plus" aria-hidden="true"></span>
+										<span class="fas fa-plus" aria-hidden="true"></span>
 									</button>
 								</div>
 							<?php endif; ?>
@@ -111,7 +111,7 @@ else
 			</tbody>
 		</table>
 		<?php if ($multiple) : ?>
-		<template class="subform-repeatable-template-section" style="display: none;">
+		<template class="subform-repeatable-template-section hidden">
 		<?php echo trim($this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons))); ?>
 		</template>
 		<?php endif; ?>

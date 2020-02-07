@@ -93,7 +93,7 @@ class PreviewModel extends ItemModel
 
 			foreach ($dateProperties as $dateProperty)
 			{
-				if (array_key_exists($dateProperty, $result->data)
+				if (property_exists($result->data, $dateProperty)
 					&& $result->data->$dateProperty->value !== null
 					&& $result->data->$dateProperty->value !== $nullDate)
 				{

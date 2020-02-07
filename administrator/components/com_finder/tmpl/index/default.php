@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -27,15 +27,12 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_finder&view=index'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<div id="j-sidebar-container" class="col-md-2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<div class="col-md-10">
+		<div class="col-md-12">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -90,7 +87,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 								</th>
 								<td class="small d-none d-md-table-cell">
 									<?php
-									$key = FinderHelperLanguage::branchSingular($item->t_title);
+									$key = LanguageHelper::branchSingular($item->t_title);
 									echo $lang->hasKey($key) ? Text::_($key) : $item->t_title;
 									?>
 								</td>
@@ -109,7 +106,13 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 										<span class="sr-only"><?php echo Text::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?></span>
 									</span>
 									<div role="tooltip" id="tip<?php echo $i; ?>">
-										<?php echo Text::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?>
+										<?php
+											$publishStartDate = $item->publish_start_date !== null ? HTMLHelper::_('date', $item->publish_start_date, Text::_('DATE_FORMAT_LC5'), 'UTC') : '';
+											$publishEndDate   = $item->publish_end_date !== null ? HTMLHelper::_('date', $item->publish_end_date, Text::_('DATE_FORMAT_LC5'), 'UTC') : '';
+											$startDate        = $item->start_date !== null ? HTMLHelper::_('date', $item->start_date, Text::_('DATE_FORMAT_LC5'), 'UTC') : '';
+											$endDate          = $item->end_date !== null ? HTMLHelper::_('date', $item->end_date, Text::_('DATE_FORMAT_LC5'), 'UTC') : '';
+										?>
+										<?php echo Text::sprintf('COM_FINDER_INDEX_DATE_INFO', $publishStartDate, $publishEndDate, $startDate, $endDate); ?>
 									</div>
 								<?php endif; ?>
 								</td>

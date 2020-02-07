@@ -31,20 +31,6 @@ class RedirectHelper
 	public static $extension = 'com_redirect';
 
 	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function addSubmenu($vName)
-	{
-		// No submenu for this component.
-	}
-
-	/**
 	 * Returns an array of standard published state filter options.
 	 *
 	 * @return  array  An array containing the options

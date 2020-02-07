@@ -28,6 +28,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Joomla! update overview Model
@@ -94,15 +95,18 @@ class UpdateModel extends BaseDatabaseModel
 				$updateURL = 'https://update.joomla.org/core/list.xml';
 		}
 
+		$id = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('us') . '.*')
-			->from($db->quoteName('#__update_sites_extensions') . ' AS ' . $db->quoteName('map'))
+			->from($db->quoteName('#__update_sites_extensions', 'map'))
 			->join(
-				'INNER', $db->quoteName('#__update_sites') . ' AS ' . $db->quoteName('us')
-				. ' ON (us.update_site_id = map.update_site_id)'
+				'INNER',
+				$db->quoteName('#__update_sites', 'us'),
+				$db->quoteName('us.update_site_id') . ' = ' . $db->quoteName('map.update_site_id')
 			)
-			->where('map.extension_id = ' . $db->quote(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id));
+			->where($db->quoteName('map.extension_id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$update_site = $db->loadObject();
 
@@ -116,7 +120,8 @@ class UpdateModel extends BaseDatabaseModel
 			// Remove cached updates.
 			$query->clear()
 				->delete($db->quoteName('#__updates'))
-				->where($db->quoteName('extension_id') . ' = ' . $db->quote(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id));
+				->where($db->quoteName('extension_id') . ' = :id')
+				->bind(':id', $id, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -191,11 +196,13 @@ class UpdateModel extends BaseDatabaseModel
 		);
 
 		// Fetch the update information from the database.
+		$id = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__updates'))
-			->where($db->quoteName('extension_id') . ' = ' . $db->quote(ExtensionHelper::getExtensionRecord('files_joomla')->extension_id));
+			->where($db->quoteName('extension_id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$updateObject = $db->loadObject();
 
@@ -282,7 +289,7 @@ class UpdateModel extends BaseDatabaseModel
 
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__updates'))
-			->where($db->quoteName('update_site_id') . ' = ' . $db->quote('1'));
+			->where($db->quoteName('update_site_id') . ' = 1');
 		$db->setQuery($query);
 
 		if ($db->execute())
@@ -1356,25 +1363,27 @@ ENDDATA;
 		$query = $db->getQuery(true);
 
 		$query->select(
-			$db->quoteName('ex.name') . ', ' .
-			$db->quoteName('ex.extension_id') . ', ' .
-			$db->quoteName('ex.manifest_cache') . ', ' .
-			$db->quoteName('ex.type') . ', ' .
-			$db->quoteName('ex.folder') . ', ' .
-			$db->quoteName('ex.element') . ', ' .
-			$db->quoteName('ex.client_id') . ', ' .
-			$db->quoteName('si.location')
-		)->from(
-			$db->quoteName('#__extensions', 'ex')
-		)->leftJoin(
-			$db->quoteName('#__update_sites_extensions', 'se') .
-			' ON ' . $db->quoteName('se.extension_id') . ' = ' . $db->quoteName('ex.extension_id')
-		)->leftJoin(
-			$db->quoteName('#__update_sites', 'si') .
-			' ON ' . $db->quoteName('si.update_site_id') . ' = ' . $db->quoteName('se.update_site_id')
-		)->where(
-			$db->quoteName('ex.package_id') . ' = 0'
-		);
+			[
+				$db->quoteName('ex.name'),
+				$db->quoteName('ex.extension_id'),
+				$db->quoteName('ex.manifest_cache'),
+				$db->quoteName('ex.type'),
+				$db->quoteName('ex.folder'),
+				$db->quoteName('ex.element'),
+				$db->quoteName('ex.client_id'),
+				$db->quoteName('si.location'),
+			]
+		)
+			->from($db->quoteName('#__extensions', 'ex'))
+			->join('LEFT',
+				$db->quoteName('#__update_sites_extensions', 'se'),
+				$db->quoteName('se.extension_id') . ' = ' . $db->quoteName('ex.extension_id')
+			)
+			->join('LEFT',
+				$db->quoteName('#__update_sites', 'si'),
+				$db->quoteName('si.update_site_id') . ' = ' . $db->quoteName('se.update_site_id')
+			)
+			->where($db->quoteName('ex.package_id') . ' = 0');
 
 		$db->setQuery($query);
 		$rows = $db->loadObjectList();
@@ -1384,7 +1393,8 @@ ENDDATA;
 		{
 			$decode = json_decode($extension->manifest_cache);
 			$this->translateExtensionName($extension);
-			$extension->version = $decode->version;
+			$extension->version
+				= isset($decode->version) ? $decode->version : Text::_('COM_JOOMLAUPDATE_PREUPDATE_UNKNOWN_EXTENSION_MANIFESTCACHE_VERSION');
 			unset($extension->manifest_cache);
 		}
 
@@ -1460,16 +1470,18 @@ ENDDATA;
 	 */
 	private function getUpdateSiteLocation($extensionID)
 	{
+		$id = (int) $extensionID;
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select($db->quoteName('us.location'))
 			->from($db->quoteName('#__update_sites', 'us'))
-			->leftJoin(
-				$db->quoteName('#__update_sites_extensions', 'e')
-				. ' ON ' . $db->quoteName('e.update_site_id') . ' = ' . $db->quoteName('us.update_site_id')
+			->join('LEFT',
+				$db->quoteName('#__update_sites_extensions', 'e'),
+				$db->quoteName('e.update_site_id') . ' = ' . $db->quoteName('us.update_site_id')
 			)
-			->where($db->quoteName('e.extension_id') . ' = ' . (int) $extensionID);
+			->where($db->quoteName('e.extension_id') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
@@ -1542,10 +1554,10 @@ ENDDATA;
 				$source = $path . '/templates/' . $item->element;
 		}
 
-		$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
-		|| $lang->load("$extension.sys", $source, null, false, true);
-		$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
-		|| $lang->load($extension, $source, null, false, true);
+		$lang->load("$extension.sys", JPATH_ADMINISTRATOR)
+		|| $lang->load("$extension.sys", $source);
+		$lang->load($extension, JPATH_ADMINISTRATOR)
+		|| $lang->load($extension, $source);
 
 		// Translate the extension name if possible
 		$item->name = Text::_($item->name);

@@ -26,7 +26,7 @@ class PlgSystemCache extends CMSPlugin
 	/**
 	 * Cache instance.
 	 *
-	 * @var    JCache
+	 * @var    \Joomla\CMS\Cache\CacheController
 	 * @since  1.5
 	 */
 	public $_cache;
@@ -42,7 +42,7 @@ class PlgSystemCache extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  3.8.0
 	 */
 	protected $app;
@@ -55,15 +55,9 @@ class PlgSystemCache extends CMSPlugin
 	 *
 	 * @since   1.5
 	 */
-	public function __construct(& $subject, $config)
+	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
-
-		// Get the application if not done by JPlugin. This may happen during upgrades from Joomla 2.5.
-		if (!isset($this->app))
-		{
-			$this->app = Factory::getApplication();
-		}
 
 		// Set the cache options.
 		$options = array(
@@ -102,14 +96,13 @@ class PlgSystemCache extends CMSPlugin
 	}
 
 	/**
-	 * After Initialise Event.
 	 * Checks if URL exists in cache, if so dumps it directly and closes.
 	 *
 	 * @return  void
 	 *
-	 * @since   1.5
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAfterInitialise()
+	public function onAfterRoute()
 	{
 		if ($this->app->isClient('administrator') || $this->app->get('offline', '0') || $this->app->getMessageQueue())
 		{
@@ -122,7 +115,7 @@ class PlgSystemCache extends CMSPlugin
 		$results = $this->app->triggerEvent('onPageCacheSetCaching');
 		$caching = !in_array(false, $results, true);
 
-		if ($caching && Factory::getUser()->guest && $this->app->input->getMethod() === 'GET')
+		if ($caching && $this->app->getIdentity()->guest && $this->app->input->getMethod() === 'GET')
 		{
 			$this->_cache->setCaching(true);
 		}
@@ -138,10 +131,13 @@ class PlgSystemCache extends CMSPlugin
 			// Dumps HTML page.
 			echo $this->app->toString((bool) $this->app->get('gzip'));
 
-			// Mark afterCache in debug and run debug onAfterRespond events.
-			// e.g., show Joomla Debug Console if debug is active.
+			// Mark afterCache in debug and run debug onAfterRespond events, e.g. show Joomla Debug Console if debug is active.
 			if (JDEBUG)
 			{
+				// Create a document instance and load it into the application.
+				$document = Factory::getContainer()->get('document.factory')->createDocument($this->app->input->get('format', 'html'));
+				$this->app->loadDocument($document);
+
 				Profiler::getInstance('Application')->mark('afterCache');
 				$this->app->triggerEvent('onAfterRespond');
 			}
@@ -168,7 +164,7 @@ class PlgSystemCache extends CMSPlugin
 
 		// We need to check if user is guest again here, because auto-login plugins have not been fired before the first aid check.
 		// Page is excluded if excluded in plugin settings.
-		if (!JFactory::getUser()->guest || $this->app->getMessageQueue() || $this->isExcluded() === true)
+		if (!$this->app->getIdentity()->guest || $this->app->getMessageQueue() || $this->isExcluded() === true)
 		{
 			$this->_cache->setCaching(false);
 

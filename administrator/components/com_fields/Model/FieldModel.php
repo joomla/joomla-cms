@@ -24,6 +24,7 @@ use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -185,7 +186,9 @@ class FieldModel extends AdminModel
 		// First delete all assigned categories
 		$query = $db->getQuery(true);
 		$query->delete('#__fields_categories')
-			->where('field_id = ' . $id);
+			->where($db->quoteName('field_id') . ' = :fieldid')
+			->bind(':fieldid', $id, ParameterType::INTEGER);
+
 		$db->setQuery($query);
 		$db->execute();
 
@@ -222,9 +225,12 @@ class FieldModel extends AdminModel
 					$names[] = $db->quote($param['value']);
 				}
 
+				$fieldId = (int) $field->id;
 				$query = $db->getQuery(true);
-				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id)
-					->where('value NOT IN (' . implode(',', $names) . ')');
+				$query->delete($db->quoteName('#__fields_values'))
+					->where($db->quoteName('field_id') . ' = :fieldid')
+					->whereNotIn($db->quoteName('value'), $names, ParameterType::STRING)
+					->bind(':fieldid', $fieldId, ParameterType::INTEGER);
 				$db->setQuery($query);
 				$db->execute();
 			}
@@ -374,9 +380,11 @@ class FieldModel extends AdminModel
 
 			$db = $this->getDbo();
 			$query = $db->getQuery(true);
-			$query->select('category_id')
-				->from('#__fields_categories')
-				->where('field_id = ' . (int) $result->id);
+			$fieldId = (int) $result->id;
+			$query->select($db->quoteName('category_id'))
+				->from($db->quoteName('#__fields_categories'))
+				->where($db->quoteName('field_id') . ' = :fieldid')
+				->bind(':fieldid', $fieldId, ParameterType::INTEGER);
 
 			$db->setQuery($query);
 			$result->assigned_cat_ids = $db->loadColumn() ?: array(0);
@@ -459,7 +467,7 @@ class FieldModel extends AdminModel
 				$query = $this->getDbo()->getQuery(true);
 
 				$query->delete($query->quoteName('#__fields_values'))
-					->where($query->quoteName('field_id') . ' IN(' . implode(',', $pks) . ')');
+					->whereIn($query->quoteName('field_id'), $pks);
 
 				$this->getDbo()->setQuery($query)->execute();
 
@@ -467,7 +475,7 @@ class FieldModel extends AdminModel
 				$query = $this->getDbo()->getQuery(true);
 
 				$query->delete($query->quoteName('#__fields_categories'))
-					->where($query->quoteName('field_id') . ' IN(' . implode(',', $pks) . ')');
+					->whereIn($query->quoteName('field_id'), $pks);
 
 				$this->getDbo()->setQuery($query)->execute();
 			}
@@ -607,12 +615,16 @@ class FieldModel extends AdminModel
 
 		if ($needsDelete)
 		{
+			$fieldId = (int) $fieldId;
+
 			// Deleting the existing record as it is a reset
 			$query = $this->getDbo()->getQuery(true);
 
 			$query->delete($query->quoteName('#__fields_values'))
-				->where($query->quoteName('field_id') . ' = ' . (int) $fieldId)
-				->where($query->quoteName('item_id') . ' = ' . $query->quote($itemId));
+				->where($query->quoteName('field_id') . ' = :fieldid')
+				->where($query->quoteName('item_id') . ' = :itemid')
+				->bind(':fieldid', $fieldId, ParameterType::INTEGER)
+				->bind(':itemid', $itemId);
 
 			$this->getDbo()->setQuery($query)->execute();
 		}
@@ -697,10 +709,11 @@ class FieldModel extends AdminModel
 			// Create the query
 			$query = $this->getDbo()->getQuery(true);
 
-			$query->select(array($query->quoteName('field_id'), $query->quoteName('value')))
+			$query->select($query->quoteName(['field_id', 'value']))
 				->from($query->quoteName('#__fields_values'))
-				->where($query->quoteName('field_id') . ' IN (' . implode(',', ArrayHelper::toInteger($fieldIds)) . ')')
-				->where($query->quoteName('item_id') . ' = ' . $query->quote($itemId));
+				->whereIn($query->quoteName('field_id'), ArrayHelper::toInteger($fieldIds))
+				->where($query->quoteName('item_id') . ' = :itemid')
+				->bind(':itemid', $itemId);
 
 			// Fetch the row from the database
 			$rows = $this->getDbo()->setQuery($query)->loadObjectList();
@@ -754,13 +767,15 @@ class FieldModel extends AdminModel
 		$fieldsQuery = $this->getDbo()->getQuery(true);
 		$fieldsQuery->select($fieldsQuery->quoteName('id'))
 			->from($fieldsQuery->quoteName('#__fields'))
-			->where($fieldsQuery->quoteName('context') . ' = ' . $fieldsQuery->quote($context));
+			->where($fieldsQuery->quoteName('context') . ' = :context');
 
 		$query = $this->getDbo()->getQuery(true);
 
 		$query->delete($query->quoteName('#__fields_values'))
 			->where($query->quoteName('field_id') . ' IN (' . $fieldsQuery . ')')
-			->where($query->quoteName('item_id') . ' = ' . $query->quote($itemId));
+			->where($query->quoteName('item_id') . ' = :itemid')
+			->bind(':itemid', $itemId)
+			->bind(':context', $context);
 
 		$this->getDbo()->setQuery($query)->execute();
 	}
@@ -1025,8 +1040,8 @@ class FieldModel extends AdminModel
 		if (file_exists($path))
 		{
 			$lang = Factory::getLanguage();
-			$lang->load($component, JPATH_BASE, null, false, true);
-			$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
+			$lang->load($component, JPATH_BASE);
+			$lang->load($component, JPATH_BASE . '/components/' . $component);
 
 			if (!$form->loadFile($path, false))
 			{

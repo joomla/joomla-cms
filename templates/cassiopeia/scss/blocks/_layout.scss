@@ -8,21 +8,6 @@
   margin-left: auto;
 }
 
-.wrapper-fluid {
-
-  > .grid-child,
-  .container-header header {
-    padding-right: $cassiopeia-grid-gutter;
-    padding-left: $cassiopeia-grid-gutter;
-  }
-
-  .grid-child,
-  .container-header header {
-    max-width: 100%;
-  }
-
-}
-
 .container-header header .site {
   background-color: #fafafa;
 
@@ -34,7 +19,6 @@
   .system-debug {
     display: block;
   }
-
 }
 
 header {
@@ -43,7 +27,7 @@ header {
 
 .container-banner {
   display: block;
-  margin: -15px 0 -5px;
+  margin: 0 0 2rem;
 }
 
 .container-top-a,

@@ -2,6 +2,13 @@
 
 .custom-select {
   max-width: $input-max-width;
+
+  [dir=rtl] & {
+    padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
+    background-position-x: 0%;
+    background-image: url(../images/select-bg-rtl.svg);
+  }
+
   &[multiple] {
     padding: 0;
     background-color: var(--white-offset);
@@ -9,6 +16,7 @@
     option {
       background-color: var(--white-offset);
       padding: $custom-select-multiple-padding-y $custom-select-padding-x;
+
       &:checked {
         color: var(--atum-text-light);
         background-color: var(--atum-bg-dark) !important;
@@ -40,7 +48,9 @@
       }
     }
   }
-  optgroup, option {
+
+  optgroup,
+  option {
     background-color: $white;
     color: var(--atum-text-dark);
   }

@@ -14,7 +14,7 @@
       var name = elements[i].name;
       var value = elements[i].value;
       if(name) {
-        if ((elements[i].type === 'checkbox' && elements[i].checked === true) || (elements[i].type !== 'checkbox')) {
+        if (((elements[i].type === 'checkbox' || elements[i].type === 'radio') && elements[i].checked === true) || (elements[i].type !== 'checkbox' && elements[i].type !== 'radio')) {
           obj.push(name.replace('[', '%5B').replace(']', '%5D') + '=' + encodeURIComponent(value));
         }
       }
@@ -255,7 +255,7 @@
 
     if (container) {
       container.classList.remove('no-js');
-      container.style.display = "block";
+      container.classList.remove('hidden');
     }
   });
 })();

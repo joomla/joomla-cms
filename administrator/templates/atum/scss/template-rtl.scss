@@ -20,12 +20,6 @@ body {
   }
 }
 
-.control-group {
-  .custom-select {
-    float: right;
-  }
-}
-
 .dropdown-menu-right {
 
   &::after {
@@ -38,17 +32,17 @@ body {
   right: 0;
   left: auto;
 }
+
 .subhead {
-	.dropdown-toggle.btn-action::after {
-		margin: 0 16px 0 -22px;
-	}
+  .dropdown-toggle.btn-action::after {
+    margin: 0 16px 0 -22px;
+  }
 }
+
 .switcher {
-    float: right;
+  float: right;
 }
-.form-no-margin .control-group .controls  .switcher__legend {
-    text-align: right;
-}
+
 // Alerts
 .notify-alerts {
   margin-left: 0;
@@ -64,6 +58,8 @@ body {
     margin-right: 0;
     margin-left: 15px;
   }
+
+  .logo svg,
   .logo img {
     margin-right: .8rem;
     margin-left: auto;
@@ -105,6 +101,7 @@ body {
 
   .btn,
   .btn-sm {
+
     [class*=' fa-'],
     [class^='fa-'],
     [class^='icon-'],
@@ -113,10 +110,6 @@ body {
     [class*=' #{$fa-css-prefix}-'] {
       margin: 0 -27px 0 27px;
     }
-  }
-
-  .btn-group {
-    margin-left: .75rem !important;
   }
 
   .btn-toolbar > * {
@@ -181,6 +174,11 @@ body {
   margin-left: auto !important;
 }
 
+.ml-2 {
+  margin-right: .5rem;
+  margin-left: 0 !important;
+}
+
 .mr-2 {
   margin-right: 0 !important;
   margin-left: .5rem;
@@ -204,10 +202,6 @@ body {
   float: none;
 }
 
-.field-media-input {
-  margin-right: 220px;
-}
-
 // Quickicon specific
 .message-alert {
   text-align: left !important;
@@ -223,8 +217,9 @@ body {
 }
 
 // System panel
-.menu-quicktask, .menu-badge {
-    float: left;
+.menu-quicktask,
+.menu-badge {
+  float: left;
 }
 
 // Modal header override
@@ -253,6 +248,14 @@ body {
 }
 
 // Redirect urls fields
-#jform_new_url, #jform_old_url, #new_url {
+#jform_new_url,
+#jform_old_url,
+#new_url {
   text-align: left;
+}
+
+// Database prefix
+#jform_dbprefix {
+  direction: ltr;
+  text-align: right;
 }
