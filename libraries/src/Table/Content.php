@@ -274,12 +274,6 @@ class Content extends Table
 			$this->publish_down = $temp;
 		}
 
-		// Set modified to null date if not set
-		if (!$this->modified)
-		{
-			$this->modified = $this->_db->getNullDate();
-		}
-
 		// Clean up keywords -- eliminate extra spaces between phrases
 		// and cr (\r) and lf (\n) characters from string
 		if (!empty($this->metakey))
