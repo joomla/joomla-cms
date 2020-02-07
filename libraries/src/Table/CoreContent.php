@@ -156,36 +156,6 @@ class CoreContent extends Table
 			$this->core_publish_down = $temp;
 		}
 
-		// Clean up keywords -- eliminate extra spaces between phrases
-		// and cr (\r) and lf (\n) characters from string
-		if (!empty($this->core_metakey))
-		{
-			// Only process if not empty
-
-			// Array of characters to remove
-			$bad_characters = array("\n", "\r", "\"", '<', '>');
-
-			// Remove bad characters
-			$after_clean = StringHelper::str_ireplace($bad_characters, '', $this->core_metakey);
-
-			// Create array using commas as delimiter
-			$keys = explode(',', $after_clean);
-
-			$clean_keys = array();
-
-			foreach ($keys as $key)
-			{
-				if (trim($key))
-				{
-					// Ignore blank keywords
-					$clean_keys[] = trim($key);
-				}
-			}
-
-			// Put array back together delimited by ", "
-			$this->core_metakey = implode(', ', $clean_keys);
-		}
-
 		return true;
 	}
 

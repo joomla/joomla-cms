@@ -97,14 +97,6 @@
 			/>
 
 			<field
-				name="menu-meta_keywords"
-				type="textarea"
-				label="JFIELD_META_KEYWORDS_LABEL"
-				rows="3"
-				cols="40"
-			/>
-
-			<field
 				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
