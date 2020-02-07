@@ -303,6 +303,15 @@ class Content extends Table
 			// Put array back together delimited by ", "
 			$this->metakey = implode(', ', $clean_keys);
 		}
+		else
+		{
+			$this->metakey = '';
+		}
+
+		if ($this->metadesc === null)
+		{
+			$this->metadesc = '';
+		}
 
 		return true;
 	}
