@@ -11,6 +11,7 @@ namespace Joomla\Component\Menus\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Helper\ContentHelper;
@@ -493,6 +494,11 @@ class MenusHelper extends ContentHelper
 			$table = Table::getInstance('Menu');
 
 			$item->alias = $menutype . '-' . $item->title;
+
+			// Temporarily set unicodeslugs if a menu item has an unicode alias
+			$unicode     = Factory::getConfig()->set('unicodeslugs', 1);
+			$item->alias = ApplicationHelper::stringURLSafe($item->alias);
+			Factory::getConfig()->set('unicodeslugs', $unicode);
 
 			if ($item->type == 'separator')
 			{

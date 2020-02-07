@@ -21,7 +21,6 @@
 		</sql>
 	</uninstall>
 	<files folder="site">
-		<filename>router.php</filename>
 		<folder>src</folder>
 	</files>
 	<languages folder="site">
@@ -30,6 +29,7 @@
 	<media destination="com_banners" folder="media">
 		<folder>js</folder>
 	</media>
+
 	<administration>
 		<menu img="class:banners">com_banners</menu>
 		<submenu>

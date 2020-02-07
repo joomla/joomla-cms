@@ -103,6 +103,8 @@
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			rows="3"
 			cols="30"
+			maxlength="160"
+			charcounter="true"
 		/>
 	</fieldset>
 	<fieldset name="site_name" label="COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL">
