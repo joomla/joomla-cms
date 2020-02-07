@@ -35,7 +35,7 @@ $editor          = 'editor="' . ltrim(HTMLHelper::_('script',  $basePath . 'lib/
 $addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '"';
 
 Factory::getDocument()->getWebAssetManager()
-	->registerAndUseStyle('codemirror.lib.main', $basePath . 'lib/codemirror.css' )
+	->registerAndUseStyle('codemirror.lib.main', $basePath . 'lib/codemirror.css')
 	->registerAndUseStyle('codemirror.lib.addons', $basePath . 'lib/addons.css', [], [], ['codemirror.lib.main'])
 	->registerAndUseScript(
 		'webcomponent.editor-codemirror',
