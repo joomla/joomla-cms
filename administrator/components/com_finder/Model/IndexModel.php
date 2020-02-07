@@ -45,7 +45,7 @@ class IndexModel extends ListModel
 	 * The event to trigger after purging the data.
 	 *
 	 * @var    string
-	 * @since  2.5
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $event_after_purge = 'onFinderIndexAfterPurge';
 
