@@ -11,7 +11,7 @@ namespace Joomla\Component\Content\Administrator\Field;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\Field\RadioField;
+use Joomla\CMS\Form\Field\SwitcherField;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -19,7 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
  *
  * @since  3.8.0
  */
-class VoteradioField extends RadioField
+class VoteradioField extends SwitcherField
 {
 	/**
 	 * The form field type.
