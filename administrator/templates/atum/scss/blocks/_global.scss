@@ -225,14 +225,20 @@ a[target="_blank"]::before {
 .card-columns {
   display: grid;
   grid-gap: 0 15px;
-  grid-template-columns: repeat(auto-fill, minmax(700px,1fr));
+  grid-template-columns: 1fr;
+
+  @include media-breakpoint-up(md) {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 .cpanel-help,
 .cpanel-system {
 
   .card-columns {
-    grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+    @include media-breakpoint-up(md) {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
   }
 }
 
