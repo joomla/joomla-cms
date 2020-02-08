@@ -207,77 +207,76 @@ class ArticlesModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.asset_id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
-				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, fp.featured_up, fp.featured_down' .
-				', a.language, a.hits, a.publish_up, a.publish_down, a.introtext, a.note'
-			)
-		);
-		$query->from('#__content AS a');
-
-		// Join over the language
-		$query->select('l.title AS language_title, l.image AS language_image')
-			->join('LEFT', $db->quoteName('#__languages') . ' AS l ON l.lang_code = a.language');
-
-		// Join over the front page table.
-		$query->select('fp.ordering')
-			->join('LEFT', '#__content_frontpage AS fp ON fp.content_id = a.id');
-
-		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor')
-			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
-
-		// Join over the asset groups.
-		$query->select('ag.title AS access_level')
-			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
-
-		// Join over the categories.
-		$query->select('c.title AS category_title, c.created_user_id AS category_uid, c.level AS category_level')
-			->join('LEFT', '#__categories AS c ON c.id = a.catid');
-
-		// Join over the parent categories.
-		$query->select(
-			'parent.title AS parent_category_title, parent.id AS parent_category_id,' .
-			'parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level'
-		)
-			->join('LEFT', '#__categories AS parent ON parent.id = c.parent_id');
-
-		// Join over the users for the author.
-		$query->select('ua.name AS author_name')
-			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
-
-		// Join over the associations.
-		$query->select($db->quoteName('wa.stage_id', 'stage_id'))
-			->innerJoin(
-				$db->quoteName('#__workflow_associations', 'wa')
-				. ' ON ' . $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id')
-			);
-
-		// Join over the workflow stages.
-		$query->select(
-			$db->quoteName(
 				[
-					'ws.title',
-					'ws.condition',
-					'ws.workflow_id'
-				],
-				[
-					'stage_title',
-					'stage_condition',
-					'workflow_id'
+					$db->quoteName('a.id'),
+					$db->quoteName('a.asset_id'),
+					$db->quoteName('a.title'),
+					$db->quoteName('a.alias'),
+					$db->quoteName('a.checked_out'),
+					$db->quoteName('a.checked_out_time'),
+					$db->quoteName('a.catid'),
+					$db->quoteName('a.state'),
+					$db->quoteName('a.access'),
+					$db->quoteName('a.created'),
+					$db->quoteName('a.created_by'),
+					$db->quoteName('a.created_by_alias'),
+					$db->quoteName('a.modified'),
+					$db->quoteName('a.ordering'),
+					$db->quoteName('a.featured'),
+					$db->quoteName('a.language'),
+					$db->quoteName('a.hits'),
+					$db->quoteName('a.publish_up'),
+					$db->quoteName('a.publish_down'),
+					$db->quoteName('a.introtext'),
+					$db->quoteName('a.note'),
 				]
 			)
 		)
-			->innerJoin(
-				$db->quoteName('#__workflow_stages', 'ws')
-				. ' ON ' . $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id')
-			);
+			->select(
+				[
+					$db->quoteName('fp.featured_up'),
+					$db->quoteName('fp.featured_down'),
+					$db->quoteName('fp.ordering'),
+					$db->quoteName('l.title', 'language_title'),
+					$db->quoteName('l.image', 'language_image'),
+					$db->quoteName('uc.name', 'editor'),
+					$db->quoteName('ag.title', 'access_level'),
+					$db->quoteName('c.title', 'category_title'),
+					$db->quoteName('c.created_user_id', 'category_uid'),
+					$db->quoteName('c.level', 'category_level'),
+					$db->quoteName('parent.title', 'parent_category_title'),
+					$db->quoteName('parent.id', 'parent_category_id'),
+					$db->quoteName('parent.created_user_id', 'parent_category_uid'),
+					$db->quoteName('parent.level', 'parent_category_level'),
+					$db->quoteName('ua.name', 'author_name'),
+					$db->quoteName('wa.stage_id', 'stage_id'),
+					$db->quoteName('ws.title', 'stage_title'),
+					$db->quoteName('ws.condition', 'stage_condition'),
+					$db->quoteName('ws.workflow_id', 'workflow_id'),
+				]
+			)
+			->from($db->quoteName('#__content', 'a'))
+			->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
+			->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'))
+			->join('LEFT', $db->quoteName('#__content_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'))
+			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'))
+			->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'))
+			->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
+			->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'))
+			->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
+			->join('INNER', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
+			->join('INNER', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'));
 
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
-				COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count'
+			$query->select(
+				[
+					'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0), 0), 0)'
+						. ' AS ' . $db->quoteName('rating'),
+					'COALESCE(NULLIF(' . $db->quoteName('v.rating_count') . ', 0), 0) AS ' . $db->quoteName('rating_count'),
+				]
 			)
-				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+				->join('LEFT', $db->quoteName('#__content_rating', 'v'), $db->quoteName('a.id') . ' = ' . $db->quoteName('v.content_id'));
 		}
 
 		// Join over the associations.
@@ -302,13 +301,14 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($access))
 		{
-			$query->where('a.access = ' . (int) $access);
+			$access = (int) $access;
+			$query->where($db->quoteName('a.access') . ' = :access')
+				->bind(':access', $access, ParameterType::INTEGER);
 		}
 		elseif (is_array($access))
 		{
 			$access = ArrayHelper::toInteger($access);
-			$access = implode(',', $access);
-			$query->where('a.access IN (' . $access . ')');
+			$query->whereIn($db->quoteName('a.access'), $access);
 		}
 
 		// Filter by featured.
@@ -316,15 +316,17 @@ class ArticlesModel extends ListModel
 
 		if (in_array($featured, ['0','1']))
 		{
-			$query->where('a.featured =' . (int) $featured);
+			$featured = (int) $featured;
+			$query->where($db->quoteName('a.featured') . ' = :featured')
+				->bind(':featured', $featured, ParameterType::INTEGER);
 		}
 
 		// Filter by access level on categories.
 		if (!$user->authorise('core.admin'))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')');
-			$query->where('c.access IN (' . $groups . ')');
+			$groups = $user->getAuthorisedViewLevels();
+			$query->whereIn($db->quoteName('a.access'), $groups);
+			$query->whereIn($db->quoteName('c.access'), $groups);
 		}
 
 		// Filter by published state
@@ -332,7 +334,9 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($workflowStage))
 		{
-			$query->where('wa.stage_id = ' . (int) $workflowStage);
+			$workflowStage = (int) $workflowStage;
+			$query->where($db->quoteName('wa.stage_id') . ' = :stage')
+				->bind(':stage', $workflowStage, ParameterType::INTEGER);
 		}
 
 		$condition = (string) $this->getState('filter.condition');
@@ -341,7 +345,9 @@ class ArticlesModel extends ListModel
 		{
 			if (is_numeric($condition))
 			{
-				$query->where($db->quoteName('ws.condition') . ' = ' . (int) $condition);
+				$condition = (int) $condition;
+				$query->where($db->quoteName('ws.condition') . ' = :condition')
+					->bind(':condition', $condition, ParameterType::INTEGER);
 			}
 			elseif (!is_numeric($workflowStage))
 			{
@@ -349,13 +355,11 @@ class ArticlesModel extends ListModel
 					$db->quoteName('ws.condition'),
 					[
 						ContentComponent::CONDITION_PUBLISHED,
-						ContentComponent::CONDITION_UNPUBLISHED
+						ContentComponent::CONDITION_UNPUBLISHED,
 					]
 				);
 			}
 		}
-
-		$query->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'));
 
 		// Filter by categories and by level
 		$categoryId = $this->getState('filter.category_id', array());
@@ -373,22 +377,33 @@ class ArticlesModel extends ListModel
 			$categoryTable = Table::getInstance('Category', 'JTable');
 			$subCatItemsWhere = array();
 
-			foreach ($categoryId as $filter_catid)
+			foreach ($categoryId as $key => $filter_catid)
 			{
 				$categoryTable->load($filter_catid);
-				$subCatItemsWhere[] = '(' .
-					($level ? 'c.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
-					'c.lft >= ' . (int) $categoryTable->lft . ' AND ' .
-					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
+				$categoryWhere = '';
+
+				if ($level)
+				{
+					$categoryLevel = (int) $level + (int) $categoryTable->level - 1;
+					$categoryWhere = $db->quoteName('c.level') . ' <= :level' . $key . ' AND ';
+					$query->bind(':level' . $key, $categoryLevel, ParameterType::INTEGER);
+				}
+
+				$categoryWhere .= $db->quoteName('c.lft') . ' >= :lft' . $key . ' AND ' . $db->quoteName('c.rgt') . ' <= :rgt' . $key;
+				$query->bind(':lft' . $key, $categoryTable->lft, ParameterType::INTEGER)
+					->bind(':rgt' . $key, $categoryTable->rgt, ParameterType::INTEGER);
+
+				$subCatItemsWhere[] = '(' . $categoryWhere . ')';
 			}
 
 			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
 		}
 
 		// Case: Using only the by level filter
-		elseif ($level)
+		elseif ($level = (int) $level)
 		{
-			$query->where('c.level <= ' . (int) $level);
+			$query->where($db->quoteName('c.level') . ' <= :level')
+				->bind(':level', $level, ParameterType::INTEGER);
 		}
 
 		// Filter by author
@@ -396,14 +411,15 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($authorId))
 		{
-			$type = $this->getState('filter.author_id.include', true) ? '= ' : '<>';
-			$query->where('a.created_by ' . $type . (int) $authorId);
+			$authorId = (int) $authorId;
+			$type = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
+			$query->where($db->quoteName('a.created_by') . $type . ':authorId')
+				->bind(':authorId', $authorId, ParameterType::INTEGER);
 		}
 		elseif (is_array($authorId))
 		{
 			$authorId = ArrayHelper::toInteger($authorId);
-			$authorId = implode(',', $authorId);
-			$query->where('a.created_by IN (' . $authorId . ')');
+			$query->whereIn($db->quoteName('a.created_by'), $authorId);
 		}
 
 		// Filter by search in title.
@@ -413,29 +429,38 @@ class ArticlesModel extends ListModel
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$search = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :search')
+					->bind(':search', $search, ParameterType::INTEGER);
 			}
 			elseif (stripos($search, 'author:') === 0)
 			{
-				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
-				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
+				$search = '%' . substr($search, 7) . '%';
+				$query->where('(' . $db->quoteName('ua.name') . ' LIKE :search1 OR ' . $db->quoteName('ua.username') . ' LIKE :search2)')
+					->bind([':search1', ':search2'], $search);
 			}
 			elseif (stripos($search, 'content:') === 0)
 			{
-				$search = $db->quote('%' . $db->escape(substr($search, 8), true) . '%');
-				$query->where('(a.introtext LIKE ' . $search . ' OR a.fulltext LIKE ' . $search . ')');
+				$search = '%' . substr($search, 8) . '%';
+				$query->where('(' . $db->quoteName('a.introtext') . ' LIKE :search1 OR ' . $db->quoteName('a.fulltext') . ' LIKE :search2)')
+					->bind([':search1', ':search2'], $search);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
+				$search = '%' . str_replace(' ', '%', trim($search)) . '%';
+				$query->where(
+					'(' . $db->quoteName('a.title') . ' LIKE :search1 OR ' . $db->quoteName('a.alias') . ' LIKE :search2'
+						. ' OR ' . $db->quoteName('a.note') . ' LIKE :search3)'
+				)
+					->bind([':search1', ':search2', ':search3'], $search);
 			}
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where('a.language = ' . $db->quote($language));
+			$query->where($db->quoteName('a.language') . ' = :language')
+				->bind(':language', $language);
 		}
 
 		// Filter by a single or group of tags.
@@ -487,12 +512,19 @@ class ArticlesModel extends ListModel
 		$orderCol  = $this->state->get('list.ordering', 'a.id');
 		$orderDirn = $this->state->get('list.direction', 'DESC');
 
-		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
+		if ($orderCol === 'a.ordering' || $orderCol === 'category_title')
 		{
-			$orderCol = $db->quoteName('c.title') . ' ' . $orderDirn . ', ' . $db->quoteName('a.ordering');
+			$ordering = [
+				$db->quoteName('c.title') . ' ' . $db->escape($orderDirn),
+				$db->quoteName('a.ordering') . ' ' . $db->escape($orderDirn),
+			];
+		}
+		else
+		{
+			$ordering = $db->quoteName($db->escape($orderCol)) . ' ' . $db->escape($orderDirn);
 		}
 
-		$query->order($db->escape($orderCol) . ' ' . $db->escape($orderDirn));
+		$query->order($ordering);
 
 		return $query;
 	}
@@ -527,7 +559,7 @@ class ArticlesModel extends ListModel
 
 		$ids = array_column($items, 'stage_id');
 		$ids = ArrayHelper::toInteger($ids);
-		$ids = array_unique(array_filter($ids));
+		$ids = array_values(array_unique(array_filter($ids)));
 
 		$ids[] = -1;
 
@@ -541,38 +573,31 @@ class ArticlesModel extends ListModel
 
 				$query = $db->getQuery(true);
 
-				$select = $db->quoteName(
-					array(
-						't.id',
-						't.title',
-						't.from_stage_id',
-						't.to_stage_id',
-						's.id',
-						's.title',
-						's.condition',
-						's.workflow_id'
-					),
-					array(
-						'value',
-						'text',
-						'from_stage_id',
-						'to_stage_id',
-						'stage_id',
-						'stage_title',
-						'stage_condition',
-						'workflow_id'
-					)
-				);
-
-				$query->select($select)
+				$query->select(
+					[
+						$db->quoteName('t.id', 'value'),
+						$db->quoteName('t.title', 'text'),
+						$db->quoteName('t.from_stage_id'),
+						$db->quoteName('t.to_stage_id'),
+						$db->quoteName('s.id', 'stage_id'),
+						$db->quoteName('s.title', 'stage_title'),
+						$db->quoteName('s.condition', 'stage_condition'),
+						$db->quoteName('s.workflow_id'),
+					]
+				)
 					->from($db->quoteName('#__workflow_transitions', 't'))
-					->leftJoin(
-						$db->quoteName('#__workflow_stages', 's') . ' ON '
-						. $db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $ids) . ')'
+					->join(
+						'LEFT',
+						$db->quoteName('#__workflow_stages', 's'),
+						$db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')'
 					)
-					->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
-					->where($db->quoteName('t.published') . ' = 1')
-					->where($db->quoteName('s.published') . ' = 1')
+					->where(
+						[
+							$db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'),
+							$db->quoteName('t.published') . ' = 1',
+							$db->quoteName('s.published') . ' = 1',
+						]
+					)
 					->order($db->quoteName('t.ordering'));
 
 				$transitions = $db->setQuery($query)->loadAssocList();
@@ -588,7 +613,7 @@ class ArticlesModel extends ListModel
 					else
 					{
 						// Update the transition text with final state value
-						$conditionName = $workflow->getConditionName($transition['stage_condition']);
+						$conditionName = $workflow->getConditionName((int) $transition['stage_condition']);
 
 						$transitions[$key]['text'] .= ' [' . Text::_($conditionName) . ']';
 					}

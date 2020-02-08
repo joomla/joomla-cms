@@ -14,6 +14,7 @@ use Joomla\CMS\Form\Field\CheckboxesField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
@@ -234,13 +235,19 @@ class JFormFieldConsentBox extends CheckboxesField
 			);
 		}
 
-		// Register ContentHelperRoute
-		JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
+		if (!is_object($article))
+		{
+			// We have not found the article object lets show a 404 to the user
+			return Route::_(
+				'index.php?option=com_content&view=article&id='
+				. $this->articleid . '&tmpl=component'
+			);
+		}
 
 		if (!Associations::isEnabled())
 		{
 			return Route::_(
-				ContentHelperRoute::getArticleRoute(
+				RouteHelper::getArticleRoute(
 					$article->id,
 					$article->catid,
 					$article->language
@@ -254,7 +261,7 @@ class JFormFieldConsentBox extends CheckboxesField
 		if (isset($associatedArticles) && $currentLang !== $article->language && array_key_exists($currentLang, $associatedArticles))
 		{
 			return Route::_(
-				ContentHelperRoute::getArticleRoute(
+				RouteHelper::getArticleRoute(
 					$associatedArticles[$currentLang]->id,
 					$associatedArticles[$currentLang]->catid,
 					$associatedArticles[$currentLang]->language

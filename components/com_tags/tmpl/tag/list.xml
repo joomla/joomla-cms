@@ -17,7 +17,7 @@
 				name="id"
 				type="tag"
 				label="COM_TAGS_FIELD_TAG_LABEL"
-				custom="deny"
+				mode="nested"
 				required="true"
 				multiple="true"
 			/>

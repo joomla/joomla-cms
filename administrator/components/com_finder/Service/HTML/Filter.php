@@ -16,7 +16,7 @@ use Joomla\CMS\Filter\OutputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -116,7 +116,7 @@ class Filter
 		);
 
 		// Load plugin language files.
-		FinderHelperLanguage::loadPluginLanguage();
+		LanguageHelper::loadPluginLanguage();
 
 		// Iterate through the branches and build the branch groups.
 		foreach ($branches as $bk => $bv)
@@ -160,11 +160,11 @@ class Filter
 			{
 				if (trim($nv->parent_title, '**') === 'Language')
 				{
-					$title = FinderHelperLanguage::branchLanguageTitle($nv->title);
+					$title = LanguageHelper::branchLanguageTitle($nv->title);
 				}
 				else
 				{
-					$key = FinderHelperLanguage::branchPlural($nv->title);
+					$key = LanguageHelper::branchPlural($nv->title);
 					$title = $lang->hasKey($key) ? Text::_($key) : $nv->title;
 				}
 
@@ -175,7 +175,7 @@ class Filter
 			$html .= HTMLHelper::_('bootstrap.addSlide',
 				'accordion',
 				Text::sprintf('COM_FINDER_FILTER_BRANCH_LABEL',
-					Text::_(FinderHelperLanguage::branchSingular($bv->title)) . ' - ' . count($nodes)
+					Text::_(LanguageHelper::branchSingular($bv->title)) . ' - ' . count($nodes)
 				),
 				'accordion-' . $bk
 			);
@@ -183,7 +183,7 @@ class Filter
 			// Populate the toggle button.
 			// @todo Remove jQuery
 			$html .= '<button class="btn btn-secondary" type="button" onclick="jQuery(\'[id=&quot;tax-'
-				. $bk . '&quot;]\').each(function(){this.click();});"><span class="fa fa-square" aria-hidden="true"></span> '
+				. $bk . '&quot;]\').each(function(){this.click();});"><span class="fas fa-square" aria-hidden="true"></span> '
 				. Text::_('JGLOBAL_SELECTION_INVERT') . '</button><hr>';
 
 			// Populate the group with nodes.
@@ -356,11 +356,11 @@ class Filter
 				{
 					if (trim($node->parent_title, '**') === 'Language')
 					{
-						$title = FinderHelperLanguage::branchLanguageTitle($node->title);
+						$title = LanguageHelper::branchLanguageTitle($node->title);
 					}
 					else
 					{
-						$key = FinderHelperLanguage::branchPlural($node->title);
+						$key = LanguageHelper::branchPlural($node->title);
 						$title = $language->hasKey($key) ? Text::_($key) : $node->title;
 					}
 
@@ -418,7 +418,7 @@ class Filter
 			$html .= '<div class="control-group">';
 			$html .= '<div class="control-label">';
 			$html .= '<label for="tax-' . OutputFilter::stringURLSafe($bv->title) . '">';
-			$html .= Text::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', Text::_(FinderHelperLanguage::branchSingular($bv->title)));
+			$html .= Text::sprintf('COM_FINDER_FILTER_BRANCH_LABEL', Text::_(LanguageHelper::branchSingular($bv->title)));
 			$html .= '</label>';
 			$html .= '</div>';
 			$html .= '<div class="controls">';

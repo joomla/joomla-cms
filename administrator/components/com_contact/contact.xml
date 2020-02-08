@@ -34,7 +34,7 @@
 		<folder>View</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_contact.ini</language>
+		<language tag="en-GB">language/en-GB/com_contact.ini</language>
 	</languages>
 	<media destination="com_contact" folder="media">
 		<folder>js</folder>
@@ -68,8 +68,8 @@
 			<folder>View</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_contact.ini</language>
-			<language tag="en-GB">language/en-GB.com_contact.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_contact.ini</language>
+			<language tag="en-GB">language/en-GB/com_contact.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

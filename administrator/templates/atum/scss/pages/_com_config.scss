@@ -2,13 +2,17 @@
 
 .com_config {
 
-	#fieldset-permissions {
-		grid-template-columns: 1fr;
-	}
+  #fieldset-permissions {
+    grid-template-columns: 1fr;
+  }
 
-	.tab-description {
-		grid-column: 1 / -1;
-	}
+  #page-filters .custom-select {
+	  width: auto;
+  }
+
+  .tab-description {
+    grid-column: 1 / -1;
+  }
 
   .rule-notes,
   .filter-notes {
@@ -20,6 +24,10 @@
   .options-menu {
     .revert-controls .controls {
       margin-left: 0;
+
+      [dir=rtl] & {
+        margin-right: 0;
+      }
     }
   }
 }

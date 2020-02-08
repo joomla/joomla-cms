@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -21,6 +22,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use PHPMailer\PHPMailer\Exception as phpMailerException;
 
 /**
  * Controller for single contact view
@@ -265,8 +267,6 @@ class ContactController extends FormController
 			$sent = $mail->Send();
 
 			// If we are supposed to copy the sender, do so.
-
-			// Check whether email copy function activated
 			if ($copy_email_activated == true && !empty($data['contact_email_copy']))
 			{
 				$copytext = Text::sprintf('COM_CONTACT_COPYTEXT_OF', $contact->name, $sitename);
@@ -282,7 +282,7 @@ class ContactController extends FormController
 				$sent = $mail->Send();
 			}
 		}
-		catch (\Exception $exception)
+		catch (MailDisabledException | phpMailerException $exception)
 		{
 			try
 			{

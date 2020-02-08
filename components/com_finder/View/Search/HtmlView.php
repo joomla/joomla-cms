@@ -180,7 +180,6 @@ class HtmlView extends BaseHtmlView
 		FinderHelper::logSearch($this->query, $this->total);
 
 		// Push out the query data.
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 		$this->suggested = HTMLHelper::_('query.suggested', $this->query);
 		$this->explained = HTMLHelper::_('query.explained', $this->query);
 
@@ -320,16 +319,6 @@ class HtmlView extends BaseHtmlView
 		elseif ($this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
-
-		// Configure the document meta-keywords.
-		if (!empty($query->highlight))
-		{
-			$this->document->setMetaData('keywords', implode(', ', $query->highlight));
-		}
-		elseif ($this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))

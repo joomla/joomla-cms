@@ -40,7 +40,7 @@ $doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_MAILS_MAIL_CONTENT')); ?>
 		<div class="row">
 			<div class="col-md-12">
-				<h1><?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?>
+				<h1><?php echo Text::_($component . '_MAIL_' . $sub_id . '_TITLE'); ?> - <?php echo $this->escape($this->item->language); ?>
 					<span class="small">(<?php echo $this->escape($this->master->template_id); ?>)</span>
 				</h1>
 				<p><?php echo Text::_($component . '_MAIL_' . $sub_id . '_DESC'); ?></p>
@@ -94,13 +94,13 @@ $doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 		</div>
 		<?php endif; ?>
 
-		<?php echo JHtml::_('uitab.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php if (count($this->form->getFieldset('basic'))) : ?>
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php endif; ?>
 
-		<?php echo JHtml::_('uitab.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	</div>
 	<?php echo $this->form->renderField('template_id'); ?>
 	<?php echo $this->form->renderField('language'); ?>

@@ -66,9 +66,9 @@ abstract class QuickIconHelper
 			if ($params->get('show_users'))
 			{
 				$tmp = [
-					'image'   => 'fa fa-users',
+					'image'   => 'fas fa-users',
 					'link'    => Route::_('index.php?option=com_users&view=users'),
-					'linkadd' => Route::_('index.php?option=com_users&task=users.add'),
+					'linkadd' => Route::_('index.php?option=com_users&task=user.add'),
 					'name'    => 'MOD_QUICKICON_USER_MANAGER',
 					'access'  => array('core.manage', 'com_users', 'core.create', 'com_users'),
 					'group'   => 'MOD_QUICKICON_SITE',
@@ -85,7 +85,7 @@ abstract class QuickIconHelper
 			if ($params->get('show_menuitems'))
 			{
 				$tmp = [
-					'image'   => 'fa fa-list',
+					'image'   => 'fas fa-list',
 					'link'    => Route::_('index.php?option=com_menus&view=items&menutype='),
 					'linkadd' => Route::_('index.php?option=com_menus&task=item.add'),
 					'name'    => 'MOD_QUICKICON_MENUITEMS_MANAGER',
@@ -104,7 +104,7 @@ abstract class QuickIconHelper
 			if ($params->get('show_articles'))
 			{
 				$tmp = [
-					'image'   => 'fa fa-file-alt',
+					'image'   => 'fas fa-file-alt',
 					'link'    => Route::_('index.php?option=com_content&view=articles'),
 					'linkadd' => Route::_('index.php?option=com_content&task=article.add'),
 					'name'    => 'MOD_QUICKICON_ARTICLE_MANAGER',
@@ -123,7 +123,7 @@ abstract class QuickIconHelper
 			if ($params->get('show_categories'))
 			{
 				$tmp = [
-					'image'   => 'fa fa-folder-open',
+					'image'   => 'fas fa-folder-open',
 					'link'    => Route::_('index.php?option=com_categories&view=categories&extension=com_content'),
 					'linkadd' => Route::_('index.php?option=com_categories&task=category.add'),
 					'name'    => 'MOD_QUICKICON_CATEGORY_MANAGER',
@@ -142,7 +142,7 @@ abstract class QuickIconHelper
 			if ($params->get('show_media'))
 			{
 				self::$buttons[$key][] = [
-					'image'  => 'fa fa-images',
+					'image'  => 'fas fa-images',
 					'link'   => Route::_('index.php?option=com_media'),
 					'name'   => 'MOD_QUICKICON_MEDIA_MANAGER',
 					'access' => array('core.manage', 'com_media'),
@@ -153,7 +153,7 @@ abstract class QuickIconHelper
 			if ($params->get('show_modules'))
 			{
 				$tmp = [
-					'image'   => 'fa fa-cube',
+					'image'   => 'fas fa-cube',
 					'link'    => Route::_('index.php?option=com_modules&view=modules&client_id=0'),
 					'linkadd' => Route::_('index.php?option=com_modules&view=select&client_id=0'),
 					'name'    => 'MOD_QUICKICON_MODULE_MANAGER',
@@ -172,7 +172,7 @@ abstract class QuickIconHelper
 			if ($params->get('show_plugins'))
 			{
 				$tmp = [
-					'image'  => 'fa fa-plug',
+					'image'  => 'fas fa-plug',
 					'link'   => Route::_('index.php?option=com_plugins'),
 					'name'   => 'MOD_QUICKICON_PLUGIN_MANAGER',
 					'access' => array('core.manage', 'com_plugins'),
@@ -190,7 +190,7 @@ abstract class QuickIconHelper
 			if ($params->get('show_templates'))
 			{
 				self::$buttons[$key][] = [
-					'image'  => 'fa fa-paint-brush',
+					'image'  => 'fas fa-paint-brush',
 					'link'   => Route::_('index.php?option=com_templates&view=styles&client_id=0'),
 					'name'   => 'MOD_QUICKICON_TEMPLATES',
 					'access' => array('core.admin', 'com_templates'),
@@ -201,7 +201,7 @@ abstract class QuickIconHelper
 			if ($params->get('show_checkin'))
 			{
 				$tmp = [
-					'image'   => 'fa fa-unlock-alt',
+					'image'   => 'fas fa-unlock-alt',
 					'link'    => Route::_('index.php?option=com_checkin'),
 					'name'    => 'MOD_QUICKICON_CHECKINS',
 					'access'  => array('core.admin', 'com_checkin'),
@@ -219,7 +219,7 @@ abstract class QuickIconHelper
 			if ($params->get('show_cache'))
 			{
 				$tmp = [
-					'image'   => 'fa fa-cloud',
+					'image'   => 'fas fa-cloud',
 					'link'    => Route::_('index.php?option=com_cache'),
 					'name'    => 'MOD_QUICKICON_CACHE',
 					'access'  => array('core.admin', 'com_cache'),
@@ -237,7 +237,7 @@ abstract class QuickIconHelper
 			if ($params->get('show_global'))
 			{
 				self::$buttons[$key][] = [
-					'image'  => 'fa fa-cog',
+					'image'  => 'fas fa-cog',
 					'link'   => Route::_('index.php?option=com_config'),
 					'name'   => 'MOD_QUICKICON_GLOBAL_CONFIGURATION',
 					'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),

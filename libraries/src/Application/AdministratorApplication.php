@@ -90,8 +90,6 @@ class AdministratorApplication extends CMSApplication
 		switch ($document->getType())
 		{
 			case 'html':
-				$document->setMetaData('keywords', $this->get('MetaKeys'));
-
 				// Get the template
 				$template = $this->getTemplate(true);
 

@@ -240,8 +240,8 @@ class ModulesModel extends ListModel
 		{
 			$extension = $item->module;
 			$source = $clientPath . "/modules/$extension";
-			$lang->load("$extension.sys", $clientPath, null, false, true)
-				|| $lang->load("$extension.sys", $source, null, false, true);
+			$lang->load("$extension.sys", $clientPath)
+				|| $lang->load("$extension.sys", $source);
 			$item->name = Text::_($item->name);
 
 			if (is_null($item->pages))
@@ -424,8 +424,14 @@ class ModulesModel extends ListModel
 			else
 			{
 				$search = '%' . strtolower($search) . '%';
-				$query->where('LOWER(' . $db->quoteName('a.title') . ') LIKE :title')
-					->orWhere('LOWER(' . $db->quoteName('a.note') . ') LIKE :note')
+				$query->extendWhere(
+					'AND',
+					[
+						'LOWER(' . $db->quoteName('a.title') . ') LIKE :title',
+						'LOWER(' . $db->quoteName('a.note') . ') LIKE :note',
+					],
+					'OR'
+				)
 					->bind(':title', $search)
 					->bind(':note', $search);
 			}

@@ -73,7 +73,7 @@ class AjaxController extends BaseController
 				$associations[$lang]->title = $menuTable->title;
 			}
 
-			$countContentLanguages = count(LanguageHelper::getContentLanguages(array(0, 1)));
+			$countContentLanguages = count(LanguageHelper::getContentLanguages(array(0, 1), false));
 
 			if (count($associations) == 0)
 			{

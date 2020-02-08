@@ -10,11 +10,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -617,11 +619,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
 				$mailResult = $mailer->Send();
 
-				if ($mailResult instanceof JException)
-				{
-					return false;
-				}
-				elseif ($mailResult === false)
+				if ($mailResult === false)
 				{
 					return false;
 				}
@@ -647,7 +645,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 					return false;
 				}
 			}
-			catch (phpmailerException $exception)
+			catch (MailDisabledException | phpmailerException $exception)
 			{
 				return false;
 			}
@@ -751,7 +749,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 							$conf->get('cache_path', JPATH_SITE . '/cache')
 					];
 
-					$cache = JCache::getInstance('callback', $options);
+					$cache = Cache::getInstance('callback', $options);
 					$cache->clean();
 				}
 				catch (Exception $e)

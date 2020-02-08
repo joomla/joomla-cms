@@ -18,13 +18,13 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Templates\Administrator\Helper\TemplateHelper;
 use Joomla\Database\ParameterType;
-use Joomla\Image\Image;
 
 /**
  * Template model class.
@@ -220,7 +220,7 @@ class TemplateModel extends FormModel
 	/**
 	 * Method to get a list of all the core files of override files.
 	 *
-	 * @return  array  A array of all core files.
+	 * @return  array  An array of all core files.
 	 *
 	 * @since   4.0.0
 	 */
@@ -395,8 +395,8 @@ class TemplateModel extends FormModel
 			$lang   = Factory::getLanguage();
 
 			// Load the core and/or local language file(s).
-			$lang->load('tpl_' . $template->element, $client->path, null, false, true) ||
-			$lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element, null, false, true);
+			$lang->load('tpl_' . $template->element, $client->path) ||
+			$lang->load('tpl_' . $template->element, $client->path . '/templates/' . $template->element);
 			$this->element = $path;
 
 			if (!is_writable($path))

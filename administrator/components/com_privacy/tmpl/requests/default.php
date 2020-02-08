@@ -19,9 +19,6 @@ use Joomla\CMS\String\PunycodeHelper;
 
 /** @var PrivacyViewRequests $this */
 
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/html');
-
 HTMLHelper::_('behavior.multiselect');
 
 $user      = Factory::getUser();
@@ -31,13 +28,14 @@ $now       = Factory::getDate();
 
 $urgentRequestDate = clone $now;
 $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_privacy&view=requests'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container">
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>

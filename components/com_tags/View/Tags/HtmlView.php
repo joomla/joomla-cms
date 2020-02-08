@@ -124,7 +124,7 @@ class HtmlView extends BaseHtmlView
 		$active = Factory::getApplication()->getMenu()->getActive();
 
 		// Load layout from active query (in case it is an alternative menu item)
-		if ($active && $active->query['option'] === 'com_tags' && $active->query['view'] === 'tags')
+		if ($active && isset($active->query['option']) && $active->query['option'] === 'com_tags' && $active->query['view'] === 'tags')
 		{
 			if (isset($active->query['layout']))
 			{
@@ -169,7 +169,7 @@ class HtmlView extends BaseHtmlView
 			$this->params->def('page_heading', Text::_('COM_TAGS_DEFAULT_PAGE_TITLE'));
 		}
 
-		if ($menu && $menu->query['option'] !== 'com_tags')
+		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_tags'))
 		{
 			$this->params->set('page_subheading', $menu->title);
 		}
@@ -178,11 +178,6 @@ class HtmlView extends BaseHtmlView
 		if ($this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
-
-		if ($this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
@@ -232,15 +227,6 @@ class HtmlView extends BaseHtmlView
 				elseif ($this->params->get('menu-meta_description'))
 				{
 					$this->document->setDescription($this->params->get('menu-meta_description'));
-				}
-
-				if ($itemElement->metakey)
-				{
-					$this->document->setMetaData('keywords', $this->tag->metakey);
-				}
-				elseif ($this->params->get('menu-meta_keywords'))
-				{
-					$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 				}
 
 				if ($this->params->get('robots'))
