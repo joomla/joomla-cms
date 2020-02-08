@@ -275,8 +275,8 @@ class FieldsModelField extends JModelAdmin
 			$result = $rule->test(simplexml_import_dom($node->firstChild), $data['default_value']);
 
 			// Check if the test succeeded
-			return ($result === true) ? : JText::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
-			}
+			return $result === true ? : JText::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
+		}
 		catch (UnexpectedValueException $e)
 		{
 			return $e->getMessage();
