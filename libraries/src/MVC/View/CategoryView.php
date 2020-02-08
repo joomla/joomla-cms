@@ -231,7 +231,7 @@ class CategoryView extends HtmlView
 		if ($active
 			&& $active->component == $this->extension
 			&& isset($active->query['view'], $active->query['id'])
-			&& $active->query['view'] == 'category'
+			&& $active->query['view'] === 'category'
 			&& $active->query['id'] == $this->category->id)
 		{
 			if (isset($active->query['layout']))

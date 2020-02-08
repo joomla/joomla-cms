@@ -51,7 +51,7 @@ abstract class JHtmlLinks
 
 				$htmlLinks  = HTMLHelper::_('links.links', $links);
 
-				if ($htmlLinks != '')
+				if ($htmlLinks !== '')
 				{
 					$html[] = $htmlHeader;
 					$html[] = $htmlLinks;

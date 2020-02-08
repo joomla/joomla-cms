@@ -115,12 +115,12 @@ class MetasRenderer extends DocumentRenderer
 		{
 			foreach ($tag as $name => $contents)
 			{
-				if ($type == 'http-equiv' && !($this->_doc->isHtml5() && $name == 'content-type'))
+				if ($type === 'http-equiv' && !($this->_doc->isHtml5() && $name === 'content-type'))
 				{
 					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="'
 						. htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
 				}
-				elseif ($type != 'http-equiv' && !empty($contents))
+				elseif ($type !== 'http-equiv' && !empty($contents))
 				{
 					$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="'
 						. htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
