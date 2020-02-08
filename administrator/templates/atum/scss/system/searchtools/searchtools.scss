@@ -141,7 +141,9 @@
       }
 
       @include media-breakpoint-down(xs) {
-        margin-right: .5rem;
+        [dir=ltr] & {
+          margin-right: 0;
+        }
 
         [dir=rtl] & {
           margin-left: 0;
@@ -171,7 +173,6 @@
       }
 
       [dir=rtl] & {
-        //margin-right: 0;
         margin-left: 0;
       }
     }
@@ -180,14 +181,6 @@
       @include media-breakpoint-down(sm) {
         max-width: 100%;
         margin-right: 0;
-
-        [dir=rtl] & {
-          margin-right: 0;
-        }
-      }
-
-      @include media-breakpoint-down(xs) {
-        margin-right: .5rem;
 
         [dir=rtl] & {
           margin-right: 0;
@@ -256,6 +249,10 @@
         }
 
         @include media-breakpoint-down(sm) {
+          [dir=ltr] & {
+            margin-right: 0 !important;
+          }
+
           [dir=rtl] & {
             margin-left: 0 !important;
           }
