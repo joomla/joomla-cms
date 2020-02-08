@@ -217,7 +217,7 @@ class FieldsModelField extends JModelAdmin
 	private function checkDefaultValue($data)
 	{
 		// Empty default values are correct
-		if (!isset($data['default_value']))
+		if (empty($data['default_value']) && $data['default_value'] !== "0")
 		{
 			return true;
 		}
@@ -275,8 +275,8 @@ class FieldsModelField extends JModelAdmin
 			$result = $rule->test(simplexml_import_dom($node->firstChild), $data['default_value']);
 
 			// Check if the test succeeded
-			return ($result === true && !isset($data['default_value'])) ? : JText::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
-		}
+			return ($result === true) ? : JText::_('COM_FIELDS_FIELD_INVALID_DEFAULT_VALUE');
+			}
 		catch (UnexpectedValueException $e)
 		{
 			return $e->getMessage();
