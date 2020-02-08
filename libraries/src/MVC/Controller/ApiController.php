@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MvcFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\View\JsonApiView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\Input\Input;
 use Joomla\String\Inflector;
 use Tobscure\JsonApi\Exception\InvalidParameterException;
@@ -72,6 +73,13 @@ class ApiController extends BaseController
 	protected $itemsPerPage = 20;
 
 	/**
+	 * The model state to inject
+	 *
+	 * @var  CMSObject
+	 */
+	protected $modelState;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
@@ -86,6 +94,8 @@ class ApiController extends BaseController
 	 */
 	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
 	{
+		$this->modelState = new CMSObject;
+
 		parent::__construct($config, $factory, $app, $input);
 
 		// Guess the option as com_NameOfController
@@ -151,21 +161,12 @@ class ApiController extends BaseController
 
 		$modelName = $this->input->get('model', Inflector::singularize($this->contentType));
 
-		// Create the model, ignoring request data so we can safely set the state in the request, without it being
-		// reinitialised on the first getState call
-		$model = $this->getModel($modelName, '', ['ignore_request' => true]);
+		// Create the model, ignoring request data so we can safely set the state in the request from the controller
+		$model = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
 
 		if (!$model)
 		{
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
-		}
-
-		if ($modelState = $this->input->get('model_state', false, 'array'))
-		{
-			foreach ($modelState as $property => $value)
-			{
-				$model->setState($property, $value);
-			}
 		}
 
 		try
@@ -199,19 +200,16 @@ class ApiController extends BaseController
 	{
 		// Assemble pagination information (using recommended JsonApi pagination notation for offset strategy)
 		$paginationInfo = $this->input->get('page', [], 'array');
-		$internalPaginationMapping = [];
 
 		if (\array_key_exists('offset', $paginationInfo))
 		{
-			$this->input->set('limitstart', $paginationInfo['offset']);
+			$this->modelState->set($this->context . '.limitstart', $paginationInfo['offset']);
 		}
 
 		if (\array_key_exists('limit', $paginationInfo))
 		{
-			$internalPaginationMapping['limit'] = $paginationInfo['limit'];
+			$this->modelState->set($this->context . '.list.limit', $paginationInfo['limit']);
 		}
-
-		$this->input->set('list', $internalPaginationMapping);
 
 		$viewType   = $this->app->getDocument()->getType();
 		$viewName   = $this->input->get('view', $this->default_view);
@@ -235,19 +233,11 @@ class ApiController extends BaseController
 		$modelName = $this->input->get('model', $this->contentType);
 
 		/** @var ListModel $model */
-		$model = $this->getModel($modelName, '', ['ignore_request' => true]);
+		$model = $this->getModel($modelName, '', ['ignore_request' => true, 'state' => $this->modelState]);
 
 		if (!$model)
 		{
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
-		}
-
-		if ($modelState = $this->input->get('model_state', false, 'array'))
-		{
-			foreach ($modelState as $property => $value)
-			{
-				$model->setState($property, $value);
-			}
 		}
 
 		// Push the model into the view (as default)
@@ -303,14 +293,6 @@ class ApiController extends BaseController
 		if (!$model)
 		{
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
-		}
-
-		if ($modelState = $this->input->get('model_state', false, 'array'))
-		{
-			foreach ($modelState as $property => $value)
-			{
-				$model->setState($property, $value);
-			}
 		}
 
 		// Remove the item.
