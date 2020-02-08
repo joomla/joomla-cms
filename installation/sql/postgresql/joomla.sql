@@ -262,7 +262,7 @@ CREATE INDEX "#__categories_idx_language" ON "#__categories" ("language");
 
 COMMENT ON COLUMN "#__categories"."asset_id" IS 'FK to the #__assets table.';
 COMMENT ON COLUMN "#__categories"."metadesc" IS 'The meta description for the page.';
-COMMENT ON COLUMN "#__categories"."metakey" IS 'The meta keywords for the page.';
+COMMENT ON COLUMN "#__categories"."metakey" IS 'The keywords for the page.';
 COMMENT ON COLUMN "#__categories"."metadata" IS 'JSON encoded metadata properties.';
 
 --
