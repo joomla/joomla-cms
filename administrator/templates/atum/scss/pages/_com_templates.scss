@@ -14,6 +14,7 @@
       @include media-breakpoint-down(md) {
         column-count: auto;
       }
+
       > li {
         display: inline-block;
         width: 100%;
@@ -30,7 +31,7 @@
     .menu-links-block {
       padding: 15px;
       background-color: var(--card-bg);
-      box-shadow:$atum-box-shadow;
+      box-shadow: $atum-box-shadow;
       border-radius: 3px;
     }
 

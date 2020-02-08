@@ -1131,14 +1131,17 @@ abstract class FormField
 
 			if ($this->multiple)
 			{
-				foreach ($value as $key => $val)
+				if ($value)
 				{
-					$val = (array) $val;
-					$valid = $subForm->validate($val);
-
-					if ($valid === false)
+					foreach ($value as $key => $val)
 					{
-						break;
+						$val = (array) $val;
+						$valid = $subForm->validate($val);
+
+						if ($valid === false)
+						{
+							break;
+						}
 					}
 				}
 			}

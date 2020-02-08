@@ -295,7 +295,6 @@
 			name="record_hits"
 			type="radio"
 			label="JGLOBAL_RECORD_HITS_LABEL"
-			description="JGLOBAL_RECORD_HITS_DESC"
 			class="switcher"
 			default="1"
 			>

@@ -98,6 +98,7 @@
 					label="JCATEGORY"
 					extension="com_content"
 					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
 					filter="int_array"
 					class="multipleCategories"
 				/>
@@ -162,6 +163,7 @@
 					type="author"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHOR_LABEL"
 					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
 					filter="int_array"
 					class="multipleAuthors"
 				/>
@@ -189,6 +191,7 @@
 					type="sql"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIAS_LABEL"
 					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
 					query="select distinct(created_by_alias) from #__content where created_by_alias != '' order by created_by_alias ASC"
 					key_field="created_by_alias"
 					value_field="created_by_alias"

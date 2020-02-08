@@ -9,15 +9,13 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
-$cparams = ComponentHelper::getParams('com_media');
 $tparams = $this->item->params;
 ?>
 
@@ -46,7 +44,7 @@ $tparams = $this->item->params;
 			<span class="contact-category"><?php echo $this->item->category_title; ?></span>
 		</h3>
 	<?php elseif ($show_contact_category === 'show_with_link') : ?>
-		<?php $contactLink = ContactHelperRoute::getCategoryRoute($this->item->catid, $this->item->language); ?>
+		<?php $contactLink = RouteHelper::getCategoryRoute($this->item->catid, $this->item->language); ?>
 		<h3>
 			<span class="contact-category"><a href="<?php echo $contactLink; ?>">
 				<?php echo $this->escape($this->item->category_title); ?></a>

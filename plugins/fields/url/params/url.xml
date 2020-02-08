@@ -7,6 +7,7 @@
 				type="list"
 				label="PLG_FIELDS_URL_PARAMS_SCHEMES_LABEL"
 				multiple="true"
+				layout="joomla.form.field.list-fancy-select"
 				>
 				<option value="http">HTTP</option>
 				<option value="https">HTTPS</option>
@@ -25,6 +26,18 @@
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
+			</field>
+
+			<field
+				name="show_url"
+				type="radio"
+				label="PLG_FIELDS_URL_PARAMS_SHOW_URL"
+				class="switcher"
+				default="1"
+				filter="integer"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
 			</field>
 		</fieldset>
 	</fields>

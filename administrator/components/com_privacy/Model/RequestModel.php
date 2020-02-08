@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
@@ -290,8 +291,8 @@ class RequestModel extends AdminModel
 		}
 
 		// Ensure the right language files have been loaded
-		$lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy', null, false, true);
+		$lang->load('com_privacy', JPATH_ADMINISTRATOR)
+			|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
 
 		// Regenerate the confirmation token
 		$token       = ApplicationHelper::getHash(UserHelper::genRandomPassword());
@@ -367,7 +368,7 @@ class RequestModel extends AdminModel
 
 			return true;
 		}
-		catch (phpmailerException $exception)
+		catch (MailDisabledException | phpmailerException $exception)
 		{
 			$this->setError($exception->getMessage());
 

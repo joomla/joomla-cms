@@ -150,6 +150,8 @@ class Document
 	 *
 	 * @var    array
 	 * @since  1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public $_script = array();
 
@@ -175,6 +177,8 @@ class Document
 	 *
 	 * @var    array
 	 * @since  1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public $_style = array();
 
@@ -545,6 +549,8 @@ class Document
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public function addScriptDeclaration($content, $type = 'text/javascript')
 	{
@@ -655,6 +661,8 @@ class Document
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   1.7.0
+	 *
+	 * @deprecated 5.0  Use WebAssetManager
 	 */
 	public function addStyleDeclaration($content, $type = 'text/css')
 	{

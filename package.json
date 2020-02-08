@@ -29,8 +29,8 @@
   "dependencies": {
     "@claviska/jquery-minicolors": "2.2.6",
     "@webcomponents/webcomponentsjs": "2.1.2",
-    "awesomplete": "1.1.4",
-    "bootstrap": "~4.3",
+    "awesomplete": "1.1.5",
+    "bootstrap": "^4.4.1",
     "choices.js": "^9.0.0",
     "chosen-js": "1.6.2",
     "codemirror": "5.40.0",
@@ -44,12 +44,13 @@
     "jquery-migrate": "^3.1.0",
     "mediaelement": "4.2.8",
     "metismenujs": "^1.1.0",
-    "popper.js": "^1.15.0",
+    "popper.js": "^1.16.0",
     "punycode": "1.4.1",
     "qrcode-generator": "^1.4.3",
     "roboto-fontface": "^0.10.0",
+    "short-and-sweet": "^1.0.2",
     "skipto": "^2.0.4",
-    "tinymce": "5.0.14"
+    "tinymce": "^5.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",

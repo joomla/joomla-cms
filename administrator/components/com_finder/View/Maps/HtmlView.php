@@ -17,7 +17,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
 /**
  * Groups view class for Finder.
@@ -90,7 +90,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Load plugin language files.
-		FinderHelperLanguage::loadPluginLanguage();
+		LanguageHelper::loadPluginLanguage();
 
 		// Load the view data.
 		$this->items         = $this->get('Items');
@@ -133,7 +133,7 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-ellipsis-h')
+				->icon('fas fa-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -144,7 +144,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::divider();
-		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', 'COM_FINDER_STATISTICS_TITLE');
+		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
 		ToolbarHelper::divider();
 
 		if ($canDo->get('core.delete'))

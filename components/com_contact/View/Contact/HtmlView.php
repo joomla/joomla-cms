@@ -20,7 +20,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 /**
  * HTML Contact View class for the Contact component
@@ -365,10 +365,10 @@ class HtmlView extends BaseHtmlView
 		{
 			foreach ($contacts as &$contact)
 			{
-				$contact->link = Route::_(ContactHelperRoute::getContactRoute($contact->slug, $contact->catid, $contact->language));
+				$contact->link = Route::_(RouteHelper::getContactRoute($contact->slug, $contact->catid, $contact->language));
 			}
 
-			$item->link = Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid, $item->language), false);
+			$item->link = Route::_(RouteHelper::getContactRoute($item->slug, $item->catid, $item->language), false);
 		}
 
 		// Process the content plugins.
@@ -508,7 +508,7 @@ class HtmlView extends BaseHtmlView
 			while ($category && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact'
 				|| $id != $category->id) && $category->id > 1)
 			{
-				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($category->id, $category->language));
+				$path[] = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
 			}
 
@@ -547,15 +547,6 @@ class HtmlView extends BaseHtmlView
 		elseif ($this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
-
-		if ($this->item->metakey)
-		{
-			$this->document->setMetaData('keywords', $this->item->metakey);
-		}
-		elseif ($this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))
