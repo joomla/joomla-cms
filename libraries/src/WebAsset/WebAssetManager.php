@@ -175,7 +175,7 @@ class WebAssetManager implements WebAssetManagerInterface
 
 			if (empty($arguments[0]))
 			{
-				throw new \BadMethodCallException('An asset name are required');
+				throw new \BadMethodCallException('An asset name is required');
 			}
 
 			return $this->useAsset($type, $arguments[0]);
@@ -187,7 +187,7 @@ class WebAssetManager implements WebAssetManagerInterface
 
 			if (empty($arguments[0]))
 			{
-				throw new \BadMethodCallException('A content are required');
+				throw new \BadMethodCallException('Content is required');
 			}
 
 			return $this->addInline($type, ...$arguments);
@@ -199,7 +199,7 @@ class WebAssetManager implements WebAssetManagerInterface
 
 			if (empty($arguments[0]))
 			{
-				throw new \BadMethodCallException('An asset name are required');
+				throw new \BadMethodCallException('An asset name is required');
 			}
 
 			return $this->disableAsset($type, $arguments[0]);
@@ -215,7 +215,7 @@ class WebAssetManager implements WebAssetManagerInterface
 
 			if (empty($arguments[0]))
 			{
-				throw new \BadMethodCallException('An asset instance or an asset name are required');
+				throw new \BadMethodCallException('An asset instance or an asset name is required');
 			}
 
 			if ($andUse)
@@ -250,7 +250,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	{
 		if ($this->locked)
 		{
-			throw new InvalidActionException('WebAssetManager are locked, you came late');
+			throw new InvalidActionException('WebAssetManager is locked, you came late');
 		}
 
 		// Check whether asset exists
@@ -304,7 +304,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	{
 		if ($this->locked)
 		{
-			throw new InvalidActionException('WebAssetManager are locked, you came late');
+			throw new InvalidActionException('WebAssetManager is locked, you came late');
 		}
 
 		// Check whether asset exists
