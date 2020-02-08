@@ -51,7 +51,7 @@ class ItemsController extends ApiController
 	 */
 	public function displayItem($id = null)
 	{
-		$this->input->set('model_state', ['filter.client_id' => $this->getClientIdFromInput()]);
+		$this->modelState->set('filter.client_id', $this->getClientIdFromInput());
 
 		return parent::displayItem($id);
 	}
@@ -65,7 +65,7 @@ class ItemsController extends ApiController
 	 */
 	public function displayList()
 	{
-		$this->input->set('model_state', ['filter.client_id' => $this->getClientIdFromInput()]);
+		$this->modelState->set('filter.client_id', $this->getClientIdFromInput());
 
 		return parent::displayList();
 	}

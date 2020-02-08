@@ -63,7 +63,8 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
-$this->addScriptDeclaration('cssVars();');
+$this->getWebAssetManager()
+	->addInlineScript('cssVars();', ['position' => 'after'], ['type' => 'module'], ['css-vars-ponyfill']);
 
 // Opacity must be set before displaying the DOM, so don't move to a CSS file
 $css = '
@@ -75,7 +76,8 @@ $css = '
 	}
 ';
 
-$this->addStyleDeclaration($css);
+$this->getWebAssetManager()
+	->addInlineStyle($css);
 
 $monochrome = (bool) $this->params->get('monochrome');
 
@@ -96,6 +98,8 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 		<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 	</div>
 </noscript>
+
+<jdoc:include type="modules" name="customtop" style="none" />
 
 <?php // Header ?>
 <header id="header" class="header">
@@ -136,7 +140,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			<div id="sidebarmenu">
 				<div class="sidebar-toggle">
 					<a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-						<span id="menu-collapse-icon" class="fa fa-toggle-off fa-fw" aria-hidden="true"></span>
+						<span id="menu-collapse-icon" class="fas fa-toggle-off fa-fw" aria-hidden="true"></span>
 						<span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
 					</a>
 				</div>
@@ -149,7 +153,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	<div class="container-fluid container-main">
 		<?php if (!$cpanel) : ?>
 			<?php // Subheader ?>
-			<button class="navbar-toggler toggler-toolbar collapsed" type="button" data-toggle="collapse" data-target=".subhead" aria-controls="subhead" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
+			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-toggle="collapse" data-target=".subhead" aria-controls="subhead" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
 				<span class="toggler-toolbar-icon"></span>
 			</button>
 			<div id="subhead" class="subhead mb-3">

@@ -8,19 +8,20 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 /** @var JDocumentError $this */
 
-// Add Stylesheets
-HTMLHelper::_('stylesheet', 'installation/template/css/template.css', ['version' => 'auto']);
-HTMLHelper::_('stylesheet', 'installation/template/css/joomla-alert.min.css', ['version' => 'auto']);
+// Add required assets
+$this->getWebAssetManager()
+	->registerAndUseStyle('template.installation', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css')
+	->useScript('core')
+	->registerAndUseScript('template.installation', 'installation/template/js/template.js', [], [], ['core']);
 
-// Add scripts
-HTMLHelper::_('script', 'installation/template/js/template.js', ['version' => 'auto']);
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
+$this->getWebAssetManager()
+	->useStyle('webcomponent.joomla-alert')
+	->useScript('webcomponent.joomla-alert');
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
@@ -46,7 +47,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 				</div>
 				<div class="j-header-help">
 					<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla">
-						<span class="fa fa-lightbulb" aria-hidden="true"></span>
+						<span class="fas fa-lightbulb" aria-hidden="true"></span>
 						<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
 					</a>
 				</div>
@@ -59,15 +60,15 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 						<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
 					</noscript>
 				</div>
-				<div class="container-installation flex">
+				<div id="container-installation" class="container-installation flex">
 					<div class="j-install-step active">
 						<div class="j-install-step-header">
-							<span class="fa fa-exclamation" aria-hidden="true"></span> <?php echo Text::_('INSTL_ERROR'); ?>
+							<span class="fas fa-exclamation" aria-hidden="true"></span> <?php echo Text::_('INSTL_ERROR'); ?>
 						</div>
 						<div class="j-install-step-form">
 							<div class="alert preinstall-alert">
 								<div class="alert-icon">
-									<span class="alert-icon fa fa-exclamation-triangle" aria-hidden="true"></span>
+									<span class="alert-icon fas fa-exclamation-triangle" aria-hidden="true"></span>
 								</div>
 								<div class="alert-text">
 									<h2><?php echo Text::_('JERROR_LAYOUT_ERROR_HAS_OCCURRED_WHILE_PROCESSING_YOUR_REQUEST'); ?></h2>
