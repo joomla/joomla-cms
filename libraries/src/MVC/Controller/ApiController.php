@@ -418,6 +418,8 @@ class ApiController extends BaseController
 		$checkin    = property_exists($table, $table->getColumnAlias('checked_out'));
 		$data[$key] = $recordKey;
 
+		$data = $this->preprocessSaveData($data);
+
 		// TODO: Not the cleanest thing ever but it works...
 		Form::addFormPath(JPATH_COMPONENT_ADMINISTRATOR . '/forms');
 
@@ -524,5 +526,19 @@ class ApiController extends BaseController
 		$user = $this->app->getIdentity();
 
 		return $user->authorise('core.create', $this->option) || \count($user->getAuthorisedCategories($this->option, 'core.create'));
+	}
+
+	/**
+	 * Method to allow extended classes to manipulate the data to be saved for an extension.
+	 *
+	 * @param   array  $data  An array of input data.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function preprocessSaveData(array $data): array
+	{
+		return $data;
 	}
 }
