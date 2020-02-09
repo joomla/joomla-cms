@@ -291,8 +291,8 @@ class RequestModel extends AdminModel
 		}
 
 		// Ensure the right language files have been loaded
-		$lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy', null, false, true);
+		$lang->load('com_privacy', JPATH_ADMINISTRATOR)
+			|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
 
 		// Regenerate the confirmation token
 		$token       = ApplicationHelper::getHash(UserHelper::genRandomPassword());

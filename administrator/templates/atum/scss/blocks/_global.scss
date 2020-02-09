@@ -222,16 +222,23 @@ a[target="_blank"]::before {
   min-width: 1rem;
 }
 
-.cpanel-help .card-columns,
-.cpanel-system .card-columns {
+.card-columns {
+  display: grid;
+  grid-gap: 0 15px;
+  grid-template-columns: 1fr;
+
   @include media-breakpoint-up(md) {
-    column-count: 3;
+    grid-template-columns: 1fr 1fr;
   }
 }
 
-.card-columns {
-  @include media-breakpoint-up(md) {
-    column-count: 2;
+.cpanel-help,
+.cpanel-system {
+
+  .card-columns {
+    @include media-breakpoint-up(md) {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
   }
 }
 

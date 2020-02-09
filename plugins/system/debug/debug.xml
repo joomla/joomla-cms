@@ -39,8 +39,8 @@
 					type="usergrouplist"
 					label="PLG_DEBUG_FIELD_ALLOWED_GROUPS_LABEL"
 					multiple="true"
+					layout="joomla.form.field.accesslevel-fancy-select"
 					filter="int_array"
-					size="10"
 				/>
 
 				<field
@@ -235,6 +235,7 @@
 					type="list"
 					label="PLG_DEBUG_FIELD_LOG_PRIORITIES_LABEL"
 					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
 					default="all"
 					>
 					<option value="all">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALL</option>
