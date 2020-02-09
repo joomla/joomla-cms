@@ -750,7 +750,8 @@ class WebAssetManager implements WebAssetManagerInterface
 					// Set dependency state only when it is inactive, to keep a manually activated Asset in their original state
 					if (empty($this->activeAssets[$depType][$depItem->getName()]))
 					{
-						$this->activeAssets[$depType][$depItem->getName()] = static::ASSET_STATE_DEPENDENCY;
+						// Add the dependency at the top of the list of active assets
+						$this->activeAssets[$depType] = [$depItem->getName() => static::ASSET_STATE_DEPENDENCY] + $this->activeAssets[$depType];
 					}
 				}
 			}
@@ -818,6 +819,9 @@ class WebAssetManager implements WebAssetManagerInterface
 				}
 			)
 		);
+
+		// Reverse, to start from a last enabled and move up to a first enabled, this helps to maintain an original sorting
+		$emptyIncoming = array_reverse($emptyIncoming);
 
 		// Loop through, and sort the graph
 		while ($emptyIncoming)
