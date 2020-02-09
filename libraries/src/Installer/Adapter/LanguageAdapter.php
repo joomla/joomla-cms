@@ -98,59 +98,12 @@ class LanguageAdapter extends InstallerAdapter
 			return false;
 		}
 
-		$client = ApplicationHelper::getClientInfo($this->extension->client_id);
-
-		// Setting the language of users which have this language as the default language
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select(
-				[
-					$db->quoteName('id'),
-					$db->quoteName('params'),
-				]
-			)
-			->from($db->quoteName('#__users'));
-		$db->setQuery($query);
-		$users = $db->loadObjectList();
-
-		if ($client->name === 'administrator')
-		{
-			$param_name = 'admin_language';
-		}
-		else
-		{
-			$param_name = 'language';
-		}
-
-		$count = 0;
-
-		// Prepare the query.
-		$query = $db->getQuery(true)
-			->update($db->quoteName('#__users'))
-			->set($db->quoteName('params') . ' = :registry')
-			->where($db->quoteName('id') . ' = :userId')
-			->bind(':registry', $registry)
-			->bind(':userId', $userId, ParameterType::INTEGER);
-		$db->setQuery($query);
-
-		foreach ($users as $user)
-		{
-			$registry = new Registry($user->params);
-
-			if ($registry->get($param_name) === $this->extension->element)
-			{
-				// Update query parameters.
-				$registry->set($param_name, '');
-				$userId = $user->id;
-
-				$db->execute();
-				$count++;
-			}
-		}
+		$this->updateUserParams();
 
 		$extensionId = $this->extension->extension_id;
 
 		// Remove the schema version
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__schemas'))
 			->where($db->quoteName('extension_id') . ' = :extension_id')
@@ -174,11 +127,6 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Clean installed languages cache.
 		Factory::getCache()->clean('com_languages');
-
-		if (!empty($count))
-		{
-			Log::add(Text::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count), Log::NOTICE, 'jerror');
-		}
 
 		// Remove the extension table entry
 		$this->extension->delete();
@@ -919,5 +867,75 @@ class LanguageAdapter extends InstallerAdapter
 		Log::add(Text::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
 		return false;
+	}
+
+	/**
+	 * Removes references to uninstalled language in user table
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function updateUserParams(): void
+	{
+		$client = ApplicationHelper::getClientInfo($this->extension->client_id);
+
+		if ($client->name !== 'site' && $client->name !== 'administrator')
+		{
+			return;
+		}
+
+		// Setting the language of users which have this language as the default language
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select(
+				[
+					$db->quoteName('id'),
+					$db->quoteName('params'),
+				]
+			)
+			->from($db->quoteName('#__users'));
+		$db->setQuery($query);
+		$users = $db->loadObjectList();
+
+		if ($client->name === 'administrator')
+		{
+			$param_name = 'admin_language';
+		}
+		else
+		{
+			$param_name = 'language';
+		}
+
+		$count = 0;
+
+		// Prepare the query.
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__users'))
+			->set($db->quoteName('params') . ' = :registry')
+			->where($db->quoteName('id') . ' = :userId')
+			->bind(':registry', $registry)
+			->bind(':userId', $userId, ParameterType::INTEGER);
+		$db->setQuery($query);
+
+		foreach ($users as $user)
+		{
+			$registry = new Registry($user->params);
+
+			if ($registry->get($param_name) === $this->extension->element)
+			{
+				// Update query parameters.
+				$registry->set($param_name, '');
+				$userId = $user->id;
+
+				$db->execute();
+				$count++;
+			}
+		}
+
+		if (!empty($count))
+		{
+			Log::add(Text::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count), Log::NOTICE, 'jerror');
+		}
 	}
 }
