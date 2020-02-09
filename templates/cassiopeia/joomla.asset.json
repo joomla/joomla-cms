@@ -73,7 +73,9 @@
       "name": "template.user",
       "type": "script",
       "uri":  "user.js",
-      "dependencies": ["template.cassiopeia"]
+      "dependencies": [
+        "template.active"
+      ]
     },
 
     {
