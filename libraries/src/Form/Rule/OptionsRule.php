@@ -42,7 +42,7 @@ class OptionsRule extends FormRule
 		// Check if the field is required.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
 
-		if (!$required && empty($value) && !($data['default_value'] !== '0'))
+		if (!$required && empty($value) && $value !== '0')
 		{
 			return true;
 		}
