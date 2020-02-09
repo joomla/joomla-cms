@@ -161,6 +161,11 @@ abstract class Menu
 					continue;
 				}
 			}
+			elseif ($item->element && !$user->authorise(($item->scope === 'edit') ? 'core.create' : 'core.manage', $item->element))
+			{
+				$parent->removeChild($item);
+				continue;
+			}
 			elseif ($item->element === 'com_menus')
 			{
 				// Get badges for Menus containing a Home page.
@@ -190,8 +195,8 @@ abstract class Menu
 			// Ok we passed everything, load language at last only
 			if ($item->element)
 			{
-				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR, null, false, true) ||
-				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element, null, false, true);
+				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR) ||
+				$language->load($item->element . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->element);
 			}
 
 			if ($item->type === 'separator' && $item->getParams()->get('text_separator') == 0)
