@@ -198,8 +198,34 @@ class AccessiblemediaField extends SubformField
 		$this->previewWidth = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
 		$this->width = isset($this->element['width']) ? (int) $this->element['width'] : 800;
 
-		$file = __DIR__ . '/accessiblemedia/accessiblemedia.xml';
-		$this->formsource = Path::clean($file);
+		$xml = <<<XML
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="accessiblemedia">
+		<fieldset 
+			name="accessiblemedia"
+			label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_LABEL"
+		>
+			<field
+				name="imagefile"
+				type="media"
+				label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_IMAGEFILE_LABEL"
+				directory="$this->directory"
+				preview="$this->preview"
+				preview_width="$this->previewWidth"
+				preview_height="$this->previewHeight"
+			/>
+
+			<field
+				name="alt_text"
+				type="text"
+				label="JLIB_FORM_FIELD_PARAM_ACCESSIBLEMEDIA_PARAMS_ALT_TEXT_LABEL"
+			/>
+		</fieldset>
+	</fields>
+</form>
+XML;
+		$this->formsource = $xml;
 
 		$this->layout = 'joomla.form.field.media.accessiblemedia';
 

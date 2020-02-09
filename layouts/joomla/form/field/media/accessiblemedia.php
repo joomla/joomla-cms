@@ -14,33 +14,6 @@ extract($displayData);
 $form = $forms[0];
 
 $formfields = $form->getGroup('');
-
-foreach ($formfields as $formfield)
-{
-	if ($formfield->type === 'Media')
-	{
-		$formfield->authorField = $field->authorField;
-		$formfield->directory = $field->directory;
-		$formfield->height = $field->height;
-		$formfield->link = $field->link;
-		$formfield->preview = $field->preview;
-		$formfield->previewHeight = $field->previewHeight;
-		$formfield->previewWidth = $field->previewWidth;
-		$formfield->width = $field->width;
-	}
-	
-	foreach ($displayData as $key => $value)
-	{
-		switch ($key)
-		{
-			case 'value':
-				break;
-
-			default:
-				$formfield->$key = $value;
-		}
-	}
-}
 ?>
 
 <div class="subform-wrapper">
