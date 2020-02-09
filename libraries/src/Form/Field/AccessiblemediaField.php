@@ -29,44 +29,12 @@ class AccessiblemediaField extends SubformField
 	protected $type = 'Accessiblemedia';
 
 	/**
-	 * The authorField.
-	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $authorField;
-
-	/**
 	 * The asset.
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $asset;
-
-	/**
-	 * The link.
-	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $link;
-
-	/**
-	 * Modal width.
-	 *
-	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $width;
-
-	/**
-	 * Modal height.
-	 *
-	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $height;
 
 	/**
 	 * The preview.
@@ -122,14 +90,10 @@ class AccessiblemediaField extends SubformField
 		switch ($name)
 		{
 			case 'asset':
-			case 'authorField':
 			case 'directory':
-			case 'height':
-			case 'link':
 			case 'preview':
 			case 'previewHeight':
 			case 'previewWidth':
-			case 'width':
 				return $this->$name;
 		}
 
@@ -151,12 +115,8 @@ class AccessiblemediaField extends SubformField
 		switch ($name)
 		{
 			case 'asset':
-			case 'authorField':
 			case 'directory':
-			case 'height':
-			case 'link':
 			case 'preview':
-			case 'width':
 				$this->$name = (string) $value;
 				break;
 
@@ -189,14 +149,10 @@ class AccessiblemediaField extends SubformField
 		}
 
 		$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
-		$this->authorField = $this->element['created_by_field'] ? (string) $this->element['created_by_field'] : 'created_by';
 		$this->directory = (string) $this->element['directory'];
-		$this->height = isset($this->element['height']) ? (int) $this->element['height'] : 500;
-		$this->link = (string) $this->element['link'];
 		$this->preview = (string) $this->element['preview'];
 		$this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
 		$this->previewWidth = isset($this->element['preview_width']) ? (int) $this->element['preview_width'] : 200;
-		$this->width = isset($this->element['width']) ? (int) $this->element['width'] : 800;
 
 		$xml = <<<XML
 <?xml version="1.0" encoding="utf-8"?>
