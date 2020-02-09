@@ -199,8 +199,8 @@ class AccessiblemediaField extends SubformField
 		$this->width = isset($this->element['width']) ? (int) $this->element['width'] : 800;
 
 		$file = __DIR__ . '/accessiblemedia/accessiblemedia.xml';
-
 		$this->formsource = Path::clean($file);
+
 		$this->layout = 'joomla.form.field.media.accessiblemedia';
 
 		return true;
