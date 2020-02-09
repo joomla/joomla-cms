@@ -1758,7 +1758,7 @@ CREATE TABLE IF NOT EXISTS "#__tags" (
   "access" bigint DEFAULT 0 NOT NULL,
   "params" text NOT NULL,
   "metadesc" varchar(1024) NOT NULL,
-  "metakey" varchar(1024),
+  "metakey" varchar(1024) DEFAULT '' NOT NULL,
   "metadata" varchar(2048) NOT NULL,
   "created_user_id" integer DEFAULT 0 NOT NULL,
   "created_time" timestamp without time zone NOT NULL,
