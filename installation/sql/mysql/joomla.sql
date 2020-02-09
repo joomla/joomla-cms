@@ -241,7 +241,7 @@ CREATE TABLE IF NOT EXISTS `#__categories` (
   `access` int(10) unsigned NOT NULL DEFAULT 0,
   `params` text NOT NULL DEFAULT '',
   `metadesc` varchar(1024) NOT NULL DEFAULT '' COMMENT 'The meta description for the page.',
-  `metakey` varchar(1024) COMMENT 'The keywords for the page.',
+  `metakey` varchar(1024) NOT NULL DEFAULT '' COMMENT 'The keywords for the page.',
   `metadata` varchar(2048) NOT NULL DEFAULT '' COMMENT 'JSON encoded metadata properties.',
   `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
   `created_time` datetime NOT NULL,
