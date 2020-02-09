@@ -378,12 +378,22 @@ class LanguageAdapter extends InstallerAdapter
 						Log::WARNING, 'jerror'
 					);
 				}
-				else
+				elseif (file_exists($this->parent->getPath('extension_administrator')))
 				{
 					// If the admin exists say so.
 					Log::add(
 						Text::sprintf('JLIB_INSTALLER_ABORT',
 							Text::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_administrator'))
+						),
+						Log::WARNING, 'jerror'
+					);
+				}
+				else
+				{
+					// If the admin exists say so.
+					Log::add(
+						Text::sprintf('JLIB_INSTALLER_ABORT',
+							Text::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_api'))
 						),
 						Log::WARNING, 'jerror'
 					);
