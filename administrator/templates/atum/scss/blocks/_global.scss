@@ -172,24 +172,6 @@ body .container-main {
   text-align: right !important;
 }
 
-// Fadeeffect for login page
-.load-fadein {
-  @include fadein-page;
-}
-
-.load-fadeout {
-  @include fadeout-page;
-}
-
-// Fix blinking of fade effect
-.container-main.fade-done > * {
-  opacity: 1;
-}
-
-.sidebar-wrapper.fade-done > * {
-  opacity: 1;
-}
-
 // dashboard items
 .menu-quicktask,
 .menu-badge {
