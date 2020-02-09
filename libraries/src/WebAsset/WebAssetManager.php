@@ -939,22 +939,19 @@ class WebAssetManager implements WebAssetManagerInterface
 		{
 			$name = $asset->getName();
 
-			// Outgoing nodes
+			// Initialise an array for outgoing nodes of the asset
 			$graphOutgoing[$name] = [];
 
-			foreach ($asset->getDependencies() as $depName)
-			{
-				$graphOutgoing[$name][$depName] = $depName;
-			}
-
-			// Incoming nodes
+			// Initialise an array for incoming nodes of the asset
 			if (!\array_key_exists($name, $graphIncoming))
 			{
 				$graphIncoming[$name] = [];
 			}
 
+			// Collect an outgoing/incoming nodes
 			foreach ($asset->getDependencies() as $depName)
 			{
+				$graphOutgoing[$name][$depName] = $depName;
 				$graphIncoming[$depName][$name] = $name;
 			}
 		}
