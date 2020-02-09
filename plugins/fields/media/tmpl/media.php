@@ -20,19 +20,13 @@ if ($class)
 	$class = ' class="' . htmlentities($class, ENT_COMPAT, 'UTF-8', true) . '"';
 }
 
-$value  = (array) $field->apivalue;
+$value  = $field->apivalue;
 $buffer = '';
 
-foreach ($value as $imagedata)
+if ($value)
 {
-
-	if (!$imagedata)
-	{
-		continue;
-	}
-	
-	$path = $imagedata['imagefile'];
-	$alt = ' alt="' . htmlentities($imagedata['alt_text'], ENT_COMPAT, 'UTF-8', true) . '"';
+	$path = $value['imagefile'];
+	$alt = ' alt="' . htmlentities($value['alt_text'], ENT_COMPAT, 'UTF-8', true) . '"';
 
 	if (file_exists($path))
 	{
