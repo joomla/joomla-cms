@@ -686,8 +686,9 @@ class MenusHelper extends ContentHelper
 
 				foreach ($presets as $preset)
 				{
-					$title = strtoupper($component->option . '_MENUS_PRESET_' . File::stripExt($preset));
-					static::addPreset($preset, $title, $folder . $preset);
+					$name  = File::stripExt($preset);
+					$title = strtoupper($component->option . '_MENUS_PRESET_' . $name);
+					static::addPreset($name, $title, $folder . $preset);
 				}
 			}
 
