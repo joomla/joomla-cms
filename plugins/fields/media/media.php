@@ -42,4 +42,26 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 
 		return $fieldNode;
 	}
+
+	/**
+	 * Before prepares the field value.
+	 *
+	 * @param   string     $context  The context.
+	 * @param   \stdclass  $item     The item.
+	 * @param   \stdclass  $field    The field.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOAY_VERSION__
+	 */
+	public function onCustomFieldsBeforePrepareField($context, $item, $field)
+	{
+		// Check if the field should be processed by us
+		if (!$this->isTypeSupported($field->type))
+		{
+			return;
+		}
+
+		$field->apivalue = (array) json_decode($field->value, true);
+	}
 }

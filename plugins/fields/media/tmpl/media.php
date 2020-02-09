@@ -20,7 +20,7 @@ if ($class)
 	$class = ' class="' . htmlentities($class, ENT_COMPAT, 'UTF-8', true) . '"';
 }
 
-$value  = (array) $field->value;
+$value  = (array) $field->apivalue;
 $buffer = '';
 
 foreach ($value as $imagedata)
@@ -31,16 +31,8 @@ foreach ($value as $imagedata)
 		continue;
 	}
 	
-	$path = $imagedata;
-	$alt = ' alt=""';
-	
-	// Parameter alt_text is set to YES
-	if (json_decode($imagedata, true) !== null)
-	{
-		$accessiblemedia = json_decode($imagedata, true)['accessiblemedia'];
-		$path = $accessiblemedia['imagefile'];
-		$alt = ' alt="' . htmlentities($accessiblemedia['alt_text'], ENT_COMPAT, 'UTF-8', true) . '"';
-	}
+	$path = $imagedata['imagefile'];
+	$alt = ' alt="' . htmlentities($imagedata['alt_text'], ENT_COMPAT, 'UTF-8', true) . '"';
 
 	if (file_exists($path))
 	{
