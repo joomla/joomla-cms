@@ -98,7 +98,7 @@ class LanguageAdapter extends InstallerAdapter
 			return false;
 		}
 
-		$this->updateUserParams();
+		$this->resetUserLanguage();
 
 		$extensionId = $this->extension->extension_id;
 
@@ -870,13 +870,13 @@ class LanguageAdapter extends InstallerAdapter
 	}
 
 	/**
-	 * Removes references to uninstalled language in user table
+	 * Resets user language to default language
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function updateUserParams(): void
+	private function resetUserLanguage(): void
 	{
 		$client = ApplicationHelper::getClientInfo($this->extension->client_id);
 
