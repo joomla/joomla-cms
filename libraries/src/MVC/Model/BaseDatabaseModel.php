@@ -163,7 +163,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	{
 		// Use fast COUNT(*) on DatabaseQuery objects if there is no GROUP BY or HAVING clause:
 		if ($query instanceof DatabaseQuery
-			&& $query->type == 'select'
+			&& $query->type === 'select'
 			&& $query->group === null
 			&& $query->merge === null
 			&& $query->querySet === null

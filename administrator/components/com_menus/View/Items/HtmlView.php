@@ -139,8 +139,8 @@ class HtmlView extends BaseHtmlView
 				case 'component':
 				default:
 					// Load language
-						$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-					|| $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->componentname, null, false, true);
+						$lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR)
+					|| $lang->load($item->componentname . '.sys', JPATH_ADMINISTRATOR . '/components/' . $item->componentname);
 
 					if (!empty($item->componentname))
 					{
@@ -190,8 +190,8 @@ class HtmlView extends BaseHtmlView
 								$file = JPATH_SITE . '/templates/' . $temp[0] . '/html/' . $item->componentname . '/' . $vars['view'] . '/' . $temp[1] . '.xml';
 
 								// Load template language file
-								$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE, null, false, true)
-								||	$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0], null, false, true);
+								$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE)
+								||	$lang->load('tpl_' . $temp[0] . '.sys', JPATH_SITE . '/templates/' . $temp[0]);
 							}
 							else
 							{
@@ -347,7 +347,7 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-ellipsis-h')
+				->icon('fas fa-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -411,40 +411,5 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->help('JHELP_MENUS_MENU_ITEM_MANAGER');
-	}
-
-	/**
-	 * Returns an array of fields the table can be sorted by
-	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value
-	 *
-	 * @since   3.0
-	 */
-	protected function getSortFields()
-	{
-		$this->state = $this->get('State');
-
-		if ($this->state->get('filter.client_id') == 0)
-		{
-			return array(
-				'a.lft'       => Text::_('JGRID_HEADING_ORDERING'),
-				'a.published' => Text::_('JSTATUS'),
-				'a.title'     => Text::_('JGLOBAL_TITLE'),
-				'a.home'      => Text::_('COM_MENUS_HEADING_HOME'),
-				'a.access'    => Text::_('JGRID_HEADING_ACCESS'),
-				'association' => Text::_('COM_MENUS_HEADING_ASSOCIATION'),
-				'language'    => Text::_('JGRID_HEADING_LANGUAGE'),
-				'a.id'        => Text::_('JGRID_HEADING_ID')
-			);
-		}
-		else
-		{
-			return array(
-				'a.lft'       => Text::_('JGRID_HEADING_ORDERING'),
-				'a.published' => Text::_('JSTATUS'),
-				'a.title'     => Text::_('JGLOBAL_TITLE'),
-				'a.id'        => Text::_('JGRID_HEADING_ID')
-			);
-		}
 	}
 }

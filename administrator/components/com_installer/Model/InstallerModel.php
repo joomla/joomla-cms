@@ -181,46 +181,46 @@ class InstallerModel extends ListModel
 				case 'component':
 					$extension = $item->element;
 					$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
-						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
-					||	$lang->load("$extension.sys", $source, null, false, true);
+						$lang->load("$extension.sys", JPATH_ADMINISTRATOR)
+					||	$lang->load("$extension.sys", $source);
 				break;
 				case 'file':
 					$extension = 'files_' . $item->element;
-						$lang->load("$extension.sys", JPATH_SITE, null, false, true);
+						$lang->load("$extension.sys", JPATH_SITE);
 				break;
 				case 'library':
 					$parts = explode('/', $item->element);
 					$vendor = (isset($parts[1]) ? $parts[0] : null);
 					$extension = 'lib_' . ($vendor ? implode('_', $parts) : $item->element);
 
-					if (!$lang->load("$extension.sys", $path, null, false, true))
+					if (!$lang->load("$extension.sys", $path))
 					{
 						$source = $path . '/libraries/' . ($vendor ? $vendor . '/' . $parts[1] : $item->element);
-						$lang->load("$extension.sys", $source, null, false, true);
+						$lang->load("$extension.sys", $source);
 					}
 				break;
 				case 'module':
 					$extension = $item->element;
 					$source = $path . '/modules/' . $extension;
-						$lang->load("$extension.sys", $path, null, false, true)
-					||	$lang->load("$extension.sys", $source, null, false, true);
+						$lang->load("$extension.sys", $path)
+					||	$lang->load("$extension.sys", $source);
 				break;
 				case 'plugin':
 					$extension = 'plg_' . $item->folder . '_' . $item->element;
 					$source = JPATH_PLUGINS . '/' . $item->folder . '/' . $item->element;
-						$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
-					||	$lang->load("$extension.sys", $source, null, false, true);
+						$lang->load("$extension.sys", JPATH_ADMINISTRATOR)
+					||	$lang->load("$extension.sys", $source);
 				break;
 				case 'template':
 					$extension = 'tpl_' . $item->element;
 					$source = $path . '/templates/' . $item->element;
-						$lang->load("$extension.sys", $path, null, false, true)
-					||	$lang->load("$extension.sys", $source, null, false, true);
+						$lang->load("$extension.sys", $path)
+					||	$lang->load("$extension.sys", $source);
 				break;
 				case 'package':
 				default:
 					$extension = $item->element;
-						$lang->load("$extension.sys", JPATH_SITE, null, false, true);
+						$lang->load("$extension.sys", JPATH_SITE);
 				break;
 			}
 

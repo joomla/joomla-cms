@@ -6,6 +6,10 @@
     grid-template-columns: 1fr;
   }
 
+  #page-filters .custom-select {
+	  width: auto;
+  }
+
   .tab-description {
     grid-column: 1 / -1;
   }

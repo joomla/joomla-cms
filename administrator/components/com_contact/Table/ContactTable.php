@@ -199,40 +199,6 @@ class ContactTable extends Table
 			$this->hits = 0;
 		}
 
-		/*
-		 * Clean up keywords -- eliminate extra spaces between phrases
-		 * and cr (\r) and lf (\n) characters from string.
-		 * Only process if not empty.
-		 */
-		if (!empty($this->metakey))
-		{
-			// Array of characters to remove.
-			$badCharacters = array("\n", "\r", "\"", '<', '>');
-
-			// Remove bad characters.
-			$afterClean = StringHelper::str_ireplace($badCharacters, '', $this->metakey);
-
-			// Create array using commas as delimiter.
-			$keys = explode(',', $afterClean);
-			$cleanKeys = array();
-
-			foreach ($keys as $key)
-			{
-				// Ignore blank keywords.
-				if (trim($key))
-				{
-					$cleanKeys[] = trim($key);
-				}
-			}
-
-			// Put array back together delimited by ", "
-			$this->metakey = implode(', ', $cleanKeys);
-		}
-		else
-		{
-			$this->metakey = '';
-		}
-
 		// Clean up description -- eliminate quotes and <> brackets
 		if (!empty($this->metadesc))
 		{
