@@ -29,14 +29,6 @@ class AccessiblemediaField extends SubformField
 	protected $type = 'Accessiblemedia';
 
 	/**
-	 * The asset.
-	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $asset;
-
-	/**
 	 * The preview.
 	 *
 	 * @var    string
@@ -89,7 +81,6 @@ class AccessiblemediaField extends SubformField
 	{
 		switch ($name)
 		{
-			case 'asset':
 			case 'directory':
 			case 'preview':
 			case 'previewHeight':
@@ -114,7 +105,6 @@ class AccessiblemediaField extends SubformField
 	{
 		switch ($name)
 		{
-			case 'asset':
 			case 'directory':
 			case 'preview':
 				$this->$name = (string) $value;
@@ -148,7 +138,6 @@ class AccessiblemediaField extends SubformField
 			return false;
 		}
 
-		$assetField = $this->element['asset_field'] ? (string) $this->element['asset_field'] : 'asset_id';
 		$this->directory = (string) $this->element['directory'];
 		$this->preview = (string) $this->element['preview'];
 		$this->previewHeight = isset($this->element['preview_height']) ? (int) $this->element['preview_height'] : 200;
