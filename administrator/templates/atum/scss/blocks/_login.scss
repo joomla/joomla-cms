@@ -248,12 +248,13 @@ label {
   }
 }
 
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-  /* Detect IE 10+ and display alert */
-  .ie11 {
-      display:block !important;
-  }
-}
+ /* Detect IE 10+ and display alert */
 .ie11 {
   display:none;
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .ie11 {
+      display:block;
+  }
 }
