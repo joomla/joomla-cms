@@ -31,9 +31,6 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 	 */
 	public function onCustomFieldsPrepareDom($field, DOMElement $parent, Form $form)
 	{
-		// Check if the field value is an old (string) value
-		$field->value = $this->checkValue($field->value);
-
 		$fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 
 		if (!$fieldNode)
@@ -41,7 +38,11 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 			return $fieldNode;
 		}
 
-		$fieldNode->setAttribute('type', 'accessiblemedia');
+		json_decode($value);
+
+		if (json_last_error() === JSON_ERROR_NONE) {
+			$fieldNode->setAttribute('type', 'accessiblemedia');
+		}
 
 		return $fieldNode;
 	}
