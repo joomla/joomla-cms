@@ -90,7 +90,7 @@
 				type="radio"
 				class="switcher"
 				label="MOD_MENU_FIELD_SHOWNEW"
-			>
+				>
 				<option value="">JHIDE</option>
 				<option value="index.php?option=com_content&amp;task=article.add">JSHOW</option>
 			</field>
