@@ -82,5 +82,24 @@
 
 		</fieldset>
 	</fields>
-
+	<fields
+		name="params">
+		<fieldset
+			name="basic">
+			<field
+				name="menu-quicktask"
+				type="radio"
+				class="switcher"
+				label="MOD_MENU_FIELD_SHOWNEW"
+			>
+				<option value="">JHIDE</option>
+				<option value="index.php?option=com_content&amp;task=article.add">JSHOW</option>
+			</field>
+			<field
+				name="menu-quicktask-title"
+				type="hidden"
+				default="MOD_MENU_COM_CONTENT_NEW_ARTICLE"
+			/>
+		</fieldset>
+	</fields>
 </metadata>
