@@ -59,7 +59,7 @@
       return false;
     });
 
-    const cpanelModules = document.getElementById('cpanel-modules');
+    const cpanelModules = document.getElementById('content');
     if (cpanelModules) {
       const links = [].slice.call(cpanelModules.querySelectorAll('.unpublish-module'));
       links.forEach((link) => {
