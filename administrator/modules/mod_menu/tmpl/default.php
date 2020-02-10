@@ -9,13 +9,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::_('script', 'vendor/metismenujs/metismenujs.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('script', 'mod_menu/admin-menu.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
-HTMLHelper::_('script', 'com_cpanel/admin-system-loader.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa->useScript('metismenujs')
+	->registerAndUseScript('mod_menu.admin.menu', 'mod_menu/admin-menu.min.js', [], ['defer' => true], ['metismenujs'])
+	->registerAndUseScript('cpanel.system.loader', 'com_cpanel/admin-system-loader.js', [], ['defer' => true]);
 
 $doc       = $app->getDocument();
 $direction = $doc->direction === 'rtl' ? 'float-right' : '';
