@@ -403,7 +403,10 @@
             "name": "minicolors",
             "type": "script",
             "uri": "jquery.minicolors.min.js",
-            "dependencies": ["jquery"]
+            "dependencies": ["jquery"],
+            "attributes": {
+              "defer": true
+            }
           },
           {
             "name": "minicolors",
@@ -533,7 +536,30 @@
         },
         "css": {
           "src/css/SkipTo.css": "css/SkipTo.css"
-        }
+        },
+        "provideAssets": [
+          {
+            "name": "skipto",
+            "type": "style",
+            "uri": "SkipTo.css"
+          },
+          {
+            "name": "skipto.dropmenu",
+            "type": "script",
+            "uri": "dropMenu.js",
+            "attributes": {
+              "defer": true
+            }
+          },
+          {
+            "name": "skipto",
+            "type": "script",
+            "uri": "skipTo.js",
+            "attributes": {
+              "defer": true
+            }
+          }
+        ]
       },
       "qrcode-generator": {
         "name": "qrcode",
