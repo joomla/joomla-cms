@@ -23,7 +23,7 @@ $object2  = $version2->data;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->useScript('diff')
-	->registerAndUseScript('contenthistory.admin.compare', 'com_contenthistory/admin-compare-compare.min.js', [], ['defer' => true], ['diff']);
+	->registerAndUseScript('contenthistory.admin-compare', 'com_contenthistory/admin-compare-compare.min.js', [], ['defer' => true], ['diff']);
 
 ?>
 <div role="main">
