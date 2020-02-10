@@ -158,7 +158,6 @@ class PlgContentPagenavigation extends CMSPlugin
 				->select([$case_when, $case_when1])
 				->from($db->quoteName('#__content', 'a'))
 				->join('LEFT', $db->quoteName('#__categories', 'cc'), $db->quoteName('cc.id') . ' = ' . $db->quoteName('a.catid'))
-				->join('LEFT', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('a.state'));
 				->join('LEFT', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
 				->join('LEFT', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'));
 
