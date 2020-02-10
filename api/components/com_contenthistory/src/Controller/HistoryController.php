@@ -48,14 +48,11 @@ class HistoryController extends ApiController
 	 */
 	public function displayList()
 	{
-		$this->input->set('model_state', [
-				'type_alias'     => $this->getTypeAliasFromInput(),
-				'type_id'        => $this->getTypeIdFromInput(),
-				'item_id'        => $this->getItemIdFromInput(),
-				'list.ordering'  => 'h.save_date',
-				'list.direction' => 'DESC',
-			]
-		);
+		$this->modelState->set('type_alias', $this->getTypeAliasFromInput());
+		$this->modelState->set('type_id', $this->getTypeIdFromInput());
+		$this->modelState->set('item_id', $this->getItemIdFromInput());
+		$this->modelState->set('list.ordering', 'h.save_date');
+		$this->modelState->set('list.direction', 'DESC');
 
 		return parent::displayList();
 	}

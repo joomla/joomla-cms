@@ -629,15 +629,6 @@
 		/>
 
 		<field
-			name="MetaKeys"
-			type="textarea"
-			label="COM_CONFIG_FIELD_METAKEYS_LABEL"
-			filter="string"
-			cols="60"
-			rows="3"
-		/>
-
-		<field
 			name="robots"
 			type="list"
 			label="JFIELD_METADATA_ROBOTS_LABEL"

@@ -76,18 +76,7 @@ class PluginsController extends ApiController
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_MODEL_CREATE'));
 		}
 
-		try
-		{
-			$modelName = $model->getName();
-		}
-		catch (\Exception $e)
-		{
-			throw new \RuntimeException($e->getMessage());
-		}
-
-		$model->setState($modelName . '.id', $recordId);
-
-		$item = $model->getItem();
+		$item = $model->getItem($recordId);
 
 		if (!isset($item->extension_id))
 		{
