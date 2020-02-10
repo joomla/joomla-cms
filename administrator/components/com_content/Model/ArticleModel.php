@@ -164,7 +164,7 @@ class ArticleModel extends AdminModel
 		$workflow = new Workflow(['extension' => 'com_content']);
 
 		// Update content state value and workflow associations
-		return ContentHelper::updateContentState($pks, $stage->condition)
+		return ContentHelper::updateContentState($pks, (int) $stage->condition)
 				&& $workflow->updateAssociations($pks, $value);
 	}
 
@@ -563,15 +563,7 @@ class ArticleModel extends AdminModel
 		// Determine correct permissions to check.
 		if ($id = $this->getState('article.id', $id))
 		{
-			// Existing record. Can only edit in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit');
-
-			// Existing record. Can only edit own articles in selected categories.
-			if ($app->isClient('administrator'))
-			{
-				$form->setFieldAttribute('catid', 'action', 'core.edit.own');
-			}
-			else
+			if ($app->isClient('site'))
 			// Existing record. We can't edit the category in frontend if not edit.state.
 			{
 				if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
@@ -633,9 +625,6 @@ class ArticleModel extends AdminModel
 
 				$form->setFieldAttribute('transition', 'workflow_stage', (int) $workflow->stage_id);
 			}
-
-			// New record. Can only create in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
 		// Check for existing article.

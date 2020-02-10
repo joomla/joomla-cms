@@ -235,9 +235,9 @@ abstract class UpdateAdapter extends \JAdapterInstance
 			$this->appendExtension = $options['append_extension'];
 		}
 
-		if ($this->appendExtension && (substr($url, -4) != '.xml'))
+		if ($this->appendExtension && (substr($url, -4) !== '.xml'))
 		{
-			if (substr($url, -1) != '/')
+			if (substr($url, -1) !== '/')
 			{
 				$url .= '/';
 			}
@@ -280,7 +280,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 		if ($response === null || $response->code !== 200)
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
-			if (!$this->appendExtension && (substr($url, -4) != '.xml'))
+			if (!$this->appendExtension && (substr($url, -4) !== '.xml'))
 			{
 				$options['append_extension'] = true;
 

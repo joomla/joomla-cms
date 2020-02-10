@@ -43,11 +43,31 @@ class ContentSerializer extends JoomlaSerializer
 		foreach ($model->associations as $association)
 		{
 			$resources[] = (new Resource($association, $serializer))
-				->addLink('self', Route::link('site', Uri::root() . '/api/index.php/v1/content/article/' . $association->id));
+				->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/content/article/' . $association->id));
 		}
 
 		$collection = new Collection($resources, $serializer);
 
 		return new Relationship($collection);
+	}
+
+	/**
+	 * Build content relationships by associations
+	 *
+	 * @param   \stdClass  $model Item model
+	 *
+	 * @return Relationship
+	 *
+	 * @since 4.0
+	 */
+	public function category($model)
+	{
+		// TODO: This can't be hardcoded in the future?
+		$serializer = new JoomlaSerializer($this->type);
+
+		$resource = (new Resource($model->catid, $serializer))
+			->addLink('self', Route::link('site', Uri::root() . 'api/index.php/v1/content/categories/' . $model->catid));
+
+		return new Relationship($resource);
 	}
 }
