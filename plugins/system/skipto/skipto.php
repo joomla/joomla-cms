@@ -80,9 +80,13 @@ class PlgSystemSkipto extends CMSPlugin
 		$wa->useStyle('skipto')
 			->useScript('skipto.dropmenu')
 			->useScript('skipto')
-			->addInlineScript('document.addEventListener(\'DOMContentLoaded\', function() {
-				window.SkipToConfig = Joomla.getOptions(\'skipto-settings\');
-				window.skipToMenuInit();
-			});', [], ['type' => 'module'], ['skipto']);
+			->addInlineScript(
+				'document.addEventListener(\'DOMContentLoaded\', function() {'
+				.'window.SkipToConfig = Joomla.getOptions(\'skipto-settings\');'
+				.'window.skipToMenuInit();});',
+				[],
+				['type' => 'module'],
+				['skipto']
+			);
 	}
 }
