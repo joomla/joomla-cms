@@ -152,7 +152,7 @@ CREATE TABLE IF NOT EXISTS "#__banners" (
   "custombannercode" varchar(2048) NOT NULL,
   "sticky" smallint DEFAULT 0 NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
-  "metakey" text NOT NULL,
+  "metakey" text,
   "params" text NOT NULL,
   "own_prefix" smallint DEFAULT 0 NOT NULL,
   "metakey_prefix" varchar(255) DEFAULT '' NOT NULL,
@@ -192,7 +192,7 @@ CREATE TABLE IF NOT EXISTS "#__banner_clients" (
   "state" smallint DEFAULT 0 NOT NULL,
   "checked_out" bigint DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone,
-  "metakey" text NOT NULL,
+  "metakey" text,
   "own_prefix" smallint DEFAULT 0 NOT NULL,
   "metakey_prefix" varchar(255) DEFAULT '' NOT NULL,
   "purchase_type" smallint DEFAULT -1 NOT NULL,
@@ -262,7 +262,7 @@ CREATE INDEX "#__categories_idx_language" ON "#__categories" ("language");
 
 COMMENT ON COLUMN "#__categories"."asset_id" IS 'FK to the #__assets table.';
 COMMENT ON COLUMN "#__categories"."metadesc" IS 'The meta description for the page.';
-COMMENT ON COLUMN "#__categories"."metakey" IS 'The meta keywords for the page.';
+COMMENT ON COLUMN "#__categories"."metakey" IS 'The keywords for the page.';
 COMMENT ON COLUMN "#__categories"."metadata" IS 'JSON encoded metadata properties.';
 
 --
@@ -318,7 +318,7 @@ CREATE TABLE IF NOT EXISTS "#__contact_details" (
   "created_by_alias" varchar(255) NOT NULL DEFAULT '',
   "modified" timestamp without time zone NOT NULL,
   "modified_by" integer NOT NULL DEFAULT 0,
-  "metakey" text NOT NULL,
+  "metakey" text,
   "metadesc" text NOT NULL,
   "metadata" text NOT NULL,
   "featured" smallint NOT NULL DEFAULT 0,
@@ -365,7 +365,7 @@ CREATE TABLE IF NOT EXISTS "#__content" (
   "attribs" varchar(5120) NOT NULL,
   "version" bigint DEFAULT 1 NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
-  "metakey" text NOT NULL,
+  "metakey" text,
   "metadesc" text NOT NULL,
   "access" bigint DEFAULT 0 NOT NULL,
   "hits" bigint DEFAULT 0 NOT NULL,
@@ -1240,7 +1240,7 @@ CREATE TABLE IF NOT EXISTS "#__languages" (
   "sef" varchar(50) NOT NULL,
   "image" varchar(50) NOT NULL,
   "description" varchar(512) NOT NULL,
-  "metakey" text NOT NULL,
+  "metakey" text,
   "metadesc" text NOT NULL,
   "sitename" varchar(1024) DEFAULT '' NOT NULL,
   "published" bigint DEFAULT 0 NOT NULL,
@@ -1577,7 +1577,7 @@ CREATE TABLE IF NOT EXISTS "#__newsfeeds" (
   "created_by_alias" varchar(255) DEFAULT '' NOT NULL,
   "modified" timestamp without time zone NOT NULL,
   "modified_by" integer DEFAULT 0 NOT NULL,
-  "metakey" text NOT NULL,
+  "metakey" text,
   "metadesc" text NOT NULL,
   "metadata" text NOT NULL,
   "publish_up" timestamp without time zone,
@@ -1758,7 +1758,7 @@ CREATE TABLE IF NOT EXISTS "#__tags" (
   "access" bigint DEFAULT 0 NOT NULL,
   "params" text NOT NULL,
   "metadesc" varchar(1024) NOT NULL,
-  "metakey" varchar(1024) NOT NULL,
+  "metakey" varchar(1024) DEFAULT '' NOT NULL,
   "metadata" varchar(2048) NOT NULL,
   "created_user_id" integer DEFAULT 0 NOT NULL,
   "created_time" timestamp without time zone NOT NULL,
