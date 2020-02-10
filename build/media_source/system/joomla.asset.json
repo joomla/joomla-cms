@@ -18,7 +18,10 @@
       "dependencies": [
         "core"
       ],
-      "uri": "system/keepalive.min.js"
+      "uri": "system/keepalive.min.js",
+      "attributes": {
+        "defer": true
+      }
     },
     {
       "name": "template.active",
@@ -38,7 +41,10 @@
       "dependencies": [
         "core"
       ],
-      "uri": "system/multiselect.min.js"
+      "uri": "system/multiselect.min.js",
+      "attributes": {
+        "defer": true
+      }
     },
     {
       "name": "searchtools",
@@ -46,7 +52,10 @@
       "dependencies": [
         "core"
       ],
-      "uri": "system/searchtools.min.js"
+      "uri": "system/searchtools.min.js",
+      "attributes": {
+        "defer": true
+      }
     },
     {
       "name": "searchtools",
