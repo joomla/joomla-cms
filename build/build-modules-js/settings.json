@@ -110,7 +110,10 @@
           {
             "name": "cropperjs",
             "type": "script",
-            "uri": "cropper.min.js"
+            "uri": "cropper.min.js",
+            "attributes": {
+              "defer": true
+            }
           },
           {
             "name": "cropperjs",
@@ -195,7 +198,10 @@
           {
             "name": "dragula",
             "type": "script",
-            "uri": "dragula.min.js"
+            "uri": "dragula.min.js",
+            "attributes": {
+              "defer": true
+            }
           },
           {
             "name": "dragula",

@@ -71,13 +71,9 @@ abstract class JHtmlDraggablelist
 			);
 		}
 
-		// Depends on Joomla.getOptions()
-		HTMLHelper::_('behavior.core');
-
-		// Attach draggable to document
-		HTMLHelper::_('script', 'vendor/dragula/dragula.min.js', ['framework' => false, 'relative' => true]);
-		HTMLHelper::_('script', 'system/draggable.min.js', ['framework' => false, 'relative' => true]);
-		HTMLHelper::_('stylesheet', 'vendor/dragula/dragula.min.css', ['framework' => false, 'relative' => true, 'pathOnly' => false]);
+		$doc->getWebAssetManager()
+			->usePreset('dragula')
+			->useScript('joomla.draggable');
 
 		// Set static array
 		static::$loaded[__METHOD__] = true;
