@@ -247,3 +247,13 @@ label {
     color: theme-color("danger");
   }
 }
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  /* Detect IE 10+ and display alert */
+  .ie11 {
+      display:block !important;
+  }
+}
+.ie11 {
+  display:none;
+}

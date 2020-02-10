@@ -84,6 +84,9 @@ Text::script('JGLOBAL_WARNCOOKIES');
 		<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 	</div>
 </noscript>
+<div class="ie11 alert alert-warning" role="alert">
+	<?php echo Text::_('JGLOBAL_WARNIE'); ?>
+</div>
 
 <header id="header" class="header">
 	<div class="d-flex">
