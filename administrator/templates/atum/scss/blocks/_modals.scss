@@ -11,9 +11,7 @@
     font-size: 1rem;
     line-height: 2.375rem;
     box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, .25);
-    [dir=rtl] & {
-      padding: 0 0 0 22px !important;
-    }
+
 
   }
 
@@ -67,16 +65,14 @@
   .btn.btn-danger span {
     background-color: var(--danger);
     color: hsla(0, 0%, 100%, .9);
-
     display: inline-block;
     width: 2.375rem;
     height: 100%;
     margin: 0 16px 0 -22px;
     line-height: 2.375rem;
-  }
-  .btn.btn-danger span {
+
     [dir=rtl] & {
-      margin: 0 0 0 5px !important;
+      margin: 0 -22px 0 16px;
     }
   }
 
@@ -87,14 +83,16 @@
   .btn.btn-success span {
     background-color: var(--success);
     color: hsla(0, 0%, 100%, .9);
-
     display: inline-block;
     width: 2.375rem;
     height: 100%;
     margin: 0 16px 0 -22px;
     line-height: 2.375rem;
-  }
 
+    [dir=rtl] & {
+      margin: 0 -22px 0 16px;
+    }
+  }
 }
 
 .modal-header {
