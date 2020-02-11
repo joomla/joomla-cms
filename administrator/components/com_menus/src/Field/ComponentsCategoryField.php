@@ -81,8 +81,12 @@ class ComponentsCategoryField extends ListField
 			$options[] = $option;
 		}
 
+		// Sort by name
+		$options = ArrayHelper::sortObjects($options, 'text', 1, true, true);
+
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), $options);
+
 
 		return $options;
 	}
