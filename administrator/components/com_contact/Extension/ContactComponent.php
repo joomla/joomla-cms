@@ -11,6 +11,7 @@ namespace Joomla\Component\Contact\Administrator\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Categories\CategoryServiceInterface;
@@ -25,6 +26,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Contact\Administrator\Service\HTML\AdministratorService;
+use Joomla\Component\Contact\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -56,6 +58,7 @@ class ContactComponent extends MVCComponent implements
 	public function boot(ContainerInterface $container)
 	{
 		$this->getRegistry()->register('contactadministrator', new AdministratorService);
+		$this->getRegistry()->register('contacticon', new Icon($container->get(SiteApplication::class)));
 	}
 
 	/**
@@ -77,7 +80,7 @@ class ContactComponent extends MVCComponent implements
 			$section = 'mail';
 		}
 
-		if (Factory::getApplication()->isClient('site') && $section == 'category')
+		if (Factory::getApplication()->isClient('site') && ($section === 'category' || $section === 'form'))
 		{
 			// The contact form needs to be the mail section
 			$section = 'contact';
