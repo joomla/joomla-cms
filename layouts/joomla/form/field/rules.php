@@ -43,6 +43,7 @@ $document = Factory::getDocument();
  * @var   array    $groups          Available user groups.
  * @var   array    $actions         Actions for the asset.
  * @var   integer  $assetId         Access parameters.
+ * @var   string   $component       The component.
  * @var   string   $section         The section.
  * @var   boolean  $isGlobalConfig  Current view is global config?
  * @var   boolean  $newItem         The new item.
@@ -52,8 +53,11 @@ $document = Factory::getDocument();
 
 // Add Javascript for permission change
 HTMLHelper::_('form.csrf');
-HTMLHelper::_('webcomponent', 'system/fields/joomla-field-permissions.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-tab.min.js', ['version' => 'auto', 'relative' => true]);
+Factory::getDocument()->getWebAssetManager()
+	->useStyle('webcomponent.field-permissions')
+	->useScript('webcomponent.field-permissions')
+	->useStyle('webcomponent.joomla-tab')
+	->useScript('webcomponent.joomla-tab');
 
 // Load JavaScript message titles
 Text::script('ERROR');
@@ -81,11 +85,11 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 	<?php
 	if ($section === 'component' || !$section)
 	{
-		echo Text::_('JLIB_RULES_SETTING_NOTES');
+		echo Text::alt('JLIB_RULES_SETTING_NOTES', $component);
 	}
 	else
 	{
-		echo Text::_('JLIB_RULES_SETTING_NOTES_ITEM');
+		echo Text::alt('JLIB_RULES_SETTING_NOTES_ITEM', $component . '_' . $section);
 	}
 	?>
 	</div>
@@ -100,15 +104,15 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 				<table class="table">
 					<thead>
 						<tr>
-							<th class="actions" id="actions-th<?php echo $group->value; ?>">
+							<th style="width: 30%" class="actions" id="actions-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_ACTION'); ?></span>
 							</th>
 
-							<th class="settings" id="settings-th<?php echo $group->value; ?>">
+							<th style="width: 40%" class="settings" id="settings-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_SELECT_SETTING'); ?></span>
 							</th>
 
-							<th id="aclaction-th<?php echo $group->value; ?>">
+							<th style="width: 30%" id="aclaction-th<?php echo $group->value; ?>">
 								<span class="acl-action"><?php echo Text::_('JLIB_RULES_CALCULATED_SETTING'); ?></span>
 							</th>
 						</tr>
@@ -120,13 +124,15 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 						<?php foreach ($actions as $action) : ?>
 							<tr>
 								<td headers="actions-th<?php echo $group->value; ?>">
-									<?php $description = (!empty($action->description)) ? ' class="hasTooltip" title="'
-										. HTMLHelper::_('tooltipText', $action->title, $action->description) . '"' : ''; ?>
-									<label for="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>"<?php echo $description; ?>>
+									<label for="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>">
 										<?php echo Text::_($action->title); ?>
 									</label>
+									<?php if (!empty($action->description)) : ?>
+										<div role="tooltip" id="tip-<?php echo $id; ?>">
+											<?php echo htmlspecialchars(Text::_($action->description)); ?>
+										</div>
+									<?php endif; ?>
 								</td>
-
 								<td headers="settings-th<?php echo $group->value; ?>">
 									<div class="d-flex align-items-center">
 										<select data-onchange-task="permissions.apply"
@@ -169,7 +175,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 									if ($isSuperUserGroup)
 									{
 										$result['class'] = 'badge badge-success';
-										$result['text']  = '<span class="fa fa-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
+										$result['text']  = '<span class="fas fa-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
 									}
 									else
 									{
@@ -226,11 +232,11 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 										elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 										{
 											$result['class'] = 'badge badge-danger';
-											$result['text']  = '<span class="fa fa-lock icon-white" aria-hidden="true"></span>'. Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+											$result['text']  = '<span class="fas fa-lock icon-white" aria-hidden="true"></span>'. Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 										}
 									}
 									?>
-									<span class="<?php echo $result['class']; ?>"><?php echo $result['text']; ?></span>
+									<output><span class="<?php echo $result['class']; ?>"><?php echo $result['text']; ?></span></output>
 								</td>
 							</tr>
 						<?php endforeach; ?>

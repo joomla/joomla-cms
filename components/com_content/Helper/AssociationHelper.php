@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /**
  * Content Component Association Helper
@@ -65,13 +66,12 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 				if (!$user->authorise('core.edit.state', 'com_content') && !$user->authorise('core.edit', 'com_content'))
 				{
 					// Filter by start and end dates.
-					$nullDate = $db->quote($db->getNullDate());
 					$date = Factory::getDate();
 
 					$nowDate = $db->quote($date->toSql());
 
-					$advClause[] = '(c2.publish_up = ' . $nullDate . ' OR c2.publish_up <= ' . $nowDate . ')';
-					$advClause[] = '(c2.publish_down = ' . $nullDate . ' OR c2.publish_down >= ' . $nowDate . ')';
+					$advClause[] = '(c2.publish_up IS NULL OR c2.publish_up <= ' . $nowDate . ')';
+					$advClause[] = '(c2.publish_down IS NULL OR c2.publish_down >= ' . $nowDate . ')';
 
 					// Filter by published
 					$advClause[] = 'c2.state = 1';
@@ -92,7 +92,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 
 				foreach ($associations as $tag => $item)
 				{
-					$return[$tag] = \ContentHelperRoute::getArticleRoute($item->id, (int) $item->catid, $item->language, $layout);
+					$return[$tag] = RouteHelper::getArticleRoute($item->id, (int) $item->catid, $item->language, $layout);
 				}
 
 				return $return;

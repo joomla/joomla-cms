@@ -55,11 +55,14 @@ class FeaturedModel extends ArticlesModel
 		$this->setState('list.start', $limitstart);
 
 		$params = $this->state->params;
-		$menuParams = new Registry;
 
 		if ($menu = $app->getMenu()->getActive())
 		{
-			$menuParams->loadString($menu->params);
+			$menuParams = $menu->getParams();
+		}
+		else
+		{
+			$menuParams = new Registry;
 		}
 
 		$mergedParams = clone $menuParams;

@@ -27,6 +27,14 @@ use Joomla\String\StringHelper;
 class NewsfeedTable extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Ensure the params, metadata and images are json encoded in the bind method
 	 *
 	 * @var    array
@@ -43,6 +51,7 @@ class NewsfeedTable extends Table
 	{
 		$this->typeAlias = 'com_newsfeeds.newsfeed';
 		parent::__construct('#__newsfeeds', 'id', $db);
+		$this->setColumnAlias('title', 'name');
 	}
 
 	/**
@@ -91,44 +100,12 @@ class NewsfeedTable extends Table
 			return false;
 		}
 
-		// Clean up keywords -- eliminate extra spaces between phrases
-		// and cr (\r) and lf (\n) characters from string if not empty
-		if (!empty($this->metakey))
-		{
-			// Array of characters to remove
-			$bad_characters = array("\n", "\r", "\"", '<', '>');
-
-			// Remove bad characters
-			$after_clean = StringHelper::str_ireplace($bad_characters, '', $this->metakey);
-
-			// Create array using commas as delimiter
-			$keys = explode(',', $after_clean);
-			$clean_keys = array();
-
-			foreach ($keys as $key)
-			{
-				if (trim($key))
-				{
-					// Ignore blank keywords
-					$clean_keys[] = trim($key);
-				}
-			}
-
-			// Put array back together delimited by ", "
-			$this->metakey = implode(', ', $clean_keys);
-		}
-
 		// Clean up description -- eliminate quotes and <> brackets
 		if (!empty($this->metadesc))
 		{
 			// Only process if not empty
 			$bad_characters = array("\"", '<', '>');
 			$this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
-		}
-
-		if (empty($this->modified))
-		{
-			$this->modified = $this->getDbo()->getNullDate();
 		}
 
 		return true;
@@ -143,7 +120,7 @@ class NewsfeedTable extends Table
 	 *
 	 * @since   1.6
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
 		$date = Factory::getDate();
 		$user = Factory::getUser();
@@ -167,18 +144,27 @@ class NewsfeedTable extends Table
 			{
 				$this->created_by = $user->get('id');
 			}
+
+			if (!(int) $this->modified)
+			{
+				$this->modified = $this->created;
+			}
+
+			if (empty($this->modified_by))
+			{
+				$this->modified_by = $this->created_by;
+			}
 		}
 
-		// Set publish_up to null date if not set
+		// Set publish_up, publish_down to null if not set
 		if (!$this->publish_up)
 		{
-			$this->publish_up = $this->_db->getNullDate();
+			$this->publish_up = null;
 		}
 
-		// Set publish_down to null date if not set
 		if (!$this->publish_down)
 		{
-			$this->publish_down = $this->_db->getNullDate();
+			$this->publish_down = null;
 		}
 
 		// Verify that the alias is unique

@@ -138,8 +138,8 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
+				->icon('fas fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
@@ -150,25 +150,25 @@ class HtmlView extends BaseHtmlView
 				->text('COM_USERS_TOOLBAR_UNBLOCK')
 				->task('users.unblock')
 				->listCheck(true);
-		}
 
-		// Add a batch button
-		if ($user->authorise('core.create', 'com_users')
-			&& $user->authorise('core.edit', 'com_users')
-			&& $user->authorise('core.edit.state', 'com_users'))
-		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
-		}
+			// Add a batch button
+			if ($user->authorise('core.create', 'com_users')
+				&& $user->authorise('core.edit', 'com_users')
+				&& $user->authorise('core.edit.state', 'com_users'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 
-		if ($canDo->get('core.delete'))
-		{
-			$toolbar->delete('users.delete')
-				->text('JTOOLBAR_DELETE')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
+			if ($canDo->get('core.delete'))
+			{
+				$childBar->delete('users.delete')
+					->text('JTOOLBAR_DELETE')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
@@ -177,26 +177,5 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->help('JHELP_USERS_USER_MANAGER');
-	}
-
-	/**
-	 * Returns an array of fields the table can be sorted by
-	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value
-	 *
-	 * @since   3.0
-	 */
-	protected function getSortFields()
-	{
-		return array(
-			'a.name'          => Text::_('COM_USERS_HEADING_NAME'),
-			'a.username'      => Text::_('JGLOBAL_USERNAME'),
-			'a.block'         => Text::_('COM_USERS_HEADING_ENABLED'),
-			'a.activation'    => Text::_('COM_USERS_HEADING_ACTIVATED'),
-			'a.email'         => Text::_('JGLOBAL_EMAIL'),
-			'a.lastvisitDate' => Text::_('COM_USERS_HEADING_LAST_VISIT_DATE'),
-			'a.registerDate'  => Text::_('COM_USERS_HEADING_REGISTRATION_DATE'),
-			'a.id'            => Text::_('JGRID_HEADING_ID'),
-		);
 	}
 }

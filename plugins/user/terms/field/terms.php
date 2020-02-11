@@ -10,18 +10,18 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
-
-FormHelper::loadFieldClass('radio');
+use Joomla\Component\Content\Site\Helper\RouteHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Provides input for privacyterms
  *
  * @since  3.9.0
  */
-class JFormFieldterms extends JFormFieldRadio
+class JFormFieldterms extends RadioField
 {
 	/**
 	 * The form field type.
@@ -81,9 +81,10 @@ class JFormFieldterms extends JFormFieldRadio
 		{
 			$db    = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(array('id', 'alias', 'catid', 'language')))
+				->select($db->quoteName(['id', 'alias', 'catid', 'language']))
 				->from($db->quoteName('#__content'))
-				->where($db->quoteName('id') . ' = ' . (int) $termsArticle);
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':id', $termsArticle, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
@@ -96,7 +97,7 @@ class JFormFieldterms extends JFormFieldRadio
 
 			if (isset($termsAssociated) && $currentLang !== $article->language && array_key_exists($currentLang, $termsAssociated))
 			{
-				$article->link = ContentHelperRoute::getArticleRoute(
+				$article->link = RouteHelper::getArticleRoute(
 					$termsAssociated[$currentLang]->id,
 					$termsAssociated[$currentLang]->catid,
 					$termsAssociated[$currentLang]->language
@@ -105,20 +106,20 @@ class JFormFieldterms extends JFormFieldRadio
 			else
 			{
 				$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-				$article->link = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
+				$article->link = RouteHelper::getArticleRoute($slug, $article->catid, $article->language);
 			}
 		}
 
-		$extraData = array(
-			'termsnote' => !empty($this->element['note']) ? $this->element['note'] : Text::_('PLG_USER_TERMS_NOTE_FIELD_DEFAULT'),
-			'options' => $this->getOptions(),
-			'value'   => (string) $this->value,
-			'translateLabel' => $this->translateLabel,
+		$extraData = [
+			'termsnote'            => !empty($this->element['note']) ? $this->element['note'] : Text::_('PLG_USER_TERMS_NOTE_FIELD_DEFAULT'),
+			'options'              => $this->getOptions(),
+			'value'                => (string) $this->value,
+			'translateLabel'       => $this->translateLabel,
 			'translateDescription' => $this->translateDescription,
-			'translateHint' => $this->translateHint,
-			'termsArticle' => $termsArticle,
-			'article' => $article,
-		);
+			'translateHint'        => $this->translateHint,
+			'termsArticle'         => $termsArticle,
+			'article'              => $article,
+		];
 
 		return array_merge($data, $extraData);
 	}

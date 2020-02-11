@@ -9,10 +9,12 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('webcomponent', 'system/joomla-toolbar-button.min.js', ['relative' => true, 'version' => 'auto', 'detectDebug' => true]);
+Factory::getDocument()->getWebAssetManager()
+	->useScript('core')
+	->useScript('webcomponent.toolbar-button');
 
 /**
  * @var  int     $id
@@ -32,11 +34,17 @@ extract($displayData, EXTR_OVERWRITE);
 $tagName = $tagName ?? 'button';
 
 $taskAttr = '';
+$title    = '';
 $idAttr   = !empty($id)             ? ' id="' . $id . '"' : '';
 $listAttr = !empty($listCheck)      ? ' list-selection' : '';
 $formAttr = !empty($form)           ? ' form="' . $this->escape($form) . '"' : '';
 $validate = !empty($formValidation) ? ' form-validation' : '';
 $msgAttr  = !empty($message)        ? ' confirm-message="' . $this->escape($message) . '"' : '';
+
+if ($id === 'toolbar-help')
+{
+	$title = ' title="' . Text::_('JGLOBAL_OPENS_IN_A_NEW_WINDOW') . '"';
+}
 
 if (!empty($task))
 {
@@ -52,6 +60,7 @@ elseif (!empty($onclick))
 <<?php echo $tagName; ?>
 	class="<?php echo $btnClass ?? ''; ?>"
 	<?php echo $htmlAttributes ?? ''; ?>
+	<?php echo $title; ?>
 	>
 	<span class="<?php echo trim($class ?? ''); ?>" aria-hidden="true"></span>
 	<?php echo $text ?? ''; ?>

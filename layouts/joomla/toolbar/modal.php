@@ -9,8 +9,12 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+
+Factory::getDocument()->getWebAssetManager()
+	->useScript('webcomponent.toolbar-button');
 
 /**
  * Generic toolbar button layout to open a modal
@@ -25,15 +29,15 @@ use Joomla\CMS\Language\Text;
 $selector = $displayData['selector'];
 $id       = isset($displayData['id']) ? $displayData['id'] : '';
 $class    = isset($displayData['class']) ? $displayData['class'] : 'btn btn-secondary';
-$icon     = isset($displayData['icon']) ? $displayData['icon'] : 'fa fa-download';
+$icon     = isset($displayData['icon']) ? $displayData['icon'] : 'fas fa-download';
 $text     = isset($displayData['text']) ? $displayData['text'] : '';
 ?>
 
 <!-- Render the button -->
-<button<?php echo $id; ?> onclick="document.getElementById('modal_<?php echo $selector; ?>').open()" class="<?php echo $class; ?>" data-toggle="modal">
+<joomla-toolbar-button<?php echo $id; ?> onclick="document.getElementById('modal_<?php echo $selector; ?>').open()" class="<?php echo $class; ?>" data-toggle="modal">
 	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
 	<?php echo $text; ?>
-</button>
+</joomla-toolbar-button>
 
 <!-- Render the modal -->
 <?php
@@ -55,4 +59,4 @@ echo HTMLHelper::_('bootstrap.renderModal',
 						. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
 	]
 );
-?>
+

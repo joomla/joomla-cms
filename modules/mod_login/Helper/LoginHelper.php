@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\Login\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
@@ -62,5 +62,36 @@ class LoginHelper
 		$user = Factory::getUser();
 
 		return (!$user->get('guest')) ? 'logout' : 'login';
+	}
+
+	/**
+	 * Retrieve the URL for the registration page
+	 *
+	 * @param   \Joomla\Registry\Registry  $params  module parameters
+	 *
+	 * @return  string
+	 */
+	public static function getRegistrationUrl($params)
+	{
+		$regLink = 'index.php?option=com_users&view=registration';
+		$regLinkMenuId = $params->get('customRegLinkMenu');
+
+		// If there is a custom menu item set for registration => override default
+		if ($regLinkMenuId)
+		{
+			$item = Factory::getApplication()->getMenu()->getItem($regLinkMenuId);
+
+			if ($item)
+			{
+				$regLink = 'index.php?Itemid=' . $regLinkMenuId;
+
+				if ($item->language !== '*' && Multilanguage::isEnabled())
+				{
+					$regLink .= '&lang=' . $item->language;
+				}
+			}
+		}
+
+		return $regLink;
 	}
 }

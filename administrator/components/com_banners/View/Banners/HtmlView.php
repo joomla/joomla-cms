@@ -146,8 +146,8 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
+				->icon('fas fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
@@ -188,17 +188,17 @@ class HtmlView extends BaseHtmlView
 					->message('JGLOBAL_CONFIRM_DELETE')
 					->listCheck(true);
 			}
-		}
 
-		// Add a batch button
-		if ($user->authorise('core.create', 'com_banners')
-			&& $user->authorise('core.edit', 'com_banners')
-			&& $user->authorise('core.edit.state', 'com_banners'))
-		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
+			// Add a batch button
+			if ($user->authorise('core.create', 'com_banners')
+				&& $user->authorise('core.edit', 'com_banners')
+				&& $user->authorise('core.edit.state', 'com_banners'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 		}
 
 		if ($user->authorise('core.admin', 'com_banners') || $user->authorise('core.options', 'com_banners'))
@@ -207,27 +207,5 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->help('JHELP_COMPONENTS_BANNERS_BANNERS');
-	}
-
-	/**
-	 * Returns an array of fields the table can be sorted by
-	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value
-	 *
-	 * @since   3.0
-	 */
-	protected function getSortFields(): array
-	{
-		return [
-			'ordering'    => Text::_('JGRID_HEADING_ORDERING'),
-			'a.state'     => Text::_('JSTATUS'),
-			'a.name'      => Text::_('COM_BANNERS_HEADING_NAME'),
-			'a.sticky'    => Text::_('COM_BANNERS_HEADING_STICKY'),
-			'client_name' => Text::_('COM_BANNERS_HEADING_CLIENT'),
-			'impmade'     => Text::_('COM_BANNERS_HEADING_IMPRESSIONS'),
-			'clicks'      => Text::_('COM_BANNERS_HEADING_CLICKS'),
-			'a.language'  => Text::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'        => Text::_('JGRID_HEADING_ID'),
-		];
 	}
 }

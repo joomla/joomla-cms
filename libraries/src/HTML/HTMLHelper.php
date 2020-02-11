@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\HTML;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Environment\Browser;
 use Joomla\CMS\Factory;
@@ -84,7 +84,7 @@ abstract class HTMLHelper
 		// Check to see whether we need to load a helper file
 		$parts = explode('.', $key);
 
-		if (count($parts) === 3)
+		if (\count($parts) === 3)
 		{
 			try
 			{
@@ -100,8 +100,8 @@ abstract class HTMLHelper
 			}
 		}
 
-		$prefix = count($parts) === 3 ? array_shift($parts) : 'JHtml';
-		$file   = count($parts) === 2 ? array_shift($parts) : '';
+		$prefix = \count($parts) === 3 ? array_shift($parts) : 'JHtml';
+		$file   = \count($parts) === 2 ? array_shift($parts) : '';
 		$func   = array_shift($parts);
 
 		return array(strtolower($prefix . '.' . $file . '.' . $func), $prefix, $file, $func);
@@ -127,7 +127,7 @@ abstract class HTMLHelper
 	{
 		list($key, $prefix, $file, $func) = static::extract($key);
 
-		if (array_key_exists($key, static::$registry))
+		if (\array_key_exists($key, static::$registry))
 		{
 			$function = static::$registry[$key];
 
@@ -144,9 +144,9 @@ abstract class HTMLHelper
 
 			$toCall = array($service, $func);
 
-			if (!is_callable($toCall))
+			if (!\is_callable($toCall))
 			{
-				throw new \InvalidArgumentException(sprintf('%s::%s not found.', $service, $func), 500);
+				throw new \InvalidArgumentException(sprintf('%s::%s not found.', $file, $func), 500);
 			}
 
 			static::register($key, $toCall);
@@ -184,7 +184,7 @@ abstract class HTMLHelper
 
 		$toCall = array($className, $func);
 
-		if (!is_callable($toCall))
+		if (!\is_callable($toCall))
 		{
 			throw new \InvalidArgumentException(sprintf('%s::%s not found.', $className, $func), 500);
 		}
@@ -319,7 +319,7 @@ abstract class HTMLHelper
 			$temp[] = &$arg;
 		}
 
-		return call_user_func_array($function, $temp);
+		return \call_user_func_array($function, $temp);
 	}
 
 	/**
@@ -335,7 +335,7 @@ abstract class HTMLHelper
 	 */
 	public static function link($url, $text, $attribs = null)
 	{
-		if (is_array($attribs))
+		if (\is_array($attribs))
 		{
 			$attribs = ArrayHelper::toString($attribs);
 		}
@@ -357,7 +357,7 @@ abstract class HTMLHelper
 	 */
 	public static function iframe($url, $name, $attribs = null, $noFrames = '')
 	{
-		if (is_array($attribs))
+		if (\is_array($attribs))
 		{
 			$attribs = ArrayHelper::toString($attribs);
 		}
@@ -413,7 +413,7 @@ abstract class HTMLHelper
 				$minor     = $navigator->getMinor();
 				$minExt    = '';
 
-				if (strlen($strip) > 4 && preg_match('#\.min$#', $strip))
+				if (\strlen($strip) > 4 && preg_match('#\.min$#', $strip))
 				{
 					$minExt    = '.min';
 					$strip = preg_replace('#\.min$#', '', $strip);
@@ -621,7 +621,7 @@ abstract class HTMLHelper
 		if ($returnPath !== -1)
 		{
 			$includes = static::includeRelativeFiles('images', $file, $relative, false, false);
-			$file = count($includes) ? $includes[0] : null;
+			$file = \count($includes) ? $includes[0] : null;
 		}
 
 		// If only path is required
@@ -630,7 +630,7 @@ abstract class HTMLHelper
 			return $file;
 		}
 
-		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
+		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
 	}
 
 	/**
@@ -657,12 +657,12 @@ abstract class HTMLHelper
 		// If only path is required
 		if ($options['pathOnly'])
 		{
-			if (count($includes) === 0)
+			if (\count($includes) === 0)
 			{
 				return;
 			}
 
-			if (count($includes) === 1)
+			if (\count($includes) === 1)
 			{
 				return $includes[0];
 			}
@@ -709,12 +709,12 @@ abstract class HTMLHelper
 		// If only path is required
 		if ($options['pathOnly'])
 		{
-			if (count($includes) === 0)
+			if (\count($includes) === 0)
 			{
 				return;
 			}
 
-			if (count($includes) === 1)
+			if (\count($includes) === 1)
 			{
 				return $includes[0];
 			}
@@ -735,78 +735,6 @@ abstract class HTMLHelper
 
 			$document->addScript($include, $options, $attribs);
 		}
-	}
-
-	/**
-	 * Loads the path of a custom element or webcomponent into the scriptOptions object
-	 *
-	 * @param   string  $file     The path of the web component (expects the ES6 version). File need to have also an
-	 *                            -es5(.min).js version in the same folder for the non ES6 Browsers.
-	 * @param   array   $options  The extra options for the script
-	 *
-	 * @since   4.0.0
-	 *
-	 * @see     HTMLHelper::stylesheet()
-	 * @see     HTMLHelper::script()
-	 *
-	 * @return  void
-	 */
-	public static function webcomponent(string $file, array $options = [])
-	{
-		if (empty($file))
-		{
-			return;
-		}
-
-		// Script core.js is responsible for the polyfills and the async loading of the web components
-		static::_('behavior.core');
-
-		// Add the css if exists
-		self::_('stylesheet', str_replace('.js', '.css', $file), $options);
-
-		$includes = static::includeRelativeFiles(
-			'js',
-			$file,
-			$options['relative'] ?? true,
-			$options['detectBrowser'] ?? false,
-			$options['detectDebug'] ?? true
-		);
-
-		if (count($includes) === 0)
-		{
-			return;
-		}
-
-		$document = Factory::getApplication()->getDocument();
-		$version  = '';
-
-		if (isset($options['version']))
-		{
-			if ($options['version'] === 'auto')
-			{
-				$version = '?' . $document->getMediaVersion();
-			}
-			else
-			{
-				$version = '?' . $options['version'];
-			}
-		}
-
-		$components = $document->getScriptOptions('webcomponents');
-
-		foreach ($includes as $include)
-		{
-			$potential = $include . ((strpos($include, '?') === false) ? $version : '');
-
-			if (in_array($potential, $components))
-			{
-				continue;
-			}
-
-			$components[] = $potential;
-		}
-
-		$document->addScriptOptions('webcomponents', $components);
 	}
 
 	/**
@@ -920,7 +848,7 @@ abstract class HTMLHelper
 	 */
 	public static function tooltip($tooltip, $title = '', $image = 'tooltip.png', $text = '', $href = '', $alt = 'Tooltip', $class = 'hasTooltip')
 	{
-		if (is_array($title))
+		if (\is_array($title))
 		{
 			foreach (array('image', 'text', 'href', 'alt', 'class') as $param)
 			{
@@ -1184,7 +1112,7 @@ abstract class HTMLHelper
 		// Loop through the path directories
 		foreach ((array) $path as $dir)
 		{
-			if (!empty($dir) && !in_array($dir, static::$includePaths))
+			if (!empty($dir) && !\in_array($dir, static::$includePaths))
 			{
 				array_unshift(static::$includePaths, Path::clean($dir));
 			}

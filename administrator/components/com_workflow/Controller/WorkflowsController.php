@@ -27,7 +27,7 @@ use Joomla\Utilities\ArrayHelper;
 class WorkflowsController extends AdminController
 {
 	/**
-	 * The extension for which the categories apply.
+	 * The extension for which the workflows apply.
 	 *
 	 * @var    string
 	 * @since  4.0.0
@@ -116,7 +116,7 @@ class WorkflowsController extends AdminController
 		}
 		elseif (count($cid) > 1)
 		{
-			$this->setMessage(Text::_('COM_WORKFLOW_TOO_MANY_ITEMS'), 'error');
+			$this->setMessage(Text::_('COM_WORKFLOW_TOO_MANY_WORKFLOWS'), 'error');
 		}
 		else
 		{
@@ -135,7 +135,7 @@ class WorkflowsController extends AdminController
 			{
 				if ($value === 1)
 				{
-					$ntext = 'COM_WORKFLOW_ITEM_SET_DEFAULT';
+					$ntext = 'COM_WORKFLOW_SET_DEFAULT';
 				}
 				else
 				{
@@ -170,5 +170,17 @@ class WorkflowsController extends AdminController
 				. '&extension=' . $this->extension, false
 			)
 		);
+	}
+
+	/**
+	 * Gets the URL arguments to append to a list redirect.
+	 *
+	 * @return  string  The arguments to append to the redirect URL.
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getRedirectToListAppend()
+	{
+		return '&extension=' . $this->extension;
 	}
 }

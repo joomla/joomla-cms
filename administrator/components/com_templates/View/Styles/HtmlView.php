@@ -87,6 +87,13 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->preview       = ComponentHelper::getParams('com_templates')->get('template_positions_display');
 
+		// Remove the menu item filter for administrator styles.
+		if ((int) $this->state->get('client_id') !== 0)
+		{
+			unset($this->activeFilters['menuitem']);
+			$this->filterForm->removeField('menuitem', 'filter');
+		}
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
@@ -112,11 +119,11 @@ class HtmlView extends BaseHtmlView
 		// Set the title.
 		if ((int) $this->get('State')->get('client_id') === 1)
 		{
-			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_STYLES_ADMIN'), 'eye thememanager');
+			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_STYLES_ADMIN'), 'paint-brush thememanager');
 		}
 		else
 		{
-			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_STYLES_SITE'), 'eye thememanager');
+			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_STYLES_SITE'), 'paint-brush thememanager');
 		}
 
 		if ($canDo->get('core.edit.state'))

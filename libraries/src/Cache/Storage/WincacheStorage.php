@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Cache\Storage;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
 
@@ -70,7 +70,7 @@ class WincacheStorage extends CacheStorage
 			$name    = $key['key_name'];
 			$namearr = explode('-', $name);
 
-			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+			if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache')
 			{
 				$group = $namearr[2];
 
@@ -152,7 +152,7 @@ class WincacheStorage extends CacheStorage
 
 		foreach ($keys as $key)
 		{
-			if (strpos($key['key_name'], $secret . '-cache-' . $group . '-') === 0 xor $mode != 'group')
+			if (strpos($key['key_name'], $secret . '-cache-' . $group . '-') === 0 xor $mode !== 'group')
 			{
 				wincache_ucache_delete($key['key_name']);
 			}
@@ -194,6 +194,6 @@ class WincacheStorage extends CacheStorage
 	 */
 	public static function isSupported()
 	{
-		return extension_loaded('wincache') && function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), '1');
+		return \extension_loaded('wincache') && \function_exists('wincache_ucache_get') && !strcmp(ini_get('wincache.ucenabled'), '1');
 	}
 }

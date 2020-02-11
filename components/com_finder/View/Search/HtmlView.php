@@ -180,7 +180,6 @@ class HtmlView extends BaseHtmlView
 		FinderHelper::logSearch($this->query, $this->total);
 
 		// Push out the query data.
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 		$this->suggested = HTMLHelper::_('query.suggested', $this->query);
 		$this->explained = HTMLHelper::_('query.explained', $this->query);
 
@@ -322,16 +321,6 @@ class HtmlView extends BaseHtmlView
 			$this->document->setDescription($this->params->get('menu-meta_description'));
 		}
 
-		// Configure the document meta-keywords.
-		if (!empty($query->highlight))
-		{
-			$this->document->setMetaData('keywords', implode(', ', $query->highlight));
-		}
-		elseif ($this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
-		}
-
 		if ($this->params->get('robots'))
 		{
 			$this->document->setMetadata('robots', $this->params->get('robots'));
@@ -343,7 +332,7 @@ class HtmlView extends BaseHtmlView
 			$ostitle = $this->params->get('opensearch_name',
 				Text::_('COM_FINDER_OPENSEARCH_NAME') . ' ' . Factory::getApplication()->get('sitename')
 			);
-			Factory::getDocument()->addHeadLink(
+			$this->document->addHeadLink(
 				Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
 				'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
 			);

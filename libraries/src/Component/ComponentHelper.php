@@ -8,13 +8,14 @@
 
 namespace Joomla\CMS\Component;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\Exception\MissingComponentException;
+use Joomla\CMS\Dispatcher\ApiDispatcher;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -310,8 +311,8 @@ class ComponentHelper
 		{
 			// Load template language files.
 			$template = $app->getTemplate(true)->template;
-			$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
+			$lang->load('tpl_' . $template, JPATH_BASE)
+			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template");
 		}
 
 		if (empty($option))
@@ -335,7 +336,7 @@ class ComponentHelper
 
 		// Define component path.
 
-		if (!defined('JPATH_COMPONENT'))
+		if (!\defined('JPATH_COMPONENT'))
 		{
 			/**
 			 * Defines the path to the active component for the request
@@ -346,10 +347,10 @@ class ComponentHelper
 			 * @since  1.5
 			 * @deprecated 5.0 without replacement
 			 */
-			define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
+			\define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
 		}
 
-		if (!defined('JPATH_COMPONENT_SITE'))
+		if (!\defined('JPATH_COMPONENT_SITE'))
 		{
 			/**
 			 * Defines the path to the site element of the active component for the request
@@ -358,10 +359,10 @@ class ComponentHelper
 			 * @since  1.5
 			 * @deprecated 5.0 without replacement
 			 */
-			define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
+			\define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
 		}
 
-		if (!defined('JPATH_COMPONENT_ADMINISTRATOR'))
+		if (!\defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
 			/**
 			 * Defines the path to the admin element of the active component for the request
@@ -370,7 +371,7 @@ class ComponentHelper
 			 * @since  1.5
 			 * @deprecated 5.0 without replacement
 			 */
-			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
+			\define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 
 		// If component is disabled throw error
@@ -407,14 +408,25 @@ class ComponentHelper
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
+				->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('type') . ' = ' . $db->quote('component'))
-				->where($db->quoteName('state') . ' = 0')
-				->where($db->quoteName('enabled') . ' = 1');
+				->where(
+					[
+						$db->quoteName('type') . ' = ' . $db->quote('component'),
+						$db->quoteName('state') . ' = 0',
+						$db->quoteName('enabled') . ' = 1',
+					]
+				);
+
+			$components = [];
 			$db->setQuery($query);
 
-			return $db->loadObjectList('option', '\JComponentRecord');
+			foreach ($db->getIterator() as $component)
+			{
+				$components[$component->option] = new ComponentRecord((array) $component);
+			}
+
+			return $components;
 		};
 
 		/** @var CallbackController $cache */
@@ -464,7 +476,7 @@ class ComponentHelper
 	{
 		$reflect = new \ReflectionClass($object);
 
-		if (!$reflect->getNamespaceName() || get_class($object) == ComponentDispatcher::class)
+		if (!$reflect->getNamespaceName() || \get_class($object) === ComponentDispatcher::class || \get_class($object) === ApiDispatcher::class)
 		{
 			return 'com_' . strtolower($alternativeName);
 		}

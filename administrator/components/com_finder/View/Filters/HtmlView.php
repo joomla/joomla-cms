@@ -12,13 +12,11 @@ namespace Joomla\Component\Finder\Administrator\View\Filters;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
 
 /**
  * Filters view class for Finder.
@@ -44,15 +42,6 @@ class HtmlView extends BaseHtmlView
 	 * @since  3.6.1
 	 */
 	protected $pagination;
-
-	/**
-	 * The HTML markup for the sidebar
-	 *
-	 * @var  string
-	 *
-	 * @since  3.6.1
-	 */
-	protected $sidebar;
 
 	/**
 	 * The model state
@@ -107,19 +96,14 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 
-		FinderHelper::addSubmenu('filters');
-
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 		// Configure the toolbar.
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
@@ -146,14 +130,22 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publishList('filters.publish');
-			ToolbarHelper::unpublishList('filters.unpublish');
-			ToolbarHelper::checkin('filters.checkin');
-			ToolbarHelper::divider();
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fas fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
+
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->publish('filters.publish')->listCheck(true);
+			$childBar->unpublish('filters.unpublish')->listCheck(true);
+			$childBar->checkin('filters.checkin')->listCheck(true);
 		}
 
 		ToolbarHelper::divider();
-		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350);
+		$toolbar->appendButton('Popup', 'bars', 'COM_FINDER_STATISTICS', 'index.php?option=com_finder&view=statistics&tmpl=component', 550, 350, '', '', '', Text::_('COM_FINDER_STATISTICS_TITLE'));
 		ToolbarHelper::divider();
 
 		if ($canDo->get('core.delete'))

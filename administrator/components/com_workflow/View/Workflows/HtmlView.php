@@ -16,7 +16,6 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
  * Workflows view class for the Workflow package.
@@ -106,9 +105,6 @@ class HtmlView extends BaseHtmlView
 
 		$this->extension = $this->state->get('filter.extension');
 
-		WorkflowHelper::addSubmenu($this->state->get('filter.extension'));
-		$this->sidebar       = \JHtmlSidebar::render();
-
 		$this->addToolbar();
 
 		return parent::display($tpl);
@@ -140,20 +136,19 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
+				->icon('fas fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
 
-			$childBar->publish('workflows.publish');
-			$childBar->unpublish('workflows.unpublish');
+			$childBar->publish('workflows.publish', 'JTOOLBAR_ENABLE');
+			$childBar->unpublish('workflows.unpublish', 'JTOOLBAR_DISABLE');
 			$childBar->makeDefault('workflows.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
 
 			if ($canDo->get('core.admin'))
 			{
-				// @Todo implement the checked_out/checkin feature
-				// $childBar->checkin('workflows.checkin');
+				$childBar->checkin('workflows.checkin')->listCheck(true);
 			}
 
 			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)
@@ -176,21 +171,5 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->help('JHELP_WORKFLOWS_LIST');
-	}
-
-	/**
-	 * Returns an array of fields the table can be sorted by
-	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value
-	 *
-	 * @since  4.0.0
-	 */
-	protected function getSortFields()
-	{
-		return array(
-			'a.published' => Text::_('JSTATUS'),
-			'a.title'     => Text::_('JGLOBAL_TITLE'),
-			'a.id'        => Text::_('JGRID_HEADING_ID'),
-		);
 	}
 }

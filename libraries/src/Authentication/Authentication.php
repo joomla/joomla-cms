@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Authentication;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -99,7 +99,7 @@ class Authentication
 	public function __construct(string $pluginType = 'authentication', DispatcherInterface $dispatcher = null)
 	{
 		// Set the dispatcher
-		if (!is_object($dispatcher))
+		if (!\is_object($dispatcher))
 		{
 			$dispatcher = Factory::getContainer()->get('dispatcher');
 		}

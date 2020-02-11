@@ -292,7 +292,8 @@ class HtmlView extends BaseHtmlView
 		$id = (int) @$menu->query['id'];
 
 		// If the menu item does not concern this article
-		if ($menu && ($menu->query['option'] !== 'com_content' || $menu->query['view'] !== 'article' || $id != $this->item->id))
+		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_content' || $menu->query['view'] !== 'article'
+			|| $id != $this->item->id))
 		{
 			// If a browser page title is defined, use that, then fall back to the article title if set, then fall back to the page_title option
 			$title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
@@ -300,8 +301,8 @@ class HtmlView extends BaseHtmlView
 			$path     = array(array('title' => $this->item->title, 'link' => ''));
 			$category = Categories::getInstance('Content')->get($this->item->catid);
 
-			while ($category
-				&& ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
+			while ($category && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article'
+				|| $id != $category->id) && $category->id > 1)
 			{
 				$path[]   = array('title' => $category->title, 'link' => RouteHelper::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
@@ -343,15 +344,6 @@ class HtmlView extends BaseHtmlView
 		elseif ($this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
-
-		if ($this->item->metakey)
-		{
-			$this->document->setMetaData('keywords', $this->item->metakey);
-		}
-		elseif ($this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))

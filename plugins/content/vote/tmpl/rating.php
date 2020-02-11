@@ -50,7 +50,7 @@ for ($i = $rating; $i < 5; $i++)
 ?>
 <div class="content_rating">
 	<?php if ($rcount) : ?>
-		<p class="unseen sr-only" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+		<p class="sr-only" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
 			<?php echo Text::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
 			<meta itemprop="ratingCount" content="<?php echo $rcount; ?>">
 			<meta itemprop="worstRating" content="1">

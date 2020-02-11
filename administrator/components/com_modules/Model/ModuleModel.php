@@ -23,6 +23,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -173,6 +174,9 @@ class ModuleModel extends AdminModel
 
 				$table->position = $position;
 
+				// Copy of the Asset ID
+				$oldAssetId = $table->asset_id;
+
 				// Alter the title if necessary
 				$data = $this->generateNewTitle(0, $table->title, $table->position);
 				$table->title = $data['0'];
@@ -201,20 +205,34 @@ class ModuleModel extends AdminModel
 				$query = $db->getQuery(true)
 					->select($db->quoteName('menuid'))
 					->from($db->quoteName('#__modules_menu'))
-					->where($db->quoteName('moduleid') . ' = ' . $pk);
+					->where($db->quoteName('moduleid') . ' = :moduleid')
+					->bind(':moduleid', $pk, ParameterType::INTEGER);
 				$db->setQuery($query);
 				$menus = $db->loadColumn();
 
 				// Insert the new records into the table
-				foreach ($menus as $menu)
+				foreach ($menus as $i => $menu)
 				{
 					$query->clear()
 						->insert($db->quoteName('#__modules_menu'))
-						->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
-						->values($newId . ', ' . $menu);
+						->columns($db->quoteName(['moduleid', 'menuid']))
+						->values(implode(', ', [':newid' . $i, ':menu' . $i]))
+						->bind(':newid' . $i, $newId, ParameterType::INTEGER)
+						->bind(':menu' . $i, $menu, ParameterType::INTEGER);
 					$db->setQuery($query);
 					$db->execute();
 				}
+
+				// Copy rules
+				$query->clear()
+					->update($db->quoteName('#__assets', 't'))
+					->join('INNER', $db->quoteName('#__assets', 's') .
+						' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
+					)
+					->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
+					->where($db->quoteName('t.id') . ' = ' . $table->asset_id);
+
+				$db->setQuery($query)->execute();
 			}
 			else
 			{
@@ -302,18 +320,14 @@ class ModuleModel extends AdminModel
 	 */
 	protected function canEditState($record)
 	{
-		$user = Factory::getUser();
-
 		// Check for existing module.
 		if (!empty($record->id))
 		{
-			return $user->authorise('core.edit.state', 'com_modules.module.' . (int) $record->id);
+			return Factory::getUser()->authorise('core.edit.state', 'com_modules.module.' . (int) $record->id);
 		}
+
 		// Default to component settings if module not known.
-		else
-		{
-			return parent::canEditState('com_modules');
-		}
+		return parent::canEditState($record);
 	}
 
 	/**
@@ -360,10 +374,12 @@ class ModuleModel extends AdminModel
 				else
 				{
 					// Delete the menu assignments
+					$pk    = (int) $pk;
 					$db    = $this->getDbo();
 					$query = $db->getQuery(true)
-						->delete('#__modules_menu')
-						->where('moduleid=' . (int) $pk);
+						->delete($db->quoteName('#__modules_menu'))
+						->where($db->quoteName('moduleid') . ' = :moduleid')
+						->bind(':moduleid', $pk, ParameterType::INTEGER);
 					$db->setQuery($query);
 					$db->execute();
 
@@ -435,10 +451,12 @@ class ModuleModel extends AdminModel
 					throw new \Exception($table->getError());
 				}
 
+				$pk    = (int) $pk;
 				$query = $db->getQuery(true)
 					->select($db->quoteName('menuid'))
 					->from($db->quoteName('#__modules_menu'))
-					->where($db->quoteName('moduleid') . ' = ' . (int) $pk);
+					->where($db->quoteName('moduleid') . ' = :moduleid')
+					->bind(':moduleid', $pk, ParameterType::INTEGER);
 
 				$db->setQuery($query);
 				$rows = $db->loadColumn();
@@ -682,10 +700,11 @@ class ModuleModel extends AdminModel
 				if ($extensionId = (int) $this->getState('extension.id'))
 				{
 					$query = $db->getQuery(true)
-						->select('element, client_id')
-						->from('#__extensions')
-						->where('extension_id = ' . $extensionId)
-						->where('type = ' . $db->quote('module'));
+						->select($db->quoteName(['element', 'client_id']))
+						->from($db->quoteName('#__extensions'))
+						->where($db->quoteName('extension_id') . ' = :extensionid')
+						->where($db->quoteName('type') . ' = ' . $db->quote('module'))
+						->bind(':extensionid', $extensionId, ParameterType::INTEGER);
 					$db->setQuery($query);
 
 					try
@@ -730,7 +749,8 @@ class ModuleModel extends AdminModel
 			$query = $db->getQuery(true)
 				->select($db->quoteName('menuid'))
 				->from($db->quoteName('#__modules_menu'))
-				->where($db->quoteName('moduleid') . ' = ' . (int) $pk);
+				->where($db->quoteName('moduleid') . ' = :moduleid')
+				->bind(':moduleid', $pk, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$assigned = $db->loadColumn();
 
@@ -845,8 +865,8 @@ class ModuleModel extends AdminModel
 		$formFile = Path::clean($client->path . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
-		$lang->load($module, $client->path, null, false, true)
-		||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
+		$lang->load($module, $client->path)
+		||	$lang->load($module, $client->path . '/modules/' . $module);
 
 		if (file_exists($formFile))
 		{
@@ -881,24 +901,6 @@ class ModuleModel extends AdminModel
 
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
-	}
-
-	/**
-	 * Loads ContentHelper for filters before validating data.
-	 *
-	 * @param   object  $form   The form to validate against.
-	 * @param   array   $data   The data to validate.
-	 * @param   string  $group  The name of the group(defaults to null).
-	 *
-	 * @return  mixed  Array of filtered data if valid, false otherwise.
-	 *
-	 * @since   1.1
-	 */
-	public function validate($form, $data, $group = null)
-	{
-		\JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
-
-		return parent::validate($form, $data, $group);
 	}
 
 	/**
@@ -981,11 +983,14 @@ class ModuleModel extends AdminModel
 		// Process the menu link mappings.
 		$assignment = $data['assignment'] ?? 0;
 
+		$table->id = (int) $table->id;
+
 		// Delete old module to menu item associations
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->delete('#__modules_menu')
-			->where('moduleid = ' . (int) $table->id);
+			->delete($db->quoteName('#__modules_menu'))
+			->where($db->quoteName('moduleid') . ' = :moduleid')
+			->bind(':moduleid', $table->id, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		try
@@ -1017,9 +1022,10 @@ class ModuleModel extends AdminModel
 			{
 				// Assign new module to `all` menu item associations.
 				$query->clear()
-					->insert('#__modules_menu')
-					->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
-					->values((int) $table->id . ', 0');
+					->insert($db->quoteName('#__modules_menu'))
+					->columns($db->quoteName(['moduleid', 'menuid']))
+					->values(implode(', ', [':moduleid', 0]))
+					->bind(':moduleid', $table->id, ParameterType::INTEGER);
 				$db->setQuery($query);
 
 				try
@@ -1074,7 +1080,8 @@ class ModuleModel extends AdminModel
 				$db->quoteName('#__modules', 'm') . ' ON ' . $db->quoteName('e.client_id') . ' = ' . (int) $table->client_id .
 				' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('m.module')
 			)
-			->where($db->quoteName('m.id') . ' = ' . (int) $table->id);
+			->where($db->quoteName('m.id') . ' = :id')
+			->bind(':id', $table->id, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		try

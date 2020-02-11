@@ -96,35 +96,46 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @since   1.6
 	 */
-	protected function addToolbar()
+	protected function addToolbar(): void
 	{
 		$canDo = ContentHelper::getActions('com_languages');
 
 		ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_LANGUAGES_TITLE'), 'comments-2 langmanager');
 
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
+
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('language.add');
+			$toolbar->addNew('language.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			if ($this->state->get('filter.published') != 2)
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fas fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
+
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->publish('languages.publish')->listCheck(true);
+			$childBar->unpublish('languages.unpublish')->listCheck(true);
+
+			if (!$this->state->get('filter.published') == -2)
 			{
-				ToolbarHelper::publishList('languages.publish');
-				ToolbarHelper::unpublishList('languages.unpublish');
+				$childBar->trash('languages.trash')->listCheck(true);
 			}
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'languages.delete', 'JTOOLBAR_EMPTY_TRASH');
-			ToolbarHelper::divider();
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('languages.trash');
-			ToolbarHelper::divider();
+			$toolbar->delete('languages.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin'))
@@ -139,27 +150,5 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_CONTENT');
-	}
-
-	/**
-	 * Returns an array of fields the table can be sorted by.
-	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value.
-	 *
-	 * @since   3.0
-	 */
-	protected function getSortFields()
-	{
-		return array(
-			'a.ordering'     => Text::_('JGRID_HEADING_ORDERING'),
-			'a.published'    => Text::_('JSTATUS'),
-			'a.title'        => Text::_('JGLOBAL_TITLE'),
-			'a.title_native' => Text::_('COM_LANGUAGES_HEADING_TITLE_NATIVE'),
-			'a.lang_code'    => Text::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'),
-			'a.sef'          => Text::_('COM_LANGUAGES_FIELD_LANG_CODE_LABEL'),
-			'a.image'        => Text::_('COM_LANGUAGES_HEADING_LANG_IMAGE'),
-			'a.access'       => Text::_('JGRID_HEADING_ACCESS'),
-			'a.lang_id'      => Text::_('JGRID_HEADING_ID')
-		);
 	}
 }

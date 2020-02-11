@@ -162,8 +162,8 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
+				->icon('fas fa-ellipsis-h')
+				->buttonClass('btn btn-action')
 				->listCheck(true);
 
 			$childBar = $dropdown->getChildToolbar();
@@ -184,24 +184,24 @@ class HtmlView extends BaseHtmlView
 			{
 				$childBar->trash('modules.trash')->listCheck(true);
 			}
-		}
 
-		// Add a batch button
-		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
-			&& $user->authorise('core.edit.state', 'com_modules'))
-		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
-		}
+			// Add a batch button
+			if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
+				&& $user->authorise('core.edit.state', 'com_modules'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 
-		if ($canDo->get('core.create'))
-		{
-			$toolbar->standardButton('copy')
-				->text('JTOOLBAR_DUPLICATE')
-				->task('modules.duplicate')
-				->listCheck(true);
+			if ($canDo->get('core.create'))
+			{
+				$childBar->standardButton('copy')
+					->text('JTOOLBAR_DUPLICATE')
+					->task('modules.duplicate')
+					->listCheck(true);
+			}
 		}
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
@@ -218,70 +218,5 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->help('JHELP_EXTENSIONS_MODULE_MANAGER');
-	}
-
-	/**
-	 * Returns an array of fields the table can be sorted by
-	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value
-	 *
-	 * @since   3.0
-	 */
-	protected function getSortFields()
-	{
-		$this->state = $this->get('State');
-
-		if ($this->state->get('client_id') == 0)
-		{
-			if ($this->getLayout() == 'default')
-			{
-				return array(
-					'ordering'       => Text::_('JGRID_HEADING_ORDERING'),
-					'a.published'    => Text::_('JSTATUS'),
-					'a.title'        => Text::_('JGLOBAL_TITLE'),
-					'position'       => Text::_('COM_MODULES_HEADING_POSITION'),
-					'name'           => Text::_('COM_MODULES_HEADING_MODULE'),
-					'pages'          => Text::_('COM_MODULES_HEADING_PAGES'),
-					'a.access'       => Text::_('JGRID_HEADING_ACCESS'),
-					'language_title' => Text::_('JGRID_HEADING_LANGUAGE'),
-					'a.id'           => Text::_('JGRID_HEADING_ID')
-				);
-			}
-
-			return array(
-				'a.title'        => Text::_('JGLOBAL_TITLE'),
-				'position'       => Text::_('COM_MODULES_HEADING_POSITION'),
-				'name'           => Text::_('COM_MODULES_HEADING_MODULE'),
-				'pages'          => Text::_('COM_MODULES_HEADING_PAGES'),
-				'a.access'       => Text::_('JGRID_HEADING_ACCESS'),
-				'language_title' => Text::_('JGRID_HEADING_LANGUAGE'),
-				'a.id'           => Text::_('JGRID_HEADING_ID')
-			);
-		}
-		else
-		{
-			if ($this->getLayout() == 'default')
-			{
-				return array(
-					'ordering'       => Text::_('JGRID_HEADING_ORDERING'),
-					'a.published'    => Text::_('JSTATUS'),
-					'a.title'        => Text::_('JGLOBAL_TITLE'),
-					'position'       => Text::_('COM_MODULES_HEADING_POSITION'),
-					'name'           => Text::_('COM_MODULES_HEADING_MODULE'),
-					'a.access'       => Text::_('JGRID_HEADING_ACCESS'),
-					'a.language'     => Text::_('JGRID_HEADING_LANGUAGE'),
-					'a.id'           => Text::_('JGRID_HEADING_ID')
-				);
-			}
-
-			return array(
-				'a.title'     => Text::_('JGLOBAL_TITLE'),
-				'position'    => Text::_('COM_MODULES_HEADING_POSITION'),
-				'name'        => Text::_('COM_MODULES_HEADING_MODULE'),
-				'a.access'    => Text::_('JGRID_HEADING_ACCESS'),
-				'a.language'  => Text::_('JGRID_HEADING_LANGUAGE'),
-				'a.id'        => Text::_('JGRID_HEADING_ID')
-			);
-		}
 	}
 }

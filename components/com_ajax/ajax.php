@@ -97,8 +97,8 @@ elseif ($input->get('module'))
 				// Load language file for module
 				$basePath = JPATH_BASE;
 				$lang     = Factory::getLanguage();
-				$lang->load('mod_' . $module, $basePath, null, false, true)
-				||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module, null, false, true);
+				$lang->load('mod_' . $module, $basePath)
+				||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module);
 
 				try
 				{
@@ -205,8 +205,8 @@ elseif ($input->get('template'))
 			{
 				// Load language file for template
 				$lang = Factory::getLanguage();
-				$lang->load('tpl_' . $template, $basePath, null, false, true)
-				||  $lang->load('tpl_' . $template, $basePath . '/templates/' . $template, null, false, true);
+				$lang->load('tpl_' . $template, $basePath)
+				||  $lang->load('tpl_' . $template, $basePath . '/templates/' . $template);
 
 				try
 				{

@@ -4,14 +4,13 @@
  */
 
 #joomla-tinymce-builder {
-  margin-left: -220px;
   .drop-area-highlight {
     background-color: #d0d0d0;
   }
   .tox-editor-container {
     > .target {
       min-height: 2.5rem;
-	}
+	  }
   }
 }
 
@@ -33,5 +32,4 @@
   overflow: hidden;
   padding: 0;
   text-transform: normal;
-
 }

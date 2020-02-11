@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\StatsAdmin\Administrator\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
@@ -119,7 +119,7 @@ class StatsAdminHelper
 				$rows[$i]->title = Text::_('MOD_STATS_ARTICLES');
 				$rows[$i]->icon  = 'file';
 				$rows[$i]->data  = $items;
-				$rows[$i]->link  = Route::_('index.php?option=com_content&view=articles&filter[published]=1');
+				$rows[$i]->link  = Route::_('index.php?option=com_content&view=articles&filter[condition]=1');
 				$i++;
 			}
 		}

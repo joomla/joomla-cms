@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -61,7 +61,7 @@ class SpacerField extends FormField
 		$html[] = '<span class="before"></span>';
 		$html[] = '<span' . $class . '>';
 
-		if ((string) $this->element['hr'] == 'true')
+		if ((string) $this->element['hr'] === 'true')
 		{
 			$html[] = '<hr' . $class . '>';
 		}

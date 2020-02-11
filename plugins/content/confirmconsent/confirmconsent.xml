@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.9.0</version>
 	<description>PLG_CONTENT_CONFIRMCONSENT_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Content\ConfirmConsent</namespace>
 	<files>
 		<filename plugin="confirmconsent">confirmconsent.php</filename>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_content_confirmconsent.ini</language>
@@ -25,7 +27,6 @@
 					label="PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_LABEL"
 					description="PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_DESC"
 					hint="PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_DEFAULT"
-					class="span12"
 					rows="7"
 					cols="20"
 					filter="html"

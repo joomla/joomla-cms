@@ -3,9 +3,9 @@
 	<field
 		name="client_id"
 		type="list"
-		label=""
+		label="JSITEADMIN"
 		filtermode="selector"
-		onchange="this.form.submit();"
+		onchange="Joomla.resetFilters(this)"
 		>
 		<option value="0">JSITE</option>
 		<option value="1">JADMINISTRATOR</option>
@@ -13,7 +13,7 @@
 	<field
 		name="menutype"
 		type="menu"
-		label="COM_MENUS_SELECT_MENU"
+		label="COM_MENUS_SELECT_MENU_FILTER"
 		accesstype="manage"
 		clientid=""
 		showAll="false"
@@ -26,6 +26,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			hint="JSEARCH_FILTER"
 			noresults="JGLOBAL_NO_MATCHING_RESULTS"
 		/>

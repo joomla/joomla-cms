@@ -11,7 +11,6 @@ namespace Joomla\Component\Fields\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
@@ -75,18 +74,14 @@ class GroupModel extends AdminModel
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A JTable object
+	 * @return  Table  A JTable object
 	 *
 	 * @since   3.7.0
-	 * @throws  Exception
+	 * @throws  \Exception
 	 */
 	public function getTable($name = 'Group', $prefix = 'Administrator', $options = array())
 	{
-		// Default to text type
-		$table       = parent::getTable($name, $prefix, $options);
-		$table->type = 'text';
-
-		return $table;
+		return parent::getTable($name, $prefix, $options);
 	}
 
 	/**
@@ -259,8 +254,8 @@ class GroupModel extends AdminModel
 			if (file_exists($path))
 			{
 				$lang = Factory::getLanguage();
-				$lang->load($component, JPATH_BASE, null, false, true);
-				$lang->load($component, JPATH_BASE . '/components/' . $component, null, false, true);
+				$lang->load($component, JPATH_BASE);
+				$lang->load($component, JPATH_BASE . '/components/' . $component);
 
 				if (!$form->loadFile($path, false))
 				{
