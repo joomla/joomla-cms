@@ -65,8 +65,8 @@ class ComponentsField extends ListField
 				// Load language
 				$extension = $item->value;
 
-				$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
-					|| $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
+				$lang->load("$extension.sys", JPATH_ADMINISTRATOR)
+					|| $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension);
 
 				// Translate component name
 				$item->text = Text::_($item->text);

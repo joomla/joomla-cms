@@ -321,16 +321,6 @@ class HtmlView extends BaseHtmlView
 			$this->document->setDescription($this->params->get('menu-meta_description'));
 		}
 
-		// Configure the document meta-keywords.
-		if (!empty($query->highlight))
-		{
-			$this->document->setMetaData('keywords', implode(', ', $query->highlight));
-		}
-		elseif ($this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetadata('keywords', $this->params->get('menu-meta_keywords'));
-		}
-
 		if ($this->params->get('robots'))
 		{
 			$this->document->setMetadata('robots', $this->params->get('robots'));

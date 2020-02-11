@@ -865,8 +865,8 @@ class ModuleModel extends AdminModel
 		$formFile = Path::clean($client->path . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
-		$lang->load($module, $client->path, null, false, true)
-		||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
+		$lang->load($module, $client->path)
+		||	$lang->load($module, $client->path . '/modules/' . $module);
 
 		if (file_exists($formFile))
 		{
@@ -901,24 +901,6 @@ class ModuleModel extends AdminModel
 
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
-	}
-
-	/**
-	 * Loads ContentHelper for filters before validating data.
-	 *
-	 * @param   object  $form   The form to validate against.
-	 * @param   array   $data   The data to validate.
-	 * @param   string  $group  The name of the group(defaults to null).
-	 *
-	 * @return  mixed  Array of filtered data if valid, false otherwise.
-	 *
-	 * @since   1.1
-	 */
-	public function validate($form, $data, $group = null)
-	{
-		\JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
-
-		return parent::validate($form, $data, $group);
 	}
 
 	/**

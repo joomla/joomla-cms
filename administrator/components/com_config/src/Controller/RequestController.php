@@ -86,7 +86,6 @@ class RequestController extends BaseController
 			'access'              => null,
 			'list_limit'          => null,
 			'MetaDesc'            => null,
-			'MetaKeys'            => null,
 			'MetaRights'          => null,
 			'sef'                 => null,
 			'sitename_pagetitles' => null,

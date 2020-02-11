@@ -64,7 +64,7 @@ class Users
 		$title = Text::_('COM_USERS_ADD_NOTE');
 
 		return '<a href="' . Route::_('index.php?option=com_users&task=note.add&u_id=' . (int) $userId)
-			. '" class="btn btn-secondary btn-sm"><span class="fa fa-plus" aria-hidden="true">'
+			. '" class="btn btn-secondary btn-sm"><span class="fas fa-plus" aria-hidden="true">'
 			. '</span> ' . $title . '</a>';
 	}
 
@@ -88,7 +88,7 @@ class Users
 		$title = Text::_('COM_USERS_FILTER_NOTES');
 
 		return '<a href="' . Route::_('index.php?option=com_users&view=notes&filter[search]=uid:' . (int) $userId)
-			. '" class="dropdown-item"><span class="fa fa-list" aria-hidden="true"></span> ' . $title . '</a>';
+			. '" class="dropdown-item"><span class="fas fa-list" aria-hidden="true"></span> ' . $title . '</a>';
 	}
 
 	/**
@@ -111,7 +111,7 @@ class Users
 		$title = Text::plural('COM_USERS_N_USER_NOTES', $count);
 
 		return '<button  type="button" data-target="#userModal_' . (int) $userId . '" id="modal-' . (int) $userId
-			. '" data-toggle="modal" class="dropdown-item"><span class="fa fa-eye" aria-hidden="true"></span> ' . $title . '</button>';
+			. '" data-toggle="modal" class="dropdown-item"><span class="fas fa-eye" aria-hidden="true"></span> ' . $title . '</button>';
 	}
 
 	/**
@@ -470,8 +470,8 @@ class Users
 
 			if ($title)
 			{
-				$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, null, false, true)
-				|| $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, null, false, true);
+				$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR)
+				|| $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value);
 				$lang->load($title . '.sys');
 
 				return Text::_($title);

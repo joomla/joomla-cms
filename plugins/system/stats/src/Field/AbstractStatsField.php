@@ -34,8 +34,8 @@ abstract class AbstractStatsField extends FormField
 
 		return array(
 			JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/system/stats',
-			\dirname(__DIR__) . '/layouts',
-			JPATH_SITE . '/layouts'
+			JPATH_PLUGINS . '/system/stats/layouts',
+			JPATH_SITE . '/layouts',
 		);
 	}
 }

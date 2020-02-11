@@ -40,7 +40,7 @@ class JsonapiView extends BaseApiView
 		'tags',
 		'language',
 		'state',
-		'catid',
+		'category',
 		'created',
 	];
 
@@ -59,8 +59,18 @@ class JsonapiView extends BaseApiView
 		'tags',
 		'language',
 		'state',
-		'catid',
+		'category',
 		'created',
+	];
+
+	/**
+	 * The relationships the item has
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $relationship = [
+		'category',
 	];
 
 	/**
@@ -164,12 +174,16 @@ class JsonapiView extends BaseApiView
 			$item->associations = $associations;
 		}
 
-		if (!empty($item->tags))
+		if (!empty($item->tags->tags))
 		{
 			$tagsIds   = explode(',', $item->tags->tags);
 			$tagsNames = $item->tagsHelper->getTagNames($tagsIds);
 
 			$item->tags = array_combine($tagsIds, $tagsNames);
+		}
+		else
+		{
+			$item->tags = [];
 		}
 
 		return parent::prepareItem($item);

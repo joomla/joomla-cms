@@ -11,10 +11,13 @@ namespace Joomla\Component\Contact\Administrator\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceTrait;
+use Joomla\CMS\Component\Router\RouterServiceInterface;
+use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Factory;
@@ -23,6 +26,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Contact\Administrator\Service\HTML\AdministratorService;
+use Joomla\Component\Contact\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -31,11 +35,12 @@ use Psr\Container\ContainerInterface;
  * @since  4.0.0
  */
 class ContactComponent extends MVCComponent implements
-	BootableExtensionInterface, CategoryServiceInterface, FieldsServiceInterface, AssociationServiceInterface
+	BootableExtensionInterface, CategoryServiceInterface, FieldsServiceInterface, AssociationServiceInterface, RouterServiceInterface
 {
 	use CategoryServiceTrait;
 	use AssociationServiceTrait;
 	use HTMLRegistryAwareTrait;
+	use RouterServiceTrait;
 
 	/**
 	 * Booting the extension. This is the function to set up the environment of the extension like
@@ -53,6 +58,7 @@ class ContactComponent extends MVCComponent implements
 	public function boot(ContainerInterface $container)
 	{
 		$this->getRegistry()->register('contactadministrator', new AdministratorService);
+		$this->getRegistry()->register('contacticon', new Icon($container->get(SiteApplication::class)));
 	}
 
 	/**
@@ -74,7 +80,7 @@ class ContactComponent extends MVCComponent implements
 			$section = 'mail';
 		}
 
-		if (Factory::getApplication()->isClient('site') && $section == 'category')
+		if (Factory::getApplication()->isClient('site') && ($section === 'category' || $section === 'form'))
 		{
 			// The contact form needs to be the mail section
 			$section = 'contact';
