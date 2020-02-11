@@ -34,7 +34,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 	<div class="dropdown-menu dropdown-menu-right">
 		<div class="dropdown-header">
 			<span class="fas fa-fw fa-user-circle" aria-hidden="true"></span>
-			<?php echo Text::_('MOD_USER_TITLE'); ?> <?php echo $user->name; ?>
+			<?php echo Text::sprintf('MOD_USER_TITLE', $user->name); ?>
 		</div>
 		<?php $uri   = Uri::getInstance(); ?>
 		<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri); ?>
