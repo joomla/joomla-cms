@@ -309,7 +309,6 @@ $doNotPackage = array(
 	'Gemfile.lock',
 	'README.md',
 	'RoboFile.php',
-	'RoboFile.php',
 	'acceptance.suite.yml',
 	'appveyor-phpunit.xml',
 	'build',
