@@ -67,7 +67,7 @@ class ComponentsCategoryField extends ListField
 			$lang->load($component, JPATH_BASE)
 			|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
 
-			// If the component section string exits, let's use it
+			// If the component section string exists, let's use it
 			if ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : ''))))
 			{
 				$option->text = Text::_($component_section_key);
