@@ -284,4 +284,14 @@
       });
     }
   });
+  document.getElementById('wrapper').addEventListener('click', () => {
+    if (document.querySelector('.active')) {
+      document.getElementById('header-more-items').classList.toggle('active');
+    }
+  });
+  document.getElementsByClassName('header-title')[0].addEventListener('click', () => {
+    if (document.querySelector('.active')) {
+      document.getElementById('header-more-items').classList.toggle('active');
+    }
+  });
 })(window.Joomla, document);
