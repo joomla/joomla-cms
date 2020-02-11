@@ -23,6 +23,7 @@ use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 
 /**
  * Component installer
@@ -1112,6 +1113,13 @@ class ComponentAdapter extends InstallerAdapter
 			$data['path']         = '';
 			$data['params']       = '';
 
+			if ($params = $menuElement->params)
+			{
+				// Pass $params through Registry to convert to JSON.
+				$params = new Registry($params);
+				$data['params'] = $params->toString();
+			}
+
 			// Set the menu link
 			$request = [];
 
@@ -1178,6 +1186,14 @@ class ComponentAdapter extends InstallerAdapter
 			$data['component_id'] = $component_id;
 			$data['img']          = ((string) $child->attributes()->img) ?: 'class:component';
 			$data['home']         = 0;
+			$data['params']       = '';
+
+			if ($params = $child->params)
+			{
+				// Pass $params through Registry to convert to JSON.
+				$params = new Registry($params);
+				$data['params'] = $params->toString();
+			}
 
 			// Set the sub menu link
 			if ((string) $child->attributes()->link)

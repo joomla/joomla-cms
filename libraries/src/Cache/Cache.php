@@ -122,7 +122,7 @@ class Cache
 			$fileName = $file->getFilename();
 
 			// Only load for php files.
-			if (!$file->isFile() || $file->getExtension() != 'php' || $fileName == 'CacheStorageHelper.php')
+			if (!$file->isFile() || $file->getExtension() !== 'php' || $fileName === 'CacheStorageHelper.php')
 			{
 				continue;
 			}
@@ -680,7 +680,7 @@ class Cache
 						$newvalue = array_map('unserialize', $newvalue);
 
 						// Special treatment for script and style declarations.
-						if (($now == 'script' || $now == 'style') && \is_array($newvalue) && \is_array($options['headerbefore'][$now]))
+						if (($now === 'script' || $now === 'style') && \is_array($newvalue) && \is_array($options['headerbefore'][$now]))
 						{
 							foreach ($newvalue as $type => $currentScriptStr)
 							{

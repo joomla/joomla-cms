@@ -4,7 +4,7 @@ const FsExtra = require('fs-extra');
 const Path = require('path');
 
 const RootPath = process.cwd();
-const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
+const xmlVersionStr = /(<version>)(.+)(<\/version>)/;
 
 /**
  * Method that will erase the media/vendor folder
@@ -201,7 +201,7 @@ const copyFiles = (options) => {
 
       // Update the XML file for Codemirror
       let codemirrorXml = Fs.readFileSync(`${RootPath}/plugins/editors/codemirror/codemirror.xml`, { encoding: 'UTF-8' });
-      codemirrorXml = codemirrorXml.replace(xmlVersionStr, `$1${options.dependencies.codemirror}$3`);
+      codemirrorXml = codemirrorXml.replace(xmlVersionStr, `$1${moduleOptions.version}$3`);
       Fs.writeFileSync(`${RootPath}/plugins/editors/codemirror/codemirror.xml`, codemirrorXml, { encoding: 'UTF-8' });
     } else if (packageName === 'tinymce') {
       const itemvendorPath = Path.join(RootPath, `media/vendor/${packageName}`);
@@ -223,7 +223,7 @@ const copyFiles = (options) => {
 
       // Update the XML file for tinyMCE
       let tinyXml = Fs.readFileSync(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, { encoding: 'UTF-8' });
-      tinyXml = tinyXml.replace(xmlVersionStr, `$1${options.dependencies.tinymce}$3`);
+      tinyXml = tinyXml.replace(xmlVersionStr, `$1${moduleOptions.version}$3`);
       Fs.writeFileSync(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, tinyXml, { encoding: 'UTF-8' });
 
       // Remove that sourcemap...
@@ -259,19 +259,27 @@ const copyFiles = (options) => {
       Fs.writeFileSync(chosenPath, ChosenJs, { encoding: 'UTF-8' });
     }
 
+    // Append initialising code to the end of the Short-and-Sweet javascript
+    if (packageName === 'short-and-sweet') {
+      const dest = Path.join(mediaVendorPath, vendorName);
+      const shortandsweetPath = `${dest}/${options.settings.vendors[packageName].js['dist/short-and-sweet.min.js']}`;
+      let ShortandsweetJs = Fs.readFileSync(shortandsweetPath, { encoding: 'UTF-8' });
+      ShortandsweetJs = ShortandsweetJs.concat('document.addEventListener(\'DOMContentLoaded\', function()'
+          + '{shortAndSweet(\'textarea.charcount\', {counterClassName: \'small text-muted\'}); });');
+      Fs.writeFileSync(shortandsweetPath, ShortandsweetJs, { encoding: 'UTF-8' });
+    }
+
     // Add provided Assets to a registry, if any
     if (vendor.provideAssets && vendor.provideAssets.length) {
       vendor.provideAssets.forEach((assetInfo) => {
-        const registryItem = {
+        const registryItemBase = {
           package: packageName,
           name: assetInfo.name || vendorName,
           version: moduleOptions.version,
           type: assetInfo.type,
         };
 
-        if (assetInfo.dependencies && assetInfo.dependencies.length) {
-          registryItem.dependencies = assetInfo.dependencies;
-        }
+        const registryItem = Object.assign(assetInfo, registryItemBase);
 
         // Update path to file
         if (assetInfo.uri && (assetInfo.type === 'script' || assetInfo.type === 'style' || assetInfo.type === 'webcomponent')) {

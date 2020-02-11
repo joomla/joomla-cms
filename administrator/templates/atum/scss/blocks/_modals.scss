@@ -65,12 +65,15 @@
   .btn.btn-danger span {
     background-color: var(--danger);
     color: hsla(0, 0%, 100%, .9);
-
     display: inline-block;
     width: 2.375rem;
     height: 100%;
     margin: 0 16px 0 -22px;
     line-height: 2.375rem;
+
+    [dir=rtl] & {
+      margin: 0 -22px 0 16px;
+    }
   }
 
   .btn.btn-success [class*=" fa-"],
@@ -80,14 +83,16 @@
   .btn.btn-success span {
     background-color: var(--success);
     color: hsla(0, 0%, 100%, .9);
-
     display: inline-block;
     width: 2.375rem;
     height: 100%;
     margin: 0 16px 0 -22px;
     line-height: 2.375rem;
-  }
 
+    [dir=rtl] & {
+      margin: 0 -22px 0 16px;
+    }
+  }
 }
 
 .modal-header {
