@@ -11,12 +11,6 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Methods supporting a list of featured article records.
  *
