@@ -87,7 +87,6 @@ class ComponentsCategoryField extends ListField
 		// Merge any additional options in the XML definition.
 		$options = array_merge(parent::getOptions(), $options);
 
-
 		return $options;
 	}
 }
