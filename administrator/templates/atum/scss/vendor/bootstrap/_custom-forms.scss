@@ -8,7 +8,7 @@
   [dir=rtl] & {
     padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
     background: $custom-select-background-rtl;
-    background-color: var(--white);
+    background-color: var(--atum-bg-dark)
   }
 
   &[multiple] {
