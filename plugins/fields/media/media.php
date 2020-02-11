@@ -75,7 +75,8 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 	{
 		json_decode($value);
 
-		if (json_last_error() === JSON_ERROR_NONE) {
+		if (json_last_error() === JSON_ERROR_NONE)
+		{
 			return (array) json_decode($value, true);
 		}
 		else
