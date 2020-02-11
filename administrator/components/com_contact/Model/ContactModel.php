@@ -67,6 +67,14 @@ class ContactModel extends AdminModel
 	);
 
 	/**
+	 * Name of the form
+	 *
+	 * @var string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $formName = 'contact';
+
+	/**
 	 * Batch change a linked user.
 	 *
 	 * @param   integer  $value     The new value matching a User ID.
@@ -163,7 +171,7 @@ class ContactModel extends AdminModel
 		Form::addFieldPath(JPATH_ADMINISTRATOR . '/components/com_users/models/fields');
 
 		// Get the form.
-		$form = $this->loadForm('com_contact.contact', 'contact', array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm('com_contact.' . $this->formName, $this->formName, array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form))
 		{
@@ -329,7 +337,7 @@ class ContactModel extends AdminModel
 
 		foreach ($links as $link)
 		{
-			if ($data['params'][$link])
+			if (!empty($data['params'][$link]))
 			{
 				$data['params'][$link] = PunycodeHelper::urlToPunycode($data['params'][$link]);
 			}
@@ -413,18 +421,6 @@ class ContactModel extends AdminModel
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
-		// Determine correct permissions to check.
-		if ($this->getState('contact.id'))
-		{
-			// Existing record. Can only edit in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit');
-		}
-		else
-		{
-			// New record. Can only create in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.create');
-		}
-
 		if ($this->canCreateCategory())
 		{
 			$form->setFieldAttribute('catid', 'allowAdd', 'true');

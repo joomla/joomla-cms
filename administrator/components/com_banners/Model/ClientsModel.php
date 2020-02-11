@@ -116,11 +116,15 @@ class ClientsModel extends ListModel
 					$db->quoteName('a.state'),
 					$db->quoteName('a.metakey'),
 					$db->quoteName('a.purchase_type'),
+				]
+			)
+		)
+			->select(
+				[
 					'COUNT(' . $db->quoteName('b.id') . ') AS ' . $db->quoteName('nbanners'),
 					$db->quoteName('uc.name', 'editor'),
 				]
-			)
-		);
+			);
 
 		$query->from($db->quoteName('#__banner_clients', 'a'));
 

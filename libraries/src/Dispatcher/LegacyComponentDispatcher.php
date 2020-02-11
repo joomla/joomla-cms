@@ -62,7 +62,7 @@ class LegacyComponentDispatcher implements DispatcherInterface
 		$lang = $this->app->getLanguage();
 
 		// Load common and local language files.
-		$lang->load($this->app->scope, JPATH_BASE, null, false, true) || $lang->load($this->app->scope, JPATH_COMPONENT, null, false, true);
+		$lang->load($this->app->scope, JPATH_BASE) || $lang->load($this->app->scope, JPATH_COMPONENT);
 
 		// Execute the component
 		$loader = static function ($path) {

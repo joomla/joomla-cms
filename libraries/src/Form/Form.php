@@ -364,7 +364,7 @@ class Form
 		// Process each found fieldset.
 		foreach ($sets as $set)
 		{
-			if ((string) $set['hidden'] == 'true')
+			if ((string) $set['hidden'] === 'true')
 			{
 				continue;
 			}
@@ -652,7 +652,7 @@ class Form
 		if (empty($this->xml))
 		{
 			// If no XPath query is set to search for fields, and we have a <form />, set it and return.
-			if (!$xpath && ($data->getName() == 'form'))
+			if (!$xpath && ($data->getName() === 'form'))
 			{
 				$this->xml = $data;
 
@@ -676,7 +676,7 @@ class Form
 		{
 			$elements = $data->xpath($xpath);
 		}
-		elseif ($data->getName() == 'form')
+		elseif ($data->getName() === 'form')
 		{
 			$elements = $data->children();
 		}
@@ -1205,7 +1205,7 @@ class Form
 				$fieldLabel = \JText::_($name);
 			}
 
-			$disabled = ((string) $field['disabled'] == 'true' || (string) $field['disabled'] == 'disabled');
+			$disabled = ((string) $field['disabled'] === 'true' || (string) $field['disabled'] === 'disabled');
 
 			$fieldExistsInRequestData = $input->exists($name) || $input->exists($group . '.' . $name);
 
@@ -1621,7 +1621,7 @@ class Form
 		{
 			$default = (string) ($element['default'] ? $element['default'] : $element->default);
 
-			if (($translate = $element['translate_default']) && ((string) $translate == 'true' || (string) $translate == '1'))
+			if (($translate = $element['translate_default']) && ((string) $translate === 'true' || (string) $translate === '1'))
 			{
 				$lang = Factory::getLanguage();
 
@@ -1851,7 +1851,7 @@ class Form
 			$forms[$name] = Factory::getContainer()->get(FormFactoryInterface::class)->createForm($name, $options);
 
 			// Load the data.
-			if (substr($data, 0, 1) == '<')
+			if (substr($data, 0, 1) === '<')
 			{
 				if ($forms[$name]->load($data, $replace, $xpath) == false)
 				{

@@ -58,13 +58,13 @@ class UrlFilter implements FormFilterInterface
 
 		// If there is no protocol and the relative option is not specified,
 		// we assume that it is an external URL and prepend http://.
-		if (($element['type'] == 'url' && !$protocol && !$element['relative'])
-			|| (!$element['type'] == 'url' && !$protocol))
+		if (($element['type'] === 'url' && !$protocol && !$element['relative'])
+			|| (!$element['type'] === 'url' && !$protocol))
 		{
 			$protocol = 'http';
 
 			// If it looks like an internal link, then add the root.
-			if (substr($value, 0, 9) == 'index.php')
+			if (substr($value, 0, 9) === 'index.php')
 			{
 				$value = Uri::root() . $value;
 			}
@@ -83,13 +83,13 @@ class UrlFilter implements FormFilterInterface
 			$host = Uri::getInstance('SERVER')->gethost();
 
 			// If it starts with the host string, just prepend the protocol.
-			if (substr($value, 0) == $host)
+			if (substr($value, 0) === $host)
 			{
 				$value = 'http://' . $value;
 			}
 
 			// Otherwise if it doesn't start with "/" prepend the prefix of the current site.
-			elseif (substr($value, 0, 1) != '/')
+			elseif (substr($value, 0, 1) !== '/')
 			{
 				$value = Uri::root(true) . '/' . $value;
 			}
