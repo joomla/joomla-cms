@@ -10,15 +10,8 @@
 			filter="string"
 			cols="60"
 			rows="3"
-		/>
-
-		<field
-			name="MetaKeys"
-			type="textarea"
-			label="COM_CONFIG_FIELD_METAKEYS_LABEL"
-			filter="string"
-			cols="60"
-			rows="3"
+			maxlength="160"
+			charcounter="true"
 		/>
 
 		<field

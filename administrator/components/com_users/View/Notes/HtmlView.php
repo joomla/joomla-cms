@@ -172,23 +172,4 @@ class HtmlView extends BaseHtmlView
 
 		$toolbar->help('JHELP_USERS_USER_NOTES');
 	}
-
-	/**
-	 * Returns an array of fields the table can be sorted by
-	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value
-	 *
-	 * @since   3.0
-	 */
-	protected function getSortFields()
-	{
-		return array(
-			'u.name'        => Text::_('COM_USERS_USER_HEADING'),
-			'a.subject'     => Text::_('COM_USERS_SUBJECT_HEADING'),
-			'c.title'       => Text::_('COM_USERS_CATEGORY_HEADING'),
-			'a.state'       => Text::_('JSTATUS'),
-			'a.review_time' => Text::_('COM_USERS_REVIEW_HEADING'),
-			'a.id'          => Text::_('JGRID_HEADING_ID')
-		);
-	}
 }
