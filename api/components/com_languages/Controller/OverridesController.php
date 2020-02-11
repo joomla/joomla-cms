@@ -52,11 +52,8 @@ class OverridesController extends ApiController
 	 */
 	public function displayItem($id = null)
 	{
-		$this->input->set('model_state', [
-				'filter.language' => $this->getLanguageFromInput(),
-				'filter.client'   => $this->getClientFromInput(),
-			]
-		);
+		$this->modelState->set('filter.language', $this->getLanguageFromInput());
+		$this->modelState->set('filter.client', $this->getClientFromInput());
 
 		return parent::displayItem($id);
 	}
@@ -70,11 +67,8 @@ class OverridesController extends ApiController
 	 */
 	public function displayList()
 	{
-		$this->input->set('model_state', [
-				'filter.language' => $this->getLanguageFromInput(),
-				'filter.client'   => $this->getClientFromInput(),
-			]
-		);
+		$this->modelState->set('filter.language', $this->getLanguageFromInput());
+		$this->modelState->set('filter.client', $this->getClientFromInput());
 
 		return parent::displayList();
 	}
@@ -168,11 +162,8 @@ class OverridesController extends ApiController
 
 		$this->input->set('model', $this->contentType);
 
-		$this->input->set('model_state', [
-				'filter.language' => $this->getLanguageFromInput(),
-				'filter.client'   => $this->getClientFromInput(),
-			]
-		);
+		$this->modelState->set('filter.language', $this->getLanguageFromInput());
+		$this->modelState->set('filter.client', $this->getClientFromInput());
 
 		parent::delete($id);
 	}

@@ -76,8 +76,8 @@ class StatisticsModel extends BaseDatabaseModel
 
 		foreach ($plugins as $plugin)
 		{
-			$lang->load('plg_finder_' . $plugin->name . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load('plg_finder_' . $plugin->name . '.sys', JPATH_PLUGINS . '/finder/' . $plugin->name, null, false, true);
+			$lang->load('plg_finder_' . $plugin->name . '.sys', JPATH_ADMINISTRATOR)
+			|| $lang->load('plg_finder_' . $plugin->name . '.sys', JPATH_PLUGINS . '/finder/' . $plugin->name);
 		}
 
 		return $data;
