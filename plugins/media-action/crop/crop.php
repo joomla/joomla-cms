@@ -30,7 +30,6 @@ class PlgMediaActionCrop extends \Joomla\Component\Media\Administrator\Plugin\Me
 		parent::loadJs();
 
 		Factory::getApplication()->getDocument()->getWebAssetManager()->useScript('cropperjs');
-
 	}
 
 	/**
