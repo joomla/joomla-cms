@@ -98,7 +98,7 @@
 			<field
 				name="menu-quicktask-title"
 				type="hidden"
-				default="MOD_MENU_COM_CONTENT_NEW_ARTICLE"
+				default="COM_CONTENT_MENUS_NEW_ARTICLE"
 			/>
 
 		</fieldset>
