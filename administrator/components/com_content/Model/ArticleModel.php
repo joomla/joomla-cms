@@ -101,9 +101,7 @@ class ArticleModel extends AdminModel
 			{
 				$query = $db->getQuery(true)
 					->insert($db->quoteName('#__content_frontpage'))
-					->values(
-						':newId, 0, :featuredUp, :featuredDown'
-					)
+					->values(':newId, 0, :featuredUp, :featuredDown')
 					->bind(':newId', $newId, ParameterType::INTEGER)
 					->bind(':featuredUp', $featured->featured_up, $featured->featured_up ? ParameterType::STRING : ParameterType::NULL)
 					->bind(':featuredDown', $featured->featured_down, $featured->featured_down ? ParameterType::STRING : ParameterType::NULL);
