@@ -134,11 +134,15 @@ class StylesModel extends ListModel
 					$db->quoteName('l.title', 'language_title'),
 					$db->quoteName('l.image'),
 					$db->quoteName('l.sef', 'language_sef'),
+				]
+			)
+		)
+			->select(
+				[
 					'COUNT(' . $db->quoteName('m.template_style_id') . ') AS assigned',
 					$db->quoteName('extension_id', 'e_id'),
 				]
 			)
-		)
 			->from($db->quoteName('#__template_styles', 'a'))
 			->where($db->quoteName('a.client_id') . ' = :clientid')
 			->bind(':clientid', $clientId, ParameterType::INTEGER);

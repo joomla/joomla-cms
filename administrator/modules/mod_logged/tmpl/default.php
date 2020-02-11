@@ -34,7 +34,7 @@ HTMLHelper::_('bootstrap.framework');
 			<tr>
 				<th scope="row">
 					<?php if (isset($user->editLink)) : ?>
-						<a href="<?php echo $user->editLink; ?>">
+						<a href="<?php echo $user->editLink; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?>">
 							<?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?>
 						</a>
 					<?php else : ?>

@@ -38,7 +38,7 @@
 				<field
 					name="filter_groups"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_LABEL"
 					description="MOD_WHOSONLINE_FIELD_FILTER_GROUPS_DESC"
 					default="0"

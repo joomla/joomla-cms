@@ -90,8 +90,6 @@ class AdministratorApplication extends CMSApplication
 		switch ($document->getType())
 		{
 			case 'html':
-				$document->setMetaData('keywords', $this->get('MetaKeys'));
-
 				// Get the template
 				$template = $this->getTemplate(true);
 
@@ -132,7 +130,7 @@ class AdministratorApplication extends CMSApplication
 	protected function doExecute()
 	{
 		// Get the language from the (login) form or user state
-		$login_lang = ($this->input->get('option') == 'com_login') ? $this->input->get('lang') : '';
+		$login_lang = ($this->input->get('option') === 'com_login') ? $this->input->get('lang') : '';
 		$options    = array('language' => $login_lang ?: $this->getUserState('application.lang'));
 
 		// Initialise the application

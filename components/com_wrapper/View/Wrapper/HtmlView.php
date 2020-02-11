@@ -85,11 +85,6 @@ class HtmlView extends BaseHtmlView
 			$this->document->setDescription($params->get('menu-meta_description'));
 		}
 
-		if ($params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetaData('keywords', $params->get('menu-meta_keywords'));
-		}
-
 		if ($params->get('robots'))
 		{
 			$this->document->setMetaData('robots', $params->get('robots'));
