@@ -9,19 +9,18 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
-
-/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-$wa->useScript('metismenujs')
-	->registerAndUseScript('mod_menu.admin-menu', 'mod_menu/admin-menu.min.js', [], ['defer' => true], ['metismenujs'])
-	->registerAndUseScript('cpanel.system-loader', 'com_cpanel/admin-system-loader.js', [], ['defer' => true]);
 
 $doc       = $app->getDocument();
 $direction = $doc->direction === 'rtl' ? 'float-right' : '';
 $class     = $enabled ? 'nav flex-column main-nav ' . $direction : 'nav flex-column main-nav disabled ' . $direction;
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $doc->getWebAssetManager();
+$wa->useScript('metismenujs')
+	->registerAndUseScript('mod_menu.admin-menu', 'mod_menu/admin-menu.min.js', [], ['defer' => true], ['metismenujs'])
+	->registerAndUseScript('cpanel.system-loader', 'com_cpanel/admin-system-loader.js', [], ['defer' => true]);
 
 // Recurse through children of root node if they exist
 if ($root->hasChildren())
