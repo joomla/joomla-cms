@@ -160,12 +160,5 @@
 			target="_blank"
 			link="https://github.com/joomla/joomla-cms/"
 		/>
-
-		<menuitem
-			title="MOD_MENU_HELP_GLIP"
-			type="url"
-			target="_blank"
-			link="https://glip.com/joomla"
-		/>
 	</menuitem>
 </menu>
