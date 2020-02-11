@@ -539,6 +539,7 @@ class ArticleModel extends AdminModel
 						->from($db->quoteName('#__content_frontpage'))
 						->where($db->quoteName('content_id') . ' = :id')
 						->bind(':id', $item->id, ParameterType::INTEGER);
+
 					$featured = $db->setQuery($query)->loadObject();
 
 					if ($featured)
