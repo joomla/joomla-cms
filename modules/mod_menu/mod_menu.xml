@@ -85,7 +85,7 @@
 				<field
 					name="showAllChildren"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_MENU_FIELD_ALLCHILDREN_LABEL"
 					default="1"
 					filter="integer"
