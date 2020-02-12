@@ -45,13 +45,13 @@ use Joomla\CMS\Router\Route;
 										</span>
 									<?php endif; ?>
 								</a>
-								<?php if ($params->get('menu-quicktask', false)) : ?>
+								<?php if ($params->get('menu-quicktask')) : ?>
 									<?php $permission = $params->get('menu-quicktask-permission'); ?>
 									<?php $scope = $item->scope !== 'default' ? $item->scope : null; ?>
 									<?php if (!$permission || $user->authorise($permission, $scope)) : ?>
 										<span class="menu-quicktask">
 											<?php
-											$link = $params->get('menu-quicktask-link');
+											$link = $params->get('menu-quicktask');
 											$icon = $params->get('menu-quicktask-icon', 'plus');
 
 											$title = Text::_($params->get('menu-quicktask-title'));
