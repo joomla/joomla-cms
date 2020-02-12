@@ -82,7 +82,14 @@ class TransitionModel extends AdminModel
 	{
 		$user = Factory::getUser();
 		$app = Factory::getApplication();
-		$extension = $app->getUserStateFromRequest('com_workflow.transition.filter.extension', 'extension', null, 'cmd');
+		$context = $this->option . '.' . $this->name;
+		$extension = $app->getUserStateFromRequest($context . '.filter.extension', 'extension', null, 'cmd');
+
+		if (!\property_exists($record, 'workflow_id'))
+		{
+			$workflowID          = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
+			$record->workflow_id = $workflowID;
+		}
 
 		$table = $this->getTable('Workflow', 'Administrator');
 
@@ -234,7 +241,7 @@ class TransitionModel extends AdminModel
 			$data = (object) $this->loadFormData();
 		}
 
-		if (!$this->canEditState($data))
+		if (!$this->canEditState((object) $data))
 		{
 			// Disable fields for display.
 			$form->setFieldAttribute('published', 'disabled', 'true');

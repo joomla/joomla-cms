@@ -37,6 +37,22 @@ class CategoriesController extends ApiController
 	protected $default_view = 'categories';
 
 	/**
+	 * Method to allow extended classes to manipulate the data to be saved for an extension.
+	 *
+	 * @param   array  $data  An array of input data.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function preprocessSaveData(array $data): array
+	{
+		$data['extension'] = $this->getExtensionFromInput();
+
+		return $data;
+	}
+
+	/**
 	 * Basic display of an item view
 	 *
 	 * @param   integer  $id  The primary key to display. Leave empty if you want to retrieve data from the request
@@ -47,7 +63,7 @@ class CategoriesController extends ApiController
 	 */
 	public function displayItem($id = null)
 	{
-		$this->input->set('model_state', ['filter.extension' => $this->getExtensionFromInput()]);
+		$this->modelState->set('filter.extension', $this->getExtensionFromInput());
 
 		return parent::displayItem($id);
 	}
@@ -60,7 +76,7 @@ class CategoriesController extends ApiController
 	 */
 	public function displayList()
 	{
-		$this->input->set('model_state', ['filter.extension' => $this->getExtensionFromInput()]);
+		$this->modelState->set('filter.extension', $this->getExtensionFromInput());
 
 		return parent::displayList();
 	}

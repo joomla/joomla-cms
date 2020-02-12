@@ -150,24 +150,4 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::help('JHELP_COMPONENTS_CSP_REPORTS');
 	}
-
-	/**
-	 * Returns an array of fields the table can be sorted by
-	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getSortFields()
-	{
-		return [
-			'a.state'        => Text::_('JSTATUS'),
-			'a.blocked_uri'  => Text::_('COM_CSP_HEADING_BLOCKED_URI'),
-			'a.document_uri' => Text::_('COM_CSP_HEADING_DOCUMENT_URI'),
-			'a.directive'    => Text::_('COM_CSP_HEADING_DIRECTIVE'),
-			'a.client'       => Text::_('JCLIENT'),
-			'a.id'           => Text::_('JGRID_HEADING_ID'),
-			'a.created'      => Text::_('COM_CSP_HEADING_CREATED'),
-		];
-	}
 }

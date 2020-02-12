@@ -58,8 +58,8 @@ class AliastagField extends ListField
 		{
 			$parts     = explode('.', $item->value);
 			$extension = $parts[0];
-			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load($extension, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $extension), null, false, true);
+			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR)
+			|| $lang->load($extension, Path::clean(JPATH_ADMINISTRATOR . '/components/' . $extension));
 			$options[$i]->text = Text::_(strtoupper($extension) . '_TAGS_' . strtoupper($parts[1]));
 		}
 

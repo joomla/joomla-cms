@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Content Component Archive Model
@@ -87,7 +88,7 @@ class ArchiveModel extends ArticlesModel
 	{
 		$params           = $this->state->params;
 		$app              = Factory::getApplication();
-		$catids           = $app->input->getVar('catid', array());
+		$catids           = $app->input->get('catid', array(), 'array');
 		$catids           = array_values(array_diff($catids, array('')));
 
 		$articleOrderDate = $params->get('order_date');
@@ -97,26 +98,32 @@ class ArchiveModel extends ArticlesModel
 		$query = parent::getListQuery();
 
 		// Add routing for archive
-		$query->select($this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS slug');
-		$query->select($this->getSlugColumn($query, 'c.id', 'c.alias') . ' AS catslug');
+		$query->select(
+			[
+				$this->getSlugColumn($query, 'a.id', 'a.alias') . ' AS ' . $db->quoteName('slug'),
+				$this->getSlugColumn($query, 'c.id', 'c.alias') . ' AS ' . $db->quoteName('catslug'),
+			]
+		);
 
 		// Filter on month, year
 		// First, get the date field
 		$queryDate = QueryHelper::getQueryDate($articleOrderDate, $this->getDbo());
 
-		if ($month = $this->getState('filter.month'))
+		if ($month = (int) $this->getState('filter.month'))
 		{
-			$query->where($query->month($queryDate) . ' = ' . $month);
+			$query->where($query->month($queryDate) . ' = :month')
+				->bind(':month', $month, ParameterType::INTEGER);
 		}
 
-		if ($year = $this->getState('filter.year'))
+		if ($year = (int) $this->getState('filter.year'))
 		{
-			$query->where($query->year($queryDate) . ' = ' . $year);
+			$query->where($query->year($queryDate) . ' = :year')
+				->bind(':year', $year, ParameterType::INTEGER);
 		}
 
 		if (count($catids) > 0)
 		{
-			$query->where('c.id IN (' . implode(', ', $catids) . ')');
+			$query->whereIn($db->quoteName('c.id'), $catids);
 		}
 
 		return $query;
@@ -186,22 +193,44 @@ class ArchiveModel extends ArticlesModel
 	 */
 	public function getYears()
 	{
-		$db = $this->getDbo();
+		$db      = $this->getDbo();
+		$nowDate = Factory::getDate()->toSql();
+		$query   = $db->getQuery(true);
+		$years   = $query->year($db->quoteName('c.created'));
 
-		$nowDate = $db->quote(Factory::getDate()->toSql());
-
-		$query = $db->getQuery(true);
-		$years = $query->year($db->quoteName('c.created'));
-
-		$query->select('DISTINCT (' . $years . ')')
-			->from($db->quoteName('#__content', 'c'))
-			->from($db->quoteName('#__workflow_associations', 'wa'))
-			->from($db->quoteName('#__workflow_stages', 'ws'))
-			->where($db->quoteName('c.id') . ' = ' . $db->quoteName('wa.item_id'))
-			->where($db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
-			->where($db->quoteName('ws.condition') . '= ' . (int) ContentComponent::CONDITION_ARCHIVED)
-			->where('(c.publish_up IS NULL OR c.publish_up <= ' . $nowDate . ')')
-			->where('(c.publish_down IS NULL OR c.publish_down >= ' . $nowDate . ')')
+		$query->select('DISTINCT ' . $years)
+			->from(
+				[
+					$db->quoteName('#__content', 'c'),
+					$db->quoteName('#__workflow_associations', 'wa'),
+					$db->quoteName('#__workflow_stages', 'ws'),
+				]
+			)
+			->where(
+				[
+					$db->quoteName('c.id') . ' = ' . $db->quoteName('wa.item_id'),
+					$db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'),
+					$db->quoteName('ws.condition') . ' = ' . ContentComponent::CONDITION_ARCHIVED,
+				]
+			)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('c.publish_up') . ' IS NULL',
+					$db->quoteName('c.publish_up') . ' <= :publishUp',
+				],
+				'OR'
+			)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('c.publish_down') . ' IS NULL',
+					$db->quoteName('c.publish_down') . ' >= :publishDown',
+				],
+				'OR'
+			)
+			->bind(':publishUp', $nowDate)
+			->bind(':publishDown', $nowDate)
 			->order('1 ASC');
 
 		$db->setQuery($query);
@@ -222,10 +251,12 @@ class ArchiveModel extends ArticlesModel
 	 */
 	private function getSlugColumn($query, $id, $alias)
 	{
+		$db = $this->getDbo();
+
 		return 'CASE WHEN '
-			. $query->charLength($alias, '!=', '0')
+			. $query->charLength($db->quoteName($alias), '!=', '0')
 			. ' THEN '
-			. $query->concatenate(array($query->castAsChar($id), $alias), ':')
+			. $query->concatenate([$query->castAsChar($db->quoteName($id)), $db->quoteName($alias)], ':')
 			. ' ELSE '
 			. $query->castAsChar($id) . ' END';
 	}

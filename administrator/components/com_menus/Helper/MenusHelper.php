@@ -11,7 +11,10 @@ namespace Joomla\Component\Menus\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
@@ -494,6 +497,11 @@ class MenusHelper extends ContentHelper
 
 			$item->alias = $menutype . '-' . $item->title;
 
+			// Temporarily set unicodeslugs if a menu item has an unicode alias
+			$unicode     = Factory::getConfig()->set('unicodeslugs', 1);
+			$item->alias = ApplicationHelper::stringURLSafe($item->alias);
+			Factory::getConfig()->set('unicodeslugs', $unicode);
+
 			if ($item->type == 'separator')
 			{
 				// Do not reuse a separator
@@ -654,14 +662,35 @@ class MenusHelper extends ContentHelper
 			// Important: 'null' will cause infinite recursion.
 			static::$presets = array();
 
-			static::addPreset('default', 'JLIB_MENUS_PRESET_DEFAULT', JPATH_ADMINISTRATOR . '/components/com_menus/presets/default.xml');
-			static::addPreset('alternate', 'JLIB_MENUS_PRESET_ALTERNATE', JPATH_ADMINISTRATOR . '/components/com_menus/presets/alternate.xml');
-			static::addPreset('system', 'JLIB_MENUS_PRESET_SYSTEM', JPATH_ADMINISTRATOR . '/components/com_menus/presets/system.xml');
-			static::addPreset('content', 'JLIB_MENUS_PRESET_CONTENT', JPATH_ADMINISTRATOR . '/components/com_menus/presets/content.xml');
-			static::addPreset('help', 'JLIB_MENUS_PRESET_HELP', JPATH_ADMINISTRATOR . '/components/com_menus/presets/help.xml');
-			static::addPreset('menus', 'JLIB_MENUS_PRESET_MENUS', JPATH_ADMINISTRATOR . '/components/com_menus/presets/menus.xml');
-			static::addPreset('components', 'JLIB_MENUS_PRESET_COMPONENTS', JPATH_ADMINISTRATOR . '/components/com_menus/presets/components.xml');
-			static::addPreset('users', 'JLIB_MENUS_PRESET_USERS', JPATH_ADMINISTRATOR . '/components/com_menus/presets/users.xml');
+			$components = ComponentHelper::getComponents();
+			$lang       = Factory::getApplication()->getLanguage();
+
+			foreach ($components as $component)
+			{
+				if (!$component->enabled)
+				{
+					continue;
+				}
+
+				$folder = JPATH_ADMINISTRATOR . '/components/' . $component->option . '/presets/';
+
+				if (!Folder::exists($folder))
+				{
+					continue;
+				}
+
+				$lang->load($component->option . '.sys', JPATH_ADMINISTRATOR)
+				|| $lang->load($component->option . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component->option);
+
+				$presets = Folder::files($folder, '.xml');
+
+				foreach ($presets as $preset)
+				{
+					$name  = File::stripExt($preset);
+					$title = strtoupper($component->option . '_MENUS_PRESET_' . $name);
+					static::addPreset($name, $title, $folder . $preset);
+				}
+			}
 
 			// Load from template folder automatically
 			$app = Factory::getApplication();
@@ -951,8 +980,7 @@ class MenusHelper extends ContentHelper
 
 		if ((string) $node['quicktask'])
 		{
-			$params->set('menu-quicktask', true);
-			$params->set('menu-quicktask-link', (string) $node['quicktask']);
+			$params->set('menu-quicktask', (string) $node['quicktask']);
 			$params->set('menu-quicktask-title', (string) $node['quicktask-title']);
 			$params->set('menu-quicktask-icon', (string) $node['quicktask-icon']);
 			$params->set('menu-quicktask-permission', (string) $node['quicktask-permission']);
@@ -966,7 +994,7 @@ class MenusHelper extends ContentHelper
 			$item->link    = str_replace("{sql:$var}", $val, $item->link);
 			$item->class   = str_replace("{sql:$var}", $val, $item->class);
 			$item->icon    = str_replace("{sql:$var}", $val, $item->icon);
-			$params->set('menu-quicktask-link', str_replace("{sql:$var}", $val, $params->get('menu-quicktask-link')));
+			$params->set('menu-quicktask', str_replace("{sql:$var}", $val, $params->get('menu-quicktask')));
 		}
 
 		$item->setParams($params);

@@ -171,7 +171,7 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-ellipsis-h')
+				->icon('fas fa-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -222,27 +222,5 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::help('JHELP_CONTENT_FEATURED_ARTICLES');
-	}
-
-	/**
-	 * Returns an array of fields the table can be sorted by
-	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value
-	 *
-	 * @since   3.0
-	 */
-	protected function getSortFields()
-	{
-		return array(
-			'fp.ordering'    => Text::_('JGRID_HEADING_ORDERING'),
-			'a.state'        => Text::_('JSTATUS'),
-			'a.title'        => Text::_('JGLOBAL_TITLE'),
-			'category_title' => Text::_('JCATEGORY'),
-			'access_level'   => Text::_('JGRID_HEADING_ACCESS'),
-			'a.created_by'   => Text::_('JAUTHOR'),
-			'language'       => Text::_('JGRID_HEADING_LANGUAGE'),
-			'a.created'      => Text::_('JDATE'),
-			'a.id'           => Text::_('JGRID_HEADING_ID'),
-		);
 	}
 }
