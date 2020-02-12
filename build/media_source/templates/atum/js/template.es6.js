@@ -284,14 +284,9 @@
       });
     }
   });
-  document.getElementById('wrapper').addEventListener('click', () => {
-    if (document.querySelector('.active')) {
-      document.getElementById('header-more-items').classList.toggle('active');
-    }
-  });
-  document.getElementsByClassName('header-title')[0].addEventListener('click', () => {
-    if (document.querySelector('.active')) {
-      document.getElementById('header-more-items').classList.toggle('active');
+  document.getElementsByClassName('admin')[0].addEventListener('click', (event) => {
+    if (document.querySelector('.active') && !document.querySelector('.header-item-more').contains(event.target)) {
+      document.getElementById('header-more-items').classList.remove('active');
     }
   });
 })(window.Joomla, document);
