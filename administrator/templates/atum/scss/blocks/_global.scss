@@ -109,7 +109,6 @@ body .container-main {
   min-height: calc(100vh - #{$header-height} - 3px);
   padding-left: 0;
   padding-right: 0;
-  overflow: hidden;
 
   &::before,
   &::after {
