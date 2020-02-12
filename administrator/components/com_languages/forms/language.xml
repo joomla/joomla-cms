@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset>
-		<field
-			name="lang_id"
+		<field 
+			name="lang_id" 
 			type="text"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			class="readonly"
@@ -90,19 +90,13 @@
 	</fieldset>
 	<fieldset name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 		<field
-			name="metakey"
-			type="textarea"
-			label="JFIELD_META_KEYWORDS_LABEL"
-			rows="3"
-			cols="30"
-		/>
-
-		<field
 			name="metadesc"
 			type="textarea"
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			rows="3"
 			cols="30"
+			maxlength="160"
+			charcounter="true"
 		/>
 	</fieldset>
 	<fieldset name="site_name" label="COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL">

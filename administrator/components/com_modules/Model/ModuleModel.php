@@ -865,8 +865,8 @@ class ModuleModel extends AdminModel
 		$formFile = Path::clean($client->path . '/modules/' . $module . '/' . $module . '.xml');
 
 		// Load the core and/or local language file(s).
-		$lang->load($module, $client->path, null, false, true)
-		||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);
+		$lang->load($module, $client->path)
+		||	$lang->load($module, $client->path . '/modules/' . $module);
 
 		if (file_exists($formFile))
 		{

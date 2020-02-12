@@ -47,7 +47,7 @@ class FieldsController extends ApiController
 	 */
 	public function displayItem($id = null)
 	{
-		$this->input->set('model_state', ['filter.context' => $this->getContextFromInput()]);
+		$this->modelState->set('filter.context', $this->getContextFromInput());
 
 		return parent::displayItem($id);
 	}
@@ -61,7 +61,7 @@ class FieldsController extends ApiController
 	 */
 	public function displayList()
 	{
-		$this->input->set('model_state', ['filter.context' => $this->getContextFromInput()]);
+		$this->modelState->set('filter.context', $this->getContextFromInput());
 
 		return parent::displayList();
 	}
