@@ -31,6 +31,7 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -84,15 +85,30 @@ class ArticleModel extends AdminModel
 		{
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
-				->insert($db->quoteName('#__content_frontpage'))
-				->values(
-					$newId . ', 0, '
-					. (empty($table->featured_up) ? 'NULL' : $db->quote($table->featured_up))
-					. ', '
-					. (empty($table->featured_down) ? 'NULL' : $db->quote($table->featured_down))
-				);
-			$db->setQuery($query);
-			$db->execute();
+				->select(
+					[
+						$db->quoteName('featured_up'),
+						$db->quoteName('featured_down'),
+					]
+				)
+				->from($db->quoteName('#__content_frontpage'))
+				->where($db->quoteName('content_id') . ' = :oldId')
+				->bind(':oldId', $oldId, ParameterType::INTEGER);
+
+			$featured = $db->setQuery($query)->loadObject();
+
+			if ($featured)
+			{
+				$query = $db->getQuery(true)
+					->insert($db->quoteName('#__content_frontpage'))
+					->values(':newId, 0, :featuredUp, :featuredDown')
+					->bind(':newId', $newId, ParameterType::INTEGER)
+					->bind(':featuredUp', $featured->featured_up, $featured->featured_up ? ParameterType::STRING : ParameterType::NULL)
+					->bind(':featuredDown', $featured->featured_down, $featured->featured_down ? ParameterType::STRING : ParameterType::NULL);
+
+					$db->setQuery($query);
+					$db->execute();
+			}
 		}
 
 		// Copy workflow association
@@ -505,6 +521,33 @@ class ArticleModel extends AdminModel
 			{
 				$item->tags = new TagsHelper;
 				$item->tags->getTagIds($item->id, 'com_content.article');
+
+				$item->featured_up   = null;
+				$item->featured_down = null;
+
+				if ($item->featured)
+				{
+					// Get featured dates.
+					$db = $this->getDbo();
+					$query = $db->getQuery(true)
+						->select(
+							[
+								$db->quoteName('featured_up'),
+								$db->quoteName('featured_down'),
+							]
+						)
+						->from($db->quoteName('#__content_frontpage'))
+						->where($db->quoteName('content_id') . ' = :id')
+						->bind(':id', $item->id, ParameterType::INTEGER);
+
+					$featured = $db->setQuery($query)->loadObject();
+
+					if ($featured)
+					{
+						$item->featured_up   = $featured->featured_up;
+						$item->featured_down = $featured->featured_down;
+					}
+				}
 			}
 		}
 
@@ -563,15 +606,7 @@ class ArticleModel extends AdminModel
 		// Determine correct permissions to check.
 		if ($id = $this->getState('article.id', $id))
 		{
-			// Existing record. Can only edit in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit');
-
-			// Existing record. Can only edit own articles in selected categories.
-			if ($app->isClient('administrator'))
-			{
-				$form->setFieldAttribute('catid', 'action', 'core.edit.own');
-			}
-			else
+			if ($app->isClient('site'))
 			// Existing record. We can't edit the category in frontend if not edit.state.
 			{
 				if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
@@ -633,9 +668,6 @@ class ArticleModel extends AdminModel
 
 				$form->setFieldAttribute('transition', 'workflow_stage', (int) $workflow->stage_id);
 			}
-
-			// New record. Can only create in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
 		// Check for existing article.

@@ -2,11 +2,13 @@
 
 .custom-select {
   max-width: $input-max-width;
+  background: $custom-select-background;
+  background-color: $custom-select-bg;
 
   [dir=rtl] & {
     padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
-    background-position-x: 0%;
-    background-image: url(../images/select-bg-rtl.svg);
+    background: $custom-select-background-rtl;
+    background-color: $custom-select-bg;
   }
 
   &[multiple] {

@@ -5,31 +5,31 @@
 	xsi:schemaLocation="urn:joomla.org menu.xsd"
 	>
 	<menuitem
-		title="MOD_MENU_COM_CONTENT"
+		title="COM_CONTENT_MENUS"
 		type="heading"
 		icon="file-alt"
 		class="class:file-alt"
 		>
 		<menuitem
-			title="MOD_MENU_COM_CONTENT_ARTICLE_MANAGER"
+			title="COM_CONTENT_MENUS_ARTICLE_MANAGER"
 			type="component"
 			element="com_content"
 			link="index.php?option=com_content&amp;view=articles"
 			quicktask="index.php?option=com_content&amp;task=article.add"
-			quicktask-title="MOD_MENU_COM_CONTENT_NEW_ARTICLE"
+			quicktask-title="COM_CONTENT_MENUS_NEW_ARTICLE"
 		/>
 
 		<menuitem
-			title="MOD_MENU_COM_CONTENT_CATEGORY_MANAGER"
+			title="COM_CONTENT_MENUS_CATEGORY_MANAGER"
 			type="component"
 			element="com_categories"
 			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_content"
 			quicktask="index.php?option=com_categories&amp;extension=com_content&amp;task=category.add"
-			quicktask-title="MOD_MENU_COM_CONTENT_NEW_CATEGORY"
+			quicktask-title="COM_CONTENT_MENUS_NEW_CATEGORY"
 		/>
 
 		<menuitem
-			title="MOD_MENU_COM_CONTENT_FEATURED"
+			title="COM_CONTENT_MENUS_FEATURED"
 			type="component"
 			element="com_content"
 			link="index.php?option=com_content&amp;view=featured"
@@ -38,13 +38,13 @@
 	</menuitem>
 
 	<menuitem
-		title="MOD_MENU_COM_CONTENT_MANAGE"
+		title="COM_CONTENT_MENUS_MANAGE"
 		type="heading"
 		icon="cog"
 		class="class:file-alt"
 		>
 		<menuitem
-			title="MOD_MENU_COM_CONTENT_WORKFLOW"
+			title="COM_CONTENT_MENUS_WORKFLOW"
 			type="component"
 			element="com_workflow"
 			link="index.php?option=com_workflow&amp;view=workflows&amp;extension=com_content"
@@ -66,7 +66,7 @@
 	</menuitem>
 
 	<menuitem
-		title="MOD_MENU_COM_CONTENT_MISC"
+		title="COM_CONTENT_MENUS_MISC"
 		type="heading"
 		icon="cubes"
 		class="class:file-alt"
@@ -86,7 +86,7 @@
 			element="com_modules"
 			link="index.php?option=com_modules&amp;view=modules&amp;client_id=0"
 			quicktask="index.php?option=com_modules&amp;view=select&amp;client_id=0"
-			quicktask-title="MOD_MENU_COM_CONTENT_NEW_SITE_MODULE"
+			quicktask-title="COM_CONTENT_MENUS_NEW_SITE_MODULE"
 		/>
 
 		<menuitem

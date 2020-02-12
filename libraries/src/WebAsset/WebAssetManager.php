@@ -750,7 +750,8 @@ class WebAssetManager implements WebAssetManagerInterface
 					// Set dependency state only when it is inactive, to keep a manually activated Asset in their original state
 					if (empty($this->activeAssets[$depType][$depItem->getName()]))
 					{
-						$this->activeAssets[$depType][$depItem->getName()] = static::ASSET_STATE_DEPENDENCY;
+						// Add the dependency at the top of the list of active assets
+						$this->activeAssets[$depType] = [$depItem->getName() => static::ASSET_STATE_DEPENDENCY] + $this->activeAssets[$depType];
 					}
 				}
 			}
@@ -818,6 +819,9 @@ class WebAssetManager implements WebAssetManagerInterface
 				}
 			)
 		);
+
+		// Reverse, to start from a last enabled and move up to a first enabled, this helps to maintain an original sorting
+		$emptyIncoming = array_reverse($emptyIncoming);
 
 		// Loop through, and sort the graph
 		while ($emptyIncoming)
@@ -935,22 +939,19 @@ class WebAssetManager implements WebAssetManagerInterface
 		{
 			$name = $asset->getName();
 
-			// Outgoing nodes
+			// Initialise an array for outgoing nodes of the asset
 			$graphOutgoing[$name] = [];
 
-			foreach ($asset->getDependencies() as $depName)
-			{
-				$graphOutgoing[$name][$depName] = $depName;
-			}
-
-			// Incoming nodes
+			// Initialise an array for incoming nodes of the asset
 			if (!\array_key_exists($name, $graphIncoming))
 			{
 				$graphIncoming[$name] = [];
 			}
 
+			// Collect an outgoing/incoming nodes
 			foreach ($asset->getDependencies() as $depName)
 			{
+				$graphOutgoing[$name][$depName] = $depName;
 				$graphIncoming[$depName][$name] = $name;
 			}
 		}
