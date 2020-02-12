@@ -43,7 +43,7 @@ HTMLHelper::_('script', 'legacy/treeselectmenu.min.js', ['version' => 'auto', 'r
 
 		<hr>
 		<div class="alert alert-info">
-			<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 			<?php echo Text::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC'); ?>
 		</div>
 			<?php if (count($menuLinks)) : ?>
@@ -57,8 +57,8 @@ HTMLHelper::_('script', 'legacy/treeselectmenu.min.js', ['version' => 'auto', 'r
 					foreach ($menuLinks as $i => $link) : ?>
 						<?php
 						if ($extension = $link->element):
-							$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
-							|| $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension, null, false, true);
+							$lang->load("$extension.sys", JPATH_ADMINISTRATOR)
+							|| $lang->load("$extension.sys", JPATH_ADMINISTRATOR . '/components/' . $extension);
 						endif;
 
 						if ($prevlevel < $link->level)

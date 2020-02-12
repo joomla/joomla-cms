@@ -1285,8 +1285,8 @@ class UserModel extends AdminModel
 			$extension = 'com_users';
 			$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
 
-			$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
-				|| $lang->load($extension, $source, null, false, true);
+			$lang->load($extension, JPATH_ADMINISTRATOR)
+				|| $lang->load($extension, $source);
 
 			$warn = true;
 			$warnMessage = Text::_('COM_USERS_ERROR_SECRET_CODE_WITHOUT_TFA');
