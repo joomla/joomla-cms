@@ -112,10 +112,6 @@ body {
     }
   }
 
-  .btn-group {
-    margin-left: .75rem !important;
-  }
-
   .btn-toolbar > * {
     margin-right: .75rem;
     margin-left: 0;
@@ -256,4 +252,10 @@ body {
 #jform_old_url,
 #new_url {
   text-align: left;
+}
+
+// Database prefix
+#jform_dbprefix {
+  direction: ltr;
+  text-align: right;
 }

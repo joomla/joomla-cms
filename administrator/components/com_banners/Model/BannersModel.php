@@ -125,6 +125,11 @@ class BannersModel extends ListModel
 					$db->quoteName('a.language'),
 					$db->quoteName('a.publish_up'),
 					$db->quoteName('a.publish_down'),
+				]
+			)
+		)
+			->select(
+				[
 					$db->quoteName('l.title', 'language_title'),
 					$db->quoteName('l.image', 'language_image'),
 					$db->quoteName('uc.name', 'editor'),
@@ -133,7 +138,6 @@ class BannersModel extends ListModel
 					$db->quoteName('cl.purchase_type', 'client_purchase_type'),
 				]
 			)
-		)
 			->from($db->quoteName('#__banners', 'a'))
 			->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'))
 			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'))

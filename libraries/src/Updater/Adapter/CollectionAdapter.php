@@ -133,7 +133,7 @@ class CollectionAdapter extends UpdateAdapter
 					{
 						$attrs[$col] = '';
 
-						if ($col == 'CLIENT')
+						if ($col === 'CLIENT')
 						{
 							$attrs[$col] = 'site';
 						}
@@ -243,7 +243,7 @@ class CollectionAdapter extends UpdateAdapter
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
-			if (!$this->appendExtension && (substr($this->_url, -4) != '.xml'))
+			if (!$this->appendExtension && (substr($this->_url, -4) !== '.xml'))
 			{
 				$options['append_extension'] = true;
 

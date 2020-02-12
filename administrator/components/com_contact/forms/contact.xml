@@ -181,6 +181,8 @@
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			rows="3"
 			cols="30"
+			maxlength="160"
+			charcounter="true"
 		/>
 
 		<field
@@ -194,7 +196,7 @@
 		<field
 			name="featured"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="JFEATURED"
 			default="0"
 			>
