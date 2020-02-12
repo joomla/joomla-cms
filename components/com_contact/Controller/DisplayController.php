@@ -70,6 +70,11 @@ class DisplayController extends BaseController
 		$vName = $this->input->get('view', 'categories');
 		$this->input->set('view', $vName);
 
+		if (Factory::getUser()->get('id'))
+		{
+			$cachable = false;
+		}
+
 		$safeurlparams = array('catid' => 'INT', 'id' => 'INT', 'cid' => 'ARRAY', 'year' => 'INT', 'month' => 'INT',
 			'limit' => 'UINT', 'limitstart' => 'UINT', 'showall' => 'INT', 'return' => 'BASE64', 'filter' => 'STRING',
 			'filter_order' => 'CMD', 'filter_order_Dir' => 'CMD', 'filter-search' => 'STRING', 'print' => 'BOOLEAN',

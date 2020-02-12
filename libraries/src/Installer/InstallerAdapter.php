@@ -531,7 +531,7 @@ abstract class InstallerAdapter
 	protected function doLoadLanguage($extension, $source, $base = JPATH_ADMINISTRATOR)
 	{
 		$lang = Factory::getLanguage();
-		$lang->load($extension . '.sys', $source, null, false, true) || $lang->load($extension . '.sys', $base, null, false, true);
+		$lang->load($extension . '.sys', $source) || $lang->load($extension . '.sys', $base);
 	}
 
 	/**

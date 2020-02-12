@@ -127,6 +127,7 @@
   .choices__inner {
     padding: 0.4rem 1rem 0.256rem;
   }
+
   .choices__input {
     padding: 0.2rem 0 0.356rem;
     color: $custom-select-color;
@@ -156,7 +157,8 @@
   font-size: 1rem;
 }
 
-.choices__inner, .choices__input {
+.choices__inner,
+.choices__input {
   background-color: var(--white);
 }
 
@@ -169,4 +171,3 @@
 .choices__list--multiple .choices__item[data-deletable] {
   padding-right: 1.8125rem !important;
 }
-

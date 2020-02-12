@@ -44,7 +44,7 @@ class MenuField extends GroupedlistField
 	{
 		$clientId   = (string) $this->element['clientid'];
 		$accessType = (string) $this->element['accesstype'];
-		$showAll    = (string) $this->element['showAll'] == 'true';
+		$showAll    = (string) $this->element['showAll'] === 'true';
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
