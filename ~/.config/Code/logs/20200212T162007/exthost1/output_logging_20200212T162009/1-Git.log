@@ -1,0 +1,47 @@
+Looking for git in: git
+Using git 2.20.1 from git
+> git rev-parse --show-toplevel
+> git rev-parse --git-dir
+Open repository: /opt/lampp/htdocs/joomla-cms
+> git status -z -u
+> git show :administrator/components/com_menus/views/item/tmpl/edit.php
+> git symbolic-ref --short HEAD
+> git rev-parse first-commit
+> git rev-parse --symbolic-full-name first-commit@{u}
+fatal: no upstream configured for branch 'first-commit'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse first-commit
+> git rev-parse --symbolic-full-name first-commit@{u}
+fatal: no upstream configured for branch 'first-commit'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git check-ignore -v -z --stdin
+> git show :administrator/language/en-GB/en-GB.ini
+> git show :administrator/language/en-GB/en-GB.lib_joomla.ini
+> git show :administrator/language/en-GB/en-GB.ini
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse first-commit
+> git rev-parse --symbolic-full-name first-commit@{u}
+fatal: no upstream configured for branch 'first-commit'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse first-commit
+> git rev-parse --symbolic-full-name first-commit@{u}
+fatal: no upstream configured for branch 'first-commit'
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git config --get commit.template
