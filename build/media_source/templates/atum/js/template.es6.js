@@ -284,8 +284,8 @@
       });
     }
   });
-  document.getElementsByClassName('admin')[0].addEventListener('click', (event) => {
-    if (document.querySelector('.active') && !document.querySelector('.header-item-more').contains(event.target)) {
+  document.addEventListener('click', (event) => {
+    if (document.getElementById('header-more-itemste').querySelector('.active') && !document.querySelector('.header-item-more').contains(event.target)) {
       document.getElementById('header-more-items').classList.remove('active');
     }
   });
