@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Categories\CategoryFactoryInterface;
+use Joomla\CMS\Categories\CategoryInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterView;
 use Joomla\CMS\Component\Router\RouterViewConfiguration;
@@ -21,6 +22,7 @@ use Joomla\CMS\Component\Router\Rules\NomenuRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 
 /**
  * Routing class from com_contact
@@ -44,6 +46,15 @@ class Router extends RouterView
 	 * @since  4.0.0
 	 */
 	private $categoryFactory;
+
+	/**
+	 * The category cache
+	 *
+	 * @var  array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $categoryCache = [];
 
 	/**
 	 * The db
@@ -79,6 +90,9 @@ class Router extends RouterView
 		$contact->setKey('id')->setParent($category, 'catid');
 		$this->registerView($contact);
 		$this->registerView(new RouterViewConfiguration('featured'));
+		$form = new RouterViewConfiguration('form');
+		$form->setKey('id');
+		$this->registerView($form);
 
 		parent::__construct($app, $menu);
 
@@ -97,7 +111,7 @@ class Router extends RouterView
 	 */
 	public function getCategorySegment($id, $query)
 	{
-		$category = $this->categoryFactory->createCategory()->get($id);
+		$category = $this->getCategories()->get($id);
 
 		if ($category)
 		{
@@ -143,10 +157,12 @@ class Router extends RouterView
 	{
 		if (!strpos($id, ':'))
 		{
+			$id = (int) $id;
 			$dbquery = $this->db->getQuery(true);
-			$dbquery->select($dbquery->quoteName('alias'))
-				->from($dbquery->quoteName('#__contact_details'))
-				->where('id = ' . $dbquery->quote((int) $id));
+			$dbquery->select($this->db->quoteName('alias'))
+				->from($this->db->quoteName('#__contact_details'))
+				->where($this->db->quoteName('id') . ' = :id')
+				->bind(':id', $id, ParameterType::INTEGER);
 			$this->db->setQuery($dbquery);
 
 			$id .= ':' . $this->db->loadResult();
@@ -163,6 +179,21 @@ class Router extends RouterView
 	}
 
 	/**
+	 * Method to get the segment(s) for a form
+	 *
+	 * @param   string  $id     ID of the contact form to retrieve the segments for
+	 * @param   array   $query  The request that is built right now
+	 *
+	 * @return  array|string  The segments of this item
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getFormSegment($id, $query)
+	{
+		return $this->getContactSegment($id, $query);
+	}
+
+	/**
 	 * Method to get the id for a category
 	 *
 	 * @param   string  $segment  Segment to retrieve the ID for
@@ -174,7 +205,7 @@ class Router extends RouterView
 	{
 		if (isset($query['id']))
 		{
-			$category = $this->categoryFactory->createCategory(['access' => false])->get($query['id']);
+			$category = $this->getCategories(['access' => false])->get($query['id']);
 
 			if ($category)
 			{
@@ -227,15 +258,42 @@ class Router extends RouterView
 		if ($this->noIDs)
 		{
 			$dbquery = $this->db->getQuery(true);
-			$dbquery->select($dbquery->quoteName('id'))
-				->from($dbquery->quoteName('#__contact_details'))
-				->where('alias = ' . $dbquery->quote($segment))
-				->where('catid = ' . $dbquery->quote($query['id']));
+			$dbquery->select($this->db->quoteName('id'))
+				->from($this->db->quoteName('#__contact_details'))
+				->where(
+					[
+						$this->db->quoteName('alias') . ' = :alias',
+						$this->db->quoteName('catid') . ' = :catid',
+					]
+				)
+				->bind(':alias', $segment)
+				->bind(':catid', $query['id'], ParameterType::INTEGER);
 			$this->db->setQuery($dbquery);
 
 			return (int) $this->db->loadResult();
 		}
 
 		return (int) $segment;
+	}
+
+	/**
+	 * Method to get categories from cache
+	 *
+	 * @param   array  $options   The options for retrieving categories
+	 *
+	 * @return  CategoryInterface  The object containing categories
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getCategories(array $options = []): CategoryInterface
+	{
+		$key = serialize($options);
+
+		if (!isset($this->categoryCache[$key]))
+		{
+			$this->categoryCache[$key] = $this->categoryFactory->createCategory($options);
+		}
+
+		return $this->categoryCache[$key];
 	}
 }

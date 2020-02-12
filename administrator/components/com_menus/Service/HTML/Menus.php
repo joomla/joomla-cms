@@ -12,10 +12,12 @@ namespace Joomla\Component\Menus\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -49,16 +51,23 @@ class Menus
 			// Get the associated menu items
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('m.id, m.title')
-				->select('l.sef as lang_sef, l.lang_code')
-				->select('mt.title as menu_title')
-				->from('#__menu as m')
-				->join('LEFT', '#__menu_types as mt ON mt.menutype=m.menutype')
-				->where('m.id IN (' . implode(',', array_values($associations)) . ')')
-				->where('m.id != ' . $itemid)
-				->join('LEFT', '#__languages as l ON m.language=l.lang_code')
-				->select('l.image')
-				->select('l.title as language_title');
+				->select(
+					[
+						$db->quoteName('m.id'),
+						$db->quoteName('m.title'),
+						$db->quoteName('l.sef', 'lang_sef'),
+						$db->quoteName('l.lang_code'),
+						$db->quoteName('mt.title', 'menu_title'),
+						$db->quoteName('l.image'),
+						$db->quoteName('l.title', 'language_title'),
+					]
+				)
+				->from($db->quoteName('#__menu', 'm'))
+				->join('LEFT', $db->quoteName('#__menu_types', 'mt'), $db->quoteName('mt.menutype') . ' = ' . $db->quoteName('m.menutype'))
+				->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('m.language') . ' = ' . $db->quoteName('l.lang_code'))
+				->whereIn($db->quoteName('m.id'), array_values($associations))
+				->where($db->quoteName('m.id') . ' != :itemid')
+				->bind(':itemid', $itemid, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
@@ -73,16 +82,27 @@ class Menus
 			// Construct html
 			if ($items)
 			{
+				$languages = LanguageHelper::getContentLanguages(array(0, 1));
+				$content_languages = array_column($languages, 'lang_code');
+
 				foreach ($items as &$item)
 				{
-					$text    = strtoupper($item->lang_sef);
-					$url     = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
-					$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
-						. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
-					$classes = 'badge badge-secondary';
+					if (in_array($item->lang_code, $content_languages))
+					{
+						$text    = strtoupper($item->lang_sef);
+						$url     = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
+						$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
+							. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
+						$classes = 'badge badge-secondary';
 
-					$item->link = '<a href="' . $url . '" title="' . $item->language_title . '" class="' . $classes . '">' . $text . '</a>'
-						. '<div role="tooltip" id="tip' . (int) $item->id . '">' . $tooltip . '</div>';
+						$item->link = '<a href="' . $url . '" class="' . $classes . '">' . $text . '</a>'
+							. '<div role="tooltip" id="tip-' . (int) $itemid . '-' . (int) $item->id . '">' . $tooltip . '</div>';
+					}
+					else
+					{
+						// Display warning if Content Language is trashed or deleted
+						Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_ASSOCIATIONS_CONTENTLANGUAGE_WARNING', $item->lang_code), 'warning');
+					}
 				}
 			}
 

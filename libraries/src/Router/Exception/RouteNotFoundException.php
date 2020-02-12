@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Router\Exception;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Exception class defining an error for a missing route

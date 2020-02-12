@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 
 /**
  * Languages Model Class
@@ -112,46 +113,61 @@ class LanguagesModel extends ListModel
 		$query = $db->getQuery(true);
 
 		// Select all fields from the languages table.
-		$query->select($this->getState('list.select', 'a.*', 'l.home'))
-			->from($db->quoteName('#__languages') . ' AS a');
-
-		// Join over the asset groups.
-		$query->select('ag.title AS access_level')
-			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
-
-		// Select the language home pages.
-		$query->select('l.home AS home')
-			->join('LEFT', $db->quoteName('#__menu') . ' AS l  ON  l.language = a.lang_code AND l.home=1  AND l.language <> ' . $db->quote('*'));
+		$query->select(
+			$this->getState('list.select',
+				[
+					$db->quoteName('a') . '.*',
+				]
+			)
+		)
+			->select(
+				[
+					$db->quoteName('l.home'),
+					$db->quoteName('ag.title', 'access_level'),
+				]
+			)
+			->from($db->quoteName('#__languages', 'a'))
+			->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__menu', 'l'),
+				$db->quoteName('l.language') . ' = ' . $db->quoteName('a.lang_code')
+					. ' AND ' . $db->quoteName('l.home') . ' = 1 AND ' . $db->quoteName('l.language') . ' <> ' . $db->quote('*')
+			);
 
 		// Filter on the published state.
 		$published = (string) $this->getState('filter.published');
 
 		if (is_numeric($published))
 		{
-			$query->where('a.published = ' . (int) $published);
+			$published = (int) $published;
+			$query->where($db->quoteName('a.published') . ' = :published')
+				->bind(':published', $published, ParameterType::INTEGER);
 		}
 		elseif ($published === '')
 		{
-			$query->where('(a.published IN (0, 1))');
+			$query->where($db->quoteName('a.published') . ' IN (0, 1)');
 		}
 
 		// Filter by search in title.
-		$search = $this->getState('filter.search');
-
-		if (!empty($search))
+		if ($search = $this->getState('filter.search'))
 		{
-			$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-			$query->where('(a.title LIKE ' . $search . ')');
+			$search = '%' . str_replace(' ', '%', trim($search)) . '%';
+			$query->where($db->quoteName('a.title') . ' LIKE :search')
+				->bind(':search', $search);
 		}
 
 		// Filter by access level.
-		if ($access = $this->getState('filter.access'))
+		if ($access = (int) $this->getState('filter.access'))
 		{
-			$query->where('a.access = ' . (int) $access);
+			$query->where($db->quoteName('a.access') . ' = :access')
+				->bind(':access', $access, ParameterType::INTEGER);
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$query->order($db->quoteName($db->escape($this->getState('list.ordering', 'a.ordering')))
+			. ' ' . $db->escape($this->getState('list.direction', 'ASC'))
+		);
 
 		return $query;
 	}

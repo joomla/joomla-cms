@@ -167,13 +167,11 @@ class PluginModel extends AdminModel
 			$table = $this->getTable();
 
 			// Attempt to load the row.
-			$return = $table->load($pk);
+			$return = $table->load(array('extension_id' => $pk, 'type' => 'plugin'));
 
 			// Check for a table object error.
-			if ($return === false && $table->getError())
+			if ($return === false)
 			{
-				$this->setError($table->getError());
-
 				return false;
 			}
 
@@ -267,8 +265,8 @@ class PluginModel extends AdminModel
 
 		foreach ($elements as $elementa)
 		{
-			$lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa, null, false, true);
+			$lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_ADMINISTRATOR)
+			|| $lang->load('plg_' . $folder . '_' . $elementa . '.sys', JPATH_PLUGINS . '/' . $folder . '/' . $elementa);
 		}
 
 		if (empty($folder) || empty($element))
@@ -285,8 +283,8 @@ class PluginModel extends AdminModel
 		}
 
 		// Load the core and/or local language file(s).
-			$lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR, null, false, true)
-		||	$lang->load('plg_' . $folder . '_' . $element, JPATH_PLUGINS . '/' . $folder . '/' . $element, null, false, true);
+			$lang->load('plg_' . $folder . '_' . $element, JPATH_ADMINISTRATOR)
+		||	$lang->load('plg_' . $folder . '_' . $element, JPATH_PLUGINS . '/' . $folder . '/' . $element);
 
 		if (file_exists($formFile))
 		{

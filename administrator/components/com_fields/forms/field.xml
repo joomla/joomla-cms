@@ -38,6 +38,7 @@
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			>
 			<option value="">JALL</option>
+			<option value="-1">JNONE</option>
 		</field>
 
 		<field
@@ -68,7 +69,7 @@
 			name="required"
 			type="radio"
 			label="COM_FIELDS_FIELD_REQUIRED_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -198,7 +199,6 @@
 			name="ordering"
 			type="text"
 			label="JFIELD_ORDERING_LABEL"
-			class="inputbox"
 		/>
 	</fieldset>
 
@@ -252,7 +252,7 @@
 					name="showlabel"
 					type="radio"
 					label="COM_FIELDS_FIELD_SHOWLABEL_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					>
 					<option value="0">JHIDE</option>

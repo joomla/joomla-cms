@@ -88,20 +88,21 @@ abstract class JHtmlJGrid
 		}
 		else
 		{
-			$html[] = '<a class="tbody-icon disabled jgrid' . ($tip ? ' hasTooltip' : '') . '"';
-			$html[] = $tip ? ' title="' . $title . '"' : '';
+			$html[] = '<a class="tbody-icon disabled jgrid"';
+			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
 
 			if ($active_class === 'protected')
 			{
-				$html[] = '<span class="icon-lock"></span>';
+				$html[] = '<span class="icon-lock" aria-hidden="true"></span>';
 			}
 			else
 			{
-				$html[] = '<span class="icon-' . $inactive_class . '"></span>';
+				$html[] = '<span class="icon-' . $inactive_class . '" aria-hidden="true"></span>';
 			}
 
 			$html[] = '</a>';
+			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
 		}
 
 		return implode($html);
@@ -198,8 +199,8 @@ abstract class JHtmlJGrid
 
 			$tz = Factory::getUser()->getTimezone();
 
-			$publish_up = ($publish_up != $nullDate) ? Factory::getDate($publish_up, 'UTC')->setTimeZone($tz) : false;
-			$publish_down = ($publish_down != $nullDate) ? Factory::getDate($publish_down, 'UTC')->setTimeZone($tz) : false;
+			$publish_up = ($publish_up !== null && $publish_up !== $nullDate) ? Factory::getDate($publish_up, 'UTC')->setTimeZone($tz) : false;
+			$publish_down = ($publish_down !== null && $publish_down !== $nullDate) ? Factory::getDate($publish_down, 'UTC')->setTimeZone($tz) : false;
 
 			// Create tip text, only we have publish up or down settings
 			$tips = array();

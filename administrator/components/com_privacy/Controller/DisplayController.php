@@ -14,11 +14,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
 use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
 
 /**
@@ -94,9 +92,6 @@ class DisplayController extends BaseController
 
 			// Push document object into the view.
 			$view->document = $document;
-
-			// Load the submenu.
-			PrivacyHelper::addSubmenu($this->input->get('view', $this->default_view));
 
 			$view->display();
 		}

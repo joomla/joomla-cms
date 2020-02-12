@@ -37,7 +37,7 @@
 		<folder>js</folder>
 	</media>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_finder.ini</language>
+		<language tag="en-GB">language/en-GB/com_finder.ini</language>
 	</languages>
 	<administration>
 		<files folder="admin">
@@ -57,8 +57,8 @@
 			<folder>View</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_finder.ini</language>
-			<language tag="en-GB">language/en-GB.com_finder.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_finder.ini</language>
+			<language tag="en-GB">language/en-GB/com_finder.sys.ini</language>
 		</languages>
 		<menu img="class:finder" link="option=com_finder">COM_FINDER</menu>
 	</administration>

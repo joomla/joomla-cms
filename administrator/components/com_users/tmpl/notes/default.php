@@ -30,7 +30,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -93,7 +93,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								<?php echo $this->escape($item->user_name); ?>
 							</td>
 							<td class="d-none d-md-table-cell">
-								<?php if ($item->review_time !== Factory::getDbo()->getNullDate()) : ?>
+								<?php if ($item->review_time !== null) : ?>
 									<?php echo HTMLHelper::_('date', $item->review_time, Text::_('DATE_FORMAT_LC4')); ?>
 								<?php else : ?>
 									<?php echo Text::_('COM_USERS_EMPTY_REVIEW'); ?>

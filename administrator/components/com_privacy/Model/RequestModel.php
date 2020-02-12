@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Table\Table;
@@ -80,8 +81,8 @@ class RequestModel extends AdminModel
 	 *
 	 * @return  Table  A Table object
 	 *
-	 * @since   3.9.0
 	 * @throws  \Exception
+	 * @since   3.9.0
 	 */
 	public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
 	{
@@ -263,11 +264,11 @@ class RequestModel extends AdminModel
 
 		$userId = (int) $db->setQuery(
 			$db->getQuery(true)
-				->select('id')
+				->select($db->quoteName('id'))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = ' . $db->quote($table->email)),
-			0,
-			1
+				->where($db->quoteName('email') . ' = :email')
+				->bind(':email', $table->email)
+				->setLimit(1)
 		)->loadResult();
 
 		if ($userId)
@@ -290,8 +291,8 @@ class RequestModel extends AdminModel
 		}
 
 		// Ensure the right language files have been loaded
-		$lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy', null, false, true);
+		$lang->load('com_privacy', JPATH_ADMINISTRATOR)
+			|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
 
 		// Regenerate the confirmation token
 		$token       = ApplicationHelper::getHash(UserHelper::genRandomPassword());
@@ -367,7 +368,7 @@ class RequestModel extends AdminModel
 
 			return true;
 		}
-		catch (phpmailerException $exception)
+		catch (MailDisabledException | phpmailerException $exception)
 		{
 			$this->setError($exception->getMessage());
 
@@ -436,10 +437,12 @@ class RequestModel extends AdminModel
 
 		$query = $db->getQuery(true)
 			->select('COUNT(id)')
-			->from('#__privacy_requests')
-			->where('email = ' . $db->quote($validatedData['email']))
-			->where('request_type = ' . $db->quote($validatedData['request_type']))
-			->where('status IN (0, 1)');
+			->from($db->quoteName('#__privacy_requests'))
+			->where($db->quoteName('email') . ' = :email')
+			->where($db->quoteName('request_type') . ' = :requesttype')
+			->whereIn($db->quoteName('status'), [0, 1])
+			->bind(':email', $validatedData['email'])
+			->bind(':requesttype', $validatedData['request_type']);
 
 		$activeRequestCount = (int) $db->setQuery($query)->loadResult();
 

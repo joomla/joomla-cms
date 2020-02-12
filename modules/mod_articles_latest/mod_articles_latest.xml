@@ -29,6 +29,7 @@
 					label="JCATEGORY"
 					extension="com_content"
 					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
 					filter="int_array"
 				/>
 
@@ -82,6 +83,7 @@
 					type="author"
 					label="MOD_LATEST_NEWS_FIELD_AUTHOR_LABEL"
 					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
 					showon="user_id:created_by"
 				/>
 			</fieldset>

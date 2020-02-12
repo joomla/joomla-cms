@@ -90,8 +90,6 @@ class AdministratorApplication extends CMSApplication
 		switch ($document->getType())
 		{
 			case 'html':
-				$document->setMetaData('keywords', $this->get('MetaKeys'));
-
 				// Get the template
 				$template = $this->getTemplate(true);
 
@@ -132,7 +130,7 @@ class AdministratorApplication extends CMSApplication
 	protected function doExecute()
 	{
 		// Get the language from the (login) form or user state
-		$login_lang = ($this->input->get('option') == 'com_login') ? $this->input->get('lang') : '';
+		$login_lang = ($this->input->get('option') === 'com_login') ? $this->input->get('lang') : '';
 		$options    = array('language' => $login_lang ?: $this->getUserState('application.lang'));
 
 		// Initialise the application
@@ -154,7 +152,7 @@ class AdministratorApplication extends CMSApplication
 		 * $this->input->getCmd('option'); or $this->input->getCmd('view');
 		 * ex: due of the sef urls
 		 */
-		$this->checkUserRequireReset('com_admin', 'profile', 'edit', 'com_admin/profile.save,com_admin/profile.apply,com_login/logout');
+		$this->checkUserRequireReset('com_users', 'user', 'edit', 'com_users/user.edit,com_users/user.save,com_users/user.apply,com_login/logout');
 
 		// Dispatch the application
 		$this->dispatch();
@@ -502,6 +500,11 @@ class AdministratorApplication extends CMSApplication
 			// Forward to https
 			$uri->setScheme('https');
 			$this->redirect((string) $uri, 301);
+		}
+
+		if ($this->isTwoFactorAuthenticationRequired())
+		{
+			$this->redirectIfTwoFactorAuthenticationRequired();
 		}
 
 		// Trigger the onAfterRoute event.

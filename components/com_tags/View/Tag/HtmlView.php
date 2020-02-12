@@ -294,13 +294,13 @@ class HtmlView extends BaseHtmlView
 		$app              = Factory::getApplication();
 		$menu             = $app->getMenu()->getActive();
 		$this->tags_title = $this->getTagsTitle();
-		$pathway	  = $app->getPathway();
+		$pathway          = $app->getPathway();
 		$title            = '';
 
 		// Highest priority for "Browser Page Title".
 		if ($menu)
 		{
-			$title = $menu->params->get('page_title', '');
+			$title = $menu->getParams()->get('page_title', '');
 		}
 
 		if ($this->tags_title)
@@ -313,7 +313,7 @@ class HtmlView extends BaseHtmlView
 			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
 			$title = $title ?: $this->params->get('page_title', $menu->title);
 
-			if ($menu->query['option'] !== 'com_tags')
+			if (!isset($menu->query['option']) || $menu->query['option'] !== 'com_tags')
 			{
 				$this->params->set('page_subheading', $menu->title);
 			}
@@ -345,15 +345,6 @@ class HtmlView extends BaseHtmlView
 			elseif ($this->params->get('menu-meta_description'))
 			{
 				$this->document->setDescription($this->params->get('menu-meta_description'));
-			}
-
-			if ($itemElement->metakey)
-			{
-				$this->document->setMetaData('keywords', $itemElement->metakey);
-			}
-			elseif ($this->params->get('menu-meta_keywords'))
-			{
-				$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 			}
 
 			if ($this->params->get('robots'))

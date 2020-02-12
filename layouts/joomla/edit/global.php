@@ -33,6 +33,8 @@ $fields = $displayData->get('fields') ?: array(
 	array('published', 'state', 'enabled'),
 	array('category', 'catid'),
 	'featured',
+	'featured_up',
+	'featured_down',
 	'sticky',
 	'access',
 	'language',
@@ -55,7 +57,7 @@ if (!Multilanguage::isEnabled())
 }
 
 $html   = array();
-$html[] = '<fieldset class="form-vertical form-no-margin">';
+$html[] = '<fieldset class="form-vertical">';
 
 foreach ($fields as $field)
 {

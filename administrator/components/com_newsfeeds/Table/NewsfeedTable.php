@@ -100,44 +100,12 @@ class NewsfeedTable extends Table
 			return false;
 		}
 
-		// Clean up keywords -- eliminate extra spaces between phrases
-		// and cr (\r) and lf (\n) characters from string if not empty
-		if (!empty($this->metakey))
-		{
-			// Array of characters to remove
-			$bad_characters = array("\n", "\r", "\"", '<', '>');
-
-			// Remove bad characters
-			$after_clean = StringHelper::str_ireplace($bad_characters, '', $this->metakey);
-
-			// Create array using commas as delimiter
-			$keys = explode(',', $after_clean);
-			$clean_keys = array();
-
-			foreach ($keys as $key)
-			{
-				if (trim($key))
-				{
-					// Ignore blank keywords
-					$clean_keys[] = trim($key);
-				}
-			}
-
-			// Put array back together delimited by ", "
-			$this->metakey = implode(', ', $clean_keys);
-		}
-
 		// Clean up description -- eliminate quotes and <> brackets
 		if (!empty($this->metadesc))
 		{
 			// Only process if not empty
 			$bad_characters = array("\"", '<', '>');
 			$this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
-		}
-
-		if (empty($this->modified))
-		{
-			$this->modified = $this->created;
 		}
 
 		return true;
@@ -175,6 +143,16 @@ class NewsfeedTable extends Table
 			if (empty($this->created_by))
 			{
 				$this->created_by = $user->get('id');
+			}
+
+			if (!(int) $this->modified)
+			{
+				$this->modified = $this->created;
+			}
+
+			if (empty($this->modified_by))
+			{
+				$this->modified_by = $this->created_by;
 			}
 		}
 

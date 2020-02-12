@@ -9,7 +9,7 @@
 
 namespace Joomla\Module\ArticlesNews\Site\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /**
  * Helper for mod_articles_news
@@ -120,19 +121,19 @@ abstract class ArticlesNewsHelper
 
 		foreach ($items as &$item)
 		{
-			$item->readmore = strlen(trim($item->fulltext));
+			$item->readmore = \strlen(trim($item->fulltext));
 			$item->slug     = $item->id . ':' . $item->alias;
 
-			if ($access || in_array($item->access, $authorised))
+			if ($access || \in_array($item->access, $authorised))
 			{
 				// We know that user has the privilege to view the article
-				$item->link     = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->link     = Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language));
 				$item->linkText = Text::_('MOD_ARTICLES_NEWS_READMORE');
 			}
 			else
 			{
 				$item->link = new Uri(Route::_('index.php?option=com_users&view=login', false));
-				$item->link->setVar('return', base64_encode(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)));
+				$item->link->setVar('return', base64_encode(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language)));
 				$item->linkText = Text::_('MOD_ARTICLES_NEWS_READMORE_REGISTER');
 			}
 

@@ -59,7 +59,7 @@ class HtmlView extends BaseHtmlView
 		$extension = ApplicationHelper::stringURLSafe($app->input->getCmd('dashboard'));
 
 		$title = Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE');
-		$icon = Text::_('COM_CPANEL_DASHBOARD_BASE_ICON');
+		$icon  = 'fas fa-home';
 
 		$position = ApplicationHelper::stringURLSafe($extension);
 
@@ -80,8 +80,8 @@ class HtmlView extends BaseHtmlView
 				$prefix = strtoupper($parts[0]) . '_DASHBOARD';
 
 				// Need to load the language file
-				$lang->load($parts[0], JPATH_BASE, null, false, true)
-				|| $lang->load($parts[0], JPATH_ADMINISTRATOR . '/components/' . $parts[0], null, false, true);
+				$lang->load($parts[0], JPATH_BASE)
+				|| $lang->load($parts[0], JPATH_ADMINISTRATOR . '/components/' . $parts[0]);
 				$lang->load($parts[0]);
 			}
 
@@ -95,8 +95,47 @@ class HtmlView extends BaseHtmlView
 				$title = Text::_($key);
 			}
 
-			// Search for Icon
-			if ($lang->hasKey($keyIcon))
+			if (empty($parts[1]))
+			{
+				// Default core icons.
+				if ($parts[0] === 'content')
+				{
+					$icon = 'fas fa-file-alt';
+				}
+				elseif ($parts[0] === 'components')
+				{
+					$icon = 'fas fa-puzzle-piece';
+				}
+				elseif ($parts[0] === 'menus')
+				{
+					$icon = 'fas fa-list';
+				}
+				elseif ($parts[0] === 'system')
+				{
+					$icon = 'fas fa-wrench';
+				}
+				elseif ($parts[0] === 'users')
+				{
+					$icon = 'fas fa-users';
+				}
+				elseif ($parts[0] === 'privacy')
+				{
+					$icon = 'lock';
+				}
+				elseif ($parts[0] === 'help')
+				{
+					$icon = 'fas fa-info-circle';
+				}
+				elseif ($lang->hasKey($keyIcon))
+				{
+					$icon = Text::_($keyIcon);
+				}
+				else
+				{
+					$icon = '';
+				}
+			}
+			elseif ($lang->hasKey($keyIcon))
 			{
 				$icon = Text::_($keyIcon);
 			}

@@ -146,7 +146,7 @@ abstract class HTMLHelper
 
 			if (!\is_callable($toCall))
 			{
-				throw new \InvalidArgumentException(sprintf('%s::%s not found.', $service, $func), 500);
+				throw new \InvalidArgumentException(sprintf('%s::%s not found.', $file, $func), 500);
 			}
 
 			static::register($key, $toCall);
@@ -735,78 +735,6 @@ abstract class HTMLHelper
 
 			$document->addScript($include, $options, $attribs);
 		}
-	}
-
-	/**
-	 * Loads the path of a custom element or webcomponent into the scriptOptions object
-	 *
-	 * @param   string  $file     The path of the web component (expects the ES6 version). File need to have also an
-	 *                            -es5(.min).js version in the same folder for the non ES6 Browsers.
-	 * @param   array   $options  The extra options for the script
-	 *
-	 * @since   4.0.0
-	 *
-	 * @see     HTMLHelper::stylesheet()
-	 * @see     HTMLHelper::script()
-	 *
-	 * @return  void
-	 */
-	public static function webcomponent(string $file, array $options = [])
-	{
-		if (empty($file))
-		{
-			return;
-		}
-
-		// Script core.js is responsible for the polyfills and the async loading of the web components
-		static::_('behavior.core');
-
-		// Add the css if exists
-		self::_('stylesheet', str_replace('.js', '.css', $file), $options);
-
-		$includes = static::includeRelativeFiles(
-			'js',
-			$file,
-			$options['relative'] ?? true,
-			$options['detectBrowser'] ?? false,
-			$options['detectDebug'] ?? true
-		);
-
-		if (\count($includes) === 0)
-		{
-			return;
-		}
-
-		$document = Factory::getApplication()->getDocument();
-		$version  = '';
-
-		if (isset($options['version']))
-		{
-			if ($options['version'] === 'auto')
-			{
-				$version = '?' . $document->getMediaVersion();
-			}
-			else
-			{
-				$version = '?' . $options['version'];
-			}
-		}
-
-		$components = $document->getScriptOptions('webcomponents');
-
-		foreach ($includes as $include)
-		{
-			$potential = $include . ((strpos($include, '?') === false) ? $version : '');
-
-			if (\in_array($potential, $components))
-			{
-				continue;
-			}
-
-			$components[] = $potential;
-		}
-
-		$document->addScriptOptions('webcomponents', $components);
 	}
 
 	/**

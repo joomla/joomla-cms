@@ -20,7 +20,6 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
-use Joomla\String\StringHelper;
 
 /**
  * Newsfeed model.
@@ -112,18 +111,6 @@ class NewsfeedModel extends AdminModel
 		if (empty($form))
 		{
 			return false;
-		}
-
-		// Determine correct permissions to check.
-		if ($this->getState('newsfeed.id'))
-		{
-			// Existing record. Can only edit in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit');
-		}
-		else
-		{
-			// New record. Can only create in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
 		// Modify the form based on access controls.
@@ -319,7 +306,7 @@ class NewsfeedModel extends AdminModel
 			{
 				$db = $this->getDbo();
 				$query = $db->getQuery(true)
-					->select('MAX(ordering)')
+					->select('MAX(' . $db->quoteName('ordering') . ')')
 					->from($db->quoteName('#__newsfeeds'));
 				$db->setQuery($query);
 				$max = $db->loadResult();
@@ -398,7 +385,7 @@ class NewsfeedModel extends AdminModel
 		// Association newsfeeds items
 		if (Associations::isEnabled())
 		{
-			$languages = LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -184,7 +184,8 @@ class MenuitemField extends GroupedlistField
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__menu_types'))
-				->where($db->quoteName('menutype') . ' = ' . $db->quote($menuType));
+				->where($db->quoteName('menutype') . ' = :menuType')
+				->bind(':menuType', $menuType);
 			$db->setQuery($query);
 
 			try
@@ -218,7 +219,7 @@ class MenuitemField extends GroupedlistField
 					$link->value, $levelPrefix . $link->text . $lang,
 					'value',
 					'text',
-					in_array($link->type, $this->disable)
+					\in_array($link->type, $this->disable)
 				);
 			}
 		}
@@ -250,7 +251,7 @@ class MenuitemField extends GroupedlistField
 						$link->value, $levelPrefix . $link->text . $lang,
 						'value',
 						'text',
-						in_array($link->type, $this->disable)
+						\in_array($link->type, $this->disable)
 					);
 				}
 			}

@@ -43,11 +43,20 @@ class ComponentsCategoryField extends ListField
 		// Initialise variable.
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT a.name AS text, a.element AS value')
-			->from('#__extensions as a')
-			->where('a.enabled >= 1')
-			->where('a.type =' . $db->quote('component'))
-			->join('INNER', '#__categories as b ON a.element=b.extension');
+			->select(
+				[
+					'DISTINCT ' . $db->quoteName('a.name', 'text'),
+					$db->quoteName('a.element', 'value'),
+				]
+			)
+			->from($db->quoteName('#__extensions', 'a'))
+			->join('INNER', $db->quoteName('#__categories', 'b'), $db->quoteName('a.element') . ' = ' . $db->quoteName('b.extension'))
+			->where(
+				[
+					$db->quoteName('a.enabled') . ' >= 1',
+					$db->quoteName('a.type') . ' = ' . $db->quote('component'),
+				]
+			);
 
 		$items = $db->setQuery($query)->loadObjectList();
 
@@ -60,8 +69,8 @@ class ComponentsCategoryField extends ListField
 				// Load language
 				$extension = $item->value;
 				$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
-				$lang->load("$extension.sys", JPATH_ADMINISTRATOR, null, false, true)
-					|| $lang->load("$extension.sys", $source, null, false, true);
+				$lang->load("$extension.sys", JPATH_ADMINISTRATOR)
+					|| $lang->load("$extension.sys", $source);
 
 				// Translate component name
 				$item->text = Text::_($item->text);

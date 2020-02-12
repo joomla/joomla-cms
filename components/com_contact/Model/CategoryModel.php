@@ -206,11 +206,11 @@ class CategoryModel extends ListModel
 
 		if ($this->getState('filter.publish_date'))
 		{
-			$query->where('(' . $query->isNullDatetime($db->quoteName('a.publish_up'))
-				. ' OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)'
+			$query->where('(' . $db->quoteName('a.publish_up')
+				. ' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publish_up)'
 			)
-				->where('(' . $query->isNullDatetime($db->quoteName('a.publish_down'))
-					. ' OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)'
+				->where('(' . $db->quoteName('a.publish_down')
+					. ' IS NULL OR ' . $db->quoteName('a.publish_down') . ' >= :publish_down)'
 				)
 				->bind(':publish_up', $nowDate)
 				->bind(':publish_down', $nowDate);
@@ -271,11 +271,13 @@ class CategoryModel extends ListModel
 		$params = ComponentHelper::getParams('com_contact');
 
 		// Get list ordering default from the parameters
-		$menuParams = new Registry;
-
 		if ($menu = $app->getMenu()->getActive())
 		{
-			$menuParams->loadString($menu->params);
+			$menuParams = $menu->getParams();
+		}
+		else
+		{
+			$menuParams = new Registry;
 		}
 
 		$mergedParams = clone $params;
@@ -361,11 +363,14 @@ class CategoryModel extends ListModel
 			$app = Factory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
-			$params = new Registry;
 
 			if ($active)
 			{
-				$params->loadString($active->params);
+				$params = $active->getParams();
+			}
+			else
+			{
+				$params = new Registry;
 			}
 
 			$options = array();
@@ -474,7 +479,7 @@ class CategoryModel extends ListModel
 			. ' THEN '
 			. $query->concatenate(array($query->castAsChar($id), $alias), ':')
 			. ' ELSE '
-			. $id . ' END';
+			. $query->castAsChar($id) . ' END';
 	}
 
 	/**

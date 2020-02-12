@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 
 /**
  * Methods supporting a list of banner records.
@@ -75,10 +76,14 @@ class BannersModel extends ListModel
 		{
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
-				->select('MAX(ordering) as ' . $db->quoteName('max') . ', catid')
-				->select('catid')
-				->from('#__banners')
-				->group('catid');
+				->select(
+					[
+						'MAX(' . $db->quoteName('ordering') . ') AS ' . $db->quoteName('max'),
+						$db->quoteName('catid'),
+					]
+				)
+				->from($db->quoteName('#__banners'))
+				->group($db->quoteName('catid'));
 			$db->setQuery($query);
 			$this->cache['categoryorders'] = $db->loadAssocList('catid', 0);
 		}
@@ -102,50 +107,51 @@ class BannersModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id AS id,'
-				. 'a.name AS name,'
-				. 'a.alias AS alias,'
-				. 'a.checked_out AS checked_out,'
-				. 'a.checked_out_time AS checked_out_time,'
-				. 'a.catid AS catid,'
-				. 'a.clicks AS clicks,'
-				. 'a.metakey AS metakey,'
-				. 'a.sticky AS sticky,'
-				. 'a.impmade AS impmade,'
-				. 'a.imptotal AS imptotal,'
-				. 'a.state AS state,'
-				. 'a.ordering AS ordering,'
-				. 'a.purchase_type AS purchase_type,'
-				. 'a.language,'
-				. 'a.publish_up,'
-				. 'a.publish_down'
+				[
+					$db->quoteName('a.id'),
+					$db->quoteName('a.name'),
+					$db->quoteName('a.alias'),
+					$db->quoteName('a.checked_out'),
+					$db->quoteName('a.checked_out_time'),
+					$db->quoteName('a.catid'),
+					$db->quoteName('a.clicks'),
+					$db->quoteName('a.metakey'),
+					$db->quoteName('a.sticky'),
+					$db->quoteName('a.impmade'),
+					$db->quoteName('a.imptotal'),
+					$db->quoteName('a.state'),
+					$db->quoteName('a.ordering'),
+					$db->quoteName('a.purchase_type'),
+					$db->quoteName('a.language'),
+					$db->quoteName('a.publish_up'),
+					$db->quoteName('a.publish_down'),
+				]
 			)
-		);
-		$query->from($db->quoteName('#__banners', 'a'));
-
-		// Join over the language
-		$query->select('l.title AS language_title, l.image AS language_image')
-			->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON l.lang_code = a.language');
-
-		// Join over the users for the checked out user.
-		$query->select($db->quoteName('uc.name', 'editor'))
-			->join('LEFT', $db->quoteName('#__users', 'uc') . ' ON uc.id = a.checked_out');
-
-		// Join over the categories.
-		$query->select($db->quoteName('c.title', 'category_title'))
-			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON c.id = a.catid');
-
-		// Join over the clients.
-		$query->select($db->quoteName('cl.name', 'client_name'))
-			->select($db->quoteName('cl.purchase_type', 'client_purchase_type'))
-			->join('LEFT', $db->quoteName('#__banner_clients', 'cl') . ' ON cl.id = a.cid');
+		)
+			->select(
+				[
+					$db->quoteName('l.title', 'language_title'),
+					$db->quoteName('l.image', 'language_image'),
+					$db->quoteName('uc.name', 'editor'),
+					$db->quoteName('c.title', 'category_title'),
+					$db->quoteName('cl.name', 'client_name'),
+					$db->quoteName('cl.purchase_type', 'client_purchase_type'),
+				]
+			)
+			->from($db->quoteName('#__banners', 'a'))
+			->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'))
+			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'))
+			->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
+			->join('LEFT', $db->quoteName('#__banner_clients', 'cl'), $db->quoteName('cl.id') . ' = ' . $db->quoteName('a.cid'));
 
 		// Filter by published state
 		$published = (string) $this->getState('filter.published');
 
 		if (is_numeric($published))
 		{
-			$query->where($db->quoteName('a.state') . ' = ' . (int) $published);
+			$published = (int) $published;
+			$query->where($db->quoteName('a.state') . ' = :published')
+				->bind(':published', $published, ParameterType::INTEGER);
 		}
 		elseif ($published === '')
 		{
@@ -157,7 +163,9 @@ class BannersModel extends ListModel
 
 		if (is_numeric($categoryId))
 		{
-			$query->where($db->quoteName('a.catid') . ' = ' . (int) $categoryId);
+			$categoryId = (int) $categoryId;
+			$query->where($db->quoteName('a.catid') . ' = :categoryId')
+				->bind(':categoryId', $categoryId, ParameterType::INTEGER);
 		}
 
 		// Filter by client.
@@ -165,52 +173,64 @@ class BannersModel extends ListModel
 
 		if (is_numeric($clientId))
 		{
-			$query->where($db->quoteName('a.cid') . ' = ' . (int) $clientId);
+			$clientId = (int) $clientId;
+			$query->where($db->quoteName('a.cid') . ' = :clientId')
+				->bind(':clientId', $clientId, ParameterType::INTEGER);
 		}
 
 		// Filter by search in title
-		$search = $this->getState('filter.search');
-
-		if (!empty($search))
+		if ($search = $this->getState('filter.search'))
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where($db->quoteName('a.id') . ' = ' . (int) substr($search, 3));
+				$search = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :search')
+					->bind(':search', $search, ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.name LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
+				$search = '%' . str_replace(' ', '%', trim($search)) . '%';
+				$query->where('(' . $db->quoteName('a.name') . ' LIKE :search1 OR ' . $db->quoteName('a.alias') . ' LIKE :search2)')
+					->bind([':search1', ':search2'], $search);
 			}
 		}
 
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
+			$query->where($db->quoteName('a.language') . ' = :language')
+				->bind(':language', $language);
 		}
 
 		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
+		if ($level = (int) $this->getState('filter.level'))
 		{
-			$query->where($db->quoteName('c.level') . ' <= ' . (int) $level);
+			$query->where($db->quoteName('c.level') . ' <= :level')
+				->bind(':level', $level, ParameterType::INTEGER);
 		}
 
 		// Add the list ordering clause.
 		$orderCol  = $this->state->get('list.ordering', 'a.name');
 		$orderDirn = $this->state->get('list.direction', 'ASC');
 
-		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')
+		if ($orderCol === 'a.ordering' || $orderCol === 'category_title')
 		{
-			$orderCol = 'c.title ' . $orderDirn . ', a.ordering';
+			$ordering = [
+				$db->quoteName('c.title') . ' ' . $db->escape($orderDirn),
+				$db->quoteName('a.ordering') . ' ' . $db->escape($orderDirn),
+			];
+		}
+		else
+		{
+			if ($orderCol === 'client_name')
+			{
+				$orderCol = 'cl.name';
+			}
+
+			$ordering = $db->quoteName($db->escape($orderCol)) . ' ' . $db->escape($orderDirn);
 		}
 
-		if ($orderCol == 'client_name')
-		{
-			$orderCol = 'cl.name';
-		}
-
-		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+		$query->order($ordering);
 
 		return $query;
 	}

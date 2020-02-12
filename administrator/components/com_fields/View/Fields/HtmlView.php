@@ -156,7 +156,7 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-ellipsis-h')
+				->icon('fas fa-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -180,15 +180,15 @@ class HtmlView extends BaseHtmlView
 			{
 				$childBar->trash('fields.trash')->listCheck(true);
 			}
-		}
 
-		// Add a batch button
-		if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state'))
-		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
+			// Add a batch button
+			if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 		}
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $component))
@@ -202,25 +202,5 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$toolbar->help('JHELP_COMPONENTS_FIELDS_FIELDS');
-	}
-
-	/**
-	 * Returns the sort fields.
-	 *
-	 * @return  array
-	 *
-	 * @since   3.7.0
-	 */
-	protected function getSortFields()
-	{
-		return array(
-			'a.ordering' => Text::_('JGRID_HEADING_ORDERING'),
-			'a.state'    => Text::_('JSTATUS'),
-			'a.title'    => Text::_('JGLOBAL_TITLE'),
-			'a.type'     => Text::_('COM_FIELDS_FIELD_TYPE_LABEL'),
-			'a.access'   => Text::_('JGRID_HEADING_ACCESS'),
-			'a.language' => Text::_('JGRID_HEADING_LANGUAGE'),
-			'a.id'       => Text::_('JGRID_HEADING_ID'),
-		);
 	}
 }

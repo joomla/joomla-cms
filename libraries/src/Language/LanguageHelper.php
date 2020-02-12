@@ -150,9 +150,9 @@ class LanguageHelper
 					$db = Factory::getDbo();
 					$query = $db->getQuery(true)
 						->select('*')
-						->from('#__languages')
-						->where('published=1')
-						->order('ordering ASC');
+						->from($db->quoteName('#__languages'))
+						->where($db->quoteName('published') . ' = 1')
+						->order($db->quoteName('ordering') . ' ASC');
 					$db->setQuery($query);
 
 					$languages['default'] = $db->loadObjectList();
@@ -211,11 +211,22 @@ class LanguageHelper
 				$db = Factory::getDbo();
 
 				$query = $db->getQuery(true)
-					->select($db->quoteName(array('element', 'name', 'client_id', 'extension_id')))
+					->select(
+						[
+							$db->quoteName('element'),
+							$db->quoteName('name'),
+							$db->quoteName('client_id'),
+							$db->quoteName('extension_id'),
+						]
+					)
 					->from($db->quoteName('#__extensions'))
-					->where($db->quoteName('type') . ' = ' . $db->quote('language'))
-					->where($db->quoteName('state') . ' = 0')
-					->where($db->quoteName('enabled') . ' = 1');
+					->where(
+						[
+							$db->quoteName('type') . ' = ' . $db->quote('language'),
+							$db->quoteName('state') . ' = 0',
+							$db->quoteName('enabled') . ' = 1',
+						]
+					);
 
 				$installedLanguages = $db->setQuery($query)->loadObjectList();
 
@@ -242,7 +253,12 @@ class LanguageHelper
 			if ($processMetaData || $processManifest)
 			{
 				$clientPath = (int) $language->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
-				$metafile   = self::getLanguagePath($clientPath, $language->element) . '/' . $language->element . '.xml';
+				$metafile   = self::getLanguagePath($clientPath, $language->element) . '/langmetadata.xml';
+
+				if (!is_file($metafile))
+				{
+					$metafile = self::getLanguagePath($clientPath, $language->element) . '/' . $language->element . '.xml';
+				}
 
 				// Process the language metadata.
 				if ($processMetaData)
@@ -544,7 +560,13 @@ class LanguageHelper
 	 */
 	public static function getMetadata($lang)
 	{
-		$file   = self::getLanguagePath(JPATH_BASE, $lang) . '/' . $lang . '.xml';
+		$file = self::getLanguagePath(JPATH_BASE, $lang) . '/langmetadata.xml';
+
+		if (!is_file($file))
+		{
+			$file = self::getLanguagePath(JPATH_BASE, $lang) . '/' . $lang . '.xml';
+		}
+
 		$result = null;
 
 		if (is_file($file))
@@ -609,7 +631,12 @@ class LanguageHelper
 			if (preg_match('#/[a-z]{2,3}-[A-Z]{2}$#', $directory))
 			{
 				$dirPathParts = pathinfo($directory);
-				$file         = $directory . '/' . $dirPathParts['filename'] . '.xml';
+				$file         = $directory . '/langmetadata.xml';
+
+				if (!is_file($file))
+				{
+					$file = $directory . '/' . $dirPathParts['filename'] . '.xml';
+				}
 
 				if (!is_file($file))
 				{
@@ -626,6 +653,7 @@ class LanguageHelper
 				}
 				catch (\RuntimeException $e)
 				{
+					// Ignore it
 				}
 			}
 		}
@@ -659,7 +687,7 @@ class LanguageHelper
 		}
 
 		// Check that it's a metadata file
-		if ((string) $xml->getName() != 'metafile')
+		if ((string) $xml->getName() !== 'metafile')
 		{
 			return;
 		}

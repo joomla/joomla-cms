@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /**
  * Frontpage View class
@@ -37,11 +38,11 @@ class FeedView extends AbstractView
 	{
 		// Parameters
 		$app       = Factory::getApplication();
-		$doc       = Factory::getDocument();
 		$params    = $app->getParams();
 		$feedEmail = $app->get('feed_email', 'none');
 		$siteEmail = $app->get('mailfrom');
-		$doc->link = Route::_('index.php?option=com_content&view=featured');
+
+		$this->document->link = Route::_('index.php?option=com_content&view=featured');
 
 		// Get some data from the model
 		$app->input->set('limit', $app->get('feed_limit'));
@@ -58,16 +59,7 @@ class FeedView extends AbstractView
 			$row->slug = $row->alias ? ($row->id . ':' . $row->alias) : $row->id;
 
 			// URL link to article
-			$link = Route::_(\ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language));
-
-			// Get row fulltext
-			$db = Factory::getDbo();
-			$query = $db->getQuery(true)
-				->select($db->quoteName('fulltext'))
-				->from($db->quoteName('#__content'))
-				->where($db->quoteName('id') . ' = ' . $row->id);
-			$db->setQuery($query);
-			$row->fulltext = $db->loadResult();
+			$link = Route::_(RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language));
 
 			$description = '';
 			$obj = json_decode($row->images);
@@ -123,7 +115,7 @@ class FeedView extends AbstractView
 			$item->description = '<div class="feed-description">' . $description . '</div>';
 
 			// Loads item info into rss array
-			$doc->addItem($item);
+			$this->document->addItem($item);
 		}
 	}
 }

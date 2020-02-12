@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
@@ -47,7 +47,7 @@ class ViewLevel extends Table
 		// Bind the rules as appropriate.
 		if (isset($array['rules']))
 		{
-			if (is_array($array['rules']))
+			if (\is_array($array['rules']))
 			{
 				$array['rules'] = json_encode($array['rules']);
 			}
