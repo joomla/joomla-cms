@@ -610,7 +610,6 @@ class PlgEditorTinymce extends CMSPlugin
 
 				// Disable TinyMCE Branding
 				'branding'   => false,
-
 			)
 		);
 		if ($levelParams->get('newlines'))
