@@ -612,6 +612,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'branding'   => false,
 			)
 		);
+
 		if ($levelParams->get('newlines'))
 		{
 			// Break
