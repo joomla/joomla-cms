@@ -240,8 +240,8 @@ class ModulesModel extends ListModel
 		{
 			$extension = $item->module;
 			$source = $clientPath . "/modules/$extension";
-			$lang->load("$extension.sys", $clientPath, null, false, true)
-				|| $lang->load("$extension.sys", $source, null, false, true);
+			$lang->load("$extension.sys", $clientPath)
+				|| $lang->load("$extension.sys", $source);
 			$item->name = Text::_($item->name);
 
 			if (is_null($item->pages))

@@ -698,7 +698,7 @@ class Language
 
 		$path = LanguageHelper::getLanguagePath($basePath, $lang);
 
-		$internal = $extension == 'joomla' || $extension == '';
+		$internal = $extension === 'joomla' || $extension == '';
 
 		$filenames = array();
 

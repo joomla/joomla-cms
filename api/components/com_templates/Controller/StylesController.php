@@ -12,6 +12,8 @@ namespace Joomla\Component\Templates\Api\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\String\Inflector;
+use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 /**
  * The styles controller
@@ -47,7 +49,7 @@ class StylesController extends ApiController
 	 */
 	public function displayItem($id = null)
 	{
-		$this->input->set('model_state', ['client_id' => $this->getClientIdFromInput()]);
+		$this->modelState->set('client_id', $this->getClientIdFromInput());
 
 		return parent::displayItem($id);
 	}
@@ -61,28 +63,38 @@ class StylesController extends ApiController
 	 */
 	public function displayList()
 	{
-		$this->input->set('model_state', ['client_id' => $this->getClientIdFromInput()]);
+		$this->modelState->set('client_id', $this->getClientIdFromInput());
 
 		return parent::displayList();
 	}
 
 	/**
-	 * Method to save a record.
+	 * Method to allow extended classes to manipulate the data to be saved for an extension.
 	 *
-	 * @param   integer  $recordKey  The primary key of the item (if exists)
+	 * @param   array  $data  An array of input data.
 	 *
-	 * @return  integer  The record ID on success, false on failure
+	 * @return  array
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  InvalidParameterException
 	 */
-	protected function save($recordKey = null)
+	protected function preprocessSaveData(array $data): array
 	{
-		$data              = (array) json_decode($this->input->json->getRaw(), true);
 		$data['client_id'] = $this->getClientIdFromInput();
 
-		$this->input->set('data', $data);
+		// If we are updating an item the template is a readonly property based on the ID
+		if ($this->input->getMethod() === 'PATCH')
+		{
+			if (array_key_exists('template', $data))
+			{
+				throw new InvalidParameterException('The template property cannot be modified for an existing style');
+			}
 
-		return parent::save($recordKey);
+			$model = $this->getModel(Inflector::singularize($this->contentType), '', ['ignore_request' => true]);
+			$data['template'] = $model->getItem($this->input->getInt('id'))->template;
+		}
+
+		return $data;
 	}
 
 	/**

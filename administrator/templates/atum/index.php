@@ -63,19 +63,8 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
-$this->addScriptDeclaration('cssVars();');
-
-// Opacity must be set before displaying the DOM, so don't move to a CSS file
-$css = '
-	.container-main > * {
-		opacity: 0;
-	}
-	.sidebar-wrapper > * {
-		opacity: 0;
-	}
-';
-
-$this->addStyleDeclaration($css);
+$this->getWebAssetManager()
+	->addInlineScript('cssVars();', ['position' => 'after'], ['type' => 'module'], ['css-vars-ponyfill']);
 
 $monochrome = (bool) $this->params->get('monochrome');
 
@@ -96,6 +85,8 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 		<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
 	</div>
 </noscript>
+
+<jdoc:include type="modules" name="customtop" style="none" />
 
 <?php // Header ?>
 <header id="header" class="header">
@@ -136,7 +127,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			<div id="sidebarmenu">
 				<div class="sidebar-toggle">
 					<a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-						<span id="menu-collapse-icon" class="fa fa-toggle-off fa-fw" aria-hidden="true"></span>
+						<span id="menu-collapse-icon" class="fas fa-toggle-off fa-fw" aria-hidden="true"></span>
 						<span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
 					</a>
 				</div>
