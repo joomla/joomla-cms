@@ -36,12 +36,12 @@ if ($module->content) :
 	$headerClass = ($headerClass) ? ' ' . htmlspecialchars($headerClass) : '';
 	?>
 	<div class="<?php echo $moduleClass; ?> module-wrapper">
-		<<?php echo $moduleTag; ?> class="card mb-3<?php echo $moduleClassSfx; ?>">
+		<<?php echo $moduleTag; ?> class="card mb-5<?php echo $moduleClassSfx; ?>">
 			<?php if ($canEdit || $canChange) : ?>
 				<?php $dropdownPosition = Factory::getLanguage()->isRTL() ? 'left' : 'right'; ?>
 				<div class="module-actions dropdown">
-					<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-link" id="dropdownMenuButton-<?php echo $id; ?>">
-						<span class="fa fa-cog" aria-hidden="true"></span>
+					<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn" id="dropdownMenuButton-<?php echo $id; ?>">
+						<span class="fas fa-cog" aria-hidden="true"></span>
 						<span class="sr-only"><?php echo Text::sprintf('JACTION_EDIT_MODULE', $module->title); ?></span>
 					</button>
 					<div class="dropdown-menu dropdown-menu-<?php echo $dropdownPosition; ?>" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">

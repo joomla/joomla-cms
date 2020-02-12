@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Categories\CategoryFactoryInterface;
+use Joomla\CMS\Categories\CategoryInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterView;
 use Joomla\CMS\Component\Router\RouterViewConfiguration;
@@ -21,6 +22,7 @@ use Joomla\CMS\Component\Router\Rules\NomenuRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\Database\DatabaseInterface;
+use Joomla\Database\ParameterType;
 
 /**
  * Routing class from com_newsfeeds
@@ -44,6 +46,15 @@ class Router extends RouterView
 	 * @since  4.0.0
 	 */
 	private $categoryFactory;
+
+	/**
+	 * The category cache
+	 *
+	 * @var  array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $categoryCache = [];
 
 	/**
 	 * The db
@@ -96,7 +107,7 @@ class Router extends RouterView
 	 */
 	public function getCategorySegment($id, $query)
 	{
-		$category = $this->categoryFactory->createCategory()->get($id);
+		$category = $this->getCategories()->get($id);
 
 		if ($category)
 		{
@@ -142,10 +153,12 @@ class Router extends RouterView
 	{
 		if (!strpos($id, ':'))
 		{
+			$id      = (int) $id;
 			$dbquery = $this->db->getQuery(true);
 			$dbquery->select($this->db->quoteName('alias'))
 				->from($this->db->quoteName('#__newsfeeds'))
-				->where('id = ' . $this->db->quote((int) $id));
+				->where($this->db->quoteName('id') . ' = :id')
+				->bind(':id', $id, ParameterType::INTEGER);
 			$this->db->setQuery($dbquery);
 
 			$id .= ':' . $this->db->loadResult();
@@ -173,7 +186,7 @@ class Router extends RouterView
 	{
 		if (isset($query['id']))
 		{
-			$category = $this->categoryFactory->createCategory(['access' => false])->get($query['id']);
+			$category = $this->getCategories(['access' => false])->get($query['id']);
 
 			if ($category)
 			{
@@ -228,13 +241,40 @@ class Router extends RouterView
 			$dbquery = $this->db->getQuery(true);
 			$dbquery->select($this->db->quoteName('id'))
 				->from($this->db->quoteName('#__newsfeeds'))
-				->where('alias = ' . $this->db->quote($segment))
-				->where('catid = ' . $this->db->quote($query['id']));
+				->where(
+					[
+						$this->db->quoteName('alias') . ' = :segment',
+						$this->db->quoteName('catid') . ' = :id',
+					]
+				)
+				->bind(':segment', $segment)
+				->bind(':id', $query['id'], ParameterType::INTEGER);
 			$this->db->setQuery($dbquery);
 
 			return (int) $this->db->loadResult();
 		}
 
 		return (int) $segment;
+	}
+
+	/**
+	 * Method to get categories from cache
+	 *
+	 * @param   array  $options   The options for retrieving categories
+	 *
+	 * @return  CategoryInterface  The object containing categories
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getCategories(array $options = []): CategoryInterface
+	{
+		$key = serialize($options);
+
+		if (!isset($this->categoryCache[$key]))
+		{
+			$this->categoryCache[$key] = $this->categoryFactory->createCategory($options);
+		}
+
+		return $this->categoryCache[$key];
 	}
 }

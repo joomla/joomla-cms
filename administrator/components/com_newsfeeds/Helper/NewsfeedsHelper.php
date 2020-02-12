@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Newsfeeds component helper.
@@ -39,7 +40,19 @@ class NewsfeedsHelper extends ContentHelper
 	 */
 	public static function countItems(&$items)
 	{
-		$db = Factory::getDbo();
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->select(
+			[
+				$db->quoteName('published', 'state'),
+				'COUNT(*) AS ' . $db->quoteName('count'),
+			]
+		)
+			->from($db->quoteName('#__newsfeeds'))
+			->where($db->quoteName('catid') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER)
+			->group($db->quoteName('state'));
+		$db->setQuery($query);
 
 		foreach ($items as $item)
 		{
@@ -47,12 +60,8 @@ class NewsfeedsHelper extends ContentHelper
 			$item->count_archived = 0;
 			$item->count_unpublished = 0;
 			$item->count_published = 0;
-			$query = $db->getQuery(true);
-			$query->select('published AS state, count(*) AS count')
-				->from($db->quoteName('#__newsfeeds'))
-				->where('catid = ' . (int) $item->id)
-				->group('state');
-			$db->setQuery($query);
+
+			$id       = (int) $item->id;
 			$newfeeds = $db->loadObjectList();
 
 			foreach ($newfeeds as $newsfeed)
@@ -94,7 +103,8 @@ class NewsfeedsHelper extends ContentHelper
 	 */
 	public static function countTagItems(&$items, $extension)
 	{
-		$db = Factory::getDbo();
+		$db        = Factory::getDbo();
+		$query     = $db->getQuery(true);
 		$parts     = explode('.', $extension);
 		$section   = null;
 
@@ -103,12 +113,34 @@ class NewsfeedsHelper extends ContentHelper
 			$section = $parts[1];
 		}
 
-		$join = $db->quoteName('#__newsfeeds') . ' AS c ON ct.content_item_id=c.id';
+		$query->select(
+			[
+				$db->quoteName('published', 'state'),
+				'COUNT(*) AS ' . $db->quoteName('count'),
+			]
+		)
+			->from($db->quoteName('#__contentitem_tag_map', 'ct'));
 
 		if ($section === 'category')
 		{
-			$join = $db->quoteName('#__categories') . ' AS c ON ct.content_item_id=c.id';
+			$query->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('ct.content_item_id') . ' = ' . $db->quoteName('c.id'));
 		}
+		else
+		{
+			$query->join('LEFT', $db->quoteName('#__newsfeeds', 'c'), $db->quoteName('ct.content_item_id') . ' = ' . $db->quoteName('c.id'));
+		}
+
+		$query->where(
+			[
+				$db->quoteName('ct.tag_id') . ' = :id',
+				$db->quoteName('ct.type_alias') . ' = :extension',
+			]
+		)
+			->bind(':id', $id, ParameterType::INTEGER)
+			->bind(':extension', $extension)
+			->group($db->quoteName('state'));
+
+		$db->setQuery($query);
 
 		foreach ($items as $item)
 		{
@@ -116,15 +148,9 @@ class NewsfeedsHelper extends ContentHelper
 			$item->count_archived = 0;
 			$item->count_unpublished = 0;
 			$item->count_published = 0;
-			$query = $db->getQuery(true);
-			$query->select('published AS state, count(*) AS count')
-				->from($db->quoteName('#__contentitem_tag_map') . 'AS ct ')
-				->where('ct.tag_id = ' . (int) $item->id)
-				->where('ct.type_alias =' . $db->quote($extension))
-				->join('LEFT', $join)
-				->group('state');
 
-			$db->setQuery($query);
+			// Update ID used in database query.
+			$id        = (int) $item->id;
 			$newsfeeds = $db->loadObjectList();
 
 			foreach ($newsfeeds as $newsfeed)

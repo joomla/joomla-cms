@@ -18,10 +18,9 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
- * Workflows view class for the Workflow package.
+ * Transitions view class for the Workflow package.
  *
  * @since  4.0.0
  */
@@ -126,10 +125,6 @@ class HtmlView extends BaseHtmlView
 		$this->workflowID    = $this->workflow->id;
 		$this->extension     = $this->workflow->extension;
 
-		WorkflowHelper::addSubmenu('transitions');
-
-		$this->sidebar       = \JHtmlSidebar::render();
-
 		$this->addToolbar();
 
 		return parent::display($tpl);
@@ -148,9 +143,7 @@ class HtmlView extends BaseHtmlView
 
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		$workflow = !empty($this->state->get('active_workflow', '')) ? Text::_($this->state->get('active_workflow', '')) . ': ' : '';
-
-		ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_TRANSITIONS_LIST', $this->escape($workflow)), 'address contact');
+		ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_TRANSITIONS_LIST', Text::_($this->state->get('active_workflow'))), 'address contact');
 
 		$isCore = $this->workflow->core;
 		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
@@ -173,7 +166,7 @@ class HtmlView extends BaseHtmlView
 				$dropdown = $toolbar->dropdownButton('status-group')
 					->text('JTOOLBAR_CHANGE_STATUS')
 					->toggleSplit(false)
-					->icon('fa fa-ellipsis-h')
+					->icon('fas fa-ellipsis-h')
 					->buttonClass('btn btn-action')
 					->listCheck(true);
 

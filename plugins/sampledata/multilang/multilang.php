@@ -476,6 +476,11 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep8()
 	{
+		if ($this->app->input->get('type') !== $this->_name)
+		{
+			return;
+		}
+
 		$response['success'] = true;
 		$response['message'] = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP8_SUCCESS');
 
@@ -785,7 +790,7 @@ class PlgSampledataMultilang extends CMSPlugin
 				. '"show_readmore":"","show_readmore_title":"","show_hits":"","show_noauth":"","show_feed_link":"",'
 				. '"feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"",'
 				. '"menu_text":1,"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"",'
-				. '"pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":""}',
+				. '"pageclass_sfx":"","menu-meta_description":"","robots":""}',
 			'language'     => $itemLanguage->language,
 		);
 
@@ -864,7 +869,7 @@ class PlgSampledataMultilang extends CMSPlugin
 				. '"show_vote":"","show_readmore":"","show_readmore_title":"","show_hits":"","show_tags":"",'
 				. '"show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"",'
 				. '"menu_image":"","menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1",'
-				. '"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":""}',
+				. '"page_heading":"","pageclass_sfx":"","menu-meta_description":"","robots":""}',
 			'language'     => $itemLanguage->language,
 		);
 
@@ -1249,7 +1254,13 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		foreach ($langlist as $lang)
 		{
-			$file          = $path . '/' . $lang . '/' . $lang . '.xml';
+			$file = $path . '/' . $lang . '/' . $lang . '.xml';
+
+			if (!is_file($file))
+			{
+				$file = $path . '/' . $lang . '/langmetadata.xml';
+			}
+
 			$info          = Installer::parseXMLInstallFile($file);
 			$row           = new stdClass;
 			$row->language = $lang;

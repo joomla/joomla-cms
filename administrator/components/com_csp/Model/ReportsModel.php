@@ -106,6 +106,15 @@ class ReportsModel extends ListModel
 			->select('*')
 			->from($db->quoteName('#__csp', 'a'));
 
+		// Filter by client
+		$client = (string) $this->getState('filter.client');
+
+		if (!empty($client))
+		{
+			$query->where($db->quoteName('a.client') . ' = :client')
+				->bind(':client', $client);
+		}
+
 		// Filter by published state
 		$published = (string) $this->getState('filter.published');
 
@@ -118,6 +127,15 @@ class ReportsModel extends ListModel
 		elseif ($published === '')
 		{
 			$query->whereIn($db->quoteName('a.published'), [0, 1]);
+		}
+
+		// Filter by directive
+		$directive = (string) $this->getState('filter.directive');
+
+		if (!empty($directive))
+		{
+			$query->where($db->quoteName('a.directive') . ' = :directive')
+				->bind(':directive', $directive);
 		}
 
 		// Filter by search in title
@@ -134,9 +152,11 @@ class ReportsModel extends ListModel
 			else
 			{
 				$search = '%' . trim($search) . '%';
-				$query->where($db->quoteName('a.document_uri') . ' LIKE :documenturi')
-					->orWhere($db->quoteName('a.blocked_uri') . ' LIKE :blockeduri')
-					->orWhere($db->quoteName('a.directive') . ' LIKE :directive')
+				$query->where(
+					'(' . $db->quoteName('a.document_uri') . ' LIKE :documenturi'
+					. ' OR ' . $db->quoteName('a.blocked_uri') . ' LIKE :blockeduri'
+					. ' OR ' . $db->quoteName('a.directive') . ' LIKE :directive)'
+				)
 					->bind(':documenturi', $search)
 					->bind(':blockeduri', $search)
 					->bind(':directive', $search);

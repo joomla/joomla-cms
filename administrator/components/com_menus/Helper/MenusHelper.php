@@ -11,13 +11,16 @@ namespace Joomla\Component\Menus\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Menu\MenuItem;
+use Joomla\CMS\Menu\AdministratorMenuItem;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\ParameterType;
@@ -139,7 +142,7 @@ class MenusHelper extends ContentHelper
 	 */
 	public static function getMenuLinks($menuType = null, $parentId = 0, $mode = 0, $published = array(), $languages = array(), $clientId = 0)
 	{
-		$hasClientId = $clientId === null;
+		$hasClientId = $clientId !== null;
 		$clientId    = (int) $clientId;
 
 		$db = Factory::getDbo();
@@ -316,13 +319,13 @@ class MenusHelper extends ContentHelper
 	 * @param   boolean  $enabledOnly  Whether to load only enabled/published menu items.
 	 * @param   int[]    $exclude      The menu items to exclude from the list
 	 *
-	 * @return  MenuItem  A root node with the menu items as children
+	 * @return  AdministratorMenuItem  A root node with the menu items as children
 	 *
 	 * @since   4.0.0
 	 */
 	public static function getMenuItems($menutype, $enabledOnly = false, $exclude = array())
 	{
-		$root = new MenuItem;
+		$root  = new AdministratorMenuItem;
 		$db    = Factory::getContainer()->get(DatabaseInterface::class);
 		$query = $db->getQuery(true);
 
@@ -382,15 +385,13 @@ class MenusHelper extends ContentHelper
 
 			foreach ($iterator as $item)
 			{
-				$menuItems[$item->id] = new MenuItem((array) $item);
+				$menuItems[$item->id] = new AdministratorMenuItem((array) $item);
 			}
 
 			unset($iterator);
 
 			foreach ($menuItems as $menuitem)
 			{
-				$menuitem->params = new Registry($menuitem->params);
-
 				// Resolve the alias item to get the original item
 				if ($menuitem->type == 'alias')
 				{
@@ -399,10 +400,10 @@ class MenusHelper extends ContentHelper
 
 				if ($menuitem->link = in_array($menuitem->type, array('separator', 'heading', 'container')) ? '#' : trim($menuitem->link))
 				{
-					$menuitem->submenu    = array();
-					$menuitem->class      = $menuitem->img ?? '';
-					$menuitem->scope      = $menuitem->scope ?? null;
-					$menuitem->browserNav = $menuitem->browserNav ? '_blank' : '';
+					$menuitem->submenu = array();
+					$menuitem->class   = $menuitem->img ?? '';
+					$menuitem->scope   = $menuitem->scope ?? null;
+					$menuitem->target  = $menuitem->browserNav ? '_blank' : '';
 				}
 
 				$menuitem->ajaxbadge  = $menuitem->getParams()->get('ajax-badge');
@@ -456,8 +457,8 @@ class MenusHelper extends ContentHelper
 	/**
 	 * Method to install a preset menu item into database and link it to the given menutype
 	 *
-	 * @param   MenuItem  $node      The parent node of the items to process
-	 * @param   string    $menutype  The target menutype
+	 * @param   AdministratorMenuItem  $node      The parent node of the items to process
+	 * @param   string                 $menutype  The target menutype
 	 *
 	 * @return  void
 	 *
@@ -495,6 +496,11 @@ class MenusHelper extends ContentHelper
 			$table = Table::getInstance('Menu');
 
 			$item->alias = $menutype . '-' . $item->title;
+
+			// Temporarily set unicodeslugs if a menu item has an unicode alias
+			$unicode     = Factory::getConfig()->set('unicodeslugs', 1);
+			$item->alias = ApplicationHelper::stringURLSafe($item->alias);
+			Factory::getConfig()->set('unicodeslugs', $unicode);
 
 			if ($item->type == 'separator')
 			{
@@ -542,7 +548,7 @@ class MenusHelper extends ContentHelper
 			}
 
 			// Translate "hideitems" param value from "element" into "menu-item-id"
-			if ($item->type == 'container' && count($hideitems = (array) $item->params->get('hideitems')))
+			if ($item->type == 'container' && count($hideitems = (array) $item->getParams()->get('hideitems')))
 			{
 				foreach ($hideitems as &$hel)
 				{
@@ -558,7 +564,7 @@ class MenusHelper extends ContentHelper
 					->whereIn($db->quoteName('component_id'), $hideitems);
 				$hideitems = $db->setQuery($query)->loadColumn();
 
-				$item->params->set('hideitems', $hideitems);
+				$item->getParams()->set('hideitems', $hideitems);
 			}
 
 			$record = array(
@@ -567,7 +573,7 @@ class MenusHelper extends ContentHelper
 				'alias'        => $item->alias,
 				'type'         => $item->type,
 				'link'         => $item->link,
-				'browserNav'   => $item->browserNav ? 1 : 0,
+				'browserNav'   => $item->browserNav,
 				'img'          => $item->class,
 				'access'       => $item->access,
 				'component_id' => array_search($item->element, $components) ?: 0,
@@ -576,7 +582,7 @@ class MenusHelper extends ContentHelper
 				'published'    => 1,
 				'language'     => '*',
 				'home'         => 0,
-				'params'       => (string) $item->params,
+				'params'       => (string) $item->getParams(),
 			);
 
 			if (!$table->bind($record))
@@ -656,14 +662,35 @@ class MenusHelper extends ContentHelper
 			// Important: 'null' will cause infinite recursion.
 			static::$presets = array();
 
-			static::addPreset('default', 'JLIB_MENUS_PRESET_DEFAULT', JPATH_ADMINISTRATOR . '/components/com_menus/presets/default.xml');
-			static::addPreset('alternate', 'JLIB_MENUS_PRESET_ALTERNATE', JPATH_ADMINISTRATOR . '/components/com_menus/presets/alternate.xml');
-			static::addPreset('system', 'JLIB_MENUS_PRESET_SYSTEM', JPATH_ADMINISTRATOR . '/components/com_menus/presets/system.xml');
-			static::addPreset('content', 'JLIB_MENUS_PRESET_CONTENT', JPATH_ADMINISTRATOR . '/components/com_menus/presets/content.xml');
-			static::addPreset('help', 'JLIB_MENUS_PRESET_HELP', JPATH_ADMINISTRATOR . '/components/com_menus/presets/help.xml');
-			static::addPreset('menus', 'JLIB_MENUS_PRESET_MENUS', JPATH_ADMINISTRATOR . '/components/com_menus/presets/menus.xml');
-			static::addPreset('components', 'JLIB_MENUS_PRESET_COMPONENTS', JPATH_ADMINISTRATOR . '/components/com_menus/presets/components.xml');
-			static::addPreset('users', 'JLIB_MENUS_PRESET_USERS', JPATH_ADMINISTRATOR . '/components/com_menus/presets/users.xml');
+			$components = ComponentHelper::getComponents();
+			$lang       = Factory::getApplication()->getLanguage();
+
+			foreach ($components as $component)
+			{
+				if (!$component->enabled)
+				{
+					continue;
+				}
+
+				$folder = JPATH_ADMINISTRATOR . '/components/' . $component->option . '/presets/';
+
+				if (!Folder::exists($folder))
+				{
+					continue;
+				}
+
+				$lang->load($component->option . '.sys', JPATH_ADMINISTRATOR)
+				|| $lang->load($component->option . '.sys', JPATH_ADMINISTRATOR . '/components/' . $component->option);
+
+				$presets = Folder::files($folder, '.xml');
+
+				foreach ($presets as $preset)
+				{
+					$name  = File::stripExt($preset);
+					$title = strtoupper($component->option . '_MENUS_PRESET_' . $name);
+					static::addPreset($name, $title, $folder . $preset);
+				}
+			}
 
 			// Load from template folder automatically
 			$app = Factory::getApplication();
@@ -689,11 +716,11 @@ class MenusHelper extends ContentHelper
 	/**
 	 * Load the menu items from a preset file into a hierarchical list of objects
 	 *
-	 * @param   string    $name      The preset name
-	 * @param   bool      $fallback  Fallback to default (joomla) preset if the specified one could not be loaded?
-	 * @param   MenuItem  $parent    Root node of the menu
+	 * @param   string                 $name      The preset name
+	 * @param   bool                   $fallback  Fallback to default (joomla) preset if the specified one could not be loaded?
+	 * @param   AdministratorMenuItem  $parent    Root node of the menu
 	 *
-	 * @return  MenuItem
+	 * @return  AdministratorMenuItem
 	 *
 	 * @since   4.0.0
 	 */
@@ -703,7 +730,7 @@ class MenusHelper extends ContentHelper
 
 		if (!$parent)
 		{
-			$parent = new MenuItem;
+			$parent = new AdministratorMenuItem;
 		}
 
 		if (isset($presets[$name]) && ($xml = simplexml_load_file($presets[$name]->path, null, LIBXML_NOCDATA)) && $xml instanceof \SimpleXMLElement)
@@ -724,7 +751,7 @@ class MenusHelper extends ContentHelper
 	/**
 	 * Method to resolve the menu item alias type menu item
 	 *
-	 * @param   \stdClass  &$item  The alias object
+	 * @param   AdministratorMenuItem  &$item  The alias object
 	 *
 	 * @return  void
 	 *
@@ -736,8 +763,7 @@ class MenusHelper extends ContentHelper
 
 		while ($obj->type == 'alias')
 		{
-			$params  = new Registry($obj->params);
-			$aliasTo = (int) $params->get('aliasoptions');
+			$aliasTo = (int) $obj->getParams()->get('aliasoptions');
 
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true);
@@ -756,7 +782,7 @@ class MenusHelper extends ContentHelper
 
 			try
 			{
-				$obj = $db->setQuery($query)->loadObject();
+				$obj = new AdministratorMenuItem($db->setQuery($query)->loadAssoc());
 
 				if (!$obj)
 				{
@@ -782,7 +808,7 @@ class MenusHelper extends ContentHelper
 	/**
 	 * Parse the flat list of menu items and prepare the hierarchy of them using parent-child relationship.
 	 *
-	 * @param   MenuItem  $item  Menu item to preprocess
+	 * @param   AdministratorMenuItem  $item  Menu item to preprocess
 	 *
 	 * @return  void
 	 *
@@ -798,18 +824,18 @@ class MenusHelper extends ContentHelper
 
 		if ($item->link = in_array($item->type, array('separator', 'heading', 'container')) ? '#' : trim($item->link))
 		{
-			$item->class      = $item->img ?? '';
-			$item->scope      = $item->scope ?? null;
-			$item->browserNav = $item->browserNav ? '_blank' : '';
+			$item->class  = $item->img ?? '';
+			$item->scope  = $item->scope ?? null;
+			$item->target = $item->browserNav ? '_blank' : '';
 		}
 	}
 
 	/**
 	 * Load a menu tree from an XML file
 	 *
-	 * @param   \SimpleXMLElement[]  $elements  The xml menuitem nodes
-	 * @param   MenuItem             $parent    The menu hierarchy list to be populated
-	 * @param   string[]             $replace   The substring replacements for iterator type items
+	 * @param   \SimpleXMLElement[]    $elements  The xml menuitem nodes
+	 * @param   AdministratorMenuItem  $parent    The menu hierarchy list to be populated
+	 * @param   string[]               $replace   The substring replacements for iterator type items
 	 *
 	 * @return  void
 	 *
@@ -923,30 +949,28 @@ class MenusHelper extends ContentHelper
 	 */
 	protected static function parseXmlNode($node, $replace = array())
 	{
-		$item = new MenuItem;
+		$item = new AdministratorMenuItem;
 
 		$item->id         = null;
 		$item->type       = (string) $node['type'];
 		$item->title      = (string) $node['title'];
-		$item->target     = (string) $node['target'];
 		$item->alias      = (string) $node['alias'];
 		$item->link       = (string) $node['link'];
 		$item->target     = (string) $node['target'];
 		$item->element    = (string) $node['element'];
 		$item->class      = (string) $node['class'];
 		$item->icon       = (string) $node['icon'];
-		$item->browserNav = (string) $node['target'];
 		$item->access     = (int) $node['access'];
 		$item->scope      = (string) $node['scope'] ?: 'default';
-		$item->permission = (string) $node['permission'];
 		$item->ajaxbadge  = (string) $node['ajax-badge'];
 		$item->dashboard  = (string) $node['dashboard'];
-		$item->setParams(new Registry(trim($node->params)));
-		$item->getParams()->set('menu-permission', (string) $node['permission']);
+
+		$params = new Registry(trim($node->params));
+		$params->set('menu-permission', (string) $node['permission']);
 
 		if ($item->type == 'separator' && trim($item->title, '- '))
 		{
-			$item->getParams()->set('text_separator', 1);
+			$params->set('text_separator', 1);
 		}
 
 		if ($item->type == 'heading' || $item->type == 'container')
@@ -956,11 +980,10 @@ class MenusHelper extends ContentHelper
 
 		if ((string) $node['quicktask'])
 		{
-			$item->getParams()->set('menu-quicktask', true);
-			$item->getParams()->set('menu-quicktask-link', (string) $node['quicktask']);
-			$item->getParams()->set('menu-quicktask-title', (string) $node['quicktask-title']);
-			$item->getParams()->set('menu-quicktask-icon', (string) $node['quicktask-icon']);
-			$item->getParams()->set('menu-quicktask-permission', (string) $node['quicktask-permission']);
+			$params->set('menu-quicktask', (string) $node['quicktask']);
+			$params->set('menu-quicktask-title', (string) $node['quicktask-title']);
+			$params->set('menu-quicktask-icon', (string) $node['quicktask-icon']);
+			$params->set('menu-quicktask-permission', (string) $node['quicktask-permission']);
 		}
 
 		// Translate attributes for iterator values
@@ -971,9 +994,10 @@ class MenusHelper extends ContentHelper
 			$item->link    = str_replace("{sql:$var}", $val, $item->link);
 			$item->class   = str_replace("{sql:$var}", $val, $item->class);
 			$item->icon    = str_replace("{sql:$var}", $val, $item->icon);
-			$params = $item->getParams();
-			$params->set('menu-quicktask-link', str_replace("{sql:$var}", $val, $params->get('menu-quicktask-link')));
+			$params->set('menu-quicktask', str_replace("{sql:$var}", $val, $params->get('menu-quicktask')));
 		}
+
+		$item->setParams($params);
 
 		return $item;
 	}

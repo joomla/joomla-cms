@@ -11,6 +11,8 @@ namespace Joomla\Component\Menus\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
@@ -69,6 +71,8 @@ class MenuController extends FormController
 
 			return false;
 		}
+
+		$data['menutype'] = InputFilter::getInstance()->clean($data['menutype'], 'TRIM');
 
 		// Populate the row id from the session.
 		$data['id'] = $recordId;
@@ -138,9 +142,12 @@ class MenuController extends FormController
 		// Import the preset selected
 		if (isset($preset) && $data['client_id'] == 1)
 		{
+			// Menu Type has not been saved yet. Make sure items get the real menutype.
+			$menutype = ApplicationHelper::stringURLSafe($data['menutype']);
+
 			try
 			{
-				MenusHelper::installPreset($preset, $data['menutype']);
+				MenusHelper::installPreset($preset, $menutype);
 
 				$this->setMessage(Text::_('COM_MENUS_PRESET_IMPORT_SUCCESS'));
 			}

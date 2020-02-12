@@ -17,6 +17,7 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Languages Strings Model
@@ -52,7 +53,13 @@ class StringsModel extends BaseDatabaseModel
 		// Create the insert query.
 		$query = $db->getQuery(true)
 			->insert($db->quoteName('#__overrider'))
-			->columns('constant, string, file');
+			->columns(
+				[
+					$db->quoteName('constant'),
+					$db->quoteName('string'),
+					$db->quoteName('file'),
+				]
+			);
 
 		// Initialize some variables.
 		$client   = $app->getUserState('com_languages.overrides.filter.client', 'site') ? 'administrator' : 'site';
@@ -66,33 +73,36 @@ class StringsModel extends BaseDatabaseModel
 		// Parse common language directory.
 		if (is_dir($path))
 		{
-			$files = Folder::files($path, $language . '.*ini$', false, true);
+			$files = Folder::files($path, '.*ini$', false, true);
 		}
 
 		// Parse language directories of components.
-		$files = array_merge($files, Folder::files($base . '/components', $language . '.*ini$', 3, true));
+		$files = array_merge($files, Folder::files($base . '/components', '.*ini$', 3, true));
 
 		// Parse language directories of modules.
-		$files = array_merge($files, Folder::files($base . '/modules', $language . '.*ini$', 3, true));
+		$files = array_merge($files, Folder::files($base . '/modules', '.*ini$', 3, true));
 
 		// Parse language directories of templates.
-		$files = array_merge($files, Folder::files($base . '/templates', $language . '.*ini$', 3, true));
+		$files = array_merge($files, Folder::files($base . '/templates', '.*ini$', 3, true));
 
 		// Parse language directories of plugins.
-		$files = array_merge($files, Folder::files(JPATH_PLUGINS, $language . '.*ini$', 4, true));
+		$files = array_merge($files, Folder::files(JPATH_PLUGINS, '.*ini$', 4, true));
 
 		// Parse all found ini files and add the strings to the database cache.
 		foreach ($files as $file)
 		{
 			$strings = LanguagesHelper::parseFile($file);
 
-			if ($strings && count($strings))
+			if ($strings)
 			{
-				$query->clear('values');
+				$file = Path::clean($file);
+
+				$query->clear('values')
+					->clear('bounded');
 
 				foreach ($strings as $key => $string)
 				{
-					$query->values($db->quote($key) . ',' . $db->quote($string) . ',' . $db->quote(Path::clean($file)));
+					$query->values(implode(',', $query->bindArray([$key, $string, $file], ParameterType::STRING)));
 				}
 
 				try
@@ -132,21 +142,29 @@ class StringsModel extends BaseDatabaseModel
 
 		try
 		{
-			$searchstring = $db->quote('%' . $filter->clean($searchTerm, 'TRIM') . '%');
+			$searchstring = '%' . $filter->clean($searchTerm, 'TRIM') . '%';
 
 			// Create the search query.
 			$query = $db->getQuery(true)
-				->select('constant, string, file')
+				->select(
+					[
+						$db->quoteName('constant'),
+						$db->quoteName('string'),
+						$db->quoteName('file'),
+					]
+				)
 				->from($db->quoteName('#__overrider'));
 
-			if ($input->get('searchtype') == 'constant')
+			if ($input->get('searchtype') === 'constant')
 			{
-				$query->where('constant LIKE ' . $searchstring);
+				$query->where($db->quoteName('constant') . ' LIKE :search');
 			}
 			else
 			{
-				$query->where('string LIKE ' . $searchstring);
+				$query->where($db->quoteName('string') . ' LIKE :search');
 			}
+
+			$query->bind(':search', $searchstring);
 
 			// Consider the limitstart according to the 'more' parameter and load the results.
 			$query->setLimit(10, $limitstart);
@@ -154,8 +172,9 @@ class StringsModel extends BaseDatabaseModel
 			$results['results'] = $db->loadObjectList();
 
 			// Check whether there are more results than already loaded.
-			$query->clear('select')->clear('limit')
-				->select('COUNT(id)');
+			$query->clear('select')
+				->clear('limit')
+				->select('COUNT(' . $db->quoteName('id') . ')');
 			$db->setQuery($query);
 
 			if ($db->loadResult() > $limitstart + 10)

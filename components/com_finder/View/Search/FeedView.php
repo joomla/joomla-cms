@@ -50,7 +50,6 @@ class FeedView extends BaseHtmlView
 		$total = $this->get('Total');
 
 		// Push out the query data.
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 		$explained = HTMLHelper::_('query.explained', $query);
 
 		// Set the document title.

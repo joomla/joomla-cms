@@ -188,18 +188,6 @@ class BannerModel extends AdminModel
 			return false;
 		}
 
-		// Determine correct permissions to check.
-		if ($this->getState('banner.id'))
-		{
-			// Existing record. Can only edit in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit');
-		}
-		else
-		{
-			// New record. Can only create in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.create');
-		}
-
 		// Modify the form based on access controls.
 		if (!$this->canEditState((object) $data))
 		{
@@ -337,8 +325,8 @@ class BannerModel extends AdminModel
 			{
 				$db = $this->getDbo();
 				$query = $db->getQuery(true)
-					->select('MAX(ordering)')
-					->from('#__banners');
+					->select('MAX(' . $db->quoteName('ordering') . ')')
+					->from($db->quoteName('#__banners'));
 
 				$db->setQuery($query);
 				$max = $db->loadResult();

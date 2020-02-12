@@ -222,7 +222,7 @@ class ItemModel extends AdminModel
 			return false;
 		}
 
-		// Parent exists so we let's proceed
+		// Parent exists so let's proceed
 		while (!empty($pks) && $count > 0)
 		{
 			// Pop the first id off the stack
@@ -263,7 +263,7 @@ class ItemModel extends AdminModel
 			$db->setQuery($query);
 			$childIds = $db->loadColumn();
 
-			// Add child ID's to the array only if they aren't already there.
+			// Add child IDs to the array only if they aren't already there.
 			foreach ($childIds as $childId)
 			{
 				if (!in_array($childId, $pks))
@@ -412,7 +412,7 @@ class ItemModel extends AdminModel
 		// We are going to store all the children and just moved the menutype
 		$children = array();
 
-		// Parent exists so we let's proceed
+		// Parent exists so let's proceed
 		foreach ($pks as $pk)
 		{
 			// Check that the row actually exists
@@ -745,8 +745,8 @@ class ItemModel extends AdminModel
 				{
 					// Load the language file for the component.
 					$lang = Factory::getLanguage();
-					$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, true)
-					|| $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], null, false, true);
+					$lang->load($args['option'], JPATH_ADMINISTRATOR)
+					|| $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option']);
 
 					// Determine the component id.
 					$component = ComponentHelper::getComponent($args['option']);
@@ -1287,7 +1287,7 @@ class ItemModel extends AdminModel
 		// Association menu items, we currently do not support this for admin menu… may be later
 		if ($clientId == 0 && Associations::isEnabled())
 		{
-			$languages = LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{
@@ -1380,10 +1380,6 @@ class ItemModel extends AdminModel
 
 			return false;
 		}
-
-		// Declare paramaters before binding.
-		$id     = 0;
-		$params = '';
 
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__menu'))

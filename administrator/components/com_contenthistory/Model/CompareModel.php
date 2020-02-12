@@ -101,7 +101,7 @@ class CompareModel extends ListModel
 
 					foreach ($dateProperties as $dateProperty)
 					{
-						if (array_key_exists($dateProperty, $object->data)
+						if (property_exists($object->data, $dateProperty)
 							&& $object->data->$dateProperty->value !== null
 							&& $object->data->$dateProperty->value !== $nullDate)
 						{

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 
 /**
  * Methods supporting a list of banner records.
@@ -100,80 +101,103 @@ class ClientsModel extends ListModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$defaultPurchase = ComponentHelper::getParams('com_banners')->get('purchase_type', 3);
+		$defaultPurchase = (int) ComponentHelper::getParams('com_banners')->get('purchase_type', 3);
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id AS id,'
-				. 'a.name AS name,'
-				. 'a.contact AS contact,'
-				. 'a.checked_out AS checked_out,'
-				. 'a.checked_out_time AS checked_out_time, '
-				. 'a.state AS state,'
-				. 'a.metakey AS metakey,'
-				. 'a.purchase_type as purchase_type'
+				[
+					$db->quoteName('a.id'),
+					$db->quoteName('a.name'),
+					$db->quoteName('a.contact'),
+					$db->quoteName('a.checked_out'),
+					$db->quoteName('a.checked_out_time'),
+					$db->quoteName('a.state'),
+					$db->quoteName('a.metakey'),
+					$db->quoteName('a.purchase_type'),
+				]
 			)
-		);
+		)
+			->select(
+				[
+					'COUNT(' . $db->quoteName('b.id') . ') AS ' . $db->quoteName('nbanners'),
+					$db->quoteName('uc.name', 'editor'),
+				]
+			);
 
-		$query->from($db->quoteName('#__banner_clients') . ' AS a');
+		$query->from($db->quoteName('#__banner_clients', 'a'));
 
 		// Join over the banners for counting
-		$query->select('COUNT(b.id) as nbanners')
-			->join('LEFT', '#__banners AS b ON a.id = b.cid');
+		$query->join('LEFT', $db->quoteName('#__banners', 'b'), $db->quoteName('a.id') . ' = ' . $db->quoteName('b.cid'));
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor')
-			->join('LEFT', '#__users AS uc ON uc.id=a.checked_out');
+		$query->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'));
 
 		// Filter by published state
 		$published = (string) $this->getState('filter.state');
 
 		if (is_numeric($published))
 		{
-			$query->where('a.state = ' . (int) $published);
+			$published = (int) $published;
+			$query->where($db->quoteName('a.state') . ' = :published')
+				->bind(':published', $published, ParameterType::INTEGER);
 		}
 		elseif ($published === '')
 		{
-			$query->where('(a.state IN (0, 1))');
+			$query->where($db->quoteName('a.state') . ' IN (0, 1)');
 		}
 
-		$query->group('a.id, a.name, a.contact, a.checked_out, a.checked_out_time, a.state, a.metakey, a.purchase_type, uc.name');
+		$query->group(
+			[
+				$db->quoteName('a.id'),
+				$db->quoteName('a.name'),
+				$db->quoteName('a.contact'),
+				$db->quoteName('a.checked_out'),
+				$db->quoteName('a.checked_out_time'),
+				$db->quoteName('a.state'),
+				$db->quoteName('a.metakey'),
+				$db->quoteName('a.purchase_type'),
+				$db->quoteName('uc.name'),
+			]
+		);
 
 		// Filter by search in title
-		$search = $this->getState('filter.search');
-
-		if (!empty($search))
+		if ($search = trim($this->getState('filter.search')))
 		{
 			if (stripos($search, 'id:') === 0)
 			{
-				$query->where('a.id = ' . (int) substr($search, 3));
+				$search = (int) substr($search, 3);
+				$query->where($db->quoteName('a.id') . ' = :search')
+					->bind(':search', $search, ParameterType::INTEGER);
 			}
 			else
 			{
-				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('a.name LIKE ' . $search);
+				$search = '%' . str_replace(' ', '%', $search) . '%';
+				$query->where($db->quoteName('a.name') . ' LIKE :search')
+					->bind(':search', $search);
 			}
 		}
 
 		// Filter by purchase type
-		$purchaseType = $this->getState('filter.purchase_type');
-
-		if (!empty($purchaseType))
+		if ($purchaseType = (int) $this->getState('filter.purchase_type'))
 		{
-			if ($defaultPurchase == $purchaseType)
+			if ($defaultPurchase === $purchaseType)
 			{
-				$query->where('(a.purchase_type = ' . (int) $purchaseType . ' OR a.purchase_type = -1)');
+				$query->where('(' . $db->quoteName('a.purchase_type') . ' = :type OR ' . $db->quoteName('a.purchase_type') . ' = -1)');
 			}
 			else
 			{
-				$query->where('a.purchase_type = ' . (int) $purchaseType);
+				$query->where($db->quoteName('a.purchase_type') . ' = :type');
 			}
+
+			$query->bind(':type', $purchaseType, ParameterType::INTEGER);
 		}
 
 		// Add the list ordering clause.
-		$query->order($db->escape($this->getState('list.ordering', 'a.name')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
+		$query->order(
+			$db->quoteName($db->escape($this->getState('list.ordering', 'a.name'))) . ' ' . $db->escape($this->getState('list.direction', 'ASC'))
+		);
 
 		return $query;
 	}
@@ -212,24 +236,25 @@ class ClientsModel extends ListModel
 		$db = $this->getDbo();
 		$clientIds = array_column($items, 'id');
 
-		// Quote the strings.
-		$clientIds = implode(
-			',',
-			array_map(array($db, 'quote'), $clientIds)
-		);
-
-		// Get the published banners count.
 		$query = $db->getQuery(true)
-			->select('cid, COUNT(cid) AS count_published')
-			->from('#__banners')
-			->where('state = 1')
-			->where('cid IN (' . $clientIds . ')')
-			->group('cid');
+			->select(
+				[
+					$db->quoteName('cid'),
+					'COUNT(' . $db->quoteName('cid') . ') AS ' . $db->quoteName('count_published'),
+				]
+			)
+			->from($db->quoteName('#__banners'))
+			->where($db->quoteName('state') . ' = :state')
+			->whereIn($db->quoteName('cid'), $clientIds)
+			->group($db->quoteName('cid'))
+			->bind(':state', $state, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
+		// Get the published banners count.
 		try
 		{
+			$state = 1;
 			$countPublished = $db->loadAssocList('cid', 'count_published');
 		}
 		catch (\RuntimeException $e)
@@ -240,13 +265,9 @@ class ClientsModel extends ListModel
 		}
 
 		// Get the unpublished banners count.
-		$query->clear('where')
-			->where('state = 0')
-			->where('cid IN (' . $clientIds . ')');
-		$db->setQuery($query);
-
 		try
 		{
+			$state = 0;
 			$countUnpublished = $db->loadAssocList('cid', 'count_published');
 		}
 		catch (\RuntimeException $e)
@@ -257,13 +278,9 @@ class ClientsModel extends ListModel
 		}
 
 		// Get the trashed banners count.
-		$query->clear('where')
-			->where('state = -2')
-			->where('cid IN (' . $clientIds . ')');
-		$db->setQuery($query);
-
 		try
 		{
+			$state = -2;
 			$countTrashed = $db->loadAssocList('cid', 'count_published');
 		}
 		catch (\RuntimeException $e)
@@ -274,13 +291,9 @@ class ClientsModel extends ListModel
 		}
 
 		// Get the archived banners count.
-		$query->clear('where')
-			->where('state = 2')
-			->where('cid IN (' . $clientIds . ')');
-		$db->setQuery($query);
-
 		try
 		{
+			$state = 2;
 			$countArchived = $db->loadAssocList('cid', 'count_published');
 		}
 		catch (\RuntimeException $e)

@@ -13,7 +13,6 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Document\Document;
-use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
@@ -132,11 +131,8 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function execute()
 	{
-		// Trigger the onBeforeExecute event
-		$this->getDispatcher()->dispatch(
-			'onBeforeExecute',
-			new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
-		);
+		// Trigger the onBeforeExecute event.
+		$this->triggerEvent('onBeforeExecute');
 
 		// Perform application routines.
 		$this->doExecute();
@@ -158,7 +154,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		}
 
 		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
-		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') !== 'ob_gzhandler'))
 		{
 			$this->compress();
 		}

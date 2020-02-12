@@ -42,9 +42,14 @@ class NewsfeedsField extends ListField
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('id As value, name As text')
-			->from('#__newsfeeds AS a')
-			->order('a.name');
+			->select(
+				[
+					$db->quoteName('id', 'value'),
+					$db->quoteName('name', 'text'),
+				]
+			)
+			->from($db->quoteName('#__newsfeeds', 'a'))
+			->order($db->quoteName('a.name'));
 
 		// Get the options.
 		$db->setQuery($query);

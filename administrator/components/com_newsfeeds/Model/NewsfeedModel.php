@@ -113,18 +113,6 @@ class NewsfeedModel extends AdminModel
 			return false;
 		}
 
-		// Determine correct permissions to check.
-		if ($this->getState('newsfeed.id'))
-		{
-			// Existing record. Can only edit in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit');
-		}
-		else
-		{
-			// New record. Can only create in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.create');
-		}
-
 		// Modify the form based on access controls.
 		if (!$this->canEditState((object) $data))
 		{
@@ -318,7 +306,7 @@ class NewsfeedModel extends AdminModel
 			{
 				$db = $this->getDbo();
 				$query = $db->getQuery(true)
-					->select('MAX(ordering)')
+					->select('MAX(' . $db->quoteName('ordering') . ')')
 					->from($db->quoteName('#__newsfeeds'));
 				$db->setQuery($query);
 				$max = $db->loadResult();
@@ -397,7 +385,7 @@ class NewsfeedModel extends AdminModel
 		// Association newsfeeds items
 		if (Associations::isEnabled())
 		{
-			$languages = LanguageHelper::getContentLanguages(false, true, null, 'ordering', 'asc');
+			$languages = LanguageHelper::getContentLanguages(false, false, null, 'ordering', 'asc');
 
 			if (count($languages) > 1)
 			{

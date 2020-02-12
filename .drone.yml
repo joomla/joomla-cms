@@ -3,7 +3,6 @@ kind: pipeline
 name: default
 
 clone:
-  depth: 42
 
 steps:
   - name: restore-cache
@@ -171,6 +170,8 @@ steps:
   - name: javascript-cs
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - export DISPLAY=:0
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
@@ -181,6 +182,8 @@ steps:
   - name: javascript-tests
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - export DISPLAY=:0
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
@@ -191,24 +194,32 @@ steps:
   - name: system-tests-mysql
     depends_on: [ javascript-tests ]
     image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql
 
   - name: system-tests-mysql8
     depends_on: [ system-tests-mysql ]
     image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" mysql8
 
   - name: system-tests-postgres
     depends_on: [ system-tests-mysql8 ]
     image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)" postgres
 
   - name: api-tests
     depends_on: [ system-tests-postgres ]
     image: joomlaprojects/docker-images:systemtests
+    environment:
+      JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK: 1
     commands:
       - bash tests/Codeception/drone-api-run.sh "$(pwd)"
 
@@ -297,6 +308,6 @@ services:
 
 ---
 kind: signature
-hmac: 9269cc571ec30d3d18ba3bb5f7dc132c36608b54ec777ae6d9c6dde224255fc8
+hmac: 6e49e42776ccca0ae4ccfef5ec153134f8d97d069983715e2a3cea327f8f5398
 
 ...
