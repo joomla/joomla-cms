@@ -20,7 +20,7 @@
 		<field
 			name="save_history"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			default="0"
 			>
@@ -40,7 +40,7 @@
 		<field
 			name="show_feed_image"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 			id="show_feed_image"
 			default="1"
@@ -52,7 +52,7 @@
 		<field
 			name="show_feed_description"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 			id="show_feed_description"
 			default="1"
@@ -64,7 +64,7 @@
 		<field
 			name="show_item_description"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 			id="show_item_description"
 			default="1"
@@ -115,7 +115,7 @@
 		<field
 			name="show_tags"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_TAGS_LABEL"
 			id="show_tags"
 			default="1"
@@ -144,7 +144,7 @@
 		<field
 			name="show_category_title"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"
 			default="1"
 			>
@@ -155,7 +155,7 @@
 		<field
 			name="show_description"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 			id="show_description"
 			default="1"
@@ -167,7 +167,7 @@
 		<field
 			name="show_description_image"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 			default="1"
 			>
@@ -193,7 +193,7 @@
 		<field
 			name="show_empty_categories"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 			default="0"
 			showon="maxLevel:-1,1,2,3,4,5"
@@ -205,7 +205,7 @@
 		<field
 			name="show_subcat_desc"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			default="1"
 			showon="maxLevel:-1,1,2,3,4,5"
@@ -217,7 +217,7 @@
 		<field
 			name="show_cat_items"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
 			id="show_cat_items"
 			default="1"
@@ -229,7 +229,7 @@
 		<field
 			name="show_cat_tags"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_TAGS_LABEL"
 			default="1"
 			>
@@ -247,7 +247,7 @@
 		<field
 			name="show_base_description"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
 			default="1"
 			>
@@ -273,7 +273,7 @@
 		<field
 			name="show_empty_categories_cat"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 			default="0"
 			showon="maxLevelcat:-1,1,2,3,4,5"
@@ -285,7 +285,7 @@
 		<field
 			name="show_subcat_desc_cat"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			default="1"
 			showon="maxLevelcat:-1,1,2,3,4,5"
@@ -297,7 +297,7 @@
 		<field
 			name="show_cat_items_cat"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_CAT_ITEMS_LABEL"
 			default="1"
 			>
@@ -315,7 +315,7 @@
 		<field
 			name="filter_field"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			default="1"
 			>
@@ -326,7 +326,7 @@
 		<field
 			name="show_pagination_limit"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
 			default="1"
 			>
@@ -337,7 +337,7 @@
 		<field
 			name="show_headings"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
 			id="show_headings"
 			default="1"
@@ -349,7 +349,7 @@
 		<field
 			name="show_articles"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_NEWSFEEDS_FIELD_NUM_ARTICLES_COLUMN_LABEL"
 			id="show_articles"
 			default="1"
@@ -361,7 +361,7 @@
 		<field
 			name="show_link"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_NEWSFEEDS_FIELD_SHOW_LINKS_LABEL"
 			id="show_link"
 			default="1"
@@ -384,7 +384,7 @@
 		<field
 			name="show_pagination_results"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 			default="1"
 			showon="show_pagination:1,2"
@@ -405,7 +405,7 @@
 			<field
 				name="sef_ids"
 				type="radio"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="0"
 				label="JGLOBAL_SEF_NOIDS_LABEL"
 				filter="integer">

@@ -148,7 +148,7 @@ else
 	echo '<span>' . Text::_($current->title) . '</span>' . $ajax;
 }
 
-if ($currentParams->get('menu-quicktask', false))
+if ($currentParams->get('menu-quicktask', false) && $this->params->get('shownew', 1) === 1)
 {
 	$params = $current->getParams();
 	$user = $this->application->getIdentity();
