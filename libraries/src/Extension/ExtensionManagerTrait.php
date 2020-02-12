@@ -220,7 +220,7 @@ trait ExtensionManagerTrait
 		// Compile the classname
 		$className = 'Plg' . str_replace('-', '', $type) . $plugin;
 
-		if ($type == 'editors-xtd')
+		if ($type === 'editors-xtd')
 		{
 			// This type doesn't follow the convention
 			$className = 'PlgEditorsXtd' . $plugin;

@@ -92,7 +92,7 @@ class ComponentRecord
 			return $this->getParams();
 		}
 
-		return $this->get($name);
+		return $this->$name;
 	}
 
 	/**
@@ -115,7 +115,7 @@ class ComponentRecord
 			return;
 		}
 
-		$this->set($name, $value);
+		$this->$name = $value;
 	}
 
 	/**

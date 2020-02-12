@@ -90,6 +90,9 @@ class Router extends RouterView
 		$contact->setKey('id')->setParent($category, 'catid');
 		$this->registerView($contact);
 		$this->registerView(new RouterViewConfiguration('featured'));
+		$form = new RouterViewConfiguration('form');
+		$form->setKey('id');
+		$this->registerView($form);
 
 		parent::__construct($app, $menu);
 
@@ -173,6 +176,21 @@ class Router extends RouterView
 		}
 
 		return array((int) $id => $id);
+	}
+
+	/**
+	 * Method to get the segment(s) for a form
+	 *
+	 * @param   string  $id     ID of the contact form to retrieve the segments for
+	 * @param   array   $query  The request that is built right now
+	 *
+	 * @return  array|string  The segments of this item
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getFormSegment($id, $query)
+	{
+		return $this->getContactSegment($id, $query);
 	}
 
 	/**
