@@ -117,11 +117,15 @@ class LanguagesModel extends ListModel
 			$this->getState('list.select',
 				[
 					$db->quoteName('a') . '.*',
+				]
+			)
+		)
+			->select(
+				[
 					$db->quoteName('l.home'),
 					$db->quoteName('ag.title', 'access_level'),
 				]
 			)
-		)
 			->from($db->quoteName('#__languages', 'a'))
 			->join('LEFT', $db->quoteName('#__viewlevels', 'ag'), $db->quoteName('ag.id') . ' = ' . $db->quoteName('a.access'))
 			->join(

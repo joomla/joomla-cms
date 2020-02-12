@@ -112,7 +112,7 @@ class RulesRule extends FormRule
 		// Iterate over the children and add to the actions.
 		foreach ($element->children() as $el)
 		{
-			if ($el->getName() == 'action')
+			if ($el->getName() === 'action')
 			{
 				$actions[] = (string) $el['name'];
 			}

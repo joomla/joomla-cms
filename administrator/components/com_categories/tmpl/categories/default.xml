@@ -5,8 +5,8 @@
 			<![CDATA[COM_CATEGORIES_CATEGORIES_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
-	<fieldset name="request">
-		<fields name="request">
+	<fields name="request">
+		<fieldset name="request">
 			<field
 				name="extension"
 				type="ComponentsCategory"
@@ -15,13 +15,6 @@
 			>
 				<option value="">COM_MENUS_OPTION_SELECT_COMPONENT</option>
 			</field>
-		</fields>
-	</fieldset>
-	<field name="params">
-		<field
-			name="menu-quicktask"
-			type="hidden"
-			value="index.php?option=com_categories&amp;extension=com_content&amp;task=category.add"
-		/>
-	</field>
+		</fieldset>
+	</fields>
 </metadata>

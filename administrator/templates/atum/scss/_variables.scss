@@ -87,7 +87,7 @@ $alert-border-level:               0;
 $alert-color-level:                0;
 
 // Global
-$atum-box-shadow:                  1px 1px 1px 0px rgba($black,0.25);
+$atum-box-shadow:                  1px 1px 1px 0 rgba($black,0.25);
 $enable-rounded:                   false;
 $border-radius:                    none;
 $input-btn-padding-y:              .6rem;
@@ -244,9 +244,6 @@ $breadcrumb-bg:                    var(--white);
 // Links
 $link-color:                       var(--atum-link-color);
 $link-hover-color:                 var(--atum-link-hover-color);
-
-// Time for fade effect
-$fadetime:                         1s;
 
 // Z-Index list
 $zindex-negative:                  -1;

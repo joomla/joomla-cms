@@ -122,20 +122,4 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::help('JHELP_USERS_ACCESS_LEVELS');
 	}
-
-	/**
-	 * Returns an array of fields the table can be sorted by
-	 *
-	 * @return  array  Array containing the field name to sort by as the key and display text as value
-	 *
-	 * @since   3.0
-	 */
-	protected function getSortFields()
-	{
-		return array(
-			'a.ordering' => Text::_('JGRID_HEADING_ORDERING'),
-			'a.title'    => Text::_('COM_USERS_HEADING_LEVEL_NAME'),
-			'a.id'       => Text::_('JGRID_HEADING_ID'),
-		);
-	}
 }

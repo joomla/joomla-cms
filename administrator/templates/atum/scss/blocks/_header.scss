@@ -156,10 +156,11 @@
       display: block;
       text-overflow: ellipsis;
       overflow: hidden;
+      transition: all .2s ease-in-out;
     }
   }
 
-  .fa,
+  .fas,
   .fab {
     font-size: 1.2rem;
     vertical-align: middle;
@@ -204,6 +205,16 @@
       [dir=rtl] & {
         text-align: right;
       }
+
+      .fas {
+        [dir=ltr] & {
+          margin-right: $dropdown-item-padding-x;
+        }
+
+        [dir=rtl] & {
+          margin-left: $dropdown-item-padding-x;
+        }
+      }
     }
   }
 
@@ -215,7 +226,7 @@
       text-align: right;
     }
 
-    .fa {
+    .fas {
       [dir=ltr] & {
         margin-right: $dropdown-item-padding-x;
       }
@@ -276,7 +287,7 @@
       height: 100%;
       border: 0;
 
-      .fa {
+      .fas {
         margin: auto;
       }
 
