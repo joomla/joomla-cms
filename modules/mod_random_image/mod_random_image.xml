@@ -9,11 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_RANDOM_IMAGE_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\RandomImage</namespace>
+	<namespace path="src">Joomla\Module\RandomImage</namespace>
 	<files>
 		<filename module="mod_random_image">mod_random_image.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_random_image.ini</language>
