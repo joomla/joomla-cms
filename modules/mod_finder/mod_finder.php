@@ -15,9 +15,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
+use Joomla\Component\Finder\Site\Helper\RouteHelper;
 use Joomla\Module\Finder\Site\Helper\FinderHelper;
-
-JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
 
 $cparams = ComponentHelper::getParams('com_finder');
 
@@ -33,7 +32,7 @@ if ($params->get('opensearch', $cparams->get('opensearch', 1)))
 }
 
 // Get the route.
-$route = FinderHelperRoute::getSearchRoute($params->get('searchfilter', null));
+$route = RouteHelper::getSearchRoute($params->get('searchfilter', null));
 
 // Load component language file.
 LanguageHelper::loadComponentLanguage();
