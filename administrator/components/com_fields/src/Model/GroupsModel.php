@@ -182,12 +182,12 @@ class GroupsModel extends ListModel
 		if (is_numeric($state))
 		{
 			$state = (int) $state;
-			$query->where($db->quoteName('a.access') . ' = :state')
+			$query->where($db->quoteName('a.state') . ' = :state')
 				->bind(':state', $state, ParameterType::INTEGER);
 		}
 		elseif (!$state)
 		{
-			$query->whereIn($db->quoteName('a.access'), [0, 1]);
+			$query->whereIn($db->quoteName('a.state'), [0, 1]);
 		}
 
 		// Filter by search in title
