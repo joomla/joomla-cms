@@ -285,7 +285,7 @@
     }
   });
   document.addEventListener('click', (event) => {
-    if (document.getElementById('header-more-items').querySelector('.active') && !document.querySelector('.header-item-more').contains(event.target)) {
+    if (document.getElementById('header-more-items') && document.querySelector('.active') && !document.querySelector('.header-item-more').contains(event.target)) {
       document.getElementById('header-more-items').classList.remove('active');
     }
   });
