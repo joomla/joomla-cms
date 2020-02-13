@@ -24,7 +24,6 @@
 		directory="media/vendor/tinymce/skins/ui"
 		recursive="false"
 		hide_none="true"
-		hide_default="true"
 	/>
 
 	<field
@@ -34,7 +33,6 @@
 		directory="media/vendor/tinymce/skins/ui"
 		recursive="false"
 		hide_none="true"
-		hide_default="true"
 	/>
 
 	<field
