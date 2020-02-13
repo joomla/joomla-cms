@@ -980,8 +980,7 @@ class MenusHelper extends ContentHelper
 
 		if ((string) $node['quicktask'])
 		{
-			$params->set('menu-quicktask', true);
-			$params->set('menu-quicktask-link', (string) $node['quicktask']);
+			$params->set('menu-quicktask', (string) $node['quicktask']);
 			$params->set('menu-quicktask-title', (string) $node['quicktask-title']);
 			$params->set('menu-quicktask-icon', (string) $node['quicktask-icon']);
 			$params->set('menu-quicktask-permission', (string) $node['quicktask-permission']);
@@ -995,7 +994,7 @@ class MenusHelper extends ContentHelper
 			$item->link    = str_replace("{sql:$var}", $val, $item->link);
 			$item->class   = str_replace("{sql:$var}", $val, $item->class);
 			$item->icon    = str_replace("{sql:$var}", $val, $item->icon);
-			$params->set('menu-quicktask-link', str_replace("{sql:$var}", $val, $params->get('menu-quicktask-link')));
+			$params->set('menu-quicktask', str_replace("{sql:$var}", $val, $params->get('menu-quicktask')));
 		}
 
 		$item->setParams($params);
