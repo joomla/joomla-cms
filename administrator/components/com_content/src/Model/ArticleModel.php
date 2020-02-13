@@ -31,6 +31,7 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -84,15 +85,30 @@ class ArticleModel extends AdminModel
 		{
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
-				->insert($db->quoteName('#__content_frontpage'))
-				->values(
-					$newId . ', 0, '
-					. (empty($table->featured_up) ? 'NULL' : $db->quote($table->featured_up))
-					. ', '
-					. (empty($table->featured_down) ? 'NULL' : $db->quote($table->featured_down))
-				);
-			$db->setQuery($query);
-			$db->execute();
+				->select(
+					[
+						$db->quoteName('featured_up'),
+						$db->quoteName('featured_down'),
+					]
+				)
+				->from($db->quoteName('#__content_frontpage'))
+				->where($db->quoteName('content_id') . ' = :oldId')
+				->bind(':oldId', $oldId, ParameterType::INTEGER);
+
+			$featured = $db->setQuery($query)->loadObject();
+
+			if ($featured)
+			{
+				$query = $db->getQuery(true)
+					->insert($db->quoteName('#__content_frontpage'))
+					->values(':newId, 0, :featuredUp, :featuredDown')
+					->bind(':newId', $newId, ParameterType::INTEGER)
+					->bind(':featuredUp', $featured->featured_up, $featured->featured_up ? ParameterType::STRING : ParameterType::NULL)
+					->bind(':featuredDown', $featured->featured_down, $featured->featured_down ? ParameterType::STRING : ParameterType::NULL);
+
+					$db->setQuery($query);
+					$db->execute();
+			}
 		}
 
 		// Copy workflow association
@@ -505,6 +521,33 @@ class ArticleModel extends AdminModel
 			{
 				$item->tags = new TagsHelper;
 				$item->tags->getTagIds($item->id, 'com_content.article');
+
+				$item->featured_up   = null;
+				$item->featured_down = null;
+
+				if ($item->featured)
+				{
+					// Get featured dates.
+					$db = $this->getDbo();
+					$query = $db->getQuery(true)
+						->select(
+							[
+								$db->quoteName('featured_up'),
+								$db->quoteName('featured_down'),
+							]
+						)
+						->from($db->quoteName('#__content_frontpage'))
+						->where($db->quoteName('content_id') . ' = :id')
+						->bind(':id', $item->id, ParameterType::INTEGER);
+
+					$featured = $db->setQuery($query)->loadObject();
+
+					if ($featured)
+					{
+						$item->featured_up   = $featured->featured_up;
+						$item->featured_down = $featured->featured_down;
+					}
+				}
 			}
 		}
 
