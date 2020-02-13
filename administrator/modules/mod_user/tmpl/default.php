@@ -34,12 +34,12 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 	<div class="dropdown-menu dropdown-menu-right">
 		<div class="dropdown-header"><?php echo $user->name; ?></div>
 		<?php $uri   = Uri::getInstance(); ?>
-		<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '#details&return=' . base64_encode($uri); ?>
+		<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri) . '#details'; ?>
 		<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
 			<span class="fas fa-fw fa-user" aria-hidden="true"></span>
 			<?php echo Text::_('MOD_USER_EDIT_ACCOUNT'); ?>
 		</a>
-		<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '#attrib-accessibility&return=' . base64_encode($uri); ?>
+		<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri) . '#attrib-accessibility'; ?>
 		<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
 			<span class="fas fa-fw fa-universal-access" aria-hidden="true"></span>
 			<?php echo Text::_('MOD_USER_ACCESSIBILITY_SETTINGS'); ?>
