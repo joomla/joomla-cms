@@ -33,7 +33,7 @@
     "bootstrap": "^4.4.1",
     "choices.js": "^9.0.1",
     "chosen-js": "1.6.2",
-    "codemirror": "5.40.0",
+    "codemirror": "^5.51.0",
     "cropperjs": "^1.5.6",
     "css-vars-ponyfill": "^1.17.2",
     "diff": "3.4.0",
