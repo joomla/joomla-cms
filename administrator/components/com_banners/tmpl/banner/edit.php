@@ -60,7 +60,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['versio
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'otherparams', Text::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS')); ?>
-			<fieldset id="fieldset-otherparams" class="form-no-margin options-form">
+			<fieldset id="fieldset-otherparams" class="options-form">
 				<legend><?php echo Text::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS'); ?></legend>
 				<div>
 					<?php echo $this->form->renderFieldset('otherparams'); ?>

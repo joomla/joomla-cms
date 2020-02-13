@@ -33,14 +33,10 @@ defined('_JEXEC') or die;
 						<?php endif; ?>
 					<?php endif; ?>
 					<?php if ($this->params->get('show_cat_items') == 1) : ?>
-						<dl class="newsfeed-count">
-							<dt>
-								<?php echo Text::_('COM_NEWSFEEDS_CAT_NUM'); ?>
-							</dt>
-							<dd>
-								<?php echo $child->numitems; ?>
-							</dd>
-						</dl>
+						<span class="badge badge-info">
+							<?php echo Text::_('COM_NEWSFEEDS_CAT_NUM'); ?>&nbsp;
+							<?php echo $child->numitems; ?>
+						</span>
 					<?php endif; ?>
 					<?php if (count($child->getChildren()) > 0) : ?>
 						<?php $this->children[$child->id] = $child->getChildren(); ?>

@@ -2624,7 +2624,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'menutype'     => $menuTypes[6],
 				'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_78_TITLE'),
-				'link'         => 'index.php?option=com_config&view=config&controller=config.display.config',
+				'link'         => 'index.php?option=com_config&view=config',
 				'component_id' => ComponentHelper::getComponent('com_config')->id,
 				'access'       => 6,
 				'params'       => array(
@@ -2636,7 +2636,7 @@ class PlgSampledataTesting extends CMSPlugin
 			array(
 				'menutype'     => $menuTypes[6],
 				'title'        => Text::_('PLG_SAMPLEDATA_TESTING_SAMPLEDATA_MENUS_ITEM_79_TITLE'),
-				'link'         => 'index.php?option=com_config&view=templates&controller=config.display.templates',
+				'link'         => 'index.php?option=com_config&view=templates',
 				'component_id' => ComponentHelper::getComponent('com_config')->id,
 				'access'       => 6,
 				'params'       => array(
