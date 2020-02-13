@@ -9,15 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_TAGS_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Tags</namespace>
+	<namespace path="src">Joomla\Component\Tags</namespace>
 	<files folder="site">
-		<folder>Controller</folder>
-		<folder>Helper</folder>
 		<folder>helpers</folder>
-		<folder>Model</folder>
-		<folder>Service</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<folder>View</folder>
 	</files>
 	<languages folder="site">
 		<language tag="en-GB">language/en-GB/com_tags.ini</language>
@@ -29,14 +25,10 @@
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>tags.xml</filename>
-			<folder>Controller</folder>
-			<folder>Extension</folder>
 			<folder>forms</folder>
-			<folder>Model</folder>
 			<folder>services</folder>
-			<folder>Table</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB/com_tags.ini</language>
 			<language tag="en-GB">language/en-GB/com_tags.sys.ini</language>
