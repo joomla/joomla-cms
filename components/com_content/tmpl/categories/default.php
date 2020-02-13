@@ -19,36 +19,8 @@ HTMLHelper::_('behavior.core');
 Text::script('JGLOBAL_EXPAND_CATEGORIES');
 Text::script('JGLOBAL_COLLAPSE_CATEGORIES');
 
-$js = <<<JS
-(function() {
-	document.addEventListener('DOMContentLoaded', function() {
-		var categories = [].slice.call(document.querySelectorAll('.categories-list'));
+HTMLHelper::_('script', 'com_content/categories-default.js', ['version' => 'auto', 'relative' => true]);
 
-		categories.forEach(function(category) {
-			var buttons = [].slice.call(document.querySelectorAll('.categories-list'));
-
-			buttons.forEach(function(button) {
-				var span = button.querySelector('span');
-
-				if(span) {
-				  span.classList.toggle('icon-plus')
-				  span.classList.toggle('icon-minus')
-				}
-
-				if (button.getAttribute('aria-label') === Joomla.JText._('JGLOBAL_EXPAND_CATEGORIES'))
-				{
-					button.setAttribute('aria-label', Joomla.JText._('JGLOBAL_COLLAPSE_CATEGORIES'));
-				} else {
-					button.setAttribute('aria-label', Joomla.JText._('JGLOBAL_EXPAND_CATEGORIES'));
-				}
-			})
-	  })
-	});
-})();
-JS;
-
-// @todo move script to a file
-$this->document->addScriptDeclaration($js);
 ?>
 <div class="com-content-categories categories-list">
 	<?php
