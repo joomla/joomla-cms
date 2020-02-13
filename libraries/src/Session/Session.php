@@ -99,7 +99,7 @@ class Session extends BaseSession
 			$fileName = $file->getFilename();
 
 			// Only load for PHP files.
-			if (!$file->isFile() || $file->getExtension() != 'php')
+			if (!$file->isFile() || $file->getExtension() !== 'php')
 			{
 				continue;
 			}

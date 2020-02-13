@@ -30,12 +30,20 @@ Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 	<h3><?php echo Text::_('COM_INSTALLER_SUBMENU_WARNINGS'); ?></h3>
 	<?php foreach ($this->warnings as $warning) : ?>
 		<div class="alert alert-warning">
-			<h4 class="alert-heading"><?php echo $warning['message']; ?></h4>
+			<h4 class="alert-heading">
+				<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+				<?php echo $message['message']; ?>
+			</h4>
 			<p class="mb-0"><?php echo $warning['description']; ?></p>
 		</div>
 	<?php endforeach; ?>
 	<div class="alert alert-info">
-		<h4 class="alert-heading"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?></h4>
+		<h4 class="alert-heading">
+			<span class="fas fa-info-circle" aria-hidden="true"></span>
+			<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?>
+		</h4>
 		<p class="mb-0"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
 	</div>
 <?php endif; ?>

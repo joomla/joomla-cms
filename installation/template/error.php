@@ -8,19 +8,20 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 /** @var JDocumentError $this */
 
-// Add Stylesheets
-HTMLHelper::_('stylesheet', 'installation/template/css/template.css', ['version' => 'auto']);
-HTMLHelper::_('stylesheet', 'installation/template/css/joomla-alert.min.css', ['version' => 'auto']);
+// Add required assets
+$this->getWebAssetManager()
+	->registerAndUseStyle('template.installation', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css')
+	->useScript('core')
+	->registerAndUseScript('template.installation', 'installation/template/js/template.js', [], [], ['core']);
 
-// Add scripts
-HTMLHelper::_('script', 'installation/template/js/template.js', ['version' => 'auto']);
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
+$this->getWebAssetManager()
+	->useStyle('webcomponent.joomla-alert')
+	->useScript('webcomponent.joomla-alert');
 
 // Add script options
 $this->addScriptOptions('system.installation', ['url' => Route::_('index.php')]);
@@ -59,7 +60,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 						<?php echo Text::_('INSTL_WARNJAVASCRIPT'); ?>
 					</noscript>
 				</div>
-				<div class="container-installation flex">
+				<div id="container-installation" class="container-installation flex">
 					<div class="j-install-step active">
 						<div class="j-install-step-header">
 							<span class="fas fa-exclamation" aria-hidden="true"></span> <?php echo Text::_('INSTL_ERROR'); ?>
