@@ -270,7 +270,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 */
 	public function isClient($identifier)
 	{
-		return $identifier == 'cli';
+		return $identifier === 'cli';
 	}
 
 	/**

@@ -468,7 +468,7 @@ class HtmlDocument extends Document
 
 		$renderer = $this->loadRenderer($type);
 
-		if ($this->_caching == true && $type == 'modules')
+		if ($this->_caching == true && $type === 'modules')
 		{
 			/** @var  \Joomla\CMS\Document\Renderer\Html\ModulesRenderer  $renderer */
 			$cache = CmsFactory::getCache('com_modules', '');
@@ -728,8 +728,8 @@ class HtmlDocument extends Document
 		$lang = CmsFactory::getLanguage();
 
 		// 1.5 or core then 1.6
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-			|| $lang->load('tpl_' . $template, $directory . '/' . $template, null, false, true);
+		$lang->load('tpl_' . $template, JPATH_BASE)
+			|| $lang->load('tpl_' . $template, $directory . '/' . $template);
 
 		// Assign the variables
 		$this->template = $template;

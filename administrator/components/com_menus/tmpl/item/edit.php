@@ -41,7 +41,7 @@ $lang     = Factory::getLanguage()->getTag();
 // Load mod_menu.ini file when client is administrator
 if ($clientId === 1)
 {
-	Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+	Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR);
 }
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
