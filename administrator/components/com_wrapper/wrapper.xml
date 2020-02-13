@@ -13,6 +13,7 @@
 	<namespace>Joomla\Component\Wrapper</namespace>
 	<files folder="site">
 		<folder>Controller</folder>
+		<folder>Service</folder>
 		<folder>tmpl</folder>
 		<folder>View</folder>
 	</files>
@@ -25,6 +26,7 @@
 	<administration>
 		<files folder="admin">
 			<filename>wrapper.xml</filename>
+			<folder>Extension</folder>
 			<folder>services</folder>
 		</files>
 		<languages folder="admin">
