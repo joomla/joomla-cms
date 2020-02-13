@@ -32,9 +32,6 @@ if ($this->fieldsets)
 	HTMLHelper::_('bootstrap.framework');
 }
 
-// @TODO delete this when custom elements modal is merged
-HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version' => 'auto', 'relative' => true]);
-
 $xml = $this->form->getXml();
 ?>
 
