@@ -9,10 +9,9 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>MOD_LOGINSUPPORT_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\Loginsupport</namespace>
+	<namespace path="src">Joomla\Module\Loginsupport</namespace>
 	<files>
 		<filename module="mod_loginsupport">mod_loginsupport.php</filename>
-		<folder>language</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
