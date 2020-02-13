@@ -2,8 +2,23 @@
 
 .form-control {
   max-width: $input-max-width;
-  background-color: var(--white-offset);
+  /* background-color: var(--white-offset);
+  border:solid 2px var(--atum-bg-dark);
+
+   */
+  background-color:$white;
+  border: 1px solid  var(--atum-link-color);
+  border-radius: $border-radius;
+  box-shadow: 0 0 0 .2rem lighten(theme-color("atum-link-color"), 45%);
 }
+
+.form-control:disabled,
+.form-control[readonly]{
+  border:0;
+  box-shadow: none
+}
+
+
 
 .control-group {
   display: flex;

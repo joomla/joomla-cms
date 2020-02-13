@@ -8,14 +8,14 @@
   }
 
   a {
-    color: var(--atum-bg-dark-50);
+    color: var(--atum-special-color);
     width: 100%;
     transition: all .25s ease;
 
     @include hover-focus-active {
       text-decoration: none;
       color: $white;
-      background: var(--atum-bg-dark);
+      background: var(--atum-special-color);
     }
 
     .fas,
@@ -80,7 +80,7 @@
 
   .quickicon-single,
   .quickicon-group {
-    border: 1px solid $gray-400;
+    border: 1px solid var(--atum-special-color);
     margin: 0.5rem;
     min-height: 5.7rem;
 

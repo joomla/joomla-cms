@@ -84,7 +84,7 @@
     }
 
     .custom-select {
-
+      box-shadow:  0 0 0 .2rem lighten(theme-color("atum-link-color"), 45%);
       &.active {
         color: var(--white);
         background: $custom-select-bg $custom-select-indicator-active no-repeat right center;

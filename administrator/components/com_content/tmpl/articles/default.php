@@ -235,7 +235,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								</td>
 								<td class="article-status">
 									<div class="d-flex">
-										<div class="btn-group tbody-icon mr-1">
+										<div class="btn-group tbody-icon mr-1 small">
 										<?php
 
 											$options = [

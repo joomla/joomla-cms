@@ -1,10 +1,9 @@
 // Variables
 @import "../../../../media/vendor/bootstrap/scss/functions";
 
-$white:                            #fff;
+$white:                            #ffffff;
 $whiteoffset:                      #fefefe;
 $gray-100:                         #f8f9fa;
-
 $gray-200:                         #e8e8e8; //used in bootstrap .badge-inverse
 $gray-300:                         #dee2e6; //used for toolbar and badges
 $gray-400:                         #cdcdcd; //used for border-bottom sidebar-nav and toolbar normal border
@@ -13,15 +12,15 @@ $gray-500:                         #adb5bd; //used in toolbar and buttons for bo
 $gray-700:                         #495057; //used for atum-text-dark, secondary
 $gray-800:                         #343a40; //used for badges-inverse
 $gray-900:                         #212529; //used for tree header, badge-inverse border
+$bluegray:                         #b2bfcd; // used for borders
 $black:                            #000;    //used for shadows
 $focuscolor:                       #39f;   //used for focus color
-
 $dark-blue:                        #001B4C; //is the atum-special-color
-$light-blue:                       #1757A1; //is the atum-link-color
+$light-blue:                       #2a69b8; //is the atum-link-color
 
 
 // BS Colours
-$blue:                             hsl(207, 61%, 26%); // base color for calculation, Primary-color
+$blue:                             hsl(213, 63, 44%); // base color for calculation, Primary-color
 $indigo:                           #0377be; //used in bootstrap
 $purple:                           #6f42c1; //used in bootstrap
 $pink:                             #971250; //used in bootstrap
@@ -32,8 +31,9 @@ $green:                            #2f7d32; //used in bootstrap
 $green-dark:                       #0f2f21; //used for alert success
 $teal:                             #20c997; //used in bootstrap
 $cyan:                             #107D8E; //used in bootstrap
+$darkblue:                         #3b4a5c;
 
-$base-color:                       $blue;
+$base-color:                       $darkblue;
 
 $theme-colors: ();
 $theme-colors: map-merge((
@@ -55,7 +55,9 @@ $theme-colors: map-merge((
 
 $colors: (
   card-bg:                         $white,
-  toolbar-bg:                      lighten($gray-200, 5%),
+  bluegray:                        $bluegray,
+  lightbluegray:                   #f6f9fc,
+  toolbar-bg:                      $white,
   success-border:                  theme-color("success"),
   info-border:                     theme-color("info"),
   warning-border:                  theme-color("warning"),
@@ -65,7 +67,10 @@ $colors: (
   white-offset:                    $whiteoffset,
   focus:                           $focuscolor,
   toggle-color:                    $white, //used in sidebar
-  atum-bg-light:                   $gray-200, //light background color, frontend dashboard background
+  atum-sidebar-bg:                 $white,
+  atum-sidebar-font-color:         #3b4a5c,
+  atum-sidebar-link-color:         #3b4a5c,
+  atum-bg-light:                   #f1f3f4, //light background color, frontend dashboard background
   atum-text-light:                 $white,
   atum-special-color:              $dark-blue,
   atum-link-color:                 $light-blue,
@@ -89,7 +94,7 @@ $alert-color-level:                0;
 // Global
 $atum-box-shadow:                 0 2px 4px rgba(0,0,0,0.16), 0 2px 4px rgba(0,0,0,0.23);
 $enable-rounded:                   false;
-$border-radius:                    none;
+$border-radius:                    3px;
 $input-btn-padding-y:              .6rem;
 $input-btn-padding-x:              1rem;
 $input-max-width:                  100%;
@@ -120,7 +125,8 @@ $font-size-vsm:                    .6rem;
 $display1-size:                    1rem;
 $display2-size:                    .875rem;
 $content-font-size:                0.875rem;
-$label-font-size:                  0.85rem;
+$label-font-size:                  1rem;
+$danger-bg:                        #990000;
 $badge-font-size:                  0.75rem;
 $fa-css-prefix:                    fa;
 $fa-font-path:                     "../../../../media/vendor/fontawesome-free/webfonts";
@@ -182,14 +188,14 @@ $state-error-bg:                   lighten($red-dark, 70%);
 $state-error-border:               lighten($red-dark, 30%);
 
 // Badges
-$success-bg:                       #bae0b7;
-$success-txt:                      #114b0c;
+$success-bg:                       $green;
+$success-txt:                      $white;
 
-$warning-bg:                       #fcd9b6;
-$warning-txt:                      #462a16;
+$warning-bg:                       #f9d71c;
+$warning-txt:                      #000000;
 
-$danger-bg:                        #F5B9B7;
-$danger-txt:                       #3b0d0c;
+$danger-bg:                        #990000;
+$danger-txt:                       #fff;
 
 // Input Group
 $input-group-addon-color:          var(--white);
@@ -210,7 +216,7 @@ $input-btn-submenu-icon-distance:   1rem;
 
 // Custom form
 $custom-select-indicator-padding:    3rem;
-$custom-select-bg:                   var(--atum-bg-dark);
+$custom-select-bg:                   var(--atum-link-color);
 $custom-select-bg-size:              116rem;
 $custom-select-indicator:            url(../images/select-bg.svg);
 $custom-select-indicator-active:     url(../../../images/select-bg-active.svg);

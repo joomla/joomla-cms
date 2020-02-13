@@ -84,7 +84,7 @@ textarea {
 
 .content,
 .container-popup {
-  font-size: $content-font-size;
+  /* font-size: $content-font-size; */
 }
 
 label,
@@ -129,8 +129,9 @@ body .container-main {
   }
 }
 
+
 .content {
-  padding-top: 15px;
+  padding: 2vw;
   border-radius: $border-radius;
 
   > .row {
