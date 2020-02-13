@@ -43,7 +43,7 @@
 				<field
 					name="show_front"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_POPULAR_FIELD_FEATURED_LABEL"
 					default="1"
 					filter="integer"

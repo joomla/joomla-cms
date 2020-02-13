@@ -42,7 +42,7 @@
 					name="show_global"
 					type="radio"
 					label="MOD_QUICKICON_SHOW_GLOBAL_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -112,7 +112,7 @@
 					name="show_media"
 					type="radio"
 					label="MOD_QUICKICON_SHOW_MEDIA_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
@@ -142,7 +142,7 @@
 					name="show_templates"
 					type="radio"
 					label="MOD_QUICKICON_SHOW_TEMPLATES_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					>
 					<option value="0">JHIDE</option>
