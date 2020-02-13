@@ -64,19 +64,11 @@
     &.transit-narrow {
       flex: 1 0 $sidebar-width;
       transition: flex 3s;
-
-      @include media-breakpoint-down(sm) {
-        @include fadeout-page;
-      }
     }
 
     &.transit-narrow-closed {
       flex: 1 0 $sidebar-width-closed;
       transition: flex 3s;
-
-      @include media-breakpoint-down(sm) {
-        @include fadeout-page;
-      }
     }
   }
 
@@ -84,10 +76,6 @@
     flex: 1 0 33%;
     max-width: $sidebar-width-login;
     transition: all 3s;
-
-    @include media-breakpoint-down(sm) {
-      @include fadein-page;
-    }
   }
 
   .sidebar-toggle {
@@ -463,10 +451,6 @@
       flex: 1 0 33%;
       max-width: $sidebar-width-login;
       transition: flex 3s;
-
-      @include media-breakpoint-down(sm) {
-        @include fadein-page;
-      }
     }
   }
 
@@ -514,11 +498,13 @@
     border: 8px solid var(--atum-bg-light);
     position: fixed;
     bottom: 20px;
-    right: 10px;
     z-index: $zindex-mobile-toggle;
 
+    [dir=ltr] & {
+      right: 10px;
+    }
+
     [dir=rtl] & {
-      right: auto;
       left: 10px;
     }
 

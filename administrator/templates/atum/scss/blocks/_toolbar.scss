@@ -380,14 +380,22 @@ joomla-toolbar-button {
 
       @include media-breakpoint-down(sm) {
         [dir=rtl] & {
-          margin-left: 0.75rem;
+          margin-left: 0.75rem !important;
           margin-right: 0 !important;
         }
       }
     }
+
+    @include media-breakpoint-down(xs) {
+      [dir=ltr] & {
+        margin-right: 0 !important;
+      }
+
+      [dir=rtl] & {
+        margin-left: 0 !important;
+      }
+    }
   }
-
-
 }
 
 .js-stools {
@@ -416,7 +424,7 @@ joomla-toolbar-button {
     }
 
     .ordering-select {
-      margin-right: .5rem;
+      margin-right: 0;
 
       @include media-breakpoint-down(sm) {
         [dir=rtl] & {
@@ -449,16 +457,8 @@ joomla-toolbar-button {
 
 @include media-breakpoint-down(xs) {
   .toggler-toolbar {
-    position: fixed;
     top: 20px;
-    bottom: 20px;
     z-index: $zindex-alerts;
-    display: block;
-    width: 70px;
-    height: 70px;
-    background: var(--atum-link-color);
-    border: 8px solid var(--atum-bg-light);
-    border-radius: 40px;
 
     [dir=ltr] & {
       right: 10px;
@@ -485,6 +485,9 @@ joomla-toolbar-button {
     .btn-group,
     .btn {
       width: 100%;
+    }
+    .dropdown-toggle-split {
+      width: auto;
     }
 
     .btn {
