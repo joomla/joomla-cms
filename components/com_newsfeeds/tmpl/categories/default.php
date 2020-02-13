@@ -9,17 +9,20 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-
-HTMLHelper::_('behavior.core');
 
 // Add strings for translations in Javascript.
 Text::script('JGLOBAL_EXPAND_CATEGORIES');
 Text::script('JGLOBAL_COLLAPSE_CATEGORIES');
 
-HTMLHelper::_('script', 'com_newsfeeds/categories-default.js', ['version' => 'auto', 'relative' => true]);
+$this->document->getWebAssetManager()->registerAndUseScript(
+	'com_categories.shared-categories-accordion',
+	'com_categories/shared-categories-accordion.js',
+	[],
+	['defer' => true],
+	['core']
+);
 
 ?>
 <div class="com-newsfeeds-categories categories-list">
