@@ -81,7 +81,7 @@ class RedirectField extends ListField
 		416 => 'HTTP/1.1 416 Requested Range Not Satisfiable',
 		417 => 'HTTP/1.1 417 Expectation Failed',
 		418 => 'HTTP/1.1 418 I\'m a teapot',
-		421 => 'HTTP/!.1 421 Misdirected Request',
+		421 => 'HTTP/1.1 421 Misdirected Request',
 		422 => 'HTTP/1.1 422 Unprocessable Entity',
 		423 => 'HTTP/1.1 423 Locked',
 		424 => 'HTTP/1.1 424 Failed Dependency',
