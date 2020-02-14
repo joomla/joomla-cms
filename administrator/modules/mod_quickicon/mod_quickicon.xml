@@ -9,11 +9,12 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_QUICKICON_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\Quickicon</namespace>
+	<namespace path="src">Joomla\Module\Quickicon</namespace>
 	<files>
 		<filename module="mod_quickicon">mod_quickicon.php</filename>
+		<folder>services</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_quickicon.ini</language>
