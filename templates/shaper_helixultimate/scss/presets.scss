@@ -1,0 +1,320 @@
+/**
+ * @package Helix Ultimate Framework
+ * @author JoomShaper https://www.joomshaper.com
+ * @copyright Copyright (c) 2010 - 2018 JoomShaper
+ * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or Later
+*/
+
+body,
+.sp-preloader {
+	background-color: $bg_color;
+	 color: $text_color;
+}
+
+.sp-preloader {
+	>div {
+	  background: $link_color;
+	  &:after {
+		background: $bg_color;
+	  }
+	}
+  }
+
+#sp-top-bar {
+	background: $topbar_bg_color;
+	color: $topbar_text_color;
+
+	a {
+		color: $topbar_text_color;
+	}
+}
+
+#sp-header {
+	background: $header_bg_color;
+}
+
+// Anchor
+a{
+	color: $link_color;
+	&:hover,
+	&:focus,
+	&:active {
+		color: $link_hover_color;
+	}
+}
+
+.tags {
+  >li {
+    display: inline-block;
+    a {
+    	@if $link_color { background: fadeOut($link_color, 0.9); }
+
+      	color: $link_color;
+			&:hover {
+				background: $link_hover_color;
+			}
+    }
+  }
+}
+
+.article-social-share {
+  .social-share-icon {
+    ul {
+      li {
+        a {
+					color: $text_color;
+          &:hover,
+          &:focus {
+            background: $link_color;
+          }
+        }
+      }
+    }
+  }
+}
+
+.pager {
+  >li {
+    a {
+			border: 1px solid #EDEDED;
+      color: $text_color;
+    }
+  }
+}
+// Reading Progress Bar Color 
+.sp-reading-progress-bar {
+	background-color: $link_color;
+}
+// Megamenu
+.sp-megamenu-parent {
+	>li {
+		> a {
+			color: $menu_text_color;
+		}
+
+		&:hover > a {
+			color: $menu_text_hover_color;
+		}
+
+		&.active > a,
+		&.active:hover > a {
+			color: $menu_text_active_color;
+		}
+	}
+
+	.sp-dropdown {
+
+		.sp-dropdown-inner{
+			background: $menu_dropdown_bg_color;
+		}
+
+		li.sp-menu-item {
+			>a {
+				color: $menu_dropdown_text_color;
+				&:hover {
+					color: $menu_dropdown_text_hover_color;
+				}
+			}
+			&.active>a {
+				color: $menu_dropdown_text_active_color;
+			}
+		}
+	}
+
+	.sp-mega-group {
+		> li {
+			>a {
+				color: $menu_dropdown_text_color;
+			}
+		}
+	}
+}
+
+// Off Canvas
+#offcanvas-toggler {
+	>.fa {
+		color: $menu_text_color;
+		&:hover,
+		&:focus,
+		&:active {
+			color: $menu_text_hover_color;
+		}
+	}
+}
+
+.offcanvas-menu {
+    background-color: $menu_dropdown_bg_color;
+    color: $menu_dropdown_text_color;
+    .offcanvas-inner {
+        .sp-module {
+            ul {
+                > li {
+                    a,
+                    span {
+                        color: $menu_dropdown_text_color;
+
+                        &:hover,
+                        &:focus{
+                            color: $menu_dropdown_text_hover_color;
+                        }
+                    }
+
+                    &.menu-parent {
+                        >a,
+                        >.menu-separator {
+                            >.menu-toggler {
+                            	@if $menu_dropdown_text_color { color: fade-out($menu_dropdown_text_color, 0.5); }
+                            }
+                        }
+
+                    }
+
+                    ul {
+                        li {
+                            a {
+                            	@if $menu_dropdown_text_color { color: fade-out($menu_dropdown_text_color, 0.2); }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+//Button
+.btn-primary,
+.sppb-btn-primary {
+	border-color: $link_color;
+	background-color: $link_color;
+	&:hover {
+		border-color: $link_hover_color;
+		background-color: $link_hover_color;
+	}
+}
+
+// Topbar Social
+ul.social-icons {
+	>li {
+		a {
+			&:hover {
+				color: $link_color;
+			}
+		}
+	}
+}
+
+// Page Title
+.sp-page-title {
+	background: $link_color;
+}
+
+// Body Innerwrapper
+
+.layout-boxed .body-innerwrapper {
+	background: $bg_color;
+}
+
+// Module
+.sp-module {
+	ul {
+		>li {
+			>a {
+				color: $text_color;
+				&:hover {
+					color: $link_color;
+				}
+			}
+		}
+	}
+
+	.latestnews {
+		>div {
+			>a {
+				color: $text_color;
+				&:hover {
+					color: $link_color;
+				}
+			}
+		}
+	}
+
+	.tagscloud {
+		.tag-name {
+			&:hover {
+				background: $link_color;
+			}
+		}
+	}
+}
+
+// Search
+.search {
+	.btn-toolbar {
+		button {
+			background: $link_color;
+		}
+	}
+}
+
+// Footer
+#sp-footer,
+#sp-bottom {
+	background: $footer_bg_color;
+	color: $footer_text_color;
+	a {
+		color: $footer_link_color;
+
+		&:hover,
+		&:active,
+		&:focus {
+			color: $footer_link_hover_color;
+		}
+	}
+}
+
+#sp-bottom {
+	.sp-module-content {
+		.latestnews {
+			> li {
+				> a {
+					>span {
+						color: $footer_text_color;
+					}
+				}
+			}
+		}
+	}
+}
+
+// Comingsoon
+.sp-comingsoon body {
+	background-color: $link_color;
+}
+
+// Pagination
+.pagination>li>a,
+.pagination>li>span {
+	color: $text_color;
+	&:hover,
+	&:focus {
+		color: $text_color;
+	}
+}
+
+.pagination>.active>a,
+.pagination>.active>span {
+	border-color: $link_color;
+	background-color: $link_color;
+	&:hover,
+	&:focus {
+		border-color: $link_color;
+		background-color: $link_color;
+	}
+}
+
+// Error
+.error-code,
+.coming-soon-number {
+	color: $link_color;
+}

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="attribs" addfieldpath="/plugins/system/helix3/fields">
+		<fieldset name="sppostformats" label="BLOG_OPTIONS">
+			<field name="spfeatured_image" type="spimage" label="BLOG_POST_FEATURE_IMAGE" description="BLOG_POST_FORMAT_GALLERY_DESCRIPTION" />
+			<field name="spfeatured_image_alt" type="text" label="BLOG_POST_FEATURE_IMAGE_ALTER_TEXT" description="BLOG_POST_FEATURE_IMAGE_ALTER_TEXT_DESCRIPTION" hint="Feature image alter text" />
+			<field name="post_format" type="radio" label="Post Format" default="standard" class="btn-group post-formats" description="Mega Menu Layout">
+				<option value="standard">BLOG_POST_FORMAT_STANDARD</option>
+				<option value="video">BLOG_POST_FORMAT_VIDEO</option>
+				<option value="gallery">BLOG_POST_FORMAT_GALLERY</option>
+				<option value="audio">BLOG_POST_FORMAT_AUDIO</option>
+				<option value="link">BLOG_POST_FORMAT_LINK</option>
+				<option value="quote">BLOG_POST_FORMAT_QUOTE</option>
+				<option value="status">BLOG_POST_FORMAT_STATUS</option>
+			</field>
+			<field name="gallery" type="spgallery" label="BLOG_POST_FORMAT_GALLERY_LABEL" description="BLOG_POST_FORMAT_GALLERY_DESCRIPTION" />
+			<field name="audio" type="textarea" rows="5" label="BLOG_POST_FORMAT_AUDIO_LABEL" description="BLOG_POST_FORMAT_AUDIO_DESCRIPTION" class="input-xxlarge" filter="raw" />
+			<field name="video" type="url" label="BLOG_POST_FORMAT_VIDEO_LABEL" description="BLOG_POST_FORMAT_VIDEO_DESCRIPTION" />
+			<field name="link_title" type="text" label="BLOG_POST_FORMAT_LINK_TITLE_LABEL" description="BLOG_POST_FORMAT_LINK_TITLE_DESCRIPTION" hint="Best Joomla Templates" />
+			<field name="link_url" type="url" label="BLOG_POST_FORMAT_LINK_LABEL" description="BLOG_POST_FORMAT_LINK_DESCRIPTION" hint="http://www.joomshaper.com/joomla-templates" />
+			<field name="quote_text" type="textarea" rows="5" label="BLOG_POST_FORMAT_QUOTE_TEXT_LABEL" description="BLOG_POST_FORMAT_QUOTE_TEXT_DESCRIPTION" class="input-xxlarge" filter="raw" />
+			<field name="quote_author" type="text" label="BLOG_POST_FORMAT_QUOTE_AUTHOR_LABEL" description="BLOG_POST_FORMAT_QUOTE_AUTHOR_DESCRIPTION" />
+			<field name="post_status" type="textarea" rows="5" label="BLOG_POST_FORMAT_STATUS_LABEL" description="BLOG_POST_FORMAT_STATUS_DESCRIPTION" class="input-xxlarge" filter="raw" />
+		</fieldset>
+	</fields>
+</form>

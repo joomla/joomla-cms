@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -261,9 +261,6 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 
 				// Add the link => node map.
 				FinderIndexerTaxonomy::addMap($linkId, $nodeId);
-
-				// Tokenize the node title and add them to the database.
-				$count += $this->tokenizeToDb($node->title, static::META_CONTEXT, $item->language, $format);
 			}
 		}
 

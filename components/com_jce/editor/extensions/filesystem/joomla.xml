@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<extension version="3.8">
+    <name>WF_FILESYSTEM_JOOMLA_TITLE</name>
+    <version>2.7.14</version>
+    <creationDate>13-06-2019</creationDate>
+    <author>Ryan Demmer</author>
+    <authorEmail>info@joomlacontenteditor.net</authorEmail>
+    <authorUrl>https://www.joomlacontenteditor.net/</authorUrl>
+    <copyright>Copyright (C) 2006 - 2019 Ryan Demmer. All rights reserved</copyright>
+    <license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <description>WF_FILESYSTEM_JOOMLA_DESC</description>
+    <files></files>
+    <fields>
+        <fieldset name="filesystem.joomla">
+            <field name="allow_root" type="radio" default="0" label="WF_PARAM_ALLOW_ROOT" description="WF_PARAM_ALLOW_ROOT_DESC" class="btn-group btn-group-yesno">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field name="restrict_dir" type="customlist" default="administrator,bin,cache,components,cli,includes,language,layouts,libraries,logs,media,modules,plugins,templates,tmp,xmlrpc" multiple="true" label="WF_PARAM_DIRECTORY_RESTRICTED" description="WF_PARAM_DIRECTORY_RESTRICTED_DESC" showon="allow_root:1">
+                <option value="administrator">administrator</option>
+                <option value="bin">bin</option>
+                <option value="cache">cache</option>
+                <option value="components">components</option>
+                <option value="cli">cli</option>
+                <option value="includes">includes</option>
+                <option value="language">language</option>
+                <option value="layouts">layouts</option>
+                <option value="libraries">libraries</option>
+                <option value="logs">logs</option>
+                <option value="media">media</option>
+                <option value="modules">modules</option>
+                <option value="plugins">plugins</option>
+                <option value="templates">templates</option>
+                <option value="tmp">tmp</option>
+                <option value="xmlrpc">xmlrpc</option>
+            </field>
+        </fieldset>
+    </fields>
+</extension>

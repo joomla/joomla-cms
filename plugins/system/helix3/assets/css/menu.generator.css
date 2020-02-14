@@ -1,0 +1,210 @@
+/**
+* @package Helix3 Framework
+* @author JoomShaper http://www.joomshaper.com
+* @copyright Copyright (c) 2010 - 2017 JoomShaper
+* @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or Later
+*/
+.megamenu {
+	margin-bottom: 30px;
+}
+.sidebar-title {
+	margin: 10 0;
+	font-size: 14px;
+	text-transform: uppercase;
+	line-height: 1;
+}
+
+.modules-list {
+	overflow-y: scroll;
+	height: 400px;
+	margin-bottom: 20px;
+}
+
+.draggable-module {
+	display: block;
+	background: #e5e5e5;
+	padding: 8px 10px;
+	margin-bottom: 3px;
+	border-radius: 3px;
+	cursor: move;
+	position: relative;
+	z-index: 99;
+	transition: background-color 400ms;
+	-webkit-transition: background-color 400ms;
+}
+
+.draggable-module.ui-draggable-dragging{
+	width: 300px;
+	background: #5bb75b;
+	z-index: 99999;
+	color: #fff;
+}
+
+.menu-section-state-highlight {
+	background: #fff;
+	border: 2px dashed #999;
+  	border-radius: 3px;
+  	margin-bottom: 10px;
+}
+
+.draggable-module:hover {
+	background: #ccc;
+}
+
+.draggable-module .fa {
+	display: block;
+	float: right;
+	font-size: 10px;
+	line-height: 18px;
+	color: #fff;
+	height: 18px;
+	width: 18px;
+	text-align: center;
+	border-radius: 2px;
+}
+
+.draggable-module .fa-arrows {
+	background: #5bb75b;
+	cursor: move;
+}
+
+.draggable-module .fa-remove {
+	background: #da4f49;
+	cursor: pointer;
+}
+
+.modules-list .fa-remove {
+	display: none;
+}
+
+.modules-container .fa-arrows {
+	display: none;
+}
+
+#megamenulayout {
+	margin-left: 30px;
+	background: #e5e5e5;
+	padding: 10px;
+	border-radius: 3px;
+}
+
+#megamenulayout .row-move {
+	position: absolute;
+	top: 0;
+	left: -30px;
+	cursor: move;
+}
+
+.menu-section {
+	background: #ccc;
+	padding: 10px;
+	position: relative;
+	margin-bottom: 10px;
+	border-radius: 4px;
+}
+
+#megamenulayout .menu-section:last-child {
+	margin-bottom: 0;
+}
+
+.menu-section .column {
+	min-height: 40px;
+}
+
+.menu-section .column-items-wrap {
+	background: #fff;
+	padding: 10px;
+	border-radius: 3px;
+}
+
+.menu-section .column-items-wrap h4 {
+	margin: 0 0 10px;
+	padding: 0;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.menu-section .column-items-wrap ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.menu-section .column-items-wrap ul li {
+	display: block;
+	padding: 7px 0;
+	border-top: 1px solid #eee;
+}
+
+.menu-section .ui-state-highlight,
+.modules-container:empty {
+  border: 2px dashed #999;
+  border-radius: 3px;
+  height: 40px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.modules-container:empty:after {
+	content: "Drop Module";
+	line-height: 36px;
+	padding: 0 10px;
+}
+
+/*List Layout*/
+.menu-layout {
+  display: none;
+}
+
+.menu-layout-list {
+  list-style: none;
+  padding: 0;
+  margin: -10px;
+}
+
+.menu-layout-list > li {
+  display: block;
+  width: 33.3333%;
+  float: left;
+}
+
+.menu-layout-list > li > a {
+  margin: 10px;
+  display: block;
+  padding: 10px;
+  border: 1px solid #e5e5e5;
+  border-radius: 3px;
+}
+
+.action-bar {
+	margin-left: 30px;
+}
+
+.action-bar ul{
+  list-style: none;
+  display: block;
+  margin: 0;
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+.action-bar ul li{
+  display: inline-block;
+}
+
+#menuWidth{
+  width: 50px;
+}
+
+.size-shape{
+  padding: 5px;
+  cursor: pointer;
+  border: 1px solid #f0f0f0;
+  margin: 0 1px;
+}
+.background{
+  background-color: green;
+}

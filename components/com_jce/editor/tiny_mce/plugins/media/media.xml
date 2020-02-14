@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<extension version="3.4" type="plugin" group="jce" method="upgrade">
+    <name>WF_MEDIA_TITLE</name>
+    <version>2.7.14</version>
+    <creationDate>13-06-2019</creationDate>
+    <author>Ryan Demmer</author>
+    <authorEmail>info@joomlacontenteditor.net</authorEmail>
+    <authorUrl>https://www.joomlacontenteditor.net</authorUrl>
+    <copyright>Copyright (C) 2006 - 2019 Ryan Demmer. All rights reserved</copyright>
+    <license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <description>WF_MEDIA_DESC</description>
+    <icon></icon>
+    <fields name="media">
+        <fieldset name="config">
+            <field name="iframes" type="yesno" default="0" label="WF_MEDIA_PARAM_IFRAMES" description="WF_MEDIA_PARAM_IFRAMES_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="audio" type="yesno" default="1" label="WF_MEDIA_PARAM_AUDIO" description="WF_MEDIA_PARAM_AUDIO_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="video" type="yesno" default="1" label="WF_MEDIA_PARAM_VIDEO" description="WF_MEDIA_PARAM_VIDEO_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="object" type="yesno" default="1" label="WF_MEDIA_PARAM_OBJECT" description="WF_MEDIA_PARAM_OBJECT_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="embed" type="yesno" default="1" label="WF_MEDIA_PARAM_EMBED" description="WF_MEDIA_PARAM_EMBED_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+        </fieldset>
+    </fields>
+    <languages></languages>
+</extension>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<access component="com_jce">
+	<section name="component">
+		<action name="core.admin" title="JACTION_ADMIN" description="JACTION_ADMIN_COMPONENT_DESC" />
+		<action name="core.manage" title="JACTION_MANAGE" description="JACTION_MANAGE_COMPONENT_DESC" />
+		<action name="jce.config" title="WF_ACTION_CONFIG" description="WF_ACTION_CONFIG_DESC" />
+		<action name="jce.profiles" title="WF_ACTION_PROFILES" description="WF_ACTION_PROFILES_DESC" />
+		<action name="jce.preferences" title="WF_ACTION_PREFERENCES" description="WF_ACTION_PREFERENCES_DESC" />
+		<action name="jce.browser" title="WF_ACTION_BROWSER" description="WF_ACTION_BROWSER_DESC" />
+		<action name="jce.mediabox" title="WF_ACTION_MEDIABOX" description="WF_ACTION_MEDIABOX_DESC" />
+	</section>
+</access>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" version="3.8" method="upgrade" client="admin">
+    <name>com_djimageslider</name>
+    <creationDate>2018-12-19</creationDate>
+    <author>DJ-Extensions.com</author>
+	<copyright>Copyright (C) 2017 DJ-Extensions.com, All rights reserved.</copyright>
+	<license>http://www.gnu.org/licenses GNU/GPL</license>
+	<authorEmail>contact@dj-extensions.com</authorEmail>
+	<authorUrl>http://dj-extensions.com</authorUrl>
+    <version>4.0.1</version>
+	<description>DJ-ImageSlider component</description>
+	
+	<install>
+		<sql>
+            <file charset="utf8" driver="mysql">sql/install.sql</file>
+        </sql>
+    </install>
+	<uninstall>
+		<sql>
+            <file charset="utf8" driver="mysql">sql/uninstall.sql</file>
+        </sql>
+    </uninstall>
+    <update>
+		<schemas>
+			<schemapath type="mysql">sql/updates</schemapath>
+		</schemas>
+	</update>
+	
+    <administration>
+    	
+    	<menu img="components/com_djimageslider/assets/icon-16-djimageslider.png">COM_DJIMAGESLIDER</menu>
+		<!-- submenu>
+			<menu link="option=com_djimageslider&amp;view=items" alt="DJ-ImageSlider/Slides" img="components/com_djimageslider/assets/icon-16-menu-slides.png">COM_DJIMAGESLIDER_SLIDES</menu>
+			<menu link="option=com_categories&amp;extension=com_djimageslider" alt="DJ-ImageSlider/Categories" img="class:category">COM_DJIMAGESLIDER_CATEGORIES</menu>
+		</submenu-->
+		
+    	<files folder="administrator">
+        	<filename>djimageslider.php</filename>
+            <filename>controller.php</filename>
+			<filename>index.html</filename>
+			<filename>config.xml</filename>
+			<filename>access.xml</filename>
+			<folder>assets</folder>
+			<folder>controllers</folder>
+			<folder>helpers</folder>
+			<folder>language</folder>
+            <folder>models</folder>
+            <folder>sql</folder>
+            <folder>tables</folder>
+            <folder>views</folder>
+        </files>
+        
+    </administration>
+    
+    <scriptfile>script.djimageslider.php</scriptfile>
+    
+	<config />
+	<files />
+	
+</extension>

@@ -1,0 +1,168 @@
+/* General slider styles */
+.djslider-loader-default {
+	margin: 0 auto;
+	position: relative;
+	background: url(../images/loader.gif) center center no-repeat;
+	max-width: 100%;
+	overflow: hidden;
+}
+.djslider-default {
+	margin: 0 auto;
+	position: relative;
+	-webkit-transition: opacity 400ms ease;
+	transition: opacity 400ms ease;
+	with: 100%;
+	opacity: 0;
+}
+.djslider-default .slider-container {
+	position: absolute;
+	overflow:hidden;
+	left: 0; 
+	top: 0;
+	height: 100%;
+	width: 100%;
+}
+.djslider-default ul.djslider-in {
+	position: relative;
+	margin: 0 !important;
+	padding: 0 !important;
+	border: 0 !important;
+}
+.djslider-default ul.djslider-in > li {
+	list-style: none outside !important;
+	float: left;
+	padding: 0 !important;
+	border: 0 !important;
+	position: relative;
+	background: none;
+	overflow: hidden;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.djslider-default ul.djslider-in > li:before,
+.djslider-default ul.djslider-in > li:after {
+	display: none !important;
+}
+ul.djslider-in > li {
+	text-align: center;
+}	
+.djslider-default img.dj-image {
+	border: 0 !important;
+	margin: 0 !important;
+}
+.djslider-default.img-vcenter img.dj-image {
+	position: relative;
+  	top: 50%;
+  	-webkit-transform: translateY(-50%);
+  	-ms-transform: translateY(-50%);
+  	transform: translateY(-50%);
+}
+/* Slide description area */
+.djslider-default .slide-desc {
+	position: absolute;
+}
+.djslider-default .slide-desc-in {
+	position: relative;
+}
+.slide-desc-bg-default {
+	position:absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: RGBA(0,0,0,0.65);
+}
+.slide-desc-text-default {
+	position: relative;
+	color: #fff;
+	padding: 15px 15px 5px;
+	text-align: left;
+}
+.slide-desc-text-default .slide-title {
+	font-size: 1.5em;
+	color: #fff;
+	margin-bottom: 10px;
+	font-weight: 600;
+}
+.slide-desc-text-default .slide-title a {
+	color: #fff;
+}
+.slide-desc-text-default a.readmore {
+	float: right;
+	margin-bottom: 10px;
+}
+
+/* Navigation buttons / indicators */
+.djslider-default .navigation-container {
+	position: relative;
+	text-align: center !important;
+}
+.djslider-default .navigation-container a {
+	outline: none;
+}
+.djslider-default .navigation-container img {
+	width: auto;
+	box-shadow: none;
+}
+.djslider-default .navigation-container .prev-button {
+	cursor: pointer;
+	display: block;
+	position: absolute;
+	left: 0;
+}
+.djslider-default .navigation-container .next-button {
+	cursor: pointer;
+	display: block;
+	position: absolute;
+	right: 0;
+}
+.djslider-default .navigation-container .play-button, 
+.djslider-default .navigation-container .pause-button {
+	cursor: pointer;
+	display: block;
+	position: absolute;
+	left: 50%;
+}
+
+.djslider-default .navigation-container-custom,
+.djslider-default .navigation-numbers {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}
+.djslider-default .load-button {
+	width: 10px;
+	height: 10px;
+	display: inline-block;
+	background: #444;
+	border: 2px solid #fff;
+	margin: 0 3px;
+	cursor: pointer;
+	border-radius: 50%;
+	opacity: 0.5;
+	-webkit-transition: opacity 400ms ease;
+	transition: opacity 400ms ease;
+}
+.djslider-default .load-button-active {
+	opacity: 1;
+}
+.djslider-default .navigation-numbers .load-button {
+	width: 16px;
+	height: 16px;
+	text-align: center;
+	font-size: 11px;
+	font-weight: bold;
+	line-height: 16px;
+	color: #fff;
+}
+
+/* Fading elements */
+.djslider-loader-default .showOnHover {
+	opacity: 0;
+	-webkit-transition: opacity 200ms ease 50ms;
+	transition: opacity 200ms ease 50ms;
+}
+.djslider-loader-default:hover .showOnHover,
+.djslider-loader-default.focused .showOnHover {
+	opacity: 1;
+}

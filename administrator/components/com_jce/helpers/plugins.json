@@ -1,0 +1,330 @@
+{
+    "article": {
+        "title": "WF_ARTICLE_TITLE",
+        "description": "WF_ARTICLE_DESC",
+        "icon": "readmore,pagebreak",
+        "editable": 1,
+        "row": 4,
+        "core": 1
+    },
+    "anchor": {
+        "title": "WF_ANCHOR_TITLE",
+        "description": "WF_ANCHOR_DESC",
+        "core": 1,
+        "icon": "anchor",
+        "row": 4,
+        "editable": 0
+    },
+    "autosave": {
+        "title": "WF_AUTOSAVE_TITLE",
+        "description": "WF_AUTOSAVE_DESC",
+        "icon": "autosave",
+        "editable": 0,
+        "row": 4,
+        "core": 1
+    },
+    "browser": {
+        "title": "WF_BROWSER_TITLE",
+        "description": "WF_BROWSER_DESC",
+        "icon": "",
+        "editable": 1,
+        "row": 0,
+        "core": 1
+    },
+    "charmap": {
+        "title": "WF_CHARMAP_TITLE",
+        "description": "WF_CHARMAP_DESC",
+        "icon": "charmap",
+        "editable": 0,
+        "row": 2,
+        "core": 1
+    },
+    "cleanup": {
+        "title": "WF_CLEANUP_TITLE",
+        "description": "WF_CLEANUP_DESC",
+        "icon": "cleanup",
+        "editable": 0,
+        "row": 1,
+        "core": 1
+    },
+    "clipboard": {
+        "title": "WF_CLIPBOARD_TITLE",
+        "description": "WF_CLIPBOARD_DESC",
+        "icon": "cut,copy,paste,pastetext",
+        "editable": 1,
+        "row": 2,
+        "core": 1
+    },
+    "code": {
+        "title": "WF_CODE_TITLE",
+        "description": "WF_CODE_DESC",
+        "icon": "",
+        "editable": 0,
+        "row": 0,
+        "core": 1
+    },
+    "colorpicker": {
+        "title": "WF_COLORPICKER_TITLE",
+        "description": "WF_COLORPICKER_DESC",
+        "icon": "",
+        "editable": 0,
+        "row": 0,
+        "core": 1
+    },
+    "contextmenu": {
+        "title": "WF_CONTEXTMENU_TITLE",
+        "description": "WF_CONTEXTMENU_DESC",
+        "icon": "",
+        "editable": 1,
+        "row": 0,
+        "core": 1
+    },
+    "directionality": {
+        "title": "WF_DIRECTIONALITY_TITLE",
+        "description": "WF_DIRECTIONALITY_DESC",
+        "icon": "ltr,rtl",
+        "editable": 0,
+        "row": 3,
+        "core": 1
+    },
+    "format": {
+        "title": "WF_FORMAT_TITLE",
+        "description": "WF_FORMAT_DESC",
+        "icon": "",
+        "editable": 0,
+        "row": 0,
+        "core": 1,
+        "class": "list-box"
+    },
+    "formatselect": {
+        "title": "WF_FORMATSELECT_TITLE",
+        "description": "WF_FORMATSELECT_DESC",
+        "core": 1,
+        "icon": "formatselect",
+        "row": 1,
+        "editable": 1,
+        "class": "list-box"
+    },
+    "fontcolor": {
+        "title": "WF_FONTCOLOR_TITLE",
+        "description": "WF_FONTCOLOR_DESC",
+        "core": 1,
+        "icon": "forecolor,backcolor",
+        "row": 2,
+        "editable": 1,
+        "class": "split-button"
+    },
+    "fontselect": {
+        "title": "WF_FONTSELECT_TITLE",
+        "description": "WF_FONTSELECT_DESC",
+        "core": 1,
+        "icon": "fontselect",
+        "row": 2,
+        "editable": 1,
+        "class": "list-box"
+    },
+    "fontsizeselect": {
+        "title": "WF_FONTSIZESELECT_TITLE",
+        "description": "WF_FONTSIZESELECT_DESC",
+        "core": 1,
+        "icon": "fontsizeselect",
+        "row": 2,
+        "editable": 1,
+        "class": "list-box"
+    },
+    "fullscreen": {
+        "title": "WF_FULLSCREEN_TITLE",
+        "description": "WF_FULLSCREEN_DESC",
+        "icon": "fullscreen",
+        "editable": 0,
+        "row": 3,
+        "core": 1
+    },
+    "imgmanager": {
+        "title": "WF_IMGMANAGER_TITLE",
+        "description": "WF_IMGMANAGER_DESC",
+        "icon": "imgmanager",
+        "editable": 1,
+        "row": 4,
+        "core": 1
+    },
+    "layer": {
+        "title": "WF_LAYER_TITLE",
+        "description": "WF_LAYER_DESC",
+        "icon": "insertlayer,layerforward,layerbackward,layerabsolute",
+        "editable": 0,
+        "row": 4,
+        "core": 1
+    },
+    "link": {
+        "title": "WF_LINK_TITLE",
+        "description": "WF_LINK_DESC",
+        "icon": "link",
+        "editable": 1,
+        "row": 4,
+        "core": 1
+    },
+    "lists": {
+        "title": "WF_LISTS_TITLE",
+        "description": "WF_LISTS_DESC",
+        "icon": "numlist,bullist",
+        "editable": 1,
+        "row": 2,
+        "core": 1,
+        "class": "split-button"
+    },
+    "media": {
+        "title": "WF_MEDIA_TITLE",
+        "description": "WF_MEDIA_DESC",
+        "icon": "",
+        "editable": 1,
+        "row": 0,
+        "core": 1
+    },
+    "nonbreaking": {
+        "title": "WF_NONBREAKING_TITLE",
+        "description": "WF_NONBREAKING_DESC",
+        "icon": "nonbreaking",
+        "editable": 0,
+        "row": 4,
+        "core": 1
+    },
+    "preview": {
+        "title": "WF_PREVIEW_TITLE",
+        "description": "WF_PREVIEW_DESC",
+        "icon": "",
+        "editable": 1,
+        "row": 0,
+        "core": 1
+    },
+    "print": {
+        "title": "WF_PRINT_TITLE",
+        "description": "WF_PRINT_DESC",
+        "icon": "print",
+        "editable": 0,
+        "row": 3,
+        "core": 1
+    },
+    "searchreplace": {
+        "title": "WF_SEARCHREPLACE_TITLE",
+        "description": "WF_SEARCHREPLACE_DESC",
+        "icon": "search",
+        "editable": 0,
+        "row": 2,
+        "core": 1
+    },
+    "source": {
+        "title": "WF_SOURCE_TITLE",
+        "description": "WF_SOURCE_DESC",
+        "icon": "",
+        "editable": 0,
+        "row": 0,
+        "core": 1
+    },
+    "spellchecker": {
+        "title": "WF_SPELLCHECKER_TITLE",
+        "description": "WF_SPELLCHECKER_DESC",
+        "icon": "spellchecker",
+        "editable": 1,
+        "row": 4,
+        "core": 1
+    },
+    "style": {
+        "title": "WF_STYLE_TITLE",
+        "description": "WF_STYLE_DESC",
+        "icon": "style",
+        "editable": 0,
+        "row": 4,
+        "core": 1
+    },
+    "styleselect": {
+        "title": "WF_STYLESELECT_TITLE",
+        "description": "WF_STYLESELECT_DESC",
+        "core": 1,
+        "icon": "styleselect",
+        "row": 1,
+        "editable": 1,
+        "class": "list-box"
+    },
+    "tabfocus": {
+        "title": "WF_TABFOCUS_TITLE",
+        "description": "WF_TABFOCUS_DESC",
+        "icon": "",
+        "editable": 0,
+        "row": 0,
+        "core": 1
+    },
+    "table": {
+        "title": "WF_TABLE_TITLE",
+        "description": "WF_TABLE_DESC",
+        "icon": "table_insert,delete_table,row_props,cell_props,row_before,row_after,delete_row,col_before,col_after,delete_col,split_cells,merge_cells",
+        "editable": 1,
+        "row": 3,
+        "core": 1
+    },
+    "textcase": {
+        "title": "WF_TEXTCASE_TITLE",
+        "description": "WF_TEXTCASE_DESC",
+        "icon": "textcase",
+        "editable": 0,
+        "row": 4,
+        "core": 1,
+        "class": "split-button"
+    },
+    "visualchars": {
+        "title": "WF_VISUALCHARS_TITLE",
+        "description": "WF_VISUALCHARS_DESC",
+        "icon": "visualchars",
+        "editable": 0,
+        "row": 4,
+        "core": 1
+    },
+    "wordcount": {
+        "title": "WF_WORDCOUNT_TITLE",
+        "description": "WF_WORDCOUNT_DESC",
+        "icon": "",
+        "editable": 0,
+        "row": 0,
+        "core": 1
+    },
+    "xhtmlxtras": {
+        "title": "WF_XHTMLXTRAS_TITLE",
+        "description": "WF_XHTMLXTRAS_DESC",
+        "icon": "cite,abbr,acronym,del,ins,attribs",
+        "editable": 1,
+        "row": 4,
+        "core": 1
+    },
+    "kitchensink": {
+        "title": "WF_KITCHENSINK_TITLE",
+        "description": "WF_KITCHENSINK_DESC",
+        "core": 1,
+        "icon": "kitchensink",
+        "row": 1,
+        "editable": 0
+    },
+    "hr": {
+        "title": "WF_HR_TITLE",
+        "description": "WF_HR_DESC",
+        "core": 1,
+        "icon": "hr",
+        "row": 3,
+        "editable": 0
+    },
+    "visualblocks": {
+        "title": "WF_VISUALBLOCKS_TITLE",
+        "description": "WF_VISUALBLOCKS_DESC",
+        "core": 1,
+        "icon": "visualblocks",
+        "row": 4,
+        "editable": 1
+    },
+    "emotions": {
+        "title": "WF_EMOTIONS_TITLE",
+        "description": "WF_EMOTIONS_DESC",
+        "core": 1,
+        "icon": "emotions",
+        "row": 4,
+        "editable": 1
+    }
+}

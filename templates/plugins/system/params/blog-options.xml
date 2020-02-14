@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="attribs" addfieldpath="/plugins/system/helixultimate/fields">
+		<fieldset name="helix_ultimate_blog_options" label="HELIX_ULTIMATE_BLOG_OPTIONS">
+			<field name="helix_ultimate_image" type="heliximage" label="HELIX_ULTIMATE_BLOG_FEATURED_IMAGE" />
+			<field name="helix_ultimate_article_format" type="radio" label="HELIX_ULTIMATE_BLOG_ARTICLE_FORMAT" default="standard" class="btn-group">
+				<option value="standard">HELIX_ULTIMATE_BLOG_POST_FORMAT_STANDARD</option>
+				<option value="video">HELIX_ULTIMATE_BLOG_POST_FORMAT_VIDEO</option>
+				<option value="gallery">HELIX_ULTIMATE_BLOG_POST_FORMAT_GALLERY</option>
+				<option value="audio">HELIX_ULTIMATE_BLOG_POST_FORMAT_AUDIO</option>
+			</field>
+			<field name="helix_ultimate_audio" type="textarea" rows="5" label="HELIX_ULTIMATE_BLOG_POST_FORMAT_AUDIO_LABEL" description="HELIX_ULTIMATE_BLOG_POST_FORMAT_AUDIO_DESCRIPTION" class="input-xxlarge" filter="raw" showon="helix_ultimate_article_format:audio" />
+			<field name="helix_ultimate_gallery" type="helixgallery" label="HELIX_ULTIMATE_BLOG_POST_FORMAT_GALLERY_LABEL" description="HELIX_ULTIMATE_BLOG_POST_FORMAT_GALLERY_DESCRIPTION" showon="helix_ultimate_article_format:gallery" />
+			<field name="helix_ultimate_video" type="url" label="HELIX_ULTIMATE_BLOG_POST_FORMAT_VIDEO_LABEL" description="HELIX_ULTIMATE_BLOG_POST_FORMAT_VIDEO_DESCRIPTION" showon="helix_ultimate_article_format:video" />
+		</fieldset>
+	</fields>
+</form>

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<manager>
+	<help>
+		<topic key="manager.upload" title="WF_MANAGER_HELP_UPLOAD" />
+		<topic key="manager.delete" title="WF_MANAGER_HELP_DELETE" />
+		<topic key="manager.rename" title="WF_MANAGER_HELP_RENAME" />
+		<topic key="manager.create" title="WF_MANAGER_HELP_CREATE" />
+	</help>
+</manager>

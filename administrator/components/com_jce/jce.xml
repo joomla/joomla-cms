@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="component" version="3.8" method="upgrade">
+    <name>COM_JCE</name>
+    <author>Ryan Demmer</author>
+    <creationDate>13-06-2019</creationDate>
+    <copyright>Copyright (C) 2006 - 2019 Ryan Demmer. All rights reserved</copyright>
+    <license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <authorEmail>info@joomlacontenteditor.net</authorEmail>
+    <authorUrl>www.joomlacontenteditor.net</authorUrl>
+    <version>2.7.14</version>
+    <description>COM_JCE_XML_DESCRIPTION</description>
+
+    <files folder="components/com_jce">
+        <folder>editor</folder>
+        <folder>media</folder>
+        <folder>views</folder>
+        <!--file>index.html</file-->
+        <file>jce.php</file>
+        <file>licence.txt</file>
+    </files>
+
+    <!-- Media -->
+    <media folder="media/jce" destination="jce">
+        <folder>icons</folder>
+    </media>
+
+    <languages folder="language/en-GB">
+        <language tag="en-GB">en-GB.com_jce.ini</language>
+        
+    </languages>
+
+    <!-- SQL query files to execute on installation -->
+    <install>
+        <sql>
+            <file charset="utf8" driver="mysql">sql/mysql.sql</file>
+            <file charset="utf8" driver="mysqli">sql/mysql.sql</file>
+            <file charset="utf8" driver="sqlsrv">sql/sqlsrv.sql</file>
+            <file charset="utf8" driver="sqlzure">sql/sqlsrv.sql</file>
+            <file charset="utf8" driver="sqlazure">sql/sqlsrv.sql</file>
+            <file charset="utf8" driver="postgresql">sql/postgresql.sql</file>
+            <file charset="utf8" driver="pgsql">sql/postgresql.sql</file>
+        </sql>
+    </install>
+
+    <administration>
+        <menu view="cpanel" img="components/com_jce/media/img/menu/logo.png" link="option=com_jce">COM_JCE</menu>
+
+        <submenu>
+            <menu view="cpanel" link="option=com_jce">COM_JCE_MENU_CPANEL</menu>
+            <menu view="config" link="option=com_jce&amp;view=config">COM_JCE_MENU_CONFIG</menu>
+            <menu view="profiles" link="option=com_jce&amp;view=profiles">COM_JCE_MENU_PROFILES</menu>
+        </submenu>
+
+        <files folder="administrator/components/com_jce">
+            <folder>controller</folder>
+            <folder>helpers</folder>
+            <folder>includes</folder>
+            <folder>layouts</folder>
+            <folder>media</folder>
+            <folder>models</folder>
+            <folder>sql</folder>
+            <folder>tables</folder>
+            <folder>vendor</folder>
+            <folder>views</folder>
+            <file>access.xml</file>
+            <file>config.xml</file>
+            <file>controller.php</file>
+            <file>index.html</file>
+            <file>jce.php</file>
+            <file>licence.txt</file>
+        </files>
+
+        <languages folder="administrator/language/en-GB">
+            <language tag="en-GB">en-GB.com_jce.ini</language>
+            <language tag="en-GB">en-GB.com_jce.sys.ini</language>
+        </languages>
+
+    </administration>
+</extension>

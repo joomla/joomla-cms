@@ -1,0 +1,1 @@
+ALTER TABLE #__sppagebuilder ADD IF NOT EXISTS "hits" bigint DEFAULT 0 NOT NULL;

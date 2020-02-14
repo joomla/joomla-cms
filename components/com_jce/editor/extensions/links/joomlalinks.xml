@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+<extension version="3.4" type="plugin" group="jce" method="upgrade">
+    <name>WF_LINKS_JOOMLALINKS_TITLE</name>
+    <version>2.7.14</version>
+    <creationDate>13-06-2019</creationDate>
+    <author>Ryan Demmer</author>
+    <authorEmail>info@joomlacontenteditor.net</authorEmail>
+    <authorUrl>https://www.joomlacontenteditor.net/</authorUrl>
+    <copyright>Copyright (C) 2006 - 2019 Ryan Demmer. All rights reserved</copyright>
+    <license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <description>WF_LINKS_JOOMLALINKS_DESC</description>
+    <files>
+        <filename>joomlalinks.php</filename>
+        <folder>joomlalinks</folder>
+    </files>
+    <!--params group="links">
+		<field name="joomlalinks" type="yesno" label="WF_LABEL_EXTENSION_ENABLE" description="WF_LABEL_EXTENSION_ENABLE_DESC">
+        	<option value="1">JYES</option>
+        	<option value="0">JNO</option>
+    	</field>
+	</params-->
+    <fields name="joomlalinks">
+        <fieldset name="links.joomlalinks">
+            <field name="content" type="yesno" default="1" label="WF_LINKS_JOOMLALINKS_PARAM_CONTENT" description="WF_LINKS_JOOMLALINKS_PARAM_CONTENT_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="article_alias" type="yesno" default="1" label="WF_LINKS_JOOMLALINKS_PARAM_ARTICLE_ALIAS" description="WF_LINKS_JOOMLALINKS_PARAM_ARTICLE_ALIAS_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="article_unpublished" type="yesno" default="0" label="WF_LINKS_JOOMLALINKS_PARAM_ARTICLE_UNPUBLISHED" description="WF_LINKS_JOOMLALINKS_PARAM_ARTICLE_UNPUBLISHED_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="static" type="yesno" default="1" label="WF_LINKS_JOOMLALINKS_PARAM_UNCATEGORIZED" description="WF_LINKS_JOOMLALINKS_PARAM_UNCATEGORIZED_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="contacts" type="yesno" default="1" label="WF_LINKS_JOOMLALINKS_PARAM_CONTACT" description="WF_LINKS_JOOMLALINKS_PARAM_CONTACT_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="weblinks" type="yesno" default="1" label="WF_LINKS_JOOMLALINKS_PARAM_WEBLINKS" description="WF_LINKS_JOOMLALINKS_PARAM_WEBLINKS_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="weblinks_alias" type="yesno" default="1" label="WF_LINKS_JOOMLALINKS_PARAM_WEBLINKS_ALIAS" description="WF_LINKS_JOOMLALINKS_PARAM_WEBLINKS_ALIAS_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="menu" type="yesno" default="1" label="WF_LINKS_JOOMLALINKS_PARAM_MENU" description="WF_LINKS_JOOMLALINKS_PARAM_MENU_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="tags" type="yesno" default="1" label="WF_LINKS_JOOMLALINKS_PARAM_TAGS" description="WF_LINKS_JOOMLALINKS_PARAM_TAGS_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="tags_alias" type="yesno" default="1" label="WF_LINKS_JOOMLALINKS_PARAM_TAGS_ALIAS" description="WF_LINKS_JOOMLALINKS_PARAM_TAGS_ALIAS_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+        </fieldset>
+    </fields>
+    <plugins></plugins>
+</extension>

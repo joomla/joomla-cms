@@ -1,0 +1,171 @@
+{
+    "help": {
+        "title": "WF_HELP_TITLE",
+        "description": "WF_HELP_DESC",
+        "icon": "help",
+        "editable": 0,
+        "row": 1,
+        "core": 1
+    },
+    "undo": {
+        "title": "WF_UNDO_TITLE",
+        "description": "WF_UNDO_DESC",
+        "core": 1,
+        "icon": "undo",
+        "row": 1,
+        "editable": 0
+    },
+    "redo": {
+        "title": "WF_REDO_TITLE",
+        "description": "WF_REDO_DESC",
+        "core": 1,
+        "icon": "redo",
+        "row": 1,
+        "editable": 0
+    },
+    "bold": {
+        "title": "WF_BOLD_TITLE",
+        "description": "WF_BOLD_DESC",
+        "core": 1,
+        "icon": "bold",
+        "row": 1,
+        "editable": 0
+    },
+    "italic": {
+        "title": "WF_ITALIC_TITLE",
+        "description": "WF_ITALIC_DESC",
+        "core": 1,
+        "icon": "italic",
+        "row": 1,
+        "editable": 0
+    },
+    "underline": {
+        "title": "WF_UNDERLINE_TITLE",
+        "description": "WF_UNDERLINE_DESC",
+        "core": 1,
+        "icon": "underline",
+        "row": 1,
+        "editable": 0
+    },
+    "strikethrough": {
+        "title": "WF_STRIKETHROUGH_TITLE",
+        "description": "WF_STRIKETHROUGH_DESC",
+        "core": 1,
+        "icon": "strikethrough",
+        "row": 1,
+        "editable": 0
+    },
+    "justifyfull": {
+        "title": "WF_JUSTIFYFULL_TITLE",
+        "description": "WF_JUSTIFYFULL_DESC",
+        "core": 1,
+        "icon": "justifyfull",
+        "row": 1,
+        "editable": 0
+    },
+    "justifycenter": {
+        "title": "WF_JUSTIFYCENTER_TITLE",
+        "description": "WF_JUSTIFYCENTER_DESC",
+        "core": 1,
+        "icon": "justifycenter",
+        "row": 1,
+        "editable": 0
+    },
+    "justifyleft": {
+        "title": "WF_JUSTIFYLEFT_TITLE",
+        "description": "WF_JUSTIFYLEFT_DESC",
+        "core": 1,
+        "icon": "justifyleft",
+        "row": 1,
+        "editable": 0
+    },
+    "justifyright": {
+        "title": "WF_JUSTIFYRIGHT_TITLE",
+        "description": "WF_JUSTIFYRIGHT_DESC",
+        "core": 1,
+        "icon": "justifyright",
+        "row": 1,
+        "editable": 0
+    },
+    "formatselect": {
+        "title": "WF_FORMATSELECT_TITLE",
+        "description": "WF_FORMATSELECT_DESC",
+        "core": 1,
+        "icon": "formatselect",
+        "row": 1,
+        "editable": 0,
+        "class": "list-box"
+    },
+    "newdocument": {
+        "title": "WF_NEWDOCUMENT_TITLE",
+        "description": "WF_NEWDOCUMENT_DESC",
+        "core": 1,
+        "icon": "newdocument",
+        "row": 1,
+        "editable": 0
+    },
+    "unlink": {
+        "title": "WF_UNLINK_TITLE",
+        "description": "WF_UNLINK_DESC",
+                "core": 1,
+        "icon": "unlink",
+        "row": 4,
+        "editable": 0
+    },
+    "indent": {
+        "title": "WF_INDENT_TITLE",
+        "description": "WF_INDENT_DESC",
+        "core": 1,
+        "icon": "indent",
+        "row": 2,
+        "editable": 0
+    },
+    "outdent": {
+        "title": "WF_OUTDENT_TITLE",
+        "description": "WF_OUTDENT_DESC",
+        "core": 1,
+        "icon": "outdent",
+        "row": 2,
+        "editable": 0
+    },
+    "blockquote": {
+        "title": "WF_BLOCKQUOTE_TITLE",
+        "description": "WF_BLOCKQUOTE_DESC",
+        "core": 1,
+        "icon": "blockquote",
+        "row": 1,
+        "editable": 0
+    },
+    "removeformat": {
+        "title": "WF_REMOVEFORMAT_TITLE",
+        "description": "WF_REMOVEFORMAT_DESC",
+        "core": 1,
+        "icon": "removeformat",
+        "row": 1,
+        "editable": 0
+    },
+    "sub": {
+        "title": "WF_SUB_TITLE",
+        "description": "WF_SUB_DESC",
+        "core": 1,
+        "icon": "sub",
+        "row": 2,
+        "editable": 0
+    },
+    "sup": {
+        "title": "WF_SUP_TITLE",
+        "description": "WF_SUP_DESC",
+        "core": 1,
+        "icon": "sup",
+        "row": 2,
+        "editable": 0
+    },
+   	"visualaid": {
+        "title": "WF_VISUALAID_TITLE",
+        "description": "WF_VISUALAID_DESC",
+        "core": 1,
+        "icon": "visualaid",
+        "row": 4,
+        "editable": 0
+    }
+}

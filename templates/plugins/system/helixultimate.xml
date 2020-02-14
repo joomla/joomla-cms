@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.8" type="plugin" group="system" method="upgrade">
+  <name>System - Helix Ultimate Framework</name>
+  <author>JoomShaper.com</author>
+  <creationDate>Feb 2018</creationDate>
+  <copyright>Copyright (C) 2010 - 2018 JoomShaper. All rights reserved.</copyright>
+  <license>http://www.gnu.org/licenses/gpl-2.0.html GPLv2 or later</license>
+  <authorEmail>support@joomshaper.com</authorEmail>
+  <authorUrl>www.joomshaper.com</authorUrl>
+  <version>1.1.1</version>
+  <description>Helix Ultimate Framework - Joomla Template Framework by JoomShaper</description>
+
+  <updateservers>
+    <server type="extension" priority="1" name="System - Helix Ultimate Framework">http://www.joomshaper.com/updates/plg-system-helixultimate.xml</server>
+  </updateservers>
+
+  <languages>
+    <language tag="en-GB">language/en-GB.plg_system_helixultimate.ini</language>
+  </languages>
+
+  <files>
+    <filename plugin="helixultimate">helixultimate.php</filename>
+    <folder plugin="helixultimate">assets</folder>
+    <folder plugin="helixultimate">core</folder>
+    <folder plugin="helixultimate">language</folder>
+    <folder plugin="helixultimate">fields</folder>
+    <folder plugin="helixultimate">layout</folder>
+    <folder plugin="helixultimate">layouts</folder>
+    <folder plugin="helixultimate">params</folder>
+    <folder plugin="helixultimate">platform</folder>
+    <folder plugin="helixultimate">html</folder>
+  </files>
+</extension>

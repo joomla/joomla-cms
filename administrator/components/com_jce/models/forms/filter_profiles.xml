@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset addfieldpath="/administrator/components/com_jce/models/fields" />
+
+	<fields name="filter">
+		<field
+			name="search"
+			type="text"
+			label="COM_PLUGINS_FILTER_SEARCH_LABEL"
+			description="COM_PLUGINS_SEARCH_IN_TITLE"
+			hint="JSEARCH_FILTER"
+		/>
+
+	</fields>
+
+	<fields name="list">
+		<field
+			name="fullordering"
+			type="list"
+			label="JGLOBAL_SORT_BY"
+			description="JGLOBAL_SORT_BY"
+			onchange="this.form.submit();"
+			default="folder ASC"
+		>
+			<option value="">JGLOBAL_SORT_BY</option>
+			<option value="ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="published ASC">JSTATUS_ASC</option>
+			<option value="published DESC">JSTATUS_DESC</option>
+			<option value="name ASC">JGLOBAL_TITLE_ASC</option>
+			<option value="name DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="id ASC">JGRID_HEADING_ID_ASC</option>
+			<option value="id DESC">JGRID_HEADING_ID_DESC</option>
+		</field>
+
+		<field
+			name="limit"
+			type="limitbox"
+			class="input-mini"
+			default="25"
+			onchange="this.form.submit();"
+		/>
+	</fields>
+</form>

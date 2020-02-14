@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.4" type="plugin" group="jce" method="upgrade">
+    <name>WF_IMGMANAGER_TITLE</name>
+    <version>2.7.14</version>
+    <creationDate>13-06-2019</creationDate>
+    <author>Ryan Demmer</author>
+    <authorEmail>info@joomlacontenteditor.net</authorEmail>
+    <authorUrl>https://www.joomlacontenteditor.net/</authorUrl>
+    <copyright>Ryan Demmer</copyright>
+    <license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <description>WF_IMGMANAGER_DESC</description>
+    <icon>imgmanager</icon>
+    <files></files>
+
+    <fields name="imgmanager">
+        <fieldset name="config">
+
+            <field name="dir" type="text" default="" size="50" label="WF_PARAM_DIRECTORY" description="WF_PARAM_DIRECTORY_DESC"/>
+            <field name="max_size" class="input-small" hint="1024" max="" type="uploadmaxsize" step="128" label="WF_PARAM_UPLOAD_SIZE" description="WF_PARAM_UPLOAD_SIZE_DESC" />
+            <field name="extensions" type="extension" class="extensions" default="jpeg,jpg,png,gif,webp" label="WF_PARAM_EXTENSIONS" description="WF_PARAM_EXTENSIONS_DESC" />
+            <!--field name="hide_xtd_btns" type="yesno" default="0" label="WF_IMGMANAGER_HIDE_BUTTONS" description="WF_IMGMANAGER_HIDE_BUTTONS_DESC">
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field-->
+            <field name="filesystem" type="filesystem" default="" label="WF_PARAM_FILESYSTEM" description="WF_PARAM_FILESYSTEM_DESC">
+                <option value="">WF_OPTION_INHERIT</option>
+            </field>
+
+            <field name="always_include_dimensions" type="yesno" default="0" label="WF_IMGMANAGER_PARAM_ALWAYS_INCLUDE_DIMENSIONS" description="WF_IMGMANAGER_PARAM_ALWAYS_INCLUDE_DIMENSIONS_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <fieldset name="defaults">
+                <field type="heading" label="WF_PROFILES_PLUGINS_DEFAULTS" />
+                
+                <field name="alt" type="text" default="" size="50" label="WF_LABEL_ALT" description="WF_LABEL_ALT_DESC" />
+                <field name="margin_top" type="list" default="" class="editable" label="WF_PARAM_MARGIN_TOP" description="WF_PARAM_MARGIN_TOP_DESC">
+                    <option value="">WF_OPTION_NOT_SET</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </field>
+                <field name="margin_right" type="list" default="" class="editable" label="WF_PARAM_MARGIN_RIGHT" description="WF_PARAM_MARGIN_RIGHT_DESC">
+                    <option value="">WF_OPTION_NOT_SET</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </field>
+                <field name="margin_bottom" type="list" default="" class="editable" label="WF_PARAM_MARGIN_BOTTOM" description="WF_PARAM_MARGIN_BOTTOM_DESC">
+                    <option value="">WF_OPTION_NOT_SET</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </field>
+                <field name="margin_left" type="list" default="" class="editable" label="WF_PARAM_MARGIN_LEFT" description="WF_PARAM_MARGIN_LEFT_DESC">
+                    <option value="">WF_OPTION_NOT_SET</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                </field>
+                <field name="border" type="yesno" default="0" label="WF_PARAM_BORDER_ENABLE" description="WF_PARAM_BORDER_ENABLE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+                <field name="border_width" type="list" default="1" class="editable" label="WF_PARAM_BORDER_WIDTH" description="WF_PARAM_BORDER_WIDTH_DESC">
+                    <option value="inherit">WF_OPTION_NOT_SET</option>
+                    <option value="0">0</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="thin">WF_OPTION_BORDER_THIN</option>
+                    <option value="medium">WF_OPTION_BORDER_MEDIUM</option>
+                    <option value="thick">WF_OPTION_BORDER_THICK</option>
+                </field>
+                <field name="border_style" type="list" default="solid" label="WF_PARAM_BORDER_STYLE" description="WF_PARAM_BORDER_STYLE_DESC">
+                    <option value="inherit">WF_OPTION_NOT_SET</option>
+                    <option value="none">JNONE</option>
+                    <option value="solid">WF_OPTION_BORDER_SOLID</option>
+                    <option value="dashed">WF_OPTION_BORDER_DASHED</option>
+                    <option value="dotted">WF_OPTION_BORDER_DOTTED</option>
+                    <option value="double">WF_OPTION_BORDER_DOUBLE</option>
+                    <option value="groove">WF_OPTION_BORDER_GROOVE</option>
+                    <option value="inset">WF_OPTION_BORDER_INSET</option>
+                    <option value="outset">WF_OPTION_BORDER_OUTSET</option>
+                    <option value="ridge">WF_OPTION_BORDER_RIDGE</option>
+                </field>
+                <field name="border_color" type="text" class="color" size="10" default="#000000" label="WF_PARAM_BORDER_COLOR" description="WF_PARAM_BORDER_COLOR_DESC"/>
+                <field name="align" type="list" default="" label="WF_PARAM_ALIGN_DEFAULT" description="WF_PARAM_ALIGN_DEFAULT_DESC">
+                    <option value="">WF_OPTION_NOT_SET</option>
+                    <option value="left">WF_OPTION_ALIGN_LEFT</option>
+                    <option value="center">WF_OPTION_ALIGN_CENTER</option>
+                    <option value="right">WF_OPTION_ALIGN_RIGHT</option>
+                    <option value="top">WF_OPTION_ALIGN_TOP</option>
+                    <option value="middle">WF_OPTION_ALIGN_MIDDLE</option>
+                    <option value="bottom">WF_OPTION_ALIGN_BOTTOM</option>
+                </field>
+
+                <field name="style" type="text" default="" size="50" label="WF_LABEL_STYLE" description="WF_LABEL_STYLE_DESC" />
+                <field name="classes" type="text" default="" size="50" label="WF_LABEL_CLASSES" description="WF_LABEL_CLASSES_DESC" />
+                <field name="title" type="text" default="" size="50" label="WF_LABEL_TITLE" description="WF_LABEL_TITLE_DESC" />
+                <field name="id" type="text" default="" size="50" label="WF_LABEL_ID" description="WF_LABEL_ID_DESC" />
+                <field name="direction" type="list" default="" size="50" label="WF_LABEL_DIR" description="WF_LABEL_DIR_DESC">
+                    <option value="">WF_OPTION_NOT_SET</option>
+                    <option value="ltr">WF_OPTION_LTR</option>
+                    <option value="rtl">WF_OPTION_RTL</option>
+                </field>
+                <field name="usemap" type="text" default="" size="50" label="WF_LABEL_USEMAP" description="WF_LABEL_USEMAP_DESC" />
+                <field name="longdesc" type="browser" default="" size="50" class="browser" label="WF_LABEL_LONGDESC" description="WF_LABEL_LONGDESC_DESC" />
+
+            </fieldset>
+
+            <field type="heading" label="WF_PROFILES_PLUGINS_ACCESS" />
+
+            <field name="tabs_rollover" type="yesno" default="1" label="WF_IMGMANAGER_PARAM_TAB_ROLLOVER" description="WF_IMGMANAGER_PARAM_TAB_ROLLOVER_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="tabs_advanced" type="yesno" default="1" label="WF_IMGMANAGER_PARAM_TAB_ADVANCED" description="WF_IMGMANAGER_PARAM_TAB_ADVANCED_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="attributes_dimensions" type="yesno" default="1" label="WF_IMGMANAGER_SHOW_DIMENSIONS" description="WF_IMGMANAGER_SHOW_DIMENSIONS_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="attributes_align" type="yesno" default="1" label="WF_IMGMANAGER_SHOW_ALIGN" description="WF_IMGMANAGER_SHOW_ALIGN_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="attributes_margin" type="yesno" default="1" label="WF_IMGMANAGER_SHOW_MARGIN" description="WF_IMGMANAGER_SHOW_MARGIN_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="attributes_border" type="yesno" default="1" label="WF_IMGMANAGER_SHOW_BORDER" description="WF_IMGMANAGER_SHOW_BORDER_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="upload" type="yesno" default="1" label="WF_PARAM_UPLOAD" description="WF_PARAM_UPLOAD_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="folder_new" type="yesno" default="1" label="WF_PARAM_FOLDER_CREATE" description="WF_PARAM_FOLDER_CREATE_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="folder_delete" type="yesno" default="1" label="WF_PARAM_FOLDER_DELETE" description="WF_PARAM_FOLDER_DELETE_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="folder_rename" type="yesno" default="1" label="WF_PARAM_FOLDER_RENAME" description="WF_PARAM_FOLDER_RENAME_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="folder_move" type="yesno" default="1" label="WF_PARAM_FOLDER_PASTE" description="WF_PARAM_FOLDER_PASTE_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="file_delete" type="yesno" default="1" label="WF_PARAM_FILE_DELETE" description="WF_PARAM_FILE_DELETE_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="file_rename" type="yesno" default="1" label="WF_PARAM_FILE_RENAME" description="WF_PARAM_FILE_RENAME_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="file_move" type="yesno" default="1" label="WF_PARAM_FILE_PASTE" description="WF_PARAM_FILE_PASTE_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field name="inline_upload" type="yesno" default="1" label="WF_PARAM_INLINE_UPLOAD" description="WF_PARAM_INLINE_UPLOAD_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+        </fieldset>
+    </fields>
+    <languages>
+        <language tag="en-GB">en-GB.WF_imgmanager.ini</language>
+    </languages>
+    <help>
+        <topic key="imgmanager.about" title="WF_IMGMANAGER_HELP_ABOUT" />
+        <topic key="imgmanager.interface" title="WF_IMGMANAGER_HELP_INTERFACE" />
+        <topic key="imgmanager.rollover" title="WF_IMGMANAGER_HELP_ROLLOVER" />
+        <topic key="imgmanager.advanced" title="WF_IMGMANAGER_HELP_ADVANCED" />
+        <topic key="imgmanager.insert" title="WF_IMGMANAGER_HELP_INSERT" />
+        <topic file="libraries/xml/help/manager.xml" />
+    </help>
+</extension>

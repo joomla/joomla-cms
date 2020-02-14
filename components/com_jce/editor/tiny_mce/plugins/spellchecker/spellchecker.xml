@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<extension version="3.4" type="plugin" group="jce" method="upgrade">
+    <name>WF_SPELLCHECKER_TITLE</name>
+    <version>2.7.14</version>
+    <creationDate>13-06-2019</creationDate>
+    <author>Ryan Demmer</author>
+    <authorEmail>info@joomlacontenteditor.net</authorEmail>
+    <authorUrl>https://www.joomlacontenteditor.net/</authorUrl>
+    <copyright>Copyright (C) 2006 - 2019 Ryan Demmer. All rights reserved</copyright>
+    <license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <description>WF_SPELLCHECKER_DESC</description>
+    <icon>spellchecker</icon>
+    <fields name="spellchecker">
+        <fieldset name="config">
+            <field name="engine" type="list" default="browser" label="WF_SPELLCHECKER_PARAM_ENGINE" description="WF_SPELLCHECKER_PARAM_ENGINE_DESC">
+                <option value="browser">WF_SPELLCHECKER_PARAM_BROWSER</option>
+                <option value="pspell">WF_SPELLCHECKER_PARAM_PSPELL_PHP</option>
+                <option value="enchantspell">WF_SPELLCHECKER_PARAM_ENCHANT</option>
+            </field>
+
+            <field name="browser_state" type="yesno" default="0" label="WF_OPTION_STATE" description="WF_SPELLCHECKER_BROWSER_STATE_DESC" showon="engine:browser">
+                <option value="0">JOFF</option>
+                <option value="1">JON</option>
+            </field>
+
+            <field name="suggestions" type="yesno" default="1" label="WF_SPELLCHECKER_SUGGESTIONS" description="WF_SPELLCHECKER_SUGGESTIONS_DESC" showon="engine!:browser">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <!--param name="googlespell_languages" type="list" class="checklist sortable" multiple="multiple" default="English=en" label="WF_SPELLCHECKER_PARAM_LANGUAGES" description="WF_SPELLCHECKER_PARAM_GOOGLESPELL_LANGUAGES_DESC" parent="engine[googlespell]">
+            <option value="English=en">English</option>
+            <option value="Danish=da">Danish</option>
+            <option value="Dutch=nl">Dutch</option>
+            <option value="Finnish=fi">Finnish</option>
+            <option value="French=fr">French</option>
+            <option value="German=de">German</option>
+            <option value="Italian=it">Italian</option>
+            <option value="Polish=pl">Polish</option>
+            <option value="Portuguese=pt">Portuguese(BR)</option>
+            <option value="Spanish=es">Spanish</option>
+            <option value="Swedish=sv">Swedish</option>
+        </param-->
+
+            <field name="languages" type="text" size="100" default="English=en" label="WF_SPELLCHECKER_PARAM_LANGUAGES" description="WF_SPELLCHECKER_PARAM_LANGUAGES_DESC" showon="engine!:browser" />
+            <field name="pspell_mode" type="text" default="PSPELL_FAST" label="WF_SPELLCHECKER_PARAM_PSPELL_MODE" description="WF_SPELLCHECKER_PARAM_PSPELL_MODE_DESC" showon="engine:pspell" />
+            <field name="pspell_spelling" type="text" default="" label="WF_SPELLCHECKER_PARAM_PSPELL_SPELLING" description="WF_SPELLCHECKER_PARAM_PSPELL_SPELLING_DESC" showon="engine:pspell" />
+            <field name="pspell_jargon" type="text" default="" label="WF_SPELLCHECKER_PARAM_PSPELL_JARGON" description="WF_SPELLCHECKER_PARAM_PSPELL_JARGON_DESC" showon="engine:pspell" />
+            <field name="pspell_encoding" type="text" default="" label="WF_SPELLCHECKER_PARAM_PSPELL_ENCODING" description="WF_SPELLCHECKER_PARAM_PSPELL_ENCODING_DESC" showon="engine:pspell" />
+            <field name="pspell_dictionary" type="text" size="100" default="components/com_jce/editor/tiny_mce/plugins/spellchecker/dictionary.pws" label="WF_SPELLCHECKER_PARAM_PSPELL_DICTIONARY" description="WF_SPELLCHECKER_PARAM_PSPELL_DICTIONARY_DESC" showon="engine:pspell" />
+            <field name="pspellshell_aspell" type="text" default="/usr/bin/aspell" label="WF_SPELLCHECKER_PARAM_PSPELLSHELL" description="WF_SPELLCHECKER_PARAM_PSPELLSHELL_DESC" showon="engine:pspell" />
+            <field name="pspellshell_tmp" type="text" default="/tmp" label="WF_SPELLCHECKER_PARAM_PSPELLSHELL_TMP" description="WF_SPELLCHECKER_PARAM_PSPELLSHELL_TMP_DESC" showon="engine:pspell" />
+        </fieldset>
+    </fields>
+</extension>

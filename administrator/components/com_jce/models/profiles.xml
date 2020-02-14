@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<profiles>
+    <help>
+        <topic key="admin.profiles.about" title="WF_PROFILES_HELP_ABOUT" />
+        <topic key="admin.profiles.manage" title="WF_PROFILES_HELP_MANAGE">
+            <subtopic key="admin.profiles.manage.copy" title="WF_PROFILES_HELP_MANAGE_COPY" />
+            <subtopic key="admin.profiles.manage.delete" title="WF_PROFILES_HELP_MANAGE_DELETE" />
+            <subtopic key="admin.profiles.manage.export" title="WF_PROFILES_HELP_MANAGE_EXPORT" />
+            <subtopic key="admin.profiles.manage.import" title="WF_PROFILES_HELP_MANAGE_IMPORT" />
+            <subtopic key="admin.profiles.manage.ordering" title="WF_PROFILES_HELP_MANAGE_ORDERING" />
+            <subtopic key="admin.profiles.manage.enable" title="WF_PROFILES_HELP_MANAGE_ENABLE" />
+        </topic>
+        <topic key="admin.profiles.edit" title="WF_PROFILES_HELP_EDIT">
+            <subtopic key="admin.profiles.edit.setup" title="WF_PROFILES_HELP_EDIT_SETUP" />
+            <subtopic key="admin.profiles.edit.features" title="WF_PROFILES_HELP_EDIT_FEATURES" />
+            <subtopic key="admin.profiles.edit.editor" title="WF_PROFILES_HELP_EDIT_EDITOR" />
+            <subtopic key="admin.profiles.edit.plugins" title="WF_PROFILES_HELP_EDIT_PLUGINS" />
+            <subtopic key="admin.profiles.edit.widgets" title="WF_PROFILES_HELP_EDIT_WIDGETS" />
+        </topic>
+    </help>
+    <profiles>
+        <profile name="Default" default="default">
+            <name>Default</name>
+            <description>WF_PROFILES_DEFAULT_DESC</description>
+            <users></users>
+            <types></types>
+            <components></components>
+            <area>0</area>
+            <device>desktop,tablet,phone</device>
+            <rows>help,newdocument,undo,redo,spacer,bold,italic,underline,strikethrough,justifyfull,justifycenter,justifyleft,justifyright,spacer,blockquote,formatselect,styleselect,removeformat,cleanup;fontselect,fontsizeselect,fontcolor,spacer,clipboard,indent,outdent,lists,sub,sup,textcase,charmap,hr;directionality,fullscreen,print,searchreplace,spacer,table,style,xhtmlxtras;visualaid,visualchars,visualblocks,nonbreaking,anchor,unlink,link,imgmanager,spellchecker,article</rows>
+            <plugins>formatselect,styleselect,cleanup,fontselect,fontsizeselect,fontcolor,clipboard,lists,textcase,charmap,hr,directionality,fullscreen,print,searchreplace,table,style,xhtmlxtras,visualchars,visualblocks,nonbreaking,anchor,link,imgmanager,spellchecker,article,spellchecker,article,browser,contextmenu,inlinepopups,media,preview,source</plugins>
+            <published>1</published>
+            <ordering>1</ordering>
+            <params></params>
+        </profile>
+        <profile name="Front End">
+            <name>Front End</name>
+            <description>WF_PROFILES_FRONTEND_DESC</description>
+            <users></users>
+            <types></types>
+            <components></components>
+            <area>1</area>
+            <device>desktop,tablet,phone</device>
+            <rows>help,newdocument,undo,redo,spacer,bold,italic,underline,strikethrough,justifyfull,justifycenter,justifyleft,justifyright,spacer,formatselect,styleselect;clipboard,searchreplace,indent,outdent,lists,cleanup,charmap,removeformat,hr,sub,sup,textcase,nonbreaking,visualchars,visualblocks;fullscreen,print,visualaid,style,xhtmlxtras,anchor,unlink,link,imgmanager,spellchecker,article</rows>
+            <plugins>charmap,contextmenu,inlinepopups,help,clipboard,searchreplace,fullscreen,preview,print,style,textcase,nonbreaking,visualchars,visualblocks,xhtmlxtras,imgmanager,anchor,link,spellchecker,article,lists,formatselect,styleselect,hr</plugins>
+            <published>0</published>
+            <ordering>2</ordering>
+            <params></params>
+        </profile>
+        <profile name="Blogger">
+            <name>Blogger</name>
+            <description>Simple Blogging Profile</description>
+            <users></users>
+            <types></types>
+            <components></components>
+            <area>0</area>
+            <device>desktop,tablet,phone</device>
+            <rows>bold,italic,strikethrough,lists,blockquote,spacer,justifyleft,justifycenter,justifyright,spacer,link,unlink,imgmanager,article,spellchecker,fullscreen,kitchensink;formatselect,styleselect,underline,justifyfull,clipboard,removeformat,charmap,indent,outdent,undo,redo,help</rows>
+            <plugins>link,imgmanager,article,spellchecker,fullscreen,kitchensink,clipboard,contextmenu,inlinepopups,lists,formatselect,styleselect,textpattern</plugins>
+            <published>0</published>
+            <ordering>3</ordering>
+            <params>
+                <param>{"editor":{"toggle":"0"}}</param>
+            </params>
+        </profile>
+        <profile name="Mobile">
+            <name>Mobile</name>
+            <description>Sample Mobile Profile</description>
+            <users></users>
+            <types></types>
+            <components></components>
+            <area>0</area>
+            <device>tablet,phone</device>
+            <rows>undo,redo,spacer,bold,italic,underline,formatselect,spacer,justifyleft,justifycenter,justifyfull,justifyright,spacer,fullscreen,kitchensink;styleselect,lists,spellchecker,article,link,unlink</rows>
+            <plugins>fullscreen,kitchensink,spellchecker,article,link,inlinepopups,lists,formatselect,styleselect,textpattern</plugins>
+            <published>0</published>
+            <ordering>4</ordering>
+            <params>
+                <param>{"editor":{"toolbar_theme":"mobile","resizing":"0","resize_horizontal":"0","resizing_use_cookie":"0","toggle":"0","links":{"popups":{"default":"","jcemediabox":{"enable":"0"},"window":{"enable":"0"}}}}}</param>
+            </params>
+        </profile>
+        <profile>
+            <name>Markdown</name>
+            <description>Sample Markdown Profile</description>
+            <users></users>
+            <types>6,7,3,4,5,8</types>
+            <components></components>
+            <area>0</area>
+            <device>desktop,tablet,phone</device>
+            <rows>fullscreen,justifyleft,justifycenter,justifyfull,justifyright,link,unlink,imgmanager,styleselect</rows>
+            <plugins>fullscreen,link,imgmanager,styleselect,inlinepopups,media,textpattern</plugins>
+            <published>0</published>
+            <ordering>5</ordering>
+            <params>
+                <param>{"editor":{"toolbar_theme":"mobile"}}</param>
+            </params>
+        </profile>
+    </profiles>
+</profiles>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields>
+        <fieldset name="setup">
+            <field name="name" type="text" class="input-xxlarge input-large-text" size="40" label="JGLOBAL_TITLE" description="WF_PROFILES_NAME_DESC" required="true"/>
+            <field name="description" type="text" class="input-xxlarge" label="JGLOBAL_DESCRIPTION" description="WF_PROFILES_DESCRIPTION_DESC"/>
+            <field name="published" type="radio" label="JSTATUS" description="WF_PROFILES_ENABLED_DESC" class="btn-group btn-group-yesno" default="1">
+                <option value="1">JPUBLISHED</option>
+                <option value="0">JUNPUBLISHED</option>
+            </field>
+            <field name="ordering" type="Profileordering" label="JFIELD_ORDERING_LABEL" description="JFIELD_ORDERING_DESC"/>
+            <field name="id" type="number" label="JGLOBAL_FIELD_ID_LABEL" description="JGLOBAL_FIELD_ID_DESC" class="readonly" size="10" default="0" readonly="true" />
+        </fieldset>
+        <fieldset name="assignment" addfieldpath="/administrator/components/com_categories/models/fields">
+            <field name="area" type="checkboxes" multiple="multiple" class="inline" label="WF_PROFILES_AREA" description="WF_PROFILES_AREA_DESC" default="">
+                <option value="1">WF_PROFILES_AREA_FRONTEND</option>
+                <option value="2">WF_PROFILES_AREA_BACKEND</option>
+            </field>
+            <field name="device" type="checkboxes" multiple="multiple" class="inline" label="WF_PROFILES_DEVICE" description="WF_PROFILES_DEVICE_DESC" default="">
+                <option value="phone">WF_PROFILES_DEVICE_PHONE</option>
+                <option value="tablet">WF_PROFILES_DEVICE_TABLET</option>
+                <option value="desktop">WF_PROFILES_DEVICE_DESKTOP</option>
+            </field>
+            <field name="components_select" type="radio" label="WF_PROFILES_COMPONENTS" description="WF_PROFILES_COMPONENTS_DESC" class="extensions-select" default="0">
+                <option value="0">WF_PROFILES_COMPONENTS_ALL</option>
+                <option value="1">WF_PROFILES_COMPONENTS_SELECT</option>
+            </field>
+            <field name="components" type="components" multiple="multiple" label="" description="" disabled="true" />
+            <field name="types" type="usergrouplist" multiple="multiple" label="WF_PROFILES_GROUPS" description="WF_PROFILES_GROUPS_DESC" />
+            <field name="users" type="users" multiple="multiple" label="WF_PROFILES_USERS" description="WF_PROFILES_USERS_DESC" />
+        </fieldset>
+    </fields>
+    <fields name="config"></fields>
+</form>

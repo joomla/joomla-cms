@@ -1,0 +1,81 @@
+@keyframes spFadeIn {
+    from {
+        opacity: 0;
+    }
+  
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes spFadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spFadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spZoomIn {
+    0% {
+        opacity: 0;
+        transform: scale3d(.3, .3, .3);
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes spRotateIn {
+    from {
+        transform-origin: center;
+        transform: rotate3d(0, 0, 1, -45deg);
+        opacity: 0;
+    }
+  
+    to {
+        transform-origin: center;
+        transform: none;
+        opacity: 1;
+    }
+}
+
+@keyframes spPulse {
+    from {
+        opacity: 0;
+        transform: scale3d(1, 1, 1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale3d(1.05, 1.05, 1.05);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+@keyframes spSpin {
+    to {
+        transform: rotate(360deg);
+    }
+}

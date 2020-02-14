@@ -1,0 +1,58 @@
+/**
+* @package Helix3 Framework
+* @author JoomShaper http://www.joomshaper.com
+* @copyright Copyright (c) 2010 - 2017 JoomShaper
+* @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or Later
+*/
+.sp-gallery-items {
+	list-style: none;
+	padding: 0;
+	margin: -5px;
+	padding-bottom: 20px;
+}
+.sp-gallery-items:empty {
+	display: none;
+}
+
+.sp-gallery-items>li {
+	width: 100px;
+	height: 100px;
+	display: block;
+	margin: 5px;
+	background: #f5f5f5;
+	padding: 5px;
+	border: 1px solid #e5e5e5;
+	float: left;
+	position: relative;
+	-webkit-transition: background-color 400ms;
+	transition: background-color 400ms;
+}
+
+.sp-gallery-items>li:hover {
+	cursor: move;
+	background: #e5e5e5;
+	border-color: #e5e5e5;
+}
+
+.sp-gallery-items>li>.btn-remove-image {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	display: none;
+}
+
+.sp-gallery-items>li:hover>.btn-remove-image {
+	display: inline-block;
+}
+
+.sp-gallery-items img {
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+
+.sp-gallery-items .sp-gallery-item-loader {
+	line-height: 100px;
+	text-align: center;
+	font-size: 24px;
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<extension version="3.4" type="plugin" group="jce" method="upgrade">
+    <name>WF_LINK_SEARCH_TITLE</name>
+    <version>2.7.14</version>
+    <creationDate>13-06-2019</creationDate>
+    <author>Ryan Demmer</author>
+    <authorEmail>info@joomlacontenteditor.net</authorEmail>
+    <authorUrl>https://www.joomlacontenteditor.net/</authorUrl>
+    <copyright>Copyright (C) 2006 - 2019 Ryan Demmer. All rights reserved</copyright>
+    <license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <description>WF_LINK_SEARCH_DESC</description>
+    <files>
+        <filename>link.php</filename>
+        <folder>link</folder>
+    </files>
+    <fields name="link">
+        <fieldset name="link">
+            <field name="enable" type="yesno" default="1" label="WF_LABEL_EXTENSION_ENABLE" description="WF_LABEL_EXTENSION_ENABLE_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="plugins" type="searchplugins" multiple="true" label="WF_PARAM_LINK_SEARCH_PLUGINS" description="WF_PARAM_LINK_SEARCH_PLUGINS_DESC" default="categories,contacts,content,newsfeeds,weblinks,tags" />
+            <field name="remove_alias" type="yesno" default="0" label="WF_LINK_SEARCH_REMOVE_ALIAS" description="WF_LINK_SEARCH_REMOVE_ALIAS_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+        </fieldset>
+    </fields>
+    <plugins>link</plugins>
+    <media></media>
+    <languages></languages>
+</extension>

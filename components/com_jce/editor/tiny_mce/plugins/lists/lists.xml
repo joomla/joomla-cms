@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<extension version="3.4" type="plugin" group="jce" method="upgrade">
+    <name>WF_LISTS_TITLE</name>
+    <version>2.7.14</version>
+    <creationDate>13-06-2019</creationDate>
+    <author>Ryan Demmer</author>
+    <authorEmail>info@joomlacontenteditor.net</authorEmail>
+    <authorUrl>https://www.joomlacontenteditor.net/</authorUrl>
+    <copyright>Ryan Demmer</copyright>
+    <license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <description>WF_LISTS_DESC</description>
+    <icon>numlist,bullist</icon>
+    <fields name="lists">
+        <fieldset name="config">
+            <field name="number_styles" class="sortable" type="checkboxes" default="default,lower-alpha,lower-greek,lower-roman,upper-alpha,upper-roman" label="WF_NUMLIST_STYLES" description="WF_NUMLIST_STYLES_DESC">
+                <option value="default">WF_OPTION_DEFAULT</option>
+                <option value="lower-alpha">WF_LISTS_LOWER_ALPHA</option>
+                <option value="lower-greek">WF_LISTS_LOWER_GREEK</option>
+                <option value="lower-roman">WF_LISTS_LOWER_ROMAN</option>
+                <option value="upper-alpha">WF_LISTS_UPPER_ALPHA</option>
+                <option value="upper-roman">WF_LISTS_UPPER_ROMAN</option>
+            </field>
+            <field name="bullet_styles" class="sortable" type="checkboxes" default="default,circle,disc,square" label="WF_BULLIST_STYLES" description="WF_BULLIST_STYLES_DESC">
+                <option value="default">WF_OPTION_DEFAULT</option>
+                <option value="circle">WF_LISTS_CIRCLE</option>
+                <option value="disc">WF_LISTS_DISC</option>
+                <option value="square">WF_LISTS_SQUARE</option>
+            </field>
+
+            <field name="buttons" type="buttons" multiple="multiple" default="numlist,bullist" label="WF_PARAM_BUTTONS" description="WF_PARAM_BUTTONS_DESC">
+                <option value="numlist">WF_NUMLIST_TITLE</option>
+                <option value="bullist">WF_BULLIST_TITLE</option>
+            </field>
+        </fieldset>
+    </fields>
+    <help></help>
+    <languages></languages>
+</extension>

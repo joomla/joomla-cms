@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <params group="layout">
+        <param name="width" type="text" size="5" default="" pattern="([0-9]+)(%|px)?" placeholder="auto" label="WF_PARAM_EDITOR_WIDTH" description="WF_PARAM_EDITOR_WIDTH_DESC" />
+        <param name="height" type="text" size="5" default="" pattern="([0-9]+)(%|px)?" placeholder="auto" label="WF_PARAM_EDITOR_HEIGHT" description="WF_PARAM_EDITOR_HEIGHT_DESC" />
+		<!--param name="theme_advanced_toolbar_location" type="list" default="top" label="WF_PARAM_TOOLBAR_LOCATION" description="WF_PARAM_TOOLBAR_LOCATION_DESC">
+			<option value="top">JWF_OPTION_TOP</option>
+			<option value="bottom">WF_OPTION_BOTTOM</option>
+			<option value="external">WF_OPTION_EXTERNAL</option>
+		</param-->
+        <param name="toolbar_theme" type="list" default="default" label="WF_PARAM_EDITOR_TOOLBAR_THEME" description="WF_PARAM_EDITOR_TOOLBAR_THEME_DESC">
+            <option value="default">WF_LABEL_DEFAULT</option>
+            <option value="o2k7">WF_PARAM_EDITOR_SKIN_OFFICE_BLUE</option>
+            <option value="o2k7.silver">WF_PARAM_EDITOR_SKIN_OFFICE_SILVER</option>
+            <option value="o2k7.black">WF_PARAM_EDITOR_SKIN_OFFICE_BLACK</option>
+            <option value="mobile">WF_PARAM_EDITOR_SKIN_MOBILE</option>
+        </param>
+        <param name="toolbar_align" type="list" default="left" label="WF_PARAM_EDITOR_TOOLBAR_ALIGN" description="WF_PARAM_EDITOR_TOOLBAR_ALIGN_DESC">
+            <option value="left">WF_OPTION_LEFT</option>
+            <option value="center">WF_OPTION_CENTER</option>
+            <option value="right">WF_OPTION_RIGHT</option>
+        </param>
+        <param name="toolbar_location" type="list" default="top" label="WF_PARAM_EDITOR_TOOLBAR_LOCATION" description="WF_PARAM_EDITOR_TOOLBAR_LOCATION_DESC">
+            <option value="top">WF_OPTION_TOP</option>
+            <option value="bottom">WF_OPTION_BOTTOM</option>
+        </param>
+        <param name="statusbar_location" type="list" default="bottom" label="WF_PARAM_EDITOR_STATUSBAR_LOCATION" description="WF_PARAM_EDITOR_STATUSBAR_LOCATION_DESC">
+            <option value="top">WF_OPTION_TOP</option>
+            <option value="bottom">WF_OPTION_BOTTOM</option>
+            <option value="none">WF_OPTION_NONE</option>
+        </param>
+        <param name="path" type="radio" default="1" label="WF_PARAM_EDITOR_PATH" description="WF_PARAM_EDITOR_PATH_DESC" parent="statusbar_location[top,bottom]">
+            <option value="1">WF_OPTION_YES</option>
+            <option value="0">WF_OPTION_NO</option>
+        </param>
+        <param name="resizing" type="list" default="1" label="WF_PARAM_EDITOR_RESIZING" description="WF_PARAM_EDITOR_RESIZING_DESC" parent="statusbar_location[top,bottom]">
+            <option value="1">WF_OPTION_YES</option>
+            <option value="0">WF_OPTION_NO</option>
+        </param>
+        <param name="resize_horizontal" type="radio" default="1" label="WF_PARAM_EDITOR_RESIZE_HORIZONTAL" description="WF_PARAM_EDITOR_RESIZE_HORIZONTAL_DESC" parent="resizing[1]">
+            <option value="1">WF_OPTION_YES</option>
+            <option value="0">WF_OPTION_NO</option>
+        </param>
+        <param name="resizing_use_cookie" type="radio" default="1" label="WF_PARAM_EDITOR_RESIZE_COOKIE" description="WF_PARAM_EDITOR_RESIZE_COOKIE_DESC" parent="resizing[1]">
+            <option value="1">WF_OPTION_YES</option>
+            <option value="0">WF_OPTION_NO</option>
+        </param>
+        <param name="toggle" type="list" default="1" label="WF_PARAM_EDITOR_TOGGLE" description="WF_PARAM_EDITOR_TOGGLE_DESC">
+            <option value="1">WF_OPTION_YES</option>
+            <option value="0">WF_OPTION_NO</option>
+        </param>
+        <param name="toggle_state" type="radio" default="1" label="WF_PARAM_EDITOR_STATE" description="WF_PARAM_EDITOR_STATE_DESC" parent="toggle[1]">
+            <option value="1">WF_OPTION_ON</option>
+            <option value="0">WF_OPTION_OFF</option>
+        </param>
+        <param name="toggle_label" type="text" default="" label="WF_PARAM_EDITOR_TOGGLE_LABEL" description="WF_PARAM_EDITOR_TOGGLE_LABEL_DESC" parent="toggle[1]" />
+        <param name="active_tab" type="list" default="wysiwyg" label="WF_PARAM_EDITOR_ACTIVE_TAB" description="WF_PARAM_EDITOR_ACTIVE_TAB_DESC">
+            <option value="wysiwyg">WF_PARAM_EDITOR_ACTIVE_TAB_WYSIWYG</option>
+            <option value="source">WF_PARAM_EDITOR_ACTIVE_TAB_CODE</option>
+            <option value="preview">WF_PARAM_EDITOR_ACTIVE_TAB_PREVIEW</option>
+        </param>
+    </params>
+</config>

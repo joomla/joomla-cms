@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fields name="params">
+        <fieldset label="Global Configuration">
+
+            <field name="verify_html" type="radio" default="1" label="WF_PARAM_CLEANUP" description="WF_PARAM_CLEANUP_DESC" class="btn-group btn-group-yesno" filter="integer">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="schema" type="list" default="mixed" label="WF_PARAM_DOCTYPE" description="WF_PARAM_DOCTYPE_DESC">
+                <option value="html4">HTML4</option>
+                <option value="mixed">WF_PARAM_DOCTYPE_MIXED</option>
+                <option value="html5">HTML5</option>
+            </field>
+            <field name="entity_encoding" type="list" default="raw" label="WF_PARAM_ENTITY_ENCODING" description="WF_PARAM_ENTITY_ENCODING_DESC">
+                <option value="raw">UTF-8</option>
+                <option value="named">WF_PARAM_NAMED</option>
+                <option value="numeric">WF_PARAM_NUMERIC</option>
+            </field>
+            <field name="keep_nbsp" type="radio" default="1" label="WF_PARAM_KEEP_NBSP" description="WF_PARAM_KEEP_NBSP_DESC" class="btn-group btn-group-yesno" filter="integer">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="pad_empty_tags" type="radio" default="1" label="WF_PARAM_PAD_EMPTY_TAGS" description="WF_PARAM_PAD_EMPTY_TAGS_DESC" class="btn-group btn-group-yesno" filter="integer">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field name="spacer1" type="spacer" hr="true" />
+
+            <field name="forced_root_block" type="list" default="p" label="WF_PARAM_ROOT_BLOCK" description="WF_PARAM_ROOT_BLOCK_DESC">
+                <option value="p">WF_OPTION_PARAGRAPH</option>
+                <option value="div">WF_OPTION_DIV</option>
+                <option value="forced_root_block:0|force_p_newlines:1">WF_OPTION_PARAGRAPH_MIXED</option>
+                <option value="0">WF_OPTION_LINEBREAK</option>
+            </field>
+            <field name="content_style_reset" type="radio" default="0" label="WF_PARAM_EDITOR_STYLE_RESET" description="WF_PARAM_EDITOR_STYLE_RESET_DESC" class="btn-group btn-group-yesno" filter="integer">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="content_css" type="list" default="1" label="WF_PARAM_EDITOR_GLOBAL_CSS" description="WF_PARAM_EDITOR_GLOBAL_CSS_DESC" filter="integer">
+                <option value="0">WF_PARAM_CSS_CUSTOM</option>
+                <option value="1">WF_PARAM_CSS_TEMPLATE</option>
+                <option value="2">WF_OPTION_DEFAULT</option>
+            </field>
+            <field name="content_css_custom" type="textarea" rows="2" class="input-xlarge" default="" hint="eg: templates/$template/css/content.css" label="WF_PARAM_CSS_CUSTOM" description="WF_PARAM_CSS_CUSTOM_DESC" showon="content_css:0" />
+            <field name="body_class" type="text" default="" placeholder="eg: content" label="WF_PARAM_EDITOR_BODY_CLASS" description="WF_PARAM_EDITOR_BODY_CLASS_DESC" />
+            
+            <field name="spacer2" type="spacer" hr="true" />
+
+            <field name="compress_javascript" type="radio" default="0" label="WF_PARAM_COMPRESS_JAVASCRIPT" description="WF_PARAM_COMPRESS_JAVASCRIPT_DESC" class="btn-group btn-group-yesno" filter="integer">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="compress_css" type="radio" default="0" label="WF_PARAM_COMPRESS_CSS" description="WF_PARAM_COMPRESS_CSS_DESC" class="btn-group btn-group-yesno" filter="integer">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="compress_gzip" type="radio" default="0" label="WF_PARAM_COMPRESS_GZIP" description="WF_PARAM_COMPRESS_GZIP_DESC" class="btn-group btn-group-yesno" filter="integer">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field name="spacer3" type="spacer" hr="true" />
+
+            <field name="use_cookies" type="radio" default="1" label="WF_PARAM_USE_COOKIES" description="WF_PARAM_USE_COOKIES_DESC" class="btn-group btn-group-yesno" filter="integer">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+            <field name="custom_config" type="textarea" rows="5" class="input-xlarge" default="" label="WF_PARAM_CUSTOM_CONFIG" description="WF_PARAM_CUSTOM_CONFIG_DESC" />
+        </fieldset>
+    </fields>
+</form>

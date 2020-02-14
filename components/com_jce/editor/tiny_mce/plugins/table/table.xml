@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension version="3.4" type="plugin" group="jce" method="upgrade">
+    <name>WF_TABLE_TITLE</name>
+    <version>2.7.14</version>
+    <creationDate>13-06-2019</creationDate>
+    <author>Ryan Demmer</author>
+    <authorEmail>info@joomlacontenteditor.net</authorEmail>
+    <authorUrl>https://www.joomlacontenteditor.net/</authorUrl>
+    <copyright>Copyright (C) 2006 - 2019 Ryan Demmer. All rights reserved</copyright>
+    <license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <description>WF_TABLE_DESC</description>
+    <icon>table_insert,delete_table,row_props,cell_props,row_before,row_after,delete_row,col_before,col_after,delete_col,split_cells,merge_cells</icon>
+    <fields name="table">
+        <fieldset name="config">
+
+            <fieldset name="defaults">
+                <field name="width" type="text" size="6" default="" label="WF_TABLES_PARAM_WIDTH" description="WF_TABLES_PARAM_WIDTH_DESC" />
+                <field name="height" type="text" size="6" default="" label="WF_TABLES_PARAM_HEIGHT" description="WF_TABLES_PARAM_HEIGHT_DESC" />
+                <field name="border" type="text" size="5" default="0" label="WF_TABLES_PARAM_BORDER" description="WF_TABLES_PARAM_BORDER_DESC" />
+                <field name="cols" type="number" size="5" class="input-small" step="1" default="2" label="WF_TABLES_PARAM_COLS" description="WF_TABLES_PARAM_COLS_DESC" />
+                <field name="rows" type="number" size="5" class="input-small" step="1" default="2" label="WF_TABLES_PARAM_ROWS" description="WF_TABLES_PARAM_ROWS_DESC" />
+                <field name="cellpadding" type="number" class="input-small" step="1" size="5" default="" label="WF_TABLES_PARAM_CELLPADDING" description="WF_TABLES_PARAM_CELLPADDING_DESC" />
+                <field name="cellspacing" type="number" class="input-small" step="1" size="5" default="" label="WF_TABLES_PARAM_CELLSPACING" description="WF_TABLES_PARAM_CELLSPACING_DESC" />
+                <field name="align" type="list" default="" label="WF_TABLE_ALIGN" description="WF_TABLE_ALIGN_DESC">
+                    <option value="">WF_OPTION_NOT_SET</option>
+                    <option value="left">WF_TABLE_ALIGN_LEFT</option>
+                    <option value="center">WF_TABLE_ALIGN_MIDDLE</option>
+                    <option value="right">WF_TABLE_ALIGN_RIGHT</option>
+                </field>
+                <field name="classes" type="text" size="50" default="" label="WF_LABEL_CLASSES" description="WF_LABEL_CLASSES_DESC" />
+                <field name="pad_empty_cells" type="list" default="1" label="WF_TABLE_PAD_EMPTY_CELLS" description="WF_TABLE_PAD_EMPTY_CELLS_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
+            </fieldset>
+
+            <field name="show_buttons" type="list" default="1" label="WF_TABLE_SHOW_BUTTONS" description="WF_TABLE_SHOW_BUTTONS_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field type="heading" label="WF_PROFILES_PLUGINS_BUTTONS" />
+
+            <field name="buttons" type="buttons" multiple="multiple" default="table_insert,delete_table,row_props,cell_props,row_before,row_after,delete_row,col_before,col_after,delete_col,split_cells,merge_cells" label="WF_PARAM_BUTTONS" description="WF_PARAM_BUTTONS_DESC">
+                <option value="table_insert">WF_TABLE_INSERT</option>
+                <option value="delete_table">WF_TABLE_DELETE</option>
+                <option value="row_props">WF_TABLE_ROW_PROPS</option>
+                <option value="cell_props">WF_TABLE_CELL_PROPS</option>
+                <option value="row_before">WF_TABLE_ROW_BEFORE</option>
+                <option value="row_after">WF_TABLE_ROW_AFTER</option>
+                <option value="delete_row">WF_TABLE_ROW_DELETE</option>
+                <option value="col_before">WF_TABLE_COL_BEFORE</option>
+                <option value="col_after">WF_TABLE_COL_AFTER</option>
+                <option value="delete_col">WF_TABLE_COL_DELETE</option>
+                <option value="split_cells">WF_TABLE_SPLIT</option>
+                <option value="merge_cells">WF_TABLE_MERGE</option>
+            </field>
+        </fieldset>
+    </fields>
+    <help>
+        <topic key="tables.edit" title="WF_TABLES_HELP_EDIT" />
+        <topic key="tables.delete" title="WF_TABLES_HELP_DELETE" />
+        <topic key="tables.rows" title="WF_TABLES_HELP_ROWS" />
+    </help>
+    <languages></languages>
+</extension>

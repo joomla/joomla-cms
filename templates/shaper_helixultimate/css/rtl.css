@@ -1,0 +1,189 @@
+/**
+ * @package Helix Ultimate Framework
+ * @author JoomShaper https://www.joomshaper.com
+ * @copyright Copyright (c) 2010 - 2018 JoomShaper
+ * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or Later
+ */
+body.rtl {
+  direction: rtl;
+}
+body.rtl .dropdown-menu {
+  float: right;
+  text-align: right;
+}
+body.rtl .close {
+  float: left;
+}
+body.rtl .float-left {
+  float: right !important;
+}
+body.rtl .float-right {
+  float: left !important;
+}
+@media (min-width: 576px) {
+  body.rtl .float-sm-left {
+    float: right !important;
+  }
+  body.rtl .float-sm-right {
+    float: left !important;
+  }
+}
+@media (min-width: 768px) {
+  body.rtl .float-md-left {
+    float: right !important;
+  }
+  body.rtl .float-md-right {
+    float: left !important;
+  }
+}
+@media (min-width: 992px) {
+  body.rtl .float-lg-left {
+    float: right !important;
+  }
+  body.rtl .float-lg-right {
+    float: left !important;
+  }
+}
+@media (min-width: 1200px) {
+  body.rtl .float-xl-left {
+    float: right !important;
+  }
+  body.rtl .float-xl-right {
+    float: left !important;
+  }
+}
+body.rtl .text-left {
+  text-align: right !important;
+}
+body.rtl .text-right {
+  text-align: left !important;
+}
+@media (min-width: 576px) {
+  body.rtl .text-sm-left {
+    text-align: right !important;
+  }
+  body.rtl .text-sm-right {
+    text-align: left !important;
+  }
+}
+@media (min-width: 768px) {
+  body.rtl .text-md-left {
+    text-align: right !important;
+  }
+  body.rtl .text-md-right {
+    text-align: left !important;
+  }
+}
+@media (min-width: 992px) {
+  body.rtl .text-lg-left {
+    text-align: right !important;
+  }
+  body.rtl .text-lg-right {
+    text-align: left !important;
+  }
+}
+@media (min-width: 1200px) {
+  body.rtl .text-xl-left {
+    text-align: right !important;
+  }
+  body.rtl .text-xl-right {
+    text-align: left !important;
+  }
+}
+body.rtl code, body.rtl kbd, body.rtl pre, body.rtl samp {
+  direction: ltr;
+  unicode-bidi: bidi-override;
+}
+body.rtl .mr-auto, body.rtl .mx-auto {
+  margin-right: initial !important;
+  margin-left: auto !important;
+}
+body.rtl {
+  text-align: right;
+}
+body.rtl .sp-scroll-up {
+  right: auto;
+  left: 30px;
+}
+body.rtl .article-details .link-edit-article {
+  right: auto;
+  left: 0;
+}
+body.rtl .sp-megamenu-parent {
+  float: left;
+}
+body.rtl .sp-megamenu-parent > li.sp-has-child > a:before, body.rtl .sp-megamenu-parent > li.sp-has-child > span:before {
+  font-family: "FontAwesome";
+  content: "\f107";
+  float: left;
+  margin-right: 7px;
+}
+body.rtl .sp-megamenu-parent > li .sp-menu-badge.sp-menu-badge-right {
+  margin-right: 7px;
+}
+body.rtl .sp-megamenu-parent > li .sp-menu-badge.sp-menu-badge-left {
+  margin-left: 7px;
+}
+body.rtl .sp-megamenu-parent .sp-dropdown .sp-dropdown-items .sp-has-child > a:after {
+  font-family: "FontAwesome";
+  content: "\f104";
+  float: left;
+  margin-right: 7px;
+}
+body.rtl .sp-megamenu-parent .sp-dropdown.sp-menu-center {
+  margin-right: 45px;
+}
+body.rtl .sp-megamenu-parent .sp-dropdown.sp-dropdown-main.sp-menu-right {
+  right: 0;
+}
+body.rtl .sp-megamenu-parent .sp-dropdown.sp-dropdown-main.sp-menu-full {
+  right: auto;
+  left: 0;
+}
+body.rtl .sp-megamenu-parent .sp-dropdown.sp-dropdown-main.sp-menu-left {
+  left: 0;
+}
+body.rtl .sp-megamenu-parent .sp-dropdown.sp-dropdown-sub {
+  right: 100%;
+}
+body.rtl #offcanvas-toggler.offcanvas-toggler-right {
+  float: left;
+  margin-right: 20px;
+}
+body.rtl #offcanvas-toggler.offcanvas-toggler-left {
+  float: right;
+  margin-left: 20px;
+}
+body.rtl.offcanvs-position-left .body-wrapper {
+  right: 0;
+}
+body.rtl.offcanvs-position-left .offcanvas-menu {
+  right: -300px;
+}
+body.rtl.offcanvs-position-left.offcanvas-active .offcanvas-menu {
+  right: 0;
+}
+body.rtl.offcanvs-position-left.offcanvas-active .body-wrapper {
+  right: 300px;
+}
+body.rtl.offcanvs-position-right .body-wrapper {
+  left: 0;
+}
+body.rtl.offcanvs-position-right .offcanvas-menu {
+  left: -300px;
+}
+body.rtl.offcanvs-position-right.offcanvas-active .offcanvas-menu {
+  left: 0;
+}
+body.rtl.offcanvs-position-right.offcanvas-active .body-wrapper {
+  left: 300px;
+}
+body.rtl .close-offcanvas {
+  left: 15px;
+}
+body.rtl .offcanvas-menu .offcanvas-inner .sp-module ul > li.menu-parent > a > .menu-toggler, body.rtl .offcanvas-menu .offcanvas-inner .sp-module ul > li.menu-parent > .menu-separator > .menu-toggler {
+  left: 0;
+}
+body.rtl .offcanvas-menu .offcanvas-inner .sp-module ul > li ul {
+  margin-right: 10px;
+}

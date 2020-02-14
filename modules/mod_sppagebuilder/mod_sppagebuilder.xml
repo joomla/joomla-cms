@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.6" client="site" method="upgrade">
+	<name>SP Page Builder</name>
+	<author>JoomShaper</author>
+	<creationDate>Oct 2016</creationDate>
+	<copyright>Copyright (C) 2010 - 2016 JoomShaper.com. All rights reserved.</copyright>
+	<license>GNU/GPL V2 or Later</license>
+	<authorEmail>support@joomshaper.com</authorEmail>
+	<authorUrl>www.joomshaper.com</authorUrl>
+	<version>1.2</version>
+	<description>Module to display content from SP Page Builder</description>
+	<files>
+		<filename module="mod_sppagebuilder">mod_sppagebuilder.php</filename>
+		<folder>fields</folder>
+		<folder>language</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB.mod_sppagebuilder.ini</language>
+	</languages>
+	<config>
+		<fields name="params" addfieldpath="/modules/mod_sppagebuilder/fields">
+			<fieldset name="basic">
+				<field name="content" type="pagebuilder" filter="raw" />
+			</fieldset>
+
+			<fieldset name="advanced">
+				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+				<field name="moduleclass_sfx" type="textarea" rows="3" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
+				<field name="cache" type="list" default="1" label="COM_MODULES_FIELD_CACHING_LABEL" description="COM_MODULES_FIELD_CACHING_DESC">
+					<option value="1">JGLOBAL_USE_GLOBAL</option>
+					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+				<field name="cache_time" type="text" default="900" label="COM_MODULES_FIELD_CACHE_TIME_LABEL" description="COM_MODULES_FIELD_CACHE_TIME_DESC" />
+				<field name="cachemode" type="hidden" default="itemid">
+					<option value="itemid"></option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.8" type="plugin" group="editors" method="upgrade">
+    <name>plg_editors_jce</name>
+    <version>2.7.14</version>
+    <creationDate>13-06-2019</creationDate>
+    <author>Ryan Demmer</author>
+    <authorEmail>info@joomlacontenteditor.net</authorEmail>
+    <authorUrl>http://www.joomlacontenteditor.net</authorUrl>
+    <copyright>Copyright (C) 2006 - 2019 Ryan Demmer. All rights reserved</copyright>
+    <license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <description>WF_EDITOR_PLUGIN_DESC</description>
+    <files folder="plugins/editors/jce">
+        <file plugin="jce">jce.php</file>
+    </files>
+    <languages folder="administrator/language/en-GB">
+        <language tag="en-GB">en-GB.plg_editors_jce.ini</language>
+        <language tag="en-GB">en-GB.plg_editors_jce.sys.ini</language>
+    </languages>
+</extension>

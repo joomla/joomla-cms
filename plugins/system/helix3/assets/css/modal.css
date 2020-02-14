@@ -1,0 +1,589 @@
+/**
+* @package Helix3 Framework
+* @author JoomShaper http://www.joomshaper.com
+* @copyright Copyright (c) 2010 - 2017 JoomShaper
+* @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or Later
+*/
+.sp-modal-open {
+  overflow: hidden;
+}
+.sp-modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  overflow: auto;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+}
+.sp-modal.fade .sp-modal-dialog {
+  -webkit-transition: -webkit-transform .3s ease-out;
+     -moz-transition:    -moz-transform .3s ease-out;
+       -o-transition:      -o-transform .3s ease-out;
+          transition:         transform .3s ease-out;
+  -webkit-transform: translate(0, -25%);
+      -ms-transform: translate(0, -25%);
+          transform: translate(0, -25%);
+}
+.sp-modal.in .sp-modal-dialog {
+  -webkit-transform: translate(0, 0);
+      -ms-transform: translate(0, 0);
+          transform: translate(0, 0);
+}
+.sp-modal-dialog {
+  position: relative;
+  width: auto;
+  margin: 10px;
+}
+.sp-modal-content {
+  position: relative;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #999;
+  border: 1px solid rgba(0, 0, 0, .2);
+  border-radius: 6px;
+  outline: none;
+  -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+          box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+}
+.sp-modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: rgba(0,0,0,.6);
+}
+.sp-modal-backdrop.fade {
+  filter: alpha(opacity=0);
+  opacity: 0;
+}
+.sp-modal-backdrop.fade.in {
+  filter: alpha(opacity=50);
+  opacity: .5;
+}
+.sp-modal-header {
+  min-height: 16.42857143px;
+  padding: 15px;
+  border-bottom: 1px solid #e5e5e5;
+}
+.sp-modal-header .close {
+  margin-top: -2px;
+}
+.sp-modal-title {
+  margin: 0;
+  line-height: 1.42857143;
+}
+.sp-modal-body {
+  position: relative;
+  padding: 20px;
+}
+.sp-modal-footer {
+  padding: 19px 20px 20px;
+  margin-top: 15px;
+  text-align: right;
+  border-top: 1px solid #e5e5e5;
+}
+.sp-modal-footer .sppb-btn + .sppb-btn {
+  margin-bottom: 0;
+  margin-left: 5px;
+}
+.sp-modal-footer .btn-group .btn + .btn {
+  margin-left: -1px;
+}
+.sp-modal-footer .btn-block + .btn-block {
+  margin-left: 0;
+}
+@media (min-width: 768px) {
+  .sp-modal-dialog {
+    width: 600px;
+    margin: 30px auto;
+  }
+  .sp-modal-content {
+    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, .5);
+  }
+  .sp-modal-sm {
+    width: 300px;
+  }
+}
+@media (min-width: 992px) {
+  .sp-modal-lg {
+    width: 900px;
+  }
+
+  .sp-modal-xlg {
+    width: 1270px;
+  }
+}
+
+.sp-modal-footer:before,
+.sp-modal-footer:after {
+  display: table;
+  content: " ";
+}
+
+/* Form */
+.form-group {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  margin-left: -20px;
+  margin-right: -20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+*>.form-group:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: 0;
+}
+
+.form-group label{
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 800;
+  color: #000;
+}
+
+.form-group .form-control {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -o-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+}
+
+.form-group input.form-control{
+  min-height: 30px;
+}
+
+.form-group .help-block {
+  display: block;
+  margin-top: 10px;
+  color: #999;
+}
+
+.sp-modal .radio,
+.sp-modal .checkbox {
+  display: block;
+  min-height: 20px;
+  padding-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.sp-modal .radio label,
+.sp-modal .checkbox label {
+  display: inline;
+  font-weight: normal;
+  cursor: pointer;
+}
+.sp-modal .radio input[type="radio"],
+.sp-modal .radio-inline input[type="radio"],
+.sp-modal .checkbox input[type="checkbox"],
+.sp-modal .checkbox-inline input[type="checkbox"] {
+  float: left;
+  margin-left: -20px;
+}
+.sp-modal .radio + .radio,
+.sp-modal .checkbox + .checkbox {
+  margin-top: -5px;
+}
+.sp-modal .radio-inline,
+.sp-modal .checkbox-inline {
+  display: inline-block;
+  padding-left: 20px;
+  margin-bottom: 0;
+  font-weight: normal;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.sp-modal .radio-inline + .radio-inline,
+.sp-modal .checkbox-inline + .checkbox-inline {
+  margin-top: 0;
+  margin-left: 10px;
+}
+.sp-modal input[type="radio"][disabled],
+.sp-modal input[type="checkbox"][disabled],
+.sp-modal .radio[disabled],
+.sp-modal .radio-inline[disabled],
+.sp-modal .checkbox[disabled],
+.sp-modal .checkbox-inline[disabled],
+.sp-modal fieldset[disabled] input[type="radio"],
+.sp-modal fieldset[disabled] input[type="checkbox"],
+.sp-modal fieldset[disabled] .radio,
+.sp-modal fieldset[disabled] .radio-inline,
+.sp-modal fieldset[disabled] .checkbox,
+.sp-modal fieldset[disabled] .checkbox-inline {
+  cursor: not-allowed;
+}
+
+.sp-modal .input-append .btn{
+  padding: 8px 12px;
+}
+
+.sp-modal textarea{
+  height: 120px;
+}
+
+/*Button*/
+.sppb-btn {
+  display: inline-block;
+  margin-bottom: 0;
+  font-weight: normal;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.sppb-btn:focus,
+.sppb-btn:active:focus,
+.sppb-btn.active:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+.sppb-btn:hover,
+.sppb-btn:focus {
+  color: #333333;
+  text-decoration: none;
+}
+.sppb-btn:active,
+.sppb-btn.active {
+  outline: 0;
+  background-image: none;
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+.sppb-btn.disabled,
+.sppb-btn[disabled],
+fieldset[disabled] .sppb-btn {
+  cursor: not-allowed;
+  pointer-events: none;
+  opacity: 0.65;
+  filter: alpha(opacity=65);
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.sppb-btn-default {
+  color: #333333;
+  background-color: #ffffff;
+  border-color: #cccccc;
+}
+.sppb-btn-default:hover,
+.sppb-btn-default:focus,
+.sppb-btn-default:active,
+.sppb-btn-default.active,
+.open > .dropdown-toggle.sppb-btn-default {
+  color: #333333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+.sppb-btn-default:active,
+.sppb-btn-default.active,
+.open > .dropdown-toggle.sppb-btn-default {
+  background-image: none;
+}
+.sppb-btn-default.disabled,
+.sppb-btn-default[disabled],
+fieldset[disabled] .sppb-btn-default,
+.sppb-btn-default.disabled:hover,
+.sppb-btn-default[disabled]:hover,
+fieldset[disabled] .sppb-btn-default:hover,
+.sppb-btn-default.disabled:focus,
+.sppb-btn-default[disabled]:focus,
+fieldset[disabled] .sppb-btn-default:focus,
+.sppb-btn-default.disabled:active,
+.sppb-btn-default[disabled]:active,
+fieldset[disabled] .sppb-btn-default:active,
+.sppb-btn-default.disabled.active,
+.sppb-btn-default[disabled].active,
+fieldset[disabled] .sppb-btn-default.active {
+  background-color: #ffffff;
+  border-color: #cccccc;
+}
+.sppb-btn-default .badge {
+  color: #ffffff;
+  background-color: #333333;
+}
+.sppb-btn-primary {
+  color: #ffffff;
+  background-color: #428bca;
+  border-color: #357ebd;
+}
+.sppb-btn-primary:hover,
+.sppb-btn-primary:focus,
+.sppb-btn-primary:active,
+.sppb-btn-primary.active,
+.open > .dropdown-toggle.sppb-btn-primary {
+  color: #ffffff;
+  background-color: #3071a9;
+  border-color: #285e8e;
+}
+.sppb-btn-primary:active,
+.sppb-btn-primary.active,
+.open > .dropdown-toggle.sppb-btn-primary {
+  background-image: none;
+}
+.sppb-btn-primary.disabled,
+.sppb-btn-primary[disabled],
+fieldset[disabled] .sppb-btn-primary,
+.sppb-btn-primary.disabled:hover,
+.sppb-btn-primary[disabled]:hover,
+fieldset[disabled] .sppb-btn-primary:hover,
+.sppb-btn-primary.disabled:focus,
+.sppb-btn-primary[disabled]:focus,
+fieldset[disabled] .sppb-btn-primary:focus,
+.sppb-btn-primary.disabled:active,
+.sppb-btn-primary[disabled]:active,
+fieldset[disabled] .sppb-btn-primary:active,
+.sppb-btn-primary.disabled.active,
+.sppb-btn-primary[disabled].active,
+fieldset[disabled] .sppb-btn-primary.active {
+  background-color: #428bca;
+  border-color: #357ebd;
+}
+.sppb-btn-primary .badge {
+  color: #428bca;
+  background-color: #ffffff;
+}
+.sppb-btn-success {
+  color: #ffffff;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+.sppb-btn-success:hover,
+.sppb-btn-success:focus,
+.sppb-btn-success:active,
+.sppb-btn-success.active,
+.open > .dropdown-toggle.sppb-btn-success {
+  color: #ffffff;
+  background-color: #449d44;
+  border-color: #398439;
+}
+.sppb-btn-success:active,
+.sppb-btn-success.active,
+.open > .dropdown-toggle.sppb-btn-success {
+  background-image: none;
+}
+.sppb-btn-success.disabled,
+.sppb-btn-success[disabled],
+fieldset[disabled] .sppb-btn-success,
+.sppb-btn-success.disabled:hover,
+.sppb-btn-success[disabled]:hover,
+fieldset[disabled] .sppb-btn-success:hover,
+.sppb-btn-success.disabled:focus,
+.sppb-btn-success[disabled]:focus,
+fieldset[disabled] .sppb-btn-success:focus,
+.sppb-btn-success.disabled:active,
+.sppb-btn-success[disabled]:active,
+fieldset[disabled] .sppb-btn-success:active,
+.sppb-btn-success.disabled.active,
+.sppb-btn-success[disabled].active,
+fieldset[disabled] .sppb-btn-success.active {
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+}
+.sppb-btn-success .badge {
+  color: #5cb85c;
+  background-color: #ffffff;
+}
+.sppb-btn-info {
+  color: #ffffff;
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+.sppb-btn-info:hover,
+.sppb-btn-info:focus,
+.sppb-btn-info:active,
+.sppb-btn-info.active,
+.open > .dropdown-toggle.sppb-btn-info {
+  color: #ffffff;
+  background-color: #31b0d5;
+  border-color: #269abc;
+}
+.sppb-btn-info:active,
+.sppb-btn-info.active,
+.open > .dropdown-toggle.sppb-btn-info {
+  background-image: none;
+}
+.sppb-btn-info.disabled,
+.sppb-btn-info[disabled],
+fieldset[disabled] .sppb-btn-info,
+.sppb-btn-info.disabled:hover,
+.sppb-btn-info[disabled]:hover,
+fieldset[disabled] .sppb-btn-info:hover,
+.sppb-btn-info.disabled:focus,
+.sppb-btn-info[disabled]:focus,
+fieldset[disabled] .sppb-btn-info:focus,
+.sppb-btn-info.disabled:active,
+.sppb-btn-info[disabled]:active,
+fieldset[disabled] .sppb-btn-info:active,
+.sppb-btn-info.disabled.active,
+.sppb-btn-info[disabled].active,
+fieldset[disabled] .sppb-btn-info.active {
+  background-color: #5bc0de;
+  border-color: #46b8da;
+}
+.sppb-btn-info .badge {
+  color: #5bc0de;
+  background-color: #ffffff;
+}
+.sppb-btn-warning {
+  color: #ffffff;
+  background-color: #f0ad4e;
+  border-color: #eea236;
+}
+.sppb-btn-warning:hover,
+.sppb-btn-warning:focus,
+.sppb-btn-warning:active,
+.sppb-btn-warning.active,
+.open > .dropdown-toggle.sppb-btn-warning {
+  color: #ffffff;
+  background-color: #ec971f;
+  border-color: #d58512;
+}
+.sppb-btn-warning:active,
+.sppb-btn-warning.active,
+.open > .dropdown-toggle.sppb-btn-warning {
+  background-image: none;
+}
+.sppb-btn-warning.disabled,
+.sppb-btn-warning[disabled],
+fieldset[disabled] .sppb-btn-warning,
+.sppb-btn-warning.disabled:hover,
+.sppb-btn-warning[disabled]:hover,
+fieldset[disabled] .sppb-btn-warning:hover,
+.sppb-btn-warning.disabled:focus,
+.sppb-btn-warning[disabled]:focus,
+fieldset[disabled] .sppb-btn-warning:focus,
+.sppb-btn-warning.disabled:active,
+.sppb-btn-warning[disabled]:active,
+fieldset[disabled] .sppb-btn-warning:active,
+.sppb-btn-warning.disabled.active,
+.sppb-btn-warning[disabled].active,
+fieldset[disabled] .sppb-btn-warning.active {
+  background-color: #f0ad4e;
+  border-color: #eea236;
+}
+.sppb-btn-warning .badge {
+  color: #f0ad4e;
+  background-color: #ffffff;
+}
+.sppb-btn-danger {
+  color: #ffffff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+.sppb-btn-danger:hover,
+.sppb-btn-danger:focus,
+.sppb-btn-danger:active,
+.sppb-btn-danger.active,
+.open > .dropdown-toggle.sppb-btn-danger {
+  color: #ffffff;
+  background-color: #c9302c;
+  border-color: #ac2925;
+}
+.sppb-btn-danger:active,
+.sppb-btn-danger.active,
+.open > .dropdown-toggle.sppb-btn-danger {
+  background-image: none;
+}
+.sppb-btn-danger.disabled,
+.sppb-btn-danger[disabled],
+fieldset[disabled] .sppb-btn-danger,
+.sppb-btn-danger.disabled:hover,
+.sppb-btn-danger[disabled]:hover,
+fieldset[disabled] .sppb-btn-danger:hover,
+.sppb-btn-danger.disabled:focus,
+.sppb-btn-danger[disabled]:focus,
+fieldset[disabled] .sppb-btn-danger:focus,
+.sppb-btn-danger.disabled:active,
+.sppb-btn-danger[disabled]:active,
+fieldset[disabled] .sppb-btn-danger:active,
+.sppb-btn-danger.disabled.active,
+.sppb-btn-danger[disabled].active,
+fieldset[disabled] .sppb-btn-danger.active {
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+.sppb-btn-danger .badge {
+  color: #d9534f;
+  background-color: #ffffff;
+}
+.sppb-btn-link {
+  color: #428bca;
+  font-weight: normal;
+  cursor: pointer;
+  border-radius: 0;
+}
+.sppb-btn-link,
+.sppb-btn-link:active,
+.sppb-btn-link[disabled],
+fieldset[disabled] .sppb-btn-link {
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.sppb-btn-link,
+.sppb-btn-link:hover,
+.sppb-btn-link:focus,
+.sppb-btn-link:active {
+  border-color: transparent;
+}
+.sppb-btn-link:hover,
+.sppb-btn-link:focus {
+  color: #2a6496;
+  text-decoration: underline;
+  background-color: transparent;
+}
+.sppb-btn-link[disabled]:hover,
+fieldset[disabled] .sppb-btn-link:hover,
+.sppb-btn-link[disabled]:focus,
+fieldset[disabled] .sppb-btn-link:focus {
+  color: #777777;
+  text-decoration: none;
+}
+.sppb-btn-lg {
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 6px;
+}
+.sppb-btn-sm {
+  padding: 5px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.sppb-btn-xs {
+  padding: 1px 5px;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 3px;
+}
+.sppb-btn-block {
+  display: block;
+  width: 100%;
+}
+.sppb-btn-block + .sppb-btn-block {
+  margin-top: 5px;
+}

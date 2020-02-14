@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fieldset name="basic" label="HELIX_ULTIMATE_BASIC" addfieldpath="/plugins/system/helixultimate/fields" icon="fa fa-cog">
+
+		<field name="logo_type" helixgroup="logo" type="list" default="image" label="HELIX_ULTIMATE_LOGO_TYPE">
+			<option value="image">HELIX_ULTIMATE_LOGO_TYPE_IMAGE</option>
+			<option value="text">HELIX_ULTIMATE_LOGO_TYPE_TEXT</option>
+		</field>
+
+		<field name="logo_image" helixgroup="logo" type="helixmedia" preview="true" label="HELIX_ULTIMATE_LOGO" showon="logo_type:image" />
+		<field name="logo_height" helixgroup="logo" type="number" default="36" label="HELIX_ULTIMATE_LOGO_HEIGHT" showon="logo_type:image" />
+		<field name="mobile_logo" helixgroup="logo" type="helixmedia" preview="true" label="HELIX_ULTIMATE_MOBILE_LOGO" description="HELIX_ULTIMATE_MOBILE_LOGO_DESC" showon="logo_type:image" />
+
+		<field name="logo_text" helixgroup="logo" type="text" label="HELIX_ULTIMATE_LOGO_TYPE_TEXT" showon="logo_type:text" />
+		<field name="logo_slogan" helixgroup="logo" type="text" label="HELIX_ULTIMATE_LOGO_SLOGAN" showon="logo_type:text" />
+		<field name="header_height" helixgroup="header" type="text" default="80px" label="HELIX_ULTIMATE_HEADER_HEIGHT" />
+		<field name="sticky_header" helixgroup="header" type="checkbox" default="1" label="HELIX_ULTIMATE_STICKY_HEADER" />
+		<field name="favicon" helixgroup="header" type="helixmedia" preview="true" label="HELIX_ULTIMATE_FAVICON" description="HELIX_ULTIMATE_FAVICON_DESC" />
+		<field name="preloader" helixgroup="body" type="checkbox" default="0" label="HELIX_ULTIMATE_PRELOADER" />
+		<field name="boxed_layout" helixgroup="body" type="checkbox" default="0" label="HELIX_ULTIMATE_ENABLE_BOXED_LAYOUT" />
+
+		<field name="body_bg_image" helixgroup="body" type="helixmedia" preview="true" label="HELIX_ULTIMATE_BODY_BACKGROUND_IMAGE" showon="boxed_layout:1" />
+		<field name="body_bg_repeat" helixgroup="body" type="list" default="inherit" label="HELIX_ULTIMATE_BACKGROUND_REPEAT" showon="boxed_layout:1">
+			<option value="no-repeat">HELIX_ULTIMATE_BACKGROUND_REPEAT_NO</option>
+			<option value="repeat">HELIX_ULTIMATE_BACKGROUND_REPEAT_ALL</option>
+			<option value="repeat-x">HELIX_ULTIMATE_BACKGROUND_REPEAT_HORIZ</option>
+			<option value="repeat-y">HELIX_ULTIMATE_BACKGROUND_REPEAT_VERTI</option>
+			<option value="inherit">HELIX_ULTIMATE_BACKGROUND_REPEAT_INHERIT</option>
+		</field>
+		<field name="body_bg_size" helixgroup="body" type="list" default="inherit" label="HELIX_ULTIMATE_BACKGROUND_SIZE" showon="boxed_layout:1">
+			<option value="cover">HELIX_ULTIMATE_BACKGROUND_COVER</option>
+			<option value="contain">HELIX_ULTIMATE_BACKGROUND_CONTAIN</option>
+			<option value="inherit">HELIX_ULTIMATE_BACKGROUND_INHERIT</option>
+		</field>
+		<field name="body_bg_attachment" helixgroup="body" type="list" default="inherit" label="HELIX_ULTIMATE_BACKGROUND_ATTACHMENT" showon="boxed_layout:1">
+			<option value="fixed">HELIX_ULTIMATE_BACKGROUND_ATTACHMENT_FIXED</option>
+			<option value="scroll">HELIX_ULTIMATE_BACKGROUND_ATTACHMENT_SCROLL</option>
+			<option value="inherit">HELIX_ULTIMATE_BACKGROUND_ATTACHMENT_INHERIT</option>
+		</field>
+		<field name="body_bg_position" helixgroup="body" type="list" default="0 0" label="HELIX_ULTIMATE_BACKGROUND_POSITION" showon="boxed_layout:1">
+			<option value="0 0">HELIX_ULTIMATE_BACKGROUND_POSITION_LEFT_TOP</option>
+			<option value="0 50%">HELIX_ULTIMATE_BACKGROUND_POSITION_LEFT_CENTER</option>
+			<option value="0 100%">HELIX_ULTIMATE_BACKGROUND_POSITION_LEFT_BOTTOM</option>
+			<option value="50% 0">HELIX_ULTIMATE_BACKGROUND_POSITION_CENTER_TOP</option>
+			<option value="50% 50%">HELIX_ULTIMATE_BACKGROUND_POSITION_CENTER_CENTER</option>
+			<option value="50% 100%">HELIX_ULTIMATE_BACKGROUND_POSITION_CENTER_BOTTOM</option>
+			<option value="100% 0">HELIX_ULTIMATE_BACKGROUND_POSITION_RIGHT_TOP</option>
+			<option value="100% 50%">HELIX_ULTIMATE_BACKGROUND_POSITION_RIGHT_CENTER</option>
+			<option value="100% 100%">HELIX_ULTIMATE_BACKGROUND_POSITION_RIGHT_BOTTOM</option>
+		</field>
+
+		<field name="enabled_copyright" helixgroup="footer" type="checkbox" default="1" label="HELIX_ULTIMATE_COPYRIGHT" />
+		<field name="copyright_position" helixgroup="footer" type="helixpositions" default="footer1" label="HELIX_ULTIMATE_MODULE_POSITIONS" description="HELIX_ULTIMATE_MODULE_POSITIONS_DESC" showon="enabled_copyright:1" />
+		<field name="copyright_load_pos" helixgroup="footer" type="list" default="default" label="HELIX_ULTIMATE_FEATURE_POSITION" description="HELIX_ULTIMATE_FEATURE_POSITION_DESC" showon="enabled_copyright:1">
+			<option value="default">HELIX_ULTIMATE_FEATURE_POSITION_DEFAULT</option>
+			<option value="before">HELIX_ULTIMATE_FEATURE_POSITION_BEFORE</option>
+			<option value="after">HELIX_ULTIMATE_FEATURE_POSITION_AFTER</option>
+		</field>
+
+		<field name="copyright" helixgroup="footer" type="textarea" rows="6" cols="30" default="© 2018 Your Company. Designed By JoomShaper" label="HELIX_ULTIMATE_COPYRIGHT" filter="safehtml" showon="enabled_copyright:1" />
+		<field name="goto_top" helixgroup="footer" type="checkbox" default="0" label="HELIX_ULTIMATE_GO_TO_TOP" />
+
+		<!--Social Icons-->
+		<field name="show_social_icons" helixgroup="social_icons" type="checkbox" default="1" label="HELIX_ULTIMATE_SOCIAL_ICONS" />
+		<field name="social_position" helixgroup="social_icons" type="helixpositions" default="top1" label="HELIX_ULTIMATE_MODULE_POSITIONS" description="HELIX_ULTIMATE_MODULE_POSITIONS_DESC" showon="show_social_icons:1" />
+		<field name="social_load_pos" helixgroup="social_icons" type="list" default="default" label="HELIX_ULTIMATE_FEATURE_POSITION" description="HELIX_ULTIMATE_FEATURE_POSITION_DESC" showon="show_social_icons:1">
+			<option value="default">HELIX_ULTIMATE_FEATURE_POSITION_DEFAULT</option>
+			<option value="before">HELIX_ULTIMATE_FEATURE_POSITION_BEFORE</option>
+			<option value="after">HELIX_ULTIMATE_FEATURE_POSITION_AFTER</option>
+		</field>
+		<field name="facebook" helixgroup="social_icons" type="text" label="HELIX_ULTIMATE_SOCIAL_ICON_FACEBOOK" hint="https://www.facebook.com/joomshaper" showon="show_social_icons:1" />
+		<field name="twitter" helixgroup="social_icons" type="text" label="HELIX_ULTIMATE_SOCIAL_ICON_TWITTER" hint="https://twitter.com/joomshaper" showon="show_social_icons:1" />
+		<field name="pinterest" helixgroup="social_icons" type="text" label="HELIX_ULTIMATE_SOCIAL_ICON_PINTEREST" hint="https://www.pinterest.com/joomshaper" showon="show_social_icons:1" />
+		<field name="linkedin" helixgroup="social_icons" type="text" label="HELIX_ULTIMATE_SOCIAL_ICON_LINKEDIN" hint="https://www.linkedin.com/company/joomshaper" showon="show_social_icons:1" />
+		<field name="dribbble" helixgroup="social_icons" type="text" label="HELIX_ULTIMATE_SOCIAL_ICON_DRIBBBLE" hint="https://dribbble.com/joomshaper" showon="show_social_icons:1" />
+		<field name="instagram" helixgroup="social_icons" type="text" label="HELIX_ULTIMATE_SOCIAL_ICON_INSTAGRAM" hint="https://www.instagram.com/username" showon="show_social_icons:1" />
+		<field name="behance" helixgroup="social_icons" type="text" label="HELIX_ULTIMATE_SOCIAL_ICON_BEHANCE" hint="https://www.behance.net/joomshaper" showon="show_social_icons:1" />
+		<field name="youtube" helixgroup="social_icons" type="text" label="HELIX_ULTIMATE_SOCIAL_ICON_YOUTUBE" hint="https://www.youtube.com/user/joomshaper" showon="show_social_icons:1" />
+		<field name="flickr" helixgroup="social_icons" type="text" label="HELIX_ULTIMATE_SOCIAL_ICON_FLICKR" hint="https://www.flickr.com/photos/user" showon="show_social_icons:1" />
+		<field name="skype" helixgroup="social_icons" type="text" label="HELIX_ULTIMATE_SOCIAL_ICON_SKYPE" hint="username" showon="show_social_icons:1" />
+		<field name="whatsapp" helixgroup="social_icons" type="text" label="HELIX_ULTIMATE_SOCIAL_ICON_WHATSAPP" hint="username" showon="show_social_icons:1" />
+		<field name="vk" helixgroup="social_icons" type="text" label="HELIX_ULTIMATE_SOCIAL_ICON_VK" hint="username" showon="show_social_icons:1" />
+		<field name="custom" helixgroup="social_icons" type="text" label="HELIX_ULTIMATE_SOCIAL_ICON_CUSTOM" description="HELIX_ULTIMATE_SOCIAL_ICON_CUSTOM_DESC" showon="show_social_icons:1" />
+
+		<!--Contact Info-->
+		<field name="contactinfo" helixgroup="contact_info" type="checkbox" default="1" label="HELIX_ULTIMATE_ENABLE_CONTACT_INFO" />
+		<field name="contact_position" helixgroup="contact_info" type="helixpositions" default="top2" label="HELIX_ULTIMATE_MODULE_POSITIONS" description="HELIX_ULTIMATE_MODULE_POSITIONS_DESC" showon="contactinfo:1" />
+		<field name="contact_phone" helixgroup="contact_info" type="text" hint="+228 872 4444" label="HELIX_ULTIMATE_CONTACT_PHONE" showon="contactinfo:1" />
+		<field name="contact_mobile" helixgroup="contact_info" type="text" hint="+775 872 4444" label="HELIX_ULTIMATE_CONTACT_MOBILE" showon="contactinfo:1" />
+		<field name="contact_email" helixgroup="contact_info" type="email" hint="contact@email.com" label="HELIX_ULTIMATE_CONTACT_EMAIL" showon="contactinfo:1" />
+		<field name="contact_time" helixgroup="contact_info" type="text" hint="Mon - Fri 8:00 - 17:30" label="HELIX_ULTIMATE_CONTACT_OPENING_HOURS" showon="contactinfo:1" />
+
+		<!--Coming soon-->
+		<field name="comingsoon" helixgroup="comingsoon" type="checkbox" default="0" label="HELIX_ULTIMATE_COMINGSOON_MODE" />
+		<field name="comingsoon_title" helixgroup="comingsoon" type="text" default="Coming Soon Title" label="HELIX_ULTIMATE_COMINGSOON_TITLE" showon="comingsoon:1" />
+		<field name="comingsoon_content" helixgroup="comingsoon" type="textarea" rows="6" cols="30" default="Coming soon content" label="HELIX_ULTIMATE_COMINGSOON_CONTENT" filter="safehtml" showon="comingsoon:1" />
+		<field name="comingsoon_date" helixgroup="comingsoon" type="text" default="5-10-2018" label="HELIX_ULTIMATE_COMINGSOON_DATE" showon="comingsoon:1" />
+		<field name="comingsoon_logo" helixgroup="comingsoon" type="helixmedia" preview="true" label="HELIX_ULTIMATE_COMINGSOON_LOGO" showon="comingsoon:1" />
+		<field name="comingsoon_bg_image" helixgroup="comingsoon" type="helixmedia" preview="true" label="HELIX_ULTIMATE_COMINGSOON_BACKGROUND_IMAGE" showon="comingsoon:1" />
+		<field name="comingsoon_social_icons" helixgroup="comingsoon" type="checkbox" default="1" label="HELIX_ULTIMATE_COMINGSOON_SOCIAL_ICONS" showon="comingsoon:1" />
+
+		<!--Error Page-->
+		<field name="error_logo" helixgroup="errorpage" type="helixmedia" preview="true" label="HELIX_ULTIMATE_ERROR_LOGO" />
+		<field name="error_bg" helixgroup="errorpage" type="helixmedia" preview="true" label="HELIX_ULTIMATE_ERROR_BACKGROUND_IMAGE" />
+
+	</fieldset>
+
+	<!--Presets-->
+	<fieldset name="presets" label="HELIX_ULTIMATE_PRESETS" addfieldpath="/plugins/system/helixultimate/fields" icon="fa fa-paint-brush">
+		<field name="preset" type="helixpresets" default="preset1">
+			<preset name="preset1" label="Preset 1" default="#0345BF">
+				<color name="text_color" value="#252525" />
+				<color name="bg_color" value="#FFFFFF" />
+				<color name="link_color" value="#0345BF" />
+				<color name="link_hover_color" value="#044CD0" />
+				<color name="header_bg_color" value="#FFFFFF" />
+				<color name="topbar_bg_color" value="#333333" />
+				<color name="topbar_text_color" value="#AAAAAA" />
+				<color name="logo_text_color" value="#0345BF" />
+				<color name="menu_text_color" value="#252525" />
+				<color name="menu_text_hover_color" value="#0345BF" />
+				<color name="menu_text_active_color" value="#0345BF" />
+				<color name="menu_dropdown_bg_color" value="#FFFFFF" />
+				<color name="menu_dropdown_text_color" value="#252525" />
+				<color name="menu_dropdown_text_hover_color" value="#0345BF" />
+				<color name="menu_dropdown_text_active_color" value="#0345BF" />
+				<color name="footer_bg_color" value="#171717" />
+				<color name="footer_text_color" value="#FFFFFF" />
+				<color name="footer_link_color" value="#A2A2A2" />
+				<color name="footer_link_hover_color" value="#FFFFFF" />
+			</preset>
+
+			<preset name="preset2" label="Preset 2" default="#ec430f">
+				<color name="text_color" value="#252525" />
+				<color name="bg_color" value="#FFFFFF" />
+				<color name="link_color" value="#ec430f" />
+				<color name="link_hover_color" value="#044CD0" />
+				<color name="header_bg_color" value="#FFFFFF" />
+				<color name="topbar_bg_color" value="#333333" />
+				<color name="topbar_text_color" value="#AAAAAA" />
+				<color name="logo_text_color" value="#ec430f" />
+				<color name="menu_text_color" value="#252525" />
+				<color name="menu_text_hover_color" value="#ec430f" />
+				<color name="menu_text_active_color" value="#ec430f" />
+				<color name="menu_dropdown_bg_color" value="#FFFFFF" />
+				<color name="menu_dropdown_text_color" value="#252525" />
+				<color name="menu_dropdown_text_hover_color" value="#ec430f" />
+				<color name="menu_dropdown_text_active_color" value="#ec430f" />
+				<color name="footer_bg_color" value="#171717" />
+				<color name="footer_text_color" value="#FFFFFF" />
+				<color name="footer_link_color" value="#A2A2A2" />
+				<color name="footer_link_hover_color" value="#FFFFFF" />
+			</preset>
+
+			<preset name="preset3" label="Preset 3" default="#0fa89d">
+				<color name="text_color" value="#252525" />
+				<color name="bg_color" value="#FFFFFF" />
+				<color name="link_color" value="#0fa89d" />
+				<color name="link_hover_color" value="#044CD0" />
+				<color name="header_bg_color" value="#FFFFFF" />
+				<color name="topbar_bg_color" value="#333333" />
+				<color name="topbar_text_color" value="#AAAAAA" />
+				<color name="logo_text_color" value="#0fa89d" />
+				<color name="menu_text_color" value="#252525" />
+				<color name="menu_text_hover_color" value="#0fa89d" />
+				<color name="menu_text_active_color" value="#0fa89d" />
+				<color name="menu_dropdown_bg_color" value="#FFFFFF" />
+				<color name="menu_dropdown_text_color" value="#252525" />
+				<color name="menu_dropdown_text_hover_color" value="#0fa89d" />
+				<color name="menu_dropdown_text_active_color" value="#0fa89d" />
+				<color name="footer_bg_color" value="#171717" />
+				<color name="footer_text_color" value="#FFFFFF" />
+				<color name="footer_link_color" value="#A2A2A2" />
+				<color name="footer_link_hover_color" value="#FFFFFF" />
+			</preset>
+
+			<preset name="preset4" label="Preset 4" default="#4943ac">
+				<color name="text_color" value="#252525" />
+				<color name="bg_color" value="#FFFFFF" />
+				<color name="link_color" value="#4943ac" />
+				<color name="link_hover_color" value="#044CD0" />
+				<color name="header_bg_color" value="#FFFFFF" />
+				<color name="topbar_bg_color" value="#333333" />
+				<color name="topbar_text_color" value="#AAAAAA" />
+				<color name="logo_text_color" value="#4943ac" />
+				<color name="menu_text_color" value="#252525" />
+				<color name="menu_text_hover_color" value="#4943ac" />
+				<color name="menu_text_active_color" value="#4943ac" />
+				<color name="menu_dropdown_bg_color" value="#FFFFFF" />
+				<color name="menu_dropdown_text_color" value="#252525" />
+				<color name="menu_dropdown_text_hover_color" value="#4943ac" />
+				<color name="menu_dropdown_text_active_color" value="#4943ac" />
+				<color name="footer_bg_color" value="#171717" />
+				<color name="footer_text_color" value="#FFFFFF" />
+				<color name="footer_link_color" value="#A2A2A2" />
+				<color name="footer_link_hover_color" value="#FFFFFF" />
+			</preset>
+
+			<preset name="preset5" label="Preset 5" default="#00aeef">
+				<color name="text_color" value="#252525" />
+				<color name="bg_color" value="#FFFFFF" />
+				<color name="link_color" value="#00aeef" />
+				<color name="link_hover_color" value="#044CD0" />
+				<color name="header_bg_color" value="#FFFFFF" />
+				<color name="topbar_bg_color" value="#333333" />
+				<color name="topbar_text_color" value="#AAAAAA" />
+				<color name="logo_text_color" value="#00aeef" />
+				<color name="menu_text_color" value="#252525" />
+				<color name="menu_text_hover_color" value="#00aeef" />
+				<color name="menu_text_active_color" value="#00aeef" />
+				<color name="menu_dropdown_bg_color" value="#FFFFFF" />
+				<color name="menu_dropdown_text_color" value="#252525" />
+				<color name="menu_dropdown_text_hover_color" value="#00aeef" />
+				<color name="menu_dropdown_text_active_color" value="#00aeef" />
+				<color name="footer_bg_color" value="#171717" />
+				<color name="footer_text_color" value="#FFFFFF" />
+				<color name="footer_link_color" value="#A2A2A2" />
+				<color name="footer_link_hover_color" value="#FFFFFF" />
+			</preset>
+
+			<preset name="preset6" label="Preset 6" default="#f68e13">
+				<color name="text_color" value="#252525" />
+				<color name="bg_color" value="#FFFFFF" />
+				<color name="link_color" value="#f68e13" />
+				<color name="link_hover_color" value="#044CD0" />
+				<color name="header_bg_color" value="#FFFFFF" />
+				<color name="topbar_bg_color" value="#333333" />
+				<color name="topbar_text_color" value="#AAAAAA" />
+				<color name="logo_text_color" value="#f68e13" />
+				<color name="menu_text_color" value="#252525" />
+				<color name="menu_text_hover_color" value="#f68e13" />
+				<color name="menu_text_active_color" value="#f68e13" />
+				<color name="menu_dropdown_bg_color" value="#FFFFFF" />
+				<color name="menu_dropdown_text_color" value="#252525" />
+				<color name="menu_dropdown_text_hover_color" value="#f68e13" />
+				<color name="menu_dropdown_text_active_color" value="#f68e13" />
+				<color name="footer_bg_color" value="#171717" />
+				<color name="footer_text_color" value="#FFFFFF" />
+				<color name="footer_link_color" value="#A2A2A2" />
+				<color name="footer_link_hover_color" value="#FFFFFF" />
+			</preset>
+
+			<preset name="preset7" label="Preset 7" default="#2ba84a">
+				<color name="text_color" value="#252525" />
+				<color name="bg_color" value="#FFFFFF" />
+				<color name="link_color" value="#2ba84a" />
+				<color name="link_hover_color" value="#044CD0" />
+				<color name="header_bg_color" value="#FFFFFF" />
+				<color name="topbar_bg_color" value="#333333" />
+				<color name="topbar_text_color" value="#AAAAAA" />
+				<color name="logo_text_color" value="#2ba84a" />
+				<color name="menu_text_color" value="#252525" />
+				<color name="menu_text_hover_color" value="#2ba84a" />
+				<color name="menu_text_active_color" value="#2ba84a" />
+				<color name="menu_dropdown_bg_color" value="#FFFFFF" />
+				<color name="menu_dropdown_text_color" value="#252525" />
+				<color name="menu_dropdown_text_hover_color" value="#2ba84a" />
+				<color name="menu_dropdown_text_active_color" value="#2ba84a" />
+				<color name="footer_bg_color" value="#171717" />
+				<color name="footer_text_color" value="#FFFFFF" />
+				<color name="footer_link_color" value="#A2A2A2" />
+				<color name="footer_link_hover_color" value="#FFFFFF" />
+			</preset>
+
+			<preset name="preset8" label="Preset 8" default="#ed145b">
+				<color name="text_color" value="#252525" />
+				<color name="bg_color" value="#FFFFFF" />
+				<color name="link_color" value="#ed145b" />
+				<color name="link_hover_color" value="#044CD0" />
+				<color name="header_bg_color" value="#FFFFFF" />
+				<color name="topbar_bg_color" value="#333333" />
+				<color name="topbar_text_color" value="#AAAAAA" />
+				<color name="logo_text_color" value="#ed145b" />
+				<color name="menu_text_color" value="#252525" />
+				<color name="menu_text_hover_color" value="#ed145b" />
+				<color name="menu_text_active_color" value="#ed145b" />
+				<color name="menu_dropdown_bg_color" value="#FFFFFF" />
+				<color name="menu_dropdown_text_color" value="#252525" />
+				<color name="menu_dropdown_text_hover_color" value="#ed145b" />
+				<color name="menu_dropdown_text_active_color" value="#ed145b" />
+				<color name="footer_bg_color" value="#171717" />
+				<color name="footer_text_color" value="#FFFFFF" />
+				<color name="footer_link_color" value="#A2A2A2" />
+				<color name="footer_link_hover_color" value="#FFFFFF" />
+			</preset>
+		</field>
+
+		<field name="custom_style" type="checkbox" default="1" label="HELIX_ULTIMATE_CUSTOM_STYLE" description="HELIX_ULTIMATE_CUSTOM_STYLE_DESC" />
+		<field name="text_color" class="preset-control" helixgroup="preset_body" type="color" default="#252525" label="HELIX_ULTIMATE_COLOR" />
+		<field name="bg_color" class="preset-control" helixgroup="preset_body" type="color" default="#FFFFFF" label="HELIX_ULTIMATE_BACKGROUND_COLOR" />
+		<field name="link_color" class="preset-control" helixgroup="preset_body" type="color" default="#0345BF" label="HELIX_ULTIMATE_PRESET_LINK_COLOR" />
+		<field name="link_hover_color" class="preset-control" helixgroup="preset_body" type="color" default="#044CD0" label="HELIX_ULTIMATE_PRESET_LINK_HOVER_COLOR" />
+		<field name="header_bg_color" class="preset-control" helixgroup="preset_header" type="color" default="#0345BF" label="HELIX_ULTIMATE_PRESET_HEADER_BACKGROUND_COLOR" />
+		<field name="topbar_bg_color" class="preset-control" helixgroup="preset_topbar" type="color" default="#333333" label="HELIX_ULTIMATE_PRESET_TOPBAR_BACKGROUND_COLOR" />
+		<field name="topbar_text_color" class="preset-control" helixgroup="preset_topbar" type="color" default="#AAAAAA" label="HELIX_ULTIMATE_PRESET_TOPBAR_TEXT_COLOR" />
+		<field name="logo_text_color" class="preset-control" helixgroup="preset_header" type="color" default="#0345BF" label="HELIX_ULTIMATE_PRESET_LOGO_TEXT_COLOR" />
+		<field name="menu_text_color" class="preset-control" helixgroup="preset_menu" type="color" default="#252525" label="HELIX_ULTIMATE_PRESET_MENU_TEXT_COLOR" />
+		<field name="menu_text_hover_color" class="preset-control" helixgroup="preset_menu" type="color" default="#0345BF" label="HELIX_ULTIMATE_PRESET_MENU_HOVER_TEXT_COLOR" />
+		<field name="menu_text_active_color" class="preset-control" helixgroup="preset_menu" type="color" default="#0345BF" label="HELIX_ULTIMATE_PRESET_MENU_ACTIVE_TEXT_COLOR" />
+		<field name="menu_dropdown_bg_color" class="preset-control" helixgroup="preset_menu" type="color" default="#FFFFFF" label="HELIX_ULTIMATE_PRESET_DROPDOWN_BACKGROUND_COLOR" />
+		<field name="menu_dropdown_text_color" class="preset-control" helixgroup="preset_menu" type="color" default="#252525" label="HELIX_ULTIMATE_PRESET_DROPDOWN_TEXT_COLOR" />
+		<field name="menu_dropdown_text_hover_color" class="preset-control" helixgroup="preset_menu" type="color" default="#0345BF" label="HELIX_ULTIMATE_PRESET_DROPDOWN_HOVER_TEXT_COLOR" />
+		<field name="menu_dropdown_text_active_color" class="preset-control" helixgroup="preset_menu" type="color" default="#0345BF" label="HELIX_ULTIMATE_PRESET_DROPDOWN_ACTIVE_TEXT_COLOR" />
+		<field name="footer_bg_color" class="preset-control" helixgroup="preset_footer" type="color" default="#171717" label="HELIX_ULTIMATE_PRESET_FOOTER_BACKGROUND_COLOR" />
+		<field name="footer_text_color" class="preset-control" helixgroup="preset_footer" type="color" default="#FFFFFF" label="HELIX_ULTIMATE_PRESET_FOOTER_TEXT_COLOR" />
+		<field name="footer_link_color" class="preset-control" helixgroup="preset_footer" type="color" default="#A2A2A2" label="HELIX_ULTIMATE_PRESET_FOOTER_LINK_COLOR" />
+		<field name="footer_link_hover_color" class="preset-control" helixgroup="preset_footer" type="color" default="#FFFFFF" label="HELIX_ULTIMATE_PRESET_FOOTER_LINK_HOVER_COLOR" />
+	</fieldset>
+
+	<fieldset name="layout" label="HELIX_ULTIMATE_LAYOUT_BUILDER" addfieldpath="/plugins/system/helixultimate/fields" icon="fa fa-list-alt">
+		<field name="predefined_header" type="checkbox" helixgroup="headers" default="0" hideLabel="true" />
+		<field type="helixheaders" name="header_style" helixgroup="headers" label="HELIX_ULTIMATE_SELECT_HEADER" showon="predefined_header:1" />
+		<field type="helixlayout" name="layout" />
+	</fieldset>
+
+	<fieldset name="menu" label="HELIX_ULTIMATE_NAVIGATION" icon="fa fa-list">
+		<field name="menu" type="menu" helixgroup="megamenu" default="mainmenu" label="HELIX_ULTIMATE_MEGAMENU_SELECT" />
+		<field name="menu_type" helixgroup="megamenu" type="list" default="mega_offcanvas" label="HELIX_ULTIMATE_MENU_TYPE" description="HELIX_ULTIMATE_MENU_TYPE_DESC">
+			<option value="mega_offcanvas">HELIX_ULTIMATE_MEGAMENU_OFFCANVAS</option>
+			<option value="mega">HELIX_ULTIMATE_MEGAMENU</option>
+			<option value="offcanvas">HELIX_ULTIMATE_OFFCANVAS</option>
+		</field>
+		<field name="dropdown_width" helixgroup="megamenu" type="number" label="HELIX_ULTIMATE_MEGAMENU_DROPDOWN_WIDTH" hint="240" showon="menu_type!:offcanvas" />
+
+		<field name="menu_animation" helixgroup="megamenu" type="list" default="menu-fade" label="HELIX_ULTIMATE_MENU_DROPDOWN_ANIMATION" showon="menu_type!:offcanvas">
+			<option value="menu-animation-none">HELIX_ULTIMATE_NO_ANIMATION</option>
+			<option value="menu-animation-fade">HELIX_ULTIMATE_FADE_IN_ANIMATION</option>
+			<option value="menu-animation-fade-up">HELIX_ULTIMATE_FADE_IN_UP_ANIMATION</option>
+			<option value="menu-animation-fade-down">HELIX_ULTIMATE_FADE_IN_DOWN_ANIMATION</option>
+			<option value="menu-animation-zoom">HELIX_ULTIMATE_ZOOM_IN_ANIMATION</option>
+			<option value="menu-animation-rotate">HELIX_ULTIMATE_ROTATE_IN_ANIMATION</option>
+			<option value="menu-animation-pulse">HELIX_ULTIMATE_PULSE_ANIMATION</option>
+		</field>
+
+		<field name="offcanvas_position" helixgroup="offcanvas" type="list" default="right" label="HELIX_ULTIMATE_OFFCANVAS_MENU_POSITION" description="HELIX_ULTIMATE_OFFCANVAS_MENU_POSITION_DESC">
+			<option value="left">HELIX_ULTIMATE_OFFCANVAS_MENU_POSITION_LEFT</option>
+			<option value="right">HELIX_ULTIMATE_OFFCANVAS_MENU_POSITION_RIGHT</option>
+		</field>
+
+	</fieldset>
+
+	<!--Typography-->
+	<fieldset name="typography" label="HELIX_ULTIMATE_TYPOGRAPHY" icon="fa fa-font" addfieldpath="/plugins/system/helixultimate/fields">
+		<field name="enable_body_font" type="checkbox" helixgroup="body_font" default="1" label="HELIX_ULTIMATE_ENABLE_FONT" />
+		<field name="body_font" type="helixfont" helixgroup="body_font" default='{"fontFamily":"Open Sans","fontWeight":"300","fontSubset":"latin","fontSize":""}' hideLabel="true" showon="enable_body_font:1" />
+
+		<field name="enable_h1_font" type="checkbox" helixgroup="heading_font" default="1" label="HELIX_ULTIMATE_ENABLE_H1_FONT" />
+		<field name="h1_font" type="helixfont" helixgroup="heading_font" default='{"fontFamily":"Open Sans","fontWeight":"800","fontSubset":"latin","fontSize":""}' hideLabel="true" showon="enable_h1_font:1" />
+
+		<field name="enable_h2_font" type="checkbox" helixgroup="heading_font" default="1" label="HELIX_ULTIMATE_ENABLE_H2_FONT" />
+		<field name="h2_font" type="helixfont" helixgroup="heading_font" default='{"fontFamily":"Open Sans","fontWeight":"600","fontSubset":"latin","fontSize":""}' hideLabel="true" showon="enable_h2_font:1" />
+
+		<field name="enable_h3_font" type="checkbox" helixgroup="heading_font" default="1" label="HELIX_ULTIMATE_ENABLE_H3_FONT" />
+		<field name="h3_font" type="helixfont" helixgroup="heading_font" default='{"fontFamily":"Open Sans","fontWeight":"regular","fontSubset":"latin","fontSize":""}' hideLabel="true" showon="enable_h3_font:1" />
+
+		<field name="enable_h4_font" type="checkbox" helixgroup="heading_font" default="1" label="HELIX_ULTIMATE_ENABLE_H4_FONT" />
+		<field name="h4_font" type="helixfont" helixgroup="heading_font" default='{"fontFamily":"Open Sans","fontWeight":"regular","fontSubset":"latin","fontSize":""}' hideLabel="true" showon="enable_h4_font:1" />
+
+		<field name="enable_h5_font" type="checkbox" helixgroup="heading_font" default="1" label="HELIX_ULTIMATE_ENABLE_H5_FONT" />
+		<field name="h5_font" type="helixfont" helixgroup="heading_font" default='{"fontFamily":"Open Sans","fontWeight":"600","fontSubset":"latin","fontSize":""}' hideLabel="true" showon="enable_h5_font:1" />
+
+		<field name="enable_h6_font" type="checkbox" helixgroup="heading_font" default="1" label="HELIX_ULTIMATE_ENABLE_H6_FONT" />
+		<field name="h6_font" type="helixfont" helixgroup="heading_font" default='{"fontFamily":"Open Sans","fontWeight":"600","fontSubset":"latin","fontSize":""}' hideLabel="true" showon="enable_h6_font:1" />
+
+		<field name="enable_navigation_font" helixgroup="nav_font" type="checkbox" default="0" label="HELIX_ULTIMATE_ENABLE_FONT" />
+		<field name="navigation_font" type="helixfont" helixgroup="nav_font" hideLabel="true" showon="enable_navigation_font:1" />
+
+		<field name="enable_custom_font" type="checkbox" helixgroup="custom_font" default="0" label="HELIX_ULTIMATE_ENABLE_FONT" />
+		<field name="custom_font" type="helixfont" helixgroup="custom_font" hideLabel="true" showon="enable_custom_font:1" />
+		<field name="custom_font_selectors" type="textarea" helixgroup="custom_font" label="HELIX_ULTIMATE_FONT_CUSTOM_SELECTORS" description="HELIX_ULTIMATE_FONT_CUSTOM_SELECTORS_DESC" showon="enable_custom_font:1" />
+
+		<field name="gfont_api" type="text" class="parent" helixgroup="update_font" label="HELIX_ULTIMATE_GFONT_API" description="HELIX_ULTIMATE_GFONT_API_DESC" />
+		<field name="update_fonts" type="helixbutton" helixgroup="update_font" url="#" text="HELIX_ULTIMATE_UPDATE_FONTS_CLICK" hideLabel="true" description="HELIX_ULTIMATE_UPDATE_FONT_LIST_DESC" class="btn-primary btn-update-helix-ultimate-fonts" />
+	</fieldset>
+
+	<!--Blog-->
+	<fieldset name="blog" label="HELIX_ULTIMATE_BLOG" icon="fa fa-comments">
+		<field name="image_small" type="checkbox" helixgroup="blog_images" default="0" label="HELIX_ULTIMATE_IMAGE_SMALL" />
+		<field name="image_small_size" type="text" helixgroup="blog_images" default="100X100" hint="100X100" label="HELIX_ULTIMATE_IMAGE_SMALL_SIZE" showon="image_small:1" />
+
+		<field name="image_thumbnail" type="checkbox" helixgroup="blog_images" default="1" label="HELIX_ULTIMATE_IMAGE_THUMBNAIL" />
+		<field name="image_thumbnail_size" type="text" helixgroup="blog_images" default="200X200" hint="200X200" label="HELIX_ULTIMATE_IMAGE_THUMBNAIL_SIZE" showon="image_thumbnail:1" />
+
+		<field name="image_medium" type="checkbox" helixgroup="blog_images" default="0" label="HELIX_ULTIMATE_IMAGE_MEDIUM" />
+		<field name="image_medium_size" type="text" helixgroup="blog_images" default="300X300" hint="300X300" label="HELIX_ULTIMATE_IMAGE_MEDIUM_SIZE" showon="image_medium:1" />
+
+		<field name="image_large" type="checkbox" helixgroup="blog_images" default="0" label="HELIX_ULTIMATE_IMAGE_LARGE" />
+		<field name="image_large_size" type="text" helixgroup="blog_images" default="600X600" hint="600X600" label="HELIX_ULTIMATE_IMAGE_LARGE_SIZE" showon="image_large:1" />
+		<field name="image_crop_quality" type="number" helixgroup="blog_images" label="HELIX_ULTIMATE_IMAGE_CROP_QUALITY" description="HELIX_ULTIMATE_IMAGE_CROP_QUALITY_DESC" max="100" min="40" default="100" />
+
+		<field name="blog_list_image" type="list" helixgroup="blog_list" default="thumbnail" label="HELIX_ULTIMATE_BLOG_LIST_IMAGE" description="HELIX_ULTIMATE_BLOG_LIST_IMAGE_DESC">
+			<option value="default">HELIX_ULTIMATE_BLOG_IMAGE_DEFAULT</option>
+			<option value="small">HELIX_ULTIMATE_BLOG_IMAGE_SMALL</option>
+			<option value="thumbnail">HELIX_ULTIMATE_BLOG_IMAGE_THUMBNAIL</option>
+			<option value="medium">HELIX_ULTIMATE_BLOG_IMAGE_MEDIUM</option>
+			<option value="large">HELIX_ULTIMATE_BLOG_IMAGE_LARGE</option>
+		</field>
+
+		<field name="leading_blog_list_image" type="list" helixgroup="blog_list" default="large" label="HELIX_ULTIMATE_LEADING_BLOG_LIST_IMAGE" description="HELIX_ULTIMATE_LEADING_BLOG_LIST_IMAGE_DESC">
+			<option value="default">HELIX_ULTIMATE_BLOG_IMAGE_DEFAULT</option>
+			<option value="small">HELIX_ULTIMATE_BLOG_IMAGE_SMALL</option>
+			<option value="thumbnail">HELIX_ULTIMATE_BLOG_IMAGE_THUMBNAIL</option>
+			<option value="medium">HELIX_ULTIMATE_BLOG_IMAGE_MEDIUM</option>
+			<option value="large">HELIX_ULTIMATE_BLOG_IMAGE_LARGE</option>
+		</field>
+		<field name="show_list_tags" type="checkbox" helixgroup="blog_list" default="0" label="HELIX_ULTIMATE_LIST_TAGS_OPTION" description="HELIX_ULTIMATE_LIST_TAGS_OPTION_DESC" />
+
+		<field name="blog_details_image" type="list" helixgroup="blog_details" default="large" label="HELIX_ULTIMATE_BLOG_DETAILS_IMAGE" description="HELIX_ULTIMATE_BLOG_DETAILS_IMAGE_DESC">
+			<option value="default">HELIX_ULTIMATE_BLOG_IMAGE_DEFAULT</option>
+			<option value="small">HELIX_ULTIMATE_BLOG_IMAGE_SMALL</option>
+			<option value="thumbnail">HELIX_ULTIMATE_BLOG_IMAGE_THUMBNAIL</option>
+			<option value="medium">HELIX_ULTIMATE_BLOG_IMAGE_MEDIUM</option>
+			<option value="large">HELIX_ULTIMATE_BLOG_IMAGE_LARGE</option>
+		</field>
+		<field name="social_share" type="checkbox" helixgroup="blog_details" default="1" label="HELIX_ULTIMATE_BLOG_SOCIAL_SHARE" description="HELIX_ULTIMATE_BLOG_SOCIAL_SHARE_DESC" />
+		<field name="social_share_lists" type="list" multiple="true" helixgroup="blog_details" default="thumbnail,large" label="HELIX_ULTIMATE_BLOG_SOCIAL_SHARE_LIST" description="HELIX_ULTIMATE_BLOG_SOCIAL_SHARE_LIST_DESC" showon="social_share:1">
+			<option value="facebook">HELIX_ULTIMATE_BLOG_SOCIAL_SHARE_FACEBOOK</option>
+			<option value="twitter">HELIX_ULTIMATE_BLOG_SOCIAL_SHARE_TWITTER</option>
+			<option value="linkedin">HELIX_ULTIMATE_BLOG_SOCIAL_SHARE_LINKEDIN</option>
+		</field>
+		
+		<field name="disable_module" type="checkbox" helixgroup="blog_details" default="0" label="HELIX_ULTIMATE_BLOG_DETAILS_DISABLE_MODULE" description="HELIX_ULTIMATE_BLOG_DETAILS_DISABLE_MODULE_DESC" />
+		<field name="author_info" type="checkbox" helixgroup="blog_details" default="0" label="HELIX_ULTIMATE_BLOG_DETAILS_AUTHOR_INFO" description="HELIX_ULTIMATE_BLOG_DETAILS_AUTHOR_INFO_DESC" />
+		<field name="og" type="checkbox" helixgroup="blog_details" default="1" label="HELIX_ULTIMATE_BLOG_OPEN_GRAPH" description="HELIX_ULTIMATE_BLOG_OPEN_GRAPH_DESC" />
+		<field name="og_fb_id" type="text" helixgroup="blog_details" label="HELIX_ULTIMATE_BLOG_OPEN_GRAPH_FB_ID" showon="og:1" />
+		<field name="og_twitter_site" type="text" helixgroup="blog_details" label="HELIX_ULTIMATE_BLOG_OPEN_GRAPH_TWITTER_SITE" showon="og:1" />
+		<field name="reading_time_progress" type="checkbox" helixgroup="blog_details" default="0" label="HELIX_ULTIMATE_BLOG_DETAILS_READING_TIME_PROGRESS" description="HELIX_ULTIMATE_BLOG_DETAILS_READING_TIME_PROGRESS_DESC" />
+		<field name="reading_timeline_bg" helixgroup="blog_details" type="color" default="#0345bf" label="HELIX_ULTIMATE_BLOG_DETAILS_READING_TIME_PROGRESS_BG_COLOR" showon="reading_time_progress:1" />
+		<field name="reading_timeline_height" type="text" default="5px" helixgroup="blog_details" label="HELIX_ULTIMATE_BLOG_DETAILS_READING_TIME_PROGRESS_HEIGHT" description="HELIX_ULTIMATE_BLOG_DETAILS_READING_TIME_PROGRESS_HEIGHT_DESC" showon="reading_time_progress:1" />
+		<field name="reading_timeline_position" type="list" helixgroup="blog_details" default="top" label="HELIX_ULTIMATE_BLOG_DETAILS_READING_TIME_PROGRESS_POSITION" description="HELIX_ULTIMATE_BLOG_DETAILS_READING_TIME_PROGRESS_POSITION_DESC" showon="reading_time_progress:1" >
+			<option value="top">HELIX_ULTIMATE_BLOG_DETAILS_READING_TIME_PROGRESS_TOP</option>
+			<option value="bottom">HELIX_ULTIMATE_BLOG_DETAILS_READING_TIME_PROGRESS_BOTTOM</option>
+		</field>
+		<field name="related_article" type="checkbox" helixgroup="blog_details" default="0" label="HELIX_ULTIMATE_BLOG_DETAILS_RELATED_ARTICLE" description="HELIX_ULTIMATE_BLOG_DETAILS_RELATED_ARTICLE_DESC" />
+		<field name="related_article_title" type="text" helixgroup="blog_details" default="Related Articles" label="HELIX_ULTIMATE_BLOG_DETAILS_RELATED_ARTICLE_TITLE" showon="related_article:1" />
+		<field name="related_article_limit" type="number" default="3" helixgroup="blog_details" label="HELIX_ULTIMATE_BLOG_DETAILS_RELATED_ARTICLE_LIMIT" description="HELIX_ULTIMATE_BLOG_DETAILS_RELATED_ARTICLE_LIMIT_DESC" showon="related_article:1" />
+		<field name="related_article_view_type" type="list" helixgroup="blog_details" default="thumb" label="HELIX_ULTIMATE_BLOG_DETAILS_RELATED_ARTICLE_VIEW_TYPE" description="HELIX_ULTIMATE_BLOG_DETAILS_RELATED_ARTICLE_VIEW_TYPE_DESC" showon="related_article:1" >
+			<option value="thumb">HELIX_ULTIMATE_BLOG_DETAILS_RELATED_ARTICLE_VIEW_TYPE_THUMB</option>
+			<option value="list">HELIX_ULTIMATE_BLOG_DETAILS_RELATED_ARTICLE_VIEW_TYPE_LIST</option>
+		</field>
+		<field name="comment" type="list" helixgroup="comments" default="disabled" label="HELIX_ULTIMATE_BLOG_COMMENT">
+			<option value="disabled">HELIX_ULTIMATE_COMMENT_DISABLED</option>
+			<option value="disqus">HELIX_ULTIMATE_COMMENT_DISQUSS</option>
+			<option value="intensedebate">HELIX_ULTIMATE_COMMENT_INTENSEDEBATE</option>
+			<option value="facebook">HELIX_ULTIMATE_COMMENT_FACEBOOK</option>
+		</field>
+		<field name="comment_categories" helixgroup="comments" type="category" extension="com_content" label="HELIX_ULTIMATE_COMMENTS_CATEGORY" description="HELIX_ULTIMATE_COMMENTS_CATEGORY_DESC" multiple="multiple" showon="comment!:disabled" />
+		<field name="comment_disqus_subdomain" type="text" helixgroup="comments" label="HELIX_ULTIMATE_COMMENT_DISQUS_SUBDOMAIN" description="HELIX_ULTIMATE_COMMENT_DISQUS_SUBDOMAIN_DESC" showon="comment:disqus" />
+		<field name="comment_disqus_devmode" type="checkbox" helixgroup="comments" default="0" label="HELIX_ULTIMATE_COMMENT_DISQUS_DEV_MODE" description="HELIX_ULTIMATE_COMMENT_DISQUS_DEV_MODE_DESC" showon="comment:disqus" />
+		<field name="comment_intensedebate_acc" type="text" helixgroup="comments" default="" label="HELIX_ULTIMATE_COMMENT_INTENSEDEBATE_ACC" description="HELIX_ULTIMATE_COMMENT_INTENSEDEBATE_ACC_DESC" showon="comment:intensedebate" />
+		<field name="comment_facebook_app_id" type="text" helixgroup="comments" label="HELIX_ULTIMATE_COMMENT_FACEBOOK_ID" description="HELIX_ULTIMATE_COMMENT_FACEBOOK_ID_DESC" showon="comment:facebook" />
+		<field name="comment_facebook_width" type="number" helixgroup="comments" default="100" label="HELIX_ULTIMATE_COMMENT_FACEBOOK_COMMENTS_WIDTH" description="HELIX_ULTIMATE_COMMENT_FACEBOOK_COMMENTS_WIDTH_DESC" showon="comment:facebook" />
+		<field name="comment_facebook_number" type="number" helixgroup="comments" default="10" label="HELIX_ULTIMATE_COMMENT_FACEBOOK_COMMENTS_PER_PAGE" description="HELIX_ULTIMATE_COMMENT_FACEBOOK_COMMENTS_PER_PAGE_DESC" showon="comment:facebook" />
+		<field name="comments_count" helixgroup="comments" type="checkbox" default="0" label="HELIX_ULTIMATE_COMMENTS_COUNT" description="HELIX_ULTIMATE_COMMENTS_COUNT_DESC" showon="comment!:disabled" />
+
+	</fieldset>
+
+	<!--Custom Code-->
+	<fieldset name="custom_code" label="HELIX_ULTIMATE_CUSTOM_CODE" icon="fa fa-code">
+		<field name="before_head" type="textarea" helixgroup="custom_code" rows="5" label="HELIX_ULTIMATE_BEFORE_HEAD" description="HELIX_ULTIMATE_BEFORE_HEAD_DESC" filter="raw" />
+		<field name="before_body" type="textarea" helixgroup="custom_code" rows="5" label="HELIX_ULTIMATE_BEFORE_BODY" description="HELIX_ULTIMATE_BEFORE_BODY_DESC" filter="raw" />
+		<field name="custom_css" type="textarea" helixgroup="custom_code" rows="5" label="HELIX_ULTIMATE_CUSTOM_CSS" description="HELIX_ULTIMATE_CUSTOM_CSS_DESC" filter="raw" />
+		<field name="custom_js" type="textarea" helixgroup="custom_code" rows="5" label="HELIX_ULTIMATE_CUSTOM_JS" description="HELIX_ULTIMATE_CUSTOM_JS_DESC" filter="raw" />
+	</fieldset>
+
+	<!--Advanced-->
+	<fieldset name="advance" label="HELIX_ULTIMATE_FIELDSET_ADVANCED" icon="fa fa-cog">
+		<field name="compress_css" helixgroup="compression" type="checkbox" default="0" label="HELIX_ULTIMATE_CSS_COMPRESS" description="HELIX_ULTIMATE_CSS_COMPRESS_DESC" />
+		<field name="purge_css" type="helixbutton" helixgroup="compression" url="#" text="HELIX_ULTIMATE_PURGE_CSS_TEXT" hideLabel="true" description="HELIX_ULTIMATE_PURGE_CSS_DESC" class="btn-primary btn-purge-helix-ultimate-css" showon="compress_css:1" />
+		<field name="compress_js" helixgroup="compression" type="checkbox" default="0" label="HELIX_ULTIMATE_JS_COMPRESS" description="HELIX_ULTIMATE_JS_COMPRESS_DESC" />
+		<field name="exclude_js" helixgroup="compression" type="textarea" label="HELIX_ULTIMATE_EXCLUDE_JS" description="HELIX_ULTIMATE_EXCLUDE_JS_DESC" showon="compress_js:1" />
+		<field name="scssoption" helixgroup="scss" type="checkbox" default="0" label="HELIX_ULTIMATE_ENABLE_SCSS" description="HELIX_ULTIMATE_ENABLE_SCSS_DESC" />
+		<field name="export_options" helixgroup="importexport" type="helixexportimport" hideLabel="true" />
+	</fieldset>
+
+</form>

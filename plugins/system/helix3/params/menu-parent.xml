@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="params" addfieldpath="/plugins/system/helix3/fields">
+	<fieldset name="spmegamenu" label="HELIX_MENU">
+        <field name="menulayout" type="megamenu" />
+        <field name="megamenu" type="hidden" default="0" />
+		<field name="showmenutitle" type="radio" default="1" class="btn-group" label="HELIX_MENU_SHOW_TITLE" description="HELIX_MENU_SHOW_TITLE_DESC">
+			<option value="1">HELIX_YES</option>
+			<option value="0">HELIX_NO</option>
+		</field>		
+		<field name="icon" type="icon" label="HELIX_MENU_ICON" description="HELIX_MENU_ICON_DESC" />		
+		<field name="class" type="text" label="HELIX_MENU_CLASS" description="HELIX_MENU_CLASS_DESC" />
+    </fieldset>
+	</fields>
+</form>

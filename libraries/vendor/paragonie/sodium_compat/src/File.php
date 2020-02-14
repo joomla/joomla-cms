@@ -761,6 +761,18 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      */
     protected static function box_encrypt($ifp, $ofp, $mlen, $nonce, $boxKeypair)
     {
+        if (PHP_INT_SIZE === 4) {
+            return self::secretbox_encrypt(
+                $ifp,
+                $ofp,
+                $mlen,
+                $nonce,
+                ParagonIE_Sodium_Crypto32::box_beforenm(
+                    ParagonIE_Sodium_Crypto32::box_secretkey($boxKeypair),
+                    ParagonIE_Sodium_Crypto32::box_publickey($boxKeypair)
+                )
+            );
+        }
         return self::secretbox_encrypt(
             $ifp,
             $ofp,
@@ -786,6 +798,18 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      */
     protected static function box_decrypt($ifp, $ofp, $mlen, $nonce, $boxKeypair)
     {
+        if (PHP_INT_SIZE === 4) {
+            return self::secretbox_decrypt(
+                $ifp,
+                $ofp,
+                $mlen,
+                $nonce,
+                ParagonIE_Sodium_Crypto32::box_beforenm(
+                    ParagonIE_Sodium_Crypto32::box_secretkey($boxKeypair),
+                    ParagonIE_Sodium_Crypto32::box_publickey($boxKeypair)
+                )
+            );
+        }
         return self::secretbox_decrypt(
             $ifp,
             $ofp,
@@ -1015,8 +1039,12 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * @throws SodiumException
      * @throws TypeError
      */
-    protected static function onetimeauth_verify(ParagonIE_Sodium_Core_Poly1305_State $state, $ifp, $tag = '', $mlen = 0)
-    {
+    protected static function onetimeauth_verify(
+        ParagonIE_Sodium_Core_Poly1305_State $state,
+        $ifp,
+        $tag = '',
+        $mlen = 0
+    ) {
         /** @var int $pos */
         $pos = ftell($ifp);
 
@@ -1057,6 +1085,8 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * @psalm-suppress PossiblyInvalidArgument
      *                 PHP 7.2 changes from a resource to an object,
      *                 which causes Psalm to complain about an error.
+     * @psalm-suppress TypeCoercion
+     *                 Ditto.
      */
     public static function updateHashWithFile($hash, $fp, $size = 0)
     {
@@ -1484,8 +1514,12 @@ class ParagonIE_Sodium_File extends ParagonIE_Sodium_Core_Util
      * @throws SodiumException
      * @throws TypeError
      */
-    protected static function onetimeauth_verify_core32(ParagonIE_Sodium_Core32_Poly1305_State $state, $ifp, $tag = '', $mlen = 0)
-    {
+    protected static function onetimeauth_verify_core32(
+        ParagonIE_Sodium_Core32_Poly1305_State $state,
+        $ifp,
+        $tag = '',
+        $mlen = 0
+    ) {
         /** @var int $pos */
         $pos = ftell($ifp);
 

@@ -1,0 +1,112 @@
+a {
+  color: #22b8f0;
+}
+a:hover {
+  color: #0e9cd1;
+}
+.sp-megamenu-parent >li.active>a,
+.sp-megamenu-parent >li:hover>a {
+  color: #22b8f0;
+}
+.sp-megamenu-parent .sp-dropdown li.sp-menu-item >a:hover {
+  background: #22b8f0;
+}
+.sp-megamenu-parent .sp-dropdown li.sp-menu-item.active>a {
+  color: #22b8f0;
+}
+#offcanvas-toggler >i {
+  color: #000000;
+}
+#offcanvas-toggler >i:hover {
+  color: #22b8f0;
+}
+.btn-primary,
+.sppb-btn-primary {
+  border-color: #0faae4;
+  background-color: #22b8f0;
+}
+.btn-primary:hover,
+.sppb-btn-primary:hover {
+  border-color: #0d8ab9;
+  background-color: #0e9cd1;
+}
+ul.social-icons >li a:hover {
+  color: #22b8f0;
+}
+.sp-page-title {
+  background: #22b8f0;
+}
+.layout-boxed .body-innerwrapper {
+  background: #ffffff;
+}
+.sp-module ul >li >a {
+  color: #000000;
+}
+.sp-module ul >li >a:hover {
+  color: #22b8f0;
+}
+.sp-module .latestnews >div >a {
+  color: #000000;
+}
+.sp-module .latestnews >div >a:hover {
+  color: #22b8f0;
+}
+.sp-module .tagscloud .tag-name:hover {
+  background: #22b8f0;
+}
+.sp-simpleportfolio .sp-simpleportfolio-filter > ul > li.active > a,
+.sp-simpleportfolio .sp-simpleportfolio-filter > ul > li > a:hover {
+  background: #22b8f0;
+}
+.search .btn-toolbar button {
+  background: #22b8f0;
+}
+.post-format {
+  background: #22b8f0;
+}
+.voting-symbol span.star.active:before {
+  color: #22b8f0;
+}
+.sp-rating span.star:hover:before,
+.sp-rating span.star:hover ~ span.star:before {
+  color: #0e9cd1;
+}
+.entry-link,
+.entry-quote {
+  background: #22b8f0;
+}
+blockquote {
+  border-color: #22b8f0;
+}
+.carousel-left:hover,
+.carousel-right:hover {
+  background: #22b8f0;
+}
+#sp-footer {
+  background: #22b8f0;
+}
+.sp-comingsoon body {
+  background-color: #22b8f0;
+}
+.pagination>li>a,
+.pagination>li>span {
+  color: #000000;
+}
+.pagination>li>a:hover,
+.pagination>li>a:focus,
+.pagination>li>span:hover,
+.pagination>li>span:focus {
+  color: #000000;
+}
+.pagination>.active>a,
+.pagination>.active>span {
+  border-color: #22b8f0;
+  background-color: #22b8f0;
+}
+.pagination>.active>a:hover,
+.pagination>.active>a:focus,
+.pagination>.active>span:hover,
+.pagination>.active>span:focus {
+  border-color: #22b8f0;
+  background-color: #22b8f0;
+}

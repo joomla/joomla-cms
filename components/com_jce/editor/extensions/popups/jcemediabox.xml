@@ -1,0 +1,69 @@
+<?xml version="1.0" ?>
+<extension version="3.4" type="plugin" group="jce" method="upgrade">
+    <name>WF_POPUPS_JCEMEDIABOX_TITLE</name>
+    <version>2.7.14</version>
+    <creationDate>13-06-2019</creationDate>
+    <author>Ryan Demmer</author>
+    <authorEmail>info@joomlacontenteditor.net</authorEmail>
+    <authorUrl>https://www.joomlacontenteditor.net/</authorUrl>
+    <copyright>Copyright (C) 2006 - 2019 Ryan Demmer. All rights reserved</copyright>
+    <license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <description>WF_POPUPS_JCEMEDIABOX_DESC</description>
+    <files>
+        <file>jcemediabox.php</file>
+        <folder>jcemediabox</folder>
+    </files>
+    <fields name="jcemediabox">
+        <fieldset name="jcemediabox">
+            <field name="popup_group" type="text" default="" label="WF_POPUPS_JCEMEDIABOX_GROUP" description="WF_POPUPS_JCEMEDIABOX_GROUP_DESC" />
+
+            <field name="popup_icon" type="yesno" default="1" label="WF_POPUPS_JCEMEDIABOX_ICON" description="WF_POPUPS_JCEMEDIABOX_ICON_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field name="popup_icon_position" type="list" default="" label="WF_POPUPS_JCEMEDIABOX_ICON_POSITION" description="WF_POPUPS_JCEMEDIABOX_ICON_POSITION_DESC">
+                <option value="">WF_OPTION_NOT_SET</option>
+                <option value="icon-left">WF_OPTION_LEFT</option>
+                <option value="icon-right">WF_OPTION_RIGHT</option>
+                <option value="icon-top-left">WF_OPTION_TOP_LEFT</option>
+                <option value="icon-top-right">WF_OPTION_TOP_RIGHT</option>
+                <option value="icon-bottom-left">WF_OPTION_BOTTOM_LEFT</option>
+                <option value="icon-bottom-right">WF_OPTION_BOTTOM_RIGHT</option>
+            </field>
+
+            <field name="popup_autopopup" type="list" default="" label="WF_POPUPS_JCEMEDIABOX_AUTO" description="WF_POPUPS_JCEMEDIABOX_AUTO_DESC">
+                <option value="">WF_OPTION_NOT_SET</option>
+                <option value="autopopup-single">WF_POPUPS_JCEMEDIABOX_AUTO_SINGLE</option>
+                <option value="autopopup-multiple">WF_POPUPS_JCEMEDIABOX_AUTO_MULTIPLE</option>
+            </field>
+
+            <field name="popup_hide" type="yesno" default="0" label="WF_POPUPS_JCEMEDIABOX_HIDE" description="WF_POPUPS_JCEMEDIABOX_HIDE_DESC">
+                <option value="1">JYES</option>
+                <option value="0">JNO</option>
+            </field>
+
+            <field name="popup_mediatype" type="list" default="" label="WF_POPUPS_JCEMEDIABOX_MEDIATYPE" description="WF_POPUPS_JCEMEDIABOX_MEDIATYPE_DESC">
+                <option value="">WF_OPTION_NOT_SET</option>
+                <option value="text/html">WF_POPUPS_JCEMEDIABOX_INTERNAL</option>
+                <option value="iframe">WF_POPUPS_JCEMEDIABOX_EXTERNAL</option>
+                <option value="image">WF_POPUPS_JCEMEDIABOX_IMAGE</option>
+                <option value="application/x-shockwave-flash">WF_POPUPS_JCEMEDIABOX_FLASH</option>
+                <option value="video/quicktime">WF_POPUPS_JCEMEDIABOX_QUICKTIME</option>
+                <option value="application/x-mplayer2">WF_POPUPS_JCEMEDIABOX_WINDOWSMEDIA</option>
+                <option value="video/divx">WF_POPUPS_JCEMEDIABOX_DIVX</option>
+                <option value="application/x-director">WF_POPUPS_JCEMEDIABOX_DIRECTOR</option>
+                <option value="audio/x-pn-realaudio-plugin">WF_POPUPS_JCEMEDIABOX_REAL</option>
+                <option value="video/mp4">WF_POPUPS_JCEMEDIABOX_VIDEO_MP4</option>
+                <option value="audio/mp3">WF_POPUPS_JCEMEDIABOX_AUDIO_MP3</option>
+                <option value="video/webm">WF_POPUPS_JCEMEDIABOX_VIDEO_WEBM</option>
+                <option value="audio/webm">WF_POPUPS_JCEMEDIABOX_AUDIO_WEBM</option>
+            </field>
+
+        </fieldset>
+    </fields>
+    <media></media>
+    <plugins>link,imgmanager_ext,mediamanager,filemanager</plugins>
+    <languages></languages>
+</extension>
+ 

@@ -1,0 +1,25 @@
+/**
+ * @package Helix Ultimate Framework
+ * @author JoomShaper https://www.joomshaper.com
+ * @copyright Copyright (c) 2010 - 2018 JoomShaper
+ * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or Later
+*/
+
+.helix-ultimate-options {
+  background: #05D21F;
+  border-radius: 3px;
+  color:#fff;
+  padding:20px 30px;
+  font-size:16px;
+  font-weight: 700;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.helix-ultimate-options:hover,
+.helix-ultimate-options:focus,
+.helix-ultimate-options:active {
+  text-decoration: none;
+  color: #fff;
+  background: #05BB1B;
+}

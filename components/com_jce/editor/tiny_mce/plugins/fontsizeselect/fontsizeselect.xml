@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<extension version="3.4" type="plugin" group="jce" method="upgrade">
+    <name>WF_FONTSIZESELECT_TITLE</name>
+    <version>2.7.14</version>
+    <creationDate>13-06-2019</creationDate>
+    <author>Ryan Demmer</author>
+    <authorEmail>info@joomlacontenteditor.net</authorEmail>
+    <authorUrl>https://www.joomlacontenteditor.net/</authorUrl>
+    <copyright>Ryan Demmer</copyright>
+    <license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <description>WF_FONTSIZESELECT_DESC</description>
+    <icon>fontselect</icon>
+    <fields name="fontsizeselect">
+        <fieldset name="config">
+            <field name="font_sizes" type="text" size="100" class="input-xlarge" default="" hint="eg: 8pt,10pt,12pt,14pt,18pt,24pt,36pt" label="WF_PARAM_FONT_SIZES" description="WF_PARAM_FONT_SIZES_DESC" />
+        </fieldset>
+    </fields>
+    <help></help>
+    <languages></languages>
+</extension>

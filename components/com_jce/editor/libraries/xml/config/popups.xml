@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension>
+    <fields>
+        <fieldset name="popups">
+            <field type="popups" name="default" label="WF_EXTENSIONS_POPUPS_DEFAULT_LABEL" description="WF_EXTENSIONS_POPUPS_DEFAULT_DESC">
+                <option value="">WF_OPTION_NOT_SET</option>
+            </field>
+        </fieldset>
+    </fields>
+</extension>

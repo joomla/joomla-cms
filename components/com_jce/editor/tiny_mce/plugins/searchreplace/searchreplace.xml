@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<extension version="3.0" type="plugin" plugin="searchreplace" core="1" editable="0">
+	<name>WF_SEARCHREPLACE_TITLE</name>
+	<version>2.7.14</version>
+	<creationDate>13-06-2019</creationDate>
+	<author>Ryan Demmer</author>
+	<authorEmail>info@joomlacontenteditor.net</authorEmail>
+	<authorUrl>https://www.joomlacontenteditor.net/</authorUrl>
+	<copyright>Ryan Demmer</copyright>
+	<license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+	<description>WF_SEARCHREPLACE_DESC</description>
+	<icon>search,replace</icon>
+	
+	<help></help>
+	<languages></languages>
+</extension>

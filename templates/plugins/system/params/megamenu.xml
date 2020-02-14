@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="params" addfieldpath="/plugins/system/helixultimate/fields">
+		<fieldset name="helixultimatemegamenu" label="HELIX_ULTIMATE_MENU">
+			<field name="helixultimatemenulayout" type="helixmegamenu" />
+		</fieldset>
+		<fieldset name="helixultimatepagetitle" label="HELIX_ULTIMATE_PAGE_TITLE">
+			<field name="helixultimate_enable_page_title" type="radio" class="btn-group" default="0" label="HELIX_ULTIMATE_ENABLE_PAGE_TITLE" description="HELIX_ULTIMATE_ENABLE_PAGE_TITLE_DESC">
+				<option value="1">HELIX_ULTIMATE_YES</option>
+				<option value="0">HELIX_ULTIMATE_NO</option>
+			</field>
+			<field name="helixultimate_page_title_alt" type="text" default="" label="HELIX_ULTIMATE_PAGE_TITLE_ALT" description="HELIX_ULTIMATE_PAGE_TITLE_ALT_DESC" />
+			<field name="helixultimate_page_subtitle" type="text" default="" label="HELIX_ULTIMATE_PAGE_SUBTITLE" description="HELIX_ULTIMATE_PAGE_SUBTITLE_DESC" />
+			<field name="helixultimate_page_title_heading" type="radio" class="btn-group" default="h2" label="HELIX_ULTIMATE_PAGE_TITLE_HEADING" description="HELIX_ULTIMATE_PAGE_TITLE_HEADING_DESC">
+				<option value="h1">H1</option>
+				<option value="h2">H2</option>
+			</field>
+			<field name="helixultimate_page_title_bg_color" type="color" label="HELIX_ULTIMATE_PAGE_TITLE_BACKGROUND_COLOR" description="HELIX_ULTIMATE_PAGE_TITLE_BACKGROUND_COLOR_DESC" />
+			<field name="helixultimate_page_title_bg_image" type="media" label="HELIX_ULTIMATE_PAGE_TITLE_BACKGROUND_IMAGE" description="HELIX_ULTIMATE_PAGE_TITLE_BACKGROUND_IMAGE_DESC" />
+		</fieldset>
+	</fields>
+</form>

@@ -1,0 +1,91 @@
+.com-media {
+	&.contentpane {
+		padding: 10px !important;
+	}
+	.well {
+		background: #f5f5f5;
+		padding: 20px;
+		border-radius: 4px;
+		margin-bottom: 10px;
+
+		.row {
+			margin: 0;
+			padding: 0;
+			>div {
+				&:first-child {
+					width: calc(100% - 200px);
+				}
+				&:last-child {
+					width: 200px;
+					float: right;
+					text-align: right;
+					padding-top: 30px;
+				}
+			}
+
+			#folderlist {
+				display: inline-block;
+			}
+
+			#upbutton {
+				display: none;
+			}
+		}
+	}
+
+	&.view-imagesList {
+		padding: 0px 0px 10px 0 !important;
+		&:before {
+			content: " ";
+			display: table;
+		}
+
+		&:after {
+			display: block;
+			clear: both;
+			content: "";
+		}
+
+		ul.manager {
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			>li.thumbnail {
+				width: 110px;
+				float: left;
+				>a {
+					>div {
+						&:first-child {
+							height: 60px;
+							margin-bottom: 10px;
+							text-align: center;
+							>span {
+								display: inline-block;
+								width: 60px;
+								height: 40px;
+								margin: 0 auto;
+								margin-top: 25px;
+								position: relative;
+								background-color: rgb(146, 206, 255);
+								border-radius: 0 5px 5px 5px;
+								&:before {
+									content: '';
+									width: 50%;
+									height: 12px;
+									border-radius: 0 20px 0 0;
+									background-color: rgb(146, 206, 255);
+									position: absolute;
+									top: -12px;
+									left: 0px;
+								}
+							}
+							img {
+								display: inline-block;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

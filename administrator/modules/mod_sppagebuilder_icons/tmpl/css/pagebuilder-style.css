@@ -1,0 +1,14 @@
+/**
+ * @package SP Page Builder
+ * @author JoomShaper http://www.joomshaper.com
+ * @copyright Copyright (c) 2010 - 2016 JoomShaper
+ * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or later
+*/
+#sppagebuilder-wrap div.icon-wrapper { float:left; display: block !important; width: auto !important; height :auto!important; line-height:12px !important; background: none; }
+#sppagebuilder-wrap div.icon { text-align:center; margin-right:15px; float:left; margin-bottom:15px; }
+#sppagebuilder-wrap div.icon a { background-color:#fff; background-position:-30px; display:block; float:left; height:97px; width:108px; color:#565656; vertical-align:middle; text-decoration:none; border:1px solid #CCC; -webkit-border-radius:5px; -moz-border-radius:5px; border-radius:5px; -webkit-transition-property:background-position, 0 0; -moz-transition-property:background-position, 0 0; -webkit-transition-duration:.8s; -moz-transition-duration:.8s; }
+#sppagebuilder-wrap div.icon a:hover,
+#cpanel div.icon a:focus,
+#cpanel div.icon a:active { background-position:0; -webkit-border-bottom-left-radius:50% 20px; -moz-border-radius-bottomleft:50% 20px; border-bottom-left-radius:50% 20px; -webkit-box-shadow:-5px 10px 15px rgba(0,0,0,0.25); -moz-box-shadow:-5px 10px 15px rgba(0,0,0,0.25); box-shadow:-5px 10px 15px rgba(0,0,0,0.25); position:relative; z-index:10; }
+#sppagebuilder-wrap div.icon a img { padding:10px 0; margin:0 auto; }
+#sppagebuilder-wrap div.icon a span { display:block; text-align:center; }

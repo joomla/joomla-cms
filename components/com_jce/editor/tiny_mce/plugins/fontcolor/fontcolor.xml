@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<extension version="3.4" type="plugin" group="jce" method="upgrade">
+    <name>WF_FONTCOLOR_TITLE</name>
+    <version>2.7.14</version>
+    <creationDate>13-06-2019</creationDate>
+    <author>Ryan Demmer</author>
+    <authorEmail>info@joomlacontenteditor.net</authorEmail>
+    <authorUrl>https://www.joomlacontenteditor.net/</authorUrl>
+    <copyright>Ryan Demmer</copyright>
+    <license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+    <description>WF_FONTCOLOR_DESC</description>
+    <icon>forecolor,backcolor</icon>
+    <fields name="fontcolor">
+        <fieldset name="config">
+            <field name="foreground_color" type="color" size="10" default="#000000" label="WF_FORECOLOR_TITLE" description="WF_FONTCOLOR_DESC"/>
+            <field name="background_color" type="color" size="10" default="#000000" label="WF_BACKCOLOR_TITLE" description="WF_BACKCOLOR_DESC"/>
+
+            <field name="foreground_colors" type="text" default="" hint="eg: #000000,#cc0000,#cccccc" label="WF_FORECOLOR_LIST_TITLE" description="WF_FORECOLOR_LIST_DESC"/>
+            <field name="background_colors" type="text" default="" hint="eg: #cccccc,#dddddd,#eeeeee" label="WF_BACKCOLOR_LIST_TITLE" description="WF_BACKCOLOR_LIST_DESC"/>
+
+            <field type="heading" label="WF_PROFILES_PLUGINS_BUTTONS" />
+            
+            <field name="buttons" type="buttons" multiple="multiple" default="forecolor,backcolor" label="WF_PARAM_BUTTONS" description="WF_PARAM_BUTTONS_DESC">
+                <option value="forecolor">WF_FORECOLOR_TITLE</option>
+                <option value="backcolor">WF_BACKCOLOR_TITLE</option>
+            </field>
+        </fieldset>
+    </fields>
+    <help></help>
+    <languages></languages>
+</extension>

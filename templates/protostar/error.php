@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,6 +23,7 @@ $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
+$format   = $app->input->getCmd('format', 'html');
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 
 if ($task === 'edit' || $layout === 'form')
@@ -73,6 +74,9 @@ else
 	<?php // If Right-to-Left ?>
 	<?php if ($this->direction === 'rtl') : ?>
 		<link href="<?php echo JUri::root(true); ?>/media/jui/css/bootstrap-rtl.css" rel="stylesheet" />
+	<?php endif; ?>
+	<?php if (file_exists('templates/' . $this->template . '/css/user.css')) : ?>
+		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/user.css" rel="stylesheet" />
 	<?php endif; ?>
 	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/favicon.ico" rel="shortcut icon" type="image/vnd.microsoft.icon" />
 	<?php // Template color ?>
@@ -145,7 +149,7 @@ else
 								</ul>
 							</div>
 							<div class="span6">
-								<?php if (JModuleHelper::getModule('mod_search')) : ?>
+								<?php if ($format === 'html' && JModuleHelper::getModule('mod_search')) : ?>
 									<p><strong><?php echo JText::_('JERROR_LAYOUT_SEARCH'); ?></strong></p>
 									<p><?php echo JText::_('JERROR_LAYOUT_SEARCH_PAGE'); ?></p>
 									<?php $module = JModuleHelper::getModule('mod_search'); ?>

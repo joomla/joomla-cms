@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="params" addfieldpath="/plugins/system/helix3/fields">
+	<fieldset name="pagetitle" label="HELIX_PAGE_TITLE">			
+		<field name="enable_page_title" type="radio" class="btn-group" default="0" label="ENABLE_PAGE_TITLE" description="ENABLE_PAGE_TITLE_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+			
+		<field name="page_title_alt" type="text" default="" label="PAGE_TITLE_ALT" description="PAGE_TITLE_ALT_DESC" />
+		<field name="page_subtitle" type="text" default="" label="PAGE_SUBTITLE" description="PAGE_SUBTITLE_DESC" />
+		<field name="page_title_bg_color" type="color" label="PAGE_BACKGROUND_COLOR" description="PAGE_BACKGROUND_COLOR_DESC" />
+		<field name="page_title_bg_image" type="media" label="PAGE_BACKGROUND_IMAGE" description="PAGE_BACKGROUND_IMAGE_DESC" />
+    </fieldset>
+	</fields>
+</form>

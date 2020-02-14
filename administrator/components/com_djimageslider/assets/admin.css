@@ -1,0 +1,44 @@
+/**
+* CPanel
+*/
+.cpanel {
+}
+
+.cpanel div.icon {
+    text-align: center;
+    margin: 0 10px 10px 0;
+	width: 108px;
+	height: 100px;
+	float: left;
+}
+
+.cpanel div.icon a {
+	background-color: #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px 5px 5px 5px;
+    color: #565656;
+    display: block;
+    float: left;
+    height: 97px;
+    text-decoration: none;
+    vertical-align: middle;
+    width: 108px;
+}
+.cpanel div.icon img {
+	margin: 0 auto;
+    padding: 10px 0;
+}
+
+.cpanel div.icon span {
+	display: block;
+    text-align: center;
+}
+
+.control-group.field-spacer .control-label {
+	display: inline-block;
+	width: auto;
+	float: none;
+}
+.control-group.field-spacer .form-text.text-muted {
+	display: none;
+}

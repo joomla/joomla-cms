@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<editor>
+	<help>
+		<topic key="editor.about" title="WF_EDITOR_HELP_ABOUT">
+			<subtopic key="editor.toolbar" title="WF_EDITOR_HELP_TOOLBAR" />
+			<subtopic key="editor.content" title="WF_EDITOR_HELP_CONTENT" />
+			<subtopic key="editor.path" title="WF_EDITOR_HELP_PATH" />
+		</topic>
+		<topic title="WF_EDITOR_HELP_BASICS">
+			<subtopic key="editor.selection" title="WF_EDITOR_HELP_SELECTION" />
+			<subtopic key="editor.format" title="WF_EDITOR_HELP_FORMAT">
+				<subtopic key="editor.format.bold" title="WF_EDITOR_HELP_FORMAT_BOLD" />
+				<subtopic key="editor.format.align" title="WF_EDITOR_HELP_FORMAT_ALIGN" />
+				<subtopic key="editor.format.blocks" title="WF_EDITOR_HELP_FORMAT_BLOCKS" />
+				<subtopic key="editor.format.sub" title="WF_EDITOR_HELP_FORMAT_SUB" />
+				<subtopic key="editor.format.font" title="WF_EDITOR_HELP_FORMAT_FONT" />
+				<subtopic key="editor.format.indent" title="WF_EDITOR_HELP_FORMAT_INDENT" />
+				<subtopic key="editor.format.attributes" title="WF_EDITOR_HELP_FORMAT_ATTRIBUTES" />
+			</subtopic>
+			<subtopic key="editor.lists" title="WF_EDITOR_HELP_LISTS" />		
+			<subtopic key="editor.readmore" title="WF_EDITOR_HELP_READMORE" />
+			<subtopic key="link.insert" title="WF_EDITOR_HELP_LINKS" />
+			<subtopic key="imgmanager.insert" title="WF_EDITOR_HELP_IMAGES" />
+			<subtopic key="paste.about" title="WF_EDITOR_HELP_PASTE" />
+			<subtopic key="tables.edit" title="WF_EDITOR_HELP_TABLES" />
+			<subtopic key="editor.spellchecker" title="WF_EDITOR_HELP_SPELLCHECKER" />
+		</topic>
+		<topic key="editor.buttons" title="WF_EDITOR_HELP_BUTTONS">
+			<subtopic file="tiny_mce/plugins/advlink/advlink.xml" title="WF_ADVLINK_TITLE" />
+			<subtopic file="tiny_mce/plugins/imgmanager/imgmanager.xml" title="WF_IMGMANAGER_TITLE" />
+			<subtopic file="tiny_mce/plugins/paste/paste.xml" title="WF_PASTE_TITLE" />
+			<subtopic file="tiny_mce/plugins/table/table.xml" title="WF_TABLES_TITLE" />
+		</topic>
+		<topic key="editor.acknowledgements" title="WF_EDITOR_HELP_ACKNOWLEDGEMENTS" />
+		<topic key="editor.licence" title="WF_EDITOR_HELP_LICENCE" />
+	</help>
+</editor>
+

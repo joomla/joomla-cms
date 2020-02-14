@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+	<fieldset name="component" addfieldpath="/administrator/components/com_sppagebuilder/models/fields/">
+
+		<field name="production_mode"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_SPPAGEBUILDER_PRODUCTION_MODE"
+			description="COM_SPPAGEBUILDER_PRODUCTION_MODE_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+		
+		<field name="resetcss"
+			type="resetcss"
+			label="COM_SPPAGEBUILDER_RESET_CSS"
+			description="COM_SPPAGEBUILDER_RESET_CSS_DESC"
+			showon="production_mode:1" />
+
+		<field name="addcontainer"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="COM_SPPAGEBUILDER_ADD_CONTAINER"
+			description="COM_SPPAGEBUILDER_ADD_CONTAINER_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="gmap_api"
+			type="text"
+			label="COM_SPPAGEBUILDER_ADDON_GMAP_APIKEY"
+			description="COM_SPPAGEBUILDER_ADDON_GMAP_APIKEY_DESC" />
+
+		<field name="fontawesome"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="1"
+			label="COM_SPPAGEBUILDER_LOAD_FONTAWESOME"
+			description="COM_SPPAGEBUILDER_LOAD_FONTAWESOME_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="disableanimatecss"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_SPPAGEBUILDER_DISABLE_ANIMATE_CSS"
+			description="COM_SPPAGEBUILDER_DISABLE_ANIMATE_CSS_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field name="disablecss"
+			type="radio"
+			class="btn-group btn-group-yesno"
+			default="0"
+			label="COM_SPPAGEBUILDER_DISABLE_CSS"
+			description="COM_SPPAGEBUILDER_DISABLE_CSS_DESC">
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+	</fieldset>
+
+	<fieldset name="licenseupdate">
+		<field
+			name="joomshaper_email"
+			type="email"
+			label="COM_SPPAGEBUILDER_JOOMSHAPER_EMAIL"
+			description="COM_SPPAGEBUILDER_JOOMSHAPER_EMAIL_DESC" />
+
+		<field
+			name="joomshaper_license_key"
+			type="password"
+			label="COM_SPPAGEBUILDER_JOOMSHAPER_LICENSE_KEY"
+			description="COM_SPPAGEBUILDER_JOOMSHAPER_LICENSE_KEY_DESC" />
+	</fieldset>
+
+	<fieldset
+		name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
+		>
+
+		<field
+			name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			filter="rules"
+			validate="rules"
+			component="com_sppagebuilder"
+			section="component" />
+	</fieldset>
+</config>

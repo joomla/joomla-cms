@@ -1,0 +1,90 @@
+/**
+ * @package Helix Ultimate Framework
+ * @author JoomShaper https://www.joomshaper.com
+ * @copyright Copyright (c) 2010 - 2018 JoomShaper
+ * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or Later
+*/
+
+.helix-ultimate-image-upload-wrapper:empty {
+	display: none;
+}
+
+.helix-ultimate-image-upload-wrapper {
+	width: 200px;
+	display: block;
+	margin-bottom: 20px;
+}
+
+.helix-ultimate-image-upload-wrapper:not(.loading) {
+	height: 200px;
+	background: #f5f5f5;
+	padding: 5px;
+	border: 1px solid #e5e5e5;
+}
+
+.helix-ultimate-image-upload-wrapper img {
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+
+.helix-ultimate-image-item-loader {
+	line-height: 200px;
+	text-align: center;
+	font-size: 24px;
+}
+
+.btn.btn-helix-ultimate-image-remove,
+.btn.btn-helix-ultimate-image-upload {
+	display: none;
+}
+
+.helix-ultimate-image-field-empty .btn-helix-ultimate-image-upload {
+	display: inline-block;
+}
+
+.helix-ultimate-image-field-has-image .btn-helix-ultimate-image-remove {
+	display: inline-block;
+}
+
+/*Gallery*/
+.btn.btn-helix-ultimate-gallery-item-upload {
+	padding: 11px 19px;
+    font-size: 16.25px;
+    border-radius: 4px;
+}
+
+.helix-ultimate-gallery-items {
+	display: none;
+	list-style: none;
+	padding: 0;
+	margin: -10px;
+}
+
+.helix-ultimate-gallery-items:not(:empty) {
+	margin-bottom: 15px;
+	display: block;
+}
+
+.helix-ultimate-gallery-items li {
+	position: relative;
+	display: inline-block;
+	margin: 10px;
+	cursor: move;
+	border-radius: 3px;
+	overflow: hidden;
+}
+
+.helix-ultimate-gallery-items li.loading {
+	width: 200px;
+}
+
+.helix-ultimate-gallery-items li.loading .progress {
+	margin-bottom: 0;
+}
+
+.btn-helix-ultimate-remove-gallery-image {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+}

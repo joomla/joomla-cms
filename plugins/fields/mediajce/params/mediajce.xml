@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="fieldparams">
+			<fieldset name="fieldparams">
+				<field
+					name="mediatype"
+					type="combo"
+					label="PLG_FIELDS_MEDIAJCE_PARAMS_MEDIATYPE_LABEL"
+					description="PLG_FIELDS_MEDIAJCE_PARAMS_MEDIATYPE_DESC"
+				>
+				<option value="images">images</option>
+				<option value="files">files</option>
+				</field>
+				<field
+					name="media_class"
+					type="text"
+					label="PLG_FIELDS_MEDIAJCE_PARAMS_MEDIA_CLASS_LABEL"
+					description="PLG_FIELDS_MEDIAJCE_PARAMS_MEDIA_CLASS_DESC"
+				/>
+				<field
+					name="media_description"
+					type="text"
+					label="PLG_FIELDS_MEDIAJCE_PARAMS_MEDIA_DESCRIPTION_LABEL"
+					description="PLG_FIELDS_MEDIAJCE_PARAMS_MEDIA_DESCRIPTION_DESC"
+				/>
+			</fieldset>
+		</fields>
+</form>

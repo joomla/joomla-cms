@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.8" type="plugin" group="installer" method="upgrade">
+	<name>plg_installer_jce</name>
+	<version>2.7.14</version>
+  <creationDate>13-06-2019</creationDate>
+  <author>Ryan Demmer</author>
+  <authorEmail>info@joomlacontenteditor.net</authorEmail>
+  <authorUrl>http://www.joomlacontenteditor.net</authorUrl>
+  <copyright>Copyright (C) 2006 - 2019 Ryan Demmer. All rights reserved</copyright>
+  <license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+	<description>PLG_INSTALLER_JCE_XML_DESCRIPTION</description>
+	<files folder="plugins/installer/jce">
+		<filename plugin="jce">jce.php</filename>
+	</files>
+	<languages folder="administrator/language/en-GB">
+      <language tag="en-GB">en-GB.plg_installer_jce.ini</language>
+      <language tag="en-GB">en-GB.plg_installer_jce.sys.ini</language>
+  </languages>
+</extension>

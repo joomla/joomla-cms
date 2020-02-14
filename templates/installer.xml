@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.8" type="plugin" group="system" method="upgrade">
+    <name>Helix Ultimate based template installer</name>
+    <description>Shaper Helix Ultimate - Blank template of Helix Ultimate framework</description>
+    <scriptfile>installer.script.php</scriptfile>
+    <files>
+		<filename plugin="tmp_helixult">installer.script.php</filename>
+    </files>
+    <plugins>
+        <plugin plugin="helixultimate" group="system" />
+    </plugins>
+    <template name="shaper_helixultimate"/>
+</extension>

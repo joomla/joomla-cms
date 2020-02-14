@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<help>
+	<topic key="admin.about" title="WF_HELP_ADMINISTRATION" />
+	<topic key="admin.interface" title="WF_HELP_INTERFACE" />
+</help>

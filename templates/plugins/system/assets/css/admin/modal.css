@@ -1,0 +1,434 @@
+/**
+ * @package Helix Ultimate Framework
+ * @author JoomShaper https://www.joomshaper.com
+ * @copyright Copyright (c) 2010 - 2018 JoomShaper
+ * @license http://www.gnu.org/licenses/gpl-2.0.html GNU/GPLv2 or Later
+*/
+
+/*Media Modal*/
+.helix-ultimate-modal-open,
+.helix-ultimate-options-modal-open {
+  overflow: hidden;
+}
+
+.helix-ultimate-modal-open .helix-ultimate-options-modal-overlay,
+.helix-ultimate-modal-open .helix-ultimate-options-modal {
+  display: none;
+}
+
+.helix-ultimate-modal-overlay,
+.helix-ultimate-options-modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.helix-ultimate-modal,
+.helix-ultimate-options-modal {
+  position: fixed;
+  top: 100px;
+  left: 50%;
+  width: 820px;
+  height: 600px;
+  z-index: 9991;
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.07);
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+}
+
+.helix-ultimate-modal-small {
+  top: 5%;
+  width: 420px;
+  height: 90%;
+}
+
+.helix-ultimate-modal-header,
+.helix-ultimate-options-modal-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  background-color: #E8EEF3;
+  height: 60px;
+  border-radius: 4px 4px 0 0;
+  padding: 0 20px;
+  z-index: 99;
+  align-items: center;
+}
+
+.helix-ultimate-modal-header-title,
+.helix-ultimate-options-modal-header-title {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6F737A;
+}
+
+.helix-ultimate-modal-footer,
+.helix-ultimate-options-modal-footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  background-color: #E8EEF3;
+  height: 60px;
+  border-radius: 0 0 4px 4px;
+  padding: 0 20px;
+  z-index: 99;
+  align-items: center;
+}
+
+.helix-ultimate-modal-footer .btn,
+.helix-ultimate-options-modal-footer .btn {
+  margin-right: 10px;
+  font-size: 12px;
+}
+
+.helix-ultimate-modal-breadcrumbs {
+  width: 560px;
+}
+
+.helix-ultimate-modal-actions-left {
+  position: absolute;
+  top: 0;
+  left: 20px;
+  height: 60px;
+  padding-top: 15px;
+  background: #E8EEF3;
+  z-index: 3;
+  width: 560px;
+  display: none;
+}
+
+.helix-ultimate-modal-actions-right {
+  width: 220px;
+  text-align: right;
+}
+
+.action-helix-ultimate-modal-close,
+.action-helix-ultimate-options-modal-close {
+  background-color: #dc3545;
+  border-radius: 25px;
+  color: #fff;
+  height: 30px;
+  line-height: 30px;
+  position: absolute;
+  right: -15px;
+  text-align: center;
+  top: -15px;
+  width: 30px;
+  z-index: 3;
+}
+
+.action-helix-ultimate-modal-close:hover,
+.action-helix-ultimate-options-modal-close:hover {
+  background-color: #c82333;
+  color: #fff;
+}
+
+.helix-ultimate-modal-actions-left .btn,
+.helix-ultimate-modal-actions-right .btn {
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+.helix-ultimate-modal-actions-left .btn-last,
+.helix-ultimate-modal-actions-right .btn-last {
+  margin-right: 0;
+}
+
+.helix-ultimate-media-breadcrumb {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.helix-ultimate-media-breadcrumb-item {
+  height: 60px;
+  line-height: 60px;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.helix-ultimate-media-breadcrumb-item + .helix-ultimate-media-breadcrumb-item::before {
+  display: inline-block;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  color: #868e96;
+  content: "\f105";
+  font-family: FontAwesome;
+}
+
+.helix-ultimate-media-breadcrumb-item + .helix-ultimate-media-breadcrumb-item:hover::before {
+  text-decoration: underline;
+}
+
+.helix-ultimate-media-breadcrumb-item + .helix-ultimate-media-breadcrumb-item:hover::before {
+  text-decoration: none;
+}
+
+.helix-ultimate-media-breadcrumb-item {
+  color: #868e96;
+}
+
+.helix-ultimate-modal-inner,
+.helix-ultimate-options-modal-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.helix-ultimate-modal-preloader {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: table;
+  text-align: center;
+}
+
+.helix-ultimate-modal-preloader .fa {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+#helix-ultimate-media-manager,
+.helix-ultimate-modal-content {
+  position: absolute;
+  top: 80px;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  overflow-y: auto;
+}
+
+.helix-ultimate-options-modal-content {
+  position: absolute;
+  top: 60px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  overflow-y: auto;
+}
+
+.helix-ultimate-modal-content,
+.helix-ultimate-options-modal-content {
+  bottom: 80px;
+}
+
+.helix-ultimate-options-modal-content > .control-group:first-child {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+} 
+
+.helix-ultimate-media {
+  list-style: none;
+  padding: 0;
+  margin: -10px;
+}
+
+.helix-ultimate-media:empty {
+  margin: 0;
+  border: 2px dashed #E8EEF3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.helix-ultimate-media:empty:before {
+  content: "This folder is empty";
+  font-size: 16px;
+  font-weight: bold;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+}
+
+.helix-ultimate-media > li {
+  width: 140px;
+  height: 180px;
+  display: block;
+  float: left;
+  margin: 10px;
+  position: relative;
+}
+
+.helix-ultimate-media-thumb {
+  height: 140px;
+  width: 140px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  border-radius: 4px;
+  border: 1px solid #fff;
+  margin-bottom: 4px;
+  cursor: pointer;
+  position: relative;
+  background-color: #fff;
+}
+
+.helix-ultimate-media-thumb-new {
+  animation: newFolder 5000ms;
+}
+
+@keyframes newFolder {
+    from {background-color: #e8f7ed;}
+    to {background-color: #fff;}
+}
+
+.helix-ultimate-media-image .helix-ultimate-media-thumb img {
+  background: #e7e8ec;
+  border: 1px solid #d4d5d9;
+  border-radius: 3px;
+}
+
+.helix-ultimate-media-selected .helix-ultimate-media-thumb {
+  background: #D6E8FA;
+  border-color: #D6E8FA;
+}
+
+.helix-ultimate-media-select {
+  display: block;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  font-size: 13px;
+  border: 1px solid #d4d5d9;
+  border-radius: 3px;
+  z-index: 993;
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 400ms;
+  -webkit-transition: opacity 400ms;
+}
+
+.helix-ultimate-media > li:hover .helix-ultimate-media-select {
+  opacity: 1;
+}
+
+.helix-ultimate-media-select > span {
+  display: none;
+}
+
+.helix-ultimate-media-selected .helix-ultimate-media-select {
+  border-color: #1D84E9;
+  background-color: #1D84E9;
+  opacity: 1;
+}
+
+.helix-ultimate-media-selected .helix-ultimate-media-select > span {
+  display: block;
+  color: #fff;
+  line-height: 24px;
+}
+
+.helix-ultimate-media-label {
+  width: 90%;
+  margin-left: 5%;
+  height: 40px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  text-align: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 12px;
+  line-height: 1.5em;
+  color: #1B2733;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+.helix-ultimate-media-thumb img {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  max-height: 100%;
+  max-width: 100%;
+  cursor: pointer;
+  outline: none;
+}
+
+.helix-ultimate-image-holder img {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  max-height: 100%;
+  max-width: 100%;
+  outline: none;
+  background: #e7e8ec;
+  border: 1px solid #d4d5d9;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.helix-ultimate-image-holder:not(:empty) {
+  margin-bottom: 15px;
+}
+
+.helix-ultimate-media-picker {
+  margin-right: 10px;
+}
+
+/* Progress */
+.helix-ultimate-progress {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 1rem;
+  width: 100%;
+  overflow: hidden;
+  font-size: .75rem;
+  background-color: #e9ecef;
+  border-radius: .25rem;
+}
+
+.helix-ultimate-progress-bar {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    color: #fff;
+    text-align: center;
+    background-color: #007bff;
+    transition: width .6s ease;
+}

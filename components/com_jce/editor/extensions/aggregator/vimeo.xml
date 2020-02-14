@@ -1,0 +1,64 @@
+<?xml version="1.0" ?>
+<extension version="3.4" type="plugin" group="jce" method="upgrade">
+	<name>WF_AGGREGATOR_VIMEO_TITLE</name>
+	<version>2.7.14</version>
+	<creationDate>13-06-2019</creationDate>
+	<author>Ryan Demmer</author>
+	<authorEmail>info@joomlacontenteditor.net</authorEmail>
+	<authorUrl>https://www.joomlacontenteditor.net/</authorUrl>
+	<copyright>Copyright (C) 2006 - 2019 Ryan Demmer. All rights reserved</copyright>
+	<license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+	<description>WF_AGGREGATOR_VIMEO_DESC</description>
+	<files>
+		<filename>vimeo.php</filename>
+		<folder>vimeo</folder>
+	</files>
+	<fields name="vimeo">
+		<fieldset name="aggregator.vimeo">
+			<field name="enable" type="yesno" default="1" label="WF_LABEL_EXTENSION_ENABLE" description="WF_LABEL_EXTENSION_ENABLE_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="width" type="number" default="400" class="input-small" label="WF_LABEL_WIDTH" description="WF_AGGREGATOR_VIMEO_WIDTH_DESC" />
+			<field name="height" type="number" default="225" class="input-small" label="WF_LABEL_HEIGHT" description="WF_AGGREGATOR_VIMEO_HEIGHT_DESC" />
+
+			<field name="color" type="color" size="10" default="" label="WF_AGGREGATOR_VIMEO_COLOR" description="WF_AGGREGATOR_VIMEO_COLOR_DESC" />
+
+			<field name="intro" type="yesno" default="0" label="WF_AGGREGATOR_VIMEO_INTRO" description="WF_AGGREGATOR_VIMEO_INTRO_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field name="portrait" type="yesno" default="0" label="WF_AGGREGATOR_VIMEO_PORTRAIT" description="WF_AGGREGATOR_VIMEO_PORTRAIT_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field name="title" type="yesno" default="0" label="WF_AGGREGATOR_VIMEO_INTROTITLE" description="WF_AGGREGATOR_VIMEO_INTROTITLE_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field name="byline" type="yesno" default="0" label="WF_AGGREGATOR_VIMEO_BYLINE" description="WF_AGGREGATOR_VIMEO_BYLINE_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field name="autoplay" type="yesno" default="0" label="WF_AGGREGATOR_VIMEO_AUTOPLAY" description="WF_AGGREGATOR_VIMEO_AUTOPLAY_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field name="loop" type="yesno" default="0" label="WF_AGGREGATOR_VIMEO_LOOP" description="WF_AGGREGATOR_VIMEO_LOOP_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field name="fullscreen" type="yesno" default="1" label="WF_AGGREGATOR_VIMEO_FULLSCREEN" description="WF_AGGREGATOR_VIMEO_FULLSCREEN_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+		</fieldset>
+	</fields>
+	<plugins></plugins>
+</extension>

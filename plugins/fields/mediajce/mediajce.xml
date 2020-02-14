@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="plugin" version="3.8" group="fields" method="upgrade">
+	<name>plg_fields_mediajce</name>
+	 <version>2.7.14</version>
+  	<creationDate>13-06-2019</creationDate>
+  	<author>Ryan Demmer</author>
+  	<authorEmail>info@joomlacontenteditor.net</authorEmail>
+  	<authorUrl>https://www.joomlacontenteditor.net</authorUrl>
+  	<copyright>Copyright (C) 2006 - 2019 Ryan Demmer. All rights reserved</copyright>
+  	<license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+	<description>PLG_FIELDS_MEDIAJCE_XML_DESCRIPTION</description>
+	<files folder="plugins/fields/mediajce">
+		<filename plugin="mediajce">mediajce.php</filename>
+		<folder>params</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages folder="administrator/language/en-GB">
+		<language tag="en-GB">en-GB.plg_fields_mediajce.ini</language>
+		<language tag="en-GB">en-GB.plg_fields_mediajce.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="mediatype"
+					type="combo"
+					label="PLG_FIELDS_MEDIAJCE_PARAMS_MEDIATYPE_LABEL"
+					description="PLG_FIELDS_MEDIAJCE_PARAMS_MEDIATYPE_DESC"
+				>
+				<option value="images">images</option>
+				<option value="files">files</option>
+				</field>
+				<field
+					name="media_class"
+					type="text"
+					label="PLG_FIELDS_MEDIAJCE_PARAMS_MEDIA_CLASS_LABEL"
+					description="PLG_FIELDS_MEDIAJCE_PARAMS_MEDIA_CLASS_DESC"
+				/>
+				<field
+					name="media_description"
+					type="text"
+					label="PLG_FIELDS_MEDIAJCE_PARAMS_MEDIA_DESCRIPTION_LABEL"
+					description="PLG_FIELDS_MEDIAJCE_PARAMS_MEDIA_DESCRIPTION_DESC"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

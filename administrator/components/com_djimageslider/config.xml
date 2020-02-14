@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+
+	<!-- fieldset name="component"
+		label="COM_DJIMAGESLIDER_CONFIG_GLOBAL_SETTINGS_LABEL"
+		description="COM_DJIMAGESLIDER_CONFIG_GLOBAL_SETTINGS_DESC">
+		
+ 	</fieldset-->
+ 	
+ 	<fieldset name="permissions"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
+	>
+
+		<field name="rules"
+			type="rules"
+			label="JCONFIG_PERMISSIONS_LABEL"
+			validate="rules"
+			filter="rules"
+			component="com_djimageslider"
+			section="component" />
+	</fieldset>
+ 	
+</config>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="3.7" client="administrator" method="upgrade">
+	<name>mod_sppagebuilder_admin_menu</name>
+	<author>JoomShaper</author>
+	<creationDate>August 2014</creationDate>
+	<copyright>Copyright (C) 2010 - 2017 JoomShaper. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>support@joomshaper.com</authorEmail>
+	<authorUrl>www.joomshaper.com</authorUrl>
+	<version>1.3</version>
+	<description>MOD_SPPAGEBUILDER_MENU_XML_DESCRIPTION</description>
+	<files>
+		<filename module="mod_sppagebuilder_admin_menu">mod_sppagebuilder_admin_menu.php</filename>
+		<folder>tmpl</folder>
+	</files>
+	<config>
+		<fields name="params">
+			<fieldset name="advanced">
+				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
+			</fieldset>
+		</fields>
+	</config>
+</extension>

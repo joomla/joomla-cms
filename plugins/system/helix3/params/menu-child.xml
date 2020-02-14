@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="params" addfieldpath="/plugins/system/helix3/fields">
+	<fieldset name="spsubmenu" label="HELIX_SUB_MENU">
+        <field name="dropdown_position" type="radio" class="btn-group" default="right" label="HELIX_MENU_DROPDOWN_POSITION" description="HELIX_MENU_DROPDOWN_POSITION_DESC">
+        	<option value="left">HELIX_GLOBAL_LEFT</option>
+        	<option value="right">HELIX_GLOBAL_RIGHT</option>
+        </field>	
+        <field name="showmenutitle" type="radio" default="1" class="btn-group" label="HELIX_MENU_SHOW_TITLE" description="HELIX_MENU_SHOW_TITLE_DESC">
+			<option value="1">HELIX_YES</option>
+			<option value="0">HELIX_NO</option>
+		</field>		
+		<field name="icon" type="icon" label="HELIX_MENU_ICON" description="HELIX_MENU_ICON_DESC" />		
+		<field name="class" type="text" label="HELIX_MENU_CLASS" description="HELIX_MENU_CLASS_DESC" />
+    </fieldset>
+	</fields>
+</form>

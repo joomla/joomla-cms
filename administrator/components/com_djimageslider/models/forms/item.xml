@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form
+	addfieldpath="/administrator/components/com_djcatalog2/models/fields">
+	<fieldset addfieldpath="/administrator/components/com_categories/models/fields">
+		<field name="id"
+			type="text"
+			label="JGLOBAL_FIELD_ID_LABEL"
+			description="JGLOBAL_FIELD_ID_DESC"
+			size="10"
+			default="0"
+			readonly="true"
+			class="readonly"
+		/>
+		
+		<field name="catid"
+			type="category"
+			extension="com_djimageslider"
+			label="JCATEGORY"
+			description="JFIELD_CATEGORY_DESC"
+			class="inputbox"
+			required="true"
+		/>
+		
+		<field name="title"
+			type="text"
+			label="JGLOBAL_TITLE"
+			description="JGLOBAL_TITLE"
+			class="inputbox"
+			size="30"
+			required="true"
+		 />
+		 
+		 <field name="alias"
+			type="text"
+			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
+			class="inputbox"
+			size="30"
+		/>
+		
+		<field name="image"
+			type="media"
+			hide_none="1"
+			label="COM_DJIMAGESLIDER_IMAGE"
+			description="COM_DJIMAGESLIDER_IMAGE"
+			
+		/>
+		
+		<field name="description" type="editor"
+			label="COM_DJIMAGESLIDER_DESCRIPTION"
+			description="COM_DJIMAGESLIDER_DESCRIPTION_DESC"
+			class="inputbox"
+			filter="JComponentHelper::filterText"
+			buttons="false"
+		/>
+		
+		<field id="published"
+			name="published"
+			type="list"
+			label="JSTATUS"
+			description="JFIELD_PUBLISHED_DESC"
+			class="inputbox"
+			size="1"
+			default="1"
+		>
+			<option value="1">
+				JPUBLISHED</option>
+			<option value="0">
+				JUNPUBLISHED</option>			
+		</field>
+		
+		<field name="publish_up" type="calendar"
+			label="COM_DJIMAGESLIDER_PUBLISH_UP" description="COM_DJIMAGESLIDER_PUBLISH_UP_DESC"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
+			filter="user_utc" />
+
+		<field name="publish_down" type="calendar"
+			label="COM_DJIMAGESLIDER_PUBLISH_DOWN" description="COM_DJIMAGESLIDER_PUBLISH_DOWN_DESC"
+			class="inputbox" format="%Y-%m-%d %H:%M:%S" size="22"
+			filter="user_utc" />
+		
+		<field name="checked_out"
+			type="hidden"
+			filter="unset"
+		/>
+
+		<field name="checked_out_time"
+			type="hidden"
+			filter="unset"
+		/>
+			
+	</fieldset>
+	
+	<fields name="params">
+		<fieldset name="jbasic"	label="COM_DJIMAGESLIDER_LINKING_OPTIONS"
+			addfieldpath="/administrator/components/com_content/models/fields" >
+		
+			<field name="link_type" 
+				type="list" 
+				label="COM_DJIMAGESLIDER_LINK_TYPE"
+				description="COM_DJIMAGESLIDER_LINK_TYPE_DESC" 
+				default=""
+			>
+				<option value="">COM_DJIMAGESLIDER_DO_NOT_LINK</option>
+				<option value="menu">COM_DJIMAGESLIDER_MENU</option>
+				<option value="url">COM_DJIMAGESLIDER_URL</option>
+				<option value="article">COM_DJIMAGESLIDER_ARTICLE</option>
+				<!--option value="djc2_item">COM_DJIMAGESLIDER_DJCATALOG2_ITEM</option-->
+			</field>
+			
+			<field name="link_menu" 
+				type="menuitem"
+				label="COM_DJIMAGESLIDER_MENU"
+				description="COM_DJIMAGESLIDER_MENU"
+				disable="separator,heading,alias"
+				showon="link_type:menu"
+			/>
+			<field name="link_url"
+				type="text"
+				label="COM_DJIMAGESLIDER_URL"
+				description="COM_DJIMAGESLIDER_URL"
+				class="inputbox"
+				size="30"
+				showon="link_type:url"
+			/>
+			<field name="link_article" 
+				type="modal_article"
+				label="COM_DJIMAGESLIDER_ARTICLE" 
+				description="COM_DJIMAGESLIDER_ARTICLE"
+				showon="link_type:article"
+			/>
+			
+			<field name="link_target" 
+				type="list" 
+				label="COM_DJIMAGESLIDER_LINK_TARGET"
+				description="COM_DJIMAGESLIDER_LINK_TARGET_DESC" 
+				default=""
+				showon="link_type:menu,url,article"
+			>
+				<option value="">COM_DJIMAGESLIDER_AUTO</option>
+				<option value="_self">COM_DJIMAGESLIDER_PARENT_WINDOW</option>
+				<option value="_blank">COM_DJIMAGESLIDER_NEW_WINDOW</option>
+			</field>
+			
+			<field name="link_rel" 
+				type="list" 
+				label="COM_DJIMAGESLIDER_LINK_REL"
+				description="COM_DJIMAGESLIDER_LINK_REL_DESC" 
+				default=""
+				showon="link_type:menu,url,article"
+			>
+				<option value="">JNONE</option>
+				<option value="alternate">alternate</option>
+				<option value="author">author</option>
+				<option value="bookmark">bookmark</option>
+				<option value="help">help</option>
+				<option value="license">license</option>
+				<option value="next">next</option>
+				<option value="nofollow">nofollow</option>
+				<option value="noreferrer">noreferrer</option>
+				<option value="prefetch">prefetch</option>
+				<option value="prev">prev</option>
+				<option value="search">search</option>
+				<option value="tag">tag</option>
+			</field>
+			
+		</fieldset>
+		
+		<fieldset name="attrs"	label="COM_DJIMAGESLIDER_IMAGE_ATTR_OPTIONS">
+			<field name="alt_attr"
+				type="text"
+				label="COM_DJIMAGESLIDER_ALT_ATTR"
+				description="COM_DJIMAGESLIDER_ALT_ATTR_DESC"
+				class="inputbox"
+				size="30"
+			/>
+			<field name="title_attr"
+				type="text"
+				label="COM_DJIMAGESLIDER_TITLE_ATTR"
+				description="COM_DJIMAGESLIDER_TITLE_ATTR_DESC"
+				class="inputbox"
+				size="30"
+			/>
+		</fieldset>
+	</fields>
+</form>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset name="actionlogs" label="PLG_SYSTEM_ACTIONLOGS_OPTIONS" addfieldpath="/administrator/components/com_actionlogs/models/fields">
+		<fields name="actionlogs">
+			<field
+				name="actionlogsNotify"
+				type="radio"
+				label="PLG_SYSTEM_ACTIONLOGS_NOTIFICATIONS"
+				description="PLG_SYSTEM_ACTIONLOGS_NOTIFICATIONS_DESC"
+				class="btn-group btn-group-yesno"
+				default="0"
+				filter="integer"
+				required="true"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field
+				name="actionlogsExtensions"
+				type="logtype"
+				label="PLG_SYSTEM_ACTIONLOGS_EXTENSIONS_NOTIFICATIONS"
+				description="PLG_SYSTEM_ACTIONLOGS_EXTENSIONS_NOTIFICATIONS_DESC"
+				multiple="true"
+				validate="options"
+				showon="actionlogsNotify:1"
+			/>
+		</fields>
+	</fieldset>
+</form>

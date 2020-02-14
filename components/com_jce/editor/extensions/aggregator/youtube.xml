@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+<extension version="3.4" type="plugin" group="jce" method="upgrade">
+	<name>WF_AGGREGATOR_YOUTUBE_TITLE</name>
+	<version>2.7.14</version>
+	<creationDate>13-06-2019</creationDate>
+	<author>Ryan Demmer</author>
+	<authorEmail>info@joomlacontenteditor.net</authorEmail>
+	<authorUrl>https://www.joomlacontenteditor.net/</authorUrl>
+	<copyright>Copyright (C) 2006 - 2019 Ryan Demmer. All rights reserved</copyright>
+	<license>GNU/GPL Version 2 or later - http://www.gnu.org/licenses/gpl-2.0.html</license>
+	<description>WF_AGGREGATOR_YOUTUBE_DESC</description>
+	<files>
+		<filename>youtube.php</filename>
+		<folder>youtube</folder>
+	</files>
+	<fields name="youtube">
+		<fieldset name="aggregator.youtube">
+			<field name="enable" type="yesno" default="1" label="WF_LABEL_EXTENSION_ENABLE" description="WF_LABEL_EXTENSION_ENABLE_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+			<field name="width" type="number" default="560" class="input-small" label="WF_LABEL_WIDTH" description="WF_AGGREGATOR_YOUTUBE_WIDTH_DESC" />
+			<field name="height" type="number" default="315" class="input-small" label="WF_LABEL_HEIGHT" description="WF_AGGREGATOR_YOUTUBE_HEIGHT_DESC" />
+
+			<field name="controls" type="yesno" default="1"  label="WF_AGGREGATOR_YOUTUBE_CONTROLS" description="WF_AGGREGATOR_YOUTUBE_CONTROLS_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field name="related" type="yesno" default="1"  label="WF_AGGREGATOR_YOUTUBE_RELATED" description="WF_AGGREGATOR_YOUTUBE_RELATED_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field name="loop" type="yesno" default="1"  label="WF_AGGREGATOR_YOUTUBE_LOOP" description="WF_AGGREGATOR_YOUTUBE_LOOP_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field name="autoplay" type="yesno" default="0"  label="WF_AGGREGATOR_YOUTUBE_AUTOPLAY" description="WF_AGGREGATOR_YOUTUBE_AUTOPLAY_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field name="privacy" type="yesno" default="0"  label="WF_AGGREGATOR_YOUTUBE_PRIVACY" description="WF_AGGREGATOR_YOUTUBE_PRIVACY_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field name="modestbranding" type="yesno" default="0"  label="WF_AGGREGATOR_YOUTUBE_MODESTBRANDING" description="WF_AGGREGATOR_YOUTUBE_MODESTBRANDING_DESC">
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+		</fieldset>
+	</fields>
+	<plugins></plugins>
+</extension>
