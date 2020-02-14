@@ -552,6 +552,9 @@ class PlgEditorTinymce extends CMSPlugin
 			$toolbar1  = array_merge($toolbar1, explode($separator, $custom_button));
 		}
 
+		// Merge the two toolbars for backwards compatibility
+		$toolbar = array_merge($toolbar1, $toolbar2);
+
 		// Build the final options set
 		$scriptOptions   = array_merge(
 			$scriptOptions,
@@ -567,8 +570,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 				// Toolbars
 				'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
-				'toolbar1' => empty($toolbar1) ? null  : implode(' ', $toolbar1) . ' jxtdbuttons',
-				'toolbar2' => empty($toolbar2) ? null  : implode(' ', $toolbar2),
+				'toolbar' => empty($toolbar) ? null  : 'jxtdbuttons ' . implode(' ', $toolbar),
 
 				'plugins'  => implode(',', array_unique($plugins)),
 
@@ -600,6 +602,8 @@ class PlgEditorTinymce extends CMSPlugin
 				'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
 				'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
 				'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
+				'toolbar_sticky'     => true,
+				'toolbar_drawer'     => 'sliding',
 
 				// Drag and drop specific
 				'dndEnabled' => $dragdrop,
@@ -1010,7 +1014,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$preset['simple'] = [
 			'menu' => [],
-			'toolbar1' => [
+			'toolbar' => [
 				'bold', 'underline', 'strikethrough', '|',
 				'undo', 'redo', '|',
 				'bullist', 'numlist', '|',
