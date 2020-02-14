@@ -17,9 +17,9 @@
 	<media destination="editors" folder="media">
 		<folder>tinymce</folder>
 	</media>
-	<languages>
-		<language tag="en-GB">en-GB.plg_editors_tinymce.ini</language>
-		<language tag="en-GB">en-GB.plg_editors_tinymce.sys.ini</language>
+	<languages folder="admin">
+		<language tag="en-GB">language/en-GB/plg_editors_tinymce.ini</language>
+		<language tag="en-GB">language/en-GB/plg_editors_tinymce.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

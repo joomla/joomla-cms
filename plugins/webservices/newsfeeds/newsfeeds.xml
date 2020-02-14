@@ -12,7 +12,7 @@
 	<files>
 		<filename plugin="newsfeeds">newsfeeds.php</filename>
 	</files>
-	<languages>
+	<languages folder="admin">
 		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_newsfeeds.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_newsfeeds.sys.ini</language>
 	</languages>

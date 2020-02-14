@@ -14,8 +14,8 @@
 		<filename plugin="packageinstaller">packageinstaller.php</filename>
 	</files>
 
-	<languages>
-		<language tag="en-GB">en-GB.plg_installer_packageinstaller.ini</language>
-		<language tag="en-GB">en-GB.plg_installer_packageinstaller.sys.ini</language>
+	<languages folder="admin">
+		<language tag="en-GB">language/en-GB/plg_installer_packageinstaller.ini</language>
+		<language tag="en-GB">language/en-GB/plg_installer_packageinstaller.sys.ini</language>
 	</languages>
 </extension>

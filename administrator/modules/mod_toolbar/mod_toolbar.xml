@@ -13,9 +13,9 @@
 		<filename module="mod_toolbar">mod_toolbar.php</filename>
 		<folder>tmpl</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">en-GB.mod_toolbar.ini</language>
-		<language tag="en-GB">en-GB.mod_toolbar.sys.ini</language>
+	<languages folder="admin">
+		<language tag="en-GB">language/en-GB/mod_toolbar.ini</language>
+		<language tag="en-GB">language/en-GB/mod_toolbar.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_TOOLBAR" />
 	<config>

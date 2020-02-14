@@ -12,9 +12,9 @@
 	<files>
 		<filename plugin="ldap">ldap.php</filename>
 	</files>
-	<languages>
-		<language tag="en-GB">en-GB.plg_authentication_ldap.ini</language>
-		<language tag="en-GB">en-GB.plg_authentication_ldap.sys.ini</language>
+	<languages folder="admin">
+		<language tag="en-GB">language/en-GB/plg_authentication_ldap.ini</language>
+		<language tag="en-GB">language/en-GB/plg_authentication_ldap.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

@@ -15,7 +15,7 @@
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
-	<languages>
+	<languages folder="admin">
 		<language tag="en-GB">language/en-GB/en-GB.mod_version.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.mod_version.sys.ini</language>
 	</languages>

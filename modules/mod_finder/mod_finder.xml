@@ -15,7 +15,7 @@
 		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
-	<languages>
+	<languages folder="site">
 		<language tag="en-GB">language/en-GB/en-GB.mod_finder.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.mod_finder.sys.ini</language>
 	</languages>

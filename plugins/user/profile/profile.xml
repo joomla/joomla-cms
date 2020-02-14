@@ -15,9 +15,9 @@
 		<folder>forms</folder>
 		<folder>src</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">en-GB.plg_user_profile.ini</language>
-		<language tag="en-GB">en-GB.plg_user_profile.sys.ini</language>
+	<languages folder="admin">
+		<language tag="en-GB">language/en-GB/plg_user_profile.ini</language>
+		<language tag="en-GB">language/en-GB/plg_user_profile.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

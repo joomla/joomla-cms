@@ -14,9 +14,9 @@
 		<filename module="mod_loginsupport">mod_loginsupport.php</filename>
 		<folder>tmpl</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">en-GB.mod_loginsupport.ini</language>
-		<language tag="en-GB">en-GB.mod_loginsupport.sys.ini</language>
+	<languages folder="admin">
+		<language tag="en-GB">language/en-GB/mod_loginsupport.ini</language>
+		<language tag="en-GB">language/en-GB/mod_loginsupport.sys.ini</language>
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_VERSION" />
 	<config>

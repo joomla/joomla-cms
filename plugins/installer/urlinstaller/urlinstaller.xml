@@ -14,8 +14,8 @@
 		<filename plugin="urlinstaller">urlinstaller.php</filename>
 	</files>
 
-	<languages>
-		<language tag="en-GB">en-GB.plg_installer_urlinstaller.ini</language>
-		<language tag="en-GB">en-GB.plg_installer_urlinstaller.sys.ini</language>
+	<languages folder="admin">
+		<language tag="en-GB">language/en-GB/plg_installer_urlinstaller.ini</language>
+		<language tag="en-GB">language/en-GB/plg_installer_urlinstaller.sys.ini</language>
 	</languages>
 </extension>

@@ -12,7 +12,7 @@
 	<files>
 		<filename plugin="templates">templates.php</filename>
 	</files>
-	<languages>
+	<languages folder="admin">
 		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_templates.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_templates.sys.ini</language>
 	</languages>

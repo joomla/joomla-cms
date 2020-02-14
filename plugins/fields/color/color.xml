@@ -13,8 +13,8 @@
 		<filename plugin="color">color.php</filename>
 		<folder>tmpl</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">en-GB.plg_fields_color.ini</language>
-		<language tag="en-GB">en-GB.plg_fields_color.sys.ini</language>
+	<languages folder="admin">
+		<language tag="en-GB">language/en-GB/plg_fields_color.ini</language>
+		<language tag="en-GB">language/en-GB/plg_fields_color.sys.ini</language>
 	</languages>
 </extension>

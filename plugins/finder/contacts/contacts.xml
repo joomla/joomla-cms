@@ -12,7 +12,7 @@
 	<files>
 		<filename plugin="contacts">contacts.php</filename>
 	</files>
-	<languages>
+	<languages folder="admin">
 		<language tag="en-GB">language/en-GB/en-GB.plg_finder_contacts.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.plg_finder_contacts.sys.ini</language>
 	</languages>

@@ -12,7 +12,7 @@
 	<files>
 		<filename plugin="messages">messages.php</filename>
 	</files>
-	<languages>
+	<languages folder="admin">
 		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_messages.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_messages.sys.ini</language>
 	</languages>

@@ -14,8 +14,8 @@
 		<filename plugin="folderinstaller">folderinstaller.php</filename>
 	</files>
 
-	<languages>
-		<language tag="en-GB">en-GB.plg_installer_folderinstaller.ini</language>
-		<language tag="en-GB">en-GB.plg_installer_folderinstaller.sys.ini</language>
+	<languages folder="admin">
+		<language tag="en-GB">language/en-GB/plg_installer_folderinstaller.ini</language>
+		<language tag="en-GB">language/en-GB/plg_installer_folderinstaller.sys.ini</language>
 	</languages>
 </extension>

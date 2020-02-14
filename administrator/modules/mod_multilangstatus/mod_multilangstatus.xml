@@ -16,7 +16,7 @@
 		<folder>tmpl</folder>
 	</files>
 
-	<languages>
+	<languages folder="admin">
 		<language tag="en-GB">language/en-GB/en-GB.mod_multilangstatus.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.mod_multilangstatus.sys.ini</language>
 	</languages>

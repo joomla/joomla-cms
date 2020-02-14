@@ -14,9 +14,9 @@
 		<filename plugin="confirmconsent">confirmconsent.php</filename>
 		<folder>src</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">en-GB.plg_content_confirmconsent.ini</language>
-		<language tag="en-GB">en-GB.plg_content_confirmconsent.sys.ini</language>
+	<languages folder="admin">
+		<language tag="en-GB">language/en-GB/plg_content_confirmconsent.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_confirmconsent.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

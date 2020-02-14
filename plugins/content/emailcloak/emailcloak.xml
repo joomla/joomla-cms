@@ -12,9 +12,9 @@
 	<files>
 		<filename plugin="emailcloak">emailcloak.php</filename>
 	</files>
-	<languages>
-		<language tag="en-GB">en-GB.plg_content_emailcloak.ini</language>
-		<language tag="en-GB">en-GB.plg_content_emailcloak.sys.ini</language>
+	<languages folder="admin">
+		<language tag="en-GB">language/en-GB/plg_content_emailcloak.ini</language>
+		<language tag="en-GB">language/en-GB/plg_content_emailcloak.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

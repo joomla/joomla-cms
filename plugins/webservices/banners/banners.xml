@@ -12,7 +12,7 @@
 	<files>
 		<filename plugin="banners">banners.php</filename>
 	</files>
-	<languages>
+	<languages folder="admin">
 		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_banners.ini</language>
 		<language tag="en-GB">language/en-GB/en-GB.plg_webservices_banners.sys.ini</language>
 	</languages>

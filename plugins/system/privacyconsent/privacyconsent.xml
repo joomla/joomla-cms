@@ -14,9 +14,9 @@
 		<folder>privacyconsent</folder>
 		<folder>field</folder>
 	</files>
-	<languages>
-		<language tag="en-GB">en-GB.plg_system_privacyconsent.ini</language>
-		<language tag="en-GB">en-GB.plg_system_privacyconsent.sys.ini</language>
+	<languages folder="admin">
+		<language tag="en-GB">language/en-GB/plg_system_privacyconsent.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_privacyconsent.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

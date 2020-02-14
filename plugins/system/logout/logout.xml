@@ -12,8 +12,8 @@
 	<files>
 		<filename plugin="logout">logout.php</filename>
 	</files>
-	<languages>
-		<language tag="en-GB">en-GB.plg_system_logout.ini</language>
-		<language tag="en-GB">en-GB.plg_system_logout.sys.ini</language>
+	<languages folder="admin">
+		<language tag="en-GB">language/en-GB/plg_system_logout.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_logout.sys.ini</language>
 	</languages>
 </extension>

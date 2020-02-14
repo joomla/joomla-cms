@@ -12,8 +12,8 @@
 	<files>
 		<filename plugin="user">user.php</filename>
 	</files>
-	<languages>
-		<language tag="en-GB">en-GB.plg_privacy_user.ini</language>
-		<language tag="en-GB">en-GB.plg_privacy_user.sys.ini</language>
+	<languages folder="admin">
+		<language tag="en-GB">language/en-GB/plg_privacy_user.ini</language>
+		<language tag="en-GB">language/en-GB/plg_privacy_user.sys.ini</language>
 	</languages>
 </extension>
