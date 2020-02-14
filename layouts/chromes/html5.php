@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 $module  = $displayData['module'];
 $params  = $displayData['params'];
 
-if ($module->content === null || $module->content === '')
+if ((string) $module->content === '')
 {
 	return;
 }
