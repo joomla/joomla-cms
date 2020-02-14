@@ -533,11 +533,15 @@ abstract class ModuleHelper
 		/** @var \JCacheControllerCallback $cache */
 		$cache = \JFactory::getCache($cacheparams->cachegroup, 'callback');
 
-		// Turn cache off for internal callers if parameters are set to off and for all logged in users
+		// Turn cache off for internal callers if parameters are set to off and for all logged in users (when cache_loggedin is disabled)
 		$ownCacheDisabled = $moduleparams->get('owncache') === 0 || $moduleparams->get('owncache') === '0';
 		$cacheDisabled = $moduleparams->get('cache') === 0 || $moduleparams->get('cache') === '0';
 
-		if ($ownCacheDisabled || $cacheDisabled || $conf->get('caching') == 0 || $user->get('id'))
+		if ($ownCacheDisabled
+			|| $cacheDisabled
+			|| $conf->get('caching') == 0
+			|| ($user->get('id') && ($moduleparams->get('cache_loggedin', '0') === '0' ||  $moduleparams->get('cache_loggedin', '0') === 0))
+		)
 		{
 			$cache->setCaching(false);
 		}

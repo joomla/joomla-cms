@@ -61,6 +61,19 @@
 				</field>
 
 				<field
+					name="cache_loggedin"
+					type="radio"
+					label="COM_MODULES_FIELD_CACHE_LOGGEDIN_LABEL"
+					description="COM_MODULES_FIELD_CACHE_LOGGEDIN_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
 					name="cache_time"
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"

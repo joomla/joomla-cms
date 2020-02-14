@@ -64,7 +64,7 @@
 					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_ARTICLE_DESC"
 					default="none"
 					>
-					<option value="intro">MOD_ARTICLES_NEWS_OPTION_INTROIMAGE</option> 
+					<option value="intro">MOD_ARTICLES_NEWS_OPTION_INTROIMAGE</option>
 					<option value="full">MOD_ARTICLES_NEWS_OPTION_FULLIMAGE</option>
 					<option value="none">JNO</option>
 				</field>
@@ -242,6 +242,19 @@
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+				</field>
+
+				<field
+					name="cache_loggedin"
+					type="radio"
+					label="COM_MODULES_FIELD_CACHE_LOGGEDIN_LABEL"
+					description="COM_MODULES_FIELD_CACHE_LOGGEDIN_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field
