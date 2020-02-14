@@ -86,7 +86,7 @@ abstract class ModTagsPopularHelper
 
 		// Only return tags connected to published and authorised items
 		$query->where($db->quoteName('c.core_state') . ' = 1')
-			->where($db->quoteName('c.core_access') . ' IN (' . $groups . ')')
+			->where('(' . $db->quoteName('c.core_access') . ' IN (' . $groups . ') OR ' . $db->quoteName('c.core_access') . ' = 0)')
 			->where('(' . $db->quoteName('c.core_publish_up') . ' = ' . $nullDate
 				. ' OR ' . $db->quoteName('c.core_publish_up') . ' <= ' . $db->quote($nowDate) . ')')
 			->where('(' . $db->quoteName('c.core_publish_down') . ' = ' . $nullDate
