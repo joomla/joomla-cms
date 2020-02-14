@@ -178,7 +178,7 @@ abstract class ArticlesNewsHelper
 			if ($triggerEvents)
 			{
 				$item->text = '';
-				$app->triggerEvent('onContentPrepare', array('mod_articles_news.article', &$item, &$params, 0));
+				$app->triggerEvent('onContentPrepare', array('mod_articles_news', &$item, &$params, 0));
 
 				$results                 = $app->triggerEvent('onContentAfterTitle', array('mod_articles_news', &$item, &$params, 0));
 				$item->afterDisplayTitle = trim(implode("\n", $results));
