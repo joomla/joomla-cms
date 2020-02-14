@@ -1,25 +1,23 @@
 $off-background-colour: lightgrey;
 $on-background-colour: #2f7d32;
-$switcher-width: 62px;
-$switcher-height: 28px;
-
+$active-background-colour:#660000;
+$switcher-width: 220px;
 .switcher {
   position: relative;
-  width: 18rem;
-  height: 28px;
   margin: 0;
-}
-
-.switcher input {
-  position: absolute;
-  top: 0;
-  z-index: 2;
-  opacity: 0;
-  cursor: pointer;
-  height: $switcher-height;
   width: $switcher-width;
+  min-height: 50px;
+  border: solid 1px #ddd;
+  border-radius: 3px;
+}
+.switcher input {
+  width: 100px;
+  /* visibility: hidden;
+  z-index: 2; */
+  opacity: 1;
+  cursor: pointer;
   margin: 0;
-  left: 0;
+  height: 100%;
 
   [dir=rtl] & {
     left: auto;
@@ -31,31 +29,25 @@ $switcher-height: 28px;
   z-index: 1;
 }
 
-.switcher input:checked + label {
-  opacity: 1;
-}
-
-.switcher input:not(:checked) + label {
-  opacity: 0;
-}
-
-.switcher input:focus ~ .toggle-outside {
-  border-color: var(--focus);
-  box-shadow: 0 0 0 .2rem rgba(26, 70, 107, .25);
+.switcher input:focus + label {
+  border: solid 2px var(--focus);
+  box-shadow: 0 0 0 .2rem #d3e2f5;
+  /* overide if var exists -  can be deleted later */
+  box-shadow: var(--focus-shadow);
 }
 
 .switcher label {
-  line-height: $switcher-height;
   display: inline-block;
-  width: auto;
-  min-width: 6rem;
-  height: 100%;
-  margin-left: 70px;
-  text-align: left;
+  width: 50%;
+  text-align: center;
   position: absolute;
   transition: opacity 0.25s ease;
   margin-bottom: 0;
   left: 0;
+  padding: 10px;
+  min-height: 48px;
+  background: $off-background-colour;
+  border-radius: 3px 0 0 3px;
 
   [dir=rtl] & {
     left: auto;
@@ -66,38 +58,42 @@ $switcher-height: 28px;
   }
 }
 
-.switcher .toggle-outside {
-  height: 100%;
-  overflow: hidden;
-  transition: 0.2s ease all;
-  background: $off-background-colour;
-  position: absolute;
-  width: 58px;
-  box-sizing: border-box;
-  border: 1px solid rgba(0, 0, 0, .18);
-  left: 0;
+.switcher label[for=jform_featured1] {
+
+  left: auto;
+  right: 0;
+  border-radius: 0 3px 3px 0;
 
   [dir=rtl] & {
-    left: auto;
-    right: 0;
+    right: auto;
+    left: 0;
+    margin-right: 0;
+    margin-left: 70px;
+    text-align: left;
   }
 }
 
-.switcher input ~ input:checked ~ .toggle-outside {
+.switcher input:checked + label {
+  background:$active-background-colour;
+  color: #fff
+}
+
+.switcher input ~ input:checked ~ label {
+
   background: $on-background-colour;
-}
+  color: #fff;
 
-.switcher .toggle-inside {
-  height: $switcher-height;
-  width: ($switcher-width - 6) / 2;
-  background: white;
-  position: absolute;
-  left: 0;
-  transition: 0.4s ease all;
-}
-
-.switcher input ~ input:checked ~ .toggle-outside .toggle-inside {
-  left: ($switcher-width / 2) - 1;
+  &:after {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 17px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    margin-left: 10px;
+  }
 }
 
 .switcher__legend {
