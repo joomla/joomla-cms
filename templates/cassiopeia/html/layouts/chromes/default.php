@@ -20,11 +20,11 @@ if ($module->content === null || $module->content === '')
 
 $modulePos   = $module->position;
 $moduleTag   = $params->get('module_tag', 'div');
-$headerTag   = htmlspecialchars($params->get('header_tag', 'h4'));
-$headerClass = htmlspecialchars($params->get('header_class', ''));
+$headerTag   = htmlspecialchars($params->get('header_tag', 'h4'), ENT_QUOTES, 'UTF-8');
+$headerClass = htmlspecialchars($params->get('header_class', ''), ENT_QUOTES, 'UTF-8');
 
 ?>
-<<?php echo $moduleTag; ?> class="<?php echo $modulePos; ?> card <?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
+<<?php echo $moduleTag; ?> class="<?php echo $modulePos; ?> card <?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_QUOTES, 'UTF-8'); ?>">
 	<?php if ($module->showtitle && $headerClass !== 'card-title') : ?>
 		<<?php echo $headerTag; ?> class="card-header <?php echo $headerClass; ?>"><?php echo $module->title; ?></<?php echo $headerTag; ?>>
 	<?php endif; ?>

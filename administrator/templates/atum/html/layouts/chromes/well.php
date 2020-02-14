@@ -33,14 +33,14 @@ $canChange = $user->authorise('core.edit.state', 'com_modules.module.' . $id) &&
 $moduleTag      = $params->get('module_tag', 'div');
 $bootstrapSize  = (int) $params->get('bootstrap_size', 6);
 $moduleClass    = $bootstrapSize ? 'col-md-' . $bootstrapSize : 'col-md-12';
-$headerTag      = htmlspecialchars($params->get('header_tag', 'h2'));
+$headerTag      = htmlspecialchars($params->get('header_tag', 'h2'), ENT_QUOTES, 'UTF-8');
 $moduleClassSfx = $params->get('moduleclass_sfx', '');
 
 // Temporarily store header class in variable
-$headerClass = $params->get('header_class') ? ' class="' . htmlspecialchars($params->get('header_class')) . '"' : '';
+$headerClass = $params->get('header_class') ? ' class="' . htmlspecialchars($params->get('header_class'), ENT_QUOTES, 'UTF-8') . '"' : '';
 
 // Get the module icon
-$headerIcon = $params->get('header_icon') ? '<span class="' . htmlspecialchars($params->get('header_icon')) . '" aria-hidden="true"></span>' : '';
+$headerIcon = $params->get('header_icon') ? '<span class="' . htmlspecialchars($params->get('header_icon'), ENT_QUOTES, 'UTF-8') . '" aria-hidden="true"></span>' : '';
 
 ?>
 <div class="module-wrapper">
@@ -70,7 +70,7 @@ $headerIcon = $params->get('header_icon') ? '<span class="' . htmlspecialchars($
 				<?php if ($module->showtitle) : ?>
 					<h2 <?php echo $headerClass; ?>>
 						<?php echo $headerIcon; ?>
-						<?php echo htmlspecialchars($module->title); ?>
+						<?php echo htmlspecialchars($module->title, ENT_QUOTES, 'UTF-8'); ?>
 					</h2>
 				<?php endif; ?>
 			</div>
