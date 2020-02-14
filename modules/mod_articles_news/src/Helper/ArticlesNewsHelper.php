@@ -178,15 +178,15 @@ abstract class ArticlesNewsHelper
 			if ($triggerEvents)
 			{
 				$item->text = '';
-				$app->triggerEvent('onContentPrepare', array('com_content.article', &$item, &$params, 0));
+				$app->triggerEvent('onContentPrepare', array('mod_articles_news.article', &$item, &$params, 0));
 
-				$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 0));
+				$results                 = $app->triggerEvent('onContentAfterTitle', array('mod_articles_news', &$item, &$params, 0));
 				$item->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 0));
+				$results                    = $app->triggerEvent('onContentBeforeDisplay', array('mod_articles_news', &$item, &$params, 0));
 				$item->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results                   = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 0));
+				$results                   = $app->triggerEvent('onContentAfterDisplay', array('mod_articles_news', &$item, &$params, 0));
 				$item->afterDisplayContent = trim(implode("\n", $results));
 			}
 			else
