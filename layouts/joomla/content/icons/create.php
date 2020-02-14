@@ -20,7 +20,7 @@ $legacy = $displayData['legacy'];
 	<?php if ($legacy) : ?>
 		<?php echo HTMLHelper::_('image', 'system/new.png', Text::_('JNEW'), null, true); ?>
 	<?php else : ?>
-		<span class="fa fa-plus" aria-hidden="true"></span>
+		<span class="fas fa-plus" aria-hidden="true"></span>
 		<?php echo Text::_('JNEW'); ?>
 	<?php endif; ?>
 <?php else : ?>
