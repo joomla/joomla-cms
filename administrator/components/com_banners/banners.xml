@@ -31,7 +31,7 @@
 	</media>
 
 	<administration>
-		<menu img="class:banners">com_banners</menu>
+		<menu img="class:bookmark">com_banners</menu>
 		<submenu>
 			<!--
 				Note that all & must be escaped to &amp; for the file to be valid

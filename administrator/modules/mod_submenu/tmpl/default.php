@@ -19,8 +19,26 @@ use Joomla\CMS\Router\Route;
 	<?php if ($child->hasChildren()) : ?>
 		<div class="module-wrapper">
 			<div class="card">
+				<?php
+				if (substr($child->img, 0, 6) === 'class:')
+					{
+						$iconImage = '<span class="fas fa-' . substr($child->img, 6) . '" aria-hidden="true"></span>';
+					}
+					elseif (substr($child->img, 0, 6) === 'image:')
+					{
+						$iconImage = '<img src="' . substr($child->img, 6) . '" aria-hidden="true">';
+					}
+					elseif (!empty($child->img))
+					{
+						$iconImage = '<img src="' . $child->img . '" aria-hidden="true">';
+					}
+					elseif ($child->icon)
+					{
+						$iconImage = '<span class="fas fa-' . $child->icon . '" aria-hidden="true"></span>';
+					}
+				?>
 				<h2 class="card-header">
-					<?php if ($child->icon) : ?><span class="fas fa-<?php echo $child->icon; ?>" aria-hidden="true"></span><?php endif; ?>
+					<?php echo $iconImage; ?>
 					<?php echo Text::_($child->title); ?>
 				</h2>
 				<ul class="list-group list-group-flush">
