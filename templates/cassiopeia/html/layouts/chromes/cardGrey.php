@@ -25,7 +25,7 @@ $headerClass = htmlspecialchars($params->get('header_class', ''));
 
 ?>
 <<?php echo $moduleTag; ?> class="<?php echo $modulePos; ?> card card-grey <?php echo htmlspecialchars($params->get('moduleclass_sfx')); ?>">
-	<?php if ($module->showtitle and $headerClass !== 'card-title') : ?>
+	<?php if ($module->showtitle && $headerClass !== 'card-title') : ?>
 		<<?php echo $headerTag; ?> class="card-header <?php echo $headerClass; ?>"><?php echo $module->title; ?></<?php echo $headerTag; ?>>
 	<?php endif; ?>
 	<div class="card-body">
