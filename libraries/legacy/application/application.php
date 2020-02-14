@@ -3,7 +3,7 @@
  * @package     Joomla.Legacy
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1041,7 +1041,7 @@ class JApplication extends BaseApplication
 		$query = $db->getQuery(true)
 			->select($db->quoteName('session_id'))
 			->from($db->quoteName('#__session'))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($session->getId()));
+			->where($db->quoteName('session_id') . ' = ' . $db->quoteBinary($session->getId()));
 
 		$db->setQuery($query, 0, 1);
 		$exists = $db->loadResult();

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,9 +18,7 @@ use Joomla\CMS\Http\TransportInterface;
 /**
  * Wrapper class for HttpFactory
  *
- * @package     Joomla.Platform
- * @subpackage  Http
- * @since       3.4
+ * @since  3.4
  */
 class FactoryWrapper
 {

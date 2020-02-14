@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.isis
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       3.0
  */
@@ -89,7 +89,7 @@ if ($displayHeader)
 	// Logo file
 	if ($this->params->get('logoFile'))
 	{
-		$logo = JUri::root() . $this->params->get('logoFile');
+		$logo = JUri::root() . htmlspecialchars($this->params->get('logoFile'), ENT_QUOTES);
 	}
 	else
 	{

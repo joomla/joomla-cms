@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -427,7 +427,6 @@ class PlgEditorTinymce extends JPlugin
 		$plugins  = array(
 			'autolink',
 			'lists',
-			'save',
 			'colorpicker',
 			'importcss',
 		);
@@ -657,7 +656,8 @@ class PlgEditorTinymce extends JPlugin
 			'templates'          => $templates,
 			'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
 			'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
-
+			'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
+			'elementpath'        => (bool) $levelParams->get('element_path', true),
 		)
 		);
 
@@ -840,7 +840,7 @@ class PlgEditorTinymce extends JPlugin
 				$btnsNames[] = $name . ' | ';
 
 				// The array with code for each button
-				$tinyBtns[] = implode($tempConstructor, '');
+				$tinyBtns[] = implode('', $tempConstructor);
 			}
 		}
 

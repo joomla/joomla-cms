@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -109,37 +109,38 @@ class UsersModelMail extends JModelAdmin
 			return false;
 		}
 
-		// Get users in the group out of the ACL
-		$to = $access->getUsersByGroup($grp, $recurse);
+		// Get users in the group out of the ACL, if group is provided.
+		$to = $grp !== 0 ? $access->getUsersByGroup($grp, $recurse) : array();
 
-		// Get all users email and group except for senders
-		$query = $db->getQuery(true)
-			->select('email')
-			->from('#__users')
-			->where('id != ' . (int) $user->get('id'));
-
-		if ($grp !== 0)
+		// When group is provided but no users are found in the group.
+		if ($grp !== 0 && !$to)
 		{
-			if (empty($to))
-			{
-				$query->where('0');
-			}
-			else
-			{
-				$query->where('id IN (' . implode(',', $to) . ')');
-			}
+			$rows = array();
 		}
-
-		if ($disabled == 0)
+		else
 		{
-			$query->where('block = 0');
-		}
+			// Get all users email and group except for senders
+			$query = $db->getQuery(true)
+				->select($db->quoteName('email'))
+				->from($db->quoteName('#__users'))
+				->where($db->quoteName('id') . ' != ' . (int) $user->id);
 
-		$db->setQuery($query);
-		$rows = $db->loadColumn();
+			if ($grp !== 0)
+			{
+				$query->where($db->quoteName('id') . ' IN (' . implode(',', $to) . ')');
+			}
+
+			if ($disabled === 0)
+			{
+				$query->where($db->quoteName('block') . ' = 0');
+			}
+
+			$db->setQuery($query);
+			$rows = $db->loadColumn();
+		}
 
 		// Check to see if there are any users in this group before we continue
-		if (!count($rows))
+		if (!$rows)
 		{
 			$app->setUserState('com_users.display.mail.data', $data);
 

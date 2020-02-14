@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -599,7 +599,7 @@ class Access
 
 					// If not full recursive mode, but recursive parent mode, do not add other recursion rules.
 					if (!$recursive && $recursiveParentAsset && self::$assetPermissionsParentIdMapping[$extensionName][$id]->name !== $extensionName
-						&& self::$assetPermissionsParentIdMapping[$extensionName][$id]->id !== $assetId)
+						&& (int) self::$assetPermissionsParentIdMapping[$extensionName][$id]->id !== $assetId)
 					{
 						continue;
 					}

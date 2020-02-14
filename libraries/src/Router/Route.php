@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Router;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 
@@ -68,8 +69,20 @@ class Route
 	{
 		try
 		{
+			// @deprecated  4.0 Before 3.9.7 this method silently converted $tls to integer
+			if (!is_int($tls))
+			{
+				Log::add(
+					__METHOD__ . '() called with incompatible variable type on parameter $tls.',
+					Log::WARNING,
+					'deprecated'
+				);
+
+				$tls = (int) $tls;
+			}
+
 			// @todo  Deprecate in 4.0 Before 3.9.7 this method accepted -1.
-			if ($tls == -1)
+			if ($tls === -1)
 			{
 				$tls = self::TLS_DISABLE;
 			}

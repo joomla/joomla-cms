@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -109,8 +109,9 @@ class AssociationsViewAssociation extends JViewLegacy
 		$referenceId   = $input->get('id', 0, 'int');
 		$reference     = ArrayHelper::fromObject(AssociationsHelper::getItem($extensionName, $typeName, $referenceId));
 
-		$this->referenceLanguage = $reference[$languageField];
-		$this->referenceTitle    = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
+		$this->referenceLanguage   = $reference[$languageField];
+		$this->referenceTitle      = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
+		$this->referenceTitleValue = $reference[$this->referenceTitle];
 
 		$options = array(
 			'option'    => $typeName === 'category' ? 'com_categories' : $extensionName,

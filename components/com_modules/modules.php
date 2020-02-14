@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 $lang   = JFactory::getLanguage();
 $app    = JFactory::getApplication();
 $config = array();
-$lang->load('joomla', JPATH_ADMINISTRATOR);
 $lang->load('com_modules', JPATH_ADMINISTRATOR);
 
 if ($app->input->get('view') === 'modules' && $app->input->get('layout') === 'modal')

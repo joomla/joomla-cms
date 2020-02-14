@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,9 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Update site table
  * Stores the update sites for extensions
  *
- * @package     Joomla.Platform
- * @subpackage  Table
- * @since       3.4
+ * @since  3.4
  */
 class UpdateSite extends Table
 {

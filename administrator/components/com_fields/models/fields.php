@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -44,7 +44,7 @@ class FieldsModelFields extends JModelList
 				'checked_out_time', 'a.checked_out_time',
 				'created_time', 'a.created_time',
 				'created_user_id', 'a.created_user_id',
-				'category_title',
+				'group_title', 'g.title',
 				'category_id', 'a.category_id',
 				'group_id', 'a.group_id',
 				'assigned_cat_ids'

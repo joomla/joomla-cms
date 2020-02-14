@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -744,19 +744,14 @@ class FieldsModelField extends JModelAdmin
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id) || $record->state != -2)
 		{
-			if ($record->state != -2)
-			{
-				return false;
-			}
-
-			$parts = FieldsHelper::extract($record->context);
-
-			return JFactory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
+			return false;
 		}
 
-		return false;
+		$parts = FieldsHelper::extract($record->context);
+
+		return JFactory::getUser()->authorise('core.delete', $parts[0] . '.field.' . (int) $record->id);
 	}
 
 	/**

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -58,6 +58,9 @@ class ConfigModelApplication extends ConfigModelForm
 		// Get the config data.
 		$config = new JConfig;
 		$data   = ArrayHelper::fromObject($config);
+
+		// Get the correct driver at runtime
+		$data['dbtype'] = JFactory::getDbo()->getName();
 
 		// Prime the asset_id for the rules.
 		$data['asset_id'] = 1;

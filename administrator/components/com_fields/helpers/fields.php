@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -112,6 +112,7 @@ class FieldsHelper
 		}
 
 		self::$fieldsCache->setState('filter.context', $context);
+		self::$fieldsCache->setState('filter.assigned_cat_ids', array());
 
 		/*
 		 * If item has assigned_cat_ids parameter display only fields which
@@ -585,27 +586,6 @@ class FieldsHelper
 
 		// Display field on form
 		return true;
-	}
-
-	/**
-	 * Adds Count Items for Category Manager.
-	 *
-	 * @param   stdClass[]  &$items  The fieldgroup objects
-	 *
-	 * @return  stdClass[]
-	 *
-	 * @since   3.7.0
-	 */
-	public static function countItems(&$items)
-	{
-		$config = (object) array(
-			'related_tbl'   => 'fields',
-			'state_col'     => 'state',
-			'group_col'     => 'group_id',
-			'relation_type' => 'category_or_group',
-		);
-
-		return parent::countRelations($items, $config);
 	}
 
 	/**

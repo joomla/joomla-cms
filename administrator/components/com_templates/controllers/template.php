@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -320,6 +320,9 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function overrides()
 	{
+		// Check for request forgeries.
+		$this->checkToken('get');
+
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel();
 		$file     = $app->input->get('file');
@@ -345,6 +348,9 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function less()
 	{
+		// Check for request forgeries
+		$this->checkToken();
+
 		$app   = JFactory::getApplication();
 		$model = $this->getModel();
 		$id    = $app->input->get('id');

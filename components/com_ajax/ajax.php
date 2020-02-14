@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,8 +18,9 @@ defined('_JEXEC') or die;
  * - https://groups.google.com/d/msg/joomla-dev-cms/WsC0nA9Fixo/Ur-gPqpqh-EJ
  */
 
-// Reference global application object
+/** @var \Joomla\CMS\Application\CMSApplication $app */
 $app = JFactory::getApplication();
+$app->allowCache(false);
 
 // JInput object
 $input = $app->input;

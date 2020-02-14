@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -302,7 +302,7 @@ class RedisStorage extends CacheStorage
 			return false;
 		}
 
-		return (bool) static::$_redis->delete($this->_getCacheId($id, $group));
+		return (bool) static::$_redis->del($this->_getCacheId($id, $group));
 	}
 
 	/**
@@ -338,12 +338,12 @@ class RedisStorage extends CacheStorage
 		{
 			if (strpos($key, $secret . '-cache-' . $group . '-') === 0 && $mode == 'group')
 			{
-				static::$_redis->delete($key);
+				static::$_redis->del($key);
 			}
 
 			if (strpos($key, $secret . '-cache-' . $group . '-') !== 0 && $mode != 'group')
 			{
-				static::$_redis->delete($key);
+				static::$_redis->del($key);
 			}
 		}
 
