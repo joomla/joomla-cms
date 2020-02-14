@@ -390,7 +390,7 @@ class LanguageAdapter extends InstallerAdapter
 				}
 				else
 				{
-					// If the admin exists say so.
+					// If the api exists say so.
 					Log::add(
 						Text::sprintf('JLIB_INSTALLER_ABORT',
 							Text::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_api'))
