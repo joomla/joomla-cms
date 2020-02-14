@@ -36,6 +36,10 @@ use Joomla\CMS\Router\Route;
 					{
 						$iconImage = '<span class="fas fa-' . $child->icon . '" aria-hidden="true"></span>';
 					}
+					else
+					{
+						$iconImage = '';
+					}
 				?>
 				<h2 class="card-header">
 					<?php echo $iconImage; ?>
