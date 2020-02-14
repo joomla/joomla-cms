@@ -87,8 +87,14 @@
 
       &.active {
         color: var(--white);
-        background: $custom-select-bg $custom-select-indicator-active no-repeat right center;
+        background: $custom-select-indicator-active no-repeat right center;
+        background-color: $custom-select-bg;
         background-size: $custom-select-bg-size;
+
+        [dir=rtl] & {
+          background: $custom-select-indicator-active-rtl no-repeat left center;
+          background-color: $custom-select-bg;
+        }
       }
 
       option {
@@ -137,7 +143,9 @@
       }
 
       @include media-breakpoint-down(xs) {
-        margin-right: .5rem;
+        [dir=ltr] & {
+          margin-right: 0;
+        }
 
         [dir=rtl] & {
           margin-left: 0;
@@ -167,7 +175,6 @@
       }
 
       [dir=rtl] & {
-        //margin-right: 0;
         margin-left: 0;
       }
     }
@@ -176,14 +183,6 @@
       @include media-breakpoint-down(sm) {
         max-width: 100%;
         margin-right: 0;
-
-        [dir=rtl] & {
-          margin-right: 0;
-        }
-      }
-
-      @include media-breakpoint-down(xs) {
-        margin-right: .5rem;
 
         [dir=rtl] & {
           margin-right: 0;
@@ -252,6 +251,10 @@
         }
 
         @include media-breakpoint-down(sm) {
+          [dir=ltr] & {
+            margin-right: 0 !important;
+          }
+
           [dir=rtl] & {
             margin-left: 0 !important;
           }
@@ -270,7 +273,7 @@
       .js-stools-btn-filter {
         border-right: 1px solid var(--border);
 
-        .fa {
+        .fas {
           margin-left: 0.25rem;
         }
       }

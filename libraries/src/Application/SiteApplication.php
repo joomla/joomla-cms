@@ -159,15 +159,6 @@ final class SiteApplication extends CMSApplication
 				$languages = LanguageHelper::getLanguages('lang_code');
 
 				// Set metadata
-				if (isset($languages[$lang_code]) && $languages[$lang_code]->metakey)
-				{
-					$document->setMetaData('keywords', $languages[$lang_code]->metakey);
-				}
-				else
-				{
-					$document->setMetaData('keywords', $this->get('MetaKeys'));
-				}
-
 				$document->setMetaData('rights', $this->get('MetaRights'));
 
 				// Get the template
@@ -682,8 +673,8 @@ final class SiteApplication extends CMSApplication
 		 * Try the lib_joomla file in the current language (without allowing the loading of the file in the default language)
 		 * Fallback to the default language if necessary
 		 */
-		$this->getLanguage()->load('lib_joomla', JPATH_SITE, null, false, true)
-			|| $this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR, null, false, true);
+		$this->getLanguage()->load('lib_joomla', JPATH_SITE)
+			|| $this->getLanguage()->load('lib_joomla', JPATH_ADMINISTRATOR);
 	}
 
 	/**
