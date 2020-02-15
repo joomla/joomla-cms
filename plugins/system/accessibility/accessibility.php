@@ -22,14 +22,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 class PlgSystemAccessibility extends CMSPlugin
 {
 	/**
-	 * If true, language files will be loaded automatically.
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
@@ -46,11 +38,24 @@ class PlgSystemAccessibility extends CMSPlugin
 	 */
 	public function onBeforeCompileHead()
 	{
-		// Get the document object.
-		$document = Factory::getDocument();
+		$section = $this->params->get('section', 'administrator');
 
-		if ($this->app->isClient('administrator'))
+		if ($section !== 'both' && $this->app->isClient($section) !== true)
 		{
+			return;
+		}
+
+		// Get the document object.
+		$document = $this->app->getDocument();
+
+		if ($document->getType() !== 'html')
+		{
+			return;
+		}
+
+		// Load language file.
+		$this->loadLanguage();
+
 		/**
 		* Add strings for translations in Javascript.
 		* HELP Please on commented code
@@ -58,18 +63,18 @@ class PlgSystemAccessibility extends CMSPlugin
 		*/
 		// Factory::getDocument()->addScriptOptions(
 		// 	var labels = {
-		// 		menuTitle: PLG_SYSTEM_ACCESSIBILITY_MENU_TITLE,
-		// 		increaseText: PLG_SYSTEM_ACCESSIBILITY_INCREASE_TEXT,
-		// 		decreaseText: PLG_SYSTEM_ACCESSIBILITY_DECREASE_TEXT,
-		// 		increaseTextSpacing: PLG_SYSTEM_ACCESSIBILITY_INCREASE_SPACING,
-		// 		decreaseTextSpacing: PLG_SYSTEM_ACCESSIBILITY_DECREASE_SPACING,
-		// 		invertColors: PLG_SYSTEM_ACCESSIBILITY_INVERT_COLORS,
-		// 		grayHues: PLG_SYSTEM_ACCESSIBILITY_GREY,
-		// 		underlineLinks: PLG_SYSTEM_ACCESSIBILITY_UNDERLINE,
-		// 		bigCursor: PLG_SYSTEM_ACCESSIBILITY_CURSOR,
-		// 		readingGuide: PLG_SYSTEM_ACCESSIBILITY_READING,
-		// 		textToSpeech: PLG_SYSTEM_ACCESSIBILITY_TTS,
-		// 		speechToText: PLG_SYSTEM_ACCESSIBILITY_STT
+		// 		menuTitle:  Text::_('PLG_SYSTEM_ACCESSIBILITY_MENU_TITLE'),
+		// 		increaseText:  Text::_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_TEXT'),
+		// 		decreaseText:  Text::_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_TEXT'),
+		// 		increaseTextSpacing:  Text::_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_SPACING'),
+		// 		decreaseTextSpacing:  Text::_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_SPACING'),
+		// 		invertColors:  Text::_('PLG_SYSTEM_ACCESSIBILITY_INVERT_COLORS'),
+		// 		grayHues:  Text::_('PLG_SYSTEM_ACCESSIBILITY_GREY'),
+		// 		underlineLinks:  Text::_('PLG_SYSTEM_ACCESSIBILITY_UNDERLINE'),
+		// 		bigCursor: Text::_(' PLG_SYSTEM_ACCESSIBILITY_CURSOR'),
+		// 		readingGuide:  Text::_('PLG_SYSTEM_ACCESSIBILITY_READING'),
+		// 		textToSpeech:  Text::_('PLG_SYSTEM_ACCESSIBILITY_TTS'),
+		// 		speechToText:  Text::_('PLG_SYSTEM_ACCESSIBILITY_STT')
 
 		// 	};
 		// 	var options = { labels: labels };
@@ -78,6 +83,6 @@ class PlgSystemAccessibility extends CMSPlugin
 		HTMLHelper::_('script', 'vendor/accessibility/accessibility.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 	//	$document->addScriptDeclaration("window.addEventListener('load', function() { new Accessibility(options); }, false);");
 		$document->addScriptDeclaration("window.addEventListener('load', function() { new Accessibility(); }, false);");
-		}
+
 	}
 }
