@@ -39,9 +39,8 @@
     if (batchCopyMove) {
       try {
         batchSelector.addEventListener('change', onChange);
-      } catch (err) {
-        return null;
-      }
+        // eslint-disable-next-line no-empty
+      } catch (err) { return; }
     }
 
     // Cleanup
