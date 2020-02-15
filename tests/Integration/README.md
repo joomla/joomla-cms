@@ -8,7 +8,7 @@ When you are checking out the current development branch of 4.0 and run `compose
 
 1. Checkout the current Joomla 4.0 development branch from Github. (https://github.com/joomla/joomla-cms.git Branch `4.0-dev`)
 2. Run `composer install` in the root of your checkout.
-3. Edit configuration file `./phpunit.xml.dist`. Within the `<php>` adapt 
+3. Copy `./phpunit.xml.dist` to `./phpunit.xml`. Edit configuration file `./phpunit.xml`. Within the `<php>` adapt 
 `JTEST_DB_ENGINE`, `JTEST_DB_HOST`, `JTEST_DB_NAME`, `JTEST_DB_USER`, and `JTEST_DB_PASSWORD`
 to your local environment.
 ```
