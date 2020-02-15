@@ -165,7 +165,7 @@
 
     &.warning,
     &.danger {
-      background: $danger-bg;
+      background: var(--danger);
       border: 1px solid lighten($danger-txt, 30%);
       color: $danger-txt;
 
@@ -188,7 +188,7 @@
     }
 
     &.success {
-      color: $success-txt;
+      color: var(--success);
       border: 1px solid lighten($success-txt, 20%);
 
       .fas,

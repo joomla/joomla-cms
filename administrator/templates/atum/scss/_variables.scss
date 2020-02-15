@@ -17,7 +17,7 @@ $black:                            #000;    //used for shadows
 $focuscolor:                       #39f;   //used for focus color
 $dark-blue:                        #001B4C; //is the atum-special-color
 $light-blue:                       #2a69b8; //is the atum-link-color
-
+$focusshadow:                        0 0 0 .2rem #d3e2f5;
 
 // BS Colours
 $blue:                             hsl(213, 63, 44%); // base color for calculation, Primary-color
@@ -32,7 +32,6 @@ $green-dark:                       #0f2f21; //used for alert success
 $teal:                             #20c997; //used in bootstrap
 $cyan:                             #107D8E; //used in bootstrap
 $darkblue:                         #3b4a5c;
-
 $base-color:                       $darkblue;
 
 $theme-colors: ();
@@ -66,6 +65,7 @@ $colors: (
   border:                          $gray-400,
   white-offset:                    $whiteoffset,
   focus:                           $focuscolor,
+  focus-shadow:                    $focusshadow,
   toggle-color:                    $white, //used in sidebar
   atum-sidebar-bg:                 $white,
   atum-sidebar-font-color:         #3b4a5c,
