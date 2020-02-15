@@ -484,6 +484,13 @@
             ]
           }
         ]
+			},
+			"accessibility": {
+        "name": "accessibility",
+        "licenseFilename": "LICENSE",
+        "js": {
+          "dist/accessibility.min.js": "js/accessibility.js"
+        }
       },
       "metismenujs": {
         "name": "metismenujs",
