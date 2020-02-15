@@ -32,7 +32,7 @@ to your local environment.
 </phpunit>
 ```
 4. Run `./libraries/vendor/bin/phpunit --testsuite Integration`. 
-You should now see on command line something like this:
+You should now see on the command line something like this:
 
 ```
 $ ./libraries/vendor/bin/phpunit --testsuite Integration
