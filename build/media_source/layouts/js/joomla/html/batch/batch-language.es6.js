@@ -37,7 +37,11 @@
     }
 
     if (batchCopyMove) {
-      batchSelector.addEventListener('change', onChange);
+      try {
+        batchSelector.addEventListener('change', onChange);
+      } catch (err) {
+        return null;
+      }
     }
 
     // Cleanup
