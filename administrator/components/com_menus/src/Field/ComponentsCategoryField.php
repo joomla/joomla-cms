@@ -54,7 +54,7 @@ class ComponentsCategoryField extends ListField
 
 		foreach ($categoryTypes as $categoryType)
 		{
-			$option        = new \stdClass();
+			$option        = new \stdClass;
 			$option->value = $categoryType;
 
 			// Extract the component name and optional section name
