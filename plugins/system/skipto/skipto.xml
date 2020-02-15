@@ -13,8 +13,8 @@
 		<filename plugin="skipto">skipto.php</filename>
 	</files>
 	<languages folder="admin">
-		<language tag="en-GB">language/en-GB/en-GB.plg_system_skipto.ini</language>
-		<language tag="en-GB">language/en-GB/en-GB.plg_system_skipto.sys.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_skipto.ini</language>
+		<language tag="en-GB">language/en-GB/plg_system_skipto.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
