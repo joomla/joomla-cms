@@ -148,11 +148,11 @@ else
 	echo '<span>' . Text::_($current->title) . '</span>' . $ajax;
 }
 
-if ($currentParams->get('menu-quicktask', false))
+if ($currentParams->get('menu-quicktask') && $this->params->get('shownew', 1) === 1)
 {
 	$params = $current->getParams();
 	$user = $this->application->getIdentity();
-	$link = $params->get('menu-quicktask-link');
+	$link = $params->get('menu-quicktask');
 	$icon = $params->get('menu-quicktask-icon', 'plus');
 	$title = $params->get('menu-quicktask-title', 'MOD_MENU_QUICKTASK_NEW');
 	$permission = $params->get('menu-quicktask-permission');

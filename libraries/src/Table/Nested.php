@@ -1427,7 +1427,7 @@ class Nested extends Table
 		$segments = $this->_db->loadColumn();
 
 		// Make sure to remove the root path if it exists in the list.
-		if ($segments[0] == 'root')
+		if ($segments[0] === 'root')
 		{
 			array_shift($segments);
 		}
