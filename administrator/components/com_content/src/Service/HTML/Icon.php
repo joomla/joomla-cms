@@ -175,7 +175,7 @@ class Icon
 		}
 
 		$contentUrl = RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language);
-		$url        = $contentUrl . '&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
+		$url        = $contentUrl . '&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri) . '&tmpl=component';
 
 		if ($article->state == Workflow::CONDITION_UNPUBLISHED)
 		{

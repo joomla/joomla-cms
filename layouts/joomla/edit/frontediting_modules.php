@@ -37,7 +37,7 @@ $editUrl = Uri::base() . 'administrator/index.php?option=com_modules&task=module
 
 if ($parameters->get('redirect_edit', 'site') === 'site')
 {
-	$editUrl = Uri::base() . 'index.php?option=com_config&view=modules&id=' . (int) $mod->id . '&Itemid=' . $itemid . $redirectUri;
+	$editUrl = Uri::base() . 'index.php?option=com_config&view=modules&id=' . (int) $mod->id . '&Itemid=' . $itemid . $redirectUri . '&tmpl=component';
 	$target  = '_self';
 }
 
