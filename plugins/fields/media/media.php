@@ -40,10 +40,12 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 
 		json_decode($field->value);
 
-		if ($field->value === '' || json_last_error() === JSON_ERROR_NONE)
+		if ($field->value !== '' || json_last_error() !== JSON_ERROR_NONE)
 		{
-			$fieldNode->setAttribute('type', 'accessiblemedia');
+			$field->apivalue = $this->checkValue($field->value);
 		}
+
+		$fieldNode->setAttribute('type', 'accessiblemedia');
 
 		return $fieldNode;
 	}
@@ -66,11 +68,11 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 		{
 			return;
 		}
-		
+
 		// Check if the field value is an old (string) value
 		$field->apivalue = $this->checkValue($field->value);
 	}
-	
+
 	private function checkValue($value)
 	{
 		json_decode($value);
@@ -79,7 +81,7 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 		{
 			return (array) json_decode($value, true);
 		}
-		
-		return array('imagefile' => $value, 'alt_text' => '');	
+
+		return array('imagefile' => $value, 'alt_text' => '');
 	}
 }
