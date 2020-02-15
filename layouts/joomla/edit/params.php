@@ -147,7 +147,6 @@ foreach ($fieldSets as $name => $fieldSet)
 			echo '<legend>' . $label . '</legend>';
 			echo $label=="Layout Builder" ?'<div class="">':'<div class="column-count-md-2 column-count-lg-3">';
 
-
 			$opentab = 2;
 		}
 	}
