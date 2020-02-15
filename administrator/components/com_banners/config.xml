@@ -34,6 +34,18 @@
 		</field>
 
 		<field
+			name="track_robots_impressions"
+			type="radio"
+			label="COM_BANNERS_FIELD_TRACKROBOTSIMPRESSION_LABEL"
+			description="COM_BANNERS_FIELD_TRACKROBOTSIMPRESSION_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="track_clicks"
 			type="radio"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
@@ -75,7 +87,7 @@
 
 		<field
 			name="history_limit"
-			type="text"
+			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			description="JGLOBAL_HISTORY_LIMIT_OPTIONS_DESC"
 			filter="integer"

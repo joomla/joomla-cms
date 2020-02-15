@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -123,7 +123,7 @@ class AdministratorApplication extends CMSApplication
 		$this->initialiseApp($options);
 
 		// Test for magic quotes
-		if (get_magic_quotes_gpc())
+		if (PHP_VERSION_ID < 50400 && get_magic_quotes_gpc())
 		{
 			$lang = $this->getLanguage();
 
@@ -421,16 +421,30 @@ class AdministratorApplication extends CMSApplication
 		// Safety check for when configuration.php root_user is in use.
 		$rootUser = $this->get('root_user');
 
-		if (property_exists('\JConfig', 'root_user')
-			&& (\JFactory::getUser()->get('username') === $rootUser || \JFactory::getUser()->id === (string) $rootUser))
+		if (property_exists('\JConfig', 'root_user'))
 		{
-			$this->enqueueMessage(
-				\JText::sprintf(
-					'JWARNING_REMOVE_ROOT_USER',
-					'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'
-				),
-				'notice'
-			);
+			if (\JFactory::getUser()->get('username') === $rootUser || \JFactory::getUser()->id === (string) $rootUser)
+			{
+				$this->enqueueMessage(
+					\JText::sprintf(
+						'JWARNING_REMOVE_ROOT_USER',
+						'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'
+					),
+					'error'
+				);
+			}
+			// Show this message to superusers too
+			elseif (\JFactory::getUser()->authorise('core.admin'))
+			{
+				$this->enqueueMessage(
+					\JText::sprintf(
+						'JWARNING_REMOVE_ROOT_USER_ADMIN',
+						$rootUser,
+						'index.php?option=com_config&task=config.removeroot&' . \JSession::getFormToken() . '=1'
+					),
+					'error'
+				);
+			}
 		}
 
 		parent::render();

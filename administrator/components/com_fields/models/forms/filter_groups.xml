@@ -11,6 +11,8 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
+			description="COM_FIELDS_GROUPS_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
 			class="js-stools-search-string"
 		/>
@@ -47,6 +49,7 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.ordering ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

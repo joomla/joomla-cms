@@ -224,6 +224,7 @@ ALTER TABLE `#__banners` ADD KEY `idx_metakey_prefix` (`metakey_prefix`(100));
 ALTER TABLE `#__banner_clients` ADD KEY `idx_metakey_prefix` (`metakey_prefix`(100));
 ALTER TABLE `#__categories` ADD KEY `idx_path` (`path`(100));
 ALTER TABLE `#__categories` ADD KEY `idx_alias` (`alias`(100));
+ALTER TABLE `#__content` ADD KEY `idx_alias` (`alias`(191));
 ALTER TABLE `#__content_types` ADD KEY `idx_alias` (`type_alias`(100));
 ALTER TABLE `#__fields` ADD KEY `idx_context` (`context`(191));
 ALTER TABLE `#__fields_groups` ADD KEY `idx_context` (`context`(191));

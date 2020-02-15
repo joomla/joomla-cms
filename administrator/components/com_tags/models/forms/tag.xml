@@ -2,7 +2,7 @@
 <form>
 	<field
 		name="id"
-		type="text"
+		type="number"
 		label="JGLOBAL_FIELD_ID_LABEL"
 		description="JGLOBAL_FIELD_ID_DESC"
 		default="0"
@@ -12,7 +12,7 @@
 
 	<field
 		name="hits"
-		type="text"
+		type="number"
 		label="JGLOBAL_HITS"
 		description="COM_TAGS_FIELD_HITS_DESC"
 		class="readonly"
@@ -210,7 +210,7 @@
 		<option value="*">JALL</option>
 	</field>
 
-	<field 
+	<field
 		name="version_note"
 		type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
