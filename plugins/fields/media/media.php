@@ -40,12 +40,9 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 
 		json_decode($field->value);
 
-		if ($field->value !== '' || json_last_error() !== JSON_ERROR_NONE)
-		{
-			$field->apivalue = $this->checkValue($field->value);
-			$field->rawvalue = $this->checkValue($field->value);
-			$field->value = $this->checkValue($field->value);
-		}
+		$field->apivalue = $this->checkValue($field->value);
+		$field->rawvalue = $this->checkValue($field->value);
+		$field->value = $this->checkValue($field->value);
 
 		$fieldNode->setAttribute('type', 'accessiblemedia');
 
