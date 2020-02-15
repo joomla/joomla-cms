@@ -61,22 +61,26 @@ class PlgSystemAccessibility extends CMSPlugin
 		* HELP Please on commented code
 		* Reference  https://ranbuch.github.io/accessibility/
 		*/
-		// Factory::getDocument()->addScriptOptions(
-		// 	var labels = {
-		// 		menuTitle:  Text::_('PLG_SYSTEM_ACCESSIBILITY_MENU_TITLE'),
-		// 		increaseText:  Text::_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_TEXT'),
-		// 		decreaseText:  Text::_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_TEXT'),
-		// 		increaseTextSpacing:  Text::_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_SPACING'),
-		// 		decreaseTextSpacing:  Text::_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_SPACING'),
-		// 		invertColors:  Text::_('PLG_SYSTEM_ACCESSIBILITY_INVERT_COLORS'),
-		// 		grayHues:  Text::_('PLG_SYSTEM_ACCESSIBILITY_GREY'),
-		// 		underlineLinks:  Text::_('PLG_SYSTEM_ACCESSIBILITY_UNDERLINE'),
-		// 		bigCursor: Text::_(' PLG_SYSTEM_ACCESSIBILITY_CURSOR'),
-		// 		readingGuide:  Text::_('PLG_SYSTEM_ACCESSIBILITY_READING'),
-		// 		textToSpeech:  Text::_('PLG_SYSTEM_ACCESSIBILITY_TTS'),
-		// 		speechToText:  Text::_('PLG_SYSTEM_ACCESSIBILITY_STT')
+			$document->addScriptOptions(
+			'accessibility-options',
+				[
+					'labels' => [
+						'menuTitle'           => Text::_('PLG_SYSTEM_ACCESSIBILITY_MENU_TITLE'),
+						'increaseText'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_TEXT'),
+						'decreaseText'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_TEXT'),
+						'increaseTextSpacing' => Text::_('PLG_SYSTEM_ACCESSIBILITY_INCREASE_SPACING'),
+						'decreaseTextSpacing' => Text::_('PLG_SYSTEM_ACCESSIBILITY_DECREASE_SPACING'),
+						'invertColors'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_INVERT_COLORS'),
+						'grayHues'            => Text::_('PLG_SYSTEM_ACCESSIBILITY_GREY'),
+						'underlineLinks'      => Text::_('PLG_SYSTEM_ACCESSIBILITY_UNDERLINE'),
+						'bigCursor'           => Text::_(' PLG_SYSTEM_ACCESSIBILITY_CURSOR'),
+						'readingGuide'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_READING'),
+						'textToSpeech'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_TTS'),
+						'speechToText'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_STT'),
+					]
+				]
+			);
 
-		// 	};
 		// 	var options = { labels: labels };
 		// 	);
 
