@@ -8,4 +8,4 @@ When you are checking out the current development branch of 4.0 and run `compose
 
 1. Checkout the current Joomla 4.0 development branch from Github. (https://github.com/joomla/joomla-cms.git Branch `4.0-dev`)
 2. Run `composer install` in the root of your checkout.
-3. Run `libraries/vendor/bin/phpunit`.
+3. Run `./libraries/vendor/bin/phpunit --testsuite Integration`.
