@@ -24,6 +24,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 
 /**
  * Language Installer model for the Joomla Core Installer.
@@ -637,8 +638,7 @@ class LanguagesModel extends BaseInstallationModel
 	 */
 	public function addModuleLanguageSwitcher()
 	{
-		Table::addIncludePath(JPATH_LIBRARIES . '/legacy/table/');
-		$tableModule = Table::getInstance('Module', 'JTable');
+		$tableModule = Table::getInstance('Module');
 
 		$moduleData  = array(
 			'id'        => 0,
@@ -743,115 +743,6 @@ class LanguagesModel extends BaseInstallationModel
 	}
 
 	/**
-	 * Gets a unique language SEF string.
-	 *
-	 * This function checks other existing language with the same code, if they exist provides a unique SEF name.
-	 * For instance: en-GB, en-US and en-AU will share the same SEF code by default: www.mywebsite.com/en/
-	 * To avoid this conflict, this function creates a specific SEF in case of existing conflict:
-	 * For example: www.mywebsite.com/en-au/
-	 *
-	 * @param   \stdClass    $itemLanguage   Language Object.
-	 * @param   \stdClass[]  $siteLanguages  All Language Objects.
-	 *
-	 * @return  string
-	 *
-	 * @since   3.2
-	 * @depreacted   4.0 Not used anymore.
-	 */
-	public function getSefString($itemLanguage, $siteLanguages)
-	{
-		$langs = explode('-', $itemLanguage->language);
-		$prefixToFind = $langs[0];
-
-		$numberPrefixesFound = 0;
-
-		foreach ($siteLanguages as $siteLang)
-		{
-			$langs = explode('-', $siteLang->language);
-			$lang  = $langs[0];
-
-			if ($lang == $prefixToFind)
-			{
-				++$numberPrefixesFound;
-			}
-		}
-
-		if ($numberPrefixesFound == 1)
-		{
-			return $prefixToFind;
-		}
-
-		return strtolower($itemLanguage->language);
-	}
-
-	/**
-	 * Add a Content Language.
-	 *
-	 * @param   \stdClass  $itemLanguage   Language Object.
-	 * @param   string     $sefLangString  String to use for SEF so it doesn't conflict.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.2
-	 * @depreacted   4.0 Not used anymore.
-	 */
-	public function addLanguage($itemLanguage, $sefLangString)
-	{
-		$tableLanguage = Table::getInstance('Language');
-
-		$flag = strtolower(str_replace('-', '_',  $itemLanguage->language));
-
-		// Load the native language name.
-		$installationLocalisedIni = new Language($itemLanguage->language, false);
-		$nativeLanguageName       = $installationLocalisedIni->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
-
-		// If the local name do not exist in the translation file we use the international standard name.
-		if ($nativeLanguageName == 'INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME')
-		{
-			$nativeLanguageName = $itemLanguage->name;
-		}
-
-		$langData = array(
-			'lang_id'      => 0,
-			'lang_code'    => $itemLanguage->language,
-			'title'        => $itemLanguage->name,
-			'title_native' => $nativeLanguageName,
-			'sef'          => $sefLangString,
-			'image'        => $flag,
-			'published'    => 1,
-			'ordering'     => 0,
-			'description'  => '',
-			'metadesc'     => '',
-		);
-
-		// Bind the data.
-		if (!$tableLanguage->bind($langData))
-		{
-			return false;
-		}
-
-		// Check the data.
-		if (!$tableLanguage->check())
-		{
-			return false;
-		}
-
-		// Store the data.
-		if (!$tableLanguage->store())
-		{
-			return false;
-		}
-
-		// Reorder the data.
-		if (!$tableLanguage->reorder())
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Add Menu Group.
 	 *
 	 * @param   \stdClass  $itemLanguage  Language Object.
@@ -862,12 +753,11 @@ class LanguagesModel extends BaseInstallationModel
 	 */
 	public function addMenuGroup($itemLanguage)
 	{
-		// Add menus.
-		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
+		/** @var \Joomla\Component\Menus\Administrator\Extension\MenusComponent $menusExtension */
+		$menusExtension = $this->bootComponent('com_menus');
+		$tableMenu = $menusExtension->getMVCFactory()->createTable('MenuType', 'Administrator');
 
 		// Add Menu Group.
-		$tableMenu = Table::getInstance('Type', 'JTableMenu');
-
 		$menuData = array(
 			'id'          => 0,
 			'menutype'    => 'mainmenu-' . strtolower($itemLanguage->language),
@@ -908,7 +798,9 @@ class LanguagesModel extends BaseInstallationModel
 	public function addFeaturedMenuItem($itemLanguage)
 	{
 		// Add Menu Item.
-		$tableItem = Table::getInstance('Menu', 'MenusTable');
+		/** @var \Joomla\Component\Menus\Administrator\Extension\MenusComponent $menusExtension */
+		$menusExtension = $this->bootComponent('com_menus');
+		$tableItem = $menusExtension->getMVCFactory()->createTable('Menu', 'Administrator');
 
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('com_languages', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
@@ -980,7 +872,9 @@ class LanguagesModel extends BaseInstallationModel
 	public function addAllCategoriesMenuItem($itemLanguage)
 	{
 		// Add Menu Item.
-		$tableItem = Table::getInstance('Menu', 'MenusTable');
+		/** @var \Joomla\Component\Menus\Administrator\Extension\MenusComponent $menusExtension */
+		$menusExtension = $this->bootComponent('com_menus');
+		$tableItem = $menusExtension->getMVCFactory()->createTable('Menu', 'Administrator');
 
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
@@ -1057,7 +951,7 @@ class LanguagesModel extends BaseInstallationModel
 	 */
 	public function addModuleMenu($itemLanguage)
 	{
-		$tableModule = Table::getInstance('Module', 'JTable');
+		$tableModule = Table::getInstance('Module');
 		$title = 'Main menu ' . $itemLanguage->language;
 
 		$moduleData = array(
@@ -1185,7 +1079,9 @@ class LanguagesModel extends BaseInstallationModel
 		$title = $newlanguage->_('JCATEGORY');
 
 		// Initialize a new category.
-		$category = Table::getInstance('Category');
+		/** @var \Joomla\Component\Categories\Administrator\Extension\CategoriesComponent $categoryExtension */
+		$categoryExtension = $this->bootComponent('com_categories');
+		$category = $categoryExtension->getMVCFactory()->createTable('Category', 'Administrator');
 
 		$data = array(
 			'extension'       => 'com_content',
@@ -1250,7 +1146,9 @@ class LanguagesModel extends BaseInstallationModel
 		$currentDate = Factory::getDate()->toSql();
 
 		// Initialize a new article.
-		$article = Table::getInstance('Content');
+		/** @var \Joomla\Component\Content\Administrator\Extension\ContentComponent $contentExtension */
+		$contentExtension = $this->bootComponent('com_content');
+		$article = $contentExtension->getMVCFactory()->createTable('Article', 'Administrator');
 
 		$data = array(
 			'title'            => $title . ' (' . strtolower($itemLanguage->language) . ')',
@@ -1303,7 +1201,9 @@ class LanguagesModel extends BaseInstallationModel
 
 		$query = $db->getQuery(true)
 			->insert($db->quoteName('#__content_frontpage'))
-			->values($newId . ', 0');
+			->columns($db->quoteName(['content_id', 'ordering']))
+			->values(':newId, 0')
+			->bind(':newId', $newId, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
@@ -1332,7 +1232,9 @@ class LanguagesModel extends BaseInstallationModel
 	public function addBlogMenuItem($itemLanguage, $categoryId)
 	{
 		// Add Menu Item.
-		$tableItem = Table::getInstance('Menu', 'MenusTable');
+		/** @var \Joomla\Component\Menus\Administrator\Extension\MenusComponent $menusExtension */
+		$menusExtension = $this->bootComponent('com_menus');
+		$tableItem = $menusExtension->getMVCFactory()->createTable('Menu', 'Administrator');
 
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('com_languages', JPATH_ADMINISTRATOR, $itemLanguage->language, true);

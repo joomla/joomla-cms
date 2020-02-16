@@ -56,10 +56,9 @@
     Joomla.removeMessages();
 
     Joomla.request({
-      type     : "POST",
-      url      : Jooomla.baseUrl,
-      data     : data,
-      dataType : 'json',
+      method : "POST",
+      url    : Joomla.installationBaseUrl,
+      data   : data,
       onSuccess: function (response, xhr) {
         response = JSON.parse(response);
         var spinnerElement = document.querySelector('joomla-core-loader');
@@ -74,7 +73,7 @@
         } else {
           spinnerElement.parentNode.removeChild(spinnerElement);
           if (response.data && response.data.view) {
-            Install.goToPage(response.data.view, true);
+            Joomla.goToPage(response.data.view, true);
           }
         }
       },
@@ -228,6 +227,16 @@
         }
       }
     });
+  };
+
+  Joomla.changeVisibilityFromCheckbox = function(id, el, value) {
+    const val = document.querySelector('input[name="jform[' + el + ']"]:checked').value;
+    const id_element = document.getElementById(id);
+    if (val === value.toString()) {
+      id_element.style.display = 'block';
+    } else {
+      id_element.style.display = 'none';
+    }
   };
 
   /* Load scripts async */

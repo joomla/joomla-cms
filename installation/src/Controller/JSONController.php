@@ -71,6 +71,11 @@ abstract class JSONController extends BaseController
 	public function checkValidToken()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or $this->sendJsonResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+		if (!Session::checkToken())
+		{
+			$this->sendJsonResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+
+			$this->app->close();
+		}
 	}
 }

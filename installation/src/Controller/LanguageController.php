@@ -16,7 +16,6 @@ use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Table\Table;
 
 /**
  * Language controller class for the Joomla Installer.
@@ -168,8 +167,6 @@ class LanguageController extends JSONController
 			}
 
 			// Add menus
-			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/tables/');
-
 			$siteLanguages       = $model->getInstalledlangsFrontend();
 			$groupedAssociations = array();
 

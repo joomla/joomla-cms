@@ -256,3 +256,7 @@ caption {
   z-index: $zindex-header;
   background-color: $white;
 }
+
+#installLocalisedContent, #activatePluginLanguageCode {
+  display:none;
+}
