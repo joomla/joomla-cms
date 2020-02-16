@@ -58,7 +58,6 @@ class PlgSystemAccessibility extends CMSPlugin
 
 		/**
 		* Add strings for translations in Javascript.
-		* HELP Please on commented code
 		* Reference  https://ranbuch.github.io/accessibility/
 		*/
 			$document->addScriptOptions(
@@ -73,7 +72,7 @@ class PlgSystemAccessibility extends CMSPlugin
 						'invertColors'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_INVERT_COLORS'),
 						'grayHues'            => Text::_('PLG_SYSTEM_ACCESSIBILITY_GREY'),
 						'underlineLinks'      => Text::_('PLG_SYSTEM_ACCESSIBILITY_UNDERLINE'),
-						'bigCursor'           => Text::_(' PLG_SYSTEM_ACCESSIBILITY_CURSOR'),
+						'bigCursor'           => Text::_('PLG_SYSTEM_ACCESSIBILITY_CURSOR'),
 						'readingGuide'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_READING'),
 						'textToSpeech'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_TTS'),
 						'speechToText'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_STT'),
@@ -81,12 +80,13 @@ class PlgSystemAccessibility extends CMSPlugin
 				]
 			);
 
-		// 	var options = { labels: labels };
-		// 	);
-
 		HTMLHelper::_('script', 'vendor/accessibility/accessibility.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
-	//	$document->addScriptDeclaration("window.addEventListener('load', function() { new Accessibility(options); }, false);");
-		$document->addScriptDeclaration("window.addEventListener('load', function() { new Accessibility(); }, false);");
+		$document->addScriptDeclaration("window.addEventListener('load', function() {
+			options = Joomla.getOptions('accessibility-options');
+			new Accessibility(options);
+			},
+			false);"
+		);
 
 	}
 }
