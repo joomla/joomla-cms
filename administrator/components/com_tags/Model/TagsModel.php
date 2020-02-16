@@ -151,7 +151,7 @@ class TagsModel extends ListModel
 		$subQueryCountTaggedItems
 			->select('COUNT(' . $db->quoteName('tag_map.content_item_id') . ')')
 			->from($db->quoteName('#__contentitem_tag_map', 'tag_map'))
-			->where($db->quoteName('tag_map.tag_id') . '= ' . $db->quoteName('a.id'));
+			->where($db->quoteName('tag_map.tag_id') . ' = ' . $db->quoteName('a.id'));
 		$query->select('(' . (string) $subQueryCountTaggedItems . ') AS countTaggedItems');
 
 		// Join over the language
