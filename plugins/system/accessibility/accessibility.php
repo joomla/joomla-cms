@@ -56,6 +56,9 @@ class PlgSystemAccessibility extends CMSPlugin
 		// Load language file.
 		$this->loadLanguage();
 
+		// Determine if it is an LTR or RTL language
+		$direction = Factory::getLanguage()->isRTL() ? 'left' : 'right';
+
 		/**
 		* Add strings for translations in Javascript.
 		* Reference  https://ranbuch.github.io/accessibility/
@@ -76,6 +79,14 @@ class PlgSystemAccessibility extends CMSPlugin
 						'readingGuide'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_READING'),
 						'textToSpeech'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_TTS'),
 						'speechToText'        => Text::_('PLG_SYSTEM_ACCESSIBILITY_STT'),
+					],
+					'icon' => [
+						'position' => [
+							$direction => [
+								'size' => '0',
+								'units' => 'px',
+							]
+						]
 					]
 				]
 			);
