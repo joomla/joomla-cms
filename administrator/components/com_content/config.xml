@@ -325,6 +325,112 @@
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 		</field>
 	</fieldset>
+	<fieldset
+		name="listlayout"
+		label="COM_CONTENT_LIST_LAYOUT"
+		description="COM_CONTENT_LIST_LAYOUT"
+		>
+		<field
+			name="show_list_featured"
+			type="radio"
+			label="COM_CONTENT_LIST_LAYOUT_FEATURED"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		<field
+			name="show_list_alias"
+			type="radio"
+			label="COM_CONTENT_LIST_LAYOUT_ALIAS"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		<field
+			name="show_list_category"
+			type="radio"
+			label="COM_CONTENT_LIST_LAYOUT_CATEGORY"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		<field
+			name="show_list_access"
+			type="radio"
+			label="COM_CONTENT_LIST_LAYOUT_ACCESS"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		<field
+			name="show_list_author"
+			type="radio"
+			label="COM_CONTENT_LIST_LAYOUT_AUTHOR"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		<field
+			name="show_list_date"
+			type="radio"
+			label="COM_CONTENT_LIST_LAYOUT_DATE"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		<field
+			name="show_list_hits"
+			type="radio"
+			label="COM_CONTENT_LIST_LAYOUT_HITS"
+			layout="joomla.form.field.radio.switcher"
+			default="0"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		<field
+			name="show_list_vote"
+			type="radio"
+			label="COM_CONTENT_LIST_LAYOUT_VOTE"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		<field
+			name="show_list_id"
+			type="radio"
+			label="COM_CONTENT_LIST_LAYOUT_ID"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+		<field
+			name="show_list_associations"
+			type="radio"
+			label="COM_CONTENT_LIST_LAYOUT_ASSOCIATIONS"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			>
+			<option value="0">JHIDE</option>
+			<option value="1">JSHOW</option>
+		</field>
+	</fieldset>
 
 	<fieldset
 		name="editinglayout"
