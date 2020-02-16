@@ -143,9 +143,10 @@ foreach ($fieldSets as $name => $fieldSet)
 		// Directly add a fieldset if we have no children
 		if (!$hasChildren)
 		{
+			$id='layout-builder';
 			echo '<fieldset id="fieldset-' . $name . '" class="options-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
 			echo '<legend>' . $label . '</legend>';
-			echo $label === 'Layout Builder' ? '<div>' : '<div class="column-count-md-2 column-count-lg-3">';
+			echo $id==="layout-builder" ? '<div>' : '<div class="column-count-md-2 column-count-lg-3">';
 
 			$opentab = 2;
 		}
