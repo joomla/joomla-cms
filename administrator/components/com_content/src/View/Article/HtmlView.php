@@ -222,7 +222,6 @@ class HtmlView extends BaseHtmlView
 				->task('article.editAssociations');
 		}
 
-
 		$toolbar->divider();
 		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');
 	}
