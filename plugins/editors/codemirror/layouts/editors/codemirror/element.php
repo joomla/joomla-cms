@@ -22,7 +22,6 @@ $cols            = $displayData->cols;
 $rows            = $displayData->rows;
 $content         = $displayData->content;
 $extJS           = JDEBUG ? '.js' : '.min.js';
-$extCSS          = JDEBUG ? '.css' : '.min.css';
 $modifier        = $params->get('fullScreenMod', array()) ? implode(' + ', $params->get('fullScreenMod', array())) . ' + ' : '';
 $basePath        = $displayData->basePath;
 $modePath        = $displayData->modePath;
@@ -36,8 +35,8 @@ $editor          = 'editor="' . ltrim(HTMLHelper::_('script',  $basePath . 'lib/
 $addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '"';
 
 Factory::getDocument()->getWebAssetManager()
-	->registerAndUseStyle('codemirror.lib.main', $basePath . 'lib/codemirror' . $extCSS)
-	->registerAndUseStyle('codemirror.lib.addons', $basePath . 'lib/addons' . $extCSS, [], [], ['codemirror.lib.main'])
+	->registerAndUseStyle('codemirror.lib.main', $basePath . 'lib/codemirror.css')
+	->registerAndUseStyle('codemirror.lib.addons', $basePath . 'lib/addons.css', [], [], ['codemirror.lib.main'])
 	->registerAndUseScript(
 		'webcomponent.editor-codemirror',
 		'plg_editors_codemirror/joomla-editor-codemirror.min.js',

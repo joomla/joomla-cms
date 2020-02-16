@@ -192,12 +192,10 @@ joomla-tab {
 
       &[active],
       &:hover,
-      &:focus
-
-      {
+      &:focus {
         color: var(--atum-text-light);
         background-color: var(--atum-bg-dark);
-             }
+      }
     }
 
     .col-md-6,

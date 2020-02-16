@@ -396,9 +396,17 @@ joomla-toolbar-button {
         }
       }
     }
+
+    @include media-breakpoint-down(xs) {
+      [dir=ltr] & {
+        margin-right: 0 !important;
+      }
+
+      [dir=rtl] & {
+        margin-left: 0 !important;
+      }
+    }
   }
-
-
 }
 
 .js-stools {
@@ -427,7 +435,7 @@ joomla-toolbar-button {
     }
 
     .ordering-select {
-      margin-right: .5rem;
+      margin-right: 0;
 
       @include media-breakpoint-down(sm) {
         [dir=rtl] & {
@@ -507,4 +515,11 @@ joomla-toolbar-button {
       }
     }
   }
+}
+
+// In Microsoft Edge, sticky positioning doesn't work when combined with dir "rtl" attribute
+@supports (-ms-ime-align: auto) {
+  [dir=rtl] .subhead {
+    position: relative;
+  } 
 }
