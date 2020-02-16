@@ -134,8 +134,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				<option value="2">JGLOBAL_AUTO</option>
 			</field>
 
@@ -146,8 +146,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -172,8 +172,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -184,8 +184,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			<option value="0">JNO</option>
 			</field>
 
 			<field
@@ -196,8 +196,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -234,8 +234,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -246,8 +246,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			<option value="0">JNO</option>
 			</field>
 
 			<field
@@ -258,8 +258,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -270,8 +270,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			<option value="0">JNO</option>
 			</field>
 
 			<field
@@ -293,8 +293,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -305,8 +305,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			<option value="0">JNO</option>
 			</field>
 
 			<field
@@ -317,8 +317,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -329,8 +329,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -341,8 +341,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -353,8 +353,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -377,8 +377,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -388,8 +388,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -400,8 +400,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -411,8 +411,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -424,8 +424,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			<option value="0">JNO</option>
 			</field>
 		</fieldset>
 
@@ -437,8 +437,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field

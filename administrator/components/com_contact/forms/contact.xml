@@ -200,8 +200,8 @@
 			label="JFEATURED"
 			default="0"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -408,8 +408,8 @@
 					label="COM_CONTACT_FIELD_CONTACT_SHOW_LIST_LABEL"
 					useglobal="true"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -418,8 +418,8 @@
 					label="COM_CONTACT_FIELD_SHOW_TAGS_LABEL"
 					useglobal="true"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -429,8 +429,8 @@
 					class="custom-select-color"
 					useglobal="true"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -440,8 +440,8 @@
 					useglobal="true"
 					showon="show_info:1"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -451,8 +451,8 @@
 					useglobal="true"
 					showon="show_info:1"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -462,8 +462,8 @@
 					useglobal="true"
 					showon="show_info:1"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -485,8 +485,8 @@
 					useglobal="true"
 					showon="show_info:1"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -496,8 +496,8 @@
 					useglobal="true"
 					showon="show_info:1"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -507,8 +507,8 @@
 					useglobal="true"
 					showon="show_info:1"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -518,8 +518,8 @@
 					useglobal="true"
 					showon="show_info:1"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -529,8 +529,8 @@
 					useglobal="true"
 					showon="show_info:1"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -540,8 +540,8 @@
 					useglobal="true"
 					showon="show_info:1"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -551,8 +551,8 @@
 					useglobal="true"
 					showon="show_info:1"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -562,8 +562,8 @@
 					useglobal="true"
 					showon="show_info:1"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -573,8 +573,8 @@
 					useglobal="true"
 					showon="show_info:1"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -585,8 +585,8 @@
 					useglobal="true"
 					showon="show_info:1"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -596,8 +596,8 @@
 				class="custom-select-color"
 					useglobal="true"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -606,8 +606,8 @@
 					label="COM_CONTACT_FIELD_PARAMS_VCARD_LABEL"
 					useglobal="true"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -616,8 +616,8 @@
 					label="COM_CONTACT_FIELD_ARTICLES_SHOW_LABEL"
 					useglobal="true"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -649,8 +649,8 @@
 					label="COM_CONTACT_FIELD_PROFILE_SHOW_LABEL"
 					useglobal="true"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -684,8 +684,8 @@
 					label="COM_CONTACT_FIELD_SHOW_LINKS_LABEL"
 					useglobal="true"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -779,8 +779,8 @@
 					label="COM_CONTACT_FIELD_EMAIL_SHOW_FORM_LABEL"
 					useglobal="true"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -789,8 +789,8 @@
 					label="COM_CONTACT_FIELD_EMAIL_EMAIL_COPY_LABEL"
 					useglobal="true"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -799,8 +799,8 @@
 					label="COM_CONTACT_FIELD_CONFIG_SESSION_CHECK_LABEL"
 					useglobal="true"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -809,8 +809,8 @@
 					label="COM_CONTACT_FIELD_CONFIG_CUSTOM_REPLY_LABEL"
 					useglobal="true"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			<option value="0">JNO</option>
 				</field>
 
 				<field

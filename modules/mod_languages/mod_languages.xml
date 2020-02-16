@@ -59,8 +59,8 @@
 					default="0"
 					filter="integer"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -72,8 +72,8 @@
 					filter="integer"
 					showon="dropdown:1"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -85,8 +85,8 @@
 					filter="integer"
 					showon="dropdown:0"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -98,8 +98,8 @@
 					default="1"
 					filter="integer"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -110,8 +110,8 @@
 					default="0"
 					showon="dropdown:1[AND]dropdownimage:1"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -123,8 +123,8 @@
 					showon="dropdownimage:1[OR]dropdown:0"
 					filter="integer"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -136,8 +136,8 @@
 					filter="integer"
 					showon="dropdown:0"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			<option value="0">JNO</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">

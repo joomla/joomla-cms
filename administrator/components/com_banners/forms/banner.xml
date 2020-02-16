@@ -199,7 +199,6 @@
 			description="COM_BANNERS_FIELD_STICKY_DESC"
 			default="0"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 	</fieldset>
@@ -253,7 +252,6 @@
 			default="0"
 			>
 			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT</option>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 
@@ -264,7 +262,6 @@
 			default="0"
 			>
 			<option value="-1">COM_BANNERS_FIELD_VALUE_USECLIENTDEFAULT</option>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 	</fieldset>
@@ -286,7 +283,6 @@
 			label="COM_BANNERS_FIELD_BANNEROWNPREFIX_LABEL"
 			default="0"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
 

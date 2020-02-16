@@ -61,8 +61,8 @@
 				default="0"
 				class="btn-group btn-group-yesno"
 				>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			<option value="0">JNO</option>
 			</field>
 
 			<field
@@ -73,8 +73,8 @@
 				class="btn-group btn-group-yesno"
 				default="1"
 				>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			<option value="0">JNO</option>
 			</field>
 
 			<field
@@ -84,8 +84,8 @@
 				class="btn-group btn-group-yesno"
 				default="1"
 				>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			<option value="0">JNO</option>
 			</field>
 		</fieldset>
 	</fields>

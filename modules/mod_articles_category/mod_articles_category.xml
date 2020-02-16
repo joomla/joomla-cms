@@ -44,8 +44,8 @@
 					filter="integer"
 					showon="mode:dynamic"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			<option value="0">JNO</option>
 				</field>
 			</fieldset>
 
@@ -378,8 +378,8 @@
 					default="1"
 					filter="integer"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -390,8 +390,8 @@
 					default="0"
 					filter="integer"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -423,8 +423,8 @@
 					default="0"
 					filter="integer"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -435,8 +435,8 @@
 					default="0"
 					filter="integer"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -447,8 +447,8 @@
 					default="0"
 					filter="integer"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -459,8 +459,8 @@
 					default="0"
 					filter="integer"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -471,8 +471,8 @@
 					default="0"
 					filter="integer"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -492,8 +492,8 @@
 					default="0"
 					filter="integer"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field
@@ -505,8 +505,8 @@
 					filter="integer"
 					showon="show_readmore:1"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				</field>
 
 				<field

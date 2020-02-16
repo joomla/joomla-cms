@@ -45,8 +45,8 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -56,8 +56,8 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 	</fieldset>
 </form>

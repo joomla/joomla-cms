@@ -35,8 +35,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -68,8 +68,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -79,8 +79,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -90,8 +90,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 	</fieldset>
 
@@ -110,8 +110,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -121,8 +121,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -132,8 +132,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -158,8 +158,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -169,8 +169,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -180,8 +180,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -191,8 +191,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 	</fieldset>
 	<fieldset name="blog" label="JGLOBAL_BLOG_LAYOUT_OPTIONS">
@@ -307,8 +307,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -330,8 +330,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -362,8 +362,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -373,8 +373,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -405,8 +405,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				<option value="2">JGLOBAL_AUTO</option>
 			</field>
 
@@ -417,8 +417,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 		</fieldset>
 
@@ -442,8 +442,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -453,8 +453,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			<option value="0">JNO</option>
 			</field>
 
 			<field
@@ -464,8 +464,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -475,8 +475,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -486,8 +486,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			<option value="0">JNO</option>
 			</field>
 
 			<field
@@ -497,8 +497,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -508,8 +508,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			<option value="0">JNO</option>
 			</field>
 
 			<field
@@ -519,8 +519,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -530,8 +530,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			<option value="0">JNO</option>
 			</field>
 
 			<field
@@ -541,8 +541,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -552,8 +552,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -563,8 +563,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -574,8 +574,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -597,8 +597,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -608,8 +608,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -619,8 +619,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -631,8 +631,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 	</fieldset>
 	<fieldset name="integration">
@@ -644,8 +644,8 @@
 				useglobal="true"
 				class="custom-select-color-state"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field

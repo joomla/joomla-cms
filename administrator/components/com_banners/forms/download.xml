@@ -10,8 +10,8 @@
 			label="COM_BANNERS_FIELD_COMPRESSED_LABEL"
 			default="0"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field

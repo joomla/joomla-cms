@@ -28,8 +28,8 @@
 					default="1"
 					filter="integer"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -41,8 +41,8 @@
 					default="1"
 					filter="integer"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -53,8 +53,8 @@
 					class="btn-group btn-group-yesno"
 					default="0"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			<option value="0">JNO</option>
 				</field>
 			</fieldset>
 		</fields>

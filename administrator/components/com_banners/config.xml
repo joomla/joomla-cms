@@ -27,8 +27,8 @@
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			default="0"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -38,8 +38,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -49,8 +49,8 @@
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
 			default="0"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -76,8 +76,8 @@
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			default="0"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field

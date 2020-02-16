@@ -11,8 +11,8 @@
 				filter="integer"
 				required="true"
 				>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			<option value="0">JNO</option>
 			</field>
 			<field
 				name="actionlogsExtensions"

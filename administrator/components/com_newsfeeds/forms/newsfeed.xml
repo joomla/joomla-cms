@@ -342,8 +342,8 @@
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				useglobal="true"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -352,8 +352,8 @@
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 				useglobal="true"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -362,8 +362,8 @@
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 				useglobal="true"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field

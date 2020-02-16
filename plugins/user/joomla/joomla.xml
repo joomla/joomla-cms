@@ -26,8 +26,8 @@
 					label="PLG_USER_JOOMLA_FIELD_AUTOREGISTER_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -37,8 +37,8 @@
 					label="PLG_USER_JOOMLA_FIELD_MAILTOUSER_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -48,8 +48,8 @@
 					label="PLG_USER_JOOMLA_FIELD_FORCELOGOUT_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+			<option value="0">JNO</option>
 				</field>
 			</fieldset>
 		</fields>

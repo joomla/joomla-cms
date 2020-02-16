@@ -23,8 +23,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -35,8 +35,8 @@
 			default="1"
 			showon="show_title:1"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -46,8 +46,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -68,8 +68,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -79,8 +79,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -91,8 +91,8 @@
 			default="1"
 			showon="show_category:1"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -102,8 +102,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -114,8 +114,8 @@
 			default="1"
 			showon="show_parent_category:1"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -131,8 +131,8 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -143,8 +143,8 @@
 			default="1"
 			showon="show_associations:1"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -160,8 +160,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -172,8 +172,8 @@
 			default="0"
 			showon="show_author:1"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -183,8 +183,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -194,8 +194,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -205,8 +205,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -216,8 +216,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -227,8 +227,8 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -238,8 +238,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -250,8 +250,8 @@
 			default="1"
 			showon="show_readmore:1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -270,8 +270,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -287,8 +287,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -298,8 +298,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -310,8 +310,8 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -350,8 +350,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -361,8 +361,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -372,8 +372,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -383,8 +383,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -394,8 +394,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -405,8 +405,8 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 		</field>
 
 		<field
@@ -425,8 +425,8 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -436,8 +436,8 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -543,8 +543,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -554,8 +554,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -565,8 +565,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -576,8 +576,8 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -602,8 +602,8 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -613,8 +613,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -624,8 +624,8 @@
 			default="1"
 			class="btn-group btn-group-yesno"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -635,8 +635,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -646,8 +646,8 @@
 			default="1"
 			class="btn-group btn-group-yesno"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 	</fieldset>
@@ -664,8 +664,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -691,8 +691,8 @@
 			default="0"
 			showon="maxLevelcat:-1,1,2,3,4,5"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -703,8 +703,8 @@
 			default="1"
 			showon="maxLevelcat:-1,1,2,3,4,5"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -714,8 +714,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 	</fieldset>
@@ -783,8 +783,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -808,8 +808,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -839,8 +839,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -850,8 +850,8 @@
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -861,8 +861,8 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -872,8 +872,8 @@
 			class="btn-group btn-group-yesno"
 			default="0"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 	</fieldset>
@@ -936,8 +936,8 @@
 			label="JGLOBAL_PAGINATION_LABEL"
 			default="2"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			<option value="2">JGLOBAL_AUTO</option>
 		</field>
 
@@ -949,8 +949,8 @@
 			default="1"
 			showon="show_pagination:1,2"
 			>
-			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 		</field>
 
 		<field
@@ -983,8 +983,8 @@
 				class="btn-group btn-group-yesno"
 				default="1"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 			<field
@@ -1007,8 +1007,8 @@
 				default="0"
 				showon="show_feed_link:1[AND]feed_summary:0"
 				>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 
 		</fieldset>
@@ -1025,8 +1025,8 @@
 				label="JGLOBAL_SEF_NOIDS_LABEL"
 				filter="integer"
 				>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			<option value="0">JNO</option>
 			</field>
 
 		</fieldset>
@@ -1043,8 +1043,8 @@
 				class="btn-group btn-group-yesno"
 				default="1"
 				>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			<option value="0">JNO</option>
 			</field>
 
 			<field
@@ -1054,8 +1054,8 @@
 				class="btn-group btn-group-yesno"
 				default="1"
 				>
-				<option value="0">JNO</option>
 				<option value="1">JYES</option>
+			<option value="0">JNO</option>
 			</field>
 		</fieldset>
 

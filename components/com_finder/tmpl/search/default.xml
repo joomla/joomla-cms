@@ -124,8 +124,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 			<field
 				name="show_pagination"
@@ -135,8 +135,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 				<option value="2">JGLOBAL_AUTO</option>
 			</field>
 			<field
@@ -147,8 +147,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 			<field
 				name="allow_empty_query"
@@ -215,8 +215,8 @@
 				class="custom-select-color-state"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
-				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
+			<option value="0">JHIDE</option>
 			</field>
 		</fieldset>
 	</fields>
