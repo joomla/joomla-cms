@@ -6,7 +6,7 @@
 				name="actionlogsNotify"
 				type="radio"
 				label="PLG_SYSTEM_ACTIONLOGS_NOTIFICATIONS"
-				layout="joomla.form.field.radio.switcher"
+				class="btn-group btn-group-yesno"
 				default="0"
 				filter="integer"
 				required="true"

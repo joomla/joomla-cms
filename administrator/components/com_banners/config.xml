@@ -23,7 +23,7 @@
 		<field
 			name="track_impressions"
 			type="radio"
-			layout="joomla.form.field.radio.switcher"
+			class="btn-group btn-group-yesno"
 			label="COM_BANNERS_FIELD_TRACKIMPRESSION_LABEL"
 			default="0"
 			>
@@ -35,7 +35,7 @@
 			name="track_robots_impressions"
 			type="radio"
 			label="COM_BANNERS_FIELD_TRACKROBOTSIMPRESSION_LABEL"
-			layout="joomla.form.field.radio.switcher"
+			class="btn-group btn-group-yesno"
 			default="1"
 			>
 			<option value="0">JNO</option>
@@ -45,7 +45,7 @@
 		<field
 			name="track_clicks"
 			type="radio"
-			layout="joomla.form.field.radio.switcher"
+			class="btn-group btn-group-yesno"
 			label="COM_BANNERS_FIELD_TRACKCLICK_LABEL"
 			default="0"
 			>
@@ -72,7 +72,7 @@
 		<field
 			name="save_history"
 			type="radio"
-			layout="joomla.form.field.radio.switcher"
+			class="btn-group btn-group-yesno"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
 			default="0"
 			>

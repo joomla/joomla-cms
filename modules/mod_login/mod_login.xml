@@ -83,7 +83,7 @@
 				<field
 					name="greeting"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_LOGIN_FIELD_GREETING_LABEL"
 					default="1"
 					filter="integer"
@@ -95,7 +95,7 @@
 				<field
 					name="name"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_LOGIN_FIELD_NAME_LABEL"
 					default="0"
 					filter="integer"
@@ -109,7 +109,7 @@
 					name="profilelink"
 					type="radio"
 					label="MOD_LOGIN_FIELD_PROFILE_LABEL"
-					layout="joomla.form.field.radio.switcher"
+					class="btn-group btn-group-yesno"
 					default="0"
 					filter="integer"
 					>
@@ -120,7 +120,7 @@
 				<field
 					name="usetext"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_LOGIN_FIELD_USETEXT_LABEL"
 					default="0"
 					filter="integer"

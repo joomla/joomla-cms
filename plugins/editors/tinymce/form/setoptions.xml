@@ -33,7 +33,7 @@
 		name="drag_drop"
 		type="radio"
 		label="PLG_TINY_FIELD_DRAG_DROP_LABEL"
-		layout="joomla.form.field.radio.switcher"
+		class="btn-group btn-group-yesno"
 		default="1"
 		>
 		<option value="0">JOFF</option>
@@ -62,7 +62,7 @@
 		name="lang_mode"
 		type="radio"
 		label="PLG_TINY_FIELD_LANGSELECT_LABEL"
-		layout="joomla.form.field.radio.switcher"
+		class="btn-group btn-group-yesno"
 		default="1"
 		>
 		<option value="0">JOFF</option>
@@ -97,7 +97,7 @@
 		type="radio"
 		label="PLG_TINY_FIELD_CSS_LABEL"
 		description="PLG_TINY_FIELD_CSS_DESC"
-		layout="joomla.form.field.radio.switcher"
+		class="btn-group btn-group-yesno"
 		default="1"
 		>
 		<option value="0">JOFF</option>
@@ -135,7 +135,7 @@
 		name="use_config_textfilters"
 		type="radio"
 		label="PLG_TINY_CONFIG_TEXTFILTER_ACL_LABEL"
-		layout="joomla.form.field.radio.switcher"
+		class="btn-group btn-group-yesno"
 		default="0"
 		>
 		<option value="0">JOFF</option>
@@ -170,7 +170,7 @@
 		name="resizing"
 		type="radio"
 		label="PLG_TINY_FIELD_RESIZING_LABEL"
-		layout="joomla.form.field.radio.switcher"
+		class="btn-group btn-group-yesno"
 		default="1"
 		>
 		<option value="0">JOFF</option>
@@ -181,7 +181,7 @@
 		name="resize_horizontal"
 		type="radio"
 		label="PLG_TINY_FIELD_RESIZE_HORIZONTAL_LABEL"
-		layout="joomla.form.field.radio.switcher"
+		class="btn-group btn-group-yesno"
 		default="1"
 		showon="resizing:1"
 		>
@@ -193,7 +193,7 @@
 		name="element_path"
 		type="radio"
 		label="PLG_TINY_FIELD_PATH_LABEL"
-		layout="joomla.form.field.radio.switcher"
+		class="btn-group btn-group-yesno"
 		default="0"
 		>
 		<option value="0">JOFF</option>
@@ -204,7 +204,7 @@
 		name="wordcount"
 		type="radio"
 		label="PLG_TINY_FIELD_WORDCOUNT_LABEL"
-		layout="joomla.form.field.radio.switcher"
+		class="btn-group btn-group-yesno"
 		default="1"
 		>
 		<option value="0">JOFF</option>
@@ -215,7 +215,7 @@
 		name="image_advtab"
 		type="radio"
 		label="PLG_TINY_FIELD_ADVIMAGE_LABEL"
-		layout="joomla.form.field.radio.switcher"
+		class="btn-group btn-group-yesno"
 		default="1"
 		>
 		<option value="0">JOFF</option>
@@ -226,7 +226,7 @@
 		name="advlist"
 		type="radio"
 		label="PLG_TINY_FIELD_ADVLIST_LABEL"
-		layout="joomla.form.field.radio.switcher"
+		class="btn-group btn-group-yesno"
 		default="1"
 		>
 		<option value="0">JOFF</option>
@@ -237,7 +237,7 @@
 		name="contextmenu"
 		type="radio"
 		label="PLG_TINY_FIELD_CONTEXTMENU_LABEL"
-		layout="joomla.form.field.radio.switcher"
+		class="btn-group btn-group-yesno"
 		default="1"
 		>
 		<option value="0">JOFF</option>

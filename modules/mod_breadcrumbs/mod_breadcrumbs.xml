@@ -27,7 +27,7 @@
 					name="showHere"
 					type="radio"
 					label="MOD_BREADCRUMBS_FIELD_SHOWHERE_LABEL"
-					layout="joomla.form.field.radio.switcher"
+					class="btn-group btn-group-yesno"
 					default="1"
 					filter="integer"
 					>
@@ -39,7 +39,7 @@
 					name="showHome"
 					type="radio"
 					label="MOD_BREADCRUMBS_FIELD_SHOWHOME_LABEL"
-					layout="joomla.form.field.radio.switcher"
+					class="btn-group btn-group-yesno"
 					default="1"
 					filter="integer"
 					>
@@ -60,7 +60,7 @@
 					type="radio"
 					label="MOD_BREADCRUMBS_FIELD_SHOWLAST_LABEL"
 					default="1"
-					layout="joomla.form.field.radio.switcher"
+					class="btn-group btn-group-yesno"
 					filter="integer"
 					>
 					<option value="0">JHIDE</option>

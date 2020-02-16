@@ -37,7 +37,7 @@
 					label="PLG_CONTENT_CONTACT_PARAM_ALIAS_LABEL"
 					description="PLG_CONTENT_CONTACT_PARAM_ALIAS_DESCRIPTION"
 					default="0"
-					layout="joomla.form.field.radio.switcher"
+					class="btn-group btn-group-yesno"
 					filter="integer"
 					>
 					<option value="0">JNO</option>

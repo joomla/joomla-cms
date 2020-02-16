@@ -73,7 +73,7 @@
 				<field
 					name="fluidContainer"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
+					class="btn-group btn-group-yesno"
 					default="0"
 					label="TPL_CASSIOPEIA_FLUID_LABEL"
 					>
@@ -85,7 +85,7 @@
 					name="stickyHeader"
 					type="radio"
 					label="TPL_CASSIOPEIA_STICKY_LABEL"
-					layout="joomla.form.field.radio.switcher"
+					class="btn-group btn-group-yesno"
 					default="0"
 					filter="integer"
 					>

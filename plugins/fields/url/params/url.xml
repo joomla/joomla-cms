@@ -32,7 +32,7 @@
 				name="show_url"
 				type="radio"
 				label="PLG_FIELDS_URL_PARAMS_SHOW_URL"
-				layout="joomla.form.field.radio.switcher"
+				class="btn-group btn-group-yesno"
 				default="1"
 				filter="integer"
 				>

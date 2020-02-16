@@ -5,7 +5,7 @@
 			name="home"
 			type="radio"
 			label="COM_TEMPLATES_FIELD_HOME_LABEL"
-			layout="joomla.form.field.radio.switcher"
+			class="btn-group btn-group-yesno"
 			default="0"
 			>
 			<option value="0">JNO</option>

@@ -12,11 +12,11 @@
 		<fieldset name="basic"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 		>
-			<field 
+			<field
 				name="enable_category"
 				type="radio"
 				label="COM_CONTENT_CREATE_ARTICLE_CATEGORY_LABEL"
-				layout="joomla.form.field.radio.switcher"
+				class="btn-group btn-group-yesno"
 				default="0"
 				>
 				<option value="1">JYES</option>
@@ -49,7 +49,7 @@
 				type="radio"
 				label="COM_CONTENT_CREATE_ARTICLE_CUSTOM_CANCEL_REDIRECT_LABEL"
 				description="COM_CONTENT_CREATE_ARTICLE_CUSTOM_CANCEL_REDIRECT_DESC"
-				layout="joomla.form.field.radio.switcher"
+				class="btn-group btn-group-yesno"
 				default="0"
 				>
 				<option value="0">JNO</option>

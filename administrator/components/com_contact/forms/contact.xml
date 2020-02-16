@@ -196,7 +196,7 @@
 		<field
 			name="featured"
 			type="radio"
-			layout="joomla.form.field.radio.switcher"
+			class="btn-group btn-group-yesno"
 			label="JFEATURED"
 			default="0"
 			>

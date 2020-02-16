@@ -59,7 +59,7 @@
 				type="radio"
 				label="COM_WRAPPER_FIELD_HEIGHTAUTO_LABEL"
 				default="0"
-				layout="joomla.form.field.radio.switcher"
+				class="btn-group btn-group-yesno"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -70,7 +70,7 @@
 				type="radio"
 				label="COM_WRAPPER_FIELD_ADD_LABEL"
 				description="COM_WRAPPER_FIELD_ADD_DESC"
-				layout="joomla.form.field.radio.switcher"
+				class="btn-group btn-group-yesno"
 				default="1"
 				>
 				<option value="0">JNO</option>
@@ -81,7 +81,7 @@
 				name="frameborder"
 				type="radio"
 				label="COM_WRAPPER_FIELD_FRAME_LABEL"
-				layout="joomla.form.field.radio.switcher"
+				class="btn-group btn-group-yesno"
 				default="1"
 				>
 				<option value="0">JNO</option>

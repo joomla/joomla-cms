@@ -25,7 +25,7 @@
 					name="buttons"
 					type="radio"
 					label="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_LABEL"
-					layout="joomla.form.field.radio.switcher"
+					class="btn-group btn-group-yesno"
 					default="0"
 					filter="integer"
 					>

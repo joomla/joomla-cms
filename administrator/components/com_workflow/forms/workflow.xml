@@ -47,7 +47,7 @@
 			name="default"
 			type="radio"
 			label="COM_WORKFLOW_FIELD_IS_DEFAULT_LABEL"
-			layout="joomla.form.field.radio.switcher"
+			class="btn-group btn-group-yesno"
 			default="0"
 			required="true"
 			>
@@ -69,7 +69,7 @@
 	</fieldset>
 
 	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL">
-		<field 
+		<field
 			name="asset_id"
 			type="hidden"
 			filter="unset"

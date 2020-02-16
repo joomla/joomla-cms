@@ -98,7 +98,7 @@
 					name="monochrome"
 					type="radio"
 					label="TPL_ATUM_COLORS_SETTINGS_MONOCHROME_LABEL"
-					layout="joomla.form.field.radio.switcher"
+					class="btn-group btn-group-yesno"
 					default="0"
 					>
 					<option value="0">JNO</option>

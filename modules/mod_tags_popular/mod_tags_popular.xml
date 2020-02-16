@@ -83,7 +83,7 @@
 				<field
 					name="display_count"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_TAGS_POPULAR_FIELD_DISPLAY_COUNT_LABEL"
 					default="0"
 					filter="integer"
@@ -95,7 +95,7 @@
 				<field
 					name="no_results_text"
 					type="radio"
-					layout="joomla.form.field.radio.switcher"
+					class="btn-group btn-group-yesno"
 					label="MOD_TAGS_POPULAR_FIELD_NO_RESULTS_LABEL"
 					default="0"
 					filter="integer"
