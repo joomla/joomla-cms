@@ -169,7 +169,7 @@ class InstallerModel extends ListModel
 			}
 
 			$item->author_info       = @$item->authorEmail . '<br>' . @$item->authorUrl;
-			$item->client            = $item->client_id ? Text::_('JADMINISTRATOR') : Text::_('JSITE');
+			$item->client            = Text::_([0 => 'JSITE', 1 => 'JADMINISTRATOR', 3 => 'JAPI'][$item->client_id]);
 			$item->client_translated = $item->client;
 			$item->type_translated   = Text::_('COM_INSTALLER_TYPE_' . strtoupper($item->type));
 			$item->folder_translated = @$item->folder ? $item->folder : Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE');

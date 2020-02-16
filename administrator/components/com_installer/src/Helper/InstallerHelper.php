@@ -95,6 +95,7 @@ class InstallerHelper
 		$options   = array();
 		$options[] = HTMLHelper::_('select.option', '0', Text::_('JSITE'));
 		$options[] = HTMLHelper::_('select.option', '1', Text::_('JADMINISTRATOR'));
+		$options[] = HTMLHelper::_('select.option', '3', Text::_('JAPI'));
 
 		return $options;
 	}
