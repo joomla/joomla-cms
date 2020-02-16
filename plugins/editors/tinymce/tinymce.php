@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -213,17 +214,11 @@ class PlgEditorTinymce extends CMSPlugin
 		$levelParams->loadObject($toolbarParams);
 		$levelParams->loadObject($extraOptions);
 
-		// List the skins
-		$skindirs = glob(JPATH_ROOT . '/media/vendor/tinymce/skins/ui' . '/*', GLOB_ONLYDIR);
-
 		// Set the selected skin
-		$skin = 'oxide';
-		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
+		$skin = $levelParams->get($app->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
 
-		if ((int) $levelParams->get($side, 0) < count($skindirs))
-		{
-			$skin = basename($skindirs[(int) $levelParams->get($side, 0)]);
-		}
+		// Check that selected skin exists.
+		$skin = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
 
 		$langMode   = $levelParams->get('lang_mode', 1);
 		$langPrefix = $levelParams->get('lang_code', 'en');
