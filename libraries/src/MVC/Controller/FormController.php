@@ -144,6 +144,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		$this->registerTask('save2menu', 'save');
 		$this->registerTask('save2new', 'save');
 		$this->registerTask('save2copy', 'save');
+		$this->registerTask('editAssociations', 'save');
 	}
 
 	/**
@@ -936,6 +937,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 * @return  void
 	 *
 	 * @since   3.9.0
+	 *
+	 * @deprecated 5.0  It is handled by regular save method now.
 	 */
 	public function editAssociations()
 	{
