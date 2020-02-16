@@ -91,13 +91,15 @@ class PlgSystemAccessibility extends CMSPlugin
 				]
 			);
 
-		HTMLHelper::_('script', 'vendor/accessibility/accessibility.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
-		$document->addScriptDeclaration("window.addEventListener('load', function() {
-			options = Joomla.getOptions('accessibility-options');
-			new Accessibility(options);
-			},
-			false);"
-		);
-
+		$document->getWebAssetManager()
+			->useScript('accessibility')
+			->addInlineScript(
+				'window.addEventListener("load", function() {'
+				. 'new Accessibility(Joomla.getOptions("accessibility-options") || {});'
+				. '});',
+				['name' => 'inline.plg.system.accessibility'],
+				['type' => 'module'],
+				['accessibility']
+			);
 	}
 }
