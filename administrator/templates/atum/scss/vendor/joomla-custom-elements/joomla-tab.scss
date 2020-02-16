@@ -249,7 +249,6 @@ joomla-tab {
 
         @include media-breakpoint-down(md) {
           .respTable {
-
             [dir=ltr] & {
               text-align: right;
             }
@@ -257,7 +256,6 @@ joomla-tab {
             [dir=rtl] & {
               text-align: left;
             }
-
           }
 
           .respTable, .respTable thead, .respTable tbody, .respTable tr, .respTable th, .respTable td {
@@ -271,19 +269,18 @@ joomla-tab {
           }
 
           .respTable td::before {
+            content: attr(data-label) ":";
+            font-weight: $bold-weight;
 
             [dir=ltr] & {
               float: left;
+              padding: 0 2em 0 0;
             }
 
             [dir=rtl] & {
               float: right;
               padding: 0 0 0 2em;
             }
-
-            padding: 0 2em 0 0;
-            content: attr(data-label) ":";
-            font-weight: $bold-weight;
           }
 
           .respTable td:nth-child(1) {
