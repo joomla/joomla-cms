@@ -14,9 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Router\Route;
-
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /**
  * Pagenavigation plugin class.
@@ -145,7 +143,8 @@ class PlgContentPagenavigation extends CMSPlugin
 				->select($case_when1)
 				->from('#__content AS a')
 				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
-				->join('LEFT', '#__workflow_stages AS ws ON ws.id = a.state');
+				->join('LEFT', '#__workflow_associations AS wa', 'wa.item_id = a.id')
+				->join('LEFT', '#__workflow_stages AS ws', 'wa.stage_id = ws.id');
 
 			if ($order_method === 'author' || $order_method === 'rauthor')
 			{
@@ -197,7 +196,7 @@ class PlgContentPagenavigation extends CMSPlugin
 			if ($row->prev)
 			{
 				$row->prev_label = ($this->params->get('display', 0) == 0) ? Text::_('JPREV') : $row->prev->title;
-				$row->prev = Route::_(ContentHelperRoute::getArticleRoute($row->prev->slug, $row->prev->catid, $row->prev->language));
+				$row->prev = RouteHelper::getArticleRoute($row->prev->slug, $row->prev->catid, $row->prev->language);
 			}
 			else
 			{
@@ -208,7 +207,7 @@ class PlgContentPagenavigation extends CMSPlugin
 			if ($row->next)
 			{
 				$row->next_label = ($this->params->get('display', 0) == 0) ? Text::_('JNEXT') : $row->next->title;
-				$row->next = Route::_(ContentHelperRoute::getArticleRoute($row->next->slug, $row->next->catid, $row->next->language));
+				$row->next = RouteHelper::getArticleRoute($row->next->slug, $row->next->catid, $row->next->language);
 			}
 			else
 			{

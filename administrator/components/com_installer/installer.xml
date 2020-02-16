@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_INSTALLER_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Installer</namespace>
+	<namespace path="src">Joomla\Component\Installer</namespace>
 	<media destination="com_installer" folder="media">
 		<folder>css</folder>
 		<folder>js</folder>
@@ -19,19 +19,15 @@
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>installer.xml</filename>
-			<folder>Controller</folder>
-			<folder>Field</folder>
 			<folder>forms</folder>
-			<folder>Helper</folder>
 			<folder>helpers</folder>
-			<folder>Model</folder>
 			<folder>services</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_installer.ini</language>
-			<language tag="en-GB">language/en-GB.com_installer.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_installer.ini</language>
+			<language tag="en-GB">language/en-GB/com_installer.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

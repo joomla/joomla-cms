@@ -45,7 +45,7 @@ HTMLHelper::_('script', 'com_finder/finder-edit.min.js', array('version' => 'aut
 							<?php echo $this->form->renderField('map_count'); ?>
 						</div>
 						<button class="btn btn-secondary filter-toggle-all" type="button">
-							<span class="fa fa-square" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT'); ?></button>
+							<span class="fas fa-square" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT'); ?></button>
 
 						<button class="btn btn-secondary float-right" type="button" id="expandAccordion"><?php echo Text::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
 						<hr>
@@ -68,7 +68,7 @@ HTMLHelper::_('script', 'com_finder/finder-edit.min.js', array('version' => 'aut
 	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_OPTIONS')); ?>
 	<div class="row">
 		<div class="col-md-6">
-			<fieldset id="fieldset-publishingdata" class="options-grid-form options-grid-form-full">
+			<fieldset id="fieldset-publishingdata" class="options-form">
 				<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
 				<div>
 				<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
@@ -76,7 +76,7 @@ HTMLHelper::_('script', 'com_finder/finder-edit.min.js', array('version' => 'aut
 			</fieldset>
 		</div>
 		<div class="col-md-6">
-			<fieldset id="fieldset-filter" class="options-grid-form options-grid-form-full">
+			<fieldset id="fieldset-filter" class="options-form">
 				<legend><?php echo Text::_('COM_FINDER_FILTER_FIELDSET_PARAMS'); ?></legend>
 				<div>
 				<?php echo $this->form->renderFieldset('jbasic'); ?>

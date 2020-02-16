@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
+use Joomla\Component\Tags\Site\Helper\RouteHelper;
 
 HTMLHelper::_('behavior.core');
 
@@ -40,10 +40,10 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
 					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="form-control" title="<?php echo Text::_('COM_TAGS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo Text::_('COM_TAGS_TITLE_FILTER_LABEL'); ?>">
 					<span class="input-group-append">
 						<button type="submit" name="filter-search-button" title="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>" class="btn btn-secondary">
-							<span class="fa fa-search" aria-hidden="true"></span>
+							<span class="fas fa-search" aria-hidden="true"></span>
 						</button>
 						<button type="reset" name="filter-clear-button" title="<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>" class="btn btn-secondary">
-							<span class="fa fa-times" aria-hidden="true"></span>
+							<span class="fas fa-times" aria-hidden="true"></span>
 						</button>
 					</span>
 				</div>
@@ -89,7 +89,7 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
 				<?php echo $item->event->afterDisplayTitle; ?>
 				<?php $images  = json_decode($item->core_images); ?>
 				<?php if ($this->params->get('tag_list_show_item_image', 1) == 1 && !empty($images->image_intro)) : ?>
-					<a href="<?php echo Route::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>" itemprop="url">
+					<a href="<?php echo Route::_(RouteHelper::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>" itemprop="url">
 						<img src="<?php echo htmlspecialchars($images->image_intro); ?>"
 							alt="<?php echo htmlspecialchars($images->image_intro_alt); ?>" itemprop="image">
 					</a>

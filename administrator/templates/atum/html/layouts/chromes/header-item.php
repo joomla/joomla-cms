@@ -11,10 +11,14 @@
 
 defined('_JEXEC') or die;
 
-$module  = $displayData['module'];
+$module = $displayData['module'];
 
-if ($module->content) : ?>
-	<div class="header-item d-flex">
-		<?php echo $module->content; ?>
-	</div>
-<?php endif; ?>
+if ((string) $module->content === '')
+{
+	return;
+}
+
+?>
+<div class="header-item d-flex">
+	<?php echo $module->content; ?>
+</div>

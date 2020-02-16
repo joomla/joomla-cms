@@ -1,13 +1,13 @@
 $off-background-colour: lightgrey;
 $on-background-colour: #2f7d32;
-$switcher-width:  62px;
+$switcher-width: 62px;
 $switcher-height: 28px;
 
 .switcher {
   position: relative;
   width: 18rem;
   height: 28px;
-  float: left;
+  margin: 0;
 }
 
 .switcher input {
@@ -41,7 +41,7 @@ $switcher-height: 28px;
 
 .switcher input:focus ~ .toggle-outside {
   border-color: var(--focus);
-  box-shadow: 0 0 0 .2rem rgba(26,70,107,.25);
+  box-shadow: 0 0 0 .2rem rgba(26, 70, 107, .25);
 }
 
 .switcher label {
@@ -74,7 +74,7 @@ $switcher-height: 28px;
   position: absolute;
   width: 58px;
   box-sizing: border-box;
-  border: 1px solid rgba(0,0,0,.18);
+  border: 1px solid rgba(0, 0, 0, .18);
   left: 0;
 
   [dir=rtl] & {
@@ -83,7 +83,7 @@ $switcher-height: 28px;
   }
 }
 
-.switcher input ~ input:checked ~ .toggle-outside{
+.switcher input ~ input:checked ~ .toggle-outside {
   background: $on-background-colour;
 }
 
@@ -104,31 +104,5 @@ $switcher-height: 28px;
   margin-bottom: 1rem;
   font-size: 1rem;
   font-weight: 400;
-  float: left;
-  width: 220px;
-  padding-top: 5px;
-  padding-right: 5px;
-  text-align: left;
-
-  [dir=rtl] & {
-    padding-left: 5px;
-    padding-right: 0;
-    float: right;
-    text-align: right;
-  }
-}
-
-.col-md-9 .control-group .switcher__legend,
-.col-md-12 .control-group .switcher__legend {
-  margin-left: -220px;
-
-  [dir=rtl] & {
-    margin-left: 0;
-    float: right;
-    text-align: right;
-  }
-}
-
-.col-md-3 .switcher__legend {
-  margin-left: 0;
+  padding: 5px 0;
 }

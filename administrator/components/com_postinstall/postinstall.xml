@@ -9,22 +9,19 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_POSTINSTALL_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Postinstall</namespace>
+	<namespace path="src">Joomla\Component\Postinstall</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>postinstall.xml</filename>
-			<folder>Controller</folder>
-			<folder>Helper</folder>
-			<folder>Model</folder>
 			<folder>services</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_postinstall.ini</language>
-			<language tag="en-GB">language/en-GB.com_postinstall.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_postinstall.ini</language>
+			<language tag="en-GB">language/en-GB/com_postinstall.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

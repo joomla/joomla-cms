@@ -123,7 +123,7 @@ if (!empty($dataAttributes))
 		<?php if (!$readonly) : ?>
 			<span class="input-group-append">
 				<button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?>">
-					<span class="fa fa-user icon-white" aria-hidden="true"></span>
+					<span class="fas fa-user icon-white" aria-hidden="true"></span>
 					<span class="sr-only"><?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?></span>
 				</button>
 			</span>
@@ -145,7 +145,7 @@ if (!empty($dataAttributes))
 	</div>
 	<?php // Create the real field, hidden, that stored the user id. ?>
 	<?php if (!$readonly) : ?>
-		<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo (int) $value; ?>"
+		<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo $value; ?>"
 				class="field-user-input <?php echo $class ? (string) $class : ''?>"
 				data-onchange="<?php echo $this->escape($onchange); ?>">
 	<?php endif; ?>

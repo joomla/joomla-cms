@@ -106,7 +106,7 @@
 		<field
 			name="own_prefix"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_BANNERS_FIELD_CLIENTOWNPREFIX_LABEL"
 			default="0"
 			>

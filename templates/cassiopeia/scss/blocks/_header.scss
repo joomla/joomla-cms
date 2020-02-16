@@ -8,6 +8,10 @@
   background-image: $cassiopeia-header-grad;
   box-shadow: 0 5px 5px rgba(0, 0, 0, .03) inset;
 
+  @include media-breakpoint-down(sm) {
+    position: relative !important;
+  }
+
   header {
     width: 100%;
     max-width: 1155px;
@@ -17,12 +21,7 @@
   }
 
   nav {
-    padding: 2.5rem ($cassiopeia-grid-gutter / 2) 4.5rem;
-
-    @include media-breakpoint-up(xl) {
-      padding-bottom: 5.5rem;
-    }
-
+    padding: 2.5rem ($cassiopeia-grid-gutter / 2) 2.5rem;
   }
 
   .site-description {
@@ -37,6 +36,11 @@
     margin-right: auto;
     font-size: 2rem;
     color: $white-offset;
+
+    [dir=rtl] & {
+      margin-left: auto;
+      margin-right: 0;
+    }
 
     img {
       width: 290px;
@@ -117,7 +121,7 @@
     cursor: default;
     border: 1px solid $white-offset;
 
-    .fa {
+    .fas {
       font-size: 24px;
     }
   }
@@ -160,43 +164,4 @@
 
   }
 
-}
-
-.header-shadow {
-  display: none;
-  pointer-events: none;
-
-  .container-banner + & {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    display: block;
-    height: 180px;
-    content: "";
-    background-image: linear-gradient(0deg, rgba(0, 0, 0, .5) 0%, transparent 100%);
-
-  }
-
-}
-
-.header-shape-bottom {
-  position: absolute;
-  right: 0;
-  bottom: -20px;
-  left: 0;
-  border-bottom: 20px solid #fafafa;
-
-  canvas {
-    display: block;
-    width: 100%;
-    visibility: hidden;
-  }
-
-  svg {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-  }
 }

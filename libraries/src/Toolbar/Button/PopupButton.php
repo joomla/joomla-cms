@@ -132,7 +132,7 @@ class PopupButton extends ToolbarButton
 		{
 			// Build the options array for the modal
 			$params = array();
-			$params['title']      = Text::_($options['title'] ?? $options['text']);
+			$params['title']      = $options['title'] ?? $options['text'];
 			$params['url']        = $this->getUrl();
 			$params['height']     = $options['iframeHeight'] ?? 480;
 			$params['width']      = $options['iframeWidth'] ?? 640;

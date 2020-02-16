@@ -64,7 +64,7 @@
     {
       "name": "switcher",
       "type": "style",
-      "uri": "media/system/css/fields/switcher.min.css"
+      "uri": "system/fields/switcher.min.css"
     },
     {
       "name": "form.validate",
@@ -74,9 +74,8 @@
         "core",
         "punycode"
       ],
-      "uri": "media/system/js/fields/validate.min.js"
+      "uri": "system/fields/validate.min.js"
     },
-
     {
       "name": "webcomponent.field-fancy-select",
       "type": "script",

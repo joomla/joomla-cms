@@ -5,7 +5,7 @@
 		type="list"
 		label="JSITEADMIN"
 		filtermode="selector"
-		onchange="this.form.submit();"
+		onchange="Joomla.resetFilters(this)"
 		>
 		<option value="0">JSITE</option>
 		<option value="1">JADMINISTRATOR</option>
@@ -26,6 +26,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			hint="JSEARCH_FILTER"
 			noresults="JGLOBAL_NO_MATCHING_RESULTS"
 		/>
