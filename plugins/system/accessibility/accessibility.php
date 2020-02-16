@@ -61,7 +61,7 @@ class PlgSystemAccessibility extends CMSPlugin
 		* Reference  https://ranbuch.github.io/accessibility/
 		*/
 			$document->addScriptOptions(
-			'accessibility-options',
+				'accessibility-options',
 				[
 					'labels' => [
 						'menuTitle'           => Text::_('PLG_SYSTEM_ACCESSIBILITY_MENU_TITLE'),
