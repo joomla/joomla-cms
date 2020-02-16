@@ -15,7 +15,7 @@
 		<folder>js</folder>
 	</media>
 	<administration>
-		<menu img="class:associations">COM_ASSOCIATIONS</menu>
+		<menu img="class:language">COM_ASSOCIATIONS</menu>
 		<files folder="admin">
 			<filename>access.xml</filename>
 			<filename>associations.xml</filename>

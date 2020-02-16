@@ -60,20 +60,6 @@ class PlgUserProfile extends CMSPlugin
 	protected $db;
 
 	/**
-	 * Constructor
-	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
-	 *
-	 * @since   1.5
-	 */
-	public function __construct(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-		FormHelper::addFieldPath(__DIR__ . '/field');
-	}
-
-	/**
 	 * Runs on content preparation
 	 *
 	 * @param   string  $context  The context for the data
@@ -259,7 +245,8 @@ class PlgUserProfile extends CMSPlugin
 		}
 
 		// Add the registration fields to the form.
-		Form::addFormPath(__DIR__ . '/profiles');
+		FormHelper::addFieldPrefix('Joomla\\Plugin\\User\\Profile\\Field');
+		FormHelper::addFormPath(__DIR__ . '/forms');
 		$form->loadFile('profile');
 
 		$fields = [
