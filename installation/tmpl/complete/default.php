@@ -28,6 +28,14 @@ use Joomla\CMS\Uri\Uri;
 			</div>
 		</div>
 	</div>
+	<div id="installComplete" class="j-install-step">
+		<div class="j-install-step-header">
+			<span class="fas fa-trophy" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_CONGRAT'); ?>
+		</div>
+		<div class="j-install-step-form" id="customInstallation">
+			<h2><?php echo Text::_('INSTL_COMPLETE_TITLE'); ?></h2>
+		</div>
+	</div>
 
 		<div id="installRecommended" class="j-install-step active">
 			<div class="j-install-step-form">

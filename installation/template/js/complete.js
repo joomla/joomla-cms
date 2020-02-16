@@ -19,10 +19,10 @@ if (document.getElementById('installAddFeatures')) {
 if (document.getElementById('skipLanguages')) {
 	document.getElementById('skipLanguages').addEventListener('click', function(e) {
 		e.preventDefault();
-		document.getElementById('installRecommended').classList.remove('active');
+		document.getElementById('installRecommended').classList.add('active');
 		document.getElementById('installLanguages').classList.remove('active');
-		document.getElementById('defaultLanguages').classList.add('active');
-	})
+    document.getElementById('installComplete').classList.add('active');
+  })
 }
 
 
@@ -63,7 +63,8 @@ if (document.getElementById('installLanguagesButton')) {
 			if (Joomla.install(['languages'], form)) {
 				document.getElementById('installLanguages').classList.remove('active');
 				document.getElementById('installRecommended').classList.remove('active');
-				document.getElementById('defaultLanguages').classList.add('active');
+        document.getElementById('installCongrat').classList.remove('active');
+        document.getElementById('defaultLanguages').classList.add('active');
 			}
 		}
 	})
@@ -77,7 +78,10 @@ if (document.getElementById('installDefaultLanguagesButton')) {
 		  task === 'setdefaultlanguage';
       if (Joomla.submitform(task)) {
 				  document.getElementById('defaultLanguages').classList.remove('active');
-      }
+          document.getElementById('installRecommended').classList.add('active');
+          document.getElementById('installLanguages').classList.remove('active');
+          document.getElementById('installComplete').classList.add('active');
+        }
     }
 	})
 }
