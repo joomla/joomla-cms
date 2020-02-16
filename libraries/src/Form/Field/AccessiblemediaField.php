@@ -133,12 +133,12 @@ class AccessiblemediaField extends SubformField
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
-/*		json_decode($value);
+		json_decode($value);
 
 		if ($value !== '' && json_last_error() !== JSON_ERROR_NONE)
 		{
 			$value = '{"imagefile":"' . $value . '","alt_text":""}';
-		}*/
+		}
 
 		if (!parent::setup($element, $value, $group))
 		{
