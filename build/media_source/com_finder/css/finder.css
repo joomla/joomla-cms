@@ -45,8 +45,14 @@
 
 span.highlight {
 	background-color: #ffffcc;
-	font-weight: bold;
-	padding: 1px 0;
+	font-weight: 900;
+	padding: 1px 4px;
+	color: #343a40;
+}
+
+.result-taxonomy .badge {
+	padding: 0.45em 0.8em;
+	font-size: 85%;
 }
 
 ul.autocompleter-choices {

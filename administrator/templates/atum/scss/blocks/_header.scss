@@ -211,6 +211,16 @@
       [dir=rtl] & {
         text-align: right;
       }
+
+      .fas {
+        [dir=ltr] & {
+          margin-right: $dropdown-item-padding-x;
+        }
+
+        [dir=rtl] & {
+          margin-left: $dropdown-item-padding-x;
+        }
+      }
     }
   }
 

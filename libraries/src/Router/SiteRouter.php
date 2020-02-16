@@ -108,7 +108,7 @@ class SiteRouter extends Router
 	 */
 	public function parseCheckSSL(&$router, &$uri)
 	{
-		if (strtolower($uri->getScheme()) != 'https')
+		if (strtolower($uri->getScheme()) !== 'https')
 		{
 			// Forward to https
 			$uri->setScheme('https');
@@ -253,14 +253,14 @@ class SiteRouter extends Router
 			}
 
 			// Menu links are not valid URLs. Find the first parent that isn't a menulink
-			if ($found && $found->type == 'menulink')
+			if ($found && $found->type === 'menulink')
 			{
-				while ($found->hasParent() && $found->type == 'menulink')
+				while ($found->hasParent() && $found->type === 'menulink')
 				{
 					$found = $found->getParent();
 				}
 
-				if ($found->type == 'menulink')
+				if ($found->type === 'menulink')
 				{
 					$found = null;
 				}

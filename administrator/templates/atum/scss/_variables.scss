@@ -219,9 +219,11 @@ $custom-select-indicator-padding:    3rem;
 $custom-select-bg:                   var(--atum-link-color);
 $custom-select-bg-size:              116rem;
 $custom-select-indicator:            url(../images/select-bg.svg);
+$custom-select-indicator-rtl:        url(../images/select-bg-rtl.svg);
 $custom-select-indicator-active:     url(../../../images/select-bg-active.svg);
 $custom-select-indicator-active-rtl: url(../../../images/select-bg-active-rtl.svg);
 $custom-select-background:           $custom-select-indicator no-repeat right center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$custom-select-background-rtl:       $custom-select-indicator-rtl no-repeat left center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 $custom-select-box-shadow:           $atum-box-shadow;
 $custom-select-bg-size-sm:           75rem;
 $custom-select-multiple-padding-y:   .3rem;
@@ -250,9 +252,6 @@ $breadcrumb-bg:                    var(--white);
 // Links
 $link-color:                       var(--atum-link-color);
 $link-hover-color:                 var(--atum-link-hover-color);
-
-// Time for fade effect
-$fadetime:                         1s;
 
 // Z-Index list
 $zindex-negative:                  -1;

@@ -22,18 +22,27 @@ use Joomla\CMS\Router\Route;
 					<?php if (count($this->messages)) : ?>
 						<?php foreach ($this->messages as $message) : ?>
 							<div class="alert alert-warning">
-								<h4 class="alert-heading"><?php echo $message['message']; ?></h4>
+								<h4 class="alert-heading">
+									<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
+									<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+									<?php echo $message['message']; ?>
+								</h4>
 								<p class="mb-0"><?php echo $message['description']; ?></p>
 							</div>
 						<?php endforeach; ?>
 						<div class="alert alert-info">
-							<h4 class="alert-heading"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?></h4>
+							<h4 class="alert-heading">
+								<span class="fas fa-info-circle" aria-hidden="true"></span>
+								<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+								<?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?>
+							</h4>
 							<p class="mb-0"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
 						</div>
 					<?php else: ?>
 						<div class="alert alert-info">
-							<h4 class="alert-heading"><?php echo Text::_('INFO'); ?></h4>
-							<p class="mb-0"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGS_NONE'); ?></p>
+							<span class="fas fa-info-circle" aria-hidden="true"></span>
+							<span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<?php echo Text::_('COM_INSTALLER_MSG_WARNINGS_NONE'); ?>
 						</div>
 					<?php endif; ?>
 					<div>
