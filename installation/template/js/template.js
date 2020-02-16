@@ -171,7 +171,7 @@
       throw new Error('No form provided')
     }
     if (!tasks.length) {
-      Joomla.goToPage('remove');
+      Joomla.goToPage('complete');
       return;
     }
 
@@ -218,7 +218,7 @@
       },
       onError: function(xhr){
         Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
-        Joomla.goToPage('remove');
+        Joomla.goToPage('complete');
 
         try {
           var r = JSON.parse(xhr.responseText);

@@ -12,22 +12,22 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-/** @var \Joomla\CMS\Installation\View\Remove\HtmlView $this */
+/** @var \Joomla\CMS\Installation\View\Complete\HtmlView $this */
 ?>
-<div id="installer-view" data-page-name="remove">
+<div id="installer-view" data-page-name="complete">
 
-	<fieldset id="installCongrat" class="j-install-step active">
-		<legend class="j-install-step-header">
+	<div id="installCongrat" class="j-install-step active">
+		<div class="j-install-step-header">
 			<span class="fas fa-trophy" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_CONGRAT'); ?>
-		</legend>
+		</div>
 		<div class="j-install-step-form" id="customInstallation">
 			<h2><?php echo Text::_('INSTL_COMPLETE_TITLE'); ?></h2>
 			<p><?php echo Text::_('INSTL_COMPLETE_DESC'); ?></p>
 			<div class="form-group">
-				<button class="btn btn-primary btn-block" id="installAddFeatures"><?php echo Text::_('INSTL_COMPLETE_ADD_PRECONFIG'); ?> <span class="fas fa-chevron-right" aria-hidden="true"></span></button>
+				<button class="btn btn-primary btn-block" id="installAddFeatures"><?php echo Text::_('INSTL_LANGUAGES'); ?> <span class="fas fa-chevron-right" aria-hidden="true"></span></button>
 			</div>
 		</div>
-	</fieldset>
+	</div>
 
 		<div id="installRecommended" class="j-install-step active">
 			<div class="j-install-step-form">
@@ -100,7 +100,7 @@ use Joomla\CMS\Uri\Uri;
 
 		<fieldset id="installLanguages" class="j-install-step">
 			<legend class="j-install-step-header">
-				<span class="fas fa-comment-dots" aria-hidden="true"></span> <?php echo Text::_('INSTL_LANGUAGES'); ?>
+				<span class="fas fa-language" aria-hidden="true"></span> <?php echo Text::_('INSTL_LANGUAGES'); ?>
 			</legend>
 			<div class="j-install-step-form">
 				<?php if (!$this->items) : ?>
@@ -108,13 +108,13 @@ use Joomla\CMS\Uri\Uri;
 				<p>
 					<a href="#"
 							class="btn btn-primary"
-							onclick="return Install.goToPage('remove');">
+							onclick="return Install.goToPage('complete');">
 						<span class="fas fa-arrow-left icon-white" aria-hidden="true"></span>
 						<?php echo Text::_('INSTL_LANGUAGES_WARNING_BACK_BUTTON'); ?>
 					</a>
 				</p>
 				<p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET2'); ?></p>
-			<?php else : ?>
+				<?php else : ?>
 			<form action="index.php" method="post" id="languagesForm" class="form-validate">
 				<p id="wait_installing" class="hidden">
 					<?php echo Text::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT'); ?><br>
@@ -155,6 +155,7 @@ use Joomla\CMS\Uri\Uri;
 							<td>
 								<?php echo $language->code; ?>
 							</td>
+							<!-- todo -->
 							<td class="text-center">
 								<?php // Display a Note if language pack version is not equal to Joomla version ?>
 								<?php if (substr($language->version, 0, 3) != $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION || substr($language->version, 0, 5) != $currentShortVersion) : ?>
@@ -163,6 +164,7 @@ use Joomla\CMS\Uri\Uri;
 									<span class="badge badge-success"><?php echo $language->version; ?></span>
 								<?php endif; ?>
 							</td>
+							<!-- end todo -->
 						</tr>
 					<?php endforeach; ?>
 					</tbody>
@@ -171,7 +173,7 @@ use Joomla\CMS\Uri\Uri;
 					<?php echo HTMLHelper::_('form.token'); ?>
 					<?php endif; ?>
 					<button id="installLanguagesButton" class="btn btn-block btn-primary">
-						<?php echo Text::_('JNEXT'); ?>
+						<?php echo Text::_('INSTL_LANGUAGES_SELECTED'); ?>
 					</button>
 					<button id="skipLanguages" class="btn btn-block btn-secondary">
 					<?php echo Text::_('JSKIP'); ?>
@@ -181,14 +183,104 @@ use Joomla\CMS\Uri\Uri;
 			</div>
 		</fieldset>
 
-		<fieldset id="installFinal" class="j-install-step">
+		<fieldset id="defaultLanguages" class="j-install-step">
 			<legend class="j-install-step-header">
-				<span class="fab fa-joomla" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_FINAL'); ?>
+				<span class="fas fa-language" aria-hidden="true"></span> <?php echo Text::_('INSTL_DEFAULTLANGUAGES'); ?>
 			</legend>
 			<div class="j-install-step-form">
-				<p><?php echo Text::_('INSTL_COMPLETE_FINAL_DESC'); ?></p>
+				<form action="index.php" method="post" id="defaultlanguagesForm" class="form-validate">
+				<h3><?php echo Text::_('INSTL_DEFAULTLANGUAGE_ADMINISTRATOR'); ?></h3>
+				<hr class="hr-condensed" />
+				<p><?php echo Text::_('INSTL_DEFAULTLANGUAGE_DESC'); ?></p>
+				<table class="table table-striped table-condensed">
+					<thead>
+						<tr>
+							<td width="1%" class="text-center">
+								<?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_SELECT'); ?>
+							</td>
+							<th scope="col">
+								<?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_LANGUAGE'); ?>
+							</th>
+							<th width="15%" scope="col">
+								<?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_TAG'); ?>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+					<?php foreach ($this->administratorlangs as $i => $lang) : ?>
+						<tr>
+							<td>
+								<input
+									id="admin-language-cb<?php echo $i; ?>"
+									type="radio"
+									name="administratorlang"
+									value="<?php echo $lang->language; ?>"
+									<?php if ($lang->published) echo 'checked="checked"'; ?>
+								/>
+							</td>
+							<th scope="row">
+								<label for="admin-language-cb<?php echo $i; ?>">
+									<?php echo $lang->name; ?>
+								</label>
+							</th>
+							<td>
+								<?php echo $lang->language; ?>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+					</tbody>
+				</table>
+				<h3><?php echo Text::_('INSTL_DEFAULTLANGUAGE_FRONTEND'); ?></h3>
+				<hr class="hr-condensed" />
+				<p><?php echo Text::_('INSTL_DEFAULTLANGUAGE_DESC_FRONTEND'); ?></p>
+				<table class="table table-striped table-condensed">
+					<thead>
+					<tr>
+						<td width="1%" class="text-center">
+							<?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_SELECT'); ?>
+						</td>
+						<th scope="col">
+							<?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_LANGUAGE'); ?>
+						</th>
+						<th width="15%" scope="col">
+							<?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_TAG'); ?>
+						</th>
+					</tr>
+					</thead>
+					<tbody>
+					<?php foreach ($this->sitelangs as $i => $lang) : ?>
+						<tr>
+							<td>
+								<input
+									id="site-language-cb<?php echo $i; ?>"
+									type="radio"
+									name="frontendlang"
+									value="<?php echo $lang->language; ?>"
+									<?php if ($lang->published) echo 'checked="checked"'; ?>
+								/>
+							</td>
+							<th scope="row">
+								<label for="site-language-cb<?php echo $i; ?>">
+									<?php echo $lang->name; ?>
+								</label>
+							</th>
+							<td>
+								<?php echo $lang->language; ?>
+							</td>
+						</tr>
+					<?php endforeach; ?>
+					</tbody>
+				</table>
+				<div class="form-group">
+					<?php echo HTMLHelper::_('form.token'); ?>
+
+					<button id="installDefaultLanguagesButton" class="btn btn-block btn-primary">
+						<?php echo Text::_('JNEXT'); ?>
+					</button>
+				</div>
+				<input type="hidden" name="task" value="setdefaultlanguage" />
+				</form>
 			</div>
 		</fieldset>
-
 
 </div>

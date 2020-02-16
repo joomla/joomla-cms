@@ -37,12 +37,12 @@ class DisplayController extends BaseController
 
 		$defaultView = 'setup';
 
-		// If the app has already been installed, default to the remove view
+		// If the app has already been installed, default to the complete view
 		if (file_exists(JPATH_CONFIGURATION . '/configuration.php')
 			&& filesize(JPATH_CONFIGURATION . '/configuration.php') > 10
 			&& file_exists(JPATH_INSTALLATION . '/index.php'))
 		{
-			$defaultView = 'remove';
+			$defaultView = 'complete';
 		}
 
 		/** @var \Joomla\CMS\Installation\Model\ChecksModel $model */
@@ -50,7 +50,7 @@ class DisplayController extends BaseController
 
 		$vName = $this->input->getWord('view', $defaultView);
 
-		if (!$model->getPhpOptionsSufficient() && $defaultView !== 'remove')
+		if (!$model->getPhpOptionsSufficient() && $defaultView !== 'complete')
 		{
 			if ($vName !== 'preinstall')
 			{
@@ -66,12 +66,12 @@ class DisplayController extends BaseController
 				$app->redirect('index.php?view=setup');
 			}
 
-			if ($vName === 'remove' && !file_exists(JPATH_CONFIGURATION . '/configuration.php'))
+			if ($vName === 'complete' && !file_exists(JPATH_CONFIGURATION . '/configuration.php'))
 			{
 				$app->redirect('index.php?view=setup');
 			}
 
-			if ($vName !== $defaultView && !$model->getOptions() && $defaultView !== 'remove')
+			if ($vName !== $defaultView && !$model->getOptions() && $defaultView !== 'complete')
 			{
 				$app->redirect('index.php');
 			}

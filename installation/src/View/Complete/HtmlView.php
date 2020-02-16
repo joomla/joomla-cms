@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\CMS\Installation\View\Remove;
+namespace Joomla\CMS\Installation\View\Complete;
 
 defined('_JEXEC') or die;
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Installation\View\DefaultView;
 use Joomla\CMS\Version;
 
 /**
- * The HTML Joomla Core Install Remove View
+ * The HTML Joomla Core Install Complete View
  *
  * @since  3.1
  */
@@ -36,6 +36,22 @@ class HtmlView extends DefaultView
 	 * @since  4.0.0
 	 */
 	protected $items;
+
+	/**
+	 * List of admin language choices to set as default
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $administratorlangs;
+
+	/**
+	 * List of frontend language choices to set as default
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $sitelangs;
 
 	/**
 	 * Full list of recommended PHP Settings
@@ -64,10 +80,12 @@ class HtmlView extends DefaultView
 	 */
 	public function display($tpl = null)
 	{
-		$this->development = (new Version)->isInDevelopmentState();
-		$this->items       = $this->get('Items', 'Languages');
-		$this->phpoptions  = $this->get('PhpOptions', 'Checks');
-		$this->phpsettings = $this->get('PhpSettings', 'Checks');
+		$this->development        = (new Version)->isInDevelopmentState();
+		$this->items              = $this->get('Items', 'Languages');
+		$this->administratorlangs = $this->get('InstalledlangsAdministrator', 'Languages');
+		$this->sitelangs          = $this->get('InstalledlangsFrontend', 'Languages');
+		$this->phpoptions         = $this->get('PhpOptions', 'Checks');
+		$this->phpsettings        = $this->get('PhpSettings', 'Checks');
 
 		return parent::display($tpl);
 	}

@@ -94,7 +94,7 @@ class InstallationController extends JSONController
 		$options = $setUpModel->getOptions();
 
 		$r = new \stdClass;
-		$r->view = 'remove';
+		$r->view = 'complete';
 
 		/** @var \Joomla\CMS\Installation\Model\ConfigurationModel $configurationModel */
 		$configurationModel = $this->getModel('Configuration');
@@ -206,7 +206,7 @@ class InstallationController extends JSONController
 
 		// Redirect to the page.
 		$r = new \stdClass;
-		$r->view = 'remove';
+		$r->view = 'complete';
 
 		$this->sendJsonResponse($r);
 	}
@@ -235,7 +235,7 @@ class InstallationController extends JSONController
 		$this->app->getSession()->destroy();
 
 		$r = new \stdClass;
-		$r->view = 'remove';
+		$r->view = 'complete';
 
 		/**
 		 * TODO: We can't send a response this way because our installation classes no longer

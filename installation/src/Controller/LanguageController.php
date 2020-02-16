@@ -260,7 +260,7 @@ class LanguageController extends JSONController
 		$r = new \stdClass;
 
 		// Redirect to the final page.
-		$r->view = 'remove';
+		$r->view = 'complete';
 		$this->sendJsonResponse($r);
 	}
 }
