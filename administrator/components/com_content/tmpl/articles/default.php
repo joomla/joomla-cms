@@ -80,11 +80,10 @@ $collection->trash = [];
 
 $assoc = Associations::isEnabled();
 
-// brian debug code
+// get the params to decide which columns to show
 use Joomla\CMS\Component\ComponentHelper;
 $params = ComponentHelper::getParams('com_content');
-print_r($params);
-// end brian
+
 
 HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
 ?>
