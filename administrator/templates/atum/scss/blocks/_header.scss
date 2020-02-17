@@ -175,16 +175,32 @@
 
   .badge {
     position: absolute;
-    left: 50%;
     top: 0.4rem;
-    margin-left: 0.8rem;
+
+    [dir=ltr] & {
+      left: 50%;
+      margin-left: 0.8rem;
+    }
+
+    [dir=rtl] & {
+      right: 50%;
+      margin-right: 0.8rem;
+    }
   }
 
   .fa-angle-down {
     position: absolute;
-    left: 50%;
     top: 0.9rem;
-    margin-left: -1.6rem;
+
+    [dir=ltr] & {
+      left: 50%;
+      margin-left: -1.8rem;
+    }
+
+    [dir=rtl] & {
+      right: 50%;
+      margin-right: -1.8rem;
+    }
   }
 
   .align-items-end {

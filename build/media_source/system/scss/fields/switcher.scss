@@ -6,7 +6,7 @@ $switcher-width: 220px;
   position: relative;
   margin: 0;
   width: $switcher-width;
-  min-height: 50px;
+  min-height: 42px;
   border: solid 1px #ddd;
   border-radius: 3px;
 }
@@ -44,7 +44,7 @@ $switcher-width: 220px;
   margin-bottom: 0;
   left: 0;
   padding: 10px;
-  min-height: 48px;
+  min-height: 40px;
   background: $off-background-colour;
   border-radius: 3px 0 0 3px;
 
