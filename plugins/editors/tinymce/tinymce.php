@@ -598,7 +598,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
 				'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
 				'toolbar_sticky'     => true,
-				'toolbar_drawer'     => 'sliding',
+				'toolbar_mode'       => 'sliding',
 
 				// Drag and drop specific
 				'dndEnabled' => $dragdrop,

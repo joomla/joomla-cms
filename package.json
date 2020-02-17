@@ -50,7 +50,7 @@
     "roboto-fontface": "^0.10.0",
     "short-and-sweet": "^1.0.2",
     "skipto": "^2.1.1",
-    "tinymce": "^5.1.6"
+    "tinymce": "^5.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
