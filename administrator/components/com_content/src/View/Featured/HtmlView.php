@@ -77,7 +77,6 @@ class HtmlView extends BaseHtmlView
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
 		$this->transitions   = $this->get('Transitions');
 		$this->vote          = PluginHelper::isEnabled('content', 'vote');
 
