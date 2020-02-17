@@ -95,6 +95,7 @@ $alert-color-level:                0;
 $atum-box-shadow:                 0 2px 4px rgba(0,0,0,0.16), 0 2px 4px rgba(0,0,0,0.23);
 $enable-rounded:                   false;
 $border-radius:                    3px;
+$input-box-shadow:                 0 0 0 .2rem lighten(theme-color("atum-link-color"), 45%);
 $input-btn-padding-y:              .6rem;
 $input-btn-padding-x:              1rem;
 $input-max-width:                  100%;

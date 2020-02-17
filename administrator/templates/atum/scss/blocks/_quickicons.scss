@@ -4,7 +4,6 @@
   background-color: $white;
 
 
-
   li {
     padding: 0;
   }
@@ -13,7 +12,6 @@
     color: var(--atum-link-color);
     width: 100%;
     transition: all .25s ease;
-
 
 
     .fas,
@@ -39,7 +37,6 @@
 
       .fas,
       .fab {
-
         background: -webkit-linear-gradient(var(--atum-bg-light), $white);
         background: linear-gradient(var(--atum-bg-light), $white);
         background-clip: border-box;
@@ -47,7 +44,6 @@
         -webkit-text-fill-color: transparent;
       }
     }
-
 
 
   }
@@ -178,7 +174,7 @@
       text-align: center;
       min-height: 1.2rem;
       padding: 0.2rem;
-      font-size:.875rem;
+      font-size: .875rem;
     }
 
     .j-links-link {
@@ -218,8 +214,8 @@
       .fas,
       .fab {
         color: var(--success);
-        background: -webkit-linear-gradient( var(--success), #159c1e);
-        background: linear-gradient( var(--success), #159c1e);
+        background: -webkit-linear-gradient(var(--success), #159c1e);
+        background: linear-gradient(var(--success), #159c1e);
         background-clip: border-box;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -233,8 +229,8 @@
         .fab {
           &::before {
             color: var(--white);
-            background: -webkit-linear-gradient( $white, lighten($green, 40%));
-            background: linear-gradient( $white, lighten($green, 40%));
+            background: -webkit-linear-gradient($white, lighten($green, 40%));
+            background: linear-gradient($white, lighten($green, 40%));
             background-clip: border-box;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;

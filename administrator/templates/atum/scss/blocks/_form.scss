@@ -6,18 +6,17 @@
   border:solid 2px var(--atum-bg-dark);
 
    */
-  background-color:$white;
-  border: 1px solid  var(--atum-link-color);
+  background-color: $white;
+  border: 1px solid var(--atum-link-color);
   border-radius: $border-radius;
-  box-shadow: 0 0 0 .2rem lighten(theme-color("atum-link-color"), 45%);
+  box-shadow: $input-box-shadow;
 }
 
 .form-control:disabled,
-.form-control[readonly]{
-  border:0;
+.form-control[readonly] {
+  border: 0;
   box-shadow: none
 }
-
 
 
 .control-group {
@@ -115,7 +114,7 @@ legend {
 }
 
 [aria-grabbed='true'] {
-  box-shadow: 0 0 2px 1px theme-color("primary");
+  box-shadow: $input-box-shadow;
 }
 
 .sortable-handler.inactive {

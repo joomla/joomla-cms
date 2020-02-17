@@ -275,7 +275,7 @@
 
       &[href]:hover:not(.menu-dashboard):not(.menu-quicktask) {
         color: $white;
-        background-color: darken($light-blue,0.5);
+        background-color:  var(--atum-link-color);
       }
 
       &.mm-active {
