@@ -1329,7 +1329,7 @@ class ArticleModel extends AdminModel
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__content_frontpage'))
-				->where('content_id IN (' . implode(',', $pks) . ')');
+				->whereIn($db->quoteName('content_id'), $pks);
 			$db->setQuery($query);
 			$db->execute();
 
@@ -1384,26 +1384,33 @@ class ArticleModel extends AdminModel
 		}
 
 		// Check if the workflow exists
-		if ($workflow_id > 0)
+		if ($workflow_id = (int) $workflow_id)
 		{
-			$query  = $db->getQuery(true);
+			$query = $db->getQuery(true);
 
 			$query->select(
-				$db->quoteName(
+				[
+					$db->quoteName('w.id'),
+					$db->quoteName('ws.condition'),
+					$db->quoteName('ws.id', 'stage_id'),
+				]
+			)
+				->from(
 					[
-						'w.id',
-						'ws.condition'
+						$db->quoteName('#__workflow_stages', 'ws'),
+						$db->quoteName('#__workflows', 'w'),
 					]
 				)
-			)
-				->select($db->quoteName('ws.id', 'stage_id'))
-				->from($db->quoteName('#__workflow_stages', 'ws'))
-				->from($db->quoteName('#__workflows', 'w'))
-				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
-				->where($db->quoteName('ws.default') . ' = 1')
-				->where($db->quoteName('w.published') . ' = 1')
-				->where($db->quoteName('ws.published') . ' = 1')
-				->where($db->quoteName('w.id') . ' = ' . (int) $workflow_id);
+				->where(
+					[
+						$db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'),
+						$db->quoteName('ws.default') . ' = 1',
+						$db->quoteName('w.published') . ' = 1',
+						$db->quoteName('ws.published') . ' = 1',
+						$db->quoteName('w.id') . ' = :workflowId',
+					]
+				)
+				->bind(':workflowId', $workflow_id, ParameterType::INTEGER);
 
 			$workflow = $db->setQuery($query)->loadObject();
 
@@ -1417,21 +1424,27 @@ class ArticleModel extends AdminModel
 		$query  = $db->getQuery(true);
 
 		$query->select(
-			$db->quoteName(
 				[
-					'w.id',
-					'ws.condition'
+					$db->quoteName('w.id'),
+					$db->quoteName('ws.condition'),
+					$db->quoteName('ws.id', 'stage_id'),
+				]
+		)
+			->from(
+				[
+					$db->quoteName('#__workflow_stages', 'ws'),
+					$db->quoteName('#__workflows', 'w'),
 				]
 			)
-		)
-			->select($db->quoteName('ws.id', 'stage_id'))
-			->from($db->quoteName('#__workflow_stages', 'ws'))
-			->from($db->quoteName('#__workflows', 'w'))
-			->where($db->quoteName('ws.default') . ' = 1')
-			->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
-			->where($db->quoteName('w.published') . ' = 1')
-			->where($db->quoteName('ws.published') . ' = 1')
-			->where($db->quoteName('w.default') . ' = 1');
+			->where(
+				[
+					$db->quoteName('ws.default') . ' = 1',
+					$db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'),
+					$db->quoteName('w.published') . ' = 1',
+					$db->quoteName('ws.published') . ' = 1',
+					$db->quoteName('w.default') . ' = 1',
+				]
+			);
 
 		$workflow = $db->setQuery($query)->loadObject();
 
