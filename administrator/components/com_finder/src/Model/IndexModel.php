@@ -42,6 +42,14 @@ class IndexModel extends ListModel
 	protected $event_before_delete = 'onContentBeforeDelete';
 
 	/**
+	 * The event to trigger after purging the data.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $event_after_purge = 'onFinderIndexAfterPurge';
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
@@ -386,6 +394,10 @@ class IndexModel extends ListModel
 
 		// Truncate the tokens aggregate table.
 		$db->truncateTable('#__finder_tokens_aggregate');
+
+		// Include the finder plugins for the on purge events.
+		PluginHelper::importPlugin('finder');
+		Factory::getApplication()->triggerEvent($this->event_after_purge);
 
 		return true;
 	}
