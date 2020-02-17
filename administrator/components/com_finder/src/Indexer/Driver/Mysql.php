@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Component\Finder\Administrator\Indexer\Indexer;
 use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
@@ -394,6 +395,10 @@ class Mysql extends Indexer
 
 		// Mark afterTruncating in the profiler.
 		static::$profiler ? static::$profiler->mark('afterTruncating') : null;
+
+		// Trigger a plugin event after indexing
+		PluginHelper::importPlugin('finder');
+		Factory::getApplication()->triggerEvent('onFinderIndexAfterIndex', array($item, $linkId));
 
 		return $linkId;
 	}
