@@ -1424,11 +1424,11 @@ class ArticleModel extends AdminModel
 		$query  = $db->getQuery(true);
 
 		$query->select(
-				[
-					$db->quoteName('w.id'),
-					$db->quoteName('ws.condition'),
-					$db->quoteName('ws.id', 'stage_id'),
-				]
+			[
+				$db->quoteName('w.id'),
+				$db->quoteName('ws.condition'),
+				$db->quoteName('ws.id', 'stage_id'),
+			]
 		)
 			->from(
 				[
