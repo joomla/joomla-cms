@@ -1,7 +1,7 @@
 // Table
 
 .table {
-  box-shadow: $atum-box-shadow;
+
 
   thead {
 
@@ -14,7 +14,9 @@
       font-weight: $font-weight-normal;
       color: var(--atum-link-color);
       white-space: nowrap;
-      border-bottom: 2px solid $gray-300;
+      border-top:0;
+      padding:1rem;
+      border-bottom: 3px solid var(--atum-bg-light);
 
       @include media-breakpoint-down(xs) {
         white-space: normal;
@@ -64,6 +66,11 @@
 
   th,
   td {
+
+    border-bottom: 3px solid var(--atum-bg-light);
+    border-top:0;
+    padding:1rem;
+
     label {
       margin-bottom: 0;
     }

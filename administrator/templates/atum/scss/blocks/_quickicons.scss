@@ -10,7 +10,7 @@
   }
 
   a {
-    color: var(--atum-special-color);
+    color: var(--atum-link-color);
     width: 100%;
     transition: all .25s ease;
 
@@ -35,7 +35,7 @@
     @include hover-focus-active {
       text-decoration: none;
       color: $white;
-      background: var(--atum-special-color);
+      background: var(--atum-link-color);
 
       .fas,
       .fab {
@@ -103,7 +103,7 @@
 
   .quickicon-single,
   .quickicon-group {
-    border: 1px solid var(--atum-special-color);
+    border: 1px solid var(--atum-link-color);
     margin: 0.5rem;
     min-height: 5.7rem;
 
