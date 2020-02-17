@@ -9,11 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_LATEST_NEWS_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\ArticlesLatest</namespace>
+	<namespace path="src">Joomla\Module\ArticlesLatest</namespace>
 	<files>
 		<filename module="mod_articles_latest">mod_articles_latest.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_articles_latest.ini</language>
@@ -29,6 +29,7 @@
 					label="JCATEGORY"
 					extension="com_content"
 					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
 					filter="int_array"
 				/>
 
@@ -82,6 +83,7 @@
 					type="author"
 					label="MOD_LATEST_NEWS_FIELD_AUTHOR_LABEL"
 					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
 					showon="user_id:created_by"
 				/>
 			</fieldset>

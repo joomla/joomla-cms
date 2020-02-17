@@ -7,7 +7,7 @@
 			name="allowUserRegistration"
 			type="radio"
 			label="COM_USERS_CONFIG_FIELD_ALLOWREGISTRATION_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -34,7 +34,7 @@
 			name="sendpassword"
 			type="radio"
 			label="COM_USERS_CONFIG_FIELD_SENDPASSWORD_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JNO</option>
@@ -56,7 +56,7 @@
 			name="mail_to_admin"
 			type="radio"
 			label="COM_USERS_CONFIG_FIELD_MAILTOADMIN_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JNO</option>
@@ -78,7 +78,7 @@
 			name="frontend_userparams"
 			type="radio"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_USERPARAMS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -89,7 +89,7 @@
 			name="site_language"
 			type="radio"
 			label="COM_USERS_CONFIG_FIELD_FRONTEND_LANG_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			showon="frontend_userparams:1"
 			>
@@ -101,11 +101,24 @@
 			name="change_login_name"
 			type="radio"
 			label="COM_USERS_CONFIG_FIELD_CHANGEUSERNAME_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
+		</field>
+
+		<field
+			name="enforce_2fa_options"
+			type="list"
+			label="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_LABEL"
+			default="0"
+			filter="integer"
+			>
+			<option value="0">JNO</option>
+			<option value="1">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_SITE</option>
+			<option value="2">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_ADMIN</option>
+			<option value="3">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_BOTH</option>
 		</field>
 
 	</fieldset>
@@ -208,7 +221,7 @@
 			name="save_history"
 			type="radio"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -251,24 +264,20 @@
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_USERS_CONFIG_INTEGRATION_SETTINGS_DESC"
 	>
-
-		<field
-			name="integration_customfields"
-			type="note"
+		<fieldset name="integration_customfields"
 			label="JGLOBAL_FIELDS_TITLE"
-		/>
-
-		<field
-			name="custom_fields_enable"
-			type="radio"
-			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
-			class="switcher"
-			default="1"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
+		>
+			<field
+				name="custom_fields_enable"
+				type="radio"
+				label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
+				layout="joomla.form.field.radio.switcher"
+				default="1"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
+		</fieldset>
 	</fieldset>
 
 	<fieldset

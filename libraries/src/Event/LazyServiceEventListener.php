@@ -11,7 +11,7 @@ namespace Joomla\CMS\Event;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\EventInterface;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Decorator for an event listener to be pulled from the service container.
@@ -101,9 +101,9 @@ final class LazyServiceEventListener
 		$service = $this->container->get($this->serviceId);
 
 		// If the service is callable on its own, just execute it
-		if (is_callable($service))
+		if (\is_callable($service))
 		{
-			call_user_func($service, $event);
+			\call_user_func($service, $event);
 
 			return;
 		}
@@ -125,12 +125,12 @@ final class LazyServiceEventListener
 				sprintf(
 					'The "%s" method does not exist on "%s" (from service "%s")',
 					$this->method,
-					get_class($service),
+					\get_class($service),
 					$this->serviceId
 				)
 			);
 		}
 
-		call_user_func([$service, $this->method], $event);
+		\call_user_func([$service, $this->method], $event);
 	}
 }

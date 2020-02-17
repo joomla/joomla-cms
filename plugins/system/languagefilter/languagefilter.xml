@@ -33,7 +33,7 @@
 				<field
 					name="automatic_change"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_AUTOMATIC_CHANGE_LABEL"
 					default="1"
 					filter="integer"
@@ -45,7 +45,7 @@
 				<field
 					name="item_associations"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ITEM_ASSOCIATIONS_LABEL"
 					default="1"
 					filter="integer"
@@ -57,7 +57,7 @@
 				<field
 					name="alternate_meta"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_ALTERNATE_META_LABEL"
 					default="1"
 					filter="integer"
@@ -69,7 +69,7 @@
 				<field
 					name="xdefault"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_XDEFAULT_LABEL"
 					default="1"
 					filter="integer"
@@ -92,7 +92,7 @@
 				<field
 					name="remove_default_prefix"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_DEFAULT_PREFIX_LABEL"
 					default="0"
 					filter="integer"

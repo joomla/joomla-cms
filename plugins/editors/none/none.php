@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\Event;
@@ -59,7 +59,12 @@ class PlgEditorNone extends CMSPlugin
 
 		$readonly = !empty($params['readonly']) ? ' readonly disabled' : '';
 
-		HTMLHelper::_('webcomponent', 'plg_editors_none/joomla-editor-none.min.js', ['version' => 'auto', 'relative' => true]);
+		Factory::getDocument()->getWebAssetManager()
+			->registerAndUseScript(
+				'webcomponent.editor-none',
+				'plg_editors_none/joomla-editor-none.min.js',
+				['webcomponent' => true]
+			);
 
 		return '<joomla-editor-none>'
 			. '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row

@@ -16,6 +16,7 @@ use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
 use Joomla\CMS\Version;
+use Joomla\Utilities\IpHelper;
 
 /**
  * Joomla! Formatted Text File Log class
@@ -181,7 +182,7 @@ class FormattedtextLogger extends Logger
 	/**
 	 * Format a line for the log file.
 	 *
-	 * @param   JLogEntry  $entry  The log entry to format as a string.
+	 * @param   LogEntry  $entry  The log entry to format as a string.
 	 *
 	 * @return  String
 	 *
@@ -192,18 +193,11 @@ class FormattedtextLogger extends Logger
 		// Set some default field values if not already set.
 		if (!isset($entry->clientIP))
 		{
-			// Check for proxies as well.
-			if (isset($_SERVER['REMOTE_ADDR']))
+			$ip = IpHelper::getIp();
+
+			if ($ip !== '')
 			{
-				$entry->clientIP = $_SERVER['REMOTE_ADDR'];
-			}
-			elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-			{
-				$entry->clientIP = $_SERVER['HTTP_X_FORWARDED_FOR'];
-			}
-			elseif (isset($_SERVER['HTTP_CLIENT_IP']))
-			{
-				$entry->clientIP = $_SERVER['HTTP_CLIENT_IP'];
+				$entry->clientIP = $ip;
 			}
 		}
 

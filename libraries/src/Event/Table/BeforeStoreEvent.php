@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Event\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
 
@@ -34,12 +34,12 @@ class BeforeStoreEvent extends AbstractEvent
 	 */
 	public function __construct($name, array $arguments = array())
 	{
-		if (!array_key_exists('updateNulls', $arguments))
+		if (!\array_key_exists('updateNulls', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'updateNulls' is required for event $name");
 		}
 
-		if (!array_key_exists('k', $arguments))
+		if (!\array_key_exists('k', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'k' is required for event $name");
 		}

@@ -38,7 +38,7 @@
 				<field
 					name="autopublish"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_LABEL"
 					default="0"
 					filter="integer"

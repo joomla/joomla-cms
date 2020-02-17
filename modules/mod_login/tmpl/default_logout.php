@@ -26,7 +26,7 @@ HTMLHelper::_('behavior.keepalive');
 	</div>
 <?php endif; ?>
 <?php if ($params->get('profilelink', 0)) : ?>
-	<ul class="mod-login-logout__options unstyled">
+	<ul class="mod-login-logout__options list-unstyled">
 		<li>
 			<a href="<?php echo Route::_('index.php?option=com_users&view=profile'); ?>">
 			<?php echo Text::_('MOD_LOGIN_PROFILE'); ?></a>

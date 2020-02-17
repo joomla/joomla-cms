@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Opensearch\OpensearchImage;
 use Joomla\CMS\Document\Opensearch\OpensearchUrl;
@@ -128,7 +128,7 @@ class OpensearchDocument extends Document
 	{
 		$xml = new \DOMDocument('1.0', 'utf-8');
 
-		if (defined('JDEBUG') && JDEBUG)
+		if (\defined('JDEBUG') && JDEBUG)
 		{
 			$xml->formatOutput = true;
 		}
@@ -168,7 +168,7 @@ class OpensearchDocument extends Document
 			$elUrl->setAttribute('type', $url->type);
 
 			// Results is the default value so we don't need to add it
-			if ($url->rel != 'results')
+			if ($url->rel !== 'results')
 			{
 				$elUrl->setAttribute('rel', $url->rel);
 			}

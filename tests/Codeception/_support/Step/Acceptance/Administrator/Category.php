@@ -34,7 +34,7 @@ class Category extends Admin
 	public function createContentCategory($title)
 	{
 		$this->amOnPage(ContentCategoryListPage::$url);
-		$this->waitForText("Articles: Categories", TIMEOUT, "//h1");
+		$this->waitForText("Articles: Categories", $this->getConfig('timeout'), "//h1");
 		$this->clickToolbarButton("New");
 		$this->waitForElement(ContentCategoryListPage::$title);
 		$this->fillField(ContentCategoryListPage::$title, $title);

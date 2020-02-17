@@ -23,7 +23,7 @@
 				<field
 					name="title"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_CONTENT_PAGEBREAK_SITE_TITLE_LABEL"
 					default="1"
 					filter="integer"
@@ -35,7 +35,7 @@
 				<field
 					name="article_index"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_LABEL"
 					default="1"
 					filter="integer"
@@ -54,7 +54,7 @@
 				<field
 					name="multipage_toc"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_CONTENT_PAGEBREAK_TOC_LABEL"
 					default="1"
 					filter="integer"
@@ -66,7 +66,7 @@
 				<field
 					name="showall"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="PLG_CONTENT_PAGEBREAK_SHOW_ALL_LABEL"
 					default="1"
 					filter="integer"

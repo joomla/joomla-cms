@@ -19,7 +19,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('behavior.tabstate');
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
@@ -37,7 +36,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 				?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-info">
-						<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+						<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
@@ -53,33 +52,33 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="text-center">
+								<th scope="col" class="text-center d-none d-md-table-cell">
 									<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
 								</th>
-								<th scope="col" style="width:10%">
+								<th scope="col" style="width:10%; " class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="text-center">
+								<th scope="col" style="width:5%;" class="text-center d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="text-center d-none d-md-table-cell">
+								<th scope="col" style="width:5%;" class="text-center d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 								</th>
-								<?php if ($tfa) : ?> 
+								<?php if ($tfa) : ?>
 								<th scope="col" style="width:5%" class="text-center d-none d-md-table-cell">
 									<?php echo Text::_('COM_USERS_HEADING_TFA'); ?>
 								</th>
 								<?php endif; ?>
-								<th scope="col" style="width:12%">
+								<th scope="col" style="width:12%" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
 								</th>
-								<th scope="col" style="width:12%" class="d-none d-lg-table-cell">
+								<th scope="col" style="width:12%;" class="d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="d-none d-lg-table-cell">
+								<th scope="col" style="width:12%" class="d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="d-none d-lg-table-cell">
+								<th scope="col" style="width:12%" class="d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
@@ -109,7 +108,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									<div class="name break-word">
 									<?php if ($canEdit) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::sprintf('COM_USERS_EDIT_USER', $this->escape($item->name)); ?>">
-											<span class="fa fa-pen-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->name); ?></a>
+											<?php echo $this->escape($item->name); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->name); ?>
 									<?php endif; ?>
@@ -131,16 +130,16 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 										<span class="badge badge-warning"><?php echo Text::_('COM_USERS_PASSWORD_RESET_REQUIRED'); ?></span>
 									<?php endif; ?>
 								</th>
-								<td class="text-center btns">
+								<td class="text-center btns d-none d-md-table-cell">
 									<a href="<?php echo Route::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
-										<span class="fa fa-list" aria-hidden="true"></span>
+										<span class="fas fa-list" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
 									</a>
 								</td>
-								<td class="break-word">
+								<td class="break-word d-none d-md-table-cell">
 									<?php echo $this->escape($item->username); ?>
 								</td>
-								<td class="text-center">
+								<td class="text-center d-md-table-cell">
 									<?php $self = $loggeduser->id == $item->id; ?>
 									<?php if ($canChange) : ?>
 										<?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.blockStates', $self), $item->block, $i, 'users.', !$self); ?>
@@ -148,24 +147,24 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 										<?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.blockStates', $self), $item->block, $i, 'users.', false);; ?>
 									<?php endif; ?>
 								</td>
-								<td class="text-center d-none d-md-table-cell">
+								<td class="text-center d-md-table-cell">
 									<?php
 									$activated = empty( $item->activation) ? 0 : 1;
 									echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.activateStates'), $activated, $i, 'users.', (boolean) $activated);
 									?>
 								</td>
-								<?php if ($tfa) : ?> 
+								<?php if ($tfa) : ?>
 								<td class="text-center d-none d-md-table-cell tbody-icon">
 									<?php if (!empty($item->otpKey)) : ?>
 										<span class="icon-publish" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_ACTIVE'); ?></span>
-									<?php else : ?> 
+									<?php else : ?>
 										<span class="icon-unpublish" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_NOTACTIVE'); ?></span>
 									<?php endif; ?>
 								</td>
 								<?php endif; ?>
-								<td>
+								<td class="d-none d-md-table-cell">
 									<?php if (substr_count($item->group_names, "\n") > 1) : ?>
 										<span tabindex="0"><?php echo Text::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
 										<div role="tooltip" id="tip<?php echo $i; ?>">
@@ -176,17 +175,17 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 										<?php echo nl2br($item->group_names); ?>
 									<?php endif; ?>
 								</td>
-								<td class="d-none d-lg-table-cell break-word">
+								<td class="d-none d-xl-table-cell break-word">
 									<?php echo PunycodeHelper::emailToUTF8($this->escape($item->email)); ?>
 								</td>
-								<td class="d-none d-lg-table-cell">
-									<?php if ($item->lastvisitDate != $this->db->getNullDate()) : ?>
+								<td class="d-none d-xl-table-cell">
+									<?php if ($item->lastvisitDate !== null) : ?>
 										<?php echo HTMLHelper::_('date', $item->lastvisitDate, Text::_('DATE_FORMAT_LC6')); ?>
 									<?php else : ?>
 										<?php echo Text::_('JNEVER'); ?>
 									<?php endif; ?>
 								</td>
-								<td class="d-none d-lg-table-cell">
+								<td class="d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('date', $item->registerDate, Text::_('DATE_FORMAT_LC6')); ?>
 								</td>
 								<td class="d-none d-md-table-cell">

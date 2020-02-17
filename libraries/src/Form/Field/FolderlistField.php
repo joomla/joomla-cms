@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -159,13 +159,13 @@ class FolderlistField extends ListField
 			$this->exclude      = (string) $this->element['exclude'];
 
 			$recursive       = (string) $this->element['recursive'];
-			$this->recursive = ($recursive == 'true' || $recursive == 'recursive' || $recursive == '1');
+			$this->recursive = ($recursive === 'true' || $recursive === 'recursive' || $recursive === '1');
 
 			$hideNone       = (string) $this->element['hide_none'];
-			$this->hideNone = ($hideNone == 'true' || $hideNone == 'hideNone' || $hideNone == '1');
+			$this->hideNone = ($hideNone === 'true' || $hideNone === 'hideNone' || $hideNone === '1');
 
 			$hideDefault       = (string) $this->element['hide_default'];
-			$this->hideDefault = ($hideDefault == 'true' || $hideDefault == 'hideDefault' || $hideDefault == '1');
+			$this->hideDefault = ($hideDefault === 'true' || $hideDefault === 'hideDefault' || $hideDefault === '1');
 
 			// Get the path in which to search for file options.
 			$this->directory = (string) $this->element['directory'];
@@ -209,14 +209,14 @@ class FolderlistField extends ListField
 		$folders = Folder::folders($path, $this->folderFilter, $this->recursive, true);
 
 		// Build the options list from the list of folders.
-		if (is_array($folders))
+		if (\is_array($folders))
 		{
 			foreach ($folders as $folder)
 			{
 				// Check to see if the file is in the exclude mask.
 				if ($this->exclude)
 				{
-					if (preg_match(chr(1) . $this->exclude . chr(1), $folder))
+					if (preg_match(\chr(1) . $this->exclude . \chr(1), $folder))
 					{
 						continue;
 					}

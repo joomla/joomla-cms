@@ -219,28 +219,6 @@ Joomla = window.Joomla || {};
       });
 
       this.checkActiveStatus(this);
-
-      document.body.addEventListener('click', (event) => {
-        if (document.body.classList.contains('filters-shown')) {
-          // Ignore click inside the filter container
-          if (event.composedPath && typeof event.composedPath === 'function') {
-            // Browser that support composedPath()
-            if (event.composedPath().indexOf(this.filterContainer) !== -1) {
-              return;
-            }
-          } else {
-            let node = event.target;
-            while (node !== document.body) {
-              if (node === this.filterContainer) {
-                return;
-              }
-              node = node.parentNode;
-            }
-          }
-
-          this.hideFilters();
-        }
-      });
     }
 
     checkFilter(element) {
@@ -294,15 +272,30 @@ Joomla = window.Joomla || {};
     }
 
     // eslint-disable-next-line class-methods-use-this
+    updateFilterCount(count) {
+      if (this.clearButton) {
+        this.clearButton.disabled = (count === 0) && !this.searchString.length;
+      }
+    }
+
+    // eslint-disable-next-line class-methods-use-this
     checkActiveStatus(cont) {
       const el = cont.mainContainer;
       const els = [].slice.call(el.querySelectorAll('.js-stools-field-filter select'));
+      let activeFilterCount = 0;
+
       els.forEach((item) => {
         if (item.classList.contains('active')) {
+          activeFilterCount += 1;
           cont.filterButton.classList.remove('btn-secondary');
           cont.filterButton.classList.add('btn-primary');
         }
       });
+
+      // Disable clear button when no filter is active and search is empty
+      if (this.clearButton) {
+        this.clearButton.disabled = (activeFilterCount === 0) && !this.searchString.length;
+      }
     }
 
     // eslint-disable-next-line class-methods-use-this

@@ -10,7 +10,7 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 $msgList = $displayData['msgList'];
@@ -28,7 +28,10 @@ $alert = [
 ];
 
 // Alerts progressive enhancement
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['version' => 'auto', 'relative' => true]);
+Factory::getDocument()->getWebAssetManager()
+	->useStyle('webcomponent.joomla-alert')
+	->useScript('webcomponent.joomla-alert');
+
 ?>
 <div id="system-message-container" aria-live="polite">
 	<div id="system-message">
@@ -36,10 +39,10 @@ HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js
 			<?php foreach ($msgList as $type => $msgs) : ?>
 				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true">
 					<?php if (!empty($msgs)) : ?>
-						<h4><?php echo Text::_($type); ?></h4>
+						<div class="alert-heading"><?php echo Text::_($type); ?></div>
 						<div>
 							<?php foreach ($msgs as $msg) : ?>
-								<div><?php echo $msg; ?></div>
+								<p><?php echo $msg; ?></p>
 							<?php endforeach; ?>
 						</div>
 					<?php endif; ?>

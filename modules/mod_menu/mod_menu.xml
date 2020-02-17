@@ -9,11 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_MENU_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\Menu</namespace>
+	<namespace path="src">Joomla\Module\Menu</namespace>
 	<files>
 		<filename module="mod_menu">mod_menu.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_menu.ini</language>
@@ -85,7 +85,7 @@
 				<field
 					name="showAllChildren"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_MENU_FIELD_ALLCHILDREN_LABEL"
 					default="1"
 					filter="integer"

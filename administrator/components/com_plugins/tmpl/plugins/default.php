@@ -17,7 +17,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('behavior.tabstate');
 
 $user      = Factory::getUser();
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -35,7 +34,7 @@ if ($saveOrder)
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
@@ -45,12 +44,12 @@ if ($saveOrder)
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-							<?php echo HTMLHelper::_('searchtools.sort', '', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-						</th>
 						<td style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
+						<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
+							<?php echo HTMLHelper::_('searchtools.sort', '', 'ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+						</th>
 						<th scope="col" style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'enabled', $listDirn, $listOrder); ?>
 						</th>
@@ -79,7 +78,10 @@ if ($saveOrder)
 					$canChange  = $user->authorise('core.edit.state', 'com_plugins') && $canCheckin;
 					?>
 					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->folder; ?>">
-						<td class="order text-center d-none d-md-table-cell">
+						<td class="text-center">
+							<?php echo HTMLHelper::_('grid.id', $i, $item->extension_id); ?>
+						</td>
+						<td class="text-center d-none d-md-table-cell">
 							<?php
 							$iconClass = '';
 							if (!$canChange)
@@ -92,14 +94,11 @@ if ($saveOrder)
 							}
 							?>
 							<span class="sortable-handler<?php echo $iconClass; ?>">
-								<span class="icon-menu" aria-hidden="true"></span>
+								<span class="fas fa-ellipsis-v" aria-hidden="true"></span>
 							</span>
 							<?php if ($canChange && $saveOrder) : ?>
-								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
+								<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 							<?php endif; ?>
-						</td>
-						<td class="text-center">
-							<?php echo HTMLHelper::_('grid.id', $i, $item->extension_id); ?>
 						</td>
 						<td class="text-center">
 							<?php echo HTMLHelper::_('jgrid.published', $item->enabled, $i, 'plugins.', $canChange); ?>
@@ -109,9 +108,8 @@ if ($saveOrder)
 								<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'plugins.', $canCheckin); ?>
 							<?php endif; ?>
 							<?php if ($canEdit) : ?>
-								<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
 								<a href="<?php echo Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . (int) $item->extension_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
-									<?php echo $editIcon; ?><?php echo $item->name; ?></a>
+									<?php echo $item->name; ?></a>
 									<?php if (!empty($item->note)) : ?>
 										<div class="small">
 											<?php echo Text::sprintf('JGLOBAL_LIST_NOTE', $this->escape($item->note)); ?>

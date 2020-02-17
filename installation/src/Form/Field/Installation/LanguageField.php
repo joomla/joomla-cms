@@ -78,7 +78,7 @@ class LanguageField extends ListField
 			}
 		}
 
-		if (!$options || $options  instanceof \Exception)
+		if (!$options || $options instanceof \Exception)
 		{
 			$options = array();
 		}

@@ -16,4 +16,17 @@
 		<language tag="en-GB">en-GB.plg_quickicon_privacycheck.ini</language>
 		<language tag="en-GB">en-GB.plg_quickicon_privacycheck.sys.ini</language>
 	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="context"
+					type="text"
+					label="PLG_QUICKICON_PRIVACYCHECK_GROUP_LABEL"
+					description="PLG_QUICKICON_PRIVACYCHECK_GROUP_DESC"
+					default="update_quickicon"
+				/>
+			</fieldset>
+		</fields>
+	</config>
 </extension>

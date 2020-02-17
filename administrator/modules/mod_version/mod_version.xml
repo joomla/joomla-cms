@@ -9,12 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_VERSION_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\Version</namespace>
+	<namespace path="src">Joomla\Module\Version</namespace>
 	<files>
 		<filename module="mod_version">mod_version.php</filename>
-		<folder>language</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.mod_version.ini</language>

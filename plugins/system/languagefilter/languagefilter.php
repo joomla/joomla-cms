@@ -14,7 +14,6 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Associations;
@@ -127,7 +126,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				}
 			}
 		}
-		// If language filter plugin is executed in an admin page (ex: JRoute site).
+		// If language filter plugin is executed in an admin page (ex: Route site).
 		else
 		{
 			// Set current language to default site language, fallback to en-GB if there is no content language for the default site language.
@@ -192,34 +191,10 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	}
 
 	/**
-	 * Listener for the onBeforeExecute event
-	 *
-	 * @param   BeforeExecuteEvent  $event  The Event object
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0
-	 */
-	public function onBeforeExecute(BeforeExecuteEvent $event)
-	{
-		/** @var \Joomla\CMS\Application\SiteApplication $app */
-		$app = $event->getApplication();
-
-		if (!$app->isClient('site'))
-		{
-			return;
-		}
-
-		// If a language was specified it has priority, otherwise use user or default language settings
-		$app->setLanguageFilter(true);
-		$app->setDetectBrowser($this->params->get('detect_browser', '1') == '1');
-	}
-
-	/**
 	 * Add build preprocess rule to router.
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -240,8 +215,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * Add build rule to router.
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -272,8 +247,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * postprocess build rule for SEF URLs
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -287,8 +262,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * postprocess build rule for non-SEF URLs
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -307,8 +282,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * Add parse rule to router.
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -371,7 +346,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				$found = true;
 				$lang_code = $this->sefs[$sef]->lang_code;
 
-				// If we found our language, but its the default language and we don't want a prefix for that, we are on a wrong URL.
+				// If we found our language, but it's the default language and we don't want a prefix for that, we are on a wrong URL.
 				// Or we try to change the language back to the default language. We need a redirect to the proper URL for the default language.
 				if ($lang_code === $this->default_lang && $this->params->get('remove_default_prefix', 0))
 				{
@@ -662,10 +637,10 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 */
 	public function onUserLogin($user, $options = array())
 	{
-		$menu = $this->app->getMenu();
-
 		if ($this->app->isClient('site'))
 		{
+			$menu = $this->app->getMenu();
+
 			if ($this->params->get('automatic_change', 1))
 			{
 				$assoc = Associations::isEnabled();
@@ -698,7 +673,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				 * In that case we use the redirect as defined in the menu item.
 				 *  Otherwise we redirect, when available, to the user preferred site language.
 				 */
-				if ($active && !$active->params['login_redirect_url'])
+				if ($active && !$active->getParams()->get('login_redirect_url'))
 				{
 					if ($assoc)
 					{

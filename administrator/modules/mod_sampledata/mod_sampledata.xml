@@ -9,10 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.8.0</version>
 	<description>MOD_SAMPLEDATA_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\Sampledata</namespace>
+	<namespace path="src">Joomla\Module\Sampledata</namespace>
 	<files>
 		<filename module="mod_sampledata">mod_sampledata.php</filename>
-		<filename>helper.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<media destination="mod_sampledata" folder="media">

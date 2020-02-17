@@ -13,15 +13,15 @@
 		<filename>ajax.php</filename>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_ajax.ini</language>
+		<language tag="en-GB">language/en-GB/com_ajax.ini</language>
 	</languages>
 	<administration>
 		<files folder="admin">
 			<filename>ajax.php</filename>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_ajax.ini</language>
-			<language tag="en-GB">language/en-GB.com_ajax.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_ajax.ini</language>
+			<language tag="en-GB">language/en-GB/com_ajax.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

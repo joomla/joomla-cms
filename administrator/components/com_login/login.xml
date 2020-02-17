@@ -9,21 +9,17 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_LOGIN_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Login</namespace>
+	<namespace path="src">Joomla\Component\Login</namespace>
 	<administration>
 		<files folder="admin">
 			<filename>login.xml</filename>
-			<folder>Controller</folder>
-			<folder>Dispatcher</folder>
-			<folder>Extension</folder>
-			<folder>Model</folder>
 			<folder>services</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_login.ini</language>
-			<language tag="en-GB">language/en-GB.com_login.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_login.ini</language>
+			<language tag="en-GB">language/en-GB/com_login.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

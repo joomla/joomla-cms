@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -70,7 +70,7 @@ class MediaField extends FormField
 	protected $height;
 
 	/**
-	 * The authorField.
+	 * The preview.
 	 *
 	 * @var    string
 	 * @since  3.2
@@ -78,7 +78,7 @@ class MediaField extends FormField
 	protected $preview;
 
 	/**
-	 * The preview.
+	 * The directory.
 	 *
 	 * @var    string
 	 * @since  3.2

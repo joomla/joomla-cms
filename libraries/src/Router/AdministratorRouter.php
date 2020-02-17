@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Router;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Uri\Uri;
 

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory as CmsFactory;
 
@@ -72,7 +72,7 @@ class JsonDocument extends Document
 
 		$app->allowCache(false);
 
-		if ($this->_mime == 'application/json')
+		if ($this->_mime === 'application/json')
 		{
 			// Browser other than Internet Explorer < 10
 			$app->setHeader('Content-Disposition', 'attachment; filename="' . $this->getName() . '.json"', true);

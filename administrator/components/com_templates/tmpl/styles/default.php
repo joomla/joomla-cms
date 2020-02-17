@@ -76,7 +76,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="row">
 									<?php if ($canEdit) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_templates&task=style.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
-											<span class="fa fa-pen-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
+											<?php echo $this->escape($item->title); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>

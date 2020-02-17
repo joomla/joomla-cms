@@ -10,19 +10,18 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
-
-FormHelper::loadFieldClass('radio');
 
 /**
  * Provides input for privacyterms
  *
  * @since  3.9.0
  */
-class JFormFieldterms extends JFormFieldRadio
+class JFormFieldterms extends RadioField
 {
 	/**
 	 * The form field type.
@@ -98,7 +97,7 @@ class JFormFieldterms extends JFormFieldRadio
 
 			if (isset($termsAssociated) && $currentLang !== $article->language && array_key_exists($currentLang, $termsAssociated))
 			{
-				$article->link = ContentHelperRoute::getArticleRoute(
+				$article->link = RouteHelper::getArticleRoute(
 					$termsAssociated[$currentLang]->id,
 					$termsAssociated[$currentLang]->catid,
 					$termsAssociated[$currentLang]->language
@@ -107,7 +106,7 @@ class JFormFieldterms extends JFormFieldRadio
 			else
 			{
 				$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-				$article->link = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
+				$article->link = RouteHelper::getArticleRoute($slug, $article->catid, $article->language);
 			}
 		}
 

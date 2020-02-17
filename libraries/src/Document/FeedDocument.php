@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Feed\FeedImage;
 use Joomla\CMS\Document\Feed\FeedItem;

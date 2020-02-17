@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Libraries\Cms\Html;
+namespace Joomla\Tests\Unit\Libraries\Cms\Document;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\FactoryInterface;

@@ -9,18 +9,18 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-
 /** @var JDocumentHtml $this */
 
-// Add JavaScript Frameworks
-HTMLHelper::_('bootstrap.framework');
+// Enable assets
+$wa = $this->getWebAssetManager();
+$wa->useStyle('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+	->useStyle('template.active.language')
+	->useStyle('template.user')
+	->useScript('template.user');
 
-// Add Stylesheets
-HTMLHelper::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
+// Override 'template.active' asset to set correct ltr/rtl dependency
+$wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
-// Load optional rtl Bootstrap css and Bootstrap bugfixes
-//HTMLHelper::_('bootstrap.loadCss', false, $this->direction);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

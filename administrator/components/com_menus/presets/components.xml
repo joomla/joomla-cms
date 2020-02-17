@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<menu
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="urn:joomla.org"
+	xsi:schemaLocation="urn:joomla.org menu.xsd"
+	>
+	<menuitem
+		title="MOD_MENU_COMPONENTS"
+		type="container"
+		class="class:puzzle-piece"
+		dashboard="components"
+	/>
+</menu>
