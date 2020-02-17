@@ -125,14 +125,14 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								<th scope="col" style="min-width:100px">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<?php if ($params->get('show_list_access', 0)) : ?>
-									<th scope="col" style="width:10%" class="d-none d-md-table-cell">
-										<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
-									</th>
-								<?php endif; ?>
 								<?php if ($params->get('show_list_category', 1)) : ?>
 									<th scope="col" style="min-width:100px" class="d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort',  'JCATEGORY', 'category_title', $listDirn, $listOrder); ?>
+									</th>
+								<?php endif; ?>
+								<?php if ($params->get('show_list_access', 0)) : ?>
+									<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+										<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
 								<?php if ($params->get('show_list_author', 1)) : ?>
@@ -294,7 +294,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<?php else : ?>
 											<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>
-										<?php if ($params->get('show_list_lias', 0)) : ?>
+										<?php if ($params->get('show_list_alias', 0)) : ?>
 											<span class="small break-word">
 												<?php if (empty($item->note)) : ?>
 													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
