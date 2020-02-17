@@ -143,7 +143,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			<button class="navbar-toggler toggler-toolbar toggler-burger collapsed" type="button" data-toggle="collapse" data-target=".subhead" aria-controls="subhead" aria-expanded="false" aria-label="<?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>">
 				<span class="toggler-toolbar-icon"></span>
 			</button>
-			<div id="subhead" class="subhead mb-3">
+			<div id="subhead" class="subhead mb-3 collapse">
 				<div id="container-collapse" class="container-collapse"></div>
 				<div class="row">
 					<div class="col-md-12">
