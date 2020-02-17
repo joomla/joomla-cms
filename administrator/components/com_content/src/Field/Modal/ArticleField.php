@@ -150,7 +150,7 @@ class ArticleField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalSelect' . $modalId . '">'
-				. '<span class="fas fa-check" aria-hidden="true"></span> ' . Text::_('JSELECT')
+				. '<span class="fas fa-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</button>';
 		}
 
