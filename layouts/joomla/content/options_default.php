@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 
-HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true)); 
+HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 
 <fieldset class="<?php echo !empty($displayData->formclass) ? $displayData->formclass : ''; ?>">
