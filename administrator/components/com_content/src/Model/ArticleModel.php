@@ -1149,20 +1149,31 @@ class ArticleModel extends AdminModel
 				$newFeatured = array_diff($pks, $oldFeatured);
 
 				// Featuring.
-				$tuples = array();
-
-				foreach ($newFeatured as $pk)
+				if ($newFeatured)
 				{
-					$tuples[] = implode(',', [$pk, 0, (empty($featuredUp) ? 'NULL' : $db->quote($featuredUp)), (empty($featuredDown) ? 'NULL' : $db->quote($featuredDown))]);
-				}
-
-				if (count($tuples))
-				{
-					$columns = array('content_id', 'ordering', 'featured_up', 'featured_down');
 					$query = $db->getQuery(true)
 						->insert($db->quoteName('#__content_frontpage'))
-						->columns($db->quoteName($columns))
-						->values($tuples);
+						->columns(
+							[
+								$db->quoteName('content_id'),
+								$db->quoteName('ordering'),
+								$db->quoteName('featured_up'),
+								$db->quoteName('featured_down'),
+							]
+						);
+
+					$dataTypes = [
+						ParameterType::INTEGER,
+						ParameterType::INTEGER,
+						$featuredUp ? ParameterType::STRING : ParameterType::NULL,
+						$featuredDown ? ParameterType::STRING : ParameterType::NULL,
+					];
+
+					foreach ($newFeatured as $pk)
+					{
+						$query->insert(implode(',', $query->bindArray([$pk, 0, $featuredUp, $featuredDown], $dataTypes)));
+					}
+
 					$db->setQuery($query);
 					$db->execute();
 				}
