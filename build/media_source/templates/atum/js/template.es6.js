@@ -221,6 +221,10 @@
    */
   function setDesktop() {
     const sidebarWrapper = doc.querySelector('.sidebar-wrapper');
+    const toolbar = doc.querySelector('.container-fluid');
+    toolbar.getElementsByClassName('subhead')[0].classList.add('show');
+    toolbar.getElementsByClassName('navbar-toggler toggler-toolbar')[0].setAttribute('aria-expanded', 'true');
+    toolbar.getElementsByClassName('navbar-toggler toggler-toolbar')[0].classList.remove('collapsed');
     if (!sidebarWrapper) {
       changeLogo('closed');
     } else {
