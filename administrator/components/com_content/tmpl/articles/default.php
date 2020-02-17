@@ -311,7 +311,6 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										$ParentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
 										$CurrentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content');
 										$EditCatTxt = Text::_('COM_CONTENT_EDIT_CATEGORY');
-										echo Text::_('JCATEGORY') . ': ';
 										if ($item->category_level != '1') :
 											if ($item->parent_category_level != '1') :
 												echo ' &#187; ';
