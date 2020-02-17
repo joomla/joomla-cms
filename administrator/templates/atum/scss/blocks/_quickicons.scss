@@ -21,6 +21,7 @@
       font-size: $quickicon-icon-size;
       margin: 0 auto;
       background: -webkit-linear-gradient(var(--atum-link-color), #5693e1);
+      background: linear-gradient(var(--atum-link-color), #5693e1);
       background-clip: border-box;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -40,6 +41,7 @@
       .fab {
 
         background: -webkit-linear-gradient(var(--atum-bg-light), $white);
+        background: linear-gradient(var(--atum-bg-light), $white);
         background-clip: border-box;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -217,6 +219,7 @@
       .fab {
         color: var(--success);
         background: -webkit-linear-gradient( var(--success), #159c1e);
+        background: linear-gradient( var(--success), #159c1e);
         background-clip: border-box;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -231,6 +234,7 @@
           &::before {
             color: var(--white);
             background: -webkit-linear-gradient( $white, lighten($green, 40%));
+            background: linear-gradient( $white, lighten($green, 40%));
             background-clip: border-box;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
