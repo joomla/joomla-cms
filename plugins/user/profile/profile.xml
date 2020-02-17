@@ -9,10 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>PLG_USER_PROFILE_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\User\Profile</namespace>
 	<files>
 		<filename plugin="profile">profile.php</filename>
-		<folder>profiles</folder>
-		<folder>field</folder>
+		<folder>forms</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_user_profile.ini</language>

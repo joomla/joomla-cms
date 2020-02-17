@@ -1551,17 +1551,17 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/utilities.git",
-                "reference": "491b6f4db261a5f88887c6d90cebcfeecf38d276"
+                "reference": "ca41343c5639d1415bee62b8954c534a6c6f557c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/491b6f4db261a5f88887c6d90cebcfeecf38d276",
-                "reference": "491b6f4db261a5f88887c6d90cebcfeecf38d276",
+                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/ca41343c5639d1415bee62b8954c534a6c6f557c",
+                "reference": "ca41343c5639d1415bee62b8954c534a6c6f557c",
                 "shasum": ""
             },
             "require": {
                 "joomla/string": "~1.3|~2.0",
-                "php": "~7.2"
+                "php": "^7.2.5"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
@@ -1589,7 +1589,7 @@
                 "joomla",
                 "utilities"
             ],
-            "time": "2019-06-18T01:28:24+00:00"
+            "time": "2020-02-02T16:53:55+00:00"
         },
         {
             "name": "laminas/laminas-diactoros",

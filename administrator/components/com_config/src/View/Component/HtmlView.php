@@ -83,9 +83,9 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Bind the form to the data.
-		if ($form && $component->params)
+		if ($form)
 		{
-			$form->bind($component->params);
+			$form->bind($component->getParams());
 		}
 
 		$this->fieldsets   = $form ? $form->getFieldsets() : null;

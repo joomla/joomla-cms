@@ -812,7 +812,7 @@ class ApplicationModel extends FormModel
 		// Invalidates the cached configuration file
 		if (function_exists('opcache_invalidate'))
 		{
-			opcache_invalidate($file);
+			\opcache_invalidate($file);
 		}
 
 		// Attempt to make the file unwriteable if using FTP.
