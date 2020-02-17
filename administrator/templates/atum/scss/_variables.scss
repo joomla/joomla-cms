@@ -68,9 +68,9 @@ $colors: (
   focus-shadow:                    $focusshadow,
   toggle-color:                    $white, //used in sidebar
   atum-sidebar-bg:                 $white,
-  atum-sidebar-font-color:         #3b4a5c,
-  atum-sidebar-link-color:         #3b4a5c,
-  atum-bg-light:                   #f1f3f4, //light background color, frontend dashboard background
+  atum-sidebar-font-color:         $darkblue,
+  atum-sidebar-link-color:         $darkblue,
+  atum-bg-light:                   #f0f4fb, //light background color, frontend dashboard background
   atum-text-light:                 $white,
   atum-special-color:              $dark-blue,
   atum-link-color:                 $light-blue,
