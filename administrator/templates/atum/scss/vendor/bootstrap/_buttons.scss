@@ -1,5 +1,8 @@
 // Buttons
 
+.btn
+{transition:none}
+
 .btn-primary {
   background-color: var(--atum-link-color);
   color: var(--atum-text-light);
