@@ -333,19 +333,19 @@ Joomla = window.Joomla || {};
     // eslint-disable-next-line class-methods-use-this
     hideContainer(container) {
       if (container) {
-        container.classList.remove('js-filters-show');
+        container.classList.remove('js-stools-container-filters-visible');
         document.body.classList.remove('filters-shown');
       }
     }
 
     // eslint-disable-next-line class-methods-use-this
     showContainer(container) {
-      container.classList.add('js-filters-show');
+      container.classList.add('js-stools-container-filters-visible');
       document.body.classList.add('filters-shown');
     }
 
     toggleContainer(container) {
-      if (container.classList.contains('js-filters-show')) {
+      if (container.classList.contains('js-stools-container-filters-visible')) {
         this.hideContainer(container);
       } else {
         this.showContainer(container);
