@@ -19,7 +19,7 @@
   display: inline-block;
   width: $toolbar-icon-width;
   @media (max-width: 576px) {
-    width: $toolbar-icon-width-mob;
+    width: 30px;
   }
   font-size: 0.9rem;
   line-height: $toolbar-height;
