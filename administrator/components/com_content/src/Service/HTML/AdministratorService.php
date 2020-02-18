@@ -58,7 +58,7 @@ class AdministratorService
 						$db->quoteName('l.lang_code'),
 						$db->quoteName('cat.title', 'category_title'),
 						$db->quoteName('l.image'),
-						$db->quoteName('l.title as language_title'),
+						$db->quoteName('l.title', 'language_title'),
 					]
 				)
 				->from($db->quoteName('#__content', 'c'))
