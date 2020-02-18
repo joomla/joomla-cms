@@ -20,14 +20,14 @@
     border: 1px solid transparent;
     opacity: 0;
     border-radius: 0;
-    transition: opacity 0.15s linear;
+    transition: opacity .15s linear;
     color: var(--atum-text-dark);
     background-color: var(--white);
 
     .alert-heading {
       display: block;
       width: 100%;
-      color: rgba(255, 255, 255, 0.95);
+      color: rgba(255, 255, 255, .95);
       padding: 1rem;
       font-size: 1.3rem;
       font-weight: normal;
