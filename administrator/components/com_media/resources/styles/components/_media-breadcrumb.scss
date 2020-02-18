@@ -17,6 +17,9 @@
       cursor: pointer;
     }
   }
+  @media (max-width: 576px) {
+    margin: 0;
+  }
 }
 
 .media-breadcrumb-item {
