@@ -270,7 +270,6 @@
     }
 
     a {
-  /*     color: var(--atum-text-light); */
       font-size: 0.9rem;
 
       &[href]:hover:not(.menu-dashboard):not(.menu-quicktask) {
@@ -412,7 +411,7 @@
       color: var(--atum-sidebar-font-color) ;
       font-weight: 900;
       font-family: "Font Awesome 5 Free";
-      transition: all .3s ease-out;
+
 
       [dir=ltr] & {
         content: "\f054";
@@ -441,10 +440,10 @@
     position: relative;
     display: inline-block;
     margin: 0 0.6rem;
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     text-align: center;
     vertical-align: top;
-    transition: all .2s ease-in-out;
+
   }
 
   .badge {
@@ -468,7 +467,7 @@
 
   .main-nav span.fas {
     transform: scale(1.3);
-    transition: all .2s ease-in-out;
+
   }
 
   .sidebar-wrapper {
