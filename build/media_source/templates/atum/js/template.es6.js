@@ -238,10 +238,10 @@
   function reactToResize() {
     window.addEventListener('resize', () => {
       if (window.innerWidth >= 576) {
-        const toolbar = doc.querySelector('.container-fluid');
-        toolbar.getElementsByClassName('subhead')[0].classList.add('show');
-        toolbar.getElementsByClassName('navbar-toggler toggler-toolbar')[0].setAttribute('aria-expanded', 'true');
-        toolbar.getElementsByClassName('navbar-toggler toggler-toolbar')[0].classList.remove('collapsed');
+        const toolbar = doc.getElementById('main');
+        toolbar.querySelector('#subhead').classList.add('show');
+        toolbar.querySelector('.toggler-toolbar').setAttribute('aria-expanded', 'true');
+        toolbar.querySelector('.toggler-toolbar').classList.remove('collapsed');
       }
       if (mobile.matches) {
         setMobile();
