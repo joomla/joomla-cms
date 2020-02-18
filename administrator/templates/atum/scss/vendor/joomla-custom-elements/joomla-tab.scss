@@ -246,6 +246,55 @@ joomla-tab {
     #permissions-sliders {
       section[active] {
         padding: 0 !important;
+
+        @include media-breakpoint-down(md) {
+          .respTable {
+            [dir=ltr] & {
+              text-align: right;
+            }
+
+            [dir=rtl] & {
+              text-align: left;
+            }
+          }
+
+          .respTable, .respTable thead, .respTable tbody, .respTable tr, .respTable th, .respTable td {
+            display: block;
+          }
+
+          .respTable thead {
+            position: absolute;
+            top: -1111px;
+            left: -1111px;
+          }
+
+          .respTable td::before {
+            content: attr(data-label) ":";
+            font-weight: $bold-weight;
+
+            [dir=ltr] & {
+              float: left;
+              padding: 0 2em 0 0;
+            }
+
+            [dir=rtl] & {
+              float: right;
+              padding: 0 0 0 2em;
+            }
+          }
+
+          .respTable td:nth-child(1) {
+            font-weight: $bold-weight;
+          }
+
+          .respTable td:last-child {
+            border-bottom: 1em var(--atum-bg-dark-80) solid;
+          }
+
+          .oddCol {
+            background: var(--atum-bg-light);
+          }
+        }
       }
     }
   }

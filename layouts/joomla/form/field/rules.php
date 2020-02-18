@@ -101,7 +101,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 		<?php foreach ($groups as $group) : ?>
 			<?php $active = (int) $group->value === 1 ? ' active' : ''; ?>
 			<section class="tab-pane<?php echo $active; ?>" name="<?php echo htmlentities(LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)), ENT_COMPAT, 'utf-8') . $group->text; ?>" id="permission-<?php echo $group->value; ?>">
-				<table class="table">
+				<table class="table respTable">
 					<thead>
 						<tr>
 							<th style="width: 30%" class="actions" id="actions-th<?php echo $group->value; ?>">
@@ -123,7 +123,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 						<?php $isSuperUserGroup = Access::checkGroup($group->value, 'core.admin'); ?>
 						<?php foreach ($actions as $action) : ?>
 							<tr>
-								<td headers="actions-th<?php echo $group->value; ?>">
+								<td class="oddCol" data-label="<?php echo Text::_('JLIB_RULES_ACTION'); ?>" headers="actions-th<?php echo $group->value; ?>">
 									<label for="<?php echo $id; ?>_<?php echo $action->name; ?>_<?php echo $group->value; ?>">
 										<?php echo Text::_($action->title); ?>
 									</label>
@@ -133,7 +133,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 										</div>
 									<?php endif; ?>
 								</td>
-								<td headers="settings-th<?php echo $group->value; ?>">
+								<td data-label="<?php echo Text::_('JLIB_RULES_SELECT_SETTING'); ?>" headers="settings-th<?php echo $group->value; ?>">
 									<div class="d-flex align-items-center">
 										<select data-onchange-task="permissions.apply"
 												class="custom-select novalidate"
@@ -164,7 +164,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 									</div>
 								</td>
 
-								<td headers="aclaction-th<?php echo $group->value; ?>">
+								<td data-label="<?php echo Text::_('JLIB_RULES_CALCULATED_SETTING'); ?>" headers="aclaction-th<?php echo $group->value; ?>">
 									<?php $result = array(); ?>
 									<?php // Get the group, group parent id, and group global config recursive calculated permission for the chosen action. ?>
 									<?php $inheritedGroupRule 	= Access::checkGroup((int) $group->value, $action->name, $assetId);
