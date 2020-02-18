@@ -9,13 +9,19 @@
     padding: .375rem .75rem;
     color: #495057;
     border: 1px solid #ced4da;
+    @media (max-width: 576px) {
+      width: 155px;
+    }
   }
 }
 
 .media-toolbar-icon {
   display: inline-block;
   width: $toolbar-icon-width;
-  font-size: 1.3rem;
+  @media (max-width: 576px) {
+    width: $toolbar-icon-width-mob;
+  }
+  font-size: 0.9rem;
   line-height: $toolbar-height;
   color: #464a4c;
   text-align: center;
@@ -30,7 +36,7 @@
 }
 
 .media-view-icons {
-  display: flex;
+
   .disabled {
     span {
       opacity: .3;
@@ -39,12 +45,20 @@
       cursor: default;
     }
   }
+  @media (max-width: 576px) {
+    a {
+      padding-top: 70px;
+    }
+  }
 }
 
 .media-view-search-input {
   display: flex;
   align-items: center;
   padding: 0 10px;
+  @media (max-width: 576px) {
+    width: 170px;
+  }
 }
 
 .media-loader {

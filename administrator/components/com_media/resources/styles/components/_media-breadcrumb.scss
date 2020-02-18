@@ -34,6 +34,9 @@
   &:hover {
     color: $highlight-color;
   }
+  @media (max-width: 576px) {
+    padding: 70px 10px !important;
+  }
 }
 
 .media-breadcrumb-item {

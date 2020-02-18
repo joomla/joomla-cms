@@ -45,3 +45,9 @@
   height: calc(100vh - 160px);
   overflow-y: auto;
 }
+
+@media (max-width: 576px) {
+  .col-md-12 {
+    padding: 0.5rem 0.25rem !important;
+  }
+}
