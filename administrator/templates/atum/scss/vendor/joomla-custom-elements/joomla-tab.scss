@@ -21,12 +21,12 @@ joomla-tab {
   flex-direction: column;
 
   &[orientation=horizontal]:not([view=accordion]) {
-    margin-bottom: 0rem;
+    margin-bottom: 0;
   }
 
   &[orientation=horizontal]:not([view=accordion]) > ul {
     width: 100%;
-    margin-bottom: 0rem;
+    margin-bottom: 0;
   }
 
   > ul {
@@ -45,7 +45,7 @@ joomla-tab {
       padding: .5rem 1rem;
       position: relative;
       box-shadow: none;
-      border: 0px solid var(--bluegray);
+      border: 0 solid var(--bluegray);
       border-right: 0;
       border-bottom: 0;
       border-top: 0;

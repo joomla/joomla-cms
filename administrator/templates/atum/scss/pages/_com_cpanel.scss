@@ -84,10 +84,11 @@
     p:last-child {
       margin-bottom: 0;
     }
-    &:hover
-    {
+
+    &:hover{
       box-shadow: 0 0 40px 10px rgba(0, 28, 73, .15)
     }
+
     .list-group,
     .table {
       > .published {

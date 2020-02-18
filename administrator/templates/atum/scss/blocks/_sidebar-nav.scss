@@ -3,7 +3,7 @@
 .sidebar-nav {
 
   /* override bootstrap important  */
-  background:var(--atum-sidebar-bg) !important;
+  background: var(--atum-sidebar-bg) !important;
   box-shadow: $atum-box-shadow;
 
   ul {
@@ -49,9 +49,6 @@
         content: "";
         display: inline-block;
         height: .6em;
-        -moz-transform: rotate(45deg) skew(5deg, 5deg);
-        -o-transform: rotate(45deg) skew(5deg, 5deg);
-        -webkit-transform: rotate(45deg) skew(5deg, 5deg);
         transform: rotate(45deg) skew(5deg, 5deg);
         width: .6em;
 
