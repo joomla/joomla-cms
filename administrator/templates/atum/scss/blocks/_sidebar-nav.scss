@@ -34,7 +34,7 @@
     a {
       color: var(--atum-text-dark);
       display:block;
-      padding:  .35rem .35rem .35rem 1.2rem;
+      padding: .35rem .35rem .35rem 1.2rem;
       position: relative;
       overflow: hidden;
       font-weight: normal;
@@ -44,7 +44,7 @@
         position:absolute;
         left: 0;
         top: .75rem;
-        border-right: 1px solid  var(--atum-link-color);
+        border-right: 1px solid var(--atum-link-color);
         border-top: 1px solid var(--atum-link-color);
         content: "";
         display: inline-block;
