@@ -66,7 +66,7 @@ class AdministratorService
 				->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('c.language') . ' = ' . $db->quoteName('l.lang_code'))
 				->whereIn($db->quoteName('c.id'), array_values($associations))
 				->where($db->quoteName('c.id') . ' != :articleId')
-				->bind(':articleId', $articleId, ParameterType::INTEGER);
+				->bind(':articleId', $articleid, ParameterType::INTEGER);
 
 			$db->setQuery($query);
 
