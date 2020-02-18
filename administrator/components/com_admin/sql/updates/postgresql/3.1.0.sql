@@ -1,5 +1,10 @@
 /* Changes to tables where data type conflicts exist with MySQL (mainly dealing with null values */
-ALTER TABLE "#__modules" ALTER COLUMN "content" SET DEFAULT '';
+
+--
+-- The following statement has to be disabled because it conflicts with
+-- a later change added with Joomla! 3.9.16, see file 3.9.16-2020-02-15.sql
+--
+-- ALTER TABLE "#__modules" ALTER COLUMN "content" SET DEFAULT '';
 --
 -- The following statement has to be disabled because it conflicts with
 -- a later change added with Joomla! 3.8.8 to repair the update of database schema changes
@@ -76,7 +81,7 @@ CREATE TABLE "#__tags" (
   "title" character varying(255) NOT NULL,
   "alias" character varying(255) DEFAULT '' NOT NULL,
   "note" character varying(255) DEFAULT '' NOT NULL,
-  "description" text DEFAULT '' NOT NULL,
+  "description" text,
   "published" smallint DEFAULT 0 NOT NULL,
   "checked_out" bigint DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
