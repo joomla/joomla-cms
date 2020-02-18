@@ -7,7 +7,7 @@
 
    */
   background-color: $white;
-  border: 1px solid var(--atum-link-color);
+  border:$input-border;
   border-radius: $border-radius;
   box-shadow: $input-box-shadow;
 }

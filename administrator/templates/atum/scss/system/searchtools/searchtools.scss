@@ -50,10 +50,7 @@
     margin-top: 0.5rem;
     margin-bottom: 1rem;
     background-color: $white;
-    border: solid var(--border);
-    border-width: 1px 0;
     border-radius: 0 0 0 $border-radius;
-    box-shadow: $atum-box-shadow;
     width: 100%;
 
     joomla-field-fancy-select .choices,
@@ -84,7 +81,7 @@
     }
 
     .custom-select {
-      box-shadow:  0 0 0 .2rem lighten(theme-color("atum-link-color"), 45%);
+      box-shadow:  $input-box-shadow;
       &.active {
         color: var(--white);
         background: $custom-select-indicator-active no-repeat right center;
@@ -287,7 +284,7 @@
       margin-bottom: 0;
 
       .custom-select {
-        box-shadow: none;
+
       }
     }
 
