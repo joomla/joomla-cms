@@ -51,17 +51,23 @@ class AdministratorService
 			// Get the associated menu items
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('c.*')
-				->select('l.sef as lang_sef')
-				->select('l.lang_code')
-				->from('#__content as c')
-				->select('cat.title as category_title')
-				->join('LEFT', '#__categories as cat ON cat.id=c.catid')
-				->where('c.id IN (' . implode(',', array_values($associations)) . ')')
-				->where('c.id != ' . $articleid)
-				->join('LEFT', '#__languages as l ON c.language=l.lang_code')
-				->select('l.image')
-				->select('l.title as language_title');
+				->select(
+					[
+						'c.*',
+						$db->quoteName('l.sef', 'lang_sef'),
+						$db->quoteName('l.lang_code'),
+						$db->quoteName('cat.title', 'category_title'),
+						$db->quoteName('l.image'),
+						$db->quoteName('l.title', 'language_title'),
+					]
+				)
+				->from($db->quoteName('#__content', 'c'))
+				->join('LEFT', $db->quoteName('#__categories', 'cat'), $db->quoteName('cat.id') . ' = ' . $db->quoteName('c.catid'))
+				->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('c.language') . ' = ' . $db->quoteName('l.lang_code'))
+				->whereIn($db->quoteName('c.id'), array_values($associations))
+				->where($db->quoteName('c.id') . ' != :articleId')
+				->bind(':articleId', $articleid, ParameterType::INTEGER);
+
 			$db->setQuery($query);
 
 			try
