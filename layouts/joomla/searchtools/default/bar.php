@@ -13,7 +13,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\Registry\Registry;
 
 $data = $displayData;
-
 // Receive overridable options
 $data['options'] = !empty($data['options']) ? $data['options'] : array();
 
@@ -25,13 +24,25 @@ if (is_array($data['options']))
 // Options
 $filterButton = $data['options']->get('filterButton', true);
 $searchButton = $data['options']->get('searchButton', true);
-
 $filters = $data['view']->filterForm->getGroup('filter');
 ?>
 
 <?php if (!empty($filters['filter_search'])) : ?>
 	<?php if ($searchButton) : ?>
-		<div class="btn-group mr-2">
+	    <div>
+		<div class="btn-group">
+			<?php if ($filterButton) : ?>
+				<button type="button" class="btn btn-primary js-stools-btn-filter">
+					<?php echo Text::_('JFILTER_OPTIONS'); ?>
+					<span class="fas fa-angle-down" aria-hidden="true"></span>
+				</button>
+			<?php endif; ?>
+			<button type="button" class="btn btn-primary js-stools-btn-clear mr-2">
+				<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>
+			</button>
+		</div>
+
+		<div class="btn-group">
 			<div class="input-group">
 				<label for="filter_search" class="sr-only">
 					<?php if (isset($filters['filter_search']->label)) : ?>
@@ -53,16 +64,6 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				</span>
 			</div>
 		</div>
-		<div class="btn-group">
-			<?php if ($filterButton) : ?>
-				<button type="button" class="btn btn-primary js-stools-btn-filter">
-					<?php echo Text::_('JFILTER_OPTIONS'); ?>
-					<span class="fas fa-angle-down" aria-hidden="true"></span>
-				</button>
-			<?php endif; ?>
-			<button type="button" class="btn btn-primary js-stools-btn-clear mr-2">
-				<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>
-			</button>
 		</div>
 	<?php endif; ?>
 <?php endif;
