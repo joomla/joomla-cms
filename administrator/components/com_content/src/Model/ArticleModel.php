@@ -1171,7 +1171,7 @@ class ArticleModel extends AdminModel
 
 					foreach ($newFeatured as $pk)
 					{
-						$query->insert(implode(',', $query->bindArray([$pk, 0, $featuredUp, $featuredDown], $dataTypes)));
+						$query->values(implode(',', $query->bindArray([$pk, 0, $featuredUp, $featuredDown], $dataTypes)));
 					}
 
 					$db->setQuery($query);
