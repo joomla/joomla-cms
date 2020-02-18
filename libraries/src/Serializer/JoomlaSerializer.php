@@ -10,9 +10,11 @@ namespace Joomla\CMS\Serializer;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Tobscure\JsonApi\AbstractSerializer;
+use Tobscure\JsonApi\Relationship;
 
 /**
  * Temporary serializer
@@ -77,5 +79,31 @@ class JoomlaSerializer extends AbstractSerializer
 		}
 
 		return \is_array($fields) ? array_intersect_key($post, array_flip($fields)) : $post;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 *
+	 * @throws \LogicException
+	 */
+	public function getRelationship($model, $name)
+	{
+		$result = parent::getRelationship($model, $name);
+
+		// No method found so call plugins and allow them to add something in
+		if (!($result instanceof Relationship))
+		{
+			$event = new Events\onGetApiRelation('onGetApiRelation', ['model' => $model, 'field' => $name]);
+
+			/** @var Events\onGetApiRelation $eventResult */
+			$eventResult = Factory::getApplication()->getDispatcher()->dispatch('onGetApiRelation', $event);
+
+			$relationship = $eventResult->getRelationship();
+
+			if ($relationship !== null)
+			{
+				return $relationship;
+			}
+		}
 	}
 }

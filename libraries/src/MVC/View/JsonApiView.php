@@ -11,6 +11,8 @@ namespace Joomla\CMS\MVC\View;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Document\JsonapiDocument;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\Event\onGetApiFields;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Uri\Uri;
@@ -163,8 +165,13 @@ abstract class JsonApiView extends JsonView
 		$lastPageQuery['offset'] = $totalPagesAvailable - $pagination->limit;
 		$lastPage->setVar('page', $lastPageQuery);
 
+		$event = new onGetApiFields('onApiGetFields', [onGetApiFields::LIST, $this->fieldsToRenderList]);
+
+		/** @var onGetApiFields $eventResult */
+		$eventResult = Factory::getApplication()->getDispatcher()->dispatch('onApiGetFields', $event);
+
 		$collection = (new Collection($items, $this->serializer))
-			->fields([$this->type => $this->fieldsToRenderList]);
+			->fields([$this->type => $eventResult->getAllPropertiesToRender()]);
 
 		// Set the data into the document and render it
 		$this->document->addMeta('total-pages', $pagination->pagesTotal)
@@ -212,8 +219,13 @@ abstract class JsonApiView extends JsonView
 			throw new \RuntimeException('Content type missing');
 		}
 
+		$event = new onGetApiFields('onApiGetFields', ['type' => onGetApiFields::ITEM, 'fields' => $this->fieldsToRenderItem]);
+
+		/** @var onGetApiFields $eventResult */
+		$eventResult = Factory::getApplication()->getDispatcher()->dispatch('onApiGetFields', $event);
+
 		$element = (new Resource($item, $this->serializer))
-			->fields([$this->type => $this->fieldsToRenderItem]);
+			->fields([$this->type => $eventResult->getAllPropertiesToRender()]);
 
 		if (!empty($this->relationship))
 		{
