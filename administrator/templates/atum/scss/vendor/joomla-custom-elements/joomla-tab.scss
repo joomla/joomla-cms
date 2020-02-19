@@ -21,12 +21,12 @@ joomla-tab {
   flex-direction: column;
 
   &[orientation=horizontal]:not([view=accordion]) {
-    margin-bottom: 0;
+    margin-bottom: 0rem;
   }
 
   &[orientation=horizontal]:not([view=accordion]) > ul {
     width: 100%;
-    margin-bottom: 0;
+    margin-bottom: 0rem;
   }
 
   > ul {
@@ -42,13 +42,13 @@ joomla-tab {
     a[role=tab] {
       display: block;
       color: var(--atum-link-color);
-      padding: .5rem 1rem;
+      padding: 0.5rem 1rem;
       position: relative;
       box-shadow: none;
-      border: 0 solid var(--bluegray);
+      border: 0px solid var(--bluegray);
       border-right: 0;
-      border-bottom: 0;
-      border-top: 0;
+      border-bottom:0;
+      border-top:0;
       box-sizing: border-box;
       text-decoration: none;
 
@@ -58,8 +58,8 @@ joomla-tab {
         background-image: none;
         border-radius: 0;
         box-shadow: none;
-        margin-bottom: -1px;
-        border: 1px solid  var(--bluegray);
+              margin-bottom: -1px;
+        border:1px solid  var(--bluegray);
         border-bottom: solid 1px #fff;
         &::after {
           background-color: var(--atum-contrast);
@@ -164,7 +164,7 @@ joomla-tab {
       flex-direction: column;
       border-radius: 0;
       white-space: normal;
-      box-shadow: 0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04);
+      box-shadow: 0 1px $white inset, 0 0 3px rgba(0, 0, 0, 0.04);
       background-color: var(--atum-link-color);
     }
 
@@ -201,7 +201,7 @@ joomla-tab {
     .col-md-6,
     .col-md-9,
     .col-md-3 {
-      padding: .5rem 0 0 !important;
+      padding: 0.5rem 0 0 !important;
     }
 
     joomla-tab[view=accordion] {

@@ -19,7 +19,7 @@
 .choices__inner {
   border-radius: 0;
   border-color: $gray-400;
-  border: $input-border;
+  border:$input-border;
   border-radius: $border-radius;
   box-shadow: $input-box-shadow;
 }
@@ -121,8 +121,8 @@
     position: absolute;
     top: 0;
     display: block;
-    width: .5rem;
-    padding: .8125rem;
+    width: 0.5rem;
+    padding: 0.8125rem;
     height: 1.625rem;
     line-height: 2;
     border: 0;
@@ -149,11 +149,11 @@
   }
 
   .choices__inner {
-    padding: .4rem 1rem .256rem;
+    padding: 0.4rem 1rem 0.256rem;
   }
 
   .choices__input {
-    padding: .2rem 0 .356rem;
+    padding: 0.2rem 0 0.356rem;
     color: $custom-select-color;
   }
 }
@@ -167,7 +167,7 @@
   &.is-highlighted {
     background-color: var(--atum-bg-dark);
     border: 1px solid var(--atum-bg-dark);
-    opacity: .9;
+    opacity: 0.9;
   }
 
   &[data-deletable] {

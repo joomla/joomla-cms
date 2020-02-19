@@ -1,14 +1,13 @@
 // Buttons
 
-.btn {
-  transition:none;
-}
+.btn
+{transition:none}
 
 .btn-primary {
   background-color: var(--atum-link-color);
   color: var(--atum-text-light);
-  border-color: var(--atum-link-color);
-  border-radius: $border-radius;
+  border-color:  var(--atum-link-color);
+  border-radius:$border-radius;
 
 
   @include hover-focus-active {

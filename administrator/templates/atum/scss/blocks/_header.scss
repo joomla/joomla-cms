@@ -2,10 +2,10 @@
 
 .header {
   position: relative;
-  background: var(--atum-bg-dark);
+  background:var(--atum-bg-dark);
   z-index: $zindex-header;
   color: $white;
-  padding: 10px;
+  padding:10px;
   box-sizing: border-box;
 
 
@@ -58,9 +58,9 @@
 
     svg,
     img {
-      margin-left: .8rem;
+      margin-left: 0.8rem;
       max-height: 1.3rem;
-      max-width: calc(18rem - .8rem);
+      max-width: calc(18rem - 0.8rem);
 
       &.logo-small {
         display: none;
@@ -85,7 +85,7 @@
     color: $white;
 
     [class^='icon-'] {
-      margin-right: .625rem;
+      margin-right: 0.625rem;
       font-size: 1rem;
     }
   }
@@ -111,7 +111,7 @@
       > *:first-child {
         flex-direction: column;
         height: 100%;
-        padding: 0 .6rem;
+        padding: 0 0.6rem;
         color: $white;
       }
 
@@ -132,7 +132,7 @@
           background-color: transparent;
           color: var(--atum-special-color);
           box-shadow: none;
-          opacity: .3;
+          opacity: 0.3;
           pointer-events: none;
         }
       }
@@ -154,8 +154,8 @@
 
     .tiny {
       text-align: center;
-      line-height: .8rem;
-      margin-top: .3rem;
+      line-height: 0.8rem;
+      margin-top: 0.3rem;
       white-space: nowrap;
       max-width: 5rem;
       min-width: 4rem;
@@ -175,22 +175,22 @@
 
   .badge {
     position: absolute;
-    top: .4rem;
+    top: 0.4rem;
 
     [dir=ltr] & {
       left: 50%;
-      margin-left: .8rem;
+      margin-left: 0.8rem;
     }
 
     [dir=rtl] & {
       right: 50%;
-      margin-right: .8rem;
+      margin-right: 0.8rem;
     }
   }
 
   .fa-angle-down {
     position: absolute;
-    top: .9rem;
+    top: 0.9rem;
 
     [dir=ltr] & {
       left: 50%;
@@ -222,7 +222,7 @@
       background-color: var(--atum-bg-dark);
       box-shadow: $atum-box-shadow;
       font-size: inherit;
-      padding: 1rem .75rem;
+      padding: 1rem 0.75rem;
 
       [dir=rtl] & {
         text-align: right;
@@ -266,7 +266,7 @@
       left: -100000rem;
       right: 0;
       width: calc(13.2rem + 2px);
-      margin-top: .1rem;
+      margin-top: 0.1rem;
       background-color: var(--white-offset);
       border: 1px solid $gray-500;
       border-top: 0;
@@ -380,7 +380,7 @@
     .header-items > .header-item {
       .header-item-content > :first-child {
         color: var(--atum-text-light);
-        padding-bottom: .4rem;
+        padding-bottom: 0.4rem;
       }
     }
 

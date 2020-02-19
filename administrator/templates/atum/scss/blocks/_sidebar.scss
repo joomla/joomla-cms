@@ -9,7 +9,7 @@
 
   &.closed {
     a.btn-dashboard {
-      display: none;
+      display: none
     }
 
     .main-nav {
@@ -31,22 +31,22 @@
 
   @include media-breakpoint-up(sm) {
     display: flex;
-    flex: 1 0 $sidebar-width;
     flex-direction: column;
+    flex: 1 0 $sidebar-width;
     max-width: $sidebar-width;
     transition: all .3s ease;
   }
 
   @include media-breakpoint-down(xs) {
     &.sidebar-menu {
-      top: auto;
       bottom: 0;
+      top: auto;
     }
 
     &:not(.sidebar-menu) {
       display: flex;
-      flex: 1 0 $sidebar-width;
       flex-direction: column;
+      flex: 1 0 $sidebar-width;
       max-width: $sidebar-width;
       transition: all .3s ease;
     }
@@ -82,13 +82,13 @@
     position: relative;
     background: var(--atum-link-color);
     a {
-      position: relative;
       display: block;
-      height: 3.2rem;
-      padding: 0 .35rem;
-      overflow: hidden;
-      line-height: 3.2rem;
+      padding: 0 0.35rem;
+      position: relative;
       color: var(--atum-text-light);
+      height: 3.2rem;
+      line-height: 3.2rem;
+      overflow: hidden;
 
       &:hover {
         text-decoration: none;
@@ -111,17 +111,17 @@
     width: 100%;
   }
 
-  .open {
+  .open  {
     box-shadow: inset 0 0  100px var(--atum-bg-light);
   }
 
   // All list items
   li {
+    list-style-type: none;
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    list-style-type: none;
-    border-bottom: solid 1px var(--atum-bg-light);
+    border-bottom:solid 1px var(--atum-bg-light);
 
     > a {
       flex-grow: 2;
@@ -134,14 +134,14 @@
       display: inline-block;
 
       > a {
+        padding: 0;
         display: inline-block;
         height: 100%;
-        padding: 0;
 
         > .fas {
           display: flex;
-          align-items: center;
           padding: 1rem;
+          align-items: center;
           margin: 0;
         }
 
@@ -149,8 +149,8 @@
         &.mm-active {
 
           // invert colors
-          color: var(--atum-sidebar-link-color);
-          background-color: var(--atum-sidebar-bg);
+          background-color:  var(--atum-sidebar-bg);
+          color:var(--atum-sidebar-link-color);
           .fas {
             color: var(--atum-contrast);
           }
@@ -158,8 +158,8 @@
       }
 
       &::before {
-        width: 0;
         background-image: none;
+        width: 0;
       }
     }
 
@@ -169,6 +169,7 @@
       .menu-quicktask {
         > a {
           &.mm-active {
+          /*  background-color: var(--atum-bg-dark-80); */
 
             &::before {
               display: none;
@@ -185,8 +186,8 @@
 
   .sidebar-item-title {
     display: inline-block;
-    padding: .6rem 0;
     word-break: break-word;
+    padding: 0.6rem 0;
   }
 
   // All links
@@ -204,28 +205,32 @@
   // 1st level items
   > li {
 
+    > ul {
+     }
+
     > a {
-      padding: 0 .35rem;
+      padding: 0 0.35rem;
 
       &:hover {
+        background-color: var(--atum-sidebar-link-color);
         color: var(--atum-text-light);
         text-decoration: none;
-        background-color: var(--atum-sidebar-link-color);
       }
 
       &.mm-active {
 
-        color: var(--atum-link-color);
-        &:hover {
+        color:var(--atum-link-color);
+        &:hover
+        {
           color: var(--atum-text-light);
         }
       }
     }
     &.mm-active {
       > a {
-        color: var(--atum-link-color);
-        &:hover {
-          color: var(--atum-text-light);
+        color: var(--atum-link-color) ;
+        &:hover  {
+          color:var(--atum-text-light);
         }
 
       }
@@ -235,20 +240,25 @@
 
   // 2nd level items
   ul {
-    width: 100%;
     padding: 0;
+    width: 100%;
 
     li {
+      border:0;
       position: relative;
       display: flex;
-      border: 0;
+
 
       &.mm-active {
 
-        > a {
-          color: var(--atum-link-color);
-          }
-        }
+        > a
+        {
+          color: var(--atum-link-color) ;
+             }
+           }
+
+
+
 
       > a {
         padding: 0 1rem 0 2.4rem;
@@ -260,11 +270,11 @@
     }
 
     a {
-      font-size: .9rem;
+      font-size: 0.9rem;
 
       &[href]:hover:not(.menu-dashboard):not(.menu-quicktask) {
         color: $white;
-        background-color: var(--atum-link-color);
+        background-color:  var(--atum-link-color);
       }
 
       &.mm-active {
@@ -274,9 +284,9 @@
 
         &::before {
           position: absolute;
-          top: .15rem;
-          bottom: .15rem;
-          width: .25rem;
+          top: 0.15rem;
+          bottom: 0.15rem;
+          width: 0.25rem;
           content: "";
           background-color: var(--atum-contrast);
 
@@ -293,12 +303,13 @@
 
     // 3rd level items
     ul {
+     /* background-color: var(--atum-bg-dark-80);*/
 
-      li {
-        border-bottom: 1px solid var(--atum-bg-light);
-        }
+      li { border-bottom: 1px solid var(--atum-bg-light);
+}
 
       a {
+
 
         [dir=ltr] & {
           padding-left: 3rem;
@@ -307,6 +318,7 @@
         [dir=rtl] & {
           padding-right: 3rem;
         }
+
 
       }
 
@@ -340,12 +352,12 @@
   .divider {
     height: 1px;
     margin: 4px 18px;
-    background-color: $bluegray;
+    background-color:$bluegray;
     opacity: .7;
   }
 
   .menuitem-group {
-    margin-top: .65rem;
+    margin-top: 0.65rem;
     font-size: .75rem;
 
     [dir=ltr] & {
@@ -396,9 +408,10 @@
       align-items: center;
       justify-content: center;
       width: 1.5rem;
-      font-family: "Font Awesome 5 Free";
+      color: var(--atum-sidebar-font-color) ;
       font-weight: 900;
-      color: var(--atum-sidebar-font-color);
+      font-family: "Font Awesome 5 Free";
+
 
       [dir=ltr] & {
         content: "\f054";
@@ -426,10 +439,11 @@
   .fas {
     position: relative;
     display: inline-block;
-    margin: 0 .6rem;
-    font-size: .9rem;
+    margin: 0 0.6rem;
+    font-size: 0.9rem;
     text-align: center;
     vertical-align: top;
+
   }
 
   .badge {
@@ -442,7 +456,7 @@
   position: relative;
   top: -1px;
   display: inline-block;
-  margin: 0 .3rem;
+  margin: 0 0.3rem;
   font-size: 1.1rem;
   text-align: center;
   vertical-align: middle;
@@ -504,15 +518,15 @@
   }
 
   .toggler-burger {
-    position: fixed;
-    bottom: 20px;
-    z-index: $zindex-mobile-toggle;
     display: block;
     width: 70px;
     height: 70px;
     background: var(--atum-link-color);
-    border: 8px solid var(--atum-bg-light);
     border-radius: 40px;
+    border: 8px solid var(--atum-bg-light);
+    position: fixed;
+    bottom: 20px;
+    z-index: $zindex-mobile-toggle;
 
     [dir=ltr] & {
       right: 10px;
@@ -527,8 +541,8 @@
 
       &::before {
         font: normal normal normal 30px/1 'Font Awesome 5 Free';
-        color: var(--toggle-color);
         content: "\f00d";
+        color: var(--toggle-color);
       }
     }
 
@@ -541,17 +555,17 @@
 
   .sidebar-menu {
     &.show {
-      position: fixed;
+      /* overflow-y: hidden;*/
+      max-height: 100vh;
+      transition-property: all;
+      transition-duration: 1s;
+      transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
       bottom: 55px;
+      position: fixed;
+      width: 100%;
       z-index: $zindex-mobile-menu;
       display: flex;
       flex-direction: column;
-      width: 100%;
-      max-height: 100vh;
-      transition-timing-function: cubic-bezier(0, 1, .5, 1);
-      transition-duration: 1s;
-      transition-property: all;
-
 
       #sidebarmenu {
         overflow-y: scroll;
@@ -574,7 +588,7 @@
 }
 
 #menu-collapse-icon {
-  padding: .3rem;
-  margin-right: .6rem;
-  font-size: .9rem;
+  font-size: 0.9rem;
+  margin-right: 0.6rem;
+  padding: 0.3rem;
 }

@@ -14,8 +14,8 @@
       font-weight: $font-weight-normal;
       color: var(--atum-link-color);
       white-space: nowrap;
-      border-top: 0;
-      padding: 1rem;
+      border-top:0;
+      padding:1rem;
       border-bottom: 3px solid var(--atum-bg-light);
 
       @include media-breakpoint-down(xs) {
@@ -56,7 +56,7 @@
     .itemnumber a.btn,
     .itemnumber span.btn {
       text-decoration: none;
-      padding: .1rem .5rem;
+      padding: 0.1rem .5rem;
     }
 
     th {
@@ -68,8 +68,8 @@
   td {
 
     border-bottom: 3px solid var(--atum-bg-light);
-    border-top: 0;
-    padding: 1rem;
+    border-top:0;
+    padding:1rem;
 
     label {
       margin-bottom: 0;

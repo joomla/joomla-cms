@@ -7,13 +7,15 @@
 
    */
   background-color: $white;
-  border: $input-border;
+  border:$input-border;
   border-radius: $border-radius;
   box-shadow: $input-box-shadow;
 
-  &:focus {
-    border-color: $focuscolor;
-    box-shadow: $focusshadow;
+  &:focus
+
+  {
+    border-color:$focuscolor;
+    box-shadow:$focusshadow;
   }
 
 
@@ -125,14 +127,14 @@ legend {
 }
 
 .sortable-handler.inactive {
-  opacity: .3;
+  opacity: 0.3;
 }
 
 /* set up hidden tooltip */
 [role="tooltip"]:not(.show) {
   display: none;
-  padding: .25em;
-  margin: .25em;
+  padding: 0.25em;
+  margin: 0.25em;
   color: $white;
   background: $black;
   max-width: 100%;
