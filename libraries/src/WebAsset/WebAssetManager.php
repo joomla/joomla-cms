@@ -22,11 +22,13 @@ use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
  * @method WebAssetManager registerAndUseStyle(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
  * @method WebAssetManager useStyle($name)
  * @method WebAssetManager disableStyle($name)
+ * @method WebAssetManager addInlineStyle(WebAssetItem|string $content, $options = [], $attributes = [], $dependencies = [])
  *
  * @method WebAssetManager registerScript(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
  * @method WebAssetManager registerAndUseScript(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
  * @method WebAssetManager useScript($name)
  * @method WebAssetManager disableScript($name)
+ * @method WebAssetManager addInlineScript(WebAssetItem|string $content, $options = [], $attributes = [], $dependencies = [])
  *
  * @method WebAssetManager registerPreset(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
  * @method WebAssetManager registerAndUsePreset(WebAssetItem|string $asset, string $uri = '', $options = [], $attributes = [], $dependencies = [])
@@ -165,25 +167,39 @@ class WebAssetManager implements WebAssetManagerInterface
 	 */
 	public function __call($method, $arguments)
 	{
+		$method = strtolower($method);
+
 		if (0 === strpos($method, 'use'))
 		{
-			$type = strtolower(substr($method, 3));
+			$type = substr($method, 3);
 
 			if (empty($arguments[0]))
 			{
-				throw new \BadMethodCallException('An asset name are required');
+				throw new \BadMethodCallException('An asset name is required');
 			}
 
 			return $this->useAsset($type, $arguments[0]);
 		}
 
-		if (0 === strpos($method, 'disable'))
+		if (0 === strpos($method, 'addinline'))
 		{
-			$type = strtolower(substr($method, 7));
+			$type = substr($method, 9);
 
 			if (empty($arguments[0]))
 			{
-				throw new \BadMethodCallException('An asset name are required');
+				throw new \BadMethodCallException('Content is required');
+			}
+
+			return $this->addInline($type, ...$arguments);
+		}
+
+		if (0 === strpos($method, 'disable'))
+		{
+			$type = substr($method, 7);
+
+			if (empty($arguments[0]))
+			{
+				throw new \BadMethodCallException('An asset name is required');
 			}
 
 			return $this->disableAsset($type, $arguments[0]);
@@ -192,14 +208,14 @@ class WebAssetManager implements WebAssetManagerInterface
 		if (0 === strpos($method, 'register'))
 		{
 			// Check for registerAndUse<Type>
-			$andUse = strtolower(substr($method, 8, 6)) === 'anduse';
+			$andUse = substr($method, 8, 6) === 'anduse';
 
 			// Extract the type
-			$type = $andUse ? strtolower(substr($method, 14)) : strtolower(substr($method, 8));
+			$type = $andUse ? substr($method, 14) : substr($method, 8);
 
 			if (empty($arguments[0]))
 			{
-				throw new \BadMethodCallException('An asset instance or an asset name are required');
+				throw new \BadMethodCallException('An asset instance or an asset name is required');
 			}
 
 			if ($andUse)
@@ -234,7 +250,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	{
 		if ($this->locked)
 		{
-			throw new InvalidActionException('WebAssetManager are locked, you came late');
+			throw new InvalidActionException('WebAssetManager is locked, you came late');
 		}
 
 		// Check whether asset exists
@@ -288,7 +304,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	{
 		if ($this->locked)
 		{
-			throw new InvalidActionException('WebAssetManager are locked, you came late');
+			throw new InvalidActionException('WebAssetManager is locked, you came late');
 		}
 
 		// Check whether asset exists
@@ -458,7 +474,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	}
 
 	/**
-	 * Check whether the asset exists in the registry.
+	 * Helper method to check whether the asset exists in the registry.
 	 *
 	 * @param   string  $type  Asset type, script or style
 	 * @param   string  $name  Asset name
@@ -509,7 +525,24 @@ class WebAssetManager implements WebAssetManagerInterface
 	}
 
 	/**
-	 * Get all active assets
+	 * Helper method to get the asset from the registry.
+	 *
+	 * @param   string  $type  Asset type, script or style
+	 * @param   string  $name  Asset name
+	 *
+	 * @return  WebAssetItemInterface
+	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getAsset(string $type, string $name): WebAssetItemInterface
+	{
+		return $this->registry->get($type, $name);
+	}
+
+	/**
+	 * Get all active assets, optionally sort them to follow the dependency Graph
 	 *
 	 * @param   string  $type  The asset type, script or style
 	 * @param   bool    $sort  Whether need to sort the assets to follow the dependency Graph
@@ -550,6 +583,127 @@ class WebAssetManager implements WebAssetManagerInterface
 		}
 
 		return $assets;
+	}
+
+	/**
+	 * Helper method to calculate inline to non inline relation (before/after positions).
+	 * Return associated array, which contain dependency (handle) name as key, and list of inline items for each position.
+	 * Example: ['handle.name' => ['before' => ['inline1', 'inline2'], 'after' => ['inline3', 'inline4']]]
+	 *
+	 * Note: If inline asset have a multiple dependencies, then will be used last one from the list for positioning
+	 *
+	 * @param   WebAssetItem[]  $assets  The assets list
+	 *
+	 * @return  array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getInlineRelation(array $assets): array
+	{
+		$inlineRelation = [];
+
+		// Find an inline assets and their relations to non inline
+		foreach ($assets as $k => $asset)
+		{
+			if (!$asset->getOption('inline'))
+			{
+				continue;
+			}
+
+			// Add to list of inline assets
+			$inlineAssets[$asset->getName()] = $asset;
+
+			// Check whether position are requested with dependencies
+			$position = $asset->getOption('position');
+			$position = $position === 'before' || $position === 'after' ? $position : null;
+			$deps     = $asset->getDependencies();
+
+			if ($position && $deps)
+			{
+				// If inline asset have a multiple dependencies, then use last one from the list for positioning
+				$handle = end($deps);
+				$inlineRelation[$handle][$position][$asset->getName()] = $asset;
+			}
+		}
+
+		return $inlineRelation;
+	}
+
+	/**
+	 * Helper method to filter an inline assets
+	 *
+	 * @param   WebAssetItem[]  $assets  Reference to a full list of active assets
+	 *
+	 * @return  WebAssetItem[]  Array of inline assets
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function filterOutInlineAssets(array &$assets): array
+	{
+		$inlineAssets = [];
+
+		foreach ($assets as $k => $asset)
+		{
+			if (!$asset->getOption('inline'))
+			{
+				continue;
+			}
+
+			// Remove inline assets from assets list, and add to list of inline
+			unset($assets[$k]);
+
+			$inlineAssets[$asset->getName()] = $asset;
+		}
+
+		return $inlineAssets;
+	}
+
+	/**
+	 * Add a new inline content asset.
+	 * Allow to register WebAssetItem instance in the registry, by call addInline($type, $assetInstance)
+	 * Or create an asset on fly (from name and Uri) and register in the registry, by call addInline($type, $content, $options ....)
+	 *
+	 * @param   string               $type          The asset type, script or style
+	 * @param   WebAssetItem|string  $content       The content to of inline asset
+	 * @param   array                $options       Additional options for the asset
+	 * @param   array                $attributes    Attributes for the asset
+	 * @param   array                $dependencies  Asset dependencies
+	 *
+	 * @return  self
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function addInline(string $type, string $content, array $options = [], array $attributes = [], array $dependencies = []): self
+	{
+		if ($content instanceof WebAssetItemInterface)
+		{
+			$assetInstance = $content;
+		}
+		elseif (is_string($content))
+		{
+			$name          = $options['name'] ?? ('inline.' . md5($content));
+			$assetInstance = $this->registry->createAsset($name, '', $options, $attributes, $dependencies);
+		}
+		else
+		{
+			throw new \BadMethodCallException('The $content variable should be either WebAssetItemInterface or a string');
+		}
+
+		// Get the name
+		$asset = $assetInstance->getName();
+
+		// Set required options
+		$assetInstance->setOption('type', $type);
+		$assetInstance->setOption('inline', true);
+		$assetInstance->setOption('content', $content);
+
+		// Add to registry
+		$this->registry->add($type, $assetInstance);
+
+		// And make active
+		$this->useAsset($type, $asset);
+
+		return $this;
 	}
 
 	/**
@@ -596,7 +750,8 @@ class WebAssetManager implements WebAssetManagerInterface
 					// Set dependency state only when it is inactive, to keep a manually activated Asset in their original state
 					if (empty($this->activeAssets[$depType][$depItem->getName()]))
 					{
-						$this->activeAssets[$depType][$depItem->getName()] = static::ASSET_STATE_DEPENDENCY;
+						// Add the dependency at the top of the list of active assets
+						$this->activeAssets[$depType] = [$depItem->getName() => static::ASSET_STATE_DEPENDENCY] + $this->activeAssets[$depType];
 					}
 				}
 			}
@@ -664,6 +819,9 @@ class WebAssetManager implements WebAssetManagerInterface
 				}
 			)
 		);
+
+		// Reverse, to start from a last enabled and move up to a first enabled, this helps to maintain an original sorting
+		$emptyIncoming = array_reverse($emptyIncoming);
 
 		// Loop through, and sort the graph
 		while ($emptyIncoming)
@@ -781,22 +939,19 @@ class WebAssetManager implements WebAssetManagerInterface
 		{
 			$name = $asset->getName();
 
-			// Outgoing nodes
+			// Initialise an array for outgoing nodes of the asset
 			$graphOutgoing[$name] = [];
 
-			foreach ($asset->getDependencies() as $depName)
-			{
-				$graphOutgoing[$name][$depName] = $depName;
-			}
-
-			// Incoming nodes
+			// Initialise an array for incoming nodes of the asset
 			if (!\array_key_exists($name, $graphIncoming))
 			{
 				$graphIncoming[$name] = [];
 			}
 
+			// Collect an outgoing/incoming nodes
 			foreach ($asset->getDependencies() as $depName)
 			{
+				$graphOutgoing[$name][$depName] = $depName;
 				$graphIncoming[$depName][$name] = $name;
 			}
 		}

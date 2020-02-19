@@ -363,7 +363,7 @@ class FileAdapter extends InstallerAdapter
 		}
 
 		// Check for a valid XML root tag.
-		if ($xml->getName() != 'extension')
+		if ($xml->getName() !== 'extension')
 		{
 			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ERROR_FILE_UNINSTALL_INVALID_MANIFEST'));
 		}

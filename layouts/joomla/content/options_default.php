@@ -20,7 +20,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 		<p><?php echo $displayData->description; ?></p>
 	<?php endif; ?>
 	<?php $fieldsnames = explode(',', $displayData->fieldsname); ?>
-		<div class="column-count-lg-2">
+		<div>
 		<?php foreach ($fieldsnames as $fieldname) : ?>
 			<?php foreach ($displayData->form->getFieldset($fieldname) as $field) : ?>
 				<?php $datashowon = ''; ?>

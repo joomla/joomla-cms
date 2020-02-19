@@ -71,17 +71,17 @@ class ExtensionAdapter extends UpdateAdapter
 					$this->currentUpdate->$name = '';
 				}
 
-				if ($name == 'TARGETPLATFORM')
+				if ($name === 'TARGETPLATFORM')
 				{
 					$this->currentUpdate->targetplatform = $attrs;
 				}
 
-				if ($name == 'PHP_MINIMUM')
+				if ($name === 'PHP_MINIMUM')
 				{
 					$this->currentUpdate->php_minimum = '';
 				}
 
-				if ($name == 'SUPPORTED_DATABASES')
+				if ($name === 'SUPPORTED_DATABASES')
 				{
 					$this->currentUpdate->supported_databases = $attrs;
 				}
@@ -269,12 +269,12 @@ class ExtensionAdapter extends UpdateAdapter
 			$this->currentUpdate->$tag .= $data;
 		}
 
-		if ($tag == 'PHP_MINIMUM')
+		if ($tag === 'PHP_MINIMUM')
 		{
 			$this->currentUpdate->php_minimum = $data;
 		}
 
-		if ($tag == 'TAG')
+		if ($tag === 'TAG')
 		{
 			$this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
 		}
@@ -311,7 +311,7 @@ class ExtensionAdapter extends UpdateAdapter
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
-			if (!$this->appendExtension && (substr($this->_url, -4) != '.xml'))
+			if (!$this->appendExtension && (substr($this->_url, -4) !== '.xml'))
 			{
 				$options['append_extension'] = true;
 

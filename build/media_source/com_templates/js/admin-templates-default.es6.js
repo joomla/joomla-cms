@@ -45,12 +45,12 @@
           fileModalFold.classList.remove('selected');
         });
 
-        event.target.classList.add('selected');
+        fileModalFolder.classList.add('selected');
 
         const listElsAddressToAdd = [].slice.call(document.querySelectorAll('#fileModal input.address'));
 
         listElsAddressToAdd.forEach((element) => {
-          element.value = event.target.getAttribute('data-id');
+          element.value = fileModalFolder.getAttribute('data-id');
         });
       });
     });
@@ -64,11 +64,11 @@
           folderModalFldr.classList.remove('selected');
         });
 
-        event.target.classList.add('selected');
+        folderModalFolder.classList.add('selected');
         const listElsAddressToAdd = [].slice.call(document.querySelectorAll('#folderModal input.address'));
 
         listElsAddressToAdd.forEach((element) => {
-          element.value = event.target.getAttribute('data-id');
+          element.value = folderModalFolder.getAttribute('data-id');
         });
       });
     });

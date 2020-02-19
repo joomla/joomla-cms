@@ -1,10 +1,11 @@
 // Banner
 
 .container-banner {
+  color: white;
 
   img {
-    width: 100%;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, .8);
+    display: block;
+    margin: auto;
   }
 
 }

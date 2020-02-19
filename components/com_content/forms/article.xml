@@ -80,7 +80,7 @@
 			translateformat="true"
 			showtime="true"
 			size="22"
-			filter="user_utc" 
+			filter="user_utc"
 			showon="featured:1"
 		/>
 
@@ -91,7 +91,7 @@
 			translateformat="true"
 			showtime="true"
 			size="22"
-			filter="user_utc" 
+			filter="user_utc"
 			showon="featured:1"
 		/>
 
@@ -197,6 +197,8 @@
 			id="metadesc"
 			rows="5"
 			cols="50"
+			maxlength="160"
+			charcounter="true"
 		/>
 
 		<field

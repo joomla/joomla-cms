@@ -64,19 +64,11 @@
     &.transit-narrow {
       flex: 1 0 $sidebar-width;
       transition: flex 3s;
-
-      @include media-breakpoint-down(sm) {
-        @include fadeout-page;
-      }
     }
 
     &.transit-narrow-closed {
       flex: 1 0 $sidebar-width-closed;
       transition: flex 3s;
-
-      @include media-breakpoint-down(sm) {
-        @include fadeout-page;
-      }
     }
   }
 
@@ -84,10 +76,6 @@
     flex: 1 0 33%;
     max-width: $sidebar-width-login;
     transition: all 3s;
-
-    @include media-breakpoint-down(sm) {
-      @include fadein-page;
-    }
   }
 
   .sidebar-toggle {
@@ -150,7 +138,7 @@
         display: inline-block;
         height: 100%;
 
-        > .fa {
+        > .fas {
           display: flex;
           padding: 1rem;
           align-items: center;
@@ -161,7 +149,7 @@
         &.mm-active {
           background-color: var(--atum-bg-dark-70);
 
-          .fa {
+          .fas {
             color: var(--atum-contrast);
           }
         }
@@ -190,7 +178,7 @@
     }
   }
 
-  span.fa {
+  span.fas {
     padding: 1rem 0;
   }
 
@@ -276,11 +264,11 @@
           width: 0.25rem;
           content: "";
           background-color: var(--atum-contrast);
-          
+
           [dir=ltr] & {
             left: 0;
           }
-          
+
           [dir=rtl] & {
             right: 0;
           }
@@ -396,9 +384,11 @@
       font-weight: 900;
       font-family: "Font Awesome 5 Free";
       transition: all .3s ease-out;
+
       [dir=ltr] & {
         content: "\f054";
       }
+
       [dir=rtl] & {
         content: "\f053";
       }
@@ -410,6 +400,7 @@
       [dir=ltr] & {
         transform: rotate(90deg);
       }
+
       [dir=rtl] & {
         transform: rotate(-90deg);
       }
@@ -417,7 +408,7 @@
   }
 
   // Parent icons
-  .fa {
+  .fas {
     position: relative;
     display: inline-block;
     margin: 0 0.6rem;
@@ -433,7 +424,7 @@
   }
 }
 
-.sidebar-toggle .fa {
+.sidebar-toggle .fas {
   position: relative;
   top: -1px;
   display: inline-block;
@@ -446,7 +437,7 @@
 // Sidebar Closed
 .closed {
 
-  .main-nav span.fa {
+  .main-nav span.fas {
     transform: scale(1.3);
     transition: all .2s ease-in-out;
   }
@@ -460,10 +451,6 @@
       flex: 1 0 33%;
       max-width: $sidebar-width-login;
       transition: flex 3s;
-
-      @include media-breakpoint-down(sm) {
-        @include fadein-page;
-      }
     }
   }
 
@@ -511,11 +498,13 @@
     border: 8px solid var(--atum-bg-light);
     position: fixed;
     bottom: 20px;
-    right: 10px;
     z-index: $zindex-mobile-toggle;
 
+    [dir=ltr] & {
+      right: 10px;
+    }
+
     [dir=rtl] & {
-      right: auto;
       left: 10px;
     }
 
@@ -529,12 +518,11 @@
       }
     }
 
-    &.mm-collapsed {
+    &.collapsed {
       .navbar-toggler-icon::before {
         content: "\f0c9";
       }
     }
-
   }
 
   .sidebar-menu {

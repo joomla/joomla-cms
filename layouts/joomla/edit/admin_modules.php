@@ -38,7 +38,7 @@ if (!ModuleHelper::isAdminMultilang())
 }
 
 $html   = array();
-$html[] = '<fieldset class="form-vertical form-no-margin">';
+$html[] = '<fieldset class="form-vertical">';
 
 foreach ($fields as $field)
 {

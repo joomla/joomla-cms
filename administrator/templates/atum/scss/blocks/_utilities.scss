@@ -30,7 +30,8 @@
   padding-bottom: 1rem;
 
   > div {
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: column;
     break-inside: avoid;
     width: 100%;
 

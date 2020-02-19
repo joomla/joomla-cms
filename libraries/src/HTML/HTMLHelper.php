@@ -146,7 +146,7 @@ abstract class HTMLHelper
 
 			if (!\is_callable($toCall))
 			{
-				throw new \InvalidArgumentException(sprintf('%s::%s not found.', $service, $func), 500);
+				throw new \InvalidArgumentException(sprintf('%s::%s not found.', $file, $func), 500);
 			}
 
 			static::register($key, $toCall);

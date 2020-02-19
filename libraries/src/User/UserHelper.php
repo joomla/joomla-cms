@@ -470,7 +470,7 @@ abstract class UserHelper
 			/** @var BCryptHandler $handler */
 			$handler = $container->get(BCryptHandler::class);
 		}
-		elseif (substr($hash, 0, 8) == '{SHA256}')
+		elseif (substr($hash, 0, 8) === '{SHA256}')
 		{
 			/** @var SHA256Handler $handler */
 			$handler = $container->get(SHA256Handler::class);

@@ -22,6 +22,6 @@ $legacy  = $displayData['legacy'];
 	</span>
 	<?php echo Text::_('JLIB_HTML_CHECKED_OUT'); ?>
 <?php else : ?>
-	<span class="hasTooltip fa fa-lock" title="<?php echo HTMLHelper::tooltipText($tooltip . '', 0); ?>"></span>
+	<span class="hasTooltip fas fa-lock" title="<?php echo HTMLHelper::tooltipText($tooltip . '', 0); ?>"></span>
 	<?php echo Text::_('JLIB_HTML_CHECKED_OUT'); ?>
 <?php endif; ?>

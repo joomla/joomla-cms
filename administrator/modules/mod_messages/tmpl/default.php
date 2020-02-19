@@ -21,7 +21,7 @@ $route = 'index.php?option=com_messages&view=messages&id=' . $app->getIdentity()
 <div class="header-item-content">
 	<a class="d-flex align-items-stretch <?php echo ($hideLinks ? 'disabled' : 'dropdown-toggle'); ?>" <?php echo ($hideLinks ? '' : 'href="' . Route::_($route) . '"'); ?> title="<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>">
 		<div class="d-flex align-items-end mx-auto">
-			<span class="fa fa-envelope" aria-hidden="true"></span>
+			<span class="fas fa-envelope" aria-hidden="true"></span>
 		</div>
 		<div class="tiny">
 			<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>

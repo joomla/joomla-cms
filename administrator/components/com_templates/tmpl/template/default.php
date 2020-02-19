@@ -145,10 +145,10 @@ if ($this->type == 'font')
 					<?php foreach ($this->archive as $file) : ?>
 						<li>
 							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR) : ?>
-								<span class="fa fa-folder fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
+								<span class="fas fa-folder fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
-								<span class="fa fa-file fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
+								<span class="fas fa-file fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
@@ -246,7 +246,7 @@ if ($this->type == 'font')
 										. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 								?>
 								<a href="<?php echo Route::_($overrideLinkUrl); ?>">
-									<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $module->name; ?>
+									<span class="fas fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $module->name; ?>
 								</a>
 							</li>
 						<?php endforeach; ?>
@@ -261,7 +261,7 @@ if ($this->type == 'font')
 						<?php foreach ($this->overridesList['components'] as $key => $value) : ?>
 							<li class="component-folder">
 								<a href="#" class="component-folder-url">
-									<span class="fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+									<span class="fas fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
 								</a>
 								<ul class="list-unstyled">
 									<?php foreach ($value as $view) : ?>
@@ -271,7 +271,7 @@ if ($this->type == 'font')
 													. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 											?>
 											<a class="component-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
-												<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
+												<span class="fas fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
 											</a>
 										</li>
 									<?php endforeach; ?>
@@ -289,7 +289,7 @@ if ($this->type == 'font')
 						<?php foreach ($this->overridesList['plugins'] as $key => $group) : ?>
 							<li class="plugin-folder">
 								<a href="#" class="plugin-folder-url">
-									<span class="fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+									<span class="fas fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
 								</a>
 								<ul class="list-unstyled">
 									<?php foreach ($group as $plugin) : ?>
@@ -299,7 +299,7 @@ if ($this->type == 'font')
 												. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 											?>
 											<a class="plugin-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
-												<span class="fa fa-copy" aria-hidden="true"></span> <?php echo $plugin->name; ?>
+												<span class="fas fa-copy" aria-hidden="true"></span> <?php echo $plugin->name; ?>
 											</a>
 										</li>
 									<?php endforeach; ?>
@@ -317,7 +317,7 @@ if ($this->type == 'font')
 						<?php foreach ($this->overridesList['layouts'] as $key => $value) : ?>
 						<li class="layout-folder">
 							<a href="#" class="layout-folder-url">
-								<span class="fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+								<span class="fas fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
 							</a>
 							<ul class="list-unstyled">
 								<?php foreach ($value as $layout) : ?>
@@ -327,7 +327,7 @@ if ($this->type == 'font')
 												. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 										?>
 										<a href="<?php echo Route::_($overrideLinkUrl); ?>">
-											<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $layout->name; ?>
+											<span class="fas fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $layout->name; ?>
 										</a>
 									</li>
 								<?php endforeach; ?>
@@ -436,7 +436,7 @@ $folderModalData = array(
 );
 ?>
 <?php echo LayoutHelper::render('joomla.modal.main', $folderModalData); ?>
-<?php if ($this->type != 'home') : ?>
+<?php if ($this->type == 'image') : ?>
 	<?php // Resize Modal
 	$resizeModalData = array(
 		'selector' => 'resizeModal',

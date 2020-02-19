@@ -50,7 +50,7 @@ Text::script('MESSAGE');
 		</div>
 		<!-- End Sidebar -->
 		<!-- Begin Content -->
-		<div class="col-lg-9 mt-2">
+		<div class="col-md-9 mt-2">
 			<?php echo HTMLHelper::_('uitab.startTabSet', 'configTabs', array('active' => 'page-site')); ?>
 				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-site', Text::_('JSITE')); ?>
 					<?php echo $this->loadTemplate('site'); ?>
