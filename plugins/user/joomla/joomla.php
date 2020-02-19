@@ -468,19 +468,14 @@ class PlgUserJoomla extends JPlugin
 		}
 
 		// Check that at i'm not a Super Admin
-		$imSuperAdmin = false;
-		$myGroups     = $data['groups'];
-
-		foreach ($myGroups as $group)
+		foreach ($data['groups'] as $group)
 		{
-			$imSuperAdmin = $imSuperAdmin ?: Access::checkGroup($group, 'core.admin');
-		}
+			if (Access::checkGroup($group, 'core.admin'))
+			{
+				$this->app->enqueueMessage(Text::_('PLG_USER_JOOMLA_CANNOT_BE_SUPERADMIN'), 'error');
 
-		if ($imSuperAdmin)
-		{
-			$this->app->enqueueMessage(Text::_('PLG_USER_JOOMLA_CANNOT_BE_SUPERADMIN'), 'error');
-
-			return false;
+				return false;
+			}
 		}
 
 		return true;
