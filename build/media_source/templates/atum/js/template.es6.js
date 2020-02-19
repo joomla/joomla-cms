@@ -236,9 +236,9 @@
    * @since   4.0.0
    */
   function reactToResize() {
+    const toolbar = doc.getElementById('main-container');
     window.addEventListener('resize', () => {
       if (window.innerWidth >= 576) {
-        const toolbar = doc.getElementById('main-container');
         if (toolbar && !toolbar.querySelector('#subhead').classList.contains('show')) {
           toolbar.querySelector('#subhead').classList.add('show');
           toolbar.querySelector('.toggler-toolbar').setAttribute('aria-expanded', 'true');
