@@ -29,7 +29,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 
 <?php if (!empty($filters['filter_search'])) : ?>
 	<?php if ($searchButton) : ?>
-	    <div>
+		<div>
 		<div class="btn-group">
 			<?php if ($filterButton) : ?>
 				<button type="button" class="btn btn-primary js-stools-btn-filter">
