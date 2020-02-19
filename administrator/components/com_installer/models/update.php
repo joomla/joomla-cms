@@ -568,12 +568,15 @@ class InstallerModelUpdate extends JModelList
 		switch ($table->type)
 		{
 			// Components could have a helper which adds additional data
+			// Packages will fall back to the component helper (if present)
 			case 'component':
-				$ename = str_replace('com_', '', $table->element);
+			case 'package':
+				$pname = str_replace('pkg_', 'com_', $table->element);
+				$ename = str_replace('com_', '', $pname);
 				$fname = $ename . '.php';
 				$cname = ucfirst($ename) . 'Helper';
 
-				$path = JPATH_ADMINISTRATOR . '/components/' . $table->element . '/helpers/' . $fname;
+				$path = JPATH_ADMINISTRATOR . '/components/' . $pname . '/helpers/' . $fname;
 
 				if (JFile::exists($path))
 				{
