@@ -9,12 +9,7 @@
     padding: .375rem .75rem;
     color: #495057;
     border: 1px solid #ced4da;
-    @media (max-width: 375px) {
-      width: 65%;
-    }
-    @media (max-width: 375px) {
-      width: 155px;
-    }
+    width: 100%;
   }
 }
 
@@ -39,7 +34,7 @@
 }
 
 .media-view-icons {
-
+  display: flex;
   .disabled {
     span {
       opacity: .3;
@@ -48,24 +43,13 @@
       cursor: default;
     }
   }
-  @media (max-width: 576px) {
-    display: inline-grid;
-    margin:auto;
-    a {
-      margin: auto 0;
-      border: 0px solid black;
-      box-shadow: none;
-    }
-  }
 }
 
 .media-view-search-input {
   display: flex;
   align-items: center;
   padding: 0 10px;
-  @media (max-width: 375px) {
-    width: 170px;
-  }
+  width: auto;
 }
 
 .media-loader {
