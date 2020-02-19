@@ -467,7 +467,7 @@ class PlgUserJoomla extends JPlugin
 			return true;
 		}
 
-		// Check that at i'm not a Super Admin
+		// Check that at I'm not a Super Admin
 		foreach ($data['groups'] as $group)
 		{
 			if (Access::checkGroup($group, 'core.admin'))
