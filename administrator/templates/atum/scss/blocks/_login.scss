@@ -71,7 +71,7 @@
           position: absolute;
           bottom: -1.1rem;
           right: 0;
-          font-size: 0.75rem;
+          font-size: .75rem;
         }
       }
 
@@ -79,7 +79,7 @@
 
     #btn-login-submit {
       background: var(--atum-bg-dark);
-      color: rgba(255, 255, 255, 0.8);
+      color: rgba(255, 255, 255, .8);
     }
   }
 
@@ -160,7 +160,7 @@
     width: 100%;
     text-align: center;
     align-self: flex-end;
-    font-size: 0.875rem;
+    font-size: .875rem;
 
     .card {
       background: var(--atum-bg-dark);
@@ -204,7 +204,7 @@
 }
 
 label {
-  color:$darkblue;
+  color: $darkblue;
 }
 
 .com_login .sidebar-wrapper .main-brand {
@@ -220,7 +220,7 @@ label {
 }
 
 .com_login .sidebar-wrapper #sidebar p {
-  margin-bottom: 0.2rem;
+  margin-bottom: .2rem;
 }
 
 .com_login .sidebar-wrapper .main-brand h1,
