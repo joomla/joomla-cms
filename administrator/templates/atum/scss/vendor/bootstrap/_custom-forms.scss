@@ -58,11 +58,9 @@
     }
   }
 
-  &:focus
-
-  {
-    border-color:$focuscolor;
-    box-shadow:$focusshadow;
+  &:focus {
+    border-color: $focuscolor;
+    box-shadow: $focusshadow;
   }
 
   optgroup,
