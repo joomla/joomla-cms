@@ -85,17 +85,20 @@ class PlgFieldsRepeatable extends FieldsPlugin
 		// Get the form settings
 		$formFields = $field->fieldparams->get('fields');
 
-		// Add the fields to the form
-		foreach ($formFields as $index => $formField)
+		if (!empty($formFields))
 		{
-			$child = $fields->addChild('field');
-			$child->addAttribute('name', $formField->fieldname);
-			$child->addAttribute('type', $formField->fieldtype);
-			$child->addAttribute('readonly', $readonly);
-
-			if (isset($formField->fieldfilter))
+			// Add the fields to the form
+			foreach ($formFields as $index => $formField)
 			{
-				$child->addAttribute('filter', $formField->fieldfilter);
+				$child = $fields->addChild('field');
+				$child->addAttribute('name', $formField->fieldname);
+				$child->addAttribute('type', $formField->fieldtype);
+				$child->addAttribute('readonly', $readonly);
+
+				if (isset($formField->fieldfilter))
+				{
+					$child->addAttribute('filter', $formField->fieldfilter);
+				}
 			}
 		}
 

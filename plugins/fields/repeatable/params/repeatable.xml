@@ -6,8 +6,7 @@
 				name="fields"
 				type="subform"
 				label="PLG_FIELDS_REPEATABLE_PARAMS_FIELDS_LABEL"
-				multiple="true"
-				required="true">
+				multiple="true">
 				<form>
 					<fields>
 						<fieldset>
