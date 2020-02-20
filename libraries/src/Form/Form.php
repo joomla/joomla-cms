@@ -1546,7 +1546,20 @@ class Form
 
 				break;
 			default:
-				if ($element['type'] == 'subform')
+
+				// Check for a callback filter.
+				if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
+				{
+					$return = call_user_func(explode('::', $filter), $value);
+				}
+
+				// Filter using a callback function if specified.
+				elseif (function_exists($filter))
+				{
+					$return = call_user_func($filter, $value);
+				}
+
+				elseif ($element['type'] == 'subform')
 				{
 					$field   = $this->loadField($element);
 					$subForm = $field->loadSubForm();
@@ -1566,17 +1579,6 @@ class Form
 					}
 
 					break;
-				}
-				// Check for a callback filter.
-				if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
-				{
-					$return = call_user_func(explode('::', $filter), $value);
-				}
-
-				// Filter using a callback function if specified.
-				elseif (function_exists($filter))
-				{
-					$return = call_user_func($filter, $value);
 				}
 
 				// Check for empty value and return empty string if no value is required,
@@ -2153,7 +2155,7 @@ class Form
 			$field   = $this->loadField($element);
 			$subForm = $field->loadSubForm();
 
-			if ($field->multiple)
+			if ($field->multiple && $value)
 			{
 				foreach ($value as $key => $val)
 				{
