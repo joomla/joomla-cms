@@ -72,7 +72,7 @@ Text::script('JHIDEPASSWORD');
 					<div class="input-group">
 						<span class="input-group-prepend" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 							<span class="input-group-text">
-								<span class="icon-star" aria-hidden="true"></span>
+								<span class="fas fa-star" aria-hidden="true"></span>
 							</span>
 							<label for="modlgn-secretkey-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 						</span>
