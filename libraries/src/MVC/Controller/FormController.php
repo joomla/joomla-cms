@@ -134,6 +134,7 @@ class FormController extends BaseController
 		$this->registerTask('apply', 'save');
 		$this->registerTask('save2new', 'save');
 		$this->registerTask('save2copy', 'save');
+		$this->registerTask('editAssociations', 'save');
 	}
 
 	/**
@@ -935,6 +936,8 @@ class FormController extends BaseController
 	 * @return  void
 	 *
 	 * @since   3.9.0
+	 *
+	 * @deprecated 5.0  It is handled by regular save method now.
 	 */
 	public function editAssociations()
 	{
