@@ -325,15 +325,16 @@
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 		</field>
 	</fieldset>
+
 	<fieldset
 		name="listlayout"
-		label="COM_CONTENT_LIST_LAYOUT"
-		description="COM_CONTENT_LIST_LAYOUT"
+		label="COM_CONTENT_EDITING_LIST_LAYOUT"
+		description="COM_CONTENT_EDITING_LIST_LAYOUT_DESC"
 		>
 		<field
-			name="show_list_featured"
+			name="com_content_show_list_featured"
 			type="radio"
-			label="COM_CONTENT_LIST_LAYOUT_FEATURED"
+			label="COM_CONTENT_EDITING_LIST_LAYOUT_FEATURED"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
@@ -341,9 +342,9 @@
 			<option value="1">JSHOW</option>
 		</field>
 		<field
-			name="show_list_alias"
+			name="com_content_show_list_alias"
 			type="radio"
-			label="COM_CONTENT_LIST_LAYOUT_ALIAS"
+			label="COM_CONTENT_EDITING_LIST_LAYOUT_ALIAS"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
@@ -351,9 +352,9 @@
 			<option value="1">JSHOW</option>
 		</field>
 		<field
-			name="show_list_category"
+			name="com_content_show_list_category"
 			type="radio"
-			label="COM_CONTENT_LIST_LAYOUT_CATEGORY"
+			label="COM_CONTENT_EDITING_LIST_LAYOUT_CATEGORY"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
@@ -361,9 +362,9 @@
 			<option value="1">JSHOW</option>
 		</field>
 		<field
-			name="show_list_access"
+			name="com_content_show_list_access"
 			type="radio"
-			label="COM_CONTENT_LIST_LAYOUT_ACCESS"
+			label="COM_CONTENT_EDITING_LIST_LAYOUT_ACCESS"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
@@ -371,9 +372,9 @@
 			<option value="1">JSHOW</option>
 		</field>
 		<field
-			name="show_list_author"
+			name="com_content_show_list_author"
 			type="radio"
-			label="COM_CONTENT_LIST_LAYOUT_AUTHOR"
+			label="COM_CONTENT_EDITING_LIST_LAYOUT_AUTHOR"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
@@ -381,9 +382,9 @@
 			<option value="1">JSHOW</option>
 		</field>
 		<field
-			name="show_list_date"
+			name="com_content_show_list_date"
 			type="radio"
-			label="COM_CONTENT_LIST_LAYOUT_DATE"
+			label="COM_CONTENT_EDITING_LIST_LAYOUT_DATE"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
@@ -391,9 +392,9 @@
 			<option value="1">JSHOW</option>
 		</field>
 		<field
-			name="show_list_hits"
+			name="com_content_show_list_hits"
 			type="radio"
-			label="COM_CONTENT_LIST_LAYOUT_HITS"
+			label="COM_CONTENT_EDITING_LIST_LAYOUT_HITS"
 			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
@@ -401,9 +402,9 @@
 			<option value="1">JSHOW</option>
 		</field>
 		<field
-			name="show_list_vote"
+			name="com_content_show_list_vote"
 			type="radio"
-			label="COM_CONTENT_LIST_LAYOUT_VOTE"
+			label="COM_CONTENT_EDITING_LIST_LAYOUT_VOTE"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
@@ -411,9 +412,9 @@
 			<option value="1">JSHOW</option>
 		</field>
 		<field
-			name="show_list_id"
+			name="com_content_show_list_associations"
 			type="radio"
-			label="COM_CONTENT_LIST_LAYOUT_ID"
+			label="COM_CONTENT_EDITING_LIST_LAYOUT_ASSOCIATIONS"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
@@ -421,9 +422,9 @@
 			<option value="1">JSHOW</option>
 		</field>
 		<field
-			name="show_list_associations"
+			name="com_content_show_list_id"
 			type="radio"
-			label="COM_CONTENT_LIST_LAYOUT_ASSOCIATIONS"
+			label="COM_CONTENT_EDITING_LIST_LAYOUT_ID"
 			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>

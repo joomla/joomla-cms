@@ -114,7 +114,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<?php if ($params->get('show_list_featured', 1)) : ?>
+								<?php if ($params->get('com_content_show_list_featured', 1)) : ?>
 									<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
 									</th>
@@ -125,22 +125,22 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								<th scope="col" style="min-width:100px">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<?php if ($params->get('show_list_category', 1)) : ?>
+								<?php if ($params->get('com_content_show_list_category', 1)) : ?>
 									<th scope="col" style="min-width:100px" class="d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort',  'JCATEGORY', 'category_title', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<?php if ($params->get('show_list_access', 0)) : ?>
+								<?php if ($params->get('com_content_show_list_access', 0)) : ?>
 									<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<?php if ($params->get('show_list_author', 1)) : ?>
+								<?php if ($params->get('com_content_show_list_author', 1)) : ?>
 									<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort',  'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<?php if ($assoc && $params->get('show_list_associations', 1))  : ?>
+								<?php if ($assoc && $params->get('com_content_show_list_associations', 1))  : ?>
 									<th scope="col" style="width:5%" class="d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 									</th>
@@ -150,17 +150,17 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<?php if ($params->get('show_list_date', 0)) : ?>
+								<?php if ($params->get('com_content_show_list_date', 0)) : ?>
 									<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<?php if ($params->get('show_list_hits', 0)) : ?>
+								<?php if ($params->get('com_content_show_list_hits', 0)) : ?>
 									<th scope="col" style="width:3%" class="d-none d-lg-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<?php if ($this->vote && $params->get('show_list_vote', 1)) : ?>
+								<?php if ($this->vote && $params->get('com_content_show_list_vote', 1)) : ?>
 									<th scope="col" style="width:3%" class="d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
 									</th>
@@ -168,7 +168,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<?php if ($params->get('show_list_id', 1)) : ?>
+								<?php if ($params->get('com_content_show_list_id', 1)) : ?>
 									<th scope="col" style="width:3%" class="d-none d-lg-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 									</th>
@@ -244,7 +244,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 									<?php endif; ?>
 								</td>
-								<?php if ($params->get('show_list_featured', 1)) : ?>
+								<?php if ($params->get('com_content_show_list_featured', 1)) : ?>
 									<td class="text-center d-none d-md-table-cell">
 										<?php
 
@@ -294,7 +294,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<?php else : ?>
 											<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>
-										<?php if ($params->get('show_list_alias', 0)) : ?>
+										<?php if ($params->get('com_content_show_list_alias', 0)) : ?>
 											<span class="small break-word">
 												<?php if (empty($item->note)) : ?>
 													<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
@@ -305,7 +305,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<?php endif; ?>
 									</div>
 								</th>
-								<?php if ($params->get('show_list_category', 1)) : ?>
+								<?php if ($params->get('com_content_show_list_category', 1)) : ?>
 									<td class="small d-none d-md-table-cell">
 										<?php
 										$ParentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
@@ -359,12 +359,12 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										?>
 									</td>
 								<?php endif; ?>
-								<?php if ($params->get('show_list_access', 0)) : ?>
+								<?php if ($params->get('com_content_show_list_access', 0)) : ?>
 									<td class="small d-none d-md-table-cell">
 										<?php echo $this->escape($item->access_level); ?>
 									</td>
 								<?php endif; ?>
-								<?php if ($params->get('show_list_author', 1)) : ?>
+								<?php if ($params->get('com_content_show_list_author', 1)) : ?>
 									<td class="small d-none d-md-table-cell">
 										<?php if ((int) $item->created_by != 0) : ?>
 											<a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>">
@@ -378,7 +378,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<?php endif; ?>
 									</td>
 								<?php endif; ?>
-								<?php if ($assoc && $params->get('show_list_associations', 1))  : ?>
+								<?php if ($assoc && $params->get('com_content_show_list_associations', 1))  : ?>
 									<td class="d-none d-md-table-cell">
 										<?php if ($item->association) : ?>
 											<?php echo HTMLHelper::_('contentadministrator.association', $item->id); ?>
@@ -390,7 +390,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 									</td>
 								<?php endif; ?>
-								<?php if ($params->get('show_list_date', 0)) : ?>
+								<?php if ($params->get('com_content_show_list_date', 0)) : ?>
 									<td class="small d-none d-md-table-cell text-center">
 										<?php
 										$date = $item->{$orderingColumn};
@@ -398,14 +398,14 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										?>
 									</td>
 								<?php endif; ?>
-								<?php if ($params->get('show_list_hits', 0)) : ?>
+								<?php if ($params->get('com_content_show_list_hits', 0)) : ?>
 									<td class="d-none d-lg-table-cell text-center">
 										<span class="badge badge-info">
 											<?php echo (int) $item->hits; ?>
 										</span>
 									</td>
 								<?php endif; ?>
-								<?php if ($this->vote && $params->get('show_list_vote', 1)) : ?>
+								<?php if ($this->vote && $params->get('com_content_show_list_vote', 1)) : ?>
 									<td class="d-none d-md-table-cell text-center">
 										<span class="badge badge-success">
 										<?php echo (int) $item->rating_count; ?>
@@ -417,7 +417,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										</span>
 									</td>
 								<?php endif; ?>
-								<?php if ($params->get('show_list_id', 1)) : ?>
+								<?php if ($params->get('com_content_show_list_id', 1)) : ?>
 									<td class="d-none d-lg-table-cell">
 										<?php echo (int) $item->id; ?>
 									</td>
