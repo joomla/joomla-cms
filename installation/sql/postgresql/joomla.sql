@@ -421,7 +421,7 @@ CREATE TABLE IF NOT EXISTS "#__content_types" (
   "type_id" serial NOT NULL,
   "type_title" varchar(255) NOT NULL DEFAULT '',
   "type_alias" varchar(255) NOT NULL DEFAULT '',
-  "table" varchar(255) NOT NULL DEFAULT '',
+  "table" varchar(2048) NOT NULL DEFAULT '',
   "rules" text NOT NULL,
   "field_mappings" text NOT NULL,
   "router" varchar(255) NOT NULL DEFAULT '',
