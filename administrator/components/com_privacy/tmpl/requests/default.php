@@ -74,13 +74,13 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 							<td class="center">
 								<div class="btn-group">
 									<?php if ($item->status == 1 && $item->request_type === 'export') : ?>
-										<a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $item->id); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?>"><span class="icon-download" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?></span></a>
+										<a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $item->id); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?>"><span class="fas fa-download" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?></span></a>
 										<?php if ($this->sendMailEnabled) : ?>
-											<a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $item->id); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?>"><span class="icon-mail" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?></span></a>
+											<a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $item->id); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?>"><span class="fas fa-envelope" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?></span></a>
 										<?php endif; ?>
 									<?php endif; ?>
 									<?php if ($item->status == 1 && $item->request_type === 'remove') : ?>
-										<a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.remove&id=' . (int) $item->id); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?>"><span class="icon-delete" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?></span></a>
+										<a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.remove&id=' . (int) $item->id); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?>"><span class="fas fa-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?></span></a>
 									<?php endif; ?>
 								</div>
 							</td>

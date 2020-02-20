@@ -68,7 +68,7 @@ $maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 				</p>
 				<p>
 					<button id="select-file-button" type="button" class="btn btn-success">
-						<span class="icon-copy" aria-hidden="true"></span>
+						<span class="fas fa-copy" aria-hidden="true"></span>
 						<?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_SELECT_FILE'); ?>
 					</button>
 				</p>
