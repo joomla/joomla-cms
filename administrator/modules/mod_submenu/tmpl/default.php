@@ -52,7 +52,7 @@ use Joomla\CMS\Router\Route;
 							<?php // Only if Menu-show = true
 								if ($params->get('menu_show', 1)) : ?>
 								<a class="flex-grow-1" href="<?php echo $item->link; ?>"
-									<?php echo $item->target = "_blank" ? ' title="' . Text::sprintf('JBROWSERTARGET_NEW_TITLE', (Text::_($item->title))) . '"' : ''; ?>
+									<?php echo $item->target === '_blank' ? ' title="' . Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_($item->title)) . '"' : ''; ?>
 									<?php echo $item->target ? ' target="' . $item->target . '"' : ''; ?>>
 									<?php if (!empty($params->get('menu_image'))) : ?>
 										<?php
