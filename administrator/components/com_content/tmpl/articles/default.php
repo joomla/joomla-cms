@@ -265,7 +265,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 											$options = [
 												'transitions' => $transitions,
 												'stage' => Text::_($item->stage_title),
-												'id' => (int) $item->id
+												'id' => (int) $item->id,
 											];
 
 											echo (new PublishedButton)
