@@ -16,6 +16,7 @@ use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryAwareTrait;
@@ -118,6 +119,57 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		{
 			$this->setMVCFactory($component->getMVCFactory());
 		}
+	}
+
+
+	/**
+	 * Add a directory where \JModelLegacy should search for models. You may
+	 * either pass a string or an array of directories.
+	 *
+	 * @param   mixed   $path    A path or array[sting] of paths to search.
+	 * @param   string  $prefix  A prefix for models.
+	 *
+	 * @return  array  An array with directory elements. If prefix is equal to '', all directories are returned.
+	 *
+	 * @since       3.0
+	 * @deprecated  5.0 See LeagcyModelLoaderTrait\getInstance
+	 */
+	public static function addIncludePath($path = '', $prefix = '')
+	{
+		static $paths;
+
+		if (!isset($paths))
+		{
+			$paths = array();
+		}
+
+		if (!isset($paths[$prefix]))
+		{
+			$paths[$prefix] = array();
+		}
+
+		if (!isset($paths['']))
+		{
+			$paths[''] = array();
+		}
+
+		if (!empty($path))
+		{
+			foreach ((array) $path as $includePath)
+			{
+				if (!\in_array($includePath, $paths[$prefix]))
+				{
+					array_unshift($paths[$prefix], Path::clean($includePath));
+				}
+
+				if (!\in_array($includePath, $paths['']))
+				{
+					array_unshift($paths[''], Path::clean($includePath));
+				}
+			}
+		}
+
+		return $paths[$prefix];
 	}
 
 	/**
