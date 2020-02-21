@@ -9,10 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
 /**
  * Layout variables
@@ -24,7 +28,7 @@ extract($displayData);
 
 if (!empty($options['showonEnabled']))
 {
-	HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true));
+	$wa->useScript('showon');
 }
 
 $class = empty($options['class']) ? '' : ' ' . $options['class'];
