@@ -19,8 +19,8 @@
 
         if (input.type === 'password') {
           // Update the icon class
-          icon.classList.remove('icon-eye');
-          icon.classList.add('icon-eye-close');
+          icon.classList.remove('fas fa-eye');
+          icon.classList.add('fas fa-eye-slash');
 
           // Update the input type
           input.type = 'text';
