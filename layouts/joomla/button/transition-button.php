@@ -8,6 +8,7 @@
  */
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Component\ComponentHelper;
 
 HTMLHelper::_('bootstrap.popover');
 
@@ -20,16 +21,27 @@ HTMLHelper::_('bootstrap.popover');
  */
 extract($displayData, EXTR_OVERWRITE);
 
-// get the params to decide which columns to show
-use Joomla\CMS\Component\ComponentHelper;
-$params = ComponentHelper::getParams('com_content');
-
+$only_icon = empty($options['transitions']);
 $disabled = !empty($options['disabled']);
 $tip = !empty($options['tip']);
 $id = (int) $options['id'];
 $tipTitle = $options['tip_title'];
 $checkboxName = $options['checkbox_name'];
+$params = ComponentHelper::getParams('com_content');
+
 ?>
+<?php if ($only_icon) : ?>
+	<span class="tbody-icon mr-1">
+		<span class="<?php echo $this->escape($icon ?? ''); ?> <?php echo $tip ? 'hasPopover' : ''; ?>"
+			title="<?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, '', 0); ?>"
+			data-content="<?php echo HTMLHelper::_('tooltipText', $title, '', 0); ?>"
+			data-placement="top"
+		></span>
+	</span>
+	<?php if (($params->get('com_content_show_list_stage', 0))): ?>
+		<div class="mr-auto"><?php echo $this->escape($options['stage']); ?></div>
+	<?php endif; ?>
+<?php else : ?>
 	<a class="tbody-icon mr-1 data-state-<?php echo $this->escape($value ?? ''); ?> <?php echo $this->escape(!empty($disabled) ? 'disabled' : null); ?> <?php echo $tip ? 'hasPopover' : ''; ?>"
 		<?php if (empty($disabled)) : ?>
 			href="javascript://"
@@ -64,3 +76,4 @@ $checkboxName = $options['checkbox_name'];
 			echo HTMLHelper::_('select.genericlist', $transitions, 'transition_' . (int) $id, $attribs);
 		?>
 	</div>
+<?php endif; ?>
