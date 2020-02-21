@@ -20,6 +20,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Menus\Administrator\Table\MenuTable;
+use Joomla\Component\Menus\Administrator\Table\MenuTypeTable;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 
@@ -709,10 +711,8 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	private function addMenuGroup($itemLanguage)
 	{
-		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
-
 		// Add Menu Group.
-		$menuTable = new \Joomla\Component\Menus\Administrator\Table\MenuTypeTable($this->db);
+		$menuTable = new MenuTypeTable($this->db);
 
 		$menuData = array(
 			'id'          => 0,
@@ -754,10 +754,8 @@ class PlgSampledataMultilang extends CMSPlugin
 
 	private function addAllCategoriesMenuItem($itemLanguage)
 	{
-		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
-
 		// Add Menu Item.
-		$tableItem = new \Joomla\Component\Menus\Administrator\Table\MenuTable($this->db);
+		$tableItem = new MenuTable($this->db);
 
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
@@ -835,10 +833,8 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	private function addBlogMenuItem($itemLanguage, $categoryId)
 	{
-		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
-
 		// Add Menu Item.
-		$tableItem = new \Joomla\Component\Menus\Administrator\Table\MenuTable($this->db);
+		$tableItem = new MenuTable($this->db);
 
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('com_languages', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
