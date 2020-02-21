@@ -1564,13 +1564,16 @@ class Form
 					$field   = $this->loadField($element);
 					$subForm = $field->loadSubForm();
 
-					if ($field->multiple && !empty($value))
+					if ($field->multiple)
 					{
 						$return = array();
 
-						foreach ($value as $key => $val)
+						if ($value)
 						{
-							$return[$key] = $subForm->filter($val);
+							foreach ($value as $key => $val)
+							{
+								$return[$key] = $subForm->filter($val);
+							}
 						}
 					}
 					else
@@ -2155,17 +2158,20 @@ class Form
 			$field   = $this->loadField($element);
 			$subForm = $field->loadSubForm();
 
-			if ($field->multiple && $value)
+			if ($field->multiple)
 			{
-				foreach ($value as $key => $val)
+				if ($value)
 				{
-					$val = (array) $val;
-
-					$valid = $subForm->validate($val);
-
-					if ($valid === false)
+					foreach ($value as $key => $val)
 					{
-						break;
+						$val = (array) $val;
+
+						$valid = $subForm->validate($val);
+
+						if ($valid === false)
+						{
+							break;
+						}
 					}
 				}
 			}
