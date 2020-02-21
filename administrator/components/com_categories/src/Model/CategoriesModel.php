@@ -139,7 +139,7 @@ class CategoriesModel extends ListModel
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.language');
 		$id .= ':' . $this->getState('filter.level');
-		$id .= ':' . $this->getState('filter.tag');
+		$id .= ':' . serialize($this->getState('filter.tag'));
 
 		return parent::getStoreId($id);
 	}
