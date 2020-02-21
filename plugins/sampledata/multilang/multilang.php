@@ -709,10 +709,8 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	private function addMenuGroup($itemLanguage)
 	{
-		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
-
 		// Add Menu Group.
-		$menuTable = new \Joomla\Component\Menus\Administrator\Table\MenuTypeTable($this->db);
+		$menuTable = $this->app->bootComponent('com_menus')->getMVCFactory()->createTable('MenuType', 'Administrator', ['dbo' => $this->db]);
 
 		$menuData = array(
 			'id'          => 0,
@@ -754,10 +752,8 @@ class PlgSampledataMultilang extends CMSPlugin
 
 	private function addAllCategoriesMenuItem($itemLanguage)
 	{
-		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
-
 		// Add Menu Item.
-		$tableItem = new \Joomla\Component\Menus\Administrator\Table\MenuTable($this->db);
+		$tableItem = $this->app->bootComponent('com_menus')->getMVCFactory()->createTable('Menu', 'Administrator', ['dbo' => $this->db]);
 
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
@@ -835,10 +831,8 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	private function addBlogMenuItem($itemLanguage, $categoryId)
 	{
-		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
-
 		// Add Menu Item.
-		$tableItem = new \Joomla\Component\Menus\Administrator\Table\MenuTable($this->db);
+		$tableItem = $this->app->bootComponent('com_menus')->getMVCFactory()->createTable('Menu', 'Administrator', ['dbo' => $this->db]);
 
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('com_languages', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
@@ -1017,7 +1011,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		}
 
 		// Initialize a new category.
-		$category = Table::getInstance('CategoryTable', '\\Joomla\\Component\\Categories\\Administrator\\Table\\');
+		$category = $this->app->bootComponent('com_categories')->getMVCFactory()->createTable('Category', 'Administrator', ['dbo' => $this->db]);
 
 		$data = array(
 			'extension'       => 'com_content',
@@ -1093,7 +1087,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		}
 
 		// Initialize a new article.
-		$article = Table::getInstance('ArticleTable', '\\Joomla\\Component\\Content\\Administrator\\Table\\');
+		$article = $this->app->bootComponent('com_content')->getMVCFactory()->createTable('Article', 'Administrator', ['dbo' => $this->db]);
 
 		$data = array(
 			'title'            => $title . ' (' . strtolower($itemLanguage->language) . ')',
@@ -1188,8 +1182,6 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	private function publishContentLanguages()
 	{
-		$app = Factory::getApplication();
-
 		// Publish the Content Languages.
 		$tableLanguage = Table::getInstance('Language');
 
@@ -1200,7 +1192,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)) && !$tableLanguage->publish())
 			{
-				$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
+				$this->app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
 
 				continue;
 			}
