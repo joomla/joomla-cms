@@ -556,12 +556,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/console.git",
-                "reference": "740d82d3d2dc44a843853abbd60e2494cff8cf84"
+                "reference": "7032ec021d1bec2c37e1067b148590a4a7d3ec83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/console/zipball/740d82d3d2dc44a843853abbd60e2494cff8cf84",
-                "reference": "740d82d3d2dc44a843853abbd60e2494cff8cf84",
+                "url": "https://api.github.com/repos/joomla-framework/console/zipball/7032ec021d1bec2c37e1067b148590a4a7d3ec83",
+                "reference": "7032ec021d1bec2c37e1067b148590a4a7d3ec83",
                 "shasum": ""
             },
             "require": {
