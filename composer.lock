@@ -387,12 +387,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/application.git",
-                "reference": "b97e3edaa57eb13411406039cec7bdc4a4959de8"
+                "reference": "3d549e0248cd8973f0c5b66fe49f4647c756488d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/application/zipball/b97e3edaa57eb13411406039cec7bdc4a4959de8",
-                "reference": "b97e3edaa57eb13411406039cec7bdc4a4959de8",
+                "url": "https://api.github.com/repos/joomla-framework/application/zipball/3d549e0248cd8973f0c5b66fe49f4647c756488d",
+                "reference": "3d549e0248cd8973f0c5b66fe49f4647c756488d",
                 "shasum": ""
             },
             "require": {
@@ -556,12 +556,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/console.git",
-                "reference": "7032ec021d1bec2c37e1067b148590a4a7d3ec83"
+                "reference": "740d82d3d2dc44a843853abbd60e2494cff8cf84"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/console/zipball/7032ec021d1bec2c37e1067b148590a4a7d3ec83",
-                "reference": "7032ec021d1bec2c37e1067b148590a4a7d3ec83",
+                "url": "https://api.github.com/repos/joomla-framework/console/zipball/740d82d3d2dc44a843853abbd60e2494cff8cf84",
+                "reference": "740d82d3d2dc44a843853abbd60e2494cff8cf84",
                 "shasum": ""
             },
             "require": {
@@ -1180,12 +1180,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/oauth1.git",
-                "reference": "5ac84103e21eae8b7e7e519b973d631d49eccb1b"
+                "reference": "36da2b80c5e525a724e59a2c54515fdedca90bd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/oauth1/zipball/5ac84103e21eae8b7e7e519b973d631d49eccb1b",
-                "reference": "5ac84103e21eae8b7e7e519b973d631d49eccb1b",
+                "url": "https://api.github.com/repos/joomla-framework/oauth1/zipball/36da2b80c5e525a724e59a2c54515fdedca90bd1",
+                "reference": "36da2b80c5e525a724e59a2c54515fdedca90bd1",
                 "shasum": ""
             },
             "require": {
@@ -1232,12 +1232,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/oauth2.git",
-                "reference": "d93209b726de4934324dca3ce91f3c1314b0f897"
+                "reference": "98ff49808169523339cc8fd072aec9fe8c5f892b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/d93209b726de4934324dca3ce91f3c1314b0f897",
-                "reference": "d93209b726de4934324dca3ce91f3c1314b0f897",
+                "url": "https://api.github.com/repos/joomla-framework/oauth2/zipball/98ff49808169523339cc8fd072aec9fe8c5f892b",
+                "reference": "98ff49808169523339cc8fd072aec9fe8c5f892b",
                 "shasum": ""
             },
             "require": {
