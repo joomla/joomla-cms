@@ -72,36 +72,44 @@ class UsergrouplistField extends \JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		// Hash for caching
-		$hash = md5($this->element);
+		$options        = parent::getOptions();
+		$groups         = UserGroupsHelper::getInstance()->getAll();
+		$checkSuperUser = (int) $this->getAttribute('checksuperusergroup', 0);
+		$isSuperUser    = Factory::getUser()->authorise('core.admin');
 
-		if (!isset(static::$options[$hash]))
+		if ($this->getAttribute('exclude_permissions'))
 		{
-			static::$options[$hash] = parent::getOptions();
-
-			$groups         = UserGroupsHelper::getInstance()->getAll();
-			$checkSuperUser = (int) $this->getAttribute('checksuperusergroup', 0);
-			$isSuperUser    = Factory::getUser()->authorise('core.admin');
-			$options        = array();
-
-			foreach ($groups as $group)
-			{
-				// Don't show super user groups to non super users.
-				if ($checkSuperUser && !$isSuperUser && Access::checkGroup($group->id, 'core.admin'))
-				{
-					continue;
-				}
-
-				$options[] = (object) array(
-					'text'  => str_repeat('- ', $group->level) . $group->title,
-					'value' => $group->id,
-					'level' => $group->level
-				);
-			}
-
-			static::$options[$hash] = array_merge(static::$options[$hash], $options);
+			$excludePermissions = explode(',', $this->getAttribute('exclude_permissions'));
+		}
+		else
+		{
+			$excludePermissions = array();
 		}
 
-		return static::$options[$hash];
+		foreach ($groups as $group)
+		{
+			// Don't show user groups which are excluded from field definition
+			foreach ($excludePermissions as $permission)
+			{
+				if (Access::checkGroup($group->id, $permission))
+				{
+					continue 2;
+				}
+			}
+
+			// Don't show super user groups to non super users.
+			if ($checkSuperUser && !$isSuperUser && Access::checkGroup($group->id, 'core.admin'))
+			{
+				continue;
+			}
+
+			$options[] = (object) array(
+				'text'  => str_repeat('- ', $group->level) . $group->title,
+				'value' => $group->id,
+				'level' => $group->level,
+			);
+		}
+
+		return $options;
 	}
 }
