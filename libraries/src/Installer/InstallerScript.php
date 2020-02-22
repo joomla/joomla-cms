@@ -15,6 +15,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\Component\Modules\Administrator\Model\ModuleModel;
 use Joomla\Database\ParameterType;
 
 /**
@@ -367,6 +368,52 @@ class InstallerScript
 					echo Text::sprintf('JLIB_INSTALLER_FILE_ERROR_MOVE', $name);
 				}
 			}
+		}
+	}
+
+	/**
+	 * Creates the dashboard menu module
+	 *
+	 * @param string $dashboard The name of the dashboard
+	 * @param string $preset    The name of the menu preset
+	 *
+	 * @return  void
+	 *
+	 * @throws \Exception
+	 * @since   4.0
+	 */
+	public function addDashboardMenu(string $dashboard, string $preset)
+	{
+		$model  = new ModuleModel;
+		$module = array(
+			'id'         => 0,
+			'asset_id'   => 0,
+			'language'   => '*',
+			'note'       => '',
+			'published'  => 1,
+			'assignment' => 0,
+			'client_id'  => 1,
+			'showtitle'  => 0,
+			'content'    => '',
+			'module'     => 'mod_submenu',
+			'position'   => 'cpanel-' . $dashboard,
+		);
+
+		// Try to get a translated module title, otherwise fall back to a fixed string.
+		$titleKey         = strtoupper('COM_' . $this->extension . '_DASHBOARD_' . $dashboard . '_TITLE');
+		$title            = Text::_($titleKey);
+		$module['title']  = ($title === $titleKey) ? ucfirst($dashboard) . ' Dashboard' : $title;
+
+		$module['access'] = (int) Factory::getApplication()->get('access', 1);
+		$module['params'] = array(
+			'menutype' => '*',
+			'preset'   => $preset,
+			'style'    => 'System-none',
+		);
+
+		if (!$model->save($module))
+		{
+			Factory::getApplication()->enqueueMessage($model->getError());
 		}
 	}
 }
