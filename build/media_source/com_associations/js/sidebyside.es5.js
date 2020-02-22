@@ -26,9 +26,7 @@ jQuery(document).ready(function($) {
     } else if (task === 'undo-association') { // Undo association
       var reference     = document.getElementById('reference-association');
       var target        = document.getElementById('target-association');
-      var referenceId   = reference.getAttribute('data-id');
       var referenceLang = reference.getAttribute('data-language').replace(/-/,'_');
-      var targetId      = target.getAttribute('data-id');
       var targetLang    = target.getAttribute('data-language').replace(/-/,'_');
       reference         = $(reference).contents();
       target            = $(target).contents();
@@ -260,7 +258,6 @@ jQuery(document).ready(function($) {
       var referenceId  = reference.getAttribute('data-id');
       var languageCode = reference.getAttribute('data-language').replace(/-/, '_');
       var target       = document.getElementById('target-association');
-      var targetTitle  = target.getAttribute('data-title');
       var title        = reference.getAttribute('data-title-value');
       var target       = $(this).contents();
 
