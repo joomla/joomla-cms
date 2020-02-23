@@ -228,8 +228,8 @@
     }
     &.mm-active {
       > a {
-        color: var(--atum-link-color) ;
-        &:hover  {
+        color: var(--atum-link-color)
+        &:hover {
           color: var(--atum-text-light);
         }
 
@@ -253,7 +253,7 @@
 
         > a
         {
-          color: var(--atum-link-color) ;
+          color: var(--atum-link-color);
              }
            }
 
@@ -274,7 +274,7 @@
 
       &[href]:hover:not(.menu-dashboard):not(.menu-quicktask) {
         color: $white;
-        background-color:  var(--atum-link-color);
+        background-color: var(--atum-link-color);
       }
 
       &.mm-active {
@@ -412,7 +412,7 @@
       align-items: center;
       justify-content: center;
       width: 1.5rem;
-      color: var(--atum-sidebar-font-color) ;
+      color: var(--atum-sidebar-font-color);
       font-weight: 900;
       font-family: "Font Awesome 5 Free";
 
