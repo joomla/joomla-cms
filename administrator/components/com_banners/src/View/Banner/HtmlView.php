@@ -142,7 +142,6 @@ class HtmlView extends BaseHtmlView
 			{
 				ToolbarHelper::versions('com_banners.banner', $this->item->id);
 			}
-
 		}
 
 		ToolbarHelper::divider();

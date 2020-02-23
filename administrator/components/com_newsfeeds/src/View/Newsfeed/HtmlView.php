@@ -156,7 +156,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::custom('newsfeed.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
 		}
 
-
 		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS_EDIT');
 	}
