@@ -16,7 +16,7 @@ use Joomla\CMS\Utility\Utility;
 ?>
 
 <div class="alert alert-info">
-	<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+	<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 	<?php echo Text::_('COM_INSTALLER_VIEW_DEFAULT_IMPORT_INTRO'); ?>
 </div>
 
@@ -58,7 +58,7 @@ function checkSize(inputFile) {
 	    oFiles = document.getElementById("zip_file").files;
 	nBytes = oFiles[0].size;
 	sizeLimit = parseInt(document.getElementById("max-size").value);
-	
+
 	if (nBytes > sizeLimit)
 	{
 		inputFile.className = "form-control-file is-invalid";
