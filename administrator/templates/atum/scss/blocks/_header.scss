@@ -2,11 +2,12 @@
 
 .header {
   position: relative;
-  background: $white;
-  box-shadow: $atum-box-shadow;
+  background:var(--atum-bg-dark);
   z-index: $zindex-header;
-  border-top: 3px solid var(--atum-bg-dark);
-  color: var(--atum-special-color);
+  color: $white;
+  padding:10px;
+  box-sizing: border-box;
+
 
   .header-title {
     width: 50%;
@@ -48,6 +49,10 @@
         &.logo-small {
           display: inline-block;
         }
+
+        path
+        {fill: $white}
+
       }
     }
 
@@ -65,6 +70,7 @@
 
     svg {
       height: 1.3rem;
+      path {fill: $white}
     }
   }
 
@@ -76,7 +82,7 @@
     margin: 0;
     font-size: 1.2rem;
     line-height: $header-height;
-    color: var(--atum-special-color);
+    color: $white;
 
     [class^='icon-'] {
       margin-right: 0.625rem;
@@ -106,7 +112,7 @@
         flex-direction: column;
         height: 100%;
         padding: 0 0.6rem;
-        color: var(--atum-special-color);
+        color: $white;
       }
 
       a,
@@ -162,23 +168,39 @@
 
   .fas,
   .fab {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     vertical-align: middle;
     transition: all .2s ease-in-out;
   }
 
   .badge {
     position: absolute;
-    left: 50%;
     top: 0.4rem;
-    margin-left: 0.8rem;
+
+    [dir=ltr] & {
+      left: 50%;
+      margin-left: 0.8rem;
+    }
+
+    [dir=rtl] & {
+      right: 50%;
+      margin-right: 0.8rem;
+    }
   }
 
   .fa-angle-down {
     position: absolute;
-    left: 50%;
     top: 0.9rem;
-    margin-left: -1.6rem;
+
+    [dir=ltr] & {
+      left: 50%;
+      margin-left: -1.8rem;
+    }
+
+    [dir=rtl] & {
+      right: 50%;
+      margin-right: -1.8rem;
+    }
   }
 
   .align-items-end {
@@ -204,6 +226,16 @@
 
       [dir=rtl] & {
         text-align: right;
+      }
+
+      .fas {
+        [dir=ltr] & {
+          margin-right: $dropdown-item-padding-x;
+        }
+
+        [dir=rtl] & {
+          margin-left: $dropdown-item-padding-x;
+        }
       }
     }
   }

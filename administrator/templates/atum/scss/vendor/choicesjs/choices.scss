@@ -19,6 +19,9 @@
 .choices__inner {
   border-radius: 0;
   border-color: $gray-400;
+  border:$input-border;
+  border-radius: $border-radius;
+  box-shadow: $input-box-shadow;
 }
 
 // Fix position
@@ -57,14 +60,22 @@
   .choices__button_joomla {
     position: absolute;
     top: 50%;
-    right: 0;
     width: 20px;
     height: 20px;
     padding: 0;
     margin-top: -10px;
-    margin-right: 3rem;
     opacity: .5;
     border-radius: 0 20px 20px 0;
+
+    [dir=ltr] & {
+      right: 0;
+      margin-right: 3rem;
+    }
+
+    [dir=rtl] & {
+      left: 0;
+      margin-left: 3rem;
+    }
 
     &:hover,
     &:focus {
@@ -94,6 +105,12 @@
     padding: $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $custom-select-padding-y $custom-select-padding-x;
     background: url(../../../images/select-bg.svg) no-repeat right center / $custom-select-bg-size;
     background-color: $custom-select-bg;
+
+    [dir=rtl] & {
+      padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
+      background: url(../../../images/select-bg-rtl.svg) no-repeat left center / $custom-select-bg-size;
+      background-color: $custom-select-bg;
+    }
   }
 }
 
@@ -102,7 +119,6 @@
 
   .choices__button_joomla {
     position: absolute;
-    right: 0;
     top: 0;
     display: block;
     width: 0.5rem;
@@ -113,6 +129,14 @@
     opacity: 1;
     background-color: rgba(0, 0, 0, .2);
     border-radius: 0 20px 20px 0;
+
+    [dir=ltr] & {
+      right: 0;
+    }
+
+    [dir=rtl] & {
+      left: 0;
+    }
 
     &:hover,
     &:focus {
@@ -147,7 +171,13 @@
   }
 
   &[data-deletable] {
-    padding-right: 1.8125rem;
+    [dir=ltr] & {
+      padding-right: 1.8125rem;
+    }
+
+    [dir=rtl] & {
+      padding-left: 1.8125rem;
+    }
   }
 }
 
@@ -169,5 +199,11 @@
 }
 
 .choices__list--multiple .choices__item[data-deletable] {
-  padding-right: 1.8125rem !important;
+  [dir=ltr] & {
+    padding-right: 1.8125rem !important;
+  }
+
+  [dir=rtl] & {
+    padding-left: 1.8125rem !important;
+  }
 }

@@ -436,7 +436,7 @@ $folderModalData = array(
 );
 ?>
 <?php echo LayoutHelper::render('joomla.modal.main', $folderModalData); ?>
-<?php if ($this->type != 'home') : ?>
+<?php if ($this->type == 'image') : ?>
 	<?php // Resize Modal
 	$resizeModalData = array(
 		'selector' => 'resizeModal',

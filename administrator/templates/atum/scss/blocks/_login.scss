@@ -204,7 +204,7 @@
 }
 
 label {
-  color: var(--atum-special-color);
+  color:$darkblue;
 }
 
 .com_login .sidebar-wrapper .main-brand {
@@ -245,5 +245,16 @@ label {
 
   .invalid .form-control-feedback {
     color: theme-color("danger");
+  }
+}
+
+ /* Detect IE 10+ and display alert */
+.ie11 {
+  display: none;
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .ie11 {
+    display: block;
   }
 }

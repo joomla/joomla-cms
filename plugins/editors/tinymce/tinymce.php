@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -213,17 +214,11 @@ class PlgEditorTinymce extends CMSPlugin
 		$levelParams->loadObject($toolbarParams);
 		$levelParams->loadObject($extraOptions);
 
-		// List the skins
-		$skindirs = glob(JPATH_ROOT . '/media/vendor/tinymce/skins/ui' . '/*', GLOB_ONLYDIR);
-
 		// Set the selected skin
-		$skin = 'oxide';
-		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
+		$skin = $levelParams->get($app->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
 
-		if ((int) $levelParams->get($side, 0) < count($skindirs))
-		{
-			$skin = basename($skindirs[(int) $levelParams->get($side, 0)]);
-		}
+		// Check that selected skin exists.
+		$skin = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
 
 		$langMode   = $levelParams->get('lang_mode', 1);
 		$langPrefix = $levelParams->get('lang_code', 'en');
@@ -552,6 +547,9 @@ class PlgEditorTinymce extends CMSPlugin
 			$toolbar1  = array_merge($toolbar1, explode($separator, $custom_button));
 		}
 
+		// Merge the two toolbars for backwards compatibility
+		$toolbar = array_merge($toolbar1, $toolbar2);
+
 		// Build the final options set
 		$scriptOptions   = array_merge(
 			$scriptOptions,
@@ -567,8 +565,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 				// Toolbars
 				'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
-				'toolbar1' => empty($toolbar1) ? null  : implode(' ', $toolbar1) . ' jxtdbuttons',
-				'toolbar2' => empty($toolbar2) ? null  : implode(' ', $toolbar2),
+				'toolbar' => empty($toolbar) ? null  : 'jxtdbuttons ' . implode(' ', $toolbar),
 
 				'plugins'  => implode(',', array_unique($plugins)),
 
@@ -600,6 +597,8 @@ class PlgEditorTinymce extends CMSPlugin
 				'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
 				'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
 				'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
+				'toolbar_sticky'     => true,
+				'toolbar_mode'       => 'sliding',
 
 				// Drag and drop specific
 				'dndEnabled' => $dragdrop,
@@ -1010,7 +1009,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$preset['simple'] = [
 			'menu' => [],
-			'toolbar1' => [
+			'toolbar' => [
 				'bold', 'underline', 'strikethrough', '|',
 				'undo', 'redo', '|',
 				'bullist', 'numlist', '|',

@@ -106,7 +106,7 @@ if ($iconImage)
 {
 	if (substr($iconImage, 0, 6) == 'class:' && substr($iconImage, 6) == 'icon-home')
 	{
-		$iconImage = '<span class="home-image icon-featured" aria-hidden="true"></span>';
+		$iconImage = '<span class="home-image fas fa-star" aria-hidden="true"></span>';
 		$iconImage .= '<span class="sr-only">' . Text::_('JDEFAULT') . '</span>';
 	}
 	elseif (substr($iconImage, 0, 6) == 'image:')
@@ -148,11 +148,11 @@ else
 	echo '<span>' . Text::_($current->title) . '</span>' . $ajax;
 }
 
-if ($currentParams->get('menu-quicktask', false))
+if ($currentParams->get('menu-quicktask') && $this->params->get('shownew', 1) === 1)
 {
 	$params = $current->getParams();
 	$user = $this->application->getIdentity();
-	$link = $params->get('menu-quicktask-link');
+	$link = $params->get('menu-quicktask');
 	$icon = $params->get('menu-quicktask-icon', 'plus');
 	$title = $params->get('menu-quicktask-title', 'MOD_MENU_QUICKTASK_NEW');
 	$permission = $params->get('menu-quicktask-permission');

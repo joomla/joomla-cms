@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="4.0" type="template" client="administrator">
+<extension type="template" client="administrator">
 	<name>atum</name>
 	<version>1.0</version>
 	<creationDate>September 2016</creationDate>
@@ -40,6 +40,7 @@
 		<position>cpanel</position>
 		<position>icon</position>
 		<position>login</position>
+		<position>customtop</position>
 	</positions>
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.tpl_atum.ini</language>
@@ -62,14 +63,14 @@
 					name="bg-light"
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_BG_LIGHT_LABEL"
-					default="#e8e8e8"
+					default="#f0f4fb"
 					filter="color"
 				/>
 				<field
 					name="text-dark"
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_TEXT_DARK_LABEL"
-					default="#495057"
+					default="#3b4a5c"
 					filter="color"
 				/>
 				<field
@@ -83,7 +84,7 @@
 					name="link-color"
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_LINK_COLOR_LABEL"
-					default="#1757a1"
+					default="#2a69b8"
 					filter="color"
 				/>
 				<field
@@ -97,7 +98,7 @@
 					name="monochrome"
 					type="radio"
 					label="TPL_ATUM_COLORS_SETTINGS_MONOCHROME_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					>
 					<option value="0">JNO</option>

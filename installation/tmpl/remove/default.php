@@ -100,7 +100,7 @@ use Joomla\CMS\Uri\Uri;
 
 		<fieldset id="installLanguages" class="j-install-step">
 			<legend class="j-install-step-header">
-				<span class="far fa-comment-dots" aria-hidden="true"></span> <?php echo Text::_('INSTL_LANGUAGES'); ?>
+				<span class="fas fa-comment-dots" aria-hidden="true"></span> <?php echo Text::_('INSTL_LANGUAGES'); ?>
 			</legend>
 			<div class="j-install-step-form">
 				<?php if (!$this->items) : ?>

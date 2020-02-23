@@ -8313,15 +8313,15 @@ if (!defined('KICKSTART'))
 					// opcode cache busting before including the filename
 					if (function_exists('opcache_invalidate'))
 					{
-						opcache_invalidate($filename);
+						\opcache_invalidate($filename);
 					}
 					if (function_exists('apc_compile_file'))
 					{
-						apc_compile_file($filename);
+						\apc_compile_file($filename);
 					}
 					if (function_exists('wincache_refresh_if_changed'))
 					{
-						wincache_refresh_if_changed(array($filename));
+						\wincache_refresh_if_changed(array($filename));
 					}
 					if (function_exists('xcache_asm'))
 					{

@@ -259,19 +259,27 @@ const copyFiles = (options) => {
       Fs.writeFileSync(chosenPath, ChosenJs, { encoding: 'UTF-8' });
     }
 
+    // Append initialising code to the end of the Short-and-Sweet javascript
+    if (packageName === 'short-and-sweet') {
+      const dest = Path.join(mediaVendorPath, vendorName);
+      const shortandsweetPath = `${dest}/${options.settings.vendors[packageName].js['dist/short-and-sweet.min.js']}`;
+      let ShortandsweetJs = Fs.readFileSync(shortandsweetPath, { encoding: 'UTF-8' });
+      ShortandsweetJs = ShortandsweetJs.concat('document.addEventListener(\'DOMContentLoaded\', function()'
+          + '{shortAndSweet(\'textarea.charcount\', {counterClassName: \'small text-muted\'}); });');
+      Fs.writeFileSync(shortandsweetPath, ShortandsweetJs, { encoding: 'UTF-8' });
+    }
+
     // Add provided Assets to a registry, if any
     if (vendor.provideAssets && vendor.provideAssets.length) {
       vendor.provideAssets.forEach((assetInfo) => {
-        const registryItem = {
+        const registryItemBase = {
           package: packageName,
           name: assetInfo.name || vendorName,
           version: moduleOptions.version,
           type: assetInfo.type,
         };
 
-        if (assetInfo.dependencies && assetInfo.dependencies.length) {
-          registryItem.dependencies = assetInfo.dependencies;
-        }
+        const registryItem = Object.assign(assetInfo, registryItemBase);
 
         // Update path to file
         if (assetInfo.uri && (assetInfo.type === 'script' || assetInfo.type === 'style' || assetInfo.type === 'webcomponent')) {

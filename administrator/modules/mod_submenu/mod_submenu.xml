@@ -9,10 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_SUBMENU_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\Submenu</namespace>
+	<namespace path="src">Joomla\Module\Submenu</namespace>
 	<files>
 		<filename module="mod_submenu">mod_submenu.php</filename>
-		<folder>Menu</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

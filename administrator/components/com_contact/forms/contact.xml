@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-
 	<fieldset addfieldprefix="Joomla\Component\Contact\Administrator\Field">
-
 		<field
 			name="id"
 			type="number"
@@ -181,6 +179,8 @@
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			rows="3"
 			cols="30"
+			maxlength="160"
+			charcounter="true"
 		/>
 
 		<field
@@ -194,7 +194,7 @@
 		<field
 			name="featured"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="JFEATURED"
 			default="0"
 			>
@@ -265,7 +265,6 @@
 	</fieldset>
 
 	<fieldset name="details" label="COM_CONTACT_CONTACT_DETAILS">
-
 		<field
 			name="@text_details"
 			type="note"
@@ -384,11 +383,8 @@
 	</fieldset>
 
 	<fields name="params">
-
 		<fieldset name="display" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
-
 			<fieldset name="basic" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
-
 				<field
 					name="show_contact_category"
 					type="list"
@@ -671,11 +667,9 @@
 					view="contact"
 					useglobal="true"
 				/>
-
 			</fieldset>
 
 			<fieldset name="link" label="JGLOBAL_FIELDSET_DISPLAY_LINK_OPTIONS">
-
 				<field
 					name="show_links"
 					type="list"
@@ -702,12 +696,12 @@
 					validate="url"
 				/>
 
-			<field
-				name="linkd_name"
-				type="text"
-				label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
-				size="30"
-			/>
+				<field
+					name="linkd_name"
+					type="text"
+					label="COM_CONTACT_FIELD_LINKD_NAME_LABEL"
+					size="30"
+				/>
 
 				<field
 					name="linkb"
@@ -770,7 +764,6 @@
 
 		<fieldset name="email" label="COM_CONTACT_FIELDSET_CONTACT_LABEL">
 			<fieldset name="form" label="COM_CONTACT_FIELDSET_FORM_LABEL">
-
 				<field
 					name="show_email_form"
 					type="list"
@@ -822,9 +815,7 @@
 	</fields>
 
 	<fields name="metadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-
 		<fieldset name="jmetadata" label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
-
 			<field
 				name="robots"
 				type="list"

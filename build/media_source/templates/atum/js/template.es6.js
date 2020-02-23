@@ -39,44 +39,6 @@
   }
 
   /**
-   * Method that add a fade effect and transition on sidebar and content side
-   * after login and logout
-   *
-   * @since   4.0.0
-   */
-  function fade(fadeAction, transitAction) {
-    const sidebar = doc.querySelector('.sidebar-wrapper');
-    const sidebarChildren = sidebar ? sidebar.children : [];
-    const sideChildrenLength = sidebarChildren.length;
-    const contentMain = doc.querySelector('.container-main');
-    const contentChildren = contentMain ? contentMain.children : [];
-    const contChildrenLength = contentChildren.length;
-
-    for (let i = 0; i < sideChildrenLength; i += 1) {
-      sidebarChildren[i].classList.add(`load-fade${fadeAction}`);
-    }
-    for (let i = 0; i < contChildrenLength; i += 1) {
-      contentChildren[i].classList.add(`load-fade${fadeAction}`);
-    }
-    if (sidebar) {
-      if (transitAction) {
-        // Transition class depends on the width of the sidebar
-        if (storageEnabled
-          && localStorage.getItem('atum-sidebar') === 'closed') {
-          sidebar.classList.add(`transit-${transitAction}-closed`);
-          changeLogo('small');
-        } else {
-          sidebar.classList.add(`transit-${transitAction}`);
-        }
-      }
-      sidebar.classList.toggle('fade-done', fadeAction !== 'out');
-    }
-    if (contentMain) {
-      contentMain.classList.toggle('fade-done', fadeAction !== 'out');
-    }
-  }
-
-  /**
    * toggle arrow icon between down and up depending on position of the nav header
    *
    * @param {string} [positionTop] set if the nav header positioned to the 'top' otherwise 'bottom'
@@ -217,29 +179,6 @@
   }
 
   /**
-   * Trigger fade out on login and logout
-   *
-   * @since   4.0.0
-   */
-  function fadeLoginLogout() {
-    // Fade out login form when login was successful
-    const loginForm = doc.getElementById('form-login');
-    if (loginForm) {
-      loginForm.addEventListener('joomla:login', () => {
-        fade('out', 'narrow');
-      });
-    } else {
-      // Fade out dashboard on logout
-      const logoutBtn = doc.querySelector('.header-items a[href*="task=logout"]');
-      if (logoutBtn) {
-        logoutBtn.addEventListener('click', () => {
-          fade('out', 'wider');
-        });
-      }
-    }
-  }
-
-  /**
    * Change appearance for mobile devices
    *
    * @since   4.0.0
@@ -328,8 +267,6 @@
 
   doc.addEventListener('DOMContentLoaded', () => {
     changeSVGLogoColor();
-    fade('in');
-    fadeLoginLogout();
     headerItemsInDropdown();
     reactToResize();
     subheadScrolling();

@@ -107,13 +107,6 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			<jdoc:include type="modules" name="banner" style="xhtml" />
 		</div>
 		<?php endif; ?>
-		<div class="header-shadow"></div>
-		<div class="header-shape-bottom">
-			<canvas width="736" height="15"></canvas>
-			<svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 736 15">
-				<path d="M1040,301V285s-75,12-214,12-284-26-524,0v4Z" transform="translate(-302 -285)" fill="#fafafa"/>
-			</svg>
-		</div>
 	</header>
 
 	<?php if ($this->countModules('top-a')) : ?>
@@ -205,7 +198,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 		<hr>
 		<p class="float-right">
 			<a href="#top" id="back-top" class="back-top">
-				<span class="icon-arrow-up-4" aria-hidden="true"></span>
+				<span class="fas fa-arrow-up" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
 			</a>
 		</p>
