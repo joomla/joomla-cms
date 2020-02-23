@@ -10,6 +10,7 @@ namespace Joomla\CMS\MVC\Model;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 
@@ -30,6 +31,14 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 	 * @since  4.0.0
 	 */
 	protected $name;
+
+	/**
+	 * The include paths
+	 *
+	 * @var   array
+	 * @since  4.0.0
+	 */
+	protected static $paths;
 
 	/**
 	 * Constructor
@@ -81,40 +90,38 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 	 */
 	public static function addIncludePath($path = '', $prefix = '')
 	{
-		static $paths;
-
-		if (!isset($paths))
+		if (!isset(self::$paths))
 		{
-			$paths = array();
+			self::$paths = array();
 		}
 
-		if (!isset($paths[$prefix]))
+		if (!isset(self::$paths[$prefix]))
 		{
-			$paths[$prefix] = array();
+			self::$paths[$prefix] = array();
 		}
 
-		if (!isset($paths['']))
+		if (!isset(self::$paths['']))
 		{
-			$paths[''] = array();
+			self::$paths[''] = array();
 		}
 
 		if (!empty($path))
 		{
 			foreach ((array) $path as $includePath)
 			{
-				if (!\in_array($includePath, $paths[$prefix]))
+				if (!\in_array($includePath, self::$paths[$prefix]))
 				{
-					array_unshift($paths[$prefix], Path::clean($includePath));
+					array_unshift(self::$paths[$prefix], Path::clean($includePath));
 				}
 
-				if (!\in_array($includePath, $paths['']))
+				if (!\in_array($includePath, self::$paths['']))
 				{
-					array_unshift($paths[''], Path::clean($includePath));
+					array_unshift(self::$paths[''], Path::clean($includePath));
 				}
 			}
 		}
 
-		return $paths[$prefix];
+		return self::$paths[$prefix];
 	}
 
 	/**
