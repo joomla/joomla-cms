@@ -84,7 +84,7 @@ textarea {
 
 .content,
 .container-popup {
-  font-size: $content-font-size;
+  /* font-size: $content-font-size; */
 }
 
 label,
@@ -129,8 +129,9 @@ body .container-main {
   }
 }
 
+
 .content {
-  padding-top: 15px;
+  padding: 2vw;
   border-radius: $border-radius;
 
   > .row {
@@ -227,4 +228,19 @@ a[target="_blank"]::before {
 .tiny {
   font-size: $font-size-vsm;
   line-height: 1.4rem;
+}
+
+/* details */
+
+details {
+  margin: 0 0 2rem;
+}
+
+summary {
+  color: var(--atum-link-color);
+}
+
+div.rule-notes {
+  background: var(--atum-bg-light);
+  padding: 1rem
 }

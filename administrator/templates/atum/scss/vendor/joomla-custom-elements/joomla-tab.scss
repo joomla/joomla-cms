@@ -21,51 +21,51 @@ joomla-tab {
   flex-direction: column;
 
   &[orientation=horizontal]:not([view=accordion]) {
-    margin-bottom: 5rem;
+    margin-bottom: 0rem;
   }
 
   &[orientation=horizontal]:not([view=accordion]) > ul {
     width: 100%;
-    background-color: var(--atum-bg-dark);
-    margin-bottom: 1rem;
+    margin-bottom: 0rem;
   }
 
   > ul {
     display: flex;
     border-image: none;
     border-radius: 0;
-    border: 0;
-    box-shadow: $atum-box-shadow;
+  /* box-shadow: $atum-box-shadow;*/
     margin: 0;
     padding: 0;
     list-style: outside none none;
-    overflow-x: auto;
-    overflow-y: hidden;
     white-space: nowrap;
 
     a[role=tab] {
       display: block;
-      color: var(--atum-text-light);
-      padding: 1.3rem 2rem;
+      color: var(--atum-link-color);
+      padding: 0.5rem 1rem;
       position: relative;
       box-shadow: none;
-      border: 1px solid var(--atum-bg-dark-80);
+      border: 0px solid var(--bluegray);
       border-right: 0;
-      border-bottom: 0;
+      border-bottom:0;
+      border-top:0;
+      box-sizing: border-box;
       text-decoration: none;
 
       &[active],
       &:hover {
-        background-color: var(--atum-bg-dark-80);
+        background-color: $white;
         background-image: none;
         border-radius: 0;
         box-shadow: none;
-
+              margin-bottom: -1px;
+        border:1px solid  var(--bluegray);
+        border-bottom: solid 1px #fff;
         &::after {
           background-color: var(--atum-contrast);
           top: -1px;
           content: "";
-          height: 8px;
+          height: 4px;
           left: 0;
           opacity: .8;
           position: absolute;
@@ -81,11 +81,13 @@ joomla-tab {
 
   > section {
     display: none;
-    background-color: transparent;
+    background-color: $white;
     border: 0;
     border-radius: 0;
     box-shadow: none;
-    padding: 0;
+    padding: 30px 2vw;
+    border: 1px solid var(--bluegray);
+
 
     &[active] {
       display: block;
@@ -132,7 +134,8 @@ joomla-tab {
 
       &[active],
       &:hover {
-        background-color: $white;
+        background-color: var(--atum-link-color);
+        color: var(--atum-text-light);
         background-image: none;
         box-shadow: none;
         border-right: 0;
@@ -162,7 +165,7 @@ joomla-tab {
       border-radius: 0;
       white-space: normal;
       box-shadow: 0 1px $white inset, 0 0 3px rgba(0, 0, 0, 0.04);
-      background-color: var(--atum-bg-dark);
+      background-color: var(--atum-link-color);
     }
 
     section {
@@ -179,27 +182,19 @@ joomla-tab {
     }
 
     [active] {
-      background-color: $gray-300;
+      background-color: $white;
     }
 
     a[role=tab] {
-      border: 1px solid var(--atum-bg-dark-80);
+      border: 1px solid var(--atum-text-light);
       border-top: 0;
+      color: var(--atum-text-light);
 
       &[active],
-      &:hover {
-        &::after {
-          position: absolute;
-          top: auto;
-          bottom: -1px;
-          left: -1px;
-          right: -1px;
-          content: "";
-          width: calc(100% + 2px);
-          height: 8px;
-          opacity: .8;
-          background-color: var(--atum-contrast);
-        }
+      &:hover,
+      &:focus {
+        color: var(--atum-text-light);
+        background-color: var(--atum-bg-dark);
       }
     }
 
@@ -211,12 +206,12 @@ joomla-tab {
 
     joomla-tab[view=accordion] {
       > ul {
-        background-color: $gray-100;
+        background-color: $white;
       }
 
       a[role=tab] {
         display: block;
-        color: var(--atum-special-color);
+        color: var(--atum-text-light);
         padding: .75em 1em;
         position: relative;
         border: 0;

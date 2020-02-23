@@ -39,7 +39,7 @@
   margin-bottom: 0.5rem;
 
   > div {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
   }
 
   .js-stools-container-filters {
@@ -50,10 +50,7 @@
     margin-top: 0.5rem;
     margin-bottom: 1rem;
     background-color: $white;
-    border: solid var(--border);
-    border-width: 1px 0;
     border-radius: 0 0 0 $border-radius;
-    box-shadow: $atum-box-shadow;
     width: 100%;
 
     joomla-field-fancy-select .choices,
@@ -80,9 +77,8 @@
     }
 
     .custom-select {
-
+      box-shadow:  $input-box-shadow;
       &.active {
-        color: var(--white);
         background: $custom-select-indicator-active no-repeat right center;
         background-color: $custom-select-bg;
         background-size: $custom-select-bg-size;
@@ -283,7 +279,7 @@
       margin-bottom: 0;
 
       .custom-select {
-        box-shadow: none;
+
       }
     }
 
