@@ -150,7 +150,7 @@
 
           // invert colors
           background-color:  var(--atum-sidebar-bg);
-          color:var(--atum-sidebar-link-color);
+          color: var(--atum-sidebar-link-color);
           .fas {
             color: var(--atum-contrast);
           }
@@ -219,7 +219,7 @@
 
       &.mm-active {
 
-        color:var(--atum-link-color);
+        color: var(--atum-link-color);
         &:hover
         {
           color: var(--atum-text-light);
@@ -230,7 +230,7 @@
       > a {
         color: var(--atum-link-color) ;
         &:hover  {
-          color:var(--atum-text-light);
+          color: var(--atum-text-light);
         }
 
       }
@@ -244,7 +244,7 @@
     width: 100%;
 
     li {
-      border:0;
+      border: 0;
       position: relative;
       display: flex;
 

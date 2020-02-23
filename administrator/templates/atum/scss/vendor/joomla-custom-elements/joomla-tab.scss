@@ -47,8 +47,8 @@ joomla-tab {
       box-shadow: none;
       border: 0 solid var(--bluegray);
       border-right: 0;
-      border-bottom:0;
-      border-top:0;
+      border-bottom: 0;
+      border-top: 0;
       box-sizing: border-box;
       text-decoration: none;
 
@@ -59,7 +59,7 @@ joomla-tab {
         border-radius: 0;
         box-shadow: none;
         margin: -1px;
-        border:1px solid  var(--bluegray);
+        border: 1px solid  var(--bluegray);
         border-bottom: solid 1px #fff;
         &::after {
           background-color: var(--atum-contrast);
