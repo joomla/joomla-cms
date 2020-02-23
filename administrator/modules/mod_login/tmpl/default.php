@@ -62,7 +62,8 @@ Text::script('MESSAGE');
 					autocomplete="current-password"
 				>
 				<span class="input-group-append ml-2">
-					<button type="button" class="input-group-text icon-eye input-password-toggle">
+					<button type="button" class="btn btn-secondary input-password-toggle">
+						<span class="fas fa-eye" aria-hidden="true"></span>
 						<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 					</button>
 				</span>
@@ -110,7 +111,8 @@ Text::script('MESSAGE');
 </form>
 <div class="text-center">
 	<div>
-		<a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank" rel="nofollow">
+		<a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank" rel="nofollow"
+			title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS')); ?>">
 			<?php echo Text::_('MOD_LOGIN_CREDENTIALS'); ?>
 		</a>
 	</div>

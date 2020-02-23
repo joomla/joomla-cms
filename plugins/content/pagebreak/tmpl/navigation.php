@@ -10,12 +10,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 ?>
 <ul>
 	<li>
 		<?php if ($links['previous']) : ?>
-		<a href="<?php echo $links['previous']; ?>">
+		<a href="<?php echo Route::_($links['previous']); ?>">
 			<?php echo trim(str_repeat(Text::_('JGLOBAL_LT'), 2) . ' ' . Text::_('JPREV')); ?>
 		</a>
 		<?php else: ?>
@@ -24,7 +25,7 @@ use Joomla\CMS\Language\Text;
 	</li>
 	<li>
 		<?php if ($links['next']) : ?>
-		<a href="<?php echo $links['next']; ?>">
+		<a href="<?php echo Route::_($links['next']); ?>">
 			<?php echo trim(Text::_('JNEXT') . ' ' . str_repeat(Text::_('JGLOBAL_GT'), 2)); ?>
 		</a>
 		<?php else: ?>

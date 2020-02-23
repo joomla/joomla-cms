@@ -6,7 +6,7 @@
 		<field
 			name="compressed"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_BANNERS_FIELD_COMPRESSED_LABEL"
 			default="0"
 			>

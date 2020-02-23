@@ -1,28 +1,33 @@
 // Global
 
 html {
-   height: 100%;
-   &.a11y_font {
-     font-size: 18px;
-   }
+  height: 100%;
+
+  &.a11y_font {
+    font-size: 18px;
+  }
 }
 
 body {
-   min-height: 100%;
+  min-height: 100%;
 }
 
 body {
   padding: 0;
   margin: 0;
+
   &.monochrome {
     filter: grayscale(1);
   }
+
   &.a11y_contrast {
     filter: contrast(115%);
   }
-  &.monochrome.a11y_contrast  {
+
+  &.monochrome.a11y_contrast {
     filter: grayscale(1) contrast(115%);
   }
+
   &.a11y_highlight {
     a {
       padding: 3px;
@@ -67,7 +72,7 @@ input,
 textarea {
 
   &.focus-visible {
-  outline: auto 2px var(--focus);
+    outline: auto 2px var(--focus);
   }
 }
 
@@ -79,7 +84,7 @@ textarea {
 
 .content,
 .container-popup {
-  font-size: $content-font-size;
+  /* font-size: $content-font-size; */
 }
 
 label,
@@ -104,8 +109,9 @@ body .container-main {
   min-height: calc(100vh - #{$header-height} - 3px);
   padding-left: 0;
   padding-right: 0;
-
-  &::before, &::after {
+  overflow: auto;
+  &::before,
+  &::after {
     content: '';
     width: 100%;
     height: 100%;
@@ -123,8 +129,9 @@ body .container-main {
   }
 }
 
+
 .content {
-  padding-top: 15px;
+  padding: 2vw;
   border-radius: $border-radius;
 
   > .row {
@@ -166,24 +173,6 @@ body .container-main {
   text-align: right !important;
 }
 
-// Fadeeffect for login page
-.load-fadein {
-  @include fadein-page;
-}
-
-.load-fadeout {
-  @include fadeout-page;
-}
-
-// Fix blinking of fade effect
-.container-main.fade-done > * {
-  opacity: 1;
-}
-
-.sidebar-wrapper.fade-done > * {
-  opacity: 1;
-}
-
 // dashboard items
 .menu-quicktask,
 .menu-badge {
@@ -197,14 +186,15 @@ a[target="_blank"]::before {
   content: "\f35d  ";
 }
 
-#wrapper{
-  &.d-flex{
-    @include media-breakpoint-down(xs){
-      display:block !important;
+#wrapper {
+  &.d-flex {
+    @include media-breakpoint-down(xs) {
+      display: block !important;
     }
   }
 }
-.text-muted{
+
+.text-muted {
   color: var(--atum-text-dark);
 }
 
@@ -215,19 +205,42 @@ a[target="_blank"]::before {
   min-width: 1rem;
 }
 
-.cpanel-help .card-columns,
-.cpanel-system .card-columns {
+.card-columns {
+  display: grid;
+  grid-gap: 0 15px;
+  grid-template-columns: 1fr;
+
   @include media-breakpoint-up(md) {
-    column-count: 3;
+    grid-template-columns: 1fr 1fr;
   }
 }
-.card-columns {
-  @include media-breakpoint-up(md) {
-    column-count: 2;
+
+.cpanel-help,
+.cpanel-system {
+
+  .card-columns {
+    @include media-breakpoint-up(md) {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
   }
 }
 
 .tiny {
   font-size: $font-size-vsm;
   line-height: 1.4rem;
+}
+
+/* details */
+
+details {
+  margin: 0 0 2rem;
+}
+
+summary {
+  color: var(--atum-link-color);
+}
+
+div.rule-notes {
+  background: var(--atum-bg-light);
+  padding: 1rem
 }

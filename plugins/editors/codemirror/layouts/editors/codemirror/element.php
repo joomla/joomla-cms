@@ -22,10 +22,9 @@ $cols            = $displayData->cols;
 $rows            = $displayData->rows;
 $content         = $displayData->content;
 $extJS           = JDEBUG ? '.js' : '.min.js';
-$extCSS          = JDEBUG ? '.css' : '.min.css';
 $modifier        = $params->get('fullScreenMod', array()) ? implode(' + ', $params->get('fullScreenMod', array())) . ' + ' : '';
-$basePath        = $params->get('basePath', 'media/vendor/codemirror/');
-$modePath        = $params->get('modePath', 'media/vendor/codemirror/mode/%N/%N');
+$basePath        = $displayData->basePath;
+$modePath        = $displayData->modePath;
 $modPath         = 'mod-path="' . Uri::root() . $modePath . $extJS . '"';
 $fskeys          = $params->get('fullScreenMod', array());
 $fskeys[]        = $params->get('fullScreen', 'F10');
@@ -36,8 +35,8 @@ $editor          = 'editor="' . ltrim(HTMLHelper::_('script',  $basePath . 'lib/
 $addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '"';
 
 Factory::getDocument()->getWebAssetManager()
-	->registerAndUseStyle('codemirror.lib.main', $basePath . 'lib/codemirror' . $extCSS)
-	->registerAndUseStyle('codemirror.lib.addons', $basePath . 'lib/addons' . $extCSS, [], [], ['codemirror.lib.main'])
+	->registerAndUseStyle('codemirror.lib.main', $basePath . 'lib/codemirror.css')
+	->registerAndUseStyle('codemirror.lib.addons', $basePath . 'lib/addons.css', [], [], ['codemirror.lib.main'])
 	->registerAndUseScript(
 		'webcomponent.editor-codemirror',
 		'plg_editors_codemirror/joomla-editor-codemirror.min.js',

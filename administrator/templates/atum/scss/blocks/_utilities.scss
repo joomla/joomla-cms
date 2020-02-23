@@ -1,5 +1,5 @@
 // Utilities
-
+* {box-sizing: border-box}
 // Keep B/C
 .element-invisible {
   position: absolute;
@@ -26,14 +26,22 @@
 
 [class^='column-'],
 [class*=' column-'] {
-  display: block !important; // This can be removed if grid forms removed globally
   column-gap: 2rem;
   padding-bottom: 1rem;
 
   > div {
-    display: inline-block;
+    display: inline-flex;
+    flex-direction: column;
     break-inside: avoid;
     width: 100%;
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  .form-no-columns & {
+    column-count: auto;
   }
 }
 

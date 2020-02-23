@@ -57,19 +57,8 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
-$this->addScriptDeclaration('cssVars();');
-
-// Opacity must be set before displaying the DOM, so don't move to a CSS file
-$css = '
-	.container-main > * {
-		opacity: 0;
-	}
-	.sidebar-wrapper > * {
-		opacity: 0;
-	}
-';
-
-$this->addStyleDeclaration($css);
+$this->getWebAssetManager()
+	->addInlineScript('cssVars();', ['position' => 'after'], ['type' => 'module'], ['css-vars-ponyfill']);
 
 $monochrome = (bool) $this->params->get('monochrome');
 
@@ -171,7 +160,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 					<?php endif; ?>
 					<p>
 						<a href="<?php echo $this->baseurl; ?>" class="btn btn-secondary">
-							<span class="fa fa-dashboard" aria-hidden="true"></span>
+							<span class="fas fa-dashboard" aria-hidden="true"></span>
 							<?php echo Text::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a>
 					</p>
 				</div>

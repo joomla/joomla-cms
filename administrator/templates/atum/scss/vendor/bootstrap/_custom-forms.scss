@@ -2,11 +2,17 @@
 
 .custom-select {
   max-width: $input-max-width;
-  
+  background: $custom-select-background;
+  background-color: $custom-select-bg;
+  border: $input-border;
+  border-radius: $border-radius;
+  /* var needed */
+  box-shadow: $input-box-shadow;
+
   [dir=rtl] & {
     padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
-    background-position-x: 0%;
-    background-image: url(../images/select-bg-rtl.svg);
+    background: $custom-select-background-rtl;
+    background-color: $custom-select-bg;
   }
 
   &[multiple] {
@@ -16,11 +22,15 @@
     option {
       background-color: var(--white-offset);
       padding: $custom-select-multiple-padding-y $custom-select-padding-x;
+
       &:checked {
         color: var(--atum-text-light);
         background-color: var(--atum-bg-dark) !important;
       }
     }
+
+
+
   }
 
   &.custom-select-color-state {
@@ -47,7 +57,16 @@
       }
     }
   }
-  optgroup, option {
+
+  &:focus
+
+  {
+    border-color:$focuscolor;
+    box-shadow:$focusshadow;
+  }
+
+  optgroup,
+  option {
     background-color: $white;
     color: var(--atum-text-dark);
   }

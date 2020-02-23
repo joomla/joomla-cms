@@ -20,7 +20,7 @@
 				label="JCATEGORY"
 				extension="com_content"
 				multiple="true"
-				size="5"
+				layout="joomla.form.field.list-fancy-select"
 				>
 				<option value="">JOPTION_ALL_CATEGORIES</option>
 			</field>

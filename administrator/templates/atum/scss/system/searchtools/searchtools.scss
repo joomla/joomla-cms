@@ -9,17 +9,22 @@
   .js-stools .js-stools-container-filters {
     display: block;
   }
+
   .js-stools .js-stools-container-filters .btn-group {
     display: block;
   }
+
   .js-stools .js-stools-container-filters .btn-wrapper {
     width: 100%
   }
+
   .js-stools .js-stools-container-bar {
     margin-top: 20px;
   }
 }
+
 @media (min-width: 768px) and (max-width: 979px) {
+
   .js-stools .js-stools-container-selector,
   .js-stools .js-stools-container-bar,
   .js-stools .js-stools-container-list {
@@ -34,7 +39,7 @@
   margin-bottom: 0.5rem;
 
   > div {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
   }
 
   .js-stools-container-filters {
@@ -45,19 +50,12 @@
     margin-top: 0.5rem;
     margin-bottom: 1rem;
     background-color: $white;
-    border: solid var(--border);
-    border-width: 1px 0;
     border-radius: 0 0 0 $border-radius;
-    box-shadow: $atum-box-shadow;
     width: 100%;
 
     joomla-field-fancy-select .choices,
     .custom-select {
       min-width: 15rem;
-    }
-
-    &.js-filters-show {
-      display: flex;
     }
 
     .chzn-container-single {
@@ -74,17 +72,21 @@
 
     margin: 0 .5rem .5rem;
 
-    @include media-breakpoint-down(sm)
-    {
+    @include media-breakpoint-down(sm) {
       width: 100%;
     }
 
     .custom-select {
-
+      box-shadow:  $input-box-shadow;
       &.active {
-        color: var(--white);
-        background: $custom-select-bg $custom-select-indicator-active no-repeat right center;
+        background: $custom-select-indicator-active no-repeat right center;
+        background-color: $custom-select-bg;
         background-size: $custom-select-bg-size;
+
+        [dir=rtl] & {
+          background: $custom-select-indicator-active-rtl no-repeat left center;
+          background-color: $custom-select-bg;
+        }
       }
 
       option {
@@ -133,7 +135,9 @@
       }
 
       @include media-breakpoint-down(xs) {
-        margin-right: .5rem;
+        [dir=ltr] & {
+          margin-right: 0;
+        }
 
         [dir=rtl] & {
           margin-left: 0;
@@ -163,7 +167,6 @@
       }
 
       [dir=rtl] & {
-        //margin-right: 0;
         margin-left: 0;
       }
     }
@@ -172,14 +175,6 @@
       @include media-breakpoint-down(sm) {
         max-width: 100%;
         margin-right: 0;
-
-        [dir=rtl] & {
-          margin-right: 0;
-        }
-      }
-
-      @include media-breakpoint-down(xs) {
-        margin-right: .5rem;
 
         [dir=rtl] & {
           margin-right: 0;
@@ -211,7 +206,7 @@
   }
 
   .js-stools-container-filters-visible {
-    display: inline-block;
+    display: flex;
   }
 
   .chzn-container-single .chzn-single span {
@@ -233,13 +228,13 @@
       justify-content: flex-end;
 
       .js-stools-btn-filter {
-        border:1px solid var(--border);
+        border: 1px solid var(--border);
       }
 
       .js-stools-btn-clear {
         background-color: var(--atum-bg-dark);
         color: var(--atum-text-light);
-        border:1px solid var(--border);
+        border: 1px solid var(--border);
         border-left: 1px solid var(--atum-text-light);
 
         [dir=rtl] & {
@@ -248,6 +243,10 @@
         }
 
         @include media-breakpoint-down(sm) {
+          [dir=ltr] & {
+            margin-right: 0 !important;
+          }
+
           [dir=rtl] & {
             margin-left: 0 !important;
           }
@@ -257,29 +256,30 @@
         &:disabled {
           background-color: rgba($gray-300, 0.8);
           border-color: rgba($gray-500, 0.8);
-          opacity:1;
-          color:var(--atum-text-dark);
+          opacity: 1;
+          color: var(--atum-text-dark);
           cursor: not-allowed;
         }
       }
-      .js-stools-btn-filter {
-        border-right:1px solid var(--border);
 
-        .fa {
+      .js-stools-btn-filter {
+        border-right: 1px solid var(--border);
+
+        .fas {
           margin-left: 0.25rem;
         }
       }
 
       .form-control {
-        height:auto;
+        height: auto;
       }
     }
 
     .js-stools-field-list {
-      margin-bottom:0;
+      margin-bottom: 0;
 
       .custom-select {
-        box-shadow: none;
+
       }
     }
 

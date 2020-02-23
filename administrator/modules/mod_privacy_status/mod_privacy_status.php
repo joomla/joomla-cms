@@ -26,8 +26,8 @@ $app->bootComponent('com_privacy');
 
 // Load the privacy component language file.
 $lang = $app->getLanguage();
-$lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true)
-	|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy', null, false, true);
+$lang->load('com_privacy', JPATH_ADMINISTRATOR)
+	|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
 
 $privacyPolicyInfo            = PrivacyStatusHelper::getPrivacyPolicyInfo();
 $requestFormPublished         = PrivacyStatusHelper::getRequestFormPublished();

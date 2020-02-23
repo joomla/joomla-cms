@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 /** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\Html $this */
 ?>
 
-<fieldset class="options-grid-form options-grid-form-full">
+<fieldset class="options-form">
 	<legend>
 		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATEFOUND'); ?>
 	</legend>
@@ -47,7 +47,7 @@ use Joomla\CMS\Language\Text;
 				<td>
 					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>" target="_blank" rel="noopener noreferrer">
 						<?php echo $this->updateInfo['object']->downloadurl->_data; ?>
-						<span class="icon-out-2" aria-hidden="true"></span>
+						<span class="fas fa-external-link-alt" aria-hidden="true"></span>
 						<span class="sr-only"><?php echo Text::_('JBROWSERTARGET_NEW'); ?></span>
 					</a>
 				</td>
@@ -61,7 +61,7 @@ use Joomla\CMS\Language\Text;
 					<td>
 						<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>" target="_blank" rel="noopener noreferrer">
 							<?php echo $this->updateInfo['object']->get('infourl')->title; ?>
-							<span class="icon-out-2" aria-hidden="true"></span>
+							<span class="fas fa-external-link-alt" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('JBROWSERTARGET_NEW'); ?></span>
 						</a>
 					</td>

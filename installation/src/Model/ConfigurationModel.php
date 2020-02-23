@@ -177,7 +177,6 @@ class ConfigurationModel extends BaseInstallationModel
 
 		// Meta settings.
 		$registry->set('MetaDesc', '');
-		$registry->set('MetaKeys', '');
 		$registry->set('MetaTitle', true);
 		$registry->set('MetaAuthor', true);
 		$registry->set('MetaVersion', false);

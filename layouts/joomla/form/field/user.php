@@ -114,7 +114,7 @@ if (!$readonly)
 		<?php if (!$readonly) : ?>
 			<span class="input-group-append">
 				<button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?>">
-					<span class="fa fa-user icon-white" aria-hidden="true"></span>
+					<span class="fas fa-user icon-white" aria-hidden="true"></span>
 					<span class="sr-only"><?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?></span>
 				</button>
 			</span>

@@ -95,7 +95,8 @@ $attributes = array(
 			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 			<?php echo implode(' ', $attributes); ?>>
 		<span class="input-group-append">
-			<button type="button" class="input-group-text icon-eye input-password-toggle">
+			<button type="button" class="btn btn-secondary input-password-toggle">
+				<span class="fas fa-eye" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 			</button>
 		</span>

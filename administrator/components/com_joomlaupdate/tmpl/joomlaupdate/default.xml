@@ -11,7 +11,7 @@
 				name="ajax-badge"
 				type="radio"
 				label="COM_JOOMLAUPDATE_JOOMLAUPDATE_VIEW_DISPLAY_BADGE"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default=""
 				>
 				<option value="">JHIDE</option>

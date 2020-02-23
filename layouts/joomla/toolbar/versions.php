@@ -59,7 +59,7 @@ echo HTMLHelper::_(
 		type="button"
 		onclick="document.getElementById('versionsModal').open()"
 		data-toggle="modal">
-		<span class="fa fa-code-branch" aria-hidden="true"></span>
+		<span class="fas fa-code-branch" aria-hidden="true"></span>
 		<?php echo $title; ?>
 	</button>
 </joomla-toolbar-button>

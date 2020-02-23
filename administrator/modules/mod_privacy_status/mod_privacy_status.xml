@@ -9,10 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>MOD_PRIVACY_STATUS_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\PrivacyStatus</namespace>
+	<namespace path="src">Joomla\Module\PrivacyStatus</namespace>
 	<files>
 		<filename module="mod_privacy_status">mod_privacy_status.php</filename>
-		<folder>Helper</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
 	</files>
 	<languages>

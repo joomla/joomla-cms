@@ -381,7 +381,7 @@ abstract class FormField
 		{
 			$parts = Normalise::fromCamelCase(\get_called_class(), true);
 
-			if ($parts[0] == 'J')
+			if ($parts[0] === 'J')
 			{
 				$this->type = StringHelper::ucfirst($parts[\count($parts) - 1], '_');
 			}
@@ -590,7 +590,7 @@ abstract class FormField
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		// Make sure there is a valid FormField XML element.
-		if ((string) $element->getName() != 'field')
+		if ((string) $element->getName() !== 'field')
 		{
 			return false;
 		}
@@ -629,10 +629,10 @@ abstract class FormField
 
 		// Allow for repeatable elements
 		$repeat = (string) $element['repeat'];
-		$this->repeat = ($repeat == 'true' || $repeat == 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
+		$this->repeat = ($repeat === 'true' || $repeat === 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
 
 		// Set the visibility.
-		$this->hidden = ($this->hidden || (string) $element['type'] == 'hidden');
+		$this->hidden = ($this->hidden || (string) $element['type'] === 'hidden');
 
 		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
 
@@ -712,7 +712,7 @@ abstract class FormField
 			$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
 			$id .= '-' . $repeatCounter;
 
-			if (strtolower($this->type) == 'radio')
+			if (strtolower($this->type) === 'radio')
 			{
 				$id .= '-';
 			}
@@ -778,7 +778,7 @@ abstract class FormField
 		$data = $this->getLayoutData();
 
 		// Forcing the Alias field to display the tip below
-		$position = $this->element['name'] == 'alias' ? ' data-placement="bottom" ' : '';
+		$position = $this->element['name'] === 'alias' ? ' data-placement="bottom" ' : '';
 
 		// Here mainly for B/C with old layouts. This can be done in the layouts directly
 		$extraData = array(
@@ -1005,7 +1005,7 @@ abstract class FormField
 
 		if ($filter != '')
 		{
-			$required = ((string) $this->element['required'] == 'true' || (string) $this->element['required'] == 'required');
+			$required = ((string) $this->element['required'] === 'true' || (string) $this->element['required'] === 'required');
 
 			if (($value === '' || $value === null) && !$required)
 			{
@@ -1083,7 +1083,7 @@ abstract class FormField
 		$valid = true;
 
 		// Check if the field is required.
-		$required = ((string) $this->element['required'] == 'true' || (string) $this->element['required'] == 'required');
+		$required = ((string) $this->element['required'] === 'true' || (string) $this->element['required'] === 'required');
 
 		if ($this->element['label'])
 		{
@@ -1131,14 +1131,17 @@ abstract class FormField
 
 			if ($this->multiple)
 			{
-				foreach ($value as $key => $val)
+				if ($value)
 				{
-					$val = (array) $val;
-					$valid = $subForm->validate($val);
-
-					if ($valid === false)
+					foreach ($value as $key => $val)
 					{
-						break;
+						$val = (array) $val;
+						$valid = $subForm->validate($val);
+
+						if ($valid === false)
+						{
+							break;
+						}
 					}
 				}
 			}
