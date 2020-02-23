@@ -228,7 +228,7 @@
     }
     &.mm-active {
       > a {
-        color: var(--atum-link-color)
+        color: var(--atum-link-color);
         &:hover {
           color: var(--atum-text-light);
         }
@@ -256,9 +256,6 @@
           color: var(--atum-link-color);
              }
            }
-
-
-
 
       > a {
         padding: 0 1rem 0 2.4rem;
