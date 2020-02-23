@@ -2,8 +2,31 @@
 
 .form-control {
   max-width: $input-max-width;
-  background-color: var(--white-offset);
+  /* background-color: var(--white-offset);
+  border:solid 2px var(--atum-bg-dark);
+
+   */
+  background-color: $white;
+  border:$input-border;
+  border-radius: $border-radius;
+  box-shadow: $input-box-shadow;
+
+  &:focus
+
+  {
+    border-color:$focuscolor;
+    box-shadow:$focusshadow;
+  }
+
+
 }
+
+.form-control:disabled,
+.form-control[readonly] {
+  border: 0;
+  box-shadow: none
+}
+
 
 .control-group {
   display: flex;
@@ -100,7 +123,7 @@ legend {
 }
 
 [aria-grabbed='true'] {
-  box-shadow: 0 0 2px 1px theme-color("primary");
+  box-shadow: $input-box-shadow;
 }
 
 .sortable-handler.inactive {

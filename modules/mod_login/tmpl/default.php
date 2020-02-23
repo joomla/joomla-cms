@@ -38,7 +38,7 @@ Text::script('JHIDEPASSWORD');
 					<span class="input-group-append">
 						<label for="modlgn-username-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
 						<span class="input-group-text" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
-							<span class="icon-user" aria-hidden="true"></span>
+							<span class="fas fa-user" aria-hidden="true"></span>
 						</span>
 					</span>
 				</div>
@@ -55,7 +55,7 @@ Text::script('JHIDEPASSWORD');
 					<input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" autocomplete="current-password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
 					<span class="input-group-append">
 						<button type="button" class="btn btn-secondary input-password-toggle">
-							<span class="icon-eye" aria-hidden="true"></span>
+							<span class="fas fa-eye" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 						</button>
 					</span>
@@ -79,7 +79,7 @@ Text::script('JHIDEPASSWORD');
 						<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 						<span class="input-group-append" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 							<span class="input-group-text">
-								<span class="icon-help" aria-hidden="true"></span>
+								<span class="fas fa-question" aria-hidden="true"></span>
 							</span>
 						</span>
 					</div>
@@ -87,7 +87,7 @@ Text::script('JHIDEPASSWORD');
 					<label for="modlgn-secretkey-<?php echo $module->id; ?>"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 					<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 					<span class="btn width-auto" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-						<span class="icon-help" aria-hidden="true"></span>
+						<span class="fas fa-question" aria-hidden="true"></span>
 					</span>
 				<?php endif; ?>
 			</div>
@@ -114,7 +114,7 @@ Text::script('JHIDEPASSWORD');
 			<?php if ($usersConfig->get('allowUserRegistration')) : ?>
 				<li>
 					<a href="<?php echo Route::_($registerLink); ?>">
-					<?php echo Text::_('MOD_LOGIN_REGISTER'); ?> <span class="icon-arrow-right"></span></a>
+					<?php echo Text::_('MOD_LOGIN_REGISTER'); ?> <span class="fas fa-arrow-alt-circle-right"></span></a>
 				</li>
 			<?php endif; ?>
 				<li>

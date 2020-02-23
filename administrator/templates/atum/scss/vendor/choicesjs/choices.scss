@@ -19,6 +19,9 @@
 .choices__inner {
   border-radius: 0;
   border-color: $gray-400;
+  border:$input-border;
+  border-radius: $border-radius;
+  box-shadow: $input-box-shadow;
 }
 
 // Fix position

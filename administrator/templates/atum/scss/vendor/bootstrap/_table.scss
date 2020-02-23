@@ -1,7 +1,7 @@
 // Table
 
 .table {
-  box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.25);
+
 
   thead {
 
@@ -12,9 +12,11 @@
     th,
     td {
       font-weight: $font-weight-normal;
-      color: var(--atum-text-dark);
+      color: var(--atum-link-color);
       white-space: nowrap;
-      border-bottom: 2px solid $gray-300;
+      border-top:0;
+      padding:1rem;
+      border-bottom: 3px solid var(--atum-bg-light);
 
       @include media-breakpoint-down(xs) {
         white-space: normal;
@@ -23,7 +25,7 @@
 
     a {
       font-weight: $font-weight-normal;
-      color: var(--atum-link-colors);
+      color: var(--atum-link-color);
 
       &#sorted {
         color: $gray-800;
@@ -64,6 +66,11 @@
 
   th,
   td {
+
+    border-bottom: 3px solid var(--atum-bg-light);
+    border-top:0;
+    padding:1rem;
+
     label {
       margin-bottom: 0;
     }
