@@ -156,7 +156,6 @@ class HtmlView extends BaseHtmlView
 					$childBar->save2new('article.save2new');
 				}
 			);
-			$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
 		}
 		else
 		{
@@ -194,8 +193,6 @@ class HtmlView extends BaseHtmlView
 				}
 			);
 
-			$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
-
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
 				$toolbar->versions('com_content.article', $this->item->id);
@@ -221,6 +218,8 @@ class HtmlView extends BaseHtmlView
 				->text('JTOOLBAR_ASSOCIATIONS')
 				->task('article.editAssociations');
 		}
+
+		$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
 
 		$toolbar->divider();
 		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');
