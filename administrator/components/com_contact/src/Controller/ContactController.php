@@ -40,8 +40,7 @@ class ContactController extends FormController
 			// If the category has been passed in the URL check it.
 			return $this->app->getIdentity()->authorise('core.create', $this->option . '.category.' . $categoryId);
 		}
-
-
+		
 		// In the absence of better information, revert to the component permissions.
 		return parent::allowAdd($data);
 	}
