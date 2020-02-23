@@ -8,6 +8,7 @@
   border-radius: $border-radius;
   /* var needed */
   box-shadow: $input-box-shadow;
+  cursor: pointer;
 
   [dir=rtl] & {
     padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
