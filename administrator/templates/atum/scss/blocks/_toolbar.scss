@@ -99,7 +99,7 @@ joomla-toolbar-button {
         [class*=' #{$fa-css-prefix}-'],
         span {
           background: darken(theme-color("success"), 10%);
-          color:rgba(255, 255, 255, 0.90);
+          color: rgba(255, 255, 255, 0.90);
         }
         color:rgba(255, 255, 255, 0.90);
         background-color: theme-color("success");
