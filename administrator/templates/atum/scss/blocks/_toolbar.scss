@@ -58,7 +58,6 @@ joomla-toolbar-button {
     padding: $input-btn-padding-y-sm-submenu $input-btn-padding-x-sm-submenu;
     font-size: 1rem;
     line-height: $atum-toolbar-line-height;
-    border-radius:$border-radius;
     box-shadow: 0 0 0 .1rem lighten(theme-color("atum-link-color"), 45%);
     box-shadow: none;
 
@@ -137,8 +136,7 @@ joomla-toolbar-button {
 
     &.btn-primary {
 
-     background-color: $white;
-      border-radius:$border-radius;
+      background-color: $white;
       [class^='icon-'],
       [class*=' icon-'],
       [class^='#{$fa-css-prefix}-'],
@@ -322,7 +320,6 @@ joomla-toolbar-button {
         font-family: 'Font Awesome 5 Free';
         vertical-align: middle;
         width: 2.375rem;
-        border-radius: 0 $border-radius $border-radius 0;
         margin-top:-1px;
         background-color: theme-color("success");
         color: rgba(255, 255, 255, 0.90);
