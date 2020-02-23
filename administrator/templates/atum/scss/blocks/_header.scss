@@ -50,7 +50,7 @@
           display: inline-block;
         }
 
-        path
+        path,polyline
         {fill: $white}
 
       }
@@ -70,7 +70,7 @@
 
     svg {
       height: 1.3rem;
-      path {fill: $white}
+      path,polyline{fill: $white}
     }
   }
 
