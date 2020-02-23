@@ -9,13 +9,13 @@ Joomla = window.Joomla || {};
 	'use strict';
 
 	Joomla.extractionMethodHandler = function(element, prefix) {
-		var displayStyle = element.value === 'direct' ? 'hidden' : 'table-row';
+		var force = element.value === 'direct';
 
-		document.getElementById(prefix + '_hostname').classList.add(displayStyle);
-		document.getElementById(prefix + '_port').classList.add(displayStyle);
-		document.getElementById(prefix + '_username').classList.add(displayStyle);
-		document.getElementById(prefix + '_password').classList.add(displayStyle);
-		document.getElementById(prefix + '_directory').classList.add(displayStyle);
+		document.getElementById(prefix + '_hostname').classList.toggle('hidden', force);
+		document.getElementById(prefix + '_port').classList.toggle('hidden', force);
+		document.getElementById(prefix + '_username').classList.toggle('hidden', force);
+		document.getElementById(prefix + '_password').classList.toggle('hidden', force);
+		document.getElementById(prefix + '_directory').classList.toggle('hidden', force);
 	}
 
 	Joomla.submitbuttonUpload = function() {
