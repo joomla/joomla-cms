@@ -73,43 +73,35 @@ class UsergrouplistField extends \JFormFieldList
 	protected function getOptions()
 	{
 		$options        = parent::getOptions();
-		$groups         = UserGroupsHelper::getInstance()->getAll();
 		$checkSuperUser = (int) $this->getAttribute('checksuperusergroup', 0);
 		$isSuperUser    = Factory::getUser()->authorise('core.admin');
 
-		if ($this->getAttribute('exclude_permissions'))
-		{
-			$excludePermissions = explode(',', $this->getAttribute('exclude_permissions'));
-		}
-		else
-		{
-			$excludePermissions = array();
-		}
+		// Hash for caching
+		$hash = $checkSuperUser . $isSuperUser;
 
-		foreach ($groups as $group)
+		if (!isset(static::$options[$hash]))
 		{
-			// Don't show user groups which are excluded from field definition
-			foreach ($excludePermissions as $permission)
+			$groups       = UserGroupsHelper::getInstance()->getAll();
+			$cacheOptions = array();
+
+			foreach ($groups as $group)
 			{
-				if (Access::checkGroup($group->id, $permission))
+				// Don't show super user groups to non super users.
+				if ($checkSuperUser && !$isSuperUser && Access::checkGroup($group->id, 'core.admin'))
 				{
-					continue 2;
+					continue;
 				}
+
+				$cacheOptions[] = (object) array(
+					'text'  => str_repeat('- ', $group->level) . $group->title,
+					'value' => $group->id,
+					'level' => $group->level,
+				);
 			}
 
-			// Don't show super user groups to non super users.
-			if ($checkSuperUser && !$isSuperUser && Access::checkGroup($group->id, 'core.admin'))
-			{
-				continue;
-			}
-
-			$options[] = (object) array(
-				'text'  => str_repeat('- ', $group->level) . $group->title,
-				'value' => $group->id,
-				'level' => $group->level,
-			);
+			static::$options[$hash] = $cacheOptions;
 		}
 
-		return $options;
+		return array_merge($options, static::$options[$hash]);
 	}
 }
