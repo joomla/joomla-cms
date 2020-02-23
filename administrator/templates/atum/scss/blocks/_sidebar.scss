@@ -403,6 +403,10 @@
       }
     }
 
+    &:hover::after {
+      color: $white;
+    }
+
     &::after {
       display: flex;
       align-items: center;
@@ -411,7 +415,6 @@
       color: var(--atum-sidebar-font-color) ;
       font-weight: 900;
       font-family: "Font Awesome 5 Free";
-
 
       [dir=ltr] & {
         content: "\f054";
