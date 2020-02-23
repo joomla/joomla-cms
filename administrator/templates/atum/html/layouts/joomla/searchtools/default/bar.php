@@ -58,7 +58,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				</div>
 				<?php endif; ?>
 				<span class="input-group-append">
-					<button type="submit" class="btn btn-primary" aria-label="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>">
+					<button type="submit" class="btn btn-primary mr-2" aria-label="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>">
 						<span class="fas fa-search" aria-hidden="true"></span>
 					</button>
 				</span>
