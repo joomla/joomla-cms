@@ -87,7 +87,6 @@ joomla-toolbar-button {
       [class*=' #{$fa-css-prefix}-'],
       span {
       color: darken(theme-color("success"), 5%);
-      /*  color: rgba(255, 255, 255, 0.90); */
       }
 
       &:hover,
@@ -99,13 +98,11 @@ joomla-toolbar-button {
         [class^='#{$fa-css-prefix}-'],
         [class*=' #{$fa-css-prefix}-'],
         span {
-         background: darken(theme-color("success"), 10%);
-          color:rgba(255, 255, 255, 0.90);
-
-
+          background: darken(theme-color("success"), 10%);
+          color: rgba(255, 255, 255, 0.90);
         }
-               color:rgba(255, 255, 255, 0.90);
-               background-color: theme-color("success");
+        color: rgba(255, 255, 255, 0.90);
+        background-color: theme-color("success");
       }
     }
 
@@ -187,10 +184,6 @@ joomla-toolbar-button {
     }
 
     &.btn-info {
-
-    /* background-color: $white; */
-
-
       [class^='icon-'],
       [class*=' icon-'],
       [class^='#{$fa-css-prefix}-'],
@@ -214,8 +207,6 @@ joomla-toolbar-button {
           background-color: var(--atum-bg-dark-80);
           color: rgba(255, 255, 255, 0.90);
         }
-
-
       }
     }
 
@@ -373,10 +364,6 @@ joomla-toolbar-button {
         line-height: 2.375rem;
       }
     }
-
-    &::after {
-     /*  line-height: 2.4rem; */
-    }
   }
 }
 
@@ -521,5 +508,5 @@ joomla-toolbar-button {
 @supports (-ms-ime-align: auto) {
   [dir=rtl] .subhead {
     position: relative;
-  } 
+  }
 }
