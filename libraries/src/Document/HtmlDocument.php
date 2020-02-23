@@ -578,14 +578,14 @@ class HtmlDocument extends Document
 	/**
 	 * Count the modules in the given position
 	 *
-	 * @param   string  $positionName     The position to use
-	 * @param   bool    $withContentOnly  Count only a modules which actually has a content
+	 * @param   string   $positionName     The position to use
+	 * @param   boolean  $withContentOnly  Count only a modules which actually has a content
 	 *
 	 * @return  integer  Number of modules found
 	 *
 	 * @since   1.7.0
 	 */
-	public function countModules($positionName, $withContentOnly = false)
+	public function countModules(string $positionName, bool $withContentOnly = false)
 	{
 		if ((isset(parent::$_buffer['modules'][$positionName])) && (parent::$_buffer['modules'][$positionName] === false))
 		{
