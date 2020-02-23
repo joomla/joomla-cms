@@ -74,14 +74,12 @@ class UsergrouplistField extends \JFormFieldList
 	{
 		$options        = parent::getOptions();
 		$checkSuperUser = (int) $this->getAttribute('checksuperusergroup', 0);
-		$isSuperUser    = Factory::getUser()->authorise('core.admin');
 
-		// Hash for caching
-		$hash = $checkSuperUser . $isSuperUser;
-
-		if (!isset(static::$options[$hash]))
+		// Cache user groups base on checksuperusergroup attribute value
+		if (!isset(static::$options[$checkSuperUser]))
 		{
 			$groups       = UserGroupsHelper::getInstance()->getAll();
+			$isSuperUser  = Factory::getUser()->authorise('core.admin');
 			$cacheOptions = array();
 
 			foreach ($groups as $group)
@@ -99,9 +97,9 @@ class UsergrouplistField extends \JFormFieldList
 				);
 			}
 
-			static::$options[$hash] = $cacheOptions;
+			static::$options[$checkSuperUser] = $cacheOptions;
 		}
 
-		return array_merge($options, static::$options[$hash]);
+		return array_merge($options, static::$options[$checkSuperUser]);
 	}
 }
