@@ -1,22 +1,25 @@
 $off-background-colour: lightgrey;
 $on-background-colour: #2f7d32;
-$active-background-colour:#990000;
-$switcher-width: 220px;
+$switcher-width: 62px;
+$switcher-height: 28px;
+
 .switcher {
   position: relative;
+  width: 18rem;
+  height: 28px;
   margin: 0;
-  width: $switcher-width;
-  min-height: 42px;
-  border: solid 1px #ddd;
-  border-radius: 3px;
 }
+
 .switcher input {
-  width: 100px;
+  position: absolute;
+  top: 0;
   z-index: 2;
   opacity: 0;
   cursor: pointer;
+  height: $switcher-height;
+  width: $switcher-width;
   margin: 0;
-  height: 100%;
+  left: 0;
 
   [dir=rtl] & {
     left: auto;
@@ -28,25 +31,31 @@ $switcher-width: 220px;
   z-index: 1;
 }
 
-.switcher input:focus + label {
-  border: solid 2px var(--focus);
-  box-shadow: 0 0 0 .2rem #d3e2f5;
-  /* overide if var exists -  can be deleted later */
-  box-shadow: var(--focus-shadow);
+.switcher input:checked + label {
+  opacity: 1;
+}
+
+.switcher input:not(:checked) + label {
+  opacity: 0;
+}
+
+.switcher input:focus ~ .toggle-outside {
+  border-color: var(--focus);
+  box-shadow: 0 0 0 .2rem rgba(26, 70, 107, .25);
 }
 
 .switcher label {
+  line-height: $switcher-height;
   display: inline-block;
-  width: 50%;
-  text-align: center;
+  width: auto;
+  min-width: 6rem;
+  height: 100%;
+  margin-left: 70px;
+  text-align: left;
   position: absolute;
   transition: opacity 0.25s ease;
   margin-bottom: 0;
   left: 0;
-  padding: 10px;
-  min-height: 40px;
-  background: $off-background-colour;
-  border-radius: 3px 0 0 3px;
 
   [dir=rtl] & {
     left: auto;
@@ -57,42 +66,38 @@ $switcher-width: 220px;
   }
 }
 
-.switcher label:last-of-type {
-
-  left: auto;
-  right: 0;
-  border-radius: 0 3px 3px 0;
+.switcher .toggle-outside {
+  height: 100%;
+  overflow: hidden;
+  transition: 0.2s ease all;
+  background: $off-background-colour;
+  position: absolute;
+  width: 58px;
+  box-sizing: border-box;
+  border: 1px solid rgba(0, 0, 0, .18);
+  left: 0;
 
   [dir=rtl] & {
-    right: auto;
-    left: 0;
-    margin-right: 0;
-    margin-left: 70px;
-    text-align: left;
+    left: auto;
+    right: 0;
   }
 }
 
-.switcher input:checked + label {
-  background:$active-background-colour;
-  color: #fff
-}
-
-.switcher input ~ input:checked ~ label {
-
+.switcher input ~ input:checked ~ .toggle-outside {
   background: $on-background-colour;
-  color: #fff;
+}
 
-  &:after {
-    content: "";
-    display: inline-block;
-    width: 10px;
-    height: 17px;
-    border: solid #fff;
-    border-width: 0 2px 2px 0;
-    -webkit-transform: rotate(45deg);
-    transform: rotate(45deg);
-    margin-left: 10px;
-  }
+.switcher .toggle-inside {
+  height: $switcher-height;
+  width: ($switcher-width - 6) / 2;
+  background: white;
+  position: absolute;
+  left: 0;
+  transition: 0.4s ease all;
+}
+
+.switcher input ~ input:checked ~ .toggle-outside .toggle-inside {
+  left: ($switcher-width / 2) - 1;
 }
 
 .switcher__legend {
