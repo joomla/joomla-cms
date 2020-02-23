@@ -131,12 +131,12 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
+			ToolbarHelper::cancel('note.cancel', 'JTOOLBAR_CLOSE');
+
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
 				ToolbarHelper::versions('com_users.note', $this->item->id);
 			}
-
-			ToolbarHelper::cancel('note.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		ToolbarHelper::divider();
