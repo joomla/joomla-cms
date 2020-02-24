@@ -74,7 +74,6 @@ abstract class JFormFieldPredefinedList extends JFormFieldList
 
 			foreach ($this->predefinedOptions as $value => $text)
 			{
-				
 				$val = (string) $value;
 	
 				if (empty($filter) || in_array($value, $filter, true))
