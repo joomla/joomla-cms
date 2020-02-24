@@ -281,6 +281,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$scriptHashesEnabled       = (int) $this->comCspParams->get('script_hashes_enabled', 0);
 		$styleHashesEnabled        = (int) $this->comCspParams->get('style_hashes_enabled', 0);
 		$frameAncestorsSelfEnabled = (int) $this->comCspParams->get('frame_ancestors_self_enabled', 1);
+		$frameAncestorsSet         = false;
 
 		foreach ($cspValues as $cspValue)
 		{
@@ -291,7 +292,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			}
 
 			// We can only use this if this is a valid entry
-			if (isset($cspValue->directive) && isset($cspValue->value))
+			if (isset($cspValue->directive) && isset($cspValue->value)
+				&& !empty($cspValue->directive) && !empty($cspValue->value))
 			{
 				if (in_array($cspValue->directive, $this->nonceDirectives) && $nonceEnabled)
 				{
@@ -311,15 +313,18 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 					$cspValue->value = '{style-hashes} ' . $cspValue->value;
 				}
 
+				if ($cspValue->directive === 'frame-ancestors')
+				{
+					$frameAncestorsSet = true;
+				}
+
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
-
-				continue;
 			}
+		}
 
-			if ($frameAncestorsSelfEnabled)
-			{
-				$newCspValues[] = 'frame-ancestors "self"';
-			}
+		if ($frameAncestorsSelfEnabled && !$frameAncestorsSet)
+		{
+			$newCspValues[] = 'frame-ancestors "self"';
 		}
 
 		if (empty($newCspValues))
@@ -411,7 +416,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		// Add the frame-ancestors when not done already
 		if (!isset($cspHeaderCollection['frame-ancestors']) && $frameAncestorsSelfEnabled)
 		{
-			$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['frame-ancestors'], '"self"'));
+			// Default value is set later
+			$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['frame-ancestors'], ''));
 		}
 
 		foreach ($cspHeaderCollection as $cspHeaderkey => $cspHeaderValue)
