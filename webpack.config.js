@@ -49,7 +49,7 @@ module.exports = {
                     {
                         loader: 'css-loader',
                         options: {
-                            sourceMap: false
+                            sourceMap: process.env.NODE_ENV === 'production' ? false : true
                         }
                     },
                     'sass-loader'
