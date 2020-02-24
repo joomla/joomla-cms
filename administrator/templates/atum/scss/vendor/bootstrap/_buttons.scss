@@ -6,7 +6,7 @@
 .btn-primary {
   background-color: var(--atum-link-color);
   color: var(--atum-text-light);
-  border-color:  var(--atum-link-color);
+  border-color: var(--atum-link-color);
 
   @include hover-focus-active {
     background-color: var(--atum-bg-dark-70);

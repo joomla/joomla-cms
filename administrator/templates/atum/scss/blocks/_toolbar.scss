@@ -1,5 +1,5 @@
 joomla-toolbar-button {
-  border: 0px solid var(--border);
+  border: 0 solid var(--border);
 
   [class^='icon-'],
   [class*=' icon-'] {
@@ -155,7 +155,7 @@ joomla-toolbar-button {
         [class^='#{$fa-css-prefix}-'],
         [class*=' #{$fa-css-prefix}-'],
         span {
-          background-color:var(--atum-link-color);
+          background-color: var(--atum-link-color);
           color: rgba(255, 255, 255, 0.90);
         }
 
@@ -167,7 +167,7 @@ joomla-toolbar-button {
     &.btn-secondary {
 
       [class^='icon-download'] {
-        background-color:var(--atum-link-color);
+        background-color: var(--atum-link-color);
         color: rgba(255, 255, 255, 0.90);
       }
 
@@ -323,7 +323,7 @@ joomla-toolbar-button {
         margin-top:-1px;
         background-color: theme-color("success");
         color: rgba(255, 255, 255, 0.90);
-        line-height:2.5rem;
+        line-height: 2.5rem;
       }
     }
 

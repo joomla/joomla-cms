@@ -14,8 +14,8 @@
       font-weight: $font-weight-normal;
       color: var(--atum-link-color);
       white-space: nowrap;
-      border-top:0;
-      padding:1rem;
+      border-top: 0;
+      padding: 1rem;
       border-bottom: 3px solid var(--atum-bg-light);
 
       @include media-breakpoint-down(xs) {
@@ -68,8 +68,8 @@
   td {
 
     border-bottom: 3px solid var(--atum-bg-light);
-    border-top:0;
-    padding:1rem;
+    border-top: 0;
+    padding: 1rem;
 
     label {
       margin-bottom: 0;
