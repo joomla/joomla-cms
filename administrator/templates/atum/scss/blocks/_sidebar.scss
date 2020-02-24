@@ -169,7 +169,6 @@
       .menu-quicktask {
         > a {
           &.mm-active {
-          /*  background-color: var(--atum-bg-dark-80); */
 
             &::before {
               display: none;
@@ -300,8 +299,6 @@
 
     // 3rd level items
     ul {
-     /* background-color: var(--atum-bg-dark-80);*/
-
       li { border-bottom: 1px solid var(--atum-bg-light);
 }
 
