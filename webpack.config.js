@@ -49,7 +49,7 @@ module.exports = {
                     {
                         loader: 'css-loader',
                         options: {
-                            sourceMap: process.env.NODE_ENV === 'production' ? false : true
+                            sourceMap: false
                         }
                     },
                     'sass-loader'
@@ -79,6 +79,8 @@ module.exports = {
     },
     devtool: process.env.NODE_ENV === 'production' ? '#source-map' : '#eval-source-map'
 };
+
+console.log(process.env.NODE_ENV);
 
 // Instruct webpack to minify if in production mode
 if (process.env.NODE_ENV === 'production') {
