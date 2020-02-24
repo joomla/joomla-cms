@@ -124,6 +124,7 @@
 
     > a {
       flex-grow: 2;
+      border-bottom: solid 1px transparent;
 
       &:hover {
         border-bottom: solid 1px var(--atum-bg-light);
