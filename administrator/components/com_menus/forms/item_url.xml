@@ -35,7 +35,9 @@
 				<option value="prefetch"/>
 				<option value="prev"/>
 				<option value="search"/>
+				<option value="sponsored"/>
 				<option value="tag"/>
+				<option value="ugc"/>
 			</field>
 
 			<field
