@@ -62,6 +62,8 @@ abstract class JHtmlIcon
 	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the email item link
+	 *
+	 * @deprecated 4.0 The functionality to email an article is removed in Joomla 4
 	 */
 	public static function email($article, $params, $attribs = array(), $legacy = false)
 	{
