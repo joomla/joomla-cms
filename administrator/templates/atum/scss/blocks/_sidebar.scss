@@ -149,8 +149,8 @@
         &.mm-active {
 
           // invert colors
-          background-color:  var(--atum-sidebar-bg);
-          color:var(--atum-sidebar-link-color);
+          background-color: var(--atum-sidebar-bg);
+          color: var(--atum-sidebar-link-color);
           .fas {
             color: var(--atum-contrast);
           }
@@ -218,7 +218,7 @@
 
       &.mm-active {
 
-        color:var(--atum-link-color);
+        color: var(--atum-link-color);
         &:hover
         {
           color: var(--atum-text-light);
@@ -227,9 +227,9 @@
     }
     &.mm-active {
       > a {
-        color: var(--atum-link-color) ;
-        &:hover  {
-          color:var(--atum-text-light);
+        color: var(--atum-link-color);
+        &:hover {
+          color: var(--atum-text-light);
         }
 
       }
@@ -243,7 +243,7 @@
     width: 100%;
 
     li {
-      border:0;
+      border: 0;
       position: relative;
       display: flex;
 
@@ -252,12 +252,9 @@
 
         > a
         {
-          color: var(--atum-link-color) ;
+          color: var(--atum-link-color);
              }
            }
-
-
-
 
       > a {
         padding: 0 1rem 0 2.4rem;
@@ -273,7 +270,7 @@
 
       &[href]:hover:not(.menu-dashboard):not(.menu-quicktask) {
         color: $white;
-        background-color:  var(--atum-link-color);
+        background-color: var(--atum-link-color);
       }
 
       &.mm-active {
@@ -349,7 +346,7 @@
   .divider {
     height: 1px;
     margin: 4px 18px;
-    background-color:$bluegray;
+    background-color: $bluegray;
     opacity: .7;
   }
 
@@ -409,7 +406,7 @@
       align-items: center;
       justify-content: center;
       width: 1.5rem;
-      color: var(--atum-sidebar-font-color) ;
+      color: var(--atum-sidebar-font-color);
       font-weight: 900;
       font-family: "Font Awesome 5 Free";
 
