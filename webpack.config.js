@@ -1,11 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
 module.exports = {
-    mode: 'production',
+    mode: 'development',
     entry: [
         './administrator/components/com_media/resources/scripts/mediamanager.js',
         './administrator/components/com_media/resources/styles/mediamanager.scss',
@@ -14,26 +13,6 @@ module.exports = {
         path: path.resolve(__dirname, './media/com_media/js'),
         publicPath: '/',
         filename: 'mediamanager.min.js'
-    },
-    optimization: {
-        minimizer: [
-            new TerserPlugin({
-                cache: true,
-                parallel: true,
-                sourceMap: true, // Must be set to true if using source-maps in production
-                terserOptions: {}
-            }),
-        ],
-        splitChunks: {
-      cacheGroups: {
-        styles: {
-          name: 'styles',
-          test: /\.css$/,
-          chunks: 'all',
-          enforce: true,
-        },
-      },
-    },
     },
     module: {
         rules: [
@@ -98,5 +77,10 @@ module.exports = {
     performance: {
         hints: false
     },
-    devtool: '#source-map'
+    devtool: process.env.NODE_ENV === 'production' ? '#source-map' : '#eval-source-map'
 };
+
+// Instruct webpack to minify if in production mode
+if (process.env.NODE_ENV === 'production') {
+	module.exports.mode = 'production'
+}

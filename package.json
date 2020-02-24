@@ -22,6 +22,7 @@
     "update": "node build.js --copy-assets && node build.js --build-pages && node build.js --compile-js && node build.js --compile-css",
     "gzip": "node -e 'require(\"./build/build-modules-js/gzip-assets.es6.js\").gzipFiles()'",
     "watch:com_media": "cross-env NODE_ENV=development webpack --progress --hide-modules --watch",
+    "dev:com_media": "cross-env NODE_ENV=development webpack --progress --hide-modules",
     "build:com_media": "cross-env NODE_ENV=production webpack --progress --hide-modules"
   },
   "browserslist": [
@@ -101,7 +102,6 @@
     "recursive-readdir": "^2.2.2",
     "sass-loader": "^5.0.1",
     "selenium-standalone": "^6.17.0",
-    "terser-webpack-plugin": "^2.3.5",
     "uglify-es": "^3.3.9",
     "uglifycss": "^0.0.29",
     "vue-loader": "^15.9.0",
