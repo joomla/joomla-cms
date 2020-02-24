@@ -276,10 +276,11 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		}
 
 		// In custom mode we compile the header from the values configured
-		$cspValues           = $this->comCspParams->get('contentsecuritypolicy_values', []);
-		$nonceEnabled        = (int) $this->comCspParams->get('nonce_enabled', 0);
-		$scriptHashesEnabled = (int) $this->comCspParams->get('script_hashes_enabled', 0);
-		$styleHashesEnabled  = (int) $this->comCspParams->get('style_hashes_enabled', 0);
+		$cspValues                 = $this->comCspParams->get('contentsecuritypolicy_values', []);
+		$nonceEnabled              = (int) $this->comCspParams->get('nonce_enabled', 0);
+		$scriptHashesEnabled       = (int) $this->comCspParams->get('script_hashes_enabled', 0);
+		$styleHashesEnabled        = (int) $this->comCspParams->get('style_hashes_enabled', 0);
+		$frameAncestorsSelfEnabled = (int) $this->comCspParams->get('frame_ancestors_self_enabled', 1);
 
 		foreach ($cspValues as $cspValue)
 		{
@@ -311,6 +312,13 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				}
 
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
+
+				continue;
+			}
+
+			if ($frameAncestorsSelfEnabled)
+			{
+				$newCspValues[] = 'frame-ancestors "self"';
 			}
 		}
 
@@ -350,11 +358,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			return [];
 		}
 
-		$automaticCspHeader  = [];
-		$cspHeaderCollection = [];
-		$nonceEnabled        = (int) $this->comCspParams->get('nonce_enabled', 0);
-		$scriptHashesEnabled = (int) $this->comCspParams->get('script_hashes_enabled', 0);
-		$styleHashesEnabled  = (int) $this->comCspParams->get('style_hashes_enabled', 0);
+		$automaticCspHeader        = [];
+		$cspHeaderCollection       = [];
+		$nonceEnabled              = (int) $this->comCspParams->get('nonce_enabled', 0);
+		$scriptHashesEnabled       = (int) $this->comCspParams->get('script_hashes_enabled', 0);
+		$styleHashesEnabled        = (int) $this->comCspParams->get('style_hashes_enabled', 0);
+		$frameAncestorsSelfEnabled = (int) $this->comCspParams->get('frame_ancestors_self_enabled', 1);
 
 		foreach ($rows as $row)
 		{
@@ -397,6 +406,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			{
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['style-src'], ''));
 			}
+		}
+
+		// Add the frame-ancestors when not done already
+		if (!isset($cspHeaderCollection['frame-ancestors']) && $frameAncestorsSelfEnabled)
+		{
+			$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['frame-ancestors'], '"self"'));
 		}
 
 		foreach ($cspHeaderCollection as $cspHeaderkey => $cspHeaderValue)
