@@ -76,7 +76,7 @@ abstract class JFormFieldPredefinedList extends JFormFieldList
 			{
 				$val = (string) $value;
 	
-				if (empty($filter) || in_array($value, $filter, true))
+				if (empty($filter) || in_array($val, $filter, true))
 				{
 					$text = $this->translate ? JText::_($text) : $text;
 
