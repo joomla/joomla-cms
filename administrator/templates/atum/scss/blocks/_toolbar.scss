@@ -137,32 +137,32 @@ joomla-toolbar-button {
 
     &.btn-primary {
 
-     background-color: $white;
+      background-color: $white;
       border-radius: $border-radius;
+
       [class^='icon-'],
       [class*=' icon-'],
       [class^='#{$fa-css-prefix}-'],
       [class*=' #{$fa-css-prefix}-'],
       span {
-        color: var(--atum-link-color);
-        background-color: rgba(255, 255, 255, 0.90);
+        color: darken(theme-color('info'), 5%);
       }
 
       &:hover,
       &:active,
       &:focus {
 
+        background-color: theme-color('info');
+        color: rgba(255, 255, 255, 0.90);
+
         [class^='icon-'],
         [class*=' icon-'],
         [class^='#{$fa-css-prefix}-'],
         [class*=' #{$fa-css-prefix}-'],
         span {
-          background-color: var(--atum-link-color);
+          background: darken(theme-color('info'), 10%);
           color: rgba(255, 255, 255, 0.90);
         }
-
-        color:rgba(255, 255, 255, 0.90);
-        background-color: var(--atum-link-color);
       }
     }
 
