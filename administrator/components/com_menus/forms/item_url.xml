@@ -30,6 +30,7 @@
 				<option value="license"/>
 				<option value="next"/>
 				<option value="nofollow"/>
+				<option value="noopener"/>
 				<option value="noreferrer"/>
 				<option value="prefetch"/>
 				<option value="prev"/>
