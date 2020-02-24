@@ -1,0 +1,59 @@
+// Custom Forms
+
+.custom-select {
+  max-width: $input-max-width;
+  background: $custom-select-background;
+  background-color: $custom-select-bg;
+
+  [dir=rtl] & {
+    padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
+    background: $custom-select-background-rtl;
+    background-color: $custom-select-bg;
+  }
+
+  &[multiple] {
+    padding: 0;
+    background-color: var(--white-offset);
+
+    option {
+      background-color: var(--white-offset);
+      padding: $custom-select-multiple-padding-y $custom-select-padding-x;
+
+      &:checked {
+        color: var(--atum-text-light);
+        background-color: var(--atum-bg-dark) !important;
+      }
+    }
+  }
+
+  &.custom-select-color-state {
+
+    &.custom-select-success {
+      color: theme-color("success");
+      background-color: theme-color("success");
+      border-color: theme-color("sucess");
+
+      option {
+        color: $custom-select-color;
+        background-color: var(--white-offset);
+      }
+    }
+
+    &.custom-select-danger {
+      color: theme-color("danger");
+      background-color: theme-color("danger");
+      border-color: theme-color("danger");
+
+      option {
+        color: $custom-select-color;
+        background-color: var(--white-offset);
+      }
+    }
+  }
+
+  optgroup,
+  option {
+    background-color: $white;
+    color: var(--atum-text-dark);
+  }
+}
