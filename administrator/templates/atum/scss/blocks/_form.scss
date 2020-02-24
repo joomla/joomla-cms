@@ -145,7 +145,7 @@ legend {
   }
 }
 
-// reveal associated tooltip on focus
+/* reveal associated tooltip on focus */
 :focus + [role="tooltip"],
 :hover + [role="tooltip"] {
   display: block;
