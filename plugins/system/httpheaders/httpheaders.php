@@ -397,7 +397,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		// Add the frame-ancestors when not done already
 		if (!isset($cspHeaderCollection['frame-ancestors']) && $frameAncestorsSelfEnabled)
 		{
-			// Default value is set later
 			$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['frame-ancestors'], ''));
 		}
 
