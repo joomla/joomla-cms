@@ -108,7 +108,8 @@ $xml = $this->form->getXml();
 					<?php endif; ?>
 
 					<?php if (!$hasChildren) : ?>
-						<?php echo $this->form->renderFieldset($name, $name === 'permissions' ? ['hiddenLabel' => true, 'class' => 'revert-controls'] : []); ?>
+						<?php $hiddenLabel = $name === 'permissions' || $name === 'domain_options';?>
+						<?php echo $this->form->renderFieldset($name, $hiddenLabel ? ['hiddenLabel' => true, 'class' => 'revert-controls'] : []); ?>
 					<?php endif; ?>
 
 					<?php if (!$isGrandchild && $hasParent) : ?>
