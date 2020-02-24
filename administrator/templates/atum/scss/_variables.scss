@@ -99,7 +99,7 @@ $input-box-shadow:                 inset 0 0 0 .1rem lighten(theme-color("atum-l
 $input-btn-padding-y:              .6rem;
 $input-btn-padding-x:              1rem;
 $input-max-width:                  100%;
-$btn-disabled-opacity:             0.4;
+$btn-disabled-opacity:            4;
 
 // Header
 $header-height:                    3.5rem;
@@ -125,10 +125,10 @@ $font-size-sm:                     .8rem;
 $font-size-vsm:                    .6rem;
 $display1-size:                    1rem;
 $display2-size:                    .875rem;
-$content-font-size:                0.875rem;
+$content-font-size:               875rem;
 $label-font-size:                  1rem;
 $danger-bg:                        #990000;
-$badge-font-size:                  0.75rem;
+$badge-font-size:                 75rem;
 $fa-css-prefix:                    fa;
 $fa-font-path:                     "../../../../media/vendor/fontawesome-free/webfonts";
 $roboto-font-path:                 "../../../../media/vendor/roboto-fontface/fonts";

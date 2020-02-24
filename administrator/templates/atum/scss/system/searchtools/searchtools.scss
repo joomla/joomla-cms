@@ -35,8 +35,8 @@
 .js-stools {
   position: relative;
   width: 100%;
-  padding: 0.25rem 0 0;
-  margin-bottom: 0.5rem;
+  padding:25rem 0 0;
+  margin-bottom:5rem;
 
   > div {
     margin-bottom: 1rem;
@@ -47,7 +47,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     padding: 1rem .5rem .5rem;
-    margin-top: 0.5rem;
+    margin-top:5rem;
     margin-bottom: 1rem;
     background-color: $white;
     border-radius: 0 0 0 $border-radius;
@@ -92,7 +92,7 @@
       option {
         color: var(--atum-text-dark);
         background-color: var(--white);
-        font-size: 0.875rem;
+        font-size:875rem;
       }
     }
   }
@@ -100,12 +100,12 @@
   .js-stools-container-selector {
     [dir=ltr] & {
       float: left;
-      margin-right: 0.5rem;
+      margin-right:5rem;
     }
 
     [dir=rtl] & {
       float: right;
-      margin-left: 0.5rem;
+      margin-left:5rem;
       margin-right: 0;
     }
 
@@ -148,11 +148,11 @@
 
   .js-stools-container-selector-first {
     [dir=ltr] & {
-      margin-right: 0.5rem;
+      margin-right:5rem;
     }
 
     [dir=rtl] & {
-      margin-left: 0.5rem;
+      margin-left:5rem;
     }
 
     @include media-breakpoint-down(sm) {
@@ -254,8 +254,8 @@
 
         &.disabled,
         &:disabled {
-          background-color: rgba($gray-300, 0.8);
-          border-color: rgba($gray-500, 0.8);
+          background-color: rgba($gray-300,8);
+          border-color: rgba($gray-500,8);
           opacity: 1;
           color: var(--atum-text-dark);
           cursor: not-allowed;
@@ -266,7 +266,7 @@
         border-right: 1px solid var(--border);
 
         .fas {
-          margin-left: 0.25rem;
+          margin-left:25rem;
         }
       }
 

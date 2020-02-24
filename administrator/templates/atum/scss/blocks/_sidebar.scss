@@ -83,7 +83,7 @@
     background: var(--atum-link-color);
     a {
       display: block;
-      padding: 0 0.35rem;
+      padding: 035rem;
       position: relative;
       color: var(--atum-text-light);
       height: 3.2rem;
@@ -189,7 +189,7 @@
   .sidebar-item-title {
     display: inline-block;
     word-break: break-word;
-    padding: 0.6rem 0;
+    padding:6rem 0;
   }
 
   // All links
@@ -211,7 +211,7 @@
      }
 
     > a {
-      padding: 0 0.35rem;
+      padding: 035rem;
 
       &:hover {
         background-color: var(--atum-sidebar-link-color);
@@ -269,7 +269,7 @@
     }
 
     a {
-      font-size: 0.9rem;
+      font-size:9rem;
 
       &[href]:hover:not(.menu-dashboard):not(.menu-quicktask) {
         color: $white;
@@ -283,9 +283,9 @@
 
         &::before {
           position: absolute;
-          top: 0.15rem;
-          bottom: 0.15rem;
-          width: 0.25rem;
+          top:15rem;
+          bottom:15rem;
+          width:25rem;
           content: "";
           background-color: var(--atum-contrast);
 
@@ -354,7 +354,7 @@
   }
 
   .menuitem-group {
-    margin-top: 0.65rem;
+    margin-top:65rem;
     font-size: .75rem;
 
     [dir=ltr] & {
@@ -439,8 +439,8 @@
   .fas {
     position: relative;
     display: inline-block;
-    margin: 0 0.6rem;
-    font-size: 0.9rem;
+    margin: 06rem;
+    font-size:9rem;
     text-align: center;
     vertical-align: top;
 
@@ -456,7 +456,7 @@
   position: relative;
   top: -1px;
   display: inline-block;
-  margin: 0 0.3rem;
+  margin: 03rem;
   font-size: 1.1rem;
   text-align: center;
   vertical-align: middle;
@@ -559,7 +559,7 @@
       max-height: 100vh;
       transition-property: all;
       transition-duration: 1s;
-      transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+      transition-timing-function: cubic-bezier(0, 1,5, 1);
       bottom: 55px;
       position: fixed;
       width: 100%;
@@ -588,7 +588,7 @@
 }
 
 #menu-collapse-icon {
-  font-size: 0.9rem;
-  margin-right: 0.6rem;
-  padding: 0.3rem;
+  font-size:9rem;
+  margin-right:6rem;
+  padding:3rem;
 }

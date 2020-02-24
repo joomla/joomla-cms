@@ -123,14 +123,14 @@ legend {
 }
 
 .sortable-handler.inactive {
-  opacity: 0.3;
+  opacity:3;
 }
 
 /* set up hidden tooltip */
 [role="tooltip"]:not(.show) {
   display: none;
-  padding: 0.25em;
-  margin: 0.25em;
+  padding:25em;
+  margin:25em;
   color: $white;
   background: $black;
   max-width: 100%;

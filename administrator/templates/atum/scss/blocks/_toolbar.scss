@@ -99,9 +99,9 @@ joomla-toolbar-button {
         [class*=' #{$fa-css-prefix}-'],
         span {
           background: darken(theme-color("success"), 10%);
-          color: rgba(255, 255, 255, 0.90);
+          color: rgba(255, 255, 255,90);
         }
-        color: rgba(255, 255, 255, 0.90);
+        color: rgba(255, 255, 255,90);
         background-color: theme-color("success");
       }
     }
@@ -127,10 +127,10 @@ joomla-toolbar-button {
         [class*=' #{$fa-css-prefix}-'],
         span {
           background-color: darken(theme-color("danger"), 10%);
-          color: rgba(255, 255, 255, 0.90);
+          color: rgba(255, 255, 255,90);
         }
 
-        color:rgba(255, 255, 255, 0.90);
+        color:rgba(255, 255, 255,90);
         background-color: theme-color("danger");
       }
     }
@@ -145,7 +145,7 @@ joomla-toolbar-button {
       [class*=' #{$fa-css-prefix}-'],
       span {
         color: var(--atum-link-color);
-        background-color: rgba(255, 255, 255, 0.90);
+        background-color: rgba(255, 255, 255,90);
       }
 
       &:hover,
@@ -158,10 +158,10 @@ joomla-toolbar-button {
         [class*=' #{$fa-css-prefix}-'],
         span {
           background-color: var(--atum-link-color);
-          color: rgba(255, 255, 255, 0.90);
+          color: rgba(255, 255, 255,90);
         }
 
-        color:rgba(255, 255, 255, 0.90);
+        color:rgba(255, 255, 255,90);
         background-color: var(--atum-link-color);
       }
     }
@@ -170,7 +170,7 @@ joomla-toolbar-button {
 
       [class^='icon-download'] {
         background-color: var(--atum-link-color);
-        color: rgba(255, 255, 255, 0.90);
+        color: rgba(255, 255, 255,90);
       }
 
       &:hover,
@@ -178,7 +178,7 @@ joomla-toolbar-button {
       &:focus {
         [class^='icon-download'] {
           background-color: var(--atum-link-color);
-          color: rgba(255, 255, 255, 0.90);
+          color: rgba(255, 255, 255,90);
         }
       }
     }
@@ -190,14 +190,14 @@ joomla-toolbar-button {
       [class*=' #{$fa-css-prefix}-'],
       span {
         color: var(--atum-bg-dark-80);
-        background-color: rgba(255, 255, 255, 0.90);
+        background-color: rgba(255, 255, 255,90);
       }
 
       &:hover,
       &:active,
       &:focus {
         background-color: var(--atum-bg-dark-80);
-        color: rgba(255, 255, 255, 0.90);
+        color: rgba(255, 255, 255,90);
 
         [class^='icon-'],
         [class*=' icon-'],
@@ -205,7 +205,7 @@ joomla-toolbar-button {
         [class*=' #{$fa-css-prefix}-'],
         span {
           background-color: var(--atum-bg-dark-80);
-          color: rgba(255, 255, 255, 0.90);
+          color: rgba(255, 255, 255,90);
         }
       }
     }
@@ -220,7 +220,7 @@ joomla-toolbar-button {
       [class*=' #{$fa-css-prefix}-'],
       span {
         background-color: var(--atum-bg-dark-70);
-        color: rgba(255, 255, 255, 0.90);
+        color: rgba(255, 255, 255,90);
       }
 
       &:hover,
@@ -233,18 +233,18 @@ joomla-toolbar-button {
         [class*=' #{$fa-css-prefix}-'],
         span {
           background-color: var(--atum-bg-dark-80);
-          color: rgba(255, 255, 255, 0.90);
+          color: rgba(255, 255, 255,90);
         }
 
-        color:rgba(255, 255, 255, 0.90);
+        color:rgba(255, 255, 255,90);
         background-color: var(--atum-bg-dark);
       }
     }
 
     &[disabled],
     &.dropdown-toggle[disabled] {
-      background-color: rgba($gray-300, 0.8);
-      border-color: rgba($gray-500, 0.8);
+      background-color: rgba($gray-300,8);
+      border-color: rgba($gray-500,8);
 
       [class^='icon-'],
       [class*=' icon-'],
@@ -252,7 +252,7 @@ joomla-toolbar-button {
       [class*=' #{$fa-css-prefix}-'],
       span {
         color: var(--atum-text-dark);
-        background-color: rgba($gray-500, 0.8);
+        background-color: rgba($gray-500,8);
          }
 
       &:hover,
@@ -265,10 +265,10 @@ joomla-toolbar-button {
         [class*=' #{$fa-css-prefix}-'],
         span {
           color: var(--atum-text-dark);
-          background-color: rgba($gray-500, 0.8);
+          background-color: rgba($gray-500,8);
         }
 
-        background-color: rgba($gray-300, 0.8);
+        background-color: rgba($gray-300,8);
         cursor: not-allowed;
         color: var(--atum-text-dark);
       }
@@ -296,14 +296,14 @@ joomla-toolbar-button {
 
       span {
         background-color: var(--atum-bg-dark);
-        color: rgba(255, 255, 255, 0.90);
+        color: rgba(255, 255, 255,90);
       }
     }
 
     &.btn-primary {
       span {
         background-color: var(--atum-bg-dark);
-        color: rgba(255, 255, 255, 0.90);
+        color: rgba(255, 255, 255,90);
       }
     }
 
@@ -313,7 +313,7 @@ joomla-toolbar-button {
 
       span {
         background-color: theme-color("success");
-        color: rgba(255, 255, 255, 0.90);
+        color: rgba(255, 255, 255,90);
       }
 
       &::after {
@@ -325,7 +325,7 @@ joomla-toolbar-button {
         border-radius: 0 $border-radius $border-radius 0;
         margin-top:-1px;
         background-color: theme-color("success");
-        color: rgba(255, 255, 255, 0.90);
+        color: rgba(255, 255, 255,90);
         line-height: 2.5rem;
       }
     }
@@ -346,7 +346,7 @@ joomla-toolbar-button {
       [class^='#{$fa-css-prefix}-'],
       [class*=' #{$fa-css-prefix}-'] {
         background-color: var(--atum-bg-dark);
-        color: rgba(255, 255, 255, 0.90);
+        color: rgba(255, 255, 255,90);
       }
 
       &:hover:not([disabled]) {
@@ -373,12 +373,12 @@ joomla-toolbar-button {
   > .btn-group {
     @include media-breakpoint-down(lg) {
       margin-left: 0 !important;
-      margin-right: 0.75rem;
-      margin-bottom: 0.75rem;
+      margin-right:75rem;
+      margin-bottom:75rem;
 
       @include media-breakpoint-down(sm) {
         [dir=rtl] & {
-          margin-left: 0.75rem !important;
+          margin-left:75rem !important;
           margin-right: 0 !important;
         }
       }

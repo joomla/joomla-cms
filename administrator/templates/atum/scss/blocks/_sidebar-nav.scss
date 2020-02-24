@@ -35,7 +35,7 @@
       color: var(--atum-text-dark);
 
       display:block;
-      padding: 0.35rem 0.35rem 0.35rem 1.2rem;
+      padding:35rem35rem35rem 1.2rem;
       position: relative;
       overflow: hidden;
       font-weight: normal;
@@ -44,17 +44,17 @@
       {
         position: absolute;
         left: 0;
-        top: 0.75rem;
+        top:75rem;
         border-right: 1px solid var(--atum-link-color);
         border-top: 1px solid var(--atum-link-color);
         content: "";
         display: inline-block;
-        height: 0.6em;
+        height:6em;
         -moz-transform: rotate(45deg) skew(5deg, 5deg);
         -o-transform: rotate(45deg) skew(5deg, 5deg);
         -webkit-transform: rotate(45deg) skew(5deg, 5deg);
         transform: rotate(45deg) skew(5deg, 5deg);
-        width: 0.6em;
+        width:6em;
 
       }
     }
