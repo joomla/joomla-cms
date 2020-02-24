@@ -121,11 +121,13 @@
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    border-bottom:solid 1px var(--atum-bg-light);
 
     > a {
       flex-grow: 2;
 
+      &:hover {
+        border-bottom: solid 1px var(--atum-bg-light);
+      }
     }
 
     .menu-dashboard,
