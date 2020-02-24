@@ -80,8 +80,6 @@ module.exports = {
     devtool: process.env.NODE_ENV === 'production' ? '#source-map' : '#eval-source-map'
 };
 
-console.log(process.env.NODE_ENV);
-
 // Instruct webpack to minify if in production mode
 if (process.env.NODE_ENV === 'production') {
 	module.exports.mode = 'production'
