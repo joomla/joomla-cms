@@ -394,6 +394,13 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			$cspHeaderCollection[$row->directive] .= ' ' . $row->blocked_uri;
 		}
 
+		// Add the frame-ancestors when not done already
+		if (!isset($cspHeaderCollection['frame-ancestors']) && $frameAncestorsSelfEnabled)
+		{
+			// Default value is set later
+			$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['frame-ancestors'], ''));
+		}
+
 		// We should have a default-src, script-src and style-src rule
 		if (!empty($cspHeaderCollection))
 		{
@@ -411,13 +418,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			{
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['style-src'], ''));
 			}
-		}
-
-		// Add the frame-ancestors when not done already
-		if (!isset($cspHeaderCollection['frame-ancestors']) && $frameAncestorsSelfEnabled)
-		{
-			// Default value is set later
-			$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['frame-ancestors'], ''));
 		}
 
 		foreach ($cspHeaderCollection as $cspHeaderkey => $cspHeaderValue)
