@@ -1,9 +1,11 @@
 # Default application configuration that all configurations inherit from.
-scss_files:
-  "administrator/components/com_media/resources/**/*.scss"
-  "administrator/templates/**/*.scss"
-  "build/media_source/**/*.scss"
-  "templates/**/*.scss"
+scss_files: [
+  "administrator/components/com_media/resources/**/*.scss",
+  "administrator/templates/**/*.scss",
+  "build/media_source/**/*.scss",
+  "templates/**/*.scss",
+  "installation/template/**/*.scss"
+]
 
 plugin_directories: ['.scss-linters']
 
