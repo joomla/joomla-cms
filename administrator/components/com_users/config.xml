@@ -132,6 +132,7 @@
 			name="domains"
 			type="subform"
 			label="COM_USERS_CONFIG_FIELD_DOMAINS_LABEL"
+			hiddenLabel="true"
 			description="COM_USERS_CONFIG_FIELD_DOMAINS_DESC"
 			multiple="true"
 			layout="joomla.form.field.subform.repeatable-table"
