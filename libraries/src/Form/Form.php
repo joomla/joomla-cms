@@ -1559,18 +1559,21 @@ class Form
 					$return = call_user_func($filter, $value);
 				}
 
-				elseif ($element['type'] == 'subform')
+				elseif ((string) $element['type'] === 'subform')
 				{
 					$field   = $this->loadField($element);
 					$subForm = $field->loadSubForm();
 
-					if ($field->multiple && !empty($value))
+					if ($field->multiple)
 					{
 						$return = array();
 
-						foreach ($value as $key => $val)
+						if ($value)
 						{
-							$return[$key] = $subForm->filter($val);
+							foreach ($value as $key => $val)
+							{
+								$return[$key] = $subForm->filter($val);
+							}
 						}
 					}
 					else
@@ -2150,38 +2153,18 @@ class Form
 			}
 		}
 
-		if ($valid !== false && $element['type'] == 'subform')
+		if ($valid !== false && (string) $element['type'] === 'subform')
 		{
-			$field   = $this->loadField($element);
-			$subForm = $field->loadSubForm();
+			// Load the subform validation rule.
+			$rule = $this->loadRuleType('SubForm');
 
-			if ($field->multiple && $value)
+			// Run the field validation rule test.
+			$valid = $rule->test($element, $value, $group, $input, $this);
+
+			// Check for an error in the validation test.
+			if ($valid instanceof \Exception)
 			{
-				foreach ($value as $key => $val)
-				{
-					$val = (array) $val;
-
-					$valid = $subForm->validate($val);
-
-					if ($valid === false)
-					{
-						break;
-					}
-				}
-			}
-			else
-			{
-				$valid = $subForm->validate($value);
-			}
-
-			if ($valid === false)
-			{
-				$errors = $subForm->getErrors();
-
-				foreach ($errors as $error)
-				{
-					return $error;
-				}
+				return $valid;
 			}
 		}
 
