@@ -1,10 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 module.exports = {
-    mode: 'development',
+    mode: process.env.NODE_ENV,
     entry: [
         './administrator/components/com_media/resources/scripts/mediamanager.js',
         './administrator/components/com_media/resources/styles/mediamanager.scss',
@@ -65,7 +65,7 @@ module.exports = {
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
         }),
         new webpack.LoaderOptionsPlugin({
-            minimize: true
+            minimize: process.env.NODE_ENV === 'production'
         }),
         new VueLoaderPlugin()
     ],
@@ -77,10 +77,5 @@ module.exports = {
     performance: {
         hints: false
     },
-    devtool: process.env.NODE_ENV === 'production' ? '#source-map' : '#eval-source-map'
+    devtool: process.env.NODE_ENV === 'production' ? 'source-map' : 'eval-source-map'
 };
-
-// Instruct webpack to minify if in production mode
-if (process.env.NODE_ENV === 'production') {
-	module.exports.mode = 'production'
-}
