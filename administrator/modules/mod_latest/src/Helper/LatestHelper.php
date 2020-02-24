@@ -23,7 +23,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.5
  */
-abstract class ModLatestHelper
+abstract class LatestHelper
 {
 	/**
 	 * Get a list of articles.

@@ -9,14 +9,15 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Module\Latest\Administrator\Helper\ModLatestHelper;
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Module\Latest\Administrator\Helper\LatestHelper;
 
 $model = $app->bootComponent('com_content')->getMVCFactory()->createModel('Articles', 'Administrator', ['ignore_request' => true]);
-$list = ModLatestHelper::getList($params, $model);
+$list = LatestHelper::getList($params, $model);
 
 if ($params->get('automatic_title', 0))
 {
-	$module->title = ModLatestHelper::getTitle($params);
+	$module->title = LatestHelper::getTitle($params);
 }
 
-require \Joomla\CMS\Helper\ModuleHelper::getLayoutPath('mod_latest', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_latest', $params->get('layout', 'default'));
