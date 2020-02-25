@@ -50,8 +50,9 @@
           display: inline-block;
         }
 
-        path
-        {fill: $white}
+        path {
+          fill: $white
+        }
 
       }
     }
@@ -70,7 +71,10 @@
 
     svg {
       height: 1.3rem;
-      path {fill: $white}
+
+      path {
+        fill: $white
+      }
     }
   }
 

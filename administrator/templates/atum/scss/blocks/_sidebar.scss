@@ -81,6 +81,7 @@
   .sidebar-toggle {
     position: relative;
     background: var(--atum-link-color);
+
     a {
       display: block;
       padding: 0 0.35rem;
@@ -111,8 +112,8 @@
     width: 100%;
   }
 
-  .open  {
-    box-shadow: inset 0 0  100px var(--atum-bg-light);
+  .open {
+    box-shadow: inset 0 0 100px var(--atum-bg-light);
   }
 
   // All list items
@@ -154,6 +155,7 @@
           // invert colors
           background-color: var(--atum-sidebar-bg);
           color: var(--atum-sidebar-link-color);
+
           .fas {
             color: var(--atum-contrast);
           }
@@ -207,8 +209,7 @@
   // 1st level items
   > li {
 
-    > ul {
-     }
+    > ul {}
 
     > a {
       padding: 0 0.35rem;
@@ -222,15 +223,17 @@
       &.mm-active {
 
         color: var(--atum-link-color);
-        &:hover
-        {
+
+        &:hover {
           color: var(--atum-text-light);
         }
       }
     }
+
     &.mm-active {
       > a {
         color: var(--atum-link-color);
+
         &:hover {
           color: var(--atum-text-light);
         }
@@ -253,11 +256,10 @@
 
       &.mm-active {
 
-        > a
-        {
+        > a {
           color: var(--atum-link-color);
-             }
-           }
+        }
+      }
 
       > a {
         padding: 0 1rem 0 2.4rem;
@@ -302,8 +304,9 @@
 
     // 3rd level items
     ul {
-      li { border-bottom: 1px solid var(--atum-bg-light);
-}
+      li {
+        border-bottom: 1px solid var(--atum-bg-light);
+      }
 
       a {
 

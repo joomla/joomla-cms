@@ -34,14 +34,13 @@
     a {
       color: var(--atum-text-dark);
 
-      display:block;
+      display: block;
       padding: 0.35rem 0.35rem 0.35rem 1.2rem;
       position: relative;
       overflow: hidden;
       font-weight: normal;
 
-      &:before
-      {
+      &:before {
         position: absolute;
         left: 0;
         top: 0.75rem;

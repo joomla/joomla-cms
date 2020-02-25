@@ -60,6 +60,7 @@ joomla-tab {
         margin: -1px;
         border: 1px solid var(--bluegray);
         border-bottom: solid 1px #fff;
+
         &::after {
           background-color: var(--atum-contrast);
           top: -1px;
@@ -252,7 +253,12 @@ joomla-tab {
             }
           }
 
-          .respTable, .respTable thead, .respTable tbody, .respTable tr, .respTable th, .respTable td {
+          .respTable,
+          .respTable thead,
+          .respTable tbody,
+          .respTable tr,
+          .respTable th,
+          .respTable td {
             display: block;
           }
 

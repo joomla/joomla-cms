@@ -77,7 +77,8 @@
     }
 
     .custom-select {
-      box-shadow:  $input-box-shadow;
+      box-shadow: $input-box-shadow;
+
       &.active {
         background: $custom-select-indicator-active no-repeat right center;
         background-color: $custom-select-bg;
@@ -278,9 +279,7 @@
     .js-stools-field-list {
       margin-bottom: 0;
 
-      .custom-select {
-
-      }
+      .custom-select {}
     }
 
     .input-append {

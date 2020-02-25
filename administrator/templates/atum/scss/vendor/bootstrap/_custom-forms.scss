@@ -59,9 +59,7 @@
     }
   }
 
-  &:focus
-
-  {
+  &:focus {
     border-color: $focuscolor;
     box-shadow: $focusshadow;
   }
