@@ -67,11 +67,11 @@
   border-radius: 50%;
 }
 
-/* RTL override */
+// RTL override
 
 html[dir=rtl] .media-infobar {
-    left: 0;
-    right: auto;
+  left: 0;
+  right: auto;
 }
 
 html[dir=rtl] .infobar-close {

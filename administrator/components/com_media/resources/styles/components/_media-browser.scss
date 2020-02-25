@@ -1,4 +1,4 @@
-/* Media browser */
+// Media browser
 .media-browser {
   position: relative;
   width: 75%;
@@ -322,7 +322,7 @@
       transition: all .2s cubic-bezier(.4, .0, .2, 1);
     }
     &::before {
-      font-family:"Font Awesome 5 Free";
+      font-family: "Font Awesome 5 Free";
       color: $table-item-icon-color;
       .selected & {
         color: $table-item-icon-color-selected;

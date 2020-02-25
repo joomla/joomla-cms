@@ -40,7 +40,7 @@
       overflow: hidden;
       font-weight: normal;
 
-      &:before {
+      &::before {
         position: absolute;
         left: 0;
         top: .75rem;

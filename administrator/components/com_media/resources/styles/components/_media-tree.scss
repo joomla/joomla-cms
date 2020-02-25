@@ -1,4 +1,4 @@
-/* Media Tree */
+// Media Tree
 
 ul.media-tree {
   padding: 0 0 5px;
@@ -128,7 +128,7 @@ ul.media-tree {
   font-weight: bold;
 }
 
-/* RTL override */
+// RTL override
 html[dir=rtl] {
   .media-browser-table .dimension, .media-browser-table .size {
     direction: ltr;
@@ -139,7 +139,7 @@ html[dir=rtl] {
   }
 
   .media-drive-name {
-	padding-right: 2px;
+    padding-right: 2px;
   }
 
   .media-tree-item li::before, .media-tree-item li::after {
@@ -149,7 +149,7 @@ html[dir=rtl] {
   }
 
   .media-tree-item .item-icon {
-	padding-left: 2px;
+    padding-left: 2px;
     padding-right: 10px;
   }
 
