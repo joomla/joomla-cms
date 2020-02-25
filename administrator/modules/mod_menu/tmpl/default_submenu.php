@@ -104,7 +104,7 @@ if ($iconClass === '' && $itemIconClass)
 
 if ($iconImage)
 {
-	if (substr($iconImage, 0, 6) == 'class:' && substr($iconImage, 6) == 'icon-home')
+	if (substr($iconImage, 0, 6) == 'class:' && substr($iconImage, 6) == 'fas fa-home')
 	{
 		$iconImage = '<span class="home-image fas fa-star" aria-hidden="true"></span>';
 		$iconImage .= '<span class="sr-only">' . Text::_('JDEFAULT') . '</span>';
