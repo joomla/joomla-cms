@@ -133,8 +133,8 @@ joomla-tab {
 
       &[active],
       &:hover {
-        background-color: var(--atum-link-color);
         color: var(--atum-text-light);
+        background-color: var(--atum-link-color);
         background-image: none;
         box-shadow: none;
         border-right: 0;
@@ -173,10 +173,10 @@ joomla-tab {
 
       &[active] {
         display: block;
-        border-bottom: 1px solid $gray-300;
+        flex: 0 0 100%;
         width: 100%;
         max-width: 100%;
-        flex: 0 0 100%;
+        border-bottom: 1px solid $gray-300;
       }
     }
 
@@ -209,14 +209,14 @@ joomla-tab {
       }
 
       a[role=tab] {
-        display: block;
-        color: var(--atum-text-light);
-        padding: .75em 1em;
         position: relative;
+        display: block;
+        padding: .75em 1em;
+        color: var(--atum-text-light);
+        text-decoration: none;
         border: 0;
         border-bottom: 1px solid $gray-300;
         box-shadow: none;
-        text-decoration: none;
 
         &[active],
         &:hover {

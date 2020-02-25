@@ -1,9 +1,9 @@
 // Dropdown
 
 .btn-group .dropdown-menu {
+  min-width: 100%;
   background: $white;
   box-shadow: $dropdown-box-shadow;
-  min-width: 100%;
 
   joomla-toolbar-button {
     border: 0;

@@ -19,8 +19,8 @@
 
 .container-main {
   .mce-panel {
-    border: 0;
     background: transparent;
+    border: 0;
     box-shadow: none;
   }
 
@@ -43,8 +43,8 @@
   .mce-btn-group {
 
     &:not(:first-child) {
-      margin-left: 0;
       margin-right: 6px;
+      margin-left: 0;
     }
 
     .mce-btn {
