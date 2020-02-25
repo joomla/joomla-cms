@@ -43,10 +43,10 @@
   border: 1px solid var(--bluegray);
 
   > legend {
-    font-weight: bold;
-    padding: 0 .5rem;
-    background-color: $white;
-    color: var(--atum-text-dark);
     width: auto;
+    padding: 0 .5rem;
+    font-weight: bold;
+    color: var(--atum-text-dark);
+    background-color: $white;
   }
 }
