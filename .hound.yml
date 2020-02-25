@@ -4,6 +4,9 @@ scss:
   enabled: true
   config_file: scss-lint.yml
 
+scss-lint:
+  version: 0.59.0
+
 eslint:
   enabled: true
   config_file: .eslintrc
