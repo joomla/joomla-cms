@@ -9,7 +9,7 @@
 
   &.closed {
     a.btn-dashboard {
-      display: none
+      display: none;
     }
 
     .main-nav {
@@ -83,7 +83,7 @@
     background: var(--atum-link-color);
     a {
       display: block;
-      padding: 0 0.35rem;
+      padding: 0 .35rem;
       position: relative;
       color: var(--atum-text-light);
       height: 3.2rem;
@@ -111,7 +111,7 @@
     width: 100%;
   }
 
-  .open  {
+  .open {
     box-shadow: inset 0 0  100px var(--atum-bg-light);
   }
 
@@ -189,7 +189,7 @@
   .sidebar-item-title {
     display: inline-block;
     word-break: break-word;
-    padding: 0.6rem 0;
+    padding: .6rem 0;
   }
 
   // All links
@@ -211,7 +211,7 @@
      }
 
     > a {
-      padding: 0 0.35rem;
+      padding: 0 .35rem;
 
       &:hover {
         background-color: var(--atum-sidebar-link-color);
@@ -222,8 +222,7 @@
       &.mm-active {
 
         color: var(--atum-link-color);
-        &:hover
-        {
+        &:hover {
           color: var(--atum-text-light);
         }
       }
@@ -253,11 +252,10 @@
 
       &.mm-active {
 
-        > a
-        {
+        > a {
           color: var(--atum-link-color);
-             }
-           }
+        }
+      }
 
       > a {
         padding: 0 1rem 0 2.4rem;
@@ -269,7 +267,7 @@
     }
 
     a {
-      font-size: 0.9rem;
+      font-size: .9rem;
 
       &[href]:hover:not(.menu-dashboard):not(.menu-quicktask) {
         color: $white;
@@ -283,9 +281,9 @@
 
         &::before {
           position: absolute;
-          top: 0.15rem;
-          bottom: 0.15rem;
-          width: 0.25rem;
+          top: .15rem;
+          bottom: .15rem;
+          width: .25rem;
           content: "";
           background-color: var(--atum-contrast);
 
@@ -354,7 +352,7 @@
   }
 
   .menuitem-group {
-    margin-top: 0.65rem;
+    margin-top: .65rem;
     font-size: .75rem;
 
     [dir=ltr] & {
@@ -439,8 +437,8 @@
   .fas {
     position: relative;
     display: inline-block;
-    margin: 0 0.6rem;
-    font-size: 0.9rem;
+    margin: 0 .6rem;
+    font-size: .9rem;
     text-align: center;
     vertical-align: top;
 
@@ -456,7 +454,7 @@
   position: relative;
   top: -1px;
   display: inline-block;
-  margin: 0 0.3rem;
+  margin: 0 .3rem;
   font-size: 1.1rem;
   text-align: center;
   vertical-align: middle;
@@ -559,7 +557,7 @@
       max-height: 100vh;
       transition-property: all;
       transition-duration: 1s;
-      transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+      transition-timing-function: cubic-bezier(0, 1, .5, 1);
       bottom: 55px;
       position: fixed;
       width: 100%;
@@ -588,7 +586,7 @@
 }
 
 #menu-collapse-icon {
-  font-size: 0.9rem;
-  margin-right: 0.6rem;
-  padding: 0.3rem;
+  font-size: .9rem;
+  margin-right: .6rem;
+  padding: .3rem;
 }

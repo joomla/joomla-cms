@@ -6,7 +6,7 @@
   background-color: $custom-select-bg;
   border: $input-border;
   border-radius: $border-radius;
-  /* var needed */
+  // var needed
   box-shadow: $input-box-shadow;
   cursor: pointer;
 
@@ -59,9 +59,7 @@
     }
   }
 
-  &:focus
-
-  {
+  &:focus {
     border-color: $focuscolor;
     box-shadow: $focusshadow;
   }

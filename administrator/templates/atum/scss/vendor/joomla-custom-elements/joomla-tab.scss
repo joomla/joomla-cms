@@ -41,7 +41,7 @@ joomla-tab {
     a[role=tab] {
       display: block;
       color: var(--atum-link-color);
-      padding: 0.5rem 1rem;
+      padding: .5rem 1rem;
       position: relative;
       box-shadow: none;
       border: 0 solid var(--bluegray);
@@ -163,7 +163,7 @@ joomla-tab {
       flex-direction: column;
       border-radius: 0;
       white-space: normal;
-      box-shadow: 0 1px $white inset, 0 0 3px rgba(0, 0, 0, 0.04);
+      box-shadow: 0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04);
       background-color: var(--atum-link-color);
     }
 
@@ -200,7 +200,7 @@ joomla-tab {
     .col-md-6,
     .col-md-9,
     .col-md-3 {
-      padding: 0.5rem 0 0 !important;
+      padding: .5rem 0 0 !important;
     }
 
     joomla-tab[view=accordion] {

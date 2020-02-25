@@ -32,7 +32,7 @@ body {
     a {
       padding: 3px;
       text-decoration: underline !important;
-      border: red dotted 1px;
+      border: #f00 dotted 1px;
     }
   }
 }
@@ -107,7 +107,7 @@ body .container-main {
   overflow: auto;
   &::before,
   &::after {
-    content: '';
+    content: "";
     width: 100%;
     height: 100%;
     position: fixed;
@@ -225,7 +225,7 @@ a[target="_blank"]::before {
   line-height: 1.4rem;
 }
 
-/* details */
+// details
 
 details {
   margin: 0 0 2rem;
@@ -237,5 +237,5 @@ summary {
 
 div.rule-notes {
   background: var(--atum-bg-light);
-  padding: 1rem
+  padding: 1rem;
 }

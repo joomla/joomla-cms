@@ -3,8 +3,8 @@
 .alert {
   margin: 1rem 0;
   border-radius: $border-radius-sm;
-  border-left: none;
-  border-right: none;
+  border-left: 0;
+  border-right: 0;
 
   &.alert-info {
     color: var(--atum-bg-dark);

@@ -7,20 +7,16 @@
   border-radius: $border-radius;
   box-shadow: $input-box-shadow;
 
-  &:focus
-
-  {
+  &:focus {
     border-color: $focuscolor;
     box-shadow: $focusshadow;
   }
-
-
 }
 
 .form-control:disabled,
 .form-control[readonly] {
   border: 0;
-  box-shadow: none
+  box-shadow: none;
 }
 
 
@@ -123,14 +119,14 @@ legend {
 }
 
 .sortable-handler.inactive {
-  opacity: 0.3;
+  opacity: .3;
 }
 
-/* set up hidden tooltip */
+// set up hidden tooltip
 [role="tooltip"]:not(.show) {
   display: none;
-  padding: 0.25em;
-  margin: 0.25em;
+  padding: .25em;
+  margin: .25em;
   color: $white;
   background: $black;
   max-width: 100%;
@@ -145,7 +141,7 @@ legend {
   }
 }
 
-/* reveal associated tooltip on focus */
+// reveal associated tooltip on focus
 :focus + [role="tooltip"],
 :hover + [role="tooltip"] {
   display: block;
