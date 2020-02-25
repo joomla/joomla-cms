@@ -122,7 +122,11 @@ class ContactViewContact extends JViewLegacy
 			$categoryModel->setState('list.direction', 'asc');
 			$categoryModel->setState('filter.published', 1);
 
-			$contacts = $categoryModel->getItems();
+			// Only collect that information when this information is required
+			if ($item->params->get('show_contact_list'))
+			{
+				$contacts = $categoryModel->getItems();
+			}
 		}
 
 		// Check for errors.
