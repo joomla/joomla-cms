@@ -167,7 +167,8 @@ joomla-toolbar-button {
 
     &.btn-secondary {
 
-      [class^='icon-download'] {
+      [class^='icon-download'],
+      [class^='fa-download'] {
         background-color: var(--atum-bg-dark-70);
         color: rgba(255, 255, 255, 0.90);
       }
@@ -175,7 +176,8 @@ joomla-toolbar-button {
       &:hover,
       &:active,
       &:focus {
-        [class^='icon-download'] {
+        [class^='icon-download'],
+        [class^='fa-download'] {
           background-color: var(--atum-bg-dark-80);
           color: rgba(255, 255, 255, 0.90);
         }
@@ -510,5 +512,5 @@ joomla-toolbar-button {
 @supports (-ms-ime-align: auto) {
   [dir=rtl] .subhead {
     position: relative;
-  } 
+  }
 }
