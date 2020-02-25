@@ -1,4 +1,4 @@
-$off-background-colour: lightgrey;
+$off-background-colour: #d3d3d3;
 $on-background-colour: #2f7d32;
 $switcher-width: 62px;
 $switcher-height: 28px;
@@ -90,7 +90,7 @@ $switcher-height: 28px;
 .switcher .toggle-inside {
   height: $switcher-height;
   width: ($switcher-width - 6) / 2;
-  background: white;
+  background: #fff;
   position: absolute;
   left: 0;
   transition: .4s ease all;

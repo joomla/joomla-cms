@@ -230,18 +230,18 @@ caption {
   color: #292b2c;
 }
 
-.fa-eye:before,
-.icon-eye-open:before,
-.icon-eye:before {
+.fa-ey,
+.icon-eye-ope,
+.icon-ey {
   font-family: "Font Awesome 5 Free";
   cursor: pointer;
   content: "\f06e";
 }
 
-.fa-eye-slash:before,
-.icon-eye-close:before,
-.icon-eye-blocked:before,
-.icon-eye-2:before {
+.fa-eye-slas,
+.icon-eye-clos,
+.icon-eye-blocke,
+.icon-eye-2::before {
   font-family: "Font Awesome 5 Free";
   cursor: pointer;
   content: "\f070";

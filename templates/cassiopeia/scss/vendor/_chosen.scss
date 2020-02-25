@@ -23,9 +23,7 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
 
     @if $enable-rounded {
       border-radius: $custom-select-border-radius;
-    }
-
-    @else {
+    } @else {
       border-radius: 0;
     }
 
@@ -84,9 +82,7 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
 
       @if $enable-rounded {
         border-radius: $custom-select-border-radius;
-      }
-
-      @else {
+      } @else {
         border-radius: 0;
       }
 
