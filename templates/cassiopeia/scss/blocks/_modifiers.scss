@@ -105,7 +105,7 @@
 .blog-item {
   display: flex;
   flex-direction: column;
-  padding: 0 ($cassiopeia-grid-gutter / 2) $cassiopeia-grid-gutter ($cassiopeia-grid-gutter / 2);
+  padding: 0 ($cassiopeia-grid-gutter / 2) $cassiopeia-grid-gutter;
 
   .boxed & {
     background-color: #fff;
