@@ -35,21 +35,21 @@ joomla-tab {
     margin: 0;
     white-space: nowrap;
     list-style: outside none none;
-    border-image: none;
     border-radius: 0;
+    border-image: none;
 
     a[role=tab] {
-      display: block;
-      color: var(--atum-link-color);
-      padding: .5rem 1rem;
       position: relative;
-      box-shadow: none;
+      box-sizing: border-box;
+      display: block;
+      padding: .5rem 1rem;
+      color: var(--atum-link-color);
+      text-decoration: none;
       border: 0 solid var(--bluegray);
+      border-top: 0;
       border-right: 0;
       border-bottom: 0;
-      border-top: 0;
-      box-sizing: border-box;
-      text-decoration: none;
+      box-shadow: none;
 
       &[active],
       &:hover {
@@ -61,14 +61,14 @@ joomla-tab {
         border-radius: 0;
         box-shadow: none;
         &::after {
-          background-color: var(--atum-contrast);
-          top: -1px;
-          content: "";
-          height: 4px;
-          left: 0;
-          opacity: .8;
           position: absolute;
+          top: -1px;
           right: 0;
+          left: 0;
+          height: 4px;
+          content: "";
+          background-color: var(--atum-contrast);
+          opacity: .8;
         }
       }
 
@@ -99,17 +99,17 @@ joomla-tab {
     width: 100%;
 
     > ul {
-      flex-direction: column;
       flex: 0 0 25%;
+      flex-direction: column;
       width: 100%;
-      max-width: 25%;
       min-width: 25%;
+      max-width: 25%;
       height: auto;
+      padding: 0;
+      overflow: hidden;
       border: 1px solid $gray-300;
       border-radius: 0;
       box-shadow: none;
-      overflow: hidden;
-      padding: 0;
 
       @include media-breakpoint-down(md) {
         flex: 0 0 100%;
@@ -122,14 +122,14 @@ joomla-tab {
     }
 
     a[role=tab] {
-      display: block;
-      color: var(--atum-special-color);
-      padding: .75em 1em;
       position: relative;
+      display: block;
+      padding: .75em 1em;
+      color: var(--atum-special-color);
+      text-decoration: none;
       border: 0;
       border-bottom: 1px solid $gray-300;
       box-shadow: none;
-      text-decoration: none;
 
       &[active],
       &:hover {
@@ -161,10 +161,10 @@ joomla-tab {
   &[view=accordion] {
     > ul {
       flex-direction: column;
-      border-radius: 0;
       white-space: normal;
-      box-shadow: 0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04);
       background-color: var(--atum-link-color);
+      border-radius: 0;
+      box-shadow: 0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04);
     }
 
     section {

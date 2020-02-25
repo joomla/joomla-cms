@@ -122,13 +122,13 @@
     top: 0;
     display: block;
     width: .5rem;
-    padding: .8125rem;
     height: 1.625rem;
+    padding: .8125rem;
     line-height: 2;
-    border: 0;
-    opacity: 1;
     background-color: rgba(0, 0, 0, .2);
+    border: 0;
     border-radius: 0 20px 20px 0;
+    opacity: 1;
 
     [dir=ltr] & {
       right: 0;
