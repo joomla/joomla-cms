@@ -46,12 +46,12 @@
     display: none;
     flex-direction: row;
     flex-wrap: wrap;
+    width: 100%;
     padding: 1rem .5rem .5rem;
     margin-top: .5rem;
     margin-bottom: 1rem;
     background-color: $white;
     border-radius: 0 0 0 $border-radius;
-    width: 100%;
 
     joomla-field-fancy-select .choices,
     .custom-select {
@@ -90,9 +90,9 @@
       }
 
       option {
+        font-size: .875rem;
         color: var(--atum-text-dark);
         background-color: var(--white);
-        font-size: .875rem;
       }
     }
   }
@@ -105,8 +105,8 @@
 
     [dir=rtl] & {
       float: right;
-      margin-left: .5rem;
       margin-right: 0;
+      margin-left: .5rem;
     }
 
     @include media-breakpoint-down(sm) {
@@ -232,14 +232,14 @@
       }
 
       .js-stools-btn-clear {
-        background-color: var(--atum-bg-dark);
         color: var(--atum-text-light);
+        background-color: var(--atum-bg-dark);
         border: 1px solid var(--border);
         border-left: 1px solid var(--atum-text-light);
 
         [dir=rtl] & {
-          margin-left: 5px;
           margin-right: -1px !important;
+          margin-left: 5px;
         }
 
         @include media-breakpoint-down(sm) {
@@ -254,11 +254,11 @@
 
         &.disabled,
         &:disabled {
+          color: var(--atum-text-dark);
+          cursor: not-allowed;
           background-color: rgba($gray-300, .8);
           border-color: rgba($gray-500, .8);
           opacity: 1;
-          color: var(--atum-text-dark);
-          cursor: not-allowed;
         }
       }
 
@@ -284,10 +284,11 @@
     }
 
     .btn-primary .caret {
-      border-top: 0;
-      border-bottom: 4px solid #fff;
       margin-top: 7px;
       margin-bottom: 8px;
+      border-top: 0;
+      border-bottom: 4px solid #fff;
+
     }
   }
 }
