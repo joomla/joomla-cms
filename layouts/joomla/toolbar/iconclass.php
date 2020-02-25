@@ -60,5 +60,10 @@ if ( $icon === 'eye-open' )
 {
 	$icon = 'eye';
 }
+
+if ( $icon === 'refresh' )
+{
+	$icon = 'sync';
+}
 ?>
 fas fa-<?php echo $icon; ?>
