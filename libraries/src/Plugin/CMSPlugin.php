@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Plugin;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
@@ -123,7 +123,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 			$reflection = new \ReflectionClass($this);
 			$appProperty = $reflection->getProperty('app');
 
-			if ($appProperty->isPrivate() === false && is_null($this->app))
+			if ($appProperty->isPrivate() === false && \is_null($this->app))
 			{
 				$this->app = Factory::getApplication();
 			}
@@ -134,7 +134,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 			$reflection = new \ReflectionClass($this);
 			$dbProperty = $reflection->getProperty('db');
 
-			if ($dbProperty->isPrivate() === false && is_null($this->db))
+			if ($dbProperty->isPrivate() === false && \is_null($this->db))
 			{
 				$this->db = Factory::getDbo();
 			}
@@ -170,8 +170,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 			return true;
 		}
 
-		return $lang->load($extension, $basePath, null, false, true)
-			|| $lang->load($extension, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, null, false, true);
+		return $lang->load($extension, $basePath)
+			|| $lang->load($extension, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name);
 	}
 
 	/**
@@ -205,7 +205,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 		/** @var \ReflectionMethod $method */
 		foreach ($methods as $method)
 		{
-			if (substr($method->name, 0, 2) != 'on')
+			if (substr($method->name, 0, 2) !== 'on')
 			{
 				continue;
 			}
@@ -222,7 +222,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 			$parameters = $method->getParameters();
 
 			// If the parameter count is not 1 it is by definition a legacy listener
-			if (count($parameters) != 1)
+			if (\count($parameters) != 1)
 			{
 				$this->registerLegacyListener($method->name);
 
@@ -235,7 +235,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 			$paramName = $param->getName();
 
 			// No type hint / type hint class not an event and parameter name is not "event"? It's a legacy listener.
-			if ((empty($typeHint) || !$typeHint->implementsInterface('Joomla\\Event\\EventInterface')) && ($paramName != 'event'))
+			if ((empty($typeHint) || !$typeHint->implementsInterface('Joomla\\Event\\EventInterface')) && ($paramName !== 'event'))
 			{
 				$this->registerLegacyListener($method->name);
 

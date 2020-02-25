@@ -42,18 +42,33 @@ abstract class JHtmlAccess
 	 *
 	 * @return  string  The required HTML for the SELECT tag.
 	 *
-	 * @see    JFormFieldAccessLevel
+	 * @see    \Joomla\CMS\Form\Field\AccesslevelField
 	 * @since  1.6
 	 */
 	public static function level($name, $selected, $attribs = '', $params = true, $id = false)
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select($db->quoteName('a.id', 'value') . ', ' . $db->quoteName('a.title', 'text'))
+			->select(
+				[
+					$db->quoteName('a.id', 'value'),
+					$db->quoteName('a.title', 'text'),
+				]
+			)
 			->from($db->quoteName('#__viewlevels', 'a'))
-			->group($db->quoteName(array('a.id', 'a.title', 'a.ordering')))
-			->order($db->quoteName('a.ordering') . ' ASC')
-			->order($db->quoteName('title') . ' ASC');
+			->group(
+				[
+					$db->quoteName('a.id'),
+					$db->quoteName('a.title'),
+					$db->quoteName('a.ordering'),
+				]
+			)
+			->order(
+				[
+					$db->quoteName('a.ordering') . ' ASC',
+					$db->quoteName('a.title') . ' ASC',
+				]
+			);
 
 		// Get the options.
 		$db->setQuery($query);
@@ -94,7 +109,7 @@ abstract class JHtmlAccess
 	 *
 	 * @return  string   The required HTML for the SELECT tag.
 	 *
-	 * @see     JFormFieldUsergroup
+	 * @see     \Joomla\CMS\Form\Field\UsergrouplistField
 	 * @since   1.6
 	 */
 	public static function usergroup($name, $selected, $attribs = '', $allowAll = true, $id = false)
@@ -238,10 +253,21 @@ abstract class JHtmlAccess
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select('a.id AS value, a.title AS text')
-				->from($db->quoteName('#__viewlevels') . ' AS a')
-				->group('a.id, a.title, a.ordering')
-				->order('a.ordering ASC');
+				->select(
+					[
+						$db->quoteName('a.id', 'value'),
+						$db->quoteName('a.title', 'text'),
+					]
+				)
+				->from($db->quoteName('#__viewlevels', 'a'))
+				->group(
+					[
+						$db->quoteName('a.id'),
+						$db->quoteName('a.title'),
+						$db->quoteName('a.ordering'),
+					]
+				)
+				->order($db->quoteName('a.ordering') . ' ASC');
 
 			$db->setQuery($query);
 			static::$asset_groups = $db->loadObjectList();

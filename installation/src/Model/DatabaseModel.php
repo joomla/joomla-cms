@@ -11,7 +11,6 @@ namespace Joomla\CMS\Installation\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
@@ -19,6 +18,9 @@ use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\UTF8MB4SupportInterface;
@@ -197,9 +199,9 @@ class DatabaseModel extends BaseInstallationModel
 
 				return false;
 			}
+		}
 
-			// @TODO implement the security check
-			/**
+		// Security check for remote db hosts: Check env var if disabled
 		$shouldCheckLocalhost = getenv('JOOMLA_INSTALLATION_DISABLE_LOCALHOST_CHECK') !== '1';
 
 		// Per Default allowed DB Hosts
@@ -230,7 +232,7 @@ class DatabaseModel extends BaseInstallationModel
 					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 
 					// This is the file you need to remove if you want to use a remote database
-					$remoteDbFile = '_Joomla' . JUserHelper::genRandomPassword(21) . '.txt';
+					$remoteDbFile = '_Joomla' . UserHelper::genRandomPassword(21) . '.txt';
 					Factory::getSession()->set('remoteDbFile', $remoteDbFile);
 
 					// Get the path
@@ -241,8 +243,13 @@ class DatabaseModel extends BaseInstallationModel
 					{
 						// Request to create the file manually
 						Factory::getApplication()->enqueueMessage(
-							Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile),
-							'error'
+							Text::sprintf(
+								'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE',
+								$remoteDbFile,
+								'installation',
+								Text::_('INSTL_INSTALL_JOOMLA')
+							),
+							'notice'
 						);
 
 						Factory::getSession()->set('remoteDbFileUnwritable', true);
@@ -255,35 +262,52 @@ class DatabaseModel extends BaseInstallationModel
 
 					// Request to delete that file
 					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile),
-						'error'
+						Text::sprintf(
+							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE',
+							$remoteDbFile,
+							'installation',
+							Text::_('INSTL_INSTALL_JOOMLA')
+						),
+						'notice'
 					);
 
 					return false;
 				}
 
 				if (Factory::getSession()->get('remoteDbFileWrittenByJoomla', false) === true
-					&& file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
+					&& File::exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
 				{
 					// Add the general message
 					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 
+					// Request to delete the file
 					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE', $remoteDbFile),
-						'error'
+						Text::sprintf(
+							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_DELETE_FILE',
+							$remoteDbFile,
+							'installation',
+							Text::_('INSTL_INSTALL_JOOMLA')
+						),
+						'notice'
 					);
 
 					return false;
 				}
 
-				if (Factory::getSession()->get('remoteDbFileUnwritable', false) === true && !file_exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
+				if (Factory::getSession()->get('remoteDbFileUnwritable', false) === true && !File::exists(JPATH_INSTALLATION . '/' . $remoteDbFile))
 				{
 					// Add the general message
 					Factory::getApplication()->enqueueMessage($generalRemoteDatabaseMessage, 'warning');
 
+					// Request to create the file manually
 					Factory::getApplication()->enqueueMessage(
-						Text::sprintf('INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE', $remoteDbFile),
-						'error'
+						Text::sprintf(
+							'INSTL_DATABASE_HOST_IS_NOT_LOCALHOST_CREATE_FILE',
+							$remoteDbFile,
+							'installation',
+							Text::_('INSTL_INSTALL_JOOMLA')
+						),
+						'notice'
 					);
 
 					return false;
@@ -292,8 +316,6 @@ class DatabaseModel extends BaseInstallationModel
 				// All tests for this session passed set it to the session
 				Factory::getSession()->set('remoteDbFileTestsPassed', true);
 			}
-		}
-		*/
 		}
 
 		// Get a database object.
@@ -306,7 +328,8 @@ class DatabaseModel extends BaseInstallationModel
 				$options->db_pass_plain,
 				$options->db_name,
 				$options->db_prefix,
-				isset($options->db_select) ? $options->db_select : false
+				isset($options->db_select) ? $options->db_select : false,
+				DatabaseHelper::getEncryptionSettings($options)
 			);
 		}
 		catch (\RuntimeException $e)
@@ -379,6 +402,7 @@ class DatabaseModel extends BaseInstallationModel
 					'password' => $options->db_pass_plain,
 					'prefix'   => $options->db_prefix,
 					'select'   => $options->db_select,
+					DatabaseHelper::getEncryptionSettings($options),
 				);
 
 				$altDB = DatabaseDriver::getInstance($altDBoptions);
@@ -709,6 +733,17 @@ class DatabaseModel extends BaseInstallationModel
 			}
 		}
 
+		// Load the custom.sql for customising the data in joomla.sql.
+		$dbcustom = 'sql/' . $serverType . '/custom.sql';
+
+		if (is_file($dbcustom))
+		{
+			if (!$this->populateDatabase($db, $dbcustom))
+			{
+				return false;
+			}
+		}
+
 		// Handle default backend language setting. This feature is available for localized versions of Joomla.
 		$languages = Factory::getApplication()->getLocaliseAdmin($db);
 
@@ -756,73 +791,6 @@ class DatabaseModel extends BaseInstallationModel
 	}
 
 	/**
-	 * Method to install the sample data.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   3.1
-	 */
-	public function installSampleData()
-	{
-		$db = Factory::getDbo();
-
-		// Build the path to the sample data file.
-		$type = $db->getServerType();
-
-		if (Factory::getApplication()->input->get('sample_file', ''))
-		{
-			$sample_file = Factory::getApplication()->input->get('sample_file', '');
-		}
-		else
-		{
-			$sample_file = 'sample_testing.sql';
-		}
-
-		$data = JPATH_INSTALLATION . '/sql/' . $type . '/' . $sample_file;
-
-		// Attempt to import the database schema if one is chosen.
-		if ($sample_file != '')
-		{
-			if (!file_exists($data))
-			{
-				Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_FILE_DOES_NOT_EXIST', $data), 'error');
-
-				return false;
-			}
-			elseif (!$this->populateDatabase($db, $data))
-			{
-				return false;
-			}
-
-			$this->postInstallSampleData($db, $sample_file);
-		}
-
-		return true;
-	}
-
-	/**
-	 * Sample data tables and data post install process.
-	 *
-	 * @param   \JDatabaseDriver  $db              Database connector object $db*.
-	 * @param   string            $sampleFileName  The sample dats filename.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function postInstallSampleData($db, $sampleFileName = '')
-	{
-		// Update the sample data user ids.
-		$this->updateUserIds($db);
-
-		// If not joomla sample data for testing, update the sample data dates.
-		if ($sampleFileName !== 'sample_testing.sql')
-		{
-			$this->updateDates($db);
-		}
-	}
-
-	/**
 	 * Method to install the cms data.
 	 *
 	 * @return  boolean  True on success.
@@ -845,7 +813,7 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Cms tables and data post install process.
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   DatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  void
 	 *
@@ -856,14 +824,14 @@ class DatabaseModel extends BaseInstallationModel
 		// Update the cms data user ids.
 		$this->updateUserIds($db);
 
-		// Update the cms data dates.
-		$this->updateDates($db);
+		// Check for testing sampledata plugin.
+		$this->checkTestingSampledata($db);
 	}
 
 	/**
 	 * Method to update the user id of sql data content to the new rand user id.
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   DatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  void
 	 *
@@ -887,6 +855,7 @@ class DatabaseModel extends BaseInstallationModel
 			'#__ucm_content'     => array('core_created_user_id', 'core_modified_user_id'),
 			'#__ucm_history'     => array('editor_user_id'),
 			'#__user_notes'      => array('created_user_id', 'modified_user_id'),
+			'#__workflows'       => array('created_by', 'modified_by'),
 		);
 
 		foreach ($updatesArray as $table => $fields)
@@ -914,71 +883,53 @@ class DatabaseModel extends BaseInstallationModel
 	}
 
 	/**
-	 * Method to update the dates of sql data content to the current date.
+	 * Method to check for the testing sampledata plugin.
 	 *
-	 * @param   \JDatabaseDriver  $db  Database connector object $db*.
+	 * @param   DatabaseDriver  $db  Database connector object $db*.
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7.0
+	 * @since   4.0.0
 	 */
-	protected function updateDates($db)
+	public function checkTestingSampledata($db)
 	{
-		// Get the current date.
-		$currentDate = Factory::getDate()->toSql();
-		$nullDate    = $db->getNullDate();
+		$version = new Version;
 
-		// Update all core tables date fields of the tables with the current date.
-		$updatesArray = array(
-			'#__banners'             => array('publish_up', 'publish_down', 'reset', 'created', 'modified'),
-			'#__banner_tracks'       => array('track_date'),
-			'#__categories'          => array('created_time', 'modified_time'),
-			'#__contact_details'     => array('publish_up', 'publish_down', 'created', 'modified'),
-			'#__content'             => array('publish_up', 'publish_down', 'created', 'modified'),
-			'#__contentitem_tag_map' => array('tag_date'),
-			'#__fields'              => array('created_time', 'modified_time'),
-			'#__finder_filters'      => array('created', 'modified'),
-			'#__finder_links'        => array('indexdate', 'publish_start_date', 'publish_end_date', 'start_date', 'end_date'),
-			'#__messages'            => array('date_time'),
-			'#__modules'             => array('publish_up', 'publish_down'),
-			'#__newsfeeds'           => array('publish_up', 'publish_down', 'created', 'modified'),
-			'#__redirect_links'      => array('created_date', 'modified_date'),
-			'#__tags'                => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
-			'#__ucm_content'         => array('core_created_time', 'core_modified_time', 'core_publish_up', 'core_publish_down'),
-			'#__ucm_history'         => array('save_date'),
-			'#__users'               => array('registerDate', 'lastvisitDate', 'lastResetTime'),
-			'#__user_notes'          => array('publish_up', 'publish_down', 'created_time', 'modified_time'),
-		);
-
-		foreach ($updatesArray as $table => $fields)
+		if (!$version->isInDevelopmentState() || !is_file(JPATH_PLUGINS . '/sampledata/testing/testing.php'))
 		{
-			foreach ($fields as $field)
-			{
-				$query = $db->getQuery(true)
-					->update($db->quoteName($table))
-					->set($db->quoteName($field) . ' = ' . $db->quote($currentDate))
-					->where($db->quoteName($field) . ' IS NOT NULL')
-					->where($db->quoteName($field) . ' != ' . $db->quote($nullDate));
+			return;
+		}
 
-				$db->setQuery($query);
+		$testingPlugin = new \stdClass;
+		$testingPlugin->extension_id = null;
+		$testingPlugin->name = 'plg_sampledata_testing';
+		$testingPlugin->type = 'plugin';
+		$testingPlugin->element = 'testing';
+		$testingPlugin->folder = 'sampledata';
+		$testingPlugin->client_id = 0;
+		$testingPlugin->enabled = 1;
+		$testingPlugin->access = 1;
+		$testingPlugin->manifest_cache = '';
+		$testingPlugin->params = '{}';
 
-				try
-				{
-					$db->execute();
-				}
-				catch (\RuntimeException $e)
-				{
-					Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-				}
-			}
+		$db->insertObject('#__extensions', $testingPlugin, 'extension_id');
+
+		$installer = new Installer;
+
+		if (!$installer->refreshManifestCache($testingPlugin->extension_id))
+		{
+			Factory::getApplication()->enqueueMessage(
+				Text::sprintf('INSTL_DATABASE_COULD_NOT_REFRESH_MANIFEST_CACHE', $testingPlugin->name),
+				'error'
+			);
 		}
 	}
 
 	/**
 	 * Method to backup all tables in a database with a given prefix.
 	 *
-	 * @param   \JDatabaseDriver  $db      JDatabaseDriver object.
-	 * @param   string            $prefix  Database table prefix.
+	 * @param   DatabaseDriver  $db      JDatabaseDriver object.
+	 * @param   string          $prefix  Database table prefix.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1035,10 +986,10 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to create a new database.
 	 *
-	 * @param   \JDatabaseDriver  $db       JDatabase object.
-	 * @param   \JObject          $options  JObject coming from "initialise" function to pass user
-	 *                                      and database name to database driver.
-	 * @param   boolean           $utf      True if the database supports the UTF-8 character set.
+	 * @param   DatabaseDriver  $db       Database object.
+	 * @param   CMSObject       $options  CMSObject coming from "initialise" function to pass user
+	 *                                    and database name to database driver.
+	 * @param   boolean         $utf      True if the database supports the UTF-8 character set.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1064,8 +1015,8 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to delete all tables in a database with a given prefix.
 	 *
-	 * @param   \JDatabaseDriver  $db      JDatabaseDriver object.
-	 * @param   string            $prefix  Database table prefix.
+	 * @param   DatabaseDriver  $db      JDatabaseDriver object.
+	 * @param   string          $prefix  Database table prefix.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -1134,7 +1085,7 @@ class DatabaseModel extends BaseInstallationModel
 			$query = trim($query);
 
 			// If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
-			if (!empty($query) && ($query{0} != '#') && ($query{0} != '-'))
+			if (!empty($query) && ($query[0] != '#') && ($query[0] != '-'))
 			{
 				/**
 				 * If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -139,7 +139,7 @@ class TimezoneField extends GroupedlistField
 			list ($group, $locale) = explode('/', $zone, 2);
 
 			// Only use known groups.
-			if (in_array($group, self::$zones))
+			if (\in_array($group, self::$zones))
 			{
 				// Initialize the group if necessary.
 				if (!isset($groups[$group]))

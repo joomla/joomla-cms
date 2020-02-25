@@ -15,6 +15,7 @@ use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\Exception\MissingComponentException;
+use Joomla\CMS\Dispatcher\ApiDispatcher;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -310,8 +311,8 @@ class ComponentHelper
 		{
 			// Load template language files.
 			$template = $app->getTemplate(true)->template;
-			$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
+			$lang->load('tpl_' . $template, JPATH_BASE)
+			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template");
 		}
 
 		if (empty($option))
@@ -407,14 +408,25 @@ class ComponentHelper
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
+				->select($db->quoteName(['extension_id', 'element', 'params', 'enabled'], ['id', 'option', null, null]))
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('type') . ' = ' . $db->quote('component'))
-				->where($db->quoteName('state') . ' = 0')
-				->where($db->quoteName('enabled') . ' = 1');
+				->where(
+					[
+						$db->quoteName('type') . ' = ' . $db->quote('component'),
+						$db->quoteName('state') . ' = 0',
+						$db->quoteName('enabled') . ' = 1',
+					]
+				);
+
+			$components = [];
 			$db->setQuery($query);
 
-			return $db->loadObjectList('option', '\JComponentRecord');
+			foreach ($db->getIterator() as $component)
+			{
+				$components[$component->option] = new ComponentRecord((array) $component);
+			}
+
+			return $components;
 		};
 
 		/** @var CallbackController $cache */
@@ -464,7 +476,7 @@ class ComponentHelper
 	{
 		$reflect = new \ReflectionClass($object);
 
-		if (!$reflect->getNamespaceName() || \get_class($object) == ComponentDispatcher::class)
+		if (!$reflect->getNamespaceName() || \get_class($object) === ComponentDispatcher::class || \get_class($object) === ApiDispatcher::class)
 		{
 			return 'com_' . strtolower($alternativeName);
 		}

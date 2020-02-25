@@ -156,8 +156,8 @@
 		</copy>
 		<echo message="Copy language files" />
 		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language" />
-		<copyfile src="${basedir}/administrator/language/en-GB/en-GB.com_joomlaupdate.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB.com_joomlaupdate.ini"/>
-		<copyfile src="${basedir}/administrator/language/en-GB/en-GB.com_joomlaupdate.sys.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB.com_joomlaupdate.sys.ini"/>
+		<copyfile src="${basedir}/administrator/language/en-GB/com_joomlaupdate.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB/com_joomlaupdate.ini"/>
+		<copyfile src="${basedir}/administrator/language/en-GB/com_joomlaupdate.sys.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB/com_joomlaupdate.sys.ini"/>
 		<echo message="Archiving package" />
 		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/packages" />
 		<zip destfile="${basedir}/build/com_joomlaupdate-pkg/packages/com_joomlaupdate.zip" basedir="${basedir}/build/com_joomlaupdate-pkg/staging" />

@@ -33,7 +33,7 @@ libraries/src/Updater/*  @rdeutz @wilsonge @zero-24
 # Automated Testing
 tests/*  @hackwar
 tests/Codeception/*  @rdeutz
-tests/javascript/*  @wilsonge @rdeutz
+tests/javascript/*  @rdeutz
 tests/Unit/*  @rdeutz
 .appveyor.yml  @rdeutz @hackwar
 .drone.yml  @rdeutz @hackwar
@@ -42,9 +42,6 @@ codeception.yml  @rdeutz @hackwar
 phpunit.xml.dist  @rdeutz @hackwar
 phpunit-pgsql.xml.dist  @rdeutz @hackwar
 RoboFile.php  @rdeutz @hackwar
-
-# Core JS
-build/media_source/*/js/*  @wilsonge
 
 # CSP Tooling
 plugins/system/httpheaders/*  @zero-24

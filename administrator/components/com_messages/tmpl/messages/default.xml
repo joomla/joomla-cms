@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_MESSAGES_MESSAGES_VIEW_DEFAULT_TITLE">
+		<message>
+			<![CDATA[COM_MESSAGES_MESSAGES_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+</metadata>

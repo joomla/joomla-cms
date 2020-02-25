@@ -16,7 +16,7 @@ use Joomla\CMS\Form\Form;
  *
  * @since  3.7.0
  */
-class PlgFieldsImagelist extends \Joomla\Component\Fields\Administrator\Plugin\FieldsListPlugin
+class PlgFieldsImagelist extends \Joomla\Component\Fields\Administrator\Plugin\FieldsPlugin
 {
 	/**
 	 * Transforms the field into a DOM XML element and appends it as a child on the given parent.

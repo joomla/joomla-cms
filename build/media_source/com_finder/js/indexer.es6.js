@@ -54,11 +54,12 @@
           progressBar.style.width = `${progress}%`;
           progressBar.setAttribute('aria-valuenow', progress);
         }
+
         // Auto close the window
-        // if (message === msg) {
-        //   removeElement('progress');
-        //   Joomla.Modal.getCurrent().close();
-        // }
+        if (message === Joomla.Text._('COM_FINDER_INDEXER_MESSAGE_COMPLETE')) {
+          removeElement('progress');
+          window.parent.Joomla.Modal.getCurrent().close();
+        }
       }
     };
 

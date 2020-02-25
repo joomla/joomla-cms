@@ -66,7 +66,7 @@ $validate     = $validate ? ' data-validate="' . $validate . '"' : '';
 $disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
 $hint         = strlen($hint) ? ' placeholder="' . $this->escape($hint) . '"' : ' placeholder="' . $placeholder . '"';
-$autocomplete = ! $autocomplete ? ' autocomplete="off"' : '';
+$autocomplete = !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '';
 
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
 $direction = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';

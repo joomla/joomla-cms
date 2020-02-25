@@ -9,7 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 
 extract($displayData);
 
@@ -48,7 +48,7 @@ extract($displayData);
  */
 
 // Initialize some field attributes.
-$attributes['id'] = 'id="' . $id . '"';
+$attributes['dataid'] = 'data-id="' . $id . '"';
 $attributes['data-url'] = 'data-url="index.php?option=com_modules&task=module.orderPosition&' . $token . '"';
 $attributes['data-element'] = 'data-element="parent_' . $id . '"';
 $attributes['data-ordering'] = 'data-ordering="' . $ordering . '"';
@@ -76,6 +76,8 @@ if ($onchange)
 	$attributes['onchange'] = 'onchange="' . $onchange . '"';
 }
 
-HTMLHelper::_('webcomponent', 'system/fields/joomla-field-module-order.min.js', ['version' => 'auto', 'relative' => true]);
+Factory::getDocument()->getWebAssetManager()
+	->useScript('webcomponent.field-module-order');
+
 ?>
-<joomla-field-module-order <?php echo implode($attributes, ' '); ?>></joomla-field-module-order>
+<joomla-field-module-order <?php echo implode(' ', $attributes); ?>></joomla-field-module-order>

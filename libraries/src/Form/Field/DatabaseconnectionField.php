@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
@@ -61,7 +61,7 @@ class DatabaseconnectionField extends ListField
 
 			foreach ($supported as $support)
 			{
-				if (in_array($support, $available))
+				if (\in_array($support, $available))
 				{
 					$options[$support] = Text::_(ucfirst($support));
 				}

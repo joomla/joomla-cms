@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Session\EventListener;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Registry\Registry;

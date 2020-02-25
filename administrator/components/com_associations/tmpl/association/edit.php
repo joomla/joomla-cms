@@ -12,6 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Associations\Administrator\View\Association\HtmlView;
+
+/** @var HtmlView $this */
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
@@ -20,11 +23,14 @@ HTMLHelper::_('jquery.framework');
 HTMLHelper::_('script', 'com_associations/sidebyside.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', ['version' => 'auto', 'relative' => true]);
 
-$options = array(
-			'layout'   => $this->app->input->get('layout', '', 'string'),
-			'itemtype' => $this->itemtype,
-			'id'       => $this->referenceId,
-		);
+$this->document->getWebAssetManager()
+	->useScript('webcomponent.core-loader');
+
+$options = [
+	'layout'   => $this->app->input->get('layout', '', 'string'),
+	'itemtype' => $this->itemType,
+	'id'       => $this->referenceId,
+];
 ?>
 <button id="toogle-left-panel" class="btn btn-sm btn-secondary"
 		data-show-reference="<?php echo Text::_('COM_ASSOCIATIONS_EDIT_SHOW_REFERENCE'); ?>"
@@ -43,6 +49,7 @@ $options = array(
 					data-item="<?php echo $this->typeName; ?>"
 					data-id="<?php echo $this->referenceId; ?>"
 					data-title="<?php echo $this->referenceTitle; ?>"
+					data-title-value="<?php echo $this->referenceTitleValue; ?>"
 					data-language="<?php echo $this->referenceLanguage; ?>"
 					data-editurl="<?php echo Route::_($this->editUri); ?>">
 				</iframe>
@@ -51,9 +58,18 @@ $options = array(
 		<div class="outer-panel" id="right-panel">
 			<div class="inner-panel">
 				<div class="language-selector">
-					<h3 class="target-text"><?php echo Text::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
-					<?php echo $this->form->getInput('modalassociation'); ?>
-					<?php echo $this->form->getInput('itemlanguage'); ?>
+					<div class="clearfix">
+						<h3 class="target-text"><?php echo Text::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
+					</div>
+					<div class="langtarget">
+						<div class="sr-only">
+							<?php echo $this->form->getLabel('itemlanguage'); ?>
+						</div>
+						<?php echo $this->form->getInput('itemlanguage'); ?>
+					</div>
+					<div class="modaltarget">
+						<?php echo $this->form->getInput('modalassociation'); ?>
+					</div>
 				</div>
 				<iframe id="target-association" name="target-association" title="target-association"
 					src="<?php echo $this->defaultTargetSrc; ?>"
@@ -67,7 +83,6 @@ $options = array(
 				</iframe>
 			</div>
 		</div>
-
 	</div>
 
 	<input type="hidden" name="task" value="">

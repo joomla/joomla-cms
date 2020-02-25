@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Utility;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -36,9 +36,9 @@ class Utility
 		// Let's grab all the key/value pairs using a regular expression
 		preg_match_all('/([\w:-]+)[\s]?=[\s]?"([^"]*)"/i', $string, $attr);
 
-		if (is_array($attr))
+		if (\is_array($attr))
 		{
-			$numPairs = count($attr[1]);
+			$numPairs = \count($attr[1]);
 
 			for ($i = 0; $i < $numPairs; $i++)
 			{

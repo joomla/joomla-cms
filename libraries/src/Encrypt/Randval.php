@@ -8,12 +8,12 @@
 
 namespace Joomla\CMS\Encrypt;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Generates cryptographically-secure random values.
  *
- * @since    __DEPLOY_VERSION__
+ * @since    4.0.0
  */
 class Randval implements RandValInterface
 {
@@ -27,7 +27,7 @@ class Randval implements RandValInterface
 	 */
 	public function generate($bytes = 32)
 	{
-		if (extension_loaded('openssl') && (version_compare(PHP_VERSION, '5.3.4') >= 0 || IS_WIN))
+		if (\extension_loaded('openssl') && (version_compare(PHP_VERSION, '5.3.4') >= 0 || IS_WIN))
 		{
 			$strong = false;
 			$randBytes = openssl_random_pseudo_bytes($bytes, $strong);
@@ -38,7 +38,7 @@ class Randval implements RandValInterface
 			}
 		}
 
-		if (extension_loaded('mcrypt'))
+		if (\extension_loaded('mcrypt'))
 		{
 			return mcrypt_create_iv($bytes, MCRYPT_DEV_URANDOM);
 		}
@@ -73,7 +73,7 @@ class Randval implements RandValInterface
 		$handle = null;
 
 		// This is PHP 5.3.3 and up
-		if (function_exists('stream_set_read_buffer') && @is_readable('/dev/urandom'))
+		if (\function_exists('stream_set_read_buffer') && @is_readable('/dev/urandom'))
 		{
 			$handle = @fopen('/dev/urandom', 'rb');
 
@@ -83,7 +83,7 @@ class Randval implements RandValInterface
 			}
 		}
 
-		while ($length > strlen($randomStr))
+		while ($length > \strlen($randomStr))
 		{
 			$bytes = ($total > $shaHashLength) ? $shaHashLength : $total;
 			$total -= $bytes;

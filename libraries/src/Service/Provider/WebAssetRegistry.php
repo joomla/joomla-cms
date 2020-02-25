@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Service\Provider;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\WebAsset\WebAssetRegistry as Registry;
 use Joomla\DI\Container;
@@ -40,7 +40,8 @@ class WebAssetRegistry implements ServiceProviderInterface
 					$registry = new Registry;
 
 					// Add Core registry files
-					$registry->addRegistryFile('media/vendor/joomla.asset.json')
+					$registry
+						->addRegistryFile('media/vendor/joomla.asset.json')
 						->addRegistryFile('media/system/joomla.asset.json')
 						->addRegistryFile('media/legacy/joomla.asset.json');
 

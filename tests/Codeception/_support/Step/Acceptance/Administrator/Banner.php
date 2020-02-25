@@ -56,7 +56,7 @@ class Banner extends Admin
 	public function assertSuccessMessage($message)
 	{
 		$I = $this;
-		$I->waitForText($message, TIMEOUT, BannerListPage::$systemMessageContainer);
+		$I->waitForText($message, $I->getConfig('timeout'), BannerListPage::$systemMessageContainer);
 		$I->see($message, BannerListPage::$systemMessageContainer);
 	}
 
@@ -81,7 +81,7 @@ class Banner extends Admin
 		$I->click(BannerListPage::$filterSearch);
 		$I->checkAllResults();
 		$I->click($bannerTitle);
-		$I->waitForElement(BannerListPage::$titleField, TIMEOUT);
+		$I->waitForElement(BannerListPage::$titleField, $I->getConfig('timeout'));
 		$I->fillField(BannerListPage::$titleField, $updatedTitle);
 		$I->fillField(BannerListPage::$aliasField, $updatedTitle);
 		$I->clickToolbarButton('Save & Close');
@@ -104,7 +104,7 @@ class Banner extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(BannerListPage::$url);
-		$I->waitForElement(BannerListPage::$searchField, TIMEOUT);
+		$I->waitForElement(BannerListPage::$searchField, $I->getConfig('timeout'));
 		$I->fillField(BannerListPage::$searchField, $bannerTitle);
 		$I->Click(BannerListPage::$filterSearch);
 		$I->checkAllResults();
@@ -128,7 +128,7 @@ class Banner extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(BannerListPage::$url);
-		$I->waitForElement(BannerListPage::$searchField, TIMEOUT);
+		$I->waitForElement(BannerListPage::$searchField, $I->getConfig('timeout'));
 		$I->fillField(BannerListPage::$searchField, $bannerTitle);
 		$I->Click(BannerListPage::$filterSearch);
 		$I->checkAllResults();
@@ -152,7 +152,7 @@ class Banner extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(BannerListPage::$url);
-		$I->waitForElement(BannerListPage::$searchField, TIMEOUT);
+		$I->waitForElement(BannerListPage::$searchField, $I->getConfig('timeout'));
 		$I->fillField(BannerListPage::$searchField, $bannerTitle);
 		$I->Click(BannerListPage::$filterSearch);
 		$I->checkAllResults();
@@ -176,7 +176,7 @@ class Banner extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(BannerListPage::$url);
-		$I->waitForElement(BannerListPage::$searchField, TIMEOUT);
+		$I->waitForElement(BannerListPage::$searchField, $I->getConfig('timeout'));
 		$I->fillField(BannerListPage::$searchField, $bannerTitle);
 		$I->Click(BannerListPage::$filterSearch);
 		$I->checkAllResults();
@@ -200,7 +200,7 @@ class Banner extends Admin
 	{
 		$I = $this;
 		$I->amOnPage(BannerListPage::$url);
-		$I->waitForElement(BannerListPage::$searchField, TIMEOUT);
+		$I->waitForElement(BannerListPage::$searchField, $I->getConfig('timeout'));
 		$I->selectOptionInChosenByIdUsingJs('filter_published', "Trashed");
 		$I->fillField(BannerListPage::$searchField, $bannerTitle);
 		$I->Click(BannerListPage::$filterSearch);

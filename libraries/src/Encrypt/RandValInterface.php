@@ -8,12 +8,12 @@
 
 namespace Joomla\CMS\Encrypt;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Interface RandValInterface
  *
- * @since   __DEPLOY_VERSION__
+ * @since   4.0.0
  */
 interface RandValInterface
 {

@@ -32,8 +32,8 @@ HTMLHelper::_('bootstrap.framework');
 					<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
 				<?php endif; ?>
 				<?php if ($item->link) : ?>
-					<a href="<?php echo $item->link; ?>">
-						<span class="fa fa-pen-square mr-2" aria-hidden="true"></span><?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
+					<a href="<?php echo $item->link; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
+						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 					</a>
 				<?php else : ?>
 					<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
@@ -43,12 +43,7 @@ HTMLHelper::_('bootstrap.framework');
 				<?php echo $item->author_name; ?>
 			</td>
 			<td>
-				<span class="badge badge-secondary badge-pill">
-					<span class="small">
-						<span class="icon-calendar" aria-hidden="true"></span>
-						<?php echo HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC4')); ?>
-					</span>
-				</span>
+				<?php echo HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC4')); ?>
 			</td>
 		</tr>
 		<?php endforeach; ?>

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Filesystem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * File system helper
@@ -33,16 +33,16 @@ class FilesystemHelper
 	{
 		$sch = parse_url($url, PHP_URL_SCHEME);
 
-		if (($sch != 'http') && ($sch != 'https') && ($sch != 'ftp') && ($sch != 'ftps'))
+		if (($sch !== 'http') && ($sch !== 'https') && ($sch !== 'ftp') && ($sch !== 'ftps'))
 		{
 			return false;
 		}
 
-		if (($sch == 'http') || ($sch == 'https'))
+		if (($sch === 'http') || ($sch === 'https'))
 		{
 			$headers = get_headers($url, 1);
 
-			if ((!array_key_exists('Content-Length', $headers)))
+			if ((!\array_key_exists('Content-Length', $headers)))
 			{
 				return false;
 			}
@@ -50,7 +50,7 @@ class FilesystemHelper
 			return $headers['Content-Length'];
 		}
 
-		if (($sch == 'ftp') || ($sch == 'ftps'))
+		if (($sch === 'ftp') || ($sch === 'ftps'))
 		{
 			$server = parse_url($url, PHP_URL_HOST);
 			$port = parse_url($url, PHP_URL_PORT);
@@ -128,7 +128,7 @@ class FilesystemHelper
 	{
 		$sch = parse_url($url, PHP_URL_SCHEME);
 
-		if (($sch != 'ftp') && ($sch != 'ftps'))
+		if (($sch !== 'ftp') && ($sch !== 'ftps'))
 		{
 			return false;
 		}
@@ -292,7 +292,7 @@ class FilesystemHelper
 	 */
 	public static function isJoomlaStream($streamname)
 	{
-		return in_array($streamname, self::getJStreams());
+		return \in_array($streamname, self::getJStreams());
 	}
 
 	/**

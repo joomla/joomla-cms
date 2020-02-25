@@ -10,7 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Registry\Registry;
 
@@ -51,7 +50,9 @@ abstract class JHtmlSearchtools
 			$options = static::optionsToRegistry($options);
 
 			// Load the script && css files
-			Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('searchtools');
+			Factory::getApplication()->getDocument()->getWebAssetManager()
+				->useStyle('searchtools')
+				->useScript('searchtools');
 
 			Factory::getDocument()->addScriptOptions('searchtools', $options);
 

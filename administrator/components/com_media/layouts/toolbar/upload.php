@@ -9,10 +9,17 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+
+Factory::getDocument()->getWebAssetManager()
+	->useScript('webcomponent.toolbar-button');
 
 $title = Text::_('JTOOLBAR_UPLOAD');
 ?>
-<button class="btn btn-sm btn-success" onclick="MediaManager.Event.fire('onClickUpload');">
-	<span class="icon-upload"></span> <?php echo $title; ?>
-</button>
+<joomla-toolbar-button>
+	<button class="btn btn-sm btn-success" onclick="MediaManager.Event.fire('onClickUpload');">
+		<span class="fas fa-upload" aria-hidden="true"></span>
+		<?php echo $title; ?>
+	</button>
+</joomla-toolbar-button>

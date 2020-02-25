@@ -43,7 +43,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     imagePreview.src = data.contents;
     imagePreview.id = 'image-preview';
     imagePreview.style.maxWidth = '100%';
-    editContainer.style.display = 'none';
+    editContainer.classList.add('hidden');
 
     editContainer.appendChild(imageSrc);
     baseContainer.appendChild(editContainer);

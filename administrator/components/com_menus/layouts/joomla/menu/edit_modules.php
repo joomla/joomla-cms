@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  Layout
+ * @subpackage  com_menus
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -47,7 +47,7 @@ if (!$saveHistory)
 }
 
 $html   = array();
-$html[] = '<fieldset><ul class="horizontal-buttons unstyled">';
+$html[] = '<fieldset><ul class="horizontal-buttons list-unstyled">';
 
 foreach ($fields as $field)
 {

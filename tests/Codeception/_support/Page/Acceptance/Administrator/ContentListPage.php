@@ -80,4 +80,14 @@ class ContentListPage extends AdminListPage
 	 * @since  4.0.0
 	 */
 	public static $seeUnpublished = ['xpath' => "//table[@id='articleList']//*//span[@class='icon-unpublish']"];
+
+	public static $articleTitleField = [ 'id' => "jform_title" ];
+
+	public static $articleAliasField = [ 'id' => "jform_alias" ];
+
+	public static $articleSearchField = [ 'id' => "filter_search" ];
+
+	public static $searchButton = [ 'xpath' => "//button[@aria-label='Search']" ];
+
+	public static $systemMessageAlertClose = ['class' => "joomla-alert--close"];
 }

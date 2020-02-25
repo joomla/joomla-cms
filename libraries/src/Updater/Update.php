@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Updater;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -239,7 +239,7 @@ class Update extends CMSObject
 	 */
 	protected function _getLastTag()
 	{
-		return $this->stack[count($this->stack) - 1];
+		return $this->stack[\count($this->stack) - 1];
 	}
 
 	/**
@@ -354,6 +354,18 @@ class Update extends CMSObject
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
 
+						// MySQL and MariaDB use the same database driver but not the same version numbers
+						if ($dbType === 'mysql')
+						{
+							// Check whether we have a MariaDB version string and extract the proper version from it
+							if (stripos($dbVersion, 'mariadb') !== false)
+							{
+								// MariaDB: Strip off any leading '5.5.5-', if present
+								$dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
+								$dbType    = 'mariadb';
+							}
+						}
+
 						// Do we have an entry for the database?
 						if (isset($supportedDbs->$dbType))
 						{
@@ -435,14 +447,14 @@ class Update extends CMSObject
 		// Throw the data for this item together
 		$tag = strtolower($tag);
 
-		if ($tag == 'tag')
+		if ($tag === 'tag')
 		{
 			$this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
 
 			return;
 		}
 
-		if ($tag == 'downloadsource')
+		if ($tag === 'downloadsource')
 		{
 			// Grab the last source so we can append the URL
 			$source = end($this->downloadSources);
@@ -530,9 +542,9 @@ class Update extends CMSObject
 	{
 		$constant = '\\Joomla\\CMS\\Updater\\Updater::STABILITY_' . strtoupper($tag);
 
-		if (defined($constant))
+		if (\defined($constant))
 		{
-			return constant($constant);
+			return \constant($constant);
 		}
 
 		return Updater::STABILITY_STABLE;

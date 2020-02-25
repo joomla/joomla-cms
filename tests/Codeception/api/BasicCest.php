@@ -55,7 +55,7 @@ class BasicCest
 	{
 		$I->amHttpAuthenticated('admin', 'wrong');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
-		$I->sendGET('/article/1');
+		$I->sendGET('/content/article/1');
 		$I->seeResponseCodeIs(Codeception\Util\HttpCode::UNAUTHORIZED);
 	}
 
@@ -72,7 +72,7 @@ class BasicCest
 	{
 		$I->amHttpAuthenticated('admin', 'admin');
 		$I->haveHttpHeader('Accept', 'text/xml');
-		$I->sendGET('/article/1');
+		$I->sendGET('/content/article/1');
 		$I->seeResponseCodeIs(Codeception\Util\HttpCode::NOT_ACCEPTABLE);
 	}
 

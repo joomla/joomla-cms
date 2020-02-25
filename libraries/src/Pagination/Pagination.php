@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Pagination;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
@@ -516,7 +516,7 @@ class Pagination
 		{
 			include_once $chromePath;
 
-			if (function_exists('pagination_list_footer'))
+			if (\function_exists('pagination_list_footer'))
 			{
 				Log::add('pagination_list_footer is deprecated. Use the layout joomla.pagination.links instead.', Log::WARNING, 'deprecated');
 

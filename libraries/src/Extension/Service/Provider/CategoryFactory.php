@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Extension\Service\Provider;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Categories\CategoryFactoryInterface;
 use Joomla\DI\Container;

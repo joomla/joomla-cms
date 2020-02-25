@@ -33,7 +33,7 @@
 				label="COM_FINDER_CONFIG_SHOW_DATE_FILTERS_LABEL"
 				default=""
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
@@ -44,7 +44,7 @@
 				label="COM_FINDER_CONFIG_SHOW_ADVANCED_LABEL"
 				default=""
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
@@ -55,7 +55,7 @@
 				label="COM_FINDER_CONFIG_EXPAND_ADVANCED_LABEL"
 				default=""
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
@@ -67,7 +67,7 @@
 				label="COM_FINDER_CONFIG_SHOW_TAXONOMY_LABEL"
 				default=""
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
@@ -78,7 +78,7 @@
 				label="COM_FINDER_CONFIG_SHOW_DESCRIPTION_LABEL"
 				default=""
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
@@ -97,7 +97,7 @@
 				label="COM_FINDER_CONFIG_SHOW_DATE_LABEL"
 				default=""
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
@@ -108,7 +108,7 @@
 				label="COM_FINDER_CONFIG_SHOW_URL_LABEL"
 				default=""
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
@@ -121,7 +121,7 @@
 				type="list"
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				validate="options"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -132,7 +132,7 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_LABEL"
 				validate="options"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -144,7 +144,7 @@
 				type="list"
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				validate="options"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>
@@ -157,7 +157,7 @@
 				description="COM_FINDER_ALLOW_EMPTY_QUERY_DESC"
 				default=""
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
@@ -168,7 +168,7 @@
 				label="COM_FINDER_CONFIG_SHOW_SUGGESTED_QUERY_LABEL"
 				default=""
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
@@ -179,7 +179,7 @@
 				label="COM_FINDER_CONFIG_SHOW_EXPLAINED_QUERY_LABEL"
 				default=""
 				useglobal="true"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
@@ -212,7 +212,7 @@
 				type="list"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
 				validate="options"
-				class="chzn-color"
+				class="custom-select-color-state"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="0">JHIDE</option>

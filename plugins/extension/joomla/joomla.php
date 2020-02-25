@@ -25,7 +25,7 @@ class PlgExtensionJoomla extends CMSPlugin
 	 * Database driver
 	 *
 	 * @var    DatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $db;
 
@@ -144,7 +144,7 @@ class PlgExtensionJoomla extends CMSPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onExtensionAfterInstall($installer, $eid )
+	public function onExtensionAfterInstall($installer, $eid)
 	{
 		if ($eid)
 		{

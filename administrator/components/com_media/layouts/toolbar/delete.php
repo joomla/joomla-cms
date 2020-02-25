@@ -9,10 +9,17 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+
+Factory::getDocument()->getWebAssetManager()
+	->useScript('webcomponent.toolbar-button');
 
 $title = Text::_('JTOOLBAR_DELETE');
 ?>
-<button id="mediaDelete" class="btn btn-sm btn-danger" onclick="MediaManager.Event.fire('onClickDelete');">
-	<span class="icon-delete"></span> <?php echo $title; ?>
-</button>
+<joomla-toolbar-button>
+	<button id="mediaDelete" class="btn btn-sm btn-danger" onclick="MediaManager.Event.fire('onClickDelete');">
+		<span class="fas fa-times" aria-hidden="true"></span>
+		<?php echo $title; ?>
+	</button>
+</joomla-toolbar-button>

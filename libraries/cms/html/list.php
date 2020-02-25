@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\String\StringHelper;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Utility class for creating different select lists
@@ -82,8 +83,8 @@ abstract class JHtmlList
 	/**
 	 * Returns an array of options
 	 *
-	 * @param   string   $query  SQL with 'ordering' AS value and 'name field' AS text
-	 * @param   integer  $chop   The length of the truncated headline
+	 * @param   DatabaseQuery|string   $query  SQL with 'ordering' AS value and 'name field' AS text
+	 * @param   integer                $chop   The length of the truncated headline
 	 *
 	 * @return  array  An array of objects formatted for JHtml list processing
 	 *
@@ -104,7 +105,7 @@ abstract class JHtmlList
 			return $options;
 		}
 
-		$options[] = HTMLHelper::_('select.option', 0, '0 ' . Text::_('JOPTION_ORDER_FIRST'));
+		$options[] = HTMLHelper::_('select.option', 0, '0. ' . Text::_('JOPTION_ORDER_FIRST'));
 
 		for ($i = 0, $n = count($items); $i < $n; $i++)
 		{
@@ -122,7 +123,7 @@ abstract class JHtmlList
 			$options[] = HTMLHelper::_('select.option', $items[$i]->value, $items[$i]->value . '. ' . $text);
 		}
 
-		$options[] = HTMLHelper::_('select.option', $items[$i - 1]->value + 1, ($items[$i - 1]->value + 1) . ' ' . Text::_('JOPTION_ORDER_LAST'));
+		$options[] = HTMLHelper::_('select.option', $items[$i - 1]->value + 1, ($items[$i - 1]->value + 1) . '. ' . Text::_('JOPTION_ORDER_LAST'));
 
 		return $options;
 	}
@@ -135,12 +136,13 @@ abstract class JHtmlList
 	 * @param   string   $attribs   HTML tag attributes
 	 * @param   string   $selected  The selected item
 	 * @param   integer  $neworder  1 if new and first, -1 if new and last, 0  or null if existing item
+	 * @param   string   $id        ID attribute for the resulting <select> element
 	 *
 	 * @return  string   HTML markup for the select list
 	 *
 	 * @since   1.6
 	 */
-	public static function ordering($name, $query, $attribs = null, $selected = null, $neworder = null)
+	public static function ordering($name, $query, $attribs = null, $selected = null, $neworder = null, ?string $id = null)
 	{
 		if (empty($attribs))
 		{
@@ -150,7 +152,12 @@ abstract class JHtmlList
 		if (empty($neworder))
 		{
 			$orders = HTMLHelper::_('list.genericordering', $query);
-			$html = HTMLHelper::_('select.genericlist', $orders, $name, array('list.attr' => $attribs, 'list.select' => (int) $selected));
+			$html   = HTMLHelper::_(
+				'select.genericlist',
+				$orders,
+				$name,
+				['list.attr' => $attribs, 'list.select' => (int) $selected, 'id' => $id ?? false]
+			);
 		}
 		else
 		{
@@ -186,12 +193,17 @@ abstract class JHtmlList
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('u.id AS value, u.name AS text')
-			->from('#__users AS u')
-			->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = u.id')
-			->where('u.block = 0')
+			->select(
+				[
+					$db->quoteName('u.id', 'value'),
+					$db->quoteName('u.name', 'text'),
+				]
+			)
+			->from($db->quoteName('#__users', 'u'))
+			->join('LEFT', $db->quoteName('#__user_usergroup_map', 'm'), $db->quoteName('m.user_id') . ' = ' . $db->quoteName('u.id'))
+			->where($db->quoteName('u.block') . ' = 0')
 			->order($order)
-			->group('u.id');
+			->group($db->quoteName('u.id'));
 		$db->setQuery($query);
 
 		if ($nouser)

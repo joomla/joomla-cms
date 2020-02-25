@@ -18,8 +18,10 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Database\ParameterType;
 
 /**
  * Sampledata - Multilang Plugin
@@ -87,6 +89,11 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onSampledataGetOverview()
 	{
+		if (!Factory::getUser()->authorise('core.create', 'com_content'))
+		{
+			return;
+		}
+
 		$data              = new stdClass;
 		$data->name        = $this->_name;
 		$data->title       = Text::_('PLG_SAMPLEDATA_MULTILANG_OVERVIEW_TITLE');
@@ -106,7 +113,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep1()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		}
@@ -152,12 +159,12 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep2()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		}
 
-		if (!ComponentHelper::isEnabled('com_modules'))
+		if (!ComponentHelper::isEnabled('com_modules') || !Factory::getUser()->authorise('core.create', 'com_modules'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -196,7 +203,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep3()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		}
@@ -235,12 +242,12 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep4()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		}
 
-		if (!ComponentHelper::isEnabled('com_menus'))
+		if (!ComponentHelper::isEnabled('com_menus') || !Factory::getUser()->authorise('core.create', 'com_menus'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -299,12 +306,12 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep5()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		}
 
-		if (!ComponentHelper::isEnabled('com_modules'))
+		if (!ComponentHelper::isEnabled('com_modules') || !Factory::getUser()->authorise('core.create', 'com_modules'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -343,12 +350,12 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep6()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		}
 
-		if (!ComponentHelper::isEnabled('com_content'))
+		if (!ComponentHelper::isEnabled('com_content') || !Factory::getUser()->authorise('core.create', 'com_content'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -357,7 +364,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			return $response;
 		}
 
-		if (!ComponentHelper::isEnabled('com_categories'))
+		if (!ComponentHelper::isEnabled('com_categories') || !Factory::getUser()->authorise('core.create', 'com_content.category'))
 		{
 			$response            = array();
 			$response['success'] = true;
@@ -430,7 +437,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep7()
 	{
-		if ($this->app->input->get('type') != $this->_name)
+		if (!Session::checkToken('get') || $this->app->input->get('type') != $this->_name)
 		{
 			return;
 		}
@@ -469,6 +476,11 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep8()
 	{
+		if ($this->app->input->get('type') !== $this->_name)
+		{
+			return;
+		}
+
 		$response['success'] = true;
 		$response['message'] = Text::_('PLG_SAMPLEDATA_MULTILANG_STEP8_SUCCESS');
 
@@ -487,15 +499,15 @@ class PlgSampledataMultilang extends CMSPlugin
 	private function enablePlugin($pluginName)
 	{
 		// Create a new db object.
-		$db    = Factory::getDbo();
+		$db    = $this->db;
 		$query = $db->getQuery(true);
 
 		$query
-			->clear()
 			->update($db->quoteName('#__extensions'))
 			->set($db->quoteName('enabled') . ' = 1')
-			->where($db->quoteName('name') . ' = ' . $db->quote($pluginName))
-			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
+			->where($db->quoteName('name') . ' = :pluginname')
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->bind(':pluginname', $pluginName);
 
 		$db->setQuery($query);
 
@@ -512,19 +524,20 @@ class PlgSampledataMultilang extends CMSPlugin
 		if ($pluginName == 'plg_system_languagefilter')
 		{
 			$params = '{'
-					. '"detect_browser":"0",'
-					. '"automatic_change":"1",'
-					. '"item_associations":"1",'
-					. '"remove_default_prefix":"0",'
-					. '"lang_cookie":"0",'
-					. '"alternate_meta":"1"'
+				. '"detect_browser":"0",'
+				. '"automatic_change":"1",'
+				. '"item_associations":"1",'
+				. '"remove_default_prefix":"0",'
+				. '"lang_cookie":"0",'
+				. '"alternate_meta":"1"'
 				. '}';
 			$query
 				->clear()
 				->update($db->quoteName('#__extensions'))
-				->set($db->quoteName('params') . ' = ' . $db->quote($params))
+				->set($db->quoteName('params') . ' = :params')
 				->where($db->quoteName('name') . ' = ' . $db->quote('plg_system_languagefilter'))
-				->where($db->quoteName('type') . ' = ' . $db->quote('plugin'));
+				->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+				->bind(':params', $params);
 
 			$db->setQuery($query);
 
@@ -552,18 +565,21 @@ class PlgSampledataMultilang extends CMSPlugin
 	private function disableModuleMainMenu()
 	{
 		// Create a new db object.
-		$db    = Factory::getDbo();
+		$db    = $this->db;
 		$query = $db->getQuery(true);
 
 		// Disable main menu module with Home set to ALL languages.
 		$query
-			->clear()
 			->update($db->quoteName('#__modules'))
 			->set($db->quoteName('published') . ' = 0')
-			->where($db->quoteName('module') . ' = ' . $db->quote('mod_menu'))
-			->where($db->quoteName('language') . ' = ' . $db->quote('*'))
-			->where($db->quoteName('client_id') . ' = ' . $db->quote('0'))
-			->where($db->quoteName('position') . ' = ' . $db->quote('sidebar-right'));
+			->where(
+				[
+					$db->quoteName('client_id') . ' = 0',
+					$db->quoteName('module') . ' = ' . $db->quote('mod_menu'),
+					$db->quoteName('language') . ' = ' . $db->quote('*'),
+					$db->quoteName('position') . ' = ' . $db->quote('sidebar-right'),
+				]
+			);
 		$db->setQuery($query);
 
 		try
@@ -693,10 +709,8 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	private function addMenuGroup($itemLanguage)
 	{
-		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
-
 		// Add Menu Group.
-		$menuTable = new \Joomla\Component\Menus\Administrator\Table\MenuTypeTable($this->db);
+		$menuTable = $this->app->bootComponent('com_menus')->getMVCFactory()->createTable('MenuType', 'Administrator', ['dbo' => $this->db]);
 
 		$menuData = array(
 			'id'          => 0,
@@ -738,10 +752,8 @@ class PlgSampledataMultilang extends CMSPlugin
 
 	private function addAllCategoriesMenuItem($itemLanguage)
 	{
-		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
-
 		// Add Menu Item.
-		$tableItem = new \Joomla\Component\Menus\Administrator\Table\MenuTable($this->db);
+		$tableItem = $this->app->bootComponent('com_menus')->getMVCFactory()->createTable('Menu', 'Administrator', ['dbo' => $this->db]);
 
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
@@ -774,7 +786,7 @@ class PlgSampledataMultilang extends CMSPlugin
 				. '"show_readmore":"","show_readmore_title":"","show_hits":"","show_noauth":"","show_feed_link":"",'
 				. '"feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"",'
 				. '"menu_text":1,"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"",'
-				. '"pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":""}',
+				. '"pageclass_sfx":"","menu-meta_description":"","robots":""}',
 			'language'     => $itemLanguage->language,
 		);
 
@@ -819,10 +831,8 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	private function addBlogMenuItem($itemLanguage, $categoryId)
 	{
-		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
-
 		// Add Menu Item.
-		$tableItem = new \Joomla\Component\Menus\Administrator\Table\MenuTable($this->db);
+		$tableItem = $this->app->bootComponent('com_menus')->getMVCFactory()->createTable('Menu', 'Administrator', ['dbo' => $this->db]);
 
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('com_languages', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
@@ -853,7 +863,7 @@ class PlgSampledataMultilang extends CMSPlugin
 				. '"show_vote":"","show_readmore":"","show_readmore_title":"","show_hits":"","show_tags":"",'
 				. '"show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"",'
 				. '"menu_image":"","menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1",'
-				. '"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":""}',
+				. '"page_heading":"","pageclass_sfx":"","menu-meta_description":"","robots":""}',
 			'language'     => $itemLanguage->language,
 		);
 
@@ -897,17 +907,32 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	private function addAssociations($groupedAssociations)
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 
 		foreach ($groupedAssociations as $context => $associations)
 		{
 			$key   = md5(json_encode($associations));
 			$query = $db->getQuery(true)
-				->insert('#__associations');
+				->insert($db->quoteName('#__associations'));
 
 			foreach ($associations as $language => $id)
 			{
-				$query->values(((int) $id) . ',' . $db->quote($context) . ',' . $db->quote($key));
+				$query->values(
+					implode(',',
+						$query->bindArray(
+							[
+								$id,
+								$context,
+								$key,
+							],
+							[
+								ParameterType::INTEGER,
+								ParameterType::STRING,
+								ParameterType::STRING,
+							]
+						)
+					)
+				);
 			}
 
 			$db->setQuery($query);
@@ -937,14 +962,16 @@ class PlgSampledataMultilang extends CMSPlugin
 	private function addModuleInModuleMenu($moduleId)
 	{
 		// Create a new db object.
-		$db    = Factory::getDbo();
-		$query = $db->getQuery(true);
+		$db       = $this->db;
+		$query    = $db->getQuery(true);
+		$moduleId = (int) $moduleId;
 
 		// Add Module in Module menus.
-		$query->clear()
-			->insert($db->quoteName('#__modules_menu'))
-			->columns(array($db->quoteName('moduleid'), $db->quoteName('menuid')))
-			->values($moduleId . ', 0');
+		$query->insert($db->quoteName('#__modules_menu'))
+			->columns($db->quoteName(['moduleid', 'menuid']))
+			->values(':moduleId, 0')
+			->bind(':moduleId', $moduleId, ParameterType::INTEGER);
+
 		$db->setQuery($query);
 
 		try
@@ -973,13 +1000,23 @@ class PlgSampledataMultilang extends CMSPlugin
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
 		$title = $newlanguage->_('JCATEGORY');
+		$alias = ApplicationHelper::stringURLSafe($title);
+
+		// Set unicodeslugs if alias is empty
+		if (trim(str_replace('-', '', $alias) == ''))
+		{
+			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$alias   = ApplicationHelper::stringURLSafe($title);
+			Factory::getConfig()->set('unicodeslugs', $unicode);
+		}
 
 		// Initialize a new category.
-		$category = Table::getInstance('CategoryTable', '\\Joomla\\Component\\Categories\\Administrator\\Table\\');
+		$category = $this->app->bootComponent('com_categories')->getMVCFactory()->createTable('Category', 'Administrator', ['dbo' => $this->db]);
 
 		$data = array(
 			'extension'       => 'com_content',
 			'title'           => $title . ' (' . strtolower($itemLanguage->language) . ')',
+			'alias'           => $alias . ' (' . strtolower($itemLanguage->language) . ')',
 			'description'     => '',
 			'published'       => 1,
 			'access'          => 1,
@@ -1033,36 +1070,46 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	private function addArticle($itemLanguage, $categoryId)
 	{
-		$db = Factory::getDbo();
+		$db = $this->db;
 
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('com_content.sys', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
 		$title       = $newlanguage->_('COM_CONTENT_CONTENT_TYPE_ARTICLE');
 		$currentDate = Factory::getDate()->toSql();
+		$alias = ApplicationHelper::stringURLSafe($title);
+
+		// Set unicodeslugs if alias is empty
+		if (trim(str_replace('-', '', $alias) == ''))
+		{
+			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
+			$alias   = ApplicationHelper::stringURLSafe($title);
+			Factory::getConfig()->set('unicodeslugs', $unicode);
+		}
 
 		// Initialize a new article.
-		$article = Table::getInstance('ArticleTable', '\\Joomla\\Component\\Content\\Administrator\\Table\\');
+		$article = $this->app->bootComponent('com_content')->getMVCFactory()->createTable('Article', 'Administrator', ['dbo' => $this->db]);
 
 		$data = array(
 			'title'            => $title . ' (' . strtolower($itemLanguage->language) . ')',
+			'alias'            => $alias . ' (' . strtolower($itemLanguage->language) . ')',
 			'introtext'        => '<p>Lorem ipsum ad his scripta blandit partiendo, eum fastidii accumsan euripidis'
-										. ' in, eum liber hendrerit an. Qui ut wisi vocibus suscipiantur, quo dicit'
-										. ' ridens inciderint id. Quo mundi lobortis reformidans eu, legimus senserit'
-										. 'definiebas an eos. Eu sit tincidunt incorrupte definitionem, vis mutat'
-										. ' affert percipit cu, eirmod consectetuer signiferumque eu per. In usu latine'
-										. 'equidem dolores. Quo no falli viris intellegam, ut fugit veritus placerat'
-										. 'per. Ius id vidit volumus mandamus, vide veritus democritum te nec, ei eos'
-										. 'debet libris consulatu.</p>',
+				. ' in, eum liber hendrerit an. Qui ut wisi vocibus suscipiantur, quo dicit'
+				. ' ridens inciderint id. Quo mundi lobortis reformidans eu, legimus senserit'
+				. 'definiebas an eos. Eu sit tincidunt incorrupte definitionem, vis mutat'
+				. ' affert percipit cu, eirmod consectetuer signiferumque eu per. In usu latine'
+				. 'equidem dolores. Quo no falli viris intellegam, ut fugit veritus placerat'
+				. 'per. Ius id vidit volumus mandamus, vide veritus democritum te nec, ei eos'
+				. 'debet libris consulatu.</p>',
 			'images'           => json_encode(array()),
 			'urls'             => json_encode(array()),
 			'created'          => $currentDate,
 			'created_by'       => (int) $this->getAdminId(),
 			'created_by_alias' => 'Joomla',
 			'publish_up'       => $currentDate,
-			'publish_down'     => $db->getNullDate(),
+			'publish_down'     => null,
 			'version'          => 1,
 			'catid'            => $categoryId,
-			'metadata'         => '{"robots":"","author":"","rights":"","xreference":"","tags":null}',
+			'metadata'         => '{"robots":"","author":"","rights":"","tags":null}',
 			'metakey'          => '',
 			'metadesc'         => '',
 			'language'         => $itemLanguage->language,
@@ -1095,7 +1142,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		$query = $db->getQuery(true)
 			->insert($db->quoteName('#__content_frontpage'))
-			->values($newId . ', 0');
+			->values($newId . ', 0, NULL, NULL');
 
 		$db->setQuery($query);
 
@@ -1135,8 +1182,6 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	private function publishContentLanguages()
 	{
-		$app = Factory::getApplication();
-
 		// Publish the Content Languages.
 		$tableLanguage = Table::getInstance('Language');
 
@@ -1147,7 +1192,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		{
 			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)) && !$tableLanguage->publish())
 			{
-				$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
+				$this->app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
 
 				continue;
 			}
@@ -1201,7 +1246,13 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		foreach ($langlist as $lang)
 		{
-			$file          = $path . '/' . $lang . '/' . $lang . '.xml';
+			$file = $path . '/' . $lang . '/' . $lang . '.xml';
+
+			if (!is_file($file))
+			{
+				$file = $path . '/' . $lang . '/langmetadata.xml';
+			}
+
 			$info          = Installer::parseXMLInstallFile($file);
 			$row           = new stdClass;
 			$row->language = $lang;
@@ -1249,16 +1300,21 @@ class PlgSampledataMultilang extends CMSPlugin
 	protected function getLanguageList($client_id = 1)
 	{
 		// Create a new db object.
-		$db    = Factory::getDbo();
+		$db    = $this->db;
 		$query = $db->getQuery(true);
 
 		// Select field element from the extensions table.
-		$query->select($db->quoteName(array('element', 'name')))
+		$query->select($db->quoteName(['element', 'name']))
 			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote('language'))
-			->where($db->quoteName('state') . ' = 0')
-			->where($db->quoteName('enabled') . ' = 1')
-			->where($db->quoteName('client_id') . ' = ' . (int) $client_id);
+			->where(
+				[
+					$db->quoteName('type') . ' = ' . $db->quote('language'),
+					$db->quoteName('state') . ' = 0',
+					$db->quoteName('enabled') . ' = 1',
+					$db->quoteName('client_id') . ' = :clientid',
+				]
+			)
+			->bind(':clientid', $client_id, ParameterType::INTEGER);
 
 		$db->setQuery($query);
 
@@ -1331,29 +1387,25 @@ class PlgSampledataMultilang extends CMSPlugin
 			return $this->adminId;
 		}
 
-		$db    = Factory::getDbo();
+		$db    = $this->db;
 		$query = $db->getQuery(true);
 
 		// Select the admin user ID
 		$query
-			->clear()
-			->select($db->quoteName('u') . '.' . $db->quoteName('id'))
+			->select($db->quoteName('u.id'))
 			->from($db->quoteName('#__users', 'u'))
 			->join(
 				'LEFT',
-				$db->quoteName('#__user_usergroup_map', 'map')
-				. ' ON ' . $db->quoteName('map') . '.' . $db->quoteName('user_id')
-				. ' = ' . $db->quoteName('u') . '.' . $db->quoteName('id')
+				$db->quoteName('#__user_usergroup_map', 'map'),
+				$db->quoteName('map.user_id') . ' = ' . $db->quoteName('u.id')
 			)
 			->join(
 				'LEFT',
-				$db->quoteName('#__usergroups', 'g')
-				. ' ON ' . $db->quoteName('map') . '.' . $db->quoteName('group_id')
-				. ' = ' . $db->quoteName('g') . '.' . $db->quoteName('id')
+				$db->quoteName('#__usergroups', 'g'),
+				$db->quoteName('map.group_id') . ' = ' . $db->quoteName('g.id')
 			)
 			->where(
-				$db->quoteName('g') . '.' . $db->quoteName('title')
-				. ' = ' . $db->quote('Super Users')
+				$db->quoteName('g.title') . ' = ' . $db->quote('Super Users')
 			);
 
 		$db->setQuery($query);

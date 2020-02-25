@@ -11,6 +11,7 @@
 			required="true"
 			validate="username"
 			autofocus="true"
+			autocomplete="username"
 		/>
 
 		<field
@@ -21,6 +22,7 @@
 			required="true"
 			filter="raw"
 			size="25"
+			autocomplete="current-password"
 		/>
 	</fieldset>
 

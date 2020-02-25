@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Event\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
 
@@ -33,7 +33,7 @@ class AfterStoreEvent extends AbstractEvent
 	 */
 	public function __construct($name, array $arguments = array())
 	{
-		if (!array_key_exists('result', $arguments))
+		if (!\array_key_exists('result', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'result' is required for event $name");
 		}

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Table;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -123,7 +123,7 @@ class MenuType extends Table
 			if ($this->_db->loadRowList())
 			{
 				$this->setError(
-					Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
+					Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
 				);
 
 				return false;
@@ -142,7 +142,7 @@ class MenuType extends Table
 			if ($this->_db->loadRowList())
 			{
 				$this->setError(
-					Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
+					Text::sprintf('JLIB_DATABASE_ERROR_STORE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE_CHECKOUT'))
 				);
 
 				return false;
@@ -206,7 +206,7 @@ class MenuType extends Table
 
 			if ($this->_db->loadRowList())
 			{
-				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 
 				return false;
 			}
@@ -223,7 +223,7 @@ class MenuType extends Table
 
 			if ($this->_db->loadRowList())
 			{
-				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
+				$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_DELETE_FAILED', \get_class($this), Text::_('JLIB_DATABASE_ERROR_MENUTYPE')));
 
 				return false;
 			}

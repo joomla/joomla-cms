@@ -38,25 +38,17 @@ abstract class JHtmlWorkflowstage
 
 		// Build the query.
 		$query->select(
-			$db->quoteName(
-				[
-					'ws.id',
-					'ws.title',
-					'w.id',
-					'w.title'
-				],
-				[
-					'workflow_stage_id',
-					'workflow_stage_title',
-					'workflow_id',
-					'workflow_title'
-				]
-			)
+			[
+				$db->quoteName('ws.id', 'workflow_stage_id'),
+				$db->quoteName('ws.title', 'workflow_stage_title'),
+				$db->quoteName('w.id', 'workflow_id'),
+				$db->quoteName('w.title', 'workflow_title'),
+			]
 		)
 			->from($db->quoteName('#__workflow_stages', 'ws'))
-			->leftJoin($db->quoteName('#__workflows', 'w') . ' ON w.id = ws.workflow_id')
-			->where('w.published = 1')
-			->order('ws.ordering');
+			->join('LEFT', $db->quoteName('#__workflows', 'w'), $db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'))
+			->where($db->quoteName('w.published') . ' = 1')
+			->order($db->quoteName('ws.ordering'));
 
 		// Set the query and load the options.
 		$stages = $db->setQuery($query)->loadObjectList();
