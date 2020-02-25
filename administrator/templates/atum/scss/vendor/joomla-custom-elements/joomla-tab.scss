@@ -112,8 +112,8 @@ joomla-tab {
       padding: 0;
 
       @include media-breakpoint-down(md) {
-        max-width: 100%;
         flex: 0 0 100%;
+        max-width: 100%;
       }
     }
 
@@ -140,11 +140,11 @@ joomla-tab {
         border-right: 0;
 
         &::after {
+          top: 0;
+          bottom: 0;
           left: -1px;
           width: 5px;
           height: auto;
-          top: 0;
-          bottom: 0;
           background-color: var(--atum-bg-dark);
         }
       }
@@ -185,9 +185,9 @@ joomla-tab {
     }
 
     a[role=tab] {
+      color: var(--atum-text-light);
       border: 1px solid var(--atum-text-light);
       border-top: 0;
-      color: var(--atum-text-light);
 
       &[active],
       &:hover,
@@ -223,15 +223,15 @@ joomla-tab {
           &::after {
             position: absolute;
             top: auto;
+            right: -1px;
             bottom: -1px;
             left: -1px;
-            right: -1px;
-            content: "";
+            display: block;
             width: calc(100% + 2px);
             height: 5px;
-            opacity: .8;
+            content: "";
             background-color: var(--atum-bg-dark);
-            display: block;
+            opacity: .8;
           }
         }
       }
@@ -263,8 +263,8 @@ joomla-tab {
           }
 
           .respTable td::before {
-            content: attr(data-label) ":";
             font-weight: $bold-weight;
+            content: attr(data-label) ":";
 
             [dir=ltr] & {
               float: left;
