@@ -31,12 +31,12 @@ joomla-tab {
 
   > ul {
     display: flex;
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+    list-style: outside none none;
     border-image: none;
     border-radius: 0;
-    margin: 0;
-    padding: 0;
-    list-style: outside none none;
-    white-space: nowrap;
 
     a[role=tab] {
       display: block;
@@ -53,13 +53,13 @@ joomla-tab {
 
       &[active],
       &:hover {
+        margin: -1px;
         background-color: $white;
         background-image: none;
-        border-radius: 0;
-        box-shadow: none;
-        margin: -1px;
         border: 1px solid var(--bluegray);
         border-bottom: solid 1px #fff;
+        border-radius: 0;
+        box-shadow: none;
         &::after {
           background-color: var(--atum-contrast);
           top: -1px;
@@ -80,11 +80,11 @@ joomla-tab {
 
   > section {
     display: none;
+    padding: 30px 2vw;
     background-color: $white;
     border: 0;
     border-radius: 0;
     box-shadow: none;
-    padding: 30px 2vw;
     border: 1px solid var(--bluegray);
 
 
@@ -136,8 +136,8 @@ joomla-tab {
         color: var(--atum-text-light);
         background-color: var(--atum-link-color);
         background-image: none;
-        box-shadow: none;
         border-right: 0;
+        box-shadow: none;
 
         &::after {
           top: 0;
@@ -151,10 +151,10 @@ joomla-tab {
     }
 
     > section {
+      width: 100%;
+      padding: $grid-gutter-width-s 0 $grid-gutter-width-s $grid-gutter-width-s;
       border: 0 none;
       box-shadow: none;
-      padding: $grid-gutter-width-s 0 $grid-gutter-width-s $grid-gutter-width-s;
-      width: 100%;
     }
   }
 

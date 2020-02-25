@@ -15,7 +15,7 @@
   joomla-alert {
     display: block;
     min-width: 16rem;
-    padding: 0 0 1rem 0;
+    padding: 0 0 1rem;
     margin-bottom: 1rem;
     border: 1px solid transparent;
     opacity: 0;
@@ -69,8 +69,8 @@
       border-color: var(--warning);
 
       .alert-heading {
-        background: var(--warning);
         color: var(--atum-text-dark);
+        background: var(--warning);
       }
 
       hr {
