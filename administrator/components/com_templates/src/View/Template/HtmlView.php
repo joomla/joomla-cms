@@ -282,7 +282,7 @@ class HtmlView extends BaseHtmlView
 			// Add a Rename file Button
 			if ($this->type != 'home')
 			{
-				ToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
+				ToolbarHelper::modal('renameModal', 'fas fa-sync', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
 			}
 
 			// Add a Delete file Button

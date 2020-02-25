@@ -21,7 +21,7 @@ if ( $icon === 'publish' )
 	$icon = 'check';
 }
 
-if ( $icon === 'unpublish' || $icon === 'cancel' || $icon === 'delete' )
+if ( $icon === 'unpublish' || $icon === 'cancel' || $icon === 'delete' || $icon === 'remove' )
 {
 	$icon = 'times';
 }
