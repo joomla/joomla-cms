@@ -55,6 +55,7 @@ if ( $icon === 'eye-close' )
 {
 	$icon = 'eye-slash';
 }
+
 if ( $icon === 'eye-open' )
 {
 	$icon = 'eye';
