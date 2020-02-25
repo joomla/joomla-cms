@@ -155,15 +155,15 @@
     }
 
     .quickicon-name {
-      font-size: $display2-size;
       padding: .2rem .2rem .6rem;
+      font-size: $display2-size;
     }
 
     .quickicon-amount {
-      font-size: $display1-size;
-      font-weight: $bold-weight;
       padding: .3rem;
       margin-top: .3rem !important;
+      font-size: $display1-size;
+      font-weight: $bold-weight;
 
       > .fa-spinner {
         font-size: $display1-size;
@@ -171,10 +171,10 @@
     }
 
     .quickicon-text {
-      text-align: center;
       min-height: 1.2rem;
       padding: .2rem;
       font-size: .875rem;
+      text-align: center;
     }
 
     .j-links-link {
@@ -185,9 +185,9 @@
 
     &.warning,
     &.danger {
+      color: $danger-txt;
       background: var(--danger);
       border: 1px solid lighten($danger-txt, 30%);
-      color: $danger-txt;
 
       .fas,
       .fab {
@@ -195,8 +195,8 @@
       }
 
       @include hover-focus-active {
-        background: var(--danger);
         color: var(--white);
+        background: var(--danger);
 
         .fas,
         .fab {
@@ -240,8 +240,8 @@
     }
 
     @include hover-focus-active {
-      text-decoration: none;
       color: $white;
+      text-decoration: none;
       background: var(--atum-bg-dark);
     }
   }
@@ -267,21 +267,21 @@
     .quickicon-single,
     .quickicon-group {
       @media (max-width: 1180px) {
+        flex: 1 1 calc(50% - 1rem);
         width: calc(50% - 1rem);
         max-width: calc(50% - 1rem);
-        flex: 1 1 calc(50% - 1rem);
       }
 
       @media (max-width: 950px) {
+        flex: 1 1 calc(100% - 1rem);
         width: calc(100% - 1rem);
         max-width: calc(100% - 1rem);
-        flex: 1 1 calc(100% - 1rem);
       }
 
       @media (max-width: 767px) {
+        flex: 1 1 calc(33% - 1rem);
         width: calc(33% - 1rem);
         max-width: calc(33% - 1rem);
-        flex: 1 1 calc(33% - 1rem);
       }
     }
   }
