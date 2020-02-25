@@ -32,25 +32,24 @@
     }
 
     a {
-      color: var(--atum-text-dark);
-
+      position: relative;
       display: block;
       padding: .35rem .35rem .35rem 1.2rem;
-      position: relative;
       overflow: hidden;
       font-weight: normal;
+      color: var(--atum-text-dark);
 
       &::before {
         position: absolute;
-        left: 0;
         top: .75rem;
-        border-right: 1px solid var(--atum-link-color);
-        border-top: 1px solid var(--atum-link-color);
-        content: "";
+        left: 0;
         display: inline-block;
-        height: .6em;
-        transform: rotate(45deg) skew(5deg, 5deg);
         width: .6em;
+        height: .6em;
+        content: "";
+        border-top: 1px solid var(--atum-link-color);
+        border-right: 1px solid var(--atum-link-color);
+        transform: rotate(45deg) skew(5deg, 5deg);
 
       }
     }

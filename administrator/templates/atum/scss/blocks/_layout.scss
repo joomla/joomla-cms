@@ -34,13 +34,13 @@
 }
 
 .options-form {
-  background-color: $white;
-  color: var(--atum-text-dark);
+  width: 100%;
   padding: 2vw;
   margin-bottom: 1rem;
+  color: var(--atum-text-dark);
+  background-color: $white;
  /*  box-shadow: $atum-box-shadow; */
   border: 1px solid var(--bluegray);
-  width: 100%;
 
   > legend {
     font-weight: bold;

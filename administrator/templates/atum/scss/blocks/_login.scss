@@ -103,8 +103,8 @@
         }
 
         &.text-right {
-          color: var(--atum-special-color);
           font-size: .75rem;
+          color: var(--atum-special-color);
         }
       }
     }
@@ -112,16 +112,16 @@
 
   input:focus,
   select:focus {
-    box-shadow: inset 0 0 1px 1px var(--atum-contrast);
     background: $white;
+    box-shadow: inset 0 0 1px 1px var(--atum-contrast);
   }
 
   h1 {
+    padding-bottom: 1rem;
     margin: 0;
-    text-align: center;
     color: var(--atum-special-color);
     font-weight: bold;
-    padding-bottom: 1rem;
+    text-align: center;
   }
 
   .btn {
@@ -181,8 +181,8 @@
   .sidebar-wrapper {
 
     @include media-breakpoint-down(sm) {
-      max-width: 100% !important;
       flex: 1 0 100% !important;
+      max-width: 100% !important;
     }
   }
 
@@ -208,10 +208,10 @@ label {
 }
 
 .com_login .sidebar-wrapper .main-brand {
-  margin-top: 100px;
-  text-align: center;
   flex: 1;
   flex-basis: auto;
+  margin-top: 100px;
+  text-align: center;
 
   @include media-breakpoint-down(sm) {
     margin-top: 10px;

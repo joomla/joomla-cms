@@ -9,19 +9,18 @@
   }
 
   a {
-    color: var(--atum-link-color);
     width: 100%;
+    color: var(--atum-link-color);
     transition: all .25s ease;
 
 
     .fas,
     .fab {
-      font-size: $quickicon-icon-size;
       margin: 0 auto;
-      background: -webkit-linear-gradient(var(--atum-link-color), #5693e1);
+      font-size: $quickicon-icon-size;
       background: linear-gradient(var(--atum-link-color), #5693e1);
-      background-clip: border-box;
       -webkit-background-clip: text;
+      background-clip: border-box;
       -webkit-text-fill-color: transparent;
 
       &.big {
@@ -31,16 +30,15 @@
 
 
     @include hover-focus-active {
-      text-decoration: none;
       color: $white;
+      text-decoration: none;
       background: var(--atum-link-color);
 
       .fas,
       .fab {
-        background: -webkit-linear-gradient(var(--atum-bg-light), $white);
         background: linear-gradient(var(--atum-bg-light), $white);
-        background-clip: border-box;
         -webkit-background-clip: text;
+        background-clip: border-box;
         -webkit-text-fill-color: transparent;
       }
     }
@@ -50,9 +48,9 @@
 
   // Group link to the overview and link to the edit form in a container
   .quickicon-group {
+    flex: 1 1 calc(33.333% - 1rem);
     width: calc(33.333% - 1rem);
     max-width: calc(33.333% - 1rem);
-    flex: 1 1 calc(33.333% - 1rem);
     padding: 0;
 
     > ul {
@@ -60,82 +58,82 @@
     }
 
     @media (max-width: 1350px) {
+      flex: 1 1 calc(50% - 1rem);
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
-      flex: 1 1 calc(50% - 1rem);
     }
 
     @media (max-width: 1150px) {
+      flex: 1 1 calc(100% - 1rem);
       width: calc(100% - 1rem);
       max-width: calc(100% - 1rem);
-      flex: 1 1 calc(100% - 1rem);
     }
 
     @include media-breakpoint-down(sm) {
+      flex: 1 1 calc(50% - 1rem);
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
-      flex: 1 1 calc(50% - 1rem);
     }
 
     @media (max-width: 430px) {
+      flex: 1 1 calc(100% - 1rem);
       width: calc(100% - 1rem);
       max-width: calc(100% - 1rem);
-      flex: 1 1 calc(100% - 1rem);
     }
 
     .quickicon-linkadd {
-      background-color: var(--atum-bg-light);
       width: 2rem;
+      background-color: var(--atum-bg-light);
     }
   }
 
   // Single icon
   .quickicon-single {
+    flex: 1 1 calc(33.333% - 1rem);
     width: calc(33.333% - 1rem);
     max-width: calc(33.333% - 1rem);
-    flex: 1 1 calc(33.333% - 1rem);
     background: $quickicon-bg;
   }
 
   .quickicon-single,
   .quickicon-group {
-    border: 1px solid $bluegray;
-    margin: .5rem;
     min-height: 5.7rem;
+    margin: .5rem;
+    border: 1px solid $bluegray;
 
     @media (max-width: 1350px) {
+      flex: 1 1 calc(50% - 1rem);
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
-      flex: 1 1 calc(50% - 1rem);
     }
 
     @media (max-width: 1150px) {
+      flex: 1 1 calc(100% - 1rem);
       width: calc(100% - 1rem);
       max-width: calc(100% - 1rem);
-      flex: 1 1 calc(100% - 1rem);
     }
 
     @include media-breakpoint-down(sm) {
+      flex: 1 1 calc(50% - 1rem);
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
-      flex: 1 1 calc(50% - 1rem);
     }
 
     @media (max-width: 430px) {
+      flex: 1 1 calc(100% - 1rem);
       width: calc(100% - 1rem);
       max-width: calc(100% - 1rem);
-      flex: 1 1 calc(100% - 1rem);
     }
   }
 
   .quickicon a {
     display: inline-flex;
-    height: 100%;
     flex-direction: column;
-    background-color: var(--toolbar-bg);
-    line-height: 1.1;
     align-self: baseline;
+    height: 100%;
+    line-height: 1.1;
     text-align: center;
+    background-color: var(--toolbar-bg);
 
     > div {
       flex: 1 0 0;
@@ -214,25 +212,23 @@
       .fas,
       .fab {
         color: var(--success);
-        background: -webkit-linear-gradient(var(--success), #159c1e);
         background: linear-gradient(var(--success), #159c1e);
-        background-clip: border-box;
         -webkit-background-clip: text;
+        background-clip: border-box;
         -webkit-text-fill-color: transparent;
       }
 
       @include hover-focus-active {
-        background: var(--success);
         color: var(--white);
+        background: var(--success);
 
         .fas,
         .fab {
           &::before {
             color: var(--white);
-            background: -webkit-linear-gradient($white, lighten($green, 40%));
             background: linear-gradient($white, lighten($green, 40%));
-            background-clip: border-box;
             -webkit-background-clip: text;
+            background-clip: border-box;
             -webkit-text-fill-color: transparent;
           }
         }

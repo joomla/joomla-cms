@@ -357,8 +357,8 @@
         border-bottom: 0;
 
         [dir=rtl] & {
-          left: -100rem;
           right: auto;
+          left: -100rem;
         }
       }
 
@@ -366,8 +366,8 @@
         left: 0;
 
         [dir=rtl] & {
-          left: auto;
           right: 0;
+          left: auto;
         }
       }
 
@@ -382,8 +382,8 @@
 
     .header-items > .header-item {
       .header-item-content > :first-child {
-        color: var(--atum-text-light);
         padding-bottom: .4rem;
+        color: var(--atum-text-light);
       }
     }
 
@@ -391,8 +391,8 @@
       margin-left: 0;
 
       [dir=rtl] & {
-        margin-left: auto;
         margin-right: 0;
+        margin-left: auto;
       }
     }
 
