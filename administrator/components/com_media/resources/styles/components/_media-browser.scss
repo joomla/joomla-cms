@@ -132,11 +132,11 @@
     }
   }
   ul {
-    list-style: none;
     padding: 0;
     margin: 0;
-    columns: 2;
+    list-style: none;
     column-gap: 5px;
+    columns: 2;
   }
 }
 
@@ -144,13 +144,13 @@
   display: flex;
   flex-direction: column;
   button, a {
-    background-color: transparent;
     position: relative;
     top: 0;
     padding: 0;
-    border: 0;
     margin-bottom: 3px;
     visibility: hidden;
+    background-color: transparent;
+    border: 0;
     opacity: 0;
     transition: all 0s ease;
     transition-delay: 0s;
@@ -345,8 +345,8 @@
 }
 
 .action-toggle {
-  background: transparent;
   padding: 0;
+  background: transparent;
   border: 0;
 }
 

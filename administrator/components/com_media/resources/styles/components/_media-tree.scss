@@ -143,14 +143,14 @@ html[dir=rtl] {
   }
 
   .media-tree-item li::before, .media-tree-item li::after {
-    left: 0;
     right: 5px;
+    left: 0;
     margin: 0;
   }
 
   .media-tree-item .item-icon {
-    padding-left: 2px;
     padding-right: 10px;
+    padding-left: 2px;
   }
 
   ul.media-tree ul {
