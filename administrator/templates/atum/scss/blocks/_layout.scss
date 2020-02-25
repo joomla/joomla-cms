@@ -1,17 +1,13 @@
 .page-link {
 
   &.active {
-    padding: 0;
 
     &.current {
-      padding: .5rem .75rem;
       color: var(--atum-text-light);
       background-color: var(--atum-bg-dark);
     }
 
     a {
-      padding: .58rem .75rem;
-      line-height: 2.5;
       text-decoration: none;
     }
   }
@@ -25,10 +21,13 @@
     }
   }
 
+  &:hover {
+    background-color: var(--atum-bg-dark);
+  }
+
   a {
     &:hover {
       color: var(--atum-text-light);
-      background-color: var(--atum-bg-dark);
     }
   }
 }
