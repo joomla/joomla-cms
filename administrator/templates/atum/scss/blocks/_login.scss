@@ -21,16 +21,6 @@
     }
   }
 
-  .login-logo {
-    width: 200px;
-    margin: 0 auto 2rem;
-    text-align: center;
-
-    @include media-breakpoint-down(sm) {
-      margin: 1rem 0;
-    }
-  }
-
   .login {
     width: 25rem;
     background: var(--white);
