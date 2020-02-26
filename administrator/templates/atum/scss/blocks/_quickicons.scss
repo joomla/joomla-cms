@@ -19,9 +19,8 @@
       margin: 0 auto;
       font-size: $quickicon-icon-size;
       background: linear-gradient(var(--atum-link-color), #5693e1);
-      background-clip: border-box;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
 
       &.big {
         font-size: $quickicon-icon-size-big;
@@ -37,9 +36,8 @@
       .fas,
       .fab {
         background: linear-gradient(var(--atum-bg-light), $white);
-        background-clip: border-box;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
       }
     }
 
@@ -213,9 +211,8 @@
       .fab {
         color: var(--success);
         background: linear-gradient(var(--success), #159c1e);
-        background-clip: border-box;
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
       }
 
       @include hover-focus-active {
@@ -227,9 +224,8 @@
           &::before {
             color: var(--white);
             background: linear-gradient($white, lighten($green, 40%));
-            background-clip: border-box;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
           }
         }
       }
