@@ -92,12 +92,12 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
                 <td>
                     <button onclick="return plgSystemWebauthnEditLabel(this, '<?= $randomId ?>');"
                        class="btn btn-secondary">
-                        <span class="icon-edit icon-white"></span>
+                        <span class="icon-edit icon-white" aria-hidden="true"></span>
 						<?= Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_EDIT_LABEL') ?>
                     </button>
                     <button onclick="return plgSystemWebauthnDelete(this, '<?= $randomId ?>');"
                        class="btn btn-danger">
-                        <span class="icon-minus-sign icon-white"></span>
+                        <span class="icon-minus-sign icon-white" aria-hidden="true"></span>
 						<?= Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_DELETE_LABEL') ?>
                     </button>
                 </td>
@@ -119,7 +119,7 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
 				type="button"
 				onclick="plgSystemWebauthnCreateCredentials('<?= $randomId ?>', '#plg_system_webauthn-management-interface'); return false;"
 				class="btn btn-success btn-block">
-				<span class="icon-plus icon-white"></span>
+				<span class="icon-plus icon-white" aria-hidden="true"></span>
 				<?= Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_ADD_LABEL') ?>
 			</button>
 		</p>
