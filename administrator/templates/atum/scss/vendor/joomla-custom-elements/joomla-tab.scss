@@ -82,11 +82,9 @@ joomla-tab {
     display: none;
     padding: 30px 2vw;
     background-color: $white;
-    border: 0;
     border-radius: 0;
     box-shadow: none;
     border: 1px solid var(--bluegray);
-
 
     &[active] {
       display: block;
