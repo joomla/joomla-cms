@@ -63,7 +63,7 @@ function plgSystemWebauthnFindField(elForm, fieldSelector) {
 }
 
 /**
- * Find a form field described the CSS selector fieldSelector. The field must be inside a <form>
+ * Find a form field described by the CSS selector fieldSelector. The field must be inside a <form>
  * element which is either the outerElement itself or enclosed by outerElement.
  *
  * @param   {Element}  outerElement   The element which is either our form or contains our form.
