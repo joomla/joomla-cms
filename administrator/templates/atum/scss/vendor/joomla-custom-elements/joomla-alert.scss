@@ -15,22 +15,22 @@
   joomla-alert {
     display: block;
     min-width: 16rem;
-    padding: 0 0 1rem 0;
+    padding: 0 0 1rem;
     margin-bottom: 1rem;
-    border: 1px solid transparent;
-    opacity: 0;
-    border-radius: 0;
-    transition: opacity 0.15s linear;
     color: var(--atum-text-dark);
     background-color: var(--white);
+    border: 1px solid transparent;
+    border-radius: 0;
+    opacity: 0;
+    transition: opacity .15s linear;
 
     .alert-heading {
       display: block;
       width: 100%;
-      color: rgba(255, 255, 255, 0.95);
       padding: 1rem;
       font-size: 1.3rem;
       font-weight: normal;
+      color: rgba(255, 255, 255, .95);
     }
 
     &[type="success"] {
@@ -69,8 +69,8 @@
       border-color: var(--warning);
 
       .alert-heading {
+        color: var(--atum-text-dark);
         background: var(--warning);
-        color: var(--atum-text-dark)
       }
 
       hr {
@@ -109,9 +109,9 @@
       top: 1rem;
       right: 0;
       color: var(--white);
-      opacity: 1;
       text-shadow: none;
       cursor: pointer;
+      opacity: 1;
 
       &:hover,
       &:focus {

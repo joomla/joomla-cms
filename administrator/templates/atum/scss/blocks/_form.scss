@@ -7,27 +7,23 @@
   border-radius: $border-radius;
   box-shadow: $input-box-shadow;
 
-  &:focus
-
-  {
+  &:focus {
     border-color: $focuscolor;
     box-shadow: $focusshadow;
   }
-
-
 }
 
 .form-control:disabled,
 .form-control[readonly] {
   border: 0;
-  box-shadow: none
+  box-shadow: none;
 }
 
 
 .control-group {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 0 1rem 0;
+  margin: 0 0 1rem;
 
   > .form-check {
     display: inline-block;
@@ -123,18 +119,18 @@ legend {
 }
 
 .sortable-handler.inactive {
-  opacity: 0.3;
+  opacity: .3;
 }
 
-/* set up hidden tooltip */
+// set up hidden tooltip
 [role="tooltip"]:not(.show) {
+  z-index: $zindex-tooltip;
   display: none;
-  padding: 0.25em;
-  margin: 0.25em;
+  max-width: 100%;
+  padding: .25em;
+  margin: .25em;
   color: $white;
   background: $black;
-  max-width: 100%;
-  z-index: $zindex-tooltip;
 
   [dir=ltr] & {
     text-align: left;
@@ -145,11 +141,11 @@ legend {
   }
 }
 
-/* reveal associated tooltip on focus */
+// reveal associated tooltip on focus
 :focus + [role="tooltip"],
 :hover + [role="tooltip"] {
-  display: block;
   position: absolute;
+  display: block;
 }
 
 [id="filter[search]-desc"] {
@@ -162,7 +158,7 @@ legend {
 }
 
 .switcher__legend {
+  margin-bottom: 0;
   font-size: $label-font-size;
   color: var(--atum-special-color);
-  margin-bottom: 0;
 }

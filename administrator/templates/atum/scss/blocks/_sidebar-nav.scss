@@ -2,7 +2,7 @@
 
 .sidebar-nav {
 
-  /* override bootstrap important  */
+  // override bootstrap important
   background: var(--atum-sidebar-bg) !important;
   box-shadow: $atum-box-shadow;
 
@@ -32,29 +32,24 @@
     }
 
     a {
-      color: var(--atum-text-dark);
-
-      display:block;
-      padding: 0.35rem 0.35rem 0.35rem 1.2rem;
       position: relative;
+      display: block;
+      padding: .35rem .35rem .35rem 1.2rem;
       overflow: hidden;
       font-weight: normal;
+      color: var(--atum-text-dark);
 
-      &:before
-      {
+      &::before {
         position: absolute;
+        top: .75rem;
         left: 0;
-        top: 0.75rem;
-        border-right: 1px solid var(--atum-link-color);
-        border-top: 1px solid var(--atum-link-color);
-        content: "";
         display: inline-block;
-        height: 0.6em;
-        -moz-transform: rotate(45deg) skew(5deg, 5deg);
-        -o-transform: rotate(45deg) skew(5deg, 5deg);
-        -webkit-transform: rotate(45deg) skew(5deg, 5deg);
+        width: .6em;
+        height: .6em;
+        content: "";
+        border-top: 1px solid var(--atum-link-color);
+        border-right: 1px solid var(--atum-link-color);
         transform: rotate(45deg) skew(5deg, 5deg);
-        width: 0.6em;
 
       }
     }
