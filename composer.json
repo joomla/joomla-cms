@@ -96,7 +96,7 @@
         "maximebf/debugbar": "^1.15",
         "tobscure/json-api": "^0.4.1",
         "willdurand/negotiation": "^2.3",
-        "web-auth/webauthn-lib": "^2.0.0",
+        "web-auth/webauthn-lib": "2.1.*",
 		"ramsey/uuid": "^3.8.0",
         "ext-json": "*",
         "ext-simplexml": "*",
