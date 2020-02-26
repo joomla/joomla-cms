@@ -4862,12 +4862,12 @@
             "version": "1.7.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/facebook/php-webdriver.git",
+                "url": "https://github.com/php-webdriver/php-webdriver.git",
                 "reference": "e43de70f3c7166169d0f14a374505392734160e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facebook/php-webdriver/zipball/e43de70f3c7166169d0f14a374505392734160e5",
+                "url": "https://api.github.com/repos/php-webdriver/php-webdriver/zipball/e43de70f3c7166169d0f14a374505392734160e5",
                 "reference": "e43de70f3c7166169d0f14a374505392734160e5",
                 "shasum": ""
             },
@@ -5855,12 +5855,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla/coding-standards.git",
-                "reference": "fc041ba4352689d0834fc3f6bce14edc6e40aebe"
+                "reference": "57a14333518d49907d16e216d0494c2fb4f8276d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla/coding-standards/zipball/fc041ba4352689d0834fc3f6bce14edc6e40aebe",
-                "reference": "fc041ba4352689d0834fc3f6bce14edc6e40aebe",
+                "url": "https://api.github.com/repos/joomla/coding-standards/zipball/57a14333518d49907d16e216d0494c2fb4f8276d",
+                "reference": "57a14333518d49907d16e216d0494c2fb4f8276d",
                 "shasum": ""
             },
             "require": {
@@ -5894,7 +5894,7 @@
                 "php codesniffer",
                 "phpcs"
             ],
-            "time": "2019-07-12T10:04:53+00:00"
+            "time": "2020-01-21T18:27:08+00:00"
         },
         {
             "name": "joomla/mediawiki",
