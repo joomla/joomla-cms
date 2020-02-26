@@ -71,6 +71,7 @@ class ContactViewContact extends JViewLegacy
 
 		$item = $this->get('Item');
 		$state = $this->get('State');
+		$contacts = array();
 
 		// Get submitted values
 		$data = $app->getUserState('com_contact.contact.data', array());
@@ -112,7 +113,8 @@ class ContactViewContact extends JViewLegacy
 			$item->params = $temp;
 		}
 
-		if ($item)
+		// Collect extra contact information when this information is required
+		if ($item && $item->params->get('show_contact_list'))
 		{
 			// Get Category Model data
 			$categoryModel = JModelLegacy::getInstance('Category', 'ContactModel', array('ignore_request' => true));
@@ -122,11 +124,7 @@ class ContactViewContact extends JViewLegacy
 			$categoryModel->setState('list.direction', 'asc');
 			$categoryModel->setState('filter.published', 1);
 
-			// Only collect that information when this information is required
-			if ($item->params->get('show_contact_list'))
-			{
-				$contacts = $categoryModel->getItems();
-			}
+			$contacts = $categoryModel->getItems();
 		}
 
 		// Check for errors.
