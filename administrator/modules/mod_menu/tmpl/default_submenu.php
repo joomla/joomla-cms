@@ -107,7 +107,7 @@ if ($iconImage)
 	if (substr($iconImage, 0, 6) == 'class:' && substr($iconImage, 6) == 'icon-home')
 	{
 		$iconImage = '<span class="home-image fas fa-star" aria-hidden="true"></span>';
-		$iconImage .= '<span class="sr-only">' . Text::_('JDEFAULT') . '</span>';
+		$iconImage .= ' <span class="sr-only">' . Text::_('JDEFAULT') . '</span>';
 	}
 	elseif (substr($iconImage, 0, 6) == 'image:')
 	{
@@ -162,7 +162,7 @@ if ($currentParams->get('menu-quicktask') && (int) $this->params->get('shownew',
 	{
 		echo '<span class="menu-quicktask"><a href="' . $link . '">';
 		echo '<span class="fas fa-' . $icon . '" title="' . htmlentities(Text::_($title)) . '" aria-hidden="true"></span>';
-		echo '<span class="sr-only">' . Text::_($title) . '</span>';
+		echo ' <span class="sr-only">' . Text::_($title) . '</span>';
 		echo '</a></span>';
 	}
 }
@@ -173,7 +173,7 @@ if ($current->dashboard)
 	echo '<span class="menu-dashboard"><a href="'
 		. Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard) . '">'
 		. '<span class="fas fa-th-large" title="' . $titleDashboard . '" aria-hidden="true"></span>'
-		. '<span class="sr-only">' . $titleDashboard . '</span>'
+		. ' <span class="sr-only">' . $titleDashboard . '</span>'
 		. '</a></span>';
 }
 
