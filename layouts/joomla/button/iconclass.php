@@ -8,5 +8,62 @@
  */
 
 defined('JPATH_BASE') or die;
+
+/* Convert icomoon to fa */
+$icon = $displayData['icon'];
+if ( $icon === 'archive' )
+{
+	$icon = 'folder';
+}
+
+if ( $icon === 'publish' )
+{
+	$icon = 'check';
+}
+
+if ( $icon === 'unpublish' || $icon === 'cancel' || $icon === 'delete' || $icon === 'remove' )
+{
+	$icon = 'times';
+}
+
+if ( $icon === 'new' )
+{
+	$icon = 'plus';
+}
+
+if ( $icon === 'apply' )
+{
+	$icon = 'save';
+}
+
+if ( $icon === 'mail' )
+{
+	$icon = 'envelope';
+}
+
+if ( $icon === 'featured' || $icon === 'unfeatured' )
+{
+	$icon = 'star';
+}
+
+if ( $icon === 'checkedout' )
+{
+	$icon = 'lock';
+}
+
+if ( $icon === 'eye-close' )
+{
+	$icon = 'eye-slash';
+}
+
+if ( $icon === 'eye-open' )
+{
+	$icon = 'eye';
+}
+
+if ( $icon === 'refresh' )
+{
+	$icon = 'sync';
+}
 ?>
-icon-<?php echo $displayData['icon']; ?>
+	fas fa-<?php echo $icon; ?>
