@@ -31,8 +31,8 @@ function plgSystemWebauthnInterpolateParameters(object, thisParamIsThePrefix) {
         } else {
           encodedString
             += `${encodeURIComponent(prefix)}[${encodeURIComponent(prop)}]=${encodeURIComponent(
-              object[prop],
-            )}`;
+            object[prop]
+          )}`;
         }
 
         continue;
@@ -138,7 +138,7 @@ function plgSystemWebauthnLogin(formId, callbackUrl) {
     akaction: 'challenge',
     encoding: 'raw',
     username,
-    returnUrl,
+    returnUrl
   };
 
   Joomla.request({
@@ -161,7 +161,7 @@ function plgSystemWebauthnLogin(formId, callbackUrl) {
     },
     onError: (xhr) => {
       plgSystemWebauthnHandleLoginError(`${xhr.status} ${xhr.statusText}`);
-    },
+    }
   });
 
   return false;
@@ -180,20 +180,41 @@ function plgSystemWebauthnHandleLoginChallenge(publicKey, callback_url) {
     return btoa(String.fromCharCode(...a));
   }
 
+  function base64url2base64(input) {
+    input = input
+      .replace(/-/g, '+')
+      .replace(/_/g, '/');
+    const pad = input.length % 4;
+    if (pad) {
+      if (pad === 1) {
+        throw new Error('InvalidLengthError: Input base64url string is the wrong length to determine padding');
+      }
+      input += new Array(5 - pad).join('=');
+    }
+    return input;
+  }
+
   if (!publicKey.challenge) {
     plgSystemWebauthnHandleLoginError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
 
     return;
   }
 
-  publicKey.challenge = Uint8Array.from(window.atob(publicKey.challenge), c => c.charCodeAt(0));
-  publicKey.allowCredentials = publicKey.allowCredentials.map(data => ({
-    ...data,
-    id: Uint8Array.from(atob(data.id), c => c.charCodeAt(0)),
-  }));
+  publicKey.challenge = Uint8Array.from(window.atob(base64url2base64(publicKey.challenge)), function (c) {
+    return c.charCodeAt(0);
+  });
 
-  navigator.credentials.get({ publicKey })
-    .then((data) => {
+  if (publicKey.allowCredentials) {
+    publicKey.allowCredentials = publicKey.allowCredentials.map(function (data) {
+      data.id = Uint8Array.from(window.atob(base64url2base64(data.id)), function (c) {
+        return c.charCodeAt(0);
+      });
+      return data;
+    });
+  }
+
+  navigator.credentials.get({'publicKey': publicKey})
+    .then(function (data) {
       const publicKeyCredential = {
         id: data.id,
         type: data.type,
@@ -202,16 +223,16 @@ function plgSystemWebauthnHandleLoginChallenge(publicKey, callback_url) {
           authenticatorData: arrayToBase64String(new Uint8Array(data.response.authenticatorData)),
           clientDataJSON: arrayToBase64String(new Uint8Array(data.response.clientDataJSON)),
           signature: arrayToBase64String(new Uint8Array(data.response.signature)),
-          userHandle: data.response.userHandle ? arrayToBase64String(
-            new Uint8Array(data.response.userHandle),
-          ) : null,
-        },
+          userHandle: data.response.userHandle ? arrayToBase64String(new Uint8Array(data.response.userHandle)) : null
+        }
       };
 
+      //Send the response to your server
       window.location = `${callback_url}&option=com_ajax&group=system&plugin=webauthn&`
         + `format=raw&akaction=login&encoding=redirect&data=${
           btoa(JSON.stringify(publicKeyCredential))}`;
-    }, (error) => {
+    })
+    .catch(function (error) {
       // Example: timeout, interaction refused...
       console.log(error);
       plgSystemWebauthnHandleLoginError(error);

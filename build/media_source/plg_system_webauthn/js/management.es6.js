@@ -21,7 +21,7 @@ function plgSystemWebauthnCreateCredentials(store_id, interface_selector) {
   if (!('credentials' in navigator)) {
     alert(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NO_BROWSER_SUPPORT'));
 
-    console.log('This browser does not support Webauthn');
+    console.log('This browser does not support Webauthn or you are not using HTTPS with a valid, signed certificate');
     return;
   }
 
@@ -35,41 +35,59 @@ function plgSystemWebauthnCreateCredentials(store_id, interface_selector) {
   const publicKey = JSON.parse(atob(elStore.dataset.public_key));
   const post_url = atob(elStore.dataset.postback_url);
 
-  // Utility function to convert array data to base64 strings
   function arrayToBase64String(a) {
     return btoa(String.fromCharCode(...a));
   }
 
+  function base64url2base64(input) {
+    input = input
+      .replace(/=/g, '')
+      .replace(/-/g, '+')
+      .replace(/_/g, '/');
+
+    const pad = input.length % 4;
+    if (pad) {
+      if (pad === 1) {
+        throw new Error('InvalidLengthError: Input base64url string is the wrong length to determine padding');
+      }
+      input += new Array(5 - pad).join('=');
+    }
+
+    return input;
+  }
+
   // Convert the public key information to a format usable by the browser's credentials manager
-  publicKey.challenge = Uint8Array.from(
-    window.atob(publicKey.challenge),
-    c => c.charCodeAt(0),
-  );
-  publicKey.user.id = Uint8Array.from(
-    window.atob(publicKey.user.id),
-    c => c.charCodeAt(0),
-  );
+  publicKey.challenge = Uint8Array.from(window.atob(base64url2base64(publicKey.challenge)), function (c) {
+    return c.charCodeAt(0);
+  });
+
+  publicKey.user.id = Uint8Array.from(window.atob(publicKey.user.id), function (c) {
+    return c.charCodeAt(0);
+  });
 
   if (publicKey.excludeCredentials) {
-    publicKey.excludeCredentials = publicKey.excludeCredentials.map(data => ({
-      ...data,
-      id: Uint8Array.from(window.atob(data.id), c => c.charCodeAt(0)),
-    }));
+    publicKey.excludeCredentials = publicKey.excludeCredentials.map(function (data) {
+      data.id = Uint8Array.from(window.atob(base64url2base64(data.id)), function (c) {
+        return c.charCodeAt(0);
+      });
+      return data;
+    });
   }
 
   // Ask the browser to prompt the user for their authenticator
-  navigator.credentials.create({ publicKey })
-    .then((data) => {
+  navigator.credentials.create({'publicKey': publicKey})
+    .then(function (data) {
       const publicKeyCredential = {
         id: data.id,
         type: data.type,
         rawId: arrayToBase64String(new Uint8Array(data.rawId)),
         response: {
           clientDataJSON: arrayToBase64String(new Uint8Array(data.response.clientDataJSON)),
-          attestationObject: arrayToBase64String(new Uint8Array(data.response.attestationObject)),
-        },
+          attestationObject: arrayToBase64String(new Uint8Array(data.response.attestationObject))
+        }
       };
 
+      //Send the response to your server
       const postBackData = {
         option: 'com_ajax',
         group: 'system',
@@ -77,7 +95,7 @@ function plgSystemWebauthnCreateCredentials(store_id, interface_selector) {
         format: 'raw',
         akaction: 'create',
         encoding: 'raw',
-        data: btoa(JSON.stringify(publicKeyCredential)),
+        data: btoa(JSON.stringify(publicKeyCredential))
       };
 
       Joomla.request({
@@ -97,9 +115,10 @@ function plgSystemWebauthnCreateCredentials(store_id, interface_selector) {
         },
         onError: (xhr) => {
           plgSystemWebauthnHandleCreationError(`${xhr.status} ${xhr.statusText}`);
-        },
+        }
       });
-    }, (error) => {
+    })
+    .catch(function (error) {
       // An error occurred: timeout, request to provide the authenticator refused, hardware /
       // software error...
       plgSystemWebauthnHandleCreationError(error);
@@ -167,7 +186,7 @@ function plgSystemWebauthnEditLabel(that, store_id) {
         encoding: 'json',
         akaction: 'savelabel',
         credential_id: credentialId,
-        new_label: elNewLabel,
+        new_label: elNewLabel
       };
 
       Joomla.request({
@@ -185,7 +204,7 @@ function plgSystemWebauthnEditLabel(that, store_id) {
 
           if (result !== true) {
             plgSystemWebauthnHandleCreationError(
-              Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED'),
+              Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED')
             );
           }
 
@@ -194,9 +213,9 @@ function plgSystemWebauthnEditLabel(that, store_id) {
         onError: (xhr) => {
           plgSystemWebauthnHandleCreationError(
             `${Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED')
-            } -- ${xhr.status} ${xhr.statusText}`,
+            } -- ${xhr.status} ${xhr.statusText}`
           );
-        },
+        }
       });
     }
 
@@ -265,7 +284,7 @@ function plgSystemWebauthnDelete(that, store_id) {
     format: 'json',
     encoding: 'json',
     akaction: 'delete',
-    credential_id: credentialId,
+    credential_id: credentialId
   };
 
   Joomla.request({
@@ -283,7 +302,7 @@ function plgSystemWebauthnDelete(that, store_id) {
 
       if (result !== true) {
         plgSystemWebauthnHandleCreationError(
-          Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED'),
+          Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED')
         );
 
         return;
@@ -296,9 +315,9 @@ function plgSystemWebauthnDelete(that, store_id) {
       elDelete.disabled = false;
       plgSystemWebauthnHandleCreationError(
         `${Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED')
-        } -- ${xhr.status} ${xhr.statusText}`,
+        } -- ${xhr.status} ${xhr.statusText}`
       );
-    },
+    }
   });
 
   return false;
@@ -329,8 +348,8 @@ function plgSystemWebauthnInterpolateParameters(object, prefix) {
         } else {
           encodedString
             += `${encodeURIComponent(prefix)}[${encodeURIComponent(prop)}]=${encodeURIComponent(
-              object[prop],
-            )}`;
+            object[prop]
+          )}`;
         }
 
         continue;
