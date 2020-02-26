@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS `#__webauthn_credentials`
     `label`      VARCHAR(190)    NOT NULL COMMENT 'Human readable label',
     `credential` MEDIUMTEXT      NOT NULL COMMENT 'Credential source data, JSON format',
     PRIMARY KEY (`id`(100)),
-    INDEX (`user_id`)
+    INDEX (`user_id`(60))
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   DEFAULT COLLATE = utf8mb4_unicode_ci;
