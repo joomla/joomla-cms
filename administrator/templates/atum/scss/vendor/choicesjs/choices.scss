@@ -19,7 +19,6 @@
 .choices__inner {
   border: $input-border;
   border-color: $gray-400;
-  border-radius: 0;
   border-radius: $border-radius;
   box-shadow: $input-box-shadow;
 }
@@ -103,12 +102,12 @@
 
   .choices__inner {
     padding: $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $custom-select-padding-y $custom-select-padding-x;
-    background: url(../../../images/select-bg.svg) no-repeat right center / $custom-select-bg-size;
+    background: url("../../../images/select-bg.svg") no-repeat right center / $custom-select-bg-size;
     background-color: $custom-select-bg;
 
     [dir=rtl] & {
       padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
-      background: url(../../../images/select-bg-rtl.svg) no-repeat left center / $custom-select-bg-size;
+      background: url("../../../images/select-bg-rtl.svg") no-repeat left center / $custom-select-bg-size;
       background-color: $custom-select-bg;
     }
   }
