@@ -84,10 +84,11 @@
     p:last-child {
       margin-bottom: 0;
     }
-    &:hover
-    {
-      box-shadow: 0 0 40px 10px rgba(0, 28, 73, 0.15)
+
+    &:hover {
+      box-shadow: 0 0 40px 10px rgba(0, 28, 73, .15);
     }
+
     .list-group,
     .table {
       > .published {
@@ -105,8 +106,8 @@
 
   .card-header {
     min-height: 2.5rem;
-    color: var(--atum-bg-dark);
     font-weight: $font-weight-bold;
+    color: var(--atum-bg-dark);
     background: var(--card-bg);
   }
 
@@ -126,20 +127,20 @@
   }
 
   .cpanel-add-module {
-    border: 0.125rem dashed var(--atum-link-color);
     position: relative;
-    transition: all .3s ease-in;
     background-color: transparent;
+    border: .125rem dashed var(--atum-link-color);
+    transition: all .3s ease-in;
 
     @include hover-focus-active() {
-      border-color: var(--atum-bg-dark);
       text-decoration: none;
       background-color: var(--white);
+      border-color: var(--atum-bg-dark);
 
       .cpanel-add-module-icon {
 
         .fas {
-          opacity: 0.3;
+          opacity: .3;
         }
       }
     }
@@ -150,14 +151,14 @@
 
     .cpanel-add-module-icon {
       position: absolute;
-      top: -0.25rem;
-      left: 12rem;
+      top: -.25rem;
       right: 0;
       bottom: 0;
+      left: 12rem;
 
       .fas {
-        transition: all .3s ease-in;
         font-size: 7rem;
+        transition: all .3s ease-in;
         transform: translateX(-100%);
       }
     }
@@ -170,10 +171,10 @@
   }
 
   .list-group-item a > span.fas {
-    background: var(--atum-link-color);
-    color: rgba(255, 255, 255, .9);
     display: block;
-    padding: 0.5rem;
+    padding: .5rem;
+    color: rgba(255, 255, 255, .9);
+    background: var(--atum-link-color);
     box-shadow: $atum-box-shadow;
 
     &:hover {

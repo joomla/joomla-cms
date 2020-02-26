@@ -2,12 +2,11 @@
 
 .header {
   position: relative;
-  background: var(--atum-bg-dark);
   z-index: $zindex-header;
-  color: $white;
-  padding: 10px;
   box-sizing: border-box;
-
+  padding: 10px;
+  color: $white;
+  background: var(--atum-bg-dark);
 
   .header-title {
     width: 50%;
@@ -31,8 +30,8 @@
 
   .logo {
     display: inline-block;
-    line-height: $header-height;
     width: $sidebar-width;
+    line-height: $header-height;
     transition: width .3s ease;
 
     &.small {
@@ -50,17 +49,18 @@
           display: inline-block;
         }
 
-        path
-        {fill: $white}
+        path {
+          fill: $white;
+        }
 
       }
     }
 
     svg,
     img {
-      margin-left: 0.8rem;
+      max-width: calc(18rem - .8rem);
       max-height: 1.3rem;
-      max-width: calc(18rem - 0.8rem);
+      margin-left: .8rem;
 
       &.logo-small {
         display: none;
@@ -70,22 +70,24 @@
 
     svg {
       height: 1.3rem;
-      path {fill: $white}
+      path {
+        fill: $white;
+      }
     }
   }
 
   .page-title {
     width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     margin: 0;
+    overflow: hidden;
     font-size: 1.2rem;
     line-height: $header-height;
     color: $white;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 
     [class^='icon-'] {
-      margin-right: 0.625rem;
+      margin-right: .625rem;
       font-size: 1rem;
     }
   }
@@ -102,8 +104,8 @@
       margin-left: auto;
 
       [dir=rtl] & {
-        margin-left: 0;
         margin-right: auto;
+        margin-left: 0;
       }
     }
 
@@ -111,7 +113,7 @@
       > *:first-child {
         flex-direction: column;
         height: 100%;
-        padding: 0 0.6rem;
+        padding: 0 .6rem;
         color: $white;
       }
 
@@ -120,20 +122,20 @@
 
         &:hover,
         &[aria-expanded="true"] {
-          background-color: var(--atum-bg-dark);
           color: var(--atum-text-light);
           text-decoration: none;
+          background-color: var(--atum-bg-dark);
           box-shadow: $atum-box-shadow;
         }
 
         &.disabled,
         &.disabled:hover,
         &.disabled[aria-expanded="true"] {
-          background-color: transparent;
           color: var(--atum-special-color);
-          box-shadow: none;
-          opacity: 0.3;
           pointer-events: none;
+          background-color: transparent;
+          box-shadow: none;
+          opacity: .3;
         }
       }
 
@@ -153,15 +155,15 @@
     }
 
     .tiny {
-      text-align: center;
-      line-height: 0.8rem;
-      margin-top: 0.3rem;
-      white-space: nowrap;
-      max-width: 5rem;
-      min-width: 4rem;
       display: block;
-      text-overflow: ellipsis;
+      min-width: 4rem;
+      max-width: 5rem;
+      margin-top: .3rem;
       overflow: hidden;
+      line-height: .8rem;
+      text-align: center;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       transition: all .2s ease-in-out;
     }
   }
@@ -175,22 +177,22 @@
 
   .badge {
     position: absolute;
-    top: 0.4rem;
+    top: .4rem;
 
     [dir=ltr] & {
       left: 50%;
-      margin-left: 0.8rem;
+      margin-left: .8rem;
     }
 
     [dir=rtl] & {
       right: 50%;
-      margin-right: 0.8rem;
+      margin-right: .8rem;
     }
   }
 
   .fa-angle-down {
     position: absolute;
-    top: 0.9rem;
+    top: .9rem;
 
     [dir=ltr] & {
       left: 50%;
@@ -218,11 +220,11 @@
     background-color: var(--atum-bg-dark-70);
 
     .dropdown-header {
+      padding: 1rem .75rem;
+      font-size: inherit;
       color: $white;
       background-color: var(--atum-bg-dark);
       box-shadow: $atum-box-shadow;
-      font-size: inherit;
-      padding: 1rem 0.75rem;
 
       [dir=rtl] & {
         text-align: right;
@@ -263,19 +265,19 @@
     .header-more-menu {
       position: absolute;
       top: 100%;
-      left: -100000rem;
       right: 0;
+      left: -100000rem;
+      justify-content: flex-end;
       width: calc(13.2rem + 2px);
-      margin-top: 0.1rem;
+      margin-top: .1rem;
       background-color: var(--white-offset);
       border: 1px solid $gray-500;
       border-top: 0;
       box-shadow: $atum-box-shadow;
-      justify-content: flex-end;
 
       [dir=rtl] & {
-        left: 0;
         right: auto;
+        left: 0;
       }
     }
 
@@ -288,8 +290,8 @@
     }
 
     .header-item {
-      height: 3.7rem;
       width: 6.6rem;
+      height: 3.7rem;
     }
 
     .header-item-content {
@@ -303,10 +305,10 @@
     }
 
     .header-more-btn {
-      color: var(--white-offset);
-      background-color: var(--atum-bg-dark);
       width: 3.8rem;
       height: 100%;
+      color: var(--white-offset);
+      background-color: var(--atum-bg-dark);
       border: 0;
 
       .fas {
@@ -322,27 +324,28 @@
   @include media-breakpoint-down(xs) {
     position: static;
     top: 0;
-    width: 100%;
     z-index: $zindex-header;
+    width: 100%;
 
     .header-items {
-      background: var(--atum-bg-dark);
-      display: block;
       position: fixed;
       bottom: 0;
-      width: 100%;
-      max-width: 18rem;
       z-index: $zindex-mobile-bottom;
+      display: block;
       flex-direction: row-reverse;
       justify-content: flex-end;
+      width: 100%;
+      max-width: 18rem;
+      background: var(--atum-bg-dark);
 
       &::after {
-        content: "";
-        width: 1000%;
-        height: 100%;
-        background: var(--atum-bg-dark);
         position: absolute;
         z-index: -1;
+        width: 1000%;
+        height: 100%;
+        content: "";
+        background: var(--atum-bg-dark);
+
       }
     }
 
@@ -354,8 +357,8 @@
         border-bottom: 0;
 
         [dir=rtl] & {
-          left: -100rem;
           right: auto;
+          left: -100rem;
         }
       }
 
@@ -363,8 +366,8 @@
         left: 0;
 
         [dir=rtl] & {
-          left: auto;
           right: 0;
+          left: auto;
         }
       }
 
@@ -379,8 +382,8 @@
 
     .header-items > .header-item {
       .header-item-content > :first-child {
+        padding-bottom: .4rem;
         color: var(--atum-text-light);
-        padding-bottom: 0.4rem;
       }
     }
 
@@ -388,8 +391,8 @@
       margin-left: 0;
 
       [dir=rtl] & {
-        margin-left: auto;
         margin-right: 0;
+        margin-left: auto;
       }
     }
 

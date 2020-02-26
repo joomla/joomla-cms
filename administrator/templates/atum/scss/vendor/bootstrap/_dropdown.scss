@@ -1,12 +1,12 @@
 // Dropdown
 
 .btn-group .dropdown-menu {
+  min-width: 100%;
   background: $white;
   box-shadow: $dropdown-box-shadow;
-  min-width: 100%;
 
   joomla-toolbar-button {
-    border: none;
+    border: 0;
 
     [dir=rtl] & {
       text-align: right;
@@ -19,7 +19,7 @@
 }
 
 .dropdown-item {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, .1);
 
   &:hover,
   &:focus {
@@ -28,8 +28,8 @@
     }
 
     .btn-secondary + .dropdown-menu & {
-      background-color: theme-color("secondary");
       color: var(--atum-text-light);
+      background-color: theme-color("secondary");
     }
 
     .btn-danger + .dropdown-menu & {
@@ -41,8 +41,8 @@
     }
 
     .btn-group.show .dropdown-menu &:not(.disabled) {
-      background-color: var(--atum-bg-dark);
       color: var(--atum-text-light);
+      background-color: var(--atum-bg-dark);
     }
   }
 
