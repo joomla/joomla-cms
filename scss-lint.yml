@@ -332,6 +332,7 @@ linters:
       'ch', 'em', 'ex', 'rem',                 # Font-relative lengths
       'cm', 'in', 'mm', 'pc', 'pt', 'px', 'q', # Absolute lengths
       'vh', 'vw', 'vmin', 'vmax',              # Viewport-percentage lengths
+      'fr',                                    # Grid fractional lengths
       'deg', 'grad', 'rad', 'turn',            # Angle
       'ms', 's',                               # Duration
       'Hz', 'kHz',                             # Frequency

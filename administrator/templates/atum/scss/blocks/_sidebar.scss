@@ -9,7 +9,7 @@
 
   &.closed {
     a.btn-dashboard {
-      display: none
+      display: none;
     }
 
     .main-nav {
@@ -31,22 +31,22 @@
 
   @include media-breakpoint-up(sm) {
     display: flex;
-    flex-direction: column;
     flex: 1 0 $sidebar-width;
+    flex-direction: column;
     max-width: $sidebar-width;
     transition: all .3s ease;
   }
 
   @include media-breakpoint-down(xs) {
     &.sidebar-menu {
-      bottom: 0;
       top: auto;
+      bottom: 0;
     }
 
     &:not(.sidebar-menu) {
       display: flex;
-      flex-direction: column;
       flex: 1 0 $sidebar-width;
+      flex-direction: column;
       max-width: $sidebar-width;
       transition: all .3s ease;
     }
@@ -82,13 +82,13 @@
     position: relative;
     background: var(--atum-link-color);
     a {
-      display: block;
-      padding: 0 0.35rem;
       position: relative;
-      color: var(--atum-text-light);
+      display: block;
       height: 3.2rem;
-      line-height: 3.2rem;
+      padding: 0 .35rem;
       overflow: hidden;
+      line-height: 3.2rem;
+      color: var(--atum-text-light);
 
       &:hover {
         text-decoration: none;
@@ -111,16 +111,16 @@
     width: 100%;
   }
 
-  .open  {
+  .open {
     box-shadow: inset 0 0  100px var(--atum-bg-light);
   }
 
   // All list items
   li {
-    list-style-type: none;
     position: relative;
     display: flex;
     flex-wrap: wrap;
+    list-style-type: none;
 
     > a {
       flex-grow: 2;
@@ -137,14 +137,14 @@
       display: inline-block;
 
       > a {
-        padding: 0;
         display: inline-block;
         height: 100%;
+        padding: 0;
 
         > .fas {
           display: flex;
-          padding: 1rem;
           align-items: center;
+          padding: 1rem;
           margin: 0;
         }
 
@@ -152,8 +152,8 @@
         &.mm-active {
 
           // invert colors
-          background-color: var(--atum-sidebar-bg);
           color: var(--atum-sidebar-link-color);
+          background-color: var(--atum-sidebar-bg);
           .fas {
             color: var(--atum-contrast);
           }
@@ -161,8 +161,8 @@
       }
 
       &::before {
-        background-image: none;
         width: 0;
+        background-image: none;
       }
     }
 
@@ -188,14 +188,14 @@
 
   .sidebar-item-title {
     display: inline-block;
+    padding: .6rem 0;
     word-break: break-word;
-    padding: 0.6rem 0;
   }
 
   // All links
   a {
-    display: flex;
     position: relative;
+    display: flex;
     color: var(--atum-sidebar-link-color);
 
     &:hover {
@@ -207,23 +207,19 @@
   // 1st level items
   > li {
 
-    > ul {
-     }
-
     > a {
-      padding: 0 0.35rem;
+      padding: 0 .35rem;
 
       &:hover {
-        background-color: var(--atum-sidebar-link-color);
         color: var(--atum-text-light);
         text-decoration: none;
+        background-color: var(--atum-sidebar-link-color);
       }
 
       &.mm-active {
 
         color: var(--atum-link-color);
-        &:hover
-        {
+        &:hover {
           color: var(--atum-text-light);
         }
       }
@@ -242,22 +238,20 @@
 
   // 2nd level items
   ul {
-    padding: 0;
     width: 100%;
+    padding: 0;
 
     li {
-      border: 0;
       position: relative;
       display: flex;
-
+      border: 0;
 
       &.mm-active {
 
-        > a
-        {
+        > a {
           color: var(--atum-link-color);
-             }
-           }
+        }
+      }
 
       > a {
         padding: 0 1rem 0 2.4rem;
@@ -269,7 +263,7 @@
     }
 
     a {
-      font-size: 0.9rem;
+      font-size: .9rem;
 
       &[href]:hover:not(.menu-dashboard):not(.menu-quicktask) {
         color: $white;
@@ -283,9 +277,9 @@
 
         &::before {
           position: absolute;
-          top: 0.15rem;
-          bottom: 0.15rem;
-          width: 0.25rem;
+          top: .15rem;
+          bottom: .15rem;
+          width: .25rem;
           content: "";
           background-color: var(--atum-contrast);
 
@@ -354,7 +348,7 @@
   }
 
   .menuitem-group {
-    margin-top: 0.65rem;
+    margin-top: .65rem;
     font-size: .75rem;
 
     [dir=ltr] & {
@@ -409,9 +403,9 @@
       align-items: center;
       justify-content: center;
       width: 1.5rem;
-      color: var(--atum-sidebar-font-color);
-      font-weight: 900;
       font-family: "Font Awesome 5 Free";
+      font-weight: 900;
+      color: var(--atum-sidebar-font-color);
 
       [dir=ltr] & {
         content: "\f054";
@@ -439,8 +433,8 @@
   .fas {
     position: relative;
     display: inline-block;
-    margin: 0 0.6rem;
-    font-size: 0.9rem;
+    margin: 0 .6rem;
+    font-size: .9rem;
     text-align: center;
     vertical-align: top;
 
@@ -456,7 +450,7 @@
   position: relative;
   top: -1px;
   display: inline-block;
-  margin: 0 0.3rem;
+  margin: 0 .3rem;
   font-size: 1.1rem;
   text-align: center;
   vertical-align: middle;
@@ -518,15 +512,15 @@
   }
 
   .toggler-burger {
+    position: fixed;
+    bottom: 20px;
+    z-index: $zindex-mobile-toggle;
     display: block;
     width: 70px;
     height: 70px;
     background: var(--atum-link-color);
-    border-radius: 40px;
     border: 8px solid var(--atum-bg-light);
-    position: fixed;
-    bottom: 20px;
-    z-index: $zindex-mobile-toggle;
+    border-radius: 40px;
 
     [dir=ltr] & {
       right: 10px;
@@ -541,8 +535,8 @@
 
       &::before {
         font: normal normal normal 30px/1 'Font Awesome 5 Free';
-        content: "\f00d";
         color: var(--toggle-color);
+        content: "\f00d";
       }
     }
 
@@ -556,16 +550,16 @@
   .sidebar-menu {
     &.show {
       /* overflow-y: hidden;*/
-      max-height: 100vh;
-      transition-property: all;
-      transition-duration: 1s;
-      transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-      bottom: 55px;
       position: fixed;
-      width: 100%;
+      bottom: 55px;
       z-index: $zindex-mobile-menu;
       display: flex;
       flex-direction: column;
+      width: 100%;
+      max-height: 100vh;
+      transition-timing-function: cubic-bezier(0, 1, .5, 1);
+      transition-duration: 1s;
+      transition-property: all;
 
       #sidebarmenu {
         overflow-y: scroll;
@@ -588,7 +582,7 @@
 }
 
 #menu-collapse-icon {
-  font-size: 0.9rem;
-  margin-right: 0.6rem;
-  padding: 0.3rem;
+  padding: .3rem;
+  margin-right: .6rem;
+  font-size: .9rem;
 }

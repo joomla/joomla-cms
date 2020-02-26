@@ -4,7 +4,7 @@
 @import "../../../../../../media/vendor/bootstrap/scss/mixins";
 
 
-/* Media queries */
+// Media queries
 @media (max-width: 480px) {
   .js-stools .js-stools-container-filters {
     display: block;
@@ -15,7 +15,7 @@
   }
 
   .js-stools .js-stools-container-filters .btn-wrapper {
-    width: 100%
+    width: 100%;
   }
 
   .js-stools .js-stools-container-bar {
@@ -35,8 +35,8 @@
 .js-stools {
   position: relative;
   width: 100%;
-  padding: 0.25rem 0 0;
-  margin-bottom: 0.5rem;
+  padding: .25rem 0 0;
+  margin-bottom: .5rem;
 
   > div {
     margin-bottom: 1rem;
@@ -46,12 +46,12 @@
     display: none;
     flex-direction: row;
     flex-wrap: wrap;
+    width: 100%;
     padding: 1rem .5rem .5rem;
-    margin-top: 0.5rem;
+    margin-top: .5rem;
     margin-bottom: 1rem;
     background-color: $white;
     border-radius: 0 0 0 $border-radius;
-    width: 100%;
 
     joomla-field-fancy-select .choices,
     .custom-select {
@@ -90,9 +90,9 @@
       }
 
       option {
+        font-size: .875rem;
         color: var(--atum-text-dark);
         background-color: var(--white);
-        font-size: 0.875rem;
       }
     }
   }
@@ -100,13 +100,13 @@
   .js-stools-container-selector {
     [dir=ltr] & {
       float: left;
-      margin-right: 0.5rem;
+      margin-right: .5rem;
     }
 
     [dir=rtl] & {
       float: right;
-      margin-left: 0.5rem;
       margin-right: 0;
+      margin-left: .5rem;
     }
 
     @include media-breakpoint-down(sm) {
@@ -148,11 +148,11 @@
 
   .js-stools-container-selector-first {
     [dir=ltr] & {
-      margin-right: 0.5rem;
+      margin-right: .5rem;
     }
 
     [dir=rtl] & {
-      margin-left: 0.5rem;
+      margin-left: .5rem;
     }
 
     @include media-breakpoint-down(sm) {
@@ -232,14 +232,14 @@
       }
 
       .js-stools-btn-clear {
-        background-color: var(--atum-bg-dark);
         color: var(--atum-text-light);
+        background-color: var(--atum-bg-dark);
         border: 1px solid var(--border);
         border-left: 1px solid var(--atum-text-light);
 
         [dir=rtl] & {
-          margin-left: 5px;
           margin-right: -1px !important;
+          margin-left: 5px;
         }
 
         @include media-breakpoint-down(sm) {
@@ -254,11 +254,11 @@
 
         &.disabled,
         &:disabled {
-          background-color: rgba($gray-300, 0.8);
-          border-color: rgba($gray-500, 0.8);
-          opacity: 1;
           color: var(--atum-text-dark);
           cursor: not-allowed;
+          background-color: rgba($gray-300, .8);
+          border-color: rgba($gray-500, .8);
+          opacity: 1;
         }
       }
 
@@ -266,7 +266,7 @@
         border-right: 1px solid var(--border);
 
         .fas {
-          margin-left: 0.25rem;
+          margin-left: .25rem;
         }
       }
 
@@ -277,10 +277,6 @@
 
     .js-stools-field-list {
       margin-bottom: 0;
-
-      .custom-select {
-
-      }
     }
 
     .input-append {
@@ -288,10 +284,11 @@
     }
 
     .btn-primary .caret {
-      border-top: 0;
-      border-bottom: 4px solid #FFF;
       margin-top: 7px;
       margin-bottom: 8px;
+      border-top: 0;
+      border-bottom: 4px solid #fff;
+
     }
   }
 }

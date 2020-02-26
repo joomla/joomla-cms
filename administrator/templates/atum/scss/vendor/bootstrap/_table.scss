@@ -11,11 +11,11 @@
 
     th,
     td {
+      padding: 1rem;
       font-weight: $font-weight-normal;
       color: var(--atum-link-color);
       white-space: nowrap;
       border-top: 0;
-      padding: 1rem;
       border-bottom: 3px solid var(--atum-bg-light);
 
       @include media-breakpoint-down(xs) {
@@ -28,8 +28,8 @@
       color: var(--atum-link-color);
 
       &#sorted {
-        color: $gray-800;
         font-weight: 500;
+        color: $gray-800;
       }
     }
 
@@ -55,8 +55,8 @@
 
     .itemnumber a.btn,
     .itemnumber span.btn {
+      padding: .1rem .5rem;
       text-decoration: none;
-      padding: 0.1rem .5rem;
     }
 
     th {
@@ -66,10 +66,9 @@
 
   th,
   td {
-
-    border-bottom: 3px solid var(--atum-bg-light);
-    border-top: 0;
     padding: 1rem;
+    border-top: 0;
+    border-bottom: 3px solid var(--atum-bg-light);
 
     label {
       margin-bottom: 0;

@@ -224,10 +224,10 @@ body {
 
 // Modal header override
 .modal-header .close {
-  margin-left: -15px;
   margin-right: 0 !important;
-  border-left: 0 !important;
+  margin-left: -15px;
   border-right: 1px solid var(--border);
+  border-left: 0 !important;
 }
 
 // Changelog modal override
@@ -256,6 +256,6 @@ body {
 
 // Database prefix
 #jform_dbprefix {
-  direction: ltr;
   text-align: right;
+  direction: ltr;
 }
