@@ -583,6 +583,14 @@ abstract class Adapter extends CMSPlugin
 	 */
 	protected function getItems($offset, $limit, $query = null)
 	{
+		$query = $this->getListQuery($query);
+
+		// The query maybe empty if not set in the finder plugin.
+		if ((string) $query == '')
+		{
+			return [];
+		}
+
 		// Get the content items to index.
 		$this->db->setQuery($this->getListQuery($query)->setLimit($limit, $offset));
 		$items = $this->db->loadAssocList();
