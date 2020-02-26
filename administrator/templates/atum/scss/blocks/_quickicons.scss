@@ -19,8 +19,8 @@
       margin: 0 auto;
       font-size: $quickicon-icon-size;
       background: linear-gradient(var(--atum-link-color), #5693e1);
-      -webkit-background-clip: text;
       background-clip: border-box;
+      -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
 
       &.big {
@@ -37,8 +37,8 @@
       .fas,
       .fab {
         background: linear-gradient(var(--atum-bg-light), $white);
-        -webkit-background-clip: text;
         background-clip: border-box;
+        -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
     }
@@ -213,8 +213,8 @@
       .fab {
         color: var(--success);
         background: linear-gradient(var(--success), #159c1e);
-        -webkit-background-clip: text;
         background-clip: border-box;
+        -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
 
@@ -227,8 +227,8 @@
           &::before {
             color: var(--white);
             background: linear-gradient($white, lighten($green, 40%));
-            -webkit-background-clip: text;
             background-clip: border-box;
+            -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
           }
         }
