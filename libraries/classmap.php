@@ -314,7 +314,6 @@ JLoader::registerAlias('JFormFieldFolderList',              '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormFieldFrontend_Language',       '\\Joomla\\CMS\\Form\\Field\\FrontendlanguageField', '5.0');
 JLoader::registerAlias('JFormFieldGroupedList',             '\\Joomla\\CMS\\Form\\Field\\GroupedlistField', '5.0');
 JLoader::registerAlias('JFormFieldHeadertag',               '\\Joomla\\CMS\\Form\\Field\\HeadertagField', '5.0');
-JLoader::registerAlias('JFormFieldHelpsite',                '\\Joomla\\CMS\\Form\\Field\\HelpsiteField', '5.0');
 JLoader::registerAlias('JFormFieldHidden',                  '\\Joomla\\CMS\\Form\\Field\\HiddenField', '5.0');
 JLoader::registerAlias('JFormFieldImageList',               '\\Joomla\\CMS\\Form\\Field\\ImagelistField', '5.0');
 JLoader::registerAlias('JFormFieldInteger',                 '\\Joomla\\CMS\\Form\\Field\\IntegerField', '5.0');
