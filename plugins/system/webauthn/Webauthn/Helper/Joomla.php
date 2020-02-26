@@ -672,7 +672,14 @@ abstract class Joomla
 			}
 
 			/** @var User $user */
-			$user    = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+			if (empty($userId))
+			{
+				$user = $app->getIdentity();
+			}
+			else
+			{
+				$user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+			}
 			$tz   = $user->getParam('timezone', $tzDefault);
 		}
 
