@@ -18,9 +18,9 @@
     .fab {
       margin: 0 auto;
       font-size: $quickicon-icon-size;
+      color: transparent;
       background: linear-gradient(var(--atum-link-color), #5693e1);
       background-clip: text;
-      color: transparent;
 
       &.big {
         font-size: $quickicon-icon-size-big;
@@ -35,9 +35,9 @@
 
       .fas,
       .fab {
+        color: transparent;
         background: linear-gradient(var(--atum-bg-light), $white);
         background-clip: text;
-        color: transparent;
       }
     }
 
