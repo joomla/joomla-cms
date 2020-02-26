@@ -18,6 +18,11 @@ use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 
 defined('_JEXEC') or die;
 
+/**
+ * Custom Joomla Form Field to display the WebAuthn interface
+ *
+ * @since 4.0.0
+ */
 class JFormFieldWebauthn extends FormField
 {
 	/**

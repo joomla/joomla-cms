@@ -680,6 +680,7 @@ abstract class Joomla
 			{
 				$user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 			}
+
 			$tz   = $user->getParam('timezone', $tzDefault);
 		}
 
