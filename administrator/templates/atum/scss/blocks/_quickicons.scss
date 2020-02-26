@@ -9,18 +9,19 @@
   }
 
   a {
-    width: 100%;
     color: var(--atum-link-color);
+    width: 100%;
     transition: all .25s ease;
 
 
     .fas,
     .fab {
-      margin: 0 auto;
       font-size: $quickicon-icon-size;
+      margin: 0 auto;
+      background: -webkit-linear-gradient(var(--atum-link-color), #5693e1);
       background: linear-gradient(var(--atum-link-color), #5693e1);
-      -webkit-background-clip: text;
       background-clip: border-box;
+      -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
 
       &.big {
@@ -30,15 +31,16 @@
 
 
     @include hover-focus-active {
-      color: $white;
       text-decoration: none;
+      color: $white;
       background: var(--atum-link-color);
 
       .fas,
       .fab {
+        background: -webkit-linear-gradient(var(--atum-bg-light), $white);
         background: linear-gradient(var(--atum-bg-light), $white);
-        -webkit-background-clip: text;
         background-clip: border-box;
+        -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
     }
@@ -48,9 +50,9 @@
 
   // Group link to the overview and link to the edit form in a container
   .quickicon-group {
-    flex: 1 1 calc(33.333% - 1rem);
     width: calc(33.333% - 1rem);
     max-width: calc(33.333% - 1rem);
+    flex: 1 1 calc(33.333% - 1rem);
     padding: 0;
 
     > ul {
@@ -58,82 +60,82 @@
     }
 
     @media (max-width: 1350px) {
-      flex: 1 1 calc(50% - 1rem);
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
+      flex: 1 1 calc(50% - 1rem);
     }
 
     @media (max-width: 1150px) {
-      flex: 1 1 calc(100% - 1rem);
       width: calc(100% - 1rem);
       max-width: calc(100% - 1rem);
+      flex: 1 1 calc(100% - 1rem);
     }
 
     @include media-breakpoint-down(sm) {
-      flex: 1 1 calc(50% - 1rem);
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
+      flex: 1 1 calc(50% - 1rem);
     }
 
     @media (max-width: 430px) {
-      flex: 1 1 calc(100% - 1rem);
       width: calc(100% - 1rem);
       max-width: calc(100% - 1rem);
+      flex: 1 1 calc(100% - 1rem);
     }
 
     .quickicon-linkadd {
-      width: 2rem;
       background-color: var(--atum-bg-light);
+      width: 2rem;
     }
   }
 
   // Single icon
   .quickicon-single {
-    flex: 1 1 calc(33.333% - 1rem);
     width: calc(33.333% - 1rem);
     max-width: calc(33.333% - 1rem);
+    flex: 1 1 calc(33.333% - 1rem);
     background: $quickicon-bg;
   }
 
   .quickicon-single,
   .quickicon-group {
-    min-height: 5.7rem;
-    margin: .5rem;
     border: 1px solid $bluegray;
+    margin: 0.5rem;
+    min-height: 5.7rem;
 
     @media (max-width: 1350px) {
-      flex: 1 1 calc(50% - 1rem);
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
+      flex: 1 1 calc(50% - 1rem);
     }
 
     @media (max-width: 1150px) {
-      flex: 1 1 calc(100% - 1rem);
       width: calc(100% - 1rem);
       max-width: calc(100% - 1rem);
+      flex: 1 1 calc(100% - 1rem);
     }
 
     @include media-breakpoint-down(sm) {
-      flex: 1 1 calc(50% - 1rem);
       width: calc(50% - 1rem);
       max-width: calc(50% - 1rem);
+      flex: 1 1 calc(50% - 1rem);
     }
 
     @media (max-width: 430px) {
-      flex: 1 1 calc(100% - 1rem);
       width: calc(100% - 1rem);
       max-width: calc(100% - 1rem);
+      flex: 1 1 calc(100% - 1rem);
     }
   }
 
   .quickicon a {
     display: inline-flex;
-    flex-direction: column;
-    align-self: baseline;
     height: 100%;
-    line-height: 1.1;
-    text-align: center;
+    flex-direction: column;
     background-color: var(--toolbar-bg);
+    line-height: 1.1;
+    align-self: baseline;
+    text-align: center;
 
     > div {
       flex: 1 0 0;
@@ -153,15 +155,15 @@
     }
 
     .quickicon-name {
-      padding: .2rem .2rem .6rem;
       font-size: $display2-size;
+      padding: .2rem .2rem .6rem .2rem;
     }
 
     .quickicon-amount {
-      padding: .3rem;
-      margin-top: .3rem !important;
       font-size: $display1-size;
       font-weight: $bold-weight;
+      padding: .3rem;
+      margin-top: .3rem !important;
 
       > .fa-spinner {
         font-size: $display1-size;
@@ -169,10 +171,10 @@
     }
 
     .quickicon-text {
-      min-height: 1.2rem;
-      padding: .2rem;
-      font-size: .875rem;
       text-align: center;
+      min-height: 1.2rem;
+      padding: 0.2rem;
+      font-size: .875rem;
     }
 
     .j-links-link {
@@ -183,9 +185,9 @@
 
     &.warning,
     &.danger {
-      color: $danger-txt;
       background: var(--danger);
       border: 1px solid lighten($danger-txt, 30%);
+      color: $danger-txt;
 
       .fas,
       .fab {
@@ -193,8 +195,8 @@
       }
 
       @include hover-focus-active {
-        color: var(--white);
         background: var(--danger);
+        color: var(--white);
 
         .fas,
         .fab {
@@ -212,23 +214,25 @@
       .fas,
       .fab {
         color: var(--success);
+        background: -webkit-linear-gradient(var(--success), #159c1e);
         background: linear-gradient(var(--success), #159c1e);
-        -webkit-background-clip: text;
         background-clip: border-box;
+        -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
 
       @include hover-focus-active {
-        color: var(--white);
         background: var(--success);
+        color: var(--white);
 
         .fas,
         .fab {
           &::before {
             color: var(--white);
+            background: -webkit-linear-gradient($white, lighten($green, 40%));
             background: linear-gradient($white, lighten($green, 40%));
-            -webkit-background-clip: text;
             background-clip: border-box;
+            -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
           }
         }
@@ -236,8 +240,8 @@
     }
 
     @include hover-focus-active {
-      color: $white;
       text-decoration: none;
+      color: $white;
       background: var(--atum-bg-dark);
     }
   }
@@ -263,21 +267,21 @@
     .quickicon-single,
     .quickicon-group {
       @media (max-width: 1180px) {
-        flex: 1 1 calc(50% - 1rem);
         width: calc(50% - 1rem);
         max-width: calc(50% - 1rem);
+        flex: 1 1 calc(50% - 1rem);
       }
 
       @media (max-width: 950px) {
-        flex: 1 1 calc(100% - 1rem);
         width: calc(100% - 1rem);
         max-width: calc(100% - 1rem);
+        flex: 1 1 calc(100% - 1rem);
       }
 
       @media (max-width: 767px) {
-        flex: 1 1 calc(33% - 1rem);
         width: calc(33% - 1rem);
         max-width: calc(33% - 1rem);
+        flex: 1 1 calc(33% - 1rem);
       }
     }
   }
