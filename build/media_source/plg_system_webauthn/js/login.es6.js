@@ -11,7 +11,7 @@
  * This method is a necessary evil since Joomla.request can only accept data as a string.
  *
  * @param    object   {object}  A plain object containing the query parameters to pass
- * @param    prefix   {string}  Prefix for array-type parameters
+ * @param    thisParamIsThePrefix   {string}  Prefix for array-type parameters
  *
  * @returns  {string}
  */
@@ -19,29 +19,28 @@ function plgSystemWebauthnInterpolateParameters(object, thisParamIsThePrefix) {
   const prefix = thisParamIsThePrefix || '';
   let encodedString = '';
 
-  for (const prop in object) {
-    if (object.hasOwnProperty(prop)) {
+  Object.keys(object).forEach((prop) => {
+    if (typeof object[prop] !== 'object') {
       if (encodedString.length > 0) {
         encodedString += '&';
       }
 
-      if (typeof object[prop] !== 'object') {
-        if (prefix === '') {
-          encodedString += `${encodeURIComponent(prop)}=${encodeURIComponent(object[prop])}`;
-        } else {
-          encodedString
-            += `${encodeURIComponent(prefix)}[${encodeURIComponent(prop)}]=${encodeURIComponent(
-            object[prop]
+      if (prefix === '') {
+        encodedString += `${encodeURIComponent(prop)}=${encodeURIComponent(object[prop])}`;
+      } else {
+        encodedString
+          += `${encodeURIComponent(prefix)}[${encodeURIComponent(prop)}]=${encodeURIComponent(
+            object[prop],
           )}`;
-        }
-
-        continue;
       }
 
-      // Objects need special handling
-      encodedString += plgSystemWebauthnInterpolateParameters(object[prop], prop);
+      return;
     }
-  }
+
+    // Objects need special handling
+    encodedString += `${plgSystemWebauthnInterpolateParameters(object[prop], prop)}`;
+  });
+
   return encodedString;
 }
 
@@ -98,6 +97,86 @@ function plgSystemWebauthnLookForField(outerElement, fieldSelector) {
 }
 
 /**
+ * A simple error handler.
+ *
+ * @param   {String}  message
+ */
+function plgSystemWebauthnHandleLoginError(message) {
+  alert(message);
+}
+
+/**
+ * Handles the browser response for the user interaction with the authenticator. Redirects to an
+ * internal page which handles the login server-side.
+ *
+ * @param {  Object}  publicKey     Public key request options, returned from the server
+ * @param   {String}  callbackUrl  The URL we will use to post back to the server. Must include
+ *   the anti-CSRF token.
+ */
+function plgSystemWebauthnHandleLoginChallenge(publicKey, callbackUrl) {
+  function arrayToBase64String(a) {
+    return btoa(String.fromCharCode(...a));
+  }
+
+  function base64url2base64(input) {
+    let output = input
+      .replace(/-/g, '+')
+      .replace(/_/g, '/');
+    const pad = output.length % 4;
+    if (pad) {
+      if (pad === 1) {
+        throw new Error('InvalidLengthError: Input base64url string is the wrong length to determine padding');
+      }
+      output += new Array(5 - pad).join('=');
+    }
+    return output;
+  }
+
+  if (!publicKey.challenge) {
+    plgSystemWebauthnHandleLoginError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
+
+    return;
+  }
+
+  publicKey.challenge = Uint8Array.from(
+    window.atob(base64url2base64(publicKey.challenge)), c => c.charCodeAt(0),
+  );
+
+  if (publicKey.allowCredentials) {
+    publicKey.allowCredentials = publicKey.allowCredentials.map((data) => {
+      data.id = Uint8Array.from(window.atob(base64url2base64(data.id)), c => c.charCodeAt(0));
+      return data;
+    });
+  }
+
+  navigator.credentials.get({ publicKey })
+    .then((data) => {
+      const publicKeyCredential = {
+        id: data.id,
+        type: data.type,
+        rawId: arrayToBase64String(new Uint8Array(data.rawId)),
+        response: {
+          authenticatorData: arrayToBase64String(new Uint8Array(data.response.authenticatorData)),
+          clientDataJSON: arrayToBase64String(new Uint8Array(data.response.clientDataJSON)),
+          signature: arrayToBase64String(new Uint8Array(data.response.signature)),
+          userHandle: data.response.userHandle ? arrayToBase64String(
+            new Uint8Array(data.response.userHandle),
+          ) : null,
+        },
+      };
+
+      // Send the response to your server
+      window.location = `${callbackUrl}&option=com_ajax&group=system&plugin=webauthn&`
+        + `format=raw&akaction=login&encoding=redirect&data=${
+          btoa(JSON.stringify(publicKeyCredential))}`;
+    })
+    .catch((error) => {
+      // Example: timeout, interaction refused...
+      plgSystemWebauthnHandleLoginError(error);
+    });
+}
+
+/**
  * Initialize the passwordless login, going through the server to get the registered certificates
  * for the user.
  *
@@ -107,6 +186,7 @@ function plgSystemWebauthnLookForField(outerElement, fieldSelector) {
  *
  * @returns {boolean}  Always FALSE to prevent BUTTON elements from reloading the page.
  */
+// eslint-disable-next-line no-unused-vars
 function plgSystemWebauthnLogin(formId, callbackUrl) {
   // Get the username
   const elFormContainer = document.getElementById(formId);
@@ -138,7 +218,7 @@ function plgSystemWebauthnLogin(formId, callbackUrl) {
     akaction: 'challenge',
     encoding: 'raw',
     username,
-    returnUrl
+    returnUrl,
   };
 
   Joomla.request({
@@ -161,91 +241,8 @@ function plgSystemWebauthnLogin(formId, callbackUrl) {
     },
     onError: (xhr) => {
       plgSystemWebauthnHandleLoginError(`${xhr.status} ${xhr.statusText}`);
-    }
+    },
   });
 
   return false;
-}
-
-/**
- * Handles the browser response for the user interaction with the authenticator. Redirects to an
- * internal page which handles the login server-side.
- *
- * @param {  Object}  publicKey     Public key request options, returned from the server
- * @param   {String}  callback_url  The URL we will use to post back to the server. Must include
- *   the anti-CSRF token.
- */
-function plgSystemWebauthnHandleLoginChallenge(publicKey, callback_url) {
-  function arrayToBase64String(a) {
-    return btoa(String.fromCharCode(...a));
-  }
-
-  function base64url2base64(input) {
-    input = input
-      .replace(/-/g, '+')
-      .replace(/_/g, '/');
-    const pad = input.length % 4;
-    if (pad) {
-      if (pad === 1) {
-        throw new Error('InvalidLengthError: Input base64url string is the wrong length to determine padding');
-      }
-      input += new Array(5 - pad).join('=');
-    }
-    return input;
-  }
-
-  if (!publicKey.challenge) {
-    plgSystemWebauthnHandleLoginError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
-
-    return;
-  }
-
-  publicKey.challenge = Uint8Array.from(window.atob(base64url2base64(publicKey.challenge)), function (c) {
-    return c.charCodeAt(0);
-  });
-
-  if (publicKey.allowCredentials) {
-    publicKey.allowCredentials = publicKey.allowCredentials.map(function (data) {
-      data.id = Uint8Array.from(window.atob(base64url2base64(data.id)), function (c) {
-        return c.charCodeAt(0);
-      });
-      return data;
-    });
-  }
-
-  navigator.credentials.get({'publicKey': publicKey})
-    .then(function (data) {
-      const publicKeyCredential = {
-        id: data.id,
-        type: data.type,
-        rawId: arrayToBase64String(new Uint8Array(data.rawId)),
-        response: {
-          authenticatorData: arrayToBase64String(new Uint8Array(data.response.authenticatorData)),
-          clientDataJSON: arrayToBase64String(new Uint8Array(data.response.clientDataJSON)),
-          signature: arrayToBase64String(new Uint8Array(data.response.signature)),
-          userHandle: data.response.userHandle ? arrayToBase64String(new Uint8Array(data.response.userHandle)) : null
-        }
-      };
-
-      //Send the response to your server
-      window.location = `${callback_url}&option=com_ajax&group=system&plugin=webauthn&`
-        + `format=raw&akaction=login&encoding=redirect&data=${
-          btoa(JSON.stringify(publicKeyCredential))}`;
-    })
-    .catch(function (error) {
-      // Example: timeout, interaction refused...
-      console.log(error);
-      plgSystemWebauthnHandleLoginError(error);
-    });
-}
-
-/**
- * A simple error handler.
- *
- * @param   {String}  message
- */
-function plgSystemWebauthnHandleLoginError(message) {
-  alert(message);
-
-  console.log(message);
 }

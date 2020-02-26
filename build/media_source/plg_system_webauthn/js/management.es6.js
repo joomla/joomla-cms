@@ -7,87 +7,127 @@
  */
 
 /**
+ * Converts a simple object containing query string parameters to a single, escaped query string.
+ * This method is a necessary evil since Joomla.request can only accept data as a string.
+ *
+ * @param    object   {object}  A plain object containing the query parameters to pass
+ * @param    thisParamIsThePrefix   {string}  Prefix for array-type parameters
+ *
+ * @returns  {string}
+ */
+function plgSystemWebauthnInterpolateParameters(object, thisParamIsThePrefix) {
+  const prefix = thisParamIsThePrefix || '';
+  let encodedString = '';
+
+  Object.keys(object).forEach((prop) => {
+    if (typeof object[prop] !== 'object') {
+      if (encodedString.length > 0) {
+        encodedString += '&';
+      }
+
+      if (prefix === '') {
+        encodedString += `${encodeURIComponent(prop)}=${encodeURIComponent(object[prop])}`;
+      } else {
+        encodedString
+          += `${encodeURIComponent(prefix)}[${encodeURIComponent(prop)}]=${encodeURIComponent(
+            object[prop],
+          )}`;
+      }
+
+      return;
+    }
+
+    // Objects need special handling
+    encodedString += `${plgSystemWebauthnInterpolateParameters(object[prop], prop)}`;
+  });
+
+  return encodedString;
+}
+
+/**
+ * A simple error handler
+ *
+ * @param   {String}  message
+ */
+function plgSystemWebauthnHandleCreationError(message) {
+  alert(message);
+}
+
+/**
  * Ask the user to link an authenticator using the provided public key (created server-side). Posts
  * the credentials to the URL defined in post_url using AJAX. That URL must re-render the management
  * interface. These contents will replace the element identified by the interface_selector CSS
  * selector.
  *
- * @param   {String}  store_id            CSS ID for the element storing the configuration in its
+ * @param   {String}  storeID            CSS ID for the element storing the configuration in its
  *                                        data properties
- * @param   {String}  interface_selector  CSS selector for the GUI container
+ * @param   {String}  interfaceSelector  CSS selector for the GUI container
  */
-function plgSystemWebauthnCreateCredentials(store_id, interface_selector) {
+// eslint-disable-next-line no-unused-vars
+function plgSystemWebauthnCreateCredentials(storeID, interfaceSelector) {
   // Make sure the browser supports Webauthn
   if (!('credentials' in navigator)) {
     alert(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NO_BROWSER_SUPPORT'));
 
-    console.log('This browser does not support Webauthn or you are not using HTTPS with a valid, signed certificate');
     return;
   }
 
   // Extract the configuration from the store
-  const elStore = document.getElementById(store_id);
+  const elStore = document.getElementById(storeID);
 
   if (!elStore) {
     return;
   }
 
   const publicKey = JSON.parse(atob(elStore.dataset.public_key));
-  const post_url = atob(elStore.dataset.postback_url);
+  const postURL = atob(elStore.dataset.postback_url);
 
   function arrayToBase64String(a) {
     return btoa(String.fromCharCode(...a));
   }
 
   function base64url2base64(input) {
-    input = input
-      .replace(/=/g, '')
+    let output = input
       .replace(/-/g, '+')
       .replace(/_/g, '/');
-
-    const pad = input.length % 4;
+    const pad = output.length % 4;
     if (pad) {
       if (pad === 1) {
         throw new Error('InvalidLengthError: Input base64url string is the wrong length to determine padding');
       }
-      input += new Array(5 - pad).join('=');
+      output += new Array(5 - pad).join('=');
     }
-
-    return input;
+    return output;
   }
 
   // Convert the public key information to a format usable by the browser's credentials manager
-  publicKey.challenge = Uint8Array.from(window.atob(base64url2base64(publicKey.challenge)), function (c) {
-    return c.charCodeAt(0);
-  });
+  publicKey.challenge = Uint8Array.from(
+    window.atob(base64url2base64(publicKey.challenge)), c => c.charCodeAt(0),
+  );
 
-  publicKey.user.id = Uint8Array.from(window.atob(publicKey.user.id), function (c) {
-    return c.charCodeAt(0);
-  });
+  publicKey.user.id = Uint8Array.from(window.atob(publicKey.user.id), c => c.charCodeAt(0));
 
   if (publicKey.excludeCredentials) {
-    publicKey.excludeCredentials = publicKey.excludeCredentials.map(function (data) {
-      data.id = Uint8Array.from(window.atob(base64url2base64(data.id)), function (c) {
-        return c.charCodeAt(0);
-      });
+    publicKey.excludeCredentials = publicKey.excludeCredentials.map((data) => {
+      data.id = Uint8Array.from(window.atob(base64url2base64(data.id)), c => c.charCodeAt(0));
       return data;
     });
   }
 
   // Ask the browser to prompt the user for their authenticator
-  navigator.credentials.create({'publicKey': publicKey})
-    .then(function (data) {
+  navigator.credentials.create({ publicKey })
+    .then((data) => {
       const publicKeyCredential = {
         id: data.id,
         type: data.type,
         rawId: arrayToBase64String(new Uint8Array(data.rawId)),
         response: {
           clientDataJSON: arrayToBase64String(new Uint8Array(data.response.clientDataJSON)),
-          attestationObject: arrayToBase64String(new Uint8Array(data.response.attestationObject))
-        }
+          attestationObject: arrayToBase64String(new Uint8Array(data.response.attestationObject)),
+        },
       };
 
-      //Send the response to your server
+      // Send the response to your server
       const postBackData = {
         option: 'com_ajax',
         group: 'system',
@@ -95,15 +135,15 @@ function plgSystemWebauthnCreateCredentials(store_id, interface_selector) {
         format: 'raw',
         akaction: 'create',
         encoding: 'raw',
-        data: btoa(JSON.stringify(publicKeyCredential))
+        data: btoa(JSON.stringify(publicKeyCredential)),
       };
 
       Joomla.request({
-        url: post_url,
+        url: postURL,
         method: 'POST',
         data: plgSystemWebauthnInterpolateParameters(postBackData),
         onSuccess(responseHTML) {
-          const elements = document.querySelectorAll(interface_selector);
+          const elements = document.querySelectorAll(interfaceSelector);
 
           if (!elements) {
             return;
@@ -115,10 +155,10 @@ function plgSystemWebauthnCreateCredentials(store_id, interface_selector) {
         },
         onError: (xhr) => {
           plgSystemWebauthnHandleCreationError(`${xhr.status} ${xhr.statusText}`);
-        }
+        },
       });
     })
-    .catch(function (error) {
+    .catch((error) => {
       // An error occurred: timeout, request to provide the authenticator refused, hardware /
       // software error...
       plgSystemWebauthnHandleCreationError(error);
@@ -126,32 +166,22 @@ function plgSystemWebauthnCreateCredentials(store_id, interface_selector) {
 }
 
 /**
- * A simple error handler
- *
- * @param   {String}  message
- */
-function plgSystemWebauthnHandleCreationError(message) {
-  alert(message);
-
-  console.log(message);
-}
-
-/**
  * Edit label button
  *
  * @param   {Element} that      The button being clicked
- * @param   {String}  store_id  CSS ID for the element storing the configuration in its data
+ * @param   {String}  storeID  CSS ID for the element storing the configuration in its data
  *                              properties
  */
-function plgSystemWebauthnEditLabel(that, store_id) {
+// eslint-disable-next-line no-unused-vars
+function plgSystemWebauthnEditLabel(that, storeID) {
   // Extract the configuration from the store
-  const elStore = document.getElementById(store_id);
+  const elStore = document.getElementById(storeID);
 
   if (!elStore) {
-    return;
+    return false;
   }
 
-  const post_url = atob(elStore.dataset.postback_url);
+  const postURL = atob(elStore.dataset.postback_url);
 
   // Find the UI elements
   const elTR = that.parentElement.parentElement;
@@ -174,7 +204,7 @@ function plgSystemWebauthnEditLabel(that, store_id) {
   const elSave = document.createElement('button');
   elSave.className = 'btn btn-success btn-sm';
   elSave.innerText = Joomla.JText._('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_SAVE_LABEL');
-  elSave.addEventListener('click', (e) => {
+  elSave.addEventListener('click', () => {
     const elNewLabel = elInput.value;
 
     if (elNewLabel !== '') {
@@ -186,11 +216,11 @@ function plgSystemWebauthnEditLabel(that, store_id) {
         encoding: 'json',
         akaction: 'savelabel',
         credential_id: credentialId,
-        new_label: elNewLabel
+        new_label: elNewLabel,
       };
 
       Joomla.request({
-        url: post_url,
+        url: postURL,
         method: 'POST',
         data: plgSystemWebauthnInterpolateParameters(postBackData),
         onSuccess(rawResponse) {
@@ -198,13 +228,13 @@ function plgSystemWebauthnEditLabel(that, store_id) {
 
           try {
             result = JSON.parse(rawResponse);
-          } catch (e) {
+          } catch (exception) {
             result = (rawResponse === 'true');
           }
 
           if (result !== true) {
             plgSystemWebauthnHandleCreationError(
-              Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED')
+              Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED'),
             );
           }
 
@@ -213,9 +243,9 @@ function plgSystemWebauthnEditLabel(that, store_id) {
         onError: (xhr) => {
           plgSystemWebauthnHandleCreationError(
             `${Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED')
-            } -- ${xhr.status} ${xhr.statusText}`
+            } -- ${xhr.status} ${xhr.statusText}`,
           );
-        }
+        },
       });
     }
 
@@ -229,7 +259,7 @@ function plgSystemWebauthnEditLabel(that, store_id) {
   const elCancel = document.createElement('button');
   elCancel.className = 'btn btn-danger btn-sm';
   elCancel.innerText = Joomla.JText._('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_CANCEL_LABEL');
-  elCancel.addEventListener('click', (e) => {
+  elCancel.addEventListener('click', () => {
     elLabelTD.innerText = oldLabel;
     elEdit.disabled = false;
     elDelete.disabled = false;
@@ -251,18 +281,19 @@ function plgSystemWebauthnEditLabel(that, store_id) {
  * Delete button
  *
  * @param   {Element} that      The button being clicked
- * @param   {String}  store_id  CSS ID for the element storing the configuration in its data
+ * @param   {String}  storeID  CSS ID for the element storing the configuration in its data
  *                              properties
  */
-function plgSystemWebauthnDelete(that, store_id) {
+// eslint-disable-next-line no-unused-vars
+function plgSystemWebauthnDelete(that, storeID) {
   // Extract the configuration from the store
-  const elStore = document.getElementById(store_id);
+  const elStore = document.getElementById(storeID);
 
   if (!elStore) {
-    return;
+    return false;
   }
 
-  const post_url = atob(elStore.dataset.postback_url);
+  const postURL = atob(elStore.dataset.postback_url);
 
   // Find the UI elements
   const elTR = that.parentElement.parentElement;
@@ -284,11 +315,11 @@ function plgSystemWebauthnDelete(that, store_id) {
     format: 'json',
     encoding: 'json',
     akaction: 'delete',
-    credential_id: credentialId
+    credential_id: credentialId,
   };
 
   Joomla.request({
-    url: post_url,
+    url: postURL,
     method: 'POST',
     data: plgSystemWebauthnInterpolateParameters(postBackData),
     onSuccess(rawResponse) {
@@ -302,7 +333,7 @@ function plgSystemWebauthnDelete(that, store_id) {
 
       if (result !== true) {
         plgSystemWebauthnHandleCreationError(
-          Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED')
+          Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED'),
         );
 
         return;
@@ -315,49 +346,10 @@ function plgSystemWebauthnDelete(that, store_id) {
       elDelete.disabled = false;
       plgSystemWebauthnHandleCreationError(
         `${Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED')
-        } -- ${xhr.status} ${xhr.statusText}`
+        } -- ${xhr.status} ${xhr.statusText}`,
       );
-    }
+    },
   });
 
   return false;
-}
-
-/**
- * Converts a simple object containing query string parameters to a single, escaped query string.
- * This method is a necessary evil since Joomla.request can only accept data as a string.
- *
- * @param    object   {object}  A plain object containing the query parameters to pass
- * @param    prefix   {string}  Prefix for array-type parameters
- *
- * @returns  {string}
- */
-function plgSystemWebauthnInterpolateParameters(object, prefix) {
-  prefix = prefix || '';
-  let encodedString = '';
-
-  for (const prop in object) {
-    if (object.hasOwnProperty(prop)) {
-      if (encodedString.length > 0) {
-        encodedString += '&';
-      }
-
-      if (typeof object[prop] !== 'object') {
-        if (prefix === '') {
-          encodedString += `${encodeURIComponent(prop)}=${encodeURIComponent(object[prop])}`;
-        } else {
-          encodedString
-            += `${encodeURIComponent(prefix)}[${encodeURIComponent(prop)}]=${encodeURIComponent(
-            object[prop]
-          )}`;
-        }
-
-        continue;
-      }
-
-      // Objects need special handling
-      encodedString += plgSystemWebauthnInterpolateParameters(object[prop], prop);
-    }
-  }
-  return encodedString;
 }
