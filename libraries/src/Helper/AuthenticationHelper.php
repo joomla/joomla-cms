@@ -127,14 +127,16 @@ abstract class AuthenticationHelper
 			foreach ($result as $item)
 			{
 				// Force mandatory fields
-				$button = array_merge([
+				$defaultButtonDefinition = [
 					'label'   => '',
 					'icon'    => '',
 					'image'   => '',
 					'class'   => '',
 					'id'      => '',
 					'onclick' => '',
-				], $item);
+				];
+
+				$button = array_merge($defaultButtonDefinition, $item);
 
 				// Unset anything that doesn't conform to a button definition
 				foreach (array_keys($button) as $key)
