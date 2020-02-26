@@ -592,7 +592,7 @@ abstract class Adapter extends CMSPlugin
 		}
 
 		// Get the content items to index.
-		$this->db->setQuery($this->getListQuery($query)->setLimit($limit, $offset));
+		$this->db->setQuery($query->setLimit($limit, $offset));
 		$items = $this->db->loadAssocList();
 
 		foreach ($items as &$item)
