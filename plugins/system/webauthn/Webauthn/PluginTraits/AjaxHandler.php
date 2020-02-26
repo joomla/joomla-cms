@@ -9,14 +9,14 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
-use Joomla\Plugin\System\Webauthn\Exception\AjaxNonCmsAppException;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Plugin\System\Webauthn\Exception\AjaxNonCmsAppException;
+use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use RuntimeException;
 
 // Protect from unauthorized access
@@ -61,7 +61,7 @@ trait AjaxHandler
 
 			if (!($app instanceof CMSApplication))
 			{
-				throw new AjaxNonCmsAppException();
+				throw new AjaxNonCmsAppException;
 			}
 
 			$input    = $app->input;
@@ -152,7 +152,6 @@ trait AjaxHandler
 						Joomla::log('system', "Callback complete, performing redirection to {$result['url']}{$modifiers}.");
 						$app->redirect($result['url']);
 					}
-
 
 					Joomla::log('system', "Callback complete, performing redirection to {$result}{$modifiers}.");
 					$app->redirect($result);

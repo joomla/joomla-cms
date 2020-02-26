@@ -10,12 +10,14 @@
 namespace Joomla\Plugin\System\Webauthn\Helper;
 
 // Protect from unauthorized access
+use DateTime;
 use DateTimeZone;
 use Exception;
 use JLoader;
-use Joomla\CMS\Application\BaseApplication;
+use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CliApplication;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Authentication\AuthenticationResponse;
 use Joomla\CMS\Date\Date;
@@ -34,12 +36,14 @@ defined('_JEXEC') or die();
 
 /**
  * A helper class for abstracting core features in Joomla! 3.4 and later, including 4.x
+ *
+ * @since  4.0.0
  */
 abstract class Joomla
 {
 	/**
-	 * A fake session storage for CLI apps. Since CLI applications cannot have a session we are using a Registry object
-	 * we manage internally.
+	 * A fake session storage for CLI apps. Since CLI applications cannot have a session we are
+	 * using a Registry object we manage internally.
 	 *
 	 * @var     Registry
 	 * @since   4.0.0
@@ -49,7 +53,7 @@ abstract class Joomla
 	/**
 	 * Are we inside the administrator application
 	 *
-	 * @var     bool
+	 * @var     boolean
 	 * @since   4.0.0
 	 */
 	protected static $isAdmin = null;
@@ -57,13 +61,14 @@ abstract class Joomla
 	/**
 	 * Are we inside a CLI application
 	 *
-	 * @var     bool
+	 * @var     boolean
 	 * @since   4.0.0
 	 */
 	protected static $isCli = null;
 
 	/**
-	 * Which plugins have already registered a text file logger. Prevents double registration of a log file.
+	 * Which plugins have already registered a text file logger. Prevents double registration of a
+	 * log file.
 	 *
 	 * @var     array
 	 * @since   4.0.0
@@ -73,88 +78,18 @@ abstract class Joomla
 	/**
 	 * The current Joomla Document type
 	 *
-	 * @var     §string|null
+	 * @var     string|null
 	 * @since   4.0.0
 	 */
 	protected static $joomlaDocumentType = null;
 
 	/**
-	 * Are we inside an administrator page?
-	 *
-	 * @param   CMSApplication  $app  The current CMS application which tells us if we are inside an admin page
-	 *
-	 * @return  bool
-	 *
-	 * @throws  Exception
-	 *
-	 * @since   4.0.0
-	 */
-	public static function isAdminPage(CMSApplication $app = null): bool
-	{
-		if (is_null(self::$isAdmin))
-		{
-			if (is_null($app))
-			{
-				$app = Factory::getApplication();
-			}
-
-			self::$isAdmin = $app->isClient('administrator');
-		}
-
-		return self::$isAdmin;
-	}
-
-	/**
-	 * Are we inside a CLI application
-	 *
-	 * @param   CMSApplication  $app  The current CMS application which tells us if we are inside an admin page
-	 *
-	 * @return  bool
-	 *
-	 * @since   4.0.0
-	 */
-	public static function isCli(CMSApplication $app = null): bool
-	{
-		if (is_null(self::$isCli))
-		{
-			if (is_null($app))
-			{
-				try
-				{
-					$app = Factory::getApplication();
-				}
-				catch (Exception $e)
-				{
-					$app = null;
-				}
-			}
-
-			if (is_null($app))
-			{
-				self::$isCli = true;
-			}
-
-			if (is_object($app))
-			{
-				self::$isCli = $app instanceof \Exception;
-
-				if (class_exists('Joomla\\CMS\\Application\\CliApplication'))
-				{
-					self::$isCli = self::$isCli || $app instanceof CliApplication;
-				}
-			}
-		}
-
-		return self::$isCli;
-	}
-
-	/**
-	 * Is the current user allowed to edit the social login configuration of $user? To do so I must either be editing my
-	 * own account OR I have to be a Super User.
+	 * Is the current user allowed to edit the social login configuration of $user? To do so I must
+	 * either be editing my own account OR I have to be a Super User.
 	 *
 	 * @param   User  $user  The user you want to know if we're allowed to edit
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -202,16 +137,21 @@ abstract class Joomla
 	/**
 	 * Helper method to render a JLayout.
 	 *
-	 * @param   string  $layoutFile   Dot separated path to the layout file, relative to base path (plugins/system/webauthn/layout)
-	 * @param   object  $displayData  Object which properties are used inside the layout file to build displayed output
+	 * @param   string  $layoutFile   Dot separated path to the layout file, relative to base path
+	 *                                (plugins/system/webauthn/layout)
+	 * @param   object  $displayData  Object which properties are used inside the layout file to
+	 *                                build displayed output
 	 * @param   string  $includePath  Additional path holding layout files
-	 * @param   mixed   $options      Optional custom options to load. Registry or array format. Set 'debug'=>true to output debug information.
+	 * @param   mixed   $options      Optional custom options to load. Registry or array format.
+	 *                                Set 'debug'=>true to output debug information.
 	 *
 	 * @return  string
 	 *
 	 * @since   4.0.0
 	 */
-	public static function renderLayout(string $layoutFile, $displayData = null, string $includePath = '', array $options = []): string
+	public static function renderLayout(string $layoutFile, $displayData = null,
+		string $includePath = '', array $options = []
+	): string
 	{
 		$basePath = JPATH_SITE . '/plugins/system/webauthn/layout';
 		$layout   = new FileLayout($layoutFile, $basePath, $options);
@@ -225,22 +165,48 @@ abstract class Joomla
 	}
 
 	/**
-	 * Set a variable in the user session.
+	 * Unset a variable from the user session
 	 *
-	 * This method cannot be replaced with a call to Factory::getSession->set(). This method takes into account running
-	 * under CLI, using a fake session storage. In the end of the day this plugin doesn't work under CLI but being able
-	 * to fake session storage under CLI means that we don't have to add gnarly if-blocks everywhere in the code to make
-	 * sure it doesn't break CLI either!
+	 * This method cannot be replaced with a call to Factory::getSession->set(). This method takes
+	 * into account running under CLI, using a fake session storage. In the end of the day this
+	 * plugin doesn't work under CLI but being able to fake session storage under CLI means that we
+	 * don't have to add gnarly if-blocks everywhere in the code to make sure it doesn't break CLI
+	 * either!
 	 *
-	 * @param   string  $name       The name of the variable to set
-	 * @param   string  $value      (optional) The value to set it to, default is null
-	 * @param   string  $namespace  (optional) The variable's namespace e.g. the component name. Default: 'default'
+	 * @param   string  $name       The name of the variable to unset
+	 * @param   string  $namespace  (optional) The variable's namespace e.g. the component name.
+	 *                              Default: 'default'
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public static function setSessionVar(string $name, ?string $value = null, string $namespace = 'default'): void
+	public static function unsetSessionVar(string $name, string $namespace = 'default'): void
+	{
+		self::setSessionVar($name, null, $namespace);
+	}
+
+	/**
+	 * Set a variable in the user session.
+	 *
+	 * This method cannot be replaced with a call to Factory::getSession->set(). This method takes
+	 * into account running under CLI, using a fake session storage. In the end of the day this
+	 * plugin doesn't work under CLI but being able to fake session storage under CLI means that we
+	 * don't have to add gnarly if-blocks everywhere in the code to make sure it doesn't break CLI
+	 * either!
+	 *
+	 * @param   string  $name       The name of the variable to set
+	 * @param   string  $value      (optional) The value to set it to, default is null
+	 * @param   string  $namespace  (optional) The variable's namespace e.g. the component name.
+	 *                              Default: 'default'
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public static function setSessionVar(string $name, ?string $value = null,
+		string $namespace = 'default'
+	): void
 	{
 		$qualifiedKey = "$namespace.$name";
 
@@ -251,67 +217,59 @@ abstract class Joomla
 			return;
 		}
 
-		if (version_compare(JVERSION, '3.99999.99999', 'lt'))
+		try
 		{
-			Factory::getSession()->set($name, $value, $namespace);
-
+			Factory::getApplication()->getSession()->set($qualifiedKey, $value);
+		}
+		catch (Exception $e)
+		{
 			return;
 		}
-
-		Factory::getSession()->set($qualifiedKey, $value);
 	}
 
 	/**
-	 * Get a variable from the user session
+	 * Are we inside a CLI application
 	 *
-	 * This method cannot be replaced with a call to Factory::getSession->get(). This method takes into account running
-	 * under CLI, using a fake session storage. In the end of the day this plugin doesn't work under CLI but being able
-	 * to fake session storage under CLI means that we don't have to add gnarly if-blocks everywhere in the code to make
-	 * sure it doesn't break CLI either!
+	 * @param   CMSApplication  $app  The current CMS application which tells us if we are inside
+	 *                                an admin page
 	 *
-	 * @param   string  $name       The name of the variable to set
-	 * @param   string  $default    (optional) The default value to return if the variable does not exit, default: null
-	 * @param   string  $namespace  (optional) The variable's namespace e.g. the component name. Default: 'default'
-	 *
-	 * @return  mixed
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
-	public static function getSessionVar(string $name, ?string $default = null, string $namespace = 'default')
+	public static function isCli(CMSApplication $app = null): bool
 	{
-		$qualifiedKey = "$namespace.$name";
-
-		if (self::isCli())
+		if (is_null(self::$isCli))
 		{
-			return self::getFakeSession()->get("$namespace.$name", $default);
+			if (is_null($app))
+			{
+				try
+				{
+					$app = Factory::getApplication();
+				}
+				catch (Exception $e)
+				{
+					$app = null;
+				}
+			}
+
+			if (is_null($app))
+			{
+				self::$isCli = true;
+			}
+
+			if (is_object($app))
+			{
+				self::$isCli = $app instanceof Exception;
+
+				if (class_exists('Joomla\\CMS\\Application\\CliApplication'))
+				{
+					self::$isCli = self::$isCli || $app instanceof CliApplication || $app instanceof ConsoleApplication;
+				}
+			}
 		}
 
-		if (version_compare(JVERSION, '3.99999.99999', 'lt'))
-		{
-			return Factory::getSession()->get($name, $default, $namespace);
-		}
-
-		return Factory::getSession()->get($qualifiedKey, $default);
-	}
-
-	/**
-	 * Unset a variable from the user session
-	 *
-	 * This method cannot be replaced with a call to Factory::getSession->set(). This method takes into account running
-	 * under CLI, using a fake session storage. In the end of the day this plugin doesn't work under CLI but being able
-	 * to fake session storage under CLI means that we don't have to add gnarly if-blocks everywhere in the code to make
-	 * sure it doesn't break CLI either!
-	 *
-	 * @param   string  $name       The name of the variable to unset
-	 * @param   string  $namespace  (optional) The variable's namespace e.g. the component name. Default: 'default'
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public static function unsetSessionVar(string $name, string $namespace = 'default'): void
-	{
-		self::setSessionVar($name, null, $namespace);
+		return self::$isCli;
 	}
 
 	/**
@@ -325,15 +283,15 @@ abstract class Joomla
 	{
 		if (!is_object(self::$fakeSession))
 		{
-			self::$fakeSession = new Registry();
+			self::$fakeSession = new Registry;
 		}
 
 		return self::$fakeSession;
 	}
 
 	/**
-	 * Return the session token. This method goes through our session abstraction to prevent a fatal exception if it's
-	 * accidentally called under CLI.
+	 * Return the session token. This method goes through our session abstraction to prevent a
+	 * fatal exception if it's accidentally called under CLI.
 	 *
 	 * @return  mixed
 	 *
@@ -358,29 +316,61 @@ abstract class Joomla
 		}
 
 		// Web application, go through the regular Joomla! API.
-		return Factory::getSession()->getToken();
+		try
+		{
+			return Factory::getApplication()->getSession()->getToken();
+		}
+		catch (Exception $e)
+		{
+			return '';
+		}
 	}
 
 	/**
-	 * Writes a log message to the debug log
+	 * Get a variable from the user session
 	 *
-	 * @param   string       $plugin     The Social Login plugin which generated this log message
-	 * @param   string       $message    The message to write to the log
-	 * @param   int          $priority   Log message priority, default is Log::DEBUG
+	 * This method cannot be replaced with a call to Factory::getSession->get(). This method takes
+	 * into account running under CLI, using a fake session storage. In the end of the day this
+	 * plugin doesn't work under CLI but being able to fake session storage under CLI means that we
+	 * don't have to add gnarly if-blocks everywhere in the code to make sure it doesn't break CLI
+	 * either!
 	 *
-	 * @return  void
+	 * @param   string  $name       The name of the variable to set
+	 * @param   string  $default    (optional) The default value to return if the variable does not
+	 *                              exit, default: null
+	 * @param   string  $namespace  (optional) The variable's namespace e.g. the component name.
+	 *                              Default: 'default'
+	 *
+	 * @return  mixed
 	 *
 	 * @since   4.0.0
 	 */
-	public static function log(string $plugin, string $message, $priority = Log::DEBUG): void
+	public static function getSessionVar(string $name, ?string $default = null,
+		string $namespace = 'default'
+	)
 	{
-		Log::add($message, $priority, 'webauthn.' . $plugin);
+		$qualifiedKey = "$namespace.$name";
+
+		if (self::isCli())
+		{
+			return self::getFakeSession()->get("$namespace.$name", $default);
+		}
+
+		try
+		{
+			return Factory::getApplication()->getSession()->get($qualifiedKey, $default);
+		}
+		catch (Exception $e)
+		{
+			return $default;
+		}
 	}
 
 	/**
 	 * Register a debug log file writer for a Social Login plugin.
 	 *
-	 * @param   string  $plugin  The Social Login plugin for which to register a debug log file writer
+	 * @param   string  $plugin  The Social Login plugin for which to register a debug log file
+	 *                           writer
 	 *
 	 * @return  void
 	 *
@@ -406,29 +396,30 @@ abstract class Joomla
 
 		// Add a formatted text logger
 		Log::addLogger([
-			'text_file' => "webauthn_{$plugin}.php",
+			'text_file'         => "webauthn_{$plugin}.php",
 			'text_entry_format' => '{DATETIME}	{PRIORITY} {CLIENTIP}	{MESSAGE}'
-		], $logLevels, [
-			"webauthn.{$plugin}"
-		]);
+			], $logLevels, [
+				"webauthn.{$plugin}"
+			]
+		);
 	}
 
 	/**
 	 * Logs in a user to the site, bypassing the authentication plugins.
 	 *
-	 * @param   int              $userId  The user ID to log in
-	 * @param   BaseApplication  $app     The application we are running in. Skip to auto-detect (recommended).
+	 * @param   int                  $userId  The user ID to log in
+	 * @param   AbstractApplication  $app     The application we are running in. Skip to
+	 *                                        auto-detect (recommended).
+	 *
+	 * @return  void
 	 *
 	 * @throws  Exception
 	 *
 	 * @since   4.0.0
 	 */
-	public static function loginUser(int $userId, BaseApplication $app = null): void
+	public static function loginUser(int $userId, AbstractApplication $app = null): void
 	{
 		// Trick the class auto-loader into loading the necessary classes
-		JLoader::import('joomla.user.authentication');
-		JLoader::import('joomla.plugin.helper');
-		JLoader::import('joomla.user.helper');
 		class_exists('Joomla\\CMS\\Authentication\\Authentication', true);
 
 		// Fake a successful login message
@@ -438,6 +429,7 @@ abstract class Joomla
 		}
 
 		$isAdmin = $app->isClient('administrator');
+		/** @var User $user */
 		$user    = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 
 		// Does the user account have a pending activation?
@@ -454,10 +446,11 @@ abstract class Joomla
 
 		$statusSuccess = Authentication::STATUS_SUCCESS;
 
-		$response                = self::getAuthenticationResponseObject();
-		$response->status        = $statusSuccess;
-		$response->username      = $user->username;
-		$response->fullname      = $user->name;
+		$response           = self::getAuthenticationResponseObject();
+		$response->status   = $statusSuccess;
+		$response->username = $user->username;
+		$response->fullname = $user->name;
+		// phpcs:ignore
 		$response->error_message = '';
 		$response->language      = $user->getParam('language');
 		$response->type          = 'Passwordless';
@@ -485,7 +478,7 @@ abstract class Joomla
 			'action'   => 'core.login.site',
 		];
 
-		if (Joomla::isAdminPage())
+		if (self::isAdminPage())
 		{
 			$options['action'] = 'core.login.admin';
 		}
@@ -493,13 +486,14 @@ abstract class Joomla
 		// Run the user plugins. They CAN block login by returning boolean false and setting $response->error_message.
 		PluginHelper::importPlugin('user');
 
+		/** @var CMSApplication $app */
 		$results = $app->triggerEvent('onUserLogin', [(array) $response, $options]);
 
 		// If there is no boolean FALSE result from any plugin the login is successful.
 		if (in_array(false, $results, true) == false)
 		{
 			// Set the user in the session, letting Joomla! know that we are logged in.
-			Factory::getSession()->set('user', $user);
+			$app->getSession()->set('user', $user);
 
 			// Trigger the onUserAfterLogin event
 			$options['user']         = $user;
@@ -515,9 +509,11 @@ abstract class Joomla
 		$app->triggerEvent('onUserLoginFailure', [(array) $response]);
 
 		// Log the failure
+		// phpcs:ignore
 		Log::add($response->error_message, Log::WARNING, 'jerror');
 
 		// Throw an exception to let the caller know that the login failed
+		// phpcs:ignore
 		throw new RuntimeException($response->error_message);
 	}
 
@@ -534,23 +530,55 @@ abstract class Joomla
 		JLoader::import('joomla.user.authentication');
 		class_exists('Joomla\\CMS\\Authentication\\Authentication', true);
 
-		return new AuthenticationResponse();
+		return new AuthenticationResponse;
+	}
+
+	/**
+	 * Are we inside an administrator page?
+	 *
+	 * @param   CMSApplication  $app  The current CMS application which tells us if we are inside
+	 *                                an admin page
+	 *
+	 * @return  boolean
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   4.0.0
+	 */
+	public static function isAdminPage(CMSApplication $app = null): bool
+	{
+		if (is_null(self::$isAdmin))
+		{
+			if (is_null($app))
+			{
+				$app = Factory::getApplication();
+			}
+
+			self::$isAdmin = $app->isClient('administrator');
+		}
+
+		return self::$isAdmin;
 	}
 
 	/**
 	 * Have Joomla! process a login failure
 	 *
 	 * @param   AuthenticationResponse  $response    The Joomla! auth response object
-	 * @param   BaseApplication         $app         The application we are running in. Skip to auto-detect (recommended).
-	 * @param   string                  $logContext  Logging context (plugin name). Default: system.
+	 * @param   AbstractApplication     $app         The application we are running in. Skip to
+	 *                                               auto-detect (recommended).
+	 * @param   string                  $logContext  Logging context (plugin name). Default:
+	 *                                               system.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @throws  Exception
 	 *
 	 * @since   4.0.0
 	 */
-	public static function processLoginFailure(AuthenticationResponse $response, BaseApplication $app = null, string $logContext = 'system')
+	public static function processLoginFailure(AuthenticationResponse $response,
+		AbstractApplication $app = null,
+		string $logContext = 'system'
+	)
 	{
 		// Import the user plugin group.
 		PluginHelper::importPlugin('user');
@@ -561,38 +589,60 @@ abstract class Joomla
 		}
 
 		// Trigger onUserLoginFailure Event.
-		Joomla::log($logContext, "Calling onUserLoginFailure plugin event");
-		$app->triggerEvent('onUserLoginFailure', array((array) $response));
+		self::log($logContext, "Calling onUserLoginFailure plugin event");
+		/** @var CMSApplication $app */
+		$app->triggerEvent('onUserLoginFailure', [(array) $response]);
 
 		// If status is success, any error will have been raised by the user plugin
 		$expectedStatus = Authentication::STATUS_SUCCESS;
 
 		if ($response->status !== $expectedStatus)
 		{
-			Joomla::log($logContext, "The login failure has been logged in Joomla's error log");
+			self::log($logContext, "The login failure has been logged in Joomla's error log");
 
 			// Everything logged in the 'jerror' category ends up being enqueued in the application message queue.
+			// phpcs:ignore
 			Log::add($response->error_message, Log::WARNING, 'jerror');
 		}
 		else
 		{
-			Joomla::log($logContext, "The login failure was caused by a third party user plugin but it did not return any further information. Good luck figuring this one out...", Log::WARNING);
+			$message = "The login failure was caused by a third party user plugin but it did not " .
+				"return any further information. Good luck figuring this one out...";
+			self::log($logContext, $message, Log::WARNING);
 		}
 
 		return false;
 	}
 
 	/**
+	 * Writes a log message to the debug log
+	 *
+	 * @param   string  $plugin    The Social Login plugin which generated this log message
+	 * @param   string  $message   The message to write to the log
+	 * @param   int     $priority  Log message priority, default is Log::DEBUG
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public static function log(string $plugin, string $message, $priority = Log::DEBUG): void
+	{
+		Log::add($message, $priority, 'webauthn.' . $plugin);
+	}
+
+	/**
 	 * Format a date for display.
 	 *
-	 * The $tzAware parameter defines whether the formatted date will be timezone-aware. If set to false the formatted
-	 * date will be rendered in the UTC timezone. If set to true the code will automatically try to use the logged in
-	 * user's timezone or, if none is set, the site's default timezone (Server Timezone). If set to a positive integer
-	 * the same thing will happen but for the specified user ID instead of the currently logged in user.
+	 * The $tzAware parameter defines whether the formatted date will be timezone-aware. If set to
+	 * false the formatted date will be rendered in the UTC timezone. If set to true the code will
+	 * automatically try to use the logged in user's timezone or, if none is set, the site's
+	 * default timezone (Server Timezone). If set to a positive integer the same thing will happen
+	 * but for the specified user ID instead of the currently logged in user.
 	 *
-	 * @param   string|\DateTime  $date     The date to format
-	 * @param   string            $format   The format string, default is Joomla's DATE_FORMAT_LC6 (usually "Y-m-d H:i:s")
-	 * @param   bool|int          $tzAware  Should the format be timezone aware? See notes above.
+	 * @param   string|DateTime  $date      The date to format
+	 * @param   string           $format    The format string, default is Joomla's DATE_FORMAT_LC6
+	 *                                      (usually "Y-m-d H:i:s")
+	 * @param   bool|int         $tzAware   Should the format be timezone aware? See notes above.
 	 *
 	 * @return  string
 	 *
@@ -612,14 +662,17 @@ abstract class Joomla
 
 			try
 			{
-				$tzDefault = Factory::getApplication()->get('offset');
+				/** @var CMSApplication $app */
+				$app       = Factory::getApplication();
+				$tzDefault = $app->get('offset');
 			}
-			catch (\Exception $e)
+			catch (Exception $e)
 			{
 				$tzDefault = 'GMT';
 			}
 
-			$user = Factory::getUser($userId);
+			/** @var User $user */
+			$user    = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 			$tz   = $user->getParam('timezone', $tzDefault);
 		}
 
@@ -631,7 +684,7 @@ abstract class Joomla
 
 				$jDate->setTimezone($userTimeZone);
 			}
-			catch (\Exception $e)
+			catch (Exception $e)
 			{
 				// Nothing. Fall back to UTC.
 			}
@@ -648,11 +701,13 @@ abstract class Joomla
 	/**
 	 * Returns the current Joomla document type.
 	 *
-	 * The error catching is necessary because the application document object or even the application object itself may
-	 * have not yet been initialized. For example, a system plugin running inside a custom application object which does
-	 * not create a document object or which does not go through Joomla's Factory to create the application object. In
-	 * practice these are CLI and custom web applications used for maintenance and third party service callbacks. They
-	 * end up loading the system plugins but either don't go through Factory or at least don't create a document object.
+	 * The error catching is necessary because the application document object or even the
+	 * application object itself may have not yet been initialized. For example, a system plugin
+	 * running inside a custom application object which does not create a document object or which
+	 * does not go through Joomla's Factory to create the application object. In practice these are
+	 * CLI and custom web applications used for maintenance and third party service callbacks. They
+	 * end up loading the system plugins but either don't go through Factory or at least don't
+	 * create a document object.
 	 *
 	 * @return  string
 	 *

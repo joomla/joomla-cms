@@ -8,6 +8,7 @@
  */
 
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AdditionalLoginButtons;
 use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandler;
@@ -37,6 +38,7 @@ if (!class_exists('Joomla\\Plugin\\System\\Webauthn\\Helper\\Joomla', true))
  *
  * @since  4.0.0
  */
+// phpcs:ignore
 class plgSystemWebauthn extends CMSPlugin
 {
 	// AJAX request handlers
@@ -59,14 +61,15 @@ class plgSystemWebauthn extends CMSPlugin
 	/**
 	 * Constructor. Loads the language files as well.
 	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An optional associative array of configuration settings.
-	 *                             Recognized key values include 'name', 'group', 'params', 'language'
-	 *                             (this list is not meant to be comprehensive).
+	 * @param   DispatcherInterface  $subject  The object to observe
+	 * @param   array                $config   An optional associative array of configuration
+	 *                                         settings. Recognized key values include 'name',
+	 *                                         'group', 'params', 'language (this list is not meant
+	 *                                         to be comprehensive).
 	 *
 	 * @since  4.0.0
 	 */
-	public function __construct($subject, array $config = [])
+	public function __construct(&$subject, array $config = [])
 	{
 		parent::__construct($subject, $config);
 

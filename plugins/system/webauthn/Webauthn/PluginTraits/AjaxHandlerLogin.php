@@ -17,6 +17,7 @@ use Cose\Algorithm\Signature\ECDSA;
 use Cose\Algorithm\Signature\EdDSA;
 use Cose\Algorithm\Signature\RSA;
 use Exception;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -25,7 +26,9 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Plugin\System\Webauthn\CredentialRepository;
 use Joomla\Plugin\System\Webauthn\Helper\Joomla;
+use Laminas\Diactoros\ServerRequestFactory;
 use RuntimeException;
+use Throwable;
 use Webauthn\AttestationStatement\AndroidKeyAttestationStatementSupport;
 use Webauthn\AttestationStatement\AttestationObjectLoader;
 use Webauthn\AttestationStatement\AttestationStatementSupportManager;
@@ -39,7 +42,6 @@ use Webauthn\AuthenticatorAssertionResponseValidator;
 use Webauthn\PublicKeyCredentialLoader;
 use Webauthn\PublicKeyCredentialRequestOptions;
 use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
-use Zend\Diactoros\ServerRequestFactory;
 
 // Protect from unauthorized access
 defined('_JEXEC') or die();
@@ -48,6 +50,8 @@ defined('_JEXEC') or die();
  * Ajax handler for akaction=login
  *
  * Verifies the response received from the browser and logs in the user
+ *
+ * @since  4.0.0
  */
 trait AjaxHandlerLogin
 {
@@ -55,10 +59,9 @@ trait AjaxHandlerLogin
 	 * Returns the public key set for the user and a unique challenge in a Public Key Credential Request encoded as
 	 * JSON.
 	 *
-	 * @return  string  A JSON-encoded object or JSON-encoded false if the username is invalid or no credentials stored
+	 * @return  void
 	 *
 	 * @throws  Exception
-	 *
 	 * @since   4.0.0
 	 */
 	public function onAjaxWebauthnLogin(): void
@@ -92,13 +95,14 @@ trait AjaxHandlerLogin
 			Joomla::log('system', "Logging in the user", Log::INFO);
 			Joomla::loginUser((int) $userId);
 		}
-		catch (\Throwable $e)
+		catch (Throwable $e)
 		{
 			Joomla::setSessionVar('publicKeyCredentialRequestOptions', null, 'plg_system_webauthn');
 			Joomla::setSessionVar('userHandle', null, 'plg_system_webauthn');
 
 			$response                = Joomla::getAuthenticationResponseObject();
 			$response->status        = Authentication::STATUS_UNKNOWN;
+			// phpcs:ignore
 			$response->error_message = $e->getMessage();
 
 			Joomla::log('system', sprintf("Received login failure. Message: %s", $e->getMessage()), Log::ERROR);
@@ -127,6 +131,8 @@ trait AjaxHandlerLogin
 	/**
 	 * Validate the authenticator response sent to us by the browser.
 	 *
+	 * @return  void
+	 *
 	 * @throws  Exception
 	 *
 	 * @since   4.0.0
@@ -134,8 +140,10 @@ trait AjaxHandlerLogin
 	private function validateResponse(): void
 	{
 		// Initialize objects
-		$input                = Factory::getApplication()->input;
-		$credentialRepository = new CredentialRepository();
+		/** @var CMSApplication $app */
+		$app                  = Factory::getApplication();
+		$input                = $app->input;
+		$credentialRepository = new CredentialRepository;
 
 		// Retrieve data from the request and session
 		$data = $input->getBase64('data', '');
@@ -149,27 +157,33 @@ trait AjaxHandlerLogin
 		$publicKeyCredentialRequestOptions = $this->getPKCredentialRequestOptions();
 
 		// Cose Algorithm Manager
-		$coseAlgorithmManager = new Manager();
-		$coseAlgorithmManager->add(new ECDSA\ES256());
-		$coseAlgorithmManager->add(new ECDSA\ES512());
-		$coseAlgorithmManager->add(new EdDSA\EdDSA());
-		$coseAlgorithmManager->add(new RSA\RS1());
-		$coseAlgorithmManager->add(new RSA\RS256());
-		$coseAlgorithmManager->add(new RSA\RS512());
+		$coseAlgorithmManager = new Manager;
+		$coseAlgorithmManager->add(new ECDSA\ES256);
+		$coseAlgorithmManager->add(new ECDSA\ES512);
+		$coseAlgorithmManager->add(new EdDSA\EdDSA);
+		$coseAlgorithmManager->add(new RSA\RS1);
+		$coseAlgorithmManager->add(new RSA\RS256);
+		$coseAlgorithmManager->add(new RSA\RS512);
 
 		// Create a CBOR Decoder object
-		$otherObjectManager = new OtherObjectManager();
-		$tagObjectManager   = new TagObjectManager();
+		$otherObjectManager = new OtherObjectManager;
+		$tagObjectManager   = new TagObjectManager;
 		$decoder            = new Decoder($tagObjectManager, $otherObjectManager);
 
 		// Attestation Statement Support Manager
-		$algorithmManager                   = new Manager();
-		$attestationStatementSupportManager = new AttestationStatementSupportManager();
-		$attestationStatementSupportManager->add(new NoneAttestationStatementSupport());
+		$attestationStatementSupportManager = new AttestationStatementSupportManager;
+		$attestationStatementSupportManager->add(new NoneAttestationStatementSupport);
 		$attestationStatementSupportManager->add(new FidoU2FAttestationStatementSupport($decoder));
-		//$attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport(HttpFactory::getHttp(), 'GOOGLE_SAFETYNET_API_KEY', new RequestFactory()));
+
+		/*
+		$attestationStatementSupportManager->add(
+			new AndroidSafetyNetAttestationStatementSupport(
+				HttpFactory::getHttp(), 'GOOGLE_SAFETYNET_API_KEY', new RequestFactory
+			)
+		);
+		*/
 		$attestationStatementSupportManager->add(new AndroidKeyAttestationStatementSupport($decoder));
-		$attestationStatementSupportManager->add(new TPMAttestationStatementSupport());
+		$attestationStatementSupportManager->add(new TPMAttestationStatementSupport);
 		$attestationStatementSupportManager->add(new PackedAttestationStatementSupport($decoder, $coseAlgorithmManager));
 
 		// Attestation Object Loader
@@ -179,10 +193,10 @@ trait AjaxHandlerLogin
 		$publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader, $decoder);
 
 		// The token binding handler
-		$tokenBindingHandler = new TokenBindingNotSupportedHandler();
+		$tokenBindingHandler = new TokenBindingNotSupportedHandler;
 
 		// Extension Output Checker Handler
-		$extensionOutputCheckerHandler = new ExtensionOutputCheckerHandler();
+		$extensionOutputCheckerHandler = new ExtensionOutputCheckerHandler;
 
 		// Authenticator Assertion Response Validator
 		$authenticatorAssertionResponseValidator = new AuthenticatorAssertionResponseValidator(
@@ -203,7 +217,7 @@ trait AjaxHandlerLogin
 		// Check if the response is an Authenticator Assertion Response
 		if (!$response instanceof AuthenticatorAssertionResponse)
 		{
-			throw new \RuntimeException('Not an authenticator assertion response');
+			throw new RuntimeException('Not an authenticator assertion response');
 		}
 
 		// Check the response against the attestation request
@@ -245,8 +259,8 @@ trait AjaxHandlerLogin
 			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
 		}
 
-		if (!is_object($publicKeyCredentialCreationOptions) ||
-		!($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialRequestOptions))
+		if (!is_object($publicKeyCredentialCreationOptions)
+			|| !($publicKeyCredentialCreationOptions instanceof PublicKeyCredentialRequestOptions))
 		{
 			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREATE_INVALID_LOGIN_REQUEST'));
 		}

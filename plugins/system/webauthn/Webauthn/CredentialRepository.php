@@ -11,13 +11,12 @@ namespace Joomla\Plugin\System\Webauthn;
 
 use Exception;
 use InvalidArgumentException;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Encrypt\Aes;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Plugin\System\Webauthn\Helper\Joomla;
+use Joomla\Registry\Registry;
 use JsonException;
 use RuntimeException;
 use Throwable;
@@ -38,7 +37,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	/**
 	 * Returns a PublicKeyCredentialSource object given the public key credential ID
 	 *
-	 * @param   string   $publicKeyCredentialId
+	 * @param   string  $publicKeyCredentialId  The identified of the public key credential we're searching for
 	 *
 	 * @return  PublicKeyCredentialSource|null
 	 *
@@ -78,7 +77,9 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	 * Returns all PublicKeyCredentialSource objects given a user entity. We only use the `id` property of the user
 	 * entity, cast to integer, as the Joomla user ID by which records are keyed in the database table.
 	 *
-	 * @return PublicKeyCredentialSource[]
+	 * @param   PublicKeyCredentialUserEntity  $publicKeyCredentialUserEntity  Public key credential user entity record
+	 *
+	 * @return  PublicKeyCredentialSource[]
 	 *
 	 * @since  4.0.0
 	 */
@@ -102,7 +103,19 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 			return [];
 		}
 
-		$records = array_map(function ($record) {
+		/**
+		 * Converts invalid credential records to PublicKeyCredentialSource objects, or null if they
+		 * are invalid.
+		 *
+		 * This closure is defined as a variable to prevent PHP-CS from getting a stoke trying to
+		 * figure out the correct indentation :)
+		 *
+		 * @param   array  $record  The record to convert
+		 *
+		 * @return  PublicKeyCredentialSource|null
+		 */
+		$recordsMapperClosure = function ($record)
+		{
 			try
 			{
 				$json = $this->decryptCredential($record['credential']);
@@ -126,20 +139,39 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 			{
 				return null;
 			}
-		}, $records);
+		};
 
-		return array_filter($records, function ($record) {
+		$records = array_map($recordsMapperClosure, $records);
+
+		/**
+		 * Filters the list of records to only keep valid entries.
+		 *
+		 * Only array members that are PublicKeyCredentialSource objects survive the filter.
+		 *
+		 * This closure is defined as a variable to prevent PHP-CS from getting a stoke trying to
+		 * figure out the correct indentation :)
+		 *
+		 * @param  PublicKeyCredentialSource|mixed  $record  The record to filter
+		 *
+		 * @return boolean
+		 */
+		$filterClosure = function ($record)
+		{
 			return !is_null($record) && is_object($record) && ($record instanceof PublicKeyCredentialSource);
-		});
+		};
+
+		return array_filter($records, $filterClosure);
 	}
 
 	/**
 	 * Add or update an attested credential for a given user.
 	 *
-	 * @param   PublicKeyCredentialSource  $publicKeyCredentialSource  The public key credential source to store
+	 * @param   PublicKeyCredentialSource  $publicKeyCredentialSource  The public key credential
+	 *                                                                 source to store
 	 *
 	 * @return  void
 	 *
+	 * @throws Exception
 	 * @since   4.0.0
 	 */
 	public function saveCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource): void
@@ -177,11 +209,13 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 			 * Sanity check. The existing credential source must have the same user handle as the one I am trying to
 			 * save. Otherwise something fishy is going on.
 			 */
+			// phpcs:ignore
 			if ($oldRecord->user_id != $publicKeyCredentialSource->getUserHandle())
 			{
 				throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_CREDENTIAL_ID_ALREADY_IN_USE'));
 			}
 
+			// phpcs:ignore
 			$o->user_id = $oldRecord->user_id;
 			$o->label   = $oldRecord->label;
 			$update     = true;
@@ -216,17 +250,17 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	/**
 	 * Get all credential information for a given user ID. This is meant to only be used for displaying records.
 	 *
-	 * @param   int  $user_id  The user ID
+	 * @param   int  $userId  The user ID
 	 *
 	 * @return  array
 	 *
 	 * @since   4.0.0
 	 */
-	public function getAll(int $user_id): array
+	public function getAll(int $userId): array
 	{
 		/** @var DatabaseDriver $db */
 		$db         = Factory::getContainer()->get('DatabaseDriver');
-		$userHandle = $this->getHandleFromUserId($user_id);
+		$userHandle = $this->getHandleFromUserId($userId);
 		$query      = $db->getQuery(true)
 			->select('*')
 			->from($db->qn('#__webauthn_credentials'))
@@ -253,9 +287,9 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	/**
 	 * Do we have stored credentials under the specified Credential ID?
 	 *
-	 * @param   string  $credentialId
+	 * @param   string  $credentialId  The ID of the credential to check for existence
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -339,7 +373,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	 * acceptable to have a salted hash with a salt private to our server, e.g. Joomla's secret. The only immutable
 	 * information in Joomla is the user ID so that's what we will be using.
 	 *
-	 * @param   string  $credentialId
+	 * @param   string  $credentialId  The credential ID to get the user handle for
 	 *
 	 * @return  string
 	 *
@@ -439,8 +473,10 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	{
 		try
 		{
-			$app    = Factory::getApplication();
-			$secret = $app->getConfig()->get('secret', '');
+			$app = Factory::getApplication();
+			/** @var Registry $config */
+			$config = $app->getConfig();
+			$secret = $config->get('secret', '');
 		}
 		catch (Exception $e)
 		{

@@ -9,10 +9,10 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Joomla\Utilities\ArrayHelper;
 
 // Protect from unauthorized access
@@ -34,7 +34,7 @@ trait UserDeletion
 	 * @param   bool    $success  True if user was successfully stored in the database
 	 * @param   string  $msg      Message
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @throws  Exception
 	 *

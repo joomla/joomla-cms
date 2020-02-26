@@ -16,7 +16,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
-use Joomla\Plugin\System\Webauthn\Helper\Integration;
 use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 
 // Protect from unauthorized access
@@ -32,7 +31,7 @@ trait AdditionalLoginButtons
 	/**
 	 * Do I need to I inject buttons? Automatically detected (i.e. disabled if I'm already logged in).
 	 *
-	 * @var     bool|null
+	 * @var     boolean|null
 	 * @since   4.0.0
 	 */
 	protected $allowButtonDisplay = null;
@@ -40,7 +39,7 @@ trait AdditionalLoginButtons
 	/**
 	 * Have I already injected CSS and JavaScript? Prevents double inclusion of the same files.
 	 *
-	 * @var     bool
+	 * @var     boolean
 	 * @since   4.0.0
 	 */
 	private $injectedCSSandJS = false;
@@ -48,7 +47,7 @@ trait AdditionalLoginButtons
 	/**
 	 * Should I allow this plugin to add a WebAuthn login button?
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -79,7 +78,7 @@ trait AdditionalLoginButtons
 			 */
 			try
 			{
-				$isAdminPage = Joomla::isAdminPage();
+				Joomla::isAdminPage();
 			}
 			catch (Exception $e)
 			{
@@ -179,12 +178,14 @@ trait AdditionalLoginButtons
 		// Load the CSS
 		HTMLHelper::_('stylesheet', 'plg_system_webauthn/button.css', [
 			'relative' => true,
-		]);
+			]
+		);
 
 		// Load the JavaScript
 		HTMLHelper::_('script', 'plg_system_webauthn/login.js', [
 			'relative'  => true,
-		]);
+			]
+		);
 
 		// Load language strings client-side
 		Text::script('PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME');

@@ -9,11 +9,10 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Joomla\Plugin\System\Webauthn\CredentialRepository;
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
+use Joomla\Plugin\System\Webauthn\CredentialRepository;
 
 // Protect from unauthorized access
 defined('_JEXEC') or die();
@@ -22,13 +21,15 @@ defined('_JEXEC') or die();
  * Ajax handler for akaction=savelabel
  *
  * Deletes a security key
+ *
+ * @since  4.0.0
  */
 trait AjaxHandlerDelete
 {
 	/**
 	 * Handle the callback to remove an authenticator
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 * @throws  Exception
 	 *
 	 * @since   4.0.0
@@ -42,20 +43,20 @@ trait AjaxHandlerDelete
 		/** @var CMSApplication $app */
 		$app        = Factory::getApplication();
 		$input      = $app->input;
-		$repository = new CredentialRepository();
+		$repository = new CredentialRepository;
 
 		// Retrieve data from the request
-		$credential_id = $input->getBase64('credential_id', '');
+		$credentialId = $input->getBase64('credential_id', '');
 
 		// Is this a valid credential?
-		if (empty($credential_id))
+		if (empty($credentialId))
 		{
 			return false;
 		}
 
-		$credential_id = base64_decode($credential_id);
+		$credentialId = base64_decode($credentialId);
 
-		if (empty($credential_id) || !$repository->has($credential_id))
+		if (empty($credentialId) || !$repository->has($credentialId))
 		{
 			return false;
 		}
@@ -63,15 +64,15 @@ trait AjaxHandlerDelete
 		// Make sure I am editing my own key
 		try
 		{
-			$credential_handle = $repository->getUserHandleFor($credential_id);
-			$my_handle         = $repository->getHandleFromUserId($app->getIdentity()->id);
+			$credentialHandle = $repository->getUserHandleFor($credentialId);
+			$myHandle         = $repository->getHandleFromUserId($app->getIdentity()->id);
 		}
 		catch (Exception $e)
 		{
 			return false;
 		}
 
-		if ($credential_handle !== $my_handle)
+		if ($credentialHandle !== $myHandle)
 		{
 			return false;
 		}
@@ -79,7 +80,7 @@ trait AjaxHandlerDelete
 		// Delete the record
 		try
 		{
-			$repository->remove($credential_id);
+			$repository->remove($credentialId);
 		}
 		catch (Exception $e)
 		{

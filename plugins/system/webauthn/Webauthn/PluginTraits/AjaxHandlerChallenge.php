@@ -9,15 +9,15 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Joomla\Plugin\System\Webauthn\CredentialRepository;
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Exception;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
+use Joomla\Plugin\System\Webauthn\CredentialRepository;
+use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Throwable;
 use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
-use Webauthn\PublicKeyCredentialDescriptor;
 use Webauthn\PublicKeyCredentialRequestOptions;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialUserEntity;
@@ -51,12 +51,16 @@ trait AjaxHandlerChallenge
 		$this->loadLanguage();
 
 		// Initialize objects
-		$input      = Factory::getApplication()->input;
-		$repository = new CredentialRepository();
+		/** @var CMSApplication $app */
+		$app        = Factory::getApplication();
+		$input      = $app->input;
+		$repository = new CredentialRepository;
 
 		// Retrieve data from the request
 		$username  = $input->getUsername('username', '');
-		$returnUrl = base64_encode(Joomla::getSessionVar('returnUrl', Uri::current(), 'plg_system_webauthn'));
+		$returnUrl = base64_encode(
+			Joomla::getSessionVar('returnUrl', Uri::current(), 'plg_system_webauthn')
+		);
 		$returnUrl = $input->getBase64('returnUrl', $returnUrl);
 		$returnUrl = base64_decode($returnUrl);
 
@@ -78,14 +82,14 @@ trait AjaxHandlerChallenge
 		// Is the username valid?
 		try
 		{
-			$user_id = UserHelper::getUserId($username);
+			$userId = UserHelper::getUserId($username);
 		}
 		catch (Exception $e)
 		{
-			$user_id = 0;
+			$userId = 0;
 		}
 
-		if ($user_id <= 0)
+		if ($userId <= 0)
 		{
 			return json_encode(false);
 		}
@@ -93,7 +97,9 @@ trait AjaxHandlerChallenge
 		// Load the saved credentials into an array of PublicKeyCredentialDescriptor objects
 		try
 		{
-			$userEntity  = new PublicKeyCredentialUserEntity('', $repository->getHandleFromUserId($user_id), '');
+			$userEntity  = new PublicKeyCredentialUserEntity(
+				'', $repository->getHandleFromUserId($userId), ''
+			);
 			$credentials = $repository->findAllForUserEntity($userEntity);
 		}
 		catch (Exception $e)
@@ -123,7 +129,7 @@ trait AjaxHandlerChallenge
 		}
 
 		// Extensions
-		$extensions = new AuthenticationExtensionsClientInputs();
+		$extensions = new AuthenticationExtensionsClientInputs;
 
 		// Public Key Credential Request Options
 		$publicKeyCredentialRequestOptions = new PublicKeyCredentialRequestOptions(
@@ -136,11 +142,22 @@ trait AjaxHandlerChallenge
 		);
 
 		// Save in session. This is used during the verification stage to prevent replay attacks.
-		Joomla::setSessionVar('publicKeyCredentialRequestOptions', base64_encode(serialize($publicKeyCredentialRequestOptions)), 'plg_system_webauthn');
-		Joomla::setSessionVar('userHandle', $repository->getHandleFromUserId($user_id), 'plg_system_webauthn');
-		Joomla::setSessionVar('userId', $user_id, 'plg_system_webauthn');
+		Joomla::setSessionVar(
+			'publicKeyCredentialRequestOptions',
+			base64_encode(serialize($publicKeyCredentialRequestOptions)),
+			'plg_system_webauthn'
+		);
+		Joomla::setSessionVar(
+			'userHandle',
+			$repository->getHandleFromUserId($userId),
+			'plg_system_webauthn'
+		);
+		Joomla::setSessionVar('userId', $userId, 'plg_system_webauthn');
 
 		// Return the JSON encoded data to the caller
-		return json_encode($publicKeyCredentialRequestOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+		return json_encode(
+			$publicKeyCredentialRequestOptions,
+			JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+		);
 	}
 }

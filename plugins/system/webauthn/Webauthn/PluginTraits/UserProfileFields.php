@@ -9,11 +9,11 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Joomla\Registry\Registry;
 
 // Protect from unauthorized access
@@ -33,7 +33,7 @@ trait UserProfileFields
 	/**
 	 * Adds additional fields to the user editing form
 	 *
-	 * @param   Form  $form  The form to be altered.
+	 * @param   Form   $form  The form to be altered.
 	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean

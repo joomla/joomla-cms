@@ -8,12 +8,13 @@
  */
 
 // Prevent direct access
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Plugin\System\Webauthn\CredentialRepository;
+use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 
 defined('_JEXEC') or die;
 
@@ -26,6 +27,7 @@ class JFormFieldWebauthn extends FormField
 	 *
 	 * @since  4.0.0
 	 */
+	// phpcs:ignore
 	protected $_name = 'Webauthn';
 
 	/**
@@ -36,11 +38,11 @@ class JFormFieldWebauthn extends FormField
 	 *
 	 * @since   4.0.0
 	 */
-	function getInput()
+	public function getInput()
 	{
-		$user_id = $this->form->getData()->get('id', null);
+		$userId = $this->form->getData()->get('id', null);
 
-		if (is_null($user_id))
+		if (is_null($userId))
 		{
 			return Text::_('PLG_SYSTEM_WEBAUTHN_ERR_NOUSER');
 		}
@@ -48,7 +50,8 @@ class JFormFieldWebauthn extends FormField
 		HTMLHelper::_('script', 'plg_system_webauthn/management.js', [
 			'relative'  => true,
 			'framework' => true,
-		]);
+			]
+		);
 
 		Text::script('PLG_SYSTEM_WEBAUTHN_ERR_NO_BROWSER_SUPPORT', true);
 		Text::script('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_SAVE_LABEL', true);
@@ -57,12 +60,13 @@ class JFormFieldWebauthn extends FormField
 		Text::script('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED', true);
 
 		$app                  = Factory::getApplication();
-		$credentialRepository = new \Joomla\Plugin\System\Webauthn\CredentialRepository();
+		$credentialRepository = new CredentialRepository;
 
 		return Joomla::renderLayout('plugins.system.webauthn.manage', [
-			'user'        => Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($user_id),
-			'allow_add'   => $user_id == $app->getIdentity()->id,
-			'credentials' => $credentialRepository->getAll($user_id),
-		]);
+			'user'        => Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId),
+			'allow_add'   => $userId == $app->getIdentity()->id,
+			'credentials' => $credentialRepository->getAll($userId),
+			]
+		);
 	}
 }

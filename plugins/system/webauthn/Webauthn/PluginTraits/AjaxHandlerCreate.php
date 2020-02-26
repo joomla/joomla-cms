@@ -9,16 +9,15 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\Plugin\System\Webauthn\CredentialRepository;
-use Joomla\Plugin\System\Webauthn\Helper\CredentialsCreation;
-use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Exception;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserFactoryInterface;
+use Joomla\Plugin\System\Webauthn\CredentialRepository;
+use Joomla\Plugin\System\Webauthn\Helper\CredentialsCreation;
+use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use RuntimeException;
-use Webauthn\AttestedCredentialData;
 use Webauthn\PublicKeyCredentialSource;
 
 // Protect from unauthorized access
@@ -57,7 +56,9 @@ trait AjaxHandlerCreate
 		 * remove this sanity check!
 		 */
 		$storedUserId = Joomla::getSessionVar('registration_user_id', 0, 'plg_system_webauthn');
-		$thatUser     = empty($storedUserId) ? Factory::getApplication()->getIdentity() : Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($storedUserId);
+		$thatUser     = empty($storedUserId) ?
+			Factory::getApplication()->getIdentity() :
+			Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($storedUserId);
 		$myUser = Factory::getApplication()->getIdentity();
 
 		if ($thatUser->guest || ($thatUser->id != $myUser->id))
@@ -71,7 +72,7 @@ trait AjaxHandlerCreate
 		}
 
 		// Get the credentials repository object. It's outside the try-catch because I also need it to display the GUI.
-		$credentialRepository = new CredentialRepository();
+		$credentialRepository = new CredentialRepository;
 
 		// Try to validate the browser data. If there's an error I won't save anything and pass the message to the GUI.
 		try

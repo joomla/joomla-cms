@@ -26,6 +26,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Plugin\System\Webauthn\CredentialRepository;
+use Laminas\Diactoros\ServerRequestFactory;
 use RuntimeException;
 use Webauthn\AttestationStatement\AndroidKeyAttestationStatementSupport;
 use Webauthn\AttestationStatement\AttestationObjectLoader;
@@ -47,7 +48,6 @@ use Webauthn\PublicKeyCredentialRpEntity;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialUserEntity;
 use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
-use Zend\Diactoros\ServerRequestFactory;
 
 /**
  * Helper class to aid in credentials creation (link an authenticator to a user account)
@@ -80,7 +80,7 @@ abstract class CredentialsCreation
 		}
 
 		// Credentials repository
-		$repository = new CredentialRepository();
+		$repository = new CredentialRepository;
 
 		// Relaying Party -- Our site
 		$rpEntity = new PublicKeyCredentialRpEntity(
@@ -126,10 +126,10 @@ abstract class CredentialsCreation
 		}
 
 		// Authenticator Selection Criteria (we used default values)
-		$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria();
+		$authenticatorSelectionCriteria = new AuthenticatorSelectionCriteria;
 
 		// Extensions (not yet supported by the library)
-		$extensions = new AuthenticationExtensionsClientInputs();
+		$extensions = new AuthenticationExtensionsClientInputs;
 
 		// Attestation preference
 		$attestationPreference = PublicKeyCredentialCreationOptions::ATTESTATION_CONVEYANCE_PREFERENCE_NONE;
@@ -148,7 +148,10 @@ abstract class CredentialsCreation
 		);
 
 		// Save data in the session
-		Joomla::setSessionVar('publicKeyCredentialCreationOptions', base64_encode(serialize($publicKeyCredentialCreationOptions)), 'plg_system_webauthn');
+		Joomla::setSessionVar('publicKeyCredentialCreationOptions',
+			base64_encode(serialize($publicKeyCredentialCreationOptions)),
+			'plg_system_webauthn'
+		);
 		Joomla::setSessionVar('registration_user_id', $user->id, 'plg_system_webauthn');
 
 		return json_encode($publicKeyCredentialCreationOptions, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
@@ -211,29 +214,37 @@ abstract class CredentialsCreation
 		}
 
 		// Cose Algorithm Manager
-		$coseAlgorithmManager               = new Manager();
-		$coseAlgorithmManager->add(new ECDSA\ES256());
-		$coseAlgorithmManager->add(new ECDSA\ES512());
-		$coseAlgorithmManager->add(new EdDSA\EdDSA());
-		$coseAlgorithmManager->add(new RSA\RS1());
-		$coseAlgorithmManager->add(new RSA\RS256());
-		$coseAlgorithmManager->add(new RSA\RS512());
+		$coseAlgorithmManager               = new Manager;
+		$coseAlgorithmManager->add(new ECDSA\ES256);
+		$coseAlgorithmManager->add(new ECDSA\ES512);
+		$coseAlgorithmManager->add(new EdDSA\EdDSA);
+		$coseAlgorithmManager->add(new RSA\RS1);
+		$coseAlgorithmManager->add(new RSA\RS256);
+		$coseAlgorithmManager->add(new RSA\RS512);
 
 		// Create a CBOR Decoder object
-		$otherObjectManager = new OtherObjectManager();
-		$tagObjectManager   = new TagObjectManager();
+		$otherObjectManager = new OtherObjectManager;
+		$tagObjectManager   = new TagObjectManager;
 		$decoder            = new Decoder($tagObjectManager, $otherObjectManager);
 
 		// The token binding handler
-		$tokenBindingHandler = new TokenBindingNotSupportedHandler();
+		$tokenBindingHandler = new TokenBindingNotSupportedHandler;
 
 		// Attestation Statement Support Manager
-		$attestationStatementSupportManager = new AttestationStatementSupportManager();
-		$attestationStatementSupportManager->add(new NoneAttestationStatementSupport());
+		$attestationStatementSupportManager = new AttestationStatementSupportManager;
+		$attestationStatementSupportManager->add(new NoneAttestationStatementSupport);
 		$attestationStatementSupportManager->add(new FidoU2FAttestationStatementSupport($decoder));
-		//$attestationStatementSupportManager->add(new AndroidSafetyNetAttestationStatementSupport(HttpFactory::getHttp(), 'GOOGLE_SAFETYNET_API_KEY', new RequestFactory()));
+
+		/**
+		$attestationStatementSupportManager->add(
+			new AndroidSafetyNetAttestationStatementSupport(HttpFactory::getHttp(),
+				'GOOGLE_SAFETYNET_API_KEY',
+				new RequestFactory
+			)
+		);
+		*/
 		$attestationStatementSupportManager->add(new AndroidKeyAttestationStatementSupport($decoder));
-		$attestationStatementSupportManager->add(new TPMAttestationStatementSupport());
+		$attestationStatementSupportManager->add(new TPMAttestationStatementSupport);
 		$attestationStatementSupportManager->add(new PackedAttestationStatementSupport($decoder, $coseAlgorithmManager));
 
 		// Attestation Object Loader
@@ -243,10 +254,10 @@ abstract class CredentialsCreation
 		$publicKeyCredentialLoader = new PublicKeyCredentialLoader($attestationObjectLoader, $decoder);
 
 		// Credential Repository
-		$credentialRepository = new CredentialRepository();
+		$credentialRepository = new CredentialRepository;
 
 		// Extension output checker handler
-		$extensionOutputCheckerHandler = new ExtensionOutputCheckerHandler();
+		$extensionOutputCheckerHandler = new ExtensionOutputCheckerHandler;
 
 		// Authenticator Attestation Response Validator
 		$authenticatorAttestationResponseValidator = new AuthenticatorAttestationResponseValidator(
@@ -278,12 +289,10 @@ abstract class CredentialsCreation
 		 * Everything is OK here. You can get the Public Key Credential Source. This object should be persisted using
 		 * the Public Key Credential Source repository.
 		 */
-		$publicKeyCredentialSource = PublicKeyCredentialSource::createFromPublicKeyCredential(
+		return PublicKeyCredentialSource::createFromPublicKeyCredential(
 			$publicKeyCredential,
 			$publicKeyCredentialCreationOptions->getUser()->getId()
 		);
-
-		return $publicKeyCredentialSource;
 	}
 
 	/**
@@ -337,7 +346,7 @@ abstract class CredentialsCreation
 			}
 		}
 
-		if (is_null($relFile))
+		if (!isset($relFile) || is_null($relFile))
 		{
 			return null;
 		}
