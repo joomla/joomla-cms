@@ -9,6 +9,11 @@
     "es6": true,
     "node": true
   },
+  "parserOptions": {
+    // Enable parsing of asyc functions
+    "ecmaVersion": 2017
+  },
+  },
   // Additional global variables your script accesses during execution
   "globals": {
     "Joomla": true

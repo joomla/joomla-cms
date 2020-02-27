@@ -65,7 +65,7 @@ module.exports.compile = (options, path) => {
 
       // Loop to get the files that should be compiled via parameter
       folders.forEach((folder) => {
-        (async() => {
+        (async () => {
           for await (const file of recursiveSearch(folder)) {
             // Don't take files with "_" but "file" has the full path, so check via match
             if (file.match(/\.scss$/) && !file.match(/(\/|\\)_[^/\\]+$/)) {
@@ -96,7 +96,7 @@ module.exports.compile = (options, path) => {
           for await (const scssFile of files) {
             CompileScss.compile(scssFile);
           }
-        })()
+        })();
 
       });
     })

@@ -41,13 +41,13 @@ module.exports.compileJS = (options, path) => {
 
       // Loop to get some text for the packgage.json
       folders.forEach((folder) => {
-        (async() => {
+        (async () => {
           for await (const file of recursiveSearch(folder)) {
             HandleFile.run(file);
           }
         })();
       });
-    })
+    });
 
     // Handle errors
     .catch((error) => {

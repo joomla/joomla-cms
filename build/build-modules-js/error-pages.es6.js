@@ -31,12 +31,13 @@ module.exports.run = (options) => {
   let jsContent = Fs.readFileSync(`${srcPath}/template.js`, 'utf-8');
 
   // Minify
-  const minifyCss = Postcss([CssNano]).process(cssContent.toString(), { from: undefined }).then(cssMin => cssMin.css);
-  const minifyJs = new Promise((resolve, reject) => resolve(UglifyJs.minify(jsContent)));
+  const minifyCss = Postcss([CssNano]).process(cssContent.toString(), { from: undefined })
+    .then(cssMin => cssMin.css);
+  const minifyJs = new Promise((resolve) => resolve(UglifyJs.minify(jsContent)));
 
   // Wait for both the CSS and JS to be minified
   Promise.all([minifyCss, minifyJs]).then((response) => {
-    (async() => {
+    (async () => {
       const files = await toArray(recursiveSearch(dir));
 
       files.sort().forEach((lang) => {
@@ -100,6 +101,6 @@ module.exports.run = (options) => {
           },
         );
       });
-    })()
+    })();
   });
 };
