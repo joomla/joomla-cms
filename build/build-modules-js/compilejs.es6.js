@@ -47,7 +47,7 @@ module.exports.compileJS = (options, path) => {
           }
         })();
       });
-    });
+    })
 
     // Handle errors
     .catch((error) => {
