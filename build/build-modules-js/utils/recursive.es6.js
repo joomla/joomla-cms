@@ -21,4 +21,4 @@ async function reduceAsync(asyncIter, f, init) {
   return res;
 }
 
-module.exports = { recursiveSearch, reduceAsync }
+module.exports = { recursiveSearch, reduceAsync };
