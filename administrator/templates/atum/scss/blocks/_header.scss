@@ -78,7 +78,8 @@
     line-height: $header-height;
     color: var(--atum-special-color);
 
-    [class^='icon-'] {
+    [class^='icon-'],
+    [class^='fa-']{
       margin-right: 0.625rem;
       font-size: 1rem;
     }
