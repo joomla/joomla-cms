@@ -129,7 +129,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 
 		if (empty($this->assets[$type][$name]))
 		{
-			throw new UnknownAssetException(sprintf('There is no a "%s" asset of a "%s" type in the registry.', $name, $type));
+			throw new UnknownAssetException(sprintf('There is no "%s" asset of a "%s" type in the registry.', $name, $type));
 		}
 
 		return $this->assets[$type][$name];

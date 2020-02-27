@@ -43,7 +43,6 @@ class FeaturedModel extends ArticlesModel
 				'created_by', 'a.created_by',
 				'created_by_alias', 'a.created_by_alias',
 				'ordering', 'a.ordering',
-				'featured', 'a.featured',
 				'featured_up', 'fp.featured_up',
 				'featured_down', 'fp.featured_down',
 				'language', 'a.language',

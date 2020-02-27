@@ -7,9 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\Plugin\User\Profile\Field;
+
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
@@ -22,7 +25,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  2.5.5
  */
-class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
+class TosField extends RadioField
 {
 	/**
 	 * The form field type.

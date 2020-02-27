@@ -7,9 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\Plugin\User\Profile\Field;
+
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Field\CalendarField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 
@@ -20,7 +23,7 @@ use Joomla\CMS\Layout\FileLayout;
  * @subpackage  User.profile
  * @since       3.3.7
  */
-class JFormFieldDob extends \Joomla\CMS\Form\Field\CalendarField
+class DobField extends CalendarField
 {
 	/**
 	 * The form field type.
