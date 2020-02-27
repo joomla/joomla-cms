@@ -65,6 +65,12 @@ steps:
       branch:
       - 4.0-dev
 
+  - name: eslint
+    image: node:current-alpine
+    depends_on: [ npm ]
+    commands:
+      - ./node_modules/.bin/eslint -c .eslintrc --ignore-path .eslintignore **/*.js
+
   - name: rebuild-cache
     image: drillster/drone-volume-cache
     depends_on: [ npm ]
@@ -308,6 +314,6 @@ services:
 
 ---
 kind: signature
-hmac: 6e49e42776ccca0ae4ccfef5ec153134f8d97d069983715e2a3cea327f8f5398
+hmac: e05a8b303777b35f7b113bc66185ae69b9182952a0c1f0d0ad0306ee2f44f914
 
 ...

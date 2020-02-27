@@ -8,9 +8,7 @@ scss-lint:
   version: 0.59.0
 
 eslint:
-  enabled: true
-  config_file: .eslintrc
-  ignore_file: .eslintignore
+  enabled: false
 
 # Disable hound default linters
 jshint:
