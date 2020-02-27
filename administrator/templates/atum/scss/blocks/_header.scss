@@ -2,11 +2,11 @@
 
 .header {
   position: relative;
+  background: $white;
+  box-shadow: $atum-box-shadow;
   z-index: $zindex-header;
-  box-sizing: border-box;
-  padding: 10px;
-  color: $white;
-  background: var(--atum-bg-dark);
+  border-top: 3px solid var(--atum-bg-dark);
+  color: var(--atum-special-color);
 
   .header-title {
     width: 50%;
@@ -30,8 +30,8 @@
 
   .logo {
     display: inline-block;
-    width: $sidebar-width;
     line-height: $header-height;
+    width: $sidebar-width;
     transition: width .3s ease;
 
     &.small {
@@ -48,19 +48,14 @@
         &.logo-small {
           display: inline-block;
         }
-
-        path {
-          fill: $white;
-        }
-
       }
     }
 
     svg,
     img {
-      max-width: calc(18rem - .8rem);
+      margin-left: 0.8rem;
       max-height: 1.3rem;
-      margin-left: .8rem;
+      max-width: calc(18rem - 0.8rem);
 
       &.logo-small {
         display: none;
@@ -70,24 +65,22 @@
 
     svg {
       height: 1.3rem;
-      path {
-        fill: $white;
-      }
     }
   }
 
   .page-title {
     width: 100%;
-    margin: 0;
+    white-space: nowrap;
     overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0;
     font-size: 1.2rem;
     line-height: $header-height;
-    color: $white;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    color: var(--atum-special-color);
 
-    [class^='icon-'] {
-      margin-right: .625rem;
+    [class^='icon-'],
+    [class^='fa-']{
+      margin-right: 0.625rem;
       font-size: 1rem;
     }
   }
@@ -104,8 +97,8 @@
       margin-left: auto;
 
       [dir=rtl] & {
-        margin-right: auto;
         margin-left: 0;
+        margin-right: auto;
       }
     }
 
@@ -113,8 +106,8 @@
       > *:first-child {
         flex-direction: column;
         height: 100%;
-        padding: 0 .6rem;
-        color: $white;
+        padding: 0 0.6rem;
+        color: var(--atum-special-color);
       }
 
       a,
@@ -122,20 +115,20 @@
 
         &:hover,
         &[aria-expanded="true"] {
+          background-color: var(--atum-bg-dark);
           color: var(--atum-text-light);
           text-decoration: none;
-          background-color: var(--atum-bg-dark);
           box-shadow: $atum-box-shadow;
         }
 
         &.disabled,
         &.disabled:hover,
         &.disabled[aria-expanded="true"] {
-          color: var(--atum-special-color);
-          pointer-events: none;
           background-color: transparent;
+          color: var(--atum-special-color);
           box-shadow: none;
-          opacity: .3;
+          opacity: 0.3;
+          pointer-events: none;
         }
       }
 
@@ -155,54 +148,38 @@
     }
 
     .tiny {
-      display: block;
-      min-width: 4rem;
-      max-width: 5rem;
-      margin-top: .3rem;
-      overflow: hidden;
-      line-height: .8rem;
       text-align: center;
-      text-overflow: ellipsis;
+      line-height: 0.8rem;
+      margin-top: 0.3rem;
       white-space: nowrap;
+      max-width: 5rem;
+      min-width: 4rem;
+      display: block;
+      text-overflow: ellipsis;
+      overflow: hidden;
       transition: all .2s ease-in-out;
     }
   }
 
   .fas,
   .fab {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     vertical-align: middle;
     transition: all .2s ease-in-out;
   }
 
   .badge {
     position: absolute;
-    top: .4rem;
-
-    [dir=ltr] & {
-      left: 50%;
-      margin-left: .8rem;
-    }
-
-    [dir=rtl] & {
-      right: 50%;
-      margin-right: .8rem;
-    }
+    left: 50%;
+    top: 0.4rem;
+    margin-left: 0.8rem;
   }
 
   .fa-angle-down {
     position: absolute;
-    top: .9rem;
-
-    [dir=ltr] & {
-      left: 50%;
-      margin-left: -1.8rem;
-    }
-
-    [dir=rtl] & {
-      right: 50%;
-      margin-right: -1.8rem;
-    }
+    left: 50%;
+    top: 0.9rem;
+    margin-left: -1.6rem;
   }
 
   .align-items-end {
@@ -220,11 +197,11 @@
     background-color: var(--atum-bg-dark-70);
 
     .dropdown-header {
-      padding: 1rem .75rem;
-      font-size: inherit;
       color: $white;
       background-color: var(--atum-bg-dark);
       box-shadow: $atum-box-shadow;
+      font-size: inherit;
+      padding: 1rem 0.75rem;
 
       [dir=rtl] & {
         text-align: right;
@@ -265,19 +242,19 @@
     .header-more-menu {
       position: absolute;
       top: 100%;
-      right: 0;
       left: -100000rem;
-      justify-content: flex-end;
+      right: 0;
       width: calc(13.2rem + 2px);
-      margin-top: .1rem;
+      margin-top: 0.1rem;
       background-color: var(--white-offset);
       border: 1px solid $gray-500;
       border-top: 0;
       box-shadow: $atum-box-shadow;
+      justify-content: flex-end;
 
       [dir=rtl] & {
-        right: auto;
         left: 0;
+        right: auto;
       }
     }
 
@@ -290,8 +267,8 @@
     }
 
     .header-item {
-      width: 6.6rem;
       height: 3.7rem;
+      width: 6.6rem;
     }
 
     .header-item-content {
@@ -305,10 +282,10 @@
     }
 
     .header-more-btn {
-      width: 3.8rem;
-      height: 100%;
       color: var(--white-offset);
       background-color: var(--atum-bg-dark);
+      width: 3.8rem;
+      height: 100%;
       border: 0;
 
       .fas {
@@ -324,28 +301,27 @@
   @include media-breakpoint-down(xs) {
     position: static;
     top: 0;
-    z-index: $zindex-header;
     width: 100%;
+    z-index: $zindex-header;
 
     .header-items {
+      background: var(--atum-bg-dark);
+      display: block;
       position: fixed;
       bottom: 0;
-      z-index: $zindex-mobile-bottom;
-      display: block;
-      flex-direction: row-reverse;
-      justify-content: flex-end;
       width: 100%;
       max-width: 18rem;
-      background: var(--atum-bg-dark);
+      z-index: $zindex-mobile-bottom;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
 
       &::after {
-        position: absolute;
-        z-index: -1;
+        content: "";
         width: 1000%;
         height: 100%;
-        content: "";
         background: var(--atum-bg-dark);
-
+        position: absolute;
+        z-index: -1;
       }
     }
 
@@ -357,8 +333,8 @@
         border-bottom: 0;
 
         [dir=rtl] & {
-          right: auto;
           left: -100rem;
+          right: auto;
         }
       }
 
@@ -366,8 +342,8 @@
         left: 0;
 
         [dir=rtl] & {
-          right: 0;
           left: auto;
+          right: 0;
         }
       }
 
@@ -382,8 +358,8 @@
 
     .header-items > .header-item {
       .header-item-content > :first-child {
-        padding-bottom: .4rem;
         color: var(--atum-text-light);
+        padding-bottom: 0.4rem;
       }
     }
 
@@ -391,8 +367,8 @@
       margin-left: 0;
 
       [dir=rtl] & {
-        margin-right: 0;
         margin-left: auto;
+        margin-right: 0;
       }
     }
 

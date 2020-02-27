@@ -35,7 +35,9 @@
   border: 0;
 
   [class^='icon-'],
-  [class*=' icon-'] {
+  [class*=' icon-'],
+  [class^='fa-'],
+  [class*=' fa-'] {
     width: 26px;
     height: 26px;
     font-size: 1rem;

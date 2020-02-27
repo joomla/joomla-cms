@@ -2,7 +2,9 @@ joomla-toolbar-button {
   border: 1px solid var(--border);
 
   [class^='icon-'],
-  [class*=' icon-'] {
+  [class*=' icon-'],
+  [class^='#{$fa-css-prefix}-'],
+  [class*=' #{$fa-css-prefix}-'] {
     margin-right: .5rem;
 
     [dir=rtl] & {
@@ -496,8 +498,8 @@ joomla-toolbar-button {
 
       [class^='icon-'],
       [class*=' icon-'],
-      [class^='fa-'],
-      [class*=' fa-'] {
+      [class^='#{$fa-css-prefix}-'],
+      [class*=' #{$fa-css-prefix}-'] {
         float: left;
 
         [dir=rtl] & {

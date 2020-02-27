@@ -54,7 +54,8 @@ body {
 
 // Header
 .header {
-  .page-title [class^='icon-'] {
+  .page-title [class^='icon-'],
+  .page-title [class^='fa-']{
     margin-right: 0;
     margin-left: 15px;
   }
@@ -102,8 +103,6 @@ body {
   .btn,
   .btn-sm {
 
-    [class*=' fa-'],
-    [class^='fa-'],
     [class^='icon-'],
     [class*=' icon-'],
     [class^='#{$fa-css-prefix}-'],

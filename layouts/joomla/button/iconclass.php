@@ -66,4 +66,4 @@ if ( $icon === 'refresh' )
 	$icon = 'sync';
 }
 ?>
-	fas fa-<?php echo $icon; ?>
+fas fa-<?php echo $icon; ?>
