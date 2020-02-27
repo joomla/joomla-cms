@@ -34,28 +34,6 @@
     line-height: $header-height;
     transition: width .3s ease;
 
-    &.small {
-      width: $sidebar-width-closed;
-      transition: width .3s ease;
-
-      svg,
-      img {
-
-        &:not(.logo-small) {
-          display: none;
-        }
-
-        &.logo-small {
-          display: inline-block;
-        }
-
-        path {
-          fill: $white;
-        }
-
-      }
-    }
-
     svg,
     img {
       max-width: calc(18rem - .8rem);
@@ -70,6 +48,7 @@
 
     svg {
       height: 1.3rem;
+
       path {
         fill: $white;
       }
