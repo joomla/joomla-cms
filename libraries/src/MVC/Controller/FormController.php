@@ -924,7 +924,7 @@ class FormController extends BaseController
 		}
 
 		// Save the data in the session.
-		$app->setUserState($this->option . '.edit.' . $this->context . '.data', $form->filter($data));
+		$app->setUserState($this->option . '.edit.' . $this->context . '.data', $data);
 
 		$this->setRedirect($redirectUrl);
 		$this->redirect();
