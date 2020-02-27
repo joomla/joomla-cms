@@ -11,7 +11,7 @@
   },
   "parserOptions": {
     // Enable parsing of asyc functions
-    "ecmaVersion": 2017
+    "ecmaVersion": 2018
   },
   },
   // Additional global variables your script accesses during execution

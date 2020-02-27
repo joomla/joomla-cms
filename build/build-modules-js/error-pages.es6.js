@@ -33,7 +33,7 @@ module.exports.run = (options) => {
   // Minify
   const minifyCss = Postcss([CssNano]).process(cssContent.toString(), { from: undefined })
     .then(cssMin => cssMin.css);
-  const minifyJs = new Promise((resolve) => resolve(UglifyJs.minify(jsContent)));
+  const minifyJs = new Promise(resolve => resolve(UglifyJs.minify(jsContent)));
 
   // Wait for both the CSS and JS to be minified
   Promise.all([minifyCss, minifyJs]).then((response) => {
