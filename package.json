@@ -99,7 +99,6 @@
     "node-sass": "^4.13.1",
     "path": "^0.12.7",
     "postcss": "^7.0.27",
-    "recursive-readdir": "^2.2.2",
     "sass-loader": "^8.0.2",
     "selenium-standalone": "^6.17.0",
     "uglify-es": "^3.3.9",

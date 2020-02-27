@@ -1,7 +1,7 @@
 const Fs = require('fs');
 const Ini = require('ini');
 const Path = require('path');
-const Recurs = require('recursive-readdir');
+const { recursiveSearch, reduceAsync } = require('./utils/recursive.es6.js');
 const Postcss = require('postcss');
 const CssNano = require('cssnano');
 const UglifyJs = require('uglify-es');
@@ -9,6 +9,7 @@ const UglifyJs = require('uglify-es');
 const RootPath = process.cwd();
 const dir = `${RootPath}/installation/language`;
 const srcPath = `${RootPath}/build/warning_page`;
+const toArray = iter => reduceAsync(iter, (a, x) => (a.push(x), a), []);
 
 // Set the initial template
 let incomplete = 'window.errorLocale = {';
@@ -35,75 +36,70 @@ module.exports.run = (options) => {
 
   // Wait for both the CSS and JS to be minified
   Promise.all([minifyCss, minifyJs]).then((response) => {
-    Recurs(dir).then(
-      (files) => {
-        files.sort().forEach((file) => {
-          const languageStrings = Ini.parse(Fs.readFileSync(file, 'UTF-8'));
+    (async() => {
+      const files = await toArray(recursiveSearch(dir));
 
-          // Build the variables into json for the unsupported page
-          if (languageStrings.MIN_PHP_ERROR_LANGUAGE) {
-            const name = Path.dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
-            unsupported += `"${name}":{"language":"${languageStrings.MIN_PHP_ERROR_LANGUAGE}",`
-                        + `"header":"${languageStrings.MIN_PHP_ERROR_HEADER}",`
-                        + `"text1":"${languageStrings.MIN_PHP_ERROR_TEXT}",`
-                        + `"help-url-text":"${languageStrings.MIN_PHP_ERROR_URL_TEXT}"},`;
-          }
+      files.sort().forEach((lang) => {
+        const languageStrings = Ini.parse(Fs.readFileSync(lang, 'UTF-8'));
 
-          // Build the variables into json for the unsupported page
-          if (languageStrings.BUILD_INCOMPLETE_LANGUAGE) {
-            const name = Path.dirname(file).replace(/.+\//, '').replace(/.+\\/, '');
-            incomplete += `"${name}":{"language":"${languageStrings.BUILD_INCOMPLETE_LANGUAGE}",`
-                       + `"header":"${languageStrings.BUILD_INCOMPLETE_HEADER}",`
-                       + `"text1":"${languageStrings.BUILD_INCOMPLETE_TEXT}",`
-                       + `"help-url-text":"${languageStrings.BUILD_INCOMPLETE_URL_TEXT}"},`;
-          }
-        });
+        // Build the variables into json for the unsupported page
+        if (languageStrings.MIN_PHP_ERROR_LANGUAGE) {
+          const name = Path.dirname(lang).replace(/.+\//, '').replace(/.+\\/, '');
+          unsupported += `"${name}":{"language":"${languageStrings.MIN_PHP_ERROR_LANGUAGE}",`
+                      + `"header":"${languageStrings.MIN_PHP_ERROR_HEADER}",`
+                      + `"text1":"${languageStrings.MIN_PHP_ERROR_TEXT}",`
+                      + `"help-url-text":"${languageStrings.MIN_PHP_ERROR_URL_TEXT}"},`;
+        }
 
-        unsupported = `${unsupported}}`;
-        incomplete = `${incomplete}}`;
+        // Build the variables into json for the unsupported page
+        if (languageStrings.BUILD_INCOMPLETE_LANGUAGE) {
+          const name = Path.dirname(lang).replace(/.+\//, '').replace(/.+\\/, '');
+          incomplete += `"${name}":{"language":"${languageStrings.BUILD_INCOMPLETE_LANGUAGE}",`
+                     + `"header":"${languageStrings.BUILD_INCOMPLETE_HEADER}",`
+                     + `"text1":"${languageStrings.BUILD_INCOMPLETE_TEXT}",`
+                     + `"help-url-text":"${languageStrings.BUILD_INCOMPLETE_URL_TEXT}"},`;
+        }
+      });
 
-        Object.keys(options.settings.errorPages).sort().forEach((name) => {
-          let checkContent = initTemplate;
-          checkContent = checkContent.replace('{{jsonContents}}', name === 'incomplete' ? incomplete : unsupported);
-          checkContent = checkContent.replace('{{PHP_VERSION}}', '');
-          checkContent = checkContent.replace('{{Title}}', options.settings.errorPages[name].title);
-          checkContent = checkContent.replace('{{Header}}', options.settings.errorPages[name].header);
-          checkContent = checkContent.replace('{{Description}}', options.settings.errorPages[name].text);
-          checkContent = checkContent.replace('{{Link}}', options.settings.errorPages[name].link);
-          checkContent = checkContent.replace('{{LinkText}}', options.settings.errorPages[name].linkText);
+      unsupported = `${unsupported}}`;
+      incomplete = `${incomplete}}`;
 
-          // CSS response
-          if (response[0]) {
-            checkContent = checkContent.replace('{{cssContents}}', response[0]);
-          }
+      Object.keys(options.settings.errorPages).sort().forEach((name) => {
+        let checkContent = initTemplate;
+        checkContent = checkContent.replace('{{jsonContents}}', name === 'incomplete' ? incomplete : unsupported);
+        checkContent = checkContent.replace('{{PHP_VERSION}}', '');
+        checkContent = checkContent.replace('{{Title}}', options.settings.errorPages[name].title);
+        checkContent = checkContent.replace('{{Header}}', options.settings.errorPages[name].header);
+        checkContent = checkContent.replace('{{Description}}', options.settings.errorPages[name].text);
+        checkContent = checkContent.replace('{{Link}}', options.settings.errorPages[name].link);
+        checkContent = checkContent.replace('{{LinkText}}', options.settings.errorPages[name].linkText);
 
-          // JS response
-          if (response[1]) {
-            checkContent = checkContent.replace('{{jsContents}}', response[1].code);
-          }
+        // CSS response
+        if (response[0]) {
+          checkContent = checkContent.replace('{{cssContents}}', response[0]);
+        }
 
-          Fs.writeFile(
-            `${RootPath}${options.settings.errorPages[name].destFile}`,
-            checkContent,
-            { encoding: 'utf8' },
-            (err) => {
-              if (err) {
-                // eslint-disable-next-line no-console
-                console.log(err);
-                return;
-              }
+        // JS response
+        if (response[1]) {
+          checkContent = checkContent.replace('{{jsContents}}', response[1].code);
+        }
 
+        Fs.writeFile(
+          `${RootPath}${options.settings.errorPages[name].destFile}`,
+          checkContent,
+          { encoding: 'utf8' },
+          (err) => {
+            if (err) {
               // eslint-disable-next-line no-console
-              console.log(`The ${options.settings.errorPages[name].destFile} page was created successfully!`);
-            },
-          );
-        });
-      },
-      (error) => {
-        // eslint-disable-next-line no-console
-        console.error(`${error}`);
-        process.exit(1);
-      },
-    );
+              console.log(err);
+              return;
+            }
+
+            // eslint-disable-next-line no-console
+            console.log(`The ${options.settings.errorPages[name].destFile} page was created successfully!`);
+          },
+        );
+      });
+    })()
   });
 };

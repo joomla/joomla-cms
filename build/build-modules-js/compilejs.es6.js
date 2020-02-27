@@ -1,5 +1,5 @@
 const Fs = require('fs');
-const Recurs = require('recursive-readdir');
+const { recursiveSearch } = require('./utils/recursive.es6.js');
 const HandleFile = require('./javascript/handle-file.es6.js');
 
 const RootPath = process.cwd();
@@ -41,19 +41,11 @@ module.exports.compileJS = (options, path) => {
 
       // Loop to get some text for the packgage.json
       folders.forEach((folder) => {
-        Recurs(folder, ['*.min.js', '*.map', '*.scss', '*.css', '*.svg', '*.png', '*.swf', '*.gif', '*.json']).then(
-          (files) => {
-            files.forEach(
-              (file) => {
-                HandleFile.run(file);
-              },
-              (error) => {
-                // eslint-disable-next-line no-console
-                console.error(error.formatted);
-              },
-            );
-          },
-        );
+        (async() => {
+          for await (const file of recursiveSearch(folder)) {
+            HandleFile.run(file);
+          }
+        })();
       });
     })
 

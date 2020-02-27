@@ -1,10 +1,10 @@
 const Fs = require('fs');
 const FsExtra = require('fs-extra');
 const Path = require('path');
-const Recurs = require('recursive-readdir');
 const Postcss = require('postcss');
 const CssNano = require('cssnano');
 const CompileScss = require('./stylesheets/scss-transform.es6.js');
+const { recursiveSearch } = require('./utils/recursive.es6.js');
 
 const RootPath = process.cwd();
 
@@ -65,52 +65,39 @@ module.exports.compile = (options, path) => {
 
       // Loop to get the files that should be compiled via parameter
       folders.forEach((folder) => {
-        Recurs(folder, ['*.js', '*.map', '*.svg', '*.png', '*.gif', '*.swf', '*.html', '*.json']).then(
-          (filesRc) => {
-            filesRc.forEach(
-              (file) => {
-                // Don't take files with "_" but "file" has the full path, so check via match
-                if (file.match(/\.scss$/) && !file.match(/(\/|\\)_[^/\\]+$/)) {
-                  files.push(file);
-                }
-                if (file.match(/\.css/)) {
-                  // CSS file, we will copy the file and then minify it in place
-                  // Ensure that the directories exist or create them
-                  FsExtra.mkdirsSync(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'), {});
-                  Fs.copyFileSync(file, file.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'));
-                  // Read the file and minify
-                  Fs.readFile(file, 'utf8', (err, data) => {
-                    if (err) throw err;
-                    Postcss([CssNano]).process(data.toString(), { from: undefined }).then((cssMin) => {
-                      Fs.writeFileSync(
-                        file.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.css', '.min.css'),
-                        cssMin.css.toString(),
-                        { encoding: 'utf8', mode: 0o2644 },
-                      );
-                    });
-                  });
+        (async() => {
+          for await (const file of recursiveSearch(folder)) {
+            // Don't take files with "_" but "file" has the full path, so check via match
+            if (file.match(/\.scss$/) && !file.match(/(\/|\\)_[^/\\]+$/)) {
+              files.push(file);
+            }
+            if (file.match(/\.css/)) {
+              // CSS file, we will copy the file and then minify it in place
+              // Ensure that the directories exist or create them
+              FsExtra.mkdirsSync(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'), {});
+              Fs.copyFileSync(file, file.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'));
+              // Read the file and minify
+              Fs.readFile(file, 'utf8', (err, data) => {
+                if (err) throw err;
+                Postcss([CssNano]).process(data.toString(), { from: undefined }).then((cssMin) => {
+                  Fs.writeFileSync(
+                    file.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.css', '.min.css'),
+                    cssMin.css.toString(),
+                    { encoding: 'utf8', mode: 0o2644 },
+                  );
+                });
+              });
 
-                  // eslint-disable-next-line no-console
-                  console.log(`CSS file copied/minified: ${file}`);
-                }
-              },
-              (error) => {
-                // eslint-disable-next-line no-console
-                console.error(error.formatted);
-              },
-            );
+              // eslint-disable-next-line no-console
+              console.log(`CSS file copied/minified: ${file}`);
+            }
+          }
 
-            return files;
-          },
-        ).then(
-          (scssFiles) => {
-            scssFiles.forEach(
-              (inputFile) => {
-                CompileScss.compile(inputFile);
-              },
-            );
-          },
-        );
+          for await (const scssFile of files) {
+            CompileScss.compile(scssFile);
+          }
+        })()
+
       });
     })
 
