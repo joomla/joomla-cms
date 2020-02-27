@@ -2,7 +2,8 @@ const Fs = require('fs');
 const FsExtra = require('fs-extra');
 const Path = require('path');
 const Recurs = require('recursive-readdir');
-const UglyCss = require('uglifycss');
+const Postcss = require('postcss');
+const CssNano = require('cssnano');
 const CompileScss = require('./stylesheets/scss-transform.es6.js');
 
 const RootPath = process.cwd();
@@ -77,11 +78,17 @@ module.exports.compile = (options, path) => {
                   // Ensure that the directories exist or create them
                   FsExtra.mkdirsSync(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'), {});
                   Fs.copyFileSync(file, file.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'));
-                  Fs.writeFileSync(
-                    file.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.css', '.min.css'),
-                    UglyCss.processFiles([file], { expandVars: false }),
-                    { encoding: 'utf8' },
-                  );
+                  // Read the file and minify
+                  Fs.readFile(file, 'utf8', (err, data) => {
+                    if (err) throw err;
+                    Postcss([CssNano]).process(data.toString(), { from: undefined }).then((cssMin) => {
+                      Fs.writeFileSync(
+                        file.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.css', '.min.css'),
+                        cssMin.css.toString(),
+                        { encoding: 'utf8', mode: 0o2644 },
+                      );
+                    });
+                  });
 
                   // eslint-disable-next-line no-console
                   console.log(`CSS file copied/minified: ${file}`);
