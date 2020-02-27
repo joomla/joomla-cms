@@ -12,7 +12,8 @@
   color: $white;
 }
 
-.icon-publish {
+.icon-publish,
+.fa-check {
   color: theme-color("success");
 
   .dropdown-status-group & {
@@ -47,7 +48,8 @@
     border-radius: 50%;
   }
 
-  .icon-publish {
+  .icon-publish,
+  .fa-check {
     color: var(--success);
     border-color: var(--success);
   }
