@@ -141,10 +141,10 @@ if ($saveOrder)
 												$icon = 'icon-trash';
 												$condition = Text::_('JTRASHED');
 											elseif ($item->from_condition == Workflow::CONDITION_PUBLISHED):
-												$icon = 'icon-publish';
+												$icon = 'fas fa-check';
 												$condition = Text::_('JPUBLISHED');
 											elseif ($item->from_condition == Workflow::CONDITION_UNPUBLISHED):
-												$icon = 'icon-unpublish';
+												$icon = 'fas fa-times';
 												$condition = Text::_('JUNPUBLISHED');
 											endif; ?>
 											<span class="<?php echo $icon; ?>" aria-hidden="true"></span>

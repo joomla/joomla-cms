@@ -21,7 +21,8 @@
   }
 }
 
-.icon-unpublish {
+.icon-unpublish,
+.fas.fa-times {
   color: theme-color("danger");
 
   .dropdown-status-group & {
