@@ -8,12 +8,11 @@
 
 namespace Joomla\CMS\Toolbar;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Toolbar\Button\BasicButton;
 use Joomla\CMS\Toolbar\Button\ConfirmButton;
@@ -484,7 +483,8 @@ class Toolbar
 			$button = $this->factory->createButton($this, $type);
 
 			$button->name($args[0] ?? '')
-				->text($args[1] ?? '');
+				->text($args[1] ?? '')
+				->task($args[2] ?? '');
 
 			return $this->appendButton($button);
 		}

@@ -57,12 +57,17 @@ class PlgContentJoomla extends CMSPlugin
 	 * @param   boolean  $isNew    Is new item
 	 * @param   array    $data     The validated data
 	 *
-	 * @return  void
+	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
 	public function onContentBeforeSave($context, $table, $isNew, $data)
 	{
+		if ($context === 'com_menus.item')
+		{
+			return $this->checkMenuItemBeforeSave($context, $table, $isNew, $data);
+		}
+
 		// Check we are handling the frontend edit form.
 		if (!in_array($context, ['com_workflow.stage', 'com_workflow.workflow']) || $isNew)
 		{
@@ -84,6 +89,8 @@ class PlgContentJoomla extends CMSPlugin
 					return $this->_canDeleteStage($item->id);
 			}
 		}
+
+		return true;
 	}
 
 	/**
@@ -255,6 +262,7 @@ class PlgContentJoomla extends CMSPlugin
 			'com_contact' => array('table_name' => '#__contact_details'),
 			'com_content' => array('table_name' => '#__content'),
 			'com_newsfeeds' => array('table_name' => '#__newsfeeds'),
+			'com_users' => array('table_name' => '#__user_notes'),
 			'com_weblinks' => array('table_name' => '#__weblinks'),
 		);
 
@@ -278,7 +286,7 @@ class PlgContentJoomla extends CMSPlugin
 				if ($count > 0)
 				{
 					$msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
-						. Text::plural('COM_CATEGORIES_N_ITEMS_ASSIGNED', $count);
+						. ' ' . Text::plural('COM_CATEGORIES_N_ITEMS_ASSIGNED', $count);
 					$this->app->enqueueMessage($msg, 'error');
 					$result = false;
 				}
@@ -295,7 +303,7 @@ class PlgContentJoomla extends CMSPlugin
 					elseif ($count > 0)
 					{
 						$msg = Text::sprintf('COM_CATEGORIES_DELETE_NOT_ALLOWED', $data->get('title'))
-							. Text::plural('COM_CATEGORIES_HAS_SUBCATEGORY_ITEMS', $count);
+							. ' ' . Text::plural('COM_CATEGORIES_HAS_SUBCATEGORY_ITEMS', $count);
 						$this->app->enqueueMessage($msg, 'error');
 						$result = false;
 					}
@@ -356,7 +364,7 @@ class PlgContentJoomla extends CMSPlugin
 
 		$stages = $model->getItems();
 
-		$stage_ids = ArrayHelper::getColumn($stages, 'id');
+		$stage_ids = array_column($stages, 'id');
 
 		$result = $this->_countItemsInStage($stage_ids, $table->extension);
 
@@ -707,6 +715,45 @@ class PlgContentJoomla extends CMSPlugin
 					$model_message->save($message);
 				}
 			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * The save event.
+	 *
+	 * @param   string   $context  The context
+	 * @param   object   $table    The item
+	 * @param   boolean  $isNew    Is new item
+	 * @param   array    $data     The validated data
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.12
+	 */
+	private function checkMenuItemBeforeSave($context, $table, $isNew, $data)
+	{
+		// Check we are handling the frontend edit form.
+		if ($context === 'com_menus.item')
+		{
+			return true;
+		}
+
+		// Special case for Create article menu item
+		if ($table->link !== 'index.php?option=com_content&view=form&layout=edit')
+		{
+			return true;
+		}
+
+		// Display error if catid is not set when enable_category is enabled
+		$params = json_decode($table->params, true);
+
+		if ($params['enable_category'] == 1 && empty($params['catid']))
+		{
+			$table->setError(Text::_('COM_CONTENT_CREATE_ARTICLE_ERROR'));
+
+			return false;
 		}
 
 		return true;

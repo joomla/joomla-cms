@@ -7,9 +7,9 @@
 
   const onChange = (value) => {
     if (value === '-' || parseInt(value, 10) === 0) {
-      document.getElementById('menuselect-group').style.display = 'none';
+      document.getElementById('menuselect-group').classList.add('hidden');
     } else {
-      document.getElementById('menuselect-group').style.display = 'block';
+      document.getElementById('menuselect-group').classList.remove('hidden');
     }
   };
 

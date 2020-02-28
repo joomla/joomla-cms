@@ -145,7 +145,7 @@ class UserListCest
 	protected function toggleSendMail($I)
 	{
 		$I->amOnPage('/administrator/index.php?option=com_config');
-		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
+		$I->waitForText('Global Configuration', $I->getConfig('timeout'), ['css' => '.page-title']);
 		$I->comment('I open the Server Tab');
 		$I->click('Server');
 		$I->comment('I wait for error reporting dropdown');
@@ -153,7 +153,8 @@ class UserListCest
 		$I->comment('I click on save');
 		$I->clickToolbarButton("Save");
 		$I->comment('I wait for global configuration being saved');
-		$I->waitForText('Global Configuration', TIMEOUT, ['css' => '.page-title']);
+		$I->waitForText('Global Configuration', $I->getConfig('timeout'), ['css' => '.page-title']);
+		$I->waitForElementVisible(['id' => 'system-message-container'], $I->getConfig('timeout'));
 		$I->see('Configuration saved.', ['id' => 'system-message-container']);
 	}
 }

@@ -82,7 +82,6 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
 			id="publish_up"
-			class="inputbox"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -95,7 +94,6 @@
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
 			id="publish_down"
-			class="inputbox"
 			translateformat="true"
 			showtime="true"
 			size="22"
@@ -164,7 +162,7 @@
 			type="radio"
 			label="COM_MENUS_ITEM_FIELD_HOME_LABEL"
 			default="0"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			filter="integer"
 			>
 			<option value="0">JNO</option>
@@ -220,7 +218,7 @@
 			type="radio"
 			label="COM_MENUS_ITEM_FIELD_HIDE_UNASSIGNED_LABEL"
 			default="1"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			filter="integer"
 			>
 			<option value="0">JHIDE</option>
@@ -232,7 +230,7 @@
 			type="radio"
 			label="COM_MENUS_ITEM_FIELD_HIDE_UNPUBLISHED_LABEL"
 			default="1"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			filter="integer"
 			>
 			<option value="0">JHIDE</option>

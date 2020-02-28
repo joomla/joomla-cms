@@ -43,8 +43,9 @@
 				label="COM_MENUS_ADMIN_AUTHOR_LABEL"
 				description="COM_MENUS_ADMIN_AUTHOR_DESC"
 				multiple="true"
+				layout="joomla.form.field.list-fancy-select"
 				class="multipleAuthors"
-				filter="int_array"
+				filter="intarray"
 				>
 				<option value="0">JNONE</option>
 			</field>
@@ -55,7 +56,8 @@
 				label="COM_MENUS_ADMIN_TAGS_LABEL"
 				description="COM_MENUS_ADMIN_TAGS_DESC"
 				multiple="true"
-				filter="int_array"
+				filter="intarray"
+				mode="nested"
 			/>
 
 			<field
@@ -64,7 +66,8 @@
 				label="COM_MENUS_ADMIN_ACCESS_LABEL"
 				description="COM_MENUS_ADMIN_ACCESS_DESC"
 				multiple="true"
-				filter="int_array"
+				layout="joomla.form.field.list-fancy-select"
+				filter="intarray"
 			/>
 
 			<field
@@ -79,5 +82,25 @@
 
 		</fieldset>
 	</fields>
+	<fields name="params">
+		<fieldset name="basic">
 
+			<field
+				name="menu-quicktask"
+				type="radio"
+				label="MOD_MENU_FIELD_SHOWNEW"
+				layout="joomla.form.field.radio.switcher"
+				>
+				<option value="">JHIDE</option>
+				<option value="index.php?option=com_content&amp;task=article.add">JSHOW</option>
+			</field>
+
+			<field
+				name="menu-quicktask-title"
+				type="hidden"
+				default="COM_CONTENT_MENUS_NEW_ARTICLE"
+			/>
+
+		</fieldset>
+	</fields>
 </metadata>

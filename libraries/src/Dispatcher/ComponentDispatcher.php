@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Dispatcher;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Application\CMSApplication;
@@ -43,7 +43,7 @@ class ComponentDispatcher extends Dispatcher
 	 *
 	 * @since   4.0.0
 	 */
-	private $mvcFactory;
+	protected $mvcFactory;
 
 	/**
 	 * Constructor for ComponentDispatcher
@@ -82,8 +82,8 @@ class ComponentDispatcher extends Dispatcher
 	protected function loadLanguage()
 	{
 		// Load common and local language files.
-		$this->app->getLanguage()->load($this->option, JPATH_BASE, null, false, true) ||
-		$this->app->getLanguage()->load($this->option, JPATH_COMPONENT, null, false, true);
+		$this->app->getLanguage()->load($this->option, JPATH_BASE) ||
+		$this->app->getLanguage()->load($this->option, JPATH_COMPONENT);
 	}
 
 	/**

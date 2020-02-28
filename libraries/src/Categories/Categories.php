@@ -376,7 +376,7 @@ class Categories implements CategoryInterface
 					$this->_nodes[$result->id] = new CategoryNode($result, $this);
 
 					// If this is not root and if the current node's parent is in the list or the current node parent is 0
-					if ($result->id != 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id == 1))
+					if ($result->id !== 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id == 1))
 					{
 						// Compute relationship between node and its parent - set the parent in the _nodes field
 						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);
@@ -401,7 +401,7 @@ class Categories implements CategoryInterface
 					// Create the CategoryNode
 					$this->_nodes[$result->id] = new CategoryNode($result, $this);
 
-					if ($result->id != 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id))
+					if ($result->id !== 'root' && (isset($this->_nodes[$result->parent_id]) || $result->parent_id))
 					{
 						// Compute relationship between node and its parent
 						$this->_nodes[$result->id]->setParent($this->_nodes[$result->parent_id]);

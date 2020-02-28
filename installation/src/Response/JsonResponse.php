@@ -34,7 +34,7 @@ class JsonResponse
 		// The old token is invalid so send a new one.
 		$this->token = Session::getFormToken(true);
 
-		// Get the language and send it's tag along
+		// Get the language and send its tag along
 		$this->lang = Factory::getLanguage()->getTag();
 
 		// Get the message queue

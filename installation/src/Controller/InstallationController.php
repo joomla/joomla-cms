@@ -40,6 +40,7 @@ class InstallationController extends JSONController
 		parent::__construct($config, $factory, $app, $input);
 
 		$this->registerTask('remove', 'backup');
+		$this->registerTask('removeFolder', 'delete');
 	}
 
 	/**
@@ -86,14 +87,20 @@ class InstallationController extends JSONController
 	{
 		$this->checkValidToken();
 
+		/** @var \Joomla\CMS\Installation\Model\SetupModel $setUpModel */
+		$setUpModel = $this->getModel('Setup');
+
 		// Get the options from the session
-		$options = $this->getModel('Setup')->getOptions();
+		$options = $setUpModel->getOptions();
 
 		$r = new \stdClass;
 		$r->view = 'remove';
 
+		/** @var \Joomla\CMS\Installation\Model\ConfigurationModel $configurationModel */
+		$configurationModel = $this->getModel('Configuration');
+
 		// Attempt to setup the configuration.
-		if (!$this->getModel('Configuration')->setup($options))
+		if (!$configurationModel->setup($options))
 		{
 			$r->view = 'setup';
 		}
@@ -230,6 +237,11 @@ class InstallationController extends JSONController
 		$r = new \stdClass;
 		$r->view = 'remove';
 
-		$this->sendJsonResponse($r);
+		/**
+		 * TODO: We can't send a response this way because our installation classes no longer
+		 *       exist. We probably need to hardcode a json response here
+		 *
+		 * $this->sendJsonResponse($r);
+		 */
 	}
 }

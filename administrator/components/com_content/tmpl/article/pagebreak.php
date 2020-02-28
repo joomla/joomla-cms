@@ -16,11 +16,10 @@ use Joomla\CMS\Language\Text;
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('script', 'com_content/admin-article-pagebreak.min.js', array('version' => 'auto', 'relative' => true));
 
-$document    = Factory::getDocument();
 $this->eName = Factory::getApplication()->input->getCmd('e_name', '');
 $this->eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $this->eName);
+$this->document->setTitle(Text::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 
-$document->setTitle(Text::_('COM_CONTENT_PAGEBREAK_DOC_TITLE'));
 ?>
 <div class="container-popup">
 	<form>

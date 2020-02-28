@@ -202,7 +202,7 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that its possible to navigate to a subfolder using double click.
+	 * Test that it's possible to navigate to a subfolder using double click.
 	 *
 	 * @param   Media  $I
 	 *
@@ -212,7 +212,7 @@ class MediaListCest
 	 */
 	public function navigateUsingDoubleClickOnFolder(Media $I)
 	{
-		$I->wantToTest('that its possible to navigate to a subfolder using double click.');
+		$I->wantToTest('that it is possible to navigate to a subfolder using double click.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->doubleClick(MediaListPage::item('banners'));
@@ -222,7 +222,7 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that its possible to navigate to a subfolder using tree.
+	 * Test that it's possible to navigate to a subfolder using tree.
 	 *
 	 * @param   Media  $I
 	 *
@@ -232,7 +232,7 @@ class MediaListCest
 	 */
 	public function navigateUsingTree(Media $I)
 	{
-		$I->wantToTest('that its possible to navigate to a subfolder using tree.');
+		$I->wantToTest('that it is possible to navigate to a subfolder using tree.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->clickOnLinkInTree('banners');
@@ -242,7 +242,7 @@ class MediaListCest
 	}
 
 	/**
-	 * Test that its possible to navigate to a subfolder using breadcrumb.
+	 * Test that it's possible to navigate to a subfolder using breadcrumb.
 	 *
 	 * @param   Media  $I
 	 *
@@ -252,7 +252,7 @@ class MediaListCest
 	 */
 	public function navigateUsingBreadcrumb(Media $I)
 	{
-		$I->wantToTest('that its possible to navigate to a subfolder using breadcrumb.');
+		$I->wantToTest('that it is possible to navigate to a subfolder using breadcrumb.');
 		$I->amOnPage(MediaListPage::$url . 'banners');
 		$I->waitForMediaLoaded();
 		$I->clickOnLinkInBreadcrumb('images');
@@ -283,7 +283,13 @@ class MediaListCest
 		$I->click(MediaListPage::$toolbarDeleteButton);
 		$I->waitForElement(MediaListPage::$toolbarModalDeleteButton);
 		$I->waitForJsOnPageLoad();
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->click(MediaListPage::$toolbarModalDeleteButton);
+
+		// Ensure the modal has closed
+		$I->wait(1);
 		$I->seeSystemMessage('Item deleted.');
 		$I->waitForElementNotVisible($testFileItem);
 	}
@@ -292,7 +298,7 @@ class MediaListCest
 	 * Test the upload of a single file using toolbar button.
 	 *
 	 * @skip    We need to skip this test, because of a bug in acceptPopup in chrome.
-	 *          Its throws an Facebook\WebDriver\Exception\UnexpectedAlertOpenException and does not accept the popup
+	 *          It throws a Facebook\WebDriver\Exception\UnexpectedAlertOpenException and does not accept the popup.
 	 *
 	 * @param   Media  $I  Acceptance Helper Object
 	 *
@@ -336,6 +342,9 @@ class MediaListCest
 		$I->waitForJsOnPageLoad();
 		$I->click(MediaListPage::$toolbarCreateFolderButton);
 		$I->waitForJsOnPageLoad();
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->seeElement(MediaListPage::$newFolderInputField);
 		$I->seeElement(MediaListPage::$modalConfirmButtonDisabled);
 		$I->fillField(MediaListPage::$newFolderInputField, $testFolderName);
@@ -343,6 +352,9 @@ class MediaListCest
 			return $el->isEnabled();
 		});
 		$I->click(MediaListPage::$modalConfirmButton);
+
+		// Ensure the modal has closed
+		$I->wait(1);
 		$I->seeSystemMessage('Folder created.');
 		$I->waitForElement(MediaListPage::item($testFolderName));
 		$I->seeElement(MediaListPage::item($testFolderName));
@@ -393,9 +405,16 @@ class MediaListCest
 		$I->waitForJsOnPageLoad();
 		$I->click($testFileItem);
 		$I->click(MediaListPage::$toolbarDeleteButton);
+
 		$I->waitForElement(MediaListPage::$toolbarModalDeleteButton);
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->waitForJsOnPageLoad();
 		$I->click(MediaListPage::$toolbarModalDeleteButton);
+
+		// Ensure the modal has closed
+		$I->wait(1);
 		$I->seeSystemMessage('Item deleted.');
 		$I->waitForElementNotVisible($testFileItem);
 		$I->dontSeeElement($testFileName);
@@ -422,8 +441,14 @@ class MediaListCest
 		$I->click($testFolderItem);
 		$I->click(MediaListPage::$toolbarDeleteButton);
 		$I->waitForElement(MediaListPage::$toolbarModalDeleteButton);
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->waitForJsOnPageLoad();
 		$I->click(MediaListPage::$toolbarModalDeleteButton);
+
+		// Ensure the modal has closed
+		$I->wait(1);
 		$I->seeSystemMessage('Item deleted.');
 		$I->waitForElementNotVisible($testFolderItem);
 		$I->dontSeeElement($testFolderItem);
@@ -490,12 +515,19 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->uploadFile('com_media/' . $testFileName);
 		$I->waitForElement($testFileItem);
+		$I->wait(1);
 		$I->clickOnActionInMenuOf($testFileName, MediaListPage::$renameAction);
 		$I->waitForElement(MediaListPage::$renameInputField);
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->seeElement(MediaListPage::$renameInputField);
 		$I->seeElement(MediaListPage::$modalConfirmButton);
 		$I->fillField(MediaListPage::$renameInputField, 'test-image-1-renamed');
 		$I->click(MediaListPage::$modalConfirmButton);
+
+		// Ensure the modal has closed
+		$I->wait(1);
 		$I->seeSystemMessage('Item renamed.');
 		$I->dontSeeElement($testFileItem);
 		$I->seeElement(MediaListPage::item('test-image-1-renamed.png'));
@@ -553,12 +585,19 @@ class MediaListCest
 		$I->createDirectory('images/' . $this->testDirectory . '/' . $testFolderName);
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->waitForElement($testFolderItem);
+		$I->wait(1);
 		$I->clickOnActionInMenuOf($testFolderName, MediaListPage::$renameAction);
 		$I->waitForElement(MediaListPage::$renameInputField);
+
+		// Sometimes the modal is still fading in
+		$I->wait(1);
 		$I->seeElement(MediaListPage::$renameInputField);
 		$I->seeElement(MediaListPage::$modalConfirmButton);
 		$I->fillField(MediaListPage::$renameInputField, $testFolderName . '-renamed');
 		$I->click(MediaListPage::$modalConfirmButton);
+
+		// Ensure the modal has closed
+		$I->wait(1);
 		$I->seeSystemMessage('Item renamed.');
 		$I->dontSeeElement($testFolderItem);
 		$I->seeElement(MediaListPage::item($testFolderName . '-renamed'));
@@ -654,7 +693,7 @@ class MediaListCest
 	 */
 	public function closePreviewModalUsingCloseButton(Media $I)
 	{
-		$I->wantToTest('that its possible to close the preview modal using the close button.');
+		$I->wantToTest('that it is possible to close the preview modal using the close button.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->doubleClick(MediaListPage::item('powered_by.png'));
@@ -676,7 +715,7 @@ class MediaListCest
 	 */
 	public function closePreviewModalUsingEscapeKey(Media $I)
 	{
-		$I->wantToTest('that its possible to close the preview modal using escape key.');
+		$I->wantToTest('that it is possible to close the preview modal using escape key.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->doubleClick(MediaListPage::item('powered_by.png'));
@@ -810,7 +849,7 @@ class MediaListCest
 	 */
 	public function toggleListViewUsingToolbarButton(Media $I)
 	{
-		$I->wantToTest('that its possible to toggle the list view (grid/table) using the toolbar button.');
+		$I->wantToTest('that it is possible to toggle the list view (grid/table) using the toolbar button.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->seeElement(MediaListPage::$mediaBrowserGrid);
@@ -834,7 +873,7 @@ class MediaListCest
 	 */
 	public function selectAllItemsUsingToolbarButton(Media $I)
 	{
-		$I->wantToTest('that its possible to select all items using toolbar button.');
+		$I->wantToTest('that it is possible to select all items using toolbar button.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
 		$I->click(MediaListPage::$selectAllButton);

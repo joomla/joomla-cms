@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\View;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -63,7 +63,7 @@ class CategoriesView extends HtmlView
 		$app = Factory::getApplication();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if (\count($errors = $this->get('Errors')))
 		{
 			$app->enqueueMessage($errors, 'error');
 
@@ -145,11 +145,6 @@ class CategoriesView extends HtmlView
 		if ($this->params->get('menu-meta_description'))
 		{
 			$this->document->setDescription($this->params->get('menu-meta_description'));
-		}
-
-		if ($this->params->get('menu-meta_keywords'))
-		{
-			$this->document->setMetaData('keywords', $this->params->get('menu-meta_keywords'));
 		}
 
 		if ($this->params->get('robots'))

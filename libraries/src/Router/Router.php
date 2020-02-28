@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Router;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -148,7 +148,7 @@ class Router
 
 		// Check if all parts of the URL have been parsed.
 		// Otherwise we have an invalid URL
-		if (strlen($uri->getPath()) > 0)
+		if (\strlen($uri->getPath()) > 0)
 		{
 			throw new RouteNotFoundException(Text::_('JERROR_PAGE_NOT_FOUND'));
 		}
@@ -211,7 +211,7 @@ class Router
 	 */
 	public function setVar($key, $value, $create = true)
 	{
-		if ($create || array_key_exists($key, $this->vars))
+		if ($create || \array_key_exists($key, $this->vars))
 		{
 			$this->vars[$key] = $value;
 		}
@@ -287,7 +287,7 @@ class Router
 	 */
 	public function attachBuildRule(callable $callback, $stage = self::PROCESS_DURING)
 	{
-		if (!array_key_exists('build' . $stage, $this->rules))
+		if (!\array_key_exists('build' . $stage, $this->rules))
 		{
 			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
@@ -310,7 +310,7 @@ class Router
 	 */
 	public function attachParseRule(callable $callback, $stage = self::PROCESS_DURING)
 	{
-		if (!array_key_exists('parse' . $stage, $this->rules))
+		if (!\array_key_exists('parse' . $stage, $this->rules))
 		{
 			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
@@ -335,12 +335,12 @@ class Router
 	 */
 	public function detachRule($type, $rule, $stage = self::PROCESS_DURING)
 	{
-		if (!in_array($type, array('parse', 'build')))
+		if (!\in_array($type, array('parse', 'build')))
 		{
 			throw new \InvalidArgumentException(sprintf('The %s type is not supported. (%s)', $type, __METHOD__));
 		}
 
-		if (!array_key_exists($type . $stage, $this->rules))
+		if (!\array_key_exists($type . $stage, $this->rules))
 		{
 			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
@@ -384,7 +384,7 @@ class Router
 	 */
 	protected function processParseRules(&$uri, $stage = self::PROCESS_DURING)
 	{
-		if (!array_key_exists('parse' . $stage, $this->rules))
+		if (!\array_key_exists('parse' . $stage, $this->rules))
 		{
 			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
@@ -409,14 +409,14 @@ class Router
 	 */
 	protected function processBuildRules(&$uri, $stage = self::PROCESS_DURING)
 	{
-		if (!array_key_exists('build' . $stage, $this->rules))
+		if (!\array_key_exists('build' . $stage, $this->rules))
 		{
 			throw new \InvalidArgumentException(sprintf('The %s stage is not registered. (%s)', $stage, __METHOD__));
 		}
 
 		foreach ($this->rules['build' . $stage] as $rule)
 		{
-			call_user_func_array($rule, array(&$this, &$uri));
+			\call_user_func_array($rule, array(&$this, &$uri));
 		}
 	}
 
@@ -431,14 +431,14 @@ class Router
 	 */
 	protected function createUri($url)
 	{
-		if (!is_array($url) && substr($url, 0, 1) !== '&')
+		if (!\is_array($url) && substr($url, 0, 1) !== '&')
 		{
 			return new Uri($url);
 		}
 
 		$uri = new Uri('index.php');
 
-		if (is_string($url))
+		if (\is_string($url))
 		{
 			$vars = array();
 

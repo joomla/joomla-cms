@@ -12,38 +12,11 @@
 
 // Fonts
 @import "../../../../media/vendor/roboto-fontface/scss/roboto/sass/roboto-fontface";
-@import "fonts/fontawesome";
 
-// Alert
-@import "../../../../build/media_source/system/scss/jalert";
 
-// jQuery Minicolors
-@import "../../../../build/media_source/system/scss/jquery-minicolors";
-
-// Blocks
 @import "blocks/global"; // Leave this first
-@import "blocks/alerts";
-@import "blocks/edit";
-@import "blocks/header";
-@import "blocks/form";
-@import "blocks/icons";
-@import "blocks/iframe";
-@import "blocks/layout";
-@import "blocks/login";
-@import "blocks/modals";
-@import "blocks/quickicons";
-@import "blocks/searchtools";
-@import "blocks/lists";
-@import "blocks/sidebar";
-@import "blocks/sidebar-nav";
-@import "blocks/system-message";
-@import "blocks/toolbar";
-@import "blocks/treeselect";
-@import "blocks/utilities";
-@import "blocks/tabs";
 
 // Vendor overrides
-@import "vendor/awesomplete";
 @import "vendor/bootstrap/badge";
 @import "vendor/bootstrap/buttons";
 @import "vendor/bootstrap/card";
@@ -56,18 +29,37 @@
 @import "vendor/bootstrap/nav";
 @import "vendor/bootstrap/pagination";
 @import "vendor/bootstrap/table";
+
+// Blocks
+@import "blocks/alerts";
+@import "blocks/edit";
+@import "blocks/header";
+@import "blocks/form";
+@import "blocks/icons";
+@import "blocks/iframe";
+@import "blocks/layout";
+@import "blocks/login";
+@import "blocks/modals";
+@import "blocks/quickicons";
+@import "blocks/lists";
+@import "blocks/sidebar";
+@import "blocks/sidebar-nav";
+@import "blocks/toolbar";
+@import "blocks/treeselect";
+@import "blocks/utilities";
+
+// These DO NOT BELONG HERE!!!
 @import "vendor/codemirror";
-@import "vendor/chosen";
-@import "vendor/choicesjs";
 @import "vendor/dragula";
-@import "vendor/minicolors";
 @import "vendor/tinymce";
 
+// Also these DO NOT BELONG HERE!!!
 // Page specifics
 @import "pages/com_admin";
 @import "pages/com_config";
 @import "pages/com_content";
 @import "pages/com_cpanel";
+@import "pages/com_joomlaupdate";
 @import "pages/com_tags";
 @import "pages/com_privacy";
 @import "pages/com_templates";

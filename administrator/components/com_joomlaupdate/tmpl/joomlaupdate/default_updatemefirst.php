@@ -13,7 +13,7 @@ use Joomla\CMS\Language\Text;
 /** @var JoomlaupdateViewDefault $this */
 ?>
 
-<fieldset class="options-grid-form options-grid-form-full">
+<fieldset class="options-form">
 	<legend>
 		<?php echo Text::_('COM_JOOMLAUPDATE_LIVE_UPDATE'); ?>
 	</legend>

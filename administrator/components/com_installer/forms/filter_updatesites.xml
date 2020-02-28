@@ -4,6 +4,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_INSTALLER_UPDATESITES_FILTER_SEARCH_LABEL"
 			description="COM_INSTALLER_UPDATESITES_FILTER_SEARCH_DESC"
 			hint="JSEARCH_FILTER"
@@ -41,6 +42,17 @@
 			>
 			<option value="">COM_INSTALLER_VALUE_FOLDER_SELECT</option>
 		</field>
+		<field
+			name="supported"
+			type="list"
+			onchange="this.form.submit();"
+		>
+			<option value="">COM_INSTALLER_VALUE_SUPPORTED_SELECT</option>
+			<option value="1">COM_INSTALLER_VALUE_SUPPORTED_SUPPORTED</option>
+			<option value="-1">COM_INSTALLER_VALUE_SUPPORTED_MISSING</option>
+			<option value="2">COM_INSTALLER_VALUE_SUPPORTED_EXISTS</option>
+		</field>
+
 	</fields>
 	<fields name="list">
 		<field
@@ -55,8 +67,8 @@
 			<option value="enabled DESC">JSTATUS_DESC</option>
 			<option value="update_site_name ASC">COM_INSTALLER_HEADING_UPDATESITE_NAME_ASC</option>
 			<option value="update_site_name DESC">COM_INSTALLER_HEADING_UPDATESITE_NAME_DESC</option>
-			<option value="name ASC">COM_INSTALLER_HEADING_NAME_ASC</option>
-			<option value="name DESC">COM_INSTALLER_HEADING_NAME_DESC</option>
+			<option value="name ASC">JGLOBAL_NAME_ASC</option>
+			<option value="name DESC">JGLOBAL_NAME_DESC</option>
 			<option value="client_translated ASC">COM_INSTALLER_HEADING_LOCATION_ASC</option>
 			<option value="client_translated DESC">COM_INSTALLER_HEADING_LOCATION_DESC</option>
 			<option value="type_translated ASC">COM_INSTALLER_HEADING_TYPE_ASC</option>

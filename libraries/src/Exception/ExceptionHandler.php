@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Exception;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Error\AbstractRenderer;
@@ -46,7 +46,7 @@ class ExceptionHandler
 			);
 
 			// If debug mode is enabled, we want to let PHP continue to handle the error; otherwise, we can bail early
-			if (defined('JDEBUG') && JDEBUG)
+			if (\defined('JDEBUG') && JDEBUG)
 			{
 				return true;
 			}
@@ -77,7 +77,7 @@ class ExceptionHandler
 				Log::add(
 					sprintf(
 						'Uncaught Throwable of type %1$s thrown with message "%2$s". Stack trace: %3$s',
-						get_class($error),
+						\get_class($error),
 						$error->getMessage(),
 						$error->getTraceAsString()
 					),

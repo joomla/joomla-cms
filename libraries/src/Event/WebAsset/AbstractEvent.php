@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Event\WebAsset;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
@@ -32,7 +32,7 @@ abstract class AbstractEvent extends AbstractImmutableEvent
 	 */
 	public function __construct($name, array $arguments = array())
 	{
-		if (!array_key_exists('subject', $arguments))
+		if (!\array_key_exists('subject', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'subject' of event {$this->name} is required but has not been provided");
 		}

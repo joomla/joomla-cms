@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 
 /**
@@ -96,7 +97,7 @@ class JFormFieldterms extends RadioField
 
 			if (isset($termsAssociated) && $currentLang !== $article->language && array_key_exists($currentLang, $termsAssociated))
 			{
-				$article->link = ContentHelperRoute::getArticleRoute(
+				$article->link = RouteHelper::getArticleRoute(
 					$termsAssociated[$currentLang]->id,
 					$termsAssociated[$currentLang]->catid,
 					$termsAssociated[$currentLang]->language
@@ -105,7 +106,7 @@ class JFormFieldterms extends RadioField
 			else
 			{
 				$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-				$article->link = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
+				$article->link = RouteHelper::getArticleRoute($slug, $article->catid, $article->language);
 			}
 		}
 

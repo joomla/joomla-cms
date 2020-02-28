@@ -18,7 +18,6 @@ use Joomla\CMS\Router\Route;
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.combobox');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('behavior.tabstate');
 
 $hasContent = isset($this->item->xml->customContent);
 $hasContentFieldName = 'content';
@@ -38,13 +37,13 @@ Text::script('JNO');
 Text::script('JALL');
 Text::script('JTRASHED');
 
-Factory::getDocument()->addScriptOptions('module-edit', ['itemId' => $this->item->id, 'state' => (int) $this->item->id == 0 ? 'Add' : 'Edit']);
+$this->document->addScriptOptions('module-edit', ['itemId' => $this->item->id, 'state' => (int) $this->item->id == 0 ? 'Add' : 'Edit']);
 HTMLHelper::_('script', 'com_modules/admin-module-edit.min.js', array('version' => 'auto', 'relative' => true));
 
 $input = Factory::getApplication()->input;
 
 // In case of modal
-$isModal = $input->get('layout') == 'modal' ? true : false;
+$isModal = $input->get('layout') === 'modal';
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 
@@ -117,7 +116,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							<?php endif; ?>
 						<?php else : ?>
 							<div class="alert alert-danger">
-								<span class="fa fa-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
+								<span class="fas fa-exclamation-triangle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('ERROR'); ?></span>
 								<?php echo Text::_('COM_MODULES_ERR_XML'); ?>
 							</div>
 						<?php endif; ?>
@@ -174,7 +173,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if ($this->item->client_id == 0) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'assignment', Text::_('COM_MODULES_MENU_ASSIGNMENT')); ?>
-			<fieldset id="fieldset-assignment" class="options-grid-form options-grid-form-full">
+			<fieldset id="fieldset-assignment" class="options-form">
 				<legend><?php echo Text::_('COM_MODULES_MENU_ASSIGNMENT'); ?></legend>
 				<div>
 				<?php echo $this->loadTemplate('assignment'); ?>
@@ -191,7 +190,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php if ($this->canDo->get('core.admin')) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_MODULES_FIELDSET_RULES')); ?>
-			<fieldset id="fieldset-permissions" class="options-grid-form options-grid-form-full">
+			<fieldset id="fieldset-permissions" class="options-form">
 				<legend><?php echo Text::_('COM_MODULES_FIELDSET_RULES'); ?></legend>
 				<div>
 				<?php echo $this->form->getInput('rules'); ?>

@@ -8,9 +8,10 @@
 
 namespace Joomla\CMS\Form;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Form\Field\SubformField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
@@ -98,6 +99,16 @@ abstract class FormField
 	 * @since  1.7.0
 	 */
 	protected $hidden = false;
+
+	/**
+	 * Should the label be hidden when rendering the form field? This may be useful if you have the
+	 * label rendering in a legend in your form field itself for radio buttons in a fieldset etc.
+	 * If you use this flag you should ensure you display the label in your form (for a11y etc.)
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $hiddenLabel = false;
 
 	/**
 	 * True to translate the field label string.
@@ -368,15 +379,15 @@ abstract class FormField
 		// Detect the field type if not set
 		if (!isset($this->type))
 		{
-			$parts = Normalise::fromCamelCase(get_called_class(), true);
+			$parts = Normalise::fromCamelCase(\get_called_class(), true);
 
-			if ($parts[0] == 'J')
+			if ($parts[0] === 'J')
 			{
-				$this->type = StringHelper::ucfirst($parts[count($parts) - 1], '_');
+				$this->type = StringHelper::ucfirst($parts[\count($parts) - 1], '_');
 			}
 			else
 			{
-				$this->type = StringHelper::ucfirst($parts[0], '_') . StringHelper::ucfirst($parts[count($parts) - 1], '_');
+				$this->type = StringHelper::ucfirst($parts[0], '_') . StringHelper::ucfirst($parts[\count($parts) - 1], '_');
 			}
 		}
 	}
@@ -509,9 +520,7 @@ abstract class FormField
 				break;
 
 			case 'autocomplete':
-				$value = (string) $value;
-				$value = ($value == 'on' || $value == '') ? 'on' : $value;
-				$this->$name = ($value === 'false' || $value === 'off' || $value === '0') ? false : $value;
+				$this->$name = (string) $value;
 				break;
 
 			case 'spellcheck':
@@ -581,7 +590,7 @@ abstract class FormField
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		// Make sure there is a valid FormField XML element.
-		if ((string) $element->getName() != 'field')
+		if ((string) $element->getName() !== 'field')
 		{
 			return false;
 		}
@@ -604,7 +613,7 @@ abstract class FormField
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
 		// Set the field default value.
-		if ($element['multiple'] && is_string($value) && is_array(json_decode($value, true)))
+		if ($element['multiple'] && \is_string($value) && \is_array(json_decode($value, true)))
 		{
 			$this->value = (array) json_decode($value);
 		}
@@ -620,10 +629,10 @@ abstract class FormField
 
 		// Allow for repeatable elements
 		$repeat = (string) $element['repeat'];
-		$this->repeat = ($repeat == 'true' || $repeat == 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
+		$this->repeat = ($repeat === 'true' || $repeat === 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
 
 		// Set the visibility.
-		$this->hidden = ($this->hidden || (string) $element['type'] == 'hidden');
+		$this->hidden = ($this->hidden || (string) $element['type'] === 'hidden');
 
 		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
 
@@ -703,7 +712,7 @@ abstract class FormField
 			$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
 			$id .= '-' . $repeatCounter;
 
-			if (strtolower($this->type) == 'radio')
+			if (strtolower($this->type) === 'radio')
 			{
 				$id .= '-';
 			}
@@ -769,7 +778,7 @@ abstract class FormField
 		$data = $this->getLayoutData();
 
 		// Forcing the Alias field to display the tip below
-		$position = $this->element['name'] == 'alias' ? ' data-placement="bottom" ' : '';
+		$position = $this->element['name'] === 'alias' ? ' data-placement="bottom" ' : '';
 
 		// Here mainly for B/C with old layouts. This can be done in the layouts directly
 		$extraData = array(
@@ -948,7 +957,7 @@ abstract class FormField
 
 		$options['rel'] = '';
 
-		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel') || $this->class === 'switcher')
+		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel') || $this->hiddenLabel)
 		{
 			$options['hiddenLabel'] = true;
 		}
@@ -982,30 +991,32 @@ abstract class FormField
 	 * @return  mixed   The filtered value.
 	 *
 	 * @since   4.0.0
+	 * @throws  \UnexpectedValueException
 	 */
 	public function filter($value, $group = null, Registry $input = null)
 	{
 		// Make sure there is a valid SimpleXMLElement.
 		if (!($this->element instanceof \SimpleXMLElement))
 		{
-			throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', \get_class($this)));
 		}
 
 		// Get the field filter type.
 		$filter = (string) $this->element['filter'];
 
-		if ($filter != '')
+		if ($filter !== '')
 		{
-			$required = ((string) $this->element['required'] == 'true' || (string) $this->element['required'] == 'required');
+			$required = ((string) $this->element['required'] === 'true' || (string) $this->element['required'] === 'required');
 
 			if (($value === '' || $value === null) && !$required)
 			{
 				return '';
 			}
 
-			if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
+			// Check for a callback filter
+			if (strpos($filter, '::') !== false && \is_callable(explode('::', $filter)))
 			{
-				return call_user_func(explode('::', $filter), $value);
+				return \call_user_func(explode('::', $filter), $value);
 			}
 
 			// Load the FormRule object for the field. FormRule objects take precedence over PHP functions
@@ -1017,9 +1028,9 @@ abstract class FormField
 				return $obj->filter($this->element, $value, $group, $input, $this->form);
 			}
 
-			if (function_exists($filter))
+			if (\function_exists($filter))
 			{
-				return call_user_func($filter, $value);
+				return \call_user_func($filter, $value);
 			}
 		}
 
@@ -1045,27 +1056,27 @@ abstract class FormField
 		// Make sure there is a valid SimpleXMLElement.
 		if (!($this->element instanceof \SimpleXMLElement))
 		{
-			throw new \UnexpectedValueException(sprintf('%s::validate `element` is not an instance of SimpleXMLElement', get_class($this)));
+			throw new \UnexpectedValueException(sprintf('%s::validate `element` is not an instance of SimpleXMLElement', \get_class($this)));
 		}
 
 		$valid = true;
 
 		// Check if the field is required.
-		$required = ((string) $this->element['required'] == 'true' || (string) $this->element['required'] == 'required');
+		$required = ((string) $this->element['required'] === 'true' || (string) $this->element['required'] === 'required');
+
+		if ($this->element['label'])
+		{
+			$fieldLabel = Text::_($this->element['label']);
+		}
+		else
+		{
+			$fieldLabel = Text::_($this->element['name']);
+		}
 
 		// If the field is required and the value is empty return an error message.
 		if ($required && (($value === '') || ($value === null)))
 		{
-			if ($this->element['label'])
-			{
-				$message = Text::_($this->element['label']);
-			}
-			else
-			{
-				$message = Text::_($this->element['name']);
-			}
-
-			$message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
+			$message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $fieldLabel);
 
 			return new \RuntimeException($message);
 		}
@@ -1079,7 +1090,7 @@ abstract class FormField
 			// If the object could not be loaded return an error message.
 			if ($rule === false)
 			{
-				throw new \UnexpectedValueException(sprintf('%s::validate() rule `%s` missing.', get_class($this), $type));
+				throw new \UnexpectedValueException(sprintf('%s::validate() rule `%s` missing.', \get_class($this), $type));
 			}
 
 			try
@@ -1090,6 +1101,42 @@ abstract class FormField
 			catch (\Exception $e)
 			{
 				return $e;
+			}
+		}
+
+		if ($valid !== false && $this instanceof SubformField)
+		{
+			$subForm = $this->loadSubForm();
+
+			if ($this->multiple)
+			{
+				if ($value)
+				{
+					foreach ($value as $key => $val)
+					{
+						$val = (array) $val;
+						$valid = $subForm->validate($val);
+
+						if ($valid === false)
+						{
+							break;
+						}
+					}
+				}
+			}
+			else
+			{
+				$valid = $subForm->validate($value);
+			}
+
+			if ($valid === false)
+			{
+				$errors = $subForm->getErrors();
+
+				foreach ($errors as $error)
+				{
+					return $error;
+				}
 			}
 		}
 
@@ -1105,14 +1152,13 @@ abstract class FormField
 			}
 			else
 			{
-				$message = Text::_($this->element['label']);
-				$message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
+				$message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $fieldLabel);
 			}
 
 			return new \UnexpectedValueException($message);
 		}
 
-		return true;
+		return $valid;
 	}
 
 	/**

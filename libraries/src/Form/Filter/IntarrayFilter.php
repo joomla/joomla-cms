@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Filter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFilterInterface;
@@ -39,12 +39,12 @@ class IntarrayFilter implements FormFilterInterface
 	 */
 	public function filter(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
-		if (is_object($value))
+		if (\is_object($value))
 		{
 			$value = get_object_vars($value);
 		}
 
-		$value = is_array($value) ? $value : array($value);
+		$value = \is_array($value) ? $value : array($value);
 
 		$value = ArrayHelper::toInteger($value);
 

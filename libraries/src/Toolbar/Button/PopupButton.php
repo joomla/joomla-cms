@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Toolbar\Button;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -65,7 +65,7 @@ class PopupButton extends ToolbarButton
 	 */
 	protected function prepareOptions(array &$options)
 	{
-		$options['icon'] = $options['icon'] ?? 'fa fa-square';
+		$options['icon'] = $options['icon'] ?? 'icon-square';
 
 		parent::prepareOptions($options);
 
@@ -132,7 +132,7 @@ class PopupButton extends ToolbarButton
 		{
 			// Build the options array for the modal
 			$params = array();
-			$params['title']      = Text::_($options['title'] ?? $options['text']);
+			$params['title']      = $options['title'] ?? $options['text'];
 			$params['url']        = $this->getUrl();
 			$params['height']     = $options['iframeHeight'] ?? 480;
 			$params['width']      = $options['iframeWidth'] ?? 640;

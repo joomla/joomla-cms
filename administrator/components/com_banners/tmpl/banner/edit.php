@@ -60,10 +60,10 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['versio
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'otherparams', Text::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS')); ?>
-			<fieldset id="fieldset-otherparams" class="form-no-margin options-grid-form">
+			<fieldset id="fieldset-otherparams" class="options-form">
 				<legend><?php echo Text::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS'); ?></legend>
 				<div>
-				<?php echo $this->form->renderFieldset('otherparams'); ?>
+					<?php echo $this->form->renderFieldset('otherparams'); ?>
 				</div>
 			</fieldset>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
@@ -71,13 +71,15 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['versio
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 		<div class="row">
 			<div class="col-md-6">
-				<fieldset id="fieldset-publishingdata" class="options-grid-form options-grid-form-full">
+				<fieldset id="fieldset-publishingdata" class="options-form">
 					<legend><?php echo Text::_('JGLOBAL_FIELDSET_PUBLISHING'); ?></legend>
-					<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+					<div>
+						<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
+					</div>
 				</fieldset>
 			</div>
 			<div class="col-md-6">
-				<fieldset id="fieldset-metadata" class="options-grid-form options-grid-form-full">
+				<fieldset id="fieldset-metadata" class="options-form">
 					<legend><?php echo Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
 					<div>
 					<?php echo $this->form->renderFieldset('metadata'); ?>

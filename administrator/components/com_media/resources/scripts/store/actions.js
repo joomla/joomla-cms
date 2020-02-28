@@ -2,7 +2,7 @@ import {api} from "../app/Api";
 import * as types from "./mutation-types";
 import translate from "../plugins/translate";
 import {notifications} from "../app/Notifications";
-import * as FileSaver from './../../../node_modules/file-saver/FileSaver';
+import * as FileSaver from './../../../../../../node_modules/file-saver/FileSaver';
 
 // Actions are similar to mutations, the difference being that:
 // - Instead of mutating the state, actions commit mutations.

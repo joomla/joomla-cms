@@ -13,9 +13,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\Html $this */
+/** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\HtmlView $this */
 
-HTMLHelper::_('jquery.framework');
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('script', 'com_joomlaupdate/default.min.js', array('version' => 'auto', 'relative' => true));
 Text::script('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE', true);
@@ -46,13 +45,16 @@ $latestJoomlaVersion = $this->updateInfo['latest'];
 			<?php echo $this->loadTemplate('updatemefirst'); ?>
 		<?php else : ?>
 			<?php if ((!isset($this->updateInfo['object']->downloadurl->_data)
-				&& $this->updateInfo['installed'] < $this->updateInfo['latest'])
+				&& !$this->updateInfo['hasUpdate'])) : ?>
+				<?php // If we have no download URL and this is also not a new update at all ?>
+				<?php echo $this->loadTemplate('noupdate'); ?>
+			<?php elseif (!isset($this->updateInfo['object']->downloadurl->_data)
 				|| !$this->getModel()->isDatabaseTypeSupported()
 				|| !$this->getModel()->isPhpVersionSupported()) : ?>
-				<?php // If we have no download URL or our PHP version or our DB type is not supported we can't reinstall or update ?>
+				<?php // If we have no download URL or our PHP version or our DB type is not supported then we can't reinstall or update ?>
 				<?php echo $this->loadTemplate('nodownload'); ?>
 			<?php elseif (!$this->updateInfo['hasUpdate']) : ?>
-				<?php // If we have no update we can reinstall the core ?>
+				<?php // If we have no update but we have a downloadurl then we can reinstall the core ?>
 				<?php echo $this->loadTemplate('reinstall'); ?>
 			<?php else : ?>
 				<?php // Ok let's show the update template ?>
@@ -75,7 +77,7 @@ $latestJoomlaVersion = $this->updateInfo['latest'];
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	<?php endif; ?>
 
-	<div id="download-message" style="display:none">
+	<div id="download-message" class="hidden">
 		<p class="nowarning"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DOWNLOAD_IN_PROGRESS'); ?></p>
 		<div class="joomlaupdate_spinner"></div>
 	</div>

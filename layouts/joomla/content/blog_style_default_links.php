@@ -11,12 +11,13 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 ?>
 <ol class="nav nav-tabs nav-stacked">
 <?php foreach ($displayData->get('link_items') as $item) : ?>
 	<li>
-		<?php echo HTMLHelper::_('link', Route::_(ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language)), $item->title); ?>
+		<?php echo HTMLHelper::_('link', Route::_(RouteHelper::getArticleRoute($item->slug, $item->catid, $item->language)), $item->title); ?>
 	</li>
 <?php endforeach; ?>
 </ol>

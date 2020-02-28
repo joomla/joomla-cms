@@ -1,6 +1,6 @@
 // Demo Styling
 
-$inverted-color: rgba(255,255,255,.9);
+$inverted-color: rgba(255, 255, 255, .9);
 
 .demo-module {
   text-align: center;
@@ -22,9 +22,11 @@ $inverted-color: rgba(255,255,255,.9);
   }
 }
 
-@each $color, $value in $theme-colors {
+@each $color,
+$value in $theme-colors {
   .bg-#{$color} {
     .demo-module {
+
       .demo-title,
       .fa-joomla {
         color: $inverted-color;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension type="module" client="site" method="upgrade">
 	<name>mod_articles_category</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
@@ -9,11 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_ARTICLES_CATEGORY_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\ArticlesCategory</namespace>
+	<namespace path="src">Joomla\Module\ArticlesCategory</namespace>
 	<files>
 		<filename module="mod_articles_category">mod_articles_category.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_articles_category.ini</language>
@@ -37,7 +37,7 @@
 				<field
 					name="show_on_article_page"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_DESC"
 					default="1"
@@ -83,7 +83,7 @@
 				<field
 					name="category_filtering_type"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_CATFILTERINGTYPE_LABEL"
 					default="1"
 					filter="integer"
@@ -98,14 +98,15 @@
 					label="JCATEGORY"
 					extension="com_content"
 					multiple="true"
-					filter="int_array"
+					layout="joomla.form.field.list-fancy-select"
+					filter="intarray"
 					class="multipleCategories"
 				/>
 
 				<field
 					name="show_child_category_articles"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWCHILDCATEGORYARTICLES_LABEL"
 					default="0"
 					filter="integer"
@@ -133,10 +134,9 @@
 					name="filter_tag"
 					type="tag"
 					label="JTAG"
-					description="JTAG_FIELD_SELECT_DESC"
 					mode="nested"
 					multiple="true"
-					filter="int_array"
+					filter="intarray"
 					class="multipleTags"
 				/>
 
@@ -149,7 +149,7 @@
 				<field
 					name="author_filtering_type"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORFILTERING_LABEL"
 					default="1"
 					filter="integer"
@@ -163,7 +163,8 @@
 					type="author"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHOR_LABEL"
 					multiple="true"
-					filter="int_array"
+					layout="joomla.form.field.list-fancy-select"
+					filter="intarray"
 					class="multipleAuthors"
 				/>
 
@@ -176,7 +177,7 @@
 				<field
 					name="author_alias_filtering_type"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIASFILTERING_LABEL"
 					default="1"
 					filter="integer"
@@ -190,6 +191,7 @@
 					type="sql"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIAS_LABEL"
 					multiple="true"
+					layout="joomla.form.field.list-fancy-select"
 					query="select distinct(created_by_alias) from #__content where created_by_alias != '' order by created_by_alias ASC"
 					key_field="created_by_alias"
 					value_field="created_by_alias"
@@ -371,7 +373,7 @@
 				<field
 					name="link_titles"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_LINKTITLES_LABEL"
 					default="1"
 					filter="integer"
@@ -383,7 +385,7 @@
 				<field
 					name="show_date"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="JDATE"
 					default="0"
 					filter="integer"
@@ -416,7 +418,7 @@
 				<field
 					name="show_category"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="JCATEGORY"
 					default="0"
 					filter="integer"
@@ -428,7 +430,7 @@
 				<field
 					name="show_hits"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWHITS_LABEL"
 					default="0"
 					filter="integer"
@@ -440,7 +442,7 @@
 				<field
 					name="show_author"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="JAUTHOR"
 					default="0"
 					filter="integer"
@@ -452,7 +454,7 @@
 				<field
 					name="show_tags"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="JTAG"
 					default="0"
 					filter="integer"
@@ -464,7 +466,7 @@
 				<field
 					name="show_introtext"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWINTROTEXT_LABEL"
 					default="0"
 					filter="integer"
@@ -485,7 +487,7 @@
 				<field
 					name="show_readmore"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="JGLOBAL_SHOW_READMORE_LABEL"
 					default="0"
 					filter="integer"
@@ -497,7 +499,7 @@
 				<field
 					name="show_readmore_title"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
 					default="1"
 					filter="integer"

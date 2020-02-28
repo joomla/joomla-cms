@@ -43,8 +43,15 @@
     margin-right: 25px;
     border-radius: 10em;
     opacity: .5;
-    &:hover, &:focus { opacity: 1; }
-    &:focus { box-shadow: 0 0 0 2px #00bcd4; }
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+
+    &:focus {
+      box-shadow: 0 0 0 2px #00bcd4;
+    }
   }
 
   &[dir="rtl"] {
@@ -71,10 +78,14 @@
     line-height: 1;
     border-left: 1px solid #008fa1;
     opacity: .75;
-    &:hover, &:focus { opacity: 1; }
+
+    &:hover,
+    &:focus {
+      opacity: 1;
+    }
+
     &::before {
       color: #fff;
     }
   }
 }
-

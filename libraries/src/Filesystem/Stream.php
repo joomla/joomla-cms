@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Filesystem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
@@ -611,14 +611,14 @@ class Stream extends CMSObject
 
 				if (!$this->eof())
 				{
-					$len = strlen($res);
+					$len = \strlen($res);
 					$remaining -= $len;
 				}
 				else
 				{
 					// If it's the end of the file then we've nothing left to read; reset remaining and len
 					$remaining = 0;
-					$length = strlen($retval);
+					$length = \strlen($retval);
 				}
 			}
 		}
@@ -769,7 +769,7 @@ class Stream extends CMSObject
 		// If the length isn't set, set it to the length of the string.
 		if (!$length)
 		{
-			$length = strlen($string);
+			$length = \strlen($string);
 		}
 
 		// If the chunk isn't set, set it to the default.
@@ -922,7 +922,7 @@ class Stream extends CMSObject
 	public function _buildContext()
 	{
 		// According to the manual this always works!
-		if (count($this->contextOptions))
+		if (\count($this->contextOptions))
 		{
 			$this->context = @stream_context_create($this->contextOptions);
 		}
@@ -992,7 +992,7 @@ class Stream extends CMSObject
 				unset($this->contextOptions[$wrapper][$name]);
 
 				// Check that there are still items there
-				if (!count($this->contextOptions[$wrapper]))
+				if (!\count($this->contextOptions[$wrapper]))
 				{
 					// Clean up an empty wrapper context option
 					unset($this->contextOptions[$wrapper]);
@@ -1390,7 +1390,7 @@ class Stream extends CMSObject
 
 			// Check if it's a write mode then add the appropriate prefix
 			// Get rid of JPATH_ROOT (legacy compat) along the way
-			if (in_array($tmode, FilesystemHelper::getWriteModes()))
+			if (\in_array($tmode, FilesystemHelper::getWriteModes()))
 			{
 				if (!$relative && $this->writeprefix)
 				{
