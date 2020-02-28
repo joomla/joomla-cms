@@ -312,8 +312,10 @@ class Categories implements CategoryInterface
 					$db->quoteName('#__categories', 'c'),
 					'(' . $db->quoteName('s.lft') . ' < ' . $db->quoteName('c.lft')
 						. ' AND ' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.rgt')
-						. ' AND ' . $db->quoteName('c.language') . ' IN (' . implode(',', $query->bindArray([Factory::getLanguage()->getTag(), '*'], ParameterType::STRING)) . '))'
-						. ' OR (' . $db->quoteName('c.lft') . ' <= ' . $db->quoteName('s.lft') . ' AND ' . $db->quoteName('s.rgt') . ' <= ' . $db->quoteName('c.rgt') . ')'
+						. ' AND ' . $db->quoteName('c.language')
+						. ' IN (' . implode(',', $query->bindArray([Factory::getLanguage()->getTag(), '*'], ParameterType::STRING)) . '))'
+						. ' OR (' . $db->quoteName('c.lft') . ' <= ' . $db->quoteName('s.lft')
+						. ' AND ' . $db->quoteName('s.rgt') . ' <= ' . $db->quoteName('c.rgt') . ')'
 				);
 			}
 			else
@@ -321,8 +323,10 @@ class Categories implements CategoryInterface
 				$query->join(
 					'INNER',
 					$db->quoteName('#__categories', 'c'),
-					'(' . $db->quoteName('s.lft') . ' <= ' . $db->quoteName('c.lft') . ' AND ' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.rgt') . ')'
-					. ' OR (' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.lft') . ' AND ' . $db->quoteName('s.rgt') . ' < ' . $db->quoteName('c.rgt') . ')'
+					'(' . $db->quoteName('s.lft') . ' <= ' . $db->quoteName('c.lft')
+						. ' AND ' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.rgt') . ')'
+						. ' OR (' . $db->quoteName('c.lft') . ' < ' . $db->quoteName('s.lft')
+						. ' AND ' . $db->quoteName('s.rgt') . ' < ' . $db->quoteName('c.rgt') . ')'
 				);
 			}
 		}
@@ -351,7 +355,10 @@ class Categories implements CategoryInterface
 
 			if ($this->_options['currentlang'] !== 0)
 			{
-				$subQuery->where($db->quoteName('i.language') . ' IN (' . implode(',', $query->bindArray([$this->_options['currentlang'], '*'], ParameterType::STRING)) . ')');
+				$subQuery->where(
+					$db->quoteName('i.language')
+						. ' IN (' . implode(',', $query->bindArray([$this->_options['currentlang'], '*'], ParameterType::STRING)) . ')'
+				);
 			}
 
 			$query->select('(' . $subQuery . ') AS ' . $db->quoteName('numitems'));
