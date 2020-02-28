@@ -235,7 +235,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								</td>
 								<td class="article-status">
 									<div class="d-flex">
-										<div class="btn-group tbody-icon mr-1">
+										<div class="btn-group tbody-icon mr-1 small">
 										<?php
 
 											$options = [
@@ -245,16 +245,16 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 											];
 
 											echo (new PublishedButton)
-													->removeState(0)
-													->removeState(1)
-													->removeState(2)
-													->removeState(-2)
-													->addState(ContentComponent::CONDITION_PUBLISHED, '', 'publish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JPUBLISHED')])
-													->addState(ContentComponent::CONDITION_UNPUBLISHED, '', 'unpublish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JUNPUBLISHED')])
-													->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JARCHIVED')])
-													->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JTRASHED')])
-													->setLayout('joomla.button.transition-button')
-													->render($item->stage_condition, $i, $options, $item->publish_up, $item->publish_down);
+												->removeState(0)
+												->removeState(1)
+												->removeState(2)
+												->removeState(-2)
+												->addState(ContentComponent::CONDITION_PUBLISHED, '', 'publish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JPUBLISHED')])
+												->addState(ContentComponent::CONDITION_UNPUBLISHED, '', 'unpublish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JUNPUBLISHED')])
+												->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JARCHIVED')])
+												->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JTRASHED')])
+												->setLayout('joomla.button.transition-button')
+												->render($item->stage_condition, $i, $options, $item->publish_up, $item->publish_down);
 										?>
 										</div>
 									</div>

@@ -991,6 +991,7 @@ abstract class FormField
 	 * @return  mixed   The filtered value.
 	 *
 	 * @since   4.0.0
+	 * @throws  \UnexpectedValueException
 	 */
 	public function filter($value, $group = null, Registry $input = null)
 	{
@@ -1003,35 +1004,13 @@ abstract class FormField
 		// Get the field filter type.
 		$filter = (string) $this->element['filter'];
 
-		if ($filter != '')
+		if ($filter !== '')
 		{
 			$required = ((string) $this->element['required'] === 'true' || (string) $this->element['required'] === 'required');
 
 			if (($value === '' || $value === null) && !$required)
 			{
 				return '';
-			}
-
-			// Dirty way of ensuring required fields in subforms are submitted and filtered the way other fields are
-			if ($this instanceof SubformField)
-			{
-				$subForm = $this->loadSubForm();
-
-				if ($this->multiple && !empty($value))
-				{
-					$return = array();
-
-					foreach ($value as $key => $val)
-					{
-						$return[$key] = $subForm->filter($val);
-					}
-				}
-				else
-				{
-					$return = $subForm->filter($value);
-				}
-
-				return $return;
 			}
 
 			// Check for a callback filter

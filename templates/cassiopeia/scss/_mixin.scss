@@ -4,9 +4,9 @@
   margin-#{$position}: $size;
 
   $rtl-position: null;
-  @if $position == 'left' {
+  @if $position == "left" {
     $rtl-position: right;
-  } @else if $position == 'right' {
+  } @else if $position == "right" {
     $rtl-position: left;
   }
 

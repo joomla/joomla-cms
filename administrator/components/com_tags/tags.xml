@@ -11,7 +11,6 @@
 	<description>COM_TAGS_XML_DESCRIPTION</description>
 	<namespace path="src">Joomla\Component\Tags</namespace>
 	<files folder="site">
-		<filename>router.php</filename>
 		<folder>helpers</folder>
 		<folder>src</folder>
 		<folder>tmpl</folder>

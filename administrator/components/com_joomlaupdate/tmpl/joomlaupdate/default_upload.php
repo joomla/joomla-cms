@@ -33,7 +33,7 @@ Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 			<h4 class="alert-heading">
 				<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
-				<?php echo $message['message']; ?>
+				<?php echo $warning['message']; ?>
 			</h4>
 			<p class="mb-0"><?php echo $warning['description']; ?></p>
 		</div>
