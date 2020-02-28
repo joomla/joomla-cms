@@ -56,8 +56,8 @@
 
   .icon-featured,
   .fas.fa-star.featured {
-    color: var(--atum-special-color);
-    border-color: var(--atum-special-color);
+    color: $state-warning-bg;
+    border-color: $state-warning-bg;
   }
 
   .icon-archive {
@@ -76,8 +76,8 @@
 }
 
 .icon-joomla::before {
+  font-family: "Font Awesome 5 Brands";
   content: "\f1aa";
-  font-family: "Font Awesome 5 Brands"
 }
 
 .icon-shield-alt::before {
