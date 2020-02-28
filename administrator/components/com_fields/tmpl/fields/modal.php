@@ -70,10 +70,10 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 				<tbody>
 					<?php
 					$iconStates = array(
-						-2 => 'icon-trash',
-						0  => 'icon-unpublish',
-						1  => 'icon-publish',
-						2  => 'icon-archive',
+						-2 => 'fas fa-trash',
+						0  => 'fas fa-times',
+						1  => 'fas fa-check',
+						2  => 'fas fa-folder',
 					);
 					foreach ($this->items as $i => $item) :
 					?>
