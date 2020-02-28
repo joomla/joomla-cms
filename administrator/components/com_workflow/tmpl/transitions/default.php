@@ -135,10 +135,10 @@ if ($saveOrder)
 										<?php else : ?>
 											<?php
 											if ($item->from_condition == Workflow::CONDITION_ARCHIVED):
-												$icon = 'icon-archive';
+												$icon = 'fas fa-folder';
 												$condition = Text::_('JARCHIVED');
 											elseif ($item->from_condition == Workflow::CONDITION_TRASHED):
-												$icon = 'icon-trash';
+												$icon = 'fas fa-trash';
 												$condition = Text::_('JTRASHED');
 											elseif ($item->from_condition == Workflow::CONDITION_PUBLISHED):
 												$icon = 'fas fa-check';
@@ -155,16 +155,16 @@ if ($saveOrder)
 									<td class="nowrap">
 										<?php
 										if ($item->to_condition == Workflow::CONDITION_ARCHIVED):
-											$icon = 'icon-archive';
+											$icon = 'fas fa-folder';
 											$condition = Text::_('JARCHIVED');
 										elseif ($item->to_condition == Workflow::CONDITION_TRASHED):
-											$icon = 'icon-trash';
+											$icon = 'fas fa-trash';
 											$condition = Text::_('JTRASHED');
 										elseif ($item->to_condition == Workflow::CONDITION_PUBLISHED):
-											$icon = 'icon-publish';
+											$icon = 'fas fa-check';
 											$condition = Text::_('JPUBLISHED');
 										elseif ($item->to_condition == Workflow::CONDITION_UNPUBLISHED):
-											$icon = 'icon-unpublish';
+											$icon = 'fas fa-times';
 											$condition = Text::_('JUNPUBLISHED');
 										endif; ?>
 										<span class="<?php echo $icon; ?>" aria-hidden="true"></span>

@@ -136,9 +136,9 @@ if ($saveOrder)
 									<td class="nowrap">
 										<?php
 											if ($item->condition == 'JARCHIVED'):
-												$icon = 'icon-archive';
+												$icon = 'fas fa-folder';
 											elseif ($item->condition == 'JTRASHED'):
-												$icon = 'icon-trash';
+												$icon = 'fas fa-trash';
 											elseif ($item->condition == 'JPUBLISHED'):
 												$icon = 'fas fa-check';
 											elseif ($item->condition == 'JUNPUBLISHED'):
