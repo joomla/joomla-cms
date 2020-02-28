@@ -101,7 +101,7 @@ class PopupButton extends ToolbarButton
 			->text($text)
 			->task($this->_getCommand($url))
 			->url($url)
-			->icon('icon-' . $name)
+			->icon('fas fa-' . $name)
 			->iframeWidth($iframeWidth)
 			->iframeHeight($iframeHeight)
 			->bodyHeight($bodyHeight)

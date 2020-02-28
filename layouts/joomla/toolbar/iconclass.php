@@ -41,7 +41,12 @@ if ( $icon === 'mail' )
 	$icon = 'envelope';
 }
 
-if ( $icon === 'featured' || $icon === 'unfeatured' )
+if ( $icon === 'featured' )
+{
+	$icon = 'star featured';
+}
+
+if ( $icon === 'unfeatured' )
 {
 	$icon = 'star';
 }
