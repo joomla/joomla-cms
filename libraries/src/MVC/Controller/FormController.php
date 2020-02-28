@@ -912,20 +912,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			false
 		);
 
-		// Validate the posted data.
-		// Sometimes the form needs some posted data, such as for plugins and modules.
-		$form = $model->getForm($data, false);
-
-		if (!$form)
-		{
-			$app->enqueueMessage($model->getError(), 'error');
-
-			$this->setRedirect($redirectUrl);
-			$this->redirect();
-		}
-
 		// Save the data in the session.
-		$app->setUserState($this->option . '.edit.' . $this->context . '.data', $form->filter($data));
+		$app->setUserState($this->option . '.edit.' . $this->context . '.data', $data);
 
 		$this->setRedirect($redirectUrl);
 		$this->redirect();
