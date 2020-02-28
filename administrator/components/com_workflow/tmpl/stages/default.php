@@ -140,9 +140,9 @@ if ($saveOrder)
 											elseif ($item->condition == 'JTRASHED'):
 												$icon = 'icon-trash';
 											elseif ($item->condition == 'JPUBLISHED'):
-												$icon = 'icon-publish';
+												$icon = 'fas fa-check';
 											elseif ($item->condition == 'JUNPUBLISHED'):
-												$icon = 'icon-unpublish';
+												$icon = 'fas fa-times';
 											endif;
 										?>
 										<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
