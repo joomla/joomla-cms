@@ -225,7 +225,6 @@ class Categories implements CategoryInterface
 		$user = Factory::getUser();
 		$extension = $this->_extension;
 
-		// Cast as integer until method is typehinted.
 		if ($id !== 'root')
 		{
 			$id = (int) $id;
