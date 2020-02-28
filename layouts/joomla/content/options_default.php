@@ -9,10 +9,11 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 
-HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 ?>
 
 <fieldset class="<?php echo !empty($displayData->formclass) ? $displayData->formclass : ''; ?>">
@@ -27,6 +28,7 @@ HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'rela
 				<?php $datashowon = ''; ?>
 				<?php $groupClass = $field->type === 'Spacer' ? ' field-spacer' : ''; ?>
 				<?php if ($field->showon) : ?>
+					<?php $wa->useScript('showon'); ?>
 					<?php $datashowon = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
 				<?php endif; ?>
 
