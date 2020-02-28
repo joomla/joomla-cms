@@ -12,6 +12,7 @@ namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Joomla\Registry\Registry;
@@ -44,6 +45,12 @@ trait UserProfileFields
 	 */
 	public function onContentPrepareForm(Form $form, $data)
 	{
+		// This feature only applies to HTTPS sites.
+		if (!Uri::getInstance()->isSsl())
+		{
+			return true;
+		}
+
 		// Check we are manipulating a valid form.
 		if (!($form instanceof Form))
 		{
