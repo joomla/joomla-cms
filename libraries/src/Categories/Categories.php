@@ -343,13 +343,13 @@ class Categories implements CategoryInterface
 		if ($this->_options['countItems'] == 1)
 		{
 			$subQuery = $db->getQuery(true)
-				->select('COUNT(' . $db->quoteName('i.' . $this->_key) . ')')
-				->from($db->quoteName($this->_table, 'i'))
-				->where($db->quoteName('i.' . $this->_field) . ' = ' . $db->quoteName('c.id'));
+				->select('COUNT(' . $db->quoteName($db->escape('i.' . $this->_key)) . ')')
+				->from($db->quoteName($db->escape($this->_table), 'i'))
+				->where($db->quoteName($db->escape('i.' . $this->_field)) . ' = ' . $db->quoteName('c.id'));
 
 			if ($this->_options['published'] == 1)
 			{
-				$subQuery->where($db->quoteName('i.' . $this->_statefield) . ' = 1');
+				$subQuery->where($db->quoteName($db->escape('i.' . $this->_statefield)) . ' = 1');
 			}
 
 			if ($this->_options['currentlang'] !== 0)
