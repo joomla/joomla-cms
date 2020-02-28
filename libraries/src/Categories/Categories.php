@@ -240,37 +240,35 @@ class Categories implements CategoryInterface
 
 		$query = $db->getQuery(true)
 			->select(
-				$db->quoteName(
-					[
-						'c.id',
-						'c.asset_id',
-						'c.access',
-						'c.alias',
-						'c.checked_out',
-						'c.checked_out_time',
-						'c.created_time',
-						'c.created_user_id',
-						'c.description',
-						'c.extension',
-						'c.hits',
-						'c.language',
-						'c.level',
-						'c.lft',
-						'c.metadata',
-						'c.metadesc',
-						'c.metakey',
-						'c.modified_time',
-						'c.note',
-						'c.params',
-						'c.parent_id',
-						'c.path',
-						'c.published',
-						'c.rgt',
-						'c.title',
-						'c.modified_user_id',
-						'c.version',
-					]
-				)
+				[
+					$db->quoteName('c.id'),
+					$db->quoteName('c.asset_id'),
+					$db->quoteName('c.access'),
+					$db->quoteName('c.alias'),
+					$db->quoteName('c.checked_out'),
+					$db->quoteName('c.checked_out_time'),
+					$db->quoteName('c.created_time'),
+					$db->quoteName('c.created_user_id'),
+					$db->quoteName('c.description'),
+					$db->quoteName('c.extension'),
+					$db->quoteName('c.hits'),
+					$db->quoteName('c.language'),
+					$db->quoteName('c.level'),
+					$db->quoteName('c.lft'),
+					$db->quoteName('c.metadata'),
+					$db->quoteName('c.metadesc'),
+					$db->quoteName('c.metakey'),
+					$db->quoteName('c.modified_time'),
+					$db->quoteName('c.note'),
+					$db->quoteName('c.params'),
+					$db->quoteName('c.parent_id'),
+					$db->quoteName('c.path'),
+					$db->quoteName('c.published'),
+					$db->quoteName('c.rgt'),
+					$db->quoteName('c.title'),
+					$db->quoteName('c.modified_user_id'),
+					$db->quoteName('c.version'),
+				]
 			);
 
 		$case_when = ' CASE WHEN ';
