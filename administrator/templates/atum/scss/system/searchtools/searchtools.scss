@@ -51,7 +51,6 @@
     margin-top: .5rem;
     margin-bottom: 1rem;
     background-color: $white;
-    border-radius: 0 0 0 $border-radius;
 
     joomla-field-fancy-select .choices,
     .custom-select {
@@ -226,10 +225,6 @@
 
     .btn-toolbar {
       justify-content: flex-end;
-
-      .js-stools-btn-filter {
-        border: 1px solid var(--border);
-      }
 
       .js-stools-btn-clear {
         color: var(--atum-text-light);

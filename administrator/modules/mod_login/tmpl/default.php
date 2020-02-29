@@ -61,7 +61,7 @@ Text::script('MESSAGE');
 					required="required"
 					autocomplete="current-password"
 				>
-				<span class="input-group-append ml-2">
+				<span class="input-group-append">
 					<button type="button" class="btn btn-secondary input-password-toggle">
 						<span class="fas fa-eye" aria-hidden="true"></span>
 						<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>

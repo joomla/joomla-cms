@@ -8,8 +8,6 @@
   color: var(--atum-text-light);
   background-color: var(--atum-link-color);
   border-color: var(--atum-link-color);
-  border-radius: $border-radius;
-
 
   @include hover-focus-active {
     background-color: var(--atum-bg-dark-70);
