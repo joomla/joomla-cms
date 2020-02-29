@@ -16,6 +16,10 @@
 # set it here.
 ##
 
+## Can be commented out if causes errors, see notes above.
+Options +FollowSymlinks
+Options -Indexes
+
 ## No directory listings
 <IfModule autoindex>
   IndexIgnore *
@@ -31,10 +35,6 @@ Header always set X-Content-Type-Options "nosniff"
 #<IfModule mod_headers.c>
 #Header always set Cross-Origin-Resource-Policy "same-origin"
 #</IfModule>
-
-## Can be commented out if causes errors, see notes above.
-Options +FollowSymlinks
-Options -Indexes
 
 ## These directives are only enabled if the Apache mod_rewrite module is enabled
 <IfModule mod_rewrite.c>
