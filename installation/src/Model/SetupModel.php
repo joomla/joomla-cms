@@ -589,7 +589,11 @@ class SetupModel extends BaseInstallationModel
 			if (version_compare(preg_replace('/^5\.5\.5-/', '', $dbVersion), $minDbVersionRequired) < 0)
 			{
 				Factory::getApplication()->enqueueMessage(
-					Text::sprintf('INSTL_DATABASE_INVALID_MARIADB_VERSION', $minDbVersionRequired, $dbVersion),
+					Text::sprintf(
+						'INSTL_DATABASE_INVALID_MARIADB_VERSION',
+						$minDbVersionRequired,
+						$dbVersion
+					),
 					'error'
 				);
 
