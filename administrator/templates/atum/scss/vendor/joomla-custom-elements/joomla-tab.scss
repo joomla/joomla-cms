@@ -87,6 +87,13 @@ joomla-tab {
     box-shadow: none;
     border: 1px solid var(--bluegray);
 
+    [dir=ltr] & {
+      margin-left: -1px;
+    }
+
+    [dir=rtl] & {
+      margin-right: -1px;
+    }
 
     &[active] {
       display: block;
