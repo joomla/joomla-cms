@@ -20,6 +20,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -196,28 +197,85 @@ class ArticlesModel extends ListModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$now   = Factory::getDate()->toSql();
+		$nowDate = Factory::getDate()->toSql();
+
+		$conditionArchived    = ContentComponent::CONDITION_ARCHIVED;
+		$conditionUnpublished = ContentComponent::CONDITION_UNPUBLISHED;
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.introtext, a.fulltext, ' .
-				'a.checked_out, a.checked_out_time,' .
-				'a.catid, a.created, a.created_by, a.created_by_alias, ' .
-				// Published/archived article in archive category is treats as archive article
-				// If category is not published then force 0
-				'CASE WHEN c.published = 2 AND ws.condition > 0 THEN ' . (int) ContentComponent::CONDITION_ARCHIVED .
-				' WHEN c.published != 1 THEN ' . (int) ContentComponent::CONDITION_UNPUBLISHED . ' ELSE ws.condition END as state,' .
-				'a.modified, a.modified_by, uam.name as modified_by_name,' .
-				// Use created if publish_up is null
-				'CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END as publish_up,' .
-				'a.publish_down, a.images, a.urls, a.attribs, a.metadata, a.metakey, a.metadesc, a.access, ' .
-				'a.hits, a.featured, fp.featured_up, fp.featured_down, a.language, ' . $query->length('a.fulltext') . ' AS readmore, a.ordering'
+				[
+					$db->quoteName('a.id'),
+					$db->quoteName('a.title'),
+					$db->quoteName('a.alias'),
+					$db->quoteName('a.introtext'),
+					$db->quoteName('a.fulltext'),
+					$db->quoteName('a.checked_out'),
+					$db->quoteName('a.checked_out_time'),
+					$db->quoteName('a.catid'),
+					$db->quoteName('a.created'),
+					$db->quoteName('a.created_by'),
+					$db->quoteName('a.created_by_alias'),
+					$db->quoteName('a.modified'),
+					$db->quoteName('a.modified_by'),
+					// Use created if publish_up is null
+					'CASE WHEN ' . $db->quoteName('a.publish_up') . ' IS NULL THEN ' . $db->quoteName('a.created')
+						. ' ELSE ' . $db->quoteName('a.publish_up') . ' END AS ' . $db->quoteName('publish_up'),
+					$db->quoteName('a.publish_down'),
+					$db->quoteName('a.images'),
+					$db->quoteName('a.urls'),
+					$db->quoteName('a.attribs'),
+					$db->quoteName('a.metadata'),
+					$db->quoteName('a.metakey'),
+					$db->quoteName('a.metadesc'),
+					$db->quoteName('a.access'),
+					$db->quoteName('a.hits'),
+					$db->quoteName('a.featured'),
+					$db->quoteName('a.language'),
+					$query->length($db->quoteName('a.fulltext')) . ' AS ' . $db->quoteName('readmore'),
+					$db->quoteName('a.ordering'),
+				]
 			)
-		);
-
-		$query->from('#__content AS a');
+		)
+			->select(
+				[
+					$db->quoteName('fp.featured_up'),
+					$db->quoteName('fp.featured_down'),
+					$db->quoteName('wa.stage_id', 'stage_id'),
+					$db->quoteName('ws.title', 'state_title'),
+					$db->quoteName('ws.condition', 'stage_condition'),
+					// Published/archived article in archived category is treated as archived article. If category is not published then force 0.
+					'CASE WHEN ' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('ws.condition') . ' > 0 THEN ' . $conditionArchived
+						. ' WHEN ' . $db->quoteName('c.published') . ' != 1 THEN ' . $conditionUnpublished
+						. ' ELSE ' . $db->quoteName('ws.condition') . ' END AS ' . $db->quoteName('state'),
+					$db->quoteName('c.title', 'category_title'),
+					$db->quoteName('c.path', 'category_route'),
+					$db->quoteName('c.access', 'category_access'),
+					$db->quoteName('c.alias', 'category_alias'),
+					$db->quoteName('c.language', 'category_language'),
+					$db->quoteName('c.published'),
+					$db->quoteName('c.published', 'parents_published'),
+					$db->quoteName('c.lft'),
+					'CASE WHEN ' . $db->quoteName('a.created_by_alias') . ' > ' . $db->quote(' ') . ' THEN ' . $db->quoteName('a.created_by_alias')
+						. ' ELSE ' . $db->quoteName('ua.name') . ' END AS ' . $db->quoteName('author'),
+					$db->quoteName('ua.email', 'author_email'),
+					$db->quoteName('uam.name', 'modified_by_name'),
+					$db->quoteName('parent.title', 'parent_title'),
+					$db->quoteName('parent.id', 'parent_id'),
+					$db->quoteName('parent.path', 'parent_route'),
+					$db->quoteName('parent.alias', 'parent_alias'),
+					$db->quoteName('parent.language', 'parent_language'),
+				]
+			)
+			->from($db->quoteName('#__content', 'a'))
+			->join('LEFT', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
+			->join('LEFT', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
+			->join('LEFT', $db->quoteName('#__categories', 'c'), $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid'))
+			->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
+			->join('LEFT', $db->quoteName('#__users', 'uam'), $db->quoteName('uam.id') . ' = ' . $db->quoteName('a.modified_by'))
+			->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'));
 
 		$params      = $this->getState('params');
 		$orderby_sec = $params->get('orderby_sec');
@@ -229,66 +287,49 @@ class ArticlesModel extends ListModel
 		{
 			if ($orderby_sec === 'front')
 			{
-				$query->select('fp.ordering');
+				$query->select($db->quoteName('fp.ordering'));
 				$frontpageJoin = 'INNER';
 			}
 			else
 			{
-				$query->where('a.featured = 1');
+				$query->where($db->quoteName('a.featured') . ' = 1');
 			}
 
-			$query->where('(' . $db->quoteName('fp.featured_up') . ' IS NULL OR fp.featured_up <= ' . $db->quote($now) . ')');
-			$query->where('(' . $db->quoteName('fp.featured_down') . ' IS NULL OR fp.featured_down >= ' . $db->quote($now) . ')');
+			$query->where(
+				[
+					'(' . $db->quoteName('fp.featured_up') . ' IS NULL OR ' . $db->quoteName('fp.featured_up') . ' <= :frontpageUp)',
+					'(' . $db->quoteName('fp.featured_down') . ' IS NULL OR ' . $db->quoteName('fp.featured_down') . ' >= :frontpageDown)',
+				]
+			)
+				->bind(':frontpageUp', $nowDate)
+				->bind(':frontpageDown', $nowDate);
 		}
 		elseif ($orderby_sec === 'front' || $this->getState('list.ordering') === 'fp.ordering')
 		{
-			$query->select('fp.ordering');
+			$query->select($db->quoteName('fp.ordering'));
 		}
 
-		$query->join($frontpageJoin, '#__content_frontpage AS fp ON fp.content_id = a.id');
-
-		// Join over the states.
-		$query->select('wa.stage_id AS stage_id')
-			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
-
-		// Join over the states.
-		$query->select('ws.title AS state_title, ws.condition AS stage_condition')
-			->join('LEFT', '#__workflow_stages AS ws ON ws.id = wa.stage_id');
-
-		// Join over the categories.
-		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias,' .
-			'c.language AS category_language'
-		)
-			->select('c.published, c.published AS parents_published, c.lft')
-			->join('LEFT', '#__categories AS c ON c.id = a.catid');
-
-		// Join over the users for the author and modified_by names.
-		$query->select("CASE WHEN a.created_by_alias > ' ' THEN a.created_by_alias ELSE ua.name END AS author")
-			->select('ua.email AS author_email')
-			->join('LEFT', '#__users AS ua ON ua.id = a.created_by')
-			->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
-
-		// Join over the categories to get parent category titles
-		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias,' .
-			'parent.language as parent_language'
-		)
-			->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
+		$query->join($frontpageJoin, $db->quoteName('#__content_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'));
 
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
 			// Join on voting table
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
-							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count'
+			$query->select(
+				[
+					'COALESCE(NULLIF(ROUND(' . $db->quoteName('v.rating_sum') . ' / ' . $db->quoteName('v.rating_count') . ', 0), 0), 0)'
+						. ' AS ' . $db->quoteName('rating'),
+					'COALESCE(NULLIF(' . $db->quoteName('v.rating_count') . ', 0), 0) AS ' . $db->quoteName('rating_count'),
+				]
 			)
-				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
+				->join('LEFT', $db->quoteName('#__content_rating', 'v'), $db->quoteName('a.id') . ' = ' . $db->quoteName('v.content_id'));
 		}
 
 		// Filter by access level.
 		if ($this->getState('filter.access', true))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where('a.access IN (' . $groups . ')')
-				->where('c.access IN (' . $groups . ')');
+			$groups = $user->getAuthorisedViewLevels();
+			$query->whereIn($db->quoteName('a.access'), $groups)
+				->whereIn($db->quoteName('c.access'), $groups);
 		}
 
 		// Filter by published state
@@ -300,28 +341,27 @@ class ArticlesModel extends ListModel
 			 * If category is archived then article has to be published or archived.
 			 * Or categogy is published then article has to be archived.
 			 */
-			$query->where('((c.published = 2 AND ws.condition > ' . (int) ContentComponent::CONDITION_UNPUBLISHED .
-				') OR (c.published = 1 AND ws.condition = ' . (int) ContentComponent::CONDITION_ARCHIVED . '))'
-			);
+			$query->where('((' . $db->quoteName('c.published') . ' = 2 AND ' . $db->quoteName('ws.condition') . ' > :conditionUnpublished)'
+				. ' OR (' . $db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('ws.condition') . ' = :conditionArchived))'
+			)
+				->bind(':conditionUnpublished', $conditionUnpublished, ParameterType::INTEGER)
+				->bind(':conditionArchived', $conditionArchived, ParameterType::INTEGER);
 		}
 		elseif (is_numeric($condition))
 		{
+			$condition = (int) $condition;
+
 			// Category has to be published
-			$query->where("c.published = 1 AND ws.condition = " . $db->quote($condition));
+			$query->where($db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('ws.condition') . ' = :wsCondition')
+				->bind(':wsCondition', $condition, ParameterType::INTEGER);
 		}
 		elseif (is_array($condition))
 		{
-			$condition = array_map(
-				function ($data) use ($db)
-				{
-					return $db->quote($data);
-				},
-				$condition
-			);
-			$condition = implode(',', $condition);
-
 			// Category has to be published
-			$query->where('c.published = 1 AND ws.condition IN (' . $condition . ')');
+			$query->where(
+				$db->quoteName('c.published') . ' = 1 AND ' . $db->quoteName('ws.condition')
+					. ' IN (' . implode(',', $query->bindArray($condition)) . ')'
+			);
 		}
 
 		// Filter by featured state
@@ -330,13 +370,19 @@ class ArticlesModel extends ListModel
 		switch ($featured)
 		{
 			case 'hide':
-				$query->where('a.featured = 0');
+				$query->where($db->quoteName('a.featured') . ' = 0');
 				break;
 
 			case 'only':
-				$query->where('a.featured = 1');
-				$query->where('(' . $query->quoteName('fp.featured_up') . ' IS NULL OR fp.featured_up <= ' . $db->quote($now) . ')');
-				$query->where('(' . $query->quoteName('fp.featured_down') . ' IS NULL OR fp.featured_down >= ' . $db->quote($now) . ')');
+				$query->where(
+					[
+						$db->quoteName('a.featured') . ' = 1',
+						'(' . $db->quoteName('fp.featured_up') . ' IS NULL OR ' . $db->quoteName('fp.featured_up') . ' <= :featuredUp)',
+						'(' . $db->quoteName('fp.featured_down') . ' IS NULL OR ' . $db->quoteName('fp.featured_down') . ' >= :featuredDown)',
+					]
+				)
+					->bind(':featuredUp', $nowDate)
+					->bind(':featuredDown', $nowDate);
 				break;
 
 			case 'show':
@@ -350,15 +396,23 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($articleId))
 		{
-			$type = $this->getState('filter.article_id.include', true) ? '= ' : '<> ';
-			$query->where('a.id ' . $type . (int) $articleId);
+			$articleId = (int) $articleId;
+			$type      = $this->getState('filter.article_id.include', true) ? ' = ' : ' <> ';
+			$query->where($db->quoteName('a.id') . $type . ':articleId')
+				->bind(':articleId', $articleId, ParameterType::INTEGER);
 		}
 		elseif (is_array($articleId))
 		{
 			$articleId = ArrayHelper::toInteger($articleId);
-			$articleId = implode(',', $articleId);
-			$type      = $this->getState('filter.article_id.include', true) ? 'IN' : 'NOT IN';
-			$query->where('a.id ' . $type . ' (' . $articleId . ')');
+
+			if ($this->getState('filter.article_id.include', true))
+			{
+				$query->whereIn($db->quoteName('a.id'), $articleId);
+			}
+			else
+			{
+				$query->whereNotIn($db->quoteName('a.id'), $articleId);
+			}
 		}
 
 		// Filter by a single or group of categories
@@ -366,45 +420,62 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($categoryId))
 		{
-			$type = $this->getState('filter.category_id.include', true) ? '= ' : '<> ';
+			$type = $this->getState('filter.category_id.include', true) ? ' = ' : ' <> ';
 
 			// Add subcategory check
 			$includeSubcategories = $this->getState('filter.subcategories', false);
-			$categoryEquals       = 'a.catid ' . $type . (int) $categoryId;
 
 			if ($includeSubcategories)
 			{
-				$levels = (int) $this->getState('filter.max_category_levels', '1');
+				$categoryId = (int) $categoryId;
+				$levels     = (int) $this->getState('filter.max_category_levels', 1);
 
 				// Create a subquery for the subcategory list
 				$subQuery = $db->getQuery(true)
-					->select('sub.id')
-					->from('#__categories as sub')
-					->join('INNER', '#__categories as this ON sub.lft > this.lft AND sub.rgt < this.rgt')
-					->where('this.id = ' . (int) $categoryId);
+					->select($db->quoteName('sub.id'))
+					->from($db->quoteName('#__categories', 'sub'))
+					->join(
+						'INNER',
+						$db->quoteName('#__categories', 'this'),
+						$db->quoteName('sub.lft') . ' > ' . $db->quoteName('this.lft')
+							. ' AND ' . $db->quoteName('sub.rgt') . ' < ' . $db->quoteName('this.rgt')
+					)
+					->where($db->quoteName('this.id') . ' = :subCategoryId');
+
+				$query->bind(':subCategoryId', $categoryId, ParameterType::INTEGER);
 
 				if ($levels >= 0)
 				{
-					$subQuery->where('sub.level <= this.level + ' . $levels);
+					$subQuery->where($db->quoteName('sub.level') . ' <= ' . $db->quoteName('this.level') . ' + :levels');
+					$query->bind(':levels', $levels, ParameterType::INTEGER);
 				}
 
 				// Add the subquery to the main query
-				$query->where('(' . $categoryEquals . ' OR a.catid IN (' . (string) $subQuery . '))');
+				$query->where(
+					'(' . $db->quoteName('a.catid') . $type . ':categoryId OR ' . $db->quoteName('a.catid') . ' IN (' . (string) $subQuery . '))'
+				);
+				$query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
 			}
 			else
 			{
-				$query->where($categoryEquals);
+				$query->where($db->quoteName('a.catid') . $type . ':categoryId');
+				$query->bind(':categoryId', $categoryId, ParameterType::INTEGER);
 			}
 		}
 		elseif (is_array($categoryId) && (count($categoryId) > 0))
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
-			$categoryId = implode(',', $categoryId);
 
 			if (!empty($categoryId))
 			{
-				$type = $this->getState('filter.category_id.include', true) ? 'IN' : 'NOT IN';
-				$query->where('a.catid ' . $type . ' (' . $categoryId . ')');
+				if ($this->getState('filter.category_id.include', true))
+				{
+					$query->whereIn($db->quoteName('a.catid'), $categoryId);
+				}
+				else
+				{
+					$query->whereNotIn($db->quoteName('a.catid'), $categoryId);
+				}
 			}
 		}
 
@@ -414,18 +485,19 @@ class ArticlesModel extends ListModel
 
 		if (is_numeric($authorId))
 		{
-			$type        = $this->getState('filter.author_id.include', true) ? '= ' : '<> ';
-			$authorWhere = 'a.created_by ' . $type . (int) $authorId;
+			$authorId    = (int) $authorId;
+			$type        = $this->getState('filter.author_id.include', true) ? ' = ' : ' <> ';
+			$authorWhere = $db->quoteName('a.created_by') . $type . ':authorId';
+			$query->bind(':authorId', $authorId, ParameterType::INTEGER);
 		}
 		elseif (is_array($authorId))
 		{
-			$authorId = array_filter($authorId, 'is_numeric');
+			$authorId = array_values(array_filter($authorId, 'is_numeric'));
 
 			if ($authorId)
 			{
-				$authorId    = implode(',', $authorId);
-				$type        = $this->getState('filter.author_id.include', true) ? 'IN' : 'NOT IN';
-				$authorWhere = 'a.created_by ' . $type . ' (' . $authorId . ')';
+				$type        = $this->getState('filter.author_id.include', true) ? ' IN' : ' NOT IN';
+				$authorWhere = $db->quoteName('a.created_by') . $type . ' (' . implode(',', $query->bindArray($authorId)) . ')';
 			}
 		}
 
@@ -435,8 +507,9 @@ class ArticlesModel extends ListModel
 
 		if (is_string($authorAlias))
 		{
-			$type             = $this->getState('filter.author_alias.include', true) ? '= ' : '<> ';
-			$authorAliasWhere = 'a.created_by_alias ' . $type . $db->quote($authorAlias);
+			$type             = $this->getState('filter.author_alias.include', true) ? ' = ' : ' <> ';
+			$authorAliasWhere = $db->quoteName('a.created_by_alias') . $type . ':authorAlias';
+			$query->bind(':authorAlias', $authorAlias);
 		}
 		elseif (is_array($authorAlias))
 		{
@@ -453,9 +526,9 @@ class ArticlesModel extends ListModel
 
 				if ($authorAlias)
 				{
-					$type             = $this->getState('filter.author_alias.include', true) ? 'IN' : 'NOT IN';
-					$authorAliasWhere = 'a.created_by_alias ' . $type . ' (' . $authorAlias .
-						')';
+					$type             = $this->getState('filter.author_alias.include', true) ? ' IN' : ' NOT IN';
+					$authorAliasWhere = $db->quoteName('a.created_by_alias') . $type
+						. ' (' . implode(',', $query->bindArray($authorAlias, ParameterType::STRING)) . ')';
 				}
 			}
 		}
@@ -474,18 +547,22 @@ class ArticlesModel extends ListModel
 			$query->where($authorWhere . $authorAliasWhere);
 		}
 
-		$nowDate  = $db->quote(Factory::getDate()->toSql());
-
 		// Filter by start and end dates.
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
-			$query->where('(a.publish_up IS NULL OR a.publish_up <= ' . $nowDate . ')')
-				->where('(a.publish_down IS NULL OR a.publish_down >= ' . $nowDate . ')');
+			$query->where(
+				[
+					'(' . $db->quoteName('a.publish_up') . ' IS NULL OR ' . $db->quoteName('a.publish_up') . ' <= :publishUp)',
+					'(' . $db->quoteName('a.publish_down') . ' IS NULL OR ' . $db->quoteName('a.publish_down') . ' >= :publishDown)',
+				]
+			)
+				->bind(':publishUp', $nowDate)
+				->bind(':publishDown', $nowDate);
 		}
 
 		// Filter by Date Range or Relative Date
 		$dateFiltering = $this->getState('filter.date_filtering', 'off');
-		$dateField     = $this->getState('filter.date_field', 'a.created');
+		$dateField     = $db->escape($this->getState('filter.date_field', 'a.created'));
 
 		switch ($dateFiltering)
 		{
@@ -495,16 +572,18 @@ class ArticlesModel extends ListModel
 
 				if ($startDateRange || $endDateRange)
 				{
-					$query->where($dateField . ' IS NOT NULL');
+					$query->where($db->quoteName($dateField) . ' IS NOT NULL');
 
 					if ($startDateRange)
 					{
-						$query->where($dateField . ' >= ' . $db->quote($startDateRange));
+						$query->where($db->quoteName($dateField) . ' >= :startDateRange')
+							->bind(':startDateRange', $startDateRange);
 					}
 
 					if ($endDateRange)
 					{
-						$query->where($dateField . ' <= ' . $db->quote($endDateRange));
+						$query->where($db->quoteName($dateField) . ' <= :endDateRange')
+							->bind(':endDateRange', $endDateRange);
 					}
 				}
 
@@ -513,8 +592,8 @@ class ArticlesModel extends ListModel
 			case 'relative':
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
 				$query->where(
-					$dateField . ' IS NOT NULL AND '
-					. $dateField . ' >= ' . $query->dateAdd($nowDate, -1 * $relativeDate, 'DAY')
+					$db->quoteName($dateField) . ' IS NOT NULL AND '
+					. $db->quoteName($dateField) . ' >= ' . $query->dateAdd($nowDate, -1 * $relativeDate, 'DAY')
 				);
 				break;
 
@@ -530,40 +609,45 @@ class ArticlesModel extends ListModel
 			$filter      = StringHelper::strtolower($filter);
 			$monthFilter = $filter;
 			$hitsFilter  = (int) $filter;
-			$filter      = $db->quote('%' . $db->escape($filter, true) . '%', false);
+			$textFilter  = '%' . $filter . '%';
 
 			switch ($params->get('filter_field'))
 			{
 				case 'author':
 					$query->where(
-						'LOWER( CASE WHEN a.created_by_alias > ' . $db->quote(' ') .
-						' THEN a.created_by_alias ELSE ua.name END ) LIKE ' . $filter . ' '
-					);
+						'LOWER(CASE WHEN ' . $db->quoteName('a.created_by_alias') . ' > ' . $db->quote(' ')
+						. ' THEN ' . $db->quoteName('a.created_by_alias') . ' ELSE ' . $db->quoteName('ua.name') . ' END) LIKE :search'
+					)
+						->bind(':search', $textFilter);
 					break;
 
 				case 'hits':
-					$query->where('a.hits >= ' . $hitsFilter . ' ');
+					$query->where($db->quoteName('a.hits') . ' >= :hits')
+						->bind(':hits', $hitsFilter, ParameterType::INTEGER);
 					break;
 
 				case 'month':
 					if ($monthFilter != '')
 					{
-						$query->where(
-							$db->quote(date("Y-m-d", strtotime($monthFilter)) . ' 00:00:00')
-							. ' <= CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END'
-						);
+						$monthStart = date("Y-m-d", strtotime($monthFilter)) . ' 00:00:00';
+						$monthEnd   = date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59';
 
 						$query->where(
-							$db->quote(date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59')
-							. ' >= CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END'
-						);
+							[
+								':monthStart <= CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END',
+								':monthEnd >= CASE WHEN a.publish_up IS NULL THEN a.created ELSE a.publish_up END',
+							]
+						)
+							->bind(':monthStart', $monthStart)
+							->bind(':monthEnd', $monthEnd);
 					}
 					break;
 
 				case 'title':
 				default:
 					// Default to 'title' if parameter is not valid
-					$query->where('LOWER( a.title ) LIKE ' . $filter);
+					$query->where('LOWER(' . $db->quoteName('a.title') . ') LIKE :search')
+						->bind(':search', $textFilter);
 					break;
 			}
 		}
@@ -571,7 +655,7 @@ class ArticlesModel extends ListModel
 		// Filter by language
 		if ($this->getState('filter.language'))
 		{
-			$query->where('a.language IN (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+			$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
 		}
 
 		// Filter by a single or group of tags.
@@ -584,31 +668,39 @@ class ArticlesModel extends ListModel
 
 		if (is_array($tagId))
 		{
-			$tagId = implode(',', ArrayHelper::toInteger($tagId));
+			$tagId = ArrayHelper::toInteger($tagId);
 
 			if ($tagId)
 			{
 				$subQuery = $db->getQuery(true)
-					->select('DISTINCT content_item_id')
+					->select('DISTINCT ' . $db->quoteName('content_item_id'))
 					->from($db->quoteName('#__contentitem_tag_map'))
-					->where('tag_id IN (' . $tagId . ')')
-					->where('type_alias = ' . $db->quote('com_content.article'));
+					->whereIn($db->quoteName('tag_id'), $tagId)
+					->where($db->quoteName('type_alias') . ' = ' . $db->quote('com_content.article'));
 
-				$query->innerJoin('(' . (string) $subQuery . ') AS tagmap ON tagmap.content_item_id = a.id');
+				$query->join(
+					'INNER',
+					'(' . (string) $subQuery . ') AS ' . $db->quoteName('tagmap'),
+					$db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+				);
 			}
 		}
-		elseif ($tagId)
+		elseif ($tagId = (int) $tagId)
 		{
-			$query->innerJoin(
-				$db->quoteName('#__contentitem_tag_map', 'tagmap')
-				. ' ON tagmap.tag_id = ' . (int) $tagId
-				. ' AND tagmap.content_item_id = a.id'
-				. ' AND tagmap.type_alias = ' . $db->quote('com_content.article')
-			);
+			$query->join(
+				'INNER',
+				$db->quoteName('#__contentitem_tag_map', 'tagmap'),
+				$db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_content.article')
+			)
+				->where($db->quoteName('tagmap.tag_id') . ' = :tagId')
+				->bind(':tagId', $tagId, ParameterType::INTEGER);
 		}
 
 		// Add the list ordering clause.
-		$query->order($this->getState('list.ordering', 'a.ordering') . ' ' . $this->getState('list.direction', 'ASC'));
+		$query->order(
+			$db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC'))
+		);
 
 		return $query;
 	}
@@ -791,6 +883,17 @@ class ArticlesModel extends ListModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
+		// Get the list query.
+		$listQuery = $this->getListQuery();
+		$bounded   = $listQuery->getBounded();
+
+		// Bind list query variables to our new query.
+		$keys      = array_keys($bounded);
+		$values    = array_column($bounded, 'value');
+		$dataTypes = array_column($bounded, 'dataType');
+
+		$query->bind($keys, $values, $dataTypes);
+
 		$query
 			->select('DATE(' .
 				$query->concatenate(
@@ -800,12 +903,12 @@ class ArticlesModel extends ListModel
 						$query->month($db->quoteName('publish_up')),
 						$db->quote('-01')
 					)
-				) . ') as d'
+				) . ') AS ' . $db->quoteName('d')
 			)
-			->select('COUNT(*) as c')
-			->from('(' . $this->getListQuery() . ') as b')
+			->select('COUNT(*) AS ' . $db->quoteName('c'))
+			->from('(' . $this->getListQuery() . ') AS ' . $db->quoteName('b'))
 			->group($db->quoteName('d'))
-			->order($db->quoteName('d') . ' desc');
+			->order($db->quoteName('d') . ' DESC');
 
 		return $db->setQuery($query)->loadObjectList();
 	}
