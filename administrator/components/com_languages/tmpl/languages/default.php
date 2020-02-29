@@ -108,7 +108,7 @@ if ($saveOrder && !empty($this->items))
 										<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 									<?php else : ?>
 										<span class="sortable-handler inactive">
-											<span class="icon-menu" aria-hidden="true"></span>
+											<span class="fas fa-bars" aria-hidden="true"></span>
 										</span>
 									<?php endif; ?>
 								</td>

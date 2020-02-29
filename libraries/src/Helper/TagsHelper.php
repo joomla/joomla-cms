@@ -225,8 +225,7 @@ class TagsHelper extends CMSHelper
 		else
 		{
 			// We will use the tags table to store them
-			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
-			$tagTable  = Table::getInstance('Tag', 'TagsTable');
+			$tagTable  = Factory::getApplication()->bootComponent('com_tags')->getMVCFactory()->createTable('Tag', 'Administrator');
 			$newTags   = array();
 			$canCreate = Factory::getUser()->authorise('core.create', 'com_tags');
 
@@ -679,8 +678,7 @@ class TagsHelper extends CMSHelper
 	public function getTagTreeArray($id, &$tagTreeArray = array())
 	{
 		// Get a level row instance.
-		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
-		$table = Table::getInstance('Tag', 'TagsTable');
+		$table = Factory::getApplication()->bootComponent('com_tags')->getMVCFactory()->createTable('Tag', 'Administrator');
 
 		if ($table->isLeaf($id))
 		{
@@ -935,8 +933,7 @@ class TagsHelper extends CMSHelper
 		// Filter by parent_id
 		if (isset($filters['parent_id']) && is_numeric($filters['parent_id']))
 		{
-			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_tags/tables');
-			$tagTable = Table::getInstance('Tag', 'TagsTable');
+			$tagTable = Factory::getApplication()->bootComponent('com_tags')->getMVCFactory()->createTable('Tag', 'Administrator');
 
 			if ($children = $tagTable->getTree($filters['parent_id']))
 			{

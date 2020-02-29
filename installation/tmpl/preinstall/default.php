@@ -73,7 +73,7 @@ use Joomla\CMS\Language\Text;
 							</div>
 							<div class="form-group row">
 								<div class="col-md-8 offset-md-2 justify-content-end d-flex">
-									<button id="verifybutton" class="btn btn-success"><span class="icon-ok icon-white"></span> <?php echo Text::_('INSTL_VERIFY_FTP_SETTINGS'); ?></button>
+									<button id="verifybutton" class="btn btn-success"><span class="fas fa-check icon-white"></span> <?php echo Text::_('INSTL_VERIFY_FTP_SETTINGS'); ?></button>
 								</div>
 							</div>
 							<input type="hidden" name="format" value="json">

@@ -55,7 +55,7 @@ composer install
 ```
 - Install all the needed npm packages:
 ```bash
-npm install
+npm ci
 ```
 
 Do you want to improve Joomla?

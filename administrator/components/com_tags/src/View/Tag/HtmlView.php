@@ -151,12 +151,12 @@ class HtmlView extends BaseHtmlView
 				'btn-success'
 			);
 
+			ToolbarHelper::cancel('tag.cancel', 'JTOOLBAR_CLOSE');
+
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
 				ToolbarHelper::versions('com_tags.tag', $this->item->id);
 			}
-
-			ToolbarHelper::cancel('tag.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		ToolbarHelper::divider();

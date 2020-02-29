@@ -7,8 +7,8 @@
     }
 
     @include media-breakpoint-up(md) {
-      width: calc(50% - 15px);
       display: inline-block;
+      width: calc(50% - 15px);
     }
   }
 
