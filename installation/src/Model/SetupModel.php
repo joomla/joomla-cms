@@ -35,7 +35,7 @@ class SetupModel extends BaseInstallationModel
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	protected static $dbMinimumMariaDb = '10.0';
+	protected static $dbMinimumMariaDb = '10.1';
 
 	/**
 	 * The minimum database server version for MySQL databases as required by the CMS.
