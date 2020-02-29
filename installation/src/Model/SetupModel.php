@@ -29,6 +29,33 @@ use Joomla\Utilities\ArrayHelper;
 class SetupModel extends BaseInstallationModel
 {
 	/**
+	 * The minimum database server version for MariaDB databases as reqruied by the CMS.
+	 * This is not necessarily equal to what the database driver requires.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected static $dbMinimumMariaDb = '10.0';
+
+	/**
+	 * The minimum database server version for MySQL databases as reqruied by the CMS.
+	 * This is not necessarily equal to what the database driver requires.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected static $dbMinimumMySql = '5.6';
+
+	/**
+	 * The minimum database server version for PostgreSQL databases as reqruied by the CMS.
+	 * This is not necessarily equal to what the database driver requires.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected static $dbMinimumPostgreSql = '11.0';
+
+	/**
 	 * Get the current setup options from the session.
 	 *
 	 * @return  array  An array of options from the session.
@@ -519,8 +546,6 @@ class SetupModel extends BaseInstallationModel
 			);
 
 			$db->connect();
-
-			$dbVersion = $db->getVersion();
 		}
 		catch (\RuntimeException $e)
 		{
@@ -529,23 +554,58 @@ class SetupModel extends BaseInstallationModel
 			return false;
 		}
 
-		// Check minimum database version
-		if (!$db->isMinimumVersion())
+		$dbVersion = $db->getVersion();
+
+		// Get minimum database version required by the database driver
+		$minDbVersionRequired = $db->getMinimum();
+
+		// Get minimum database version required by the CMS
+		if (in_array($options->db_type, ['mysql', 'mysqli']))
 		{
-			if (in_array($options->db_type, ['mysql', 'mysqli']) && $db->isMariaDb())
+			if ($db->isMariaDb())
 			{
-				Factory::getApplication()->enqueueMessage(
-					Text::sprintf('INSTL_DATABASE_INVALID_MARIADB_VERSION', $db->getMinimum(), $dbVersion),
-					'error'
-				);
+				$minDbVersionCms = self::$dbMinimumMariaDb;
 			}
 			else
 			{
+				$minDbVersionCms = self::$dbMinimumMySql;
+			}
+		}
+		else
+		{
+			$minDbVersionCms = self::$dbMinimumPostgreSql;
+		}
+
+		// Use most restrictive minimum database version requirement
+		if (version_compare($minDbVersionCms, $minDbVersionRequired) > 0)
+		{
+			$minDbVersionRequired = $minDbVersionCms;
+		}
+
+		// Check minimum database version as reqruied by the CMS
+		if (in_array($options->db_type, ['mysql', 'mysqli']) && $db->isMariaDb())
+		{
+			// MariaDB: Check with sanitized version string
+			if (version_compare(preg_replace('/^5\.5\.5-/', '', $dbVersion), $minDbVersionRequired) < 0)
+			{
 				Factory::getApplication()->enqueueMessage(
-					Text::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($options->db_type) . '_VERSION', $db->getMinimum(), $dbVersion),
+					Text::sprintf('INSTL_DATABASE_INVALID_MARIADB_VERSION', $minDbVersionRequired, $dbVersion),
 					'error'
 				);
+
+				return false;
 			}
+		}
+		elseif (version_compare($dbVersion, $minDbVersionRequired) < 0)
+		{
+			Factory::getApplication()->enqueueMessage(
+				Text::sprintf(
+					'INSTL_DATABASE_INVALID_' . strtoupper($options->db_type) . '_VERSION',
+					$minDbVersionRequired,
+					$dbVersion
+				),
+				'error'
+			);
 
 			return false;
 		}
