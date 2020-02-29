@@ -68,7 +68,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									$button = 'btn-danger';
 									$text   = Text::_('COM_USERS_DEBUG_EXPLICIT_DENY');
 								elseif ($check === null) :
-									$class  = 'text-danger icon-ban-circle';
+									$class  = 'text-danger fas fa-minus-circle';
 									$button = 'btn-warning';
 									$text   = Text::_('COM_USERS_DEBUG_IMPLICIT_DENY');
 								else :
