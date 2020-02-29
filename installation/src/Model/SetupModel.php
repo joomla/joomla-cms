@@ -38,7 +38,7 @@ class SetupModel extends BaseInstallationModel
 	protected static $dbMinimumMariaDb = '10.0';
 
 	/**
-	 * The minimum database server version for MySQL databases as reqruied by the CMS.
+	 * The minimum database server version for MySQL databases as required by the CMS.
 	 * This is not necessarily equal to what the database driver requires.
 	 *
 	 * @var    string
@@ -47,7 +47,7 @@ class SetupModel extends BaseInstallationModel
 	protected static $dbMinimumMySql = '5.6';
 
 	/**
-	 * The minimum database server version for PostgreSQL databases as reqruied by the CMS.
+	 * The minimum database server version for PostgreSQL databases as required by the CMS.
 	 * This is not necessarily equal to what the database driver requires.
 	 *
 	 * @var    string
