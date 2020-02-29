@@ -29,7 +29,7 @@ use Joomla\Utilities\ArrayHelper;
 class SetupModel extends BaseInstallationModel
 {
 	/**
-	 * The minimum database server version for MariaDB databases as reqruied by the CMS.
+	 * The minimum database server version for MariaDB databases as required by the CMS.
 	 * This is not necessarily equal to what the database driver requires.
 	 *
 	 * @var    string
