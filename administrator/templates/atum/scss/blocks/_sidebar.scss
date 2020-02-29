@@ -144,7 +144,7 @@
         > .fas {
           display: flex;
           align-items: center;
-          padding: 1rem;
+          padding: .9rem;
           margin: 0;
         }
 
@@ -361,7 +361,11 @@
   }
 
   .home-image {
-    padding: .8rem 0 !important;
+    padding: 0;
+
+    &.fa-star {
+      padding: .8rem 0;
+    }
   }
 
   .mm-collapse {
