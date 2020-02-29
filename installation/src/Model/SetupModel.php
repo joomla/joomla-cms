@@ -519,6 +519,8 @@ class SetupModel extends BaseInstallationModel
 			);
 
 			$db->connect();
+
+			$dbVersion = $db->getVersion();
 		}
 		catch (\RuntimeException $e)
 		{
@@ -527,6 +529,28 @@ class SetupModel extends BaseInstallationModel
 			return false;
 		}
 
+		// Check minimum database version
+		if (!$db->isMinimumVersion())
+		{
+			if (in_array($options->db_type, ['mysql', 'mysqli']) && $db->isMariaDb())
+			{
+				Factory::getApplication()->enqueueMessage(
+					Text::sprintf('INSTL_DATABASE_INVALID_MARIADB_VERSION', $db->getMinimum(), $dbVersion),
+					'error'
+				);
+			}
+			else
+			{
+				Factory::getApplication()->enqueueMessage(
+					Text::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($options->db_type) . '_VERSION', $db->getMinimum(), $dbVersion),
+					'error'
+				);
+			}
+
+			return false;
+		}
+
+		// Check database connection encryption
 		if ($options->db_encryption !== 0 && empty($db->getConnectionEncryption()))
 		{
 			if ($db->isConnectionEncryptionSupported())
