@@ -2,8 +2,12 @@
  * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-((JText) => {
+((Joomla) => {
   'use strict';
+
+  if (!Joomla || !Joomla.Text) {
+    throw new Error('core.js was not properly initialised');
+  }
 
   // Selectors used by this script
   const buttonsSelector = '[id^=category-btn-]';
@@ -17,30 +21,31 @@
     const icon = button.querySelector('span');
 
     // Toggle icon class
-    icon.classList.toggle('fas fa-plus');
-    icon.classList.toggle('fas fa-minus');
+    icon.classList.toggle('fa-plus');
+    icon.classList.toggle('fa-minus');
 
     // Toggle aria label
     const ariaLabel = button.getAttribute('aria-label');
     button.setAttribute(
       'aria-label',
-      (ariaLabel === JText._('JGLOBAL_COLLAPSE_CATEGORIES')
-        || JText._('JGLOBAL_EXPAND_CATEGORIES')),
+      (
+        ariaLabel === Joomla.Text._('JGLOBAL_EXPAND_CATEGORIES') ? Joomla.Text._('JGLOBAL_COLLAPSE_CATEGORIES') : Joomla.Text._('JGLOBAL_EXPAND_CATEGORIES')
+      ),
     );
   };
 
   /**
-   * Register the events
+   * Script boot
    */
-  const registerEvents = () => {
+  const onBoot = () => {
     const buttons = [].slice.call(document.querySelectorAll(buttonsSelector));
     buttons.forEach((button) => {
       button.addEventListener('click', handleCategoryToggleButtonClick);
     });
 
     // Cleanup
-    document.removeEventListener('DOMContentLoaded', registerEvents);
+    document.removeEventListener('DOMContentLoaded', onBoot);
   };
 
-  document.addEventListener('DOMContentLoaded', registerEvents);
-})(Joomla.JText);
+  document.addEventListener('DOMContentLoaded', onBoot);
+})(Joomla);
