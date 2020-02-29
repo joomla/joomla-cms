@@ -88,6 +88,11 @@
         }
       }
 
+      &:focus {
+        border-color: $focuscolor;
+        box-shadow: $focusshadow;
+      }
+
       option {
         font-size: .875rem;
         color: var(--atum-text-dark);
