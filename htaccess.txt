@@ -26,7 +26,7 @@
 Header always set X-Content-Type-Options "nosniff"
 </IfModule>
 
-## Protect against certain cross-origin requests more information can be found here:
+## Protect against certain cross-origin requests. More information can be found here:
 ## https://developer.mozilla.org/en-US/docs/Web/HTTP/Cross-Origin_Resource_Policy_(CORP)
 #<IfModule mod_headers.c>
 #Header always set Cross-Origin-Resource-Policy "same-origin"
