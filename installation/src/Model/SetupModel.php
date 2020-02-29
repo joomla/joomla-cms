@@ -582,7 +582,7 @@ class SetupModel extends BaseInstallationModel
 			$minDbVersionRequired = $minDbVersionCms;
 		}
 
-		// Check minimum database version as reqruied by the CMS
+		// Check minimum database version as required by the CMS
 		if (in_array($options->db_type, ['mysql', 'mysqli']) && $db->isMariaDb())
 		{
 			// MariaDB: Check with sanitized version string
