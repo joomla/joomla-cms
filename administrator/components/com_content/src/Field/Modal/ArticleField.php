@@ -17,6 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\Database\ParameterType;
 
 /**
  * Supports a modal article picker.
@@ -54,7 +55,7 @@ class ArticleField extends FormField
 		Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
 		// The active article id field.
-		$value = (int) $this->value > 0 ? (int) $this->value : '';
+		$value = ((int) $this->value) ?: '';
 
 		// Create the modal id.
 		$modalId = 'Article_' . $this->id;
@@ -111,7 +112,8 @@ class ArticleField extends FormField
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__content'))
-				->where($db->quoteName('id') . ' = ' . (int) $value);
+				->where($db->quoteName('id') . ' = :value')
+				->bind(':value', $value, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
@@ -150,7 +152,7 @@ class ArticleField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalSelect' . $modalId . '">'
-				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
+				. '<span class="fas fa-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</button>';
 		}
 
@@ -163,7 +165,7 @@ class ArticleField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalNew' . $modalId . '">'
-				. '<span class="icon-new" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
+				. '<span class="fas fa-plus" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
 				. '</button>';
 		}
 
@@ -176,7 +178,7 @@ class ArticleField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalEdit' . $modalId . '">'
-				. '<span class="icon-edit" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
+				. '<span class="fas fa-pen-square" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
 				. '</button>';
 		}
 
@@ -188,7 +190,7 @@ class ArticleField extends FormField
 				. ' id="' . $this->id . '_clear"'
 				. ' type="button"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
-				. '<span class="icon-remove" aria-hidden="true"></span> ' . Text::_('JCLEAR')
+				. '<span class="fas fa-times" aria-hidden="true"></span> ' . Text::_('JCLEAR')
 				. '</button>';
 		}
 
@@ -205,7 +207,7 @@ class ArticleField extends FormField
 			. ' id="' . $this->id . '_propagate"'
 			. ' title="' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP') . '"'
 			. ' onclick="Joomla.propagateAssociation(\'' . $this->id . '\', \'' . $callbackFunctionStem . '\');">'
-			. '<span class="icon-refresh" aria-hidden="true"></span> ' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
+			. '<span class="fas fa-sync" aria-hidden="true"></span> ' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
 			. '</button>';
 		}
 

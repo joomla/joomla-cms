@@ -56,11 +56,11 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 								</th>
 							<?php endif; ?>
 							<th scope="col" style="width:1%" class="text-center">
-								<span class="icon-publish" aria-hidden="true"></span>
+								<span class="fas fa-check" aria-hidden="true"></span>
 								<span class="d-none d-md-inline"><?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
 							</th>
 							<th scope="col" style="width:1%" class="text-center">
-								<span class="icon-unpublish" aria-hidden="true"></span>
+								<span class="fas fa-times" aria-hidden="true"></span>
 								<span class="d-none d-md-inline"><?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 							</th>
 							<?php if (Multilanguage::isEnabled()) : ?>

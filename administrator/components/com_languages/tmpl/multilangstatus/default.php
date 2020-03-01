@@ -116,7 +116,7 @@ $home_pages        = array_column($this->homepages, 'language');
 		<?php endforeach; ?>
 		<?php if ($this->listUsersError) : ?>
 			<div class="alert alert-warning">
-				<span class="icon-pending" aria-hidden="true"></span>
+				<span class="fas fa-exclamation-triangle" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 				<?php echo Text::_('COM_LANGUAGES_MULTILANGSTATUS_CONTACTS_ERROR_TIP'); ?>
 				<ul>

@@ -1,9 +1,14 @@
 fail_on_violations: true
 
 scss:
+  enabled: true
   config_file: scss-lint.yml
 
+scss-lint:
+  version: 0.59.0
+
 eslint:
+  version: 5.16.0
   enabled: true
   config_file: .eslintrc
   ignore_file: .eslintignore
