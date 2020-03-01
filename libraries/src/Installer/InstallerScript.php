@@ -15,7 +15,6 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\Component\Modules\Administrator\Model\ModuleModel;
 use Joomla\Database\ParameterType;
 
 /**
