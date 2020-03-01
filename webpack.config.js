@@ -2,9 +2,10 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const environment = process.argv.includes('--development') ? 'development' : 'production';
 
 module.exports = {
-    mode: process.env.NODE_ENV,
+    mode: environment,
     entry: [
         './administrator/components/com_media/resources/scripts/mediamanager.js',
         './administrator/components/com_media/resources/styles/mediamanager.scss',
@@ -61,11 +62,8 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: './../css/mediamanager.min.css',
         }),
-        new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
-        }),
         new webpack.LoaderOptionsPlugin({
-            minimize: process.env.NODE_ENV === 'production'
+            minimize: environment === 'production'
         }),
         new VueLoaderPlugin()
     ],
@@ -77,5 +75,5 @@ module.exports = {
     performance: {
         hints: false
     },
-    devtool: process.env.NODE_ENV === 'production' ? 'source-map' : 'eval-source-map'
+    devtool: environment === 'production' ? 'source-map' : 'eval-source-map'
 };

@@ -21,9 +21,9 @@
     "postinstall": "node build.js --compile-js && node build.js --compile-css && npm run build:com_media",
     "update": "node build.js --copy-assets && node build.js --build-pages && node build.js --compile-js && node build.js --compile-css",
     "gzip": "node -e 'require(\"./build/build-modules-js/gzip-assets.es6.js\").gzipFiles()'",
-    "watch:com_media": "cross-env NODE_ENV=development webpack --progress --hide-modules --watch",
-    "dev:com_media": "cross-env NODE_ENV=development webpack --progress --hide-modules",
-    "build:com_media": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "watch:com_media": "webpack --progress --hide-modules --watch --development",
+    "dev:com_media": "webpack --progress --hide-modules --development",
+    "build:com_media": "webpack --progress --hide-modules --production"
   },
   "browserslist": [
     "last 1 version",
@@ -75,7 +75,6 @@
     "browserify": "^16.5.0",
     "commander": "^2.20.3",
     "copy-dir": "^0.4.0",
-    "cross-env": "^3.0.0",
     "css-loader": "^3.0.0",
     "cssnano": "^4.1.10",
     "eslint": "^5.15.3",
