@@ -608,6 +608,8 @@ class SetupModel extends BaseInstallationModel
 				);
 			}
 
+			$db->disconnect();
+
 			return false;
 		}
 
