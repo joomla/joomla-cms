@@ -144,7 +144,7 @@
         > .fas {
           display: flex;
           align-items: center;
-          padding: 1rem;
+          padding: .9rem;
           margin: 0;
         }
 
@@ -183,7 +183,7 @@
   }
 
   span.fas {
-    padding: 1rem 0;
+    padding: 0.9rem 0;
   }
 
   .sidebar-item-title {
@@ -361,7 +361,11 @@
   }
 
   .home-image {
-    padding: .7rem .4rem;
+    padding: 0;
+
+    &.fa-star {
+      padding: .8rem 0;
+    }
   }
 
   .mm-collapse {
@@ -442,7 +446,7 @@
 
   .badge {
     align-self: center;
-    margin: 0 4px;
+    margin: 0 .3rem .25rem;
   }
 }
 

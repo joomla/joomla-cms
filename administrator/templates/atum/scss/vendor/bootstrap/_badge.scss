@@ -4,7 +4,7 @@
 .badge {
   padding: .1rem .3rem;
   font-size: $badge-font-size;
-  border-radius: 0;
+  border-radius: .2rem;
 
   @include media-breakpoint-down(xs) {
     white-space: normal;
