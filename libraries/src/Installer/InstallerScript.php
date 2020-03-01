@@ -383,7 +383,7 @@ class InstallerScript
 	 */
 	public function addDashboardMenu(string $dashboard, string $preset)
 	{
-		$model = JFactory::getApplication()->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
+		$model  = Factory::getApplication()->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
 		$module = array(
 			'id'         => 0,
 			'asset_id'   => 0,
@@ -412,7 +412,7 @@ class InstallerScript
 
 		if (!$model->save($module))
 		{
-			Factory::getApplication()->enqueueMessage($model->getError());
+			Factory::getApplication()->enqueueMessage(Text::sprintf('JLIB_INSTALLER_ERROR_COMP_INSTALL_FAILED_TO_CREATE_DASHBOARD', $model->getError()));
 		}
 	}
 }
