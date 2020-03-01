@@ -236,9 +236,6 @@ clean_composer($fullpath);
 // And cleanup the Node installation
 system('rm -rf node_modules');
 
-// Also cleanup the Node installation of the media manager
-system('rm -rf administrator/components/com_media/node_modules');
-
 echo "Workspace built.\n";
 
 // Import the version class to set the version information

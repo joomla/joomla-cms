@@ -27,8 +27,8 @@
       background-color: rgba(0, 0, 0, .2);
 
       [dir=rtl] & {
-        left: 0;
         right: ($treeselect-indent - 15px);
+        left: 0;
       }
     }
 
@@ -43,8 +43,8 @@
       background-color: rgba(0, 0, 0, .2);
 
       [dir=rtl] & {
-        left: 0;
         right: ($treeselect-indent - 15px);
+        left: 0;
       }
     }
 
@@ -121,8 +121,8 @@
       display: block;
 
       [dir=rtl] & {
-        left: 0;
         right: 8px;
+        left: 0;
         margin: 0;
       }
     }
@@ -143,8 +143,8 @@
       padding-left: 20px;
 
       [dir=rtl] & {
-        padding-left: 0;
         padding-right: 20px;
+        padding-left: 0;
       }
     }
   }

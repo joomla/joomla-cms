@@ -136,12 +136,12 @@ class HtmlView extends BaseHtmlView
 		}
 		else
 		{
+			ToolbarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
+
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
 				ToolbarHelper::versions('com_banners.banner', $this->item->id);
 			}
-
-			ToolbarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		ToolbarHelper::divider();

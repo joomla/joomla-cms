@@ -45,7 +45,7 @@
 				multiple="true"
 				layout="joomla.form.field.list-fancy-select"
 				class="multipleAuthors"
-				filter="int_array"
+				filter="intarray"
 				>
 				<option value="0">JNONE</option>
 			</field>
@@ -56,7 +56,7 @@
 				label="COM_MENUS_ADMIN_TAGS_LABEL"
 				description="COM_MENUS_ADMIN_TAGS_DESC"
 				multiple="true"
-				filter="int_array"
+				filter="intarray"
 				mode="nested"
 			/>
 
@@ -67,7 +67,7 @@
 				description="COM_MENUS_ADMIN_ACCESS_DESC"
 				multiple="true"
 				layout="joomla.form.field.list-fancy-select"
-				filter="int_array"
+				filter="intarray"
 			/>
 
 			<field
