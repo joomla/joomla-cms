@@ -36,6 +36,14 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
 
 	/**
+	 * The input.
+	 *
+	 * @var    \Joomla\Input\Input
+	 * @since  4.0.0
+	 */
+	public $input = null;
+
+	/**
 	 * The name of the application.
 	 *
 	 * @var    string
@@ -87,6 +95,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		?Container $container = null
 	)
 	{
+		// Set up a Input object for Controllers etc to use
+		$this->input = new \Joomla\Input\Cli;
+
 		parent::__construct($input, $output, $config);
 
 		$this->setName('Joomla!');
