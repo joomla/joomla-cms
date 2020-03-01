@@ -99,7 +99,7 @@
 					extension="com_content"
 					multiple="true"
 					layout="joomla.form.field.list-fancy-select"
-					filter="int_array"
+					filter="intarray"
 					class="multipleCategories"
 				/>
 
@@ -136,7 +136,7 @@
 					label="JTAG"
 					mode="nested"
 					multiple="true"
-					filter="int_array"
+					filter="intarray"
 					class="multipleTags"
 				/>
 
@@ -164,7 +164,7 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHOR_LABEL"
 					multiple="true"
 					layout="joomla.form.field.list-fancy-select"
-					filter="int_array"
+					filter="intarray"
 					class="multipleAuthors"
 				/>
 
