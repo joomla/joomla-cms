@@ -311,8 +311,8 @@ class ComponentHelper
 		{
 			// Load template language files.
 			$template = $app->getTemplate(true)->template;
-			$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
+			$lang->load('tpl_' . $template, JPATH_BASE)
+			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template");
 		}
 
 		if (empty($option))

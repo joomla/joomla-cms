@@ -87,22 +87,22 @@ abstract class JHtmlFormbehavior
 			$options['no_results_text'] = Text::_('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 		}
 
-		// Include jQuery
-		HTMLHelper::_('jquery.framework');
-		HTMLHelper::_('script', 'vendor/chosen/chosen.jquery.js', ['version' => 'auto', 'relative' => true]);
-		HTMLHelper::_('script', 'legacy/joomla-chosen.min.js', ['version' => 'auto', 'relative' => true]);
-		HTMLHelper::_('stylesheet', 'vendor/chosen/chosen.css', ['version' => 'auto', 'relative' => true]);
-
 		// Options array to json options string
 		$options_str = json_encode($options, ($debug && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));
 
-		Factory::getDocument()->addScriptDeclaration(
-			"
+		// Add chosen.js assets
+
+		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+		$wa->usePreset('chosen')
+			->registerAndUseScript('joomla-chosen', 'legacy/joomla-chosen.min.js', [], [], ['chosen'])
+			->addInlineScript(
+				"
 		jQuery(document).ready(function (){
 			jQuery('" . $selector . "').jchosen(" . $options_str . ");
 		});
 	"
-		);
+			);
 
 		static::$loaded[__METHOD__][$selector] = true;
 	}

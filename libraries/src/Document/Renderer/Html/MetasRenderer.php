@@ -49,11 +49,6 @@ class MetasRenderer extends DocumentRenderer
 		$wa  = $this->_doc->getWebAssetManager();
 		$wc  = $this->_doc->getScriptOptions('webcomponents');
 
-		if ($this->_doc->getScriptOptions())
-		{
-			$wa->useScript('core');
-		}
-
 		// Check for AttachBehavior and web components
 		foreach ($wa->getAssets('script', true) as $asset)
 		{
@@ -68,10 +63,30 @@ class MetasRenderer extends DocumentRenderer
 			}
 		}
 
-		$this->_doc->addScriptOptions('webcomponents', $wc);
+		if ($wc)
+		{
+			$this->_doc->addScriptOptions('webcomponents', array_unique($wc));
+		}
 
 		// Trigger the onBeforeCompileHead event
 		$app->triggerEvent('onBeforeCompileHead');
+
+		// Add Script Options as inline asset
+		$scriptOptions = $this->_doc->getScriptOptions();
+
+		if ($scriptOptions)
+		{
+			$prettyPrint = (JDEBUG && \defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
+			$jsonOptions = json_encode($scriptOptions, $prettyPrint);
+			$jsonOptions = $jsonOptions ? $jsonOptions : '{}';
+
+			$wa->addInlineScript(
+				$jsonOptions,
+				['name' => 'joomla.script.options', 'position' => 'before'],
+				['type' => 'application/json', 'class' => 'joomla-script-options new'],
+				['core']
+			);
+		}
 
 		// Lock the AssetManager
 		$wa->lock();
@@ -100,12 +115,12 @@ class MetasRenderer extends DocumentRenderer
 		{
 			foreach ($tag as $name => $contents)
 			{
-				if ($type == 'http-equiv' && !($this->_doc->isHtml5() && $name == 'content-type'))
+				if ($type === 'http-equiv' && !($this->_doc->isHtml5() && $name === 'content-type'))
 				{
 					$buffer .= $tab . '<meta http-equiv="' . $name . '" content="'
 						. htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;
 				}
-				elseif ($type != 'http-equiv' && !empty($contents))
+				elseif ($type !== 'http-equiv' && !empty($contents))
 				{
 					$buffer .= $tab . '<meta ' . $type . '="' . $name . '" content="'
 						. htmlspecialchars($contents, ENT_COMPAT, 'UTF-8') . '">' . $lnEnd;

@@ -3,7 +3,6 @@ kind: pipeline
 name: default
 
 clone:
-  depth: 42
 
 steps:
   - name: restore-cache
@@ -299,7 +298,7 @@ services:
     image: redis:alpine
 
   - name: postgres
-    image: postgres:9-alpine
+    image: postgres:11-alpine
     ports:
       - 5432
     environment:
@@ -309,6 +308,6 @@ services:
 
 ---
 kind: signature
-hmac: bf9ea2d23f5b94fc80c2cb5fbd9b8c5f7b1423319c01a904b0b499233eb873f6
+hmac: 7649a6f9d7d15da3d8723dd7cf2d8328edc5040fb53308e10c6f07b901f87b22
 
 ...

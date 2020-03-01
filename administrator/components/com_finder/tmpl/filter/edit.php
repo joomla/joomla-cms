@@ -45,7 +45,7 @@ HTMLHelper::_('script', 'com_finder/finder-edit.min.js', array('version' => 'aut
 							<?php echo $this->form->renderField('map_count'); ?>
 						</div>
 						<button class="btn btn-secondary filter-toggle-all" type="button">
-							<span class="fa fa-square" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT'); ?></button>
+							<span class="fas fa-square" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT'); ?></button>
 
 						<button class="btn btn-secondary float-right" type="button" id="expandAccordion"><?php echo Text::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
 						<hr>

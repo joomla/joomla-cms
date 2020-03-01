@@ -9,13 +9,19 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
+use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 HTMLHelper::_('behavior.core');
+$canDo   = ContactHelper::getActions('com_contact', 'category', $this->category->id);
+$canEdit = $canDo->get('core.edit');
+$userId  = Factory::getUser()->id;
 ?>
 <div class="com-contact-category__items">
 	<form action="<?php echo htmlspecialchars(Uri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
@@ -121,12 +127,19 @@ HTMLHelper::_('behavior.core');
 								<?php echo Text::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br>
 							<?php endif; ?>
 						</div>
+						<?php if ($canEdit || ($canDo->get('core.edit.own') && $item->created_by === $userId)) : ?>
+							<div><?php echo HTMLHelper::_('contacticon.edit', $item, $this->params); ?></div>
+						<?php endif; ?>
 
 						<?php echo $item->event->afterDisplayContent; ?>
 					</li>
 					<?php endif; ?>
 				<?php endforeach; ?>
 			</ul>
+			<?php endif; ?>
+
+			<?php if ($canDo->get('core.create')) : ?>
+				<?php echo HTMLHelper::_('contacticon.create', $this->category, $this->category->params); ?>
 			<?php endif; ?>
 
 			<?php if ($this->params->get('show_pagination', 2)) : ?>

@@ -26,12 +26,19 @@
       "type": "style",
       "uri": "",
       "class": "LangActiveAssetItem",
-      "client": "administrator"
+      "client": "administrator",
+      "dependencies": [
+        "template.active"
+      ]
     },
     {
       "name": "template.user",
       "type": "style",
-      "uri": "user.css"
+      "uri": "user.css",
+      "dependencies": [
+        "template.active",
+        "template.active.language"
+      ]
     },
     {
       "name": "template.atum",

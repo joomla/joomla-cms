@@ -211,7 +211,7 @@ class Update extends CMSObject
 	 * 3	rc			Release Candidate versions (almost stable, minor bugs might be present)
 	 * 4	stable		Stable versions (production quality code)
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  14.1
 	 *
 	 * @see    Updater
@@ -447,14 +447,14 @@ class Update extends CMSObject
 		// Throw the data for this item together
 		$tag = strtolower($tag);
 
-		if ($tag == 'tag')
+		if ($tag === 'tag')
 		{
 			$this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
 
 			return;
 		}
 
-		if ($tag == 'downloadsource')
+		if ($tag === 'downloadsource')
 		{
 			// Grab the last source so we can append the URL
 			$source = end($this->downloadSources);

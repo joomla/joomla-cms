@@ -4,7 +4,7 @@
 @import "../../../../../../media/vendor/bootstrap/scss/mixins";
 
 
-/* Media queries */
+// Media queries
 @media (max-width: 480px) {
   .js-stools .js-stools-container-filters {
     display: block;
@@ -15,7 +15,7 @@
   }
 
   .js-stools .js-stools-container-filters .btn-wrapper {
-    width: 100%
+    width: 100%;
   }
 
   .js-stools .js-stools-container-bar {
@@ -35,34 +35,26 @@
 .js-stools {
   position: relative;
   width: 100%;
-  padding: 0.25rem 0 0;
-  margin-bottom: 0.5rem;
+  padding: .25rem 0 0;
+  margin-bottom: .5rem;
 
   > div {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
   }
 
   .js-stools-container-filters {
     display: none;
     flex-direction: row;
     flex-wrap: wrap;
+    width: 100%;
     padding: 1rem .5rem .5rem;
-    margin-top: 0.5rem;
+    margin-top: .5rem;
     margin-bottom: 1rem;
     background-color: $white;
-    border: solid var(--border);
-    border-width: 1px 0;
-    border-radius: 0 0 0 $border-radius;
-    box-shadow: $atum-box-shadow;
-    width: 100%;
 
     joomla-field-fancy-select .choices,
     .custom-select {
       min-width: 15rem;
-    }
-
-    &.js-filters-show {
-      display: flex;
     }
 
     .chzn-container-single {
@@ -84,21 +76,22 @@
     }
 
     .custom-select {
-
+      box-shadow:  $input-box-shadow;
       &.active {
-        color: var(--white);
-        background: $custom-select-bg $custom-select-indicator-active no-repeat right center;
+        background: $custom-select-indicator-active no-repeat right center;
+        background-color: $custom-select-bg;
         background-size: $custom-select-bg-size;
 
         [dir=rtl] & {
-          background: $custom-select-bg $custom-select-indicator-active-rtl no-repeat left center;
+          background: $custom-select-indicator-active-rtl no-repeat left center;
+          background-color: $custom-select-bg;
         }
       }
 
       option {
+        font-size: .875rem;
         color: var(--atum-text-dark);
         background-color: var(--white);
-        font-size: 0.875rem;
       }
     }
   }
@@ -106,13 +99,13 @@
   .js-stools-container-selector {
     [dir=ltr] & {
       float: left;
-      margin-right: 0.5rem;
+      margin-right: .5rem;
     }
 
     [dir=rtl] & {
       float: right;
-      margin-left: 0.5rem;
       margin-right: 0;
+      margin-left: .5rem;
     }
 
     @include media-breakpoint-down(sm) {
@@ -141,7 +134,9 @@
       }
 
       @include media-breakpoint-down(xs) {
-        margin-right: .5rem;
+        [dir=ltr] & {
+          margin-right: 0;
+        }
 
         [dir=rtl] & {
           margin-left: 0;
@@ -152,11 +147,11 @@
 
   .js-stools-container-selector-first {
     [dir=ltr] & {
-      margin-right: 0.5rem;
+      margin-right: .5rem;
     }
 
     [dir=rtl] & {
-      margin-left: 0.5rem;
+      margin-left: .5rem;
     }
 
     @include media-breakpoint-down(sm) {
@@ -171,7 +166,6 @@
       }
 
       [dir=rtl] & {
-        //margin-right: 0;
         margin-left: 0;
       }
     }
@@ -180,14 +174,6 @@
       @include media-breakpoint-down(sm) {
         max-width: 100%;
         margin-right: 0;
-
-        [dir=rtl] & {
-          margin-right: 0;
-        }
-      }
-
-      @include media-breakpoint-down(xs) {
-        margin-right: .5rem;
 
         [dir=rtl] & {
           margin-right: 0;
@@ -219,7 +205,7 @@
   }
 
   .js-stools-container-filters-visible {
-    display: inline-block;
+    display: flex;
   }
 
   .chzn-container-single .chzn-single span {
@@ -240,22 +226,22 @@
     .btn-toolbar {
       justify-content: flex-end;
 
-      .js-stools-btn-filter {
-        border: 1px solid var(--border);
-      }
-
       .js-stools-btn-clear {
-        background-color: var(--atum-bg-dark);
         color: var(--atum-text-light);
+        background-color: var(--atum-bg-dark);
         border: 1px solid var(--border);
         border-left: 1px solid var(--atum-text-light);
 
         [dir=rtl] & {
-          margin-left: 5px;
           margin-right: -1px !important;
+          margin-left: 5px;
         }
 
         @include media-breakpoint-down(sm) {
+          [dir=ltr] & {
+            margin-right: 0 !important;
+          }
+
           [dir=rtl] & {
             margin-left: 0 !important;
           }
@@ -263,19 +249,19 @@
 
         &.disabled,
         &:disabled {
-          background-color: rgba($gray-300, 0.8);
-          border-color: rgba($gray-500, 0.8);
-          opacity: 1;
           color: var(--atum-text-dark);
           cursor: not-allowed;
+          background-color: rgba($gray-300, .8);
+          border-color: rgba($gray-500, .8);
+          opacity: 1;
         }
       }
 
       .js-stools-btn-filter {
         border-right: 1px solid var(--border);
 
-        .fa {
-          margin-left: 0.25rem;
+        .fas {
+          margin-left: .25rem;
         }
       }
 
@@ -286,10 +272,6 @@
 
     .js-stools-field-list {
       margin-bottom: 0;
-
-      .custom-select {
-        box-shadow: none;
-      }
     }
 
     .input-append {
@@ -297,10 +279,11 @@
     }
 
     .btn-primary .caret {
-      border-top: 0;
-      border-bottom: 4px solid #FFF;
       margin-top: 7px;
       margin-bottom: 8px;
+      border-top: 0;
+      border-bottom: 4px solid #fff;
+
     }
   }
 }

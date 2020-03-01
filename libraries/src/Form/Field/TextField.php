@@ -125,7 +125,7 @@ class TextField extends FormField
 
 			case 'dirname':
 				$value = (string) $value;
-				$this->dirname = ($value == $name || $value == 'true' || $value == '1');
+				$this->dirname = ($value == $name || $value === 'true' || $value === '1');
 				break;
 
 			case 'inputmode':
@@ -185,7 +185,7 @@ class TextField extends FormField
 			}
 
 			// Set the dirname.
-			$dirname = ((string) $dirname == 'dirname' || $dirname == 'true' || $dirname == '1');
+			$dirname = ($dirname === 'dirname' || $dirname === 'true' || $dirname === '1');
 			$this->dirname = $dirname ? $this->getName($this->fieldname . '_dir') : false;
 
 			$this->maxLength = (int) $this->element['maxlength'];
@@ -211,7 +211,7 @@ class TextField extends FormField
 			$component = Factory::getApplication()->input->getCmd('option');
 
 			// Get correct component for menu items
-			if ($component == 'com_menus')
+			if ($component === 'com_menus')
 			{
 				$link      = $this->form->getData()->get('link');
 				$uri       = new Uri($link);
@@ -228,7 +228,7 @@ class TextField extends FormField
 			}
 
 			// Try with menu configuration
-			if (\is_null($value) && Factory::getApplication()->input->getCmd('option') == 'com_menus')
+			if (\is_null($value) && Factory::getApplication()->input->getCmd('option') === 'com_menus')
 			{
 				$value = ComponentHelper::getParams('com_menus')->get($this->fieldname);
 			}
@@ -258,7 +258,7 @@ class TextField extends FormField
 		foreach ($this->element->children() as $option)
 		{
 			// Only add <option /> elements.
-			if ($option->getName() != 'option')
+			if ($option->getName() !== 'option')
 			{
 				continue;
 			}

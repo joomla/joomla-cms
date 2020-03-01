@@ -20,26 +20,26 @@ switch ((string) $item->text)
 {
 	// Check for "Start" item
 	case Text::_('JLIB_HTML_START') :
-		$icon = 'fa fa-angle-double-left';
+		$icon = 'fas fa-angle-double-left';
 		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "Prev" item
 	case $item->text === Text::_('JPREV') :
 		$item->text = Text::_('JPREVIOUS');
-		$icon = 'fa fa-angle-left';
+		$icon = 'fas fa-angle-left';
 		$aria =Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "Next" item
 	case Text::_('JNEXT') :
-		$icon = 'fa fa-angle-right';
+		$icon = 'fas fa-angle-right';
 		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "End" item
 	case Text::_('JLIB_HTML_END') :
-		$icon = 'fa fa-angle-double-right';
+		$icon = 'fas fa-angle-double-right';
 		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
