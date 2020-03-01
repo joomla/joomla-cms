@@ -11,8 +11,10 @@ namespace Joomla\Component\Users\Administrator\Service\HTML;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -377,30 +379,33 @@ class Users
 	 */
 	public function admin_language($value)
 	{
-		if (empty($value))
+		if (!$value)
 		{
 			return static::value($value);
 		}
-		else
+
+		$path   = LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR, $value);
+		$file   = $path . '/langmetadata.xml';
+
+		if (!is_file($file))
 		{
-			$file = LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR, $value) . '/' . $value . '.xml';
+			// For language packs from before 4.0.
+			$file = $path . '/' . $value . '.xml';
 
-			$result = null;
-
-			if (is_file($file))
+			if (!is_file($file))
 			{
-				$result = LanguageHelper::parseXMLLanguageFile($file);
-			}
-
-			if ($result)
-			{
-				return htmlspecialchars($result['name'], ENT_COMPAT, 'UTF-8');
-			}
-			else
-			{
-				return static::value('');
+				return static::value($value);
 			}
 		}
+
+		$result = LanguageHelper::parseXMLLanguageFile($file);
+
+		if ($result)
+		{
+			return htmlspecialchars($result['name'], ENT_COMPAT, 'UTF-8');
+		}
+
+		return static::value($value);
 	}
 
 	/**
@@ -414,30 +419,33 @@ class Users
 	 */
 	public function language($value)
 	{
-		if (empty($value))
+		if (!$value)
 		{
 			return static::value($value);
 		}
-		else
+
+		$path   = LanguageHelper::getLanguagePath(JPATH_SITE, $value);
+		$file   = $path . '/langmetadata.xml';
+
+		if (!is_file($file))
 		{
-			$file = LanguageHelper::getLanguagePath(JPATH_SITE, $value) . '/' . $value . '.xml';
+			// For language packs from before 4.0.
+			$file = $path . '/' . $value . '.xml';
 
-			$result = null;
-
-			if (is_file($file))
+			if (!is_file($file))
 			{
-				$result = LanguageHelper::parseXMLLanguageFile($file);
-			}
-
-			if ($result)
-			{
-				return htmlspecialchars($result['name'], ENT_COMPAT, 'UTF-8');
-			}
-			else
-			{
-				return static::value('');
+				return static::value($value);
 			}
 		}
+
+		$result = LanguageHelper::parseXMLLanguageFile($file);
+
+		if ($result)
+		{
+			return htmlspecialchars($result['name'], ENT_COMPAT, 'UTF-8');
+		}
+
+		return static::value($value);
 	}
 
 	/**

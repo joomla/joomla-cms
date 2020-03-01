@@ -78,7 +78,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		$component = ComponentHelper::getComponent('com_installer');
 
 		/** @var \Joomla\Registry\Registry $params */
-		$params        = $component->params;
+		$params        = $component->getParams();
 		$cache_timeout = (int) $params->get('cachetimeout', 6);
 		$cache_timeout = 3600 * $cache_timeout;
 

@@ -232,6 +232,8 @@ class HtmlView extends BaseHtmlView
 				'btn-success'
 			);
 
+			ToolbarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');
+
 			if (ComponentHelper::isEnabled('com_contenthistory') && $componentParams->get('save_history', 0) && $itemEditable)
 			{
 				$typeAlias = $extension . '.category';
@@ -242,8 +244,6 @@ class HtmlView extends BaseHtmlView
 			{
 				ToolbarHelper::custom('category.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
 			}
-
-			ToolbarHelper::cancel('category.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		ToolbarHelper::divider();
