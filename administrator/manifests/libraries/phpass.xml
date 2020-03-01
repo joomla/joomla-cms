@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<extension type="library" version="3.2" method="upgrade">
+<extension type="library" method="upgrade">
 	<name>lib_phpass</name>
 	<libraryname>phpass</libraryname>
 	<description>LIB_PHPASS_XML_DESCRIPTION</description>
