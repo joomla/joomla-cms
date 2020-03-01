@@ -48,21 +48,6 @@ class PlgUserTerms extends CMSPlugin
 	protected $db;
 
 	/**
-	 * Constructor
-	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
-	 *
-	 * @since   3.9.0
-	 */
-	public function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
-
-		FormHelper::addFieldPath(__DIR__ . '/field');
-	}
-
-	/**
 	 * Adds additional fields to the user registration form
 	 *
 	 * @param   Form   $form  The form to be altered.
@@ -83,7 +68,8 @@ class PlgUserTerms extends CMSPlugin
 		}
 
 		// Add the terms and conditions fields to the form.
-		Form::addFormPath(__DIR__ . '/terms');
+		FormHelper::addFieldPrefix('Joomla\\Plugin\\User\\Terms\\Field');
+		FormHelper::addFormPath(__DIR__ . '/forms');
 		$form->loadFile('terms');
 
 		$termsarticle = $this->params->get('terms_article');

@@ -7,7 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_PLATFORM') or die;
+namespace Joomla\Plugin\User\Terms\Field;
+
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\RadioField;
@@ -21,7 +23,7 @@ use Joomla\Database\ParameterType;
  *
  * @since  3.9.0
  */
-class JFormFieldterms extends RadioField
+class TermsField extends RadioField
 {
 	/**
 	 * The form field type.
@@ -95,7 +97,7 @@ class JFormFieldterms extends RadioField
 
 			$currentLang = Factory::getLanguage()->getTag();
 
-			if (isset($termsAssociated) && $currentLang !== $article->language && array_key_exists($currentLang, $termsAssociated))
+			if (isset($termsAssociated) && $currentLang !== $article->language && \array_key_exists($currentLang, $termsAssociated))
 			{
 				$article->link = RouteHelper::getArticleRoute(
 					$termsAssociated[$currentLang]->id,
