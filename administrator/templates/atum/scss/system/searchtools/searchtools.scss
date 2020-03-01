@@ -271,7 +271,12 @@
     }
 
     .js-stools-field-list {
+      margin-right: .25rem;
       margin-bottom: 0;
+
+      &:last-child {
+        margin-right:0;
+      }
     }
 
     .input-append {
