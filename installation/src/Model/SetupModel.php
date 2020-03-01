@@ -582,11 +582,10 @@ class SetupModel extends BaseInstallationModel
 			$minDbVersionRequired = $minDbVersionCms;
 		}
 
-		// Check minimum database version as required by the CMS
-		if (in_array($options->db_type, ['mysql', 'mysqli']) && $db->isMariaDb())
+		// Check minimum database version
+		if (version_compare($dbVersion, $minDbVersionRequired) < 0)
 		{
-			// MariaDB: Check with sanitized version string
-			if (version_compare(preg_replace('/^5\.5\.5-/', '', $dbVersion), $minDbVersionRequired) < 0)
+			if (in_array($options->db_type, ['mysql', 'mysqli']) && $db->isMariaDb())
 			{
 				Factory::getApplication()->enqueueMessage(
 					Text::sprintf(
@@ -596,20 +595,18 @@ class SetupModel extends BaseInstallationModel
 					),
 					'error'
 				);
-
-				return false;
 			}
-		}
-		elseif (version_compare($dbVersion, $minDbVersionRequired) < 0)
-		{
-			Factory::getApplication()->enqueueMessage(
-				Text::sprintf(
-					'INSTL_DATABASE_INVALID_' . strtoupper($options->db_type) . '_VERSION',
-					$minDbVersionRequired,
-					$dbVersion
-				),
-				'error'
-			);
+			else
+			{
+				Factory::getApplication()->enqueueMessage(
+					Text::sprintf(
+						'INSTL_DATABASE_INVALID_' . strtoupper($options->db_type) . '_VERSION',
+						$minDbVersionRequired,
+						$dbVersion
+					),
+					'error'
+				);
+			}
 
 			return false;
 		}
