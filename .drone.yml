@@ -298,7 +298,7 @@ services:
     image: redis:alpine
 
   - name: postgres
-    image: postgres:9-alpine
+    image: postgres:11-alpine
     ports:
       - 5432
     environment:
@@ -308,6 +308,6 @@ services:
 
 ---
 kind: signature
-hmac: 6e49e42776ccca0ae4ccfef5ec153134f8d97d069983715e2a3cea327f8f5398
+hmac: 7649a6f9d7d15da3d8723dd7cf2d8328edc5040fb53308e10c6f07b901f87b22
 
 ...
