@@ -384,7 +384,7 @@ class InstallerScript
 	 */
 	public function addDashboardMenu(string $dashboard, string $preset)
 	{
-		$model  = new ModuleModel;
+		$model = JFactory::getApplication()->bootComponent('com_modules')->getMVCFactory()->createModel('Module', 'Administrator', ['ignore_request' => true]);
 		$module = array(
 			'id'         => 0,
 			'asset_id'   => 0,
