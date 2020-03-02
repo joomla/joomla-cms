@@ -292,46 +292,6 @@ class Users
 	}
 
 	/**
-	 * Get the sanitized helpsite link
-	 *
-	 * @param   mixed  $value  Value of the field
-	 *
-	 * @return  mixed  String/void
-	 *
-	 * @since   1.6
-	 */
-	public function helpsite($value)
-	{
-		if (empty($value))
-		{
-			return static::value($value);
-		}
-
-		$text = $value;
-
-		if ($xml = simplexml_load_file(JPATH_ADMINISTRATOR . '/help/helpsites.xml'))
-		{
-			foreach ($xml->sites->site as $site)
-			{
-				if ((string) $site->attributes()->url == $value)
-				{
-					$text = (string) $site;
-					break;
-				}
-			}
-		}
-
-		$value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
-
-		if (strpos($value, 'http') === 0)
-		{
-			return '<a href="' . $value . '">' . $text . '</a>';
-		}
-
-		return '<a href="http://' . $value . '">' . $text . '</a>';
-	}
-
-	/**
 	 * Get the sanitized template style
 	 *
 	 * @param   mixed  $value  Value of the field
