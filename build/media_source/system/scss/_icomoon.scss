@@ -235,7 +235,7 @@
 
 .icon-edit::before,
 .icon-pencil::before {
-  @extend .#{$fa-css-prefix}-pen-square:before;
+  @extend .#{$fa-css-prefix}-edit:before;
 }
 
 .icon-pencil-2::before {
