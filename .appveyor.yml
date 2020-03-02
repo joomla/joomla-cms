@@ -57,6 +57,7 @@ install:
             #appveyor-retry appveyor DownloadFile https://windows.php.net/downloads/pecl/releases/pdo_sqlsrv/$($env:DLLVersion)/php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
             7z x -y php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip > $null
             Remove-Item c:\tools\php\ext* -include .zip
+            copy C:\projects\joomla-cms\build\test-stuff\php_gmp.dll c:\tools\php\ext
             cd c:\tools\php
         }
     - IF %PHP%==1 copy php.ini-production php.ini /Y
@@ -66,6 +67,7 @@ install:
     - IF %PHP%==1 echo extension=php_mbstring.dll >> php.ini
     - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
     - IF %PHP%==1 echo extension=php_gd2.dll >> php.ini
+    - IF %PHP%==1 echo extension=php_gmp.dll >> php.ini
 
     - ps: >-
         If ($env:PHP -eq "1") {

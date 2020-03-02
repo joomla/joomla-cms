@@ -156,8 +156,6 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 						<tbody <?php if ($saveOrder) :?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>" data-nested="true"<?php endif; ?>>
 						<?php foreach ($this->items as $i => $item) :
 							$item->max_ordering = 0;
-							$ordering   = ($listOrder == 'a.ordering');
-							$canCreate  = $user->authorise('core.create', 'com_content.category.' . $item->catid);
 							$canEdit    = $user->authorise('core.edit', 'com_content.article.' . $item->id);
 							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 							$canEditOwn = $user->authorise('core.edit.own', 'com_content.article.' . $item->id) && $item->created_by == $userId;

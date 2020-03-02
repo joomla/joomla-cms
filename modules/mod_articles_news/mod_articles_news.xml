@@ -29,7 +29,7 @@
 					label="JCATEGORY"
 					extension="com_content"
 					multiple="true"
-					filter="int_array"
+					filter="intarray"
 					class="multipleCategories"
 					layout="joomla.form.field.list-fancy-select"
 				/>
@@ -40,7 +40,7 @@
 					label="JTAG"
 					mode="nested"
 					multiple="true"
-					filter="int_array"
+					filter="intarray"
 					class="multipleTags"
 				/>
 

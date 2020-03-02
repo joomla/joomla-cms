@@ -110,7 +110,10 @@
           {
             "name": "cropperjs",
             "type": "script",
-            "uri": "cropper.min.js"
+            "uri": "cropper.min.js",
+            "attributes": {
+              "defer": true
+            }
           },
           {
             "name": "cropperjs",
@@ -167,7 +170,10 @@
           {
             "name": "diff",
             "type": "script",
-            "uri": "diff.js"
+            "uri": "diff.js",
+            "attributes": {
+              "defer": true
+            }
           }
         ],
         "dependencies": [],
@@ -192,7 +198,10 @@
           {
             "name": "dragula",
             "type": "script",
-            "uri": "dragula.min.js"
+            "uri": "dragula.min.js",
+            "attributes": {
+              "defer": true
+            }
           },
           {
             "name": "dragula",
@@ -400,7 +409,10 @@
             "name": "minicolors",
             "type": "script",
             "uri": "jquery.minicolors.min.js",
-            "dependencies": ["jquery"]
+            "dependencies": ["jquery"],
+            "attributes": {
+              "defer": true
+            }
           },
           {
             "name": "minicolors",
@@ -492,7 +504,17 @@
           "dist/metismenujs.js": "js/metismenujs.js",
           "dist/metismenujs.min.js": "js/metismenujs.min.js",
           "dist/metismenujs.min.js.map": "js/metismenujs.min.js.map"
-        }
+        },
+        "provideAssets": [
+          {
+            "name": "metismenujs",
+            "type": "script",
+            "uri": "metismenujs.min.js",
+            "attributes": {
+              "defer": true
+            }
+          }
+        ]
       },
       "short-and-sweet": {
         "name": "short-and-sweet",
@@ -520,7 +542,30 @@
         },
         "css": {
           "src/css/SkipTo.css": "css/SkipTo.css"
-        }
+        },
+        "provideAssets": [
+          {
+            "name": "skipto",
+            "type": "style",
+            "uri": "SkipTo.css"
+          },
+          {
+            "name": "skipto.dropmenu",
+            "type": "script",
+            "uri": "dropMenu.js",
+            "attributes": {
+              "defer": true
+            }
+          },
+          {
+            "name": "skipto",
+            "type": "script",
+            "uri": "skipTo.js",
+            "attributes": {
+              "defer": true
+            }
+          }
+        ]
       },
       "qrcode-generator": {
         "name": "qrcode",

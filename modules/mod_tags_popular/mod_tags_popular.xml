@@ -29,7 +29,7 @@
 					label="MOD_TAGS_POPULAR_PARENT_TAG_LABEL"
 					description="MOD_TAGS_POPULAR_PARENT_TAG_DESC"
 					multiple="true"
-					filter="int_array"
+					filter="intarray"
 					mode="nested"
 				/>
 

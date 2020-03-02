@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
@@ -20,8 +19,11 @@ $version1 = $this->items[1];
 $object1  = $version1->data;
 $object2  = $version2->data;
 
-HTMLHelper::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_contenthistory/admin-compare-compare.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+$wa->useScript('diff')
+	->registerAndUseScript('contenthistory.admin-compare', 'com_contenthistory/admin-compare-compare.min.js', [], ['defer' => true], ['diff']);
+
 ?>
 <div role="main">
 	<h1 class="mb-3"><?php echo Text::_('COM_CONTENTHISTORY_COMPARE_TITLE'); ?></h1>
