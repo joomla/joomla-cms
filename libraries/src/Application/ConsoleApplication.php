@@ -96,7 +96,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	)
 	{
 		// Set up a Input object for Controllers etc to use
-		$this->input = new \Joomla\Input\Cli;
+		$this->input = new \Joomla\CMS\Input\Cli;
 
 		parent::__construct($input, $output, $config);
 
