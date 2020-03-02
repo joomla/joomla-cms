@@ -1021,18 +1021,7 @@ ENDDATA;
 		$tmp_dest = tempnam(Factory::getApplication()->get('tmp_path'), 'ju');
 		$tmp_src  = $userfile['tmp_name'];
 
-		// Move uploaded file.
-		if (version_compare(\JVERSION, '3.4.0', 'ge'))
-		{
-			$result = File::upload($tmp_src, $tmp_dest, false, true);
-		}
-		else
-		{
-			// Old Joomla! versions didn't have UploadShield and don't need the fourth parameter to accept uploads
-			$result = File::upload($tmp_src, $tmp_dest);
-		}
-
-		if (!$result)
+		if (!File::upload($tmp_src, $tmp_dest, false, true))
 		{
 			throw new \RuntimeException(Text::_('COM_INSTALLER_MSG_INSTALL_WARNINSTALLUPLOADERROR'), 500);
 		}
