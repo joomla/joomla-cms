@@ -39,9 +39,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * The input.
 	 *
 	 * @var    \Joomla\Input\Input
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public $input = null;
+	protected $input = null;
 
 	/**
 	 * The name of the application.
@@ -124,6 +124,42 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 
 		// Set up the environment
 		$this->input->set('format', 'cli');
+	}
+
+		/**
+	 * Magic method to access properties of the application.
+	 *
+	 * @param   string  $name  The name of the property.
+	 *
+	 * @return  mixed   A value if the property name is valid, null otherwise.
+	 *
+	 * @since       __DEPLOY_VERSION__
+	 * @deprecated  3.0  This is a B/C proxy for deprecated read accesses
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'input':
+				@trigger_error(
+					'Accessing the input property of the application is deprecated, use the getInput() method instead.',
+					E_USER_DEPRECATED
+				);
+
+				return $this->getInput();
+
+			default:
+				$trace = debug_backtrace();
+				trigger_error(
+					sprintf(
+						'Undefined property via __get(): %1$s in %2$s on line %3$s',
+						$name,
+						$trace[0]['file'],
+						$trace[0]['line']
+					),
+					E_USER_NOTICE
+				);
+		}
 	}
 
 	/**
@@ -249,6 +285,18 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	public function getConfig()
 	{
 		return $this->config;
+	}
+
+	/**
+	 * Method to get the application input object.
+	 *
+	 * @return  Input
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getInput(): Input
+	{
+		return $this->input;
 	}
 
 	/**
