@@ -536,11 +536,11 @@ ENDDATA;
 			 * allowed as raw mode, otherwise something like !@<sdf34>43H% would be
 			 * sanitised to !@43H% which is just plain wrong.
 			 */
-			$ftp_host = $app->input->get('ftp_host', '');
-			$ftp_port = $app->input->get('ftp_port', '21');
-			$ftp_user = $app->input->get('ftp_user', '');
-			$ftp_pass = addcslashes($app->input->get('ftp_pass', '', 'raw'), "'\\");
-			$ftp_root = $app->input->get('ftp_root', '');
+			$ftp_host = $app->get('ftp_host', '');
+			$ftp_port = $app->get('ftp_port', '21');
+			$ftp_user = $app->get('ftp_user', '');
+			$ftp_pass = addcslashes($app->get('ftp_pass', '', 'raw'), "'\\");
+			$ftp_root = $app->get('ftp_root', '');
 
 			// Is the tempdir really writable?
 			$writable = @is_writable($tempdir);

@@ -1823,19 +1823,6 @@ class AKPostprocFTP extends AKAbstractPostproc
 			@ftp_pasv($this->handle, false);
 		}
 
-		// Try to download ourselves
-		$testFilename = defined('KSSELFNAME') ? KSSELFNAME : basename(__FILE__);
-		$tempHandle   = fopen('php://temp', 'r+');
-		if (@ftp_fget($this->handle, $tempHandle, $testFilename, FTP_ASCII, 0) === false)
-		{
-			$this->setError(AKText::_('WRONG_FTP_PATH2'));
-			@ftp_close($this->handle);
-			fclose($tempHandle);
-
-			return false;
-		}
-		fclose($tempHandle);
-
 		return true;
 	}
 
