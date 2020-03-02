@@ -38,7 +38,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="JGLOBAL_LIMIT"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>
