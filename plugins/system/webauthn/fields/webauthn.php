@@ -7,7 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// Prevent direct access
+// Protect from unauthorized access
+defined('_JEXEC') or die();
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -15,8 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Plugin\System\Webauthn\CredentialRepository;
 use Joomla\Plugin\System\Webauthn\Helper\Joomla;
-
-defined('_JEXEC') or die;
 
 /**
  * Custom Joomla Form Field to display the WebAuthn interface

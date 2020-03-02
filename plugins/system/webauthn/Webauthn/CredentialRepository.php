@@ -9,6 +9,9 @@
 
 namespace Joomla\Plugin\System\Webauthn;
 
+// Protect from unauthorized access
+defined('_JEXEC') or die();
+
 use Exception;
 use InvalidArgumentException;
 use Joomla\CMS\Encrypt\Aes;
@@ -23,9 +26,6 @@ use Throwable;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialSourceRepository;
 use Webauthn\PublicKeyCredentialUserEntity;
-
-// Protect from unauthorized access
-defined('_JEXEC') or die();
 
 /**
  * Handles the storage of WebAuthn credentials in the database

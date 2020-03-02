@@ -9,6 +9,9 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
+// Protect from unauthorized access
+defined('_JEXEC') or die();
+
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
@@ -21,9 +24,6 @@ use Webauthn\AuthenticationExtensions\AuthenticationExtensionsClientInputs;
 use Webauthn\PublicKeyCredentialRequestOptions;
 use Webauthn\PublicKeyCredentialSource;
 use Webauthn\PublicKeyCredentialUserEntity;
-
-// Protect from unauthorized access
-defined('_JEXEC') or die();
 
 /**
  * Ajax handler for akaction=challenge

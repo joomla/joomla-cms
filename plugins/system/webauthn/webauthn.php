@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// Protect from unauthorized access
+defined('_JEXEC') or die();
+
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\Webauthn\Helper\Joomla;
@@ -20,9 +23,6 @@ use Joomla\Plugin\System\Webauthn\PluginTraits\AjaxHandlerSaveLabel;
 use Joomla\Plugin\System\Webauthn\PluginTraits\ButtonsInUserPage;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserDeletion;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
-
-// Protect from unauthorized access
-defined('_JEXEC') or die();
 
 // Register a PSR-4 autoloader for this plugin's classes if necessary
 if (!class_exists('Joomla\\Plugin\\System\\Webauthn\\Helper\\Joomla', true))

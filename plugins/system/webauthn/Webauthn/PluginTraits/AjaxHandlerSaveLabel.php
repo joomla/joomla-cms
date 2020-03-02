@@ -9,13 +9,13 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
+// Protect from unauthorized access
+defined('_JEXEC') or die();
+
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\Plugin\System\Webauthn\CredentialRepository;
-
-// Protect from unauthorized access
-defined('_JEXEC') or die();
 
 /**
  * Ajax handler for akaction=savelabel

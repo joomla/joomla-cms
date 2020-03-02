@@ -9,6 +9,9 @@
 
 namespace Joomla\Plugin\System\Webauthn\Helper;
 
+// Protect from unauthorized access
+defined('_JEXEC') or die();
+
 use CBOR\Decoder;
 use CBOR\OtherObject\OtherObjectManager;
 use CBOR\Tag\TagObjectManager;

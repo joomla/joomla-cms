@@ -9,6 +9,9 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
+// Protect from unauthorized access
+defined('_JEXEC') or die();
+
 use CBOR\Decoder;
 use CBOR\OtherObject\OtherObjectManager;
 use CBOR\Tag\TagObjectManager;
@@ -42,9 +45,6 @@ use Webauthn\AuthenticatorAssertionResponseValidator;
 use Webauthn\PublicKeyCredentialLoader;
 use Webauthn\PublicKeyCredentialRequestOptions;
 use Webauthn\TokenBinding\TokenBindingNotSupportedHandler;
-
-// Protect from unauthorized access
-defined('_JEXEC') or die();
 
 /**
  * Ajax handler for akaction=login

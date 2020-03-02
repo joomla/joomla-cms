@@ -9,14 +9,14 @@
 
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
+// Protect from unauthorized access
+defined('_JEXEC') or die();
+
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 use Joomla\Utilities\ArrayHelper;
-
-// Protect from unauthorized access
-defined('_JEXEC') or die();
 
 /**
  * Delete all WebAuthn credentials for a particular user

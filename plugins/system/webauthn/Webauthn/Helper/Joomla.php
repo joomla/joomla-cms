@@ -10,6 +10,8 @@
 namespace Joomla\Plugin\System\Webauthn\Helper;
 
 // Protect from unauthorized access
+defined('_JEXEC') or die();
+
 use DateTime;
 use DateTimeZone;
 use Exception;
@@ -31,8 +33,6 @@ use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Registry\Registry;
 use RuntimeException;
-
-defined('_JEXEC') or die();
 
 /**
  * A helper class for abstracting core features in Joomla! 3.4 and later, including 4.x
