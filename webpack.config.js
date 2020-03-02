@@ -5,7 +5,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const environment = process.argv.includes('--development') ? 'development' : 'production';
 
 module.exports = {
-    mode: environment === 'production' ? 'production' : 'none',
+    mode: environment === 'production' ? 'production' : 'development',
     entry: [
         './administrator/components/com_media/resources/scripts/mediamanager.js',
         './administrator/components/com_media/resources/styles/mediamanager.scss',
