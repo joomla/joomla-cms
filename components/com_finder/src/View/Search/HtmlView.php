@@ -196,7 +196,7 @@ class HtmlView extends BaseHtmlView
 			$this->setLayout($active->query['layout']);
 		}
 
-		$this->prepareDocument($this->query);
+		$this->prepareDocument();
 
 		\JDEBUG ? Profiler::getInstance('Application')->mark('beforeFinderLayout') : null;
 
@@ -264,13 +264,11 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Prepares the document
 	 *
-	 * @param   \FinderIndexerQuery  $query  The search query
-	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 */
-	protected function prepareDocument($query)
+	protected function prepareDocument()
 	{
 		$app   = Factory::getApplication();
 		$menus = $app->getMenu();

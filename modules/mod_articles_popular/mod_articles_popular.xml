@@ -29,7 +29,7 @@
 					label="JCATEGORY"
 					extension="com_content"
 					multiple="true"
-					filter="int_array"
+					filter="intarray"
 				/>
 
 				<field

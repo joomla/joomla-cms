@@ -211,7 +211,7 @@ class Update extends CMSObject
 	 * 3	rc			Release Candidate versions (almost stable, minor bugs might be present)
 	 * 4	stable		Stable versions (production quality code)
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  14.1
 	 *
 	 * @see    Updater

@@ -48,7 +48,7 @@ $this->document->addScriptOptions(
 		</div>
 		<div class="extprogrow">
 			<span class="extlabel"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_PERCENT'); ?></span>
-			<span class="extvalue" id="extpercent"></span>
+			<span class="extvalue" id="extpercent" aria-live="polite"></span>
 		</div>
 		<div class="extprogrow">
 			<span class="extlabel"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESREAD'); ?></span>
