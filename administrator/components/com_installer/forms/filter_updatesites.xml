@@ -12,6 +12,7 @@
 		<field
 			name="enabled"
 			type="list"
+			label="JOPTION_SELECT_PUBLISHED"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
