@@ -32,7 +32,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 
 <hr>
 
-<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login" class="text-center">
+<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login" class="d-flex justify-content-center text-center">
 	<fieldset class="loginform">
 		<legend><?php echo Text::_('COM_JOOMLAUPDATE_CONFIRM'); ?></legend>
 		<div class="control-group">
@@ -52,7 +52,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 		</div>
 		<div class="control-group">
 			<div class="controls">
-				<div class="input-addon">
+				<div class="input-group">
 					<input name="passwd" tabindex="2" id="mod-login-password" type="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" size="15">
 					<span class="input-group-append">
 						<span class="input-group-text">
@@ -85,11 +85,11 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 		<div class="control-group">
 			<div class="controls">
 				<div class="btn-group">
-					<a tabindex="4" class="btn btn-danger btn-sm" href="index.php?option=com_joomlaupdate">
-						<span class="fas fa-times icon-white" aria-hidden="true"></span> <?php echo Text::_('JCANCEL'); ?>
+					<a tabindex="4" class="btn btn-danger" href="index.php?option=com_joomlaupdate">
+						<span class="fas fa-times" aria-hidden="true"></span> <?php echo Text::_('JCANCEL'); ?>
 					</a>
-					<button tabindex="5" class="btn btn-primary btn-lg">
-						<span class="fas fa-play icon-white" aria-hidden="true"></span> <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
+					<button tabindex="5" class="btn btn-primary">
+						<span class="fas fa-play" aria-hidden="true"></span> <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
 					</button>
 				</div>
 			</div>
