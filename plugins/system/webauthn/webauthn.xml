@@ -24,14 +24,4 @@
         <language tag="en-GB">en-GB/plg_system_webauthn.sys.ini</language>
     </languages>
 
-    <config>
-        <fields name="params">
-            <fieldset name="basic">
-				<!-- TODO Select a preset image -->
-				<!-- TODO Enter a class name for an icon -->
-				<!-- TODO Custom button class name -->
-            </fieldset>
-        </fields>
-    </config>
-
 </extension>
