@@ -43,17 +43,11 @@ class BannerController extends FormController
 	{
 		$filter     = $this->input->getInt('filter_category_id');
 		$categoryId = ArrayHelper::getValue($data, 'catid', $filter, 'int');
-		$allow      = null;
 
 		if ($categoryId)
 		{
 			// If the category has been passed in the URL check it.
-			$allow = $this->app->getIdentity()->authorise('core.create', $this->option . '.category.' . $categoryId);
-		}
-
-		if ($allow !== null)
-		{
-			return $allow;
+			return $this->app->getIdentity()->authorise('core.create', $this->option . '.category.' . $categoryId);
 		}
 
 		// In the absence of better information, revert to the component permissions.
