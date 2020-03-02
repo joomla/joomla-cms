@@ -41,6 +41,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
+			label="JOPTION_SELECT_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
