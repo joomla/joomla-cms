@@ -2,8 +2,12 @@
 
 .custom-select {
   max-width: $input-max-width;
+  cursor: pointer;
   background: $custom-select-background;
   background-color: $custom-select-bg;
+  border: $input-border;
+  // var needed
+  box-shadow: $input-box-shadow;
 
   [dir=rtl] & {
     padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
@@ -16,14 +20,17 @@
     background-color: var(--white-offset);
 
     option {
-      background-color: var(--white-offset);
       padding: $custom-select-multiple-padding-y $custom-select-padding-x;
+      background-color: var(--white-offset);
 
       &:checked {
         color: var(--atum-text-light);
         background-color: var(--atum-bg-dark) !important;
       }
     }
+
+
+
   }
 
   &.custom-select-color-state {
@@ -31,7 +38,7 @@
     &.custom-select-success {
       color: theme-color("success");
       background-color: theme-color("success");
-      border-color: theme-color("sucess");
+      border-color: theme-color("success");
 
       option {
         color: $custom-select-color;
@@ -51,9 +58,14 @@
     }
   }
 
+  &:focus {
+    border-color: $focuscolor;
+    box-shadow: $focusshadow;
+  }
+
   optgroup,
   option {
-    background-color: $white;
     color: var(--atum-text-dark);
+    background-color: $white;
   }
 }

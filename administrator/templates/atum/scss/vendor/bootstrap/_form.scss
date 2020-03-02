@@ -67,9 +67,9 @@ select.form-control {
 }
 
 .field-media-wrapper {
-  max-width: calc(50vw - 5rem);
-  width: 100%;
   display: block;
+  width: 100%;
+  max-width: calc(50vw - 5rem);
 
   .field-media-preview {
     width: 100%;

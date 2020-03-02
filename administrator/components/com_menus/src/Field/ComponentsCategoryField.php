@@ -41,47 +41,51 @@ class ComponentsCategoryField extends ListField
 	protected function getOptions()
 	{
 		// Initialise variable.
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select(
-				[
-					'DISTINCT ' . $db->quoteName('a.name', 'text'),
-					$db->quoteName('a.element', 'value'),
-				]
-			)
-			->from($db->quoteName('#__extensions', 'a'))
-			->join('INNER', $db->quoteName('#__categories', 'b'), $db->quoteName('a.element') . ' = ' . $db->quoteName('b.extension'))
-			->where(
-				[
-					$db->quoteName('a.enabled') . ' >= 1',
-					$db->quoteName('a.type') . ' = ' . $db->quote('component'),
-				]
-			);
+		$db      = Factory::getDbo();
+		$options = array();
 
-		$items = $db->setQuery($query)->loadObjectList();
+		$query = $db->getQuery(true);
+		$query->select('DISTINCT ' . $db->quoteName('extension'))
+			->from($db->quoteName('#__categories'))
+			->where($db->quoteName('extension') . ' != ' . $db->quote('system'));
 
-		if (count($items))
+		$db->setQuery($query);
+		$categoryTypes = $db->loadColumn();
+
+		foreach ($categoryTypes as $categoryType)
 		{
+			$option        = new \stdClass;
+			$option->value = $categoryType;
+
+			// Extract the component name and optional section name
+			$parts     = explode('.', $categoryType);
+			$component = $parts[0];
+			$section   = (count($parts) > 1) ? $parts[1] : null;
+
+			// Load component language files
 			$lang = Factory::getLanguage();
+			$lang->load($component, JPATH_BASE)
+			|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
 
-			foreach ($items as &$item)
+			// If the component section string exists, let's use it
+			if ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : ''))))
 			{
-				// Load language
-				$extension = $item->value;
-				$source = JPATH_ADMINISTRATOR . '/components/' . $extension;
-				$lang->load("$extension.sys", JPATH_ADMINISTRATOR)
-					|| $lang->load("$extension.sys", $source);
-
-				// Translate component name
-				$item->text = Text::_($item->text);
+				$option->text = Text::_($component_section_key);
+			}
+			else
+				// Else use the component title
+			{
+				$option->text = Text::_(strtoupper($component));
 			}
 
-			// Sort by component name
-			$items = ArrayHelper::sortObjects($items, 'text', 1, true, true);
+			$options[] = $option;
 		}
 
+		// Sort by name
+		$options = ArrayHelper::sortObjects($options, 'text', 1, true, true);
+
 		// Merge any additional options in the XML definition.
-		$options = array_merge(parent::getOptions(), $items);
+		$options = array_merge(parent::getOptions(), $options);
 
 		return $options;
 	}

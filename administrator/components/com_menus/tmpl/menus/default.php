@@ -64,19 +64,19 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', ['version' => 'a
 									<?php echo Text::_('COM_MENUS_MENUS'); ?>
 								</th>
 								<th scope="col" style="width:10%" class="text-center  d-none d-md-table-cell">
-									<span class="icon-publish" aria-hidden="true"></span>
+									<span class="fas fa-check" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_PUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" style="width:10%" class="text-center d-none d-md-table-cell">
-									<span class="icon-unpublish" aria-hidden="true"></span>
+									<span class="fas fa-times" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_UNPUBLISHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" style="width:10%" class="text-center d-none d-md-table-cell">
-									<span class="icon-trash" aria-hidden="true"></span>
+									<span class="fas fa-trash" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_TRASHED_ITEMS'); ?></span>
 								</th>
 								<th scope="col" style="width:10%" class="text-center d-none d-lg-table-cell">
-									<span class="icon-cube" aria-hidden="true"></span>
+									<span class="fas fa-cube" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 								</th>
 								<th scope="col" style="width:5%" class="d-none d-lg-table-cell text-center">

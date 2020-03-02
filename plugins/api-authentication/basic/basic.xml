@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="4.0" type="plugin" group="api-authentication" method="upgrade">
+<extension type="plugin" group="api-authentication" method="upgrade">
 	<name>plg_api-authentication_basic</name>
 	<author>Joomla! Project</author>
 	<creationDate>November 2005</creationDate>

@@ -86,10 +86,10 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 			<div class="controls">
 				<div class="btn-group">
 					<a tabindex="4" class="btn btn-danger btn-sm" href="index.php?option=com_joomlaupdate">
-						<span class="icon-cancel icon-white" aria-hidden="true"></span> <?php echo Text::_('JCANCEL'); ?>
+						<span class="fas fa-times icon-white" aria-hidden="true"></span> <?php echo Text::_('JCANCEL'); ?>
 					</a>
 					<button tabindex="5" class="btn btn-primary btn-lg">
-						<span class="icon-play icon-white" aria-hidden="true"></span> <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
+						<span class="fas fa-play icon-white" aria-hidden="true"></span> <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
 					</button>
 				</div>
 			</div>

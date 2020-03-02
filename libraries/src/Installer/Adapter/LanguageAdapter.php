@@ -98,59 +98,12 @@ class LanguageAdapter extends InstallerAdapter
 			return false;
 		}
 
-		$client = ApplicationHelper::getClientInfo($this->extension->client_id);
-
-		// Setting the language of users which have this language as the default language
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select(
-				[
-					$db->quoteName('id'),
-					$db->quoteName('params'),
-				]
-			)
-			->from($db->quoteName('#__users'));
-		$db->setQuery($query);
-		$users = $db->loadObjectList();
-
-		if ($client->name === 'administrator')
-		{
-			$param_name = 'admin_language';
-		}
-		else
-		{
-			$param_name = 'language';
-		}
-
-		$count = 0;
-
-		// Prepare the query.
-		$query = $db->getQuery(true)
-			->update($db->quoteName('#__users'))
-			->set($db->quoteName('params') . ' = :registry')
-			->where($db->quoteName('id') . ' = :userId')
-			->bind(':registry', $registry)
-			->bind(':userId', $userId, ParameterType::INTEGER);
-		$db->setQuery($query);
-
-		foreach ($users as $user)
-		{
-			$registry = new Registry($user->params);
-
-			if ($registry->get($param_name) === $this->extension->element)
-			{
-				// Update query parameters.
-				$registry->set($param_name, '');
-				$userId = $user->id;
-
-				$db->execute();
-				$count++;
-			}
-		}
+		$this->resetUserLanguage();
 
 		$extensionId = $this->extension->extension_id;
 
 		// Remove the schema version
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__schemas'))
 			->where($db->quoteName('extension_id') . ' = :extension_id')
@@ -174,11 +127,6 @@ class LanguageAdapter extends InstallerAdapter
 
 		// Clean installed languages cache.
 		Factory::getCache()->clean('com_languages');
-
-		if (!empty($count))
-		{
-			Log::add(Text::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count), Log::NOTICE, 'jerror');
-		}
 
 		// Remove the extension table entry
 		$this->extension->delete();
@@ -301,7 +249,7 @@ class LanguageAdapter extends InstallerAdapter
 			$this->parent
 				->setPath(
 					'source',
-					($this->parent->extension->client_id ? JPATH_ADMINISTRATOR : JPATH_SITE) . '/language/' . $this->parent->extension->element
+					ApplicationHelper::getClientInfo($this->parent->extension->client_id)->path . '/language/' . $this->parent->extension->element
 				);
 		}
 
@@ -430,12 +378,22 @@ class LanguageAdapter extends InstallerAdapter
 						Log::WARNING, 'jerror'
 					);
 				}
-				else
+				elseif (file_exists($this->parent->getPath('extension_administrator')))
 				{
 					// If the admin exists say so.
 					Log::add(
 						Text::sprintf('JLIB_INSTALLER_ABORT',
 							Text::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_administrator'))
+						),
+						Log::WARNING, 'jerror'
+					);
+				}
+				else
+				{
+					// If the api exists say so.
+					Log::add(
+						Text::sprintf('JLIB_INSTALLER_ABORT',
+							Text::sprintf('JLIB_INSTALLER_ERROR_FOLDER_IN_USE', $this->parent->getPath('extension_api'))
 						),
 						Log::WARNING, 'jerror'
 					);
@@ -617,7 +575,6 @@ class LanguageAdapter extends InstallerAdapter
 
 		return $row->get('extension_id');
 	}
-
 
 	/**
 	 * Gets a unique language SEF string.
@@ -817,43 +774,29 @@ class LanguageAdapter extends InstallerAdapter
 	 */
 	public function discover()
 	{
-		$results         = array();
-		$site_languages  = Folder::folders(JPATH_SITE . '/language');
-		$admin_languages = Folder::folders(JPATH_ADMINISTRATOR . '/language');
+		$results = array();
+		$clients = [0 => JPATH_SITE, 1 => JPATH_ADMINISTRATOR, 3 => JPATH_API];
 
-		foreach ($site_languages as $language)
+		foreach ($clients as $clientId => $basePath)
 		{
-			if (file_exists(JPATH_SITE . '/language/' . $language . '/' . $language . '.xml'))
-			{
-				$manifest_details = Installer::parseXMLInstallFile(JPATH_SITE . '/language/' . $language . '/' . $language . '.xml');
-				$extension = Table::getInstance('extension');
-				$extension->set('type', 'language');
-				$extension->set('client_id', 0);
-				$extension->set('element', $language);
-				$extension->set('folder', '');
-				$extension->set('name', $language);
-				$extension->set('state', -1);
-				$extension->set('manifest_cache', json_encode($manifest_details));
-				$extension->set('params', '{}');
-				$results[] = $extension;
-			}
-		}
+			$languages = Folder::folders($basePath . '/language');
 
-		foreach ($admin_languages as $language)
-		{
-			if (file_exists(JPATH_ADMINISTRATOR . '/language/' . $language . '/' . $language . '.xml'))
+			foreach ($languages as $language)
 			{
-				$manifest_details = Installer::parseXMLInstallFile(JPATH_ADMINISTRATOR . '/language/' . $language . '/' . $language . '.xml');
-				$extension = Table::getInstance('extension');
-				$extension->set('type', 'language');
-				$extension->set('client_id', 1);
-				$extension->set('element', $language);
-				$extension->set('folder', '');
-				$extension->set('name', $language);
-				$extension->set('state', -1);
-				$extension->set('manifest_cache', json_encode($manifest_details));
-				$extension->set('params', '{}');
-				$results[] = $extension;
+				if (file_exists($basePath . '/language/' . $language . '/' . $language . '.xml'))
+				{
+					$manifest_details = Installer::parseXMLInstallFile($basePath . '/language/' . $language . '/' . $language . '.xml');
+					$extension = Table::getInstance('extension');
+					$extension->set('type', 'language');
+					$extension->set('client_id', $clientId);
+					$extension->set('element', $language);
+					$extension->set('folder', '');
+					$extension->set('name', $language);
+					$extension->set('state', -1);
+					$extension->set('manifest_cache', json_encode($manifest_details));
+					$extension->set('params', '{}');
+					$results[] = $extension;
+				}
 			}
 		}
 
@@ -934,5 +877,75 @@ class LanguageAdapter extends InstallerAdapter
 		Log::add(Text::_('JLIB_INSTALLER_ERROR_MOD_REFRESH_MANIFEST_CACHE'), Log::WARNING, 'jerror');
 
 		return false;
+	}
+
+	/**
+	 * Resets user language to default language
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function resetUserLanguage(): void
+	{
+		$client = ApplicationHelper::getClientInfo($this->extension->client_id);
+
+		if ($client->name !== 'site' && $client->name !== 'administrator')
+		{
+			return;
+		}
+
+		// Setting the language of users which have this language as the default language
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select(
+				[
+					$db->quoteName('id'),
+					$db->quoteName('params'),
+				]
+			)
+			->from($db->quoteName('#__users'));
+		$db->setQuery($query);
+		$users = $db->loadObjectList();
+
+		if ($client->name === 'administrator')
+		{
+			$param_name = 'admin_language';
+		}
+		else
+		{
+			$param_name = 'language';
+		}
+
+		$count = 0;
+
+		// Prepare the query.
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__users'))
+			->set($db->quoteName('params') . ' = :registry')
+			->where($db->quoteName('id') . ' = :userId')
+			->bind(':registry', $registry)
+			->bind(':userId', $userId, ParameterType::INTEGER);
+		$db->setQuery($query);
+
+		foreach ($users as $user)
+		{
+			$registry = new Registry($user->params);
+
+			if ($registry->get($param_name) === $this->extension->element)
+			{
+				// Update query parameters.
+				$registry->set($param_name, '');
+				$userId = $user->id;
+
+				$db->execute();
+				$count++;
+			}
+		}
+
+		if (!empty($count))
+		{
+			Log::add(Text::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count), Log::NOTICE, 'jerror');
+		}
 	}
 }

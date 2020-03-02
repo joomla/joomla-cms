@@ -83,25 +83,25 @@ if ($saveOrder && !empty($this->items))
 								</th>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 									<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
-										<span class="icon-publish" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>"></span>
+										<span class="fas fa-check" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>"></span>
 										<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?></span>
 									</th>
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 									<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
-										<span class="icon-unpublish" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>"></span>
+										<span class="fas fa-times" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>"></span>
 										<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 									</th>
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 									<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
-										<span class="icon-archive" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>"></span>
+										<span class="fas fa-folder" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>"></span>
 										<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?></span>
 									</th>
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 									<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
-										<span class="icon-trash" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>"></span>
+										<span class="fas fa-trash" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>"></span>
 										<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?></span>
 									</th>
 								<?php endif; ?>
