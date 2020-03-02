@@ -271,11 +271,22 @@
     }
 
     .js-stools-field-list {
-      margin-right: .25rem;
       margin-bottom: 0;
 
-      &:last-child {
-        margin-right: 0;
+      [dir=ltr] & {
+        margin-right: .25rem;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+
+      [dir=rtl] & {
+        margin-left: .25rem;
+
+        &:last-child {
+          margin-left: 0;
+        }
       }
     }
 
