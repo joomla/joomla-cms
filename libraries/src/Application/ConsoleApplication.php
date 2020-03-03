@@ -126,7 +126,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->input->set('format', 'cli');
 	}
 
-		/**
+	/**
 	 * Magic method to access properties of the application.
 	 *
 	 * @param   string  $name  The name of the property.
