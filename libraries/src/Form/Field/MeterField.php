@@ -150,10 +150,10 @@ class MeterField extends FormField
 			$this->color = isset($this->element['color']) ? (string) $this->element['color'] : '';
 
 			$active       = (string) $this->element['active'];
-			$this->active = ($active == 'true' || $active == 'on' || $active == '1');
+			$this->active = ($active === 'true' || $active === 'on' || $active === '1');
 
 			$animated       = (string) $this->element['animated'];
-			$this->animated = !($animated == 'false' || $animated == 'off' || $animated == '0');
+			$this->animated = !($animated === 'false' || $animated === 'off' || $animated === '0');
 		}
 
 		return $return;

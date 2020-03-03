@@ -45,6 +45,6 @@ else
 <?php if ($legacy) : ?>
 	<?php echo HTMLHelper::_('image', 'system/' . $icon, Text::_('JGLOBAL_EDIT'), null, true); ?>
 <?php else : ?>
-	<span class="hasTooltip fa fa-<?php echo $icon; ?>" title="<?php echo HTMLHelper::tooltipText(Text::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0); ?>"></span>
+	<span class="hasTooltip fas fa-<?php echo $icon; ?>" title="<?php echo HTMLHelper::tooltipText(Text::_('COM_CONTENT_EDIT_ITEM'), $overlib, 0, 0); ?>"></span>
 	<?php echo Text::_('JGLOBAL_EDIT'); ?>
 <?php endif; ?>

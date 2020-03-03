@@ -39,7 +39,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<div class="row">
 			<div class="col-lg-9">
 				<div class="card card-block">
-					<div class="card-body form-vertical form-no-margin">
+					<div class="card-body form-vertical">
 					<?php echo $this->form->renderField('description'); ?>
 					</div>
 				</div>
@@ -47,7 +47,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<div class="col-lg-3">
 				<div class="card card-block">
 					<div class="card-body">
-						<fieldset class="form-vertical form-no-margin">
+						<fieldset class="form-vertical">
 							<?php echo $this->form->renderField('published'); ?>
 							<?php echo $this->form->renderField('default'); ?>
 						</fieldset>

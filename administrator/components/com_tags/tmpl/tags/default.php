@@ -65,7 +65,7 @@ if ($saveOrder && !empty($this->items))
 		?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
@@ -90,22 +90,22 @@ if ($saveOrder && !empty($this->items))
 
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 							<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-								<span class="icon-publish" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?></span></span>
+								<span class="fas fa-check" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_PUBLISHED_ITEMS'); ?></span></span>
 							</th>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 							<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-								<span class="icon-unpublish" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?></span></span>
+								<span class="fas fa-times" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_UNPUBLISHED_ITEMS'); ?></span></span>
 							</th>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 							<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-								<span class="icon-archive" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?></span></span>
+								<span class="fas fa-folder" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_ARCHIVED_ITEMS'); ?></span></span>
 							</th>
 						<?php endif; ?>
 						<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 							<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-								<span class="icon-trash" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?></span></span>
+								<span class="fas fa-trash" aria-hidden="true" title="<?php echo Text::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?>"><span class="sr-only"><?php echo Text::_('COM_TAGS_COUNT_TRASHED_ITEMS'); ?></span></span>
 							</th>
 						<?php endif; ?>
 
@@ -174,7 +174,7 @@ if ($saveOrder && !empty($this->items))
 								}
 								?>
 								<span class="sortable-handler<?php echo $iconClass ?>">
-									<span class="fa fa-ellipsis-v"></span>
+									<span class="fas fa-ellipsis-v"></span>
 								</span>
 								<?php if ($canChange && $saveOrder) : ?>
 									<input type="text" class="hidden" name="order[]" size="5" value="<?php echo $orderkey + 1; ?>">

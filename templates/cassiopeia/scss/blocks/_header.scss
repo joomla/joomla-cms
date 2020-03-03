@@ -8,6 +8,10 @@
   background-image: $cassiopeia-header-grad;
   box-shadow: 0 5px 5px rgba(0, 0, 0, .03) inset;
 
+  @include media-breakpoint-down(sm) {
+    position: relative !important;
+  }
+
   header {
     width: 100%;
     max-width: 1155px;
@@ -17,7 +21,7 @@
   }
 
   nav {
-    padding: 2.5rem ($cassiopeia-grid-gutter / 2) 2.5rem;
+    padding: 2.5rem ($cassiopeia-grid-gutter / 2);
   }
 
   .site-description {
@@ -34,8 +38,8 @@
     color: $white-offset;
 
     [dir=rtl] & {
-      margin-left: auto;
       margin-right: 0;
+      margin-left: auto;
     }
 
     img {
@@ -117,7 +121,7 @@
     cursor: default;
     border: 1px solid $white-offset;
 
-    .fa {
+    .fas {
       font-size: 24px;
     }
   }

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR);
 
 $forumId   = (int) Text::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE');
 

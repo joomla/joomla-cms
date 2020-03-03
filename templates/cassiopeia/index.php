@@ -52,7 +52,7 @@ elseif ($this->params->get('siteTitle'))
 }
 else
 {
-	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg' . '" class="logo d-inline-block" alt="' . $sitename . '">';
+	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
 }
 
 $hasClass = '';
@@ -71,6 +71,9 @@ if ($this->countModules('sidebar-right'))
 $wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
+
+$stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top' : '';
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -90,7 +93,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	. $hasClass;
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-	<div class="grid-child container-header full-width">
+	<div class="grid-child container-header full-width <?php echo $stickyHeader; ?>">
 		<header class="header">
 			<nav class="grid-child navbar navbar-expand-lg">
 				<div class="navbar-brand">
@@ -104,7 +107,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 				<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
 					<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
-						<span class="fa fa-bars" aria-hidden="true"></span>
+						<span class="fas fa-bars" aria-hidden="true"></span>
 					</button>
 					<div class="collapse navbar-collapse" id="navbar">
 						<jdoc:include type="modules" name="menu" style="none" />
@@ -174,7 +177,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 		<hr>
 		<p class="float-right">
 			<a href="#top" id="back-top" class="back-top">
-				<span class="icon-arrow-up-4" aria-hidden="true"></span>
+				<span class="fas fa-arrow-up" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
 			</a>
 		</p>

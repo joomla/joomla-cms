@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="3.9" type="plugin" group="content" method="upgrade">
+<extension type="plugin" group="content" method="upgrade">
 	<name>plg_content_confirmconsent</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2018</creationDate>
@@ -9,8 +9,10 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.9.0</version>
 	<description>PLG_CONTENT_CONFIRMCONSENT_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Content\ConfirmConsent</namespace>
 	<files>
 		<filename plugin="confirmconsent">confirmconsent.php</filename>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_content_confirmconsent.ini</language>

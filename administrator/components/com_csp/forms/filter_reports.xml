@@ -19,6 +19,32 @@
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
+
+		<field
+			name="directive"
+			type="sql"
+			label="COM_CSP_FILTER_DIRECTIVE"
+			sql_select="directive"
+			sql_from="#__csp"
+			sql_group="directive"
+			sql_order="directive ASC"
+			key_field="directive"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_CSP_FILTER_DIRECTIVE</option>
+		</field>
+
+		<field
+			name="client"
+			type="list"
+			label="JSITEADMIN"
+			filtermode="selector"
+			onchange="this.form.submit();"
+			>
+			<option value="">JGLOBAL_FILTER_CLIENT</option>
+			<option value="site">JSITE</option>
+			<option value="administrator">JADMINISTRATOR</option>
+		</field>
 	</fields>
 
 	<fields name="list">

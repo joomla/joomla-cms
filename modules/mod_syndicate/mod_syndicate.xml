@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension type="module" client="site" method="upgrade">
 	<name>mod_syndicate</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2006</creationDate>
@@ -9,11 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_SYNDICATE_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\Syndicate</namespace>
+	<namespace path="src">Joomla\Module\Syndicate</namespace>
 	<files>
 		<filename module="mod_syndicate">mod_syndicate.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_syndicate.ini</language>
@@ -26,7 +26,7 @@
 				<field
 					name="display_text"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_SYNDICATE_FIELD_DISPLAYTEXT_LABEL"
 					description="MOD_SYNDICATE_FIELD_DISPLAYTEXT_DESC"
 					default="1"

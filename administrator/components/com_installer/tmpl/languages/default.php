@@ -28,7 +28,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 					<?php if (empty($this->items)) : ?>
 						<div class="alert alert-info">
-							<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 						</div>
 					<?php else : ?>
@@ -66,7 +66,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td>
 									<?php $buttonText = (isset($this->installedLang[0][$language->code]) || isset($this->installedLang[1][$language->code])) ? 'REINSTALL' : 'INSTALL'; ?>
 									<?php $onclick = 'document.getElementById(\'install_url\').value = \'' . $language->detailsurl . '\'; Joomla.submitbutton(\'install.install\');'; ?>
-									<input type="button" class="btn btn-secondary btn-sm" value="<?php echo Text::_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>" onclick="<?php echo $onclick; ?>">
+									<input type="button" class="btn btn-primary btn-sm" value="<?php echo Text::_('COM_INSTALLER_' . $buttonText . '_BUTTON'); ?>" onclick="<?php echo $onclick; ?>">
 								</td>
 								<th scope="row">
 									<?php echo $language->name; ?>
@@ -79,7 +79,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php // Display a Note if language pack version is not equal to Joomla version ?>
 										<?php if (strpos($language->version, $minorVersion) !== 0 || strpos($language->version, $currentShortVersion) !== 0) : ?>
 											<span class="badge badge-warning"><?php echo $language->version; ?></span>
-											<span class="fa fa-info-circle" aria-hidden="true" tabindex="0"></span>
+											<span class="fas fa-info-circle" aria-hidden="true" tabindex="0"></span>
 											<div role="tooltip" class="text-left" id="tip<?php echo $language->code; ?>">
 											<?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>
 											</div>
