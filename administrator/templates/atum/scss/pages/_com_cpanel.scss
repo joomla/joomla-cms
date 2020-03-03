@@ -194,8 +194,7 @@
     }
 
     [dir=rtl] & {
-      display: inline flow-root list-item;
-      list-style: none;
+      display: inline-block;
     }
 
     &:hover {
