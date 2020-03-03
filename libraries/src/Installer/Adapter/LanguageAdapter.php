@@ -783,20 +783,29 @@ class LanguageAdapter extends InstallerAdapter
 
 			foreach ($languages as $language)
 			{
-				if (file_exists($basePath . '/language/' . $language . '/' . $language . '.xml'))
+				$manifestfile = $basePath . '/language/' . $language . '/langmetadata.xml';
+
+				if (!is_file($manifestfile))
 				{
-					$manifest_details = Installer::parseXMLInstallFile($basePath . '/language/' . $language . '/' . $language . '.xml');
-					$extension = Table::getInstance('extension');
-					$extension->set('type', 'language');
-					$extension->set('client_id', $clientId);
-					$extension->set('element', $language);
-					$extension->set('folder', '');
-					$extension->set('name', $language);
-					$extension->set('state', -1);
-					$extension->set('manifest_cache', json_encode($manifest_details));
-					$extension->set('params', '{}');
-					$results[] = $extension;
+					$manifestfile = $basePath . '/language/' . $language . '/' . $language . '.xml';
+
+					if (!is_file($manifestfile))
+					{
+						continue;
+					}
 				}
+
+				$manifest_details = Installer::parseXMLInstallFile($manifestfile);
+				$extension = Table::getInstance('extension');
+				$extension->set('type', 'language');
+				$extension->set('client_id', $clientId);
+				$extension->set('element', $language);
+				$extension->set('folder', '');
+				$extension->set('name', $language);
+				$extension->set('state', -1);
+				$extension->set('manifest_cache', json_encode($manifest_details));
+				$extension->set('params', '{}');
+				$results[] = $extension;
 			}
 		}
 
@@ -816,7 +825,13 @@ class LanguageAdapter extends InstallerAdapter
 		// Need to find to find where the XML file is since we don't store this normally
 		$client                 = ApplicationHelper::getClientInfo($this->parent->extension->client_id);
 		$short_element          = $this->parent->extension->element;
-		$manifestPath           = $client->path . '/language/' . $short_element . '/' . $short_element . '.xml';
+		$manifestPath           = $client->path . '/language/' . $short_element . '/langmetadata.xml';
+
+		if (!is_file($manifestPath))
+		{
+			$manifestPath = $client->path . '/language/' . $short_element . '/' . $short_element . '.xml';
+		}
+
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$this->parent->setPath('source', $client->path . '/language/' . $short_element);
