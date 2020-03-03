@@ -764,19 +764,19 @@ class LanguageAdapter extends InstallerAdapter
 				{
 					continue;
 				}
-
-				$manifest_details = Installer::parseXMLInstallFile($manifestfile);
-				$extension = Table::getInstance('extension');
-				$extension->set('type', 'language');
-				$extension->set('client_id', 0);
-				$extension->set('element', $language);
-				$extension->set('folder', '');
-				$extension->set('name', $language);
-				$extension->set('state', -1);
-				$extension->set('manifest_cache', json_encode($manifest_details));
-				$extension->set('params', '{}');
-				$results[] = $extension;
 			}
+
+			$manifest_details = Installer::parseXMLInstallFile($manifestfile);
+			$extension = Table::getInstance('extension');
+			$extension->set('type', 'language');
+			$extension->set('client_id', 0);
+			$extension->set('element', $language);
+			$extension->set('folder', '');
+			$extension->set('name', $language);
+			$extension->set('state', -1);
+			$extension->set('manifest_cache', json_encode($manifest_details));
+			$extension->set('params', '{}');
+			$results[] = $extension;
 		}
 
 		foreach ($admin_languages as $language)
@@ -791,19 +791,19 @@ class LanguageAdapter extends InstallerAdapter
 				{
 					continue;
 				}
-
-				$manifest_details = Installer::parseXMLInstallFile($manifestfile);
-				$extension = Table::getInstance('extension');
-				$extension->set('type', 'language');
-				$extension->set('client_id', 1);
-				$extension->set('element', $language);
-				$extension->set('folder', '');
-				$extension->set('name', $language);
-				$extension->set('state', -1);
-				$extension->set('manifest_cache', json_encode($manifest_details));
-				$extension->set('params', '{}');
-				$results[] = $extension;
 			}
+
+			$manifest_details = Installer::parseXMLInstallFile($manifestfile);
+			$extension = Table::getInstance('extension');
+			$extension->set('type', 'language');
+			$extension->set('client_id', 1);
+			$extension->set('element', $language);
+			$extension->set('folder', '');
+			$extension->set('name', $language);
+			$extension->set('state', -1);
+			$extension->set('manifest_cache', json_encode($manifest_details));
+			$extension->set('params', '{}');
+			$results[] = $extension;
 		}
 
 		return $results;
