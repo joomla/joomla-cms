@@ -54,7 +54,7 @@ class ContentViewFeatured extends JViewLegacy
 			$obj = json_decode($row->images);
 			$introImage = ($obj->{'image_intro'} != '') ? $obj->{'image_intro'} : (($obj->{'image_fulltext'} != '') ? $obj->{'image_fulltext'} : '');
 
-			if (isset($introImage) && ($introImage != ''))
+			if ($introImage != '')
 			{
 				$image = preg_match('/http/', $introImage) ? $introImage : JURI::root() . $introImage;
 				$description = '<p><img src="' . $image . '" /></p>';
