@@ -88,7 +88,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 					<a class="btn btn-danger" href="index.php?option=com_joomlaupdate">
 						<span class="fas fa-times" aria-hidden="true"></span> <?php echo Text::_('JCANCEL'); ?>
 					</a>
-					<button type="button" class="btn btn-primary">
+					<button type="submit" class="btn btn-primary">
 						<span class="fas fa-play" aria-hidden="true"></span> <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_CONFIRM_AND_CONTINUE'); ?>
 					</button>
 				</div>
