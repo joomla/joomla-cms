@@ -145,7 +145,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<?php if (Multilanguage::isEnabled()) : ?>
+								<?php if (Multilanguage::isEnabled() && $params->get('com_content_show_list_language', 1)) : ?>
 									<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 									</th>
@@ -385,7 +385,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<?php endif; ?>
 									</td>
 								<?php endif; ?>
-								<?php if (Multilanguage::isEnabled()): ?>
+								<?php if (Multilanguage::isEnabled() && $params->get('com_content_show_list_language', 1)) : ?>
 									<td class="small d-none d-md-table-cell">
 										<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 									</td>
