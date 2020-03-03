@@ -34,21 +34,15 @@ class ContactController extends FormController
 	protected function allowAdd($data = array())
 	{
 		$categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('filter_category_id'), 'int');
-		$allow = null;
 
 		if ($categoryId)
 		{
 			// If the category has been passed in the URL check it.
-			$allow = $this->app->getIdentity()->authorise('core.create', $this->option . '.category.' . $categoryId);
+			return $this->app->getIdentity()->authorise('core.create', $this->option . '.category.' . $categoryId);
 		}
 
-		if ($allow === null)
-		{
-			// In the absense of better information, revert to the component permissions.
-			return parent::allowAdd($data);
-		}
-
-		return $allow;
+		// In the absence of better information, revert to the component permissions.
+		return parent::allowAdd($data);
 	}
 
 	/**
