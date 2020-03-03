@@ -183,12 +183,20 @@
   }
 
   .list-group-item a > span.home-image.fas {
-    display: inline;
     padding: 0;
     font-size: .9rem;
     color: rgba(1, 1, 1, 1);
     background: var(--white-offset);
     box-shadow: none;
+
+    [dir=ltr] & {
+      display: inline;
+    }
+
+    [dir=rtl] & {
+      display: inline flow-root list-item;
+      list-style: none;
+    }
 
     &:hover {
       background: var(--atum-link-hover-color);
