@@ -10,10 +10,12 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-$msgList = $displayData['msgList'];
+$msgList  = $displayData['msgList'];
+$duration = (int) Factory::getApplication()->getIdentity()->getParam('dismiss_duration', 0);
 
 $alert = [
 	CMSApplication::MSG_EMERGENCY => 'danger',
@@ -33,8 +35,9 @@ HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js
 <div id="system-message-container" aria-live="polite">
 	<div id="system-message">
 		<?php if (is_array($msgList) && !empty($msgList)) : ?>
+			<?php $i = 0; ?>
 			<?php foreach ($msgList as $type => $msgs) : ?>
-				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true" auto-dismiss="4000">
+				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true" <?php echo $duration ? 'auto-dismiss="' . ($duration * ++$i) . '"' : '' ?>>
 					<?php if (!empty($msgs)) : ?>
 						<div class="alert-heading"><?php echo Text::_($type); ?></div>
 						<div>
