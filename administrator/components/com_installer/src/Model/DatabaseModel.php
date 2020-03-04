@@ -333,7 +333,8 @@ class DatabaseModel extends InstallerModel
 					'#__schemas',
 					'schemas'
 				)
-			)->join(
+			)
+			->join(
 				'INNER',
 				$db->quoteName('#__extensions', 'extensions'),
 				$db->quoteName('schemas.extension_id') . ' = ' . $db->quoteName('extensions.extension_id')

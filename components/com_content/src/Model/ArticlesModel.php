@@ -895,7 +895,8 @@ class ArticlesModel extends ListModel
 		$query->bind($keys, $values, $dataTypes);
 
 		$query
-			->select('DATE(' .
+			->select(
+				'DATE(' .
 				$query->concatenate(
 					array(
 						$query->year($db->quoteName('publish_up')),

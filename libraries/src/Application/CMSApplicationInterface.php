@@ -126,15 +126,6 @@ interface CMSApplicationInterface extends ExtensionManagerInterface
 	public function isClient($identifier);
 
 	/**
-	 * Method to get the application session object.
-	 *
-	 * @return  SessionInterface  The session object
-	 *
-	 * @since   4.0.0
-	 */
-	public function getSession();
-
-	/**
 	 * Flag if the application instance is a CLI or web based application.
 	 *
 	 * Helper function, you should use the native PHP functions to detect if it is a CLI application.

@@ -16,7 +16,6 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Event\LazyServiceEventListener;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Application\InstallationApplication;
 use Joomla\CMS\Session\EventListener\MetadataManagerListener;
@@ -28,6 +27,7 @@ use Joomla\DI\Container;
 use Joomla\DI\Exception\DependencyResolutionException;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\LazyServiceEventListener;
 use Joomla\Event\Priority;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvents;
@@ -244,8 +244,7 @@ class Session implements ServiceProviderInterface
 				true
 			);
 
-		$listener = new LazyServiceEventListener('session.event_listener.metadata_manager', 'onAfterSessionStart');
-		$listener->setContainer($container);
+		$listener = new LazyServiceEventListener($container, 'session.event_listener.metadata_manager', 'onAfterSessionStart');
 
 		/** @var DispatcherInterface $dispatcher */
 		$dispatcher = $container->get(DispatcherInterface::class);
