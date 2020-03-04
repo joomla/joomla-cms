@@ -33,6 +33,9 @@ class SuggestionsController extends BaseController
 		$app = $this->app;
 		$app->mimeType = 'application/json';
 
+		// Ensure caching is disabled as it depends on the query param in the model
+		$app->allowCache(false);
+
 		$suggestions = $this->getSuggestions();
 
 		// Send the response.
@@ -56,6 +59,9 @@ class SuggestionsController extends BaseController
 		$result[] = $app->input->request->get('q', '', 'string');
 
 		$result[] = $this->getSuggestions();
+
+		// Ensure caching is disabled as it depends on the query param in the model
+		$app->allowCache(false);
 
 		// Send the response.
 		$app->setHeader('Content-Type', $app->mimeType . '; charset=' . $app->charSet);
