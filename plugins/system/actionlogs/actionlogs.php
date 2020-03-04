@@ -481,7 +481,7 @@ class PlgSystemActionLogs extends JPlugin
 	 *
 	 * @return  string  The rendered value.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.16
 	 */
 	public static function renderActionlogsNotify($value)
 	{
@@ -495,7 +495,7 @@ class PlgSystemActionLogs extends JPlugin
 	 *
 	 * @return  string  The rendered value.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.16
 	 */
 	public static function renderActionlogsExtensions($extensions)
 	{
