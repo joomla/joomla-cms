@@ -30,7 +30,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			</div>
 			<span class="fas fa-angle-down" aria-hidden="true"></span>
 			<?php if (count($messages) > 0) : ?>
-				<span class="badge badge-pill badge-danger"><?php echo count($messages); ?></span>
+				<span class="badge badge-danger"><?php echo count($messages); ?></span>
 			<?php endif; ?>
 		</button>
 		<?php if (!$hideLinks) : ?>

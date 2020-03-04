@@ -27,7 +27,7 @@ $route = 'index.php?option=com_messages&view=messages&id=' . $app->getIdentity()
 			<?php echo Text::_('MOD_MESSAGES_PRIVATE_MESSAGES'); ?>
 		</div>
 		<?php if ($countUnread > 0) : ?>
-			<span class="badge badge-pill badge-danger"><?php echo $countUnread; ?></span>
+			<span class="badge badge-danger"><?php echo $countUnread; ?></span>
 		<?php endif; ?>
 	</a>
 </div>
