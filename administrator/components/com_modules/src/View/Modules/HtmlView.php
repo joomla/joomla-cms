@@ -115,6 +115,9 @@ class HtmlView extends BaseHtmlView
 			// Client id selector should not exist.
 			$this->filterForm->removeField('client_id', '');
 
+			// Forcing Client id to site to get the correct filters
+			$this->clientId = 0;
+
 			// If in the frontend state and language should not activate the search tools.
 			if (Factory::getApplication()->isClient('site'))
 			{
