@@ -152,10 +152,11 @@
         &.mm-active {
 
           // invert colors
-          color: var(--atum-sidebar-link-color);
+          color: var(--atum-link-color);
           background-color: var(--atum-sidebar-bg);
           .fas {
-            color: var(--atum-contrast);
+            color: var(--atum-sidebar-bg);
+            background-color: var(--atum-link-color);
           }
         }
       }
