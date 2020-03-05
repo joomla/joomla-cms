@@ -96,7 +96,7 @@ trait UserProfileFields
 
 		// Add the fields to the form.
 		Joomla::log('system', 'Injecting WebAuthn Passwordless Login fields in user profile edit page');
-		Form::addFormPath(dirname(__FILE__) . '/../../fields');
+		Form::addFormPath(JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name . '/forms');
 		$this->loadLanguage();
 		$form->loadFile('webauthn', false);
 
