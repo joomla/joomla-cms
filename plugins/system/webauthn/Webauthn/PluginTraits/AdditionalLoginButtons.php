@@ -145,12 +145,16 @@ trait AdditionalLoginButtons
 
 		// Set up the JavaScript callback
 		$url = $uri->toString();
-		$onClick = "return plgSystemWebauthnLogin('{$form}', '{$url}')";
+
+		Factory::getDocument()->addScriptOptions('plgWebAuth', [
+			'randomId' => $randomId,
+			'form'     => $form,
+			'url'      => $url,
+		]);
 
 		return [
 			[
 				'label'   => 'PLG_SYSTEM_WEBAUTHN_LOGIN_LABEL',
-				'onclick' => $onClick,
 				'id'      => $randomId,
 				'image'   => 'plg_system_webauthn/webauthn-black.png',
 				'class'   => 'plg_system_webauthn_login_button',
