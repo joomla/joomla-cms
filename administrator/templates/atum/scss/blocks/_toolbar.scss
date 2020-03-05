@@ -310,11 +310,10 @@ joomla-toolbar-button {
 
     &.btn-success {
       padding: 0;
-      background-color: $white;
+      background-color: theme-color("success");
 
       span {
         color: rgba(255, 255, 255, .90);
-        background-color: theme-color("success");
       }
 
       &::after {
