@@ -261,5 +261,4 @@ window.Joomla = window.Joomla || {};
       });
     }
   });
-
 })(window, Joomla);
