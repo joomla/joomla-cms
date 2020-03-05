@@ -193,20 +193,6 @@
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
-
-			<field
-				name="dismiss_duration"
-				type="list"
-				label="COM_USERS_USER_FIELD_DISMISS_DURATION_LABEL"
-				default="0"
-				>
-				<option value="0">JDISABLED</option>
-				<option value="1000">J1</option>
-				<option value="2000">J2</option>
-				<option value="3000">J3</option>
-				<option value="4000">J4</option>
-				<option value="5000">J5</option>
-			</field>
 		</fieldset>
 		<!-- User accessibility settings -->
 		<fieldset name="accessibility" label="COM_USERS_A11Y_SETTINGS_FIELDSET_LABEL">
@@ -249,6 +235,19 @@
 				>
 				<option value="0">JNO</option>
 				<option value="fontsize">JYES</option>
+			</field>
+			<field
+				name="dismiss_duration"
+				type="list"
+				label="COM_USERS_A11Y_SETTINGS_FIELD_DISMISS_DURATION_LABEL"
+				default="0"
+				>
+				<option value="0">JDISABLED</option>
+				<option value="1000">J1</option>
+				<option value="2000">J2</option>
+				<option value="3000">J3</option>
+				<option value="4000">J4</option>
+				<option value="5000">J5</option>
 			</field>
 		</fieldset>
 
