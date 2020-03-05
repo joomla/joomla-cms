@@ -17,27 +17,13 @@ $article = $displayData['article'];
 $overlib = $displayData['overlib'];
 $nowDate = strtotime(Factory::getDate());
 
-if ($legacy)
-{
-	$icon = $article->state ? 'edit.png' : 'edit_unpublished.png';
+$icon = $article->state ? 'edit' : 'eye-slash';
 
-	if (($article->publish_up !== null && strtotime($article->publish_up) > $nowDate)
-		|| ($article->publish_down !== null && strtotime($article->publish_down) < $nowDate
-			&& $article->publish_down !== Factory::getDbo()->getNullDate()))
-	{
-		$icon = 'edit_unpublished.png';
-	}
-}
-else
+if (($article->publish_up !== null && strtotime($article->publish_up) > $nowDate)
+	|| ($article->publish_down !== null && strtotime($article->publish_down) < $nowDate
+		&& $article->publish_down !== Factory::getDbo()->getNullDate()))
 {
-	$icon = $article->state ? 'edit' : 'eye-slash';
-
-	if (($article->publish_up !== null && strtotime($article->publish_up) > $nowDate)
-		|| ($article->publish_down !== null && strtotime($article->publish_down) < $nowDate
-			&& $article->publish_down !== Factory::getDbo()->getNullDate()))
-	{
-		$icon = 'eye-slash';
-	}
+	$icon = 'eye-slash';
 }
 
 ?>
