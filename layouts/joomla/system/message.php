@@ -37,9 +37,9 @@ Factory::getDocument()->getWebAssetManager()
 <div id="system-message-container" aria-live="polite">
 	<div id="system-message">
 		<?php if (is_array($msgList) && !empty($msgList)) : ?>
-			<?php $i = 0; ?>
+			<?php $i = 1; ?>
 			<?php foreach ($msgList as $type => $msgs) : ?>
-				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true" <?php echo $duration ? 'auto-dismiss="' . ($duration * ++$i) . '"' : '' ?>>
+				<joomla-alert type="<?php echo $alert[$type] ?? $type; ?>" dismiss="true" <?php echo $duration ? 'auto-dismiss="' . ($duration * $i++) . '"' : '' ?>>
 					<?php if (!empty($msgs)) : ?>
 						<div class="alert-heading"><?php echo Text::_($type); ?></div>
 						<div>
