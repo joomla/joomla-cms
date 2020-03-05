@@ -205,8 +205,6 @@ class BannersModel extends ListModel
 
 				foreach ($keywords as $key => $keyword)
 				{
-					$keyword = trim($keyword);
-
 					$condition1 = $db->quoteName('a.own_prefix') . ' = 1'
 						. ' AND ' . $db->quoteName('a.metakey_prefix')
 						. ' = SUBSTRING(:aprefix' . $key . ',1,LENGTH(' . $db->quoteName('a.metakey_prefix') . '))'
@@ -263,6 +261,23 @@ class BannersModel extends ListModel
 	 */
 	public function getItems()
 	{
+		if ($this->getState('filter.tag_search'))
+		{
+			// Filter out empty keywords.
+			$keywords = array_values(array_filter(array_map('trim', $this->getState('filter.keywords')), 'strlen'));
+
+			// Re-set state before running the query.
+			$this->setState('filter.keywords', $keywords);
+
+			// If no keywords are provided, avoid running the query.
+			if (!$keywords)
+			{
+				$this->cache['items'] = array();
+
+				return $this->cache['items'];
+			}
+		}
+
 		if (!isset($this->cache['items']))
 		{
 			$this->cache['items'] = parent::getItems();

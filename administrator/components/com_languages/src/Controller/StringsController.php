@@ -26,7 +26,7 @@ class StringsController extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function refresh()
 	{
@@ -38,7 +38,7 @@ class StringsController extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since		2.5
+	 * @since   2.5
 	 */
 	public function search()
 	{
