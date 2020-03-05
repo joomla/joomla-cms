@@ -23,13 +23,13 @@ window.Joomla = window.Joomla || {};
   Joomla.plgSystemWebauthnInterpolateParameters = (object, thisParamIsThePrefix) => {
     const prefix = thisParamIsThePrefix || '';
     let encodedString = '';
-  
+
     Object.keys(object).forEach((prop) => {
       if (typeof object[prop] !== 'object') {
         if (encodedString.length > 0) {
           encodedString += '&';
         }
-  
+
         if (prefix === '') {
           encodedString += `${encodeURIComponent(prop)}=${encodeURIComponent(object[prop])}`;
         } else {
@@ -38,17 +38,17 @@ window.Joomla = window.Joomla || {};
               object[prop],
             )}`;
         }
-  
+
         return;
       }
-  
+
       // Objects need special handling
       encodedString += `${Joomla.plgSystemWebauthnInterpolateParameters(object[prop], prop)}`;
     });
-  
+
     return encodedString;
   }
-  
+
   /**
    * Finds the first field matching a selector inside a form
    *
@@ -59,14 +59,14 @@ window.Joomla = window.Joomla || {};
    */
   Joomla.plgSystemWebauthnFindField = (elForm, fieldSelector) => {
     const elInputs = elForm.querySelectorAll(fieldSelector);
-  
+
     if (!elInputs.length) {
       return null;
     }
-  
+
     return elInputs[0];
   }
-  
+
   /**
    * Find a form field described by the CSS selector fieldSelector. The field must be inside a <form>
    * element which is either the outerElement itself or enclosed by outerElement.
@@ -79,28 +79,28 @@ window.Joomla = window.Joomla || {};
   Joomla.plgSystemWebauthnLookForField = (outerElement, fieldSelector) => {
     const elElement = outerElement.parentElement;
     let elInput = null;
-  
+
     if (elElement.nodeName === 'FORM') {
       elInput = Joomla.plgSystemWebauthnFindField(elElement, fieldSelector);
-  
+
       return elInput;
     }
-  
+
     const elForms = elElement.querySelectorAll('form');
-  
+
     if (elForms.length) {
       for (let i = 0; i < elForms.length; i += 1) {
         elInput = Joomla.plgSystemWebauthnFindField(elForms[i], fieldSelector);
-  
+
         if (elInput !== null) {
           return elInput;
         }
       }
     }
-  
+
     return null;
   }
-  
+
   /**
    * A simple error handler.
    *
@@ -109,7 +109,7 @@ window.Joomla = window.Joomla || {};
   Joomla.plgSystemWebauthnHandleLoginError = (message) => {
     alert(message);
   }
-  
+
   /**
    * Handles the browser response for the user interaction with the authenticator. Redirects to an
    * internal page which handles the login server-side.
@@ -122,7 +122,7 @@ window.Joomla = window.Joomla || {};
     const arrayToBase64String = (a) => {
       return btoa(String.fromCharCode(...a));
     }
-  
+
     const base64url2base64 = (input) => {
       let output = input
         .replace(/-/g, '+')
@@ -136,24 +136,24 @@ window.Joomla = window.Joomla || {};
       }
       return output;
     }
-  
+
     if (!publicKey.challenge) {
       Joomla.plgSystemWebauthnHandleLoginError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
-  
+
       return;
     }
-  
+
     publicKey.challenge = Uint8Array.from(
       window.atob(base64url2base64(publicKey.challenge)), c => c.charCodeAt(0),
     );
-  
+
     if (publicKey.allowCredentials) {
       publicKey.allowCredentials = publicKey.allowCredentials.map((data) => {
         data.id = Uint8Array.from(window.atob(base64url2base64(data.id)), c => c.charCodeAt(0));
         return data;
       });
     }
-  
+
     navigator.credentials.get({ publicKey })
       .then((data) => {
         const publicKeyCredential = {
@@ -169,7 +169,7 @@ window.Joomla = window.Joomla || {};
             ) : null,
           },
         };
-  
+
         // Send the response to your server
         window.location = `${callbackUrl}&option=com_ajax&group=system&plugin=webauthn&`
           + `format=raw&akaction=login&encoding=redirect&data=${
@@ -180,7 +180,7 @@ window.Joomla = window.Joomla || {};
         Joomla.plgSystemWebauthnHandleLoginError(error);
       });
   }
-  
+
   /**
    * Initialize the passwordless login, going through the server to get the registered certificates
    * for the user.
@@ -197,23 +197,23 @@ window.Joomla = window.Joomla || {};
     const elFormContainer = document.getElementById(formId);
     const elUsername = Joomla.plgSystemWebauthnLookForField(elFormContainer, 'input[name=username]');
     const elReturn = Joomla.plgSystemWebauthnLookForField(elFormContainer, 'input[name=return]');
-  
+
     if (elUsername === null) {
       alert(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME'));
-  
+
       return false;
     }
-  
+
     const username = elUsername.value;
     const returnUrl = elReturn ? elReturn.value : null;
-  
+
     // No username? We cannot proceed. We need a username to find the acceptable public keys :(
     if (username === '') {
       alert(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_EMPTY_USERNAME'));
-  
+
       return false;
     }
-  
+
     // Get the Public Key Credential Request Options (challenge and acceptable public keys)
     const postBackData = {
       option: 'com_ajax',
@@ -225,14 +225,14 @@ window.Joomla = window.Joomla || {};
       username,
       returnUrl,
     };
-  
+
     Joomla.request({
       url: callbackUrl,
       method: 'POST',
       data: Joomla.plgSystemWebauthnInterpolateParameters(postBackData),
       onSuccess(rawResponse) {
         let jsonData = {};
-  
+
         try {
           jsonData = JSON.parse(rawResponse);
         } catch (e) {
@@ -241,14 +241,14 @@ window.Joomla = window.Joomla || {};
            * challenge handler called below.
            */
         }
-  
+
         Joomla.plgSystemWebauthnHandleLoginChallenge(jsonData, callbackUrl);
       },
       onError: (xhr) => {
         Joomla.plgSystemWebauthnHandleLoginError(`${xhr.status} ${xhr.statusText}`);
       },
     });
-  
+
     return false;
   }
 
@@ -258,8 +258,8 @@ window.Joomla = window.Joomla || {};
     const loginButton = document.getElementById(options.randomId);
     if (loginButton) {
       loginButton.addEventListener('click', () => {
-        Joomla.plgSystemWebauthnLogin(options.form, options.url)
-      })
+        Joomla.plgSystemWebauthnLogin(options.form, options.url);
+      });
     }
   })
 
