@@ -75,7 +75,7 @@ $colors: (
   atum-special-color:              $dark-blue,
   atum-link-color:                 $light-blue,
   atum-link-hover-color:           darken($light-blue, 20%),
-  atum-contrast:                   adjust-color($base-color, $hue: -40deg, $lightness: +16%),
+  atum-contrast:                   $light-blue,
   atum-bg-dark-5:                  adjust-color($base-color, $hue: -6%, $saturation: -85%, $lightness: +65.1%),
   atum-bg-dark-10:                 adjust-color($base-color, $hue: -6%, $saturation: -80%, $lightness: +59.4%),
   atum-bg-dark-20:                 adjust-color($base-color, $hue: -6%, $saturation: -75%, $lightness: +47.3%),
