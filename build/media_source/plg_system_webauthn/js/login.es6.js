@@ -47,7 +47,7 @@ window.Joomla = window.Joomla || {};
     });
 
     return encodedString;
-  }
+  };
 
   /**
    * Finds the first field matching a selector inside a form
@@ -65,11 +65,12 @@ window.Joomla = window.Joomla || {};
     }
 
     return elInputs[0];
-  }
+  };
 
   /**
-   * Find a form field described by the CSS selector fieldSelector. The field must be inside a <form>
-   * element which is either the outerElement itself or enclosed by outerElement.
+   * Find a form field described by the CSS selector fieldSelector.
+   * The field must be inside a <form> element which is either the
+   * outerElement itself or enclosed by outerElement.
    *
    * @param   {Element}  outerElement   The element which is either our form or contains our form.
    * @param   {String}   fieldSelector  The CSS selector to locate the field
@@ -99,7 +100,7 @@ window.Joomla = window.Joomla || {};
     }
 
     return null;
-  }
+  };
 
   /**
    * A simple error handler.
@@ -108,7 +109,7 @@ window.Joomla = window.Joomla || {};
    */
   Joomla.plgSystemWebauthnHandleLoginError = (message) => {
     alert(message);
-  }
+  };
 
   /**
    * Handles the browser response for the user interaction with the authenticator. Redirects to an
@@ -119,9 +120,7 @@ window.Joomla = window.Joomla || {};
    *   the anti-CSRF token.
    */
   Joomla.plgSystemWebauthnHandleLoginChallenge = (publicKey, callbackUrl) => {
-    const arrayToBase64String = (a) => {
-      return btoa(String.fromCharCode(...a));
-    }
+    const arrayToBase64String = a => btoa(String.fromCharCode(...a));
 
     const base64url2base64 = (input) => {
       let output = input
@@ -179,7 +178,7 @@ window.Joomla = window.Joomla || {};
         // Example: timeout, interaction refused...
         Joomla.plgSystemWebauthnHandleLoginError(error);
       });
-  }
+  };
 
   /**
    * Initialize the passwordless login, going through the server to get the registered certificates
@@ -250,7 +249,7 @@ window.Joomla = window.Joomla || {};
     });
 
     return false;
-  }
+  };
 
   document.addEventListener('DOMContentLoaded', () => {
     const options = Joomla.getOptions('plgWebAuth');

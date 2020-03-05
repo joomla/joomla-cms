@@ -47,7 +47,7 @@ window.Joomla = window.Joomla || {};
     });
 
     return encodedString;
-  }
+  };
 
   /**
    * A simple error handler
@@ -56,13 +56,13 @@ window.Joomla = window.Joomla || {};
    */
   Joomla.plgSystemWebauthnHandleCreationError = (message) => {
     alert(message);
-  }
+  };
 
   /**
-   * Ask the user to link an authenticator using the provided public key (created server-side). Posts
-   * the credentials to the URL defined in post_url using AJAX. That URL must re-render the management
-   * interface. These contents will replace the element identified by the interface_selector CSS
-   * selector.
+   * Ask the user to link an authenticator using the provided public key (created server-side).
+   * Posts the credentials to the URL defined in post_url using AJAX.
+   * That URL must re-render the management interface.
+   * These contents will replace the element identified by the interface_selector CSS selector.
    *
    * @param   {String}  storeID            CSS ID for the element storing the configuration in its
    *                                        data properties
@@ -87,9 +87,7 @@ window.Joomla = window.Joomla || {};
     const publicKey = JSON.parse(atob(elStore.dataset.public_key));
     const postURL = atob(elStore.dataset.postback_url);
 
-    const arrayToBase64String = (a) => {
-      return btoa(String.fromCharCode(...a));
-    }
+    const arrayToBase64String = a => btoa(String.fromCharCode(...a));
 
     const base64url2base64 = (input) => {
       let output = input
@@ -103,7 +101,7 @@ window.Joomla = window.Joomla || {};
         output += new Array(5 - pad).join('=');
       }
       return output;
-    }
+    };
 
     // Convert the public key information to a format usable by the browser's credentials manager
     publicKey.challenge = Uint8Array.from(
@@ -168,7 +166,7 @@ window.Joomla = window.Joomla || {};
         // software error...
         Joomla.plgSystemWebauthnHandleCreationError(error);
       });
-  }
+  };
 
   /**
    * Edit label button
@@ -280,7 +278,7 @@ window.Joomla = window.Joomla || {};
     elDelete.disabled = true;
 
     return false;
-  }
+  };
 
   /**
    * Delete button
@@ -357,7 +355,7 @@ window.Joomla = window.Joomla || {};
     });
 
     return false;
-  }
+  };
 
   document.addEventListener('DOMContentLoaded', () => {
     const options = Joomla.getOptions('plgWebAuth');
