@@ -16,7 +16,6 @@ $params = $displayData['params'];
 
 ?>
 <?php if ($params->get('show_icons')) : ?>
-	<?php echo HTMLHelper::_('image', 'system/new.png', Text::_('JNEW'), null, true); ?>
 	<span class="fas fa-plus" aria-hidden="true"></span>
 	<?php echo Text::_('JNEW'); ?>
 <?php else : ?>
