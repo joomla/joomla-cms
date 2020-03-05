@@ -261,6 +261,6 @@ window.Joomla = window.Joomla || {};
         Joomla.plgSystemWebauthnLogin(options.form, options.url);
       });
     }
-  })
+  });
 
 })(window, Joomla);

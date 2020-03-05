@@ -382,5 +382,5 @@ window.Joomla = window.Joomla || {};
         Joomla.plgSystemWebauthnDelete(event.currentTarget, options.randomId);
       });
     });
-  })
+  });
 })(window, Joomla);
