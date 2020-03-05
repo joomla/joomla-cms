@@ -6,32 +6,92 @@
   "license": "GPL-2.0-or-later",
   "assets": [
     {
-      "name": "template.cassiopeia.base",
-      "dependencies": [
-        "core",
-        "jquery-noconflict",
-        "fontawesome-free",
-        "bootstrap.js.bundle"
-      ],
-      "js": [
-        "template.js",
-        "user.js"
-      ]
-    },
-    {
       "name": "template.cassiopeia.ltr",
-      "dependencies": ["template.cassiopeia.base"],
-      "css": [
-        "template.min.css",
-        "user.css"
+      "type": "style",
+      "uri": "template.min.css",
+      "dependencies": [
+        "fontawesome",
+        "template.cassiopeia.googlefont"
       ]
     },
     {
       "name": "template.cassiopeia.rtl",
-      "dependencies": ["template.cassiopeia.base"],
-      "css": [
-        "template-rtl.min.css",
-        "user.css"
+      "type": "style",
+      "uri": "template-rtl.min.css",
+      "dependencies": [
+        "fontawesome",
+        "template.cassiopeia.googlefont"
+      ]
+    },
+    {
+      "name": "template.offline",
+      "type": "style",
+      "uri": "offline.css"
+    },
+    {
+      "name": "template.active.language",
+      "type": "style",
+      "uri": "",
+      "class": "LangActiveAssetItem",
+      "dependencies": [
+        "template.active"
+      ]
+    },
+    {
+      "name": "template.user",
+      "type": "style",
+      "uri": "user.css",
+      "dependencies": [
+        "template.active",
+        "template.active.language"
+      ]
+    },
+    {
+      "name": "template.cassiopeia.googlefont",
+      "type": "style",
+      "uri": "https://fonts.googleapis.com/css?family=Fira+Sans:400"
+    },
+    {
+      "name": "template.cassiopeia",
+      "type": "script",
+      "uri": "template.js",
+      "dependencies": [
+        "core",
+        "bootstrap.js.bundle"
+      ]
+    },
+    {
+      "name": "template.active",
+      "type": "script",
+      "uri": "",
+      "description": "A dummy asset to allow to extensions to use it as dependency to active template",
+      "dependencies": [
+        "template.cassiopeia"
+      ]
+    },
+    {
+      "name": "template.user",
+      "type": "script",
+      "uri":  "user.js",
+      "dependencies": [
+        "template.active"
+      ]
+    },
+
+    {
+      "name": "template.cassiopeia.ltr",
+      "type": "preset",
+      "dependencies": [
+        "template.cassiopeia.ltr#style",
+        "template.cassiopeia#script"
+      ]
+    },
+    {
+      "name": "template.cassiopeia.rtl",
+      "type": "preset",
+      "dependencies": [
+        "template.cassiopeia.rtl#style",
+        "template.cassiopeia#script"
       ]
     }
   ]

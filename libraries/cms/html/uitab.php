@@ -9,7 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Utility class for the Joomla core UI Tab element.
@@ -41,7 +41,9 @@ abstract class JHtmlUiTab
 		if (!isset(static::$loaded[__METHOD__][$sig]))
 		{
 			// Include the custom element
-			HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-tab.min.js', ['version' => 'auto', 'relative' => true]);
+			Factory::getDocument()->getWebAssetManager()
+				->useStyle('webcomponent.joomla-tab')
+				->useScript('webcomponent.joomla-tab');
 
 			// Setup options object
 			$opt['active'] = (isset($params['active']) && ($params['active'])) ? (string) $params['active'] : '';
@@ -82,7 +84,7 @@ abstract class JHtmlUiTab
 	 */
 	public static function addTab($selector, $id, $title)
 	{
-		$active = (static::$loaded['JHtmlUiTab::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
+		$active = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
 		return '<section id="' . $id . '"' . $active . ' name="' . htmlspecialchars($title, ENT_COMPAT, 'UTF-8') . '">';
 

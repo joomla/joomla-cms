@@ -169,8 +169,8 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 			return true;
 		}
 
-		return $lang->load($extension, $basePath, null, false, true)
-			|| $lang->load($extension, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name, null, false, true);
+		return $lang->load($extension, $basePath)
+			|| $lang->load($extension, JPATH_PLUGINS . '/' . $this->_type . '/' . $this->_name);
 	}
 
 	/**
@@ -204,7 +204,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 		/** @var \ReflectionMethod $method */
 		foreach ($methods as $method)
 		{
-			if (substr($method->name, 0, 2) != 'on')
+			if (substr($method->name, 0, 2) !== 'on')
 			{
 				continue;
 			}
@@ -234,7 +234,7 @@ abstract class CMSPlugin implements DispatcherAwareInterface, PluginInterface
 			$paramName = $param->getName();
 
 			// No type hint / type hint class not an event and parameter name is not "event"? It's a legacy listener.
-			if ((empty($typeHint) || !$typeHint->implementsInterface('Joomla\\Event\\EventInterface')) && ($paramName != 'event'))
+			if ((empty($typeHint) || !$typeHint->implementsInterface('Joomla\\Event\\EventInterface')) && ($paramName !== 'event'))
 			{
 				$this->registerLegacyListener($method->name);
 

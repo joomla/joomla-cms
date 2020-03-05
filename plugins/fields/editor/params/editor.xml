@@ -19,6 +19,7 @@
 				label="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_LABEL"
 				folder="editors-xtd"
 				multiple="true"
+				layout="joomla.form.field.list-fancy-select"
 			/>
 
 			<field

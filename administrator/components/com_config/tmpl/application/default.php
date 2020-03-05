@@ -19,9 +19,6 @@ use Joomla\Registry\Registry;
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 
-// Load config JS
-HTMLHelper::_('script', 'com_config/admin-config-default.js', ['version' => 'auto', 'relative' => true]);
-
 // Load JS message titles
 Text::script('ERROR');
 Text::script('WARNING');
@@ -53,7 +50,7 @@ Text::script('MESSAGE');
 		</div>
 		<!-- End Sidebar -->
 		<!-- Begin Content -->
-		<div class="col-lg-9 mt-2">
+		<div class="col-md-9 mt-2">
 			<?php echo HTMLHelper::_('uitab.startTabSet', 'configTabs', array('active' => 'page-site')); ?>
 				<?php echo HTMLHelper::_('uitab.addTab', 'configTabs', 'page-site', Text::_('JSITE')); ?>
 					<?php echo $this->loadTemplate('site'); ?>

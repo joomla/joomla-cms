@@ -19,15 +19,15 @@ HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('script', 'system/fields/passwordview.min.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'mod_login/admin-login.min.js', ['version' => 'auto', 'relative' => true]);
 
-Text::script('JSHOW');
-Text::script('JHIDE');
+Text::script('JSHOWPASSWORD');
+Text::script('JHIDEPASSWORD');
 // Load JS message titles
 Text::script('ERROR');
 Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
 ?>
-<form class="login-initial form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post"
+<form class="login-initial hidden form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post"
 	id="form-login">
 	<fieldset>
 		<div class="form-group">
@@ -61,9 +61,10 @@ Text::script('MESSAGE');
 					required="required"
 					autocomplete="current-password"
 				>
-				<span class="input-group-append ml-2">
-					<button type="button" class="input-group-text icon-eye input-password-toggle">
-						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+				<span class="input-group-append">
+					<button type="button" class="btn btn-secondary input-password-toggle">
+						<span class="fas fa-eye" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 					</button>
 				</span>
 
@@ -98,6 +99,25 @@ Text::script('MESSAGE');
 				<?php echo $langs; ?>
 			</div>
 		<?php endif; ?>
+		<?php foreach($extraButtons as $button): ?>
+		<div class="form-group">
+			<button type="button"
+			        class="btn btn-secondary btn-block mt-4 <?= $button['class'] ?? '' ?>"
+			        onclick="<?= $button['onclick'] ?>"
+			        title="<?= Text::_($button['label']) ?>"
+			        id="<?= $button['id'] ?>"
+			>
+				<?php if (!empty($button['icon'])): ?>
+					<span class="<?= $button['icon'] ?>"></span>
+				<?php elseif (!empty($button['image'])): ?>
+					<?= HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
+						'class' => 'icon',
+					], true) ?>
+				<?php endif; ?>
+				<?= Text::_($button['label']) ?>
+			</button>
+		</div>
+		<?php endforeach; ?>
 		<div class="form-group">
 			<button class="btn btn-primary btn-block btn-lg mt-4"
 				id="btn-login-submit"><?php echo Text::_('JLOGIN'); ?></button>
@@ -110,7 +130,8 @@ Text::script('MESSAGE');
 </form>
 <div class="text-center">
 	<div>
-		<a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank" rel="nofollow">
+		<a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank" rel="nofollow"
+			title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS')); ?>">
 			<?php echo Text::_('MOD_LOGIN_CREDENTIALS'); ?>
 		</a>
 	</div>
