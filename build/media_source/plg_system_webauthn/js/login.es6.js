@@ -250,15 +250,4 @@ window.Joomla = window.Joomla || {};
 
     return false;
   };
-
-  document.addEventListener('DOMContentLoaded', () => {
-    const options = Joomla.getOptions('plgWebAuth');
-
-    const loginButton = document.getElementById(options.randomId);
-    if (loginButton) {
-      loginButton.addEventListener('click', () => {
-        Joomla.plgSystemWebauthnLogin(options.form, options.url);
-      });
-    }
-  });
 })(window, Joomla);

@@ -145,17 +145,13 @@ trait AdditionalLoginButtons
 
 		// Set up the JavaScript callback
 		$url = $uri->toString();
-
-		Factory::getDocument()->addScriptOptions('plgWebAuth', [
-			'randomId' => $randomId,
-			'form'     => $form,
-			'url'      => $url,
-		]);
+		$onClick = "return Joomla.plgSystemWebauthnLogin('{$form}', '{$url}')";
 
 		return [
 			[
 				'label'   => 'PLG_SYSTEM_WEBAUTHN_LOGIN_LABEL',
 				'id'      => $randomId,
+				'onclick' => $onClick,
 				'image'   => 'plg_system_webauthn/webauthn-black.png',
 				'class'   => 'plg_system_webauthn_login_button',
 			],
