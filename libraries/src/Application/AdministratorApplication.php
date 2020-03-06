@@ -40,7 +40,8 @@ class AdministratorApplication extends CMSApplication
 	 * - com_ajax    Handle AJAX requests or other administrative callbacks without logging in. Required for
 	 *               passwordless authentication using WebAuthn.
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $allowedUnprivilegedOptions = [
 		'com_login',

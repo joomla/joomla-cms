@@ -84,18 +84,17 @@ abstract class AuthenticationHelper
 	 * - image      [optional] An image path for an optional icon displayed before the label
 	 * - class      [optional] CSS class(es) to be added to the button
 	 *
-	 * @param   string  $formId           The HTML ID of the login form container.
+	 * @param   string  $formId  The HTML ID of the login form container.
 	 *
 	 * @return  array  Button definitions.
 	 *
-	 * @since 4.0.0
+	 * @since   4.0.0
 	 */
 	public static function getLoginButtons(string $formId): array
 	{
 		// Get all the User plugins.
 		PluginHelper::importPlugin('user');
 
-		// Trigger the onUserLoginButtons event and return the button definitions.
 		try
 		{
 			/** @var CMSApplication $app */
@@ -106,8 +105,9 @@ abstract class AuthenticationHelper
 			return [];
 		}
 
-		$results        = $app->triggerEvent('onUserLoginButtons', [$formId]);
-		$buttons        = [];
+		// Trigger the onUserLoginButtons event and return the button definitions.
+		$results = $app->triggerEvent('onUserLoginButtons', [$formId]);
+		$buttons = [];
 
 		foreach ($results as $result)
 		{
