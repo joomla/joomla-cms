@@ -32,7 +32,6 @@ use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
  *
  * @since  4.0.0
  */
-// phpcs:ignore
 class PlgSystemWebauthn extends CMSPlugin
 {
 	// AJAX request handlers
