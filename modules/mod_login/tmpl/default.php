@@ -108,7 +108,8 @@ Text::script('JHIDEPASSWORD');
 			<div class="mod-login__submit form-group">
 				<button type="button"
 				        class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
-				        onclick="<?php echo $button['onclick'] ?>"
+				        data-webauthn-form="<?= $button['data-webauthn-form'] ?>"
+						data-webauthn-url="<?= $button['data-webauthn-url'] ?>"
 				        title="<?php echo Text::_($button['label']) ?>"
 				        id="<?php echo $button['id'] ?>"
 						>
