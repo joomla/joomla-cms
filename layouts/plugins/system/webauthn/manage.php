@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.updatenotification
+ * @subpackage  System.webauthn
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -66,69 +66,78 @@ HTMLHelper::_('stylesheet', 'plg_system_webauthn/backend.css', ['relative' => tr
  * that problem.
  */
 $randomId    = 'plg_system_webauthn_' . UserHelper::genRandomPassword(32);
-// phpcs:ignore
 $publicKey   = $allow_add ? base64_encode(CredentialsCreation::createPublicKey($user)) : '{}';
 $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::getToken() . '=1');
+
 ?>
 <div class="plg_system_webauthn" id="plg_system_webauthn-management-interface">
-	<span id="<?php echo $randomId ?>"
-		  data-public_key="<?php echo $publicKey ?>"
-		  data-postback_url="<?php echo $postbackURL ?>"
+	<span id="<?php echo $randomId; ?>"
+		  data-public_key="<?php echo $publicKey; ?>"
+		  data-postback_url="<?php echo $postbackURL; ?>"
 	></span>
 
-	<?php // phpcs:ignore
-	if (is_string($error) && !empty($error)): ?>
+	<?php if (is_string($error) && !empty($error)) : ?>
 		<div class="alert alert-danger">
-			<?php echo htmlentities($error) ?>
+			<?php echo htmlentities($error); ?>
 		</div>
 	<?php endif; ?>
 
 	<table class="table table-striped">
 		<thead class="thead-dark">
-		<tr>
-			<th><?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_FIELD_KEYLABEL_LABEL') ?></th>
-			<th><?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_ACTIONS_LABEL') ?></th>
-		</tr>
+			<tr>
+				<th>
+					<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_FIELD_KEYLABEL_LABEL'); ?>
+				</th>
+				<th>
+					<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_ACTIONS_LABEL'); ?>
+				</th>
+			</tr>
 		</thead>
 		<tbody>
-		<?php // phpcs:ignore
-		foreach ($credentials as $method): ?>
-			<tr data-credential_id="<?php echo $method['id'] ?>">
-				<td><?php echo htmlentities($method['label']) ?></td>
-				<td>
-					<button onclick="return plgSystemWebauthnEditLabel(this, '<?php echo $randomId ?>');"
-					   class="btn btn-secondary">
-						<span class="icon-edit icon-white" aria-hidden="true"></span>
-						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_EDIT_LABEL') ?>
-					</button>
-					<button onclick="return plgSystemWebauthnDelete(this, '<?php echo $randomId ?>');"
-					   class="btn btn-danger">
-						<span class="icon-minus-sign icon-white" aria-hidden="true"></span>
-						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_DELETE_LABEL') ?>
-					</button>
-				</td>
-			</tr>
-		<?php endforeach; ?>
-		<?php // phpcs:ignore
-		if (empty($credentials)): ?>
-			<tr>
-				<td colspan="2">
-					<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_NOMETHODS_LABEL') ?>
-				</td>
-			</tr>
-		<?php endif; ?>
+			<?php foreach ($credentials as $method) : ?>
+				<tr data-credential_id="<?php echo $method['id']; ?>">
+					<td>
+						<?php echo htmlentities($method['label']); ?>
+					</td>
+					<td>
+						<button
+							type="button"
+							onclick="return plgSystemWebauthnEditLabel(this, '<?php echo $randomId; ?>');"
+							class="btn btn-secondary"
+						>
+							<span class="icon-edit icon-white" aria-hidden="true"></span>
+							<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_EDIT_LABEL'); ?>
+						</button>
+						<button
+							type="button"
+							onclick="return plgSystemWebauthnDelete(this, '<?php echo $randomId; ?>');"
+							class="btn btn-danger"
+						>
+							<span class="icon-minus-sign icon-white" aria-hidden="true"></span>
+							<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_DELETE_LABEL'); ?>
+						</button>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+			<?php if (empty($credentials)) : ?>
+				<tr>
+					<td colspan="2">
+						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_NOMETHODS_LABEL') ?>
+					</td>
+				</tr>
+			<?php endif; ?>
 		</tbody>
 	</table>
 
-	<?php // phpcs:ignore
-	if ($allow_add): ?>
+	<?php if ($allow_add) : ?>
 		<p class="plg_system_webauthn-manage-add-container">
 			<button
 				type="button"
-				onclick="plgSystemWebauthnCreateCredentials('<?php echo $randomId ?>', '#plg_system_webauthn-management-interface'); return false;"
-				class="btn btn-success btn-block">
+				onclick="plgSystemWebauthnCreateCredentials('<?php echo $randomId; ?>', '#plg_system_webauthn-management-interface'); return false;"
+				class="btn btn-success btn-block"
+			>
 				<span class="icon-plus icon-white" aria-hidden="true"></span>
-				<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_ADD_LABEL') ?>
+				<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_ADD_LABEL'); ?>
 			</button>
 		</p>
 	<?php endif; ?>
