@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Site
+ * @package	 Joomla.Site
  * @subpackage  com_users
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license	 GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -68,23 +68,22 @@ $usersConfig = ComponentHelper::getParams('com_users');
 				</div>
 			<?php endif; ?>
 
-			<?php foreach ($this->extraButtons as $button): ?>
+			<?php foreach ($this->extraButtons as $button) : ?>
 				<div class="com-users-login__submit control-group">
 					<div class="controls">
-						<button type="button"
-						        class="btn btn-secondary <?= $button['class'] ?? '' ?>"
-						        onclick="<?= $button['onclick'] ?>"
-						        title="<?= Text::_($button['label']) ?>"
-						        id="<?= $button['id'] ?>"
+						<button
+							type="button"
+							class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
+							onclick="<?php echo $button['onclick']; ?>"
+							title="<?php echo Text::_($button['label']); ?>"
+							id="<?php echo $button['id']; ?>"
 						>
-							<?php if (!empty($button['icon'])): ?>
-								<span class="<?= $button['icon'] ?>"></span>
-							<?php elseif (!empty($button['image'])): ?>
-								<?= HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
-									'class' => 'icon',
-								], true) ?>
+							<?php if (!empty($button['icon'])) : ?>
+								<span class="<?php echo $button['icon']; ?>"></span>
+							<?php elseif (!empty($button['image'])) : ?>
+								<?php echo HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), ['class' => 'icon'], true); ?>
 							<?php endif; ?>
-							<?= Text::_($button['label']) ?>
+							<?php echo Text::_($button['label']); ?>
 						</button>
 					</div>
 				</div>
