@@ -107,7 +107,7 @@ window.Joomla = window.Joomla || {};
    * @param   {String}  message
    */
   const handleLoginError = (message) => {
-    alert(message);
+    Joomla.renderMessages({ error: [message] });
   };
 
   /**
@@ -197,7 +197,7 @@ window.Joomla = window.Joomla || {};
     const elReturn = lookForField(elFormContainer, 'input[name=return]');
 
     if (elUsername === null) {
-      alert(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME'));
+      Joomla.renderMessages({ error: [Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME')] });
 
       return false;
     }
@@ -207,7 +207,7 @@ window.Joomla = window.Joomla || {};
 
     // No username? We cannot proceed. We need a username to find the acceptable public keys :(
     if (username === '') {
-      alert(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_EMPTY_USERNAME'));
+      Joomla.renderMessages({ error: [Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_EMPTY_USERNAME')] });
 
       return false;
     }
