@@ -134,7 +134,7 @@ window.Joomla = window.Joomla || {};
         output += new Array(5 - pad).join('=');
       }
       return output;
-    }
+    };
 
     if (!publicKey.challenge) {
       Joomla.plgSystemWebauthnHandleLoginError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
