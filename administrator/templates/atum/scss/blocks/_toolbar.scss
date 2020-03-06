@@ -53,6 +53,10 @@ joomla-toolbar-button {
 
   .button-save {
     border-radius: .2rem 0 0 .2rem;
+
+    [dir=rtl] & {
+      border-radius: 0 .2rem .2rem 0;
+    }
   }
 
   .btn {
@@ -79,6 +83,9 @@ joomla-toolbar-button {
       color: var(--atum-text-dark);
       border-radius: .2rem 0 0 .2rem;
 
+      [dir=rtl] & {
+        border-radius: 0 .2rem .2rem 0;
+      }
     }
 
     &.btn-success {
@@ -329,9 +336,7 @@ joomla-toolbar-button {
         color: rgba(255, 255, 255, .90);
         vertical-align: middle;
         content: "\f078";
-        background-color: theme-color("success");
         border: 0;
-        border-radius: 0 .2rem .2rem 0;
       }
     }
 
