@@ -16,7 +16,7 @@
       color: var(--atum-link-color);
       white-space: nowrap;
       border-top: 0;
-      border-bottom: 3px solid var(--atum-bg-light);
+      border-bottom: 0;
 
       @include media-breakpoint-down(xs) {
         white-space: normal;
@@ -67,8 +67,6 @@
   th,
   td {
     padding: 1rem;
-    border-top: 0;
-    border-bottom: 3px solid var(--atum-bg-light);
 
     label {
       margin-bottom: 0;
