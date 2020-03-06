@@ -6,22 +6,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/**
- * Converts a simple object containing query string parameters to a single, escaped query string.
- * This method is a necessary evil since Joomla.request can only accept data as a string.
- *
- * @param    object   {object}  A plain object containing the query parameters to pass
- * @param    thisParamIsThePrefix   {string}  Prefix for array-type parameters
- *
- * @returns  {string}
- */
 window.Joomla = window.Joomla || {};
 
 ((Joomla, document) => {
   'use strict';
 
-  Joomla.plgSystemWebauthnInterpolateParameters = (object, thisParamIsThePrefix) => {
-    const prefix = thisParamIsThePrefix || '';
+  /**
+   * Converts a simple object containing query string parameters to a single, escaped query string.
+   * This method is a necessary evil since Joomla.request can only accept data as a string.
+   *
+   * @param    object   {object}  A plain object containing the query parameters to pass
+   * @param    prefix   {string}  Prefix for array-type parameters
+   *
+   * @returns  {string}
+   */
+  const interpolateParameters = (object, prefix = '') => {
     let encodedString = '';
 
     Object.keys(object).forEach((prop) => {
@@ -43,7 +42,7 @@ window.Joomla = window.Joomla || {};
       }
 
       // Objects need special handling
-      encodedString += `${Joomla.plgSystemWebauthnInterpolateParameters(object[prop], prop)}`;
+      encodedString += `${interpolateParameters(object[prop], prop)}`;
     });
 
     return encodedString;
@@ -52,13 +51,13 @@ window.Joomla = window.Joomla || {};
   /**
    * Finds the first field matching a selector inside a form
    *
-   * @param   {HTMLFormElement}  elForm         The FORM element
+   * @param   {HTMLFormElement}  form           The FORM element
    * @param   {String}           fieldSelector  The CSS selector to locate the field
    *
    * @returns {Element|null}  NULL when no element is found
    */
-  Joomla.plgSystemWebauthnFindField = (elForm, fieldSelector) => {
-    const elInputs = elForm.querySelectorAll(fieldSelector);
+  const findField = (form, fieldSelector) => {
+    const elInputs = form.querySelectorAll(fieldSelector);
 
     if (!elInputs.length) {
       return null;
@@ -77,12 +76,12 @@ window.Joomla = window.Joomla || {};
    *
    * @returns {null|Element}  NULL when no element is found
    */
-  Joomla.plgSystemWebauthnLookForField = (outerElement, fieldSelector) => {
+  const lookForField = (outerElement, fieldSelector) => {
     const elElement = outerElement.parentElement;
     let elInput = null;
 
     if (elElement.nodeName === 'FORM') {
-      elInput = Joomla.plgSystemWebauthnFindField(elElement, fieldSelector);
+      elInput = findField(elElement, fieldSelector);
 
       return elInput;
     }
@@ -91,7 +90,7 @@ window.Joomla = window.Joomla || {};
 
     if (elForms.length) {
       for (let i = 0; i < elForms.length; i += 1) {
-        elInput = Joomla.plgSystemWebauthnFindField(elForms[i], fieldSelector);
+        elInput = findField(elForms[i], fieldSelector);
 
         if (elInput !== null) {
           return elInput;
@@ -107,7 +106,7 @@ window.Joomla = window.Joomla || {};
    *
    * @param   {String}  message
    */
-  Joomla.plgSystemWebauthnHandleLoginError = (message) => {
+  const handleLoginError = (message) => {
     alert(message);
   };
 
@@ -119,7 +118,7 @@ window.Joomla = window.Joomla || {};
    * @param   {String}  callbackUrl  The URL we will use to post back to the server. Must include
    *   the anti-CSRF token.
    */
-  Joomla.plgSystemWebauthnHandleLoginChallenge = (publicKey, callbackUrl) => {
+  const handleLoginChallenge = (publicKey, callbackUrl) => {
     const arrayToBase64String = a => btoa(String.fromCharCode(...a));
 
     const base64url2base64 = (input) => {
@@ -137,7 +136,7 @@ window.Joomla = window.Joomla || {};
     };
 
     if (!publicKey.challenge) {
-      Joomla.plgSystemWebauthnHandleLoginError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
+      handleLoginError(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_INVALID_USERNAME'));
 
       return;
     }
@@ -176,7 +175,7 @@ window.Joomla = window.Joomla || {};
       })
       .catch((error) => {
         // Example: timeout, interaction refused...
-        Joomla.plgSystemWebauthnHandleLoginError(error);
+        handleLoginError(error);
       });
   };
 
@@ -194,8 +193,8 @@ window.Joomla = window.Joomla || {};
   Joomla.plgSystemWebauthnLogin = (formId, callbackUrl) => {
     // Get the username
     const elFormContainer = document.getElementById(formId);
-    const elUsername = Joomla.plgSystemWebauthnLookForField(elFormContainer, 'input[name=username]');
-    const elReturn = Joomla.plgSystemWebauthnLookForField(elFormContainer, 'input[name=return]');
+    const elUsername = lookForField(elFormContainer, 'input[name=username]');
+    const elReturn = lookForField(elFormContainer, 'input[name=return]');
 
     if (elUsername === null) {
       alert(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME'));
@@ -228,7 +227,7 @@ window.Joomla = window.Joomla || {};
     Joomla.request({
       url: callbackUrl,
       method: 'POST',
-      data: Joomla.plgSystemWebauthnInterpolateParameters(postBackData),
+      data: interpolateParameters(postBackData),
       onSuccess(rawResponse) {
         let jsonData = {};
 
@@ -241,10 +240,10 @@ window.Joomla = window.Joomla || {};
            */
         }
 
-        Joomla.plgSystemWebauthnHandleLoginChallenge(jsonData, callbackUrl);
+        handleLoginChallenge(jsonData, callbackUrl);
       },
       onError: (xhr) => {
-        Joomla.plgSystemWebauthnHandleLoginError(`${xhr.status} ${xhr.statusText}`);
+        handleLoginError(`${xhr.status} ${xhr.statusText}`);
       },
     });
 
