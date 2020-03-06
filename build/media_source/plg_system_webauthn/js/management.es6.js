@@ -6,22 +6,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/**
- * Converts a simple object containing query string parameters to a single, escaped query string.
- * This method is a necessary evil since Joomla.request can only accept data as a string.
- *
- * @param    object   {object}  A plain object containing the query parameters to pass
- * @param    thisParamIsThePrefix   {string}  Prefix for array-type parameters
- *
- * @returns  {string}
- */
 window.Joomla = window.Joomla || {};
 
 ((Joomla, document) => {
   'use strict';
 
-  Joomla.plgSystemWebauthnInterpolateParameters = (object, thisParamIsThePrefix) => {
-    const prefix = thisParamIsThePrefix || '';
+  /**
+   * Converts a simple object containing query string parameters to a single, escaped query string.
+   * This method is a necessary evil since Joomla.request can only accept data as a string.
+   *
+   * @param    object   {object}  A plain object containing the query parameters to pass
+   * @param    prefix   {string}  Prefix for array-type parameters
+   *
+   * @returns  {string}
+   */
+  const interpolateParameters = (object, prefix = '') => {
     let encodedString = '';
 
     Object.keys(object).forEach((prop) => {
@@ -43,7 +42,7 @@ window.Joomla = window.Joomla || {};
       }
 
       // Objects need special handling
-      encodedString += `${Joomla.plgSystemWebauthnInterpolateParameters(object[prop], prop)}`;
+      encodedString += `${interpolateParameters(object[prop], prop)}`;
     });
 
     return encodedString;
@@ -54,7 +53,7 @@ window.Joomla = window.Joomla || {};
    *
    * @param   {String}  message
    */
-  Joomla.plgSystemWebauthnHandleCreationError = (message) => {
+  const handleCreationError = (message) => {
     alert(message);
   };
 
@@ -144,7 +143,7 @@ window.Joomla = window.Joomla || {};
         Joomla.request({
           url: postURL,
           method: 'POST',
-          data: Joomla.plgSystemWebauthnInterpolateParameters(postBackData),
+          data: interpolateParameters(postBackData),
           onSuccess(responseHTML) {
             const elements = document.querySelectorAll(interfaceSelector);
 
@@ -157,14 +156,14 @@ window.Joomla = window.Joomla || {};
             elContainer.outerHTML = responseHTML;
           },
           onError: (xhr) => {
-            Joomla.plgSystemWebauthnHandleCreationError(`${xhr.status} ${xhr.statusText}`);
+            handleCreationError(`${xhr.status} ${xhr.statusText}`);
           },
         });
       })
       .catch((error) => {
         // An error occurred: timeout, request to provide the authenticator refused, hardware /
         // software error...
-        Joomla.plgSystemWebauthnHandleCreationError(error);
+        handleCreationError(error);
       });
   };
 
@@ -225,7 +224,7 @@ window.Joomla = window.Joomla || {};
         Joomla.request({
           url: postURL,
           method: 'POST',
-          data: Joomla.plgSystemWebauthnInterpolateParameters(postBackData),
+          data: interpolateParameters(postBackData),
           onSuccess(rawResponse) {
             let result = false;
 
@@ -236,7 +235,7 @@ window.Joomla = window.Joomla || {};
             }
 
             if (result !== true) {
-              Joomla.plgSystemWebauthnHandleCreationError(
+              handleCreationError(
                 Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED'),
               );
             }
@@ -244,7 +243,7 @@ window.Joomla = window.Joomla || {};
             // alert(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_MSG_SAVED_LABEL'));
           },
           onError: (xhr) => {
-            Joomla.plgSystemWebauthnHandleCreationError(
+            handleCreationError(
               `${Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED')
               } -- ${xhr.status} ${xhr.statusText}`,
             );
@@ -324,7 +323,7 @@ window.Joomla = window.Joomla || {};
     Joomla.request({
       url: postURL,
       method: 'POST',
-      data: Joomla.plgSystemWebauthnInterpolateParameters(postBackData),
+      data: interpolateParameters(postBackData),
       onSuccess(rawResponse) {
         let result = false;
 
@@ -335,7 +334,7 @@ window.Joomla = window.Joomla || {};
         }
 
         if (result !== true) {
-          Joomla.plgSystemWebauthnHandleCreationError(
+          handleCreationError(
             Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED'),
           );
 
@@ -347,7 +346,7 @@ window.Joomla = window.Joomla || {};
       onError: (xhr) => {
         elEdit.disabled = false;
         elDelete.disabled = false;
-        Joomla.plgSystemWebauthnHandleCreationError(
+        handleCreationError(
           `${Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NOT_DELETED')
           } -- ${xhr.status} ${xhr.statusText}`,
         );
