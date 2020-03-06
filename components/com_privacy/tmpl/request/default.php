@@ -17,7 +17,6 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('formbehavior.chosen', 'select');
 
 ?>
 <div class="request-form<?php echo $this->pageclass_sfx; ?>">
