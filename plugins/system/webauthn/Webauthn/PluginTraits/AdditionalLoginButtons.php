@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.Webauthn
+ * @subpackage  System.webauthn
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -10,7 +10,7 @@
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 use Exception;
 use Joomla\CMS\Factory;
@@ -112,7 +112,7 @@ trait AdditionalLoginButtons
 	/**
 	 * Creates additional login buttons
 	 *
-	 * @param   string  $form             The HTML ID of the form we are enclosed in
+	 * @param   string  $form  The HTML ID of the form we are enclosed in
 	 *
 	 * @return  array
 	 *
@@ -195,5 +195,4 @@ trait AdditionalLoginButtons
 		// Store the current URL as the default return URL after login (or failure)
 		Joomla::setSessionVar('returnUrl', Uri::current(), 'plg_system_webauthn');
 	}
-
 }

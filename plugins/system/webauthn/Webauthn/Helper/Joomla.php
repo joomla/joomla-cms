@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.Webauthn
+ * @subpackage  System.webauthn
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -10,7 +10,7 @@
 namespace Joomla\Plugin\System\Webauthn\Helper;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 use DateTime;
 use DateTimeZone;
@@ -396,11 +396,11 @@ abstract class Joomla
 
 		// Add a formatted text logger
 		Log::addLogger([
-			'text_file'         => "webauthn_{$plugin}.php",
-			'text_entry_format' => '{DATETIME}	{PRIORITY} {CLIENTIP}	{MESSAGE}'
-			], $logLevels, [
-				"webauthn.{$plugin}"
-			]
+				'text_file'         => "webauthn_{$plugin}.php",
+				'text_entry_format' => '{DATETIME}  {PRIORITY}  {CLIENTIP}  {MESSAGE}'
+			],
+			$logLevels,
+			["webauthn.{$plugin}"]
 		);
 	}
 
@@ -430,7 +430,7 @@ abstract class Joomla
 
 		$isAdmin = $app->isClient('administrator');
 		/** @var User $user */
-		$user    = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
+		$user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 
 		// Does the user account have a pending activation?
 		if (!empty($user->activation))
@@ -446,11 +446,10 @@ abstract class Joomla
 
 		$statusSuccess = Authentication::STATUS_SUCCESS;
 
-		$response           = self::getAuthenticationResponseObject();
-		$response->status   = $statusSuccess;
-		$response->username = $user->username;
-		$response->fullname = $user->name;
-		// phpcs:ignore
+		$response                = self::getAuthenticationResponseObject();
+		$response->status        = $statusSuccess;
+		$response->username      = $user->username;
+		$response->fullname      = $user->name;
 		$response->error_message = '';
 		$response->language      = $user->getParam('language');
 		$response->type          = 'Passwordless';
@@ -509,11 +508,9 @@ abstract class Joomla
 		$app->triggerEvent('onUserLoginFailure', [(array) $response]);
 
 		// Log the failure
-		// phpcs:ignore
 		Log::add($response->error_message, Log::WARNING, 'jerror');
 
 		// Throw an exception to let the caller know that the login failed
-		// phpcs:ignore
 		throw new RuntimeException($response->error_message);
 	}
 
@@ -601,7 +598,6 @@ abstract class Joomla
 			self::log($logContext, "The login failure has been logged in Joomla's error log");
 
 			// Everything logged in the 'jerror' category ends up being enqueued in the application message queue.
-			// phpcs:ignore
 			Log::add($response->error_message, Log::WARNING, 'jerror');
 		}
 		else

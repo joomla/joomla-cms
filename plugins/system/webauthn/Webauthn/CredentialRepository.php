@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.Webauthn
+ * @subpackage  System.webauthn
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -10,7 +10,7 @@
 namespace Joomla\Plugin\System\Webauthn;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 use Exception;
 use InvalidArgumentException;
@@ -151,9 +151,9 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 		 * This closure is defined as a variable to prevent PHP-CS from getting a stoke trying to
 		 * figure out the correct indentation :)
 		 *
-		 * @param  PublicKeyCredentialSource|mixed  $record  The record to filter
+		 * @param   PublicKeyCredentialSource|mixed  $record  The record to filter
 		 *
-		 * @return boolean
+		 * @return  boolean
 		 */
 		$filterClosure = function ($record)
 		{
@@ -171,7 +171,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 	 *
 	 * @return  void
 	 *
-	 * @throws Exception
+	 * @throws  Exception
 	 * @since   4.0.0
 	 */
 	public function saveCredentialSource(PublicKeyCredentialSource $publicKeyCredentialSource): void
@@ -193,7 +193,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 		// Try to find an existing record
 		try
 		{
-			$query     = $db->getQuery(true)
+			$query = $db->getQuery(true)
 				->select('*')
 				->from($db->qn('#__webauthn_credentials'))
 				->where($db->qn('id') . ' = :credentialId')

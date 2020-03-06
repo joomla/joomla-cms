@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.Webauthn
+ * @subpackage  System.webauthn
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -10,7 +10,7 @@
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 use Exception;
 use Joomla\CMS\Application\CMSApplication;
@@ -53,7 +53,7 @@ trait AjaxHandler
 
 		// Get the return URL from the session
 		$returnURL = Joomla::getSessionVar('returnUrl', Uri::base(), 'plg_system_webauthn');
-		$result = null;
+		$result    = null;
 
 		try
 		{
@@ -83,7 +83,7 @@ trait AjaxHandler
 			$eventName = 'onAjaxWebauthn' . ucfirst($akaction);
 
 			$results = $app->triggerEvent($eventName, []);
-			$result = null;
+			$result  = null;
 
 			foreach ($results as $r)
 			{

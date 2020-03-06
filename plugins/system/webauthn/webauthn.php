@@ -1,14 +1,14 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.Webauthn
+ * @subpackage  System.webauthn
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
@@ -38,7 +38,6 @@ if (!class_exists('Joomla\\Plugin\\System\\Webauthn\\Helper\\Joomla', true))
  *
  * @since  4.0.0
  */
-// phpcs:ignore
 class plgSystemWebauthn extends CMSPlugin
 {
 	// AJAX request handlers

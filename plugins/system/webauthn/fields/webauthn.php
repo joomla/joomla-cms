@@ -1,14 +1,15 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.Webauthn
+ * @subpackage  System.webauthn
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -20,7 +21,7 @@ use Joomla\Plugin\System\Webauthn\Helper\Joomla;
 /**
  * Custom Joomla Form Field to display the WebAuthn interface
  *
- * @since 4.0.0
+ * @since  4.0.0
  */
 class JFormFieldWebauthn extends FormField
 {
@@ -28,11 +29,17 @@ class JFormFieldWebauthn extends FormField
 	 * Element name
 	 *
 	 * @var    string
-	 *
 	 * @since  4.0.0
 	 */
-	// phpcs:ignore
 	protected $_name = 'Webauthn';
+
+	/**
+	 * The form field type.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $type = 'webauthn';
 
 	/**
 	 * Returns the input field's HTML

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.Webauthn
+ * @subpackage  System.webauthn
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -10,7 +10,7 @@
 namespace Joomla\Plugin\System\Webauthn\Helper;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 use CBOR\Decoder;
 use CBOR\OtherObject\OtherObjectManager;
@@ -217,7 +217,7 @@ abstract class CredentialsCreation
 		}
 
 		// Cose Algorithm Manager
-		$coseAlgorithmManager               = new Manager;
+		$coseAlgorithmManager = new Manager;
 		$coseAlgorithmManager->add(new ECDSA\ES256);
 		$coseAlgorithmManager->add(new ECDSA\ES512);
 		$coseAlgorithmManager->add(new EdDSA\EdDSA);
@@ -237,15 +237,6 @@ abstract class CredentialsCreation
 		$attestationStatementSupportManager = new AttestationStatementSupportManager;
 		$attestationStatementSupportManager->add(new NoneAttestationStatementSupport);
 		$attestationStatementSupportManager->add(new FidoU2FAttestationStatementSupport($decoder));
-
-		/**
-		$attestationStatementSupportManager->add(
-			new AndroidSafetyNetAttestationStatementSupport(HttpFactory::getHttp(),
-				'GOOGLE_SAFETYNET_API_KEY',
-				new RequestFactory
-			)
-		);
-		*/
 		$attestationStatementSupportManager->add(new AndroidKeyAttestationStatementSupport($decoder));
 		$attestationStatementSupportManager->add(new TPMAttestationStatementSupport);
 		$attestationStatementSupportManager->add(new PackedAttestationStatementSupport($decoder, $coseAlgorithmManager));
@@ -282,7 +273,7 @@ abstract class CredentialsCreation
 		// Check if the response is an Authenticator Attestation Response
 		if (!$response instanceof AuthenticatorAttestationResponse)
 		{
-			throw new RuntimeException('Not an authenticator attestation response');
+			throw new RuntimeException(Text::_('PLG_SYSTEM_WEBAUTHN_ERR_NOT_AN_AUTHENTICATOR_ATTESTATION_RESPONSE'));
 		}
 
 		// Check the response against the request

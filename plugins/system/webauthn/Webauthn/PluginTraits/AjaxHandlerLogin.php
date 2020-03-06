@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.Webauthn
+ * @subpackage  System.webauthn
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -10,7 +10,7 @@
 namespace Joomla\Plugin\System\Webauthn\PluginTraits;
 
 // Protect from unauthorized access
-defined('_JEXEC') or die();
+defined('_JEXEC') or die;
 
 use CBOR\Decoder;
 use CBOR\OtherObject\OtherObjectManager;
@@ -102,7 +102,6 @@ trait AjaxHandlerLogin
 
 			$response                = Joomla::getAuthenticationResponseObject();
 			$response->status        = Authentication::STATUS_UNKNOWN;
-			// phpcs:ignore
 			$response->error_message = $e->getMessage();
 
 			Joomla::log('system', sprintf("Received login failure. Message: %s", $e->getMessage()), Log::ERROR);
