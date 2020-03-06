@@ -363,16 +363,20 @@ window.Joomla = window.Joomla || {};
     }
 
     const editLabelButtons = [].slice.call(document.querySelectorAll('.plg_system_webauthn-manage-edit'));
-    editLabelButtons.forEach((button) => {
-      button.addEventListener('click', ({ currentTarget }) => {
-        Joomla.plgSystemWebauthnEditLabel(currentTarget, currentTarget.getAttribute('data-random-id'));
+    if (editLabelButtons.length) {
+      editLabelButtons.forEach((button) => {
+        button.addEventListener('click', ({ currentTarget }) => {
+          Joomla.plgSystemWebauthnEditLabel(currentTarget, currentTarget.getAttribute('data-random-id'));
+        });
       });
-    });
+    }
 
     const deleteButtons = [].slice.call(document.querySelectorAll('.plg_system_webauthn-manage-delete'));
-    deleteButtons.forEach((button) => {
-      button.addEventListener('click', ({ currentTarget }) => {
-        Joomla.plgSystemWebauthnDelete(currentTarget, currentTarget.getAttribute('data-random-id'));
+    if (deleteButtons.length) {
+      deleteButtons.forEach((button) => {
+        button.addEventListener('click', ({ currentTarget }) => {
+          Joomla.plgSystemWebauthnDelete(currentTarget, currentTarget.getAttribute('data-random-id'));
+        });
       });
     });
   });
