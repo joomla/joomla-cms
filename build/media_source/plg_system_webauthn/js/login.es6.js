@@ -249,4 +249,13 @@ window.Joomla = window.Joomla || {};
 
     return false;
   };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const loginButtons = [].slice.call(document.querySelectorAll('.plg_system_webauthn_login_button'));
+    loginButtons.forEach((button) => {
+      button.addEventListener('click', ({ currentTarget }) => {
+        Joomla.plgSystemWebauthnLogin(currentTarget.getAttribute('data-random-form'), currentTarget.getAttribute('data-random-url'));
+      });
+    });
+  });
 })(window, Joomla);

@@ -69,9 +69,6 @@ $randomId    = 'plg_system_webauthn_' . UserHelper::genRandomPassword(32);
 $publicKey   = $allow_add ? base64_encode(CredentialsCreation::createPublicKey($user)) : '{}';
 $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::getToken() . '=1');
 
-Factory::getDocument()->addScriptOptions('plgWebAuth', [
-	'randomId' => $randomId,
-]);
 ?>
 <div class="plg_system_webauthn" id="plg_system_webauthn-management-interface">
 	<span id="<?php echo $randomId ?>"
@@ -99,11 +96,11 @@ Factory::getDocument()->addScriptOptions('plgWebAuth', [
 			<tr data-credential_id="<?php echo $method['id'] ?>">
 				<td><?php echo htmlentities($method['label']) ?></td>
 				<td>
-					<button class="plg_system_webauthn-manage-edit btn btn-secondary">
+					<button data-random-id="<?php echo $randomId; ?>" class="plg_system_webauthn-manage-edit btn btn-secondary">
 						<span class="icon-edit icon-white" aria-hidden="true"></span>
 						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_EDIT_LABEL') ?>
 					</button>
-					<button class="plg_system_webauthn-manage-delete btn btn-danger">
+					<button data-random-id="<?php echo $randomId; ?>" class="plg_system_webauthn-manage-delete btn btn-danger">
 						<span class="icon-minus-sign icon-white" aria-hidden="true"></span>
 						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_DELETE_LABEL') ?>
 					</button>
@@ -127,7 +124,8 @@ Factory::getDocument()->addScriptOptions('plgWebAuth', [
 			<button
 				type="button"
 				id="plg_system_webauthn-manage-add"
-				class="btn btn-success btn-block">
+				class="btn btn-success btn-block"
+				data-random-id="<?php echo $randomId; ?>">
 				<span class="icon-plus icon-white" aria-hidden="true"></span>
 				<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_ADD_LABEL') ?>
 			</button>

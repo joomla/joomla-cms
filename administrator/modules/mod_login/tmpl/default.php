@@ -103,7 +103,8 @@ Text::script('MESSAGE');
 		<div class="form-group">
 			<button type="button"
 			        class="btn btn-secondary btn-block mt-4 <?= $button['class'] ?? '' ?>"
-			        onclick="<?= $button['onclick'] ?>"
+			        data-webauthn-form="<?= $button['data-webauthn-form'] ?>"
+			        data-webauthn-url="<?= $button['data-webauthn-url'] ?>"
 			        title="<?= Text::_($button['label']) ?>"
 			        id="<?= $button['id'] ?>"
 			>

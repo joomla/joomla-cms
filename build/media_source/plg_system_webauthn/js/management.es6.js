@@ -355,26 +355,24 @@ window.Joomla = window.Joomla || {};
   };
 
   document.addEventListener('DOMContentLoaded', () => {
-    const options = Joomla.getOptions('plgWebAuth');
-
     const addButton = document.getElementById('plg_system_webauthn-manage-add');
     if (addButton) {
-      addButton.addEventListener('click', () => {
-        Joomla.plgSystemWebauthnCreateCredentials(options.randomId, '#plg_system_webauthn-management-interface');
+      addButton.addEventListener('click', ({ currentTarget }) => {
+        Joomla.plgSystemWebauthnCreateCredentials(currentTarget.getAttribute('data-random-id'), '#plg_system_webauthn-management-interface');
       });
     }
 
     const editLabelButtons = [].slice.call(document.querySelectorAll('.plg_system_webauthn-manage-edit'));
     editLabelButtons.forEach((button) => {
-      button.addEventListener('click', (event) => {
-        Joomla.plgSystemWebauthnEditLabel(event.currentTarget, options.randomId);
+      button.addEventListener('click', ({ currentTarget }) => {
+        Joomla.plgSystemWebauthnEditLabel(currentTarget, currentTarget.getAttribute('data-random-id'));
       });
     });
 
     const deleteButtons = [].slice.call(document.querySelectorAll('.plg_system_webauthn-manage-delete'));
     deleteButtons.forEach((button) => {
-      button.addEventListener('click', (event) => {
-        Joomla.plgSystemWebauthnDelete(event.currentTarget, options.randomId);
+      button.addEventListener('click', ({ currentTarget }) => {
+        Joomla.plgSystemWebauthnDelete(currentTarget, currentTarget.getAttribute('data-random-id'));
       });
     });
   });
