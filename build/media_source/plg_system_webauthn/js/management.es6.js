@@ -378,6 +378,6 @@ window.Joomla = window.Joomla || {};
           Joomla.plgSystemWebauthnDelete(currentTarget, currentTarget.getAttribute('data-random-id'));
         });
       });
-    });
+    }
   });
 })(window, Joomla);
