@@ -2,4 +2,8 @@
 
 .card {
   box-shadow: $atum-box-shadow;
+
+  button {
+    padding: initial;
+  }
 }
