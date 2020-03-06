@@ -38,7 +38,7 @@ if (!class_exists('Joomla\\Plugin\\System\\Webauthn\\Helper\\Joomla', true))
  *
  * @since  4.0.0
  */
-class plgSystemWebauthn extends CMSPlugin
+class PlgSystemWebauthn extends CMSPlugin
 {
 	// AJAX request handlers
 	use AjaxHandler;
