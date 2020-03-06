@@ -104,22 +104,21 @@ Text::script('JHIDEPASSWORD');
 			</div>
 		<?php endif; ?>
 
-		<?php foreach($extraButtons as $button): ?>
+		<?php foreach($extraButtons as $button) : ?>
 			<div class="mod-login__submit form-group">
-				<button type="button"
-				        class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
-				        onclick="<?php echo $button['onclick'] ?>"
-				        title="<?php echo Text::_($button['label']) ?>"
-				        id="<?php echo $button['id'] ?>"
-						>
-					<?php if (!empty($button['icon'])): ?>
-						<span class="<?php echo $button['icon'] ?>"></span>
-					<?php elseif (!empty($button['image'])): ?>
-						<?php echo HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
-							'class' => 'icon',
-						], true) ?>
+				<button
+					type="button"
+					class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
+					onclick="<?php echo $button['onclick']; ?>"
+					title="<?php echo Text::_($button['label']); ?>"
+					id="<?php echo $button['id']; ?>"
+				>
+					<?php if (!empty($button['icon'])) : ?>
+						<span class="<?php echo $button['icon']; ?>"></span>
+					<?php elseif (!empty($button['image'])) : ?>
+						<?php echo HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), ['class' => 'icon'], true); ?>
 					<?php endif; ?>
-					<?= Text::_($button['label']) ?>
+					<?php echo Text::_($button['label']); ?>
 				</button>
 			</div>
 		<?php endforeach; ?>
