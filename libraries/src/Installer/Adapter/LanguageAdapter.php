@@ -475,89 +475,9 @@ class LanguageAdapter extends InstallerAdapter
 			return false;
 		}
 
-		// Create an unpublished content language.
 		if ((int) $clientId === 0)
 		{
-			$manifestfile = JPATH_SITE . '/language/' . $this->tag . '/langmetadata.xml';
-
-			if (!is_file($manifestfile))
-			{
-				$manifestfile = JPATH_SITE . '/language/' . $this->tag . '/' . $this->tag . '.xml';
-			}
-
-			// Load the site language manifest.
-			$siteLanguageManifest = LanguageHelper::parseXMLLanguageFile($manifestfile);
-
-			// Set the content language title as the language metadata name.
-			$contentLanguageTitle = $siteLanguageManifest['name'];
-
-			// Set, as fallback, the content language native title to the language metadata name.
-			$contentLanguageNativeTitle = $contentLanguageTitle;
-
-			// If exist, load the native title from the language xml metadata.
-			if (isset($siteLanguageManifest['nativeName']) && $siteLanguageManifest['nativeName'])
-			{
-				$contentLanguageNativeTitle = $siteLanguageManifest['nativeName'];
-			}
-
-			// Try to load a language string from the installation language var. Will be removed in 4.0.
-			if ($contentLanguageNativeTitle === $contentLanguageTitle)
-			{
-				$manifestfile = JPATH_INSTALLATION . '/language/' . $this->tag . '/langmetadata.xml';
-
-				if (!is_file($manifestfile))
-				{
-					$manifestfile = JPATH_INSTALLATION . '/language/' . $this->tag . '/' . $this->tag . '.xml';
-				}
-
-				if (file_exists($manifestfile))
-				{
-					$installationLanguage = new Language($this->tag);
-					$installationLanguage->load('', JPATH_INSTALLATION);
-
-					if ($installationLanguage->hasKey('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME'))
-					{
-						// Make sure it will not use the en-GB fallback.
-						$defaultLanguage = new Language('en-GB');
-						$defaultLanguage->load('', JPATH_INSTALLATION);
-
-						$defaultLanguageNativeTitle      = $defaultLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
-						$installationLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
-
-						if ($defaultLanguageNativeTitle !== $installationLanguageNativeTitle)
-						{
-							$contentLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
-						}
-					}
-				}
-			}
-
-			// Prepare language data for store.
-			$languageData = array(
-				'lang_id'      => 0,
-				'lang_code'    => $this->tag,
-				'title'        => $contentLanguageTitle,
-				'title_native' => $contentLanguageNativeTitle,
-				'sef'          => $this->getSefString($this->tag),
-				'image'        => strtolower(str_replace('-', '_', $this->tag)),
-				'published'    => 0,
-				'ordering'     => 0,
-				'access'       => (int) Factory::getApplication()->get('access', 1),
-				'description'  => '',
-				'metadesc'     => '',
-				'sitename'     => '',
-			);
-
-			$tableLanguage = Table::getInstance('language');
-
-			if (!$tableLanguage->bind($languageData) || !$tableLanguage->check() || !$tableLanguage->store() || !$tableLanguage->reorder())
-			{
-				Log::add(
-					Text::sprintf('JLIB_INSTALLER_WARNING_UNABLE_TO_INSTALL_CONTENT_LANGUAGE', $siteLanguageManifest['name'], $tableLanguage->getError()),
-					Log::NOTICE,
-					'jerror'
-				);
-			}
+			$this->createContentLanguage($this->tag);
 		}
 
 		// Clobber any possible pending updates
@@ -761,6 +681,11 @@ class LanguageAdapter extends InstallerAdapter
 			return false;
 		}
 
+		if ($clientId === 0)
+		{
+			$this->createContentLanguage($this->tag);
+		}
+
 		return $row->get('extension_id');
 	}
 
@@ -853,6 +778,11 @@ class LanguageAdapter extends InstallerAdapter
 			Log::add(Text::_('JLIB_INSTALLER_ERROR_LANG_DISCOVER_STORE_DETAILS'), Log::WARNING, 'jerror');
 
 			return false;
+		}
+
+		if ($client->id === 0)
+		{
+			$this->createContentLanguage($short_element);
 		}
 
 		// Clean installed languages cache.
@@ -961,6 +891,104 @@ class LanguageAdapter extends InstallerAdapter
 		if (!empty($count))
 		{
 			Log::add(Text::plural('JLIB_INSTALLER_NOTICE_LANG_RESET_USERS', $count), Log::NOTICE, 'jerror');
+		}
+	}
+
+	/**
+	 * Create an unpublished content language.
+	 *
+	 * @param  $tag  string  The language tag
+	 *
+	 * @throws \Exception
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function createContentLanguage($tag)
+	{
+		$tableLanguage = Table::getInstance('language');
+
+		// Check if content language already exists.
+		if ($tableLanguage->load(array('lang_code' => $tag)))
+		{
+			return;
+		}
+
+		$manifestfile = JPATH_SITE . '/language/' . $tag . '/langmetadata.xml';
+
+		if (!is_file($manifestfile))
+		{
+			$manifestfile = JPATH_SITE . '/language/' . $tag . '/' . $tag . '.xml';
+		}
+
+		// Load the site language manifest.
+		$siteLanguageManifest = LanguageHelper::parseXMLLanguageFile($manifestfile);
+
+		// Set the content language title as the language metadata name.
+		$contentLanguageTitle = $siteLanguageManifest['name'];
+
+		// Set, as fallback, the content language native title to the language metadata name.
+		$contentLanguageNativeTitle = $contentLanguageTitle;
+
+		// If exist, load the native title from the language xml metadata.
+		if (isset($siteLanguageManifest['nativeName']) && $siteLanguageManifest['nativeName'])
+		{
+			$contentLanguageNativeTitle = $siteLanguageManifest['nativeName'];
+		}
+
+		// Try to load a language string from the installation language var. Will be removed in 4.0.
+		if ($contentLanguageNativeTitle === $contentLanguageTitle)
+		{
+			$manifestfile = JPATH_INSTALLATION . '/language/' . $tag . '/langmetadata.xml';
+
+			if (!is_file($manifestfile))
+			{
+				$manifestfile = JPATH_INSTALLATION . '/language/' . $tag . '/' . $tag . '.xml';
+			}
+
+			if (file_exists($manifestfile))
+			{
+				$installationLanguage = new Language($tag);
+				$installationLanguage->load('', JPATH_INSTALLATION);
+
+				if ($installationLanguage->hasKey('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME'))
+				{
+					// Make sure it will not use the en-GB fallback.
+					$defaultLanguage = new Language('en-GB');
+					$defaultLanguage->load('', JPATH_INSTALLATION);
+
+					$defaultLanguageNativeTitle      = $defaultLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+					$installationLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+
+					if ($defaultLanguageNativeTitle !== $installationLanguageNativeTitle)
+					{
+						$contentLanguageNativeTitle = $installationLanguage->_('INSTL_DEFAULTLANGUAGE_NATIVE_LANGUAGE_NAME');
+					}
+				}
+			}
+		}
+
+		// Prepare language data for store.
+		$languageData = array(
+			'lang_id'      => 0,
+			'lang_code'    => $tag,
+			'title'        => $contentLanguageTitle,
+			'title_native' => $contentLanguageNativeTitle,
+			'sef'          => $this->getSefString($tag),
+			'image'        => strtolower(str_replace('-', '_', $tag)),
+			'published'    => 0,
+			'ordering'     => 0,
+			'access'       => (int) Factory::getApplication()->get('access', 1),
+			'description'  => '',
+			'metadesc'     => '',
+			'sitename'     => '',
+		);
+
+		if (!$tableLanguage->bind($languageData) || !$tableLanguage->check() || !$tableLanguage->store() || !$tableLanguage->reorder())
+		{
+			Log::add(
+				Text::sprintf('JLIB_INSTALLER_WARNING_UNABLE_TO_INSTALL_CONTENT_LANGUAGE', $siteLanguageManifest['name'], $tableLanguage->getError()),
+				Log::NOTICE,
+				'jerror'
+			);
 		}
 	}
 }
