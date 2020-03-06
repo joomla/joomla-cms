@@ -54,7 +54,7 @@ window.Joomla = window.Joomla || {};
    * @param   {String}  message
    */
   const handleCreationError = (message) => {
-    alert(message);
+    Joomla.renderMessages({ error: [message] });
   };
 
   /**
@@ -71,7 +71,7 @@ window.Joomla = window.Joomla || {};
   Joomla.plgSystemWebauthnCreateCredentials = (storeID, interfaceSelector) => {
     // Make sure the browser supports Webauthn
     if (!('credentials' in navigator)) {
-      alert(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NO_BROWSER_SUPPORT'));
+      Joomla.renderMessages({ error: [Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_NO_BROWSER_SUPPORT')] });
 
       return;
     }
@@ -239,8 +239,6 @@ window.Joomla = window.Joomla || {};
                 Joomla.JText._('PLG_SYSTEM_WEBAUTHN_ERR_LABEL_NOT_SAVED'),
               );
             }
-
-            // alert(Joomla.JText._('PLG_SYSTEM_WEBAUTHN_MSG_SAVED_LABEL'));
           },
           onError: (xhr) => {
             handleCreationError(
