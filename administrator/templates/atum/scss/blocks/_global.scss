@@ -104,7 +104,7 @@ body .container-main {
   min-height: calc(100vh - #{$header-height} - 3px);
   padding-right: 0;
   padding-left: 0;
-  overflow: auto;
+
   &::before,
   &::after {
     position: fixed;
