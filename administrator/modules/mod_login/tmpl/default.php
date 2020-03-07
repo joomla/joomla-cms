@@ -99,7 +99,7 @@ Text::script('MESSAGE');
 				<?php echo $langs; ?>
 			</div>
 		<?php endif; ?>
-		<?php foreach($extraButtons as $button) : ?>
+		<?php foreach ($extraButtons as $button) : ?>
 			<div class="form-group">
 				<button
 					type="button"
@@ -109,7 +109,7 @@ Text::script('MESSAGE');
 					id="<?php echo $button['id']; ?>"
 				>
 					<?php if (!empty($button['icon'])) : ?>
-						<span class="<?php echo $button['icon']; ?>"></span>
+						<span class="<?php echo $button['icon']; ?>" aria-hidden="true"></span>
 					<?php elseif (!empty($button['image'])) : ?>
 						<?php echo HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), ['class' => 'icon',], true); ?>
 					<?php endif; ?>
