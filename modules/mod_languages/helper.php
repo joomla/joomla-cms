@@ -33,6 +33,10 @@ abstract class ModLanguagesHelper
 		$app		= JFactory::getApplication();
 		$menu		= $app->getMenu();
 		$active		= $menu->getActive();
+		$plugin		= JPluginHelper::getPlugin('system', 'languagefilter');
+		$params		= new JRegistry($plugin->params);
+		$remove_def_prefix	= (boolean) $params->get('remove_default_prefix', 0);
+		$defLang			= JComponentHelper::getParams('com_languages')->get('site');
 
 		// Get menu home items
 		$homes = array();
@@ -139,6 +143,12 @@ abstract class ModLanguagesHelper
 				else
 				{
 					$language->link = JRoute::_('&Itemid=' . $homes['*']->id);
+				}
+
+				// strip default language tag if requested
+				if ($remove_def_prefix && $language->lang_code === $defLang)
+				{
+					$language->link = preg_replace('|/' . $language->sef . '/|', '/', $language->link, 1);
 				}
 			}
 		}
