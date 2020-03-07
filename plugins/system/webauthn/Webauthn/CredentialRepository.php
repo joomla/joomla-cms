@@ -148,7 +148,7 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
 		 *
 		 * Only array members that are PublicKeyCredentialSource objects survive the filter.
 		 *
-		 * This closure is defined as a variable to prevent PHP-CS from getting a stoke trying to
+		 * This closure is defined as a variable to prevent PHP-CS from getting a stroke trying to
 		 * figure out the correct indentation :)
 		 *
 		 * @param   PublicKeyCredentialSource|mixed  $record  The record to filter
