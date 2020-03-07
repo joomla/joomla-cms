@@ -95,7 +95,7 @@ trait AjaxHandlerCreate
 		}
 		catch (Exception $e)
 		{
-			$error                    = $e->getMessage();
+			$error                     = $e->getMessage();
 			$publicKeyCredentialSource = null;
 		}
 
