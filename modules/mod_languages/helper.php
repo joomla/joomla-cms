@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_languages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,8 +34,8 @@ abstract class ModLanguagesHelper
 		$menu		= $app->getMenu();
 		$active		= $menu->getActive();
 		$plugin		= JPluginHelper::getPlugin('system', 'languagefilter');
-		$params		= new JRegistry($plugin->params);
-		$remove_def_prefix	= (boolean) $params->get('remove_default_prefix', 0);
+		$fltParams	= new JRegistry($plugin->params);
+		$remove_def_prefix	= (boolean) $fltParams->get('remove_default_prefix', 0);
 		$defLang			= JComponentHelper::getParams('com_languages')->get('site');
 
 		// Get menu home items
