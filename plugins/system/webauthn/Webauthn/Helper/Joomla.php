@@ -432,7 +432,7 @@ abstract class Joomla
 		/** @var User $user */
 		$user = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId);
 
-		// Does the user account have a pending activation?
+		// Is this user pending activation?
 		if (!empty($user->activation))
 		{
 			throw new RuntimeException(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
