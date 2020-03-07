@@ -75,7 +75,6 @@ $usersConfig = ComponentHelper::getParams('com_users');
 							type="button"
 							class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
 							onclick="<?php echo $button['onclick']; ?>"
-							title="<?php echo Text::_($button['label']); ?>"
 							id="<?php echo $button['id']; ?>"
 						>
 							<?php if (!empty($button['icon'])) : ?>
