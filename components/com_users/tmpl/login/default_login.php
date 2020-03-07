@@ -78,7 +78,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 							id="<?php echo $button['id']; ?>"
 						>
 							<?php if (!empty($button['icon'])) : ?>
-								<span class="<?php echo $button['icon']; ?>"></span>
+								<span class="<?php echo $button['icon']; ?>" aria-hidden="true"></span>
 							<?php elseif (!empty($button['image'])) : ?>
 								<?php echo HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), ['class' => 'icon'], true); ?>
 							<?php endif; ?>
