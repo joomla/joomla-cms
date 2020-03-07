@@ -105,7 +105,6 @@ Text::script('MESSAGE');
 					type="button"
 					class="btn btn-secondary btn-block mt-4 <?php echo $button['class'] ?? '' ?>"
 					onclick="<?php echo $button['onclick']; ?>"
-					title="<?php echo Text::_($button['label']); ?>"
 					id="<?php echo $button['id']; ?>"
 				>
 					<?php if (!empty($button['icon'])) : ?>
@@ -118,8 +117,12 @@ Text::script('MESSAGE');
 			</div>
 		<?php endforeach; ?>
 		<div class="form-group">
-			<button class="btn btn-primary btn-block btn-lg mt-4"
-				id="btn-login-submit"><?php echo Text::_('JLOGIN'); ?></button>
+			<button
+				class="btn btn-primary btn-block btn-lg mt-4"
+				id="btn-login-submit"
+			>
+				<?php echo Text::_('JLOGIN'); ?>
+			</button>
 		</div>
 		<input type="hidden" name="option" value="com_login">
 		<input type="hidden" name="task" value="login">
