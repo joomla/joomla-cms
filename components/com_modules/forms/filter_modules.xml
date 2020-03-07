@@ -16,6 +16,7 @@
 			name="position"
 			type="modulesposition"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
+			client="site"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_POSITION</option>
@@ -24,6 +25,7 @@
 			name="module"
 			type="ModulesModule"
 			label="COM_MODULES_OPTION_SELECT_MODULE"
+			client="site"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_MODULE</option>
