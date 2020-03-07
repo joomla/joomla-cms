@@ -22,6 +22,12 @@
   display: table-row;
 }
 
+.svg-inline {
+  display: inline-block;
+  font-size: inherit;
+  max-height: 1em;
+}
+
 joomla-alert {
   display: none;
 }
