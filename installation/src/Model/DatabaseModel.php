@@ -415,7 +415,9 @@ class DatabaseModel extends BaseInstallationModel
 				catch (\RuntimeException $e)
 				{
 					// We did everything we could
-					throw new \RuntimeException(Text::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 500, $e);
+					Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 'error');
+
+					return false;
 				}
 
 				// If we got here, the database should have been successfully created, now try one more time to get the version
@@ -426,44 +428,91 @@ class DatabaseModel extends BaseInstallationModel
 				catch (\RuntimeException $e)
 				{
 					// We did everything we could
-					throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 500, $e);
+					Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
+
+					return false;
 				}
 			}
 			elseif ($type === 'postgresql' && strpos($e->getMessage(), 'Error connecting to PGSQL database') === 42)
 			{
-				throw new \RuntimeException(Text::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 500, $e);
+				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_COULD_NOT_CREATE_DATABASE'), 'error');
+
+				return false;
 			}
 			// Anything getting into this part of the conditional either doesn't support manually creating the database or isn't that type of error
 			else
 			{
-				throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 500, $e);
+				Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
+
+				return false;
 			}
 		}
 
-		if (!$db->isMinimumVersion())
+		// Get required database version
+		$minDbVersionRequired = DatabaseHelper::getMinimumServerVersion($db, $options);
+
+		// Check minimum database version
+		if (version_compare($db_version, $minDbVersionRequired) < 0)
 		{
-			if (in_array($type, ['mysql', 'mysqli']) && $db->isMariaDb())
+			if (in_array($options->db_type, ['mysql', 'mysqli']) && $db->isMariaDb())
 			{
-				throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_INVALID_MARIADB_VERSION', $db->getMinimum(), $db_version));
+				$errorMessage = Text::sprintf(
+					'INSTL_DATABASE_INVALID_MARIADB_VERSION',
+					$minDbVersionRequired,
+					$db_version
+				);
 			}
 			else
 			{
-				throw new \RuntimeException(
-					Text::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db->getMinimum(), $db_version)
+				$errorMessage = Text::sprintf(
+					'INSTL_DATABASE_INVALID_' . strtoupper($options->db_type) . '_VERSION',
+					$minDbVersionRequired,
+					$db_version
 				);
 			}
+
+			Factory::getApplication()->enqueueMessage($errorMessage, 'error');
+
+			$db->disconnect();
+
+			return false;
+		}
+
+		// Check database connection encryption
+		if ($options->db_encryption !== 0 && empty($db->getConnectionEncryption()))
+		{
+			if ($db->isConnectionEncryptionSupported())
+			{
+				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_ENCRYPTION_MSG_CONN_NOT_ENCRYPT'), 'error');
+			}
+			else
+			{
+				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_ENCRYPTION_MSG_SRV_NOT_SUPPORTS'), 'error');
+			}
+
+			$db->disconnect();
+
+			return false;
 		}
 
 		// @internal Check for spaces in beginning or end of name.
 		if (strlen(trim($options->db_name)) <> strlen($options->db_name))
 		{
-			throw new \RuntimeException(Text::_('INSTL_DATABASE_NAME_INVALID_SPACES'));
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_INVALID_SPACES'), 'error');
+
+			$db->disconnect();
+
+			return false;
 		}
 
 		// @internal Check for asc(00) Null in name.
 		if (strpos($options->db_name, chr(00)) !== false)
 		{
-			throw new \RuntimeException(Text::_('INSTL_DATABASE_NAME_INVALID_CHAR'));
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_INVALID_CHAR'), 'error');
+
+			$db->disconnect();
+
+			return false;
 		}
 
 		// Get database's UTF support.
@@ -479,7 +528,11 @@ class DatabaseModel extends BaseInstallationModel
 			// If the database could not be selected, attempt to create it and then select it.
 			if (!$this->createDb($db, $options, $utfSupport))
 			{
-				throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name), 500, $e);
+				Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_ERROR_CREATE', $options->db_name), 'error');
+
+				$db->disconnect();
+
+				return false;
 			}
 
 			$db->select($options->db_name);
