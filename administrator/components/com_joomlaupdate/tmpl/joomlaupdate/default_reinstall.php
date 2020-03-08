@@ -28,6 +28,12 @@ use Joomla\CMS\Updater\Update;
 		<span class="fas fa-check-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('NOTICE'); ?></span>
 		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', '&#x200E;' . JVERSION); ?>
 	</p>
+	<?php if (!$this->ftp['enabled']) : ?>
+		<p class="alert alert-info">
+			<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_DISABLED'); ?>
+		</p>
+	<?php endif; ?>
 	<?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof Update)) : ?>
 	<div>
 		<table class="table">
@@ -57,7 +63,7 @@ use Joomla\CMS\Updater\Update;
 					</td>
 				</tr>
 			<?php endif; ?>
-			<tr>
+			<tr id="row_ftp_method" <?php echo $this->ftpFieldsDisplay; ?>>
 				<td>
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD'); ?>
 				</td>

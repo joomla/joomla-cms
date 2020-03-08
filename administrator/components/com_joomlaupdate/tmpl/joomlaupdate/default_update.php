@@ -21,6 +21,12 @@ use Joomla\CMS\Language\Text;
 	<p>
 		<?php echo Text::sprintf($this->langKey, $this->updateSourceKey); ?>
 	</p>
+	<?php if (!$this->ftp['enabled']) : ?>
+		<p class="alert alert-info">
+			<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_DISABLED'); ?>
+		</p>
+	<?php endif; ?>
 
 	<table class="table">
 		<tbody>
@@ -65,7 +71,7 @@ use Joomla\CMS\Language\Text;
 					</td>
 				</tr>
 			<?php endif; ?>
-			<tr>
+			<tr id="row_ftp_method" <?php echo $this->ftpFieldsDisplay; ?>>
 				<td>
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD'); ?>
 				</td>
