@@ -348,7 +348,6 @@ class DatabaseModel extends BaseInstallationModel
 	 * @return  boolean
 	 *
 	 * @since   3.1
-	 * @throws  \RuntimeException
 	 */
 	public function createDatabase($options)
 	{
