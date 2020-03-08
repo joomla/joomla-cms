@@ -453,7 +453,7 @@ class DatabaseModel extends BaseInstallationModel
 		// Check minimum database version
 		if (version_compare($db_version, $minDbVersionRequired) < 0)
 		{
-			if (in_array($options->db_type, ['mysql', 'mysqli']) && $db->isMariaDb())
+			if (in_array($type, ['mysql', 'mysqli']) && $db->isMariaDb())
 			{
 				$errorMessage = Text::sprintf(
 					'INSTL_DATABASE_INVALID_MARIADB_VERSION',
