@@ -21,7 +21,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 class PlgSystemDontTranslate extends CMSPlugin
 {
 	/**
-	 * Plugin that add the translate="no" attribute
+	 * Plugin that adds the translate="no" attribute
 	 *
 	 * @return  void
 	 *
