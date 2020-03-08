@@ -184,7 +184,8 @@
   }
 
   span.fas {
-    padding: 0.9rem 0;
+    padding: .9rem 0;
+    transform: scale(1.3);
   }
 
   .sidebar-item-title {
@@ -463,11 +464,6 @@
 
 // Sidebar Closed
 .closed {
-
-  .main-nav span.fas {
-    transform: scale(1.3);
-
-  }
 
   .sidebar-wrapper {
     flex: 1 0 $sidebar-width-closed;
