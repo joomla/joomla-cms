@@ -48,6 +48,13 @@ Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 	</div>
 <?php endif; ?>
 
+<?php if (!$this->ftp['enabled']) : ?>
+	<div class="alert alert-info">
+		<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_FTP_DISABLED'); ?>
+	</div>
+<?php endif; ?>
+
 <form enctype="multipart/form-data" action="index.php" method="post" id="uploadForm">
 	<fieldset class="uploadform options-form">
 		<legend><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_TAB_UPLOAD'); ?></legend>
@@ -69,7 +76,7 @@ Text::script('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE', true);
 					</div>
 				</td>
 			</tr>
-			<tr>
+			<tr id="upload_ftp_method" <?php echo $this->ftpFieldsDisplay; ?>>
 				<td>
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_METHOD'); ?>
 				</td>
