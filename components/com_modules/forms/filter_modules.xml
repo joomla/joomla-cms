@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset addfieldpath="/administrator/components/com_modules/models/fields" />
+	<fieldset addfieldprefix="Joomla\Component\Modules\Administrator\Field" />
 
 	<fields name="filter">
 		<field
