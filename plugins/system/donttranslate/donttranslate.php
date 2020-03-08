@@ -14,12 +14,32 @@ use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * Plugin to enable adding the translate HTML5 attribute
- * This uses the {dontTranslate text} syntax
+ * This uses the {dontTranslate}Text{/dontTranslate} syntax
  *
  * @since  __DEPLOY_VERSION__
  */
 class PlgSystemDontTranslate extends CMSPlugin
 {
+	/**
+	 * Clean the browser page title
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onBeforeRender() : void
+	{
+		if (!Factory::getApplication()->isClient('site'))
+		{
+			return;
+		}
+
+		$title = Factory::getDocument()->getTitle();
+		$title = str_replace('{dontTranslate}', '', $title);
+		$title = str_replace('{/dontTranslate}', '', $title);
+		Factory::getDocument()->setTitle($title);
+	}
+
 	/**
 	 * Plugin that adds the translate="no" attribute
 	 *
@@ -36,8 +56,8 @@ class PlgSystemDontTranslate extends CMSPlugin
 
 		$body = Factory::getApplication()->getBody();
 
-		// Expression to search for {dontTranslate}
-		$regex = '/{dontTranslate\s(.*?)}/i';
+		// Expression to search for {dontTranslate}Text{/dontTranslate}
+		$regex = '/{dontTranslate}(.*?){\/dontTranslate}/i';
 
 		// Find all instances of plugin and put in $matches for dontTranslate
 		// $matches[0] is full pattern match, $matches[1] is the position
