@@ -523,7 +523,7 @@ class SetupModel extends BaseInstallationModel
 		catch (\RuntimeException $e)
 		{
 			if ($options->db_type === 'pgsql' && strpos($e->getMessage(), 'database "' . $options->db_name . '" does not exist')
-			|| $options->db_type === 'mysql' && strpos($e->getMessage(), 'Unknown database \'' . $options->db_name . '\''))
+				|| $options->db_type === 'mysql' && strpos($e->getMessage(), 'Unknown database \'' . $options->db_name . '\''))
 			{
 				// Database doesn't exist: Further checks will be done in the database installation step.
 				return true;
