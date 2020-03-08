@@ -49,6 +49,11 @@ class PlgSystemDontTranslate extends CMSPlugin
 	 */
 	public function onAfterRender() : void
 	{
+		if (Factory::getApplication()->isClient('administrator'))
+		{
+			$this->cleanAlias();
+		}
+
 		if (!Factory::getApplication()->isClient('site'))
 		{
 			return;
@@ -77,6 +82,33 @@ class PlgSystemDontTranslate extends CMSPlugin
 				$body = preg_replace("|$match[0]|", addcslashes($output, '\\$'), $body, 1);
 				Factory::getApplication()->setBody($body);
 			}
+		}
+	}
+
+	/**
+	 * Clean the alias
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function cleanAlias() : void
+	{
+		$body = Factory::getApplication()->getBody();
+		$dom = new DOMDocument;
+		libxml_use_internal_errors(true);
+		$dom->loadHTML($body);
+		libxml_use_internal_errors(false);
+
+		if ($dom->getElementById('jform_alias'))
+		{
+			$alias = $dom->getElementById('jform_alias');
+			$string = $alias->attributes->getNamedItem('value')->nodeValue;
+			$string = str_replace('donttranslate-', '', $string);
+			$string = str_replace('-donttranslate', '', $string);
+			$alias->attributes->getNamedItem('value')->nodeValue = $string;
+			$body = $dom->saveHTML();
+			Factory::getApplication()->setBody($body);
 		}
 	}
 }
