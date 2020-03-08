@@ -658,7 +658,7 @@ abstract class ModuleHelper
 		for ($i = 0; $i < $total; $i++)
 		{
 			// Match the id of the module
-			if ($modules[$i]->id === $id)
+			if ($modules[$i]->id === (int) $id)
 			{
 				// Found it
 				return $modules[$i];
