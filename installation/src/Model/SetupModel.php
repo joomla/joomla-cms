@@ -534,8 +534,6 @@ class SetupModel extends BaseInstallationModel
 
 				return false;
 			}
-
-			return false;
 		}
 
 		$dbVersion = $db->getVersion();
