@@ -795,8 +795,8 @@ class ApplicationModel extends FormModel
 
 		$app = Factory::getApplication();
 
-		// Attempt to make the file writeable if using FTP.
-		if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0644'))
+		// Attempt to make the file writeable.
+		if (Path::isOwner($file) && !Path::setPermissions($file, '0644'))
 		{
 			$app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
 		}
@@ -815,8 +815,8 @@ class ApplicationModel extends FormModel
 			\opcache_invalidate($file);
 		}
 
-		// Attempt to make the file unwriteable if using FTP.
-		if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0444'))
+		// Attempt to make the file unwriteable.
+		if (Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 		{
 			$app->enqueueMessage(Text::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
 		}
