@@ -3,13 +3,13 @@
 .modal {
 
   .btn {
-    margin-right: .5rem;
-    background: var(--white);
-    border-color: var(--whiteoffset);
-    color: var(--atum-text-dark);
     padding: 0 22px;
+    margin-right: .5rem;
     font-size: 1rem;
     line-height: 2.375rem;
+    color: var(--atum-text-dark);
+    background: var(--white);
+    border-color: var(--whiteoffset);
     box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, .25);
 
 
@@ -20,8 +20,8 @@
   .btn-danger:not([href]),
   .btn-secondary:not([href]) {
     color: var(--atum-text-dark);
-    border: 1px solid var(--atum-text-dark);
     background: var(--white);
+    border: 1px solid var(--atum-text-dark);
 
 
   }
@@ -63,13 +63,13 @@
   .btn.btn-danger [class^=fa-],
   .btn.btn-danger [class^=icon-],
   .btn.btn-danger span {
-    background-color: var(--danger);
-    color: hsla(0, 0%, 100%, .9);
     display: inline-block;
     width: 2.375rem;
     height: 100%;
     margin: 0 16px 0 -22px;
     line-height: 2.375rem;
+    color: hsla(0, 0%, 100%, .9);
+    background-color: var(--danger);
 
     [dir=rtl] & {
       margin: 0 -22px 0 16px;
@@ -81,13 +81,13 @@
   .btn.btn-success [class^=fa-],
   .btn.btn-success [class^=icon-],
   .btn.btn-success span {
-    background-color: var(--success);
-    color: hsla(0, 0%, 100%, .9);
     display: inline-block;
     width: 2.375rem;
     height: 100%;
     margin: 0 16px 0 -22px;
     line-height: 2.375rem;
+    color: hsla(0, 0%, 100%, .9);
+    background-color: var(--success);
 
     [dir=rtl] & {
       margin: 0 -22px 0 16px;
@@ -139,9 +139,9 @@
     flex: 1 0 180px;
     max-width: 180px;
     padding: 10px 15px;
+    text-align: right;
     background: darken($gray-100, 2.5%);
     border-right: 1px solid $table-border-color;
-    text-align: right;
 
     .badge {
       border-radius: .2rem;

@@ -12,7 +12,6 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
@@ -213,7 +212,7 @@ class UpdateController extends BaseController
 	 */
 	public function getMenuBadgeData()
 	{
-		if (!Factory::getUser()->authorise('core.manage', 'com_installer'))
+		if (!$this->app->getIdentity()->authorise('core.manage', 'com_installer'))
 		{
 			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
 		}

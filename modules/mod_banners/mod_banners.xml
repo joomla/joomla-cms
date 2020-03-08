@@ -63,7 +63,7 @@
 					label="JCATEGORY"
 					extension="com_banners"
 					multiple="true"
-					filter="int_array"
+					filter="intarray"
 					class="multipleCategories"
 					layout="joomla.form.field.list-fancy-select"
 				/>
