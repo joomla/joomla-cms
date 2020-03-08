@@ -52,6 +52,7 @@ class PlgSystemDontTranslate extends CMSPlugin
 		if (Factory::getApplication()->isClient('administrator'))
 		{
 			$this->cleanAlias();
+			$this->cleanList();
 		}
 
 		if (!Factory::getApplication()->isClient('site'))
@@ -109,6 +110,51 @@ class PlgSystemDontTranslate extends CMSPlugin
 			$alias->attributes->getNamedItem('value')->nodeValue = $string;
 			$body = $dom->saveHTML();
 			Factory::getApplication()->setBody($body);
+		}
+	}
+
+	/**
+	 * Clean the list
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function cleanList() : void
+	{
+		$body = Factory::getApplication()->getBody();
+		$dom = new DOMDocument;
+		libxml_use_internal_errors(true);
+		$dom->loadHTML($body);
+		libxml_use_internal_errors(false);
+
+		foreach ($dom->getElementsByTagName('a') as $link)
+		{
+			$string = $link->getAttribute('title');
+			$found = false;
+			$value = $link->nodeValue;
+
+			if (strpos($string, '{dontTranslate}') !== false)
+			{
+				$string = str_replace('{dontTranslate}', '', $string);
+				$string = str_replace('{/dontTranslate}', '', $string);
+				$link->setAttribute('title', $string);
+				$found = true;
+			}
+
+			if (strpos($value, '{dontTranslate}') !== false)
+			{
+				$value = str_replace('{dontTranslate}', '', $value);
+				$value = str_replace('{/dontTranslate}', '', $value);
+				$link->nodeValue = $value;
+				$found = true;
+			}
+
+			if ($found)
+			{
+				$body = $dom->saveHTML();
+				Factory::getApplication()->setBody($body);
+			}
 		}
 	}
 }
