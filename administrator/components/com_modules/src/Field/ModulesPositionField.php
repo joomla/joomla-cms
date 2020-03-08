@@ -115,8 +115,8 @@ class ModulesPositionField extends ListField
 	 */
 	public function getOptions()
 	{
-		$clientId  = $this->client === 'administrator' ? 1 : 0;
-		$options   = ModulesHelper::getPositions($clientId);
+		$clientId = $this->client === 'administrator' ? 1 : 0;
+		$options  = ModulesHelper::getPositions($clientId);
 
 		return array_merge(parent::getOptions(), $options);
 	}
