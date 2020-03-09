@@ -502,7 +502,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 		if ($language->getTag() !== $lang_code)
 		{
-			$language_new = Language::getInstance($lang_code);
+			$language_new = Language::getInstance($lang_code, (bool) $this->app->get('debug_lang'));
 
 			foreach ($language->getPaths() as $extension => $files)
 			{

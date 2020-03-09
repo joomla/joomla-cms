@@ -55,6 +55,11 @@
     joomla-field-fancy-select .choices,
     .custom-select {
       min-width: 15rem;
+
+      &.is-focused {
+        border-color: $focuscolor;
+        box-shadow: $focusshadow;
+      }
     }
 
     .chzn-container-single {
@@ -86,6 +91,11 @@
           background: $custom-select-indicator-active-rtl no-repeat left center;
           background-color: $custom-select-bg;
         }
+      }
+
+      &:focus {
+        border-color: $focuscolor;
+        box-shadow: $focusshadow;
       }
 
       option {

@@ -349,10 +349,6 @@ joomla-toolbar-button {
         background-color: var(--atum-bg-dark);
       }
 
-      &:hover:not([disabled]) {
-        background-color: var(--atum-bg-dark-80);
-      }
-
       &::after {
         width: 2.375rem;
         height: 100%;

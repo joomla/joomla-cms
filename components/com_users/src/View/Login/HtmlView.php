@@ -71,6 +71,14 @@ class HtmlView extends BaseHtmlView
 	protected $tfa = '';
 
 	/**
+	 * Additional buttons to show on the login page
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $extraButtons = [];
+
+	/**
 	 * Method to display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -104,6 +112,8 @@ class HtmlView extends BaseHtmlView
 
 		$tfa = AuthenticationHelper::getTwoFactorMethods();
 		$this->tfa = is_array($tfa) && count($tfa) > 1;
+
+		$this->extraButtons = AuthenticationHelper::getLoginButtons('com-users-login__form');
 
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($this->params->get('pageclass_sfx'), ENT_COMPAT, 'UTF-8');
