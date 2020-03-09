@@ -1,6 +1,7 @@
 // Sidebar
 
 .wrapper {
+  flex-grow: 1;
   transition: all .3s ease;
 
   @include media-breakpoint-down(sm) {
@@ -95,11 +96,6 @@
       }
     }
   }
-}
-
-.menu-toggle-icon {
-  width: $header-height;
-  font-size: 1.7rem;
 }
 
 // Sidebar navigation
