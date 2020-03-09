@@ -35,8 +35,7 @@ class PlgSystemDontTranslate extends CMSPlugin
 		}
 
 		$title = Factory::getDocument()->getTitle();
-		$title = str_replace('{dontTranslate}', '', $title);
-		$title = str_replace('{/dontTranslate}', '', $title);
+		$title = str_replace(['{dontTranslate}', '{/dontTranslate}'], '', $title);
 		Factory::getDocument()->setTitle($title);
 	}
 
@@ -100,8 +99,8 @@ class PlgSystemDontTranslate extends CMSPlugin
 		{
 			$alias = $dom->getElementById('jform_alias');
 			$string = $alias->attributes->getNamedItem('value')->nodeValue;
-			$string = str_replace(['{donttranslate}', 'donttranslate-'], ['', ''], $string);
-			$string = str_replace(['{-donttranslate}', '-donttranslate'], ['', ''], $string);
+			$string = str_replace(['{donttranslate}', 'donttranslate-'], '', $string);
+			$string = str_replace(['{-donttranslate}', '-donttranslate'], '', $string);
 			$alias->attributes->getNamedItem('value')->nodeValue = $string;
 			$body = $dom->saveHTML();
 			Factory::getApplication()->setBody($body);
@@ -131,16 +130,14 @@ class PlgSystemDontTranslate extends CMSPlugin
 
 			if (strpos($string, '{dontTranslate}') !== false)
 			{
-				$string = str_replace('{dontTranslate}', '', $string);
-				$string = str_replace('{/dontTranslate}', '', $string);
+				$string = str_replace(['{dontTranslate}', '{/dontTranslate}'], '', $string);
 				$link->setAttribute('title', $string);
 				$found = true;
 			}
 
 			if (strpos($value, '{dontTranslate}') !== false)
 			{
-				$value = str_replace('{dontTranslate}', '', $value);
-				$value = str_replace('{/dontTranslate}', '', $value);
+				$value = str_replace(['{dontTranslate}', '{/dontTranslate}'], '', $value);
 				$link->nodeValue = $value;
 				$found = true;
 			}
@@ -167,7 +164,7 @@ class PlgSystemDontTranslate extends CMSPlugin
 	 */
 	public function onContentBeforeSave($context, $table, $isNew) : void
 	{
-		$table->alias = str_replace(['{donttranslate}', 'donttranslate-'], ['', ''], $table->alias);
-		$table->alias = str_replace(['{-donttranslate}', '-donttranslate'], ['', ''], $table->alias);
+		$table->alias = str_replace(['{donttranslate}', 'donttranslate-'], '', $table->alias);
+		$table->alias = str_replace(['{-donttranslate}', '-donttranslate'], '', $table->alias);
 	}
 }
