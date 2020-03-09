@@ -15,6 +15,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -95,7 +96,8 @@ class Category extends Nested
 			$query = $this->_db->getQuery(true)
 				->select($this->_db->quoteName('asset_id'))
 				->from($this->_db->quoteName('#__categories'))
-				->where($this->_db->quoteName('id') . ' = ' . $this->parent_id);
+				->where($this->_db->quoteName('id') . ' = :parentId')
+				->bind(':parentId', $this->parent_id, ParameterType::INTEGER);
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
@@ -112,7 +114,8 @@ class Category extends Nested
 			$query = $this->_db->getQuery(true)
 				->select($this->_db->quoteName('id'))
 				->from($this->_db->quoteName('#__assets'))
-				->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($this->extension));
+				->where($this->_db->quoteName('name') . ' = :extension')
+				->bind(':extension', $this->extension);
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
