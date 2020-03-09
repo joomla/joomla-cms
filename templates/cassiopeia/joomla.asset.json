@@ -93,6 +93,11 @@
         "template.cassiopeia.rtl#style",
         "template.cassiopeia#script"
       ]
+    },
+    {
+      "name": "searchtools",
+      "type": "style",
+      "uri": "system/searchtools/searchtools.min.css"
     }
   ]
 }
