@@ -97,7 +97,7 @@ class Category extends Nested
 				->select($this->_db->quoteName('asset_id'))
 				->from($this->_db->quoteName('#__categories'))
 				->where($this->_db->quoteName('id') . ' = :parentId')
-				->bind(':parentId', $parentId, ParameterType::INTEGER);
+				->bind(':parentId', $this->parent_id, ParameterType::INTEGER);
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
