@@ -133,7 +133,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 		switch ($version)
 		{
 			case '2.0':
-				$response  = $input->get('g-recaptcha-response', '', 'string');
+				$response  = $code ?: $input->get('g-recaptcha-response', '', 'string');
 				$spam      = ($response === '');
 				break;
 		}

@@ -389,7 +389,6 @@ class PlgEditorTinymce extends CMSPlugin
 		$plugins  = array(
 			'autolink',
 			'lists',
-			'save',
 			'importcss',
 		);
 
