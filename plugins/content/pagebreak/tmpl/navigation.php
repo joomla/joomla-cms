@@ -12,24 +12,33 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+/**
+ * @var $links   array    Array with keys 'previous' and 'next' with non-SEO links to the previous and next pages
+ * @var $page    integer  The page number
+ */
+
 ?>
 <ul>
 	<li>
-		<?php if ($links['previous']) : ?>
-		<a href="<?php echo Route::_($links['previous']); ?>">
-			<?php echo trim(str_repeat(Text::_('JGLOBAL_LT'), 2) . ' ' . Text::_('JPREV')); ?>
+		<?php if ($links['previous']) :
+		$direction = $lang->isRtl() ? 'right' : 'left';
+		$title = htmlspecialchars($this->list[$page]->title, ENT_QUOTES, 'UTF-8');
+		$ariaLabel = Text::_('JPREVIOUS') . ': ' . $title . ' (' . Text::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', $page, $n) . ')';
+		?>
+		<a href="<?php echo Route::_($links['previous']); ?>" title="<?php echo $title; ?>" aria-label="<?php echo $ariaLabel; ?>" rel="prev">
+			<?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span> ' . Text::_('JPREV'); ?>
 		</a>
-		<?php else: ?>
-		<?php echo Text::_('JPREV'); ?>
 		<?php endif; ?>
 	</li>
 	<li>
-		<?php if ($links['next']) : ?>
-		<a href="<?php echo Route::_($links['next']); ?>">
-			<?php echo trim(Text::_('JNEXT') . ' ' . str_repeat(Text::_('JGLOBAL_GT'), 2)); ?>
+		<?php if ($links['next']) :
+		$direction = $lang->isRtl() ? 'left' : 'right';
+		$title = htmlspecialchars($this->list[$page + 2]->title, ENT_QUOTES, 'UTF-8');
+		$ariaLabel = Text::_('JNEXT') . ': ' . $title . ' (' . Text::sprintf('JLIB_HTML_PAGE_CURRENT_OF_TOTAL', ($page + 2), $n) . ')';
+		?>
+		<a href="<?php echo Route::_($links['next']); ?>" title="<?php echo $title; ?>" aria-label="<?php echo $ariaLabel; ?>" rel="next">
+			<?php echo Text::_('JNEXT') . ' <span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
 		</a>
-		<?php else: ?>
-		<?php echo Text::_('JNEXT'); ?>
 		<?php endif; ?>
 	</li>
 </ul>
