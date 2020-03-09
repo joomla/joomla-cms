@@ -52,6 +52,41 @@ abstract class PredefinedlistField extends ListField
 	protected $translate = true;
 
 	/**
+	 * Allows to use only specific values of the predefined list
+	 *
+	 * @var  array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $optionsFilter = [];
+
+	/**
+	 * Method to attach a Form object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see     \Joomla\CMS\Form\FormField::setup()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
+	{
+		$return = parent::setup($element, $value, $group);
+
+		if ($return)
+		{
+			// Note: $this->element['optionsFilter'] is not cast to string here to allow empty string value.
+			$this->optionsFilter = $this->element['optionsFilter'] ? explode(',', (string) $this->element['optionsFilter']) : [];
+		}
+
+		return $return;
+	}
+
+	/**
 	 * Method to get the options to populate list
 	 *
 	 * @return  array  The field option objects.
@@ -70,12 +105,9 @@ abstract class PredefinedlistField extends ListField
 
 			$options = array();
 
-			// Allow to only use specific values of the predefined list
-			$filter = isset($this->element['filter']) ? explode(',', $this->element['filter']) : array();
-
 			foreach ($this->predefinedOptions as $value => $text)
 			{
-				if (empty($filter) || \in_array($value, $filter))
+				if (empty($this->optionsFilter) || \in_array($value, $this->optionsFilter))
 				{
 					$text = $this->translate ? Text::_($text) : $text;
 
