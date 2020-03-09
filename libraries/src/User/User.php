@@ -639,15 +639,6 @@ class User extends \JObject
 
 			// Set the registration timestamp
 			$this->set('registerDate', \JFactory::getDate()->toSql());
-
-			// Check that username is not greater than 150 characters
-			$username = $this->get('username');
-
-			if (strlen($username) > 150)
-			{
-				$username = substr($username, 0, 150);
-				$this->set('username', $username);
-			}
 		}
 		else
 		{

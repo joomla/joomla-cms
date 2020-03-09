@@ -686,9 +686,6 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function cropImage()
 	{
-		// Check for request forgeries
-		$this->checkToken();
-
 		$app   = JFactory::getApplication();
 		$id    = $app->input->get('id');
 		$file  = $app->input->get('file');
@@ -735,9 +732,6 @@ class TemplatesControllerTemplate extends JControllerLegacy
 	 */
 	public function resizeImage()
 	{
-		// Check for request forgeries
-		$this->checkToken();
-
 		$app    = JFactory::getApplication();
 		$id     = $app->input->get('id');
 		$file   = $app->input->get('file');
