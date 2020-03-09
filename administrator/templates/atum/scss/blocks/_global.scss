@@ -10,11 +10,10 @@ html {
 
 body {
   min-height: 100%;
-}
-
-body {
+  display: flex;
   padding: 0;
   margin: 0;
+  flex-direction: column;
 
   &.monochrome {
     filter: grayscale(1);
@@ -101,7 +100,6 @@ caption {
 
 body .container-main {
   position: relative;
-  min-height: calc(100vh - #{$header-height} - 3px);
   padding-right: 0;
   padding-left: 0;
 
