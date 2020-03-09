@@ -17,6 +17,7 @@
 	<files>
 		<folder type="language" client="site" id="en-GB">language/en-GB</folder>
 		<folder type="language" client="administrator" id="en-GB">administrator/language/en-GB</folder>
+		<folder type="language" client="api" id="en-GB">api/language/en-GB</folder>
 	</files>
 	<updateservers>
 		<server type="collection" priority="1" name="Accredited Joomla! Translations">
