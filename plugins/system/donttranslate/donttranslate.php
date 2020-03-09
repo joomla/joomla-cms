@@ -60,30 +60,19 @@ class PlgSystemDontTranslate extends CMSPlugin
 			return;
 		}
 
+		$page = Factory::getApplication()->input;
+
+		if (($page->request->getWord('option') === 'com_content')
+			&&	($page->request->getWord('view') === 'form')
+			&&	($page->request->getWord('layout') === 'edit'))
+		{
+			return;
+		}
+
 		$body = Factory::getApplication()->getBody();
 
-		// Expression to search for {dontTranslate}Text{/dontTranslate}
-		$regex = '/{dontTranslate}(.*?){\/dontTranslate}/i';
-
-		// Find all instances of plugin and put in $matches for dontTranslate
-		// $matches[0] is full pattern match, $matches[1] is the position
-		preg_match_all($regex, $body, $matches, PREG_SET_ORDER);
-
-		// No matches, skip this
-		if ($matches)
-		{
-			foreach ($matches as $match)
-			{
-				$matcheslist = explode(',', $match[1]);
-
-				$text = $matcheslist[0];
-
-				$output = '<span translate="no">' . $text . '</span>';
-
-				$body = preg_replace("|$match[0]|", addcslashes($output, '\\$'), $body, 1);
-				Factory::getApplication()->setBody($body);
-			}
-		}
+		$body = str_replace(['{dontTranslate}', '{/dontTranslate}'], ['<span translate="no">', '</span>'], $body);
+		Factory::getApplication()->setBody($body);
 	}
 
 	/**
@@ -96,6 +85,12 @@ class PlgSystemDontTranslate extends CMSPlugin
 	private function cleanAlias() : void
 	{
 		$body = Factory::getApplication()->getBody();
+
+		if (!$body)
+		{
+			return;
+		}
+
 		$dom = new DOMDocument;
 		libxml_use_internal_errors(true);
 		$dom->loadHTML($body);
@@ -105,8 +100,8 @@ class PlgSystemDontTranslate extends CMSPlugin
 		{
 			$alias = $dom->getElementById('jform_alias');
 			$string = $alias->attributes->getNamedItem('value')->nodeValue;
-			$string = str_replace('donttranslate-', '', $string);
-			$string = str_replace('-donttranslate', '', $string);
+			$string = str_replace(['{donttranslate}', 'donttranslate-'], ['', ''], $string);
+			$string = str_replace(['{-donttranslate}', '-donttranslate'], ['', ''], $string);
 			$alias->attributes->getNamedItem('value')->nodeValue = $string;
 			$body = $dom->saveHTML();
 			Factory::getApplication()->setBody($body);
@@ -156,5 +151,23 @@ class PlgSystemDontTranslate extends CMSPlugin
 				Factory::getApplication()->setBody($body);
 			}
 		}
+	}
+
+	/**
+	 * On Before Saving content clean alias
+	 * Method is called when a content is being saved
+	 *
+	 * @param   string   $context  The extension
+	 * @param   JTable   $table    DataBase Table object
+	 * @param   boolean  $isNew    If the content is new or not
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onContentBeforeSave($context, $table, $isNew) : void
+	{
+		$table->alias = str_replace(['{donttranslate}', 'donttranslate-'], ['', ''], $table->alias);
+		$table->alias = str_replace(['{-donttranslate}', '-donttranslate'], ['', ''], $table->alias);
 	}
 }
