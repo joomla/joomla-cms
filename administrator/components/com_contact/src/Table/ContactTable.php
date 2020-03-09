@@ -171,10 +171,10 @@ class ContactTable extends Table
 		// Generate a valid alias
 		$this->generateAlias();
 
-		// Check for valid category
-		if (trim($this->catid) == '')
+		// Check for a valid category.
+		if (!$this->catid = (int) $this->catid)
 		{
-			$this->setError(Text::_('COM_CONTACT_WARNING_CATEGORY'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
 
 			return false;
 		}
