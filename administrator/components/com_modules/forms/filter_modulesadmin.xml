@@ -26,7 +26,7 @@
 			name="state"
 			type="status"
 			label="JOPTION_SELECT_PUBLISHED"
-			filter="*,-2,0,1"
+			optionsFilter="*,-2,0,1"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
