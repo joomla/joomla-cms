@@ -422,7 +422,7 @@ class BannerModel extends AdminModel
 		// Alter the name for save as copy
 		if ($input->get('task') == 'save2copy')
 		{
-			/** @var \Joomla\Component\Banners\Administrator\Table\Banner $origTable */
+			/** @var \Joomla\Component\Banners\Administrator\Table\BannerTable $origTable */
 			$origTable = clone $this->getTable();
 			$origTable->load($input->getInt('id'));
 
