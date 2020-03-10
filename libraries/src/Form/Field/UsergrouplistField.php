@@ -78,7 +78,6 @@ class UsergrouplistField extends ListField
 
 			$groups         = UserGroupsHelper::getInstance()->getAll();
 			$checkSuperUser = (int) $this->getAttribute('checksuperusergroup', 0);
-			$isSuperUser    = Factory::getUser()->authorise('core.admin');
 			$options        = array();
 
 			foreach ($groups as $group)
