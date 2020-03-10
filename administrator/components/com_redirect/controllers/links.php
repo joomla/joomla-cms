@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -123,6 +123,9 @@ class RedirectControllerLinks extends JControllerAdmin
 	 */
 	public function batch()
 	{
+		// Check for request forgeries.
+		$this->checkToken();
+
 		$batch_urls_request = $this->input->post->get('batch_urls', array(), 'array');
 		$batch_urls_lines   = array_map('trim', explode("\n", $batch_urls_request[0]));
 
@@ -174,6 +177,9 @@ class RedirectControllerLinks extends JControllerAdmin
 	 */
 	public function purge()
 	{
+		// Check for request forgeries.
+		$this->checkToken();
+
 		$model = $this->getModel('Links');
 
 		if ($model->purge())

@@ -12,6 +12,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="JSEARCH_FILTER"
 			description="COM_LANGUAGES_SEARCH_IN_TITLE"
 			hint="JSEARCH_FILTER"
