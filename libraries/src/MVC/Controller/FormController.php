@@ -137,6 +137,7 @@ class FormController extends BaseController
 		$this->registerTask('apply', 'save');
 		$this->registerTask('save2new', 'save');
 		$this->registerTask('save2copy', 'save');
+		$this->registerTask('editAssociations', 'save');
 	}
 
 	/**
@@ -913,20 +914,8 @@ class FormController extends BaseController
 			false
 		);
 
-		// Validate the posted data.
-		// Sometimes the form needs some posted data, such as for plugins and modules.
-		$form = $model->getForm($data, false);
-
-		if (!$form)
-		{
-			$app->enqueueMessage($model->getError(), 'error');
-
-			$this->setRedirect($redirectUrl);
-			$this->redirect();
-		}
-
 		// Save the data in the session.
-		$app->setUserState($this->option . '.edit.' . $this->context . '.data', $form->filter($data));
+		$app->setUserState($this->option . '.edit.' . $this->context . '.data', $data);
 
 		$this->setRedirect($redirectUrl);
 		$this->redirect();
@@ -938,6 +927,8 @@ class FormController extends BaseController
 	 * @return  void
 	 *
 	 * @since   3.9.0
+	 *
+	 * @deprecated 5.0  It is handled by regular save method now.
 	 */
 	public function editAssociations()
 	{

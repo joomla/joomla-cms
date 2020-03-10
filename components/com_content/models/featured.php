@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
@@ -162,7 +163,7 @@ class ContentModelFeatured extends ContentModelArticles
 
 		if (is_array($featuredCategories) && !in_array('', $featuredCategories))
 		{
-			$query->where('a.catid IN (' . implode(',', $featuredCategories) . ')');
+			$query->where('a.catid IN (' . implode(',', ArrayHelper::toInteger($featuredCategories)) . ')');
 		}
 
 		return $query;

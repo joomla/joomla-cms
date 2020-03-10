@@ -84,8 +84,8 @@ class Files extends Input
 				)
 			);
 
-			// Prevent returning an unsafe file unless speciffically requested
-			if ($filter != 'raw')
+			// Prevent returning an unsafe file unless specifically requested
+			if (strtoupper($filter) !== 'RAW')
 			{
 				$isSafe = InputFilter::isSafeFile($results);
 
