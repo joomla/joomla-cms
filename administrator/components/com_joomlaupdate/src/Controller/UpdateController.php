@@ -514,7 +514,7 @@ class UpdateController extends BaseController
 
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
-		$updateFileUrl = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
+		$compatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
 
 		$this->app = Factory::getApplication();
 		$this->app->mimeType = 'application/json';
@@ -524,7 +524,7 @@ class UpdateController extends BaseController
 
 		try
 		{
-			echo new JsonResponse($updateFileUrl);
+			echo new JsonResponse($compatibilityStatus);
 		}
 		catch (\Exception $e)
 		{

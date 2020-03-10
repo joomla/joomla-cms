@@ -11,15 +11,15 @@ namespace Joomla\Component\Actionlogs\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\Utilities\IpHelper;
+use PHPMailer\PHPMailer\Exception as phpMailerException;
 
 /**
  * Methods supporting a list of Actionlog records.
@@ -40,8 +40,6 @@ class ActionlogModel extends BaseDatabaseModel
 	 * @return  void
 	 *
 	 * @since   3.9.0
-	 *
-	 * @throws  Exception
 	 */
 	public function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
@@ -88,8 +86,15 @@ class ActionlogModel extends BaseDatabaseModel
 			}
 		}
 
-		// Send notification email to users who choose to be notified about the action logs
-		$this->sendNotificationEmails($loggedMessages, $user->name, $context);
+		try
+		{
+			// Send notification email to users who choose to be notified about the action logs
+			$this->sendNotificationEmails($loggedMessages, $user->name, $context);
+		}
+		catch (MailDisabledException | phpMailerException $e)
+		{
+			// Ignore it
+		}
 	}
 
 	/**
@@ -103,7 +108,8 @@ class ActionlogModel extends BaseDatabaseModel
 	 *
 	 * @since   3.9.0
 	 *
-	 * @throws  Exception
+	 * @throws  MailDisabledException  if mail is disabled
+	 * @throws  phpmailerException     if sending mail failed
 	 */
 	protected function sendNotificationEmails($messages, $username, $context)
 	{
@@ -165,10 +171,6 @@ class ActionlogModel extends BaseDatabaseModel
 		$mailer->isHTML(true);
 		$mailer->Encoding = 'base64';
 		$mailer->setBody($body);
-
-		if (!$mailer->Send())
-		{
-			throw new GenericDataException(Text::_('JERROR_SENDING_EMAIL'), 500);
-		}
+		$mailer->Send();
 	}
 }

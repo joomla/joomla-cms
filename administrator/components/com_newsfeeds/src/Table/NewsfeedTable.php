@@ -92,6 +92,14 @@ class NewsfeedTable extends Table
 			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
+		// Check for a valid category.
+		if (!$this->catid = (int) $this->catid)
+		{
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
+
+			return false;
+		}
+
 		// Check the publish down date is not earlier than publish up.
 		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
 		{

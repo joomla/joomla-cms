@@ -499,3 +499,6 @@ JLoader::registerAlias('JStringController',                 '\\Joomla\\CMS\\File
 JLoader::registerAlias('JClassLoader',                      '\\Joomla\\CMS\\Autoload\\ClassLoader', '5.0');
 
 JLoader::registerAlias('JFormFilterInt_Array', '\\Joomla\\CMS\\Form\\Filter\\IntarrayFilter', '5.0');
+
+JLoader::registerAlias('JAdapter',                          '\\Joomla\\CMS\\Adapter\\Adapter', '5.0');
+JLoader::registerAlias('JAdapterInstance',                  '\\Joomla\\CMS\\Adapter\\AdapterInstance', '5.0');
