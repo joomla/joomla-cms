@@ -2027,6 +2027,9 @@ class JoomlaInstallerScript
 			 * Joomla! 3.9.7
 			 */
 			'/administrator/components/com_joomlaupdate/access.xml',
+
+			// Joomla! 3.9.17
+			'/administrator/components/com_templates/controllers/template.php.orig',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -2268,8 +2271,6 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem/wrapper',
 			'/libraries/joomla/filesystem',
 			'/libraries/vendor/phpmailer/phpmailer/composer.lock',
-			// Joomla! 3.9.17
-			'/administrator/components/com_templates/controllers/template.php.orig',
 		);
 
 		jimport('joomla.filesystem.file');
