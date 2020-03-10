@@ -32,6 +32,7 @@
   "dependencies": {
     "@claviska/jquery-minicolors": "^2.3.4",
     "@webcomponents/webcomponentsjs": "2.1.2",
+    "accessibility": "^3.0.9",
     "awesomplete": "1.1.5",
     "bootstrap": "^4.4.1",
     "choices.js": "^9.0.1",
