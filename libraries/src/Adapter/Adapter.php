@@ -120,9 +120,9 @@ class Adapter extends CMSObject
 	/**
 	 * Set an adapter by name
 	 *
-	 * @param   string  $name      Adapter name
-	 * @param   object  &$adapter  Adapter object
-	 * @param   array   $options   Adapter options
+	 * @param   string  $name     Adapter name
+	 * @param   object  $adapter  Adapter object
+	 * @param   array   $options  Adapter options
 	 *
 	 * @return  boolean  True if successful
 	 *
@@ -190,7 +190,7 @@ class Adapter extends CMSObject
 	{
 		$files = new \DirectoryIterator($this->_basepath . '/' . $this->_adapterfolder);
 
-		/* @type  $file  \DirectoryIterator */
+		/** @type  $file  \DirectoryIterator */
 		foreach ($files as $file)
 		{
 			$fileName = $file->getFilename();
