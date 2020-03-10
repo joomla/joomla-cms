@@ -753,6 +753,11 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$validData['tags'] = array();
 		}
 
+		$app->triggerEvent(
+			'onContentBeforeSaveData',
+			array($this->option . '.' . $this->context, $objData, $form)
+		);
+
 		// Attempt to save the data.
 		if (!$model->save($validData))
 		{
