@@ -22,7 +22,7 @@ use Joomla\CMS\Object\CMSObject;
 abstract class BaseModel extends CMSObject implements ModelInterface, StatefulModelInterface
 {
 	use StateBehaviorTrait;
-	use LeagcyModelLoaderTrait;
+	use LegacyModelLoaderTrait;
 
 	/**
 	 * The model (base) name

@@ -21,7 +21,7 @@ use Joomla\CMS\Table\Table;
  * @since       4.0.0
  * @deprecated  5.0 Will be removed without replacement
  */
-trait LeagcyModelLoaderTrait
+trait LegacyModelLoaderTrait
 {
 
 	/**
