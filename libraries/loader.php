@@ -180,6 +180,7 @@ abstract class JLoader
 	 */
 	public static function import($key, $base = null)
 	{
+		echo 'foo';
 		// Only import the library if not already attempted.
 		if (!isset(self::$imported[$key]))
 		{
