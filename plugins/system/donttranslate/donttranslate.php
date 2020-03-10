@@ -62,8 +62,8 @@ class PlgSystemDontTranslate extends CMSPlugin
 		$page = Factory::getApplication()->input;
 
 		if (($page->request->getWord('option') === 'com_content')
-			&&	($page->request->getWord('view') === 'form')
-			&&	($page->request->getWord('layout') === 'edit'))
+			&& ($page->request->getWord('view') === 'form')
+			&& ($page->request->getWord('layout') === 'edit'))
 		{
 			return;
 		}
