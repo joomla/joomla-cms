@@ -263,6 +263,7 @@ class ExtensionHelper
 		array('plugin', 'multilang', 'sampledata', 0),
 
 		// Core plugin extensions - system
+		array('plugin', 'accessibility', 'system', 0),
 		array('plugin', 'actionlogs', 'system', 0),
 		array('plugin', 'cache', 'system', 0),
 		array('plugin', 'debug', 'system', 0),
