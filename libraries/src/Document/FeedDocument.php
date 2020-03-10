@@ -226,7 +226,7 @@ class FeedDocument extends Document
 		// Render the feed
 		$data .= $renderer->render();
 
-		parent::render();
+		parent::render($cache, $params);
 
 		return $data;
 	}

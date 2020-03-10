@@ -36,7 +36,7 @@
 					type="menuitem"
 					label="PLG_CACHE_FIELD_EXCLUDE_MENU_ITEMS_LABEL"
 					multiple="multiple"
-					filter="int_array"
+					filter="intarray"
 				/>
 
 			</fieldset>

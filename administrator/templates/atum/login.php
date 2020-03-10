@@ -91,7 +91,7 @@ Text::script('JGLOBAL_WARNCOOKIES');
 <header id="header" class="header">
 	<div class="d-flex">
 		<div class="header-title d-flex">
-			<div class="d-flex">
+			<div class="d-flex align-items-center">
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<div class="logo">
 					<img src="<?php echo $siteLogo; ?>" alt="<?php echo $logoAlt; ?>">

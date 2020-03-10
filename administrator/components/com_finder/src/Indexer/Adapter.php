@@ -362,6 +362,8 @@ abstract class Adapter extends CMSPlugin
 		// Check the items.
 		if (empty($items))
 		{
+			Factory::getApplication()->triggerEvent('onFinderIndexAfterDelete', array($id));
+
 			return true;
 		}
 

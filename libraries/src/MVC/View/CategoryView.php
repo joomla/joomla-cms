@@ -99,7 +99,7 @@ class CategoryView extends HtmlView
 	 * Whether to run the standard Joomla plugin events.
 	 * Off by default for b/c
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 * @since  3.5
 	 */
 	protected $runPlugins = false;

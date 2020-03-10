@@ -144,17 +144,21 @@ class HtmlDocument extends Document
 	public function getHeadData()
 	{
 		$data = array();
-		$data['title']       = $this->title;
-		$data['description'] = $this->description;
-		$data['link']        = $this->link;
-		$data['metaTags']    = $this->_metaTags;
-		$data['links']       = $this->_links;
-		$data['styleSheets'] = $this->_styleSheets;
-		$data['style']       = $this->_style;
-		$data['scripts']     = $this->_scripts;
-		$data['script']      = $this->_script;
-		$data['custom']      = $this->_custom;
-		$data['scriptText']  = Text::getScriptStrings();
+		$data['title']         = $this->title;
+		$data['description']   = $this->description;
+		$data['link']          = $this->link;
+		$data['metaTags']      = $this->_metaTags;
+		$data['links']         = $this->_links;
+		$data['styleSheets']   = $this->_styleSheets;
+		$data['style']         = $this->_style;
+		$data['scripts']       = $this->_scripts;
+		$data['script']        = $this->_script;
+		$data['custom']        = $this->_custom;
+
+		// @deprecated 5.0  This property is for backwards compatibility. Pass text through script options in the future
+		$data['scriptText']    = Text::getScriptStrings();
+
+		$data['scriptOptions'] = $this->scriptOptions;
 
 		return $data;
 	}
@@ -172,16 +176,17 @@ class HtmlDocument extends Document
 	{
 		if (\is_null($types))
 		{
-			$this->title        = '';
-			$this->description  = '';
-			$this->link         = '';
-			$this->_metaTags    = array();
-			$this->_links       = array();
-			$this->_styleSheets = array();
-			$this->_style       = array();
-			$this->_scripts     = array();
-			$this->_script      = array();
-			$this->_custom      = array();
+			$this->title         = '';
+			$this->description   = '';
+			$this->link          = '';
+			$this->_metaTags     = array();
+			$this->_links        = array();
+			$this->_styleSheets  = array();
+			$this->_style        = array();
+			$this->_scripts      = array();
+			$this->_script       = array();
+			$this->_custom       = array();
+			$this->scriptOptions = array();
 		}
 
 		if (\is_array($types))
@@ -229,6 +234,10 @@ class HtmlDocument extends Document
 				$realType = '_' . $type;
 				$this->{$realType} = array();
 				break;
+
+			case 'scriptOptions':
+				$this->{$type} = array();
+				break;
 		}
 	}
 
@@ -245,27 +254,20 @@ class HtmlDocument extends Document
 	{
 		if (empty($data) || !\is_array($data))
 		{
-			return;
+			return null;
 		}
 
-		$this->title        = $data['title'] ?? $this->title;
-		$this->description  = $data['description'] ?? $this->description;
-		$this->link         = $data['link'] ?? $this->link;
-		$this->_metaTags    = $data['metaTags'] ?? $this->_metaTags;
-		$this->_links       = $data['links'] ?? $this->_links;
-		$this->_styleSheets = $data['styleSheets'] ?? $this->_styleSheets;
-		$this->_style       = $data['style'] ?? $this->_style;
-		$this->_scripts     = $data['scripts'] ?? $this->_scripts;
-		$this->_script      = $data['script'] ?? $this->_script;
-		$this->_custom      = $data['custom'] ?? $this->_custom;
-
-		if (isset($data['scriptText']) && !empty($data['scriptText']))
-		{
-			foreach ($data['scriptText'] as $key => $string)
-			{
-				Text::script($key, $string);
-			}
-		}
+		$this->title         = $data['title'] ?? $this->title;
+		$this->description   = $data['description'] ?? $this->description;
+		$this->link          = $data['link'] ?? $this->link;
+		$this->_metaTags     = $data['metaTags'] ?? $this->_metaTags;
+		$this->_links        = $data['links'] ?? $this->_links;
+		$this->_styleSheets  = $data['styleSheets'] ?? $this->_styleSheets;
+		$this->_style        = $data['style'] ?? $this->_style;
+		$this->_scripts      = $data['scripts'] ?? $this->_scripts;
+		$this->_script       = $data['script'] ?? $this->_script;
+		$this->_custom       = $data['custom'] ?? $this->_custom;
+		$this->scriptOptions = (isset($data['scriptOptions']) && !empty($data['scriptOptions'])) ? $data['scriptOptions'] : $this->scriptOptions;
 
 		return $this;
 	}
@@ -343,6 +345,14 @@ class HtmlDocument extends Document
 		$this->_custom = (isset($data['custom']) && !empty($data['custom']) && \is_array($data['custom']))
 			? array_unique(array_merge($this->_custom, $data['custom']))
 			: $this->_custom;
+
+		if (!empty($data['scriptOptions']))
+		{
+			foreach ($data['scriptOptions'] as $key => $scriptOptions)
+			{
+				$this->addScriptOptions($key, $scriptOptions, true);
+			}
+		}
 
 		return $this;
 	}
@@ -570,48 +580,53 @@ class HtmlDocument extends Document
 		}
 
 		$data = $this->_renderTemplate();
-		parent::render();
+		parent::render($caching, $params);
 
 		return $data;
 	}
 
 	/**
-	 * Count the modules based on the given condition
+	 * Count the modules in the given position
 	 *
-	 * @param   string  $condition  The condition to use
+	 * @param   string   $positionName     The position to use
+	 * @param   boolean  $withContentOnly  Count only a modules which actually has a content
 	 *
 	 * @return  integer  Number of modules found
 	 *
 	 * @since   1.7.0
 	 */
-	public function countModules($condition)
+	public function countModules(string $positionName, bool $withContentOnly = false)
 	{
-		$operators = '(\+|\-|\*|\/|==|\!=|\<\>|\<|\>|\<=|\>=|and|or|xor)';
-		$words = preg_split('# ' . $operators . ' #', $condition, null, PREG_SPLIT_DELIM_CAPTURE);
-
-		if (\count($words) === 1)
+		if ((isset(parent::$_buffer['modules'][$positionName])) && (parent::$_buffer['modules'][$positionName] === false))
 		{
-			$name = strtolower($words[0]);
-			$result = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
-				? 0 : \count(ModuleHelper::getModules($name));
-
-			return $result;
+			return 0;
 		}
 
-		Log::add('Using an expression in HtmlDocument::countModules() is deprecated.', Log::WARNING, 'deprecated');
+		$modules = ModuleHelper::getModules($positionName);
 
-		for ($i = 0, $n = \count($words); $i < $n; $i += 2)
+		if (!$withContentOnly)
 		{
-			// Odd parts (modules)
-			$name = strtolower($words[$i]);
-			$words[$i] = ((isset(parent::$_buffer['modules'][$name])) && (parent::$_buffer['modules'][$name] === false))
-				? 0
-				: \count(ModuleHelper::getModules($name));
+			return \count($modules);
 		}
 
-		$str = 'return ' . implode(' ', $words) . ';';
+		// Now we need to count only modules which actually have a content
+		$result   = 0;
+		$renderer = $this->loadRenderer('module');
 
-		return eval($str);
+		foreach ($modules as $module)
+		{
+			if (empty($module->contentRendered))
+			{
+				$renderer->render($module, array('style' => 'raw'));
+			}
+
+			if (trim($module->content) !== '')
+			{
+				$result++;
+			}
+		}
+
+		return $result;
 	}
 
 	/**

@@ -14,7 +14,7 @@
 			name="state"
 			type="status"
 			label="JOPTION_SELECT_PUBLISHED"
-			filter="0,1"
+			optionsFilter="0,1"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -49,6 +49,7 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="branch_title ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.state ASC">JSTATUS_ASC</option>
