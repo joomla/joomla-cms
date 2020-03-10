@@ -37,7 +37,7 @@ class ActionlogsHelper
 	/**
 	 * Method to convert logs objects array to an iterable type for use with a CSV export
 	 *
-	 * @param   array|Traversable  $data  The logs data objects to be exported
+	 * @param   array|\Traversable  $data  The logs data objects to be exported
 	 *
 	 * @return  Generator
 	 *
