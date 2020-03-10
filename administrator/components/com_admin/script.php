@@ -2024,7 +2024,7 @@ class JoomlaInstallerScript
 			'/libraries/fof/view.php',
 
 			/*
-			 * Joomla! 3.9.17
+			 * Joomla! 3.9.7
 			 */
 			'/administrator/components/com_joomlaupdate/access.xml',
 		);
@@ -2268,7 +2268,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem/wrapper',
 			'/libraries/joomla/filesystem',
 			'/libraries/vendor/phpmailer/phpmailer/composer.lock',
-			// Joomla! 3.9.7
+			// Joomla! 3.9.17
 			'/administrator/components/com_templates/controllers/template.php.orig',
 		);
 
