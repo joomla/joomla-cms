@@ -74,8 +74,7 @@
       const imgURL = img.getAttribute('src');
 
       // Check if we're manipulating a SVG file.
-      if (imgURL.substr(imgURL.length - 4).toLowerCase() !== '.svg')
-      {
+      if (imgURL.substr(imgURL.length - 4).toLowerCase() !== '.svg') {
         return;
       }
 
