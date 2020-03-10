@@ -30,6 +30,12 @@
   width: auto;
 }
 
+@include media-breakpoint-down(sm) {
+  .form-inline .custom-select {
+    width: 100%;
+  }
+}
+
 td .form-control {
   display: inline-block;
   width: auto;
