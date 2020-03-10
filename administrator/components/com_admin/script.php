@@ -2024,7 +2024,7 @@ class JoomlaInstallerScript
 			'/libraries/fof/view.php',
 
 			/*
-			 * Joomla! 3.9.7
+			 * Joomla! 3.9.17
 			 */
 			'/administrator/components/com_joomlaupdate/access.xml',
 		);
