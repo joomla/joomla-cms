@@ -1627,7 +1627,7 @@ abstract class AdminModel extends FormModel
 	/**
 	 * Method to load an item in com_associations.
 	 *
-	 * @param array $data The form data.
+	 * @param   array  $data  The form data.
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
