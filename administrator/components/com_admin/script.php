@@ -257,7 +257,7 @@ class JoomlaInstallerScript
 
 			// Get the FieldsModelField, we need it in a sec
 			$fieldModel = $app->bootComponent('com_fields')->getMVCFactory()->createModel('Fields', 'Administrator', ['ignore_request' => true]);
-			/* @var $fieldModel FieldModel */
+			/** @var FieldModel $fieldModel */
 
 			// Now get a list of all `repeatable` custom field instances
 			$db->setQuery(
@@ -337,6 +337,7 @@ class JoomlaInstallerScript
 							{
 								// If the error is, that the name collided, increase the collision prevention
 								$error = $fieldModel->getError();
+
 								if ($error == 'COM_FIELDS_ERROR_UNIQUE_NAME')
 								{
 									// If this is the first time this error occurs, set only the prefix
