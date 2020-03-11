@@ -50,7 +50,9 @@ abstract class JHtmlSearchtools
 			$options = static::optionsToRegistry($options);
 
 			// Load the script && css files
-			Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('searchtools');
+			Factory::getApplication()->getDocument()->getWebAssetManager()
+				->useStyle('searchtools')
+				->useScript('searchtools');
 
 			Factory::getDocument()->addScriptOptions('searchtools', $options);
 

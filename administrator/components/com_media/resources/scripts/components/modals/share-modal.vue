@@ -4,7 +4,7 @@
         <div slot="body">
             <div class="desc">
                 {{ translate('COM_MEDIA_SHARE_DESC') }}
-                
+
                 <template v-if="!url">
                     <div class="control">
                         <button class="btn btn-success btn-block" type="button" @click="generateUrl">{{ translate('COM_MEDIA_ACTION_SHARE') }}</button>
@@ -16,10 +16,10 @@
                             <input id="url" ref="urlText" readonly v-model="url" class="form-control input-xxlarge" placeholder="URL" autocomplete="off">
                             <span class="input-group-append">
                                 <button class="btn btn-secondary" type="button" @click="copyToClipboard" :title="translate('COM_MEDIA_SHARE_COPY')">
-                                    <span class="fa fa-clipboard" aria-hidden="true"></span>
+                                    <span class="fas fa-clipboard" aria-hidden="true"></span>
                                 </button>
                             </span>
-                        </span>     
+                        </span>
                     </div>
                 </template>
             </div>

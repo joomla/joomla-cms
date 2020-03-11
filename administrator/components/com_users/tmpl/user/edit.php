@@ -48,7 +48,7 @@ $this->useCoreUI = true;
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php if ($this->grouplist) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'groups', Text::_('COM_USERS_ASSIGNED_GROUPS')); ?>
-				<fieldset id="fieldset-groups" class="options-grid-form options-grid-form-full">
+				<fieldset id="fieldset-groups" class="options-form">
 					<legend><?php echo Text::_('COM_USERS_ASSIGNED_GROUPS'); ?></legend>
 					<div>
 					<?php echo $this->loadTemplate('groups'); ?>
@@ -76,8 +76,7 @@ $this->useCoreUI = true;
 	</div>
 	<div id="com_users_twofactor_forms_container">
 		<?php foreach ($this->tfaform as $form) : ?>
-		<?php $style = $form['method'] == $this->otpConfig->method ? 'display: block' : 'display: none'; ?>
-		<div id="com_users_twofactor_<?php echo $form['method'] ?>" style="<?php echo $style; ?>">
+		<div id="com_users_twofactor_<?php echo $form['method'] ?>" class="hidden">
 			<?php echo $form['form'] ?>
 		</div>
 		<?php endforeach; ?>
@@ -88,12 +87,12 @@ $this->useCoreUI = true;
 			<?php echo Text::_('COM_USERS_USER_OTEPS'); ?>
 		</legend>
 		<div class="alert alert-info">
-			<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+			<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 			<?php echo Text::_('COM_USERS_USER_OTEPS_DESC'); ?>
 		</div>
 		<?php if (empty($this->otpConfig->otep)) : ?>
 			<div class="alert alert-warning">
-				<span class="fa fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+				<span class="fas fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 				<?php echo Text::_('COM_USERS_USER_OTEPS_WAIT_DESC'); ?>
 			</div>
 		<?php else : ?>

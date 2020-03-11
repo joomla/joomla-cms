@@ -133,13 +133,12 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('password', $options->db_pass_plain);
 		$registry->set('db', $options->db_name);
 		$registry->set('dbprefix', $options->db_prefix);
-		$registry->set('dbencryption', 0);
-		$registry->set('dbsslverifyservercert', false);
-		$registry->set('dbsslkey', '');
-		$registry->set('dbsslcert', '');
-		$registry->set('dbsslca', '');
-		$registry->set('dbsslcapath', '');
-		$registry->set('dbsslcipher', '');
+		$registry->set('dbencryption', $options->db_encryption);
+		$registry->set('dbsslverifyservercert', $options->db_sslverifyservercert);
+		$registry->set('dbsslkey', $options->db_sslkey);
+		$registry->set('dbsslcert', $options->db_sslcert);
+		$registry->set('dbsslca', $options->db_sslca);
+		$registry->set('dbsslcipher', $options->db_sslcipher);
 
 		// Server settings.
 		$registry->set('live_site', '');
@@ -178,7 +177,6 @@ class ConfigurationModel extends BaseInstallationModel
 
 		// Meta settings.
 		$registry->set('MetaDesc', '');
-		$registry->set('MetaKeys', '');
 		$registry->set('MetaTitle', true);
 		$registry->set('MetaAuthor', true);
 		$registry->set('MetaVersion', false);
@@ -275,7 +273,9 @@ class ConfigurationModel extends BaseInstallationModel
 				$options->db_user,
 				$options->db_pass_plain,
 				$options->db_name,
-				$options->db_prefix
+				$options->db_prefix,
+				true,
+				DatabaseHelper::getEncryptionSettings($options)
 			);
 		}
 		catch (\RuntimeException $e)

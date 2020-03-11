@@ -15,10 +15,7 @@
    * @param id
    */
   const toggle = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.style.display = (element.style.display === 'block') ? 'none' : 'block';
-    }
+    document.getElementById(id).classList.toggle('hidden');
   };
 
   /**

@@ -9,8 +9,8 @@
 
   ol {
     display: flex;
-    margin: 0;
     padding: 0;
+    margin: 0;
     list-style: outside none none;
 
     & > li > a {
@@ -65,7 +65,7 @@
   display: none;
 }
 
-/* RTL override */
+// RTL override
 
 html[dir=rtl] .media-breadcrumb {
   margin: 0 0 0 auto;

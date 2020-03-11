@@ -187,6 +187,8 @@
 			label="JFIELD_META_DESCRIPTION_LABEL"
 			rows="3"
 			cols="30"
+			maxlength="160"
+			charcounter="true"
 		/>
 
 		<field
@@ -217,7 +219,7 @@
 			name="featured"
 			type="radio"
 			label="JFEATURED"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>

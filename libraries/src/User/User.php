@@ -158,7 +158,7 @@ class User extends CMSObject
 	/**
 	 * Count since last Reset Time
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  3.0.1
 	 */
 	public $resetCount = null;
@@ -166,7 +166,7 @@ class User extends CMSObject
 	/**
 	 * Flag to require the user's password be reset
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  3.2
 	 */
 	public $requireReset = null;
@@ -652,6 +652,10 @@ class User extends CMSObject
 			{
 				$array['password'] = $this->password;
 			}
+
+			// Prevent updating current registration date/last visit date
+			unset($array['registerDate']);
+			unset($array['lastvisitDate']);
 		}
 
 		if (\array_key_exists('params', $array))

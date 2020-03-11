@@ -483,7 +483,8 @@ class Toolbar
 			$button = $this->factory->createButton($this, $type);
 
 			$button->name($args[0] ?? '')
-				->text($args[1] ?? '');
+				->text($args[1] ?? '')
+				->task($args[2] ?? '');
 
 			return $this->appendButton($button);
 		}

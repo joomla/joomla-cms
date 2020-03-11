@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\RadioField;
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\Database\ParameterType;
 
 /**
@@ -88,7 +89,7 @@ class JFormFieldprivacy extends RadioField
 			$article = $db->loadObject();
 
 			$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-			$article->link  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
+			$article->link  = RouteHelper::getArticleRoute($slug, $article->catid, $article->language);
 		}
 
 		$extraData = [
