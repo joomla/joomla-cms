@@ -10,6 +10,7 @@ namespace Joomla\CMS\MVC\Model;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 
@@ -30,6 +31,14 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 	 * @since  4.0.0
 	 */
 	protected $name;
+
+	/**
+	 * The include paths
+	 *
+	 * @var   array
+	 * @since  4.0.0
+	 */
+	protected static $paths;
 
 	/**
 	 * Constructor
@@ -65,6 +74,54 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 		{
 			$this->__state_set = true;
 		}
+	}
+
+	/**
+	 * Add a directory where \JModelLegacy should search for models. You may
+	 * either pass a string or an array of directories.
+	 *
+	 * @param   mixed   $path    A path or array[sting] of paths to search.
+	 * @param   string  $prefix  A prefix for models.
+	 *
+	 * @return  array  An array with directory elements. If prefix is equal to '', all directories are returned.
+	 *
+	 * @since       3.0
+	 * @deprecated  5.0 See LeagcyModelLoaderTrait\getInstance
+	 */
+	public static function addIncludePath($path = '', $prefix = '')
+	{
+		if (!isset(self::$paths))
+		{
+			self::$paths = array();
+		}
+
+		if (!isset(self::$paths[$prefix]))
+		{
+			self::$paths[$prefix] = array();
+		}
+
+		if (!isset(self::$paths['']))
+		{
+			self::$paths[''] = array();
+		}
+
+		if (!empty($path))
+		{
+			foreach ((array) $path as $includePath)
+			{
+				if (!\in_array($includePath, self::$paths[$prefix]))
+				{
+					array_unshift(self::$paths[$prefix], Path::clean($includePath));
+				}
+
+				if (!\in_array($includePath, self::$paths['']))
+				{
+					array_unshift(self::$paths[''], Path::clean($includePath));
+				}
+			}
+		}
+
+		return self::$paths[$prefix];
 	}
 
 	/**
