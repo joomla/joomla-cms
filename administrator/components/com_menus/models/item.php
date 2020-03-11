@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -1551,6 +1552,11 @@ class MenusModelItem extends JModelAdmin
 
 			// Clean the cache
 			parent::cleanCache($option);
+		}
+
+		if (Factory::getApplication()->input->get('task') == 'editAssociations')
+		{
+			return $this->redirectToAssociations($data);
 		}
 
 		return true;
