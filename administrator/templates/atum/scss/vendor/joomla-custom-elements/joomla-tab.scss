@@ -97,6 +97,10 @@ joomla-tab {
     &[active] {
       display: block;
     }
+
+    .tab-pane {
+      margin: 0
+    }
   }
 
   &[orientation=vertical] {
