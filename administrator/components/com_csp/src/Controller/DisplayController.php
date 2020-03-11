@@ -58,6 +58,6 @@ class DisplayController extends BaseController
 			$this->app->enqueueMessage(Text::sprintf('COM_CSP_PLUGIN_MODAL_DISABLED', $link), 'error');
 		}
 
-		parent::display();
+		return parent::display();
 	}
 }

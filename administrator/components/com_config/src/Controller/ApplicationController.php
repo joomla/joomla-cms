@@ -63,7 +63,7 @@ class ApplicationController extends BaseController
 	/**
 	 * Saves the form
 	 *
-	 * @return  mixed
+	 * @return  void|boolean  Void on success. Boolean false on fail.
 	 *
 	 * @since  4.0.0
 	 */
@@ -205,7 +205,7 @@ class ApplicationController extends BaseController
 	/**
 	 * Method to remove root in global configuration.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  boolean
 	 *
 	 * @since   3.2
 	 */
@@ -247,12 +247,14 @@ class ApplicationController extends BaseController
 
 		// Set the redirect based on the task.
 		$this->setRedirect(Route::_('index.php'), Text::_('COM_CONFIG_SAVE_SUCCESS'));
+
+		return true;
 	}
 
 	/**
 	 * Method to send the test mail.
 	 *
-	 * @return  string
+	 * @return  void
 	 *
 	 * @since   3.5
 	 */
@@ -290,7 +292,7 @@ class ApplicationController extends BaseController
 	/**
 	 * Method to GET permission value and give it to the model for storing in the database.
 	 *
-	 * @return  boolean  true on success, false when failed
+	 * @return  void
 	 *
 	 * @since   3.5
 	 */

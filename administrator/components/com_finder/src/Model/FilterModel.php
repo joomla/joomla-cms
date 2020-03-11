@@ -12,6 +12,7 @@ namespace Joomla\Component\Finder\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 
 /**
@@ -96,7 +97,7 @@ class FilterModel extends AdminModel
 	 * @param   array    $data      Data for the form. [optional]
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not. [optional]
 	 *
-	 * @return  \JForm|boolean  A \JForm object on success, false on failure
+	 * @return  Form|boolean  A \JForm object on success, false on failure
 	 *
 	 * @since   2.5
 	 */

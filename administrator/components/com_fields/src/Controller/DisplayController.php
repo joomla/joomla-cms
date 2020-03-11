@@ -12,6 +12,7 @@ namespace Joomla\Component\Fields\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 
 /**
@@ -19,7 +20,7 @@ use Joomla\CMS\Router\Route;
  *
  * @since  3.7.0
  */
-class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
+class DisplayController extends BaseController
 {
 	/**
 	 * The default view.
@@ -39,7 +40,7 @@ class DisplayController extends \Joomla\CMS\MVC\Controller\BaseController
 	 * @param   boolean     $cachable   If true, the view output will be cached
 	 * @param   array|bool  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}
 	 *
-	 * @return Controller|boolean  A Controller object to support chaining.
+	 * @return  BaseController|boolean  A Controller object to support chaining.
 	 *
 	 * @since   3.7.0
 	 */

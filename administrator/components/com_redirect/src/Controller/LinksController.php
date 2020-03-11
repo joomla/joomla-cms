@@ -146,7 +146,7 @@ class LinksController extends AdminController
 					$this->setMessage(Text::sprintf('COM_REDIRECT_NO_SEPARATOR_FOUND', $separator), 'error');
 					$this->setRedirect('index.php?option=com_redirect&view=links');
 
-					return false;
+					return;
 				}
 
 				$batch_urls[] = array_map('trim', explode($separator, $batch_urls_line));

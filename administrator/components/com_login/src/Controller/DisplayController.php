@@ -32,6 +32,7 @@ class DisplayController extends BaseController
 	 * @return  static	 This object to support chaining.
 	 *
 	 * @since   1.5
+	 * @throws  \Exception
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -58,7 +59,7 @@ class DisplayController extends BaseController
 		 */
 		$this->app->setHeader('X-Frame-Options', 'SAMEORIGIN');
 
-		parent::display();
+		return parent::display();
 	}
 
 	/**

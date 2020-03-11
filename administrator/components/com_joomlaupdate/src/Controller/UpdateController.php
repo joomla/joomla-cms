@@ -144,7 +144,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		{
 			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
-			return false;
+			return;
 		}
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
@@ -188,7 +188,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 		{
 			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
-			return false;
+			return;
 		}
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
@@ -283,7 +283,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	/**
 	 * Checks there is a valid update package and redirects to the captive view for super admin authentication.
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @since   3.6.0
 	 */
@@ -317,7 +317,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	/**
 	 * Checks the admin has super administrator privileges and then proceeds with the update.
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @since   3.6.0
 	 */
@@ -447,7 +447,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	/**
 	 * Checks the admin has super administrator privileges and then proceeds with the final & cleanup steps.
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @since   3.6.3
 	 */
@@ -481,7 +481,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 			JFactory::getApplication()->enqueueMessage(JText::_('JGLOBAL_AUTH_INVALID_PASS'), 'warning');
 			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
-			return false;
+			return;
 		}
 
 		// Redirect back to the actual finalise page

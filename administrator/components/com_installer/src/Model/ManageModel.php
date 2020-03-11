@@ -181,7 +181,7 @@ class ManageModel extends InstallerModel
 	/**
 	 * Refreshes the cached manifest information for an extension.
 	 *
-	 * @param   int  $eid  extension identifier (key in #__extensions)
+	 * @param   int|int[]  $eid  extension identifier (key in #__extensions)
 	 *
 	 * @return  boolean  result of refresh
 	 *

@@ -204,10 +204,10 @@ class RequestController extends FormController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		/** @var PrivacyModelRequest $model */
+		/** @var RequestModel $model */
 		$model = $this->getModel();
 
-		/** @var PrivacyTableRequest $table */
+		/** @var RequestTable $table */
 		$table = $model->getTable();
 
 		// Determine the name of the primary key for the data.

@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
@@ -31,7 +32,7 @@ class MenuController extends FormController
 	 * @param   boolean  $cachable   If true, the view output will be cached.
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  \JController		This object to support chaining.
+	 * @return  void
 	 *
 	 * @since   1.5
 	 */
@@ -85,8 +86,6 @@ class MenuController extends FormController
 		if (!$form)
 		{
 			throw new \Exception($model->getError(), 500);
-
-			return false;
 		}
 
 		$validData = $model->validate($form, $data);
