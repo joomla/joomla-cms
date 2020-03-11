@@ -23,6 +23,56 @@ use Joomla\CMS\Table\Table;
  */
 trait LegacyModelLoaderTrait
 {
+	/**
+	 * The include paths
+	 *
+	 * @var   array
+	 * @since  4.0.0
+	 */
+	protected static $paths = [];
+
+	/**
+	 * Add a directory where \JModelLegacy should search for models. You may
+	 * either pass a string or an array of directories.
+	 *
+	 * @param   mixed   $path    A path or array[string] of paths to search.
+	 * @param   string  $prefix  A prefix for models.
+	 *
+	 * @return  array  An array with directory elements. If prefix is equal to '', all directories are returned.
+	 *
+	 * @since       3.0
+	 * @deprecated  5.0 See LeagcyModelLoaderTrait\getInstance
+	 */
+	public static function addIncludePath($path = '', $prefix = '')
+	{
+		if (!isset(self::$paths[$prefix]))
+		{
+			self::$paths[$prefix] = array();
+		}
+
+		if (!isset(self::$paths['']))
+		{
+			self::$paths[''] = array();
+		}
+
+		if (!empty($path))
+		{
+			foreach ((array) $path as $includePath)
+			{
+				if (!\in_array($includePath, self::$paths[$prefix]))
+				{
+					array_unshift(self::$paths[$prefix], Path::clean($includePath));
+				}
+
+				if (!\in_array($includePath, self::$paths['']))
+				{
+					array_unshift(self::$paths[''], Path::clean($includePath));
+				}
+			}
+		}
+
+		return self::$paths[$prefix];
+	}
 
 	/**
 	 * Create the filename for a resource
