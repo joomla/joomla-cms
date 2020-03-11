@@ -25,7 +25,7 @@ class SearchesController extends BaseController
 	/**
 	 * Method to reset the search log table.
 	 *
-	 * @return  boolean
+	 * @return  void
 	 */
 	public function reset()
 	{
