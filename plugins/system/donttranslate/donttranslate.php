@@ -51,19 +51,11 @@ class PlgSystemDontTranslate extends CMSPlugin
 		if (Factory::getApplication()->isClient('administrator'))
 		{
 			$this->cleanAlias();
+			$this->cleanCategories();
 			$this->cleanList();
 		}
 
 		if (!Factory::getApplication()->isClient('site'))
-		{
-			return;
-		}
-
-		$page = Factory::getApplication()->input;
-
-		if (($page->request->getWord('option') === 'com_content')
-			&& ($page->request->getWord('view') === 'form')
-			&& ($page->request->getWord('layout') === 'edit'))
 		{
 			return;
 		}
@@ -152,19 +144,133 @@ class PlgSystemDontTranslate extends CMSPlugin
 
 	/**
 	 * On Before Saving content clean alias
-	 * Method is called when a content is being saved
 	 *
-	 * @param   string   $context  The extension
-	 * @param   JTable   $table    DataBase Table object
-	 * @param   boolean  $isNew    If the content is new or not
+	 * @param   string   $context  The context
+	 * @param   object   $table    The item
+	 * @param   boolean  $isNew    Is new item
+	 * @param   array    $data     The validated data
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onContentBeforeSave($context, $table, $isNew) : void
+	public function onContentBeforeSave($context, $table, $isNew=false, $data=[]) : void
 	{
-		$table->alias = str_replace(['{donttranslate}', 'donttranslate-'], '', $table->alias);
-		$table->alias = str_replace(['{-donttranslate}', '-donttranslate'], '', $table->alias);
+		if (isset($table->alias))
+		{
+			$table->alias = str_replace(['{donttranslate}', 'donttranslate-'], '', $table->alias);
+			$table->alias = str_replace(['{-donttranslate}', '-donttranslate'], '', $table->alias);
+		}
+	}
+
+	/**
+	 * Clean the category
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function cleanCategories() : void
+	{
+		$body = Factory::getApplication()->getBody();
+		$dom = new DOMDocument;
+		libxml_use_internal_errors(true);
+		$dom->loadHTML($body);
+		libxml_use_internal_errors(false);
+
+		// Article
+		if ($dom->getElementById('jform_catid'))
+		{
+			$select = $dom->getElementById('jform_catid');
+
+			foreach ($select->getElementsByTagName('option') as $link)
+			{
+				$string = $link->nodeValue;
+				$string = str_replace(['{dontTranslate}', '{/dontTranslate}'], '', $string);
+				$link->nodeValue = $string;
+			}
+		}
+
+		// Module
+		if ($dom->getElementById('jform_params_catid'))
+		{
+			$select = $dom->getElementById('jform_params_catid');
+
+			foreach ($select->getElementsByTagName('option') as $link)
+			{
+				$string = $link->nodeValue;
+				$string = str_replace(['{dontTranslate}', '{/dontTranslate}'], '', $string);
+				$link->nodeValue = $string;
+			}
+		}
+
+		// Menu
+		if ($dom->getElementById('jform_request_id'))
+		{
+			$select = $dom->getElementById('jform_request_id');
+
+			foreach ($select->getElementsByTagName('option') as $link)
+			{
+				$string = $link->nodeValue;
+				$string = str_replace(['{dontTranslate}', '{/dontTranslate}'], '', $string);
+				$link->nodeValue = $string;
+			}
+		}
+
+		if ($dom->getElementById('jform_menuordering'))
+		{
+			$select = $dom->getElementById('jform_menuordering');
+
+			foreach ($select->getElementsByTagName('option') as $link)
+			{
+				$string = $link->nodeValue;
+				$string = str_replace(['{dontTranslate}', '{/dontTranslate}'], '', $string);
+				$link->nodeValue = $string;
+			}
+		}
+
+		if ($dom->getElementById('jform_parent_id'))
+		{
+			$select = $dom->getElementById('jform_parent_id');
+
+			foreach ($select->getElementsByTagName('option') as $link)
+			{
+				$string = $link->nodeValue;
+				$string = str_replace(['{dontTranslate}', '{/dontTranslate}'], '', $string);
+				$link->nodeValue = $string;
+			}
+		}
+
+		if ($dom->getElementById('jform_request_id_name'))
+		{
+			$string = $dom->getElementById('jform_request_id_name')->getAttribute('value');
+			$string = str_replace(['{dontTranslate}', '{/dontTranslate}'], '', $string);
+			$dom->getElementById('jform_request_id_name')->setAttribute('value', $string);
+		}
+
+		// Menu Select Article
+		$divs = $dom->getElementsByTagName('div');
+
+		foreach ($divs as $div)
+		{
+			if ($div->getAttribute('class') === 'small')
+			{
+				$div->nodeValue = str_replace(['{dontTranslate}', '{/dontTranslate}'], '', $div->nodeValue);
+			}
+		}
+
+		// Module Menu Assignment
+		$labels = $dom->getElementsByTagName('label');
+
+		foreach ($labels as $label)
+		{
+			if (strrpos($label->getAttribute('for'), 'jform_menuselect') !== false)
+			{
+				$label->nodeValue = str_replace(['{dontTranslate}', '{/dontTranslate}'], '', $label->nodeValue);
+			}
+		}
+
+		$body = $dom->saveHTML();
+		Factory::getApplication()->setBody($body);
 	}
 }
