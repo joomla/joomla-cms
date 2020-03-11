@@ -159,18 +159,6 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
 	public function getName();
 
 	/**
-	 * Get the menu object.
-	 *
-	 * @param   string  $name     The application name for the menu
-	 * @param   array   $options  An array of options to initialise the menu with
-	 *
-	 * @return  AbstractMenu|null  An AbstractMenu object or null if not set.
-	 *
-	 * @since   4.0.0
-	 */
-	public function getMenu($name = null, $options = array());
-
-	/**
 	 * Allows the application to load a custom or default identity.
 	 *
 	 * @param   User  $identity  An optional identity object. If omitted, the factory user is created.
