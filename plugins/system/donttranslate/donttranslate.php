@@ -154,7 +154,7 @@ class PlgSystemDontTranslate extends CMSPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onContentBeforeSave($context, $table, $isNew=false, $data=[]) : void
+	public function onContentBeforeSave($context, $table, $isNew = false, $data = []) : void
 	{
 		if (isset($table->alias))
 		{
