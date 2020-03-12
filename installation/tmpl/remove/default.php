@@ -27,14 +27,6 @@ use Joomla\CMS\Uri\Uri;
 				<button class="btn btn-primary btn-block" id="installAddFeatures"><?php echo Text::_('INSTL_COMPLETE_ADD_PRECONFIG'); ?> <span class="fas fa-chevron-right" aria-hidden="true"></span></button>
 			</div>
 		</div>
-
-
-
-		
-		
-		
-		
-
 		
 		<?php if (count($this->installed_languages->administrator) > 1) : ?>
 				<div id="defaultLanguage" 
@@ -128,20 +120,6 @@ use Joomla\CMS\Uri\Uri;
 		</button>
 		<?php echo HTMLHelper::_('form.token'); ?>
 		</div>
-
-				
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
 	</fieldset>
 
 		<div id="installRecommended" class="j-install-step active">
@@ -304,4 +282,6 @@ use Joomla\CMS\Uri\Uri;
 				<p><?php echo Text::_('INSTL_COMPLETE_FINAL_DESC'); ?></p>
 			</div>
 		</fieldset>
+
+
 </div>
