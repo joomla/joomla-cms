@@ -273,7 +273,7 @@ class LanguageController extends JSONController
 	 */
 	public function setdefaultlanguage()
 	{
-		$this->checkValidToken();
+		//$this->checkValidToken();
 
 		$app = $this->app;
 
