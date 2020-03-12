@@ -39,12 +39,10 @@ use Joomla\CMS\Uri\Uri;
 		<?php if (count($this->installed_languages->administrator) > 1) : ?>
 				<div id="defaultLanguage" 
 					class="j-install-step-form flex-column mt-5 border rounded"
-					data-page-name="setup"
 				>
 		<?php else : ?>
 				<div id="defaultLanguage" 
 					class="j-install-step-form flex-column mt-5 border rounded d-none"
-					data-page-name="setup"
 				>
 		<?php endif; ?>
 		<p><?php echo Text::_('INSTL_DEFAULTLANGUAGE_DESC'); ?></p>
@@ -125,13 +123,10 @@ use Joomla\CMS\Uri\Uri;
 			<?php endforeach; ?>
 			</tbody>
 		</table>
-		<p>
-			<a href="index.php?view=setup&task=language.setdefaultLanguage"
-					class="btn btn-primary btn-block"
-			>
-				<?php echo Text::_('INSTL_LANGUAGES_SET_DEFAULT_LANGUAGE'); ?>
-			</a>
-		</p>
+		<button id="defaultLanguagesButton" class="btn btn-block btn-primary">
+			<?php echo Text::_('INSTL_DEFAULTLANGUAGE_SET_DEFAULT_LANGUAGE'); ?> <span class="fas fa-chevron-right" aria-hidden="true"></span>
+		</button>
+		<?php echo HTMLHelper::_('form.token'); ?>
 		</div>
 
 				
