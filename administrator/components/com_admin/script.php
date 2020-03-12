@@ -256,7 +256,7 @@ class JoomlaInstallerScript
 			$db->transactionStart();
 
 			// Get the FieldsModelField, we need it in a sec
-			$fieldModel = $app->bootComponent('com_fields')->getMVCFactory()->createModel('Fields', 'Administrator', ['ignore_request' => true]);
+			$fieldModel = $app->bootComponent('com_fields')->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
 			/** @var FieldModel $fieldModel */
 
 			// Now get a list of all `repeatable` custom field instances
@@ -308,18 +308,21 @@ class JoomlaInstallerScript
 							 * for each of the sub fields of the `repeatable` instance.
 							 */
 							$data = array(
-								'context'  => $row->context,
-								'group_id' => $row->group_id,
-								'title'    => $oldField->fieldname,
-								'name'     => (
+								'context'       => $row->context,
+								'group_id'      => $row->group_id,
+								'title'         => $oldField->fieldname,
+								'name'          => (
 									$fieldname_prefix
 									. $oldField->fieldname
 									. ($fieldname_suffix > 0 ? ('_' . $fieldname_suffix) : '')
 								),
-								'label'    => $oldField->fieldname,
-								'type'     => $oldField->fieldtype,
-								'state'    => '1',
-								'language' => '*',
+								'label'         => $oldField->fieldname,
+								'default_value' => $row->default_value,
+								'type'          => $oldField->fieldtype,
+								'description'   => $row->description,
+								'state'         => '1',
+								'params'        => $row->params,
+								'language'      => '*',
 							);
 
 							// `number` is not a valid custom field type, so use `text` instead.
