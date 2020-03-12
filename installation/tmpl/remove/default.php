@@ -94,7 +94,10 @@ use Joomla\CMS\Uri\Uri;
 
 		
 				<?php if (count($this->installed_languages->administrator) > 1) : ?>
-				<div id="defaultLanguage" class="j-install-step-form flex-column mt-5 border rounded">
+					<div id="defaultLanguage" class="j-install-step-form flex-column mt-5 border rounded">
+				<?php else : ?>
+					<div id="defaultLanguage" class="j-install-step-form flex-column mt-5 border rounded d-none">
+				<?php endif; ?>
 					<p><?php echo Text::_('INSTL_DEFAULTLANGUAGE_DESC'); ?></p>
 					<table class="table table-sm">
 						<thead>
@@ -174,7 +177,6 @@ use Joomla\CMS\Uri\Uri;
 					</tbody>
 				</table>
 				</div>
-				<?php endif; ?>
 				
 				<div class="form-group j-install-last-step">
 					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>" title="<?php echo Text::_('JSITE'); ?>"><span class="fas fa-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
@@ -188,7 +190,7 @@ use Joomla\CMS\Uri\Uri;
 				<span class="fas fa-comment-dots" aria-hidden="true"></span> <?php echo Text::_('INSTL_LANGUAGES'); ?>
 			</legend>
 			<div class="j-install-step-form">
-				<?php if (!$this->items) : ?>
+			<?php if (!$this->items) : ?>
 				<p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET'); ?></p>
 				<p>
 					<a href="#"
@@ -253,14 +255,14 @@ use Joomla\CMS\Uri\Uri;
 					</tbody>
 				</table>
 				<div class="form-group">
-					<?php echo HTMLHelper::_('form.token'); ?>
-					<?php endif; ?>
-					<button id="installLanguagesButton" class="btn btn-block btn-primary">
-						<?php echo Text::_('JNEXT'); ?>
-					</button>
-					<button id="skipLanguages" class="btn btn-block btn-secondary">
-					<?php echo Text::_('JSKIP'); ?>
-					</button>
+				<?php echo HTMLHelper::_('form.token'); ?>
+			<?php endif; ?>
+				<button id="installLanguagesButton" class="btn btn-block btn-primary">
+					<?php echo Text::_('JNEXT'); ?>
+				</button>
+				<button id="skipLanguages" class="btn btn-block btn-secondary">
+				<?php echo Text::_('JSKIP'); ?>
+				</button>
 				</div>
 			</form>
 			</div>
@@ -274,6 +276,4 @@ use Joomla\CMS\Uri\Uri;
 				<p><?php echo Text::_('INSTL_COMPLETE_FINAL_DESC'); ?></p>
 			</div>
 		</fieldset>
-
-
 </div>
