@@ -323,6 +323,7 @@ class JoomlaInstallerScript
 								'state'         => '1',
 								'params'        => $row->params,
 								'language'      => '*',
+								'assigned_cat_ids' => [-1],
 							);
 
 							// `number` is not a valid custom field type, so use `text` instead.
