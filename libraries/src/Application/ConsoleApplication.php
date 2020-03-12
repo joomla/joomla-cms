@@ -254,7 +254,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	/**
 	 * Get the commands which should be registered by default to the application.
 	 *
-	 * @return  \Joomla\Console\CommandInterface[]
+	 * @return  \Joomla\Console\Command\AbstractCommand[]
 	 *
 	 * @since   4.0.0
 	 */
@@ -367,20 +367,5 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->session = $session;
 
 		return $this;
-	}
-
-	/**
-	 * Returns the application \JMenu object.
-	 *
-	 * @param   string  $name     The name of the application/client.
-	 * @param   array   $options  An optional associative array of configuration settings.
-	 *
-	 * @return  null
-	 *
-	 * @since   4.0.0
-	 */
-	public function getMenu($name = null, $options = array())
-	{
-		return null;
 	}
 }
