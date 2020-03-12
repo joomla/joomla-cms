@@ -44,7 +44,7 @@
 		 * @since 3.7.0
 		 */
 		setupEditor: function ( element, pluginOptions ) {
-			var name = element ? element.getAttribute('name').replace(/\[\]|\]/g, '').split('[').pop() : 'default', // Get Editor name
+			var name = element ? element.getAttribute('name').replace(/[^A-Za-z0-9_]+/g, '_') : 'default', // Get Editor name
 			    tinyMCEOptions = pluginOptions ? pluginOptions.tinyMCE || {} : {},
 			    defaultOptions = tinyMCEOptions['default'] || {},
 			    options = tinyMCEOptions[name] ? tinyMCEOptions[name] : defaultOptions; // Check specific options by the name

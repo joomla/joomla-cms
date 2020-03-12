@@ -159,10 +159,9 @@ class PlgEditorTinymce extends JPlugin
 			$id = $name;
 		}
 
-		$id            = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
-		$nameGroup     = explode('[', preg_replace('/\[\]|\]/', '', $name));
-		$fieldName     = end($nameGroup);
-		$scriptOptions = array();
+		$id              = preg_replace('/(\s|[^A-Za-z0-9_])+/', '_', $id);
+		$parsedFieldName = preg_replace('/[^A-Za-z0-9_]+/', '_', $name);
+		$scriptOptions   = array();
 
 		// Check for existing options
 		$doc     = JFactory::getDocument();
@@ -200,7 +199,7 @@ class PlgEditorTinymce extends JPlugin
 		$editor .= '</div>';
 
 		// Prepare the instance specific options, actually the ext-buttons
-		if (empty($options['tinyMCE'][$fieldName]['joomlaExtButtons']))
+		if (empty($options['tinyMCE'][$parsedFieldName]['joomlaExtButtons']))
 		{
 			$btns = $this->tinyButtons($id, $buttons);
 
@@ -212,11 +211,11 @@ class PlgEditorTinymce extends JPlugin
 			// Set editor to readonly mode
 			if (!empty($params['readonly']))
 			{
-				$options['tinyMCE'][$fieldName]['readonly'] = 1;
+				$options['tinyMCE'][$parsedFieldName]['readonly'] = 1;
 			}
 
-			$options['tinyMCE'][$fieldName]['joomlaMergeDefaults'] = true;
-			$options['tinyMCE'][$fieldName]['joomlaExtButtons']    = $btns;
+			$options['tinyMCE'][$parsedFieldName]['joomlaMergeDefaults'] = true;
+			$options['tinyMCE'][$parsedFieldName]['joomlaExtButtons']    = $btns;
 
 			$doc->addScriptOptions('plg_editor_tinymce', $options, false);
 		}
