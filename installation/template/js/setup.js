@@ -30,7 +30,7 @@ Joomla.setlanguage = function(form) {
 
       if (response.error) {
         loaderElement.parentNode.removeChild(loaderElement);
-        Joomla.renderMessages({'error': [response.message]});
+        Joomla.renderMessages({'error': [response.error]});
       } else {
         loaderElement.parentNode.removeChild(loaderElement);
         Joomla.goToPage(response.data.view, true);
