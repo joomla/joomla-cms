@@ -9,7 +9,7 @@ $cassiopeia-box-shadow:              0 0 3px rgba(0,0,0,.04) !default;
 $cassiopeia-block-header-bg:         #f5f5f5 !default;
 $white-offset:                       #fefefe;
 $cassiopeia-header-grad:             linear-gradient(135deg, $cassiopeia-template-color-dark 0%, $cassiopeia-template-color 100%);
-$input-max-width:                    240px;
+$input-max-width:                    100%;
 
 $white:                              #fff;
 $gray-100:                           #f8f9fa;
@@ -137,6 +137,24 @@ $list-group-bg:                      $white-offset;
 // Custom form
 $custom-select-bg:                   $white-offset;
 
+// Custom form
+$custom-select-indicator-padding:    3rem;
+$custom-select-bg-size:              116rem;
+$custom-select-indicator:            url(../images/select-bg.svg);
+$custom-select-indicator-rtl:        url(../images/select-bg-rtl.svg);
+$custom-select-indicator-active:     url(../../../images/select-bg.svg);
+$custom-select-indicator-active-rtl: url(../../../images/select-bg-rtl.svg);
+$custom-select-background:           $custom-select-indicator no-repeat right center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$custom-select-background-rtl:       $custom-select-indicator-rtl no-repeat left center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
+$custom-select-bg-size-sm:           75rem;
+$custom-select-multiple-padding-y:   .3rem;
+
+//input
+$input-padding:                    .6rem 1rem;
+$input-border:                     solid 1px  #6d7784;
+$input-btn-padding-y:              .6rem;
+$input-btn-padding-x:              1rem;
+
 // Modals
 $modal-header-height:                46px;
 
@@ -146,3 +164,18 @@ $badge-default-bg:                   #5e7082;
 // Gutter
 $grid-gutter-width:                  15px !default;
 $cassiopeia-grid-gutter:             $grid-gutter-width;
+
+// Z-Index list
+$zindex-negative:                  -1;
+$zindex-actions:                   auto;
+$zindex-toolbar:                   1000;
+$zindex-sidebar:                   1010;
+$zindex-header:                    1020;
+$zindex-alerts:                    1030;
+$zindex-modal-backdrop:            1040;
+$zindex-modal:                     1050;
+$zindex-popover:                   1060;
+$zindex-tooltip:                   1070;
+$zindex-mobile-bottom:             8000;
+$zindex-mobile-toggle:             9999;
+$zindex-mobile-menu:               9000;

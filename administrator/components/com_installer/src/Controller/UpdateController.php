@@ -209,6 +209,7 @@ class UpdateController extends BaseController
 	 * @return  void
 	 *
 	 * @since   4.0.0
+	 * @throws  \Exception
 	 */
 	public function getMenuBadgeData()
 	{

@@ -37,7 +37,6 @@
 					type="menuPreset"
 					label="MOD_MENU_FIELD_PRESET_LABEL"
 					description="MOD_MENU_FIELD_PRESET_DESC"
-					addfieldpath="administrator/components/com_menus/models/fields"
 					showon="menutype:*"
 				/>
 

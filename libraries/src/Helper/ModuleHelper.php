@@ -163,7 +163,18 @@ abstract class ModuleHelper
 				);
 			}
 
-			return;
+			return '';
+		}
+
+		// Get module parameters
+		$params = new Registry($module->params);
+
+		// Render the module content
+		static::renderRawModule($module, $params, $attribs);
+
+		if (!empty($attribs['style']) && $attribs['style'] === 'raw')
+		{
+			return $module->content;
 		}
 
 		if (JDEBUG)
@@ -177,24 +188,8 @@ abstract class ModuleHelper
 		// Set scope to component name
 		$app->scope = $module->module;
 
-		// Get module parameters
-		$params = new Registry($module->params);
-
 		// Get the template
 		$template = $app->getTemplate();
-
-		// Get module path
-		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
-
-		$dispatcher = $app->bootModule($module->module, $app->getName())->getDispatcher($module, $app);
-
-		// Check if we have a dispatcher
-		if ($dispatcher)
-		{
-			ob_start();
-			$dispatcher->dispatch();
-			$module->content = ob_get_clean();
-		}
 
 		// Check if the current module has a style param to override template module style
 		$paramsChromeStyle = $params->get('style');
@@ -257,6 +252,64 @@ abstract class ModuleHelper
 		if (JDEBUG)
 		{
 			Profiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
+		}
+
+		return $module->content;
+	}
+
+	/**
+	 * Render the module content.
+	 *
+	 * @param   object    $module   A module object
+	 * @param   Registry  $params   A module parameters
+	 * @param   array     $attribs  An array of attributes for the module (probably from the XML).
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function renderRawModule($module, Registry $params, $attribs = array())
+	{
+		if (!empty($module->contentRendered))
+		{
+			return $module->content;
+		}
+
+		if (JDEBUG)
+		{
+			Profiler::getInstance('Application')->mark('beforeRenderRawModule ' . $module->module . ' (' . $module->title . ')');
+		}
+
+		$app = Factory::getApplication();
+
+		// Record the scope.
+		$scope = $app->scope;
+
+		// Set scope to component name
+		$app->scope = $module->module;
+
+		// Get module path
+		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
+
+		$dispatcher = $app->bootModule($module->module, $app->getName())->getDispatcher($module, $app);
+
+		// Check if we have a dispatcher
+		if ($dispatcher)
+		{
+			ob_start();
+			$dispatcher->dispatch();
+			$module->content = ob_get_clean();
+		}
+
+		// Add the flag that the module content has been rendered
+		$module->contentRendered = true;
+
+		// Revert the scope
+		$app->scope = $scope;
+
+		if (JDEBUG)
+		{
+			Profiler::getInstance('Application')->mark('afterRenderRawModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
 		return $module->content;

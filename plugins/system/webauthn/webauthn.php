@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.updatenotification
+ * @subpackage  System.Webauthn
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -24,12 +24,6 @@ use Joomla\Plugin\System\Webauthn\PluginTraits\ButtonsInUserPage;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserDeletion;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
 
-// Register a PSR-4 autoloader for this plugin's classes if necessary
-if (!class_exists('Joomla\\Plugin\\System\\Webauthn\\Helper\\Joomla', true))
-{
-	JLoader::registerNamespace('Joomla\\Plugin\\System\\Webauthn', __DIR__ . '/Webauthn', false, false, 'psr4');
-}
-
 /**
  * WebAuthn Passwordless Login plugin
  *
@@ -38,8 +32,7 @@ if (!class_exists('Joomla\\Plugin\\System\\Webauthn\\Helper\\Joomla', true))
  *
  * @since  4.0.0
  */
-// phpcs:ignore
-class plgSystemWebauthn extends CMSPlugin
+class PlgSystemWebauthn extends CMSPlugin
 {
 	// AJAX request handlers
 	use AjaxHandler;
