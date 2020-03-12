@@ -263,4 +263,19 @@ class LanguageController extends JSONController
 		$r->view = 'remove';
 		$this->sendJsonResponse($r);
 	}
+
+	/**
+	 * Sets the default language.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function setdefaultlanguage()
+	{
+		$this->checkValidToken();
+
+		$app = $this->app;
+
+	}
 }

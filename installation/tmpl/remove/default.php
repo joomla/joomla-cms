@@ -93,10 +93,14 @@ use Joomla\CMS\Uri\Uri;
 
 
 		
-				<?php if (count($this->installed_languages->administrator) > 1) : ?>
-					<div id="defaultLanguage" class="j-install-step-form flex-column mt-5 border rounded">
+			<?php if (count($this->installed_languages->administrator) > 1) : ?>
+					<div id="defaultLanguage" 
+						class="j-install-step-form flex-column mt-5 border rounded"
+					>
 				<?php else : ?>
-					<div id="defaultLanguage" class="j-install-step-form flex-column mt-5 border rounded d-none">
+					<div id="defaultLanguage" 
+						class="j-install-step-form flex-column mt-5 border rounded d-none" 
+					>
 				<?php endif; ?>
 					<p><?php echo Text::_('INSTL_DEFAULTLANGUAGE_DESC'); ?></p>
 					<table class="table table-sm">
@@ -176,11 +180,30 @@ use Joomla\CMS\Uri\Uri;
 					<?php endforeach; ?>
 					</tbody>
 				</table>
+				<p>
+					<a href="#"
+							class="btn btn-primary btn-block"
+							onclick="return Install.goToPage('remove');">
+						<?php echo Text::_('INSTL_LANGUAGES_SET_DEFAULT_LANGUAGE'); ?>
+					</a>
+				</p>
 				</div>
 				
 				<div class="form-group j-install-last-step">
-					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>" title="<?php echo Text::_('JSITE'); ?>"><span class="fas fa-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
-					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>administrator/" title="<?php echo Text::_('JADMINISTRATOR'); ?>"><span class="fas fa-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?></a>
+					<a 
+						class="btn btn-primary btn-block" 
+						href="<?php echo Uri::root(); ?>" 
+						title="<?php echo Text::_('JSITE'); ?>"
+					>
+						<span class="fas fa-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?>
+					</a>
+					<a 
+						class="btn btn-primary btn-block" 
+						href="<?php echo Uri::root(); ?>administrator/" 
+						title="<?php echo Text::_('JADMINISTRATOR'); ?>"
+					>
+						<span class="fas fa-lock" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_ADMIN_BTN'); ?>
+					</a>
 				</div>
 			</div>
 		</div>
@@ -202,7 +225,7 @@ use Joomla\CMS\Uri\Uri;
 				</p>
 				<p><?php echo Text::_('INSTL_LANGUAGES_WARNING_NO_INTERNET2'); ?></p>
 			<?php else : ?>
-			<form action="index.php" method="post" id="languagesForm" class="form-validate">
+				<form action="index.php" method="post" id="languagesForm" class="form-validate">
 				<p id="wait_installing" class="hidden">
 					<?php echo Text::_('INSTL_LANGUAGES_MESSAGE_PLEASE_WAIT'); ?><br>
 				<div id="wait_installing_spinner" class="spinner spinner-img hidden"></div>
@@ -264,7 +287,6 @@ use Joomla\CMS\Uri\Uri;
 				<?php echo Text::_('JSKIP'); ?>
 				</button>
 				</div>
-			</form>
 			</div>
 		</fieldset>
 
