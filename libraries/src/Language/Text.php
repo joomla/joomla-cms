@@ -219,7 +219,7 @@ class Text
 		$suffixes = $lang->getPluralSuffixes((int) $n);
 
 		// Add the number of items to the list of potential suffixes.
-		$suffixes[] = (int) $n);
+		$suffixes[] = (int) $n;
 
 		foreach ($suffixes as $suffix)
 		{
