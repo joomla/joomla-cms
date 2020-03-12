@@ -26,8 +26,9 @@ trait LegacyModelLoaderTrait
 	/**
 	 * The include paths
 	 *
-	 * @var   array
-	 * @since  4.0.0
+	 * @var         array
+	 * @since       4.0.0
+	 * @deprecated  5.0 Will be removed without replacement
 	 */
 	protected static $paths = [];
 
