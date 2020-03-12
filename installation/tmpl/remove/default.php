@@ -93,7 +93,8 @@ use Joomla\CMS\Uri\Uri;
 
 
 		
-				<div id="defaultLanguage" class="j-install-step-form flex-column mt-5 border">
+				<?php if (count($this->installed_languages->administrator) > 1) : ?>
+				<div id="defaultLanguage" class="j-install-step-form flex-column mt-5 border rounded">
 					<p><?php echo Text::_('INSTL_DEFAULTLANGUAGE_DESC'); ?></p>
 					<table class="table table-sm">
 						<thead>
@@ -173,6 +174,7 @@ use Joomla\CMS\Uri\Uri;
 					</tbody>
 				</table>
 				</div>
+				<?php endif; ?>
 				
 				<div class="form-group j-install-last-step">
 					<a class="btn btn-primary btn-block" href="<?php echo Uri::root(); ?>" title="<?php echo Text::_('JSITE'); ?>"><span class="fas fa-eye" aria-hidden="true"></span> <?php echo Text::_('INSTL_COMPLETE_SITE_BTN'); ?></a>
