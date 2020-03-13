@@ -26,6 +26,7 @@
 				name="types"
 				type="contenttype"
 				label="COM_TAGS_FIELD_TYPE_LABEL"
+				layout="joomla.form.field.list-fancy-select"
 				multiple="true"
 			/>
 
