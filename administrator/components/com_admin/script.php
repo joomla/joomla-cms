@@ -6490,12 +6490,19 @@ class JoomlaInstallerScript
 	{
 		// Content types to update.
 		$contentTypes = [
+			'com_content.article',
 			'com_contact.contact',
 			'com_newsfeeds.newsfeed',
 			'com_tags.tag',
 			'com_banners.banner',
 			'com_banners.client',
 			'com_users.note',
+			'com_content.category',
+			'com_contact.category',
+			'com_newsfeeds.category',
+			'com_banners.category',
+			'com_users.category',
+			'com_users.user',
 		];
 
 		// Get table definitions.
@@ -6527,8 +6534,17 @@ class JoomlaInstallerScript
 		{
 			list($component, $tableType) = explode('.', $contentType->type_alias);
 
-			$tablePrefix = 'Joomla\\Component\\' . ucfirst(substr($component, 4)) . '\\Administrator\\Table\\';
-			$tableType   = ucfirst($tableType) . 'Table';
+			// Special case for core table classes.
+			if ($contentType->type_alias === 'com_users.users' || $tableType === 'category')
+			{
+				$tablePrefix = 'Joomla\\CMS\Table\\';
+				$tableType   = ucfirst($tableType);
+			}
+			else
+			{
+				$tablePrefix = 'Joomla\\Component\\' . ucfirst(substr($component, 4)) . '\\Administrator\\Table\\';
+				$tableType   = ucfirst($tableType) . 'Table';
+			}
 
 			// Bind type alias.
 			$typeAlias = $contentType->type_alias;
