@@ -6148,6 +6148,9 @@ class JoomlaInstallerScript
 			return true;
 		}
 
+		// Update UCM content types.
+		$this->updateContentTypes();
+
 		$db = Factory::getDbo();
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
 
@@ -6202,9 +6205,6 @@ class JoomlaInstallerScript
 				return false;
 			}
 		}
-
-		// Update UCM content types.
-		$this->updateContentTypes();
 
 		return true;
 	}
