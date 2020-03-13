@@ -122,9 +122,10 @@ class TagsViewTag extends JViewLegacy
 			if (!empty($itemElement))
 			{
 				$temp = new Registry($itemElement->params);
-				$itemElement->params = clone $params;
+				$itemElement->params   = clone $params;
 				$itemElement->params->merge($temp);
-				$itemElement->params = (array) json_decode($itemElement->params);
+				$itemElement->params   = (array) json_decode($itemElement->params);
+				$itemElement->metadata = new Registry($itemElement->metadata);
 			}
 		}
 
@@ -324,6 +325,17 @@ class TagsViewTag extends JViewLegacy
 			if ($this->params->get('robots'))
 			{
 				$this->document->setMetadata('robots', $this->params->get('robots'));
+			}
+		}
+
+		if (count($this->item) === 1)
+		{
+			foreach ($this->item[0]->metadata->toArray() as $k => $v)
+			{
+				if ($v)
+				{
+					$this->document->setMetadata($k, $v);
+				}
 			}
 		}
 
