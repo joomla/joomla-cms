@@ -475,7 +475,7 @@ class DatabaseModel extends BaseInstallationModel
 			{
 				throw new \RuntimeException(
 					Text::sprintf(
-						'INSTL_DATABASE_INVALID_' . strtoupper($options->db_type) . '_VERSION',
+						'INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION',
 						$minDbVersionRequired,
 						$db_version
 					)
