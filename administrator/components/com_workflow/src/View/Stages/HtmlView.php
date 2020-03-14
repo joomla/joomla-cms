@@ -130,11 +130,6 @@ class HtmlView extends BaseHtmlView
 		{
 			$extension = Factory::getApplication()->input->getCmd('extension');
 			$workflow  = new Workflow(['extension' => $extension]);
-
-			foreach ($this->stages as $i => $item)
-			{
-				$item->condition = $workflow->getConditionName((int) $item->condition);
-			}
 		}
 
 		$this->addToolbar();

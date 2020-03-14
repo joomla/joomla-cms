@@ -64,7 +64,6 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
-  `condition` int(10) DEFAULT 0,
   `default` tinyint(1) NOT NULL DEFAULT 0,
   `checked_out_time` datetime,
   `checked_out` int(10) NOT NULL DEFAULT 0,
@@ -80,11 +79,11 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
 -- Dumping data for table `#__workflow_stages`
 --
 
-INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`, `checked_out_time`, `checked_out`) VALUES
-(1, 0, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1, NULL, 0),
-(2, 0, 2, 1, 1, 'JPUBLISHED', '', 1, 0, NULL, 0),
-(3, 0, 3, 1, 1, 'JTRASHED', '', -2, 0, NULL, 0),
-(4, 0, 4, 1, 1, 'JARCHIVED', '', 2, 0, NULL, 0);
+INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `default`, `checked_out_time`, `checked_out`) VALUES
+(1, 0, 1, 1, 1, 'JUNPUBLISHED', '', 1, NULL, 0),
+(2, 0, 2, 1, 1, 'JPUBLISHED', '', 0, NULL, 0),
+(3, 0, 3, 1, 1, 'JTRASHED', '', 0, NULL, 0),
+(4, 0, 4, 1, 1, 'JARCHIVED', '', 0, NULL, 0);
 
 --
 -- Table structure for table `#__workflow_transitions`

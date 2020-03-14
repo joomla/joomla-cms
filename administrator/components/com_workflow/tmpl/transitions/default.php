@@ -64,7 +64,7 @@ if ($saveOrder)
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 't.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'fas fa-sort'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', '', 't.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 't.published', $listDirn, $listOrder); ?>
@@ -133,42 +133,10 @@ if ($saveOrder)
 										<?php if ($item->from_stage_id < 0): ?>
 											<?php echo Text::_('JALL'); ?>
 										<?php else : ?>
-											<?php
-											if ($item->from_condition == Workflow::CONDITION_ARCHIVED):
-												$icon = 'fas fa-folder';
-												$condition = Text::_('JARCHIVED');
-											elseif ($item->from_condition == Workflow::CONDITION_TRASHED):
-												$icon = 'fas fa-trash';
-												$condition = Text::_('JTRASHED');
-											elseif ($item->from_condition == Workflow::CONDITION_PUBLISHED):
-												$icon = 'fas fa-check';
-												$condition = Text::_('JPUBLISHED');
-											elseif ($item->from_condition == Workflow::CONDITION_UNPUBLISHED):
-												$icon = 'fas fa-times';
-												$condition = Text::_('JUNPUBLISHED');
-											endif; ?>
-											<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-											<span class="sr-only"><?php echo Text::_('COM_WORKFLOW_CONDITION') . $condition; ?></span>
 											<?php echo ' ' . $this->escape(Text::_($item->from_stage)); ?>
 										<?php endif; ?>
 									</td>
 									<td class="nowrap">
-										<?php
-										if ($item->to_condition == Workflow::CONDITION_ARCHIVED):
-											$icon = 'fas fa-folder';
-											$condition = Text::_('JARCHIVED');
-										elseif ($item->to_condition == Workflow::CONDITION_TRASHED):
-											$icon = 'fas fa-trash';
-											$condition = Text::_('JTRASHED');
-										elseif ($item->to_condition == Workflow::CONDITION_PUBLISHED):
-											$icon = 'fas fa-check';
-											$condition = Text::_('JPUBLISHED');
-										elseif ($item->to_condition == Workflow::CONDITION_UNPUBLISHED):
-											$icon = 'fas fa-times';
-											$condition = Text::_('JUNPUBLISHED');
-										endif; ?>
-										<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-										<span class="sr-only"><?php echo Text::_('COM_WORKFLOW_CONDITION') . $condition; ?></span>
 										<?php echo ' ' . $this->escape(Text::_($item->to_stage)); ?>
 									</td>
 									<td class="d-none d-md-table-cell">
