@@ -17,6 +17,7 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.hits ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.searchterm ASC">COM_FINDER_HEADING_SEARCH_TERM_ASC</option>

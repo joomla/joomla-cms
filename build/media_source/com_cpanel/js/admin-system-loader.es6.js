@@ -38,7 +38,6 @@
 
                 elem.classList.add('pull-right');
                 elem.classList.add('badge');
-                elem.classList.add('badge-pill');
                 elem.classList.add('badge-warning');
                 elem.innerHTML = response.data;
 

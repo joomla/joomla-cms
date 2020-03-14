@@ -64,7 +64,7 @@ class ItemsController extends AdminController
 	/**
 	 * Method to get the number of published frontend menu items for quickicons
 	 *
-	 * @return  integer  The amount of items
+	 * @return  void
 	 *
 	 * @since   4.0
 	 */

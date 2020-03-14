@@ -76,7 +76,7 @@ class ModulesController extends AdminController
 	/**
 	 * Method to get the number of frontend modules
 	 *
-	 * @return  string  The JSON-encoded amount of modules
+	 * @return  void
 	 *
 	 * @since   4.0
 	 */

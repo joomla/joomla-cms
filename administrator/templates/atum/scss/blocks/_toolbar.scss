@@ -51,6 +51,14 @@ joomla-toolbar-button {
     }
   }
 
+  .button-save {
+    border-radius: .2rem 0 0 .2rem;
+
+    [dir=rtl] & {
+      border-radius: 0 .2rem .2rem 0;
+    }
+  }
+
   .btn {
     padding: $input-btn-padding-y-sm-submenu $input-btn-padding-x-sm-submenu;
     font-size: 1rem;
@@ -73,7 +81,11 @@ joomla-toolbar-button {
       margin: $input-btn-padding-y-sm-submenu $input-btn-submenu-icon-distance $input-btn-padding-y-sm-submenu -#{$input-btn-padding-x-sm-submenu};
       line-height: $atum-toolbar-line-height;
       color: var(--atum-text-dark);
+      border-radius: .2rem 0 0 .2rem;
 
+      [dir=rtl] & {
+        border-radius: 0 .2rem .2rem 0;
+      }
     }
 
     &.btn-success {
@@ -310,22 +322,20 @@ joomla-toolbar-button {
 
     &.btn-success {
       padding: 0;
-      background-color: $white;
+      background-color: theme-color("success");
 
       span {
         color: rgba(255, 255, 255, .90);
-        background-color: theme-color("success");
       }
 
       &::after {
         width: 2.375rem;
         margin-top: -1px;
         font-family: "Font Awesome 5 Free";
-        line-height: 2.5rem;
+        line-height: 2.3rem;
         color: rgba(255, 255, 255, .90);
         vertical-align: middle;
         content: "\f078";
-        background-color: theme-color("success");
         border: 0;
       }
     }
@@ -347,10 +357,6 @@ joomla-toolbar-button {
       [class*=' #{$fa-css-prefix}-'] {
         color: rgba(255, 255, 255, .90);
         background-color: var(--atum-bg-dark);
-      }
-
-      &:hover:not([disabled]) {
-        background-color: var(--atum-bg-dark-80);
       }
 
       &::after {
