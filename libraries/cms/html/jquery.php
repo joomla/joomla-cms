@@ -9,9 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-
 /**
  * Utility class for jQuery JavaScript behaviors
  *
@@ -20,9 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 abstract class JHtmlJquery
 {
 	/**
-	 * Array containing information for loaded files
-	 *
-	 * @var    array
+	 * @var    array  Array containing information for loaded files
 	 * @since  3.0
 	 */
 	protected static $loaded = array();
@@ -39,25 +34,36 @@ abstract class JHtmlJquery
 	 * @return  void
 	 *
 	 * @since   3.0
-	 *
-	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::useAsset();
 	 */
-	public static function framework($noConflict = true, $debug = null, $migrate = false)
+	public static function framework($noConflict = true, $debug = null, $migrate = true)
 	{
-		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-		$wa->useScript('jquery');
+		// Only load once
+		if (!empty(static::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		// If no debugging value is set, use the configuration setting
+		if ($debug === null)
+		{
+			$debug = (boolean) JFactory::getConfig()->get('debug');
+		}
+
+		JHtml::_('script', 'jui/jquery.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 
 		// Check if we are loading in noConflict
 		if ($noConflict)
 		{
-			$wa->useScript('jquery-noconflict');
+			JHtml::_('script', 'jui/jquery-noconflict.js', array('version' => 'auto', 'relative' => true));
 		}
 
 		// Check if we are loading Migrate
 		if ($migrate)
 		{
-			$wa->useScript('jquery-migrate');
+			JHtml::_('script', 'jui/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 		}
+
+		static::$loaded[__METHOD__] = true;
 
 		return;
 	}
@@ -72,22 +78,31 @@ abstract class JHtmlJquery
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
-	 *
-	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::useAsset();
+	 * @since       3.0
+	 * @deprecated  4.0  jQuery UI will be removed from Joomla 4 without replacement.
 	 */
 	public static function ui(array $components = array('core'), $debug = null)
 	{
 		// Set an array containing the supported jQuery UI components handled by this method
 		$supported = array('core', 'sortable');
 
-		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+		// Include jQuery
+		static::framework();
 
+		// If no debugging value is set, use the configuration setting
+		if ($debug === null)
+		{
+			$debug = JDEBUG;
+		}
+
+		// Load each of the requested components
 		foreach ($components as $component)
 		{
-			if (in_array($component, $supported))
+			// Only attempt to load the component if it's supported in core and hasn't already been loaded
+			if (in_array($component, $supported) && empty(static::$loaded[__METHOD__][$component]))
 			{
-				$wa->useScript('jquery.ui.' . $component);
+				JHtml::_('script', 'jui/jquery.ui.' . $component . '.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+				static::$loaded[__METHOD__][$component] = true;
 			}
 		}
 
@@ -114,12 +129,12 @@ abstract class JHtmlJquery
 		}
 
 		static::framework();
-		HTMLHelper::_('form.csrf', $name);
+		JHtml::_('form.csrf', $name);
 
-		$doc = Factory::getDocument();
+		$doc = JFactory::getDocument();
 
 		$doc->addScriptDeclaration(
-			<<<JS
+<<<JS
 ;(function ($) {
 	$.ajaxSetup({
 		headers: {
