@@ -389,21 +389,40 @@ class DatabaseModel extends BaseInstallationModel
 			 * PDO MySQL: [1049] Unknown database 'database_name'
 			 * PostgreSQL: Error connecting to PGSQL database
 			 */
-			if ($type === 'mysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42)
+			if ($type === 'mysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42
+				|| $type === 'pgsql' && strpos($e->getMessage(), 'database "' . $options->db_name . '" does not exist'))
 			{
 				/*
-				 * Now we're really getting insane here; we're going to try building a new JDatabaseDriver instance without the database name
+				 * Now we're really getting insane here; we're going to try building a new JDatabaseDriver instance
 				 * in order to trick the connection into creating the database
 				 */
-				$altDBoptions = array(
-					'driver'   => $options->db_type,
-					'host'     => $options->db_host,
-					'user'     => $options->db_user,
-					'password' => $options->db_pass_plain,
-					'prefix'   => $options->db_prefix,
-					'select'   => $options->db_select,
-					DatabaseHelper::getEncryptionSettings($options),
-				);
+				if ($type === 'mysql')
+				{
+					// MySQL (PDO): Don't specify database name
+					$altDBoptions = array(
+						'driver'   => $options->db_type,
+						'host'     => $options->db_host,
+						'user'     => $options->db_user,
+						'password' => $options->db_pass_plain,
+						'prefix'   => $options->db_prefix,
+						'select'   => $options->db_select,
+						DatabaseHelper::getEncryptionSettings($options),
+					);
+				}
+				else
+				{
+					// PostgreSQL (PDO): Use 'postgres'
+					$altDBoptions = array(
+						'driver'   => $options->db_type,
+						'host'     => $options->db_host,
+						'user'     => $options->db_user,
+						'password' => $options->db_pass_plain,
+						'database' => 'postgres',
+						'prefix'   => $options->db_prefix,
+						'select'   => $options->db_select,
+						DatabaseHelper::getEncryptionSettings($options),
+					);
+				}
 
 				$altDB = DatabaseDriver::getInstance($altDBoptions);
 

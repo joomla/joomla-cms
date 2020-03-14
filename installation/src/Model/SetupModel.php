@@ -549,7 +549,8 @@ class SetupModel extends BaseInstallationModel
 		}
 		catch (\RuntimeException $e)
 		{
-			if ($options->db_type === 'mysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42)
+			if ($options->db_type === 'mysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42
+				|| $options->db_type === 'pgsql' && strpos($e->getMessage(), 'database "' . $options->db_name . '" does not exist'))
 			{
 				// Database doesn't exist: Skip the below checks, they will be done later at database creation
 				return true;
