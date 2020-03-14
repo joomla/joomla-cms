@@ -43,42 +43,11 @@ abstract class JHtmlSortablelist
 	 */
 	public static function sortable($tableId, $formId, $sortDir = 'asc', $saveOrderingUrl = null, $proceedSaveOrderButton = true, $nestedList = false)
 	{
-		// Only load once
-		if (isset(static::$loaded[__METHOD__]))
-		{
-			return;
-		}
+		Factory::getDocument()->addScriptDeclaration('
+			const element = document.querySelector("' . $tableId . ' tbody");
+			element.classList.add("js-draggable");
+		');
 
-		// Note: $i is required but has to be an optional argument in the function call due to argument order
-		if ($saveOrderingUrl === null)
-		{
-			throw new InvalidArgumentException(sprintf('$saveOrderingUrl is a required argument in %s()', __METHOD__));
-		}
-
-		// Depends on Joomla.getOptions()
-		HTMLHelper::_('behavior.core');
-
-		// Depends on jQuery UI
-		HTMLHelper::_('jquery.ui', array('core', 'sortable'));
-
-		HTMLHelper::_('script', 'legacy/sortablelist.min.js', ['version' => 'auto', 'relative' => true]);
-		HTMLHelper::_('stylesheet', 'legacy/sortablelist.css', ['version' => 'auto', 'relative' => true]);
-
-		// Attach sortable to document
-		Factory::getDocument()->addScriptOptions(
-			'sortable-list',
-			array(
-				'id'         => '#' . $tableId . ' tbody',
-				'formId'     => $formId,
-				'direction'  => $sortDir,
-				'url'        => $saveOrderingUrl,
-				'options'    => '',
-				'nestedList' => $nestedList,
-				'button'     => $proceedSaveOrderButton
-			)
-		);
-
-		// Set static array
-		static::$loaded[__METHOD__] = true;
+		HtmlHelper::_('dragablelist.dragable', $tableId, $formId, $sortDir, $saveOrderingUrl, $proceedSaveOrderButton, $nestedList);
 	}
 }
