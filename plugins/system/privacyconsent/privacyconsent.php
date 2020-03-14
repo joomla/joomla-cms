@@ -45,7 +45,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  3.9.0
 	 */
 	protected $app;
@@ -717,7 +717,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
 			$messageModel->notifySuperUsers(
 				Text::_('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_SUBJECT'),
-				Text::sprintf('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_MESSAGE', $user->user_id)
+				Text::sprintf('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_MESSAGE', Factory::getUser($user->user_id)->username)
 			);
 		}
 

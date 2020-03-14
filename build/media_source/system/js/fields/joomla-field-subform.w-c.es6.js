@@ -288,7 +288,6 @@
       const countnew = Math.max(this.lastRowIndex, count);
       const groupnew = basename + countnew; // new group name
 
-      this.lastRowIndex = countnew + 1;
       row.setAttribute('data-group', groupnew);
 
       // Fix inputs that have a "name" attribute
