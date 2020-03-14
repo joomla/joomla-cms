@@ -217,7 +217,7 @@ class WorkflowsModel extends ListModel
 
 		$status = (string) $this->getState('filter.published');
 
-		// Filter by condition
+		// Filter by status
 		if (is_numeric($status))
 		{
 			$query->where($db->quoteName('w.published') . ' = ' . (int) $status);

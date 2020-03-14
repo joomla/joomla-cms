@@ -37,7 +37,6 @@ class StagesModel extends ListModel
 				'id', 's.id',
 				'title', 's.title',
 				'ordering','s.ordering',
-				'condition','s.condition',
 				'published', 's.published'
 			);
 		}
@@ -134,7 +133,6 @@ class StagesModel extends ListModel
 				's.id',
 				's.title',
 				's.ordering',
-				's.condition',
 				's.default',
 				's.published',
 				's.checked_out',
@@ -153,21 +151,13 @@ class StagesModel extends ListModel
 			$query->where($db->quoteName('s.workflow_id') . ' = ' . $workflowID);
 		}
 
-		$condition = $this->getState('filter.condition');
-
-		// Filter by condition
-		if (is_numeric($condition))
-		{
-			$query->where($db->quoteName('s.condition') . ' = ' . (int) $db->escape($condition));
-		}
-
 		// Join over the users for the checked out user.
 		$query->select($db->quoteName('uc.name', 'editor'))
 			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('s.checked_out'));
 
 		$status = (string) $this->getState('filter.published');
 
-		// Filter by condition
+		// Filter by publish state
 		if (is_numeric($status))
 		{
 			$query->where($db->quoteName('s.published') . ' = ' . (int) $status);
