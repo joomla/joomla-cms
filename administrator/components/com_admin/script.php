@@ -6549,10 +6549,18 @@ class JoomlaInstallerScript
 			// Bind type alias.
 			$typeAlias = $contentType->type_alias;
 
-			// Update table definition.
 			$table = json_decode($contentType->table);
-			$table->special->type = $tableType;
+
+			// Update table definitions.
+			$table->special->type   = $tableType;
 			$table->special->prefix = $tablePrefix;
+
+			// Some content types don't have this property.
+			if (!empty($table->common->prefix))
+			{
+				$table->common->prefix  = 'Joomla\\CMS\\Table\\';
+			}
+
 			$table = json_encode($table);
 
 			// Execute the query.
