@@ -1,5 +1,4 @@
-CREATE TABLE IF NOT EXISTS `#__webauthn_credentials`
-(
+CREATE TABLE IF NOT EXISTS `#__webauthn_credentials` (
     `id`         VARCHAR(1000)   NOT NULL COMMENT 'Credential ID',
     `user_id`    VARCHAR(128)    NOT NULL COMMENT 'User handle',
     `label`      VARCHAR(190)    NOT NULL COMMENT 'Human readable label',
