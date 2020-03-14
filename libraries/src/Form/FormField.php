@@ -1056,7 +1056,6 @@ abstract class FormField
 
 				return $return;
 			}
-
 		}
 
 		return InputFilter::getInstance()->clean($value, $filter);
