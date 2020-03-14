@@ -549,6 +549,12 @@ class SetupModel extends BaseInstallationModel
 		}
 		catch (\RuntimeException $e)
 		{
+			if ($options->db_type === 'mysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42)
+			{
+				// Database doesn't exist: Skip the below checks, they will be done later at database creation
+				return true;
+			}
+
 			Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
 
 			return false;
