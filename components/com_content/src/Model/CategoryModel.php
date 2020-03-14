@@ -173,7 +173,7 @@ class CategoryModel extends ListModel
 		}
 		else
 		{
-			$this->setState('filter.condition', array(0, 1));
+			$this->setState('filter.condition', [0, 1]);
 		}
 
 		// Process show_noauth parameter
