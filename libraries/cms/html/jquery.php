@@ -78,7 +78,8 @@ abstract class JHtmlJquery
 	 *
 	 * @return  void
 	 *
-	 * @since   3.0
+	 * @since       3.0
+	 * @deprecated  4.0  jQuery UI will be removed from Joomla 4 without replacement.
 	 */
 	public static function ui(array $components = array('core'), $debug = null)
 	{
