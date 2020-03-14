@@ -66,8 +66,6 @@ class ContentHelper
 			'2'  => 'count_archived',
 		);
 
-		$usesWorkflows = (isset($config->uses_workflows) && $config->uses_workflows === true);
-
 		// Index category objects by their ID
 		$records = array();
 
@@ -87,7 +85,7 @@ class ContentHelper
 
 		// Table alias for related data table below will be 'c', and state / condition column is inside related data table
 		$related_tbl = '#__' . $config->related_tbl;
-		$state_col   = ($usesWorkflows ? 's.' : 'c.') . $config->state_col;
+		$state_col   = 'c.' . $config->state_col;
 
 		// Supported cases
 		switch ($config->relation_type)
@@ -115,24 +113,6 @@ class ContentHelper
 
 			default:
 				return $items;
-		}
-
-		if ($usesWorkflows)
-		{
-			$query->from(
-				[
-					$db->quoteName('#__workflow_stages', 's'),
-					$db->quoteName('#__workflow_associations', 'a'),
-				]
-			)
-				->where(
-					[
-						$db->quoteName('s.id') . ' = ' . $db->quoteName('a.stage_id'),
-						$db->quoteName('a.extension') . ' = :component',
-						$db->quoteName('a.item_id') . ' = ' . $db->quoteName('c.id'),
-					]
-				)
-				->bind(':component', $config->workflows_component);
 		}
 
 		/**

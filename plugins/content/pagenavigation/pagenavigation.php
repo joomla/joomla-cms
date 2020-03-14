@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 /**
@@ -123,7 +124,7 @@ class PlgContentPagenavigation extends CMSPlugin
 					break;
 			}
 
-			$xwhere = ' AND (ws.condition = 1 OR ws.condition = -2)'
+			$xwhere = ' AND (a.state IN (' . ContentComponent::CONDITION_PUBLISHED . ', ' . ContentComponent::CONDITION_ARCHIVED . '))'
 				. ' AND (publish_up IS NULL OR publish_up <= ' . $db->quote($now) . ')'
 				. ' AND (publish_down IS NULL OR publish_down >= ' . $db->quote($now) . ')';
 
@@ -142,9 +143,7 @@ class PlgContentPagenavigation extends CMSPlugin
 				->select($case_when)
 				->select($case_when1)
 				->from('#__content AS a')
-				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
-				->join('LEFT', '#__workflow_associations AS wa', 'wa.item_id = a.id')
-				->join('LEFT', '#__workflow_stages AS ws', 'wa.stage_id = ws.id');
+				->join('LEFT', '#__categories AS cc ON cc.id = a.catid');
 
 			if ($order_method === 'author' || $order_method === 'rauthor')
 			{

@@ -53,7 +53,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 		<h2 itemprop="headline">
 			<?php echo $this->escape($this->item->title); ?>
 		</h2>
-		<?php if ($this->item->condition == ContentComponent::CONDITION_UNPUBLISHED) : ?>
+		<?php if ($this->item->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
 		<?php if (strtotime($this->item->publish_up) > strtotime(Factory::getDate())) : ?>

@@ -181,7 +181,7 @@ if (!empty($this->items))
 		<?php endif; ?>
 		<tbody>
 		<?php foreach ($this->items as $i => $article) : ?>
-			<?php if ($this->items[$i]->stage_condition == ContentComponent::CONDITION_UNPUBLISHED) : ?>
+			<?php if ($this->items[$i]->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 				<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 			<?php else : ?>
 				<tr class="cat-list-row<?php echo $i % 2; ?>" >
@@ -226,7 +226,7 @@ if (!empty($this->items))
 						<?php endforeach; ?>
 					<?php endif; ?>
 				<?php endif; ?>
-				<?php if ($article->stage_condition == ContentComponent::CONDITION_UNPUBLISHED) : ?>
+				<?php if ($article->state == ContentComponent::CONDITION_UNPUBLISHED) : ?>
 					<span class="list-published badge badge-warning">
 						<?php echo Text::_('JUNPUBLISHED'); ?>
 					</span>
