@@ -49,6 +49,7 @@
 					type="list"
 					label="MOD_TAGS_POPULAR_FIELD_TIMEFRAME_LABEL"
 					default="alltime"
+					validate="options"
 					>
 					<option value="alltime">MOD_TAGS_POPULAR_FIELD_ALL_TIME</option>
 					<option value="hour">MOD_TAGS_POPULAR_FIELD_LAST_HOUR</option>
@@ -63,6 +64,7 @@
 					type="list"
 					label="MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_LABEL"
 					default="count"
+					validate="options"
 					>
 					<option value="title">MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_TITLE</option>
 					<option value="count">MOD_TAGS_POPULAR_FIELD_ORDER_VALUE_COUNT</option>

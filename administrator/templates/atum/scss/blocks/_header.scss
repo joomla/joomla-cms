@@ -31,7 +31,6 @@
   .logo {
     display: inline-block;
     width: $sidebar-width;
-    line-height: $header-height;
     transition: width .3s ease;
 
     &.small {
@@ -81,7 +80,6 @@
     margin: 0;
     overflow: hidden;
     font-size: 1.2rem;
-    line-height: $header-height;
     color: $white;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -326,6 +324,7 @@
     top: 0;
     z-index: $zindex-header;
     width: 100%;
+    padding: 0;
 
     .header-items {
       position: fixed;

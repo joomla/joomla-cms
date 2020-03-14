@@ -23,7 +23,7 @@ use Joomla\CMS\Router\Route;
 class DisplayController extends BaseController
 {
 	/**
-	 * @var		string	The default view.
+	 * @var	    string	The default view.
 	 * @since   1.6
 	 */
 	protected $default_view = 'installed';
@@ -34,7 +34,7 @@ class DisplayController extends BaseController
 	 * @param   boolean  $cachable   If true, the view output will be cached.
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  static   This object to support chaining.
+	 * @return  static|boolean   This object to support chaining or false on failure.
 	 *
 	 * @since   1.5
 	 */

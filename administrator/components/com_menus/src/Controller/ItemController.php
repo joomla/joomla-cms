@@ -331,8 +331,6 @@ class ItemController extends FormController
 		if (!$form)
 		{
 			throw new \Exception($model->getError(), 500);
-
-			return false;
 		}
 
 		if ($data['type'] == 'url')

@@ -52,7 +52,6 @@ class FeaturedController extends ArticlesController
 		}
 		else
 		{
-			// Get the model.
 			/** @var \Joomla\Component\Content\Administrator\Model\FeatureModel $model */
 			$model = $this->getModel();
 

@@ -4,14 +4,14 @@
 $white:                            #fff;
 $whiteoffset:                      #fefefe;
 $gray-100:                         #f8f9fa;
-$gray-200:                         #e8e8e8; //used in bootstrap .badge-inverse
+$gray-200:                         #e8e8e8;
 $gray-300:                         #dee2e6; //used for toolbar and badges
 $gray-400:                         #cdcdcd; //used for border-bottom sidebar-nav and toolbar normal border
 $gray-500:                         #adb5bd; //used in toolbar and buttons for border
 //$gray-600:                         #6f7780; //used for atum-text-dark and $secondary
 $gray-700:                         #495057; //used for atum-text-dark, secondary
-$gray-800:                         #343a40; //used for badges-inverse
-$gray-900:                         #212529; //used for tree header, badge-inverse border
+$gray-800:                         #343a40;
+$gray-900:                         #212529; //used for tree header
 $bluegray:                         #b2bfcd; // used for borders
 $black:                            #000;    //used for shadows
 $focuscolor:                       #39f;    //used for focus color
@@ -75,7 +75,7 @@ $colors: (
   atum-special-color:              $dark-blue,
   atum-link-color:                 $light-blue,
   atum-link-hover-color:           darken($light-blue, 20%),
-  atum-contrast:                   adjust-color($base-color, $hue: -40deg, $lightness: +16%),
+  atum-contrast:                   $light-blue,
   atum-bg-dark-5:                  adjust-color($base-color, $hue: -6%, $saturation: -85%, $lightness: +65.1%),
   atum-bg-dark-10:                 adjust-color($base-color, $hue: -6%, $saturation: -80%, $lightness: +59.4%),
   atum-bg-dark-20:                 adjust-color($base-color, $hue: -6%, $saturation: -75%, $lightness: +47.3%),
@@ -99,9 +99,6 @@ $input-btn-padding-y:              .6rem;
 $input-btn-padding-x:              1rem;
 $input-max-width:                  100%;
 $btn-disabled-opacity:             .4;
-
-// Header
-$header-height:                    3.5rem;
 
 // Toolbar
 $atum-toolbar-line-height:         2.45rem;
@@ -188,6 +185,10 @@ $state-error-bg:                   lighten($red-dark, 70%);
 $state-error-border:               lighten($red-dark, 30%);
 
 // Badges
+$badge-padding-x:                  .3rem;
+$badge-padding-y:                  .1rem;
+$badge-border-radius:              .2rem;
+
 $success-bg:                       $green;
 $success-txt:                      $white;
 
@@ -221,7 +222,7 @@ $custom-select-bg-size:              116rem;
 $custom-select-indicator:            url(../images/select-bg.svg);
 $custom-select-indicator-rtl:        url(../images/select-bg-rtl.svg);
 $custom-select-indicator-active:     url(../../../images/select-bg.svg);
-$custom-select-indicator-active-rtl: url(../../../images/select-bg-active-rtl.svg);
+$custom-select-indicator-active-rtl: url(../../../images/select-bg-rtl.svg);
 $custom-select-background:           $custom-select-indicator no-repeat right center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 $custom-select-background-rtl:       $custom-select-indicator-rtl no-repeat left center / $custom-select-bg-size; // Used so we can have multiple background elements (e.g., arrow and feedback icon)
 $custom-select-box-shadow:           $atum-box-shadow;

@@ -224,10 +224,15 @@ class ResetModel extends FormModel
 			return false;
 		}
 
+		// Prepare user data.
+		$data['password']   = $data['password1'];
+		$data['activation'] = '';
+
 		// Update the user object.
-		$user->password = UserHelper::hashPassword($data['password1']);
-		$user->activation = '';
-		$user->password_clear = $data['password1'];
+		if (!$user->bind($data))
+		{
+			return new \Exception($user->getError(), 500);
+		}
 
 		// Save the user to the database.
 		if (!$user->save(true))
@@ -396,7 +401,7 @@ class ResetModel extends FormModel
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('email') . ' = :email')
+			->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
 			->bind(':email', $data['email']);
 
 		// Get the user object.

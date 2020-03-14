@@ -2,10 +2,6 @@
 @import "../../variables";
 
 .badge {
-  padding: .1rem .3rem;
-  font-size: $badge-font-size;
-  border-radius: .2rem;
-
   @include media-breakpoint-down(xs) {
     white-space: normal;
   }
@@ -36,8 +32,3 @@
   border: 1px solid lighten(theme-color("atum-text-dark"), 30%);
 }
 
-.badge-inverse {
-  color: $gray-200;
-  background-color: $gray-800;
-  border: 1px solid $gray-900;
-}
