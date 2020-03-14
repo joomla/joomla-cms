@@ -99,13 +99,6 @@ class TagsViewTag extends JViewLegacy
 		// Flag indicates to not add limitstart=0 to URL
 		$pagination->hideEmptyLimitstart = true;
 
-		/*
-		 * // Change to catch
-		 * if (count($errors = $this->get('Errors'))) {
-		 * JError::raiseError(500, implode("\n", $errors));
-		 * return false;
-		 */
-
 		// Check whether access level allows access.
 		// @TODO: Should already be computed in $item->params->get('access-view')
 		$user   = JFactory::getUser();
@@ -338,9 +331,6 @@ class TagsViewTag extends JViewLegacy
 				}
 			}
 		}
-
-		// @TODO: create tag feed document
-		// Add alternative feed link
 
 		if ($this->params->get('show_feed_link', 1) == 1)
 		{
