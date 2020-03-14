@@ -104,7 +104,7 @@ class InstallationController extends JSONController
 		{
 			$setupDone = $configurationModel->setup($options);
 		}
-		catch (\Exception $e)
+		catch (\RuntimeException $e)
 		{
 			$this->app->enqueueMessage($e->getMessage(), 'error');
 

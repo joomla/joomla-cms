@@ -59,7 +59,7 @@ class ConfigurationModel extends BaseInstallationModel
 				return false;
 			}
 		}
-		catch (\Exception $e)
+		catch (\RuntimeException $e)
 		{
 			$this->deleteConfiguration();
 
