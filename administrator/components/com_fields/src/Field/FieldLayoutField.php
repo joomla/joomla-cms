@@ -43,7 +43,8 @@ class FieldLayoutField extends FormField
 	 */
 	protected function getInput()
 	{
-		$extension = explode('.', $this->form->getValue('context'))[0];
+		$extension = explode('.', $this->form->getValue('context'));
+		$extension = $extension[0];
 
 		if ($extension)
 		{
