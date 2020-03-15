@@ -235,8 +235,9 @@ class MysqlChangeItem extends ChangeItem
 
 	/**
 	 * Fix up integer. Fixes problem with MySQL integer descriptions.
-	 * If you change a column to "integer unsigned" it shows
-	 * as "int unsigned" in the check query.
+	 * On MySQL 8 display length is not shown anymore.
+	 * This means we have to match both "int(10) unsigned" and
+	 * "int unsigned", or both "int(10)" and "int".
 	 *
 	 * @param   string  $type1  the column type
 	 * @param   string  $type2  the column attributes
@@ -291,7 +292,8 @@ class MysqlChangeItem extends ChangeItem
 	/**
 	 * Make check query for column changes/modifications tolerant
 	 * for automatic type changes of text columns, e.g. from TEXT
-	 * to MEDIUMTEXT, after comnversion from utf8 to utf8mb4
+	 * to MEDIUMTEXT, after comnversion from utf8 to utf8mb4, and
+	 * fix integer columns without display lenght for MySQL 8.
 	 *
 	 * @param   string  $type  The column type found in the update query
 	 *
@@ -305,11 +307,12 @@ class MysqlChangeItem extends ChangeItem
 
 		if ($uType === 'INT UNSIGNED')
 		{
-			$typeCheck = 'UPPER(type) LIKE ' . $this->db->quote('INT%UNSIGNED');
+			$typeCheck = '(UPPER(LEFT(type, 3)) = ' . $this->db->quote('INT')
+				. ' AND UPPER(RIGHT(type, 9)) = ' . $this->db->quote(' UNSIGNED') . ')';
 		}
 		elseif ($uType === 'INT')
 		{
-			$typeCheck = 'UPPER(LEFT(type, 3)) = ' . $this->db->quote($uType);
+			$typeCheck = 'UPPER(LEFT(type, 3)) = ' . $this->db->quote('INT');
 		}
 		elseif ($this->db instanceof UTF8MB4SupportInterface && $this->db->hasUTF8mb4Support())
 		{
