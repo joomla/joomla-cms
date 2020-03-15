@@ -51,8 +51,7 @@ CSS
 					<input id="modlgn-username-<?php echo $module->id; ?>" type="text" name="username" class="form-control" autocomplete="username" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 					<span class="input-group-append">
 						<label for="modlgn-username-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
-						<span class="input-group-text"><?php echo
-							Factory::getDocument()->setIcons(
+						<span class="input-group-text"><?php echo Factory::getDocument()->setIcon(
 							[
 								'provider' => 'fontawesome-free',
 								'group'    => 'solid',

@@ -37,7 +37,7 @@ class IconsRenderer extends DocumentRenderer
 		$files = [];
 
 		// Generate the file and load the stylesheet link
-		foreach ($this->_doc->icons as $key => $icon)
+		foreach ($this->_doc->getIcons() as $key => $icon)
 		{
 			$file = HTMLHelper::image('vendor/' . $icon['provider'] . '/' . $icon['group'] . '/' . $icon['icon'] . '.svg', '', null, true, 1);
 
@@ -58,6 +58,9 @@ class IconsRenderer extends DocumentRenderer
 
 		if (!empty($files))
 		{
+			// Reset the icons registry
+			$this->_doc->setIcons([]);
+
 			return '<div style="display:none">' . implode('', $files) . '</div>';
 		}
 

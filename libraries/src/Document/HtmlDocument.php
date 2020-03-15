@@ -123,7 +123,7 @@ class HtmlDocument extends Document
 	 * @var    array
 	 * @since  4.0.0
 	 */
-	public $icons = array();
+	private $icons = array();
 
 	/**
 	 * Class constructor
@@ -191,36 +191,49 @@ class HtmlDocument extends Document
 	}
 
 	/**
-	 * Setter for an icon
+	 * Setter for all icons
 	 *
-	 * @param   array  $params
+	 * @param   array  $icons
 	 * @return  string
 	 *
 	 * @since   4.0.0
 	 */
-	public function setIcons($params = [])
+	public function setIcons($icons = [])
 	{
-		if (empty($params['icon']))
+		$this->icons = $icons;
+	}
+
+	/**
+	 * Setter for an icon
+	 *
+	 * @param   array  $icon
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function setIcon($icon = [])
+	{
+		if (empty($icon['icon']))
 		{
 			return '';
 		}
 
-		$provider = $params['provider'] ? $params['provider'] : 'fontawesome-free';
-		$group    = $params['group'] ? $params['group'] : 'solid';
-		$classes  = $params['classes'] ? $params['classes'] : '';
+		$provider = $icon['provider'] ? $icon['provider'] : 'fontawesome-free';
+		$group    = $icon['group'] ? $icon['group'] : 'solid';
+		$classes  = $icon['classes'] ? $icon['classes'] : '';
 
 		// Setup options object
-		if (!in_array($provider . '.' . $group . '.' . $params['icon'], $this->getIcons()))
+		if (!in_array($provider . '.' . $group . '.' . $icon['icon'], $this->getIcons()))
 		{
-			$this->icons[$provider . '.' . $group . '.' . $params['icon']] = [
+			$this->icons[$provider . '.' . $group . '.' . $icon['icon']] = [
 				'provider' => $provider,
 				'group'    => $group,
-				'icon'     => $params['icon'],
-				'text'     => $params['text'] ? $params['text'] : ''
+				'icon'     => $icon['icon'],
+				'text'     => $icon['text'] ? $icon['text'] : ''
 			];
 		}
 
-		return '<svg class="' . $classes . '"><use href="#' . $provider . '-' . $group . '-' . $params['icon'] . '"></use></svg>';
+		return '<svg class="' . $classes . '"><use href="#' . $provider . '-' . $group . '-' . $icon['icon'] . '"></use></svg>';
 	}
 
 	/**
