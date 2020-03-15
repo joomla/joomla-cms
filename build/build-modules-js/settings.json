@@ -182,7 +182,8 @@
         },
         "filesExtra": {
           "scss": "scss",
-          "webfonts": "webfonts"
+          "webfonts": "webfonts",
+		  "svgs": "images"
         },
         "provideAssets": [
           {

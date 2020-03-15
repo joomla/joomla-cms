@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -21,6 +22,19 @@ HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 
 
 Text::script('JSHOW');
 Text::script('JHIDE');
+
+Factory::getDocument()->addStyleDeclaration(
+<<<CSS
+	.demo-class {
+		height: 1.2rem;
+		width: 1.2rem;
+		-webkit-text-stroke-color: currentColor;
+		stroke: currentColor;
+		-webkit-text-stroke-width: 16px;
+		stroke-width: 16px;
+	}
+CSS
+);
 ?>
 <form id="login-form-<?php echo $module->id; ?>" class="mod-login" action="<?php echo Route::_('index.php', true); ?>" method="post">
 
@@ -37,7 +51,17 @@ Text::script('JHIDE');
 					<input id="modlgn-username-<?php echo $module->id; ?>" type="text" name="username" class="form-control" autocomplete="username" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 					<span class="input-group-append">
 						<label for="modlgn-username-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
-						<span class="input-group-text icon-user" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>"></span>
+						<span class="input-group-text"><?php echo
+							Factory::getDocument()->setIcons(
+							[
+								'provider' => 'fontawesome-free',
+								'group'    => 'solid',
+								'icon'     => 'user',
+								'classes'  => 'demo-class',
+								'text'     => Text::_('MOD_LOGIN_VALUE_USERNAME')
+							]
+							);
+						?></span>
 					</span>
 				</div>
 			<?php else : ?>

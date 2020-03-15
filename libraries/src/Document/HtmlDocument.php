@@ -14,6 +14,7 @@ use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
@@ -155,6 +156,7 @@ class HtmlDocument extends Document
 		$data['script']      = $this->_script;
 		$data['custom']      = $this->_custom;
 		$data['scriptText']  = Text::getScriptStrings();
+		$data['icons']       = $this->icons;
 
 		return $data;
 	}
@@ -182,6 +184,7 @@ class HtmlDocument extends Document
 			$this->_scripts     = array();
 			$this->_script      = array();
 			$this->_custom      = array();
+			$this->icons        = array();
 		}
 
 		if (\is_array($types))
@@ -258,6 +261,7 @@ class HtmlDocument extends Document
 		$this->_scripts     = $data['scripts'] ?? $this->_scripts;
 		$this->_script      = $data['script'] ?? $this->_script;
 		$this->_custom      = $data['custom'] ?? $this->_custom;
+		$this->icons        = $data['custom'] ?? $this->icons;
 
 		if (isset($data['scriptText']) && !empty($data['scriptText']))
 		{
@@ -654,6 +658,43 @@ class HtmlDocument extends Document
 	}
 
 	/**
+	 * Renders the document icons
+	 *
+	 * @return  string  The svgs markup for the icons
+	 *
+	 * @since   4.0.0
+	 */
+	public function renderIcons()
+	{
+		$files        = [];
+
+		// Generate the file and load the stylesheet link
+		foreach ($this->icons as $key => $icon)
+		{
+			$file = HTMLHelper::image('vendor/' . $icon['provider'] . '/' . $icon['group'] . '/' . $icon['icon'] . '.svg', '', null,true, 1);
+
+			if ($file) {
+				$content = @file_get_contents(JPATH_ROOT . substr($file, strpos($file, '/media')));
+				$content = str_replace(
+					'<svg',
+					'<svg id="' . $icon['provider'] . '-' . $icon['group'] . '-' . $icon['icon'] . '"'
+					. ' title="' . $icon['text'] . '"'
+					. ' role="img"',
+					$content
+				);
+
+				$files[] = $content;
+			}
+		}
+
+		if (!empty($files)) {
+			return '<div style="display:none">' . implode('', $files) . '</div>';
+		}
+
+		return '';
+	}
+
+	/**
 	 * Load a template file
 	 *
 	 * @param   string  $directory  The name of the template
@@ -804,6 +845,8 @@ class HtmlDocument extends Document
 			$replace[] = $jdoc;
 			$with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
 		}
+
+		$this->_template = str_replace('</body>', self::renderIcons() . '</body>', $this->_template);
 
 		return str_replace($replace, $with, $this->_template);
 	}
