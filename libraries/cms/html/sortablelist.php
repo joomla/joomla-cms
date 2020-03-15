@@ -43,11 +43,6 @@ abstract class JHtmlSortablelist
 	 */
 	public static function sortable($tableId, $formId, $sortDir = 'asc', $saveOrderingUrl = null, $proceedSaveOrderButton = true, $nestedList = false)
 	{
-		Factory::getDocument()->addScriptDeclaration('
-			const element = document.querySelector("' . $tableId . ' tbody");
-			element.classList.add("js-draggable");'
-		);
-
 		HtmlHelper::_('dragablelist.dragable', $tableId, $formId, $sortDir, $saveOrderingUrl, $proceedSaveOrderButton, $nestedList);
 	}
 }
