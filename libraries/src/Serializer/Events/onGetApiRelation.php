@@ -19,6 +19,7 @@ final class onGetApiRelation extends AbstractImmutableEvent
 	 * The relationship
 	 *
 	 * @var Relationship
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private $relationship;
 
@@ -33,6 +34,7 @@ final class onGetApiRelation extends AbstractImmutableEvent
 	 * @param   string  $name       The event name.
 	 * @param   array   $arguments  The event arguments.
 	 *
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \BadMethodCallException
 	 */
 	public function __construct($name, array $arguments = array())
@@ -58,13 +60,23 @@ final class onGetApiRelation extends AbstractImmutableEvent
 	/**
 	 * Get properties to render.
 	 *
-	 * @return  array
+	 * @return  Relationship
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getRelationship(): ?Relationship
 	{
 		return $this->relationship;
 	}
 
+	/**
+	 * Set relationship object that should be rendered.
+	 *
+	 * @param   Relationship  $relationship  The relationship object that should be rendered.
+	 *
+	 * @return  void
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function setRelationship(Relationship $relationship): void
 	{
 		$this->relationship = $relationship;

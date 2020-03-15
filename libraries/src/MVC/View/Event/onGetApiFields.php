@@ -74,7 +74,7 @@ final class onGetApiFields extends AbstractImmutableEvent
 	 */
 	protected function setType($value)
 	{
-		if (!array_key_exists($value, [static::ITEM, static::LIST]))
+		if (!in_array($value, [static::ITEM, static::LIST]))
 		{
 			throw new BadMethodCallException("Argument 'type' of event {$this->name} must be a valid value");
 		}

@@ -165,7 +165,7 @@ abstract class JsonApiView extends JsonView
 		$lastPageQuery['offset'] = $totalPagesAvailable - $pagination->limit;
 		$lastPage->setVar('page', $lastPageQuery);
 
-		$event = new onGetApiFields('onApiGetFields', [onGetApiFields::LIST, $this->fieldsToRenderList]);
+		$event = new onGetApiFields('onApiGetFields', ['type' => onGetApiFields::LIST, 'fields' => $this->fieldsToRenderList]);
 
 		/** @var onGetApiFields $eventResult */
 		$eventResult = Factory::getApplication()->getDispatcher()->dispatch('onApiGetFields', $event);
