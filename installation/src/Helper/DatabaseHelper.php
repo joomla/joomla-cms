@@ -138,7 +138,7 @@ abstract class DatabaseHelper
 	}
 
 	/**
-	 * Get the minimum required databse server version.
+	 * Get the minimum required database server version.
 	 *
 	 * @param   DatabaseDriver  $db       Database object
 	 * @param   \stdClass       $options  The session options
