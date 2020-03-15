@@ -323,7 +323,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		if ($frameAncestorsSelfEnabled && !$frameAncestorsSet)
 		{
-			$newCspValues[] = 'frame-ancestors "self"';
+			$newCspValues[] = 'frame-ancestors \'self\'';
 		}
 
 		if (empty($newCspValues))
