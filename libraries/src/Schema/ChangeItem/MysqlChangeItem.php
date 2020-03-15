@@ -293,7 +293,7 @@ class MysqlChangeItem extends ChangeItem
 	 * Make check query for column changes/modifications tolerant
 	 * for automatic type changes of text columns, e.g. from TEXT
 	 * to MEDIUMTEXT, after comnversion from utf8 to utf8mb4, and
-	 * fix integer columns without display lenght for MySQL 8.
+	 * fix integer columns without display length for MySQL 8.
 	 *
 	 * @param   string  $type  The column type found in the update query
 	 *
