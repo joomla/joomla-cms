@@ -1,12 +1,11 @@
 <?php
 /**
- * @package     Joomla.Test
+ * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Page
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Page\Acceptance\Administrator;
 
 /**
@@ -27,7 +26,7 @@ class MenuFormPage extends AdminFormPage
 	public static $url = "administrator/index.php?option=com_menus&view=menu&layout=edit";
 
 	/**
-	 * Page title for adding a menu
+	 * Page title for adding a menu.
 	 *
 	 * @var    string
 	 * @since  4.0.0
@@ -35,7 +34,7 @@ class MenuFormPage extends AdminFormPage
 	public static $pageTitleText = 'Menus: Add';
 
 	/**
-	 * Title field
+	 * Title field.
 	 *
 	 * @var    array
 	 * @since  4.0.0
@@ -43,7 +42,7 @@ class MenuFormPage extends AdminFormPage
 	public static $fieldTitle = ['id' => 'jform_title'];
 
 	/**
-	 * Type field
+	 * Type field.
 	 *
 	 * @var    array
 	 * @since  4.0.0
@@ -51,11 +50,10 @@ class MenuFormPage extends AdminFormPage
 	public static $fieldMenuType = ['id' => 'jform_menutype'];
 
 	/**
-	 * Optional Description field
+	 * Optional Description field.
 	 *
 	 * @var    array
 	 * @since  4.0.0
 	 */
 	public static $fieldMenuDescription = ['id' => 'jform_menudescription'];
-
 }

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Input;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
 
@@ -50,7 +50,7 @@ class Json extends Input
 			$this->filter = InputFilter::getInstance();
 		}
 
-		if (is_null($source))
+		if (\is_null($source))
 		{
 			$this->_raw = file_get_contents('php://input');
 			$this->data = json_decode($this->_raw, true);

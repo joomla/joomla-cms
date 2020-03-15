@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="4.0" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>com_wrapper</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
@@ -10,15 +10,13 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_WRAPPER_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Wrapper</namespace>
+	<namespace path="src">Joomla\Component\Wrapper</namespace>
 	<files folder="site">
-		<filename>router.php</filename>
-		<folder>Controller</folder>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<folder>View</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_wrapper.ini</language>
+		<language tag="en-GB">language/en-GB/com_wrapper.ini</language>
 	</languages>
 	<media destination="com_wrapper" folder="media">
 		<folder>js</folder>
@@ -27,10 +25,11 @@
 		<files folder="admin">
 			<filename>wrapper.xml</filename>
 			<folder>services</folder>
+			<folder>src</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_wrapper.ini</language>
-			<language tag="en-GB">language/en-GB.com_wrapper.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_wrapper.ini</language>
+			<language tag="en-GB">language/en-GB/com_wrapper.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

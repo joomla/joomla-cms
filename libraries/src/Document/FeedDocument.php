@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Feed\FeedImage;
 use Joomla\CMS\Document\Feed\FeedItem;
@@ -65,10 +65,10 @@ class FeedDocument extends Document
 	/**
 	 * Lastbuild date feed element
 	 *
-	 * @var    \JDate
+	 * @var    \Joomla\CMS\Date\Date
 	 * @since  1.7.0
 	 */
-	public $lastBuildDate = '';
+	public $lastBuildDate;
 
 	/**
 	 * Editor feed element
@@ -226,7 +226,7 @@ class FeedDocument extends Document
 		// Render the feed
 		$data .= $renderer->render();
 
-		parent::render();
+		parent::render($cache, $params);
 
 		return $data;
 	}

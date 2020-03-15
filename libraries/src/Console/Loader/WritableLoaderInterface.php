@@ -10,7 +10,7 @@ namespace Joomla\CMS\Console\Loader;
 
 use Joomla\Console\Loader\LoaderInterface;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Interface defining a writable command loader.

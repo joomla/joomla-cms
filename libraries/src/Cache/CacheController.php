@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Cache;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
@@ -71,7 +71,7 @@ class CacheController
 	 */
 	public function __call($name, $arguments)
 	{
-		return call_user_func_array(array($this->cache, $name), $arguments);
+		return \call_user_func_array(array($this->cache, $name), $arguments);
 	}
 
 	/**
@@ -152,7 +152,7 @@ class CacheController
 			$paths = array();
 		}
 
-		if (!empty($path) && !in_array($path, $paths))
+		if (!empty($path) && !\in_array($path, $paths))
 		{
 			// Only trigger a deprecation notice when adding a lookup path
 			@trigger_error(

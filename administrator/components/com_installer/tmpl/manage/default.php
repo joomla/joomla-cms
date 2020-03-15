@@ -34,7 +34,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
 						<div class="alert alert-info">
-							<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 						</div>
 					<?php else : ?>
@@ -53,7 +53,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:10%">
@@ -93,14 +93,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php endif; ?>
 								</td>
 								<th scope="row">
-									<label for="cb<?php echo $i; ?>" tabindex="0">
-										<?php echo $item->name; ?>
-									</label>
+									<span tabindex="0"><?php echo $item->name; ?></span>
 									<div role="tooltip" id="tip<?php echo $i; ?>">
 										<?php echo $item->description; ?>
 									</div>
 								</th>
-								<td>
+								<td class="d-none d-md-table-cell">
 									<?php echo $item->client_translated; ?>
 								</td>
 								<td>

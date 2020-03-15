@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Application\CLI\Output\Processor;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Interface for a command line output processor

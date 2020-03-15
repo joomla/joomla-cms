@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Component\ComponentHelper;
@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\ParameterType;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 
@@ -30,6 +31,22 @@ use Joomla\Registry\Registry;
  */
 class AdministratorApplication extends CMSApplication
 {
+	/**
+	 * List of allowed components for guests and users which do not have the core.login.admin privilege.
+	 *
+	 * By default we allow two core components:
+	 *
+	 * - com_login   Absolutely necessary to let users log into the backend of the site. Do NOT remove!
+	 * - com_ajax    Handle AJAX requests or other administrative callbacks without logging in. Required for
+	 *               passwordless authentication using WebAuthn.
+	 *
+	 * @var array
+	 */
+	protected $allowedUnprivilegedOptions = [
+		'com_login',
+		'com_ajax',
+	];
+
 	/**
 	 * Class constructor.
 	 *
@@ -58,7 +75,7 @@ class AdministratorApplication extends CMSApplication
 		parent::__construct($input, $config, $client, $container);
 
 		// Set the root in the URI based on the application name
-		Uri::root(null, rtrim(dirname(Uri::base(true)), '/\\'));
+		Uri::root(null, rtrim(\dirname(Uri::base(true)), '/\\'));
 	}
 
 	/**
@@ -89,8 +106,6 @@ class AdministratorApplication extends CMSApplication
 		switch ($document->getType())
 		{
 			case 'html':
-				$document->setMetaData('keywords', $this->get('MetaKeys'));
-
 				// Get the template
 				$template = $this->getTemplate(true);
 
@@ -131,7 +146,7 @@ class AdministratorApplication extends CMSApplication
 	protected function doExecute()
 	{
 		// Get the language from the (login) form or user state
-		$login_lang = ($this->input->get('option') == 'com_login') ? $this->input->get('lang') : '';
+		$login_lang = ($this->input->get('option') === 'com_login') ? $this->input->get('lang') : '';
 		$options    = array('language' => $login_lang ?: $this->getUserState('application.lang'));
 
 		// Initialise the application
@@ -153,7 +168,7 @@ class AdministratorApplication extends CMSApplication
 		 * $this->input->getCmd('option'); or $this->input->getCmd('view');
 		 * ex: due of the sef urls
 		 */
-		$this->checkUserRequireReset('com_admin', 'profile', 'edit', 'com_admin/profile.save,com_admin/profile.apply,com_login/logout');
+		$this->checkUserRequireReset('com_users', 'user', 'edit', 'com_users/user.edit,com_users/user.save,com_users/user.apply,com_login/logout');
 
 		// Dispatch the application
 		$this->dispatch();
@@ -189,7 +204,7 @@ class AdministratorApplication extends CMSApplication
 	 */
 	public function getTemplate($params = false)
 	{
-		if (is_object($this->template))
+		if (\is_object($this->template))
 		{
 			if ($params)
 			{
@@ -199,22 +214,41 @@ class AdministratorApplication extends CMSApplication
 			return $this->template->template;
 		}
 
-		$admin_style = Factory::getUser()->getParam('admin_style');
+		$admin_style = (int) Factory::getUser()->getParam('admin_style');
 
 		// Load the template name from the database
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('template, s.params')
-			->from('#__template_styles as s')
-			->join('LEFT', '#__extensions as e ON e.type=' . $db->quote('template') . ' AND e.element=s.template AND e.client_id=s.client_id');
+			->select($db->quoteName(['s.template', 's.params']))
+			->from($db->quoteName('#__template_styles', 's'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__extensions', 'e'),
+				$db->quoteName('e.type') . ' = ' . $db->quote('template')
+					. ' AND ' . $db->quoteName('e.element') . ' = ' . $db->quoteName('s.template')
+					. ' AND ' . $db->quoteName('e.client_id') . ' = ' . $db->quoteName('s.client_id')
+			)
+			->where(
+				[
+					$db->quoteName('s.client_id') . ' = 1',
+					$db->quoteName('s.home') . ' = ' . $db->quote('1'),
+				]
+			);
 
 		if ($admin_style)
 		{
-			$query->where('s.client_id = 1 AND id = ' . (int) $admin_style . ' AND e.enabled = 1', 'OR');
+			$query->extendWhere(
+				'OR',
+				[
+					$db->quoteName('s.client_id') . ' = 1',
+					$db->quoteName('s.id') . ' = :style',
+					$db->quoteName('e.enabled') . ' = 1',
+				]
+			)
+				->bind(':style', $admin_style, ParameterType::INTEGER);
 		}
 
-		$query->where('s.client_id = 1 AND home = ' . $db->quote('1'), 'OR')
-			->order('home');
+		$query->order($db->quoteName('s.home'));
 		$db->setQuery($query);
 		$template = $db->loadObject();
 
@@ -320,7 +354,7 @@ class AdministratorApplication extends CMSApplication
 		$options['autoregister'] = false;
 
 		// Set the application login entry point
-		if (!array_key_exists('entry_url', $options))
+		if (!\array_key_exists('entry_url', $options))
 		{
 			$options['entry_url'] = Uri::base() . 'index.php?option=com_users&task=login';
 		}
@@ -355,20 +389,25 @@ class AdministratorApplication extends CMSApplication
 	 */
 	public static function purgeMessages()
 	{
-		$user = Factory::getUser();
-		$userid = $user->get('id');
+		$userId = Factory::getUser()->id;
 
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('*')
+			->select($db->quoteName(['cfg_name', 'cfg_value']))
 			->from($db->quoteName('#__messages_cfg'))
-			->where($db->quoteName('user_id') . ' = ' . (int) $userid, 'AND')
-			->where($db->quoteName('cfg_name') . ' = ' . $db->quote('auto_purge'), 'AND');
+			->where(
+				[
+					$db->quoteName('user_id') . ' = :userId',
+					$db->quoteName('cfg_name') . ' = ' . $db->quote('auto_purge'),
+				]
+			)
+			->bind(':userId', $userId, ParameterType::INTEGER);
+
 		$db->setQuery($query);
 		$config = $db->loadObject();
 
 		// Check if auto_purge value set
-		if (is_object($config) && $config->cfg_name === 'auto_purge')
+		if (\is_object($config) && $config->cfg_name === 'auto_purge')
 		{
 			$purge = $config->cfg_value;
 		}
@@ -382,13 +421,19 @@ class AdministratorApplication extends CMSApplication
 		if ($purge > 0)
 		{
 			// Purge old messages at day set in message configuration
-			$past = Factory::getDate(time() - $purge * 86400);
-			$pastStamp = $past->toSql();
+			$past = Factory::getDate(time() - $purge * 86400)->toSql();
 
-			$query->clear()
+			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__messages'))
-				->where($db->quoteName('date_time') . ' < ' . $db->quote($pastStamp), 'AND')
-				->where($db->quoteName('user_id_to') . ' = ' . (int) $userid, 'AND');
+				->where(
+					[
+						$db->quoteName('date_time') . ' < :past',
+						$db->quoteName('user_id_to') . ' = :userId',
+					]
+				)
+				->bind(':past', $past)
+				->bind(':userId', $userId, ParameterType::INTEGER);
+
 			$db->setQuery($query);
 			$db->execute();
 		}
@@ -473,6 +518,11 @@ class AdministratorApplication extends CMSApplication
 			$this->redirect((string) $uri, 301);
 		}
 
+		if ($this->isTwoFactorAuthenticationRequired())
+		{
+			$this->redirectIfTwoFactorAuthenticationRequired();
+		}
+
 		// Trigger the onAfterRoute event.
 		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterRoute');
@@ -487,20 +537,37 @@ class AdministratorApplication extends CMSApplication
 	 */
 	public function findOption(): string
 	{
-		$app = Factory::getApplication();
+		/** @var self $app */
+		$app    = Factory::getApplication();
 		$option = strtolower($app->input->get('option'));
-		$user = $app->getIdentity();
+		$user   = $app->getIdentity();
 
+		/**
+		 * Special handling for guest users and authenticated users without the Backend Login privilege.
+		 *
+		 * If the component they are trying to access is in the $this->allowedUnprivilegedOptions array we allow the
+		 * request to go through. Otherwise we force com_login to be loaded, letting the user (re)try authenticating
+		 * with a user account that has the Backend Login privilege.
+		 */
 		if ($user->get('guest') || !$user->authorise('core.login.admin'))
 		{
-			$option = 'com_login';
+			$option = in_array($option, $this->allowedUnprivilegedOptions) ? $option : 'com_login';
 		}
 
+		/**
+		 * If no component is defined in the request we will try to load com_cpanel, the administrator Control Panel
+		 * component. This allows the /administrator URL to display something meaningful after logging in instead of an
+		 * error.
+		 */
 		if (empty($option))
 		{
 			$option = 'com_cpanel';
 		}
 
+		/**
+		 * Force the option to the input object. This is necessary because we might have force-changed the component in
+		 * the two if-blocks above.
+		 */
 		$app->input->set('option', $option);
 
 		return $option;

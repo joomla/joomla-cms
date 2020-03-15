@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * RawDocument class, provides an easy interface to parse and display raw output
@@ -47,7 +47,7 @@ class RawDocument extends Document
 	 */
 	public function render($cache = false, $params = array())
 	{
-		parent::render();
+		parent::render($cache, $params);
 
 		return $this->getBuffer();
 	}

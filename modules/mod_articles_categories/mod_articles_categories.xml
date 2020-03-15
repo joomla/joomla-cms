@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension type="module" client="site" method="upgrade">
 	<name>mod_articles_categories</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
@@ -9,11 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_ARTICLES_CATEGORIES_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\ArticlesCategories</namespace>
+	<namespace path="src">Joomla\Module\ArticlesCategories</namespace>
 	<files>
 		<filename module="mod_articles_categories">mod_articles_categories.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_articles_categories.ini</language>
@@ -40,7 +40,7 @@
 				<field
 					name="show_description"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_LABEL"
 					default="0"
 					filter="integer"
@@ -52,7 +52,7 @@
 				<field
 					name="numitems"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_LABEL"
 					default="0"
 					filter="integer"
@@ -64,7 +64,7 @@
 				<field
 					name="show_children"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_LABEL"
 					default="0"
 					filter="integer"

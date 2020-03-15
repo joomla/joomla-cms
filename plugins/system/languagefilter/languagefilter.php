@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Associations;
@@ -87,7 +87,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    CMSApplicationInterface
 	 * @since  3.3
 	 */
 	protected $app;
@@ -104,8 +104,6 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	{
 		parent::__construct($subject, $config);
 
-		$this->app = Factory::getApplication();
-
 		// Setup language data.
 		$this->mode_sef     = $this->app->get('sef', 0);
 		$this->sefs         = LanguageHelper::getLanguages('sef');
@@ -115,7 +113,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		// If language filter plugin is executed in a site page.
 		if ($this->app->isClient('site'))
 		{
-			$levels = Factory::getUser()->getAuthorisedViewLevels();
+			$levels = $this->app->getIdentity()->getAuthorisedViewLevels();
 
 			foreach ($this->sefs as $sef => $language)
 			{
@@ -128,7 +126,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				}
 			}
 		}
-		// If language filter plugin is executed in an admin page (ex: JRoute site).
+		// If language filter plugin is executed in an admin page (ex: Route site).
 		else
 		{
 			// Set current language to default site language, fallback to en-GB if there is no content language for the default site language.
@@ -193,34 +191,10 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	}
 
 	/**
-	 * Listener for the onBeforeExecute event
-	 *
-	 * @param   BeforeExecuteEvent  $event  The Event object
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0
-	 */
-	public function onBeforeExecute(BeforeExecuteEvent $event)
-	{
-		/** @var \Joomla\CMS\Application\SiteApplication $app */
-		$app = $event->getApplication();
-
-		if (!$app->isClient('site'))
-		{
-			return;
-		}
-
-		// If a language was specified it has priority, otherwise use user or default language settings
-		$app->setLanguageFilter(true);
-		$app->setDetectBrowser($this->params->get('detect_browser', '1') == '1');
-	}
-
-	/**
 	 * Add build preprocess rule to router.
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -241,8 +215,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * Add build rule to router.
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -273,8 +247,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * postprocess build rule for SEF URLs
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -288,8 +262,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * postprocess build rule for non-SEF URLs
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -308,8 +282,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	/**
 	 * Add parse rule to router.
 	 *
-	 * @param   JRouter  &$router  JRouter object.
-	 * @param   JUri     &$uri     JUri object.
+	 * @param   Router  &$router  Router object.
+	 * @param   Uri     &$uri     Uri object.
 	 *
 	 * @return  void
 	 *
@@ -372,7 +346,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				$found = true;
 				$lang_code = $this->sefs[$sef]->lang_code;
 
-				// If we found our language, but its the default language and we don't want a prefix for that, we are on a wrong URL.
+				// If we found our language, but it's the default language and we don't want a prefix for that, we are on a wrong URL.
 				// Or we try to change the language back to the default language. We need a redirect to the proper URL for the default language.
 				if ($lang_code === $this->default_lang && $this->params->get('remove_default_prefix', 0))
 				{
@@ -524,11 +498,11 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		// Set the request var.
 		$this->app->input->set('language', $lang_code);
 		$this->app->set('language', $lang_code);
-		$language = Factory::getLanguage();
+		$language = $this->app->getLanguage();
 
 		if ($language->getTag() !== $lang_code)
 		{
-			$language_new = Language::getInstance($lang_code);
+			$language_new = Language::getInstance($lang_code, (bool) $this->app->get('debug_lang'));
 
 			foreach ($language->getPaths() as $extension => $files)
 			{
@@ -663,10 +637,10 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 */
 	public function onUserLogin($user, $options = array())
 	{
-		$menu = $this->app->getMenu();
-
 		if ($this->app->isClient('site'))
 		{
+			$menu = $this->app->getMenu();
+
 			if ($this->params->get('automatic_change', 1))
 			{
 				$assoc = Associations::isEnabled();
@@ -699,7 +673,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 				 * In that case we use the redirect as defined in the menu item.
 				 *  Otherwise we redirect, when available, to the user preferred site language.
 				 */
-				if ($active && !$active->params['login_redirect_url'])
+				if ($active && !$active->getParams()->get('login_redirect_url'))
 				{
 					if ($assoc)
 					{
@@ -780,7 +754,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 */
 	public function onAfterDispatch()
 	{
-		$doc = Factory::getDocument();
+		$doc = $this->app->getDocument();
 
 		if ($this->app->isClient('site') && $this->params->get('alternate_meta', 1) && $doc->getType() === 'html')
 		{
@@ -788,7 +762,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			$homes                 = Multilanguage::getSiteHomePages();
 			$menu                  = $this->app->getMenu();
 			$active                = $menu->getActive();
-			$levels                = Factory::getUser()->getAuthorisedViewLevels();
+			$levels                = $this->app->getIdentity()->getAuthorisedViewLevels();
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
 			$server                = Uri::getInstance()->toString(array('scheme', 'host', 'port'));
 			$is_home               = false;

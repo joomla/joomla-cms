@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\WebAsset\AssetItem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\HTML\HTMLHelper;

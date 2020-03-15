@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Cache;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Factory;
@@ -90,7 +90,7 @@ class CacheStorage
 		$app = Factory::getApplication();
 
 		$this->_hash        = md5($app->get('secret'));
-		$this->_application = $options['application'] ?? null;
+		$this->_application = $options['application'] ?? md5(JPATH_CONFIGURATION);
 		$this->_language    = $options['language'] ?? 'en-GB';
 		$this->_locking     = $options['locking'] ?? true;
 		$this->_lifetime    = ($options['lifetime'] ?? $app->get('cachetime')) * 60;
@@ -135,7 +135,7 @@ class CacheStorage
 			}
 		}
 
-		if (is_null($now))
+		if (\is_null($now))
 		{
 			$now = time();
 		}
@@ -376,7 +376,7 @@ class CacheStorage
 			$paths = array();
 		}
 
-		if (!empty($path) && !in_array($path, $paths))
+		if (!empty($path) && !\in_array($path, $paths))
 		{
 			array_unshift($paths, Path::clean($path));
 		}

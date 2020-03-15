@@ -1,12 +1,11 @@
 <?php
 /**
- * @package     Joomla.Test
+ * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Page
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Page\Acceptance\Administrator;
 
 /**
@@ -35,7 +34,7 @@ class UserListPage extends AdminListPage
 	public static $pageTitleText = "Users";
 
 	/**
-	 * Edit Button
+	 * Edit Button.
 	 *
 	 * @var    string
 	 * @since  3.7.3
@@ -43,7 +42,7 @@ class UserListPage extends AdminListPage
 	public static $editButton = ['class' => 'button-edit'];
 
 	/**
-	 * Locator for the id
+	 * Locator for the id.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -51,7 +50,7 @@ class UserListPage extends AdminListPage
 	public static $userCheckbox = ['id' => 'cb1'];
 
 	/**
-	 * Locator for the row (Checkbox is no longer clickable in j4..)
+	 * Locator for the row. (Checkbox is no longer clickable in j4..)
 	 *
 	 * @var    array
 	 * @since  4.0.0
@@ -59,7 +58,7 @@ class UserListPage extends AdminListPage
 	public static $userRow = ['class' => 'row1'];
 
 	/**
-	 * Save Button
+	 * Save Button.
 	 *
 	 * @var    string
 	 * @since  3.7.3
@@ -67,7 +66,7 @@ class UserListPage extends AdminListPage
 	public static $saveButton = ['class' => 'button-save'];
 
 	/**
-	 * Locator for user's name input field
+	 * Locator for user's name input field.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -75,15 +74,15 @@ class UserListPage extends AdminListPage
 	public static $nameField = ['id' => 'jform_name'];
 
 	/**
-	 * Locator for the success message
+	 * Locator for the success message.
 	 *
-	 * @var    array
+	 * @var    string
 	 * @since  3.7.3
 	 */
 	public static $successMessage = 'User saved.';
 
 	/**
-	 * Account details
+	 * Account details.
 	 *
 	 * @var    string
 	 * @since  3.7.3
@@ -91,7 +90,7 @@ class UserListPage extends AdminListPage
 	public static $accountDetailsTab = ['xpath' => "//a[@href='#details']"];
 
 	/**
-	 * Locator for user's username input field
+	 * Locator for user's username input field.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -99,7 +98,7 @@ class UserListPage extends AdminListPage
 	public static $usernameField = ['id' => 'jform_username'];
 
 	/**
-	 * Locator for user's password input field
+	 * Locator for user's password input field.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -107,7 +106,7 @@ class UserListPage extends AdminListPage
 	public static $passwordField = ['id' => 'jform_password'];
 
 	/**
-	 * Locator for user's password input field for frontend
+	 * Locator for user's password input field for frontend.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -115,7 +114,7 @@ class UserListPage extends AdminListPage
 	public static $password1Field = ['id' => 'jform_password1'];
 
 	/**
-	 * Locator for user's repeat password input field
+	 * Locator for user's repeat password input field.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -123,7 +122,7 @@ class UserListPage extends AdminListPage
 	public static $password2Field = ['id' => 'jform_password2'];
 
 	/**
-	 * Locator for user's email input field
+	 * Locator for user's email input field.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -131,7 +130,7 @@ class UserListPage extends AdminListPage
 	public static $emailField = ['id' => 'jform_email'];
 
 	/**
-	 * Locator for user's email input field for frontend
+	 * Locator for user's email input field for frontend.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -139,7 +138,7 @@ class UserListPage extends AdminListPage
 	public static $email1Field = ['id' => 'jform_email1'];
 
 	/**
-	 * Locator for user's repeat email input field
+	 * Locator for user's repeat email input field.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -147,7 +146,7 @@ class UserListPage extends AdminListPage
 	public static $email2Field = ['id' => 'jform_email2'];
 
 	/**
-	 * Locator for user's username field
+	 * Locator for user's username field.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -155,7 +154,7 @@ class UserListPage extends AdminListPage
 	public static $seeUserName = ['xpath' => "//table[@id='userList']//tr[1]/td[3]"];
 
 	/**
-	 * Locator for user's name field
+	 * Locator for user's name field.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -171,7 +170,7 @@ class UserListPage extends AdminListPage
 	public static $lastLoginDate = ['xpath' => "//table[@id='userList']//tr[1]/td[8]"];
 
 	/**
-	 * Locator for user is blocked
+	 * Locator for user is blocked.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -179,7 +178,7 @@ class UserListPage extends AdminListPage
 	public static $seeBlocked = ['xpath' => "//table[@id='userList']//*//td[4]//span[@class='icon-unpublish']"];
 
 	/**
-	 * Locator for user is unblocked
+	 * Locator for user is unblocked.
 	 *
 	 * @var    array
 	 * @since  3.7.3
@@ -187,7 +186,7 @@ class UserListPage extends AdminListPage
 	public static $seeUnblocked = ['xpath' => "//table[@id='userList']//*//td[4]//span[@class='icon-publish']"];
 
 	/**
-	 * Locator for user is deleted and not found
+	 * Locator for user is deleted and not found.
 	 *
 	 * @var    array
 	 * @since  3.7.3

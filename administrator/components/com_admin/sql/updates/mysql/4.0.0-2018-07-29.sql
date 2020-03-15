@@ -2,23 +2,23 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 TRUNCATE TABLE `#__finder_filters`;
-ALTER TABLE `#__finder_filters` MODIFY `created` datetime NOT NULL DEFAULT '1000-01-01 00:00:00';
 ALTER TABLE `#__finder_filters` MODIFY `created_by` int(10) unsigned NOT NULL DEFAULT 0;
 ALTER TABLE `#__finder_filters` MODIFY `created_by_alias` varchar(255) NOT NULL DEFAULT '';
-ALTER TABLE `#__finder_filters` MODIFY `modified` datetime NOT NULL DEFAULT '1000-01-01 00:00:00';
-ALTER TABLE `#__finder_filters` MODIFY `checked_out_time` datetime NOT NULL DEFAULT '1000-01-01 00:00:00';
+ALTER TABLE `#__finder_filters` MODIFY `created` datetime NOT NULL;
+ALTER TABLE `#__finder_filters` MODIFY `modified` datetime NOT NULL;
+ALTER TABLE `#__finder_filters` MODIFY `checked_out_time` datetime NULL DEFAULT NULL;
 ALTER TABLE `#__finder_filters` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_filters` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 TRUNCATE TABLE `#__finder_links`;
-ALTER TABLE `#__finder_links` MODIFY `indexdate` datetime NOT NULL DEFAULT '1000-01-01 00:00:00';
 ALTER TABLE `#__finder_links` CHANGE `language` `language` CHAR(7) NOT NULL DEFAULT '' AFTER `access`;
 ALTER TABLE `#__finder_links` MODIFY `state` int(5) NOT NULL DEFAULT 1;
 ALTER TABLE `#__finder_links` MODIFY `access` int(5) NOT NULL DEFAULT 0;
-ALTER TABLE `#__finder_links` MODIFY `publish_start_date` datetime NOT NULL DEFAULT '1000-01-01 00:00:00';
-ALTER TABLE `#__finder_links` MODIFY `publish_end_date` datetime NOT NULL DEFAULT '1000-01-01 00:00:00';
-ALTER TABLE `#__finder_links` MODIFY `start_date` datetime NOT NULL DEFAULT '1000-01-01 00:00:00';
-ALTER TABLE `#__finder_links` MODIFY `end_date` datetime NOT NULL DEFAULT '1000-01-01 00:00:00';
+ALTER TABLE `#__finder_links` MODIFY `indexdate` datetime NOT NULL;
+ALTER TABLE `#__finder_links` MODIFY `publish_start_date` datetime NULL DEFAULT NULL;
+ALTER TABLE `#__finder_links` MODIFY `publish_end_date` datetime NULL DEFAULT NULL;
+ALTER TABLE `#__finder_links` MODIFY `start_date` datetime NULL DEFAULT NULL;
+ALTER TABLE `#__finder_links` MODIFY `end_date` datetime NULL DEFAULT NULL;
 ALTER TABLE `#__finder_links` ADD INDEX `idx_language` (`language`);
 ALTER TABLE `#__finder_links` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_links` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_logging` (
   `query` BLOB NOT NULL,
   `hits` INT(11) NOT NULL DEFAULT 1,
   `results` INT(11) NOT NULL DEFAULT 0,
-  PRIMARY KEY `md5sum` (`md5sum`),
+  PRIMARY KEY (`md5sum`),
   INDEX `searchterm` (`searchterm`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -90,7 +90,10 @@ TRUNCATE TABLE `#__finder_terms`;
 ALTER TABLE `#__finder_terms` CHANGE `language` `language` CHAR(7) NOT NULL DEFAULT '' AFTER `links`;
 ALTER TABLE `#__finder_terms` MODIFY `stem` varchar(75) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_terms` MODIFY `soundex` varchar(75) NOT NULL DEFAULT '';
-ALTER TABLE `#__finder_terms` DROP INDEX `idx_term`, ADD INDEX `idx_stem` (`stem`), ADD INDEX `idx_language` (`language`), ADD INDEX `language` (`language`), ADD UNIQUE INDEX `idx_term` (`term`, `language`);
+ALTER TABLE `#__finder_terms` DROP INDEX `idx_term`;
+ALTER TABLE `#__finder_terms` ADD INDEX `idx_stem` (`stem`);
+ALTER TABLE `#__finder_terms` ADD INDEX `idx_language` (`language`);
+ALTER TABLE `#__finder_terms` ADD UNIQUE INDEX `idx_term_language` (`term`, `language`);
 ALTER TABLE `#__finder_terms` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_terms` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -99,7 +102,7 @@ CREATE TABLE `#__finder_terms_common` (
   `term` varchar(75) NOT NULL DEFAULT '',
   `language` char(7) NOT NULL DEFAULT '',
   `custom` int(11) NOT NULL DEFAULT '0',
-  UNIQUE KEY `idx_word_lang` (`term`,`language`),
+  UNIQUE KEY `idx_term_language` (`term`,`language`),
   KEY `idx_lang` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_bin;
 INSERT INTO `#__finder_terms_common` (`term`, `language`, `custom`) VALUES

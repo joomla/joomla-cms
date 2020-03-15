@@ -88,6 +88,9 @@ function clean_checkout(string $dir)
 	system('rm -rf libraries/vendor/joomla/*/Tests');
 	system('rm -rf libraries/vendor/joomla/*/ruleset.xml');
 
+	// testing sampledata
+	system('rm -rf plugins/sampledata/testing');
+
 	// paragonie/random_compat
 	system('rm -rf libraries/vendor/paragonie/random_compat/other');
 	system('rm -rf libraries/vendor/paragonie/random_compat/build-phar.sh');
@@ -233,9 +236,6 @@ clean_composer($fullpath);
 // And cleanup the Node installation
 system('rm -rf node_modules');
 
-// Also cleanup the Node installation of the media manager
-system('rm -rf administrator/components/com_media/node_modules');
-
 echo "Workspace built.\n";
 
 // Import the version class to set the version information
@@ -262,6 +262,7 @@ echo "Create list of changed files from git repository for version $fullVersion.
  */
 $filesArray = array(
 	"administrator/index.php\n" => true,
+	"api/index.php\n" => true,
 	"cache/index.html\n" => true,
 	"cli/index.html\n" => true,
 	"components/index.html\n" => true,
@@ -292,14 +293,19 @@ $doNotPackage = array(
 	'.appveyor.yml',
 	'.babelrc',
 	'.drone.yml',
+	'.editorconfig',
 	'.eslintignore',
 	'.eslintrc',
-	'.editorconfig',
 	'.github',
 	'.gitignore',
 	'.hound.yml',
 	'.php_cs.dist',
 	'.travis.yml',
+	'CODE_OF_CONDUCT.md',
+	'Gemfile',
+	'Gemfile.lock',
+	'README.md',
+	'RoboFile.php',
 	'acceptance.suite.yml',
 	'appveyor-phpunit.xml',
 	'build',
@@ -310,19 +316,14 @@ $doNotPackage = array(
 	'composer.lock',
 	'crowdin.yml',
 	'drone-package.json',
-	'Gemfile',
-	'Gemfile.lock',
-	'package.json',
 	'package-lock.json',
+	'package.json',
+	'phpunit-pgsql.xml.dist',
 	'phpunit.xml.dist',
-	'README.md',
-	'RoboFile.php',
 	'scss-lint.yml',
+	'selenium.log',
 	'tests',
 	'travisci-phpunit.xml',
-	'codeception.yml',
-	'RoboFile.php',
-	'CODE_OF_CONDUCT.md',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',

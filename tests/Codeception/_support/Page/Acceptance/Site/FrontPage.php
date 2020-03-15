@@ -1,12 +1,11 @@
 <?php
 /**
- * @package     Joomla.Test
+ * @package     Joomla.Tests
  * @subpackage  AcceptanceTester.Page
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 namespace Page\Acceptance\Site;
 
 /**
@@ -19,7 +18,7 @@ namespace Page\Acceptance\Site;
 class FrontPage extends \AcceptanceTester
 {
 	/**
-	 * Link to the frontend
+	 * Link to the frontend.
 	 *
 	 * @var    string
 	 * @since  3.7.3

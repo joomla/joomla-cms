@@ -40,7 +40,7 @@
 			<arg value="--encoding=utf-8" />
 			<arg value="-p" />
 			<arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
-			<arg value="--standard=${basedir}/build/phpcs/Joomla" />
+			<arg value="--standard=${basedir}/libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS" />
 			<arg path="${source}" />
 		</exec>
 	</target>
@@ -156,8 +156,8 @@
 		</copy>
 		<echo message="Copy language files" />
 		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language" />
-		<copyfile src="${basedir}/administrator/language/en-GB/en-GB.com_joomlaupdate.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB.com_joomlaupdate.ini"/>
-		<copyfile src="${basedir}/administrator/language/en-GB/en-GB.com_joomlaupdate.sys.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB.com_joomlaupdate.sys.ini"/>
+		<copyfile src="${basedir}/administrator/language/en-GB/com_joomlaupdate.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB/com_joomlaupdate.ini"/>
+		<copyfile src="${basedir}/administrator/language/en-GB/com_joomlaupdate.sys.ini" dest="${basedir}/build/com_joomlaupdate-pkg/staging/admin/language/en-GB/com_joomlaupdate.sys.ini"/>
 		<echo message="Archiving package" />
 		<mkdir dir="${basedir}/build/com_joomlaupdate-pkg/packages" />
 		<zip destfile="${basedir}/build/com_joomlaupdate-pkg/packages/com_joomlaupdate.zip" basedir="${basedir}/build/com_joomlaupdate-pkg/staging" />

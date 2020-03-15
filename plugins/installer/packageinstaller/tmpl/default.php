@@ -18,9 +18,11 @@ HTMLHelper::_('form.csrf');
 
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
+Text::script('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG');
 
 $return  = Factory::getApplication()->input->getBase64('return');
-$maxSize = FilesystemHelper::fileUploadMaxSize();
+$maxSizeBytes = FilesystemHelper::fileUploadMaxSize(false);
+$maxSize = HTMLHelper::_('number.bytes', $maxSizeBytes);
 ?>
 
 <legend><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_INSTALL_JOOMLA_EXTENSION'); ?></legend>
@@ -78,11 +80,12 @@ $maxSize = FilesystemHelper::fileUploadMaxSize();
 	</div>
 </div>
 
-<div id="legacy-uploader" style="display: none;">
+<div id="legacy-uploader" class="hidden">
 	<div class="control-group">
 		<label for="install_package" class="control-label"><?php echo Text::_('PLG_INSTALLER_PACKAGEINSTALLER_EXTENSION_PACKAGE_FILE'); ?></label>
 		<div class="controls">
 			<input class="form-control-file" id="install_package" name="install_package" type="file">
+			<input id="max_upload_size" name="max_upload_size" type="hidden" value="<?php echo $maxSizeBytes; ?>" />
 			<small class="form-text text-muted"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></small>
 		</div>
 	</div>

@@ -283,7 +283,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	 * @param   CmsEvent\Table\AfterResetEvent  $event  The event to handle
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	public function onTableAfterReset(CmsEvent\Table\AfterResetEvent $event)
@@ -311,7 +311,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	 * @param   CmsEvent\Table\AfterLoadEvent  $event  The event to handle
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	public function onTableAfterLoad(CmsEvent\Table\AfterLoadEvent $event)
@@ -370,7 +370,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 		}
 
 		return preg_replace_callback('/{([^}]+)}/',
-			function($matches) use ($table)
+			function ($matches) use ($table)
 			{
 				return $table->{$matches[1]};
 			},

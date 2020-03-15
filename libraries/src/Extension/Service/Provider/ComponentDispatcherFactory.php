@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Extension\Service\Provider;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;

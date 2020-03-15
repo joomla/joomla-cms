@@ -1,5 +1,5 @@
 <template>
-    <div class="media-container row">
+    <div class="media-container">
         <div class="media-sidebar col-md-2 d-none d-md-block">
             <media-disk v-for="(disk, index) in disks" :uid="index" :key="index" :disk="disk"></media-disk>
         </div>

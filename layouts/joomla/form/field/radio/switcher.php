@@ -10,7 +10,6 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 extract($displayData, null);
 
@@ -50,7 +49,7 @@ if (empty($options))
 }
 
 // Load the css files
-Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('switcher');
+Factory::getApplication()->getDocument()->getWebAssetManager()->useStyle('switcher');
 
 /**
  * The format of the input tag to be filled in using sprintf.
@@ -59,22 +58,31 @@ Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('swi
  *     %3 - value
  *     %4 = any other attributes
  */
-$input    = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
+$input = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
+
+$attr = 'id="' . $id . '"';
+$attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 
 ?>
-<fieldset>
-	<legend class="switcher__legend">
+<fieldset <?php echo $attr; ?>>
+	<legend class="switcher__legend sr-only">
 		<?php echo $label; ?>
 	</legend>
 	<div class="switcher">
 	<?php foreach ($options as $i => $option) : ?>
 		<?php
+		// False value casting as string returns an empty string so assign it 0
+		if (empty($value) && $option->value == '0')
+		{
+			$value = '0';
+		}
+
 		// Initialize some option attributes.
 		$checked	= ((string) $option->value == $value) ? 'checked="checked"' : '';
 		$active		= ((string) $option->value == $value) ? 'class="active"' : '';
 		$oid		= $id . $i;
 		$ovalue		= htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-		$attributes	= array_filter(array($checked, $active, null));
+		$attributes	= array_filter([$checked, $active]);
 		$text		= $options[$i]->text;
 		?>
 		<?php echo sprintf($input, $oid, $name, $ovalue, implode(' ', $attributes)); ?>

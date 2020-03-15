@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 
 /**
@@ -21,6 +21,14 @@ use Joomla\Database\ParameterType;
  */
 class PlgExtensionJoomla extends CMSPlugin
 {
+	/**
+	 * Database driver
+	 *
+	 * @var    DatabaseDriver
+	 * @since  4.0.0
+	 */
+	protected $db;
+
 	/**
 	 * @var    integer Extension Identifier
 	 * @since  1.6
@@ -55,9 +63,8 @@ class PlgExtensionJoomla extends CMSPlugin
 	 */
 	private function addUpdateSite($name, $type, $location, $enabled)
 	{
-		$db = Factory::getDbo();
-
 		// Look if the location is used already; doesn't matter what type you can't have two types at the same address, doesn't make sense
+		$db    = $this->db;
 		$query = $db->getQuery(true);
 
 		$query->select($db->quoteName('update_site_id'))
@@ -101,7 +108,7 @@ class PlgExtensionJoomla extends CMSPlugin
 				->where(
 					[
 						$db->quoteName('update_site_id') . ' = :updatesiteid',
-						$db->quoteName('extension_id') . ' = :extensionid'
+						$db->quoteName('extension_id') . ' = :extensionid',
 					]
 				)
 				->bind(':updatesiteid', $update_site_id, ParameterType::INTEGER)
@@ -137,7 +144,7 @@ class PlgExtensionJoomla extends CMSPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onExtensionAfterInstall($installer, $eid )
+	public function onExtensionAfterInstall($installer, $eid)
 	{
 		if ($eid)
 		{
@@ -166,7 +173,7 @@ class PlgExtensionJoomla extends CMSPlugin
 		// update sites for it
 		if ($eid && $removed)
 		{
-			$db    = Factory::getDbo();
+			$db    = $this->db;
 			$query = $db->getQuery(true);
 			$eid   = (int) $eid;
 

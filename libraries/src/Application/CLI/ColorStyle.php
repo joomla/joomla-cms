@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Application\CLI;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Class defining ANSI-color styles for command line output
@@ -102,7 +102,7 @@ final class ColorStyle
 	{
 		if ($fg)
 		{
-			if (array_key_exists($fg, static::$knownColors) == false)
+			if (\array_key_exists($fg, static::$knownColors) == false)
 			{
 				throw new \InvalidArgumentException(
 					sprintf(
@@ -118,7 +118,7 @@ final class ColorStyle
 
 		if ($bg)
 		{
-			if (array_key_exists($bg, static::$knownColors) == false)
+			if (\array_key_exists($bg, static::$knownColors) == false)
 			{
 				throw new \InvalidArgumentException(
 					sprintf(
@@ -134,7 +134,7 @@ final class ColorStyle
 
 		foreach ($options as $option)
 		{
-			if (array_key_exists($option, static::$knownOptions) == false)
+			if (\array_key_exists($option, static::$knownOptions) == false)
 			{
 				throw new \InvalidArgumentException(
 					sprintf(

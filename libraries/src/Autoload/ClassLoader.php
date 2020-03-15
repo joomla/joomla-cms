@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Autoload;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Composer\Autoload\ClassLoader as ComposerClassLoader;
 

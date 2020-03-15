@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
@@ -54,7 +54,7 @@ class NoteField extends FormField
 
 		if ($close)
 		{
-			$close = $close == 'true' ? 'alert' : $close;
+			$close = $close === 'true' ? 'alert' : $close;
 			$html[] = '<button type="button" class="close" data-dismiss="' . $close . '">&times;</button>';
 		}
 

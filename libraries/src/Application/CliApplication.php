@@ -8,13 +8,12 @@
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CLI\CliInput;
 use Joomla\CMS\Application\CLI\CliOutput;
 use Joomla\CMS\Application\CLI\Output\Stdout;
-use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\DI\Container;
@@ -81,10 +80,11 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * @since   1.7.0
 	 */
 	public function __construct(Input $input = null, Registry $config = null, CliOutput $output = null, CliInput $cliInput = null,
-		DispatcherInterface $dispatcher = null, Container $container = null)
+		DispatcherInterface $dispatcher = null, Container $container = null
+	)
 	{
 		// Close the application if we are not executed from the command line.
-		if (!defined('STDOUT') || !defined('STDIN') || !isset($_SERVER['argv']))
+		if (!\defined('STDOUT') || !\defined('STDIN') || !isset($_SERVER['argv']))
 		{
 			$this->close();
 		}
@@ -148,10 +148,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	public function execute()
 	{
 		// Trigger the onBeforeExecute event
-		$this->getDispatcher()->dispatch(
-			'onBeforeExecute',
-			new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
-		);
+		$this->triggerEevent('onBeforeExecute');
 
 		// Perform application routines.
 		$this->doExecute();
@@ -242,7 +239,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 */
 	public function enqueueMessage($msg, $type = self::MSG_INFO)
 	{
-		if (!array_key_exists($type, $this->messages))
+		if (!\array_key_exists($type, $this->messages))
 		{
 			$this->messages[$type] = [];
 		}
@@ -273,7 +270,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 */
 	public function isClient($identifier)
 	{
-		return $identifier == 'cli';
+		return $identifier === 'cli';
 	}
 
 	/**

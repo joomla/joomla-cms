@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory as CmsFactory;
 
@@ -65,7 +65,7 @@ class XmlDocument extends Document
 	 */
 	public function render($cache = false, $params = array())
 	{
-		parent::render();
+		parent::render($cache, $params);
 
 		$disposition = $this->isDownload ? 'attachment' : 'inline';
 

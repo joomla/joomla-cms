@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\View;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Log\Log;
 
@@ -64,14 +64,14 @@ class JsonView extends AbstractView
 		parent::__construct($config);
 
 		// Set the charset (used by the variable escaping functions)
-		if (array_key_exists('charset', $config))
+		if (\array_key_exists('charset', $config))
 		{
 			Log::add('Setting a custom charset for escaping is deprecated. Override \JViewLegacy::escape() instead.', Log::WARNING, 'deprecated');
 			$this->_charset = $config['charset'];
 		}
 
 		// Set a base path for use by the view
-		if (array_key_exists('base_path', $config))
+		if (\array_key_exists('base_path', $config))
 		{
 			$this->_basePath = $config['base_path'];
 		}

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Authentication;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Authentication response class, provides an object for storing user and error details

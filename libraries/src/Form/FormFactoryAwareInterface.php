@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Interface to be implemented by classes depending on a form factory.

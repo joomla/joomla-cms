@@ -27,7 +27,7 @@ class FeedLinkTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since              3.1.4
+	 * @since   3.1.4
 	 */
 	public function testConstructWithInvalidLength()
 	{

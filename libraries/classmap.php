@@ -82,11 +82,9 @@ JLoader::registerAlias('JCaptcha',                          '\\Joomla\\CMS\\Capt
 JLoader::registerAlias('JLanguageAssociations',             '\\Joomla\\CMS\\Language\\Associations', '5.0');
 JLoader::registerAlias('JLanguage',                         '\\Joomla\\CMS\\Language\\Language', '5.0');
 JLoader::registerAlias('JLanguageHelper',                   '\\Joomla\\CMS\\Language\\LanguageHelper', '5.0');
-JLoader::registerAlias('JLanguageStemmer',                  '\\Joomla\\CMS\\Language\\LanguageStemmer', '5.0');
 JLoader::registerAlias('JLanguageMultilang',                '\\Joomla\\CMS\\Language\\Multilanguage', '5.0');
 JLoader::registerAlias('JText',                             '\\Joomla\\CMS\\Language\\Text', '5.0');
 JLoader::registerAlias('JLanguageTransliterate',            '\\Joomla\\CMS\\Language\\Transliterate', '5.0');
-JLoader::registerAlias('JLanguageStemmerPorteren',          '\\Joomla\\CMS\\Language\\Stemmer\\Porteren', '5.0');
 
 JLoader::registerAlias('JComponentHelper',                  '\\Joomla\\CMS\\Component\\ComponentHelper', '5.0');
 JLoader::registerAlias('JComponentRecord',                  '\\Joomla\\CMS\\Component\\ComponentRecord', '5.0');
@@ -316,7 +314,6 @@ JLoader::registerAlias('JFormFieldFolderList',              '\\Joomla\\CMS\\Form
 JLoader::registerAlias('JFormFieldFrontend_Language',       '\\Joomla\\CMS\\Form\\Field\\FrontendlanguageField', '5.0');
 JLoader::registerAlias('JFormFieldGroupedList',             '\\Joomla\\CMS\\Form\\Field\\GroupedlistField', '5.0');
 JLoader::registerAlias('JFormFieldHeadertag',               '\\Joomla\\CMS\\Form\\Field\\HeadertagField', '5.0');
-JLoader::registerAlias('JFormFieldHelpsite',                '\\Joomla\\CMS\\Form\\Field\\HelpsiteField', '5.0');
 JLoader::registerAlias('JFormFieldHidden',                  '\\Joomla\\CMS\\Form\\Field\\HiddenField', '5.0');
 JLoader::registerAlias('JFormFieldImageList',               '\\Joomla\\CMS\\Form\\Field\\ImagelistField', '5.0');
 JLoader::registerAlias('JFormFieldInteger',                 '\\Joomla\\CMS\\Form\\Field\\IntegerField', '5.0');
@@ -500,3 +497,8 @@ JLoader::registerAlias('JStreamString',                     '\\Joomla\\CMS\\File
 JLoader::registerAlias('JStringController',                 '\\Joomla\\CMS\\Filesystem\\Support\\StringController', '5.0');
 
 JLoader::registerAlias('JClassLoader',                      '\\Joomla\\CMS\\Autoload\\ClassLoader', '5.0');
+
+JLoader::registerAlias('JFormFilterInt_Array', '\\Joomla\\CMS\\Form\\Filter\\IntarrayFilter', '5.0');
+
+JLoader::registerAlias('JAdapter',                          '\\Joomla\\CMS\\Adapter\\Adapter', '5.0');
+JLoader::registerAlias('JAdapterInstance',                  '\\Joomla\\CMS\\Adapter\\AdapterInstance', '5.0');

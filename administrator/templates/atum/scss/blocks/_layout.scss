@@ -1,20 +1,50 @@
 .page-link {
+
   &.active {
-    padding: 0;
+
     &.current {
-      padding: .5rem .75rem;
-      color: #999;
-      background-color: #dee2e6;
+      color: var(--atum-text-light);
+      background-color: var(--atum-bg-dark);
     }
+
     a {
-      padding: .5rem .75rem;
-      line-height: 2.25;
+      text-decoration: none;
     }
   }
+
   &.disabled {
-    color: #999;
+    color: var(--atum-bg-dark-10);
+    cursor: not-allowed;
+
     &:hover {
       background: transparent;
     }
+  }
+
+  &:hover {
+    background-color: var(--atum-bg-dark);
+  }
+
+  a {
+    &:hover {
+      color: var(--atum-text-light);
+    }
+  }
+}
+
+.options-form {
+  width: 100%;
+  padding: 1vw 2vw;
+  margin-bottom: 1rem;
+  color: var(--atum-text-dark);
+  background-color: $white;
+  border: 1px solid var(--bluegray);
+
+  > legend {
+    width: auto;
+    padding: 0 .5rem;
+    font-weight: bold;
+    color: var(--atum-text-dark);
+    background-color: $white;
   }
 }

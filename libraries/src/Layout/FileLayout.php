@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Layout;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
@@ -105,7 +105,7 @@ class FileLayout extends BaseLayout
 		$layoutOutput = '';
 
 		// Automatically merge any previously data set if $displayData is an array
-		if (is_array($displayData))
+		if (\is_array($displayData))
 		{
 			$displayData = array_merge($this->data, $displayData);
 		}
@@ -254,7 +254,7 @@ class FileLayout extends BaseLayout
 
 		$includePaths = $this->getIncludePaths();
 
-		if (is_array($paths))
+		if (\is_array($paths))
 		{
 			$includePaths = array_unique(array_merge($paths, $includePaths));
 		}

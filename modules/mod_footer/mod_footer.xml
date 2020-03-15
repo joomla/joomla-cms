@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension type="module" client="site" method="upgrade">
 	<name>mod_footer</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
@@ -9,7 +9,7 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_FOOTER_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\Footer</namespace>
+	<namespace path="src">Joomla\Module\Footer</namespace>
 	<files>
 		<filename module="mod_footer">mod_footer.php</filename>
 		<folder>tmpl</folder>

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Authentication\Password;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Interface for a password handler which supports checking if the password requires rehashing

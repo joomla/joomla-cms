@@ -150,19 +150,23 @@ abstract class JHtmlBootstrap
 	 */
 	public static function framework($debug = null)
 	{
+		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+
+		if ($wa->assetExists('script', 'bootstrap.init.legacy') && $wa->isAssetActive('script', 'bootstrap.init.legacy'))
+		{
+			return;
+		}
+
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__]))
 		{
 			return;
 		}
 
-		$debug = (isset($debug) && $debug != JDEBUG) ? $debug : JDEBUG;
-
-		// Load the needed scripts
-		Factory::getDocument()->getWebAssetManager()
-			->enableAsset('core')
-			->enableAsset('bootstrap.js.bundle');
-		HTMLHelper::_('script', 'legacy/bootstrap-init.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+		$wa
+			->registerScript('bootstrap.init.legacy', 'legacy/bootstrap-init.min.js', ['dependencies' => ['core', 'bootstrap.js.bundle']])
+			->useScript('bootstrap.init.legacy');
 
 		static::$loaded[__METHOD__] = true;
 	}
@@ -263,7 +267,6 @@ abstract class JHtmlBootstrap
 		$opt['constraints'] = isset($params['constraints']) ? $params['constraints'] : ['to' => 'scrollParent', 'attachment' => 'together', 'pin' => true];
 		$opt['offset']      = isset($params['offset']) ? $params['offset'] : '0,0';
 
-
 		$opt     = (object) array_filter((array) $opt);
 
 		Factory::getDocument()->addScriptOptions('bootstrap.popover', array($selector => $opt));
@@ -356,7 +359,6 @@ abstract class JHtmlBootstrap
 		$onHide             = isset($params['onHide']) ? (string) $params['onHide'] : null;
 		$onHidden           = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
 
-
 		$opt     = (object) array_filter((array) $opt);
 
 		Factory::getDocument()->addScriptOptions('bootstrap.tooltip', array($selector => $opt));
@@ -390,7 +392,7 @@ abstract class JHtmlBootstrap
 	public static function startAccordion($selector = 'myAccordian', $params = array())
 	{
 		// Only load once
-		if (!empty(static::$loaded[__METHOD__][$selector]))
+		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
 			return;
 		}
@@ -405,10 +407,11 @@ abstract class JHtmlBootstrap
 		$opt['onShown'] = isset($params['onShown']) ? (string) $params['onShown'] : null;
 		$opt['onHide'] = isset($params['onHide']) ? (string) $params['onHide'] : null;
 		$opt['onHidden'] = isset($params['onHidden']) ? (string) $params['onHidden'] : null;
+		$opt['active'] = isset($params['active']) ? (string) $params['active'] : '';
 
 		Factory::getDocument()->addScriptOptions('bootstrap.accordion', array($selector => $opt));
 
-		static::$loaded[__METHOD__][$selector] = true;
+		static::$loaded[__METHOD__][$selector] = $opt;
 
 		return '<div id="' . $selector . '" class="accordion" role="tablist">';
 	}
@@ -439,8 +442,8 @@ abstract class JHtmlBootstrap
 	 */
 	public static function addSlide($selector, $text, $id, $class = '')
 	{
-		$in        = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? ' in' : '';
-		$collapsed = (static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] == $id) ? '' : ' collapsed';
+		$in        = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] === $id ? ' show' : '';
+		$collapsed = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['active'] === $id ? '' : ' collapsed';
 		$parent    = static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] ?
 			' data-parent="' . static::$loaded[__CLASS__ . '::startAccordion'][$selector]['parent'] . '"' : '';
 		$class     = (!empty($class)) ? ' ' . $class : '';
@@ -567,7 +570,7 @@ abstract class JHtmlBootstrap
 		// Load Bootstrap main CSS
 		if ($includeMainCss)
 		{
-			HTMLHelper::_('stylesheet', 'vendor/bootstrap/bootstrap.min.css', array('version' => 'auto', 'relative' => true), $attribs);
+			Factory::getDocument()->getWebAssetManager()->useStyle('bootstrap.css');
 		}
 
 		/**

@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Model\SetupModel;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 
@@ -138,6 +139,16 @@ class LanguageController extends JSONController
 
 		if ((int) $data['activateMultilanguage'])
 		{
+			if (count(LanguageHelper::getInstalledLanguages(0)) < 2)
+			{
+				$app->enqueueMessage(Text::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_MULTILANG'), 'warning');
+				$r = new \stdClass;
+
+				// Redirect to the same page.
+				$r->view = 'defaultlanguage';
+				$this->sendJsonResponse($r);
+			}
+
 			if (!$model->enablePlugin('plg_system_languagefilter'))
 			{
 				$app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGEFILTER', $frontend_lang), 'warning');

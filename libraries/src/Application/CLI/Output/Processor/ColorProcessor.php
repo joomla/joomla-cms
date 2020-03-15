@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Application\CLI\Output\Processor;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CLI\ColorStyle;
 
@@ -126,7 +126,7 @@ class ColorProcessor implements ProcessorInterface
 
 		foreach ($matches[0] as $i => $m)
 		{
-			if (array_key_exists($matches[1][$i], $this->styles))
+			if (\array_key_exists($matches[1][$i], $this->styles))
 			{
 				$string = $this->replaceColors($string, $matches[1][$i], $matches[2][$i], $this->styles[$matches[1][$i]]);
 			}

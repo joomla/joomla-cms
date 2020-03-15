@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Console;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -65,9 +65,9 @@ class RemoveOldFilesCommand extends AbstractCommand
 	 */
 	protected function configure(): void
 	{
-		$this->setDescription('Removes old system files');
+		$this->setDescription('Remove old system files');
 		$this->setHelp(
-<<<EOF
+			<<<EOF
 The <info>%command.name%</info> command removes old files which should have been deleted during a Joomla update
 
 <info>php %command.full_name%</info>

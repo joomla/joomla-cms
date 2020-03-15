@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -40,7 +40,7 @@ class WorkflowconditionField extends ListField
 	/**
 	 * Determinate if the "All" value should be added
 	 *
-	 * @var bool
+	 * @var boolean
 	 * @since  4.0.0
 	 */
 	protected $hideAll = false;
@@ -64,7 +64,7 @@ class WorkflowconditionField extends ListField
 
 		if ($success)
 		{
-			if (strlen($element['extension']))
+			if (\strlen($element['extension']))
 			{
 				$this->extension = (string) $element['extension'];
 			}
@@ -73,7 +73,7 @@ class WorkflowconditionField extends ListField
 				$this->extension = Factory::getApplication()->input->getCmd('extension');
 			}
 
-			if (strlen($element['hide_all']))
+			if (\strlen($element['hide_all']))
 			{
 				$this->hideAll = (string) $element['hide_all'] === 'true' || (string) $element['hide_all'] === 'yes';
 			}

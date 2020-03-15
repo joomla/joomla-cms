@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Cache;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Default factory for creating CacheController objects

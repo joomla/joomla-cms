@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 $lang = Factory::getLanguage(); ?>
 
@@ -19,22 +20,22 @@ $lang = Factory::getLanguage(); ?>
 	<?php if ($row->prev) :
 		$direction = $lang->isRtl() ? 'right' : 'left'; ?>
 		<li class="previous page-item">
-			<a class="page-link" href="<?php echo $row->prev; ?>" rel="prev">
+			<a class="page-link" href="<?php echo Route::_($row->prev); ?>" rel="prev">
 			<span class="sr-only">
 				<?php echo Text::sprintf('JPREVIOUS_TITLE', htmlspecialchars($rows[$location-1]->title)); ?>
 			</span>
-			<?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span> <span aria-hidden="true">' . $row->prev_label . '</span>'; ?>
+			<?php echo '<span class="fas fa-chevron-' . $direction . '" aria-hidden="true"></span> <span aria-hidden="true">' . $row->prev_label . '</span>'; ?>
 			</a>
 		</li>
 	<?php endif; ?>
 	<?php if ($row->next) :
 		$direction = $lang->isRtl() ? 'left' : 'right'; ?>
 		<li class="next page-item">
-			<a class="page-link" href="<?php echo $row->next; ?>" rel="next">
+			<a class="page-link" href="<?php echo Route::_($row->next); ?>" rel="next">
 			<span class="sr-only">
 				<?php echo Text::sprintf('JNEXT_TITLE', htmlspecialchars($rows[$location+1]->title)); ?>
 			</span>
-			<?php echo '<span aria-hidden="true">' . $row->next_label . '</span> <span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
+			<?php echo '<span aria-hidden="true">' . $row->next_label . '</span> <span class="fas fa-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
 			</a>
 		</li>
 	<?php endif; ?>
