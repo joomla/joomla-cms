@@ -236,7 +236,7 @@ class MysqlChangeItem extends ChangeItem
 	/**
 	 * Fix up integer. Fixes problem with MySQL integer descriptions.
 	 * If you change a column to "integer unsigned" it shows
-	 * as "int(10) unsigned" in the check query.
+	 * as "int unsigned" in the check query.
 	 *
 	 * @param   string  $type1  the column type
 	 * @param   string  $type2  the column attributes
@@ -249,13 +249,20 @@ class MysqlChangeItem extends ChangeItem
 	{
 		$result = $type1;
 
-		if (strtolower($type1) === 'integer' && strtolower(substr($type2, 0, 8)) === 'unsigned')
+		if (strtolower(substr($type2, 0, 8)) === 'unsigned')
 		{
-			$result = 'int(10) unsigned';
+			if (strtolower(substr($type1, 0, 3)) === 'int')
+			{
+				$result = 'int unsigned';
+			}
+			else
+			{
+				$result = $type1 . ' unsigned';
+			}
 		}
-		elseif (strtolower(substr($type2, 0, 8)) === 'unsigned')
+		elseif (strtolower(substr($type1, 0, 3)) === 'int')
 		{
-			$result = $type1 . ' unsigned';
+			$result = 'int';
 		}
 
 		return $result;
@@ -296,7 +303,15 @@ class MysqlChangeItem extends ChangeItem
 	{
 		$uType = strtoupper(str_replace(';', '', $type));
 
-		if ($this->db instanceof UTF8MB4SupportInterface && $this->db->hasUTF8mb4Support())
+		if ($uType === 'INT UNSIGNED')
+		{
+			$typeCheck = 'UPPER(type) LIKE ' . $this->db->quote('INT%UNSIGNED');
+		}
+		elseif ($uType === 'INT')
+		{
+			$typeCheck = 'UPPER(LEFT(type, 3)) = ' . $this->db->quote($uType);
+		}
+		elseif ($this->db instanceof UTF8MB4SupportInterface && $this->db->hasUTF8mb4Support())
 		{
 			if ($uType === 'TINYTEXT')
 			{
