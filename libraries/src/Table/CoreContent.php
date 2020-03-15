@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -219,7 +220,9 @@ class CoreContent extends Table
 	 */
 	public function deleteByContentId($contentItemId = null, $typeAlias = null)
 	{
-		if ($contentItemId === null || ((int) $contentItemId) === 0)
+		$contentItemId = (int) $contentItemId;
+
+		if ($contentItemId === 0)
 		{
 			throw new \UnexpectedValueException('Null content item key not allowed.');
 		}
@@ -233,8 +236,15 @@ class CoreContent extends Table
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('core_content_id'))
 			->from($db->quoteName('#__ucm_content'))
-			->where($db->quoteName('core_content_item_id') . ' = ' . (int) $contentItemId)
-			->where($db->quoteName('core_type_alias') . ' = ' . $db->quote($typeAlias));
+			->where(
+				[
+					$db->quoteName('core_content_item_id') . ' = :contentItemId',
+					$db->quoteName('core_type_alias') . ' = :typeAlias',
+				]
+			)
+			->bind(':contentItemId', $contentItemId, ParameterType::INTEGER)
+			->bind(':typeAlias', $typeAlias);
+
 		$db->setQuery($query);
 
 		if ($ucmId = $db->loadResult())
@@ -327,27 +337,49 @@ class CoreContent extends Table
 		// Selecting "all languages" doesn't give a language id - we can't store a blank string in non mysql databases, so save 0 (the default value)
 		if (!$languageId)
 		{
-			$languageId = '0';
+			$languageId = 0;
 		}
 
 		if ($isNew)
 		{
 			$query->insert($db->quoteName('#__ucm_base'))
-				->columns(array($db->quoteName('ucm_id'), $db->quoteName('ucm_item_id'), $db->quoteName('ucm_type_id'), $db->quoteName('ucm_language_id')))
+				->columns(
+					[
+						$db->quoteName('ucm_id'),
+						$db->quoteName('ucm_item_id'),
+						$db->quoteName('ucm_type_id'),
+						$db->quoteName('ucm_language_id'),
+					]
+				)
 				->values(
-					$db->quote($this->core_content_id) . ', '
-					. $db->quote($this->core_content_item_id) . ', '
-					. $db->quote($this->core_type_id) . ', '
-					. $db->quote($languageId)
+					implode(
+						',',
+						$query->bindArray(
+							[
+								$this->core_content_id,
+								$this->core_content_item_id,
+								$this->core_type_id,
+								$languageId,
+							]
+						)
+					)
 				);
 		}
 		else
 		{
 			$query->update($db->quoteName('#__ucm_base'))
-				->set($db->quoteName('ucm_item_id') . ' = ' . $db->quote($this->core_content_item_id))
-				->set($db->quoteName('ucm_type_id') . ' = ' . $db->quote($this->core_type_id))
-				->set($db->quoteName('ucm_language_id') . ' = ' . $db->quote($languageId))
-				->where($db->quoteName('ucm_id') . ' = ' . $db->quote($this->core_content_id));
+				->set(
+					[
+						$db->quoteName('ucm_item_id') . ' = :coreContentItemId',
+						$db->quoteName('ucm_type_id') . ' = :typeId',
+						$db->quoteName('ucm_language_id') . ' = :languageId',
+					]
+				)
+				->where($db->quoteName('ucm_id') . ' = :coreContentId')
+				->bind(':coreContentItemId', $this->core_content_item_id, ParameterType::INTEGER)
+				->bind(':typeId', $this->core_type_id, ParameterType::INTEGER)
+				->bind(':languageId', $languageId, ParameterType::INTEGER)
+				->bind(':coreContentId', $this->core_content_id, ParameterType::INTEGER);
 		}
 
 		$db->setQuery($query);
@@ -400,8 +432,9 @@ class CoreContent extends Table
 
 		// Update the publishing state for rows with the given primary keys.
 		$query->update($this->_db->quoteName($this->_tbl))
-			->set($this->_db->quoteName('core_state') . ' = ' . (int) $state)
-			->where($this->_db->quoteName($k) . 'IN (' . $pksImploded . ')');
+			->set($this->_db->quoteName('core_state') . ' = :state')
+			->whereIn($this->_db->quoteName($k), $pks)
+			->bind(':state', $state, ParameterType::INTEGER);
 
 		// Determine if there is checkin support for the table.
 		$checkin = false;
@@ -409,11 +442,15 @@ class CoreContent extends Table
 		if ($this->hasField('core_checked_out_user_id') && $this->hasField('core_checked_out_time'))
 		{
 			$checkin = true;
-			$query->where(
-				' ('
-				. $this->_db->quoteName('core_checked_out_user_id') . ' = 0 OR ' . $this->_db->quoteName('core_checked_out_user_id') . ' = ' . (int) $userId
-				. ')'
-			);
+			$query->extendWhere(
+				'AND',
+				[
+					$this->_db->quoteName('core_checked_out_user_id') . ' = 0',
+					$this->_db->quoteName('core_checked_out_user_id') . ' = :userId',
+				],
+				'OR'
+			)
+				->bind(':userId', $userId, ParameterType::INTEGER);
 		}
 
 		$this->_db->setQuery($query);

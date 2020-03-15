@@ -45,10 +45,9 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE'); ?>
 				</td>
 				<td>
-					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>" target="_blank" rel="noopener noreferrer">
+					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>" target="_blank" rel="noopener noreferrer"
+						title="<?php echo TEXT::sprintf('JBROWSERTARGET_DOWNLOAD', $this->updateInfo['object']->downloadurl->_data); ?>">
 						<?php echo $this->updateInfo['object']->downloadurl->_data; ?>
-						<span class="fas fa-external-link-alt" aria-hidden="true"></span>
-						<span class="sr-only"><?php echo Text::_('JBROWSERTARGET_NEW'); ?></span>
 					</a>
 				</td>
 			</tr>
@@ -59,10 +58,9 @@ use Joomla\CMS\Language\Text;
 						<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'); ?>
 					</td>
 					<td>
-						<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>" target="_blank" rel="noopener noreferrer">
+						<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>" target="_blank" rel="noopener noreferrer"
+							title="<?php echo TEXT::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->get('infourl')->title); ?>">
 							<?php echo $this->updateInfo['object']->get('infourl')->title; ?>
-							<span class="fas fa-external-link-alt" aria-hidden="true"></span>
-							<span class="sr-only"><?php echo Text::_('JBROWSERTARGET_NEW'); ?></span>
 						</a>
 					</td>
 				</tr>

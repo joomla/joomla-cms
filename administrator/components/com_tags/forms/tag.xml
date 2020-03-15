@@ -16,6 +16,7 @@
 		class="readonly"
 		default="0"
 		readonly="true"
+		filter="unset"
 	/>
 
 	<field

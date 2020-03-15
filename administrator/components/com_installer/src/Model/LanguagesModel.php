@@ -127,6 +127,14 @@ class LanguagesModel extends ListModel
 	{
 		$updateSite = $this->getUpdateSite();
 
+		// Check whether the updateserver is found
+		if (empty($updateSite))
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
+
+			return;
+		}
+
 		try
 		{
 			$response = HttpFactory::getHttp()->get($updateSite);
@@ -138,7 +146,7 @@ class LanguagesModel extends ListModel
 
 		if ($response === null || $response->code !== 200)
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_ERROR_CANT_CONNECT_TO_UPDATESERVER', $updateSite), 'error');
 
 			return;
 		}

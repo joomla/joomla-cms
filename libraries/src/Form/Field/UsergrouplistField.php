@@ -69,16 +69,14 @@ class UsergrouplistField extends ListField
 	 */
 	protected function getOptions()
 	{
-		// Hash for caching
-		$hash = md5($this->element);
+		$options        = parent::getOptions();
+		$checkSuperUser = (int) $this->getAttribute('checksuperusergroup', 0);
 
-		if (!isset(static::$options[$hash]))
+		// Cache user groups base on checksuperusergroup attribute value
+		if (!isset(static::$options[$checkSuperUser]))
 		{
-			static::$options[$hash] = parent::getOptions();
-
-			$groups         = UserGroupsHelper::getInstance()->getAll();
-			$checkSuperUser = (int) $this->getAttribute('checksuperusergroup', 0);
-			$options        = array();
+			$groups       = UserGroupsHelper::getInstance()->getAll();
+			$cacheOptions = array();
 
 			foreach ($groups as $group)
 			{
@@ -88,16 +86,16 @@ class UsergrouplistField extends ListField
 					continue;
 				}
 
-				$options[] = (object) array(
+				$cacheOptions[] = (object) array(
 					'text'  => str_repeat('- ', $group->level) . $group->title,
 					'value' => $group->id,
-					'level' => $group->level
+					'level' => $group->level,
 				);
 			}
 
-			static::$options[$hash] = array_merge(static::$options[$hash], $options);
+			static::$options[$checkSuperUser] = $cacheOptions;
 		}
 
-		return static::$options[$hash];
+		return array_merge($options, static::$options[$checkSuperUser]);
 	}
 }

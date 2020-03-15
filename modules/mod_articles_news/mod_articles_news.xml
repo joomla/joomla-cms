@@ -29,7 +29,7 @@
 					label="JCATEGORY"
 					extension="com_content"
 					multiple="true"
-					filter="int_array"
+					filter="intarray"
 					class="multipleCategories"
 					layout="joomla.form.field.list-fancy-select"
 				/>
@@ -40,7 +40,7 @@
 					label="JTAG"
 					mode="nested"
 					multiple="true"
-					filter="int_array"
+					filter="intarray"
 					class="multipleTags"
 				/>
 
@@ -193,6 +193,7 @@
 					type="list"
 					label="MOD_ARTICLES_NEWS_FIELD_ORDERING_LABEL"
 					default="a.publish_up"
+					validate="options"
 					>
 					<option value="a.publish_up">MOD_ARTICLES_NEWS_FIELD_ORDERING_PUBLISHED_DATE</option>
 					<option value="a.created">MOD_ARTICLES_NEWS_FIELD_ORDERING_CREATED_DATE</option>

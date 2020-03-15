@@ -107,7 +107,7 @@ class EmailRule extends FormRule
 		 * This allows different components and contexts to use different lists.
 		 * If value is incomplete, com_users.domains is used as fallback.
 		 */
-		$validDomains = (isset($element['validDomains']) && $element['validDomains'] !== 'false');
+		$validDomains = (string) $element['validDomains'] !== '' && (string) $element['validDomains'] !== 'false';
 
 		if ($validDomains && !$multiple)
 		{

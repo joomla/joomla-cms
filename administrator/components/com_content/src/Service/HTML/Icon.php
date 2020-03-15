@@ -20,7 +20,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
-use Joomla\Component\Mailto\Site\Helper\MailtoHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -86,39 +85,6 @@ class Icon
 		$output = '<span class="hasTooltip" title="' . HTMLHelper::_('tooltipText', 'COM_CONTENT_CREATE_ARTICLE') . '">' . $button . '</span>';
 
 		return $output;
-	}
-
-	/**
-	 * Method to generate a link to the email item page for the given article
-	 *
-	 * @param   object    $article  The article information
-	 * @param   Registry  $params   The item parameters
-	 * @param   array     $attribs  Optional attributes for the link
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
-	 *
-	 * @return  string  The HTML markup for the email item link
-	 *
-	 * @since  4.0.0
-	 */
-	public function email($article, $params, $attribs = array(), $legacy = false)
-	{
-		$uri      = Uri::getInstance();
-		$base     = $uri->toString(array('scheme', 'host', 'port'));
-		$template = $this->application->getTemplate();
-		$link     = $base . Route::_(RouteHelper::getArticleRoute($article->slug, $article->catid, $article->language), false);
-		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailtoHelper::addLink($link);
-
-		$height = Factory::getApplication()->get('captcha', '0') === '0' ? 450 : 550;
-		$status = 'width=400,height=' . $height . ',menubar=yes,resizable=yes';
-
-		$text = LayoutHelper::render('joomla.content.icons.email', array('params' => $params, 'legacy' => $legacy));
-
-		$attribs['title']   = Text::_('JGLOBAL_EMAIL_TITLE');
-		$attribs['onclick'] = "window.open(this.href,'win2','" . $status . "'); return false;";
-		$attribs['rel']     = 'nofollow';
-		$attribs['class']   = 'dropdown-item';
-
-		return HTMLHelper::_('link', Route::_($url), $text, $attribs);
 	}
 
 	/**

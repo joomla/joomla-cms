@@ -23,9 +23,7 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
 
     @if $enable-rounded {
       border-radius: $custom-select-border-radius;
-    }
-
-    @else {
+    } @else {
       border-radius: 0;
     }
 
@@ -84,27 +82,25 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
 
       @if $enable-rounded {
         border-radius: $custom-select-border-radius;
-      }
-
-      @else {
+      } @else {
         border-radius: 0;
       }
 
       .search-choice-close {
         top: 0;
         right: 0;
-        background: rgba(0, 0, 0, 0.2);
         width: $chosen-multi-close-width;
         height: 100%;
+        background: rgba(0, 0, 0, .2);
         background-image: none !important;
 
         &::before {
           position: absolute;
           top: 6px;
           right: ($chosen-multi-close-width / 4);
-          content: "\00d7";
-          color: var(--white);
           font-size: $font-size-base;
+          color: var(--white);
+          content: "\00d7";
         }
       }
     }
