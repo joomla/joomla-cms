@@ -36,7 +36,7 @@
     "awesomplete": "1.1.5",
     "bootstrap": "^4.4.1",
     "choices.js": "^9.0.1",
-    "chosen-js": "1.6.2",
+    "chosen-js": "^1.8.7",
     "codemirror": "^5.52.0",
     "cropperjs": "^1.5.6",
     "css-vars-ponyfill": "^1.17.2",
