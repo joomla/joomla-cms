@@ -307,8 +307,8 @@ class MysqlChangeItem extends ChangeItem
 
 		if ($uType === 'INT UNSIGNED')
 		{
-			$typeCheck = '(UPPER(LEFT(type, 3)) = ' . $this->db->quote('INT')
-				. ' AND UPPER(RIGHT(type, 9)) = ' . $this->db->quote(' UNSIGNED') . ')';
+			$typeCheck = 'UPPER(LEFT(type, 3)) = ' . $this->db->quote('INT')
+				. ' AND UPPER(RIGHT(type, 9)) = ' . $this->db->quote(' UNSIGNED');
 		}
 		elseif ($uType === 'INT')
 		{
