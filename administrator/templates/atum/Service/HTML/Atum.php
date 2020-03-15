@@ -123,7 +123,9 @@ class JHtmlAtum
 
 		if (count($root))
 		{
-			Factory::getDocument()->addStyleDeclaration(':root {' . implode($root) . '}');
+			/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+			$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+			$wa->addInlineStyle(':root {' . implode($root) . '}');
 		}
 	}
 

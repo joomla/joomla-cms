@@ -17,7 +17,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Http\AbstractTransport;
 use Joomla\Http\Exception\InvalidResponseCodeException;
 use Joomla\Uri\UriInterface;
-use Zend\Diactoros\Stream as StreamResponse;
+use Laminas\Diactoros\Stream as StreamResponse;
 
 /**
  * HTTP transport class for using sockets directly.
@@ -216,7 +216,7 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 		// If the port is not explicitly set in the URI detect it.
 		if (!$uri->getPort())
 		{
-			$port = ($uri->getScheme() == 'https') ? 443 : 80;
+			$port = ($uri->getScheme() === 'https') ? 443 : 80;
 		}
 
 		// Use the set port.

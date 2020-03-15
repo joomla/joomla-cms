@@ -93,7 +93,7 @@ $itemImage = $currentParams->get('menu_image');
 // Get the menu icon
 $icon      = $this->getIconClass($current);
 $iconClass = ($icon != '' && $current->level == 1) ? '<span class="' . $icon . '" aria-hidden="true"></span>' : '';
-$ajax      = $current->ajaxbadge ? '<span class="menu-badge"><span class="fa fa-spin fa-spinner mt-1 system-counter" data-url="' . $current->ajaxbadge . '"></span></span>' : '';
+$ajax      = $current->ajaxbadge ? '<span class="menu-badge"><span class="fas fa-spin fa-spinner mt-1 system-counter" data-url="' . $current->ajaxbadge . '"></span></span>' : '';
 $iconImage = $current->icon;
 $homeImage = '';
 
@@ -106,7 +106,7 @@ if ($iconImage)
 {
 	if (substr($iconImage, 0, 6) == 'class:' && substr($iconImage, 6) == 'icon-home')
 	{
-		$iconImage = '<span class="home-image icon-featured" aria-hidden="true"></span>';
+		$iconImage = '<span class="home-image fas fa-star" aria-hidden="true"></span>';
 		$iconImage .= '<span class="sr-only">' . Text::_('JDEFAULT') . '</span>';
 	}
 	elseif (substr($iconImage, 0, 6) == 'image:')
@@ -129,7 +129,7 @@ if ($link != '' && $current->target != '')
 }
 elseif ($link != '' && $current->type !== 'separator')
 {
-	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\">"
+	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" aria-label=\"" . Text::_($current->title) . "\">"
 		. $iconClass
 		. '<span class="sidebar-item-title">' . $itemImage . Text::_($current->title) . '</span>' . $iconImage . '</a>';
 }
@@ -148,11 +148,11 @@ else
 	echo '<span>' . Text::_($current->title) . '</span>' . $ajax;
 }
 
-if ($currentParams->get('menu-quicktask', false))
+if ($currentParams->get('menu-quicktask') && (int) $this->params->get('shownew', 1) === 1)
 {
 	$params = $current->getParams();
 	$user = $this->application->getIdentity();
-	$link = $params->get('menu-quicktask-link');
+	$link = $params->get('menu-quicktask');
 	$icon = $params->get('menu-quicktask-icon', 'plus');
 	$title = $params->get('menu-quicktask-title', 'MOD_MENU_QUICKTASK_NEW');
 	$permission = $params->get('menu-quicktask-permission');
@@ -161,7 +161,7 @@ if ($currentParams->get('menu-quicktask', false))
 	if (!$permission || $user->authorise($permission, $scope))
 	{
 		echo '<span class="menu-quicktask"><a href="' . $link . '">';
-		echo '<span class="fa fa-' . $icon . '" title="' . htmlentities(Text::_($title)) . '" aria-hidden="true"></span>';
+		echo '<span class="fas fa-' . $icon . '" title="' . htmlentities(Text::_($title)) . '" aria-hidden="true"></span>';
 		echo '<span class="sr-only">' . Text::_($title) . '</span>';
 		echo '</a></span>';
 	}
@@ -172,7 +172,7 @@ if ($current->dashboard)
 	$titleDashboard = Text::sprintf('MOD_MENU_DASHBOARD_LINK', Text::_($current->title));
 	echo '<span class="menu-dashboard"><a href="'
 		. Route::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard) . '">'
-		. '<span class="fa fa-th-large" title="' . $titleDashboard . '" aria-hidden="true"></span>'
+		. '<span class="fas fa-th-large" title="' . $titleDashboard . '" aria-hidden="true"></span>'
 		. '<span class="sr-only">' . $titleDashboard . '</span>'
 		. '</a></span>';
 }

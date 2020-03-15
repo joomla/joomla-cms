@@ -16,12 +16,14 @@ use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Version;
 use Joomla\Database\ParameterType;
+use PHPMailer\PHPMailer\Exception as phpMailerException;
 
 // Uncomment the following line to enable debug mode (update notification email sent every single time)
 // define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);
@@ -76,7 +78,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		$component = ComponentHelper::getComponent('com_installer');
 
 		/** @var \Joomla\Registry\Registry $params */
-		$params        = $component->params;
+		$params        = $component->getParams();
 		$cache_timeout = (int) $params->get('cachetimeout', 6);
 		$cache_timeout = 3600 * $cache_timeout;
 
@@ -283,7 +285,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 				$mailer->setBody($email_body);
 				$mailer->Send();
 			}
-			catch (\Exception $exception)
+			catch (MailDisabledException | phpMailerException $exception)
 			{
 				try
 				{
@@ -331,7 +333,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 
 		try
 		{
-			$rootId    = Table::getInstance('Asset', 'Table')->getRootId();
+			$rootId    = Table::getInstance('Asset')->getRootId();
 			$rules     = Access::getAssetRules($rootId)->getData();
 			$rawGroups = $rules['core.admin']->getData();
 			$groups    = [];
@@ -392,7 +394,8 @@ class PlgSystemUpdatenotification extends CMSPlugin
 
 			if (!empty($emails))
 			{
-				$query->whereIn($db->quoteName('email'), $emails, ParameterType::STRING);
+				$lowerCaseEmails = array_map('strtolower', $emails);
+				$query->whereIn('LOWER(' . $db->quoteName('email') . ')', $lowerCaseEmails, ParameterType::STRING);
 			}
 
 			$db->setQuery($query);

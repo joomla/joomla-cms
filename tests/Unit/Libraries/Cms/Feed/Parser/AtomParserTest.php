@@ -43,7 +43,7 @@ class AtomParserTest extends UnitTestCase
 			'uri' => 'http://doe.name',
 		];
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<author/>');
 		$xmlElement->name = $author['name'];
@@ -80,7 +80,7 @@ class AtomParserTest extends UnitTestCase
 			'uri' => 'http://doe.name',
 		];
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<contributor />');
 		$xmlElement->name = $contributor['name'];
@@ -113,7 +113,7 @@ class AtomParserTest extends UnitTestCase
 	{
 		$generator = 'Joomla';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<generator>' . $generator . '</generator>');
 
@@ -143,7 +143,7 @@ class AtomParserTest extends UnitTestCase
 	{
 		$id = 'http://domain.com/path/to/resource';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<id>' . $id . '</id>');
 
@@ -173,7 +173,7 @@ class AtomParserTest extends UnitTestCase
 	{
 		$href = 'http://domain.com/path/to/resource';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<link href="' . $href . '" />');
 
@@ -210,7 +210,7 @@ class AtomParserTest extends UnitTestCase
 	{
 		$copyright = 'All Rights Reserved.';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<rights>' . $copyright . '</rights>');
 
@@ -240,7 +240,7 @@ class AtomParserTest extends UnitTestCase
 	{
 		$subtitle = 'Lorem Ipsum ...';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<subtitle>' . $subtitle . '</subtitle>');
 
@@ -270,7 +270,7 @@ class AtomParserTest extends UnitTestCase
 	{
 		$title = 'My Title.';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<title>' . $title . '</title>');
 
@@ -300,7 +300,7 @@ class AtomParserTest extends UnitTestCase
 	{
 		$date = '2019-01-01T00:00:00Z';
 
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<updated>' . $date . '</updated>');
 
@@ -384,7 +384,7 @@ class AtomParserTest extends UnitTestCase
 	 */
 	public function testProcessFeedEntry()
 	{
-		// Its currently not possible to mock simple xml element
+		// It's currently not possible to mock simple xml element
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<entry><id>http://example.com/id</id>
 			<title>title</title><updated>August 25, 1991</updated><summary>summary</summary></entry>'

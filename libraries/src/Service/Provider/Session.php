@@ -16,7 +16,6 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Event\LazyServiceEventListener;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Application\InstallationApplication;
 use Joomla\CMS\Session\EventListener\MetadataManagerListener;
@@ -28,6 +27,7 @@ use Joomla\DI\Container;
 use Joomla\DI\Exception\DependencyResolutionException;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\LazyServiceEventListener;
 use Joomla\Event\Priority;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvents;
@@ -98,8 +98,18 @@ class Session implements ServiceProviderInterface
 				$config = $container->get('config');
 				$app    = Factory::getApplication();
 
-				// Generate a session name.
-				$name = ApplicationHelper::getHash($config->get('session_name', InstallationApplication::class));
+				/**
+				 * Session handler for the session is always filesystem so it doesn't flip to the database after
+				 * configuration.php has been written to
+				 */
+				$config->set('session_handler', 'filesystem');
+
+				/**
+				 * Generate a session name - unlike all the other apps we don't have either a secret or a session name
+				 * (that's not the app name) until we complete installation which then leads to us dropping things like
+				 * language preferences after installation as the app refreshes.
+				 */
+				$name = md5(serialize(JPATH_ROOT . InstallationApplication::class));
 
 				// Calculate the session lifetime.
 				$lifetime = $config->get('lifetime') ? $config->get('lifetime') * 60 : 900;
@@ -234,8 +244,7 @@ class Session implements ServiceProviderInterface
 				true
 			);
 
-		$listener = new LazyServiceEventListener('session.event_listener.metadata_manager', 'onAfterSessionStart');
-		$listener->setContainer($container);
+		$listener = new LazyServiceEventListener($container, 'session.event_listener.metadata_manager', 'onAfterSessionStart');
 
 		/** @var DispatcherInterface $dispatcher */
 		$dispatcher = $container->get(DispatcherInterface::class);

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 ?>
-<fieldset class="options-grid-form options-grid-form-half">
+<fieldset class="options-form">
 	<legend><?php echo Text::_('COM_CONFIG_FTP_DETAILS'); ?></legend>
 	<p><?php echo Text::_('COM_CONFIG_FTP_DETAILS_TIP'); ?></p>
 	<?php if ($this->ftp instanceof Exception) : ?>

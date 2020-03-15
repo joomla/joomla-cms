@@ -34,7 +34,9 @@
 selenium.log
 composer.phar
 /test-install
-
+/.phpunit.result.cache
+/tests/Codeception/acceptance.suite.yml
+/tests/Codeception/_output/
 
 # Vendor directory handeling
 /libraries/vendor
@@ -76,6 +78,8 @@ administrator/language/*
 administrator/manifests/packages/*
 !administrator/manifests/packages/pkg_en-GB.xml
 !administrator/language/overrides/index.html
+api/language/*
+!api/language/en-GB
 language/*
 !language/en-GB
 !language/overrides/index.html

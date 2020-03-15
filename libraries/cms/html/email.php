@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
@@ -57,7 +57,8 @@ abstract class JHtmlEmail
 		$domain = @$mail[1];
 
 		// Include the email cloaking script
-		HTMLHelper::_('webcomponent', 'system/joomla-hidden-mail.js', ['version' => 'auto', 'relative' => true]);
+		Factory::getDocument()->getWebAssetManager()
+			->useScript('webcomponent.hidden-mail');
 
 		return '<joomla-hidden-mail '
 			. $attribsBefore . ' is-link="'

@@ -53,7 +53,7 @@
             },
             iconClass() {
                 return {
-                    fa: true,
+                    fas: true,
                     'fa-folder': !this.isOpen,
                     'fa-folder-open': this.isOpen,
                 }

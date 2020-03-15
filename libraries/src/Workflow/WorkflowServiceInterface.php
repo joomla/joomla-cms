@@ -20,26 +20,26 @@ interface WorkflowServiceInterface
 	/**
 	 * Method to filter transitions by given id of state.
 	 *
-	 * @param   array  $transitions  Array of transitions to filter for
-	 * @param   int    $pk           Id of the state on which the transitions are performed
+	 * @param   integer[]  $transitions  Array of transitions to filter for
+	 * @param   integer    $pk           Id of the state on which the transitions are performed
 	 *
 	 * @return  array
 	 *
 	 * @since  4.0.0
 	 */
-	public function filterTransitions($transitions, $pk): array;
+	public function filterTransitions(array $transitions, int $pk): array;
 
 	/**
 	 * Method to change state of multiple ids
 	 *
-	 * @param   array  $pks        Array of IDs
-	 * @param   int    $condition  Condition of the workflow state
+	 * @param   array    $pks        Array of IDs
+	 * @param   integer  $condition  Condition of the workflow state
 	 *
 	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
-	public static function updateContentState($pks, $condition): bool;
+	public static function updateContentState(array $pks, int $condition): bool;
 
 	/**
 	 * Returns an array of possible conditions for the component.
@@ -50,7 +50,7 @@ interface WorkflowServiceInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public static function getConditions($extension): array;
+	public static function getConditions(string $extension): array;
 
 	/**
 	 * Returns a table name for the state association
@@ -61,5 +61,5 @@ interface WorkflowServiceInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function getWorkflowTableBySection(string $section = null) : string;
+	public function getWorkflowTableBySection(?string $section = null): string;
 }

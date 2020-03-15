@@ -336,11 +336,11 @@ class LanguagesModel extends BaseInstallationModel
 
 		foreach ($langlist as $lang)
 		{
-			$file = $path . '/' . $lang . '/' . $lang . '.xml';
+			$file = $path . '/' . $lang . '/langmetadata.xml';
 
 			if (!is_file($file))
 			{
-				$file = $path . '/' . $lang . '/langmetadata.xml';
+				$file = $path . '/' . $lang . '/' . $lang . '.xml';
 			}
 
 			$info = Installer::parseXMLInstallFile($file);
@@ -821,7 +821,6 @@ class LanguagesModel extends BaseInstallationModel
 			'published'    => 1,
 			'ordering'     => 0,
 			'description'  => '',
-			'metakey'      => '',
 			'metadesc'     => '',
 		);
 
@@ -936,7 +935,7 @@ class LanguagesModel extends BaseInstallationModel
 				. '"show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_readmore":"",'
 				. '"show_hits":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","show_page_heading":1,'
 				. '"page_title":"","page_heading":"","pageclass_sfx":"","menu-meta_description":"",'
-				. '"menu-meta_keywords":"","robots":"","secure":0}',
+				. '"robots":"","secure":0}',
 			'language'     => $itemLanguage->language,
 		);
 
@@ -1014,7 +1013,7 @@ class LanguagesModel extends BaseInstallationModel
 				. '"show_readmore":"","show_readmore_title":"","show_hits":"","show_noauth":"","show_feed_link":"",'
 				. '"feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"",'
 				. '"menu_text":1,"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"",'
-				. '"pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
+				. '"pageclass_sfx":"","menu-meta_description":"","robots":"","secure":0}',
 			'language'     => $itemLanguage->language,
 		);
 
@@ -1196,7 +1195,6 @@ class LanguagesModel extends BaseInstallationModel
 			'access'          => 1,
 			'params'          => '{"target":"","image":""}',
 			'metadesc'        => '',
-			'metakey'         => '',
 			'metadata'        => '{"page_title":"","author":"","robots":""}',
 			'created_time'    => Factory::getDate()->toSql(),
 			'created_user_id' => (int) $this->getAdminId(),
@@ -1274,8 +1272,7 @@ class LanguagesModel extends BaseInstallationModel
 			'publish_down'     => $db->getNullDate(),
 			'version'          => 1,
 			'catid'            => $categoryId,
-			'metadata'         => '{"robots":"","author":"","rights":"","tags":null}',
-			'metakey'          => '',
+			'metadata'         => '{"page_title":"","author":"","robots":""}',
 			'metadesc'         => '',
 			'language'         => $itemLanguage->language,
 			'featured'         => 1,
@@ -1366,7 +1363,7 @@ class LanguagesModel extends BaseInstallationModel
 				. '"show_vote":"","show_readmore":"","show_readmore_title":"","show_hits":"","show_tags":"","show_noauth":"",'
 				. '"show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"",'
 				. '"menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1",'
-				. '"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":""}',
+				. '"page_heading":"","pageclass_sfx":"","menu-meta_description":"","robots":""}',
 			'language'     => $itemLanguage->language,
 		);
 

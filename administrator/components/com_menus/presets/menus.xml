@@ -52,6 +52,7 @@
 			icon="{sql:icon}"
 			class="class:menu"
 			quicktask="index.php?option=com_menus&amp;task=item.add&amp;menutype={sql:menutype}"
+			quicktask-title="MOD_MENU_MENU_MANAGER_NEW_SITE_MENU_ITEM"
 		/>
 	</menuitem>
 
@@ -73,6 +74,7 @@
 			link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
 			class="class:menu"
 			quicktask="index.php?option=com_menus&amp;task=item.add&amp;client_id=1&amp;menutype={sql:menutype}"
+			quicktask-title="MOD_MENU_MENU_MANAGER_NEW_ADMIN_MENU_ITEM"
 		/>
 	</menuitem>
 </menu>

@@ -39,7 +39,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<div class="row">
 			<div class="col-lg-9">
 				<div class="card card-block">
-					<div class="card-body form-vertical form-no-margin">
+					<div class="card-body form-vertical">
 					<?php echo $this->form->renderField('description'); ?>
 					</div>
 				</div>
@@ -47,7 +47,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<div class="col-lg-3">
 				<div class="card card-block">
 					<div class="card-body">
-						<fieldset class="form-vertical form-no-margin">
+						<fieldset class="form-vertical">
 							<?php echo $this->form->renderField('published'); ?>
 							<?php echo $this->form->renderField('default'); ?>
 						</fieldset>
@@ -58,7 +58,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_WORKFLOW_RULES_TAB')); ?>
-			<fieldset id="fieldset-rules" class="options-grid-form options-grid-form-full">
+			<fieldset id="fieldset-rules" class="options-form">
 				<legend><?php echo Text::_('COM_WORKFLOW_RULES_TAB'); ?></legend>
 				<?php echo $this->form->getInput('rules'); ?>
 			</fieldset>

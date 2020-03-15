@@ -17,7 +17,6 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('formbehavior.chosen', 'select');
 
 ?>
 <div class="request-form<?php echo $this->pageclass_sfx; ?>">
@@ -49,7 +48,7 @@ HTMLHelper::_('formbehavior.chosen', 'select');
 		</form>
 	<?php else : ?>
 		<div class="alert alert-warning">
-			<span class="fa fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+			<span class="fas fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 			<?php echo Text::_('COM_PRIVACY_WARNING_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'); ?>
 		</div>
 	<?php endif; ?>

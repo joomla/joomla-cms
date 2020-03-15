@@ -77,13 +77,13 @@
 
       // Hide preview field, when selected value should not be visible
       if (!this.preview) {
-        this.input.style.display = 'none';
+        this.input.classList.add('hidden');
       } else {
         this.setInputPattern();
       }
 
       // Always hide main input field (value saved in database)
-      this.mainInput.style.display = 'none';
+      this.mainInput.classList.add('hidden');
 
       Array.prototype.forEach.call(this.sliders, (slider) => {
         slider.addEventListener('change', () => this.updateValue(slider));

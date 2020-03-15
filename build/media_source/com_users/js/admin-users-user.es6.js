@@ -17,9 +17,9 @@ Joomla = window.Joomla || {};
         twoFactorForms.forEach((value) => {
           const { id } = value;
           if (id !== selectedPane) {
-            document.getElementById(id).style.display = 'none';
+            document.getElementById(id).classList.add('hidden');
           } else {
-            document.getElementById(id).style.display = 'block';
+            document.getElementById(id).classList.remove('hidden');
           }
         });
       }

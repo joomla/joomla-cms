@@ -253,11 +253,11 @@ class LanguageHelper
 			if ($processMetaData || $processManifest)
 			{
 				$clientPath = (int) $language->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
-				$metafile   = self::getLanguagePath($clientPath, $language->element) . '/' . $language->element . '.xml';
+				$metafile   = self::getLanguagePath($clientPath, $language->element) . '/langmetadata.xml';
 
 				if (!is_file($metafile))
 				{
-					$metafile = self::getLanguagePath($clientPath, $language->element) . '/langmetadata.xml';
+					$metafile = self::getLanguagePath($clientPath, $language->element) . '/' . $language->element . '.xml';
 				}
 
 				// Process the language metadata.
@@ -560,11 +560,11 @@ class LanguageHelper
 	 */
 	public static function getMetadata($lang)
 	{
-		$file = self::getLanguagePath(JPATH_BASE, $lang) . '/' . $lang . '.xml';
+		$file = self::getLanguagePath(JPATH_BASE, $lang) . '/langmetadata.xml';
 
 		if (!is_file($file))
 		{
-			$file = self::getLanguagePath(JPATH_BASE, $lang) . '/langmetadata.xml';
+			$file = self::getLanguagePath(JPATH_BASE, $lang) . '/' . $lang . '.xml';
 		}
 
 		$result = null;
@@ -631,11 +631,11 @@ class LanguageHelper
 			if (preg_match('#/[a-z]{2,3}-[A-Z]{2}$#', $directory))
 			{
 				$dirPathParts = pathinfo($directory);
-				$file         = $directory . '/' . $dirPathParts['filename'] . '.xml';
+				$file         = $directory . '/langmetadata.xml';
 
 				if (!is_file($file))
 				{
-					$file = $directory . '/langmetadata.xml';
+					$file = $directory . '/' . $dirPathParts['filename'] . '.xml';
 				}
 
 				if (!is_file($file))
@@ -653,6 +653,7 @@ class LanguageHelper
 				}
 				catch (\RuntimeException $e)
 				{
+					// Ignore it
 				}
 			}
 		}
@@ -686,7 +687,7 @@ class LanguageHelper
 		}
 
 		// Check that it's a metadata file
-		if ((string) $xml->getName() != 'metafile')
+		if ((string) $xml->getName() !== 'metafile')
 		{
 			return;
 		}

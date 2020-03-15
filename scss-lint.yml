@@ -1,9 +1,11 @@
 # Default application configuration that all configurations inherit from.
-scss_files:
-  "administrator/components/com_media/resources/**/*.scss"
-  "administrator/templates/**/*.scss"
-  "build/media_source/**/*.scss"
-  "templates/**/*.scss"
+scss_files: [
+  "administrator/components/com_media/resources/**/*.scss",
+  "administrator/templates/**/*.scss",
+  "build/media_source/**/*.scss",
+  "templates/**/*.scss",
+  "installation/template/**/*.scss"
+]
 
 plugin_directories: ['.scss-linters']
 
@@ -330,6 +332,7 @@ linters:
       'ch', 'em', 'ex', 'rem',                 # Font-relative lengths
       'cm', 'in', 'mm', 'pc', 'pt', 'px', 'q', # Absolute lengths
       'vh', 'vw', 'vmin', 'vmax',              # Viewport-percentage lengths
+      'fr',                                    # Grid fractional lengths
       'deg', 'grad', 'rad', 'turn',            # Angle
       'ms', 's',                               # Duration
       'Hz', 'kHz',                             # Frequency
