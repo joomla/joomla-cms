@@ -45,8 +45,8 @@ abstract class JHtmlSortablelist
 	{
 		Factory::getDocument()->addScriptDeclaration('
 			const element = document.querySelector("' . $tableId . ' tbody");
-			element.classList.add("js-draggable");
-		');
+			element.classList.add("js-draggable");'
+		);
 
 		HtmlHelper::_('dragablelist.dragable', $tableId, $formId, $sortDir, $saveOrderingUrl, $proceedSaveOrderButton, $nestedList);
 	}
