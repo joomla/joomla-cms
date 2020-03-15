@@ -191,17 +191,6 @@ class InstallationController extends JSONController
 
 			// Install selected languages
 			$model->install($lids);
-
-			// Publish the Content Languages.
-			$failedLanguages = $model->publishContentLanguages();
-
-			if (!empty($failedLanguages))
-			{
-				foreach ($failedLanguages as $failedLanguage)
-				{
-					$this->app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $failedLanguage), 'warning');
-				}
-			}
 		}
 
 		// Redirect to the page.
