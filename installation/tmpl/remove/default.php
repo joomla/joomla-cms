@@ -27,6 +27,99 @@ use Joomla\CMS\Uri\Uri;
 				<button class="btn btn-primary btn-block" id="installAddFeatures"><?php echo Text::_('INSTL_COMPLETE_ADD_PRECONFIG'); ?> <span class="fas fa-chevron-right" aria-hidden="true"></span></button>
 			</div>
 		</div>
+		
+		<?php if (count($this->installed_languages->administrator) > 1) : ?>
+				<div id="defaultLanguage" 
+					class="j-install-step-form flex-column mt-5 border rounded"
+				>
+		<?php else : ?>
+				<div id="defaultLanguage" 
+					class="j-install-step-form flex-column mt-5 border rounded d-none"
+				>
+		<?php endif; ?>
+		<p><?php echo Text::_('INSTL_DEFAULTLANGUAGE_DESC'); ?></p>
+		<table class="table table-sm">
+			<thead>
+			<tr>
+				<th>
+					<?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_SELECT'); ?>
+				</th>
+				<th>
+					<?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_LANGUAGE'); ?>
+				</th>
+				<th>
+					<?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_TAG'); ?>
+				</th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php foreach ($this->installed_languages->administrator as $i => $lang) : ?>
+				<tr>
+					<td>
+						<input
+							id="admin-language-cb<?php echo $i; ?>"
+							type="radio"
+							name="administratorlang"
+							value="<?php echo $lang->language; ?>"
+							<?php if ($lang->published) echo 'checked="checked"'; ?>
+						/>
+					</td>
+					<td>
+						<label for="admin-language-cb<?php echo $i; ?>">
+							<?php echo $lang->name; ?>
+						</label>
+					</td>
+					<td>
+						<?php echo $lang->language; ?>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+			</tbody>
+		</table>
+		<p><?php echo Text::_('INSTL_DEFAULTLANGUAGE_DESC_FRONTEND'); ?></p>
+		<table class="table table-sm">
+			<thead>
+			<tr>
+				<th>
+					<?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_SELECT'); ?>
+				</th>
+				<th>
+					<?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_LANGUAGE'); ?>
+				</th>
+				<th>
+					<?php echo Text::_('INSTL_DEFAULTLANGUAGE_COLUMN_HEADER_TAG'); ?>
+				</th>
+			</tr>
+			</thead>
+			<tbody>
+			<?php foreach ($this->installed_languages->frontend as $i => $lang) : ?>
+				<tr>
+					<td>
+						<input
+							id="site-language-cb<?php echo $i; ?>"
+							type="radio"
+							name="frontendlang"
+							value="<?php echo $lang->language; ?>"
+							<?php if ($lang->published) echo 'checked="checked"'; ?>
+						/>
+					</td>
+					<td>
+						<label for="site-language-cb<?php echo $i; ?>">
+							<?php echo $lang->name; ?>
+						</label>
+					</td>
+					<td>
+						<?php echo $lang->language; ?>
+					</td>
+			</tr>
+			<?php endforeach; ?>
+			</tbody>
+		</table>
+		<button id="defaultLanguagesButton" class="btn btn-block btn-primary">
+			<?php echo Text::_('INSTL_DEFAULTLANGUAGE_SET_DEFAULT_LANGUAGE'); ?> <span class="fas fa-chevron-right" aria-hidden="true"></span>
+		</button>
+		<?php echo HTMLHelper::_('form.token'); ?>
+		</div>
 	</fieldset>
 
 		<div id="installRecommended" class="j-install-step active">
