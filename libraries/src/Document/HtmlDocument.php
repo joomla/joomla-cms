@@ -210,9 +210,9 @@ class HtmlDocument extends Document
 		$classes  = $params['classes'] ? $params['classes'] : '';
 
 		// Setup options object
-		if (!in_array($provider . '.' . $group . '.' .$params['icon'], $this->getIcons()))
+		if (!in_array($provider . '.' . $group . '.' . $params['icon'], $this->getIcons()))
 		{
-			$this->icons[$provider . '.' . $group . '.' .$params['icon']] = [
+			$this->icons[$provider . '.' . $group . '.' . $params['icon']] = [
 				'provider' => $provider,
 				'group'    => $group,
 				'icon'     => $params['icon'],
@@ -220,7 +220,7 @@ class HtmlDocument extends Document
 			];
 		}
 
-		return '<svg class="' . $classes . '"><use href="#' . $provider . '-' . $group . '-' .$params['icon'] . '"></use></svg>';
+		return '<svg class="' . $classes . '"><use href="#' . $provider . '-' . $group . '-' . $params['icon'] . '"></use></svg>';
 	}
 
 	/**

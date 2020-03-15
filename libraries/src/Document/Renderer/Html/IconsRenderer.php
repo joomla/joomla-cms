@@ -39,9 +39,10 @@ class IconsRenderer extends DocumentRenderer
 		// Generate the file and load the stylesheet link
 		foreach ($this->_doc->icons as $key => $icon)
 		{
-			$file = HTMLHelper::image('vendor/' . $icon['provider'] . '/' . $icon['group'] . '/' . $icon['icon'] . '.svg', '', null,true, 1);
+			$file = HTMLHelper::image('vendor/' . $icon['provider'] . '/' . $icon['group'] . '/' . $icon['icon'] . '.svg', '', null, true, 1);
 
-			if ($file) {
+			if ($file)
+			{
 				$content = @file_get_contents(JPATH_ROOT . substr($file, strpos($file, '/media')));
 				$content = str_replace(
 					'<svg',
@@ -55,7 +56,8 @@ class IconsRenderer extends DocumentRenderer
 			}
 		}
 
-		if (!empty($files)) {
+		if (!empty($files))
+		{
 			return '<div style="display:none">' . implode('', $files) . '</div>';
 		}
 
