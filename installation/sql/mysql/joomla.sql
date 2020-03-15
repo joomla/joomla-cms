@@ -233,12 +233,12 @@ CREATE TABLE IF NOT EXISTS `#__categories` (
   `title` varchar(255) NOT NULL DEFAULT '',
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
-  `description` mediumtext NOT NULL DEFAULT '',
+  `description` mediumtext,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `checked_out` int(11) unsigned NOT NULL DEFAULT 0,
   `checked_out_time` datetime,
   `access` int(10) unsigned NOT NULL DEFAULT 0,
-  `params` text NOT NULL DEFAULT '',
+  `params` text,
   `metadesc` varchar(1024) NOT NULL DEFAULT '' COMMENT 'The meta description for the page.',
   `metakey` varchar(1024) NOT NULL DEFAULT '' COMMENT 'The keywords for the page.',
   `metadata` varchar(2048) NOT NULL DEFAULT '' COMMENT 'JSON encoded metadata properties.',
@@ -624,7 +624,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 (0, 'plg_system_remember', 'plugin', 'remember', 'system', 0, 1, 1, 1, '', '', 0, NULL, 7, 0),
 (0, 'plg_system_sef', 'plugin', 'sef', 'system', 0, 1, 1, 0, '', '', 0, NULL, 8, 0),
 (0, 'plg_system_logout', 'plugin', 'logout', 'system', 0, 1, 1, 1, '', '', 0, NULL, 6, 0),
-(0, 'plg_user_contactcreator', 'plugin', 'contactcreator', 'user', 0, 0, 1, 0, '', '{"autowebpage":"","category":"34","autopublish":"0"}', 0, NULL, 1, 0),
+(0, 'plg_user_contactcreator', 'plugin', 'contactcreator', 'user', 0, 0, 1, 0, '', '{"autowebpage":"","category":"4","autopublish":"0"}', 0, NULL, 1, 0),
 (0, 'plg_user_joomla', 'plugin', 'joomla', 'user', 0, 1, 1, 0, '', '{"autoregister":"1","mail_to_user":"1","forceLogout":"1"}', 0, NULL, 2, 0),
 (0, 'plg_user_profile', 'plugin', 'profile', 'user', 0, 0, 1, 0, '', '{"register-require_address1":"1","register-require_address2":"1","register-require_city":"1","register-require_region":"1","register-require_country":"1","register-require_postal_code":"1","register-require_phone":"1","register-require_website":"1","register-require_favoritebook":"1","register-require_aboutme":"1","register-require_tos":"1","register-require_dob":"1","profile-require_address1":"1","profile-require_address2":"1","profile-require_city":"1","profile-require_region":"1","profile-require_country":"1","profile-require_postal_code":"1","profile-require_phone":"1","profile-require_website":"1","profile-require_favoritebook":"1","profile-require_aboutme":"1","profile-require_tos":"1","profile-require_dob":"1"}', 0, NULL, 0, 0),
 (0, 'plg_extension_joomla', 'plugin', 'joomla', 'extension', 0, 1, 1, 1, '', '', 0, NULL, 1, 0),
@@ -732,6 +732,7 @@ INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, 
 SELECT `extension_id`, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', 0, NULL, 0, 0 FROM `#__extensions` WHERE `name` = 'English (en-GB) Language Pack';
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `checked_out`, `checked_out_time`, `ordering`, `state`)
 SELECT `extension_id`, 'English (en-GB)', 'language', 'en-GB', '', 3, 1, 1, 1, '', '', 0, NULL, 0, 0 FROM `#__extensions` WHERE `name` = 'English (en-GB) Language Pack';
+
 -- --------------------------------------------------------
 
 --
@@ -746,7 +747,7 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
   `title` varchar(255) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL DEFAULT '',
   `label` varchar(255) NOT NULL DEFAULT '',
-  `default_value` text NOT NULL DEFAULT '',
+  `default_value` text,
   `type` varchar(255) NOT NULL DEFAULT 'text',
   `note` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
@@ -826,7 +827,7 @@ CREATE TABLE IF NOT EXISTS `#__fields_groups` (
 CREATE TABLE IF NOT EXISTS `#__fields_values` (
   `field_id` int(10) unsigned NOT NULL,
   `item_id` varchar(255) NOT NULL COMMENT 'Allow references to items which have strings as ids, eg. none db systems.',
-  `value` text NOT NULL DEFAULT '',
+  `value` text,
   KEY `idx_field_id` (`field_id`),
   KEY `idx_item_id` (`item_id`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
@@ -1439,7 +1440,7 @@ CREATE TABLE IF NOT EXISTS `#__modules` (
   `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
   `title` varchar(100) NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
-  `content` text NULL,
+  `content` text,
   `ordering` int(11) NOT NULL DEFAULT 0,
   `position` varchar(50) NOT NULL DEFAULT '',
   `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
@@ -1872,12 +1873,12 @@ CREATE TABLE IF NOT EXISTS `#__ucm_content` (
   `core_type_alias` varchar(400) NOT NULL DEFAULT '' COMMENT 'FK to the content types table',
   `core_title` varchar(400) NOT NULL DEFAULT '',
   `core_alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
-  `core_body` mediumtext NOT NULL DEFAULT '',
+  `core_body` mediumtext,
   `core_state` tinyint(1) NOT NULL DEFAULT 0,
   `core_checked_out_time` datetime,
   `core_checked_out_user_id` int(10) unsigned NOT NULL DEFAULT 0,
   `core_access` int(10) unsigned NOT NULL DEFAULT 0,
-  `core_params` text NOT NULL DEFAULT '',
+  `core_params` text,
   `core_featured` tinyint(4) unsigned NOT NULL DEFAULT 0,
   `core_metadata` varchar(2048) NOT NULL DEFAULT '' COMMENT 'JSON encoded metadata properties.',
   `core_created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
@@ -1890,13 +1891,13 @@ CREATE TABLE IF NOT EXISTS `#__ucm_content` (
   `core_publish_down` datetime,
   `core_content_item_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'ID from the individual type table',
   `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
-  `core_images` text NOT NULL DEFAULT '',
-  `core_urls` text NOT NULL DEFAULT '',
+  `core_images` text,
+  `core_urls` text,
   `core_hits` int(10) unsigned NOT NULL DEFAULT 0,
   `core_version` int(10) unsigned NOT NULL DEFAULT 1,
   `core_ordering` int(11) NOT NULL DEFAULT 0,
-  `core_metakey` text NOT NULL DEFAULT '',
-  `core_metadesc` text NOT NULL DEFAULT '',
+  `core_metakey` text,
+  `core_metadesc` text,
   `core_catid` int(10) unsigned NOT NULL DEFAULT 0,
   `core_type_id` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`core_content_id`),
@@ -2072,7 +2073,7 @@ CREATE TABLE IF NOT EXISTS `#__users` (
   PRIMARY KEY (`id`),
   KEY `idx_name` (`name`(100)),
   KEY `idx_block` (`block`),
-  KEY `username` (`username`),
+  UNIQUE KEY `idx_username` (`username`),
   KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
@@ -2289,8 +2290,7 @@ INSERT INTO `#__viewlevels` (`id`, `title`, `ordering`, `rules`) VALUES
 -- Table structure for table `#__webauthn_credentials#__webauthn_credentials`
 --
 
-CREATE TABLE IF NOT EXISTS `#__webauthn_credentials`
-(
+CREATE TABLE IF NOT EXISTS `#__webauthn_credentials` (
     `id`         VARCHAR(1000)   NOT NULL COMMENT 'Credential ID',
     `user_id`    VARCHAR(128)    NOT NULL COMMENT 'User handle',
     `label`      VARCHAR(190)    NOT NULL COMMENT 'Human readable label',
