@@ -541,7 +541,7 @@ class SetupModel extends BaseInstallationModel
 				$options->db_pass_plain,
 				$options->db_name,
 				$options->db_prefix,
-				isset($options->db_select) ? $options->db_select : false,
+				false,
 				DatabaseHelper::getEncryptionSettings($options)
 			);
 
