@@ -58,6 +58,8 @@ CREATE TABLE IF NOT EXISTS `#__finder_logging` (
   PRIMARY KEY (`md5sum`),
   INDEX `searchterm` (`searchterm`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+ALTER TABLE `#__finder_logging` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `#__finder_logging` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 DROP TABLE `#__finder_taxonomy`;
 CREATE TABLE IF NOT EXISTS `#__finder_taxonomy` (
@@ -84,6 +86,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_taxonomy` (
 INSERT INTO `#__finder_taxonomy` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`, `alias`, `state`, `access`, `language`) VALUES
 (1, 0, 0, 1, 0, '', 'ROOT', 'root', 1, 1, '*');
 
+ALTER TABLE `#__finder_taxonomy_map` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_taxonomy_map` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 TRUNCATE TABLE `#__finder_terms`;
