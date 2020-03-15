@@ -45,8 +45,6 @@ class DatabaseModel extends BaseInstallationModel
 		return Factory::getSession()->get('setup.options', array());
 	}
 
-
-
 	/**
 	 * Method to initialise the database.
 	 *
@@ -284,8 +282,6 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to create a new database.
 	 *
-	 * @param   \stdClass  $options  The configuration options
-	 *
 	 * @return  boolean
 	 *
 	 * @since   3.1
@@ -507,13 +503,13 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to create the database tables.
 	 *
-	 * @param   \stdClass  $options  The options array.
+	 * @param   string  $schema  The SQL schema file to apply.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   3.1
 	 */
-	public function createTables($options, $schema)
+	public function createTables($schema)
 	{
 		if (!$db = $this->initialise())
 		{

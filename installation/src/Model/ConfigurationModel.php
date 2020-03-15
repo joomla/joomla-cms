@@ -562,7 +562,8 @@ class ConfigurationModel extends BaseInstallationModel
 	/**
 	 * Method to create the root user for the site.
 	 *
-	 * @param   object  $options  The session options.
+	 * @param   object          $options  The session options.
+	 * @param   DatabaseDriver  $db       Database connector object $db*.
 	 *
 	 * @return  boolean  True on success.
 	 *

@@ -143,6 +143,7 @@ class InstallationController extends JSONController
 		if (in_array($step, ['custom1', 'custom2']) && !is_file('sql/' . $serverType . '/' . $schema . '.sql'))
 		{
 			$this->sendJsonResponse($r);
+
 			return;
 		}
 
@@ -153,10 +154,8 @@ class InstallationController extends JSONController
 			$this->sendJsonResponse($r);
 		}
 
-		$options = $model->getOptions();
-
 		// Attempt to populate the database with the given file.
-		if (!$model->createTables($options, $schema))
+		if (!$model->createTables($schema))
 		{
 			$r->view = 'setup';
 		}
