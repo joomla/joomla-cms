@@ -263,14 +263,6 @@ class Document
 	protected $webAssetManager = null;
 
 	/**
-	 * Array of icons
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	public $icons = array();
-
-	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $options  Associative array of options
@@ -346,11 +338,6 @@ class Document
 			$webAssetManager = new WebAssetManager(\Joomla\CMS\Factory::getContainer()->get('webassetregistry'));
 
 			$this->setWebAssetManager($webAssetManager);
-		}
-
-		if (array_key_exists('icons', $options))
-		{
-			$this->setIcons($options['icons']);
 		}
 	}
 
@@ -524,51 +511,6 @@ class Document
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Returns the icon names
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	public function getIcons()
-	{
-		return $this->icons;
-	}
-
-	/**
-	 * Setter for an icon
-	 *
-	 * @param   array  $params
-	 * @return  string
-	 *
-	 * @since   11.1
-	 */
-	public function setIcons($params = [])
-	{
-		if (empty($params['icon']))
-		{
-			return '';
-		}
-
-		$provider = $params['provider'] ? $params['provider'] : 'fontawesome-free';
-		$group    = $params['group'] ? $params['group'] : 'solid';
-		$classes  = $params['classes'] ? $params['classes'] : '';
-
-		// Setup options object
-		if (!in_array($provider . '.' . $group . '.' .$params['icon'], $this->getIcons()))
-		{
-			$this->icons[$provider . '.' . $group . '.' .$params['icon']] = [
-				'provider' => $provider,
-				'group'    => $group,
-				'icon'     => $params['icon'],
-				'text'     => $params['text'] ? $params['text'] : ''
-			];
-		}
-
-		return '<svg class="' . $classes . '"><use href="#' . $provider . '-' . $group . '-' .$params['icon'] . '"></use></svg>';
 	}
 
 	/**

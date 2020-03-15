@@ -118,6 +118,14 @@ class HtmlDocument extends Document
 	private $html5 = true;
 
 	/**
+	 * Array of icons
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	public $icons = array();
+
+	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  Associative array of options
@@ -133,6 +141,11 @@ class HtmlDocument extends Document
 
 		// Set default mime type and document metadata (metadata syncs with mime type by default)
 		$this->setMimeEncoding('text/html');
+
+		if (array_key_exists('icons', $options))
+		{
+			$this->setIcons($options['icons']);
+		}
 	}
 
 	/**
@@ -166,6 +179,51 @@ class HtmlDocument extends Document
 	}
 
 	/**
+	 * Returns the icon names
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 */
+	public function getIcons()
+	{
+		return $this->icons;
+	}
+
+	/**
+	 * Setter for an icon
+	 *
+	 * @param   array  $params
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function setIcons($params = [])
+	{
+		if (empty($params['icon']))
+		{
+			return '';
+		}
+
+		$provider = $params['provider'] ? $params['provider'] : 'fontawesome-free';
+		$group    = $params['group'] ? $params['group'] : 'solid';
+		$classes  = $params['classes'] ? $params['classes'] : '';
+
+		// Setup options object
+		if (!in_array($provider . '.' . $group . '.' .$params['icon'], $this->getIcons()))
+		{
+			$this->icons[$provider . '.' . $group . '.' .$params['icon']] = [
+				'provider' => $provider,
+				'group'    => $group,
+				'icon'     => $params['icon'],
+				'text'     => $params['text'] ? $params['text'] : ''
+			];
+		}
+
+		return '<svg class="' . $classes . '"><use href="#' . $provider . '-' . $group . '-' .$params['icon'] . '"></use></svg>';
+	}
+
+	/**
 	 * Reset the HTML document head data
 	 *
 	 * @param   mixed  $types  type or types of the heads elements to reset
@@ -188,7 +246,7 @@ class HtmlDocument extends Document
 			$this->_scripts      = array();
 			$this->_script       = array();
 			$this->_custom       = array();
-      $this->icons         = array();
+			$this->icons         = array();
 			$this->scriptOptions = array();
 		}
 
@@ -238,6 +296,10 @@ class HtmlDocument extends Document
 				$this->{$realType} = array();
 				break;
 
+			case 'icons':
+				$this->icons = array();
+				break;
+
 			case 'scriptOptions':
 				$this->{$type} = array();
 				break;
@@ -270,7 +332,7 @@ class HtmlDocument extends Document
 		$this->_scripts      = $data['scripts'] ?? $this->_scripts;
 		$this->_script       = $data['script'] ?? $this->_script;
 		$this->_custom       = $data['custom'] ?? $this->_custom;
-    $this->icons         = $data['custom'] ?? $this->icons;
+		$this->icons         = $data['icons'] ?? $this->icons;
 		$this->scriptOptions = (isset($data['scriptOptions']) && !empty($data['scriptOptions'])) ? $data['scriptOptions'] : $this->scriptOptions;
 
 		return $this;
@@ -673,43 +735,6 @@ class HtmlDocument extends Document
 	}
 
 	/**
-	 * Renders the document icons
-	 *
-	 * @return  string  The svgs markup for the icons
-	 *
-	 * @since   4.0.0
-	 */
-	public function renderIcons()
-	{
-		$files        = [];
-
-		// Generate the file and load the stylesheet link
-		foreach ($this->icons as $key => $icon)
-		{
-			$file = HTMLHelper::image('vendor/' . $icon['provider'] . '/' . $icon['group'] . '/' . $icon['icon'] . '.svg', '', null,true, 1);
-
-			if ($file) {
-				$content = @file_get_contents(JPATH_ROOT . substr($file, strpos($file, '/media')));
-				$content = str_replace(
-					'<svg',
-					'<svg id="' . $icon['provider'] . '-' . $icon['group'] . '-' . $icon['icon'] . '"'
-					. ' title="' . $icon['text'] . '"'
-					. ' role="img"',
-					$content
-				);
-
-				$files[] = $content;
-			}
-		}
-
-		if (!empty($files)) {
-			return '<div style="display:none">' . implode('', $files) . '</div>';
-		}
-
-		return '';
-	}
-
-	/**
 	 * Load a template file
 	 *
 	 * @param   string  $directory  The name of the template
@@ -860,8 +885,6 @@ class HtmlDocument extends Document
 			$replace[] = $jdoc;
 			$with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
 		}
-
-		$this->_template = str_replace('</body>', self::renderIcons() . '</body>', $this->_template);
 
 		return str_replace($replace, $with, $this->_template);
 	}

@@ -186,6 +186,7 @@ $stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top
 	<?php endif; ?>
 
 	<jdoc:include type="modules" name="debug" style="none" />
+	<jdoc:include type="icons" />
 
 </body>
 </html>
