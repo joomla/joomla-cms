@@ -48,6 +48,8 @@ class DatabaseModel extends BaseInstallationModel
 	/**
 	 * Method to initialise the database.
 	 *
+	 * @param   boolean  $select  Select the database when creating the connections.
+	 *
 	 * @return  DatabaseInterface|boolean  Database object on success, boolean false on failure
 	 *
 	 * @since   3.1
