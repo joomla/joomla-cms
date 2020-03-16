@@ -218,6 +218,7 @@ class HtmlDocument extends Document
 			return '';
 		}
 
+		$attribs  = '';
 		$provider = $icon['provider'] ? $icon['provider'] : 'fontawesome-free';
 		$group    = $icon['group'] ? $icon['group'] : 'solid';
 		$classes  = $icon['classes'] ? $icon['classes'] : '';
@@ -233,7 +234,14 @@ class HtmlDocument extends Document
 			];
 		}
 
-		return '<svg class="' . $classes . '"><use href="#' . $provider . '-' . $group . '-' . $icon['icon'] . '"></use></svg>';
+		if (isset($icon['attributes']) && count($icon['attributes']))
+		{
+			foreach ($icon['attributes'] as $key => $val)
+			{
+				$attribs .= $key . '="' . $val . '" ';
+			}
+		}
+		return '<svg class="' . $classes . '" ' . $attribs . '><use href="#' . $provider . '-' . $group . '-' . $icon['icon'] . '"></use></svg>';
 	}
 
 	/**

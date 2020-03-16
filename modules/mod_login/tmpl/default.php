@@ -53,11 +53,15 @@ CSS
 						<label for="modlgn-username-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
 						<span class="input-group-text"><?php echo Factory::getDocument()->setIcon(
 							[
-								'provider' => 'fontawesome-free',
-								'group'    => 'solid',
-								'icon'     => 'user',
-								'classes'  => 'demo-class',
-								'text'     => Text::_('MOD_LOGIN_VALUE_USERNAME')
+								'provider'   => 'fontawesome-free',
+								'group'      => 'solid',
+								'icon'       => 'user',
+								'classes'    => 'demo-class',
+								'text'       => Text::_('MOD_LOGIN_VALUE_USERNAME'),
+								'attributes' => [
+									'data-foo' => 'bar',
+									'id'       => 'foobar'
+								]
 							]
 							);
 						?></span>
