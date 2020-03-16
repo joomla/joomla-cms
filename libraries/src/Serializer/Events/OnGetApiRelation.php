@@ -13,7 +13,12 @@ namespace Joomla\CMS\Serializer\Events;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use Tobscure\JsonApi\Relationship;
 
-final class onGetApiRelation extends AbstractImmutableEvent
+/**
+ * Event for getting information on an API Relationship
+ *
+ * @since  __DEPLOY_VERSION__
+ */
+final class OnGetApiRelation extends AbstractImmutableEvent
 {
 	/**
 	 * The relationship

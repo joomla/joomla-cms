@@ -13,7 +13,12 @@ namespace Joomla\CMS\MVC\View\Event;
 use Joomla\CMS\Event\AbstractImmutableEvent;
 use BadMethodCallException;
 
-final class onGetApiFields extends AbstractImmutableEvent
+/**
+ * Event for getting extra API Fields and Relations to render with an entity
+ *
+ * @since  __DEPLOY_VERSION__
+ */
+final class OnGetApiFields extends AbstractImmutableEvent
 {
 	/**
 	 * List of types of view supported

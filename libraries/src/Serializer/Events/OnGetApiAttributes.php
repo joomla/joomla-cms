@@ -12,7 +12,12 @@ namespace Joomla\CMS\Serializer\Events;
 
 use Joomla\CMS\Event\AbstractImmutableEvent;
 
-final class onGetApiAttributes extends AbstractImmutableEvent
+/**
+ * Event for getting extra data attributes for an API Entity
+ *
+ * @since  __DEPLOY_VERSION__
+ */
+final class OnGetApiAttributes extends AbstractImmutableEvent
 {
 	/**
 	 * The attributes

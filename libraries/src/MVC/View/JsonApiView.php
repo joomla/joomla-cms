@@ -12,7 +12,7 @@ namespace Joomla\CMS\MVC\View;
 
 use Joomla\CMS\Document\JsonapiDocument;
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\View\Event\onGetApiFields;
+use Joomla\CMS\MVC\View\Event\OnGetApiFields;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Uri\Uri;
@@ -165,10 +165,10 @@ abstract class JsonApiView extends JsonView
 		$lastPageQuery['offset'] = $totalPagesAvailable - $pagination->limit;
 		$lastPage->setVar('page', $lastPageQuery);
 
-		$eventData = ['type' => onGetApiFields::LIST, 'fields' => $this->fieldsToRenderList, 'context' => $this->type];
-		$event     = new onGetApiFields('onApiGetFields', $eventData);
+		$eventData = ['type' => OnGetApiFields::LIST, 'fields' => $this->fieldsToRenderList, 'context' => $this->type];
+		$event     = new OnGetApiFields('onApiGetFields', $eventData);
 
-		/** @var onGetApiFields $eventResult */
+		/** @var OnGetApiFields $eventResult */
 		$eventResult = Factory::getApplication()->getDispatcher()->dispatch('onApiGetFields', $event);
 
 		$collection = (new Collection($items, $this->serializer))
@@ -221,14 +221,14 @@ abstract class JsonApiView extends JsonView
 		}
 
 		$eventData = [
-			'type' => onGetApiFields::ITEM,
+			'type' => OnGetApiFields::ITEM,
 			'fields' => $this->fieldsToRenderItem,
 			'relations' => $this->relationship,
 			'context' => $this->type,
 		];
-		$event     = new onGetApiFields('onApiGetFields', $eventData);
+		$event     = new OnGetApiFields('onApiGetFields', $eventData);
 
-		/** @var onGetApiFields $eventResult */
+		/** @var OnGetApiFields $eventResult */
 		$eventResult = Factory::getApplication()->getDispatcher()->dispatch('onApiGetFields', $event);
 
 		$element = (new Resource($item, $this->serializer))
