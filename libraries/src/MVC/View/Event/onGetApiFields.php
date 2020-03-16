@@ -32,9 +32,18 @@ final class onGetApiFields extends AbstractImmutableEvent
 	/**
 	 * List of names of properties that will be rendered as relations
 	 *
-	 * @var array
+	 * @var    string[]
+	 * @since  4.0.0
 	 */
 	private $extraRelations = [];
+
+	/**
+	 * List of names of properties that will be rendered as data
+	 *
+	 * @var    string[]
+	 * @since  4.0.0
+	 */
+	private $extraAttributes = [];
 
 	/**
 	 * Constructor.
@@ -58,6 +67,11 @@ final class onGetApiFields extends AbstractImmutableEvent
 		if (!\array_key_exists('fields', $arguments))
 		{
 			throw new BadMethodCallException("Argument 'fields' is required for event $name");
+		}
+
+		if (!\array_key_exists('context', $arguments))
+		{
+			throw new BadMethodCallException("Argument 'context' is required for event $name");
 		}
 
 		parent::__construct($name, $arguments);
@@ -102,18 +116,52 @@ final class onGetApiFields extends AbstractImmutableEvent
 	}
 
 	/**
+	 * Setter for the relations argument
+	 *
+	 * @param   mixed  $value  The value to set
+	 *
+	 * @return  array
+	 *
+	 * @throws  BadMethodCallException  if the argument is not a non-empty array
+	 */
+	protected function setRelations($value)
+	{
+		if (!\is_array($value))
+		{
+			throw new BadMethodCallException("Argument 'relations' of event {$this->name} must be be an array");
+		}
+
+		return $value;
+	}
+
+	/**
 	 * Allows the user to add names of properties that will be interpreted as relations
 	 * Note that if there is an existing data property it will also be displayed as well
 	 * as the relation due to the internal implementation (this behaviour is not part of this API
 	 * however and should not be guaranteed)
 	 *
-	 * @param   array  $fields  The array of additional fields to add as relations
+	 * @param   string[]  $fields  The array of additional fields to add to the data of the attribute
+	 *
+	 * @return  void
+	 */
+	public function addFields(array $fields): void
+	{
+		$this->extraAttributes = array_merge($this->extraAttributes, $fields);
+	}
+
+	/**
+	 * Allows the user to add names of properties that will be interpreted as relations
+	 * Note that if there is an existing data property it will also be displayed as well
+	 * as the relation due to the internal implementation (this behaviour is not part of this API
+	 * however and should not be guaranteed)
+	 *
+	 * @param   string[]  $fields  The array of additional fields to add as relations
 	 *
 	 * @return  void
 	 */
 	public function addRelations(array $fields): void
 	{
-		$this->extraRelations[] += $fields;
+		$this->extraRelations = array_merge($this->extraRelations, $fields);
 	}
 
 	/**
@@ -123,6 +171,16 @@ final class onGetApiFields extends AbstractImmutableEvent
 	 */
 	public function getAllPropertiesToRender(): array
 	{
-		return array_merge($this->getArgument('fields'), $this->extraRelations);
+		return array_merge($this->getArgument('fields'), $this->extraAttributes);
+	}
+
+	/**
+	 * Get properties to render.
+	 *
+	 * @return  array
+	 */
+	public function getAllRelationsToRender(): array
+	{
+		return array_merge($this->getArgument('relations'), $this->extraRelations);
 	}
 }

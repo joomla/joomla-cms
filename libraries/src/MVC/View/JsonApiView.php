@@ -165,7 +165,8 @@ abstract class JsonApiView extends JsonView
 		$lastPageQuery['offset'] = $totalPagesAvailable - $pagination->limit;
 		$lastPage->setVar('page', $lastPageQuery);
 
-		$event = new onGetApiFields('onApiGetFields', ['type' => onGetApiFields::LIST, 'fields' => $this->fieldsToRenderList]);
+		$eventData = ['type' => onGetApiFields::LIST, 'fields' => $this->fieldsToRenderList, 'context' => $this->type];
+		$event     = new onGetApiFields('onApiGetFields', $eventData);
 
 		/** @var onGetApiFields $eventResult */
 		$eventResult = Factory::getApplication()->getDispatcher()->dispatch('onApiGetFields', $event);
@@ -219,7 +220,13 @@ abstract class JsonApiView extends JsonView
 			throw new \RuntimeException('Content type missing');
 		}
 
-		$event = new onGetApiFields('onApiGetFields', ['type' => onGetApiFields::ITEM, 'fields' => $this->fieldsToRenderItem]);
+		$eventData = [
+			'type' => onGetApiFields::ITEM,
+			'fields' => $this->fieldsToRenderItem,
+			'relations' => $this->relationship,
+			'context' => $this->type,
+		];
+		$event     = new onGetApiFields('onApiGetFields', $eventData);
 
 		/** @var onGetApiFields $eventResult */
 		$eventResult = Factory::getApplication()->getDispatcher()->dispatch('onApiGetFields', $event);
@@ -229,7 +236,7 @@ abstract class JsonApiView extends JsonView
 
 		if (!empty($this->relationship))
 		{
-			$element->with($this->relationship);
+			$element->with($eventResult->getAllRelationsToRender());
 		}
 
 		$this->document->setData($element);

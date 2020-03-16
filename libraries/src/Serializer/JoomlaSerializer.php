@@ -38,7 +38,7 @@ class JoomlaSerializer extends AbstractSerializer
 	/**
 	 * Get the attributes array.
 	 *
-	 * @param   Table|array|\stdClass|CMSobject  $post    The model
+	 * @param   Table|array|\stdClass|CMSObject  $post    The model
 	 * @param   array                            $fields  The fields can be array or null
 	 *
 	 * @return  array
@@ -78,7 +78,13 @@ class JoomlaSerializer extends AbstractSerializer
 			$post = $post->getProperties();
 		}
 
-		return \is_array($fields) ? array_intersect_key($post, array_flip($fields)) : $post;
+		$event = new Events\onGetApiAttributes('onGetApiAttributes', ['attributes' => $post, 'context' => $this->type]);
+
+		/** @var Events\onGetApiAttributes $eventResult */
+		$eventResult = Factory::getApplication()->getDispatcher()->dispatch('onGetApiAttributes', $event);
+		$combinedData = array_merge($post, $eventResult->getAttributes());
+
+		return \is_array($fields) ? array_intersect_key($combinedData, array_flip($fields)) : $combinedData;
 	}
 
 	/**
@@ -90,20 +96,23 @@ class JoomlaSerializer extends AbstractSerializer
 	{
 		$result = parent::getRelationship($model, $name);
 
-		// No method found so call plugins and allow them to add something in
-		if (!($result instanceof Relationship))
+		// If we found a result in the content type serializer return now. Else trigger plugins.
+		if ($result instanceof Relationship)
 		{
-			$event = new Events\onGetApiRelation('onGetApiRelation', ['model' => $model, 'field' => $name]);
+			return $result;
+		}
 
-			/** @var Events\onGetApiRelation $eventResult */
-			$eventResult = Factory::getApplication()->getDispatcher()->dispatch('onGetApiRelation', $event);
+		$eventData = ['model' => $model, 'field' => $name, 'context' => $this->type];
+		$event     = new Events\onGetApiRelation('onGetApiRelation', $eventData);
 
-			$relationship = $eventResult->getRelationship();
+		/** @var Events\onGetApiRelation $eventResult */
+		$eventResult = Factory::getApplication()->getDispatcher()->dispatch('onGetApiRelation', $event);
 
-			if ($relationship !== null)
-			{
-				return $relationship;
-			}
+		$relationship = $eventResult->getRelationship();
+
+		if ($relationship instanceof Relationship)
+		{
+			return $relationship;
 		}
 	}
 }

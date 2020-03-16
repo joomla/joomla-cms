@@ -18,7 +18,7 @@ final class onGetApiRelation extends AbstractImmutableEvent
 	/**
 	 * The relationship
 	 *
-	 * @var Relationship
+	 * @var     Relationship
 	 * @since   __DEPLOY_VERSION__
 	 */
 	private $relationship;
