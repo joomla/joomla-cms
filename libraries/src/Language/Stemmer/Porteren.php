@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @copyright  Copyright (C) 2005 Richard Heyes (http://www.phpguru.org/). All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -425,7 +425,7 @@ class Porteren extends LanguageStemmer
 	{
 		$c = self::$_regex_consonant;
 
-		return preg_match("#$c{2}$#", $str, $matches) && $matches[0]{0} == $matches[0]{1};
+		return preg_match("#$c{2}$#", $str, $matches) && $matches[0][0] == $matches[0][1];
 	}
 
 	/**
@@ -444,9 +444,9 @@ class Porteren extends LanguageStemmer
 
 		$result = preg_match("#($c$v$c)$#", $str, $matches)
 			&& strlen($matches[1]) == 3
-			&& $matches[1]{2} != 'w'
-			&& $matches[1]{2} != 'x'
-			&& $matches[1]{2} != 'y';
+			&& $matches[1][2] != 'w'
+			&& $matches[1][2] != 'x'
+			&& $matches[1][2] != 'y';
 
 		return $result;
 	}

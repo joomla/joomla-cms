@@ -2,6 +2,5 @@
 <joshelp>
 	<sites>
 		<site tag="en-GB" url="https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&amp;lang={langcode}">English (GB) - Joomla help wiki</site>
-		<site tag="fr-FR" url="https://help.joomla.fr/index.php?option=com_help&amp;keyref=Help{major}{minor}:{keyref}">Français (FR) - Aide de Joomla!</site>
 	</sites>
 </joshelp>

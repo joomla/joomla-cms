@@ -49,6 +49,7 @@
  * @author  Matthias Sommerfeld <mso@phlylabs.de>
  * @copyright 2004-2011 phlyLabs Berlin, http://phlylabs.de
  * @version 0.8.0 2011-03-11
+ * @note This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 class idna_convert
 {
@@ -418,7 +419,7 @@ class idna_convert
         $delim_pos = strrpos($encoded, '-');
         if ($delim_pos > self::byteLength($this->_punycode_prefix)) {
             for ($k = self::byteLength($this->_punycode_prefix); $k < $delim_pos; ++$k) {
-                $decoded[] = ord($encoded{$k});
+                $decoded[] = ord($encoded[$k]);
             }
         }
         $deco_len = count($decoded);
@@ -432,7 +433,7 @@ class idna_convert
 
         for ($enco_idx = ($delim_pos) ? ($delim_pos + 1) : 0; $enco_idx < $enco_len; ++$deco_len) {
             for ($old_idx = $idx, $w = 1, $k = $this->_base; 1 ; $k += $this->_base) {
-                $digit = $this->_decode_digit($encoded{$enco_idx++});
+                $digit = $this->_decode_digit($encoded[$enco_idx++]);
                 $idx += $digit * $w;
                 $t = ($k <= $bias) ? $this->_tmin :
                         (($k >= $bias + $this->_tmax) ? $this->_tmax : ($k - $bias));
@@ -823,7 +824,7 @@ class idna_convert
         $mode = 'next';
         $test = 'none';
         for ($k = 0; $k < $inp_len; ++$k) {
-            $v = ord($input{$k}); // Extract byte from input string
+            $v = ord($input[$k]); // Extract byte from input string
             if ($v < 128) { // We found an ASCII char - put into stirng as is
                 $output[$out_len] = $v;
                 ++$out_len;
@@ -954,7 +955,7 @@ class idna_convert
                 $out_len++;
                 $output[$out_len] = 0;
             }
-            $output[$out_len] += ord($input{$i}) << (8 * (3 - ($i % 4) ) );
+            $output[$out_len] += ord($input[$i]) << (8 * (3 - ($i % 4) ) );
         }
         return $output;
     }

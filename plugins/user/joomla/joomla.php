@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.joomla
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,6 +39,46 @@ class PlgUserJoomla extends JPlugin
 	 * @since  3.2
 	 */
 	protected $db;
+
+	/**
+	 * Set as required the passwords fields when mail to user is set to No
+	 *
+	 * @param   JForm  $form  The form to be altered.
+	 * @param   mixed  $data  The associated data for the form.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.2
+	 */
+	public function onContentPrepareForm($form, $data)
+	{
+		// Check we are manipulating a valid user form before modifying it.
+		$name = $form->getName();
+
+		if ($name === 'com_users.user')
+		{
+			// In case there is a validation error (like duplicated user), $data is an empty array on save.
+			// After returning from error, $data is an array but populated
+			if (!$data)
+			{
+				$data = JFactory::getApplication()->input->get('jform', array(), 'array');
+			}
+
+			if (is_array($data))
+			{
+				$data = (object) $data;
+			}
+
+			// Passwords fields are required when mail to user is set to No
+			if (empty($data->id) && !$this->params->get('mail_to_user', 1))
+			{
+				$form->setFieldAttribute('password', 'required', 'true');
+				$form->setFieldAttribute('password2', 'required', 'true');
+			}
+		}
+
+		return true;
+	}
 
 	/**
 	 * Remove all sessions for the user name
@@ -245,7 +285,7 @@ class PlgUserJoomla extends JPlugin
 		// Purge the old session
 		$query = $this->db->getQuery(true)
 			->delete('#__session')
-			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($oldSessionId));
+			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quoteBinary($oldSessionId));
 
 		try
 		{

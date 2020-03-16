@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,8 +15,6 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Wrapper class for Path
  *
- * @package     Joomla.Platform
- * @subpackage  Filesystem
  * @since       3.4
  * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Path instead
  */

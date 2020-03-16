@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Router\Route;
 
 /**
  * Dashboard model class.
@@ -117,7 +119,7 @@ class PrivacyModelDashboard extends JModelLegacy
 			}
 		}
 
-		$linkMode = JFactory::getApplication()->get('force_ssl', 0) == 2 ? 1 : -1;
+		$linkMode = JFactory::getApplication()->get('force_ssl', 0) == 2 ? Route::TLS_FORCE : Route::TLS_IGNORE;
 
 		if (!$menuItem)
 		{

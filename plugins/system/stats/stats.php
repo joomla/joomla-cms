@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.stats
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -324,7 +324,7 @@ class PlgSystemStats extends JPlugin
 	 */
 	private function getStatsData()
 	{
-		return array(
+		$data = array(
 			'unique_id'   => $this->getUniqueId(),
 			'php_version' => PHP_VERSION,
 			'db_type'     => $this->db->name,
@@ -332,6 +332,14 @@ class PlgSystemStats extends JPlugin
 			'cms_version' => JVERSION,
 			'server_os'   => php_uname('s') . ' ' . php_uname('r')
 		);
+
+		// Check if we have a MariaDB version string and extract the proper version from it
+		if (preg_match('/^(?:5\.5\.5-)?(mariadb-)?(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)/i', $data['db_version'], $versionParts))
+		{
+			$data['db_version'] = $versionParts['major'] . '.' . $versionParts['minor'] . '.' . $versionParts['patch'];
+		}
+
+		return $data;
 	}
 
 	/**

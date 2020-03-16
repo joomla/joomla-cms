@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -70,18 +70,25 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 		endforeach;
 		?>
 		<?php if ($multiple) : ?>
-			<template class="subform-repeatable-template-section"><?php echo trim(
-				$this->sublayout(
-					$sublayout,
-					array(
-						'form' => $tmpl,
-						'basegroup' => $fieldname,
-						'group' => $fieldname . 'X',
-						'buttons' => $buttons,
-						'unique_subform_id' => $unique_subform_id,
-					)
-				)
-			); ?></template>
+			<template class="subform-repeatable-template-section" style="display: none;"><?php
+				// Use str_replace to escape HTML in a simple way, it need for IE compatibility, and should be removed later
+				echo str_replace(
+						array('<', '>'),
+						array('SUBFORMLT', 'SUBFORMGT'),
+						trim(
+							$this->sublayout(
+								$sublayout,
+								array(
+									'form' => $tmpl,
+									'basegroup' => $fieldname,
+									'group' => $fieldname . 'X',
+									'buttons' => $buttons,
+									'unique_subform_id' => $unique_subform_id,
+								)
+							)
+						)
+				);
+				?></template>
 		<?php endif; ?>
 		</div>
 	</div>

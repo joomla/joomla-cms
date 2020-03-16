@@ -1,6 +1,6 @@
 ##
 # @package    Joomla
-# @copyright  Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
+# @copyright  Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.
 # @license    GNU General Public License version 2 or later; see LICENSE.txt
 ##
 
@@ -8,8 +8,8 @@
 # READ THIS COMPLETELY IF YOU CHOOSE TO USE THIS FILE!
 #
 # The line 'Options +FollowSymLinks' may cause problems with some server configurations.
-# It is required for the use of mod_rewrite, but it may have already been set by your
-# server administrator in a way that disallows changing it in this .htaccess file.
+# It is required for the use of Apache mod_rewrite, but it may have already been set by 
+# your server administrator in a way that disallows changing it in this .htaccess file.
 # If using it causes your site to produce an error, comment it out (add # to the
 # beginning of the line), reload your site in your browser and test your sef urls. If
 # they work, then it has been set by your server administrator and you do not need to

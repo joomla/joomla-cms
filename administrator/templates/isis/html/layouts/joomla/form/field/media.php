@@ -3,7 +3,7 @@
  * @package     Joomla.Admin
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -93,7 +93,7 @@ $url    = ($readonly ? ''
 	data-url="<?php echo $url; ?>"
 	data-modal=".modal"
 	data-modal-width="100%"
-	data-modal-height="400px"
+	data-modal-height="645px"
 	data-input=".field-media-input"
 	data-button-select=".button-select"
 	data-button-clear=".button-clear"
@@ -112,7 +112,6 @@ $url    = ($readonly ? ''
 		array(
 			'title'       => JText::_('JLIB_FORM_CHANGE_IMAGE'),
 			'closeButton' => true,
-			'footer'      => '<button type="button" class="btn" data-dismiss="modal">' . JText::_('JCANCEL') . '</button>',
 		)
 	);
 

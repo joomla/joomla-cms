@@ -264,14 +264,14 @@
 			<field
 				name="show_on"
 				type="radio"
-				label="COM_FIELDS_FIELD_SHOW_ON_LABEL"
-				description="COM_FIELDS_FIELD_SHOW_ON_DESC"
+				label="COM_FIELDS_FIELD_EDITABLE_IN_LABEL"
+				description="COM_FIELDS_FIELD_EDITABLE_IN_DESC"
 				class="btn-group btn-group-yesno"
 				default=""
 				>
-				<option value="1">COM_FIELDS_FIELD_SHOW_ON_SITE</option>
-				<option value="2">COM_FIELDS_FIELD_SHOW_ON_ADMIN</option>
-				<option value="">COM_FIELDS_FIELD_SHOW_ON_BOTH</option>
+				<option value="1">COM_FIELDS_FIELD_EDITABLE_IN_SITE</option>
+				<option value="2">COM_FIELDS_FIELD_EDITABLE_IN_ADMIN</option>
+				<option value="">COM_FIELDS_FIELD_EDITABLE_IN_BOTH</option>
 			</field>
 
 			<field

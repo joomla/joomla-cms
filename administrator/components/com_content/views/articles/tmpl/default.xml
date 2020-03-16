@@ -56,6 +56,7 @@
 				description="COM_MENUS_ADMIN_TAGS_DESC"
 				multiple="true"
 				filter="int_array"
+				mode="nested"
 			/>
 
 			<field

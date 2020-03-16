@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1199,7 +1199,7 @@ class InstallationModelDatabase extends JModelBase
 			$query = trim($query);
 
 			// If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
-			if (!empty($query) && ($query{0} != '#') && ($query{0} != '-'))
+			if (!empty($query) && ($query[0] != '#') && ($query[0] != '-'))
 			{
 				/**
 				 * If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8

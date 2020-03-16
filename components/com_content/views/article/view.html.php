@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -242,7 +242,8 @@ class ContentViewArticle extends JViewLegacy
 		$id = (int) @$menu->query['id'];
 
 		// If the menu item does not concern this article
-		if ($menu && ($menu->query['option'] !== 'com_content' || $menu->query['view'] !== 'article' || $id != $this->item->id))
+		if ($menu && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_content' || $menu->query['view'] !== 'article'
+			|| $id != $this->item->id))
 		{
 			// If a browser page title is defined, use that, then fall back to the article title if set, then fall back to the page_title option
 			$title = $this->item->params->get('article_page_title', $this->item->title ?: $title);
@@ -250,7 +251,8 @@ class ContentViewArticle extends JViewLegacy
 			$path     = array(array('title' => $this->item->title, 'link' => ''));
 			$category = JCategories::getInstance('Content')->get($this->item->catid);
 
-			while ($category && ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
+			while ($category && (!isset($menu->query['option']) || $menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article'
+				|| $id != $category->id) && $category->id > 1)
 			{
 				$path[]   = array('title' => $category->title, 'link' => ContentHelperRoute::getCategoryRoute($category->id));
 				$category = $category->getParent();

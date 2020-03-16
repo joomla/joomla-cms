@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -94,7 +94,7 @@ class MediaControllerFile extends JControllerLegacy
 			$filepath = JPath::clean($files['final']);
 
 			if (!$mediaHelper->canUpload($file, 'com_media')
-				|| strpos(realpath($fileparts['dirname']), JPath::clean(COM_MEDIA_BASE)) !== 0)
+				|| strpos(realpath($fileparts['dirname']), JPath::clean(realpath(COM_MEDIA_BASE))) !== 0)
 			{
 				try
 				{

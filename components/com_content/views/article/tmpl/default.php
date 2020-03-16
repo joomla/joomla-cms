@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -47,13 +47,11 @@ JHtml::_('behavior.caption');
 		</div>
 		<div class="clearfix"> </div>
 	<?php endif; ?>
-	<?php if ($params->get('show_title') || $params->get('show_author')) : ?>
+	<?php if ($params->get('show_title')) : ?>
 	<div class="page-header">
-		<?php if ($params->get('show_title')) : ?>
-			<h2 itemprop="headline">
-				<?php echo $this->escape($this->item->title); ?>
-			</h2>
-		<?php endif; ?>
+		<h2 itemprop="headline">
+			<?php echo $this->escape($this->item->title); ?>
+		</h2>
 		<?php if ($this->item->state == 0) : ?>
 			<span class="label label-warning"><?php echo JText::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>

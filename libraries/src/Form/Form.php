@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1546,6 +1546,7 @@ class Form
 
 				break;
 			default:
+
 				// Check for a callback filter.
 				if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
 				{
@@ -1556,6 +1557,31 @@ class Form
 				elseif (function_exists($filter))
 				{
 					$return = call_user_func($filter, $value);
+				}
+
+				elseif ((string) $element['type'] === 'subform')
+				{
+					$field   = $this->loadField($element);
+					$subForm = $field->loadSubForm();
+
+					if ($field->multiple)
+					{
+						$return = array();
+
+						if ($value)
+						{
+							foreach ($value as $key => $val)
+							{
+								$return[$key] = $subForm->filter($val);
+							}
+						}
+					}
+					else
+					{
+						$return = $subForm->filter($value);
+					}
+
+					break;
 				}
 
 				// Check for empty value and return empty string if no value is required,
@@ -2066,6 +2092,16 @@ class Form
 	{
 		$valid = true;
 
+		// Define field name for messages
+		if ($element['label'])
+		{
+			$fieldLabel = \JText::_($element['label']);
+		}
+		else
+		{
+			$fieldLabel = \JText::_($element['name']);
+		}
+
 		// Check if the field is required.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
 
@@ -2078,7 +2114,9 @@ class Form
 			// If the field is disabled but it is passed in the request this is invalid as disabled fields are not added to the request
 			if ($disabled && $fieldExistsInRequestData)
 			{
-				return new \RuntimeException(\JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $element['name']));
+				$message = \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $fieldLabel);
+
+				return new \RuntimeException($message);
 			}
 		}
 
@@ -2087,16 +2125,7 @@ class Form
 			// If the field is required and the value is empty return an error message.
 			if (($value === '') || ($value === null))
 			{
-				if ($element['label'])
-				{
-					$message = \JText::_($element['label']);
-				}
-				else
-				{
-					$message = \JText::_($element['name']);
-				}
-
-				$message = \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
+				$message = \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $fieldLabel);
 
 				return new \RuntimeException($message);
 			}
@@ -2124,6 +2153,21 @@ class Form
 			}
 		}
 
+		if ($valid !== false && (string) $element['type'] === 'subform')
+		{
+			// Load the subform validation rule.
+			$rule = $this->loadRuleType('SubForm');
+
+			// Run the field validation rule test.
+			$valid = $rule->test($element, $value, $group, $input, $this);
+
+			// Check for an error in the validation test.
+			if ($valid instanceof \Exception)
+			{
+				return $valid;
+			}
+		}
+
 		// Check if the field is valid.
 		if ($valid === false)
 		{
@@ -2138,8 +2182,7 @@ class Form
 			}
 			else
 			{
-				$message = \JText::_($element['label']);
-				$message = \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
+				$message = \JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $fieldLabel);
 
 				return new \UnexpectedValueException($message);
 			}
