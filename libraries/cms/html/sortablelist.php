@@ -9,7 +9,6 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**
@@ -19,12 +18,6 @@ use Joomla\CMS\HTML\HTMLHelper;
  */
 abstract class JHtmlSortablelist
 {
-	/**
-	 * @var    array  Array containing information for loaded files
-	 * @since  3.0
-	 */
-	protected static $loaded = array();
-
 	/**
 	 * Method to load the Sortable script and make table sortable
 	 *
