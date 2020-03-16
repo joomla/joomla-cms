@@ -236,8 +236,8 @@ class MysqlChangeItem extends ChangeItem
 	/**
 	 * Fix up integer. Fixes problem with MySQL integer descriptions.
 	 * On MySQL 8 display length is not shown anymore.
-	 * This means we have to match both "int(10) unsigned" and
-	 * "int unsigned", or both "int(10)" and "int".
+	 * This means we have to match e.g. both "int(10) unsigned" and
+	 * "int unsigned", or both "int(11)" and "int" and so on.
 	 *
 	 * @param   string  $type1  the column type
 	 * @param   string  $type2  the column attributes
