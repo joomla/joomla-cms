@@ -42,7 +42,6 @@ class DisplayController extends BaseController
 		// Modules frontpage Editor Module proxying:
 		if ($this->input->get('view') === 'modules' && $this->input->get('layout') === 'modal')
 		{
-			HTMLHelper::_('stylesheet', 'system/adminlist.css', array('version' => 'auto', 'relative' => true));
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
 
