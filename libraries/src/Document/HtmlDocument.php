@@ -241,6 +241,7 @@ class HtmlDocument extends Document
 				$attribs .= $key . '="' . $val . '" ';
 			}
 		}
+
 		return '<svg class="' . $classes . '" ' . $attribs . '><use href="#' . $provider . '-' . $group . '-' . $icon['icon'] . '"></use></svg>';
 	}
 
