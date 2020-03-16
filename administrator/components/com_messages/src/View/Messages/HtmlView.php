@@ -104,7 +104,7 @@ class HtmlView extends BaseHtmlView
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
-		
+
 		ToolbarHelper::title(Text::_('COM_MESSAGES_MANAGER_MESSAGES'), 'envelope inbox');
 
 		if ($canDo->get('core.create'))
@@ -113,7 +113,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		if ($canDo->get('core.edit.state'))
-		{	
+		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
@@ -126,11 +126,11 @@ class HtmlView extends BaseHtmlView
 			$childBar->publish('messages.publish')
 				->text('COM_MESSAGES_TOOLBAR_MARK_AS_READ')
 				->listCheck(true);
-			
+
 			$childBar->unpublish('messages.unpublish')
 				->text('COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD')
 				->listCheck(true);
-			
+
 			if ($this->state->get('filter.state') != -2)
 			{
 				$childBar->trash('messages.trash')->listCheck(true);
