@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -2027,6 +2027,9 @@ class JoomlaInstallerScript
 			 * Joomla! 3.9.7
 			 */
 			'/administrator/components/com_joomlaupdate/access.xml',
+
+			// Joomla! 3.9.17
+			'/administrator/components/com_templates/controllers/template.php.orig',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
