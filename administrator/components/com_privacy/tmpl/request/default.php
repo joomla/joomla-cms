@@ -14,13 +14,13 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 
-/** @var PrivacyViewRequest $this */
+/** @var \Joomla\Component\Privacy\Administrator\View\Request\HtmlView $this */
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 
 ?>
-<form action="<?php echo Route::_('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate" data-cancel-task="request.cancel">
+<form action="<?php echo Route::_('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 	<div class="row mt-3">
 		<div class="col-12 col-md-6 mb-3">
 			<div class="card">

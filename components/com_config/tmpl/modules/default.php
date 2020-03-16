@@ -42,7 +42,7 @@ if (Multilanguage::isEnabled())
 }
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate"  data-cancel-task="config.cancel.modules">
+<form action="<?php echo Route::_('index.php?option=com_config'); ?>" method="post" name="adminForm" id="modules-form" class="form-validate">
 	<div class="row">
 		<div class="col-md-12">
 

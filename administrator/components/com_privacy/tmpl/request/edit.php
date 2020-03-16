@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 
-/** @var PrivacyViewRequest $this */
+/** @var \Joomla\Component\Privacy\Administrator\View\Request\HtmlView $this */
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
