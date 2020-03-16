@@ -23,6 +23,7 @@ abstract class JHtmlSortablelist
 	/**
 	 * @var    array  Array containing information for loaded files
 	 * @since  3.0
+	 * @deprecated  4.0  This property will be removed without replacement
 	 */
 	protected static $loaded = array();
 
