@@ -37,6 +37,7 @@
     flex-direction: column;
     width: 100%;
     break-inside: avoid;
+    page-break-inside: avoid;
 
     &.hidden {
       display: none;
