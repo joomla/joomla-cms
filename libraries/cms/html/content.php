@@ -9,7 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -57,9 +60,13 @@ abstract class JHtmlContent
 	 */
 	public static function months($state)
 	{
-		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
+		/** @var \Joomla\Component\Content\Administrator\Extension\ContentComponent $contentComponent */
+		$contentComponent = Factory::getApplication()->bootComponent('com_content');
 
-		foreach ($state as $key => $value) 
+		$model = $contentComponent->getMVCFactory()
+			->createModel('Articles', '', ['ignore_request' => true]);
+
+		foreach ($state as $key => $value)
 		{
 			$model->setState($key, $value);
 		}
@@ -74,7 +81,8 @@ abstract class JHtmlContent
 
 		foreach ($model->countItemsByMonth() as $item)
 		{
-			$items[] = JHtml::_('select.option', $item->d, (new JDate($item->d))->format('F Y') . ' [' . $item->c . ']');
+			$date    = new Date($item->d);
+			$items[] = HTMLHelper::_('select.option', $item->d, $date->format('F Y') . ' [' . $item->c . ']');
 		}
 
 		return $items;

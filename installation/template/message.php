@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Log\Log;
 
 // @TODO Remove when webcomponents get merged into the core
 
@@ -52,7 +53,7 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 
 		if (function_exists('renderMessage'))
 		{
-			JLog::add('renderMessage() is deprecated. Override system message rendering with layouts instead.', JLog::WARNING, 'deprecated');
+			Log::add('renderMessage() is deprecated. Override system message rendering with layouts instead.', Log::WARNING, 'deprecated');
 
 			return renderMessage($msgList);
 		}

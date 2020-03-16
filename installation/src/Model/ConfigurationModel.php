@@ -133,6 +133,12 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('password', $options->db_pass_plain);
 		$registry->set('db', $options->db_name);
 		$registry->set('dbprefix', $options->db_prefix);
+		$registry->set('dbencryption', $options->db_encryption);
+		$registry->set('dbsslverifyservercert', $options->db_sslverifyservercert);
+		$registry->set('dbsslkey', $options->db_sslkey);
+		$registry->set('dbsslcert', $options->db_sslcert);
+		$registry->set('dbsslca', $options->db_sslca);
+		$registry->set('dbsslcipher', $options->db_sslcipher);
 
 		// Server settings.
 		$registry->set('live_site', '');
@@ -171,7 +177,6 @@ class ConfigurationModel extends BaseInstallationModel
 
 		// Meta settings.
 		$registry->set('MetaDesc', '');
-		$registry->set('MetaKeys', '');
 		$registry->set('MetaTitle', true);
 		$registry->set('MetaAuthor', true);
 		$registry->set('MetaVersion', false);
@@ -268,7 +273,9 @@ class ConfigurationModel extends BaseInstallationModel
 				$options->db_user,
 				$options->db_pass_plain,
 				$options->db_name,
-				$options->db_prefix
+				$options->db_prefix,
+				true,
+				DatabaseHelper::getEncryptionSettings($options)
 			);
 		}
 		catch (\RuntimeException $e)
@@ -286,7 +293,6 @@ class ConfigurationModel extends BaseInstallationModel
 		// Create the admin user.
 		date_default_timezone_set('UTC');
 		$installdate = date('Y-m-d H:i:s');
-		$nullDate    = $db->getNullDate();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
@@ -310,14 +316,14 @@ class ConfigurationModel extends BaseInstallationModel
 		{
 			$query->clear()
 				->update($db->quoteName('#__users'))
-				->set($db->quoteName('name') . ' = ' . $db->quote('Super User'))
-				->set($db->quoteName('username') . ' = ' . $db->quote(trim($options->admin_user)))
+				->set($db->quoteName('name') . ' = ' . $db->quote(trim($options->admin_user)))
+				->set($db->quoteName('username') . ' = ' . $db->quote(trim($options->admin_username)))
 				->set($db->quoteName('email') . ' = ' . $db->quote($options->admin_email))
 				->set($db->quoteName('password') . ' = ' . $db->quote($cryptpass))
 				->set($db->quoteName('block') . ' = 0')
 				->set($db->quoteName('sendEmail') . ' = 1')
 				->set($db->quoteName('registerDate') . ' = ' . $db->quote($installdate))
-				->set($db->quoteName('lastvisitDate') . ' = ' . $db->quote($nullDate))
+				->set($db->quoteName('lastvisitDate') . ' = NULL')
 				->set($db->quoteName('activation') . ' = ' . $db->quote('0'))
 				->set($db->quoteName('params') . ' = ' . $db->quote(''))
 				->where($db->quoteName('id') . ' = ' . $db->quote($userId));
@@ -325,7 +331,8 @@ class ConfigurationModel extends BaseInstallationModel
 		else
 		{
 			$columns = array(
-				$db->quoteName('id'), $db->quoteName('name'),
+				$db->quoteName('id'),
+				$db->quoteName('name'),
 				$db->quoteName('username'),
 				$db->quoteName('email'),
 				$db->quoteName('password'),
@@ -340,9 +347,9 @@ class ConfigurationModel extends BaseInstallationModel
 				->insert('#__users', true)
 				->columns($columns)
 				->values(
-					$db->quote($userId) . ', ' . $db->quote('Super User') . ', ' . $db->quote(trim($options->admin_user)) . ', ' .
+					$db->quote($userId) . ', ' . $db->quote(trim($options->admin_user)) . ', ' . $db->quote(trim($options->admin_username)) . ', ' .
 					$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
-					$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
+					$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', NULL, ' .
 					$db->quote('0') . ', ' . $db->quote('')
 				);
 		}

@@ -103,6 +103,7 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 
             // Register Editor
             this.instance = window.CodeMirror.fromTextArea(this.element, this.options);
+            this.instance.disable = disabled => this.instance.setOption('readOnly', disabled ? 'nocursor' : false);
             Joomla.editors.instances[this.element.id] = this.instance;
           });
       });
@@ -139,11 +140,21 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
   /* eslint-enable */
   toggleFullScreen() {
     this.instance.setOption('fullScreen', !this.instance.getOption('fullScreen'));
+
+    const header = document.getElementById('header');
+    if (header) {
+      header.classList.toggle('hidden');
+    }
   }
 
   closeFullScreen() {
     this.instance.getOption('fullScreen');
     this.instance.setOption('fullScreen', false);
+
+    const header = document.getElementById('header');
+    if (header) {
+      header.classList.remove('hidden');
+    }
   }
 
   static makeMarker() {

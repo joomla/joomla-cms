@@ -12,7 +12,7 @@ use Joomla\Console\Command\AbstractCommand;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Console\Exception\CommandNotFoundException;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * PSR-11 compatible writable command loader.

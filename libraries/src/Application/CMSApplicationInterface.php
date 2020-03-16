@@ -8,16 +8,20 @@
 
 namespace Joomla\CMS\Application;
 
+use Joomla\Application\ConfigurationAwareApplicationInterface;
 use Joomla\CMS\Extension\ExtensionManagerInterface;
+use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\User\User;
-use Joomla\Session\SessionInterface;
+use Joomla\Input\Input;
 
 /**
  * Interface defining a Joomla! CMS Application class
  *
  * @since  4.0.0
+ * @note   In Joomla 5 this interface will no longer extend EventAwareInterface
+ * @property-read   Input  $input  {@deprecated 5.0} The Joomla Input property. Deprecated in favour of getInput()
  */
-interface CMSApplicationInterface extends ExtensionManagerInterface
+interface CMSApplicationInterface extends ExtensionManagerInterface, ConfigurationAwareApplicationInterface, EventAwareInterface
 {
 	/**
 	 * Constant defining an enqueued emergency message
@@ -105,15 +109,6 @@ interface CMSApplicationInterface extends ExtensionManagerInterface
 	public function getMessageQueue();
 
 	/**
-	 * Execute the application.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function execute();
-
-	/**
 	 * Check the client interface by name.
 	 *
 	 * @param   string  $identifier  String identifier for the application interface
@@ -123,15 +118,6 @@ interface CMSApplicationInterface extends ExtensionManagerInterface
 	 * @since   4.0.0
 	 */
 	public function isClient($identifier);
-
-	/**
-	 * Method to get the application session object.
-	 *
-	 * @return  SessionInterface  The session object
-	 *
-	 * @since   4.0.0
-	 */
-	public function getSession();
 
 	/**
 	 * Flag if the application instance is a CLI or web based application.
@@ -153,6 +139,24 @@ interface CMSApplicationInterface extends ExtensionManagerInterface
 	 * @since   4.0.0
 	 */
 	public function getIdentity();
+
+	/**
+	 * Method to get the application input object.
+	 *
+	 * @return  Input
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getInput(): Input;
+
+	/**
+	 * Gets the name of the current running application.
+	 *
+	 * @return  string  The name of the application.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getName();
 
 	/**
 	 * Allows the application to load a custom or default identity.

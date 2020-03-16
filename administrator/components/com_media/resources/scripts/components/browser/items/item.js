@@ -2,7 +2,6 @@ import Directory from "./directory.vue";
 import File from "./file.vue";
 import Image from "./image.vue";
 import Video from "./video.vue";
-import Row from "./row.vue";
 import * as types from "./../../../store/mutation-types";
 
 export default {
@@ -17,10 +16,6 @@ export default {
          * Return the correct item type component
          */
         itemType() {
-            if (this.$store.state.listView === 'table') {
-                return Row;
-            }
-
             let imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
             let videoExtensions = ['mp4'];
 
@@ -46,10 +41,6 @@ export default {
          * @returns {{}}
          */
         styles() {
-            if (this.$store.state.listView === 'table') {
-                return {};
-            }
-
             return {
                 'width': 'calc(' + this.$store.state.gridSize + '% - 20px)',
             };

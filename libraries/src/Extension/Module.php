@@ -8,12 +8,11 @@
 
 namespace Joomla\CMS\Extension;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Dispatcher\ModuleDispatcherFactoryInterface;
-use Joomla\CMS\Dispatcher\ModuleDispatcherInterface;
 use Joomla\Input\Input;
 
 /**

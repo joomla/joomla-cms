@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Session;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CMSApplication;
@@ -288,7 +288,7 @@ final class MetadataManager
 	{
 		$query = $this->db->getQuery(true);
 
-		$time = $session->isNew() ? time() : $session->get('session.timer.start');
+		$time = time();
 
 		$setValues = [
 			$this->db->quoteName('guest') . ' = :guest',

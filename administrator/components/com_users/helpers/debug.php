@@ -9,14 +9,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Users\Administrator\Helper\DebugHelper;
+
 /**
  * Users component debugging helper.
  *
  * @since       1.6
  *
- * @deprecated  5.0 Use \Joomla\Component\Users\Administrator\Helper\UsersHelperDebug instead
+ * @deprecated  5.0 Use \Joomla\Component\Users\Administrator\Helper\DebugHelper instead
  */
-class UsersHelperDebug extends \Joomla\Component\Users\Administrator\Helper\UsersHelperDebug
+class UsersHelperDebug extends DebugHelper
 {
-
 }

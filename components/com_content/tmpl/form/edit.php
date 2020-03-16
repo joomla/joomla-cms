@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.tabstate');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
 
@@ -23,6 +22,7 @@ HTMLHelper::_('script', 'com_content/form-edit.js', ['version' => 'auto', 'relat
 
 $this->tab_name = 'com-content-form';
 $this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
+$this->useCoreUI = true;
 
 // Create shortcut to parameters.
 $params = $this->state->get('params');
@@ -114,6 +114,8 @@ if (!$editoroptions)
 				<?php if ($this->item->params->get('access-change')) : ?>
 					<?php echo $this->form->renderField('featured'); ?>
 					<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
+						<?php echo $this->form->renderField('featured_up'); ?>
+						<?php echo $this->form->renderField('featured_down'); ?>
 						<?php echo $this->form->renderField('publish_up'); ?>
 						<?php echo $this->form->renderField('publish_down'); ?>
 					<?php endif; ?>
@@ -153,11 +155,11 @@ if (!$editoroptions)
 		</fieldset>
 		<div class="mb-2">
 			<button type="button" class="btn btn-primary" data-submit-task="article.save">
-				<span class="fa fa-check" aria-hidden="true"></span>
+				<span class="fas fa-check" aria-hidden="true"></span>
 				<?php echo Text::_('JSAVE'); ?>
 			</button>
 			<button type="button" class="btn btn-danger" data-submit-task="article.cancel">
-				<span class="fa fa-times-cancel" aria-hidden="true"></span>
+				<span class="fas fa-times" aria-hidden="true"></span>
 				<?php echo Text::_('JCANCEL'); ?>
 			</button>
 			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>

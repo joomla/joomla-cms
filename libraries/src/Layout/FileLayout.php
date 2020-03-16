@@ -8,12 +8,13 @@
 
 namespace Joomla\CMS\Layout;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Version;
 
 /**
  * Base class for rendering a display layout
@@ -104,7 +105,7 @@ class FileLayout extends BaseLayout
 		$layoutOutput = '';
 
 		// Automatically merge any previously data set if $displayData is an array
-		if (is_array($displayData))
+		if (\is_array($displayData))
 		{
 			$displayData = array_merge($this->data, $displayData);
 		}
@@ -253,7 +254,7 @@ class FileLayout extends BaseLayout
 
 		$includePaths = $this->getIncludePaths();
 
-		if (is_array($paths))
+		if (\is_array($paths))
 		{
 			$includePaths = array_unique(array_merge($paths, $includePaths));
 		}
@@ -355,7 +356,7 @@ class FileLayout extends BaseLayout
 	 */
 	public function loadVersionSuffixes()
 	{
-		$cmsVersion = new \JVersion;
+		$cmsVersion = new Version;
 
 		// Example j311
 		$fullVersion = 'j' . str_replace('.', '', $cmsVersion->getShortVersion());

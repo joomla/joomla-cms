@@ -24,7 +24,6 @@ window.customElements.define('joomla-field-permissions', class extends HTMLEleme
     this.extension = this.getUrlParam('extension');
     this.option = this.getUrlParam('option');
     this.view = this.getUrlParam('view');
-    this.title = this.component;
     this.asset = 'not';
     this.context = '';
   }

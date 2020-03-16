@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Helper;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -69,21 +69,21 @@ class MediaHelper
 
 		try
 		{
-			if ($isImage && function_exists('exif_imagetype'))
+			if ($isImage && \function_exists('exif_imagetype'))
 			{
 				$mime = image_type_to_mime_type(exif_imagetype($file));
 			}
-			elseif ($isImage && function_exists('getimagesize'))
+			elseif ($isImage && \function_exists('getimagesize'))
 			{
 				$imagesize = getimagesize($file);
 				$mime      = $imagesize['mime'] ?? false;
 			}
-			elseif (function_exists('mime_content_type'))
+			elseif (\function_exists('mime_content_type'))
 			{
 				// We have mime magic.
 				$mime = mime_content_type($file);
 			}
-			elseif (function_exists('finfo_open'))
+			elseif (\function_exists('finfo_open'))
 			{
 				// We have fileinfo
 				$finfo = finfo_open(FILEINFO_MIME_TYPE);
@@ -133,7 +133,7 @@ class MediaHelper
 			$allowedMime = array_map('trim', explode(',', $allowedMime));
 
 			// Mime should be available and in the whitelist
-			return !empty($mime) && in_array($mime, $allowedMime);
+			return !empty($mime) && \in_array($mime, $allowedMime);
 		}
 
 		// We don't check mime at all or it passes the checks
@@ -171,7 +171,7 @@ class MediaHelper
 
 		$filetypes = explode('.', $file['name']);
 
-		if (count($filetypes) < 2)
+		if (\count($filetypes) < 2)
 		{
 			// There seems to be no extension
 			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
@@ -206,7 +206,7 @@ class MediaHelper
 		$allowable = array_map('trim', explode(',', $allowable));
 		$ignored   = array_map('trim', explode(',', $params->get('ignore_extensions')));
 
-		if ($filetype == '' || $filetype == false || (!in_array($filetype, $allowable) && !in_array($filetype, $ignored)))
+		if ($filetype == '' || $filetype == false || (!\in_array($filetype, $allowable) && !\in_array($filetype, $ignored)))
 		{
 			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
@@ -226,7 +226,7 @@ class MediaHelper
 		{
 			$images = array_map('trim', explode(',', $params->get('image_extensions')));
 
-			if (in_array($filetype, $images))
+			if (\in_array($filetype, $images))
 			{
 				// If tmp_name is empty, then the file was bigger than the PHP limit
 				if (!empty($file['tmp_name']))
@@ -262,7 +262,7 @@ class MediaHelper
 					return false;
 				}
 			}
-			elseif (!in_array($filetype, $ignored))
+			elseif (!\in_array($filetype, $ignored))
 			{
 				// Get the mime type this is not an image file
 				$mime = static::getMimeType($file['tmp_name'], false);
@@ -407,7 +407,7 @@ class MediaHelper
 	 */
 	public function toBytes($val)
 	{
-		switch ($val[strlen($val) - 1])
+		switch ($val[\strlen($val) - 1])
 		{
 			case 'M':
 			case 'm':

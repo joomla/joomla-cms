@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Document;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 
@@ -69,7 +69,7 @@ class ImageDocument extends Document
 
 		$this->_charset = null;
 
-		parent::render();
+		parent::render($cache, $params);
 
 		return $this->getBuffer();
 	}

@@ -20,9 +20,4 @@ $cacheparams->modeparams = array('id' => 'array', 'Itemid' => 'int');
 
 $list = ModuleHelper::moduleCache($module, $params, $cacheparams);
 
-if (!count($list))
-{
-	return;
-}
-
 require ModuleHelper::getLayoutPath('mod_tags_similar', $params->get('layout', 'default'));

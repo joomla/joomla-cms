@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Component;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 
@@ -92,7 +92,7 @@ class ComponentRecord
 			return $this->getParams();
 		}
 
-		return $this->get($name);
+		return $this->$name;
 	}
 
 	/**
@@ -115,7 +115,7 @@ class ComponentRecord
 			return;
 		}
 
-		$this->set($name, $value);
+		$this->$name = $value;
 	}
 
 	/**

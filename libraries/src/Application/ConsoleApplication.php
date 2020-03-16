@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Application;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
@@ -20,8 +20,11 @@ use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -31,7 +34,23 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
+
+	/**
+	 * The input.
+	 *
+	 * @var    \Joomla\Input\Input
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $input = null;
+
+	/**
+	 * The name of the application.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $name = null;
 
 	/**
 	 * The application message queue.
@@ -70,16 +89,23 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @since   4.0.0
 	 */
 	public function __construct(
-		InputInterface $input = null,
-		OutputInterface $output = null,
-		Registry $config = null,
-		DispatcherInterface $dispatcher = null,
-		Container $container = null)
+		?InputInterface $input = null,
+		?OutputInterface $output = null,
+		?Registry $config = null,
+		?DispatcherInterface $dispatcher = null,
+		?Container $container = null
+	)
 	{
+		// Set up a Input object for Controllers etc to use
+		$this->input = new \Joomla\CMS\Input\Cli;
+
 		parent::__construct($input, $output, $config);
 
 		$this->setName('Joomla!');
 		$this->setVersion(JVERSION);
+
+		// Register the client name as cli
+		$this->name = 'cli';
 
 		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
@@ -102,6 +128,42 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	}
 
 	/**
+	 * Magic method to access properties of the application.
+	 *
+	 * @param   string  $name  The name of the property.
+	 *
+	 * @return  mixed   A value if the property name is valid, null otherwise.
+	 *
+	 * @since       __DEPLOY_VERSION__
+	 * @deprecated  3.0  This is a B/C proxy for deprecated read accesses
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'input':
+				@trigger_error(
+					'Accessing the input property of the application is deprecated, use the getInput() method instead.',
+					E_USER_DEPRECATED
+				);
+
+				return $this->getInput();
+
+			default:
+				$trace = debug_backtrace();
+				trigger_error(
+					sprintf(
+						'Undefined property via __get(): %1$s in %2$s on line %3$s',
+						$name,
+						$trace[0]['file'],
+						$trace[0]['line']
+					),
+					E_USER_NOTICE
+				);
+		}
+	}
+
+	/**
 	 * Method to run the application routines.
 	 *
 	 * @return  integer  The exit code for the application
@@ -109,7 +171,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @since   4.0.0
 	 * @throws  \Throwable
 	 */
-	protected function doExecute()
+	protected function doExecute(): int
 	{
 		$exitCode = parent::doExecute();
 
@@ -147,6 +209,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 */
 	public function execute()
 	{
+		// Load extension namespaces
+		$this->createExtensionNamespaceMap();
+
 		// Import CMS plugin groups to be able to subscribe to events
 		PluginHelper::importPlugin('system');
 		PluginHelper::importPlugin('console');
@@ -175,9 +240,21 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	}
 
 	/**
+	 * Gets the name of the current running application.
+	 *
+	 * @return  string  The name of the application.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getName(): string
+	{
+		return $this->name;
+	}
+
+	/**
 	 * Get the commands which should be registered by default to the application.
 	 *
-	 * @return  \Joomla\Console\CommandInterface[]
+	 * @return  \Joomla\Console\Command\AbstractCommand[]
 	 *
 	 * @since   4.0.0
 	 */
@@ -189,6 +266,12 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 				new Console\CleanCacheCommand,
 				new Console\CheckUpdatesCommand,
 				new Console\RemoveOldFilesCommand,
+				new Console\AddUserCommand,
+				new Console\AddUserToGroupCommand,
+				new Console\RemoveUserFromGroupCommand,
+				new Console\DeleteUserCommand,
+				new Console\ChangeUserPasswordCommand,
+				new Console\ListUserCommand,
 			]
 		);
 	}
@@ -203,6 +286,18 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	public function getConfig()
 	{
 		return $this->config;
+	}
+
+	/**
+	 * Method to get the application input object.
+	 *
+	 * @return  Input
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getInput(): Input
+	{
+		return $this->input;
 	}
 
 	/**
@@ -240,7 +335,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 */
 	public function isClient($identifier)
 	{
-		return $identifier === 'cli';
+		return $this->getName() === $identifier;
 	}
 
 	/**

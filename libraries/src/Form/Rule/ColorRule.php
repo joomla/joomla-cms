@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Rule;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
@@ -41,7 +41,7 @@ class ColorRule extends FormRule
 		$value = trim($value);
 
 		// If the field is empty and not required, the field is valid.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		$required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
 		if (!$required && empty($value))
 		{
@@ -57,7 +57,7 @@ class ColorRule extends FormRule
 		$value = ltrim($value, '#');
 
 		// The value must be 6 or 3 characters long
-		if (!((strlen($value) == 6 || strlen($value) == 3) && ctype_xdigit($value)))
+		if (!((\strlen($value) == 6 || \strlen($value) == 3) && ctype_xdigit($value)))
 		{
 			return false;
 		}

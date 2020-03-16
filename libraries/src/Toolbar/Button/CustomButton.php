@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Toolbar\Button;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Toolbar\ToolbarButton;
 
@@ -25,7 +25,7 @@ class CustomButton extends ToolbarButton
 	/**
 	 * Render button HTML.
 	 *
-	 * @param   array  &$options  The button options.
+	 * @param   array  $options  The button options.
 	 *
 	 * @return  string  The button HTML.
 	 *

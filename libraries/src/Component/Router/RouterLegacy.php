@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Component\Router;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Default routing class for missing or legacy component routers
@@ -64,10 +64,10 @@ class RouterLegacy implements RouterInterface
 	{
 		$function = $this->component . 'BuildRoute';
 
-		if (function_exists($function))
+		if (\function_exists($function))
 		{
 			$segments = $function($query);
-			$total    = count($segments);
+			$total    = \count($segments);
 
 			for ($i = 0; $i < $total; $i++)
 			{
@@ -93,9 +93,9 @@ class RouterLegacy implements RouterInterface
 	{
 		$function = $this->component . 'ParseRoute';
 
-		if (function_exists($function))
+		if (\function_exists($function))
 		{
-			$total = count($segments);
+			$total = \count($segments);
 
 			for ($i = 0; $i < $total; $i++)
 			{

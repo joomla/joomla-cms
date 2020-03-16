@@ -8,10 +8,12 @@
 
 namespace Joomla\CMS\Encrypt\AES;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Abstract AES encryption class
+ *
+ * @since    4.0.0
  */
 abstract class AbstractAES
 {
@@ -30,9 +32,9 @@ abstract class AbstractAES
 			return null;
 		}
 
-		$keyLength = strlen($key);
+		$keyLength = \strlen($key);
 
-		if (function_exists('mb_strlen'))
+		if (\function_exists('mb_strlen'))
 		{
 			$keyLength = mb_strlen($key, 'ASCII');
 		}
@@ -44,7 +46,7 @@ abstract class AbstractAES
 
 		if ($keyLength > $size)
 		{
-			if (function_exists('mb_substr'))
+			if (\function_exists('mb_substr'))
 			{
 				return mb_substr($key, 0, $size, 'ASCII');
 			}
@@ -65,9 +67,9 @@ abstract class AbstractAES
 	 */
 	protected function getZeroPadding($string, $blockSize)
 	{
-		$stringSize = strlen($string);
+		$stringSize = \strlen($string);
 
-		if (function_exists('mb_strlen'))
+		if (\function_exists('mb_strlen'))
 		{
 			$stringSize = mb_strlen($string, 'ASCII');
 		}

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Dispatcher;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -65,18 +65,20 @@ class ComponentDispatcherFactory implements ComponentDispatcherFactoryInterface
 	 */
 	public function createDispatcher(CMSApplicationInterface $application, Input $input = null): DispatcherInterface
 	{
-		$name = 'Site';
-
-		if ($application->isClient('administrator'))
-		{
-			$name = 'Administrator';
-		}
+		$name = ucfirst($application->getName());
 
 		$className = '\\' . trim($this->namespace, '\\') . '\\' . $name . '\\Dispatcher\\Dispatcher';
 
 		if (!class_exists($className))
 		{
-			$className = ComponentDispatcher::class;
+			if ($application->isClient('api'))
+			{
+				$className = ApiDispatcher::class;
+			}
+			else
+			{
+				$className = ComponentDispatcher::class;
+			}
 		}
 
 		return new $className($application, $input ?: $application->input, $this->mvcFactory);

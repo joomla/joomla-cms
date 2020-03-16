@@ -10,7 +10,6 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Session\Session;
 
 /**
@@ -45,7 +44,8 @@ abstract class JHtmlDraggablelist
 	 * @throws  InvalidArgumentException
 	 */
 	public static function draggable(string $tableId = '', string $formId = '', string $sortDir = 'asc', string $saveOrderingUrl = '',
-		$redundant = null, bool $nestedList = false)
+		$redundant = null, bool $nestedList = false
+	)
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))
@@ -70,13 +70,9 @@ abstract class JHtmlDraggablelist
 			);
 		}
 
-		// Depends on Joomla.getOptions()
-		HTMLHelper::_('behavior.core');
-
-		// Attach draggable to document
-		HTMLHelper::_('script', 'vendor/dragula/dragula.min.js', ['framework'=>false, 'relative'=>true]);
-		HTMLHelper::_('script', 'system/draggable.min.js', ['framework'=>false, 'relative'=>true]);
-		HTMLHelper::_('stylesheet', 'vendor/dragula/dragula.min.css', ['framework'=>false, 'relative'=>true, 'pathOnly'=>false]);
+		$doc->getWebAssetManager()
+			->usePreset('dragula')
+			->useScript('joomla.draggable');
 
 		// Set static array
 		static::$loaded[__METHOD__] = true;

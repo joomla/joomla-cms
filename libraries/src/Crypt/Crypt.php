@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Crypt;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\Crypt\Crypt as JCrypt;
 
@@ -57,7 +57,7 @@ class Crypt extends JCrypt
 
 		if ($exists === null)
 		{
-			$exists = function_exists('mb_strlen');
+			$exists = \function_exists('mb_strlen');
 		}
 
 		if ($exists)
@@ -95,7 +95,7 @@ class Crypt extends JCrypt
 
 		if ($exists === null)
 		{
-			$exists = function_exists('mb_substr');
+			$exists = \function_exists('mb_substr');
 		}
 
 		if ($exists)

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Field;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -31,12 +31,12 @@ class FolderlistField extends ListField
 	protected $type = 'Folderlist';
 
 	/**
-	 * The filter.
+	 * The folder name filter.
 	 *
 	 * @var    string
-	 * @since  3.2
+	 * @since  4.0.0
 	 */
-	protected $filter;
+	protected $folderFilter;
 
 	/**
 	 * The exclude.
@@ -91,7 +91,7 @@ class FolderlistField extends ListField
 	{
 		switch ($name)
 		{
-			case 'filter':
+			case 'folderFilter':
 			case 'exclude':
 			case 'recursive':
 			case 'hideNone':
@@ -117,7 +117,7 @@ class FolderlistField extends ListField
 	{
 		switch ($name)
 		{
-			case 'filter':
+			case 'folderFilter':
 			case 'directory':
 			case 'exclude':
 			case 'recursive':
@@ -155,17 +155,17 @@ class FolderlistField extends ListField
 
 		if ($return)
 		{
-			$this->filter  = (string) $this->element['filter'];
-			$this->exclude = (string) $this->element['exclude'];
+			$this->folderFilter = (string) $this->element['folderFilter'];
+			$this->exclude      = (string) $this->element['exclude'];
 
 			$recursive       = (string) $this->element['recursive'];
-			$this->recursive = ($recursive == 'true' || $recursive == 'recursive' || $recursive == '1');
+			$this->recursive = ($recursive === 'true' || $recursive === 'recursive' || $recursive === '1');
 
 			$hideNone       = (string) $this->element['hide_none'];
-			$this->hideNone = ($hideNone == 'true' || $hideNone == 'hideNone' || $hideNone == '1');
+			$this->hideNone = ($hideNone === 'true' || $hideNone === 'hideNone' || $hideNone === '1');
 
 			$hideDefault       = (string) $this->element['hide_default'];
-			$this->hideDefault = ($hideDefault == 'true' || $hideDefault == 'hideDefault' || $hideDefault == '1');
+			$this->hideDefault = ($hideDefault === 'true' || $hideDefault === 'hideDefault' || $hideDefault === '1');
 
 			// Get the path in which to search for file options.
 			$this->directory = (string) $this->element['directory'];
@@ -185,11 +185,18 @@ class FolderlistField extends ListField
 	{
 		$options = array();
 
-		$path = $this->directory;
+		$path = ltrim($this->directory, '/');
 
 		if (!is_dir($path))
 		{
-			$path = JPATH_ROOT . '/' . $path;
+			if (is_dir(JPATH_ROOT . '/' . $path))
+			{
+				$path = JPATH_ROOT . '/' . $path;
+			}
+			else
+			{
+				return [];
+			}
 		}
 
 		$path = Path::clean($path);
@@ -206,17 +213,17 @@ class FolderlistField extends ListField
 		}
 
 		// Get a list of folders in the search path with the given filter.
-		$folders = Folder::folders($path, $this->filter, $this->recursive, true);
+		$folders = Folder::folders($path, $this->folderFilter, $this->recursive, true);
 
 		// Build the options list from the list of folders.
-		if (is_array($folders))
+		if (\is_array($folders))
 		{
 			foreach ($folders as $folder)
 			{
 				// Check to see if the file is in the exclude mask.
 				if ($this->exclude)
 				{
-					if (preg_match(chr(1) . $this->exclude . chr(1), $folder))
+					if (preg_match(\chr(1) . $this->exclude . \chr(1), $folder))
 					{
 						continue;
 					}

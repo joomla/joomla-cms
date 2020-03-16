@@ -14,6 +14,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('bootstrap.framework');
+HTMLHelper::_('form.csrf');
 HTMLHelper::_('script', 'mod_sampledata/sampledata-process.js', ['version' => 'auto', 'relative' => true]);
 
 Text::script('MOD_SAMPLEDATA_CONFIRM_START');
@@ -33,11 +34,11 @@ $app->getDocument()->addScriptOptions(
 			<li class="list-group-item sampledata-<?php echo $item->name; ?>">
 				<div class="d-flex justify-content-between align-items-center">
 					<div class="mr-2">
-						<span class="fa fa-<?php echo $item->icon; ?>" aria-hidden="true"></span>
+						<span class="fas fa-<?php echo $item->icon; ?>" aria-hidden="true"></span>
 						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 					</div>
-					<button type="button" class="btn btn-primary btn-sm apply-sample-data" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
-						<?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?>
+					<button type="button" class="btn btn-secondary btn-sm apply-sample-data" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
+						<span class="fas fa-upload" aria-hidden="true"></span> <?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?>
 						<span class="sr-only"><?php echo $item->title; ?></span>
 					</button>
 				</div>
@@ -57,6 +58,7 @@ $app->getDocument()->addScriptOptions(
 	</ul>
 <?php else : ?>
 	<div class="alert alert-warning">
+		<span class="fas fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 		<?php echo Text::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?>
 	</div>
 <?php endif; ?>

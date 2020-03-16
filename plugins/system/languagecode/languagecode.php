@@ -27,7 +27,7 @@ class PlgSystemLanguagecode extends CMSPlugin
 	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  4.0.0
 	 */
-	protected $app;	
+	protected $app;
 
 	/**
 	 * Plugin that changes the language code used in the <html /> tag.
@@ -158,8 +158,8 @@ class PlgSystemLanguagecode extends CMSPlugin
 								/>
 							</fieldset>
 						</fields>
-					</form>
-				');
+					</form>'
+				);
 			}
 		}
 

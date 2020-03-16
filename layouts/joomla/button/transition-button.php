@@ -8,7 +8,6 @@
  */
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('bootstrap.popover');
 
@@ -31,8 +30,8 @@ $checkboxName = $options['checkbox_name'];
 <?php if ($only_icon) : ?>
 	<span class="tbody-icon mr-1">
 		<span class="<?php echo $this->escape($icon ?? ''); ?> <?php echo $tip ? 'hasPopover' : ''; ?>"
-			title="<?php echo HTMLHelper::_('tooltipText', Text::_($tipTitle ? : $title), '', 0); ?>"
-			data-content="<?php echo HTMLHelper::_('tooltipText', Text::_($title), '', 0); ?>"
+			title="<?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, '', 0); ?>"
+			data-content="<?php echo HTMLHelper::_('tooltipText', $title, '', 0); ?>"
 			data-placement="top"
 		></span>
 	</span>
@@ -43,8 +42,8 @@ $checkboxName = $options['checkbox_name'];
 			href="javascript://"
 		<?php endif; ?>
 
-		title="<?php echo HTMLHelper::_('tooltipText', Text::_($tipTitle ? : $title), '', 0); ?>"
-		data-content="<?php echo HTMLHelper::_('tooltipText', Text::_($title), '', 0); ?>"
+		title="<?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, '', 0); ?>"
+		data-content="<?php echo HTMLHelper::_('tooltipText', $title, '', 0); ?>"
 		data-placement="top"
 		onclick="Joomla.toggleAllNextElements(this, 'd-none')"
 	>
@@ -54,8 +53,8 @@ $checkboxName = $options['checkbox_name'];
 	<div class="d-none">
 		<?php
 			$default = [
-				JHtml::_('select.option', '', $this->escape($options['stage'])),
-				JHtml::_('select.option', '-1', '--------', ['disable' => true])
+				HTMLHelper::_('select.option', '', $this->escape($options['stage'])),
+				HTMLHelper::_('select.option', '-1', '--------', ['disable' => true])
 			];
 
 			$transitions = array_merge($default, $options['transitions']);
@@ -63,7 +62,7 @@ $checkboxName = $options['checkbox_name'];
 			$attribs = [
 				'id'        => 'transition-select_' . (int) $id,
 				'list.attr' => [
-					'class'    => 'custom-select custom-select-sm form-control form-control-sm',
+					'class'    => 'custom-select custom-select-sm w-auto',
 					'onchange' => "Joomla.listItemTask('" . $checkboxName . $this->escape($row ?? '') . "', 'articles.runTransition')"]
 				];
 

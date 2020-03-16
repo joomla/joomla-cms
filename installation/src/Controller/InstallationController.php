@@ -40,6 +40,7 @@ class InstallationController extends JSONController
 		parent::__construct($config, $factory, $app, $input);
 
 		$this->registerTask('remove', 'backup');
+		$this->registerTask('removeFolder', 'delete');
 	}
 
 	/**
@@ -60,6 +61,7 @@ class InstallationController extends JSONController
 		// Check the form
 		/** @var \Joomla\CMS\Installation\Model\SetupModel $model */
 		$model = $this->getModel('Setup');
+
 		if ($model->checkForm('setup') === false)
 		{
 			$this->app->enqueueMessage(Text::_('INSTL_DATABASE_VALIDATION_ERROR'), 'error');
@@ -85,14 +87,20 @@ class InstallationController extends JSONController
 	{
 		$this->checkValidToken();
 
+		/** @var \Joomla\CMS\Installation\Model\SetupModel $setUpModel */
+		$setUpModel = $this->getModel('Setup');
+
 		// Get the options from the session
-		$options = $this->getModel('Setup')->getOptions();
+		$options = $setUpModel->getOptions();
 
 		$r = new \stdClass;
 		$r->view = 'remove';
 
+		/** @var \Joomla\CMS\Installation\Model\ConfigurationModel $configurationModel */
+		$configurationModel = $this->getModel('Configuration');
+
 		// Attempt to setup the configuration.
-		if (!$this->getModel('Configuration')->setup($options))
+		if (!$configurationModel->setup($options))
 		{
 			$r->view = 'setup';
 		}
@@ -183,48 +191,11 @@ class InstallationController extends JSONController
 
 			// Install selected languages
 			$model->install($lids);
-
-			// Publish the Content Languages.
-			$failedLanguages = $model->publishContentLanguages();
-
-			if (!empty($failedLanguages))
-			{
-				foreach ($failedLanguages as $failedLanguage)
-				{
-					$this->app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $failedLanguage), 'warning');
-				}
-			}
 		}
 
 		// Redirect to the page.
 		$r = new \stdClass;
 		$r->view = 'remove';
-
-		$this->sendJsonResponse($r);
-	}
-
-	/**
-	 * Languages task.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function sample()
-	{
-		$this->checkValidToken();
-
-		$r = new \stdClass;
-		$r->view = 'remove';
-
-		/** @var \Joomla\CMS\Installation\Model\DatabaseModel $model */
-		$model = $this->getModel('Database');
-
-		// Check if the database was initialised
-		if (!$model->installSampleData())
-		{
-			$r->view = 'remove';
-		}
 
 		$this->sendJsonResponse($r);
 	}
@@ -255,6 +226,11 @@ class InstallationController extends JSONController
 		$r = new \stdClass;
 		$r->view = 'remove';
 
-		$this->sendJsonResponse($r);
+		/**
+		 * TODO: We can't send a response this way because our installation classes no longer
+		 *       exist. We probably need to hardcode a json response here
+		 *
+		 * $this->sendJsonResponse($r);
+		 */
 	}
 }

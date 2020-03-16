@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     Joomla.Site
- * @subpackage  Layout
+ * @package     Joomla.Administrator
+ * @subpackage  com_categories
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -46,6 +46,7 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   string   $customPrefix    Optional prefix for new categories.
  */
 
 $html    = array();
@@ -71,6 +72,11 @@ $attr2 .= ' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELEC
 if ($allowCustom)
 {
 	$attr2 .= ' allow-custom';
+
+	if ($customPrefix !== '')
+	{
+		$attr2 .= ' new-item-prefix="' . $customPrefix . '" ';
+	}
 }
 
 if ($required)
@@ -126,6 +132,9 @@ if ($refreshPage === true)
 
 	HTMLHelper::_('script', 'layouts/joomla/form/field/category-change.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 
+	Factory::getDocument()->getWebAssetManager()
+		->useScript('webcomponent.core-loader');
+
 	// Pass the element id to the javascript
 	Factory::getDocument()->addScriptOptions('category-change', $id);
 }
@@ -137,9 +146,9 @@ else
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
-Factory::getDocument()->getWebAssetManager()->enableAsset('choicesjs');
-
-HTMLHelper::_('webcomponent', 'system/fields/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
+Factory::getDocument()->getWebAssetManager()
+	->usePreset('choicesjs')
+	->useScript('webcomponent.field-fancy-select');
 ?>
 
 <joomla-field-fancy-select <?php echo $attr2; ?>><?php echo implode($html); ?></joomla-field-fancy-select>

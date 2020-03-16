@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
+/** @var \Joomla\Component\Admin\Administrator\View\Sysinfo\HtmlView $this */
 ?>
 <div class="sysinfo">
 	<table class="table">
@@ -34,6 +35,9 @@ use Joomla\CMS\Language\Text;
 						<?php echo $key; ?>
 					</th>
 					<td>
+						<?php if (is_bool($value)) : ?>
+							<?php $value = $value === true ? 'true' : 'false'; ?>
+						<?php endif; ?>
 						<?php echo htmlspecialchars($value, ENT_QUOTES); ?>
 					</td>
 				</tr>

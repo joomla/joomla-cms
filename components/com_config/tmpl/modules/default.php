@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -21,7 +22,18 @@ HTMLHelper::_('behavior.combobox');
 
 HTMLHelper::_('script', 'com_config/modules-default.js', ['version' => 'auto', 'relative' => true]);
 
-$hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom';
+$editorText  = false;
+$moduleXml   = JPATH_SITE . '/modules/' . $this->item['module'] . '/' . $this->item['module'] . '.xml';
+
+if (File::exists($moduleXml))
+{
+	$xml = simplexml_load_file($moduleXml);
+
+	if (isset($xml->customContent))
+	{
+		$editorText = true;
+	}
+}
 
 // If multi-language site, make language read-only
 if (Multilanguage::isEnabled())
@@ -37,19 +49,19 @@ if (Multilanguage::isEnabled())
 			<div class="btn-toolbar" role="toolbar" aria-label="<?php echo Text::_('JTOOLBAR'); ?>">
 				<div class="btn-group mr-2">
 					<button type="button" class="btn btn-primary" data-submit-task="modules.apply">
-						<span class="fa fa-check" aria-hidden="true"></span>
+						<span class="fas fa-check" aria-hidden="true"></span>
 						<?php echo Text::_('JAPPLY') ?>
 					</button>
 				</div>
 				<div class="btn-group mr-2">
 					<button type="button" class="btn btn-secondary" data-submit-task="modules.save">
-						<span class="fa fa-check" aria-hidden="true"></span>
+						<span class="fas fa-check" aria-hidden="true"></span>
 						<?php echo Text::_('JSAVE') ?>
 					</button>
 				</div>
 				<div class="btn-group">
 					<button type="button" class="btn btn-danger" data-submit-task="modules.cancel">
-						<span class="fa fa-times" aria-hidden="true"></span>
+						<span class="fas fa-times" aria-hidden="true"></span>
 						<?php echo Text::_('JCANCEL') ?>
 					</button>
 				</div>
@@ -169,7 +181,7 @@ if (Multilanguage::isEnabled())
 						<?php echo $this->loadTemplate('options'); ?>
 					</div>
 
-					<?php if ($hasContent) : ?>
+					<?php if ($editorText) : ?>
 						<div class="tab-pane" id="custom">
 							<?php echo $this->form->getInput('content'); ?>
 						</div>

@@ -45,8 +45,8 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 		$this->loadLanguage();
 
 		return array(
-			JText::_('PLG_CAPTCHA_RECAPTCHA') => array(
-				JText::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
+			Text::_('PLG_CAPTCHA_RECAPTCHA') => array(
+				Text::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
 			)
 		);
 	}
@@ -75,7 +75,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 
 		HTMLHelper::_(
 			'script',
-			'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . Factory::getLanguage()->getTag()
+			'https://www.google.com/recaptcha/api.js?onload=Joomla.initReCaptcha2&render=explicit&hl=' . Factory::getLanguage()->getTag()
 		);
 
 		return true;
@@ -133,7 +133,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 		switch ($version)
 		{
 			case '2.0':
-				$response  = $input->get('g-recaptcha-response', '', 'string');
+				$response  = $code ?: $input->get('g-recaptcha-response', '', 'string');
 				$spam      = ($response === '');
 				break;
 		}

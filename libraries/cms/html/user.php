@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**
@@ -31,7 +32,7 @@ abstract class JHtmlUser
 	 */
 	public static function groups($includeSuperAdmin = false)
 	{
-		$options = array_values(JHelperUsergroups::getInstance()->getAll());
+		$options = array_values(UserGroupsHelper::getInstance()->getAll());
 
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
@@ -70,10 +71,15 @@ abstract class JHtmlUser
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.id AS value, a.name AS text')
-			->from('#__users AS a')
-			->where('a.block = 0')
-			->order('a.name');
+			->select(
+				[
+					$db->quoteName('a.id', 'value'),
+					$db->quoteName('a.name', 'text'),
+				]
+			)
+			->from($db->quoteName('#__users', 'a'))
+			->where($db->quoteName('a.block') . ' = 0')
+			->order($db->quoteName('a.name'));
 		$db->setQuery($query);
 
 		return $db->loadObjectList();

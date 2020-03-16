@@ -38,30 +38,23 @@ $iconStates = array(
 	2  => 'icon-archive',
 );
 
-Factory::getDocument()->addScriptOptions('assosiations-modal', ['func' => $function]);
+$this->document->addScriptOptions('associations-modal', ['func' => $function]);
 HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
-<form action="<?php echo Route::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function='
-. $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
-
-<?php if (!empty( $this->sidebar)) : ?>
-	<div id="j-sidebar-container" class="col-md-2">
-		<?php echo $this->sidebar; ?>
-	</div>
-	<div id="j-main-container" class="col-md-10">
-<?php else : ?>
-	<div id="j-main-container">
-<?php endif; ?>
-<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-	<?php if (empty($this->items)) : ?>
-		<div class="alert alert-warning">
-			<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
-		</div>
-	<?php else : ?>
-		<table class="table" id="associationsList">
-			<caption id="captionTable" class="sr-only">
-				?php echo Text::_('COM_ASSOCIATIONS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
-			</caption>
+<div class="container-popup">
+	<form action="<?php echo Route::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function='
+	. $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
+		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php if (empty($this->items)) : ?>
+			<div class="alert alert-info">
+				<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
+		<?php else : ?>
+			<table class="table" id="associationsList">
+				<caption id="captionTable" class="sr-only">
+					<?php echo Text::_('COM_ASSOCIATIONS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+				</caption>
 			<thead>
 				<tr>
 					<?php if (!empty($this->typeSupports['state'])) : ?>
@@ -101,7 +94,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
 					<?php if (!empty($this->typeSupports['state'])) : ?>
-						<td class="center">
+						<td class="text-center tbody-icon">
 							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>" aria-hidden="true"></span>
 						</td>
 					<?php endif; ?>
@@ -160,11 +153,11 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 		<?php // load the pagination. ?>
 		<?php echo $this->pagination->getListFooter(); ?>
 
-	<?php endif; ?>
+		<?php endif; ?>
 
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="forcedItemType" value="<?php echo $app->input->get('forcedItemType', '', 'string'); ?>">
 		<input type="hidden" name="forcedLanguage" value="<?php echo $app->input->get('forcedLanguage', '', 'cmd'); ?>">
 		<?php echo HTMLHelper::_('form.token'); ?>
-	</div>
-</form>
+	</form>
+</div

@@ -54,7 +54,6 @@
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			maxlength="255"
 			size="45"
-			labelclass="control-label"
 		/>
 
 		<field
@@ -107,7 +106,7 @@
 		<field
 			name="own_prefix"
 			type="radio"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			label="COM_BANNERS_FIELD_CLIENTOWNPREFIX_LABEL"
 			default="0"
 			>

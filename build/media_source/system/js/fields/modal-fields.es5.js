@@ -56,7 +56,7 @@
 			}
 			if (document.getElementById(fieldPrefix + '_propagate'))
 			{
-				jQuery('#' + fieldPrefix + '_propagate').removeClass('hidden');
+				document.getElementById(fieldPrefix + '_propagate').classList.remove('hidden');
 			}
 		}
 		else
@@ -82,7 +82,7 @@
 			}
 			if (document.getElementById(fieldPrefix + '_propagate'))
 			{
-				jQuery('#' + fieldPrefix + '_propagate').addClass('hidden');
+				document.getElementById(fieldPrefix + '_propagate').classList.add('hidden');
 			}
 		}
 
@@ -123,7 +123,7 @@
 		// Set frame id.
 		iframe.id = 'Frame_' + modalId;
 
-		var iframeDocument = iframe.firstChild;
+		var iframeDocument = iframe.contentDocument;
 
 		// If Close (cancel task), close the modal.
 		if (task === 'cancel')
@@ -140,7 +140,7 @@
 			iframe.addEventListener('load', function()
 			{
 				// Reload iframe document var value.
-				iframeDocument = this.firstChild;
+				iframeDocument = this.contentDocument;
 
 				// Validate the child form and update parent form.
 				if (iframeDocument.getElementById(idFieldId) && iframeDocument.getElementById(idFieldId).value != '0')
@@ -193,7 +193,12 @@
 	 */
 	window.processModalSelect = function(itemType, fieldPrefix, id, title, catid, object, url, language) {
 		window.processModalParent(fieldPrefix, id, title, catid, url, language, object);
-		Joomla.Modal.getCurrent().close();
+
+		// Close Modal only when necessary.
+		if (Joomla.Modal.getCurrent())
+		{
+			Joomla.Modal.getCurrent().close();
+		}
 
 		return false;
 	};

@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Access\Exception;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Exception class defining a not allowed access

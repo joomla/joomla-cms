@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Installer\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Filesystem\Folder;
@@ -247,7 +247,7 @@ class ModuleAdapter extends InstallerAdapter
 		}
 
 		// Do we have any module copies?
-		if (count($modules))
+		if (\count($modules))
 		{
 			// Ensure the list is sane
 			$modules = ArrayHelper::toInteger($modules);
@@ -328,7 +328,7 @@ class ModuleAdapter extends InstallerAdapter
 	{
 		if (!$element)
 		{
-			if (count($this->getManifest()->files->children()))
+			if (\count($this->getManifest()->files->children()))
 			{
 				foreach ($this->getManifest()->files->children() as $file)
 				{
@@ -381,7 +381,7 @@ class ModuleAdapter extends InstallerAdapter
 				}
 
 				$client = (string) $this->getManifest()->attributes()->client;
-				$this->doLoadLanguage($extension, $source, constant('JPATH_' . strtoupper($client)));
+				$this->doLoadLanguage($extension, $source, \constant('JPATH_' . strtoupper($client)));
 			}
 		}
 	}

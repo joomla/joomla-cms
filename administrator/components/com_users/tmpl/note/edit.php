@@ -13,67 +13,32 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+
+HTMLHelper::_('script', 'com_contenthistory/admin-history-versions.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=note&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="note-form" class="form-validate">
 	<fieldset class="adminform">
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('subject'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('subject'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('user_id'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('user_id'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('catid'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('catid'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('state'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('state'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('review_time'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('review_time'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('version_note'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('version_note'); ?>
-			</div>
-		</div>
-		<div class="control-group">
-			<div class="control-label">
-				<?php echo $this->form->getLabel('body'); ?>
-			</div>
-			<div class="controls">
-				<?php echo $this->form->getInput('body'); ?>
-			</div>
-		</div>
+	<div class="card mt-4">
+		<div class="card-body">
+			<div class="row">
+				<div class="col-lg-8 col-xl-6">
+				<?php echo $this->form->renderField('subject'); ?>
+				<?php echo $this->form->renderField('user_id'); ?>
+				<?php echo $this->form->renderField('catid'); ?>
+				<?php echo $this->form->renderField('state'); ?>
+				<?php echo $this->form->renderField('review_time'); ?>
+				<?php echo $this->form->renderField('version_note'); ?>
 
-		<input type="hidden" name="task" value="">
-		<?php echo HTMLHelper::_('form.token'); ?>
+
+				<input type="hidden" name="task" value="">
+				<?php echo HTMLHelper::_('form.token'); ?>
+				</div>
+				<div class="col-12">
+					<?php echo $this->form->renderField('body'); ?>
+				</div>
+			</div>
+		</div>
+	</div>
 	</fieldset>
 </form>

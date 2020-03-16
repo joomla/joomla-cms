@@ -4,6 +4,28 @@
  * PasswordStrength script by Thomas Kjaergaard
  * License: MIT
  * Repo: https://github.com/tkjaergaard/Password-Strength
+ *
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2014 Thomas Kjærgaard
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 var PasswordStrength;
 
@@ -81,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function(){
 		});
 
 		var score = strength.getScore(element.value),
-			i = meter.getAttribute('aria-describedby').replace( /^\D+/g, ''),
+			i = meter.getAttribute('id').replace( /^\D+/g, ''),
 			label = element.parentNode.parentNode.querySelector('#password-' + i);
 
 		if (score > 79){
@@ -136,12 +158,13 @@ document.addEventListener('DOMContentLoaded', function(){
 		meter2.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated' + startClass);
 		meter2.style.width = 0 + initialVal;
 		meter2.max = 100;
-		meter2.setAttribute('aria-describedby', 'password-' + i);
+		meter2.setAttribute('id', 'progress-' + i);
 		meter.appendChild(meter2);
 
 		var label = document.createElement('div');
 		label.setAttribute('class', 'text-xs-center');
 		label.setAttribute('id', 'password-' + i);
+		label.setAttribute('aria-live', 'polite');
 
 		fields[i].parentNode.insertAdjacentElement('afterEnd', label);
 		fields[i].parentNode.insertAdjacentElement('afterEnd', meter);

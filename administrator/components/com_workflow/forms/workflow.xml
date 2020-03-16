@@ -23,8 +23,10 @@
 		/>
 		<field
 			name="description"
-			type="text"
+			type="textarea"
 			label="COM_WORKFLOW_WORKFLOW_NOTE"
+			rows="3"
+			cols="60"
 		/>
 	</fieldset>
 
@@ -45,7 +47,7 @@
 			name="default"
 			type="radio"
 			label="COM_WORKFLOW_FIELD_IS_DEFAULT_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			required="true"
 			>
@@ -76,7 +78,6 @@
 			name="rules"
 			type="rules"
 			label="JCONFIG_PERMISSIONS_LABEL"
-			class="inputbox"
 			validate="rules"
 			filter="rules"
 			component="com_workflow"

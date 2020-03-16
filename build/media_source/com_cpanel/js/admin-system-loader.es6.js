@@ -14,13 +14,12 @@
 
     if (elements.length) {
       elements.forEach((element) => {
-        const type = element.getAttribute('data-type');
+        const badgeurl = element.getAttribute('data-url');
 
-        if (type && Joomla && Joomla.request && typeof Joomla.request === 'function') {
+        if (badgeurl && Joomla && Joomla.request && typeof Joomla.request === 'function') {
           Joomla.request({
-            url: 'index.php?option=com_cpanel&task=system.loadSystemInfo&format=json',
+            url: badgeurl,
             method: 'POST',
-            data: `type=${type}`,
             onSuccess: (resp) => {
               let response;
               try {
@@ -39,7 +38,6 @@
 
                 elem.classList.add('pull-right');
                 elem.classList.add('badge');
-                elem.classList.add('badge-pill');
                 elem.classList.add('badge-warning');
                 elem.innerHTML = response.data;
 

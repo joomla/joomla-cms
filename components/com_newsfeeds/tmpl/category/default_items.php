@@ -13,7 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
+use Joomla\Component\Newsfeeds\Site\Helper\RouteHelper;
 
 $n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -62,7 +62,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<span class="list float-left">
 						<div class="list-title">
-							<a href="<?php echo Route::_(NewsfeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catid)); ?>">
+							<a href="<?php echo Route::_(RouteHelper::getNewsfeedRoute($item->slug, $item->catid)); ?>">
 								<?php echo $item->name; ?>
 							</a>
 						</div>

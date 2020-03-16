@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Form\Filter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFilterInterface;
@@ -49,7 +49,7 @@ class RulesFilter implements FormFilterInterface
 			{
 				if ($p !== '')
 				{
-					$return[$action][$id] = ($p == '1' || $p == 'true') ? true : false;
+					$return[$action][$id] = ($p == '1' || $p === 'true') ? true : false;
 				}
 			}
 		}

@@ -22,7 +22,7 @@ $app = Factory::getApplication();
 $input = $app->input;
 
 // In case of modal
-$isModal = $input->get('layout') == 'modal' ? true : false;
+$isModal = $input->get('layout') === 'modal';
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
 
@@ -37,29 +37,19 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'description', Text::_('COM_WORKFLOW_DESCRIPTION'));?>
 		<div class="row">
-			<div class="col-md-9">
-				<?php echo $this->form->renderField('description'); ?>
+			<div class="col-lg-9">
+				<div class="card card-block">
+					<div class="card-body form-vertical">
+					<?php echo $this->form->renderField('description'); ?>
+					</div>
+				</div>
 			</div>
-			<div class="col-md-3">
-				<div class="card card-block card-light">
+			<div class="col-lg-3">
+				<div class="card card-block">
 					<div class="card-body">
-						<fieldset class="form-vertical form-no-margin">
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('published'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('published'); ?>
-								</div>
-							</div>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('default'); ?>
-								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('default'); ?>
-								</div>
-							</div>
+						<fieldset class="form-vertical">
+							<?php echo $this->form->renderField('published'); ?>
+							<?php echo $this->form->renderField('default'); ?>
 						</fieldset>
 					</div>
 				</div>
@@ -68,7 +58,10 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'permissions', Text::_('COM_WORKFLOW_RULES_TAB')); ?>
-		<?php echo $this->form->getInput('rules'); ?>
+			<fieldset id="fieldset-rules" class="options-form">
+				<legend><?php echo Text::_('COM_WORKFLOW_RULES_TAB'); ?></legend>
+				<?php echo $this->form->getInput('rules'); ?>
+			</fieldset>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>

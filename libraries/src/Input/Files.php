@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Input;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filter\InputFilter;
 
@@ -84,8 +84,8 @@ class Files extends Input
 				)
 			);
 
-			// Prevent returning an unsafe file unless speciffically requested
-			if ($filter != 'raw')
+			// Prevent returning an unsafe file unless specifically requested
+			if (strtoupper($filter) !== 'RAW')
 			{
 				$isSafe = InputFilter::isSafeFile($results);
 
@@ -115,7 +115,7 @@ class Files extends Input
 	{
 		$result = array();
 
-		if (is_array($data[0]))
+		if (\is_array($data[0]))
 		{
 			foreach ($data[0] as $k => $v)
 			{

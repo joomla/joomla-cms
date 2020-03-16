@@ -27,6 +27,7 @@
       button.addEventListener('click', (e) => {
         const task = e.target.getAttribute(buttonDataSelector);
         submitTask(task);
+        return false;
       });
     }
   });

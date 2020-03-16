@@ -16,9 +16,13 @@ use Joomla\Module\Login\Site\Helper\LoginHelper;
 
 $params->def('greeting', 1);
 
+// HTML IDs
+$formId           = "login-form-{$module->id}";
 $type             = LoginHelper::getType();
 $return           = LoginHelper::getReturnUrl($params, $type);
+$registerLink     = LoginHelper::getRegistrationUrl($params);
 $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
+$extraButtons     = AuthenticationHelper::getLoginButtons($formId);
 $user             = Factory::getUser();
 $layout           = $params->get('layout', 'default');
 

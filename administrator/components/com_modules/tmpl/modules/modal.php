@@ -23,7 +23,6 @@ if (Factory::getApplication()->isClient('site'))
 
 // Load needed scripts
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 
 // Scripts for the modules xtd-button
 HTMLHelper::_('script', 'com_modules/admin-modules-modal.min.js', array('version' => 'auto', 'relative' => true));
@@ -88,7 +87,7 @@ if (!empty($editor))
 				foreach ($this->items as $i => $item) :
 				?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td class="text-center">
+					<td class="text-center tbody-icon">
 						<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 					</td>
 					<td scope="row" class="has-context">
@@ -130,7 +129,7 @@ if (!empty($editor))
 
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="boxchecked" value="0">
-        <input type="hidden" name="editor" value="<?php echo $editor; ?>" />
+		<input type="hidden" name="editor" value="<?php echo $editor; ?>" />
 		<?php echo HTMLHelper::_('form.token'); ?>
 
 	</form>

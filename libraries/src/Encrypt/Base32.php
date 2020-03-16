@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Encrypt;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Base32 encryption class
@@ -39,7 +39,7 @@ class Base32
 	{
 		$chrs = unpack('C*', $str);
 
-		return vsprintf(str_repeat('%08b', count($chrs)), $chrs);
+		return vsprintf(str_repeat('%08b', \count($chrs)), $chrs);
 	}
 
 	/**
@@ -55,7 +55,7 @@ class Base32
 	 */
 	private function bin2str($str)
 	{
-		if (strlen($str) % 8 > 0)
+		if (\strlen($str) % 8 > 0)
 		{
 			throw new \Exception('Length must be divisible by 8');
 		}
@@ -71,7 +71,7 @@ class Base32
 		// I'm just being slack here
 		array_unshift($chrs, 'C*');
 
-		return call_user_func_array('pack', $chrs);
+		return \call_user_func_array('pack', $chrs);
 	}
 
 	/**
@@ -87,7 +87,7 @@ class Base32
 	 */
 	private function fromBin($str)
 	{
-		if (strlen($str) % 8 > 0)
+		if (\strlen($str) % 8 > 0)
 		{
 			throw new \Exception('Length must be divisible by 8');
 		}
@@ -101,7 +101,7 @@ class Base32
 		$str = preg_replace('/(.{5})/', '000$1', $str);
 
 		// We need a string divisible by 5
-		$length = strlen($str);
+		$length = \strlen($str);
 		$rbits = $length & 7;
 
 		if ($rbits > 0)
@@ -109,7 +109,7 @@ class Base32
 			// Excessive bits need to be padded
 			$ebits = substr($str, $length - $rbits);
 			$str = substr($str, 0, $length - $rbits);
-			$str .= "000$ebits" . str_repeat('0', 5 - strlen($ebits));
+			$str .= "000$ebits" . str_repeat('0', 5 - \strlen($ebits));
 		}
 
 		preg_match_all('/.{8}/', $str, $chrs);
@@ -143,7 +143,7 @@ class Base32
 		$str = preg_replace('/000(.{5})/', '$1', $str);
 
 		// Unpad if nessicary
-		$length = strlen($str);
+		$length = \strlen($str);
 		$rbits = $length & 7;
 
 		if ($rbits > 0)

@@ -49,6 +49,12 @@ window.Joomla.editors.instances = window.Joomla.editors.instances || {
    *                                  Example: () => { return this.element.value; }
    * setValue         Type  Function  Should replace the complete data of the editor
    *                                  Example: (text) => { return this.element.value = text; }
+   * getSelection     Type  Function  Should return the selected text from the editor
+   *                                  Example: function () { return this.selectedText; }
+   * disable          Type  Function  Toggles the editor into disabled mode. When the editor is
+   *                                  active then everything should be usable. When inactive the
+   *                                  editor should be unusable AND disabled for form validation
+   *                                  Example: (bool) => { return this.disable = value; }
    * replaceSelection Type  Function  Should replace the selected text of the editor
    *                                  If nothing selected, will insert the data at the cursor
    *                                  Example:
@@ -62,7 +68,8 @@ window.Joomla.editors.instances = window.Joomla.editors.instances || {
    *  Joomla.editors.instances['jform_articletext'].getValue();
    * To set the current editor value:
    *  Joomla.editors.instances['jform_articletext'].setValue('Joomla! rocks');
-   * To replace(selection) or insert a value at  the current editor cursor:
+   * To replace(selection) or insert a value at  the current editor cursor (replaces the J3
+   * jInsertEditorText API):
    *  replaceSelection:
    *  Joomla.editors.instances['jform_articletext'].replaceSelection('Joomla! rocks')
    * }
@@ -70,8 +77,6 @@ window.Joomla.editors.instances = window.Joomla.editors.instances || {
    * *********************************************************
    * ANY INTERACTION WITH THE EDITORS SHOULD USE THE ABOVE API
    * *********************************************************
-   *
-   * jInsertEditorText() @deprecated 4.0
    */
 };
 
@@ -143,7 +148,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
     // Submit the form.
     // Create the input type="submit"
     const button = document.createElement('input');
-    button.style.display = 'none';
+    button.classList.add('hidden');
     button.type = 'submit';
 
     // Append it and click it
@@ -479,7 +484,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
       // Skip titles with untranslated strings
       if (typeof title !== 'undefined') {
-        titleWrapper = document.createElement('h4');
+        titleWrapper = document.createElement('span');
         titleWrapper.className = 'alert-heading';
         titleWrapper.innerHTML = Joomla.Text._(type) ? Joomla.Text._(type) : type;
         messagesBox.appendChild(titleWrapper);
@@ -535,7 +540,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       }
 
       // Fix Chrome bug not updating element height
-      messageContainer.style.display = 'none';
+      messageContainer.classList.add('hidden');
       delete messageContainer.offsetHeight;
       messageContainer.style.display = '';
     }
@@ -712,78 +717,6 @@ window.Joomla.Modal = window.Joomla.Modal || {
   };
 
   /**
-   * Add Joomla! loading image layer.
-   *
-   * Used in: /administrator/components/com_installer/views/languages/tmpl/default.php
-   *          /installation/template/js/installation.js
-   *
-   * @param   {String}       task           The task to do [load, show, hide] (defaults to show).
-   * @param   {HTMLElement}  parentElement  The HTML element where we are appending the layer
-   *          (defaults to body).
-   *
-   * @return  {HTMLElement}  The HTML loading layer element.
-   *
-   * @since  3.6.0
-   *
-   * @deprecated  4.0 No direct replacement.
-   *              4.0 will introduce a web component for the loading spinner, therefore the spinner
-   *              will need to explicitly be loaded in all relevant pages.
-   *
-   */
-  Joomla.loadingLayer = (task, parentElement) => {
-    // Set default values.
-    const newTask = task || 'show';
-    const newParentElement = parentElement || document.body;
-
-    // Create the loading layer (hidden by default).
-    if (newTask === 'load') {
-      // Prevent loading twice
-      if (document.getElementById('loading-logo')) {
-        return false;
-      }
-      // Gets the site base path
-      const systemPaths = Joomla.getOptions('system.paths') || {};
-      const basePath = systemPaths.root || '';
-
-      const loadingDiv = document.createElement('div');
-
-      loadingDiv.id = 'loading-logo';
-
-      // The loading layer CSS styles are JS hardcoded so they can be used without adding CSS.
-
-      // Loading layer style and positioning.
-      loadingDiv.style.position = 'fixed';
-      loadingDiv.style.top = '0';
-      loadingDiv.style.left = '0';
-      loadingDiv.style.width = '100%';
-      loadingDiv.style.height = '100%';
-      loadingDiv.style.opacity = '0.8';
-      loadingDiv.style.filter = 'alpha(opacity=80)';
-      loadingDiv.style.overflow = 'hidden';
-      loadingDiv.style['z-index'] = '10000';
-      loadingDiv.style.display = 'none';
-      loadingDiv.style['background-color'] = '#fff';
-
-      // Loading logo positioning.
-      loadingDiv.style['background-image'] = `url("${basePath}/media/system/images/ajax-loader.gif")`;
-      loadingDiv.style['background-position'] = 'center';
-      loadingDiv.style['background-repeat'] = 'no-repeat';
-      loadingDiv.style['background-attachment'] = 'fixed';
-
-      newParentElement.appendChild(loadingDiv);
-    } else {
-      // Show or hide the layer.
-      if (!document.getElementById('loading-logo')) {
-        Joomla.loadingLayer('load', newParentElement);
-      }
-
-      document.getElementById('loading-logo').style.display = (newTask === 'show') ? 'block' : 'none';
-    }
-
-    return document.getElementById('loading-logo');
-  };
-
-  /**
    * Method to Extend Objects
    *
    * @param  {Object}  destination
@@ -917,25 +850,6 @@ window.Joomla.Modal = window.Joomla.Modal || {
     }
 
     return xhr;
-  };
-
-  /**
-   * Load the changelog data
-   *
-   * @param extensionId The extension ID to load the changelog for
-   * @param view The view the changelog is for,
-   *             this is used to determine which version number to show
-   *
-   * @since   4.0.0
-   */
-  Joomla.loadChangelog = (extensionId, view) => {
-    Joomla.request({
-      url: `index.php?option=com_installer&task=manage.loadChangelog&eid=${extensionId}&source=${view}&format=json`,
-      onSuccess: (response) => {
-        const result = JSON.parse(response);
-        document.querySelectorAll('#changelogModal .modal-body')[0].innerHTML = result.data;
-      },
-    });
   };
 
   /**
@@ -1133,7 +1047,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       } else {
         newScript.addEventListener('load', asyncReady);
         newScript.addEventListener('error', () => {
-          throw new Error(`Could not load polyfill bundle${base.rootFull + replacement}`);
+          throw new Error(`Could not load polyfill bundle ${base.rootFull + replacement}`);
         });
         document.head.appendChild(newScript);
       }

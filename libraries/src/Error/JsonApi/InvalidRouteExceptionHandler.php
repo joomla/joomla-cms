@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Error\JsonApi;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Exception;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
@@ -28,7 +28,7 @@ class InvalidRouteExceptionHandler implements ExceptionHandlerInterface
 	 *
 	 * @param   \Exception  $e  The exception to be handled
 	 *
-	 * @return bool
+	 * @return boolean
 	 *
 	 * @since  4.0.0
 	 */

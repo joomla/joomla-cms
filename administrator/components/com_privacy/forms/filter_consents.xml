@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset addfieldpath="/administrator/components/com_privacy/models/fields" />
-
 	<fields name="filter">
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_PRIVACY_FILTER_SEARCH_LABEL"
 			description="COM_PRIVACY_SEARCH_IN_USERNAME"
 			hint="JSEARCH_FILTER"
@@ -44,14 +43,16 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.id DESC"
+			validate="options"
 			>
-			<option value="u.username ASC">COM_PRIVACY_HEADING_USERNAME_ASC</option>
-			<option value="u.username DESC">COM_PRIVACY_HEADING_USERNAME_DESC</option>
 			<option value="a.state ASC">COM_PRIVACY_HEADING_STATUS_ASC</option>
 			<option value="a.state DESC">COM_PRIVACY_HEADING_STATUS_DESC</option>
+			<option value="u.name ASC">JGLOBAL_NAME_ASC</option>
+			<option value="u.name DESC">JGLOBAL_NAME_DESC</option>
+			<option value="u.username ASC">COM_PRIVACY_HEADING_USERNAME_ASC</option>
+			<option value="u.username DESC">COM_PRIVACY_HEADING_USERNAME_DESC</option>
 			<option value="u.user_id ASC">COM_PRIVACY_HEADING_USERID_ASC</option>
 			<option value="u.user_id DESC">COM_PRIVACY_HEADING_USERID_DESC</option>
 			<option value="a.created ASC">COM_PRIVACY_HEADING_CREATED_ASC</option>
@@ -63,6 +64,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			class="input-mini"
 			default="25"
 			onchange="this.form.submit();"
