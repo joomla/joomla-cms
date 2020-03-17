@@ -102,17 +102,17 @@ class ActionButton
 	/**
 	 * Add a state profile.
 	 *
-	 * @param   string  $value    The value of this state.
-	 * @param   string  $task     The task you want to execute after click this button.
-	 * @param   string  $icon     The icon to display for user.
-	 * @param   string  $title    Title text will show if we enable tooltips.
-	 * @param   array   $options  The button options, will override group options.
+	 * @param   integer  $value    The value of this state.
+	 * @param   string   $task     The task you want to execute after click this button.
+	 * @param   string   $icon     The icon to display for user.
+	 * @param   string   $title    Title text will show if we enable tooltips.
+	 * @param   array    $options  The button options, will override group options.
 	 *
 	 * @return  static  Return self to support chaining.
 	 *
 	 * @since   4.0.0
 	 */
-	public function addState(string $value, string $task, string $icon = 'ok', string $title = '', array $options = []): self
+	public function addState(int $value, string $task, string $icon = 'ok', string $title = '', array $options = []): self
 	{
 		// Force type to prevent null data
 		$this->states[$value] = [
@@ -129,13 +129,13 @@ class ActionButton
 	/**
 	 * Get state profile by value name.
 	 *
-	 * @param   string|integer  $value  The value name we want to get.
+	 * @param   integer  $value  The value name we want to get.
 	 *
 	 * @return  array  Return state profile or NULL.
 	 *
 	 * @since   4.0.0
 	 */
-	public function getState(string $value): array
+	public function getState(int $value): array
 	{
 		// PHP 7.0 does not allow nullable return values so we return empty array if not exists.
 		return $this->states[$value] ?? [];
@@ -144,13 +144,13 @@ class ActionButton
 	/**
 	 * Remove a state by value name.
 	 *
-	 * @param   string  $value  Remove state by this value.
+	 * @param   integer  $value  Remove state by this value.
 	 *
 	 * @return  static  Return to support chaining.
 	 *
 	 * @since   4.0.0
 	 */
-	public function removeState(string $value): self
+	public function removeState(int $value): self
 	{
 		if (isset($this->states[$value]))
 		{
@@ -163,9 +163,9 @@ class ActionButton
 	/**
 	 * Render action button by item value.
 	 *
-	 * @param   mixed   $value    Current value of this item.
-	 * @param   string  $row      The row number of this item.
-	 * @param   array   $options  The options to override group options.
+	 * @param   integer|null  $value    Current value of this item.
+	 * @param   integer|null  $row      The row number of this item.
+	 * @param   array         $options  The options to override group options.
 	 *
 	 * @return  string  Rendered HTML.
 	 *
@@ -173,7 +173,7 @@ class ActionButton
 	 *
 	 * @throws  \InvalidArgumentException
 	 */
-	public function render(string $value = '', string $row = null, array $options = []): string
+	public function render(?int $value = null, int $row = null, array $options = []): string
 	{
 		$data = $this->getState($value) ?: $this->defaultState;
 
