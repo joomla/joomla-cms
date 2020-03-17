@@ -17,7 +17,9 @@ use Tobscure\JsonApi\AbstractSerializer;
 use Tobscure\JsonApi\Relationship;
 
 /**
- * Joomla serializer for core data holders
+ * This class does the messy job of sanitising all the classes Joomla has that contain data and converting them
+ * into a standard array that can be consumed by the Tobscure library. It also throws appropriate plugin events
+ * to allow 3rd party extensions to add custom data and relations into these properties before they are rendered
  *
  * @since  4.0.0
  */
@@ -47,8 +49,7 @@ class JoomlaSerializer extends AbstractSerializer
 	 */
 	public function getAttributes($post, array $fields = null)
 	{
-		if (!($post instanceof Table) && !($post instanceof \stdClass) && !(\is_array($post))
-			&& !($post instanceof CMSObject))
+		if (!($post instanceof \stdClass) && !(\is_array($post)) && !($post instanceof CMSObject))
 		{
 			$message = sprintf(
 				'Invalid argument for %s. Expected array or %s. Got %s',
@@ -66,14 +67,8 @@ class JoomlaSerializer extends AbstractSerializer
 			$post = (array) $post;
 		}
 
-		// The response from a standard AdminModel query
+		// The response from a standard AdminModel query also works for Table which extends CMSObject
 		if ($post instanceof CMSObject)
-		{
-			$post = $post->getProperties();
-		}
-
-		// TODO: Find a way to make this an instance of TableInterface instead of the concrete class
-		if ($post instanceof Table)
 		{
 			$post = $post->getProperties();
 		}
