@@ -42,6 +42,7 @@ class JsonapiView extends BaseApiView
 		'state',
 		'category',
 		'created',
+		'author',
 	];
 
 	/**
@@ -61,6 +62,7 @@ class JsonapiView extends BaseApiView
 		'state',
 		'category',
 		'created',
+		'author',
 	];
 
 	/**
@@ -71,6 +73,7 @@ class JsonapiView extends BaseApiView
 	 */
 	protected $relationship = [
 		'category',
+		'author',
 	];
 
 	/**
