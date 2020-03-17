@@ -172,7 +172,7 @@ class ActionButton
 	 *
 	 * @throws  \InvalidArgumentException
 	 */
-	public function render(?int $value = null, int $row = null, array $options = []): string
+	public function render(?int $value = null, ?int $row = null, array $options = []): string
 	{
 		$data = $this->getState($value) ?? $this->unknownState;
 
