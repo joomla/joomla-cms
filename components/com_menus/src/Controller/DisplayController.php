@@ -36,12 +36,6 @@ class DisplayController extends BaseController
 	{
 		$this->input = Factory::getApplication()->input;
 
-		// Menus frontpage Editor Menu proxying:
-		if ($this->input->get('view') === 'items' && $this->input->get('layout') === 'modal')
-		{
-			HTMLHelper::_('stylesheet', 'system/adminlist.css', ['version' => 'auto', 'relative' => true]);
-		}
-
 		parent::__construct($config, $factory, $app, $input);
 	}
 }
