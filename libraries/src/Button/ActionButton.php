@@ -131,14 +131,13 @@ class ActionButton
 	 *
 	 * @param   integer  $value  The value name we want to get.
 	 *
-	 * @return  array  Return state profile or NULL.
+	 * @return  array|null  Return state profile or NULL.
 	 *
 	 * @since   4.0.0
 	 */
-	public function getState(int $value): array
+	public function getState(int $value): ?array
 	{
-		// PHP 7.0 does not allow nullable return values so we return empty array if not exists.
-		return $this->states[$value] ?? [];
+		return $this->states[$value] ?? null;
 	}
 
 	/**
@@ -175,7 +174,7 @@ class ActionButton
 	 */
 	public function render(?int $value = null, int $row = null, array $options = []): string
 	{
-		$data = $this->getState($value) ?: $this->unknownState;
+		$data = $this->getState($value) ?? $this->unknownState;
 
 		$data = ArrayHelper::mergeRecursive(
 			$this->unknownState,

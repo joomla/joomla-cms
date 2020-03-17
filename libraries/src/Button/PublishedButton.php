@@ -53,7 +53,7 @@ class PublishedButton extends ActionButton
 		if ($publishUp || $publishDown)
 		{
 			$bakState = $this->getState($value);
-			$default  = $this->getState($value) ?: $this->unknownState;
+			$default  = $this->getState($value) ?? $this->unknownState;
 
 			$nullDate = Factory::getDbo()->getNullDate();
 			$nowDate = Factory::getDate()->toUnix();
