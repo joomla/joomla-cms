@@ -31,13 +31,13 @@ class ActionButton
 	protected $states = [];
 
 	/**
-	 * The fallback state.
+	 * Default options for unknown state.
 	 *
 	 * @var  array
 	 *
 	 * @since  4.0.0
 	 */
-	protected $defaultState = [
+	protected $unknownState = [
 		'value'     => null,
 		'task'      => '',
 		'icon'      => 'question',
@@ -82,7 +82,7 @@ class ActionButton
 		$this->options = new Registry($options);
 
 		// Replace some dynamic values
-		$this->defaultState['title'] = Text::_('JLIB_HTML_UNKNOWN_STATE');
+		$this->unknownState['title'] = Text::_('JLIB_HTML_UNKNOWN_STATE');
 
 		$this->preprocess();
 	}
@@ -175,10 +175,10 @@ class ActionButton
 	 */
 	public function render(?int $value = null, int $row = null, array $options = []): string
 	{
-		$data = $this->getState($value) ?: $this->defaultState;
+		$data = $this->getState($value) ?: $this->unknownState;
 
 		$data = ArrayHelper::mergeRecursive(
-			$this->defaultState,
+			$this->unknownState,
 			$data,
 			[
 				'options' => $this->options->toArray()

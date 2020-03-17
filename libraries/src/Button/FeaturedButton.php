@@ -51,7 +51,7 @@ class FeaturedButton extends ActionButton
 		if ($featuredUp || $featuredDown)
 		{
 			$bakState = $this->getState($value);
-			$default  = $this->getState($value) ?: $this->defaultState;
+			$default  = $this->getState($value) ?: $this->unknownState;
 
 			$nowDate  = Factory::getDate()->toUnix();
 
