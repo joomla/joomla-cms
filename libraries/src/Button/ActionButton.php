@@ -28,21 +28,28 @@ class ActionButton
 	 *
 	 * @since  4.0.0
 	 */
-	protected $states = [
-		'_default' => [
-			'value'     => '_default',
-			'task'      => '',
-			'icon'      => 'question',
-			'title'     => 'Unknown state',
-			'options'   => [
-				'disabled'  => false,
-				'only_icon' => false,
-				'tip' => true,
-				'tip_title' => '',
-				'task_prefix' => '',
-				'checkbox_name' => 'cb'
-			]
-		]
+	protected $states = [];
+
+	/**
+	 * The fallback state.
+	 *
+	 * @var  array
+	 *
+	 * @since  4.0.0
+	 */
+	protected $defaultState = [
+		'value'     => null,
+		'task'      => '',
+		'icon'      => 'question',
+		'title'     => 'Unknown state',
+		'options'   => [
+			'disabled'  => false,
+			'only_icon' => false,
+			'tip' => true,
+			'tip_title' => '',
+			'task_prefix' => '',
+			'checkbox_name' => 'cb',
+		],
 	];
 
 	/**
@@ -75,7 +82,7 @@ class ActionButton
 		$this->options = new Registry($options);
 
 		// Replace some dynamic values
-		$this->states['_default']['title'] = Text::_('JLIB_HTML_UNKNOWN_STATE');
+		$this->defaultState['title'] = Text::_('JLIB_HTML_UNKNOWN_STATE');
 
 		$this->preprocess();
 	}
@@ -168,12 +175,10 @@ class ActionButton
 	 */
 	public function render(string $value = '', string $row = null, array $options = []): string
 	{
-		$data = $this->getState($value);
-
-		$data = $data ?: $this->getState('_default');
+		$data = $this->getState($value) ?: $this->defaultState;
 
 		$data = ArrayHelper::mergeRecursive(
-			$this->getState('_default'),
+			$this->defaultState,
 			$data,
 			[
 				'options' => $this->options->toArray()
