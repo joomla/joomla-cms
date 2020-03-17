@@ -14,14 +14,11 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
@@ -144,18 +141,25 @@ class HtmlView extends BaseHtmlView
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
 		{
-			$apply = $toolbar->apply('article.apply');
+			$toolbar->apply('article.apply');
 
 			$saveGroup = $toolbar->dropdownButton('save-group');
 
 			$saveGroup->configure(
-				function (Toolbar $childBar)
+				function (Toolbar $childBar) use ($user)
 				{
 					$childBar->save('article.save');
-					$childBar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
+
+					if ($user->authorise('core.create', 'com_menus.menu'))
+					{
+						$childBar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
+					}
+
 					$childBar->save2new('article.save2new');
 				}
 			);
+
+			$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
 		}
 		else
 		{
@@ -170,7 +174,7 @@ class HtmlView extends BaseHtmlView
 			$saveGroup = $toolbar->dropdownButton('save-group');
 
 			$saveGroup->configure(
-				function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo)
+				function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo, $user)
 				{
 					// Can't save the record if it's checked out and editable
 					if (!$checkedOut && $itemEditable)
@@ -184,14 +188,21 @@ class HtmlView extends BaseHtmlView
 						}
 					}
 
+					// If checked out, we can still save2menu
+					if ($user->authorise('core.create', 'com_menus.menu'))
+					{
+						$childBar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
+					}
+
 					// If checked out, we can still save
 					if ($canDo->get('core.create'))
 					{
-						$childBar->save('article.save2menu', Text::_('JTOOLBAR_SAVE_TO_MENU'));
 						$childBar->save2copy('article.save2copy');
 					}
 				}
 			);
+
+			$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
 
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
@@ -218,8 +229,6 @@ class HtmlView extends BaseHtmlView
 				->text('JTOOLBAR_ASSOCIATIONS')
 				->task('article.editAssociations');
 		}
-
-		$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
 
 		$toolbar->divider();
 		$toolbar->help('JHELP_CONTENT_ARTICLE_MANAGER_EDIT');

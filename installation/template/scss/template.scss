@@ -85,7 +85,7 @@ body {
 }
 
 .j-install-step-form {
-  padding: 0.65rem 1.2rem 0.65rem;
+  padding: .65rem 1.2rem;
 
   .btn-block + .btn-block {
     margin-top: .5rem;
@@ -230,18 +230,18 @@ caption {
   color: #292b2c;
 }
 
-.fa-eye:before,
-.icon-eye-open:before,
-.icon-eye:before {
+.fa-eye,
+.icon-eye-open,
+.icon-eye {
   font-family: "Font Awesome 5 Free";
   cursor: pointer;
   content: "\f06e";
 }
 
-.fa-eye-slash:before,
-.icon-eye-close:before,
-.icon-eye-blocked:before,
-.icon-eye-2:before {
+.fa-eye-slash,
+.icon-eye-close,
+.icon-eye-blocked,
+.icon-eye-2::before {
   font-family: "Font Awesome 5 Free";
   cursor: pointer;
   content: "\f070";
@@ -252,7 +252,7 @@ caption {
   position: absolute;
   bottom: 0;
   left: 0;
-  box-shadow: 0 0 1px 1px rgba(0, 0, 0, .25);
   z-index: $zindex-header;
   background-color: $white;
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, .25);
 }

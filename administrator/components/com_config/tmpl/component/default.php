@@ -32,13 +32,10 @@ if ($this->fieldsets)
 	HTMLHelper::_('bootstrap.framework');
 }
 
-// @TODO delete this when custom elements modal is merged
-HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version' => 'auto', 'relative' => true]);
-
 $xml = $this->form->getXml();
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="component-form" method="post" class="form-validate" name="adminForm" autocomplete="off" data-cancel-task="config.cancel.component">
+<form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="component-form" method="post" class="form-validate" name="adminForm" autocomplete="off">
 	<div class="row">
 
 		<?php // Begin Sidebar ?>

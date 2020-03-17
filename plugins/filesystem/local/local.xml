@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="4.0" type="plugin" group="filesystem" method="upgrade">
+<extension type="plugin" group="filesystem" method="upgrade">
 	<name>plg_filesystem_local</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2017</creationDate>

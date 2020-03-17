@@ -15,6 +15,10 @@ files:
   - source: /api/language/en-GB/*.ini
     translation: /api/language/%locale%/%original_file_name%
     update_option: update_as_unapproved
+  - source: /api/language/en-GB/*.xml
+    translation: /api/language/%locale%/%original_file_name%
+    update_option: update_as_unapproved
+    content_segmentation: 0
   - source: /language/en-GB/*.ini
     translation: /language/%locale%/%original_file_name%
     update_option: update_as_unapproved

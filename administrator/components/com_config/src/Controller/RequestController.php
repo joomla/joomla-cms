@@ -24,7 +24,7 @@ class RequestController extends BaseController
 	/**
 	 * Execute the controller.
 	 *
-	 * @return  mixed  A rendered view or true
+	 * @return  mixed  A rendered view or false
 	 *
 	 * @since   3.2
 	 */
@@ -62,7 +62,7 @@ class RequestController extends BaseController
 		{
 			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 
-			return;
+			return false;
 		}
 
 		try

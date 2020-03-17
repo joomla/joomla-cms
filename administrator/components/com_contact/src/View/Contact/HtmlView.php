@@ -159,6 +159,8 @@ class HtmlView extends BaseHtmlView
 				'btn-success'
 			);
 
+			ToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
+
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
 				ToolbarHelper::versions('com_contact.contact', $this->item->id);
@@ -168,8 +170,6 @@ class HtmlView extends BaseHtmlView
 			{
 				ToolbarHelper::custom('contact.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
 			}
-
-			ToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		ToolbarHelper::divider();

@@ -137,23 +137,23 @@ class HtmlView extends BaseHtmlView
 			'btn-success'
 		);
 
-		if (!$isNew && Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
-		{
-			ToolbarHelper::custom('newsfeed.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
-		}
-
 		if (empty($this->item->id))
 		{
 			ToolbarHelper::cancel('newsfeed.cancel');
 		}
 		else
 		{
+			ToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
+
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
 			{
 				ToolbarHelper::versions('com_newsfeeds.newsfeed', $this->item->id);
 			}
+		}
 
-			ToolbarHelper::cancel('newsfeed.cancel', 'JTOOLBAR_CLOSE');
+		if (!$isNew && Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
+		{
+			ToolbarHelper::custom('newsfeed.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
 		}
 
 		ToolbarHelper::divider();

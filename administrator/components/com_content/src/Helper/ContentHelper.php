@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Category;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -40,7 +41,8 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 		$query->select('id')
 			->from($db->quoteName('#__content'))
-			->where('state = ' . $id);
+			->where($db->quoteName('state') . ' = :id')
+			->bind(':id', $id, ParameterType::INTEGER);
 		$db->setQuery($query);
 		$states = $db->loadResult();
 
@@ -94,8 +96,9 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 			$query = $db->getQuery(true);
 
 			$query->update($db->quoteName('#__content'))
-				->set($db->quoteName('state') . '=' . (int) $condition)
-				->where($db->quoteName('id') . ' IN (' . implode(', ', $pks) . ')');
+				->set($db->quoteName('state') . ' = :condition')
+				->whereIn($db->quoteName('id'), $pks)
+				->bind(':condition', $condition, ParameterType::INTEGER);
 
 			$db->setQuery($query)->execute();
 		}
@@ -135,8 +138,12 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 		$query->select($db->quoteName('title'))
 			->from($db->quoteName('#__workflows'))
-			->where($db->quoteName('default') . ' = 1')
-			->where($db->quoteName('published') . ' = 1');
+			->where(
+				[
+					$db->quoteName('default') . ' = 1',
+					$db->quoteName('published') . ' = 1',
+				]
+			);
 
 		$defaulttitle = $db->setQuery($query)->loadResult();
 
@@ -157,6 +164,20 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 			{
 				$categories = array_reverse($categories);
 
+				$query = $db->getQuery(true);
+
+				$query->select($db->quoteName('title'))
+					->from($db->quoteName('#__workflows'))
+					->where(
+						[
+							$db->quoteName('id') . ' = :workflowId',
+							$db->quoteName('published') . ' = 1',
+						]
+					)
+					->bind(':workflowId', $workflow_id, ParameterType::INTEGER);
+
+				$db->setQuery($query);
+
 				foreach ($categories as $cat)
 				{
 					$cat->params = new Registry($cat->params);
@@ -171,13 +192,9 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 					{
 						break;
 					}
-					elseif ((int) $workflow_id > 0)
+					elseif ($workflow_id = (int) $workflow_id)
 					{
-						$query->clear('where')
-							->where($db->quoteName('id') . ' = ' . (int) $workflow_id)
-							->where($db->quoteName('published') . ' = 1');
-
-						$title = $db->setQuery($query)->loadResult();
+						$title = $db->loadResult();
 
 						if (!is_null($title))
 						{

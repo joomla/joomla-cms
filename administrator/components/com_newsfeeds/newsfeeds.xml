@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="4.0" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>com_newsfeeds</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
@@ -38,7 +38,7 @@
 				Note that all & must be escaped to &amp; for the file to be valid
 				XML and be parsed by the installer
 			-->
-			<menu link="option=com_newsfeeds" view="feeds" img="class:newsfeeds"
+			<menu link="option=com_newsfeeds" view="feeds" img="class:rss"
 				alt="Newsfeeds/Feeds">com_newsfeeds_feeds</menu>
 			<menu link="option=com_categories&amp;extension=com_newsfeeds"
 				view="categories" img="class:newsfeeds-cat" alt="Newsfeeds/Categories">com_newsfeeds_categories</menu>

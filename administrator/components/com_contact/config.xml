@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
-
 	<fieldset
 		name="contact"
 		label="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DISPLAY"
 		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
 		>
-
 		<field
 			name="contact_layout"
 			type="componentlayout"
@@ -392,15 +390,12 @@
 			default=""
 			showon="show_links:1"
 		/>
-
 	</fieldset>
-
 	<fieldset
 		name="Icons"
 		label="COM_CONTACT_ICONS_SETTINGS"
 		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
 		>
-
 		<field
 			name="contact_icons"
 			type="list"
@@ -466,13 +461,11 @@
 			showon="contact_icons:0"
 		/>
 	</fieldset>
-
 	<fieldset
 		name="Category"
 		label="JCATEGORY"
 		description="COM_CONTACT_FIELD_CONFIG_CATEGORY_DESC"
 		>
-
 		<field
 			name="category_layout"
 			type="componentlayout"
@@ -577,13 +570,11 @@
 			<option value="1">JSHOW</option>
 		</field>
 	</fieldset>
-
 	<fieldset
 		name="categories"
 		label="JCATEGORIES"
 		description="COM_CONTACT_FIELD_CONFIG_CATEGORIES_DESC"
 		>
-
 		<field
 			name="show_base_description"
 			type="radio"
@@ -644,15 +635,12 @@
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-
 	</fieldset>
-
 	<fieldset
 		name="contacts"
 		label="JGLOBAL_LIST_LAYOUT_OPTIONS"
 		description="COM_CONTACT_FIELD_CONFIG_TABLE_OF_CONTACTS_DESC"
 		>
-
 		<field
 			name="filter_field"
 			type="radio"
@@ -845,15 +833,12 @@
 			<option value="ordering">COM_CONTACT_FIELD_VALUE_ORDERING</option>
 			<option value="featuredordering">COM_CONTACT_FIELD_VALUE_ORDERING_FEATURED</option>
 		</field>
-
 	</fieldset>
-
 	<fieldset
 		name="Contact_Form"
 		label="COM_CONTACT_FIELD_CONFIG_CONTACT_FORM"
 		description="COM_CONTACT_FIELD_CONFIG_INDIVIDUAL_CONTACT_DESC"
 		>
-
 		<field
 			name="captcha"
 			type="plugins"
@@ -954,75 +939,62 @@
 			showon="show_email_form:1"
 		/>
 	</fieldset>
-
 	<fieldset
 		name="integration"
 		label="JGLOBAL_INTEGRATION_LABEL"
 		description="COM_CONTACT_CONFIG_INTEGRATION_SETTINGS_DESC"
 		>
-
 		<fieldset
 			name="integration_newsfeeds"
 			label="JGLOBAL_FEED_TITLE"
-		>
-
-		<field
-			name="show_feed_link"
-			type="radio"
-			layout="joomla.form.field.radio.switcher"
-			label="JGLOBAL_SHOW_FEED_LINK_LABEL"
-			default="1"
 			>
-			<option value="0">JHIDE</option>
-			<option value="1">JSHOW</option>
-		</field>
-
+			<field
+				name="show_feed_link"
+				type="radio"
+				layout="joomla.form.field.radio.switcher"
+				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
+				default="1"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
+			</field>
 		</fieldset>
-
 		<fieldset
 			name="integration_sef"
 			label="JGLOBAL_SEF_TITLE"
-		>
-
-		<field
-			name="sef_ids"
-			type="radio"
-			layout="joomla.form.field.radio.switcher"
-			default="0"
-			label="JGLOBAL_SEF_NOIDS_LABEL"
-			filter="integer">
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
+			>
+			<field
+				name="sef_ids"
+				type="radio"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				label="JGLOBAL_SEF_NOIDS_LABEL"
+				filter="integer">
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 		</fieldset>
-
 		<fieldset
 			name="integration_customfields"
 			label="JGLOBAL_FIELDS_TITLE"
-		>
-
-		<field
-			name="custom_fields_enable"
-			type="radio"
-			layout="joomla.form.field.radio.switcher"
-			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
-			default="1"
 			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
+			<field
+				name="custom_fields_enable"
+				type="radio"
+				layout="joomla.form.field.radio.switcher"
+				label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
+				default="1"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 		</fieldset>
-
 	</fieldset>
-
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
 		>
-
 		<field
 			name="rules"
 			type="rules"
@@ -1032,6 +1004,5 @@
 			component="com_contact"
 			section="component"
 		/>
-
 	</fieldset>
 </config>
