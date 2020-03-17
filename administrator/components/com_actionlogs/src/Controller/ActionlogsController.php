@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use DateTimeZone;
 use Exception;
 use InvalidArgumentException;
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Input\Input;
