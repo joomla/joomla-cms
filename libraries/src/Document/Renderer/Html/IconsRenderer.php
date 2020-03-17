@@ -30,7 +30,7 @@ class IconsRenderer extends DocumentRenderer
 	 *
 	 * @return  string  The output of the script
 	 *
-	 * @since   __deploy_version__
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function render($name, $params = array(), $content = null)
 	{
