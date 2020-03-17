@@ -392,42 +392,54 @@ class ArticleModel extends AdminModel
 	{
 		$input = Factory::getApplication()->input;
 
-		$user = Factory::getUser();
+		$user  = Factory::getUser();
 		$table = $this->getTable();
-		$pks = (array) $pks;
+		$pks   = (array) $pks;
+		$value = (int) $value;
 
 		$itrans = $input->get('publish_transitions', [], 'array');
 
 		// Include the plugins for the change of state event.
 		PluginHelper::importPlugin($this->events_map['change_state']);
 
-		$db = $this->getDbo();
-
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
-		$select = $db->quoteName(
+		$query->select(
 			[
-				'wt.id',
-				'wa.item_id'
+				$db->quoteName('wt.id'),
+				$db->quoteName('wa.item_id'),
 			]
-		);
-
-		$query->select($select)
-			->from($db->quoteName('#__workflow_transitions', 'wt'))
-			->from($db->quoteName('#__workflow_stages', 'ws'))
-			->from($db->quoteName('#__workflow_stages', 'ws2'))
-			->from($db->quoteName('#__workflow_associations', 'wa'))
-			->where('(' . $db->quoteName('wt.from_stage_id') . ' = -1 OR ' .
-				$db->quoteName('wt.from_stage_id') . ' = ' . $db->quoteName('wa.stage_id') . ')'
+		)
+			->from(
+				[
+					$db->quoteName('#__workflow_transitions', 'wt'),
+					$db->quoteName('#__workflow_stages', 'ws'),
+					$db->quoteName('#__workflow_stages', 'ws2'),
+					$db->quoteName('#__workflow_associations', 'wa'),
+				]
 			)
-			->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
-			->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws2.id'))
-			->where($db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws.workflow_id'))
-			->where($db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws2.workflow_id'))
-			->where($db->quoteName('wt.to_stage_id') . ' != ' . $db->quoteName('wa.stage_id'))
+			->where(
+				[
+					$db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'),
+					$db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws2.id'),
+					$db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws.workflow_id'),
+					$db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws2.workflow_id'),
+					$db->quoteName('wt.to_stage_id') . ' != ' . $db->quoteName('wa.stage_id'),
+					$db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'),
+					$db->quoteName('ws.condition') . ' = :condition',
+				]
+			)
+			->extendWhere(
+				'AND',
+				[
+					$db->quoteName('wt.from_stage_id') . ' = -1',
+					$db->quoteName('wt.from_stage_id') . ' = ' . $db->quoteName('wa.stage_id'),
+				],
+				'OR'
+			)
 			->whereIn($db->quoteName('wa.item_id'), $pks)
-			->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
-			->where($db->quoteName('ws.condition') . ' = ' . (int) $value);
+			->bind(':condition', $value, ParameterType::INTEGER);
 
 		$transitions = $db->setQuery($query)->loadObjectList();
 
@@ -840,17 +852,29 @@ class ArticleModel extends AdminModel
 		// Save New Category
 		if ($createCategory && $this->canCreateCategory())
 		{
-			$table = array();
+			$category = [
+				// Remove #new# prefix, if exists.
+				'title'     => strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'],
+				'parent_id' => 1,
+				'extension' => 'com_content',
+				'language'  => $data['language'],
+				'published' => 1,
+			];
 
-			// Remove #new# prefix, if exists.
-			$table['title'] = strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'];
-			$table['parent_id'] = 1;
-			$table['extension'] = 'com_content';
-			$table['language'] = $data['language'];
-			$table['published'] = 1;
+			/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $categoryModel */
+			$categoryModel = Factory::getApplication()->bootComponent('com_categories')
+				->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 
-			// Create new category and get catid back
-			$data['catid'] = CategoriesHelper::createCategory($table);
+			// Create new category.
+			if (!$categoryModel->save($category))
+			{
+				$this->setError($categoryModel->getError());
+
+				return false;
+			}
+
+			// Get the Category ID.
+			$data['catid'] = $categoryModel->getState('category.id');
 		}
 
 		if (isset($data['urls']) && is_array($data['urls']))
@@ -933,14 +957,24 @@ class ArticleModel extends AdminModel
 
 			// Set the new state
 			$query = $db->getQuery(true);
+			$transition = (int) $data['transition'];
 
 			$query->select($db->quoteName(['ws.id', 'ws.condition']))
-				->from($db->quoteName('#__workflow_stages', 'ws'))
-				->from($db->quoteName('#__workflow_transitions', 'wt'))
-				->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
-				->where($db->quoteName('wt.id') . ' = ' . (int) $data['transition'])
-				->where($db->quoteName('ws.published') . ' = 1')
-				->where($db->quoteName('wt.published') . ' = 1');
+				->from(
+					[
+						$db->quoteName('#__workflow_stages', 'ws'),
+						$db->quoteName('#__workflow_transitions', 'wt'),
+					]
+				)
+				->where(
+					[
+						$db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'),
+						$db->quoteName('wt.id') . ' = :transition',
+						$db->quoteName('ws.published') . ' = 1',
+						$db->quoteName('wt.published') . ' = 1',
+					]
+				)
+				->bind(':transition', $transition, ParameterType::INTEGER);
 
 			$stage = $db->setQuery($query)->loadObject();
 
@@ -1060,8 +1094,9 @@ class ArticleModel extends AdminModel
 	public function featured($pks, $value = 0, $featuredUp = null, $featuredDown = null)
 	{
 		// Sanitize the ids.
-		$pks = (array) $pks;
-		$pks = ArrayHelper::toInteger($pks);
+		$pks   = (array) $pks;
+		$pks   = ArrayHelper::toInteger($pks);
+		$value = (int) $value;
 
 		if (empty($pks))
 		{
@@ -1077,18 +1112,19 @@ class ArticleModel extends AdminModel
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__content'))
-				->set('featured = ' . (int) $value)
-				->where('id IN (' . implode(',', $pks) . ')');
+				->set($db->quoteName('featured') . ' = :featured')
+				->whereIn($db->quoteName('id'), $pks)
+				->bind(':featured', $value, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$db->execute();
 
-			if ((int) $value == 0)
+			if ($value === 0)
 			{
 				// Adjust the mapping table.
 				// Clear the existing features settings.
 				$query = $db->getQuery(true)
 					->delete($db->quoteName('#__content_frontpage'))
-					->where('content_id IN (' . implode(',', $pks) . ')');
+					->whereIn($db->quoteName('content_id'), $pks);
 				$db->setQuery($query);
 				$db->execute();
 			}
@@ -1096,9 +1132,9 @@ class ArticleModel extends AdminModel
 			{
 				// First, we find out which of our new featured articles are already featured.
 				$query = $db->getQuery(true)
-					->select('f.content_id')
-					->from('#__content_frontpage AS f')
-					->where('content_id IN (' . implode(',', $pks) . ')');
+					->select($db->quoteName('content_id'))
+					->from($db->quoteName('#__content_frontpage'))
+					->whereIn($db->quoteName('content_id'), $pks);
 				$db->setQuery($query);
 
 				$oldFeatured = $db->loadColumn();
@@ -1108,9 +1144,15 @@ class ArticleModel extends AdminModel
 				{
 					$query = $db->getQuery(true)
 						->update($db->quoteName('#__content_frontpage'))
-						->set('featured_up = ' . (empty($featuredUp) ? 'NULL' : $db->quote($featuredUp)))
-						->set('featured_down = ' . (empty($featuredDown) ? 'NULL' : $db->quote($featuredDown)))
-						->where('content_id IN (' . implode(',', $oldFeatured) . ')');
+						->set(
+							[
+								$db->quoteName('featured_up') . ' = :featuredUp',
+								$db->quoteName('featured_down') . ' = :featuredDown',
+							]
+						)
+						->whereIn($db->quoteName('content_id'), $oldFeatured)
+						->bind(':featuredUp', $featuredUp, $featuredUp ? ParameterType::STRING : ParameterType::NULL)
+						->bind(':featuredDown', $featuredDown, $featuredDown ? ParameterType::STRING : ParameterType::NULL);
 					$db->setQuery($query);
 					$db->execute();
 				}
@@ -1119,20 +1161,31 @@ class ArticleModel extends AdminModel
 				$newFeatured = array_diff($pks, $oldFeatured);
 
 				// Featuring.
-				$tuples = array();
-
-				foreach ($newFeatured as $pk)
+				if ($newFeatured)
 				{
-					$tuples[] = implode(',', [$pk, 0, (empty($featuredUp) ? 'NULL' : $db->quote($featuredUp)), (empty($featuredDown) ? 'NULL' : $db->quote($featuredDown))]);
-				}
-
-				if (count($tuples))
-				{
-					$columns = array('content_id', 'ordering', 'featured_up', 'featured_down');
 					$query = $db->getQuery(true)
 						->insert($db->quoteName('#__content_frontpage'))
-						->columns($db->quoteName($columns))
-						->values($tuples);
+						->columns(
+							[
+								$db->quoteName('content_id'),
+								$db->quoteName('ordering'),
+								$db->quoteName('featured_up'),
+								$db->quoteName('featured_down'),
+							]
+						);
+
+					$dataTypes = [
+						ParameterType::INTEGER,
+						ParameterType::INTEGER,
+						$featuredUp ? ParameterType::STRING : ParameterType::NULL,
+						$featuredDown ? ParameterType::STRING : ParameterType::NULL,
+					];
+
+					foreach ($newFeatured as $pk)
+					{
+						$query->values(implode(',', $query->bindArray([$pk, 0, $featuredUp, $featuredDown], $dataTypes)));
+					}
+
 					$db->setQuery($query);
 					$db->execute();
 				}
@@ -1288,7 +1341,7 @@ class ArticleModel extends AdminModel
 			$db = $this->getDbo();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__content_frontpage'))
-				->where('content_id IN (' . implode(',', $pks) . ')');
+				->whereIn($db->quoteName('content_id'), $pks);
 			$db->setQuery($query);
 			$db->execute();
 
@@ -1343,26 +1396,33 @@ class ArticleModel extends AdminModel
 		}
 
 		// Check if the workflow exists
-		if ($workflow_id > 0)
+		if ($workflow_id = (int) $workflow_id)
 		{
-			$query  = $db->getQuery(true);
+			$query = $db->getQuery(true);
 
 			$query->select(
-				$db->quoteName(
+				[
+					$db->quoteName('w.id'),
+					$db->quoteName('ws.condition'),
+					$db->quoteName('ws.id', 'stage_id'),
+				]
+			)
+				->from(
 					[
-						'w.id',
-						'ws.condition'
+						$db->quoteName('#__workflow_stages', 'ws'),
+						$db->quoteName('#__workflows', 'w'),
 					]
 				)
-			)
-				->select($db->quoteName('ws.id', 'stage_id'))
-				->from($db->quoteName('#__workflow_stages', 'ws'))
-				->from($db->quoteName('#__workflows', 'w'))
-				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
-				->where($db->quoteName('ws.default') . ' = 1')
-				->where($db->quoteName('w.published') . ' = 1')
-				->where($db->quoteName('ws.published') . ' = 1')
-				->where($db->quoteName('w.id') . ' = ' . (int) $workflow_id);
+				->where(
+					[
+						$db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'),
+						$db->quoteName('ws.default') . ' = 1',
+						$db->quoteName('w.published') . ' = 1',
+						$db->quoteName('ws.published') . ' = 1',
+						$db->quoteName('w.id') . ' = :workflowId',
+					]
+				)
+				->bind(':workflowId', $workflow_id, ParameterType::INTEGER);
 
 			$workflow = $db->setQuery($query)->loadObject();
 
@@ -1376,21 +1436,27 @@ class ArticleModel extends AdminModel
 		$query  = $db->getQuery(true);
 
 		$query->select(
-			$db->quoteName(
+			[
+				$db->quoteName('w.id'),
+				$db->quoteName('ws.condition'),
+				$db->quoteName('ws.id', 'stage_id'),
+			]
+		)
+			->from(
 				[
-					'w.id',
-					'ws.condition'
+					$db->quoteName('#__workflow_stages', 'ws'),
+					$db->quoteName('#__workflows', 'w'),
 				]
 			)
-		)
-			->select($db->quoteName('ws.id', 'stage_id'))
-			->from($db->quoteName('#__workflow_stages', 'ws'))
-			->from($db->quoteName('#__workflows', 'w'))
-			->where($db->quoteName('ws.default') . ' = 1')
-			->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
-			->where($db->quoteName('w.published') . ' = 1')
-			->where($db->quoteName('ws.published') . ' = 1')
-			->where($db->quoteName('w.default') . ' = 1');
+			->where(
+				[
+					$db->quoteName('ws.default') . ' = 1',
+					$db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'),
+					$db->quoteName('w.published') . ' = 1',
+					$db->quoteName('ws.published') . ' = 1',
+					$db->quoteName('w.default') . ' = 1',
+				]
+			);
 
 		$workflow = $db->setQuery($query)->loadObject();
 

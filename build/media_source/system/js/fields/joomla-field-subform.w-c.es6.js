@@ -305,10 +305,9 @@
           .replace(/(\[\]$)/g, '')
           .replace(/(\]\[)/g, '__')
           .replace(/\[/g, '_')
-          .replace(/\]/g, '')
-          .replace(/\W/g, '_'); // id from name
+          .replace(/\]/g, ''); // id from name
         const nameNew = name.replace(`[${group}][`, `[${groupnew}][`); // New name
-        let idNew = id.replace(group, groupnew); // Count new id
+        let idNew = id.replace(group, groupnew).replace(/\W/g, '_'); // Count new id
         let countMulti = 0; // count for multiple radio/checkboxes
         let forOldAttr = id; // Fix "for" in the labels
 

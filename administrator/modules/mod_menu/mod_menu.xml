@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="administrator" method="upgrade">
+<extension type="module" client="administrator" method="upgrade">
 	<name>mod_menu</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2006</creationDate>
@@ -37,7 +37,6 @@
 					type="menuPreset"
 					label="MOD_MENU_FIELD_PRESET_LABEL"
 					description="MOD_MENU_FIELD_PRESET_DESC"
-					addfieldpath="administrator/components/com_menus/models/fields"
 					showon="menutype:*"
 				/>
 

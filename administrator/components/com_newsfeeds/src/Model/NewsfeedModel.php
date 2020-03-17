@@ -187,17 +187,29 @@ class NewsfeedModel extends AdminModel
 		// Save New Category
 		if ($createCategory && $this->canCreateCategory())
 		{
-			$table = array();
+			$category = [
+				// Remove #new# prefix, if exists.
+				'title'     => strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'],
+				'parent_id' => 1,
+				'extension' => 'com_newsfeeds',
+				'language'  => $data['language'],
+				'published' => 1,
+			];
 
-			// Remove #new# prefix, if exists.
-			$table['title'] = strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'];
-			$table['parent_id'] = 1;
-			$table['extension'] = 'com_newsfeeds';
-			$table['language'] = $data['language'];
-			$table['published'] = 1;
+			/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $categoryModel */
+			$categoryModel = Factory::getApplication()->bootComponent('com_categories')
+				->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 
-			// Create new category and get catid back
-			$data['catid'] = CategoriesHelper::createCategory($table);
+			// Create new category.
+			if (!$categoryModel->save($category))
+			{
+				$this->setError($categoryModel->getError());
+
+				return false;
+			}
+
+			// Get the Category ID.
+			$data['catid'] = $categoryModel->getState('category.id');
 		}
 
 		// Alter the name for save as copy

@@ -66,6 +66,7 @@ install:
     - IF %PHP%==1 echo extension=php_mbstring.dll >> php.ini
     - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
     - IF %PHP%==1 echo extension=php_gd2.dll >> php.ini
+    - IF %PHP%==1 echo extension=php_gmp.dll >> php.ini
 
     - ps: >-
         If ($env:PHP -eq "1") {

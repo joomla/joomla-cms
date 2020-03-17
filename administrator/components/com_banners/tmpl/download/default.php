@@ -9,9 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 
 /** @var \Joomla\Component\Banners\Administrator\View\Download\HtmlView $this */
+
+HTMLHelper::_('behavior.formvalidator');
 
 ?>
 <div class="container-popup">

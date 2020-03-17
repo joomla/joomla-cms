@@ -1,4 +1,7 @@
 // Utilities
+* {
+  box-sizing: border-box;
+}
 
 // Keep B/C
 .element-invisible {
@@ -26,14 +29,15 @@
 
 [class^='column-'],
 [class*=' column-'] {
-  column-gap: 2rem;
   padding-bottom: 1rem;
+  column-gap: 2rem;
 
   > div {
     display: inline-flex;
     flex-direction: column;
-    break-inside: avoid;
     width: 100%;
+    break-inside: avoid;
+    page-break-inside: avoid;
 
     &.hidden {
       display: none;
