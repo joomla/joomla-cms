@@ -100,7 +100,18 @@ class InstallationController extends JSONController
 		$configurationModel = $this->getModel('Configuration');
 
 		// Attempt to setup the configuration.
-		if (!$configurationModel->setup($options))
+		try
+		{
+			$setupDone = $configurationModel->setup($options);
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->app->enqueueMessage($e->getMessage(), 'error');
+
+			$setupDone = false;
+		}
+
+		if (!$setupDone)
 		{
 			$r->view = 'setup';
 		}
