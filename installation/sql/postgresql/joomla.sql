@@ -619,7 +619,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_content_loadmodule', 'plugin', 'loadmodule', 'content', 0, 1, 1, 0, '', '{"style":"xhtml"}', 0, NULL, 0, 0),
 (0, 'plg_content_pagebreak', 'plugin', 'pagebreak', 'content', 0, 1, 1, 0, '', '{"title":"1","multipage_toc":"1","showall":"1"}', 0, NULL, 4, 0),
 (0, 'plg_content_pagenavigation', 'plugin', 'pagenavigation', 'content', 0, 1, 1, 0, '', '{"position":"1"}', 0, NULL, 5, 0),
-(0, 'plg_content_vote', 'plugin', 'vote', 'content', 0, 1, 1, 0, '', '', 0, NULL, 6, 0),
+(0, 'plg_content_vote', 'plugin', 'vote', 'content', 0, 0, 1, 0, '', '', 0, NULL, 6, 0),
 (0, 'plg_editors_codemirror', 'plugin', 'codemirror', 'editors', 0, 1, 1, 1, '', '{"lineNumbers":"1","lineWrapping":"1","matchTags":"1","matchBrackets":"1","marker-gutter":"1","autoCloseTags":"1","autoCloseBrackets":"1","autoFocus":"1","theme":"default","tabmode":"indent"}', 0, NULL, 1, 0),
 (0, 'plg_editors_none', 'plugin', 'none', 'editors', 0, 1, 1, 1, '', '', 0, NULL, 2, 0),
 (0, 'plg_editors_tinymce', 'plugin', 'tinymce', 'editors', 0, 1, 1, 0, '', '{"configuration":{"toolbars":{"2":{"toolbar1":["bold","underline","strikethrough","|","undo","redo","|","bullist","numlist","|","pastetext"]},"1":{"menu":["edit","insert","view","format","table","tools"],"toolbar1":["bold","italic","underline","strikethrough","|","alignleft","aligncenter","alignright","alignjustify","|","formatselect","|","bullist","numlist","|","outdent","indent","|","undo","redo","|","link","unlink","anchor","code","|","hr","table","|","subscript","superscript","|","charmap","pastetext","preview"]},"0":{"menu":["edit","insert","view","format","table","tools"],"toolbar1":["bold","italic","underline","strikethrough","|","alignleft","aligncenter","alignright","alignjustify","|","styleselect","|","formatselect","fontselect","fontsizeselect","|","searchreplace","|","bullist","numlist","|","outdent","indent","|","undo","redo","|","link","unlink","anchor","image","|","code","|","forecolor","backcolor","|","fullscreen","|","table","|","subscript","superscript","|","charmap","emoticons","media","hr","ltr","rtl","|","cut","copy","paste","pastetext","|","visualchars","visualblocks","nonbreaking","blockquote","template","|","print","preview","codesample","insertdatetime","removeformat"]}},"setoptions":{"2":{"access":["1"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"0","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""},"1":{"access":["6","2"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"0","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""},"0":{"access":["7","4","8"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"1","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""}}},"sets_amount":3,"html_height":"550","html_width":"750"}', 0, NULL, 3, 0),
@@ -711,8 +711,8 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_system_skipto', 'plugin', 'skipto', 'system', 0, 1, 1, 0, '', '{}',  0, NULL, 0, 0),
 (0, 'plg_api-authentication_basic', 'plugin', 'basic', 'api-authentication', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_webservices_banners', 'plugin', 'banners', 'webservices', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
-(0, 'plg_webservices_config', 'plugin', 'config', 'webservices', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_webservices_contact', 'plugin', 'contact', 'webservices', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
+(0, 'plg_webservices_config', 'plugin', 'config', 'webservices', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_webservices_content', 'plugin', 'content', 'webservices', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_webservices_languages', 'plugin', 'languages', 'webservices', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_webservices_messages', 'plugin', 'messages', 'webservices', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
@@ -735,7 +735,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_fields_subfields', 'plugin', 'subfields', 'fields', 0, 1, 1, 0, '', '', 0, NULL, 0, 0),
 (0, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', 0, NULL, 0, 0),
 (0, 'English (en-GB) Language Pack', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', 0, NULL, 0, 0),
-(0, 'plg_system_webauthn', 'plugin', 'webauthn', 'system', 0, 1, 1, 0, '', '{}', 0, NULL, 8, 0);
+(0, 'plg_system_webauthn', 'plugin', 'webauthn', 'system', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0);
 
 
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state")
@@ -1831,7 +1831,7 @@ CREATE INDEX "#__template_styles_idx_client_id" ON "#__template_styles" ("client
 CREATE INDEX "#__template_styles_idx_client_id_home" ON "#__template_styles" ("client_id", "home");
 
 --
--- Dumping data for table #__template_styles
+-- Dumping data for table `#__template_styles`
 --
 
 INSERT INTO "#__template_styles" ("id", "template", "client_id", "home", "title", "params") VALUES
@@ -2181,7 +2181,7 @@ CREATE TABLE "#__action_logs_extensions" (
 );
 
 --
--- Dumping data for table '#__action_logs_extensions'
+-- Dumping data for table `#__action_logs_extensions`
 --
 INSERT INTO "#__action_logs_extensions" ("id", "extension") VALUES
 (1, 'com_banners'),
@@ -2221,7 +2221,7 @@ CREATE TABLE "#__action_log_config" (
 );
 
 --
--- Dumping data for table #__action_log_config
+-- Dumping data for table `#__action_log_config`
 --
 INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder", "title_holder", "table_name", "text_prefix") VALUES
 (1, 'article', 'com_content.article', 'id' ,'title' , '#__content', 'PLG_ACTIONLOG_JOOMLA'),
@@ -2290,7 +2290,7 @@ INSERT INTO "#__viewlevels" ("id", "title", "ordering", "rules") VALUES
 SELECT setval('#__viewlevels_id_seq', 7, false);
 
 --
--- Table structure for table "#__webauthn_credentials"
+-- Table structure for table `#__webauthn_credentials`
 --
 
 CREATE TABLE IF NOT EXISTS "#__webauthn_credentials" (
@@ -2304,7 +2304,7 @@ CREATE TABLE IF NOT EXISTS "#__webauthn_credentials" (
 CREATE INDEX "#__webauthn_credentials_user_id" ON "#__webauthn_credentials" ("user_id");
 
 --
--- Table structure for table "#__workflows"
+-- Table structure for table `#__workflows`
 --
 
 CREATE TABLE IF NOT EXISTS "#__workflows" (
@@ -2342,7 +2342,7 @@ INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description
 SELECT setval('#__workflows_id_seq', 2, false);
 
 --
--- Table structure for table "#__workflow_associations"
+-- Table structure for table `#__workflow_associations`
 --
 
 CREATE TABLE IF NOT EXISTS "#__workflow_associations" (
@@ -2360,7 +2360,7 @@ COMMENT ON COLUMN "#__workflow_associations"."item_id" IS 'Extension table id va
 COMMENT ON COLUMN "#__workflow_associations"."stage_id" IS 'Foreign Key to #__workflow_stages.id';
 
 --
--- Table structure for table "#__workflow_stages"
+-- Table structure for table `#__workflow_stages`
 --
 
 CREATE TABLE IF NOT EXISTS "#__workflow_stages" (
@@ -2384,18 +2384,18 @@ CREATE INDEX "#__workflow_stages_idx_default" ON "#__workflow_stages" ("default"
 CREATE INDEX "#__workflow_stages_idx_checked_out" ON "#__workflow_stages" ("checked_out");
 
 --
--- Dumping data for table "#__workflow_stages"
+-- Dumping data for table `#__workflow_stages`
 --
 
 INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "condition", "default", "checked_out_time", "checked_out") VALUES
-(1, 0, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1, NULL, 0),
-(2, 0, 2, 1, 1, 'JPUBLISHED', '', 1, 0, NULL, 0),
-(3, 0, 3, 1, 1, 'JTRASHED', '', -2, 0, NULL, 0),
-(4, 0, 4, 1, 1, 'JARCHIVED', '', 2, 0, NULL, 0);
+(1, 57, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1, NULL, 0),
+(2, 58, 2, 1, 1, 'JPUBLISHED', '', 1, 0, NULL, 0),
+(3, 59, 3, 1, 1, 'JTRASHED', '', -2, 0, NULL, 0),
+(4, 60, 4, 1, 1, 'JARCHIVED', '', 2, 0, NULL, 0);
 
 SELECT setval('#__workflow_stages_id_seq', 5, false);
 --
--- Table structure for table "#__workflow_transitions"
+-- Dumping data for table `#__workflow_transitions`
 --
 
 CREATE TABLE IF NOT EXISTS "#__workflow_transitions" (
@@ -2420,15 +2420,15 @@ CREATE INDEX "#__workflow_transitions_idx_workflow_id" ON "#__workflow_transitio
 CREATE INDEX "#__workflow_transitions_idx_checked_out" ON "#__workflow_transitions" ("checked_out");
 
 INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_stage_id", "to_stage_id", "checked_out_time", "checked_out") VALUES
-(1, 0, 1, 1, 1, 'Unpublish', '', -1, 1, NULL, 0),
-(2, 0, 1, 2, 1, 'Publish', '', -1, 2, NULL, 0),
-(3, 0, 1, 3, 1, 'Trash', '', -1, 3, NULL, 0),
-(4, 0, 1, 4, 1, 'Archive', '', -1, 4, NULL, 0);
+(1, 61, 1, 1, 1, 'Unpublish', '', -1, 1, NULL, 0),
+(2, 62, 1, 2, 1, 'Publish', '', -1, 2, NULL, 0),
+(3, 63, 1, 3, 1, 'Trash', '', -1, 3, NULL, 0),
+(4, 64, 1, 4, 1, 'Archive', '', -1, 4, NULL, 0);
 
 SELECT setval('#__workflow_transitions_id_seq', 5, false);
 
 --
--- Table structure for table "#__mail_templates"
+-- Table structure for table `#__mail_templates`
 --
 
 CREATE TABLE IF NOT EXISTS "#__mail_templates" (
@@ -2445,7 +2445,7 @@ CREATE INDEX "#__mail_templates_idx_template_id" ON "#__mail_templates" ("templa
 CREATE INDEX "#__mail_templates_idx_language" ON "#__mail_templates" ("language");
 
 --
--- Dumping data for table "#__mail_templates"
+-- Dumping data for table `#__mail_templates`
 --
 
 INSERT INTO "#__mail_templates" ("template_id", "language", "subject", "body", "htmlbody", "attachments", "params") VALUES
