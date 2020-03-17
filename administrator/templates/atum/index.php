@@ -92,7 +92,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 <header id="header" class="header">
 	<div class="d-flex">
 		<div class="header-title d-flex">
-			<div class="d-flex">
+			<div class="d-flex align-items-center">
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<?php if ($hiddenMenu || $cpanel) : ?>
 					<div class="logo">

@@ -78,7 +78,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		$component = ComponentHelper::getComponent('com_installer');
 
 		/** @var \Joomla\Registry\Registry $params */
-		$params        = $component->params;
+		$params        = $component->getParams();
 		$cache_timeout = (int) $params->get('cachetimeout', 6);
 		$cache_timeout = 3600 * $cache_timeout;
 
@@ -394,7 +394,8 @@ class PlgSystemUpdatenotification extends CMSPlugin
 
 			if (!empty($emails))
 			{
-				$query->whereIn($db->quoteName('email'), $emails, ParameterType::STRING);
+				$lowerCaseEmails = array_map('strtolower', $emails);
+				$query->whereIn('LOWER(' . $db->quoteName('email') . ')', $lowerCaseEmails, ParameterType::STRING);
 			}
 
 			$db->setQuery($query);

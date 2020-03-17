@@ -160,7 +160,7 @@ class CategoryField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalSelect' . $modalId . '">'
-				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
+				. '<span class="fas fa-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</button>';
 		}
 
@@ -173,7 +173,7 @@ class CategoryField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalNew' . $modalId . '">'
-				. '<span class="icon-new" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
+				. '<span class="fas fa-plus" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
 				. '</button>';
 		}
 
@@ -186,7 +186,7 @@ class CategoryField extends FormField
 				. ' data-toggle="modal"'
 				. ' type="button"'
 				. ' data-target="#ModalEdit' . $modalId . '">'
-				. '<span class="icon-edit" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
+				. '<span class="fas fa-pen-square" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
 				. '</button>';
 		}
 
@@ -198,7 +198,7 @@ class CategoryField extends FormField
 				. ' id="' . $this->id . '_clear"'
 				. ' type="button"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
-				. '<span class="icon-remove" aria-hidden="true"></span> ' . Text::_('JCLEAR')
+				. '<span class="fas fa-times" aria-hidden="true"></span> ' . Text::_('JCLEAR')
 				. '</button>';
 		}
 
@@ -215,7 +215,7 @@ class CategoryField extends FormField
 			. ' id="' . $this->id . '_propagate"'
 			. ' title="' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP') . '"'
 			. ' onclick="Joomla.propagateAssociation(\'' . $this->id . '\', \'' . $callbackFunctionStem . '\');">'
-			. '<span class="icon-refresh" aria-hidden="true"></span> ' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
+			. '<span class="fas fa-sync" aria-hidden="true"></span> ' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
 			. '</button>';
 		}
 

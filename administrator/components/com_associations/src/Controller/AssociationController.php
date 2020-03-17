@@ -30,7 +30,7 @@ class AssociationController extends FormController
 	 * @param   string  $urlVar  The name of the URL variable if different from the primary key
 	 *                           (sometimes required to avoid router collisions).
 	 *
-	 * @return  boolean  True if access level check and checkout passes, false otherwise.
+	 * @return  FormController|boolean  True if access level check and checkout passes, false otherwise.
 	 *
 	 * @since  3.7.0
 	 */

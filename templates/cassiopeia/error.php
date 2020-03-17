@@ -198,7 +198,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 		<hr>
 		<p class="float-right">
 			<a href="#top" id="back-top" class="back-top">
-				<span class="icon-arrow-up-4" aria-hidden="true"></span>
+				<span class="fas fa-arrow-up" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
 			</a>
 		</p>

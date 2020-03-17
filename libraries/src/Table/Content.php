@@ -214,6 +214,14 @@ class Content extends Table
 			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
+		// Check for a valid category.
+		if (!$this->catid = (int) $this->catid)
+		{
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
+
+			return false;
+		}
+
 		if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '')
 		{
 			$this->fulltext = '';
