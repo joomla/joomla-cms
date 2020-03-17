@@ -12,7 +12,6 @@ namespace Joomla\CMS\Serializer;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Table\Table;
 use Tobscure\JsonApi\AbstractSerializer;
 use Tobscure\JsonApi\Relationship;
 
@@ -40,8 +39,8 @@ class JoomlaSerializer extends AbstractSerializer
 	/**
 	 * Get the attributes array.
 	 *
-	 * @param   Table|array|\stdClass|CMSObject  $post    The model
-	 * @param   array                            $fields  The fields can be array or null
+	 * @param   array|\stdClass|CMSObject  $post    The data container
+	 * @param   array                      $fields  The fields can be array or null
 	 *
 	 * @return  array
 	 *
@@ -54,7 +53,7 @@ class JoomlaSerializer extends AbstractSerializer
 			$message = sprintf(
 				'Invalid argument for %s. Expected array or %s. Got %s',
 				static::class,
-				Table::class,
+				CMSObject::class,
 				\gettype($post)
 			);
 
