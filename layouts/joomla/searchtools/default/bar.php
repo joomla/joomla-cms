@@ -33,13 +33,6 @@ $filters = $data['view']->filterForm->getGroup('filter');
 	<?php if ($searchButton) : ?>
 		<div class="btn-group mr-2">
 			<div class="input-group">
-				<label for="filter_search" class="sr-only">
-					<?php if (isset($filters['filter_search']->label)) : ?>
-						<?php echo Text::_($filters['filter_search']->label); ?>
-					<?php else : ?>
-						<?php echo Text::_('JSEARCH_FILTER'); ?>
-					<?php endif; ?>
-				</label>
 				<?php echo $filters['filter_search']->input; ?>
 				<?php if ($filters['filter_search']->description) : ?>
 				<div role="tooltip" id="<?php echo $filters['filter_search']->name . '-desc'; ?>">
@@ -47,6 +40,13 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				</div>
 				<?php endif; ?>
 				<span class="input-group-append">
+					<label for="filter_search" class="sr-only">
+					<?php if (isset($filters['filter_search']->label)) : ?>
+						<?php echo Text::_($filters['filter_search']->label); ?>
+					<?php else : ?>
+						<?php echo Text::_('JSEARCH_FILTER'); ?>
+					<?php endif; ?>
+					</label>
 					<button type="submit" class="btn btn-primary" aria-label="<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>">
 						<span class="fas fa-search" aria-hidden="true"></span>
 					</button>

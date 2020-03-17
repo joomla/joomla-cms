@@ -61,7 +61,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'general', Text::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
 		<div class="row">
 			<div class="col-lg-9">
-				<div class="card">
+				<div>
 					<div class="card-body">
 						<fieldset class="adminform">
 							<?php echo $this->form->getLabel('articletext'); ?>

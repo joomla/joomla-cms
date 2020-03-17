@@ -17,7 +17,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Table\Table;
 
 /**
  * The contact controller for ajax requests
@@ -62,8 +61,7 @@ class AjaxController extends BaseController
 			unset($associations[$excludeLang]);
 
 			// Add the title to each of the associated records
-			Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_contact/tables');
-			$contactTable = Table::getInstance('Contact', 'ContactTable');
+			$contactTable = $this->factory->createTable('Contact', 'Administrator');
 
 			foreach ($associations as $lang => $association)
 			{

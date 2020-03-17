@@ -16,15 +16,18 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
-HTMLHelper::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_templates/admin-template-compare.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_templates/admin-template-toggle-switch.min.js', array('version' => 'auto', 'relative' => true));
-
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.multiselect', 'updateForm');
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa    = $this->document->getWebAssetManager();
 $input = Factory::getApplication()->input;
+
+// Enable assets
+$wa->useScript('form.validate')
+	->useScript('keepalive')
+	->useScript('diff')
+	->registerAndUseScript('templates.admin-template-compare', 'com_templates/admin-template-compare.min.js', [], ['defer' => true], ['diff', 'core'])
+	->registerAndUseScript('templates.admin-template-toggle-switch', 'com_templates/admin-template-toggle-switch.min.js', [], ['defer' => true], ['core']);
 
 // No access if not global SuperUser
 if (!Factory::getUser()->authorise('core.admin'))
@@ -34,16 +37,15 @@ if (!Factory::getUser()->authorise('core.admin'))
 
 if ($this->type == 'image')
 {
-	HTMLHelper::_('script', 'vendor/cropperjs/cropper.min.js', array('version' => 'auto', 'relative' => true));
-	HTMLHelper::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array('version' => 'auto', 'relative' => true));
+	$wa->usePreset('cropperjs');
 }
 
-HTMLHelper::_('script', 'com_templates/admin-templates-default.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('stylesheet', 'com_templates/admin-templates-default.css', array('version' => 'auto', 'relative' => true));
+$wa->registerAndUseStyle('templates.admin-templates-default', 'com_templates/admin-templates-default.css')
+	->registerAndUseScript('templates.admin-templates-default', 'com_templates/admin-templates-default.min.js', [], ['defer' => true], ['core']);
 
 if ($this->type == 'font')
 {
-	$this->document->addStyleDeclaration("
+	$wa->addInlineStyle("
 		@font-face {
 			font-family: previewFont;
 			src: url('" . $this->font['address'] . "')

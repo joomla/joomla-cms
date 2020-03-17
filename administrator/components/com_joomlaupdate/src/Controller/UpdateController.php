@@ -156,7 +156,7 @@ class UpdateController extends BaseController
 		{
 			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
-			return false;
+			return;
 		}
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
@@ -200,7 +200,7 @@ class UpdateController extends BaseController
 		{
 			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
-			return false;
+			return;
 		}
 
 		$options['format'] = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
@@ -295,7 +295,7 @@ class UpdateController extends BaseController
 	/**
 	 * Checks there is a valid update package and redirects to the captive view for super admin authentication.
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @since   3.6.0
 	 */
@@ -327,7 +327,7 @@ class UpdateController extends BaseController
 	/**
 	 * Checks the admin has super administrator privileges and then proceeds with the update.
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @since   3.6.0
 	 */
@@ -457,7 +457,7 @@ class UpdateController extends BaseController
 	/**
 	 * Checks the admin has super administrator privileges and then proceeds with the final & cleanup steps.
 	 *
-	 * @return  array
+	 * @return  void
 	 *
 	 * @since   3.6.3
 	 */
@@ -491,7 +491,7 @@ class UpdateController extends BaseController
 			$this->setMessage(Text::_('JGLOBAL_AUTH_INVALID_PASS'), 'warning');
 			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
-			return false;
+			return;
 		}
 
 		// Redirect back to the actual finalise page
@@ -514,7 +514,7 @@ class UpdateController extends BaseController
 
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
-		$updateFileUrl = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
+		$compatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
 
 		$this->app = Factory::getApplication();
 		$this->app->mimeType = 'application/json';
@@ -524,7 +524,7 @@ class UpdateController extends BaseController
 
 		try
 		{
-			echo new JsonResponse($updateFileUrl);
+			echo new JsonResponse($compatibilityStatus);
 		}
 		catch (\Exception $e)
 		{

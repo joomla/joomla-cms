@@ -178,7 +178,7 @@ class OpensearchDocument extends Document
 		}
 
 		$xml->appendChild($elOs);
-		parent::render();
+		parent::render($cache, $params);
 
 		return $xml->saveXml();
 	}

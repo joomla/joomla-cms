@@ -132,11 +132,11 @@ class ListField extends FormField
 
 			if ((string) $option['showon'])
 			{
-				$tmp['optionattr'] = " data-showon='" .
-					json_encode(
-						FormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
-					)
-					. "'";
+				$encodedConditions = json_encode(
+					FormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
+				);
+
+				$tmp['optionattr'] = " data-showon='" . $encodedConditions . "'";
 			}
 
 			// Add the option object to the result set.

@@ -407,9 +407,9 @@ class TracksModel extends ListModel
 	}
 
 	/**
-	 * Get the category name
+	 * Get the client name
 	 *
-	 * @return  string  The category name.
+	 * @return  string  The client name.
 	 *
 	 * @since   1.6
 	 */

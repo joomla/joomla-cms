@@ -17,6 +17,7 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
 use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
@@ -6202,6 +6203,9 @@ class JoomlaInstallerScript
 			}
 		}
 
+		// Update UCM content types.
+		$this->updateContentTypes();
+
 		return true;
 	}
 
@@ -6473,5 +6477,70 @@ class JoomlaInstallerScript
 		];
 
 		return $menuItems;
+	}
+
+	/**
+	 * Updates content type table classes.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function updateContentTypes(): void
+	{
+		// Content types to update.
+		$contentTypes = [
+			'com_contact.contact',
+			'com_newsfeeds.newsfeed',
+			'com_tags.tag',
+			'com_banners.banner',
+			'com_banners.client',
+			'com_users.note',
+		];
+
+		// Get table definitions.
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select(
+				[
+					$db->quoteName('type_alias'),
+					$db->quoteName('table'),
+				]
+			)
+			->from($db->quoteName('#__content_types'))
+			->whereIn($db->quoteName('type_alias'), $contentTypes, ParameterType::STRING);
+
+		$db->setQuery($query);
+		$contentTypes = $db->loadObjectList();
+
+		// Prepare the update query.
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__content_types'))
+			->set($db->quoteName('table') . ' = :table')
+			->where($db->quoteName('type_alias') . ' = :typeAlias')
+			->bind(':table', $table)
+			->bind(':typeAlias', $typeAlias);
+
+		$db->setQuery($query);
+
+		foreach ($contentTypes as $contentType)
+		{
+			list($component, $tableType) = explode('.', $contentType->type_alias);
+
+			$tablePrefix = 'Joomla\\Component\\' . ucfirst(substr($component, 4)) . '\\Administrator\\Table\\';
+			$tableType   = ucfirst($tableType) . 'Table';
+
+			// Bind type alias.
+			$typeAlias = $contentType->type_alias;
+
+			// Update table definition.
+			$table = json_decode($contentType->table);
+			$table->special->type = $tableType;
+			$table->special->prefix = $tablePrefix;
+			$table = json_encode($table);
+
+			// Execute the query.
+			$db->execute();
+		}
 	}
 }
