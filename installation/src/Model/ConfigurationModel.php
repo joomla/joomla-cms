@@ -33,6 +33,7 @@ class ConfigurationModel extends BaseInstallationModel
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.1
+	 * @throws  \RuntimeException
 	 */
 	public function setup($options)
 	{
@@ -49,11 +50,20 @@ class ConfigurationModel extends BaseInstallationModel
 		$databaseModel = new DatabaseModel;
 
 		// Create Db
-		if (!$databaseModel->createDatabase($options))
+		try
+		{
+			if (!$databaseModel->createDatabase($options))
+			{
+				$this->deleteConfiguration();
+
+				return false;
+			}
+		}
+		catch (\RuntimeException $e)
 		{
 			$this->deleteConfiguration();
 
-			return false;
+			throw $e;
 		}
 
 		$options->db_select = true;
