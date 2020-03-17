@@ -101,23 +101,43 @@ class HtmlView extends BaseHtmlView
 	{
 		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_messages');
+
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
+
 		ToolbarHelper::title(Text::_('COM_MESSAGES_MANAGER_MESSAGES'), 'envelope inbox');
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('message.add');
+			$toolbar->addNew('message.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::divider();
-			ToolbarHelper::publish('messages.publish', 'COM_MESSAGES_TOOLBAR_MARK_AS_READ', true);
-			ToolbarHelper::unpublish('messages.unpublish', 'COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD', true);
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fas fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
+
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->publish('messages.publish')
+				->text('COM_MESSAGES_TOOLBAR_MARK_AS_READ')
+				->listCheck(true);
+
+			$childBar->unpublish('messages.unpublish')
+				->text('COM_MESSAGES_TOOLBAR_MARK_AS_UNREAD')
+				->listCheck(true);
+
+			if ($this->state->get('filter.state') != -2)
+			{
+				$childBar->trash('messages.trash')->listCheck(true);
+			}
 		}
 
-		ToolbarHelper::divider();
-		$bar = Toolbar::getInstance('toolbar');
-		$bar->appendButton(
+		$toolbar->appendButton(
 			'Popup',
 			'cog',
 			'COM_MESSAGES_TOOLBAR_MY_SETTINGS',
@@ -137,23 +157,19 @@ class HtmlView extends BaseHtmlView
 			. '</button>'
 		);
 
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::divider();
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'messages.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::divider();
-			ToolbarHelper::trash('messages.trash');
+			$toolbar->delete('messages.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			ToolbarHelper::preferences('com_messages');
+			$toolbar->preferences('com_messages');
 		}
 
-		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_INBOX');
+		$toolbar->help('JHELP_COMPONENTS_MESSAGING_INBOX');
 	}
 }
