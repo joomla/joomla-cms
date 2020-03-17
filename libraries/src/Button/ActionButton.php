@@ -38,11 +38,11 @@ class ActionButton
 	 * @since  4.0.0
 	 */
 	protected $unknownState = [
-		'value'     => null,
-		'task'      => '',
-		'icon'      => 'question',
-		'title'     => 'Unknown state',
-		'options'   => [
+		'value'   => null,
+		'task'    => '',
+		'icon'    => 'question',
+		'title'   => 'Unknown state',
+		'options' => [
 			'disabled'  => false,
 			'only_icon' => false,
 			'tip' => true,
