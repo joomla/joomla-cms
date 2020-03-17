@@ -40,7 +40,7 @@ class JoomlaSerializer extends AbstractSerializer
 	 * Get the attributes array.
 	 *
 	 * @param   array|\stdClass|CMSObject  $post    The data container
-	 * @param   array                      $fields  The fields can be array or null
+	 * @param   array|null                 $fields  The requested fields to be rendered
 	 *
 	 * @return  array
 	 *
