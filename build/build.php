@@ -324,6 +324,9 @@ $doNotPackage = array(
 	'selenium.log',
 	'tests',
 	'travisci-phpunit.xml',
+	// Media Manager Node Assets
+	'administrator/components/com_media/webpack.config.js',
+	'administrator/components/com_media/resources',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',
