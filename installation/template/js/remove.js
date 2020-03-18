@@ -66,3 +66,41 @@ if (document.getElementById('installLanguagesButton')) {
 		}
 	})
 }
+
+if (document.getElementById('defaultLanguagesButton')) {
+  document.getElementById('defaultLanguagesButton')
+    .addEventListener('click', (e) => {
+      let frontendlang = 'en-GB';
+      if (document.querySelector('input[name="frontendlang"]:checked')) {
+        frontendlang = document.querySelector('input[name="frontendlang"]:checked').value;
+      }
+
+      let administratorlang = 'en-GB';
+      if (document.querySelector('input[name="administratorlang"]:checked')) {
+        administratorlang = document.querySelector('input[name="administratorlang"]:checked').value;
+      }
+
+      e.preventDefault();
+
+      Joomla.request({
+        method: 'POST',
+        url: `${Joomla.installationBaseUrl}?view=setup&frontendlang=${frontendlang}&administratorlang=${administratorlang}&task=language.setdefault&format=json`,
+        perform: true,
+        token: true,
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        onSuccess(response) {
+          const successresponse = JSON.parse(response);
+          if (successresponse.messages) {
+            Joomla.renderMessages(successresponse.messages, '#system-message-container');
+          }
+        },
+        onError(xhr) {
+          Joomla.renderMessages({ error: [xhr] }, '#system-message-container');
+        },
+      });
+
+      if (document.getElementById('header')) {
+        document.getElementById('header').scrollIntoView();
+      }
+    });
+}

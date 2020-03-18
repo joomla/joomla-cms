@@ -46,6 +46,7 @@ class ConfigurationModel extends BaseInstallationModel
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.1
+	 * @throws  \RuntimeException
 	 */
 	public function setup($options)
 	{
@@ -112,7 +113,7 @@ class ConfigurationModel extends BaseInstallationModel
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('INSTL_ERROR_INITIALISE_SCHEMA'), 'error');
 
-			return false;
+			throw $e;
 		}
 
 		$version = '';
