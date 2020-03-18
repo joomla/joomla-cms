@@ -2394,8 +2394,9 @@ INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "
 (4, 60, 4, 1, 1, 'JARCHIVED', '', 2, 0, NULL, 0);
 
 SELECT setval('#__workflow_stages_id_seq', 5, false);
+
 --
--- Dumping data for table `#__workflow_transitions`
+-- Table structure for table `#__workflow_transitions`
 --
 
 CREATE TABLE IF NOT EXISTS "#__workflow_transitions" (
