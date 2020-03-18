@@ -9,10 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.9.0</version>
 	<description>PLG_SYSTEM_PRIVACYCONSENT_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\System\PrivacyConsent</namespace>
 	<files>
 		<filename plugin="privacyconsent">privacyconsent.php</filename>
-		<folder>privacyconsent</folder>
-		<folder>field</folder>
+		<folder>forms</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.plg_system_privacyconsent.ini</language>
