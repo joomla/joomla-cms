@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Contact\Administrator\Helper\ContactHelper;
-use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 HTMLHelper::_('behavior.core');
