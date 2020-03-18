@@ -22,7 +22,6 @@ $app = Factory::getApplication();
 if ($app->isClient('site'))
 {
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
-	HTMLHelper::_('stylesheet', 'system/adminlist.css', ['version' => 'auto', 'relative' => true]);
 }
 
 HTMLHelper::_('behavior.core');
