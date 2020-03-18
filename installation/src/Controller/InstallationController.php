@@ -100,16 +100,16 @@ class InstallationController extends JSONController
 		// Create Db
 		try
 		{
-			$setupDone = $databaseModel->createDatabase();
+			$dbCreated = $databaseModel->createDatabase();
 		}
 		catch (\RuntimeException $e)
 		{
 			$this->app->enqueueMessage($e->getMessage(), 'error');
 
-			$setupDone = false;
+			$dbCreated = false;
 		}
 
-		if (!$setupDone)
+		if (!$dbCreated)
 		{
 			$r->view = 'setup';
 		}
