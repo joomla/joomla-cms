@@ -15,6 +15,7 @@ use DateTimeZone;
 use Exception;
 use InvalidArgumentException;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Text;
