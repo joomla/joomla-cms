@@ -115,7 +115,7 @@ class ApiRouter extends Router
 		// Remove the base URI path.
 		$path = substr_replace($path, '', 0, \strlen($baseUri));
 
-		if (!$this->app->get('sef_rewrite'))
+		if ($this->app->get('sef_rewrite'))
 		{
 			// Transform the route
 			if ($path === 'index.php')
