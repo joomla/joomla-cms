@@ -92,7 +92,7 @@ class JoomlaInstallerScript
 			// Informational log only
 		}
 
-		// Ensure we delete the repeatable fields plugin before we remove it's files
+		// Ensure we delete the repeatable fields plugin before we remove its files
 		$this->uninstallRepeatableFieldsPlugin();
 
 		// This needs to stay for 2.5 update compatibility
