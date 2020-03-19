@@ -65,7 +65,7 @@ steps:
       branch:
       - 4.0-dev
 
-  - name: publish-diff
+  - name: packager
     image: itronic/test:latest
     depends_on: [ npm ]
     environment:
