@@ -65,6 +65,31 @@ steps:
       branch:
       - 4.0-dev
 
+  - name: publish-diff
+    image: itronic/test:latest
+    depends_on: [ npm ]
+    environment:
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      FTP_HOSTNAME: ci.joomla.org
+      FTP_PORT: "21"
+      FTP_DEST_DIR: /artifacts
+      FTP_VERIFY: "false"
+      FTP_SECURE: "true"
+      BRANCH_NAME: "4.0-dev" # Current branch to check against (from repo joomla/joomla-cms)
+      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
+    commands:
+      - export PULL_ID=$DRONE_PULL_REQUEST
+      - /bin/compare.sh
+    volumes:
+      - name: reference
+        path: /reference
+    when:
+      branch:
+      - 4.0-dev
+
   - name: rebuild-cache
     image: drillster/drone-volume-cache
     depends_on: [ npm ]
