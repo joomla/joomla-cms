@@ -157,7 +157,7 @@ class JsonapiView extends BaseApiView
 			$item->{$field->name} = isset($field->apivalue) ? $field->apivalue : $field->rawvalue;
 		}
 
-		if (Multilanguage::isEnabled())
+		if (Multilanguage::isEnabled() && !empty($item->associations))
 		{
 			$associations = [];
 

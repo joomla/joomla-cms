@@ -228,6 +228,7 @@ class ArticlesModel extends ListModel
 					$db->quoteName('a.publish_up'),
 					$db->quoteName('a.publish_down'),
 					$db->quoteName('a.introtext'),
+					$db->quoteName('a.fulltext'),
 					$db->quoteName('a.note'),
 				]
 			)
