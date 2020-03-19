@@ -10,7 +10,7 @@ module.exports = {
         './administrator/components/com_media/resources/styles/mediamanager.scss',
     ],
     output: {
-        path: path.resolve(__dirname, './media/com_media/js'),
+        path: path.resolve(__dirname, './../../../media/com_media/js'),
         publicPath: '/',
         filename: 'mediamanager.min.js'
     },

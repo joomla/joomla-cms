@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="webauthn" addfieldpath="plugins/system/webauthn/fields">
+	<fields name="webauthn" addfieldprefix="Joomla\Plugin\System\Webauthn\Field">
 		<fieldset name="webauthn"
 			label="PLG_SYSTEM_WEBAUTHN_HEADER"
 		>

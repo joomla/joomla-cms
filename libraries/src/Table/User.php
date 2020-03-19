@@ -17,6 +17,7 @@ use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -213,15 +214,16 @@ class User extends Table
 			return false;
 		}
 
-		if (preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $this->username) || \strlen(utf8_decode($this->username)) < 2
-			|| $filterInput->clean($this->username, 'TRIM') !== $this->username)
+		if (preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $this->username) || StringHelper::strlen($this->username) < 2
+			|| $filterInput->clean($this->username, 'TRIM') !== $this->username || StringHelper::strlen($this->username) > 150)
 		{
 			$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
 
 			return false;
 		}
 
-		if (($filterInput->clean($this->email, 'TRIM') == '') || !MailHelper::isEmailAddress($this->email))
+		if (($filterInput->clean($this->email, 'TRIM') == '') || !MailHelper::isEmailAddress($this->email)
+			|| StringHelper::strlen($this->email) > 100)
 		{
 			$this->setError(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
 
@@ -270,7 +272,7 @@ class User extends Table
 		$query->clear()
 			->select($this->_db->quoteName('id'))
 			->from($this->_db->quoteName('#__users'))
-			->where($this->_db->quoteName('email') . ' = ' . $this->_db->quote($this->email))
+			->where('LOWER(' . $this->_db->quoteName('email') . ') = LOWER(' . $this->_db->quote($this->email) . ')')
 			->where($this->_db->quoteName('id') . ' != ' . (int) $this->id);
 		$this->_db->setQuery($query);
 		$xid = (int) $this->_db->loadResult();

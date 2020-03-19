@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Plugin\System\Webauthn\Field;
+
 // Protect from unauthorized access
 defined('_JEXEC') or die;
 
@@ -23,18 +25,10 @@ use Joomla\Plugin\System\Webauthn\Helper\Joomla;
  *
  * @since  4.0.0
  */
-class JFormFieldWebauthn extends FormField
+class WebauthnField extends FormField
 {
 	/**
 	 * Element name
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $_name = 'Webauthn';
-
-	/**
-	 * The form field type.
 	 *
 	 * @var    string
 	 * @since  4.0.0

@@ -152,12 +152,13 @@ class HtmlView extends BaseHtmlView
 		Factory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$this->data, &$this->data->params, 0));
 		unset($this->data->text);
 
-		// Check for layout override
-		$active = Factory::getApplication()->getMenu()->getActive();
+		// Check for layout from menu item.
+		$query = Factory::getApplication()->getMenu()->getActive()->query;
 
-		if (isset($active->query['layout']))
+		if (isset($query['layout']) && isset($query['option']) && $query['option'] === 'com_users'
+			&& isset($query['view']) && $query['view'] === 'profile')
 		{
-			$this->setLayout($active->query['layout']);
+			$this->setLayout($query['layout']);
 		}
 
 		// Escape strings for HTML output

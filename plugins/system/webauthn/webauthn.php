@@ -24,12 +24,6 @@ use Joomla\Plugin\System\Webauthn\PluginTraits\ButtonsInUserPage;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserDeletion;
 use Joomla\Plugin\System\Webauthn\PluginTraits\UserProfileFields;
 
-// Register a PSR-4 autoloader for this plugin's classes if necessary
-if (!class_exists('Joomla\\Plugin\\System\\Webauthn\\Helper\\Joomla', true))
-{
-	JLoader::registerNamespace('Joomla\\Plugin\\System\\Webauthn', __DIR__ . '/Webauthn', false, false, 'psr4');
-}
-
 /**
  * WebAuthn Passwordless Login plugin
  *
