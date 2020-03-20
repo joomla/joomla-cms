@@ -99,13 +99,6 @@ class TagsViewTag extends JViewLegacy
 		// Flag indicates to not add limitstart=0 to URL
 		$pagination->hideEmptyLimitstart = true;
 
-		/*
-		 * // Change to catch
-		 * if (count($errors = $this->get('Errors'))) {
-		 * JError::raiseError(500, implode("\n", $errors));
-		 * return false;
-		 */
-
 		// Check whether access level allows access.
 		// @TODO: Should already be computed in $item->params->get('access-view')
 		$user   = JFactory::getUser();
@@ -122,9 +115,10 @@ class TagsViewTag extends JViewLegacy
 			if (!empty($itemElement))
 			{
 				$temp = new Registry($itemElement->params);
-				$itemElement->params = clone $params;
+				$itemElement->params   = clone $params;
 				$itemElement->params->merge($temp);
-				$itemElement->params = (array) json_decode($itemElement->params);
+				$itemElement->params   = (array) json_decode($itemElement->params);
+				$itemElement->metadata = new Registry($itemElement->metadata);
 			}
 		}
 
@@ -327,8 +321,16 @@ class TagsViewTag extends JViewLegacy
 			}
 		}
 
-		// @TODO: create tag feed document
-		// Add alternative feed link
+		if (count($this->item) === 1)
+		{
+			foreach ($this->item[0]->metadata->toArray() as $k => $v)
+			{
+				if ($v)
+				{
+					$this->document->setMetadata($k, $v);
+				}
+			}
+		}
 
 		if ($this->params->get('show_feed_link', 1) == 1)
 		{
