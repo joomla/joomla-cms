@@ -117,7 +117,6 @@ class JsonapiView extends BaseApiView
 	protected function prepareItem($item)
 	{
 		$item->id = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
-
 		return $item;
 	}
 }
