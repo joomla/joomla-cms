@@ -266,5 +266,4 @@ abstract class JsonApiView extends JsonView
 	{
 		return str_replace(array('[', ']'), array('%5B', '%5D'), $query);
 	}
-
 }
