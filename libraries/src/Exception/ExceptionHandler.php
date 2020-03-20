@@ -67,8 +67,6 @@ class ExceptionHandler
 	 */
 	public static function render(\Throwable $error)
 	{
-		$isCli = false;
-
 		try
 		{
 			// Try to log the error, but don't let the logging cause a fatal error
@@ -156,37 +154,50 @@ class ExceptionHandler
 			// This return is needed to ensure the test suite does not trigger the non-Exception handling below
 			return;
 		}
-		catch (\Throwable $e)
+		catch (\Throwable $errorRendererError)
 		{
 			// Pass the error down
 		}
 
 		/*
 		 * To reach this point in the code means there was an error creating the error page.
-		 * We try to send at least something back other than a WSOD at this point.
+		 *
+		 * Let global handler to handle the error, @see bootstrap.php
 		 */
-		if (!$isCli && !headers_sent())
+		if (isset($errorRendererError))
 		{
-			header('HTTP/1.1 500 Internal Server Error');
-		}
-
-		$message = 'Error';
-
-		// Make sure we do not display sensitive data in production environments
-		if (ini_get('display_errors'))
-		{
-			$message .= ': ';
-
-			if (isset($e))
+			/*
+			 * Here the thing, at this point we have 2 exceptions:
+			 * $errorRendererError  - the error caused by error renderer
+			 * $error               - the main error
+			 *
+			 * Both we need to show without loosing of a trace information
+			 * So use a bit of magic to merge them.
+			 *
+			 * Use exception nesting feature: rethrow the exceptions, an exception thrown in a finally block
+			 * will take unhandled exception as previous.
+			 * So PHP will add $error Exception as previous to $errorRendererError Exception to keep full error stack.
+			 */
+			try
 			{
-				$message .= $e->getMessage() . ': ';
+				try
+				{
+					throw $error;
+				}
+				finally
+				{
+					throw $errorRendererError;
+				}
 			}
-
-			$message .= $error->getMessage();
+			catch (\Throwable $finalError)
+			{
+				throw $finalError;
+			}
+		}
+		else
+		{
+			throw $error;
 		}
 
-		echo $message;
-
-		jexit(1);
 	}
 }
