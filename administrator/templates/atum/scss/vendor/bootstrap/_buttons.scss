@@ -30,3 +30,12 @@
   background-color: var(--atum-bg-dark);
   border-color: var(--atum-bg-dark);
 }
+
+.input-group > .input-group-append {
+  [dir=ltr] & {
+    .btn:nth-of-type(even):not(.hidden) {
+      @include border-right-radius($border-radius);
+    }
+  }
+}
+

@@ -292,3 +292,7 @@ body {
   @include border-left-radius($border-radius);
   @include border-right-radius(0);
 }
+
+.input-group > .input-group-append > .btn:nth-of-type(odd):not(.hidden):not(:last-child) {
+  @include border-left-radius(0 !important);
+}
