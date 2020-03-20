@@ -14,9 +14,9 @@ use Joomla\CMS\Menu\Node;
 /**
  * An external Url type of node for MenuTree
  *
- * @see    Node
- *
- * @since  3.8.0
+ * @see         Node
+ * @since       3.8.0
+ * @deprecated  4.0  Use Joomla\CMS\Menu\MenuItem
  */
 class Url extends Node
 {
@@ -67,6 +67,8 @@ class Url extends Node
 	 * @param   string  $icon    The title icon for the node
 	 *
 	 * @since   3.8.0
+	 *
+	 * @deprecated  4.0  Use Joomla\CMS\Menu\MenuItem
 	 */
 	public function __construct($title, $link, $target = null, $class = null, $id = null, $icon = null)
 	{
@@ -88,6 +90,8 @@ class Url extends Node
 	 * @return  mixed
 	 *
 	 * @since   3.8.0
+	 *
+	 * @deprecated  4.0  Use Joomla\CMS\Menu\MenuItem
 	 */
 	public function get($name)
 	{

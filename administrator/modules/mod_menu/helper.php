@@ -22,6 +22,8 @@ abstract class ModMenuHelper
 	 * @return  array  An array of the available menus (from the menu types table).
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated  4.0
 	 */
 	public static function getMenus()
 	{

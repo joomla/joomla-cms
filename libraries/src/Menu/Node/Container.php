@@ -12,9 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * A Container type of node for MenuTree
  *
- * @see    Node
- *
- * @since  3.8.0
+ * @see         Node
+ * @since       3.8.0
+ * @deprecated  4.0  Use Joomla\CMS\Menu\MenuItem
  */
 class Container extends Heading
 {

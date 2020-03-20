@@ -17,8 +17,6 @@ $app              = JFactory::getApplication();
 // Output as HTML5
 $this->setHtml5(true);
 
-$fullWidth = 1;
-
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 

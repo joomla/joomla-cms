@@ -41,7 +41,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const MINOR_VERSION = 9;
+	const MINOR_VERSION = 10;
 
 	/**
 	 * Patch release version.
@@ -49,7 +49,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const PATCH_VERSION = 17;
+	const PATCH_VERSION = 0;
 
 	/**
 	 * Extra release version info.
@@ -69,7 +69,7 @@ final class Version
 	 * @since  3.5
 	 * @deprecated  4.0  Use separated version constants instead
 	 */
-	const RELEASE = '3.9';
+	const RELEASE = '3.10';
 
 	/**
 	 * Maintenance version.
@@ -78,7 +78,7 @@ final class Version
 	 * @since  3.5
 	 * @deprecated  4.0  Use separated version constants instead
 	 */
-	const DEV_LEVEL = '17-dev';
+	const DEV_LEVEL = '0-dev';
 
 	/**
 	 * Development status.
@@ -111,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '10-March-2020';
+	const RELDATE = '9-February-2019';
 
 	/**
 	 * Release time.
@@ -119,7 +119,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '15:28';
+	const RELTIME = '19:31';
 
 	/**
 	 * Release timezone.
