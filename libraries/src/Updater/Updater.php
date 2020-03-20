@@ -108,19 +108,20 @@ class Updater extends \JAdapter
 	/**
 	 * Finds the update for an extension. Any discovered updates are stored in the #__updates table.
 	 *
-	 * @param   int|array  $eid                Extension Identifier or list of Extension Identifiers; if zero use all
-	 *                                         sites
-	 * @param   integer    $cacheTimeout       How many seconds to cache update information; if zero, force reload the
-	 *                                         update information
-	 * @param   integer    $minimum_stability  Minimum stability for the updates; 0=dev, 1=alpha, 2=beta, 3=rc,
-	 *                                         4=stable
-	 * @param   boolean    $includeCurrent     Should I include the current version in the results?
+	 * @param   int|array  $eid                        Extension Identifier or list of Extension Identifiers; if zero use all
+	 *                                                 sites
+	 * @param   integer    $cacheTimeout               How many seconds to cache update information; if zero, force reload the
+	 *                                                 update information
+	 * @param   integer    $minimum_stability          Minimum stability for the updates; 0=dev, 1=alpha, 2=beta, 3=rc,
+	 *                                                 4=stable
+	 * @param   boolean    $includeCurrent             Should I include the current version in the results?
+	 * @param   boolean    $forceExtendedVersionCheck  Should we checking wherether the found version can acutally be installed
 	 *
 	 * @return  boolean True if there are updates
 	 *
 	 * @since   1.7.0
 	 */
-	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimum_stability = self::STABILITY_STABLE, $includeCurrent = false)
+	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimum_stability = self::STABILITY_STABLE, $includeCurrent = false, $forceExtendedVersionCheck = true)
 	{
 		$retval = false;
 
@@ -258,15 +259,16 @@ class Updater extends \JAdapter
 	/**
 	 * Loads the contents of an update site record $updateSite and returns the update objects
 	 *
-	 * @param   array  $updateSite         The update site record to process
-	 * @param   int    $minimum_stability  Minimum stability for the returned update records
-	 * @param   bool   $includeCurrent     Should I also include the current version?
+	 * @param   array    $updateSite                 The update site record to process
+	 * @param   integer  $minimum_stability          Minimum stability for the returned update records
+	 * @param   boolean  $includeCurrent             Should I also include the current version?
+	 * @param   boolean  $forceExtendedVersionCheck  Should we checking wherether the found version can acutally be installed
 	 *
 	 * @return  array  The update records. Empty array if no updates are found.
 	 *
 	 * @since   3.6.0
 	 */
-	private function getUpdateObjectsForSite($updateSite, $minimum_stability = self::STABILITY_STABLE, $includeCurrent = false)
+	private function getUpdateObjectsForSite($updateSite, $minimum_stability = self::STABILITY_STABLE, $includeCurrent = false, $forceExtendedVersionCheck = true)
 	{
 		$retVal = array();
 
@@ -307,7 +309,12 @@ class Updater extends \JAdapter
 						continue;
 					}
 
-					$extraUpdates = $this->getUpdateObjectsForSite($extraUpdateSite, $minimum_stability);
+					$extraUpdates = $this->getUpdateObjectsForSite(
+						$extraUpdateSite,
+						$minimum_stability,
+						$includeCurrent,
+						$forceExtendedVersionCheck
+					);
 
 					if (count($extraUpdates))
 					{
@@ -324,13 +331,9 @@ class Updater extends \JAdapter
 					// Check with the extension adapter that the update here is actually an update we can install
 					if ($updateSite['type'] === 'collection'
 						&& is_array($current_update->data)
-						&& isset($current_update->data['forcedeepextensionchecking'])
-						&& (bool) $current_update->data['forcedeepextensionchecking'] === true)
+						&& (bool) $forceExtendedVersionCheck === true)
 					{
-						/*
-						 * Using the forcedeepextensionchecking parameter this collection update server
-						 * request us to check the update with the extension adapter too. Let's do this
-						 */
+						// Check the proposed update against the extension.xml too.
 						$extensionUpdateSite = $updateSite;
 						$extensionUpdateSite['type'] = 'extension';
 						$extensionUpdateSite['location'] = $current_update->detailsurl;
