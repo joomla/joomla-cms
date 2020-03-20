@@ -92,6 +92,9 @@ class JoomlaInstallerScript
 			// Informational log only
 		}
 
+		// Ensure we delete the repeatable fields plugin before we remove its files
+		$this->uninstallRepeatableFieldsPlugin();
+
 		// This needs to stay for 2.5 update compatibility
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
@@ -99,7 +102,6 @@ class JoomlaInstallerScript
 		$this->updateAssets($installer);
 		$this->clearStatsCache();
 		$this->convertTablesToUtf8mb4(true);
-		$this->uninstallRepeatableFieldsPlugin();
 		$this->cleanJoomlaCache();
 
 		// VERY IMPORTANT! THIS METHOD SHOULD BE CALLED LAST, SINCE IT COULD
