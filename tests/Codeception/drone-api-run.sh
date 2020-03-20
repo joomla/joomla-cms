@@ -56,5 +56,10 @@ echo "[RUNNER] Run Codeception"
 php libraries/vendor/bin/codecept build
 php libraries/vendor/bin/codecept run --fail-fast --steps --debug --env mysql tests/Codeception/acceptance/01-install/
 
+ls -la /tests/www/test-install/
+# TODO: This sed command doesn't work on OSX - can we rewrite it into something that does work?
+sed -i "/\$secret/c\	public \$secret = 'tEstValue';" /tests/www/test-install/configuration.php
+cat /tests/www/test-install/configuration.php
+
 # Executing API tests
-libraries/vendor/bin/codecept run api --fail-fast --steps --debug
+php libraries/vendor/bin/codecept run api --fail-fast --steps --debug
