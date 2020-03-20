@@ -204,6 +204,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated   4.0  No replacement, only used in Hathor.
 	 */
 	public static function switcher()
 	{
@@ -280,6 +282,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated   4.0  Use JHtmlBootstrap::tooltip() instead.
 	 */
 	public static function tooltip($selector = '.hasTip', $params = array())
 	{
@@ -511,6 +515,8 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated   4.0  No replacement, not used since 3.0.
 	 */
 	public static function tree($id, $params = array(), $root = array())
 	{
@@ -883,9 +889,13 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   3.2
+	 *
+	 * @deprecated 4.0 In Joomla 4 use the custom element joomla-tab.
 	 */
 	public static function tabstate()
 	{
+		JLog::add('JHtmlBehavior::tabstate is deprecated. In Joomla 4 use the custom element joomla-tab.', JLog::WARNING, 'deprecated');
+
 		if (isset(self::$loaded[__METHOD__]))
 		{
 			return;
