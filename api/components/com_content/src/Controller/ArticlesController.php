@@ -70,6 +70,11 @@ class ArticlesController extends ApiController
 			$this->modelState->set('filter.condition', $filter->clean($apiFilterInfo['state'], 'INT'));
 		}
 
+		if (array_key_exists('language', $apiFilterInfo))
+		{
+			$this->modelState->set('filter.language', $filter->clean($apiFilterInfo['language'], 'STRING'));
+		}
+
 		return parent::displayList();
 	}
 
