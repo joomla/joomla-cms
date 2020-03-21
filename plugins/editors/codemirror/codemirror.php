@@ -199,7 +199,9 @@ class PlgEditorCodemirror extends CMSPlugin
 		{
 			$options->theme = $theme;
 
-			HTMLHelper::_('stylesheet', $this->basePath . 'theme/' . $theme . '.css', array('version' => 'auto'));
+			/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+			$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+			$wa->registerAndUseStyle('codemirror.theme', $this->basePath . 'theme/' . $theme . '.css');
 		}
 
 		// Special options for tagged modes (xml/html).
@@ -321,7 +323,8 @@ class PlgEditorCodemirror extends CMSPlugin
 	 */
 	protected function loadKeyMap($keyMap)
 	{
-		$ext = JDEBUG ? '.js' : '.min.js';
-		HTMLHelper::_('script', $this->basePath . 'keymap/' . $keyMap . $ext, array('version' => 'auto'));
+		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+		$wa->registerAndUseScript('codemirror.keymap.' . $keyMap, $this->basePath . 'keymap/' . $keyMap . '.min.js', [], ['defer' => true]);
 	}
 }
