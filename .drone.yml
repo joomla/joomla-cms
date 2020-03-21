@@ -47,12 +47,12 @@ steps:
       - sleep 3
       - fluxbox  > /dev/null 2>&1 &
       - cd tests/javascript
-			- npm install
-			- ./node_modules/.bin/selenium-standalone install
-			- ./node_modules/.bin/selenium-standalone start &
+      - npm install
+      - ./node_modules/.bin/selenium-standalone install
+      - ./node_modules/.bin/selenium-standalone start &
       - cd ../codeception
-			- composer install
-			- cd ../..
+      - composer install
+      - cd ../..
       - ./tests/codeception/vendor/bin/robo run:tests
       - echo $(date)
 
