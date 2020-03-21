@@ -41,10 +41,13 @@ class PlgButtonReadmore extends CMSPlugin
 	 */
 	public function onDisplay($name)
 	{
-		HTMLHelper::_('script', 'com_content/admin-article-readmore.min.js', array('version' => 'auto', 'relative' => true));
+		/** @var Joomla\CMS\Document\HtmlDocument $doc */
+		$doc = Factory::getApplication()->getDocument();
+		$doc->getWebAssetManager()
+			->registerAndUseScript('com_content.admin-article-readmore', 'com_content/admin-article-readmore.min.js', [], ['defer' => true], ['core']);
 
 		// Pass some data to javascript
-		Factory::getDocument()->addScriptOptions(
+		$doc->addScriptOptions(
 			'xtd-readmore',
 			array(
 				'exists' => Text::_('PLG_READMORE_ALREADY_EXISTS', true),
