@@ -122,7 +122,7 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 			]
 		);
 
-		$this->app->getDocument()->getWebAssetManager()
+		$this->document->getWebAssetManager()
 			->registerAndUseScript('plg_quickicon_joomlaupdate', 'plg_quickicon_joomlaupdate/jupdatecheck.min.js', [], ['defer' => true], ['core']);
 
 		// Add the icon to the result array
