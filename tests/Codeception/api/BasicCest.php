@@ -53,7 +53,7 @@ class BasicCest
 	 */
 	public function testWrongCredentials(ApiTester $I)
 	{
-		$I->amHttpAuthenticated('admin', 'wrong');
+		$I->amBearerAuthenticated('BADTOKEN');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 		$I->sendGET('/content/article/1');
 		$I->seeResponseCodeIs(Codeception\Util\HttpCode::UNAUTHORIZED);
@@ -70,7 +70,7 @@ class BasicCest
 	 */
 	public function testContentNegotation(ApiTester $I)
 	{
-		$I->amHttpAuthenticated('admin', 'admin');
+		$I->amBearerAuthenticated('c2hhMjU2OjkwMjpmZGE4YjBkNzA5OGMxNjM4ZDdhZjkyNTdiODY5NGQ4YmQxMmM4Y2UyY2QxNTVkZGYzZWE4NzdhMDMyYWRhNWY4');
 		$I->haveHttpHeader('Accept', 'text/xml');
 		$I->sendGET('/content/article/1');
 		$I->seeResponseCodeIs(Codeception\Util\HttpCode::NOT_ACCEPTABLE);
@@ -87,7 +87,7 @@ class BasicCest
 	 */
 	public function testRouteNotFound(ApiTester $I)
 	{
-		$I->amHttpAuthenticated('admin', 'admin');
+		$I->amBearerAuthenticated('c2hhMjU2OjkwMjpmZGE4YjBkNzA5OGMxNjM4ZDdhZjkyNTdiODY5NGQ4YmQxMmM4Y2UyY2QxNTVkZGYzZWE4NzdhMDMyYWRhNWY4');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 		$I->sendGET('/not/existing/1');
 		$I->seeResponseCodeIs(Codeception\Util\HttpCode::NOT_FOUND);

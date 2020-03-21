@@ -57,7 +57,7 @@ class ContentCest
 	 */
 	public function testCrudOnArticle(ApiTester $I)
 	{
-		$I->amHttpAuthenticated('admin', 'admin');
+		$I->amBearerAuthenticated('c2hhMjU2OjkwMjpmZGE4YjBkNzA5OGMxNjM4ZDdhZjkyNTdiODY5NGQ4YmQxMmM4Y2UyY2QxNTVkZGYzZWE4NzdhMDMyYWRhNWY4');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
@@ -73,18 +73,18 @@ class ContentCest
 
 		$I->seeResponseCodeIs(HttpCode::OK);
 
-		$I->amHttpAuthenticated('admin', 'admin');
+		$I->amBearerAuthenticated('c2hhMjU2OjkwMjpmZGE4YjBkNzA5OGMxNjM4ZDdhZjkyNTdiODY5NGQ4YmQxMmM4Y2UyY2QxNTVkZGYzZWE4NzdhMDMyYWRhNWY4');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 		$I->sendGET('/content/article/1');
 		$I->seeResponseCodeIs(HttpCode::OK);
 
-		$I->amHttpAuthenticated('admin', 'admin');
+		$I->amBearerAuthenticated('c2hhMjU2OjkwMjpmZGE4YjBkNzA5OGMxNjM4ZDdhZjkyNTdiODY5NGQ4YmQxMmM4Y2UyY2QxNTVkZGYzZWE4NzdhMDMyYWRhNWY4');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 		$I->sendGET('/content/article/1', ['title' => 'Another Title']);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
-		$I->amHttpAuthenticated('admin', 'admin');
+		$I->amBearerAuthenticated('c2hhMjU2OjkwMjpmZGE4YjBkNzA5OGMxNjM4ZDdhZjkyNTdiODY5NGQ4YmQxMmM4Y2UyY2QxNTVkZGYzZWE4NzdhMDMyYWRhNWY4');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 		$I->sendDELETE('/content/article/1');
 		$I->seeResponseCodeIs(HttpCode::NO_CONTENT);

@@ -56,10 +56,13 @@ echo "[RUNNER] Run Codeception"
 php libraries/vendor/bin/codecept build
 php libraries/vendor/bin/codecept run --fail-fast --steps --debug --env mysql tests/Codeception/acceptance/01-install/
 
-ls -la /tests/www/test-install/
-# TODO: This sed command doesn't work on OSX - can we rewrite it into something that does work?
+# TODO: This sed command doesn't work on OSX - can we rewrite it into something that does work? Good enough for the
+#       linux docker container for now.
 sed -i "/\$secret/c\	public \$secret = 'tEstValue';" /tests/www/test-install/configuration.php
-cat /tests/www/test-install/configuration.php
+
+# Now we need to update the user profile table in order to set data:
+# 1. #__user_profiles User ID for our account: profile_key: joomlatoken.enabled value: 1
+# 2. #__user_profiles User ID for our account: profile_key: joomlatoken.token value: dOi2m1NRrnBHlhaWK/WWxh3B5tqq1INbdf4DhUmYTI4=
 
 # Executing API tests
 php libraries/vendor/bin/codecept run api --fail-fast --steps --debug
