@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Rule\UrlRule;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -77,8 +76,8 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	public function onInstallerAddInstallationTab()
 	{
 		$installfrom = $this->getInstallFrom();
-		$doc         = Factory::getDocument();
-		$lang        = Factory::getLanguage();
+		$doc         = $this->app->getDocument();
+		$lang        = $this->app->getLanguage();
 
 		// Push language strings to the JavaScript store
 		Text::script('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN');
@@ -142,7 +141,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	{
 		if ($this->rtl === null)
 		{
-			$this->rtl = strtolower(Factory::getDocument()->getDirection()) === 'rtl' ? 1 : 0;
+			$this->rtl = strtolower($this->app->getDocument()->getDirection()) === 'rtl' ? 1 : 0;
 		}
 
 		return $this->rtl;

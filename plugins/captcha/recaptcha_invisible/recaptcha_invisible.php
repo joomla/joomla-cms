@@ -31,6 +31,14 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
+
+	/**
 	 * Reports the privacy related capabilities for this plugin to site administrators.
 	 *
 	 * @return  array
@@ -70,11 +78,9 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
 		$apiSrc = 'https://www.google.com/recaptcha/api.js?onload=Joomla.initReCaptchaInvisible&render=explicit&hl='
 			. Factory::getLanguage()->getTag();
 
-		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-
 		// Load assets, the callback should be first
-		$wa->registerAndUseScript('plg_captcha_recaptchainvisible', 'plg_captcha_recaptcha_invisible/recaptcha.min.js', [], ['defer' => true])
+		$this->app->getDocument()->getWebAssetManager()
+			->registerAndUseScript('plg_captcha_recaptchainvisible', 'plg_captcha_recaptcha_invisible/recaptcha.min.js', [], ['defer' => true])
 			->registerAndUseScript('plg_captcha_recaptchainvisible.api', $apiSrc, [], ['defer' => true], ['plg_captcha_recaptchainvisible']);
 
 		return true;

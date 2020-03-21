@@ -33,6 +33,14 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
+
+	/**
 	 * Reports the privacy related capabilities for this plugin to site administrators.
 	 *
 	 * @return  array
@@ -72,11 +80,9 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 		$apiSrc = 'https://www.google.com/recaptcha/api.js?onload=Joomla.initReCaptcha2&render=explicit&hl='
 			. Factory::getLanguage()->getTag();
 
-		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
-		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-
 		// Load assets, the callback should be first
-		$wa->registerAndUseScript('plg_captcha_recaptcha', 'plg_captcha_recaptcha/recaptcha.min.js', [], ['defer' => true])
+		$this->app->getDocument()->getWebAssetManager()
+			->registerAndUseScript('plg_captcha_recaptcha', 'plg_captcha_recaptcha/recaptcha.min.js', [], ['defer' => true])
 			->registerAndUseScript('plg_captcha_recaptcha.api', $apiSrc, [], ['defer' => true], ['plg_captcha_recaptcha']);
 
 		return true;

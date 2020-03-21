@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -30,6 +29,14 @@ class PlgButtonReadmore extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
+
+	/**
 	 * Readmore button
 	 *
 	 * @param   string  $name  The name of the button to add
@@ -40,8 +47,7 @@ class PlgButtonReadmore extends CMSPlugin
 	 */
 	public function onDisplay($name)
 	{
-		/** @var Joomla\CMS\Document\HtmlDocument $doc */
-		$doc = Factory::getApplication()->getDocument();
+		$doc = $this->app->getDocument();
 		$doc->getWebAssetManager()
 			->registerAndUseScript('com_content.admin-article-readmore', 'com_content/admin-article-readmore.min.js', [], ['defer' => true], ['core']);
 
