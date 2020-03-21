@@ -60,6 +60,13 @@ php libraries/vendor/bin/codecept run --fail-fast --steps --debug --env mysql te
 #       linux docker container for now.
 sed -i "/\$secret/c\	public \$secret = 'tEstValue';" /tests/www/test-install/configuration.php
 
+# These credentials are duplicated with the ones in acceptance.suite.dist.yml
+export MYSQL_ROOT="root"
+export MYSQL_PASS="joomla_ut"
+export TABLE_PREFIX="jos"
+
+mysql -u$MYSQL_ROOT -p$MYSQL_PASS -e "SELECT \`id\` FROM ${TABLE_PREFIX}_users"
+
 # Now we need to update the user profile table in order to set data:
 # 1. #__user_profiles User ID for our account: profile_key: joomlatoken.enabled value: 1
 # 2. #__user_profiles User ID for our account: profile_key: joomlatoken.token value: dOi2m1NRrnBHlhaWK/WWxh3B5tqq1INbdf4DhUmYTI4=
