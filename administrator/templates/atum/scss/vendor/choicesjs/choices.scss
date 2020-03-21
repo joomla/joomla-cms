@@ -10,15 +10,16 @@
 @import "../../../../../../media/vendor/bootstrap/scss/mixins";
 
 // choices.js
-@import '../../../../../../node_modules/choices.js/src/styles/choices';
+@import "../../../../../../node_modules/choices.js/src/styles/choices";
 
 .choices {
   border: 0;
 }
 
 .choices__inner {
-  border-radius: 0;
+  border: $input-border;
   border-color: $gray-400;
+  box-shadow: $input-box-shadow;
 }
 
 // Fix position
@@ -57,14 +58,22 @@
   .choices__button_joomla {
     position: absolute;
     top: 50%;
-    right: 0;
     width: 20px;
     height: 20px;
     padding: 0;
     margin-top: -10px;
-    margin-right: 3rem;
-    opacity: .5;
     border-radius: 0 20px 20px 0;
+    opacity: .5;
+
+    [dir=ltr] & {
+      right: 0;
+      margin-right: 3rem;
+    }
+
+    [dir=rtl] & {
+      left: 0;
+      margin-left: 3rem;
+    }
 
     &:hover,
     &:focus {
@@ -92,8 +101,14 @@
 
   .choices__inner {
     padding: $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding) $custom-select-padding-y $custom-select-padding-x;
-    background: url(../../../images/select-bg.svg) no-repeat right center / $custom-select-bg-size;
+    background: url("../../../images/select-bg.svg") no-repeat right center / $custom-select-bg-size;
     background-color: $custom-select-bg;
+
+    [dir=rtl] & {
+      padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
+      background: url("../../../images/select-bg-rtl.svg") no-repeat left center / $custom-select-bg-size;
+      background-color: $custom-select-bg;
+    }
   }
 }
 
@@ -102,17 +117,24 @@
 
   .choices__button_joomla {
     position: absolute;
-    right: 0;
     top: 0;
     display: block;
-    width: 0.5rem;
-    padding: 0.8125rem;
+    width: .5rem;
     height: 1.625rem;
+    padding: .8125rem;
     line-height: 2;
-    border: 0;
-    opacity: 1;
     background-color: rgba(0, 0, 0, .2);
+    border: 0;
     border-radius: 0 20px 20px 0;
+    opacity: 1;
+
+    [dir=ltr] & {
+      right: 0;
+    }
+
+    [dir=rtl] & {
+      left: 0;
+    }
 
     &:hover,
     &:focus {
@@ -125,10 +147,11 @@
   }
 
   .choices__inner {
-    padding: 0.4rem 1rem 0.256rem;
+    padding: .4rem 1rem .256rem;
   }
+
   .choices__input {
-    padding: 0.2rem 0 0.356rem;
+    padding: .2rem 0 .356rem;
     color: $custom-select-color;
   }
 }
@@ -142,21 +165,28 @@
   &.is-highlighted {
     background-color: var(--atum-bg-dark);
     border: 1px solid var(--atum-bg-dark);
-    opacity: 0.9;
+    opacity: .9;
   }
 
   &[data-deletable] {
-    padding-right: 1.8125rem;
+    [dir=ltr] & {
+      padding-right: 1.8125rem;
+    }
+
+    [dir=rtl] & {
+      padding-left: 1.8125rem;
+    }
   }
 }
 
 .choices__input {
-  margin-bottom: 0;
   padding: 0;
+  margin-bottom: 0;
   font-size: 1rem;
 }
 
-.choices__inner, .choices__input {
+.choices__inner,
+.choices__input {
   background-color: var(--white);
 }
 
@@ -167,6 +197,11 @@
 }
 
 .choices__list--multiple .choices__item[data-deletable] {
-  padding-right: 1.8125rem !important;
-}
+  [dir=ltr] & {
+    padding-right: 1.8125rem !important;
+  }
 
+  [dir=rtl] & {
+    padding-left: 1.8125rem !important;
+  }
+}

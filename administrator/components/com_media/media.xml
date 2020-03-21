@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="3.1" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>com_media</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2006</creationDate>
@@ -9,28 +9,28 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>COM_MEDIA_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Component\Media</namespace>
 	<files folder="site">
-		<filename>controller.php</filename>
-		<filename>media.php</filename>
-		<folder>helpers</folder>
+		<folder>src</folder>
 	</files>
 	<languages folder="site">
-		<language tag="en-GB">language/en-GB.com_media.ini</language>
+		<language tag="en-GB">language/en-GB/com_media.ini</language>
 	</languages>
-	<namespace path="src">Joomla\Component\Media</namespace>
 	<administration>
 		<files folder="admin">
+			<filename>access.xml</filename>
 			<filename>config.xml</filename>
-			<filename>controller.php</filename>
-			<filename>media.php</filename>
-			<folder>controllers</folder>
-			<folder>legacy</folder>
-			<folder>models</folder>
-			<folder>views</folder>
+			<filename>media.xml</filename>
+			<folder>forms</folder>
+			<folder>layouts</folder>
+			<folder>resources</folder>
+			<folder>services</folder>
+			<folder>src</folder>
+			<folder>tmpl</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_media.ini</language>
-			<language tag="en-GB">language/en-GB.com_media.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_media.ini</language>
+			<language tag="en-GB">language/en-GB/com_media.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

@@ -18,7 +18,6 @@ use Joomla\CMS\Authentication\Password\ChainedHandler;
 use Joomla\CMS\Authentication\Password\CheckIfRehashNeededHandlerInterface;
 use Joomla\CMS\Authentication\Password\MD5Handler;
 use Joomla\CMS\Authentication\Password\PHPassHandler;
-use Joomla\CMS\Authentication\Password\SHA256Handler;
 use Joomla\CMS\Crypt\Crypt;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -86,15 +85,6 @@ abstract class UserHelper
 	 * @deprecated  5.0  Support for PHPass hashed passwords will be removed
 	 */
 	const HASH_PHPASS = 101;
-
-	/**
-	 * Constant defining the SHA256 password algorithm for use with password hashes
-	 *
-	 * @var    integer
-	 * @since  4.0.0
-	 * @deprecated  5.0  Support for SHA256 hashed passwords will be removed
-	 */
-	const HASH_SHA256 = 102;
 
 	/**
 	 * Method to add a user to a group.
@@ -415,9 +405,6 @@ abstract class UserHelper
 
 			case self::HASH_PHPASS :
 				return $container->get(PHPassHandler::class)->hashPassword($password, $options);
-
-			case self::HASH_SHA256 :
-				return $container->get(SHA256Handler::class)->hashPassword($password, $options);
 		}
 
 		// Unsupported algorithm, sorry!
@@ -469,11 +456,6 @@ abstract class UserHelper
 		{
 			/** @var BCryptHandler $handler */
 			$handler = $container->get(BCryptHandler::class);
-		}
-		elseif (substr($hash, 0, 8) == '{SHA256}')
-		{
-			/** @var SHA256Handler $handler */
-			$handler = $container->get(SHA256Handler::class);
 		}
 		else
 		{

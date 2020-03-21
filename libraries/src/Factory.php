@@ -382,7 +382,7 @@ abstract class Factory
 			return self::$cache[$hash];
 		}
 
-		$handler = ($handler == 'function') ? 'callback' : $handler;
+		$handler = ($handler === 'function') ? 'callback' : $handler;
 
 		$options = array('defaultgroup' => $group);
 
@@ -438,11 +438,11 @@ abstract class Factory
 	/**
 	 * Get a mailer object.
 	 *
-	 * Returns the global {@link \JMail} object, only creating it if it doesn't already exist.
+	 * Returns the global {@link Mail} object, only creating it if it doesn't already exist.
 	 *
-	 * @return  \JMail object
+	 * @return  Mail object
 	 *
-	 * @see     JMail
+	 * @see     Mail
 	 * @since   1.7.0
 	 */
 	public static function getMailer()
@@ -548,7 +548,7 @@ abstract class Factory
 		$name = 'JConfig' . $namespace;
 
 		// Handle the PHP configuration type.
-		if ($type == 'PHP' && class_exists($name))
+		if ($type === 'PHP' && class_exists($name))
 		{
 			// Create the JConfig object
 			$config = new $name;
@@ -628,7 +628,7 @@ abstract class Factory
 
 		$session = Session::getInstance($handler, $options, $sessionHandler);
 
-		if ($session->getState() == 'expired')
+		if ($session->getState() === 'expired')
 		{
 			$session->restart();
 		}
@@ -674,7 +674,7 @@ abstract class Factory
 				'verify_server_cert' => (bool) $conf->get('dbsslverifyservercert'),
 			];
 
-			foreach (['cipher', 'ca', 'capath', 'key', 'cert'] as $value)
+			foreach (['cipher', 'ca', 'key', 'cert'] as $value)
 			{
 				$confVal = trim($conf->get('dbssl' . $value, ''));
 
@@ -705,9 +705,9 @@ abstract class Factory
 	/**
 	 * Create a mailer object
 	 *
-	 * @return  \JMail object
+	 * @return  Mail object
 	 *
-	 * @see     \JMail
+	 * @see     Mail
 	 * @since   1.7.0
 	 */
 	protected static function createMailer()

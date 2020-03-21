@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 ?>
@@ -20,7 +21,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 			<?php if ($this->params->get('show_empty_categories_cat') || $item->numitems || count($item->getChildren())) : ?>
 			<div class="com-content-categories__item">
 				<h3 class="page-header item-title">
-					<a href="<?php echo Route::_(ContentHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
+					<a href="<?php echo Route::_(RouteHelper::getCategoryRoute($item->id, $item->language)); ?>">
 					<?php echo $this->escape($item->title); ?></a>
 					<?php if ($this->params->get('show_cat_num_articles_cat') == 1) :?>
 						<span class="badge badge-info">
@@ -29,8 +30,16 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 						</span>
 					<?php endif; ?>
 					<?php if (count($item->getChildren()) > 0 && $this->maxLevelcat > 1) : ?>
-						<a id="category-btn-<?php echo $item->id; ?>" href="#category-<?php echo $item->id; ?>"
-							data-toggle="collapse" data-toggle="button" class="btn btn-sm float-right" aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"><span class="icon-plus" aria-hidden="true"></span></a>
+						<button
+							type="button"
+							id="category-btn-<?php echo $item->id; ?>"
+							data-target="#category-<?php echo $item->id; ?>"
+							data-toggle="collapse"
+							class="btn btn-secondary btn-sm float-right"
+							aria-label="<?php echo Text::_('JGLOBAL_EXPAND_CATEGORIES'); ?>"
+						>
+							<span class="fas fa-plus" aria-hidden="true"></span>
+						</button>
 					<?php endif; ?>
 				</h3>
 				<?php if ($this->params->get('show_description_image') && $item->getParams()->get('image')) : ?>

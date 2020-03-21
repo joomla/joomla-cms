@@ -12,15 +12,11 @@ namespace Joomla\CMS\Image\Filter;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
-use Joomla\CMS\Log\Log;
-
-Log::add('JImageFilterEdgedetect is deprecated, use Joomla\Image\Filter\Edgedetect instead.', Log::WARNING, 'deprecated');
 
 /**
  * Image Filter class to add an edge detect effect to an image.
  *
- * @since       1.7.3
- * @deprecated  5.0  Use Joomla\Image\Filter\Edgedetect instead
+ * @since  2.5.0
  */
 class Edgedetect extends ImageFilter
 {
@@ -31,10 +27,9 @@ class Edgedetect extends ImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   1.7.3
-	 * @deprecated  5.0  Use Joomla\Image\Filter\Edgedetect::execute() instead
+	 * @since   2.5.0
 	 */
-	public function execute(array $options = array())
+	public function execute(array $options = [])
 	{
 		// Perform the edge detection filter.
 		imagefilter($this->handle, IMG_FILTER_EDGEDETECT);

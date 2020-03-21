@@ -22,7 +22,9 @@ HTMLHelper::_('jquery.framework');
 
 HTMLHelper::_('script', 'com_associations/sidebyside.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'system/joomla-core-loader.min.js', ['version' => 'auto', 'relative' => true]);
+
+$this->document->getWebAssetManager()
+	->useScript('webcomponent.core-loader');
 
 $options = [
 	'layout'   => $this->app->input->get('layout', '', 'string'),
@@ -35,7 +37,7 @@ $options = [
 		data-hide-reference="<?php echo Text::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>"><?php echo Text::_('COM_ASSOCIATIONS_EDIT_HIDE_REFERENCE'); ?>
 </button>
 
-<form action="<?php echo Route::_('index.php?option=com_associations&view=association&' . http_build_query($options)); ?>" method="post" name="adminForm" id="adminForm" data-associatedview="<?php echo $this->typeName; ?>">
+<form action="<?php echo Route::_('index.php?option=com_associations&view=association&' . http_build_query($options)); ?>" method="post" name="adminForm" id="adminForm" class="form-validate" data-associatedview="<?php echo $this->typeName; ?>">
 	<div class="sidebyside">
 		<div class="outer-panel" id="left-panel">
 			<div class="inner-panel">
@@ -59,8 +61,15 @@ $options = [
 					<div class="clearfix">
 						<h3 class="target-text"><?php echo Text::_('COM_ASSOCIATIONS_ASSOCIATED_ITEM'); ?></h3>
 					</div>
-					<div class="langtarget"><?php echo $this->form->getInput('itemlanguage'); ?></div>
-					<div class="modaltarget"><?php echo $this->form->getInput('modalassociation'); ?></div>
+					<div class="langtarget">
+						<div class="sr-only">
+							<?php echo $this->form->getLabel('itemlanguage'); ?>
+						</div>
+						<?php echo $this->form->getInput('itemlanguage'); ?>
+					</div>
+					<div class="modaltarget">
+						<?php echo $this->form->getInput('modalassociation'); ?>
+					</div>
 				</div>
 				<iframe id="target-association" name="target-association" title="target-association"
 					src="<?php echo $this->defaultTargetSrc; ?>"

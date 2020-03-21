@@ -45,12 +45,12 @@ class TelFilter implements FormFilterInterface
 		{
 			$number = (string) preg_replace('/[^\d]/', '', $value);
 
-			if (substr($number, 0, 1) == 1)
+			if (substr($number, 0, 1) === '1')
 			{
 				$number = substr($number, 1);
 			}
 
-			if (substr($number, 0, 2) == '+1')
+			if (substr($number, 0, 2) === '+1')
 			{
 				$number = substr($number, 2);
 			}

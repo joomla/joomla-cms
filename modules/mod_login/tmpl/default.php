@@ -19,8 +19,8 @@ HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
 
-Text::script('JSHOW');
-Text::script('JHIDE');
+Text::script('JSHOWPASSWORD');
+Text::script('JHIDEPASSWORD');
 ?>
 <form id="login-form-<?php echo $module->id; ?>" class="mod-login" action="<?php echo Route::_('index.php', true); ?>" method="post">
 
@@ -37,7 +37,9 @@ Text::script('JHIDE');
 					<input id="modlgn-username-<?php echo $module->id; ?>" type="text" name="username" class="form-control" autocomplete="username" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 					<span class="input-group-append">
 						<label for="modlgn-username-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
-						<span class="input-group-text icon-user" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>"></span>
+						<span class="input-group-text" title="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
+							<span class="fas fa-user" aria-hidden="true"></span>
+						</span>
 					</span>
 				</div>
 			<?php else : ?>
@@ -51,8 +53,11 @@ Text::script('JHIDE');
 				<div class="input-group">
 					<input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" autocomplete="current-password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
 					<span class="input-group-append">
-						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-						<span class="input-group-text icon-eye" aria-hidden="true"></span>
+						<label for="modlgn-passwd-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
+						<button type="button" class="btn btn-secondary input-password-toggle">
+							<span class="fas fa-eye" aria-hidden="true"></span>
+							<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+						</button>
 					</span>
 				</div>
 			<?php else : ?>
@@ -65,20 +70,24 @@ Text::script('JHIDE');
 			<div class="mod-login__twofactor form-group">
 				<?php if (!$params->get('usetext', 0)) : ?>
 					<div class="input-group">
-						<span class="input-group-prepend">
-							<span class="input-group-text icon-star" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>"></span>
+						<span class="input-group-prepend" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
+							<span class="input-group-text">
+								<span class="icon-star" aria-hidden="true"></span>
+							</span>
 							<label for="modlgn-secretkey-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 						</span>
 						<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 						<span class="input-group-append" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-							<span class="input-group-text icon-help"></span>
+							<span class="input-group-text">
+								<span class="fas fa-question" aria-hidden="true"></span>
+							</span>
 						</span>
 					</div>
 				<?php else : ?>
 					<label for="modlgn-secretkey-<?php echo $module->id; ?>"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 					<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 					<span class="btn width-auto" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-						<span class="icon-help"></span>
+						<span class="fas fa-question" aria-hidden="true"></span>
 					</span>
 				<?php endif; ?>
 			</div>
@@ -95,6 +104,26 @@ Text::script('JHIDE');
 			</div>
 		<?php endif; ?>
 
+		<?php foreach($extraButtons as $button): ?>
+			<div class="mod-login__submit form-group">
+				<button type="button"
+				        class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
+				        onclick="<?php echo $button['onclick'] ?>"
+				        title="<?php echo Text::_($button['label']) ?>"
+				        id="<?php echo $button['id'] ?>"
+						>
+					<?php if (!empty($button['icon'])): ?>
+						<span class="<?php echo $button['icon'] ?>"></span>
+					<?php elseif (!empty($button['image'])): ?>
+						<?php echo HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), [
+							'class' => 'icon',
+						], true) ?>
+					<?php endif; ?>
+					<?= Text::_($button['label']) ?>
+				</button>
+			</div>
+		<?php endforeach; ?>
+
 		<div class="mod-login__submit form-group">
 			<button type="submit" name="Submit" class="btn btn-primary"><?php echo Text::_('JLOGIN'); ?></button>
 		</div>
@@ -105,7 +134,7 @@ Text::script('JHIDE');
 			<?php if ($usersConfig->get('allowUserRegistration')) : ?>
 				<li>
 					<a href="<?php echo Route::_($registerLink); ?>">
-					<?php echo Text::_('MOD_LOGIN_REGISTER'); ?> <span class="icon-arrow-right"></span></a>
+					<?php echo Text::_('MOD_LOGIN_REGISTER'); ?> <span class="fas fa-arrow-alt-circle-right"></span></a>
 				</li>
 			<?php endif; ?>
 				<li>

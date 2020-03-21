@@ -38,10 +38,10 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 		<div class="control-group">
 			<div class="controls">
 				<div class="input-group">
-					<input name="username" tabindex="1" id="mod-login-username" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
+					<input name="username" id="mod-login-username" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_USERNAME'); ?>" size="15" autofocus="true">
 					<span class="input-group-append">
 						<span class="input-group-text">
-							<span class="fa fa-user" aria-hidden="true"></span>
+							<span class="fas fa-user" aria-hidden="true"></span>
 							<label for="mod-login-username" class="sr-only">
 								<?php echo Text::_('JGLOBAL_USERNAME'); ?>
 							</label>
@@ -53,10 +53,10 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 		<div class="control-group">
 			<div class="controls">
 				<div class="input-group">
-					<input name="passwd" tabindex="2" id="mod-login-password" type="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" size="15">
+					<input name="passwd" id="mod-login-password" type="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>" size="15">
 					<span class="input-group-append">
 						<span class="input-group-text">
-							<span class="fa fa-lock" aria-hidden="true"></span>
+							<span class="fas fa-lock" aria-hidden="true"></span>
 							<label for="mod-login-password" class="sr-only">
 								<?php echo Text::_('JGLOBAL_PASSWORD'); ?>
 							</label>
@@ -69,10 +69,10 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 			<div class="control-group">
 				<div class="controls">
 					<div class="input-group">
-						<input name="secretkey" autocomplete="off" tabindex="3" id="mod-login-secretkey" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" size="15">
+						<input name="secretkey" autocomplete="off" id="mod-login-secretkey" type="text" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" size="15">
 						<span class="input-group-append">
 							<span class="input-group-text" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
-								<span class="fa fa-star" aria-hidden="true"></span>
+								<span class="fas fa-star" aria-hidden="true"></span>
 								<label for="mod-login-secretkey" class="sr-only">
 									<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
 								</label>
@@ -85,11 +85,11 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 		<div class="control-group">
 			<div class="controls">
 				<div class="btn-group">
-					<a tabindex="4" class="btn btn-danger" href="index.php?option=com_joomlaupdate">
-						<span class="icon-cancel icon-white" aria-hidden="true"></span> <?php echo Text::_('JCANCEL'); ?>
+					<a class="btn btn-danger" href="index.php?option=com_joomlaupdate">
+						<span class="fas fa-times icon-white" aria-hidden="true"></span> <?php echo Text::_('JCANCEL'); ?>
 					</a>
-					<button tabindex="5" class="btn btn-primary">
-						<span class="icon-play icon-white" aria-hidden="true"></span> <?php echo Text::_('COM_INSTALLER_INSTALL_BUTTON'); ?>
+					<button type="submit" class="btn btn-primary">
+						<span class="fas fa-play icon-white" aria-hidden="true"></span> <?php echo Text::_('COM_INSTALLER_INSTALL_BUTTON'); ?>
 					</button>
 				</div>
 			</div>

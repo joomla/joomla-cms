@@ -5,7 +5,6 @@
 		label="JGLOBAL_ARTICLES"
 		description="COM_CONTENT_CONFIG_ARTICLE_SETTINGS_DESC"
 		>
-
 		<field
 			name="article_layout"
 			type="componentlayout"
@@ -20,7 +19,7 @@
 			name="show_title"
 			type="radio"
 			label="JGLOBAL_SHOW_TITLE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -31,7 +30,7 @@
 			name="link_titles"
 			type="radio"
 			label="JGLOBAL_LINKED_TITLES_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			showon="show_title:1"
 			>
@@ -43,7 +42,7 @@
 			name="show_intro"
 			type="radio"
 			label="JGLOBAL_SHOW_INTRO_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -65,7 +64,7 @@
 			name="info_block_show_title"
 			type="radio"
 			label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -76,7 +75,7 @@
 			name="show_category"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -87,7 +86,7 @@
 			name="link_category"
 			type="radio"
 			label="JGLOBAL_LINK_CATEGORY_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			showon="show_category:1"
 			>
@@ -99,7 +98,7 @@
 			name="show_parent_category"
 			type="radio"
 			label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -110,7 +109,7 @@
 			name="link_parent_category"
 			type="radio"
 			label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			showon="show_parent_category:1"
 			>
@@ -128,7 +127,7 @@
 			name="show_associations"
 			type="radio"
 			label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -139,7 +138,7 @@
 			name="flags"
 			type="radio"
 			label="JGLOBAL_SHOW_FLAG_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			showon="show_associations:1"
 			>
@@ -157,7 +156,7 @@
 			name="show_author"
 			type="radio"
 			label="JGLOBAL_SHOW_AUTHOR_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -168,7 +167,7 @@
 			name="link_author"
 			type="radio"
 			label="JGLOBAL_LINK_AUTHOR_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			showon="show_author:1"
 			>
@@ -180,7 +179,7 @@
 			name="show_create_date"
 			type="radio"
 			label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -191,7 +190,7 @@
 			name="show_modify_date"
 			type="radio"
 			label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -202,7 +201,7 @@
 			name="show_publish_date"
 			type="radio"
 			label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -213,7 +212,7 @@
 			name="show_item_navigation"
 			type="radio"
 			label="JGLOBAL_SHOW_NAVIGATION_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -224,7 +223,7 @@
 			name="show_vote"
 			type="radio"
 			label="JGLOBAL_SHOW_VOTE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -235,7 +234,7 @@
 			name="show_readmore"
 			type="radio"
 			label="JGLOBAL_SHOW_READMORE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -246,7 +245,7 @@
 			name="show_readmore_title"
 			type="radio"
 			label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			showon="show_readmore:1"
 			>
@@ -267,7 +266,7 @@
 			type="radio"
 			label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
 			id="show_tags"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -284,7 +283,7 @@
 			name="show_hits"
 			type="radio"
 			label="JGLOBAL_SHOW_HITS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -295,8 +294,7 @@
 			name="record_hits"
 			type="radio"
 			label="JGLOBAL_RECORD_HITS_LABEL"
-			description="JGLOBAL_RECORD_HITS_DESC"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JNO</option>
@@ -308,7 +306,7 @@
 			type="radio"
 			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
 			description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -319,20 +317,18 @@
 			name="urls_position"
 			type="radio"
 			label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
 		</field>
 	</fieldset>
-
 	<fieldset
 		name="editinglayout"
 		label="COM_CONTENT_EDITING_LAYOUT"
 		description="COM_CONTENT_CONFIG_EDITOR_LAYOUT"
 		>
-
 		<field
 			name="captcha"
 			type="plugins"
@@ -348,7 +344,7 @@
 			name="show_publishing_options"
 			type="radio"
 			label="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -359,7 +355,7 @@
 			name="show_article_options"
 			type="radio"
 			label="COM_CONTENT_SHOW_ARTICLE_OPTIONS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -370,7 +366,7 @@
 			name="show_configure_edit_options"
 			type="radio"
 			label="COM_CONTENT_SHOW_CONFIGURE_EDIT_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -381,7 +377,7 @@
 			name="show_permissions"
 			type="radio"
 			label="COM_CONTENT_SHOW_PERMISSIONS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -392,7 +388,7 @@
 			name="show_associations_edit"
 			type="radio"
 			label="COM_CONTENT_SHOW_ASSOCIATIONS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -403,7 +399,7 @@
 			name="save_history"
 			type="radio"
 			label="JGLOBAL_SAVE_HISTORY_OPTIONS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JNO</option>
@@ -423,7 +419,7 @@
 			name="show_urls_images_frontend"
 			type="radio"
 			label="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -434,7 +430,7 @@
 			name="show_urls_images_backend"
 			type="radio"
 			label="COM_CONTENT_SHOW_IMAGES_URLS_BACK_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -518,15 +514,12 @@
 			<option value="left">COM_CONTENT_LEFT</option>
 			<option value="none">COM_CONTENT_NONE</option>
 		</field>
-
 	</fieldset>
-
 	<fieldset
 		name="category"
 		label="JCATEGORY"
 		description="COM_CONTENT_CONFIG_CATEGORY_SETTINGS_DESC"
 		>
-
 		<field
 			name="category_layout"
 			type="componentlayout"
@@ -541,7 +534,7 @@
 			name="show_category_heading_title_text"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_HEADING_TITLE_TEXT_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -552,7 +545,7 @@
 			name="show_category_title"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_TITLE"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -563,7 +556,7 @@
 			name="show_description"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -574,7 +567,7 @@
 			name="show_description_image"
 			type="radio"
 			label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -600,7 +593,7 @@
 			name="show_empty_categories"
 			type="radio"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -611,7 +604,7 @@
 			name="show_no_articles"
 			type="radio"
 			label="COM_CONTENT_NO_ARTICLES_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -623,7 +616,7 @@
 			type="radio"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 			default="1"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -633,7 +626,7 @@
 			name="show_cat_num_articles"
 			type="radio"
 			label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -645,14 +638,12 @@
 			type="radio"
 			label="COM_CONTENT_FIELD_SHOW_CAT_TAGS_LABEL"
 			default="1"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-
 	</fieldset>
-
 	<fieldset
 		name="categories"
 		label="JCATEGORIES"
@@ -662,7 +653,7 @@
 			name="show_base_description"
 			type="radio"
 			label="JGLOBAL_FIELD_SHOW_BASE_DESCRIPTION_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -688,7 +679,7 @@
 			name="show_empty_categories_cat"
 			type="radio"
 			label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			showon="maxLevelcat:-1,1,2,3,4,5"
 			>
@@ -700,7 +691,7 @@
 			name="show_subcat_desc_cat"
 			type="radio"
 			label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			showon="maxLevelcat:-1,1,2,3,4,5"
 			>
@@ -712,21 +703,18 @@
 			name="show_cat_num_articles_cat"
 			type="radio"
 			label="COM_CONTENT_NUMBER_CATEGORY_ITEMS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-
 	</fieldset>
-
 	<fieldset
 		name="blog_default_parameters"
 		label="COM_CONTENT_CONFIG_BLOG_SETTINGS_LABEL"
 		description="COM_CONTENT_CONFIG_BLOG_SETTINGS_DESC"
 		>
-
 		<field
 			name="num_leading_articles"
 			type="number"
@@ -769,19 +757,17 @@
 			<option value="5">J5</option>
 		</field>
 	</fieldset>
-
 	<fieldset
 		name="list_default_parameters"
 		label="JGLOBAL_LIST_LAYOUT_OPTIONS"
 		description="COM_CONTENT_CONFIG_LIST_SETTINGS_DESC"
 		addfieldprefix="Joomla\Component\Content\Administrator\Field"
 		>
-
 		<field
 			name="show_pagination_limit"
 			type="radio"
 			label="JGLOBAL_DISPLAY_SELECT_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -806,7 +792,7 @@
 			name="show_headings"
 			type="radio"
 			label="JGLOBAL_SHOW_HEADINGS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -837,7 +823,7 @@
 			name="list_show_hits"
 			type="radio"
 			label="JGLOBAL_LIST_HITS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -848,7 +834,7 @@
 			name="list_show_author"
 			type="radio"
 			label="JGLOBAL_LIST_AUTHOR_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			>
 			<option value="0">JHIDE</option>
@@ -859,7 +845,7 @@
 			name="list_show_votes"
 			type="voteradio"
 			label="JGLOBAL_LIST_VOTES_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
@@ -870,21 +856,18 @@
 			name="list_show_ratings"
 			type="voteradio"
 			label="JGLOBAL_LIST_RATINGS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
 		</field>
-
 	</fieldset>
-
 	<fieldset
 		name="shared"
 		label="COM_CONTENT_SHARED_LABEL"
 		description="COM_CONTENT_SHARED_DESC"
 		>
-
 		<field
 			name="orderby_pri"
 			type="list"
@@ -946,7 +929,7 @@
 			name="show_pagination_results"
 			type="radio"
 			label="JGLOBAL_PAGINATION_RESULTS_LABEL"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			showon="show_pagination:1,2"
 			>
@@ -964,9 +947,7 @@
 			<option value="hide">JHIDE</option>
 			<option value="only">JONLY</option>
 		</field>
-
 	</fieldset>
-
 	<fieldset
 		name="integration"
 		label="JGLOBAL_INTEGRATION_LABEL"
@@ -976,12 +957,11 @@
 			name="integration_newsfeed"
 			label="JGLOBAL_FEED_TITLE"
 			>
-
 			<field
 				name="show_feed_link"
 				type="radio"
 				label="JGLOBAL_SHOW_FEED_LINK_LABEL"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="1"
 				>
 				<option value="0">JHIDE</option>
@@ -1004,24 +984,22 @@
 				type="radio"
 				label="JGLOBAL_FEED_SHOW_READMORE_LABEL"
 				description="JGLOBAL_FEED_SHOW_READMORE_DESC"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="0"
 				showon="show_feed_link:1[AND]feed_summary:0"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-
 		</fieldset>
 		<fieldset
 			name="integration_sef"
 			label="JGLOBAL_SEF_TITLE"
 			>
-
 			<field
 				name="sef_ids"
 				type="radio"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="0"
 				label="JGLOBAL_SEF_NOIDS_LABEL"
 				filter="integer"
@@ -1029,19 +1007,16 @@
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
-
 		</fieldset>
-
 		<fieldset
 			name="integration_customfields"
 			label="JGLOBAL_FIELDS_TITLE"
 			>
-
 			<field
 				name="custom_fields_enable"
 				type="radio"
 				label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="1"
 				>
 				<option value="0">JNO</option>
@@ -1052,16 +1027,14 @@
 				name="workflows_enable"
 				type="radio"
 				label="JGLOBAL_WORKFLOWS_ENABLE_LABEL"
-				class="switcher"
+				layout="joomla.form.field.radio.switcher"
 				default="1"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
 			</field>
 		</fieldset>
-
 	</fieldset>
-
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"

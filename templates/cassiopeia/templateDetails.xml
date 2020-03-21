@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="4.0" type="template" client="site">
+<extension type="template" client="site">
 	<name>cassiopeia</name>
 	<version>1.0</version>
 	<creationDate>February 2017</creationDate>
@@ -73,12 +73,24 @@
 				<field
 					name="fluidContainer"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="0"
 					label="TPL_CASSIOPEIA_FLUID_LABEL"
-				>
+					>
 					<option value="1">TPL_CASSIOPEIA_FLUID</option>
 					<option value="0">TPL_CASSIOPEIA_STATIC</option>
+				</field>
+
+				<field
+					name="stickyHeader"
+					type="radio"
+					label="TPL_CASSIOPEIA_STICKY_LABEL"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
 				</field>
 			</fieldset>
 		</fields>

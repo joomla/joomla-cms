@@ -33,7 +33,7 @@ if ($params->get('show_button', 0))
 	$output .= '<div class="mod-finder__search input-group">';
 	$output .= $input;
 	$output .= '<span class="input-group-append">';
-	$output .= '<button class="btn btn-primary" type="submit"><span class="fa fa-search icon-white" aria-hidden="true"></span> ' . Text::_('JSEARCH_FILTER_SUBMIT') . '</button>';
+	$output .= '<button class="btn btn-primary" type="submit"><span class="fas fa-search icon-white" aria-hidden="true"></span> ' . Text::_('JSEARCH_FILTER_SUBMIT') . '</button>';
 	$output .= '</span>';
 	$output .= '</div>';
 }
@@ -52,7 +52,7 @@ Text::script('MOD_FINDER_SEARCH_VALUE', true);
  */
 if ($params->get('show_autosuggest', 1))
 {
-	$app->getDocument()->getWebAssetManager()->enableAsset('awesomplete');
+	$app->getDocument()->getWebAssetManager()->usePreset('awesomplete');
 	$app->getDocument()->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
 }
 ?>
