@@ -21,9 +21,9 @@
     "postinstall": "node build.js --compile-js && node build.js --compile-css && npm run build:com_media",
     "update": "node build.js --copy-assets && node build.js --build-pages && node build.js --compile-js && node build.js --compile-css",
     "gzip": "node -e 'require(\"./build/build-modules-js/gzip-assets.es6.js\").gzipFiles()'",
-    "watch:com_media": "cross-env NODE_ENV=development webpack --progress --hide-modules --watch",
-    "dev:com_media": "cross-env NODE_ENV=development webpack --progress --hide-modules",
-    "build:com_media": "cross-env NODE_ENV=production webpack --progress --hide-modules"
+    "watch:com_media": "cross-env NODE_ENV=development webpack --progress --hide-modules --watch --config administrator/components/com_media/webpack.config.js",
+    "dev:com_media": "cross-env NODE_ENV=development webpack --progress --hide-modules --config administrator/components/com_media/webpack.config.js",
+    "build:com_media": "cross-env NODE_ENV=production webpack --progress --hide-modules --config administrator/components/com_media/webpack.config.js"
   },
   "browserslist": [
     "last 1 version",
