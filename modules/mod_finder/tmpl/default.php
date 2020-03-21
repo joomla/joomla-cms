@@ -43,7 +43,8 @@ else
 	$output .= $input;
 }
 
-HTMLHelper::_('script', 'com_finder/finder.js', array('version' => 'auto', 'relative' => true));
+$app->getDocument()->getWebAssetManager()
+	->registerAndUseScript('com_finder', 'com_finder/finder.js', [], ['defer' => true], ['core']);
 
 Text::script('MOD_FINDER_SEARCH_VALUE', true);
 

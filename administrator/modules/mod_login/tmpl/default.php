@@ -13,11 +13,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'system/fields/passwordview.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('script', 'mod_login/admin-login.min.js', ['version' => 'auto', 'relative' => true]);
+$app->getDocument()->getWebAssetManager()
+	->useScript('core')
+	->useScript('form.validate')
+	->useScript('keepalive')
+	->useScript('field.passwordview')
+	->registerAndUseScript('mod_login.admin', 'mod_login/admin-login.min.js', [], ['defer' => true], ['core', 'form.validate']);
 
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');

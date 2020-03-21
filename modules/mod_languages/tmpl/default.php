@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Uri\Uri;
 
-HTMLHelper::_('stylesheet', 'mod_languages/template.css', array('version' => 'auto', 'relative' => true));
+$app->getDocument()->getWebAssetManager()->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
 
 ?>
 <div class="mod-languages">
