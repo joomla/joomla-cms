@@ -9,12 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-
-/** @var JDocumentHtml $this */
+/** @var Joomla\CMS\Document\HtmlDocument $this */
 
 // Styles
-HTMLHelper::_('stylesheet', 'general.css', ['version' => 'auto', 'relative' => true]);
+$this->getWebAssetManager()->registerAndUseStyle('template.system.general', 'templates/system/css/general.css');
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
