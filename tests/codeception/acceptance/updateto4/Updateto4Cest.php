@@ -25,7 +25,7 @@ class Updateto4Cest
 	 */
 	public function updateToJoomla4(\AcceptanceTester $I)
 	{
-		$I->comment('I am going to create a user');
+		$I->comment('I am going to test 3.10 to 4.0 nightly updates');
 		$I->doAdministratorLogin();
 		$I->amOnPage('administrator/index.php?option=com_joomlaupdate');
 		$I->checkForPhpNoticesOrWarnings();
