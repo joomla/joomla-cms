@@ -38,6 +38,24 @@ steps:
       - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
       - echo $(date)
 
+  - name: updateto4
+    image: joomlaprojects/docker-images:systemtests
+    commands:
+      - echo $(date)
+      - export DISPLAY=:0
+      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
+      - sleep 3
+      - fluxbox  > /dev/null 2>&1 &
+      - cd tests/javascript
+			- npm install
+			- ./node_modules/.bin/selenium-standalone install
+			- ./node_modules/.bin/selenium-standalone start &
+      - cd ../codeception
+			- composer install
+			- cd ../..
+      - ./tests/codeception/vendor/bin/robo run:tests
+      - echo $(date)
+
   - name: rebuild-cache
     image: drillster/drone-volume-cache
     settings:

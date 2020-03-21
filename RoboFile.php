@@ -31,9 +31,6 @@ if (!defined('JPATH_BASE'))
  */
 class RoboFile extends \Robo\Tasks
 {
-	// Load tasks from composer, see composer.json
-	use \Joomla\Jorobo\Tasks\loadTasks;
-
 	/**
 	 * Path to the codeception tests folder
 	 *
@@ -284,16 +281,11 @@ class RoboFile extends \Robo\Tasks
 
 		$this->createTestingSite($opts['use-htaccess']);
 
-		$this->getComposer();
-		$this->taskComposerInstall($this->testsPath . 'composer.phar')->run();
-
-		$this->runSelenium();
-
 		// Make sure to run the build command to generate AcceptanceTester
 		if ($this->isWindows())
 		{
-			$this->_exec('php ' . $this->getWindowsPath($this->testsPath . 'vendor/bin/codecept') . ' build');
-			$pathToCodeception = $this->getWindowsPath($this->testsPath . 'vendor/bin/codecept');
+			$this->_exec('php ' . $this->getWindowsPath($this->testsPath . 'vendor/codeception/codeception/codecept') . ' build');
+			$pathToCodeception = $this->getWindowsPath('php ' . $this->testsPath . 'vendor/codeception/codeception/codecept');
 		}
 		else
 		{
@@ -322,6 +314,55 @@ class RoboFile extends \Robo\Tasks
 	}
 
 	/**
+	 * Executes the Joomla 3.10 to 4.x test
+	 *
+	 * @param   array $opts   Array of configuration options:
+	 *                        - 'use-htaccess': renames and enable embedded Joomla .htaccess file
+	 *                        - 'env': set a specific environment to get configuration from
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @return  mixed
+	 */
+	public function runJoomla4($opts = ['use-htaccess' => false, 'env' => 'desktop'])
+	{
+		$this->say("Running Joomla 3.10 to Joomla 4 test");
+
+		$this->createTestingSite($opts['use-htaccess']);
+
+		// Make sure to run the build command to generate AcceptanceTester
+		if ($this->isWindows())
+		{
+			$this->_exec('php ' . $this->getWindowsPath($this->testsPath . 'vendor/codeception/codeception/codecept') . ' build');
+			$pathToCodeception = $this->getWindowsPath('php ' . $this->testsPath . 'vendor/codeception/codeception/codecept');
+		}
+		else
+		{
+			$this->_exec('php ' . $this->testsPath . 'vendor/bin/codecept build');
+
+			$pathToCodeception = $this->testsPath . 'vendor/bin/codecept';
+		}
+
+		$this->taskCodecept($pathToCodeception)
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--fail-fast')
+			->env($opts['env'])
+			->arg($this->testsPath . 'acceptance/install/')
+			->run()
+			->stopOnFail();
+
+		$this->taskCodecept()
+			->arg('--steps')
+			->arg('--debug')
+			->arg('--fail-fast')
+			->env($opts['env'])
+			->arg($this->testsPath . '/acceptance/updateto4/')
+			->run()
+			->stopOnFail();
+	}
+
+	/**
 	 * Executes a specific Selenium System Tests in your machine
 	 *
 	 * @param   string  $pathToTestFile  Optional name of the test to be run
@@ -333,10 +374,8 @@ class RoboFile extends \Robo\Tasks
 	 */
 	public function runTest($pathToTestFile = null, $suite = 'acceptance')
 	{
-		$this->runSelenium();
-
 		// Make sure to run the build command to generate AcceptanceTester
-		$path = 'tests/codeception/vendor/bin/codecept';
+		$path = 'tests/codeception/vendor/codeception/codeception/codecept';
 		$this->_exec('php ' . $this->isWindows() ? $this->getWindowsPath($path) : $path . ' build');
 
 		if (!$pathToTestFile)
@@ -423,7 +462,7 @@ class RoboFile extends \Robo\Tasks
 			$pathToTestFile = $pathToTestFile . ':' . $method;
 		}
 
-		$testPathCodecept = $this->testsPath . 'vendor/bin/codecept';
+		$testPathCodecept = 'php ' . $this->testsPath . 'vendor/codeception/codeception/codecept';
 
 		$this->taskCodecept($this->isWindows() ? $this->getWindowsPath($testPathCodecept) : $testPathCodecept)
 			->test($pathToTestFile)

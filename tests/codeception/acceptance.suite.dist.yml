@@ -13,7 +13,7 @@ modules:
     config:
         JoomlaBrowser:
             url: 'http://localhost/tests/codeception/joomla-cms'     # the url that points to the joomla installation at /tests/system/joomla-cms
-            browser: 'firefox'
+            browser: 'chrome'
             window_size: 1280x1024
             username: 'admin'                      # UserName for the Administrator
             password: 'admin'                      # Password for the Administrator
