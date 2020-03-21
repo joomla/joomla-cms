@@ -36,6 +36,7 @@ composer.phar
 /test-install
 /.phpunit.result.cache
 /tests/Codeception/acceptance.suite.yml
+/tests/Codeception/api.suite.yml
 /tests/Codeception/_output/
 
 # Vendor directory handeling

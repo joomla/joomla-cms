@@ -28,6 +28,8 @@ class BasicCest
 	 */
 	public function _before(ApiTester $I)
 	{
+		var_dump($I->grabFromDatabase('users', 'id'));die;
+		$I->haveInDatabase('user_profiles', []);
 	}
 
 	/**

@@ -36,10 +36,9 @@ These are the Joomla 4 API (webservices) tests.
 
 ### Installation
 
-Run a `composer install` in the joomla root directory and adjust the REST url in 
-`tests/Api/api.suite.yml` and copy the `codeception.yml` to the Joomla main directory. 
-
->Tests with authentication require a user `admin` with password `admin` as credentials for now. 
+Run a `composer install` in the joomla root directory copy the file `tests/Api/api.suite.dist.yml`
+to `tests/Api/api.suite.yml`. Then adjust the REST url in the new file and copy the `codeception.yml`
+to the Joomla main directory. 
 
 ### Running
 
