@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Utilities\IpHelper;
@@ -70,13 +69,14 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
 
-		// Load callback first for browser compatibility
-		HTMLHelper::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true));
+		$apiSrc = 'https://www.google.com/recaptcha/api.js?onload=Joomla.initReCaptcha2&render=explicit&hl=' . Factory::getLanguage()->getTag();
 
-		HTMLHelper::_(
-			'script',
-			'https://www.google.com/recaptcha/api.js?onload=Joomla.initReCaptcha2&render=explicit&hl=' . Factory::getLanguage()->getTag()
-		);
+		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+
+		// Load assets, the callback should be first
+		$wa->registerAndUseScript('plg_captcha_recaptcha', 'plg_captcha_recaptcha/recaptcha.min.js', [], ['defer' => true])
+			->registerAndUseScript('plg_captcha_recaptcha.api', $apiSrc, [], ['defer' => true], ['plg_captcha_recaptcha']);
 
 		return true;
 	}
