@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-/** @var JDocumentError $this */
+/** @var Joomla\CMS\Document\ErrorDocument  $this */
 
 if (!isset($this->error))
 {
@@ -22,11 +21,11 @@ if (!isset($this->error))
 }
 
 // Load template CSS file
-HTMLHelper::_('stylesheet', 'error.css', ['version' => 'auto', 'relative' => true]);
+$this->getWebAssetManager()->registerAndUseStyle('template.system.error', 'templates/system/css/error.css');
 
 if ($this->direction === 'rtl')
 {
-	HTMLHelper::_('stylesheet', 'error_rtl.css', ['version' => 'auto', 'relative' => true]);
+	$this->getWebAssetManager()->registerAndUseStyle('template.system.error_rtl', 'templates/system/css/error_rtl.css');
 }
 
 // Set page title
