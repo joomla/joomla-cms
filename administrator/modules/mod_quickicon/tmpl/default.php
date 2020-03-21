@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
 
-// Allow to template to provide own asset for the module
+// Allow to template to provide its own asset for the module
 if (!$wa->assetExists('script', 'mod_quickicon'))
 {
 	$wa->registerScript('mod_quickicon', 'mod_quickicon/quickicon.min.js', [], ['defer' => true]);
