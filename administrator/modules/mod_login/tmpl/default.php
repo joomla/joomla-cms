@@ -16,7 +16,7 @@ use Joomla\CMS\Router\Route;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
 
-// Allow to template to provide own asset for the module
+// Allow template to provide its own asset for the module
 if (!$wa->assetExists('script', 'mod_login.admin'))
 {
 	$wa->registerScript('mod_login.admin', 'mod_login/admin-login.min.js', [], ['defer' => true], ['core', 'form.validate']);
