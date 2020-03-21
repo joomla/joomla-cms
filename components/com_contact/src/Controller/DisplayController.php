@@ -12,7 +12,6 @@ namespace Joomla\Component\Contact\Site\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
@@ -42,7 +41,6 @@ class DisplayController extends BaseController
 
 		if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal')
 		{
-			HTMLHelper::_('stylesheet', 'system/adminlist.css', ['version' => 'auto', 'relative' => true]);
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
 
