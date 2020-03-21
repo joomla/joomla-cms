@@ -53,7 +53,7 @@ steps:
       - cd ../codeception
       - composer install
       - cd ../..
-      - ./tests/codeception/vendor/bin/robo run:tests
+      - ./tests/codeception/vendor/bin/robo run:joomla4
       - echo $(date)
 
   - name: rebuild-cache
