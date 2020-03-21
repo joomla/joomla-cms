@@ -11,7 +11,16 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
-$app->getDocument()->getWebAssetManager()->registerAndUseScript('mod_menu', 'mod_menu/menu.min.js', [], ['defer' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+
+// Allow to template to provide own asset for the module
+if (!$wa->assetExists('script', 'mod_menu'))
+{
+	$wa->registerScript('mod_menu', 'mod_menu/menu.min.js', [], ['defer' => true]);
+}
+
+$wa->useScript('mod_menu');
 
 $id = '';
 

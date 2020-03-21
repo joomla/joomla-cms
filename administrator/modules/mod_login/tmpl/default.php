@@ -13,12 +13,20 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-$app->getDocument()->getWebAssetManager()
-	->useScript('core')
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+
+// Allow to template to provide own asset for the module
+if (!$wa->assetExists('script', 'mod_login.admin'))
+{
+	$wa->registerScript('mod_login.admin', 'mod_login/admin-login.min.js', [], ['defer' => true], ['core', 'form.validate']);
+}
+
+$wa->useScript('core')
 	->useScript('form.validate')
 	->useScript('keepalive')
 	->useScript('field.passwordview')
-	->registerAndUseScript('mod_login.admin', 'mod_login/admin-login.min.js', [], ['defer' => true], ['core', 'form.validate']);
+	->useScript('mod_login.admin');
 
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');

@@ -11,8 +11,16 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$app->getDocument()->getWebAssetManager()
-	->registerAndUseScript('com_wrapper.iframe', 'com_wrapper/iframe-height.min.js', [], ['defer' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+
+// Allow to template to provide own asset for the module
+if (!$wa->assetExists('script', 'com_wrapper.iframe'))
+{
+	$wa->registerScript('com_wrapper.iframe', 'com_wrapper/iframe-height.min.js', [], ['defer' => true]);
+}
+
+$wa->useScript('com_wrapper.iframe');
 
 ?>
 <iframe <?php echo $load; ?>

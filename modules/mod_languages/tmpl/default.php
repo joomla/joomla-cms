@@ -12,7 +12,16 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Uri\Uri;
 
-$app->getDocument()->getWebAssetManager()->registerAndUseStyle('mod_languages', 'mod_languages/template.css');
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+
+// Allow to template to provide own asset for the module
+if (!$wa->assetExists('style', 'mod_languages'))
+{
+	$wa->registerStyle('mod_languages', 'mod_languages/template.css');
+}
+
+$wa->useStyle('mod_languages');
 
 ?>
 <div class="mod-languages">

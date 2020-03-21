@@ -12,8 +12,16 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-$app->getDocument()->getWebAssetManager()
-	->registerAndUseScript('mod_quickicon', 'mod_quickicon/quickicon.min.js', [], ['defer' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+
+// Allow to template to provide own asset for the module
+if (!$wa->assetExists('script', 'mod_quickicon'))
+{
+	$wa->registerScript('mod_quickicon', 'mod_quickicon/quickicon.min.js', [], ['defer' => true]);
+}
+
+$wa->useScript('mod_quickicon');
 
 $html = HTMLHelper::_('icons.buttons', $buttons);
 ?>
