@@ -15,7 +15,7 @@ use Joomla\CMS\Router\Route;
 /** @var Joomla\CMS\Document\ErrorDocument $this */
 
 // Load template CSS file
-$this->getWebAssetManager()->registerAndUseStyle('template.system.error', 'error.css');
+$this->getWebAssetManager()->registerAndUseStyle('template.system.error', 'administrator/templates/system/css/error.css');
 
 // Set page title
 $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'));

@@ -16,24 +16,23 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-/** @var JDocumentHtml $this */
+/** @var Joomla\CMS\Document\HtmlDocument $this */
 
 $app = Factory::getApplication();
+$wa  = $this->getWebAssetManager();
 
 // Styles
-HTMLHelper::_('stylesheet', 'templates/system/css/offline.css', ['version' => 'auto']);
+$wa->registerAndUseStyle('template.system.offline', 'templates/system/css/offline.css');
 
 if ($this->direction === 'rtl')
 {
-	HTMLHelper::_('stylesheet', 'templates/system/css/offline_rtl.css', ['version' => 'auto']);
+	$wa->registerAndUseStyle('template.system.offline_rtl', 'templates/system/css/offline_rtl.css');
 }
 
-HTMLHelper::_('stylesheet', 'templates/system/css/general.css', ['version' => 'auto']);
-
-// Add JavaScript Frameworks
-HTMLHelper::_('bootstrap.framework');
+$wa->registerAndUseStyle('template.system.general', 'templates/system/css/general.css');
 
 $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
