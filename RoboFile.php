@@ -290,7 +290,6 @@ class RoboFile extends \Robo\Tasks
 		else
 		{
 			$this->_exec('php ' . $this->testsPath . 'vendor/bin/codecept build');
-
 			$pathToCodeception = $this->testsPath . 'vendor/bin/codecept';
 		}
 
