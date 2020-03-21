@@ -15,7 +15,6 @@ defined('_JEXEC') or die();
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\AuthenticationHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\UserHelper;
@@ -175,17 +174,21 @@ trait AdditionalLoginButtons
 		// Set the "don't load again" flag
 		$this->injectedCSSandJS = true;
 
-		// Load the CSS
-		HTMLHelper::_('stylesheet', 'plg_system_webauthn/button.css', [
-			'relative' => true,
-			]
-		);
+		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
-		// Load the JavaScript
-		HTMLHelper::_('script', 'plg_system_webauthn/login.js', [
-			'relative'  => true,
-			]
-		);
+		if (!$wa->assetExists('style', 'plg_system_webauthn.button'))
+		{
+			$wa->registerStyle('plg_system_webauthn.button', 'plg_system_webauthn/button.css');
+		}
+
+		if (!$wa->assetExists('script', 'plg_system_webauthn.login'))
+		{
+			$wa->registerScript('plg_system_webauthn.login', 'plg_system_webauthn/login.js', [], ['defer' => true], ['core']);
+		}
+
+		$wa->useStyle('plg_system_webauthn.button')
+			->useScript('plg_system_webauthn.login');
 
 		// Load language strings client-side
 		Text::script('PLG_SYSTEM_WEBAUTHN_ERR_CANNOT_FIND_USERNAME');
