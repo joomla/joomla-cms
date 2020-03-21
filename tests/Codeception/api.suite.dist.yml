@@ -2,7 +2,7 @@ actor: ApiTester
 modules:
     enabled:
         - Helper\JoomlaDb
-        - \Helper\Api
+        - Helper\Api
         - REST:
              url: http://localhost/test-install/api/index.php/v1
              depends: PhpBrowser
