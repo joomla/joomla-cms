@@ -316,7 +316,7 @@ class RoboFile extends \Robo\Tasks
 	 * Executes the Joomla 3.10 to 4.x test
 	 *
 	 * @param   array $opts   Array of configuration options:
-	 *                        - 'use-htaccess': renames and enable embedded Joomla .htaccess file
+	 *                        - 'use-htaccess': rename and enable embedded Joomla .htaccess file
 	 *                        - 'env': set a specific environment to get configuration from
 	 *
 	 * @since   __DEPLOY_VERSION__
