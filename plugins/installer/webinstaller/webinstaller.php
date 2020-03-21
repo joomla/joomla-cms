@@ -89,7 +89,13 @@ class PlgInstallerWebinstaller extends CMSPlugin
 
 		$doc->getWebAssetManager()
 			->registerAndUseStyle('plg_installer_webinstaller.client', 'plg_installer_webinstaller/client.min.css')
-			->registerAndUseScript('plg_installer_webinstaller.client', 'plg_installer_webinstaller/client.min.js', [], ['defer' => true], ['core', 'jquery']);
+			->registerAndUseScript(
+				'plg_installer_webinstaller.client',
+				'plg_installer_webinstaller/client.min.js',
+				[],
+				['defer' => true],
+				['core', 'jquery']
+			);
 
 		$devLevel = Version::PATCH_VERSION;
 

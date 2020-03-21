@@ -74,7 +74,13 @@ class PlgQuickiconExtensionupdate extends CMSPlugin
 		Text::script('WARNING');
 
 		$this->app->getDocument()->getWebAssetManager()
-			->registerAndUseScript('plg_quickicon_extensionupdate', 'plg_quickicon_extensionupdate/extensionupdatecheck.min.js', [], ['defer' => true], ['core']);
+			->registerAndUseScript(
+				'plg_quickicon_extensionupdate',
+				'plg_quickicon_extensionupdate/extensionupdatecheck.min.js',
+				[],
+				['defer' => true],
+				['core']
+			);
 
 		return array(
 			array(

@@ -69,7 +69,8 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
 
-		$apiSrc = 'https://www.google.com/recaptcha/api.js?onload=Joomla.initReCaptcha2&render=explicit&hl=' . Factory::getLanguage()->getTag();
+		$apiSrc = 'https://www.google.com/recaptcha/api.js?onload=Joomla.initReCaptcha2&render=explicit&hl='
+			. Factory::getLanguage()->getTag();
 
 		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
