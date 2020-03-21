@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
+
 /**
  * Methods supporting a list of template style records.
  *
@@ -186,7 +188,7 @@ class TemplatesModelStyles extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . strtolower($search) . '%');
+				$search = $db->quote('%' . StringHelper::strtolower($search) . '%');
 				$query->where('(' . ' LOWER(a.template) LIKE ' . $search . ' OR LOWER(a.title) LIKE ' . $search . ')');
 			}
 		}

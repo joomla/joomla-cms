@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -403,7 +404,7 @@ class ModulesModelModules extends JModelList
 			}
 			else
 			{
-				$search = $db->quote('%' . strtolower($search) . '%');
+				$search = $db->quote('%' . StringHelper::strtolower($search) . '%');
 				$query->where('(LOWER(a.title) LIKE ' . $search . ' OR LOWER(a.note) LIKE ' . $search . ')');
 			}
 		}
