@@ -77,6 +77,8 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	public function onInstallerAddInstallationTab()
 	{
 		$installfrom = $this->getInstallFrom();
+		$doc         = Factory::getDocument();
+		$lang        = Factory::getLanguage();
 
 		// Push language strings to the JavaScript store
 		Text::script('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN');
@@ -84,8 +86,10 @@ class PlgInstallerWebinstaller extends CMSPlugin
 
 		// TEMPORARY - Make sure Bootstrap is booted so that our client initialisation scripts can find the tab
 		HTMLHelper::_('bootstrap.framework');
-		HTMLHelper::_('script', 'plg_installer_webinstaller/client.min.js', ['version' => 'auto', 'relative' => true]);
-		HTMLHelper::_('stylesheet', 'plg_installer_webinstaller/client.min.css', ['version' => 'auto', 'relative' => true]);
+
+		$doc->getWebAssetManager()
+			->registerAndUseStyle('plg_installer_webinstaller.client', 'plg_installer_webinstaller/client.min.css')
+			->registerAndUseScript('plg_installer_webinstaller.client', 'plg_installer_webinstaller/client.min.js', [], ['defer' => true], ['core', 'jquery']);
 
 		$devLevel = Version::PATCH_VERSION;
 
@@ -93,9 +97,6 @@ class PlgInstallerWebinstaller extends CMSPlugin
 		{
 			$devLevel .= '-' . Version::EXTRA_VERSION;
 		}
-
-		$doc  = Factory::getDocument();
-		$lang = Factory::getLanguage();
 
 		$doc->addScriptOptions(
 			'plg_installer_webinstaller',
