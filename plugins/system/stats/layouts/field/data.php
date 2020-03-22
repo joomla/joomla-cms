@@ -9,6 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
