@@ -48,7 +48,7 @@ steps:
       - sleep 3
       - fluxbox  > /dev/null 2>&1 &
       - apache2ctl -D FOREGROUND &
-      - systemctl start mariadb
+      - /etc/init.d/mariadb start
       - cd tests/javascript
       - npm install
       - ./node_modules/.bin/selenium-standalone install --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com
@@ -117,6 +117,6 @@ branches:
 
 ---
 kind: signature
-hmac: 301962bde3950b4d552dbc58f12f2b32348736410e47e6f40df681c2a0a9fa05
+hmac: e441cd89ef057c9db2fafaa03c1bc50c283145432313b818edb30f09d7c17a39
 
 ...
