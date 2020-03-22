@@ -19,6 +19,7 @@ steps:
       restore: true
       mount:
         - ./tests/javascript/node_modules
+        - ./tests/codeception/vendor
       cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
     volumes:
       - name: cache
@@ -66,6 +67,7 @@ steps:
        rebuild: true
        mount:
         - ./tests/javascript/node_modules
+        - ./tests/codeception/vendor
        cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
     volumes:
       - name: cache
@@ -95,6 +97,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: e15ba22372ca8c8c00e9bba4c40696c2a2303ed4ad952509dba5d2f6524cff6c
+hmac: 16a366f8078bec02ffadb6fcfc6713f8a8f2c203202b7e3b94a37ebbe2765fb9
 
 ...
