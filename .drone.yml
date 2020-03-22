@@ -50,7 +50,7 @@ steps:
       - cd tests/javascript
       - npm install
       - ./node_modules/.bin/selenium-standalone install --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com
-      - ./node_modules/.bin/selenium-standalone start --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com >> selenium.log 2>&1 &
+      - ./node_modules/.bin/selenium-standalone start --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com >> ../../selenium.log 2>&1 &
       - apt install -y netcat
       - while ! nc -z localhost 4444; do sleep 2; done
       - google-chrome --version
@@ -97,6 +97,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: 16a366f8078bec02ffadb6fcfc6713f8a8f2c203202b7e3b94a37ebbe2765fb9
+hmac: f19ce0b52e7b7ca27119634b2fc354b1a2b58004c0c3e9cd5ff5b88846e52188
 
 ...
