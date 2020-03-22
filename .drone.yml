@@ -56,7 +56,7 @@ steps:
       - composer install
       - cd ../..
       - cp RoboFile.dist.ini RoboFile.ini
-      - ./tests/codeception/vendor/bin/robo run:joomla4
+#      - ./tests/codeception/vendor/bin/robo run:joomla4
       - echo $(date)
 
   - name: rebuild-cache
@@ -95,6 +95,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: 11b707cbb009159a9268936ca71ce90dc813acaee1b40a441f6fca04c83d5e3a
+hmac: f25f5de95c9535a90574ef2f0628abe561fa76b10a705259327eb2c85cb60b89
 
 ...
