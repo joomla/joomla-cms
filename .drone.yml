@@ -51,6 +51,7 @@ steps:
       - /etc/init.d/mysql start
       - sleep 5
       - mysqladmin ping -hlocalhost
+      - mysql -uroot -e "select user from mysql.user"
       - cd tests/javascript
       - npm install
       - ./node_modules/.bin/selenium-standalone install --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com
@@ -123,6 +124,6 @@ branches:
 
 ---
 kind: signature
-hmac: 87a10bc78d8444190e9429e3e2152087206575bb851f52bbdbdad15bd37ea737
+hmac: 930a481eb09066cb5bc21925f91c2596482cd9623e7e0c03dc6474f2422cda86
 
 ...
