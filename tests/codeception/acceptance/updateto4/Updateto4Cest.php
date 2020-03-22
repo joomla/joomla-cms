@@ -46,6 +46,6 @@ class Updateto4Cest
 		$I->click('Install the Update');
 		$I->waitForText('Joomla Administrator Login', 120);
 		$I->checkForPhpNoticesOrWarnings();
-		//$I->see('Your site has been updated.');
+		// $I->see('Your site has been updated.');
 	}
 }
