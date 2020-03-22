@@ -11,8 +11,13 @@
 	"forum":"https://forum.joomla.org/",
 	"docs":"https://docs.joomla.org"
   },
+  "config": {
+    "github-oauth": {
+      "github.com": "60f0f5f87230a82aab8030fd972c3d9c98c055a9"
+    }
+  },
   "require": {
-	"php": ">=5.3.10"
+    "php": ">=5.3.10"
   },
   "require-dev": {
 	"codeception/codeception": "~3.0",
