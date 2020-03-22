@@ -93,8 +93,17 @@ volumes:
 
 branches:
   exclude: [ l10n_* ]
+
+services:
+  - name: mysql
+    image: mysql:5.7
+    environment:
+      MYSQL_USER: joomla_ut
+      MYSQL_PASSWORD: joomla_ut
+      MYSQL_ROOT_PASSWORD: joomla_ut
+      MYSQL_DATABASE: test_joomla
 ---
 kind: signature
-hmac: 11b707cbb009159a9268936ca71ce90dc813acaee1b40a441f6fca04c83d5e3a
+hmac: 314076947bb3b1d467f2710d04583086e59df05960a1eefb23382d79068c32f0
 
 ...
