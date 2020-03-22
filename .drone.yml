@@ -58,6 +58,7 @@ steps:
       - composer install
       - cd ../..
       - cat selenium.log
+      - google-chrome
       - ./tests/codeception/vendor/bin/robo run:joomla4
       - echo $(date)
 
@@ -97,6 +98,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: f19ce0b52e7b7ca27119634b2fc354b1a2b58004c0c3e9cd5ff5b88846e52188
+hmac: 4fb24e995487062f47b19af53c7b623d3f13089fbc0a4cdbf6121f07c5e48cdf
 
 ...
