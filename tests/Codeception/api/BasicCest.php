@@ -76,7 +76,7 @@ class BasicCest
 	 */
 	public function testContentNegotation(ApiTester $I)
 	{
-		$I->amBearerAuthenticated('c2hhMjU2OjkwMjpmZGE4YjBkNzA5OGMxNjM4ZDdhZjkyNTdiODY5NGQ4YmQxMmM4Y2UyY2QxNTVkZGYzZWE4NzdhMDMyYWRhNWY4');
+		$I->amBearerAuthenticated('c2hhMjU2OjIwNDplMmYyMmVhM2U1NTQ2YzUwMmFhMjNjMzA3YzFjMDBlNDk3MmExZGY5NTI2NjkxOTZiMTk4MmZlYzBlNzE3ODAx');
 		$I->haveHttpHeader('Accept', 'text/xml');
 		$I->sendGET('/content/article/1');
 		$I->seeResponseCodeIs(Codeception\Util\HttpCode::NOT_ACCEPTABLE);
@@ -93,7 +93,7 @@ class BasicCest
 	 */
 	public function testRouteNotFound(ApiTester $I)
 	{
-		$I->amBearerAuthenticated('c2hhMjU2OjkwMjpmZGE4YjBkNzA5OGMxNjM4ZDdhZjkyNTdiODY5NGQ4YmQxMmM4Y2UyY2QxNTVkZGYzZWE4NzdhMDMyYWRhNWY4');
+		$I->amBearerAuthenticated('c2hhMjU2OjIwNDplMmYyMmVhM2U1NTQ2YzUwMmFhMjNjMzA3YzFjMDBlNDk3MmExZGY5NTI2NjkxOTZiMTk4MmZlYzBlNzE3ODAx');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 		$I->sendGET('/not/existing/1');
 		$I->seeResponseCodeIs(Codeception\Util\HttpCode::NOT_FOUND);
