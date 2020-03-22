@@ -66,7 +66,7 @@ class ContactController extends ApiController
 	{
 		$data = (array) json_decode($this->input->json->getRaw(), true);
 
-		foreach (FieldsHelper::getFields('com_content.article') as $field)
+		foreach (FieldsHelper::getFields('com_contact.contact') as $field)
 		{
 			if (isset($data[$field->name]))
 			{
