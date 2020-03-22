@@ -50,12 +50,12 @@ steps:
       - npm install
       - ./node_modules/.bin/selenium-standalone install --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com
       - ./node_modules/.bin/selenium-standalone start --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com >> selenium.log 2>&1 &
-      - while [ ! nc -z localhost 4444 ]; do sleep 2; done
+      - while ! nc -z localhost 4444; do sleep 2; done
       - google-chrome --version
       - cd ../codeception
       - composer install
-      - cat selenium.log
       - cd ../..
+      - cat selenium.log
       - ./tests/codeception/vendor/bin/robo run:joomla4
       - echo $(date)
 
@@ -94,6 +94,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: dda5f66cccc8ab1093dd067d7040c2b52ea86bee227451719cbe42cc1c6b8e91
+hmac: 856f6cf7cccbf09b6cdef92fb6b88be1f6bf7057c03814ef6b0173993ff39c50
 
 ...
