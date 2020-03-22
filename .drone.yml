@@ -58,8 +58,6 @@ steps:
       - cd ../codeception
       - composer install
       - cd ../..
-      - ls /tests/www/
-      - curl http://localhost/tests/codeception/joomla-cms/installation/index.php
       - ./tests/codeception/vendor/bin/robo run:joomla4
       - echo $(date)
 
