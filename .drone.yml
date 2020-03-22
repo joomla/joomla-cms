@@ -52,7 +52,8 @@ steps:
       - mysqld --skip-grant-tables &
       - sleep 5
       - mysqladmin ping -hlocalhost
-      - mysql -uroot -e "select user from mysql.user"
+      - mysql -uroot -e "create user 'joomla_test'@'localhost' identified by 'joomla_test'"
+      - mysql -uroot -e "grant all privileges on *.* to 'joomla_test'@'localhost'"
       - cd tests/javascript
       - npm install
       - ./node_modules/.bin/selenium-standalone install --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com
@@ -125,6 +126,6 @@ branches:
 
 ---
 kind: signature
-hmac: 6fd8621ee293706cc6c2c8c848ddb098c30f8038ff629e406d40f476e520d0fb
+hmac: ab8f321452bdbe27c12ca0294c49aa8398389d7e3e7566db5f96a55d69fda8d6
 
 ...

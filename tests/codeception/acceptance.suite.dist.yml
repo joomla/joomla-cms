@@ -21,8 +21,8 @@ modules:
             username: 'admin'                      # UserName for the Administrator
             password: 'admin'                      # Password for the Administrator
             database host: 'localhost'             # place where the Application is Hosted #server Address
-            database user: 'root'                  # MySQL Server user ID, usually root
-            database password: ''                  # MySQL Server password, usually empty or root
+            database user: 'joomla_test'                  # MySQL Server user ID, usually root
+            database password: 'joomla_test'                  # MySQL Server password, usually empty or root
             database name: 'test_joomla'           # DB Name, at the Server
             database type: 'mysqli'                # type in lowercase one of the options: MySQL\MySQLi\PDO
             database prefix: 'jos_'                # DB Prefix for tables
