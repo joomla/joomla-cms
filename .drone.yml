@@ -54,6 +54,7 @@ steps:
       - ./node_modules/.bin/selenium-standalone install --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com
       - ./node_modules/.bin/selenium-standalone start --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com >> ../../selenium.log 2>&1 &
       - cd ../codeception
+      - sed -i 's/GITHUB_ACCESS_TOKEN/$GITHUB_TOKEN/g' composer.json
       - composer install
       - cd ../..
       - cp RoboFile.dist.ini RoboFile.ini
@@ -117,6 +118,6 @@ branches:
 
 ---
 kind: signature
-hmac: 03aab96da876dcca42ad44b9335e0239575bfc6aa2156f85f449edc4df7652dc
+hmac: acb6546dc7647ba17d4bb41295afdf66229c176bbfbe2560b79462025d45dfb4
 
 ...

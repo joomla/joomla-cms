@@ -13,7 +13,7 @@
   },
   "config": {
     "github-oauth": {
-      "github.com": "60f0f5f87230a82aab8030fd972c3d9c98c055a9"
+      "github.com": "GITHUB_ACCESS_TOKEN"
     }
   },
   "require": {
