@@ -29,6 +29,12 @@ class ContentCest
 	 */
 	public function _before(ApiTester $I)
 	{
+		# We assume there is only one user in the DB - the super user and get their ID
+		$userId = $I->grabFromDatabase('users', 'id', []);
+		$enabledData = ['user_id' => $userId, 'profile_key' => 'joomlatoken.enabled', 'profile_value' => 1];
+		$tokenData = ['user_id' => $userId, 'profile_key' => 'joomlatoken.token', 'profile_value' => 'dOi2m1NRrnBHlhaWK/WWxh3B5tqq1INbdf4DhUmYTI4='];
+		$I->haveInDatabase('user_profiles', $enabledData);
+		$I->haveInDatabase('user_profiles', $tokenData);
 	}
 
 	/**
@@ -57,7 +63,7 @@ class ContentCest
 	 */
 	public function testCrudOnArticle(ApiTester $I)
 	{
-		$I->amHttpAuthenticated('admin', 'admin');
+		$I->amBearerAuthenticated('c2hhMjU2OjIwNDplMmYyMmVhM2U1NTQ2YzUwMmFhMjNjMzA3YzFjMDBlNDk3MmExZGY5NTI2NjkxOTZiMTk4MmZlYzBlNzE3ODAx');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
@@ -73,18 +79,18 @@ class ContentCest
 
 		$I->seeResponseCodeIs(HttpCode::OK);
 
-		$I->amHttpAuthenticated('admin', 'admin');
+		$I->amBearerAuthenticated('c2hhMjU2OjIwNDplMmYyMmVhM2U1NTQ2YzUwMmFhMjNjMzA3YzFjMDBlNDk3MmExZGY5NTI2NjkxOTZiMTk4MmZlYzBlNzE3ODAx');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 		$I->sendGET('/content/article/1');
 		$I->seeResponseCodeIs(HttpCode::OK);
 
-		$I->amHttpAuthenticated('admin', 'admin');
+		$I->amBearerAuthenticated('c2hhMjU2OjIwNDplMmYyMmVhM2U1NTQ2YzUwMmFhMjNjMzA3YzFjMDBlNDk3MmExZGY5NTI2NjkxOTZiMTk4MmZlYzBlNzE3ODAx');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 		$I->sendGET('/content/article/1', ['title' => 'Another Title']);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
-		$I->amHttpAuthenticated('admin', 'admin');
+		$I->amBearerAuthenticated('c2hhMjU2OjIwNDplMmYyMmVhM2U1NTQ2YzUwMmFhMjNjMzA3YzFjMDBlNDk3MmExZGY5NTI2NjkxOTZiMTk4MmZlYzBlNzE3ODAx');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 		$I->sendDELETE('/content/article/1');
 		$I->seeResponseCodeIs(HttpCode::NO_CONTENT);

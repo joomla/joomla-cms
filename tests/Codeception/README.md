@@ -40,7 +40,7 @@ Run a `composer install` in the joomla root directory copy the file `tests/Codec
 to `tests/Codeception/api.suite.yml`. Then adjust the REST url in the new file and copy the `codeception.yml`
 to the Joomla main directory. 
 
->Tests with authentication require a user `admin` with password `admin` as credentials for now. 
+>Tests with authentication always use the super user credentials for now. 
 
 ### Running
 
