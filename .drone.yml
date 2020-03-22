@@ -54,12 +54,15 @@ steps:
       - ./node_modules/.bin/selenium-standalone install --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com
       - ./node_modules/.bin/selenium-standalone start --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com >> ../../selenium.log 2>&1 &
       - cd ../codeception
-      - sed -i 's/GITHUB_ACCESS_TOKEN/$GITHUB_TOKEN/g' composer.json
+      - sed -i "s/GITHUB_ACCESS_TOKEN/$GITHUB_TOKEN/g" composer.json
       - composer install
       - cd ../..
       - cp RoboFile.dist.ini RoboFile.ini
       - ./tests/codeception/vendor/bin/robo run:joomla4
       - echo $(date)
+    environment:
+      GITHUB_TOKEN:
+        from_secret: GITHUB_TOKEN
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
@@ -118,6 +121,6 @@ branches:
 
 ---
 kind: signature
-hmac: acb6546dc7647ba17d4bb41295afdf66229c176bbfbe2560b79462025d45dfb4
+hmac: f26cf716eb9c79c012cff7e463c3087c54217b8fb62e13a0431564e15a11972d
 
 ...
