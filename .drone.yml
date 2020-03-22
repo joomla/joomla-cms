@@ -97,6 +97,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: 2f10884024adda5abd87f96b6d4224b584c43c4fc0324e7166999d1af09c5383
+hmac: 19646f6d88294208cd3f77dd901e92f538c476d2237a971814f268f15e1d9dd3
 
 ...
