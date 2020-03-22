@@ -28,10 +28,12 @@ class BasicCest
 	 */
 	public function _before(ApiTester $I)
 	{
-		# We assume there is only one user in the DB - the super user and get their ID
-		$userId = $I->grabFromDatabase('users', 'id', []);
-		$enabledData = ['user_id' => $userId, 'profile_key' => 'joomlatoken.enabled', 'profile_value' => 1];
-		$tokenData = ['user_id' => $userId, 'profile_key' => 'joomlatoken.token', 'profile_value' => 'dOi2m1NRrnBHlhaWK/WWxh3B5tqq1INbdf4DhUmYTI4='];
+		// TODO: Improve this to retrieve a specific ID to replace with a known ID
+		$desiredUserId = 3;
+		$I->updateInDatabase('users', ['id' => 3], []);
+		$I->updateInDatabase('user_usergroup_map', ['user_id' => 3], []);
+		$enabledData = ['user_id' => $desiredUserId, 'profile_key' => 'joomlatoken.enabled', 'profile_value' => 1];
+		$tokenData = ['user_id' => $desiredUserId, 'profile_key' => 'joomlatoken.token', 'profile_value' => 'dOi2m1NRrnBHlhaWK/WWxh3B5tqq1INbdf4DhUmYTI4='];
 		$I->haveInDatabase('user_profiles', $enabledData);
 		$I->haveInDatabase('user_profiles', $tokenData);
 	}
