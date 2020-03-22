@@ -16,7 +16,7 @@
   },
   "require-dev": {
 	"codeception/codeception": "~3.0",
-	"joomla-projects/joomla-browser": "~v3",
+	"joomla-projects/joomla-browser": "v3.9.0",
 	"consolidation/robo": "^1.0.0"
   }
 }
