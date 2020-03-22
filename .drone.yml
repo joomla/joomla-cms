@@ -48,7 +48,8 @@ steps:
       - sleep 3
       - fluxbox  > /dev/null 2>&1 &
       - apache2ctl -D FOREGROUND &
-      - /etc/init.d/mysql start
+#      - /etc/init.d/mysql start
+      - mysqld --skip-grant-tables &
       - sleep 5
       - mysqladmin ping -hlocalhost
       - mysql -uroot -e "select user from mysql.user"
@@ -124,6 +125,6 @@ branches:
 
 ---
 kind: signature
-hmac: 930a481eb09066cb5bc21925f91c2596482cd9623e7e0c03dc6474f2422cda86
+hmac: 6fd8621ee293706cc6c2c8c848ddb098c30f8038ff629e406d40f476e520d0fb
 
 ...
