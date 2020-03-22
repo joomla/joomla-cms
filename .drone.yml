@@ -58,6 +58,7 @@ steps:
       - cd ../codeception
       - composer install
       - cd ../..
+      - cp RoboFile.dist.ini RoboFile.ini
       - ./tests/codeception/vendor/bin/robo run:joomla4
       - echo $(date)
 
