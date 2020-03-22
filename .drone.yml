@@ -48,6 +48,7 @@ steps:
       - sleep 3
       - fluxbox  > /dev/null 2>&1 &
       - apache2ctl -D FOREGROUND &
+      - mysqld_save &
       - cd tests/javascript
       - npm install
       - ./node_modules/.bin/selenium-standalone install --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com
@@ -94,16 +95,8 @@ volumes:
 branches:
   exclude: [ l10n_* ]
 
-services:
-  - name: mysql
-    image: mysql:5.7
-    environment:
-      MYSQL_USER: joomla_ut
-      MYSQL_PASSWORD: joomla_ut
-      MYSQL_ROOT_PASSWORD: joomla_ut
-      MYSQL_DATABASE: test_joomla
 ---
 kind: signature
-hmac: 314076947bb3b1d467f2710d04583086e59df05960a1eefb23382d79068c32f0
+hmac: 3d987e5e34133c6eaff8aa425dad83f6ad658017028ac20994cadc1ecd640c53
 
 ...
