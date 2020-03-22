@@ -15,7 +15,7 @@ use Joomla\CMS\Uri\Uri;
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
 
-// Allow to template to provide its own asset for the module
+// Allow template to provide its own asset for the module
 if (!$wa->assetExists('style', 'mod_languages'))
 {
 	$wa->registerStyle('mod_languages', 'mod_languages/template.css');
