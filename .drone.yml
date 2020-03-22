@@ -47,6 +47,7 @@ steps:
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
       - sleep 3
       - fluxbox  > /dev/null 2>&1 &
+      - apache2ctl -D FOREGROUND &
       - cd tests/javascript
       - npm install
       - ./node_modules/.bin/selenium-standalone install --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com
@@ -97,6 +98,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: 69c86363259e4f2589a9bd546885ab6b37c133ebc40cff4d6f35c7bcb2bfa990
+hmac: d7cd0e4255c3ee0aa86a7881bb99bedc21195acfe603cbd2b9b5233e36cf54e4
 
 ...
