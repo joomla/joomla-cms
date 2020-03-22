@@ -48,8 +48,7 @@ steps:
       - sleep 3
       - fluxbox  > /dev/null 2>&1 &
       - apache2ctl -D FOREGROUND &
-#      - /etc/init.d/mysql start
-      - mysqld --skip-grant-tables &
+      - /etc/init.d/mysql start
       - sleep 5
       - mysqladmin ping -hlocalhost
       - mysql -uroot -e "create user 'joomla_test'@'localhost' identified by 'joomla_test'"
@@ -126,6 +125,6 @@ branches:
 
 ---
 kind: signature
-hmac: ab8f321452bdbe27c12ca0294c49aa8398389d7e3e7566db5f96a55d69fda8d6
+hmac: 17625de319fca0bf4f7f52d9f38ad8b50cb67ce6b9ed4e4d6b6b82e91f3c8e35
 
 ...
