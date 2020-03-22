@@ -68,7 +68,10 @@
       "dependencies": [
         "core"
       ],
-      "uri": "system/showon.min.js"
+      "uri": "system/showon.min.js",
+      "attributes": {
+        "defer": true
+      }
     },
     {
       "name": "switcher",
