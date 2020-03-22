@@ -147,6 +147,24 @@ class JoomlaDb extends Db
 	}
 
 	/**
+	 * Update an SQL record into a database.
+	 *
+	 * @param   string  $table     Table name
+	 * @param   array   $data      The data to update
+	 * @param   array   $criteria  Search criteria [Optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function updateInDatabase($table, array $data, array $criteria = [])
+	{
+		$table = $this->addPrefix($table);
+
+		parent::updateInDatabase($table, $data, $criteria);
+	}
+
+	/**
 	 * Add the table prefix.
 	 *
 	 * @param   string  $table  Table without prefix
