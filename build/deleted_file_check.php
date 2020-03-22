@@ -65,6 +65,7 @@ $previousReleaseExclude = [
 	$options['from'] . '/administrator/components/com_search',
 	$options['from'] . '/components/com_search',
 	$options['from'] . '/plugins/search',
+	$options['from'] . '/plugins/fields/repeatable',
 	$options['from'] . '/installation'
 ];
 
@@ -151,6 +152,8 @@ $foldersDifference = array_diff($previousReleaseFolders, $newReleaseFolders);
 $filesToRemove = [
 	"'/administrator/language/en-GB/en-GB.com_search.ini',",
 	"'/administrator/language/en-GB/en-GB.com_search.sys.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_fields_repeatable.ini',",
+	"'/administrator/language/en-GB/en-GB.plg_fields_repeatable.sys.ini',",
 	"'/language/en-GB/en-GB.com_search.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_search_categories.ini',",
 	"'/administrator/language/en-GB/en-GB.plg_search_categories.sys.ini',",
