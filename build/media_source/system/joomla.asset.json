@@ -145,6 +145,14 @@
       }
     },
     {
+      "name": "joomla.batch-language",
+      "type": "script",
+      "uri": "layouts/joomla/html/batch/batch-language.min.js",
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
       "name": "webcomponent.field-fancy-select",
       "type": "script",
       "uri": "system/fields/joomla-field-fancy-select.min.js",
