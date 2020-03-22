@@ -74,7 +74,6 @@ steps:
 
   - name: artifacts-system-tests
     image: cschlosser/drone-ftps
-    depends_on: [ updateto4 ]
     environment:
       FTP_USERNAME:
         from_secret: ftpusername
@@ -118,6 +117,6 @@ branches:
 
 ---
 kind: signature
-hmac: e11800dada127634069fce716252f7dcb4c4b4df4cf4ae42c25ea7c9f19e9e3a
+hmac: 13eb156e6f55cbd94247bfc2e0f62ef82874b793742dc1720d5580d7eab5cea3
 
 ...
