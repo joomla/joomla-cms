@@ -12,3 +12,6 @@
       box-shadow: $focusshadow;
     }
   }
+  .disabled {
+	  opacity: $btn-disabled-opacity;
+  }
