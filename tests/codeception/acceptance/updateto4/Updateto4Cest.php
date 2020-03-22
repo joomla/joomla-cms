@@ -44,7 +44,7 @@ class Updateto4Cest
 		$I->click('Live Update');
 		$I->wait(2);
 		$I->click('Install the Update');
-		$I->waitForText('Joomla Version Update Status', 60);
+		$I->waitForText('Joomla Administrator Login', 120);
 		$I->checkForPhpNoticesOrWarnings();
 		$I->see('Your site has been updated.');
 	}
