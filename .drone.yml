@@ -48,8 +48,8 @@ steps:
       - fluxbox  > /dev/null 2>&1 &
       - cd tests/javascript
       - npm install
-      - ./node_modules/.bin/selenium-standalone install --drivers.chrome.version=77.0.4865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com
-      - ./node_modules/.bin/selenium-standalone start --drivers.chrome.version=77.0.4865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com >> selenium.log 2>&1 &
+      - ./node_modules/.bin/selenium-standalone install --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com
+      - ./node_modules/.bin/selenium-standalone start --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com >> selenium.log 2>&1 &
       - chromium --version
       - cd ../codeception
       - composer install
@@ -92,6 +92,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: 5a5897adadfe60932d42aa81c57f4be6a2fe1b790cbd307f0d30a44bfa942c1d
+hmac: 0e0ccbb4a7a64744e119df15c3942aeb053c111462d023816c7d6d34046f294e
 
 ...
