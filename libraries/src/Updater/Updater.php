@@ -121,7 +121,8 @@ class Updater extends \JAdapter
 	 *
 	 * @since   1.7.0
 	 */
-	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimum_stability = self::STABILITY_STABLE, $includeCurrent = false, $forceExtendedVersionCheck = true)
+	public function findUpdates(
+		$eid = 0, $cacheTimeout = 0, $minimum_stability = self::STABILITY_STABLE, $includeCurrent = false, $forceExtendedVersionCheck = true)
 	{
 		$retval = false;
 
@@ -268,7 +269,8 @@ class Updater extends \JAdapter
 	 *
 	 * @since   3.6.0
 	 */
-	private function getUpdateObjectsForSite($updateSite, $minimum_stability = self::STABILITY_STABLE, $includeCurrent = false, $forceExtendedVersionCheck = true)
+	private function getUpdateObjectsForSite(
+		$updateSite, $minimum_stability = self::STABILITY_STABLE, $includeCurrent = false, $forceExtendedVersionCheck = true)
 	{
 		$retVal = array();
 
