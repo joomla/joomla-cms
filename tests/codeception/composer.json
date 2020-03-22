@@ -21,7 +21,7 @@
   },
   "require-dev": {
 	"codeception/codeception": "~3.0",
-	"zero-24/joomla-browser": "dev-develop",
+	"joomla-projects/joomla-browser": "dev-j3install",
 	"consolidation/robo": "^1.0.0"
   }
 }
