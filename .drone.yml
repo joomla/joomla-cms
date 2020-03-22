@@ -50,7 +50,7 @@ steps:
       - npm install
       - ./node_modules/.bin/selenium-standalone install --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com
       - ./node_modules/.bin/selenium-standalone start --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com >> selenium.log 2>&1 &
-      - sleep 5
+      - while [ ! nc -z localhost 4444 ]; do sleep 2; done
       - google-chrome --version
       - cd ../codeception
       - composer install
@@ -93,6 +93,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: d2928753426a0a3c862ea4fb8aa7b768d1d97dd8b226cf78c26c2b0f800cf239
+hmac: 5877c6a526455263698b38a8bdadd189edba16ede31466b78d4fcd513e2c051d
 
 ...
