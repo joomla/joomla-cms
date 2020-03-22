@@ -58,7 +58,7 @@ steps:
       - cd ../codeception
       - composer install
       - cd ../..
-      - curl http://localhost/installation/index.php
+      - curl http://localhost/tests/codeception/joomla-cms/installation/index.php
       - ./tests/codeception/vendor/bin/robo run:joomla4
       - echo $(date)
 
@@ -98,6 +98,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: b2254383ef25066c013461335fd33c61de9e35f19c89c6b2f7d421960c3b4f4f
+hmac: d7cd0e4255c3ee0aa86a7881bb99bedc21195acfe603cbd2b9b5233e36cf54e4
 
 ...
