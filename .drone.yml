@@ -48,7 +48,7 @@ steps:
       - sleep 3
       - fluxbox  > /dev/null 2>&1 &
       - apache2ctl -D FOREGROUND &
-      - mysql.server start
+      - /etc/init.d/mysql start
       - cd tests/javascript
       - npm install
       - ./node_modules/.bin/selenium-standalone install --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com
@@ -117,6 +117,6 @@ branches:
 
 ---
 kind: signature
-hmac: e1fb753e1f8b8ef8fce65ff7ea96786f510a441c35c6bcc3e9fa0a8c2944d42a
+hmac: 03aab96da876dcca42ad44b9335e0239575bfc6aa2156f85f449edc4df7652dc
 
 ...
