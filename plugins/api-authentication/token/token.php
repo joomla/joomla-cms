@@ -85,6 +85,20 @@ class PlgApiAuthenticationToken extends CMSPlugin
 		 * token, as well as any whitespace following the token is discarded.
 		 */
 		$authHeader = $this->app->input->server->get('HTTP_AUTHORIZATION', '', 'string');
+
+		// Apache specific fixes. See https://github.com/symfony/symfony/issues/19693
+		if (empty($authHeader) && \PHP_SAPI === 'apache2handler'
+			&& function_exists('apache_request_headers') && apache_request_headers() !== false)
+		{
+			$apacheHeaders = \apache_request_headers();
+
+			if (array_key_exists('Authorization', $apacheHeaders))
+			{
+				$filter = \Joomla\CMS\Filter\InputFilter::getInstance();
+				$authHeader = $filter->clean($apacheHeaders['Authorization'], 'STRING');
+			}
+		}
+
 		$tokenString = '';
 
 		if (substr($authHeader, 0, 7) == 'Bearer ')
