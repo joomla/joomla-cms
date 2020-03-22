@@ -11,7 +11,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 $params     = $displayData->params;
 $fontFamily = $displayData->fontFamily ?? 'monospace';
@@ -32,9 +31,10 @@ $g                   = hexdec($color[3] . $color[4]);
 $b                   = hexdec($color[5] . $color[6]);
 $highlightMatchColor = 'rgba(' . $r . ', ' . $g . ', ' . $b . ', .5)';
 
-HTMLHelper::_('stylesheet', 'plg_editors_codemirror/codemirror.css', array('version' => 'auto', 'relative' => true));
-
-Factory::getDocument()->addStyleDeclaration(
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa->registerAndUseStyle('plg_editors_codemirror', 'plg_editors_codemirror/codemirror.css');
+$wa->addInlineStyle(
 <<<CSS
 		.CodeMirror {
 			font-family: $fontFamily;

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -31,6 +29,14 @@ class PlgButtonReadmore extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
+
+	/**
 	 * Readmore button
 	 *
 	 * @param   string  $name  The name of the button to add
@@ -41,10 +47,12 @@ class PlgButtonReadmore extends CMSPlugin
 	 */
 	public function onDisplay($name)
 	{
-		HTMLHelper::_('script', 'com_content/admin-article-readmore.min.js', array('version' => 'auto', 'relative' => true));
+		$doc = $this->app->getDocument();
+		$doc->getWebAssetManager()
+			->registerAndUseScript('com_content.admin-article-readmore', 'com_content/admin-article-readmore.min.js', [], ['defer' => true], ['core']);
 
 		// Pass some data to javascript
-		Factory::getDocument()->addScriptOptions(
+		$doc->addScriptOptions(
 			'xtd-readmore',
 			array(
 				'exists' => Text::_('PLG_READMORE_ALREADY_EXISTS', true),

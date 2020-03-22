@@ -13,7 +13,6 @@ namespace Joomla\Plugin\System\Webauthn\Field;
 defined('_JEXEC') or die();
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Plugin\System\Webauthn\CredentialRepository;
@@ -52,12 +51,6 @@ class WebauthnField extends FormField
 			return Text::_('PLG_SYSTEM_WEBAUTHN_ERR_NOUSER');
 		}
 
-		HTMLHelper::_('script', 'plg_system_webauthn/management.js', [
-			'relative'  => true,
-			'framework' => true,
-			]
-		);
-
 		Text::script('PLG_SYSTEM_WEBAUTHN_ERR_NO_BROWSER_SUPPORT', true);
 		Text::script('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_SAVE_LABEL', true);
 		Text::script('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_CANCEL_LABEL', true);
@@ -66,6 +59,9 @@ class WebauthnField extends FormField
 
 		$app                  = Factory::getApplication();
 		$credentialRepository = new CredentialRepository;
+
+		$app->getDocument()->getWebAssetManager()
+			->registerAndUseScript('plg_system_webauthn.management', 'plg_system_webauthn/management.js', [], ['defer' => true], ['core']);
 
 		return Joomla::renderLayout('plugins.system.webauthn.manage', [
 			'user'        => Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($userId),

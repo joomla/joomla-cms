@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
@@ -80,8 +79,8 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
 		Text::script('PLG_QUICKICON_OVERRIDECHECK_UPTODATE', true);
 		Text::script('PLG_QUICKICON_OVERRIDECHECK_OVERRIDEFOUND', true);
 
-		HTMLHelper::_('behavior.core');
-		HTMLHelper::_('script', 'plg_quickicon_overridecheck/overridecheck.js', array('version' => 'auto', 'relative' => true));
+		$this->app->getDocument()->getWebAssetManager()
+			->registerAndUseScript('plg_quickicon_overridecheck', 'plg_quickicon_overridecheck/overridecheck.js', [], ['defer' => true], ['core']);
 
 		return array(
 			array(

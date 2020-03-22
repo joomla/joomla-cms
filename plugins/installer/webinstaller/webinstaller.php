@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Rule\UrlRule;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -77,6 +76,8 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	public function onInstallerAddInstallationTab()
 	{
 		$installfrom = $this->getInstallFrom();
+		$doc         = $this->app->getDocument();
+		$lang        = $this->app->getLanguage();
 
 		// Push language strings to the JavaScript store
 		Text::script('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN');
@@ -84,8 +85,16 @@ class PlgInstallerWebinstaller extends CMSPlugin
 
 		// TEMPORARY - Make sure Bootstrap is booted so that our client initialisation scripts can find the tab
 		HTMLHelper::_('bootstrap.framework');
-		HTMLHelper::_('script', 'plg_installer_webinstaller/client.min.js', ['version' => 'auto', 'relative' => true]);
-		HTMLHelper::_('stylesheet', 'plg_installer_webinstaller/client.min.css', ['version' => 'auto', 'relative' => true]);
+
+		$doc->getWebAssetManager()
+			->registerAndUseStyle('plg_installer_webinstaller.client', 'plg_installer_webinstaller/client.min.css')
+			->registerAndUseScript(
+				'plg_installer_webinstaller.client',
+				'plg_installer_webinstaller/client.min.js',
+				[],
+				['defer' => true],
+				['core', 'jquery']
+			);
 
 		$devLevel = Version::PATCH_VERSION;
 
@@ -93,9 +102,6 @@ class PlgInstallerWebinstaller extends CMSPlugin
 		{
 			$devLevel .= '-' . Version::EXTRA_VERSION;
 		}
-
-		$doc  = Factory::getDocument();
-		$lang = Factory::getLanguage();
 
 		$doc->addScriptOptions(
 			'plg_installer_webinstaller',
@@ -135,7 +141,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 	{
 		if ($this->rtl === null)
 		{
-			$this->rtl = strtolower(Factory::getDocument()->getDirection()) === 'rtl' ? 1 : 0;
+			$this->rtl = strtolower($this->app->getDocument()->getDirection()) === 'rtl' ? 1 : 0;
 		}
 
 		return $this->rtl;

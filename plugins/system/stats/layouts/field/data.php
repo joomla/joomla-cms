@@ -9,10 +9,12 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::_('script', 'plg_system_stats/stats.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa->registerAndUseScript('plg_system_stats.stats', 'plg_system_stats/stats.js', [], ['defer' => true], ['core']);
 
 extract($displayData);
 
