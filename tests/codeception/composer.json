@@ -10,8 +10,8 @@
 	"irc":"http://irc.lc/freenode/joomla/",
 	"forum":"https://forum.joomla.org/",
 	"docs":"https://docs.joomla.org"
-  },
-  "config": {
+	},
+	"config": {
     "github-oauth": {
       "github.com": "GITHUB_ACCESS_TOKEN"
     }
