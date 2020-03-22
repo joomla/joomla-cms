@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+
 $params = $displayData->params;
 ?>
 <?php $images = json_decode($displayData->images); ?>
