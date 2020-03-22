@@ -72,6 +72,27 @@ steps:
       - name: cache
         path: /cache
 
+  - name: artifacts-system-tests
+    image: cschlosser/drone-ftps
+    depends_on: [ updateto4 ]
+    environment:
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      PLUGIN_HOSTNAME: ci.joomla.org:21
+      PLUGIN_SRC_DIR: /tests/codeception/_output/
+      PLUGIN_DEST_DIR: /artifacts
+      PLUGIN_SECURE: false
+      PLUGIN_EXCLUDE: ^\.git/$
+    commands:
+      - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
+      - echo https://ci.joomla.org:444$PLUGIN_DEST_DIR
+      - /bin/upload.sh
+    when:
+      status:
+        - failure
+
   - name: analysis3x
     image: rips/rips-cli:3.2.2
     when:
@@ -97,6 +118,6 @@ branches:
 
 ---
 kind: signature
-hmac: 3d987e5e34133c6eaff8aa425dad83f6ad658017028ac20994cadc1ecd640c53
+hmac: e11800dada127634069fce716252f7dcb4c4b4df4cf4ae42c25ea7c9f19e9e3a
 
 ...
