@@ -99,7 +99,7 @@ class CategoryView extends HtmlView
 	 * Whether to run the standard Joomla plugin events.
 	 * Off by default for b/c
 	 *
-	 * @var    bool
+	 * @var    boolean
 	 * @since  3.5
 	 */
 	protected $runPlugins = false;
@@ -231,7 +231,7 @@ class CategoryView extends HtmlView
 		if ($active
 			&& $active->component == $this->extension
 			&& isset($active->query['view'], $active->query['id'])
-			&& $active->query['view'] == 'category'
+			&& $active->query['view'] === 'category'
 			&& $active->query['id'] == $this->category->id)
 		{
 			if (isset($active->query['layout']))

@@ -149,9 +149,9 @@ class PasswordField extends FormField
 			$this->maxLength    = $this->element['maxlength'] ? (int) $this->element['maxlength'] : 99;
 			$this->threshold    = $this->element['threshold'] ? (int) $this->element['threshold'] : 66;
 			$meter              = (string) $this->element['strengthmeter'];
-			$this->meter        = ($meter == 'true' || $meter == 'on' || $meter == '1');
+			$this->meter        = ($meter === 'true' || $meter === 'on' || $meter === '1');
 			$force              = (string) $this->element['forcePassword'];
-			$this->force        = (($force == 'true' || $force == 'on' || $force == '1') && $this->meter === true);
+			$this->force        = (($force === 'true' || $force === 'on' || $force === '1') && $this->meter === true);
 
 			// Set some initial values
 			$this->minLength    = 4;

@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
@@ -326,7 +327,7 @@ class ApiController extends BaseController
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  Model|boolean  Model object on success; otherwise false on failure.
+	 * @return  BaseModel|boolean  Model object on success; otherwise false on failure.
 	 *
 	 * @since   4.0.0
 	 */
@@ -353,7 +354,7 @@ class ApiController extends BaseController
 		$params = ComponentHelper::getParams('com_media');
 
 		$helper       = new MediaHelper;
-		$serverlength = $this->input->server->get('CONTENT_LENGTH');
+		$serverlength = $this->input->server->getInt('CONTENT_LENGTH');
 
 		if ($serverlength > ($params->get('upload_maxsize', 0) * 1024 * 1024)
 			|| $serverlength > $helper->toBytes(ini_get('upload_max_filesize'))

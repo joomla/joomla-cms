@@ -32,12 +32,19 @@
       "name": "template.active.language",
       "type": "style",
       "uri": "",
-      "class": "LangActiveAssetItem"
+      "class": "LangActiveAssetItem",
+      "dependencies": [
+        "template.active"
+      ]
     },
     {
       "name": "template.user",
       "type": "style",
-      "uri": "user.css"
+      "uri": "user.css",
+      "dependencies": [
+        "template.active",
+        "template.active.language"
+      ]
     },
     {
       "name": "template.cassiopeia.googlefont",
@@ -66,7 +73,9 @@
       "name": "template.user",
       "type": "script",
       "uri":  "user.js",
-      "dependencies": ["template.cassiopeia"]
+      "dependencies": [
+        "template.active"
+      ]
     },
 
     {
@@ -84,6 +93,11 @@
         "template.cassiopeia.rtl#style",
         "template.cassiopeia#script"
       ]
+    },
+    {
+      "name": "searchtools",
+      "type": "style",
+      "uri": "system/searchtools/searchtools.min.css"
     }
   ]
 }

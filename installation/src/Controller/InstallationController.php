@@ -100,7 +100,18 @@ class InstallationController extends JSONController
 		$configurationModel = $this->getModel('Configuration');
 
 		// Attempt to setup the configuration.
-		if (!$configurationModel->setup($options))
+		try
+		{
+			$setupDone = $configurationModel->setup($options);
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->app->enqueueMessage($e->getMessage(), 'error');
+
+			$setupDone = false;
+		}
+
+		if (!$setupDone)
 		{
 			$r->view = 'setup';
 		}
@@ -191,17 +202,6 @@ class InstallationController extends JSONController
 
 			// Install selected languages
 			$model->install($lids);
-
-			// Publish the Content Languages.
-			$failedLanguages = $model->publishContentLanguages();
-
-			if (!empty($failedLanguages))
-			{
-				foreach ($failedLanguages as $failedLanguage)
-				{
-					$this->app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $failedLanguage), 'warning');
-				}
-			}
 		}
 
 		// Redirect to the page.

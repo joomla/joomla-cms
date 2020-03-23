@@ -47,7 +47,6 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (10, 1, 41, 42, 1, 'com_installer', 'com_installer', '{"core.manage":{"7":0},"core.delete":{"7":0},"core.edit.state":{"7":0}}'),
 (11, 1, 43, 44, 1, 'com_languages', 'com_languages', '{"core.admin":{"7":1}}'),
 (12, 1, 45, 46, 1, 'com_login', 'com_login', '{}'),
-(13, 1, 47, 48, 1, 'com_mailto', 'com_mailto', '{}'),
 (14, 1, 49, 50, 1, 'com_massmail', 'com_massmail', '{}'),
 (15, 1, 51, 52, 1, 'com_media', 'com_media', '{"core.admin":{"7":1},"core.manage":{"6":1},"core.create":{"3":1},"core.delete":{"5":1}}'),
 (16, 1, 53, 56, 1, 'com_menus', 'com_menus', '{"core.admin":{"7":1}}'),
@@ -152,7 +151,7 @@ CREATE TABLE IF NOT EXISTS "#__banners" (
   "custombannercode" varchar(2048) NOT NULL,
   "sticky" smallint DEFAULT 0 NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
-  "metakey" text NOT NULL,
+  "metakey" text,
   "params" text NOT NULL,
   "own_prefix" smallint DEFAULT 0 NOT NULL,
   "metakey_prefix" varchar(255) DEFAULT '' NOT NULL,
@@ -192,7 +191,7 @@ CREATE TABLE IF NOT EXISTS "#__banner_clients" (
   "state" smallint DEFAULT 0 NOT NULL,
   "checked_out" bigint DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone,
-  "metakey" text NOT NULL,
+  "metakey" text,
   "own_prefix" smallint DEFAULT 0 NOT NULL,
   "metakey_prefix" varchar(255) DEFAULT '' NOT NULL,
   "purchase_type" smallint DEFAULT -1 NOT NULL,
@@ -234,12 +233,12 @@ CREATE TABLE IF NOT EXISTS "#__categories" (
   "title" varchar(255) DEFAULT '' NOT NULL,
   "alias" varchar(255) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
-  "description" text DEFAULT '' NOT NULL,
+  "description" text,
   "published" smallint DEFAULT 0 NOT NULL,
   "checked_out" bigint DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone,
   "access" bigint DEFAULT 0 NOT NULL,
-  "params" text DEFAULT '' NOT NULL,
+  "params" text,
   "metadesc" varchar(1024) DEFAULT '' NOT NULL,
   "metakey" varchar(1024) DEFAULT '' NOT NULL,
   "metadata" varchar(2048) DEFAULT '' NOT NULL,
@@ -262,7 +261,7 @@ CREATE INDEX "#__categories_idx_language" ON "#__categories" ("language");
 
 COMMENT ON COLUMN "#__categories"."asset_id" IS 'FK to the #__assets table.';
 COMMENT ON COLUMN "#__categories"."metadesc" IS 'The meta description for the page.';
-COMMENT ON COLUMN "#__categories"."metakey" IS 'The meta keywords for the page.';
+COMMENT ON COLUMN "#__categories"."metakey" IS 'The keywords for the page.';
 COMMENT ON COLUMN "#__categories"."metadata" IS 'JSON encoded metadata properties.';
 
 --
@@ -318,7 +317,7 @@ CREATE TABLE IF NOT EXISTS "#__contact_details" (
   "created_by_alias" varchar(255) NOT NULL DEFAULT '',
   "modified" timestamp without time zone NOT NULL,
   "modified_by" integer NOT NULL DEFAULT 0,
-  "metakey" text NOT NULL,
+  "metakey" text,
   "metadesc" text NOT NULL,
   "metadata" text NOT NULL,
   "featured" smallint NOT NULL DEFAULT 0,
@@ -365,7 +364,7 @@ CREATE TABLE IF NOT EXISTS "#__content" (
   "attribs" varchar(5120) NOT NULL,
   "version" bigint DEFAULT 1 NOT NULL,
   "ordering" bigint DEFAULT 0 NOT NULL,
-  "metakey" text NOT NULL,
+  "metakey" text,
   "metadesc" text NOT NULL,
   "access" bigint DEFAULT 0 NOT NULL,
   "hits" bigint DEFAULT 0 NOT NULL,
@@ -421,7 +420,7 @@ CREATE TABLE IF NOT EXISTS "#__content_types" (
   "type_id" serial NOT NULL,
   "type_title" varchar(255) NOT NULL DEFAULT '',
   "type_alias" varchar(255) NOT NULL DEFAULT '',
-  "table" varchar(255) NOT NULL DEFAULT '',
+  "table" varchar(2048) NOT NULL DEFAULT '',
   "rules" text NOT NULL,
   "field_mappings" text NOT NULL,
   "router" varchar(255) NOT NULL DEFAULT '',
@@ -438,17 +437,17 @@ COMMENT ON COLUMN "#__content_types"."content_history_options" IS 'JSON string f
 
 INSERT INTO "#__content_types" ("type_id", "type_title", "type_alias", "table", "rules", "field_mappings", "router", "content_history_options") VALUES
 (1, 'Article', 'com_content.article', '{"special":{"dbtable":"#__content","key":"id","type":"Content","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"state","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"introtext", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"attribs", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"urls", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "asset_id":"asset_id", "note":"note"}, "special":{"fulltext":"fulltext"}}', 'ContentHelperRoute::getArticleRoute', '{"formFile":"administrator\\/components\\/com_content\\/forms\\/article.xml", "hideFields":["asset_id","checked_out","checked_out_time","version"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "hits", "ordering"],"convertToInt":["publish_up", "publish_down", "featured", "ordering"],"displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ]}'),
-(2, 'Contact', 'com_contact.contact', '{"special":{"dbtable":"#__contact_details","key":"id","type":"Contact","prefix":"ContactTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"address", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"image", "core_urls":"webpage", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "asset_id":"null"}, "special":{"con_position":"con_position","suburb":"suburb","state":"state","country":"country","postcode":"postcode","telephone":"telephone","fax":"fax","misc":"misc","email_to":"email_to","default_con":"default_con","user_id":"user_id","mobile":"mobile","sortname1":"sortname1","sortname2":"sortname2","sortname3":"sortname3"}}', 'ContactHelperRoute::getContactRoute', '{"formFile":"administrator\\/components\\/com_contact\\/forms\\/contact.xml","hideFields":["default_con","checked_out","checked_out_time","version"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "hits"],"convertToInt":["publish_up", "publish_down", "featured", "ordering"], "displayLookup":[ {"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ] }'),
-(3, 'Newsfeed', 'com_newsfeeds.newsfeed', '{"special":{"dbtable":"#__newsfeeds","key":"id","type":"Newsfeed","prefix":"NewsfeedsTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"description", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"link", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "asset_id":"null"}, "special":{"numarticles":"numarticles","cache_time":"cache_time","rtl":"rtl"}}', 'NewsfeedsHelperRoute::getNewsfeedRoute', '{"formFile":"administrator\\/components\\/com_newsfeeds\\/forms\\/newsfeed.xml","hideFields":["asset_id","checked_out","checked_out_time","version"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "hits"],"convertToInt":["publish_up", "publish_down", "featured", "ordering"],"displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ]}'),
+(2, 'Contact', 'com_contact.contact', '{"special":{"dbtable":"#__contact_details","key":"id","type":"ContactTable","prefix":"Joomla\\\\Component\\\\Contact\\\\Administrator\\\\Table\\\\","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"address", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"image", "core_urls":"webpage", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "asset_id":"null"}, "special":{"con_position":"con_position","suburb":"suburb","state":"state","country":"country","postcode":"postcode","telephone":"telephone","fax":"fax","misc":"misc","email_to":"email_to","default_con":"default_con","user_id":"user_id","mobile":"mobile","sortname1":"sortname1","sortname2":"sortname2","sortname3":"sortname3"}}', 'ContactHelperRoute::getContactRoute', '{"formFile":"administrator\\/components\\/com_contact\\/forms\\/contact.xml","hideFields":["default_con","checked_out","checked_out_time","version"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "hits"],"convertToInt":["publish_up", "publish_down", "featured", "ordering"], "displayLookup":[ {"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ] }'),
+(3, 'Newsfeed', 'com_newsfeeds.newsfeed', '{"special":{"dbtable":"#__newsfeeds","key":"id","type":"NewsfeedTable","prefix":"Joomla\\\\Component\\\\Newsfeeds\\\\Administrator\\\\Table\\\\","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"description", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"link", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "asset_id":"null"}, "special":{"numarticles":"numarticles","cache_time":"cache_time","rtl":"rtl"}}', 'NewsfeedsHelperRoute::getNewsfeedRoute', '{"formFile":"administrator\\/components\\/com_newsfeeds\\/forms\\/newsfeed.xml","hideFields":["asset_id","checked_out","checked_out_time","version"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "hits"],"convertToInt":["publish_up", "publish_down", "featured", "ordering"],"displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ]}'),
 (4, 'User', 'com_users.user', '{"special":{"dbtable":"#__users","key":"id","type":"User","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"null","core_alias":"username","core_created_time":"registerDate","core_modified_time":"lastvisitDate","core_body":"null", "core_hits":"null","core_publish_up":"null","core_publish_down":"null","access":"null", "core_params":"params", "core_featured":"null", "core_metadata":"null", "core_language":"null", "core_images":"null", "core_urls":"null", "core_version":"null", "core_ordering":"null", "core_metakey":"null", "core_metadesc":"null", "core_catid":"null", "asset_id":"null"}, "special":{}}', '', ''),
 (5, 'Article Category', 'com_content.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', 'ContentHelperRoute::getCategoryRoute', '{"formFile":"administrator\\/components\\/com_categories\\/forms\\/category.xml", "hideFields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"], "ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"],"convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"parent_id","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}]}'),
 (6, 'Contact Category', 'com_contact.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', 'ContactHelperRoute::getCategoryRoute', '{"formFile":"administrator\\/components\\/com_categories\\/forms\\/category.xml", "hideFields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"], "ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"],"convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"parent_id","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}]}'),
 (7, 'Newsfeeds Category', 'com_newsfeeds.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', 'NewsfeedsHelperRoute::getCategoryRoute', '{"formFile":"administrator\\/components\\/com_categories\\/forms\\/category.xml", "hideFields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"], "ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"],"convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"parent_id","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}]}'),
-(8, 'Tag', 'com_tags.tag', '{"special":{"dbtable":"#__tags","key":"tag_id","type":"Tag","prefix":"TagsTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"urls", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"null", "asset_id":"null"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path"}}', 'TagsHelperRoute::getTagRoute', '{"formFile":"administrator\\/components\\/com_tags\\/forms\\/tag.xml", "hideFields":["checked_out","checked_out_time","version", "lft", "rgt", "level", "path", "urls", "publish_up", "publish_down"],"ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"],"convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}, {"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"}, {"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}]}'),
-(9, 'Banner', 'com_banners.banner', '{"special":{"dbtable":"#__banners","key":"id","type":"Banner","prefix":"BannersTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"description", "core_hits":"null","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"link", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "asset_id":"null"}, "special":{"imptotal":"imptotal", "impmade":"impmade", "clicks":"clicks", "clickurl":"clickurl", "custombannercode":"custombannercode", "cid":"cid", "purchase_type":"purchase_type", "track_impressions":"track_impressions", "track_clicks":"track_clicks"}}', '','{"formFile":"administrator\\/components\\/com_banners\\/forms\\/banner.xml", "hideFields":["checked_out","checked_out_time","version", "reset"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "imptotal", "impmade", "reset"], "convertToInt":["publish_up", "publish_down", "ordering"], "displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}, {"sourceColumn":"cid","targetTable":"#__banner_clients","targetColumn":"id","displayColumn":"name"}, {"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ]}'),
+(8, 'Tag', 'com_tags.tag', '{"special":{"dbtable":"#__tags","key":"tag_id","type":"TagTable","prefix":"Joomla\\\\Component\\\\Tags\\\\Administrator\\\\Table\\\\","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"urls", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"null", "asset_id":"null"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path"}}', 'TagsHelperRoute::getTagRoute', '{"formFile":"administrator\\/components\\/com_tags\\/forms\\/tag.xml", "hideFields":["checked_out","checked_out_time","version", "lft", "rgt", "level", "path", "urls", "publish_up", "publish_down"],"ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"],"convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}, {"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"}, {"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}]}'),
+(9, 'Banner', 'com_banners.banner', '{"special":{"dbtable":"#__banners","key":"id","type":"BannerTable","prefix":"Joomla\\\\Component\\\\Banners\\\\Administrator\\\\Table\\\\","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"description", "core_hits":"null","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"link", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "asset_id":"null"}, "special":{"imptotal":"imptotal", "impmade":"impmade", "clicks":"clicks", "clickurl":"clickurl", "custombannercode":"custombannercode", "cid":"cid", "purchase_type":"purchase_type", "track_impressions":"track_impressions", "track_clicks":"track_clicks"}}', '','{"formFile":"administrator\\/components\\/com_banners\\/forms\\/banner.xml", "hideFields":["checked_out","checked_out_time","version", "reset"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "imptotal", "impmade", "reset"], "convertToInt":["publish_up", "publish_down", "ordering"], "displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}, {"sourceColumn":"cid","targetTable":"#__banner_clients","targetColumn":"id","displayColumn":"name"}, {"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ]}'),
 (10, 'Banners Category', 'com_banners.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "asset_id":"asset_id"}, "special": {"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}','','{"formFile":"administrator\\/components\\/com_categories\\/forms\\/category.xml", "hideFields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"], "ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"], "convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"parent_id","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}]}'),
-(11, 'Banner Client', 'com_banners.client', '{"special":{"dbtable":"#__banner_clients","key":"id","type":"Client","prefix":"BannersTable"}}', '', '', '', '{"formFile":"administrator\\/components\\/com_banners\\/forms\\/client.xml", "hideFields":["checked_out","checked_out_time"], "ignoreChanges":["checked_out", "checked_out_time"], "convertToInt":[], "displayLookup":[]}'),
-(12, 'User Notes', 'com_users.note', '{"special":{"dbtable":"#__user_notes","key":"id","type":"Note","prefix":"UsersTable"}}', '', '', '', '{"formFile":"administrator\\/components\\/com_users\\/forms\\/note.xml", "hideFields":["checked_out","checked_out_time", "publish_up", "publish_down"],"ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time"], "convertToInt":["publish_up", "publish_down"],"displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}, {"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}, {"sourceColumn":"user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}, {"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}]}'),
+(11, 'Banner Client', 'com_banners.client', '{"special":{"dbtable":"#__banner_clients","key":"id","type":"ClientTable","prefix":"Joomla\\\\Component\\\\Banners\\\\Administrator\\\\Table\\\\"}}', '', '', '', '{"formFile":"administrator\\/components\\/com_banners\\/forms\\/client.xml", "hideFields":["checked_out","checked_out_time"], "ignoreChanges":["checked_out", "checked_out_time"], "convertToInt":[], "displayLookup":[]}'),
+(12, 'User Notes', 'com_users.note', '{"special":{"dbtable":"#__user_notes","key":"id","type":"NoteTable","prefix":"Joomla\\\\Component\\\\Users\\\\Administrator\\\\Table\\\\"}}', '', '', '', '{"formFile":"administrator\\/components\\/com_users\\/forms\\/note.xml", "hideFields":["checked_out","checked_out_time", "publish_up", "publish_down"],"ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time"], "convertToInt":["publish_up", "publish_down"],"displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}, {"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}, {"sourceColumn":"user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}, {"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}]}'),
 (13, 'User Notes Category', 'com_users.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', '', '{"formFile":"administrator\\/components\\/com_categories\\/forms\\/category.xml", "hideFields":["checked_out","checked_out_time","version","lft","rgt","level","path","extension"], "ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"], "convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}, {"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"parent_id","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}]}');
 
 SELECT setval('#__content_types_type_id_seq', 10000, false);
@@ -529,7 +528,6 @@ CREATE INDEX "#__extensions_extension" ON "#__extensions" ("type", "element", "f
 COMMENT ON COLUMN "#__extensions"."package_id" IS 'Parent package ID for extensions installed as a package.';
 
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state") VALUES
-(0, 'com_mailto', 'component', 'com_mailto', '', 1, 1, 1, 1, '', '', 0, NULL, 0, 0),
 (0, 'com_wrapper', 'component', 'com_wrapper', '', 1, 1, 1, 1, '', '', 0, NULL, 0, 0),
 (0, 'com_admin', 'component', 'com_admin', '', 1, 1, 1, 1, '', '', 0, NULL, 0, 0),
 (0, 'com_banners', 'component', 'com_banners', '', 1, 1, 1, 0, '', '{"purchase_type":"3","track_impressions":"0","track_clicks":"0","metakey_prefix":"","save_history":"1","history_limit":10}', 0, NULL, 0, 0),
@@ -637,7 +635,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_system_remember', 'plugin', 'remember', 'system', 0, 1, 1, 1, '', '', 0, NULL, 7, 0),
 (0, 'plg_system_sef', 'plugin', 'sef', 'system', 0, 1, 1, 0, '', '', 0, NULL, 8, 0),
 (0, 'plg_system_logout', 'plugin', 'logout', 'system', 0, 1, 1, 1, '', '', 0, NULL, 6, 0),
-(0, 'plg_user_contactcreator', 'plugin', 'contactcreator', 'user', 0, 0, 1, 0, '', '{"autowebpage":"","category":"34","autopublish":"0"}', 0, NULL, 1, 0),
+(0, 'plg_user_contactcreator', 'plugin', 'contactcreator', 'user', 0, 0, 1, 0, '', '{"autowebpage":"","category":"4","autopublish":"0"}', 0, NULL, 1, 0),
 (0, 'plg_user_joomla', 'plugin', 'joomla', 'user', 0, 1, 1, 0, '', '{"autoregister":"1","mail_to_user":"1","forceLogout":"1"}', 0, NULL, 2, 0),
 (0, 'plg_user_profile', 'plugin', 'profile', 'user', 0, 0, 1, 0, '', '{"register-require_address1":"1","register-require_address2":"1","register-require_city":"1","register-require_region":"1","register-require_country":"1","register-require_postal_code":"1","register-require_phone":"1","register-require_website":"1","register-require_favoritebook":"1","register-require_aboutme":"1","register-require_tos":"1","register-require_dob":"1","profile-require_address1":"1","profile-require_address2":"1","profile-require_city":"1","profile-require_region":"1","profile-require_country":"1","profile-require_postal_code":"1","profile-require_phone":"1","profile-require_website":"1","profile-require_favoritebook":"1","profile-require_aboutme":"1","profile-require_tos":"1","profile-require_dob":"1"}', 0, NULL, 0, 0),
 (0, 'plg_extension_joomla', 'plugin', 'joomla', 'extension', 0, 1, 1, 1, '', '', 0, NULL, 1, 0),
@@ -686,7 +684,6 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_editors-xtd_fields', 'plugin', 'fields', 'editors-xtd', 0, 1, 1, 0, '', '', 0, NULL, 0, 0),
 (0, 'plg_sampledata_blog', 'plugin', 'blog', 'sampledata', 0, 1, 1, 0, '', '', 0, NULL, 0, 0),
 (0, 'plg_system_sessiongc', 'plugin', 'sessiongc', 'system', 0, 1, 1, 0, '', '', 0, NULL, 0, 0),
-(0, 'plg_fields_repeatable', 'plugin', 'repeatable', 'fields', 0, 1, 1, 0, '', '', 0, NULL, 0, 0),
 (0, 'plg_content_confirmconsent', 'plugin', 'confirmconsent', 'content', 0, 0, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_system_actionlogs', 'plugin', 'actionlogs', 'system', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_actionlog_joomla', 'plugin', 'joomla', 'actionlog', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
@@ -733,16 +730,21 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_media-action_crop', 'plugin', 'crop', 'media-action', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_media-action_resize', 'plugin', 'resize', 'media-action', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_media-action_rotate', 'plugin', 'rotate', 'media-action', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
+(0, 'plg_system_accessibility', 'plugin', 'accessibility', 'system', 0, 0, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'atum', 'template', 'atum', '', 1, 1, 1, 0, '', '', 0, NULL, 0, 0),
 (0, 'cassiopeia', 'template', 'cassiopeia', '', 0, 1, 1, 0, '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}', 0, NULL, 0, 0),
 (0, 'plg_fields_subfields', 'plugin', 'subfields', 'fields', 0, 1, 1, 0, '', '', 0, NULL, 0, 0),
 (0, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', 0, NULL, 0, 0),
-(0, 'English (en-GB) Language Pack', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', 0, NULL, 0, 0);
+(0, 'English (en-GB) Language Pack', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', 0, NULL, 0, 0),
+(0, 'plg_system_webauthn', 'plugin', 'webauthn', 'system', 0, 1, 1, 0, '', '{}', 0, NULL, 8, 0);
+
 
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state")
 SELECT "extension_id", 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, NULL, 0, 0 FROM "#__extensions" WHERE "name" = 'English (en-GB) Language Pack';
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state")
 SELECT "extension_id", 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', 0, NULL, 0, 0 FROM "#__extensions" WHERE "name" = 'English (en-GB) Language Pack';
+INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state")
+SELECT "extension_id", 'English (en-GB)', 'language', 'en-GB', '', 3, 1, 1, 1, '', '', 0, NULL, 0, 0 FROM "#__extensions" WHERE "name" = 'English (en-GB) Language Pack';
 
 --
 -- Table structure for table `#__fields`
@@ -756,17 +758,17 @@ CREATE TABLE IF NOT EXISTS "#__fields" (
   "title" varchar(255) DEFAULT '' NOT NULL,
   "name" varchar(255) DEFAULT '' NOT NULL,
   "label" varchar(255) DEFAULT '' NOT NULL,
-  "default_value" text DEFAULT '' NOT NULL,
+  "default_value" text,
   "type" varchar(255) DEFAULT 'text' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
-  "description" text DEFAULT '' NOT NULL,
+  "description" text NOT NULL,
   "state" smallint DEFAULT 0 NOT NULL,
   "required" smallint DEFAULT 0 NOT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone,
   "ordering" bigint DEFAULT 0 NOT NULL,
-  "params" text DEFAULT '' NOT NULL,
-  "fieldparams" text DEFAULT '' NOT NULL,
+  "params" text NOT NULL,
+  "fieldparams" text NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "created_time" timestamp without time zone NOT NULL,
   "created_user_id" bigint DEFAULT 0 NOT NULL,
@@ -807,7 +809,7 @@ CREATE TABLE IF NOT EXISTS "#__fields_groups" (
   "checked_out" integer DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone,
   "ordering" integer DEFAULT 0 NOT NULL,
-  "params" text DEFAULT '' NOT NULL,
+  "params" text NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "created" timestamp without time zone NOT NULL,
   "created_by" bigint DEFAULT 0 NOT NULL,
@@ -830,7 +832,7 @@ CREATE INDEX "#__fields_groups_idx_language" ON "#__fields_groups" ("language");
 CREATE TABLE IF NOT EXISTS "#__fields_values" (
 "field_id" bigint DEFAULT 0 NOT NULL,
 "item_id" varchar(255) DEFAULT '' NOT NULL,
-"value" text DEFAULT '' NOT NULL
+"value" text
 );
 CREATE INDEX "#__fields_values_idx_field_id" ON "#__fields_values" ("field_id");
 CREATE INDEX "#__fields_values_idx_item_id" ON "#__fields_values" ("item_id");
@@ -1242,7 +1244,7 @@ CREATE TABLE IF NOT EXISTS "#__languages" (
   "sef" varchar(50) NOT NULL,
   "image" varchar(50) NOT NULL,
   "description" varchar(512) NOT NULL,
-  "metakey" text NOT NULL,
+  "metakey" text,
   "metadesc" text NOT NULL,
   "sitename" varchar(1024) DEFAULT '' NOT NULL,
   "published" bigint DEFAULT 0 NOT NULL,
@@ -1287,7 +1289,7 @@ CREATE TABLE IF NOT EXISTS "#__menu" (
   "access" bigint DEFAULT 0 NOT NULL,
   "img" varchar(255) DEFAULT '' NOT NULL,
   "template_style_id" integer DEFAULT 0 NOT NULL,
-  "params" text DEFAULT '' NOT NULL,
+  "params" text NOT NULL,
   "lft" bigint DEFAULT 0 NOT NULL,
   "rgt" bigint DEFAULT 0 NOT NULL,
   "home" smallint DEFAULT 0 NOT NULL,
@@ -1332,7 +1334,7 @@ COMMENT ON COLUMN "#__menu"."home" IS 'Indicates if this menu item is the home o
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down") VALUES
 (1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, NULL, 0, 0, '', 0, '', 0, 43, 0, '*', 0, NULL, NULL);
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down")
-SELECT 2, 'main', 'com_banners', 'Banners', '', 'Banners', 'index.php?option=com_banners', 'component', 1, 1, 1, "extension_id", 0, NULL, 0, 0, 'class:banners', 0, '', 1, 10, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_banners';
+SELECT 2, 'main', 'com_banners', 'Banners', '', 'Banners', 'index.php?option=com_banners', 'component', 1, 1, 1, "extension_id", 0, NULL, 0, 0, 'class:bookmark', 0, '', 1, 10, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_banners';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down")
 SELECT 3, 'main', 'com_banners', 'Banners', '', 'Banners/Banners', 'index.php?option=com_banners&view=banners', 'component', 1, 2, 2, "extension_id", 0, NULL, 0, 0, 'class:banners', 0, '', 2, 3, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_banners';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down")
@@ -1342,23 +1344,23 @@ SELECT 5, 'main', 'com_banners_clients', 'Clients', '', 'Banners/Clients', 'inde
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down")
 SELECT 6, 'main', 'com_banners_tracks', 'Tracks', '', 'Banners/Tracks', 'index.php?option=com_banners&view=tracks', 'component', 1, 2, 2, "extension_id", 0, NULL, 0, 0, 'class:banners-tracks', 0, '', 8, 9, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_banners';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down")
-SELECT 7, 'main', 'com_contact', 'Contacts', '', 'Contacts', 'index.php?option=com_contact', 'component', 1, 1, 1, "extension_id", 0, NULL, 0, 0, 'class:contact', 0, '', 11, 20, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_contact';
+SELECT 7, 'main', 'com_contact', 'Contacts', '', 'Contacts', 'index.php?option=com_contact', 'component', 1, 1, 1, "extension_id", 0, NULL, 0, 0, 'class:address-book', 0, '', 11, 20, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_contact';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down")
 SELECT 8, 'main', 'com_contact_contacts', 'Contacts', '', 'Contacts/Contacts', 'index.php?option=com_contact&view=contacts', 'component', 1, 7, 2, "extension_id", 0, NULL, 0, 0, 'class:contact', 0, '', 12, 13, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_contact';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down")
 SELECT 9, 'main', 'com_contact_categories', 'Categories', '', 'Contacts/Categories', 'index.php?option=com_categories&view=categories&extension=com_contact', 'component', 1, 7, 2, "extension_id", 0, NULL, 0, 0, 'class:contact-cat', 0, '', 14, 15, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_categories';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down")
-SELECT 10, 'main', 'com_newsfeeds', 'News Feeds', '', 'News Feeds', 'index.php?option=com_newsfeeds', 'component', 1, 1, 1, "extension_id", 0, NULL, 0, 0, 'class:newsfeeds', 0, '', 23, 28, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_newsfeeds';
+SELECT 10, 'main', 'com_newsfeeds', 'News Feeds', '', 'News Feeds', 'index.php?option=com_newsfeeds', 'component', 1, 1, 1, "extension_id", 0, NULL, 0, 0, 'class:rss', 0, '', 23, 28, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_newsfeeds';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down")
 SELECT 11, 'main', 'com_newsfeeds_feeds', 'Feeds', '', 'News Feeds/Feeds', 'index.php?option=com_newsfeeds&view=newsfeeds', 'component', 1, 10, 2, "extension_id", 0, NULL, 0, 0, 'class:newsfeeds', 0, '', 24, 25, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_newsfeeds';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down")
 SELECT 12, 'main', 'com_newsfeeds_categories', 'Categories', '', 'News Feeds/Categories', 'index.php?option=com_categories&view=categories&extension=com_newsfeeds', 'component', 1, 10, 2, "extension_id", 0, NULL, 0, 0, 'class:newsfeeds-cat', 0, '', 26, 27, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_categories';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down")
-SELECT 13, 'main', 'com_finder', 'Smart Search', '', 'Smart Search', 'index.php?option=com_finder&view=index', 'component', 1, 1, 1, "extension_id", 0, NULL, 0, 0, 'class:finder', 0, '', 29, 38, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_finder';
+SELECT 13, 'main', 'com_finder', 'Smart Search', '', 'Smart Search', 'index.php?option=com_finder&view=index', 'component', 1, 1, 1, "extension_id", 0, NULL, 0, 0, 'class:search-plus', 0, '', 29, 38, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_finder';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down")
 SELECT 14, 'main', 'com_tags', 'Tags', '', 'Tags', 'index.php?option=com_tags&view=tags', 'component', 1, 1, 1, "extension_id", 0, NULL, 0, 1, 'class:tags', 0, '', 39, 40, 0, '', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_tags';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down")
-SELECT 15, 'main', 'com_associations', 'Multilingual Associations', '', 'Multilingual Associations', 'index.php?option=com_associations&view=associations', 'component', 1, 1, 1, "extension_id", 0, NULL, 0, 0, 'class:associations', 0, '', 21, 22, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_associations';
+SELECT 15, 'main', 'com_associations', 'Multilingual Associations', '', 'Multilingual Associations', 'index.php?option=com_associations&view=associations', 'component', 1, 1, 1, "extension_id", 0, NULL, 0, 0, 'class:language', 0, '', 21, 22, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_associations';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down")
 SELECT 16, 'main', 'mod_menu_fields', 'Contact Custom Fields', '', 'contact/Custom Fields', 'index.php?option=com_fields&context=com_contact.contact', 'component', 1, 7, 2, "extension_id", 0, NULL, 0, 0, 'class:messages-add', 0, '', 16, 17, 0, '*', 1, NULL, NULL FROM "#__extensions" WHERE "name" = 'com_fields';
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id", "publish_up", "publish_down")
@@ -1579,7 +1581,7 @@ CREATE TABLE IF NOT EXISTS "#__newsfeeds" (
   "created_by_alias" varchar(255) DEFAULT '' NOT NULL,
   "modified" timestamp without time zone NOT NULL,
   "modified_by" integer DEFAULT 0 NOT NULL,
-  "metakey" text NOT NULL,
+  "metakey" text,
   "metadesc" text NOT NULL,
   "metadata" text NOT NULL,
   "publish_up" timestamp without time zone,
@@ -1753,14 +1755,14 @@ CREATE TABLE IF NOT EXISTS "#__tags" (
   "title" varchar(255) NOT NULL,
   "alias" varchar(255) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
-  "description" text DEFAULT '' NOT NULL,
+  "description" text NOT NULL,
   "published" smallint DEFAULT 0 NOT NULL,
   "checked_out" bigint DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone,
   "access" bigint DEFAULT 0 NOT NULL,
   "params" text NOT NULL,
   "metadesc" varchar(1024) NOT NULL,
-  "metakey" varchar(1024) NOT NULL,
+  "metakey" varchar(1024) DEFAULT '' NOT NULL,
   "metadata" varchar(2048) NOT NULL,
   "created_user_id" integer DEFAULT 0 NOT NULL,
   "created_time" timestamp without time zone NOT NULL,
@@ -1863,14 +1865,14 @@ CREATE TABLE IF NOT EXISTS "#__ucm_content" (
   "core_type_alias" varchar(255) DEFAULT '' NOT NULL,
   "core_title" varchar(255) DEFAULT '' NOT NULL,
   "core_alias" varchar(255) DEFAULT '' NOT NULL,
-  "core_body" text NOT NULL DEFAULT '',
+  "core_body" text,
   "core_state" smallint DEFAULT 0 NOT NULL,
   "core_checked_out_time" timestamp without time zone,
   "core_checked_out_user_id" bigint DEFAULT 0 NOT NULL,
   "core_access" bigint DEFAULT 0 NOT NULL,
-  "core_params" text DEFAULT '' NOT NULL,
+  "core_params" text,
   "core_featured" smallint DEFAULT 0 NOT NULL,
-  "core_metadata" text DEFAULT '' NOT NULL,
+  "core_metadata" text,
   "core_created_user_id" bigint DEFAULT 0 NOT NULL,
   "core_created_by_alias" varchar(255) DEFAULT '' NOT NULL,
   "core_created_time" timestamp without time zone NOT NULL,
@@ -1881,13 +1883,13 @@ CREATE TABLE IF NOT EXISTS "#__ucm_content" (
   "core_publish_down" timestamp without time zone,
   "core_content_item_id" bigint DEFAULT 0 NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
-  "core_images" text DEFAULT '' NOT NULL,
-  "core_urls" text DEFAULT '' NOT NULL,
+  "core_images" text,
+  "core_urls" text,
   "core_hits" bigint DEFAULT 0 NOT NULL,
   "core_version" bigint DEFAULT 1 NOT NULL,
   "core_ordering" bigint DEFAULT 0 NOT NULL,
-  "core_metakey" text DEFAULT '' NOT NULL,
-  "core_metadesc" text DEFAULT '' NOT NULL,
+  "core_metakey" text,
+  "core_metadesc" text,
   "core_catid" bigint DEFAULT 0 NOT NULL,
   "core_type_id" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("core_content_id"),
@@ -2070,12 +2072,13 @@ CREATE TABLE IF NOT EXISTS "#__users" (
   "otpKey" varchar(1000) DEFAULT '' NOT NULL,
   "otep" varchar(1000) DEFAULT '' NOT NULL,
   "requireReset" smallint DEFAULT 0,
-  PRIMARY KEY ("id")
+  PRIMARY KEY ("id"),
+  CONSTRAINT "#__users_idx_username" UNIQUE ("username")
 );
 CREATE INDEX "#__users_idx_name" ON "#__users" ("name");
 CREATE INDEX "#__users_idx_block" ON "#__users" ("block");
-CREATE INDEX "#__users_username" ON "#__users" ("username");
 CREATE INDEX "#__users_email" ON "#__users" ("email");
+CREATE INDEX "#__users_email_lower" ON "#__users" (lower("email"));
 
 COMMENT ON COLUMN "#__users"."lastResetTime" IS 'Date of last password reset';
 COMMENT ON COLUMN "#__users"."resetCount" IS 'Count of password resets since lastResetTime';
@@ -2155,7 +2158,7 @@ COMMENT ON COLUMN "#__user_usergroup_map"."group_id" IS 'Foreign Key to #__userg
 CREATE TABLE "#__action_logs" (
   "id" serial NOT NULL,
   "message_language_key" varchar(255) NOT NULL DEFAULT '',
-  "message" text NOT NULL DEFAULT '',
+  "message" text NOT NULL,
   "log_date" timestamp without time zone NOT NULL,
   "extension" varchar(50) NOT NULL DEFAULT '',
   "user_id" integer DEFAULT 0 NOT NULL,
@@ -2286,6 +2289,20 @@ INSERT INTO "#__viewlevels" ("id", "title", "ordering", "rules") VALUES
 (6, 'Super Users', 4, '[8]');
 
 SELECT setval('#__viewlevels_id_seq', 7, false);
+
+--
+-- Table structure for table "#__webauthn_credentials"
+--
+
+CREATE TABLE IF NOT EXISTS "#__webauthn_credentials" (
+    "id"         varchar(1000)    NOT NULL,
+	"user_id"    varchar(128)     NOT NULL,
+    "label"      varchar(190)     NOT NULL,
+    "credential" TEXT             NOT NULL,
+    PRIMARY KEY ("id")
+);
+
+CREATE INDEX "#__webauthn_credentials_user_id" ON "#__webauthn_credentials" ("user_id");
 
 --
 -- Table structure for table "#__workflows"
