@@ -60,7 +60,7 @@ npm ci
 
 **Things to be aware of when pulling:**
 Joomla creates a cache of the namespaces of its extensions in `JOOMLA_ROOT/administrator/cache/autoload_psr4.php`. If
-extensions are created, deleted or removed in git then this file needs to be re-created. You can simply delete the file
+extensions are created, deleted or removed in git then this file needs to be recreated. You can simply delete the file
 and it will be regenerated on the next call to Joomla.
 
 Do you want to improve Joomla?
