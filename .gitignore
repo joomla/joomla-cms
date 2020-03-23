@@ -34,6 +34,7 @@
 selenium.log
 composer.phar
 /test-install
+/tests/Codeception/api.suite.yml
 
 
 # Vendor directory handeling
