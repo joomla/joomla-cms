@@ -3,27 +3,42 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\Model;
+
 defined('_JEXEC') or die;
 
-JLoader::register('PrivacyHelper', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/privacy.php');
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\User;
+use Joomla\Component\Actionlogs\Administrator\Model\ActionlogModel;
+use Joomla\Component\Privacy\Administrator\Export\Domain;
+use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
+use Joomla\Component\Privacy\Administrator\Table\RequestTable;
+use PHPMailer\PHPMailer\Exception as phpmailerException;
 
 /**
  * Export model class.
  *
  * @since  3.9.0
  */
-class PrivacyModelExport extends JModelLegacy
+class ExportModel extends BaseDatabaseModel
 {
 	/**
 	 * Create the export document for an information request.
 	 *
 	 * @param   integer  $id  The request ID to process
 	 *
-	 * @return  PrivacyExportDomain[]|boolean  A SimpleXMLElement object for a successful export or boolean false on an error
+	 * @return  Domain[]|boolean  A SimpleXMLElement object for a successful export or boolean false on an error
 	 *
 	 * @since   3.9.0
 	 */
@@ -33,12 +48,12 @@ class PrivacyModelExport extends JModelLegacy
 
 		if (!$id)
 		{
-			$this->setError(JText::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_EXPORT'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_EXPORT'));
 
 			return false;
 		}
 
-		/** @var PrivacyTableRequest $table */
+		/** @var RequestTable $table */
 		$table = $this->getTable();
 
 		if (!$table->load($id))
@@ -50,14 +65,14 @@ class PrivacyModelExport extends JModelLegacy
 
 		if ($table->request_type !== 'export')
 		{
-			$this->setError(JText::_('COM_PRIVACY_ERROR_REQUEST_TYPE_NOT_EXPORT'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_TYPE_NOT_EXPORT'));
 
 			return false;
 		}
 
 		if ($table->status != 1)
 		{
-			$this->setError(JText::_('COM_PRIVACY_ERROR_CANNOT_EXPORT_UNCONFIRMED_REQUEST'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_EXPORT_UNCONFIRMED_REQUEST'));
 
 			return false;
 		}
@@ -67,23 +82,23 @@ class PrivacyModelExport extends JModelLegacy
 
 		$userId = (int) $db->setQuery(
 			$db->getQuery(true)
-				->select('id')
+				->select($db->quoteName('id'))
 				->from($db->quoteName('#__users'))
-				->where('LOWER(' . $db->quoteName('email') . ') = LOWER(' . $db->quote($table->email) . ')'),
-			0,
-			1
+				->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
+				->bind(':email', $table->email)
+				->setLimit(1)
 		)->loadResult();
 
-		$user = $userId ? JUser::getInstance($userId) : null;
+		$user = $userId ? User::getInstance($userId) : null;
 
 		// Log the export
 		$this->logExport($table);
 
-		JPluginHelper::importPlugin('privacy');
+		PluginHelper::importPlugin('privacy');
 
-		$pluginResults = JFactory::getApplication()->triggerEvent('onPrivacyExportRequest', array($table, $user));
+		$pluginResults = Factory::getApplication()->triggerEvent('onPrivacyExportRequest', [$table, $user]);
 
-		$domains = array();
+		$domains = [];
 
 		foreach ($pluginResults as $pluginDomains)
 		{
@@ -108,7 +123,7 @@ class PrivacyModelExport extends JModelLegacy
 
 		if (!$id)
 		{
-			$this->setError(JText::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_EXPORT'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_EXPORT'));
 
 			return false;
 		}
@@ -121,7 +136,7 @@ class PrivacyModelExport extends JModelLegacy
 			return false;
 		}
 
-		/** @var PrivacyTableRequest $table */
+		/** @var RequestTable $table */
 		$table = $this->getTable();
 
 		if (!$table->load($id))
@@ -133,14 +148,14 @@ class PrivacyModelExport extends JModelLegacy
 
 		if ($table->request_type !== 'export')
 		{
-			$this->setError(JText::_('COM_PRIVACY_ERROR_REQUEST_TYPE_NOT_EXPORT'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_TYPE_NOT_EXPORT'));
 
 			return false;
 		}
 
 		if ($table->status != 1)
 		{
-			$this->setError(JText::_('COM_PRIVACY_ERROR_CANNOT_EXPORT_UNCONFIRMED_REQUEST'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_EXPORT_UNCONFIRMED_REQUEST'));
 
 			return false;
 		}
@@ -156,22 +171,23 @@ class PrivacyModelExport extends JModelLegacy
 		 * Error messages will still be displayed to the administrator, so those messages should continue to use the Text class.
 		 */
 
-		$lang = JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		$db = $this->getDbo();
 
 		$userId = (int) $db->setQuery(
 			$db->getQuery(true)
-				->select('id')
+				->select($db->quoteName('id'))
 				->from($db->quoteName('#__users'))
-				->where('LOWER(' . $db->quoteName('email') . ') = LOWER(' . $db->quote($table->email) . ')'),
+				->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
+				->bind(':email', $table->email),
 			0,
 			1
 		)->loadResult();
 
 		if ($userId)
 		{
-			$receiver = JUser::getInstance($userId);
+			$receiver = User::getInstance($userId);
 
 			/*
 			 * We don't know if the user has admin access, so we will check if they have an admin language in their parameters,
@@ -185,23 +201,23 @@ class PrivacyModelExport extends JModelLegacy
 				$langCode = $receiver->getParam('language', $lang->getTag());
 			}
 
-			$lang = JLanguage::getInstance($langCode, $lang->getDebug());
+			$lang = Language::getInstance($langCode, $lang->getDebug());
 		}
 
 		// Ensure the right language files have been loaded
-		$lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy', null, false, true);
+		$lang->load('com_privacy', JPATH_ADMINISTRATOR)
+			|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
 
 		// The mailer can be set to either throw Exceptions or return boolean false, account for both
 		try
 		{
-			$app = JFactory::getApplication();
+			$app = Factory::getApplication();
 
-			$substitutions = array(
+			$substitutions = [
 				'[SITENAME]' => $app->get('sitename'),
-				'[URL]'      => JUri::root(),
+				'[URL]'      => Uri::root(),
 				'\\n'        => "\n",
-			);
+			];
 
 			$emailSubject = $lang->_('COM_PRIVACY_EMAIL_DATA_EXPORT_COMPLETED_SUBJECT');
 			$emailBody    = $lang->_('COM_PRIVACY_EMAIL_DATA_EXPORT_COMPLETED_BODY');
@@ -212,23 +228,16 @@ class PrivacyModelExport extends JModelLegacy
 				$emailBody    = str_replace($k, $v, $emailBody);
 			}
 
-			$mailer = JFactory::getMailer();
+			$mailer = Factory::getMailer();
 			$mailer->setSubject($emailSubject);
 			$mailer->setBody($emailBody);
 			$mailer->addRecipient($table->email);
 			$mailer->addStringAttachment(
 				PrivacyHelper::renderDataAsXml($exportData),
-				'user-data_' . JUri::getInstance()->toString(array('host')) . '.xml'
+				'user-data_' . Uri::getInstance()->toString(['host']) . '.xml'
 			);
 
-			$mailResult = $mailer->Send();
-
-			if ($mailResult instanceof JException)
-			{
-				// JError was already called so we just need to return now
-				return false;
-			}
-			elseif ($mailResult === false)
+			if ($mailer->Send() === false)
 			{
 				$this->setError($mailer->ErrorInfo);
 
@@ -254,12 +263,12 @@ class PrivacyModelExport extends JModelLegacy
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A JTable object
+	 * @return  Table  A Table object
 	 *
-	 * @since   3.9.0
 	 * @throws  \Exception
+	 * @since   3.9.0
 	 */
-	public function getTable($name = 'Request', $prefix = 'PrivacyTable', $options = array())
+	public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
 	{
 		return parent::getTable($name, $prefix, $options);
 	}
@@ -267,59 +276,51 @@ class PrivacyModelExport extends JModelLegacy
 	/**
 	 * Log the data export to the action log system.
 	 *
-	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 * @param   RequestTable  $request  The request record being processed
 	 *
 	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function logExport(PrivacyTableRequest $request)
+	public function logExport(RequestTable $request)
 	{
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+		$user = Factory::getUser();
 
-		$user = JFactory::getUser();
-
-		$message = array(
+		$message = [
 			'action'      => 'export',
 			'id'          => $request->id,
 			'itemlink'    => 'index.php?option=com_privacy&view=request&id=' . $request->id,
 			'userid'      => $user->id,
 			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-		);
+		];
 
-		/** @var ActionlogsModelActionlog $model */
-		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-		$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_EXPORT', 'com_privacy.request', $user->id);
+		$this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_EXPORT', 'com_privacy.request', $user->id);
 	}
 
 	/**
 	 * Log the data export email to the action log system.
 	 *
-	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 * @param   RequestTable  $request  The request record being processed
 	 *
 	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function logExportEmailed(PrivacyTableRequest $request)
+	public function logExportEmailed(RequestTable $request)
 	{
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+		$user = Factory::getUser();
 
-		$user = JFactory::getUser();
-
-		$message = array(
+		$message = [
 			'action'      => 'export_emailed',
 			'id'          => $request->id,
 			'itemlink'    => 'index.php?option=com_privacy&view=request&id=' . $request->id,
 			'userid'      => $user->id,
 			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-		);
+		];
 
-		/** @var ActionlogsModelActionlog $model */
-		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-		$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_EXPORT_EMAILED', 'com_privacy.request', $user->id);
+		$this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_EXPORT_EMAILED', 'com_privacy.request', $user->id);
 	}
 
 	/**
@@ -332,9 +333,22 @@ class PrivacyModelExport extends JModelLegacy
 	protected function populateState()
 	{
 		// Get the pk of the record from the request.
-		$this->setState($this->getName() . '.request_id', JFactory::getApplication()->input->getUint('id'));
+		$this->setState($this->getName() . '.request_id', Factory::getApplication()->input->getUint('id'));
 
 		// Load the parameters.
-		$this->setState('params', JComponentHelper::getParams('com_privacy'));
+		$this->setState('params', ComponentHelper::getParams('com_privacy'));
+	}
+
+	/**
+	 * Method to fetch an instance of the action log model.
+	 *
+	 * @return  ActionlogModel
+	 *
+	 * @since   4.0.0
+	 */
+	private function getActionlogModel(): ActionlogModel
+	{
+		return Factory::getApplication()->bootComponent('com_actionlogs')
+			->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
 	}
 }

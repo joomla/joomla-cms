@@ -65,7 +65,7 @@ class DisplayController extends BaseController
 				// For the default layout, we need to also push the action logs model into the view
 				if ($lName === 'default')
 				{
-					$logsModel = $this->app->bootComponent('Actionlogs')
+					$logsModel = $this->app->bootComponent('com_actionlogs')
 						->getMVCFactory()->createModel('Actionlogs', 'Administrator', ['ignore_request' => true]);
 
 					// Set default ordering for the context
