@@ -386,8 +386,9 @@ class ModulesModel extends ListModel
 					->where($db->quoteName('moduleid') . ' = ' . $db->quoteName('a.id'));
 
 				// Modules in "Selected" pages that have the chosen menu item id.
-				$menuItemId = (int) $menuItemId;
-				$subQuery2 = $db->getQuery(true);
+				$menuItemId      = (int) $menuItemId;
+				$minusMenuItemId = $menuItemId * -1;
+				$subQuery2       = $db->getQuery(true);
 				$subQuery2->select($db->quoteName('moduleid'))
 					->from($db->quoteName('#__modules_menu'))
 					->where($db->quoteName('menuid') . ' = :menuitemid2');
@@ -396,7 +397,7 @@ class ModulesModel extends ListModel
 				$subQuery3 = $db->getQuery(true);
 				$subQuery3->select($db->quoteName('moduleid'))
 					->from($db->quoteName('#__modules_menu'))
-					->where($db->quoteName('menuid') . ' = - :menuitemid3');
+					->where($db->quoteName('menuid') . ' = :menuitemid3');
 
 				// Filter by modules assigned to the selected menu item.
 				$query->where('(
@@ -406,7 +407,7 @@ class ModulesModel extends ListModel
 					)'
 				);
 				$query->bind(':menuitemid2', $menuItemId, ParameterType::INTEGER);
-				$query->bind(':menuitemid3', $menuItemId, ParameterType::INTEGER);
+				$query->bind(':menuitemid3', $minusMenuItemId, ParameterType::INTEGER);
 			}
 		}
 
