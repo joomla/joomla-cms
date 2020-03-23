@@ -11,6 +11,7 @@ namespace Joomla\Component\Plugins\Api\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\String\Inflector;
@@ -89,5 +90,40 @@ class PluginsController extends ApiController
 		$this->input->set('data', $data);
 
 		return parent::edit();
+	}
+
+	/**
+	 * Plugin list view with filtering of data
+	 *
+	 * @return  static  A BaseController object to support chaining.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function displayList()
+	{
+		$apiFilterInfo = $this->input->get('filter', [], 'array');
+		$filter        = InputFilter::getInstance();
+
+		if (array_key_exists('element', $apiFilterInfo))
+		{
+			$this->modelState->set('filter.element', $filter->clean($apiFilterInfo['element'], 'STRING'));
+		}
+
+		if (array_key_exists('status', $apiFilterInfo))
+		{
+			$this->modelState->set('filter.enabled', $filter->clean($apiFilterInfo['status'], 'INT'));
+		}
+
+		if (array_key_exists('search', $apiFilterInfo))
+		{
+			$this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
+		}
+
+		if (array_key_exists('type', $apiFilterInfo))
+		{
+			$this->modelState->set('filter.folder', $filter->clean($apiFilterInfo['type'], 'STRING'));
+		}
+
+		return parent::displayList();
 	}
 }
