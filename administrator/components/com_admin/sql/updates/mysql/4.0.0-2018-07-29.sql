@@ -86,6 +86,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_taxonomy` (
 INSERT INTO `#__finder_taxonomy` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`, `alias`, `state`, `access`, `language`) VALUES
 (1, 0, 0, 1, 0, '', 'ROOT', 'root', 1, 1, '*');
 
+TRUNCATE TABLE `#__finder_taxonomy_map`;
 ALTER TABLE `#__finder_taxonomy_map` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_taxonomy_map` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -284,6 +285,7 @@ INSERT INTO `#__finder_terms_common` (`term`, `language`, `custom`) VALUES
 	('too', 'en', 0),
 	('very', 'en', 0);
 
+TRUNCATE TABLE `#__finder_tokens`;
 ALTER TABLE `#__finder_tokens` CHANGE `language` `language` CHAR(7) NOT NULL DEFAULT '' AFTER `context`;
 ALTER TABLE `#__finder_tokens` MODIFY `stem` varchar(75) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_tokens` ADD INDEX `idx_stem` (`stem`);
@@ -291,6 +293,7 @@ ALTER TABLE `#__finder_tokens` ADD INDEX `idx_language` (`language`);
 ALTER TABLE `#__finder_tokens` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ALTER TABLE `#__finder_tokens` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+TRUNCATE TABLE `#__finder_tokens_aggregate`;
 ALTER TABLE `#__finder_tokens_aggregate` DROP COLUMN `map_suffix`;
 ALTER TABLE `#__finder_tokens_aggregate` CHANGE `language` `language` CHAR(7) NOT NULL DEFAULT '' AFTER `total_weight`;
 ALTER TABLE `#__finder_tokens_aggregate` MODIFY `stem` varchar(75) NOT NULL DEFAULT '';
