@@ -3,30 +3,21 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * HTML utility class for creating a sortable table list
  *
- * @since       3.0
- * @deprecated  5.0  Sortable List will be deprecated in favour of a new dragula script in 4.0
+ * @since  3.0
  */
 abstract class JHtmlSortablelist
 {
-	/**
-	 * @var    array  Array containing information for loaded files
-	 * @since  3.0
-	 * @deprecated  4.0  This property will be removed without replacement
-	 */
-	protected static $loaded = array();
-
 	/**
 	 * Method to load the Sortable script and make table sortable
 	 *
@@ -42,46 +33,9 @@ abstract class JHtmlSortablelist
 	 * @since   3.0
 	 *
 	 * @throws  InvalidArgumentException
-	 * @deprecated  5.0  In Joomla 4 call JHtml::_('dragablelist.dragable') and add a class of js-draggable to the tbody element of the table
 	 */
 	public static function sortable($tableId, $formId, $sortDir = 'asc', $saveOrderingUrl = null, $proceedSaveOrderButton = true, $nestedList = false)
 	{
-		// Only load once
-		if (isset(static::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		// Note: $i is required but has to be an optional argument in the function call due to argument order
-		if ($saveOrderingUrl === null)
-		{
-			throw new InvalidArgumentException(sprintf('$saveOrderingUrl is a required argument in %s()', __METHOD__));
-		}
-
-		// Depends on Joomla.getOptions()
-		HTMLHelper::_('behavior.core');
-
-		// Depends on jQuery UI
-		HTMLHelper::_('jquery.ui', array('core', 'sortable'));
-
-		HTMLHelper::_('script', 'legacy/sortablelist.min.js', ['version' => 'auto', 'relative' => true]);
-		HTMLHelper::_('stylesheet', 'legacy/sortablelist.css', ['version' => 'auto', 'relative' => true]);
-
-		// Attach sortable to document
-		Factory::getDocument()->addScriptOptions(
-			'sortable-list',
-			array(
-				'id'         => '#' . $tableId . ' tbody',
-				'formId'     => $formId,
-				'direction'  => $sortDir,
-				'url'        => $saveOrderingUrl,
-				'options'    => '',
-				'nestedList' => $nestedList,
-				'button'     => $proceedSaveOrderButton
-			)
-		);
-
-		// Set static array
-		static::$loaded[__METHOD__] = true;
+		HtmlHelper::_('dragablelist.dragable', $tableId, $formId, $sortDir, $saveOrderingUrl, $proceedSaveOrderButton, $nestedList);
 	}
 }
