@@ -109,9 +109,9 @@ class PluginsController extends ApiController
 			$this->modelState->set('filter.element', $filter->clean($apiFilterInfo['element'], 'STRING'));
 		}
 
-		if (array_key_exists('enabled', $apiFilterInfo))
+		if (array_key_exists('status', $apiFilterInfo))
 		{
-			$this->modelState->set('filter.enabled', $filter->clean($apiFilterInfo['enabled'], 'INT'));
+			$this->modelState->set('filter.enabled', $filter->clean($apiFilterInfo['status'], 'INT'));
 		}
 
 		if (array_key_exists('search', $apiFilterInfo))
@@ -119,9 +119,9 @@ class PluginsController extends ApiController
 			$this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
 		}
 
-		if (array_key_exists('folder', $apiFilterInfo))
+		if (array_key_exists('type', $apiFilterInfo))
 		{
-			$this->modelState->set('filter.folder', $filter->clean($apiFilterInfo['folder'], 'STRING'));
+			$this->modelState->set('filter.folder', $filter->clean($apiFilterInfo['type'], 'STRING'));
 		}
 
 		return parent::displayList();
