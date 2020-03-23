@@ -262,8 +262,6 @@ steps:
       GITHUB_TOKEN:
         from_secret: github_token
     commands:
-      - export PULL_ID=$DRONE_PULL_REQUEST
-      - export DRONE_COMMIT=$DRONE_COMMIT
       - /bin/drone_build.sh
     volumes:
       - name: reference
