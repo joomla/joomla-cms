@@ -88,6 +88,8 @@ INSERT INTO "#__finder_taxonomy" ("id", "parent_id", "lft", "rgt", "level", "pat
 (1, 0, 0, 1, 0, '', 'ROOT', 'root', 1, 1, '*');
 SELECT setval('#__finder_taxonomy_id_seq', 2, false);
 
+TRUNCATE TABLE "#__finder_taxonomy_map";
+
 TRUNCATE TABLE "#__finder_terms";
 ALTER TABLE "#__finder_terms" ALTER COLUMN "language" TYPE character varying(7);
 ALTER TABLE "#__finder_terms" ALTER COLUMN "language" SET DEFAULT '';
@@ -282,12 +284,14 @@ INSERT INTO "#__finder_terms_common" ("term", "language", "custom") VALUES
 	('too', 'en', 0),
 	('very', 'en', 0);
 
+TRUNCATE TABLE "#__finder_tokens";
 ALTER TABLE "#__finder_tokens" ALTER COLUMN "language" TYPE character varying(7);
 ALTER TABLE "#__finder_tokens" ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens" ALTER COLUMN "stem" SET DEFAULT '';
 CREATE INDEX "#__finder_tokens_idx_stem" on "#__finder_tokens" ("stem");
 CREATE INDEX "#__finder_tokens_idx_language" on "#__finder_tokens" ("language");
 
+TRUNCATE TABLE "#__finder_tokens_aggregate";
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "language" TYPE character varying(7);
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens_aggregate" DROP COLUMN "map_suffix";
