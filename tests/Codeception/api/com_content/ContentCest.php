@@ -65,7 +65,7 @@ class ContentCest
 	 */
 	public function testCrudOnArticle(ApiTester $I)
 	{
-		$I->amBearerAuthenticated('c2hhMjU2OjIwNDplMmYyMmVhM2U1NTQ2YzUwMmFhMjNjMzA3YzFjMDBlNDk3MmExZGY5NTI2NjkxOTZiMTk4MmZlYzBlNzE3ODAx');
+		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 
@@ -81,18 +81,18 @@ class ContentCest
 
 		$I->seeResponseCodeIs(HttpCode::OK);
 
-		$I->amBearerAuthenticated('c2hhMjU2OjIwNDplMmYyMmVhM2U1NTQ2YzUwMmFhMjNjMzA3YzFjMDBlNDk3MmExZGY5NTI2NjkxOTZiMTk4MmZlYzBlNzE3ODAx');
+		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 		$I->sendGET('/content/article/1');
 		$I->seeResponseCodeIs(HttpCode::OK);
 
-		$I->amBearerAuthenticated('c2hhMjU2OjIwNDplMmYyMmVhM2U1NTQ2YzUwMmFhMjNjMzA3YzFjMDBlNDk3MmExZGY5NTI2NjkxOTZiMTk4MmZlYzBlNzE3ODAx');
+		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Content-Type', 'application/json');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 		$I->sendGET('/content/article/1', ['title' => 'Another Title']);
 		$I->seeResponseCodeIs(HttpCode::OK);
 
-		$I->amBearerAuthenticated('c2hhMjU2OjIwNDplMmYyMmVhM2U1NTQ2YzUwMmFhMjNjMzA3YzFjMDBlNDk3MmExZGY5NTI2NjkxOTZiMTk4MmZlYzBlNzE3ODAx');
+		$I->amBearerAuthenticated('c2hhMjU2OjM6ZTJmMjJlYTNlNTU0NmM1MDJhYTIzYzMwN2MxYzAwZTQ5NzJhMWRmOTUyNjY5MTk2YjE5ODJmZWMwZTcxNzgwMQ==');
 		$I->haveHttpHeader('Accept', 'application/vnd.api+json');
 		$I->sendDELETE('/content/article/1');
 		$I->seeResponseCodeIs(HttpCode::NO_CONTENT);
