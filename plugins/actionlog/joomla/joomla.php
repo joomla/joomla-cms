@@ -29,7 +29,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * @var    array
 	 * @since  3.9.0
 	 */
-	protected $loggableExtensions = array();
+	protected $loggableExtensions = [];
 
 	/**
 	 * Context aliases
@@ -37,7 +37,23 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * @var    array
 	 * @since  3.9.0
 	 */
-	protected $contextAliases = array('com_content.form' => 'com_content.article');
+	protected $contextAliases = ['com_content.form' => 'com_content.article'];
+
+	/**
+	 * Flag for loggable Api.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $loggableApi = false;
+
+	/**
+	 * Array of loggable verbs.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $loggableVerbs = [];
 
 	/**
 	 * Constructor.
@@ -53,7 +69,11 @@ class PlgActionlogJoomla extends ActionLogPlugin
 
 		$params = ComponentHelper::getComponent('com_actionlogs')->getParams();
 
-		$this->loggableExtensions = $params->get('loggable_extensions', array());
+		$this->loggableExtensions = $params->get('loggable_extensions', []);
+
+		$this->loggableApi        = $params->get('loggable_api', false);
+
+		$this->loggableVerbs      = $params->get('loggable_verbs', []);
 	}
 
 	/**
@@ -766,6 +786,11 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 */
 	public function onUserAfterLogin($options)
 	{
+		if ($options['action'] === 'core.login.api')
+		{
+			return;
+		}
+
 		$context = 'com_users';
 
 		if (!$this->checkLoggable($context))
@@ -1040,5 +1065,51 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'group'       => $group,
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_CACHE', $context, $user->id);
+	}
+
+	/**
+	 * On after Api dispatched
+	 *
+	 * Method is called after user perform an API request better on onAfterDispatch.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onAfterDispatch()
+	{
+		if (!$this->app->isClient('api'))
+		{
+			return;
+		}
+
+		if (!$this->loggableApi)
+		{
+			return;
+		}
+
+		$verb = $this->app->input->getMethod();
+
+		if (!in_array($verb, $this->loggableVerbs))
+		{
+			return;
+		}
+
+		$context = $this->app->input->get('option');
+
+		if (!$this->checkLoggable($context))
+		{
+			return;
+		}
+
+		$user = $this->app->getIdentity();
+		$message = array(
+			'action'      => 'API',
+			'verb'        => $verb,
+			'username'    => $user->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'url'         => htmlspecialchars(urldecode($this->app->get('uri.route')), ENT_QUOTES, 'UTF-8'),
+		);
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_API', $context, $user->id);
 	}
 }
