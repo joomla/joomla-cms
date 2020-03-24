@@ -10,12 +10,11 @@
 	</layout>
 
 	<!-- Add fields to the request variables for the layout. -->
-	<fields name="request"
-		addfieldprefix="Joomla\Component\Categories\Administrator\Field"
-	>
-		<fieldset name="request"
-			addfieldpath="/administrator/components/com_newsfeeds/models/fields"
-		 >
+	<fields name="request">
+		<fieldset
+			name="request"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+			>
 			<field
 				name="id"
 				type="modal_category"

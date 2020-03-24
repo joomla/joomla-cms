@@ -602,7 +602,7 @@ class Mail extends PHPMailer
 		$this->Password = $pass;
 		$this->Port = $port;
 
-		if ($secure == 'ssl' || $secure == 'tls')
+		if ($secure === 'ssl' || $secure === 'tls')
 		{
 			$this->SMTPSecure = $secure;
 		}

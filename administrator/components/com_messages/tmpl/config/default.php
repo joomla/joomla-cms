@@ -16,7 +16,7 @@ HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 ?>
 <div class="container-popup">
-	<form action="<?php echo Route::_('index.php?option=com_messages&view=config'); ?>" method="post" name="adminForm" id="message-form">
+	<form action="<?php echo Route::_('index.php?option=com_messages&view=config'); ?>" method="post" name="adminForm" id="message-form" class="form-validate">
 		<fieldset>
 			<?php echo $this->form->renderField('lock'); ?>
 			<?php echo $this->form->renderField('mail_on_new'); ?>

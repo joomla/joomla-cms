@@ -21,7 +21,7 @@
   }
 
   nav {
-    padding: 2.5rem ($cassiopeia-grid-gutter / 2) 2.5rem;
+    padding: 2.5rem ($cassiopeia-grid-gutter / 2);
   }
 
   .site-description {
@@ -38,8 +38,8 @@
     color: $white-offset;
 
     [dir=rtl] & {
-      margin-left: auto;
       margin-right: 0;
+      margin-left: auto;
     }
 
     img {

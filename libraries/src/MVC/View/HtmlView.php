@@ -484,7 +484,7 @@ class HtmlView extends AbstractView
 			$dir = Path::clean($dir);
 
 			// Add trailing separators as needed
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
+			if (substr($dir, -1) !== DIRECTORY_SEPARATOR)
 			{
 				// Directory
 				$dir .= DIRECTORY_SEPARATOR;

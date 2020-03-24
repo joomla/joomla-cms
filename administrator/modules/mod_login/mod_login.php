@@ -15,6 +15,7 @@ use Joomla\Module\Login\Administrator\Helper\LoginHelper;
 
 $langs            = LoginHelper::getLanguageList();
 $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
+$extraButtons     = AuthenticationHelper::getLoginButtons('form-login');
 $return           = LoginHelper::getReturnUri();
 
 require ModuleHelper::getLayoutPath('mod_login', $params->get('layout', 'default'));

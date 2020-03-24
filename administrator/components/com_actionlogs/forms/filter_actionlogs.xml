@@ -41,6 +41,7 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.id DESC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.message ASC">COM_ACTIONLOGS_ACTION_ASC</option>

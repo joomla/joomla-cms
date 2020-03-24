@@ -243,7 +243,7 @@
       Joomla.installationBaseUrl = container.getAttribute('data-base-url');
       Joomla.installationBaseUrl += "installation/index.php"
     } else {
-      throw new Error('Javascript required to be enabled!')
+      throw new Error('"container-installation" container is missed')
     }
 
     if (page && page.getAttribute('data-page-name')) {

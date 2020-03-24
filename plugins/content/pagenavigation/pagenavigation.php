@@ -143,7 +143,8 @@ class PlgContentPagenavigation extends CMSPlugin
 				->select($case_when1)
 				->from('#__content AS a')
 				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
-				->join('LEFT', '#__workflow_stages AS ws ON ws.id = a.state');
+				->join('LEFT', '#__workflow_associations AS wa', 'wa.item_id = a.id')
+				->join('LEFT', '#__workflow_stages AS ws', 'wa.stage_id = ws.id');
 
 			if ($order_method === 'author' || $order_method === 'rauthor')
 			{

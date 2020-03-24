@@ -175,7 +175,7 @@ class WebAssetManager implements WebAssetManagerInterface
 
 			if (empty($arguments[0]))
 			{
-				throw new \BadMethodCallException('An asset name are required');
+				throw new \BadMethodCallException('An asset name is required');
 			}
 
 			return $this->useAsset($type, $arguments[0]);
@@ -187,7 +187,7 @@ class WebAssetManager implements WebAssetManagerInterface
 
 			if (empty($arguments[0]))
 			{
-				throw new \BadMethodCallException('A content are required');
+				throw new \BadMethodCallException('Content is required');
 			}
 
 			return $this->addInline($type, ...$arguments);
@@ -199,7 +199,7 @@ class WebAssetManager implements WebAssetManagerInterface
 
 			if (empty($arguments[0]))
 			{
-				throw new \BadMethodCallException('An asset name are required');
+				throw new \BadMethodCallException('An asset name is required');
 			}
 
 			return $this->disableAsset($type, $arguments[0]);
@@ -215,7 +215,7 @@ class WebAssetManager implements WebAssetManagerInterface
 
 			if (empty($arguments[0]))
 			{
-				throw new \BadMethodCallException('An asset instance or an asset name are required');
+				throw new \BadMethodCallException('An asset instance or an asset name is required');
 			}
 
 			if ($andUse)
@@ -250,7 +250,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	{
 		if ($this->locked)
 		{
-			throw new InvalidActionException('WebAssetManager are locked, you came late');
+			throw new InvalidActionException('WebAssetManager is locked, you came late');
 		}
 
 		// Check whether asset exists
@@ -304,7 +304,7 @@ class WebAssetManager implements WebAssetManagerInterface
 	{
 		if ($this->locked)
 		{
-			throw new InvalidActionException('WebAssetManager are locked, you came late');
+			throw new InvalidActionException('WebAssetManager is locked, you came late');
 		}
 
 		// Check whether asset exists
@@ -750,7 +750,8 @@ class WebAssetManager implements WebAssetManagerInterface
 					// Set dependency state only when it is inactive, to keep a manually activated Asset in their original state
 					if (empty($this->activeAssets[$depType][$depItem->getName()]))
 					{
-						$this->activeAssets[$depType][$depItem->getName()] = static::ASSET_STATE_DEPENDENCY;
+						// Add the dependency at the top of the list of active assets
+						$this->activeAssets[$depType] = [$depItem->getName() => static::ASSET_STATE_DEPENDENCY] + $this->activeAssets[$depType];
 					}
 				}
 			}
@@ -818,6 +819,9 @@ class WebAssetManager implements WebAssetManagerInterface
 				}
 			)
 		);
+
+		// Reverse, to start from a last enabled and move up to a first enabled, this helps to maintain an original sorting
+		$emptyIncoming = array_reverse($emptyIncoming);
 
 		// Loop through, and sort the graph
 		while ($emptyIncoming)
@@ -935,22 +939,19 @@ class WebAssetManager implements WebAssetManagerInterface
 		{
 			$name = $asset->getName();
 
-			// Outgoing nodes
+			// Initialise an array for outgoing nodes of the asset
 			$graphOutgoing[$name] = [];
 
-			foreach ($asset->getDependencies() as $depName)
-			{
-				$graphOutgoing[$name][$depName] = $depName;
-			}
-
-			// Incoming nodes
+			// Initialise an array for incoming nodes of the asset
 			if (!\array_key_exists($name, $graphIncoming))
 			{
 				$graphIncoming[$name] = [];
 			}
 
+			// Collect an outgoing/incoming nodes
 			foreach ($asset->getDependencies() as $depName)
 			{
+				$graphOutgoing[$name][$depName] = $depName;
 				$graphIncoming[$depName][$name] = $name;
 			}
 		}

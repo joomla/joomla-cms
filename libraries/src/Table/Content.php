@@ -214,6 +214,14 @@ class Content extends Table
 			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
+		// Check for a valid category.
+		if (!$this->catid = (int) $this->catid)
+		{
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
+
+			return false;
+		}
+
 		if (trim(str_replace('&nbsp;', '', $this->fulltext)) == '')
 		{
 			$this->fulltext = '';
@@ -374,43 +382,5 @@ class Content extends Table
 		}
 
 		return parent::store($updateNulls);
-	}
-
-	/**
-	 * Overrides Table::store to load a row from the database.
-	 *
-	 * @param   mixed    $keys   An optional primary key value to load the row by, or an array of fields to match.
-	 *                           If not set the instance property value is used.
-	 * @param   boolean  $reset  True to reset the default values before loading the new row.
-	 *
-	 * @return  boolean  True if successful. False if row not found.
-	 *
-	 * @since   1.7.0
-	 * @throws  \InvalidArgumentException
-	 * @throws  \RuntimeException
-	 * @throws  \UnexpectedValueException
-	 */
-	public function load($keys = null, $reset = true)
-	{
-		if ($ret = parent::load($keys, $reset, false))
-		{
-			// Load featuerd dates
-			$query = $this->_db->getQuery(true)
-				->select('featured_up, featured_down')
-				->from('#__content_frontpage')
-				->where('content_id = ' . (int) $this->id);
-			$this->_db->setQuery($query);
-
-			$row = $this->_db->loadAssoc();
-
-			// Check that we have a result.
-			if (!empty($row))
-			{
-				$this->featured_up = $row['featured_up'];
-				$this->featured_down = $row['featured_down'];
-			}
-		}
-
-		return $ret;
 	}
 }

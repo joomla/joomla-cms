@@ -87,7 +87,7 @@ class ModulesController extends BaseController
 		// Set FTP credentials, if given.
 		ClientHelper::setCredentialsFromRequest('ftp');
 
-		// Get sumitted module id
+		// Get submitted module id
 		$moduleId = '&id=' . $this->input->getInt('id');
 
 		// Get returnUri
