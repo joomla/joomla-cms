@@ -9,12 +9,12 @@
 	<copyright>Copyright (C) 2014 - 2017 by Marijn Haverbeke &lt;marijnh@gmail.com&gt; and others</copyright>
 	<license>MIT license: http://codemirror.net/LICENSE</license>
 	<description>PLG_CODEMIRROR_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\Editors\CodeMirror</namespace>
 	<files>
 		<filename plugin="codemirror">codemirror.php</filename>
-		<filename>styles.css</filename>
-		<filename>styles.min.css</filename>
 		<filename>fonts.json</filename>
-		<filename>fonts.php</filename>
+		<folder>layouts</folder>
+		<folder>src</folder>
 	</files>
 
 	<languages>
@@ -190,7 +190,11 @@
 				</field>
 			</fieldset>
 
-			<fieldset name="appearance" label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL" addfieldpath="plugins/editors/codemirror">
+			<fieldset
+				name="appearance"
+				label="PLG_CODEMIRROR_FIELDSET_APPEARANCE_OPTIONS_LABEL"
+				addfieldprefix="Joomla\Plugin\Editors\CodeMirror\Field"
+			>
 				<field
 					name="theme"
 					type="filelist"
