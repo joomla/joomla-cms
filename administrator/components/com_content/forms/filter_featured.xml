@@ -22,13 +22,13 @@
 		</field>
 
 		<field
-			name="condition"
-			type="workflowcondition"
-			label="JOPTION_SELECT_CONDITION"
+			name="published"
+			type="status"
+			label="JOPTION_SELECT_PUBLISHED"
 			onchange="this.form.submit();"
 			extension="com_content"
 			>
-			<option value="">JOPTION_SELECT_CONDITION</option>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
 		<field

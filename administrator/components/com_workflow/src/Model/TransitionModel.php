@@ -12,6 +12,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
@@ -284,5 +285,23 @@ class TransitionModel extends AdminModel
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Trigger the form preparation for the workflow group
+	 *
+	 * @param   Form    $form   A Form object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 *
+	 * @return  void
+	 *
+	 * @see     FormField
+	 * @since   4.0.0
+	 * @throws  \Exception if there is an error in the form event.
+	 */
+	protected function preprocessForm(Form $form, $data, $group = 'workflow')
+	{
+		parent::preprocessForm($form, $data, $group);
 	}
 }

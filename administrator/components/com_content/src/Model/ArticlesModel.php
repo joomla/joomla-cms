@@ -68,7 +68,6 @@ class ArticlesModel extends ListModel
 				'level',
 				'tag',
 				'rating_count', 'rating',
-				'condition',
 				'stage',
 			);
 
@@ -119,9 +118,6 @@ class ArticlesModel extends ListModel
 
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
-
-		$condition = $this->getUserStateFromRequest($this->context . '.filter.condition', 'filter_condition', '');
-		$this->setState('filter.condition', $condition);
 
 		$level = $this->getUserStateFromRequest($this->context . '.filter.level', 'filter_level');
 		$this->setState('filter.level', $level);
@@ -251,7 +247,6 @@ class ArticlesModel extends ListModel
 					$db->quoteName('ua.name', 'author_name'),
 					$db->quoteName('wa.stage_id', 'stage_id'),
 					$db->quoteName('ws.title', 'stage_title'),
-					$db->quoteName('ws.condition', 'stage_condition'),
 					$db->quoteName('ws.workflow_id', 'workflow_id'),
 				]
 			)
@@ -339,20 +334,20 @@ class ArticlesModel extends ListModel
 				->bind(':stage', $workflowStage, ParameterType::INTEGER);
 		}
 
-		$condition = (string) $this->getState('filter.condition');
+		$published = (string) $this->getState('filter.published');
 
-		if ($condition !== '*')
+		if ($published !== '*')
 		{
-			if (is_numeric($condition))
+			if (is_numeric($published))
 			{
-				$condition = (int) $condition;
-				$query->where($db->quoteName('ws.condition') . ' = :condition')
-					->bind(':condition', $condition, ParameterType::INTEGER);
+				$state = (int) $state;
+				$query->where($db->quoteName('a.state') . ' = :state')
+					->bind(':state', $published, ParameterType::INTEGER);
 			}
 			elseif (!is_numeric($workflowStage))
 			{
 				$query->whereIn(
-					$db->quoteName('ws.condition'),
+					$db->quoteName('a.state'),
 					[
 						ContentComponent::CONDITION_PUBLISHED,
 						ContentComponent::CONDITION_UNPUBLISHED,
@@ -581,7 +576,6 @@ class ArticlesModel extends ListModel
 						$db->quoteName('t.to_stage_id'),
 						$db->quoteName('s.id', 'stage_id'),
 						$db->quoteName('s.title', 'stage_title'),
-						$db->quoteName('s.condition', 'stage_condition'),
 						$db->quoteName('s.workflow_id'),
 					]
 				)
@@ -609,13 +603,6 @@ class ArticlesModel extends ListModel
 					if (!$user->authorise('core.execute.transition', 'com_content.transition.' . (int) $transition['value']))
 					{
 						unset($transitions[$key]);
-					}
-					else
-					{
-						// Update the transition text with final state value
-						$conditionName = $workflow->getConditionName((int) $transition['stage_condition']);
-
-						$transitions[$key]['text'] .= ' [' . Text::_($conditionName) . ']';
 					}
 				}
 
