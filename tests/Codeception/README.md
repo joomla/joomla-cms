@@ -32,7 +32,7 @@ this will start Chrome in headless mode, to view the test execution in Chrome UI
 
 ### Abstract
 
-These are the Joomla 4 API (webservices) tests.
+These are the Joomla 4 API (webservices) tests. To run these tests on OSX you will need to install the GNU Sed package with `brew install gnu-sed`
 
 ### Installation
 
