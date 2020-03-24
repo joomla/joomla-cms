@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package	 Joomla.Administrator
  * @subpackage  mod_login
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @license	 GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -26,6 +26,7 @@ Text::script('ERROR');
 Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
+
 ?>
 <form class="login-initial hidden form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post"
 	id="form-login">
@@ -35,7 +36,6 @@ Text::script('MESSAGE');
 				<?php echo Text::_('JGLOBAL_USERNAME'); ?>
 			</label>
 			<div class="input-group">
-
 				<input
 					name="username"
 					id="mod-login-username"
@@ -52,7 +52,6 @@ Text::script('MESSAGE');
 				<?php echo Text::_('JGLOBAL_PASSWORD'); ?>
 			</label>
 			<div class="input-group">
-
 				<input
 					name="passwd"
 					id="mod-login-password"
@@ -67,10 +66,8 @@ Text::script('MESSAGE');
 						<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
 					</button>
 				</span>
-
 			</div>
 		</div>
-
 		<?php if (count($twofactormethods) > 1): ?>
 			<div class="form-group">
 				<label for="mod-login-secretkey">
@@ -80,7 +77,6 @@ Text::script('MESSAGE');
 					</span>
 				</label>
 				<div class="input-group">
-
 					<input
 						name="secretkey"
 						autocomplete="off"
@@ -99,22 +95,22 @@ Text::script('MESSAGE');
 				<?php echo $langs; ?>
 			</div>
 		<?php endif; ?>
-		<?php foreach ($extraButtons as $button) : ?>
-			<div class="form-group">
-				<button
-					type="button"
+		<?php foreach($extraButtons as $button) : ?>
+		<div class="form-group">
+			<button type="button"
 					class="btn btn-secondary btn-block mt-4 <?php echo $button['class'] ?? '' ?>"
-					onclick="<?php echo $button['onclick']; ?>"
-					id="<?php echo $button['id']; ?>"
-				>
-					<?php if (!empty($button['icon'])) : ?>
-						<span class="<?php echo $button['icon']; ?>" aria-hidden="true"></span>
-					<?php elseif (!empty($button['image'])) : ?>
-						<?php echo HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), ['class' => 'icon',], true); ?>
-					<?php endif; ?>
-					<?php echo Text::_($button['label']); ?>
-				</button>
-			</div>
+					onclick="<?php echo $button['onclick'] ?>"
+					title="<?php echo Text::_($button['label']) ?>"
+					id="<?php echo $button['id'] ?>"
+			>
+				<?php if (!empty($button['icon'])): ?>
+					<span class="<?php echo $button['icon'] ?>"></span>
+				<?php elseif (!empty($button['image'])): ?>
+					<?php echo HTMLHelper::_('image', $button['image'], Text::_('PLG_SYSTEM_WEBAUTHN_LOGIN_DESC'), ['class' => 'icon'], true); ?>
+				<?php endif; ?>
+				<?php echo Text::_($button['label']) ?>
+			</button>
+		</div>
 		<?php endforeach; ?>
 		<div class="form-group">
 			<button
@@ -133,7 +129,8 @@ Text::script('MESSAGE');
 <div class="text-center">
 	<div>
 		<a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank" rel="nofollow"
-			title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS')); ?>">
+			title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_('MOD_LOGIN_CREDENTIALS')); ?>"+
+		>
 			<?php echo Text::_('MOD_LOGIN_CREDENTIALS'); ?>
 		</a>
 	</div>
