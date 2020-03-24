@@ -8,5 +8,6 @@
  */
 
 defined('_JEXEC') or die;
+
 ?>
 <div class="j-links-separator"></div>
