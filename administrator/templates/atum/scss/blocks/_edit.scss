@@ -10,18 +10,16 @@
   }
 
   .form-control-feedback {
-    text-align: right;
     position: absolute;
-    bottom: -1.2rem;
     right: 1rem;
+    bottom: -2.2rem;
+    text-align: right;
   }
 }
 
 .layout-edit {
 
   .title-alias {
-    box-shadow: $atum-box-shadow;
-    background-color: var(--white-offset);
     margin: 0 0 2rem !important;
 
     .form-group {

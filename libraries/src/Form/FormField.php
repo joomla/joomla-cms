@@ -1038,6 +1038,7 @@ abstract class FormField
 	 * @return  mixed   The filtered value.
 	 *
 	 * @since   4.0.0
+	 * @throws  \UnexpectedValueException
 	 */
 	public function filter($value, $group = null, Registry $input = null)
 	{
@@ -1050,35 +1051,13 @@ abstract class FormField
 		// Get the field filter type.
 		$filter = (string) $this->element['filter'];
 
-		if ($filter != '')
+		if ($filter !== '')
 		{
 			$required = ((string) $this->element['required'] === 'true' || (string) $this->element['required'] === 'required');
 
 			if (($value === '' || $value === null) && !$required)
 			{
 				return '';
-			}
-
-			// Dirty way of ensuring required fields in subforms are submitted and filtered the way other fields are
-			if ($this instanceof SubformField)
-			{
-				$subForm = $this->loadSubForm();
-
-				if ($this->multiple && !empty($value))
-				{
-					$return = array();
-
-					foreach ($value as $key => $val)
-					{
-						$return[$key] = $subForm->filter($val);
-					}
-				}
-				else
-				{
-					$return = $subForm->filter($value);
-				}
-
-				return $return;
 			}
 
 			// Check for a callback filter
@@ -1100,6 +1079,30 @@ abstract class FormField
 			{
 				return \call_user_func($filter, $value);
 			}
+
+			if ($this instanceof SubformField)
+			{
+				$subForm = $this->loadSubForm();
+
+				if ($this->multiple)
+				{
+					$return = array();
+
+					if ($value)
+					{
+						foreach ($value as $key => $val)
+						{
+							$return[$key] = $subForm->filter($val);
+						}
+					}
+				}
+				else
+				{
+					$return = $subForm->filter($value);
+				}
+
+				return $return;
+			}
 		}
 
 		return InputFilter::getInstance()->clean($value, $filter);
@@ -1119,7 +1122,7 @@ abstract class FormField
 	 * @throws  \InvalidArgumentException
 	 * @throws  \UnexpectedValueException
 	 */
-	public function validate($value, $group = null, \Joomla\Registry\Registry $input = null)
+	public function validate($value, $group = null, Registry $input = null)
 	{
 		// Make sure there is a valid SimpleXMLElement.
 		if (!($this->element instanceof \SimpleXMLElement))
@@ -1174,37 +1177,17 @@ abstract class FormField
 
 		if ($valid !== false && $this instanceof SubformField)
 		{
-			$subForm = $this->loadSubForm();
+			// Load the subform validation rule.
+			$rule = FormHelper::loadRuleType('SubForm');
 
-			if ($this->multiple)
+			try
 			{
-				if ($value)
-				{
-					foreach ($value as $key => $val)
-					{
-						$val = (array) $val;
-						$valid = $subForm->validate($val);
-
-						if ($valid === false)
-						{
-							break;
-						}
-					}
-				}
+				// Run the field validation rule test.
+				$valid = $rule->test($this->element, $value, $group, $input, $this->form);
 			}
-			else
+			catch (\Exception $e)
 			{
-				$valid = $subForm->validate($value);
-			}
-
-			if ($valid === false)
-			{
-				$errors = $subForm->getErrors();
-
-				foreach ($errors as $error)
-				{
-					return $error;
-				}
+				return $e;
 			}
 		}
 

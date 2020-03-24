@@ -72,11 +72,22 @@
 			<option value="1">JENABLED</option>
 		</field>
 		<field
+			name="frame_ancestors_self_enabled"
+			type="radio"
+			label="COM_CSP_CONTENTSECURITYPOLICY_FRAME_ANCESTORS_SELF_ENABLED"
+			description="COM_CSP_CONTENTSECURITYPOLICY_FRAME_ANCESTORS_SELF_ENABLED_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
+			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
+			>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</field>
+		<field
 			name="contentsecuritypolicy_values"
 			type="subform"
 			label="COM_CSP_CONTENTSECURITYPOLICY_VALUES"
 			multiple="true"
-			min="1"
 			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode:custom"
 			>
 			<form>

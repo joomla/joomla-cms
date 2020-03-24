@@ -127,7 +127,6 @@ class CategoryController extends FormController
 	{
 		$this->checkToken();
 
-		// Set the model
 		/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */
 		$model = $this->getModel('Category');
 

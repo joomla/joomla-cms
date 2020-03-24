@@ -26,6 +26,7 @@
 				name="types"
 				type="contenttype"
 				label="COM_TAGS_FIELD_TYPE_LABEL"
+				layout="joomla.form.field.list-fancy-select"
 				multiple="true"
 			/>
 
@@ -156,7 +157,6 @@
 				name="tag_list_item_maximum_characters"
 				type="number"
 				label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
-				description="COM_TAGS_LIST_MAX_CHARACTERS_DESC"
 				filter="integer"
 				useglobal="true"
 			/>

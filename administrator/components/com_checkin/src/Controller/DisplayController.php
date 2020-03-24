@@ -11,7 +11,6 @@ namespace Joomla\Component\Checkin\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
@@ -79,10 +78,11 @@ class DisplayController extends BaseController
 	 * @return  void
 	 *
 	 * @since   4.0.0
+	 * @throws  \Exception
 	 */
 	public function getMenuBadgeData()
 	{
-		if (!Factory::getUser()->authorise('core.manage', 'com_checkin'))
+		if (!$this->app->getIdentity()->authorise('core.manage', 'com_checkin'))
 		{
 			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
 		}
@@ -100,10 +100,11 @@ class DisplayController extends BaseController
 	 * @return  void
 	 *
 	 * @since   4.0
+	 * @throws  \Exception
 	 */
 	public function getQuickiconContent()
 	{
-		if (!Factory::getUser()->authorise('core.manage', 'com_checkin'))
+		if (!$this->app->getIdentity()->authorise('core.manage', 'com_checkin'))
 		{
 			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
 		}

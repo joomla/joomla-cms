@@ -17,6 +17,8 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\ParameterType;
+use Joomla\Component\Fields\Administrator\Model\FieldModel;
 use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
@@ -89,6 +91,9 @@ class JoomlaInstallerScript
 		{
 			// Informational log only
 		}
+
+		// Ensure we delete the repeatable fields plugin before we remove its files
+		$this->uninstallRepeatableFieldsPlugin();
 
 		// This needs to stay for 2.5 update compatibility
 		$this->deleteUnexistingFiles();
@@ -219,6 +224,199 @@ class JoomlaInstallerScript
 			}
 
 			break;
+		}
+	}
+
+	/**
+	 * Uninstalls the plg_fields_repeatable plugin and transforms its custom field instances
+	 * to instances of the plg_fields_subfields plugin.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function uninstallRepeatableFieldsPlugin()
+	{
+		$app = Factory::getApplication();
+		$db = Factory::getDbo();
+
+		// Check if the plg_fields_repeatable plugin is present
+		$extensionId = $db->setQuery(
+			$db->getQuery(true)
+				->select('extension_id')
+				->from('#__extensions')
+				->where('name = ' . $db->quote('plg_fields_repeatable'))
+		)->loadResult();
+
+		// Skip uninstalling when it doesn't exist
+		if (!$extensionId)
+		{
+			return;
+		}
+
+		try
+		{
+			$db->transactionStart();
+
+			// Get the FieldsModelField, we need it in a sec
+			$fieldModel = $app->bootComponent('com_fields')->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
+			/** @var FieldModel $fieldModel */
+
+			// Now get a list of all `repeatable` custom field instances
+			$db->setQuery(
+				$db->getQuery(true)
+					->select('*')
+					->from('#__fields')
+					->where($db->quoteName('type') . ' = ' . $db->quote('repeatable'))
+			);
+
+			// Execute the query and iterate over the `repeatable` instances
+			foreach ($db->loadObjectList() as $row)
+			{
+				// Skip broken rows - just a security measure, should not happen
+				if (!isset($row->fieldparams) || !($oldFieldparams = json_decode($row->fieldparams)) || !is_object($oldFieldparams))
+				{
+					continue;
+				}
+
+				/**
+				 * We basically want to transform this `repeatable` type into a `subfields` type. While $oldFieldparams
+				 * holds the `fieldparams` of the `repeatable` type, $newFieldparams shall hold the `fieldparams`
+				 * of the `subfields` type.
+				 */
+				$newFieldparams = array(
+					'repeat'  => '1',
+					'options' => array(),
+				);
+
+				// If this repeatable fields actually had child-fields (normally this is always the case)
+				if (isset($oldFieldparams->fields) && is_object($oldFieldparams->fields))
+				{
+					// Small counter for the child-fields (aka sub fields)
+					$newFieldCount = 0;
+
+					// Iterate over the sub fields
+					foreach (get_object_vars($oldFieldparams->fields) as $oldField)
+					{
+						// Used for field name collision prevention
+						$fieldname_prefix = '';
+						$fieldname_suffix = 0;
+
+						// Try to save the new sub field in a loop because of field name collisions
+						while (true)
+						{
+							/**
+							 * We basically want to create a completely new custom fields instance for every sub field
+							 * of the `repeatable` instance. This is what we use $data for, we create a new custom field
+							 * for each of the sub fields of the `repeatable` instance.
+							 */
+							$data = array(
+								'context'       => $row->context,
+								'group_id'      => $row->group_id,
+								'title'         => $oldField->fieldname,
+								'name'          => (
+									$fieldname_prefix
+									. $oldField->fieldname
+									. ($fieldname_suffix > 0 ? ('_' . $fieldname_suffix) : '')
+								),
+								'label'         => $oldField->fieldname,
+								'default_value' => $row->default_value,
+								'type'          => $oldField->fieldtype,
+								'description'   => $row->description,
+								'state'         => '1',
+								'params'        => $row->params,
+								'language'      => '*',
+								'assigned_cat_ids' => [-1],
+							);
+
+							// `number` is not a valid custom field type, so use `text` instead.
+							if ($data['type'] == 'number')
+							{
+								$data['type'] = 'text';
+							}
+
+							// Reset the state because else \Joomla\CMS\MVC\Model\AdminModel will take an already
+							// existing value (e.g. from previous save) and do an UPDATE instead of INSERT.
+							$fieldModel->setState('field.id', 0);
+
+							// If an error occurred when trying to save this.
+							if (!$fieldModel->save($data))
+							{
+								// If the error is, that the name collided, increase the collision prevention
+								$error = $fieldModel->getError();
+
+								if ($error == 'COM_FIELDS_ERROR_UNIQUE_NAME')
+								{
+									// If this is the first time this error occurs, set only the prefix
+									if ($fieldname_prefix == '')
+									{
+										$fieldname_prefix = ($row->name . '_');
+									}
+									else
+									{
+										// Else increase the suffix
+										$fieldname_suffix++;
+									}
+
+									// And start again with the while loop.
+									continue 1;
+								}
+
+								// Else bail out with the error. Something is totally wrong.
+								throw new \Exception($error);
+							}
+
+							// Break out of the while loop, saving was successful.
+							break 1;
+						}
+
+						// Get the newly created id
+						$subfield_id = $fieldModel->getState('field.id');
+
+						// Really check that it is valid
+						if (!is_numeric($subfield_id) || $subfield_id < 1)
+						{
+							throw new \Exception('Something went wrong.');
+						}
+
+						// And tell our new `subfields` field about his child
+						$newFieldparams['options'][('option' . $newFieldCount)] = array(
+							'customfield'   => $subfield_id,
+							'render_values' => '1',
+						);
+
+						$newFieldCount++;
+					}
+				}
+
+				// Write back the changed stuff to the database
+				$db->setQuery(
+					$db->getQuery(true)
+						->update('#__fields')
+						->set($db->quoteName('type') . ' = ' . $db->quote('subfields'))
+						->set($db->quoteName('fieldparams') . ' = ' . $db->quote(json_encode($newFieldparams)))
+						->where($db->quoteName('id') . ' = ' . $db->quote($row->id))
+				)->execute();
+			}
+
+			// Now, unprotect the plugin so we can uninstall it
+			$db->setQuery(
+				$db->getQuery(true)
+					->update('#__extensions')
+					->set('protected = 0')
+					->where($db->quoteName('extension_id') . ' = ' . $extensionId)
+			)->execute();
+
+			// And now uninstall the plugin
+			$installer = new Installer;
+			$installer->uninstall('plugin', $extensionId);
+
+			$db->transactionCommit();
+		}
+		catch (\Exception $e)
+		{
+			$db->transactionRollback();
+			throw $e;
 		}
 	}
 
@@ -433,6 +631,8 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.0-2018-10-20.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.0-2018-10-21.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.10-2019-07-09.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/3.9.16-2020-02-15.sql',
+			'/administrator/components/com_admin/sql/updates/mysql/3.9.16-2020-03-04.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.3-2019-01-12.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.3-2019-02-07.sql',
 			'/administrator/components/com_admin/sql/updates/mysql/3.9.7-2019-04-23.sql',
@@ -540,6 +740,8 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.0-2018-10-20.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.0-2018-10-21.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.10-2019-07-09.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/3.9.16-2020-02-15.sql',
+			'/administrator/components/com_admin/sql/updates/postgresql/3.9.16-2020-03-04.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.3-2019-01-12.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.3-2019-02-07.sql',
 			'/administrator/components/com_admin/sql/updates/postgresql/3.9.7-2019-04-23.sql',
@@ -653,6 +855,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.9.0-2018-10-20.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.9.0-2018-10-21.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.9.10-2019-07-09.sql',
+			'/administrator/components/com_admin/sql/updates/sqlazure/3.9.16-2020-03-04.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.9.3-2019-01-12.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.9.3-2019-02-07.sql',
 			'/administrator/components/com_admin/sql/updates/sqlazure/3.9.4-2019-03-06.sql',
@@ -1433,6 +1636,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_templates/controllers/style.php',
 			'/administrator/components/com_templates/controllers/styles.php',
 			'/administrator/components/com_templates/controllers/template.php',
+			'/administrator/components/com_templates/controllers/template.php.orig',
 			'/administrator/components/com_templates/helpers/html/templates.php',
 			'/administrator/components/com_templates/models/fields/templatelocation.php',
 			'/administrator/components/com_templates/models/fields/templatename.php',
@@ -1552,6 +1756,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_users/views/users/tmpl/default_batch_footer.php',
 			'/administrator/components/com_users/views/users/tmpl/modal.php',
 			'/administrator/components/com_users/views/users/view.html.php',
+			'/administrator/help/helpsites.xml',
 			'/administrator/includes/helper.php',
 			'/administrator/includes/subtoolbar.php',
 			'/administrator/language/en-GB/en-GB.com_actionlogs.ini',
@@ -1738,8 +1943,6 @@ class JoomlaInstallerScript
 			'/administrator/language/en-GB/en-GB.plg_fields_media.sys.ini',
 			'/administrator/language/en-GB/en-GB.plg_fields_radio.ini',
 			'/administrator/language/en-GB/en-GB.plg_fields_radio.sys.ini',
-			'/administrator/language/en-GB/en-GB.plg_fields_repeatable.ini',
-			'/administrator/language/en-GB/en-GB.plg_fields_repeatable.sys.ini',
 			'/administrator/language/en-GB/en-GB.plg_fields_sql.ini',
 			'/administrator/language/en-GB/en-GB.plg_fields_sql.sys.ini',
 			'/administrator/language/en-GB/en-GB.plg_fields_text.ini',
@@ -2480,6 +2683,7 @@ class JoomlaInstallerScript
 			'/components/com_banners/helpers/category.php',
 			'/components/com_banners/models/banner.php',
 			'/components/com_banners/models/banners.php',
+			'/components/com_banners/router.php',
 			'/components/com_config/config.php',
 			'/components/com_config/controller/cancel.php',
 			'/components/com_config/controller/canceladmin.php',
@@ -2630,6 +2834,7 @@ class JoomlaInstallerScript
 			'/components/com_finder/views/search/view.html.php',
 			'/components/com_finder/views/search/view.opensearch.php',
 			'/components/com_mailto/controller.php',
+			'/components/com_mailto/helpers/mailto.php',
 			'/components/com_mailto/mailto.php',
 			'/components/com_mailto/mailto.xml',
 			'/components/com_mailto/models/forms/mailto.xml',
@@ -2689,6 +2894,7 @@ class JoomlaInstallerScript
 			'/components/com_tags/controllers/tags.php',
 			'/components/com_tags/models/tag.php',
 			'/components/com_tags/models/tags.php',
+			'/components/com_tags/router.php',
 			'/components/com_tags/tags.php',
 			'/components/com_tags/views/tag/tmpl/default.php',
 			'/components/com_tags/views/tag/tmpl/default.xml',
@@ -2758,6 +2964,7 @@ class JoomlaInstallerScript
 			'/components/com_users/views/reset/tmpl/default.xml',
 			'/components/com_users/views/reset/view.html.php',
 			'/components/com_wrapper/controller.php',
+			'/components/com_wrapper/router.php',
 			'/components/com_wrapper/views/wrapper/tmpl/default.php',
 			'/components/com_wrapper/views/wrapper/tmpl/default.xml',
 			'/components/com_wrapper/views/wrapper/view.html.php',
@@ -3415,6 +3622,7 @@ class JoomlaInstallerScript
 			'/libraries/src/Filesystem/Wrapper/FolderWrapper.php',
 			'/libraries/src/Filesystem/Wrapper/PathWrapper.php',
 			'/libraries/src/Filter/Wrapper/OutputFilterWrapper.php',
+			'/libraries/src/Form/Field/HelpsiteField.php',
 			'/libraries/src/Form/FormWrapper.php',
 			'/libraries/src/Helper/SearchHelper.php',
 			'/libraries/src/Http/Wrapper/FactoryWrapper.php',
@@ -3456,6 +3664,7 @@ class JoomlaInstallerScript
 			'/libraries/vendor/joomla/compat/LICENSE',
 			'/libraries/vendor/joomla/compat/src/CallbackFilterIterator.php',
 			'/libraries/vendor/joomla/compat/src/JsonSerializable.php',
+			'/libraries/vendor/joomla/event/src/DelegatingDispatcher.php',
 			'/libraries/vendor/joomla/image/LICENSE',
 			'/libraries/vendor/joomla/image/src/Filter/Backgroundfill.php',
 			'/libraries/vendor/joomla/image/src/Filter/Brightness.php',
@@ -4392,6 +4601,7 @@ class JoomlaInstallerScript
 			'/media/plg_twofactorauth_totp/js/qrcode.min.js',
 			'/media/plg_twofactorauth_totp/js/qrcode_SJIS.js',
 			'/media/plg_twofactorauth_totp/js/qrcode_UTF8.js',
+			'/media/system/css/adminlist.css',
 			'/media/system/css/jquery.Jcrop.min.css',
 			'/media/system/css/modal.css',
 			'/media/system/images/modal/bg_e.png',
@@ -4500,15 +4710,24 @@ class JoomlaInstallerScript
 			'/plugins/authentication/gmail/gmail.php',
 			'/plugins/authentication/gmail/gmail.xml',
 			'/plugins/captcha/recaptcha/postinstall/actions.php',
+			'/plugins/content/confirmconsent/fields/consentbox.php',
 			'/plugins/editors/codemirror/layouts/editors/codemirror/init.php',
+			'/plugins/editors/tinymce/field/skins.php',
 			'/plugins/quickicon/joomlaupdate/joomlaupdate.php',
 			'/plugins/system/languagecode/language/en-GB/en-GB.plg_system_languagecode.ini',
 			'/plugins/system/languagecode/language/en-GB/en-GB.plg_system_languagecode.sys.ini',
 			'/plugins/system/p3p/p3p.php',
 			'/plugins/system/p3p/p3p.xml',
+			'/plugins/system/privacyconsent/field/privacy.php',
+			'/plugins/system/privacyconsent/privacyconsent/privacyconsent.xml',
 			'/plugins/system/stats/field/base.php',
 			'/plugins/system/stats/field/data.php',
 			'/plugins/system/stats/field/uniqueid.php',
+			'/plugins/user/profile/field/dob.php',
+			'/plugins/user/profile/field/tos.php',
+			'/plugins/user/profile/profiles/profile.xml',
+			'/plugins/user/terms/field/terms.php',
+			'/plugins/user/terms/terms/terms.xml',
 			'/templates/beez3/component.php',
 			'/templates/beez3/css/general.css',
 			'/templates/beez3/css/ie7only.css',
@@ -4760,10 +4979,17 @@ class JoomlaInstallerScript
 			'/templates/beez3/html',
 			'/templates/beez3/css',
 			'/templates/beez3',
+			'/plugins/user/terms/terms',
+			'/plugins/user/terms/field',
+			'/plugins/user/profile/profiles',
+			'/plugins/user/profile/field',
 			'/plugins/system/stats/field',
+			'/plugins/system/privacyconsent/privacyconsent',
+			'/plugins/system/privacyconsent/field',
 			'/plugins/system/p3p',
 			'/plugins/system/languagecode/language/en-GB',
 			'/plugins/system/languagecode/language',
+			'/plugins/content/confirmconsent/fields',
 			'/plugins/captcha/recaptcha/postinstall',
 			'/plugins/authentication/gmail',
 			'/modules/mod_search/tmpl',
@@ -5237,6 +5463,8 @@ class JoomlaInstallerScript
 			'/components/com_mailto/views',
 			'/components/com_mailto/models/forms',
 			'/components/com_mailto/models',
+			'/components/com_mailto/helpers',
+			'/components/com_mailto',
 			'/components/com_finder/views/search/tmpl',
 			'/components/com_finder/views/search',
 			'/components/com_finder/views',
@@ -6202,6 +6430,9 @@ class JoomlaInstallerScript
 			}
 		}
 
+		// Update UCM content types.
+		$this->updateContentTypes();
+
 		return true;
 	}
 
@@ -6473,5 +6704,70 @@ class JoomlaInstallerScript
 		];
 
 		return $menuItems;
+	}
+
+	/**
+	 * Updates content type table classes.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function updateContentTypes(): void
+	{
+		// Content types to update.
+		$contentTypes = [
+			'com_contact.contact',
+			'com_newsfeeds.newsfeed',
+			'com_tags.tag',
+			'com_banners.banner',
+			'com_banners.client',
+			'com_users.note',
+		];
+
+		// Get table definitions.
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select(
+				[
+					$db->quoteName('type_alias'),
+					$db->quoteName('table'),
+				]
+			)
+			->from($db->quoteName('#__content_types'))
+			->whereIn($db->quoteName('type_alias'), $contentTypes, ParameterType::STRING);
+
+		$db->setQuery($query);
+		$contentTypes = $db->loadObjectList();
+
+		// Prepare the update query.
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__content_types'))
+			->set($db->quoteName('table') . ' = :table')
+			->where($db->quoteName('type_alias') . ' = :typeAlias')
+			->bind(':table', $table)
+			->bind(':typeAlias', $typeAlias);
+
+		$db->setQuery($query);
+
+		foreach ($contentTypes as $contentType)
+		{
+			list($component, $tableType) = explode('.', $contentType->type_alias);
+
+			$tablePrefix = 'Joomla\\Component\\' . ucfirst(substr($component, 4)) . '\\Administrator\\Table\\';
+			$tableType   = ucfirst($tableType) . 'Table';
+
+			// Bind type alias.
+			$typeAlias = $contentType->type_alias;
+
+			// Update table definition.
+			$table = json_decode($contentType->table);
+			$table->special->type = $tableType;
+			$table->special->prefix = $tablePrefix;
+			$table = json_encode($table);
+
+			// Execute the query.
+			$db->execute();
+		}
 	}
 }

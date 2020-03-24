@@ -1,4 +1,4 @@
-$off-background-colour: lightgrey;
+$off-background-colour: #d3d3d3;
 $on-background-colour: #2f7d32;
 $switcher-width: 62px;
 $switcher-height: 28px;
@@ -13,17 +13,17 @@ $switcher-height: 28px;
 .switcher input {
   position: absolute;
   top: 0;
-  z-index: 2;
-  opacity: 0;
-  cursor: pointer;
-  height: $switcher-height;
-  width: $switcher-width;
-  margin: 0;
   left: 0;
+  z-index: 2;
+  width: $switcher-width;
+  height: $switcher-height;
+  margin: 0;
+  cursor: pointer;
+  opacity: 0;
 
   [dir=rtl] & {
-    left: auto;
     right: 0;
+    left: auto;
   }
 }
 
@@ -45,41 +45,41 @@ $switcher-height: 28px;
 }
 
 .switcher label {
-  line-height: $switcher-height;
+  position: absolute;
+  left: 0;
   display: inline-block;
   width: auto;
   min-width: 6rem;
   height: 100%;
-  margin-left: 70px;
-  text-align: left;
-  position: absolute;
-  transition: opacity 0.25s ease;
   margin-bottom: 0;
-  left: 0;
+  margin-left: 70px;
+  line-height: $switcher-height;
+  text-align: left;
+  transition: opacity .25s ease;
 
   [dir=rtl] & {
-    left: auto;
     right: 0;
-    margin-left: 0;
+    left: auto;
     margin-right: 70px;
+    margin-left: 0;
     text-align: right;
   }
 }
 
 .switcher .toggle-outside {
+  position: absolute;
+  left: 0;
+  box-sizing: border-box;
+  width: 58px;
   height: 100%;
   overflow: hidden;
-  transition: 0.2s ease all;
   background: $off-background-colour;
-  position: absolute;
-  width: 58px;
-  box-sizing: border-box;
   border: 1px solid rgba(0, 0, 0, .18);
-  left: 0;
+  transition: .2s ease all;
 
   [dir=rtl] & {
-    left: auto;
     right: 0;
+    left: auto;
   }
 }
 
@@ -88,12 +88,12 @@ $switcher-height: 28px;
 }
 
 .switcher .toggle-inside {
-  height: $switcher-height;
-  width: ($switcher-width - 6) / 2;
-  background: white;
   position: absolute;
   left: 0;
-  transition: 0.4s ease all;
+  width: ($switcher-width - 6) / 2;
+  height: $switcher-height;
+  background: #fff;
+  transition: .4s ease all;
 }
 
 .switcher input ~ input:checked ~ .toggle-outside .toggle-inside {
@@ -101,8 +101,8 @@ $switcher-height: 28px;
 }
 
 .switcher__legend {
+  padding: 5px 0;
   margin-bottom: 1rem;
   font-size: 1rem;
   font-weight: 400;
-  padding: 5px 0;
 }

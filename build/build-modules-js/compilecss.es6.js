@@ -44,6 +44,8 @@ module.exports.compile = (options, path) => {
           `${RootPath}/templates/cassiopeia/scss/offline.scss`,
           `${RootPath}/templates/cassiopeia/scss/template.scss`,
           `${RootPath}/templates/cassiopeia/scss/template-rtl.scss`,
+          `${RootPath}/templates/cassiopeia/scss/system/searchtools/searchtools.scss`,
+          `${RootPath}/templates/cassiopeia/scss/vendor/choicesjs/choices.scss`,
           `${RootPath}/administrator/templates/atum/scss/template.scss`,
           `${RootPath}/administrator/templates/atum/scss/template-rtl.scss`,
           `${RootPath}/administrator/templates/atum/scss/system/searchtools/searchtools.scss`,
