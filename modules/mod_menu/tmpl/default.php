@@ -27,7 +27,7 @@ if ($tagId = $params->get('tag_id', ''))
 <?php foreach ($list as $i => &$item)
 {
 	$itemParams = $item->getParams();
-	$class      = 'nav-item';
+	$class      = 'nav-item item-' . $item->id;
 
 	if ($item->id == $default_id)
 	{

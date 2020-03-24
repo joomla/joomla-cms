@@ -13,7 +13,7 @@
                 <template v-else>
                     <div class="control">
                         <span class="input-group">
-                            <input id="url" ref="urlText" readonly v-model="url" class="form-control input-xxlarge" placeholder="URL" autocomplete="off">
+                            <input id="url" ref="urlText" readonly v-model="url" type="url" class="form-control input-xxlarge" placeholder="URL" autocomplete="off">
                             <span class="input-group-append">
                                 <button class="btn btn-secondary" type="button" @click="copyToClipboard" :title="translate('COM_MEDIA_SHARE_COPY')">
                                     <span class="fas fa-clipboard" aria-hidden="true"></span>
