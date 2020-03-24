@@ -916,12 +916,13 @@ window.Joomla.Modal = window.Joomla.Modal || {
         // eslint-disable-next-line no-unused-expressions
         flushFn && flushFn();
       };
-      return Promise.all(whenLoadedFns.map(fn => (fn instanceof Function ? fn() : fn))).then(() => {
-        done();
-      }).catch((err) => {
-        // eslint-disable-next-line no-console
-        console.error(err);
-      });
+      return Promise.all(whenLoadedFns.map((fn) => (fn instanceof Function ? fn() : fn)))
+        .then(() => {
+          done();
+        }).catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err);
+        });
     };
 
     window.WebComponents = window.WebComponents || {

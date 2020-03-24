@@ -299,8 +299,8 @@
         } else if (tagName !== 'button' && !(tagName === 'input' && element.getAttribute('type') === 'button')) {
           // Attach validate method only to fields
           if (tagName !== 'fieldset') {
-            element.addEventListener('blur', event => this.validate(event.target));
-            element.addEventListener('focus', event => this.removeMarking(event.target));
+            element.addEventListener('blur', (event) => this.validate(event.target));
+            element.addEventListener('focus', (event) => this.removeMarking(event.target));
             if (element.classList.contains('validate-email') && this.inputEmail) {
               element.setAttribute('type', 'email');
             }

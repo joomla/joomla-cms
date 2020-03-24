@@ -148,7 +148,7 @@
     if (sampleDataWrapper) {
       const links = [].slice.call(sampleDataWrapper.querySelectorAll('.apply-sample-data'));
       links.forEach((link) => {
-        link.addEventListener('click', event => Joomla.sampledataApply(event.target));
+        link.addEventListener('click', (event) => Joomla.sampledataApply(event.target));
       });
     }
 

@@ -139,12 +139,12 @@ function plgSystemWebauthnHandleLoginChallenge(publicKey, callbackUrl) {
   }
 
   publicKey.challenge = Uint8Array.from(
-    window.atob(base64url2base64(publicKey.challenge)), c => c.charCodeAt(0),
+    window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0),
   );
 
   if (publicKey.allowCredentials) {
     publicKey.allowCredentials = publicKey.allowCredentials.map((data) => {
-      data.id = Uint8Array.from(window.atob(base64url2base64(data.id)), c => c.charCodeAt(0));
+      data.id = Uint8Array.from(window.atob(base64url2base64(data.id)), (c) => c.charCodeAt(0));
       return data;
     });
   }

@@ -247,7 +247,7 @@
         // Longer end color so slider selection matches displayed colors
         colors.push(this.getSliderValueAsRgb(endValue, slider.dataset.type));
 
-        colors = colors.map(value => this.getRgbString(value));
+        colors = colors.map((value) => this.getRgbString(value));
         slider.style.background = `linear-gradient(90deg, ${colors.join(',')})`;
         slider.style.webkitAppearance = 'none';
       });
@@ -493,7 +493,7 @@
 
       s *= 100;
       l *= 100;
-      [h, s, l] = [h, s, l].map(value => Math.round(value));
+      [h, s, l] = [h, s, l].map((value) => Math.round(value));
 
       if (withAlpha || this.setAlpha) {
         a = a || this.alpha;
@@ -537,7 +537,7 @@
         rgb = [parts[1], parts[2], parts[3], parts[4]];
       }
 
-      const [r, g, b] = rgb.map(value => (value > 1 ? value / 255 : value));
+      const [r, g, b] = rgb.map((value) => (value > 1 ? value / 255 : value));
       const max = Math.max(r, g, b);
       const min = Math.min(r, g, b);
       const l = (max + min) / 2;
@@ -633,7 +633,7 @@
         return this.hslToRgb(this.defaultHsl);
       }
 
-      const rgb = [r, g, b].map(value => Math.round((value + m) * 255));
+      const rgb = [r, g, b].map((value) => Math.round((value + m) * 255));
       rgb.push(a);
 
       return rgb;

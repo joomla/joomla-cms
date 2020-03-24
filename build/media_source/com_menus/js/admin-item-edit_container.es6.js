@@ -4,9 +4,9 @@
  */
 
 ((document) => {
-  const isChecked = element => element.checked;
-  const getTreeElements = element => element.querySelectorAll('input[type="checkbox"]');
-  const getTreeRoot = element => element.parentElement.nextElementSibling;
+  const isChecked = (element) => element.checked;
+  const getTreeElements = (element) => element.querySelectorAll('input[type="checkbox"]');
+  const getTreeRoot = (element) => element.parentElement.nextElementSibling;
 
   const check = (element) => {
     element.checked = true;
@@ -16,8 +16,8 @@
     element.checked = false;
   };
 
-  const disable = element => element.setAttribute('disabled', 'disabled');
-  const enable = element => element.removeAttribute('disabled');
+  const disable = (element) => element.setAttribute('disabled', 'disabled');
+  const enable = (element) => element.removeAttribute('disabled');
 
   const toggleState = (element, rootChecked) => {
     if (rootChecked === true) {
@@ -35,7 +35,7 @@
     const selfChecked = isChecked(target);
 
     if (root) {
-      getTreeElements(root).map(element => toggleState(element, selfChecked));
+      getTreeElements(root).map((element) => toggleState(element, selfChecked));
     }
   };
 
