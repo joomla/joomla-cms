@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Languages\Administrator\View\Installed;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;

@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Install;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;

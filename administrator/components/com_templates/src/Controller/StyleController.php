@@ -8,7 +8,7 @@
  */
 namespace Joomla\Component\Templates\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;

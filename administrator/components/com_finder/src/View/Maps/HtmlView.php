@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Maps;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;

@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Templates\Administrator\View\Templates;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;

@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Contact\Site\View\Contact;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\AbstractView;

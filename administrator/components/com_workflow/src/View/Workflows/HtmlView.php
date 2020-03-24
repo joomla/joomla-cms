@@ -8,7 +8,7 @@
  */
 namespace Joomla\Component\Workflow\Administrator\View\Workflows;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;

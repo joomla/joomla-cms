@@ -8,7 +8,7 @@
 
 namespace Joomla\Component\Content\Api\Serializer;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Serializer\JoomlaSerializer;

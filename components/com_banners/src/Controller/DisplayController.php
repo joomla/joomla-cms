@@ -11,7 +11,7 @@ namespace Joomla\Component\Banners\Site\Controller;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Banners Controller

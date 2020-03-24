@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Newsfeeds\Api\View\Feeds;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 

@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Banners\Administrator\View\Banners;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Exception;
 use Joomla\CMS\Factory;

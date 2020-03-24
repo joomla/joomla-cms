@@ -12,7 +12,7 @@ use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * User groups list controller class.

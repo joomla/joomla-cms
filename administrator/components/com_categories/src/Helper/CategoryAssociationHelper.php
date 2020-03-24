@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Categories\Administrator\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Category Component Association Helper

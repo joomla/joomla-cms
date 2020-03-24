@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Tags\Site\View\Tag;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;

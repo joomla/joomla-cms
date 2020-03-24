@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Config\Site\View\Templates;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactory;

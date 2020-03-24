@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Content\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Feature model.

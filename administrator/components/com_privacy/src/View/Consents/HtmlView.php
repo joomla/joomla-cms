@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Privacy\Administrator\View\Consents;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;

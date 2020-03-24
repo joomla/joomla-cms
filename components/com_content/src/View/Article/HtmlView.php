@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Content\Site\View\Article;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;

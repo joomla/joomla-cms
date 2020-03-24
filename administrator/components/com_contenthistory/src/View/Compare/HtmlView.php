@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Contenthistory\Administrator\View\Compare;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;

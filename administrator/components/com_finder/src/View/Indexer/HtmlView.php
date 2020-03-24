@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Finder\Administrator\View\Indexer;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 

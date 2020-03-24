@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use DateTimeZone;
 use Exception;

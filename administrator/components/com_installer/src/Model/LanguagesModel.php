@@ -2,13 +2,19 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
- * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Component\Installer\Administrator\Model;
 
-jimport('joomla.updater.update');
+\defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\String\StringHelper;
 
 /**
@@ -16,7 +22,7 @@ use Joomla\String\StringHelper;
  *
  * @since  2.5.7
  */
-class InstallerModelLanguages extends JModelList
+class LanguagesModel extends ListModel
 {
 	/**
 	 * Language count
@@ -27,13 +33,15 @@ class InstallerModelLanguages extends JModelList
 	private $languageCount;
 
 	/**
-	 * Constructor override, defines a whitelist of column filters.
+	 * Constructor.
 	 *
-	 * @param   array  $config  An optional associative array of configuration settings.
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @since   2.5.7
+	 * @see     \Joomla\CMS\MVC\Model\ListModel
+	 * @since   1.6
 	 */
-	public function __construct($config = array())
+	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
 		if (empty($config['filter_fields']))
 		{
@@ -43,7 +51,7 @@ class InstallerModelLanguages extends JModelList
 			);
 		}
 
-		parent::__construct($config);
+		parent::__construct($config, $factory);
 	}
 
 	/**
@@ -57,13 +65,19 @@ class InstallerModelLanguages extends JModelList
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select($db->qn('us.location'))
-			->from($db->qn('#__extensions', 'e'))
-			->where($db->qn('e.type') . ' = ' . $db->q('package'))
-			->where($db->qn('e.element') . ' = ' . $db->q('pkg_en-GB'))
-			->where($db->qn('e.client_id') . ' = 0')
-			->join('LEFT', $db->qn('#__update_sites_extensions', 'use') . ' ON ' . $db->qn('use.extension_id') . ' = ' . $db->qn('e.extension_id'))
-			->join('LEFT', $db->qn('#__update_sites', 'us') . ' ON ' . $db->qn('us.update_site_id') . ' = ' . $db->qn('use.update_site_id'));
+			->select($db->quoteName('us.location'))
+			->from($db->quoteName('#__extensions', 'e'))
+			->where($db->quoteName('e.type') . ' = ' . $db->quote('package'))
+			->where($db->quoteName('e.element') . ' = ' . $db->quote('pkg_en-GB'))
+			->where($db->quoteName('e.client_id') . ' = 0')
+			->join(
+				'LEFT', $db->quoteName('#__update_sites_extensions', 'use')
+				. ' ON ' . $db->quoteName('use.extension_id') . ' = ' . $db->quoteName('e.extension_id')
+			)
+			->join(
+				'LEFT', $db->quoteName('#__update_sites', 'us')
+				. ' ON ' . $db->quoteName('us.update_site_id') . ' = ' . $db->quoteName('use.update_site_id')
+			);
 
 		return $db->setQuery($query)->loadResult();
 	}
@@ -91,7 +105,7 @@ class InstallerModelLanguages extends JModelList
 			// Load the list items and add the items to the internal cache.
 			$this->cache[$store] = $this->getLanguages();
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -107,7 +121,7 @@ class InstallerModelLanguages extends JModelList
 	 * @return  object[]  An array of results.
 	 *
 	 * @since   3.0
-	 * @throws  RuntimeException
+	 * @throws  \RuntimeException
 	 */
 	protected function getLanguages()
 	{
@@ -116,25 +130,23 @@ class InstallerModelLanguages extends JModelList
 		// Check whether the updateserver is found
 		if (empty($updateSite))
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
 
 			return;
 		}
 
-		$http = new JHttp;
-
 		try
 		{
-			$response = $http->get($updateSite);
+			$response = HttpFactory::getHttp()->get($updateSite);
 		}
-		catch (RuntimeException $e)
+		catch (\RuntimeException $e)
 		{
 			$response = null;
 		}
 
 		if ($response === null || $response->code !== 200)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_ERROR_CANT_CONNECT_TO_UPDATESERVER', $updateSite), 'error');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_INSTALLER_MSG_ERROR_CANT_CONNECT_TO_UPDATESERVER', $updateSite), 'error');
 
 			return;
 		}
@@ -145,7 +157,7 @@ class InstallerModelLanguages extends JModelList
 
 		foreach ($updateSiteXML->extension as $extension)
 		{
-			$language = new stdClass;
+			$language = new \stdClass;
 
 			foreach ($extension->attributes() as $key => $value)
 			{
@@ -170,7 +182,7 @@ class InstallerModelLanguages extends JModelList
 		// Sort the array by value of subarray
 		usort(
 			$languages,
-			function($a, $b) use ($that)
+			function ($a, $b) use ($that)
 			{
 				$ordering = $that->getState('list.ordering');
 
@@ -195,7 +207,7 @@ class InstallerModelLanguages extends JModelList
 	/**
 	 * Returns a record count for the updatesite.
 	 *
-	 * @param   JDatabaseQuery|string  $query  The query.
+	 * @param   \JDatabaseQuery|string  $query  The query.
 	 *
 	 * @return  integer  Number of rows for query.
 	 *
@@ -239,7 +251,7 @@ class InstallerModelLanguages extends JModelList
 	{
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
 
-		$this->setState('extension_message', JFactory::getApplication()->getUserState('com_installer.extension_message'));
+		$this->setState('extension_message', Factory::getApplication()->getUserState('com_installer.extension_message'));
 
 		parent::populateState($ordering, $direction);
 	}

@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Privacy\Api\View\Consents;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;

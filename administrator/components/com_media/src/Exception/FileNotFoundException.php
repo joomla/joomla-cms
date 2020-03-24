@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Media\Administrator\Exception;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Media file not found exception.

@@ -8,7 +8,7 @@
  */
 namespace Joomla\Component\Banners\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Archive\Archive;
 use Joomla\CMS\Component\ComponentHelper;

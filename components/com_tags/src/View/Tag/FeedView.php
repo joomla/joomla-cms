@@ -15,7 +15,7 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * HTML View class for the Tags component

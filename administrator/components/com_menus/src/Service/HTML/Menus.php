@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Menus\Administrator\Service\HTML;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;

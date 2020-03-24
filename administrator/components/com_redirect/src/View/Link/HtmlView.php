@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Redirect\Administrator\View\Link;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;

@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Messages\Administrator\View\Messages;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
