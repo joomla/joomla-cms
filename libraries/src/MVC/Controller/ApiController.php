@@ -200,13 +200,14 @@ class ApiController extends BaseController
 	{
 		// Assemble pagination information (using recommended JsonApi pagination notation for offset strategy)
 		$paginationInfo = $this->input->get('page', [], 'array');
+		$limit          = null;
+		$offset         = null;
 
 		if (\array_key_exists('offset', $paginationInfo))
 		{
-			$this->modelState->set($this->context . '.limitstart', $paginationInfo['offset']);
+			$offset = $paginationInfo['offset'];
+			$this->modelState->set($this->context . '.limitstart', $offset);
 		}
-
-		$limit = null
 
 		if (\array_key_exists('limit', $paginationInfo))
 		{
@@ -246,9 +247,9 @@ class ApiController extends BaseController
 		// Push the model into the view (as default)
 		$view->setModel($model, true);
 
-		if ($this->input->getInt('limitstart', null))
+		if ($offset)
 		{
-			$model->setState('list.start', $this->input->get('limitstart'));
+			$model->setState('list.start', $offset);
 		}
 
 		/**
@@ -264,7 +265,7 @@ class ApiController extends BaseController
 			$model->setState('list.limit', $this->itemsPerPage);
 		}
 
-		if ($this->input->getInt('limitstart', 0) > $model->getTotal())
+		if (!is_null($offset) && $offset > $model->getTotal())
 		{
 			throw new Exception\ResourceNotFound;
 		}
