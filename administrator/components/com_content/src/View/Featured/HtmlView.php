@@ -95,7 +95,9 @@ class HtmlView extends BaseHtmlView
 			unset($this->activeFilters['language']);
 			$this->filterForm->removeField('language', 'filter');
 		}
-
+		
+		/*
+		@TODO Move to plugin
 		$transitions = [
 			'publish' => [],
 			'unpublish' => [],
@@ -126,6 +128,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->document->addScriptOptions('articles.transitions', $transitions);
+		*/
 
 		$articles = [];
 

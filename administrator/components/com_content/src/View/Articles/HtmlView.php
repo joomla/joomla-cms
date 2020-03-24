@@ -116,6 +116,9 @@ class HtmlView extends BaseHtmlView
 				$this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
 			}
 		}
+		
+		/*
+		@TODO Move to the plugin
 
 		$transitions = [
 			'publish' => [],
@@ -147,6 +150,8 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->document->addScriptOptions('articles.transitions', $transitions);
+		
+		*/
 
 		$articles = [];
 
