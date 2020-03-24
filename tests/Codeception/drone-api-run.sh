@@ -56,8 +56,8 @@ echo "[RUNNER] Run Codeception"
 php libraries/vendor/bin/codecept build
 php libraries/vendor/bin/codecept run --fail-fast --steps --debug --env mysql tests/Codeception/acceptance/01-install/
 
-# TODO: This sed command doesn't work on OSX - can we rewrite it into something that does work? Good enough for the
-#       linux docker container for now.
+# If you have found this line failing on OSX you need to brew install gnu-sed like we mentioned in the codeception readme!
+# This replaces the site secret in configuration.php so we can guarentee a consistent API token for our super user.
 sed -i "/\$secret/c\	public \$secret = 'tEstValue';" /tests/www/test-install/configuration.php
 
 # Executing API tests
