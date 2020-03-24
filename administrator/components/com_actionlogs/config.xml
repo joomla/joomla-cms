@@ -46,6 +46,7 @@
 			multiple="true"
 			showon="loggable_api:1"
 			default="GET"
+			validate="options"
 			>
 			<option value="GET">COM_ACTIONLOGS_FIELD_VALUE_GET</option>
 			<option value="POST">COM_ACTIONLOGS_FIELD_VALUE_POST</option>
