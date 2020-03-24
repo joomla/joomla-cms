@@ -206,11 +206,12 @@ class ApiController extends BaseController
 			$this->modelState->set($this->context . '.limitstart', $paginationInfo['offset']);
 		}
 
+		$limit = null
+
 		if (\array_key_exists('limit', $paginationInfo))
 		{
-			$this->modelState->set($this->context . '.list.limit', $paginationInfo['limit']);
-
-			$this->input->set('limit', $paginationInfo['limit']);
+			$limit = $paginationInfo['limit'];
+			$this->modelState->set($this->context . '.list.limit', $limit);
 		}
 
 		$viewType   = $this->app->getDocument()->getType();
@@ -254,9 +255,9 @@ class ApiController extends BaseController
 		 * Sanity check we don't have too much data being requested as regularly in html we automatically set it back to
 		 * the last page of data. If there isn't a limit start then set
 		 */
-		if ($this->input->getInt('limit', null))
+		if ($limit)
 		{
-			$model->setState('list.limit', $this->input->get('limit'));
+			$model->setState('list.limit', $limit);
 		}
 		else
 		{
