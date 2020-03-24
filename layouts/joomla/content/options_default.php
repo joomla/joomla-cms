@@ -8,6 +8,7 @@
  */
 
 defined('_JEXEC') or die;
+
 ?>
 
 <fieldset class="<?php echo !empty($displayData->formclass) ? $displayData->formclass : 'form-horizontal'; ?>">
