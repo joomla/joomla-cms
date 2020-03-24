@@ -15,8 +15,19 @@ namespace Joomla\CMS\Workflow;
  *
  * @since  4.0.0
  */
-interface WorkflowServiceInterface
-{
+interface WorkflowServiceInterface {
+	/**
+	 * Check if the functionality is supported by the context
+	 *
+	 * @param   string  $feature  The functionality
+	 * @param   string  $context  The context of the functionality
+	 *
+	 * @return bool
+	 *
+	 * @since  4.0.0
+	 */
+	public function supportFunctionality($functionality, $context): bool;
+
 	/**
 	 * Method to filter transitions by given id of state.
 	 *
