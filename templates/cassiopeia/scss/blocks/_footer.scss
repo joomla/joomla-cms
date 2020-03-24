@@ -7,6 +7,8 @@
     color: #fff;
     background: $cassiopeia-template-color;
     border-radius: 3px;
+
+    @include margin('right', 5px);
   }
 
 }

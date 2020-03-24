@@ -20,7 +20,7 @@ use Joomla\CMS\Language\Text;
 
 <div class="row">
 	<div class="col-md-6">
-		<fieldset class="options-grid-form options-grid-form-full">
+		<fieldset class="options-form">
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS'); ?>
 			</legend>
@@ -48,7 +48,7 @@ use Joomla\CMS\Language\Text;
 								<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
 									<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
 									<?php if ($option->notice) : ?>
-										<span class="icon-info icon-white" title="<?php echo $option->notice; ?>"></span>
+										<span class="fas fa-info icon-white" title="<?php echo $option->notice; ?>"></span>
 									<?php endif; ?>
 								</span>
 							</td>
@@ -60,7 +60,7 @@ use Joomla\CMS\Language\Text;
 	</div>
 
 	<div class="col-md-6">
-		<fieldset class="options-grid-form options-grid-form-full">
+		<fieldset class="options-form">
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS'); ?>
 			</legend>
@@ -105,7 +105,7 @@ use Joomla\CMS\Language\Text;
 <div class="row">
 	<?php if (!empty($this->nonCoreExtensions)) : ?>
 	<div class="col-md-6">
-		<fieldset class="options-grid-form options-grid-form-full">
+		<fieldset class="options-form">
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
 			</legend>
@@ -146,9 +146,8 @@ use Joomla\CMS\Language\Text;
 			</table>
 		</fieldset>
 	</div>
-	<?php endif; ?>
 	<div class="col-md-6">
-		<fieldset class="options-grid-form options-grid-form-full">
+		<fieldset class="options-form">
 			<legend>
 				<?php echo Text::_('NOTICE'); ?>
 			</legend>
@@ -159,4 +158,14 @@ use Joomla\CMS\Language\Text;
 			</ul>
 		</fieldset>
 	</div>
+    <?php else: ?>
+    <div class="col-md-6">
+        <h3>
+            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
+        </h3>
+        <div class="alert alert-no-items">
+            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NONE'); ?>
+        </div>
+    </div>
+	<?php endif; ?>
 </div>

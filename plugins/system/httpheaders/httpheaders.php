@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
@@ -60,7 +59,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	/**
 	 * The params of the com_csp component
 	 *
-	 * @var    Registry
+	 * @var    \Joomla\Registry\Registry
 	 * @since  4.0.0
 	 */
 	private $comCspParams;
@@ -276,10 +275,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		}
 
 		// In custom mode we compile the header from the values configured
-		$cspValues           = $this->comCspParams->get('contentsecuritypolicy_values', []);
-		$nonceEnabled        = (int) $this->comCspParams->get('nonce_enabled', 0);
-		$scriptHashesEnabled = (int) $this->comCspParams->get('script_hashes_enabled', 0);
-		$styleHashesEnabled  = (int) $this->comCspParams->get('style_hashes_enabled', 0);
+		$cspValues                 = $this->comCspParams->get('contentsecuritypolicy_values', []);
+		$nonceEnabled              = (int) $this->comCspParams->get('nonce_enabled', 0);
+		$scriptHashesEnabled       = (int) $this->comCspParams->get('script_hashes_enabled', 0);
+		$styleHashesEnabled        = (int) $this->comCspParams->get('style_hashes_enabled', 0);
+		$frameAncestorsSelfEnabled = (int) $this->comCspParams->get('frame_ancestors_self_enabled', 1);
+		$frameAncestorsSet         = false;
 
 		foreach ($cspValues as $cspValue)
 		{
@@ -290,7 +291,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			}
 
 			// We can only use this if this is a valid entry
-			if (isset($cspValue->directive) && isset($cspValue->value))
+			if (isset($cspValue->directive) && isset($cspValue->value)
+				&& !empty($cspValue->directive) && !empty($cspValue->value))
 			{
 				if (in_array($cspValue->directive, $this->nonceDirectives) && $nonceEnabled)
 				{
@@ -310,8 +312,18 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 					$cspValue->value = '{style-hashes} ' . $cspValue->value;
 				}
 
+				if ($cspValue->directive === 'frame-ancestors')
+				{
+					$frameAncestorsSet = true;
+				}
+
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
 			}
+		}
+
+		if ($frameAncestorsSelfEnabled && !$frameAncestorsSet)
+		{
+			$newCspValues[] = 'frame-ancestors \'self\'';
 		}
 
 		if (empty($newCspValues))
@@ -350,11 +362,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			return [];
 		}
 
-		$automaticCspHeader  = [];
-		$cspHeaderCollection = [];
-		$nonceEnabled        = (int) $this->comCspParams->get('nonce_enabled', 0);
-		$scriptHashesEnabled = (int) $this->comCspParams->get('script_hashes_enabled', 0);
-		$styleHashesEnabled  = (int) $this->comCspParams->get('style_hashes_enabled', 0);
+		$automaticCspHeader        = [];
+		$cspHeaderCollection       = [];
+		$nonceEnabled              = (int) $this->comCspParams->get('nonce_enabled', 0);
+		$scriptHashesEnabled       = (int) $this->comCspParams->get('script_hashes_enabled', 0);
+		$styleHashesEnabled        = (int) $this->comCspParams->get('style_hashes_enabled', 0);
+		$frameAncestorsSelfEnabled = (int) $this->comCspParams->get('frame_ancestors_self_enabled', 1);
 
 		foreach ($rows as $row)
 		{
@@ -378,6 +391,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 			// Whitelist the blocked_uri for the given directive
 			$cspHeaderCollection[$row->directive] .= ' ' . $row->blocked_uri;
+		}
+
+		// Add the frame-ancestors when not done already
+		if (!isset($cspHeaderCollection['frame-ancestors']) && $frameAncestorsSelfEnabled)
+		{
+			$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['frame-ancestors'], ''));
 		}
 
 		// We should have a default-src, script-src and style-src rule
@@ -409,13 +428,13 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			}
 
 			// Append the script hashes placeholder
-			if ($scriptHashesEnabled && strpos($cspValue->directive, 'script-src') === 0)
+			if ($scriptHashesEnabled && strpos($cspHeaderkey, 'script-src') === 0)
 			{
 				$cspHeaderValue = '{script-hashes} ' . $cspHeaderValue;
 			}
 
 			// Append the style hashes placeholder
-			if ($styleHashesEnabled && strpos($cspValue->directive, 'style-src') === 0)
+			if ($styleHashesEnabled && strpos($cspHeaderkey, 'style-src') === 0)
 			{
 				$cspHeaderValue = '{style-hashes} ' . $cspHeaderValue;
 			}
@@ -440,7 +459,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		$staticHeaderConfiguration = [];
 
 		// X-frame-options
-		if ($this->params->get('xframeoptions'))
+		if ($this->params->get('xframeoptions', 1) === 1)
 		{
 			$staticHeaderConfiguration['x-frame-options#both'] = 'SAMEORIGIN';
 		}
@@ -454,20 +473,17 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		}
 
 		// Generate the strict-transport-security header
-		$strictTransportSecurity = (int) $this->params->get('hsts', 0);
-
-		if ($strictTransportSecurity)
+		if ($this->params->get('hsts', 0) === 1)
 		{
-			$maxAge        = (int) $this->params->get('hsts_maxage', 31536000);
 			$hstsOptions   = [];
-			$hstsOptions[] = $maxAge < 300 ? 'max-age=300' : 'max-age=' . $maxAge;
+			$hstsOptions[] = 'max-age=' . (int) $this->params->get('hsts_maxage', 31536000);
 
-			if ($this->params->get('hsts_subdomains', 0))
+			if ($this->params->get('hsts_subdomains', 0) === 1)
 			{
 				$hstsOptions[] = 'includeSubDomains';
 			}
 
-			if ($this->params->get('hsts_preload', 0))
+			if ($this->params->get('hsts_preload', 0) === 1)
 			{
 				$hstsOptions[] = 'preload';
 			}

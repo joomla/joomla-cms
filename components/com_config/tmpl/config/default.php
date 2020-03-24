@@ -18,18 +18,18 @@ HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('script', 'com_config/config-default.js', ['version' => 'auto', 'relative' => true]);
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate"  data-cancel-task="config.cancel.component">
+<form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate">
 
 	<div class="btn-toolbar" role="toolbar" aria-label="<?php echo Text::_('JTOOLBAR'); ?>">
 		<div class="btn-group mr-2">
 			<button type="button" class="btn btn-primary" data-submit-task="config.apply">
-				<span class="fa fa-check" aria-hidden="true"></span>
+				<span class="fas fa-check" aria-hidden="true"></span>
 				<?php echo Text::_('JSAVE') ?>
 			</button>
 		</div>
 		<div class="btn-group">
 			<button type="button" class="btn btn-danger" data-submit-task="config.cancel">
-				<span class="fa fa-times" aria-hidden="true"></span>
+				<span class="fas fa-times" aria-hidden="true"></span>
 				<?php echo Text::_('JCANCEL') ?>
 			</button>
 		</div>

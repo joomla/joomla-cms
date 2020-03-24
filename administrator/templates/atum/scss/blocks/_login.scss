@@ -5,54 +5,30 @@
   .container-main {
 
     @include media-breakpoint-down(sm) {
-      min-height: calc(100vh - 35vh);
+      display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: center;
-      display: flex;
+      min-height: calc(100vh - 35vh);
     }
 
     #content {
 
       @include media-breakpoint-down(sm) {
-        padding: 0;
         max-width: 98%;
+        padding: 0;
       }
     }
   }
 
-  .login-bg-grad {
-    position: fixed;
-    z-index: $zindex-negative;
-    width: 100vw;
-    height: 100vh;
-    background-image: linear-gradient(45deg,
-            rgba(var(--atum-bg-dark), .9) 30%,
-            rgba(color("atum-bg-light"), .2) 100%);
-  }
-
-  .login-initial {
-    display: none;
-  }
-
-  .login-logo {
-    width: 200px;
-    margin: 0 auto 2rem;
-    text-align: center;
-
-    @include media-breakpoint-down(sm) {
-      margin: 1rem 0;
-    }
-  }
-
   .login {
-    width: 25rem;
-    background: var(--white);
-    padding: 15px;
-    color: var(--atum-text-dark);
-    border-radius: 3px;
-    margin-top: 10rem;
     align-self: flex-start;
+    width: 25rem;
+    padding: 15px;
+    margin-top: 10rem;
+    color: var(--atum-text-dark);
+    background: var(--white);
+    border-radius: 3px;
     box-shadow: 0 0 10px 0 #ccc;
 
     @include media-breakpoint-down(md) {
@@ -71,33 +47,19 @@
         margin-bottom: 1.85rem;
 
         .form-control-feedback {
-          text-align: right;
           position: absolute;
-          bottom: -1.1rem;
           right: 0;
-          font-size: 0.75rem;
+          bottom: -1.1rem;
+          font-size: .75rem;
+          text-align: right;
         }
       }
 
     }
 
     #btn-login-submit {
+      color: rgba(255, 255, 255, .8);
       background: var(--atum-bg-dark);
-      color:rgba(255,255,255,0.8);
-    }
-  }
-
-  .input-password-toggle {
-    border-color: var(--atum-bg-dark-80);
-    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
-  }
-
-  .login-box {
-    background: var(--login-main-bg);
-    box-shadow: 0 0 20px var(--atum-bg-dark);
-
-    a {
-      color: $white;
     }
   }
 
@@ -112,8 +74,8 @@
         }
 
         &.text-right {
-          color: var(--atum-special-color);
           font-size: .75rem;
+          color: var(--atum-special-color);
         }
       }
     }
@@ -121,16 +83,16 @@
 
   input:focus,
   select:focus {
-    box-shadow: inset 0 0 1px 1px var(--atum-contrast);
     background: $white;
+    box-shadow: inset 0 0 1px 1px var(--atum-contrast);
   }
 
   h1 {
-    margin: 0;
-    text-align: center;
-    color: var(--atum-special-color);
-    font-weight: bold;
     padding-bottom: 1rem;
+    margin: 0;
+    font-weight: bold;
+    color: var(--atum-special-color);
+    text-align: center;
   }
 
   .btn {
@@ -165,11 +127,11 @@
   }
 
   #sidebar {
-    color: var(--atum-text-light);
-    width: 100%;
-    text-align: center;
     align-self: flex-end;
-    font-size: 0.875rem;
+    width: 100%;
+    font-size: .875rem;
+    color: var(--atum-text-light);
+    text-align: center;
 
     .card {
       background: var(--atum-bg-dark);
@@ -190,22 +152,22 @@
   .sidebar-wrapper {
 
     @include media-breakpoint-down(sm) {
-      max-width: 100% !important;
       flex: 1 0 100% !important;
+      max-width: 100% !important;
     }
   }
 
   .d-flex {
 
     @include media-breakpoint-down(sm) {
+      display: flex !important;
       flex-wrap: wrap;
-      display:flex !important;
     }
   }
 
-  .header{
-    .logo{
-      &.small{
+  .header {
+    .logo {
+      &.small {
         line-height: 2.5rem;
       }
     }
@@ -213,15 +175,14 @@
 }
 
 label {
-  color: var(--atum-special-color);
+  color: $darkblue;
 }
 
 .com_login .sidebar-wrapper .main-brand {
-  margin-top: 100px;
-  color: var(--atum-text-light);
-  text-align: center;
   flex: 1;
   flex-basis: auto;
+  margin-top: 100px;
+  text-align: center;
 
   @include media-breakpoint-down(sm) {
     margin-top: 10px;
@@ -229,30 +190,40 @@ label {
 }
 
 .com_login .sidebar-wrapper #sidebar p {
-  margin-bottom: 0.2rem;
+  margin-bottom: .2rem;
 }
 
-.com_login .sidebar-wrapper .main-brand h1,
 .com_login .sidebar-wrapper .main-brand a,
 .com_login .sidebar-wrapper #sidebar,
 .com_login .sidebar-wrapper #sidebar a {
   color: var(--atum-text-light);
 }
 
-.view-login{
-  #wrapper.d-flex{
-      @include media-breakpoint-down(sm) {
-        display:flex !important;
-     }
-  }
-
-  #sidebar-wrapper:not(.show):not(.collapse){
+.view-login {
+  #wrapper.d-flex {
     @include media-breakpoint-down(sm) {
-      display:block;
+      display: flex !important;
     }
   }
 
- .invalid .form-control-feedback {
+  #sidebar-wrapper:not(.show):not(.collapse) {
+    @include media-breakpoint-down(sm) {
+      display: block;
+    }
+  }
+
+  .invalid .form-control-feedback {
     color: theme-color("danger");
+  }
+}
+
+ // Detect IE 10+ and display alert
+.ie11 {
+  display: none;
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  .ie11 {
+    display: block;
   }
 }

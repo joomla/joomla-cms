@@ -54,7 +54,7 @@ class NoteField extends FormField
 
 		if ($close)
 		{
-			$close = $close == 'true' ? 'alert' : $close;
+			$close = $close === 'true' ? 'alert' : $close;
 			$html[] = '<button type="button" class="close" data-dismiss="' . $close . '">&times;</button>';
 		}
 

@@ -4,7 +4,7 @@
 		<field
 			name="itemlanguage"
 			type="itemlanguage"
-			label="COM_ASSOCIATIONS_ITEM_FIELD_LANGUAGE_LABEL"
+			label="COM_ASSOCIATIONS_SELECT_TARGET_LANGUAGE_LABEL"
 			>
 			<option value="">COM_ASSOCIATIONS_SELECT_TARGET_LANGUAGE</option>
 		</field>

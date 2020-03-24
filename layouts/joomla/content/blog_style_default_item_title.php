@@ -12,6 +12,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 // Create a shortcut for params.
 $params  = $displayData->params;
@@ -24,7 +25,7 @@ $canEdit = $displayData->params->get('access-edit');
 			<h2 itemprop="name">
 				<?php if ($params->get('link_titles') && ($params->get('access-view') || $params->get('show_noauth', '0') == '1')) : ?>
 					<a href="<?php echo Route::_(
-						ContentHelperRoute::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)
+						RouteHelper::getArticleRoute($displayData->slug, $displayData->catid, $displayData->language)
 					); ?>" itemprop="url">
 						<?php echo $this->escape($displayData->title); ?>
 					</a>

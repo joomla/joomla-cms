@@ -16,15 +16,18 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
-HTMLHelper::_('script', 'vendor/diff/diff.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_templates/admin-template-compare.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_templates/admin-template-toggle-switch.min.js', array('version' => 'auto', 'relative' => true));
-
-HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.multiselect', 'updateForm');
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa    = $this->document->getWebAssetManager();
 $input = Factory::getApplication()->input;
+
+// Enable assets
+$wa->useScript('form.validate')
+	->useScript('keepalive')
+	->useScript('diff')
+	->registerAndUseScript('templates.admin-template-compare', 'com_templates/admin-template-compare.min.js', [], ['defer' => true], ['diff', 'core'])
+	->registerAndUseScript('templates.admin-template-toggle-switch', 'com_templates/admin-template-toggle-switch.min.js', [], ['defer' => true], ['core']);
 
 // No access if not global SuperUser
 if (!Factory::getUser()->authorise('core.admin'))
@@ -34,16 +37,15 @@ if (!Factory::getUser()->authorise('core.admin'))
 
 if ($this->type == 'image')
 {
-	HTMLHelper::_('script', 'vendor/cropperjs/cropper.min.js', array('version' => 'auto', 'relative' => true));
-	HTMLHelper::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array('version' => 'auto', 'relative' => true));
+	$wa->usePreset('cropperjs');
 }
 
-HTMLHelper::_('script', 'com_templates/admin-templates-default.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('stylesheet', 'com_templates/admin-templates-default.css', array('version' => 'auto', 'relative' => true));
+$wa->registerAndUseStyle('templates.admin-templates-default', 'com_templates/admin-templates-default.css')
+	->registerAndUseScript('templates.admin-templates-default', 'com_templates/admin-templates-default.min.js', [], ['defer' => true], ['core']);
 
 if ($this->type == 'font')
 {
-	$this->document->addStyleDeclaration("
+	$wa->addInlineStyle("
 		@font-face {
 			font-family: previewFont;
 			src: url('" . $this->font['address'] . "')
@@ -89,7 +91,7 @@ if ($this->type == 'font')
 		</div>
 	</div>
 	<div class="col-md-9">
-		<fieldset class="options-grid-form options-grid-form-full">
+		<fieldset class="options-form">
 		<?php if ($this->type == 'home') : ?>
 			<legend><?php echo Text::_('COM_TEMPLATES_HOME_HEADING'); ?></legend>
 			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
@@ -145,10 +147,10 @@ if ($this->type == 'font')
 					<?php foreach ($this->archive as $file) : ?>
 						<li>
 							<?php if (substr($file, -1) === DIRECTORY_SEPARATOR) : ?>
-								<span class="fa fa-folder fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
+								<span class="fas fa-folder fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
-								<span class="fa fa-file fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
+								<span class="fas fa-file fa-fw" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
@@ -158,7 +160,7 @@ if ($this->type == 'font')
 			</form>
 		<?php elseif ($this->type == 'image') : ?>
 			<legend><?php echo $this->escape(basename($this->image['address'])); ?></legend>
-			<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>">
+			<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>" style="max-width: 100%">
 			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<fieldset class="adminform">
 					<input type="hidden" id="x" name="x">
@@ -235,7 +237,7 @@ if ($this->type == 'font')
 		<div class="card-body">
 			<div class="row">
 				<div class="col-md-3">
-					<fieldset class="options-grid-form options-grid-form-full">
+					<fieldset class="options-form">
 					<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
 					<ul class="list-unstyled">
 						<?php $token = Session::getFormToken() . '=' . 1; ?>
@@ -246,7 +248,7 @@ if ($this->type == 'font')
 										. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 								?>
 								<a href="<?php echo Route::_($overrideLinkUrl); ?>">
-									<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $module->name; ?>
+									<span class="fas fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $module->name; ?>
 								</a>
 							</li>
 						<?php endforeach; ?>
@@ -254,14 +256,14 @@ if ($this->type == 'font')
 					</fieldset>
 				</div>
 				<div class="col-md-3">
-					<fieldset class="options-grid-form options-grid-form-full">
+					<fieldset class="options-form">
 					<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'); ?></legend>
 					<ul class="list-unstyled">
 						<?php $token = Session::getFormToken() . '=' . 1; ?>
 						<?php foreach ($this->overridesList['components'] as $key => $value) : ?>
 							<li class="component-folder">
 								<a href="#" class="component-folder-url">
-									<span class="fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+									<span class="fas fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
 								</a>
 								<ul class="list-unstyled">
 									<?php foreach ($value as $view) : ?>
@@ -271,7 +273,7 @@ if ($this->type == 'font')
 													. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 											?>
 											<a class="component-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
-												<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
+												<span class="fas fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
 											</a>
 										</li>
 									<?php endforeach; ?>
@@ -282,14 +284,14 @@ if ($this->type == 'font')
 					</fieldset>
 				</div>
 				<div class="col-md-3">
-					<fieldset class="options-grid-form options-grid-form-full">
+					<fieldset class="options-form">
 					<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_PLUGINS'); ?></legend>
 					<ul class="list-unstyled">
 						<?php $token = Session::getFormToken() . '=' . 1; ?>
 						<?php foreach ($this->overridesList['plugins'] as $key => $group) : ?>
 							<li class="plugin-folder">
 								<a href="#" class="plugin-folder-url">
-									<span class="fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+									<span class="fas fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
 								</a>
 								<ul class="list-unstyled">
 									<?php foreach ($group as $plugin) : ?>
@@ -299,7 +301,7 @@ if ($this->type == 'font')
 												. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 											?>
 											<a class="plugin-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
-												<span class="fa fa-copy" aria-hidden="true"></span> <?php echo $plugin->name; ?>
+												<span class="fas fa-copy" aria-hidden="true"></span> <?php echo $plugin->name; ?>
 											</a>
 										</li>
 									<?php endforeach; ?>
@@ -310,14 +312,14 @@ if ($this->type == 'font')
 					</fieldset>
 				</div>
 				<div class="col-md-3">
-					<fieldset class="options-grid-form options-grid-form-full">
+					<fieldset class="options-form">
 					<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
 					<ul class="list-unstyled">
 						<?php $token = Session::getFormToken() . '=' . 1; ?>
 						<?php foreach ($this->overridesList['layouts'] as $key => $value) : ?>
 						<li class="layout-folder">
 							<a href="#" class="layout-folder-url">
-								<span class="fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+								<span class="fas fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
 							</a>
 							<ul class="list-unstyled">
 								<?php foreach ($value as $layout) : ?>
@@ -327,7 +329,7 @@ if ($this->type == 'font')
 												. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 										?>
 										<a href="<?php echo Route::_($overrideLinkUrl); ?>">
-											<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $layout->name; ?>
+											<span class="fas fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $layout->name; ?>
 										</a>
 									</li>
 								<?php endforeach; ?>
@@ -436,7 +438,7 @@ $folderModalData = array(
 );
 ?>
 <?php echo LayoutHelper::render('joomla.modal.main', $folderModalData); ?>
-<?php if ($this->type != 'home') : ?>
+<?php if ($this->type == 'image') : ?>
 	<?php // Resize Modal
 	$resizeModalData = array(
 		'selector' => 'resizeModal',

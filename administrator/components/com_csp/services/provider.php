@@ -19,7 +19,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
 /**
- * The cache service provider.
+ * The com_csp service provider.
  *
  * @since  4.0.0
  */

@@ -52,7 +52,7 @@ class FileModel extends FormModel
 	 *
 	 * @param   string  $path  The path to get the information from.
 	 *
-	 * @return  \stdClass  A object with file information
+	 * @return  \stdClass  An object with file information
 	 *
 	 * @since   4.0.0
 	 * @see     ApiModel::getFile()

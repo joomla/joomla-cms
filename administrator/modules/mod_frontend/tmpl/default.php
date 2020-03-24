@@ -18,7 +18,7 @@ use Joomla\CMS\Uri\Uri;
 		title="<?php echo Text::sprintf('MOD_FRONTEND_PREVIEW', $sitename); ?>"
 		target="_blank">
 		<div class="d-flex align-items-end mx-auto">
-			<span class="fa fa-external-link-alt" aria-hidden="true"></span>
+			<span class="fas fa-external-link-alt" aria-hidden="true"></span>
 		</div>
 		<div class="align-items-center tiny">
 			<?php echo HTMLHelper::_('string.truncate', $sitename, 28, false, false); ?>

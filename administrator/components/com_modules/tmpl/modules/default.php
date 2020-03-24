@@ -109,10 +109,10 @@ if ($saveOrder && !empty($this->items))
 							}
 							?>
 							<span class="sortable-handler<?php echo $iconClass; ?>">
-								<span class="fa fa-ellipsis-v"></span>
+								<span class="fas fa-ellipsis-v"></span>
 							</span>
 							<?php if ($canChange && $saveOrder) : ?>
-								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
+								<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 							<?php endif; ?>
 						</td>
 						<td class="text-center">
@@ -122,7 +122,7 @@ if ($saveOrder && !empty($this->items))
 							<?php else : ?>
 								<?php // Extension is not enabled, show a message that indicates this. ?>
 								<span class="tbody-icon" title="<?php echo Text::sprintf('COM_MODULES_MSG_MANAGE_EXTENSION_DISABLED', $this->escape($item->name)); ?>">
-									<span class="icon-ban-circle" aria-hidden="true"></span>
+									<span class="fas fa-minus-circle" aria-hidden="true"></span>
 								</span>
 							<?php endif; ?>
 						</td>
