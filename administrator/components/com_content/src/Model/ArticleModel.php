@@ -13,12 +13,16 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\WorkflowBehaviorTrait;
+use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Category;
@@ -41,8 +45,10 @@ use Joomla\Utilities\ArrayHelper;
  * @since  1.6
  */
 
-class ArticleModel extends AdminModel
+class ArticleModel extends AdminModel implements WorkflowModelInterface
 {
+	use WorkflowBehaviorTrait;
+
 	/**
 	 * The prefix to use with controller messages.
 	 *
@@ -66,6 +72,13 @@ class ArticleModel extends AdminModel
 	 * @since  3.4.4
 	 */
 	protected $associationsContext = 'com_content.item';
+
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null) {
+
+		parent::__construct($config, $factory, $formFactory);
+
+		$this->setUpWorkflow('com_content.article');
+	}
 
 	/**
 	 * Function that can be overriden to do any data cleanup after batch copying data
@@ -1273,6 +1286,8 @@ class ArticleModel extends AdminModel
 				$form->load($addform, false);
 			}
 		}
+
+		$this->preprocessFormWorkflow($form, $data);
 
 		parent::preprocessForm($form, $data, $group);
 	}
