@@ -233,12 +233,12 @@ CREATE TABLE IF NOT EXISTS "#__categories" (
   "title" varchar(255) DEFAULT '' NOT NULL,
   "alias" varchar(255) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
-  "description" text DEFAULT '' NOT NULL,
+  "description" text,
   "published" smallint DEFAULT 0 NOT NULL,
   "checked_out" bigint DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone,
   "access" bigint DEFAULT 0 NOT NULL,
-  "params" text DEFAULT '' NOT NULL,
+  "params" text,
   "metadesc" varchar(1024) DEFAULT '' NOT NULL,
   "metakey" varchar(1024) DEFAULT '' NOT NULL,
   "metadata" varchar(2048) DEFAULT '' NOT NULL,
@@ -619,7 +619,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_content_loadmodule', 'plugin', 'loadmodule', 'content', 0, 1, 1, 0, '', '{"style":"xhtml"}', 0, NULL, 0, 0),
 (0, 'plg_content_pagebreak', 'plugin', 'pagebreak', 'content', 0, 1, 1, 0, '', '{"title":"1","multipage_toc":"1","showall":"1"}', 0, NULL, 4, 0),
 (0, 'plg_content_pagenavigation', 'plugin', 'pagenavigation', 'content', 0, 1, 1, 0, '', '{"position":"1"}', 0, NULL, 5, 0),
-(0, 'plg_content_vote', 'plugin', 'vote', 'content', 0, 1, 1, 0, '', '', 0, NULL, 6, 0),
+(0, 'plg_content_vote', 'plugin', 'vote', 'content', 0, 0, 1, 0, '', '', 0, NULL, 6, 0),
 (0, 'plg_editors_codemirror', 'plugin', 'codemirror', 'editors', 0, 1, 1, 1, '', '{"lineNumbers":"1","lineWrapping":"1","matchTags":"1","matchBrackets":"1","marker-gutter":"1","autoCloseTags":"1","autoCloseBrackets":"1","autoFocus":"1","theme":"default","tabmode":"indent"}', 0, NULL, 1, 0),
 (0, 'plg_editors_none', 'plugin', 'none', 'editors', 0, 1, 1, 1, '', '', 0, NULL, 2, 0),
 (0, 'plg_editors_tinymce', 'plugin', 'tinymce', 'editors', 0, 1, 1, 0, '', '{"configuration":{"toolbars":{"2":{"toolbar1":["bold","underline","strikethrough","|","undo","redo","|","bullist","numlist","|","pastetext"]},"1":{"menu":["edit","insert","view","format","table","tools"],"toolbar1":["bold","italic","underline","strikethrough","|","alignleft","aligncenter","alignright","alignjustify","|","formatselect","|","bullist","numlist","|","outdent","indent","|","undo","redo","|","link","unlink","anchor","code","|","hr","table","|","subscript","superscript","|","charmap","pastetext","preview"]},"0":{"menu":["edit","insert","view","format","table","tools"],"toolbar1":["bold","italic","underline","strikethrough","|","alignleft","aligncenter","alignright","alignjustify","|","styleselect","|","formatselect","fontselect","fontsizeselect","|","searchreplace","|","bullist","numlist","|","outdent","indent","|","undo","redo","|","link","unlink","anchor","image","|","code","|","forecolor","backcolor","|","fullscreen","|","table","|","subscript","superscript","|","charmap","emoticons","media","hr","ltr","rtl","|","cut","copy","paste","pastetext","|","visualchars","visualblocks","nonbreaking","blockquote","template","|","print","preview","codesample","insertdatetime","removeformat"]}},"setoptions":{"2":{"access":["1"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"0","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""},"1":{"access":["6","2"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"0","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""},"0":{"access":["7","4","8"],"skin":"0","skin_admin":"0","mobile":"0","drag_drop":"1","path":"","entity_encoding":"raw","lang_mode":"1","text_direction":"ltr","content_css":"1","content_css_custom":"","relative_urls":"1","newlines":"0","use_config_textfilters":"0","invalid_elements":"script,applet,iframe","valid_elements":"","extended_elements":"","resizing":"1","resize_horizontal":"1","element_path":"1","wordcount":"1","image_advtab":"1","advlist":"1","autosave":"1","contextmenu":"1","custom_plugin":"","custom_button":""}}},"sets_amount":3,"html_height":"550","html_width":"750"}', 0, NULL, 3, 0),
@@ -635,7 +635,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_system_remember', 'plugin', 'remember', 'system', 0, 1, 1, 1, '', '', 0, NULL, 7, 0),
 (0, 'plg_system_sef', 'plugin', 'sef', 'system', 0, 1, 1, 0, '', '', 0, NULL, 8, 0),
 (0, 'plg_system_logout', 'plugin', 'logout', 'system', 0, 1, 1, 1, '', '', 0, NULL, 6, 0),
-(0, 'plg_user_contactcreator', 'plugin', 'contactcreator', 'user', 0, 0, 1, 0, '', '{"autowebpage":"","category":"34","autopublish":"0"}', 0, NULL, 1, 0),
+(0, 'plg_user_contactcreator', 'plugin', 'contactcreator', 'user', 0, 0, 1, 0, '', '{"autowebpage":"","category":"4","autopublish":"0"}', 0, NULL, 1, 0),
 (0, 'plg_user_joomla', 'plugin', 'joomla', 'user', 0, 1, 1, 0, '', '{"autoregister":"1","mail_to_user":"1","forceLogout":"1"}', 0, NULL, 2, 0),
 (0, 'plg_user_profile', 'plugin', 'profile', 'user', 0, 0, 1, 0, '', '{"register-require_address1":"1","register-require_address2":"1","register-require_city":"1","register-require_region":"1","register-require_country":"1","register-require_postal_code":"1","register-require_phone":"1","register-require_website":"1","register-require_favoritebook":"1","register-require_aboutme":"1","register-require_tos":"1","register-require_dob":"1","profile-require_address1":"1","profile-require_address2":"1","profile-require_city":"1","profile-require_region":"1","profile-require_country":"1","profile-require_postal_code":"1","profile-require_phone":"1","profile-require_website":"1","profile-require_favoritebook":"1","profile-require_aboutme":"1","profile-require_tos":"1","profile-require_dob":"1"}', 0, NULL, 0, 0),
 (0, 'plg_extension_joomla', 'plugin', 'joomla', 'extension', 0, 1, 1, 1, '', '', 0, NULL, 1, 0),
@@ -716,9 +716,9 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_webservices_contact', 'plugin', 'contact', 'webservices', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_webservices_content', 'plugin', 'content', 'webservices', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_webservices_languages', 'plugin', 'languages', 'webservices', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
+(0, 'plg_webservices_menus', 'plugin', 'menus', 'webservices', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_webservices_messages', 'plugin', 'messages', 'webservices', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_webservices_modules', 'plugin', 'modules', 'webservices', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
-(0, 'plg_webservices_menus', 'plugin', 'menus', 'webservices', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_webservices_newsfeeds', 'plugin', 'newsfeeds', 'webservices', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_webservices_plugins', 'plugin', 'plugins', 'webservices', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_webservices_privacy', 'plugin', 'privacy', 'webservices', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0),
@@ -736,7 +736,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_fields_subfields', 'plugin', 'subfields', 'fields', 0, 1, 1, 0, '', '', 0, NULL, 0, 0),
 (0, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', 0, NULL, 0, 0),
 (0, 'English (en-GB) Language Pack', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', 0, NULL, 0, 0),
-(0, 'plg_system_webauthn', 'plugin', 'webauthn', 'system', 0, 1, 1, 0, '', '{}', 0, NULL, 8, 0);
+(0, 'plg_system_webauthn', 'plugin', 'webauthn', 'system', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0);
 
 
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state")
@@ -745,6 +745,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 SELECT "extension_id", 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', 0, NULL, 0, 0 FROM "#__extensions" WHERE "name" = 'English (en-GB) Language Pack';
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state")
 SELECT "extension_id", 'English (en-GB)', 'language', 'en-GB', '', 3, 1, 1, 1, '', '', 0, NULL, 0, 0 FROM "#__extensions" WHERE "name" = 'English (en-GB) Language Pack';
+
 --
 -- Table structure for table `#__fields`
 --
@@ -757,17 +758,17 @@ CREATE TABLE IF NOT EXISTS "#__fields" (
   "title" varchar(255) DEFAULT '' NOT NULL,
   "name" varchar(255) DEFAULT '' NOT NULL,
   "label" varchar(255) DEFAULT '' NOT NULL,
-  "default_value" text DEFAULT '' NOT NULL,
+  "default_value" text,
   "type" varchar(255) DEFAULT 'text' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
-  "description" text DEFAULT '' NOT NULL,
+  "description" text NOT NULL,
   "state" smallint DEFAULT 0 NOT NULL,
   "required" smallint DEFAULT 0 NOT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone,
   "ordering" bigint DEFAULT 0 NOT NULL,
-  "params" text DEFAULT '' NOT NULL,
-  "fieldparams" text DEFAULT '' NOT NULL,
+  "params" text NOT NULL,
+  "fieldparams" text NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "created_time" timestamp without time zone NOT NULL,
   "created_user_id" bigint DEFAULT 0 NOT NULL,
@@ -808,7 +809,7 @@ CREATE TABLE IF NOT EXISTS "#__fields_groups" (
   "checked_out" integer DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone,
   "ordering" integer DEFAULT 0 NOT NULL,
-  "params" text DEFAULT '' NOT NULL,
+  "params" text NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "created" timestamp without time zone NOT NULL,
   "created_by" bigint DEFAULT 0 NOT NULL,
@@ -831,7 +832,7 @@ CREATE INDEX "#__fields_groups_idx_language" ON "#__fields_groups" ("language");
 CREATE TABLE IF NOT EXISTS "#__fields_values" (
 "field_id" bigint DEFAULT 0 NOT NULL,
 "item_id" varchar(255) DEFAULT '' NOT NULL,
-"value" text DEFAULT '' NOT NULL
+"value" text
 );
 CREATE INDEX "#__fields_values_idx_field_id" ON "#__fields_values" ("field_id");
 CREATE INDEX "#__fields_values_idx_item_id" ON "#__fields_values" ("item_id");
@@ -1288,7 +1289,7 @@ CREATE TABLE IF NOT EXISTS "#__menu" (
   "access" bigint DEFAULT 0 NOT NULL,
   "img" varchar(255) DEFAULT '' NOT NULL,
   "template_style_id" integer DEFAULT 0 NOT NULL,
-  "params" text DEFAULT '' NOT NULL,
+  "params" text NOT NULL,
   "lft" bigint DEFAULT 0 NOT NULL,
   "rgt" bigint DEFAULT 0 NOT NULL,
   "home" smallint DEFAULT 0 NOT NULL,
@@ -1754,7 +1755,7 @@ CREATE TABLE IF NOT EXISTS "#__tags" (
   "title" varchar(255) NOT NULL,
   "alias" varchar(255) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
-  "description" text DEFAULT '' NOT NULL,
+  "description" text NOT NULL,
   "published" smallint DEFAULT 0 NOT NULL,
   "checked_out" bigint DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone,
@@ -1831,7 +1832,7 @@ CREATE INDEX "#__template_styles_idx_client_id" ON "#__template_styles" ("client
 CREATE INDEX "#__template_styles_idx_client_id_home" ON "#__template_styles" ("client_id", "home");
 
 --
--- Dumping data for table #__template_styles
+-- Dumping data for table `#__template_styles`
 --
 
 INSERT INTO "#__template_styles" ("id", "template", "client_id", "home", "title", "params") VALUES
@@ -1864,14 +1865,14 @@ CREATE TABLE IF NOT EXISTS "#__ucm_content" (
   "core_type_alias" varchar(255) DEFAULT '' NOT NULL,
   "core_title" varchar(255) DEFAULT '' NOT NULL,
   "core_alias" varchar(255) DEFAULT '' NOT NULL,
-  "core_body" text NOT NULL DEFAULT '',
+  "core_body" text,
   "core_state" smallint DEFAULT 0 NOT NULL,
   "core_checked_out_time" timestamp without time zone,
   "core_checked_out_user_id" bigint DEFAULT 0 NOT NULL,
   "core_access" bigint DEFAULT 0 NOT NULL,
-  "core_params" text DEFAULT '' NOT NULL,
+  "core_params" text,
   "core_featured" smallint DEFAULT 0 NOT NULL,
-  "core_metadata" text DEFAULT '' NOT NULL,
+  "core_metadata" text,
   "core_created_user_id" bigint DEFAULT 0 NOT NULL,
   "core_created_by_alias" varchar(255) DEFAULT '' NOT NULL,
   "core_created_time" timestamp without time zone NOT NULL,
@@ -1882,13 +1883,13 @@ CREATE TABLE IF NOT EXISTS "#__ucm_content" (
   "core_publish_down" timestamp without time zone,
   "core_content_item_id" bigint DEFAULT 0 NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
-  "core_images" text DEFAULT '' NOT NULL,
-  "core_urls" text DEFAULT '' NOT NULL,
+  "core_images" text,
+  "core_urls" text,
   "core_hits" bigint DEFAULT 0 NOT NULL,
   "core_version" bigint DEFAULT 1 NOT NULL,
   "core_ordering" bigint DEFAULT 0 NOT NULL,
-  "core_metakey" text DEFAULT '' NOT NULL,
-  "core_metadesc" text DEFAULT '' NOT NULL,
+  "core_metakey" text,
+  "core_metadesc" text,
   "core_catid" bigint DEFAULT 0 NOT NULL,
   "core_type_id" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("core_content_id"),
@@ -2077,6 +2078,7 @@ CREATE TABLE IF NOT EXISTS "#__users" (
 CREATE INDEX "#__users_idx_name" ON "#__users" ("name");
 CREATE INDEX "#__users_idx_block" ON "#__users" ("block");
 CREATE INDEX "#__users_email" ON "#__users" ("email");
+CREATE INDEX "#__users_email_lower" ON "#__users" (lower("email"));
 
 COMMENT ON COLUMN "#__users"."lastResetTime" IS 'Date of last password reset';
 COMMENT ON COLUMN "#__users"."resetCount" IS 'Count of password resets since lastResetTime';
@@ -2156,7 +2158,7 @@ COMMENT ON COLUMN "#__user_usergroup_map"."group_id" IS 'Foreign Key to #__userg
 CREATE TABLE "#__action_logs" (
   "id" serial NOT NULL,
   "message_language_key" varchar(255) NOT NULL DEFAULT '',
-  "message" text NOT NULL DEFAULT '',
+  "message" text NOT NULL,
   "log_date" timestamp without time zone NOT NULL,
   "extension" varchar(50) NOT NULL DEFAULT '',
   "user_id" integer DEFAULT 0 NOT NULL,
@@ -2180,7 +2182,7 @@ CREATE TABLE "#__action_logs_extensions" (
 );
 
 --
--- Dumping data for table '#__action_logs_extensions'
+-- Dumping data for table `#__action_logs_extensions`
 --
 INSERT INTO "#__action_logs_extensions" ("id", "extension") VALUES
 (1, 'com_banners'),
@@ -2220,7 +2222,7 @@ CREATE TABLE "#__action_log_config" (
 );
 
 --
--- Dumping data for table #__action_log_config
+-- Dumping data for table `#__action_log_config`
 --
 INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder", "title_holder", "table_name", "text_prefix") VALUES
 (1, 'article', 'com_content.article', 'id' ,'title' , '#__content', 'PLG_ACTIONLOG_JOOMLA'),
@@ -2289,7 +2291,7 @@ INSERT INTO "#__viewlevels" ("id", "title", "ordering", "rules") VALUES
 SELECT setval('#__viewlevels_id_seq', 7, false);
 
 --
--- Table structure for table "#__webauthn_credentials"
+-- Table structure for table `#__webauthn_credentials`
 --
 
 CREATE TABLE IF NOT EXISTS "#__webauthn_credentials" (
@@ -2303,7 +2305,7 @@ CREATE TABLE IF NOT EXISTS "#__webauthn_credentials" (
 CREATE INDEX "#__webauthn_credentials_user_id" ON "#__webauthn_credentials" ("user_id");
 
 --
--- Table structure for table "#__workflows"
+-- Table structure for table `#__workflows`
 --
 
 CREATE TABLE IF NOT EXISTS "#__workflows" (
@@ -2341,7 +2343,7 @@ INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description
 SELECT setval('#__workflows_id_seq', 2, false);
 
 --
--- Table structure for table "#__workflow_associations"
+-- Table structure for table `#__workflow_associations`
 --
 
 CREATE TABLE IF NOT EXISTS "#__workflow_associations" (
@@ -2359,7 +2361,7 @@ COMMENT ON COLUMN "#__workflow_associations"."item_id" IS 'Extension table id va
 COMMENT ON COLUMN "#__workflow_associations"."stage_id" IS 'Foreign Key to #__workflow_stages.id';
 
 --
--- Table structure for table "#__workflow_stages"
+-- Table structure for table `#__workflow_stages`
 --
 
 CREATE TABLE IF NOT EXISTS "#__workflow_stages" (
@@ -2370,6 +2372,7 @@ CREATE TABLE IF NOT EXISTS "#__workflow_stages" (
   "published" smallint NOT NULL  DEFAULT 0,
   "title" varchar(255) NOT NULL,
   "description" text NOT NULL,
+  "condition" bigint DEFAULT 0 NOT NULL,
   "default" smallint NOT NULL  DEFAULT 0,
   "checked_out_time" timestamp without time zone,
   "checked_out" bigint DEFAULT 0 NOT NULL,
@@ -2382,18 +2385,19 @@ CREATE INDEX "#__workflow_stages_idx_default" ON "#__workflow_stages" ("default"
 CREATE INDEX "#__workflow_stages_idx_checked_out" ON "#__workflow_stages" ("checked_out");
 
 --
--- Dumping data for table "#__workflow_stages"
+-- Dumping data for table `#__workflow_stages`
 --
 
-INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "default", "checked_out_time", "checked_out") VALUES
-(1, 0, 1, 1, 1, 'JUNPUBLISHED', '', 1, NULL, 0),
-(2, 0, 2, 1, 1, 'JPUBLISHED', '', 0, NULL, 0),
-(3, 0, 3, 1, 1, 'JTRASHED', '', 0, NULL, 0),
-(4, 0, 4, 1, 1, 'JARCHIVED', '', 0, NULL, 0);
+INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "condition", "default", "checked_out_time", "checked_out") VALUES
+(1, 57, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1, NULL, 0),
+(2, 58, 2, 1, 1, 'JPUBLISHED', '', 1, 0, NULL, 0),
+(3, 59, 3, 1, 1, 'JTRASHED', '', -2, 0, NULL, 0),
+(4, 60, 4, 1, 1, 'JARCHIVED', '', 2, 0, NULL, 0);
 
 SELECT setval('#__workflow_stages_id_seq', 5, false);
+
 --
--- Table structure for table "#__workflow_transitions"
+-- Table structure for table `#__workflow_transitions`
 --
 
 CREATE TABLE IF NOT EXISTS "#__workflow_transitions" (
@@ -2418,15 +2422,15 @@ CREATE INDEX "#__workflow_transitions_idx_workflow_id" ON "#__workflow_transitio
 CREATE INDEX "#__workflow_transitions_idx_checked_out" ON "#__workflow_transitions" ("checked_out");
 
 INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_stage_id", "to_stage_id", "checked_out_time", "checked_out") VALUES
-(1, 0, 1, 1, 1, 'Unpublish', '', -1, 1, NULL, 0),
-(2, 0, 1, 2, 1, 'Publish', '', -1, 2, NULL, 0),
-(3, 0, 1, 3, 1, 'Trash', '', -1, 3, NULL, 0),
-(4, 0, 1, 4, 1, 'Archive', '', -1, 4, NULL, 0);
+(1, 61, 1, 1, 1, 'Unpublish', '', -1, 1, NULL, 0),
+(2, 62, 1, 2, 1, 'Publish', '', -1, 2, NULL, 0),
+(3, 63, 1, 3, 1, 'Trash', '', -1, 3, NULL, 0),
+(4, 64, 1, 4, 1, 'Archive', '', -1, 4, NULL, 0);
 
 SELECT setval('#__workflow_transitions_id_seq', 5, false);
 
 --
--- Table structure for table "#__mail_templates"
+-- Table structure for table `#__mail_templates`
 --
 
 CREATE TABLE IF NOT EXISTS "#__mail_templates" (
@@ -2443,7 +2447,7 @@ CREATE INDEX "#__mail_templates_idx_template_id" ON "#__mail_templates" ("templa
 CREATE INDEX "#__mail_templates_idx_language" ON "#__mail_templates" ("language");
 
 --
--- Dumping data for table "#__mail_templates"
+-- Dumping data for table `#__mail_templates`
 --
 
 INSERT INTO "#__mail_templates" ("template_id", "language", "subject", "body", "htmlbody", "attachments", "params") VALUES
