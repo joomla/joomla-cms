@@ -71,7 +71,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 
 		$this->loggableExtensions = $params->get('loggable_extensions', []);
 
-		$this->loggableApi        = $params->get('loggable_api', false);
+		$this->loggableApi        = $params->get('loggable_api', 0);
 
 		$this->loggableVerbs      = $params->get('loggable_verbs', []);
 	}
@@ -1083,7 +1083,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		if (!$this->loggableApi)
+		if ($this->loggableApi === 0)
 		{
 			return;
 		}
