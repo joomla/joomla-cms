@@ -7,12 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
-
-HTMLHelper::_('script', 'legacy/toolbar.min.js', array('version' => 'auto', 'relative' => true));
 ?>
-<nav aria-label="<?php echo Text::_('JTOOLBAR'); ?>">
-<div class="btn-toolbar d-flex" role="toolbar" id="<?php echo $displayData['id']; ?>">
+<div class="btn-toolbar" role="toolbar" aria-label="<?php echo JText::_('JTOOLBAR'); ?>" id="<?php echo $displayData['id']; ?>">
