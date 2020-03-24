@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Content\Site\View\Archive;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;

@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Associations\Administrator\Dispatcher;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;

@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Finder\Site\View\Search;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
