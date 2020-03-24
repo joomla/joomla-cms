@@ -209,6 +209,8 @@ class ApiController extends BaseController
 		if (\array_key_exists('limit', $paginationInfo))
 		{
 			$this->modelState->set($this->context . '.list.limit', $paginationInfo['limit']);
+
+			$this->input->set('limit', $paginationInfo['limit']);
 		}
 
 		$viewType   = $this->app->getDocument()->getType();
