@@ -388,15 +388,20 @@ class Language
 	 */
 	public function transliterate($string)
 	{
+		// Override custom and core transliterate method with native php function if enabled
+		if (function_exists('transliterator_transliterate') && function_exists('iconv'))
+		{
+			return iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $string));
+		}
+
 		if ($this->transliterator !== null)
 		{
 			return \call_user_func($this->transliterator, $string);
 		}
 
 		$string = Transliterate::utf8_latin_to_ascii($string);
-		$string = StringHelper::strtolower($string);
 
-		return $string;
+		return StringHelper::strtolower($string);
 	}
 
 	/**
@@ -698,7 +703,7 @@ class Language
 
 		$path = LanguageHelper::getLanguagePath($basePath, $lang);
 
-		$internal = $extension == 'joomla' || $extension == '';
+		$internal = $extension === 'joomla' || $extension == '';
 
 		$filenames = array();
 

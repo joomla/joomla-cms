@@ -344,8 +344,8 @@ class HtmlView extends AbstractView
 
 		// Load the language file for the template
 		$lang = Factory::getLanguage();
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
-		|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
+		$lang->load('tpl_' . $template, JPATH_BASE)
+		|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template");
 
 		// Change the template folder if alternative layout is in different template
 		if (isset($layoutTemplate) && $layoutTemplate !== '_' && $layoutTemplate != $template)
@@ -484,7 +484,7 @@ class HtmlView extends AbstractView
 			$dir = Path::clean($dir);
 
 			// Add trailing separators as needed
-			if (substr($dir, -1) != DIRECTORY_SEPARATOR)
+			if (substr($dir, -1) !== DIRECTORY_SEPARATOR)
 			{
 				// Directory
 				$dir .= DIRECTORY_SEPARATOR;

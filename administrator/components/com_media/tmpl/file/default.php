@@ -27,9 +27,7 @@ HTMLHelper::_('script', 'com_media/edit-images.js', ['version' => 'auto', 'relat
 
 $params = ComponentHelper::getParams('com_media');
 
-/**
- * @var JForm $form
- */
+/** @var \Joomla\CMS\Form\Form $form */
 $form = $this->form;
 
 $tmpl = Factory::getApplication()->input->getCmd('tmpl');
@@ -60,7 +58,7 @@ $this->useCoreUI = true;
 	<?php $fieldSets = $form->getFieldsets(); ?>
 	<?php if ($fieldSets) : ?>
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name)); ?>
-		<?php echo '<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around form-validate col-md-9 p-4"></div>'; ?>
+		<?php echo '<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around col-md-9 p-4"></div>'; ?>
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	<?php endif; ?>

@@ -1,4 +1,7 @@
 // Utilities
+* {
+  box-sizing: border-box;
+}
 
 // Keep B/C
 .element-invisible {
@@ -18,19 +21,31 @@
   visibility: hidden;
 }
 
+.table-row {
+  display: table-row;
+}
 
 // Column Count
 
 [class^='column-'],
 [class*=' column-'] {
-  display: block !important; // This can be removed if grid forms removed globally
-  column-gap: 2rem;
   padding-bottom: 1rem;
+  column-gap: 2rem;
 
   > div {
-    display: inline-block;
-    break-inside: avoid;
+    display: inline-flex;
+    flex-direction: column;
     width: 100%;
+    break-inside: avoid;
+    page-break-inside: avoid;
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  .form-no-columns & {
+    column-count: auto;
   }
 }
 

@@ -40,55 +40,23 @@ abstract class JHtmlJquery
 	 *
 	 * @since   3.0
 	 *
-	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enableAsset();
+	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::useAsset();
 	 */
 	public static function framework($noConflict = true, $debug = null, $migrate = false)
 	{
 		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-		$wa->enableAsset('jquery');
+		$wa->useScript('jquery');
 
 		// Check if we are loading in noConflict
 		if ($noConflict)
 		{
-			$wa->enableAsset('jquery-noconflict');
+			$wa->useScript('jquery-noconflict');
 		}
 
 		// Check if we are loading Migrate
 		if ($migrate)
 		{
-			$wa->enableAsset('jquery-migrate');
-		}
-
-		return;
-	}
-
-	/**
-	 * Method to load the jQuery UI JavaScript framework into the document head
-	 *
-	 * If debugging mode is on an uncompressed version of jQuery UI is included for easier debugging.
-	 *
-	 * @param   array  $components  The jQuery UI components to load [optional]
-	 * @param   mixed  $debug       Is debugging mode on? [optional]
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 *
-	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enableAsset();
-	 */
-	public static function ui(array $components = array('core'), $debug = null)
-	{
-		// Set an array containing the supported jQuery UI components handled by this method
-		$supported = array('core', 'sortable');
-
-		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-
-		foreach ($components as $component)
-		{
-			if (in_array($component, $supported))
-			{
-				$wa->enableAsset('jquery.ui.' . $component);
-			}
+			$wa->useScript('jquery-migrate');
 		}
 
 		return;

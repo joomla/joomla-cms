@@ -160,13 +160,13 @@ class FilelistField extends ListField
 			$this->exclude    = (string) $this->element['exclude'];
 
 			$hideNone       = (string) $this->element['hide_none'];
-			$this->hideNone = ($hideNone == 'true' || $hideNone == 'hideNone' || $hideNone == '1');
+			$this->hideNone = ($hideNone === 'true' || $hideNone === 'hideNone' || $hideNone === '1');
 
 			$hideDefault       = (string) $this->element['hide_default'];
-			$this->hideDefault = ($hideDefault == 'true' || $hideDefault == 'hideDefault' || $hideDefault == '1');
+			$this->hideDefault = ($hideDefault === 'true' || $hideDefault === 'hideDefault' || $hideDefault === '1');
 
 			$stripExt       = (string) $this->element['stripext'];
-			$this->stripExt = ($stripExt == 'true' || $stripExt == 'stripExt' || $stripExt == '1');
+			$this->stripExt = ($stripExt === 'true' || $stripExt === 'stripExt' || $stripExt === '1');
 
 			// Get the path in which to search for file options.
 			$this->directory = (string) $this->element['directory'];

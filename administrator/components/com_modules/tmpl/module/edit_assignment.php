@@ -47,8 +47,9 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 					<a id="treeExpandAll" href="javascript://"><?php echo Text::_('JALL'); ?></a>,
 					<a id="treeCollapseAll" href="javascript://"><?php echo Text::_('JNONE'); ?></a>
 				</span>
-				<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query float-right" size="16"
-					autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>" aria-invalid="false" tabindex="-1">
+				<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query"
+					autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
+					aria-invalid="false" aria-label="<?php echo Text::_('JSEARCH_FILTER'); ?>">
 			</div>
 			<div class="card-body">
 				<ul class="treeselect">
@@ -117,8 +118,8 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 						<?php endif; ?>
 					<?php endforeach; ?>
 				</ul>
-				<joomla-alert id="noresultsfound" type="warning" style="display:none;"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
-				<div style="display:none" id="treeselectmenu">
+				<joomla-alert id="noresultsfound" type="warning" class="hidden"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+				<div class="hidden" id="treeselectmenu">
 					<div class="nav-hover treeselect-menu">
 						<div class="dropdown">
 							<button type="button" data-toggle="dropdown" class="dropdown-toggle btn btn-sm btn-light">
@@ -128,12 +129,12 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 							<div class="dropdown-menu">
 								<h5 class="dropdown-header"><?php echo Text::_('COM_MODULES_SUBITEMS'); ?></h5>
 								<div class="dropdown-divider"></div>
-								<a class="dropdown-item checkall" href="javascript://"><span class="icon-checkbox" aria-hidden="true"></span> <?php echo Text::_('JSELECT'); ?></a>
-								<a class="dropdown-item uncheckall" href="javascript://"><span class="icon-checkbox-unchecked" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_DESELECT'); ?></a>
+								<a class="dropdown-item checkall" href="javascript://"><span class="fas fa-check-square" aria-hidden="true"></span> <?php echo Text::_('JSELECT'); ?></a>
+								<a class="dropdown-item uncheckall" href="javascript://"><span class="fas fa-square" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_DESELECT'); ?></a>
 								<div class="treeselect-menu-expand">
 									<div class="dropdown-divider"></div>
-									<a class="dropdown-item expandall" href="javascript://"><span class="icon-plus" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_EXPAND'); ?></a>
-									<a class="dropdown-item collapseall" href="javascript://"><span class="icon-minus" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_COLLAPSE'); ?></a>
+									<a class="dropdown-item expandall" href="javascript://"><span class="fas fa-plus" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_EXPAND'); ?></a>
+									<a class="dropdown-item collapseall" href="javascript://"><span class="fas fa-minus" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_COLLAPSE'); ?></a>
 								</div>
 							</div>
 						</div>

@@ -133,7 +133,7 @@ abstract class MailHelper
 		$allowed = "a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-";
 		$regex = "/^[$allowed][\.$allowed]{0,63}$/";
 
-		if (!preg_match($regex, $local) || substr($local, -1) == '.' || $local[0] == '.' || preg_match('/\.\./', $local))
+		if (!preg_match($regex, $local) || substr($local, -1) === '.' || $local[0] === '.' || preg_match('/\.\./', $local))
 		{
 			return false;
 		}

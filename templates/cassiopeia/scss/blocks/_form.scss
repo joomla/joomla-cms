@@ -18,51 +18,6 @@
 
 }
 
-.control-group::after {
-  display: table;
-  clear: both;
-  content: "";
-}
-
-form:not(.form-no-margin) {
-
-  .control-group {
-    margin-bottom: 18px;
-
-    .control-label {
-      float: left;
-      width: auto;
-      padding-top: 5px;
-      padding-right: 5px;
-      text-align: left;
-    }
-
-    .controls {
-      margin-left: 220px;
-    }
-
-  }
-
-}
-
-.form-no-margin {
-
-  .control-group {
-
-    .controls {
-      margin-left: 0;
-
-      .switcher__legend {
-        float: none;
-      }
-    }
-
-    .control-label {
-      float: none;
-    }
-  }
-}
-
 .spacer hr {
   width: 380px;
 }
@@ -73,6 +28,12 @@ form:not(.form-no-margin) {
 
 .form-inline .custom-select {
   width: auto;
+}
+
+@include media-breakpoint-down(sm) {
+  .form-inline .custom-select {
+    width: 100%;
+  }
 }
 
 td .form-control {
@@ -106,4 +67,39 @@ td .form-control {
 
 .form-control-feedback {
   display: block;
+}
+
+// set up hidden tooltip
+[role="tooltip"]:not(.show) {
+  z-index: $zindex-tooltip;
+  display: none;
+  max-width: 100%;
+  padding: .25em;
+  margin: .25em;
+  color: $white;
+  background: $black;
+
+  [dir=ltr] & {
+    text-align: left;
+  }
+
+  [dir=rtl] & {
+    text-align: right;
+  }
+}
+
+// reveal associated tooltip on focus
+:focus + [role="tooltip"],
+:hover + [role="tooltip"] {
+  position: absolute;
+  display: block;
+}
+
+[id="filter[search]-desc"] {
+  bottom: 100%;
+}
+
+.container-popup [id="filter[search]-desc"] {
+  top: 100%;
+  bottom: auto;
 }

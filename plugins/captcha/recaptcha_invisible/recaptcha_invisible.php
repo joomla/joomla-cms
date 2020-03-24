@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Utilities\IpHelper;
 
 /**
@@ -20,7 +20,7 @@ use Joomla\Utilities\IpHelper;
  *
  * @since  3.9.0
  */
-class PlgCaptchaRecaptcha_Invisible extends \JPlugin
+class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -29,6 +29,14 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;
 
 	/**
 	 * Reports the privacy related capabilities for this plugin to site administrators.
@@ -67,25 +75,13 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PUBLIC_KEY'));
 		}
 
-		// Load callback first for browser compatibility
-		HTMLHelper::_(
-			'script',
-			'plg_captcha_recaptcha_invisible/recaptcha.min.js',
-			array('version' => 'auto', 'relative' => true),
-			array('async' => 'async', 'defer' => 'defer')
-		);
+		$apiSrc = 'https://www.google.com/recaptcha/api.js?onload=Joomla.initReCaptchaInvisible&render=explicit&hl='
+			. Factory::getLanguage()->getTag();
 
-		// Load Google reCAPTCHA api js
-		$file = 'https://www.google.com/recaptcha/api.js'
-			. '?onload=Joomla.initReCaptchaInvisible'
-			. '&render=explicit'
-			. '&hl=' . Factory::getLanguage()->getTag();
-		HTMLHelper::_(
-			'script',
-			$file,
-			array(),
-			array('async' => 'async', 'defer' => 'defer')
-		);
+		// Load assets, the callback should be first
+		$this->app->getDocument()->getWebAssetManager()
+			->registerAndUseScript('plg_captcha_recaptchainvisible', 'plg_captcha_recaptcha_invisible/recaptcha.min.js', [], ['defer' => true])
+			->registerAndUseScript('plg_captcha_recaptchainvisible.api', $apiSrc, [], ['defer' => true], ['plg_captcha_recaptchainvisible']);
 
 		return true;
 	}
