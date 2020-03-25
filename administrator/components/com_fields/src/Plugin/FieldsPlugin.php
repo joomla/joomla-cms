@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Fields\Administrator\Plugin;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;

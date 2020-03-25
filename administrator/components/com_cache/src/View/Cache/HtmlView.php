@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Cache\Administrator\View\Cache;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Exception;
 use Joomla\CMS\Factory;

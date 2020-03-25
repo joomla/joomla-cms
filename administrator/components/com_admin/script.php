@@ -92,6 +92,9 @@ class JoomlaInstallerScript
 			// Informational log only
 		}
 
+		// Ensure we delete the repeatable fields plugin before we remove its files
+		$this->uninstallRepeatableFieldsPlugin();
+
 		// This needs to stay for 2.5 update compatibility
 		$this->deleteUnexistingFiles();
 		$this->updateManifestCaches();
@@ -99,7 +102,6 @@ class JoomlaInstallerScript
 		$this->updateAssets($installer);
 		$this->clearStatsCache();
 		$this->convertTablesToUtf8mb4(true);
-		$this->uninstallRepeatableFieldsPlugin();
 		$this->cleanJoomlaCache();
 
 		// VERY IMPORTANT! THIS METHOD SHOULD BE CALLED LAST, SINCE IT COULD
@@ -1941,8 +1943,6 @@ class JoomlaInstallerScript
 			'/administrator/language/en-GB/en-GB.plg_fields_media.sys.ini',
 			'/administrator/language/en-GB/en-GB.plg_fields_radio.ini',
 			'/administrator/language/en-GB/en-GB.plg_fields_radio.sys.ini',
-			'/administrator/language/en-GB/en-GB.plg_fields_repeatable.ini',
-			'/administrator/language/en-GB/en-GB.plg_fields_repeatable.sys.ini',
 			'/administrator/language/en-GB/en-GB.plg_fields_sql.ini',
 			'/administrator/language/en-GB/en-GB.plg_fields_sql.sys.ini',
 			'/administrator/language/en-GB/en-GB.plg_fields_text.ini',
@@ -4713,10 +4713,6 @@ class JoomlaInstallerScript
 			'/plugins/content/confirmconsent/fields/consentbox.php',
 			'/plugins/editors/codemirror/layouts/editors/codemirror/init.php',
 			'/plugins/editors/tinymce/field/skins.php',
-			'/plugins/fields/repeatable/params/repeatable.xml',
-			'/plugins/fields/repeatable/repeatable.php',
-			'/plugins/fields/repeatable/repeatable.xml',
-			'/plugins/fields/repeatable/tmpl/repeatable.php',
 			'/plugins/quickicon/joomlaupdate/joomlaupdate.php',
 			'/plugins/system/languagecode/language/en-GB/en-GB.plg_system_languagecode.ini',
 			'/plugins/system/languagecode/language/en-GB/en-GB.plg_system_languagecode.sys.ini',
@@ -6095,9 +6091,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_actionlogs/libraries',
 			'/administrator/components/com_actionlogs/helpers',
 			'/administrator/components/com_actionlogs/controllers',
-			'/plugins/fields/repeatable/params',
-			'/plugins/fields/repeatable/tmpl',
-			'/plugins/fields/repeatable',
 		);
 
 		foreach ($files as $file)

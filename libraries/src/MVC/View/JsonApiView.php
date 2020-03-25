@@ -166,6 +166,11 @@ abstract class JsonApiView extends JsonView
 		$collection = (new Collection($items, $this->serializer))
 			->fields([$this->type => $this->fieldsToRenderList]);
 
+		if (!empty($this->relationship))
+		{
+			$collection->with($this->relationship);
+		}
+
 		// Set the data into the document and render it
 		$this->document->addMeta('total-pages', $pagination->pagesTotal)
 			->setData($collection)
