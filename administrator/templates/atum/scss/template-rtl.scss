@@ -221,6 +221,11 @@ body {
   margin-left: -15px;
   border-right: 1px solid var(--border);
   border-left: 0 !important;
+
+  span {
+    position: relative;
+    left: 6px;
+  }
 }
 
 // Changelog modal override
