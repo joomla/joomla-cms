@@ -244,6 +244,32 @@ steps:
       status:
         - failure
 
+  - name: packager
+    image: joomlaprojects/docker-images:packager
+    environment:
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      FTP_HOSTNAME: ci.joomla.org
+      FTP_PORT: "21"
+      FTP_DEST_DIR: /artifacts
+      FTP_VERIFY: "false"
+      FTP_SECURE: "true"
+      HTTP_ROOT: "https://ci.joomla.org:444/artifacts"
+      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
+      DRONE_COMMIT: DRONE_COMMIT
+      GITHUB_TOKEN:
+        from_secret: github_token
+    commands:
+      - /bin/drone_build.sh
+    volumes:
+      - name: reference
+        path: /reference
+    when:
+      branch:
+        - 4.0-dev
+
   - name: analysis4x
     image: rips/rips-cli:3.2.2
     depends_on: [ api-tests ]
@@ -308,6 +334,6 @@ services:
 
 ---
 kind: signature
-hmac: 7649a6f9d7d15da3d8723dd7cf2d8328edc5040fb53308e10c6f07b901f87b22
+hmac: f48ed8ebb03e09c20cc11438603de357c797c739962ce199cd49e929ff6886e2
 
 ...
