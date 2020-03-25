@@ -10,7 +10,7 @@
     let color = '';
     // @todo use the tag MARK here not SPAN
     let span = null;
-    const diff = window.JsDiff.diffWords(original.innerHTML, changed.innerHTML);
+    const diff = window.Diff.diffWords(original.innerHTML, changed.innerHTML);
     const fragment = document.createDocumentFragment();
 
     diff.forEach((part) => {
