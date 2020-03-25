@@ -15,9 +15,11 @@ use Joomla\CMS\Router\Route;
 HTMLHelper::_('behavior.formvalidator');
 
 ?>
-<h1><?php echo $this->item->name; ?></h1>
+<h2><?php echo $this->item->name; ?></h2>
 <form action="<?php echo Route::_('index.php?option=com_installer&view=updatesite&layout=edit&update_site_id=' . (int) $this->item->update_site_id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
-	<?php echo $this->form->renderFieldset('updateSite'); ?>
+	<fieldset id="fieldset-<?php echo $fieldset; ?>" class="options-form">
+		<?php echo $this->form->renderFieldset('updateSite'); ?>
+	</fieldset>
 	<input type="hidden" name="task" value=""/>
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

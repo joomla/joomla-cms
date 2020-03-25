@@ -86,17 +86,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo HTMLHelper::_('updatesites.state', $item->enabled, $i, $item->enabled < 2, 'cb'); ?>
 									<?php endif; ?>
 								</td>
-								<td scope="row">
+								<th scope="row">
 									<label for="cb<?php echo $i; ?>">
 										<?php if ($item->checked_out) : ?>
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'updatesites.', $canCheckin); ?>
 										<?php endif; ?>
-										<?php if ($canEdit) : ?>
-											<a class="hasPopover"
-											   href="<?php echo Route::_('index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id); ?>"
-											   title="<?= Text::_('COM_INSTALLER_UPDATESITE_EDIT_TITLE') ?>"
-											   data-content="<?= Text::sprintf('COM_INSTALLER_UPDATESITE_EDIT_TIP', Text::_($item->update_site_name), Text::_($item->name)) ?>"
-											>
+										<?php if ($canEdit && $item->downloadKey['supported']) : ?>
+											<a href="<?php echo Route::_('index.php?option=com_installer&task=updatesite.edit&update_site_id=' . (int) $item->update_site_id); ?>">
 												<?php echo Text::_($item->update_site_name); ?>
 											</a>
 										<?php else : ?>
@@ -104,7 +100,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php endif; ?>
 										<br>
 										<span class="small break-word">
-											<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->escape($item->location); ?></a>
+											<a href="<?php echo $item->location; ?>" target="_blank" rel="noopener noreferrer" title="<?php echo TEXT::sprintf('JBROWSERTARGET_NEW_TITLE', $item->update_site_name); ?>">
+												<?php echo $this->escape($item->location); ?>
+											</a>
 										</span>
 										<br />
 										<span class="small break-word">
@@ -115,17 +113,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<code><?php echo $item->downloadKey['value']; ?></code>
 											<?php elseif ($item->downloadKey['supported']) : ?>
 											<span class="badge badge-warning">
-												<span class="hasPopover"
-													  title="<?= Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL') ?>"
-													  data-content="<?= Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_TIP') ?>"
-												>
 												<?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_MISSING_LABEL'); ?>
-												</span>
 											</span>
 											<?php endif; ?>
 										</span>
 									</label>
-								</td>
+								</th>
 								<td class="d-none d-md-table-cell">
 									<span tabindex="0">
 										<?php echo $item->name; ?>
