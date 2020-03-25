@@ -707,6 +707,7 @@
 		<field
 			name="sef_note"
 			type="note"
+			heading="p"
 			label="COM_CONFIG_FIELD_SEF_REWRITE_DESC"
 			showon="sef:1[AND]sef_rewrite:1"
 		/>
