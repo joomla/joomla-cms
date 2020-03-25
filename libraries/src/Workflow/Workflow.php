@@ -171,7 +171,6 @@ class Workflow
 				$db->quoteName('t.id'),
 				$db->quoteName('t.to_stage_id'),
 				$db->quoteName('t.from_stage_id'),
-				$db->quoteName('s.condition'),
 			]
 		)
 			->from($db->quoteName('#__workflow_transitions', 't'))
@@ -197,13 +196,6 @@ class Workflow
 			}
 		}
 
-		$component = $this->getComponent();
-
-		if ($component instanceof WorkflowServiceInterface)
-		{
-			$component->updateContentState($pks, (int) $transition->condition);
-		}
-
 		$success = $this->updateAssociations($pks, (int) $transition->to_stage_id);
 
 		if ($success)
@@ -221,33 +213,6 @@ class Workflow
 		}
 
 		return $success;
-	}
-
-	/**
-	 * Gets the condition (i.e. state value) for a transition
-	 *
-	 * @param   integer  $transition_id  The transition id to get the condition of
-	 *
-	 * @return  integer|null  Integer if transition exists. Otherwise null
-	 */
-	public function getConditionForTransition(int $transition_id): ?int
-	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true);
-		$query->select($db->quoteName('s.condition'))
-			->from($db->quoteName('#__workflow_transitions', 't'))
-			->join('LEFT', $db->quoteName('#__workflow_stages', 's'), $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_stage_id'))
-			->where($db->quoteName('t.id') . ' = :transition_id')
-			->bind(':transition_id', $transition_id, ParameterType::INTEGER);
-		$db->setQuery($query);
-		$condition = $db->loadResult();
-
-		if ($condition !== null)
-		{
-			$condition = (int) $condition;
-		}
-
-		return $condition;
 	}
 
 	/**

@@ -194,8 +194,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		$workflow = new Workflow(['extension' => 'com_content']);
 
 		// Update content state value and workflow associations
-		return ContentHelper::updateContentState($pks, (int) $stage->condition)
-				&& $workflow->updateAssociations($pks, $value);
+		return $workflow->updateAssociations($pks, $value);
 	}
 
 	/**
@@ -312,23 +311,12 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	protected function canDelete($record)
 	{
-		if (!empty($record->id))
+		if (empty($record->id) || $record->state != -2)
 		{
-			$stage = new StageTable($this->getDbo());
-
-			$workflow = new Workflow(['extension' => 'com_content']);
-
-			$assoc = $workflow->getAssociation((int) $record->id);
-
-			if (!$stage->load($assoc->stage_id) || ($stage->condition != ContentComponent::CONDITION_TRASHED && !Factory::getApplication()->isClient('api')))
-			{
-				return false;
-			}
-
-			return Factory::getUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
+			return false;
 		}
 
-		return false;
+		return Factory::getUser()->authorise('core.delete', 'com_content.article.' . (int) $record->id);
 	}
 
 	/**
@@ -958,50 +946,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$data['state'] = (int) $workflow->condition;
 		}
 
-		// Calculate new status depending on transition
-		if (!empty($data['transition']))
-		{
-			// Check if the user is allowed to execute this transition
-			if (!$user->authorise('core.execute.transition', 'com_content.transition.' . (int) $data['transition']))
-			{
-				$this->setError(Text::_('COM_CONTENT_WORKFLOW_TRANSITION_NOT_ALLOWED'));
-
-				return false;
-			}
-
-			// Set the new state
-			$query = $db->getQuery(true);
-			$transition = (int) $data['transition'];
-
-			$query->select($db->quoteName(['ws.id', 'ws.condition']))
-				->from(
-					[
-						$db->quoteName('#__workflow_stages', 'ws'),
-						$db->quoteName('#__workflow_transitions', 'wt'),
-					]
-				)
-				->where(
-					[
-						$db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'),
-						$db->quoteName('wt.id') . ' = :transition',
-						$db->quoteName('ws.published') . ' = 1',
-						$db->quoteName('wt.published') . ' = 1',
-					]
-				)
-				->bind(':transition', $transition, ParameterType::INTEGER);
-
-			$stage = $db->setQuery($query)->loadObject();
-
-			if (empty($stage->id))
-			{
-				$this->setError(Text::_('COM_CONTENT_WORKFLOW_TRANSITION_NOT_ALLOWED'));
-
-				return false;
-			}
-
-			$data['state'] = (int) $stage->condition;
-		}
-
 		// Automatic handling of alias for empty fields
 		if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (!isset($data['id']) || (int) $data['id'] == 0))
 		{
@@ -1507,13 +1451,16 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		}
 
 		// B/C state change trigger for UCM
-		$context = $this->option . '.' . $this->name;
+		/* @TODO Move to transition
+		 * $context = $this->option . '.' . $this->name;
 
 		// Include the plugins for the change of stage event.
 		PluginHelper::importPlugin($this->events_map['change_state']);
 
 		// Trigger the change stage event.
-		Factory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk], $workflow->getConditionForTransition($transition_id)]);
+		//Factory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk]]);
+		 *
+		 */
 
 		return true;
 	}

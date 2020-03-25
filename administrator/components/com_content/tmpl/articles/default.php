@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Button\FeaturedButton;
 use Joomla\CMS\Button\PublishedButton;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
@@ -54,6 +55,10 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
+$workflow_enabled = ComponentHelper::getParams('com_content')->get('workflows_enable', 1);
+
+if ($workflow_enabled) :
+
 $js = <<<JS
 (function() {
 	document.addEventListener('DOMContentLoaded', function() {
@@ -71,16 +76,11 @@ JS;
 // @todo move the script to a file
 $this->document->addScriptDeclaration($js);
 
-$collection = new \stdClass;
+HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
 
-$collection->publish = [];
-$collection->unpublish = [];
-$collection->archive = [];
-$collection->trash = [];
+endif;
 
 $assoc = Associations::isEnabled();
-
-HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
@@ -238,6 +238,8 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<div class="btn-group tbody-icon mr-1 small">
 										<?php
 
+											if ($workflow_enabled) :
+
 											$options = [
 												'transitions' => $transitions,
 												'stage' => Text::_($item->stage_title),
@@ -255,6 +257,10 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 												->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JTRASHED')])
 												->setLayout('joomla.button.transition-button')
 												->render($item->state, $i, $options, $item->publish_up, $item->publish_down);
+
+											else :
+												echo HTMLHelper::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down);
+											endif;
 										?>
 										</div>
 									</div>

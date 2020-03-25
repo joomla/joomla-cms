@@ -120,6 +120,9 @@ class HtmlView extends BaseHtmlView
 		/*
 		@TODO Move to the plugin
 
+		/*
+		@TODO Move to the plugin
+
 		$transitions = [
 			'publish' => [],
 			'unpublish' => [],
@@ -151,6 +154,8 @@ class HtmlView extends BaseHtmlView
 
 		$this->document->addScriptOptions('articles.transitions', $transitions);
 		
+		*/
+
 		*/
 
 		$articles = [];
@@ -250,7 +255,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if ($this->state->get('filter.condition') == ContentComponent::CONDITION_TRASHED && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('articles.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')

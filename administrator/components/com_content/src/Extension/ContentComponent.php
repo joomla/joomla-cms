@@ -223,7 +223,7 @@ class ContentComponent extends MVCComponent implements
 	{
 		$config = (object) array(
 			'related_tbl'    => 'content',
-			'state_col'      => 'condition',
+			'state_col'      => 'state',
 			'group_col'      => 'catid',
 			'relation_type'  => 'category_or_group',
 			'uses_workflows' => true,
@@ -271,20 +271,5 @@ class ContentComponent extends MVCComponent implements
 	public function prepareForm(Form $form, $data)
 	{
 		ContentHelper::onPrepareForm($form, $data);
-	}
-
-	/**
-	 * Method to change state of multiple ids
-	 *
-	 * @param   array  $pks        Array of IDs
-	 * @param   int    $condition  Condition of the workflow state
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public static function updateContentState(array $pks, int $condition): bool
-	{
-		return ContentHelper::updateContentState($pks, $condition);
 	}
 }
