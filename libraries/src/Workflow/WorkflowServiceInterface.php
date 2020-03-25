@@ -41,18 +41,6 @@ interface WorkflowServiceInterface {
 	public function filterTransitions(array $transitions, int $pk): array;
 
 	/**
-	 * Method to change state of multiple ids
-	 *
-	 * @param   array    $pks        Array of IDs
-	 * @param   integer  $condition  Condition of the workflow state
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public static function updateContentState(array $pks, int $condition): bool;
-
-	/**
 	 * Returns an array of possible conditions for the component.
 	 *
 	 * @param   string  $extension  Full extension string

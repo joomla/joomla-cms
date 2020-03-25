@@ -95,7 +95,7 @@ class HtmlView extends BaseHtmlView
 			unset($this->activeFilters['language']);
 			$this->filterForm->removeField('language', 'filter');
 		}
-		
+
 		/*
 		@TODO Move to plugin
 		$transitions = [
@@ -211,7 +211,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if ($this->state->get('filter.condition') == ContentComponent::CONDITION_TRASHED && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') == ContentComponent::CONDITION_TRASHED && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('articles.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')

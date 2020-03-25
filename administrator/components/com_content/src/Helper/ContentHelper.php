@@ -74,43 +74,6 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	}
 
 	/**
-	 * Method to change state of multiple ids
-	 *
-	 * @param   array  $pks        Array of IDs
-	 * @param   int    $condition  Condition of the workflow state
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public static function updateContentState(array $pks, int $condition): bool
-	{
-		if (empty($pks))
-		{
-			return false;
-		}
-
-		try
-		{
-			$db    = Factory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query->update($db->quoteName('#__content'))
-				->set($db->quoteName('state') . ' = :condition')
-				->whereIn($db->quoteName('id'), $pks)
-				->bind(':condition', $condition, ParameterType::INTEGER);
-
-			$db->setQuery($query)->execute();
-		}
-		catch (\Exception $e)
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Prepares a form
 	 *
 	 * @param   Form          $form  The form to change
