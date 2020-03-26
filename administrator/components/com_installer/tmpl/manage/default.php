@@ -72,7 +72,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:1%" class="d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCKED', 'locked', $listDirn, $listOrder); ?>
+									<?php echo Text::_('COM_INSTALLER_HEADING_LOCKED'); ?>
 								</th>
 								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_PACKAGE_ID', 'package_id', $listDirn, $listOrder); ?>
