@@ -85,17 +85,21 @@ class UsersViewProfile extends JViewLegacy
 			return false;
 		}
 
-		JPluginHelper::importPlugin('content');
-		$this->data->text = '';
-		JEventDispatcher::getInstance()->trigger('onContentPrepare', array ('com_users.user', &$this->data, &$this->data->params, 0));
-		unset($this->data->text);
-
 		// Check for layout override
 		$active = JFactory::getApplication()->getMenu()->getActive();
 
 		if (isset($active->query['layout']))
 		{
 			$this->setLayout($active->query['layout']);
+		}
+		
+		// Check layout type
+		if ($this->getLayout() == 'default')
+		{
+			JPluginHelper::importPlugin('content');
+			$this->data->text = '';
+			JEventDispatcher::getInstance()->trigger('onContentPrepare', ['com_users.user', &$this->data, &$this->data->params, 0]);
+			unset($this->data->text);
 		}
 
 		// Escape strings for HTML output
