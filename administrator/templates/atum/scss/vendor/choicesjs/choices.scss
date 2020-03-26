@@ -147,11 +147,24 @@
 
   .choices__inner {
     padding: .4rem 1rem .256rem;
+
+    [dir=ltr] & {
+      background: url("../../../images/select-bg.svg") no-repeat right center / $custom-select-bg-size;
+      background-color: $custom-select-bg;
+    }
+
+    [dir=rtl] & {
+      background: url("../../../images/select-bg-rtl.svg") no-repeat left center / $custom-select-bg-size;
+      background-color: $custom-select-bg;
+    }
   }
 
   .choices__input {
     padding: .2rem 0 .356rem;
-    color: $custom-select-color;
+
+    &::placeholder {
+      color: $custom-select-color;
+    }
   }
 }
 
@@ -187,6 +200,7 @@
 .choices__inner,
 .choices__input {
   background-color: var(--white);
+  border-radius: $border-radius;
 }
 
 .choices__list--single {
