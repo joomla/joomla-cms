@@ -130,26 +130,60 @@ OR ("type" = 'package' AND "element" IN ('pkg_en-GB'));
 UPDATE "#__extensions"
 SET "protected" = 1, "enabled" = 1
 WHERE ("type" = 'component' AND "element" IN (
+	'com_actionlogs',
 	'com_admin',
+	'com_ajax',
 	'com_cache',
 	'com_categories',
 	'com_checkin',
+	'com_config',
+	'com_content',
 	'com_cpanel',
 	'com_installer',
+	'com_joomlaupdate',
 	'com_languages',
 	'com_login',
+	'com_mails',
 	'com_media',
 	'com_menus',
+	'com_messages',
 	'com_modules',
 	'com_plugins',
+	'com_postinstall',
+	'com_privacy',
+	'com_redirect',
+	'com_tags',
 	'com_templates',
-	'com_content',
-	'com_config',
 	'com_users',
-	'com_joomlaupdate',
-	'com_ajax',
-	'com_postinstall'
+	'com_workflow',
+	'com_wrapper'
 ))
+OR ("type" = 'module' AND "client_id" = 0 AND "element" IN (
+	'mod_breadcrumbs',
+	'mod_custom',
+	'mod_languages',
+	'mod_login',
+	'mod_menu',
+	'mod_syndicate'
+))
+OR ("type" = 'module' AND "client_id" = 1 AND "element" IN (
+	'mod_custom',
+	'mod_login',
+	'mod_loginsupport',
+	'mod_quickicon',
+	'mod_toolbar'
+))
+OR ("type" = 'plugin' AND
+	(
+		("folder" = 'authentication' AND "element" IN ('joomla'))
+		OR ("folder" = 'editors' AND "element" IN ('codemirror', 'none'))
+		OR ("folder" = 'extension' AND "element" IN ('joomla', 'namespacemap'))
+		OR ("folder" = 'installer' AND "element" IN ('folderinstaller', 'override', 'packageinstaller', 'urlinstaller'))
+		OR ("folder" = 'quickicon' AND "element" IN ('downloadkey', 'extensionupdate', 'joomlaupdate', 'overridecheck', 'phpversioncheck'))
+		OR ("folder" = 'sampledata' AND "element" IN ('blog', 'multilang', 'testing'))
+		OR ("folder" = 'system' AND "element" IN ('log', 'logout', 'remember'))
+	)
+)
 OR ("type" = 'library' AND "element" IN ('joomla', 'phpass'))
 OR ("type" = 'language' AND "element" IN ('en-GB'))
 OR ("type" = 'file' AND "element" IN ('joomla'))
