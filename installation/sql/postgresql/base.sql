@@ -3,16 +3,16 @@
 --
 
 CREATE TABLE IF NOT EXISTS "#__assets" (
-                                           "id" serial NOT NULL,
-                                           "parent_id" bigint DEFAULT 0 NOT NULL,
-                                           "lft" bigint DEFAULT 0 NOT NULL,
-                                           "rgt" bigint DEFAULT 0 NOT NULL,
-                                           "level" integer NOT NULL,
-                                           "name" varchar(50) NOT NULL,
-                                           "title" varchar(100) NOT NULL,
-                                           "rules" varchar(5120) NOT NULL,
-                                           PRIMARY KEY ("id"),
-                                           CONSTRAINT "#__assets_idx_asset_name" UNIQUE ("name")
+  "id" serial NOT NULL,
+  "parent_id" bigint DEFAULT 0 NOT NULL,
+  "lft" bigint DEFAULT 0 NOT NULL,
+  "rgt" bigint DEFAULT 0 NOT NULL,
+  "level" integer NOT NULL,
+  "name" varchar(50) NOT NULL,
+  "title" varchar(100) NOT NULL,
+  "rules" varchar(5120) NOT NULL,
+  PRIMARY KEY ("id"),
+  CONSTRAINT "#__assets_idx_asset_name" UNIQUE ("name")
 );
 CREATE INDEX "#__assets_idx_lft_rgt" ON "#__assets" ("lft", "rgt");
 CREATE INDEX "#__assets_idx_parent_id" ON "#__assets" ("parent_id");
@@ -250,7 +250,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_system_remember', 'plugin', 'remember', 'system', 0, 1, 1, 1, '', '', 0, NULL, 7, 0),
 (0, 'plg_system_sef', 'plugin', 'sef', 'system', 0, 1, 1, 0, '', '', 0, NULL, 8, 0),
 (0, 'plg_system_logout', 'plugin', 'logout', 'system', 0, 1, 1, 1, '', '', 0, NULL, 6, 0),
-(0, 'plg_user_contactcreator', 'plugin', 'contactcreator', 'user', 0, 0, 1, 0, '', '{"autowebpage":"","category":"34","autopublish":"0"}', 0, NULL, 1, 0),
+(0, 'plg_user_contactcreator', 'plugin', 'contactcreator', 'user', 0, 0, 1, 0, '', '{"autowebpage":"","category":"4","autopublish":"0"}', 0, NULL, 1, 0),
 (0, 'plg_user_joomla', 'plugin', 'joomla', 'user', 0, 1, 1, 0, '', '{"autoregister":"1","mail_to_user":"1","forceLogout":"1"}', 0, NULL, 2, 0),
 (0, 'plg_user_profile', 'plugin', 'profile', 'user', 0, 0, 1, 0, '', '{"register-require_address1":"1","register-require_address2":"1","register-require_city":"1","register-require_region":"1","register-require_country":"1","register-require_postal_code":"1","register-require_phone":"1","register-require_website":"1","register-require_favoritebook":"1","register-require_aboutme":"1","register-require_tos":"1","register-require_dob":"1","profile-require_address1":"1","profile-require_address2":"1","profile-require_city":"1","profile-require_region":"1","profile-require_country":"1","profile-require_postal_code":"1","profile-require_phone":"1","profile-require_website":"1","profile-require_favoritebook":"1","profile-require_aboutme":"1","profile-require_tos":"1","profile-require_dob":"1"}', 0, NULL, 0, 0),
 (0, 'plg_extension_joomla', 'plugin', 'joomla', 'extension', 0, 1, 1, 1, '', '', 0, NULL, 1, 0),
@@ -419,7 +419,7 @@ CREATE TABLE IF NOT EXISTS "#__menu" (
   "access" bigint DEFAULT 0 NOT NULL,
   "img" varchar(255) DEFAULT '' NOT NULL,
   "template_style_id" integer DEFAULT 0 NOT NULL,
-  "params" text DEFAULT '' NOT NULL,
+  "params" text NOT NULL,
   "lft" bigint DEFAULT 0 NOT NULL,
   "rgt" bigint DEFAULT 0 NOT NULL,
   "home" smallint DEFAULT 0 NOT NULL,
@@ -699,7 +699,7 @@ CREATE TABLE IF NOT EXISTS "#__tags" (
   "title" varchar(255) NOT NULL,
   "alias" varchar(255) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
-  "description" text DEFAULT '' NOT NULL,
+  "description" text NOT NULL,
   "published" smallint DEFAULT 0 NOT NULL,
   "checked_out" bigint DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone,
@@ -923,11 +923,11 @@ CREATE TABLE IF NOT EXISTS "#__users" (
   "otpKey" varchar(1000) DEFAULT '' NOT NULL,
   "otep" varchar(1000) DEFAULT '' NOT NULL,
   "requireReset" smallint DEFAULT 0,
-  PRIMARY KEY ("id")
+  PRIMARY KEY ("id"),
+  CONSTRAINT "#__users_idx_username" UNIQUE ("username")
 );
 CREATE INDEX "#__users_idx_name" ON "#__users" ("name");
 CREATE INDEX "#__users_idx_block" ON "#__users" ("block");
-CREATE INDEX "#__users_username" ON "#__users" ("username");
 CREATE INDEX "#__users_email" ON "#__users" ("email");
 CREATE INDEX "#__users_email_lower" ON "#__users" (lower("email"));
 
@@ -1033,7 +1033,7 @@ INSERT INTO "#__viewlevels" ("id", "title", "ordering", "rules") VALUES
 SELECT setval('#__viewlevels_id_seq', 7, false);
 
 --
--- Table structure for table "#__workflows"
+-- Table structure for table `#__workflows`
 --
 
 CREATE TABLE IF NOT EXISTS "#__workflows" (
