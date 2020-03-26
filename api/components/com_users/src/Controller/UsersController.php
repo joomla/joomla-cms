@@ -12,7 +12,9 @@ namespace Joomla\Component\Users\Api\Controller;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
@@ -37,6 +39,25 @@ class UsersController extends ApiController
 	 * @since  3.0
 	 */
 	protected $default_view = 'users';
+
+	/**
+	 * The supported filter values for date range.
+	 *
+	 * @var    array
+	 * @since  4.0
+	 */
+	protected $supportedRange
+		= [
+			'past_week',
+			'past_1month',
+			'past_3month',
+			'past_6month',
+			'past_6month',
+			'past_year',
+			'post_year',
+			'today',
+			'never',
+		];
 
 	/**
 	 * Method to save a record.
@@ -101,14 +122,56 @@ class UsersController extends ApiController
 
 		if (array_key_exists('registrationdate', $apiFilterInfo))
 		{
-			$this->modelState->set('filter.range', $filter->clean($apiFilterInfo['registrationdate'], 'STRING'));
+			$rangeFilter = $filter->clean($apiFilterInfo['registrationdate'], 'STRING');
+
+			if (!array_key_exists($rangeFilter, $this->supportedRange))
+			{
+				// Send the error response
+				$this->sendResponse('registrationdate', 400);
+			}
+
+			$this->modelState->set('filter.range', $rangeFilter);
 		}
 
 		if (array_key_exists('lastvisitdate', $apiFilterInfo))
 		{
-			$this->modelState->set('filter.lastvisitrange', $filter->clean($apiFilterInfo['lastvisitdate'], 'STRING'));
+			$rangeFilter = $filter->clean($apiFilterInfo['lastvisitdate'], 'STRING');
+
+			if (!array_key_exists($rangeFilter, $this->supportedRange))
+			{
+				// Send the error response
+				$this->sendResponse('lastvisitdate', 400);
+			}
+
+			$this->modelState->set('filter.lastvisitrange', $rangeFilter);
 		}
 
 		return parent::displayList();
+	}
+
+	/**
+	 * Send the given data as JSON response in the following format:
+	 *
+	 * {"success":true,"message":"ok","messages":null,"data":[{"type":"dir","name":"banners","path":"//"}]}
+	 *
+	 * @param   string   $field         The wrong field
+	 * @param   integer  $responseCode  The response code
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	private function sendResponse(string $field = null, int $responseCode = 200): void
+	{
+		// Set the correct content type
+		$this->app->setHeader('Content-Type', 'application/json');
+
+		// Set the status code for the response
+		http_response_code($responseCode);
+
+		// Send the data
+		echo new JsonResponse(null, Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $field), true);
+
+		$this->app->close();
 	}
 }
