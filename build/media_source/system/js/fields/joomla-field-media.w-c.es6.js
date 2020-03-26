@@ -29,7 +29,7 @@
         Joomla.selectedFile.url = false;
       }
 
-      const isElement = o => (
+      const isElement = (o) => (
         typeof HTMLElement === 'object' ? o instanceof HTMLElement
           : o && typeof o === 'object' && o !== null && o.nodeType === 1 && typeof o.nodeName === 'string'
       );

@@ -97,8 +97,19 @@ class InstallationController extends JSONController
 		/** @var \Joomla\CMS\Installation\Model\DatabaseModel $databaseModel */
 		$databaseModel = $this->getModel('Database');
 
-		// Attempt to setup the configuration.
-		if (!$databaseModel->createDatabase())
+		// Create Db
+		try
+		{
+			$dbCreated = $databaseModel->createDatabase();
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->app->enqueueMessage($e->getMessage(), 'error');
+
+			$dbCreated = false;
+		}
+
+		if (!$dbCreated)
 		{
 			$r->view = 'setup';
 		}
@@ -223,17 +234,6 @@ class InstallationController extends JSONController
 
 			// Install selected languages
 			$model->install($lids);
-
-			// Publish the Content Languages.
-			$failedLanguages = $model->publishContentLanguages();
-
-			if (!empty($failedLanguages))
-			{
-				foreach ($failedLanguages as $failedLanguage)
-				{
-					$this->app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $failedLanguage), 'warning');
-				}
-			}
 		}
 
 		// Redirect to the page.

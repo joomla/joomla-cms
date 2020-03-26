@@ -8,11 +8,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `#__associations` (
-   `id` int(11) NOT NULL COMMENT 'A reference to the associated item.',
-   `context` varchar(50) NOT NULL COMMENT 'The context of the associated item.',
-   `key` char(32) NOT NULL COMMENT 'The key for the association computed from an md5 on associated ids.',
-   PRIMARY KEY (`context`,`id`),
-   KEY `idx_key` (`key`)
+  `id` int(11) NOT NULL COMMENT 'A reference to the associated item.',
+  `context` varchar(50) NOT NULL COMMENT 'The context of the associated item.',
+  `key` char(32) NOT NULL COMMENT 'The key for the association computed from an md5 on associated ids.',
+  PRIMARY KEY (`context`,`id`),
+  KEY `idx_key` (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -22,41 +22,41 @@ CREATE TABLE IF NOT EXISTS `#__associations` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__categories` (
-   `id` int(11) NOT NULL AUTO_INCREMENT,
-   `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
-   `parent_id` int(10) unsigned NOT NULL DEFAULT 0,
-   `lft` int(11) NOT NULL DEFAULT 0,
-   `rgt` int(11) NOT NULL DEFAULT 0,
-   `level` int(10) unsigned NOT NULL DEFAULT 0,
-   `path` varchar(400) NOT NULL DEFAULT '',
-   `extension` varchar(50) NOT NULL DEFAULT '',
-   `title` varchar(255) NOT NULL DEFAULT '',
-   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
-   `note` varchar(255) NOT NULL DEFAULT '',
-   `description` mediumtext,
-   `published` tinyint(1) NOT NULL DEFAULT 0,
-   `checked_out` int(11) unsigned NOT NULL DEFAULT 0,
-   `checked_out_time` datetime,
-   `access` int(10) unsigned NOT NULL DEFAULT 0,
-   `params` text,
-   `metadesc` varchar(1024) NOT NULL DEFAULT '' COMMENT 'The meta description for the page.',
-   `metakey` varchar(1024) NOT NULL DEFAULT '' COMMENT 'The keywords for the page.',
-   `metadata` varchar(2048) NOT NULL DEFAULT '' COMMENT 'JSON encoded metadata properties.',
-   `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
-   `created_time` datetime NOT NULL,
-   `modified_user_id` int(10) unsigned NOT NULL DEFAULT 0,
-   `modified_time` datetime NOT NULL,
-   `hits` int(10) unsigned NOT NULL DEFAULT 0,
-   `language` char(7) NOT NULL DEFAULT '',
-   `version` int(10) unsigned NOT NULL DEFAULT 1,
-   PRIMARY KEY (`id`),
-   KEY `cat_idx` (`extension`,`published`,`access`),
-   KEY `idx_access` (`access`),
-   KEY `idx_checkout` (`checked_out`),
-   KEY `idx_path` (`path`(100)),
-   KEY `idx_left_right` (`lft`,`rgt`),
-   KEY `idx_alias` (`alias`(100)),
-   KEY `idx_language` (`language`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
+  `parent_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `lft` int(11) NOT NULL DEFAULT 0,
+  `rgt` int(11) NOT NULL DEFAULT 0,
+  `level` int(10) unsigned NOT NULL DEFAULT 0,
+  `path` varchar(400) NOT NULL DEFAULT '',
+  `extension` varchar(50) NOT NULL DEFAULT '',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `note` varchar(255) NOT NULL DEFAULT '',
+  `description` mediumtext,
+  `published` tinyint(1) NOT NULL DEFAULT 0,
+  `checked_out` int(11) unsigned NOT NULL DEFAULT 0,
+  `checked_out_time` datetime,
+  `access` int(10) unsigned NOT NULL DEFAULT 0,
+  `params` text,
+  `metadesc` varchar(1024) NOT NULL DEFAULT '' COMMENT 'The meta description for the page.',
+  `metakey` varchar(1024) NOT NULL DEFAULT '' COMMENT 'The keywords for the page.',
+  `metadata` varchar(2048) NOT NULL DEFAULT '' COMMENT 'JSON encoded metadata properties.',
+  `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_time` datetime NOT NULL,
+  `modified_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified_time` datetime NOT NULL,
+  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `language` char(7) NOT NULL DEFAULT '',
+  `version` int(10) unsigned NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  KEY `cat_idx` (`extension`,`published`,`access`),
+  KEY `idx_access` (`access`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_path` (`path`(100)),
+  KEY `idx_left_right` (`lft`,`rgt`),
+  KEY `idx_alias` (`alias`(100)),
+  KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -78,16 +78,16 @@ INSERT INTO `#__categories` (`id`, `asset_id`, `parent_id`, `lft`, `rgt`, `level
 --
 
 CREATE TABLE IF NOT EXISTS `#__content_types` (
-   `type_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `type_title` varchar(255) NOT NULL DEFAULT '',
-   `type_alias` varchar(400) NOT NULL DEFAULT '',
-   `table` varchar(2048) NOT NULL DEFAULT '',
-   `rules` text NOT NULL,
-   `field_mappings` text NOT NULL,
-   `router` varchar(255) NOT NULL DEFAULT '',
-   `content_history_options` varchar(5120) COMMENT 'JSON string for com_contenthistory options',
-   PRIMARY KEY (`type_id`),
-   KEY `idx_alias` (`type_alias`(100))
+  `type_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `type_title` varchar(255) NOT NULL DEFAULT '',
+  `type_alias` varchar(400) NOT NULL DEFAULT '',
+  `table` varchar(2048) NOT NULL DEFAULT '',
+  `rules` text NOT NULL,
+  `field_mappings` text NOT NULL,
+  `router` varchar(255) NOT NULL DEFAULT '',
+  `content_history_options` varchar(5120) COMMENT 'JSON string for com_contenthistory options',
+  PRIMARY KEY (`type_id`),
+  KEY `idx_alias` (`type_alias`(100))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=10000;
 
 --
@@ -116,16 +116,16 @@ INSERT INTO `#__content_types` (`type_id`, `type_title`, `type_alias`, `table`, 
 --
 
 CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
-   `type_alias` varchar(255) NOT NULL DEFAULT '',
-   `core_content_id` int(10) unsigned NOT NULL COMMENT 'PK from the core content table',
-   `content_item_id` int(11) NOT NULL COMMENT 'PK from the content type table',
-   `tag_id` int(10) unsigned NOT NULL COMMENT 'PK from the tag table',
-   `tag_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date of most recent save for this tag-item',
-   `type_id` mediumint(8) NOT NULL COMMENT 'PK from the content_type table',
-   UNIQUE KEY `uc_ItemnameTagid` (`type_id`,`content_item_id`,`tag_id`),
-   KEY `idx_tag_type` (`tag_id`,`type_id`),
-   KEY `idx_date_id` (`tag_date`,`tag_id`),
-   KEY `idx_core_content_id` (`core_content_id`)
+  `type_alias` varchar(255) NOT NULL DEFAULT '',
+  `core_content_id` int(10) unsigned NOT NULL COMMENT 'PK from the core content table',
+  `content_item_id` int(11) NOT NULL COMMENT 'PK from the content type table',
+  `tag_id` int(10) unsigned NOT NULL COMMENT 'PK from the tag table',
+  `tag_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date of most recent save for this tag-item',
+  `type_id` mediumint(8) NOT NULL COMMENT 'PK from the content_type table',
+  UNIQUE KEY `uc_ItemnameTagid` (`type_id`,`content_item_id`,`tag_id`),
+  KEY `idx_tag_type` (`tag_id`,`type_id`),
+  KEY `idx_date_id` (`tag_date`,`tag_id`),
+  KEY `idx_core_content_id` (`core_content_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Maps items from content tables to tags';
 
 -- --------------------------------------------------------
@@ -135,15 +135,15 @@ CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__csp` (
-   `id` int(11) NOT NULL AUTO_INCREMENT,
-   `document_uri` varchar(500) NOT NULL DEFAULT '',
-   `blocked_uri` varchar(500) NOT NULL DEFAULT '',
-   `directive` varchar(500) NOT NULL DEFAULT '',
-   `client` varchar(500) NOT NULL DEFAULT '',
-   `created` datetime NOT NULL,
-   `modified` datetime NOT NULL,
-   `published` tinyint(1) NOT NULL DEFAULT 0,
-   PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `document_uri` varchar(500) NOT NULL DEFAULT '',
+  `blocked_uri` varchar(500) NOT NULL DEFAULT '',
+  `directive` varchar(500) NOT NULL DEFAULT '',
+  `client` varchar(500) NOT NULL DEFAULT '',
+  `created` datetime NOT NULL,
+  `modified` datetime NOT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -153,37 +153,37 @@ CREATE TABLE IF NOT EXISTS `#__csp` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__fields` (
-   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `asset_id` int(10) unsigned NOT NULL DEFAULT 0,
-   `context` varchar(255) NOT NULL DEFAULT '',
-   `group_id` int(10) unsigned NOT NULL DEFAULT 0,
-   `title` varchar(255) NOT NULL DEFAULT '',
-   `name` varchar(255) NOT NULL DEFAULT '',
-   `label` varchar(255) NOT NULL DEFAULT '',
-   `default_value` text,
-   `type` varchar(255) NOT NULL DEFAULT 'text',
-   `note` varchar(255) NOT NULL DEFAULT '',
-   `description` text NOT NULL,
-   `state` tinyint(1) NOT NULL DEFAULT 0,
-   `required` tinyint(1) NOT NULL DEFAULT 0,
-   `checked_out` int(11) NOT NULL DEFAULT 0,
-   `checked_out_time` datetime,
-   `ordering` int(11) NOT NULL DEFAULT 0,
-   `params` text NOT NULL,
-   `fieldparams` text NOT NULL,
-   `language` char(7) NOT NULL DEFAULT '',
-   `created_time` datetime NOT NULL,
-   `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
-   `modified_time` datetime NOT NULL,
-   `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
-   `access` int(11) NOT NULL DEFAULT 1,
-   PRIMARY KEY (`id`),
-   KEY `idx_checkout` (`checked_out`),
-   KEY `idx_state` (`state`),
-   KEY `idx_created_user_id` (`created_user_id`),
-   KEY `idx_access` (`access`),
-   KEY `idx_context` (`context`(191)),
-   KEY `idx_language` (`language`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `asset_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `context` varchar(255) NOT NULL DEFAULT '',
+  `group_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `label` varchar(255) NOT NULL DEFAULT '',
+  `default_value` text,
+  `type` varchar(255) NOT NULL DEFAULT 'text',
+  `note` varchar(255) NOT NULL DEFAULT '',
+  `description` text NOT NULL,
+  `state` tinyint(1) NOT NULL DEFAULT 0,
+  `required` tinyint(1) NOT NULL DEFAULT 0,
+  `checked_out` int(11) NOT NULL DEFAULT 0,
+  `checked_out_time` datetime,
+  `ordering` int(11) NOT NULL DEFAULT 0,
+  `params` text NOT NULL,
+  `fieldparams` text NOT NULL,
+  `language` char(7) NOT NULL DEFAULT '',
+  `created_time` datetime NOT NULL,
+  `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified_time` datetime NOT NULL,
+  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `access` int(11) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_state` (`state`),
+  KEY `idx_created_user_id` (`created_user_id`),
+  KEY `idx_access` (`access`),
+  KEY `idx_context` (`context`(191)),
+  KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -193,9 +193,9 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__fields_categories` (
-   `field_id` int(11) NOT NULL DEFAULT 0,
-   `category_id` int(11) NOT NULL DEFAULT 0,
-   PRIMARY KEY (`field_id`,`category_id`)
+  `field_id` int(11) NOT NULL DEFAULT 0,
+  `category_id` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`field_id`,`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -205,30 +205,30 @@ CREATE TABLE IF NOT EXISTS `#__fields_categories` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__fields_groups` (
-   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `asset_id` int(10) unsigned NOT NULL DEFAULT 0,
-   `context` varchar(255) NOT NULL DEFAULT '',
-   `title` varchar(255) NOT NULL DEFAULT '',
-   `note` varchar(255) NOT NULL DEFAULT '',
-   `description` text NOT NULL,
-   `state` tinyint(1) NOT NULL DEFAULT 0,
-   `checked_out` int(11) NOT NULL DEFAULT 0,
-   `checked_out_time` datetime,
-   `ordering` int(11) NOT NULL DEFAULT 0,
-   `params` text NOT NULL,
-   `language` char(7) NOT NULL DEFAULT '',
-   `created` datetime NOT NULL,
-   `created_by` int(10) unsigned NOT NULL DEFAULT 0,
-   `modified` datetime NOT NULL,
-   `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
-   `access` int(11) NOT NULL DEFAULT 1,
-   PRIMARY KEY (`id`),
-   KEY `idx_checkout` (`checked_out`),
-   KEY `idx_state` (`state`),
-   KEY `idx_created_by` (`created_by`),
-   KEY `idx_access` (`access`),
-   KEY `idx_context` (`context`(191)),
-   KEY `idx_language` (`language`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `asset_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `context` varchar(255) NOT NULL DEFAULT '',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `note` varchar(255) NOT NULL DEFAULT '',
+  `description` text NOT NULL,
+  `state` tinyint(1) NOT NULL DEFAULT 0,
+  `checked_out` int(11) NOT NULL DEFAULT 0,
+  `checked_out_time` datetime,
+  `ordering` int(11) NOT NULL DEFAULT 0,
+  `params` text NOT NULL,
+  `language` char(7) NOT NULL DEFAULT '',
+  `created` datetime NOT NULL,
+  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `modified` datetime NOT NULL,
+  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `access` int(11) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_state` (`state`),
+  KEY `idx_created_by` (`created_by`),
+  KEY `idx_access` (`access`),
+  KEY `idx_context` (`context`(191)),
+  KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -238,11 +238,11 @@ CREATE TABLE IF NOT EXISTS `#__fields_groups` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__fields_values` (
-   `field_id` int(10) unsigned NOT NULL,
-   `item_id` varchar(255) NOT NULL COMMENT 'Allow references to items which have strings as ids, eg. none db systems.',
-   `value` text,
-   KEY `idx_field_id` (`field_id`),
-   KEY `idx_item_id` (`item_id`(191))
+  `field_id` int(10) unsigned NOT NULL,
+  `item_id` varchar(255) NOT NULL COMMENT 'Allow references to items which have strings as ids, eg. none db systems.',
+  `value` text,
+  KEY `idx_field_id` (`field_id`),
+  KEY `idx_item_id` (`item_id`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -252,11 +252,11 @@ CREATE TABLE IF NOT EXISTS `#__fields_values` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__overrider` (
-   `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
-   `constant` varchar(255) NOT NULL,
-   `string` text NOT NULL,
-   `file` varchar(255) NOT NULL,
-   PRIMARY KEY (`id`)
+  `id` int(10) NOT NULL AUTO_INCREMENT COMMENT 'Primary Key',
+  `constant` varchar(255) NOT NULL,
+  `string` text NOT NULL,
+  `file` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -266,21 +266,21 @@ CREATE TABLE IF NOT EXISTS `#__overrider` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__postinstall_messages` (
-   `postinstall_message_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-   `extension_id` bigint(20) NOT NULL DEFAULT 700 COMMENT 'FK to #__extensions',
-   `title_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for the title',
-   `description_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for description',
-   `action_key` varchar(255) NOT NULL DEFAULT '',
-   `language_extension` varchar(255) NOT NULL DEFAULT 'com_postinstall' COMMENT 'Extension holding lang keys',
-   `language_client_id` tinyint(3) NOT NULL DEFAULT 1,
-   `type` varchar(10) NOT NULL DEFAULT 'link' COMMENT 'Message type - message, link, action',
-   `action_file` varchar(255) DEFAULT '' COMMENT 'RAD URI to the PHP file containing action method',
-   `action` varchar(255) DEFAULT '' COMMENT 'Action method name or URL',
-   `condition_file` varchar(255) DEFAULT NULL COMMENT 'RAD URI to file holding display condition method',
-   `condition_method` varchar(255) DEFAULT NULL COMMENT 'Display condition method, must return boolean',
-   `version_introduced` varchar(50) NOT NULL DEFAULT '3.2.0' COMMENT 'Version when this message was introduced',
-   `enabled` tinyint(3) NOT NULL DEFAULT 1,
-   PRIMARY KEY (`postinstall_message_id`)
+  `postinstall_message_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `extension_id` bigint(20) NOT NULL DEFAULT 700 COMMENT 'FK to #__extensions',
+  `title_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for the title',
+  `description_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for description',
+  `action_key` varchar(255) NOT NULL DEFAULT '',
+  `language_extension` varchar(255) NOT NULL DEFAULT 'com_postinstall' COMMENT 'Extension holding lang keys',
+  `language_client_id` tinyint(3) NOT NULL DEFAULT 1,
+  `type` varchar(10) NOT NULL DEFAULT 'link' COMMENT 'Message type - message, link, action',
+  `action_file` varchar(255) DEFAULT '' COMMENT 'RAD URI to the PHP file containing action method',
+  `action` varchar(255) DEFAULT '' COMMENT 'Action method name or URL',
+  `condition_file` varchar(255) DEFAULT NULL COMMENT 'RAD URI to file holding display condition method',
+  `condition_method` varchar(255) DEFAULT NULL COMMENT 'Display condition method, must return boolean',
+  `version_introduced` varchar(50) NOT NULL DEFAULT '3.2.0' COMMENT 'Version when this message was introduced',
+  `enabled` tinyint(3) NOT NULL DEFAULT 1,
+  PRIMARY KEY (`postinstall_message_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -288,15 +288,15 @@ CREATE TABLE IF NOT EXISTS `#__postinstall_messages` (
 --
 
 INSERT INTO `#__postinstall_messages` (`extension_id`, `title_key`, `description_key`, `action_key`, `language_extension`, `language_client_id`, `type`, `action_file`, `action`, `condition_file`, `condition_method`, `version_introduced`, `enabled`)
-SELECT extension_id, 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_TITLE', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_BODY', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_ACTION', 'plg_twofactorauth_totp', 1, 'action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_condition', '3.2.0', 1 FROM `#__extensions` WHERE `name` = 'files_joomla';
+SELECT `extension_id`, 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_TITLE', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_BODY', 'PLG_TWOFACTORAUTH_TOTP_POSTINSTALL_ACTION', 'plg_twofactorauth_totp', 1, 'action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_action', 'site://plugins/twofactorauth/totp/postinstall/actions.php', 'twofactorauth_postinstall_condition', '3.2.0', 1 FROM `#__extensions` WHERE `name` = 'files_joomla';
 INSERT INTO `#__postinstall_messages` (`extension_id`, `title_key`, `description_key`, `action_key`, `language_extension`, `language_client_id`, `type`, `action_file`, `action`, `condition_file`, `condition_method`, `version_introduced`, `enabled`)
-SELECT extension_id, 'COM_CPANEL_WELCOME_BEGINNERS_TITLE', 'COM_CPANEL_WELCOME_BEGINNERS_MESSAGE', '', 'com_cpanel', 1, 'message', '', '', '', '', '3.2.0', 1 FROM `#__extensions` WHERE `name` = 'files_joomla';
+SELECT `extension_id`, 'COM_CPANEL_WELCOME_BEGINNERS_TITLE', 'COM_CPANEL_WELCOME_BEGINNERS_MESSAGE', '', 'com_cpanel', 1, 'message', '', '', '', '', '3.2.0', 1 FROM `#__extensions` WHERE `name` = 'files_joomla';
 INSERT INTO `#__postinstall_messages` (`extension_id`, `title_key`, `description_key`, `action_key`, `language_extension`, `language_client_id`, `type`, `action_file`, `action`, `condition_file`, `condition_method`, `version_introduced`, `enabled`)
-SELECT extension_id, 'COM_CPANEL_MSG_STATS_COLLECTION_TITLE', 'COM_CPANEL_MSG_STATS_COLLECTION_BODY', '', 'com_cpanel', 1, 'message', '', '', 'admin://components/com_admin/postinstall/statscollection.php', 'admin_postinstall_statscollection_condition', '3.5.0', 1 FROM `#__extensions` WHERE `name` = 'files_joomla';
+SELECT `extension_id`, 'COM_CPANEL_MSG_STATS_COLLECTION_TITLE', 'COM_CPANEL_MSG_STATS_COLLECTION_BODY', '', 'com_cpanel', 1, 'message', '', '', 'admin://components/com_admin/postinstall/statscollection.php', 'admin_postinstall_statscollection_condition', '3.5.0', 1 FROM `#__extensions` WHERE `name` = 'files_joomla';
 INSERT INTO `#__postinstall_messages` (`extension_id`, `title_key`, `description_key`, `action_key`, `language_extension`, `language_client_id`, `type`, `action_file`, `action`, `condition_file`, `condition_method`, `version_introduced`, `enabled`)
-SELECT extension_id, 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_BODY', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_ACTION', 'plg_system_updatenotification', 1, 'action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_condition', '3.6.3', 1 FROM `#__extensions` WHERE `name` = 'files_joomla';
+SELECT `extension_id`, 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_BODY', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_ACTION', 'plg_system_updatenotification', 1, 'action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_condition', '3.6.3', 1 FROM `#__extensions` WHERE `name` = 'files_joomla';
 INSERT INTO `#__postinstall_messages` (`extension_id`, `title_key`, `description_key`, `action_key`, `language_extension`, `language_client_id`, `type`, `action_file`, `action`, `condition_file`, `condition_method`, `version_introduced`, `enabled`)
-SELECT extension_id, 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_TITLE', 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_BODY', 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_ACTION', 'plg_system_httpheaders', 1, 'action', 'site://plugins/system/httpheaders/postinstall/introduction.php', 'httpheaders_postinstall_action', 'site://plugins/system/httpheaders/postinstall/introduction.php', 'httpheaders_postinstall_condition', '4.0.0', 1 FROM `#__extensions` WHERE `name` = 'files_joomla';
+SELECT `extension_id`, 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_TITLE', 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_BODY', 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_ACTION', 'plg_system_httpheaders', 1, 'action', 'site://plugins/system/httpheaders/postinstall/introduction.php', 'httpheaders_postinstall_action', 'site://plugins/system/httpheaders/postinstall/introduction.php', 'httpheaders_postinstall_condition', '4.0.0', 1 FROM `#__extensions` WHERE `name` = 'files_joomla';
 
 -- --------------------------------------------------------
 
@@ -305,14 +305,14 @@ SELECT extension_id, 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_TITLE', 'P
 --
 
 CREATE TABLE IF NOT EXISTS `#__ucm_base` (
-   `ucm_id` int(10) unsigned NOT NULL,
-   `ucm_item_id` int(10) NOT NULL,
-   `ucm_type_id` int(11) NOT NULL,
-   `ucm_language_id` int(11) NOT NULL,
-   PRIMARY KEY (`ucm_id`),
-   KEY `idx_ucm_item_id` (`ucm_item_id`),
-   KEY `idx_ucm_type_id` (`ucm_type_id`),
-   KEY `idx_ucm_language_id` (`ucm_language_id`)
+  `ucm_id` int(10) unsigned NOT NULL,
+  `ucm_item_id` int(10) NOT NULL,
+  `ucm_type_id` int(11) NOT NULL,
+  `ucm_language_id` int(11) NOT NULL,
+  PRIMARY KEY (`ucm_id`),
+  KEY `idx_ucm_item_id` (`ucm_item_id`),
+  KEY `idx_ucm_type_id` (`ucm_type_id`),
+  KEY `idx_ucm_language_id` (`ucm_language_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -322,51 +322,51 @@ CREATE TABLE IF NOT EXISTS `#__ucm_base` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__ucm_content` (
-   `core_content_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `core_type_alias` varchar(400) NOT NULL DEFAULT '' COMMENT 'FK to the content types table',
-   `core_title` varchar(400) NOT NULL DEFAULT '',
-   `core_alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
-   `core_body` mediumtext,
-   `core_state` tinyint(1) NOT NULL DEFAULT 0,
-   `core_checked_out_time` datetime,
-   `core_checked_out_user_id` int(10) unsigned NOT NULL DEFAULT 0,
-   `core_access` int(10) unsigned NOT NULL DEFAULT 0,
-   `core_params` text,
-   `core_featured` tinyint(4) unsigned NOT NULL DEFAULT 0,
-   `core_metadata` varchar(2048) NOT NULL DEFAULT '' COMMENT 'JSON encoded metadata properties.',
-   `core_created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
-   `core_created_by_alias` varchar(255) NOT NULL DEFAULT '',
-   `core_created_time` datetime NOT NULL,
-   `core_modified_user_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Most recent user that modified',
-   `core_modified_time` datetime NOT NULL,
-   `core_language` char(7) NOT NULL DEFAULT '',
-   `core_publish_up` datetime,
-   `core_publish_down` datetime,
-   `core_content_item_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'ID from the individual type table',
-   `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
-   `core_images` text,
-   `core_urls` text,
-   `core_hits` int(10) unsigned NOT NULL DEFAULT 0,
-   `core_version` int(10) unsigned NOT NULL DEFAULT 1,
-   `core_ordering` int(11) NOT NULL DEFAULT 0,
-   `core_metakey` text,
-   `core_metadesc` text,
-   `core_catid` int(10) unsigned NOT NULL DEFAULT 0,
-   `core_type_id` int(10) unsigned NOT NULL DEFAULT 0,
-   PRIMARY KEY (`core_content_id`),
-   KEY `tag_idx` (`core_state`,`core_access`),
-   KEY `idx_access` (`core_access`),
-   KEY `idx_alias` (`core_alias`(100)),
-   KEY `idx_language` (`core_language`),
-   KEY `idx_title` (`core_title`(100)),
-   KEY `idx_modified_time` (`core_modified_time`),
-   KEY `idx_created_time` (`core_created_time`),
-   KEY `idx_content_type` (`core_type_alias`(100)),
-   KEY `idx_core_modified_user_id` (`core_modified_user_id`),
-   KEY `idx_core_checked_out_user_id` (`core_checked_out_user_id`),
-   KEY `idx_core_created_user_id` (`core_created_user_id`),
-   KEY `idx_core_type_id` (`core_type_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Contains core content data in name spaced fields';
+  `core_content_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `core_type_alias` varchar(400) NOT NULL DEFAULT '' COMMENT 'FK to the content types table',
+  `core_title` varchar(400) NOT NULL DEFAULT '',
+  `core_alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `core_body` mediumtext,
+  `core_state` tinyint(1) NOT NULL DEFAULT 0,
+  `core_checked_out_time` datetime,
+  `core_checked_out_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `core_access` int(10) unsigned NOT NULL DEFAULT 0,
+  `core_params` text,
+  `core_featured` tinyint(4) unsigned NOT NULL DEFAULT 0,
+  `core_metadata` varchar(2048) NOT NULL DEFAULT '' COMMENT 'JSON encoded metadata properties.',
+  `core_created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `core_created_by_alias` varchar(255) NOT NULL DEFAULT '',
+  `core_created_time` datetime NOT NULL,
+  `core_modified_user_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Most recent user that modified',
+  `core_modified_time` datetime NOT NULL,
+  `core_language` char(7) NOT NULL DEFAULT '',
+  `core_publish_up` datetime,
+  `core_publish_down` datetime,
+  `core_content_item_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'ID from the individual type table',
+  `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
+  `core_images` text,
+  `core_urls` text,
+  `core_hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `core_version` int(10) unsigned NOT NULL DEFAULT 1,
+  `core_ordering` int(11) NOT NULL DEFAULT 0,
+  `core_metakey` text,
+  `core_metadesc` text,
+  `core_catid` int(10) unsigned NOT NULL DEFAULT 0,
+  `core_type_id` int(10) unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY (`core_content_id`),
+  KEY `tag_idx` (`core_state`,`core_access`),
+  KEY `idx_access` (`core_access`),
+  KEY `idx_alias` (`core_alias`(100)),
+  KEY `idx_language` (`core_language`),
+  KEY `idx_title` (`core_title`(100)),
+  KEY `idx_modified_time` (`core_modified_time`),
+  KEY `idx_created_time` (`core_created_time`),
+  KEY `idx_content_type` (`core_type_alias`(100)),
+  KEY `idx_core_modified_user_id` (`core_modified_user_id`),
+  KEY `idx_core_checked_out_user_id` (`core_checked_out_user_id`),
+  KEY `idx_core_created_user_id` (`core_created_user_id`),
+  KEY `idx_core_type_id` (`core_type_id`)
+ ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Contains core content data in name spaced fields';
 
 -- --------------------------------------------------------
 
@@ -375,19 +375,19 @@ CREATE TABLE IF NOT EXISTS `#__ucm_content` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__ucm_history` (
-   `version_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `ucm_item_id` int(10) unsigned NOT NULL,
-   `ucm_type_id` int(10) unsigned NOT NULL,
-   `version_note` varchar(255) NOT NULL DEFAULT '' COMMENT 'Optional version name',
-   `save_date` datetime NOT NULL,
-   `editor_user_id` int(10) unsigned NOT NULL DEFAULT 0,
-   `character_count` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Number of characters in this version.',
-   `sha1_hash` varchar(50) NOT NULL DEFAULT '' COMMENT 'SHA1 hash of the version_data column.',
-   `version_data` mediumtext NOT NULL COMMENT 'json-encoded string of version data',
-   `keep_forever` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0=auto delete; 1=keep',
-   PRIMARY KEY (`version_id`),
-   KEY `idx_ucm_item_id` (`ucm_type_id`,`ucm_item_id`),
-   KEY `idx_save_date` (`save_date`)
+  `version_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `ucm_item_id` int(10) unsigned NOT NULL,
+  `ucm_type_id` int(10) unsigned NOT NULL,
+  `version_note` varchar(255) NOT NULL DEFAULT '' COMMENT 'Optional version name',
+  `save_date` datetime NOT NULL,
+  `editor_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `character_count` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'Number of characters in this version.',
+  `sha1_hash` varchar(50) NOT NULL DEFAULT '' COMMENT 'SHA1 hash of the version_data column.',
+  `version_data` mediumtext NOT NULL COMMENT 'json-encoded string of version data',
+  `keep_forever` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0=auto delete; 1=keep',
+  PRIMARY KEY (`version_id`),
+  KEY `idx_ucm_item_id` (`ucm_type_id`,`ucm_item_id`),
+  KEY `idx_save_date` (`save_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -396,15 +396,14 @@ CREATE TABLE IF NOT EXISTS `#__ucm_history` (
 -- Table structure for table `#__webauthn_credentials#__webauthn_credentials`
 --
 
-CREATE TABLE IF NOT EXISTS `#__webauthn_credentials`
-(
-   `id` VARCHAR(1000) NOT NULL COMMENT 'Credential ID',
-   `user_id` VARCHAR(128) NOT NULL COMMENT 'User handle',
-   `label` VARCHAR(190) NOT NULL COMMENT 'Human readable label',
-   `credential` MEDIUMTEXT NOT NULL COMMENT 'Credential source data, JSON format',
-   PRIMARY KEY (`id`(100)),
-   INDEX (`user_id`(100))
-) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 DEFAULT COLLATE = utf8mb4_unicode_ci;
+CREATE TABLE IF NOT EXISTS `#__webauthn_credentials` (
+    `id`         VARCHAR(1000)   NOT NULL COMMENT 'Credential ID',
+    `user_id`    VARCHAR(128)    NOT NULL COMMENT 'User handle',
+    `label`      VARCHAR(190)    NOT NULL COMMENT 'Human readable label',
+    `credential` MEDIUMTEXT      NOT NULL COMMENT 'Credential source data, JSON format',
+    PRIMARY KEY (`id`(100)),
+    INDEX (`user_id`(100))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -413,18 +412,19 @@ CREATE TABLE IF NOT EXISTS `#__webauthn_credentials`
 --
 
 CREATE TABLE IF NOT EXISTS `#__mail_templates` (
-   `template_id` VARCHAR(127) NOT NULL DEFAULT '',
-   `language` char(7) NOT NULL DEFAULT '',
-   `subject` VARCHAR(255) NOT NULL DEFAULT '',
-   `body` TEXT NOT NULL,
-   `htmlbody` TEXT NOT NULL,
-   `attachments` TEXT NOT NULL,
-   `params` TEXT NOT NULL,
-   PRIMARY KEY (`template_id`, `language`)
+  `template_id` VARCHAR(127) NOT NULL DEFAULT '',
+  `language` char(7) NOT NULL DEFAULT '',
+  `subject` VARCHAR(255) NOT NULL DEFAULT '',
+  `body` TEXT NOT NULL,
+  `htmlbody` TEXT NOT NULL,
+  `attachments` TEXT NOT NULL,
+  `params` TEXT NOT NULL,
+  PRIMARY KEY (`template_id`, `language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__mail_templates`
 --
 
-INSERT INTO `#__mail_templates` (`template_id`, `language`, `subject`, `body`, `htmlbody`, `attachments`, `params`) VALUES ('com_config.test_mail', '', 'COM_CONFIG_SENDMAIL_SUBJECT', 'COM_CONFIG_SENDMAIL_BODY', '', '', '{"tags":["sitename","method"]}');
+INSERT INTO `#__mail_templates` (`template_id`, `language`, `subject`, `body`, `htmlbody`, `attachments`, `params`) VALUES
+('com_config.test_mail', '', 'COM_CONFIG_SENDMAIL_SUBJECT', 'COM_CONFIG_SENDMAIL_BODY', '', '', '{"tags":["sitename","method"]}');

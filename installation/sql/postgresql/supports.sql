@@ -30,12 +30,12 @@ CREATE TABLE IF NOT EXISTS "#__categories" (
   "title" varchar(255) DEFAULT '' NOT NULL,
   "alias" varchar(255) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
-  "description" text DEFAULT '' NOT NULL,
+  "description" text,
   "published" smallint DEFAULT 0 NOT NULL,
   "checked_out" bigint DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone,
   "access" bigint DEFAULT 0 NOT NULL,
-  "params" text DEFAULT '' NOT NULL,
+  "params" text,
   "metadesc" varchar(1024) DEFAULT '' NOT NULL,
   "metakey" varchar(1024) DEFAULT '' NOT NULL,
   "metadata" varchar(2048) DEFAULT '' NOT NULL,
@@ -150,17 +150,17 @@ CREATE TABLE IF NOT EXISTS "#__fields" (
   "title" varchar(255) DEFAULT '' NOT NULL,
   "name" varchar(255) DEFAULT '' NOT NULL,
   "label" varchar(255) DEFAULT '' NOT NULL,
-  "default_value" text DEFAULT '' NOT NULL,
+  "default_value" text,
   "type" varchar(255) DEFAULT 'text' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
-  "description" text DEFAULT '' NOT NULL,
+  "description" text NOT NULL,
   "state" smallint DEFAULT 0 NOT NULL,
   "required" smallint DEFAULT 0 NOT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone,
   "ordering" bigint DEFAULT 0 NOT NULL,
-  "params" text DEFAULT '' NOT NULL,
-  "fieldparams" text DEFAULT '' NOT NULL,
+  "params" text NOT NULL,
+  "fieldparams" text NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "created_time" timestamp without time zone NOT NULL,
   "created_user_id" bigint DEFAULT 0 NOT NULL,
@@ -201,7 +201,7 @@ CREATE TABLE IF NOT EXISTS "#__fields_groups" (
   "checked_out" integer DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone,
   "ordering" integer DEFAULT 0 NOT NULL,
-  "params" text DEFAULT '' NOT NULL,
+  "params" text NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "created" timestamp without time zone NOT NULL,
   "created_by" bigint DEFAULT 0 NOT NULL,
@@ -224,7 +224,7 @@ CREATE INDEX "#__fields_groups_idx_language" ON "#__fields_groups" ("language");
 CREATE TABLE IF NOT EXISTS "#__fields_values" (
 "field_id" bigint DEFAULT 0 NOT NULL,
 "item_id" varchar(255) DEFAULT '' NOT NULL,
-"value" text DEFAULT '' NOT NULL
+"value" text
 );
 CREATE INDEX "#__fields_values_idx_field_id" ON "#__fields_values" ("field_id");
 CREATE INDEX "#__fields_values_idx_item_id" ON "#__fields_values" ("item_id");
@@ -315,14 +315,14 @@ CREATE TABLE IF NOT EXISTS "#__ucm_content" (
   "core_type_alias" varchar(255) DEFAULT '' NOT NULL,
   "core_title" varchar(255) DEFAULT '' NOT NULL,
   "core_alias" varchar(255) DEFAULT '' NOT NULL,
-  "core_body" text NOT NULL DEFAULT '',
+  "core_body" text,
   "core_state" smallint DEFAULT 0 NOT NULL,
   "core_checked_out_time" timestamp without time zone,
   "core_checked_out_user_id" bigint DEFAULT 0 NOT NULL,
   "core_access" bigint DEFAULT 0 NOT NULL,
-  "core_params" text DEFAULT '' NOT NULL,
+  "core_params" text,
   "core_featured" smallint DEFAULT 0 NOT NULL,
-  "core_metadata" text DEFAULT '' NOT NULL,
+  "core_metadata" text,
   "core_created_user_id" bigint DEFAULT 0 NOT NULL,
   "core_created_by_alias" varchar(255) DEFAULT '' NOT NULL,
   "core_created_time" timestamp without time zone NOT NULL,
@@ -333,13 +333,13 @@ CREATE TABLE IF NOT EXISTS "#__ucm_content" (
   "core_publish_down" timestamp without time zone,
   "core_content_item_id" bigint DEFAULT 0 NOT NULL,
   "asset_id" bigint DEFAULT 0 NOT NULL,
-  "core_images" text DEFAULT '' NOT NULL,
-  "core_urls" text DEFAULT '' NOT NULL,
+  "core_images" text,
+  "core_urls" text,
   "core_hits" bigint DEFAULT 0 NOT NULL,
   "core_version" bigint DEFAULT 1 NOT NULL,
   "core_ordering" bigint DEFAULT 0 NOT NULL,
-  "core_metakey" text DEFAULT '' NOT NULL,
-  "core_metadesc" text DEFAULT '' NOT NULL,
+  "core_metakey" text,
+  "core_metadesc" text,
   "core_catid" bigint DEFAULT 0 NOT NULL,
   "core_type_id" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("core_content_id"),
@@ -385,11 +385,10 @@ COMMENT ON COLUMN "#__ucm_history"."version_data" IS 'json-encoded string of ver
 COMMENT ON COLUMN "#__ucm_history"."keep_forever" IS '0=auto delete; 1=keep';
 
 --
--- Table structure for table "#__webauthn_credentials"
+-- Table structure for table `#__webauthn_credentials`
 --
 
-CREATE TABLE IF NOT EXISTS "#__webauthn_credentials"
-(
+CREATE TABLE IF NOT EXISTS "#__webauthn_credentials" (
     "id"         varchar(1000)    NOT NULL,
 	"user_id"    varchar(128)     NOT NULL,
     "label"      varchar(190)     NOT NULL,
@@ -400,7 +399,7 @@ CREATE TABLE IF NOT EXISTS "#__webauthn_credentials"
 CREATE INDEX "#__webauthn_credentials_user_id" ON "#__webauthn_credentials" ("user_id");
 
 --
--- Table structure for table "#__mail_templates"
+-- Table structure for table `#__mail_templates`
 --
 
 CREATE TABLE IF NOT EXISTS "#__mail_templates" (
@@ -417,7 +416,7 @@ CREATE INDEX "#__mail_templates_idx_template_id" ON "#__mail_templates" ("templa
 CREATE INDEX "#__mail_templates_idx_language" ON "#__mail_templates" ("language");
 
 --
--- Dumping data for table "#__mail_templates"
+-- Dumping data for table `#__mail_templates`
 --
 
 INSERT INTO "#__mail_templates" ("template_id", "language", "subject", "body", "htmlbody", "attachments", "params") VALUES

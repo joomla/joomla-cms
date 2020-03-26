@@ -6,46 +6,46 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `#__banners` (
-   `id` int(11) NOT NULL AUTO_INCREMENT,
-   `cid` int(11) NOT NULL DEFAULT 0,
-   `type` int(11) NOT NULL DEFAULT 0,
-   `name` varchar(255) NOT NULL DEFAULT '',
-   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
-   `imptotal` int(11) NOT NULL DEFAULT 0,
-   `impmade` int(11) NOT NULL DEFAULT 0,
-   `clicks` int(11) NOT NULL DEFAULT 0,
-   `clickurl` varchar(200) NOT NULL DEFAULT '',
-   `state` tinyint(3) NOT NULL DEFAULT 0,
-   `catid` int(10) unsigned NOT NULL DEFAULT 0,
-   `description` text NOT NULL,
-   `custombannercode` varchar(2048) NOT NULL,
-   `sticky` tinyint(1) unsigned NOT NULL DEFAULT 0,
-   `ordering` int(11) NOT NULL DEFAULT 0,
-   `metakey` text,
-   `params` text NOT NULL,
-   `own_prefix` tinyint(1) NOT NULL DEFAULT 0,
-   `metakey_prefix` varchar(400) NOT NULL DEFAULT '',
-   `purchase_type` tinyint(4) NOT NULL DEFAULT -1,
-   `track_clicks` tinyint(4) NOT NULL DEFAULT -1,
-   `track_impressions` tinyint(4) NOT NULL DEFAULT -1,
-   `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
-   `checked_out_time` datetime,
-   `publish_up` datetime,
-   `publish_down` datetime,
-   `reset` datetime,
-   `created` datetime NOT NULL,
-   `language` char(7) NOT NULL DEFAULT '',
-   `created_by` int(10) unsigned NOT NULL DEFAULT 0,
-   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
-   `modified` datetime NOT NULL,
-   `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
-   `version` int(10) unsigned NOT NULL DEFAULT 1,
-   PRIMARY KEY (`id`),
-   KEY `idx_state` (`state`),
-   KEY `idx_own_prefix` (`own_prefix`),
-   KEY `idx_metakey_prefix` (`metakey_prefix`(100)),
-   KEY `idx_banner_catid` (`catid`),
-   KEY `idx_language` (`language`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cid` int(11) NOT NULL DEFAULT 0,
+  `type` int(11) NOT NULL DEFAULT 0,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `imptotal` int(11) NOT NULL DEFAULT 0,
+  `impmade` int(11) NOT NULL DEFAULT 0,
+  `clicks` int(11) NOT NULL DEFAULT 0,
+  `clickurl` varchar(200) NOT NULL DEFAULT '',
+  `state` tinyint(3) NOT NULL DEFAULT 0,
+  `catid` int(10) unsigned NOT NULL DEFAULT 0,
+  `description` text NOT NULL,
+  `custombannercode` varchar(2048) NOT NULL,
+  `sticky` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `ordering` int(11) NOT NULL DEFAULT 0,
+  `metakey` text,
+  `params` text NOT NULL,
+  `own_prefix` tinyint(1) NOT NULL DEFAULT 0,
+  `metakey_prefix` varchar(400) NOT NULL DEFAULT '',
+  `purchase_type` tinyint(4) NOT NULL DEFAULT -1,
+  `track_clicks` tinyint(4) NOT NULL DEFAULT -1,
+  `track_impressions` tinyint(4) NOT NULL DEFAULT -1,
+  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out_time` datetime,
+  `publish_up` datetime,
+  `publish_down` datetime,
+  `reset` datetime,
+  `created` datetime NOT NULL,
+  `language` char(7) NOT NULL DEFAULT '',
+  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_by_alias` varchar(255) NOT NULL DEFAULT '',
+  `modified` datetime NOT NULL,
+  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `version` int(10) unsigned NOT NULL DEFAULT 1,
+  PRIMARY KEY (`id`),
+  KEY `idx_state` (`state`),
+  KEY `idx_own_prefix` (`own_prefix`),
+  KEY `idx_metakey_prefix` (`metakey_prefix`(100)),
+  KEY `idx_banner_catid` (`catid`),
+  KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -55,23 +55,23 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__banner_clients` (
-   `id` int(11) NOT NULL AUTO_INCREMENT,
-   `name` varchar(255) NOT NULL DEFAULT '',
-   `contact` varchar(255) NOT NULL DEFAULT '',
-   `email` varchar(255) NOT NULL DEFAULT '',
-   `extrainfo` text NOT NULL,
-   `state` tinyint(3) NOT NULL DEFAULT 0,
-   `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
-   `checked_out_time` datetime,
-   `metakey` text,
-   `own_prefix` tinyint(4) NOT NULL DEFAULT 0,
-   `metakey_prefix` varchar(400) NOT NULL DEFAULT '',
-   `purchase_type` tinyint(4) NOT NULL DEFAULT -1,
-   `track_clicks` tinyint(4) NOT NULL DEFAULT -1,
-   `track_impressions` tinyint(4) NOT NULL DEFAULT -1,
-   PRIMARY KEY (`id`),
-   KEY `idx_own_prefix` (`own_prefix`),
-   KEY `idx_metakey_prefix` (`metakey_prefix`(100))
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `contact` varchar(255) NOT NULL DEFAULT '',
+  `email` varchar(255) NOT NULL DEFAULT '',
+  `extrainfo` text NOT NULL,
+  `state` tinyint(3) NOT NULL DEFAULT 0,
+  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out_time` datetime,
+  `metakey` text,
+  `own_prefix` tinyint(4) NOT NULL DEFAULT 0,
+  `metakey_prefix` varchar(400) NOT NULL DEFAULT '',
+  `purchase_type` tinyint(4) NOT NULL DEFAULT -1,
+  `track_clicks` tinyint(4) NOT NULL DEFAULT -1,
+  `track_impressions` tinyint(4) NOT NULL DEFAULT -1,
+  PRIMARY KEY (`id`),
+  KEY `idx_own_prefix` (`own_prefix`),
+  KEY `idx_metakey_prefix` (`metakey_prefix`(100))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -81,14 +81,14 @@ CREATE TABLE IF NOT EXISTS `#__banner_clients` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__banner_tracks` (
-   `track_date` datetime NOT NULL,
-   `track_type` int(10) unsigned NOT NULL,
-   `banner_id` int(10) unsigned NOT NULL,
-   `count` int(10) unsigned NOT NULL DEFAULT 0,
-   PRIMARY KEY (`track_date`,`track_type`,`banner_id`),
-   KEY `idx_track_date` (`track_date`),
-   KEY `idx_track_type` (`track_type`),
-   KEY `idx_banner_id` (`banner_id`)
+  `track_date` datetime NOT NULL,
+  `track_type` int(10) unsigned NOT NULL,
+  `banner_id` int(10) unsigned NOT NULL,
+  `count` int(10) unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY (`track_date`,`track_type`,`banner_id`),
+  KEY `idx_track_date` (`track_date`),
+  KEY `idx_track_type` (`track_type`),
+  KEY `idx_banner_id` (`banner_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -98,56 +98,56 @@ CREATE TABLE IF NOT EXISTS `#__banner_tracks` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__contact_details` (
-   `id` int(11) NOT NULL AUTO_INCREMENT,
-   `name` varchar(255) NOT NULL,
-   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-   `con_position` varchar(255),
-   `address` text,
-   `suburb` varchar(100),
-   `state` varchar(100),
-   `country` varchar(100),
-   `postcode` varchar(100),
-   `telephone` varchar(255),
-   `fax` varchar(255),
-   `misc` mediumtext,
-   `image` varchar(255),
-   `email_to` varchar(255),
-   `default_con` tinyint(1) unsigned NOT NULL DEFAULT 0,
-   `published` tinyint(1) NOT NULL DEFAULT 0,
-   `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
-   `checked_out_time` datetime,
-   `ordering` int(11) NOT NULL DEFAULT 0,
-   `params` text NOT NULL,
-   `user_id` int(11) NOT NULL DEFAULT 0,
-   `catid` int(11) NOT NULL DEFAULT 0,
-   `access` int(10) unsigned NOT NULL DEFAULT 0,
-   `mobile` varchar(255) NOT NULL DEFAULT '',
-   `webpage` varchar(255) NOT NULL DEFAULT '',
-   `sortname1` varchar(255) NOT NULL DEFAULT '',
-   `sortname2` varchar(255) NOT NULL DEFAULT '',
-   `sortname3` varchar(255) NOT NULL DEFAULT '',
-   `language` varchar(7) NOT NULL,
-   `created` datetime NOT NULL,
-   `created_by` int(10) unsigned NOT NULL DEFAULT 0,
-   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
-   `modified` datetime NOT NULL,
-   `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
-   `metakey` text,
-   `metadesc` text NOT NULL,
-   `metadata` text NOT NULL,
-   `featured` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT 'Set if contact is featured.',
-   `publish_up` datetime,
-   `publish_down` datetime,
-   `version` int(10) unsigned NOT NULL DEFAULT 1,
-   `hits` int(10) unsigned NOT NULL DEFAULT 0,
-   PRIMARY KEY (`id`),
-   KEY `idx_access` (`access`),
-   KEY `idx_checkout` (`checked_out`),
-   KEY `idx_state` (`published`),
-   KEY `idx_catid` (`catid`),
-   KEY `idx_createdby` (`created_by`),
-   KEY `idx_featured_catid` (`featured`,`catid`),
-   KEY `idx_language` (`language`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `con_position` varchar(255),
+  `address` text,
+  `suburb` varchar(100),
+  `state` varchar(100),
+  `country` varchar(100),
+  `postcode` varchar(100),
+  `telephone` varchar(255),
+  `fax` varchar(255),
+  `misc` mediumtext,
+  `image` varchar(255),
+  `email_to` varchar(255),
+  `default_con` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `published` tinyint(1) NOT NULL DEFAULT 0,
+  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out_time` datetime,
+  `ordering` int(11) NOT NULL DEFAULT 0,
+  `params` text NOT NULL,
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `catid` int(11) NOT NULL DEFAULT 0,
+  `access` int(10) unsigned NOT NULL DEFAULT 0,
+  `mobile` varchar(255) NOT NULL DEFAULT '',
+  `webpage` varchar(255) NOT NULL DEFAULT '',
+  `sortname1` varchar(255) NOT NULL DEFAULT '',
+  `sortname2` varchar(255) NOT NULL DEFAULT '',
+  `sortname3` varchar(255) NOT NULL DEFAULT '',
+  `language` varchar(7) NOT NULL,
+  `created` datetime NOT NULL,
+  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_by_alias` varchar(255) NOT NULL DEFAULT '',
+  `modified` datetime NOT NULL,
+  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `metakey` text,
+  `metadesc` text NOT NULL,
+  `metadata` text NOT NULL,
+  `featured` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT 'Set if contact is featured.',
+  `publish_up` datetime,
+  `publish_down` datetime,
+  `version` int(10) unsigned NOT NULL DEFAULT 1,
+  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id`),
+  KEY `idx_access` (`access`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_state` (`published`),
+  KEY `idx_catid` (`catid`),
+  KEY `idx_createdby` (`created_by`),
+  KEY `idx_featured_catid` (`featured`,`catid`),
+  KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -157,45 +157,45 @@ CREATE TABLE IF NOT EXISTS `#__contact_details` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__content` (
-   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
-   `title` varchar(255) NOT NULL DEFAULT '',
-   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
-   `introtext` mediumtext NOT NULL,
-   `fulltext` mediumtext NOT NULL,
-   `state` tinyint(3) NOT NULL DEFAULT 0,
-   `catid` int(10) unsigned NOT NULL DEFAULT 0,
-   `created` datetime NOT NULL,
-   `created_by` int(10) unsigned NOT NULL DEFAULT 0,
-   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
-   `modified` datetime NOT NULL,
-   `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
-   `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
-   `checked_out_time` datetime NULL DEFAULT NULL,
-   `publish_up` datetime NULL DEFAULT NULL,
-   `publish_down` datetime NULL DEFAULT NULL,
-   `images` text NOT NULL,
-   `urls` text NOT NULL,
-   `attribs` varchar(5120) NOT NULL,
-   `version` int(10) unsigned NOT NULL DEFAULT 1,
-   `ordering` int(11) NOT NULL DEFAULT 0,
-   `metakey` text,
-   `metadesc` text NOT NULL,
-   `access` int(10) unsigned NOT NULL DEFAULT 0,
-   `hits` int(10) unsigned NOT NULL DEFAULT 0,
-   `metadata` text NOT NULL,
-   `featured` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT 'Set if article is featured.',
-   `language` char(7) NOT NULL COMMENT 'The language code for the article.',
-   `note` varchar(255) NOT NULL DEFAULT '',
-   PRIMARY KEY (`id`),
-   KEY `idx_access` (`access`),
-   KEY `idx_checkout` (`checked_out`),
-   KEY `idx_state` (`state`),
-   KEY `idx_catid` (`catid`),
-   KEY `idx_createdby` (`created_by`),
-   KEY `idx_featured_catid` (`featured`,`catid`),
-   KEY `idx_language` (`language`),
-   KEY `idx_alias` (`alias`(191))
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `asset_id` int(10) unsigned NOT NULL DEFAULT 0 COMMENT 'FK to the #__assets table.',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `introtext` mediumtext NOT NULL,
+  `fulltext` mediumtext NOT NULL,
+  `state` tinyint(3) NOT NULL DEFAULT 0,
+  `catid` int(10) unsigned NOT NULL DEFAULT 0,
+  `created` datetime NOT NULL,
+  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_by_alias` varchar(255) NOT NULL DEFAULT '',
+  `modified` datetime NOT NULL,
+  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out_time` datetime NULL DEFAULT NULL,
+  `publish_up` datetime NULL DEFAULT NULL,
+  `publish_down` datetime NULL DEFAULT NULL,
+  `images` text NOT NULL,
+  `urls` text NOT NULL,
+  `attribs` varchar(5120) NOT NULL,
+  `version` int(10) unsigned NOT NULL DEFAULT 1,
+  `ordering` int(11) NOT NULL DEFAULT 0,
+  `metakey` text,
+  `metadesc` text NOT NULL,
+  `access` int(10) unsigned NOT NULL DEFAULT 0,
+  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `metadata` text NOT NULL,
+  `featured` tinyint(3) unsigned NOT NULL DEFAULT 0 COMMENT 'Set if article is featured.',
+  `language` char(7) NOT NULL COMMENT 'The language code for the article.',
+  `note` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `idx_access` (`access`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_state` (`state`),
+  KEY `idx_catid` (`catid`),
+  KEY `idx_createdby` (`created_by`),
+  KEY `idx_featured_catid` (`featured`,`catid`),
+  KEY `idx_language` (`language`),
+  KEY `idx_alias` (`alias`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -205,11 +205,11 @@ CREATE TABLE IF NOT EXISTS `#__content` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__content_frontpage` (
-   `content_id` int(11) NOT NULL DEFAULT 0,
-   `ordering` int(11) NOT NULL DEFAULT 0,
-   `featured_up` datetime,
-   `featured_down` datetime,
-   PRIMARY KEY (`content_id`)
+  `content_id` int(11) NOT NULL DEFAULT 0,
+  `ordering` int(11) NOT NULL DEFAULT 0,
+  `featured_up` datetime,
+  `featured_down` datetime,
+  PRIMARY KEY (`content_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -219,11 +219,11 @@ CREATE TABLE IF NOT EXISTS `#__content_frontpage` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__content_rating` (
-   `content_id` int(11) NOT NULL DEFAULT 0,
-   `rating_sum` int(10) unsigned NOT NULL DEFAULT 0,
-   `rating_count` int(10) unsigned NOT NULL DEFAULT 0,
-   `lastip` varchar(50) NOT NULL DEFAULT '',
-   PRIMARY KEY (`content_id`)
+  `content_id` int(11) NOT NULL DEFAULT 0,
+  `rating_sum` int(10) unsigned NOT NULL DEFAULT 0,
+  `rating_count` int(10) unsigned NOT NULL DEFAULT 0,
+  `lastip` varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY (`content_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -233,22 +233,22 @@ CREATE TABLE IF NOT EXISTS `#__content_rating` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_filters` (
-   `filter_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `title` varchar(255) NOT NULL,
-   `alias` varchar(255) NOT NULL,
-   `state` tinyint(1) NOT NULL DEFAULT 1,
-   `created` datetime NOT NULL,
-   `created_by` int(10) unsigned NOT NULL DEFAULT 0,
-   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
-   `modified` datetime NOT NULL,
-   `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
-   `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
-   `checked_out_time` datetime,
-   `map_count` int(10) unsigned NOT NULL DEFAULT 0,
-   `data` text,
-   `params` mediumtext,
-   PRIMARY KEY (`filter_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
+  `filter_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `alias` varchar(255) NOT NULL,
+  `state` tinyint(1) NOT NULL DEFAULT 1,
+  `created` datetime NOT NULL,
+  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_by_alias` varchar(255) NOT NULL DEFAULT '',
+  `modified` datetime NOT NULL,
+  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out_time` datetime,
+  `map_count` int(10) unsigned NOT NULL DEFAULT 0,
+  `data` text,
+  `params` mediumtext,
+  PRIMARY KEY (`filter_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -257,34 +257,34 @@ CREATE TABLE IF NOT EXISTS `#__finder_filters` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links` (
-   `link_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `url` varchar(255) NOT NULL,
-   `route` varchar(255) NOT NULL,
-   `title` varchar(400) DEFAULT NULL,
-   `description` text,
-   `indexdate` datetime NOT NULL,
-   `md5sum` varchar(32) DEFAULT NULL,
-   `published` tinyint(1) NOT NULL DEFAULT 1,
-   `state` int(5) NOT NULL DEFAULT 1,
-   `access` int(5) NOT NULL DEFAULT 0,
-   `language` char(7) NOT NULL DEFAULT '',
-   `publish_start_date` datetime,
-   `publish_end_date` datetime,
-   `start_date` datetime,
-   `end_date` datetime,
-   `list_price` double unsigned NOT NULL DEFAULT 0,
-   `sale_price` double unsigned NOT NULL DEFAULT 0,
-   `type_id` int(11) NOT NULL,
-   `object` mediumblob,
-   PRIMARY KEY (`link_id`),
-   KEY `idx_type` (`type_id`),
-   KEY `idx_title` (`title`(100)),
-   KEY `idx_md5` (`md5sum`),
-   KEY `idx_url` (`url`(75)),
-   KEY `idx_language` (`language`),
-   KEY `idx_published_list` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`list_price`),
-   KEY `idx_published_sale` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`sale_price`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
+  `link_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `url` varchar(255) NOT NULL,
+  `route` varchar(255) NOT NULL,
+  `title` varchar(400) DEFAULT NULL,
+  `description` text,
+  `indexdate` datetime NOT NULL,
+  `md5sum` varchar(32) DEFAULT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT 1,
+  `state` int(5) NOT NULL DEFAULT 1,
+  `access` int(5) NOT NULL DEFAULT 0,
+  `language` char(7) NOT NULL DEFAULT '',
+  `publish_start_date` datetime,
+  `publish_end_date` datetime,
+  `start_date` datetime,
+  `end_date` datetime,
+  `list_price` double unsigned NOT NULL DEFAULT 0,
+  `sale_price` double unsigned NOT NULL DEFAULT 0,
+  `type_id` int(11) NOT NULL,
+  `object` mediumblob,
+  PRIMARY KEY (`link_id`),
+  KEY `idx_type` (`type_id`),
+  KEY `idx_title` (`title`(100)),
+  KEY `idx_md5` (`md5sum`),
+  KEY `idx_url` (`url`(75)),
+  KEY `idx_language` (`language`),
+  KEY `idx_published_list` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`list_price`),
+  KEY `idx_published_sale` (`published`,`state`,`access`,`publish_start_date`,`publish_end_date`,`sale_price`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -293,13 +293,13 @@ CREATE TABLE IF NOT EXISTS `#__finder_links` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_links_terms` (
-   `link_id` int(10) unsigned NOT NULL,
-   `term_id` int(10) unsigned NOT NULL,
-   `weight` float unsigned NOT NULL DEFAULT 0,
-   PRIMARY KEY (`link_id`,`term_id`),
-   KEY `idx_term_weight` (`term_id`,`weight`),
-   KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
+  `link_id` int(10) unsigned NOT NULL,
+  `term_id` int(10) unsigned NOT NULL,
+  `weight` float unsigned NOT NULL DEFAULT 0,
+  PRIMARY KEY (`link_id`,`term_id`),
+  KEY `idx_term_weight` (`term_id`,`weight`),
+  KEY `idx_link_term_weight` (`link_id`,`term_id`,`weight`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -308,14 +308,14 @@ CREATE TABLE IF NOT EXISTS `#__finder_links_terms` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_logging` (
-   `searchterm` VARCHAR(255) NOT NULL DEFAULT '',
-   `md5sum` VARCHAR(32) NOT NULL DEFAULT '',
-   `query` BLOB NOT NULL,
-   `hits` INT(11) NOT NULL DEFAULT 1,
-   `results` INT(11) NOT NULL DEFAULT 0,
-   PRIMARY KEY (`md5sum`),
-   INDEX `searchterm` (`searchterm`(191))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
+  `searchterm` VARCHAR(255) NOT NULL DEFAULT '',
+  `md5sum` VARCHAR(32) NOT NULL DEFAULT '',
+  `query` BLOB NOT NULL,
+  `hits` INT(11) NOT NULL DEFAULT 1,
+  `results` INT(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`md5sum`),
+  INDEX `searchterm` (`searchterm`(191))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -324,26 +324,26 @@ CREATE TABLE IF NOT EXISTS `#__finder_logging` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_taxonomy` (
-   `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
-   `parent_id` INT(10) UNSIGNED NOT NULL DEFAULT '0',
-   `lft` INT(11) NOT NULL DEFAULT '0',
-   `rgt` INT(11) NOT NULL DEFAULT '0',
-   `level` INT(10) UNSIGNED NOT NULL DEFAULT '0',
-   `path` VARCHAR(400) NOT NULL DEFAULT '',
-   `title` VARCHAR(255) NOT NULL DEFAULT '',
-   `alias` VARCHAR(400) NOT NULL DEFAULT '',
-   `state` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
-   `access` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
-   `language` CHAR(7) NOT NULL DEFAULT '',
-   PRIMARY KEY (`id`),
-   INDEX `idx_state` (`state`),
-   INDEX `idx_access` (`access`),
-   INDEX `idx_path` (`path`(100)),
-   INDEX `idx_left_right` (`lft`, `rgt`),
-   INDEX `idx_alias` (`alias`(100)),
-   INDEX `idx_language` (`language`),
-   INDEX `idx_parent_published` (`parent_id`, `state`, `access`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
+  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `parent_id` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+  `lft` INT(11) NOT NULL DEFAULT '0',
+  `rgt` INT(11) NOT NULL DEFAULT '0',
+  `level` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+  `path` VARCHAR(400) NOT NULL DEFAULT '',
+  `title` VARCHAR(255) NOT NULL DEFAULT '',
+  `alias` VARCHAR(400) NOT NULL DEFAULT '',
+  `state` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
+  `access` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
+  `language` CHAR(7) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  INDEX `idx_state` (`state`),
+  INDEX `idx_access` (`access`),
+  INDEX `idx_path` (`path`(100)),
+  INDEX `idx_left_right` (`lft`, `rgt`),
+  INDEX `idx_alias` (`alias`(100)),
+  INDEX `idx_language` (`language`),
+  INDEX `idx_parent_published` (`parent_id`, `state`, `access`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__finder_taxonomy`
@@ -359,12 +359,12 @@ INSERT INTO `#__finder_taxonomy` (`id`, `parent_id`, `lft`, `rgt`, `level`, `pat
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_taxonomy_map` (
-   `link_id` int(10) unsigned NOT NULL,
-   `node_id` int(10) unsigned NOT NULL,
-   PRIMARY KEY (`link_id`,`node_id`),
-   KEY `link_id` (`link_id`),
-   KEY `node_id` (`node_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
+  `link_id` int(10) unsigned NOT NULL,
+  `node_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`link_id`,`node_id`),
+  KEY `link_id` (`link_id`),
+  KEY `node_id` (`node_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -373,23 +373,23 @@ CREATE TABLE IF NOT EXISTS `#__finder_taxonomy_map` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_terms` (
-   `term_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `term` varchar(75) NOT NULL,
-   `stem` varchar(75) NOT NULL DEFAULT '',
-   `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
-   `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
-   `weight` float unsigned NOT NULL DEFAULT 0,
-   `soundex` varchar(75) NOT NULL DEFAULT '',
-   `links` int(10) NOT NULL DEFAULT 0,
-   `language` char(7) NOT NULL DEFAULT '',
-   PRIMARY KEY (`term_id`),
-   UNIQUE KEY `idx_term_language` (`term`,`language`),
-   KEY `idx_stem` (`stem`),
-   KEY `idx_term_phrase` (`term`,`phrase`),
-   KEY `idx_stem_phrase` (`stem`,`phrase`),
-   KEY `idx_soundex_phrase` (`soundex`,`phrase`),
-   KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
+  `term_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `term` varchar(75) NOT NULL,
+  `stem` varchar(75) NOT NULL DEFAULT '',
+  `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 0,
+  `soundex` varchar(75) NOT NULL DEFAULT '',
+  `links` int(10) NOT NULL DEFAULT 0,
+  `language` char(7) NOT NULL DEFAULT '',
+  PRIMARY KEY (`term_id`),
+  UNIQUE KEY `idx_term_language` (`term`,`language`),
+  KEY `idx_stem` (`stem`),
+  KEY `idx_term_phrase` (`term`,`phrase`),
+  KEY `idx_stem_phrase` (`stem`,`phrase`),
+  KEY `idx_soundex_phrase` (`soundex`,`phrase`),
+  KEY `idx_language` (`language`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -398,11 +398,11 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_terms_common` (
-   `term` varchar(75) NOT NULL DEFAULT '',
-   `language` char(7) NOT NULL DEFAULT '',
-   `custom` int(11) NOT NULL DEFAULT '0',
-   UNIQUE KEY `idx_term_language` (`term`,`language`),
-   KEY `idx_lang` (`language`)
+  `term` varchar(75) NOT NULL DEFAULT '',
+  `language` char(7) NOT NULL DEFAULT '',
+  `custom` int(11) NOT NULL DEFAULT '0',
+  UNIQUE KEY `idx_term_language` (`term`,`language`),
+  KEY `idx_lang` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_bin;
 
 --
@@ -592,18 +592,18 @@ INSERT INTO `#__finder_terms_common` (`term`, `language`, `custom`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_tokens` (
-   `term` varchar(75) NOT NULL,
-   `stem` varchar(75) NOT NULL DEFAULT '',
-   `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
-   `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
-   `weight` float unsigned NOT NULL DEFAULT 1,
-   `context` tinyint(1) unsigned NOT NULL DEFAULT 2,
-   `language` char(7) NOT NULL DEFAULT '',
-   KEY `idx_word` (`term`),
-   KEY `idx_stem` (`stem`),
-   KEY `idx_context` (`context`),
-   KEY `idx_language` (`language`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
+  `term` varchar(75) NOT NULL,
+  `stem` varchar(75) NOT NULL DEFAULT '',
+  `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
+  `context` tinyint(1) unsigned NOT NULL DEFAULT 2,
+  `language` char(7) NOT NULL DEFAULT '',
+  KEY `idx_word` (`term`),
+  KEY `idx_stem` (`stem`),
+  KEY `idx_context` (`context`),
+  KEY `idx_language` (`language`)
+) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -612,19 +612,19 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_tokens_aggregate` (
-   `term_id` int(10) unsigned NOT NULL,
-   `term` varchar(75) NOT NULL,
-   `stem` varchar(75) NOT NULL DEFAULT '',
-   `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
-   `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
-   `term_weight` float unsigned NOT NULL DEFAULT 0,
-   `context` tinyint(1) unsigned NOT NULL DEFAULT 2,
-   `context_weight` float unsigned NOT NULL DEFAULT 0,
-   `total_weight` float unsigned NOT NULL DEFAULT 0,
-   `language` char(7) NOT NULL DEFAULT '',
-   KEY `token` (`term`),
-   KEY `keyword_id` (`term_id`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
+  `term_id` int(10) unsigned NOT NULL,
+  `term` varchar(75) NOT NULL,
+  `stem` varchar(75) NOT NULL DEFAULT '',
+  `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `term_weight` float unsigned NOT NULL DEFAULT 0,
+  `context` tinyint(1) unsigned NOT NULL DEFAULT 2,
+  `context_weight` float unsigned NOT NULL DEFAULT 0,
+  `total_weight` float unsigned NOT NULL DEFAULT 0,
+  `language` char(7) NOT NULL DEFAULT '',
+  KEY `token` (`term`),
+  KEY `keyword_id` (`term_id`)
+) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -633,12 +633,12 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens_aggregate` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_types` (
-   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `title` varchar(100) NOT NULL,
-   `mime` varchar(100) NOT NULL DEFAULT '',
-   PRIMARY KEY (`id`),
-   UNIQUE KEY `title` (`title`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL,
+  `mime` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `title` (`title`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -647,17 +647,17 @@ CREATE TABLE IF NOT EXISTS `#__finder_types` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__messages` (
-   `message_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `user_id_from` int(10) unsigned NOT NULL DEFAULT 0,
-   `user_id_to` int(10) unsigned NOT NULL DEFAULT 0,
-   `folder_id` tinyint(3) unsigned NOT NULL DEFAULT 0,
-   `date_time` datetime NOT NULL,
-   `state` tinyint(1) NOT NULL DEFAULT 0,
-   `priority` tinyint(1) unsigned NOT NULL DEFAULT 0,
-   `subject` varchar(255) NOT NULL DEFAULT '',
-   `message` text NOT NULL,
-   PRIMARY KEY (`message_id`),
-   KEY `useridto_state` (`user_id_to`,`state`)
+  `message_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id_from` int(10) unsigned NOT NULL DEFAULT 0,
+  `user_id_to` int(10) unsigned NOT NULL DEFAULT 0,
+  `folder_id` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `date_time` datetime NOT NULL,
+  `state` tinyint(1) NOT NULL DEFAULT 0,
+  `priority` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `subject` varchar(255) NOT NULL DEFAULT '',
+  `message` text NOT NULL,
+  PRIMARY KEY (`message_id`),
+  KEY `useridto_state` (`user_id_to`,`state`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -667,10 +667,10 @@ CREATE TABLE IF NOT EXISTS `#__messages` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__messages_cfg` (
-   `user_id` int(10) unsigned NOT NULL DEFAULT 0,
-   `cfg_name` varchar(100) NOT NULL DEFAULT '',
-   `cfg_value` varchar(255) NOT NULL DEFAULT '',
-   UNIQUE KEY `idx_user_var_name` (`user_id`,`cfg_name`)
+  `user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `cfg_name` varchar(100) NOT NULL DEFAULT '',
+  `cfg_value` varchar(255) NOT NULL DEFAULT '',
+  UNIQUE KEY `idx_user_var_name` (`user_id`,`cfg_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -680,42 +680,42 @@ CREATE TABLE IF NOT EXISTS `#__messages_cfg` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
-   `catid` int(11) NOT NULL DEFAULT 0,
-   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `name` varchar(100) NOT NULL DEFAULT '',
-   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
-   `link` varchar(2048) NOT NULL DEFAULT '',
-   `published` tinyint(1) NOT NULL DEFAULT 0,
-   `numarticles` int(10) unsigned NOT NULL DEFAULT 1,
-   `cache_time` int(10) unsigned NOT NULL DEFAULT 3600,
-   `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
-   `checked_out_time` datetime,
-   `ordering` int(11) NOT NULL DEFAULT 0,
-   `rtl` tinyint(4) NOT NULL DEFAULT 0,
-   `access` int(10) unsigned NOT NULL DEFAULT 0,
-   `language` char(7) NOT NULL DEFAULT '',
-   `params` text NOT NULL,
-   `created` datetime NOT NULL,
-   `created_by` int(10) unsigned NOT NULL DEFAULT 0,
-   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
-   `modified` datetime NOT NULL,
-   `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
-   `metakey` text,
-   `metadesc` text NOT NULL,
-   `metadata` text NOT NULL,
-   `publish_up` datetime,
-   `publish_down` datetime,
-   `description` text NOT NULL,
-   `version` int(10) unsigned NOT NULL DEFAULT 1,
-   `hits` int(10) unsigned NOT NULL DEFAULT 0,
-   `images` text NOT NULL,
-   PRIMARY KEY (`id`),
-   KEY `idx_access` (`access`),
-   KEY `idx_checkout` (`checked_out`),
-   KEY `idx_state` (`published`),
-   KEY `idx_catid` (`catid`),
-   KEY `idx_createdby` (`created_by`),
-   KEY `idx_language` (`language`)
+  `catid` int(11) NOT NULL DEFAULT 0,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `link` varchar(2048) NOT NULL DEFAULT '',
+  `published` tinyint(1) NOT NULL DEFAULT 0,
+  `numarticles` int(10) unsigned NOT NULL DEFAULT 1,
+  `cache_time` int(10) unsigned NOT NULL DEFAULT 3600,
+  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out_time` datetime,
+  `ordering` int(11) NOT NULL DEFAULT 0,
+  `rtl` tinyint(4) NOT NULL DEFAULT 0,
+  `access` int(10) unsigned NOT NULL DEFAULT 0,
+  `language` char(7) NOT NULL DEFAULT '',
+  `params` text NOT NULL,
+  `created` datetime NOT NULL,
+  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_by_alias` varchar(255) NOT NULL DEFAULT '',
+  `modified` datetime NOT NULL,
+  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `metakey` text,
+  `metadesc` text NOT NULL,
+  `metadata` text NOT NULL,
+  `publish_up` datetime,
+  `publish_down` datetime,
+  `description` text NOT NULL,
+  `version` int(10) unsigned NOT NULL DEFAULT 1,
+  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `images` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_access` (`access`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_state` (`published`),
+  KEY `idx_catid` (`catid`),
+  KEY `idx_createdby` (`created_by`),
+  KEY `idx_language` (`language`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -725,14 +725,14 @@ CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__privacy_requests` (
-   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `email` varchar(100) NOT NULL DEFAULT '',
-   `requested_at` datetime NOT NULL,
-   `status` tinyint(4) NOT NULL DEFAULT 0,
-   `request_type` varchar(25) NOT NULL DEFAULT '',
-   `confirm_token` varchar(100) NOT NULL DEFAULT '',
-   `confirm_token_created_at` datetime,
-   PRIMARY KEY (`id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(100) NOT NULL DEFAULT '',
+  `requested_at` datetime NOT NULL,
+  `status` tinyint(4) NOT NULL DEFAULT 0,
+  `request_type` varchar(25) NOT NULL DEFAULT '',
+  `confirm_token` varchar(100) NOT NULL DEFAULT '',
+  `confirm_token_created_at` datetime,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -742,16 +742,16 @@ CREATE TABLE IF NOT EXISTS `#__privacy_requests` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__privacy_consents` (
-   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `user_id` int(10) unsigned NOT NULL DEFAULT 0,
-   `state` INT(10) NOT NULL DEFAULT 1,
-   `created` datetime NOT NULL,
-   `subject` varchar(255) NOT NULL DEFAULT '',
-   `body` text NOT NULL,
-   `remind` tinyint(4) NOT NULL DEFAULT 0,
-   `token` varchar(100) NOT NULL DEFAULT '',
-   PRIMARY KEY (`id`),
-   KEY `idx_user_id` (`user_id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `state` INT(10) NOT NULL DEFAULT 1,
+  `created` datetime NOT NULL,
+  `subject` varchar(255) NOT NULL DEFAULT '',
+  `body` text NOT NULL,
+  `remind` tinyint(4) NOT NULL DEFAULT 0,
+  `token` varchar(100) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -761,19 +761,19 @@ CREATE TABLE IF NOT EXISTS `#__privacy_consents` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__redirect_links` (
-   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `old_url` varchar(2048) NOT NULL,
-   `new_url` varchar(2048),
-   `referer` varchar(2048) NOT NULL,
-   `comment` varchar(255) NOT NULL DEFAULT '',
-   `hits` int(10) unsigned NOT NULL DEFAULT 0,
-   `published` tinyint(4) NOT NULL,
-   `created_date` datetime NOT NULL,
-   `modified_date` datetime NOT NULL,
-   `header` smallint(3) NOT NULL DEFAULT 301,
-   PRIMARY KEY (`id`),
-   KEY `idx_old_url` (`old_url`(100)),
-   KEY `idx_link_modifed` (`modified_date`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `old_url` varchar(2048) NOT NULL,
+  `new_url` varchar(2048),
+  `referer` varchar(2048) NOT NULL,
+  `comment` varchar(255) NOT NULL DEFAULT '',
+  `hits` int(10) unsigned NOT NULL DEFAULT 0,
+  `published` tinyint(4) NOT NULL,
+  `created_date` datetime NOT NULL,
+  `modified_date` datetime NOT NULL,
+  `header` smallint(3) NOT NULL DEFAULT 301,
+  PRIMARY KEY (`id`),
+  KEY `idx_old_url` (`old_url`(100)),
+  KEY `idx_link_modifed` (`modified_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -783,19 +783,19 @@ CREATE TABLE IF NOT EXISTS `#__redirect_links` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__action_logs` (
-   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `message_language_key` varchar(255) NOT NULL DEFAULT '',
-   `message` text NOT NULL,
-   `log_date` datetime NOT NULL,
-   `extension` varchar(50) NOT NULL DEFAULT '',
-   `user_id` int(11) NOT NULL DEFAULT 0,
-   `item_id` int(11) NOT NULL DEFAULT 0,
-   `ip_address` VARCHAR(40) NOT NULL DEFAULT '0.0.0.0',
-   PRIMARY KEY (`id`),
-   KEY `idx_user_id` (`user_id`),
-   KEY `idx_user_id_logdate` (`user_id`, `log_date`),
-   KEY `idx_user_id_extension` (`user_id`, `extension`),
-   KEY `idx_extension_item_id` (`extension`, `item_id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `message_language_key` varchar(255) NOT NULL DEFAULT '',
+  `message` text NOT NULL,
+  `log_date` datetime NOT NULL,
+  `extension` varchar(50) NOT NULL DEFAULT '',
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `item_id` int(11) NOT NULL DEFAULT 0,
+  `ip_address` VARCHAR(40) NOT NULL DEFAULT '0.0.0.0',
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_user_id_logdate` (`user_id`, `log_date`),
+  KEY `idx_user_id_extension` (`user_id`, `extension`),
+  KEY `idx_extension_item_id` (`extension`, `item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -805,9 +805,9 @@ CREATE TABLE IF NOT EXISTS `#__action_logs` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__action_logs_extensions` (
-   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `extension` varchar(255) NOT NULL DEFAULT '',
-   PRIMARY KEY (`id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `extension` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `#__action_logs_extensions` (`id`, `extension`) VALUES
@@ -837,14 +837,14 @@ INSERT INTO `#__action_logs_extensions` (`id`, `extension`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `#__action_log_config` (
-   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-   `type_title` varchar(255) NOT NULL DEFAULT '',
-   `type_alias` varchar(255) NOT NULL DEFAULT '',
-   `id_holder` varchar(255),
-   `title_holder` varchar(255),
-   `table_name` varchar(255),
-   `text_prefix` varchar(255),
-   PRIMARY KEY (`id`)
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `type_title` varchar(255) NOT NULL DEFAULT '',
+  `type_alias` varchar(255) NOT NULL DEFAULT '',
+  `id_holder` varchar(255),
+  `title_holder` varchar(255),
+  `table_name` varchar(255),
+  `text_prefix` varchar(255),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `#__action_log_config` (`id`, `type_title`, `type_alias`, `id_holder`, `title_holder`, `table_name`, `text_prefix`) VALUES
@@ -875,9 +875,9 @@ INSERT INTO `#__action_log_config` (`id`, `type_title`, `type_alias`, `id_holder
 --
 
 CREATE TABLE IF NOT EXISTS `#__action_logs_users` (
-   `user_id` int(11) UNSIGNED NOT NULL,
-   `notify` tinyint(1) UNSIGNED NOT NULL,
-   `extensions` text NOT NULL,
-   PRIMARY KEY (`user_id`),
-   KEY `idx_notify` (`notify`)
+  `user_id` int(11) UNSIGNED NOT NULL,
+  `notify` tinyint(1) UNSIGNED NOT NULL,
+  `extensions` text NOT NULL,
+  PRIMARY KEY (`user_id`),
+  KEY `idx_notify` (`notify`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
