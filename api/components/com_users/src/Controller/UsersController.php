@@ -52,7 +52,7 @@ class UsersController extends ApiController
 		'past_3month',
 		'past_6month',
 		'past_year',
-		'post_year',
+		'past_year',
 		'today',
 		'never',
 	];
