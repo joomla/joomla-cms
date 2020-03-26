@@ -124,7 +124,7 @@ class UsersController extends ApiController
 		{
 			$rangeFilter = $filter->clean($apiFilterInfo['registrationdate'], 'STRING');
 
-			if (!array_key_exists($rangeFilter, $this->supportedRange))
+			if (!in_array($rangeFilter, $this->supportedRange))
 			{
 				// Send the error response
 				$this->sendResponse('registrationdate', 400);
@@ -137,7 +137,7 @@ class UsersController extends ApiController
 		{
 			$rangeFilter = $filter->clean($apiFilterInfo['lastvisitdate'], 'STRING');
 
-			if (!array_key_exists($rangeFilter, $this->supportedRange))
+			if (!in_array($rangeFilter, $this->supportedRange))
 			{
 				// Send the error response
 				$this->sendResponse('lastvisitdate', 400);
