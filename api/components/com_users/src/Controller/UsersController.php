@@ -14,8 +14,8 @@ namespace Joomla\Component\Users\Api\Controller;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
-use Joomla\CMS\Response\JsonResponse;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Tobscure\JsonApi\Exception\InvalidParameterException;
 
 /**
  * The users controller
@@ -41,10 +41,10 @@ class UsersController extends ApiController
 	protected $default_view = 'users';
 
 	/**
-	 * The supported filter values for date range.
+	 * The default view for the display method.
 	 *
 	 * @var    array
-	 * @since  4.0
+	 * @since  3.0
 	 */
 	protected $supportedRange
 		= [
@@ -127,7 +127,8 @@ class UsersController extends ApiController
 			if (!in_array($rangeFilter, $this->supportedRange))
 			{
 				// Send the error response
-				$this->sendResponse('registrationdate', 400);
+				$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'registrationdate');
+				throw new InvalidParameterException($error);
 			}
 
 			$this->modelState->set('filter.range', $rangeFilter);
@@ -140,38 +141,13 @@ class UsersController extends ApiController
 			if (!in_array($rangeFilter, $this->supportedRange))
 			{
 				// Send the error response
-				$this->sendResponse('lastvisitdate', 400);
+				$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'lastvisitdate');
+				throw new InvalidParameterException($error);
 			}
 
 			$this->modelState->set('filter.lastvisitrange', $rangeFilter);
 		}
 
 		return parent::displayList();
-	}
-
-	/**
-	 * Send the given data as JSON response in the following format:
-	 *
-	 * {"success":true,"message":"ok","messages":null,"data":[{"type":"dir","name":"banners","path":"//"}]}
-	 *
-	 * @param   string   $field         The wrong field
-	 * @param   integer  $responseCode  The response code
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	private function sendResponse(string $field = null, int $responseCode = 200): void
-	{
-		// Set the correct content type
-		$this->app->setHeader('Content-Type', 'application/json');
-
-		// Set the status code for the response
-		http_response_code($responseCode);
-
-		// Send the data
-		echo new JsonResponse(null, Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $field), true);
-
-		$this->app->close();
 	}
 }
