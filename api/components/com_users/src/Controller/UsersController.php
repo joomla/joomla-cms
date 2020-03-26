@@ -126,7 +126,7 @@ class UsersController extends ApiController
 			{
 				// Send the error response
 				$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'registrationdate');
-				throw new InvalidParameterException($error, 400);
+				throw new InvalidParameterException($error, 400, null, 'registrationdate');
 			}
 
 			$this->modelState->set('filter.range', $rangeFilter);
@@ -140,7 +140,7 @@ class UsersController extends ApiController
 			{
 				// Send the error response
 				$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'lastvisitdate');
-				throw new InvalidParameterException($error, 400);
+				throw new InvalidParameterException($error, 400, null, 'lastvisitdate');
 			}
 
 			$this->modelState->set('filter.lastvisitrange', $rangeFilter);
