@@ -46,17 +46,16 @@ class UsersController extends ApiController
 	 * @var    array
 	 * @since  3.0
 	 */
-	protected $supportedRange
-		= [
-			'past_week',
-			'past_1month',
-			'past_3month',
-			'past_6month',
-			'past_year',
-			'post_year',
-			'today',
-			'never',
-		];
+	protected $supportedRange = [
+		'past_week',
+		'past_1month',
+		'past_3month',
+		'past_6month',
+		'past_year',
+		'post_year',
+		'today',
+		'never',
+	];
 
 	/**
 	 * Method to save a record.
