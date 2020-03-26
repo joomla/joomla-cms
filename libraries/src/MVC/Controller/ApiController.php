@@ -86,13 +86,13 @@ class ApiController extends BaseController
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MvcFactoryInterface  $factory  The factory.
-	 * @param   CmsApplication       $app      The JApplication for the dispatcher
+	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   Input                $input    Input
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MvcFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
 	{
 		$this->modelState = new CMSObject;
 
