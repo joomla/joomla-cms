@@ -47,6 +47,17 @@
 		</field>
 
 		<field
+			name="locked"
+			type="list"
+			label="COM_INSTALLER_VALUE_LOCKED_SELECT"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_INSTALLER_VALUE_LOCKED_SELECT</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
 			name="core"
 			type="list"
 			label="COM_INSTALLER_VALUE_CORE_SELECT"
@@ -78,6 +89,8 @@
 			<option value="type_translated DESC">COM_INSTALLER_HEADING_TYPE_DESC</option>
 			<option value="folder_translated ASC">COM_INSTALLER_HEADING_FOLDER_ASC</option>
 			<option value="folder_translated DESC">COM_INSTALLER_HEADING_FOLDER_DESC</option>
+			<option value="locked ASC">COM_INSTALLER_HEADING_LOCKED_ASC</option>
+			<option value="locked DESC">COM_INSTALLER_HEADING_LOCKED_DESC</option>
 			<option value="package_id ASC">COM_INSTALLER_HEADING_PACKAGE_ID_ASC</option>
 			<option value="package_id DESC">COM_INSTALLER_HEADING_PACKAGE_ID_DESC</option>
 			<option value="extension_id ASC">JGRID_HEADING_ID_ASC</option>
