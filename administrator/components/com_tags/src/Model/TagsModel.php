@@ -11,11 +11,11 @@ namespace Joomla\Component\Tags\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Tag\TagServiceInterface;
 use Joomla\Database\ParameterType;
 
 /**
@@ -294,7 +294,7 @@ class TagsModel extends ListModel
 
 		$component = Factory::getApplication()->bootComponent($parts[0]);
 
-		if ($component instanceof CategoryServiceInterface)
+		if ($component instanceof TagServiceInterface)
 		{
 			$component->countTagItems($items, $extension);
 		}

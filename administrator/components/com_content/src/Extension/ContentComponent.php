@@ -26,6 +26,8 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper as LibraryContentHelper;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Tag\TagServiceInterface;
+use Joomla\CMS\Tag\TagServiceTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\CMS\Workflow\WorkflowServiceTrait;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
@@ -40,13 +42,16 @@ use Psr\Container\ContainerInterface;
  */
 class ContentComponent extends MVCComponent implements
 	BootableExtensionInterface, CategoryServiceInterface, FieldsServiceInterface, AssociationServiceInterface,
-	WorkflowServiceInterface, RouterServiceInterface
+	WorkflowServiceInterface, RouterServiceInterface, TagServiceInterface
 {
-	use CategoryServiceTrait;
 	use AssociationServiceTrait;
 	use RouterServiceTrait;
 	use HTMLRegistryAwareTrait;
 	use WorkflowServiceTrait;
+	use CategoryServiceTrait, TagServiceTrait {
+		CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
+		CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
+	}
 
 	/**
 	 * The trashed condition
