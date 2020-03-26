@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Privacy\Administrator\View\Export;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
