@@ -22,6 +22,7 @@
 			name="alias"
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
 			size="45"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 		/>
