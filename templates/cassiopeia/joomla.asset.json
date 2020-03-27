@@ -2,7 +2,7 @@
   "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "cassiopeia",
   "version": "4.0.0",
-  "description": "Cassiopeia is the defaault Joomla 4 site template",
+  "description": "Cassiopeia is the default Joomla 4 site template",
   "license": "GPL-2.0-or-later",
   "assets": [
     {
