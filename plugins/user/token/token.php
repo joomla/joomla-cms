@@ -295,7 +295,7 @@ class PlgUserToken extends CMSPlugin
 
 		if (isset($data[$this->profileKeyPrefix]['reset']))
 		{
-			$reset = $data[$this->profileKeyPrefix]['reset'] == 1;
+			$reset = $data[$this->profileKeyPrefix]['reset'] === 1;
 			unset($data[$this->profileKeyPrefix]['reset']);
 
 			if ($reset)
