@@ -36,7 +36,7 @@ class UsersController extends ApiController
 	 * The default view for the display method.
 	 *
 	 * @var    string
-	 * @since  3.0
+	 * @since  4.0.0
 	 */
 	protected $default_view = 'users';
 
@@ -44,7 +44,7 @@ class UsersController extends ApiController
 	 * The default view for the display method.
 	 *
 	 * @var    array
-	 * @since  3.0
+	 * @since  4.0.0
 	 */
 	protected $supportedRange = [
 		'past_week',
