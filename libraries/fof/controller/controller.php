@@ -3298,7 +3298,7 @@ class FOFController extends FOFUtilsObject
 	{
 		if (FOFPlatform::getInstance()->isFrontend() && ($this->input->getInt('Itemid', 0) != 0))
 		{
-			return '&Itemid=' . $this->input->getInt('Itemid', 0);
+			return '&Itemid=' . (int) $this->input->getInt('Itemid', 0);
 		}
 		else
 		{

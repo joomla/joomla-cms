@@ -379,7 +379,7 @@ abstract class ModuleHelper
 	public static function getModuleList()
 	{
 		$app = \JFactory::getApplication();
-		$Itemid = $app->input->getInt('Itemid', 0);
+		$Itemid = (int) $app->input->getInt('Itemid', 0);
 		$groups = implode(',', \JFactory::getUser()->getAuthorisedViewLevels());
 		$lang = \JFactory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
@@ -451,7 +451,7 @@ abstract class ModuleHelper
 	public static function cleanModuleList($modules)
 	{
 		// Apply negative selections and eliminate duplicates
-		$Itemid = \JFactory::getApplication()->input->getInt('Itemid', 0);
+		$Itemid = (int) \JFactory::getApplication()->input->getInt('Itemid', 0);
 		$negId = $Itemid ? -(int) $Itemid : false;
 		$clean = array();
 		$dupes = array();
@@ -618,7 +618,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->id . $view_levels . \JFactory::getApplication()->input->getInt('Itemid', null),
+					$module->id . $view_levels . (int) \JFactory::getApplication()->input->getInt('Itemid', null),
 					$wrkarounds,
 					$wrkaroundoptions
 				);

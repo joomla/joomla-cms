@@ -78,7 +78,7 @@ class SearchController extends JControllerLegacy
 		}
 
 		// The Itemid from the request, we will use this if it's a search page or if there is no search page available
-		$post['Itemid'] = $this->input->getInt('Itemid', 0);
+		$post['Itemid'] = (int) $this->input->getInt('Itemid', 0);
 
 		// Set Itemid id for links from menu
 		$app  = JFactory::getApplication();

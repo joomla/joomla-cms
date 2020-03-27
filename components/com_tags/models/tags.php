@@ -69,7 +69,7 @@ class TagsModelTags extends JModelList
 		}
 
 		// Optional filter text
-		$itemid = $pid . ':' . $app->input->getInt('Itemid', 0);
+		$itemid = $pid . ':' . (int) $app->input->getInt('Itemid', 0);
 		$filterSearch = $app->getUserStateFromRequest('com_tags.tags.list.' . $itemid . '.filter_search', 'filter-search', '', 'string');
 		$this->setState('list.filter', $filterSearch);
 	}

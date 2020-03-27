@@ -255,7 +255,7 @@ class ContactModelCategory extends JModelList
 		$this->setState('list.start', $limitstart);
 
 		// Optional filter text
-		$itemid = $app->input->getInt('Itemid', 0);
+		$itemid = (int) $app->input->getInt('Itemid', 0);
 		$search = $app->getUserStateFromRequest('com_contact.category.list.' . $itemid . '.filter-search', 'filter-search', '', 'string');
 		$this->setState('list.filter', $search);
 

@@ -295,7 +295,7 @@ class ContentControllerArticle extends JControllerForm
 			$append .= '&' . $urlVar . '=' . $recordId;
 		}
 
-		$itemId = $this->input->getInt('Itemid', 0);
+		$itemId = (int) $this->input->getInt('Itemid', 0);
 		$return = $this->getReturnPage();
 		$catId  = $this->input->getInt('catid');
 

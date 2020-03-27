@@ -795,7 +795,7 @@ final class SiteApplication extends CMSApplication
 		// Execute the parent method
 		parent::route();
 
-		$Itemid = $this->input->getInt('Itemid', null);
+		$Itemid = (int) $this->input->getInt('Itemid', null);
 		$this->authorise($Itemid);
 	}
 

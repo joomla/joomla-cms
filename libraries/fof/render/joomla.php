@@ -174,7 +174,7 @@ class FOFRenderJoomla extends FOFRenderAbstract
 
 		if (FOFPlatform::getInstance()->isFrontend() && ($input->getInt('Itemid', 0) != 0))
 		{
-			$itemid = $input->getInt('Itemid', 0);
+			$itemid = (int) $input->getInt('Itemid', 0);
 			$uri = new JUri($actionUrl);
 
 			if ($itemid)

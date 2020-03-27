@@ -49,7 +49,7 @@ $option   = $app->input->getCmd('option', '');
 $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
-$itemid   = $app->input->getInt('Itemid', 0);
+$itemid   = (int) $app->input->getInt('Itemid', 0);
 $sitename = htmlspecialchars($app->get('sitename', ''), ENT_QUOTES, 'UTF-8');
 
 function colorIsLight($color)

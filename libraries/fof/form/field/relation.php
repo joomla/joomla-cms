@@ -167,7 +167,7 @@ class FOFFormFieldRelation extends FOFFormFieldList
 		$ret = str_replace('[ITEM:ID]', $replace, $ret);
 
 		// Replace the [ITEMID] in the URL with the current Itemid parameter
-		$ret = str_replace('[ITEMID]', JFactory::getApplication()->input->getInt('Itemid', 0), $ret);
+		$ret = str_replace('[ITEMID]', (int) JFactory::getApplication()->input->getInt('Itemid', 0), $ret);
 
 		// Replace the [RELATION:ID] in the URL with the relation's key value
 		$ret = str_replace('[RELATION:ID]', $this->_relationId, $ret);

@@ -18,7 +18,7 @@ $menusEditing = $displayData['menusediting'];
 $parameters   = JComponentHelper::getParams('com_modules');
 $redirectUri  = '&return=' . urlencode(base64_encode(JUri::getInstance()->toString()));
 $target       = '_blank';
-$itemid       = JFactory::getApplication()->input->getInt('Itemid', 0);
+$itemid       = (int) JFactory::getApplication()->input->getInt('Itemid', 0);
 
 if (preg_match('/<(?:div|span|nav|ul|ol|h\d) [^>]*class="[^"]* jmoddiv"/', $moduleHtml))
 {

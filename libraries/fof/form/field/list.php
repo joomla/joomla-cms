@@ -359,7 +359,7 @@ class FOFFormFieldList extends JFormFieldList implements FOFFormField
 		$ret = str_replace('[ITEM:ID]', $replace, $ret);
 
 		// Replace the [ITEMID] in the URL with the current Itemid parameter
-		$ret = str_replace('[ITEMID]', JFactory::getApplication()->input->getInt('Itemid', 0), $ret);
+		$ret = str_replace('[ITEMID]', (int) JFactory::getApplication()->input->getInt('Itemid', 0), $ret);
 
 		// Replace other field variables in the URL
 		$fields = $this->item->getTableFields();

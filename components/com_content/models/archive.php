@@ -59,7 +59,7 @@ class ContentModelArchive extends ContentModelArticles
 		$this->setState('list.filter', $app->input->getString('filter-search'));
 
 		// Get list limit
-		$itemid = $app->input->getInt('Itemid', 0);
+		$itemid = (int) $app->input->getInt('Itemid', 0);
 		$limit = $app->getUserStateFromRequest('com_content.archive.list' . $itemid . '.limit', 'limit', $params->get('display_num'), 'uint');
 		$this->setState('list.limit', $limit);
 
