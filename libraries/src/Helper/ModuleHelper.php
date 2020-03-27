@@ -451,7 +451,7 @@ abstract class ModuleHelper
 	public static function cleanModuleList($modules)
 	{
 		// Apply negative selections and eliminate duplicates
-		$Itemid = \JFactory::getApplication()->input->getInt('Itemid');
+		$Itemid = \JFactory::getApplication()->input->getInt('Itemid', 0);
 		$negId = $Itemid ? -(int) $Itemid : false;
 		$clean = array();
 		$dupes = array();

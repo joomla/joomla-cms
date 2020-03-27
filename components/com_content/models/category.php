@@ -156,7 +156,7 @@ class ContentModelCategory extends JModelList
 			$this->setState('filter.access', false);
 		}
 
-		$itemid = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
+		$itemid = $app->input->get('id', 0, 'int') . ':' . $app->input->getInt('Itemid', 0);
 
 		$value = $this->getUserStateFromRequest('com_content.category.filter.' . $itemid . '.tag', 'filter_tag', 0, 'int', false);
 		$this->setState('filter.tag', $value);
@@ -280,7 +280,7 @@ class ContentModelCategory extends JModelList
 		$app       = JFactory::getApplication('site');
 		$db        = $this->getDbo();
 		$params    = $this->state->params;
-		$itemid    = $app->input->get('id', 0, 'int') . ':' . $app->input->get('Itemid', 0, 'int');
+		$itemid    = $app->input->get('id', 0, 'int') . ':' . $app->input->getInt('Itemid', 0);
 		$orderCol  = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
 		$orderDirn = $app->getUserStateFromRequest('com_content.category.list.' . $itemid . '.filter_order_Dir', 'filter_order_Dir', '', 'cmd');
 		$orderby   = ' ';

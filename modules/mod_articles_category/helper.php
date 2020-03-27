@@ -268,10 +268,10 @@ abstract class ModArticlesCategoryHelper
 				{
 					$Itemid = $menuitems[0]->id;
 				}
-				elseif ($app->input->getInt('Itemid') > 0)
+				elseif ($app->input->getInt('Itemid', 0) > 0)
 				{
 					// Use Itemid from requesting page only if there is no existing menu
-					$Itemid = $app->input->getInt('Itemid');
+					$Itemid = $app->input->getInt('Itemid', 0);
 				}
 
 				$item->link = JRoute::_('index.php?option=com_users&view=login&Itemid=' . $Itemid);

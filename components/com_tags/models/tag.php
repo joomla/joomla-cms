@@ -227,7 +227,7 @@ class TagsModelTag extends JModelList
 		$offset = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.start', $offset);
 
-		$itemid = $pkString . ':' . $app->input->get('Itemid', 0, 'int');
+		$itemid = $pkString . ':' . $app->input->getInt('Itemid', 0);
 		$orderCol = $app->getUserStateFromRequest('com_tags.tag.list.' . $itemid . '.filter_order', 'filter_order', '', 'string');
 		$orderCol = !$orderCol ? $this->state->params->get('tag_list_orderby', 'c.core_title') : $orderCol;
 

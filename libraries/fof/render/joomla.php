@@ -172,9 +172,9 @@ class FOFRenderJoomla extends FOFRenderAbstract
 		$filter_order_Dir	 = $form->getView()->getLists()->order_Dir;
         $actionUrl           = FOFPlatform::getInstance()->isBackend() ? 'index.php' : JUri::root().'index.php';
 
-		if (FOFPlatform::getInstance()->isFrontend() && ($input->getCmd('Itemid', 0) != 0))
+		if (FOFPlatform::getInstance()->isFrontend() && ($input->getInt('Itemid', 0) != 0))
 		{
-			$itemid = $input->getCmd('Itemid', 0);
+			$itemid = $input->getInt('Itemid', 0);
 			$uri = new JUri($actionUrl);
 
 			if ($itemid)

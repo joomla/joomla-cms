@@ -15,7 +15,7 @@ JLoader::register('ModSearchHelper', __DIR__ . '/helper.php');
 $lang       = JFactory::getLanguage();
 $app        = JFactory::getApplication();
 $set_Itemid = (int) $params->get('set_itemid', 0);
-$mitemid    = $set_Itemid > 0 ? $set_Itemid : $app->input->getInt('Itemid');
+$mitemid    = $set_Itemid > 0 ? $set_Itemid : $app->input->getInt('Itemid', 0);
 
 if ($params->get('opensearch', 1))
 {

@@ -3296,7 +3296,7 @@ class FOFController extends FOFUtilsObject
 	 */
 	public function getItemidURLSuffix()
 	{
-		if (FOFPlatform::getInstance()->isFrontend() && ($this->input->getCmd('Itemid', 0) != 0))
+		if (FOFPlatform::getInstance()->isFrontend() && ($this->input->getInt('Itemid', 0) != 0))
 		{
 			return '&Itemid=' . $this->input->getInt('Itemid', 0);
 		}
