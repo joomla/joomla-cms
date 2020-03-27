@@ -37,23 +37,6 @@ abstract class JHtmlIcon
 	}
 
 	/**
-	 * Method to generate a link to the email item page for the given article
-	 *
-	 * @param   object    $article  The article information
-	 * @param   Registry  $params   The item parameters
-	 * @param   array     $attribs  Optional attributes for the link
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
-	 *
-	 * @return  string  The HTML markup for the email item link
-	 *
-	 * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\HTML\Icon instead
-	 */
-	public static function email($article, $params, $attribs = array(), $legacy = false)
-	{
-		return self::getIcon()->email($article, $params, $attribs, $legacy);
-	}
-
-	/**
 	 * Display an edit icon for the article.
 	 *
 	 * This icon will not display in a popup window, nor if the article is trashed.

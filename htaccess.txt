@@ -16,6 +16,10 @@
 # set it here.
 ##
 
+## Can be commented out if causes errors, see notes above.
+Options +FollowSymlinks
+Options -Indexes
+
 ## No directory listings
 <IfModule autoindex>
   IndexIgnore *
@@ -26,9 +30,11 @@
 Header always set X-Content-Type-Options "nosniff"
 </IfModule>
 
-## Can be commented out if causes errors, see notes above.
-Options +FollowSymlinks
-Options -Indexes
+## Protect against certain cross-origin requests. More information can be found here:
+## https://developer.mozilla.org/en-US/docs/Web/HTTP/Cross-Origin_Resource_Policy_(CORP)
+#<IfModule mod_headers.c>
+#Header always set Cross-Origin-Resource-Policy "same-origin"
+#</IfModule>
 
 ## These directives are only enabled if the Apache mod_rewrite module is enabled
 <IfModule mod_rewrite.c>

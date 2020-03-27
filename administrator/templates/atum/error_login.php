@@ -59,19 +59,6 @@ $this->setMetaData('theme-color', '#1c3d5c');
 $this->getWebAssetManager()
 	->addInlineScript('cssVars();', ['position' => 'after'], ['type' => 'module'], ['css-vars-ponyfill']);
 
-// Opacity must be set before displaying the DOM, so don't move to a CSS file
-$css = '
-	.container-main > * {
-		opacity: 0;
-	}
-	.sidebar-wrapper > * {
-		opacity: 0;
-	}
-';
-
-$this->getWebAssetManager()
-	->addInlineStyle($css);
-
 $monochrome = (bool) $this->params->get('monochrome');
 
 HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
@@ -95,7 +82,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 <header id="header" class="header">
 	<div class="d-flex">
 		<div class="header-title d-flex mr-auto">
-			<div class="d-flex">
+			<div class="d-flex align-items-center">
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<div class="logo">
 					<img src="<?php echo $siteLogo; ?>" alt="<?php echo $logoAlt; ?>">

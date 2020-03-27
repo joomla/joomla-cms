@@ -19,8 +19,30 @@ use Joomla\CMS\Router\Route;
 	<?php if ($child->hasChildren()) : ?>
 		<div class="module-wrapper">
 			<div class="card">
+				<?php
+				if (substr($child->img, 0, 6) === 'class:')
+					{
+						$iconImage = '<span class="fas fa-' . substr($child->img, 6) . '" aria-hidden="true"></span>';
+					}
+					elseif (substr($child->img, 0, 6) === 'image:')
+					{
+						$iconImage = '<img src="' . substr($child->img, 6) . '" aria-hidden="true">';
+					}
+					elseif (!empty($child->img))
+					{
+						$iconImage = '<img src="' . $child->img . '" aria-hidden="true">';
+					}
+					elseif ($child->icon)
+					{
+						$iconImage = '<span class="fas fa-' . $child->icon . '" aria-hidden="true"></span>';
+					}
+					else
+					{
+						$iconImage = '';
+					}
+				?>
 				<h2 class="card-header">
-					<?php if ($child->icon) : ?><span class="fas fa-<?php echo $child->icon; ?>" aria-hidden="true"></span><?php endif; ?>
+					<?php echo $iconImage; ?>
 					<?php echo Text::_($child->title); ?>
 				</h2>
 				<ul class="list-group list-group-flush">
@@ -29,7 +51,9 @@ use Joomla\CMS\Router\Route;
 							<?php $params = $item->getParams(); ?>
 							<?php // Only if Menu-show = true
 								if ($params->get('menu_show', 1)) : ?>
-								<a class="flex-grow-1" href="<?php echo $item->link; ?>"<?php echo $item->target ? ' target="' . $item->target . '"' : ''; ?>>
+								<a class="flex-grow-1" href="<?php echo $item->link; ?>"
+									<?php echo $item->target === '_blank' ? ' title="' . Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_($item->title)) . '"' : ''; ?>
+									<?php echo $item->target ? ' target="' . $item->target . '"' : ''; ?>>
 									<?php if (!empty($params->get('menu_image'))) : ?>
 										<?php
 										$image = htmlspecialchars($params->get('menu_image'), ENT_QUOTES, 'UTF-8');
@@ -45,13 +69,13 @@ use Joomla\CMS\Router\Route;
 										</span>
 									<?php endif; ?>
 								</a>
-								<?php if ($params->get('menu-quicktask', false)) : ?>
+								<?php if ($params->get('menu-quicktask')) : ?>
 									<?php $permission = $params->get('menu-quicktask-permission'); ?>
 									<?php $scope = $item->scope !== 'default' ? $item->scope : null; ?>
 									<?php if (!$permission || $user->authorise($permission, $scope)) : ?>
 										<span class="menu-quicktask">
 											<?php
-											$link = $params->get('menu-quicktask-link');
+											$link = $params->get('menu-quicktask');
 											$icon = $params->get('menu-quicktask-icon', 'plus');
 
 											$title = Text::_($params->get('menu-quicktask-title'));
