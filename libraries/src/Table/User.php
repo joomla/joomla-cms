@@ -552,7 +552,7 @@ class User extends Table
 		$query = $db->getQuery(true)
 			->update($db->quoteName($this->_tbl))
 			->set($db->quoteName('lastvisitDate') . ' = :lastvisitDate')
-			->where($db->quoteName('id') . '= :id')
+			->where($db->quoteName('id') . ' = :id')
 			->bind(':lastvisitDate', $lastVisit)
 			->bind(':id', $userId, ParameterType::INTEGER);
 		$db->setQuery($query);
