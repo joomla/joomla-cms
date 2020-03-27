@@ -95,7 +95,7 @@ Text::script('MESSAGE');
 				<?php echo $langs; ?>
 			</div>
 		<?php endif; ?>
-		<?php foreach($extraButtons as $button) : ?>
+		<?php foreach ($extraButtons as $button) : ?>
 		<div class="form-group">
 			<button type="button"
 					class="btn btn-secondary btn-block mt-4 <?php echo $button['class'] ?? ''; ?>"
