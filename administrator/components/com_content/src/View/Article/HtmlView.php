@@ -220,14 +220,14 @@ class HtmlView extends BaseHtmlView
 				$toolbar->preview($url, 'JGLOBAL_PREVIEW')
 					->bodyHeight(80)
 					->modalWidth(90);
-			}
-		}
 
-		if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
-		{
-			$toolbar->standardButton('contract')
-				->text('JTOOLBAR_ASSOCIATIONS')
-				->task('article.editAssociations');
+				if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
+				{
+					$toolbar->standardButton('contract')
+						->text('JTOOLBAR_ASSOCIATIONS')
+						->task('article.editAssociations');
+				}
+			}
 		}
 
 		$toolbar->divider();
