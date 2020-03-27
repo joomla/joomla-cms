@@ -22,7 +22,7 @@ $option   = $app->input->getCmd('option', '');
 $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
-$itemid   = $app->input->getInt('Itemid', '');
+$itemid   = (int) $app->input->getInt('Itemid', 0);
 $format   = $app->input->getCmd('format', 'html');
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 
