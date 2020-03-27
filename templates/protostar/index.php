@@ -21,10 +21,10 @@ $this->setHtml5(true);
 $params = $app->getTemplate(true)->params;
 
 // Detecting Active Variables
-$option   = $app->input->getCmd('option', '');
-$view     = $app->input->getCmd('view', '');
-$layout   = $app->input->getCmd('layout', '');
-$task     = $app->input->getCmd('task', '');
+$option   = $app->input->get('option', '', 'cmd');
+$view     = $app->input->get('view', '', 'cmd');
+$layout   = $app->input->get('layout', '', 'cmd');
+$task     = $app->input->get('task', '', 'cmd');
 $itemid   = (int) $app->input->getInt('Itemid', 0);
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 

@@ -27,10 +27,10 @@ $frontEndUri->setScheme(((int) $app->get('force_ssl', 0) === 2) ? 'https' : 'htt
 $mainPageUri = $frontEndUri->toString();
 
 // Detecting Active Variables
-$option   = $input->getCmd('option', '');
-$view     = $input->getCmd('view', '');
-$layout   = $input->getCmd('layout', '');
-$task     = $input->getCmd('task', '');
+$option   = $input->get('option', '', 'cmd');
+$view     = $input->get('view', '', 'cmd');
+$layout   = $input->get('layout', '', 'cmd');
+$task     = $input->get('task', '', 'cmd');
 $itemid   = (int) $input->getInt('Itemid', 0);
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 
