@@ -382,6 +382,8 @@ class User extends Table
 			// Loop through them and check if database contains something $this->groups does not
 			if (\count($result))
 			{
+				$mapGroupId = [];
+
 				foreach ($result as $map)
 				{
 					if (\array_key_exists($map->group_id, $this->groups))
