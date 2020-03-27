@@ -73,7 +73,7 @@ $usersConfig = ComponentHelper::getParams('com_users');
 					<div class="controls">
 						<button
 							type="button"
-							class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
+							class="btn btn-secondary <?php echo $button['class'] ?? ''; ?>"
 							onclick="<?php echo $button['onclick']; ?>"
 							id="<?php echo $button['id']; ?>"
 						>

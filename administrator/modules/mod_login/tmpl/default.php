@@ -98,7 +98,7 @@ Text::script('MESSAGE');
 		<?php foreach($extraButtons as $button) : ?>
 		<div class="form-group">
 			<button type="button"
-					class="btn btn-secondary btn-block mt-4 <?php echo $button['class'] ?? '' ?>"
+					class="btn btn-secondary btn-block mt-4 <?php echo $button['class'] ?? ''; ?>"
 					onclick="<?php echo $button['onclick']; ?>"
 					title="<?php echo Text::_($button['label']); ?>"
 					id="<?php echo $button['id']; ?>"

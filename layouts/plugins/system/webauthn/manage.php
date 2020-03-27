@@ -122,7 +122,7 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
 			<?php if (empty($credentials)) : ?>
 				<tr>
 					<td colspan="2">
-						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_NOMETHODS_LABEL') ?>
+						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_HEADER_NOMETHODS_LABEL'); ?>
 					</td>
 				</tr>
 			<?php endif; ?>

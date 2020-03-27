@@ -108,7 +108,7 @@ Text::script('JHIDEPASSWORD');
 			<div class="mod-login__submit form-group">
 				<button
 					type="button"
-					class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
+					class="btn btn-secondary <?php echo $button['class'] ?? ''; ?>"
 					onclick="<?php echo $button['onclick']; ?>"
 					id="<?php echo $button['id']; ?>"
 				>
