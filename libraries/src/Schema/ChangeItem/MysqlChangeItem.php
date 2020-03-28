@@ -266,6 +266,7 @@ class MysqlChangeItem extends ChangeItem
 		elseif (strtolower(substr($type1, 0, 7)) === 'tinyint')
 		{
 			$result = 'tinyint';
+		}
 		elseif (strtolower(substr($type1, 0, 3)) === 'int')
 		{
 			$result = 'int';
