@@ -6,19 +6,19 @@ class JGithubPackageRepositoriesDownloadsTest extends \PHPUnit\Framework\TestCas
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  Mock client object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JHttpResponse  Mock response object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $response;
 
@@ -29,13 +29,13 @@ class JGithubPackageRepositoriesDownloadsTest extends \PHPUnit\Framework\TestCas
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $errorString = '{"message": "Generic Error"}';
 
@@ -129,7 +129,7 @@ class JGithubPackageRepositoriesDownloadsTest extends \PHPUnit\Framework\TestCas
 			->will($this->returnValue($this->response));
 
 		$this->assertThat(
-			$this->object->upload('joomla', 'joomla-platform', 123, 'a/b/aaa.zip', 'acl', 201, 'aaa.zip', '123abc', '123abc', '123abc','content_type', '@aaa.zip'),
+			$this->object->upload('joomla', 'joomla-platform', 123, 'a/b/aaa.zip', 'acl', 201, 'aaa.zip', '123abc', '123abc', '123abc', 'content_type', '@aaa.zip'),
 			$this->equalTo($this->response->body)
 		);
 	}

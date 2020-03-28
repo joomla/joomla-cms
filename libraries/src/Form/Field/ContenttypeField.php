@@ -1,0 +1,111 @@
+<?php
+/**
+ * Joomla! Content Management System
+ *
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+namespace Joomla\CMS\Form\Field;
+
+defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
+
+/**
+ * Content Type field.
+ *
+ * @since  3.1
+ */
+class ContenttypeField extends \JFormFieldList
+{
+	/**
+	 * A flexible tag list that respects access controls
+	 *
+	 * @var    string
+	 * @since  3.1
+	 */
+	public $type = 'Contenttype';
+
+	/**
+	 * Method to get the field input for a list of content types.
+	 *
+	 * @return  string  The field input.
+	 *
+	 * @since   3.1
+	 */
+	protected function getInput()
+	{
+		if (!is_array($this->value))
+		{
+			if (is_object($this->value))
+			{
+				$this->value = $this->value->tags;
+			}
+
+			if (is_string($this->value))
+			{
+				$this->value = explode(',', $this->value);
+			}
+		}
+
+		return parent::getInput();
+	}
+
+	/**
+	 * Method to get a list of content types
+	 *
+	 * @return  array  The field option objects.
+	 *
+	 * @since   3.1
+	 */
+	protected function getOptions()
+	{
+		$lang = Factory::getLanguage();
+		$db    = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select('a.type_id AS value, a.type_title AS text, a.type_alias AS alias')
+			->from('#__content_types AS a')
+
+			->order('a.type_title ASC');
+
+		// Get the options.
+		$db->setQuery($query);
+
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (\RuntimeException $e)
+		{
+			return array();
+		}
+
+		foreach ($options as $option)
+		{
+			// Make up the string from the component sys.ini file
+			$parts = explode('.', $option->alias);
+			$comp = array_shift($parts);
+
+			// Make sure the component sys.ini is loaded
+			$lang->load($comp . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load($comp . '.sys', JPATH_ADMINISTRATOR . '/components/' . $comp, null, false, true);
+
+			$option->string = implode('_', $parts);
+			$option->string = $comp . '_CONTENT_TYPE_' . $option->string;
+
+			if ($lang->hasKey($option->string))
+			{
+				$option->text = \JText::_($option->string);
+			}
+		}
+
+		// Merge any additional options in the XML definition.
+		$options = array_merge(parent::getOptions(), $options);
+
+		return $options;
+	}
+}

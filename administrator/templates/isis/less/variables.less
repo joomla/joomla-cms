@@ -2,6 +2,21 @@
 // Variables
 // --------------------------------------------------
 
+// > Joomla JUI
+// Responsive Breakpoints
+// -------------------------
+@xs:                    320px;
+@sm:                    480px;
+@md:                    768px;
+@lg:                    980px;
+@xl:                    1200px;
+
+@xs-max:                @xs - 1;
+@sm-max:                @sm - 1;
+@md-max:                @md - 1;
+@lg-max:                @lg - 1;
+@xl-max:                @xl - 1;
+// < Joomla JUI
 
 // Global values
 // --------------------------------------------------
@@ -186,7 +201,7 @@
 // Navbar
 // -------------------------
 // > Joomla JUI
-@navbarCollapseWidth:             767px;
+@navbarCollapseWidth:             @md-max;
 // < Joomla JUI
 @navbarCollapseDesktopWidth:      (@navbarCollapseWidth + 1);
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -76,7 +76,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 				<div class="leading-<?php echo $leadingcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
 					<?php
-					$this->item = & $item;
+					$this->item = &$item;
 					echo $this->loadTemplate('item');
 					?>
 				</div>
@@ -101,7 +101,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 				<div class="item column-<?php echo $rowcount; ?><?php echo $item->state == 0 ? ' system-unpublished' : null; ?>"
 					itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
 					<?php
-					$this->item = & $item;
+					$this->item = &$item;
 					echo $this->loadTemplate('item');
 					?>
 				</div>
@@ -133,5 +133,10 @@ $afterDisplayContent = trim(implode("\n", $results));
 				<p class="counter pull-right"> <?php echo $this->pagination->getPagesCounter(); ?> </p>
 			<?php endif; ?>
 			<?php echo $this->pagination->getPagesLinks(); ?> </div>
+	<?php endif; ?>
+
+	<?php // Code to add a link to submit an article. ?>
+	<?php if ($this->category->getParams()->get('access-create')) : ?>
+		<?php echo JHtml::_('icon.create', $this->category, $this->category->params); ?>
 	<?php endif; ?>
 </div>

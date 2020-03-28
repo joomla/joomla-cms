@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Uri Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -29,7 +29,7 @@ final class UriImmutable extends AbstractUri
 	 * @param   string  $name   This is an immutable object, setting $name is not allowed.
 	 * @param   mixed   $value  This is an immutable object, setting $value is not allowed.
 	 *
-	 * @return  null  This method always throws an exception.
+	 * @return  void  This method always throws an exception.
 	 *
 	 * @since   1.0
 	 * @throws  \BadMethodCallException

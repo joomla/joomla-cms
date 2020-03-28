@@ -44,6 +44,7 @@
 			description="COM_USERS_MAIL_FIELD_SEND_AS_BLIND_CARBON_COPY_DESC"
 			default="1"
 			value="1"
+			checked="1"
 		/>
 
 		<field 

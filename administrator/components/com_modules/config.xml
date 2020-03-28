@@ -17,6 +17,25 @@
 			<option value="site">JSITE</option>
 		</field>
 	</fieldset>
+
+	<fieldset
+		name="admin_modules"
+		label="COM_MODULES_ADMIN_LANG_FILTER_FIELDSET_LABEL"
+		>
+		<field
+			name="adminlangfilter"
+			type="radio"
+			label="COM_MODULES_ADMIN_LANG_FILTER_LABEL"
+			description="COM_MODULES_ADMIN_LANG_FILTER_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
+			filter="integer"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fieldset>
+
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"

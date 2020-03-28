@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 /**
  * Author: Koh Zi Han, based on implementation by Koh Zi Chun
@@ -224,7 +224,7 @@ CodeMirror.defineMode("scheme", function () {
                             }
                         }
                     } else {
-                        stream.eatWhile(/[\w\$_\-!$%&*+\.\/:<=>?@\^~]/);
+                        stream.eatWhile(/[\w_\-!$%&*+\.\/:<=>?@\^~]/);
 
                         if (keywords && keywords.propertyIsEnumerable(stream.current())) {
                             returnType = BUILTIN;

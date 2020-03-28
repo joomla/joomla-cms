@@ -91,19 +91,19 @@
 	float: right;
 }
 
-@media (min-width: 768px) {
+@media (min-width: @md) {
 	.j-toggle-transition {
 		.transition(all 0.3s ease);
 	}
 }
 
-@media (max-width: 979px) {
+@media (max-width: @lg-max) {
 	.j-toggle-button-wrapper.j-toggle-hidden {
 		right: -20px;
 	}
 }
 
-@media (max-width: 767px) {
+@media (max-width: @md-max) {
 	.j-sidebar-container {
 		position: relative;
 		width: 100%;

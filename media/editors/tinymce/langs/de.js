@@ -216,7 +216,7 @@ tinymce.addI18n('de',{
 "No color": "Keine Farbe",
 "Text color": "Textfarbe",
 "Table of Contents": "Inhaltsverzeichnis",
-"Show blocks": " Bl\u00f6cke anzeigen",
+"Show blocks": "Bl\u00f6cke anzeigen",
 "Show invisible characters": "Unsichtbare Zeichen anzeigen",
 "Words: {0}": "W\u00f6rter: {0}",
 "Insert": "Einf\u00fcgen",

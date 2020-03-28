@@ -60,7 +60,6 @@
 			directory="media/mod_languages/images/"
 			hide_none="1"
 			hide_default="1"
-			required="false"
 			filter="\.gif$"
 			size="10"
 			>
