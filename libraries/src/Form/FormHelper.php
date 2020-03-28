@@ -96,7 +96,7 @@ class FormHelper
 	 * @param   string   $type  The rule type.
 	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
 	 *
-	 * @return  FormFilter|boolean  FormRule object on success, false otherwise.
+	 * @return  FormFilterInterface|boolean  FormRule object on success, false otherwise.
 	 *
 	 * @since   4.0.0
 	 */

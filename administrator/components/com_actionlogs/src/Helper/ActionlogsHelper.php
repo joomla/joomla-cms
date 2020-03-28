@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Actionlogs\Administrator\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Generator;
 use Joomla\CMS\Date\Date;

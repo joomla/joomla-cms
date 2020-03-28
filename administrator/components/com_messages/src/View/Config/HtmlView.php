@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Messages\Administrator\View\Config;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
