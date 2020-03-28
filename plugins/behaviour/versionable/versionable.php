@@ -54,7 +54,7 @@ class PlgBehaviourVersionable extends CMSPlugin
 	public function onTableObjectCreate(CmsEvent\Table\ObjectCreateEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table			= $event['subject'];
 
 		// When we create the object the table is empty, so we can't parse the typeAlias field
@@ -88,7 +88,7 @@ class PlgBehaviourVersionable extends CMSPlugin
 	public function onTableAfterStore(CmsEvent\Table\AfterStoreEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table	= $event['subject'];
 		$result = $event['result'];
 
@@ -140,7 +140,7 @@ class PlgBehaviourVersionable extends CMSPlugin
 	public function onTableBeforeDelete(CmsEvent\Table\BeforeDeleteEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table			= $event['subject'];
 
 		// Parse the type alias
@@ -171,7 +171,7 @@ class PlgBehaviourVersionable extends CMSPlugin
 	 * Internal method
 	 * Parses a TypeAlias of the form "{variableName}.type", replacing {variableName} with table-instance variables variableName
 	 *
-	 * @param   JTableInterface  &$table  The table
+	 * @param   TableInterface  &$table  The table
 	 *
 	 * @return  string
 	 *
