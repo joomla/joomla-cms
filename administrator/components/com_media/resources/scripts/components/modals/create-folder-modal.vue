@@ -5,7 +5,7 @@
             <form class="form" @submit.prevent="save" novalidate>
                 <div class="form-group">
                     <label for="folder">{{ translate('COM_MEDIA_FOLDER_NAME') }}</label>
-                    <input id="folder" class="form-control"
+                    <input id="folder" class="form-control" type="text"
                            v-model.trim="folder" @input="folder = $event.target.value"
                            required autocomplete="off">
                 </div>

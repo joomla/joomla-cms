@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Contact\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
