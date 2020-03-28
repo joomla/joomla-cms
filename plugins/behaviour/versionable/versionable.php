@@ -66,6 +66,14 @@ class PlgBehaviourVersionable extends CMSPlugin
 			return;
 		}
 
+		$contentTypeFilter = $this->params->get('filterContentType');
+
+		// Check if the user has disabled versions for this content type
+		if (is_array($contentTypeFilter) && in_array($typeAlias, $contentTypeFilter))
+		{
+			return;
+		}
+
 		// If the table already has a content history helper we have nothing to do
 		if (property_exists($table, 'contenthistoryHelper'))
 		{
@@ -111,6 +119,14 @@ class PlgBehaviourVersionable extends CMSPlugin
 			return;
 		}
 
+		$contentTypeFilter = $this->params->get('filterContentType');
+
+		// Check if the user has disabled versions for this content type
+		if (is_array($contentTypeFilter) && in_array($typeAlias, $contentTypeFilter))
+		{
+			return;
+		}
+
 		// If the table doesn't have a content history helper we can't proceed
 		if (!property_exists($table, 'contenthistoryHelper'))
 		{
@@ -148,6 +164,14 @@ class PlgBehaviourVersionable extends CMSPlugin
 
 		// If the table doesn't support UCM we can't use the Versionable behaviour
 		if (is_null($typeAlias))
+		{
+			return;
+		}
+
+		$contentTypeFilter = $this->params->get('filterContentType');
+
+		// Check if the user has disabled versions for this content type
+		if (is_array($contentTypeFilter) && in_array($typeAlias, $contentTypeFilter))
 		{
 			return;
 		}

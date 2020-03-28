@@ -16,10 +16,13 @@
 	<fields name="params">
 		<fieldset name="basic">
 			<field
-				name="message"
-				type="note"
-				label="TODO: Implement a form field type which allows users to select which components / views to exclude"
-				/>
+				name="filterContentType"
+				type="Contenttype"
+				multiple="true"
+				label="PLG_BEHAVIOUR_VERSIONABLE_REMOVE_FROM"
+				validate="options"
+				useAliasAsValue="true"
+			/>
 		</fieldset>
 	</fields>
 	</config>

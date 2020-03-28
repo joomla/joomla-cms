@@ -65,6 +65,14 @@ class PlgBehaviourTaggable extends CMSPlugin
 			return;
 		}
 
+		$contentTypeFilter = $this->params->get('filterContentType');
+
+		// Check if the user has disabled tags for this content type
+		if (is_array($contentTypeFilter) && in_array($typeAlias, $contentTypeFilter))
+		{
+			return;
+		}
+
 		// If the table already has a tags helper we have nothing to do
 		if (property_exists($table, 'tagsHelper'))
 		{
@@ -104,6 +112,14 @@ class PlgBehaviourTaggable extends CMSPlugin
 
 		// If the table doesn't support UCM we can't use the Taggable behaviour
 		if (is_null($typeAlias))
+		{
+			return;
+		}
+
+		$contentTypeFilter = $this->params->get('filterContentType');
+
+		// Check if the user has disabled tags for this content type
+		if (is_array($contentTypeFilter) && in_array($typeAlias, $contentTypeFilter))
 		{
 			return;
 		}
@@ -165,6 +181,14 @@ class PlgBehaviourTaggable extends CMSPlugin
 			return;
 		}
 
+		$contentTypeFilter = $this->params->get('filterContentType');
+
+		// Check if the user has disabled tags for this content type
+		if (is_array($contentTypeFilter) && in_array($typeAlias, $contentTypeFilter))
+		{
+			return;
+		}
+
 		// If the table doesn't have a tags helper we can't proceed
 		if (!property_exists($table, 'tagsHelper'))
 		{
@@ -222,6 +246,14 @@ class PlgBehaviourTaggable extends CMSPlugin
 			return;
 		}
 
+		$contentTypeFilter = $this->params->get('filterContentType');
+
+		// Check if the user has disabled tags for this content type
+		if (is_array($contentTypeFilter) && in_array($typeAlias, $contentTypeFilter))
+		{
+			return;
+		}
+
 		// If the table doesn't have a tags helper we can't proceed
 		if (!property_exists($table, 'tagsHelper'))
 		{
@@ -256,6 +288,14 @@ class PlgBehaviourTaggable extends CMSPlugin
 
 		// If the table doesn't support UCM we can't use the Taggable behaviour
 		if (is_null($typeAlias))
+		{
+			return;
+		}
+
+		$contentTypeFilter = $this->params->get('filterContentType');
+
+		// Check if the user has disabled tags for this content type
+		if (is_array($contentTypeFilter) && in_array($typeAlias, $contentTypeFilter))
 		{
 			return;
 		}
@@ -301,6 +341,14 @@ class PlgBehaviourTaggable extends CMSPlugin
 			return;
 		}
 
+		$contentTypeFilter = $this->params->get('filterContentType');
+
+		// Check if the user has disabled tags for this content type
+		if (is_array($contentTypeFilter) && in_array($typeAlias, $contentTypeFilter))
+		{
+			return;
+		}
+
 		$table->tagsHelper = new TagsHelper;
 		$table->tagsHelper->typeAlias = $table->typeAlias;
 	}
@@ -325,6 +373,14 @@ class PlgBehaviourTaggable extends CMSPlugin
 
 		// If the table doesn't support UCM we can't use the Taggable behaviour
 		if (is_null($typeAlias))
+		{
+			return;
+		}
+
+		$contentTypeFilter = $this->params->get('filterContentType');
+
+		// Check if the user has disabled tags for this content type
+		if (is_array($contentTypeFilter) && in_array($typeAlias, $contentTypeFilter))
 		{
 			return;
 		}
