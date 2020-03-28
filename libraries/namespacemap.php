@@ -24,7 +24,7 @@ class JNamespacePsr4Map
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	protected $file = JPATH_LIBRARIES . '/autoload_psr4.php';
+	protected $file = JPATH_CACHE . '/autoload_psr4.php';
 
 	/**
 	 * Check if the file exists
