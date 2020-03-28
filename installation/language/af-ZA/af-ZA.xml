@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<metafile version="3.8" client="installation">
+<metafile version="3.9" client="installation">
 	<name>Afrikaans (Suid-Afrika)</name>
-	<version>3.8.0</version>
-	<creationDate>2017-09-05</creationDate>
-	<author>Joomla4Africa Project</author>
+	<version>3.9.17</version>
+	<creationDate>March 2020</creationDate>
+	<author>Gerrit Hoekstra en Span</author>
 	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
