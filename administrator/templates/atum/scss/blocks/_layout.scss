@@ -35,7 +35,7 @@
 .pagination {
   .page-link {
     &:first-of-type {
-      [dir=lr] & {
+      [dir=ltr] & {
         @include border-left-radius($border-radius);
       }
 
@@ -45,7 +45,7 @@
     }
 
     &:last-of-type {
-      [dir=lr] & {
+      [dir=ltr] & {
         @include border-right-radius($border-radius);
       }
 
