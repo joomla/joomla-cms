@@ -350,7 +350,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 			->method('getOptions')
 			->will($this->returnValue($optionsReturn));
 
-		TestReflection::setValue($formFieldCheckboxes, 'element', new SimpleXMLElement('field'));
+		TestReflection::setValue($formFieldCheckboxes, 'element', new SimpleXMLElement('<field />'));
 		TestReflection::setValue($formFieldCheckboxes, 'id', 'myTestId');
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
 		TestReflection::setValue($formFieldCheckboxes, 'checkedOptions', 'blue');
@@ -429,7 +429,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 			->will($this->returnValue($optionsReturn));
 
 		// Test with nothing checked, two values in checked element
-		TestReflection::setValue($formFieldCheckboxes, 'element', new SimpleXMLElement('field'));
+		TestReflection::setValue($formFieldCheckboxes, 'element', new SimpleXMLElement('<field />'));
 		TestReflection::setValue($formFieldCheckboxes, 'id', 'myTestId');
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
 		TestReflection::setValue($formFieldCheckboxes, 'value', '""');
@@ -509,7 +509,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 			->will($this->returnValue($optionsReturn));
 
 		// Test with one item checked, a different value in checked element
-		TestReflection::setValue($formFieldCheckboxes, 'element', new SimpleXMLElement('field'));
+		TestReflection::setValue($formFieldCheckboxes, 'element', new SimpleXMLElement('<field />'));
 		TestReflection::setValue($formFieldCheckboxes, 'id', 'myTestId');
 		TestReflection::setValue($formFieldCheckboxes, 'value', 'red');
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');
