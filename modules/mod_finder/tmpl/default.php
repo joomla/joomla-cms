@@ -45,14 +45,7 @@ else
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
-
-// Allow template to provide its own asset for the module
-if (!$wa->assetExists('script', 'com_finder'))
-{
-	$wa->registerScript('com_finder', 'com_finder/finder.js', [], ['defer' => true]);
-}
-
-$wa->useScript('com_finder');
+$wa->registerAndUseScript('com_finder', 'com_finder/finder.js', [], ['defer' => true]);
 
 Text::script('MOD_FINDER_SEARCH_VALUE', true);
 

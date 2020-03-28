@@ -13,14 +13,7 @@ use Joomla\CMS\Language\Text;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
-
-// Allow template to provide its own asset for the module
-if (!$wa->assetExists('script', 'com_wrapper.iframe'))
-{
-	$wa->registerScript('com_wrapper.iframe', 'com_wrapper/iframe-height.min.js', [], ['defer' => true]);
-}
-
-$wa->useScript('com_wrapper.iframe');
+$wa->registerAndUseScript('com_wrapper.iframe', 'com_wrapper/iframe-height.min.js', [], ['defer' => true]);
 
 ?>
 <iframe <?php echo $load; ?>

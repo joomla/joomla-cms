@@ -13,14 +13,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = $app->getDocument()->getWebAssetManager();
-
-// Allow template to provide its own asset for the module
-if (!$wa->assetExists('script', 'mod_menu'))
-{
-	$wa->registerScript('mod_menu', 'mod_menu/menu.min.js', [], ['defer' => true]);
-}
-
-$wa->useScript('mod_menu');
+$wa->registerAndUseScript('mod_menu', 'mod_menu/menu.min.js', [], ['defer' => true]);
 
 $id = '';
 
