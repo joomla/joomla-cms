@@ -142,7 +142,7 @@ class Usergroup extends Table
 			->update($db->quoteName($this->_tbl))
 			->set($db->quoteName('lft') . ' = :lft')
 			->set($db->quoteName('rgt') . ' = :rgt')
-			->where($db->quoteName('id') . '= :id')
+			->where($db->quoteName('id') . ' = :id')
 			->bind(':lft', $lft, ParameterType::INTEGER)
 			->bind(':rgt', $rgt, ParameterType::INTEGER)
 			->bind(':id', $parentId, ParameterType::INTEGER);
