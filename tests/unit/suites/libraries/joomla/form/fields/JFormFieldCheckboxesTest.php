@@ -589,7 +589,7 @@ class JFormFieldCheckboxesTest extends TestCaseDatabase
 			->will($this->returnValue($optionsReturn));
 
 		// Test with two values checked, no checked element
-		TestReflection::setValue($formFieldCheckboxes, 'element', new SimpleXMLElement('field'));
+		TestReflection::setValue($formFieldCheckboxes, 'element', new SimpleXMLElement('<field />'));
 		TestReflection::setValue($formFieldCheckboxes, 'id', 'myTestId');
 		TestReflection::setValue($formFieldCheckboxes, 'value', 'yellow,green');
 		TestReflection::setValue($formFieldCheckboxes, 'name', 'myTestName');

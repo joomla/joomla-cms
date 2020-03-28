@@ -206,7 +206,7 @@ class JFormFieldPasswordTest extends TestCase
 	{
 		$formField = new JFormFieldPassword;
 
-		TestReflection::setValue($formField, 'element', new SimpleXMLElement('field'));
+		TestReflection::setValue($formField, 'element', new SimpleXMLElement('<field />'));
 
 		foreach ($data as $attr => $value)
 		{
