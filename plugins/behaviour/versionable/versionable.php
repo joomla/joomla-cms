@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Taggable
+ * @subpackage  Versionable
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -17,7 +17,7 @@ use Joomla\CMS\Table\TableInterface;
 use Joomla\Event\DispatcherInterface;
 
 /**
- * Implements the Taggable behaviour which allows extensions to automatically support tags for their content items.
+ * Implements the Versionable behaviour which allows extensions to automatically support content history for their content items.
  *
  * This plugin supersedes JTableObserverContenthistory.
  *
@@ -60,13 +60,13 @@ class PlgBehaviourVersionable extends CMSPlugin
 		// When we create the object the table is empty, so we can't parse the typeAlias field
 		$typeAlias = $table->typeAlias;
 
-		// If the table doesn't support UCM we can't use the Taggable behaviour
+		// If the table doesn't support UCM we can't use the Versionable behaviour
 		if (is_null($typeAlias))
 		{
 			return;
 		}
 
-		// If the table already has a tags helper we have nothing to do
+		// If the table already has a content history helper we have nothing to do
 		if (property_exists($table, 'contenthistoryHelper'))
 		{
 			return;
@@ -111,13 +111,13 @@ class PlgBehaviourVersionable extends CMSPlugin
 			return;
 		}
 
-		// If the table doesn't have a tags helper we can't proceed
+		// If the table doesn't have a content history helper we can't proceed
 		if (!property_exists($table, 'contenthistoryHelper'))
 		{
 			return;
 		}
 
-		// Get the Tags helper and assign the parsed alias
+		// Get the content history helper and assign the parsed alias
 		$table->contenthistoryHelper->typeAlias = $typeAlias;
 
 		$aliasParts = explode('.', $table->contenthistoryHelper->typeAlias);
@@ -146,13 +146,13 @@ class PlgBehaviourVersionable extends CMSPlugin
 		// Parse the type alias
 		$typeAlias = $this->parseTypeAlias($table);
 
-		// If the table doesn't support UCM we can't use the Taggable behaviour
+		// If the table doesn't support UCM we can't use the Versionable behaviour
 		if (is_null($typeAlias))
 		{
 			return;
 		}
 
-		// If the table doesn't have a tags helper we can't proceed
+		// If the table doesn't have a content history helper we can't proceed
 		if (!property_exists($table, 'contenthistoryHelper'))
 		{
 			return;
