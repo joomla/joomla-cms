@@ -53,7 +53,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	public function onTableObjectCreate(CmsEvent\Table\ObjectCreateEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table			= $event['subject'];
 
 		// Parse the type alias
@@ -96,7 +96,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	public function onTableBeforeStore(CmsEvent\Table\BeforeStoreEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table			= $event['subject'];
 
 		// Parse the type alias
@@ -114,7 +114,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 			return;
 		}
 
-		/** @var JHelperTags $tagsHelper */
+		/** @var TagsHelper $tagsHelper */
 		$tagsHelper            = $table->tagsHelper;
 		$tagsHelper->typeAlias = $typeAlias;
 
@@ -142,7 +142,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	public function onTableAfterStore(CmsEvent\Table\AfterStoreEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table	= $event['subject'];
 		$result = $event['result'];
 
@@ -172,7 +172,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 		}
 
 		// Get the Tags helper and assign the parsed alias
-		/** @var JHelperTags $tagsHelper */
+		/** @var TagsHelper $tagsHelper */
 		$tagsHelper            = $table->tagsHelper;
 		$tagsHelper->typeAlias = $typeAlias;
 
@@ -209,7 +209,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	public function onTableBeforeDelete(CmsEvent\Table\BeforeDeleteEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table			= $event['subject'];
 		$pk				= $event['pk'];
 
@@ -246,7 +246,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	public function onTableSetNewTags(CmsEvent\Table\SetNewTagsEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table			= $event['subject'];
 		$newTags		= $event['newTags'];
 		$replaceTags	= $event['replaceTags'];
@@ -267,7 +267,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 		}
 
 		// Get the Tags helper and assign the parsed alias
-		/** @var JHelperTags $tagsHelper */
+		/** @var TagsHelper $tagsHelper */
 		$tagsHelper            = $table->tagsHelper;
 		$tagsHelper->typeAlias = $typeAlias;
 
@@ -289,7 +289,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	public function onTableAfterReset(CmsEvent\Table\AfterResetEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table			= $event['subject'];
 
 		// Parse the type alias
@@ -317,7 +317,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	public function onTableAfterLoad(CmsEvent\Table\AfterLoadEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table			= $event['subject'];
 
 		// Parse the type alias
@@ -349,7 +349,7 @@ class PlgBehaviourTaggable extends CMSPlugin
 	 * Internal method
 	 * Parses a TypeAlias of the form "{variableName}.type", replacing {variableName} with table-instance variables variableName
 	 *
-	 * @param   JTableInterface  &$table  The table
+	 * @param   TableInterface  $table  The table
 	 *
 	 * @return  string
 	 *
