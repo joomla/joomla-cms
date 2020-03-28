@@ -2,7 +2,7 @@
   "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "atum",
   "version": "4.0.0",
-  "description": "Atum is the Joomla 4 administrator template",
+  "description": "Atum is the default Joomla 4 administrator template",
   "license": "GPL-2.0-or-later",
   "assets": [
     {
@@ -52,7 +52,7 @@
       "name": "template.active",
       "type": "script",
       "uri": "",
-      "description": "A dummy asset to allow extensions to use it as a dependency to active template",
+      "description": "A dummy asset to allow extensions to use it as a dependency to the active template",
       "dependencies": [
         "template.atum"
       ]
