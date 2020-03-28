@@ -35,11 +35,23 @@
 .pagination {
   .page-link {
     &:first-of-type {
-      @include border-left-radius($border-radius);
+      [dir=lr] & {
+        @include border-left-radius($border-radius);
+      }
+
+      [dir=rtl] & {
+        @include border-right-radius($border-radius);
+      }
     }
 
     &:last-of-type {
-      @include border-right-radius($border-radius);
+      [dir=lr] & {
+        @include border-right-radius($border-radius);
+      }
+
+      [dir=rtl] & {
+        @include border-left-radius($border-radius);
+      }
     }
   }
 }
