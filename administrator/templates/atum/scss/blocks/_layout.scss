@@ -32,6 +32,18 @@
   }
 }
 
+.pagination {
+  .page-link {
+    &:first-of-type {
+      @include border-left-radius($border-radius);
+    }
+
+    &:last-of-type {
+      @include border-right-radius($border-radius);
+    }
+  }
+}
+
 .options-form {
   width: 100%;
   padding: 1vw 2vw;
