@@ -26,6 +26,8 @@ use Joomla\Database\Exception\DatabaseNotFoundException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Input\Input;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * Factory to create MVC objects based on a namespace.
@@ -45,16 +47,26 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 	private $namespace;
 
 	/**
+	 * The namespace to create the objects from.
+	 *
+	 * @var    LoggerInterface
+	 * @since  4.0.0
+	 */
+	private $logger;
+
+	/**
 	 * The namespace must be like:
 	 * Joomla\Component\Content
 	 *
-	 * @param   string  $namespace  The namespace
+	 * @param   string                $namespace  The namespace
+	 * @param   LoggerInterface|null  $logger     A logging instance to inject into the controller if required
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct($namespace)
+	public function __construct($namespace, LoggerInterface $logger = null)
 	{
 		$this->namespace = $namespace;
+		$this->logger    = $logger;
 	}
 
 	/**
@@ -66,7 +78,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 	 * @param   CMSApplicationInterface  $app     The app
 	 * @param   Input                    $input   The input
 	 *
-	 * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
+	 * @return  \Joomla\CMS\MVC\Controller\ControllerInterface|null
 	 *
 	 * @since   3.10.0
 	 * @throws  \Exception
@@ -89,6 +101,11 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface, Site
 		$this->setDispatcherOnObject($controller);
 		$this->setRouterOnObject($controller);
 		$this->setCacheControllerOnObject($controller);
+
+		if ($controller instanceof LoggerAwareInterface && $this->logger !== null)
+		{
+			$controller->setLogger($this->logger);
+		}
 
 		return $controller;
 	}
