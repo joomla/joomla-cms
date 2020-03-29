@@ -36,4 +36,8 @@ if (!function_exists('each'))
 	}
 }
 
-include_once '../../libraries/vendor/phpunit/phpunit/phpunit';
+define('PHPUNIT_COMPOSER_INSTALL', __DIR__ . '/../../libraries/vendor/autoload.php');
+
+require_once PHPUNIT_COMPOSER_INSTALL;
+
+PHPUnit_TextUI_Command::main();
