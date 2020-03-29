@@ -220,7 +220,7 @@ class UsersModelUser extends JModelAdmin
 			{
 				/*
 				 * Wait we have useractivation use the correct string then;
-				 * Or we have a rare case that the parameter has been set to 0 (None) after the user registed but not activated the account
+				 * Or we have a rare case that the parameter has been set to 0 (None) after the user registered but not activated the account
 				 */
 				$emailBodyLanguageString = 'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_CHANGED_MAIL_BODY';
 			}
