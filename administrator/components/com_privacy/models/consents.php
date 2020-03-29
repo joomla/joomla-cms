@@ -32,7 +32,7 @@ class PrivacyModelConsents extends JModelList
 			$config['filter_fields'] = array(
 				'id', 'a.id', 
 				'user_id', 'a.user_id',
-				'subject','a.subject',
+				'subject', 'a.subject',
 				'created', 'a.created',
 				'username', 'u.username',
 				'state', 'a.state'
