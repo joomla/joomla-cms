@@ -13,6 +13,7 @@ namespace Joomla\CMS\Application;
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Console\Application;
 use Joomla\DI\Container;
@@ -51,6 +52,14 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @since  4.0.0
 	 */
 	protected $name = null;
+
+	/**
+	 * The application language object.
+	 *
+	 * @var    Language
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $language;
 
 	/**
 	 * The application message queue.
@@ -97,7 +106,8 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	)
 	{
 		// Set up a Input object for Controllers etc to use
-		$this->input = new \Joomla\CMS\Input\Cli;
+		$this->input    = new \Joomla\CMS\Input\Cli;
+		$this->language = Factory::getLanguage();
 
 		parent::__construct($input, $output, $config);
 
@@ -298,6 +308,18 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	public function getInput(): Input
 	{
 		return $this->input;
+	}
+
+	/**
+	 * Method to get the application language object.
+	 *
+	 * @return  Language  The language object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getLanguage()
+	{
+		return $this->language;
 	}
 
 	/**

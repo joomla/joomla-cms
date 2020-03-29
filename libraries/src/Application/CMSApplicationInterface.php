@@ -10,6 +10,7 @@ namespace Joomla\CMS\Application;
 
 use Joomla\Application\ConfigurationAwareApplicationInterface;
 use Joomla\CMS\Extension\ExtensionManagerInterface;
+use Joomla\CMS\Language\Language;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\User\User;
 use Joomla\Input\Input;
@@ -148,6 +149,15 @@ interface CMSApplicationInterface extends ExtensionManagerInterface, Configurati
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getInput(): Input;
+
+	/**
+	 * Method to get the application language object.
+	 *
+	 * @return  Language  The language object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getLanguage();
 
 	/**
 	 * Gets the name of the current running application.

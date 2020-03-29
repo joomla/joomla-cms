@@ -78,6 +78,8 @@ $lang->load('finder_cli', JPATH_SITE, null, false, false)
  */
 class FinderCli extends \Joomla\CMS\Application\CliApplication
 {
+	use \Joomla\CMS\Application\ExtensionNamespaceMapper;
+
 	/**
 	 * Start time for the index process
 	 *
@@ -142,6 +144,8 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	 */
 	protected function doExecute()
 	{
+		$this->createExtensionNamespaceMap();
+
 		// Print a blank line.
 		$this->out(Text::_('FINDER_CLI'));
 		$this->out('============================');
@@ -326,6 +330,18 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	}
 
 	/**
+	 * Gets the name of the current running application.
+	 *
+	 * @return  string  The name of the application.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getName()
+	{
+		return 'finder-cli';
+	}
+
+	/**
 	 * Purge the index.
 	 *
 	 * @return  void
@@ -485,7 +501,14 @@ Factory::getContainer()->share(
 		);
 	},
 	true
-);
+)
+	->alias('session.web', 'session.cli')
+		->alias('session', 'session.cli')
+		->alias('JSession', 'session.cli')
+		->alias(\Joomla\CMS\Session\Session::class, 'session.cli')
+		->alias(\Joomla\Session\Session::class, 'session.cli')
+		->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
+
 $app = Factory::getContainer()->get('FinderCli');
 Factory::$application = $app;
 $app->execute();
