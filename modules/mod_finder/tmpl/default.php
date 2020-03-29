@@ -43,7 +43,9 @@ else
 	$output .= $input;
 }
 
-HTMLHelper::_('script', 'com_finder/finder.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+$wa->registerAndUseScript('com_finder', 'com_finder/finder.js', [], ['defer' => true]);
 
 Text::script('MOD_FINDER_SEARCH_VALUE', true);
 
@@ -52,7 +54,7 @@ Text::script('MOD_FINDER_SEARCH_VALUE', true);
  */
 if ($params->get('show_autosuggest', 1))
 {
-	$app->getDocument()->getWebAssetManager()->usePreset('awesomplete');
+	$wa->usePreset('awesomplete');
 	$app->getDocument()->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
 }
 ?>

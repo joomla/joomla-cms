@@ -9,13 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-HTMLHelper::_('bootstrap.framework');
-HTMLHelper::_('form.csrf');
-HTMLHelper::_('script', 'mod_sampledata/sampledata-process.js', ['version' => 'auto', 'relative' => true]);
+$app->getDocument()->getWebAssetManager()
+	->registerAndUseScript('mod_sampledata', 'mod_sampledata/sampledata-process.js', [], ['defer' => true], ['core']);
 
 Text::script('MOD_SAMPLEDATA_CONFIRM_START');
 Text::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');

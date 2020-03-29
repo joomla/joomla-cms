@@ -9,10 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+$wa->registerAndUseScript('com_wrapper.iframe', 'com_wrapper/iframe-height.min.js', [], ['defer' => true]);
+
 ?>
 <iframe <?php echo $load; ?>
 	id="blockrandom-<?php echo $id; ?>"
