@@ -11,6 +11,7 @@ namespace Joomla\CMS\MVC\Controller;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSWebApplicationInterface;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
@@ -167,7 +168,7 @@ class BaseController implements ControllerInterface
 	/**
 	 * The Application
 	 *
-	 * @var    CMSApplication|null
+	 * @var    CMSWebApplicationInterface
 	 * @since  4.0.0
 	 */
 	protected $app;
@@ -356,16 +357,16 @@ class BaseController implements ControllerInterface
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @param   array                       $config   An optional associative array of configuration settings.
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
-	 * @param   MVCFactoryInterface  $factory  The factory.
-	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   Input                $input    Input
+	 * @param   MVCFactoryInterface         $factory  The factory.
+	 * @param   CMSWebApplicationInterface  $app      The JApplication for the dispatcher
+	 * @param   Input                       $input    Input
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, ?CMSWebApplicationInterface $app = null, ?Input $input = null)
 	{
 		$this->methods = array();
 		$this->message = null;
@@ -649,14 +650,12 @@ class BaseController implements ControllerInterface
 		$view->document = $document;
 
 		// Display the view
-		if ($cachable && $viewType !== 'feed' && Factory::getApplication()->get('caching') >= 1)
+		if ($cachable && $viewType !== 'feed' && $this->app->get('caching') >= 1)
 		{
 			$option = $this->input->get('option');
 
 			if (\is_array($urlparams))
 			{
-				$this->app = Factory::getApplication();
-
 				if (!empty($this->app->registeredurlparams))
 				{
 					$registeredurlparams = $this->app->registeredurlparams;
@@ -777,7 +776,7 @@ class BaseController implements ControllerInterface
 			}
 
 			// Let's get the application object and set menu information if it's available
-			$menu = Factory::getApplication()->getMenu();
+			$menu = $this->app->getMenu();
 
 			if (\is_object($menu) && $item = $menu->getActive())
 			{
