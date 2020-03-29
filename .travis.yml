@@ -57,7 +57,7 @@ before_script:
   - if [[ $RUN_UNIT_TESTS == "yes" ]]; then bash build/travis/unit-tests.sh $PWD; fi
 
 script:
-  - if [[ $RUN_UNIT_TESTS == "yes" ]]; then libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml; fi
+  - if [[ $RUN_UNIT_TESTS == "yes" ]]; then php tests/unit/phpunit-starter.php --configuration travisci-phpunit.xml; fi
 
 branches:
   except:
