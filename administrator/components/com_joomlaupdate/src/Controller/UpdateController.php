@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Factory;
@@ -342,7 +342,6 @@ class UpdateController extends BaseController
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
 		}
 
-		// Get the model
 		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 		$model = $this->getModel('Update');
 

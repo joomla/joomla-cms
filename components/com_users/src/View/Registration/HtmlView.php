@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Users\Site\View\Registration;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Factory;
