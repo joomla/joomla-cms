@@ -128,7 +128,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 			$this->setDispatcher($dispatcher);
 		}
 
-		parent::__construct($input ?: new Cli, $config);
+		parent::__construct($config);
 
 		// Set the current directory.
 		$this->set('cwd', getcwd());
