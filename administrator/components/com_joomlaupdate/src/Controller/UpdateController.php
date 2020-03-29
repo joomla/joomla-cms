@@ -154,6 +154,7 @@ class UpdateController extends BaseController
 		 */
 		if (!Session::checkToken('get'))
 		{
+			var_dump($this->input, $this->app->getSession()->all());die;
 			$this->setRedirect('index.php?option=com_joomlaupdate&view=update&layout=finaliseconfirm');
 
 			return;
