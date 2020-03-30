@@ -2460,11 +2460,11 @@ class JoomlaInstallerScript
 		// Set required conversion status
 		if ($db->hasUTF8mb4Support())
 		{
-			$converted = 2;
+			$converted = 4;
 		}
 		else
 		{
-			$converted = 1;
+			$converted = 3;
 		}
 
 		// Check conversion status in database
@@ -2496,58 +2496,96 @@ class JoomlaInstallerScript
 			return;
 		}
 
+		$hasErrors = false;
+
 		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
-		$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql';
-
-		if (is_file($fileName1))
+		if ($convertedDB < 3)
 		{
-			$fileContents1 = @file_get_contents($fileName1);
-			$queries1      = $db->splitSql($fileContents1);
+			$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql';
 
-			if (!empty($queries1))
+			if (is_file($fileName1))
 			{
-				foreach ($queries1 as $query1)
+				$fileContents1 = @file_get_contents($fileName1);
+				$queries1      = $db->splitSql($fileContents1);
+
+				if (!empty($queries1))
 				{
-					try
+					foreach ($queries1 as $query1)
 					{
-						$db->setQuery($query1)->execute();
+						try
+						{
+							$db->setQuery($query1)->execute();
+						}
+						catch (Exception $e)
+						{
+							// If the query fails we will go on. It just means the index to be dropped does not exist.
+						}
 					}
-					catch (Exception $e)
+				}
+			}
+
+			// Step 2: Perform the index modifications and conversions
+			$fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql';
+
+			if (is_file($fileName2))
+			{
+				$fileContents2 = @file_get_contents($fileName2);
+				$queries2      = $db->splitSql($fileContents2);
+
+				if (!empty($queries2))
+				{
+					foreach ($queries2 as $query2)
 					{
-						// If the query fails we will go on. It just means the index to be dropped does not exist.
+						try
+						{
+							$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
+						}
+						catch (Exception $e)
+						{
+							$converted = 0;
+							$hasErrors = true;
+
+							// Still render the error message from the Exception object
+							JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+						}
 					}
 				}
 			}
 		}
 
-		// Step 2: Perform the index modifications and conversions
-		$fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql';
-
-		if (is_file($fileName2))
+		// Step 3: Convert action logs and privacy suite tables if conversion hasn't failed before
+		if ($converted > 3)
 		{
-			$fileContents2 = @file_get_contents($fileName2);
-			$queries2      = $db->splitSql($fileContents2);
+			$fileName3 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-03.sql';
 
-			if (!empty($queries2))
+			if (is_file($fileName3))
 			{
-				foreach ($queries2 as $query2)
-				{
-					try
-					{
-						$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
-					}
-					catch (Exception $e)
-					{
-						$converted = 0;
+				$fileContents3 = @file_get_contents($fileName3);
+				$queries3      = $db->splitSql($fileContents3);
 
-						// Still render the error message from the Exception object
-						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				if (!empty($queries3))
+				{
+					foreach ($queries3 as $query3)
+					{
+						try
+						{
+							$db->setQuery($db->convertUtf8mb4QueryToUtf8($query3))->execute();
+						}
+						catch (Exception $e)
+						{
+							// Set converted value back to before step 3
+							$converted = $converted - 2;
+							$hasErrors = true;
+
+							// Still render the error message from the Exception object
+							JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+						}
 					}
 				}
 			}
 		}
 
-		if ($doDbFixMsg && $converted == 0)
+		if ($doDbFixMsg && $hasErrors)
 		{
 			// Show an error message telling to check database problems
 			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
