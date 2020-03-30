@@ -58,9 +58,6 @@ require_once JPATH_LIBRARIES . '/classmap.php';
  */
 $errorHandler = \Symfony\Component\ErrorHandler\ErrorHandler::register();
 
-// Use server default error level, initially
-$errorHandler->scopeAt(error_reporting(), true);
-
 // Register the error handler which processes E_USER_DEPRECATED errors
 set_error_handler(['JErrorPage', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);
 

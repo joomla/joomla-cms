@@ -45,46 +45,36 @@ switch ($config->error_reporting)
 {
 	case 'default':
 	case '-1':
-		$errorHandler->scopeAt(0, true);
 
 		break;
 
 	case 'none':
 	case '0':
 		error_reporting(0);
-		$errorHandler->scopeAt(0, true);
 
 		break;
 
 	case 'simple':
 		error_reporting(E_ERROR | E_WARNING | E_PARSE);
 		ini_set('display_errors', 1);
-		$errorHandler->scopeAt(E_ERROR | E_WARNING | E_PARSE, true);
 
 		break;
 
 	case 'maximum':
 		error_reporting(E_ALL);
 		ini_set('display_errors', 1);
-		$errorHandler->scopeAt(E_ALL, true);
 
 		break;
 
 	case 'development':
 		error_reporting(-1);
 		ini_set('display_errors', 1);
-		$errorHandler->scopeAt(E_ALL, true);
 
 		break;
 
 	default:
 		error_reporting($config->error_reporting);
 		ini_set('display_errors', 1);
-
-		if (is_int($config->error_reporting))
-		{
-			$errorHandler->scopeAt($config->error_reporting, true);
-		}
 
 		break;
 }
@@ -94,10 +84,15 @@ if (!defined('JDEBUG'))
 	define('JDEBUG', $config->debug);
 }
 
-if (JDEBUG)
+if (JDEBUG || $config->error_reporting === 'maximum')
 {
-	// Restore ErrorHandler default level
-	$errorHandler->scopeAt(0x1FFF, true);
+	// Set new Exception handler with debug enabled
+	$errorHandler->setExceptionHandler(
+		[
+			new \Symfony\Component\ErrorHandler\ErrorHandler(null, true),
+			'renderException'
+		]
+	);
 }
 
 unset($config);
