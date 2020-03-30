@@ -86,4 +86,15 @@ switch ($config->error_reporting)
 
 define('JDEBUG', $config->debug);
 
+if (JDEBUG || $config->error_reporting === 'maximum')
+{
+	// Set new Exception handler with debug enabled
+	$errorHandler->setExceptionHandler(
+		[
+			new \Symfony\Component\ErrorHandler\ErrorHandler(null, true),
+			'renderException'
+		]
+	);
+}
+
 unset($config);
