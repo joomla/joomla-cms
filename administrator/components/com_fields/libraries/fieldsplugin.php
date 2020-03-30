@@ -123,6 +123,10 @@ abstract class FieldsPlugin extends JPlugin
 
 		// Get the path for the layout file
 		$path = JPluginHelper::getLayoutPath('fields', $field->type, $field->type);
+		if (!file_exists($path))
+		{
+			$path = JPluginHelper::getLayoutPath('fields', $this->_name, $field->type);
+		}
 
 		// Render the layout
 		ob_start();
