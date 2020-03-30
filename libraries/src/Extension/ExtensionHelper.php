@@ -155,6 +155,7 @@ class ExtensionHelper
 
 		// Core plugin extensions - API Authentication
 		array('plugin', 'basic', 'api-authentication', 0),
+		array('plugin', 'token', 'api-authentication', 0),
 
 		// Core plugin extensions - authentication
 		array('plugin', 'cookie', 'authentication', 0),

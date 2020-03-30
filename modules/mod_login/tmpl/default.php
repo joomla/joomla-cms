@@ -15,9 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
+$app->getDocument()->getWebAssetManager()
+	->useScript('core')
+	->useScript('keepalive')
+	->useScript('field.passwordview');
 
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');

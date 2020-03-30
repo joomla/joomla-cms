@@ -10,8 +10,6 @@ namespace Joomla\CMS\Dispatcher;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplication;
-
 /**
  * API Implementation for our dispatcher. It loads a component's administrator language files, and calls the API
  * Controller so that components that haven't implemented web services can add their own handling.
@@ -20,41 +18,6 @@ use Joomla\CMS\Application\CMSApplication;
  */
 final class ApiDispatcher extends ComponentDispatcher
 {
-	/**
-	 * The URL option for the component.
-	 *
-	 * @var    string
-	 * @since  1.6
-	 */
-	protected $option;
-
-	/**
-	 * The extension namespace
-	 *
-	 * @var    string
-	 *
-	 * @since  4.0.0
-	 */
-	protected $namespace;
-
-	/**
-	 * The CmsApplication instance
-	 *
-	 * @var    CMSApplication
-	 *
-	 * @since  4.0.0
-	 */
-	protected $app;
-
-	/**
-	 * The JApplication instance
-	 *
-	 * @var    \JInput
-	 *
-	 * @since  4.0.0
-	 */
-	protected $input;
-
 	/**
 	 * Load the component's administrator language
 	 *
@@ -71,7 +34,7 @@ final class ApiDispatcher extends ComponentDispatcher
 	}
 
 	/**
-	 * Dispatch a controller task. Redirecting the user if appropriate.
+	 * Dispatch a controller task. API Overrides to ensure there is no redirects.
 	 *
 	 * @return  void
 	 *
