@@ -629,29 +629,6 @@ class DatabaseModel extends BaseInstallationModel
 			return false;
 		}
 
-		// Get query object for later database access
-		$query = $db->getQuery(true);
-
-		// MySQL only: Attempt to update the table #__utf8_conversion.
-		if ($serverType === 'mysql')
-		{
-			$query->clear()
-				->update($db->quoteName('#__utf8_conversion'))
-				->set($db->quoteName('converted') . ' = ' . ($db->hasUTF8mb4Support() ? 2 : 1));
-			$db->setQuery($query);
-
-			try
-			{
-				$db->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-				return false;
-			}
-		}
-
 		// Attempt to update the table #__schema.
 		$pathPart = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/' . $serverType . '/';
 
