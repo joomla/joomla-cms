@@ -41,7 +41,7 @@ ALTER TABLE `#__newsfeeds` MODIFY `alias` varchar(400) NOT NULL DEFAULT '';
 ALTER TABLE `#__tags` MODIFY `path` varchar(400) NOT NULL DEFAULT '';
 ALTER TABLE `#__tags` MODIFY `alias` varchar(400) NOT NULL DEFAULT '';
 ALTER TABLE `#__ucm_content` MODIFY `core_type_alias` varchar(400) NOT NULL DEFAULT '' COMMENT 'FK to the content types table';
-ALTER TABLE `#__ucm_content` MODIFY `core_title` varchar(400) NOT NULL;
+ALTER TABLE `#__ucm_content` MODIFY `core_title` varchar(400) NOT NULL DEFAULT '';
 ALTER TABLE `#__ucm_content` MODIFY `core_alias` varchar(400) NOT NULL DEFAULT '';
 ALTER TABLE `#__users` MODIFY `name` varchar(400) NOT NULL DEFAULT '';
 
