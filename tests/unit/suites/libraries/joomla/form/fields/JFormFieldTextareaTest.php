@@ -127,6 +127,8 @@ class JFormFieldTextareaTest extends TestCase
 	{
 		$formField = new JFormFieldTextarea;
 
+		TestReflection::setValue($formField, 'element', new SimpleXMLElement('<field />'));
+
 		foreach ($data as $attr => $value)
 		{
 			TestReflection::setValue($formField, $attr, $value);
