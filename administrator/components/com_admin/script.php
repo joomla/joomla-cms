@@ -2502,7 +2502,7 @@ class JoomlaInstallerScript
 
 		$hasErrors = false;
 
-		// Steps 1 and 2: Convert core tables if necessary and not to be done in step 3
+		// Steps 1 and 2: Convert core tables if necessary and not to be done at later steps
 		if ($convertedDB < $convertedStep1)
 		{
 			// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
