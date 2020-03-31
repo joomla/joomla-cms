@@ -30,10 +30,6 @@ environment:
   - php_ver_target: 7.3
   - php_ver_target: 7.4
 
-matrix:
-  allow_failures:
-  - php_ver_target: 7.4
-
 init:
   - SET PATH=C:\Program Files\OpenSSL;C:\tools\php;%PATH%
   - SET COMPOSER_NO_INTERACTION=1
