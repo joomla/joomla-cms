@@ -452,7 +452,7 @@ abstract class ModuleHelper
 	{
 		// Apply negative selections and eliminate duplicates
 		$Itemid = (int) \JFactory::getApplication()->input->getInt('Itemid', 0);
-		$negId = $Itemid ? -(int) $Itemid : false;
+		$negId = $Itemid ? -$Itemid : false;
 		$clean = array();
 		$dupes = array();
 
