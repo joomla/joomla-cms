@@ -2460,11 +2460,15 @@ class JoomlaInstallerScript
 		// Set required conversion status
 		if ($db->hasUTF8mb4Support())
 		{
-			$converted = 4;
+			$convertedStep1 = 2;
+			$convertedStep2 = 4;
+			$converted      = 4;
 		}
 		else
 		{
-			$converted = 3;
+			$convertedStep1 = 1;
+			$convertedStep2 = 3;
+			$converted      = 3;
 		}
 
 		// Check conversion status in database
@@ -2498,9 +2502,10 @@ class JoomlaInstallerScript
 
 		$hasErrors = false;
 
-		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
-		if ($convertedDB < 3)
+		// Steps 1 and 2: Convert core tables if necessary and not to be done in step 3
+		if ($convertedDB < $convertedStep1)
 		{
+			// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
 			$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql';
 
 			if (is_file($fileName1))
@@ -2542,7 +2547,8 @@ class JoomlaInstallerScript
 						}
 						catch (Exception $e)
 						{
-							$converted = 0;
+							// Set converted value back to database value
+							$converted = $convertedDB;
 							$hasErrors = true;
 
 							// Still render the error message from the Exception object
@@ -2553,8 +2559,8 @@ class JoomlaInstallerScript
 			}
 		}
 
-		// Step 3: Convert action logs and privacy suite tables if conversion hasn't failed before
-		if ($converted > 3)
+		// Step 3: Convert action logs and privacy suite tables if necessary and conversion hasn't failed before
+		if (!$hasErrors && $convertedDB < $convertedStep2)
 		{
 			$fileName3 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-03.sql';
 
@@ -2573,8 +2579,8 @@ class JoomlaInstallerScript
 						}
 						catch (Exception $e)
 						{
-							// Set converted value back to before step 3
-							$converted = $converted - 2;
+							// Set converted value back to previous step
+							$converted = $convertedStep1;
 							$hasErrors = true;
 
 							// Still render the error message from the Exception object
