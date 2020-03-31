@@ -9,7 +9,7 @@ branches:
 
 ## Build matrix for lowest and highest possible targets
 environment:
-  DLLVersion: "5.6.1"
+  DLLVersion: "5.8.0"
   PHPBuild: "x64"
   VC: "vc15"
   matrix:
@@ -28,6 +28,11 @@ environment:
   - php_ver_target: 7.2
     DLLVersion: "5.3.0"
   - php_ver_target: 7.3
+  - php_ver_target: 7.4
+
+matrix:
+  allow_failures:
+  - php_ver_target: 7.4
 
 init:
   - SET PATH=C:\Program Files\OpenSSL;C:\tools\php;%PATH%
