@@ -55,8 +55,9 @@ CREATE INDEX "#__finder_links_idx_published_list" on "#__finder_links" ("publish
 CREATE INDEX "#__finder_links_idx_published_sale" on "#__finder_links" ("published", "state", "access", "publish_start_date", "publish_end_date", "sale_price");
 
 --
--- Table: #__finder_links_terms
+-- Table structure for table `#__finder_links_terms`
 --
+
 CREATE TABLE IF NOT EXISTS "#__finder_links_terms" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
@@ -82,7 +83,7 @@ CREATE INDEX "#__finder_logging_idx_md5sum" on "#__finder_logging" ("md5sum");
 CREATE INDEX "#__finder_logging_idx_searchterm" on "#__finder_logging" ("searchterm");
 
 --
--- Table: #__finder_taxonomy
+-- Table structure for table `#__finder_taxonomy`
 --
 
 CREATE TABLE IF NOT EXISTS "#__finder_taxonomy" (
@@ -110,6 +111,7 @@ CREATE INDEX "#__finder_taxonomy_idx_parent_published" on "#__finder_taxonomy" (
 --
 -- Dumping data for table `#__finder_taxonomy`
 --
+
 INSERT INTO "#__finder_taxonomy" ("id", "parent_id", "lft", "rgt", "level", "path", "title", "alias", "state", "access", "language") VALUES
 (1, 0, 0, 1, 0, '', 'ROOT', 'root', 1, 1, '*');
 

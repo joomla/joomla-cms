@@ -14,7 +14,7 @@
 
   const compare = (original, changed) => {
     const display = changed.nextElementSibling;
-    const diff = window.JsDiff.diffWords(original.innerHTML, changed.innerHTML);
+    const diff = window.Diff.diffWords(original.innerHTML, changed.innerHTML);
     const fragment = document.createDocumentFragment();
 
     diff.forEach((part) => {

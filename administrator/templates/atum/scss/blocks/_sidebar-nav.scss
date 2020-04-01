@@ -53,5 +53,16 @@
 
       }
     }
+
+    &:hover, &.active {
+      a {
+        color: var(--atum-text-light);
+        background-color: var(--atum-link-color);
+
+        &::before {
+          border-color: var(--atum-text-light);
+        }
+      }
+    }
   }
 }
