@@ -146,7 +146,7 @@ abstract class FieldsPlugin extends CMSPlugin
 		$fieldParams->merge($field->fieldparams);
 
 		// Get the path for the layout file
-		$path = PluginHelper::getLayoutPath('fields', $field->type, $field->type);
+		$path = PluginHelper::getLayoutPath('fields', $this->_name, $field->type);
 
 		// Render the layout
 		ob_start();
