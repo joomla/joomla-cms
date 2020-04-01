@@ -118,8 +118,8 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 			$categories = $category->getPath((int) $data['id']);
 
-			// Remove the current category, because we search vor inherit from parent
-			array_shift($categories);
+			// Remove the current category, because we search for inheritance from parent.
+			array_pop($categories);
 
 			$option = Text::sprintf('COM_WORKFLOW_INHERIT_WORKFLOW', Text::_($defaulttitle));
 
