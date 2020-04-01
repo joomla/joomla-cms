@@ -12,6 +12,7 @@ namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 
 /**
  * Content History table.
@@ -167,13 +168,19 @@ class ContentHistory extends Table
 	 */
 	public function getHashMatch()
 	{
-		$db    = $this->_db;
-		$query = $db->getQuery(true);
+		$db        = $this->_db;
+		$ucmItemId = (int) $this->get('ucm_item_id');
+		$ucmTypeId = (int) $this->get('ucm_type_id');
+		$sha1Hash  = $this->get('sha1_hash');
+		$query     = $db->getQuery(true);
 		$query->select('*')
 			->from($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
-			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
-			->where($db->quoteName('sha1_hash') . ' = ' . $db->quote($this->get('sha1_hash')));
+			->where($db->quoteName('ucm_item_id') . ' = :ucm_item_id')
+			->where($db->quoteName('ucm_type_id') . ' = :ucm_type_id')
+			->where($db->quoteName('sha1_hash') . ' = :sha1_hash')
+			->bind(':ucm_item_id', $ucmItemId, ParameterType::INTEGER)
+			->bind(':ucm_type_id', $ucmTypeId, ParameterType::INTEGER)
+			->bind(':sha1_hash', $sha1Hash);
 
 		$query->setLimit(1);
 		$db->setQuery($query);
@@ -195,13 +202,17 @@ class ContentHistory extends Table
 		$result = true;
 
 		// Get the list of version_id values we want to save
-		$db    = $this->_db;
-		$query = $db->getQuery(true);
+		$db        = $this->_db;
+		$ucmItemId = (int) $this->get('ucm_item_id');
+		$ucmTypeId = (int) $this->get('ucm_type_id');
+		$query     = $db->getQuery(true);
 		$query->select($db->quoteName('version_id'))
 			->from($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
-			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
+			->where($db->quoteName('ucm_item_id') . ' = :ucm_item_id')
+			->where($db->quoteName('ucm_type_id') . ' = :ucm_type_id')
 			->where($db->quoteName('keep_forever') . ' != 1')
+			->bind(':ucm_item_id', $ucmItemId, ParameterType::INTEGER)
+			->bind(':ucm_type_id', $ucmTypeId, ParameterType::INTEGER)
 			->order($db->quoteName('save_date') . ' DESC ');
 
 		$query->setLimit((int) $maxVersions);
@@ -214,10 +225,12 @@ class ContentHistory extends Table
 			// Delete any rows not in our list and and not flagged to keep forever.
 			$query = $db->getQuery(true);
 			$query->delete($db->quoteName('#__ucm_history'))
-				->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
-				->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
-				->where($db->quoteName('version_id') . ' NOT IN (' . implode(',', $idsToSave) . ')')
-				->where($db->quoteName('keep_forever') . ' != 1');
+				->where($db->quoteName('ucm_item_id') . ' = :ucm_item_id')
+				->where($db->quoteName('ucm_type_id') . ' = :ucm_type_id')
+				->whereNotIn($db->quoteName('version_id'), $idsToSave)
+				->where($db->quoteName('keep_forever') . ' != 1')
+				->bind(':ucm_item_id', $ucmItemId, ParameterType::INTEGER)
+				->bind(':ucm_type_id', $ucmTypeId, ParameterType::INTEGER);
 			$db->setQuery($query);
 			$result = (boolean) $db->execute();
 		}
