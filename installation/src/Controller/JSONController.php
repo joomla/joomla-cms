@@ -61,7 +61,7 @@ abstract class JSONController extends BaseController
 	}
 
 	/**
-	 * Checks for a form token, if it is invalid a JSOn response with the error code 403 is sent.
+	 * Checks for a form token, if it is invalid a JSON response with the error code 403 is sent.
 	 *
 	 * @return  void
 	 *
@@ -71,6 +71,11 @@ abstract class JSONController extends BaseController
 	public function checkValidToken()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or $this->sendJsonResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+		if (!Session::checkToken())
+		{
+			$this->sendJsonResponse(new \Exception(Text::_('JINVALID_TOKEN_NOTICE'), 403));
+
+			$this->app->close();
+		}
 	}
 }
