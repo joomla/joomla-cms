@@ -9,7 +9,7 @@
 --
 
 --
--- Step 3.1: Convert action logs and privacy suite tables to utf8mb4 chracter set with
+-- Step 3.1: Convert action logs and privacy suite tables to utf8mb4 character set with
 -- utf8mb4_unicode_ci collation
 -- Note: The database driver for mysql will change utf8mb4 to utf8 if utf8mb4 is not supported
 --

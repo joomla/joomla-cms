@@ -46,7 +46,7 @@ ALTER TABLE `#__ucm_content` MODIFY `core_alias` varchar(400) NOT NULL DEFAULT '
 ALTER TABLE `#__users` MODIFY `name` varchar(400) NOT NULL DEFAULT '';
 
 --
--- Step 2.2: Convert all tables to utf8mb4 chracter set with utf8mb4_unicode_ci collation
+-- Step 2.2: Convert all tables to utf8mb4 character set with utf8mb4_unicode_ci collation
 -- except #__finder_xxx tables, those will have utf8mb4_general_ci collation.
 -- Note: The database driver for mysql will change utf8mb4 to utf8 if utf8mb4 is not supported
 --
