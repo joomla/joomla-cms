@@ -36,7 +36,7 @@
 		margin-left: 0;
 	}
 }
-@media (max-width: 979px) {
+@media (max-width: @lg-max) {
 	.form-horizontal-desktop {
 		.control-label {
 			float: none;
@@ -55,7 +55,7 @@
 	}
 }
 
-@media (max-width: 1200px) {
+@media (max-width: @xl-max) {
 	.row-fluid .row-fluid .form-horizontal-desktop {
 		.control-label {
 			float: none;
@@ -246,15 +246,18 @@ textarea.noResize {
 		margin-bottom: 10px;
 	}
 }
-@media (max-width: 979px) {
+@media (max-width: @lg-max) {
 	.subform-repeatable-group > .btn-toolbar .btn-group {
 		margin-bottom: 10px;
 	}
 }
 
 .subform-table-layout {
-	.control-group, .control-group:last-of-type {
-		margin-bottom: 0;
+	.control-group {
+		margin-bottom: 10px;
+		&:last-of-type {
+			margin-bottom: 0;
+		}
 	}
 	.controls {
 		padding-right: 20px;
@@ -346,4 +349,9 @@ textarea.noResize {
 /* Align btn-group-yesno to label */
 .form-horizontal .controls > .radio.btn-group-yesno:first-child {
 	padding-top: 2px;
+}
+
+/* Fix field media width */
+input.field-media-input {
+	width: auto;
 }

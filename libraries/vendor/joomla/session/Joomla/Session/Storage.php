@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Session Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,7 @@ use Joomla\Filter\InputFilter;
 /**
  * Custom session storage handler for PHP
  *
- * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @link        https://www.php.net/manual/en/function.session-set-save-handler.php
  * @since       1.0
  * @deprecated  2.0  The Storage class chain will be removed.
  */
@@ -53,7 +53,7 @@ abstract class Storage
 	public static function getInstance($name = 'none', $options = array())
 	{
 		$filter = new InputFilter;
-		$name = strtolower($filter->clean($name, 'word'));
+		$name   = strtolower($filter->clean($name, 'word'));
 
 		if (empty(self::$instances[$name]))
 		{
@@ -90,11 +90,17 @@ abstract class Storage
 	 */
 	public function register()
 	{
-		// Use this object as the session handler
-		session_set_save_handler(
-			array($this, 'open'), array($this, 'close'), array($this, 'read'), array($this, 'write'),
-			array($this, 'destroy'), array($this, 'gc')
-		);
+		if (!headers_sent())
+		{
+			session_set_save_handler(
+				array($this, 'open'),
+				array($this, 'close'),
+				array($this, 'read'),
+				array($this, 'write'),
+				array($this, 'destroy'),
+				array($this, 'gc')
+			);
+		}
 	}
 
 	/**
@@ -139,7 +145,7 @@ abstract class Storage
 	 */
 	public function read($id)
 	{
-		return;
+		return '';
 	}
 
 	/**
