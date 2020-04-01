@@ -241,6 +241,7 @@
 				type="list"
 				label="COM_USERS_A11Y_SETTINGS_FIELD_DISMISS_DURATION_LABEL"
 				default="0"
+				filter="integer"
 				>
 				<option value="0">JDISABLED</option>
 				<option value="1000">J1</option>
