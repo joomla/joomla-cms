@@ -49,15 +49,17 @@ steps:
       - name: cache
         path: /cache
 
-  - name: analysis3x
+  - name: analysis310x
     image: rips/rips-cli:3.2.2
     when:
-      branch: staging
+      repo:
+        - joomla/joomla-cms
+      branch:
+        - 3.10-dev
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - if [ $DRONE_REPO_NAMESPACE != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
       - rips-cli rips:list --table=scans -n -p filter='{"__and":[{"__lessThan":{"percent":100}}]}'
-      - rips-cli rips:scan:start -G -a 1 -t 1 -p $(pwd) -t 1 -R -k -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+      - rips-cli rips:scan:start -G -a 3 -t 1 -R -k -p $(pwd) -t 1 -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
     environment:
       RIPS_EMAIL:
         from_secret: RIPS_EMAIL
@@ -73,6 +75,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: 7d1fbc23a21067e251bb5d22a875c5db23c88520d0384f1913a73aa0c992d017
+hmac: 8962ca6acc4019a64000fa19d19a6dd4bf4c37542cf429e711be0b673a7edb53
 
 ...
