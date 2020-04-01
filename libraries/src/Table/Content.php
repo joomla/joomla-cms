@@ -16,6 +16,7 @@ use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -95,11 +96,14 @@ class Content extends Table
 		// This is an article under a category.
 		if ($this->catid)
 		{
+			$catId = (int) $this->catid;
+
 			// Build the query to get the asset id for the parent category.
 			$query = $this->_db->getQuery(true)
 				->select($this->_db->quoteName('asset_id'))
 				->from($this->_db->quoteName('#__categories'))
-				->where($this->_db->quoteName('id') . ' = ' . (int) $this->catid);
+				->where($this->_db->quoteName('id') . ' = :catid')
+				->bind(':catid', $catId, ParameterType::INTEGER);
 
 			// Get the asset id from the database.
 			$this->_db->setQuery($query);
@@ -289,27 +293,27 @@ class Content extends Table
 			// Only process if not empty
 
 			// Array of characters to remove
-			$bad_characters = array("\n", "\r", "\"", '<', '>');
+			$badCharacters = ["\n", "\r", "\"", '<', '>'];
 
 			// Remove bad characters
-			$after_clean = StringHelper::str_ireplace($bad_characters, '', $this->metakey);
+			$afterClean = StringHelper::str_ireplace($badCharacters, '', $this->metakey);
 
 			// Create array using commas as delimiter
-			$keys = explode(',', $after_clean);
+			$keys = explode(',', $afterClean);
 
-			$clean_keys = array();
+			$cleanKeys = [];
 
 			foreach ($keys as $key)
 			{
 				if (trim($key))
 				{
 					// Ignore blank keywords
-					$clean_keys[] = trim($key);
+					$cleanKeys[] = trim($key);
 				}
 			}
 
 			// Put array back together delimited by ", "
-			$this->metakey = implode(', ', $clean_keys);
+			$this->metakey = implode(', ', $cleanKeys);
 		}
 		else
 		{
