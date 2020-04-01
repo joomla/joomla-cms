@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Media\Administrator\Provider;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Component\Media\Administrator\Adapter\AdapterInterface;
 

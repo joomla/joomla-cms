@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Languages\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -77,6 +77,9 @@ class OverridesController extends AdminController
 	 */
 	public function purge()
 	{
+		// Check for request forgeries.
+		$this->checkToken();
+
 		/** @var \Joomla\Component\Languages\Administrator\Model\OverridesModel $model */
 		$model = $this->getModel('overrides');
 		$model->purge();

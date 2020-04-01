@@ -12,7 +12,7 @@ use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * User groups list controller class.
@@ -48,7 +48,7 @@ class GroupsController extends AdminController
 	 *
 	 * Overrides Joomla\CMS\MVC\Controller\AdminController::delete to check the core.admin permission.
 	 *
-	 * @return  boolean  Returns true on success, false on failure.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
@@ -59,7 +59,7 @@ class GroupsController extends AdminController
 			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		return parent::delete();
+		parent::delete();
 	}
 
 	/**
@@ -78,7 +78,7 @@ class GroupsController extends AdminController
 			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
-		return parent::publish();
+		parent::publish();
 	}
 
 	/**

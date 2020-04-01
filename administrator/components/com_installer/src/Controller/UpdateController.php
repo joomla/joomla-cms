@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
@@ -209,6 +209,7 @@ class UpdateController extends BaseController
 	 * @return  void
 	 *
 	 * @since   4.0.0
+	 * @throws  \Exception
 	 */
 	public function getMenuBadgeData()
 	{

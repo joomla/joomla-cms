@@ -86,7 +86,7 @@ HTMLHelper::_('script', 'com_actionlogs/admin-actionlogs-default.js', ['relative
 								</div>
 							</td>
 							<td class="d-md-table-cell">
-								<?php echo $item->name; ?>
+								<?php echo $this->escape($item->name); ?>
 							</td>
 							<?php if ($this->showIpColumn) : ?>
 								<td class="d-none d-md-table-cell">

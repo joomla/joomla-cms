@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Associations\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -57,6 +57,8 @@ class AssociationsController extends AdminController
 	 */
 	public function purge()
 	{
+		$this->checkToken();
+
 		$this->getModel('associations')->purge();
 		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}
@@ -70,6 +72,8 @@ class AssociationsController extends AdminController
 	 */
 	public function clean()
 	{
+		$this->checkToken();
+
 		$this->getModel('associations')->clean();
 		$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
 	}

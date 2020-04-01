@@ -13,6 +13,7 @@ namespace Joomla\CMS\Application;
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Console\Application;
 use Joomla\DI\Container;
@@ -51,6 +52,14 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @since  4.0.0
 	 */
 	protected $name = null;
+
+	/**
+	 * The application language object.
+	 *
+	 * @var    Language
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $language;
 
 	/**
 	 * The application message queue.
@@ -97,7 +106,8 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	)
 	{
 		// Set up a Input object for Controllers etc to use
-		$this->input = new \Joomla\CMS\Input\Cli;
+		$this->input    = new \Joomla\CMS\Input\Cli;
+		$this->language = Factory::getLanguage();
 
 		parent::__construct($input, $output, $config);
 
@@ -254,7 +264,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	/**
 	 * Get the commands which should be registered by default to the application.
 	 *
-	 * @return  \Joomla\Console\CommandInterface[]
+	 * @return  \Joomla\Console\Command\AbstractCommand[]
 	 *
 	 * @since   4.0.0
 	 */
@@ -298,6 +308,18 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	public function getInput(): Input
 	{
 		return $this->input;
+	}
+
+	/**
+	 * Method to get the application language object.
+	 *
+	 * @return  Language  The language object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getLanguage()
+	{
+		return $this->language;
 	}
 
 	/**
@@ -367,20 +389,5 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->session = $session;
 
 		return $this;
-	}
-
-	/**
-	 * Returns the application \JMenu object.
-	 *
-	 * @param   string  $name     The name of the application/client.
-	 * @param   array   $options  An optional associative array of configuration settings.
-	 *
-	 * @return  null
-	 *
-	 * @since   4.0.0
-	 */
-	public function getMenu($name = null, $options = array())
-	{
-		return null;
 	}
 }

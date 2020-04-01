@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Contenthistory\Api\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\ApiController;
 use Joomla\Component\Contenthistory\Administrator\Model\HistoryModel;
