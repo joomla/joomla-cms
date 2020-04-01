@@ -205,7 +205,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 			Factory::getApplication()->triggerEvent('onUserBeforeDataValidation', array($form, &$data));
 		}
 
-		Factory::getApplication()->triggerEvent('onContentValidateData', array($form, &$data));
+		Factory::getApplication()->triggerEvent('onContentBeforeValidateData', array($form, &$data));
 
 		// Filter and validate the form data.
 		$data = $form->filter($data);
