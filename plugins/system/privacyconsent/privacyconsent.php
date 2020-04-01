@@ -548,7 +548,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		$remind   = (int) $this->params->get('remind', 30);
 		$now      = Factory::getDate()->toSql();
 		$period   = '-' . ($expire - $remind);
-		$bindDate = [$now, $period];
 		$db       = $this->db;
 		$query    = $db->getQuery(true);
 
@@ -557,8 +556,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('r.user_id'))
 			->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
 			->where($db->quoteName('remind') . ' = 0')
-			->where($query->dateAdd(':now', ':period', 'DAY') . ' > ' . $db->quoteName('created'))
-			->bind([':now', ':period'], $bindDate, [ParameterType::STRING, ParameterType::INTEGER]);
+			->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'));
 
 		try
 		{
@@ -656,10 +654,9 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
 		$query->select($db->quoteName(['id', 'user_id']))
 			->from($db->quoteName('#__privacy_consents'))
-			->where($query->dateAdd(':now', ':period', 'DAY') . ' > ' . $db->quoteName('created'))
+			->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'))
 			->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
-			->where($db->quoteName('state') . ' = 1')
-			->bind([':now', ':period'], [$now, $period], [ParameterType::STRING, ParameterType::INTEGER]);
+			->where($db->quoteName('state') . ' = 1');
 
 		$db->setQuery($query);
 
