@@ -122,7 +122,8 @@ class ContentType extends Table
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('type_id'))
 			->from($db->quoteName($this->_tbl))
-			->where($db->quoteName('type_alias') . ' = ' . $db->quote($typeAlias));
+			->where($db->quoteName('type_alias') . ' = :type_alias')
+			->bind(':type_alias', $typeAlias);
 		$db->setQuery($query);
 
 		return $db->loadResult();
