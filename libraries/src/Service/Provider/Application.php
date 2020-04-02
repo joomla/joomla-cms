@@ -104,9 +104,9 @@ class Application implements ServiceProviderInterface
 					$dispatcher = $container->get(DispatcherInterface::class);
 
 					// Console uses the default system language
-					$config     = $container->get('config');
+					$config = $container->get('config');
 					$locale = $config->get('language');
-					$debug = $config->get('debug_lang');
+					$debug  = $config->get('debug_lang');
 
 					$lang = $container->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
 
