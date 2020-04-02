@@ -12,6 +12,7 @@ namespace Joomla\CMS\Table;
 
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -112,9 +113,39 @@ class Extension extends Table
 		// Get the DatabaseQuery object
 		$query = $this->_db->getQuery(true);
 
+		// Get the column field types for for the #__extensions Table
+		$tableColumnsType = $this->_db->getTableColumns('#__extensions', false);
+
 		foreach ($options as $col => $val)
 		{
-			$query->where($col . ' = ' . $this->_db->quote($val));
+			if (\in_array($col, (array) $tableColumnsType[$col]))
+			{
+				// Mysql and Postgresql have different properties name for a column data 
+				$type = isset($tableColumnsType[$col]->Type) ? $tableColumnsType[$col]->Type : $tableColumnsType[$col]->type;
+
+				// MCD for different field types on different databases for the #__extensions Table
+				switch (trim(substr($type, 0, 7)))
+				{
+					case 'varchar':
+					case 'charact':
+					case 'text':
+					case 'timesta':
+					case 'datetim':
+						$query->where($this->_db->quoteName($col) . ' = :' . $col)
+							->bind(':' . $col, $val);
+						break;
+
+					case 'int':
+					case 'int uns':
+					case 'tinyint':
+					case 'integer':
+					case 'smallin':
+					case 'bigint':
+						$query->where($this->_db->quoteName($col) . ' = :' . $col)
+							->bind(':' . $col, $val, ParameterType::INTEGER);
+						break;
+				}
+			}
 		}
 
 		$query->select($this->_db->quoteName('extension_id'))
@@ -140,7 +171,8 @@ class Extension extends Table
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{
-		$k = $this->_tbl_key;
+		$k       = $this->_tbl_key;
+		$checkin = false;
 
 		// Sanitize input.
 		$pks = ArrayHelper::toInteger($pks);
@@ -163,24 +195,28 @@ class Extension extends Table
 			}
 		}
 
-		// Build the WHERE clause for the primary keys.
-		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
-
-		// Determine if there is checkin support for the table.
-		if (!$this->hasField('checked_out') || !$this->hasField('checked_out_time'))
-		{
-			$checkin = '';
-		}
-		else
-		{
-			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
-		}
-
 		// Update the publishing state for rows with the given primary keys.
 		$query = $this->_db->getQuery(true)
 			->update($this->_db->quoteName($this->_tbl))
-			->set($this->_db->quoteName('enabled') . ' = ' . (int) $state)
-			->where('(' . $where . ')' . $checkin);
+			->set($this->_db->quoteName('enabled') . ' = :state')
+			->whereIn($this->_db->quoteName($k), $pks)
+			->bind(':state', $state, ParameterType::INTEGER);
+
+		// Determine if there is checkin support for the table.
+		if ($this->hasField('checked_out') && $this->hasField('checked_out_time'))
+		{
+			$checkin = true;
+			$query->extendWhere(
+				'AND',
+				[
+					$this->_db->quoteName('checked_out') . ' = 0',
+					$this->_db->quoteName('checked_out') . ' = :checked_out',
+				],
+				'OR'
+			)
+				->bind(':checked_out', $userId, ParameterType::INTEGER);
+		}
+
 		$this->_db->setQuery($query);
 		$this->_db->execute();
 
