@@ -59,71 +59,68 @@ Joomla.checkInputs = function() {
     if (!item.valid) state = false;
   });
 
-  // Reveal everything
-  document.getElementById('installStep1').classList.add('active');
-  document.getElementById('installStep2').classList.add('active');
-  document.getElementById('installStep3').classList.add('active');
+  var form = document.getElementById('adminForm');
 
+  Promise.resolve()
+      .then(() => {
+        if (Joomla.checkFormField(['#jform_db_type', '#jform_db_host', '#jform_db_user', '#jform_db_name'])) {
+          return Joomla.checkDbCredentials(form);
+        }
 
-  if (Joomla.checkFormField(['#jform_site_name', '#jform_admin_user', '#jform_admin_email', '#jform_admin_password', '#jform_db_type', '#jform_db_host', '#jform_db_user', '#jform_db_name'])) {
-    Joomla.checkDbCredentials();
-  }
+        return false;
+      })
+      .then((result) => {
+        if (!result) {
+          return;
+        }
+
+        // Reveal everything
+        document.getElementById('installStep1').classList.add('active');
+        document.getElementById('installStep2').classList.add('active');
+        document.getElementById('installStep3').classList.add('active');
+
+        // Run the installer - we let this handle the redirect for now
+        Joomla.install(['config'], form);
+      })
+      .catch((error) => {
+        Joomla.renderMessages({'error': [error]});
+      });
 };
 
 
-Joomla.checkDbCredentials = function() {
+Joomla.checkDbCredentials = (form) => {
   document.body.appendChild(document.createElement('joomla-core-loader'));
-  var form = document.getElementById('adminForm'),
-    data = Joomla.serialiseForm(form);
 
-  Joomla.request({
-    method: "POST",
-    url : Joomla.installationBaseUrl + '?task=installation.dbcheck&format=json',
-    data: data,
-    perform: true,
-    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-    onSuccess: function(response, xhr){
-      var loaderElement = document.querySelector('joomla-core-loader');
-      try {
-        response = JSON.parse(response);
-      } catch (e) {
-        loaderElement.parentNode.removeChild(loaderElement);
-        console.error('Error in DB Check Endpoint');
-        console.error(response);
-        Joomla.renderMessages({'error': [Joomla.JText._('INSTL_DATABASE_RESPONSE_ERROR')]});
+  var fetchData = {
+    method: 'POST',
+    body: Joomla.serialiseForm(form),
+    headers: new Headers({'Content-Type': 'application/x-www-form-urlencoded'}),
+  };
+
+  return fetch(`${Joomla.installationBaseUrl}?task=installation.dbcheck&format=json`, fetchData)
+      .then((response) => response.json())
+      .then((responseData) => {
+        if (responseData.messages) {
+          Joomla.renderMessages(responseData.messages);
+        }
+
+        Joomla.replaceTokens(responseData.token);
+
+        if (responseData.error) {
+          Joomla.renderMessages({'error': [responseData.message]});
+        } else if (responseData.data && responseData.data.validated) {
+          return responseData.data.validated;
+        }
 
         return false;
-      }
-
-      if (response.messages) {
-        Joomla.renderMessages(response.messages);
-      }
-
-      Joomla.replaceTokens(response.token);
-      loaderElement.parentNode.removeChild(loaderElement);
-
-      if (response.error) {
-        Joomla.renderMessages({'error': [response.message]});
-      } else if (response.data && response.data.validated === true) {
-        // Run the installer - we let this handle the redirect for now
-        // TODO: Convert to promises
-        Joomla.install(['config'], form);
-      }
-    },
-    onError:   function(xhr){
-      Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
-      //Install.goToPage('summary');
-      var loaderElement = document.querySelector('joomla-core-loader');
-      loaderElement.parentNode.removeChild(loaderElement);
-
-      try {
-        var r = JSON.parse(xhr.responseText);
-        Joomla.replaceTokens(r.token);
-        alert(r.message);
-      } catch (e) {
-      }
-    }
-  });
+      })
+      .catch((error) => {
+        console.log(error);
+        throw Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.');
+      })
+      .finally(() => {
+        document.querySelector('joomla-core-loader').remove();
+      });
 };
 
 
