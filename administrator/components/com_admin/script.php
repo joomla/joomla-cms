@@ -2462,13 +2462,11 @@ class JoomlaInstallerScript
 		{
 			$convertedStep1 = 2;
 			$convertedStep2 = 4;
-			$converted      = 4;
 		}
 		else
 		{
 			$convertedStep1 = 1;
 			$convertedStep2 = 3;
-			$converted      = 3;
 		}
 
 		// Check conversion status in database
@@ -2494,12 +2492,13 @@ class JoomlaInstallerScript
 			return;
 		}
 
-		// Nothing to do, saved conversion status from DB is equal to required
-		if ($convertedDB == $converted)
+		// Nothing to do, saved conversion status from DB is equal to required final status
+		if ($convertedDB == $convertedStep2)
 		{
 			return;
 		}
 
+		$converted = $convertedDB;
 		$hasErrors = false;
 
 		// Steps 1 and 2: Convert core tables if necessary and not to be done at later steps
@@ -2547,8 +2546,6 @@ class JoomlaInstallerScript
 						}
 						catch (Exception $e)
 						{
-							// Set converted value back to database value
-							$converted = $convertedDB;
 							$hasErrors = true;
 
 							// Still render the error message from the Exception object
@@ -2556,6 +2553,11 @@ class JoomlaInstallerScript
 						}
 					}
 				}
+			}
+
+			if (!$hasErrors)
+			{
+				$converted = $convertedStep1;
 			}
 		}
 
@@ -2579,8 +2581,6 @@ class JoomlaInstallerScript
 						}
 						catch (Exception $e)
 						{
-							// Set converted value back to previous step
-							$converted = $convertedStep1;
 							$hasErrors = true;
 
 							// Still render the error message from the Exception object
@@ -2588,6 +2588,11 @@ class JoomlaInstallerScript
 						}
 					}
 				}
+			}
+
+			if (!$hasErrors)
+			{
+				$converted = $convertedStep2;
 			}
 		}
 
@@ -2597,7 +2602,7 @@ class JoomlaInstallerScript
 			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 		}
 
-		// Set flag in database if the update status has changed.
+		// Set flag in database if the conversion status has changed.
 		if ($converted != $convertedDB)
 		{
 			$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
