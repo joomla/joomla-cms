@@ -37,12 +37,12 @@ $hide  = empty($options['hiddenLabel']) ? '' : ' sr-only';
 	<div class="control-label<?php echo $hide; ?>"><?php echo $label; ?></div>
 	<div class="controls">
 		<?php echo $input; ?>
+		<?php if (!empty($description)) : ?>
+			<div id="<?php echo $id; ?>">
+				<small class="form-text text-muted">
+					<?php echo $description; ?>
+				</small>
+			</div>
+		<?php endif; ?>
 	</div>
-	<?php if (!empty($description)) : ?>
-		<div id="<?php echo $id; ?>">
-			<small class="form-text text-muted">
-				<?php echo $description; ?>
-			</small>
-		</div>
-	<?php endif; ?>
 </div>

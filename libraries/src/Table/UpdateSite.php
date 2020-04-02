@@ -17,9 +17,7 @@ use Joomla\Database\DatabaseDriver;
  * Update site table
  * Stores the update sites for extensions
  *
- * @package     Joomla.Platform
- * @subpackage  Table
- * @since       3.4
+ * @since  3.4
  */
 class UpdateSite extends Table
 {

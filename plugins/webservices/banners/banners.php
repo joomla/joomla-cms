@@ -39,9 +39,17 @@ class PlgWebservicesBanners extends CMSPlugin
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
-		$router->createCRUDRoutes('v1/banners', 'banners', ['component' => 'com_banners']);
+		$router->createCRUDRoutes(
+			'v1/banners',
+			'banners',
+			['component' => 'com_banners']
+		);
 
-		$router->createCRUDRoutes('v1/banners/clients', 'clients', ['component' => 'com_banners']);
+		$router->createCRUDRoutes(
+			'v1/banners/clients',
+			'clients',
+			['component' => 'com_banners']
+		);
 
 		$router->createCRUDRoutes(
 			'v1/banners/categories',
@@ -72,7 +80,7 @@ class PlgWebservicesBanners extends CMSPlugin
 
 		$routes = [
 			new Route(['GET'], 'v1/banners/contenthistory/:id', 'history.displayList', ['id' => '(\d+)'], $getDefaults),
-			new Route(['PUT'], 'v1/banners/contenthistory/keep/:id', 'history.keep', ['id' => '(\d+)'], $defaults),
+			new Route(['PATCH'], 'v1/banners/contenthistory/keep/:id', 'history.keep', ['id' => '(\d+)'], $defaults),
 			new Route(['DELETE'], 'v1/banners/contenthistory/:id', 'history.delete', ['id' => '(\d+)'], $defaults),
 		];
 

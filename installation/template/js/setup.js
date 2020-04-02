@@ -156,7 +156,7 @@ Joomla.checkDbCredentials = (form) => {
       e.preventDefault();
       if (Joomla.checkFormField(['#jform_site_name'])) {
         if (document.getElementById('languageForm')) {
-          document.getElementById('languageForm').style.display = 'none';
+          document.getElementById('languageForm').classList.add('hidden');
         }
         if (document.getElementById('installStep2')) {
           document.getElementById('installStep2').classList.add('active');
@@ -178,7 +178,7 @@ Joomla.checkDbCredentials = (form) => {
         if (document.getElementById('installStep3')) {
           document.getElementById('installStep3').classList.add('active');
           document.getElementById('installStep2').classList.remove('active');
-          document.getElementById('setupButton').style.display = 'block';
+          document.getElementById('setupButton').classList.remove('hidden');
 
           Joomla.makeRandomDbPrefix();
 

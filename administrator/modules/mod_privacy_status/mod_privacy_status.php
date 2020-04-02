@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
 use Joomla\Module\PrivacyStatus\Administrator\Helper\PrivacyStatusHelper;
 
@@ -26,16 +26,15 @@ $app->bootComponent('com_privacy');
 
 // Load the privacy component language file.
 $lang = $app->getLanguage();
-$lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true)
-	|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy', null, false, true);
+$lang->load('com_privacy', JPATH_ADMINISTRATOR)
+	|| $lang->load('com_privacy', JPATH_ADMINISTRATOR . '/components/com_privacy');
 
-HTMLHelper::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/html');
-
-$privacyPolicyInfo      = PrivacyStatusHelper::getPrivacyPolicyInfo();
-$requestFormPublished   = PrivacyStatusHelper::getRequestFormPublished();
-$privacyConsentPluginId = PrivacyHelper::getPrivacyConsentPluginId();
-$sendMailEnabled        = (bool) $app->get('mailonline', 1);
-$numberOfUrgentRequests = PrivacyStatusHelper::getNumberUrgentRequests();
-$urgentRequestDays      = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
+$privacyPolicyInfo            = PrivacyStatusHelper::getPrivacyPolicyInfo();
+$requestFormPublished         = PrivacyStatusHelper::getRequestFormPublished();
+$privacyConsentPluginId       = PrivacyHelper::getPrivacyConsentPluginId();
+$sendMailEnabled              = (bool) $app->get('mailonline', 1);
+$numberOfUrgentRequests       = PrivacyStatusHelper::getNumberUrgentRequests();
+$urgentRequestDays            = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
+$databaseConnectionEncryption = Factory::getContainer()->get('DatabaseDriver')->getConnectionEncryption();
 
 require ModuleHelper::getLayoutPath('mod_privacy_status', $params->get('layout', 'default'));

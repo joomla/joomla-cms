@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="module" version="3.1" client="site" method="upgrade">
+<extension type="module" client="site" method="upgrade">
 	<name>mod_articles_news</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
@@ -9,11 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_ARTICLES_NEWS_XML_DESCRIPTION</description>
-	<namespace>Joomla\Module\ArticlesNews</namespace>
+	<namespace path="src">Joomla\Module\ArticlesNews</namespace>
 	<files>
 		<filename module="mod_articles_news">mod_articles_news.php</filename>
+		<folder>src</folder>
 		<folder>tmpl</folder>
-		<filename>helper.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">en-GB.mod_articles_news.ini</language>
@@ -29,8 +29,9 @@
 					label="JCATEGORY"
 					extension="com_content"
 					multiple="true"
-					filter="int_array"
+					filter="intarray"
 					class="multipleCategories"
+					layout="joomla.form.field.list-fancy-select"
 				/>
 
 				<field
@@ -39,14 +40,14 @@
 					label="JTAG"
 					mode="nested"
 					multiple="true"
-					filter="int_array"
+					filter="intarray"
 					class="multipleTags"
 				/>
 
 				<field
 					name="image"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_IMAGES_LABEL"
 					description="MOD_ARTICLES_NEWS_FIELD_IMAGES_DESC"
 					default="0"
@@ -70,7 +71,7 @@
 				<field
 					name="item_title"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_TITLE_LABEL"
 					default="0"
 					filter="integer"
@@ -111,7 +112,7 @@
 					name="triggerevents"
 					type="radio"
 					label="MOD_ARTICLES_NEWS_FIELD_TRIGGEREVENTS_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -122,7 +123,7 @@
 				<field
 					name="showLastSeparator"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_SEPARATOR_LABEL"
 					default="1"
 					filter="integer"
@@ -134,7 +135,7 @@
 				<field
 					name="show_introtext"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_SHOWINTROTEXT_LABEL"
 					default="1"
 					filter="integer"
@@ -146,7 +147,7 @@
 				<field
 					name="readmore"
 					type="radio"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					label="MOD_ARTICLES_NEWS_FIELD_READMORE_LABEL"
 					default="0"
 					filter="integer"
@@ -179,7 +180,7 @@
 					name="exclude_current"
 					type="radio"
 					label="MOD_ARTICLES_NEWS_FIELD_EXCLUDE_CURRENT_LABEL"
-					class="switcher"
+					layout="joomla.form.field.radio.switcher"
 					default="1"
 					filter="integer"
 					>
@@ -192,6 +193,7 @@
 					type="list"
 					label="MOD_ARTICLES_NEWS_FIELD_ORDERING_LABEL"
 					default="a.publish_up"
+					validate="options"
 					>
 					<option value="a.publish_up">MOD_ARTICLES_NEWS_FIELD_ORDERING_PUBLISHED_DATE</option>
 					<option value="a.created">MOD_ARTICLES_NEWS_FIELD_ORDERING_CREATED_DATE</option>

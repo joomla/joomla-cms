@@ -31,7 +31,7 @@ div#system-debug {
 	font-size: 14px;
 	padding: 5px;
 	text-decoration: none;
-	margin: 0px;
+	margin: 0;
 }
 
 #system-debug .dbg-error a h3 {
@@ -165,7 +165,7 @@ div#system-debug {
 
 /* dbg-query-table */
 #system-debug table.dbg-query-table {
-	margin: 0px 0px 6px;
+	margin: 0 0 6px;
 }
 #system-debug table.dbg-query-table th,
 #system-debug table.dbg-query-table td {

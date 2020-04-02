@@ -47,11 +47,9 @@ $input = Factory::getApplication()->input;
 									<option value="txt">.txt</option>
 								</select>
 							</div>
-							<div class="form-group">
-								<input type="hidden" class="address" name="address">
-								<?php echo HTMLHelper::_('form.token'); ?>
-								<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_CREATE'); ?></button>
-							</div>
+							<input type="hidden" class="address" name="address">
+							<?php echo HTMLHelper::_('form.token'); ?>
+							<button type="submit" class="btn btn-primary"><?php echo Text::_('COM_TEMPLATES_BUTTON_CREATE'); ?></button>
 						</form>
 					</div>
 				</div>

@@ -21,7 +21,7 @@
     }
 
     if (formTmp) {
-      formTmp.style.display = 'block';
+      formTmp.classList.remove('hidden');
       if (!document.querySelector('joomla-alert')) {
         document.getElementById('mod-login-username').focus();
       }

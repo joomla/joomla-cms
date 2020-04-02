@@ -148,7 +148,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
     // Submit the form.
     // Create the input type="submit"
     const button = document.createElement('input');
-    button.style.display = 'none';
+    button.classList.add('hidden');
     button.type = 'submit';
 
     // Append it and click it
@@ -540,7 +540,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       }
 
       // Fix Chrome bug not updating element height
-      messageContainer.style.display = 'none';
+      messageContainer.classList.add('hidden');
       delete messageContainer.offsetHeight;
       messageContainer.style.display = '';
     }
@@ -916,12 +916,13 @@ window.Joomla.Modal = window.Joomla.Modal || {
         // eslint-disable-next-line no-unused-expressions
         flushFn && flushFn();
       };
-      return Promise.all(whenLoadedFns.map(fn => (fn instanceof Function ? fn() : fn))).then(() => {
-        done();
-      }).catch((err) => {
-        // eslint-disable-next-line no-console
-        console.error(err);
-      });
+      return Promise.all(whenLoadedFns.map((fn) => (fn instanceof Function ? fn() : fn)))
+        .then(() => {
+          done();
+        }).catch((err) => {
+          // eslint-disable-next-line no-console
+          console.error(err);
+        });
     };
 
     window.WebComponents = window.WebComponents || {
@@ -1047,7 +1048,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       } else {
         newScript.addEventListener('load', asyncReady);
         newScript.addEventListener('error', () => {
-          throw new Error(`Could not load polyfill bundle${base.rootFull + replacement}`);
+          throw new Error(`Could not load polyfill bundle ${base.rootFull + replacement}`);
         });
         document.head.appendChild(newScript);
       }

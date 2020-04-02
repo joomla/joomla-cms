@@ -70,12 +70,6 @@ class Route
 	{
 		try
 		{
-			// @todo  Deprecate in 4.0 Before 3.9.7 this method accepted -1.
-			if ($tls == -1)
-			{
-				$tls = self::TLS_DISABLE;
-			}
-
 			// @deprecated  4.0 Before 3.9.7 this method silently converted $tls to integer
 			if (!is_int($tls))
 			{
@@ -86,6 +80,12 @@ class Route
 				);
 
 				$tls = (int) $tls;
+			}
+
+			// @todo  Deprecate in 4.0 Before 3.9.7 this method accepted -1.
+			if ($tls === -1)
+			{
+				$tls = self::TLS_DISABLE;
 			}
 
 			$app    = Factory::getApplication();

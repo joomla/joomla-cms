@@ -33,6 +33,7 @@ class ConfigurationModel extends BaseInstallationModel
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.1
+	 * @throws  \RuntimeException
 	 */
 	public function setup($options)
 	{
@@ -49,11 +50,20 @@ class ConfigurationModel extends BaseInstallationModel
 		$databaseModel = new DatabaseModel;
 
 		// Create Db
-		if (!$databaseModel->createDatabase($options))
+		try
+		{
+			if (!$databaseModel->createDatabase($options))
+			{
+				$this->deleteConfiguration();
+
+				return false;
+			}
+		}
+		catch (\RuntimeException $e)
 		{
 			$this->deleteConfiguration();
 
-			return false;
+			throw $e;
 		}
 
 		$options->db_select = true;
@@ -133,6 +143,12 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('password', $options->db_pass_plain);
 		$registry->set('db', $options->db_name);
 		$registry->set('dbprefix', $options->db_prefix);
+		$registry->set('dbencryption', $options->db_encryption);
+		$registry->set('dbsslverifyservercert', $options->db_sslverifyservercert);
+		$registry->set('dbsslkey', $options->db_sslkey);
+		$registry->set('dbsslcert', $options->db_sslcert);
+		$registry->set('dbsslca', $options->db_sslca);
+		$registry->set('dbsslcipher', $options->db_sslcipher);
 
 		// Server settings.
 		$registry->set('live_site', '');
@@ -171,7 +187,6 @@ class ConfigurationModel extends BaseInstallationModel
 
 		// Meta settings.
 		$registry->set('MetaDesc', '');
-		$registry->set('MetaKeys', '');
 		$registry->set('MetaTitle', true);
 		$registry->set('MetaAuthor', true);
 		$registry->set('MetaVersion', false);
@@ -268,7 +283,9 @@ class ConfigurationModel extends BaseInstallationModel
 				$options->db_user,
 				$options->db_pass_plain,
 				$options->db_name,
-				$options->db_prefix
+				$options->db_prefix,
+				true,
+				DatabaseHelper::getEncryptionSettings($options)
 			);
 		}
 		catch (\RuntimeException $e)
@@ -286,7 +303,6 @@ class ConfigurationModel extends BaseInstallationModel
 		// Create the admin user.
 		date_default_timezone_set('UTC');
 		$installdate = date('Y-m-d H:i:s');
-		$nullDate    = $db->getNullDate();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
@@ -317,7 +333,7 @@ class ConfigurationModel extends BaseInstallationModel
 				->set($db->quoteName('block') . ' = 0')
 				->set($db->quoteName('sendEmail') . ' = 1')
 				->set($db->quoteName('registerDate') . ' = ' . $db->quote($installdate))
-				->set($db->quoteName('lastvisitDate') . ' = ' . $db->quote($nullDate))
+				->set($db->quoteName('lastvisitDate') . ' = NULL')
 				->set($db->quoteName('activation') . ' = ' . $db->quote('0'))
 				->set($db->quoteName('params') . ' = ' . $db->quote(''))
 				->where($db->quoteName('id') . ' = ' . $db->quote($userId));
@@ -343,7 +359,7 @@ class ConfigurationModel extends BaseInstallationModel
 				->values(
 					$db->quote($userId) . ', ' . $db->quote(trim($options->admin_user)) . ', ' . $db->quote(trim($options->admin_username)) . ', ' .
 					$db->quote($options->admin_email) . ', ' . $db->quote($cryptpass) . ', ' .
-					$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', ' . $db->quote($nullDate) . ', ' .
+					$db->quote('0') . ', ' . $db->quote('1') . ', ' . $db->quote($installdate) . ', NULL, ' .
 					$db->quote('0') . ', ' . $db->quote('')
 				);
 		}

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Contact\Site\Helper\RouteHelper;
+
 /**
  * Contact Component Route Helper
  *
@@ -16,7 +18,9 @@ defined('_JEXEC') or die;
  * @package     Joomla.Site
  * @subpackage  com_contact
  * @since       1.5
+ *
+ * @deprecated  5.0  Use \Joomla\Component\Contact\Site\Helper\RouteHelper instead
  */
-abstract class ContactHelperRoute extends \Joomla\Component\Contact\Site\Helper\Route
+abstract class ContactHelperRoute extends RouteHelper
 {
 }

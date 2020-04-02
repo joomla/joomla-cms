@@ -20,7 +20,7 @@ module.exports.compile = () => {
       // Loop to get some text for the package.json
       folders.forEach((folder) => {
         const files = walkSync(folder, {
-          globs: ['**/*.{js}'],
+          globs: ['**/*.js'],
           includeBasePath: true,
           ignore: [],
           directories: false,

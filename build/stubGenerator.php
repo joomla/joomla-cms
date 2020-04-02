@@ -116,7 +116,7 @@ PHP;
 	 * @param string $name    The application name for the menu
 	 * @param array  $options An array of options to initialise the menu with
 	 *
-	 * @return  \Joomla\CMS\Menu\AbstractMenu|null  A AbstractMenu object or null if not set.
+	 * @return  \Joomla\CMS\Menu\AbstractMenu|null  An AbstractMenu object or null if not set.
 	 *
 	 * @since   4.0.0
 	 */

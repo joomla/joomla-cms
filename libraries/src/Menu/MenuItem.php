@@ -106,7 +106,7 @@ class MenuItem implements NodeInterface
 	/**
 	 * The click behaviour of the link
 	 *
-	 * @var    string
+	 * @var    integer
 	 * @since  3.7.0
 	 */
 	public $browserNav;
@@ -208,69 +208,6 @@ class MenuItem implements NodeInterface
 	}
 
 	/**
-	 * Method to get certain otherwise inaccessible properties from the form field object.
-	 *
-	 * @param   string  $name  The property name for which to get the value.
-	 *
-	 * @return  mixed  The property value or null.
-	 *
-	 * @since   3.7.0
-	 * @deprecated  4.0  Access the item parameters through the `getParams()` method
-	 */
-	public function __get($name)
-	{
-		if ($name === 'params')
-		{
-			return $this->getParams();
-		}
-
-		return $this->get($name);
-	}
-
-	/**
-	 * Method to set certain otherwise inaccessible properties of the form field object.
-	 *
-	 * @param   string  $name   The property name for which to set the value.
-	 * @param   mixed   $value  The value of the property.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.7.0
-	 * @deprecated  4.0  Set the item parameters through the `setParams()` method
-	 */
-	public function __set($name, $value)
-	{
-		if ($name === 'params')
-		{
-			$this->setParams($value);
-
-			return;
-		}
-
-		$this->set($name, $value);
-	}
-
-	/**
-	 * Method check if a certain otherwise inaccessible properties of the form field object is set.
-	 *
-	 * @param   string  $name  The property name to check.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   3.7.1
-	 * @deprecated  4.0 Deprecated without replacement
-	 */
-	public function __isset($name)
-	{
-		if ($name === 'params')
-		{
-			return !($this->params instanceof Registry);
-		}
-
-		return $this->get($name) !== null;
-	}
-
-	/**
 	 * Returns the menu item parameters
 	 *
 	 * @return  Registry
@@ -311,45 +248,5 @@ class MenuItem implements NodeInterface
 	public function setParams($params)
 	{
 		$this->params = $params;
-	}
-
-	/**
-	 * Returns a property of the object or the default value if the property is not set.
-	 *
-	 * @param   string  $property  The name of the property.
-	 * @param   mixed   $default   The default value.
-	 *
-	 * @return  mixed    The value of the property.
-	 *
-	 * @since   3.7.0
-	 * @deprecated  4.0
-	 */
-	public function get($property, $default = null)
-	{
-		if (isset($this->$property))
-		{
-			return $this->$property;
-		}
-
-		return $default;
-	}
-
-	/**
-	 * Modifies a property of the object, creating it if it does not already exist.
-	 *
-	 * @param   string  $property  The name of the property.
-	 * @param   mixed   $value     The value of the property to set.
-	 *
-	 * @return  mixed  Previous value of the property.
-	 *
-	 * @since   3.7.0
-	 * @deprecated  4.0
-	 */
-	public function set($property, $value = null)
-	{
-		$previous = $this->$property ?? null;
-		$this->$property = $value;
-
-		return $previous;
 	}
 }

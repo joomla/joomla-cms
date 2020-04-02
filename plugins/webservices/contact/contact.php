@@ -49,7 +49,11 @@ class PlgWebservicesContact extends CMSPlugin
 
 		$router->addRoute($route);
 
-		$router->createCRUDRoutes('v1/contact', 'contact', ['component' => 'com_contact']);
+		$router->createCRUDRoutes(
+			'v1/contact',
+			'contact',
+			['component' => 'com_contact']
+		);
 
 		$router->createCRUDRoutes(
 			'v1/contact/categories',
@@ -130,7 +134,7 @@ class PlgWebservicesContact extends CMSPlugin
 
 		$routes = [
 			new Route(['GET'], 'v1/contact/contenthistory/:id', 'history.displayList', ['id' => '(\d+)'], $getDefaults),
-			new Route(['PUT'], 'v1/contact/contenthistory/keep/:id', 'history.keep', ['id' => '(\d+)'], $defaults),
+			new Route(['PATCH'], 'v1/contact/contenthistory/keep/:id', 'history.keep', ['id' => '(\d+)'], $defaults),
 			new Route(['DELETE'], 'v1/contact/contenthistory/:id', 'history.delete', ['id' => '(\d+)'], $defaults),
 		];
 

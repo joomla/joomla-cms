@@ -94,7 +94,7 @@ abstract class JHtmlJGrid
 
 			if ($active_class === 'protected')
 			{
-				$html[] = '<span class="icon-lock" aria-hidden="true"></span>';
+				$html[] = '<span class="fas fa-lock" aria-hidden="true"></span>';
 			}
 			else
 			{
@@ -199,8 +199,8 @@ abstract class JHtmlJGrid
 
 			$tz = Factory::getUser()->getTimezone();
 
-			$publish_up = ($publish_up != $nullDate) ? Factory::getDate($publish_up, 'UTC')->setTimeZone($tz) : false;
-			$publish_down = ($publish_down != $nullDate) ? Factory::getDate($publish_down, 'UTC')->setTimeZone($tz) : false;
+			$publish_up = ($publish_up !== null && $publish_up !== $nullDate) ? Factory::getDate($publish_up, 'UTC')->setTimeZone($tz) : false;
+			$publish_down = ($publish_down !== null && $publish_down !== $nullDate) ? Factory::getDate($publish_down, 'UTC')->setTimeZone($tz) : false;
 
 			// Create tip text, only we have publish up or down settings
 			$tips = array();

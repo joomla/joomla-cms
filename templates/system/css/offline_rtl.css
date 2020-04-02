@@ -23,5 +23,5 @@ fieldset.input p {clear: right;}
 .alert .close {
 	float: left;
 	left: -20px;
-	right: 0px;
+	right: 0;
 }

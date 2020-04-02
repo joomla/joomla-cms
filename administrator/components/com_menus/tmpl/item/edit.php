@@ -17,7 +17,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('behavior.tabstate');
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 
@@ -30,7 +29,6 @@ $this->document->addScriptOptions('menu-item', ['itemId' => (int) $this->item->i
 HTMLHelper::_('script', 'com_menus/admin-item-edit.min.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
 
 $assoc = Associations::isEnabled();
-$hasAssoc = ($this->form->getValue('language', null, '*') !== '*');
 $input = Factory::getApplication()->input;
 
 // In case of modal
@@ -43,7 +41,7 @@ $lang     = Factory::getLanguage()->getTag();
 // Load mod_menu.ini file when client is administrator
 if ($clientId === 1)
 {
-	Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+	Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR);
 }
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
@@ -52,13 +50,15 @@ if ($clientId === 1)
 
 	<?php // Add the translation of the menu item title when client is administrator ?>
 	<?php if ($clientId === 1 && $this->item->id != 0) : ?>
-		<div class="form-inline form-inline-header">
-			<div class="control-group">
-				<div class="control-label">
-					<label for="menus_title_translation"><?php echo Text::sprintf('COM_MENUS_TITLE_TRANSLATION', $lang); ?></label>
-				</div>
-				<div class="controls">
-					<input id="menus_title_translation" class="form-control" value="<?php echo Text::_($this->item->title); ?>" readonly="readonly" type="text">
+		<div class="row title-alias form-vertical mb-3">
+			<div class="col-12">
+				<div class="control-group">
+					<div class="control-label">
+						<label for="menus_title_translation"><?php echo Text::sprintf('COM_MENUS_TITLE_TRANSLATION', $lang); ?></label>
+					</div>
+					<div class="controls">
+						<input id="menus_title_translation" class="form-control" value="<?php echo Text::_($this->item->title); ?>" readonly="readonly" type="text">
+					</div>
 				</div>
 			</div>
 		</div>
@@ -154,14 +154,12 @@ if ($clientId === 1)
 
 		<?php if (!$isModal && $assoc && $this->state->get('item.client_id') != 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'associations', Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS')); ?>
-			<?php if ($hasAssoc) : ?>
-				<fieldset id="fieldset-associations" class="options-grid-form options-grid-form-full">
-				<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
-				<div>
-				<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
-				</div>
-				</fieldset>
-			<?php endif; ?>
+			<fieldset id="fieldset-associations" class="options-form">
+			<legend><?php echo Text::_('JGLOBAL_FIELDSET_ASSOCIATIONS'); ?></legend>
+			<div>
+			<?php echo LayoutHelper::render('joomla.edit.associations', $this); ?>
+			</div>
+			</fieldset>
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php elseif ($isModal && $assoc) : ?>
 			<div class="hidden"><?php echo LayoutHelper::render('joomla.edit.associations', $this); ?></div>
@@ -169,7 +167,7 @@ if ($clientId === 1)
 
 		<?php if (!empty($this->modules)) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'modules', Text::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT')); ?>
-			<fieldset id="fieldset-modules" class="options-grid-form options-grid-form-full">
+			<fieldset id="fieldset-modules" class="options-form">
 				<legend><?php echo Text::_('COM_MENUS_ITEM_MODULE_ASSIGNMENT'); ?></legend>
 				<div>
 				<?php echo $this->loadTemplate('modules'); ?>

@@ -152,10 +152,10 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 										}
 										?>
 										<span class="sortable-handler<?php echo $iconClass ?>">
-											<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
+											<span class="fas fa-ellipsis-v" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
-											<input type="text" style="display:none" name="order[]" size="5"
+											<input type="text" class="hidden" name="order[]" size="5"
 												   value="<?php echo $orderkey + 1; ?>">
 										<?php endif; ?>
 									</td>

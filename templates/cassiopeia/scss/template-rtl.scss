@@ -1,6 +1,7 @@
 @import "template";
 
-body, .dropdown-item {
+body,
+.dropdown-item {
   text-align: right;
 }
 
@@ -12,32 +13,14 @@ body, .dropdown-item {
   float: right !important;
 }
 
-.control-group, form:not(.form-no-margin) .control-group {
-  .control-label {
-    float: right;
-    text-align: right;
-  }
-
-  .controls {
-    margin-right: 220px;
-    margin-left: 0;
-  }
-
-  .custom-select {
-    float: right;
-  }
-}
-
-.input-group > .input-group-append > .btn, .input-group > .input-group-append > .input-group-text, .input-group > .input-group-prepend:not(:first-child) > .btn, .input-group > .input-group-prepend:not(:first-child) > .input-group-text, .input-group > .input-group-prepend:first-child > .btn:not(:first-child), .input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
-  border-radius: .25rem 0 0 .25rem;
-}
-
-.input-group-prepend .btn, .input-group-append .btn {
+.input-group-prepend .btn,
+.input-group-append .btn {
   right: -1px;
 }
 
 dd {
-  -webkit-margin-start: 0;
+  margin-right: 0;
+  margin-left: auto;
 }
 
 .form-check {
@@ -55,4 +38,55 @@ dd {
 
 .nav {
   padding-right: 0;
+}
+
+.mr-2 {
+  margin-right: 0 !important;
+  margin-left: .5rem;
+}
+
+// SearchTools rounded corners
+.input-group > .input-group-prepend > .btn,
+.input-group > .input-group-prepend > .input-group-text,
+.input-group > .input-group-append:not(:last-child) > .btn,
+.input-group > .input-group-append:not(:last-child) > .input-group-text,
+.input-group > .input-group-append:last-child > .btn:not(:last-child):not(.dropdown-toggle),
+.input-group > .input-group-append:last-child > .input-group-text:not(:last-child) {
+  @include border-left-radius($border-radius);
+  @include border-right-radius(0);
+}
+
+.input-group > .input-group-append > .btn,
+.input-group > .input-group-append > .input-group-text,
+.input-group > .input-group-prepend:not(:first-child) > .btn,
+.input-group > .input-group-prepend:not(:first-child) > .input-group-text,
+.input-group > .input-group-prepend:first-child > .btn:not(:first-child),
+.input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
+  @include border-left-radius($border-radius);
+  @include border-right-radius(0);
+}
+
+.input-group > .form-control:not(:last-child),
+.input-group > .custom-select:not(:last-child) {
+  @include border-left-radius(0);
+  @include border-right-radius($border-radius);
+}
+
+.btn-group > .btn:first-child:not(.dropdown-toggle) {
+  @include border-right-radius($border-radius);
+}
+
+.btn-group > .btn:not(:last-child):not(.dropdown-toggle),
+.btn-group > .btn-group:not(:last-child) > .btn {
+  @include border-left-radius(0);
+  margin-left: -1px;
+}
+
+.btn-group > .btn:last-child:not(.dropdown-toggle) {
+  @include border-left-radius($border-radius);
+}
+
+.btn-group > .btn:not(:first-child),
+.btn-group > .btn-group:not(:first-child) {
+  @include border-right-radius(0);
 }

@@ -49,7 +49,8 @@ class JoomlaSerializer extends AbstractSerializer
 			&& !($post instanceof CMSObject))
 		{
 			$message = sprintf(
-				'Invalid argument for TableSerializer. Expected array or %s. Got %s',
+				'Invalid argument for %s. Expected array or %s. Got %s',
+				static::class,
 				Table::class,
 				\gettype($post)
 			);
