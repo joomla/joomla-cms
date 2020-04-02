@@ -120,7 +120,7 @@ class Extension extends Table
 		{
 			if (\in_array($col, (array) $tableColumnsType[$col]))
 			{
-				// Mysql and Postgresql have different properties name for a column data 
+				// Mysql and Postgresql have different properties name for a column data
 				$type = isset($tableColumnsType[$col]->Type) ? $tableColumnsType[$col]->Type : $tableColumnsType[$col]->type;
 
 				// MCD for different field types on different databases for the #__extensions Table
