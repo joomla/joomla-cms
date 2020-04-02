@@ -110,7 +110,7 @@ class Application implements ServiceProviderInterface
 
 					$lang = $container->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
 
-					$app = new ConsoleApplication($lang, null, null, $config, $dispatcher, $container);
+					$app = new ConsoleApplication($config, $dispatcher, $container, $lang);
 
 					// The session service provider needs Factory::$application, set it if still null
 					if (Factory::$application === null)
