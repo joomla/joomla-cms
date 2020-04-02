@@ -4,7 +4,7 @@
 -- Convert the tables for action logs and the privacy suite which have been
 -- forgotten to be added to the utf8mb4 conversion before.
 --
--- This file here will the be processed with reporting exceptions, in opposite
+-- This file here will be processed with reporting exceptions, in opposite
 -- to the file for step 1.
 --
 
