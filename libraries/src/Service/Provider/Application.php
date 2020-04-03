@@ -20,6 +20,7 @@ use Joomla\CMS\Console\Loader\WritableLoaderInterface;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\Console\Loader\LoaderInterface;
@@ -102,7 +103,14 @@ class Application implements ServiceProviderInterface
 				{
 					$dispatcher = $container->get(DispatcherInterface::class);
 
-					$app = new ConsoleApplication(null, null, $container->get('config'), $dispatcher, $container);
+					// Console uses the default system language
+					$config = $container->get('config');
+					$locale = $config->get('language');
+					$debug  = $config->get('debug_lang');
+
+					$lang = $container->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
+
+					$app = new ConsoleApplication($config, $dispatcher, $container, $lang);
 
 					// The session service provider needs Factory::$application, set it if still null
 					if (Factory::$application === null)
