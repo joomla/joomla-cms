@@ -16,6 +16,7 @@ use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
 /**
@@ -229,13 +230,16 @@ class Menu extends Nested
 				// When editing an item with All language check if there are more menu items with the same alias in any language.
 				elseif ($this->language === '*' && $this->id != 0)
 				{
+					$id    = (int) $this->id;
 					$query = $db->getQuery(true)
 						->select('id')
 						->from($db->quoteName('#__menu'))
 						->where($db->quoteName('parent_id') . ' = 1')
 						->where($db->quoteName('client_id') . ' = 0')
-						->where($db->quoteName('id') . ' != ' . (int) $this->id)
-						->where($db->quoteName('alias') . ' = ' . $db->quote($this->alias));
+						->where($db->quoteName('id') . ' != :id')
+						->where($db->quoteName('alias') . ' = :alias')
+						->bind(':id', $id, ParameterType::INTEGER)
+						->bind(':alias', $this->alias);
 
 					$otherMenuItemId = (int) $db->setQuery($query)->loadResult();
 
