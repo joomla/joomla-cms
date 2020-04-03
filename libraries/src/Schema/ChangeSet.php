@@ -111,21 +111,12 @@ class ChangeSet
 			$tmpSchemaChangeItem->checkStatus = 0;
 
 			// Set the check query
-			if ($this->db instanceof UTF8MB4SupportInterface && $this->db->hasUTF8mb4Support())
-			{
-				$converted = 2;
-				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8MB4';
-			}
-			else
-			{
-				$converted = 1;
-				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8';
-			}
+			$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8MB4';
 
 			$tmpSchemaChangeItem->checkQuery = 'SELECT '
 				. $this->db->quoteName('converted')
 				. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
-				. ' WHERE ' . $this->db->quoteName('converted') . ' = ' . $converted;
+				. ' WHERE ' . $this->db->quoteName('converted') . ' = 2';
 
 			// Set expected records from check query
 			$tmpSchemaChangeItem->checkQueryExpected = 1;

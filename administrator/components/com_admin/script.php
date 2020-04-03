@@ -6233,14 +6233,7 @@ class JoomlaInstallerScript
 		}
 
 		// Set required conversion status
-		if ($db->hasUTF8mb4Support())
-		{
-			$converted = 2;
-		}
-		else
-		{
-			$converted = 1;
-		}
+		$converted = 2;
 
 		// Check conversion status in database
 		$db->setQuery('SELECT ' . $db->quoteName('converted')
