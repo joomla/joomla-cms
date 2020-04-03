@@ -30,7 +30,7 @@
       const display = changed.nextElementSibling;
       let color = '';
       let pre = null;
-      const diff = JsDiff.diffLines(original.innerHTML, changed.innerHTML);
+      const diff = Diff.diffLines(original.innerHTML, changed.innerHTML);
       const fragment = document.createDocumentFragment();
 
       /* eslint-enable */
