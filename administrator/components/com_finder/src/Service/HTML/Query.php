@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Query HTML behavior class for Finder.

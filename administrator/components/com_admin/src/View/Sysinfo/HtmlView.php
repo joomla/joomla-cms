@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Admin\Administrator\View\Sysinfo;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Exception;
 use Joomla\CMS\Access\Exception\Notallowed;

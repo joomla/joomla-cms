@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Content\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
@@ -224,6 +224,7 @@ class ArticlesModel extends ListModel
 					$db->quoteName('a.publish_up'),
 					$db->quoteName('a.publish_down'),
 					$db->quoteName('a.introtext'),
+					$db->quoteName('a.fulltext'),
 					$db->quoteName('a.note'),
 				]
 			)

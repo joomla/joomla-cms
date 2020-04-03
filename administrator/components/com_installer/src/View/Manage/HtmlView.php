@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Installer\Administrator\View\Manage;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;

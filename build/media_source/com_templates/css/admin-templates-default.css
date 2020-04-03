@@ -77,10 +77,6 @@
 	margin-left: 3.5em;
 }
 
-#toggle-buttons {
-	margin-right: 5em;
-}
-
 .switcher-label-0, .switcher-label-1 {
 	white-space: nowrap;
 }
@@ -98,4 +94,8 @@
 [dir=rtl] #core-pane joomla-editor-codemirror,
 #override-pane joomla-editor-codemirror {
 	text-align: left;
+}
+
+[dir=rtl] #toggle-buttons {
+	text-align: right !important;
 }

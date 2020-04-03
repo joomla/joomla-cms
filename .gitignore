@@ -12,7 +12,6 @@
 /cache
 /installation/cache
 /installation/sessions
-/libraries/autoload_psr4.php
 /tmp
 /configuration.php
 /.htaccess
@@ -37,6 +36,8 @@ composer.phar
 /.phpunit.result.cache
 /tests/Codeception/acceptance.suite.yml
 /tests/Codeception/_output/
+/tests/Codeception/api.suite.yml
+
 
 # Vendor directory handeling
 /libraries/vendor

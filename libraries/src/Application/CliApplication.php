@@ -16,6 +16,8 @@ use Joomla\CMS\Application\CLI\CliOutput;
 use Joomla\CMS\Application\CLI\Output\Stdout;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
@@ -45,12 +47,36 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	protected $output;
 
 	/**
+	 * The input.
+	 *
+	 * @var    \Joomla\Input\Input
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $input = null;
+
+	/**
 	 * CLI Input object
 	 *
 	 * @var    CliInput
 	 * @since  4.0.0
 	 */
 	protected $cliInput;
+
+	/**
+	 * The application language object.
+	 *
+	 * @var    Language
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $language;
+
+	/**
+	 * The application message queue.
+	 *
+	 * @var    array
+	 * @since  4.0
+	 */
+	protected $messages = [];
 
 	/**
 	 * The application instance.
@@ -92,6 +118,8 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
 
+		$this->input    = new \Joomla\CMS\Input\Cli;
+		$this->language = Factory::getLanguage();
 		$this->output   = $output ?: new Stdout;
 		$this->cliInput = $cliInput ?: new CliInput;
 
@@ -100,13 +128,73 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 			$this->setDispatcher($dispatcher);
 		}
 
-		parent::__construct($input ?: new Cli, $config);
+		parent::__construct($config);
 
 		// Set the current directory.
 		$this->set('cwd', getcwd());
 
 		// Set up the environment
 		$this->input->set('format', 'cli');
+	}
+
+	/**
+	 * Magic method to access properties of the application.
+	 *
+	 * @param   string  $name  The name of the property.
+	 *
+	 * @return  mixed   A value if the property name is valid, null otherwise.
+	 *
+	 * @since       __DEPLOY_VERSION__
+	 * @deprecated  3.0  This is a B/C proxy for deprecated read accesses
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'input':
+				@trigger_error(
+					'Accessing the input property of the application is deprecated, use the getInput() method instead.',
+					E_USER_DEPRECATED
+				);
+
+				return $this->getInput();
+
+			default:
+				$trace = debug_backtrace();
+				trigger_error(
+					sprintf(
+						'Undefined property via __get(): %1$s in %2$s on line %3$s',
+						$name,
+						$trace[0]['file'],
+						$trace[0]['line']
+					),
+					E_USER_NOTICE
+				);
+		}
+	}
+
+	/**
+	 * Method to get the application input object.
+	 *
+	 * @return  Input
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getInput(): Input
+	{
+		return $this->input;
+	}
+
+	/**
+	 * Method to get the application language object.
+	 *
+	 * @return  Language  The language object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getLanguage()
+	{
+		return $this->language;
 	}
 
 	/**
@@ -148,7 +236,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	public function execute()
 	{
 		// Trigger the onBeforeExecute event
-		$this->triggerEevent('onBeforeExecute');
+		$this->triggerEvent('onBeforeExecute');
 
 		// Perform application routines.
 		$this->doExecute();
