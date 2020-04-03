@@ -8,7 +8,7 @@
     "url": "https://github.com/joomla/joomla-cms.git"
   },
   "engines": {
-    "node": ">=12.16.1",
+    "node": ">=10.19",
     "npm": ">=6.13.4"
   },
   "scripts": {
