@@ -1,4 +1,4 @@
--- Set components AS LOCKED (can not be disabled/can not be uninstalled) and unprotect them and ENABLE them.
+-- Set components AS LOCKED (can be disabled/can NOT be uninstalled) and unprotect them and ENABLE them.
 
 UPDATE `#__extensions`
 SET `locked` = 1, `protected` = 0, `enabled` = 1
@@ -41,7 +41,7 @@ WHERE (`type` = 'component' AND `element` IN (
 ));
 
 
--- Set FRONT-end modules AS LOCKED (can not be disabled/can not be uninstalled) and unprotect them and ENABLE them.
+-- Set FRONT-end modules AS LOCKED  (can be disabled/can NOT be uninstalled) and unprotect them and ENABLE them.
 
 UPDATE `#__extensions`
 SET `locked` = 1, `protected` = 0, `enabled` = 1
@@ -70,7 +70,7 @@ WHERE (`type` = 'module' AND `client_id` = 0 AND `element` IN (
 	'mod_finder'
 ));
 
--- Set BACK-end modules AS LOCKED (can not be disabled/can not be uninstalled) and unprotect them and ENABLE them.
+-- Set BACK-end modules AS LOCKED  (can be disabled/can NOT be uninstalled) and unprotect them and ENABLE them.
 UPDATE `#__extensions`
 SET `locked` = 1, `protected` = 0, `enabled` = 1
 WHERE (`type` = 'module' AND `client_id` = 1 AND `element` IN (
@@ -101,7 +101,7 @@ WHERE (`type` = 'module' AND `client_id` = 1 AND `element` IN (
 	'mod_privacy_status'
 ));
 
--- Set plugins AS LOCKED (can not be disabled/can not be uninstalled) and unprotect them and ENABLE them.
+-- Set plugins AS LOCKED  (can be disabled/can NOT be uninstalled) and unprotect them and ENABLE them.
 
 UPDATE `#__extensions`
 SET `locked` = 1, `protected` = 0, `enabled` = 1
@@ -274,7 +274,7 @@ WHERE (`type` = 'plugin' AND
 	)
 );
 
--- Set libraries AS LOCKED (can not be disabled/can not be uninstalled) and unprotect them and ENABLE them.
+-- Set libraries AS LOCKED  (can be disabled/can NOT be uninstalled) and unprotect them and ENABLE them.
 
 UPDATE `#__extensions`
 SET `locked` = 1, `protected` = 0, `enabled` = 1
@@ -283,7 +283,7 @@ WHERE (`type` = 'library' AND `element` IN (
 	'phpass'
 ));
 
--- Set templates AS LOCKED (can not be disabled/can not be uninstalled) and unprotect them and ENABLE them.
+-- Set templates AS LOCKED  (can be disabled/can NOT be uninstalled) and unprotect them and ENABLE them.
 
 UPDATE `#__extensions`
 SET `locked` = 1, `protected` = 0, `enabled` = 1
@@ -292,7 +292,7 @@ WHERE (`type` = 'template' AND `element` IN (
 	'atum'
 ));
 
--- Set languages AS LOCKED (can not be disabled/can not be uninstalled) and unprotect them and ENABLE them.
+-- Set languages AS LOCKED  (can be disabled/can NOT be uninstalled)) and unprotect them and ENABLE them.
 
 UPDATE `#__extensions`
 SET `locked` = 1, `protected` = 0, `enabled` = 1
@@ -300,7 +300,7 @@ WHERE (`type` = 'language' AND `element` IN (
 	'en-GB'
 ));
 
--- Set file extensions AS LOCKED (can not be disabled/can not be uninstalled) and unprotect them and ENABLE them.
+-- Set file extensions AS LOCKED  (can be disabled/can NOT be uninstalled) and unprotect them and ENABLE them.
 
 UPDATE `#__extensions`
 SET `locked` = 1, `protected` = 0, `enabled` = 1
@@ -308,7 +308,7 @@ WHERE (`type` = 'file' AND `element` IN (
 	'joomla'
 ));
 
--- Set packages AS LOCKED (can not be disabled/can not be uninstalled) and unprotect them and ENABLE them.
+-- Set packages AS LOCKED  (can be disabled/can NOT be uninstalled) and unprotect them and ENABLE them.
 
 UPDATE `#__extensions`
 SET `locked` = 1, `protected` = 0, `enabled` = 1
@@ -317,7 +317,7 @@ WHERE (`type` = 'package' AND `element` IN (
 ));
 
 -- 
--- Set components AS PROTECTED (can not be uninstalled) and ENABLE them and remove LOCKED state.
+-- Set components AS PROTECTED (can NOT be uninstalled/can NOT be disabled) and ENABLE them and remove LOCKED state.
 
 UPDATE `#__extensions`
 SET `protected` = 1, `enabled` = 1, `locked` = 0
@@ -351,7 +351,7 @@ WHERE (`type` = 'component' AND `element` IN (
 	'com_wrapper'
 ));
 
--- Set FRONT-end modules AS PROTECTED (can not be uninstalled) and ENABLE them and remove LOCKED state.
+-- Set FRONT-end modules AS PROTECTED (can NOT be uninstalled/can NOT be disabled) and ENABLE them and remove LOCKED state.
 
 UPDATE `#__extensions`
 SET `protected` = 1, `enabled` = 1, `locked` = 0
@@ -365,7 +365,7 @@ WHERE (`type` = 'module' AND `client_id` = 0 AND `element` IN (
 ));
 
 
--- Set BACK-end modules AS PROTECTED (can not be uninstalled) and ENABLE them and remove LOCKED state.
+-- Set BACK-end modules AS PROTECTED (can NOT be uninstalled/can NOT be disabled) and ENABLE them and remove LOCKED state.
 
 UPDATE `#__extensions`
 SET `protected` = 1, `enabled` = 1, `locked` = 0
@@ -377,7 +377,7 @@ WHERE (`type` = 'module' AND `client_id` = 1 AND `element` IN (
 	'mod_toolbar'
 ));
 
--- Set plugins AS PROTECTED (can not be uninstalled) and ENABLE them and remove LOCKED state.
+-- Set plugins AS PROTECTED (can NOT be uninstalled/can NOT be disabled) and ENABLE them and remove LOCKED state.
 
 UPDATE `#__extensions`
 SET `protected` = 1, `enabled` = 1, `locked` = 0
@@ -420,7 +420,7 @@ WHERE (`type` = 'plugin' AND
 	)
 );
 
--- Set libraries AS PROTECTED (can not be uninstalled) and ENABLE them and remove LOCKED state.
+-- Set libraries AS PROTECTED (can NOT be uninstalled/can NOT be disabled) and ENABLE them and remove LOCKED state.
 
 UPDATE `#__extensions`
 SET `protected` = 1, `enabled` = 1, `locked` = 0
@@ -429,7 +429,7 @@ WHERE (`type` = 'library' AND `element` IN (
 	'phpass'
 ));
 
--- Set languages AS PROTECTED (can not be uninstalled) and ENABLE them and remove LOCKED state.
+-- Set languages AS PROTECTED (can NOT be uninstalled/can NOT be disabled) and ENABLE them and remove LOCKED state.
 
 UPDATE `#__extensions`
 SET `protected` = 1, `enabled` = 1, `locked` = 0
@@ -437,7 +437,7 @@ WHERE (`type` = 'language' AND `element` IN (
 	'en-GB'
 ));
 
--- Set file extensions AS PROTECTED (can not be uninstalled) and ENABLE them and remove LOCKED state.
+-- Set file extensions AS PROTECTED (can NOT be uninstalled/can NOT be disabled) and ENABLE them and remove LOCKED state.
 
 UPDATE `#__extensions`
 SET `protected` = 1, `enabled` = 1, `locked` = 0
@@ -445,7 +445,7 @@ WHERE (`type` = 'file' AND `element` IN (
 	'joomla'
 ));
 
--- Set packages AS PROTECTED (can not be uninstalled) and ENABLE them and remove LOCKED state.
+-- Set packages AS PROTECTED (can NOT be uninstalled/can NOT be disabled) and ENABLE them and remove LOCKED state.
 
 UPDATE `#__extensions`
 SET `protected` = 1, `enabled` = 1, `locked` = 0
