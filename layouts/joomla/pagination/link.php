@@ -84,7 +84,7 @@ else
 ?>
 <?php if ($displayData['active']) : ?>
 	<li class="page-item">
-		<a aria-label="<?php echo $aria; ?>" <?php echo $link; ?>class="page-link">
+		<a aria-label="<?php echo $aria; ?>" <?php echo $link; ?> class="page-link">
 			<?php echo $display; ?>
 		</a>
 	</li>
