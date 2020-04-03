@@ -113,7 +113,7 @@ class Extension extends Table
 		// Get the DatabaseQuery object
 		$query = $this->_db->getQuery(true);
 
-		// Get the column field types for for the #__extensions Table
+		// Get the column field types for the #__extensions Table
 		$tableColumnsType = $this->_db->getTableColumns('#__extensions', false);
 
 		foreach ($options as $col => $val)
