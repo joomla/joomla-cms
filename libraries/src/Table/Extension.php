@@ -131,6 +131,7 @@ class Extension extends Table
 					case 'text':
 					case 'timesta':
 					case 'datetim':
+						$val = (!empty($val)) ? $val : null;
 						$query->where($this->_db->quoteName($col) . ' = :' . $col)
 							->bind(':' . $col, $val);
 						break;
@@ -141,6 +142,7 @@ class Extension extends Table
 					case 'integer':
 					case 'smallin':
 					case 'bigint':
+						$val = intval($val);
 						$query->where($this->_db->quoteName($col) . ' = :' . $col)
 							->bind(':' . $col, $val, ParameterType::INTEGER);
 						break;
