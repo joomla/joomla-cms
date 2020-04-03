@@ -80,34 +80,36 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	/**
 	 * Class constructor.
 	 *
-	 * @param   InputInterface       $input       An optional argument to provide dependency injection for the application's input object. If the
-	 *                                            argument is an InputInterface object that object will become the application's input object,
-	 *                                            otherwise a default input object is created.
-	 * @param   OutputInterface      $output      An optional argument to provide dependency injection for the application's output object. If the
-	 *                                            argument is an OutputInterface object that object will become the application's output object,
-	 *                                            otherwise a default output object is created.
-	 * @param   Registry             $config      An optional argument to provide dependency injection for the application's config object. If the
-	 *                                            argument is a Registry object that object will become the application's config object,
-	 *                                            otherwise a default config object is created.
-	 * @param   DispatcherInterface  $dispatcher  An optional argument to provide dependency injection for the application's event dispatcher. If the
-	 *                                            argument is a DispatcherInterface object that object will become the application's event dispatcher,
-	 *                                            if it is null then the default event dispatcher will be created based on the application's
-	 *                                            loadDispatcher() method.
-	 * @param   Container            $container   Dependency injection container.
+	 * @param   Registry              $config      An optional argument to provide dependency injection for the application's config object. If the
+	 *                                             argument is a Registry object that object will become the application's config object,
+	 *                                             otherwise a default config object is created.
+	 * @param   DispatcherInterface   $dispatcher  An optional argument to provide dependency injection for the application's event dispatcher. If the
+	 *                                             argument is a DispatcherInterface object that object will become the application's event dispatcher,
+	 *                                             if it is null then the default event dispatcher will be created based on the application's
+	 *                                             loadDispatcher() method.
+	 * @param   Container             $container   Dependency injection container.
+	 * @param   Language              $language    The language object provisioned for the application.
+	 * @param   InputInterface|null   $input       An optional argument to provide dependency injection for the application's input object. If the
+	 *                                             argument is an InputInterface object that object will become the application's input object,
+	 *                                             otherwise a default input object is created.
+	 * @param   OutputInterface|null  $output      An optional argument to provide dependency injection for the application's output object. If the
+	 *                                             argument is an OutputInterface object that object will become the application's output object,
+	 *                                             otherwise a default output object is created.
 	 *
 	 * @since   4.0.0
 	 */
 	public function __construct(
+		Registry $config,
+		DispatcherInterface $dispatcher,
+		Container $container,
+		Language $language,
 		?InputInterface $input = null,
-		?OutputInterface $output = null,
-		?Registry $config = null,
-		?DispatcherInterface $dispatcher = null,
-		?Container $container = null
+		?OutputInterface $output = null
 	)
 	{
 		// Set up a Input object for Controllers etc to use
 		$this->input    = new \Joomla\CMS\Input\Cli;
-		$this->language = Factory::getLanguage();
+		$this->language = $language;
 
 		parent::__construct($input, $output, $config);
 
@@ -117,13 +119,8 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		// Register the client name as cli
 		$this->name = 'cli';
 
-		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
-
-		if ($dispatcher)
-		{
-			$this->setDispatcher($dispatcher);
-		}
+		$this->setDispatcher($dispatcher);
 
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
