@@ -86,7 +86,6 @@ class Mail extends PHPMailer
 		 * @var string|callable
 		 */
 		PHPMailer::$validator = 'html5';
-
 	}
 
 	/**
