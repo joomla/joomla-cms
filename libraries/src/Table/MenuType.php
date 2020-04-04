@@ -219,7 +219,7 @@ class MenuType extends Table
 				->where($this->_db->quoteName('menutype') . ' = :menutype')
 				->where('(' .
 					$this->_db->quoteName('checked_out') . ' NOT IN (0, :id)' .
-					' OR ' . $this->_db->quoteName('home') . ' =1 ' .
+					' OR ' . $this->_db->quoteName('home') . ' = 1' .
 					' AND ' . $this->_db->quoteName('language') . ' = :star' .
 					')'
 				)
