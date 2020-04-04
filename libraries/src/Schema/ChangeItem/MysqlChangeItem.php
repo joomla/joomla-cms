@@ -8,10 +8,9 @@
 
 namespace Joomla\CMS\Schema\ChangeItem;
 
-\defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Schema\ChangeItem;
-use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
  * Checks the database schema against one MySQL DDL query to see if it has been run.
@@ -40,9 +39,7 @@ class MysqlChangeItem extends ChangeItem
 	protected function buildCheckQuery()
 	{
 		// Initialize fields in case we can't create a check query
-
-		// Change status to skipped
-		$this->checkStatus = -1;
+		$this->checkStatus = -1; // change status to skipped
 		$result = null;
 
 		// Remove any newlines
@@ -56,7 +53,7 @@ class MysqlChangeItem extends ChangeItem
 
 		// First, make sure we have an array of at least 6 elements
 		// if not, we can't make a check query for this one
-		if (\count($wordArray) < 6)
+		if (count($wordArray) < 6)
 		{
 			// Done with method
 			return;
@@ -157,7 +154,7 @@ class MysqlChangeItem extends ChangeItem
 				}
 
 				// Detect changes in NULL and in DEFAULT column attributes
-				$changesArray = \array_slice($wordArray, 6);
+				$changesArray = array_slice($wordArray, 6);
 				$defaultCheck = $this->checkDefault($changesArray, $type);
 				$nullCheck = $this->checkNull($changesArray);
 
@@ -183,9 +180,9 @@ class MysqlChangeItem extends ChangeItem
 				{
 					$type = $this->fixInteger($wordArray[6], $wordArray[7]);
 				}
-
+				
 				// Detect changes in NULL and in DEFAULT column attributes
-				$changesArray = \array_slice($wordArray, 6);
+				$changesArray = array_slice($wordArray, 6);
 				$defaultCheck = $this->checkDefault($changesArray, $type);
 				$nullCheck = $this->checkNull($changesArray);
 
@@ -235,8 +232,10 @@ class MysqlChangeItem extends ChangeItem
 
 	/**
 	 * Fix up integer. Fixes problem with MySQL integer descriptions.
-	 * If you change a column to "integer unsigned" it shows
-	 * as "int(10) unsigned" in the check query.
+	 * On MySQL 8 display length is not shown anymore.
+	 * This means we have to match e.g. both "int(10) unsigned" and
+	 * "int unsigned", or both "int(11)" and "int" and so on.
+	 * The same applies to tinyint.
 	 *
 	 * @param   string  $type1  the column type
 	 * @param   string  $type2  the column attributes
@@ -249,13 +248,28 @@ class MysqlChangeItem extends ChangeItem
 	{
 		$result = $type1;
 
-		if (strtolower($type1) === 'integer' && strtolower(substr($type2, 0, 8)) === 'unsigned')
+		if (strtolower(substr($type2, 0, 8)) === 'unsigned')
 		{
-			$result = 'int(10) unsigned';
+			if (strtolower(substr($type1, 0, 7)) === 'tinyint')
+			{
+				$result = 'tinyint unsigned';
+			}
+			elseif (strtolower(substr($type1, 0, 3)) === 'int')
+			{
+				$result = 'int unsigned';
+			}
+			else
+			{
+				$result = $type1 . ' unsigned';
+			}
 		}
-		elseif (strtolower(substr($type2, 0, 8)) === 'unsigned')
+		elseif (strtolower(substr($type1, 0, 7)) === 'tinyint')
 		{
-			$result = $type1 . ' unsigned';
+			$result = 'tinyint';
+		}
+		elseif (strtolower(substr($type1, 0, 3)) === 'int')
+		{
+			$result = 'int';
 		}
 
 		return $result;
@@ -284,7 +298,9 @@ class MysqlChangeItem extends ChangeItem
 	/**
 	 * Make check query for column changes/modifications tolerant
 	 * for automatic type changes of text columns, e.g. from TEXT
-	 * to MEDIUMTEXT, after comnversion from utf8 to utf8mb4
+	 * to MEDIUMTEXT, after comnversion from utf8 to utf8mb4, and
+	 * fix integer (int or tinyint) columns without display length
+	 * for MySQL 8.
 	 *
 	 * @param   string  $type  The column type found in the update query
 	 *
@@ -296,7 +312,25 @@ class MysqlChangeItem extends ChangeItem
 	{
 		$uType = strtoupper(str_replace(';', '', $type));
 
-		if ($this->db instanceof UTF8MB4SupportInterface && $this->db->hasUTF8mb4Support())
+		if ($uType === 'TINYINT UNSIGNED')
+		{
+			$typeCheck = 'UPPER(LEFT(type, 7)) = ' . $this->db->quote('TINYINT')
+				. ' AND UPPER(RIGHT(type, 9)) = ' . $this->db->quote(' UNSIGNED');
+		}
+		elseif ($uType === 'TINYINT')
+		{
+			$typeCheck = 'UPPER(LEFT(type, 7)) = ' . $this->db->quote('TINYINT');
+		}
+		elseif ($uType === 'INT UNSIGNED')
+		{
+			$typeCheck = 'UPPER(LEFT(type, 3)) = ' . $this->db->quote('INT')
+				. ' AND UPPER(RIGHT(type, 9)) = ' . $this->db->quote(' UNSIGNED');
+		}
+		elseif ($uType === 'INT')
+		{
+			$typeCheck = 'UPPER(LEFT(type, 3)) = ' . $this->db->quote('INT');
+		}
+		elseif ($this->db->hasUTF8mb4Support())
 		{
 			if ($uType === 'TINYTEXT')
 			{
@@ -367,7 +401,6 @@ class MysqlChangeItem extends ChangeItem
 	{
 		// Skip types that do not support default values
 		$type = strtolower($type);
-
 		if (substr($type, -4) === 'text' || substr($type, -4) === 'blob')
 		{
 			return false;
@@ -375,7 +408,7 @@ class MysqlChangeItem extends ChangeItem
 
 		// Find DEFAULT keyword
 		$index = array_search('default', array_map('strtolower', $changesArray));
-
+	
 		// Create the check
 		if ($index !== false)
 		{
