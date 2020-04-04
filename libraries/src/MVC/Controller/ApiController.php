@@ -200,15 +200,19 @@ class ApiController extends BaseController
 	{
 		// Assemble pagination information (using recommended JsonApi pagination notation for offset strategy)
 		$paginationInfo = $this->input->get('page', [], 'array');
+		$limit          = null;
+		$offset         = null;
 
 		if (\array_key_exists('offset', $paginationInfo))
 		{
-			$this->modelState->set($this->context . '.limitstart', $paginationInfo['offset']);
+			$offset = $paginationInfo['offset'];
+			$this->modelState->set($this->context . '.limitstart', $offset);
 		}
 
 		if (\array_key_exists('limit', $paginationInfo))
 		{
-			$this->modelState->set($this->context . '.list.limit', $paginationInfo['limit']);
+			$limit = $paginationInfo['limit'];
+			$this->modelState->set($this->context . '.list.limit', $limit);
 		}
 
 		$viewType   = $this->app->getDocument()->getType();
@@ -243,16 +247,25 @@ class ApiController extends BaseController
 		// Push the model into the view (as default)
 		$view->setModel($model, true);
 
+		if ($offset)
+		{
+			$model->setState('list.start', $offset);
+		}
+
 		/**
 		 * Sanity check we don't have too much data being requested as regularly in html we automatically set it back to
 		 * the last page of data. If there isn't a limit start then set
 		 */
-		if (!$this->input->getInt('limit', null))
+		if ($limit)
+		{
+			$model->setState('list.limit', $limit);
+		}
+		else
 		{
 			$model->setState('list.limit', $this->itemsPerPage);
 		}
 
-		if ($this->input->getInt('limitstart', 0) > $model->getTotal())
+		if (!is_null($offset) && $offset > $model->getTotal())
 		{
 			throw new Exception\ResourceNotFound;
 		}
