@@ -76,13 +76,12 @@ class UsergrouplistField extends ListField
 		if (!isset(static::$options[$checkSuperUser]))
 		{
 			$groups       = UserGroupsHelper::getInstance()->getAll();
-			$isSuperUser  = Factory::getUser()->authorise('core.admin');
 			$cacheOptions = array();
 
 			foreach ($groups as $group)
 			{
-				// Don't show super user groups to non super users.
-				if ($checkSuperUser && !$isSuperUser && Access::checkGroup($group->id, 'core.admin'))
+				// Don't list super user groups.
+				if ($checkSuperUser && Access::checkGroup($group->id, 'core.admin'))
 				{
 					continue;
 				}
