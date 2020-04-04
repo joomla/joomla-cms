@@ -18,6 +18,7 @@
 				type="note"
 				label="PLG_USER_TOKEN_NOTOKENFOROTHERPEOPLE_DESC"
 				heading="p"
+				class="alert alert-warning"
 			/>
 
 			<field
@@ -25,6 +26,7 @@
 				type="note"
 				label="PLG_USER_TOKEN_SAVEMEFOROTHERPEOPLE_DESC"
 				heading="p"
+				class="alert alert-warning"
 			/>
 
 			<field
