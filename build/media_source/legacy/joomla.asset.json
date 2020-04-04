@@ -16,7 +16,7 @@
     {
       "name": "joomla.frontediting",
       "type": "style",
-      "uri": "legacy/frontediting.css"
+      "uri": "system/frontediting.css"
     },
     {
       "name": "joomla.frontediting",
@@ -28,6 +28,14 @@
       "attributes": {
         "defer": true
       }
+    },
+    {
+      "name": "joomla.frontediting",
+      "type": "preset",
+      "dependencies": [
+        "joomla.frontediting#style",
+        "joomla.frontediting#script"
+      ]
     }
   ]
 }

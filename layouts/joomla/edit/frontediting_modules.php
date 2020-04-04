@@ -72,6 +72,5 @@ if ($count)
 
 	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 	$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-	$wa->useStyle('joomla.frontediting')
-		->useScript('joomla.frontediting');
+	$wa->usePreset('joomla.frontediting');
 }
