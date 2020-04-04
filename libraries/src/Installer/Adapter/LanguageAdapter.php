@@ -966,6 +966,15 @@ class LanguageAdapter extends InstallerAdapter
 			}
 		}
 
+		// Use language code (eg "en-gb") as the image.
+		$image = strtolower(str_replace('-', '_',  $tag));
+
+		if (!file_exists(JPATH_ROOT . '/media/mod_languages/images/' . $image . '.gif'))
+		{
+			// Use country (eg "gb") as the image.
+			$image = strtolower(substr($tag, strpos($tag, '-') + 1));
+		}
+
 		// Prepare language data for store.
 		$languageData = array(
 			'lang_id'      => 0,
@@ -973,7 +982,7 @@ class LanguageAdapter extends InstallerAdapter
 			'title'        => $contentLanguageTitle,
 			'title_native' => $contentLanguageNativeTitle,
 			'sef'          => $this->getSefString($tag),
-			'image'        => strtolower(str_replace('-', '_', $tag)),
+			'image'        => $image,
 			'published'    => 0,
 			'ordering'     => 0,
 			'access'       => (int) Factory::getApplication()->get('access', 1),
