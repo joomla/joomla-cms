@@ -5,15 +5,21 @@
 (() => {
   'use strict';
 
+  // This method is used to decode HTML entities
+  const decodeHtml = (html) => {
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = html;
+    return textarea.value;
+  };
+
   const compare = (original, changed) => {
     const display = changed.nextElementSibling;
-    let color = '';
-    // @todo use the tag MARK here not SPAN
-    let span = null;
     const diff = window.Diff.diffWords(original.innerHTML, changed.innerHTML);
     const fragment = document.createDocumentFragment();
 
     diff.forEach((part) => {
+      let color = '';
+
       if (part.added) {
         color = '#a6f3a6';
       }
@@ -22,10 +28,11 @@
         color = '#f8cbcb';
       }
 
-      span = document.createElement('span');
+      // @todo use the tag MARK here not SPAN
+      const span = document.createElement('span');
       span.style.backgroundColor = color;
       span.style.borderRadius = '.2rem';
-      span.appendChild(document.createTextNode(part.value));
+      span.appendChild(document.createTextNode(decodeHtml(part.value)));
       fragment.appendChild(span);
     });
 

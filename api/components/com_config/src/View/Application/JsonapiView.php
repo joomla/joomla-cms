@@ -58,38 +58,49 @@ class JsonapiView extends BaseApiView
 
 		$items = array_splice($items, $offset, $limit);
 
-		$firstPage = clone $currentUrl;
-		$firstPageQuery = $currentPageQuery;
-		$firstPageQuery['offset'] = 0;
-		$firstPage->setVar('page', $firstPageQuery);
+		$this->document->addMeta('total-pages', $totalPagesAvailable)
+			->addLink('self', (string) $currentUrl);
 
-		$nextPage = clone $currentUrl;
-		$nextPageQuery = $currentPageQuery;
-		$nextOffset = $currentPageQuery['offset'] + $limit;
-		$nextPageQuery['offset'] = ($nextOffset > ($totalPagesAvailable * $limit)) ? $totalPagesAvailable - $limit : $nextOffset;
-		$nextPage->setVar('page', $nextPageQuery);
+		// Check for first and previous pages
+		if ($offset > 0)
+		{
+			$firstPage = clone $currentUrl;
+			$firstPageQuery = $currentPageQuery;
+			$firstPageQuery['offset'] = 0;
+			$firstPage->setVar('page', $firstPageQuery);
 
-		$previousPage = clone $currentUrl;
-		$previousPageQuery = $currentPageQuery;
-		$previousOffset = $currentPageQuery['offset'] - $limit;
-		$previousPageQuery['offset'] = $previousOffset >= 0 ? $previousOffset : 0;
-		$previousPage->setVar('page', $previousPageQuery);
+			$previousPage = clone $currentUrl;
+			$previousPageQuery = $currentPageQuery;
+			$previousOffset = $currentPageQuery['offset'] - $limit;
+			$previousPageQuery['offset'] = $previousOffset >= 0 ? $previousOffset : 0;
+			$previousPage->setVar('page', $previousPageQuery);
 
-		$lastPage = clone $currentUrl;
-		$lastPageQuery = $currentPageQuery;
-		$lastPageQuery['offset'] = $totalPagesAvailable - $limit;
-		$lastPage->setVar('page', $lastPageQuery);
+			$this->document->addLink('first', $this->queryEncode((string) $firstPage))
+				->addLink('previous', $this->queryEncode((string) $previousPage));
+		}
+
+		// Check for next and last pages
+		if ($offset + $limit < $totalItemsCount)
+		{
+			$nextPage = clone $currentUrl;
+			$nextPageQuery = $currentPageQuery;
+			$nextOffset = $currentPageQuery['offset'] + $limit;
+			$nextPageQuery['offset'] = ($nextOffset > ($totalPagesAvailable * $limit)) ? $totalPagesAvailable - $limit : $nextOffset;
+			$nextPage->setVar('page', $nextPageQuery);
+
+			$lastPage = clone $currentUrl;
+			$lastPageQuery = $currentPageQuery;
+			$lastPageQuery['offset'] = ($totalPagesAvailable - 1) * $limit;
+			$lastPage->setVar('page', $lastPageQuery);
+
+			$this->document->addLink('next', $this->queryEncode((string) $nextPage))
+				->addLink('last', $this->queryEncode((string) $lastPage));
+		}
 
 		$collection = (new Collection($items, new JoomlaSerializer($this->type)));
 
 		// Set the data into the document and render it
-		$this->document->addMeta('total-pages', $totalPagesAvailable)
-			->setData($collection)
-			->addLink('self', (string) $currentUrl)
-			->addLink('first', (string) $firstPage)
-			->addLink('next', (string) $nextPage)
-			->addLink('previous', (string) $previousPage)
-			->addLink('last', (string) $lastPage);
+		$this->document->setData($collection);
 
 		return $this->document->render();
 	}

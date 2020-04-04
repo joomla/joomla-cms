@@ -852,7 +852,7 @@ class ComponentAdapter extends InstallerAdapter
 		}
 
 		// Attempt to load the admin language file; might have uninstall strings
-		$this->loadLanguage(JPATH_ADMINISTRATOR . '/components/' . $this->element);
+		$this->loadLanguage(JPATH_ADMINISTRATOR . '/components/' . $this->extension->element);
 	}
 
 	/**
