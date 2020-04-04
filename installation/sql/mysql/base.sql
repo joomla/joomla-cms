@@ -1017,7 +1017,7 @@ CREATE TABLE IF NOT EXISTS `#__utf8_conversion` (
 -- Dumping data for table `#__utf8_conversion`
 --
 
-INSERT INTO `#__utf8_conversion` (`converted`) VALUES (0);
+INSERT INTO `#__utf8_conversion` (`converted`) VALUES (2);
 
 -- --------------------------------------------------------
 
