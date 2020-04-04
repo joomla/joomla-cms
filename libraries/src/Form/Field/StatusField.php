@@ -32,10 +32,10 @@ class StatusField extends PredefinedlistField
 	 * @since  3.2
 	 */
 	protected $predefinedOptions = array(
-		'-2' =>	'JTRASHED',
-		'0'  => 'JUNPUBLISHED',
-		'1'  => 'JPUBLISHED',
-		'2'  => 'JARCHIVED',
-		'*'  => 'JALL',
+		-2  => 'JTRASHED',
+		0   => 'JUNPUBLISHED',
+		1   => 'JPUBLISHED',
+		2   => 'JARCHIVED',
+		'*' => 'JALL',
 	);
 }
