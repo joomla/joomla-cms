@@ -20,26 +20,26 @@ switch ((string) $item->text)
 {
 	// Check for "Start" item
 	case Text::_('JLIB_HTML_START') :
-		$icon = 'fas fa-angle-double-left';
+		$icon = $app->getLanguage()->isRtl() ? 'fas fa-angle-double-right' : 'fas fa-angle-double-left';
 		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "Prev" item
 	case $item->text === Text::_('JPREV') :
 		$item->text = Text::_('JPREVIOUS');
-		$icon = 'fas fa-angle-left';
+		$icon = $app->getLanguage()->isRtl() ? 'fas fa-angle-right' : 'fas fa-angle-left';
 		$aria =Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "Next" item
 	case Text::_('JNEXT') :
-		$icon = 'fas fa-angle-right';
+		$icon = $app->getLanguage()->isRtl() ? 'fas fa-angle-left' : 'fas fa-angle-right';
 		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
 	// Check for "End" item
 	case Text::_('JLIB_HTML_END') :
-		$icon = 'fas fa-angle-double-right';
+		$icon = $app->getLanguage()->isRtl() ? 'fas fa-angle-double-left' : 'fas fa-angle-double-right';
 		$aria = Text::sprintf('JLIB_HTML_GOTO_POSITION', strtolower($item->text));
 		break;
 
