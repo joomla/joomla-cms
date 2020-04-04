@@ -107,7 +107,6 @@
     "uglifycss": "^0.0.29",
     "vue-loader": "^15.9.1",
     "vue-template-compiler": "^2.6.10",
-    "vueify": "^9.4.1",
     "walk-sync": "^2.0.2",
     "watch": "^1.0.2",
     "webpack": "^4.42.1",
