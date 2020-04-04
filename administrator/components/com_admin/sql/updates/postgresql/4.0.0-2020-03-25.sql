@@ -157,7 +157,7 @@ OR ("type" = 'plugin' AND
 	(
 		("folder" = 'authentication' AND "element" IN ('joomla'))
 		OR ("folder" = 'editors' AND "element" IN ('none'))
-		OR ("folder" = 'extension' AND "element" IN ('joomla', 'namespacemap'))
+		OR ("folder" = 'extension' AND "element" IN ('namespacemap'))
 	)
 )
 OR ("type" = 'library' AND "element" IN ('joomla', 'phpass'))
