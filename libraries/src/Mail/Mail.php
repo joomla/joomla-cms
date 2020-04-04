@@ -65,6 +65,7 @@ class Mail extends \PHPMailer
 		// Don't disclose the PHPMailer version
 		$this->XMailer = ' ';
 
+
 		/**
 		* Which validator to use by default when validating email addresses.
 		* Validation patterns supported:
@@ -81,7 +82,7 @@ class Mail extends \PHPMailer
 		*
 		* @var string|callable
 		*/
-		PHPMailer::$validator = 'html5';
+		\PHPMailer::$validator = 'html5';
 	}
 
 	/**
