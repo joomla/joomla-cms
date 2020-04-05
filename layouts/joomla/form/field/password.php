@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);
@@ -47,10 +47,12 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  */
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+
 if ($meter)
 {
-	HTMLHelper::_('behavior.formvalidator');
-	HTMLHelper::_('script', 'system/fields/passwordstrength.min.js', array('version' => 'auto', 'relative' => true));
+	$wa->useScript('field.passwordstrength');
 
 	$class = 'js-password-strength ' . $class;
 
@@ -60,7 +62,7 @@ if ($meter)
 	}
 }
 
-HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
+$wa->useScript('field.passwordview');
 
 Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');

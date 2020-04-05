@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
@@ -26,7 +27,11 @@ $options = array(
 	HTMLHelper::_('select.option', 'c', Text::_('JLIB_HTML_BATCH_COPY')),
 	HTMLHelper::_('select.option', 'm', Text::_('JLIB_HTML_BATCH_MOVE'))
 );
-HTMLHelper::_('script', 'layouts/joomla/html/batch/batch-language.min.js', ['version' => 'auto', 'relative' => true]);
+
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa->useScript('joomla.batch-language');
+
 ?>
 <label id="batch-choose-action-lbl" for="batch-category-id">
 	<?php echo Text::_('JLIB_HTML_BATCH_MENU_LABEL'); ?>

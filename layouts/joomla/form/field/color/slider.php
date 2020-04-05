@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -64,8 +64,9 @@ $validate     = $validate ? ' data-validate="' . $validate . '"' : '';
 $displayValues = explode(',', $display);
 $allSliders    = $display === 'full' || empty($display);
 
-HTMLHelper::_('stylesheet', 'system/fields/joomla-field-color-slider.min.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('script', 'system/fields/joomla-field-color-slider.min.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa->useScript('field.color-slider');
 
 Text::script('JFIELD_COLOR_ERROR_CONVERT_HSL');
 Text::script('JFIELD_COLOR_ERROR_CONVERT_HUE');
