@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Finder\Administrator\Indexer\Query;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -65,7 +66,7 @@ class FinderHelper
 	 *
 	 * @param   \Joomla\Registry\Registry  $params  Module parameters.
 	 *
-	 * @return  \FinderIndexerQuery object
+	 * @return  Query object
 	 *
 	 * @since   2.5
 	 */
@@ -85,6 +86,6 @@ class FinderHelper
 		$options['filters'] = ArrayHelper::toInteger($options['filters']);
 
 		// Instantiate a query object.
-		return new \FinderIndexerQuery($options);
+		return new Query($options);
 	}
 }
