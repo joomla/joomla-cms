@@ -49,6 +49,12 @@ class PlgButtonReadmore extends CMSPlugin
 		);
 
 		$getContentResult = $this->getDispatcher()->dispatch('getContent', $event);
+		
+		if (empty($getContentResult['result']))
+		{
+			return;
+		}
+		
 		$getContent = $getContentResult['result'][0];
 		HTMLHelper::_('script', 'com_content/admin-article-readmore.min.js', array('version' => 'auto', 'relative' => true));
 
