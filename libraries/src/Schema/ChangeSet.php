@@ -86,7 +86,9 @@ class ChangeSet
 
 			try
 			{
-				$tableExists = $this->db->loadResult();
+				$rows = $this->db->loadRowList(0);
+
+				$tableExists = \count($rows);
 			}
 			catch (\RuntimeException $e)
 			{

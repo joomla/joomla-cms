@@ -6256,7 +6256,7 @@ class JoomlaInstallerScript
 
 		try
 		{
-			$tableExists = $db->loadResult();
+			$rows = $db->loadRowList(0);
 		}
 		catch (Exception $e)
 		{
@@ -6273,7 +6273,7 @@ class JoomlaInstallerScript
 		}
 
 		// Nothing to do if the table doesn't exist because the CMS has never been updated from a pre-4.0 version
-		if ($tableExists == 0)
+		if (\count($rows) === 0)
 		{
 			return;
 		}
