@@ -75,55 +75,53 @@ class ChangeSet
 
 		foreach ($updateQueries as $obj)
 		{
-			$changeItem = ChangeItem::getInstance($db, $obj->file, $obj->updateQuery);
-
-			if ($changeItem->queryType === 'UTF8CNV')
-			{
-				// Execute the special update query for utf8mb4 conversion status reset
-				try
-				{
-					$this->db->setQuery($changeItem->updateQuery)->execute();
-				}
-				catch (\RuntimeException $e)
-				{
-					Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-				}
-			}
-			else
-			{
-				// Normal change item
-				$this->changeItems[] = $changeItem;
-			}
+			$this->changeItems[] = ChangeItem::getInstance($db, $obj->file, $obj->updateQuery);
 		}
 
 		// If on mysql, add a query at the end to check for utf8mb4 conversion status
 		if ($this->db->getServerType() === 'mysql')
 		{
-			// Let the update query be something harmless which should always succeed
-			$tmpSchemaChangeItem = ChangeItem::getInstance(
-				$db,
-				'database.php',
-				'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
-				. ' SET ' . $this->db->quoteName('converted') . ' = 0;'
-			);
+			// Check if the #__utf8_conversion table exists
+			$this->db->setQuery('SHOW TABLES LIKE ' . $this->db->quote($this->db->getPrefix() . 'utf8_conversion'));
 
-			// Set to not skipped
-			$tmpSchemaChangeItem->checkStatus = 0;
+			try
+			{
+				$tableExists = $this->db->loadResult();
+			}
+			catch (\RuntimeException $e)
+			{
+				$tableExists = 0;
+			}
 
-			// Set the check query
-			$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8MB4';
+			// If the table exists add a change item for utf8mb4 conversion to the end
+			if ($tableExists > 0)
+			{
+				// Let the update query be something harmless which should always succeed
+				$tmpSchemaChangeItem = ChangeItem::getInstance(
+					$db,
+					'database.php',
+					'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
+					. ' SET ' . $this->db->quoteName('converted') . ' = 0;'
+				);
 
-			$tmpSchemaChangeItem->checkQuery = 'SELECT '
-				. $this->db->quoteName('converted')
-				. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
-				. ' WHERE ' . $this->db->quoteName('converted') . ' = 2';
+				// Set to not skipped
+				$tmpSchemaChangeItem->checkStatus = 0;
 
-			// Set expected records from check query
-			$tmpSchemaChangeItem->checkQueryExpected = 1;
+				// Set the check query
+				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8MB4';
 
-			$tmpSchemaChangeItem->msgElements = array();
+				$tmpSchemaChangeItem->checkQuery = 'SELECT '
+					. $this->db->quoteName('converted')
+					. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
+					. ' WHERE ' . $this->db->quoteName('converted') . ' = 2';
 
-			$this->changeItems[] = $tmpSchemaChangeItem;
+				// Set expected records from check query
+				$tmpSchemaChangeItem->checkQueryExpected = 1;
+
+				$tmpSchemaChangeItem->msgElements = array();
+
+				$this->changeItems[] = $tmpSchemaChangeItem;
+			}
 		}
 	}
 

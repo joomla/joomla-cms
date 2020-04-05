@@ -1006,22 +1006,6 @@ CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__utf8_conversion`
---
-
-CREATE TABLE IF NOT EXISTS `#__utf8_conversion` (
-  `converted` tinyint(4) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `#__utf8_conversion`
---
-
-INSERT INTO `#__utf8_conversion` (`converted`) VALUES (2);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `#__viewlevels`
 --
 

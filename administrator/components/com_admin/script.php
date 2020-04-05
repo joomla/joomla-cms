@@ -6251,6 +6251,33 @@ class JoomlaInstallerScript
 			return;
 		}
 
+		// Check if the #__utf8_conversion table exists
+		$db->setQuery('SHOW TABLES LIKE ' . $this->db->quote($this->db->getPrefix() . 'utf8_conversion'));
+
+		try
+		{
+			$tableExists = $db->loadResult();
+		}
+		catch (Exception $e)
+		{
+			// Render the error message from the Exception object
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			if ($doDbFixMsg)
+			{
+				// Show an error message telling to check database problems
+				Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+			}
+
+			return;
+		}
+
+		// Nothing to do if the table doesn't exist because the CMS has never been updated from a pre-4.0 version
+		if ($tableExists == 0)
+		{
+			return;
+		}
+
 		// Set required conversion status
 		$converted = 2;
 
