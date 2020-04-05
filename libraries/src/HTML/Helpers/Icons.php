@@ -34,7 +34,7 @@ abstract class Icons
 	{
 		if (empty($buttons))
 		{
-			return;
+			return '';
 		}
 
 		$html = array();

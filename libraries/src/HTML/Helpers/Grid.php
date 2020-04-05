@@ -135,7 +135,7 @@ abstract class Grid
 	/**
 	 * Displays a checked out icon.
 	 *
-	 * @param   object   &$row        A data object (must contain checkedout as a property).
+	 * @param   object   $row         A data object (must contain checked out as a property).
 	 * @param   integer  $i           The index of the row.
 	 * @param   string   $identifier  The property name of the primary key or index of the row.
 	 *
@@ -264,7 +264,7 @@ abstract class Grid
 	/**
 	 * Method to create a checked out icon with optional overlib in a grid.
 	 *
-	 * @param   object   &$row     The row object
+	 * @param   object   $row      The row object
 	 * @param   boolean  $overlib  True if an overlib with checkout information should be created.
 	 *
 	 * @return  string   HTMl for the icon and overlib

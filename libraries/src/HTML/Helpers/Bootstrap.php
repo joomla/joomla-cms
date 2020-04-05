@@ -151,7 +151,7 @@ abstract class Bootstrap
 	 */
 	public static function framework($debug = null)
 	{
-		/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+		/** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
 		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
 		if ($wa->assetExists('script', 'bootstrap.init.legacy') && $wa->isAssetActive('script', 'bootstrap.init.legacy'))
@@ -199,7 +199,7 @@ abstract class Bootstrap
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__][$selector]))
 		{
-			return;
+			return '';
 		}
 
 		// Include Bootstrap framework
@@ -395,7 +395,7 @@ abstract class Bootstrap
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
-			return;
+			return '';
 		}
 
 		// Include Bootstrap framework

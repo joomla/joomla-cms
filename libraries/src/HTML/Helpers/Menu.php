@@ -245,7 +245,7 @@ abstract class Menu
 	/**
 	 * Build the select list for Menu Ordering
 	 *
-	 * @param   object   &$row  The row object
+	 * @param   object   $row   The row object
 	 * @param   integer  $id    The id for the row. Must exist to enable menu ordering
 	 *
 	 * @return  string
@@ -410,7 +410,7 @@ abstract class Menu
 	 * @param   integer  $id         Id of the menu item
 	 * @param   string   $indent     The indentation string
 	 * @param   array    $list       The list to process
-	 * @param   array    &$children  The children of the current item
+	 * @param   array    $children   The children of the current item
 	 * @param   integer  $maxlevel   The maximum number of levels in the tree
 	 * @param   integer  $level      The starting level
 	 * @param   int      $type       Set the type of spacer to use. Use 1 for |_ or 0 for -
