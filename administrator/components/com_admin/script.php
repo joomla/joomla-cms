@@ -6367,7 +6367,24 @@ class JoomlaInstallerScript
 			Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 		}
 
-		// Set flag in database if the update is done.
+		// If the conversion was successful try to drop the #__utf8_conversion table
+		if ($converted == 2)
+		{
+			try
+			{
+				$db->setQuery('DROP TABLE ' . $db->quoteName('#__utf8_conversion') . ';'
+				)->execute();
+
+				// All done
+				return;
+			}
+			catch (Exception $e)
+			{
+				// Nothing to be done, conversion status is updated in database later
+			}
+		}
+
+		// Update conversion status in database
 		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
 			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';'
 		)->execute();
