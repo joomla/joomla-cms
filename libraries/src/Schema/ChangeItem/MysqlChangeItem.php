@@ -11,7 +11,6 @@ namespace Joomla\CMS\Schema\ChangeItem;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Schema\ChangeItem;
-use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
  * Checks the database schema against one MySQL DDL query to see if it has been run.
@@ -283,24 +282,17 @@ class MysqlChangeItem extends ChangeItem
 	{
 		$uType = strtoupper(str_replace(';', '', $type));
 
-		if ($this->db instanceof UTF8MB4SupportInterface && $this->db->hasUTF8mb4Support())
+		if ($uType === 'TINYTEXT')
 		{
-			if ($uType === 'TINYTEXT')
-			{
-				$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')';
-			}
-			elseif ($uType === 'TEXT')
-			{
-				$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')';
-			}
-			elseif ($uType === 'MEDIUMTEXT')
-			{
-				$typeCheck = 'UPPER(type) IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')';
-			}
-			else
-			{
-				$typeCheck = 'UPPER(type) = ' . $this->db->quote($uType);
-			}
+			$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')';
+		}
+		elseif ($uType === 'TEXT')
+		{
+			$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')';
+		}
+		elseif ($uType === 'MEDIUMTEXT')
+		{
+			$typeCheck = 'UPPER(type) IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')';
 		}
 		else
 		{
