@@ -14,14 +14,9 @@ namespace Joomla\Component\Finder\Site\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Component\Finder\Administrator\Indexer\Query;
+use Joomla\Component\Finder\Administrator\Indexer\Result;
 use Joomla\String\StringHelper;
-
-// Register dependent classes.
-define('FINDER_PATH_INDEXER', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer');
-\JLoader::register('FinderIndexerHelper', FINDER_PATH_INDEXER . '/helper.php');
-\JLoader::register('FinderIndexerLanguage', FINDER_PATH_INDEXER . '/language.php');
-\JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
-\JLoader::register('FinderIndexerResult', FINDER_PATH_INDEXER . '/result.php');
 
 /**
  * Search model class for the Finder package.
@@ -39,11 +34,11 @@ class SearchModel extends ListModel
 	protected $context = 'com_finder.search';
 
 	/**
-	 * The query object is an instance of FinderIndexerQuery which contains and
+	 * The query object is an instance of Query which contains and
 	 * models the entire search query including the text input; static and
 	 * dynamic taxonomy filters; date filters; etc.
 	 *
-	 * @var    \FinderIndexerQuery
+	 * @var    Query
 	 * @since  2.5
 	 */
 	protected $searchquery;
@@ -75,7 +70,7 @@ class SearchModel extends ListModel
 	/**
 	 * Method to get the results of the query.
 	 *
-	 * @return  array  An array of FinderIndexerResult objects.
+	 * @return  array  An array of Result objects.
 	 *
 	 * @since   2.5
 	 * @throws  \Exception on database error.
@@ -110,7 +105,7 @@ class SearchModel extends ListModel
 	/**
 	 * Method to get the query object.
 	 *
-	 * @return  \FinderIndexerQuery  A query object.
+	 * @return  Query  A query object.
 	 *
 	 * @since   2.5
 	 */
@@ -417,7 +412,7 @@ class SearchModel extends ListModel
 		$options['when2'] = $request->getString('w2', $params->get('w2', ''));
 
 		// Load the query object.
-		$this->searchquery = new \FinderIndexerQuery($options);
+		$this->searchquery = new Query($options);
 
 		// Load the query token data.
 		$this->excludedTerms = $this->searchquery->getExcludedTermIds();

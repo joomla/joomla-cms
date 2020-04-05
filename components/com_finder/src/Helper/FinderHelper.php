@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\Component\Finder\Administrator\Indexer\Query;
 
 /**
  * Helper class for Joomla! Finder components
@@ -24,14 +25,14 @@ class FinderHelper
 	/**
 	 * Method to log searches to the database
 	 *
-	 * @param   FinderIndexerQuery  $searchquery  The search query
-	 * @param   integer             $resultCount  The number of results for this search
+	 * @param   Query    $searchquery  The search query
+	 * @param   integer  $resultCount  The number of results for this search
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public static function logSearch(\FinderIndexerQuery $searchquery, $resultCount = 0)
+	public static function logSearch(Query $searchquery, $resultCount = 0)
 	{
 		$enable_log_searches = ComponentHelper::getParams('com_finder')->get('logging_enabled', 1);
 

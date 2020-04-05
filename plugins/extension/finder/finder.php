@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Finder\Administrator\Indexer\Helper;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\String\StringHelper;
@@ -167,7 +168,7 @@ class PlgExtensionFinder extends CMSPlugin
 
 		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
 
-		$lang = \FinderIndexerHelper::getPrimaryLanguage($extension->element);
+		$lang = Helper::getPrimaryLanguage($extension->element);
 
 		$query->insert($db->quoteName('#__finder_terms_common'))
 			->columns($db->quoteName(['term', 'language', 'custom']));
@@ -205,7 +206,7 @@ class PlgExtensionFinder extends CMSPlugin
 
 		require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
 
-		$lang = \FinderIndexerHelper::getPrimaryLanguage($extension->element);
+		$lang = Helper::getPrimaryLanguage($extension->element);
 
 		$query = $db->getQuery(true);
 		$query->delete($db->quoteName('#__finder_terms_common'))

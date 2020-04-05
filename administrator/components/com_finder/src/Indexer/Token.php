@@ -138,7 +138,7 @@ class Token
 		{
 			// Populate the token instance.
 			$this->term = implode($spacer, $term);
-			$this->stem = implode($spacer, array_map(array('FinderIndexerHelper', 'stem'), $term, array($lang)));
+			$this->stem = implode($spacer, array_map(array(Helper::class, 'stem'), $term, array($lang)));
 			$this->numeric = false;
 			$this->common = false;
 			$this->phrase = true;

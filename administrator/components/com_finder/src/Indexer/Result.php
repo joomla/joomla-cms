@@ -458,7 +458,7 @@ class Result implements \Serializable
 	}
 
 	/**
-	 * Helper function to serialise the data of a FinderIndexerResult object
+	 * Helper function to serialise the data of a Result object
 	 *
 	 * @return  string  The serialised data
 	 *
