@@ -973,6 +973,12 @@ class LanguageAdapter extends InstallerAdapter
 		{
 			// Use country (eg "gb") as the image.
 			$image = strtolower(substr($tag, strpos($tag, '-') + 1));
+
+			if (!file_exists(JPATH_ROOT . '/media/mod_languages/images/' . $image . '.gif'))
+			{
+				// Set to empty if no file exists.
+				$image = '';
+			}
 		}
 
 		// Prepare language data for store.
