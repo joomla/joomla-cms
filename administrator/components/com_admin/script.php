@@ -6348,7 +6348,7 @@ class JoomlaInstallerScript
 				{
 					try
 					{
-						$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
+						$db->setQuery($query2)->execute();
 					}
 					catch (Exception $e)
 					{
