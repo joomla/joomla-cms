@@ -41,5 +41,7 @@ HTMLHelper::_('script', 'layouts/joomla/html/batch/batch-language.min.js', ['ver
 	<label id="batch-copy-move-lbl" for="batch-copy-move-id" class="control-label">
 		<?php echo Text::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
 	</label>
-	<?php echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+	<fieldset id="batch-copy-move-id">
+		<?php echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+	</fieldset>
 </div>
