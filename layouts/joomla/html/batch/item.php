@@ -43,6 +43,10 @@ $wa->useScript('joomla.batch-language');
 	</select>
 </div>
 <div id="batch-copy-move" class="control-group radio">
-	<?php echo Text::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
-	<?php echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+	<label id="batch-copy-move-lbl" for="batch-copy-move-id" class="control-label">
+		<?php echo Text::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
+	</label>
+	<fieldset id="batch-copy-move-id">
+		<?php echo HTMLHelper::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+	</fieldset>
 </div>
