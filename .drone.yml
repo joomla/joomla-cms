@@ -90,6 +90,33 @@ volumes:
 
 branches:
   exclude: [ l10n_* ]
+
+---
+kind: pipeline
+name: package
+
+steps:
+  - name: packager
+    image: itronic/test:latest
+    environment:
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      FTP_HOSTNAME: ci.joomla.org
+      FTP_PORT: "21"
+      FTP_DEST_DIR: /artifacts
+      FTP_VERIFY: "false"
+      FTP_SECURE: "true"
+      HTTP_ROOT: "https://ci.joomla.org/artifacts"
+      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
+      DRONE_COMMIT: DRONE_COMMIT
+      GITHUB_TOKEN:
+        from_secret: github_token
+    commands:
+      - /bin/drone_build.sh
+
+
 ---
 kind: signature
 hmac: 7d1fbc23a21067e251bb5d22a875c5db23c88520d0384f1913a73aa0c992d017
