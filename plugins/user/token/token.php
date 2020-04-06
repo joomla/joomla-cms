@@ -192,6 +192,10 @@ class PlgUserToken extends CMSPlugin
 			return true;
 		}
 
+		if ($this->app->isClient('site'))
+		{
+			return true;
+		}
 		// If we are on the save command, no data is passed to $data variable, we need to get it directly from request
 		$jformData = $this->app->input->get('jform', [], 'array');
 
