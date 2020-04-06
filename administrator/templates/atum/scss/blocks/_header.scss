@@ -59,7 +59,7 @@
     img {
       max-width: calc(18rem - .8rem);
       max-height: 1.3rem;
-      margin-left: .8rem;
+      margin-inline-start: .8rem;
 
       &.logo-small {
         display: none;
@@ -85,7 +85,7 @@
     white-space: nowrap;
 
     [class^='icon-'] {
-      margin-right: .625rem;
+      margin-inline-end: .625rem;
       font-size: 1rem;
     }
   }

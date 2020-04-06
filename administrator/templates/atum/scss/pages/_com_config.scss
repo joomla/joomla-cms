@@ -21,11 +21,7 @@
 
   .options-menu {
     .revert-controls .controls {
-      margin-left: 0;
-
-      [dir=rtl] & {
-        margin-right: 0;
-      }
+      margin-inline-start: 0;
     }
   }
 }

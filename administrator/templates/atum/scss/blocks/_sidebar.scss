@@ -108,7 +108,7 @@
   }
 
   .open {
-    box-shadow: inset 0 0  100px var(--atum-bg-light);
+    box-shadow: inset 0 0 100px var(--atum-bg-light);
   }
 
   // All list items
@@ -129,7 +129,6 @@
       span.fas {
         transform: scale(1.3);
       }
-
     }
 
     .menu-dashboard,
@@ -151,7 +150,6 @@
 
         &:hover,
         &.mm-active {
-
           // invert colors
           color: var(--atum-link-color);
           background-color: var(--atum-sidebar-bg);
@@ -169,12 +167,10 @@
     }
 
     li {
-
       .menu-dashboard,
       .menu-quicktask {
         > a {
           &.mm-active {
-
             &::before {
               display: none;
             }
@@ -185,12 +181,12 @@
   }
 
   span.fas {
-    padding: .9rem 0;
+    padding: 0.9rem 0;
   }
 
   .sidebar-item-title {
     display: inline-block;
-    padding: .6rem 0;
+    padding: 0.6rem 0;
     word-break: break-word;
   }
 
@@ -208,9 +204,8 @@
 
   // 1st level items
   > li {
-
     > a {
-      padding: 0 .35rem;
+      padding: 0 0.35rem;
 
       &:hover {
         color: var(--atum-text-light);
@@ -219,7 +214,6 @@
       }
 
       &.mm-active {
-
         color: var(--atum-link-color);
         &:hover {
           color: var(--atum-text-light);
@@ -232,10 +226,8 @@
         &:hover {
           color: var(--atum-text-light);
         }
-
       }
     }
-
   }
 
   // 2nd level items
@@ -249,23 +241,19 @@
       border: 0;
 
       &.mm-active {
-
         > a {
           color: var(--atum-link-color);
         }
       }
 
       > a {
-        padding: 0 1rem 0 2.4rem;
-
-        [dir=rtl] & {
-          padding: 0 2.4rem 0 1rem;
-        }
+        padding: 0 1rem;
+        padding-inline-start: 2.4rem;
       }
     }
 
     a {
-      font-size: .9rem;
+      font-size: 0.9rem;
 
       &[href]:hover:not(.menu-dashboard):not(.menu-quicktask) {
         color: $white;
@@ -275,7 +263,6 @@
       &.mm-active {
         color: $white;
         background-color: var(--atum-sidebar-link-color);
-
 
         &::before {
           position: absolute;
@@ -298,21 +285,12 @@
 
     // 3rd level items
     ul {
-      li { border-bottom: 1px solid var(--atum-bg-light);
-}
+      li {
+        border-bottom: 1px solid var(--atum-bg-light);
+      }
 
       a {
-
-
-        [dir=ltr] & {
-          padding-left: 3rem;
-        }
-
-        [dir=rtl] & {
-          padding-right: 3rem;
-        }
-
-
+        padding-inline-start: 3rem;
       }
 
       a::before {
@@ -330,7 +308,6 @@
         background-color: var(--atum-bg-dark-90);
       }
     }
-
   }
 
   .divider,
@@ -346,27 +323,20 @@
     height: 1px;
     margin: 4px 18px;
     background-color: $bluegray;
-    opacity: .7;
+    opacity: 0.7;
   }
 
   .menuitem-group {
-    margin-top: .65rem;
-    font-size: .75rem;
-
-    [dir=ltr] & {
-      padding-left: 2.4rem;
-    }
-
-    [dir=rtl] & {
-      padding-right: 2.4rem;
-    }
+    margin-top: 0.65rem;
+    font-size: 0.75rem;
+    padding-inline-start: 2.4rem;
   }
 
   .home-image {
     padding: 0;
 
     &.fa-star {
-      padding: .8rem 0;
+      padding: 0.8rem 0;
     }
   }
 
@@ -391,13 +361,7 @@
   // Dropdown indicator
   .has-arrow {
     .sidebar-item-title {
-      [dir=ltr] & {
-        margin-right: auto;
-      }
-
-      [dir=rtl] & {
-        margin-left: auto;
-      }
+      margin-inline-end: auto;
     }
 
     &:hover::after {
@@ -413,11 +377,11 @@
       font-weight: 900;
       color: var(--atum-sidebar-font-color);
 
-      [dir=ltr] & {
+      [dir="ltr"] & {
         content: "\f054";
       }
 
-      [dir=rtl] & {
+      [dir="rtl"] & {
         content: "\f053";
       }
     }
@@ -443,7 +407,6 @@
     font-size: .9rem;
     text-align: center;
     vertical-align: top;
-
   }
 
   .badge {
@@ -464,11 +427,9 @@
 
 // Sidebar Closed
 .closed {
-
   .sidebar-wrapper {
     flex: 1 0 $sidebar-width-closed;
     max-width: $sidebar-width-closed;
-
 
     &.transit-wider-closed {
       flex: 1 0 33%;
@@ -488,9 +449,7 @@
     background-color: var(--atum-sidebar-link-color);
   }
 
-
   .main-nav {
-
     > li > ul {
       height: 0;
       padding: 0;
@@ -564,7 +523,6 @@
 
       #sidebarmenu {
         overflow-y: scroll;
-
       }
     }
 

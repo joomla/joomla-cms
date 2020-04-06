@@ -132,14 +132,7 @@ legend {
   color: $white;
   background: $black;
   border-radius: .2rem;
-
-  [dir=ltr] & {
-    text-align: left;
-  }
-
-  [dir=rtl] & {
-    text-align: right;
-  }
+  text-align: start;
 }
 
 // reveal associated tooltip on focus
