@@ -11,6 +11,7 @@
 				type="note"
 				label="PLG_USER_TOKEN_SAVEME_DESC"
 				heading="p"
+				class="alert alert-warning"
 			/>
 
 			<field
