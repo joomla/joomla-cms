@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -129,10 +129,12 @@ Joomla = window.Joomla || {};
 					// AND operator: both the previous and current conditions must be valid
 					if (condition['op'] === 'AND' && condition['valid'] + jsondata[j - 1]['valid'] < 2) {
 						showfield = false;
+						condition['valid'] = 0;
 					}
 					// OR operator: one of the previous and current conditions must be valid
 					if (condition['op'] === 'OR' && condition['valid'] + jsondata[j - 1]['valid'] > 0) {
 						showfield = true;
+						condition['valid'] = 1;
 					}
 				}
 			}

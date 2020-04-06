@@ -6,6 +6,7 @@
  *
  * @copyright   2008-2017 Nicholas K. Dionysopoulos / Akeeba Ltd.
  * @license     GNU GPL v2 or - at your option - any later version
+ * @note        This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 
 /**
@@ -123,7 +124,7 @@ function getQueryParam($key, $default = null)
 		$value = $_REQUEST[$key];
 	}
 
-	if (get_magic_quotes_gpc() && !is_null($value))
+	if (PHP_VERSION_ID < 50400 && get_magic_quotes_gpc() && !is_null($value))
 	{
 		$value = stripslashes($value);
 	}
@@ -6184,7 +6185,7 @@ class AKText extends AKAbstractObject
 				}
 
 				// Sections
-				if ($line{0} == '[')
+				if ($line[0] == '[')
 				{
 					$tmp        = explode(']', $line);
 					$sections[] = trim(substr($tmp[0], 1));
@@ -6201,7 +6202,7 @@ class AKText extends AKAbstractObject
 					$tmp = explode(';', $value);
 					if (count($tmp) == 2)
 					{
-						if ((($value{0} != '"') && ($value{0} != "'")) ||
+						if ((($value[0] != '"') && ($value[0] != "'")) ||
 							preg_match('/^".*"\s*;/', $value) || preg_match('/^".*;[^"]*$/', $value) ||
 							preg_match("/^'.*'\s*;/", $value) || preg_match("/^'.*;[^']*$/", $value)
 						)
@@ -6211,11 +6212,11 @@ class AKText extends AKAbstractObject
 					}
 					else
 					{
-						if ($value{0} == '"')
+						if ($value[0] == '"')
 						{
 							$value = preg_replace('/^"(.*)".*/', '$1', $value);
 						}
-						elseif ($value{0} == "'")
+						elseif ($value[0] == "'")
 						{
 							$value = preg_replace("/^'(.*)'.*/", '$1', $value);
 						}

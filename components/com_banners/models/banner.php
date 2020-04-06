@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -78,7 +78,7 @@ class BannersModelBanner extends JModelLegacy
 
 		if ($trackClicks > 0)
 		{
-			$trackDate = JFactory::getDate()->format('Y-m-d H');
+			$trackDate = JFactory::getDate()->toSql();
 
 			$query->clear()
 				->select($db->quoteName('count'))

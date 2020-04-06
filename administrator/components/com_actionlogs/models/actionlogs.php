@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -330,8 +330,6 @@ class ActionlogsModelActionlogs extends JModelList
 		try
 		{
 			$db->execute();
-
-			return true;
 		}
 		catch (RuntimeException $e)
 		{
@@ -339,6 +337,10 @@ class ActionlogsModelActionlogs extends JModelList
 
 			return false;
 		}
+
+		Factory::getApplication()->triggerEvent('onAfterLogPurge', array());
+
+		return true;
 	}
 
 	/**
@@ -353,13 +355,15 @@ class ActionlogsModelActionlogs extends JModelList
 		try
 		{
 			$this->getDbo()->truncateTable('#__action_logs');
-
-			return true;
 		}
 		catch (Exception $e)
 		{
 			return false;
 		}
+
+		Factory::getApplication()->triggerEvent('onAfterLogPurge', array());
+
+		return true;
 	}
 
 	/**

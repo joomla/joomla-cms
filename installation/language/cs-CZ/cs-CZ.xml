@@ -3,10 +3,10 @@
 	version="3.9"
 	client="installation">
 	<name>Czech (Čeština)</name>
-	<version>3.9.1</version>
-	<creationDate>Listopad 2018</creationDate>
+	<version>3.9.17</version>
+	<creationDate>March 2020</creationDate>
 	<author>Czech Translation Team</author>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<files>
 		<filename>cs-CZ.ini</filename>

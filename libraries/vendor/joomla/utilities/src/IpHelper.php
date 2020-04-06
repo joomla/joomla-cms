@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Utilities Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -54,7 +54,7 @@ final class IpHelper
 	{
 		if (self::$ip === null)
 		{
-			$ip = self::detectAndCleanIP();
+			$ip = static::detectAndCleanIP();
 
 			if (!empty($ip) && ($ip != '0.0.0.0') && \function_exists('inet_pton') && \function_exists('inet_ntop'))
 			{
@@ -66,7 +66,7 @@ final class IpHelper
 				}
 			}
 
-			self::setIp($ip);
+			static::setIp($ip);
 		}
 
 		return self::$ip;
@@ -160,7 +160,7 @@ final class IpHelper
 			return false;
 		}
 
-		$ipv6 = self::isIPv6($ip);
+		$ipv6 = static::isIPv6($ip);
 
 		foreach ($ipTable as $ipExpression)
 		{
@@ -171,13 +171,13 @@ final class IpHelper
 			{
 				list($from, $to) = explode('-', $ipExpression, 2);
 
-				if ($ipv6 && (!self::isIPv6($from) || !self::isIPv6($to)))
+				if ($ipv6 && (!static::isIPv6($from) || !static::isIPv6($to)))
 				{
 					// Do not apply IPv4 filtering on an IPv6 address
 					continue;
 				}
 
-				if (!$ipv6 && (self::isIPv6($from) || self::isIPv6($to)))
+				if (!$ipv6 && (static::isIPv6($from) || static::isIPv6($to)))
 				{
 					// Do not apply IPv6 filtering on an IPv4 address
 					continue;
@@ -206,17 +206,17 @@ final class IpHelper
 			// Netmask or CIDR provided
 			elseif (strstr($ipExpression, '/'))
 			{
-				$binaryip = self::inetToBits($myIP);
+				$binaryip = static::inetToBits($myIP);
 
 				list($net, $maskbits) = explode('/', $ipExpression, 2);
 
-				if ($ipv6 && !self::isIPv6($net))
+				if ($ipv6 && !static::isIPv6($net))
 				{
 					// Do not apply IPv4 filtering on an IPv6 address
 					continue;
 				}
 
-				if (!$ipv6 && self::isIPv6($net))
+				if (!$ipv6 && static::isIPv6($net))
 				{
 					// Do not apply IPv6 filtering on an IPv4 address
 					continue;
@@ -225,7 +225,7 @@ final class IpHelper
 				if ($ipv6 && strstr($maskbits, ':'))
 				{
 					// Perform an IPv6 CIDR check
-					if (self::checkIPv6CIDR($myIP, $ipExpression))
+					if (static::checkIPv6CIDR($myIP, $ipExpression))
 					{
 						return true;
 					}
@@ -253,7 +253,7 @@ final class IpHelper
 
 				// Get the network's binary representation
 				$expectedNumberOfBits = $ipv6 ? 128 : 24;
-				$binarynet            = str_pad(self::inetToBits($net), $expectedNumberOfBits, '0', STR_PAD_RIGHT);
+				$binarynet            = str_pad(static::inetToBits($net), $expectedNumberOfBits, '0', STR_PAD_RIGHT);
 
 				// Check the corresponding bits of the IP and the network
 				$ipNetBits = substr($binaryip, 0, $maskbits);
@@ -271,7 +271,7 @@ final class IpHelper
 				{
 					$ipExpression = trim($ipExpression);
 
-					if (!self::isIPv6($ipExpression))
+					if (!static::isIPv6($ipExpression))
 					{
 						continue;
 					}
@@ -330,7 +330,7 @@ final class IpHelper
 
 						if ($dots)
 						{
-							$binaryip = self::inetToBits($myIP);
+							$binaryip = static::inetToBits($myIP);
 
 							// Convert netmask to CIDR
 							$long     = ip2long($netmask);
@@ -347,7 +347,7 @@ final class IpHelper
 
 							// Get the network's binary representation
 							$expectedNumberOfBits = $ipv6 ? 128 : 24;
-							$binarynet            = str_pad(self::inetToBits($net), $expectedNumberOfBits, '0', STR_PAD_RIGHT);
+							$binarynet            = str_pad(static::inetToBits($net), $expectedNumberOfBits, '0', STR_PAD_RIGHT);
 
 							// Check the corresponding bits of the IP and the network
 							$ipNetBits = substr($binaryip, 0, $maskbits);
@@ -385,14 +385,14 @@ final class IpHelper
 	 */
 	public static function workaroundIPIssues()
 	{
-		$ip = self::getIp();
+		$ip = static::getIp();
 
-		if ($_SERVER['REMOTE_ADDR'] === $ip)
+		if (isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] === $ip)
 		{
 			return;
 		}
 
-		if (array_key_exists('REMOTE_ADDR', $_SERVER))
+		if (isset($_SERVER['REMOTE_ADDR']))
 		{
 			$_SERVER['JOOMLA_REMOTE_ADDR'] = $_SERVER['REMOTE_ADDR'];
 		}
@@ -437,7 +437,7 @@ final class IpHelper
 	 */
 	protected static function detectAndCleanIP()
 	{
-		$ip = self::detectIP();
+		$ip = static::detectIP();
 
 		if (strstr($ip, ',') !== false || strstr($ip, ' ') !== false)
 		{
@@ -473,19 +473,22 @@ final class IpHelper
 		if (isset($_SERVER))
 		{
 			// Do we have an x-forwarded-for HTTP header (e.g. NginX)?
-			if (self::$allowIpOverrides && array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER))
+			if (self::$allowIpOverrides && isset($_SERVER['HTTP_X_FORWARDED_FOR']))
 			{
 				return $_SERVER['HTTP_X_FORWARDED_FOR'];
 			}
 
 			// Do we have a client-ip header (e.g. non-transparent proxy)?
-			if (self::$allowIpOverrides && array_key_exists('HTTP_CLIENT_IP', $_SERVER))
+			if (self::$allowIpOverrides && isset($_SERVER['HTTP_CLIENT_IP']))
 			{
 				return $_SERVER['HTTP_CLIENT_IP'];
 			}
 
 			// Normal, non-proxied server or server behind a transparent proxy
-			return $_SERVER['REMOTE_ADDR'];
+			if (isset($_SERVER['REMOTE_ADDR']))
+			{
+				return $_SERVER['REMOTE_ADDR'];
+			}
 		}
 
 		/*
@@ -563,11 +566,11 @@ final class IpHelper
 	protected static function checkIPv6CIDR($ip, $cidrnet)
 	{
 		$ip       = inet_pton($ip);
-		$binaryip = self::inetToBits($ip);
+		$binaryip = static::inetToBits($ip);
 
 		list($net, $maskbits) = explode('/', $cidrnet);
 		$net                  = inet_pton($net);
-		$binarynet            = self::inetToBits($net);
+		$binarynet            = static::inetToBits($net);
 
 		$ipNetBits = substr($binaryip, 0, $maskbits);
 		$netBits   = substr($binarynet, 0, $maskbits);

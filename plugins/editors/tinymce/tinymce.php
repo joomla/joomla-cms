@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -427,7 +427,6 @@ class PlgEditorTinymce extends JPlugin
 		$plugins  = array(
 			'autolink',
 			'lists',
-			'save',
 			'colorpicker',
 			'importcss',
 		);
@@ -604,19 +603,10 @@ class PlgEditorTinymce extends JPlugin
 				$isSubDir = JUri::root(true);
 			}
 
-			// Get specific path
-			$tempPath = $levelParams->get('path', '');
-
-			if (!empty($tempPath))
-			{
-				// Remove the root images path
-				$tempPath = str_replace(JComponentHelper::getParams('com_media')->get('image_path') . '/', '', $tempPath);
-			}
-
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 
 			$scriptOptions['setCustomDir']    = $isSubDir;
-			$scriptOptions['mediaUploadPath'] = $tempPath;
+			$scriptOptions['mediaUploadPath'] = $levelParams->get('path', '');
 			$scriptOptions['uploadUri']       = $uploadUrl;
 		}
 
@@ -666,7 +656,8 @@ class PlgEditorTinymce extends JPlugin
 			'templates'          => $templates,
 			'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
 			'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
-
+			'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
+			'elementpath'        => (bool) $levelParams->get('element_path', true),
 		)
 		);
 
@@ -849,7 +840,7 @@ class PlgEditorTinymce extends JPlugin
 				$btnsNames[] = $name . ' | ';
 
 				// The array with code for each button
-				$tinyBtns[] = implode($tempConstructor, '');
+				$tinyBtns[] = implode('', $tempConstructor);
 			}
 		}
 
@@ -1895,19 +1886,10 @@ class PlgEditorTinymce extends JPlugin
 				$isSubDir = JUri::root(true);
 			}
 
-			// Get specific path
-			$tempPath = $this->params->get('path', '');
-
-			if (!empty($tempPath))
-			{
-				// Remove the root images path
-				$tempPath = str_replace(JComponentHelper::getParams('com_media')->get('image_path') . '/', '', $tempPath);
-			}
-
 			JText::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 
 			$scriptOptions['setCustomDir']    = $isSubDir;
-			$scriptOptions['mediaUploadPath'] = $tempPath;
+			$scriptOptions['mediaUploadPath'] = $this->params->get('path', '');
 			$scriptOptions['uploadUri']       = $uploadUrl;
 
 			$externalPlugins = array(

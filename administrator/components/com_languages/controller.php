@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 class LanguagesController extends JControllerLegacy
 {
 	/**
-	 * @var		string	The default view.
+	 * @var	    string	The default view.
 	 * @since   1.6
 	 */
 	protected $default_view = 'installed';

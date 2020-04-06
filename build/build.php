@@ -16,7 +16,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -156,7 +156,6 @@ $doNotPackage = array(
 	'.php_cs',
 	'.travis.yml',
 	'README.md',
-	'SECURITY.md',
 	'appveyor-phpunit.xml',
 	'build',
 	'build.xml',
@@ -174,6 +173,7 @@ $doNotPackage = array(
 	'RoboFile.php',
 	'RoboFile.dist.ini',
 	'CODE_OF_CONDUCT.md',
+	'selenium.log',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',

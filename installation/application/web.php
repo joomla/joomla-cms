@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -275,7 +275,6 @@ final class InstallationApplicationWeb extends JApplicationCms
 		$ret = array();
 
 		$ret['language']   = (string) $xml->forceLang;
-		$ret['helpurl']    = (string) $xml->helpurl;
 		$ret['debug']      = (string) $xml->debug;
 		$ret['sampledata'] = (string) $xml->sampledata;
 
@@ -402,15 +401,8 @@ final class InstallationApplicationWeb extends JApplicationCms
 			$options['language'] = 'en-GB';
 		}
 
-		// Check for custom helpurl.
-		if (empty($forced['helpurl']))
-		{
-			$options['helpurl'] = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
-		}
-		else
-		{
-			$options['helpurl'] = $forced['helpurl'];
-		}
+		// Set the official helpurl.
+		$options['helpurl'] = 'https://help.joomla.org/proxy?keyref=Help{major}{minor}:{keyref}&lang={langcode}';
 
 		// Store helpurl in the session.
 		$this->getSession()->set('setup.helpurl', $options['helpurl']);

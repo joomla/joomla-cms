@@ -131,7 +131,10 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
         if (!is_numeric($y[1])) {
             throw new SodiumException('y[1] is not an integer');
         }
-        return self::new64($x[0] ^ $y[0], $x[1] ^ $y[1]);
+        return self::new64(
+            (int) ($x[0] ^ $y[0]),
+            (int) ($x[1] ^ $y[1])
+        );
     }
 
     /**
@@ -163,18 +166,18 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
 
         if ($c < 32) {
             /** @var int $h0 */
-            $h0 = ($x[0] << $c) | (
+            $h0 = ((int) ($x[0]) << $c) | (
                 (
-                    $x[1] & ((1 << $c) - 1)
+                    (int) ($x[1]) & ((1 << $c) - 1)
                         <<
                     (32 - $c)
                 ) >> (32 - $c)
             );
             /** @var int $l0 */
-            $l0 = $x[1] << $c;
+            $l0 = (int) ($x[1]) << $c;
         } else {
             /** @var int $h0 */
-            $h0 = $x[1] << ($c - 32);
+            $h0 = (int) ($x[1]) << ($c - 32);
         }
 
         $h1 = 0;
@@ -182,12 +185,12 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
 
         if ($c1 < 32) {
             /** @var int $h1 */
-            $h1 = $x[0] >> $c1;
+            $h1 = (int) ($x[0]) >> $c1;
             /** @var int $l1 */
-            $l1 = ($x[1] >> $c1) | ($x[0] & ((1 << $c1) - 1)) << (32 - $c1);
+            $l1 = ((int) ($x[1]) >> $c1) | ((int) ($x[0]) & ((1 << $c1) - 1)) << (32 - $c1);
         } else {
             /** @var int $l1 */
-            $l1 = $x[0] >> ($c1 - 32);
+            $l1 = (int) ($x[0]) >> ($c1 - 32);
         }
 
         return self::new64($h0 | $h1, $l0 | $l1);
@@ -217,9 +220,15 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
     protected static function load64(SplFixedArray $x, $i)
     {
         /** @var int $l */
-        $l = $x[$i]   | ($x[$i+1]<<8) | ($x[$i+2]<<16) | ($x[$i+3]<<24);
+        $l = (int) ($x[$i])
+             | ((int) ($x[$i+1]) << 8)
+             | ((int) ($x[$i+2]) << 16)
+             | ((int) ($x[$i+3]) << 24);
         /** @var int $h */
-        $h = $x[$i+4] | ($x[$i+5]<<8) | ($x[$i+6]<<16) | ($x[$i+7]<<24);
+        $h = (int) ($x[$i+4])
+             | ((int) ($x[$i+5]) << 8)
+             | ((int) ($x[$i+6]) << 16)
+             | ((int) ($x[$i+7]) << 24);
         return self::new64($h, $l);
     }
 
@@ -243,7 +252,7 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
             */
             /** @var int $uIdx */
             $uIdx = ((7 - $j) & 4) >> 2;
-            $x[$i]   = ($u[$uIdx] & 0xff);
+            $x[$i]   = ((int) ($u[$uIdx]) & 0xff);
             if (++$i > $maxLength) {
                 return;
             }
@@ -622,7 +631,7 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
     public static function SplFixedArrayToString(SplFixedArray $a)
     {
         /**
-         * @var array<mixed, int>
+         * @var array<int, int|string> $arr
          */
         $arr = $a->toArray();
         $c = $a->count();
@@ -668,16 +677,19 @@ abstract class ParagonIE_Sodium_Core_BLAKE2b extends ParagonIE_Sodium_Core_Util
         # uint8_t buf[2 * 128];
         $str .= self::SplFixedArrayToString($ctx[3]);
 
+        /** @var int $ctx4 */
+        $ctx4 = (int) $ctx[4];
+
         # size_t buflen;
         $str .= implode('', array(
-            self::intToChr($ctx[4] & 0xff),
-            self::intToChr(($ctx[4] >> 8) & 0xff),
-            self::intToChr(($ctx[4] >> 16) & 0xff),
-            self::intToChr(($ctx[4] >> 24) & 0xff),
-            self::intToChr(($ctx[4] >> 32) & 0xff),
-            self::intToChr(($ctx[4] >> 40) & 0xff),
-            self::intToChr(($ctx[4] >> 48) & 0xff),
-            self::intToChr(($ctx[4] >> 56) & 0xff)
+            self::intToChr($ctx4 & 0xff),
+            self::intToChr(($ctx4 >> 8) & 0xff),
+            self::intToChr(($ctx4 >> 16) & 0xff),
+            self::intToChr(($ctx4 >> 24) & 0xff),
+            self::intToChr(($ctx4 >> 32) & 0xff),
+            self::intToChr(($ctx4 >> 40) & 0xff),
+            self::intToChr(($ctx4 >> 48) & 0xff),
+            self::intToChr(($ctx4 >> 56) & 0xff)
         ));
         # uint8_t last_node;
         return $str . "\x00";

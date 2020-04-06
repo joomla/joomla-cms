@@ -1,21 +1,32 @@
-pipeline:
-  clone:
-    image: plugins/git
-    depth: 1
+---
+kind: pipeline
+name: default
 
-  phpcs:
-    image: joomlaprojects/docker-phpcs
+clone:
+
+steps:
+  - name: phpcs
+    image: joomlaprojects/docker-images:phpcs1.5
     commands:
       - echo $(date)
-      - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
+      - /usr/local/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
       - echo $(date)
 
-  javascript:
-    image: joomlaprojects/docker-systemtests:latest
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    settings:
+      restore: true
+      mount:
+        - ./tests/javascript/node_modules
+      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
+    volumes:
+      - name: cache
+        path: /cache
+
+  - name: javascript
+    image: joomlaprojects/docker-images:systemtests
     commands:
       - echo $(date)
-      - apt-get install nodejs npm
-      - ln -s /usr/bin/nodejs /usr/bin/node
       - export DISPLAY=:0
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
       - sleep 3
@@ -26,29 +37,68 @@ pipeline:
       - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
       - echo $(date)
 
-  analysis3x:
-    image: rips/rips-cli:1.2.1
-    secrets:  [rips_username, rips_password]
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    settings:
+       rebuild: true
+       mount:
+        - ./tests/javascript/node_modules
+       cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
+    volumes:
+      - name: cache
+        path: /cache
+
+  - name: analysis3x
+    image: rips/rips-cli:3.2.2
     when:
       branch: staging
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - export RIPS_USERNAME=$RIPS_USERNAME
-      - export RIPS_PASSWORD=$RIPS_PASSWORD
-      - if [ $DRONE_REPO_OWNER != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
-      - rips-cli rips:scan:start -a 1 -t 1 -p $(pwd) -t 1 -R -k -T $DRONE_REPO_OWNER-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+      - if [ $DRONE_REPO_NAMESPACE != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
+      - rips-cli rips:list --table=scans -n -p filter='{"__and":[{"__lessThan":{"percent":100}}]}'
+      - rips-cli rips:scan:start -G -a 1 -t 1 -p $(pwd) -t 1 -R -k -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+    environment:
+      RIPS_EMAIL:
+        from_secret: RIPS_EMAIL
+      RIPS_PASSWORD:
+        from_secret: RIPS_PASSWORD
 
-  analysis4x:
-    image: rips/rips-cli:1.2.1
-    secrets:  [rips_username, rips_password]
-    when:
-      branch: 4.0-dev
-    commands:
-      - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - export RIPS_USERNAME=$RIPS_USERNAME
-      - export RIPS_PASSWORD=$RIPS_PASSWORD
-      - if [ $DRONE_REPO_OWNER != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
-      - rips-cli rips:scan:start -a 3 -t 1 -p $(pwd) -t 1 -R -k -T $DRONE_REPO_OWNER-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+volumes:
+- name: cache
+  host:
+    path: /tmp/cache
 
 branches:
   exclude: [ l10n_* ]
+
+---
+kind: pipeline
+name: package
+
+steps:
+  - name: packager
+    image: joomlaprojects/docker-images:packager
+    environment:
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      FTP_HOSTNAME: ci.joomla.org
+      FTP_PORT: "21"
+      FTP_DEST_DIR: /artifacts
+      FTP_VERIFY: "false"
+      FTP_SECURE: "true"
+      HTTP_ROOT: "https://ci.joomla.org/artifacts"
+      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
+      DRONE_COMMIT: DRONE_COMMIT
+      GITHUB_TOKEN:
+        from_secret: github_token
+    commands:
+      - /bin/drone_build.sh
+
+
+---
+kind: signature
+hmac: f107db083a8920dafd38b6f6ec51465628aadce6c0b9d747a2dbb80113490c61
+
+...

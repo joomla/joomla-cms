@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.protostar
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -52,10 +52,15 @@ JHtml::_('stylesheet', 'template.css', array('version' => 'auto', 'relative' => 
 // Use of Google Font
 if ($this->params->get('googleFont'))
 {
-	JHtml::_('stylesheet', 'https://fonts.googleapis.com/css?family=' . $this->params->get('googleFontName'));
+	$font = $this->params->get('googleFontName');
+
+	// Handle fonts with selected weights and styles, e.g. Source+Sans+Condensed:400,400i
+	$fontStyle = str_replace('+', ' ', strstr($font, ':', true) ?: $font);
+
+	JHtml::_('stylesheet', 'https://fonts.googleapis.com/css?family=' . $font);
 	$this->addStyleDeclaration("
 	h1, h2, h3, h4, h5, h6, .site-title {
-		font-family: '" . str_replace('+', ' ', $this->params->get('googleFontName')) . "', sans-serif;
+		font-family: '" . $fontStyle . "', sans-serif;
 	}");
 }
 
@@ -115,7 +120,7 @@ else
 // Logo file or site title param
 if ($this->params->get('logoFile'))
 {
-	$logo = '<img src="' . JUri::root() . $this->params->get('logoFile') . '" alt="' . $sitename . '" />';
+	$logo = '<img src="' . htmlspecialchars(JUri::root() . $this->params->get('logoFile'), ENT_QUOTES) . '" alt="' . $sitename . '" />';
 }
 elseif ($this->params->get('sitetitle'))
 {

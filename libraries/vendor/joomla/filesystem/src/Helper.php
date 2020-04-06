@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,7 +24,7 @@ class Helper
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/function.filesize.php#71098
+	 * @link    https://www.php.net/manual/en/function.filesize.php#71098
 	 * @since   1.0
 	 */
 	public static function remotefsize($url)
@@ -51,10 +51,10 @@ class Helper
 		if (\in_array($sch, array('ftp', 'ftps'), true))
 		{
 			$server = parse_url($url, PHP_URL_HOST);
-			$port = parse_url($url, PHP_URL_PORT);
-			$path = parse_url($url, PHP_URL_PATH);
-			$user = parse_url($url, PHP_URL_USER);
-			$pass = parse_url($url, PHP_URL_PASS);
+			$port   = parse_url($url, PHP_URL_PORT);
+			$path   = parse_url($url, PHP_URL_PATH);
+			$user   = parse_url($url, PHP_URL_USER);
+			$pass   = parse_url($url, PHP_URL_PASS);
 
 			if ((!$server) || (!$path))
 			{
@@ -82,10 +82,12 @@ class Helper
 			{
 				case 'ftp':
 					$ftpid = @ftp_connect($server, $port);
+
 					break;
 
 				case 'ftps':
 					$ftpid = @ftp_ssl_connect($server, $port);
+
 					break;
 			}
 
@@ -119,9 +121,9 @@ class Helper
 	 * @param   string   $url   Link identifier
 	 * @param   integer  $mode  The new permissions, given as an octal value.
 	 *
-	 * @return  mixed
+	 * @return  integer|boolean
 	 *
-	 * @link    https://secure.php.net/manual/en/function.ftp-chmod.php
+	 * @link    https://www.php.net/manual/en/function.ftp-chmod.php
 	 * @since   1.0
 	 */
 	public static function ftpChmod($url, $mode)
@@ -134,10 +136,10 @@ class Helper
 		}
 
 		$server = parse_url($url, PHP_URL_HOST);
-		$port = parse_url($url, PHP_URL_PORT);
-		$path = parse_url($url, PHP_URL_PATH);
-		$user = parse_url($url, PHP_URL_USER);
-		$pass = parse_url($url, PHP_URL_PASS);
+		$port   = parse_url($url, PHP_URL_PORT);
+		$path   = parse_url($url, PHP_URL_PATH);
+		$user   = parse_url($url, PHP_URL_USER);
+		$pass   = parse_url($url, PHP_URL_PASS);
 
 		if ((!$server) || (!$path))
 		{
@@ -165,10 +167,12 @@ class Helper
 		{
 			case 'ftp':
 				$ftpid = @ftp_connect($server, $port);
+
 				break;
 
 			case 'ftps':
 				$ftpid = @ftp_ssl_connect($server, $port);
+
 				break;
 		}
 

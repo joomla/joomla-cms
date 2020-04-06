@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -893,6 +893,12 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 		// If it's not an ALTER TABLE or CREATE TABLE command there's nothing to convert
 		if (!preg_match('/^(ALTER|CREATE)\s+TABLE\s+/i', $query))
+		{
+			return $query;
+		}
+
+		// Don't do preg replacement if string does not exist
+		if (stripos($query, 'utf8mb4') === false)
 		{
 			return $query;
 		}
@@ -1867,6 +1873,21 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Quotes a binary string to database requirements for use in database queries.
+	 *
+	 * @param   mixed  $data  A binary string to quote.
+	 *
+	 * @return  string  The binary quoted input string.
+	 *
+	 * @since   3.9.12
+	 */
+	public function quoteBinary($data)
+	{
+		// SQL standard syntax for hexadecimal literals
+		return "X'" . bin2hex($data) . "'";
+	}
+
+	/**
 	 * Wrap an SQL statement identifier name such as column, table or database names in quotes to prevent injection
 	 * risks and reserved word conflicts.
 	 *
@@ -1947,7 +1968,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 			else
 			{
-				$parts[] = $q{0} . str_replace($q{1}, $q{1} . $q{1}, $part) . $q{1};
+				$parts[] = $q[0] . str_replace($q[1], $q[1] . $q[1], $part) . $q[1];
 			}
 		}
 
@@ -2023,7 +2044,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 				$l = $k - 1;
 
-				while ($l >= 0 && $sql{$l} == '\\')
+				while ($l >= 0 && $sql[$l] == '\\')
 				{
 					$l--;
 					$escaped = !$escaped;
@@ -2203,10 +2224,10 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * Updates a row in a table based on an object's properties.
 	 *
-	 * @param   string   $table    The name of the database table to update.
-	 * @param   object   &$object  A reference to an object whose public properties match the table fields.
-	 * @param   array    $key      The name of the primary key.
-	 * @param   boolean  $nulls    True to update null fields or false to ignore them.
+	 * @param   string        $table    The name of the database table to update.
+	 * @param   object        &$object  A reference to an object whose public properties match the table fields.
+	 * @param   array|string  $key      The name of the primary key.
+	 * @param   boolean       $nulls    True to update null fields or false to ignore them.
 	 *
 	 * @return  boolean  True on success.
 	 *

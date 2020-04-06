@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -289,7 +289,7 @@ jQuery(document).ready(function($) {
 			var languageCode = reference.getAttribute('data-language').replace(/-/, '_');
 			var target       = document.getElementById('target-association');
 			var targetTitle  = target.getAttribute('data-title');
-			var title        = $(this).contents().find('#jform_' + targetTitle).val();
+			var title        = reference.getAttribute('data-title-value');
 			var target       = $(this).contents();
 
 			// - For modal association selectors.

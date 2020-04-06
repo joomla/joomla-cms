@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -81,7 +81,7 @@ class StringWrapper
 	 *
 	 * @var    array
 	 * @since  1.3.0
-	 * @link   https://secure.php.net/manual/en/function.stat.php
+	 * @link   https://www.php.net/manual/en/function.stat.php
 	 */
 	protected $stat;
 
@@ -105,8 +105,8 @@ class StringWrapper
 
 		if ($this->currentString)
 		{
-			$this->len = \strlen($this->currentString);
-			$this->pos = 0;
+			$this->len  = \strlen($this->currentString);
+			$this->pos  = 0;
 			$this->stat = $this->url_stat($path, 0);
 
 			return true;
@@ -120,7 +120,7 @@ class StringWrapper
 	 *
 	 * @return  array
 	 *
-	 * @link    https://secure.php.net/manual/en/streamwrapper.stream-stat.php
+	 * @link    https://www.php.net/manual/en/streamwrapper.stream-stat.php
 	 * @since   1.3.0
 	 */
 	public function stream_stat()
@@ -136,28 +136,29 @@ class StringWrapper
 	 *
 	 * @return  array
 	 *
-	 * @link    https://secure.php.net/manual/en/streamwrapper.url-stat.php
+	 * @link    https://www.php.net/manual/en/streamwrapper.url-stat.php
 	 * @since   1.3.0
 	 */
 	public function url_stat($path, $flags = 0)
 	{
-		$now = time();
+		$now     = time();
 		$refPath = StringController::getRef(str_replace('string://', '', $path));
-		$string = &$refPath;
-		$stat = array(
-			'dev' => 0,
-			'ino' => 0,
-			'mode' => 0,
-			'nlink' => 1,
-			'uid' => 0,
-			'gid' => 0,
-			'rdev' => 0,
-			'size' => \strlen($string),
-			'atime' => $now,
-			'mtime' => $now,
-			'ctime' => $now,
+		$string  = &$refPath;
+		$stat    = array(
+			'dev'     => 0,
+			'ino'     => 0,
+			'mode'    => 0,
+			'nlink'   => 1,
+			'uid'     => 0,
+			'gid'     => 0,
+			'rdev'    => 0,
+			'size'    => \strlen($string),
+			'atime'   => $now,
+			'mtime'   => $now,
+			'ctime'   => $now,
 			'blksize' => '512',
-			'blocks' => ceil(\strlen($string) / 512));
+			'blocks'  => ceil(\strlen($string) / 512),
+		);
 
 		return $stat;
 	}
@@ -171,7 +172,7 @@ class StringWrapper
 	 *
 	 * @return  string
 	 *
-	 * @link    https://secure.php.net/manual/en/streamwrapper.stream-read.php
+	 * @link    https://www.php.net/manual/en/streamwrapper.stream-read.php
 	 * @since   1.3.0
 	 */
 	public function stream_read($count)
@@ -250,6 +251,7 @@ class StringWrapper
 		{
 			case SEEK_SET:
 				$this->pos = $offset;
+
 				break;
 
 			case SEEK_CUR:
@@ -259,10 +261,12 @@ class StringWrapper
 				}
 
 				$this->pos += $offset;
+
 				break;
 
 			case SEEK_END:
 				$this->pos = $this->len - $offset;
+
 				break;
 		}
 

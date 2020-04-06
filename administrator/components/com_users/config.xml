@@ -205,6 +205,17 @@
 			default="0"
 		/>
 
+		<field
+			name="minimum_lowercase"
+			type="integer"
+			label="COM_USERS_CONFIG_FIELD_MINIMUM_LOWERCASE"
+			description="COM_USERS_CONFIG_FIELD_MINIMUM_LOWERCASE_DESC"
+			first="0"
+			last="98"
+			step="1"
+			default="0"
+		/>
+
 	</fieldset>
 
 	<fieldset

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Cache\Exception\CacheConnectingException;
 /**
  * Memcached cache storage handler
  *
- * @link   https://secure.php.net/manual/en/book.memcached.php
+ * @link   https://www.php.net/manual/en/book.memcached.php
  * @since  3.0.0
  */
 class MemcachedStorage extends CacheStorage
