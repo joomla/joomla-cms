@@ -77,7 +77,7 @@ name: package
 
 steps:
   - name: packager
-    image: itronic/test:latest
+    image: joomlaprojects/docker-images:packager
     environment:
       FTP_USERNAME:
         from_secret: ftpusername
@@ -99,6 +99,6 @@ steps:
 
 ---
 kind: signature
-hmac: 7d1fbc23a21067e251bb5d22a875c5db23c88520d0384f1913a73aa0c992d017
+hmac: f107db083a8920dafd38b6f6ec51465628aadce6c0b9d747a2dbb80113490c61
 
 ...
