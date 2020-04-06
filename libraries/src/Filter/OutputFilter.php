@@ -52,7 +52,16 @@ class OutputFilter extends BaseOutputFilter
 
 		foreach ($chars as $chr)
 		{
-			$new_str .= '\\u' . str_pad(dechex(StringHelper::ord($chr)), 4, '0', STR_PAD_LEFT);
+			$code = str_pad(dechex(StringHelper::ord($chr)), 4, '0', STR_PAD_LEFT);
+
+			if (strlen($code) < 5)
+			{
+				$new_str .= '\\u' . $code;
+			}
+			else
+			{
+				$new_str .= '\\u{' . $code . '}';
+			}
 		}
 
 		return $new_str;
