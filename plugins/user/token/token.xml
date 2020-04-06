@@ -15,20 +15,21 @@
 		<folder>token</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.plg_user_token.ini</language>
-		<language tag="en-GB">en-GB.plg_user_token.sys.ini</language>
+		<language tag="en-GB">plg_user_token.ini</language>
+		<language tag="en-GB">plg_user_token.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldprefix="Joomla\Component\Content\Administrator\Field">
-				<field name="allowedUserGroups" type="UserGroupList"
-					   checksuperusergroup="1"
-					   default="8"
-					   multiple="1"
-					   label="PLG_USER_TOKEN_ALLOWEDUSERGROUPS_LABEL"
-					   description="PLG_USER_TOKEN_ALLOWEDUSERGROUPS_DESC"
-				>
-				</field>
+				<field
+					name="allowedUserGroups"
+					type="UserGroupList"
+					label="PLG_USER_TOKEN_ALLOWEDUSERGROUPS_LABEL"
+					description="PLG_USER_TOKEN_ALLOWEDUSERGROUPS_DESC"
+					checksuperusergroup="1"
+					default="8"
+					multiple="true"
+				/>
 			</fieldset>
 		</fields>
 	</config>
