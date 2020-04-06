@@ -29,9 +29,6 @@ HTMLHelper::_('behavior.formvalidator');
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<?php $fields = $this->form->getFieldset($fieldset->name); ?>
 			<?php if (count($fields)) : ?>
-				<?php if ($fieldset->name === 'joomlatoken') : ?>
-					<?php continue; ?>
-				<?php endif; ?>
 				<fieldset>
 					<?php // If the fieldset has a label set, display it as the legend. ?>
 					<?php if (isset($fieldset->label)) : ?>
