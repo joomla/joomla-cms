@@ -98,8 +98,8 @@ ALTER TABLE `#__finder_terms` DROP INDEX `idx_term`;
 ALTER TABLE `#__finder_terms` ADD INDEX `idx_stem` (`stem`);
 ALTER TABLE `#__finder_terms` ADD INDEX `idx_language` (`language`);
 ALTER TABLE `#__finder_terms` ADD UNIQUE INDEX `idx_term_language` (`term`, `language`);
-ALTER TABLE `#__finder_terms` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-ALTER TABLE `#__finder_terms` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `#__finder_terms` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+ALTER TABLE `#__finder_terms` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 
 DROP TABLE IF EXISTS `#__finder_terms_common`;
 CREATE TABLE `#__finder_terms_common` (
@@ -290,8 +290,8 @@ ALTER TABLE `#__finder_tokens` CHANGE `language` `language` CHAR(7) NOT NULL DEF
 ALTER TABLE `#__finder_tokens` MODIFY `stem` varchar(75) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_tokens` ADD INDEX `idx_stem` (`stem`);
 ALTER TABLE `#__finder_tokens` ADD INDEX `idx_language` (`language`);
-ALTER TABLE `#__finder_tokens` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-ALTER TABLE `#__finder_tokens` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `#__finder_tokens` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+ALTER TABLE `#__finder_tokens` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 
 TRUNCATE TABLE `#__finder_tokens_aggregate`;
 ALTER TABLE `#__finder_tokens_aggregate` DROP COLUMN `map_suffix`;
@@ -300,8 +300,8 @@ ALTER TABLE `#__finder_tokens_aggregate` MODIFY `stem` varchar(75) NOT NULL DEFA
 ALTER TABLE `#__finder_tokens_aggregate` MODIFY `term_weight` float unsigned NOT NULL DEFAULT 0;
 ALTER TABLE `#__finder_tokens_aggregate` MODIFY `context_weight` float unsigned NOT NULL DEFAULT 0;
 ALTER TABLE `#__finder_tokens_aggregate` MODIFY `total_weight` float unsigned NOT NULL DEFAULT 0;
-ALTER TABLE `#__finder_tokens_aggregate` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-ALTER TABLE `#__finder_tokens_aggregate` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `#__finder_tokens_aggregate` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
+ALTER TABLE `#__finder_tokens_aggregate` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_bin;
 
 ALTER TABLE `#__finder_types` MODIFY `mime` varchar(100) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_types` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

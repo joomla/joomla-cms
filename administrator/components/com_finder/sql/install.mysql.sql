@@ -147,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms` (
   KEY `idx_stem_phrase` (`stem`,`phrase`),
   KEY `idx_soundex_phrase` (`soundex`,`phrase`),
   KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_bin;
 
 --
 -- Table structure for table `#__finder_terms_common`
@@ -357,7 +357,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens` (
   KEY `idx_stem` (`stem`),
   KEY `idx_context` (`context`),
   KEY `idx_language` (`language`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_bin;
 
 --
 -- Table structure for table `#__finder_tokens_aggregate`
@@ -376,7 +376,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens_aggregate` (
   `language` char(7) NOT NULL DEFAULT '',
   KEY `token` (`term`),
   KEY `keyword_id` (`term_id`)
-) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MEMORY DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_bin;
 
 --
 -- Table structure for table `#__finder_types`
