@@ -120,7 +120,7 @@ abstract class Dropdown
 		$dropDownList .= '</ul></div>';
 
 		static::$dropDownList = null;
-		static::$loaded['JHtmlDropdown::start'] = false;
+		static::$loaded[__CLASS__ . '::start'] = false;
 
 		return $dropDownList;
 	}

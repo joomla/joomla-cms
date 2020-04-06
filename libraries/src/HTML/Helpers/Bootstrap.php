@@ -534,7 +534,7 @@ abstract class Bootstrap
 		$tabScriptLayout = $tabScriptLayout === null ? new FileLayout('libraries.cms.html.bootstrap.addtabscript') : $tabScriptLayout;
 		$tabLayout = $tabLayout === null ? new FileLayout('libraries.cms.html.bootstrap.addtab') : $tabLayout;
 
-		$active = (static::$loaded['JHtmlBootstrap::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
+		$active = (static::$loaded[__CLASS__ . '::startTabSet'][$selector]['active'] == $id) ? ' active' : '';
 
 		// Inject tab into UL
 		Factory::getDocument()
