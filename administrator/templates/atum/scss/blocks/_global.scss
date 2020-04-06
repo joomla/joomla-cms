@@ -11,9 +11,10 @@ html {
 body {
   min-height: 100%;
   display: flex;
+  flex-direction: column;
   padding: 0;
   margin: 0;
-  flex-direction: column;
+  text-align: start;
 
   &.monochrome {
     filter: grayscale(1);
@@ -163,7 +164,7 @@ body .container-main {
 
 // Quickicon specific
 .message-alert {
-  text-align: right !important;
+  text-align: end !important;
 }
 
 // dashboard items

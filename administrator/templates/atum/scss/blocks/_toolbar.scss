@@ -3,12 +3,7 @@ joomla-toolbar-button {
 
   [class^='icon-'],
   [class*=' icon-'] {
-    margin-right: .5rem;
-
-    [dir=rtl] & {
-      margin-right: 0;
-      margin-left: .5em;
-    }
+    margin-inline-end: .5rem;
   }
 }
 
@@ -39,14 +34,10 @@ joomla-toolbar-button {
 
     > joomla-toolbar-button,
     > .btn-group {
-      margin-left: .75rem;
-
-      [dir=rtl] & {
-        margin-left: 0;
-      }
+      margin-inline-start: .75rem;
 
       &:first-child {
-        margin-left: 0;
+        margin-inline-start: 0;
       }
     }
   }
@@ -78,7 +69,8 @@ joomla-toolbar-button {
       display: inline-block;
       width: 2.438rem;
       height: 100%;
-      margin: $input-btn-padding-y-sm-submenu $input-btn-submenu-icon-distance $input-btn-padding-y-sm-submenu -#{$input-btn-padding-x-sm-submenu};
+      margin: $input-btn-padding-y-sm-submenu $input-btn-submenu-icon-distance;
+      margin-inline-start: -#{$input-btn-padding-x-sm-submenu};
       line-height: $atum-toolbar-line-height;
       color: var(--atum-text-dark);
       border-radius: .2rem 0 0 .2rem;
@@ -121,6 +113,7 @@ joomla-toolbar-button {
     &.btn-danger {
 
       background-color: $white;
+
       [class^='icon-'],
       [class*=' icon-'],
       [class^='#{$fa-css-prefix}-'],
@@ -266,7 +259,7 @@ joomla-toolbar-button {
       span {
         color: var(--atum-text-dark);
         background-color: rgba($gray-500, .8);
-         }
+      }
 
       &:hover,
       &:active,
@@ -490,6 +483,7 @@ joomla-toolbar-button {
     .btn {
       width: 100%;
     }
+
     .dropdown-toggle-split {
       width: auto;
     }
