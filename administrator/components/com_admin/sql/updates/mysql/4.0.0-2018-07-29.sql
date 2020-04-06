@@ -104,12 +104,12 @@ ALTER TABLE `#__finder_terms` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unic
 
 DROP TABLE IF EXISTS `#__finder_terms_common`;
 CREATE TABLE `#__finder_terms_common` (
-  `term` varchar(75) NOT NULL DEFAULT '',
+  `term` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `language` char(7) NOT NULL DEFAULT '',
   `custom` int(11) NOT NULL DEFAULT '0',
   UNIQUE KEY `idx_term_language` (`term`,`language`),
   KEY `idx_lang` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 INSERT INTO `#__finder_terms_common` (`term`, `language`, `custom`) VALUES
 	('i', 'en', 0),
 	('me', 'en', 0),
