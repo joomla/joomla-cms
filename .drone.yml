@@ -14,7 +14,7 @@ steps:
       - echo $(date)
 
   - name: packager
-    image: itronic/test:packager
+    image: itronic/test:latest
     environment:
       FTP_USERNAME:
         from_secret: ftpusername
