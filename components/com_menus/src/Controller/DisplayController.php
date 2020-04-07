@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Menus\Site\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 
@@ -35,12 +35,6 @@ class DisplayController extends BaseController
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		$this->input = Factory::getApplication()->input;
-
-		// Menus frontpage Editor Menu proxying:
-		if ($this->input->get('view') === 'items' && $this->input->get('layout') === 'modal')
-		{
-			HTMLHelper::_('stylesheet', 'system/adminlist.css', ['version' => 'auto', 'relative' => true]);
-		}
 
 		parent::__construct($config, $factory, $app, $input);
 	}

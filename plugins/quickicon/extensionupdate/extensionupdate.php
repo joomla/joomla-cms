@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
@@ -74,8 +73,14 @@ class PlgQuickiconExtensionupdate extends CMSPlugin
 		Text::script('INFO');
 		Text::script('WARNING');
 
-		HTMLHelper::_('behavior.core');
-		HTMLHelper::_('script', 'plg_quickicon_extensionupdate/extensionupdatecheck.min.js', array('version' => 'auto', 'relative' => true));
+		$this->app->getDocument()->getWebAssetManager()
+			->registerAndUseScript(
+				'plg_quickicon_extensionupdate',
+				'plg_quickicon_extensionupdate/extensionupdatecheck.min.js',
+				[],
+				['defer' => true],
+				['core']
+			);
 
 		return array(
 			array(

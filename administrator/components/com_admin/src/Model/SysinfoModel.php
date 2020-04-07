@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Admin\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -395,7 +395,7 @@ class SysinfoModel extends BaseDatabaseModel
 		$phpInfo = ob_get_contents();
 		ob_end_clean();
 		preg_match_all('#<body[^>]*>(.*)</body>#siU', $phpInfo, $output);
-		$output = preg_replace('#<table[^>]*>#', '<table class="table adminlist">', $output[1][0]);
+		$output = preg_replace('#<table[^>]*>#', '<table class="table">', $output[1][0]);
 		$output = preg_replace('#(\w),(\w)#', '\1, \2', $output);
 		$output = preg_replace('#<hr />#', '', $output);
 		$output = str_replace('<div class="text-center">', '', $output);

@@ -59,21 +59,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	protected $db;
 
 	/**
-	 * Constructor
-	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
-	 *
-	 * @since   3.9.0
-	 */
-	public function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
-
-		FormHelper::addFieldPath(__DIR__ . '/field');
-	}
-
-	/**
 	 * Adds additional fields to the user editing form
 	 *
 	 * @param   Form   $form  The form to be altered.
@@ -105,7 +90,8 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		}
 
 		// Add the privacy policy fields to the form.
-		Form::addFormPath(__DIR__ . '/privacyconsent');
+		FormHelper::addFieldPrefix('Joomla\\Plugin\\System\\PrivacyConsent\\Field');
+		FormHelper::addFormPath(__DIR__ . '/forms');
 		$form->loadFile('privacyconsent');
 
 		$privacyArticleId = $this->getPrivacyArticleId();
@@ -562,7 +548,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		$remind   = (int) $this->params->get('remind', 30);
 		$now      = Factory::getDate()->toSql();
 		$period   = '-' . ($expire - $remind);
-		$bindDate = [$now, $period];
 		$db       = $this->db;
 		$query    = $db->getQuery(true);
 
@@ -571,8 +556,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('r.user_id'))
 			->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
 			->where($db->quoteName('remind') . ' = 0')
-			->where($query->dateAdd(':now', ':period', 'DAY') . ' > ' . $db->quoteName('created'))
-			->bind([':now', ':period'], $bindDate, [ParameterType::STRING, ParameterType::INTEGER]);
+			->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'));
 
 		try
 		{
@@ -670,10 +654,9 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
 		$query->select($db->quoteName(['id', 'user_id']))
 			->from($db->quoteName('#__privacy_consents'))
-			->where($query->dateAdd(':now', ':period', 'DAY') . ' > ' . $db->quoteName('created'))
+			->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'))
 			->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
-			->where($db->quoteName('state') . ' = 1')
-			->bind([':now', ':period'], [$now, $period], [ParameterType::STRING, ParameterType::INTEGER]);
+			->where($db->quoteName('state') . ' = 1');
 
 		$db->setQuery($query);
 
