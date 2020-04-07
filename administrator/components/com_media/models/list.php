@@ -163,7 +163,9 @@ class MediaModelList extends JModelLegacy
 						case 'bmp':
 						case 'jpeg':
 						case 'ico':
-							$info = @getimagesize($tmp->path);
+						case 'svg':
+						case 'webp':
+						$info = @getimagesize($tmp->path);
 							$tmp->width  = @$info[0];
 							$tmp->height = @$info[1];
 							$tmp->type   = @$info[2];
@@ -198,6 +200,7 @@ class MediaModelList extends JModelLegacy
 
 						// Video
 						case 'mp4':
+						case 'webm':
 							$tmp->icon_32 = 'media/mime-icon-32/' . $ext . '.png';
 							$tmp->icon_16 = 'media/mime-icon-16/' . $ext . '.png';
 							$videos[] = $tmp;
