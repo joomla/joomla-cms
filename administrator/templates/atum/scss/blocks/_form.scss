@@ -127,10 +127,11 @@ legend {
   z-index: $zindex-tooltip;
   display: none;
   max-width: 100%;
-  padding: .25em;
+  padding: .5em;
   margin: .25em;
   color: $white;
   background: $black;
+  border-radius: .2rem;
 
   [dir=ltr] & {
     text-align: left;

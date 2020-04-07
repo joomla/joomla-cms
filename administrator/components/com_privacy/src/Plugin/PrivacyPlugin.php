@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Privacy\Administrator\Plugin;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;

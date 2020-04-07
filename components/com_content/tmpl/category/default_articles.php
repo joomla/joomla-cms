@@ -22,7 +22,6 @@ use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 // Create some shortcuts.
-$params     = &$this->item->params;
 $n          = count($this->items);
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
@@ -288,7 +287,7 @@ if (!empty($this->items))
 			<?php if ($isEditable) : ?>
 				<td headers="categorylist_header_edit" class="list-edit">
 					<?php if ($article->params->get('access-edit')) : ?>
-						<?php echo HTMLHelper::_('contenticon.edit', $article, $params); ?>
+						<?php echo HTMLHelper::_('contenticon.edit', $article, $article->params); ?>
 					<?php endif; ?>
 				</td>
 			<?php endif; ?>

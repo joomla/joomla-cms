@@ -14,7 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
@@ -62,9 +61,20 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	public function onInit()
 	{
-		HTMLHelper::_('behavior.core');
-		HTMLHelper::_('script', $this->_basePath . '/tinymce.min.js', array('version' => 'auto'));
-		HTMLHelper::_('script', 'plg_editors_tinymce/tinymce.min.js', array('version' => 'auto', 'relative' => true));
+		$wa = $this->app->getDocument()->getWebAssetManager();
+
+		if (!$wa->assetExists('script', 'tinymce'))
+		{
+			$wa->registerScript('tinymce', $this->_basePath . '/tinymce.min.js', [], ['defer' => true]);
+		}
+
+		if (!$wa->assetExists('script', 'plg_editors_tinymce'))
+		{
+			$wa->registerScript('plg_editors_tinymce', 'plg_editors_tinymce/tinymce.min.js', [], ['defer' => true], ['core', 'tinymce']);
+		}
+
+		$wa->useScript('tinymce')
+			->useScript('plg_editors_tinymce');
 	}
 
 	/**
@@ -87,8 +97,6 @@ class PlgEditorTinymce extends CMSPlugin
 	public function onDisplay(
 		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
-		$app = Factory::getApplication();
-
 		if (empty($id))
 		{
 			$id = $name;
@@ -215,7 +223,7 @@ class PlgEditorTinymce extends CMSPlugin
 		$levelParams->loadObject($extraOptions);
 
 		// Set the selected skin
-		$skin = $levelParams->get($app->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
+		$skin = $levelParams->get($this->app->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
 
 		// Check that selected skin exists.
 		$skin = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
@@ -271,7 +279,7 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			$this->app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 			return '';
 		}
@@ -389,7 +397,6 @@ class PlgEditorTinymce extends CMSPlugin
 		$plugins  = array(
 			'autolink',
 			'lists',
-			'save',
 			'importcss',
 		);
 
@@ -510,7 +517,7 @@ class PlgEditorTinymce extends CMSPlugin
 				. '&' . Session::getFormToken() . '=1'
 				. '&asset=image&format=json';
 
-			if ($app->isClient('site'))
+			if ($this->app->isClient('site'))
 			{
 				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
 			}

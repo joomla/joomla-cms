@@ -63,38 +63,6 @@ abstract class JHtmlJquery
 	}
 
 	/**
-	 * Method to load the jQuery UI JavaScript framework into the document head
-	 *
-	 * If debugging mode is on an uncompressed version of jQuery UI is included for easier debugging.
-	 *
-	 * @param   array  $components  The jQuery UI components to load [optional]
-	 * @param   mixed  $debug       Is debugging mode on? [optional]
-	 *
-	 * @return  void
-	 *
-	 * @since   3.0
-	 *
-	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::useAsset();
-	 */
-	public static function ui(array $components = array('core'), $debug = null)
-	{
-		// Set an array containing the supported jQuery UI components handled by this method
-		$supported = array('core', 'sortable');
-
-		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-
-		foreach ($components as $component)
-		{
-			if (in_array($component, $supported))
-			{
-				$wa->useScript('jquery.ui.' . $component);
-			}
-		}
-
-		return;
-	}
-
-	/**
 	 * Auto set CSRF token to ajaxSetup so all jQuery ajax call will contains CSRF token.
 	 *
 	 * @param   string  $name  The CSRF meta tag name.

@@ -107,7 +107,7 @@ Joomla.checkDbCredentials = function() {
       } else if (response.data && response.data.validated === true) {
         // Run the installer - we let this handle the redirect for now
         // TODO: Convert to promises
-        Joomla.install(['config'], form);
+        Joomla.install(['create', 'populate1', 'populate2', 'populate3', 'custom1', 'custom2', 'config'], form);
       }
     },
     onError:   function(xhr){

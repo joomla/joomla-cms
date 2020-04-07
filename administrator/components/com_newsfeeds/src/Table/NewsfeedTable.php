@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Newsfeeds\Administrator\Table;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -90,6 +90,14 @@ class NewsfeedTable extends Table
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
 			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
+		}
+
+		// Check for a valid category.
+		if (!$this->catid = (int) $this->catid)
+		{
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
+
+			return false;
 		}
 
 		// Check the publish down date is not earlier than publish up.

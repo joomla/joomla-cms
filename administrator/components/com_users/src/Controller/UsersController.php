@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Users\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Input\Input;
@@ -156,7 +156,7 @@ class UsersController extends AdminController
 	/**
 	 * Method to get the number of active users
 	 *
-	 * @return  string  The JSON-encoded amount of users
+	 * @return  void
 	 *
 	 * @since   4.0
 	 */

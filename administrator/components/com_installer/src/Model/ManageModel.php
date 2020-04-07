@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Changelog\Changelog;
 use Joomla\CMS\Extension\ExtensionHelper;
@@ -181,7 +181,7 @@ class ManageModel extends InstallerModel
 	/**
 	 * Refreshes the cached manifest information for an extension.
 	 *
-	 * @param   int  $eid  extension identifier (key in #__extensions)
+	 * @param   int|int[]  $eid  extension identifier (key in #__extensions)
 	 *
 	 * @return  boolean  result of refresh
 	 *
@@ -249,6 +249,14 @@ class ManageModel extends InstallerModel
 			$id = trim($id);
 			$row->load($id);
 			$result = false;
+
+			// Do not allow to uninstall locked extensions.
+			if ((int) $row->locked === 1)
+			{
+				$msgs[] = Text::_('COM_INSTALLER_UNINSTALL_ERROR_LOCKED_EXTENSION');
+
+				continue;
+			}
 
 			$langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
 			$rowtype    = Text::_($langstring);

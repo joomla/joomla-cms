@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Users\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
 use Joomla\CMS\Helper\ContentHelper;
@@ -66,9 +66,9 @@ class DisplayController extends BaseController
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types,
-	 *                               for valid values see {@link Joomla\CMS\Filter\InputFilter::clean()}.
+	 *                               for valid values see {@link \Joomla\CMS\Filter\InputFilter::clean()}.
 	 *
-	 * @return  BaseController	 This object to support chaining.
+	 * @return  BaseController|boolean  This object to support chaining or false on failure.
 	 *
 	 * @since   1.5
 	 */

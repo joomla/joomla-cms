@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Privacy\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -266,7 +266,7 @@ class RequestModel extends AdminModel
 			$db->getQuery(true)
 				->select($db->quoteName('id'))
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = :email')
+				->where('LOWER(' . $db->quoteName('email') . ') = LOWER(:email)')
 				->bind(':email', $table->email)
 				->setLimit(1)
 		)->loadResult();
@@ -465,7 +465,7 @@ class RequestModel extends AdminModel
 	 */
 	private function getActionlogModel(): ActionlogModel
 	{
-		return Factory::getApplication()->bootComponent('Actionlogs')
+		return Factory::getApplication()->bootComponent('com_actionlogs')
 			->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
 	}
 }

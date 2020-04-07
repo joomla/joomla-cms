@@ -26,6 +26,8 @@ use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
+use Joomla\CMS\Tag\TagServiceInterface;
+use Joomla\CMS\Tag\TagServiceTrait;
 
 /**
  * Access to component specific services.
@@ -33,9 +35,13 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
  * @since  4.0.0
  */
 class LegacyComponent
-	implements ComponentInterface, MVCFactoryServiceInterface, CategoryServiceInterface, FieldsServiceInterface, RouterServiceInterface
+	implements ComponentInterface, MVCFactoryServiceInterface, CategoryServiceInterface, FieldsServiceInterface, RouterServiceInterface,
+	TagServiceInterface
 {
-	use CategoryServiceTrait;
+	use CategoryServiceTrait, TagServiceTrait {
+		CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
+		CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
+	}
 
 	/**
 	 * @var string

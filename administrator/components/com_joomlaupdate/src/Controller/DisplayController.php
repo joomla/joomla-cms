@@ -9,9 +9,10 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 
@@ -82,6 +83,7 @@ class DisplayController extends BaseController
 	 * @return  void
 	 *
 	 * @since   4.0.0
+	 * @throws  \Exception
 	 */
 	public function getMenuBadgeData()
 	{

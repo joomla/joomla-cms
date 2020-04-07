@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Postinstall\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -128,7 +128,7 @@ class MessageController extends BaseController
 	{
 		/** @var MessagesModel $model */
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
-		$eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId(), 'int');
+		$eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId());
 
 		if (empty($eid))
 		{

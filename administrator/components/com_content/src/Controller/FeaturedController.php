@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Content\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
@@ -52,7 +52,6 @@ class FeaturedController extends ArticlesController
 		}
 		else
 		{
-			// Get the model.
 			/** @var \Joomla\Component\Content\Administrator\Model\FeatureModel $model */
 			$model = $this->getModel();
 

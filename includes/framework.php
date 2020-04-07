@@ -40,11 +40,12 @@ ob_end_clean();
 // System configuration.
 $config = new JConfig;
 
-// Set the error_reporting
+// Set the error_reporting, and adjust a global Error Handler
 switch ($config->error_reporting)
 {
 	case 'default':
 	case '-1':
+
 		break;
 
 	case 'none':
@@ -81,6 +82,17 @@ switch ($config->error_reporting)
 if (!defined('JDEBUG'))
 {
 	define('JDEBUG', $config->debug);
+}
+
+if (JDEBUG || $config->error_reporting === 'maximum')
+{
+	// Set new Exception handler with debug enabled
+	$errorHandler->setExceptionHandler(
+		[
+			new \Symfony\Component\ErrorHandler\ErrorHandler(null, true),
+			'renderException'
+		]
+	);
 }
 
 unset($config);

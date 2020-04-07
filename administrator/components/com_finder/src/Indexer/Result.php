@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Tree\ImmutableNodeInterface;
@@ -458,7 +458,7 @@ class Result implements \Serializable
 	}
 
 	/**
-	 * Helper function to serialise the data of a FinderIndexerResult object
+	 * Helper function to serialise the data of a Result object
 	 *
 	 * @return  string  The serialised data
 	 *

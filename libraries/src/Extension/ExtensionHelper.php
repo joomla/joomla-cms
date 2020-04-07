@@ -155,6 +155,7 @@ class ExtensionHelper
 
 		// Core plugin extensions - API Authentication
 		array('plugin', 'basic', 'api-authentication', 0),
+		array('plugin', 'token', 'api-authentication', 0),
 
 		// Core plugin extensions - authentication
 		array('plugin', 'cookie', 'authentication', 0),
@@ -263,6 +264,7 @@ class ExtensionHelper
 		array('plugin', 'multilang', 'sampledata', 0),
 
 		// Core plugin extensions - system
+		array('plugin', 'accessibility', 'system', 0),
 		array('plugin', 'actionlogs', 'system', 0),
 		array('plugin', 'cache', 'system', 0),
 		array('plugin', 'debug', 'system', 0),
@@ -282,6 +284,7 @@ class ExtensionHelper
 		array('plugin', 'skipto', 'system', 0),
 		array('plugin', 'stats', 'system', 0),
 		array('plugin', 'updatenotification', 'system', 0),
+		array('plugin', 'webauthn', 'system', 0),
 
 		// Core plugin extensions - two factor authentication
 		array('plugin', 'totp', 'twofactorauth', 0),

@@ -82,7 +82,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 <header id="header" class="header">
 	<div class="d-flex">
 		<div class="header-title d-flex mr-auto">
-			<div class="d-flex">
+			<div class="d-flex align-items-center">
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<div class="logo">
 					<img src="<?php echo $siteLogo; ?>" alt="<?php echo $logoAlt; ?>">
@@ -102,7 +102,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	<?php // Sidebar ?>
 	<div id="sidebar-wrapper" class="sidebar-wrapper">
 		<div id="main-brand" class="main-brand">
-			<h2><?php echo $sitename; ?></h2>
+			<h2><?php echo $app->get('sitename'); ?></h2>
 			<a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
 		</div>
 		<div id="sidebar">
