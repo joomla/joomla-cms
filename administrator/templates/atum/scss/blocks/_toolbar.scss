@@ -60,237 +60,76 @@ joomla-toolbar-button {
   }
 
   .btn {
-    padding: $input-btn-padding-y-sm-submenu $input-btn-padding-x-sm-submenu;
+    --subhead-btn-accent: var(--atum-text-dark);
+
+    padding: 0 1rem;
     font-size: 1rem;
     line-height: $atum-toolbar-line-height;
     color: var(--atum-text-dark);
     background: $white;
     border-color: $gray-500;
-    box-shadow: 0 0 0 .1rem lighten(theme-color("atum-link-color"), 45%);
-    box-shadow: none;
-
 
     [class^='icon-'],
     [class*=' icon-'],
     [class^='#{$fa-css-prefix}-'],
-    [class*=' #{$fa-css-prefix}-'] {
-      z-index: $zindex-negative;
+    [class*=' #{$fa-css-prefix}-'],
+    [class^='icon-download'] {
       display: inline-block;
-      width: 2.438rem;
-      height: 100%;
-      margin: $input-btn-padding-y-sm-submenu $input-btn-submenu-icon-distance $input-btn-padding-y-sm-submenu -#{$input-btn-padding-x-sm-submenu};
-      line-height: $atum-toolbar-line-height;
-      color: var(--atum-text-dark);
-      border-radius: .2rem 0 0 .2rem;
+      color: var(--subhead-btn-accent);
+    }
 
-      [dir=rtl] & {
-        border-radius: 0 .2rem .2rem 0;
+    &:not([disabled]):hover,
+    &:not([disabled]):active,
+    &:not([disabled]):focus {
+      color: rgba(255, 255, 255, .90);
+      background-color: var(--subhead-btn-accent);
+      border-color: var(--subhead-btn-accent);
+
+      [class^='icon-'],
+      [class*=' icon-'],
+      [class^='#{$fa-css-prefix}-'],
+      [class*=' #{$fa-css-prefix}-'],
+      [class^='icon-download'] {
+        color: rgba(255, 255, 255, .90);
       }
     }
 
     &.btn-success {
-
-      background-color: $white;
-
-      [class^='icon-'],
-      [class*=' icon-'],
-      [class^='#{$fa-css-prefix}-'],
-      [class*=' #{$fa-css-prefix}-'],
-      span {
-        color: darken(theme-color("success"), 5%);
-      }
-
-      &:hover,
-      &:active,
-      &:focus {
-
-        [class^='icon-'],
-        [class*=' icon-'],
-        [class^='#{$fa-css-prefix}-'],
-        [class*=' #{$fa-css-prefix}-'],
-        span {
-          color: rgba(255, 255, 255, .90);
-          background: darken(theme-color("success"), 10%);
-        }
-
-        color: rgba(255, 255, 255, .90);
-        background-color: theme-color("success");
-      }
+      --subhead-btn-accent: var(--success);
     }
 
     &.btn-danger {
-
-      background-color: $white;
-      [class^='icon-'],
-      [class*=' icon-'],
-      [class^='#{$fa-css-prefix}-'],
-      [class*=' #{$fa-css-prefix}-'],
-      span {
-        color: darken(theme-color("danger"), 5%);
-      }
-
-      &:hover,
-      &:active,
-      &:focus {
-
-        [class^='icon-'],
-        [class*=' icon-'],
-        [class^='#{$fa-css-prefix}-'],
-        [class*=' #{$fa-css-prefix}-'],
-        span {
-          color: rgba(255, 255, 255, .90);
-          background-color: darken(theme-color("danger"), 10%);
-        }
-
-        color: rgba(255, 255, 255, .90);
-        background-color: theme-color("danger");
-      }
+      --subhead-btn-accent: var(--danger);
     }
 
     &.btn-primary {
-
-      background-color: $white;
-
-      [class^='icon-'],
-      [class*=' icon-'],
-      [class^='#{$fa-css-prefix}-'],
-      [class*=' #{$fa-css-prefix}-'],
-      span {
-        color: darken(theme-color("info"), 5%);
-      }
-
-      &:hover,
-      &:active,
-      &:focus {
-        color: rgba(255, 255, 255, .90);
-        background-color: theme-color("info");
-
-        [class^='icon-'],
-        [class*=' icon-'],
-        [class^='#{$fa-css-prefix}-'],
-        [class*=' #{$fa-css-prefix}-'],
-        span {
-          color: rgba(255, 255, 255, .90);
-          background: darken(theme-color("info"), 10%);
-        }
-      }
+      --subhead-btn-accent: var(--info);
     }
 
     &.btn-secondary {
-
-      [class^='icon-download'] {
-        color: rgba(255, 255, 255, .90);
-        background-color: var(--atum-link-color);
-      }
-
-      &:hover,
-      &:active,
-      &:focus {
-        [class^='icon-download'] {
-          color: rgba(255, 255, 255, .90);
-          background-color: var(--atum-link-color);
-        }
-      }
+      --subhead-btn-accent: var(--atum-link-color);
     }
 
     &.btn-info {
-
-      background-color: $white;
-      border-radius: $border-radius;
-
-      [class^='icon-'],
-      [class*=' icon-'],
-      [class^='#{$fa-css-prefix}-'],
-      [class*=' #{$fa-css-prefix}-'],
-      span {
-        color: darken(theme-color("info"), 5%);
-      }
-
-      &:hover,
-      &:active,
-      &:focus {
-        color: rgba(255, 255, 255, .90);
-        background-color: lighten(theme-color("info"), 10%);
-
-        [class^='icon-'],
-        [class*=' icon-'],
-        [class^='#{$fa-css-prefix}-'],
-        [class*=' #{$fa-css-prefix}-'],
-        span {
-          color: rgba(255, 255, 255, .90);
-          background: lighten(theme-color("info"), 5%);
-        }
-      }
+      --subhead-btn-accent: var(--info);
     }
 
     &.btn-action {
-
-      background-color: $white;
-
-      [class^='icon-'],
-      [class*=' icon-'],
-      [class^='#{$fa-css-prefix}-'],
-      [class*=' #{$fa-css-prefix}-'],
-      span {
-        color: rgba(255, 255, 255, .90);
-        background-color: var(--atum-bg-dark-70);
-      }
-
-      &:hover,
-      &:active,
-      &:focus {
-
-        [class^='icon-'],
-        [class*=' icon-'],
-        [class^='#{$fa-css-prefix}-'],
-        [class*=' #{$fa-css-prefix}-'],
-        span {
-          color: rgba(255, 255, 255, .90);
-          background-color: var(--atum-bg-dark-80);
-        }
-
-        color: rgba(255, 255, 255, .90);
-        background-color: var(--atum-bg-dark);
-      }
+      --subhead-btn-accent: var(--atum-bg-dark);
     }
 
     &[disabled],
     &.dropdown-toggle[disabled] {
-      background-color: rgba($gray-300, .8);
-      border-color: rgba($gray-500, .8);
-
-      [class^='icon-'],
-      [class*=' icon-'],
-      [class^='#{$fa-css-prefix}-'],
-      [class*=' #{$fa-css-prefix}-'],
-      span {
-        color: var(--atum-text-dark);
-        background-color: rgba($gray-500, .8);
-         }
+      --subhead-btn-accent: var(--atum-bg-dark);
+      background: rgba($gray-300, .8);
+      opacity: .5;
 
       &:hover,
       &:active,
       &:focus {
-
-        [class^='icon-'],
-        [class*=' icon-'],
-        [class^='#{$fa-css-prefix}-'],
-        [class*=' #{$fa-css-prefix}-'],
-        span {
-          color: var(--atum-text-dark);
-          background-color: rgba($gray-500, .8);
-        }
-
-        color: var(--atum-text-dark);
         cursor: not-allowed;
-        background-color: rgba($gray-300, .8);
       }
 
-    }
-
-    &.disabled,
-    &:disabled {
-      opacity: 1;
     }
   }
 
@@ -490,6 +329,7 @@ joomla-toolbar-button {
     .btn {
       width: 100%;
     }
+
     .dropdown-toggle-split {
       width: auto;
     }
