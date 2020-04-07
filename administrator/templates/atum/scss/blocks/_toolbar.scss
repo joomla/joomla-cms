@@ -1,8 +1,10 @@
 joomla-toolbar-button {
-  border: 0 solid var(--border);
 
   [class^='icon-'],
-  [class*=' icon-'] {
+  [class*=' icon-'],
+  [class^='#{$fa-css-prefix}-'],
+  [class*=' #{$fa-css-prefix}-'],
+  [class^='icon-download'] {
     margin-right: .5rem;
 
     [dir=rtl] & {
@@ -116,6 +118,8 @@ joomla-toolbar-button {
 
     &.btn-action {
       --subhead-btn-accent: var(--atum-bg-dark);
+      display: flex;
+      align-items: center;
     }
 
     &[disabled],
@@ -129,12 +133,10 @@ joomla-toolbar-button {
       &:focus {
         cursor: not-allowed;
       }
-
     }
   }
 
   .dropdown-item {
-
     &:hover:not(.disabled) {
       color: #212529;
       cursor: pointer;
@@ -142,69 +144,15 @@ joomla-toolbar-button {
   }
 
   .dropdown-toggle {
-
     &.btn {
-      color: var(--atum-text-dark);
-
-      span {
-        color: rgba(255, 255, 255, .90);
-        background-color: var(--atum-bg-dark);
-      }
-    }
-
-    &.btn-primary {
-      span {
-        color: rgba(255, 255, 255, .90);
-        background-color: var(--atum-bg-dark);
-      }
-    }
-
-    &.btn-success {
       padding: 0;
-      background-color: theme-color("success");
-
-      span {
-        color: rgba(255, 255, 255, .90);
-      }
 
       &::after {
+        display: block;
         width: 2.375rem;
-        margin-top: -1px;
         font-family: "Font Awesome 5 Free";
-        line-height: 2.3rem;
         color: rgba(255, 255, 255, .90);
-        vertical-align: middle;
-        content: "\f078";
-        border: 0;
-      }
-    }
-
-    &.btn-info {
-      background-color: darken(theme-color("info"), 8%);
-    }
-
-    &.btn-danger {
-      background-color: darken(theme-color("danger"), 8%);
-    }
-
-    &.btn-action {
-      background-color: $white;
-
-      [class^='icon-'],
-      [class*=' icon-'],
-      [class^='#{$fa-css-prefix}-'],
-      [class*=' #{$fa-css-prefix}-'] {
-        color: rgba(255, 255, 255, .90);
-        background-color: var(--atum-bg-dark);
-      }
-
-      &::after {
-        width: 2.375rem;
-        height: 100%;
-        margin: $input-btn-padding-y-sm-submenu -#{$input-btn-padding-x-sm-submenu} $input-btn-padding-y-sm-submenu $input-btn-submenu-icon-distance;
-        font-family: "Font Awesome 5 Free";
-        line-height: 2.375rem;
-        vertical-align: 0;
+        background: var(--subhead-btn-accent);
         content: "\f078";
         border: 0;
       }
