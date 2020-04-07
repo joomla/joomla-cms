@@ -65,7 +65,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 								<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>
 							</label>
 						</span>
-						<input name="secretkey" autocomplete="off" tabindex="3" id="mod-login-secretkey" type="text" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" size="15"/>
+						<input name="secretkey" autocomplete="one-time-code" tabindex="3" id="mod-login-secretkey" type="text" class="input-medium" placeholder="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" size="15"/>
 						<span class="btn width-auto hasTooltip" title="<?php echo JText::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 							<span class="icon-help" aria-hidden="true"></span>
 						</span>
