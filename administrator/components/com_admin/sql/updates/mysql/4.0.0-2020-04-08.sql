@@ -1,6 +1,6 @@
 --
--- Change the column type before add the foreign keys. We're adding the unsigned attribute to users. and moving
--- user_id column in user group mapping from 10 to 11 length
+-- Change the column type before adding the foreign keys. We're adding the unsigned attribute to users and changing
+-- the user_id column in user group mapping from 10 to 11 length.
 --
 ALTER TABLE `#__users` MODIFY `id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 ALTER TABLE `#__user_usergroup_map` MODIFY `user_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
