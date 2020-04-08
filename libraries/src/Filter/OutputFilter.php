@@ -46,9 +46,21 @@ class OutputFilter extends BaseOutputFilter
 	 */
 	public static function stringJSSafe($string)
 	{
-		for ($i = 0, $l = strlen($string), $new_str = ''; $i < $l; $i++)
+		$chars = preg_split('//u', $string, null, PREG_SPLIT_NO_EMPTY);
+		$new_str = '';
+
+		foreach ($chars as $chr)
 		{
-			$new_str .= (ord(substr($string, $i, 1)) < 16 ? '\\x0' : '\\x') . dechex(ord(substr($string, $i, 1)));
+			$code = str_pad(dechex(StringHelper::ord($chr)), 4, '0', STR_PAD_LEFT);
+
+			if (strlen($code) < 5)
+			{
+				$new_str .= '\\u' . $code;
+			}
+			else
+			{
+				$new_str .= '\\u{' . $code . '}';
+			}
 		}
 
 		return $new_str;
