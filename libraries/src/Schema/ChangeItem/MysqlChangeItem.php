@@ -160,7 +160,7 @@ class MysqlChangeItem extends ChangeItem
 					// We can only check for foreign keys IF we are a root user. So check for it
 					if (strpos($userGrantResult, 'GRANT ALL PRIVILEGES ON *.*') === false)
 					{
-						// We don't have permissions to make the check. Mark it as skipped.
+						// We don't have permission to make the check. Mark it as skipped.
 						$result = false;
 					}
 					else
