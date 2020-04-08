@@ -89,10 +89,8 @@
       align-items: center;
 
       &::after {
-        display: block;
         width: 2.375rem;
         font-family: "Font Awesome 5 Free";
-        color: rgba(255, 255, 255, .90);
         content: "\f078";
         border: 0;
       }
