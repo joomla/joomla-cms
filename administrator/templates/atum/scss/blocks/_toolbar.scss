@@ -115,9 +115,17 @@
   }
 
   .btn-group:not(:last-child) > .dropdown-toggle-split {
-    border-start-end-radius: $border-radius;
-    border-end-end-radius: $border-radius;
     margin-inline-start: -$border-radius;
+
+    [dir="ltr"] & {
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
+
+    [dir="rtl"] & {
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+    }
   }
 
   .dropdown-menu joomla-toolbar-button {
