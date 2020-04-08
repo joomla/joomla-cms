@@ -81,7 +81,8 @@
     }
 
     .custom-select {
-      box-shadow:  $input-box-shadow;
+      box-shadow: $input-box-shadow;
+
       &.active {
         background: $custom-select-indicator-active no-repeat right center;
         background-color: $custom-select-bg;
@@ -107,15 +108,14 @@
   }
 
   .js-stools-container-selector {
+    margin-inline-end: .5rem;
+
     [dir=ltr] & {
       float: left;
-      margin-right: .5rem;
     }
 
     [dir=rtl] & {
       float: right;
-      margin-right: 0;
-      margin-left: .5rem;
     }
 
     @include media-breakpoint-down(sm) {
@@ -125,44 +125,22 @@
     }
 
     @include media-breakpoint-down(xs) {
-      [dir=ltr] & {
-        margin-right: 0;
-      }
-
-      [dir=rtl] & {
-        margin-left: 0;
-      }
+      margin-inline-end: 0;
     }
 
     .js-stools-field-selector {
       @include media-breakpoint-down(sm) {
-        margin-right: 0;
-
-        [dir=rtl] & {
-          margin-right: 0;
-        }
+        margin-inline-end: 0;
       }
 
       @include media-breakpoint-down(xs) {
-        [dir=ltr] & {
-          margin-right: 0;
-        }
-
-        [dir=rtl] & {
-          margin-left: 0;
-        }
+        margin-inline-end: 0;
       }
     }
   }
 
   .js-stools-container-selector-first {
-    [dir=ltr] & {
-      margin-right: .5rem;
-    }
-
-    [dir=rtl] & {
-      margin-left: .5rem;
-    }
+    margin-inline-end: .5rem;
 
     @include media-breakpoint-down(sm) {
       float: none !important;
@@ -171,13 +149,7 @@
     }
 
     @include media-breakpoint-down(xs) {
-      [dir=ltr] & {
-        margin-right: 0;
-      }
-
-      [dir=rtl] & {
-        margin-left: 0;
-      }
+      margin-inline-end: 0;
     }
 
     .js-stools-field-selector {
@@ -205,13 +177,7 @@
   }
 
   .chosen-container {
-    [dir=ltr] & {
-      text-align: right;
-    }
-
-    [dir=rtl] & {
-      text-align: left;
-    }
+    text-align: end;
   }
 
   .js-stools-container-filters-visible {
@@ -247,13 +213,7 @@
         }
 
         @include media-breakpoint-down(sm) {
-          [dir=ltr] & {
-            margin-right: 0 !important;
-          }
-
-          [dir=rtl] & {
-            margin-left: 0 !important;
-          }
+          margin-inline-end: 0 !important;
         }
 
         &.disabled,

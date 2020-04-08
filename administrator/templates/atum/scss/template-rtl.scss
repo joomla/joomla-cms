@@ -7,10 +7,6 @@ ul {
   padding-right: 0;
 }
 
-body {
-  text-align: right;
-}
-
 .close {
   float: left;
 
@@ -164,11 +160,6 @@ body {
   float: none;
 }
 
-// Quickicon specific
-.message-alert {
-  text-align: left !important;
-}
-
 // Bootstrap overrides
 .text-left {
   text-align: right !important;
@@ -194,23 +185,6 @@ body {
   span {
     position: relative;
     left: 6px;
-  }
-}
-
-// Changelog modal override
-.changelog {
-  text-align: right !important;
-
-  &__tag {
-    text-align: left;
-  }
-
-  &__list {
-
-    ul {
-      padding-right: 15px;
-      padding-left: auto;
-    }
   }
 }
 
