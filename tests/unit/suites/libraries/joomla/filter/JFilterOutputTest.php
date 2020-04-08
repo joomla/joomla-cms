@@ -268,4 +268,19 @@ class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 				'Should remove iFrame tags'
 		);
 	}
+
+	/**
+	 * Tests enforcing JS safe output.
+	 *
+	 * @return  void
+	 * @since   3.9.17
+	 */
+	public function testStringJSSafe()
+	{
+		$this->assertEquals(
+			'\u0054\u0065\u0073\u0074\u0022\u003e\u0027\u0020\u00e4\u00f6\u0020\u6d4b\u8bd5',
+			JFilterOutput::stringJSSafe('Test">\' äö 测试'),
+			'Should convert all input to escaped unicode notation'
+		);
+	}
 }
