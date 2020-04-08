@@ -178,7 +178,6 @@ class MysqlChangeItem extends ChangeItem
 
 						$this->queryType = 'ADD_FOREIGN_KEY';
 						$this->msgElements = array($this->fixQuote($wordArray[2]), $constraintName);
-
 					}
 				}
 			}
