@@ -10,6 +10,7 @@ namespace Joomla\CMS\Schema\ChangeItem;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Schema\ChangeItem;
 use Joomla\Database\UTF8MB4SupportInterface;
 
@@ -145,6 +146,41 @@ class MysqlChangeItem extends ChangeItem
 				$this->queryType = 'DROP_COLUMN';
 				$this->checkQueryExpected = 0;
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
+			}
+			elseif ($alterCommand === 'ADD CONSTRAINT')
+			{
+				$constraintType = strtoupper($wordArray[6] . ' ' . $wordArray[7]);
+				$constraintName = $this->fixQuote($wordArray[5]);
+
+				if (strpos($constraintType, 'FOREIGN KEY') !== false)
+				{
+					$this->db->setQuery('SHOW GRANTS FOR CURRENT_USER();');
+					$userGrantResult = $this->db->loadResult();
+
+					// We can only check for foreign keys IF we are a root user. So check for it
+					if (strpos($userGrantResult, 'GRANT ALL PRIVILEGES ON *.*') === false)
+					{
+						// We don't have permissions to make the check. Mark it as skipped.
+						$result = false;
+					}
+					else
+					{
+						$dbName = Factory::getApplication()->get('db');
+
+						/**
+						 * TODO: We should improve this to check what column/tables names are in the constraint
+						 *       and which are referred to
+						 */
+						$result = 'SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE CONSTRAINT_SCHEMA = ' .
+							$this->db->quote($dbName) . ' AND CONSTRAINT_NAME =' . $constraintName;
+						$this->db->setQuery($result);
+						$this->checkQueryExpected = 1;
+
+						$this->queryType = 'ADD_FOREIGN_KEY';
+						$this->msgElements = array($this->fixQuote($wordArray[2]), $constraintName);
+
+					}
+				}
 			}
 			elseif (strtoupper($wordArray[3]) === 'MODIFY')
 			{
