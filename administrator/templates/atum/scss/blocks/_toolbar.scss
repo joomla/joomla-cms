@@ -54,11 +54,7 @@
       background-color: var(--subhead-btn-accent);
       border-color: var(--subhead-btn-accent);
 
-      [class^='icon-'],
-      [class*=' icon-'],
-      [class^='#{$fa-css-prefix}-'],
-      [class*=' #{$fa-css-prefix}-'],
-      [class^='icon-download'] {
+      > span {
         color: rgba(255, 255, 255, .90);
       }
     }
