@@ -162,8 +162,8 @@ class UsersModelMail extends JModelAdmin
 
 		// Build email message format.
 		$mailer->setSender(array($app->get('mailfrom'), $app->get('fromname')));
-		$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes($subject));
-		$mailer->setBody($message_body . $params->get('mailBodySuffix'));
+		$mailer->setSubject($params->get('mailSubjectPrefix') . " " . stripslashes($subject));
+		$mailer->setBody($message_body . "\n\n" . $params->get('mailBodySuffix'));
 		$mailer->IsHtml($mode);
 
 		// Add recipients
