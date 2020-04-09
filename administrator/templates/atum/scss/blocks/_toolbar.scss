@@ -133,67 +133,6 @@
   }
 }
 
-.js-stools {
-  @include media-breakpoint-down(lg) {
-    justify-content: flex-start;
-
-    .js-stools-container-bar {
-      .btn-toolbar {
-        justify-content: flex-start;
-
-        > * {
-          margin-bottom: .75rem;
-        }
-      }
-    }
-  }
-
-  @include media-breakpoint-down(xs) {
-    display: block;
-
-    .joomla-toolbar-button,
-    .btn-group,
-    .input-group,
-    .ordering-select,
-    .js-stools-field-list,
-    .js-stools-container-selector {
-      @include media-breakpoint-down(sm) {
-        width: 100%;
-      }
-    }
-
-    .ordering-select {
-      margin-right: 0;
-
-      @include media-breakpoint-down(sm) {
-        [dir=rtl] & {
-          margin-right: 0 !important;
-        }
-      }
-    }
-
-    .btn-group {
-      @include media-breakpoint-down(sm) {
-        margin-right: 0;
-      }
-    }
-
-    .js-stools-container-bar {
-      .js-stools-field-list {
-        @include media-breakpoint-down(sm) {
-          margin-bottom: .75rem;
-        }
-      }
-    }
-
-    .js-stools-btn-filter {
-      @include media-breakpoint-down(sm) {
-        width: 75%;
-      }
-    }
-  }
-}
-
 @include media-breakpoint-down(xs) {
   .toggler-toolbar {
     top: 20px;

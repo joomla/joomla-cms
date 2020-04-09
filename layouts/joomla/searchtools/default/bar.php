@@ -31,7 +31,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 
 <?php if (!empty($filters['filter_search'])) : ?>
 	<?php if ($searchButton) : ?>
-		<div class="btn-group mr-2">
+		<div class="btn-group">
 			<div class="input-group">
 				<?php echo $filters['filter_search']->input; ?>
 				<?php if ($filters['filter_search']->description) : ?>
@@ -60,7 +60,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 					<span class="fas fa-angle-down" aria-hidden="true"></span>
 				</button>
 			<?php endif; ?>
-			<button type="button" class="btn btn-primary js-stools-btn-clear mr-2">
+			<button type="button" class="btn btn-primary js-stools-btn-clear">
 				<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>
 			</button>
 		</div>
