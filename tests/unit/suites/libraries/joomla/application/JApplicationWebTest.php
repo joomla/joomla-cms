@@ -1192,7 +1192,7 @@ class JApplicationWebTest extends TestCase
 	 * @since   1.7.3
 	 */
 	public function testRedirectWithExistingStatusCode2()
-	{	
+	{
 		// Case Sensitive: Status
 		$this->class->setHeader('Status', 201);
 
@@ -1549,10 +1549,25 @@ class JApplicationWebTest extends TestCase
 	public function testIsSSLConnection()
 	{
 		unset($_SERVER['HTTPS']);
+		unset($_SERVER['HTTP_X_FORWARDED_PROTO']);
+
+		$this->assertFalse($this->class->isSSLConnection());
+
+		$_SERVER['HTTPS'] = 'off';
 
 		$this->assertFalse($this->class->isSSLConnection());
 
 		$_SERVER['HTTPS'] = 'on';
+
+		$this->assertTrue($this->class->isSSLConnection());
+
+		unset($_SERVER['HTTPS']);
+
+		$_SERVER['HTTP_X_FORWARDED_PROTO'] = 'http';
+
+		$this->assertFalse($this->class->isSSLConnection());
+
+		$_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
 
 		$this->assertTrue($this->class->isSSLConnection());
 	}
