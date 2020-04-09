@@ -80,7 +80,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</tr>
 						</thead>
 						<tbody>
-						<?php foreach ($this->items as $i => $item) :?>
+						<?php foreach ($this->items as $i => $item) : ?>
 							<tr class="row<?php echo $i % 2; if ($item->status == 2) echo ' protected'; ?>">
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->extension_id); ?>
@@ -135,7 +135,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $item->folder_translated; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<?php echo $item->protected ? Text::_('JYES') : Text::_('JNO'); ?>
+									<?php echo $item->locked ? Text::_('JYES') : Text::_('JNO'); ?>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<?php echo $item->package_id ?: '&#160;'; ?>
