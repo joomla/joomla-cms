@@ -1025,14 +1025,14 @@ class Browser
 			'deprecated'
 		);
 
-		$serverSSLVar = $this->input->server->getString('HTTPS', '');
+		$serverSSLVar = isset($_SERVER['HTTPS']) ? $_SERVER['HTTPS'] : '';
 
 		if (!empty($serverSSLVar) && strtolower($serverSSLVar) !== 'off')
 		{
 			return true;
 		}
 
-		$serverForwarderProtoVar = $this->input->server->getString('HTTP_X_FORWARDED_PROTO', '');
+		$serverForwarderProtoVar = isset($_SERVER['HTTP_X_FORWARDED_PROTO']) ? $_SERVER['HTTP_X_FORWARDED_PROTO'] : '';
 
 		return !empty($serverForwarderProtoVar) && strtolower($serverForwarderProtoVar) === 'https';
 	}
