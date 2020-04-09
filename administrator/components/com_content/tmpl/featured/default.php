@@ -94,7 +94,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'fas fa-sort'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<th scope="col" style="width:1%" class="text-center">
 									<?php echo Text::_('JFEATURED'); ?>
@@ -157,8 +157,6 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 							$archive = 0;
 							$trash = 0;
 
-							/*
-							 * @TODO Move to plugin
 							foreach ($transitions as $transition) :
 								switch ($transition['stage_condition']) :
 									case ContentComponent::CONDITION_PUBLISHED:
@@ -176,7 +174,6 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								endswitch;
 							endforeach;
 
-							*/
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>"
 								data-condition-publish="<?php echo (int) ($publish > 0); ?>"
@@ -217,7 +214,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										];
 
 										echo (new FeaturedButton)
-											->render($item->featured, $i, $options, $item->featured_up, $item->featured_down);
+											->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
 									?>
 								</td>
 								<td class="article-status">
@@ -241,7 +238,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 													->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JARCHIVED')])
 													->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JTRASHED')])
 													->setLayout('joomla.button.transition-button')
-													->render($item->state, $i, $options, $item->publish_up, $item->publish_down);
+													->render((int) $item->stage_condition, $i, $options, $item->publish_up, $item->publish_down);
 										?>
 										</div>
 									</div>

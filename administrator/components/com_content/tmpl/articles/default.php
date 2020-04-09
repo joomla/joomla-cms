@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Button\FeaturedButton;
 use Joomla\CMS\Button\PublishedButton;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
@@ -55,10 +54,6 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
-$workflow_enabled = ComponentHelper::getParams('com_content')->get('workflows_enable', 1);
-
-if ($workflow_enabled) :
-
 $js = <<<JS
 (function() {
 	document.addEventListener('DOMContentLoaded', function() {
@@ -76,11 +71,16 @@ JS;
 // @todo move the script to a file
 $this->document->addScriptDeclaration($js);
 
-HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
+$collection = new \stdClass;
 
-endif;
+$collection->publish = [];
+$collection->unpublish = [];
+$collection->archive = [];
+$collection->trash = [];
 
 $assoc = Associations::isEnabled();
+
+HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
@@ -107,7 +107,7 @@ $assoc = Associations::isEnabled();
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'fas fa-sort'); ?>
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
@@ -172,9 +172,7 @@ $assoc = Associations::isEnabled();
 							$archive = 0;
 							$trash = 0;
 
-							/*
-							 * @TODO This should be moved to a plugin + the data attributes in the tr below
-							 foreach ($transitions as $transition) :
+							foreach ($transitions as $transition) :
 								switch ($transition['stage_condition']) :
 									case ContentComponent::CONDITION_PUBLISHED:
 										++$publish;
@@ -189,7 +187,7 @@ $assoc = Associations::isEnabled();
 										++$trash;
 										break;
 								endswitch;
-							endforeach;*/
+							endforeach;
 
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>"
@@ -230,15 +228,13 @@ $assoc = Associations::isEnabled();
 										];
 
 										echo (new FeaturedButton)
-											->render($item->featured, $i, $options, $item->featured_up, $item->featured_down);
+											->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
 									?>
 								</td>
 								<td class="article-status">
 									<div class="d-flex">
 										<div class="btn-group tbody-icon mr-1 small">
 										<?php
-
-											if ($workflow_enabled) :
 
 											$options = [
 												'transitions' => $transitions,
@@ -256,11 +252,7 @@ $assoc = Associations::isEnabled();
 												->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JARCHIVED')])
 												->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JTRASHED')])
 												->setLayout('joomla.button.transition-button')
-												->render($item->state, $i, $options, $item->publish_up, $item->publish_down);
-
-											else :
-												echo HTMLHelper::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down);
-											endif;
+												->render((int) $item->stage_condition, $i, $options, $item->publish_up, $item->publish_down);
 										?>
 										</div>
 									</div>
