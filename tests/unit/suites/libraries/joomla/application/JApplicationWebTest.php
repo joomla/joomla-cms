@@ -558,7 +558,7 @@ class JApplicationWebTest extends TestCase
 	{
 		if ($https !== null)
 		{
-			$_SERVER['HTTPS'] = $https;
+			$this->class->input->server->set('HTTPS', $https);
 		}
 
 		$_SERVER['PHP_SELF'] = $phpSelf;
@@ -1548,26 +1548,26 @@ class JApplicationWebTest extends TestCase
 	 */
 	public function testIsSSLConnection()
 	{
-		unset($_SERVER['HTTPS']);
-		unset($_SERVER['HTTP_X_FORWARDED_PROTO']);
+		$this->class->input->server->set('HTTPS', '');
+		$this->class->input->server->set('HTTP_X_FORWARDED_PROTO', '');
 
 		$this->assertFalse($this->class->isSSLConnection());
 
-		$_SERVER['HTTPS'] = 'off';
+		$this->class->input->server->set('HTTPS', 'off');
 
 		$this->assertFalse($this->class->isSSLConnection());
 
-		$_SERVER['HTTPS'] = 'on';
+		$this->class->input->server->set('HTTPS', 'on');
 
 		$this->assertTrue($this->class->isSSLConnection());
 
-		unset($_SERVER['HTTPS']);
+		$this->class->input->server->set('HTTPS', '');
 
-		$_SERVER['HTTP_X_FORWARDED_PROTO'] = 'http';
+		$this->class->input->server->set('HTTP_X_FORWARDED_PROTO', 'http');
 
 		$this->assertFalse($this->class->isSSLConnection());
 
-		$_SERVER['HTTP_X_FORWARDED_PROTO'] = 'https';
+		$this->class->input->server->set('HTTP_X_FORWARDED_PROTO', 'https');
 
 		$this->assertTrue($this->class->isSSLConnection());
 	}
