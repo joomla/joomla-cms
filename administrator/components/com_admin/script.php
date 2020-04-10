@@ -6431,6 +6431,9 @@ class JoomlaInstallerScript
 			return true;
 		}
 
+		// Update UCM content types.
+		$this->updateContentTypes();
+
 		$db = Factory::getDbo();
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
 
@@ -6485,9 +6488,6 @@ class JoomlaInstallerScript
 				return false;
 			}
 		}
-
-		// Update UCM content types.
-		$this->updateContentTypes();
 
 		return true;
 	}
@@ -6773,12 +6773,19 @@ class JoomlaInstallerScript
 	{
 		// Content types to update.
 		$contentTypes = [
+			'com_content.article',
 			'com_contact.contact',
 			'com_newsfeeds.newsfeed',
 			'com_tags.tag',
 			'com_banners.banner',
 			'com_banners.client',
 			'com_users.note',
+			'com_content.category',
+			'com_contact.category',
+			'com_newsfeeds.category',
+			'com_banners.category',
+			'com_users.category',
+			'com_users.user',
 		];
 
 		// Get table definitions.
@@ -6810,16 +6817,33 @@ class JoomlaInstallerScript
 		{
 			list($component, $tableType) = explode('.', $contentType->type_alias);
 
-			$tablePrefix = 'Joomla\\Component\\' . ucfirst(substr($component, 4)) . '\\Administrator\\Table\\';
-			$tableType   = ucfirst($tableType) . 'Table';
+			// Special case for core table classes.
+			if ($contentType->type_alias === 'com_users.users' || $tableType === 'category')
+			{
+				$tablePrefix = 'Joomla\\CMS\Table\\';
+				$tableType   = ucfirst($tableType);
+			}
+			else
+			{
+				$tablePrefix = 'Joomla\\Component\\' . ucfirst(substr($component, 4)) . '\\Administrator\\Table\\';
+				$tableType   = ucfirst($tableType) . 'Table';
+			}
 
 			// Bind type alias.
 			$typeAlias = $contentType->type_alias;
 
-			// Update table definition.
 			$table = json_decode($contentType->table);
-			$table->special->type = $tableType;
+
+			// Update table definitions.
+			$table->special->type   = $tableType;
 			$table->special->prefix = $tablePrefix;
+
+			// Some content types don't have this property.
+			if (!empty($table->common->prefix))
+			{
+				$table->common->prefix  = 'Joomla\\CMS\\Table\\';
+			}
+
 			$table = json_encode($table);
 
 			// Execute the query.

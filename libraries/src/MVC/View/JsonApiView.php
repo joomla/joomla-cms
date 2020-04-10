@@ -11,6 +11,8 @@ namespace Joomla\CMS\MVC\View;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Document\JsonapiDocument;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\Event\OnGetApiFields;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
 use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Uri\Uri;
@@ -182,8 +184,14 @@ abstract class JsonApiView extends JsonView
 				->addLink('last', $this->queryEncode((string) $lastPage));
 		}
 
+		$eventData = ['type' => OnGetApiFields::LIST, 'fields' => $this->fieldsToRenderList, 'context' => $this->type];
+		$event     = new OnGetApiFields('onApiGetFields', $eventData);
+
+		/** @var OnGetApiFields $eventResult */
+		$eventResult = Factory::getApplication()->getDispatcher()->dispatch('onApiGetFields', $event);
+
 		$collection = (new Collection($items, $this->serializer))
-			->fields([$this->type => $this->fieldsToRenderList]);
+			->fields([$this->type => $eventResult->getAllPropertiesToRender()]);
 
 		if (!empty($this->relationship))
 		{
@@ -230,12 +238,23 @@ abstract class JsonApiView extends JsonView
 			throw new \RuntimeException('Content type missing');
 		}
 
+		$eventData = [
+			'type' => OnGetApiFields::ITEM,
+			'fields' => $this->fieldsToRenderItem,
+			'relations' => $this->relationship,
+			'context' => $this->type,
+		];
+		$event     = new OnGetApiFields('onApiGetFields', $eventData);
+
+		/** @var OnGetApiFields $eventResult */
+		$eventResult = Factory::getApplication()->getDispatcher()->dispatch('onApiGetFields', $event);
+
 		$element = (new Resource($item, $this->serializer))
-			->fields([$this->type => $this->fieldsToRenderItem]);
+			->fields([$this->type => $eventResult->getAllPropertiesToRender()]);
 
 		if (!empty($this->relationship))
 		{
-			$element->with($this->relationship);
+			$element->with($eventResult->getAllRelationsToRender());
 		}
 
 		$this->document->setData($element);
