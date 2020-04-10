@@ -18,13 +18,9 @@
 	</languages>
 	<administration>
 		<files folder="admin">
-			<filename>.babelrc</filename>
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>media.xml</filename>
-			<filename>package-lock.json</filename>
-			<filename>package.json</filename>
-			<filename>webpack.config.js</filename>
 			<folder>forms</folder>
 			<folder>layouts</folder>
 			<folder>resources</folder>

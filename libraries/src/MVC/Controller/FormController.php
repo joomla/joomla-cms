@@ -21,6 +21,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Input\Input;
 
 /**
  * Controller tailored to suit most form-based admin operations.
@@ -80,12 +81,12 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 *                                              'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface   $factory      The factory.
 	 * @param   CMSApplication        $app          The JApplication for the dispatcher
-	 * @param   \JInput               $input        Input
+	 * @param   Input                 $input        Input
 	 * @param   FormFactoryInterface  $formFactory  The form factory.
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null,
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null,
 		FormFactoryInterface $formFactory = null
 	)
 	{
@@ -144,6 +145,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		$this->registerTask('save2menu', 'save');
 		$this->registerTask('save2new', 'save');
 		$this->registerTask('save2copy', 'save');
+		$this->registerTask('editAssociations', 'save');
 	}
 
 	/**
@@ -911,20 +913,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			false
 		);
 
-		// Validate the posted data.
-		// Sometimes the form needs some posted data, such as for plugins and modules.
-		$form = $model->getForm($data, false);
-
-		if (!$form)
-		{
-			$app->enqueueMessage($model->getError(), 'error');
-
-			$this->setRedirect($redirectUrl);
-			$this->redirect();
-		}
-
 		// Save the data in the session.
-		$app->setUserState($this->option . '.edit.' . $this->context . '.data', $form->filter($data));
+		$app->setUserState($this->option . '.edit.' . $this->context . '.data', $data);
 
 		$this->setRedirect($redirectUrl);
 		$this->redirect();
@@ -936,6 +926,8 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 	 * @return  void
 	 *
 	 * @since   3.9.0
+	 *
+	 * @deprecated 5.0  It is handled by regular save method now.
 	 */
 	public function editAssociations()
 	{

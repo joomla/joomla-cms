@@ -9,10 +9,13 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::_('script', 'legacy/toolbar.min.js', array('version' => 'auto', 'relative' => true));
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+$wa->registerAndUseScript('joomla.toolbar', 'legacy/toolbar.min.js', [], ['defer' => true], ['core']);
+
 ?>
 <nav aria-label="<?php echo Text::_('JTOOLBAR'); ?>">
 <div class="btn-toolbar d-flex" role="toolbar" id="<?php echo $displayData['id']; ?>">

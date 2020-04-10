@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -390,7 +390,7 @@ class Helper
 	 * Method to get extra data for a content before being indexed. This is how
 	 * we add Comments, Tags, Labels, etc. that should be available to Finder.
 	 *
-	 * @param   Result  $item  The item to index as a FinderIndexerResult object.
+	 * @param   Result  $item  The item to index as a Result object.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *

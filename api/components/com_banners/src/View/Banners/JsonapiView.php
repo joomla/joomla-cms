@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Banners\Api\View\Banners;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 
