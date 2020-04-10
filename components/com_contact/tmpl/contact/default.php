@@ -50,7 +50,7 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 					<span class="fas fa-cog" aria-hidden="true"></span>
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-<?php echo $this->item->id; ?>">
-					<li class="edit-icon"> <?php echo JHtml::_('contacticon.edit', $this->item, $tparams); ?> </li>
+					<li class="edit-icon"> <?php echo HTMLHelper::_('contacticon.edit', $this->item, $tparams); ?> </li>
 				</ul>
 			</div>
 		</div>
