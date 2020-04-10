@@ -68,9 +68,9 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 											<?php foreach ($this->languages as $language) : ?>
 												<a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_mails&task=template.edit&template_id=' . $item->template_id . '&language=' . $language->lang_code); ?>">
 													<?php if (in_array($language->lang_code, $item->languages)) : ?>
-														<?php echo JText::sprintf('COM_MAILS_LIST_EDIT_TEMPLATE', $language->title); ?>
+														<?php echo Text::sprintf('COM_MAILS_LIST_EDIT_TEMPLATE', $language->title); ?>
 													<?php else: ?>
-														<?php echo JText::sprintf('COM_MAILS_LIST_CREATE_TEMPLATE', $language->title); ?>
+														<?php echo Text::sprintf('COM_MAILS_LIST_CREATE_TEMPLATE', $language->title); ?>
 													<?php endif; ?>
 												</a>
 											<?php endforeach; ?>

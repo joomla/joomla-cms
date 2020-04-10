@@ -326,7 +326,7 @@ class LibraryAdapter extends InstallerAdapter
 
 		if (in_array($group, $restrictedFolders))
 		{
-			throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_CORE_FOLDER'));
+			throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_CORE_FOLDER'));
 		}
 
 		$this->parent->setPath('extension_root', JPATH_PLATFORM . '/' . implode(DIRECTORY_SEPARATOR, explode('/', $group)));
