@@ -92,6 +92,9 @@ class ExtensionHelper
 		// Core language extensions - site
 		array('language', 'en-GB', '', 0),
 
+		// Core language extensions - API
+		array('language', 'en-GB', '', 3),
+
 		// Core library extensions
 		array('library', 'joomla', '', 0),
 		array('library', 'phpass', '', 0),
@@ -212,7 +215,6 @@ class ExtensionHelper
 		array('plugin', 'list', 'fields', 0),
 		array('plugin', 'media', 'fields', 0),
 		array('plugin', 'radio', 'fields', 0),
-		array('plugin', 'repeatable', 'fields', 0),
 		array('plugin', 'sql', 'fields', 0),
 		array('plugin', 'subfields', 'fields', 0),
 		array('plugin', 'text', 'fields', 0),
@@ -295,6 +297,7 @@ class ExtensionHelper
 		array('plugin', 'joomla', 'user', 0),
 		array('plugin', 'profile', 'user', 0),
 		array('plugin', 'terms', 'user', 0),
+		array('plugin', 'token', 'user', 0),
 
 		// Core plugin extensions - webservices
 		array('plugin', 'banners', 'webservices', 0),
