@@ -119,7 +119,7 @@ window.Joomla = window.Joomla || {};
    *   the anti-CSRF token.
    */
   const handleLoginChallenge = (publicKey, callbackUrl) => {
-    const arrayToBase64String = a => btoa(String.fromCharCode(...a));
+    const arrayToBase64String = (a) => btoa(String.fromCharCode(...a));
 
     const base64url2base64 = (input) => {
       let output = input

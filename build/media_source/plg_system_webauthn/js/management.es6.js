@@ -86,7 +86,7 @@ window.Joomla = window.Joomla || {};
     const publicKey = JSON.parse(atob(elStore.dataset.public_key));
     const postURL = atob(elStore.dataset.postback_url);
 
-    const arrayToBase64String = a => btoa(String.fromCharCode(...a));
+    const arrayToBase64String = (a) => btoa(String.fromCharCode(...a));
 
     const base64url2base64 = (input) => {
       let output = input
