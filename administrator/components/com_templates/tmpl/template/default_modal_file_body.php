@@ -66,7 +66,7 @@ $input = Factory::getApplication()->input;
 							</div>
 							<?php $cMax    = $this->state->get('params')->get('upload_limit'); ?>
 							<?php $maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize($cMax . 'MB')); ?>
-							<span class="mt-2"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?></span>
+							<span class="mt-2"><?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', '&#x200E;' . $maxSize); ?></span>
 						</form>
 					</div>
 				</div>
