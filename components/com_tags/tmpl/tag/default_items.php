@@ -61,6 +61,7 @@ $canEditState = $user->authorise('core.edit.state', 'com_tags');
 			<input type="hidden" name="filter_order_Dir" value="">
 			<input type="hidden" name="limitstart" value="">
 			<input type="hidden" name="task" value="">
+			<?php echo HTMLHelper::_('form.token'); ?>
 		</fieldset>
 	<?php endif; ?>
 

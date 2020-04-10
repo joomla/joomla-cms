@@ -170,7 +170,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
 	<?php endif; ?>
 </div>

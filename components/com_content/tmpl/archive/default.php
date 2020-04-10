@@ -46,6 +46,7 @@ use Joomla\CMS\Router\Route;
 		<input type="hidden" name="view" value="archive">
 		<input type="hidden" name="option" value="com_content">
 		<input type="hidden" name="limitstart" value="0">
+		<?php echo HTMLHelper::_('form.token'); ?>
 	</div>
 	<br>
 	</fieldset>

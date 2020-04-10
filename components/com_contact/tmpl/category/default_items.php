@@ -155,6 +155,7 @@ $userId  = Factory::getUser()->id;
 			<div>
 				<input type="hidden" name="filter_order" value="<?php echo $this->escape($this->state->get('list.ordering')); ?>">
 				<input type="hidden" name="filter_order_Dir" value="<?php echo $this->escape($this->state->get('list.direction')); ?>">
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 	</form>
 </div>

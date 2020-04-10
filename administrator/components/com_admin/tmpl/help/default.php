@@ -42,4 +42,5 @@ use Joomla\CMS\Router\Route;
 		</div>
 	</div>
 	<input class="textarea" type="hidden" name="option" value="com_admin">
+	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

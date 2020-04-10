@@ -98,6 +98,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					</div>
 				<?php endif; ?>
 			<?php endif; ?>
+			<?php echo HTMLHelper::_('form.token'); ?>
 		</form>
 	<?php endif; ?>
 </div>

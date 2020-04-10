@@ -52,6 +52,7 @@ HTMLHelper::_('bootstrap.framework');
 							<button type="submit" class="mr-2 btn btn-danger btn-sm">
 								<?php echo Text::_('JLOGOUT'); ?>
 							</button>
+							<?php echo HTMLHelper::_('form.token'); ?>
 						</form>
 					<?php endif; ?>
 				</td>
