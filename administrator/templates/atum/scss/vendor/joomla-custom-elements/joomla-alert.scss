@@ -42,11 +42,6 @@
     --alert-accent-color: var(--danger);
   }
 
-  &.joomla-alert--show {
-    display: block;
-    opacity: 1;
-  }
-
   .joomla-alert--close,
   .joomla-alert-button--close {
     position: absolute;
@@ -72,9 +67,5 @@
 
   div {
     padding: 1rem;
-  }
-
-  @media screen and (prefers-reduced-motion: reduce) {
-    transition: none;
   }
 }
