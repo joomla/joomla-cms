@@ -1103,6 +1103,17 @@ class ArticleModel extends AdminModel
 		$pks   = ArrayHelper::toInteger($pks);
 		$value = (int) $value;
 
+		// Convert empty strings to null for the query.
+		if ($featuredUp === '')
+		{
+			$featuredUp = null;
+		}
+
+		if ($featuredDown === '')
+		{
+			$featuredDown = null;
+		}
+
 		if (empty($pks))
 		{
 			$this->setError(Text::_('COM_CONTENT_NO_ITEM_SELECTED'));
