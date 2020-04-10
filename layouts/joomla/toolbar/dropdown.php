@@ -37,9 +37,10 @@ extract($displayData, EXTR_OVERWRITE);
 		<?php echo $button; ?>
 
 		<?php if ($toggleSplit ?? true): ?>
-			<button type="button" class="<?php echo $caretClass ?? ''; ?> dropdown-toggle dropdown-toggle-split"
+			<button type="button" class="<?php echo $caretClass ?? ''; ?> dropdown-toggle-split"
 				data-toggle="dropdown" data-target="#<?php echo $id; ?>" data-display="static" aria-haspopup="true" aria-expanded="false">
 				<span class="sr-only"><?php echo Text::_('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
+				<span class="icon-chevron-down" aria-hidden="true"></span>
 			</button>
 		<?php endif; ?>
 

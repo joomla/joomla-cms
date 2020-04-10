@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Tags\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -52,7 +52,6 @@ class TagsController extends AdminController
 		$this->setRedirect(Route::_('index.php?option=com_tags&view=tags', false));
 
 		/** @var \Joomla\Component\Tags\Administrator\Model\TagModel $model */
-
 		$model = $this->getModel();
 
 		if ($model->rebuild())

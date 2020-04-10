@@ -182,6 +182,15 @@
     }
   }
 
+  .list-group-item a > span.home-image.fas {
+    display: inline-block;
+    padding: 0;
+    font-size: .9rem;
+    color: rgba(1, 1, 1, 1);
+    background: var(--white-offset);
+    box-shadow: none;
+  }
+
   h2 {
     font-size: $h4-font-size;
   }

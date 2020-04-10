@@ -127,18 +127,12 @@ legend {
   z-index: $zindex-tooltip;
   display: none;
   max-width: 100%;
-  padding: .25em;
+  padding: .5em;
   margin: .25em;
   color: $white;
   background: $black;
-
-  [dir=ltr] & {
-    text-align: left;
-  }
-
-  [dir=rtl] & {
-    text-align: right;
-  }
+  border-radius: .2rem;
+  text-align: start;
 }
 
 // reveal associated tooltip on focus

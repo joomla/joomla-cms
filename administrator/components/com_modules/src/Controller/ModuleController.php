@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Modules\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -31,7 +31,7 @@ class ModuleController extends FormController
 	/**
 	 * Override parent add method.
 	 *
-	 * @return  mixed  True if the record can be added, a \Exception object if not.
+	 * @return  \Exception|void  True if the record can be added, a \Exception object if not.
 	 *
 	 * @since   1.6
 	 */

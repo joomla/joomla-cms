@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Contact\Api\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -66,7 +66,7 @@ class ContactController extends ApiController
 	{
 		$data = (array) json_decode($this->input->json->getRaw(), true);
 
-		foreach (FieldsHelper::getFields('com_content.article') as $field)
+		foreach (FieldsHelper::getFields('com_contact.contact') as $field)
 		{
 			if (isset($data[$field->name]))
 			{

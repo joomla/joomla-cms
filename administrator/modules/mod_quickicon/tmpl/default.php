@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::_('script', 'mod_quickicon/quickicon.min.js', ['version' => 'auto', 'relative' => true]);
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $app->getDocument()->getWebAssetManager();
+$wa->registerAndUseScript('mod_quickicon', 'mod_quickicon/quickicon.min.js', [], ['defer' => true]);
 
 $html = HTMLHelper::_('icons.buttons', $buttons);
 ?>

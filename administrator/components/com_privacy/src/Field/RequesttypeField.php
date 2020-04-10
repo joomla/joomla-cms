@@ -11,7 +11,7 @@ namespace Joomla\Component\Privacy\Administrator\Field;
 
 use Joomla\CMS\Form\Field\PredefinedlistField;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Form Field to load a list of request types

@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Users\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Exception\Notallowed;
@@ -102,7 +102,7 @@ class LevelController extends FormController
 	 *
 	 * Overrides Joomla\CMS\MVC\Controller\FormController::delete to check the core.admin permission.
 	 *
-	 * @return  boolean  Returns true on success, false on failure.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */

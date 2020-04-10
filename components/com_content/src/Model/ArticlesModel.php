@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -895,7 +895,8 @@ class ArticlesModel extends ListModel
 		$query->bind($keys, $values, $dataTypes);
 
 		$query
-			->select('DATE(' .
+			->select(
+				'DATE(' .
 				$query->concatenate(
 					array(
 						$query->year($db->quoteName('publish_up')),

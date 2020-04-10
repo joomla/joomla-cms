@@ -11,7 +11,7 @@ namespace Joomla\CMS\Dispatcher;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -48,13 +48,13 @@ class ComponentDispatcher extends Dispatcher
 	/**
 	 * Constructor for ComponentDispatcher
 	 *
-	 * @param   CMSApplication       $app         The application instance
-	 * @param   Input                $input       The input instance
-	 * @param   MVCFactoryInterface  $mvcFactory  The MVC factory instance
+	 * @param   CMSApplicationInterface  $app         The application instance
+	 * @param   Input                    $input       The input instance
+	 * @param   MVCFactoryInterface      $mvcFactory  The MVC factory instance
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(CMSApplication $app, Input $input, MVCFactoryInterface $mvcFactory)
+	public function __construct(CMSApplicationInterface $app, Input $input, MVCFactoryInterface $mvcFactory)
 	{
 		parent::__construct($app, $input);
 

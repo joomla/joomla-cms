@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Templates\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -98,7 +98,7 @@ class StylesController extends AdminController
 			// Pop off the first element.
 			$id = array_shift($pks);
 
-			/* @var \Joomla\Component\Templates\Administrator\Model\StyleModel $model */
+			/** @var \Joomla\Component\Templates\Administrator\Model\StyleModel $model */
 			$model = $this->getModel();
 			$model->setHome($id);
 			$this->setMessage(Text::_('COM_TEMPLATES_SUCCESS_HOME_SET'));
@@ -136,7 +136,7 @@ class StylesController extends AdminController
 			// Pop off the first element.
 			$id = array_shift($pks);
 
-			/* @var \Joomla\Component\Templates\Administrator\Model\StyleModel $model */
+			/** @var \Joomla\Component\Templates\Administrator\Model\StyleModel $model */
 			$model = $this->getModel();
 			$model->unsetHome($id);
 			$this->setMessage(Text::_('COM_TEMPLATES_SUCCESS_HOME_UNSET'));

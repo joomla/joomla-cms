@@ -9,12 +9,13 @@
 
 namespace Joomla\Component\Content\Site\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Frontpage Component Model
@@ -168,7 +169,7 @@ class FeaturedModel extends ArticlesModel
 
 		if (is_array($featuredCategories) && !in_array('', $featuredCategories))
 		{
-			$query->where('a.catid IN (' . implode(',', $featuredCategories) . ')');
+			$query->where('a.catid IN (' . implode(',', ArrayHelper::toInteger($featuredCategories)) . ')');
 		}
 
 		return $query;

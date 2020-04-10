@@ -1,0 +1,41 @@
+@import "../../variables";
+
+// Search tools
+
+.js-stools-container-bar {
+  padding: 10px 20px;
+
+  .btn-toolbar {
+
+    > * {
+      margin: 4px 0;
+      margin-inline-end: 8px;
+    }
+  }
+
+  .ordering-select {
+    display: flex;
+  }
+}
+
+.js-stools-container-filters {
+  display: none;
+  margin-bottom: 20px;
+  padding: 0 20px;
+
+  &-visible {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  > * {
+    margin: 4px 0;
+    margin-inline-end: 8px;
+  }
+}
+
+.js-stools-field-list {
+  + .js-stools-field-list {
+    margin-inline-start: 8px;
+  }
+}

@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer\Driver;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;

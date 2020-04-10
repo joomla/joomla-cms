@@ -13,6 +13,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Finder\Administrator\Indexer\Helper;
+use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
 use Joomla\String\StringHelper;
 
 $user = Factory::getUser();
@@ -32,7 +34,7 @@ if ($show_description)
 	// Make sure we highlight term both in introtext and fulltext
 	if (!empty($this->result->summary) && !empty($this->result->body))
 	{
-		$full_description = FinderIndexerHelper::parse($this->result->summary . $this->result->body);
+		$full_description = Helper::parse($this->result->summary . $this->result->body);
 	}
 	else
 	{
@@ -68,7 +70,7 @@ if ($show_description)
 <?php if (count($taxonomies) && $this->params->get('show_taxonomy', 1)) : ?>
 	<dd class="result-taxonomy">
 	<?php foreach ($taxonomies as $type => $taxonomy) : ?>
-		<?php $branch = FinderIndexerTaxonomy::getBranch($type); ?>
+		<?php $branch = Taxonomy::getBranch($type); ?>
 		<?php if ($branch->state == 1 && in_array($branch->access, $user->getAuthorisedViewLevels())) : ?>
 			<?php
 			$taxonomy_text = array();

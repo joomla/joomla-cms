@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -333,7 +333,8 @@ class DatabaseModel extends InstallerModel
 					'#__schemas',
 					'schemas'
 				)
-			)->join(
+			)
+			->join(
 				'INNER',
 				$db->quoteName('#__extensions', 'extensions'),
 				$db->quoteName('schemas.extension_id') . ' = ' . $db->quoteName('extensions.extension_id')

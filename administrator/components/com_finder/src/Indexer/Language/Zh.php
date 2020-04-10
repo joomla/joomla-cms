@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer\Language;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Component\Finder\Administrator\Indexer\Language;
 use Joomla\String\StringHelper;

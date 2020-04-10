@@ -1,0 +1,18 @@
+.new-modules {
+  .card-columns {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  .card {
+    display: flex;
+
+    &:hover {
+      box-shadow: 0 0 40px 10px rgba(0, 28, 73, .15);
+    }
+
+    .btn {
+      width: 100%;
+      border-radius: 0;
+    }
+  }
+}

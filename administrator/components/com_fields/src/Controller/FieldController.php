@@ -9,13 +9,14 @@
 
 namespace Joomla\Component\Fields\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
 /**
@@ -52,7 +53,7 @@ class FieldController extends FormController
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since   3.7.0
 	 */
