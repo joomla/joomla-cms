@@ -31,9 +31,9 @@ abstract class AbstractMenu
 	protected $items = array();
 
 	/**
-	 * Identifier of the default menu item
+	 * Identifier of the default menu item. Key of the array is the language.
 	 *
-	 * @var    integer
+	 * @var    integer[]
 	 * @since  4.0.0
 	 */
 	protected $default = array();
