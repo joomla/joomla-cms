@@ -1,303 +1,41 @@
-// Search tools
 @import "../../variables";
-@import "../../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../../media/vendor/bootstrap/scss/mixins";
 
+// Search tools
 
-// Media queries
-@media (max-width: 480px) {
-  .js-stools .js-stools-container-filters {
-    display: block;
-  }
+.js-stools-container-bar {
+  padding: 10px 20px;
 
-  .js-stools .js-stools-container-filters .btn-group {
-    display: block;
-  }
+  .btn-toolbar {
 
-  .js-stools .js-stools-container-filters .btn-wrapper {
-    width: 100%;
-  }
-
-  .js-stools .js-stools-container-bar {
-    margin-top: 20px;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 979px) {
-
-  .js-stools .js-stools-container-selector,
-  .js-stools .js-stools-container-bar,
-  .js-stools .js-stools-container-list {
-    display: block;
-  }
-}
-
-.js-stools {
-  position: relative;
-  width: 100%;
-  padding: .25rem 0 0;
-  margin: 1rem .5rem .5rem;
-
-  > div {
-    margin-bottom: 1rem;
-  }
-
-  button {
-    margin-top: 0;
-  }
-
-  .js-stools-container-filters {
-    display: none;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%;
-    padding: 1rem .5rem .5rem;
-    margin-top: .5rem;
-    margin-bottom: 1rem;
-    background-color: $white;
-    border-radius: 0 0 0 $border-radius;
-
-    joomla-field-fancy-select .choices,
-    .custom-select {
-      min-width: 15rem;
-    }
-
-    .chzn-container-single {
-      display: block;
-
-      .chzn-single {
-        display: block;
-        font-size: 1rem;
-      }
+    > * {
+      margin: 4px 0;
+      margin-inline-end: 8px;
     }
   }
 
-  .js-stools-field-filter {
-
-    margin: 0 .5rem .5rem;
-
-    @include media-breakpoint-down(sm) {
-      width: 100%;
-    }
-
-    .custom-select {
-      box-shadow:  $input-box-shadow;
-      &.active {
-        //background: $custom-select-indicator-active no-repeat right center;
-        background-color: $custom-select-bg;
-        background-size: $custom-select-bg-size;
-
-        [dir=rtl] & {
-          //background: $custom-select-indicator-active-rtl no-repeat left center;
-          background-color: $custom-select-bg;
-        }
-      }
-
-      option {
-        font-size: .875rem;
-        color: $cassiopeia-template-color-dark;
-        background-color: var(--white);
-      }
-    }
-  }
-
-  .js-stools-container-selector {
-    [dir=ltr] & {
-      float: left;
-      margin-right: .5rem;
-    }
-
-    [dir=rtl] & {
-      float: right;
-      margin-right: 0;
-      margin-left: .5rem;
-    }
-
-    @include media-breakpoint-down(sm) {
-      float: none !important;
-      width: 100%;
-      margin-right: 0;
-    }
-
-    @include media-breakpoint-down(xs) {
-      [dir=ltr] & {
-        margin-right: 0;
-      }
-
-      [dir=rtl] & {
-        margin-left: 0;
-      }
-    }
-
-    .js-stools-field-selector {
-      @include media-breakpoint-down(sm) {
-        margin-right: 0;
-
-        [dir=rtl] & {
-          margin-right: 0;
-        }
-      }
-
-      @include media-breakpoint-down(xs) {
-        [dir=ltr] & {
-          margin-right: 0;
-        }
-
-        [dir=rtl] & {
-          margin-left: 0;
-        }
-      }
-    }
-  }
-
-  .js-stools-container-selector-first {
-    [dir=ltr] & {
-      margin-right: .5rem;
-    }
-
-    [dir=rtl] & {
-      margin-left: .5rem;
-    }
-
-    @include media-breakpoint-down(sm) {
-      float: none !important;
-      width: 100%;
-      margin-right: 0;
-    }
-
-    @include media-breakpoint-down(xs) {
-      [dir=ltr] & {
-        margin-right: 0;
-      }
-
-      [dir=rtl] & {
-        margin-left: 0;
-      }
-    }
-
-    .js-stools-field-selector {
-      @include media-breakpoint-down(sm) {
-        max-width: 100%;
-        margin-right: 0;
-
-        [dir=rtl] & {
-          margin-right: 0;
-        }
-      }
-    }
-  }
-
-  .js-stools-container-list {
-    [dir=ltr] & {
-      float: right;
-      text-align: right;
-    }
-
-    [dir=rtl] & {
-      float: left;
-      text-align: left;
-    }
-  }
-
-  .chosen-container {
-    [dir=ltr] & {
-      text-align: right;
-    }
-
-    [dir=rtl] & {
-      text-align: left;
-    }
-  }
-
-  .js-stools-container-filters-visible {
+  .ordering-select {
     display: flex;
   }
+}
 
-  .chzn-container-single .chzn-single span {
-    overflow: visible;
+.js-stools-container-filters {
+  display: none;
+  margin-bottom: 20px;
+  padding: 0 20px;
+
+  &-visible {
+    display: flex;
+    flex-wrap: wrap;
   }
 
-  .js-stools-field-list,
-  .js-stools-field-filter {
-    display: inline-block;
-  }
-
-  .js-stools-container-list .js-stools-field-list:last-child {
-    margin-right: 0;
-  }
-
-  .js-stools-container-bar {
-
-    .btn-toolbar {
-      justify-content: flex-end;
-
-      .js-stools-btn-filter {
-        border: 1px solid var(--border);
-      }
-
-      .js-stools-btn-clear {
-        color: $cassiopeia-template-color-dark;
-        background-color: $gray-400;
-        border: 1px solid $cassiopeia-border-color;
-        border-left: 1px solid $gray-100;
-
-        [dir=rtl] & {
-          margin-left: 5px;
-        }
-
-        @include media-breakpoint-down(sm) {
-          [dir=ltr] & {
-            margin-right: 0 !important;
-          }
-
-          [dir=rtl] & {
-            margin-left: 0 !important;
-          }
-        }
-
-        &.disabled,
-        &:disabled {
-          color: $white-offset;
-          cursor: not-allowed;
-          background-color:$cassiopeia-template-color-dark;
-          border-color: rgba($gray-500, .8);
-          opacity: 1;
-        }
-      }
-
-      .js-stools-btn-filter {
-        border-right: 1px solid $cassiopeia-border-color;
-
-        .fas {
-          margin-left: .25rem;
-        }
-      }
-
-      .form-control {
-        height: auto;
-      }
-    }
-
-    .js-stools-field-list {
-      margin-bottom: 0;
-    }
-
-    .input-append {
-      margin-bottom: 0;
-    }
-
-    .btn-primary .caret {
-      margin-top: 7px;
-      margin-bottom: 8px;
-      border-top: 0;
-      border-bottom: 4px solid #fff;
-
-    }
+  > * {
+    margin: 4px 0;
+    margin-inline-end: 8px;
   }
 }
 
-.js-stools-button-sort {
-  cursor: pointer;
-  background: none;
-  border: 0;
+.js-stools-field-list {
+  + .js-stools-field-list {
+    margin-inline-start: 8px;
+  }
 }
