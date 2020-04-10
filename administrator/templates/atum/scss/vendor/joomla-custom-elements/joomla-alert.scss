@@ -1,12 +1,17 @@
-// Atum Variables
 @import "../../variables";
+@import "../../../../../../node_modules/joomla-ui-custom-elements/dist/css/joomla-alert";
 
-joomla-alert {
+// The following is a restyle for the system alerts
+
+#system-message-container joomla-alert {
+  position: relative;
   display: block;
   min-width: 16rem;
+  padding: 0;
   margin-bottom: 1rem;
   background-color: var(--white);
   border: 1px solid var(--alert-accent-color, transparent);
+  border-radius: 0;
   opacity: 0;
   transition: opacity .15s linear;
 
@@ -45,7 +50,7 @@ joomla-alert {
   .joomla-alert--close,
   .joomla-alert-button--close {
     position: absolute;
-    top: .5rem;
+    top: .7rem;
     right: 1rem;
     font-size: 2rem;
     color: var(--white);
