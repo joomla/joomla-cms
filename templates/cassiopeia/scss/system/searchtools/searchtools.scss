@@ -8,11 +8,8 @@
   .btn-toolbar {
 
     > * {
-      margin: 5px 0;
-
-      + * {
-        margin-inline-start: 8px;
-      }
+      margin: 4px 0;
+      margin-inline-end: 8px;
     }
   }
 
@@ -28,17 +25,17 @@
 
   &-visible {
     display: flex;
+    flex-wrap: wrap;
+  }
+
+  > * {
+    margin: 4px 0;
+    margin-inline-end: 8px;
   }
 }
 
 .js-stools-field-list {
   + .js-stools-field-list {
-    margin-inline-start: 8px;
-  }
-}
-
-.js-stools-field-filter {
-  + .js-stools-field-filter {
     margin-inline-start: 8px;
   }
 }
