@@ -1025,12 +1025,17 @@ class ArticleModel extends AdminModel
 		{
 			if (isset($data['featured']))
 			{
-				$this->featured(
-					$this->getState($this->getName() . '.id'),
-					$data['featured'],
-					$data['featured_up'] ?? null,
-					$data['featured_down'] ?? null
-				);
+				if (
+					!$this->featured(
+						$this->getState($this->getName() . '.id'),
+						$data['featured'],
+						$data['featured_up'] ?? null,
+						$data['featured_down'] ?? null
+					)
+				)
+				{
+					return false;
+				}
 			}
 
 			// Let's check if we have workflow association (perhaps something went wrong before)
