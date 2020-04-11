@@ -41,8 +41,12 @@ $resetOptions = array(
 			</div>
 		</div>
 		<div class="form-group">
-			<label><?php echo Text::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?></label>
-			<?php echo HTMLHelper::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', ''); ?>
+			<label class="control-label" for="batch-password-reset_id">
+				<?php echo Text::_('COM_USERS_REQUIRE_PASSWORD_RESET'); ?>
+			</label>
+			<fieldset id="batch-password-reset_id">
+				<?php echo HTMLHelper::_('select.radiolist', $resetOptions, 'batch[reset_id]', '', 'value', 'text', ''); ?>
+			</fieldset>
 		</div>
 	</form>
 </div>
