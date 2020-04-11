@@ -54,6 +54,14 @@ class HtmlView extends DefaultView
 	protected $phpoptions;
 
 	/**
+	 * Array of PHP config options
+	 *
+	 * @var    \stdClass
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $installed_languages;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
