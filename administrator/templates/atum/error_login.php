@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-/** @var JDocumentHtml $this */
+/** @var \Joomla\CMS\Document\HtmlDocument $this */
 
 $app   = Factory::getApplication();
 $lang  = $app->getLanguage();
@@ -61,7 +61,14 @@ $this->getWebAssetManager()
 
 $monochrome = (bool) $this->params->get('monochrome');
 
-HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
+$htmlHelperRegistry = HTMLHelper::getServiceRegistry();
+
+// We may have registered this trying to load the main login page - so check before registering again
+if (!$htmlHelperRegistry->hasService('atum'))
+{
+	$htmlHelperRegistry->register('atum', 'JHtmlAtum');
+}
+
 HTMLHelper::_('atum.rootcolors', $this->params);
 ?>
 <!DOCTYPE html>
