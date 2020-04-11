@@ -116,8 +116,8 @@ before_test:
   - createdb joomla_ut
 
 # Database setup for SQL Server
-  - ps: $sqlInstance = "(local)\SQL2014"
-  - ps: sqlcmd -b -E -S "$sqlInstance" -Q "CREATE DATABASE joomla_ut"
+#  - ps: $sqlInstance = "(local)\SQL2014"
+#  - ps: sqlcmd -b -E -S "$sqlInstance" -Q "CREATE DATABASE joomla_ut"
 
 test_script:
   - cd C:\projects\joomla-cms
