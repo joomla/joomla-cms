@@ -2,8 +2,14 @@
 
 // Search tools
 
+.js-stools {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .js-stools-container-bar,
 .js-stools-container-filters {
+  width: 100%;
   margin-bottom: 10px;
 }
 
@@ -17,6 +23,11 @@
       + * {
         margin-inline-start: 8px;
       }
+    }
+
+    .js-stools-btn-clear {
+      background-color: var(--atum-bg-dark);
+      border: 0;
     }
   }
 
@@ -41,4 +52,9 @@
   + .js-stools-field-list {
     margin-inline-start: 8px;
   }
+}
+
+.js-stools-container-selector {
+  margin: 5px 0;
+  margin-inline-end: 8px;
 }
