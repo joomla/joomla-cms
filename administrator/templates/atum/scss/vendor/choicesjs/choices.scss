@@ -14,22 +14,33 @@
 
 .choices {
   border: 0;
+  border-radius: $border-radius;
 
-  ::-moz-placeholder {
+  ::-moz-placeholder,
+  ::-webkit-input-placeholder {
     opacity: 1
   }
 
   &:hover {
     cursor: pointer;
   }
+
+  &.is-focused {
+    box-shadow: $focusshadow;
+  }
 }
 
 .choices__inner {
   border: $input-border;
+  border-radius: $border-radius;
   box-shadow: $input-box-shadow;
   padding: .4rem 1rem;
   margin-bottom: 0;
   font-size: 1rem;
+
+  .is-focused & {
+    border-color: $focuscolor;
+  }
 }
 
 .choices__input {
