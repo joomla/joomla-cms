@@ -39,7 +39,6 @@
     "chosen-js": "^1.8.7",
     "codemirror": "^5.52.2",
     "cropperjs": "^1.5.6",
-    "css-vars-ponyfill": "^2.2.1",
     "diff": "^4.0.2",
     "dragula": "3.7.2",
     "file-saver": "^2.0.2",
