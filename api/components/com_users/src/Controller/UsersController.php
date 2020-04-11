@@ -11,6 +11,7 @@ namespace Joomla\Component\Users\Api\Controller;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\ApiController;
@@ -39,23 +40,6 @@ class UsersController extends ApiController
 	 * @since  4.0.0
 	 */
 	protected $default_view = 'users';
-
-	/**
-	 * The default view for the display method.
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	protected $supportedRange = [
-		'past_week',
-		'past_1month',
-		'past_3month',
-		'past_6month',
-		'past_year',
-		'post_year',
-		'today',
-		'never',
-	];
 
 	/**
 	 * Method to save a record.
@@ -92,6 +76,7 @@ class UsersController extends ApiController
 	 * @return  static  A BaseController object to support chaining.
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 * @throws  InvalidParameterException
 	 */
 	public function displayList()
 	{
@@ -118,32 +103,78 @@ class UsersController extends ApiController
 			$this->modelState->set('filter.search', $filter->clean($apiFilterInfo['search'], 'STRING'));
 		}
 
-		if (array_key_exists('registrationdate', $apiFilterInfo))
+		if (array_key_exists('registrationDateStart', $apiFilterInfo))
 		{
-			$rangeFilter = $filter->clean($apiFilterInfo['registrationdate'], 'STRING');
+			$registrationStartInput = $filter->clean($apiFilterInfo['registrationDateStart'], 'STRING');
+			$registrationStartDate  = Date::createFromFormat(\DateTime::RFC3339, $registrationStartInput);
 
-			if (!in_array($rangeFilter, $this->supportedRange))
+			if (!$registrationStartDate)
 			{
 				// Send the error response
-				$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'registrationdate');
-				throw new InvalidParameterException($error, 400, null, 'registrationdate');
+				$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'registrationDateStart');
+
+				throw new InvalidParameterException($error, 400, null, 'registrationDateStart');
 			}
 
-			$this->modelState->set('filter.range', $rangeFilter);
+			$this->modelState->set('filter.range', $registrationStartDate);
 		}
 
-		if (array_key_exists('lastvisitdate', $apiFilterInfo))
+		if (array_key_exists('registrationDateEnd', $apiFilterInfo))
 		{
-			$rangeFilter = $filter->clean($apiFilterInfo['lastvisitdate'], 'STRING');
+			$registrationEndInput = $filter->clean($apiFilterInfo['registrationDateEnd'], 'STRING');
+			$registrationEndDate  = Date::createFromFormat(\DateTime::RFC3339, $registrationEndInput);
 
-			if (!in_array($rangeFilter, $this->supportedRange))
+			if (!$registrationEndDate)
 			{
 				// Send the error response
-				$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'lastvisitdate');
-				throw new InvalidParameterException($error, 400, null, 'lastvisitdate');
+				$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'registrationDateEnd');
+				throw new InvalidParameterException($error, 400, null, 'registrationDateEnd');
 			}
 
-			$this->modelState->set('filter.lastvisitrange', $rangeFilter);
+			$this->modelState->set('filter.range', $registrationEndDate);
+		}
+		elseif (array_key_exists('registrationDateStart', $apiFilterInfo)
+			&& !array_key_exists('registrationDateEnd', $apiFilterInfo))
+		{
+			// If no end date specified the end date is now
+			$this->modelState->set('filter.range', new Date);
+		}
+
+		if (array_key_exists('lastVisitDateStart', $apiFilterInfo))
+		{
+			$lastVisitStartInput = $filter->clean($apiFilterInfo['lastVisitDateStart'], 'STRING');
+			$lastVisitStartDate  = Date::createFromFormat(\DateTime::RFC3339, $lastVisitStartInput);
+
+			if (!$lastVisitStartDate)
+			{
+				// Send the error response
+				$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'lastVisitDateStart');
+				throw new InvalidParameterException($error, 400, null, 'lastVisitDateStart');
+			}
+
+			$this->modelState->set('filter.lastVisitStart', $lastVisitStartDate);
+		}
+
+		if (array_key_exists('lastVisitDateEnd', $apiFilterInfo))
+		{
+			$lastVisitEndInput = $filter->clean($apiFilterInfo['lastVisitDateEnd'], 'STRING');
+			$lastVisitEndDate  = Date::createFromFormat(\DateTime::RFC3339, $lastVisitEndInput);
+
+			if (!$lastVisitEndDate)
+			{
+				// Send the error response
+				$error = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', 'lastVisitDateEnd');
+
+				throw new InvalidParameterException($error, 400, null, 'lastVisitDateEnd');
+			}
+
+			$this->modelState->set('filter.lastVisitEnd', $lastVisitEndDate);
+		}
+		elseif (array_key_exists('lastVisitDateStart', $apiFilterInfo)
+			&& !array_key_exists('lastVisitDateEnd', $apiFilterInfo))
+		{
+			// If no end date specified the end date is now
+			$this->modelState->set('filter.lastVisitEnd', new Date);
 		}
 
 		return parent::displayList();
