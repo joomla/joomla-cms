@@ -51,7 +51,7 @@ class HtmlRenderer extends AbstractRenderer
 
 		// Add registry file for the template asset
 		$this->getDocument()->getWebAssetManager()->getRegistry()
-			->addRegistryFile('templates/' . $template . '/joomla.asset.json');
+			->addTemplateRegistryFile($template, $app->getClientId());
 
 		if (ob_get_contents())
 		{

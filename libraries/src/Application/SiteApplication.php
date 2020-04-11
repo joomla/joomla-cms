@@ -170,8 +170,8 @@ final class SiteApplication extends CMSApplication
 
 				// Add Asset registry files
 				$document->getWebAssetManager()->getRegistry()
-					->addRegistryFile('media/' . $component . '/joomla.asset.json')
-					->addRegistryFile('templates/' . $template->template . '/joomla.asset.json');
+					->addExtensionRegistryFile($component)
+					->addTemplateRegistryFile($template->template, $this->getClientId());
 
 				break;
 
