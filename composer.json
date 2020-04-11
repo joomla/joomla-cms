@@ -58,7 +58,7 @@
         }
     },
     "require": {
-        "php": ">=7.2.5 <8.0",
+        "php": "^7.2.5",
         "joomla/application": "~2.0@dev",
         "joomla/archive": "~2.0@dev",
         "joomla/authentication": "~2.0@dev",
