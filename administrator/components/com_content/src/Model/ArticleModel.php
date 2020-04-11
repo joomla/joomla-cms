@@ -1025,14 +1025,12 @@ class ArticleModel extends AdminModel
 		{
 			if (isset($data['featured']))
 			{
-				if (
-					!$this->featured(
-						$this->getState($this->getName() . '.id'),
-						$data['featured'],
-						$data['featured_up'] ?? null,
-						$data['featured_down'] ?? null
-					)
-				)
+				if (!$this->featured(
+					$this->getState($this->getName() . '.id'),
+					$data['featured'],
+					$data['featured_up'] ?? null,
+					$data['featured_down'] ?? null
+				))
 				{
 					return false;
 				}
