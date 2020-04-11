@@ -20,54 +20,44 @@ final class Registry
 	/**
 	 * Mapping array of the core CMS JHtml helpers
 	 *
-	 * As of 5.0, the $serviceMap will be prepopulated with the contents of this array
-	 *
 	 * @var    array
 	 * @since  4.0.0
 	 */
-	private $coreServiceMap = [
-		'access'          => \JHtmlAccess::class,
-		'actionsdropdown' => \JHtmlActionsDropdown::class,
-		'adminlanguage'   => \JHtmlAdminLanguage::class,
-		'behavior'        => \JHtmlBehavior::class,
-		'bootstrap'       => \JHtmlBootstrap::class,
-		'category'        => \JHtmlCategory::class,
-		'content'         => \JHtmlContent::class,
-		'contentlanguage' => \JHtmlContentlanguage::class,
-		'date'            => \JHtmlDate::class,
-		'debug'           => \JHtmlDebug::class,
-		'draggablelist'   => \JHtmlDraggablelist::class,
-		'dropdown'        => \JHtmlDropdown::class,
-		'email'           => \JHtmlEmail::class,
-		'form'            => \JHtmlForm::class,
-		'formbehavior'    => \JHtmlFormbehavior::class,
-		'grid'            => \JHtmlGrid::class,
-		'icons'           => \JHtmlIcons::class,
-		'jgrid'           => \JHtmlJGrid::class,
-		'jquery'          => \JHtmlJquery::class,
-		'links'           => \JHtmlLinks::class,
-		'list'            => \JHtmlList::class,
-		'menu'            => \JHtmlMenu::class,
-		'number'          => \JHtmlNumber::class,
-		'searchtools'     => \JHtmlSearchtools::class,
-		'select'          => \JHtmlSelect::class,
-		'sidebar'         => \JHtmlSidebar::class,
-		'sortablelist'    => \JHtmlSortablelist::class,
-		'string'          => \JHtmlString::class,
-		'tag'             => \JHtmlTag::class,
-		'tel'             => \JHtmlTel::class,
-		'uitab'           => \JHtmlUiTab::class,
-		'user'            => \JHtmlUser::class,
-		'workflowstage'   => \JHtmlWorkflowstage::class,
+	private $serviceMap = [
+		'access'          => Helpers\Access::class,
+		'actionsdropdown' => Helpers\ActionsDropdown::class,
+		'adminlanguage'   => Helpers\AdminLanguage::class,
+		'behavior'        => Helpers\Behavior::class,
+		'bootstrap'       => Helpers\Bootstrap::class,
+		'category'        => Helpers\Category::class,
+		'content'         => Helpers\Content::class,
+		'contentlanguage' => Helpers\ContentLanguage::class,
+		'date'            => Helpers\Date::class,
+		'debug'           => Helpers\Debug::class,
+		'draggablelist'   => Helpers\DraggableList::class,
+		'dropdown'        => Helpers\Dropdown::class,
+		'email'           => Helpers\Email::class,
+		'form'            => Helpers\Form::class,
+		'formbehavior'    => Helpers\FormBehavior::class,
+		'grid'            => Helpers\Grid::class,
+		'icons'           => Helpers\Icons::class,
+		'jgrid'           => Helpers\JGrid::class,
+		'jquery'          => Helpers\Jquery::class,
+		'links'           => Helpers\Links::class,
+		'list'            => Helpers\ListHelper::class,
+		'menu'            => Helpers\Menu::class,
+		'number'          => Helpers\Number::class,
+		'searchtools'     => Helpers\SearchTools::class,
+		'select'          => Helpers\Select::class,
+		'sidebar'         => Helpers\Sidebar::class,
+		'sortablelist'    => Helpers\SortableList::class,
+		'string'          => Helpers\StringHelper::class,
+		'tag'             => Helpers\Tag::class,
+		'tel'             => Helpers\Telephone::class,
+		'uitab'           => Helpers\UiTab::class,
+		'user'            => Helpers\User::class,
+		'workflowstage'   => Helpers\WorkflowStage::class,
 	];
-
-	/**
-	 * Array holding the registered services
-	 *
-	 * @var    array
-	 * @since  4.0.0
-	 */
-	private $serviceMap = [];
 
 	/**
 	 * Get the service for a given key

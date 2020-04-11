@@ -14,7 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-/** @var JDocumentHtml $this */
+/** @var \Joomla\CMS\Document\HtmlDocument $this */
 
 $app   = Factory::getApplication();
 $lang  = $app->getLanguage();
@@ -56,12 +56,17 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
-$this->getWebAssetManager()
-	->addInlineScript('cssVars();', ['position' => 'after'], ['type' => 'module'], ['css-vars-ponyfill']);
 
 $monochrome = (bool) $this->params->get('monochrome');
 
-HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
+$htmlHelperRegistry = HTMLHelper::getServiceRegistry();
+
+// We may have registered this trying to load the main login page - so check before registering again
+if (!$htmlHelperRegistry->hasService('atum'))
+{
+	$htmlHelperRegistry->register('atum', 'JHtmlAtum');
+}
+
 HTMLHelper::_('atum.rootcolors', $this->params);
 ?>
 <!DOCTYPE html>
