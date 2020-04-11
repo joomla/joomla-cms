@@ -13,6 +13,7 @@ namespace Joomla\CMS\Application;
 use Joomla\Application\SessionAwareWebApplicationInterface;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Router\Router;
 
 /**
  * Interface defining a Joomla! CMS Application class for web applications.
@@ -41,6 +42,18 @@ interface CMSWebApplicationInterface extends SessionAwareWebApplicationInterface
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getMenu($name = null, $options = array());
+
+	/**
+	 * Returns the application Router object.
+	 *
+	 * @param   string  $name     The name of the application.
+	 * @param   array   $options  An optional associative array of configuration settings.
+	 *
+	 * @return  Router
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getRouter($name = null, array $options = array());
 
 	/**
 	 * Gets a user state.
