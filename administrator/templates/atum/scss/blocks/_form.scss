@@ -156,3 +156,17 @@ legend {
   font-size: $label-font-size;
   color: var(--atum-special-color);
 }
+
+.input-group-append {
+  overflow: hidden;
+
+  [dir=ltr] & {
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
+
+  [dir=rtl] & {
+    border-top-left-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+  }
+}
