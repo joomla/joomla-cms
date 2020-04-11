@@ -61,7 +61,6 @@ $this->useCoreUI = true;
 		<?php echo '<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around col-md-9 p-4"></div>'; ?>
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
-		<?php echo HTMLHelper::_('form.token'); ?>
 	<?php endif; ?>
 	</form>
 </div>
