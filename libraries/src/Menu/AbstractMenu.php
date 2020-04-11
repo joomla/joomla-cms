@@ -31,9 +31,9 @@ abstract class AbstractMenu
 	protected $items = array();
 
 	/**
-	 * Identifier of the default menu item
+	 * Identifier of the default menu item. Key of the array is the language.
 	 *
-	 * @var    integer
+	 * @var    integer[]
 	 * @since  4.0.0
 	 */
 	protected $default = array();
@@ -321,7 +321,7 @@ abstract class AbstractMenu
 		{
 			$access = (int) $menu->access;
 
-			// If the accesss level is public we don't need to load the user session
+			// If the access level is public we don't need to load the user session
 			if ($access === 1)
 			{
 				return true;

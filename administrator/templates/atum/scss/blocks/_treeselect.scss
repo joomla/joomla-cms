@@ -140,12 +140,7 @@
     line-height: 1.8rem;
 
     li {
-      padding-left: 20px;
-
-      [dir=rtl] & {
-        padding-right: 20px;
-        padding-left: 0;
-      }
+      padding-inline-start: 20px;
     }
   }
 }
