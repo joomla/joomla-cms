@@ -35,6 +35,7 @@
 				<field
 					name="preset"
 					type="menuPreset"
+					default="default"
 					label="MOD_MENU_FIELD_PRESET_LABEL"
 					description="MOD_MENU_FIELD_PRESET_DESC"
 					showon="menutype:*"
