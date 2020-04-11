@@ -50,7 +50,9 @@ $extension = $this->escape($this->state->get('filter.extension'));
 				<label id="flip-ordering-id-lbl" for="flip-ordering-id" class="control-label">
 					<?php echo Text::_('JLIB_HTML_BATCH_FLIPORDERING_LABEL'); ?>
 				</label>
-				<?php echo HTMLHelper::_('select.booleanlist', 'batch[flip_ordering]', array(), 0, 'JYES', 'JNO', 'flip-ordering-id'); ?>
+				<fieldset id="flip-ordering-id">
+					<?php echo HTMLHelper::_('select.booleanlist', 'batch[flip_ordering]', array(), 0, 'JYES', 'JNO', 'flip-ordering-id'); ?>
+				</fieldset>
 			</div>
 		</div>
 	</div>
