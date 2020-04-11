@@ -61,13 +61,8 @@ switch ($config->error_reporting)
 		break;
 
 	case 'maximum':
+	case 'development': // <= Stays for backward compatibility, @TODO: can be removed in 5.0
 		error_reporting(E_ALL);
-		ini_set('display_errors', 1);
-
-		break;
-
-	case 'development':
-		error_reporting(-1);
 		ini_set('display_errors', 1);
 
 		break;
