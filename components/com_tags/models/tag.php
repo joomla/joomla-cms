@@ -340,7 +340,6 @@ class TagsModelTag extends JModelList
 		{
 			$pk    = (!empty($pk)) ? $pk : (int) $this->getState('tag.id');
 			$table = JTable::getInstance('Tag', 'TagsTable');
-			$table->load($pk);
 			$table->hit($pk);
 
 			if (!$table->hasPrimaryKey())
