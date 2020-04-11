@@ -9,15 +9,15 @@ branches:
 
 ## Build matrix for lowest and highest possible targets
 environment:
-  DLLVersion: "5.6.1"
+  SQLSRVDLLVersion: "5.6.1"
   PHPBuild: "x64"
   VC: "vc15"
+  WINCACHE: "2.0.0.8"
   matrix:
   - php_ver_target: 7.2
-    DLLVersion: "5.3.0"
-    WINCACHE: "2.0.0.8"
+    SQLSRVDLLVersion: "5.3.0"
   - php_ver_target: 7.3
-    WINCACHE: "2.0.0.8"
+  - php_ver_target: 7.4
 
 init:
   - SET PATH=C:\Program Files\OpenSSL;C:\tools\php;%PATH%
@@ -46,16 +46,16 @@ install:
     # - ps: >-
     #    If ($env:PHP -eq "1") {
     #        cd c:\tools\php\ext
-    #        $source = "https://windows.php.net/downloads/pecl/releases/sqlsrv/$($env:DLLVersion)/php_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
-    #        $destination = "c:\tools\php\ext\php_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
+    #        $source = "https://windows.php.net/downloads/pecl/releases/sqlsrv/$($env:SQLSRVDLLVersion)/php_sqlsrv-$($env:SQLSRVDLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
+    #        $destination = "c:\tools\php\ext\php_sqlsrv-$($env:SQLSRVDLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
     #        Invoke-WebRequest $source -OutFile $destination
-    #        #appveyor-retry appveyor DownloadFile https://windows.php.net/downloads/pecl/releases/sqlsrv/$($env:DLLVersion)/php_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
-    #        7z x -y php_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip > $null
-    #        $source = "https://windows.php.net/downloads/pecl/releases/pdo_sqlsrv/$($env:DLLVersion)/php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
-    #        $destination = "c:\tools\php\ext\php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
+    #        #appveyor-retry appveyor DownloadFile https://windows.php.net/downloads/pecl/releases/sqlsrv/$($env:SQLSRVDLLVersion)/php_sqlsrv-$($env:SQLSRVDLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
+    #        7z x -y php_sqlsrv-$($env:SQLSRVDLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip > $null
+    #        $source = "https://windows.php.net/downloads/pecl/releases/pdo_sqlsrv/$($env:SQLSRVDLLVersion)/php_pdo_sqlsrv-$($env:SQLSRVDLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
+    #        $destination = "c:\tools\php\ext\php_pdo_sqlsrv-$($env:SQLSRVDLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
     #        Invoke-WebRequest $source -OutFile $destination
-    #        #appveyor-retry appveyor DownloadFile https://windows.php.net/downloads/pecl/releases/pdo_sqlsrv/$($env:DLLVersion)/php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
-    #        7z x -y php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip > $null
+    #        #appveyor-retry appveyor DownloadFile https://windows.php.net/downloads/pecl/releases/pdo_sqlsrv/$($env:SQLSRVDLLVersion)/php_pdo_sqlsrv-$($env:SQLSRVDLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
+    #        7z x -y php_pdo_sqlsrv-$($env:SQLSRVDLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip > $null
     #        Remove-Item c:\tools\php\ext* -include .zip
     #        cd c:\tools\php
     #    }
