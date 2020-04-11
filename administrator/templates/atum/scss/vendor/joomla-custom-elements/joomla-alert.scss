@@ -60,7 +60,7 @@
       opacity: .75;
     }
 
-    [dir=rtl] {
+    [dir=rtl] & {
       right: auto;
       left: 0;
     }
