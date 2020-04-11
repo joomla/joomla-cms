@@ -12,15 +12,5 @@
 	<files>
 		<filename plugin="taggable">taggable.php</filename>
 	</files>
-	<config>
-	<fields name="params">
-		<fieldset name="basic">
-			<field
-				name="message"
-				type="note"
-				label="TODO: Implement a form field type which allows users to select which components / views to exclude"
-				/>
-		</fieldset>
-	</fields>
-	</config>
+	<config />
 </extension>
