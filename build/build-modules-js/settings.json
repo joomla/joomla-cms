@@ -620,7 +620,7 @@
         "title": "Joomla: unsupported PHP version",
         "header": "Sorry, your PHP version is not supported",
         "text": "Your host needs to use PHP version {{PHP_VERSION}} or newer to run this version of Joomla!",
-        "link": "Unsupported_PHP_Version",
+        "link": "J4.x:Unsupported_PHP_Version",
         "linkText": "Help me resolve this",
         "destFile": "/templates/system/incompatible.html"
       }
