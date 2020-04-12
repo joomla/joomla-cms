@@ -80,7 +80,7 @@ $class = !empty($tmp) ? ' class="' . implode(' ', array_unique($tmp)) . '"' : ''
 			<?php endif; ?>
 			<?php // Information or action from plugins
 			if (isset($displayData['text'])): ?>
-				<div class="quickicon-text d-flex align-items-center">
+				<div class="quickicon-name d-flex align-items-center">
 					<?php echo $text; ?>
 				</div>
 			<?php endif; ?>
