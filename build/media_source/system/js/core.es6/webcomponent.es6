@@ -1,15 +1,75 @@
 /**
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @license
+ * Copyright (c) 2018 The Polymer Project Authors. All rights reserved.
+ * This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+ * The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+ * The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+ * Code distributed by Google as part of the polymer project is also
+ * subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+ *
+ * LICENSE.txt from http://polymer.github.io/LICENSE.txt
+ *
+ * Copyright (c) 2014 The Polymer Authors. All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are
+ * met:
+ *
+ * * Redistributions of source code must retain the above copyright
+ * notice, this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above
+ * copyright notice, this list of conditions and the following disclaimer
+ * in the documentation and/or other materials provided with the
+ * distribution.
+ * * Neither the name of Google Inc. nor the names of its
+ * contributors may be used to endorse or promote products derived from
+ * this software without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * @note This file has been modified by the Joomla! Project and no longer reflects the original work of its author.
  */
 
 ((Joomla, document) => {
     'use strict';
 
     /**
-     * Loads any needed polyfill for web components and async load any web components
+     * Basic flow of the loader process
      *
-     * Parts of the WebComponents method belong to The Polymer Project Authors. License http://polymer.github.io/LICENSE.txt
+     * There are 4 flows the loader can take when booting up
+     *
+     * - Synchronous script, no polyfills needed
+     *   - wait for `DOMContentLoaded`
+     *   - fire WCR event, as there could not be any callbacks passed to `waitFor`
+     *
+     * - Synchronous script, polyfills needed
+     *   - document.write the polyfill bundle
+     *   - wait on the `load` event of the bundle to batch Custom Element upgrades
+     *   - wait for `DOMContentLoaded`
+     *   - run callbacks passed to `waitFor`
+     *   - fire WCR event
+     *
+     * - Asynchronous script, no polyfills needed
+     *   - wait for `DOMContentLoaded`
+     *   - run callbacks passed to `waitFor`
+     *   - fire WCR event
+     *
+     * - Asynchronous script, polyfills needed
+     *   - Append the polyfill bundle script
+     *   - wait for `load` event of the bundle
+     *   - batch Custom Element Upgrades
+     *   - run callbacks pass to `waitFor`
+     *   - fire WCR event
      *
      * @since   4.0.0
      */
