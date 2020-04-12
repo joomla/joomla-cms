@@ -44,7 +44,7 @@
         // Submit the form.
         // Create the input type="submit"
         const button = document.createElement('input');
-        button.style.display = 'none';
+        button.classList.add('hidden');
         button.type = 'submit';
 
         // Append it and click it

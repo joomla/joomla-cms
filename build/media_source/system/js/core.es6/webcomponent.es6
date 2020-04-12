@@ -201,7 +201,7 @@
             } else {
                 newScript.addEventListener('load', asyncReady);
                 newScript.addEventListener('error', () => {
-                    throw new Error(`Could not load polyfill bundle${base.rootFull + replacement}`);
+                    throw new Error(`Could not load polyfill bundle ${base.rootFull + replacement}`);
                 });
                 document.head.appendChild(newScript);
             }

@@ -157,7 +157,7 @@
             }
 
             // Fix Chrome bug not updating element height
-            messageContainer.style.display = 'none';
+            messageContainer.classList.add('hidden');
             delete messageContainer.offsetHeight;
             messageContainer.style.display = '';
         }
