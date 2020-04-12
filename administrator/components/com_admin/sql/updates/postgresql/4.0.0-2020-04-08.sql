@@ -1,8 +1,8 @@
 --
 -- Change the column types before adding foreign keys
 --
-ALTER TABLE "#__user_usergroup_map" ALTER COLUMN "user_id" TYPE INTEGER;
-ALTER TABLE "#__user_usergroup_map" ALTER COLUMN "group_id" TYPE INTEGER;
+ALTER TABLE "#__user_usergroup_map" ALTER COLUMN "user_id" TYPE integer;
+ALTER TABLE "#__user_usergroup_map" ALTER COLUMN "group_id" TYPE integer;
 ALTER TABLE "#__user_usergroup_map" ALTER COLUMN "user_id" DROP DEFAULT;
 ALTER TABLE "#__user_usergroup_map" ALTER COLUMN "group_id" DROP DEFAULT;
 
