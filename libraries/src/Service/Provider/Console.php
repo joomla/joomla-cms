@@ -10,9 +10,14 @@
 namespace Joomla\CMS\Service\Provider;
 
 \defined('JPATH_PLATFORM') or die;
-
+use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
+use Joomla\CMS\Console\ExtensionsListCommand;
+use Joomla\CMS\Console\GetConfigurationCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
+use Joomla\CMS\Console\SetConfigurationCommand;
+use Joomla\CMS\Console\SiteDownCommand;
+use Joomla\CMS\Console\SiteUpCommand;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Database\Command\ExportCommand;
 use Joomla\Database\Command\ImportCommand;
@@ -76,6 +81,60 @@ class Console implements ServiceProviderInterface
 			function (Container $container)
 			{
 				return new ImportCommand($container->get('db'));
+			},
+			true
+		);
+
+		$container->share(
+			SiteDownCommand::class,
+			function (Container $container)
+			{
+				return new SiteDownCommand;
+			},
+			true
+		);
+
+		$container->share(
+			SiteUpCommand::class,
+			function (Container $container)
+			{
+				return new SiteUpCommand;
+			},
+			true
+		);
+
+		$container->share(
+			SetConfigurationCommand::class,
+			function (Container $container)
+			{
+				return new SetConfigurationCommand;
+			},
+			true
+		);
+
+		$container->share(
+			GetConfigurationCommand::class,
+			function (Container $container)
+			{
+				return new GetConfigurationCommand;
+			},
+			true
+		);
+
+		$container->share(
+			ExtensionsListCommand::class,
+			function (Container $container)
+			{
+				return new ExtensionsListCommand($container->get('db'));
+			},
+			true
+		);
+
+		$container->share(
+			CheckJoomlaUpdatesCommand::class,
+			function (Container $container)
+			{
+				return new CheckJoomlaUpdatesCommand;
 			},
 			true
 		);
