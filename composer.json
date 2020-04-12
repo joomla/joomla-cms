@@ -120,7 +120,10 @@
         "codeception/codeception": "~4.0",
         "dealerdirect/phpcodesniffer-composer-installer": "^0.6.0",
         "joomla/test": "~2.@dev",
-        "codeception/module-asserts": "^1.0.0",
-        "codeception/module-rest": "^1.0.0"
+        "codeception/module-asserts": "^1.0",
+        "codeception/module-db": "^1.0",
+        "codeception/module-rest": "^1.0",
+        "codeception/module-webdriver": "^1.0",
+        "codeception/module-phpbrowser": "^1.0"
     }
 }
