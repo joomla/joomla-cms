@@ -9,25 +9,25 @@
  * https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
  */
 (() => {
-    if (typeof window.CustomEvent === 'function') {
-        return false;
-    }
+  if (typeof window.CustomEvent === 'function') {
+    return false;
+  }
 
-    const CustomEvent = (event, params) => {
-        const evt = document.createEvent('CustomEvent');
-        const newParams = params
-            || {
-                bubbles: false,
-                cancelable: false,
-                detail: undefined,
-            };
+  const CustomEvent = (event, params) => {
+    const evt = document.createEvent('CustomEvent');
+    const newParams = params
+      || {
+        bubbles: false,
+        cancelable: false,
+        detail: undefined,
+      };
 
-        evt.initCustomEvent(event, newParams.bubbles, newParams.cancelable, newParams.detail);
-        return evt;
-    };
+    evt.initCustomEvent(event, newParams.bubbles, newParams.cancelable, newParams.detail);
+    return evt;
+  };
 
-    CustomEvent.prototype = window.Event.prototype;
+  CustomEvent.prototype = window.Event.prototype;
 
-    window.CustomEvent = CustomEvent;
-    return true;
+  window.CustomEvent = CustomEvent;
+  return true;
 })();
