@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Fields\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;

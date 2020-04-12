@@ -1306,7 +1306,7 @@ abstract class AdminModel extends FormModel
 			}
 
 			// Trigger the before save event.
-			$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
+			$result = $app->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
 
 			if (\in_array(false, $result, true))
 			{
@@ -1327,7 +1327,7 @@ abstract class AdminModel extends FormModel
 			$this->cleanCache();
 
 			// Trigger the after save event.
-			Factory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
+			$app->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
 		}
 		catch (\Exception $e)
 		{
@@ -1470,7 +1470,7 @@ abstract class AdminModel extends FormModel
 
 			if ($id == 0)
 			{
-				$app->enqueueMessage(\JText::_('JGLOBAL_ASSOCIATIONS_NEW_ITEM_WARNING'), 'error');
+				$app->enqueueMessage(Text::_('JGLOBAL_ASSOCIATIONS_NEW_ITEM_WARNING'), 'error');
 				$app->redirect(
 					\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
 				);
@@ -1480,7 +1480,7 @@ abstract class AdminModel extends FormModel
 
 			if ($data['language'] === '*')
 			{
-				$app->enqueueMessage(\JText::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
+				$app->enqueueMessage(Text::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
 				$app->redirect(
 					\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
 				);

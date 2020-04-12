@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Privacy\Site\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
@@ -238,7 +238,7 @@ class ConfirmModel extends AdminModel
 	 */
 	private function getActionlogModel(): ActionlogModel
 	{
-		return Factory::getApplication()->bootComponent('Actionlogs')
+		return Factory::getApplication()->bootComponent('com_actionlogs')
 			->getMVCFactory()->createModel('Actionlog', 'Administrator', ['ignore_request' => true]);
 	}
 }

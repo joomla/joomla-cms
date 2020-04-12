@@ -43,7 +43,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 ?>
 <div class="container-popup">
 	<nav aria-label="toolbar">
-		<div class="btn-group float-right mb-3">
+		<div class="float-right mb-3">
 			<button id="toolbar-load" type="submit" class="btn btn-secondary" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" data-url="<?php echo Route::_($loadUrl); ?>">
 				<span class="fas fa-upload" aria-hidden="true"></span>
 				<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></span>

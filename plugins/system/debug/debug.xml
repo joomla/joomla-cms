@@ -39,7 +39,7 @@
 					type="usergrouplist"
 					label="PLG_DEBUG_FIELD_ALLOWED_GROUPS_LABEL"
 					multiple="true"
-					layout="joomla.form.field.accesslevel-fancy-select"
+					layout="joomla.form.field.list-fancy-select"
 					filter="intarray"
 				/>
 

@@ -132,14 +132,7 @@ legend {
   color: $white;
   background: $black;
   border-radius: .2rem;
-
-  [dir=ltr] & {
-    text-align: left;
-  }
-
-  [dir=rtl] & {
-    text-align: right;
-  }
+  text-align: start;
 }
 
 // reveal associated tooltip on focus
@@ -162,4 +155,18 @@ legend {
   margin-bottom: 0;
   font-size: $label-font-size;
   color: var(--atum-special-color);
+}
+
+.input-group-append {
+  overflow: hidden;
+
+  [dir=ltr] & {
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
+
+  [dir=rtl] & {
+    border-top-left-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
+  }
 }

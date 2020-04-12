@@ -15,9 +15,10 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
+$app->getDocument()->getWebAssetManager()
+	->useScript('core')
+	->useScript('keepalive')
+	->useScript('field.passwordview');
 
 Text::script('JSHOWPASSWORD');
 Text::script('JHIDEPASSWORD');
@@ -51,9 +52,9 @@ Text::script('JHIDEPASSWORD');
 		<div class="mod-login__password form-group">
 			<?php if (!$params->get('usetext', 0)) : ?>
 				<div class="input-group">
-					<label for="modlgn-passwd-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 					<input id="modlgn-passwd-<?php echo $module->id; ?>" type="password" name="password" autocomplete="current-password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
 					<span class="input-group-append">
+						<label for="modlgn-passwd-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 						<button type="button" class="btn btn-secondary input-password-toggle">
 							<span class="fas fa-eye" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>

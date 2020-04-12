@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Config\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rules;
@@ -108,6 +108,13 @@ class ApplicationModel extends FormModel
 		if (!empty($temp))
 		{
 			$data = array_merge($data, $temp);
+		}
+
+		// Correct error_reporting value, since we removed "development", the "maximum" should be set instead
+		// @TODO: This can be removed in 5.0
+		if (!empty($data['error_reporting']) && $data['error_reporting'] === 'development')
+		{
+			$data['error_reporting'] = 'maximum';
 		}
 
 		return $data;

@@ -311,17 +311,11 @@
 			link="index.php?option=com_messages"
 			>
 			<menuitem
-				title="MOD_MENU_MESSAGING_NEW"
-				type="component"
-				element="com_messages"
-				link="index.php?option=com_messages&amp;task=message.add"
-			/>
-
-			<menuitem
 				title="MOD_MENU_MESSAGING_PRIVATE"
 				type="component"
 				element="com_messages"
 				link="index.php?option=com_messages&amp;view=messages"
+				quicktask="index.php?option=com_messages&amp;task=message.add"
 			/>
 		</menuitem>
 	</menuitem>

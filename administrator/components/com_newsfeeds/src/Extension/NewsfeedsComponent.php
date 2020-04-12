@@ -20,6 +20,8 @@ use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
+use Joomla\CMS\Tag\TagServiceInterface;
+use Joomla\CMS\Tag\TagServiceTrait;
 use Joomla\Component\Newsfeeds\Administrator\Service\HTML\AdministratorService;
 use Psr\Container\ContainerInterface;
 
@@ -29,12 +31,16 @@ use Psr\Container\ContainerInterface;
  * @since  4.0.0
  */
 class NewsfeedsComponent extends MVCComponent implements
-	BootableExtensionInterface, CategoryServiceInterface, AssociationServiceInterface, RouterServiceInterface
+	BootableExtensionInterface, CategoryServiceInterface, AssociationServiceInterface, RouterServiceInterface,
+	TagServiceInterface
 {
-	use CategoryServiceTrait;
 	use AssociationServiceTrait;
 	use HTMLRegistryAwareTrait;
 	use RouterServiceTrait;
+	use CategoryServiceTrait, TagServiceTrait {
+		CategoryServiceTrait::getTableNameForSection insteadof TagServiceTrait;
+		CategoryServiceTrait::getStateColumnForSection insteadof TagServiceTrait;
+	}
 
 	/**
 	 * Booting the extension. This is the function to set up the environment of the extension like

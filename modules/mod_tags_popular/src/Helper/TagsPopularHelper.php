@@ -84,8 +84,7 @@ abstract class TagsPopularHelper
 
 		if ($timeframe !== 'alltime')
 		{
-			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd(':nowDate1', '-1', strtoupper($timeframe)))
-				->bind(':nowDate1', $nowDate);
+			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($db->quote($nowDate), '-1', strtoupper($timeframe)));
 		}
 
 		$query->join('INNER', $db->quoteName('#__tags', 't'), $db->quoteName('tag_id') . ' = ' . $db->quoteName('t.id'))

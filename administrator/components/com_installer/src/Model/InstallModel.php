@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Factory;

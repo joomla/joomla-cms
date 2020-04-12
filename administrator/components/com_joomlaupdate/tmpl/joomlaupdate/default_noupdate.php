@@ -21,6 +21,6 @@ use Joomla\CMS\Language\Text;
 		<?php echo Text::sprintf($this->langKey, $this->updateSourceKey); ?>
 	</p>
 	<div class="alert alert-success">
-		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JVERSION); ?>
+		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', '&#x200E;' . JVERSION); ?>
 	</div>
 </fieldset>

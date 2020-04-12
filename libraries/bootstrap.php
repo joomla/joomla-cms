@@ -33,9 +33,6 @@ if (!class_exists('JLoader'))
 // Setup the autoloaders.
 JLoader::setup();
 
-// Register the library base path for CMS libraries.
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
-
 // Create the Composer autoloader
 /** @var \Composer\Autoload\ClassLoader $loader */
 $loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
@@ -52,14 +49,11 @@ spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass
 require_once JPATH_LIBRARIES . '/classmap.php';
 
 /**
- * Register the global exception handler. We will try and set a better Joomla Application Handler
- * once we know the request type (JSON, HTML, Cli etc) as we execute the application so it's
- * fine for this to be HTML Specific.
+ * Register the global exception handler. And set error level to server default error level.
+ * The error level may be changed later in boot up process, after application config will be loaded.
+ * Do not remove the variable, to allow to use it further, after including this file.
  */
-\Symfony\Component\ErrorHandler\ErrorHandler::register(
-	(new \Symfony\Component\ErrorHandler\ErrorHandler)
-		->setExceptionHandler([new \Symfony\Component\ErrorHandler\ErrorRenderer\HtmlErrorRenderer(false), 'render'])
-);
+$errorHandler = \Symfony\Component\ErrorHandler\ErrorHandler::register();
 
 // Register the error handler which processes E_USER_DEPRECATED errors
 set_error_handler(['JErrorPage', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);

@@ -23,6 +23,9 @@ Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+
 // Load the tooltip behavior.
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
@@ -65,7 +68,7 @@ $xml = $this->form->getXml();
 
 					<?php $dataShowOn = ''; ?>
 					<?php if (!empty($fieldSet->showon)) : ?>
-						<?php HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true)); ?>
+						<?php $wa->useScript('showon'); ?>
 						<?php $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($fieldSet->showon, $this->formControl)) . '\''; ?>
 					<?php endif; ?>
 
