@@ -51,7 +51,23 @@ class GetConfigurationCommand extends AbstractCommand
 	 * @var array
 	 * @since 4.0
 	 */
-	const DB_GROUP = ['name' => 'db', 'options' => ['dbtype', 'host', 'user', 'password', 'dbprefix', 'db']];
+	const DB_GROUP = [
+		'name' => 'db',
+		'options' => [
+			'dbtype',
+			'host',
+			'user',
+			'password',
+			'dbprefix',
+			'db',
+			'dbencryption',
+			'dbsslverifyservercert',
+			'dbsslkey',
+			'dbsslcert',
+			'dbsslca',
+			'dbsslcipher'
+		]
+	];
 
 	/**
 	 * Constant defining the Session option group
