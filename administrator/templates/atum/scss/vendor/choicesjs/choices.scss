@@ -16,11 +16,6 @@
   border: 0;
   border-radius: $border-radius;
 
-  ::-moz-placeholder,
-  ::-webkit-input-placeholder {
-    opacity: 1
-  }
-
   &:hover {
     cursor: pointer;
   }
@@ -34,7 +29,7 @@
   border: $input-border;
   border-radius: $border-radius;
   box-shadow: $input-box-shadow;
-  padding: .4rem 1rem;
+  padding: 0.4rem 1rem;
   margin-bottom: 0;
   font-size: 1rem;
 
@@ -48,6 +43,16 @@
   margin-bottom: 0;
   font-size: 1rem;
   background-color: transparent;
+
+  &::-moz-placeholder {
+    color: $gray-700;
+    opacity: 1;
+  }
+
+  &::-webkit-input-placeholder {
+    color: $gray-700;
+    opacity: 1;
+  }
 }
 
 .choices__list--dropdown {
@@ -64,7 +69,7 @@
 
   &.is-highlighted {
     background-color: var(--atum-bg-dark);
-    opacity: .9;
+    opacity: 0.9;
   }
 }
 
@@ -78,9 +83,8 @@
   }
 }
 
-
 .choices__button_joomla {
-  opacity: .5;
+  opacity: 0.5;
   padding: 0 10px;
   color: white;
 
@@ -119,7 +123,7 @@
     padding-inline-end: $custom-select-indicator-padding;
     background: $custom-select-bg url("../../../images/select-bg.svg") no-repeat 100%/116rem;
 
-    [dir=rtl] & {
+    [dir="rtl"] & {
       background: $custom-select-bg url("../../../images/select-bg-rtl.svg") no-repeat 0/116rem;
     }
   }
@@ -139,15 +143,6 @@
 .choices[data-type*="select-multiple"],
 .choices[data-type*="text"] {
   .choices__input {
-    padding: .2rem 0;
-    color: $custom-select-color;
-  }
-
-  .choices__list:not(:empty) + .choices__input {
-    display: none;
-
-    &::placeholder {
-      display: none;
-    }
+    padding: 0.2rem 0;
   }
 }
