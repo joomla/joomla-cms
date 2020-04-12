@@ -272,7 +272,7 @@ class SetConfigurationCommand extends AbstractCommand
 
 		$help = "The <info>%command.name%</info> 
 				Sets a value for a configuration option
-				\nUsage: <info>php %command.full_name%</info> <option> <value>";
+				\nUsage: <info>php %command.full_name%</info> <option>=<value>";
 
 		$this->setHelp($help);
 	}
