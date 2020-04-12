@@ -28,7 +28,7 @@ $returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . Factory
 
 HTMLHelper::_('script', 'com_joomlaupdate/admin-update-default.js', ['version' => 'auto', 'relative' => true]);
 
-Factory::getDocument()->addScriptOptions(
+$this->document->addScriptOptions(
 	'joomlaupdate',
 	[
 		'password' => $password,
@@ -48,7 +48,7 @@ Factory::getDocument()->addScriptOptions(
 		</div>
 		<div class="extprogrow">
 			<span class="extlabel"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_PERCENT'); ?></span>
-			<span class="extvalue" id="extpercent"></span>
+			<span class="extvalue" id="extpercent" aria-live="polite"></span>
 		</div>
 		<div class="extprogrow">
 			<span class="extlabel"><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_BYTESREAD'); ?></span>

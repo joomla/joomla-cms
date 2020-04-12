@@ -45,7 +45,7 @@ if ($color === 'none' || is_null($color))
 }
 
 $alpha        = $format === 'hsla' || $format === 'rgba' || $format === 'alpha';
-$autocomplete = !$autocomplete ? ' autocomplete="off"' : '';
+$autocomplete = !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' : '';
 $autofocus    = $autofocus ? ' autofocus' : '';
 $color        = ' data-color="' . $color . '"';
 $class        = $class ? ' class="' . $class . '"' : '';

@@ -43,29 +43,27 @@
     }
   };
 
-  document.addEventListener('DOMContentLoaded', () => {
-    // Get the elements
-    const elements = [].slice.call(document.querySelectorAll('.select-link'));
+  // Get the elements
+  const elements = [].slice.call(document.querySelectorAll('.select-link'));
 
-    elements.forEach((element) => {
-      // Listen for click event
-      element.addEventListener('click', (event) => {
-        event.preventDefault();
-        const functionName = event.target.getAttribute('data-function');
+  elements.forEach((element) => {
+    // Listen for click event
+    element.addEventListener('click', (event) => {
+      event.preventDefault();
+      const functionName = event.target.getAttribute('data-function');
 
-        if (functionName === 'jSelectMenuItem') {
-          // Used in xtd_contacts
-          window[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), event.target.getAttribute('data-uri'), null, null, event.target.getAttribute('data-language'));
-        } else {
-          // Used in com_menus
-          window.parent[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), null, null, event.target.getAttribute('data-uri'), event.target.getAttribute('data-language'), null);
-        }
+      if (functionName === 'jSelectMenuItem') {
+        // Used in xtd_contacts
+        window[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), event.target.getAttribute('data-uri'), null, null, event.target.getAttribute('data-language'));
+      } else {
+        // Used in com_menus
+        window.parent[functionName](event.target.getAttribute('data-id'), event.target.getAttribute('data-title'), null, null, event.target.getAttribute('data-uri'), event.target.getAttribute('data-language'), null);
+      }
 
-        // Close the modal
-        if (window.parent.Joomla.Modal) {
-          window.parent.Joomla.Modal.getCurrent().close();
-        }
-      });
+      // Close the modal
+      if (window.parent.Joomla.Modal) {
+        window.parent.Joomla.Modal.getCurrent().close();
+      }
     });
   });
 })(Joomla, document);

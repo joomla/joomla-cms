@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\WebAsset\Exception;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Exception class defining an Invalid Action error

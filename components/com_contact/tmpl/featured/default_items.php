@@ -13,15 +13,13 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
+use Joomla\Component\Contact\Site\Helper\RouteHelper;
 
 HTMLHelper::_('behavior.core');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-// Create a shortcut for params.
-$params = &$this->item->params;
 ?>
 
 <div class="com-contact-featured__items">
@@ -116,7 +114,7 @@ $params = &$this->item->params;
 							<?php if ($this->items[$i]->published == 0) : ?>
 								<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 							<?php endif; ?>
-							<a href="<?php echo Route::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid, $item->language)); ?>" itemprop="url">
+							<a href="<?php echo Route::_(RouteHelper::getContactRoute($item->slug, $item->catid, $item->language)); ?>" itemprop="url">
 								<span itemprop="name"><?php echo $item->name; ?></span>
 							</a>
 						</td>

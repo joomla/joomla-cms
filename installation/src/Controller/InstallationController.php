@@ -40,6 +40,7 @@ class InstallationController extends JSONController
 		parent::__construct($config, $factory, $app, $input);
 
 		$this->registerTask('remove', 'backup');
+		$this->registerTask('removeFolder', 'delete');
 	}
 
 	/**
@@ -86,14 +87,31 @@ class InstallationController extends JSONController
 	{
 		$this->checkValidToken();
 
+		/** @var \Joomla\CMS\Installation\Model\SetupModel $setUpModel */
+		$setUpModel = $this->getModel('Setup');
+
 		// Get the options from the session
-		$options = $this->getModel('Setup')->getOptions();
+		$options = $setUpModel->getOptions();
 
 		$r = new \stdClass;
 		$r->view = 'remove';
 
+		/** @var \Joomla\CMS\Installation\Model\ConfigurationModel $configurationModel */
+		$configurationModel = $this->getModel('Configuration');
+
 		// Attempt to setup the configuration.
-		if (!$this->getModel('Configuration')->setup($options))
+		try
+		{
+			$setupDone = $configurationModel->setup($options);
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->app->enqueueMessage($e->getMessage(), 'error');
+
+			$setupDone = false;
+		}
+
+		if (!$setupDone)
 		{
 			$r->view = 'setup';
 		}
@@ -184,17 +202,6 @@ class InstallationController extends JSONController
 
 			// Install selected languages
 			$model->install($lids);
-
-			// Publish the Content Languages.
-			$failedLanguages = $model->publishContentLanguages();
-
-			if (!empty($failedLanguages))
-			{
-				foreach ($failedLanguages as $failedLanguage)
-				{
-					$this->app->enqueueMessage(Text::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $failedLanguage), 'warning');
-				}
-			}
 		}
 
 		// Redirect to the page.
@@ -230,6 +237,11 @@ class InstallationController extends JSONController
 		$r = new \stdClass;
 		$r->view = 'remove';
 
-		$this->sendJsonResponse($r);
+		/**
+		 * TODO: We can't send a response this way because our installation classes no longer
+		 *       exist. We probably need to hardcode a json response here
+		 *
+		 * $this->sendJsonResponse($r);
+		 */
 	}
 }

@@ -1,15 +1,16 @@
 const watch = require('watch');
 const Path = require('path');
 const HandleJsFile = require('./javascript/handle-file.es6.js');
-const RootPath = require('./utils/rootpath.es6.js')._();
+
+const RootPath = process.cwd();
 
 /**
  * Debounce
  * https://gist.github.com/nmsdvid/8807205
  *
  * @param { function } callback  The callback function to be executed
- * @param { integer }  time      The time to wait before firing the callback
- * @param { integer }  interval  The interval
+ * @param { int }  time      The time to wait before firing the callback
+ * @param { int }  interval  The interval
  */
 // eslint-disable-next-line max-len, no-param-reassign, no-return-assign
 const debounce = (callback, time = 250, interval) => (...args) => clearTimeout(interval, interval = setTimeout(callback, time, ...args));

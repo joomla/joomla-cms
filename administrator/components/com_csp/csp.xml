@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension type="component" version="4.0" method="upgrade">
+<extension type="component" method="upgrade">
 	<name>com_csp</name>
 	<author>Joomla! Project</author>
 	<creationDate>May 2018</creationDate>
@@ -9,9 +9,9 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>4.0.0</version>
 	<description>COM_CSP_XML_DESCRIPTION</description>
-	<namespace>Joomla\Component\Csp</namespace>
+	<namespace path="src">Joomla\Component\Csp</namespace>
 	<files folder="site">
-		<folder>Controller</folder>
+		<folder>src</folder>
 	</files>
 	<administration>
 		<menu img="class:csp">com_csp</menu>
@@ -19,18 +19,14 @@
 			<filename>access.xml</filename>
 			<filename>config.xml</filename>
 			<filename>csp.xml</filename>
-			<folder>Controller</folder>
 			<folder>forms</folder>
-			<folder>Helper</folder>
-			<folder>Model</folder>
 			<folder>services</folder>
-			<folder>Table</folder>
+			<folder>src</folder>
 			<folder>tmpl</folder>
-			<folder>View</folder>
 		</files>
 		<languages folder="admin">
-			<language tag="en-GB">language/en-GB.com_csp.ini</language>
-			<language tag="en-GB">language/en-GB.com_csp.sys.ini</language>
+			<language tag="en-GB">language/en-GB/com_csp.ini</language>
+			<language tag="en-GB">language/en-GB/com_csp.sys.ini</language>
 		</languages>
 	</administration>
 </extension>

@@ -22,7 +22,7 @@ extract($displayData);
  */
 ?>
 
-<joomla-alert type="info" dismiss="true" class="js-pstats-alert" style="display:none;">
+<joomla-alert type="info" dismiss="true" class="js-pstats-alert hidden" role="alertdialog">
 	<div class="alert-heading"><?php echo Text::_('PLG_SYSTEM_STATS_LABEL_MESSAGE_TITLE'); ?></div>
 	<div>
 		<p>

@@ -16,6 +16,7 @@
 		class="readonly"
 		default="0"
 		readonly="true"
+		filter="unset"
 	/>
 
 	<field
@@ -71,7 +72,6 @@
 		type="text"
 		label="COM_TAGS_FIELD_NOTE_LABEL"
 		maxlength="255"
-		class="span12"
 		size="40"
 	/>
 
@@ -122,6 +122,8 @@
 		label="JFIELD_META_DESCRIPTION_LABEL"
 		rows="3"
 		cols="40"
+		maxlength="160"
+		charcounter="true"
 	/>
 
 	<field

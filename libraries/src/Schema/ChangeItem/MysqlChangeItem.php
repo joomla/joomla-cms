@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Schema\ChangeItem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Schema\ChangeItem;
 use Joomla\Database\UTF8MB4SupportInterface;
@@ -56,7 +56,7 @@ class MysqlChangeItem extends ChangeItem
 
 		// First, make sure we have an array of at least 6 elements
 		// if not, we can't make a check query for this one
-		if (count($wordArray) < 6)
+		if (\count($wordArray) < 6)
 		{
 			// Done with method
 			return;
@@ -157,7 +157,7 @@ class MysqlChangeItem extends ChangeItem
 				}
 
 				// Detect changes in NULL and in DEFAULT column attributes
-				$changesArray = array_slice($wordArray, 6);
+				$changesArray = \array_slice($wordArray, 6);
 				$defaultCheck = $this->checkDefault($changesArray, $type);
 				$nullCheck = $this->checkNull($changesArray);
 
@@ -185,7 +185,7 @@ class MysqlChangeItem extends ChangeItem
 				}
 
 				// Detect changes in NULL and in DEFAULT column attributes
-				$changesArray = array_slice($wordArray, 6);
+				$changesArray = \array_slice($wordArray, 6);
 				$defaultCheck = $this->checkDefault($changesArray, $type);
 				$nullCheck = $this->checkNull($changesArray);
 

@@ -35,7 +35,7 @@ class AccesslevelField extends ListField
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getOptions()
 	{

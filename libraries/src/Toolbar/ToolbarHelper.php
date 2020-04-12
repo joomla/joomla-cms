@@ -1,6 +1,6 @@
 <?php
 /**
- * @package    Joomla.Libraries
+ * Joomla! Content Management System
  *
  * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Toolbar;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -675,7 +675,7 @@ abstract class ToolbarHelper
 			{
 				foreach ($buttons as $button)
 				{
-					if (!array_key_exists($button[0], $validOptions))
+					if (!\array_key_exists($button[0], $validOptions))
 					{
 						continue;
 					}

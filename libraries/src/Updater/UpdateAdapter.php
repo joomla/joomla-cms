@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Updater;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Http\HttpFactory;
@@ -62,7 +62,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	/**
 	 * Should we try appending a .xml extension to the update site's URL?
 	 *
-	 * @var   bool
+	 * @var   boolean
 	 */
 	protected $appendExtension = false;
 
@@ -88,7 +88,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 * 3	rc			Release Candidate versions (almost stable, minor bugs might be present)
 	 * 4	stable		Stable versions (production quality code)
 	 *
-	 * @var    int
+	 * @var    integer
 	 * @since  14.1
 	 *
 	 * @see    Updater
@@ -116,7 +116,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 */
 	protected function _getLastTag()
 	{
-		return $this->stack[count($this->stack) - 1];
+		return $this->stack[\count($this->stack) - 1];
 	}
 
 	/**
@@ -230,14 +230,14 @@ abstract class UpdateAdapter extends \JAdapterInstance
 		$this->updateSiteName  = $options['update_site_name'];
 		$this->appendExtension = false;
 
-		if (array_key_exists('append_extension', $options))
+		if (\array_key_exists('append_extension', $options))
 		{
 			$this->appendExtension = $options['append_extension'];
 		}
 
-		if ($this->appendExtension && (substr($url, -4) != '.xml'))
+		if ($this->appendExtension && (substr($url, -4) !== '.xml'))
 		{
-			if (substr($url, -1) != '/')
+			if (substr($url, -1) !== '/')
 			{
 				$url .= '/';
 			}
@@ -280,7 +280,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 		if ($response === null || $response->code !== 200)
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
-			if (!$this->appendExtension && (substr($url, -4) != '.xml'))
+			if (!$this->appendExtension && (substr($url, -4) !== '.xml'))
 			{
 				$options['append_extension'] = true;
 

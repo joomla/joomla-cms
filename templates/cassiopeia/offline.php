@@ -20,25 +20,19 @@ use Joomla\CMS\Uri\Uri;
 
 $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 $app              = Factory::getApplication();
+$wa               = $this->getWebAssetManager();
 
 $fullWidth = 1;
 
-// Add JavaScript Frameworks
-HTMLHelper::_('behavior.core');
+// Enable assets
+$wa->usePreset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
+	->useStyle('template.offline')
+	->useStyle('template.active.language')
+	->useStyle('template.user')
+	->useScript('template.user');
 
-// Add Stylesheets
-// Load template CSS file
-HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'offline.css', ['version' => 'auto', 'relative' => true]);
-
-// Check for a custom CSS file
-HTMLHelper::_('stylesheet', 'user.css', ['version' => 'auto', 'relative' => true]);
-
-// Check for a custom js file
-HTMLHelper::_('script', 'user.js', ['version' => 'auto', 'relative' => true]);
-
-// Load optional RTL Bootstrap CSS
-HTMLHelper::_('bootstrap.loadCss', false, $this->direction);
+// Override 'template.active' asset to set correct ltr/rtl dependency
+$wa->registerStyle('template.active', '', [], [], ['template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')]);
 
 // Logo file or site title param
 $sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');

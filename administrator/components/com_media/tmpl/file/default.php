@@ -22,14 +22,12 @@ HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.formvalidator');
 
 // Add stylesheets
-HTMLHelper::_('stylesheet', 'media/com_media/css/mediamanager.css');
-HTMLHelper::_('script', 'com_media/edit-images.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'com_media/mediamanager.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'com_media/edit-images.js', ['version' => 'auto', 'relative' => true]);
 
 $params = ComponentHelper::getParams('com_media');
 
-/**
- * @var JForm $form
- */
+/** @var \Joomla\CMS\Form\Form $form */
 $form = $this->form;
 
 $tmpl = Factory::getApplication()->input->getCmd('tmpl');
@@ -51,7 +49,7 @@ $config = [
 	'contents'                => $this->file->content,
 ];
 
-Factory::getDocument()->addScriptOptions('com_media', $config);
+$this->document->addScriptOptions('com_media', $config);
 
 $this->useCoreUI = true;
 ?>
@@ -60,7 +58,7 @@ $this->useCoreUI = true;
 	<?php $fieldSets = $form->getFieldsets(); ?>
 	<?php if ($fieldSets) : ?>
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'attrib-' . reset($fieldSets)->name)); ?>
-		<?php echo '<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around form-validate col-md-9 p-4"></div>'; ?>
+		<?php echo '<div id="media-manager-edit-container" class="media-manager-edit d-flex justify-content-around col-md-9 p-4"></div>'; ?>
 		<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	<?php endif; ?>

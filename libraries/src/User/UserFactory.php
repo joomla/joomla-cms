@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\User;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\Database\DatabaseInterface;
 

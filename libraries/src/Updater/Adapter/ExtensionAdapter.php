@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Updater\Adapter;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
@@ -65,23 +65,23 @@ class ExtensionAdapter extends UpdateAdapter
 				break;
 
 			default:
-				if (in_array($name, $this->updatecols))
+				if (\in_array($name, $this->updatecols))
 				{
 					$name = strtolower($name);
 					$this->currentUpdate->$name = '';
 				}
 
-				if ($name == 'TARGETPLATFORM')
+				if ($name === 'TARGETPLATFORM')
 				{
 					$this->currentUpdate->targetplatform = $attrs;
 				}
 
-				if ($name == 'PHP_MINIMUM')
+				if ($name === 'PHP_MINIMUM')
 				{
 					$this->currentUpdate->php_minimum = '';
 				}
 
-				if ($name == 'SUPPORTED_DATABASES')
+				if ($name === 'SUPPORTED_DATABASES')
 				{
 					$this->currentUpdate->supported_databases = $attrs;
 				}
@@ -144,8 +144,20 @@ class ExtensionAdapter extends UpdateAdapter
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
 
+						// MySQL and MariaDB use the same database driver but not the same version numbers
+						if ($dbType === 'mysql')
+						{
+							// Check whether we have a MariaDB version string and extract the proper version from it
+							if (stripos($dbVersion, 'mariadb') !== false)
+							{
+								// MariaDB: Strip off any leading '5.5.5-', if present
+								$dbVersion = preg_replace('/^5\.5\.5-/', '', $dbVersion);
+								$dbType    = 'mariadb';
+							}
+						}
+
 						// Do we have an entry for the database?
-						if (array_key_exists($dbType, $supportedDbs))
+						if (\array_key_exists($dbType, $supportedDbs))
 						{
 							$minumumVersion = $supportedDbs[$dbType];
 							$dbMatch        = version_compare($dbVersion, $minumumVersion, '>=');
@@ -251,18 +263,18 @@ class ExtensionAdapter extends UpdateAdapter
 	{
 		$tag = $this->_getLastTag();
 
-		if (in_array($tag, $this->updatecols))
+		if (\in_array($tag, $this->updatecols))
 		{
 			$tag = strtolower($tag);
 			$this->currentUpdate->$tag .= $data;
 		}
 
-		if ($tag == 'PHP_MINIMUM')
+		if ($tag === 'PHP_MINIMUM')
 		{
 			$this->currentUpdate->php_minimum = $data;
 		}
 
-		if ($tag == 'TAG')
+		if ($tag === 'TAG')
 		{
 			$this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
 		}
@@ -286,7 +298,7 @@ class ExtensionAdapter extends UpdateAdapter
 			return false;
 		}
 
-		if (array_key_exists('minimum_stability', $options))
+		if (\array_key_exists('minimum_stability', $options))
 		{
 			$this->minimum_stability = $options['minimum_stability'];
 		}
@@ -299,7 +311,7 @@ class ExtensionAdapter extends UpdateAdapter
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
-			if (!$this->appendExtension && (substr($this->_url, -4) != '.xml'))
+			if (!$this->appendExtension && (substr($this->_url, -4) !== '.xml'))
 			{
 				$options['append_extension'] = true;
 
@@ -317,7 +329,7 @@ class ExtensionAdapter extends UpdateAdapter
 
 		if (isset($this->latest))
 		{
-			if (isset($this->latest->client) && strlen($this->latest->client))
+			if (isset($this->latest->client) && \strlen($this->latest->client))
 			{
 				if (is_numeric($this->latest->client))
 				{
@@ -362,9 +374,9 @@ class ExtensionAdapter extends UpdateAdapter
 	{
 		$constant = '\\Joomla\\CMS\\Updater\\Updater::STABILITY_' . strtoupper($tag);
 
-		if (defined($constant))
+		if (\defined($constant))
 		{
-			return constant($constant);
+			return \constant($constant);
 		}
 
 		return Updater::STABILITY_STABLE;

@@ -10,11 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
-
-$user     = Factory::getUser();
-$app      = Factory::getApplication();
 
 // Try to get the items from the post-installation model
 try
@@ -33,6 +29,6 @@ catch (RuntimeException $e)
 $joomlaFilesExtensionId = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
 
 // Load the com_postinstall language file
-Factory::getLanguage()->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);
+$app->getLanguage()->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);
 
 require ModuleHelper::getLayoutPath('mod_post_installation_messages', $params->get('layout', 'default'));

@@ -32,10 +32,15 @@
   const showCoreChangedOff = () => {
     const override = document.getElementById('override-pane');
     const corePane = document.getElementById('core-pane');
+    const fieldset = override.parentElement.parentElement;
 
     if (corePane && override) {
       corePane.classList.remove('active');
-      override.className = 'col-md-12';
+
+      if (fieldset.classList.contains('options-grid-form-half')) {
+        fieldset.classList.remove('options-grid-form-half');
+        fieldset.classList.add('options-grid-form-full');
+      }
 
       if (typeof Storage !== 'undefined') {
         localStorage.removeItem('coreSwitchState');
@@ -46,10 +51,15 @@
   const showCoreChangedOn = () => {
     const override = document.getElementById('override-pane');
     const corePane = document.getElementById('core-pane');
+    const fieldset = override.parentElement.parentElement;
 
     if (corePane && override) {
       corePane.classList.add('active');
-      override.className = 'col-md-6';
+
+      if (fieldset.classList.contains('options-grid-form-full')) {
+        fieldset.classList.remove('options-grid-form-full');
+        fieldset.classList.add('options-grid-form-half');
+      }
 
       if (Joomla.editors.instances.jform_core) {
         Joomla.editors.instances.jform_core.refresh();
@@ -62,63 +72,31 @@
   };
 
   document.addEventListener('DOMContentLoaded', () => {
-    const JformShowDiff = document.getElementById('jform_show_diff');
-    const JformShowCore = document.getElementById('jform_show_core');
+    const JformShowDiffOn = document.getElementById('jform_show_diff1');
+    const JformShowDiffOff = document.getElementById('jform_show_diff0');
+    const JformShowCoreOn = document.getElementById('jform_show_core1');
+    const JformShowCoreOff = document.getElementById('jform_show_core0');
 
-    if (JformShowDiff) {
-      JformShowDiff.addEventListener('joomla.switcher.on', showDiffChangedOn);
-      JformShowDiff.addEventListener('joomla.switcher.off', showDiffChangedOff);
+    if (JformShowDiffOn && JformShowDiffOff) {
+      JformShowDiffOn.addEventListener('click', showDiffChangedOn);
+      JformShowDiffOff.addEventListener('click', showDiffChangedOff);
     }
 
-    if (JformShowCore) {
-      JformShowCore.addEventListener('joomla.switcher.on', showCoreChangedOn);
-      JformShowCore.addEventListener('joomla.switcher.off', showCoreChangedOff);
+    if (JformShowCoreOn && JformShowCoreOff) {
+      JformShowCoreOn.addEventListener('click', showCoreChangedOn);
+      JformShowCoreOff.addEventListener('click', showCoreChangedOff);
     }
 
-    // Callback executed when JformShowCore was found
-    function handleJformShowCore() {
-      JformShowCore.newActive = 1;
-      JformShowCore.switch();
-    }
-
-    if (typeof Storage !== 'undefined' && localStorage.getItem('coreSwitchState') && JformShowCore) {
-      // Set up the mutation observer
-      const observerJformShowCore = new MutationObserver(((mutations, me) => {
-        if (JformShowDiff) {
-          handleJformShowCore();
-          me.disconnect();
-        }
-      }));
-
-      // Start observing
-      observerJformShowCore.observe(JformShowCore, {
-        childList: true,
-        subtree: true,
-      });
+    if (typeof Storage !== 'undefined' && localStorage.getItem('coreSwitchState') && JformShowCoreOn) {
+      JformShowCoreOn.checked = true;
+      JformShowCoreOff.checked = false;
 
       showCoreChangedOn();
     }
 
-    // Callback executed when JformShowDiff was found
-    function handleJformShowDiff() {
-      JformShowDiff.newActive = 1;
-      JformShowDiff.switch();
-    }
-
-    if (typeof Storage !== 'undefined' && localStorage.getItem('diffSwitchState') && JformShowDiff) {
-      // Set up the mutation observer
-      const observerJformShowDiff = new MutationObserver(((mutations, me) => {
-        if (JformShowDiff) {
-          handleJformShowDiff();
-          me.disconnect();
-        }
-      }));
-
-      // Start observing
-      observerJformShowDiff.observe(JformShowDiff, {
-        childList: true,
-        subtree: true,
-      });
+    if (typeof Storage !== 'undefined' && localStorage.getItem('diffSwitchState') && JformShowDiffOn) {
+      JformShowDiffOn.checked = true;
+      JformShowDiffOff.checked = false;
 
       showDiffChangedOn();
     }

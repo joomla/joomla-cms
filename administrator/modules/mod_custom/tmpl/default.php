@@ -8,5 +8,8 @@
  */
 
 defined('_JEXEC') or die;
+?>
 
-echo $module->content;
+<div class="mod-custom custom">
+	<?php echo $module->content; ?>
+</div>

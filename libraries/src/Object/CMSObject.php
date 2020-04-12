@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\Object;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 /**
  * Joomla Platform Object Class
@@ -56,7 +56,7 @@ class CMSObject
 	 */
 	public function __toString()
 	{
-		return get_class($this);
+		return \get_class($this);
 	}
 
 	/**
@@ -146,7 +146,7 @@ class CMSObject
 			// Default, return the last message
 			$error = end($this->_errors);
 		}
-		elseif (!array_key_exists($i, $this->_errors))
+		elseif (!\array_key_exists($i, $this->_errors))
 		{
 			// If $i has been specified but does not exist, return false
 			return false;
@@ -209,7 +209,7 @@ class CMSObject
 	 */
 	public function setProperties($properties)
 	{
-		if (is_array($properties) || is_object($properties))
+		if (\is_array($properties) || \is_object($properties))
 		{
 			foreach ((array) $properties as $k => $v)
 			{

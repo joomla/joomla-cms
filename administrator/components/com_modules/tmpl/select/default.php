@@ -14,8 +14,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-$document = Factory::getDocument();
-
 $app = Factory::getApplication();
 
 $function  = $app->input->getCmd('function');

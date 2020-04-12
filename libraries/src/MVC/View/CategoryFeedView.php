@@ -8,7 +8,7 @@
 
 namespace Joomla\CMS\MVC\View;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Factory;
@@ -48,12 +48,12 @@ class CategoryFeedView extends HtmlView
 		$createdField = null;
 		$titleField = null;
 
-		if (is_object($ucmMapCommon))
+		if (\is_object($ucmMapCommon))
 		{
 			$createdField = $ucmMapCommon->core_created_time;
 			$titleField = $ucmMapCommon->core_title;
 		}
-		elseif (is_array($ucmMapCommon))
+		elseif (\is_array($ucmMapCommon))
 		{
 			$createdField = $ucmMapCommon[0]->core_created_time;
 			$titleField = $ucmMapCommon[0]->core_title;

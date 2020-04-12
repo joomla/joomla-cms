@@ -35,14 +35,14 @@ install:
     - IF EXIST C:\tools\php (SET PHP=0)
     # TODO: This is a workaround for https://github.com/chocolatey/choco/issues/1843. Once this is fixed we
     #       should go back to latest version in appveyor saving ourselves test time
-    - ps: choco install chocolatey -y --version 0.10.13 --allow-downgrade
+    - ps: choco upgrade chocolatey -y --version 0.10.13 --allow-downgrade
     - ps: >-
         If ($env:PHP -eq "1") {
           appveyor-retry cinst --params '""/InstallDir:C:\tools\php""' --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
         }
     - appveyor-retry cinst -y sqlite
     - cd C:\tools\php
-    # Get the MSSQL DLL's
+    # Get the MSSQL DLLs
     - ps: >-
         If ($env:PHP -eq "1") {
             cd c:\tools\php\ext
@@ -66,6 +66,7 @@ install:
     - IF %PHP%==1 echo extension=php_mbstring.dll >> php.ini
     - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
     - IF %PHP%==1 echo extension=php_gd2.dll >> php.ini
+    - IF %PHP%==1 echo extension=php_gmp.dll >> php.ini
 
     - ps: >-
         If ($env:PHP -eq "1") {

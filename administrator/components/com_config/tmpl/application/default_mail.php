@@ -16,7 +16,8 @@ use Joomla\CMS\Session\Session;
 defined('_JEXEC') or die;
 
 HTMLHelper::_('form.csrf');
-HTMLHelper::_('webcomponent', 'system/fields/joomla-field-send-test-mail.min.js', ['version' => 'auto', 'relative' => true]);
+$this->document->getWebAssetManager()
+	->useScript('webcomponent.field-send-test-mail');
 
 // Load JavaScript message titles
 Text::script('ERROR');
@@ -36,7 +37,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.sendtestmail&f
 
 $this->name = Text::_('COM_CONFIG_MAIL_SETTINGS');
 $this->fieldsname = 'mail';
-$this->formclass = 'options-grid-form options-grid-form-half';
+$this->formclass = 'options-form';
 
 ?>
 

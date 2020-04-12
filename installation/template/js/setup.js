@@ -83,8 +83,17 @@ Joomla.checkDbCredentials = function() {
     perform: true,
     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
     onSuccess: function(response, xhr){
-      response = JSON.parse(response);
       var loaderElement = document.querySelector('joomla-core-loader');
+      try {
+        response = JSON.parse(response);
+      } catch (e) {
+        loaderElement.parentNode.removeChild(loaderElement);
+        console.error('Error in DB Check Endpoint');
+        console.error(response);
+        Joomla.renderMessages({'error': [Joomla.JText._('INSTL_DATABASE_RESPONSE_ERROR')]});
+
+        return false;
+      }
 
       if (response.messages) {
         Joomla.renderMessages(response.messages);
@@ -150,7 +159,7 @@ Joomla.checkDbCredentials = function() {
       e.preventDefault();
       if (Joomla.checkFormField(['#jform_site_name'])) {
         if (document.getElementById('languageForm')) {
-          document.getElementById('languageForm').style.display = 'none';
+          document.getElementById('languageForm').classList.add('hidden');
         }
         if (document.getElementById('installStep2')) {
           document.getElementById('installStep2').classList.add('active');
@@ -172,7 +181,7 @@ Joomla.checkDbCredentials = function() {
         if (document.getElementById('installStep3')) {
           document.getElementById('installStep3').classList.add('active');
           document.getElementById('installStep2').classList.remove('active');
-          document.getElementById('setupButton').style.display = 'block';
+          document.getElementById('setupButton').classList.remove('hidden');
 
           Joomla.makeRandomDbPrefix();
 

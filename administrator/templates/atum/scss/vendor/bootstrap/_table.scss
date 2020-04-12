@@ -2,6 +2,7 @@
 
 .table {
 
+
   thead {
 
     th {
@@ -10,10 +11,13 @@
 
     th,
     td {
+      padding: 1rem;
       font-weight: $font-weight-normal;
-      color: var(--atum-text-dark);
+      color: var(--atum-link-color);
       white-space: nowrap;
-      border-bottom: 2px solid $gray-300;
+      border-top: 0;
+      border-bottom: 0;
+
       @include media-breakpoint-down(xs) {
         white-space: normal;
       }
@@ -21,16 +25,18 @@
 
     a {
       font-weight: $font-weight-normal;
-      color: var(--atum-link-colors);
+      color: var(--atum-link-color);
+
       &#sorted {
-        color: $gray-800;
         font-weight: 500;
+        color: $gray-800;
       }
     }
 
-    .actions, .actions-th1{
+    .actions,
+    .actions-th1 {
       @include media-breakpoint-down(xs) {
-        width:28%;
+        width: 28%;
       }
 
     }
@@ -47,9 +53,10 @@
       text-decoration: underline;
     }
 
-    .itemnumber a.btn {
+    .itemnumber a.btn,
+    .itemnumber span.btn {
+      padding: .1rem .5rem;
       text-decoration: none;
-      padding: 0.1rem .5rem;
     }
 
     th {
@@ -59,10 +66,15 @@
 
   th,
   td {
+    padding: 1rem;
+
     label {
       margin-bottom: 0;
     }
-    .inactive .fa, .inactive [class^=icon-] {
+
+    .inactive .fas,
+    .inactive .fab,
+    .inactive [class^=icon-] {
       color: $gray-400;
     }
 
