@@ -665,7 +665,6 @@ class CategoriesModelCategory extends JModelAdmin
 					return false;
 				}
 			}
-
 		}
 
 		// Trigger the after save event.
