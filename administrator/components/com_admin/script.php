@@ -1273,7 +1273,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default.xml',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_nodownload.php',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_noupdate.php',
-			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_preupdatecheck.php',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_reinstall.php',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_update.php',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_updatemefirst.php',
@@ -1636,7 +1635,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_templates/controllers/style.php',
 			'/administrator/components/com_templates/controllers/styles.php',
 			'/administrator/components/com_templates/controllers/template.php',
-			'/administrator/components/com_templates/controllers/template.php.orig',
 			'/administrator/components/com_templates/helpers/html/templates.php',
 			'/administrator/components/com_templates/models/fields/templatelocation.php',
 			'/administrator/components/com_templates/models/fields/templatename.php',
@@ -3300,6 +3298,10 @@ class JoomlaInstallerScript
 			'/libraries/joomla/archive/tar.php',
 			'/libraries/joomla/archive/wrapper/archive.php',
 			'/libraries/joomla/archive/zip.php',
+			'/libraries/joomla/base/adapter.php',
+			'/libraries/joomla/base/adapterinstance.php',
+			'/libraries/joomla/controller/base.php',
+			'/libraries/joomla/controller/controller.php',
 			'/libraries/joomla/database/database.php',
 			'/libraries/joomla/database/driver.php',
 			'/libraries/joomla/database/driver/mysql.php',
@@ -3504,6 +3506,9 @@ class JoomlaInstallerScript
 			'/libraries/joomla/mediawiki/search.php',
 			'/libraries/joomla/mediawiki/sites.php',
 			'/libraries/joomla/mediawiki/users.php',
+			'/libraries/joomla/model/base.php',
+			'/libraries/joomla/model/database.php',
+			'/libraries/joomla/model/model.php',
 			'/libraries/joomla/oauth1/client.php',
 			'/libraries/joomla/oauth2/client.php',
 			'/libraries/joomla/observable/interface.php',
@@ -3554,6 +3559,9 @@ class JoomlaInstallerScript
 			'/libraries/joomla/twitter/twitter.php',
 			'/libraries/joomla/twitter/users.php',
 			'/libraries/joomla/utilities/arrayhelper.php',
+			'/libraries/joomla/view/base.php',
+			'/libraries/joomla/view/html.php',
+			'/libraries/joomla/view/view.php',
 			'/libraries/legacy/application/application.php',
 			'/libraries/legacy/base/node.php',
 			'/libraries/legacy/base/observable.php',
@@ -4711,8 +4719,12 @@ class JoomlaInstallerScript
 			'/plugins/authentication/gmail/gmail.xml',
 			'/plugins/captcha/recaptcha/postinstall/actions.php',
 			'/plugins/content/confirmconsent/fields/consentbox.php',
+			'/plugins/editors/codemirror/fonts.php',
 			'/plugins/editors/codemirror/layouts/editors/codemirror/init.php',
 			'/plugins/editors/tinymce/field/skins.php',
+			'/plugins/editors/tinymce/field/tinymcebuilder.php',
+			'/plugins/editors/tinymce/field/uploaddirs.php',
+			'/plugins/editors/tinymce/form/setoptions.xml',
 			'/plugins/quickicon/joomlaupdate/joomlaupdate.php',
 			'/plugins/system/languagecode/language/en-GB/en-GB.plg_system_languagecode.ini',
 			'/plugins/system/languagecode/language/en-GB/en-GB.plg_system_languagecode.sys.ini',
@@ -4989,6 +5001,8 @@ class JoomlaInstallerScript
 			'/plugins/system/p3p',
 			'/plugins/system/languagecode/language/en-GB',
 			'/plugins/system/languagecode/language',
+			'/plugins/editors/tinymce/form',
+			'/plugins/editors/tinymce/field',
 			'/plugins/content/confirmconsent/fields',
 			'/plugins/captcha/recaptcha/postinstall',
 			'/plugins/authentication/gmail',
@@ -5290,6 +5304,7 @@ class JoomlaInstallerScript
 			'/libraries/legacy/base',
 			'/libraries/legacy/application',
 			'/libraries/legacy',
+			'/libraries/joomla/view',
 			'/libraries/joomla/utilities',
 			'/libraries/joomla/twitter',
 			'/libraries/joomla/string/wrapper',
@@ -5306,6 +5321,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/observable',
 			'/libraries/joomla/oauth2',
 			'/libraries/joomla/oauth1',
+			'/libraries/joomla/model',
 			'/libraries/joomla/mediawiki',
 			'/libraries/joomla/linkedin',
 			'/libraries/joomla/keychain',
@@ -5337,11 +5353,14 @@ class JoomlaInstallerScript
 			'/libraries/joomla/database/exception',
 			'/libraries/joomla/database/driver',
 			'/libraries/joomla/database',
+			'/libraries/joomla/controller',
+			'/libraries/joomla/base',
 			'/libraries/joomla/archive/wrapper',
 			'/libraries/joomla/archive',
 			'/libraries/joomla/application/web/router',
 			'/libraries/joomla/application/web',
 			'/libraries/joomla/application',
+			'/libraries/joomla',
 			'/libraries/idna_convert',
 			'/libraries/fof/view',
 			'/libraries/fof/utils/update',
@@ -6375,6 +6394,9 @@ class JoomlaInstallerScript
 			return true;
 		}
 
+		// Update UCM content types.
+		$this->updateContentTypes();
+
 		$db = Factory::getDbo();
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
 
@@ -6429,9 +6451,6 @@ class JoomlaInstallerScript
 				return false;
 			}
 		}
-
-		// Update UCM content types.
-		$this->updateContentTypes();
 
 		return true;
 	}
@@ -6717,12 +6736,19 @@ class JoomlaInstallerScript
 	{
 		// Content types to update.
 		$contentTypes = [
+			'com_content.article',
 			'com_contact.contact',
 			'com_newsfeeds.newsfeed',
 			'com_tags.tag',
 			'com_banners.banner',
 			'com_banners.client',
 			'com_users.note',
+			'com_content.category',
+			'com_contact.category',
+			'com_newsfeeds.category',
+			'com_banners.category',
+			'com_users.category',
+			'com_users.user',
 		];
 
 		// Get table definitions.
@@ -6754,16 +6780,33 @@ class JoomlaInstallerScript
 		{
 			list($component, $tableType) = explode('.', $contentType->type_alias);
 
-			$tablePrefix = 'Joomla\\Component\\' . ucfirst(substr($component, 4)) . '\\Administrator\\Table\\';
-			$tableType   = ucfirst($tableType) . 'Table';
+			// Special case for core table classes.
+			if ($contentType->type_alias === 'com_users.users' || $tableType === 'category')
+			{
+				$tablePrefix = 'Joomla\\CMS\Table\\';
+				$tableType   = ucfirst($tableType);
+			}
+			else
+			{
+				$tablePrefix = 'Joomla\\Component\\' . ucfirst(substr($component, 4)) . '\\Administrator\\Table\\';
+				$tableType   = ucfirst($tableType) . 'Table';
+			}
 
 			// Bind type alias.
 			$typeAlias = $contentType->type_alias;
 
-			// Update table definition.
 			$table = json_decode($contentType->table);
-			$table->special->type = $tableType;
+
+			// Update table definitions.
+			$table->special->type   = $tableType;
 			$table->special->prefix = $tablePrefix;
+
+			// Some content types don't have this property.
+			if (!empty($table->common->prefix))
+			{
+				$table->common->prefix  = 'Joomla\\CMS\\Table\\';
+			}
+
 			$table = json_encode($table);
 
 			// Execute the query.

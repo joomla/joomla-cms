@@ -306,9 +306,7 @@ class PlgSystemActionLogs extends CMSPlugin
 
 			$query->clear()
 				->delete($db->quoteName('#__action_logs'))
-				->where($db->quoteName('log_date') . ' < ' . $query->dateAdd(':now', ':days', 'DAY'))
-				->bind(':now', $now)
-				->bind(':days', $days, ParameterType::INTEGER);
+				->where($db->quoteName('log_date') . ' < ' . $query->dateAdd($db->quote($now), $days, 'DAY'));
 
 			$db->setQuery($query);
 
