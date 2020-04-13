@@ -33,11 +33,11 @@ JHtml::_('behavior.keepalive');
 			<?php if (!$params->get('usetext')) : ?>
 				<div class="input-prepend input-append">
 					<label for="modlgn-secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY'); ?></label>
-					<input id="modlgn-secretkey" autocomplete="off" type="text" name="secretkey" class="input-small" tabindex="0" size="18" />
+					<input id="modlgn-secretkey" autocomplete="one-time-code" type="text" name="secretkey" class="input-small" tabindex="0" size="18" />
 				</div>
 			<?php else: ?>
 				<label for="modlgn-secretkey"><?php echo JText::_('JGLOBAL_SECRETKEY') ?></label>
-				<input id="modlgn-secretkey" autocomplete="off" type="text" name="secretkey" class="input-small" tabindex="0" size="18" />
+				<input id="modlgn-secretkey" autocomplete="one-time-code" type="text" name="secretkey" class="input-small" tabindex="0" size="18" />
 			<?php endif; ?>
 		</div>
 	</div>
