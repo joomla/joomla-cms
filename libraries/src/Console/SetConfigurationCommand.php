@@ -65,25 +65,31 @@ class SetConfigurationCommand extends AbstractCommand
 	 * Return code if configuration is set successfully
 	 * @since 4.0
 	 */
-	const CONFIG_SET_SUCCESSFUL = 0;
+	public const CONFIG_SET_SUCCESSFUL = 0;
 
 	/**
 	 * Return code if configuration set failed
 	 * @since 4.0
 	 */
-	const CONFIG_SET_FAILED = 3;
-
-	/**
-	 * Return code if database validation failed
-	 * @since 4.0
-	 */
-	const DB_VALIDATION_FAILED = 1;
+	public const CONFIG_SET_FAILED = 1;
 
 	/**
 	 * Return code if config validation failed
 	 * @since 4.0
 	 */
-	const CONFIG_VALIDATION_FAILED = 2;
+	public const CONFIG_VALIDATION_FAILED = 2;
+
+	/**
+	 * Return code if options are wrong
+	 * @since 4.0
+	 */
+	public const CONFIG_OPTIONS_WRONG = 3;
+
+	/**
+	 * Return code if database validation failed
+	 * @since 4.0
+	 */
+	public const DB_VALIDATION_FAILED = 4;
 
 	/**
 	 * Configures the IO
@@ -101,21 +107,22 @@ class SetConfigurationCommand extends AbstractCommand
 		$language = Factory::getLanguage();
 		$language->load('', JPATH_INSTALLATION, null, false, false) ||
 		$language->load('', JPATH_INSTALLATION, null, true);
+		$language->load('com_config', JPATH_ADMINISTRATOR, null, false, false)||
+		$language->load('com_config', JPATH_ADMINISTRATOR, null, true);
 		$this->cliInput = $input;
 		$this->ioStyle = new SymfonyStyle($input, $output);
 	}
-
 
 	/**
 	 * Collects options from user input
 	 *
 	 * @param   array  $options  Options inputed by users
 	 *
-	 * @return array
+	 * @return boolean
 	 *
 	 * @since 4.0
 	 */
-	public function retrieveOptionsFromInput($options)
+	private function retrieveOptionsFromInput($options)
 	{
 		$collected = [];
 
@@ -123,9 +130,9 @@ class SetConfigurationCommand extends AbstractCommand
 		{
 			if (strpos($option, '=') === false)
 			{
-				$this->ioStyle
-					->error('Options and values should be separated by "="');
-				exit;
+				$this->ioStyle->error('Options and values should be separated by "="');
+
+				return false;
 			}
 
 			list($option, $value) = explode('=', $option);
@@ -133,20 +140,19 @@ class SetConfigurationCommand extends AbstractCommand
 			$collected[$option] = $value;
 		}
 
-		return $collected;
-	}
+		$this->options = $collected;
 
+		return true;
+	}
 
 	/**
 	 * Validates the options provided
 	 *
-	 * @param   array  $options  Options Array
-	 *
-	 * @return mixed
+	 * @return boolean
 	 *
 	 * @since 4.0
 	 */
-	public function validateOptions($options)
+	private function validateOptions()
 	{
 		$config = $this->getInitialConfigurationOptions();
 
@@ -154,15 +160,10 @@ class SetConfigurationCommand extends AbstractCommand
 
 		$valid = true;
 		array_walk(
-			$options, function ($value, $key) use ($configs, &$valid) {
+			$this->options, function ($value, $key) use ($configs, &$valid) {
 				if (!array_key_exists($key, $configs))
 				{
-					$this->getApplication()
-						->enqueueMessage(
-							"Can't find option *$key* in configuration list",
-							'error'
-						);
-
+					$this->ioStyle->error("Can't find option *$key* in configuration list");
 					$valid = false;
 				}
 			}
@@ -194,11 +195,6 @@ class SetConfigurationCommand extends AbstractCommand
 	 */
 	public function getOptions()
 	{
-		if ($this->options)
-		{
-			return $this->options;
-		}
-
 		return $this->cliInput->getArgument('options');
 	}
 
@@ -218,39 +214,25 @@ class SetConfigurationCommand extends AbstractCommand
 	/**
 	 * Save the configuration file
 	 *
-	 * @param   array  $options  Collected options
-	 *
 	 * @return boolean
 	 *
 	 * @since 4.0
 	 */
-	public function saveConfiguration($options)
+	public function saveConfiguration()
 	{
-		$config = $this->getInitialConfigurationOptions();
+		$app = $this->getApplication();
 
-		foreach ($options as $key => $value)
+		// Check db connection encription properties
+		$model = $app->bootComponent('com_config')->getMVCFactory($app)->createModel('Application', 'Administrator');
+
+		if (!$model->save($this->options))
 		{
-			$value = $value === 'false' ? false : $value;
-			$value = $value === 'true' ? true : $value;
+			$this->ioStyle->error(Text::_('Failed to save properties'));
 
-			$config->set($key, $value);
+			return false;
 		}
 
-		$config->remove('cwd');
-		$config->remove('execution');
-		$buffer = $config->toString(
-			'PHP',
-			array('class' => 'JConfig', 'closingtag' => false)
-		);
-
-		$path = JPATH_CONFIGURATION . '/configuration.php';
-
-		if ($this->writeFile($buffer, $path))
-		{
-			return true;
-		}
-
-		return false;
+		return true;
 	}
 
 	/**
@@ -278,180 +260,156 @@ class SetConfigurationCommand extends AbstractCommand
 	}
 
 	/**
-	 * Writes a string to a given file path
-	 *
-	 * @param   string  $buffer  The string that will be written to the file
-	 * @param   string  $path    The path to write the file
-	 *
-	 * @return boolean
-	 *
-	 * @since 4.0
-	 */
-	public function writeFile($buffer, $path)
-	{
-		$options = $this->getApplication()->getConfig();
-
-		// Determine if the configuration file path is writable.
-		if (file_exists($path))
-		{
-			$canWrite = is_writable($path);
-		}
-		else
-		{
-			$canWrite = is_writable(JPATH_CONFIGURATION . '/');
-		}
-
-		/*
-		* If the file exists but isn't writable OR if the file doesn't exist and the parent directory
-		* is not writable we need to use FTP.
-		*/
-		$useFTP = false;
-
-		if ((file_exists($path) && !is_writable($path)) || (!file_exists($path) && !is_writable(dirname($path) . '/')))
-		{
-			return false;
-		}
-
-		// Check for safe mode.
-		if (ini_get('safe_mode'))
-		{
-			$useFTP = true;
-		}
-
-		// Enable/Disable override.
-		if (!isset($options->ftpEnable) || ($options->ftpEnable != 1))
-		{
-			$useFTP = false;
-		}
-
-		return $canWrite ? File::write($path, $buffer) : false;
-	}
-
-
-	/**
 	 * Verifies database connection
 	 *
 	 * @param   array  $options  Options array
 	 *
-	 * @return bool|\Joomla\Database\DatabaseInterface
+	 * @return boolean|\Joomla\Database\DatabaseInterface
 	 *
 	 * @since 4.0
 	 * @throws \Exception
 	 */
 	public function checkDb($options)
 	{
-		$options = [
-			'db_type' => $options['dbtype'],
-			'db_host' => $options['host'],
-			'db_prefix' => $options['dbprefix'],
-			'db_name' => $options['db'],
-			'db_pass' => $options['password'],
-			'db_user' => $options['user'],
-		];
-
-
-		// Get the options as an object for easier handling.
-		$options = ArrayHelper::toObject($options);
-
-		// Load the backend language files so that the DB error messages work.
-		$lang = Factory::getLanguage();
-		$currentLang = $lang->getTag();
-
-		// Load the selected language
-		if (LanguageHelper::exists($currentLang, JPATH_ADMINISTRATOR))
-		{
-			$lang->load('joomla', JPATH_ADMINISTRATOR, $currentLang, true);
-		}
-		// Pre-load en-GB in case the chosen language files do not exist.
-		else
-		{
-			$lang->load('joomla', JPATH_ADMINISTRATOR, 'en-GB', true);
-		}
-
 		// Ensure a database type was selected.
-		if (empty($options->db_type))
+		if (empty($options['dbtype']))
 		{
-			$this->getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_TYPE'), 'warning');
+			$this->ioStyle->error(Text::_('INSTL_DATABASE_INVALID_TYPE'));
 
 			return false;
 		}
 
 		// Ensure that a hostname and user name were input.
-		if (empty($options->db_host) || empty($options->db_user))
+		if (empty($options['host']) || empty($options['user']))
 		{
-			$this->getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
-
-			return false;
-		}
-
-		// Ensure that a database name was input.
-		if (empty($options->db_name))
-		{
-			$this->getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
+			$this->ioStyle->error(Text::_('INSTL_DATABASE_INVALID_DB_DETAILS'));
 
 			return false;
 		}
 
 		// Validate database table prefix.
-		if (isset($options->db_prefix) && !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
+		if (isset($options['dbprefix']) && !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options['dbprefix']))
 		{
-			$this->getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_PREFIX_MSG'), 'warning');
+			$this->ioStyle->error(Text::_('INSTL_DATABASE_PREFIX_MSG'));
 
 			return false;
 		}
 
 		// Validate length of database table prefix.
-		if (isset($options->db_prefix) && strlen($options->db_prefix) > 15)
+		if (isset($options['dbprefix']) && strlen($options['dbprefix']) > 15)
 		{
-			$this->getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
+			$this->ioStyle->error(Text::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
 
 			return false;
 		}
 
 		// Validate length of database name.
-		if (strlen($options->db_name) > 64)
+		if (strlen($options['db']) > 64)
 		{
-			$this->getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_TOO_LONG'), 'warning');
+			$this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_TOO_LONG'));
+
+			return false;
+		}
+
+		// Validate database name.
+		if (in_array($options['dbtype'], ['pgsql', 'postgresql'], true) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options['db']))
+		{
+			$this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRESQL'));
+
+			return false;
+		}
+
+		if (in_array($options['dbtype'], ['mysql', 'mysqli']) && preg_match('#[\\\\\/\.]#', $options['db']))
+		{
+			$this->ioStyle->error(Text::_('INSTL_DATABASE_NAME_MSG_MYSQL'));
 
 			return false;
 		}
 
 		// Workaround for UPPERCASE table prefix for PostgreSQL
-		if (in_array($options->db_type, ['pgsql', 'postgresql']))
+		if (in_array($options['dbtype'], ['pgsql', 'postgresql']))
 		{
-			if (isset($options->db_prefix) && strtolower($options->db_prefix) !== $options->db_prefix)
+			if (isset($options['dbprefix']) && strtolower($options['dbprefix']) !== $options['dbprefix'])
 			{
-				$this->getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
+				$this->ioStyle->error(Text::_('INSTL_DATABASE_FIX_LOWERCASE'));
 
 				return false;
 			}
 		}
 
+		$app = $this->getApplication();
+
+		// Check db connection encription properties
+		$model = $app->bootComponent('com_config')->getMVCFactory($app)->createModel('Application', 'Administrator');
+
+		if (!$model->validateDbConnection($options))
+		{
+			$this->ioStyle->error(Text::_('Failed to validate the db connection encription properties'));
+
+			return false;
+		}
+
 		// Build the connection options array.
 		$settings = [
-			'driver'   => $options->db_type,
-			'host'     => $options->db_host,
-			'user'     => $options->db_user,
-			'password' => $options->db_pass,
-			'database' => $options->db_name,
-			'prefix'   => $options->db_prefix,
-			'select'   => isset($options->db_select) ? $options->db_select : false
+			'driver'   => $options['dbtype'],
+			'host'     => $options['host'],
+			'user'     => $options['user'],
+			'password' => $options['password'],
+			'database' => $options['db'],
+			'prefix'   => $options['dbprefix'],
 		];
+
+		if ((int) $options['dbencryption'] !== 0)
+		{
+			$settings['ssl'] = [
+				'enable'             => true,
+				'verify_server_cert' => (bool) $options['dbsslverifyservercert'],
+			];
+
+			foreach (['cipher', 'ca', 'key', 'cert'] as $value)
+			{
+				$confVal = trim($options['dbssl' . $value]);
+
+				if ($confVal !== '')
+				{
+					$settings['ssl'][$value] = $confVal;
+				}
+			}
+		}
 
 		// Get a database object.
 		try
 		{
-			return DatabaseDriver::getInstance($settings)->connect();
+			$db = DatabaseDriver::getInstance($settings);
+			$db->getVersion();
 		}
-		catch (\RuntimeException $e)
+		catch (\Exception $e)
 		{
-			$this->getApplication()->enqueueMessage(
-				Text::sprintf('Cannot connect to database, verify that you specified the correct database details', null),
-				'error'
+			$this->ioStyle->error(
+				Text::sprintf(
+					'Cannot connect to database, verify that you specified the correct database details %s',
+					$e->getMessage()
+				)
 			);
 
 			return false;
 		}
+
+		if ((int) $settings['dbencryption'] !== 0 && empty($db->getConnectionEncryption()))
+		{
+			if ($db->isConnectionEncryptionSupported())
+			{
+				$this->ioStyle->error(Text::_('COM_CONFIG_ERROR_DATABASE_ENCRYPTION_CONN_NOT_ENCRYPT'));
+			}
+			else
+			{
+				$this->ioStyle->error(Text::_('COM_CONFIG_ERROR_DATABASE_ENCRYPTION_SRV_NOT_SUPPORTS'));
+			}
+
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -471,29 +429,28 @@ class SetConfigurationCommand extends AbstractCommand
 
 		$options = $this->getOptions();
 
-		$options = $this->retrieveOptionsFromInput($options);
+		if (!$this->retrieveOptionsFromInput($options))
+		{
+			return self::CONFIG_OPTIONS_WRONG;
+		}
 
-		$valid = $this->validateOptions($options);
-
-		if (!$valid)
+		if (!$this->validateOptions())
 		{
 			return self::CONFIG_VALIDATION_FAILED;
 		}
 
 		$initialOptions = $this->getInitialConfigurationOptions()->toArray();
 
-		$combinedOptions = array_merge($initialOptions, $options);
+		$combinedOptions = array_merge($initialOptions, $this->options);
 
-		$db = $this->checkDb($combinedOptions);
-
-		if ($db === false)
+		if (!$this->checkDb($combinedOptions))
 		{
 			return self::DB_VALIDATION_FAILED;
 		}
 
-		if ($this->saveConfiguration($options))
+		if ($this->saveConfiguration())
 		{
-			$this->options ?: $this->ioStyle->success('Configuration set');
+			$this->ioStyle->success('Configuration set');
 
 			return self::CONFIG_SET_SUCCESSFUL;
 		}
