@@ -73,9 +73,9 @@
   }
 }
 
-.choices__list--dropdown {
+.choices .choices__list--dropdown {
   .choices__item {
-    padding-right: 10px;
+    padding-inline-end: 10px;
   }
 
   .choices__item--selectable::after {
