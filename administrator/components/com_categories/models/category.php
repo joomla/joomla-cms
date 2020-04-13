@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
@@ -664,6 +665,7 @@ class CategoriesModelCategory extends JModelAdmin
 					return false;
 				}
 			}
+
 		}
 
 		// Trigger the after save event.
@@ -686,6 +688,11 @@ class CategoriesModelCategory extends JModelAdmin
 		}
 
 		$this->setState($this->getName() . '.id', $table->id);
+
+		if (Factory::getApplication()->input->get('task') == 'editAssociations')
+		{
+			return $this->redirectToAssociations($data);
+		}
 
 		// Clear the cache
 		$this->cleanCache();
