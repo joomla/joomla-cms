@@ -1198,11 +1198,11 @@ class Form
 			// Define field name for messages
 			if ($field['label'])
 			{
-				$fieldLabel = \JText::_($field['label']);
+				$fieldLabel = Text::_($field['label']);
 			}
 			else
 			{
-				$fieldLabel = \JText::_($name);
+				$fieldLabel = Text::_($name);
 			}
 
 			$disabled = ((string) $field['disabled'] === 'true' || (string) $field['disabled'] === 'disabled');

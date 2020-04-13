@@ -228,7 +228,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										];
 
 										echo (new FeaturedButton)
-											->render($item->featured, $i, $options, $item->featured_up, $item->featured_down);
+											->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
 									?>
 								</td>
 								<td class="article-status">
@@ -252,7 +252,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 												->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JARCHIVED')])
 												->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JTRASHED')])
 												->setLayout('joomla.button.transition-button')
-												->render($item->stage_condition, $i, $options, $item->publish_up, $item->publish_down);
+												->render((int) $item->stage_condition, $i, $options, $item->publish_up, $item->publish_down);
 										?>
 										</div>
 									</div>
