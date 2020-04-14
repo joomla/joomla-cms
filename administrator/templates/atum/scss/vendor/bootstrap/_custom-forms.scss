@@ -36,9 +36,17 @@
   &.custom-select-color-state {
 
     &.custom-select-success {
+      background: $custom-select-background-light;
       color: theme-color("success");
       background-color: theme-color("success");
       border-color: theme-color("success");
+
+      [dir=rtl] & {
+        background: $custom-select-background-light-rtl;
+        color: theme-color("success");
+        background-color: theme-color("success");
+        border-color: theme-color("success");
+      }
 
       option {
         color: $custom-select-color;
@@ -47,9 +55,17 @@
     }
 
     &.custom-select-danger {
+      background: $custom-select-background-light;
       color: theme-color("danger");
       background-color: theme-color("danger");
       border-color: theme-color("danger");
+
+      [dir=rtl] & {
+        background: $custom-select-background-light-rtl;
+        color: theme-color("danger");
+        background-color: theme-color("danger");
+        border-color: theme-color("danger");
+      }
 
       option {
         color: $custom-select-color;
