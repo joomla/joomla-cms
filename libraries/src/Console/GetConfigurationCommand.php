@@ -124,7 +124,7 @@ class GetConfigurationCommand extends AbstractCommand
 	public const CONFIG_GET_OPTION_NOT_FOUND = 2;
 
 	/**
-	 * Return code if the command  has been invoked with wrong options
+	 * Return code if the command has been invoked with wrong options
 	 * @since 4.0
 	 */
 	public const CONFIG_GET_OPTION_FAILED = 3;
