@@ -99,7 +99,7 @@ EOF;
 	 *
 	 * @since 4.0
 	 */
-	public function setUpdateInfo($info = null)
+	public function setUpdateInfo($info = null): void
 	{
 		if (!$info)
 		{
