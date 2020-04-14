@@ -277,7 +277,7 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->waitForJsOnPageLoad();
 		$I->uploadFile('com_media/' . $testFileName);
-		$I->seeSystemMessage('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->seeContents([$testFileName]);
 		$I->click($testFileItem);
 		$I->click(MediaListPage::$toolbarDeleteButton);
@@ -290,12 +290,12 @@ class MediaListCest
 
 		// Ensure the modal has closed
 		$I->wait(1);
-		$I->seeSystemMessage('Item deleted.');
+		$I->seeAndCloseSystemMessage('Item deleted.');
 		$I->waitForElementNotVisible($testFileItem);
 	}
 
 	/**
-	 * Test the upload of a single file using toolbar button.
+	 * Test the upload of an existing file using toolbar button.
 	 *
 	 * @skip    We need to skip this test, because of a bug in acceptPopup in chrome.
 	 *          It throws a Facebook\WebDriver\Exception\UnexpectedAlertOpenException and does not accept the popup.
@@ -314,13 +314,13 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->waitForJsOnPageLoad();
 		$I->uploadFile('com_media/' . $testFileName);
-		$I->seeSystemMessage('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->uploadFile('com_media/' . $testFileName);
 		$I->seeContents([$testFileName]);
 		$I->waitForMediaLoaded();
 		$I->seeInPopup($testFileName . ' already exists. Do you want to replace it?');
 		$I->acceptPopup();
-		$I->seeSystemMessage('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->seeContents([$testFileName]);
 	}
 
@@ -401,6 +401,7 @@ class MediaListCest
 		$I->wantToTest('that it is possible to delete a single file.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->uploadFile('com_media/' . $testFileName);
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->waitForElement($testFileItem);
 		$I->waitForJsOnPageLoad();
 		$I->click($testFileItem);
@@ -473,7 +474,7 @@ class MediaListCest
 		$I->wantToTest('that it is possible to delete multiple files.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->uploadFile('com_media/' . $testFileName1);
-		$I->waitForText('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->wait(10);
 		$I->waitForElement($testFileItem1);
 
@@ -481,7 +482,7 @@ class MediaListCest
 		$I->executeJS('document.getElementsByName(\'file\')[0].value = \'\'');
 		$I->waitForMediaLoaded();
 		$I->uploadFile('com_media/' . $testFileName2);
-		$I->waitForText('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->wait(10);
 		$I->waitForMediaLoaded();
 		$I->waitForElement($testFileItem2);
