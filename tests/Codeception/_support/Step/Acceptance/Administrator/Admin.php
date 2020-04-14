@@ -69,8 +69,8 @@ class Admin extends AcceptanceTester
 
 		$I->waitForText($text, $timeout, AdminPage::$systemMessageContainer);
 		$I->see($text, AdminPage::$systemMessageContainer);
-		$I->wait(0.2);
-		$I->click('.joomla-alert--close');
-		$I->wait(0.3);
+		$I->wait(0.5);
+		$I->click('#system-message .joomla-alert--close');
+		$I->wait(0.6);
 	}
 }
