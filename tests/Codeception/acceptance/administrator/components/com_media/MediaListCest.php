@@ -474,7 +474,7 @@ class MediaListCest
 		$I->wantToTest('that it is possible to delete multiple files.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->uploadFile('com_media/' . $testFileName1);
-		$I->waitForText('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->wait(10);
 		$I->waitForElement($testFileItem1);
 
@@ -482,7 +482,7 @@ class MediaListCest
 		$I->executeJS('document.getElementsByName(\'file\')[0].value = \'\'');
 		$I->waitForMediaLoaded();
 		$I->uploadFile('com_media/' . $testFileName2);
-		$I->waitForText('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->wait(10);
 		$I->waitForMediaLoaded();
 		$I->waitForElement($testFileItem2);
