@@ -154,11 +154,11 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 					if (version_compare($version, $activePhpVersion, 'ge') && ($today < $versionEndOfSupport))
 					{
 						$supportStatus['status']  = self::PHP_UNSUPPORTED;
-						$supportStatus['message'] = JText::sprintf(
+						$supportStatus['message'] = Text::sprintf(
 							'PLG_QUICKICON_PHPVERSIONCHECK_UNSUPPORTED',
 							PHP_VERSION,
 							$version,
-							$versionEndOfSupport->format(JText::_('DATE_FORMAT_LC4'))
+							$versionEndOfSupport->format(Text::_('DATE_FORMAT_LC4'))
 						);
 
 						return $supportStatus;

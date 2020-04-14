@@ -788,7 +788,6 @@
 			<option value="none">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="simple">COM_CONFIG_FIELD_VALUE_SIMPLE</option>
 			<option value="maximum">COM_CONFIG_FIELD_VALUE_MAXIMUM</option>
-			<option value="development">COM_CONFIG_FIELD_VALUE_DEVELOPMENT</option>
 		</field>
 
 		<field

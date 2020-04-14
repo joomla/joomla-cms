@@ -290,6 +290,14 @@
     .header-item {
       width: 6.6rem;
       height: 3.7rem;
+
+      .header-item-content > :first-child {
+        color: var(--atum-special-color);
+
+        &[aria-expanded=true] {
+          color: var(--atum-text-light);
+        }
+      }
     }
 
     .header-item-content {
@@ -367,14 +375,6 @@
         [dir=rtl] & {
           right: 0;
           left: auto;
-        }
-      }
-
-      & .header-item .header-item-content > :first-child {
-        color: var(--atum-special-color);
-
-        &[aria-expanded=true] {
-          color: var(--atum-text-light);
         }
       }
     }

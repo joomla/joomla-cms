@@ -14,6 +14,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\ParameterType;
 
 /**
  * Menu Types table
@@ -70,12 +71,16 @@ class MenuType extends Table
 			$this->title = $this->menutype;
 		}
 
+		$id = (int) $this->id;
+
 		// Check for unique menutype.
 		$query = $this->_db->getQuery(true)
 			->select('COUNT(id)')
 			->from($this->_db->quoteName('#__menu_types'))
-			->where($this->_db->quoteName('menutype') . ' = ' . $this->_db->quote($this->menutype))
-			->where($this->_db->quoteName('id') . ' <> ' . (int) $this->id);
+			->where($this->_db->quoteName('menutype') . ' = :menutype')
+			->where($this->_db->quoteName('id') . ' <> :id')
+			->bind(':menutype', $this->menutype)
+			->bind(':id', $id, ParameterType::INTEGER);
 		$this->_db->setQuery($query);
 
 		if ($this->_db->loadResult())
@@ -105,7 +110,8 @@ class MenuType extends Table
 		if ($this->id)
 		{
 			// Get the user id
-			$userId = Factory::getUser()->id;
+			$userId = (int) Factory::getUser()->id;
+			$notIn  = [0, $userId];
 
 			// Get the old value of the table
 			$table = Table::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
@@ -113,11 +119,11 @@ class MenuType extends Table
 
 			// Verify that no items are checked out
 			$query = $this->_db->getQuery(true)
-				->select('id')
-				->from('#__menu')
-				->where('menutype=' . $this->_db->quote($table->menutype))
-				->where('checked_out !=' . (int) $userId)
-				->where('checked_out !=0');
+				->select($this->_db->quoteName('id'))
+				->from($this->_db->quoteName('#__menu'))
+				->where($this->_db->quoteName('menutype') . ' = :menutype')
+				->whereNotIn($this->_db->quoteName('checked_out'), $notIn)
+				->bind(':menutype', $table->menutype);
 			$this->_db->setQuery($query);
 
 			if ($this->_db->loadRowList())
@@ -130,13 +136,14 @@ class MenuType extends Table
 			}
 
 			// Verify that no module for this menu are checked out
+			$searchParams = '%"menutype":' . json_encode($table->menutype) . '%';
 			$query->clear()
-				->select('id')
-				->from('#__modules')
-				->where('module=' . $this->_db->quote('mod_menu'))
-				->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'))
-				->where('checked_out !=' . (int) $userId)
-				->where('checked_out !=0');
+				->select($this->_db->quoteName('id'))
+				->from($this->_db->quoteName('#__modules'))
+				->where($this->_db->quoteName('module') . ' = ' . $this->_db->quote('mod_menu'))
+				->where($this->_db->quoteName('params') . ' LIKE :params')
+				->whereNotIn($this->_db->quoteName('checked_out'), $notIn)
+				->bind(':params', $searchParams);
 			$this->_db->setQuery($query);
 
 			if ($this->_db->loadRowList())
@@ -150,21 +157,28 @@ class MenuType extends Table
 
 			// Update the menu items
 			$query->clear()
-				->update('#__menu')
-				->set('menutype=' . $this->_db->quote($this->menutype))
-				->where('menutype=' . $this->_db->quote($table->menutype));
+				->update($this->_db->quoteName('#__menu'))
+				->set($this->_db->quoteName('menutype') . ' = :setmenutype')
+				->where($this->_db->quoteName('menutype') . ' = :menutype')
+				->bind(':setmenutype', $this->menutype)
+				->bind(':menutype', $table->menutype);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 
 			// Update the module items
+			$whereParams   = '%"menutype":' . json_encode($table->menutype) . '%';
+			$searchParams  = '"menutype":' . json_encode($table->menutype);
+			$replaceParams = '"menutype":' . json_encode($this->menutype);
 			$query->clear()
-				->update('#__modules')
+				->update($this->_db->quoteName('#__modules'))
 				->set(
-					'params=REPLACE(params,' . $this->_db->quote('"menutype":' . json_encode($table->menutype)) . ',' .
-					$this->_db->quote('"menutype":' . json_encode($this->menutype)) . ')'
+					$this->_db->quoteName('params') . ' = REPLACE(' . $this->_db->quoteName('params') . ', :search, :value)'
 				);
-			$query->where('module=' . $this->_db->quote('mod_menu'))
-				->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'));
+			$query->where($this->_db->quoteName('module') . ' = ' . $this->_db->quote('mod_menu'))
+				->where($this->_db->quoteName('params') . ' LIKE :whereparams')
+				->bind(':search', $searchParams)
+				->bind(':value', $replaceParams)
+				->bind(':whereparams', $whereParams);
 			$this->_db->setQuery($query);
 			$this->_db->execute();
 		}
@@ -190,7 +204,9 @@ class MenuType extends Table
 		if ($pk !== null)
 		{
 			// Get the user id
-			$userId = Factory::getUser()->id;
+			$userId = (int) Factory::getUser()->id;
+			$notIn  = [0, $userId];
+			$star   = '*';
 
 			// Get the old value of the table
 			$table = Table::getInstance('Menutype', 'JTable', array('dbo' => $this->getDbo()));
@@ -198,10 +214,18 @@ class MenuType extends Table
 
 			// Verify that no items are checked out
 			$query = $this->_db->getQuery(true)
-				->select('id')
-				->from('#__menu')
-				->where('menutype=' . $this->_db->quote($table->menutype))
-				->where('(checked_out NOT IN (0,' . (int) $userId . ') OR home=1 AND language=' . $this->_db->quote('*') . ')');
+				->select($this->_db->quoteName('id'))
+				->from($this->_db->quoteName('#__menu'))
+				->where($this->_db->quoteName('menutype') . ' = :menutype')
+				->where('(' .
+					$this->_db->quoteName('checked_out') . ' NOT IN (0, :id)' .
+					' OR ' . $this->_db->quoteName('home') . ' = 1' .
+					' AND ' . $this->_db->quoteName('language') . ' = :star' .
+					')'
+				)
+				->bind(':menutype', $table->menutype)
+				->bind(':id', $userId, ParameterType::INTEGER)
+				->bind(':star', $star);
 			$this->_db->setQuery($query);
 
 			if ($this->_db->loadRowList())
@@ -212,13 +236,14 @@ class MenuType extends Table
 			}
 
 			// Verify that no module for this menu are checked out
+			$searchParams = '%"menutype":' . json_encode($table->menutype) . '%';
 			$query->clear()
-				->select('id')
-				->from('#__modules')
-				->where('module=' . $this->_db->quote('mod_menu'))
-				->where('params LIKE ' . $this->_db->quote('%"menutype":' . json_encode($table->menutype) . '%'))
-				->where('checked_out !=' . (int) $userId)
-				->where('checked_out !=0');
+				->select($this->_db->quoteName('id'))
+				->from($this->_db->quoteName('#__modules'))
+				->where($this->_db->quoteName('module') . ' = ' . $this->_db->quote('mod_menu'))
+				->where($this->_db->quoteName('params') . ' LIKE :menutype')
+				->whereNotIn($this->_db->quoteName('checked_out'), $notIn)
+				->bind(':menutype', $searchParams);
 			$this->_db->setQuery($query);
 
 			if ($this->_db->loadRowList())
