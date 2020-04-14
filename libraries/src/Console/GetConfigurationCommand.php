@@ -51,7 +51,7 @@ class GetConfigurationCommand extends AbstractCommand
 	 * @var array
 	 * @since 4.0
 	 */
-	const DB_GROUP = [
+	public const DB_GROUP = [
 		'name' => 'db',
 		'options' => [
 			'dbtype',
@@ -74,22 +74,60 @@ class GetConfigurationCommand extends AbstractCommand
 	 * @var array
 	 * @since 4.0
 	 */
-	const SESSION_GROUP = ['name' => 'session', 'options' => ['session_handler', 'shared_session', 'session_metadata']];
+	public const SESSION_GROUP = [
+		'name' => 'session',
+		'options' => [
+			'session_handler',
+			'shared_session',
+			'session_metadata'
+		]
+	];
 
 	/**
 	 * Constant defining the Mail option group
 	 * @var array
 	 * @since 4.0
 	 */
-	const MAIL_GROUP = [
+	public const MAIL_GROUP = [
 		'name' => 'mail',
 		'options' => [
-			'mailonline', 'mailer', 'mailfrom',
-			'fromname', 'sendmail', 'smtpauth',
-			'smtpuser', 'smtppass', 'smtphost',
-			'smtpsecure', 'smtpport'
+			'mailonline',
+			'mailer',
+			'mailfrom',
+			'fromname',
+			'sendmail',
+			'smtpauth',
+			'smtpuser',
+			'smtppass',
+			'smtphost',
+			'smtpsecure',
+			'smtpport'
 		]
 	];
+
+	/**
+	 * Return code if configuration is get successfully
+	 * @since 4.0
+	 */
+	public const CONFIG_GET_SUCCESSFUL = 0;
+
+	/**
+	 * Return code if configuration group option is not found
+	 * @since 4.0
+	 */
+	public const CONFIG_GET_GROUP_NOT_FOUND = 1;
+
+	/**
+	 * Return code if configuration option is not found
+	 * @since 4.0
+	 */
+	public const CONFIG_GET_OPTION_NOT_FOUND = 2;
+
+	/**
+	 * Return code if the command  has been invoked with wrong options
+	 * @since 4.0
+	 */
+	public const CONFIG_GET_OPTION_FAILED = 3;
 
 	/**
 	 * Configures the IO
@@ -118,7 +156,7 @@ class GetConfigurationCommand extends AbstractCommand
 	 *
 	 * @since 4.0
 	 */
-	public function processGroupOptions($group)
+	public function processGroupOptions($group): int
 	{
 		$configs = $this->getApplication()->getConfig()->toArray();
 		$configs = $this->formatConfig($configs);
@@ -146,10 +184,11 @@ class GetConfigurationCommand extends AbstractCommand
 		if (!$foundGroup)
 		{
 			$this->ioStyle->error("Group *$group* not found");
-			exit;
+
+			return self::CONFIG_GET_GROUP_NOT_FOUND;
 		}
 
-		return 0;
+		return self::CONFIG_GET_SUCCESSFUL;
 	}
 
 	/**
@@ -177,7 +216,7 @@ class GetConfigurationCommand extends AbstractCommand
 	 *
 	 * @since 4.0
 	 */
-	public function formatConfig($configs)
+	public function formatConfig(Array $configs): array
 	{
 		$newConfig = [];
 
@@ -204,7 +243,7 @@ class GetConfigurationCommand extends AbstractCommand
 	 *
 	 * @since 4.0
 	 */
-	public function processSingleOption($option)
+	public function processSingleOption($option): int
 	{
 		$configs = $this->getApplication()->getConfig()->toArray();
 
@@ -212,14 +251,14 @@ class GetConfigurationCommand extends AbstractCommand
 		{
 			$this->ioStyle->error("Can't find option *$option* in configuration list");
 
-			return 1;
+			return self::CONFIG_GET_OPTION_NOT_FOUND;
 		}
 
 		$value = $this->formatConfigValue($this->getApplication()->get($option));
 
 		$this->ioStyle->table(['Option', 'Value'], [[$option, $value]]);
 
-		return 0;
+		return self::CONFIG_GET_SUCCESSFUL;
 	}
 
 	/**
@@ -231,7 +270,7 @@ class GetConfigurationCommand extends AbstractCommand
 	 *
 	 * @since version
 	 */
-	protected function formatConfigValue($value)
+	protected function formatConfigValue($value): string
 	{
 		if ($value === false)
 		{
@@ -299,7 +338,7 @@ class GetConfigurationCommand extends AbstractCommand
 		$configs = $this->formatConfig($this->getApplication()->getConfig()->toArray());
 
 		$option = $this->cliInput->getArgument('option');
-		$group = $this->cliInput->getOption('group');
+		$group  = $this->cliInput->getOption('group');
 
 		if ($group)
 		{
@@ -325,9 +364,9 @@ class GetConfigurationCommand extends AbstractCommand
 			$this->ioStyle->title("Current options in Configuration");
 			$this->ioStyle->table(['Option', 'Value'], $options);
 
-			return 0;
+			return self::CONFIG_GET_SUCCESSFUL;
 		}
 
-		return 1;
+		return self::CONFIG_GET_FAILED;
 	}
 }
