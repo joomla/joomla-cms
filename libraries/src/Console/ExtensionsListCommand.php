@@ -86,7 +86,7 @@ class ExtensionsListCommand extends AbstractCommand
 	 * @since 4.0
 	 *
 	 */
-	private function configureIO(InputInterface $input, OutputInterface $output)
+	private function configureIO(InputInterface $input, OutputInterface $output): void
 	{
 		$this->cliInput = $input;
 		$this->ioStyle = new SymfonyStyle($input, $output);
@@ -143,7 +143,7 @@ EOF;
 	 *
 	 * @since 4.0
 	 */
-	public function setExtensions($extensions = null)
+	public function setExtensions($extensions = null): void
 	{
 		if (!$extensions)
 		{
@@ -162,7 +162,7 @@ EOF;
 	 *
 	 * @since 4.0
 	 */
-	private function getAllExtensionsFromDB()
+	private function getAllExtensionsFromDB(): array
 	{
 		$db    = $this->db;
 		$query = $db->getQuery(true);
@@ -183,7 +183,7 @@ EOF;
 	 *
 	 * @since 4.0
 	 */
-	private function getExtensionsNameAndId($extensions)
+	private function getExtensionsNameAndId($extensions): array
 	{
 		$extInfo = [];
 
@@ -211,7 +211,7 @@ EOF;
 	 *
 	 * @since 4.0
 	 */
-	private function filterExtensionsBasedOn($type)
+	private function filterExtensionsBasedOn($type): array
 	{
 		$extensions = [];
 
