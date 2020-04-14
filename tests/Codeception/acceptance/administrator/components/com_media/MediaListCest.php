@@ -314,13 +314,13 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->waitForJsOnPageLoad();
 		$I->uploadFile('com_media/' . $testFileName);
-		$I->seeSystemMessage('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->uploadFile('com_media/' . $testFileName);
 		$I->seeContents([$testFileName]);
 		$I->waitForMediaLoaded();
 		$I->seeInPopup($testFileName . ' already exists. Do you want to replace it?');
 		$I->acceptPopup();
-		$I->seeSystemMessage('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->seeContents([$testFileName]);
 	}
 
