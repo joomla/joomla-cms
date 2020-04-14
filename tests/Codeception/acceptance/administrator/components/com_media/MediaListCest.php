@@ -401,6 +401,7 @@ class MediaListCest
 		$I->wantToTest('that it is possible to delete a single file.');
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->uploadFile('com_media/' . $testFileName);
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->waitForElement($testFileItem);
 		$I->waitForJsOnPageLoad();
 		$I->click($testFileItem);
