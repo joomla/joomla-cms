@@ -277,7 +277,7 @@ class MediaListCest
 		$I->amOnPage(MediaListPage::$url . $this->testDirectory);
 		$I->waitForJsOnPageLoad();
 		$I->uploadFile('com_media/' . $testFileName);
-		$I->seeSystemMessage('Item uploaded.');
+		$I->seeAndCloseSystemMessage('Item uploaded.');
 		$I->seeContents([$testFileName]);
 		$I->click($testFileItem);
 		$I->click(MediaListPage::$toolbarDeleteButton);
@@ -290,12 +290,12 @@ class MediaListCest
 
 		// Ensure the modal has closed
 		$I->wait(1);
-		$I->seeSystemMessage('Item deleted.');
+		$I->seeAndCloseSystemMessage('Item deleted.');
 		$I->waitForElementNotVisible($testFileItem);
 	}
 
 	/**
-	 * Test the upload of a single file using toolbar button.
+	 * Test the upload of an existing file using toolbar button.
 	 *
 	 * @skip    We need to skip this test, because of a bug in acceptPopup in chrome.
 	 *          It throws a Facebook\WebDriver\Exception\UnexpectedAlertOpenException and does not accept the popup.
