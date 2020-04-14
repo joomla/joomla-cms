@@ -122,7 +122,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @since 4.0
 	 */
-	private function retrieveOptionsFromInput($options)
+	private function retrieveOptionsFromInput(array $options): bool
 	{
 		$collected = [];
 
@@ -152,7 +152,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @since 4.0
 	 */
-	private function validateOptions()
+	private function validateOptions(): bool
 	{
 		$config = $this->getInitialConfigurationOptions();
 
@@ -218,7 +218,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @since 4.0
 	 */
-	public function saveConfiguration()
+	public function saveConfiguration(): bool
 	{
 		$app = $this->getApplication();
 
@@ -269,7 +269,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 * @since 4.0
 	 * @throws \Exception
 	 */
-	public function checkDb($options)
+	public function checkDb($options): bool
 	{
 		// Ensure a database type was selected.
 		if (empty($options['dbtype']))
