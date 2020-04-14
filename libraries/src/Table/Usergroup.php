@@ -196,6 +196,9 @@ class Usergroup extends Table
 		$db->setQuery($query);
 		$db->execute();
 
+		// Rebuild the nested set tree.
+		$this->rebuild();
+
 		// Delete the usergroup in view levels
 		$replace = array();
 
