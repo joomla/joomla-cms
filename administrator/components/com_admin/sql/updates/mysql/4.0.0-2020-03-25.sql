@@ -64,7 +64,9 @@ OR (`type` = 'module' AND `client_id` = 0 AND `element` IN (
 	'mod_articles_category',
 	'mod_articles_categories',
 	'mod_languages',
-	'mod_finder'
+	'mod_finder',
+	'mod_tags_popular',
+	'mod_tags_similar'
 ))
 OR (`type` = 'module' AND `client_id` = 1 AND `element` IN (
 	'mod_custom',
@@ -85,8 +87,6 @@ OR (`type` = 'module' AND `client_id` = 1 AND `element` IN (
 	'mod_multilangstatus',
 	'mod_version',
 	'mod_stats_admin',
-	'mod_tags_popular',
-	'mod_tags_similar',
 	'mod_sampledata',
 	'mod_latestactions',
 	'mod_privacy_dashboard',
