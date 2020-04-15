@@ -141,7 +141,7 @@ class Console implements ServiceProviderInterface
 			true
 		);
 
-				$container->share(
+		$container->share(
 			ExtensionRemoveCommand::class,
 			function (Container $container)
 			{
