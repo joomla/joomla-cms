@@ -18,7 +18,9 @@ use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Console\Loader\WritableContainerLoader;
 use Joomla\CMS\Console\Loader\WritableLoaderInterface;
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
+use Joomla\CMS\Console\ExtensionInstallCommand;
 use Joomla\CMS\Console\ExtensionsListCommand;
+use Joomla\CMS\Console\ExtensionRemoveCommand;
 use Joomla\CMS\Console\GetConfigurationCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
@@ -151,6 +153,8 @@ class Application implements ServiceProviderInterface
 						GetConfigurationCommand::getDefaultName()   => GetConfigurationCommand::class,
 						ExtensionsListCommand::getDefaultName()     => ExtensionsListCommand::class,
 						CheckJoomlaUpdatesCommand::getDefaultName() => CheckJoomlaUpdatesCommand::class,
+						ExtensionRemoveCommand::getDefaultName()    => ExtensionRemoveCommand::class,
+						ExtensionInstallCommand::getDefaultName()   => ExtensionInstallCommand::class,
 					];
 
 					return new WritableContainerLoader($container, $mapping);
