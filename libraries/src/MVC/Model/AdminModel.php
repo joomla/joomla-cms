@@ -1632,7 +1632,7 @@ abstract class AdminModel extends FormModel
 	 * @return  boolean  True if successful, false otherwise.
 	 *
 	 * @throws \Exception
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.17
 	 */
 	protected function redirectToAssociations($data)
 	{
