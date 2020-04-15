@@ -1152,7 +1152,7 @@ abstract class InstallerAdapter
 		}
 
 		// Joomla 4: Locked extensions cannot be removed.
-		if (isset($this->extension->locked) && $this->extension->locked)
+		if (!empty($this->extension->locked))
 		{
 			Log::add(Text::_('JLIB_INSTALLER_ERROR_UNINSTALL_LOCKED_EXTENSION'), Log::WARNING, 'jerror');
 
