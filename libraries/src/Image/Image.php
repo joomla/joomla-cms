@@ -125,9 +125,10 @@ class Image
 		}
 
 		// If the source input is a resource, set it as the image handle.
-		if (\is_resource($source) && (get_resource_type($source) == 'gd'))
+		if ((PHP_MAJOR_VERSION >= 8 && (!\is_object($source) || get_class($source) != 'GdImage'))
+			|| (PHP_MAJOR_VERSION < 8 && (!\is_resource($source) || get_resource_type($source) != 'gd')))
 		{
-			$this->handle = &$source;
+			$this->handle = $source;
 		}
 		elseif (!empty($source) && \is_string($source))
 		{
@@ -534,7 +535,8 @@ class Image
 	public function isLoaded()
 	{
 		// Make sure the resource handle is valid.
-		if (!\is_resource($this->handle) || (get_resource_type($this->handle) != 'gd'))
+		if ((PHP_MAJOR_VERSION >= 8 && (!\is_object($this->handle) || get_class($this->handle) != 'GdImage'))
+			|| (PHP_MAJOR_VERSION < 8 && (!\is_resource($this->handle) || get_resource_type($this->handle) != 'gd')))
 		{
 			return false;
 		}
@@ -593,7 +595,8 @@ class Image
 				// Attempt to create the image handle.
 				$handle = imagecreatefromgif($path);
 
-				if (!\is_resource($handle))
+				if ((PHP_MAJOR_VERSION >= 8 && !\is_object($handle))
+					|| PHP_MAJOR_VERSION < 8 && !\is_resource($handle))
 				{
 					throw new \RuntimeException('Unable to process GIF image.');
 				}
@@ -611,7 +614,8 @@ class Image
 				// Attempt to create the image handle.
 				$handle = imagecreatefromjpeg($path);
 
-				if (!\is_resource($handle))
+				if ((PHP_MAJOR_VERSION >= 8 && !\is_object($handle))
+					|| PHP_MAJOR_VERSION < 8 && !\is_resource($handle))
 				{
 					throw new \RuntimeException('Unable to process JPG image.');
 				}
@@ -629,7 +633,8 @@ class Image
 				// Attempt to create the image handle.
 				$handle = imagecreatefrompng($path);
 
-				if (!\is_resource($handle))
+				if ((PHP_MAJOR_VERSION >= 8 && !\is_object($handle))
+					|| PHP_MAJOR_VERSION < 8 && !\is_resource($handle))
 				{
 					throw new \RuntimeException('Unable to process PNG image.');
 				}
