@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Administrator\Service\HTML;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Finder\Administrator\Indexer\Query as IndexerQuery;
 use Joomla\Component\Finder\Administrator\Helper\LanguageHelper;
 
 \defined('_JEXEC') or die;
@@ -25,13 +26,13 @@ class Query
 	/**
 	 * Method to get the explained (human-readable) search query.
 	 *
-	 * @param   \FinderIndexerQuery  $query  A FinderIndexerQuery object to explain.
+	 * @param   IndexerQuery  $query  A IndexerQuery object to explain.
 	 *
 	 * @return  mixed  String if there is data to explain, null otherwise.
 	 *
 	 * @since   2.5
 	 */
-	public static function explained(\FinderIndexerQuery $query)
+	public static function explained(IndexerQuery $query)
 	{
 		$parts = array();
 
@@ -121,13 +122,13 @@ class Query
 	/**
 	 * Method to get the suggested search query.
 	 *
-	 * @param   \FinderIndexerQuery  $query  A FinderIndexerQuery object.
+	 * @param   IndexerQuery  $query  A IndexerQuery object.
 	 *
 	 * @return  mixed  String if there is a suggestion, false otherwise.
 	 *
 	 * @since   2.5
 	 */
-	public static function suggested(\FinderIndexerQuery $query)
+	public static function suggested(IndexerQuery $query)
 	{
 		$suggested = false;
 
