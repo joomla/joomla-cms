@@ -90,7 +90,9 @@
           }
 
           if (that.buttonRemove) {
-            btnRem = event.target.matches(that.buttonRemove) ? event.target : event.target.closest(that.buttonRemove);
+            btnRem = event.target.matches(that.buttonRemove)
+              ? event.target
+              : event.target.closest(that.buttonRemove);
           }
 
           // Check actine, with extra check for nested joomla-field-subform
@@ -152,7 +154,7 @@
      * Prepare a row template
      */
     prepareTemplate() {
-      const tmplElement = [].slice.call(this.children).filter(el => el.classList.contains('subform-repeatable-template-section'));
+      const tmplElement = [].slice.call(this.children).filter((el) => el.classList.contains('subform-repeatable-template-section'));
 
       if (tmplElement[0]) {
         this.template = tmplElement[0].innerHTML;
@@ -547,12 +549,15 @@
       // Handle drag action, move element to hovered position
       this.addEventListener('dragenter', (event) => {
         // Make sure the target in the correct container
-        if (!item || that.rowsContainer && event.target.closest(that.rowsContainer) !== that.containerWithRows) {
+        if (!item || (that.rowsContainer
+          && event.target.closest(that.rowsContainer) !== that.containerWithRows)) {
           return;
         }
 
         // Find a hovered row, and replace it
-        const row = event.target.matches(that.repeatableElement) ? event.target : event.target.closest(that.repeatableElement);
+        const row = event.target.matches(that.repeatableElement)
+          ? event.target
+          : event.target.closest(that.repeatableElement);
         if (!row) return;
 
         switchRowPositions(item, row);
