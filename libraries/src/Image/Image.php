@@ -125,8 +125,9 @@ class Image
 		}
 
 		// If the source input is a resource, set it as the image handle.
-		if ((PHP_MAJOR_VERSION >= 8 && (!\is_object($source) || get_class($source) != 'GdImage'))
-			|| (PHP_MAJOR_VERSION < 8 && (!\is_resource($source) || get_resource_type($source) != 'gd')))
+		if ($source
+			&& (PHP_MAJOR_VERSION >= 8 && \is_object($source) && get_class($source) == 'GdImage')
+			|| (PHP_MAJOR_VERSION < 8 && \is_resource($source) && get_resource_type($source) != 'gd'))
 		{
 			$this->handle = $source;
 		}
