@@ -1,0 +1,1 @@
+INSERT INTO `#__mail_templates` (`template_id`, `subject`, `body`, `params`) VALUES ('joomla.updatenotification', 'PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_SUBJECT', 'PLG_SYSTEM_UPDATENOTIFICATION_EMAIL_BODY', '{"tags":["newversion","curversion","sitename","url","link","releasenews"]}');

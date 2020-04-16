@@ -123,11 +123,11 @@ class MailTemplate
 	 *
 	 * @since   4.0.0
 	 */
-	public function addRecipient($mail, $name, $type = 'to')
+	public function addRecipient($mail, $name = null, $type = 'to')
 	{
 		$recipient = new \stdClass;
 		$recipient->mail = $mail;
-		$recipient->name = $name;
+		$recipient->name = $name ?? $mail;
 		$recipient->type = $type;
 		$this->recipients[] = $recipient;
 	}
