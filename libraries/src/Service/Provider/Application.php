@@ -27,6 +27,7 @@ use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Console\SetConfigurationCommand;
 use Joomla\CMS\Console\SiteDownCommand;
 use Joomla\CMS\Console\SiteUpCommand;
+use Joomla\CMS\Console\UpdateCoreCommand;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\User\UserFactoryInterface;
@@ -155,6 +156,7 @@ class Application implements ServiceProviderInterface
 						CheckJoomlaUpdatesCommand::getDefaultName() => CheckJoomlaUpdatesCommand::class,
 						ExtensionRemoveCommand::getDefaultName()    => ExtensionRemoveCommand::class,
 						ExtensionInstallCommand::getDefaultName()   => ExtensionInstallCommand::class,
+						UpdateCoreCommand::getDefaultName()         => UpdateCoreCommand::class,
 					];
 
 					return new WritableContainerLoader($container, $mapping);
