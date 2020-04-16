@@ -264,7 +264,7 @@
       const ids = {}; // Collect id for fix checkboxes and radio
 
       // Filter out nested
-      haveName = [].slice.call(haveName).filter(el => el.closest('joomla-field-subform') === this);
+      haveName = [].slice.call(haveName).filter((el) => el.closest('joomla-field-subform') === this);
 
       for (let i = 0, l = haveName.length; i < l; i++) {
         const $el = haveName[i];
