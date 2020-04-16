@@ -91,7 +91,7 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
 
                 const info = ed.lineInfo(n);
                 const hasMarker = !!info.gutterMarkers && !!info.gutterMarkers['CodeMirror-markergutter'];
-                ed.setGutterMarker(n, 'CodeMirror-markergutter', hasMarker ? null : this.makeMarker());
+                ed.setGutterMarker(n, 'CodeMirror-markergutter', hasMarker ? null : this.constructor.makeMarker());
               });
 
               /* Some browsers do something weird with the fieldset which doesn't
