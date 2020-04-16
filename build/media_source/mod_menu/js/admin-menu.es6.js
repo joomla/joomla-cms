@@ -27,32 +27,6 @@
     new MetisMenu(menu);
   });
 
-  const closest = (element, selector) => {
-    let matchesFn;
-    let parent;
-
-    // find vendor prefix
-    ['matches', 'msMatchesSelector'].some((fn) => {
-      if (typeof document.body[fn] === 'function') {
-        matchesFn = fn;
-        return true;
-      }
-      return false;
-    });
-
-    // Traverse parents
-    while (element) {
-      parent = element.parentElement;
-      if (parent && parent[matchesFn](selector)) {
-        return parent;
-      }
-      // eslint-disable-next-line no-param-reassign
-      element = parent;
-    }
-
-    return null;
-  };
-
   const wrapper = document.getElementById('wrapper');
   const sidebar = document.getElementById('sidebar-wrapper');
   const menuToggleIcon = document.getElementById('menu-collapse-icon');
@@ -149,8 +123,8 @@
 
         // Auto Expand Levels
         if (!link.parentNode.classList.contains('parent')) {
-          const firstLevel = closest(link, '.collapse-level-1');
-          const secondLevel = closest(link, '.collapse-level-2');
+          const firstLevel = link.closest('.collapse-level-1');
+          const secondLevel = link.closest('.collapse-level-2');
           if (firstLevel) firstLevel.parentNode.classList.add('mm-active');
           if (firstLevel) firstLevel.classList.add('mm-show');
           if (secondLevel) secondLevel.parentNode.classList.add('mm-active');
