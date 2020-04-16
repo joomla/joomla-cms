@@ -80,11 +80,13 @@
       // Bind buttons
       if (this.buttonAdd || this.buttonRemove) {
         this.addEventListener('click', (event) => {
-          let btnAdd = null; let
-            btnRem = null;
+          let btnAdd = null;
+          let btnRem = null;
 
           if (that.buttonAdd) {
-            btnAdd = event.target.matches(that.buttonAdd) ? event.target : event.target.closest(that.buttonAdd);
+            btnAdd = event.target.matches(that.buttonAdd)
+              ? event.target
+              : event.target.closest(that.buttonAdd);
           }
 
           if (that.buttonRemove) {
