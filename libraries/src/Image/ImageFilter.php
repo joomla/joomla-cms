@@ -41,8 +41,8 @@ abstract class ImageFilter
 		}
 
 		// Make sure the file handle is valid.
-		if ((PHP_MAJOR_VERSION >= 8 && (!\is_object($handle) || get_class($handle) != 'GdImage'))
-			|| (PHP_MAJOR_VERSION < 8 && (!\is_resource($handle) || get_resource_type($handle) != 'gd')))
+		if (!((\is_object($handle) && get_class($handle) == 'GdImage')
+			|| (\is_resource($handle) && get_resource_type($handle) == 'gd')))
 		{
 			throw new \InvalidArgumentException('The image handle is invalid for the image filter.');
 		}

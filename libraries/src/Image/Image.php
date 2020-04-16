@@ -125,9 +125,8 @@ class Image
 		}
 
 		// If the source input is a resource, set it as the image handle.
-		if ($source
-			&& (PHP_MAJOR_VERSION >= 8 && \is_object($source) && get_class($source) == 'GdImage')
-			|| (PHP_MAJOR_VERSION < 8 && \is_resource($source) && get_resource_type($source) != 'gd'))
+		if ($source && (\is_object($source) && get_class($source) == 'GdImage')
+			|| (\is_resource($source) && get_resource_type($source) != 'gd'))
 		{
 			$this->handle = $source;
 		}
@@ -536,8 +535,8 @@ class Image
 	public function isLoaded()
 	{
 		// Make sure the resource handle is valid.
-		if ((PHP_MAJOR_VERSION >= 8 && (!\is_object($this->handle) || get_class($this->handle) != 'GdImage'))
-			|| (PHP_MAJOR_VERSION < 8 && (!\is_resource($this->handle) || get_resource_type($this->handle) != 'gd')))
+		if (!((\is_object($this->handle) && get_class($this->handle) == 'GdImage')
+			|| (\is_resource($this->handle) && get_resource_type($this->handle) == 'gd')))
 		{
 			return false;
 		}
