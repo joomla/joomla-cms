@@ -71,6 +71,14 @@ class MailTemplate
 	protected $recipients = array();
 
 	/**
+	 * Reply To of the email
+	 *
+	 * @var    \stdClass
+	 * @since  4.0.0
+	 */
+	protected $replyto;
+
+	/**
 	 * Constructor for the mail templating class
 	 *
 	 * @param   string  $template_id  Id of the mail template.
@@ -130,6 +138,24 @@ class MailTemplate
 		$recipient->name = $name ?? $mail;
 		$recipient->type = $type;
 		$this->recipients[] = $recipient;
+	}
+
+	/**
+	 * Set reply to for this mail
+	 *
+	 * @param   string  $mail  Mail address to reply to
+	 * @param   string  $name  Name
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function setReplyTo($mail, $name = '')
+	{
+		$reply = new \stdClass;
+		$reply->mail = $mail;
+		$reply->name = $name;
+		$this->replyto = $reply;
 	}
 
 	/**
@@ -238,6 +264,11 @@ class MailTemplate
 				default:
 					$this->mailer->addAddress($recipient->mail, $recipient->name);
 			}
+		}
+
+		if ($this->replyto)
+		{
+			$this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
 		}
 
 		$path = JPATH_ROOT . '/' . $config->get('attachment_folder') . '/';
