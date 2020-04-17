@@ -156,7 +156,7 @@ Date.prototype.getLocalMonthDays = function(dateType, month) {
 		if (((0 == (year%4)) && ( (0 != (year%100)) || (0 == (year%400)))) && month == 1) {
 			return 29;
 		} else {
-			Date.local_MD[month];
+			return Date.local_MD[month];
 		}
 	} else {
 		var year = this.getFullYear();
@@ -217,7 +217,7 @@ Date.prototype.getMonthDays = function(month) {
 		return 29;
 	} else {
 		if (Date.dateType != 'gregorian') {
-			Date.local_MD[month];
+			return Date.local_MD[month];
 		} else {
 			return Date.gregorian_MD[month];
 		}
