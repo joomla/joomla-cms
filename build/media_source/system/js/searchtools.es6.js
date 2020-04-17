@@ -191,8 +191,8 @@ Joomla = window.Joomla || {};
       this.createOrderField();
 
       this.orderCols.forEach((item) => {
-        item.addEventListener('click', (event) => {
-          const element = event.target.tagName.toLowerCase() === 'span' ? event.target.parentNode : event.target;
+        item.addEventListener('click', ({ target }) => {
+          const element = target.tagName.toLowerCase() === 'span' ? target.parentNode : target;
 
           // Order to set
           const newOrderCol = element.getAttribute('data-order');

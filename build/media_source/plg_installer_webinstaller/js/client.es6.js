@@ -82,8 +82,8 @@ if (!Joomla) {
           const jedContainer = document.getElementById('jed-container');
           jedContainer.innerHTML = response.data.html;
 
-          document.getElementById('com-apps-searchbox').addEventListener('keypress', (event) => {
-            if (event.which === 13) {
+          document.getElementById('com-apps-searchbox').addEventListener('keypress', ({ which }) => {
+            if (which === 13) {
               this.initiateSearch();
             }
           });

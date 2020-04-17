@@ -12,8 +12,8 @@ Joomla = window.Joomla || {};
     const links = [].slice.call(document.querySelectorAll('.select-link'));
 
     links.forEach((item) => {
-      item.addEventListener('click', (event) => {
-        target.src = `${target.getAttribute('data-editurl')}&task=${target.getAttribute('data-item')}.edit&id=${parseInt(event.target.getAttribute('data-id'), 10)}`;
+      item.addEventListener('click', ({ target }) => {
+        target.src = `${target.getAttribute('data-editurl')}&task=${target.getAttribute('data-item')}.edit&id=${parseInt(target.getAttribute('data-id'), 10)}`;
         window.parent.Joomla.Modal.getCurrent().close();
       });
     });
