@@ -36,16 +36,6 @@ Text::script('MESSAGE');
 			</button>
 			<div class="sidebar-nav bg-light p-2 my-2">
 				<?php echo $this->loadTemplate('navigation'); ?>
-				<?php
-				// Display the submenu position modules
-				$this->submenumodules = ModuleHelper::getModules('submenu');
-				foreach ($this->submenumodules as $submenumodule)
-				{
-					$output = ModuleHelper::renderModule($submenumodule);
-					$params = new Registry($submenumodule->params);
-					echo $output;
-				}
-				?>
 			</div>
 		</div>
 		<!-- End Sidebar -->
