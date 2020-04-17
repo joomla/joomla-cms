@@ -124,7 +124,10 @@ class Image
 			static::$formats[IMAGETYPE_GIF] = ($info['GIF Read Support']) ? true : false;
 		}
 
-		// If the source input is a resource, set it as the image handle.
+		/**
+		 * If the source input is a resource, set it as the image handle.
+		 * TODO: Remove check for resource when we only support PHP 8
+		 */
 		if ($source && (\is_object($source) && get_class($source) == 'GdImage')
 			|| (\is_resource($source) && get_resource_type($source) == 'gd'))
 		{
@@ -534,7 +537,10 @@ class Image
 	 */
 	public function isLoaded()
 	{
-		// Make sure the resource handle is valid.
+		/**
+		 * Make sure the resource handle is valid.
+		 * TODO: Remove check for resource when we only support PHP 8
+		 */
 		if (!((\is_object($this->handle) && get_class($this->handle) == 'GdImage')
 			|| (\is_resource($this->handle) && get_resource_type($this->handle) == 'gd')))
 		{
@@ -594,14 +600,8 @@ class Image
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefromgif($path);
+				$type = 'GIF';
 
-				if ((PHP_MAJOR_VERSION >= 8 && !\is_object($handle))
-					|| PHP_MAJOR_VERSION < 8 && !\is_resource($handle))
-				{
-					throw new \RuntimeException('Unable to process GIF image.');
-				}
-
-				$this->handle = $handle;
 				break;
 
 			case 'image/jpeg':
@@ -613,14 +613,8 @@ class Image
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefromjpeg($path);
+				$type = 'JPEG';
 
-				if ((PHP_MAJOR_VERSION >= 8 && !\is_object($handle))
-					|| PHP_MAJOR_VERSION < 8 && !\is_resource($handle))
-				{
-					throw new \RuntimeException('Unable to process JPG image.');
-				}
-
-				$this->handle = $handle;
 				break;
 
 			case 'image/png':
@@ -632,20 +626,24 @@ class Image
 
 				// Attempt to create the image handle.
 				$handle = imagecreatefrompng($path);
-
-				if ((PHP_MAJOR_VERSION >= 8 && !\is_object($handle))
-					|| PHP_MAJOR_VERSION < 8 && !\is_resource($handle))
-				{
-					throw new \RuntimeException('Unable to process PNG image.');
-				}
-
-				$this->handle = $handle;
+				$type = 'PNG';
 
 				break;
 
 			default:
 				throw new \InvalidArgumentException('Attempting to load an image of unsupported type ' . $properties->mime);
 		}
+
+		/**
+		 * Check if handle has been created successfully
+		 * TODO: Remove check for resource when we only support PHP 8
+		 */
+		if (!(\is_object($handle) || \is_resource($handle)))
+		{
+			throw new \RuntimeException('Unable to process ' . $type . ' image.');
+		}
+
+		$this->handle = $handle;
 
 		// Set the filesystem path to the source image.
 		$this->path = $path;
