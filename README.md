@@ -9,6 +9,7 @@ Build Status
 
 Overview
 ---------------------
+* THIS IS A TEST ONLY.
 * This is the source of Joomla! 4.x.
 * Joomla's [Official website](https://www.joomla.org).
 * Joomla! 4.0 [version history](https://docs.joomla.org/Special:MyLanguage/Joomla_4.0_version_history).
