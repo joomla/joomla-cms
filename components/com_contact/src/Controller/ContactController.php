@@ -242,9 +242,6 @@ class ContactController extends FormController
 			$contact->email_to = $contact_user->get('email');
 		}
 
-		$mailfrom = $app->get('mailfrom');
-		$fromname = $app->get('fromname');
-
 		$templateData = [
 			'sitename' => $app->get('sitename'),
 			'name'     => $data['contact_name'],
