@@ -395,7 +395,7 @@ class SetConfigurationCommand extends AbstractCommand
 			return false;
 		}
 
-		if ((int) $settings['dbencryption'] !== 0 && empty($db->getConnectionEncryption()))
+		if ((int) $options['dbencryption'] !== 0 && empty($db->getConnectionEncryption()))
 		{
 			if ($db->isConnectionEncryptionSupported())
 			{
