@@ -88,12 +88,12 @@ Joomla = window.Joomla || {};
   if (elements.length) {
     elements.forEach((element) => {
       element.addEventListener('click', ({ target }) => {
-        const target = target.getAttribute('data-target');
+        const dataTarget = target.getAttribute('data-target');
 
-        if (target) {
+        if (dataTarget) {
           const iframe = document.querySelector('#moduleEditModal iframe');
           const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-          iframeDocument.querySelector(target).click();
+          iframeDocument.querySelector(dataTarget).click();
         }
       });
     });
