@@ -31,25 +31,36 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 </div>
 <div id="menuselect-group" class="control-group">
 	<label id="jform_menuselect-lbl" class="control-label" for="jform_menuselect"><?php echo Text::_('JGLOBAL_MENU_SELECTION'); ?></label>
-
 	<div id="jform_menuselect" class="controls">
 		<?php if (!empty($menuTypes)) : ?>
-		<?php $id = 'jform_menuselect'; ?>
 
 		<div class="card card-secondary">
 			<div class="card-header">
-				<span class="small"><?php echo Text::_('JSELECT'); ?>:
-					<a id="treeCheckAll" href="javascript://"><?php echo Text::_('JALL'); ?></a>,
-					<a id="treeUncheckAll" href="javascript://"><?php echo Text::_('JNONE'); ?></a>
-				</span>
-				<span class="width-20">|</span>
-				<span class="small"><?php echo Text::_('COM_MODULES_EXPAND'); ?>:
-					<a id="treeExpandAll" href="javascript://"><?php echo Text::_('JALL'); ?></a>,
-					<a id="treeCollapseAll" href="javascript://"><?php echo Text::_('JNONE'); ?></a>
-				</span>
-				<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query"
-					autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>"
-					aria-invalid="false" aria-label="<?php echo Text::_('JSEARCH_FILTER'); ?>">
+				<section class="d-flex flex-wrap w-100"  aria-label="COM_MODULES_GLOBAL">
+					<div class="d-flex align-items-center mb-1"><?php echo Text::_('JSELECT'); ?>:
+						<button id="treeCheckAll" class="btn btn-secondary btn-sm mx-1" type="button">
+							<span class="aria-hidden"><?php echo Text::_('JALL'); ?></span>
+							<span class="sr-only"><?php echo Text::_('COM_MODULES_GLOBAL_SELECT_ALL'); ?></span>
+						</button>
+						<button id="treeUncheckAll" class="btn btn-secondary btn-sm mx-1" type="button">
+							<span class="aria-hidden"><?php echo Text::_('JNONE'); ?></span>
+							<span class="sr-only"><?php echo Text::_('COM_MODULES_GLOBAL_SELECT_NONE'); ?></span>
+						</button>
+					</div>
+					<div class="d-flex align-items-center mb-1"><?php echo Text::_('COM_MODULES_EXPAND'); ?>:
+						<button id="treeExpandAll" class="btn btn-secondary btn-sm mx-1" type="button">
+							<span class="aria-hidden"><?php echo Text::_('JALL'); ?></span>
+							<span class="sr-only"><?php echo Text::_('COM_MODULES_GLOBAL_MENUS_EXPAND'); ?></span>
+						<button id="treeCollapseAll" class="btn btn-secondary btn-sm mx-1" type="button">
+							<span class="aria-hidden"><?php echo Text::_('JALL'); ?></span>
+							<span class="sr-only"><?php echo Text::_('COM_MODULES_GLOBAL_MENUS_COLLAPSE'); ?></span>
+						</button>
+					</div>
+					<div role="search" class="ml-auto" >
+						<label for="treeselectfilter" class="sr-only"><?php echo Text::_('COM_MODULES_SEARCH_MENUITEM'); ?></label>
+						<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query" autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>">
+					</div>
+				</section>
 			</div>
 			<div class="card-body">
 				<ul class="treeselect">
@@ -86,6 +97,7 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 									<div class="treeselect-item">
 										<?php
 										$uselessMenuItem = in_array($link->type, array('separator', 'heading', 'alias', 'url'));
+										$id = 'jform_menuselect';
 										?>
 										<input type="checkbox" class="novalidate" name="jform[assigned][]" id="<?php echo $id . $link->value; ?>" value="<?php echo (int) $link->value; ?>"<?php echo $selected ? ' checked="checked"' : ''; echo $uselessMenuItem ? ' disabled="disabled"' : ''; ?>>
 										<label for="<?php echo $id . $link->value; ?>" class="">
