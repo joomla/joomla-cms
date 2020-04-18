@@ -1,23 +1,3 @@
-joomla-toolbar-button {
-  border: 0 solid var(--border);
-
-  [class^='icon-'],
-  [class*=' icon-'],
-  [class^='#{$fa-css-prefix}-'],
-  [class*=' #{$fa-css-prefix}-'] {
-    margin-right: .5rem;
-
-    [dir=rtl] & {
-      margin-right: 0;
-      margin-left: .5em;
-    }
-  }
-}
-
-.toggle-toolbar {
-  display: block;
-}
-
 .subhead {
   position: sticky;
   top: 0;
