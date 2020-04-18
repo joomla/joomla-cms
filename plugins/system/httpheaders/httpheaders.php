@@ -78,6 +78,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		'referrer-policy',
 		'expect-ct',
 		'feature-policy',
+		'report-to',
 	];
 
 	/**
