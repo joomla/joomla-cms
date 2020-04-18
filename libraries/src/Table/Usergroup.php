@@ -248,10 +248,10 @@ class Usergroup extends Table
 
 		foreach ($ids as $id)
 		{
-			$replace[] = ',' . $db->quote("[$id,") . ',' . $db->quote('[') . ')';
-			$replace[] = ',' . $db->quote(",$id,") . ',' . $db->quote(',') . ')';
-			$replace[] = ',' . $db->quote(",$id]") . ',' . $db->quote(']') . ')';
-			$replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote('[]') . ')';
+			$replace[] = ',' . $db->quote("[$id,") . ',' . $db->quote('[');
+			$replace[] = ',' . $db->quote(",$id,") . ',' . $db->quote(',');
+			$replace[] = ',' . $db->quote(",$id]") . ',' . $db->quote(']');
+			$replace[] = ',' . $db->quote("[$id]") . ',' . $db->quote('[]');
 		}
 
 		$query->clear()
@@ -280,12 +280,10 @@ class Usergroup extends Table
 
 		if (!empty($matchIds))
 		{
-			$rules = str_repeat('replace(', 4 * \count($ids)) . 'rules' . implode('', $replace);
 			$query->clear()
 				->update($db->quoteName('#__viewlevels'))
-				->set($db->quoteName('rules') . ' = :rules')
-				->whereIn($db->quoteName('id'), $matchIds)
-				->bind(':rules', $rules);
+				->set($db->quoteName('rules') . ' = ' . str_repeat('REPLACE(', 4 * \count($ids)) . $db->quoteName('rules') . implode(')', $replace) . ')')
+				->whereIn($db->quoteName('id'), $matchIds);
 			$db->setQuery($query);
 			$db->execute();
 		}
