@@ -30,6 +30,7 @@
 					extension="com_content"
 					multiple="true"
 					filter="intarray"
+					layout="joomla.form.field.list-fancy-select"
 				/>
 
 				<field
