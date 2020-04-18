@@ -401,7 +401,7 @@ class PlgEditorTinymce extends JPlugin
 		else
 		{
 			// Use filters from TinyMCE params
-			$invalid_elements  = trim($levelParams->get('invalid_elements', 'script,applet,iframe'));
+			$invalid_elements  = trim($levelParams->get('invalid_elements', ''));
 			$extended_elements = trim($levelParams->get('extended_elements', ''));
 			$valid_elements    = trim($levelParams->get('valid_elements', ''));
 		}
@@ -1443,7 +1443,7 @@ class PlgEditorTinymce extends JPlugin
 		else
 		{
 			// Use filters from TinyMCE params
-			$invalid_elements  = $this->params->get('invalid_elements', 'script,applet,iframe');
+			$invalid_elements  = $this->params->get('invalid_elements', '');
 			$extended_elements = $this->params->get('extended_elements', '');
 			$valid_elements    = $this->params->get('valid_elements', '');
 		}
