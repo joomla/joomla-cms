@@ -381,8 +381,8 @@ class UsersModel extends ListModel
 		// Add filter for registration time ranges select list. UI Visitors get a range of predefined
 		// values. API users can do a full range based on ISO8601
 		$range = $this->getState('filter.range');
-		$registrationStart = $this->getState('filter.registrationStart');
-		$registrationEnd = $this->getState('filter.registrationEnd');
+		$registrationStart = $this->getState('filter.registrationDateStart');
+		$registrationEnd = $this->getState('filter.registrationDateEnd');
 
 		// Apply the range filter.
 		if ($range || ($registrationStart && $registrationEnd))
@@ -394,8 +394,8 @@ class UsersModel extends ListModel
 			else
 			{
 				$dates = [
-					'dNow'   => $registrationStart,
-					'dStart' => $registrationEnd,
+					'dNow'   => $registrationEnd,
+					'dStart' => $registrationStart,
 				];
 			}
 
@@ -435,8 +435,8 @@ class UsersModel extends ListModel
 			else
 			{
 				$dates = [
-					'dNow'   => $lastVisitStart,
-					'dStart' => $lastVisitEnd,
+					'dNow'   => $lastVisitEnd,
+					'dStart' => $lastVisitStart,
 				];
 			}
 
