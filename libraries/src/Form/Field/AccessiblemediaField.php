@@ -135,6 +135,7 @@ class AccessiblemediaField extends SubformField
 	{
 		json_decode($value);
 
+		// The value is not empty and it is a valid JSON string
 		if ($value !== '' && json_last_error() !== JSON_ERROR_NONE)
 		{
 			$value = '{"imagefile":"' . $value . '","alt_text":""}';
