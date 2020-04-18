@@ -223,7 +223,7 @@ class HeadRenderer extends DocumentRenderer
 				$buffer .= ' type="' . $type . '"';
 			}
 
-			$buffer .= '>' . $lnEnd;
+			$buffer .= '>';
 
 			// This is for full XHTML support.
 			if ($document->_mime != 'text/html')
@@ -231,7 +231,7 @@ class HeadRenderer extends DocumentRenderer
 				$buffer .= $tab . $tab . '/*<![CDATA[*/' . $lnEnd;
 			}
 
-			$buffer .= $content . $lnEnd;
+			$buffer .= $content;
 
 			// See above note
 			if ($document->_mime != 'text/html')
@@ -239,7 +239,7 @@ class HeadRenderer extends DocumentRenderer
 				$buffer .= $tab . $tab . '/*]]>*/' . $lnEnd;
 			}
 
-			$buffer .= $tab . '</style>' . $lnEnd;
+			$buffer .= '</style>' . $lnEnd;
 		}
 
 		// Generate scripts options
@@ -348,7 +348,7 @@ class HeadRenderer extends DocumentRenderer
 				$buffer .= ' type="' . $type . '"';
 			}
 
-			$buffer .= '>' . $lnEnd;
+			$buffer .= '>';
 
 			// This is for full XHTML support.
 			if ($document->_mime != 'text/html')
@@ -356,7 +356,7 @@ class HeadRenderer extends DocumentRenderer
 				$buffer .= $tab . $tab . '//<![CDATA[' . $lnEnd;
 			}
 
-			$buffer .= $content . $lnEnd;
+			$buffer .= $content;
 
 			// See above note
 			if ($document->_mime != 'text/html')
@@ -364,7 +364,7 @@ class HeadRenderer extends DocumentRenderer
 				$buffer .= $tab . $tab . '//]]>' . $lnEnd;
 			}
 
-			$buffer .= $tab . '</script>' . $lnEnd;
+			$buffer .= '</script>' . $lnEnd;
 		}
 
 		// Output the custom tags - array_unique makes sure that we don't output the same tags twice
