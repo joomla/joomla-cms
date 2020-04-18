@@ -796,12 +796,15 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		{
 			if (isset($data['featured']))
 			{
-				$this->featured(
+				if (!$this->featured(
 					$this->getState($this->getName() . '.id'),
 					$data['featured'],
 					$data['featured_up'] ?? null,
 					$data['featured_down'] ?? null
-				);
+				))
+				{
+					return false;
+				}
 			}
 
 			$this->workflowAfterSave($data);
@@ -828,6 +831,17 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		$pks   = (array) $pks;
 		$pks   = ArrayHelper::toInteger($pks);
 		$value = (int) $value;
+
+		// Convert empty strings to null for the query.
+		if ($featuredUp === '')
+		{
+			$featuredUp = null;
+		}
+
+		if ($featuredDown === '')
+		{
+			$featuredDown = null;
+		}
 
 		if (empty($pks))
 		{

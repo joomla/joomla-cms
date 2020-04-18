@@ -230,7 +230,7 @@ $assoc = Associations::isEnabled();
 										];
 
 										echo (new FeaturedButton)
-											->render($item->featured, $i, $options, $item->featured_up, $item->featured_down);
+											->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
 									?>
 								</td>
 								<td class="article-status">
@@ -256,8 +256,7 @@ $assoc = Associations::isEnabled();
 												->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JARCHIVED')])
 												->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JTRASHED')])
 												->setLayout('joomla.button.transition-button')
-												->render($item->state, $i, $options, $item->publish_up, $item->publish_down);
-
+												->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
 											else :
 												echo HTMLHelper::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down);
 											endif;

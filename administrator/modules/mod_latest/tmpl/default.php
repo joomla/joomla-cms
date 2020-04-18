@@ -43,7 +43,7 @@ HTMLHelper::_('bootstrap.framework');
 				<?php echo $item->author_name; ?>
 			</td>
 			<td>
-				<?php echo HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC4')); ?>
+				<?php echo HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')); ?>
 			</td>
 		</tr>
 		<?php endforeach; ?>

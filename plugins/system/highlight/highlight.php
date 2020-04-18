@@ -13,6 +13,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Finder\Administrator\Indexer\Result;
 
 /**
  * System plugin to highlight terms.
@@ -97,8 +98,8 @@ class PlgSystemHighlight extends CMSPlugin
 	/**
 	 * Method to catch the onFinderResult event.
 	 *
-	 * @param   FinderIndexerResult  $item   The search result
-	 * @param   array                $query  The search query of this result
+	 * @param   Result  $item   The search result
+	 * @param   array   $query  The search query of this result
 	 *
 	 * @return  void
 	 *

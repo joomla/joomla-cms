@@ -238,7 +238,7 @@ steps:
       PLUGIN_EXCLUDE: ^\.git/$
     commands:
       - export PLUGIN_DEST_DIR=$PLUGIN_DEST_DIR/$DRONE_REPO/$DRONE_BRANCH/$DRONE_PULL_REQUEST/system-tests/$DRONE_BUILD_NUMBER
-      - echo https://ci.joomla.org:444$PLUGIN_DEST_DIR
+      - echo https://ci.joomla.org$PLUGIN_DEST_DIR
       - /bin/upload.sh
     when:
       status:
@@ -256,7 +256,7 @@ steps:
       FTP_DEST_DIR: /artifacts
       FTP_VERIFY: "false"
       FTP_SECURE: "true"
-      HTTP_ROOT: "https://ci.joomla.org:444/artifacts"
+      HTTP_ROOT: "https://ci.joomla.org/artifacts"
       DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
       DRONE_COMMIT: DRONE_COMMIT
       GITHUB_TOKEN:
@@ -334,6 +334,6 @@ services:
 
 ---
 kind: signature
-hmac: f48ed8ebb03e09c20cc11438603de357c797c739962ce199cd49e929ff6886e2
+hmac: 02ecb90787cb939e40ca5209c05c6b9332b04d834fa60df6a9595cb7df1e135d
 
 ...

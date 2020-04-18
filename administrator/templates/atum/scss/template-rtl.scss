@@ -7,10 +7,6 @@ ul {
   padding-right: 0;
 }
 
-body {
-  text-align: right;
-}
-
 .close {
   float: left;
 
@@ -31,12 +27,6 @@ body {
 .sidebar-wrapper {
   right: 0;
   left: auto;
-}
-
-.subhead {
-  .dropdown-toggle.btn-action::after {
-    margin: 0 16px 0 -22px;
-  }
 }
 
 .switcher {
@@ -96,32 +86,6 @@ body {
   margin-right: 0;
 }
 
-// Toolbar
-.subhead {
-
-  .btn,
-  .btn-sm {
-
-    [class*=' fa-'],
-    [class^='fa-'],
-    [class^='icon-'],
-    [class*=' icon-'],
-    [class^='#{$fa-css-prefix}-'],
-    [class*=' #{$fa-css-prefix}-'] {
-      margin: 0 -1.625rem 0 1rem;
-    }
-  }
-
-  .btn-toolbar > * {
-    margin-right: .75rem;
-    margin-left: 0;
-
-    &:first-child {
-      margin-right: 0;
-    }
-  }
-}
-
 // com_cpanel
 .com_cpanel {
 
@@ -159,11 +123,6 @@ body {
   }
 }
 
-.js-stools .js-stools-container-filters {
-  right: auto;
-  left: 0;
-}
-
 .ml-auto {
   margin-right: auto !important;
   margin-left: 0 !important;
@@ -196,11 +155,6 @@ body {
   float: none;
 }
 
-// Quickicon specific
-.message-alert {
-  text-align: left !important;
-}
-
 // Bootstrap overrides
 .text-left {
   text-align: right !important;
@@ -226,23 +180,6 @@ body {
   span {
     position: relative;
     left: 6px;
-  }
-}
-
-// Changelog modal override
-.changelog {
-  text-align: right !important;
-
-  &__tag {
-    text-align: left;
-  }
-
-  &__list {
-
-    ul {
-      padding-right: 15px;
-      padding-left: auto;
-    }
   }
 }
 

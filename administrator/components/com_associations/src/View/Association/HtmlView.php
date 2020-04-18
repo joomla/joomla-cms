@@ -369,15 +369,15 @@ class HtmlView extends BaseHtmlView
 		$bar = Toolbar::getInstance();
 
 		$bar->appendButton(
-			'Custom', '<button onclick="Joomla.submitbutton(\'reference\')" '
+			'Custom', '<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'reference\')" '
 			. 'class="btn btn-sm btn-success"><span class="fas fa-save" aria-hidden="true"></span>'
-			. Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button>', 'reference'
+			. Text::_('COM_ASSOCIATIONS_SAVE_REFERENCE') . '</button></joomla-toolbar-button>', 'reference'
 		);
 
 		$bar->appendButton(
-			'Custom', '<button onclick="Joomla.submitbutton(\'target\')" '
+			'Custom', '<joomla-toolbar-button><button onclick="Joomla.submitbutton(\'target\')" '
 			. 'class="btn btn-sm btn-success"><span class="fas fa-save" aria-hidden="true"></span>'
-			. Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button>', 'target'
+			. Text::_('COM_ASSOCIATIONS_SAVE_TARGET') . '</button></joomla-toolbar-button>', 'target'
 		);
 
 		if ($this->typeName === 'category' || $this->extensionName === 'com_menus' || $this->save2copy === true)
