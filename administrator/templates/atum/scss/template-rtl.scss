@@ -87,32 +87,6 @@ ul {
   margin-right: 0;
 }
 
-// Toolbar
-.subhead {
-
-  .btn,
-  .btn-sm {
-
-    [class*=' fa-'],
-    [class^='fa-'],
-    [class^='icon-'],
-    [class*=' icon-'],
-    [class^='#{$fa-css-prefix}-'],
-    [class*=' #{$fa-css-prefix}-'] {
-      margin: 0 -1.625rem 0 1rem;
-    }
-  }
-
-  .btn-toolbar > * {
-    margin-right: .75rem;
-    margin-left: 0;
-
-    &:first-child {
-      margin-right: 0;
-    }
-  }
-}
-
 // com_cpanel
 .com_cpanel {
 
