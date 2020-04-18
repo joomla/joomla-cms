@@ -175,7 +175,10 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 			foreach ($inlineStyles as $type => $styleContent)
 			{
-				$styleHashes[] = "'sha256-" . base64_encode(hash('sha256', $styleContent, true)) . "'";
+				foreach ($styles as $hash => $styleContent)
+				{
+					$styleHashes[] = "'sha256-" . base64_encode(hash('sha256', $styleContent, true)) . "'";
+				}
 			}
 		}
 
