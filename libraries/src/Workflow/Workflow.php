@@ -196,11 +196,22 @@ class Workflow
 			}
 		}
 
+		$app = Factory::getApplication();
+
+		$app->triggerEvent(
+			'onWorkflowBeforeTransition',
+			[
+				'pks' => $pks,
+				'extension' => $this->extension,
+				'user' => $app->getIdentity(),
+				'transition' => $transition,
+			]
+		);
+
 		$success = $this->updateAssociations($pks, (int) $transition->to_stage_id);
 
 		if ($success)
 		{
-			$app = Factory::getApplication();
 			$app->triggerEvent(
 				'onWorkflowAfterTransition',
 				[

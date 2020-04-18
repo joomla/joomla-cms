@@ -86,9 +86,6 @@ class AdminController extends BaseController
 		$this->registerTask('orderup', 'reorder');
 		$this->registerTask('orderdown', 'reorder');
 
-		// Transition
-		$this->registerTask('runTransition', 'runTransition');
-
 		// Guess the option as com_NameOfController.
 		if (empty($this->option))
 		{
@@ -447,7 +444,7 @@ class AdminController extends BaseController
 
 		// Get the model
 		$model = $this->getModel();
-		$return = $model->runTransition($pk, $transitionId);
+		$return = $model->executeTransition($pk, $transitionId);
 
 		$redirect = Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false);
 
