@@ -413,12 +413,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['default-src'], ''));
 			}
 
-			if (!isset($cspHeaderCollection['script-src']) && $scriptHashesEnabled)
+			if (!isset($cspHeaderCollection['script-src']) && ($scriptHashesEnabled || $nonceEnabled))
 			{
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['script-src'], ''));
 			}
 
-			if (!isset($cspHeaderCollection['style-src']) && $styleHashesEnabled)
+			if (!isset($cspHeaderCollection['style-src']) && ($scriptHashesEnabled || $nonceEnabled))
 			{
 				$cspHeaderCollection = array_merge($cspHeaderCollection, array_fill_keys(['style-src'], ''));
 			}
