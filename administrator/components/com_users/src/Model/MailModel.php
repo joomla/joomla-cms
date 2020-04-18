@@ -177,7 +177,6 @@ class MailModel extends AdminModel
 
 		// Get the Mailer
 		$mailer = new MailTemplate('com_users.mail');
-		//$mailer = Factory::getMailer();
 		$params = ComponentHelper::getParams('com_users');
 
 		try
@@ -198,6 +197,7 @@ class MailModel extends AdminModel
 				{
 					$mailer->addRecipient($row, null, 'bcc');
 				}
+
 				$mailer->addRecipient($app->get('mailfrom'));
 			}
 			else
