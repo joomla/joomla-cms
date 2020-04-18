@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Session\Session as BaseSession;
 
 /**
@@ -78,6 +79,20 @@ class Session extends BaseSession
 		$user = Factory::getUser();
 
 		return ApplicationHelper::getHash($user->get('id', 0) . Factory::getApplication()->getSession()->getToken($forceNew));
+	}
+
+	/**
+	 * Overwrite the framework Create a token-string method
+	 *
+	 * @param   integer  $length  Length of string
+	 *
+	 * @return  string  Generated token
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function createToken(int $length = 32): string
+	{
+		return UserHelper::genRandomPassword($length);
 	}
 
 	/**
