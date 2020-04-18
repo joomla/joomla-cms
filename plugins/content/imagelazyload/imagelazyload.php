@@ -20,7 +20,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 class PlgContentImageLazyload extends CMSPlugin
 {
 	/**
-	 * Plugin that adds the lazyloading attribute on the fly
+	 * Plugin that adds on the fly the loading=lazy attribute to image tags
 	 *
 	 * @param   string   $context  The context of the content being passed to the plugin.
 	 * @param   object   &$row     The article object.
