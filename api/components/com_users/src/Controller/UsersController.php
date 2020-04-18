@@ -116,7 +116,7 @@ class UsersController extends ApiController
 				throw new InvalidParameterException($error, 400, null, 'registrationDateStart');
 			}
 
-			$this->modelState->set('filter.range', $registrationStartDate);
+			$this->modelState->set('filter.registrationDateStart', $registrationStartDate);
 		}
 
 		if (array_key_exists('registrationDateEnd', $apiFilterInfo))
@@ -131,13 +131,13 @@ class UsersController extends ApiController
 				throw new InvalidParameterException($error, 400, null, 'registrationDateEnd');
 			}
 
-			$this->modelState->set('filter.range', $registrationEndDate);
+			$this->modelState->set('filter.registrationDateEnd', $registrationEndDate);
 		}
 		elseif (array_key_exists('registrationDateStart', $apiFilterInfo)
 			&& !array_key_exists('registrationDateEnd', $apiFilterInfo))
 		{
 			// If no end date specified the end date is now
-			$this->modelState->set('filter.range', new Date);
+			$this->modelState->set('filter.registrationDateEnd', new Date);
 		}
 
 		if (array_key_exists('lastVisitDateStart', $apiFilterInfo))
