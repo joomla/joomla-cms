@@ -937,14 +937,14 @@ class Browser
 			{
 				$wildcard_match = true;
 
-				if ($type != 'image')
+				if ($type !== 'image')
 				{
 					return true;
 				}
 			}
 
 			// Deal with Mozilla pjpeg/jpeg issue
-			if ($this->isBrowser('mozilla') && ($mimetype == 'image/pjpeg') && (strpos($this->accept, 'image/jpeg') !== false))
+			if ($this->isBrowser('mozilla') && ($mimetype === 'image/pjpeg') && (strpos($this->accept, 'image/jpeg') !== false))
 			{
 				return true;
 			}
@@ -955,7 +955,7 @@ class Browser
 			}
 		}
 
-		if ($type != 'image')
+		if ($type !== 'image')
 		{
 			return false;
 		}

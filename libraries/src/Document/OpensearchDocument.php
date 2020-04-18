@@ -168,7 +168,7 @@ class OpensearchDocument extends Document
 			$elUrl->setAttribute('type', $url->type);
 
 			// Results is the default value so we don't need to add it
-			if ($url->rel != 'results')
+			if ($url->rel !== 'results')
 			{
 				$elUrl->setAttribute('rel', $url->rel);
 			}
@@ -178,7 +178,7 @@ class OpensearchDocument extends Document
 		}
 
 		$xml->appendChild($elOs);
-		parent::render();
+		parent::render($cache, $params);
 
 		return $xml->saveXml();
 	}

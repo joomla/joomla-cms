@@ -10,14 +10,13 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 extract($displayData);
 
 // Get some system objects.
-$document = Factory::getDocument();
+$document = Factory::getApplication()->getDocument();
 
 /**
  * Layout variables
@@ -94,13 +93,13 @@ if (is_array($attributes))
 	$attributes = ArrayHelper::toString($attributes);
 }
 
-$cssFileExt = ($direction === 'rtl') ? '-rtl.css' : '.css';
+// Redefine locale/helper assets to use correct path, and load calendar assets
+$document->getWebAssetManager()
+	->registerAndUseScript('field.calendar.locale', $localesPath, [], ['defer' => true])
+	->registerAndUseScript('field.calendar.helper', $helperPath, [], ['defer' => true])
+	->useStyle('field.calendar' . ($direction === 'rtl' ? '-rtl' : ''))
+	->useScript('field.calendar');
 
-// The static assets for the calendar
-HTMLHelper::_('script', $localesPath, ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('script', $helperPath, ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('script', 'system/fields/calendar.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, ['version' => 'auto', 'relative' => true]);
 ?>
 <div class="field-calendar">
 	<?php if (!$readonly && !$disabled) : ?>
@@ -132,7 +131,7 @@ HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, ['version' =
 				<?php echo isset($minYear) && strlen($minYear) ? 'data-min-year="' . $minYear . '"' : ''; ?>
 				<?php echo isset($maxYear) && strlen($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
 				title="<?php echo Text::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?>"
-			><span class="fa fa-calendar" aria-hidden="true"></span></button>
+			><span class="fas fa-calendar" aria-hidden="true"></span></button>
 		</span>
 		<?php if (!$readonly && !$disabled) : ?>
 	</div>

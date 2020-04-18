@@ -64,7 +64,7 @@ interface PreloadManagerInterface
 	public function dnsPrefetch(string $uri, array $attributes = []);
 
 	/**
-	 * Initiates a early connection to a resource (DNS resolution, TCP handshake, TLS negotiation).
+	 * Initiates an early connection to a resource (DNS resolution, TCP handshake, TLS negotiation).
 	 *
 	 * @param   string  $uri         A public path
 	 * @param   array   $attributes  The attributes of this link (e.g. "array('as' => true)", "array('pr' => 0.5)")

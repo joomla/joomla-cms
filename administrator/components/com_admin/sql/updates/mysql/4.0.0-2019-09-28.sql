@@ -6,7 +6,7 @@ ALTER TABLE `#__user_notes` MODIFY `publish_up` datetime NULL DEFAULT NULL;
 ALTER TABLE `#__user_notes` MODIFY `publish_down` datetime NULL DEFAULT NULL;
 ALTER TABLE `#__user_notes` MODIFY `checked_out_time` datetime NULL DEFAULT NULL;
 
-UPDATE `#__user_notes` SET `modified_time` = `created_time` WHERE `modified_time` = '0000-00-00 00:00:00';
+UPDATE `#__user_notes` SET `modified_time` = `created_time`, `modified_user_id` = `created_user_id` WHERE `modified_time` = '0000-00-00 00:00:00';
 
 UPDATE `#__user_notes` SET `review_time` = NULL WHERE `review_time` = '0000-00-00 00:00:00';
 UPDATE `#__user_notes` SET `publish_up` = NULL WHERE `publish_up` = '0000-00-00 00:00:00';

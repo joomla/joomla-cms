@@ -49,6 +49,10 @@ class HtmlRenderer extends AbstractRenderer
 		// Push the error object into the document
 		$this->getDocument()->setError($error);
 
+		// Add registry file for the template asset
+		$this->getDocument()->getWebAssetManager()->getRegistry()
+			->addTemplateRegistryFile($template, $app->getClientId());
+
 		if (ob_get_contents())
 		{
 			ob_end_clean();

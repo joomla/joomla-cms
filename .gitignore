@@ -12,7 +12,6 @@
 /cache
 /installation/cache
 /installation/sessions
-/libraries/autoload_psr4.php
 /tmp
 /configuration.php
 /.htaccess
@@ -34,6 +33,10 @@
 selenium.log
 composer.phar
 /test-install
+/.phpunit.result.cache
+/tests/Codeception/acceptance.suite.yml
+/tests/Codeception/_output/
+/tests/Codeception/api.suite.yml
 
 
 # Vendor directory handeling
@@ -76,6 +79,8 @@ administrator/language/*
 administrator/manifests/packages/*
 !administrator/manifests/packages/pkg_en-GB.xml
 !administrator/language/overrides/index.html
+api/language/*
+!api/language/en-GB
 language/*
 !language/en-GB
 !language/overrides/index.html

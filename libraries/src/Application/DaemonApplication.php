@@ -10,7 +10,6 @@ namespace Joomla\CMS\Application;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Log\Log;
@@ -365,10 +364,7 @@ abstract class DaemonApplication extends CliApplication
 	public function execute()
 	{
 		// Trigger the onBeforeExecute event
-		$this->getDispatcher()->dispatch(
-			'onBeforeExecute',
-			new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
-		);
+		$this->triggerEvent('onBeforeExecute');
 
 		// Enable basic garbage collection.
 		gc_enable();

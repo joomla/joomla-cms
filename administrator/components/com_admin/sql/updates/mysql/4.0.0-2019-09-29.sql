@@ -3,7 +3,7 @@ ALTER TABLE `#__categories` MODIFY `modified_time` datetime NOT NULL;
 
 ALTER TABLE `#__categories` MODIFY `checked_out_time` datetime NULL DEFAULT NULL;
 
-UPDATE `#__categories` SET `modified_time` = `created_time` WHERE `modified_time` = '0000-00-00 00:00:00';
+UPDATE `#__categories` SET `modified_time` = `created_time`, `modified_user_id` = `created_user_id` WHERE `modified_time` = '0000-00-00 00:00:00';
 
 UPDATE `#__categories` SET `checked_out_time` = NULL WHERE `checked_out_time` = '0000-00-00 00:00:00';
 

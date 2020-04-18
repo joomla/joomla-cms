@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 /** @var \Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate\Html $this */
 ?>
 
-<fieldset class="options-grid-form options-grid-form-full">
+<fieldset class="options-form">
 	<legend>
 		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_UPDATEFOUND'); ?>
 	</legend>
@@ -45,7 +45,8 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PACKAGE'); ?>
 				</td>
 				<td>
-					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>">
+					<a href="<?php echo $this->updateInfo['object']->downloadurl->_data; ?>" target="_blank" rel="noopener noreferrer"
+						title="<?php echo TEXT::sprintf('JBROWSERTARGET_DOWNLOAD', $this->updateInfo['object']->downloadurl->_data); ?>">
 						<?php echo $this->updateInfo['object']->downloadurl->_data; ?>
 					</a>
 				</td>
@@ -57,7 +58,8 @@ use Joomla\CMS\Language\Text;
 						<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_INFOURL'); ?>
 					</td>
 					<td>
-						<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>">
+						<a href="<?php echo $this->updateInfo['object']->get('infourl')->_data; ?>" target="_blank" rel="noopener noreferrer"
+							title="<?php echo TEXT::sprintf('JBROWSERTARGET_NEW_TITLE', $this->updateInfo['object']->get('infourl')->title); ?>">
 							<?php echo $this->updateInfo['object']->get('infourl')->title; ?>
 						</a>
 					</td>

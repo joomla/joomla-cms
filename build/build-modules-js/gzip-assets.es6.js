@@ -119,13 +119,13 @@ const gzipFiles = (brotliParam) => {
   });
 
   if (templatesFiles.length) {
-    templatesFiles.forEach(file => handleFile(file, enableBrotli));
+    templatesFiles.forEach((file) => handleFile(file, enableBrotli));
   }
   if (adminTemplatesFiles.length) {
-    adminTemplatesFiles.forEach(file => handleFile(file, enableBrotli));
+    adminTemplatesFiles.forEach((file) => handleFile(file, enableBrotli));
   }
   if (mediaFiles.length) {
-    mediaFiles.forEach(file => handleFile(file, enableBrotli));
+    mediaFiles.forEach((file) => handleFile(file, enableBrotli));
   }
 };
 

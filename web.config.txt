@@ -29,6 +29,9 @@
        <httpProtocol>
            <customHeaders>
                <add name="X-Content-Type-Options" value="nosniff" />
+               <!-- Protect against certain cross-origin requests. More information can be found here: -->
+               <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/Cross-Origin_Resource_Policy_(CORP) -->
+               <!-- <add name="Cross-Origin-Resource-Policy" value="same-origin" /> -->
            </customHeaders>
        </httpProtocol>
    </system.webServer>

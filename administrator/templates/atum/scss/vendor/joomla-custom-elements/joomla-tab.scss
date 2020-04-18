@@ -1,0 +1,305 @@
+@import "../../../../../../media/vendor/bootstrap/scss/functions";
+
+// Atum Variables
+@import "../../variables";
+
+// Mixins
+@import "../../mixin";
+
+@import "../../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../../media/vendor/bootstrap/scss/mixins";
+
+// Tabs
+
+
+//
+// Base styles
+//
+
+joomla-tab {
+  display: flex;
+  flex-direction: column;
+
+  &[orientation=horizontal]:not([view=accordion]) {
+    margin-bottom: 0;
+  }
+
+  &[orientation=horizontal]:not([view=accordion]) > ul {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  > ul {
+    display: flex;
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+    list-style: outside none none;
+    border-radius: 0;
+    border-image: none;
+
+    a[role=tab] {
+      position: relative;
+      box-sizing: border-box;
+      display: block;
+      padding: .5rem 1rem;
+      color: var(--atum-link-color);
+      text-decoration: none;
+      border: 0 solid var(--bluegray);
+      border-top: 0;
+      border-right: 0;
+      border-bottom: 0;
+      box-shadow: none;
+
+      &[active],
+      &:hover {
+        margin: -1px;
+        background-color: $white;
+        background-image: none;
+        border: 1px solid var(--bluegray);
+        border-bottom: solid 1px #fff;
+        border-radius: 0;
+        box-shadow: none;
+        &::after {
+          position: absolute;
+          top: -1px;
+          right: 0;
+          left: 0;
+          height: 4px;
+          content: "";
+          background-color: var(--atum-contrast);
+          opacity: .8;
+        }
+      }
+
+      &[active] {
+        font-weight: $font-weight-bold;
+      }
+    }
+  }
+
+  > section {
+    display: none;
+    padding: 30px 2vw;
+    background-color: $white;
+    border-radius: 0;
+    box-shadow: none;
+    border: 1px solid var(--bluegray);
+
+    [dir=ltr] & {
+      margin-left: -1px;
+    }
+
+    [dir=rtl] & {
+      margin-right: -1px;
+    }
+
+    &[active] {
+      display: block;
+    }
+
+    .tab-pane {
+      margin: 0
+    }
+  }
+
+  &[orientation=vertical] {
+    flex-direction: row;
+    align-items: flex-start;
+    width: 100%;
+
+    > ul {
+      flex: 0 0 25%;
+      flex-direction: column;
+      width: 100%;
+      min-width: 25%;
+      max-width: 25%;
+      height: auto;
+      padding: 0;
+      overflow: hidden;
+      border: 1px solid $gray-300;
+      border-radius: 0;
+      box-shadow: none;
+
+      @include media-breakpoint-down(md) {
+        flex: 0 0 100%;
+        max-width: 100%;
+      }
+    }
+
+    li:last-of-type a[role=tab] {
+      border-bottom: 0;
+    }
+
+    a[role=tab] {
+      position: relative;
+      display: block;
+      padding: .75em 1em;
+      color: var(--atum-special-color);
+      text-decoration: none;
+      border: 0;
+      border-bottom: 1px solid $gray-300;
+      box-shadow: none;
+
+      &[active],
+      &:hover {
+        color: var(--atum-text-light);
+        background-color: var(--atum-link-color);
+        background-image: none;
+        border-right: 0;
+        box-shadow: none;
+
+        &::after {
+          top: 0;
+          bottom: 0;
+          left: -1px;
+          width: 5px;
+          height: auto;
+          background-color: var(--atum-bg-dark);
+        }
+      }
+    }
+
+    > section {
+      width: 100%;
+      padding: $grid-gutter-width-s 0 $grid-gutter-width-s $grid-gutter-width-s;
+      border: 0 none;
+      box-shadow: none;
+    }
+  }
+
+  &[view=accordion] {
+    > ul {
+      flex-direction: column;
+      white-space: normal;
+      background-color: var(--atum-link-color);
+      border-radius: 0;
+      box-shadow: 0 1px $white inset, 0 0 3px rgba(0, 0, 0, .04);
+    }
+
+    section {
+      display: none;
+      padding: 15px;
+
+      &[active] {
+        display: block;
+        flex: 0 0 100%;
+        width: 100%;
+        max-width: 100%;
+        border-bottom: 1px solid $gray-300;
+      }
+    }
+
+    [active] {
+      background-color: $white;
+    }
+
+    a[role=tab] {
+      color: var(--atum-text-light);
+      border: 1px solid var(--atum-text-light);
+      border-top: 0;
+
+      &[active],
+      &:hover,
+      &:focus {
+        color: var(--atum-text-light);
+        background-color: var(--atum-bg-dark);
+      }
+    }
+
+    .col-md-6,
+    .col-md-9,
+    .col-md-3 {
+      padding: .5rem 0 0 !important;
+    }
+
+    joomla-tab[view=accordion] {
+      > ul {
+        background-color: $white;
+      }
+
+      a[role=tab] {
+        position: relative;
+        display: block;
+        padding: .75em 1em;
+        color: var(--atum-text-light);
+        text-decoration: none;
+        border: 0;
+        border-bottom: 1px solid $gray-300;
+        box-shadow: none;
+
+        &[active],
+        &:hover {
+          &::after {
+            position: absolute;
+            top: auto;
+            right: -1px;
+            bottom: -1px;
+            left: -1px;
+            display: block;
+            width: calc(100% + 2px);
+            height: 5px;
+            content: "";
+            background-color: var(--atum-bg-dark);
+            opacity: .8;
+          }
+        }
+      }
+    }
+
+    #permissions-sliders {
+      section[active] {
+        padding: 0 !important;
+
+        @include media-breakpoint-down(md) {
+          .respTable {
+            [dir=ltr] & {
+              text-align: right;
+            }
+
+            [dir=rtl] & {
+              text-align: left;
+            }
+          }
+
+          .respTable, .respTable thead, .respTable tbody, .respTable tr, .respTable th, .respTable td {
+            display: block;
+          }
+
+          .respTable thead {
+            position: absolute;
+            top: -1111px;
+            left: -1111px;
+          }
+
+          .respTable td::before {
+            font-weight: $bold-weight;
+            content: attr(data-label) ":";
+
+            [dir=ltr] & {
+              float: left;
+              padding: 0 2em 0 0;
+            }
+
+            [dir=rtl] & {
+              float: right;
+              padding: 0 0 0 2em;
+            }
+          }
+
+          .respTable td:nth-child(1) {
+            font-weight: $bold-weight;
+          }
+
+          .respTable td:last-child {
+            border-bottom: 1em var(--atum-bg-dark-80) solid;
+          }
+
+          .oddCol {
+            background: var(--atum-bg-light);
+          }
+        }
+      }
+    }
+  }
+}

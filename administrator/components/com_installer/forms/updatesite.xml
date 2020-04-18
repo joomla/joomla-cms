@@ -27,6 +27,7 @@
 			name="extra_query"
 			type="text"
 			label="COM_INSTALLER_FIELD_EXTRA_QUERY_LABEL"
+			description="COM_INSTALLER_FIELD_EXTRA_QUERY_DESC"
 			size="40"
 			default=""
 		/>

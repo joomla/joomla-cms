@@ -15,12 +15,12 @@ use Joomla\CMS\Language\Text;
 ?>
 
 <h2 class="mt-3 mb-3">
-	<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPATIBILITY_CHECK', '&#x200E;' . $this->updateInfo['latest']); ?>
+	<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PREUPDATE_CHECK', '&#x200E;' . $this->updateInfo['latest']); ?>
 </h2>
 
 <div class="row">
 	<div class="col-md-6">
-		<fieldset class="options-grid-form options-grid-form-full">
+		<fieldset class="options-form">
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_REQUIRED_SETTINGS'); ?>
 			</legend>
@@ -48,7 +48,7 @@ use Joomla\CMS\Language\Text;
 								<span class="badge badge-<?php echo $option->state ? 'success' : 'danger'; ?>">
 									<?php echo Text::_($option->state ? 'JYES' : 'JNO'); ?>
 									<?php if ($option->notice) : ?>
-										<span class="icon-info icon-white" title="<?php echo $option->notice; ?>"></span>
+										<span class="fas fa-info icon-white" title="<?php echo $option->notice; ?>"></span>
 									<?php endif; ?>
 								</span>
 							</td>
@@ -60,7 +60,7 @@ use Joomla\CMS\Language\Text;
 	</div>
 
 	<div class="col-md-6">
-		<fieldset class="options-grid-form options-grid-form-full">
+		<fieldset class="options-form">
 			<legend>
 				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_RECOMMENDED_SETTINGS'); ?>
 			</legend>
@@ -103,10 +103,11 @@ use Joomla\CMS\Language\Text;
 	</div>
 </div>
 <div class="row">
+	<?php if (!empty($this->nonCoreExtensions)) : ?>
 	<div class="col-md-6">
-		<fieldset class="options-grid-form options-grid-form-full">
+		<fieldset class="options-form">
 			<legend>
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
+				<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
 			</legend>
 			<table class="table" id="preupdatecheckextensions">
 				<caption class="sr-only">
@@ -115,13 +116,13 @@ use Joomla\CMS\Language\Text;
 				<thead>
 					<tr>
 						<th scope="col">
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
+							<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
 						</th>
 						<th scope="col">
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE'); ?>
+							<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE'); ?>
 						</th>
 						<th scope="col">
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
+							<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
 						</th>
 					</tr>
 				</thead>
@@ -129,7 +130,7 @@ use Joomla\CMS\Language\Text;
 				<?php foreach ($this->nonCoreExtensions as $extension) : ?>
 					<tr>
 						<th scope="row">
-							<?php echo JText::_($extension->name); ?>
+							<?php echo Text::_($extension->name); ?>
 						</th>
 						<td class="extension-check"
 							data-extension-id="<?php echo $extension->extension_id; ?>"
@@ -146,7 +147,7 @@ use Joomla\CMS\Language\Text;
 		</fieldset>
 	</div>
 	<div class="col-md-6">
-		<fieldset class="options-grid-form options-grid-form-full">
+		<fieldset class="options-form">
 			<legend>
 				<?php echo Text::_('NOTICE'); ?>
 			</legend>
@@ -157,4 +158,14 @@ use Joomla\CMS\Language\Text;
 			</ul>
 		</fieldset>
 	</div>
+    <?php else: ?>
+    <div class="col-md-6">
+        <h3>
+            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
+        </h3>
+        <div class="alert alert-no-items">
+            <?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NONE'); ?>
+        </div>
+    </div>
+	<?php endif; ?>
 </div>

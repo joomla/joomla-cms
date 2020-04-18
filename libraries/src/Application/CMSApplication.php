@@ -10,11 +10,11 @@ namespace Joomla\CMS\Application;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\SessionAwareWebApplicationTrait;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Event\ErrorEvent;
 use Joomla\CMS\Exception\ExceptionHandler;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
@@ -42,9 +42,9 @@ use Joomla\String\StringHelper;
  *
  * @since  3.2
  */
-abstract class CMSApplication extends WebApplication implements ContainerAwareInterface, CMSApplicationInterface
+abstract class CMSApplication extends WebApplication implements ContainerAwareInterface, CMSWebApplicationInterface
 {
-	use ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
+	use ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper, SessionAwareWebApplicationTrait;
 
 	/**
 	 * Array of options for the \JDocument object
@@ -226,17 +226,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		try
 		{
 			$this->createExtensionNamespaceMap();
-
-			PluginHelper::importPlugin('system');
-
-			// Trigger the onBeforeExecute event
-			$this->getDispatcher()->dispatch(
-				'onBeforeExecute',
-				new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
-			);
-
-			// Mark beforeExecute in the profiler.
-			JDEBUG ? $this->profiler->mark('beforeExecute event dispatched') : null;
 
 			// Perform application routines.
 			$this->doExecute();
@@ -1016,10 +1005,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		if ($active !== null
 			&& $active->type === 'alias'
-			&& $active->params->get('alias_redirect')
+			&& $active->getParams()->get('alias_redirect')
 			&& \in_array($this->input->getMethod(), array('GET', 'HEAD'), true))
 		{
-			$item = $this->getMenu()->getItem($active->params->get('aliasoptions'));
+			$item = $this->getMenu()->getItem($active->getParams()->get('aliasoptions'));
 
 			if ($item !== null)
 			{
@@ -1072,7 +1061,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @param   string  $key    The path of the state.
 	 * @param   mixed   $value  The value of the variable.
 	 *
-	 * @return  mixed  The previous state, if one existed.
+	 * @return  mixed|void  The previous state, if one existed.
 	 *
 	 * @since   3.2
 	 */

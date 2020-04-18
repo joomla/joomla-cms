@@ -20,7 +20,6 @@ Text::script('PLG_INSTALLER_FOLDERINSTALLER_NO_INSTALL_PATH');
 Text::script('PLG_INSTALLER_URLINSTALLER_NO_URL');
 Text::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 
-HTMLHelper::_('behavior.tabstate');
 HTMLHelper::_('stylesheet', 'com_installer/installer.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'com_installer/installer.js', ['version' => 'auto', 'relative' => true]);
 
@@ -42,7 +41,7 @@ $app = Factory::getApplication();
 					<?php // Show installation tabs ?>
 					<?php foreach ($tabs as $tab) : ?>
 						<?php echo HTMLHelper::_('uitab.addTab', 'myTab', $tab['name'], $tab['label']); ?>
-						<fieldset class="uploadform option-fieldset options-grid-form-full">
+						<fieldset class="uploadform option-fieldset options-form">
 							<?php echo $tab['content']; ?>
 						</fieldset>
 						<?php echo HTMLHelper::_('uitab.endTab'); ?>

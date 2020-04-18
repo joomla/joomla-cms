@@ -9,12 +9,14 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
-HTMLHelper::_('behavior.core');
-HTMLHelper::_('webcomponent', 'system/joomla-toolbar-button.min.js', ['version' => 'auto', 'relative' => true]);
+Factory::getDocument()->getWebAssetManager()
+	->useScript('core')
+	->useScript('webcomponent.toolbar-button');
 
 /**
  * @var  string  $id
@@ -57,7 +59,7 @@ echo HTMLHelper::_(
 		type="button"
 		onclick="document.getElementById('versionsModal').open()"
 		data-toggle="modal">
-		<span class="fa fa-code-branch" aria-hidden="true"></span>
+		<span class="fas fa-code-branch" aria-hidden="true"></span>
 		<?php echo $title; ?>
 	</button>
 </joomla-toolbar-button>

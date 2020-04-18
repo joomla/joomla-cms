@@ -17,6 +17,8 @@ Joomla = window.Joomla || {};
       // do field validation
       if (form.install_package.value === '') {
         alert(Joomla.JText._('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE'), true);
+      } else if (form.install_package.files[0].size > form.max_upload_size.value) {
+        alert(Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
       } else {
         Joomla.displayLoader();
 
@@ -73,6 +75,8 @@ Joomla = window.Joomla || {};
       // do field validation
       if (form.install_package.value === '') {
         alert(Joomla.JText._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE'), true);
+      } else if (form.install_package.files[0].size > form.max_upload_size.value) {
+        alert(Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
       } else {
         Joomla.displayLoader();
 
@@ -83,7 +87,7 @@ Joomla = window.Joomla || {};
     Joomla.displayLoader = () => {
       const loading = document.getElementById('loading');
       if (loading) {
-        loading.style.display = 'block';
+        loading.classList.remove('hidden');
       }
     };
 
@@ -95,7 +99,7 @@ Joomla = window.Joomla || {};
       loading.style.left = 0;
       loading.style.width = '100%';
       loading.style.height = '100%';
-      loading.style.display = 'none';
+      loading.classList.add('hidden');
       loading.style.marginTop = '-10px';
     }
 
@@ -108,14 +112,15 @@ Joomla = window.Joomla || {};
 
 document.addEventListener('DOMContentLoaded', () => {
   if (typeof FormData === 'undefined') {
-    document.querySelector('#legacy-uploader').style.display = 'block';
-    document.querySelector('#uploader-wrapper').style.display = 'none';
+    document.querySelector('#legacy-uploader').classList.remove('hidden');
+    document.querySelector('#uploader-wrapper').classList.add('hidden');
     return;
   }
 
   let uploading = false;
   const dragZone = document.querySelector('#dragarea');
   const fileInput = document.querySelector('#install_package');
+  const fileSizeMax = document.querySelector('#max_upload_size').value;
   const button = document.querySelector('#select-file-button');
   const returnUrl = document.querySelector('#installer-return').value;
   const progress = document.getElementById('upload-progress');
@@ -197,6 +202,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const file = files[0];
     const data = new FormData();
+
+    if (file.size > fileSizeMax) {
+      alert(Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
+      return;
+    }
 
     data.append('install_package', file);
     data.append('installtype', 'upload');

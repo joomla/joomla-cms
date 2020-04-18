@@ -24,6 +24,7 @@ use Joomla\CMS\MVC\Model\BaseModel;
 use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Input\Input;
 
 /**
  * Base class for a Joomla Controller
@@ -134,7 +135,7 @@ class BaseController implements ControllerInterface
 	/**
 	 * Hold a JInput object for easier access to the input variables.
 	 *
-	 * @var    \JInput
+	 * @var    Input
 	 * @since  3.0
 	 */
 	protected $input;
@@ -360,11 +361,11 @@ class BaseController implements ControllerInterface
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
-	 * @param   \JInput              $input    Input
+	 * @param   Input                $input    Input
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, ?CMSApplication $app = null, ?Input $input = null)
 	{
 		$this->methods = array();
 		$this->message = null;

@@ -258,7 +258,7 @@
 	JoomlaCalendar.prototype.show = function () {
 		this.checkInputs();
 		this.inputField.focus();
-		this.dropdownElement.style.display = "block";
+		this.dropdownElement.classList.remove('hidden');
 		this.hidden = false;
 
 		document.addEventListener("keydown", this._calKeyEvent, true);
@@ -281,7 +281,7 @@
 		document.removeEventListener("keypress", this._calKeyEvent, true);
 		document.removeEventListener("mousedown", this._documentClick, true);
 
-		this.dropdownElement.style.display = "none";
+		this.dropdownElement.classList.add('hidden');
 		this.hidden = true;
 	};
 
@@ -547,7 +547,7 @@
 		div.style.boxShadow = "0px 0px 70px 0px rgba(0,0,0,0.67)";
 		div.style.minWidth = this.inputField.width;
 		div.style.padding = '0';
-		div.style.display = "none";
+		div.classList.add('hidden');
 		div.style.left = "auto";
 		div.style.top = "auto";
 		div.style.zIndex = 1060;
@@ -781,6 +781,9 @@
 				self.inputField.setAttribute('data-alt-value', "0000-00-00 00:00:00");
 				self.inputField.setAttribute('value', '');
 				self.inputField.value = '';
+				if (self.inputField.onchange) {
+					self.inputField.onchange();
+				}
 			});
 
 		if (this.params.showsTodayBtn) {
@@ -841,10 +844,10 @@
 
 		if (year < this.params.minYear) {                                                                   // Check min,max year
 			year = this.params.minYear;
-			date.getOtherFullYear(this.params.dateType, year);
+			date.setOtherFullYear(this.params.dateType, year);
 		} else if (year > this.params.maxYear) {
 			year = this.params.maxYear;
-			date.getOtherFullYear(this.params.dateType, year);
+			date.setOtherFullYear(this.params.dateType, year);
 		}
 
 		this.params.firstDayOfWeek = firstDayOfWeek;
@@ -922,10 +925,10 @@
 				}
 			}
 			if (!(hasdays || this.params.showsOthers)) {
-				row.style.display = 'none';
+				row.classList.add('hidden');
 				row.className = "emptyrow";
 			} else {
-				row.style.display = '';
+				row.classList.remove('hidden');
 			}
 		}
 
@@ -987,7 +990,7 @@
 			var calObj = JoomlaCalendar.getCalObject(this)._joomlaCalendar;
 
 			// If calendar is open we will handle the event elsewhere
-			if (calObj.dropdownElement.style.display === 'block') {
+			if (!calObj.dropdownElement.classList.contains('hidden')) {
 				event.preventDefault();
 				return;
 			}

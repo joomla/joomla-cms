@@ -7,36 +7,39 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     [].slice.call(document.querySelectorAll('input[type="password"]')).forEach((input) => {
-      const inputGroup = input.parentNode.querySelector('.input-password-toggle');
+      const toggleButton = input.parentNode.querySelector('.input-password-toggle');
 
-      if (!inputGroup) {
+      if (!toggleButton) {
         return;
       }
 
-      inputGroup.addEventListener('click', (e) => {
-        const { target } = e;
-        const srText = target.previousSibling;
+      toggleButton.addEventListener('click', () => {
+        const icon = toggleButton.firstElementChild;
+        const srText = toggleButton.lastElementChild;
 
-        if (target.classList.contains('icon-eye')) {
+        if (input.type === 'password') {
           // Update the icon class
-          target.classList.remove('icon-eye');
-          target.classList.add('icon-eye-close');
+          icon.classList.remove('icon-eye');
+          icon.classList.add('icon-eye-close');
 
           // Update the input type
           input.type = 'text';
 
+          // Focus the input field
+          input.focus();
+
           // Update the text for screenreaders
-          srText.innerText = Joomla.JText._('JSHOW');
-        } else if (target.classList.contains('icon-eye-close')) {
+          srText.innerText = Joomla.Text._('JHIDEPASSWORD');
+        } else if (input.type === 'text') {
           // Update the icon class
-          target.classList.add('icon-eye');
-          target.classList.remove('icon-eye-close');
+          icon.classList.add('icon-eye');
+          icon.classList.remove('icon-eye-close');
 
           // Update the input type
           input.type = 'password';
 
           // Update the text for screenreaders
-          srText.innerText = Joomla.JText._('JHIDE');
+          srText.innerText = Joomla.Text._('JSHOWPASSWORD');
         }
       });
     });

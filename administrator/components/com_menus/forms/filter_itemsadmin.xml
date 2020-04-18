@@ -5,7 +5,7 @@
 		type="list"
 		label="JSITEADMIN"
 		filtermode="selector"
-		onchange="this.form.submit();"
+		onchange="Joomla.resetFilters(this)"
 		>
 		<option value="0">JSITE</option>
 		<option value="1">JADMINISTRATOR</option>
@@ -27,6 +27,7 @@
 		<field
 			name="search"
 			type="text"
+			inputmode="search"
 			label="COM_MENUS_ITEMS_SEARCH_FILTER_LABEL"
 			description="COM_MENUS_ITEMS_SEARCH_FILTER"
 			hint="JSEARCH_FILTER"
@@ -36,7 +37,7 @@
 			name="published"
 			type="status"
 			label="JOPTION_SELECT_PUBLISHED"
-			filter="*,0,1,-2"
+			optionsFilter="*,0,1,-2"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -62,6 +63,7 @@
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
 			default="a.lft ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.lft ASC">JGRID_HEADING_ORDERING_ASC</option>
