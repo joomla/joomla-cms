@@ -135,7 +135,11 @@ class AccessiblemediaField extends SubformField
 	{
 		json_decode($value);
 
-		// The value is not empty and it is a valid JSON string
+		/**
+		* If the value is not empty and is not a valid JSON string, 
+		* it is most likely a custom field created in Joomla 3 and 
+		* the value is a string that contains the file name.
+		*/
 		if ($value !== '' && json_last_error() !== JSON_ERROR_NONE)
 		{
 			$value = '{"imagefile":"' . $value . '","alt_text":""}';
