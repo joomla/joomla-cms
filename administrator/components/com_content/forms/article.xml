@@ -67,11 +67,18 @@
 		/>
 
 		<field
-			name="transition"
-			type="transition"
-			label="COM_CONTENT_TRANSITION"
-			extension="com_content"
-		/>
+			name="state"
+			type="list"
+			label="JSTATUS"
+			class="custom-select-color-state"
+			size="1"
+			default="1"
+			>
+			<option value="1">JPUBLISHED</option>
+			<option value="0">JUNPUBLISHED</option>
+			<option value="2">JARCHIVED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
 
 		<field
 			name="tags"

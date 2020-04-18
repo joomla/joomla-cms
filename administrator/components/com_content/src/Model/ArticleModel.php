@@ -35,7 +35,6 @@ use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
-use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -74,8 +73,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	protected $associationsContext = 'com_content.item';
 
-	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null) {
-
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
+	{
 		parent::__construct($config, $factory, $formFactory);
 
 		$this->setUpWorkflow('com_content.article');
@@ -126,11 +125,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		}
 
 		// Copy workflow association
-		$workflow = new Workflow(['extension' => 'com_content']);
+		$assoc = $this->workflow->getAssociation((int) $oldId);
 
-		$assoc = $workflow->getAssociation((int) $oldId);
-
-		$workflow->createAssociation((int) $newId, (int) $assoc->stage_id);
+		$this->workflow->createAssociation((int) $newId, (int) $assoc->stage_id);
 
 		// Register FieldsHelper
 		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
@@ -152,49 +149,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		}
 
 		Factory::getApplication()->triggerEvent('onContentAfterSave', array('com_content.article', &$this->table, false, $fieldsData));
-	}
-
-	/**
-	 * Batch change workflow stage or current.
-	 *
-	 * @param   integer  $value     The workflow stage ID.
-	 * @param   array    $pks       An array of row IDs.
-	 * @param   array    $contexts  An array of item contexts.
-	 *
-	 * @return  mixed  An array of new IDs on success, boolean false on failure.
-	 *
-	 * @since   4.0.0
-	 */
-	protected function batchWorkflowStage(int $value, array $pks, array $contexts)
-	{
-		$user = Factory::getUser();
-
-		if (!$user->authorise('core.admin', 'com_content'))
-		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EXECUTE_TRANSITION'));
-		}
-
-		// Get workflow stage information
-		$stage = new StageTable($this->_db);
-
-		if (empty($value) || !$stage->load($value))
-		{
-			Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_BATCH_WORKFLOW_STAGE_ROW_NOT_FOUND'), 'error');
-
-			return false;
-		}
-
-		if (empty($pks))
-		{
-			Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_BATCH_WORKFLOW_STAGE_ROW_NOT_FOUND'), 'error');
-
-			return false;
-		}
-
-		$workflow = new Workflow(['extension' => 'com_content']);
-
-		// Update content state value and workflow associations
-		return $workflow->updateAssociations($pks, $value);
 	}
 
 	/**
@@ -392,114 +346,9 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$input = Factory::getApplication()->input;
+		$this->importWorkflowPlugins();
 
-		$user  = Factory::getUser();
-		$table = $this->getTable();
-		$pks   = (array) $pks;
-		$value = (int) $value;
-
-		$itrans = $input->get('publish_transitions', [], 'array');
-
-		// Include the plugins for the change of state event.
-		PluginHelper::importPlugin($this->events_map['change_state']);
-
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		$query->select(
-			[
-				$db->quoteName('wt.id'),
-				$db->quoteName('wa.item_id'),
-			]
-		)
-			->from(
-				[
-					$db->quoteName('#__workflow_transitions', 'wt'),
-					$db->quoteName('#__workflow_stages', 'ws'),
-					$db->quoteName('#__workflow_stages', 'ws2'),
-					$db->quoteName('#__workflow_associations', 'wa'),
-				]
-			)
-			->where(
-				[
-					$db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'),
-					$db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws2.id'),
-					$db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws.workflow_id'),
-					$db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws2.workflow_id'),
-					$db->quoteName('wt.to_stage_id') . ' != ' . $db->quoteName('wa.stage_id'),
-					$db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'),
-					$db->quoteName('ws.condition') . ' = :condition',
-				]
-			)
-			->extendWhere(
-				'AND',
-				[
-					$db->quoteName('wt.from_stage_id') . ' = -1',
-					$db->quoteName('wt.from_stage_id') . ' = ' . $db->quoteName('wa.stage_id'),
-				],
-				'OR'
-			)
-			->whereIn($db->quoteName('wa.item_id'), $pks)
-			->bind(':condition', $value, ParameterType::INTEGER);
-
-		$transitions = $db->setQuery($query)->loadObjectList();
-
-		$items = [];
-
-		foreach ($transitions as $transition)
-		{
-			if ($user->authorise('core.execute.transition', 'com_content.transition.' . $transition->id))
-			{
-				if (!isset($itrans[$transition->item_id]) || $itrans[$transition->item_id] == $transition->id)
-				{
-					$items[$transition->item_id] = (int) $transition->id;
-				}
-			}
-		}
-
-		// Access checks.
-		foreach ($pks as $i => $pk)
-		{
-			$table->reset();
-
-			if ($table->load($pk))
-			{
-				if (!isset($items[$pk]))
-				{
-					// Prune items that you can't change.
-					unset($pks[$i]);
-
-					Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-
-					return false;
-				}
-
-				// If the table is checked out by another user, drop it and report to the user trying to change its state.
-				if ($table->hasField('checked_out') && $table->checked_out && ($table->checked_out != $user->id))
-				{
-					Log::add(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), Log::WARNING, 'jerror');
-
-					// Prune items that you can't change.
-					unset($pks[$i]);
-
-					return false;
-				}
-			}
-		}
-
-		foreach ($pks as $i => $pk)
-		{
-			if (!$this->runTransition($pk, $items[$pk]))
-			{
-				return false;
-			}
-		}
-
-		// Clear the component's cache
-		$this->cleanCache();
-
-		return true;
+		return parent::publish($pks, $value);
 	}
 
 	/**
@@ -630,18 +479,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 					$form->setFieldAttribute('catid', 'filter', 'unset');
 				}
 			}
-
-			$table = $this->getTable();
-
-			if ($table->load(array('id' => $id)))
-			{
-				$workflow = new Workflow(['extension' => 'com_content']);
-
-				// Transition field
-				$assoc = $workflow->getAssociation($table->id);
-
-				$form->setFieldAttribute('transition', 'workflow_stage', (int) $assoc->stage_id);
-			}
 		}
 		else
 		{
@@ -677,10 +514,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				$form->setFieldAttribute('catid', 'refresh-enabled', true);
 				$form->setFieldAttribute('catid', 'refresh-cat-id', $assignedCatids);
 				$form->setFieldAttribute('catid', 'refresh-section', 'article');
-
-				$workflow = $this->getWorkflowByCategory($assignedCatids);
-
-				$form->setFieldAttribute('transition', 'workflow_stage', (int) $workflow->stage_id);
 			}
 		}
 
@@ -842,6 +675,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$data['images'] = (string) $registry;
 		}
 
+		$this->workflowBeforeSave();
+
 		// Create new category, if needed.
 		$createCategory = true;
 
@@ -926,26 +761,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			}
 		}
 
-		$stageId = 0;
-
-		// Set status depending on category
-		if (empty($data['id']))
-		{
-			$workflow = $this->getWorkflowByCategory($data['catid']);
-
-			if (empty($workflow->id))
-			{
-				$this->setError(Text::_('COM_CONTENT_WORKFLOW_NOT_FOUND'));
-
-				return false;
-			}
-
-			$stageId = (int) $workflow->stage_id;
-
-			// B/C state
-			$data['state'] = (int) $workflow->condition;
-		}
-
 		// Automatic handling of alias for empty fields
 		if (in_array($input->get('task'), array('apply', 'save', 'save2new')) && (!isset($data['id']) || (int) $data['id'] == 0))
 		{
@@ -977,8 +792,6 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			}
 		}
 
-		$workflow = new Workflow(['extension' => 'com_content']);
-
 		if (parent::save($data))
 		{
 			if (isset($data['featured']))
@@ -994,47 +807,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 				}
 			}
 
-			// Let's check if we have workflow association (perhaps something went wrong before)
-			if (empty($stageId))
-			{
-				$assoc = $workflow->getAssociation((int) $this->getState($this->getName() . '.id'));
-
-				// If not, reset the state and let's create the associations
-				if (empty($assoc->item_id))
-				{
-					$table = $this->getTable();
-
-					$table->load((int) $this->getState($this->getName() . '.id'));
-
-					$workflow = $this->getWorkflowByCategory((int) $table->catid);
-
-					if (empty($workflow->id))
-					{
-						$this->setError(Text::_('COM_CONTENT_WORKFLOW_NOT_FOUND'));
-
-						return false;
-					}
-
-					$stageId = (int) $workflow->stage_id;
-
-					// B/C state
-					$table->state = $workflow->condition;
-
-					$table->store();
-				}
-			}
-
-			// If we have a new state, create the workflow association
-			if (!empty($stageId))
-			{
-				$workflow->createAssociation((int) $this->getState($this->getName() . '.id'), (int) $stageId);
-			}
-
-			// Run the transition and update the workflow association
-			if (!empty($data['transition']))
-			{
-				$this->runTransition((int) $this->getState($this->getName() . '.id'), (int) $data['transition']);
-			}
+			$this->workflowAfterSave($data);
 
 			return true;
 		}
@@ -1246,7 +1019,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			}
 		}
 
-		$this->preprocessFormWorkflow($form, $data);
+		$this->workflowPreprocessForm($form, $data);
 
 		parent::preprocessForm($form, $data, $group);
 	}
@@ -1319,9 +1092,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			$db->setQuery($query);
 			$db->execute();
 
-			$workflow = new Workflow(['extension' => 'com_content']);
-
-			$workflow->deleteAssociation($pks);
+			$this->workflow->deleteAssociation($pks);
 		}
 
 		return $return;
@@ -1334,148 +1105,4 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 *
 	 * @return  integer|boolean  If found, the workflow ID, otherwise false
 	 */
-	protected function getWorkflowByCategory(int $catId)
-	{
-		$db = $this->getDbo();
-
-		// Search categories and parents (if requested) for a workflow
-		$category = new Category($db);
-
-		$categories = array_reverse($category->getPath($catId));
-
-		$workflow_id = 0;
-
-		foreach ($categories as $cat)
-		{
-			$cat->params = new Registry($cat->params);
-
-			$workflow_id = $cat->params->get('workflow_id');
-
-			if ($workflow_id == 'inherit')
-			{
-				$workflow_id = 0;
-
-				continue;
-			}
-			elseif ($workflow_id == 'use_default')
-			{
-				$workflow_id = 0;
-
-				break;
-			}
-			elseif ($workflow_id > 0)
-			{
-				break;
-			}
-		}
-
-		// Check if the workflow exists
-		if ($workflow_id = (int) $workflow_id)
-		{
-			$query = $db->getQuery(true);
-
-			$query->select(
-				[
-					$db->quoteName('w.id'),
-					$db->quoteName('ws.id', 'stage_id'),
-				]
-			)
-				->from(
-					[
-						$db->quoteName('#__workflow_stages', 'ws'),
-						$db->quoteName('#__workflows', 'w'),
-					]
-				)
-				->where(
-					[
-						$db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'),
-						$db->quoteName('ws.default') . ' = 1',
-						$db->quoteName('w.published') . ' = 1',
-						$db->quoteName('ws.published') . ' = 1',
-						$db->quoteName('w.id') . ' = :workflowId',
-					]
-				)
-				->bind(':workflowId', $workflow_id, ParameterType::INTEGER);
-
-			$workflow = $db->setQuery($query)->loadObject();
-
-			if (!empty($workflow->id))
-			{
-				return $workflow;
-			}
-		}
-
-		// Use default workflow
-		$query  = $db->getQuery(true);
-
-		$query->select(
-			[
-				$db->quoteName('w.id'),
-				$db->quoteName('ws.id', 'stage_id'),
-			]
-		)
-			->from(
-				[
-					$db->quoteName('#__workflow_stages', 'ws'),
-					$db->quoteName('#__workflows', 'w'),
-				]
-			)
-			->where(
-				[
-					$db->quoteName('ws.default') . ' = 1',
-					$db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'),
-					$db->quoteName('w.published') . ' = 1',
-					$db->quoteName('ws.published') . ' = 1',
-					$db->quoteName('w.default') . ' = 1',
-				]
-			);
-
-		$workflow = $db->setQuery($query)->loadObject();
-
-		// Last check if we have a workflow ID
-		if (!empty($workflow->id))
-		{
-			return $workflow;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Runs transition for item.
-	 *
-	 * @param   integer  $pk             Id of article
-	 * @param   integer  $transition_id  Id of transition
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public function runTransition(int $pk, int $transition_id): bool
-	{
-		$workflow = new Workflow(['extension' => 'com_content']);
-
-		$runTransaction = $workflow->executeTransition([$pk], $transition_id);
-
-		if (!$runTransaction)
-		{
-			$this->setError(Text::_('COM_CONTENT_ERROR_UPDATE_STAGE'));
-
-			return false;
-		}
-
-		// B/C state change trigger for UCM
-		/* @TODO Move to transition
-		 * $context = $this->option . '.' . $this->name;
-
-		// Include the plugins for the change of stage event.
-		PluginHelper::importPlugin($this->events_map['change_state']);
-
-		// Trigger the change stage event.
-		//Factory::getApplication()->triggerEvent($this->event_change_state, [$context, [$pk]]);
-		 *
-		 */
-
-		return true;
-	}
 }
