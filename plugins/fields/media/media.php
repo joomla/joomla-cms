@@ -66,6 +66,15 @@ class PlgFieldsMedia extends \Joomla\Component\Fields\Administrator\Plugin\Field
 		$field->apivalue = $this->checkValue($field->value);
 	}
 
+	/**
+	 * Before prepares the field value.
+	 *
+	 * @param   string  $value  The value to check.
+	 *
+	 * @return  array  The checked value
+	 *
+	 * @since   __DEPLOAY_VERSION__
+	 */
 	private function checkValue($value)
 	{
 		json_decode($value);
