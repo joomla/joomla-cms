@@ -173,7 +173,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// Generate the hashes for the style-src
 			$inlineStyles = is_array($headData['style']) ? $headData['style'] : [];
 
-			foreach ($inlineStyles as $type => $styleContent)
+			foreach ($inlineStyles as $type => $styles)
 			{
 				foreach ($styles as $hash => $styleContent)
 				{
