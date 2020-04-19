@@ -56,7 +56,7 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 							<span class="sr-only"><?php echo Text::_('COM_MODULES_GLOBAL_MENUS_COLLAPSE'); ?></span>
 						</button>
 					</div>
-					<div role="search" class="ml-auto" >
+					<div role="search" class="ml-auto">
 						<label for="treeselectfilter" class="sr-only"><?php echo Text::_('COM_MODULES_SEARCH_MENUITEM'); ?></label>
 						<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query" autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>">
 					</div>
