@@ -82,7 +82,7 @@ $params     = $this->state->params ?? new CMSObject;
 									<span class="fas fa-trash" aria-hidden="true" title="<?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?>"></span>
 									<span class="sr-only"><?php echo Text::_('COM_BANNERS_COUNT_TRASHED_ITEMS'); ?></span>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_PURCHASETYPE', 'a.purchase_type', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:3%" class="d-none d-md-table-cell">

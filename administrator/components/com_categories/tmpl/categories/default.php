@@ -105,16 +105,16 @@ if ($saveOrder && !empty($this->items))
 										<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?></span>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($this->assoc) : ?>
-									<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+									<th scope="col" class="w-10 d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_CATEGORY_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
 								<?php if (Multilanguage::isEnabled()) : ?>
-									<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+									<th scope="col" class="w-10 d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
