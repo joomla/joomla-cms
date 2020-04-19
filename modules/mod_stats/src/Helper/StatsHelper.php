@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 /**
  * Helper for mod_stats
@@ -95,7 +94,7 @@ class StatsHelper
 			$query->clear()
 				->select('COUNT(' . $db->quoteName('c.id') . ') AS count_items')
 				->from($db->quoteName('#__content', 'c'))
-				->where($db->quoteName('c.state') . ' = ' . ContentComponent::CONDITION_PUBLISHED);
+				->where($db->quoteName('c.state') . ' = 1');
 			$db->setQuery($query);
 
 			try
@@ -129,7 +128,7 @@ class StatsHelper
 			$query->clear()
 				->select('SUM(' . $db->quoteName('hits') . ') AS count_hits')
 				->from($db->quoteName('#__content'))
-				->where($db->quoteName('state') . ' = ' . ContentComponent::CONDITION_PUBLISHED);
+				->where($db->quoteName('state') . ' = 1');
 			$db->setQuery($query);
 
 			try
