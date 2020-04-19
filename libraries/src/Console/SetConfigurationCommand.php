@@ -443,7 +443,7 @@ class SetConfigurationCommand extends AbstractCommand
 
 		$initialOptions = $this->getInitialConfigurationOptions()->toArray();
 
-		$combinedOptions = array_merge($initialOptions, $this->options);
+		$combinedOptions = $this->sanitizeOptions(array_merge($initialOptions, $this->options));
 
 		if (!$this->checkDb($combinedOptions))
 		{
@@ -458,5 +458,27 @@ class SetConfigurationCommand extends AbstractCommand
 		}
 
 		return self::CONFIG_SET_FAILED;
+	}
+
+	/**
+	 * Sanitize the options array for boolean
+	 *
+	 * @param   array  $options  Options array
+	 *
+	 * @return array
+	 *
+	 * @since 4.0
+	 */
+	public function sanitizeOptions(Array $options): array
+	{
+		foreach ($options as $key => $value)
+		{
+			$value = $value === 'false' ? false : $value;
+			$value = $value === 'true' ? true : $value;
+
+			$options[$key] = $value;
+		}
+
+		return $options;
 	}
 }
