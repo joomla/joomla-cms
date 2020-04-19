@@ -322,7 +322,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 					$frameAncestorsSet = true;
 				}
 
-				// Add strict-dynamic to the script-src directive when enabeld
+				// Add strict-dynamic to the script-src directive when enabled
 				if ($cspValue->directive === 'script-src'
 					&& strpos($cspValue->value, 'strict-dynamic') === 0
 					&& $scriptDynamicEnabled)
