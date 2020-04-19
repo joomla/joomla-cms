@@ -315,7 +315,7 @@ class GetConfigurationCommand extends AbstractCommand
 
 		$help = "The <info>%command.name%</info> Displays the current value of a configuration option
 				\nUsage: <info>php %command.full_name%</info> <option>
-				\nGroup usage: <info>php %command.full_name%</info> --group=<groupname>
+				\nGroup usage: <info>php %command.full_name%</info> --group <groupname>
 				\nAvailable group names: $groupNames";
 
 		$this->setHelp($help);
