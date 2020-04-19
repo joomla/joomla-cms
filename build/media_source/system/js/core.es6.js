@@ -83,7 +83,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
   getCurrent: () => window.Joomla.current,
 };
 
-((Joomla, document) => {
+((Joomla) => {
   'use strict';
 
   /**
@@ -111,4 +111,4 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
     return destination;
   };
-})(Joomla, document);
+})(Joomla);
