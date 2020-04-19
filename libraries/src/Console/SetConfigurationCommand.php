@@ -214,18 +214,20 @@ class SetConfigurationCommand extends AbstractCommand
 	/**
 	 * Save the configuration file
 	 *
+	 * @param   array  $options  Options array
+	 *
 	 * @return boolean
 	 *
 	 * @since 4.0
 	 */
-	public function saveConfiguration(): bool
+	public function saveConfiguration($options): bool
 	{
 		$app = $this->getApplication();
 
 		// Check db connection encription properties
 		$model = $app->bootComponent('com_config')->getMVCFactory($app)->createModel('Application', 'Administrator');
 
-		if (!$model->save($this->options))
+		if (!$model->save($options))
 		{
 			$this->ioStyle->error(Text::_('Failed to save properties'));
 
@@ -448,7 +450,7 @@ class SetConfigurationCommand extends AbstractCommand
 			return self::DB_VALIDATION_FAILED;
 		}
 
-		if ($this->saveConfiguration())
+		if ($this->saveConfiguration($combinedOptions))
 		{
 			$this->ioStyle->success('Configuration set');
 
