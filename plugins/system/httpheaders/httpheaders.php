@@ -453,7 +453,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				$cspHeaderValue = '{style-hashes} ' . $cspHeaderValue;
 			}
 
-			// Add strict-dynamic to the script-src directive when enabeld
+			// Add strict-dynamic to the script-src directive when enabled
 			if ($cspHeaderkey === 'script-src'
 				&& strpos($cspHeaderValue, 'strict-dynamic') === 0
 				&& $scriptDynamicEnabled)
