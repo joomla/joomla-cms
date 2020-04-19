@@ -111,5 +111,4 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
     return destination;
   };
-
 })(Joomla, document);
