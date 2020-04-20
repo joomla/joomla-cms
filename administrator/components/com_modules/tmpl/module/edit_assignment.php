@@ -37,23 +37,20 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 		<div class="card card-secondary">
 			<div class="card-header">
 				<section class="d-flex  align-items-center flex-wrap w-100" aria-label="<?php echo Text::_('COM_MODULES_GLOBAL'); ?>">
-					<div class="d-flex align-items-center flex-fill mb-1" role="group"><?php echo Text::_('JSELECT'); ?>:
+					<div class="d-flex align-items-center flex-fill mb-1" role="group"><?php echo Text::_('COM_MODULES_GLOBAL_ASSIGN'); ?>
 						<button id="treeCheckAll" class="btn btn-secondary btn-sm mx-1" type="button">
-							<span aria-hidden="true"><?php echo Text::_('JALL'); ?></span>
-							<span class="sr-only"><?php echo Text::_('COM_MODULES_GLOBAL_SELECT_ALL'); ?></span>
+							<?php echo Text::_('JALL'); ?>
 						</button>
 						<button id="treeUncheckAll" class="btn btn-secondary btn-sm mx-1" type="button">
-							<span aria-hidden="true"><?php echo Text::_('JNONE'); ?></span>
-							<span class="sr-only"><?php echo Text::_('COM_MODULES_GLOBAL_SELECT_NONE'); ?></span>
+							<?php echo Text::_('JNONE'); ?>
 						</button>
 					</div>
-					<div class="d-flex align-items-center mb-1 flex-fill" role="group"><?php echo Text::_('COM_MODULES_EXPAND'); ?>:
+					<div class="d-flex align-items-center mb-1 flex-fill" role="group"><?php echo Text::_('COM_MODULES_GLOBAL_TREE_EXPAND'); ?>
 						<button id="treeExpandAll" class="btn btn-secondary btn-sm mx-1" type="button">
-							<span aria-hidden="true"><?php echo Text::_('JALL'); ?></span>
-							<span class="sr-only"><?php echo Text::_('COM_MODULES_GLOBAL_MENUS_EXPAND'); ?></span>
+							<?php echo Text::_('JALL'); ?>
+						</button>
 						<button id="treeCollapseAll" class="btn btn-secondary btn-sm mx-1" type="button">
-							<span aria-hidden="true"><?php echo Text::_('JNONE'); ?></span>
-							<span class="sr-only"><?php echo Text::_('COM_MODULES_GLOBAL_MENUS_COLLAPSE'); ?></span>
+							<?php echo Text::_('JNONE'); ?>
 						</button>
 					</div>
 					<div role="search" class="flex-grow-1">
@@ -139,7 +136,7 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 								<span class="sr-only"><?php echo Text::sprintf('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
 							</button>
 							<div class="dropdown-menu">
-								<h5 class="dropdown-header"><?php echo Text::_('COM_MODULES_SUBITEMS'); ?></h5>
+								<h1 class="dropdown-header"><?php echo Text::_('COM_MODULES_SUBITEMS'); ?></h1>
 								<div class="dropdown-divider"></div>
 								<a class="dropdown-item checkall" href="javascript://"><span class="fas fa-check-square" aria-hidden="true"></span> <?php echo Text::_('JSELECT'); ?></a>
 								<a class="dropdown-item uncheckall" href="javascript://"><span class="fas fa-square" aria-hidden="true"></span> <?php echo Text::_('COM_MODULES_DESELECT'); ?></a>
