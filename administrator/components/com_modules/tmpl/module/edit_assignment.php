@@ -36,7 +36,7 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 
 		<div class="card card-secondary">
 			<div class="card-header">
-				<section class="d-flex  align-items-center flex-wrap w-100" aria-label="<?php echo Text::_('COM_MODULES_GLOBAL'); ?>">
+				<section class="d-flex align-items-center flex-wrap w-100" aria-label="<?php echo Text::_('COM_MODULES_GLOBAL'); ?>">
 					<div class="d-flex align-items-center flex-fill mb-1" role="group" aria-label="<?php echo Text::_('COM_MODULES_GLOBAL_ASSIGN'); ?>"><?php echo Text::_('COM_MODULES_GLOBAL_ASSIGN'); ?>
 						<button id="treeCheckAll" class="btn btn-secondary btn-sm mx-1" type="button">
 							<?php echo Text::_('JALL'); ?>
