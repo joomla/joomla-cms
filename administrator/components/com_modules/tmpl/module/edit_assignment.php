@@ -37,7 +37,7 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 		<div class="card card-secondary">
 			<div class="card-header">
 				<section class="d-flex  align-items-center flex-wrap w-100" aria-label="<?php echo Text::_('COM_MODULES_GLOBAL'); ?>">
-					<div class="d-flex align-items-center flex-fill mb-1" role="group"><?php echo Text::_('COM_MODULES_GLOBAL_ASSIGN'); ?>
+					<div class="d-flex align-items-center flex-fill mb-1" role="group" aria-label="<?php echo Text::_('COM_MODULES_GLOBAL_ASSIGN'); ?>"><?php echo Text::_('COM_MODULES_GLOBAL_ASSIGN'); ?>
 						<button id="treeCheckAll" class="btn btn-secondary btn-sm mx-1" type="button">
 							<?php echo Text::_('JALL'); ?>
 						</button>
@@ -45,7 +45,7 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 							<?php echo Text::_('JNONE'); ?>
 						</button>
 					</div>
-					<div class="d-flex align-items-center mb-1 flex-fill" role="group"><?php echo Text::_('COM_MODULES_GLOBAL_TREE_EXPAND'); ?>
+					<div class="d-flex align-items-center mb-1 flex-fill" role="group" aria-label="<?php echo Text::_('COM_MODULES_GLOBAL_TREE_EXPAND'); ?>"><?php echo Text::_('COM_MODULES_GLOBAL_TREE_EXPAND'); ?>
 						<button id="treeExpandAll" class="btn btn-secondary btn-sm mx-1" type="button">
 							<?php echo Text::_('JALL'); ?>
 						</button>
