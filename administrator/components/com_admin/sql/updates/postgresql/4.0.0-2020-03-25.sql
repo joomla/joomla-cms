@@ -167,7 +167,7 @@ OR ("type" = 'package' AND "element" IN ('pkg_en-GB'));
 
 -- Set core extensions (from J3) as unlocked extensions and unprotect them.
 UPDATE "#__extensions"
-SET `protected` = 0, `locked` = 0
+SET "protected" = 0, "locked" = 0
 WHERE (`type` = 'library' AND `element` IN (
 	'fof'
 ));
