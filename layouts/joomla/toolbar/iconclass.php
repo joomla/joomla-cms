@@ -26,7 +26,7 @@ if ( $icon === 'unpublish' || $icon === 'cancel' || $icon === 'delete' || $icon 
 	$icon = 'times';
 }
 
-if ( $icon === 'new' )
+if ( $icon === 'new' || $icon === 'save-new')
 {
 	$icon = 'plus';
 }
@@ -69,6 +69,36 @@ if ( $icon === 'eye-open' )
 if ( $icon === 'refresh' )
 {
 	$icon = 'sync';
+}
+
+if ( $icon === 'contract' )
+{
+	$icon = 'compress';
+}
+
+if ( $icon === 'purge' )
+{
+	$icon = 'trash';
+}
+
+if ( $icon === 'options' )
+{
+	$icon = 'cog';
+}
+
+if ( $icon === 'expired' )
+{
+	$icon = 'minus-circle';
+}
+
+if ( $icon === 'save-copy' )
+{
+	$icon = 'copy';
+}
+
+if ( $icon === 'checkin' )
+{
+	$icon = 'check-square';
 }
 ?>
 fas fa-<?php echo $icon; ?>
