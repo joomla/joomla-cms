@@ -804,6 +804,12 @@ class ArticleModel extends AdminModel
 			}
 		}
 
+		if (strlen($data['title']) > 200)
+		{
+			Factory::getApplication()->enqueueMessage('title too long', 'warning');
+			return false;
+		}
+
 		return parent::validate($form, $data, $group);
 	}
 
