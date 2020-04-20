@@ -954,7 +954,10 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				// Prepare the asset to be stored.
 				$asset->parent_id = $parentId;
 				$asset->name      = $name;
-				$asset->title     = $title;
+				
+				// Respect the table field limits
+				$asset->title = substr($title, 0, 100);
+
 
 				if ($this->_rules instanceof Rules)
 				{
