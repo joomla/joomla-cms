@@ -36,8 +36,8 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 
 		<div class="card card-secondary">
 			<div class="card-header">
-				<section class="d-flex flex-wrap w-100"  aria-label="<?php echo Text::_('COM_MODULES_GLOBAL'); ?>">
-					<div class="d-flex align-items-center mb-1"><?php echo Text::_('JSELECT'); ?>:
+				<section class="d-flex  align-items-center flex-wrap w-100" aria-label="<?php echo Text::_('COM_MODULES_GLOBAL'); ?>">
+					<div class="d-flex align-items-center flex-fill mb-1" role="group"><?php echo Text::_('JSELECT'); ?>:
 						<button id="treeCheckAll" class="btn btn-secondary btn-sm mx-1" type="button">
 							<span aria-hidden="true"><?php echo Text::_('JALL'); ?></span>
 							<span class="sr-only"><?php echo Text::_('COM_MODULES_GLOBAL_SELECT_ALL'); ?></span>
@@ -47,7 +47,7 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 							<span class="sr-only"><?php echo Text::_('COM_MODULES_GLOBAL_SELECT_NONE'); ?></span>
 						</button>
 					</div>
-					<div class="d-flex align-items-center mb-1"><?php echo Text::_('COM_MODULES_EXPAND'); ?>:
+					<div class="d-flex align-items-center mb-1 flex-fill" role="group"><?php echo Text::_('COM_MODULES_EXPAND'); ?>:
 						<button id="treeExpandAll" class="btn btn-secondary btn-sm mx-1" type="button">
 							<span aria-hidden="true"><?php echo Text::_('JALL'); ?></span>
 							<span class="sr-only"><?php echo Text::_('COM_MODULES_GLOBAL_MENUS_EXPAND'); ?></span>
@@ -56,7 +56,7 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 							<span class="sr-only"><?php echo Text::_('COM_MODULES_GLOBAL_MENUS_COLLAPSE'); ?></span>
 						</button>
 					</div>
-					<div role="search" class="ml-auto">
+					<div role="search" class="flex-grow-1">
 						<label for="treeselectfilter" class="sr-only"><?php echo Text::_('COM_MODULES_SEARCH_MENUITEM'); ?></label>
 						<input type="text" id="treeselectfilter" name="treeselectfilter" class="form-control search-query" autocomplete="off" placeholder="<?php echo Text::_('JSEARCH_FILTER'); ?>">
 					</div>
