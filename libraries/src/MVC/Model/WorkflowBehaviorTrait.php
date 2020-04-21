@@ -417,10 +417,10 @@ trait WorkflowBehaviorTrait
 	 *
 	 * @since   4.0.0
 	 */
-	public function batchWorkflowStage(int $value, array $pks, array $contexts) {
-
+	public function batchWorkflowStage(int $value, array $pks, array $contexts)
+	{
 		$user = Factory::getApplication()->getIdentity();
-		/** @var  $workflow */
+
 		$workflow = Factory::getApplication()->bootComponent('com_workflow');
 
 		if (!$user->authorise('core.admin', $this->option))
@@ -429,7 +429,7 @@ trait WorkflowBehaviorTrait
 		}
 
 		// Get workflow stage information
-		$stage = $workflow->createTable('Stage', 'Administrator');
+		$stage = $workflow->getMVCFactory()->createTable('Stage', 'Administrator');
 
 		if (empty($value) || !$stage->load($value))
 		{

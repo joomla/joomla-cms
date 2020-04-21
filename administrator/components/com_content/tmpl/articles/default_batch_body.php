@@ -10,6 +10,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Component\ComponentHelper;
+
+$params = ComponentHelper::getParams('com_content');
 
 $published = $this->state->get('filter.published');
 
@@ -42,7 +45,7 @@ $user = Factory::getUser();
 				<?php echo LayoutHelper::render('joomla.html.batch.tag', []); ?>
 			</div>
 		</div>
-		<?php if ($user->authorise('core.admin', 'com_content')) : ?>
+		<?php if ($user->authorise('core.admin', 'com_content') && $params->get('workflows_enable', 1)) : ?>
 		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo LayoutHelper::render('joomla.html.batch.workflowstage', ['extension' => 'com_content']); ?>
