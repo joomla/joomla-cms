@@ -20,6 +20,17 @@ use Joomla\CMS\Form\Form;
 interface WorkflowModelInterface
 {
 	/**
+	 * Set Up the workflow
+	 *
+	 * @param   string  $extension  The option and section separated by.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function setUpWorkflow($extension);
+
+	/**
 	 * Method to allow derived classes to preprocess the form.
 	 *
 	 * @param   Form    $form   A Form object.
@@ -32,6 +43,15 @@ interface WorkflowModelInterface
 	 * @throws  \Exception if there is an error in the form event.
 	 */
 	public function workflowPreprocessForm(Form $form, $data);
+
+	/**
+	 * Let plugins access stage change events
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function workflowBeforeStageChange();
 
 	/**
 	 * Preparation of workflow data/plugins
@@ -50,6 +70,18 @@ interface WorkflowModelInterface
 	 * @since   4.0.0
 	 */
 	public function workflowAfterSave($data);
+
+	/**
+	 * Runs transition for item.
+	 *
+	 * @param   integer  $pk             Id of article
+	 * @param   integer  $transition_id  Id of transition
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 */
+	public function executeTransition(int $pk, int $transition_id);
 
 	/**
 	 * Method to get state variables.

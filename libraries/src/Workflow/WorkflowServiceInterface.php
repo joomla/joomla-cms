@@ -29,6 +29,24 @@ interface WorkflowServiceInterface {
 	public function supportFunctionality($functionality, $context): bool;
 
 	/**
+	 * Returns the model name, based on the context
+	 *
+	 * @param   string  $context  The context of the workflow
+	 *
+	 * @return bool
+	 */
+	public function getModelName($context): string;
+
+	/**
+	 * Check if the workflow is active
+	 *
+	 * @param   string  $context  The context of the workflow
+	 *
+	 * @return bool
+	 */
+	public function isWorkflowActive($context): bool;
+
+	/**
 	 * Method to filter transitions by given id of state.
 	 *
 	 * @param   integer[]  $transitions  Array of transitions to filter for

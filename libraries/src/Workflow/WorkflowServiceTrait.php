@@ -36,8 +36,8 @@ trait WorkflowServiceTrait {
 	 *
 	 * @return bool
 	 */
-	public function supportFunctionality($functionality, $context): bool {
-
+	public function supportFunctionality($functionality, $context): bool
+	{
 		if (empty($this->supportedFunctionality[$functionality]))
 		{
 			return false;
@@ -52,6 +52,27 @@ trait WorkflowServiceTrait {
 	}
 
 	/**
+	 * Returns the model name, based on the context
+	 *
+	 * @param   string  $context  The context of the workflow
+	 *
+	 * @return bool
+	 */
+	public function getModelName($context) : string
+	{
+		$parts = explode('.', $context);
+
+		if (count($parts) < 2)
+		{
+			return '';
+		}
+
+		array_shift($parts);
+
+		return ucfirst(array_shift($parts));
+	}
+
+	/**
 	 * Returns an array of possible conditions for the component.
 	 *
 	 * @param   string  $extension  The component and section separated by ".".
@@ -60,13 +81,20 @@ trait WorkflowServiceTrait {
 	 *
 	 * @since   4.0.0
 	 */
-	public static function getConditions(string $extension): array {
-
+	public static function getConditions(string $extension): array
+	{
 		return \defined('self::CONDITION_NAMES') ? self::CONDITION_NAMES : Workflow::CONDITION_NAMES;
 	}
 
-	public function isWorkflowActive($context): bool {
-
+	/**
+	 * Check if the workflow is active
+	 *
+	 * @param   string  $context  The context of the workflow
+	 *
+	 * @return bool
+	 */
+	public function isWorkflowActive($context): bool
+	{
 		$parts  = explode('.', $context);
 		$config = ComponentHelper::getParams($parts[0]);
 
@@ -75,9 +103,16 @@ trait WorkflowServiceTrait {
 			return false;
 		}
 
+		$modelName = $this->getModelName($context);
+
+		if (empty($modelName))
+		{
+			return false;
+		}
+
 		$component = $this->getMVCFactory();
 		$appName   = Factory::getApplication()->getName();
-		$model     = $component->createModel($parts[1], $appName, ['ignore_request' => true]);
+		$model     = $component->createModel($modelName, $appName, ['ignore_request' => true]);
 
 		return $model instanceof WorkflowModelInterface;
 	}

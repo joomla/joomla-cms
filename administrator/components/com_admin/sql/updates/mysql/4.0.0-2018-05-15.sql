@@ -99,6 +99,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
   `description` text NOT NULL,
   `from_stage_id` int(10) NOT NULL,
   `to_stage_id` int(10) NOT NULL,
+  `options` text NOT NULL,
   `checked_out_time` datetime,
   `checked_out` int(10) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
@@ -114,18 +115,18 @@ CREATE TABLE IF NOT EXISTS `#__workflow_transitions` (
 -- Dumping data for table `#__workflow_transitions`
 --
 
-INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`, `workflow_id`, `title`, `description`, `from_stage_id`, `to_stage_id`, `checked_out_time`, `checked_out`) VALUES
-(1, 0, 1, 1, 1, 'Unpublish', '', -1, 1, NULL, 0),
-(2, 0, 1, 2, 1, 'Publish', '', -1, 2, NULL, 0),
-(3, 0, 1, 3, 1, 'Trash', '', -1, 3, NULL, 0),
-(4, 0, 1, 4, 1, 'Archive', '', -1, 4, NULL, 0);
+INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`, `workflow_id`, `title`, `description`, `from_stage_id`, `to_stage_id`, `options`, `checked_out_time`, `checked_out`) VALUES
+(1, 0, 1, 1, 1, 'Unpublish', '', -1, 1, '{"publishing":"0"}', NULL, 0),
+(2, 0, 1, 2, 1, 'Publish', '', -1, 2, '{"publishing":"1"}', NULL, 0),
+(3, 0, 1, 3, 1, 'Trash', '', -1, 3, '{"publishing":"-2"}', NULL, 0),
+(4, 0, 1, 4, 1, 'Archive', '', -1, 4, '{"publishing":"2"}', NULL, 0);
 
 --
 -- Creating extension entry
 --
 
 INSERT INTO `#__extensions` (`package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES
-(0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 0, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_workflow_publishing', 'plugin', 'publishing', 'workflow', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0);
 
 --

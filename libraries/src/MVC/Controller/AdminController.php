@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\Input\Input;
 use Joomla\Utilities\ArrayHelper;
@@ -430,6 +431,9 @@ class AdminController extends BaseController
 	 */
 	public function runTransition()
 	{
+		// Check for request forgeries
+		$this->checkToken();
+
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
 
@@ -444,6 +448,12 @@ class AdminController extends BaseController
 
 		// Get the model
 		$model = $this->getModel();
+
+		if (!$model instanceof WorkflowModelInterface)
+		{
+			return false;
+		}
+
 		$return = $model->executeTransition($pk, $transitionId);
 
 		$redirect = Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false);

@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 /**
@@ -109,6 +110,28 @@ class TransitionModel extends AdminModel
 
 		// Default to component settings if workflow isn't known.
 		return $user->authorise('core.edit.state', $extension);
+	}
+
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param   integer  $pk  The id of the primary key.
+	 *
+	 * @return  CMSObject|boolean  Object on success, false on failure.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getItem($pk = null)
+	{
+		$item = parent::getItem($pk);
+
+		if (property_exists($item, 'options'))
+		{
+			$registry = new Registry($item->options);
+			$item->options = $registry->toArray();
+		}
+
+		return $item;
 	}
 
 	/**

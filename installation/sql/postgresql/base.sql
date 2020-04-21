@@ -1164,6 +1164,7 @@ CREATE TABLE IF NOT EXISTS "#__workflow_transitions" (
   "description" text NOT NULL,
   "from_stage_id" bigint DEFAULT 0 NOT NULL,
   "to_stage_id" bigint DEFAULT 0 NOT NULL,
+  "options" text NOT NULL,
   "checked_out_time" timestamp without time zone,
   "checked_out" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
@@ -1175,10 +1176,10 @@ CREATE INDEX "#__workflow_transitions_idx_to_stage_id" ON "#__workflow_transitio
 CREATE INDEX "#__workflow_transitions_idx_workflow_id" ON "#__workflow_transitions" ("workflow_id");
 CREATE INDEX "#__workflow_transitions_idx_checked_out" ON "#__workflow_transitions" ("checked_out");
 
-INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_stage_id", "to_stage_id", "checked_out_time", "checked_out") VALUES
-(1, 61, 1, 1, 1, 'Unpublish', '', -1, 1, NULL, 0),
-(2, 62, 1, 2, 1, 'Publish', '', -1, 2, NULL, 0),
-(3, 63, 1, 3, 1, 'Trash', '', -1, 3, NULL, 0),
-(4, 64, 1, 4, 1, 'Archive', '', -1, 4, NULL, 0);
+INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_stage_id", "to_stage_id", "options", "checked_out_time", "checked_out") VALUES
+(1, 61, 1, 1, 1, 'Unpublish', '', -1, 1, '{"publishing":"0"}', NULL, 0),
+(2, 62, 1, 2, 1, 'Publish', '', -1, 2, '{"publishing":"1"}', NULL, 0),
+(3, 63, 1, 3, 1, 'Trash', '', -1, 3, '{"publishing":"-2"}', NULL, 0),
+(4, 64, 1, 4, 1, 'Archive', '', -1, 4, '{"publishing":"2"}', NULL, 0);
 
 SELECT setval('#__workflow_transitions_id_seq', 5, false);

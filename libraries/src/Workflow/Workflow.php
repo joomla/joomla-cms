@@ -12,7 +12,9 @@ namespace Joomla\CMS\Workflow;
 
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -171,19 +173,23 @@ class Workflow
 				$db->quoteName('t.id'),
 				$db->quoteName('t.to_stage_id'),
 				$db->quoteName('t.from_stage_id'),
+				$db->quoteName('t.options'),
 			]
 		)
 			->from($db->quoteName('#__workflow_transitions', 't'))
 			->join('LEFT', $db->quoteName('#__workflow_stages', 's'), $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_stage_id'))
 			->where($db->quoteName('t.id') . ' = :id')
+			->where($db->quoteName('t.published') . ' = 1')
 			->bind(':id', $transition_id, ParameterType::INTEGER);
 
-		if (!empty($this->options['published']))
+		$transition = $db->setQuery($query)->loadObject();
+
+		if (empty($transition->id))
 		{
-			$query->where($db->quoteName('t.published') . ' = 1');
+			return false;
 		}
 
-		$transition = $db->setQuery($query)->loadObject();
+		$transition->options = new Registry($transition->options);
 
 		// Check if the items can execute this transition
 		foreach ($pks as $pk)
@@ -198,15 +204,21 @@ class Workflow
 
 		$app = Factory::getApplication();
 
-		$app->triggerEvent(
+		PluginHelper::importPlugin('workflow');
+
+		$result = $app->triggerEvent(
 			'onWorkflowBeforeTransition',
 			[
+				'context' => $this->extension,
 				'pks' => $pks,
-				'extension' => $this->extension,
-				'user' => $app->getIdentity(),
 				'transition' => $transition,
 			]
 		);
+
+		if (\in_array(false, $result, true))
+		{
+			return false;
+		}
 
 		$success = $this->updateAssociations($pks, (int) $transition->to_stage_id);
 
@@ -215,9 +227,8 @@ class Workflow
 			$app->triggerEvent(
 				'onWorkflowAfterTransition',
 				[
+					'context' => $this->extension,
 					'pks' => $pks,
-					'extension' => $this->extension,
-					'user' => $app->getIdentity(),
 					'transition' => $transition,
 				]
 			);

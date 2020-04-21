@@ -31,6 +31,16 @@ class TransitionTable extends Table
 	protected $_supportNullValue = true;
 
 	/**
+	 * An array of key names to be json encoded in the bind function
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $_jsonEncode = [
+		'options'
+	];
+
+	/**
 	 * Constructor
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object

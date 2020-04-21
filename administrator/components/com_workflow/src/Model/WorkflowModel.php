@@ -114,19 +114,23 @@ class WorkflowModel extends AdminModel
 				[
 					'title' => 'JUNPUBLISHED',
 					'default' => 1,
-					'transition' => 'Unpublish'
+					'transition' => 'Unpublish',
+					'options' => '{"publishing":"0"}'
 				],
 				[
 					'title' => 'JPUBLISHED',
-					'transition' => 'Publish'
+					'transition' => 'Publish',
+					'options' => '{"publishing":"1"}'
 				],
 				[
 					'title' => 'JTRASHED',
-					'transition' => 'Trash'
+					'transition' => 'Trash',
+					'options' => '{"publishing":"-2"}'
 				],
 				[
 					'title' => 'JARCHIVED',
-					'transition' => 'Archive'
+					'transition' => 'Archive',
+					'options' => '{"publishing":"2"}'
 				]
 			];
 
@@ -155,6 +159,7 @@ class WorkflowModel extends AdminModel
 				$transition->published = 1;
 				$transition->from_stage_id = -1;
 				$transition->to_stage_id = (int) $table->id;
+				$transition->options = $stage['options'];
 
 				$transition->store();
 			}
