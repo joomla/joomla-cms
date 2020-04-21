@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
@@ -78,6 +79,30 @@ class ArticlesModel extends ListModel
 		}
 
 		parent::__construct($config);
+	}
+
+	/**
+	 * Get the filter form
+	 *
+	 * @param   array    $data      data
+	 * @param   boolean  $loadData  load current data
+	 *
+	 * @return  Form|null  The \JForm object or null if the form can't be found
+	 *
+	 * @since   3.2
+	 */
+	public function getFilterForm($data = array(), $loadData = true)
+	{
+		$form = parent::getFilterForm($data, $loadData);
+
+		$params = ComponentHelper::getParams('com_content');
+
+		if (!$params->get('workflows_enable'))
+		{
+			$form->removeField('stage', 'filter');
+		}
+
+		return $form;
 	}
 
 	/**
@@ -198,6 +223,8 @@ class ArticlesModel extends ListModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 		$user  = Factory::getUser();
+
+		$params = ComponentHelper::getParams('com_content');
 
 		// Select the required fields from the table.
 		$query->select(
@@ -328,7 +355,7 @@ class ArticlesModel extends ListModel
 		// Filter by published state
 		$workflowStage = (string) $this->getState('filter.stage');
 
-		if (is_numeric($workflowStage))
+		if ($params->get('workflows_enable') && is_numeric($workflowStage))
 		{
 			$workflowStage = (int) $workflowStage;
 			$query->where($db->quoteName('wa.stage_id') . ' = :stage')
