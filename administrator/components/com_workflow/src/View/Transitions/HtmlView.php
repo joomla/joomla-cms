@@ -99,6 +99,14 @@ class HtmlView extends BaseHtmlView
 	protected $extension;
 
 	/**
+	 * The section of the current extension
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $section;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -123,7 +131,15 @@ class HtmlView extends BaseHtmlView
 
 		$this->workflow      = $this->get('Workflow');
 		$this->workflowID    = $this->workflow->id;
-		$this->extension     = $this->workflow->extension;
+
+		$parts = explode('.', $this->workflow->extension);
+
+		$this->extension = array_shift($parts);
+
+		if (!empty($parts))
+		{
+			$this->section = array_shift($parts);
+		}
 
 		$this->addToolbar();
 

@@ -41,6 +41,14 @@ class DisplayController extends BaseController
 	protected $extension;
 
 	/**
+	 * The section of the current extension
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $section;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
@@ -58,7 +66,16 @@ class DisplayController extends BaseController
 		// If extension is not set try to get it from input or throw an exception
 		if (empty($this->extension))
 		{
-			$this->extension = $this->input->getCmd('extension');
+			$extension = $this->input->getCmd('extension');
+
+			$parts = explode('.', $extension);
+
+			$this->extension = array_shift($parts);
+
+			if (!empty($parts))
+			{
+				$this->section = array_shift($parts);
+			}
 
 			if (empty($this->extension))
 			{

@@ -41,6 +41,14 @@ class StageController extends FormController
 	protected $extension;
 
 	/**
+	 * The section of the current extension
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $section;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
@@ -69,7 +77,16 @@ class StageController extends FormController
 		// If extension is not set try to get it from input or throw an exception
 		if (empty($this->extension))
 		{
-			$this->extension = $this->input->getCmd('extension');
+			$extension = $this->input->getCmd('extension');
+
+			$parts = explode('.', $extension);
+
+			$this->extension = array_shift($parts);
+
+			if (!empty($parts))
+			{
+				$this->section = array_shift($parts);
+			}
 
 			if (empty($this->extension))
 			{
@@ -163,7 +180,7 @@ class StageController extends FormController
 	{
 		$append = parent::getRedirectToItemAppend($recordId);
 
-		$append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension;
+		$append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 
 		return $append;
 	}
@@ -178,7 +195,7 @@ class StageController extends FormController
 	protected function getRedirectToListAppend()
 	{
 		$append = parent::getRedirectToListAppend();
-		$append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension;
+		$append .= '&workflow_id=' . $this->workflowId . '&extension=' . $this->extension . ($this->section ? '.' . $this->section : '');
 
 		return $append;
 	}

@@ -73,6 +73,22 @@ class HtmlView extends BaseHtmlView
 	protected $workflowID;
 
 	/**
+	 * The name of current extension
+	 *
+	 * @var     string
+	 * @since  4.0.0
+	 */
+	protected $extension;
+
+	/**
+	 * The section of the current extension
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $section;
+
+	/**
 	 * Display item view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -96,7 +112,17 @@ class HtmlView extends BaseHtmlView
 		$this->state      = $this->get('State');
 		$this->form       = $this->get('Form');
 		$this->item       = $this->get('Item');
-		$this->extension  = $this->state->get('filter.extension');
+
+		$extension = $this->state->get('filter.extension');
+
+		$parts = explode('.', $extension);
+
+		$this->extension = array_shift($parts);
+
+		if (!empty($parts))
+		{
+			$this->section = array_shift($parts);
+		}
 
 		// Get the ID of workflow
 		$this->workflowID = $this->input->getCmd("workflow_id");

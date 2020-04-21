@@ -363,7 +363,8 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'plg_media-action_resize', 'plugin', 'resize', 'media-action', 0, 1, 1, 0, 1, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_media-action_rotate', 'plugin', 'rotate', 'media-action', 0, 1, 1, 0, 1, '', '{}', 0, NULL, 0, 0),
 (0, 'plg_system_accessibility', 'plugin', 'accessibility', 'system', 0, 0, 1, 0, 1, '', '{}', 0, NULL, 0, 0),
-(0, 'plg_system_webauthn', 'plugin', 'webauthn', 'system', 0, 1, 1, 0, 1, '', '{}', 0, NULL, 0, 0);
+(0, 'plg_system_webauthn', 'plugin', 'webauthn', 'system', 0, 1, 1, 0, 1, '', '{}', 0, NULL, 0, 0),
+(0, 'plg_workflow_publishing', 'plugin', 'publishing', 'workflow', 0, 1, 1, 0, 1, '', '{}', 0, NULL, 0, 0);
 
 -- Templates
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "locked", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state") VALUES
@@ -1091,7 +1092,7 @@ CREATE INDEX "#__workflows_idx_modified_by" ON "#__workflows" ("modified_by");
 CREATE INDEX "#__workflows_idx_checked_out" ON "#__workflows" ("checked_out");
 
 INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "core", "ordering", "created", "created_by", "modified", "modified_by", "checked_out_time", "checked_out") VALUES
-(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 42, NULL, 0);
+(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content.article', 1, 1, 1, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 42, NULL, 0);
 
 SELECT setval('#__workflows_id_seq', 2, false);
 

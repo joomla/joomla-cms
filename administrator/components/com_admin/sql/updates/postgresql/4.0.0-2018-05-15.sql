@@ -32,7 +32,7 @@ CREATE INDEX "#__workflows_idx_modified_by" ON "#__workflows" ("modified_by");
 CREATE INDEX "#__workflows_idx_checked_out" ON "#__workflows" ("checked_out");
 
 INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "core", "ordering", "created", "created_by", "modified", "modified_by", "checked_out_time", "checked_out") VALUES
-(1, 0, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, CURRENT_TIMESTAMP, 0, CURRENT_TIMESTAMP, 0, NULL, 0);
+(1, 0, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content.article', 1, 1, 1, CURRENT_TIMESTAMP, 0, CURRENT_TIMESTAMP, 0, NULL, 0);
 
 --
 -- Table structure for table "#__workflow_associations"
@@ -121,10 +121,11 @@ INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering"
 --
 
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state") VALUES
-(0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0);
+(0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
+(0, 'plg_workflow_publishing', 'plugin', 'publishing', 'workflow', 0, 1, 1, 0, '', '{}', 0, NULL, 0, 0);
 
 --
 -- Creating Associations for existing content
 --
 INSERT INTO "#__workflow_associations" ("item_id", "stage_id", "extension")
-SELECT "id", CASE WHEN "state" = -2 THEN 3 WHEN "state" = 0 THEN 1 WHEN "state" = 2 THEN 4 ELSE 2 END, 'com_content' FROM "#__content";
+SELECT "id", CASE WHEN "state" = -2 THEN 3 WHEN "state" = 0 THEN 1 WHEN "state" = 2 THEN 4 ELSE 2 END, 'com_content.article' FROM "#__content";
