@@ -134,9 +134,4 @@ $afterDisplayContent = trim(implode("\n", $results));
 			<?php endif; ?>
 			<?php echo $this->pagination->getPagesLinks(); ?> </div>
 	<?php endif; ?>
-
-	<?php // Code to add a link to submit an article. ?>
-	<?php if ($this->category->getParams()->get('access-create')) : ?>
-		<?php echo JHtml::_('icon.create', $this->category, $this->category->params); ?>
-	<?php endif; ?>
 </div>
