@@ -342,6 +342,9 @@ class TagsModelTag extends JModelList
 			$table = JTable::getInstance('Tag', 'TagsTable');
 			$table->hit($pk);
 
+			// Load the table data for later
+			$table->load($pk);
+
 			if (!$table->hasPrimaryKey())
 			{
 				JError::raiseError(404, JText::_('COM_TAGS_TAG_NOT_FOUND'));
