@@ -259,6 +259,10 @@ class WorkflowModel extends AdminModel
 	{
 		$extension = Factory::getApplication()->input->get('extension');
 
+		$parts = explode('.', $extension);
+
+		$extension = array_shift($parts);
+
 		// Set the access control rules field component value.
 		$form->setFieldAttribute('rules', 'component', $extension);
 		$form->setFieldAttribute('rules', 'section', 'workflow');
