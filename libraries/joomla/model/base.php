@@ -15,7 +15,7 @@ use Joomla\Registry\Registry;
  * Joomla Platform Base Model Class
  *
  * @since       3.0.0
- * @deprecated  5.0 Use the default MVC library
+ * @deprecated  4.0 Use the default MVC library
  */
 abstract class JModelBase implements JModel
 {
