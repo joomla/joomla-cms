@@ -346,7 +346,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$this->importWorkflowPlugins();
+		$this->workflowBeforeStageChange();
 
 		return parent::publish($pks, $value);
 	}

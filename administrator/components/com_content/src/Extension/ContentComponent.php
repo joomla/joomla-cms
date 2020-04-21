@@ -200,6 +200,34 @@ class ContentComponent extends MVCComponent implements
 	}
 
 	/**
+	 * Returns the model name, based on the context
+	 *
+	 * @param   string  $context  The context of the workflow
+	 *
+	 * @return bool
+	 */
+	public function getModelName($context): string
+	{
+		$parts = explode('.', $context);
+
+		if (count($parts) < 2)
+		{
+			return '';
+		}
+
+		array_shift($parts);
+
+		$modelname = array_shift($parts);
+
+		if ($modelname === 'article' && Factory::getApplication()->isClient('site'))
+		{
+			return 'Form';
+		}
+
+		return ucfirst($modelname);
+	}
+
+	/**
 	 * Method to filter transitions by given id of state.
 	 *
 	 * @param   array  $transitions  The Transitions to filter

@@ -252,7 +252,7 @@ class ArticlesModel extends ListModel
 				]
 			)
 			->from($db->quoteName('#__content', 'a'))
-			->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
+			->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content.article'))
 			->join('LEFT', $db->quoteName('#__languages', 'l'), $db->quoteName('l.lang_code') . ' = ' . $db->quoteName('a.language'))
 			->join('LEFT', $db->quoteName('#__content_frontpage', 'fp'), $db->quoteName('fp.content_id') . ' = ' . $db->quoteName('a.id'))
 			->join('LEFT', $db->quoteName('#__users', 'uc'), $db->quoteName('uc.id') . ' = ' . $db->quoteName('a.checked_out'))
@@ -597,7 +597,7 @@ class ArticlesModel extends ListModel
 
 				$transitions = $db->setQuery($query)->loadAssocList();
 
-				$workflow = new Workflow(['extension' => 'com_content']);
+				$workflow = new Workflow(['extension' => 'com_content.article']);
 
 				foreach ($transitions as $key => $transition)
 				{

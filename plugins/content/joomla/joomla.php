@@ -655,7 +655,7 @@ class PlgContentJoomla extends CMSPlugin
 
 		$article = new ArticleTable($db);
 
-		$workflow = new Workflow(['extension' => 'com_content']);
+		$workflow = new Workflow(['extension' => 'com_content.article']);
 
 		foreach ($pks as $pk)
 		{
