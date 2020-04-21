@@ -31,9 +31,9 @@ abstract class AbstractMenu
 	protected $items = array();
 
 	/**
-	 * Identifier of the default menu item
+	 * Identifier of the default menu item. Key of the array is the language.
 	 *
-	 * @var    integer
+	 * @var    integer[]
 	 * @since  4.0.0
 	 */
 	protected $default = array();
@@ -63,6 +63,14 @@ abstract class AbstractMenu
 	protected $user;
 
 	/**
+	 * Flag for checking if the menu items have been loaded
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $itemsLoaded = false;
+
+	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  An array of configuration options.
@@ -71,17 +79,6 @@ abstract class AbstractMenu
 	 */
 	public function __construct($options = array())
 	{
-		// Load the menu items
-		$this->load();
-
-		foreach ($this->getMenu() as $item)
-		{
-			if ($item->home)
-			{
-				$this->default[trim($item->language)] = $item->id;
-			}
-		}
-
 		$this->user = isset($options['user']) && $options['user'] instanceof User ? $options['user'] : Factory::getUser();
 	}
 
@@ -166,14 +163,17 @@ abstract class AbstractMenu
 	 */
 	public function getDefault($language = '*')
 	{
+		// Get menu items first to ensure defaults have been populated
+		$items = $this->getMenu();
+
 		if (\array_key_exists($language, $this->default))
 		{
-			return $this->getMenu()[$this->default[$language]];
+			return $items[$this->default[$language]];
 		}
 
 		if (\array_key_exists('*', $this->default))
 		{
-			return $this->getMenu()[$this->default['*']];
+			return $items[$this->default['*']];
 		}
 	}
 
@@ -301,6 +301,21 @@ abstract class AbstractMenu
 	 */
 	public function getMenu()
 	{
+		if (!$this->itemsLoaded)
+		{
+			$this->load();
+
+			foreach ($this->items as $item)
+			{
+				if ($item->home)
+				{
+					$this->default[trim($item->language)] = $item->id;
+				}
+			}
+
+			$this->itemsLoaded = true;
+		}
+
 		return $this->items;
 	}
 
@@ -321,7 +336,7 @@ abstract class AbstractMenu
 		{
 			$access = (int) $menu->access;
 
-			// If the accesss level is public we don't need to load the user session
+			// If the access level is public we don't need to load the user session
 			if ($access === 1)
 			{
 				return true;

@@ -28,13 +28,15 @@ Factory::getDocument()->getWebAssetManager()
 
 $selector = $displayData['selector'];
 $id       = isset($displayData['id']) ? $displayData['id'] : '';
-$class    = isset($displayData['class']) ? $displayData['class'] : 'btn btn-secondary';
-$icon     = isset($displayData['icon']) ? $displayData['icon'] : 'fa fa-download';
+$class    = isset($displayData['class']) ? $displayData['class'] : 'btn btn-sm btn-primary';
+$icon     = isset($displayData['icon']) ? $displayData['icon'] : 'fas fa-download';
 $text     = isset($displayData['text']) ? $displayData['text'] : '';
 ?>
 
 <!-- Render the button -->
-<joomla-toolbar-button<?php echo $id; ?> onclick="document.getElementById('modal_<?php echo $selector; ?>').open()" class="<?php echo $class; ?>" data-toggle="modal">
+<joomla-toolbar-button<?php echo $id; ?> onclick="document.getElementById('modal_<?php echo $selector; ?>').open();
+	document.body.appendChild(document.getElementById('modal_<?php echo $selector; ?>'));"
+	class="<?php echo $class; ?>" data-toggle="modal">
 	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
 	<?php echo $text; ?>
 </joomla-toolbar-button>

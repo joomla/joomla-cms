@@ -2,13 +2,28 @@
 
 .form-control {
   max-width: $input-max-width;
-  background-color: var(--white-offset);
+  background-color: $white;
+  border: $input-border;
+  border-radius: $border-radius;
+  box-shadow: $input-box-shadow;
+
+  &:focus {
+    border-color: $focuscolor;
+    box-shadow: $focusshadow;
+  }
 }
+
+.form-control:disabled,
+.form-control[readonly] {
+  border: 0;
+  box-shadow: none;
+}
+
 
 .control-group {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 0 1rem 0;
+  margin: 0 0 1rem;
 
   > .form-check {
     display: inline-block;
@@ -100,37 +115,31 @@ legend {
 }
 
 [aria-grabbed='true'] {
-  box-shadow: 0 0 2px 1px theme-color("primary");
+  box-shadow: $input-box-shadow;
 }
 
 .sortable-handler.inactive {
-  opacity: 0.3;
+  opacity: .3;
 }
 
-/* set up hidden tooltip */
+// set up hidden tooltip
 [role="tooltip"]:not(.show) {
+  z-index: $zindex-tooltip;
   display: none;
-  padding: 0.25em;
-  margin: 0.25em;
+  max-width: 100%;
+  padding: .5em;
+  margin: .25em;
   color: $white;
   background: $black;
-  max-width: 100%;
-  z-index: $zindex-tooltip;
-
-  [dir=ltr] & {
-    text-align: left;
-  }
-
-  [dir=rtl] & {
-    text-align: right;
-  }
+  border-radius: .2rem;
+  text-align: start;
 }
 
-/* reveal associated tooltip on focus */
+// reveal associated tooltip on focus
 :focus + [role="tooltip"],
 :hover + [role="tooltip"] {
-  display: block;
   position: absolute;
+  display: block;
 }
 
 [id="filter[search]-desc"] {
@@ -143,21 +152,21 @@ legend {
 }
 
 .switcher__legend {
+  margin-bottom: 0;
   font-size: $label-font-size;
   color: var(--atum-special-color);
-  margin-bottom: 0;
 }
 
-[class^="icon-"]:not(.input-group-text),
-[class*=" icon-"]:not(.input-group-text) {
-  margin-right: 0.5em;
+.input-group-append {
+  overflow: hidden;
+
+  [dir=ltr] & {
+    border-top-right-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+  }
 
   [dir=rtl] & {
-    margin-left: 0.5em;
-    margin-right: 0;
+    border-top-left-radius: $border-radius;
+    border-bottom-left-radius: $border-radius;
   }
-}
-
-joomla-field-user [class*=" icon-"]:not(.input-group-text) {
-  margin-right: 0;
 }

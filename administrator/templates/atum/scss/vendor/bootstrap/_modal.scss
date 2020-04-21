@@ -96,3 +96,9 @@
     max-width: none;
   }
 }
+
+.modal-dialog {
+  @include media-breakpoint-down(xs) {
+    margin: 1.75rem auto;
+  }
+}

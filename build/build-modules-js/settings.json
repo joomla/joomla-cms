@@ -110,7 +110,10 @@
           {
             "name": "cropperjs",
             "type": "script",
-            "uri": "cropper.min.js"
+            "uri": "cropper.min.js",
+            "attributes": {
+              "defer": true
+            }
           },
           {
             "name": "cropperjs",
@@ -167,7 +170,10 @@
           {
             "name": "diff",
             "type": "script",
-            "uri": "diff.js"
+            "uri": "diff.js",
+            "attributes": {
+              "defer": true
+            }
           }
         ],
         "dependencies": [],
@@ -192,7 +198,10 @@
           {
             "name": "dragula",
             "type": "script",
-            "uri": "dragula.min.js"
+            "uri": "dragula.min.js",
+            "attributes": {
+              "defer": true
+            }
           },
           {
             "name": "dragula",
@@ -400,7 +409,10 @@
             "name": "minicolors",
             "type": "script",
             "uri": "jquery.minicolors.min.js",
-            "dependencies": ["jquery"]
+            "dependencies": ["jquery"],
+            "attributes": {
+              "defer": true
+            }
           },
           {
             "name": "minicolors",
@@ -434,22 +446,6 @@
         },
         "dependencies": [],
         "licenseFilename": "LICENSE.md"
-      },
-      "css-vars-ponyfill": {
-        "name": "css-vars-ponyfill",
-        "licenseFilename": "LICENSE",
-        "js": {
-          "dist/css-vars-ponyfill.js": "js/css-vars-ponyfill.js",
-          "dist/css-vars-ponyfill.min.js": "js/css-vars-ponyfill.min.js",
-          "dist/css-vars-ponyfill.min.js.map": "js/css-vars-ponyfill.min.js.map"
-        },
-        "provideAssets": [
-          {
-            "name": "css-vars-ponyfill",
-            "type": "script",
-            "uri": "css-vars-ponyfill.min.js"
-          }
-        ]
       },
       "chosen-js": {
         "name": "chosen",
@@ -485,6 +481,23 @@
           }
         ]
       },
+      "accessibility": {
+        "name": "accessibility",
+        "licenseFilename": "LICENSE",
+        "js": {
+          "dist/accessibility.min.js": "js/accessibility.min.js"
+        },
+        "provideAssets": [
+          {
+            "name": "accessibility",
+            "type": "script",
+            "uri": "accessibility.min.js",
+            "attributes": {
+              "defer": true
+            }
+          }
+        ]
+      },
       "metismenujs": {
         "name": "metismenujs",
         "licenseFilename": "LICENSE",
@@ -492,7 +505,34 @@
           "dist/metismenujs.js": "js/metismenujs.js",
           "dist/metismenujs.min.js": "js/metismenujs.min.js",
           "dist/metismenujs.min.js.map": "js/metismenujs.min.js.map"
-        }
+        },
+        "provideAssets": [
+          {
+            "name": "metismenujs",
+            "type": "script",
+            "uri": "metismenujs.min.js",
+            "attributes": {
+              "defer": true
+            }
+          }
+        ]
+      },
+      "short-and-sweet": {
+        "name": "short-and-sweet",
+        "licenseFilename": "LICENSE",
+        "js": {
+          "dist/short-and-sweet.min.js": "js/short-and-sweet.min.js"
+        },
+        "provideAssets": [
+          {
+            "name": "short-and-sweet",
+            "type": "script",
+            "uri": "short-and-sweet.min.js",
+            "attributes": {
+              "defer": true
+            }
+          }
+        ]
       },
       "skipto": {
         "name": "skipto",
@@ -503,7 +543,30 @@
         },
         "css": {
           "src/css/SkipTo.css": "css/SkipTo.css"
-        }
+        },
+        "provideAssets": [
+          {
+            "name": "skipto",
+            "type": "style",
+            "uri": "SkipTo.css"
+          },
+          {
+            "name": "skipto.dropmenu",
+            "type": "script",
+            "uri": "dropMenu.js",
+            "attributes": {
+              "defer": true
+            }
+          },
+          {
+            "name": "skipto",
+            "type": "script",
+            "uri": "skipTo.js",
+            "attributes": {
+              "defer": true
+            }
+          }
+        ]
       },
       "qrcode-generator": {
         "name": "qrcode",
@@ -557,7 +620,7 @@
         "title": "Joomla: unsupported PHP version",
         "header": "Sorry, your PHP version is not supported",
         "text": "Your host needs to use PHP version {{PHP_VERSION}} or newer to run this version of Joomla!",
-        "link": "Unsupported_PHP_Version",
+        "link": "J4.x:Unsupported_PHP_Version",
         "linkText": "Help me resolve this",
         "destFile": "/templates/system/incompatible.html"
       }

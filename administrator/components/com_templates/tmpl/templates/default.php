@@ -47,7 +47,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo Text::_('JDATE'); ?>
 								</th>
-								<th scope="col" style="width:25%" class="d-none d-md-table-cell text-center">
+								<th scope="col" class="w-25 d-none d-md-table-cell text-center">
 									<?php echo Text::_('JAUTHOR'); ?>
 								</th>
 								<?php if ($this->pluginState) : ?>
@@ -70,7 +70,8 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<div>
 									<?php if ($item->client_id === 0) : ?>
 										<?php if ($this->preview) : ?>
-											<a href="<?php echo Route::_(Uri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank">
+											<a href="<?php echo Route::_(Uri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank"
+											title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_($item->name)); ?>">
 											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 											</a>
 										<?php else : ?>

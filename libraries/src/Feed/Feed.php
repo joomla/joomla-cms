@@ -77,13 +77,13 @@ class Feed implements \ArrayAccess, \Countable
 	public function __set($name, $value)
 	{
 		// Ensure that setting a date always sets a Date instance.
-		if ((($name == 'updatedDate') || ($name == 'publishedDate')) && !($value instanceof Date))
+		if ((($name === 'updatedDate') || ($name === 'publishedDate')) && !($value instanceof Date))
 		{
 			$value = new Date($value);
 		}
 
 		// Validate that any authors that are set are instances of JFeedPerson or null.
-		if (($name == 'author') && (!($value instanceof FeedPerson) || ($value === null)))
+		if (($name === 'author') && (!($value instanceof FeedPerson) || ($value === null)))
 		{
 			throw new \InvalidArgumentException(
 				sprintf(

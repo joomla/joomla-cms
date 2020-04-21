@@ -46,19 +46,6 @@ interface CategoryServiceInterface
 	public function countItems(array $items, string $section);
 
 	/**
-	 * Adds Count Items for Tag Manager.
-	 *
-	 * @param   \stdClass[]  $items      The content objects
-	 * @param   string       $extension  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 * @throws  \Exception
-	 */
-	public function countTagItems(array $items, string $extension);
-
-	/**
 	 * Prepares the category form
 	 *
 	 * @param   \Joomla\CMS\Categories\Form  $form  The form to change

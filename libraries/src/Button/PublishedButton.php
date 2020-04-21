@@ -38,22 +38,22 @@ class PublishedButton extends ActionButton
 	/**
 	 * Render action button by item value.
 	 *
-	 * @param   mixed        $value        Current value of this item.
-	 * @param   string       $row          The row number of this item.
-	 * @param   array        $options      The options to override group options.
-	 * @param   string|Date  $publishUp    The date which item publish up.
-	 * @param   string|Date  $publishDown  The date which item publish down.
+	 * @param   integer|null  $value        Current value of this item.
+	 * @param   integer|null  $row          The row number of this item.
+	 * @param   array         $options      The options to override group options.
+	 * @param   string|Date   $publishUp    The date which item publish up.
+	 * @param   string|Date   $publishDown  The date which item publish down.
 	 *
 	 * @return  string  Rendered HTML.
 	 *
 	 * @since  4.0.0
 	 */
-	public function render(string $value = null, string $row = null, array $options = [], $publishUp = null, $publishDown = null): string
+	public function render(?int $value = null, ?int $row = null, array $options = [], $publishUp = null, $publishDown = null): string
 	{
 		if ($publishUp || $publishDown)
 		{
 			$bakState = $this->getState($value);
-			$default  = $this->getState($value) ? : $this->getState('_default');
+			$default  = $this->getState($value) ?? $this->unknownState;
 
 			$nullDate = Factory::getDbo()->getNullDate();
 			$nowDate = Factory::getDate()->toUnix();
@@ -65,7 +65,7 @@ class PublishedButton extends ActionButton
 
 			// Add tips and special titles
 			// Create special titles for published items
-			if ($value === '1')
+			if ($value === 1)
 			{
 				// Create tip text, only we have publish up or down settings
 				$tips = array();

@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Config\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Rules;
@@ -108,6 +108,13 @@ class ApplicationModel extends FormModel
 		if (!empty($temp))
 		{
 			$data = array_merge($data, $temp);
+		}
+
+		// Correct error_reporting value, since we removed "development", the "maximum" should be set instead
+		// @TODO: This can be removed in 5.0
+		if (!empty($data['error_reporting']) && $data['error_reporting'] === 'development')
+		{
+			$data['error_reporting'] = 'maximum';
 		}
 
 		return $data;
@@ -812,7 +819,7 @@ class ApplicationModel extends FormModel
 		// Invalidates the cached configuration file
 		if (function_exists('opcache_invalidate'))
 		{
-			opcache_invalidate($file);
+			\opcache_invalidate($file);
 		}
 
 		// Attempt to make the file unwriteable if using FTP.
@@ -1121,7 +1128,7 @@ class ApplicationModel extends FormModel
 		if ($isSuperUserGroupAfter)
 		{
 			$result['class'] = 'badge badge-success';
-			$result['text'] = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
+			$result['text'] = '<span class="fas fa-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_ALLOWED_ADMIN');
 		}
 		// Not super user.
 		else
@@ -1179,7 +1186,7 @@ class ApplicationModel extends FormModel
 			elseif ($inheritedGroupParentAssetRule === false || $inheritedParentGroupRule === false)
 			{
 				$result['class'] = 'badge badge-danger';
-				$result['text']  = '<span class="icon-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
+				$result['text']  = '<span class="fas fa-lock icon-white" aria-hidden="true"></span>' . Text::_('JLIB_RULES_NOT_ALLOWED_LOCKED');
 			}
 		}
 

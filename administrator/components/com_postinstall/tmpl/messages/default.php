@@ -26,6 +26,7 @@ $param    = array(
 	'rssimage'    => 1,
 	'rssitems'    => 5,
 	'rssitemdesc' => 1,
+	'rssitemdate' => 1,
 	'rssrtl'      => $lang->isRtl() ? 1 : 0,
 	'word_count'  => 200,
 	'cache'       => 0,
@@ -50,7 +51,7 @@ $params = array('params' => json_encode($param));
 		<h2><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></h2>
 		<p><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_DESC'); ?></p>
 		<a href="<?php echo Route::_('index.php?option=com_postinstall&view=messages&task=message.reset&eid=' . $this->eid . '&' . $this->token . '=1'); ?>" class="btn btn-warning btn-lg">
-			<span class="icon icon-eye-open" aria-hidden="true"></span>
+			<span class="fas fa-eye" aria-hidden="true"></span>
 			<?php echo Text::_('COM_POSTINSTALL_BTN_RESET'); ?>
 		</a>
 	</div>

@@ -51,7 +51,7 @@ class Aes
 	 */
 	public function __construct($key, $strength = 128, $mode = 'cbc', $priority = 'openssl')
 	{
-		if ($priority == 'openssl')
+		if ($priority === 'openssl')
 		{
 			$this->adapter = new OpenSSL;
 

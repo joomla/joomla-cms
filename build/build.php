@@ -29,10 +29,11 @@ function usage(string $command)
 	echo PHP_EOL;
 	echo 'Usage: php ' . $command . ' [options]' . PHP_EOL;
 	echo PHP_TAB . '[options]:'.PHP_EOL;
-	echo PHP_TAB . PHP_TAB . '--remote <remote>:' . PHP_TAB . 'The git remote reference to build from (ex: `tags/3.8.6`, `4.0-dev`), defaults to the most recent tag for the repository' . PHP_EOL;
+	echo PHP_TAB . PHP_TAB . '--remote=<remote>:' . PHP_TAB . 'The git remote reference to build from (ex: `tags/3.8.6`, `4.0-dev`), defaults to the most recent tag for the repository' . PHP_EOL;
 	echo PHP_TAB . PHP_TAB . '--exclude-zip:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .zip packages' . PHP_EOL;
 	echo PHP_TAB . PHP_TAB . '--exclude-gzip:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .tar.gz packages' . PHP_EOL;
 	echo PHP_TAB . PHP_TAB . '--exclude-bzip2:' . PHP_TAB . 'Exclude the generation of .tar.bz2 packages' . PHP_EOL;
+	echo PHP_TAB . PHP_TAB . '--include-zstd:' . PHP_TAB . 'Include the generation of .tar.zst packages' . PHP_EOL;
 	echo PHP_TAB . PHP_TAB . '--help:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Show this help output' . PHP_EOL;
 	echo PHP_EOL;
 }
@@ -164,12 +165,13 @@ $tmp      = $here . '/tmp';
 $fullpath = $tmp . '/' . $time;
 
 // Parse input options
-$options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'exclude-bzip2']);
+$options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'exclude-bzip2', 'include-zstd']);
 
 $remote       = $options['remote'] ?? false;
 $excludeZip   = isset($options['exclude-zip']);
 $excludeGzip  = isset($options['exclude-gzip']);
 $excludeBzip2 = isset($options['exclude-bzip2']);
+$excludeZstd  = !isset($options['include-zstd']);
 $showHelp     = isset($options['help']);
 
 if ($showHelp)
@@ -236,9 +238,6 @@ clean_composer($fullpath);
 // And cleanup the Node installation
 system('rm -rf node_modules');
 
-// Also cleanup the Node installation of the media manager
-system('rm -rf administrator/components/com_media/node_modules');
-
 echo "Workspace built.\n";
 
 // Import the version class to set the version information
@@ -265,6 +264,7 @@ echo "Create list of changed files from git repository for version $fullVersion.
  */
 $filesArray = array(
 	"administrator/index.php\n" => true,
+	"api/index.php\n" => true,
 	"cache/index.html\n" => true,
 	"cli/index.html\n" => true,
 	"components/index.html\n" => true,
@@ -295,14 +295,19 @@ $doNotPackage = array(
 	'.appveyor.yml',
 	'.babelrc',
 	'.drone.yml',
+	'.editorconfig',
 	'.eslintignore',
 	'.eslintrc',
-	'.editorconfig',
 	'.github',
 	'.gitignore',
 	'.hound.yml',
 	'.php_cs.dist',
 	'.travis.yml',
+	'CODE_OF_CONDUCT.md',
+	'Gemfile',
+	'Gemfile.lock',
+	'README.md',
+	'RoboFile.php',
 	'acceptance.suite.yml',
 	'appveyor-phpunit.xml',
 	'build',
@@ -313,21 +318,17 @@ $doNotPackage = array(
 	'composer.lock',
 	'crowdin.yml',
 	'drone-package.json',
-	'Gemfile',
-	'Gemfile.lock',
-	'package.json',
 	'package-lock.json',
+	'package.json',
+	'phpunit-pgsql.xml.dist',
 	'phpunit.xml.dist',
-	'README.md',
-	'RoboFile.php',
 	'scss-lint.yml',
+	'selenium.log',
 	'tests',
 	'travisci-phpunit.xml',
-	'codeception.yml',
-	'RoboFile.php',
-	'CODE_OF_CONDUCT.md',
-	'phpunit-pgsql.xml.dist',
-	'selenium.log',
+	// Media Manager Node Assets
+	'administrator/components/com_media/webpack.config.js',
+	'administrator/components/com_media/resources',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',
@@ -449,23 +450,38 @@ for ($num = $release - 1; $num >= 0; $num--)
 	if (!$excludeBzip2)
 	{
 		$packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.bz2';
+		echo "Building " . $packageName . "... ";
 		system('tar --create --bzip2 --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+		echo "done.\n";
 		$checksums[$packageName] = array();
 	}
 
 	if (!$excludeGzip)
 	{
 		$packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.gz';
+		echo "Building " . $packageName . "... ";
 		system('tar --create --gzip  --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+		echo "done.\n";
 		$checksums[$packageName] = array();
 	}
 
 	if (!$excludeZip)
 	{
 		$packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.zip';
+		echo "Building " . $packageName . "... ";
 		chdir($time);
 		system('zip ../packages/' . $packageName . ' -@ < ../diffconvert/' . $version . '.' . $num . '> /dev/null');
 		chdir('..');
+		echo "done.\n";
+		$checksums[$packageName] = array();
+	}
+
+	if (!$excludeZstd)
+	{
+		$packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.zst';
+		echo "Building " . $packageName . "... ";
+		system('tar --create --use-compress-program=zstd --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+		echo "done.\n";
 		$checksums[$packageName] = array();
 	}
 }
@@ -477,21 +493,36 @@ chdir($time);
 if (!$excludeBzip2)
 {
 	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.bz2';
+	echo "Building " . $packageName . "... ";
 	system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
+	echo "done.\n";
 	$checksums[$packageName] = array();
 }
 
 if (!$excludeGzip)
 {
 	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.gz';
+	echo "Building " . $packageName . "... ";
 	system('tar --create --gzip --file ../packages/' . $packageName . ' * > /dev/null');
+	echo "done.\n";
 	$checksums[$packageName] = array();
 }
 
 if (!$excludeZip)
 {
 	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip';
+	echo "Building " . $packageName . "... ";
 	system('zip -r ../packages/' . $packageName . ' * > /dev/null');
+	echo "done.\n";
+	$checksums[$packageName] = array();
+}
+
+if (!$excludeZstd)
+{
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.zst';
+	echo "Building " . $packageName . "... ";
+	system('tar --create --use-compress-program=zstd --file ../packages/' . $packageName . ' * > /dev/null');
+	echo "done.\n";
 	$checksums[$packageName] = array();
 }
 
@@ -508,21 +539,36 @@ system('rm images/powered_by.png');
 if (!$excludeBzip2)
 {
 	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2';
+	echo "Building " . $packageName . "... ";
 	system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
+	echo "done.\n";
 	$checksums[$packageName] = array();
 }
 
 if (!$excludeGzip)
 {
 	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.gz';
+	echo "Building " . $packageName . "... ";
 	system('tar --create --gzip --file ../packages/' . $packageName . ' * > /dev/null');
+	echo "done.\n";
 	$checksums[$packageName] = array();
 }
 
 if (!$excludeZip)
 {
 	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip';
+	echo "Building " . $packageName . "... ";
 	system('zip -r ../packages/' . $packageName . ' * > /dev/null');
+	echo "done.\n";
+	$checksums[$packageName] = array();
+}
+
+if (!$excludeZstd)
+{
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.zst';
+	echo "Building " . $packageName . "... ";
+	system('tar --create --use-compress-program=zstd --file ../packages/' . $packageName . ' * > /dev/null');
+	echo "done.\n";
 	$checksums[$packageName] = array();
 }
 

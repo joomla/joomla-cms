@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Config\Administrator\View\Component;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -83,9 +83,9 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Bind the form to the data.
-		if ($form && $component->params)
+		if ($form)
 		{
-			$form->bind($component->params);
+			$form->bind($component->getParams());
 		}
 
 		$this->fieldsets   = $form ? $form->getFieldsets() : null;

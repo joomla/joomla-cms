@@ -5,7 +5,7 @@
 			name="contentsecuritypolicy"
 			type="radio"
 			label="COM_CSP_CONTENTSECURITYPOLICY"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
 			<option value="0">JDISABLED</option>
@@ -28,7 +28,7 @@
 			type="radio"
 			label="COM_CSP_CONTENTSECURITYPOLICY_REPORT_ONLY"
 			description="COM_CSP_CONTENTSECURITYPOLICY_REPORT_ONLY_DESC"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="1"
 			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
 			>
@@ -40,7 +40,7 @@
 			type="radio"
 			label="COM_CSP_CONTENTSECURITYPOLICY_NONCE_ENABLED"
 			description="COM_CSP_CONTENTSECURITYPOLICY_NONCE_ENABLED_DESC"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
 			>
@@ -52,7 +52,7 @@
 			type="radio"
 			label="COM_CSP_CONTENTSECURITYPOLICY_SCRIPT_HASHES_ENABLED"
 			description="COM_CSP_CONTENTSECURITYPOLICY_SCRIPT_HASHES_ENABLED_DESC"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
 			>
@@ -64,8 +64,20 @@
 			type="radio"
 			label="COM_CSP_CONTENTSECURITYPOLICY_STYLE_HASHES_ENABLED"
 			description="COM_CSP_CONTENTSECURITYPOLICY_STYLE_HASHES_ENABLED_DESC"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
+			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
+			>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
+		</field>
+		<field
+			name="frame_ancestors_self_enabled"
+			type="radio"
+			label="COM_CSP_CONTENTSECURITYPOLICY_FRAME_ANCESTORS_SELF_ENABLED"
+			description="COM_CSP_CONTENTSECURITYPOLICY_FRAME_ANCESTORS_SELF_ENABLED_DESC"
+			layout="joomla.form.field.radio.switcher"
+			default="1"
 			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode!:detect"
 			>
 			<option value="0">JDISABLED</option>
@@ -76,7 +88,6 @@
 			type="subform"
 			label="COM_CSP_CONTENTSECURITYPOLICY_VALUES"
 			multiple="true"
-			min="1"
 			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode:custom"
 			>
 			<form>

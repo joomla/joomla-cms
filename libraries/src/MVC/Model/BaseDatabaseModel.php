@@ -16,6 +16,7 @@ use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryAwareTrait;
@@ -163,7 +164,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	{
 		// Use fast COUNT(*) on DatabaseQuery objects if there is no GROUP BY or HAVING clause:
 		if ($query instanceof DatabaseQuery
-			&& $query->type == 'select'
+			&& $query->type === 'select'
 			&& $query->group === null
 			&& $query->merge === null
 			&& $query->querySet === null

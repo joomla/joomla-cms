@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Config\Site\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\CMSApplication;
@@ -87,7 +87,7 @@ class ModulesController extends BaseController
 		// Set FTP credentials, if given.
 		ClientHelper::setCredentialsFromRequest('ftp');
 
-		// Get sumitted module id
+		// Get submitted module id
 		$moduleId = '&id=' . $this->input->getInt('id');
 
 		// Get returnUri

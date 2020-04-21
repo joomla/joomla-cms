@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Config\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -24,7 +24,7 @@ class RequestController extends BaseController
 	/**
 	 * Execute the controller.
 	 *
-	 * @return  mixed  A rendered view or true
+	 * @return  mixed  A rendered view or false
 	 *
 	 * @since   3.2
 	 */
@@ -62,7 +62,7 @@ class RequestController extends BaseController
 		{
 			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 
-			return;
+			return false;
 		}
 
 		try
@@ -86,7 +86,6 @@ class RequestController extends BaseController
 			'access'              => null,
 			'list_limit'          => null,
 			'MetaDesc'            => null,
-			'MetaKeys'            => null,
 			'MetaRights'          => null,
 			'sef'                 => null,
 			'sitename_pagetitles' => null,

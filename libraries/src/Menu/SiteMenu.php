@@ -190,15 +190,15 @@ class SiteMenu extends AbstractMenu
 			return false;
 		}
 
-		foreach ($this->getMenu() as &$item)
+		foreach ($this->items as &$item)
 		{
 			// Get parent information.
 			$parent_tree = array();
 
-			if (isset($this->getMenu()[$item->parent_id]))
+			if (isset($this->items[$item->parent_id]))
 			{
-				$item->setParent($this->getMenu()[$item->parent_id]);
-				$parent_tree  = $this->getMenu()[$item->parent_id]->tree;
+				$item->setParent($this->items[$item->parent_id]);
+				$parent_tree  = $this->items[$item->parent_id]->tree;
 			}
 
 			// Create tree.
@@ -277,14 +277,17 @@ class SiteMenu extends AbstractMenu
 	 */
 	public function getDefault($language = '*')
 	{
+		// Get menu items first to ensure defaults have been populated
+		$items = $this->getMenu();
+
 		if (\array_key_exists($language, $this->default) && $this->app->isClient('site') && $this->app->getLanguageFilter())
 		{
-			return $this->getMenu()[$this->default[$language]];
+			return $items[$this->default[$language]];
 		}
 
 		if (\array_key_exists('*', $this->default))
 		{
-			return $this->getMenu()[$this->default['*']];
+			return $items[$this->default['*']];
 		}
 	}
 }

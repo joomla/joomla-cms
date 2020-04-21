@@ -20,8 +20,6 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Version;
-use Joomla\Event\DispatcherAwareInterface;
-use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 use Psr\Http\Message\ResponseInterface;
@@ -31,9 +29,9 @@ use Psr\Http\Message\ResponseInterface;
  *
  * @since  2.5.0
  */
-abstract class WebApplication extends AbstractWebApplication implements DispatcherAwareInterface
+abstract class WebApplication extends AbstractWebApplication
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware;
+	use EventAware, IdentityAware;
 
 	/**
 	 * The application document object.
@@ -154,7 +152,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 		}
 
 		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
-		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') != 'ob_gzhandler'))
+		if ($this->get('gzip') && !ini_get('zlib.output_compression') && (ini_get('output_handler') !== 'ob_gzhandler'))
 		{
 			$this->compress();
 		}

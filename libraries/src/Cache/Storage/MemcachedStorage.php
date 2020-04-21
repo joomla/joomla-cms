@@ -199,7 +199,7 @@ class MemcachedStorage extends CacheStorage
 
 				$namearr = explode('-', $key->name);
 
-				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] == 'cache')
+				if ($namearr !== false && $namearr[0] == $secret && $namearr[1] === 'cache')
 				{
 					$group = $namearr[2];
 
@@ -329,7 +329,7 @@ class MemcachedStorage extends CacheStorage
 
 			foreach ($index as $key => $value)
 			{
-				if (strpos($value->name, $prefix) === 0 xor $mode != 'group')
+				if (strpos($value->name, $prefix) === 0 xor $mode !== 'group')
 				{
 					static::$_db->delete($value->name);
 					unset($index[$key]);
