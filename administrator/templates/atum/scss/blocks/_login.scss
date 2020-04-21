@@ -109,6 +109,8 @@
   }
 
   #sidebar-wrapper {
+    flex: 1 0 33%;
+    max-width: $sidebar-width-login;
 
     @include media-breakpoint-down(sm) {
       order: 2;
@@ -217,12 +219,13 @@ label {
   }
 }
 
- // Detect IE 10+ and display alert
+// Detect IE 10+ and display alert
 .ie11 {
   display: none;
 }
 
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+@media all and (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
   .ie11 {
     display: block;
   }
