@@ -327,7 +327,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 					&& strpos($cspValue->value, 'strict-dynamic') === 0
 					&& $scriptDynamicEnabled)
 				{
-					$cspValue->value = $cspValue->value . ' strict-dynamic';
+					$cspValue->value .= ' strict-dynamic';
 				}
 
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
@@ -458,7 +458,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				&& strpos($cspHeaderValue, 'strict-dynamic') === 0
 				&& $scriptDynamicEnabled)
 			{
-				$cspHeaderValue = $cspHeaderValue . ' strict-dynamic';
+				$cspHeaderValue .= ' strict-dynamic';
 			}
 
 			// By default we should whitelist 'self' on any directive
