@@ -156,35 +156,6 @@ class TransitionModel extends AdminModel
 			$isNew = false;
 		}
 
-		if ($data['to_stage_id'] == $data['from_stage_id'])
-		{
-			$this->setError(Text::_('COM_WORKFLOW_MSG_FROM_TO_STAGE'));
-
-			return false;
-		}
-
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__workflow_transitions'))
-			->where($db->quoteName('from_stage_id') . ' = ' . (int) $data['from_stage_id'])
-			->where($db->quoteName('to_stage_id') . ' = ' . (int) $data['to_stage_id']);
-
-		if (!$isNew)
-		{
-			$query->where($db->quoteName('id') . ' <> ' . (int) $data['id']);
-		}
-
-		$db->setQuery($query);
-		$duplicate = $db->loadResult();
-
-		if (!empty($duplicate))
-		{
-			$this->setError(Text::_("COM_WORKFLOW_TRANSITION_DUPLICATE"));
-
-			return false;
-		}
-
 		$workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 
 		if (empty($data['workflow_id']))
