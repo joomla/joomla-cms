@@ -27,27 +27,16 @@
   }
 
   &.custom-select-color-state {
-
     &.custom-select-success {
       color: theme-color("success");
-      background-color: theme-color("success");
       border-color: theme-color("success");
-
-      option {
-        color: $custom-select-color;
-        background-color: var(--white-offset);
-      }
+      box-shadow: $atum-box-shadow-success;
     }
 
     &.custom-select-danger {
       color: theme-color("danger");
-      background-color: theme-color("danger");
       border-color: theme-color("danger");
-
-      option {
-        color: $custom-select-color;
-        background-color: var(--white-offset);
-      }
+      box-shadow: $atum-box-shadow-danger;
     }
   }
 

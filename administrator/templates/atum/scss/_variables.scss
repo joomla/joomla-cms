@@ -100,6 +100,8 @@ $alert-color-level:                0;
 
 // Global
 $atum-box-shadow:                  0 2px 4px rgba(0, 0, 0, .16), 0 2px 4px rgba(0, 0, 0, .23);
+$atum-box-shadow-success:          inset 0 0 0 .1rem #a6cca7;
+$atum-box-shadow-danger:           inset 0 0 0 .1rem #cca6a6;
 $enable-rounded:                   true;
 $input-box-shadow:                 inset 0 0 0 .1rem lighten(theme-color("atum-link-color"), 45%);
 $input-btn-padding-y:              .6rem;
@@ -223,7 +225,7 @@ $input-btn-padding-x-sm-submenu:    1.625rem;
 $input-btn-submenu-icon-distance:   1rem;
 
 // Custom form
-$custom-select-bg:                  var(--atum-bg-light);
+$custom-select-bg:                  var(--white-offset);
 $custom-select-bg-size:             14px 8px;
 $custom-select-indicator-color:     $gray-900;
 $custom-select-indicator:           url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14.5 8.4' width='14' height='8'><path fill='#{$custom-select-indicator-color}' d='M.1 1.5C2.4 3.8 4.7 6 6.9 8.3c.1.1.2.1.3.1.1 0 .2 0 .3-.1l6.9-6.9c.1-.1.1-.2.1-.3s0-.2-.1-.3l-.7-.7c-.1-.1-.2-.1-.3-.1s-.2 0-.3.1L7.3 5.9 1.5.1C1.4 0 1.3 0 1.2 0 1.1 0 1 0 .9.1L.2.8.1.9c0 .1-.1.1-.1.2v.2c0 .1.1.2.1.2z'/></svg>");
