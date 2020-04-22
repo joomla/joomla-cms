@@ -3,7 +3,13 @@
 .custom-select {
   max-width: $input-max-width;
   cursor: pointer;
-  border: $input-border;
+  box-shadow: $custom-select-box-shadow;
+  background: $custom-select-bg $custom-select-background;
+
+  [dir=rtl] & {
+    padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
+    background: $custom-select-bg $custom-select-background-rtl;
+  }
 
   &[multiple] {
     padding: 0;
@@ -18,9 +24,6 @@
         background-color: var(--atum-bg-dark) !important;
       }
     }
-
-
-
   }
 
   &.custom-select-color-state {

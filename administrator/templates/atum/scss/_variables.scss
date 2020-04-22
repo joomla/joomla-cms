@@ -87,6 +87,13 @@ $colors: (
   atum-bg-dark-90:                 adjust-color($base-color, $hue: +10%, $saturation: -1%, $lightness: -17%)
 );
 
+// Characters which are escaped by the escape-svg function
+$escaped-characters: (
+  ("<","%3c"),
+  (">","%3e"),
+  ("#","%23"),
+) !default;
+
 // Alerts
 $alert-border-level:               0;
 $alert-color-level:                0;
@@ -216,16 +223,15 @@ $input-btn-padding-x-sm-submenu:    1.625rem;
 $input-btn-submenu-icon-distance:   1rem;
 
 // Custom form
-$custom-select-indicator-padding:   3rem;
 $custom-select-bg:                  var(--atum-bg-light);
 $custom-select-bg-size:             14px 8px;
 $custom-select-indicator-color:     $gray-900;
 $custom-select-indicator:           url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14.5 8.4' width='14' height='8'><path fill='#{$custom-select-indicator-color}' d='M.1 1.5C2.4 3.8 4.7 6 6.9 8.3c.1.1.2.1.3.1.1 0 .2 0 .3-.1l6.9-6.9c.1-.1.1-.2.1-.3s0-.2-.1-.3l-.7-.7c-.1-.1-.2-.1-.3-.1s-.2 0-.3.1L7.3 5.9 1.5.1C1.4 0 1.3 0 1.2 0 1.1 0 1 0 .9.1L.2.8.1.9c0 .1-.1.1-.1.2v.2c0 .1.1.2.1.2z'/></svg>");
-
-$custom-select-border-color:         $atum-box-shadow;
-$custom-select-box-shadow:           $atum-box-shadow;
-$custom-select-bg-size-sm:           75rem;
-$custom-select-multiple-padding-y:   .3rem;
+$custom-select-background:          escape-svg($custom-select-indicator) no-repeat right $input-btn-padding-x center / $custom-select-bg-size;
+$custom-select-background-rtl:      escape-svg($custom-select-indicator) no-repeat left $input-btn-padding-x center / $custom-select-bg-size;
+$custom-select-border-color:        #6d7784;
+$custom-select-box-shadow:          $input-box-shadow;
+$custom-select-multiple-padding-y:  .3rem;
 
 //input
 $input-padding:                    .6rem 1rem;
