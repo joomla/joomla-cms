@@ -222,12 +222,10 @@
       left: 10px;
     }
 
-    .navbar-toggler-icon {
-      &::before {
-        font: normal normal normal 30px/1 "Font Awesome 5 Free";
-        color: var(--toggle-color);
-        content: "\f00d";
-      }
+    .navbar-toggler-icon::before {
+      font: normal normal normal 30px/1 "Font Awesome 5 Free";
+      color: var(--toggle-color);
+      content: "\f00d";
     }
 
     &.collapsed {
