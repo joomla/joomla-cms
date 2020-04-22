@@ -331,21 +331,7 @@ class ExtensionAdapter extends UpdateAdapter
 		{
 			if (isset($this->latest->client) && \strlen($this->latest->client))
 			{
-				if (is_numeric($this->latest->client))
-				{
-					$byName = false;
-
-					// <client> has to be 'administrator' or 'site', numeric values are deprecated. See https://docs.joomla.org/Special:MyLanguage/Design_of_JUpdate
-					Log::add(
-						'Using numeric values for <client> in the updater xml is deprecated. Use \'administrator\' or \'site\' instead.',
-						Log::WARNING, 'deprecated'
-					);
-				}
-				else
-				{
-					$byName = true;
-				}
-
+				$byName = true;
 				$this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, $byName)->id;
 				unset($this->latest->client);
 			}
