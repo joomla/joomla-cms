@@ -3,17 +3,7 @@
 .custom-select {
   max-width: $input-max-width;
   cursor: pointer;
-  background: $custom-select-background;
-  background-color: $custom-select-bg;
   border: $input-border;
-  // var needed
-  box-shadow: $input-box-shadow;
-
-  [dir=rtl] & {
-    padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
-    background: $custom-select-background-rtl;
-    background-color: $custom-select-bg;
-  }
 
   &[multiple] {
     padding: 0;
