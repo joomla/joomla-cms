@@ -576,6 +576,4 @@
   }
 
   customElements.define('joomla-field-subform', JoomlaFieldSubform);
-
-
 })(customElements);
