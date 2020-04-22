@@ -29,7 +29,7 @@ if (document.getElementById('removeInstallationFolder')) {
 	document.getElementById('removeInstallationFolder')
 		.addEventListener('click', function (e) {
 			e.preventDefault();
-			let confirm = window.confirm(Joomla.Text._('INSTL_REMOVE_INST_FOLDER'));
+			let confirm = window.confirm(Joomla.Text._('INSTL_REMOVE_INST_FOLDER').replace('%s', 'installation'));
 			if (confirm) {
 				Joomla.request({
 					method: "POST",
