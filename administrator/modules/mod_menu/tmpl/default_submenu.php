@@ -37,6 +37,7 @@ elseif ($current->hasChildren())
 {
 	$class .= ' parent';
 }
+
 if ($current->level == 1)
 {
 	$class .= ' item-level-1';
