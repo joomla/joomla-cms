@@ -91,13 +91,7 @@
 				<option value="1">JSHOW</option>
 			</field>
 		</fieldset>
-		<fieldset name="category" label="JGLOBAL_CATEGORY_OPTIONS">
-			<field
-				name="spacer1"
-				type="spacer"
-				label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
-				class="text"
-			/>
+		<fieldset name="category" label="JGLOBAL_CATEGORY_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
 
 			<field
 				name="show_category_title"
@@ -181,13 +175,7 @@
 			</field>
 		</fieldset>
 
-		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
-			<field
-				name="spacer2"
-				type="spacer"
-				label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
-				class="text"
-			/>
+		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
 
 			<field
 				name="filter_field"
