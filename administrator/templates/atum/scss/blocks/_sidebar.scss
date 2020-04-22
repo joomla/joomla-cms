@@ -1,21 +1,5 @@
 // Sidebar
 
-.mm-collapse {
-  display: none;
-
-  &.mm-collapsed,
-  &.mm-show {
-    display: block;
-  }
-}
-
-.mm-collapsing {
-  position: relative;
-  height: 0;
-  overflow: hidden;
-  transition: all 0.35s ease;
-}
-
 .sidebar-wrapper {
   min-height: calc(100vh -69px);
   z-index: $zindex-sidebar;
@@ -106,7 +90,6 @@
 
   // All list items
   li {
-
     .menu-dashboard,
     .menu-quicktask {
       > a {
@@ -165,6 +148,22 @@
     content: "\f078";
   }
 
+  .mm-collapse {
+    display: none;
+
+    &.mm-collapsed,
+    &.mm-show {
+      display: block;
+    }
+  }
+
+  .mm-collapsing {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    transition: all 0.35s ease;
+  }
+
   .badge {
     align-self: center;
     margin: 0 0.3rem 0.25rem;
@@ -180,8 +179,7 @@
 
   .sidebar-item-title,
   .has-arrow::after,
-  .menu-dashboard,
-  .mm-collapse.mm-show {
+  .menu-dashboard {
     display: none;
   }
 
