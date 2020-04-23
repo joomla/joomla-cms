@@ -72,7 +72,7 @@ use Joomla\CMS\Layout\FileLayout;
 
 		<?php if (isset($images->image_second) and !empty($images->image_second)) : ?>
 			<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
-			<div class="com-newsfeeds-newsfeed__second-image pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
+			<div class="com-newsfeeds-newsfeed__second-image float-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
 				<img
 				<?php if ($images->image_second_caption) : ?>
 					<?php echo 'class="caption" title="' . htmlspecialchars($images->image_second_caption) . '"'; ?>
