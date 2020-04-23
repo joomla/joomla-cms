@@ -9,10 +9,11 @@
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.9.0</version>
 	<description>PLG_USER_TOKEN_XML_DESCRIPTION</description>
+	<namespace path="src">Joomla\Plugin\User\Token</namespace>
 	<files>
 		<filename plugin="token">token.php</filename>
-		<folder>field</folder>
-		<folder>token</folder>
+		<folder>forms</folder>
+		<folder>src</folder>
 	</files>
 	<languages>
 		<language tag="en-GB">plg_user_token.ini</language>

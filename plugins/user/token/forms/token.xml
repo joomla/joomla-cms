@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fields name="joomlatoken" addfieldpath="/plugins/user/token/field">
+	<fields name="joomlatoken" addfieldprefix="Joomla\Plugin\User\Token\Field">
 		<fieldset
 			name="joomlatoken"
 			label="PLG_USER_TOKEN_GROUP_LABEL"

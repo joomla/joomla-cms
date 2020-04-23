@@ -214,7 +214,7 @@ class PlgUserToken extends CMSPlugin
 		}
 
 		// Add the registration fields to the form.
-		Form::addFormPath(dirname(__FILE__) . '/token');
+		Form::addFormPath(__DIR__ . '/forms');
 		$form->loadFile('token', false);
 
 		// No token: no reset

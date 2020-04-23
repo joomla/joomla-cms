@@ -7,36 +7,38 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Plugin\User\Token\Field;
+
+\defined('_JEXEC') or die;
+
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\TextField;
 
-defined('_JEXEC') or die;
-
 /**
- * Class JFormFieldJoomlatoken
+ * Joomlatoken field class
  *
  * @since  4.0
  */
-class JFormFieldJoomlatoken extends TextField
+class JoomlatokenField extends TextField
 {
 	/**
 	 * Method to attach a Form object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element   The SimpleXMLElement object representing the `<field>`
-	 *                                       tag for the form field object.
-	 * @param   mixed             $value     The form field value to validate.
-	 * @param   string            $group     The field name group control value. This acts as an
-	 *                                       array container for the field. For example if the
-	 *                                       field has name="foo" and the group value is set to
-	 *                                       "bar" then the full field name would end up being
-	 *                                       "bar[foo]".
+	 * @param   \SimpleXMLElement  $element   The SimpleXMLElement object representing the `<field>`
+	 *                                        tag for the form field object.
+	 * @param   mixed             $value      The form field value to validate.
+	 * @param   string            $group      The field name group control value. This acts as an
+	 *                                        array container for the field. For example if the
+	 *                                        field has name="foo" and the group value is set to
+	 *                                        "bar" then the full field name would end up being
+	 *                                        "bar[foo]".
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @see     FormField::setup()
 	 * @since   4.0.0
 	 */
-	public function setup(SimpleXMLElement $element, $value, $group = null)
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		$ret = parent::setup($element, $value, $group);
 
@@ -99,7 +101,7 @@ class JFormFieldJoomlatoken extends TextField
 		{
 			$siteSecret = Factory::getApplication()->get('secret');
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			$siteSecret = '';
 		}
