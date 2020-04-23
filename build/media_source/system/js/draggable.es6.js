@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let l;
       const result = [];
       const rows = [].slice.call(wrapper.querySelectorAll('[name="order[]"]'));
-      const inputRows = [].slice.call(wrapper.querySelectorAll('[name="cid[]"]'))
+      const inputRows = [].slice.call(wrapper.querySelectorAll('[name="cid[]"]'));
 
       if (dir === 'desc') {
         // Reverse the array
