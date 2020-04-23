@@ -161,6 +161,11 @@ class InstallerHelper
 				$path = JPATH_ADMINISTRATOR . '/manifests/packages/' . $element . '.xml';
 		}
 
+		if (file_exists($path) === false)
+		{
+			return null;
+		}
+
 		$xmlElement = simplexml_load_file($path);
 
 		return ($xmlElement !== false) ? $xmlElement : null;
