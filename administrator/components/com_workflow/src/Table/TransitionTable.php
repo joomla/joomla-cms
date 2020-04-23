@@ -65,7 +65,12 @@ class TransitionTable extends Table
 	 * @since   4.0.0
 	 */
 	public function store($updateNulls = true)
-	{
+	{	
+		if (!(int) $this->ordering)
+		{
+			$this->ordering = $this->getNextOrder($this->_db->quoteName('workflow_id') . ' = ' .  (int) $this->workflow_id);
+		}
+
 		return parent::store($updateNulls);
 	}
 
