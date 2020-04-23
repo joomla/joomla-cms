@@ -84,7 +84,7 @@ $fieldsets = $this->form->getFieldsets();
 		<div class="control-group">
 			<div class="control-label">
 				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
-						title="<?php echo '<strong>' . JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') . '</strong><br />' . JText::_('COM_USERS_USER_FIELD_TWOFACTOR_DESC'); ?>">
+						title="<?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') . '&#013;' . JText::_('COM_USERS_USER_FIELD_TWOFACTOR_DESC'); ?>">
 					<?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL'); ?>
 				</label>
 			</div>
