@@ -90,14 +90,13 @@
 
   // All list items
   li {
+
     .menu-dashboard,
     .menu-quicktask {
-      > a {
-        > .fas {
-          display: inline-flex;
-          align-items: center;
-          padding: 0.9rem;
-        }
+      > a > .fas {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.9rem;
       }
     }
   }
@@ -118,7 +117,7 @@
   .menuitem-group {
     margin-top: 0.65rem;
     font-size: 0.75rem;
-    padding-inline-start: 2.4rem;
+    padding-inline-start: 3rem;
   }
 
   // Dropdown indicator
@@ -187,6 +186,12 @@
     display: inline-block;
     min-width: $sidebar-width;
     background-color: var(--atum-sidebar-link-color);
+  }
+
+  .main-nav > li > ul {
+    height: 0;
+    padding: 0;
+    visibility: hidden;
   }
 }
 

@@ -109,6 +109,8 @@
   }
 
   #sidebar-wrapper {
+    display: flex;
+    flex-direction: column;
     flex: 1 0 33%;
     max-width: $sidebar-width-login;
 
@@ -117,6 +119,7 @@
     }
 
     #main-brand {
+      margin-bottom: auto;
 
       a {
         font-size: .875rem;
