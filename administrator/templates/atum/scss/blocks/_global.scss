@@ -167,13 +167,6 @@ body .container-main {
   text-align: end !important;
 }
 
-// dashboard items
-.menu-quicktask,
-.menu-badge {
-  float: right;
-  min-width: 1rem;
-}
-
 // extern links with icons
 a[target="_blank"]::before {
   font: normal normal normal 14px/1 'Font Awesome 5 Free';
@@ -190,13 +183,6 @@ a[target="_blank"]::before {
 
 .text-muted {
   color: var(--atum-text-dark);
-}
-
-// dashboard items
-.menu-quicktask,
-.menu-badge {
-  float: right;
-  min-width: 1rem;
 }
 
 .card-columns {
