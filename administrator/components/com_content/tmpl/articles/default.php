@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Button\FeaturedButton;
 use Joomla\CMS\Button\PublishedButton;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
@@ -76,7 +77,7 @@ JS;
 // @todo move the script to a file
 $this->document->addScriptDeclaration($js);
 
-HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_workflow/admin-items-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
 
 endif;
 
@@ -97,7 +98,7 @@ $assoc = Associations::isEnabled();
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
-					<table class="table" id="articleList">
+					<table class="table itemList" id="articleList">
 						<caption id="captionTable" class="sr-only">
 							<?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
 						</caption>
@@ -167,38 +168,13 @@ $assoc = Associations::isEnabled();
 
 							$transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
 
-							$publish = 0;
-							$unpublish = 0;
-							$archive = 0;
-							$trash = 0;
-
-							/*
-							 * @TODO This should be moved to a plugin + the data attributes in the tr below
-							 foreach ($transitions as $transition) :
-								switch ($transition['stage_condition']) :
-									case ContentComponent::CONDITION_PUBLISHED:
-										++$publish;
-										break;
-									case ContentComponent::CONDITION_UNPUBLISHED:
-										++$unpublish;
-										break;
-									case ContentComponent::CONDITION_ARCHIVED:
-										++$archive;
-										break;
-									case ContentComponent::CONDITION_TRASHED:
-										++$trash;
-										break;
-								endswitch;
-							endforeach;*/
+							$transition_ids = ArrayHelper::getColumn($transitions, 'value');
+							$transition_ids = ArrayHelper::toInteger($transition_ids);
 
 							?>
-							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>"
-								data-condition-publish="<?php echo (int) $publish > 0; ?>"
-								data-condition-unpublish="<?php echo (int) $unpublish > 0; ?>"
-								data-condition-archive="<?php echo (int) $archive > 0; ?>"
-								data-condition-trash="<?php echo (int) $trash > 0; ?>"
-								data-workflow_id="<?php echo (int) $item->workflow_id; ?>"
-								data-stage_id="<?php echo (int) $item->stage_id; ?>"
+							<tr class="row<?php echo $i % 2; ?>"
+								data-dragable-group="<?php echo $item->catid; ?>"
+								data-transitions="<?php echo implode(',', $transition_ids); ?>"
 							>
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
@@ -412,15 +388,10 @@ $assoc = Associations::isEnabled();
 							$this->loadTemplate('batch_body')
 						); ?>
 					<?php endif; ?>
-					<?php echo HTMLHelper::_(
-						'bootstrap.renderModal',
-						'stageModal',
-						array(
-							'title'  => Text::_('JTOOLBAR_CHANGE_STATUS'),
-							'footer' => $this->loadTemplate('stage_footer'),
-						),
-						$this->loadTemplate('stage_body')
-					); ?>
+				<?php endif; ?>
+
+				<?php if ($workflow_enabled) : ?>
+				<input type="hidden" name="transition_id" value="">
 				<?php endif; ?>
 
 				<input type="hidden" name="task" value="">

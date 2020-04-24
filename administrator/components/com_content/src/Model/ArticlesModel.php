@@ -580,47 +580,59 @@ class ArticlesModel extends ListModel
 			return false;
 		}
 
-		$ids = array_column($items, 'stage_id');
-		$ids = ArrayHelper::toInteger($ids);
-		$ids = array_values(array_unique(array_filter($ids)));
+		$stage_ids = ArrayHelper::getColumn($items, 'stage_id');
+		$stage_ids = ArrayHelper::toInteger($stage_ids);
+		$stage_ids = array_values(array_unique(array_filter($stage_ids)));
 
-		$ids[] = -1;
+		$workflow_ids = ArrayHelper::getColumn($items, 'workflow_id');
+		$workflow_ids = ArrayHelper::toInteger($workflow_ids);
+		$workflow_ids = array_values(array_unique(array_filter($workflow_ids)));
 
 		$this->cache[$store] = array();
 
 		try
 		{
-			if (count($ids))
+			if (count($stage_ids) || count($workflow_ids))
 			{
 				Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
 
 				$query = $db->getQuery(true);
 
-				$query->select(
-					[
-						$db->quoteName('t.id', 'value'),
-						$db->quoteName('t.title', 'text'),
-						$db->quoteName('t.from_stage_id'),
-						$db->quoteName('t.to_stage_id'),
-						$db->quoteName('s.id', 'stage_id'),
-						$db->quoteName('s.title', 'stage_title'),
-						$db->quoteName('s.workflow_id'),
-					]
-				)
-					->from($db->quoteName('#__workflow_transitions', 't'))
-					->join(
-						'LEFT',
-						$db->quoteName('#__workflow_stages', 's'),
-						$db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $query->bindArray($ids)) . ')'
-					)
-					->where(
+				$query	->select(
 						[
-							$db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'),
-							$db->quoteName('t.published') . ' = 1',
-							$db->quoteName('s.published') . ' = 1',
-						]
-					)
-					->order($db->quoteName('t.ordering'));
+							$db->quoteName('t.id', 'value'),
+							$db->quoteName('t.title', 'text'),
+							$db->quoteName('t.from_stage_id'),
+							$db->quoteName('t.to_stage_id'),
+							$db->quoteName('s.id', 'stage_id'),
+							$db->quoteName('s.title', 'stage_title'),
+							$db->quoteName('t.workflow_id'),
+						])
+						->from($db->quoteName('#__workflow_transitions', 't'))
+						->innerJoin($db->quoteName('#__workflow_stages', 's'))
+						->where(
+							[
+								$db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'),
+								$db->quoteName('t.published') . ' = 1',
+								$db->quoteName('s.published') . ' = 1',
+							]
+						)
+						->order($db->quoteName('t.ordering'))
+						->group($db->quoteName('t.id'));
+
+				$where = [];
+
+				if (count($stage_ids))
+				{
+					$where[] = $db->quoteName('t.from_stage_id') . ' IN (' . implode(',', $query->bindArray($stage_ids)) . ')';
+				}
+
+				if (count($workflow_ids))
+				{
+					$where[] = '(' . $db->quoteName('t.from_stage_id') . ' = -1 AND ' . $db->quoteName('t.workflow_id') . ' IN (' . implode(',', $query->bindArray($workflow_ids)) . '))';
+				}
+
+				$query->where('(' . implode(') OR (', $where) . ')');
 
 				$transitions = $db->setQuery($query)->loadAssocList();
 
