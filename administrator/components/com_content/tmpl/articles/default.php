@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Button\FeaturedButton;
 use Joomla\CMS\Button\PublishedButton;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
@@ -54,6 +56,10 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
+$workflow_enabled = ComponentHelper::getParams('com_content')->get('workflows_enable', 1);
+
+if ($workflow_enabled) :
+
 $js = <<<JS
 (function() {
 	document.addEventListener('DOMContentLoaded', function() {
@@ -71,16 +77,11 @@ JS;
 // @todo move the script to a file
 $this->document->addScriptDeclaration($js);
 
-$collection = new \stdClass;
+HTMLHelper::_('script', 'com_workflow/admin-items-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
 
-$collection->publish = [];
-$collection->unpublish = [];
-$collection->archive = [];
-$collection->trash = [];
+endif;
 
 $assoc = Associations::isEnabled();
-
-HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_content&view=articles'); ?>" method="post" name="adminForm" id="adminForm">
@@ -97,7 +98,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
-					<table class="table" id="articleList">
+					<table class="table itemList" id="articleList">
 						<caption id="captionTable" class="sr-only">
 							<?php echo Text::_('COM_CONTENT_ARTICLES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
 						</caption>
@@ -167,36 +168,13 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 
 							$transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
 
-							$publish = 0;
-							$unpublish = 0;
-							$archive = 0;
-							$trash = 0;
-
-							foreach ($transitions as $transition) :
-								switch ($transition['stage_condition']) :
-									case ContentComponent::CONDITION_PUBLISHED:
-										++$publish;
-										break;
-									case ContentComponent::CONDITION_UNPUBLISHED:
-										++$unpublish;
-										break;
-									case ContentComponent::CONDITION_ARCHIVED:
-										++$archive;
-										break;
-									case ContentComponent::CONDITION_TRASHED:
-										++$trash;
-										break;
-								endswitch;
-							endforeach;
+							$transition_ids = ArrayHelper::getColumn($transitions, 'value');
+							$transition_ids = ArrayHelper::toInteger($transition_ids);
 
 							?>
-							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>"
-								data-condition-publish="<?php echo (int) $publish > 0; ?>"
-								data-condition-unpublish="<?php echo (int) $unpublish > 0; ?>"
-								data-condition-archive="<?php echo (int) $archive > 0; ?>"
-								data-condition-trash="<?php echo (int) $trash > 0; ?>"
-								data-workflow_id="<?php echo (int) $item->workflow_id; ?>"
-								data-stage_id="<?php echo (int) $item->stage_id; ?>"
+							<tr class="row<?php echo $i % 2; ?>"
+								data-dragable-group="<?php echo $item->catid; ?>"
+								data-transitions="<?php echo implode(',', $transition_ids); ?>"
 							>
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
@@ -236,6 +214,8 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<div class="btn-group tbody-icon mr-1 small">
 										<?php
 
+											if ($workflow_enabled) :
+
 											$options = [
 												'transitions' => $transitions,
 												'stage' => Text::_($item->stage_title),
@@ -252,7 +232,10 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 												->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JARCHIVED')])
 												->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JTRASHED')])
 												->setLayout('joomla.button.transition-button')
-												->render((int) $item->stage_condition, $i, $options, $item->publish_up, $item->publish_down);
+												->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
+											else :
+												echo HTMLHelper::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down);
+											endif;
 										?>
 										</div>
 									</div>
@@ -405,15 +388,10 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 							$this->loadTemplate('batch_body')
 						); ?>
 					<?php endif; ?>
-					<?php echo HTMLHelper::_(
-						'bootstrap.renderModal',
-						'stageModal',
-						array(
-							'title'  => Text::_('JTOOLBAR_CHANGE_STATUS'),
-							'footer' => $this->loadTemplate('stage_footer'),
-						),
-						$this->loadTemplate('stage_body')
-					); ?>
+				<?php endif; ?>
+
+				<?php if ($workflow_enabled) : ?>
+				<input type="hidden" name="transition_id" value="">
 				<?php endif; ?>
 
 				<input type="hidden" name="task" value="">

@@ -67,7 +67,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 				$transitions,
 				function ($var) use ($pk, $workflow_id)
 				{
-					return in_array($var['from_stage_id'], [-1, $pk]) && $var['to_stage_id'] != $pk && $workflow_id == $var['workflow_id'];
+					return in_array($var['from_stage_id'], [-1, $pk]) && $workflow_id == $var['workflow_id'];
 				}
 			)
 		);

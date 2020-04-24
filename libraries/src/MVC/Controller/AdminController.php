@@ -442,9 +442,7 @@ class AdminController extends BaseController
 			return false;
 		}
 
-		$pk = (int) $pks[0];
-
-		$transitionId = $this->input->post->get('transition_' . $pk, -1, 'int');
+		$transitionId = (int) $this->input->post->getInt('transition_id');
 
 		// Get the model
 		$model = $this->getModel();
@@ -454,7 +452,7 @@ class AdminController extends BaseController
 			return false;
 		}
 
-		$return = $model->executeTransition($pk, $transitionId);
+		$return = $model->executeTransition($pks, $transitionId);
 
 		$redirect = Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false);
 
