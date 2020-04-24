@@ -32,7 +32,7 @@ HTMLHelper::_('bootstrap.framework');
 					<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time); ?>
 				<?php endif; ?>
 				<?php if ($item->link) : ?>
-					<a href="<?php echo $item->link; ?>">
+					<a href="<?php echo $item->link; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
 						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 					</a>
 				<?php else : ?>
@@ -43,7 +43,7 @@ HTMLHelper::_('bootstrap.framework');
 				<?php echo $item->author_name; ?>
 			</td>
 			<td>
-				<?php echo HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC4')); ?>
+				<?php echo HTMLHelper::_('date', $item->created, Text::_('DATE_FORMAT_LC4')); ?>
 			</td>
 		</tr>
 		<?php endforeach; ?>

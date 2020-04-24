@@ -381,7 +381,7 @@ abstract class FormField
 		{
 			$parts = Normalise::fromCamelCase(\get_called_class(), true);
 
-			if ($parts[0] == 'J')
+			if ($parts[0] === 'J')
 			{
 				$this->type = StringHelper::ucfirst($parts[\count($parts) - 1], '_');
 			}
@@ -590,7 +590,7 @@ abstract class FormField
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		// Make sure there is a valid FormField XML element.
-		if ((string) $element->getName() != 'field')
+		if ((string) $element->getName() !== 'field')
 		{
 			return false;
 		}
@@ -629,10 +629,10 @@ abstract class FormField
 
 		// Allow for repeatable elements
 		$repeat = (string) $element['repeat'];
-		$this->repeat = ($repeat == 'true' || $repeat == 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
+		$this->repeat = ($repeat === 'true' || $repeat === 'multiple' || (!empty($this->form->repeat) && $this->form->repeat == 1));
 
 		// Set the visibility.
-		$this->hidden = ($this->hidden || (string) $element['type'] == 'hidden');
+		$this->hidden = ($this->hidden || (string) $element['type'] === 'hidden');
 
 		$this->layout = !empty($this->element['layout']) ? (string) $this->element['layout'] : $this->layout;
 
@@ -712,7 +712,7 @@ abstract class FormField
 			$repeatCounter = empty($this->form->repeatCounter) ? 0 : $this->form->repeatCounter;
 			$id .= '-' . $repeatCounter;
 
-			if (strtolower($this->type) == 'radio')
+			if (strtolower($this->type) === 'radio')
 			{
 				$id .= '-';
 			}
@@ -778,7 +778,7 @@ abstract class FormField
 		$data = $this->getLayoutData();
 
 		// Forcing the Alias field to display the tip below
-		$position = $this->element['name'] == 'alias' ? ' data-placement="bottom" ' : '';
+		$position = $this->element['name'] === 'alias' ? ' data-placement="bottom" ' : '';
 
 		// Here mainly for B/C with old layouts. This can be done in the layouts directly
 		$extraData = array(
@@ -991,6 +991,7 @@ abstract class FormField
 	 * @return  mixed   The filtered value.
 	 *
 	 * @since   4.0.0
+	 * @throws  \UnexpectedValueException
 	 */
 	public function filter($value, $group = null, Registry $input = null)
 	{
@@ -1003,35 +1004,13 @@ abstract class FormField
 		// Get the field filter type.
 		$filter = (string) $this->element['filter'];
 
-		if ($filter != '')
+		if ($filter !== '')
 		{
-			$required = ((string) $this->element['required'] == 'true' || (string) $this->element['required'] == 'required');
+			$required = ((string) $this->element['required'] === 'true' || (string) $this->element['required'] === 'required');
 
 			if (($value === '' || $value === null) && !$required)
 			{
 				return '';
-			}
-
-			// Dirty way of ensuring required fields in subforms are submitted and filtered the way other fields are
-			if ($this instanceof SubformField)
-			{
-				$subForm = $this->loadSubForm();
-
-				if ($this->multiple && !empty($value))
-				{
-					$return = array();
-
-					foreach ($value as $key => $val)
-					{
-						$return[$key] = $subForm->filter($val);
-					}
-				}
-				else
-				{
-					$return = $subForm->filter($value);
-				}
-
-				return $return;
 			}
 
 			// Check for a callback filter
@@ -1053,6 +1032,30 @@ abstract class FormField
 			{
 				return \call_user_func($filter, $value);
 			}
+
+			if ($this instanceof SubformField)
+			{
+				$subForm = $this->loadSubForm();
+
+				if ($this->multiple)
+				{
+					$return = array();
+
+					if ($value)
+					{
+						foreach ($value as $key => $val)
+						{
+							$return[$key] = $subForm->filter($val);
+						}
+					}
+				}
+				else
+				{
+					$return = $subForm->filter($value);
+				}
+
+				return $return;
+			}
 		}
 
 		return InputFilter::getInstance()->clean($value, $filter);
@@ -1072,7 +1075,7 @@ abstract class FormField
 	 * @throws  \InvalidArgumentException
 	 * @throws  \UnexpectedValueException
 	 */
-	public function validate($value, $group = null, \Joomla\Registry\Registry $input = null)
+	public function validate($value, $group = null, Registry $input = null)
 	{
 		// Make sure there is a valid SimpleXMLElement.
 		if (!($this->element instanceof \SimpleXMLElement))
@@ -1083,7 +1086,7 @@ abstract class FormField
 		$valid = true;
 
 		// Check if the field is required.
-		$required = ((string) $this->element['required'] == 'true' || (string) $this->element['required'] == 'required');
+		$required = ((string) $this->element['required'] === 'true' || (string) $this->element['required'] === 'required');
 
 		if ($this->element['label'])
 		{
@@ -1127,34 +1130,17 @@ abstract class FormField
 
 		if ($valid !== false && $this instanceof SubformField)
 		{
-			$subForm = $this->loadSubForm();
+			// Load the subform validation rule.
+			$rule = FormHelper::loadRuleType('SubForm');
 
-			if ($this->multiple)
+			try
 			{
-				foreach ($value as $key => $val)
-				{
-					$val = (array) $val;
-					$valid = $subForm->validate($val);
-
-					if ($valid === false)
-					{
-						break;
-					}
-				}
+				// Run the field validation rule test.
+				$valid = $rule->test($this->element, $value, $group, $input, $this->form);
 			}
-			else
+			catch (\Exception $e)
 			{
-				$valid = $subForm->validate($value);
-			}
-
-			if ($valid === false)
-			{
-				$errors = $subForm->getErrors();
-
-				foreach ($errors as $error)
-				{
-					return $error;
-				}
+				return $e;
 			}
 		}
 

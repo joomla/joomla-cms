@@ -110,13 +110,13 @@ foreach ($fieldSets as $name => $fieldSet)
 		$label = Text::_($label);
 	}
 
-	$hasChildren = $xml->xpath('//fieldset[@name="' . $name . '"]//fieldset');
-	$hasParent = $xml->xpath('//fieldset//fieldset[@name="' . $name . '"]');
+	$hasChildren  = $xml->xpath('//fieldset[@name="' . $name . '"]//fieldset[not(ancestor::field/form/*)]');
+	$hasParent    = $xml->xpath('//fieldset//fieldset[@name="' . $name . '"]');
 	$isGrandchild = $xml->xpath('//fieldset//fieldset//fieldset[@name="' . $name . '"]');
 
 	if (!$isGrandchild && $hasParent)
 	{
-		echo '<fieldset id="fieldset-' . $name . '" class="form-no-margin options-grid-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
+		echo '<fieldset id="fieldset-' . $name . '" class="options-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
 		echo '<legend>' . $label . '</legend>';
 		echo '<div class="column-count-md-2 column-count-lg-3">';
 	}
@@ -143,18 +143,19 @@ foreach ($fieldSets as $name => $fieldSet)
 		// Directly add a fieldset if we have no children
 		if (!$hasChildren)
 		{
-			echo '<fieldset id="fieldset-' . $name . '" class="form-no-margin options-grid-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
+			echo '<fieldset id="fieldset-' . $name . '" class="options-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
 			echo '<legend>' . $label . '</legend>';
+
+			// Include the description when available
+			if (isset($fieldSet->description) && trim($fieldSet->description))
+			{
+				echo '<div class="alert alert-info">' . $this->escape(Text::_($fieldSet->description)) . '</div>';
+			}
+
 			echo '<div class="column-count-md-2 column-count-lg-3">';
 
 			$opentab = 2;
 		}
-	}
-
-	// Include the description when available
-	if (isset($fieldSet->description) && trim($fieldSet->description))
-	{
-		echo '<div class="alert alert-info">' . $this->escape(Text::_($fieldSet->description)) . '</div>';
 	}
 
 	// We're on the deepest level => output fields

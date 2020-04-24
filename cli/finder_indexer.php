@@ -78,6 +78,8 @@ $lang->load('finder_cli', JPATH_SITE, null, false, false)
  */
 class FinderCli extends \Joomla\CMS\Application\CliApplication
 {
+	use \Joomla\CMS\Application\ExtensionNamespaceMapper;
+
 	/**
 	 * Start time for the index process
 	 *
@@ -142,6 +144,8 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	 */
 	protected function doExecute()
 	{
+		$this->createExtensionNamespaceMap();
+
 		// Print a blank line.
 		$this->out(Text::_('FINDER_CLI'));
 		$this->out('============================');
@@ -288,15 +292,15 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 
 					if ($pause > 0 && !$skip)
 					{
-						$this->out(JText::sprintf('FINDER_CLI_BATCH_PAUSING', $pause), true);
+						$this->out(Text::sprintf('FINDER_CLI_BATCH_PAUSING', $pause), true);
 						sleep($pause);
-						$this->out(JText::_('FINDER_CLI_BATCH_CONTINUING'));
+						$this->out(Text::_('FINDER_CLI_BATCH_CONTINUING'));
 					}
 
 					if ($skip)
 					{
 						$this->out(
-							JText::sprintf(
+							Text::sprintf(
 								'FINDER_CLI_SKIPPING_PAUSE_LOW_BATCH_PROCESSING_TIME',
 								$processingTime,
 								$this->minimumBatchProcessingTime
@@ -323,6 +327,18 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 
 		// Reset the indexer state.
 		FinderIndexer::resetState();
+	}
+
+	/**
+	 * Gets the name of the current running application.
+	 *
+	 * @return  string  The name of the application.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getName()
+	{
+		return 'finder-cli';
 	}
 
 	/**
@@ -485,7 +501,14 @@ Factory::getContainer()->share(
 		);
 	},
 	true
-);
+)
+	->alias('session.web', 'session.cli')
+		->alias('session', 'session.cli')
+		->alias('JSession', 'session.cli')
+		->alias(\Joomla\CMS\Session\Session::class, 'session.cli')
+		->alias(\Joomla\Session\Session::class, 'session.cli')
+		->alias(\Joomla\Session\SessionInterface::class, 'session.cli');
+
 $app = Factory::getContainer()->get('FinderCli');
 Factory::$application = $app;
 $app->execute();

@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Media\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -395,7 +395,7 @@ class ApiModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Returns an url for serve media files from adapter.
+	 * Returns a url for serve media files from adapter.
 	 * Url must provide a valid image type to be displayed on Joomla! site.
 	 *
 	 * @param   string  $adapter  The adapter

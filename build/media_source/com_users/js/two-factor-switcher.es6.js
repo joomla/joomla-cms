@@ -14,11 +14,11 @@ Joomla = window.Joomla || {};
 
       [].slice.call(document.querySelectorAll('#com_users_twofactor_forms_container>div')).forEach((el) => {
         if (el.id !== selectedPane) {
-          document.getElementById(el.id).style.display = 'none';
+          document.getElementById(el.id).classList.add('hidden');
           return;
         }
 
-        document.getElementById(el.id).style.display = 'block';
+        document.getElementById(el.id).classList.remove('hidden');
       });
     };
   });

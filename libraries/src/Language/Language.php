@@ -203,16 +203,16 @@ class Language
 		{
 			// Note: Manual indexing to enforce load order.
 			$paths[0] = JPATH_SITE . "/language/overrides/$lang.localise.php";
-			$paths[2] = JPATH_SITE . "/language/$lang/$lang.localise.php";
-			$paths[4] = JPATH_SITE . "/language/$lang/localise.php";
+			$paths[2] = JPATH_SITE . "/language/$lang/localise.php";
+			$paths[4] = JPATH_SITE . "/language/$lang/$lang.localise.php";
 		}
 
 		if (\defined('JPATH_ADMINISTRATOR'))
 		{
 			// Note: Manual indexing to enforce load order.
 			$paths[1] = JPATH_ADMINISTRATOR . "/language/overrides/$lang.localise.php";
-			$paths[3] = JPATH_ADMINISTRATOR . "/language/$lang/$lang.localise.php";
-			$paths[5] = JPATH_ADMINISTRATOR . "/language/$lang/localise.php";
+			$paths[3] = JPATH_ADMINISTRATOR . "/language/$lang/localise.php";
+			$paths[5] = JPATH_ADMINISTRATOR . "/language/$lang/$lang.localise.php";
 		}
 
 		ksort($paths);
@@ -388,15 +388,20 @@ class Language
 	 */
 	public function transliterate($string)
 	{
+		// Override custom and core transliterate method with native php function if enabled
+		if (function_exists('transliterator_transliterate') && function_exists('iconv'))
+		{
+			return iconv("UTF-8", "ASCII//TRANSLIT//IGNORE", transliterator_transliterate('Any-Latin; Latin-ASCII; Lower()', $string));
+		}
+
 		if ($this->transliterator !== null)
 		{
 			return \call_user_func($this->transliterator, $string);
 		}
 
 		$string = Transliterate::utf8_latin_to_ascii($string);
-		$string = StringHelper::strtolower($string);
 
-		return $string;
+		return StringHelper::strtolower($string);
 	}
 
 	/**
@@ -698,20 +703,20 @@ class Language
 
 		$path = LanguageHelper::getLanguagePath($basePath, $lang);
 
-		$internal = $extension == 'joomla' || $extension == '';
+		$internal = $extension === 'joomla' || $extension == '';
 
 		$filenames = array();
 
 		if ($internal)
 		{
-			$filenames[] = "$path/$lang.ini";
 			$filenames[] = "$path/joomla.ini";
+			$filenames[] = "$path/$lang.ini";
 		}
 		else
 		{
-			// Try first with a language-prefixed filename.
-			$filenames[] = "$path/$lang.$extension.ini";
+			// Try first without a language-prefixed filename.
 			$filenames[] = "$path/$extension.ini";
+			$filenames[] = "$path/$lang.$extension.ini";
 		}
 
 		foreach ($filenames as $filename)

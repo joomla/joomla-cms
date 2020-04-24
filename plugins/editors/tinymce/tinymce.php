@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
@@ -61,9 +61,20 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	public function onInit()
 	{
-		HTMLHelper::_('behavior.core');
-		HTMLHelper::_('script', $this->_basePath . '/tinymce.min.js', array('version' => 'auto'));
-		HTMLHelper::_('script', 'plg_editors_tinymce/tinymce.min.js', array('version' => 'auto', 'relative' => true));
+		$wa = $this->app->getDocument()->getWebAssetManager();
+
+		if (!$wa->assetExists('script', 'tinymce'))
+		{
+			$wa->registerScript('tinymce', $this->_basePath . '/tinymce.min.js', [], ['defer' => true]);
+		}
+
+		if (!$wa->assetExists('script', 'plg_editors_tinymce'))
+		{
+			$wa->registerScript('plg_editors_tinymce', 'plg_editors_tinymce/tinymce.min.js', [], ['defer' => true], ['core', 'tinymce']);
+		}
+
+		$wa->useScript('tinymce')
+			->useScript('plg_editors_tinymce');
 	}
 
 	/**
@@ -86,8 +97,6 @@ class PlgEditorTinymce extends CMSPlugin
 	public function onDisplay(
 		$name, $content, $width, $height, $col, $row, $buttons = true, $id = null, $asset = null, $author = null, $params = array())
 	{
-		$app = Factory::getApplication();
-
 		if (empty($id))
 		{
 			$id = $name;
@@ -213,17 +222,11 @@ class PlgEditorTinymce extends CMSPlugin
 		$levelParams->loadObject($toolbarParams);
 		$levelParams->loadObject($extraOptions);
 
-		// List the skins
-		$skindirs = glob(JPATH_ROOT . '/media/vendor/tinymce/skins/ui' . '/*', GLOB_ONLYDIR);
-
 		// Set the selected skin
-		$skin = 'oxide';
-		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
+		$skin = $levelParams->get($this->app->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
 
-		if ((int) $levelParams->get($side, 0) < count($skindirs))
-		{
-			$skin = basename($skindirs[(int) $levelParams->get($side, 0)]);
-		}
+		// Check that selected skin exists.
+		$skin = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
 
 		$langMode   = $levelParams->get('lang_mode', 1);
 		$langPrefix = $levelParams->get('lang_code', 'en');
@@ -276,7 +279,7 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 		catch (RuntimeException $e)
 		{
-			$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			$this->app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 			return '';
 		}
@@ -394,7 +397,6 @@ class PlgEditorTinymce extends CMSPlugin
 		$plugins  = array(
 			'autolink',
 			'lists',
-			'save',
 			'importcss',
 		);
 
@@ -515,7 +517,7 @@ class PlgEditorTinymce extends CMSPlugin
 				. '&' . Session::getFormToken() . '=1'
 				. '&asset=image&format=json';
 
-			if ($app->isClient('site'))
+			if ($this->app->isClient('site'))
 			{
 				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
 			}
@@ -552,6 +554,9 @@ class PlgEditorTinymce extends CMSPlugin
 			$toolbar1  = array_merge($toolbar1, explode($separator, $custom_button));
 		}
 
+		// Merge the two toolbars for backwards compatibility
+		$toolbar = array_merge($toolbar1, $toolbar2);
+
 		// Build the final options set
 		$scriptOptions   = array_merge(
 			$scriptOptions,
@@ -567,8 +572,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 				// Toolbars
 				'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
-				'toolbar1' => empty($toolbar1) ? null  : implode(' ', $toolbar1) . ' jxtdbuttons',
-				'toolbar2' => empty($toolbar2) ? null  : implode(' ', $toolbar2),
+				'toolbar' => empty($toolbar) ? null  : 'jxtdbuttons ' . implode(' ', $toolbar),
 
 				'plugins'  => implode(',', array_unique($plugins)),
 
@@ -594,10 +598,14 @@ class PlgEditorTinymce extends CMSPlugin
 				'image_title'        => true,
 				'height'             => $html_height,
 				'width'              => $html_width,
+				'elementpath'        => (bool) $levelParams->get('element_path', true),
 				'resize'             => $resizing,
 				'templates'          => $templates,
 				'image_advtab'       => (bool) $levelParams->get('image_advtab', false),
 				'external_plugins'   => empty($externalPlugins) ? null  : $externalPlugins,
+				'contextmenu'        => (bool) $levelParams->get('contextmenu', true) ? null : false,
+				'toolbar_sticky'     => true,
+				'toolbar_mode'       => 'sliding',
 
 				// Drag and drop specific
 				'dndEnabled' => $dragdrop,
@@ -639,20 +647,6 @@ class PlgEditorTinymce extends CMSPlugin
 			array('title' => 'Tag', 'value' => 'tag'),
 		);
 
-		/**
-		 * Shrink the buttons if not on a mobile or if mobile view is off.
-		 * If mobile view is on force into simple mode and enlarge the buttons
-		 */
-		if (!$this->app->client->mobile)
-		{
-			$scriptOptions['toolbar_items_size'] = 'small';
-		}
-		elseif ($levelParams->get('mobile', 0))
-		{
-			$scriptOptions['menubar'] = false;
-			unset($scriptOptions['toolbar2']);
-		}
-
 		$options['tinyMCE']['default'] = $scriptOptions;
 
 		$doc->addScriptOptions('plg_editor_tinymce', $options);
@@ -669,7 +663,10 @@ class PlgEditorTinymce extends CMSPlugin
 	 */
 	private function _toogleButton($name)
 	{
-		return LayoutHelper::render('joomla.tinymce.togglebutton', $name);
+		if (!$this->app->client->mobile)
+		{
+			return LayoutHelper::render('joomla.tinymce.togglebutton', $name);
+		}
 	}
 
 	/**
@@ -959,6 +956,9 @@ class PlgEditorTinymce extends CMSPlugin
 			'outdent'       => array('label' => 'Decrease indent'),
 			'indent'        => array('label' => 'Increase indent'),
 
+			'forecolor'     => array('label' => 'Text colour'),
+			'backcolor'     => array('label' => 'Background text colour'),
+
 			'bullist'       => array('label' => 'Bullet list'),
 			'numlist'       => array('label' => 'Numbered list'),
 
@@ -989,6 +989,7 @@ class PlgEditorTinymce extends CMSPlugin
 			'nonbreaking'    => array('label' => 'Nonbreaking space', 'plugin' => 'nonbreaking'),
 			'emoticons'      => array('label' => 'Emoticons', 'plugin' => 'emoticons'),
 			'media'          => array('label' => 'Insert/edit video', 'plugin' => 'media'),
+			'image'          => array('label' => 'Insert/edit image', 'plugin' => 'image'),
 			'pagebreak'      => array('label' => 'Page break', 'plugin' => 'pagebreak'),
 			'print'          => array('label' => 'Print', 'plugin' => 'print'),
 			'preview'        => array('label' => 'Preview', 'plugin' => 'preview'),
@@ -1015,7 +1016,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$preset['simple'] = [
 			'menu' => [],
-			'toolbar1' => [
+			'toolbar' => [
 				'bold', 'underline', 'strikethrough', '|',
 				'undo', 'redo', '|',
 				'bullist', 'numlist', '|',

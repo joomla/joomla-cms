@@ -159,13 +159,13 @@ class FolderlistField extends ListField
 			$this->exclude      = (string) $this->element['exclude'];
 
 			$recursive       = (string) $this->element['recursive'];
-			$this->recursive = ($recursive == 'true' || $recursive == 'recursive' || $recursive == '1');
+			$this->recursive = ($recursive === 'true' || $recursive === 'recursive' || $recursive === '1');
 
 			$hideNone       = (string) $this->element['hide_none'];
-			$this->hideNone = ($hideNone == 'true' || $hideNone == 'hideNone' || $hideNone == '1');
+			$this->hideNone = ($hideNone === 'true' || $hideNone === 'hideNone' || $hideNone === '1');
 
 			$hideDefault       = (string) $this->element['hide_default'];
-			$this->hideDefault = ($hideDefault == 'true' || $hideDefault == 'hideDefault' || $hideDefault == '1');
+			$this->hideDefault = ($hideDefault === 'true' || $hideDefault === 'hideDefault' || $hideDefault === '1');
 
 			// Get the path in which to search for file options.
 			$this->directory = (string) $this->element['directory'];
@@ -185,11 +185,18 @@ class FolderlistField extends ListField
 	{
 		$options = array();
 
-		$path = $this->directory;
+		$path = ltrim($this->directory, '/');
 
 		if (!is_dir($path))
 		{
-			$path = JPATH_ROOT . '/' . $path;
+			if (is_dir(JPATH_ROOT . '/' . $path))
+			{
+				$path = JPATH_ROOT . '/' . $path;
+			}
+			else
+			{
+				return [];
+			}
 		}
 
 		$path = Path::clean($path);

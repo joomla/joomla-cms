@@ -22,7 +22,7 @@ class Content extends Admin
 {
 
 	/**
-	 * Method to create a article.
+	 * Method to create an article.
 	 *
 	 * @param  Array  articleDetails Array with Article Details like Title, Alias, Content etc
 	 *
@@ -50,7 +50,7 @@ class Content extends Admin
 	}
 
 	/**
-	 * Method to feature a article.
+	 * Method to feature an article.
 	 *
 	 * @param   string  $title  Title
 	 *

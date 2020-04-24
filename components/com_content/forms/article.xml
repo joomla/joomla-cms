@@ -38,6 +38,7 @@
 			name="alias"
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
 			id="alias"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="45"
@@ -80,7 +81,7 @@
 			translateformat="true"
 			showtime="true"
 			size="22"
-			filter="user_utc" 
+			filter="user_utc"
 			showon="featured:1"
 		/>
 
@@ -91,7 +92,7 @@
 			translateformat="true"
 			showtime="true"
 			size="22"
-			filter="user_utc" 
+			filter="user_utc"
 			showon="featured:1"
 		/>
 
@@ -197,6 +198,8 @@
 			id="metadesc"
 			rows="5"
 			cols="50"
+			maxlength="160"
+			charcounter="true"
 		/>
 
 		<field

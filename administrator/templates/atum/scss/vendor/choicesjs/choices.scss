@@ -1,0 +1,148 @@
+@import "../../../../../../media/vendor/bootstrap/scss/functions";
+
+// Atum Variables
+@import "../../variables";
+
+// Mixins
+@import "../../mixin";
+
+@import "../../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../../media/vendor/bootstrap/scss/mixins";
+
+// choices.js
+@import "../../../../../../node_modules/choices.js/src/styles/choices";
+
+.choices {
+  border: 0;
+  border-radius: $border-radius;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &.is-focused {
+    box-shadow: $focusshadow;
+  }
+}
+
+.choices__inner {
+  border: $input-border;
+  border-radius: $border-radius;
+  box-shadow: $input-box-shadow;
+  padding: 0.4rem 1rem;
+  margin-bottom: 0;
+  font-size: 1rem;
+
+  .is-focused & {
+    border-color: $focuscolor;
+  }
+}
+
+.choices__input {
+  padding: 0;
+  margin-bottom: 0;
+  font-size: 1rem;
+  background-color: transparent;
+
+  &::-moz-placeholder {
+    color: $gray-700;
+    opacity: 1;
+  }
+
+  &::-webkit-input-placeholder {
+    color: $gray-700;
+    opacity: 1;
+  }
+}
+
+.choices__list--dropdown {
+  z-index: $zindex-popover;
+}
+
+.choices__list--multiple .choices__item {
+  position: relative;
+  background-color: var(--atum-bg-dark);
+  margin: 2px;
+  margin-inline-end: 2px;
+  border: 0;
+  border-radius: $border-radius;
+
+  &.is-highlighted {
+    background-color: var(--atum-bg-dark);
+    opacity: 0.9;
+  }
+}
+
+.choices .choices__list--dropdown {
+  .choices__item {
+    padding-inline-end: 10px;
+  }
+
+  .choices__item--selectable::after {
+    display: none;
+  }
+}
+
+.choices__button_joomla {
+  opacity: 0.5;
+  padding: 0 10px;
+  color: white;
+
+  position: relative;
+  text-indent: -9999px;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  appearance: none;
+
+  &::before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: block;
+    text-align: center;
+    text-indent: 0;
+    content: "\00d7";
+  }
+
+  &:hover,
+  &:focus {
+    opacity: 1;
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.choices[data-type*="select-one"],
+.choices[data-type*="select-multiple"] {
+  .choices__inner {
+    padding-inline-end: $custom-select-indicator-padding;
+    background: $custom-select-bg url("../../../images/select-bg.svg") no-repeat 100%/116rem;
+
+    [dir="rtl"] & {
+      background: $custom-select-bg url("../../../images/select-bg-rtl.svg") no-repeat 0/116rem;
+    }
+  }
+}
+
+.choices[data-type*="select-one"] {
+  .choices__item {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &::after {
+    display: none;
+  }
+}
+
+.choices[data-type*="select-multiple"],
+.choices[data-type*="text"] {
+  .choices__input {
+    padding: 0.2rem 0;
+  }
+}

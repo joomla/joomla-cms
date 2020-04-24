@@ -1,0 +1,18 @@
+// Mixins
+
+@mixin margin($position, $size) {
+  margin-#{$position}: $size;
+
+  $rtl-position: null;
+  @if $position == "left" {
+    $rtl-position: right;
+  } @else if $position == "right" {
+    $rtl-position: left;
+  }
+
+  @if $rtl-position != null {
+    [dir=rtl] & {
+      margin-#{$rtl-position}: $size;
+    }
+  }
+}

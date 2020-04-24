@@ -130,10 +130,15 @@ class PlgInstallerOverride extends CMSPlugin
 
 		$after  = $session->get('override.afterEventFiles');
 		$before = $session->get('override.beforeEventFiles');
+		$result = array();
+
+		if (!is_array($after) || !is_array($before))
+		{
+			return $result;
+		}
+
 		$size1  = count($after);
 		$size2  = count($before);
-
-		$result = array();
 
 		if ($size1 === $size2)
 		{
@@ -333,7 +338,7 @@ class PlgInstallerOverride extends CMSPlugin
 			'client_id',
 		];
 
-		// Create a insert query.
+		// Create an insert query.
 		$insertQuery = $this->db->getQuery(true)
 			->insert($this->db->quoteName('#__template_overrides'))
 			->columns($this->db->quoteName($columns));

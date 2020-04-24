@@ -38,7 +38,7 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-info">
-				<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+				<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 			</div>
 		<?php else : ?>
@@ -51,7 +51,7 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 					<th scope="col">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:25%">
+					<th scope="col" class="w-25">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 					</th>
 					<th scope="col" style="width:1%" class="text-center">
@@ -60,7 +60,7 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 					<th scope="col" style="width:1%" class="text-center">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:25%">
+					<th scope="col" class="w-25">
 						<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
 					</th>
 					<th scope="col" style="width:1%">

@@ -9,9 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Component\Actionlogs\Administrator\Helper\ActionlogsHelper;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\User\User;
@@ -197,6 +200,16 @@ class PlgSystemActionLogs extends CMSPlugin
 		$data->actionlogs->actionlogsNotify     = $values->notify;
 		$data->actionlogs->actionlogsExtensions = $values->extensions;
 
+		if (!HTMLHelper::isRegistered('users.actionlogsNotify'))
+		{
+			HTMLHelper::register('users.actionlogsNotify', array(__CLASS__, 'renderActionlogsNotify'));
+		}
+
+		if (!HTMLHelper::isRegistered('users.actionlogsExtensions'))
+		{
+			HTMLHelper::register('users.actionlogsExtensions', array(__CLASS__, 'renderActionlogsExtensions'));
+		}
+
 		return true;
 	}
 
@@ -293,9 +306,7 @@ class PlgSystemActionLogs extends CMSPlugin
 
 			$query->clear()
 				->delete($db->quoteName('#__action_logs'))
-				->where($db->quoteName('log_date') . ' < ' . $query->dateAdd(':now', ':days', 'DAY'))
-				->bind(':now', $now)
-				->bind(':days', $days, ParameterType::INTEGER);
+				->where($db->quoteName('log_date') . ' < ' . $query->dateAdd($db->quote($now), $days, 'DAY'));
 
 			$db->setQuery($query);
 
@@ -496,5 +507,49 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 
 		return true;
+	}
+
+	/**
+	 * Method to render a value.
+	 *
+	 * @param   integer|string  $value  The value (0 or 1).
+	 *
+	 * @return  string  The rendered value.
+	 *
+	 * @since   3.9.16
+	 */
+	public static function renderActionlogsNotify($value)
+	{
+		return Text::_($value ? 'JYES' : 'JNO');
+	}
+
+	/**
+	 * Method to render a list of extensions.
+	 *
+	 * @param   array|string  $extensions  Array of extensions or an empty string if none selected.
+	 *
+	 * @return  string  The rendered value.
+	 *
+	 * @since   3.9.16
+	 */
+	public static function renderActionlogsExtensions($extensions)
+	{
+		// No extensions selected.
+		if (!$extensions)
+		{
+			return Text::_('JNONE');
+		}
+
+		// Load the helper.
+		JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
+
+		foreach ($extensions as &$extension)
+		{
+			// Load extension language files and translate extension name.
+			ActionlogsHelper::loadTranslationFiles($extension);
+			$extension = Text::_($extension);
+		}
+
+		return implode(', ', $extensions);
 	}
 }

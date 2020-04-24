@@ -26,6 +26,7 @@
 				name="types"
 				type="contenttype"
 				label="COM_TAGS_FIELD_TYPE_LABEL"
+				layout="joomla.form.field.list-fancy-select"
 				multiple="true"
 			/>
 
@@ -122,14 +123,7 @@
 
 		</fieldset>
 
-		<fieldset name="advanced" label="COM_TAGS_ITEM_OPTIONS">
-
-			<field
-				name="spacer2"
-				type="spacer"
-				label="COM_TAGS_SUBSLIDER_DRILL_TAG_LIST_LABEL"
-				class="text"
-			/>
+		<fieldset name="advanced" label="COM_TAGS_ITEM_OPTIONS" description="COM_TAGS_SUBSLIDER_DRILL_TAG_LIST_LABEL">
 
 			<field
 				name="tag_list_show_item_image"

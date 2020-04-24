@@ -15,11 +15,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Utility\Utility;
+use Joomla\Component\Content\Site\Helper\RouteHelper;
 use Joomla\String\StringHelper;
-
-\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * Page break plugin
@@ -38,6 +36,14 @@ use Joomla\String\StringHelper;
  */
 class PlgContentPagebreak extends CMSPlugin
 {
+	/**
+	 * The navigation list with all page objects if parameter 'multipage_toc' is active.
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $list = array();
+
 	/**
 	 * Plugin that adds a pagebreak into the text and truncates text at that point
 	 *
@@ -298,7 +304,6 @@ class PlgContentPagebreak extends CMSPlugin
 		$limitstart  = $input->getUInt('limitstart', 0);
 		$showall     = $input->getInt('showall', 0);
 		$headingtext = '';
-		$list        = array();
 
 		if ($this->params->get('article_index', 1) == 1)
 		{
@@ -311,10 +316,10 @@ class PlgContentPagebreak extends CMSPlugin
 		}
 
 		// TOC first Page link.
-		$list[1]         = new stdClass;
-		$list[1]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language);
-		$list[1]->title  = $heading;
-		$list[1]->active = ($limitstart === 0 && $showall === 0);
+		$this->list[1]         = new stdClass;
+		$this->list[1]->link   = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
+		$this->list[1]->title  = $heading;
+		$this->list[1]->active = ($limitstart === 0 && $showall === 0);
 
 		$i = 2;
 
@@ -342,22 +347,23 @@ class PlgContentPagebreak extends CMSPlugin
 				$title = Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 			}
 
-			$list[$i]         = new stdClass;
-			$list[$i]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($i - 1);
-			$list[$i]->title  = $title;
-			$list[$i]->active = ($limitstart === $i - 1);
+			$this->list[$i]         = new stdClass;
+			$this->list[$i]->link   = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($i - 1);
+			$this->list[$i]->title  = $title;
+			$this->list[$i]->active = ($limitstart === $i - 1);
 
 			$i++;
 		}
 
 		if ($this->params->get('showall'))
 		{
-			$list[$i]         = new stdClass;
-			$list[$i]->link   = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1';
-			$list[$i]->title  = Text::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES');
-			$list[$i]->active = ($limitstart === $i - 1);
+			$this->list[$i]         = new stdClass;
+			$this->list[$i]->link   = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1';
+			$this->list[$i]->title  = Text::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES');
+			$this->list[$i]->active = ($limitstart === $i - 1);
 		}
 
+		$list = $this->list;
 		$path = PluginHelper::getLayoutPath('content', 'pagebreak', 'toc');
 		ob_start();
 		include $path;
@@ -368,8 +374,8 @@ class PlgContentPagebreak extends CMSPlugin
 	 * Creates the navigation for the item
 	 *
 	 * @param   object  &$row  The article object.  Note $article->text is also available
-	 * @param   int     $page  The total number of pages
-	 * @param   int     $n     The page number
+	 * @param   int     $page  The page number
+	 * @param   int     $n     The total number of pages
 	 *
 	 * @return  void
 	 *
@@ -384,19 +390,17 @@ class PlgContentPagebreak extends CMSPlugin
 
 		if ($page < $n - 1)
 		{
-			$links['next'] = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($page + 1));
+			$links['next'] = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($page + 1);
 		}
 
 		if ($page > 0)
 		{
-			$links['previous'] = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language);
+			$links['previous'] = RouteHelper::getArticleRoute($row->slug, $row->catid, $row->language);
 
 			if ($page > 1)
 			{
 				$links['previous'] .= '&limitstart=' . ($page - 1);
 			}
-
-			$links['previous'] = Route::_($links['previous']);
 		}
 
 		$path = PluginHelper::getLayoutPath('content', 'pagebreak', 'navigation');

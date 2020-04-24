@@ -1,12 +1,12 @@
 <template>
-    <tr @dblclick.stop.prevent="onDblClick()" @click="onClick" :class="{selected: this.isSelected()}">
+    <tr class="media-browser-item" @dblclick.stop.prevent="onDblClick()" @click="onClick" :class="{selected: this.isSelected()}">
         <td class="type" :data-type="item.extension">
         </td>
         <th scope="row" class="name">
             {{ item.name }}
         </th>
         <td class="size">
-            {{ item.size }}
+            {{ size }}
         </td>
         <td class="dimension">
             {{ dimension }}
@@ -34,11 +34,18 @@
                 if (!this.item.width) {
                     return '';
                 }
-                return `${this.item.width} x ${this.item.height}`;
+                return `${this.item.width}px * ${this.item.height}px`;
             },
             isDir() {
                 return (this.item.type === 'dir');
-            }
+            },
+            /* The size of a file in KB */
+            size() {
+                if (!this.item.size) {
+                    return '';
+                }
+                return `${(this.item.size / 1024).toFixed(2)} KB`;
+            },
         },
 
         methods: {

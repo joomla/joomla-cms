@@ -9,7 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 extract($displayData);
@@ -47,10 +47,12 @@ extract($displayData);
  * @var   string   $accept          File types that are accepted.
  */
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+
 if ($meter)
 {
-	HTMLHelper::_('behavior.formvalidator');
-	HTMLHelper::_('script', 'system/fields/passwordstrength.min.js', array('version' => 'auto', 'relative' => true));
+	$wa->useScript('field.passwordstrength');
 
 	$class = 'js-password-strength ' . $class;
 
@@ -60,12 +62,12 @@ if ($meter)
 	}
 }
 
-HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
+$wa->useScript('field.passwordview');
 
 Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
-Text::script('JSHOW');
-Text::script('JHIDE');
+Text::script('JSHOWPASSWORD');
+Text::script('JHIDEPASSWORD');
 
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
@@ -95,8 +97,10 @@ $attributes = array(
 			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 			<?php echo implode(' ', $attributes); ?>>
 		<span class="input-group-append">
-			<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-			<span class="input-group-text icon-eye input-password-toggle" aria-hidden="true"></span>
+			<button type="button" class="btn btn-secondary input-password-toggle">
+				<span class="fas fa-eye" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('JSHOWPASSWORD'); ?></span>
+			</button>
 		</span>
 	</div>
 </div>

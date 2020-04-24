@@ -64,7 +64,7 @@ use Joomla\CMS\Layout\FileLayout;
 			<div class="com-newsfeeds-newsfeed__first-image img-intro-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?>">
 				<img
 				<?php if ($images->image_first_caption) : ?>
-					<?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_first_caption, ENT_COMPAT, 'UTF-8') . '"'; ?>
+					<?php echo 'class="caption" title="' . htmlspecialchars($images->image_first_caption, ENT_COMPAT, 'UTF-8') . '"'; ?>
 				<?php endif; ?>
 				src="<?php echo htmlspecialchars($images->image_first, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_first_alt, ENT_COMPAT, 'UTF-8'); ?>">
 			</div>
@@ -72,10 +72,10 @@ use Joomla\CMS\Layout\FileLayout;
 
 		<?php if (isset($images->image_second) and !empty($images->image_second)) : ?>
 			<?php $imgfloat = empty($images->float_second) ? $this->params->get('float_second') : $images->float_second; ?>
-			<div class="com-newsfeeds-newsfeed__second-image pull-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
+			<div class="com-newsfeeds-newsfeed__second-image float-<?php echo htmlspecialchars($imgfloat, ENT_COMPAT, 'UTF-8'); ?> item-image">
 				<img
 				<?php if ($images->image_second_caption) : ?>
-					<?php echo 'class="caption"' . ' title="' . htmlspecialchars($images->image_second_caption) . '"'; ?>
+					<?php echo 'class="caption" title="' . htmlspecialchars($images->image_second_caption) . '"'; ?>
 				<?php endif; ?>
 				src="<?php echo htmlspecialchars($images->image_second, ENT_COMPAT, 'UTF-8'); ?>" alt="<?php echo htmlspecialchars($images->image_second_alt, ENT_COMPAT, 'UTF-8'); ?>">
 			</div>

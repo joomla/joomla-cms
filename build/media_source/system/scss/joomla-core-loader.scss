@@ -67,11 +67,11 @@ $theme-colours: map-merge((
       position: absolute;
       top: 0;
       left: 0;
-      width: 50px;
       box-sizing: content-box;
-      border: 50px solid $value;
-      background: transparent;
+      width: 50px;
       content: "";
+      background: transparent;
+      border: 50px solid $value;
     }
 
     &::before {
