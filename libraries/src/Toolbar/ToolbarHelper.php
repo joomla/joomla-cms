@@ -701,11 +701,11 @@ abstract class ToolbarHelper
 	 *
 	 * @since   3.2
 	 */
-	public static function modal($targetModalId, $icon, $alt)
+	public static function modal($targetModalId, $icon, $alt, $class = 'btn-primary')
 	{
 		$title = Text::_($alt);
 
-		$dhtml = '<joomla-toolbar-button><button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn btn-primary">
+		$dhtml = '<joomla-toolbar-button><button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn ' . $class . '">
 			<span class="' . $icon . '" title="' . $title . '"></span> ' . $title . '</button></joomla-toolbar-button>';
 
 		$bar = Toolbar::getInstance('toolbar');
