@@ -144,8 +144,8 @@ abstract class Select
 		}
 
 		$baseIndent = str_repeat($options['format.indent'], $options['format.depth']++);
-		$html = $baseIndent . '<select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol']
-			. static::options($data, $options) . $baseIndent . '</select>' . $options['format.eol'];
+		$html = $baseIndent . '<div class="select-wrapper"><select' . ($id !== '' ? ' id="' . $id . '"' : '') . ' name="' . $name . '"' . $attribs . '>' . $options['format.eol']
+			. static::options($data, $options) . $baseIndent . '</select></div>' . $options['format.eol'];
 
 		return $html;
 	}

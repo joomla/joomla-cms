@@ -23,6 +23,32 @@
   &.is-focused {
     box-shadow: $focusshadow;
   }
+
+  position: relative;
+  
+  &::before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f107";
+	//font-size: 20px;
+	position: absolute;
+	top: 0;
+    color: var(--atum-text-light);
+	background-color: theme-color("success");
+	padding: $custom-select-padding;
+	pointer-events: none;
+	
+    [dir=ltr] & {
+  	  right: 0;
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
+
+    [dir=rtl] & {
+	  left: 0;
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+    }
+  }
 }
 
 .choices__inner {
@@ -121,10 +147,10 @@
 .choices[data-type*="select-multiple"] {
   .choices__inner {
     padding-inline-end: $custom-select-indicator-padding;
-    background: $custom-select-bg $custom-select-background;
+//    background: $custom-select-bg $custom-select-background;
 
     [dir="rtl"] & {
-      background: $custom-select-bg $custom-select-background-rtl;
+//      background: $custom-select-bg $custom-select-background-rtl;
     }
   }
 }

@@ -1,14 +1,40 @@
 // Custom Forms
+.select-wrapper {
+  position: relative;
+  
+  &::before {
+    font-family: "Font Awesome 5 Free";
+    content: "\f107";
+	//font-size: 20px;
+	position: absolute;
+	top: 0;
+    color: var(--atum-text-light);
+	background-color: theme-color("success");
+	padding: $custom-select-padding;
+	pointer-events: none;
+	
+    [dir=ltr] & {
+  	  right: 0;
+      border-top-right-radius: $border-radius;
+      border-bottom-right-radius: $border-radius;
+    }
+
+    [dir=rtl] & {
+	  left: 0;
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
+    }
+  }
+}
 
 .custom-select {
   max-width: $input-max-width;
   cursor: pointer;
   box-shadow: $custom-select-box-shadow;
-  background: $custom-select-bg $custom-select-background;
+  background: $custom-select-bg;
 
   [dir=rtl] & {
-    padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
-    background: $custom-select-bg $custom-select-background-rtl;
+//    padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
   }
 
   &[multiple] {
