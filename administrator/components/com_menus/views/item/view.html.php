@@ -59,6 +59,25 @@ class MenusViewItem extends JViewLegacy
 		$this->item    = $this->get('Item');
 		$this->modules = $this->get('Modules');
 		$this->levels  = $this->get('ViewLevels');
+
+		// Global fields
+		$this->fields = array(
+			'id',
+			'client_id',
+			'menutype',
+			'parent_id',
+			'menuordering',
+			'published',
+			'home',
+			'access',
+			'language',
+			'note',
+		);
+
+		$context      = $this->form->getName();
+		$fields       = JFactory::getApplication()->getUserState($context . '.edit.global.fields', array());
+		$this->fields = array_merge($this->fields, $fields);
+
 		$this->canDo   = JHelperContent::getActions('com_menus', 'menu', (int) $this->state->get('item.menutypeid'));
 
 		// Check if we're allowed to edit this item

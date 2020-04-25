@@ -186,20 +186,6 @@ if ($clientId === 1)
 			</div>
 			<div class="span3">
 				<?php
-				// Set main fields.
-				$this->fields = array(
-					'id',
-					'client_id',
-					'menutype',
-					'parent_id',
-					'menuordering',
-					'published',
-					'home',
-					'access',
-					'language',
-					'note',
-				);
-
 				if ($this->item->type != 'component')
 				{
 					$this->fields = array_diff($this->fields, array('home'));
