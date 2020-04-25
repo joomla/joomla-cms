@@ -114,7 +114,7 @@ class PlgCaptchaHcaptcha extends CMSPlugin
 		$hCaptchaResponse = $input->get('h-captcha-response', '', 'cmd');
 
 		// Check for Private Key
-		if (empty($privatekey))
+		if (empty($privateKey))
 		{
 			throw new \RuntimeException(Text::_('PLG_HCAPTCHA_ERROR_NO_PRIVATE_KEY'));
 		}
