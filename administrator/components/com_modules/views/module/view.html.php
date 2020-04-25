@@ -34,7 +34,23 @@ class ModulesViewModule extends JViewLegacy
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = JHelperContent::getActions('com_modules', 'module', $this->item->id);
+
+		// Global fields
+		$this->fields = array(
+			'published',
+			'publish_up',
+			'publish_down',
+			'access',
+			'ordering',
+			'language',
+			'note',
+		);
+
+		$context      = $this->form->getName();
+		$fields       = JFactory::getApplication()->getUserState($context . '.edit.global.fields', array());
+		$this->fields = array_merge($this->fields, $fields);
+
+		$this->canDo  = JHelperContent::getActions('com_modules', 'module', $this->item->id);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

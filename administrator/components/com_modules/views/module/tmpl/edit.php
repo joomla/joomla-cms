@@ -244,19 +244,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 						</div>
 					</div>
 				</fieldset>
-				<?php
-				// Set main fields.
-				$this->fields = array(
-					'published',
-					'publish_up',
-					'publish_down',
-					'access',
-					'ordering',
-					'language',
-					'note'
-				);
-
-				?>
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>
