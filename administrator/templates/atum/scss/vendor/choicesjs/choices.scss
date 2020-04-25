@@ -36,16 +36,20 @@
   position: relative;
   
   &::before {
-    font-family: "Font Awesome 5 Free";
-    content: "\f107";
-    position: absolute;
-    top: 1px;
-    color: var(--atum-text-dark);
     background-color: var(--atum-bg-light);
-//    color: var(--atum-text-light);
-//    background-color: theme-color("success");
+    color: var(--atum-text-dark);
+    content: "\107";
+    font-family: "Font Awesome 5 Free";
     padding: $custom-select-padding;
+    position: absolute;
     pointer-events: none;
+    top: 1px;
+
+    .moduleposition & {
+      background-color: theme-color("success");
+      color: var(--atum-text-light);		
+      content: "\f05b";
+    }
 
     [dir=ltr] & {
   	  right: 1px;

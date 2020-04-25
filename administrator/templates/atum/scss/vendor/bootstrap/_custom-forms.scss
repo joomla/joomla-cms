@@ -3,25 +3,25 @@
   position: relative;
   
   &::before {
-    font-family: "Font Awesome 5 Free";
-    content: "\f107";
-    position: absolute;
-    top: 1px;
-    color: var(--atum-text-dark);
     background-color: var(--atum-bg-light);
+    color: var(--atum-text-dark);
+    content: "\f107";
+    font-family: "Font Awesome 5 Free";
     padding: $custom-select-padding;
     pointer-events: none;
+    position: absolute;
+    top: 1px;
 
     [dir=ltr] & {
-  	  right: 1px;
-      border-top-right-radius: $border-radius;
       border-bottom-right-radius: $border-radius;
+      border-top-right-radius: $border-radius;
+  	  right: 1px;
     }
 
     [dir=rtl] & {
-	  left: 1px;
-      border-top-left-radius: $border-radius;
       border-bottom-left-radius: $border-radius;
+      border-top-left-radius: $border-radius;
+	  left: 1px;
     }
   }
 }
