@@ -47,6 +47,7 @@
 			showon="loggable_api:1"
 			default="GET"
 			validate="options"
+			layout="joomla.form.field.list-fancy-select"
 			>
 			<option value="GET">COM_ACTIONLOGS_FIELD_VALUE_GET</option>
 			<option value="POST">COM_ACTIONLOGS_FIELD_VALUE_POST</option>
