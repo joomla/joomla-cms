@@ -71,20 +71,6 @@ JFactory::getDocument()->addScriptDeclaration('
 	<div class="col options-section">
 		<?php echo JHtml::_('sliders.start', 'groups-sliders-' . $this->item->id, array('useCookie' => 1)); ?>
 		<?php echo JHtml::_('sliders.panel', JText::_('COM_FIELDS_VIEW_FIELD_FIELDSET_GENERAL'), 'general'); ?>
-				<?php $this->set('fields',
-						array(
-							array(
-								'published',
-								'state',
-								'enabled',
-							),
-							'group_id',
-							'assigned_cat_ids',
-							'access',
-							'language',
-							'note',
-						)
-				); ?>
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 				<?php $this->set('fields', null); ?>
 

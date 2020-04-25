@@ -62,6 +62,22 @@ class FieldsViewGroup extends JViewLegacy
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 
+		// Global fields
+		$this->fields = array(
+			array(
+				'published',
+				'state',
+				'enabled',
+			),
+			'access',
+			'language',
+			'note',
+		);
+
+		$context      = $this->form->getName();
+		$fields       = JFactory::getApplication()->getUserState($context . '.edit.global.fields', array());
+		$this->fields = array_merge($this->fields, $fields);
+
 		$component = '';
 		$parts     = FieldsHelper::extract($this->state->get('filter.context'));
 

@@ -52,6 +52,24 @@ class FieldsViewField extends JViewLegacy
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 
+		// Global fields
+		$this->fields = array(
+			array(
+				'published',
+				'state',
+				'enabled',
+			),
+			'group_id',
+			'assigned_cat_ids',
+			'access',
+			'language',
+			'note',
+		);
+
+		$context      = $this->form->getName();
+		$fields       = JFactory::getApplication()->getUserState($context . '.edit.global.fields', array());
+		$this->fields = array_merge($this->fields, $fields);
+
 		$this->canDo = JHelperContent::getActions($this->state->get('field.component'), 'field', $this->item->id);
 
 		// Check for errors.
