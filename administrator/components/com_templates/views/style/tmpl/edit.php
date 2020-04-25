@@ -66,14 +66,6 @@ JFactory::getDocument()->addScriptDeclaration("
 				?>
 			</div>
 			<div class="span3">
-				<?php
-				// Set main fields.
-				$this->fields = array(
-					'home',
-					'client_id',
-					'template'
-				);
-				?>
 				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
 			</div>
 		</div>

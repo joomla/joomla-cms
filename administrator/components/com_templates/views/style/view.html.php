@@ -51,6 +51,18 @@ class TemplatesViewStyle extends JViewLegacy
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 		$this->form  = $this->get('Form');
+
+		// Global fields
+		$this->fields = array(
+			'home',
+			'client_id',
+			'template'
+		);
+
+		$context      = $this->form->getName();
+		$fields       = JFactory::getApplication()->getUserState($context . '.edit.global.fields', array());
+		$this->fields = array_merge($this->fields, $fields);
+
 		$this->canDo = JHelperContent::getActions('com_templates');
 
 		// Check for errors.
