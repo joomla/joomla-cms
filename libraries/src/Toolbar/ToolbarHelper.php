@@ -696,6 +696,7 @@ abstract class ToolbarHelper
 	 * @param   string  $targetModalId  ID of the target modal box
 	 * @param   string  $icon           Icon class to show on modal button
 	 * @param   string  $alt            Title for the modal button
+	 * @param   string  $class 	    The button class
 	 *
 	 * @return  void
 	 *
