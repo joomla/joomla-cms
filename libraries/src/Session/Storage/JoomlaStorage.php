@@ -59,9 +59,14 @@ class JoomlaStorage extends NativeStorage
 	{
 		// Disable transparent sid support and default use cookies
 		$options += [
-			'use_cookies'   => 1,
 			'use_trans_sid' => 0,
 		];
+
+		// Only allow the session ID to come from cookies and nothing else.
+		if ((int) ini_get('session.use_cookies') !== 1)
+		{
+			$options['use_only_cookies'] = 1;
+		}
 
 		if (!headers_sent() && !$this->isActive())
 		{
