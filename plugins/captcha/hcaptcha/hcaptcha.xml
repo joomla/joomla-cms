@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="plugin" group="captcha" method="upgrade">
+	<name>plg_captcha_hcaptcha</name>
+	<version>1.0.0</version>
+	<creationDate>April 2020</creationDate>
+	<author>Joomla! Project</author>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<description>PLG_CAPTCHA_HCAPTCHA_XML_DESCRIPTION</description>
+	<scriptfile>script.php</scriptfile>
+	<files>
+		<filename plugin="hcaptcha">hcaptcha.php</filename>
+		<folder>language</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">plg_captcha_hcaptcha.ini</language>
+		<language tag="en-GB">plg_captcha_hcaptcha.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="publicKey"
+					type="text"
+					label="PLG_HCAPTCHA_PUBLIC_KEY"
+					description="PLG_HCAPTCHA_PUBLIC_KEY_DESC"
+					default=""
+					required="true"
+					filter="string"
+					size="100"
+					class="input-xxlarge"
+				/>
+
+				<field
+					name="privateKey"
+					type="text"
+					label="PLG_HCAPTCHA_PRIVATE_KEY"
+					description="PLG_HCAPTCHA_PRIVATE_KEY_DESC"
+					default=""
+					required="true"
+					filter="string"
+					size="100"
+					class="input-xxlarge"
+				/>
+
+				<field
+					name="theme"
+					type="list"
+					label="PLG_HCAPTCHA_THEME"
+					description="PLG_HCAPTCHA_THEME_DESC"
+					default="light"
+					filter="string"
+				>
+					<option value="light">PLG_HCAPTCHA_THEME_LIGHT</option>
+					<option value="dark">PLG_HCAPTCHA_THEME_DARK</option>
+				</field>
+
+				<field
+					name="size"
+					type="list"
+					label="PLG_HCAPTCHA_SIZE"
+					description="PLG_HCAPTCHA_SIZE_DESC"
+					default="normal"
+					filter="string"
+				>
+					<option value="normal">PLG_HCAPTCHA_SIZE_NORMAL</option>
+					<option value="compact">PLG_HCAPTCHA_SIZE_COMPACT</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
