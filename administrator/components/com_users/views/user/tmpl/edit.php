@@ -83,12 +83,23 @@ $fieldsets = $this->form->getFieldsets();
 		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'twofactorauth', JText::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
 		<div class="control-group">
 			<div class="control-label">
-				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
-						title="<?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') . '&#013;' . JText::_('COM_USERS_USER_FIELD_TWOFACTOR_DESC'); ?>">
+				<?php JHtml::_('bootstrap.popover');
+					$text        = JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL');
+					$description = JText::_('COM_USERS_USER_FIELD_TWOFACTOR_DESC');
+					$position    = null;
+					$title       = ' title="' . htmlspecialchars(trim($text, ':')) . '"'
+						. ' data-content="'. htmlspecialchars($description) . '"';
+
+					if (JFactory::getLanguage()->isRtl())
+					{
+						$position = ' data-placement="left" ';
+					}
+				?>
+				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasPopover"
+						<?php echo $title; ?><?php echo $position; ?>>
 					<?php echo JText::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL'); ?>
 				</label>
 			</div>
-			<div class="controls">
 				<?php echo JHtml::_('select.genericlist', Usershelper::getTwoFactorMethods(), 'jform[twofactor][method]', array('onchange' => 'Joomla.twoFactorMethodChange()'), 'value', 'text', $this->otpConfig->method, 'jform_twofactor_method', false); ?>
 			</div>
 		</div>
