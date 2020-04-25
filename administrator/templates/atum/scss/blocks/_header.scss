@@ -134,7 +134,7 @@
         &.disabled,
         &.disabled:hover,
         &.disabled[aria-expanded="true"] {
-          color: var(--atum-text-light);
+          color: #fff;
           pointer-events: none;
           background-color: transparent;
           box-shadow: none;
