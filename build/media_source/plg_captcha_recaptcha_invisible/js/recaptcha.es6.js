@@ -3,11 +3,11 @@
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-Joomla = window.Joomla || {};
 
-((window, document, Joomla) => {
-  Joomla.initReCaptchaInvisible = () => {
-    'use strict';
+((window, document) => {
+  'use strict';
+
+  const JoomlainitReCaptchaInvisible = () => {
 
     const elements = [].slice.call(document.getElementsByClassName('g-recaptcha'));
     const optionKeys = ['sitekey', 'badge', 'size', 'tabindex', 'callback', 'expired-callback', 'error-callback'];
@@ -37,4 +37,7 @@ Joomla = window.Joomla || {};
       window.grecaptcha.execute(element.getAttribute('data-recaptcha-widget-id'));
     });
   };
-})(window, document, Joomla);
+
+  window.JoomlainitReCaptchaInvisible = JoomlainitReCaptchaInvisible;
+
+})(window, document);
