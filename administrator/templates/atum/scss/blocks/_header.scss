@@ -115,6 +115,11 @@
         color: $white;
       }
 
+      .text-muted {
+        color: var(--atum-text-light)!important;
+        opacity: 0.7;
+      }
+
       a,
       button {
 

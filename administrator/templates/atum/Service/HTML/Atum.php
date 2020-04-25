@@ -106,6 +106,23 @@ class JHtmlAtum
 			}
 		}
 
+		$sidebarLinkColor = $params->get('sidebar-link-color');
+
+		if (static::isHex($sidebarLinkColor))
+		{
+			try
+			{
+				$sidebarLinkColor = new Hex($sidebarLinkColor);
+
+				$root[] = '--atum-sidebar-link-color: ' . $sidebarLinkColor . ';';
+
+			}
+			catch (\Exception $ex)
+			{
+				// Just ignore exceptions
+			}
+		}
+
 		$specialColor = $params->get('special-color');
 
 		if (static::isHex($specialColor))
