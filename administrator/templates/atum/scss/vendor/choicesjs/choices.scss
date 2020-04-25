@@ -147,11 +147,6 @@
 .choices[data-type*="select-multiple"] {
   .choices__inner {
     padding-inline-end: $custom-select-indicator-padding;
-//    background: $custom-select-bg $custom-select-background;
-
-    [dir="rtl"] & {
-//      background: $custom-select-bg $custom-select-background-rtl;
-    }
   }
 }
 

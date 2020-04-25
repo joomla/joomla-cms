@@ -5,7 +5,6 @@
   &::before {
     font-family: "Font Awesome 5 Free";
     content: "\f107";
-	//font-size: 20px;
 	position: absolute;
 	top: 0;
     color: var(--atum-text-light);
@@ -29,13 +28,10 @@
 
 .custom-select {
   max-width: $input-max-width;
+  min-width: 6rem;
   cursor: pointer;
   box-shadow: $custom-select-box-shadow;
   background: $custom-select-bg;
-
-  [dir=rtl] & {
-//    padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y ($custom-select-padding-x + $custom-select-indicator-padding);
-  }
 
   &[multiple] {
     padding: 0;
@@ -56,13 +52,13 @@
     &.custom-select-success {
       color: theme-color("success");
       border-color: theme-color("success");
-      box-shadow: $atum-box-shadow-success;
+      box-shadow: $atum-box-shadow;
     }
 
     &.custom-select-danger {
       color: theme-color("danger");
       border-color: theme-color("danger");
-      box-shadow: $atum-box-shadow-danger;
+      box-shadow: $atum-box-shadow;
     }
   }
 
