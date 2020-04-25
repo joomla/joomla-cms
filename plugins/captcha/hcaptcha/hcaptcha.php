@@ -112,7 +112,6 @@ class PlgCaptchaHcaptcha extends CMSPlugin
 		$privateKey       = $this->params->get('privateKey');
 		$remoteIp         = IpHelper::getIp();
 		$hCaptchaResponse = $input->get('h-captcha-response', '', 'cmd');
-		$spam             = false;
 
 		// Check for Private Key
 		if (empty($privatekey))
@@ -124,12 +123,6 @@ class PlgCaptchaHcaptcha extends CMSPlugin
 		if (empty($remoteip))
 		{
 			throw new \RuntimeException(Text::_('PLG_HCAPTCHA_ERROR_NO_IP'));
-		}
-
-		// Discard spam submissions
-		if ($spam)
-		{
-			throw new \RuntimeException(Text::_('PLG_HCAPTCHA_ERROR_EMPTY_SOLUTION'));
 		}
 
 		$verifyResponse = file_get_contents(
