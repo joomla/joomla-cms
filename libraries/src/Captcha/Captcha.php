@@ -17,7 +17,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
-use Joomla\Event\Event;
+use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -66,7 +66,16 @@ class Captcha implements DispatcherAwareInterface
 	public function __construct($captcha, $options)
 	{
 		$this->_name = $captcha;
-		$this->setDispatcher(Factory::getApplication()->getDispatcher());
+
+		if (!empty($options['dispatcher']) && $options['dispatcher'] instanceof DispatcherInterface)
+		{
+			$this->setDispatcher($options['dispatcher']);
+		}
+		else
+		{
+			$this->setDispatcher(Factory::getApplication()->getDispatcher());
+		}
+
 		$this->_load($options);
 	}
 
@@ -106,12 +115,9 @@ class Captcha implements DispatcherAwareInterface
 	 */
 	public function initialise($id)
 	{
-		$event = new Event(
-			'onInit',
-			['id' => $id]
-		);
+		$arg = ['id' => $id];
 
-		$this->getDispatcher()->dispatch('onInit', $event);
+		$this->update('onInit', $arg);
 
 		return true;
 	}
@@ -142,19 +148,15 @@ class Captcha implements DispatcherAwareInterface
 			return '';
 		}
 
-		$event = new Event(
-			'onDisplay',
-			[
-				'name'  => $name,
-				'id'    => $id ?: $name,
-				'class' => $class,
-			]
-		);
+		$arg = [
+			'name'  => $name,
+			'id'    => $id ?: $name,
+			'class' => $class,
+		];
 
-		$result = $this->getDispatcher()->dispatch('onInit', $event);
+		$result = $this->update('onDisplay', $arg);
 
-		// TODO REFACTOR ME! This is Ye Olde Way of returning plugin results
-		return $result['result'][0];
+		return $result;
 	}
 
 	/**
@@ -175,15 +177,11 @@ class Captcha implements DispatcherAwareInterface
 			return false;
 		}
 
-		$event = new Event(
-			'onCheckAnswer',
-			['code'	=> $code]
-		);
+		$arg = ['code'	=> $code];
 
-		$result = $this->getDispatcher()->dispatch('onCheckAnswer', $event);
+		$result = $this->update('onCheckAnswer', $arg);
 
-		// TODO REFACTOR ME! This is Ye Olde Way of returning plugin results
-		return $result['result'][0];
+		return $result;
 	}
 
 	/**
@@ -202,18 +200,34 @@ class Captcha implements DispatcherAwareInterface
 			return;
 		}
 
-		$event = new Event(
-			'onSetupField',
-			[
-				'field' => $field,
-				'element' => $element,
-			]
-		);
+		$arg = [
+			'field' => $field,
+			'element' => $element,
+		];
 
-		$result = $this->getDispatcher()->dispatch('onCheckAnswer', $event);
+		$result = $this->update('onSetupField', $arg);
 
-		// TODO REFACTOR ME! This is Ye Olde Way of returning plugin results
-		return $result['result'][0];
+		return $result;
+	}
+
+	/**
+	 * Method to call the captcha callback if it exist.
+	 *
+	 * @param   string  $name   Callback name
+	 * @param   array   &$args  Arguments
+	 *
+	 * @return  mixed
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function update($name, &$args)
+	{
+		if (method_exists($this->_captcha, $name))
+		{
+			return call_user_func_array(array($this->_captcha, $name), $args);
+		}
+
+		return null;
 	}
 
 	/**
