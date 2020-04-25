@@ -50,7 +50,7 @@ extract($displayData);
  */
 
 $attributes = array(
-	'class="' . $class . '"',
+	'class="moduleposition ' . $class . '"',
 	' allow-custom',
 	' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" ',
 );

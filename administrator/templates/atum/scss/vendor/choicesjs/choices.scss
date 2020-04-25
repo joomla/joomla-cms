@@ -23,6 +23,15 @@
   &.is-focused {
     box-shadow: $focusshadow;
   }
+}
+
+.choices__inner {
+  border: $input-border;
+  border-radius: $border-radius;
+  box-shadow: $input-box-shadow;
+  padding: 0.4rem 1rem;
+  margin-bottom: 0;
+  font-size: 1rem;
 
   position: relative;
   
@@ -31,8 +40,10 @@
     content: "\f107";
     position: absolute;
     top: 1px;
-    color: var(--atum-text-light);
-    background-color: theme-color("success");
+    color: var(--atum-text-dark);
+    background-color: var(--atum-bg-light);
+//    color: var(--atum-text-light);
+//    background-color: theme-color("success");
     padding: $custom-select-padding;
     pointer-events: none;
 
@@ -48,15 +59,6 @@
       border-bottom-left-radius: $border-radius;
     }
   }
-}
-
-.choices__inner {
-  border: $input-border;
-  border-radius: $border-radius;
-  box-shadow: $input-box-shadow;
-  padding: 0.4rem 1rem;
-  margin-bottom: 0;
-  font-size: 1rem;
 
   .is-focused & {
     border-color: $focuscolor;
