@@ -58,6 +58,26 @@ class BannersViewClient extends JViewLegacy
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
+
+		// Global fields
+		$this->fields = array(
+			array('parent', 'parent_id'),
+			array('published', 'state', 'enabled'),
+			array('category', 'catid'),
+			'featured',
+			'sticky',
+			'access',
+			'id',
+			'language',
+			'tags',
+			'note',
+			'version_note',
+		);
+
+		$context      = $this->form->getName();
+		$fields       = JFactory::getApplication()->getUserState($context . '.edit.global.fields', array());
+		$this->fields = array_merge($this->fields, $fields);
+
 		$this->canDo = JHelperContent::getActions('com_banners');
 
 		// Check for errors.
