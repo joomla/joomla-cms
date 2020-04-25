@@ -29,22 +29,21 @@
   &::before {
     font-family: "Font Awesome 5 Free";
     content: "\f107";
-	//font-size: 20px;
-	position: absolute;
-	top: 0;
+    position: absolute;
+    top: 1px;
     color: var(--atum-text-light);
-	background-color: theme-color("success");
-	padding: $custom-select-padding;
-	pointer-events: none;
-	
+    background-color: theme-color("success");
+    padding: $custom-select-padding;
+    pointer-events: none;
+
     [dir=ltr] & {
-  	  right: 0;
+  	  right: 1px;
       border-top-right-radius: $border-radius;
       border-bottom-right-radius: $border-radius;
     }
 
     [dir=rtl] & {
-	  left: 0;
+	  left: 1px;
       border-top-left-radius: $border-radius;
       border-bottom-left-radius: $border-radius;
     }

@@ -5,21 +5,21 @@
   &::before {
     font-family: "Font Awesome 5 Free";
     content: "\f107";
-	position: absolute;
-	top: 0;
-    color: var(--atum-text-light);
-	background-color: theme-color("success");
-	padding: $custom-select-padding;
-	pointer-events: none;
-	
+    position: absolute;
+    top: 1px;
+    color: var(--atum-text-dark);
+    background-color: var(--atum-bg-light);
+    padding: $custom-select-padding;
+    pointer-events: none;
+
     [dir=ltr] & {
-  	  right: 0;
+  	  right: 1px;
       border-top-right-radius: $border-radius;
       border-bottom-right-radius: $border-radius;
     }
 
     [dir=rtl] & {
-	  left: 0;
+	  left: 1px;
       border-top-left-radius: $border-radius;
       border-bottom-left-radius: $border-radius;
     }
@@ -45,20 +45,6 @@
         color: var(--atum-text-light);
         background-color: var(--atum-bg-dark) !important;
       }
-    }
-  }
-
-  &.custom-select-color-state {
-    &.custom-select-success {
-      color: theme-color("success");
-      border-color: theme-color("success");
-      box-shadow: $atum-box-shadow;
-    }
-
-    &.custom-select-danger {
-      color: theme-color("danger");
-      border-color: theme-color("danger");
-      box-shadow: $atum-box-shadow;
     }
   }
 
