@@ -120,7 +120,7 @@ class PlgCaptchaHcaptcha extends CMSPlugin
 		}
 
 		// Check for IP
-		if (empty($remoteip))
+		if (empty($remoteIp))
 		{
 			throw new \RuntimeException(Text::_('PLG_HCAPTCHA_ERROR_NO_IP'));
 		}
