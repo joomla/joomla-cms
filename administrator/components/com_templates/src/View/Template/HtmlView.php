@@ -288,7 +288,7 @@ class HtmlView extends BaseHtmlView
 			// Add a Delete file Button
 			if ($this->type != 'home')
 			{
-				ToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE');
+				ToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE', 'btn-danger');
 			}
 		}
 
