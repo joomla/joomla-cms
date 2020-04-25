@@ -118,7 +118,7 @@ foreach ($fieldSets as $name => $fieldSet)
 	{
 		echo '<fieldset id="fieldset-' . $name . '" class="options-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
 		echo '<legend>' . $label . '</legend>';
-		echo '<div class="column-count-md-2 column-count-lg-3">';
+		echo '<div class="col-12 col-md-8 col-lg-6 col-xl-4">';
 	}
 	// Tabs
 	elseif (!$hasParent)
@@ -152,7 +152,7 @@ foreach ($fieldSets as $name => $fieldSet)
 				echo '<div class="alert alert-info">' . $this->escape(Text::_($fieldSet->description)) . '</div>';
 			}
 
-			echo '<div class="column-count-md-2 column-count-lg-3">';
+			echo '<div class="col-12 col-md-8 col-lg-6 col-xl-4">';
 
 			$opentab = 2;
 		}
