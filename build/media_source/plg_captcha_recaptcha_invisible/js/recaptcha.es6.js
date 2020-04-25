@@ -7,8 +7,7 @@
 ((window, document) => {
   'use strict';
 
-  const JoomlainitReCaptchaInvisible = () => {
-
+  window.JoomlainitReCaptchaInvisible = () => {
     const elements = [].slice.call(document.getElementsByClassName('g-recaptcha'));
     const optionKeys = ['sitekey', 'badge', 'size', 'tabindex', 'callback', 'expired-callback', 'error-callback'];
 
@@ -37,7 +36,4 @@
       window.grecaptcha.execute(element.getAttribute('data-recaptcha-widget-id'));
     });
   };
-
-  window.JoomlainitReCaptchaInvisible = JoomlainitReCaptchaInvisible;
-
 })(window, document);

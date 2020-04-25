@@ -7,8 +7,7 @@
 ((window, document) => {
   'use strict';
 
-  const JoomlainitReCaptcha2 = () => {
-
+  window.JoomlainitReCaptcha2 = () => {
     const elements = [].slice.call(document.getElementsByClassName('g-recaptcha'));
     const optionKeys = ['sitekey', 'theme', 'size', 'tabindex', 'callback', 'expired-callback', 'error-callback'];
 
@@ -33,7 +32,4 @@
       );
     });
   };
-
-  window.JoomlainitReCaptcha2 = JoomlainitReCaptcha2;
-
 })(window, document);
