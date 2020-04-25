@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-
+ 
 use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 use OzdemirBurak\Iris\Color\Hex;
