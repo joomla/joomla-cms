@@ -79,6 +79,25 @@ class FinderViewFilter extends JViewLegacy
 		$this->state = $this->get('State');
 		$this->total = $this->get('Total');
 
+		// Global fields
+		$this->fields = array(
+			array('parent', 'parent_id'),
+			array('published', 'state', 'enabled'),
+			array('category', 'catid'),
+			'featured',
+			'sticky',
+			'access',
+			'id',
+			'language',
+			'tags',
+			'note',
+			'version_note',
+		);
+
+		$context      = $this->form->getName();
+		$fields       = JFactory::getApplication()->getUserState($context . '.edit.global.fields', array());
+		$this->fields = array_merge($this->fields, $fields);
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
