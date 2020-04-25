@@ -43,15 +43,15 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
 // Distributed under an MIT license: https://codemirror.net/LICENSE
 
-(function(mod) {
+(function (mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
     mod(require("../../lib/codemirror"));
   else if (typeof define == "function" && define.amd) // AMD
     define(["../../lib/codemirror"], mod);
   else // Plain browser env
     mod(CodeMirror);
-})(function(CodeMirror) {
-  CodeMirror.defineExtension("addPanel", function(node, options) {
+})(function (CodeMirror) {
+  CodeMirror.defineExtension("addPanel", function (node, options) {
     options = options || {};
 
     if (!this.state.panels) initPanels(this);
@@ -67,8 +67,7 @@
       wrapper.insertBefore(node, options.before.node);
     } else if (replace) {
       wrapper.insertBefore(node, options.replace.node);
-      info.panels++;
-      options.replace.clear();
+      options.replace.clear(true);
     } else if (options.position == "bottom") {
       wrapper.appendChild(node);
     } else if (options.position == "before-bottom") {
@@ -80,14 +79,15 @@
     }
 
     var height = (options && options.height) || node.offsetHeight;
-    this._setSize(null, info.heightLeft -= height);
-    if (!replace) {
-      info.panels++;
-    }
-    if (options.stable && isAtTop(this, node))
-      this.scrollTo(null, this.getScrollInfo().top + height)
 
-    return new Panel(this, node, options, height);
+    var panel = new Panel(this, node, options, height);
+    info.panels.push(panel);
+
+    this.setSize();
+    if (options.stable && isAtTop(this, node))
+      this.scrollTo(null, this.getScrollInfo().top + height);
+
+    return panel;
   });
 
   function Panel(cm, node, options, height) {
@@ -98,22 +98,23 @@
     this.cleared = false;
   }
 
-  Panel.prototype.clear = function() {
+  /* when skipRemove is true, clear() was called from addPanel().
+   * Thus removePanels() should not be called (issue 5518) */
+  Panel.prototype.clear = function (skipRemove) {
     if (this.cleared) return;
     this.cleared = true;
     var info = this.cm.state.panels;
-    this.cm._setSize(null, info.heightLeft += this.height);
+    info.panels.splice(info.panels.indexOf(this), 1);
+    this.cm.setSize();
     if (this.options.stable && isAtTop(this.cm, this.node))
       this.cm.scrollTo(null, this.cm.getScrollInfo().top - this.height)
     info.wrapper.removeChild(this.node);
-    if (--info.panels == 0) removePanels(this.cm);
+    if (info.panels.length == 0 && !skipRemove) removePanels(this.cm);
   };
 
-  Panel.prototype.changed = function(height) {
-    var newHeight = height == null ? this.node.offsetHeight : height;
-    var info = this.cm.state.panels;
-    this.cm._setSize(null, info.heightLeft -= (newHeight - this.height));
-    this.height = newHeight;
+  Panel.prototype.changed = function () {
+    this.height = this.node.getBoundingClientRect().height;
+    this.cm.setSize();
   };
 
   function initPanels(cm) {
@@ -122,8 +123,7 @@
     var height = parseInt(style.height);
     var info = cm.state.panels = {
       setHeight: wrap.style.height,
-      heightLeft: height,
-      panels: 0,
+      panels: [],
       wrapper: document.createElement("div")
     };
     wrap.parentNode.insertBefore(info.wrapper, wrap);
@@ -132,8 +132,8 @@
     if (hasFocus) cm.focus();
 
     cm._setSize = cm.setSize;
-    if (height != null) cm.setSize = function(width, newHeight) {
-      if (newHeight == null) return this._setSize(width, newHeight);
+    if (height != null) cm.setSize = function (width, newHeight) {
+      if (!newHeight) newHeight = info.wrapper.offsetHeight;
       info.setHeight = newHeight;
       if (typeof newHeight != "number") {
         var px = /^(\d+\.?\d*)px$/.exec(newHeight);
@@ -142,10 +142,12 @@
         } else {
           info.wrapper.style.height = newHeight;
           newHeight = info.wrapper.offsetHeight;
-          info.wrapper.style.height = "";
         }
       }
-      cm._setSize(width, info.heightLeft += (newHeight - height));
+      var editorheight = newHeight - info.panels
+        .map(function (p) { return p.node.getBoundingClientRect().height; })
+        .reduce(function (a, b) { return a + b; }, 0);
+      cm._setSize(width, editorheight);
       height = newHeight;
     };
   }
@@ -181,6 +183,7 @@
 })(function(CodeMirror) {
   var defaults = {
     pairs: "()[]{}''\"\"",
+    closeBefore: ")]}'\":;>",
     triples: "",
     explode: "[]{}"
   };
@@ -279,6 +282,9 @@
     var pairs = getOption(conf, "pairs");
     var pos = pairs.indexOf(ch);
     if (pos == -1) return CodeMirror.Pass;
+
+    var closeBefore = getOption(conf,"closeBefore");
+
     var triples = getOption(conf, "triples");
 
     var identical = pairs.charAt(pos + 1) == ch;
@@ -306,7 +312,7 @@
         var prev = cur.ch == 0 ? " " : cm.getRange(Pos(cur.line, cur.ch - 1), cur)
         if (!CodeMirror.isWordChar(next) && prev != ch && !CodeMirror.isWordChar(prev)) curType = "both";
         else return CodeMirror.Pass;
-      } else if (opening) {
+      } else if (opening && (next.length === 0 || /\s/.test(next) || closeBefore.indexOf(next) > -1)) {
         curType = "both";
       } else {
         return CodeMirror.Pass;
@@ -379,6 +385,8 @@
  *   An array of tag names that should, when opened, cause a
  *   blank line to be added inside the tag, and the blank line and
  *   closing line to be indented.
+ * `emptyTags` (default is none)
+ *   An array of XML tag names that should be autoclosed with '/>'.
  *
  * See demos/closetag.html for a usage example.
  */
@@ -416,23 +424,30 @@
       if (!ranges[i].empty()) return CodeMirror.Pass;
       var pos = ranges[i].head, tok = cm.getTokenAt(pos);
       var inner = CodeMirror.innerMode(cm.getMode(), tok.state), state = inner.state;
-      if (inner.mode.name != "xml" || !state.tagName) return CodeMirror.Pass;
+      var tagInfo = inner.mode.xmlCurrentTag && inner.mode.xmlCurrentTag(state)
+      var tagName = tagInfo && tagInfo.name
+      if (!tagName) return CodeMirror.Pass
 
       var html = inner.mode.configuration == "html";
       var dontCloseTags = (typeof opt == "object" && opt.dontCloseTags) || (html && htmlDontClose);
       var indentTags = (typeof opt == "object" && opt.indentTags) || (html && htmlIndent);
 
-      var tagName = state.tagName;
       if (tok.end > pos.ch) tagName = tagName.slice(0, tagName.length - tok.end + pos.ch);
       var lowerTagName = tagName.toLowerCase();
       // Don't process the '>' at the end of an end-tag or self-closing tag
       if (!tagName ||
           tok.type == "string" && (tok.end != pos.ch || !/[\"\']/.test(tok.string.charAt(tok.string.length - 1)) || tok.string.length == 1) ||
-          tok.type == "tag" && state.type == "closeTag" ||
-          tok.string.indexOf("/") == (tok.string.length - 1) || // match something like <someTagName />
+          tok.type == "tag" && tagInfo.close ||
+          tok.string.indexOf("/") == (pos.ch - tok.start - 1) || // match something like <someTagName />
           dontCloseTags && indexOf(dontCloseTags, lowerTagName) > -1 ||
-          closingTagExists(cm, tagName, pos, state, true))
+          closingTagExists(cm, inner.mode.xmlCurrentContext && inner.mode.xmlCurrentContext(state) || [], tagName, pos, true))
         return CodeMirror.Pass;
+
+      var emptyTags = typeof opt == "object" && opt.emptyTags;
+      if (emptyTags && indexOf(emptyTags, tagName) > -1) {
+        replacements[i] = { text: "/>", newPos: CodeMirror.Pos(pos.line, pos.ch + 2) };
+        continue;
+      }
 
       var indent = indentTags && indexOf(indentTags, lowerTagName) > -1;
       replacements[i] = {indent: indent,
@@ -470,19 +485,16 @@
       // when completing in JS/CSS snippet in htmlmixed mode. Does not
       // work for other XML embedded languages (there is no general
       // way to go from a mixed mode to its current XML state).
-      var replacement;
-      if (inner.mode.name != "xml") {
-        if (cm.getMode().name == "htmlmixed" && inner.mode.name == "javascript")
-          replacement = head + "script";
-        else if (cm.getMode().name == "htmlmixed" && inner.mode.name == "css")
-          replacement = head + "style";
-        else
-          return CodeMirror.Pass;
+      var replacement, mixed = inner.mode.name != "xml" && cm.getMode().name == "htmlmixed"
+      if (mixed && inner.mode.name == "javascript") {
+        replacement = head + "script";
+      } else if (mixed && inner.mode.name == "css") {
+        replacement = head + "style";
       } else {
-        if (!state.context || !state.context.tagName ||
-            closingTagExists(cm, state.context.tagName, pos, state))
+        var context = inner.mode.xmlCurrentContext && inner.mode.xmlCurrentContext(state)
+        if (!context || (context.length && closingTagExists(cm, context, context[context.length - 1], pos)))
           return CodeMirror.Pass;
-        replacement = head + state.context.tagName;
+        replacement = head + context[context.length - 1]
       }
       if (cm.getLine(pos.line).charAt(tok.end) != ">") replacement += ">";
       replacements[i] = replacement;
@@ -512,16 +524,19 @@
 
   // If xml-fold is loaded, we use its functionality to try and verify
   // whether a given tag is actually unclosed.
-  function closingTagExists(cm, tagName, pos, state, newTag) {
+  function closingTagExists(cm, context, tagName, pos, newTag) {
     if (!CodeMirror.scanForClosingTag) return false;
     var end = Math.min(cm.lastLine() + 1, pos.line + 500);
     var nextClose = CodeMirror.scanForClosingTag(cm, pos, null, end);
     if (!nextClose || nextClose.tag != tagName) return false;
-    var cx = state.context;
     // If the immediate wrapping context contains onCx instances of
     // the same tag, a closing tag only exists if there are at least
     // that many closing tags of that type following.
-    for (var onCx = newTag ? 1 : 0; cx && cx.tagName == tagName; cx = cx.prev) ++onCx;
+    var onCx = newTag ? 1 : 0
+    for (var i = context.length - 1; i >= 0; i--) {
+      if (context[i] == tagName) ++onCx
+      else break
+    }
     pos = nextClose.to;
     for (var i = 1; i < onCx; i++) {
       var next = CodeMirror.scanForClosingTag(cm, pos, null, end);
@@ -548,20 +563,25 @@
 
   var Pos = CodeMirror.Pos;
 
-  var matching = {"(": ")>", ")": "(<", "[": "]>", "]": "[<", "{": "}>", "}": "{<"};
+  var matching = {"(": ")>", ")": "(<", "[": "]>", "]": "[<", "{": "}>", "}": "{<", "<": ">>", ">": "<<"};
+
+  function bracketRegex(config) {
+    return config && config.bracketRegex || /[(){}[\]]/
+  }
 
   function findMatchingBracket(cm, where, config) {
     var line = cm.getLineHandle(where.line), pos = where.ch - 1;
     var afterCursor = config && config.afterCursor
     if (afterCursor == null)
       afterCursor = /(^| )cm-fat-cursor($| )/.test(cm.getWrapperElement().className)
+    var re = bracketRegex(config)
 
     // A cursor is defined as between two characters, but in in vim command mode
     // (i.e. not insert mode), the cursor is visually represented as a
     // highlighted box on top of the 2nd character. Otherwise, we allow matches
     // from before or after the cursor.
-    var match = (!afterCursor && pos >= 0 && matching[line.text.charAt(pos)]) ||
-        matching[line.text.charAt(++pos)];
+    var match = (!afterCursor && pos >= 0 && re.test(line.text.charAt(pos)) && matching[line.text.charAt(pos)]) ||
+        re.test(line.text.charAt(pos + 1)) && matching[line.text.charAt(++pos)];
     if (!match) return null;
     var dir = match.charAt(1) == ">" ? 1 : -1;
     if (config && config.strict && (dir > 0) != (pos == where.ch)) return null;
@@ -585,7 +605,7 @@
     var maxScanLines = (config && config.maxScanLines) || 1000;
 
     var stack = [];
-    var re = config && config.bracketRegex ? config.bracketRegex : /[(){}[\]]/;
+    var re = bracketRegex(config)
     var lineEnd = dir > 0 ? Math.min(where.line + maxScanLines, cm.lastLine() + 1)
                           : Math.max(cm.firstLine() - 1, where.line - maxScanLines);
     for (var lineNo = where.line; lineNo != lineEnd; lineNo += dir) {
@@ -598,7 +618,7 @@
         var ch = line.charAt(pos);
         if (re.test(ch) && (style === undefined || cm.getTokenTypeAt(Pos(lineNo, pos + 1)) == style)) {
           var match = matching[ch];
-          if ((match.charAt(1) == ">") == (dir > 0)) stack.push(ch);
+          if (match && (match.charAt(1) == ">") == (dir > 0)) stack.push(ch);
           else if (!stack.length) return {pos: Pos(lineNo, pos), ch: ch};
           else stack.pop();
         }
@@ -801,7 +821,7 @@ CodeMirror.registerHelper("fold", "brace", function(cm, start) {
       ++pos;
     }
   }
-  if (end == null || line == end && endCh == startCh) return;
+  if (end == null || line == end) return;
   return {from: CodeMirror.Pos(line, startCh),
           to: CodeMirror.Pos(end, endCh)};
 });
@@ -895,7 +915,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
     }
     if (!range || range.cleared || force === "unfold") return;
 
-    var myWidget = makeWidget(cm, options);
+    var myWidget = makeWidget(cm, options, range);
     CodeMirror.on(myWidget, "mousedown", function(e) {
       myRange.clear();
       CodeMirror.e_preventDefault(e);
@@ -911,8 +931,13 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
     CodeMirror.signal(cm, "fold", cm, range.from, range.to);
   }
 
-  function makeWidget(cm, options) {
+  function makeWidget(cm, options, range) {
     var widget = getOption(cm, options, "widget");
+
+    if (typeof widget == "function") {
+      widget = widget(range.from, range.to);
+    }
+
     if (typeof widget == "string") {
       var text = document.createTextNode(widget);
       widget = document.createElement("span");
@@ -1022,7 +1047,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       cm.clearGutter(cm.state.foldGutter.options.gutter);
       cm.state.foldGutter = null;
       cm.off("gutterClick", onGutterClick);
-      cm.off("change", onChange);
+      cm.off("changes", onChange);
       cm.off("viewportChange", onViewportChange);
       cm.off("fold", onFold);
       cm.off("unfold", onFold);
@@ -1032,7 +1057,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
       cm.state.foldGutter = new State(parseOptions(val));
       updateInViewport(cm);
       cm.on("gutterClick", onGutterClick);
-      cm.on("change", onChange);
+      cm.on("changes", onChange);
       cm.on("viewportChange", onViewportChange);
       cm.on("fold", onFold);
       cm.on("unfold", onFold);
@@ -1057,8 +1082,13 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
 
   function isFolded(cm, line) {
     var marks = cm.findMarks(Pos(line, 0), Pos(line + 1, 0));
-    for (var i = 0; i < marks.length; ++i)
-      if (marks[i].__isFold && marks[i].find().from.line == line) return marks[i];
+    for (var i = 0; i < marks.length; ++i) {
+      if (marks[i].__isFold) {
+        var fromPos = marks[i].find(-1);
+        if (fromPos && fromPos.line === line)
+          return marks[i];
+      }
+    }
   }
 
   function marker(spec) {
@@ -1072,23 +1102,35 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
   }
 
   function updateFoldInfo(cm, from, to) {
-    var opts = cm.state.foldGutter.options, cur = from;
+    var opts = cm.state.foldGutter.options, cur = from - 1;
     var minSize = cm.foldOption(opts, "minFoldSize");
     var func = cm.foldOption(opts, "rangeFinder");
+    // we can reuse the built-in indicator element if its className matches the new state
+    var clsFolded = typeof opts.indicatorFolded == "string" && classTest(opts.indicatorFolded);
+    var clsOpen = typeof opts.indicatorOpen == "string" && classTest(opts.indicatorOpen);
     cm.eachLine(from, to, function(line) {
+      ++cur;
       var mark = null;
+      var old = line.gutterMarkers;
+      if (old) old = old[opts.gutter];
       if (isFolded(cm, cur)) {
+        if (clsFolded && old && clsFolded.test(old.className)) return;
         mark = marker(opts.indicatorFolded);
       } else {
         var pos = Pos(cur, 0);
         var range = func && func(cm, pos);
-        if (range && range.to.line - range.from.line >= minSize)
+        if (range && range.to.line - range.from.line >= minSize) {
+          if (clsOpen && old && clsOpen.test(old.className)) return;
           mark = marker(opts.indicatorOpen);
+        }
       }
+      if (!mark && !old) return;
       cm.setGutterMarker(line, opts.gutter, mark);
-      ++cur;
     });
   }
+
+  // copied from CodeMirror/src/util/dom.js
+  function classTest(cls) { return new RegExp("(^|\\s)" + cls + "(?:$|\\s)\\s*") }
 
   function updateInViewport(cm) {
     var vp = cm.getViewport(), state = cm.state.foldGutter;
@@ -1106,7 +1148,7 @@ CodeMirror.registerHelper("fold", "include", function(cm, start) {
     if (gutter != opts.gutter) return;
     var folded = isFolded(cm, line);
     if (folded) folded.clear();
-    else cm.foldCode(Pos(line, 0), opts.rangeFinder);
+    else cm.foldCode(Pos(line, 0), opts);
   }
 
   function onChange(cm) {
@@ -1457,7 +1499,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
             // Get the outer indent, making sure to handle CodeMirror.Pass
             var outerIndent = 0;
             if (outer.indent) {
-              var possibleOuterIndent = outer.indent(state.outer, "");
+              var possibleOuterIndent = outer.indent(state.outer, "", "");
               if (possibleOuterIndent !== CodeMirror.Pass) outerIndent = possibleOuterIndent;
             }
 
@@ -1499,10 +1541,10 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       }
     },
 
-    indent: function(state, textAfter) {
+    indent: function(state, textAfter, line) {
       var mode = state.innerActive ? state.innerActive.mode : outer;
       if (!mode.indent) return CodeMirror.Pass;
-      return mode.indent(state.innerActive ? state.inner : state.outer, textAfter);
+      return mode.indent(state.innerActive ? state.inner : state.outer, textAfter, line);
     },
 
     blankLine: function(state) {
@@ -1515,7 +1557,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
           var other = others[i];
           if (other.open === "\n") {
             state.innerActive = other;
-            state.inner = CodeMirror.startState(other.mode, mode.indent ? mode.indent(state.outer, "") : 0);
+            state.inner = CodeMirror.startState(other.mode, mode.indent ? mode.indent(state.outer, "", "") : 0);
           }
         }
       } else if (state.innerActive.close === "\n") {
@@ -1578,7 +1620,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     cm.on("markerAdded", this.resizeHandler);
     cm.on("markerCleared", this.resizeHandler);
     if (options.listenForChanges !== false)
-      cm.on("change", this.changeHandler = function() {
+      cm.on("changes", this.changeHandler = function() {
         scheduleRedraw(250);
       });
   }
@@ -1651,7 +1693,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     this.cm.off("refresh", this.resizeHandler);
     this.cm.off("markerAdded", this.resizeHandler);
     this.cm.off("markerCleared", this.resizeHandler);
-    if (this.changeHandler) this.cm.off("change", this.changeHandler);
+    if (this.changeHandler) this.cm.off("changes", this.changeHandler);
     this.div.parentNode.removeChild(this.div);
   };
 });
@@ -1857,7 +1899,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
       if (match.from.line >= this.gap.to) break;
       if (match.to.line >= this.gap.from) this.matches.splice(i--, 1);
     }
-    var cursor = this.cm.getSearchCursor(this.query, CodeMirror.Pos(this.gap.from, 0), this.caseFold);
+    var cursor = this.cm.getSearchCursor(this.query, CodeMirror.Pos(this.gap.from, 0), {caseFold: this.caseFold, multiline: this.options.multiline});
     var maxMatches = this.options && this.options.maxMatches || MAX_MATCHES;
     while (cursor.findNext()) {
       var match = {from: cursor.from(), to: cursor.to()};
@@ -2147,24 +2189,26 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     }
   }
 
-  function lastMatchIn(string, regexp) {
-    var cutOff = 0, match
-    for (;;) {
-      regexp.lastIndex = cutOff
+  function lastMatchIn(string, regexp, endMargin) {
+    var match, from = 0
+    while (from <= string.length) {
+      regexp.lastIndex = from
       var newMatch = regexp.exec(string)
-      if (!newMatch) return match
-      match = newMatch
-      cutOff = match.index + (match[0].length || 1)
-      if (cutOff == string.length) return match
+      if (!newMatch) break
+      var end = newMatch.index + newMatch[0].length
+      if (end > string.length - endMargin) break
+      if (!match || end > match.index + match[0].length)
+        match = newMatch
+      from = newMatch.index + 1
     }
+    return match
   }
 
   function searchRegexpBackward(doc, regexp, start) {
     regexp = ensureFlags(regexp, "g")
     for (var line = start.line, ch = start.ch, first = doc.firstLine(); line >= first; line--, ch = -1) {
       var string = doc.getLine(line)
-      if (ch > -1) string = string.slice(0, ch)
-      var match = lastMatchIn(string, regexp)
+      var match = lastMatchIn(string, regexp, ch < 0 ? 0 : string.length - ch)
       if (match)
         return {from: Pos(line, match.index),
                 to: Pos(line, match.index + match[0].length),
@@ -2173,16 +2217,17 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
   }
 
   function searchRegexpBackwardMultiline(doc, regexp, start) {
+    if (!maybeMultiline(regexp)) return searchRegexpBackward(doc, regexp, start)
     regexp = ensureFlags(regexp, "gm")
-    var string, chunk = 1
+    var string, chunkSize = 1, endMargin = doc.getLine(start.line).length - start.ch
     for (var line = start.line, first = doc.firstLine(); line >= first;) {
-      for (var i = 0; i < chunk; i++) {
+      for (var i = 0; i < chunkSize && line >= first; i++) {
         var curLine = doc.getLine(line--)
-        string = string == null ? curLine.slice(0, start.ch) : curLine + "\n" + string
+        string = string == null ? curLine : curLine + "\n" + string
       }
-      chunk *= 2
+      chunkSize *= 2
 
-      var match = lastMatchIn(string, regexp)
+      var match = lastMatchIn(string, regexp, endMargin)
       if (match) {
         var before = string.slice(0, match.index).split("\n"), inside = match[0].split("\n")
         var startLine = line + before.length, startCh = before[before.length - 1].length
@@ -2462,7 +2507,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     {name: "C", mime: "text/x-csrc", mode: "clike", ext: ["c", "h", "ino"]},
     {name: "C++", mime: "text/x-c++src", mode: "clike", ext: ["cpp", "c++", "cc", "cxx", "hpp", "h++", "hh", "hxx"], alias: ["cpp"]},
     {name: "Cobol", mime: "text/x-cobol", mode: "cobol", ext: ["cob", "cpy"]},
-    {name: "C#", mime: "text/x-csharp", mode: "clike", ext: ["cs"], alias: ["csharp"]},
+    {name: "C#", mime: "text/x-csharp", mode: "clike", ext: ["cs"], alias: ["csharp", "cs"]},
     {name: "Clojure", mime: "text/x-clojure", mode: "clojure", ext: ["clj", "cljc", "cljx"]},
     {name: "ClojureScript", mime: "text/x-clojurescript", mode: "clojure", ext: ["cljs"]},
     {name: "Closure Stylesheets (GSS)", mime: "text/x-gss", mode: "css", ext: ["gss"]},
@@ -2493,7 +2538,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     {name: "Factor", mime: "text/x-factor", mode: "factor", ext: ["factor"]},
     {name: "FCL", mime: "text/x-fcl", mode: "fcl"},
     {name: "Forth", mime: "text/x-forth", mode: "forth", ext: ["forth", "fth", "4th"]},
-    {name: "Fortran", mime: "text/x-fortran", mode: "fortran", ext: ["f", "for", "f77", "f90"]},
+    {name: "Fortran", mime: "text/x-fortran", mode: "fortran", ext: ["f", "for", "f77", "f90", "f95"]},
     {name: "F#", mime: "text/x-fsharp", mode: "mllike", ext: ["fs"], alias: ["fsharp"]},
     {name: "Gas", mime: "text/x-gas", mode: "gas", ext: ["s"]},
     {name: "Gherkin", mime: "text/x-feature", mode: "gherkin", ext: ["feature"]},
@@ -2517,7 +2562,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     {name: "JSON", mimes: ["application/json", "application/x-json"], mode: "javascript", ext: ["json", "map"], alias: ["json5"]},
     {name: "JSON-LD", mime: "application/ld+json", mode: "javascript", ext: ["jsonld"], alias: ["jsonld"]},
     {name: "JSX", mime: "text/jsx", mode: "jsx", ext: ["jsx"]},
-    {name: "Jinja2", mime: "null", mode: "jinja2", ext: ["j2", "jinja", "jinja2"]},
+    {name: "Jinja2", mime: "text/jinja2", mode: "jinja2", ext: ["j2", "jinja", "jinja2"]},
     {name: "Julia", mime: "text/x-julia", mode: "julia", ext: ["jl"]},
     {name: "Kotlin", mime: "text/x-kotlin", mode: "clike", ext: ["kt"]},
     {name: "LESS", mime: "text/x-less", mode: "css", ext: ["less"]},
@@ -2526,7 +2571,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     {name: "Markdown", mime: "text/x-markdown", mode: "markdown", ext: ["markdown", "md", "mkd"]},
     {name: "mIRC", mime: "text/mirc", mode: "mirc"},
     {name: "MariaDB SQL", mime: "text/x-mariadb", mode: "sql"},
-    {name: "Mathematica", mime: "text/x-mathematica", mode: "mathematica", ext: ["m", "nb"]},
+    {name: "Mathematica", mime: "text/x-mathematica", mode: "mathematica", ext: ["m", "nb", "wl", "wls"]},
     {name: "Modelica", mime: "text/x-modelica", mode: "modelica", ext: ["mo"]},
     {name: "MUMPS", mime: "text/x-mumps", mode: "mumps", ext: ["mps"]},
     {name: "MS SQL", mime: "text/x-mssql", mode: "sql"},
@@ -2536,7 +2581,8 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     {name: "NSIS", mime: "text/x-nsis", mode: "nsis", ext: ["nsh", "nsi"]},
     {name: "NTriples", mimes: ["application/n-triples", "application/n-quads", "text/n-triples"],
      mode: "ntriples", ext: ["nt", "nq"]},
-    {name: "Objective-C", mime: "text/x-objectivec", mode: "clike", ext: ["m", "mm"], alias: ["objective-c", "objc"]},
+    {name: "Objective-C", mime: "text/x-objectivec", mode: "clike", ext: ["m"], alias: ["objective-c", "objc"]},
+    {name: "Objective-C++", mime: "text/x-objectivec++", mode: "clike", ext: ["mm"], alias: ["objective-c++", "objc++"]},
     {name: "OCaml", mime: "text/x-ocaml", mode: "mllike", ext: ["ml", "mli", "mll", "mly"]},
     {name: "Octave", mime: "text/x-octave", mode: "octave", ext: ["m"]},
     {name: "Oz", mime: "text/x-oz", mode: "oz", ext: ["oz"]},
@@ -2547,6 +2593,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
     {name: "Pig", mime: "text/x-pig", mode: "pig", ext: ["pig"]},
     {name: "Plain Text", mime: "text/plain", mode: "null", ext: ["txt", "text", "conf", "def", "list", "log"]},
     {name: "PLSQL", mime: "text/x-plsql", mode: "sql", ext: ["pls"]},
+    {name: "PostgreSQL", mime: "text/x-pgsql", mode: "sql"},
     {name: "PowerShell", mime: "application/x-powershell", mode: "powershell", ext: ["ps1", "psd1", "psm1"]},
     {name: "Properties files", mime: "text/x-properties", mode: "properties", ext: ["properties", "ini", "in"], alias: ["ini", "properties"]},
     {name: "ProtoBuf", mime: "text/x-protobuf", mode: "protobuf", ext: ["proto"]},
@@ -2630,6 +2677,7 @@ CodeMirror.multiplexingMode = function(outer /*, others */) {
   };
 
   CodeMirror.findModeByExtension = function(ext) {
+    ext = ext.toLowerCase();
     for (var i = 0; i < CodeMirror.modeInfo.length; i++) {
       var info = CodeMirror.modeInfo[i];
       if (info.ext) for (var j = 0; j < info.ext.length; j++)
