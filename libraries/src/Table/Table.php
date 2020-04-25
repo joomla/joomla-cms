@@ -21,6 +21,7 @@ use Joomla\Database\DatabaseQuery;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
+use Joomla\String\StringHelper;
 
 /**
  * Abstract Table class
@@ -954,7 +955,9 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 				// Prepare the asset to be stored.
 				$asset->parent_id = $parentId;
 				$asset->name      = $name;
-				$asset->title     = $title;
+
+				// Respect the table field limits
+				$asset->title = StringHelper::substr($title, 0, 100);
 
 				if ($this->_rules instanceof Rules)
 				{

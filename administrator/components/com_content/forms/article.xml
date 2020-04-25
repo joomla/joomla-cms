@@ -22,6 +22,7 @@
 			label="JGLOBAL_TITLE"
 			size="40"
 			required="true"
+			maxlength="255"
 		/>
 
 		<field
