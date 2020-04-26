@@ -210,35 +210,33 @@ $assoc = Associations::isEnabled();
 									?>
 								</td>
 								<td class="article-status">
-									<div class="d-flex">
-										<div class="btn-group tbody-icon mr-1 small">
-										<?php
+								<?php if ($workflow_enabled) : ?>
+									<div class="d-flex align-items-center tbody-icon mr-1 small">
+									<?php
+									$options = [
+										'transitions' => $transitions,
+										'stage' => Text::_($item->stage_title),
+										'id' => (int) $item->id
+									];
 
-											if ($workflow_enabled) :
-
-											$options = [
-												'transitions' => $transitions,
-												'stage' => Text::_($item->stage_title),
-												'id' => (int) $item->id
-											];
-
-											echo (new PublishedButton)
-												->removeState(0)
-												->removeState(1)
-												->removeState(2)
-												->removeState(-2)
-												->addState(ContentComponent::CONDITION_PUBLISHED, '', 'publish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JPUBLISHED')])
-												->addState(ContentComponent::CONDITION_UNPUBLISHED, '', 'unpublish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JUNPUBLISHED')])
-												->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JARCHIVED')])
-												->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JTRASHED')])
-												->setLayout('joomla.button.transition-button')
-												->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
-											else :
-												echo HTMLHelper::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down);
-											endif;
-										?>
-										</div>
+									echo (new PublishedButton)
+										->removeState(0)
+										->removeState(1)
+										->removeState(2)
+										->removeState(-2)
+										->addState(ContentComponent::CONDITION_PUBLISHED, '', 'publish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JPUBLISHED')])
+										->addState(ContentComponent::CONDITION_UNPUBLISHED, '', 'unpublish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JUNPUBLISHED')])
+										->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JARCHIVED')])
+										->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JTRASHED')])
+										->setLayout('joomla.button.transition-button')
+										->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
+									?>
 									</div>
+								<?php
+									else :
+										echo HTMLHelper::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down);
+									endif;
+								?>
 								</td>
 								<th scope="row" class="has-context">
 									<div class="break-word">

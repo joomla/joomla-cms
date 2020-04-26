@@ -249,9 +249,7 @@ class PlgWorkflowPublishing extends CMSPlugin
 			return true;
 		}
 
-		$this->app->enqueueMessage(Text::_('PLG_WORKFLOW_PUBLISHING_CHANGE_STATE_NOT_ALLOWED'), 'error');
-
-		return false;
+		throw new Exception(Text::_('PLG_WORKFLOW_PUBLISHING_CHANGE_STATE_NOT_ALLOWED'));
 	}
 
 	/**
