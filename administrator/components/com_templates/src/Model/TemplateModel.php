@@ -742,7 +742,41 @@ class TemplateModel extends FormModel
 			}
 
 			// Copy all files from $fromName template to $newName folder
-			if (!Folder::copy($fromPath, $toPath) || !$this->fixTemplateName())
+			if (!Folder::copy($fromPath, $toPath))
+			{
+				return false;
+			}
+
+			// Check manifest for additional files
+			$manifest = simplexml_load_file($toPath . '/templateDetails.xml');
+
+			// Copy language files from global folder
+			if ($languages = $manifest->languages)
+			{
+				$folder        = (string) $languages->attributes()->folder;
+				$languageFiles = $languages->language;
+
+				Folder::create($toPath . '/' . $folder . '/' . $languageFiles->attributes()->tag);
+
+				foreach ($languageFiles as $languageFile)
+				{
+					$src = Path::clean($client->path . '/language/' . $languageFile);
+					$dst = Path::clean($toPath . '/' . $folder . '/' . $languageFile);
+					File::copy($src, $dst);
+				}
+			}
+
+			// Copy media files
+			if ($media = $manifest->media)
+			{
+				$folder      = (string) $languages->attributes()->folder;
+				$destination = (string) $languages->attributes()->destination;
+
+				Folder::copy('media/' . $destination, $toPath . '/' . $folder);
+			}
+
+			// Adjust to ne template name
+			if (!$this->fixTemplateName())
 			{
 				return false;
 			}
