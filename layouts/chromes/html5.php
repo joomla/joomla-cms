@@ -22,7 +22,7 @@ if ((string) $module->content === '')
 $moduleTag     = htmlspecialchars($params->get('module_tag', 'div'), ENT_QUOTES, 'UTF-8');
 $headerTag     = htmlspecialchars($params->get('header_tag', 'h3'), ENT_QUOTES, 'UTF-8');
 $bootstrapSize = (int) $params->get('bootstrap_size', 0);
-$moduleClass   = $bootstrapSize !== 0 ? ' span' . $bootstrapSize : '';
+$moduleClass   = $bootstrapSize !== 0 ? ' col-md-' . $bootstrapSize : '';
 
 // Temporarily store header class in variable
 $headerClass = $params->get('header_class');
