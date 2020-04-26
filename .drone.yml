@@ -54,7 +54,7 @@ steps:
       branch: staging
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - if [ $DRONE_REPO_NAME != 'joomla-cms' ]; then echo "The analysis check only run on the joomla/joomla-cms repo"; exit 0; fi
+      - if [ $DRONE_REPO_NAME = "joomla-cms" ] || [ $DRONE_REPO_NAME = "cms-security" ]; then echo "The rips analysis check only runs on the joomla/joomla-cms and joomla/cms-security repo"; exit 0; fi
       - rips-cli rips:list --table=scans -n -p filter='{"__and":[{"__lessThan":{"percent":100}}]}'
       - rips-cli rips:scan:start -G -a 1 -t 1 -p $(pwd) -t 1 -R -k -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
     environment:
@@ -94,12 +94,12 @@ steps:
       GITHUB_TOKEN:
         from_secret: github_token
     commands:
-      - if [ $DRONE_REPO_NAME != 'joomla-cms' ]; then echo "The packager only run on the joomla/joomla-cms repo"; exit 0; fi
+      - if [ $DRONE_REPO_NAME != 'joomla-cms' ]; then echo "The packager only runs on the joomla/joomla-cms repo"; exit 0; fi
       - /bin/drone_build.sh
 
 
 ---
 kind: signature
-hmac: 7bd83f0518fdaaf313d6c8c21aeee6041a17e76e24a03e5d4a06786a9a6d156c
+hmac: b2641af6114b0cf3b9ca084fe957ae66f47598b6a9c7cc88a2365f1aa8b9dde1
 
 ...
