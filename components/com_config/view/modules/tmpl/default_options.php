@@ -30,15 +30,11 @@ endif;
 <?php foreach ($this->form->getFieldset($name) as $field) : ?>
 
 	<li>
-		<?php
-		// If multi-language site, make menu-type selection read-only
-		if (JLanguageMultilang::isEnabled() && $this->item['module'] === 'mod_menu' && $field->getAttribute('name') === 'menutype')
-		{
-			$field->readonly = true;
-		}
-
-		echo $field->renderField();
-		?>
+		<?php // If multi-language site, make menu-type selection read-only ?>
+		<?php if (JLanguageMultilang::isEnabled() && $this->item['module'] === 'mod_menu' && $field->getAttribute('name') === 'menutype') : ?>
+			<?php $field->readonly = true; ?>
+		<?php endif; ?>
+		<?php echo $field->renderField(); ?>
 	</li>
 
 <?php endforeach; ?>
