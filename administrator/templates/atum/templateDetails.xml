@@ -26,6 +26,9 @@
 		<folder>Service</folder>
 		<folder>scss</folder>
 	</files>
+	<media destination="templates/atum" folder="media">
+		<folder>js</folder>
+	</media>
 	<positions>
 		<!-- used directly in the template -->
 		<position>bottom</position>
@@ -43,8 +46,8 @@
 		<position>customtop</position>
 	</positions>
 	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.tpl_atum.ini</language>
-		<language tag="en-GB">en-GB/en-GB.tpl_atum.sys.ini</language>
+		<language tag="en-GB">en-GB/tpl_atum.ini</language>
+		<language tag="en-GB">en-GB/tpl_atum.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
