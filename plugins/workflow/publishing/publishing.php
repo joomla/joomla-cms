@@ -10,12 +10,15 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\DatabaseModelInterface;
+use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\String\Inflector;
 
 /**
  * Workflow Publishing Plugin
@@ -148,6 +151,62 @@ class PlgWorkflowPublishing extends CMSPlugin
 		$form->setFieldAttribute($table->getColumnAlias('published'), 'disabled', 'true');
 
 		return true;
+	}
+
+	/**
+	 * Manipulate the generic list view
+	 *
+	 * @param type $context
+	 * @param type $view
+	 * @param type $result
+	 */
+	public function onAfterDisplay(string $context, ViewInterface $view, $result)
+	{
+		$parts = explode('.', $context);
+
+		if ($parts < 2)
+		{
+			return true;
+		}
+
+		$app = Factory::getApplication();
+
+		// We need the single model context for checking for workflow
+		$singularsection = Inflector::singularize($parts[1]);
+
+		$newcontext = $parts[0] . '.' . $singularsection;
+
+		if (!$app->isClient('administrator') || !$this->isSupported($newcontext))
+		{
+			return true;
+		}
+
+		// That's the hard coded list from the AdminController publish method => change, when it's make dynamic in the future
+		$states = ['publish', 'unpublish', 'archive', 'trash', 'report'];
+
+		$js = "
+			document.addEventListener('DOMContentLoaded', function()
+			{
+				var dropdown = document.getElementById('toolbar-dropdown-status-group');
+
+				if (!dropdown)
+				{
+					reuturn;
+				}
+
+				" . \json_encode($states) . ".forEach((action) => {
+					var button = document.getElementById('status-group-children-' + action);
+
+					if (button)
+					{
+						button.classList.add('d-none');
+					}
+				});
+
+			});
+		";
+
+		$app->getDocument()->addScriptDeclaration($js);
 	}
 
 	/**
