@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -189,7 +190,26 @@ class HtmlView extends AbstractView
 	 */
 	public function display($tpl = null)
 	{
+		$app = Factory::getApplication();
+
+		if ($this->option)
+		{
+			$component = $this->option;
+		}
+		else
+		{
+			$component = ApplicationHelper::getComponentName();
+		}
+
+		$context = $component . '.' . $this->getName();
+
+		PluginHelper::importPlugin('content');
+
+		$app->triggerEvent('onBeforeDisplay', [$context, $this]);
+
 		$result = $this->loadTemplate($tpl);
+
+		$app->triggerEvent('onAfterDisplay', [$context, $this, $result]);
 
 		echo $result;
 	}
