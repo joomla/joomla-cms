@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
 
 /**
@@ -60,7 +62,7 @@ class BannersViewClient extends JViewLegacy
 		$this->state = $this->get('State');
 
 		// Global fields
-		$this->fields = array(
+		$globalFields = array(
 			array('parent', 'parent_id'),
 			array('published', 'state', 'enabled'),
 			array('category', 'catid'),
@@ -74,9 +76,17 @@ class BannersViewClient extends JViewLegacy
 			'version_note',
 		);
 
-		$context      = $this->form->getName();
-		$fields       = JFactory::getApplication()->getUserState($context . '.edit.global.fields', array());
-		$this->fields = array_merge($this->fields, $fields);
+		$context = $this->form->getName();
+
+		// Get new fields
+		$newFields = JFactory::getApplication()->getUserState($context . '.edit.global.fields', array());
+
+		// Reset session value
+		JFactory::getApplication()->setUserState($context . '.edit.global.fields', array());
+
+		// Merge global fields with new fields
+		$fields       = array_merge($globalFields, $newFields);
+		$this->fields = ArrayHelper::arrayUnique($fields);
 
 		$this->canDo = JHelperContent::getActions('com_banners');
 
