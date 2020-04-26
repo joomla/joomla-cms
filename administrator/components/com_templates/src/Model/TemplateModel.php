@@ -769,10 +769,10 @@ class TemplateModel extends FormModel
 			// Copy media files
 			if ($media = $manifest->media)
 			{
-				$folder      = (string) $languages->attributes()->folder;
-				$destination = (string) $languages->attributes()->destination;
+				$folder      = (string) $media->attributes()->folder;
+				$destination = (string) $media->attributes()->destination;
 
-				Folder::copy('media/' . $destination, $toPath . '/' . $folder);
+				Folder::copy(JPATH_SITE . '/media/' . $destination, $toPath . '/' . $folder);
 			}
 
 			// Adjust to ne template name
@@ -843,6 +843,8 @@ class TemplateModel extends FormModel
 			$replace[] = '<name>' . $newName . '</name>';
 			$pattern[] = '#<language(.*)' . $oldName . '(.*)</language>#';
 			$replace[] = '<language${1}' . $newName . '${2}</language>';
+			$pattern[] = '#<media(.*)' . $oldName . '(.*)>#';
+			$replace[] = '<media${1}' . $newName . '${2}>';
 			$contents = preg_replace($pattern, $replace, $contents);
 			$result = File::write($xmlFile, $contents) && $result;
 		}
