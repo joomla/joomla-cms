@@ -368,7 +368,7 @@ class ArticlesModel extends ListModel
 		{
 			if (is_numeric($published))
 			{
-				$state = (int) $state;
+				$state = (int) $published;
 				$query->where($db->quoteName('a.state') . ' = :state')
 					->bind(':state', $published, ParameterType::INTEGER);
 			}
