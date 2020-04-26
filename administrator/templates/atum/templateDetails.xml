@@ -26,6 +26,9 @@
 		<folder>Service</folder>
 		<folder>scss</folder>
 	</files>
+	<media destination="templates/atum" folder="media">
+		<folder>js</folder>
+	</media>
 	<positions>
 		<!-- used directly in the template -->
 		<position>bottom</position>
