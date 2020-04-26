@@ -22,7 +22,6 @@
 		<folder>images</folder>
 		<folder>js</folder>
 		<folder>scss</folder>
-		<folder>language</folder>
 	</files>
 	<positions>
 		<position>menu</position>
