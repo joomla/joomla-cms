@@ -24,13 +24,12 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			statuses="*,0,1,2,-2"
-			onchange="this.form.submit();"
 			default="s.ordering ASC"
+			onchange="this.form.submit();"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
-			<option vaule="s.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
-			<option vaule="s.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
+			<option value="s.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
+			<option value="s.ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
 			<option value="s.published ASC">JSTATUS_ASC</option>
 			<option value="s.published DESC">JSTATUS_DESC</option>
 			<option value="s.title ASC">JGLOBAL_NAME_ASC</option>
