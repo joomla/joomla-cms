@@ -775,7 +775,7 @@ class TemplateModel extends FormModel
 				Folder::copy(JPATH_SITE . '/media/' . $destination, $toPath . '/' . $folder);
 			}
 
-			// Adjust to ne template name
+			// Adjust to new template name
 			if (!$this->fixTemplateName())
 			{
 				return false;
