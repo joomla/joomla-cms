@@ -787,7 +787,7 @@ class TemplateModel extends FormModel
 		// Rename Language files
 		// Get list of language files
 		$result   = true;
-		$files    = Folder::files($this->getState('to_path'), '.ini', true, true);
+		$files    = Folder::files($this->getState('to_path'), '\.ini$', true, true);
 		$newName  = strtolower($this->getState('new_name'));
 		$template = $this->getTemplate();
 		$oldName  = $template->element;
