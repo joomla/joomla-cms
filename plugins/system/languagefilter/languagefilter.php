@@ -227,6 +227,14 @@ class PlgSystemLanguageFilter extends JPlugin
 			|| $lang !== $this->default_lang
 			|| $lang !== $this->current_lang))
 		{
+			// Remove trailing slash.
+			if ($this->params->get('remove_trailing_slash', 0))
+			{
+				$uri->setPath($uri->getPath() . '/' . $sef);
+
+				return;
+			}
+
 			$uri->setPath($uri->getPath() . '/' . $sef . '/');
 		}
 	}

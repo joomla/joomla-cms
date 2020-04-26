@@ -109,6 +109,19 @@
 				</field>
 
 				<field
+					name="remove_trailing_slash"
+					type="radio"
+					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_TRAILING_SLASH_LABEL"
+					description="PLG_SYSTEM_LANGUAGEFILTER_FIELD_REMOVE_TRAILING_SLASH_DESC"
+					default="0"
+					filter="integer"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
 					name="lang_cookie"
 					type="list"
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_LABEL"
