@@ -15,9 +15,10 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Event\Dispatcher as EventDispatcher;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
-use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Event;
 use Joomla\Registry\Registry;
 
 /**
@@ -67,14 +68,8 @@ class Captcha implements DispatcherAwareInterface
 	{
 		$this->_name = $captcha;
 
-		if (!empty($options['dispatcher']) && $options['dispatcher'] instanceof DispatcherInterface)
-		{
-			$this->setDispatcher($options['dispatcher']);
-		}
-		else
-		{
-			$this->setDispatcher(Factory::getApplication()->getDispatcher());
-		}
+		// Use a dedicated dispatcher
+		$this->setDispatcher(new EventDispatcher);
 
 		$this->_load($options);
 	}
@@ -115,9 +110,12 @@ class Captcha implements DispatcherAwareInterface
 	 */
 	public function initialise($id)
 	{
-		$arg = ['id' => $id];
+		$event = new Event(
+			'onInit',
+			['id' => $id]
+		);
 
-		$this->update('onInit', $arg);
+		$this->getDispatcher()->dispatch($event->getName(), $event);
 
 		return true;
 	}
@@ -148,15 +146,21 @@ class Captcha implements DispatcherAwareInterface
 			return '';
 		}
 
-		$arg = [
-			'name'  => $name,
-			'id'    => $id ?: $name,
-			'class' => $class,
-		];
+		$event = new Event(
+			'onDisplay',
+			[
+				'name'  => $name,
+				'id'    => $id ?: $name,
+				'class' => $class,
+			]
+		);
 
-		$result = $this->update('onDisplay', $arg);
+		$this->getDispatcher()->dispatch($event->getName(), $event);
 
-		return $result;
+		$result = $event['result'];
+
+		// Return first result
+		return (string) (is_array($result) ? reset($result) : $result);
 	}
 
 	/**
@@ -177,11 +181,17 @@ class Captcha implements DispatcherAwareInterface
 			return false;
 		}
 
-		$arg = ['code'	=> $code];
+		$event = new Event(
+			'onCheckAnswer',
+			['code'	=> $code]
+		);
 
-		$result = $this->update('onCheckAnswer', $arg);
+		$this->getDispatcher()->dispatch($event->getName(), $event);
 
-		return $result;
+		$result = $event['result'];
+
+		// Return first result
+		return (is_array($result) ? reset($result) : $result);
 	}
 
 	/**
@@ -200,34 +210,15 @@ class Captcha implements DispatcherAwareInterface
 			return;
 		}
 
-		$arg = [
-			'field' => $field,
-			'element' => $element,
-		];
+		$event = new Event(
+			'onSetupField',
+			[
+				'field' => $field,
+				'element' => $element,
+			]
+		);
 
-		$result = $this->update('onSetupField', $arg);
-
-		return $result;
-	}
-
-	/**
-	 * Method to call the captcha callback if it exist.
-	 *
-	 * @param   string  $name   Callback name
-	 * @param   array   &$args  Arguments
-	 *
-	 * @return  mixed
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function update($name, &$args)
-	{
-		if (method_exists($this->_captcha, $name))
-		{
-			return call_user_func_array(array($this->_captcha, $name), $args);
-		}
-
-		return null;
+		$this->getDispatcher()->dispatch($event->getName(), $event);
 	}
 
 	/**
@@ -273,5 +264,8 @@ class Captcha implements DispatcherAwareInterface
 		$name = 'PlgCaptcha' . $this->_name;
 		$dispatcher     = $this->getDispatcher();
 		$this->_captcha = new $name($dispatcher, (array) $plugin, $options);
+
+		// Register listeners
+		$this->_captcha->registerListeners();
 	}
 }
