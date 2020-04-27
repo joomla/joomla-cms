@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset name="user_details">
-		<field 
-			name="name" 
+		<field
+			name="name"
 			type="text"
 			label="COM_USERS_USER_FIELD_NAME_LABEL"
 			required="true"
 			size="30"
 		/>
 
-		<field 
+		<field
 			name="username"
 			type="text"
 			label="COM_USERS_USER_FIELD_USERNAME_LABEL"
@@ -21,7 +21,7 @@
 			name="password"
 			type="password"
 			label="JGLOBAL_PASSWORD"
-			autocomplete="off"
+			autocomplete="new-password"
 			class="validate-password-strength"
 			filter="raw"
 			validate="password"
@@ -30,11 +30,11 @@
 			size="30"
 		/>
 
-		<field 
-			name="password2" 
+		<field
+			name="password2"
 			type="password"
 			label="COM_USERS_USER_FIELD_PASSWORD2_LABEL"
-			autocomplete="off"
+			autocomplete="new-password"
 			class="validate-passwordExtra"
 			filter="raw"
 			message="COM_USERS_USER_FIELD_PASSWORD1_MESSAGE"
@@ -50,6 +50,7 @@
 			required="true"
 			size="30"
 			validate="email"
+			validDomains="com_users.domains"
 		/>
 
 		<field
@@ -102,7 +103,7 @@
 			type="radio"
 			label="COM_USERS_USER_FIELD_SENDEMAIL_LABEL"
 			default="0"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -112,11 +113,11 @@
 			name="block"
 			type="radio"
 			label="COM_USERS_USER_FIELD_BLOCK_LABEL"
-			class="switcher switcher-danger"
+			layout="joomla.form.field.radio.switcher"
 			default="0"
 			>
-			<option value="0">COM_USERS_USER_FIELD_ENABLE</option>
 			<option value="1">COM_USERS_USER_FIELD_BLOCK</option>
+			<option value="0">COM_USERS_USER_FIELD_ENABLE</option>
 		</field>
 
 		<field
@@ -124,7 +125,7 @@
 			type="radio"
 			label="COM_USERS_USER_FIELD_REQUIRERESET_LABEL"
 			default="0"
-			class="switcher"
+			layout="joomla.form.field.radio.switcher"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -148,8 +149,8 @@
 		<!--  Basic user account settings. -->
 		<fieldset name="settings" label="COM_USERS_SETTINGS_FIELDSET_LABEL">
 
-			<field 
-				name="admin_style" 
+			<field
+				name="admin_style"
 				type="templatestyle"
 				label="COM_USERS_USER_FIELD_BACKEND_TEMPLATE_LABEL"
 				client="administrator"
@@ -158,8 +159,8 @@
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field 
-				name="admin_language" 
+			<field
+				name="admin_language"
 				type="language"
 				label="COM_USERS_USER_FIELD_BACKEND_LANGUAGE_LABEL"
 				client="administrator"
@@ -167,8 +168,8 @@
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field 
-				name="language" 
+			<field
+				name="language"
 				type="language"
 				label="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
 				client="site"
@@ -176,31 +177,68 @@
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field 
-				name="editor" 
-				type="plugins" 
+			<field
+				name="editor"
+				type="plugins"
 				label="COM_USERS_USER_FIELD_EDITOR_LABEL"
 				folder="editors"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
-			<field 
-				name="helpsite" 
-				type="helpsite"
-				label="COM_USERS_USER_FIELD_HELPSITE_LABEL"
-				>
-				<option value="">JOPTION_USE_DEFAULT</option>
-			</field>
-
-			<field 
-				name="timezone" 
+			<field
+				name="timezone"
 				type="timezone"
 				label="COM_USERS_USER_FIELD_TIMEZONE_LABEL"
 				>
 				<option value="">JOPTION_USE_DEFAULT</option>
 			</field>
 
+		</fieldset>
+		<!-- User accessibility settings -->
+		<fieldset name="accessibility" label="COM_USERS_A11Y_SETTINGS_FIELDSET_LABEL">
+			<field
+				name="a11y_mono"
+				type="radio"
+				label="COM_USERS_A11Y_SETTINGS_FIELD_MONOCHROME"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				>
+				<option value="0">JNO</option>
+				<option value="monochrome">JYES</option>
+			</field>
+			<field
+				name="a11y_contrast"
+				type="radio"
+				label="COM_USERS_A11Y_SETTINGS_FIELD_CONTRAST"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				>
+				<option value="0">JNO</option>
+				<option value="high_contrast">JYES</option>
+			</field>
+			<field
+				name="a11y_highlight"
+				type="radio"
+				label="COM_USERS_A11Y_SETTINGS_FIELD_HIGHLIGHT"
+				layout="joomla.form.field.radio.switcher"
+				default="0"
+				>
+				<option value="0">JNO</option>
+				<option value="highlight">JYES</option>
+			</field>
+			<field
+				name="a11y_font"
+				type="list"
+				label="COM_USERS_A11Y_SETTINGS_FIELD_FONTSIZE"
+				layout="joomla.form.field.list"
+				default="100">
+				<option value="80">80%</option>
+				<option value="90">90%</option>
+				<option value="100">100%</option>
+				<option value="110">110%</option>
+				<option value="125">125%</option>
+			</field>
 		</fieldset>
 
 	</fields>
