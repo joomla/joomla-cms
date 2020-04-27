@@ -816,7 +816,7 @@
  			type="list"
  			label="COM_CONTACT_NUMBER_CONTACTS_LIST_LABEL"
  			default="10"
-		    validate="options"
+			validate="options"
  			>
  			<option value="5">J5</option>
  			<option value="10">J10</option>
