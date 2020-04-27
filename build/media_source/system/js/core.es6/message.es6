@@ -52,23 +52,23 @@
     [].slice.call(Object.keys(messages)).forEach((type) => {
       // Array of messages of this type
       typeMessages = messages[type];
-			messagesBox = document.createElement('joomla-alert');
+      messagesBox = document.createElement('joomla-alert');
 
-			if (['notice', 'message', 'error', 'warning'].indexOf(type) > -1) {
-				alertClass = (type === 'notice') ? 'info' : type;
-				alertClass = (type === 'message') ? 'success' : alertClass;
-				alertClass = (type === 'error') ? 'danger' : alertClass;
-				alertClass = (type === 'warning') ? 'warning' : alertClass;
-			} else {
-				alertClass = 'info';
-			}
+      if (['notice', 'message', 'error', 'warning'].indexOf(type) > -1) {
+        alertClass = (type === 'notice') ? 'info' : type;
+        alertClass = (type === 'message') ? 'success' : alertClass;
+        alertClass = (type === 'error') ? 'danger' : alertClass;
+        alertClass = (type === 'warning') ? 'warning' : alertClass;
+      } else {
+        alertClass = 'info';
+      }
 
-			messagesBox.setAttribute('type', alertClass);
-			messagesBox.setAttribute('dismiss', 'true');
+      messagesBox.setAttribute('type', alertClass);
+      messagesBox.setAttribute('dismiss', 'true');
 
-			if (timeout && parseInt(timeout, 10) > 0) {
-				messagesBox.setAttribute('autodismiss', timeout);
-			}
+      if (timeout && parseInt(timeout, 10) > 0) {
+        messagesBox.setAttribute('autodismiss', timeout);
+      }
 
       // Title
       title = Joomla.Text._(type);
@@ -89,11 +89,11 @@
       });
 
       messageContainer.appendChild(messagesBox);
-			if (timeout && parseInt(timeout, 10) > 0) {
-				setTimeout(() => {
-					Joomla.removeMessages(messageContainer);
-				}, timeout);
-			}
+      if (timeout && parseInt(timeout, 10) > 0) {
+        setTimeout(() => {
+          Joomla.removeMessages(messageContainer);
+        }, timeout);
+      }
     });
   };
 
@@ -114,12 +114,12 @@
       messageContainer = document.getElementById('system-message-container');
     }
 
-		const alerts = [].slice.call(messageContainer.querySelectorAll('joomla-alert'));
-		if (alerts.length) {
-			alerts.forEach((alert) => {
-				alert.close();
-			});
-		}
+    const alerts = [].slice.call(messageContainer.querySelectorAll('joomla-alert'));
+    if (alerts.length) {
+      alerts.forEach((alert) => {
+        alert.close();
+      });
+    }
   };
 
   /**
