@@ -202,8 +202,6 @@ class HtmlView extends BaseHtmlView
 				}
 			);
 
-			$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
-
 			if (ComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $itemEditable)
 			{
 				$toolbar->versions('com_content.article', $this->item->id);
@@ -228,6 +226,8 @@ class HtmlView extends BaseHtmlView
 						->task('article.editAssociations');
 				}
 			}
+
+			$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		$toolbar->divider();
