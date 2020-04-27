@@ -35,6 +35,7 @@
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
 			default="s.ordering ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option vaule="s.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
