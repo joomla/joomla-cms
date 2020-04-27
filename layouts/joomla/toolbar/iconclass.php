@@ -9,7 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
-/* Convert icomoon to fa */
+// Convert icomoon to fa
 $icon = $displayData['icon'];
 if ( $icon === 'archive' )
 {
@@ -26,7 +26,7 @@ if ( $icon === 'unpublish' || $icon === 'cancel' || $icon === 'delete' || $icon 
 	$icon = 'times';
 }
 
-if ( $icon === 'new' || $icon === 'save-new')
+if ( $icon === 'new' || $icon === 'save-new' )
 {
 	$icon = 'plus';
 }
@@ -107,4 +107,4 @@ if ( $icon === 'loop' )
 }
 
 ?>
-fas fa-<?php echo $icon;
+	fas fa-<?php echo $icon;
