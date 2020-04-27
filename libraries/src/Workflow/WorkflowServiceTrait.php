@@ -10,6 +10,7 @@ namespace Joomla\CMS\Workflow;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\WorkflowModelInterface;
 
 \defined('JPATH_PLATFORM') or die;
@@ -19,8 +20,16 @@ use Joomla\CMS\MVC\Model\WorkflowModelInterface;
  *
  * @since  4.0.0
  */
-trait WorkflowServiceTrait {
-	abstract function getMVCFactory();
+trait WorkflowServiceTrait
+{
+	/**
+	 * Get a MVC factory
+	 *
+	 * @return  MVCFactoryInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	abstract public function getMVCFactory(): MVCFactoryInterface;
 
 	/** @var array Supported functionality */
 	protected $supportedFunctionality = [
@@ -31,10 +40,10 @@ trait WorkflowServiceTrait {
 	/**
 	 * Check if the functionality is supported by the context
 	 *
-	 * @param   string  $feature  The functionality
-	 * @param   string  $context  The context of the functionality
+	 * @param   string  $functionality  The functionality
+	 * @param   string  $context        The context of the functionality
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function supportFunctionality($functionality, $context): bool
 	{
@@ -56,7 +65,7 @@ trait WorkflowServiceTrait {
 	 *
 	 * @param   string  $context  The context of the workflow
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function getModelName($context) : string
 	{
@@ -91,7 +100,7 @@ trait WorkflowServiceTrait {
 	 *
 	 * @param   string  $context  The context of the workflow
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function isWorkflowActive($context): bool
 	{

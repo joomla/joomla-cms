@@ -26,15 +26,27 @@ use Joomla\Registry\Registry;
 trait WorkflowBehaviorTrait
 {
 	/**
-	 * The  for the component.
+	 * The name of the component.
 	 *
 	 * @var    string
 	 * @since  4.0.0
 	 */
 	protected $extension = null;
 
+	/**
+	 * The section of the component.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
 	protected $section = '';
 
+	/**
+	 * Is workflow for this component enabled?
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
 	protected $workflowEnabled = false;
 
 	/**

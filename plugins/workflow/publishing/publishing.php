@@ -87,7 +87,7 @@ class PlgWorkflowPublishing extends CMSPlugin
 	protected function enhanceTransitionForm(Form $form, $data)
 	{
 		$model = $this->app->bootComponent('com_workflow')
-				->getMVCFactory()->createModel('Workflow', 'Administrator', ['ignore_request' => true]);
+			->getMVCFactory()->createModel('Workflow', 'Administrator', ['ignore_request' => true]);
 
 		$workflow_id = !empty($data->workflow_id) ? (int) $data->workflow_id : (int) $form->getValue('workflow_id');
 
@@ -146,7 +146,7 @@ class PlgWorkflowPublishing extends CMSPlugin
 		$modelName = $component->getModelName($context);
 
 		$table = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true])
-					->getTable();
+			->getTable();
 
 		$form->setFieldAttribute($table->getColumnAlias('published'), 'disabled', 'true');
 
@@ -227,9 +227,11 @@ class PlgWorkflowPublishing extends CMSPlugin
 
 		$value = (int) $transition->options->get('publishing');
 
-		// Here it becomes tricky. We would like to use the component models publish method, so we will
-		// Execute the normal "onContentBeforeChangeState" plugins. But they could cancel the execution,
-		// So we have to precheck and cancel the whole transition stuff if not allowed.
+		/**
+		 * Here it becomes tricky. We would like to use the component models publish method, so we will
+		 * Execute the normal "onContentBeforeChangeState" plugins. But they could cancel the execution,
+		 * So we have to precheck and cancel the whole transition stuff if not allowed.
+		 */
 		$this->app->set('plgWorkflowPublishing.' . $context, $pks);
 
 		$result = $this->app->triggerEvent('onContentBeforeChangeState', [$context, $pks, $value]);
@@ -367,7 +369,9 @@ class PlgWorkflowPublishing extends CMSPlugin
 
 		$component = $this->app->bootComponent($parts[0]);
 
-		if (!$component instanceof WorkflowServiceInterface || !$component->isWorkflowActive($context) || !$component->supportFunctionality($this->supportname, $context))
+		if (!$component instanceof WorkflowServiceInterface
+			|| !$component->isWorkflowActive($context)
+			|| !$component->supportFunctionality($this->supportname, $context))
 		{
 			return false;
 		}
