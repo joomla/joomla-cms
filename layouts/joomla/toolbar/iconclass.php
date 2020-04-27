@@ -100,5 +100,11 @@ if ( $icon === 'checkin' )
 {
 	$icon = 'check-square';
 }
+
+if ( $icon === 'loop' )
+{
+	$icon = 'sync';
+}
+
 ?>
-fas fa-<?php echo $icon; ?>
+fas fa-<?php echo $icon;
