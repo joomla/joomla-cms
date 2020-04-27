@@ -81,7 +81,7 @@ trait WorkflowBehaviorTrait
 
 		$params = ComponentHelper::getParams($this->extension);
 
-		$this->workflowEnabled = $params->get('workflows_enable', 1);
+		$this->workflowEnabled = $params->get('workflow_enabled', 1);
 
 		$this->enableWorkflowBatch();
 	}

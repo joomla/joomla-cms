@@ -129,7 +129,7 @@ abstract class Menu
 
 				if (isset($query['extension']))
 				{
-					$workflow = ComponentHelper::getParams($query['extension'])->get('workflows_enable', 1);
+					$workflow = ComponentHelper::getParams($query['extension'])->get('workflow_enabled', 1);
 				}
 
 				if (!$workflow)
