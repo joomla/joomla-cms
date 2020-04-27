@@ -41,8 +41,8 @@ $headerCollapsedLogo = $this->params->get('headerCollapsedLogo')
 	? Uri::root() . $this->params->get('headerCollapsedLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
-$headerExpandedLogoCustom = htmlspecialchars($this->params->get('headerExpandedLogoCustom', ''), ENT_COMPAT, 'UTF-8');
-$headerCollapsedLogoCustom = htmlspecialchars($this->params->get('headerCollapsedLogoCustom', ''), ENT_COMPAT, 'UTF-8');
+$headerExpandedLogoAlt = htmlspecialchars($this->params->get('headerExpandedLogoAlt', ''), ENT_COMPAT, 'UTF-8');
+$headerCollapsedLogoAlt = htmlspecialchars($this->params->get('headerCollapsedLogoAlt', ''), ENT_COMPAT, 'UTF-8');
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))

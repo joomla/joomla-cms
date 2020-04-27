@@ -126,7 +126,7 @@
 					label="TPL_ATUM_SITE_LOGO_LABEL"
 				/>
 				<field
-					name="headerExpandedLogoCustom"
+					name="headerExpandedLogoAlt"
 					type="text"
 					label="TPL_ATUM_ALTTEXT_SITE_LOGO_LABEL"
 				/>
@@ -136,7 +136,7 @@
 					label="TPL_ATUM_SITE_LOGO_SMALL_LABEL"
 				/>
 				<field
-					name="headerCollapsedLogoCustom"
+					name="headerCollapsedLogoAlt"
 					type="text"
 					label="TPL_ATUM_ALTTEXT_SMALL_LOGO_LABEL"
 				/>

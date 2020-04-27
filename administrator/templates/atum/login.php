@@ -43,8 +43,8 @@ $headerCollapsedLogo = $this->params->get('headerCollapsedLogo')
 	? Uri::root() . htmlspecialchars($this->params->get('headerCollapsedLogo'), ENT_QUOTES)
 	: $this->baseurl . '/templates/' . $this->template . '/images/logos/header-collapsed.svg';
 
-$headerExpandedLogoCustom = htmlspecialchars($this->params->get('headerExpandedLogoCustom', ''), ENT_COMPAT, 'UTF-8');
-$headerCollapsedLogoCustom = htmlspecialchars($this->params->get('headerCollapsedLogoCustom', ''), ENT_COMPAT, 'UTF-8');
+$headerExpandedLogoAlt = htmlspecialchars($this->params->get('headerExpandedLogoAlt', ''), ENT_COMPAT, 'UTF-8');
+$headerCollapsedLogoAlt = htmlspecialchars($this->params->get('headerCollapsedLogoAlt', ''), ENT_COMPAT, 'UTF-8');
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
@@ -91,8 +91,8 @@ Text::script('JGLOBAL_WARNCOOKIES');
 			<div class="d-flex align-items-center">
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<div class="logo">
-					<img src="<?php echo $headerExpandedLogo; ?>" alt="<?php echo $headerExpandedLogoCustom; ?>">
-					<img class="logo-collapsed" src="<?php echo $headerCollapsedLogo; ?>" alt="<?php echo $headerCollapsedLogoCustom; ?>">
+					<img src="<?php echo $headerExpandedLogo; ?>" alt="<?php echo $headerExpandedLogoAlt; ?>">
+					<img class="logo-collapsed" src="<?php echo $headerCollapsedLogo; ?>" alt="<?php echo $headerCollapsedLogoAlt; ?>">
 				</div>
 			</div>
 			<jdoc:include type="modules" name="title" />
