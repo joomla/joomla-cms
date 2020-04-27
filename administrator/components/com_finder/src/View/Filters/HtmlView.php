@@ -119,7 +119,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_finder');
 
-		ToolbarHelper::title(Text::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'), 'zoom-in finder');
+		ToolbarHelper::title(Text::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'), 'search-plus finder');
 		$toolbar = Toolbar::getInstance('toolbar');
 
 		if ($canDo->get('core.create'))
