@@ -68,7 +68,7 @@ class HtmlView extends InstallerViewDefault
 	protected function addToolbar()
 	{
 		$canDo = ContentHelper::getActions('com_installer');
-		ToolbarHelper::title(Text::_('COM_INSTALLER_HEADER_' . $this->getName()), 'puzzle install');
+		ToolbarHelper::title(Text::_('COM_INSTALLER_HEADER_' . $this->getName()), 'puzzle-piece install');
 
 		if ($canDo->get('core.admin'))
 		{
