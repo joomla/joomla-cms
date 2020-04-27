@@ -36,7 +36,7 @@
               } else if (response.data) {
                 const elem = document.createElement('span');
 
-                elem.classList.add('pull-right');
+                elem.classList.add('float-right');
                 elem.classList.add('badge');
                 elem.classList.add('badge-warning');
                 elem.innerHTML = response.data;
