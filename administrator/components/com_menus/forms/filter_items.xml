@@ -81,7 +81,7 @@
 			type="componentsCategory"
 			label="COM_MENUS_FILTER_COMPONENT_LABEL"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">COM_MENUS_OPTION_SELECT_COMPONENT</option>
 		</field>
 	</fields>
