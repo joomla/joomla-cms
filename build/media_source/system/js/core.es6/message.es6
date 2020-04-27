@@ -89,11 +89,6 @@
       });
 
       messageContainer.appendChild(messagesBox);
-      if (timeout && parseInt(timeout, 10) > 0) {
-        setTimeout(() => {
-          Joomla.removeMessages(messageContainer);
-        }, timeout);
-      }
     });
   };
 
