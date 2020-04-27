@@ -56,7 +56,7 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
-$workflow_enabled = ComponentHelper::getParams('com_content')->get('workflows_enable', 1);
+$workflow_enabled = ComponentHelper::getParams('com_content')->get('workflow_enabled', 1);
 
 if ($workflow_enabled) :
 

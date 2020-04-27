@@ -107,7 +107,7 @@ trait WorkflowServiceTrait
 		$parts  = explode('.', $context);
 		$config = ComponentHelper::getParams($parts[0]);
 
-		if (!$config->get('workflows_enable', 1))
+		if (!$config->get('workflow_enabled', 1))
 		{
 			return false;
 		}
