@@ -111,22 +111,22 @@
 
 			<fieldset name="images" label="TPL_ATUM_IMAGE_SETTINGS_LABEL">
 				<field
-					name="siteLogo"
+					name="headerExpandedLogo"
 					type="media"
 					label="TPL_ATUM_SITE_LOGO_LABEL"
 				/>
 				<field
-					name="altSiteLogo"
+					name="headerExpandedLogoCustom"
 					type="text"
 					label="TPL_ATUM_ALTTEXT_SITE_LOGO_LABEL"
 				/>
 				<field
-					name="smallLogo"
+					name="headerCollapsedLogo"
 					type="media"
 					label="TPL_ATUM_SITE_LOGO_SMALL_LABEL"
 				/>
 				<field
-					name="altSmallLogo"
+					name="headerCollapsedLogoCustom"
 					type="text"
 					label="TPL_ATUM_ALTTEXT_SMALL_LOGO_LABEL"
 				/>

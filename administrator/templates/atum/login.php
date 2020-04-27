@@ -29,23 +29,22 @@ $task       = $input->get('task', 'display');
 $itemid     = $input->get('Itemid', '');
 $cpanel     = $option === 'com_cpanel';
 $hiddenMenu = $app->input->get('hidemainmenu');
-$joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 
 require_once __DIR__ . '/Service/HTML/Atum.php';
 
 // Template params
-$siteLogo  = $this->params->get('siteLogo')
-	? Uri::root() . htmlspecialchars($this->params->get('siteLogo'), ENT_QUOTES)
-	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
+$headerExpandedLogo  = $this->params->get('headerExpandedLogo')
+	? Uri::root() . htmlspecialchars($this->params->get('headerExpandedLogo'), ENT_QUOTES)
+	: $this->baseurl . '/templates/' . $this->template . '/images/logos/header-expanded.svg';
 $loginLogo = $this->params->get('loginLogo')
 	? Uri::root() . $this->params->get('loginLogo')
-	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
-$smallLogo = $this->params->get('smallLogo')
-	? Uri::root() . htmlspecialchars($this->params->get('smallLogo'), ENT_QUOTES)
-	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
+	: $this->baseurl . '/templates/' . $this->template . '/images/logos/login.svg';
+$headerCollapsedLogo = $this->params->get('headerCollapsedLogo')
+	? Uri::root() . htmlspecialchars($this->params->get('headerCollapsedLogo'), ENT_QUOTES)
+	: $this->baseurl . '/templates/' . $this->template . '/images/logos/header-collapsed.svg';
 
-$logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8');
-$logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8');
+$headerExpandedLogoCustom = htmlspecialchars($this->params->get('headerExpandedLogoCustom', ''), ENT_COMPAT, 'UTF-8');
+$headerCollapsedLogoCustom = htmlspecialchars($this->params->get('headerCollapsedLogoCustom', ''), ENT_COMPAT, 'UTF-8');
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
@@ -92,8 +91,8 @@ Text::script('JGLOBAL_WARNCOOKIES');
 			<div class="d-flex align-items-center">
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<div class="logo">
-					<img src="<?php echo $siteLogo; ?>" alt="<?php echo $logoAlt; ?>">
-					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="<?php echo $logoSmallAlt; ?>">
+					<img src="<?php echo $headerExpandedLogo; ?>" alt="<?php echo $headerExpandedLogoCustom; ?>">
+					<img class="logo-collapsed" src="<?php echo $headerCollapsedLogo; ?>" alt="<?php echo $headerCollapsedLogoCustom; ?>">
 				</div>
 			</div>
 			<jdoc:include type="modules" name="title" />

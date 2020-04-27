@@ -30,20 +30,19 @@ $task       = $input->get('task', 'display');
 $itemid     = $input->get('Itemid', '');
 $cpanel     = $option === 'com_cpanel';
 $hiddenMenu = $app->input->get('hidemainmenu');
-$joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 
 require_once __DIR__ . '/Service/HTML/Atum.php';
 
 // Template params
-$siteLogo  = $this->params->get('siteLogo')
-	? Uri::root() . $this->params->get('siteLogo')
+$headerExpandedLogo  = $this->params->get('headerExpandedLogo')
+	? Uri::root() . $this->params->get('headerExpandedLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
-$smallLogo = $this->params->get('smallLogo')
-	? Uri::root() . $this->params->get('smallLogo')
+$headerCollapsedLogo = $this->params->get('headerCollapsedLogo')
+	? Uri::root() . $this->params->get('headerCollapsedLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
-$logoAlt = htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8');
-$logoSmallAlt = htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8');
+$headerExpandedLogoCustom = htmlspecialchars($this->params->get('headerExpandedLogoCustom', ''), ENT_COMPAT, 'UTF-8');
+$headerCollapsedLogoCustom = htmlspecialchars($this->params->get('headerCollapsedLogoCustom', ''), ENT_COMPAT, 'UTF-8');
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
@@ -85,8 +84,8 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			<div class="d-flex align-items-center">
 				<a class="logo" href="<?php echo Route::_('index.php'); ?>"
 				   aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
-					<img src="<?php echo $siteLogo; ?>" alt="">
-					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
+					<img src="<?php echo $headerExpandedLogo; ?>" alt="">
+					<img class="logo-collapsed" src="<?php echo $headerCollapsedLogo; ?>" alt="">
 				</a>
 			</div>
 			<jdoc:include type="modules" name="title" />
