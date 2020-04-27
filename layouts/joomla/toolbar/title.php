@@ -10,8 +10,10 @@
 defined('_JEXEC') or die;
 
 $icon = empty($displayData['icon']) ? 'generic' : preg_replace('#\.[^ .]*$#', '', $displayData['icon']);
+
+$icon = stristr($icon,"joomla") ? str_ireplace("joomla", "fab fa-joomla", $icon) : "fas fa-" . $icon;
 ?>
 <h1 class="page-title">
-	<span class="fas fa-<?php echo $icon; ?>" aria-hidden="true"></span>
+	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
 	<?php echo $displayData['title']; ?>
 </h1>
