@@ -63,8 +63,8 @@
 					label="PLG_HCAPTCHA_SIZE"
 					description="PLG_HCAPTCHA_SIZE_DESC"
 					default="normal"
-					filter="string"
-				>
+					validate="options"
+					>
 					<option value="normal">PLG_HCAPTCHA_SIZE_NORMAL</option>
 					<option value="compact">PLG_HCAPTCHA_SIZE_COMPACT</option>
 				</field>
