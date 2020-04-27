@@ -15,14 +15,15 @@ namespace Joomla\CMS\Workflow;
  *
  * @since  4.0.0
  */
-interface WorkflowServiceInterface {
+interface WorkflowServiceInterface
+{
 	/**
 	 * Check if the functionality is supported by the context
 	 *
-	 * @param   string  $feature  The functionality
-	 * @param   string  $context  The context of the functionality
+	 * @param   string  $functionality  The functionality
+	 * @param   string  $context        The context of the functionality
 	 *
-	 * @return bool
+	 * @return boolean
 	 *
 	 * @since  4.0.0
 	 */
@@ -33,7 +34,7 @@ interface WorkflowServiceInterface {
 	 *
 	 * @param   string  $context  The context of the workflow
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function getModelName($context): string;
 
@@ -42,7 +43,7 @@ interface WorkflowServiceInterface {
 	 *
 	 * @param   string  $context  The context of the workflow
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function isWorkflowActive($context): bool;
 

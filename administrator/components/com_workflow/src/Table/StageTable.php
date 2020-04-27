@@ -179,7 +179,7 @@ class StageTable extends Table
 	{
 		if (!(int) $this->ordering)
 		{
-			$this->ordering = $this->getNextOrder($this->_db->quoteName('workflow_id') . ' = ' .  (int) $this->workflow_id);
+			$this->ordering = $this->getNextOrder($this->_db->quoteName('workflow_id') . ' = ' . (int) $this->workflow_id);
 		}
 
 		$table = new StageTable($this->getDbo());
