@@ -25,6 +25,7 @@
 					label="PLG_RECAPTCHA_VERSION_LABEL"
 					default="2.0"
 					size="1"
+					validate="options"
 					>
 					<option value="2.0">PLG_RECAPTCHA_VERSION_V2</option>
 				</field>
@@ -58,6 +59,7 @@
 					default="light"
 					showon="version:2.0"
 					filter=""
+					validate="options"
 					>
 					<option value="light">PLG_RECAPTCHA_THEME_LIGHT</option>
 					<option value="dark">PLG_RECAPTCHA_THEME_DARK</option>
@@ -70,6 +72,7 @@
 					default="normal"
 					showon="version:2.0"
 					filter=""
+					validate="options"
 					>
 					<option value="normal">PLG_RECAPTCHA_THEME_NORMAL</option>
 					<option value="compact">PLG_RECAPTCHA_THEME_COMPACT</option>

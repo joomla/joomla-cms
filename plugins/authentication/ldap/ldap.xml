@@ -93,6 +93,7 @@
 					type="list"
 					label="PLG_LDAP_FIELD_AUTHMETHOD_LABEL"
 					default="bind"
+					validate="options"
 					>
 					<option value="search">PLG_LDAP_FIELD_VALUE_BINDSEARCH</option>
 					<option value="bind">PLG_LDAP_FIELD_VALUE_BINDUSER</option>

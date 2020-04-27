@@ -80,6 +80,7 @@
 					type="list"
 					label="PLG_CONTENT_PAGEBREAK_STYLE_LABEL"
 					default="pages"
+					validate="options"
 					>
 					<option value="pages">PLG_CONTENT_PAGEBREAK_PAGES</option>
 					<option value="sliders">PLG_CONTENT_PAGEBREAK_SLIDERS</option>

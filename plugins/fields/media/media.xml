@@ -36,6 +36,7 @@
 					label="PLG_FIELDS_MEDIA_PARAMS_PREVIEW_LABEL"
 					class="list"
 					default="tooltip"
+					validate="options"
 					>
 					<option value="tooltip">PLG_FIELDS_MEDIA_PARAMS_PREVIEW_TOOLTIP</option>
 					<option value="true">PLG_FIELDS_MEDIA_PARAMS_PREVIEW_INLINE</option>

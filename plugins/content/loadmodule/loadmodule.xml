@@ -24,6 +24,7 @@
 					type="list"
 					label="PLG_LOADMODULE_FIELD_STYLE_LABEL"
 					default="table"
+					validate="options"
 					>
 					<option value="table">PLG_LOADMODULE_FIELD_VALUE_TABLE</option>
 					<option value="horz">PLG_LOADMODULE_FIELD_VALUE_HORIZONTAL</option>

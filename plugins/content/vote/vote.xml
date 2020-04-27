@@ -25,6 +25,7 @@
 					type="list"
 					label="PLG_VOTE_POSITION_LABEL"
 					default="top"
+					validate="options"
 					>
 					<option value="top">PLG_VOTE_TOP</option>
 					<option value="bottom">PLG_VOTE_BOTTOM</option>

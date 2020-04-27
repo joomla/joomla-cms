@@ -25,6 +25,7 @@
 					label="PLG_CONTENT_CONTACT_PARAM_URL_LABEL"
 					description="PLG_CONTENT_CONTACT_PARAM_URL_DESCRIPTION"
 					default="url"
+					validate="options"
 					>
 					<option value="url">PLG_CONTENT_CONTACT_PARAM_URL_URL</option>
 					<option value="webpage">PLG_CONTENT_CONTACT_PARAM_URL_WEBPAGE</option>
