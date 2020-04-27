@@ -156,6 +156,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			<div class="row">
 				<div class="col-md-12">
 					<main>
+						<jdoc:include type="message" />
 						<jdoc:include type="component" />
 					</main>
 				</div>
@@ -165,10 +166,6 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			</div>
 			<?php // End Content ?>
 		</section>
-
-		<div class="notify-alerts">
-			<jdoc:include type="message" />
-		</div>
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />
