@@ -46,6 +46,7 @@
 			type="list"
 			label="COM_USERS_CONFIG_FIELD_USERACTIVATION_LABEL"
 			default="2"
+			validate="options"
 			>
 			<option value="0">JNONE</option>
 			<option value="1">COM_USERS_CONFIG_FIELD_USERACTIVATION_OPTION_SELFACTIVATION</option>
@@ -114,6 +115,7 @@
 			label="COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_LABEL"
 			default="0"
 			filter="integer"
+			validate="options"
 			>
 			<option value="0">JNO</option>
 			<option value="1">COM_USERS_CONFIG_FIELD_ENFORCE_2FA_FIELD_SITE</option>

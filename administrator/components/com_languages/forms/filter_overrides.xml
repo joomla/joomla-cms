@@ -27,6 +27,7 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="key ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="key ASC">COM_LANGUAGES_VIEW_OVERRIDES_KEY_ASC</option>

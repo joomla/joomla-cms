@@ -17,6 +17,7 @@
 			type="list"
 			label="COM_ACTIONLOGS_CSV_DELIMITER_LABEL"
 			default=","
+			validate="options"
 			>
 			<option value=",">COM_ACTIONLOGS_COMMA</option>
 			<option value=";">COM_ACTIONLOGS_SEMICOLON</option>

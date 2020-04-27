@@ -68,6 +68,7 @@
 				class="custom-select-color-state"
 				default=""
 				useglobal="true"
+				validate="options"
 				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
@@ -100,6 +101,7 @@
 				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
+				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>

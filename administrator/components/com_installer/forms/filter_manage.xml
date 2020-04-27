@@ -51,6 +51,7 @@
 			type="list"
 			label="COM_INSTALLER_VALUE_CORE_SELECT"
 			onchange="this.form.submit();"
+			validate="options"
 			>
 			<option value="">COM_INSTALLER_VALUE_CORE_SELECT</option>
 			<option value="1">COM_INSTALLER_VALUE_CORE_YES</option>

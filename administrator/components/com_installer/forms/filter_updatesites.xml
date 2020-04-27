@@ -14,6 +14,7 @@
 			type="list"
 			label="JOPTION_SELECT_PUBLISHED"
 			onchange="this.form.submit();"
+			validate="options"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 			<option value="0">JDISABLED</option>
@@ -47,6 +48,7 @@
 			name="supported"
 			type="list"
 			onchange="this.form.submit();"
+			validate="options"
 		>
 			<option value="">COM_INSTALLER_VALUE_SUPPORTED_SELECT</option>
 			<option value="1">COM_INSTALLER_VALUE_SUPPORTED_SUPPORTED</option>

@@ -15,6 +15,7 @@
 			type="list"
 			label="COM_PRIVACY_CONSENTS_FILTER_STATE"
 			onchange="this.form.submit();"
+			validate="options"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 			<option value="1">COM_PRIVACY_CONSENTS_STATE_VALID</option>

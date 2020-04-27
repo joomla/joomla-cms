@@ -16,6 +16,7 @@
 			label="JOPTION_SELECT_FEATURED"
 			onchange="this.form.submit();"
 			default=""
+			validate="options"
 			>
 			<option value="">COM_CONTENT_SELECT_FEATURED</option>
 			<option value="0">COM_CONTENT_FILTER_FEATURED_NO</option>
