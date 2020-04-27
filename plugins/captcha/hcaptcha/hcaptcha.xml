@@ -51,8 +51,8 @@
 					label="PLG_HCAPTCHA_THEME"
 					description="PLG_HCAPTCHA_THEME_DESC"
 					default="light"
-					filter="string"
-				>
+					validate="options"
+					>
 					<option value="light">PLG_HCAPTCHA_THEME_LIGHT</option>
 					<option value="dark">PLG_HCAPTCHA_THEME_DARK</option>
 				</field>
