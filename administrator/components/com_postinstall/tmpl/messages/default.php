@@ -56,10 +56,10 @@ $params = array('params' => json_encode($param));
 		</a>
 	</div>
 <?php else : ?>
-	<?php foreach ($this->items as $item) : ?>
+	<?php foreach ($this->items as $i => $item) : ?>
 	<div class="card card-outline-secondary mb-3">
 		<div class="card-body">
-			<h3><?php echo Text::_($item->title_key); ?></h3>
+			<h3 id="postinstall<?php echo $i; ?>"><?php echo Text::_($item->title_key); ?></h3>
 			<p class="small">
 				<?php echo Text::sprintf('COM_POSTINSTALL_LBL_SINCEVERSION', $item->version_introduced); ?>
 			</p>

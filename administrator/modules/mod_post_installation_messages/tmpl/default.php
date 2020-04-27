@@ -43,8 +43,10 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 					<?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?>
 				</a>
 			<?php endif; ?>
-			<?php foreach ($messages as $message) : ?>
-				<?php $route = 'index.php?option=com_postinstall&amp;eid=' . $joomlaFilesExtensionId; ?>
+			<?php $showAnchor = false; ?>
+			<?php foreach ($messages as $i => $message) : ?>
+				<?php $route = 'index.php?option=com_postinstall&amp;eid=' . $joomlaFilesExtensionId . ($showAnchor ? '#postinstall' . $i : ''); ?>
+				<?php $showAnchor = true; ?>
 				<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
 					<?php echo Text::_($message->title_key); ?>
 				</a>
