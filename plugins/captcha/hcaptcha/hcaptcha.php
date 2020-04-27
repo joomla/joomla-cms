@@ -66,7 +66,9 @@ class PlgCaptchaHcaptcha extends CMSPlugin
 		}
 
 		// Load the JavaScript from hCaptcha
-		HTMLHelper::_('script', 'https://hcaptcha.com/1/api.js', ['version' => 'auto', 'relative' => true], ['defer' => 'defer']);
+		Factory::getDocument()->getWebAssetManager()->registerAndUseScript(
+			'plg_captcha_hcaptcha.api', 'https://hcaptcha.com/1/api.js', [], ['defer' => true]
+		);
 
 		return true;
 	}
