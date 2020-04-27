@@ -49,7 +49,6 @@
 					name="theme"
 					type="list"
 					label="PLG_HCAPTCHA_THEME"
-					description="PLG_HCAPTCHA_THEME_DESC"
 					default="light"
 					validate="options"
 					>
@@ -61,7 +60,6 @@
 					name="size"
 					type="list"
 					label="PLG_HCAPTCHA_SIZE"
-					description="PLG_HCAPTCHA_SIZE_DESC"
 					default="normal"
 					validate="options"
 					>
