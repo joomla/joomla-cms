@@ -96,5 +96,10 @@ if ( $icon === 'checkin' )
 	$icon = 'check-square';
 }
 
+if ( $icon === 'generic' )
+{
+	$icon = 'dot-circle';
+}
+
 ?>
 	fas fa-<?php echo $icon;
