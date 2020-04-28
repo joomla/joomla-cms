@@ -100,7 +100,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_languages');
 
-		ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_LANGUAGES_TITLE'), 'comments-2 langmanager');
+		ToolbarHelper::title(Text::_('COM_LANGUAGES_VIEW_LANGUAGES_TITLE'), 'comments langmanager');
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
