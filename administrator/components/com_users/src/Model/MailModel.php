@@ -98,11 +98,12 @@ class MailModel extends AdminModel
 	 */
 	public function send()
 	{
-		$app    = Factory::getApplication();
-		$data   = $app->input->post->get('jform', array(), 'array');
-		$user   = Factory::getUser();
-		$access = new Access;
-		$db     = $this->getDbo();
+		$app      = Factory::getApplication();
+		$data     = $app->input->post->get('jform', array(), 'array');
+		$user     = Factory::getUser();
+		$access   = new Access;
+		$db       = $this->getDbo();
+		$language = Factory::getLanguage();
 
 		$subject      = array_key_exists('subject', $data) ? $data['subject'] : '';
 		$grp          = array_key_exists('group', $data) ? (int) $data['group'] : 0;
@@ -176,7 +177,7 @@ class MailModel extends AdminModel
 		}
 
 		// Get the Mailer
-		$mailer = new MailTemplate('com_users.mail');
+		$mailer = new MailTemplate('com_users.massmail.mail', $language->getTag());
 		$params = ComponentHelper::getParams('com_users');
 
 		try
