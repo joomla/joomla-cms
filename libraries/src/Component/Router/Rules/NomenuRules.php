@@ -79,7 +79,10 @@ class NomenuRules implements RulesInterface
 				{
 					if (is_callable(array($this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id')))
 					{
-						$vars[$views[$vars['view']]->key] = call_user_func_array(array($this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'), array($segments[0], $vars));
+						$vars[$views[$vars['view']]->key] = call_user_func_array(
+							array($this->router, 'get' . ucfirst($views[$vars['view']]->name) . 'Id'),
+							array($segments[0], $vars)
+						);
 					}
 					else
 					{
