@@ -34,15 +34,15 @@ $hiddenMenu = $app->input->get('hidemainmenu');
 require_once __DIR__ . '/Service/HTML/Atum.php';
 
 // Template params
-$headerExpandedLogo  = $this->params->get('headerExpandedLogo')
-	? Uri::root() . $this->params->get('headerExpandedLogo')
+$logoBrandLarge  = $this->params->get('logoBrandLarge')
+	? Uri::root() . $this->params->get('logoBrandLarge')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
-$headerCollapsedLogo = $this->params->get('headerCollapsedLogo')
-	? Uri::root() . $this->params->get('headerCollapsedLogo')
+$logoBrandSmall = $this->params->get('logoBrandSmall')
+	? Uri::root() . $this->params->get('logoBrandSmall')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
-$headerExpandedLogoAlt = htmlspecialchars($this->params->get('headerExpandedLogoAlt', ''), ENT_COMPAT, 'UTF-8');
-$headerCollapsedLogoAlt = htmlspecialchars($this->params->get('headerCollapsedLogoAlt', ''), ENT_COMPAT, 'UTF-8');
+$logoBrandLargeAlt = htmlspecialchars($this->params->get('logoBrandLargeAlt', ''), ENT_COMPAT, 'UTF-8');
+$logoBrandSmallAlt = htmlspecialchars($this->params->get('logoBrandSmallAlt', ''), ENT_COMPAT, 'UTF-8');
 
 // Enable assets
 $wa->usePreset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'))
@@ -84,8 +84,8 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			<div class="d-flex align-items-center">
 				<a class="logo" href="<?php echo Route::_('index.php'); ?>"
 				   aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
-					<img src="<?php echo $headerExpandedLogo; ?>" alt="">
-					<img class="logo-collapsed" src="<?php echo $headerCollapsedLogo; ?>" alt="">
+					<img src="<?php echo $logoBrandLarge; ?>" alt="">
+					<img class="logo-collapsed" src="<?php echo $logoBrandSmall; ?>" alt="">
 				</a>
 			</div>
 			<jdoc:include type="modules" name="title" />

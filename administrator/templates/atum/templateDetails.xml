@@ -121,22 +121,22 @@
 						label="TPL_ATUM_ALTTEXT_LOGIN_LOGO_LABEL"
 				/>
 				<field
-					name="headerExpandedLogo"
+					name="logoBrandLarge"
 					type="media"
 					label="TPL_ATUM_SITE_LOGO_LABEL"
 				/>
 				<field
-					name="headerExpandedLogoAlt"
+					name="logoBrandLargeAlt"
 					type="text"
 					label="TPL_ATUM_ALTTEXT_SITE_LOGO_LABEL"
 				/>
 				<field
-					name="headerCollapsedLogo"
+					name="logoBrandSmall"
 					type="media"
 					label="TPL_ATUM_SITE_LOGO_SMALL_LABEL"
 				/>
 				<field
-					name="headerCollapsedLogoAlt"
+					name="logoBrandSmallAlt"
 					type="text"
 					label="TPL_ATUM_ALTTEXT_SMALL_LOGO_LABEL"
 				/>
