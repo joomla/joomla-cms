@@ -61,7 +61,7 @@ if ( $icon === 'eye-open' )
 	$icon = 'eye';
 }
 
-if ( $icon === 'loop' || $icon === 'refresh' )
+if ( $icon === 'loop' || $icon === 'refresh' || $icon === 'unblock')
 {
 	$icon = 'sync';
 }
@@ -99,6 +99,11 @@ if ( $icon === 'checkin' )
 if ( $icon === 'generic' )
 {
 	$icon = 'dot-circle';
+}
+
+if ( $icon === 'list-2' )
+{
+	$icon = 'fa-list-ul';
 }
 
 ?>
