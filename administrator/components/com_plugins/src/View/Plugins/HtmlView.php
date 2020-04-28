@@ -99,7 +99,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_plugins');
 
-		ToolbarHelper::title(Text::_('COM_PLUGINS_MANAGER_PLUGINS'), 'power-cord plugin');
+		ToolbarHelper::title(Text::_('COM_PLUGINS_MANAGER_PLUGINS'), 'plug plugin');
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
