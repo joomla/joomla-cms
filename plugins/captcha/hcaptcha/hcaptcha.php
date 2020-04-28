@@ -60,7 +60,7 @@ class PlgCaptchaHcaptcha extends CMSPlugin
 		// If there is no Public Key set, then this plugin is no use, so exit
 		if ($this->params->get('publicKey', '') === '')
 		{
-			throw new \RuntimeException(Text::_('PLG_HCAPTCHA_ERROR_NO_PUBLIC_KEY'));
+			throw new \RuntimeException(Text::_('PLG_CAPTCHA_HCAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
 
 		// Load the JavaScript from hCaptcha
@@ -116,13 +116,13 @@ class PlgCaptchaHcaptcha extends CMSPlugin
 		// Check for Private Key
 		if (empty($privateKey))
 		{
-			throw new \RuntimeException(Text::_('PLG_HCAPTCHA_ERROR_NO_PRIVATE_KEY'));
+			throw new \RuntimeException(Text::_('PLG_CAPTCHA_HCAPTCHA_ERROR_NO_PRIVATE_KEY'));
 		}
 
 		// Check for IP
 		if (empty($remoteIp))
 		{
-			throw new \RuntimeException(Text::_('PLG_HCAPTCHA_ERROR_NO_IP'));
+			throw new \RuntimeException(Text::_('PLG_CAPTCHA_HCAPTCHA_ERROR_NO_IP'));
 		}
 
 		$verifyResponse = file_get_contents(
@@ -138,6 +138,6 @@ class PlgCaptchaHcaptcha extends CMSPlugin
 			return true;
 		}
 
-		throw new \RuntimeException(Text::_('PLG_HCAPTCHA_ERROR_INCORRECT_CAPTCHA'));
+		throw new \RuntimeException(Text::_('PLG_CAPTCHA_HCAPTCHA_ERROR_INCORRECT_CAPTCHA'));
 	}
 }
