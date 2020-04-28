@@ -96,6 +96,5 @@ if ( $icon === 'checkin' )
 	$icon = 'check-square';
 }
 
-
 ?>
 	fas fa-<?php echo $icon;
