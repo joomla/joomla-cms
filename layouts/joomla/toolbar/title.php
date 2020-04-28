@@ -11,6 +11,11 @@ defined('_JEXEC') or die;
 
 $icon = empty($displayData['icon']) ? 'dot-circle' : preg_replace('#\.[^ .]*$#', '', $displayData['icon']);
 
+if ( $icon === 'generic' )
+{
+	$icon = 'dot-circle';
+}
+
 $icon = stristr($icon,"joomla") ? str_ireplace("joomla", "fab fa-joomla", $icon) : "fas fa-" . $icon;
 ?>
 <h1 class="page-title">
