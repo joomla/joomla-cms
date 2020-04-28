@@ -203,8 +203,6 @@ class HtmlView extends AbstractView
 
 		$context = $component . '.' . $this->getName();
 
-		PluginHelper::importPlugin('content');
-
 		$app->triggerEvent('onBeforeDisplay', [$context, $this]);
 
 		$result = $this->loadTemplate($tpl);
