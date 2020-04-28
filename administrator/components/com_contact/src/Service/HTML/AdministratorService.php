@@ -131,7 +131,7 @@ class AdministratorService
 			1 => array('featured', 'contacts.unfeatured', 'JFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
 		);
 		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
-		$icon = $state[0] === 'featured' ? ' featured' : '';
+		$icon = $state[0] === 'featured' ? 'star' : '';
 
 		if ($canChange)
 		{
