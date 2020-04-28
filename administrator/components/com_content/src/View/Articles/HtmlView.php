@@ -88,7 +88,7 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->vote          = PluginHelper::isEnabled('content', 'vote');
 
-		if (ComponentHelper::getParams('com_content')->get('workflows_enable', 1))
+		if (ComponentHelper::getParams('com_content')->get('workflow_enabled', 1))
 		{
 			PluginHelper::importPlugin('workflow');
 
@@ -170,8 +170,8 @@ class HtmlView extends BaseHtmlView
 			if (count($this->transitions))
 			{
 				$childBar->separatorButton('transition-headline')
-						->text('COM_CONTENT_RUN_TRANSITIONS')
-						->buttonClass('text-center py-2 h3');
+					->text('COM_CONTENT_RUN_TRANSITIONS')
+					->buttonClass('text-center py-2 h3');
 
 				$cmd = "Joomla.submitbutton('articles.runTransition');";
 				$messages = "{error: [Joomla.JText._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST')]}";
@@ -181,10 +181,10 @@ class HtmlView extends BaseHtmlView
 				foreach ($this->transitions as $transition)
 				{
 					$childBar->standardButton('transition')
-							->text($transition['text'])
-							->buttonClass('transition-' . (int) $transition['value'])
-							->icon('fas fa-project-diagram')
-							->onclick('document.adminForm.transition_id.value=' . (int) $transition['value'] . ';' . $cmd);
+						->text($transition['text'])
+						->buttonClass('transition-' . (int) $transition['value'])
+						->icon('fas fa-project-diagram')
+						->onclick('document.adminForm.transition_id.value=' . (int) $transition['value'] . ';' . $cmd);
 				}
 
 				$childBar->separatorButton('transition-separator');

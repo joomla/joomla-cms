@@ -97,7 +97,7 @@ class ArticlesModel extends ListModel
 
 		$params = ComponentHelper::getParams('com_content');
 
-		if (!$params->get('workflows_enable'))
+		if (!$params->get('workflow_enabled', 1))
 		{
 			$form->removeField('stage', 'filter');
 		}
@@ -355,7 +355,7 @@ class ArticlesModel extends ListModel
 		// Filter by published state
 		$workflowStage = (string) $this->getState('filter.stage');
 
-		if ($params->get('workflows_enable') && is_numeric($workflowStage))
+		if ($params->get('workflow_enabled', 1) && is_numeric($workflowStage))
 		{
 			$workflowStage = (int) $workflowStage;
 			$query->where($db->quoteName('wa.stage_id') . ' = :stage')
@@ -368,7 +368,7 @@ class ArticlesModel extends ListModel
 		{
 			if (is_numeric($published))
 			{
-				$state = (int) $state;
+				$state = (int) $published;
 				$query->where($db->quoteName('a.state') . ' = :state')
 					->bind(':state', $published, ParameterType::INTEGER);
 			}
@@ -599,26 +599,27 @@ class ArticlesModel extends ListModel
 				$query = $db->getQuery(true);
 
 				$query	->select(
+					[
+						$db->quoteName('t.id', 'value'),
+						$db->quoteName('t.title', 'text'),
+						$db->quoteName('t.from_stage_id'),
+						$db->quoteName('t.to_stage_id'),
+						$db->quoteName('s.id', 'stage_id'),
+						$db->quoteName('s.title', 'stage_title'),
+						$db->quoteName('t.workflow_id'),
+					]
+				)
+					->from($db->quoteName('#__workflow_transitions', 't'))
+					->innerJoin($db->quoteName('#__workflow_stages', 's'))
+					->where(
 						[
-							$db->quoteName('t.id', 'value'),
-							$db->quoteName('t.title', 'text'),
-							$db->quoteName('t.from_stage_id'),
-							$db->quoteName('t.to_stage_id'),
-							$db->quoteName('s.id', 'stage_id'),
-							$db->quoteName('s.title', 'stage_title'),
-							$db->quoteName('t.workflow_id'),
-						])
-						->from($db->quoteName('#__workflow_transitions', 't'))
-						->innerJoin($db->quoteName('#__workflow_stages', 's'))
-						->where(
-							[
-								$db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'),
-								$db->quoteName('t.published') . ' = 1',
-								$db->quoteName('s.published') . ' = 1',
-							]
-						)
-						->order($db->quoteName('t.ordering'))
-						->group($db->quoteName('t.id'));
+							$db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'),
+							$db->quoteName('t.published') . ' = 1',
+							$db->quoteName('s.published') . ' = 1',
+						]
+					)
+					->order($db->quoteName('t.ordering'))
+					->group($db->quoteName('t.id'));
 
 				$where = [];
 

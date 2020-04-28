@@ -45,7 +45,7 @@ $user = Factory::getUser();
 				<?php echo LayoutHelper::render('joomla.html.batch.tag', []); ?>
 			</div>
 		</div>
-		<?php if ($user->authorise('core.admin', 'com_content') && $params->get('workflows_enable', 1)) : ?>
+		<?php if ($user->authorise('core.admin', 'com_content') && $params->get('workflow_enabled', 1)) : ?>
 		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo LayoutHelper::render('joomla.html.batch.workflowstage', ['extension' => 'com_content']); ?>
