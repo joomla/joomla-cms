@@ -120,7 +120,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'equalizer config');
+		ToolbarHelper::title(Text::_($this->component->option . '_configuration'), 'sliders-h config');
 		ToolbarHelper::apply('component.apply');
 		ToolbarHelper::divider();
 		ToolbarHelper::save('component.save');
