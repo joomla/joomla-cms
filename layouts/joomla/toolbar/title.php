@@ -16,7 +16,7 @@ if ( $icon === 'generic' )
 	$icon = 'dot-circle';
 }
 
-$icon = stristr($icon,"joomla") ? str_ireplace("joomla", "fab fa-joomla", $icon) : "fas fa-" . $icon;
+$icon = stristr($icon, "joomla") ? str_ireplace("joomla", "fab fa-joomla", $icon) : "fas fa-" . $icon;
 ?>
 <h1 class="page-title">
 	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
