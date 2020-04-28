@@ -24,47 +24,43 @@
 				<field
 					name="publicKey"
 					type="text"
-					label="PLG_HCAPTCHA_PUBLIC_KEY"
-					description="PLG_HCAPTCHA_PUBLIC_KEY_DESC"
+					label="PLG_CAPTCHA_HCAPTCHA_PUBLIC_KEY"
+					description="PLG_CAPTCHA_HCAPTCHA_PUBLIC_KEY_DESC"
 					default=""
 					required="true"
 					filter="string"
-					size="100"
-					class="input-xxlarge"
 				/>
 
 				<field
 					name="privateKey"
 					type="text"
-					label="PLG_HCAPTCHA_PRIVATE_KEY"
-					description="PLG_HCAPTCHA_PRIVATE_KEY_DESC"
+					label="PLG_CAPTCHA_HCAPTCHA_PRIVATE_KEY"
+					description="PLG_CAPTCHA_HCAPTCHA_PRIVATE_KEY_DESC"
 					default=""
 					required="true"
 					filter="string"
-					size="100"
-					class="input-xxlarge"
 				/>
 
 				<field
 					name="theme"
 					type="list"
-					label="PLG_HCAPTCHA_THEME"
+					label="PLG_CAPTCHA_HCAPTCHA_THEME"
 					default="light"
 					validate="options"
 					>
-					<option value="light">PLG_HCAPTCHA_THEME_LIGHT</option>
-					<option value="dark">PLG_HCAPTCHA_THEME_DARK</option>
+					<option value="light">PLG_CAPTCHA_HCAPTCHA_THEME_LIGHT</option>
+					<option value="dark">PLG_CAPTCHA_HCAPTCHA_THEME_DARK</option>
 				</field>
 
 				<field
 					name="size"
 					type="list"
-					label="PLG_HCAPTCHA_SIZE"
+					label="PLG_CAPTCHA_HCAPTCHA_SIZE"
 					default="normal"
 					validate="options"
 					>
-					<option value="normal">PLG_HCAPTCHA_SIZE_NORMAL</option>
-					<option value="compact">PLG_HCAPTCHA_SIZE_COMPACT</option>
+					<option value="normal">PLG_CAPTCHA_HCAPTCHA_SIZE_NORMAL</option>
+					<option value="compact">PLG_CAPTCHA_HCAPTCHA_SIZE_COMPACT</option>
 				</field>
 			</fieldset>
 		</fields>

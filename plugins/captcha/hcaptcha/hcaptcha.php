@@ -40,8 +40,6 @@ class PlgCaptchaHcaptcha extends CMSPlugin
 	 */
 	public function onPrivacyCollectAdminCapabilities()
 	{
-		$this->loadLanguage();
-
 		return array(
 			Text::_('PLG_CAPTCHA_HCAPTCHA') => array(
 				Text::_('PLG_CAPTCHA_HCAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
