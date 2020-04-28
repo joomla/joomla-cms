@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-$icon = empty($displayData['icon']) ? 'generic' : preg_replace('#\.[^ .]*$#', '', $displayData['icon']);
+$icon = empty($displayData['icon']) ? 'dot-circle' : preg_replace('#\.[^ .]*$#', '', $displayData['icon']);
 
 $icon = stristr($icon,"joomla") ? str_ireplace("joomla", "fab fa-joomla", $icon) : "fas fa-" . $icon;
 ?>
