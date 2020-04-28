@@ -120,7 +120,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar(): void
 	{
-		ToolbarHelper::title(Text::_('COM_CACHE_CLEAR_CACHE'), 'lightning clear');
+		ToolbarHelper::title(Text::_('COM_CACHE_CLEAR_CACHE'), 'bolt clear');
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
