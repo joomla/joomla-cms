@@ -41,12 +41,7 @@ if ( $icon === 'mail' )
 	$icon = 'envelope';
 }
 
-if ( $icon === 'featured' )
-{
-	$icon = 'star featured';
-}
-
-if ( $icon === 'unfeatured' )
+if ( $icon === 'featured' || $icon === 'unfeatured' || $icon === 'asterisk' || $icon === 'default' )
 {
 	$icon = 'star';
 }
@@ -66,7 +61,7 @@ if ( $icon === 'eye-open' )
 	$icon = 'eye';
 }
 
-if ( $icon === 'refresh' )
+if ( $icon === 'loop' || $icon === 'refresh' )
 {
 	$icon = 'sync';
 }
@@ -101,10 +96,6 @@ if ( $icon === 'checkin' )
 	$icon = 'check-square';
 }
 
-if ( $icon === 'loop' )
-{
-	$icon = 'sync';
-}
 
 ?>
 	fas fa-<?php echo $icon;
