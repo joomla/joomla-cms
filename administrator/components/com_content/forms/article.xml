@@ -289,6 +289,7 @@
 					type="list"
 					label="JGLOBAL_SHOW_TITLE_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -299,6 +300,7 @@
 					type="list"
 					label="JGLOBAL_LINKED_TITLES_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -310,6 +312,7 @@
 					label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
 					class="custom-select-color"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -321,6 +324,7 @@
 					label="JGLOBAL_SHOW_INTRO_LABEL"
 					class="custom-select-color"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
@@ -331,6 +335,7 @@
 					type="list"
 					label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 					<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
@@ -342,6 +347,7 @@
 					type="list"
 					label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -354,6 +360,7 @@
 					type="list"
 					label="JGLOBAL_SHOW_CATEGORY_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -364,6 +371,7 @@
 					type="list"
 					label="JGLOBAL_LINK_CATEGORY_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -374,6 +382,7 @@
 					type="list"
 					label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -384,6 +393,7 @@
 					type="list"
 					label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -408,6 +418,7 @@
 					label="JGLOBAL_SHOW_FLAG_LABEL"
 					useglobal="true"
 					showon="show_associations:1"
+					validate="options"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -420,6 +431,7 @@
 					type="list"
 					label="JGLOBAL_SHOW_AUTHOR_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -430,6 +442,7 @@
 					type="list"
 					label="JGLOBAL_LINK_AUTHOR_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -442,6 +455,7 @@
 					type="list"
 					label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -452,6 +466,7 @@
 					type="list"
 					label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -462,6 +477,7 @@
 					type="list"
 					label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -474,6 +490,7 @@
 					type="list"
 					label="JGLOBAL_SHOW_NAVIGATION_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -484,6 +501,7 @@
 					type="list"
 					label="JGLOBAL_SHOW_VOTE_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -494,6 +512,7 @@
 					type="list"
 					label="JGLOBAL_SHOW_HITS_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -505,6 +524,7 @@
 					label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
 					description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -515,6 +535,7 @@
 					type="list"
 					label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
 					useglobal="true"
+					validate="options"
 					>
 					<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 					<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
@@ -545,6 +566,7 @@
 				label="COM_CONTENT_SHOW_PUBLISHING_OPTIONS_LABEL"
 				default=""
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -556,6 +578,7 @@
 				label="COM_CONTENT_SHOW_ARTICLE_OPTIONS_LABEL"
 				default=""
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -567,6 +590,7 @@
 				label="COM_CONTENT_SHOW_IMAGES_URLS_BACK_LABEL"
 				useglobal="true"
 				default=""
+				validate="options"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -578,6 +602,7 @@
 				label="COM_CONTENT_SHOW_IMAGES_URLS_FRONT_LABEL"
 				useglobal="true"
 				default=""
+				validate="options"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -713,6 +738,7 @@
 				type="list"
 				label="COM_CONTENT_FLOAT_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="right">COM_CONTENT_RIGHT</option>
 				<option value="left">COM_CONTENT_LEFT</option>
@@ -747,6 +773,7 @@
 				type="list"
 				label="COM_CONTENT_FLOAT_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="right">COM_CONTENT_RIGHT</option>
 				<option value="left">COM_CONTENT_LEFT</option>
@@ -794,6 +821,7 @@
 				default=""
 				filter="options"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
@@ -826,6 +854,7 @@
 				default=""
 				filter="options"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
@@ -858,6 +887,7 @@
 				default=""
 				filter="options"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="0">JBROWSERTARGET_PARENT</option>
 				<option value="1">JBROWSERTARGET_NEW</option>
@@ -875,6 +905,7 @@
 				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
+				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>

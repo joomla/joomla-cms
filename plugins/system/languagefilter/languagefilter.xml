@@ -25,6 +25,7 @@
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_DETECT_BROWSER_LABEL"
 					default="0"
 					filter="integer"
+					validate="options"
 					>
 					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_SITE_LANGUAGE</option>
 					<option value="1">PLG_SYSTEM_LANGUAGEFILTER_BROWSER_SETTINGS</option>
@@ -107,6 +108,7 @@
 					label="PLG_SYSTEM_LANGUAGEFILTER_FIELD_COOKIE_LABEL"
 					default="0"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">PLG_SYSTEM_LANGUAGEFILTER_OPTION_YEAR</option>
 					<option value="0">PLG_SYSTEM_LANGUAGEFILTER_OPTION_SESSION</option>

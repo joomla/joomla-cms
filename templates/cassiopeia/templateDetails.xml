@@ -22,7 +22,6 @@
 		<folder>images</folder>
 		<folder>js</folder>
 		<folder>scss</folder>
-		<folder>language</folder>
 	</files>
 	<positions>
 		<position>menu</position>
@@ -41,8 +40,8 @@
 		<position>debug</position>
 	</positions>
 	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.tpl_cassiopeia.ini</language>
-		<language tag="en-GB">en-GB/en-GB.tpl_cassiopeia.sys.ini</language>
+		<language tag="en-GB">en-GB/tpl_cassiopeia.ini</language>
+		<language tag="en-GB">en-GB/tpl_cassiopeia.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">

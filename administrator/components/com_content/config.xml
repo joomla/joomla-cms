@@ -54,6 +54,7 @@
 			type="list"
 			label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
 			<option value="1">COM_CONTENT_FIELD_OPTION_BELOW</option>
@@ -451,6 +452,7 @@
 			default="Parent"
 			filter="int"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
+			validate="options"
 			>
 			<option value="0">JBROWSERTARGET_PARENT</option>
 			<option value="1">JBROWSERTARGET_NEW</option>
@@ -465,6 +467,7 @@
 			default="Parent"
 			filter="int"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
+			validate="options"
 			>
 			<option value="0">JBROWSERTARGET_PARENT</option>
 			<option value="1">JBROWSERTARGET_NEW</option>
@@ -479,6 +482,7 @@
 			default="Parent"
 			filter="int"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
+			validate="options"
 			>
 			<option value="0">JBROWSERTARGET_PARENT</option>
 			<option value="1">JBROWSERTARGET_NEW</option>
@@ -498,6 +502,7 @@
 			type="list"
 			label="COM_CONTENT_FLOAT_INTRO_LABEL"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
+			validate="options"
 			>
 			<option value="right">COM_CONTENT_RIGHT</option>
 			<option value="left">COM_CONTENT_LEFT</option>
@@ -509,6 +514,7 @@
 			type="list"
 			label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
 			showon="show_urls_images_backend:1[OR]show_urls_images_frontend:1"
+			validate="options"
 			>
 			<option value="right">COM_CONTENT_RIGHT</option>
 			<option value="left">COM_CONTENT_LEFT</option>
@@ -579,6 +585,7 @@
 			type="list"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			default="-1"
+			validate="options"
 			>
 			<option value="0">JNONE</option>
 			<option value="-1">JALL</option>
@@ -665,6 +672,7 @@
 			type="list"
 			label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 			default="-1"
+			validate="options"
 			>
 			<option value="0">JNONE</option>
 			<option value="-1">JALL</option>
@@ -747,6 +755,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_SUBCATEGORY_CONTENT_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="0">JNONE</option>
 			<option value="-1">JALL</option>
@@ -779,6 +788,7 @@
 			type="list"
 			label="JGLOBAL_FILTER_FIELD_LABEL"
 			default="hide"
+			validate="options"
 			>
 			<option value="hide">JHIDE</option>
 			<option value="title">JGLOBAL_TITLE</option>
@@ -804,6 +814,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_DATE_LABEL"
 			default="0"
+			validate="options"
 			>
 			<option value="0">JHIDE</option>
 			<option value="created">JGLOBAL_CREATED</option>
@@ -873,6 +884,7 @@
 			type="list"
 			label="JGLOBAL_CATEGORY_ORDER_LABEL"
 			default="none"
+			validate="options"
 			>
 			<option value="none">JGLOBAL_NO_ORDER</option>
 			<option value="alpha">JGLOBAL_TITLE_ALPHABETICAL</option>
@@ -885,6 +897,7 @@
 			type="list"
 			label="JGLOBAL_ARTICLE_ORDER_LABEL"
 			default="rdate"
+			validate="options"
 			>
 			<option value="rdate">JGLOBAL_MOST_RECENT_FIRST</option>
 			<option value="date">JGLOBAL_OLDEST_FIRST</option>
@@ -908,6 +921,7 @@
 			label="JGLOBAL_ORDERING_DATE_LABEL"
 			showon="orderby_sec:rdate,date"
 			default="published"
+			validate="options"
 			>
 			<option value="created">JGLOBAL_CREATED</option>
 			<option value="modified">JGLOBAL_MODIFIED</option>
@@ -919,6 +933,7 @@
 			type="list"
 			label="JGLOBAL_PAGINATION_LABEL"
 			default="2"
+			validate="options"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">JSHOW</option>
@@ -942,6 +957,7 @@
 			type="list"
 			label="JGLOBAL_SHOW_FEATURED_ARTICLES_LABEL"
 			default="show"
+			validate="options"
 			>
 			<option value="show">JSHOW</option>
 			<option value="hide">JHIDE</option>
@@ -974,6 +990,7 @@
 				label="JGLOBAL_FEED_SUMMARY_LABEL"
 				default="0"
 				showon="show_feed_link:1"
+				validate="options"
 				>
 				<option value="0">JGLOBAL_INTRO_TEXT</option>
 				<option value="1">JGLOBAL_FULL_TEXT</option>
