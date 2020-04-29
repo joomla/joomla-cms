@@ -83,7 +83,7 @@ abstract class JGrid
 
 			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
-			$html[] = '<span class="icon-' . $active_class . '" aria-hidden="true"></span>';
+			$html[] = '<span class="fas fa-' . ($active_class === 'publish' ? 'star' : 'times') . '" aria-hidden="true"></span>';
 			$html[] = '</a>';
 			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
 		}
