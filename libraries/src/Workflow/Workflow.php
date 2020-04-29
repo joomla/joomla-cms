@@ -174,6 +174,7 @@ class Workflow
 				$db->quoteName('t.to_stage_id'),
 				$db->quoteName('t.from_stage_id'),
 				$db->quoteName('t.options'),
+				$db->quoteName('t.workflow_id'),
 			]
 		)
 			->from($db->quoteName('#__workflow_transitions', 't'))
@@ -196,7 +197,8 @@ class Workflow
 		{
 			$assoc = $this->getAssociation($pk);
 
-			if (!\in_array($transition->from_stage_id, [-1, $assoc->stage_id]))
+			// The transition has to be in the same workflow
+			if (!\in_array($transition->from_stage_id, [$assoc->stage_id, -1]) || $transition->workflow_id !== $assoc->workflow_id)
 			{
 				return false;
 			}
@@ -363,13 +365,16 @@ class Workflow
 
 		$query->select(
 			[
-				$db->quoteName('item_id'),
-				$db->quoteName('stage_id'),
+				$db->quoteName('a.item_id'),
+				$db->quoteName('a.stage_id'),
+				$db->quoteName('s.workflow_id'),
 			]
 		)
-			->from($db->quoteName('#__workflow_associations'))
+			->from($db->quoteName('#__workflow_associations', 'a'))
+			->innerJoin($db->quoteName('#__workflow_stages', 's'))
 			->where(
 				[
+					$db->quoteName('a.stage_id') . ' = ' . $db->quoteName('s.id'),
 					$db->quoteName('item_id') . ' = :id',
 					$db->quoteName('extension') . ' = :extension',
 				]

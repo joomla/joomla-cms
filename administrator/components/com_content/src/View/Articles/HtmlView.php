@@ -11,6 +11,7 @@ namespace Joomla\Component\Content\Administrator\View\Articles;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -21,7 +22,6 @@ use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
-use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * View class for a list of articles.

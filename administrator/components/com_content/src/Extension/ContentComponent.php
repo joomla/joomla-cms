@@ -223,6 +223,10 @@ class ContentComponent extends MVCComponent implements
 		{
 			return 'Form';
 		}
+		elseif ($modelname === 'featured' && Factory::getApplication()->isClient('administrator'))
+		{
+			return 'Article';
+		}
 
 		return ucfirst($modelname);
 	}

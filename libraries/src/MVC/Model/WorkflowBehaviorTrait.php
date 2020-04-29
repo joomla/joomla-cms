@@ -13,6 +13,7 @@ namespace Joomla\CMS\MVC\Model;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Table\Category;
