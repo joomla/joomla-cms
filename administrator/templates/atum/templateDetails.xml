@@ -116,9 +116,9 @@
 						label="TPL_ATUM_LOGIN_LOGO_LABEL"
 				/>
 				<field
-						name="altLoginLogo"
-						type="text"
-						label="TPL_ATUM_ALTTEXT_LOGIN_LOGO_LABEL"
+					name="altLoginLogo"
+					type="text"
+					label="TPL_ATUM_ALTTEXT_LOGIN_LOGO_LABEL"
 				/>
 				<field
 					name="logoBrandLarge"
