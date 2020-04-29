@@ -103,7 +103,7 @@ if ( $icon === 'generic' )
 
 if ( $icon === 'list-2' )
 {
-	$icon = 'fa-list-ul';
+	$icon = 'list-ul';
 }
 
 ?>
