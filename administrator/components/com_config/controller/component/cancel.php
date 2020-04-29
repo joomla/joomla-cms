@@ -16,21 +16,44 @@ defined('_JEXEC') or die;
  */
 class ConfigControllerComponentCancel extends ConfigControllerCanceladmin
 {
-	/**
-	 * Method to cancel global configuration component.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function execute()
-	{
-		$this->context = 'com_config.config.global';
+    /**
+     * Application object - Redeclared for proper typehinting
+     *
+     * @var    JApplicationCms
+     * @since  3.2
+     */
+    protected $app;
 
-		$this->component = $this->input->get('component');
+    /**
+     * Method to cancel global configuration component.
+     *
+     * @return  void
+     *
+     * @since   3.2
+     */
+    public function execute()
+    {
+        $this->context = 'com_config.config.global';
 
-		$this->redirect = 'index.php?option=' . $this->component;
+        $this->component = $this->input->get('component');
 
-		parent::execute();
-	}
+        $returnUri = $this->input->get('return', null, 'base64');
+
+        $redirect = 'index.php?option=' . $this->component;
+
+        if (!empty($returnUri))
+        {
+            $redirect = base64_decode($returnUri);
+        }
+
+        // Don't redirect to an external URL.
+        if (!JUri::isInternal($redirect))
+        {
+            $redirect = JUri::base();
+        }
+
+        $this->app->redirect(JRoute::_($redirect, false));
+
+        parent::execute();
+    }
 }
