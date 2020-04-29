@@ -111,9 +111,9 @@
 
 			<fieldset name="images" label="TPL_ATUM_IMAGE_SETTINGS_LABEL">
 				<field
-						name="loginLogo"
-						type="media"
-						label="TPL_ATUM_LOGIN_LOGO_LABEL"
+					name="loginLogo"
+					type="media"
+					label="TPL_ATUM_LOGIN_LOGO_LABEL"
 				/>
 				<field
 					name="altLoginLogo"
