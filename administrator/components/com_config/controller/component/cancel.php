@@ -1,10 +1,10 @@
 <?php
 /**
- * @package	 Joomla.Administrator
+ * @package     Joomla.Administrator
  * @subpackage  com_config
  *
  * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
- * @license	 GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -19,7 +19,7 @@ class ConfigControllerComponentCancel extends ConfigControllerCanceladmin
 	/**
 	 * Application object - Redeclared for proper typehinting
 	 *
-	 * @var	JApplicationCms
+	 * @var    JApplicationCms
 	 * @since  3.2
 	 */
 	protected $app;
