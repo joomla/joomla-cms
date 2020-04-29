@@ -11,6 +11,6 @@ $fa-font-path: "../../../../../../media/vendor/fontawesome-free/webfonts" !defau
 @import "../../../../../../build/media_source/system/scss/icomoon";
 
 // RTL override
-html[dir=rtl] .pull-right {
+html[dir=rtl] .float-right {
   float: left;
 }

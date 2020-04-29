@@ -27,6 +27,7 @@
 					label="PLG_TWOFACTORAUTH_TOTP_SECTION_LABEL"
 					default="3"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">PLG_TWOFACTORAUTH_TOTP_SECTION_SITE</option>
 					<option value="2">PLG_TWOFACTORAUTH_TOTP_SECTION_ADMIN</option>
