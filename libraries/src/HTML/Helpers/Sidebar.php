@@ -54,7 +54,7 @@ abstract class Sidebar
 	public static function render()
 	{
 		// Collect display data
-		$data                 = new stdClass;
+		$data                 = new \stdClass;
 		$data->list           = static::getEntries();
 		$data->filters        = static::getFilters();
 		$data->action         = static::getAction();
