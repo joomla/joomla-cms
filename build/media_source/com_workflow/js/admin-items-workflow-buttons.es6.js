@@ -45,42 +45,36 @@ Joomla.toggleAllNextElements = (element, className) => {
     const itemList = [].slice.call(document.querySelectorAll('table.itemList'))[0];
 
     let itemListRows = [];
-    let transition_ids = [];
+    let transitionIds = [];
 
     if (itemList) {
       itemListRows = [].slice.call(itemList.querySelectorAll('tbody tr'));
     }
 
     function enableTransitions() {
-      if (transition_ids.length)
-      {
-        let availableTrans = transition_ids.shift();
+      if (transitionIds.length) {
+        let availableTrans = transitionIds.shift();
 
-        while(transition_ids.length)
-        {
-          const compareTrans = transition_ids.shift();
+        while (transitionIds.length) {
+          const compareTrans = transitionIds.shift();
 
-          availableTrans = availableTrans.filter((id) => {return compareTrans.indexOf(id) !== -1});
+          availableTrans = availableTrans.filter((id) => compareTrans.indexOf(id) !== -1);
         }
 
-        if (availableTrans.length)
-        {
-          if (headline)
-          {
+        if (availableTrans.length) {
+          if (headline) {
             headline.classList.remove('d-none');
           }
-          if (separator)
-          {
+          if (separator) {
             separator.classList.remove('d-none');
           }
         }
 
         availableTrans.forEach((trans) => {
-          const elem = dropDownBtn.querySelector('.transition-' + trans);
+          const elem = dropDownBtn.querySelector(`.transition-${trans}`);
 
-          if (elem)
-          {
-            elem.parentNode.classList.remove('d-none')
+          if (elem) {
+            elem.parentNode.classList.remove('d-none');
           }
         });
       }
@@ -89,7 +83,7 @@ Joomla.toggleAllNextElements = (element, className) => {
     // check for common attributes for which the conditions for a transition are possible or not
     // and save this information in a boolean variable.
     function collectTransitions(row) {
-      transition_ids.push(row.getAttribute('data-transitions').split(','));
+      transitionIds.push(row.getAttribute('data-transitions').split(','));
     }
 
     // listen to click event to get selected rows
@@ -98,15 +92,13 @@ Joomla.toggleAllNextElements = (element, className) => {
         transitions.forEach((trans) => {
           trans.parentNode.classList.add('d-none');
         });
-        if (headline)
-        {
+        if (headline) {
           headline.classList.add('d-none');
         }
-        if (separator)
-        {
+        if (separator) {
           separator.classList.add('d-none');
         }
-        transition_ids = [];
+        transitionIds = [];
         itemListRows.forEach((el) => {
           const checkedBox = el.querySelectorAll('input[type=checkbox]')[0];
           if (checkedBox.checked) {
