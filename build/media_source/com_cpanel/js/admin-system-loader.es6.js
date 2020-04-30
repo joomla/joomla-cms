@@ -31,6 +31,7 @@
               if (response.error || !response.success) {
                 element.classList.remove('fa-spin');
                 element.classList.remove('fa-spinner');
+                element.classList.add('float-right');
                 element.classList.add('text-danger');
                 element.classList.add('fa-remove');
               } else if (response.data) {
@@ -45,6 +46,7 @@
               } else {
                 element.classList.remove('fa-spin');
                 element.classList.remove('fa-spinner');
+                element.classList.add('float-right');
                 element.classList.add('fa-check');
                 element.classList.add('text-success');
               }
@@ -52,6 +54,7 @@
             onError: () => {
               element.classList.remove('fa-spin');
               element.classList.remove('fa-spinner');
+              element.classList.add('float-right');
               element.classList.add('text-danger');
               element.classList.add('fa-remove');
             },
