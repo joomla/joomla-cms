@@ -129,7 +129,7 @@ install:
     - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
     - appveyor-retry appveyor DownloadFile https://getcomposer.org/composer.phar
     - cd C:\projects\joomla-cms
-    - appveyor-retry composer install --no-progress --profile
+    - appveyor-retry composer install --no-progress --profile --ignore-platform-reps
 
 before_test:
 #  Database setup for MySQL via PowerShell tools
