@@ -274,10 +274,10 @@ class HtmlView extends BaseHtmlView
 		if ($isSuperUser)
 		{
 			// Add Manage folders button
-			ToolbarHelper::modal('folderModal', 'icon-folder icon white', 'COM_TEMPLATES_BUTTON_FOLDERS');
+			ToolbarHelper::modal('folderModal', 'fas fa-folder icon white', 'COM_TEMPLATES_BUTTON_FOLDERS');
 
 			// Add a new file button
-			ToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
+			ToolbarHelper::modal('fileModal', 'fas fa-file', 'COM_TEMPLATES_BUTTON_FILE');
 
 			// Add a Rename file Button
 			if ($this->type != 'home')
@@ -288,7 +288,7 @@ class HtmlView extends BaseHtmlView
 			// Add a Delete file Button
 			if ($this->type != 'home')
 			{
-				ToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE', 'btn-danger');
+				ToolbarHelper::modal('deleteModal', 'fas fa-times', 'COM_TEMPLATES_BUTTON_DELETE_FILE');
 			}
 		}
 
