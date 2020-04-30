@@ -10,6 +10,7 @@
 			label="COM_CONFIG_FIELD_CACHE_LABEL"
 			default="2"
 			filter="integer"
+			validate="options"
 			>
 			<option value="0">COM_CONFIG_FIELD_VALUE_CACHE_OFF</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_CACHE_CONSERVATIVE</option>
@@ -215,6 +216,7 @@
 			label="COM_CONFIG_FIELD_DATABASE_ENCRYPTION_MODE_LABEL"
 			default="0"
 			filter="integer"
+			validate="options"
 			>
 			<option value="0">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_MODE_VALUE_NONE</option>
 			<option value="1">COM_CONFIG_FIELD_DATABASE_ENCRYPTION_MODE_VALUE_ONE_WAY</option>
@@ -526,6 +528,7 @@
 			default="mail"
 			filter="word"
 			showon="mailonline:1"
+			validate="options"
 			>
 			<option value="mail">COM_CONFIG_FIELD_VALUE_PHP_MAIL</option>
 			<option value="sendmail">COM_CONFIG_FIELD_VALUE_SENDMAIL</option>
@@ -572,6 +575,7 @@
 			default="none"
 			showon="mailonline:1[AND]mailer:smtp"
 			filter="word"
+			validate="options"
 			>
 			<option value="none">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="ssl">COM_CONFIG_FIELD_VALUE_SSL</option>
@@ -633,6 +637,7 @@
 			type="list"
 			label="JFIELD_METADATA_ROBOTS_LABEL"
 			default=""
+			validate="options"
 			>
 			<option value="">JGLOBAL_INDEX_FOLLOW</option>
 			<option value="noindex, follow">JGLOBAL_NOINDEX_FOLLOW</option>
@@ -745,6 +750,7 @@
 			label="COM_CONFIG_FIELD_SITENAME_PAGETITLES_LABEL"
 			default="0"
 			filter="integer"
+			validate="options"
 			>
 			<option value="2">COM_CONFIG_FIELD_VALUE_AFTER</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_BEFORE</option>
@@ -783,12 +789,12 @@
 			label="COM_CONFIG_FIELD_ERROR_REPORTING_LABEL"
 			default="default"
 			filter="cmd"
+			validate="options"
 			>
 			<option value="default">COM_CONFIG_FIELD_VALUE_SYSTEM_DEFAULT</option>
 			<option value="none">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="simple">COM_CONFIG_FIELD_VALUE_SIMPLE</option>
 			<option value="maximum">COM_CONFIG_FIELD_VALUE_MAXIMUM</option>
-			<option value="development">COM_CONFIG_FIELD_VALUE_DEVELOPMENT</option>
 		</field>
 
 		<field
@@ -797,6 +803,7 @@
 			label="COM_CONFIG_FIELD_FORCE_SSL_LABEL"
 			default="-1"
 			filter="integer"
+			validate="options"
 			>
 			<option value="0">COM_CONFIG_FIELD_VALUE_NONE</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_ADMINISTRATOR_ONLY</option>
@@ -971,6 +978,7 @@
 			default="1"
 			filter="integer"
 			showon="offline:1"
+			validate="options"
 			>
 			<option value="0">JHIDE</option>
 			<option value="1">COM_CONFIG_FIELD_VALUE_DISPLAY_OFFLINE_MESSAGE_CUSTOM</option>
@@ -1000,6 +1008,7 @@
 			label="COM_CONFIG_FRONTEDITING_LABEL"
 			default="1"
 			filter="integer"
+			validate="options"
 			>
 			<option value="2">COM_CONFIG_FRONTEDITING_MENUSANDMODULES</option>
 			<option value="1">COM_CONFIG_FRONTEDITING_MODULES</option>
@@ -1040,6 +1049,7 @@
 			label="COM_CONFIG_FIELD_DEFAULT_LIST_LIMIT_LABEL"
 			default="20"
 			filter="integer"
+			validate="options"
 			>
 			<option value="5">J5</option>
 			<option value="10">J10</option>
@@ -1059,6 +1069,7 @@
 			label="COM_CONFIG_FIELD_DEFAULT_FEED_LIMIT_LABEL"
 			default="10"
 			filter="integer"
+			validate="options"
 			>
 			<option value="5">J5</option>
 			<option value="10">J10</option>
@@ -1076,6 +1087,7 @@
 			label="COM_CONFIG_FIELD_FEED_EMAIL_LABEL"
 			default="none"
 			filter="word"
+			validate="options"
 			>
 			<option value="author">COM_CONFIG_FIELD_VALUE_AUTHOR_EMAIL</option>
 			<option value="site">COM_CONFIG_FIELD_VALUE_SITE_EMAIL</option>

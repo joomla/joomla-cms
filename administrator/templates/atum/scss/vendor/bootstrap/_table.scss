@@ -28,7 +28,7 @@
       color: var(--atum-link-color);
 
       &#sorted {
-        font-weight: 500;
+        font-weight: $medium-weight;
         color: $gray-800;
       }
     }
@@ -60,7 +60,7 @@
     }
 
     th {
-      font-weight: 500;
+      font-weight: $medium-weight;
     }
   }
 

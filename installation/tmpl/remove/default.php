@@ -24,18 +24,19 @@ HTMLHelper::_('behavior.formvalidator');
 		</legend>
 		<div class="j-install-step-form" id="customInstallation">
 			<h2><?php echo Text::_('INSTL_COMPLETE_TITLE'); ?></h2>
-			<p><?php echo Text::_('INSTL_COMPLETE_DESC'); ?></p>
 			<div class="form-group">
-				<button class="btn btn-primary btn-block" id="installAddFeatures"><?php echo Text::_('INSTL_COMPLETE_ADD_PRECONFIG'); ?> <span class="fas fa-chevron-right" aria-hidden="true"></span></button>
+				<button class="btn btn-primary btn-block" id="installAddFeatures">
+					<?php echo Text::_('INSTL_COMPLETE_ADD_EXTRA_LANGUAGE'); ?> <span class="fas fa-chevron-right" aria-hidden="true"></span>
+				</button>
 			</div>
 		</div>
-		
+
 		<?php if (count($this->installed_languages->administrator) > 1) : ?>
-				<div id="defaultLanguage" 
+				<div id="defaultLanguage"
 					class="j-install-step-form flex-column mt-5 border rounded"
 				>
 		<?php else : ?>
-				<div id="defaultLanguage" 
+				<div id="defaultLanguage"
 					class="j-install-step-form flex-column mt-5 border rounded d-none"
 				>
 		<?php endif; ?>
@@ -181,7 +182,7 @@ HTMLHelper::_('behavior.formvalidator');
 				<?php if ($this->development) : ?>
 					<div class="alert flex-column mb-1" id="removeInstallationTab">
 						<span class="mb-1 font-weight-bold"><?php echo Text::_('INSTL_SITE_DEVMODE_LABEL'); ?></span>
-						<button class="btn btn-danger mb-1" id="removeInstallationFolder"><?php echo Text::_('INSTL_COMPLETE_REMOVE_FOLDER'); ?></button>
+						<button class="btn btn-danger mb-1" id="removeInstallationFolder"><?php echo Text::sprintf('INSTL_COMPLETE_REMOVE_FOLDER', 'installation'); ?></button>
 					</div>
 				<?php endif; ?>
 				<?php echo HTMLHelper::_('form.token'); ?>

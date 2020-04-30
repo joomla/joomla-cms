@@ -9,15 +9,13 @@ branches:
 
 ## Build matrix for lowest and highest possible targets
 environment:
-  DLLVersion: "5.6.1"
   PHPBuild: "x64"
   VC: "vc15"
+  WINCACHE: "2.0.0.8"
   matrix:
   - php_ver_target: 7.2
-    DLLVersion: "5.3.0"
-    WINCACHE: "2.0.0.8"
   - php_ver_target: 7.3
-    WINCACHE: "2.0.0.8"
+  - php_ver_target: 7.4
 
 init:
   - SET PATH=C:\Program Files\OpenSSL;C:\tools\php;%PATH%
@@ -25,7 +23,6 @@ init:
   - SET PHP=1 # This var relates to caching the php install
   - SET ANSICON=121x90 (121x90)
 services:
-  - mssql2014
   - mysql
   - postgresql94
   - iis
@@ -35,30 +32,12 @@ install:
     - IF EXIST C:\tools\php (SET PHP=0)
     # TODO: This is a workaround for https://github.com/chocolatey/choco/issues/1843. Once this is fixed we
     #       should go back to latest version in appveyor saving ourselves test time
-    - ps: choco upgrade chocolatey -y --version 0.10.13 --allow-downgrade
+    - ps: choco upgrade chocolatey -y --version 0.10.13 --allow-downgrade --no-progress
     - ps: >-
         If ($env:PHP -eq "1") {
-          appveyor-retry cinst --params '""/InstallDir:C:\tools\php""' --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
+          appveyor-retry cinst --no-progress --params '""/InstallDir:C:\tools\php""' --ignore-checksums -y php --version ((choco search php --exact --all-versions -r | select-string -pattern $env:php_ver_target | sort { [version]($_ -split '\|' | select -last 1) } -Descending | Select-Object -first 1) -replace '[php|]','')
         }
-    - appveyor-retry cinst -y sqlite
     - cd C:\tools\php
-    # Get the MSSQL DLLs
-    - ps: >-
-        If ($env:PHP -eq "1") {
-            cd c:\tools\php\ext
-            $source = "https://windows.php.net/downloads/pecl/releases/sqlsrv/$($env:DLLVersion)/php_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
-            $destination = "c:\tools\php\ext\php_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
-            Invoke-WebRequest $source -OutFile $destination
-            #appveyor-retry appveyor DownloadFile https://windows.php.net/downloads/pecl/releases/sqlsrv/$($env:DLLVersion)/php_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
-            7z x -y php_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip > $null
-            $source = "https://windows.php.net/downloads/pecl/releases/pdo_sqlsrv/$($env:DLLVersion)/php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
-            $destination = "c:\tools\php\ext\php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip"
-            Invoke-WebRequest $source -OutFile $destination
-            #appveyor-retry appveyor DownloadFile https://windows.php.net/downloads/pecl/releases/pdo_sqlsrv/$($env:DLLVersion)/php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
-            7z x -y php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip > $null
-            Remove-Item c:\tools\php\ext* -include .zip
-            cd c:\tools\php
-        }
     - IF %PHP%==1 copy php.ini-production php.ini /Y
     - IF %PHP%==1 echo date.timezone="UTC" >> php.ini
     - IF %PHP%==1 echo extension_dir=ext >> php.ini
@@ -67,17 +46,8 @@ install:
     - IF %PHP%==1 echo extension=php_fileinfo.dll >> php.ini
     - IF %PHP%==1 echo extension=php_gd2.dll >> php.ini
     - IF %PHP%==1 echo extension=php_gmp.dll >> php.ini
-
-    - ps: >-
-        If ($env:PHP -eq "1") {
-          Add-Content php.ini "`nextension=php_sqlsrv.dll"
-          Add-Content php.ini "`nextension=php_pdo_sqlsrv.dll"
-          Add-Content php.ini "`n"}
-
     - IF %PHP%==1 echo extension=php_pgsql.dll >> php.ini
     - IF %PHP%==1 echo extension=php_pdo_pgsql.dll >> php.ini
-    - IF %PHP%==1 echo extension=php_pdo_sqlite.dll >> php.ini
-    - IF %PHP%==1 echo extension=php_sqlite3.dll >> php.ini
     - IF %PHP%==1 echo extension=php_pdo_mysql.dll >> php.ini
     - IF %PHP%==1 echo extension=php_mysqli.dll >> php.ini
     - IF %PHP_VER_TARGET%==5.6 IF %PHP%==1 echo extension=php_mysql.dll >> php.ini
@@ -101,7 +71,8 @@ install:
     - IF %PHP%==1 echo opcache.enable_cli=1 >> php.ini
     - IF %PHP%==1 echo extension=php_ldap.dll >> php.ini
     - IF %PHP%==1 echo @php %%~dp0composer.phar %%* > composer.bat
-    - appveyor-retry appveyor DownloadFile https://getcomposer.org/composer.phar
+    - appveyor-retry appveyor DownloadFile https://getcomposer.org/download/1.10.5/composer.phar
+    - appveyor-retry composer self-update
     - cd C:\projects\joomla-cms
     - appveyor-retry composer install --no-progress --profile
 before_test:
@@ -113,10 +84,6 @@ before_test:
   - SET PGPASSWORD=Password12!
   - PATH=C:\Program Files\PostgreSQL\9.4\bin\;%PATH%
   - createdb joomla_ut
-
-# Database setup for SQL Server
-  - ps: $sqlInstance = "(local)\SQL2014"
-  - ps: sqlcmd -b -E -S "$sqlInstance" -Q "CREATE DATABASE joomla_ut"
 
 test_script:
   - cd C:\projects\joomla-cms

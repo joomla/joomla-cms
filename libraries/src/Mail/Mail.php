@@ -69,16 +69,23 @@ class Mail extends PHPMailer
 		// Don't disclose the PHPMailer version
 		$this->XMailer = ' ';
 
-		/*
-		 * PHPMailer 5.2 can't validate e-mail addresses with the new regex library used in PHP 7.3+
-		 * Setting $validator to "php" uses the native php function filter_var
+		/**
+		 * Which validator to use by default when validating email addresses.
+		 * Validation patterns supported:
+		 * `auto` Pick best pattern automatically;
+		 * `pcre8` Use the squiloople.com pattern, requires PCRE > 8.0;
+		 * `pcre` Use old PCRE implementation;
+		 * `php` Use PHP built-in FILTER_VALIDATE_EMAIL;
+		 * `html5` Use the pattern given by the HTML5 spec for 'email' type form input elements.
+		 * `noregex` Don't use a regex: super fast, really dumb.
 		 *
-		 * @see https://github.com/joomla/joomla-cms/issues/24707
+		 * The default used by phpmailer is `php` but this does not support dotless domains so instead we use `html5`
+		 *
+		 * @see PHPMailer::validateAddress()
+		 *
+		 * @var string|callable
 		 */
-		if (version_compare(PHP_VERSION, '7.3.0', '>='))
-		{
-			PHPMailer::$validator = 'php';
-		}
+		PHPMailer::$validator = 'html5';
 	}
 
 	/**

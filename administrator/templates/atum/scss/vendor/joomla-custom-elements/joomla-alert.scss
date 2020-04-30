@@ -1,141 +1,72 @@
-@import "../../../../../../media/vendor/bootstrap/scss/functions";
-
-// Atum Variables
 @import "../../variables";
-
-// Mixins
-@import "../../mixin";
-
-@import "../../../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../../../media/vendor/bootstrap/scss/mixins";
-
 @import "../../../../../../node_modules/joomla-ui-custom-elements/dist/css/joomla-alert";
 
-#system-message-container {
-  joomla-alert {
+// The following is a restyle for the system alerts
+
+#system-message-container joomla-alert {
+  position: relative;
+  display: block;
+  width: 50vw;
+  min-width: 16rem;
+  padding: 0;
+  margin-bottom: 1rem;
+  color: var(--atum-text-dark);
+  background-color: var(--white);
+  border: 1px solid var(--alert-accent-color, transparent);
+  border-radius: 0;
+  transition: opacity .15s linear;
+
+  .alert-heading {
     display: block;
-    min-width: 16rem;
-    padding: 0;
-    margin-bottom: 1rem;
-    color: var(--atum-text-dark);
-    background-color: var(--white);
-    border: 1px solid transparent;
-    border-radius: 0;
-    opacity: 0;
-    transition: opacity .15s linear;
-
-    .alert-heading {
-      display: block;
-      width: 100%;
-      padding: 1rem;
-      font-size: 1.3rem;
-      font-weight: normal;
-      color: rgba(255, 255, 255, .95);
-    }
-
-    &[type="success"] {
-      border-color: var(--success);
-
-      .alert-heading {
-        background: var(--success);
-      }
-
-      hr {
-        border-top-color: var(--success);
-      }
-
-      .alert-link {
-        color: var(--success);
-      }
-    }
-
-    &[type="info"] {
-      border-color: var(--info);
-
-      .alert-heading {
-        background: var(--info);
-      }
-
-      hr {
-        border-top-color: var(--info);
-      }
-
-      .alert-link {
-        color: var(--info);
-      }
-    }
-
-    &[type="warning"] {
-      border-color: var(--warning);
-
-      .alert-heading {
-        color: var(--atum-text-dark);
-        background: var(--warning);
-      }
-
-      hr {
-        border-top-color: var(--warning);
-      }
-
-      .alert-link {
-        color: var(--warning);
-      }
-    }
-
-    &[type="danger"] {
-      border-color: var(--danger);
-
-      .alert-heading {
-        background: var(--danger);
-      }
-
-      hr {
-        border-top-color: var(--danger);
-      }
-
-      .alert-link {
-        color: var(--danger);
-      }
-    }
-
-    &.joomla-alert--show {
-      display: block;
-      opacity: 1;
-    }
-
-    .joomla-alert--close,
-    .joomla-alert-button--close {
-      position: relative;
-      top: 1rem;
-      right: 0;
-      color: var(--white);
-      text-shadow: none;
-      cursor: pointer;
-      opacity: 1;
-
-      &:hover,
-      &:focus {
-        text-decoration: none;
-        cursor: pointer;
-        opacity: .75;
-      }
-    }
-
-    div {
-      padding: 1rem;
-    }
-
-    @media screen and (prefers-reduced-motion: reduce) {
-      transition: none;
-    }
+    padding: 1rem;
+    color: rgba(255, 255, 255, .95);
+    background: var(--alert-accent-color, transparent);
   }
-}
 
-html[dir=rtl] #system-message-container joomla-alert {
+  .alert-link {
+    color: var(--success, inherit);
+  }
+
+  &[type="success"] {
+    --alert-accent-color: var(--success);
+  }
+
+  &[type="info"] {
+    --alert-accent-color: var(--info);
+  }
+
+  &[type="warning"] {
+    --alert-accent-color: var(--warning);
+  }
+
+  &[type="danger"] {
+    --alert-accent-color: var(--danger);
+  }
 
   .joomla-alert--close,
   .joomla-alert-button--close {
-    right: auto;
-    left: 0;
+    position: absolute;
+    top: .7rem;
+    right: 1rem;
+    font-size: 2rem;
+    color: var(--white);
+    background: none;
+    border: 0;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+      cursor: pointer;
+      opacity: .75;
+    }
+
+    [dir=rtl] & {
+      right: auto;
+      left: 0;
+    }
+  }
+
+  div {
+    padding: 1rem;
   }
 }

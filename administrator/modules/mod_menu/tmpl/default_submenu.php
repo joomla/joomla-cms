@@ -21,40 +21,44 @@ use Joomla\CMS\Uri\Uri;
  * =========================================================================================================
  */
 /** @var  \Joomla\Module\Menu\Administrator\Menu\CssMenu  $this */
-$class         = '';
+$class         = 'item';
 $currentParams = $current->getParams();
 
 // Build the CSS class suffix
 if (!$this->enabled)
 {
-	$class = ' class="disabled"';
+	$class .= ' disabled';
 }
 elseif ($current->type == 'separator')
 {
-	$class = $current->title ? ' class="menuitem-group"' : ' class="divider"';
+	$class = $current->title ? 'menuitem-group' : 'divider';
 }
 elseif ($current->hasChildren())
 {
-	$class = ' class="dropdown-submenu"';
+	$class .= ' parent';
+}
 
-	if ($current->level == 1)
-	{
-		$class = ' class="parent"';
-	}
-	elseif ($current->class === 'scrollable-menu')
-	{
-		$class = ' class="dropdown scrollable-menu"';
-	}
+if ($current->level == 1)
+{
+	$class .= ' item-level-1';
+}
+elseif ($current->level == 2)
+{
+	$class .= ' item-level-2';
+}
+elseif ($current->level == 3)
+{
+	$class .= ' item-level-3';
 }
 
 // Set the correct aria role and print the item
 if ($current->type == 'separator')
 {
-	echo '<li' . $class . ' role="presentation">';
+	echo '<li class="' . $class . '" role="presentation">';
 }
 else
 {
-	echo '<li' . $class . '>';
+	echo '<li class="' . $class . '">';
 }
 
 // Print a link if it exists
