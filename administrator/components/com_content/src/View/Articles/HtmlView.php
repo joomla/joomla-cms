@@ -233,7 +233,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->trash('articles.trash')->listCheck(true);
 			}
 
-			// Add a batch button
+			// Add a batch and duplicate button
 			if ($user->authorise('core.create', 'com_content')
 				&& $user->authorise('core.edit', 'com_content')
 				&& $user->authorise('core.execute.transition', 'com_content'))
@@ -241,6 +241,11 @@ class HtmlView extends BaseHtmlView
 				$childBar->popupButton('batch')
 					->text('JTOOLBAR_BATCH')
 					->selector('collapseModal')
+					->listCheck(true);
+
+				$childBar->standardButton('copy')
+					->text('JTOOLBAR_DUPLICATE')
+					->task('articles.duplicate')
 					->listCheck(true);
 			}
 		}
