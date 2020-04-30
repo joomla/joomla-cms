@@ -299,6 +299,9 @@ class ApiModel extends BaseDatabaseModel
 
 		PluginHelper::importPlugin('content');
 
+		// Also include the filesystem plugins, perhaps they support batch processing too
+ 		PluginHelper::importPlugin('media-action');
+
 		$result = $app->triggerEvent('onContentBeforeSave', ['com_media.file', $object, true, $object]);
 
 		if (in_array(false, $result, true))
@@ -345,6 +348,9 @@ class ApiModel extends BaseDatabaseModel
 		$object->extension = strtolower(File::getExt($name));
 
 		PluginHelper::importPlugin('content');
+
+		// Also include the filesystem plugins, perhaps they support batch processing too
+ 		PluginHelper::importPlugin('media-action');
 
 		$result = $app->triggerEvent('onContentBeforeSave', ['com_media.file', $object, false, $object]);
 
