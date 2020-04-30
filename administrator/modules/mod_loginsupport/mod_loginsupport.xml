@@ -83,6 +83,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="0"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>

@@ -53,6 +53,7 @@
 					type="list"
 					label="MOD_QUICKICON_SHOW_CHECKIN_LABEL"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -63,6 +64,7 @@
 					type="list"
 					label="MOD_QUICKICON_SHOW_CACHE_LABEL"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -73,6 +75,7 @@
 					type="list"
 					label="MOD_QUICKICON_SHOW_USERS_LABEL"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -83,6 +86,7 @@
 					type="list"
 					label="MOD_QUICKICON_SHOW_ARTICLES_LABEL"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -93,6 +97,7 @@
 					type="list"
 					label="MOD_QUICKICON_SHOW_MODULES_LABEL"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -103,6 +108,7 @@
 					type="list"
 					label="MOD_QUICKICON_SHOW_CATEGORIES_LABEL"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -123,6 +129,7 @@
 					type="list"
 					label="MOD_QUICKICON_SHOW_MENUITEMS_LABEL"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -133,6 +140,7 @@
 					type="list"
 					label="MOD_QUICKICON_SHOW_PLUGINS_LABEL"
 					default="0"
+					validate="options"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -170,6 +178,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="0"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>

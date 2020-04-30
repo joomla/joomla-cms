@@ -37,6 +37,7 @@
 					label="MOD_LOGGED_NAME"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">MOD_LOGGED_NAME</option>
 					<option value="0">JGLOBAL_USERNAME</option>
