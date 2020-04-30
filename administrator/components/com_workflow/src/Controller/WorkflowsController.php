@@ -166,7 +166,7 @@ class WorkflowsController extends AdminController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->extension, false
+				. '&extension=' . $this->extension . ($this->section ? '.' . $this->section : ''), false
 			)
 		);
 	}
