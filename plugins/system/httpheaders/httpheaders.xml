@@ -66,7 +66,7 @@
 							<option value="referrer-policy">Referrer-Policy</option>
 							<option value="expect-ct">Expect-CT</option>
 							<option value="feature-policy">Feature-Policy</option>
-							<option value="report-to">Report-to</option>
+							<option value="report-to">Report-To</option>
 						</field>
 						<field
 							name="value"

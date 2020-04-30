@@ -322,12 +322,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 					$frameAncestorsSet = true;
 				}
 
-				// Add strict-dynamic to the script-src directive when enabeld
+				// Add strict-dynamic to the script-src directive when enabled
 				if ($cspValue->directive === 'script-src'
 					&& strpos($cspValue->value, 'strict-dynamic') === 0
 					&& $scriptDynamicEnabled)
 				{
-					$cspValue->value = $cspValue->value . " 'strict-dynamic' ";
+					$cspValue->value .= " 'strict-dynamic' ";
 				}
 
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
@@ -453,12 +453,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				$cspHeaderValue = '{style-hashes} ' . $cspHeaderValue;
 			}
 
-			// Add strict-dynamic to the script-src directive when enabeld
+			// Add strict-dynamic to the script-src directive when enabled
 			if ($cspHeaderkey === 'script-src'
 				&& strpos($cspHeaderValue, 'strict-dynamic') === 0
 				&& $scriptDynamicEnabled)
 			{
-				$cspHeaderValue = $cspHeaderValue . " 'strict-dynamic' ";
+				$cspHeaderValue .= " 'strict-dynamic' ";
 			}
 
 			// By default we should whitelist 'self' on any directive
