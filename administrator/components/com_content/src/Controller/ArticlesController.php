@@ -191,7 +191,7 @@ class ArticlesController extends AdminController
 
 			$model->duplicate($pks);
 
-			$this->app->enqueueMessage(Text::_('COM_CONTENT_ITEM_DUPLICATED'));
+			$this->app->enqueueMessage(Text::_('COM_CONTENT_ITEM_DUPLICATED', 'message'));
 		}
 		catch (\Exception $e)
 		{
