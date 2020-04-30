@@ -15,14 +15,7 @@
 
 	<!-- Add fields to the parameters object for the layout. -->
 <fields name="params">
-	<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
-
-			<field
-				name="spacer"
-				type="spacer"
-				label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
-				class="text"
-			/>
+	<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
 
 			<field
 				name="show_pagination_limit"

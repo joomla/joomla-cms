@@ -91,6 +91,7 @@
 		class="custom-select-color-state"
 		default="1"
 		size="1"
+		validate="options"
 		>
 		<option value="1">JPUBLISHED</option>
 		<option value="0">JUNPUBLISHED</option>
@@ -247,6 +248,7 @@
 					name="float_intro"
 					type="list"
 					label="COM_TAGS_FLOAT_LABEL"
+					validate="options"
 					>
 					<option value="">JGLOBAL_SELECT_AN_OPTION</option>
 					<option value="right">COM_TAGS_RIGHT</option>
@@ -280,6 +282,7 @@
 					name="float_fulltext"
 					type="list"
 					label="COM_TAGS_FLOAT_LABEL"
+					validate="options"
 					>
 					<option value="">JGLOBAL_SELECT_AN_OPTION</option>
 					<option value="right">COM_TAGS_RIGHT</option>
@@ -318,6 +321,7 @@
 				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
+				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>

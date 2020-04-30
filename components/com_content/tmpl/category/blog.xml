@@ -166,13 +166,7 @@
 				/>
 		</fieldset>
 
-		<fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS">
-				<field
-					name="bloglayout"
-					type="spacer"
-					label="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL"
-					class="text"
-				/>
+		<fieldset name="advanced" label="JGLOBAL_BLOG_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_BLOG_LAYOUT_LABEL">
 
 				<field
 					name="blog_class_leading"
