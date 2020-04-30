@@ -159,4 +159,45 @@ class ArticlesController extends AdminController
 
 		echo new JsonResponse($result);
 	}
+
+	/**
+	 * Method to clone an existing article.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function duplicate()
+	{
+		// Check for request forgeries
+		$this->checkToken();
+
+		$pks = $this->input->post->get('cid', array(), 'array');
+		$pks = ArrayHelper::toInteger($pks);
+
+		try
+		{
+			if (empty($pks))
+			{
+				throw new \Exception(Text::_('COM_CONTENT_NO_ITEM_SELECTED'));
+			}
+
+			if (\count($pks) > 1)
+			{
+				throw new \Exception(Text::_('COM_CONTENT_MORE_ITEMS_SELECTED'));
+			}
+
+			$model = $this->getModel();
+
+			$model->duplicate($pks);
+
+			$this->app->enqueueMessage(Text::_('COM_CONTENT_ITEM_DUPLICATED'));
+		}
+		catch (\Exception $e)
+		{
+			$this->app->enqueueMessage($e->getMessage(), 'warning');
+		}
+
+		$this->setRedirect('index.php?option=com_content&view=articles');
+	}
 }
