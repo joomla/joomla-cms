@@ -6,7 +6,7 @@ $theme-colours: map-merge((
   "green"  : #7ac143,
 ), $theme-colours);
 
-joomla-core-loader {
+:host {
   position: fixed;
   top: 0;
   left: 0;
