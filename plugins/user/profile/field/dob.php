@@ -54,7 +54,7 @@ class JFormFieldDob extends JFormFieldCalendar
 			{
 				$layout = new JLayoutFile('plugins.user.profile.fields.dob');
 				$info   = $layout->render(array('text' => $text));
-				$label  = $info . $label;
+				$label  = $label . $info;
 			}
 		}
 
