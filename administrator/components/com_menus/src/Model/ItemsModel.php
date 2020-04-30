@@ -527,7 +527,8 @@ class ItemsModel extends ListModel
 		// Filter on componentName
 		if ($componentName = $this->getState('filter.componentName'))
 		{
-			$query->where($db->quoteName('e.name') . ' = ' . $db->quote($componentName));
+			$query->where($db->quoteName('e.name') . ' = :component')
+				->bind(':component', $componentName);
 		}
 
 		// Add the list ordering clause.
