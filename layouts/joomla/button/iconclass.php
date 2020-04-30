@@ -1,102 +1,111 @@
 <?php
+/**
+ * @package     Joomla.Site
+ * @subpackage  Layout
+ *
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
 defined('JPATH_BASE') or die;
 
 // Convert icomoon to fa
 $icon = $displayData['icon'];
-if ( $icon === 'archive' )
+
+if ( $icon === 'archive' || $icon === 'folder-close' || $icon === 'folder-folder-2' || $icon === 'folder-minus' || $icon === 'folder-plus-2' || $icon === 'folder-remove' || $icon === 'drawer-2' )
 {
-$icon = 'folder';
+	$icon = 'folder';
 }
 
 if ( $icon === 'publish' )
 {
-$icon = 'check';
+	$icon = 'check';
 }
 
 if ( $icon === 'unpublish' || $icon === 'cancel' || $icon === 'delete' || $icon === 'remove' )
 {
-$icon = 'times';
+	$icon = 'times';
 }
 
 if ( $icon === 'new' || $icon === 'save-new' )
 {
-$icon = 'plus';
+	$icon = 'plus';
 }
 
 if ( $icon === 'apply' )
 {
-$icon = 'save';
+	$icon = 'save';
 }
 
 if ( $icon === 'mail' )
 {
-$icon = 'envelope';
+	$icon = 'envelope';
 }
 
 if ( $icon === 'featured' || $icon === 'unfeatured' || $icon === 'asterisk' || $icon === 'default' )
 {
-$icon = 'star';
+	$icon = 'star';
 }
 
 if ( $icon === 'checkedout' )
 {
-$icon = 'lock';
+	$icon = 'lock';
 }
 
 if ( $icon === 'eye-close' )
 {
-$icon = 'eye-slash';
+	$icon = 'eye-slash';
 }
 
 if ( $icon === 'eye-open' )
 {
-$icon = 'eye';
+	$icon = 'eye';
 }
 
 if ( $icon === 'loop' || $icon === 'refresh' || $icon === 'unblock')
 {
-$icon = 'sync';
+	$icon = 'sync';
 }
 
 if ( $icon === 'contract' )
 {
-$icon = 'compress';
+	$icon = 'compress';
 }
 
 if ( $icon === 'purge' )
 {
-$icon = 'trash';
+	$icon = 'trash';
 }
 
 if ( $icon === 'options' )
 {
-$icon = 'cog';
+	$icon = 'cog';
 }
 
 if ( $icon === 'expired' )
 {
-$icon = 'minus-circle';
+	$icon = 'minus-circle';
 }
 
 if ( $icon === 'save-copy' )
 {
-$icon = 'copy';
+	$icon = 'copy';
 }
 
 if ( $icon === 'checkin' )
 {
-$icon = 'check-square';
+	$icon = 'check-square';
 }
 
 if ( $icon === 'generic' )
 {
-$icon = 'dot-circle';
+	$icon = 'dot-circle';
 }
 
 if ( $icon === 'list-2' )
 {
-$icon = 'fa-list-ul';
+	$icon = 'list-ul';
 }
 
 ?>
-fas fa-<?php echo $icon;
+	fas fa-<?php echo $icon;

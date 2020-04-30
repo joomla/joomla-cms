@@ -11,7 +11,8 @@ defined('JPATH_BASE') or die;
 
 // Convert icomoon to fa
 $icon = $displayData['icon'];
-if ( $icon === 'archive' )
+
+if ( $icon === 'archive' || $icon === 'folder-close' || $icon === 'folder-folder-2' || $icon === 'folder-minus' || $icon === 'folder-plus-2' || $icon === 'folder-remove' || $icon === 'drawer-2' )
 {
 	$icon = 'folder';
 }
