@@ -1517,4 +1517,38 @@ class ArticleModel extends AdminModel
 
 		return true;
 	}
+
+	/**
+	 * Method to duplicate an article.
+	 *
+	 * @param   array  $pk  An array of primary key IDs.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \Exception
+	 */
+	public function duplicate(Array $pk): void
+	{
+		$db = $this->getDbo();
+
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->quoteName('#__content'))
+			->where($db->quoteName('id') . ' = :id')
+			->bind(':id', $pk, ParameterType::INTEGER);
+
+		$article = $db->setQuery($query)->loadAssoc();
+
+		$article['id']       = null;
+		$article['asset_id'] = null;
+		list($title, $alias) = $this->generateNewTitle($article['catid'], $article['alias'], $article['title']);
+		$article['title']    = $title;
+		$article['alias']    = $alias;
+
+		if (!$this->save($article))
+		{
+			throw new \Exception(Text::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+		}
+	}
 }
