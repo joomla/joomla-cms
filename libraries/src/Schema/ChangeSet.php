@@ -98,13 +98,13 @@ class ChangeSet
 			// If the table exists add a change item for utf8mb4 conversion to the end
 			if ($tableExists > 0)
 			{
-				// Let the update query be something harmless which should always succeed
+				// Let the update query do nothing
 				$tmpSchemaChangeItem = ChangeItem::getInstance(
 					$db,
 					'database.php',
 					'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
-					. ' SET ' . $this->db->quoteName('converted') . ' = 0;'
-				);
+					. ' SET ' . $this->db->quoteName('converted') . ' = '
+					. $this->db->quoteName('converted') . ';');
 
 				// Set to not skipped
 				$tmpSchemaChangeItem->checkStatus = 0;

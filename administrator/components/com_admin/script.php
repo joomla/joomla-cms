@@ -19,7 +19,6 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
-use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
  * Script file of Joomla CMS
@@ -6246,7 +6245,7 @@ class JoomlaInstallerScript
 	{
 		$db = Factory::getDbo();
 
-		if (!($db instanceof UTF8MB4SupportInterface))
+		if ($db->getServerType() !== 'mysql')
 		{
 			return;
 		}
@@ -6304,55 +6303,33 @@ class JoomlaInstallerScript
 			return;
 		}
 
-		// Nothing to do, saved conversion status from DB is equal to required
-		if ($convertedDB == $converted)
+		// If conversion status from DB is equal to required final status, try to drop the #__utf8_conversion table
+		if ($convertedDB === $converted)
 		{
+			$this->dropUtf8ConversionTable();
+
 			return;
 		}
 
-		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
-		$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql';
+		// Perform the conversions
+		$fileName = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion.sql';
 
-		if (is_file($fileName1))
+		if (is_file($fileName))
 		{
-			$fileContents1 = @file_get_contents($fileName1);
-			$queries1      = $db->splitSql($fileContents1);
+			$fileContents = @file_get_contents($fileName);
+			$queries      = $db->splitSql($fileContents);
 
-			if (!empty($queries1))
+			if (!empty($queries))
 			{
-				foreach ($queries1 as $query1)
+				foreach ($queries as $query)
 				{
 					try
 					{
-						$db->setQuery($query1)->execute();
+						$db->setQuery($query)->execute();
 					}
 					catch (Exception $e)
 					{
-						// If the query fails we will go on. It just means the index to be dropped does not exist.
-					}
-				}
-			}
-		}
-
-		// Step 2: Perform the index modifications and conversions
-		$fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql';
-
-		if (is_file($fileName2))
-		{
-			$fileContents2 = @file_get_contents($fileName2);
-			$queries2      = $db->splitSql($fileContents2);
-
-			if (!empty($queries2))
-			{
-				foreach ($queries2 as $query2)
-				{
-					try
-					{
-						$db->setQuery($query2)->execute();
-					}
-					catch (Exception $e)
-					{
-						$converted = 0;
+						$converted = $convertedDB;
 
 						// Still render the error message from the Exception object
 						Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
@@ -6361,33 +6338,26 @@ class JoomlaInstallerScript
 			}
 		}
 
-		if ($doDbFixMsg && $converted == 0)
+		if ($doDbFixMsg && $converted !== 2)
 		{
 			// Show an error message telling to check database problems
 			Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 		}
 
 		// If the conversion was successful try to drop the #__utf8_conversion table
-		if ($converted == 2)
+		if ($converted === 2 && $this->dropUtf8ConversionTable())
 		{
-			try
-			{
-				$db->setQuery('DROP TABLE ' . $db->quoteName('#__utf8_conversion') . ';'
-				)->execute();
-
-				// All done
-				return;
-			}
-			catch (Exception $e)
-			{
-				// Nothing to be done, conversion status is updated in database later
-			}
+			// Table successfully dropped
+			return;
 		}
 
-		// Update conversion status in database
-		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
-			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';'
-		)->execute();
+		// Set flag in database if the conversion status has changed.
+		if ($converted !== $convertedDB)
+		{
+			$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
+				. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';'
+			)->execute();
+		}
 	}
 
 	/**
@@ -6407,6 +6377,28 @@ class JoomlaInstallerScript
 		// Clean admin cache
 		$model->setState('client_id', 1);
 		$model->clean();
+	}
+
+	/**
+	 * This method drops the #__utf8_conversion table
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   4.0.0
+	 */
+	private function dropUtf8ConversionTable()
+	{
+		try
+		{
+			$db->setQuery('DROP TABLE ' . $db->quoteName('#__utf8_conversion') . ';'
+			)->execute();
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
