@@ -148,7 +148,43 @@ class PlgWorkflowPublishing extends CMSPlugin
 		$table = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true])
 			->getTable();
 
-		$form->setFieldAttribute($table->getColumnAlias('published'), 'disabled', 'true');
+		$fieldname = $table->getColumnAlias('published');
+
+		$options = $form->getField($fieldname)->options;
+
+		$value = isset($data->$fieldname) ? $data->$fieldname : $form->getValue($fieldname, null, 0);
+
+		$text = '-';
+
+		$textclass = 'body';
+
+		switch ($value)
+		{
+			case 1:
+				$textclass = 'success';
+				break;
+
+			case 0:
+			case -2:
+				$textclass = 'danger';
+		}
+
+		if (!empty($options))
+		{
+			foreach ($options as $option)
+			{
+				if ($option->value == $value)
+				{
+					$text = $option->text;
+
+					break;
+				}
+			}
+		}
+
+		$form->setFieldAttribute($fieldname, 'type', 'spacer');
+
+		$form->setFieldAttribute($fieldname, 'label', Text::sprintf('PLG_WORKFLOW_PUBLISHING_PUBLISHED', '<span class="text-' . $textclass . '">' . htmlentities($text, ENT_COMPAT, 'UTF-8') . '</span>'));
 
 		return true;
 	}
