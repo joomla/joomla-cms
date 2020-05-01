@@ -116,7 +116,7 @@ class ChangeSet
 				$tmpSchemaChangeItem->checkQuery = 'SELECT '
 					. $this->db->quoteName('converted')
 					. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
-					. ' WHERE ' . $this->db->quoteName('converted') . ' = 2';
+					. ' WHERE ' . $this->db->quoteName('converted') . ' = 4';
 
 				// Set expected records from check query
 				$tmpSchemaChangeItem->checkQueryExpected = 1;

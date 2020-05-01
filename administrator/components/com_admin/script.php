@@ -6278,7 +6278,7 @@ class JoomlaInstallerScript
 		}
 
 		// Set required conversion status
-		$converted = 2;
+		$converted = 4;
 
 		// Check conversion status in database
 		$db->setQuery('SELECT ' . $db->quoteName('converted')
@@ -6338,14 +6338,14 @@ class JoomlaInstallerScript
 			}
 		}
 
-		if ($doDbFixMsg && $converted !== 2)
+		if ($doDbFixMsg && $converted !== 4)
 		{
 			// Show an error message telling to check database problems
 			Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 		}
 
 		// If the conversion was successful try to drop the #__utf8_conversion table
-		if ($converted === 2 && $this->dropUtf8ConversionTable())
+		if ($converted === 4 && $this->dropUtf8ConversionTable())
 		{
 			// Table successfully dropped
 			return;
