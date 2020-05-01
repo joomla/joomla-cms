@@ -243,11 +243,11 @@ class ApiModel extends BaseDatabaseModel
 			throw new \Exception($object->getError());
 		}
 
-		$this->getAdapter($object->adapter)->createFolder($name, $path);
+		$object->name = $this->getAdapter($object->adapter)->createFolder($object->name, $object->path);
 
 		$app->triggerEvent('onContentAfterSave', ['com_media.folder', $object, true, $object]);
 
-		return $name;
+		return $object->name;
 	}
 
 	/**
@@ -309,11 +309,11 @@ class ApiModel extends BaseDatabaseModel
 			throw new \Exception($object->getError());
 		}
 
-		$finalResult = $this->getAdapter($adapter)->createFile($name, $path, $data);
+		$object->name = $this->getAdapter($object->adapter)->createFile($object->name, $object->path, $object->data);
 
 		$app->triggerEvent('onContentAfterSave', ['com_media.file', $object, true, $object]);
 
-		return $finalResult;
+		return $object->name;
 	}
 
 	/**
@@ -359,7 +359,7 @@ class ApiModel extends BaseDatabaseModel
 			throw new \Exception($object->getError());
 		}
 
-		$this->getAdapter($adapter)->updateFile($name, $path, $data);
+		$this->getAdapter($object->adapter)->updateFile($object->name, $object->path, $object->data);
 
 		$app->triggerEvent('onContentAfterSave', ['com_media.file', $object, false, $object]);
 	}
@@ -402,7 +402,7 @@ class ApiModel extends BaseDatabaseModel
 			throw new \Exception($object->getError());
 		}
 
-		$this->getAdapter($adapter)->delete($path);
+		$this->getAdapter($object->adapter)->delete($object->path);
 
 		$app->triggerEvent('onContentAfterDelete', ['com_media.' . $type, $object]);
 	}
