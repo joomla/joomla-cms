@@ -199,6 +199,84 @@ trait WorkflowBehaviorTrait
 	}
 
 	/**
+	 * Batch change workflow stage or current.
+	 *
+	 * @param   integer  $value     The workflow stage ID.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
+	 *
+	 * @return  mixed  An array of new IDs on success, boolean false on failure.
+	 *
+	 * @since   4.0.0
+	 */
+	public function batchWorkflowStage(int $value, array $pks, array $contexts)
+	{
+		$user = Factory::getApplication()->getIdentity();
+
+		$workflow = Factory::getApplication()->bootComponent('com_workflow');
+
+		if (!$user->authorise('core.admin', $this->option))
+		{
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EXECUTE_TRANSITION'));
+		}
+
+		// Get workflow stage information
+		$stage = $workflow->getMVCFactory()->createTable('Stage', 'Administrator');
+
+		if (empty($value) || !$stage->load($value))
+		{
+			Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_BATCH_WORKFLOW_STAGE_ROW_NOT_FOUND'), 'error');
+
+			return false;
+		}
+
+		if (empty($pks))
+		{
+			Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_BATCH_WORKFLOW_STAGE_ROW_NOT_FOUND'), 'error');
+
+			return false;
+		}
+
+		// Update workflow associations
+		return $this->workflow->updateAssociations($pks, $value);
+	}
+
+	/**
+	 * Batch change workflow stage or current.
+	 *
+	 * @param   integer  $oldId     The ID of the item copied from
+	 * @param   integer  $newId     The ID of the new item
+	 *
+	 * @return  null
+	 *
+	 * @since   4.0.0
+	 */
+	public function workflowCleanupBatchMove($oldId, $newId)
+	{
+		// Trigger workflow plugins only if enable (will be triggered from parent class)
+		if ($this->workflowEnabled)
+		{
+			$this->importWorkflowPlugins();
+		}
+
+		// We always need an association, so create one
+		$table = $this->getTable();
+
+		$table->load($newId);
+
+		$catKey = $table->getColumnAlias('catid');
+
+		$stage_id = $this->getDefaultStageByCategoryId($table->$catKey);
+
+		if (empty($stage_id))
+		{
+			return;
+		}
+
+		$this->workflow->createAssociation((int) $newId, (int) $stage_id);
+	}
+
+	/**
 	 * Runs transition for item.
 	 *
 	 * @param   array    $pks            Id of items to execute the transition
@@ -282,14 +360,14 @@ trait WorkflowBehaviorTrait
 	}
 
 	/**
-	 * Try to load a workflow object for newly created items
+	 * Try to load a workflow stage for newly created items
 	 * which does not have a workflow assinged yet. If the category is not the
 	 * carrier, overwrite it on your model and deliver your own carrier.
 	 *
 	 * @param   Form   $form  A Form object.
 	 * @param   mixed  $data  The data expected for the form.
 	 *
-	 * @return  boolean|object  A object containing workflow information or false
+	 * @return  boolean|integer  An integer, holding the stage ID or false
 	 * @since   4.0.0
 	 */
 	protected function getStageForNewItem(Form $form, $data)
@@ -338,6 +416,19 @@ trait WorkflowBehaviorTrait
 			return false;
 		}
 
+		return $this->getDefaultStageByCategoryId($catId);
+	}
+
+	/**
+	 * Try to load a workflow default stage by category ID.
+	 *
+	 * @param   integer   $catId  The category ID.
+	 *
+	 * @return  boolean|integer  An integer, holding the stage ID or false
+	 * @since   4.0.0
+	 */
+	protected function getDefaultStageByCategoryId($catId)
+	{
 		$db = Factory::getContainer()->get('DatabaseDriver');
 
 		// Let's check if a workflow ID is assigned to a category
@@ -440,48 +531,4 @@ trait WorkflowBehaviorTrait
 
 		return false;
 	}
-
-	/**
-	 * Batch change workflow stage or current.
-	 *
-	 * @param   integer  $value     The workflow stage ID.
-	 * @param   array    $pks       An array of row IDs.
-	 * @param   array    $contexts  An array of item contexts.
-	 *
-	 * @return  mixed  An array of new IDs on success, boolean false on failure.
-	 *
-	 * @since   4.0.0
-	 */
-	public function batchWorkflowStage(int $value, array $pks, array $contexts)
-	{
-		$user = Factory::getApplication()->getIdentity();
-
-		$workflow = Factory::getApplication()->bootComponent('com_workflow');
-
-		if (!$user->authorise('core.admin', $this->option))
-		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EXECUTE_TRANSITION'));
-		}
-
-		// Get workflow stage information
-		$stage = $workflow->getMVCFactory()->createTable('Stage', 'Administrator');
-
-		if (empty($value) || !$stage->load($value))
-		{
-			Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_BATCH_WORKFLOW_STAGE_ROW_NOT_FOUND'), 'error');
-
-			return false;
-		}
-
-		if (empty($pks))
-		{
-			Factory::getApplication()->enqueueMessage(Text::sprintf('JGLOBAL_BATCH_WORKFLOW_STAGE_ROW_NOT_FOUND'), 'error');
-
-			return false;
-		}
-
-		// Update workflow associations
-		return $this->workflow->updateAssociations($pks, $value);
-	}
-
 }

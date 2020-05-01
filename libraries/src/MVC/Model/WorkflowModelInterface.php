@@ -72,6 +72,18 @@ interface WorkflowModelInterface
 	public function workflowAfterSave($data);
 
 	/**
+	 * Batch change workflow stage or current.
+	 *
+	 * @param   integer  $oldId     The ID of the item copied from
+	 * @param   integer  $newId     The ID of the new item
+	 *
+	 * @return  null
+	 *
+	 * @since   4.0.0
+	 */
+	public function workflowCleanupBatchMove($oldId, $newId);
+
+	/**
 	 * Runs transition for item.
 	 *
 	 * @param   array    $pks            Id of items to execute the transition
