@@ -88,7 +88,7 @@ if ($saveOrder)
 								$edit = Route::_('index.php?option=com_workflow&task=transition.edit&id=' . $item->id . '&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension);
 
 								$canEdit    = $user->authorise('core.edit', $this->extension . '.transition.' . $item->id) && !$isCore;
-								$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || $item->checked_out == 0;
+								$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $user->id || $item->checked_out == 0;
 								$canChange  = $user->authorise('core.edit.state', $this->extension . '.transition.' . $item->id) && $canCheckin && !$isCore;								?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center d-none d-md-table-cell">
