@@ -104,7 +104,8 @@ class ChangeSet
 					'database.php',
 					'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
 					. ' SET ' . $this->db->quoteName('converted') . ' = '
-					. $this->db->quoteName('converted') . ';');
+					. $this->db->quoteName('converted') . ';'
+				);
 
 				// Set to not skipped
 				$tmpSchemaChangeItem->checkStatus = 0;
