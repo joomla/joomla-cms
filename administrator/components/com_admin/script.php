@@ -6388,6 +6388,8 @@ class JoomlaInstallerScript
 	 */
 	private function dropUtf8ConversionTable()
 	{
+		$db = Factory::getDbo();
+
 		try
 		{
 			$db->setQuery('DROP TABLE ' . $db->quoteName('#__utf8_conversion') . ';'
