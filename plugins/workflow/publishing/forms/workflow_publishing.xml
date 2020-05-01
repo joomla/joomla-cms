@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fields name="options">
-		<fieldset name="options"
-			label="PLG_WORKFLOW_PUBLISHING_TRANSITION_OPTIONS_LABEL"
+		<fieldset name="actions"
+			label="COM_WORKFLOW_TRANSITION_ACTIONS_LABEL"
 		>
 			<field
 				name="publishing"
 				type="workflowcondition"
-				label="PLG_WORKFLOW_PUBLISHING_TRANSITION_OPTIONS_PUBLISHING_LABEL"
-				description="PLG_WORKFLOW_PUBLISHING_TRANSITION_OPTIONS_PUBLISHING_DESC"
+				label="PLG_WORKFLOW_PUBLISHING_TRANSITION_ACTIONS_PUBLISHING_LABEL"
+				description="PLG_WORKFLOW_PUBLISHING_TRANSITION_ACTIONS_PUBLISHING_DESC"
 				default=""
 				hide_all="true"
 			>
-				<option value="">PLG_WORKFLOW_PUBLISHING_TRANSITION_OPTIONS_PUBLISHING_DO_NO_CHANGE</option>
+				<option value="">PLG_WORKFLOW_PUBLISHING_TRANSITION_ACTIONS_PUBLISHING_DO_NO_CHANGE</option>
 			</field>
 		</fieldset>
 	</fields>
