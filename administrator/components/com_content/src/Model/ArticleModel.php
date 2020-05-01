@@ -124,10 +124,7 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 			}
 		}
 
-		// Copy workflow association
-		$assoc = $this->workflow->getAssociation((int) $oldId);
-
-		$this->workflow->createAssociation((int) $newId, (int) $assoc->stage_id);
+		$this->workflowCleanupBatchMove($oldId, $newId);
 
 		// Register FieldsHelper
 		\JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
