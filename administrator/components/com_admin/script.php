@@ -6251,7 +6251,7 @@ class JoomlaInstallerScript
 		}
 
 		// Check if the #__utf8_conversion table exists
-		$db->setQuery('SHOW TABLES LIKE ' . $this->db->quote($this->db->getPrefix() . 'utf8_conversion'));
+		$db->setQuery('SHOW TABLES LIKE ' . $db->quote($db->getPrefix() . 'utf8_conversion'));
 
 		try
 		{
