@@ -28,10 +28,12 @@ class TagsModel extends ListModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                $config   An optional associative array of configuration settings.
+	 * @see     \JControllerLegacy
+	 *
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \JControllerLegacy
+	 * @param   array                $config   An optional associative array of configuration settings.
+	 *
 	 * @since   1.6
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
@@ -39,20 +41,36 @@ class TagsModel extends ListModel
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id', 'a.id',
-				'title', 'a.title',
-				'alias', 'a.alias',
-				'published', 'a.published',
-				'access', 'a.access', 'access_level',
-				'language', 'a.language',
-				'checked_out', 'a.checked_out',
-				'checked_out_time', 'a.checked_out_time',
-				'created_time', 'a.created_time',
-				'created_user_id', 'a.created_user_id',
-				'lft', 'a.lft',
-				'rgt', 'a.rgt',
-				'level', 'a.level',
-				'path', 'a.path',
+				'id',
+				'a.id',
+				'title',
+				'a.title',
+				'alias',
+				'a.alias',
+				'published',
+				'a.published',
+				'access',
+				'a.access',
+				'access_level',
+				'language',
+				'a.language',
+				'checked_out',
+				'a.checked_out',
+				'checked_out_time',
+				'a.checked_out_time',
+				'created_time',
+				'a.created_time',
+				'created_user_id',
+				'a.created_user_id',
+				'lft',
+				'a.lft',
+				'rgt',
+				'a.rgt',
+				'level',
+				'a.level',
+				'path',
+				'a.path',
+				'countTaggedItems',
 			);
 		}
 
@@ -128,18 +146,18 @@ class TagsModel extends ListModel
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = Factory::getUser();
+		$user  = Factory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
 				'a.id, a.title, a.alias, a.note, a.published, a.access, a.description' .
-					', a.checked_out, a.checked_out_time, a.created_user_id' .
-					', a.path, a.parent_id, a.level, a.lft, a.rgt' .
-					', a.language'
+				', a.checked_out, a.checked_out_time, a.created_user_id' .
+				', a.path, a.parent_id, a.level, a.lft, a.rgt' .
+				', a.language'
 			)
 		);
 		$query->from($db->quoteName('#__tags', 'a'))
@@ -163,6 +181,14 @@ class TagsModel extends ListModel
 			->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_user_id'))
 			->select($db->quoteName('ug.title', 'access_title'))
 			->join('LEFT', $db->quoteName('#__viewlevels', 'ug'), $db->quoteName('ug.id') . ' = ' . $db->quoteName('a.access'));
+
+		// Count Items
+		$subQueryCountTaggedItems = $db->getQuery(true);
+		$subQueryCountTaggedItems
+			->select('COUNT(' . $db->quoteName('tag_map.content_item_id') . ')')
+			->from($db->quoteName('#__contentitem_tag_map', 'tag_map'))
+			->where($db->quoteName('tag_map.tag_id') . ' = ' . $db->quoteName('a.id'));
+		$query->select('(' . (string) $subQueryCountTaggedItems . ') AS ' . $db->quoteName('countTaggedItems'));
 
 		// Filter on the level.
 		if ($level = (int) $this->getState('filter.level'))
@@ -238,7 +264,7 @@ class TagsModel extends ListModel
 
 		// Add the list ordering clause
 		$listOrdering = $this->getState('list.ordering', 'a.lft');
-		$listDirn = $db->escape($this->getState('list.direction', 'ASC'));
+		$listDirn     = $db->escape($this->getState('list.direction', 'ASC'));
 
 		if ($listOrdering == 'a.access')
 		{
@@ -276,8 +302,8 @@ class TagsModel extends ListModel
 	/**
 	 * Method to load the countItems method from the extensions
 	 *
-	 * @param   \stdClass[]  &$items     The category items
-	 * @param   string       $extension  The category extension
+	 * @param   \stdClass[]  &$items      The category items
+	 * @param   string        $extension  The category extension
 	 *
 	 * @return  void
 	 *
