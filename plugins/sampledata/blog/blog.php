@@ -244,7 +244,6 @@ class PlgSampledataBlog extends CMSPlugin
 				'ordering' => 0,
 			),
 		);
-		
 		$mvcFactory = $this->app->bootComponent('com_content')->getMVCFactory();
 
 		foreach ($articles as $i => $article)
