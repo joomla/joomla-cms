@@ -69,6 +69,8 @@ class JNamespacePsr4Map
 			$this->getNamespaces('library')
 		);
 
+		ksort($extensions);
+
 		$this->writeNamespaceFile($extensions);
 
 		return true;

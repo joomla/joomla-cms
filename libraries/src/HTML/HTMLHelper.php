@@ -630,6 +630,12 @@ abstract class HTMLHelper
 			return $file;
 		}
 
+		// Default to lazy you can disable lazyloading by passing $attribs['loading'] = 'eager';
+		if (!isset($attribs['loading']))
+		{
+			$attribs['loading'] = 'lazy';
+		}
+
 		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';
 	}
 

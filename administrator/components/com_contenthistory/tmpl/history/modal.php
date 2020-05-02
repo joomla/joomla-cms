@@ -83,13 +83,13 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 					<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 						<?php echo Text::_('COM_CONTENTHISTORY_VERSION_NOTE'); ?>
 					</th>
-					<th scope="col" style="width:10%">
+					<th scope="col" class="w-10">
 						<?php echo Text::_('COM_CONTENTHISTORY_KEEP_VERSION'); ?>
 					</th>
 					<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 						<?php echo Text::_('JAUTHOR'); ?>
 					</th>
-					<th scope="col" style="width:10%" class="text-right">
+					<th scope="col" class="w-10 text-right">
 						<?php echo Text::_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
 					</th>
 				</tr>

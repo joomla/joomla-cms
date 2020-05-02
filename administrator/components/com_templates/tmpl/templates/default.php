@@ -41,17 +41,17 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col" style="width:30%">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
+								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 									<?php echo Text::_('JVERSION'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
+								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 									<?php echo Text::_('JDATE'); ?>
 								</th>
 								<th scope="col" class="w-25 d-none d-md-table-cell text-center">
 									<?php echo Text::_('JAUTHOR'); ?>
 								</th>
 								<?php if ($this->pluginState) : ?>
-									<th style="width:10%" class="d-none d-md-table-cell text-center">
+									<th class="w-10 d-none d-md-table-cell text-center">
 										<?php echo Text::_('COM_TEMPLATES_OVERRIDES'); ?>
 									</th>
 								<?php endif; ?>
