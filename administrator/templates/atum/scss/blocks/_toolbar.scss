@@ -46,18 +46,18 @@
 
     > span {
       display: inline-block;
-      color: var(--subhead-btn-accent);
+      color: var(--atum-link-color);
     }
 
     &:not([disabled]):hover,
     &:not([disabled]):active,
     &:not([disabled]):focus {
       color: rgba(255, 255, 255, .90);
-      background-color: var(--subhead-btn-accent);
-      border-color: var(--subhead-btn-accent);
+      background-color: var(--atum-link-color);
+      border-color: var(--atum-link-hover-color);
 
       > span {
-        color: rgba(255, 255, 255, .90);
+        color: var(--atum-text-light);
       }
     }
 
