@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1873,6 +1873,21 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	}
 
 	/**
+	 * Quotes a binary string to database requirements for use in database queries.
+	 *
+	 * @param   mixed  $data  A binary string to quote.
+	 *
+	 * @return  string  The binary quoted input string.
+	 *
+	 * @since   3.9.12
+	 */
+	public function quoteBinary($data)
+	{
+		// SQL standard syntax for hexadecimal literals
+		return "X'" . bin2hex($data) . "'";
+	}
+
+	/**
 	 * Wrap an SQL statement identifier name such as column, table or database names in quotes to prevent injection
 	 * risks and reserved word conflicts.
 	 *
@@ -1953,7 +1968,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			}
 			else
 			{
-				$parts[] = $q{0} . str_replace($q{1}, $q{1} . $q{1}, $part) . $q{1};
+				$parts[] = $q[0] . str_replace($q[1], $q[1] . $q[1], $part) . $q[1];
 			}
 		}
 
@@ -2029,7 +2044,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 				$l = $k - 1;
 
-				while ($l >= 0 && $sql{$l} == '\\')
+				while ($l >= 0 && $sql[$l] == '\\')
 				{
 					$l--;
 					$escaped = !$escaped;

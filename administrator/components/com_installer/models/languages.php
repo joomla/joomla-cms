@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  com_installer
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,6 +113,14 @@ class InstallerModelLanguages extends JModelList
 	{
 		$updateSite = $this->getUpdateSite();
 
+		// Check whether the updateserver is found
+		if (empty($updateSite))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
+
+			return;
+		}
+
 		$http = new JHttp;
 
 		try
@@ -126,7 +134,7 @@ class InstallerModelLanguages extends JModelList
 
 		if ($response === null || $response->code !== 200)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNING_NO_LANGUAGES_UPDATESERVER'), 'warning');
+			JFactory::getApplication()->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_ERROR_CANT_CONNECT_TO_UPDATESERVER', $updateSite), 'error');
 
 			return;
 		}

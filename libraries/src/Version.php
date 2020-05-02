@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,7 +49,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-	const PATCH_VERSION = 12;
+	const PATCH_VERSION = 19;
 
 	/**
 	 * Extra release version info.
@@ -78,7 +78,7 @@ final class Version
 	 * @since  3.5
 	 * @deprecated  4.0  Use separated version constants instead
 	 */
-	const DEV_LEVEL = '12-dev';
+	const DEV_LEVEL = '19-dev';
 
 	/**
 	 * Development status.
@@ -111,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '12-August-2019';
+	const RELDATE = '21-April-2020';
 
 	/**
 	 * Release time.
@@ -119,7 +119,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '17:15';
+	const RELTIME = '19:03';
 
 	/**
 	 * Release timezone.
@@ -135,7 +135,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const COPYRIGHT = 'Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.';
+	const COPYRIGHT = 'Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.';
 
 	/**
 	 * Link text.

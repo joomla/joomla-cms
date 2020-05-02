@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -338,7 +338,8 @@ class JApplicationWebTest extends TestCase
 		// Ensure that the compression headers were set.
 		$this->assertEquals(
 			array(
-				0 => array('name' => 'Content-Encoding', 'value' => 'gzip')
+				0 => array('name' => 'Content-Encoding', 'value' => 'gzip'),
+				1 => array('name' => 'Vary', 'value' => 'Accept-Encoding')
 			),
 			TestReflection::getValue($this->class, 'response')->headers
 		);
@@ -386,7 +387,8 @@ class JApplicationWebTest extends TestCase
 		// Ensure that the compression headers were set.
 		$this->assertEquals(
 			array(
-				0 => array('name' => 'Content-Encoding', 'value' => 'deflate')
+				0 => array('name' => 'Content-Encoding', 'value' => 'deflate'),
+				1 => array('name' => 'Vary', 'value' => 'Accept-Encoding')
 			),
 			TestReflection::getValue($this->class, 'response')->headers
 		);

@@ -24,7 +24,7 @@ class Helper
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/function.filesize.php#71098
+	 * @link    https://www.php.net/manual/en/function.filesize.php#71098
 	 * @since   1.0
 	 */
 	public static function remotefsize($url)
@@ -121,9 +121,9 @@ class Helper
 	 * @param   string   $url   Link identifier
 	 * @param   integer  $mode  The new permissions, given as an octal value.
 	 *
-	 * @return  mixed
+	 * @return  integer|boolean
 	 *
-	 * @link    https://secure.php.net/manual/en/function.ftp-chmod.php
+	 * @link    https://www.php.net/manual/en/function.ftp-chmod.php
 	 * @since   1.0
 	 */
 	public static function ftpChmod($url, $mode)

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -262,7 +262,7 @@ class PrivacyModelRequest extends JModelAdmin
 			$db->getQuery(true)
 				->select('id')
 				->from($db->quoteName('#__users'))
-				->where($db->quoteName('email') . ' = ' . $db->quote($table->email)),
+				->where('LOWER(' . $db->quoteName('email') . ') = LOWER(' . $db->quote($table->email) . ')'),
 			0,
 			1
 		)->loadResult();

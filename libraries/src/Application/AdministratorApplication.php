@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -123,7 +123,7 @@ class AdministratorApplication extends CMSApplication
 		$this->initialiseApp($options);
 
 		// Test for magic quotes
-		if (get_magic_quotes_gpc())
+		if (PHP_VERSION_ID < 50400 && get_magic_quotes_gpc())
 		{
 			$lang = $this->getLanguage();
 

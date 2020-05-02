@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -38,7 +38,7 @@ class JSessionStorageDatabase extends JSessionStorage
 			$query = $db->getQuery(true)
 				->select($db->quoteName('data'))
 			->from($db->quoteName('#__session'))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+			->where($db->quoteName('session_id') . ' = ' . $db->quoteBinary($id));
 
 			$db->setQuery($query);
 
@@ -77,7 +77,7 @@ class JSessionStorageDatabase extends JSessionStorage
 				->update($db->quoteName('#__session'))
 				->set($db->quoteName('data') . ' = ' . $db->quote($data))
 				->set($db->quoteName('time') . ' = ' . time())
-				->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+				->where($db->quoteName('session_id') . ' = ' . $db->quoteBinary($id));
 
 			// Try to update the session data in the database table.
 			$db->setQuery($query);
@@ -114,7 +114,7 @@ class JSessionStorageDatabase extends JSessionStorage
 		{
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
+				->where($db->quoteName('session_id') . ' = ' . $db->quoteBinary($id));
 
 			// Remove a session from the database.
 			$db->setQuery($query);

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
+use Joomla\Utilities\IpHelper;
 
 \JLoader::import('joomla.filesystem.file');
 \JLoader::import('joomla.filesystem.folder');
@@ -191,18 +192,11 @@ class FormattedtextLogger extends Logger
 		// Set some default field values if not already set.
 		if (!isset($entry->clientIP))
 		{
-			// Check for proxies as well.
-			if (isset($_SERVER['REMOTE_ADDR']))
+			$ip = IpHelper::getIp();
+
+			if ($ip !== '')
 			{
-				$entry->clientIP = $_SERVER['REMOTE_ADDR'];
-			}
-			elseif (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-			{
-				$entry->clientIP = $_SERVER['HTTP_X_FORWARDED_FOR'];
-			}
-			elseif (isset($_SERVER['HTTP_CLIENT_IP']))
-			{
-				$entry->clientIP = $_SERVER['HTTP_CLIENT_IP'];
+				$entry->clientIP = $ip;
 			}
 		}
 

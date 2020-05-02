@@ -3,7 +3,7 @@
 	<name>mod_articles_popular</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2006</creationDate>
-	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2020 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -66,6 +66,7 @@
 					label="MOD_POPULAR_FIELD_DATEFILTERING_LABEL"
 					description="MOD_POPULAR_FIELD_DATEFILTERING_DESC"
 					default="off"
+					validate="options"
 					>
 					<option value="off">MOD_POPULAR_OPTION_OFF_VALUE</option>
 					<option value="range">MOD_POPULAR_OPTION_DATERANGE_VALUE</option>
@@ -79,6 +80,7 @@
 					description="MOD_POPULAR_FIELD_DATEFIELD_DESC"
 					default="a.created"
 					showon="date_filtering:range,relative"
+					validate="options"
 					>
 					<option value="a.created">MOD_POPULAR_OPTION_CREATED_VALUE</option>
 					<option value="a.modified">MOD_POPULAR_OPTION_MODIFIED_VALUE</option>

@@ -3,15 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_weblinks
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 // Code to support edit links for weblinks
-// Create a shortcut for params.
-$params = &$this->item->params;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 JHtml::_('behavior.framework');
 
@@ -125,7 +123,7 @@ $listDirn     = $this->escape($this->state->get('list.direction'));
 						<?php if ($canEdit) : ?>
 							<ul class="actions">
 								<li class="edit-icon">
-									<?php echo JHtml::_('icon.edit', $item, $params); ?>
+									<?php echo JHtml::_('icon.edit', $item, $item->params); ?>
 								</li>
 							</ul>
 						<?php endif; ?>

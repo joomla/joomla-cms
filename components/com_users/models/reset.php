@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -208,10 +208,15 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 
+		// Prepare user data.
+		$data['password']   = $data['password1'];
+		$data['activation'] = '';
+
 		// Update the user object.
-		$user->password = JUserHelper::hashPassword($data['password1']);
-		$user->activation = '';
-		$user->password_clear = $data['password1'];
+		if (!$user->bind($data))
+		{
+			return new \Exception($user->getError(), 500);
+		}
 
 		// Save the user to the database.
 		if (!$user->save(true))
@@ -379,7 +384,7 @@ class UsersModelReset extends JModelForm
 		$query = $db->getQuery(true)
 			->select('id')
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('email') . ' = ' . $db->quote($data['email']));
+			->where('LOWER(' . $db->quoteName('email') . ') = LOWER(' . $db->quote($data['email']) . ')');
 
 		// Get the user object.
 		$db->setQuery($query);
