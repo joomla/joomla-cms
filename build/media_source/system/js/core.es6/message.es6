@@ -52,48 +52,22 @@
     [].slice.call(Object.keys(messages)).forEach((type) => {
       // Array of messages of this type
       typeMessages = messages[type];
+      messagesBox = document.createElement('joomla-alert');
 
-      if (typeof window.customElements === 'object' && typeof window.customElements.get('joomla-alert') === 'function') {
-        messagesBox = document.createElement('joomla-alert');
-
-        if (['notice', 'message', 'error', 'warning'].indexOf(type) > -1) {
-          alertClass = (type === 'notice') ? 'info' : type;
-          alertClass = (type === 'message') ? 'success' : alertClass;
-          alertClass = (type === 'error') ? 'danger' : alertClass;
-          alertClass = (type === 'warning') ? 'warning' : alertClass;
-        } else {
-          alertClass = 'info';
-        }
-
-        messagesBox.setAttribute('type', alertClass);
-        messagesBox.setAttribute('dismiss', 'true');
-
-        if (timeout && parseInt(timeout, 10) > 0) {
-          messagesBox.setAttribute('autodismiss', timeout);
-        }
+      if (['notice', 'message', 'error', 'warning'].indexOf(type) > -1) {
+        alertClass = (type === 'notice') ? 'info' : type;
+        alertClass = (type === 'message') ? 'success' : alertClass;
+        alertClass = (type === 'error') ? 'danger' : alertClass;
+        alertClass = (type === 'warning') ? 'warning' : alertClass;
       } else {
-        // Create the alert box
-        messagesBox = document.createElement('div');
+        alertClass = 'info';
+      }
 
-        // Message class
-        if (['notice', 'message', 'error', 'warning'].indexOf(type) > -1) {
-          alertClass = (type === 'notice') ? 'info' : type;
-          alertClass = (type === 'message') ? 'success' : alertClass;
-          alertClass = (type === 'error') ? 'danger' : alertClass;
-          alertClass = (type === 'warning') ? 'warning' : alertClass;
-        } else {
-          alertClass = 'info';
-        }
+      messagesBox.setAttribute('type', alertClass);
+      messagesBox.setAttribute('dismiss', 'true');
 
-        messagesBox.className = `alert alert-${alertClass}`;
-
-        // Close button
-        const buttonWrapper = document.createElement('button');
-        buttonWrapper.setAttribute('type', 'button');
-        buttonWrapper.setAttribute('data-dismiss', 'alert');
-        buttonWrapper.className = 'close';
-        buttonWrapper.innerHTML = '×';
-        messagesBox.appendChild(buttonWrapper);
+      if (timeout && parseInt(timeout, 10) > 0) {
+        messagesBox.setAttribute('autodismiss', timeout);
       }
 
       // Title
@@ -115,14 +89,6 @@
       });
 
       messageContainer.appendChild(messagesBox);
-
-      if (typeof window.customElements !== 'object' && typeof window.customElements.get('joomla-alert') !== 'function') {
-        if (timeout && parseInt(timeout, 10) > 0) {
-          setTimeout(() => {
-            Joomla.removeMessages(messageContainer);
-          }, timeout);
-        }
-      }
     });
   };
 
@@ -143,23 +109,11 @@
       messageContainer = document.getElementById('system-message-container');
     }
 
-    if (typeof window.customElements === 'object' && window.customElements.get('joomla-alert')) {
-      const alerts = [].slice.call(messageContainer.querySelectorAll('joomla-alert'));
-      if (alerts.length) {
-        alerts.forEach((alert) => {
-          alert.close();
-        });
-      }
-    } else {
-      // Empty container with a while for Chrome performance issues
-      while (messageContainer.firstChild) {
-        messageContainer.removeChild(messageContainer.firstChild);
-      }
-
-      // Fix Chrome bug not updating element height
-      messageContainer.classList.add('hidden');
-      delete messageContainer.offsetHeight;
-      messageContainer.style.display = '';
+    const alerts = [].slice.call(messageContainer.querySelectorAll('joomla-alert'));
+    if (alerts.length) {
+      alerts.forEach((alert) => {
+        alert.close();
+      });
     }
   };
 
