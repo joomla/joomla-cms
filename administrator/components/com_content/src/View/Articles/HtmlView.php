@@ -233,7 +233,7 @@ class HtmlView extends BaseHtmlView
 				$childBar->trash('articles.trash')->listCheck(true);
 			}
 
-			// Add a batch and duplicate button
+			// Add batch and duplicate buttons
 			if ($user->authorise('core.create', 'com_content')
 				&& $user->authorise('core.edit', 'com_content')
 				&& $user->authorise('core.execute.transition', 'com_content'))
