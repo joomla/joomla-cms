@@ -13,6 +13,7 @@ namespace Joomla\CMS\MVC\Model;
 use Joomla\Database\ParameterType;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -179,6 +180,17 @@ trait WorkflowBehaviorTrait
 		// We save the first stage
 		if ($isNew)
 		{
+			// We have to add the paths, because it could be called outside of the extension context
+			$path = JPATH_BASE . '/components/' . $this->extension;
+
+			$path = Path::check($path);
+
+			Form::addFormPath($path . '/forms');
+			Form::addFormPath($path . '/models/forms');
+			Form::addFieldPath($path . '/models/fields');
+			Form::addFormPath($path . '/model/form');
+			Form::addFieldPath($path . '/model/field');
+
 			$form = $this->getForm();
 
 			$stage_id = $this->getStageForNewItem($form, $data);
@@ -346,7 +358,10 @@ trait WorkflowBehaviorTrait
 			// Transition field
 			$assoc = $this->workflow->getAssociation($id);
 
-			$form->setFieldAttribute('transition', 'workflow_stage', (int) $assoc->stage_id);
+			if (!empty($assoc->stage_id))
+			{
+				$form->setFieldAttribute('transition', 'workflow_stage', (int) $assoc->stage_id);
+			}
 		}
 		else
 		{

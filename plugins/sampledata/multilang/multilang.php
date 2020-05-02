@@ -1159,7 +1159,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		$assoc->item_id   = $newId;
 		$assoc->stage_id  = 2;
-		$assoc->extension = 'com_content';
+		$assoc->extension = 'com_content.article';
 
 		try
 		{

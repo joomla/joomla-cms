@@ -217,7 +217,6 @@ class PlgSampledataBlog extends CMSPlugin
 		$catIds[] = $categoryModel->getItem()->id;
 
 		// Create Articles.
-		$articleModel = new \Joomla\Component\Content\Administrator\Model\ArticleModel;
 		$articles     = array(
 			array(
 				'catid'    => $catIds[1],
@@ -246,8 +245,12 @@ class PlgSampledataBlog extends CMSPlugin
 			),
 		);
 
+		$mvcFactory = $this->app->bootComponent('com_content')->getMVCFactory();
+
 		foreach ($articles as $i => $article)
 		{
+			$articleModel = $mvcFactory->createModel('Article', 'Administrator', ['ignore_request' => true]);
+
 			// Set values from language strings.
 			$title                = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_TITLE');
 			$alias                = ApplicationHelper::stringURLSafe($title);
