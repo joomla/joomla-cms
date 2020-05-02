@@ -182,7 +182,8 @@ a[target="_blank"]::before {
 }
 
 .text-muted {
-  color: var(--atum-text-dark);
+  color: var(--atum-text-dark) !important;
+  opacity: 0.7;
 }
 
 .card-columns {
