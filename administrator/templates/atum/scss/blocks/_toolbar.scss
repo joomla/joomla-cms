@@ -35,7 +35,6 @@
 
   .btn {
     --subhead-btn-accent: var(--atum-text-dark);
-
     padding: 0 1rem;
     margin: 5px 0;
     font-size: 1rem;
@@ -46,18 +45,18 @@
 
     > span {
       display: inline-block;
-      color: var(--atum-link-color);
+      color: var(--subhead-btn-accent);
     }
 
     &:not([disabled]):hover,
     &:not([disabled]):active,
     &:not([disabled]):focus {
       color: rgba(255, 255, 255, .90);
-      background-color: var(--atum-link-color);
-      border-color: var(--atum-link-hover-color);
+      background-color: var(--subhead-btn-accent);
+      border-color: var(--subhead-btn-accent);
 
       > span {
-        color: var(--atum-text-light);
+        color: rgba(255, 255, 255, .90);
       }
     }
 
@@ -70,15 +69,15 @@
     }
 
     &.btn-primary {
-      --subhead-btn-accent: var(--info);
-    }
-
-    &.btn-secondary {
       --subhead-btn-accent: var(--atum-link-color);
     }
 
+    &.btn-secondary {
+      --subhead-btn-accent: var(--atum-special-color);
+    }
+
     &.btn-info {
-      --subhead-btn-accent: var(--info);
+      --subhead-btn-accent: var(--atum-bg-dark);
     }
 
     &.btn-action {

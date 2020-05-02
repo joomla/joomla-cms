@@ -169,8 +169,8 @@ $state-success-bg:                 lighten($green-dark, 70%);
 $state-success-border:             lighten($green-dark, 30%);
 
 $state-info-text:                  var(--white);
-$state-info-bg:                    var(--info);
-$state-info-border:                var(--info-border);
+$state-info-bg:                    var(--atum-bg-dark);
+$state-info-border:                var(--atum-bg-dark);
 
 $state-warning-text:               var(--atum-text-dark);
 $state-warning-bg:                 var(--warning);
