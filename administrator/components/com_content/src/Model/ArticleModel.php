@@ -1529,8 +1529,7 @@ class ArticleModel extends AdminModel
 	 * @throws  \Exception
 	 */
 	public function duplicate(Array $pk): void
-	{
-		
+	{	
 
 		$user = Factory::getUser();
 
