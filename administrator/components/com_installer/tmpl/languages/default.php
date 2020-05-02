@@ -42,7 +42,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="text-center">
+								<th scope="col" class="w-10 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:15%" class="text-right d-none d-md-table-cell">
