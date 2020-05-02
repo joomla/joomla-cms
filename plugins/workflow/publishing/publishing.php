@@ -184,7 +184,8 @@ class PlgWorkflowPublishing extends CMSPlugin
 
 		$form->setFieldAttribute($fieldname, 'type', 'spacer');
 
-		$form->setFieldAttribute($fieldname, 'label', Text::sprintf('PLG_WORKFLOW_PUBLISHING_PUBLISHED', '<span class="text-' . $textclass . '">' . htmlentities($text, ENT_COMPAT, 'UTF-8') . '</span>'));
+		$label = '<span class="text-' . $textclass . '">' . htmlentities($text, ENT_COMPAT, 'UTF-8') . '</span>';
+		$form->setFieldAttribute($fieldname, 'label', Text::sprintf('PLG_WORKFLOW_PUBLISHING_PUBLISHED', $label));
 
 		return true;
 	}

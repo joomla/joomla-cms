@@ -121,7 +121,7 @@ class Content extends Admin
 		$I->checkAllResults();
 		$I->clickToolbarButton('Action');
 		$I->wait(2);
-		$I->clickToolbarButton('unpublish');
+		$I->clickToolbarButton('transition', '1');
 		$I->filterByCondition($title, "Unpublished");
 	}
 
@@ -144,7 +144,7 @@ class Content extends Admin
 		$I->checkAllResults();
 		$I->clickToolbarButton('Action');
 		$I->wait(2);
-		$I->clickToolbarButton('publish');
+		$I->clickToolbarButton('transition', '2');
 		$I->filterByCondition($title, "Published");
 	}
 
@@ -168,7 +168,7 @@ class Content extends Admin
 		$I->checkAllResults();
 		$I->clickToolbarButton('Action');
 		$I->wait(2);
-		$I->clickToolbarButton('trash');
+		$I->clickToolbarButton('transition', '3');
 		$I->filterByCondition($title, "Trashed");
 	}
 
@@ -210,7 +210,7 @@ class Content extends Admin
 		$I = $this;
 		$I->click("//div[@class='js-stools-container-bar']//button[contains(text(), 'Filter')]");
 		$I->wait(2);
-		$I->selectOptionInChosenByIdUsingJs('filter_condition', $condition);
+		$I->selectOptionInChosenByIdUsingJs('filter_published', $condition);
 		$I->see($title);
 	}
 }

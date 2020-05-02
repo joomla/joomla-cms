@@ -610,16 +610,17 @@ class ArticlesModel extends ListModel
 					]
 				)
 					->from($db->quoteName('#__workflow_transitions', 't'))
-					->innerJoin($db->quoteName('#__workflow_stages', 's'))
+					->innerJoin(
+						$db->quoteName('#__workflow_stages', 's'),
+						$db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id')
+					)
 					->where(
 						[
-							$db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'),
 							$db->quoteName('t.published') . ' = 1',
 							$db->quoteName('s.published') . ' = 1',
 						]
 					)
-					->order($db->quoteName('t.ordering'))
-					->group($db->quoteName('t.id'));
+					->order($db->quoteName('t.ordering'));
 
 				$where = [];
 
