@@ -36,6 +36,7 @@
 					type="list"
 					label="MOD_LATEST_FIELD_ORDERING_LABEL"
 					default="c_dsc"
+					validate="options"
 					>
 					<option value="c_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_ADDED</option>
 					<option value="m_dsc">MOD_LATEST_FIELD_VALUE_ORDERING_MODIFIED</option>
@@ -58,6 +59,7 @@
 					type="list"
 					label="MOD_LATEST_FIELD_AUTHORS_LABEL"
 					default="0"
+					validate="options"
 					>
 					<option value="0">MOD_LATEST_FIELD_VALUE_AUTHORS_ANYONE</option>
 					<option value="by_me">MOD_LATEST_FIELD_VALUE_AUTHORS_BY_ME</option>
