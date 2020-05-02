@@ -49,10 +49,10 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['version' => 'auto', 'relative
 							<th scope="col">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+							<th scope="col" class="w-10 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_HEADING_CREATED_BY', 'a.created_by_alias', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+							<th scope="col" class="w-10 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_HEADING_CREATED_ON', 'a.created', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" style="width:5%" class="d-none d-md-table-cell">

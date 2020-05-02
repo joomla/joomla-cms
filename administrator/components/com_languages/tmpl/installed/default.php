@@ -56,13 +56,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<th scope="col" style="width:5%" class="d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_VERSION', 'version', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
+							<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_DATE', 'creationDate', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
+							<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR', 'author', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
+							<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_AUTHOR_EMAIL', 'authorEmail', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" style="width:5%" class="d-none d-md-table-cell text-center">

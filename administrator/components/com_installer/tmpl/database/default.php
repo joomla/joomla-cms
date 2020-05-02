@@ -45,22 +45,22 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 										<th scope="col">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirection, $listOrder); ?>
 										</th>
-										<th scope="col" style="width:10%">
+										<th scope="col" class="w-10">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th scope="col" style="width:10%">
+										<th scope="col" class="w-10">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirection, $listOrder); ?>
 										</th>
-										<th scope="col" class="d-none d-md-table-cell" style="width:10%">
+										<th scope="col" class="w-10 d-none d-md-table-cell">
 											<?php echo Text::_('COM_INSTALLER_HEADING_PROBLEMS'); ?>
 										</th>
-										<th scope="col" class="d-none d-md-table-cell text-right" style="width:10%">
+										<th scope="col" class="w-10 d-none d-md-table-cell text-right">
 											<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
 										</th>
-										<th scope="col" class="d-none d-md-table-cell" style="width:10%">
+										<th scope="col" class="w-10 d-none d-md-table-cell">
 											<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>
 										</th>
-										<th scope="col" class="d-none d-md-table-cell" style="width:10%">
+										<th scope="col" class="w-10 d-none d-md-table-cell">
 											<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirection, $listOrder); ?>
 										</th>
 										<th scope="col" class="d-none d-md-table-cell" style="width:1%">

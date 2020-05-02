@@ -72,7 +72,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 					</th>
 					<?php if (!empty($this->typeFields['menutype'])) : ?>
-						<th scope="col" style="width:10%">
+						<th scope="col" class="w-10">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>

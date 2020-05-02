@@ -66,7 +66,7 @@ if (!empty($editor))
 						<th scope="col" class="title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-10 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" style="width:15%">

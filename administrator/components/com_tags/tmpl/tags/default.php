@@ -109,11 +109,11 @@ if ($saveOrder && !empty($this->items))
 							</th>
 						<?php endif; ?>
 
-						<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-10 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
 						<?php if (Multilanguage::isEnabled()) : ?>
-							<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
+							<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $this->state->get('list.direction'), $this->state->get('list.ordering')); ?>
 							</th>
 						<?php endif; ?>
