@@ -371,10 +371,12 @@ class Workflow
 			]
 		)
 			->from($db->quoteName('#__workflow_associations', 'a'))
-			->innerJoin($db->quoteName('#__workflow_stages', 's'))
+			->innerJoin(
+				$db->quoteName('#__workflow_stages', 's'),
+				$db->quoteName('a.stage_id') . ' = ' . $db->quoteName('s.id')
+			)
 			->where(
 				[
-					$db->quoteName('a.stage_id') . ' = ' . $db->quoteName('s.id'),
 					$db->quoteName('item_id') . ' = :id',
 					$db->quoteName('extension') . ' = :extension',
 				]
