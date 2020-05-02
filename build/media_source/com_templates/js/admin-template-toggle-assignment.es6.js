@@ -8,17 +8,15 @@ Joomla = window.Joomla || {};
 ((Joomla) => {
   Joomla.toggleAll = () => {
     const checkBoxes = [].slice.call(document.querySelectorAll('.chk-menulink'));
-    const value = checkBoxes[0].checked;
     checkBoxes.forEach((checkBox) => {
-      checkBox.checked = !value;
+      checkBox.checked = !checkBox.checked;
     });
   };
 
   Joomla.toggleMenutype = (a) => {
     const checkBox = [].slice.call(document.getElementsByClassName(`menutype-${a}`));
-    const value = checkBox[0].checked;
     checkBox.forEach((element) => {
-      element.checked = !value;
+      element.checked = !element.checked;
     });
   };
 })(Joomla);
