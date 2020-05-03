@@ -19,6 +19,11 @@
 /web.config
 /.php_cs.cache
 
+# +++ HACK (Peter Mayer)
+# No Installation-Directory for further installations
+/installation
+# --- HACK (Peter Mayer)
+
 # Test Related Files #
 /phpunit.xml
 
