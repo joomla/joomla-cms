@@ -47,6 +47,7 @@ tinymce.PluginManager.add('jdragdrop', (editor) => {
           // Create the image tag
           const newNode = tinyMCE.activeEditor.getDoc().createElement('img');
           newNode.src = tinyMCE.activeEditor.settings.setCustomDir + resp.location;
+          newNode.setAttribute('loading', 'lazy');
           tinyMCE.activeEditor.execCommand('mceInsertContent', false, newNode.outerHTML);
         }
       } else {
