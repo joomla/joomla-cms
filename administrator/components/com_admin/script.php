@@ -6311,28 +6311,73 @@ class JoomlaInstallerScript
 			return;
 		}
 
-		// Perform the conversions
-		$fileName = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion.sql';
-
-		if (is_file($fileName))
+		// Perform the required conversions of core tables if not done already in a previous step
+		if ($convertedDB !== 5)
 		{
-			$fileContents = @file_get_contents($fileName);
-			$queries      = $db->splitSql($fileContents);
+			$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion.sql';
 
-			if (!empty($queries))
+			if (is_file($fileName1))
 			{
-				foreach ($queries as $query)
-				{
-					try
-					{
-						$db->setQuery($query)->execute();
-					}
-					catch (Exception $e)
-					{
-						$converted = $convertedDB;
+				$fileContents1 = @file_get_contents($fileName1);
+				$queries1      = $db->splitSql($fileContents1);
 
-						// Still render the error message from the Exception object
-						Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				if (!empty($queries1))
+				{
+					foreach ($queries1 as $query1)
+					{
+						try
+						{
+							$db->setQuery($query1)->execute();
+						}
+						catch (Exception $e)
+						{
+							$converted = $convertedDB;
+
+							// Still render the error message from the Exception object
+							Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+						}
+					}
+				}
+			}
+		}
+
+		// Perform the optional conversions of tables which might or might not exist
+		$fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion_optional.sql';
+
+		if (is_file($fileName2))
+		{
+			$fileContents2 = @file_get_contents($fileName2);
+			$queries2      = $db->splitSql($fileContents2);
+
+			if (!empty($queries2))
+			{
+				foreach ($queries2 as $query2)
+				{
+					// Get table name from query
+					if (preg_match('/^ALTER\s+TABLE\s+([^\s]+)\s+/i', $query2, $matches) === 1)
+					{
+						$tableName = str_replace('`', '', $matches[1]);
+						$tableName = str_replace('#__', $db->getPrefix(), $tableName);
+
+						// Check if the table exists and if yes, run the query
+						try
+						{
+							$db->setQuery('SHOW TABLES LIKE ' . $db->quote($tableName));
+
+							$rows = $db->loadRowList(0);
+
+							if (\count($rows) > 0)
+							{
+								$db->setQuery($query2)->execute();
+							}
+						}
+						catch (Exception $e)
+						{
+							$converted = 5;
+
+							// Still render the error message from the Exception object
+							Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+						}
 					}
 				}
 			}
