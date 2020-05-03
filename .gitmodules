@@ -1,0 +1,3 @@
+[submodule "components/com_whi"]
+	path = components/com_whi
+	url = git@github.com:PM84/joomla_com_whi.git
