@@ -9,11 +9,6 @@ ul {
 
 .close {
   float: left;
-
-  .notify-alerts & {
-    right: auto;
-    left: -.5rem;
-  }
 }
 
 .dropdown-menu-right {
@@ -31,15 +26,6 @@ ul {
 
 .switcher {
   float: right;
-}
-
-// Alerts
-.notify-alerts {
-  margin-left: 0;
-
-  .closed & {
-    margin-right: 0;
-  }
 }
 
 // Header
