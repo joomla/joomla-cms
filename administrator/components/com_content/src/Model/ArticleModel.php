@@ -1555,6 +1555,8 @@ class ArticleModel extends AdminModel
 		list($title, $alias) = $this->generateNewTitle($article['catid'], $article['alias'], $article['title']);
 		$article['title']    = $title;
 		$article['alias']    = $alias;
+		$tags                = new TagsHelper;
+		$article['tags']     = (array) $tags->getTagIds($pk, 'com_content.article');
 
 		if (!$this->save($article))
 		{
