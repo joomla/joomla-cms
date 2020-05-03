@@ -172,8 +172,9 @@ class ArticlesController extends AdminController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$pks = $this->input->post->get('cid', array(), 'array');
-		$pks = ArrayHelper::toInteger($pks);
+		$pks  = $this->input->post->get('cid', array(), 'array');
+		$pks  = ArrayHelper::toInteger($pks);
+		$user = $this->app->getIdentity();
 
 		try
 		{
@@ -185,6 +186,14 @@ class ArticlesController extends AdminController
 			if (\count($pks) > 1)
 			{
 				throw new \Exception(Text::_('COM_CONTENT_MORE_ITEMS_SELECTED'));
+			}
+
+			if (! (($user->authorise('core.create', 'com_content.article.' . (int) $pks)
+				&& $user->authorise('core.edit', 'com_content.article' . (int) $pks)
+				&& $user->authorise('core.edit.own', 'com_content.article' . (int) $pks)
+				&& $user->authorise('core.execute.transition', 'com_content.article' . (int) $pks))))
+			{
+				throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'));
 			}
 
 			$model = $this->getModel();
