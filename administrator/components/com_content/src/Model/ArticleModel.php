@@ -1530,16 +1530,6 @@ class ArticleModel extends AdminModel
 	 */
 	public function duplicate(Array $pk): void
 	{
-		$user = Factory::getUser();
-
-		if (! (($user->authorise('core.create', 'com_content.article.' . (int) $pk)
-			&& $user->authorise('core.edit', 'com_content.article' . (int) $pk)
-			&& $user->authorise('core.edit.own', 'com_content.article' . (int) $pk)
-			&& $user->authorise('core.execute.transition', 'com_content.article' . (int) $pk))))
-		{
-			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'));
-		}
-
 		$db = $this->getDbo();
 
 		$query = $db->getQuery(true)
