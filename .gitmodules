@@ -1,0 +1,3 @@
+[submodule "administrator/components/com_whi"]
+	path = administrator/components/com_whi
+	url = git@github.com:PM84/com_whi_admin.git
