@@ -518,12 +518,12 @@ class PlgEditorTinymce extends CMSPlugin
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 			Text::script('JERROR');
 
-			$scriptOptions['parentUploadFolder'] = '';
+			$scriptOptions['parentUploadFolder'] = '/';
 			$scriptOptions['csrfToken']          = Session::getFormToken();
 			$scriptOptions['uploadUri']          = $uploadUrl;
 
 			// @TODO have a way to select the adapter, used to be $levelParams->get('path', '');
-			$scriptOptions['comMediaAdapter']    = 'local:0';
+			$scriptOptions['comMediaAdapter']    = 'local-0:';
 		}
 
 		// Convert pt to px in dropdown
