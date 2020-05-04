@@ -6373,7 +6373,10 @@ class JoomlaInstallerScript
 						}
 						catch (Exception $e)
 						{
-							$converted = 5;
+							if ($converted === 4)
+							{
+								$converted = 5;
+							}
 
 							// Still render the error message from the Exception object
 							Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
