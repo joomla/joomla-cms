@@ -33,7 +33,7 @@ foreach ($value as $path)
 
 	if ($fieldParams->get('directory', '/') !== '/')
 	{
-		$buffer .= sprintf('<img loading="lazy" src="images/%s/%s"%s>',
+		$buffer .= sprintf('<img src="images/%s/%s"%s>',
 			$fieldParams->get('directory'),
 			htmlentities($path, ENT_COMPAT, 'UTF-8', true),
 			$class
@@ -41,7 +41,7 @@ foreach ($value as $path)
 	}
 	else
 	{
-		$buffer .= sprintf('<img loading="lazy" src="images/%s"%s>',
+		$buffer .= sprintf('<img src="images/%s"%s>',
 			htmlentities($path, ENT_COMPAT, 'UTF-8', true),
 			$class
 		);
