@@ -209,6 +209,13 @@ class ContactModelContacts extends JModelList
 				$db->quoteName('#__categories', 'c') . ' ON ' . $db->quoteName('c.id') . ' = ' . $db->quoteName('a.catid')
 			);
 
+		// Join over the parent categories.
+		$query->select($db->quoteName('parent.level'))
+			->join(
+				'LEFT',
+				$db->quoteName('#__categories', 'parent') . ' ON ' . $db->quoteName('parent.id') . ' = ' .  $db->quoteName('c.parent_id')
+			);
+
 		// Join over the associations.
 		$assoc = JLanguageAssociations::isEnabled();
 
@@ -306,7 +313,7 @@ class ContactModelContacts extends JModelList
 		// Filter on the level.
 		if ($level = $this->getState('filter.level'))
 		{
-			$query->where('c.level <= ' . (int) $level);
+			$query->where($db->quoteName('parent.level') . ' <= ' . (int) $level);
 		}
 
 		// Add the list ordering clause.
