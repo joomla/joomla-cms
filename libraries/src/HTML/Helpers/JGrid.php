@@ -43,7 +43,7 @@ abstract class JGrid
 	 * @since   1.6
 	 */
 	public static function action($i, $task, $prefix = '', $active_title = '', $inactive_title = '', $tip = false, $active_class = '',
-	                              $inactive_class = '', $enabled = true, $translate = true, $checkbox = 'cb', $formId = null
+							  $inactive_class = '', $enabled = true, $translate = true, $checkbox = 'cb', $formId = null
 	)
 	{
 		if ( is_array($prefix) )
@@ -84,19 +84,19 @@ abstract class JGrid
 			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
 
-			if ( $active_class === 'publish' )
+			if ($active_class === 'publish')
 			{
 				$active_class = 'check';
 			}
-			elseif ( $active_class === 'unpublish' )
+			elseif ($active_class === 'unpublish')
 			{
 				$active_class = 'times';
 			}
-			elseif ( $active_class === 'archive' )
+			elseif ($active_class === 'archive')
 			{
 				$active_class = 'folder';
 			}
-			elseif ( $active_class === 'checkedout' )
+			elseif ($active_class === 'checkedout')
 			{
 				$active_class = 'lock';
 			}
