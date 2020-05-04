@@ -213,7 +213,7 @@ class ContactModelContacts extends JModelList
 		$query->select($db->quoteName('parent.level'))
 			->join(
 				'LEFT',
-				$db->quoteName('#__categories', 'parent') . ' ON ' . $db->quoteName('parent.id') . ' = ' .  $db->quoteName('c.parent_id')
+				$db->quoteName('#__categories', 'parent') . ' ON ' . $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id')
 			);
 
 		// Join over the associations.
