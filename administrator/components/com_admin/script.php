@@ -6341,45 +6341,45 @@ class JoomlaInstallerScript
 			}
 		}
 
-		// Perform the optional conversions of tables which might or might not exist
-		$fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion_optional.sql';
-
-		if (is_file($fileName2))
+		// If no error before, perform the optional conversions of tables which might or might not exist
+		if ($converted === 4)
 		{
-			$fileContents2 = @file_get_contents($fileName2);
-			$queries2      = $db->splitSql($fileContents2);
+			$fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion_optional.sql';
 
-			if (!empty($queries2))
+			if (is_file($fileName2))
 			{
-				foreach ($queries2 as $query2)
+				$fileContents2 = @file_get_contents($fileName2);
+				$queries2      = $db->splitSql($fileContents2);
+
+				if (!empty($queries2))
 				{
-					// Get table name from query
-					if (preg_match('/^ALTER\s+TABLE\s+([^\s]+)\s+/i', $query2, $matches) === 1)
+					foreach ($queries2 as $query2)
 					{
-						$tableName = str_replace('`', '', $matches[1]);
-						$tableName = str_replace('#__', $db->getPrefix(), $tableName);
-
-						// Check if the table exists and if yes, run the query
-						try
+						// Get table name from query
+						if (preg_match('/^ALTER\s+TABLE\s+([^\s]+)\s+/i', $query2, $matches) === 1)
 						{
-							$db->setQuery('SHOW TABLES LIKE ' . $db->quote($tableName));
+							$tableName = str_replace('`', '', $matches[1]);
+							$tableName = str_replace('#__', $db->getPrefix(), $tableName);
 
-							$rows = $db->loadRowList(0);
-
-							if (\count($rows) > 0)
+							// Check if the table exists and if yes, run the query
+							try
 							{
-								$db->setQuery($query2)->execute();
+								$db->setQuery('SHOW TABLES LIKE ' . $db->quote($tableName));
+
+								$rows = $db->loadRowList(0);
+
+								if (\count($rows) > 0)
+								{
+									$db->setQuery($query2)->execute();
+								}
 							}
-						}
-						catch (Exception $e)
-						{
-							if ($converted === 4)
+							catch (Exception $e)
 							{
 								$converted = 5;
-							}
 
-							// Still render the error message from the Exception object
-							Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+								// Still render the error message from the Exception object
+								Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+							}
 						}
 					}
 				}
