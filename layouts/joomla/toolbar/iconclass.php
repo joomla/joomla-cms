@@ -17,92 +17,92 @@ if ( $icon === 'archive' || $icon === 'folder-close' || $icon === 'folder-folder
 	$icon = 'folder';
 }
 
-if ( $icon === 'publish' )
+elseif ( $icon === 'publish' )
 {
 	$icon = 'check';
 }
 
-if ( $icon === 'unpublish' || $icon === 'cancel' || $icon === 'delete' || $icon === 'remove' )
+elseif ( $icon === 'unpublish' || $icon === 'cancel' || $icon === 'delete' || $icon === 'remove' )
 {
 	$icon = 'times';
 }
 
-if ( $icon === 'new' || $icon === 'save-new' )
+elseif ( $icon === 'new' || $icon === 'save-new' )
 {
 	$icon = 'plus';
 }
 
-if ( $icon === 'apply' )
+elseif ( $icon === 'apply' )
 {
 	$icon = 'save';
 }
 
-if ( $icon === 'mail' )
+elseif ( $icon === 'mail' )
 {
 	$icon = 'envelope';
 }
 
-if ( $icon === 'featured' || $icon === 'unfeatured' || $icon === 'asterisk' || $icon === 'default' )
+elseif ( $icon === 'featured' || $icon === 'unfeatured' || $icon === 'asterisk' || $icon === 'default' )
 {
 	$icon = 'star';
 }
 
-if ( $icon === 'checkedout' )
+elseif ( $icon === 'checkedout' )
 {
 	$icon = 'lock';
 }
 
-if ( $icon === 'eye-close' )
+elseif ( $icon === 'eye-close' )
 {
 	$icon = 'eye-slash';
 }
 
-if ( $icon === 'eye-open' )
+elseif ( $icon === 'eye-open' )
 {
 	$icon = 'eye';
 }
 
-if ( $icon === 'loop' || $icon === 'refresh' || $icon === 'unblock')
+elseif ( $icon === 'loop' || $icon === 'refresh' || $icon === 'unblock')
 {
 	$icon = 'sync';
 }
 
-if ( $icon === 'contract' )
+elseif ( $icon === 'contract' )
 {
 	$icon = 'compress';
 }
 
-if ( $icon === 'purge' )
+elseif ( $icon === 'purge' )
 {
 	$icon = 'trash';
 }
 
-if ( $icon === 'options' )
+elseif ( $icon === 'options' )
 {
 	$icon = 'cog';
 }
 
-if ( $icon === 'expired' )
+elseif ( $icon === 'expired' )
 {
 	$icon = 'minus-circle';
 }
 
-if ( $icon === 'save-copy' )
+elseif ( $icon === 'save-copy' )
 {
 	$icon = 'copy';
 }
 
-if ( $icon === 'checkin' )
+elseif ( $icon === 'checkin' )
 {
 	$icon = 'check-square';
 }
 
-if ( $icon === 'generic' )
+elseif ( $icon === 'generic' )
 {
 	$icon = 'dot-circle';
 }
 
-if ( $icon === 'list-2' )
+elseif ( $icon === 'list-2' )
 {
 	$icon = 'list-ul';
 }
