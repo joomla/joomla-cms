@@ -501,38 +501,29 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 		}
 
-		// Drag and drop Images
+		// Drag and drop Images always FALSE, reverting this allows for inlining the images
 		$allowImgPaste = false;
 		$dragdrop      = $levelParams->get('drag_drop', 1);
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$externalPlugins['jdragndrop'] = Uri::root() . 'media/plg_editors_tinymce/js/plugins/dragdrop/plugin.min.js';
-
-			$allowImgPaste = true;
-			$isSubDir      = '';
-			$session       = $this->app->getSession();
-			$uploadUrl     = Uri::base() . 'index.php?option=com_media&task=file.upload&tmpl=component&'
-				. $session->getName() . '=' . $session->getId()
-				. '&' . Session::getFormToken() . '=1'
-				. '&asset=image&format=json';
+			$externalPlugins['jdragndrop'] = Uri::root(false) . 'media/plg_editors_tinymce/js/plugins/dragdrop/plugin.js';
+			$uploadUrl                     = Uri::base(false) . 'index.php?option=com_media&format=json&task=api.files';
 
 			if ($this->app->isClient('site'))
 			{
 				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
 			}
 
-			// Is Joomla installed in subdirectory
-			if (Uri::root(true) !== '/')
-			{
-				$isSubDir = Uri::root(true);
-			}
-
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
+			Text::script('JERROR');
 
-			$scriptOptions['setCustomDir']    = $isSubDir;
-			$scriptOptions['mediaUploadPath'] = $levelParams->get('path', '');
-			$scriptOptions['uploadUri']       = $uploadUrl;
+			$scriptOptions['parentUploadFolder'] = '';
+			$scriptOptions['csrfToken']          = Session::getFormToken();
+			$scriptOptions['uploadUri']          = $uploadUrl;
+
+			// @TODO have a way to select the adapter, used to be $levelParams->get('path', '');
+			$scriptOptions['comMediaAdapter']    = 'local:0';
 		}
 
 		// Convert pt to px in dropdown
