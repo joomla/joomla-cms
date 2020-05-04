@@ -26,41 +26,24 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
     return false;
   });
 
-  function readFile(file) {
-    // Create a new file reader instance
-    let reader = new FileReader();
-
-    // Add the on load callback
-    reader.onload = (progressEvent) => {
-      const result = progressEvent.target.result,
-        splitIndex = result.indexOf('base64') + 7,
-        content = result.slice(splitIndex, result.length);
-
-      // Upload the file
-      uploadFile(file.name, content)
-    };
-
-    reader.readAsDataURL(file);
-  }
-
   function uploadFile(name, content) {
     const url = `${tinyMCE.activeEditor.settings.uploadUri}&path=${tinyMCE.activeEditor.settings.comMediaAdapter}`;
     const data = {
       [tinyMCE.activeEditor.settings.csrfToken]: '1',
-      name: name,
-      content: content,
+      name,
+      content,
       parent: tinyMCE.activeEditor.settings.parentUploadFolder,
     };
 
     Joomla.request({
-      url: url,
+      url,
       method: 'POST',
       data: JSON.stringify(data),
-      headers: {'Content-Type': 'application/json'},
+      headers: { 'Content-Type': 'application/json' },
       onSuccess: (resp) => {
         let response;
 
-        try{
+        try {
           response = JSON.parse(resp);
         } catch (e) {
           editor.windowManager.alert(`${Joomla.Text._('JERROR')}: {e}`);
@@ -70,7 +53,7 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
           let urlPath;
           // For local adapters use relative paths
           if (/local-/.test(response.data.adapter)) {
-            const {rootFull} = Joomla.getOptions('system.paths');
+            const { rootFull } = Joomla.getOptions('system.paths');
 
             urlPath = `/${response.data.thumb_path.split(rootFull)[1]}`;
           } else if (response.data.thumb_path) {
@@ -83,8 +66,25 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
       },
       onError: (xhr) => {
         editor.windowManager.alert(`Error: ${xhr.statusText}`);
-      }
+      },
     });
+  }
+
+  function readFile(file) {
+    // Create a new file reader instance
+    const reader = new FileReader();
+
+    // Add the on load callback
+    reader.onload = (progressEvent) => {
+      const { result } = progressEvent.target;
+      const splitIndex = result.indexOf('base64') + 7;
+      const content = result.slice(splitIndex, result.length);
+
+      // Upload the file
+      uploadFile(file.name, content);
+    };
+
+    reader.readAsDataURL(file);
   }
 
   // Listers for drag and drop
