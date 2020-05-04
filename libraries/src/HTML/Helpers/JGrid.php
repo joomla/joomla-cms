@@ -100,6 +100,7 @@ abstract class JGrid
 			{
 				$active_class = 'lock';
 			}
+
 			$html[] = '<span class="fas fa-' . $active_class . '" aria-hidden="true"></span>';
 			$html[] = '</a>';
 			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
