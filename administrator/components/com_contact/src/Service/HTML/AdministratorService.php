@@ -131,18 +131,18 @@ class AdministratorService
 			1 => array('featured', 'contacts.unfeatured', 'JFEATURED', 'JGLOBAL_TOGGLE_FEATURED'),
 		);
 		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
-		$icon = $state[0] === 'featured' ? 'star' : '';
+		$icon = $state[0] === 'featured' ? 'star featured' : 'star';
 
 		if ($canChange)
 		{
 			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="tbody-icon'
 				. ($value == 1 ? ' active' : '') . '" title="' . Text::_($state[3])
-				. '"><span class="fas fa-star' . $icon . '" aria-hidden="true"></span></a>';
+				. '"><span class="fas fa-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 		else
 		{
 			$html = '<a class="tbody-icon disabled' . ($value == 1 ? ' active' : '')
-				. '" title="' . Text::_($state[2]) . '"><span class="fas fa-star' . $icon . '" aria-hidden="true"></span></a>';
+				. '" title="' . Text::_($state[2]) . '"><span class="fas fa-' . $icon . '" aria-hidden="true"></span></a>';
 		}
 
 		return $html;
