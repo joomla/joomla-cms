@@ -11,8 +11,8 @@ namespace Joomla\Component\Languages\Administrator\Helper;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Languages component helper.
