@@ -47,7 +47,7 @@ class LanguagesHelper
 	 */
 	public static function filterKey($value)
 	{
-		$filter = \JFilterInput::getInstance(null, null, 1, 1);
+		$filter = \JFilterInput::getInstance([], [], 1, 1);
 
 		return strtoupper($filter->clean($value, 'cmd'));
 	}
@@ -64,7 +64,7 @@ class LanguagesHelper
 	 */
 	public static function filterText($value)
 	{
-		$filter = \JFilterInput::getInstance(null, null, 1, 1);
+		$filter = \JFilterInput::getInstance([], [], 1, 1);
 
 		return $filter->clean($value);
 	}
