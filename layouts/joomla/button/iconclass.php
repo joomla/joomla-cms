@@ -16,7 +16,6 @@ if ($icon === 'archive' || $icon === 'folder-close' || $icon === 'folder-folder-
 {
 	$icon = 'folder';
 }
-
 elseif ( $icon === 'publish' )
 {
 	$icon = 'check';
