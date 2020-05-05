@@ -88,5 +88,6 @@ elseif ($icon === 'list-2')
 {
 	$icon = 'list-ul';
 }
+
 ?>
 	fas fa-<?php echo $icon;
