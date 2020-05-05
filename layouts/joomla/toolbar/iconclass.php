@@ -36,9 +36,13 @@ elseif ($icon === 'mail')
 {
 	$icon = 'envelope';
 }
-elseif ($icon === 'featured' || $icon === 'unfeatured' || $icon === 'asterisk' || $icon === 'default')
+elseif ($icon === 'unfeatured' || $icon === 'asterisk' || $icon === 'default')
 {
 	$icon = 'star';
+}
+elseif ($icon === 'featured')
+{
+	$icon = 'star featured';
 }
 elseif ($icon === 'checkedout')
 {
