@@ -20,91 +20,73 @@ elseif ($icon === 'publish')
 {
 	$icon = 'check';
 }
-
 elseif ($icon === 'unpublish' || $icon === 'cancel' || $icon === 'delete' || $icon === 'remove')
 {
 	$icon = 'times';
 }
-
 elseif ($icon === 'new' || $icon === 'save-new')
 {
 	$icon = 'plus';
 }
-
 elseif ($icon === 'apply')
 {
 	$icon = 'save';
 }
-
 elseif ($icon === 'mail')
 {
 	$icon = 'envelope';
 }
-
 elseif ($icon === 'featured' || $icon === 'unfeatured' || $icon === 'asterisk' || $icon === 'default')
 {
 	$icon = 'star';
 }
-
 elseif ($icon === 'checkedout')
 {
 	$icon = 'lock';
 }
-
 elseif ($icon === 'eye-close')
 {
 	$icon = 'eye-slash';
 }
-
 elseif ($icon === 'eye-open')
 {
 	$icon = 'eye';
 }
-
 elseif ($icon === 'loop' || $icon === 'refresh' || $icon === 'unblock')
 {
 	$icon = 'sync';
 }
-
 elseif ($icon === 'contract')
 {
 	$icon = 'compress';
 }
-
 elseif ($icon === 'purge')
 {
 	$icon = 'trash';
 }
-
 elseif ($icon === 'options')
 {
 	$icon = 'cog';
 }
-
 elseif ($icon === 'expired')
 {
 	$icon = 'minus-circle';
 }
-
 elseif ($icon === 'save-copy')
 {
 	$icon = 'copy';
 }
-
 elseif ($icon === 'checkin')
 {
 	$icon = 'check-square';
 }
-
 elseif ($icon === 'generic')
 {
 	$icon = 'dot-circle';
 }
-
 elseif ($icon === 'list-2')
 {
 	$icon = 'list-ul';
 }
-
 ?>
 	fas fa-<?php echo $icon;
