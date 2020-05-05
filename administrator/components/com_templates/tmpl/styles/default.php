@@ -93,6 +93,18 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
 										<?php endif; ?>
 									</td>
+								<?php elseif ($clientId === 1) : ?>
+									<td class="text-center">
+										<?php if ($this->preview && $item->client_id == '1') : ?>
+											<a target="_blank" href="<?php echo Uri::root() . 'administrator/index.php?tp=1&templateStyle=' . (int) $item->id ?>" class="jgrid">
+											<span class="fas fa-eye" aria-hidden="true" title="<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>"></span>
+											<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></span>
+											</a>
+										<?php else: ?>
+											<span class="fas fa-eye-slash" aria-hidden="true" title="<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>"></span>
+											<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
+										<?php endif; ?>
+									</td>
 								<?php endif; ?>
 								<td class="text-center">
 									<?php if ($item->home == '0' || $item->home == '1') : ?>

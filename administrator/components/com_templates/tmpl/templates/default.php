@@ -77,6 +77,15 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php else : ?>
 											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>
 										<?php endif; ?>
+									<?php elseif ($item->client_id === 1) : ?>
+										<?php if ($this->preview) : ?>
+											<a href="<?php echo Route::_(Uri::root() . 'administrator/index.php?tp=1&template=' . $item->element); ?>" target="_blank"
+											title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_($item->name)); ?>">
+											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
+											</a>
+										<?php else : ?>
+											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>
+										<?php endif; ?>
 									<?php endif; ?>
 									</div>
 								</th>
