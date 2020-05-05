@@ -42,9 +42,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-									<th scope="col" style="width:5%" class="text-center">
-										<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
-									</th>
+								<th scope="col" style="width:5%" class="text-center">
+									<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
+								</th>
 								<th scope="col" style="width:12%" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
 								</th>
