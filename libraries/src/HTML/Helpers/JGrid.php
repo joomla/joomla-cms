@@ -100,6 +100,10 @@ abstract class JGrid
 			{
 				$active_class = 'lock';
 			}
+			elseif ($active_class === 'unfeatured')
+			{
+				$active_class = 'star';
+			}
 
 			$html[] = '<span class="fas fa-' . $active_class . '" aria-hidden="true"></span>';
 			$html[] = '</a>';
