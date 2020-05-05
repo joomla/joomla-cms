@@ -21,21 +21,6 @@ use Joomla\CMS\Language\LanguageHelper;
 class LanguagesHelper
 {
 	/**
-	 * Method for parsing ini files.
-	 *
-	 * @param   string  $fileName  Path and name of the ini file to parse.
-	 *
-	 * @return  array   Array of strings found in the file, the array indices will be the keys. On failure an empty array will be returned.
-	 *
-	 * @since   2.5
-	 * @deprecated   3.9.0 Use \Joomla\CMS\Language\LanguageHelper::parseIniFile() instead.
-	 */
-	public static function parseFile($fileName)
-	{
-		return LanguageHelper::parseIniFile($fileName);
-	}
-
-	/**
 	 * Filter method for language keys.
 	 * This method will be called by \JForm while filtering the form data.
 	 *
