@@ -26,6 +26,9 @@
 		<folder>Service</folder>
 		<folder>scss</folder>
 	</files>
+	<media destination="templates/atum" folder="media">
+		<folder>js</folder>
+	</media>
 	<positions>
 		<!-- used directly in the template -->
 		<position>bottom</position>
@@ -43,8 +46,8 @@
 		<position>customtop</position>
 	</positions>
 	<languages folder="language">
-		<language tag="en-GB">en-GB/en-GB.tpl_atum.ini</language>
-		<language tag="en-GB">en-GB/en-GB.tpl_atum.sys.ini</language>
+		<language tag="en-GB">en-GB/tpl_atum.ini</language>
+		<language tag="en-GB">en-GB/tpl_atum.sys.ini</language>
 	</languages>
 	<config>
 		<fields name="params">
@@ -57,7 +60,7 @@
 					control="slider"
 					preview="true"
 					saveFormat="hsl"
-					default="hsl(207,61%,26%)"
+					default="hsl(214,63%,20%)"
 				/>
 				<field
 					name="bg-light"
@@ -85,6 +88,13 @@
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_LINK_COLOR_LABEL"
 					default="#2a69b8"
+					filter="color"
+				/>
+				<field
+					name="sidebar-link-color"
+					type="color"
+					label="TPL_ATUM_COLORS_SETTINGS_LINK_SIDEBAR_COLOR_LABEL"
+					default="#3b4a5c"
 					filter="color"
 				/>
 				<field

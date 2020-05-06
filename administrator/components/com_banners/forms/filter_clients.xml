@@ -25,6 +25,7 @@
 			label="COM_BANNERS_SELECT_TYPE"
 			default="0"
 			onchange="this.form.submit();"
+			validate="options"
 			>
 			<option value="">COM_BANNERS_SELECT_TYPE</option>
 			<option value="1">COM_BANNERS_FIELD_VALUE_UNLIMITED</option>

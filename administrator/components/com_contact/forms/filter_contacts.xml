@@ -18,6 +18,7 @@
 			label="JOPTION_SELECT_FEATURED"
 			onchange="this.form.submit();"
 			default=""
+			validate="options"
 			>
 			<option value="">JOPTION_SELECT_FEATURED</option>
 			<option value="0">JUNFEATURED</option>

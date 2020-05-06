@@ -11,6 +11,7 @@ ALTER TABLE `#__finder_filters` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4
 ALTER TABLE `#__finder_filters` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 TRUNCATE TABLE `#__finder_links`;
+ALTER TABLE `#__finder_links` CHANGE `route` `route` varchar(400);
 ALTER TABLE `#__finder_links` CHANGE `language` `language` CHAR(7) NOT NULL DEFAULT '' AFTER `access`;
 ALTER TABLE `#__finder_links` MODIFY `state` int(5) NOT NULL DEFAULT 1;
 ALTER TABLE `#__finder_links` MODIFY `access` int(5) NOT NULL DEFAULT 0;

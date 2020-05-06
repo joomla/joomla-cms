@@ -123,7 +123,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 
 		<div id="sidebar-wrapper" class="sidebar-wrapper sidebar-menu" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
 			<div id="sidebarmenu">
-				<div class="sidebar-toggle">
+				<div class="sidebar-toggle item item-level-1">
 					<a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
 						<span id="menu-collapse-icon" class="fas fa-toggle-off fa-fw" aria-hidden="true"></span>
 						<span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
@@ -156,6 +156,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			<div class="row">
 				<div class="col-md-12">
 					<main>
+						<jdoc:include type="message" />
 						<jdoc:include type="component" />
 					</main>
 				</div>
@@ -165,10 +166,6 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			</div>
 			<?php // End Content ?>
 		</section>
-
-		<div class="notify-alerts">
-			<jdoc:include type="message" />
-		</div>
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />

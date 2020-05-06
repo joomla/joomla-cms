@@ -64,7 +64,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 								<span class="d-none d-md-inline"><?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 							</th>
 							<?php if (Multilanguage::isEnabled()) : ?>
-								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" class="w-10 nowrap d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>

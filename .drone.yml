@@ -94,7 +94,6 @@ steps:
   - name: php74-unit
     depends_on: [ phpcs ]
     image: joomlaprojects/docker-images:php7.4
-    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
@@ -124,7 +123,6 @@ steps:
   - name: php74-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.4
-    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
@@ -154,7 +152,6 @@ steps:
   - name: php74-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.4
-    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
@@ -334,6 +331,6 @@ services:
 
 ---
 kind: signature
-hmac: 02ecb90787cb939e40ca5209c05c6b9332b04d834fa60df6a9595cb7df1e135d
+hmac: 06035b7ce5a946d486d499e71b5c80538ae5272929f072b03cfadf4bb3b1fc15
 
 ...

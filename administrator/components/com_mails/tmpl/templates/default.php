@@ -40,16 +40,16 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MAILS_HEADING_COMPONENT', 'a.component', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-md-table-cell">
+								<th scope="col" class="w-10 d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-md-table-cell">
+								<th scope="col" class="w-10 d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_NO_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
 								<th scope="col" style="width:30%" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_DESCRIPTION'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
