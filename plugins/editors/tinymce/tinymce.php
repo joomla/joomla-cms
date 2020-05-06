@@ -589,7 +589,7 @@ class PlgEditorTinymce extends JPlugin
 					'script',
 					'editors/tinymce/plugins/dragdrop/plugin.min.js',
 					array('relative' => true, 'version' => 'auto', 'pathOnly' => true)
-				);			
+				);
 			$allowImgPaste = true;
 			$isSubDir      = '';
 			$session       = JFactory::getSession();
