@@ -31,14 +31,17 @@ trait WorkflowServiceTrait
 	 */
 	abstract public function getMVCFactory(): MVCFactoryInterface;
 
-	/** @var array Supported functionality */
-	protected $supportedFunctionality = [
-		'joomla.state'    => true,
-		'joomla.featured' => true,
-	];
-
 	/**
-	 * Check if the functionality is supported by the context
+	 * Check if the functionality is supported by the component
+	 * The variable $supportFunctionality has the following structure
+	 * [
+	 *   'core.featured' => [
+	 *     'com_content.article',
+	 *   ],
+	 *   'core.state' => [
+	 *     'com_content.article',
+	 *   ],
+	 * ]
 	 *
 	 * @param   string  $functionality  The functionality
 	 * @param   string  $context        The context of the functionality
@@ -57,7 +60,7 @@ trait WorkflowServiceTrait
 			return true;
 		}
 
-		return in_array($context, $this->supportedFunctionality[$functionality]);
+		return in_array($context, $this->supportedFunctionality[$functionality], true);
 	}
 
 	/**

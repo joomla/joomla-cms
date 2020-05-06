@@ -12,7 +12,7 @@
 				default=""
 				hide_all="true"
 			>
-				<option value="">PLG_WORKFLOW_PUBLISHING_TRANSITION_ACTIONS_PUBLISHING_DO_NO_CHANGE</option>
+				<option value="">JOPTION_DO_NOT_USE</option>
 			</field>
 		</fieldset>
 	</fields>
