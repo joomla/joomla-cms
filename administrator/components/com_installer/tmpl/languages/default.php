@@ -38,7 +38,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</caption>
 						<thead>
 							<tr>
-								<td style="width:5%"></td>
+								<td class="w-5"></td>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 								</th>

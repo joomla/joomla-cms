@@ -63,7 +63,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-5 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'update_site_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

@@ -55,7 +55,7 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['version' => 'auto', 'relative
 							<th scope="col" class="w-10 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_HEADING_CREATED_ON', 'a.created', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+							<th scope="col" class="w-5 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_HEADING_MAP_COUNT', 'a.map_count', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" style="width:1%" class="d-none d-md-table-cell">

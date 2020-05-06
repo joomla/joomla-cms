@@ -45,10 +45,10 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" style="width:5%" class="text-center">
+						<th scope="col" class="w-5 text-center">
 							<?php echo Text::_('COM_PRIVACY_HEADING_ACTIONS'); ?>
 						</th>
-						<th scope="col" style="width:5%" class="text-center">
+						<th scope="col" class="w-5 text-center">
 							<?php echo Text::_('JSTATUS'); ?>
 						</th>
 						<th scope="col">

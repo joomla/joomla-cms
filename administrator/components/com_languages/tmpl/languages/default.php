@@ -77,7 +77,7 @@ if ($saveOrder && !empty($this->items))
 								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_HOMEPAGE', 'l.home', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="d-none d-md-table-cell text-center">
+								<th scope="col" class="w-5 d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.lang_id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

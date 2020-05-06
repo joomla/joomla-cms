@@ -81,7 +81,7 @@ if ($saveOrder && !empty($this->items))
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-5 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

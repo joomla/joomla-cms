@@ -55,7 +55,7 @@ if ($saveOrder && !empty($this->items))
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'fas fa-sort'); ?>
 								</th>
-								<th scope="col" style="width:5%; min-width:85px" class="text-center">
+								<th scope="col" style="min-width:85px" class="w-5 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="title">
@@ -80,7 +80,7 @@ if ($saveOrder && !empty($this->items))
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-5 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

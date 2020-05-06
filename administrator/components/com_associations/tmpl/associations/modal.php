@@ -68,7 +68,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 					<th scope="col" style="width:15%">
 						<?php echo Text::_('JGRID_HEADING_LANGUAGE'); ?>
 					</th>
-					<th scope="col" style="width:5%">
+					<th scope="col" class="w-5">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 					</th>
 					<?php if (!empty($this->typeFields['menutype'])) : ?>
@@ -77,7 +77,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 						</th>
 					<?php endif; ?>
 					<?php if (!empty($this->typeSupports['acl'])) : ?>
-						<th scope="col" style="width:5%" class="d-none d-sm-table-cell">
+						<th scope="col" class="w-5 d-none d-sm-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>

@@ -60,7 +60,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', ['version' => 'a
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="text-center">
+								<th scope="col" class="w-5 text-center">
 									<?php echo Text::_('COM_MENUS_MENUS'); ?>
 								</th>
 								<th scope="col" class="w-10 text-center  d-none d-md-table-cell">
@@ -79,7 +79,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', ['version' => 'a
 									<span class="fas fa-cube" aria-hidden="true"></span>
 									<span class="d-none d-md-inline"><?php echo Text::_('COM_MENUS_HEADING_LINKED_MODULES'); ?></span>
 								</th>
-								<th scope="col" style="width:5%" class="d-none d-lg-table-cell text-center">
+								<th scope="col" class="w-5 d-none d-lg-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
