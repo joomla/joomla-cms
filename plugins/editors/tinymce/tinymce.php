@@ -507,7 +507,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$externalPlugins['jdragndrop'] = substr(JUri::root(false), 0, -1) . HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dragdrop/plugin.min.js', ['relative' => true, , 'version' => 'auto']);
+			$externalPlugins['jdragndrop'] = substr(JUri::root(false), 0, -1) . HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dragdrop/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
 			$uploadUrl                     = Uri::base(false) . 'index.php?option=com_media&format=json&task=api.files';
 
 			if ($this->app->isClient('site'))
