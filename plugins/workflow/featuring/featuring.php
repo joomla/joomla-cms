@@ -252,7 +252,12 @@ class PlgWorkflowFeaturing extends CMSPlugin
 			return true;
 		}
 
-		$value = (int) $transition->options->get('featuring');
+		$value = $transition->options->get('featuring');
+
+		if (!is_numeric($value))
+		{
+			return true;
+		}
 
 		/**
 		 * Here it becomes tricky. We would like to use the component models featured method, so we will
@@ -300,7 +305,12 @@ class PlgWorkflowFeaturing extends CMSPlugin
 
 		$component = $this->app->bootComponent($parts[0]);
 
-		$value = (int) $transition->options->get('featuring');
+		$value = $transition->options->get('featuring');
+
+		if (!is_numeric($value))
+		{
+			return true;
+		}
 
 		$options = [
 			'ignore_request' => true,
