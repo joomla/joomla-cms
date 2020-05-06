@@ -64,11 +64,11 @@
 				/>
 
 				<field
-						name="secondary-color"
-						type="color"
-						label="TPL_ATUM_COLORS_SETTINGS_SECONDARY_COLOR_LABEL"
-						default="#001B4C"
-						filter="color"
+					name="secondary-color"
+					type="color"
+					label="TPL_ATUM_COLORS_SETTINGS_SECONDARY_COLOR_LABEL"
+					default="#001B4C"
+					filter="color"
 				/>
 
 				<field
