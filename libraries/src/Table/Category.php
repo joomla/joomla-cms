@@ -238,7 +238,7 @@ class Category extends Nested
 		// Verify that the alias is unique
 		$table = Table::getInstance('Category', 'JTable', array('dbo' => $this->getDbo()));
 
-		if ($table->load(array('alias' => $this->alias, 'parent_id' => (int) $this->parent_id, 'extension' => $this->extension))
+		if ($table->load(array('alias' => $this->alias, 'parent_id' => (int) $this->parent_id, 'extension' => $this->extension, 'language' => $this->language))
 			&& ($table->id != $this->id || $this->id == 0))
 		{
 			$this->setError(\JText::_('JLIB_DATABASE_ERROR_CATEGORY_UNIQUE_ALIAS'));
