@@ -518,11 +518,11 @@ class PlgEditorTinymce extends CMSPlugin
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
 			Text::script('JERROR');
 
-			$scriptOptions['parentUploadFolder'] = '/';
+			$scriptOptions['parentUploadFolder'] = $levelParams->get('path', '');
 			$scriptOptions['csrfToken']          = Session::getFormToken();
 			$scriptOptions['uploadUri']          = $uploadUrl;
 
-			// @TODO have a way to select the adapter, used to be $levelParams->get('path', '');
+			// @TODO have a way to select the adapter, similar to $levelParams->get('path', '');
 			$scriptOptions['comMediaAdapter']    = 'local-0:';
 		}
 
