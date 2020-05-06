@@ -253,7 +253,7 @@ class ManageModel extends InstallerModel
 			// Do not allow to uninstall locked extensions.
 			if ((int) $row->locked === 1)
 			{
-				$msgs[] = Text::_('COM_INSTALLER_UNINSTALL_ERROR_LOCKED_EXTENSION');
+				$msgs[] = Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR_LOCKED_EXTENSION', $row->name, $id);
 
 				continue;
 			}

@@ -172,7 +172,7 @@ EOF;
 			// Do not allow to uninstall locked extensions.
 			if ((int) $row->locked === 1)
 			{
-				$this->ioStyle->error(Text::_('COM_INSTALLER_UNINSTALL_ERROR_LOCKED_EXTENSION'));
+				$this->ioStyle->error(Text::sprintf('COM_INSTALLER_UNINSTALL_ERROR_LOCKED_EXTENSION', $row->name, $extensionId));
 
 				return self::REMOVE_LOCKED;
 			}
