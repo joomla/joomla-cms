@@ -122,7 +122,7 @@ if (!$readonly)
 	</div>
 	<?php // Create the real field, hidden, that stored the user id. ?>
 	<?php if (!$readonly) : ?>
-		<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo $value; ?>"
+		<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo $this->escape($value); ?>"
 			class="field-user-input <?php echo $class ? (string) $class : ''?>"
 			data-onchange="<?php echo $this->escape($onchange); ?>">
 		<?php echo HTMLHelper::_(

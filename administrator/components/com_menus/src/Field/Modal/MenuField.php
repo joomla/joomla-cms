@@ -172,7 +172,7 @@ class MenuField extends FormField
 		Factory::getLanguage()->load('com_menus', JPATH_ADMINISTRATOR);
 
 		// The active article id field.
-		$value = (int) $this->value;
+		$value = (int) $this->value ?: '';
 
 		// Create the modal id.
 		$modalId = 'Item_' . $this->id;

@@ -43,7 +43,7 @@ class AssociationField extends FormField
 	{
 		// @TODO USE JLayouts here!!!
 		// The active item id field.
-		$value = (int) $this->value > 0 ? (int) $this->value : '';
+		$value = (int) $this->value ?: '';
 
 		Factory::getDocument()->addScriptOptions('admin_associations_modal', ['itemId' => $value]);
 		HTMLHelper::_('script', 'com_associations/admin_associations_modal.min.js', ['version' => 'auto', 'relative' => true]);

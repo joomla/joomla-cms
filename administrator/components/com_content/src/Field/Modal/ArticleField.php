@@ -55,7 +55,7 @@ class ArticleField extends FormField
 		Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
 
 		// The active article id field.
-		$value = ((int) $this->value) ?: '';
+		$value = (int) $this->value ?: '';
 
 		// Create the modal id.
 		$modalId = 'Article_' . $this->id;
