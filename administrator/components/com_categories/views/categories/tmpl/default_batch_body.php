@@ -33,7 +33,8 @@ $extension = $this->escape($this->state->get('filter.extension'));
 		<?php if ($published >= 0) : ?>
 			<div class="control-group span6">
 				<div class="controls">
-					<?php echo JHtml::_('batch.item', $extension); ?>
+					<?php $displayData = array('extension' => $extension, 'addRoot' => true); ?>
+					<?php echo JLayoutHelper::render('joomla.html.batch.item', $displayData) ?>
 				</div>
 			</div>
 		<?php endif; ?>
