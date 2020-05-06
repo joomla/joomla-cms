@@ -64,7 +64,7 @@ class CategoryField extends FormField
 		Factory::getLanguage()->load('com_categories', JPATH_ADMINISTRATOR);
 
 		// The active category id field.
-		$value = (int) $this->value > 0 ? (int) $this->value : '';
+		$value = (int) $this->value ?: '';
 
 		// Create the modal id.
 		$modalId = 'Category_' . $this->id;
