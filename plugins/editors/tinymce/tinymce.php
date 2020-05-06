@@ -585,8 +585,7 @@ class PlgEditorTinymce extends JPlugin
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$externalPlugins['jdragdrop'] = substr(JUri::root(false), 0, -1)
-				. HTMLHelper::_(
+			$externalPlugins['jdragdrop'] = HTMLHelper::_(
 					'script',
 					'editors/tinymce/plugins/dragdrop/plugin.min.js',
 					array('relative' => true, 'version' => 'auto', 'pathOnly' => true)
@@ -1901,8 +1900,7 @@ class PlgEditorTinymce extends JPlugin
 
 			$externalPlugins = array(
 				array(
-					'jdragdrop' => substr(JUri::root(false), 0, -1)
-					. HTMLHelper::_('script', 'editors/tinymce/plugins/dragdrop/plugin.min.js', array('relative' => true, 'version' => 'auto', 'pathOnly' => true))),
+					'jdragdrop' => substr(HTMLHelper::_('script', 'editors/tinymce/plugins/dragdrop/plugin.min.js', array('relative' => true, 'version' => 'auto', 'pathOnly' => true))),
 			);
 		}
 
