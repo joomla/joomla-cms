@@ -28,7 +28,7 @@ $options = array(
 <div id="batch-choose-action" class="control-group">
 	<select name="batch[category_id]" class="inputbox" id="batch-category-id">
 		<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
-		<?php if(isset($addRoot) and $addRoot): ?>
+		<?php if( isset($addRoot) and $addRoot ): ?>
 			<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension)); ?>
 		<?php else: ?>
 			<?php echo JHtml::_('select.options', JHtml::_('category.options', $extension)); ?>
