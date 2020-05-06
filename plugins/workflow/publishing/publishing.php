@@ -49,7 +49,7 @@ class PlgWorkflowPublishing extends CMSPlugin
 	 * @var   string
 	 * @since __DEPLOY_VERSION__
 	 */
-	protected $supportname = 'joomla.state';
+	protected $supportname = 'core.state';
 
 	/**
 	 * The form event.
