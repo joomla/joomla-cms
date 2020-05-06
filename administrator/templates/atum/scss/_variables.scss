@@ -46,7 +46,7 @@ $theme-colors: map-merge((
   dark:                            $gray-900,  //used in bootstrap and for table-border
   atum-link-color:                 $light-blue,
   atum-text-dark:                  $gray-700,
-  atum-primary-color:                    $base-color, //standard background color
+  atum-primary-color:              $base-color, //standard background color
   action:                          $base-color,
   error:                           $red-dark,
   alert-success:                   $green-dark
