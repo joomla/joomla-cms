@@ -1900,7 +1900,12 @@ class PlgEditorTinymce extends JPlugin
 
 			$externalPlugins = array(
 				array(
-					'jdragdrop' => substr(HTMLHelper::_('script', 'editors/tinymce/plugins/dragdrop/plugin.min.js', array('relative' => true, 'version' => 'auto', 'pathOnly' => true))),
+					'jdragdrop' => HTMLHelper::_(
+						'script',
+						'editors/tinymce/plugins/dragdrop/plugin.min.js',
+						array('relative' => true, 'version' => 'auto', 'pathOnly' => true)
+					),
+				),
 			);
 		}
 
