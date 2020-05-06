@@ -56,7 +56,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col" style="width:12%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.template', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-5 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
