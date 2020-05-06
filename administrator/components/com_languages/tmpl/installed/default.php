@@ -41,10 +41,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<td style="width:1%">
 								&#160;
 							</td>
-							<th scope="col" style="width:15%">
+							<th scope="col" class="w-15">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'name', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:15%" class="d-none d-md-table-cell">
+							<th scope="col" class="w-15 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_LANGUAGES_HEADING_TITLE_NATIVE', 'nativeName', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" class="text-center">

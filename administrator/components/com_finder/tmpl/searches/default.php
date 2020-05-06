@@ -40,7 +40,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 							<th scope="col">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_HEADING_PHRASE', 'a.searchterm', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:15%">
+							<th scope="col" class="w-15">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" style="width:1%" class="text-center">
