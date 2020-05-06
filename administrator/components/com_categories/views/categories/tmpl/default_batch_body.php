@@ -31,21 +31,9 @@ $extension = $this->escape($this->state->get('filter.extension'));
 	</div>
 	<div class="row-fluid">
 		<?php if ($published >= 0) : ?>
-			<div class="span6">
-				<div class="control-group">
-					<label id="batch-choose-action-lbl" for="batch-category-id" class="control-label">
-						<?php echo JText::_('JLIB_HTML_BATCH_MENU_LABEL'); ?>
-					</label>
-					<div id="batch-choose-action" class="combo controls">
-						<select name="batch[category_id]" id="batch-category-id">
-							<option value=""><?php echo JText::_('JLIB_HTML_BATCH_NO_CATEGORY') ?></option>
-							<?php echo JHtml::_('select.options', JHtml::_('category.categories', $extension, array('filter.published' => $published))); ?>
-						</select>
-					</div>
-				</div>
-				<div id="batch-copy-move" class="control-group radio">
-					<?php echo JText::_('JLIB_HTML_BATCH_MOVE_QUESTION'); ?>
-					<?php echo JHtml::_('select.radiolist', $options, 'batch[move_copy]', '', 'value', 'text', 'm'); ?>
+			<div class="control-group span6">
+				<div class="controls">
+					<?php echo JHtml::_('batch.item', $extension); ?>
 				</div>
 			</div>
 		<?php endif; ?>
