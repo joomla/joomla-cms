@@ -197,6 +197,10 @@ endif;
 											'disabled' => !$canChange
 										];
 
+									if ($workflow_enabled) :
+										$options['disabled'] = true;
+									endif;
+
 										echo (new FeaturedButton)
 											->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
 									?>

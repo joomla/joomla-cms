@@ -73,9 +73,48 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	 */
 	protected $associationsContext = 'com_content.item';
 
+	/**
+	 * The event to trigger before changing featured status one or more items.
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	protected $event_before_change_featured = null;
+
+	/**
+	 * The event to trigger after changing featured status one or more items.
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	protected $event_after_change_featured = null;
+
+	/**
+	 * Constructor.
+	 *
+	 * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MVCFactoryInterface   $factory      The factory.
+	 * @param   FormFactoryInterface  $formFactory  The form factory.
+	 *
+	 * @since   1.6
+	 * @throws  \Exception
+	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
 	{
+		$config['events_map'] = $config['events_map'] ?? [];
+
+		$config['events_map'] = array_merge(
+			['featured' => 'content'],
+			$config['events_map']
+		);
+
 		parent::__construct($config, $factory, $formFactory);
+
+		// Set the featured status change events
+		$this->event_before_change_featured = $config['event_before_change_featured'] ?? $this->event_before_change_featured;
+		$this->event_before_change_featured = $this->event_before_change_featured ?? 'onContentBeforeChangeFeatured';
+		$this->event_after_change_featured  = $config['event_after_change_featured'] ?? $this->event_after_change_featured;
+		$this->event_after_change_featured  = $this->event_after_change_featured ?? 'onContentAfterChangeFeatured';
 
 		$this->setUpWorkflow('com_content.article');
 	}
@@ -825,9 +864,15 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 	public function featured($pks, $value = 0, $featuredUp = null, $featuredDown = null)
 	{
 		// Sanitize the ids.
-		$pks   = (array) $pks;
-		$pks   = ArrayHelper::toInteger($pks);
-		$value = (int) $value;
+		$pks     = (array) $pks;
+		$pks     = ArrayHelper::toInteger($pks);
+		$value   = (int) $value;
+		$context = $this->option . '.' . $this->name;
+
+		$this->workflowBeforeStageChange();
+
+		// Include the plugins for the change of state event.
+		PluginHelper::importPlugin($this->events_map['featured']);
 
 		// Convert empty strings to null for the query.
 		if ($featuredUp === '')
@@ -848,6 +893,16 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		}
 
 		$table = $this->getTable('Featured', 'Administrator');
+
+		// Trigger the before change state event.
+		$result = Factory::getApplication()->triggerEvent($this->event_before_change_featured, array($context, $pks, $value));
+
+		if (\in_array(false, $result, true))
+		{
+			$this->setError($table->getError());
+
+			return false;
+		}
 
 		try
 		{
@@ -941,6 +996,16 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 		}
 
 		$table->reorder();
+
+		// Trigger the change state event.
+		$result = Factory::getApplication()->triggerEvent($this->event_after_change_featured, array($context, $pks, $value));
+
+		if (\in_array(false, $result, true))
+		{
+			$this->setError($table->getError());
+
+			return false;
+		}
 
 		$this->cleanCache();
 
