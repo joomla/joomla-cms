@@ -43,7 +43,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($clientId === 0) : ?>
-									<th scope="col" style="width:5%" class="text-center">
+									<th scope="col" class="w-5 text-center">
 										<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 									</th>
 								<?php endif; ?>
@@ -58,7 +58,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col" style="width:12%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.template', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-5 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

@@ -67,7 +67,7 @@ if (!empty($editor))
 						<th scope="col" class="d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:5%" class="text-center d-none d-md-table-cell">
+						<th scope="col" class="w-5 text-center d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="w-10 d-none d-md-table-cell">
