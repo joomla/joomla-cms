@@ -24,7 +24,7 @@
   &:hover,
   &:focus {
     .btn-primary + .dropdown-menu & {
-      background-color: var(--atum-bg-dark);
+      background-color: var(--atum-primary-color);
     }
 
     .btn-secondary + .dropdown-menu & {
@@ -42,7 +42,7 @@
 
     .btn-group.show .dropdown-menu &:not(.disabled) {
       color: var(--atum-text-light);
-      background-color: var(--atum-bg-dark);
+      background-color: var(--atum-primary-color);
     }
   }
 

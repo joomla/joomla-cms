@@ -135,7 +135,7 @@ joomla-tab {
       position: relative;
       display: block;
       padding: .75em 1em;
-      color: var(--atum-special-color);
+      color: var(--atum-secondary-color);
       text-decoration: none;
       border: 0;
       border-bottom: 1px solid $gray-300;
@@ -155,7 +155,7 @@ joomla-tab {
           left: -1px;
           width: 5px;
           height: auto;
-          background-color: var(--atum-bg-dark);
+          background-color: var(--atum-primary-color);
         }
       }
     }
@@ -203,7 +203,7 @@ joomla-tab {
       &:hover,
       &:focus {
         color: var(--atum-text-light);
-        background-color: var(--atum-bg-dark);
+        background-color: var(--atum-primary-color);
       }
     }
 
@@ -240,7 +240,7 @@ joomla-tab {
             width: calc(100% + 2px);
             height: 5px;
             content: "";
-            background-color: var(--atum-bg-dark);
+            background-color: var(--atum-primary-color);
             opacity: .8;
           }
         }
@@ -292,7 +292,7 @@ joomla-tab {
           }
 
           .respTable td:last-child {
-            border-bottom: 1em var(--atum-bg-dark-80) solid;
+            border-bottom: 1em var(--atum-primary-color-80) solid;
           }
 
           .oddCol {

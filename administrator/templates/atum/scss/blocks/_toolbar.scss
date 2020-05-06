@@ -82,7 +82,7 @@
     }
 
     &.btn-action {
-      --subhead-btn-accent: var(--atum-bg-dark);
+      --subhead-btn-accent: var(--atum-primary-color);
       display: flex;
       align-items: center;
 
@@ -96,7 +96,7 @@
 
     &[disabled],
     &.dropdown-toggle[disabled] {
-      --subhead-btn-accent: var(--atum-bg-dark);
+      --subhead-btn-accent: var(--atum-primary-color);
       background: rgba($gray-300, .8);
       opacity: .5;
 

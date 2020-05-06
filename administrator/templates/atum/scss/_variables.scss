@@ -15,7 +15,7 @@ $gray-900:                         #212529; //used for tree header
 $bluegray:                         #b2bfcd; // used for borders
 $black:                            #000;    //used for shadows
 $focuscolor:                       #39f;    //used for focus color
-$dark-blue:                        #001b4c; //is the atum-special-color
+$dark-blue:                        #001b4c; //is the atum-secondary-color
 $light-blue:                       #2a69b8; //is the atum-link-color
 $focusshadow:                      0 0 0 .2rem #eaeaea;
 
@@ -36,7 +36,7 @@ $base-color:                       $darkblue;
 
 $theme-colors: ();
 $theme-colors: map-merge((
-  primary:                         $base-color, //used only in bootstrap, please use $atum-bg-dark
+  primary:                         $base-color, //used only in bootstrap, please use $atum-primary-color
   secondary:                       $gray-700, //used for btn-secondary
   success:                         $green,
   info:                            $light-blue,
@@ -46,7 +46,7 @@ $theme-colors: map-merge((
   dark:                            $gray-900,  //used in bootstrap and for table-border
   atum-link-color:                 $light-blue,
   atum-text-dark:                  $gray-700,
-  atum-bg-dark:                    $base-color, //standard background color
+  atum-primary-color:                    $base-color, //standard background color
   action:                          $base-color,
   error:                           $red-dark,
   alert-success:                   $green-dark
@@ -72,19 +72,19 @@ $colors: (
   atum-sidebar-link-color:         $darkblue,
   atum-bg-light:                   #f0f4fb, //light background color, frontend dashboard background
   atum-text-light:                 $white,
-  atum-special-color:              $dark-blue,
+  atum-secondary-color:            $dark-blue,
   atum-link-color:                 $light-blue,
   atum-link-hover-color:           darken($light-blue, 20%),
   atum-contrast:                   $light-blue,
-  atum-bg-dark-5:                  adjust-color($base-color, $hue: -6%, $saturation: -85%, $lightness: +65.1%),
-  atum-bg-dark-10:                 adjust-color($base-color, $hue: -6%, $saturation: -80%, $lightness: +59.4%),
-  atum-bg-dark-20:                 adjust-color($base-color, $hue: -6%, $saturation: -75%, $lightness: +47.3%),
-  atum-bg-dark-30:                 adjust-color($base-color, $hue: -5%, $saturation: -55%, $lightness: +34.3%),
-  atum-bg-dark-40:                 adjust-color($base-color, $hue: -3%, $saturation: -40%, $lightness: +21.4%),
-  atum-bg-dark-50:                 adjust-color($base-color, $hue: -1%, $saturation: -15%, $lightness: +10%),
-  atum-bg-dark-70:                 adjust-color($base-color, $hue: +4%, $lightness: -6%),
-  atum-bg-dark-80:                 adjust-color($base-color, $hue: +7%, $lightness: -11.5%),
-  atum-bg-dark-90:                 adjust-color($base-color, $hue: +10%, $saturation: -1%, $lightness: -17%)
+  atum-primary-color-5:            adjust-color($base-color, $hue: -6%, $saturation: -85%, $lightness: +65.1%),
+  atum-primary-color-10:           adjust-color($base-color, $hue: -6%, $saturation: -80%, $lightness: +59.4%),
+  atum-primary-color-20:           adjust-color($base-color, $hue: -6%, $saturation: -75%, $lightness: +47.3%),
+  atum-primary-color-30:           adjust-color($base-color, $hue: -5%, $saturation: -55%, $lightness: +34.3%),
+  atum-primary-color-40:           adjust-color($base-color, $hue: -3%, $saturation: -40%, $lightness: +21.4%),
+  atum-primary-color-50:           adjust-color($base-color, $hue: -1%, $saturation: -15%, $lightness: +10%),
+  atum-primary-color-70:           adjust-color($base-color, $hue: +4%, $lightness: -6%),
+  atum-primary-color-80:           adjust-color($base-color, $hue: +7%, $lightness: -11.5%),
+  atum-primary-color-90:           adjust-color($base-color, $hue: +10%, $saturation: -1%, $lightness: -17%)
 );
 
 // Alerts
@@ -200,8 +200,8 @@ $danger-txt:                       #fff;
 
 // Input Group
 $input-group-addon-color:          var(--white);
-$input-group-addon-bg:             var(--atum-bg-dark);
-$input-group-addon-border-color:   var(--atum-bg-dark);
+$input-group-addon-bg:             var(--atum-primary-color);
+$input-group-addon-border-color:   var(--atum-primary-color);
 
 // Treeselect
 $treeselect-line-height:           2.2rem;

@@ -62,6 +62,15 @@
 					saveFormat="hsl"
 					default="hsl(214,63%,20%)"
 				/>
+
+				<field
+						name="secondary-color"
+						type="color"
+						label="TPL_ATUM_COLORS_SETTINGS_SECONDARY_COLOR_LABEL"
+						default="#001B4C"
+						filter="color"
+				/>
+
 				<field
 					name="bg-light"
 					type="color"
@@ -97,13 +106,7 @@
 					default="#3b4a5c"
 					filter="color"
 				/>
-				<field
-					name="special-color"
-					type="color"
-					label="TPL_ATUM_COLORS_SETTINGS_SPECIAL_COLOR_LABEL"
-					default="#001B4C"
-					filter="color"
-				/>
+
 				<field
 					name="monochrome"
 					type="radio"

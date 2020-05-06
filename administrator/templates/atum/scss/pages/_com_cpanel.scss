@@ -19,7 +19,7 @@
   &-help {
 
     &__header {
-      color: var(--atum-special-color);
+      color: var(--atum-secondary-color);
     }
 
     a {
@@ -43,7 +43,7 @@
     }
 
     &__header {
-      color: var(--atum-special-color);
+      color: var(--atum-secondary-color);
 
       span {
         margin-right: 5px;
@@ -107,7 +107,7 @@
   .card-header {
     min-height: 2.5rem;
     font-weight: $font-weight-bold;
-    color: var(--atum-bg-dark);
+    color: var(--atum-primary-color);
     background: var(--card-bg);
   }
 
@@ -122,7 +122,7 @@
       width: 2.6em;
       height: 2.6em;
       line-height: 2.6em;
-      color: var(--atum-special-color);
+      color: var(--atum-secondary-color);
     }
   }
 
@@ -135,7 +135,7 @@
     @include hover-focus-active() {
       text-decoration: none;
       background-color: var(--white);
-      border-color: var(--atum-bg-dark);
+      border-color: var(--atum-primary-color);
 
       .cpanel-add-module-icon {
 

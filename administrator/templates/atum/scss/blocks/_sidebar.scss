@@ -205,7 +205,7 @@
 @include media-breakpoint-down(xs) {
   #menu-collapse {
     display: none;
-    background: var(--atum-bg-dark-50);
+    background: var(--atum-primary-color-50);
   }
 
   .toggler-burger {

@@ -6,7 +6,7 @@
   box-sizing: border-box;
   padding: 10px;
   color: $white;
-  background: var(--atum-bg-dark);
+  background: var(--atum-primary-color);
 
   .header-title {
     width: 50%;
@@ -127,7 +127,7 @@
         &[aria-expanded="true"] {
           color: var(--atum-text-light);
           text-decoration: none;
-          background-color: var(--atum-bg-dark);
+          background-color: var(--atum-primary-color);
           box-shadow: $atum-box-shadow;
         }
 
@@ -220,13 +220,13 @@
     z-index: $zindex-popover;
     min-width: 18rem;
     padding: 0;
-    background-color: var(--atum-bg-dark-70);
+    background-color: var(--atum-primary-color-70);
 
     .dropdown-header {
       padding: 1rem .75rem;
       font-size: inherit;
       color: $white;
-      background-color: var(--atum-bg-dark);
+      background-color: var(--atum-primary-color);
       box-shadow: $atum-box-shadow;
 
       [dir=rtl] & {
@@ -247,7 +247,7 @@
 
   .dropdown-item {
     color: $white;
-    background-color: var(--atum-bg-dark-70);
+    background-color: var(--atum-primary-color-70);
 
     [dir=rtl] & {
       text-align: right;
@@ -297,7 +297,7 @@
       height: 3.7rem;
 
       .header-item-content > :first-child {
-        color: var(--atum-special-color);
+        color: var(--atum-secondary-color);
 
         &[aria-expanded=true] {
           color: var(--atum-text-light);
@@ -319,7 +319,7 @@
       width: 3.8rem;
       height: 100%;
       color: var(--white-offset);
-      background-color: var(--atum-bg-dark);
+      background-color: var(--atum-primary-color);
       border: 0;
 
       .fas {
@@ -327,7 +327,7 @@
       }
 
       &:hover {
-        background-color: var(--atum-bg-dark-80);
+        background-color: var(--atum-primary-color-80);
       }
     }
   }
@@ -348,7 +348,7 @@
       justify-content: flex-end;
       width: 100%;
       max-width: 18rem;
-      background: var(--atum-bg-dark);
+      background: var(--atum-primary-color);
 
       &::after {
         position: absolute;
@@ -356,7 +356,7 @@
         width: 1000%;
         height: 100%;
         content: "";
-        background: var(--atum-bg-dark);
+        background: var(--atum-primary-color);
 
       }
     }
