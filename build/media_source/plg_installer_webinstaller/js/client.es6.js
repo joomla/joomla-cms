@@ -111,7 +111,7 @@ if (!Joomla) {
               WebInstaller.installfromweb(webInstallerOptions.options.installfrom_url);
             }
 
-            resolve()
+            resolve();
           },
           onError: (request) => {
             const errorContainer = document.getElementById('web-loader-error');
@@ -126,7 +126,7 @@ if (!Joomla) {
               errorContainer.classList.remove('hidden');
             }
 
-            reject()
+            reject();
           },
         });
       }).finally(() => {
@@ -150,7 +150,7 @@ if (!Joomla) {
             });
 
             element.setAttribute('href', '#');
-           });
+          });
         }
 
         if (webInstallerOptions.view === 'extension') {
@@ -190,7 +190,7 @@ if (!Joomla) {
         }
 
         WebInstaller.hideLoadingLayer();
-      })
+      });
 
       return true;
     }
