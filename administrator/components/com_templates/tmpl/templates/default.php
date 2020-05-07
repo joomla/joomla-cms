@@ -69,13 +69,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
 									<div>
 										<?php if ($this->preview) : ?>
-											<?php if ((int) $item->client_id === 0) : ?>
-												<a href="<?php echo Route::_(Uri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank"
+											<?php $client = (int) $item->client_id === 1 ? 'administrator' : 'site'; ?>
+											<a href="<?php echo Route::link($client, 'index.php?tp=1&template=' . $item->element); ?>"
+												target="_blank"
 												title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_($item->name)); ?>">
-											<?php elseif ((int) $item->client_id === 1) : ?>
-												<a href="<?php echo Route::_(Uri::root() . 'administrator/index.php?tp=1&template=' . $item->element); ?>" target="_blank"
-												title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_($item->name)); ?>">
-											<?php endif; ?>
 											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 											</a>
 										<?php else : ?>
