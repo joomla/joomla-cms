@@ -42,11 +42,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<?php if ($clientId === 0) : ?>
-									<th scope="col" class="w-5 text-center">
-										<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
-									</th>
-								<?php endif; ?>
+								<th scope="col" style="width:5%" class="text-center">
+									<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
+								</th>
 								<th scope="col" style="width:12%" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
 								</th>
@@ -81,19 +79,21 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
 								</th>
-								<?php if ($clientId === 0) : ?>
-									<td class="text-center">
-										<?php if ($this->preview && $item->client_id == '0') : ?>
+								<td class="text-center">
+									<?php if ($this->preview) : ?>
+										<?php if ($clientId === 0 && $item->client_id == '0') : ?>
 											<a target="_blank" href="<?php echo Uri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id ?>" class="jgrid">
+										<?php elseif ($clientId === 1 && $item->client_id == '1') : ?>
+											<a target="_blank" href="<?php echo Uri::root() . 'administrator/index.php?tp=1&templateStyle=' . (int) $item->id ?>" class="jgrid">
+										<?php endif; ?>
 											<span class="fas fa-eye" aria-hidden="true" title="<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>"></span>
 											<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></span>
 											</a>
-										<?php else: ?>
+									<?php else : ?>
 											<span class="fas fa-eye-slash" aria-hidden="true" title="<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>"></span>
 											<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
-										<?php endif; ?>
-									</td>
-								<?php endif; ?>
+									<?php endif; ?>
+								</td>
 								<td class="text-center">
 									<?php if ($item->home == '0' || $item->home == '1') : ?>
 										<?php echo HTMLHelper::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1'); ?>
