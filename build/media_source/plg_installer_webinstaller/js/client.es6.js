@@ -53,7 +53,7 @@ if (!Joomla) {
         return false;
       }
 
-      let requestUrl = `${url}&product=${webInstallerOptions.options.product}&release=${webInstallerOptions.options.release}&dev_level=${webInstallerOptions.options.dev_level}&list=${webInstallerOptions.list ? 'list' : 'grid'}&lang=${webInstallerOptions.options.language}`;
+      let requestUrl = `${url}&product=${webInstallerOptions.options.product}&release=${webInstallerOptions.options.release}&dev_level=${webInstallerOptions.options.dev_level}&list=${webInstallerOptions.list ? 'list' : 'grid'}&lang=${webInstallerOptions.options.language}2`;
 
       if (webInstallerOptions.ordering !== '' && document.getElementById('com-apps-ordering').value) {
         webInstallerOptions.ordering = document.getElementById('com-apps-ordering').value;
@@ -300,10 +300,10 @@ if (!Joomla) {
       }
 
       document.getElementById('install_url').value = installUrl;
-      document.getElementById('uploadform-web-url').innerHTML = installUrl;
+      document.getElementById('uploadform-web-url').innerText = installUrl;
 
       if (name) {
-        document.getElementById('uploadform-web-name').innerHTML = name;
+        document.getElementById('uploadform-web-name').innerText = name;
         document.getElementById('uploadform-web-name-label').classList.remove('hidden');
       } else {
         document.getElementById('uploadform-web-name-label').classList.add('hidden');
