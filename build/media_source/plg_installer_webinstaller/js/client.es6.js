@@ -53,7 +53,7 @@ if (!Joomla) {
         return false;
       }
 
-      let requestUrl = `${url}&product=${webInstallerOptions.options.product}&release=${webInstallerOptions.options.release}&dev_level=${webInstallerOptions.options.dev_level}&list=${webInstallerOptions.list ? 'list' : 'grid'}&lang=${webInstallerOptions.options.language}2`;
+      let requestUrl = `${url}&product=${webInstallerOptions.options.product}&release=${webInstallerOptions.options.release}&dev_level=${webInstallerOptions.options.dev_level}&list=${webInstallerOptions.list ? 'list' : 'grid'}&lang=${webInstallerOptions.options.language}`;
 
       if (webInstallerOptions.ordering !== '' && document.getElementById('com-apps-ordering').value) {
         webInstallerOptions.ordering = document.getElementById('com-apps-ordering').value;
