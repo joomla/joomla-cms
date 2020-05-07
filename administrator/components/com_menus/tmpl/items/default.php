@@ -216,7 +216,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 														<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
 													<?php else : ?>
 														<span class="badge badge-secondary"
-															  title="<?php echo Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
+															  title="<?php echo Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language; ?></span>
 													<?php endif; ?>
 												</a>
 											<?php else : ?>
@@ -224,7 +224,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 													<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 												<?php else : ?>
 													<span class="badge badge-secondary"
-														  title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+														  title="<?php echo $item->language_title; ?>"><?php echo $item->language; ?></span>
 												<?php endif; ?>
 											<?php endif; ?>
 										<?php endif; ?>
