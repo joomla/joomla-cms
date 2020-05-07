@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -81,17 +80,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</th>
 								<td class="text-center">
 									<?php if ($this->preview) : ?>
-										<?php if ($clientId === 0 && $item->client_id == '0') : ?>
-											<a target="_blank" href="<?php echo Uri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id ?>" class="jgrid">
-										<?php elseif ($clientId === 1 && $item->client_id == '1') : ?>
-											<a target="_blank" href="<?php echo Uri::root() . 'administrator/index.php?tp=1&templateStyle=' . (int) $item->id ?>" class="jgrid">
-										<?php endif; ?>
+										<?php $client = (int) $item->client_id === 1 ? 'administrator' : 'site'; ?>
+										<a href="<?php echo Route::link($client, 'index.php?tp=1&templateStyle=' . (int) $item->id); ?>" target="_blank" class="jgrid">
 											<span class="fas fa-eye" aria-hidden="true" title="<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>"></span>
 											<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></span>
-											</a>
+										</a>
 									<?php else : ?>
-											<span class="fas fa-eye-slash" aria-hidden="true" title="<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>"></span>
-											<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
+										<span class="fas fa-eye-slash" aria-hidden="true" title="<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>"></span>
+										<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
 									<?php endif; ?>
 								</td>
 								<td class="text-center">
