@@ -68,16 +68,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
 										<?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
 									<div>
-									<?php if ($item->client_id === 0) : ?>
 										<?php if ($this->preview) : ?>
-											<a href="<?php echo Route::_(Uri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank"
-											title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_($item->name)); ?>">
+											<?php if ($item->client_id === 0) : ?>
+												<a href="<?php echo Route::_(Uri::root() . 'index.php?tp=1&template=' . $item->element); ?>" target="_blank"
+												title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_($item->name)); ?>">
+											<?php elseif ($item->client_id === 1) : ?>
+												<a href="<?php echo Route::_(Uri::root() . 'administrator/index.php?tp=1&template=' . $item->element); ?>" target="_blank"
+												title="<?php echo Text::sprintf('JBROWSERTARGET_NEW_TITLE', Text::_($item->name)); ?>">
+											<?php endif; ?>
 											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 											</a>
 										<?php else : ?>
 											<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>
 										<?php endif; ?>
-									<?php endif; ?>
 									</div>
 								</th>
 								<td class="small d-none d-md-table-cell text-center">
