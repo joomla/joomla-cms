@@ -65,7 +65,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('JDATE'); ?>
 								</th>
-								<th scope="col" style="width:15%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-15 d-none d-md-table-cell">
 									<?php echo Text::_('JAUTHOR'); ?>
 								</th>
 								<th scope="col" class="d-none d-md-table-cell">
