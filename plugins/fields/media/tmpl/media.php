@@ -30,7 +30,7 @@ foreach ($value as $path)
 		continue;
 	}
 
-	$buffer .= sprintf('<img src="%s"%s>',
+	$buffer .= sprintf('<img loading="lazy" src="%s"%s>',
 		htmlentities($path, ENT_COMPAT, 'UTF-8', true),
 		$class
 	);
