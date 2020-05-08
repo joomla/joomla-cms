@@ -62,13 +62,13 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', ['
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:15%">
+								<th scope="col" class="w-15">
 									<?php echo Text::_('JGRID_HEADING_LANGUAGE'); ?>
 								</th>
 								<th scope="col" class="w-5">
 									<?php echo Text::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
 								</th>
-								<th scope="col" style="width:15%">
+								<th scope="col" class="w-15">
 									<?php echo Text::_('COM_ASSOCIATIONS_HEADING_NO_ASSOCIATION'); ?>
 								</th>
 								<?php if (!empty($this->typeFields['menutype'])) : ?>

@@ -63,7 +63,7 @@ $params     = $this->state->params ?? new CMSObject;
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_CLIENT', 'a.name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:15%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-15 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_CONTACT', 'a.contact', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
