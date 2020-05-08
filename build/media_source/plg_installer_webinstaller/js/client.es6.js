@@ -173,7 +173,6 @@ if (!Joomla) {
           }
 
           if (installExtensionFromExternalButton) {
-            // @todo Migrate this handler's confirm to a CE dialog
             installExtensionFromExternalButton.addEventListener('click', () => {
               const redirectUrl = installExtensionFromExternalButton.getAttribute('data-downloadurl');
               const redirectConfirm = window.confirm(Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_REDIRECT_TO_EXTERNAL_SITE_TO_INSTALL').replace('[SITEURL]', redirectUrl));
@@ -299,11 +298,10 @@ if (!Joomla) {
      * @param {string} installUrl
      * @param {string} name
      * @returns {boolean}
-     * @todo Migrate this function's alert to a CE dialog
      */
     static installfromweb(installUrl, name = null) {
       if (!installUrl) {
-        alert(Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN'));
+        Joomla.renderMessages({ warning: [Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN')] });
 
         return false;
       }
