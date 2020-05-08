@@ -25,12 +25,20 @@ if (!Joomla) {
       webInstallerOptions.loaded = 1;
 
       const cancelButton = document.getElementById('uploadform-web-cancel');
-
       cancelButton.addEventListener('click', () => {
         document.getElementById('uploadform-web').classList.add('hidden');
 
         if (webInstallerOptions.list && document.querySelector('.list-view')) {
           document.querySelector('.list-view').click();
+        }
+      });
+
+      const installButton = document.getElementById('uploadform-web-install');
+      installButton.addEventListener('click', () => {
+        if (webInstallerOptions.options === 4) {
+          Joomla.submitbutton4();
+        } else {
+          Joomla.submitbutton5();
         }
       });
 
@@ -160,6 +168,7 @@ if (!Joomla) {
           if (installExtensionButton) {
             installExtensionButton.addEventListener('click', () => {
               WebInstaller.installfromweb(installExtensionButton.getAttribute('data-downloadurl'), installExtensionButton.getAttribute('data-name'));
+              document.getElementById('uploadform-web-install').scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
           }
 

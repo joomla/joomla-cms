@@ -69,6 +69,21 @@ Joomla = window.Joomla || {};
       }
     };
 
+    Joomla.submitbutton5 = () => {
+      const form = document.getElementById('adminForm');
+
+      // do field validation
+      if (form.install_url.value !== '' || form.install_url.value !== 'http://' || form.install_url.value !== 'https://') {
+        Joomla.submitbutton4();
+      } else if (form.install_url.value === '') {
+        alert(Joomla.apps.options.btntxt);
+      } else {
+        document.querySelector('#appsloading').classList.remove('hidden');
+        form.installtype.value = 'web';
+        form.submit()
+      }
+    };
+
     Joomla.submitbuttonUpload = () => {
       const form = document.getElementById('uploadForm');
 
