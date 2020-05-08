@@ -323,9 +323,9 @@ Joomla = window.Joomla || {};
         if (element.multiple === true) {
           const selectedOptions = element.querySelectorAll('option:checked');
           const selectedTextValues = Array.from(selectedOptions).map((el) => el.text);
-          captionContent = `${element.labels[0].textContent}: ${selectedTextValues.join()}`;
+          captionContent = `${element.labels[0].textContent} - ${selectedTextValues.join()}`;
         } else {
-          captionContent = `${element.labels[0].textContent}: ${element.options[element.selectedIndex].text}`;
+          captionContent = `${element.labels[0].textContent} - ${element.options[element.selectedIndex].text}`;
         }
 
         document.getElementById('filteredBy').textContent += captionContent;
