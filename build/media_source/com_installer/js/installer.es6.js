@@ -80,7 +80,7 @@ Joomla = window.Joomla || {};
       } else {
         document.querySelector('#appsloading').classList.remove('hidden');
         form.installtype.value = 'web';
-        form.submit()
+        form.submit();
       }
     };
 
