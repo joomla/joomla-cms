@@ -125,7 +125,32 @@ abstract class JGrid
 			}
 			else
 			{
-				$html[] = '<span class="icon-' . $inactive_class . '" aria-hidden="true"></span>';
+				if ($inactive_class === 'publish')
+				{
+					$inactive_class = 'check';
+				}
+				elseif ($inactive_class === 'unpublish')
+				{
+					$inactive_class = 'times';
+				}
+				elseif ($inactive_class === 'archive')
+				{
+					$inactive_class = 'folder';
+				}
+				elseif ($inactive_class === 'checkedout')
+				{
+					$inactive_class = 'lock';
+				}
+				elseif ($inactive_class === 'unfeatured')
+				{
+					$inactive_class = 'star';
+				}
+				elseif ($inactive_class === 'featured')
+				{
+					$inactive_class = 'star featured';
+				}
+
+				$html[] = '<span class="fas fa-' . $inactive_class . '" aria-hidden="true"></span>';
 			}
 
 			$html[] = '</a>';
