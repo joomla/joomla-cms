@@ -34,7 +34,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</caption>
 						<thead>
 							<tr>
-								<th scope="col" class="col1template d-none d-md-table-cell" style="width:20%">
+								<th scope="col" class="w-20 col1template d-none d-md-table-cell">
 									<?php echo Text::_('COM_TEMPLATES_HEADING_IMAGE'); ?>
 								</th>
 								<th scope="col" style="width:30%">
