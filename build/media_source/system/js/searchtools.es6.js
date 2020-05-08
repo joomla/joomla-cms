@@ -293,6 +293,12 @@ Joomla = window.Joomla || {};
         }
       });
 
+      // If there are no active filters - remove the filtered caption area from the table
+      if (activeFilterCount === 0) {
+        const filteredByCaption = document.getElementById('filteredBy');
+        filteredByCaption.parentNode.removeChild(filteredByCaption);
+      }
+
       // Disable clear button when no filter is active and search is empty
       if (this.clearButton) {
         this.clearButton.disabled = (activeFilterCount === 0) && !this.searchString.length;
