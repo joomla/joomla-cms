@@ -35,7 +35,7 @@ if (!Joomla) {
 
       const installButton = document.getElementById('uploadform-web-install');
       installButton.addEventListener('click', () => {
-        if (webInstallerOptions.options === 4) {
+        if (webInstallerOptions.options.installFrom === 4) {
           Joomla.submitbutton4();
         } else {
           Joomla.submitbutton5();
