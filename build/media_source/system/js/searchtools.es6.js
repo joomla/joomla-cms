@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 Joomla = window.Joomla || {};
 
 ((Joomla) => {
@@ -306,6 +307,24 @@ Joomla = window.Joomla || {};
       if (tmpEl) {
         tmpEl.classList.add('active');
       }
+
+      // Add all active filters to the table caption for screen-readers
+      const filteredByCaption = document.getElementById('filteredBy');
+
+      // The caption won't exist if no items match the filters so check for the element first
+      if (filteredByCaption) {
+        let captionContent = '';
+
+        if (element.multiple === true) {
+          const selectedOptions = element.querySelectorAll('option:checked');
+          const selectedTextValues = Array.from(selectedOptions).map((el) => el.text);
+          captionContent = `${element.labels[0].textContent}: ${selectedTextValues.join()}`;
+        } else {
+          captionContent = `${element.labels[0].textContent}: ${element.options[element.selectedIndex].text}`;
+        }
+
+        document.getElementById('filteredBy').textContent += captionContent;
+      }
     }
 
     // eslint-disable-next-line class-methods-use-this
@@ -505,8 +524,8 @@ Joomla = window.Joomla || {};
     const sort = document.getElementById('sorted');
 
     if (sort && sort.hasAttribute('data-caption')) {
-      const caption = sort.getAttribute('data-caption');
-      document.getElementById('captionTable').textContent += caption;
+      const orderedBy = sort.getAttribute('data-caption');
+      document.getElementById('orderedBy').textContent += orderedBy;
     }
 
     if (sort && sort.hasAttribute('data-sort')) {
