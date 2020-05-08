@@ -23,6 +23,9 @@ Text::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 HTMLHelper::_('stylesheet', 'com_installer/installer.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'com_installer/installer.js', ['version' => 'auto', 'relative' => true]);
 
+$this->document->getWebAssetManager()
+	->useScript('webcomponent.core-loader');
+
 $app = Factory::getApplication();
 ?>
 
