@@ -52,7 +52,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 							<th scope="col" style="width:20%" class="d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_USER', 'u.name', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+							<th scope="col" class="w-10 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_REVIEW', 'a.review_time', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" style="width:1%" class="d-none d-md-table-cell">

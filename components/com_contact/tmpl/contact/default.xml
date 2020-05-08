@@ -322,6 +322,7 @@
 				multiple="true"
 				context="com_users.user"
 				addfieldprefix="Joomla\Component\Fields\Administrator\Field"
+				layout="joomla.form.field.list-fancy-select"
 				>
 				<option value="-1">JALL</option>
 			</field>

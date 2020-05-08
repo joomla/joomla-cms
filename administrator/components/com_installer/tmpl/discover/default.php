@@ -59,10 +59,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('JVERSION'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo Text::_('JDATE'); ?>
 								</th>
 								<th scope="col" style="width:15%" class="d-none d-md-table-cell">

@@ -45,16 +45,16 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" style="width:5%" class="text-center">
+						<th scope="col" class="w-5 text-center">
 							<?php echo Text::_('COM_PRIVACY_HEADING_ACTIONS'); ?>
 						</th>
-						<th scope="col" style="width:5%" class="text-center">
+						<th scope="col" class="w-5 text-center">
 							<?php echo Text::_('JSTATUS'); ?>
 						</th>
 						<th scope="col">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%">
+						<th scope="col" class="w-10">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PRIVACY_HEADING_REQUEST_TYPE', 'a.request_type', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" style="width:15%">

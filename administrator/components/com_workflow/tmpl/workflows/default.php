@@ -79,16 +79,16 @@ $userId = $user->id;
 								<th class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 'w.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="text-center d-none d-md-table-cell">
+								<th scope="col" class="w-10 text-center d-none d-md-table-cell">
 									<?php echo Text::_('COM_WORKFLOW_DEFAULT'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="text-center d-none d-md-table-cell">
+								<th scope="col" class="w-10 text-center d-none d-md-table-cell">
 									<?php echo Text::_('COM_WORKFLOW_COUNT_STAGES'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="text-center d-none d-md-table-cell">
+								<th scope="col" class="w-10 text-center d-none d-md-table-cell">
 									<?php echo Text::_('COM_WORKFLOW_COUNT_TRANSITIONS'); ?>
 								</th>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 'w.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

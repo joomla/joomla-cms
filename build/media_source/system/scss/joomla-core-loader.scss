@@ -11,26 +11,25 @@ $theme-colours: map-merge((
   top: 0;
   left: 0;
   z-index: 10000;
-  display: block;
+  display: flex;
   width: 100%;
   height: 100%;
   overflow: hidden;
+  align-items: center;
   opacity: .8;
 }
 
 .box {
   position: relative;
-  width: 300px;
-  height: 300px;
+  width: 345px;
+  height: 345px;
   margin: 0 auto;
-  transform: rotate(45deg);
 
   p {
-    float: left;
-    margin: -20px 0 0 252px;
+    float: right;
+    margin: 95px 0 0 0;
     font: normal 1.25em/1em sans-serif;
     color: #999;
-    transform: rotate(-45deg);
   }
 
   > span {
@@ -82,31 +81,30 @@ $theme-colours: map-merge((
     }
 
     &::after {
-      height: 101px;
-      margin: 145px 0 0 -30px;
+      height: 105px;
+      margin: 140px 0 0 -30px;
       border-width: 0 0 0 50px;
     }
   }
 }
 
 .yellow {
-  margin: 0 0 0 182px;
-  transform: rotate(0deg);
+  margin: 0 0 0 255px;
+  transform: rotate(45deg);
 }
 
 .red {
-  margin: 182px 0 0 364px;
-  transform: rotate(90deg);
+  margin: 255px 0 0 255px;
+  transform: rotate(135deg);
 }
 
 .blue {
-  margin: 364px 0 0 182px;
-  transform: rotate(180deg);
+  margin: 255px 0 0 0;
+  transform: rotate(225deg);
 }
 
 .green {
-  margin: 182px 0 0;
-  transform: rotate(270deg);
+  transform: rotate(315deg);
 }
 
 @keyframes jspinner {

@@ -65,19 +65,19 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', ['
 								<th scope="col" style="width:15%">
 									<?php echo Text::_('JGRID_HEADING_LANGUAGE'); ?>
 								</th>
-								<th scope="col" style="width:5%">
+								<th scope="col" class="w-5">
 									<?php echo Text::_('COM_ASSOCIATIONS_HEADING_ASSOCIATION'); ?>
 								</th>
 								<th scope="col" style="width:15%">
 									<?php echo Text::_('COM_ASSOCIATIONS_HEADING_NO_ASSOCIATION'); ?>
 								</th>
 								<?php if (!empty($this->typeFields['menutype'])) : ?>
-									<th scope="col" style="width:10%">
+									<th scope="col" class="w-10">
 										<?php echo HTMLHelper::_('searchtools.sort', 'COM_ASSOCIATIONS_HEADING_MENUTYPE', 'menutype_title', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
 								<?php if (!empty($this->typeFields['access'])) : ?>
-									<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+									<th scope="col" class="w-5 d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>

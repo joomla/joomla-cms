@@ -59,16 +59,16 @@ if (!empty($editor))
 					<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_MODULES_HEADING_POSITION', 'a.position', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+					<th scope="col" class="w-10 d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_MODULES_HEADING_MODULE', 'name', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+					<th scope="col" class="w-10 d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_MODULES_HEADING_PAGES', 'pages', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+					<th scope="col" class="w-10 d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'ag.title', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+					<th scope="col" class="w-10 d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 					</th>
 					<th scope="col" style="width:1%" class="d-none d-md-table-cell">

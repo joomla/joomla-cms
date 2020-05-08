@@ -58,14 +58,14 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								<th scope="col" style="width:10%; " class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%;" class="text-center d-md-table-cell">
+								<th scope="col" class="w-5 text-center d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%;" class="text-center d-md-table-cell">
+								<th scope="col" class="w-5 text-center d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($tfa) : ?>
-								<th scope="col" style="width:5%" class="text-center d-none d-md-table-cell">
+								<th scope="col" class="w-5 text-center d-none d-md-table-cell">
 									<?php echo Text::_('COM_USERS_HEADING_TFA'); ?>
 								</th>
 								<?php endif; ?>
@@ -81,7 +81,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								<th scope="col" style="width:12%" class="d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-5 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
