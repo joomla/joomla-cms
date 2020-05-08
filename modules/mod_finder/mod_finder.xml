@@ -48,6 +48,7 @@
 					label="MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_LABEL"
 					default="0"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">MOD_FINDER_FIELDSET_BASIC_SHOW_ADVANCED_OPTION_LINK</option>
 					<option value="1">JSHOW</option>

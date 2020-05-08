@@ -27,6 +27,7 @@
 				type="list"
 				label="JFIELD_LANGUAGE_LABEL"
 				description="JFIELD_MODULE_LANGUAGE_DESC"
+				validate="options"
 				>
 				<option value="*">JALL</option>
 			</field>

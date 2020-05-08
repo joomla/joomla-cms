@@ -49,6 +49,7 @@
 					type="list"
 					label="MOD_SYNDICATE_FIELD_FORMAT_LABEL"
 					default="rss"
+					validate="options"
 					>
 					<option value="rss">MOD_SYNDICATE_FIELD_VALUE_RSS</option>
 					<option value="atom">MOD_SYNDICATE_FIELD_VALUE_ATOM</option>
