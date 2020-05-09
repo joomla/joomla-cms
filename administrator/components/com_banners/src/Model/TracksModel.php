@@ -18,6 +18,7 @@ use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\String\StringHelper;
 
 /**
  * Methods supporting a list of tracks.
@@ -170,7 +171,7 @@ class TracksModel extends ListModel
 		// Filter by search in banner name or client name.
 		if ($search = $this->getState('filter.search'))
 		{
-			$search = '%' . strtolower($search) . '%';
+			$search = '%' . StringHelper::strtolower($search) . '%';
 			$query->where('(LOWER(' . $db->quoteName('b.name') . ') LIKE :search1 OR LOWER(' . $db->quoteName('cl.name') . ') LIKE :search2)')
 				->bind([':search1', ':search2'], $search);
 		}
