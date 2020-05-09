@@ -179,7 +179,8 @@ abstract class StringHelper
 		{
 			return utf8_strpos($str, $search);
 		}
-
+		$strLength=mb_strlen($str);
+		$offset=$offset<$strLength?$offset:$strLength;
 		return utf8_strpos($str, $search, $offset);
 	}
 
