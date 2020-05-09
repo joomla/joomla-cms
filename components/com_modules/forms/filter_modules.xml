@@ -22,7 +22,7 @@
 		<field
 			name="module"
 			type="ModulesModule"
-			label="COM_MODULES_OPTION_SELECT_MODULE"
+			label="COM_MODULES_HEADING_MODULE"
 			client="site"
 			onchange="this.form.submit();"
 			>

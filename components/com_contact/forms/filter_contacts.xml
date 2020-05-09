@@ -14,7 +14,7 @@
 		<field
 			name="published"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			description="JOPTION_SELECT_PUBLISHED_DESC"
 			onchange="this.form.submit();"
 			>

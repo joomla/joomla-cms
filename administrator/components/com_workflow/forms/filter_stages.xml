@@ -11,7 +11,7 @@
 		<field
 			name="published"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			filter="-2,0,1"
 			>
@@ -20,7 +20,7 @@
 		<field
 			name="condition"
 			type="workflowcondition"
-			label="COM_WORKFLOW_SELECT_CONDITION"
+			label="COM_WORKFLOW_CONDITION"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_WORKFLOW_SELECT_CONDITION</option>
