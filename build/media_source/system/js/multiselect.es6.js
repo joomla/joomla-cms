@@ -9,6 +9,22 @@
 ((Joomla) => {
   'use strict';
 
+  function getClosest(el, tag) {
+    // this is necessary since nodeName is always in upper case
+    const elementTag = tag.toUpperCase();
+    let element = el;
+    do {
+      if (element.nodeName === elementTag) {
+        // tag name is found! return
+        return element;
+      }
+      element = element.parentNode;
+    } while (element != null);
+
+    // Not found
+    return null;
+  }
+
   class JMultiSelect {
     constructor(formElement) {
       this.tableEl = document.querySelector(formElement);
@@ -66,7 +82,7 @@
         return;
       }
 
-      const currentRowNum = this.rows.indexOf(event.target.closest('tr'));
+      const currentRowNum = this.rows.indexOf((navigator.userAgent.indexOf('MSIE ') > -1 || navigator.userAgent.indexOf('Trident/') > -1) ? getClosest(event.target, 'tr') : event.target.closest('tr'));
       const currentCheckBox = this.checkallToggle ? currentRowNum + 1 : currentRowNum;
       let isChecked = this.boxes[currentCheckBox].checked;
 

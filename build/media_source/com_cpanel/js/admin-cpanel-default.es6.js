@@ -16,7 +16,7 @@
         'Content-Type': 'application/json',
       },
       onSuccess: () => {
-        const wrapper = element.closest('.module-wrapper');
+        const wrapper = closest(element, '.module-wrapper');
         wrapper.parentNode.removeChild(wrapper);
 
         Joomla.renderMessages({
@@ -32,6 +32,15 @@
   };
 
   const onBoot = () => {
+    // Find matchesFn with vendor prefix
+    ['matches', 'msMatchesSelector'].some((fn) => {
+      if (typeof document.body[fn] === 'function') {
+        matchesFn = fn;
+        return true;
+      }
+      return false;
+    });
+
     const cpanelModules = document.getElementById('content');
     if (cpanelModules) {
       const links = [].slice.call(cpanelModules.querySelectorAll('.unpublish-module'));
