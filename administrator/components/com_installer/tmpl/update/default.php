@@ -73,7 +73,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_HEADING_INSTALLTYPE'); ?>
 								</th>
-								<th scope="col" style="width:40%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-40 d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_HEADING_DETAILSURL'); ?>
 								</th>
 							</tr>
