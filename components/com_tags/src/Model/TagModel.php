@@ -353,7 +353,6 @@ class TagModel extends ListModel
 
 			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 			$table = $this->getTable();
-			$table->load($pk);
 			$table->hit($pk);
 
 			if (!$table->hasPrimaryKey())
