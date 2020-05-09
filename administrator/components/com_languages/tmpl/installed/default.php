@@ -40,7 +40,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					</caption>
 					<thead>
 						<tr>
-							<td style="width:1%">
+							<td class="w-1">
 								&#160;
 							</td>
 							<th scope="col" class="w-15">

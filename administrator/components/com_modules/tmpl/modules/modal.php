@@ -52,7 +52,7 @@ if (!empty($editor))
 			</caption>
 			<thead>
 				<tr>
-					<th scope="col" style="width:1%" class="text-center">
+					<th scope="col" class="w-1 text-center">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 					</th>
 					<th scope="col" class="title">
@@ -73,7 +73,7 @@ if (!empty($editor))
 					<th scope="col" class="w-10 d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:1%" class="d-none d-md-table-cell">
+					<th scope="col" class="w-1 d-none d-md-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>

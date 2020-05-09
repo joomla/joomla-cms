@@ -46,7 +46,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</caption>
 							<thead>
 							<tr>
-								<th style="width:1%" class="text-center">
+								<th class="w-1 text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</th>
 								<th scope="col">

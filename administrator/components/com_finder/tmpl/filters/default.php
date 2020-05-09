@@ -42,10 +42,10 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['version' => 'auto', 'relative
 					</caption>
 					<thead>
 						<tr>
-							<td style="width:1%" class="text-center">
+							<td class="w-1 text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
 							</td>
-							<th scope="col" style="width:1%">
+							<th scope="col" class="w-1">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col">
@@ -60,7 +60,7 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['version' => 'auto', 'relative
 							<th scope="col" class="w-5 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_HEADING_MAP_COUNT', 'a.map_count', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:1%" class="d-none d-md-table-cell">
+							<th scope="col" class="w-1 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.filter_id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>

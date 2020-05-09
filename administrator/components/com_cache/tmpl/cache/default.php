@@ -45,7 +45,7 @@ HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['version' => 'auto'
 					</caption>
 						<thead>
 						<tr>
-							<td style="width:1%" class="text-center">
+							<td class="w-1 text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
 							</td>
 							<th scope="col" class="title">

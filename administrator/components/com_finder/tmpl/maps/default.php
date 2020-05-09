@@ -43,25 +43,25 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 					</caption>
 						<thead>
 						<tr>
-							<td style="width:1%" class="text-center">
+							<td class="w-1 text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
 							</td>
-							<th scope="col" style="width:1%" class="text-center">
+							<th scope="col" class="w-1 text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'branch_title', $listDirn, $listOrder); ?>
 							</th>
 							<?php if (!$branchFilter) : ?>
-								<th scope="col" style="width:1%" class="text-center">
+								<th scope="col" class="w-1 text-center">
 									<?php echo Text::_('COM_FINDER_HEADING_CHILDREN'); ?>
 								</th>
 							<?php endif; ?>
-							<th scope="col" style="width:1%" class="text-center">
+							<th scope="col" class="w-1 text-center">
 								<span class="fas fa-check" aria-hidden="true"></span>
 								<span class="d-none d-md-inline"><?php echo Text::_('COM_FINDER_MAPS_COUNT_PUBLISHED_ITEMS'); ?></span>
 							</th>
-							<th scope="col" style="width:1%" class="text-center">
+							<th scope="col" class="w-1 text-center">
 								<span class="fas fa-times" aria-hidden="true"></span>
 								<span class="d-none d-md-inline"><?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 							</th>
