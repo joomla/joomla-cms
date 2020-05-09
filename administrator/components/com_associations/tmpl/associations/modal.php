@@ -65,7 +65,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 					<th scope="col">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'title', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:15%">
+					<th scope="col" class="w-15">
 						<?php echo Text::_('JGRID_HEADING_LANGUAGE'); ?>
 					</th>
 					<th scope="col" class="w-5">
