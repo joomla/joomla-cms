@@ -2027,6 +2027,12 @@ class JoomlaInstallerScript
 			 * Joomla! 3.9.7
 			 */
 			'/administrator/components/com_joomlaupdate/access.xml',
+
+			// Joomla! 3.9.13
+			'/libraries/vendor/phpmailer/phpmailer/composer.lock',
+
+			// Joomla! 3.9.17
+			'/administrator/components/com_templates/controllers/template.php.orig',
 		);
 
 		// TODO There is an issue while deleting folders using the ftp mode
@@ -2267,7 +2273,6 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem/support',
 			'/libraries/joomla/filesystem/wrapper',
 			'/libraries/joomla/filesystem',
-			'/libraries/vendor/phpmailer/phpmailer/composer.lock',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -2457,11 +2462,13 @@ class JoomlaInstallerScript
 		// Set required conversion status
 		if ($db->hasUTF8mb4Support())
 		{
-			$converted = 2;
+			$convertedStep1 = 2;
+			$convertedStep2 = 4;
 		}
 		else
 		{
-			$converted = 1;
+			$convertedStep1 = 1;
+			$convertedStep2 = 3;
 		}
 
 		// Check conversion status in database
@@ -2487,72 +2494,122 @@ class JoomlaInstallerScript
 			return;
 		}
 
-		// Nothing to do, saved conversion status from DB is equal to required
-		if ($convertedDB == $converted)
+		// Nothing to do, saved conversion status from DB is equal to required final status
+		if ($convertedDB == $convertedStep2)
 		{
 			return;
 		}
 
-		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
-		$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql';
+		$converted = $convertedDB;
+		$hasErrors = false;
 
-		if (is_file($fileName1))
+		// Steps 1 and 2: Convert core tables if necessary and not to be done at later steps
+		if ($convertedDB < $convertedStep1)
 		{
-			$fileContents1 = @file_get_contents($fileName1);
-			$queries1      = $db->splitSql($fileContents1);
+			// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
+			$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql';
 
-			if (!empty($queries1))
+			if (is_file($fileName1))
 			{
-				foreach ($queries1 as $query1)
+				$fileContents1 = @file_get_contents($fileName1);
+				$queries1      = $db->splitSql($fileContents1);
+
+				if (!empty($queries1))
 				{
-					try
+					foreach ($queries1 as $query1)
 					{
-						$db->setQuery($query1)->execute();
-					}
-					catch (Exception $e)
-					{
-						// If the query fails we will go on. It just means the index to be dropped does not exist.
+						try
+						{
+							$db->setQuery($query1)->execute();
+						}
+						catch (Exception $e)
+						{
+							// If the query fails we will go on. It just means the index to be dropped does not exist.
+						}
 					}
 				}
 			}
-		}
 
-		// Step 2: Perform the index modifications and conversions
-		$fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql';
+			// Step 2: Perform the index modifications and conversions
+			$fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql';
 
-		if (is_file($fileName2))
-		{
-			$fileContents2 = @file_get_contents($fileName2);
-			$queries2      = $db->splitSql($fileContents2);
-
-			if (!empty($queries2))
+			if (is_file($fileName2))
 			{
-				foreach ($queries2 as $query2)
-				{
-					try
-					{
-						$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
-					}
-					catch (Exception $e)
-					{
-						$converted = 0;
+				$fileContents2 = @file_get_contents($fileName2);
+				$queries2      = $db->splitSql($fileContents2);
 
-						// Still render the error message from the Exception object
-						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				if (!empty($queries2))
+				{
+					foreach ($queries2 as $query2)
+					{
+						try
+						{
+							$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
+						}
+						catch (Exception $e)
+						{
+							$hasErrors = true;
+
+							// Still render the error message from the Exception object
+							JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+						}
 					}
 				}
 			}
+
+			if (!$hasErrors)
+			{
+				$converted = $convertedStep1;
+			}
 		}
 
-		if ($doDbFixMsg && $converted == 0)
+		// Step 3: Convert action logs and privacy suite tables if necessary and conversion hasn't failed before
+		if (!$hasErrors && $convertedDB < $convertedStep2)
+		{
+			$fileName3 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-03.sql';
+
+			if (is_file($fileName3))
+			{
+				$fileContents3 = @file_get_contents($fileName3);
+				$queries3      = $db->splitSql($fileContents3);
+
+				if (!empty($queries3))
+				{
+					foreach ($queries3 as $query3)
+					{
+						try
+						{
+							$db->setQuery($db->convertUtf8mb4QueryToUtf8($query3))->execute();
+						}
+						catch (Exception $e)
+						{
+							$hasErrors = true;
+
+							// Still render the error message from the Exception object
+							JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+						}
+					}
+				}
+			}
+
+			if (!$hasErrors)
+			{
+				$converted = $convertedStep2;
+			}
+		}
+
+		if ($doDbFixMsg && $hasErrors)
 		{
 			// Show an error message telling to check database problems
 			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 		}
 
-		// Set flag in database if the update is done.
-		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
-			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
+		// Set flag in database if the conversion status has changed.
+		if ($converted != $convertedDB)
+		{
+			$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
+				. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
+		}
 	}
 
 	/**

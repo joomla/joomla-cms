@@ -732,6 +732,26 @@ class FormController extends BaseController
 				}
 			}
 
+			/**
+			 * We need the filtered value of calendar fields because the UTC normalision is
+			 * done in the filter and on output. This would apply the Timezone offset on
+			 * reload. We set the calendar values we save to the processed date.
+			 */
+			$filteredData = $form->filter($data);
+
+			foreach ($form->getFieldset() as $field)
+			{
+				if ($field->type === 'Calendar')
+				{
+					$fieldName = $field->fieldname;
+
+					if (isset($filteredData[$fieldName]))
+					{
+						$data[$fieldName] = $filteredData[$fieldName];
+					}
+				}
+			}
+
 			// Save the data in the session.
 			$app->setUserState($context . '.data', $data);
 
@@ -911,20 +931,31 @@ class FormController extends BaseController
 			false
 		);
 
-		// Validate the posted data.
-		// Sometimes the form needs some posted data, such as for plugins and modules.
+		/* @var \JForm $form */
 		$form = $model->getForm($data, false);
 
-		if (!$form)
-		{
-			$app->enqueueMessage($model->getError(), 'error');
+		/**
+		 * We need the filtered value of calendar fields because the UTC normalision is
+		 * done in the filter and on output. This would apply the Timezone offset on
+		 * reload. We set the calendar values we save to the processed date.
+		 */
+		$filteredData = $form->filter($data);
 
-			$this->setRedirect($redirectUrl);
-			$this->redirect();
+		foreach ($form->getFieldset() as $field)
+		{
+			if ($field->type === 'Calendar')
+			{
+				$fieldName = $field->fieldname;
+
+				if (isset($filteredData[$fieldName]))
+				{
+					$data[$fieldName] = $filteredData[$fieldName];
+				}
+			}
 		}
 
 		// Save the data in the session.
-		$app->setUserState($this->option . '.edit.' . $this->context . '.data', $form->filter($data));
+		$app->setUserState($this->option . '.edit.' . $this->context . '.data', $data);
 
 		$this->setRedirect($redirectUrl);
 		$this->redirect();

@@ -184,7 +184,7 @@ class JFormFieldFolderList extends JFormFieldList
 	{
 		$options = array();
 
-		$path = ltrim($this->directory, '/');
+		$path = $this->directory;
 
 		if (!is_dir($path))
 		{

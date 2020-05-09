@@ -12,7 +12,7 @@ jQuery(function($) {
 	$(document)
 		.on('click', ".btn-group label:not(.active)", function() {
 			var $label = $(this);
-			var $input = $('#' + $label.attr('for'));
+			var $input = $(document.getElementById($label.attr('for')));
 
 			if ($input.prop('checked')) {
 				return;
@@ -59,7 +59,7 @@ jQuery(function($) {
 		$container.find(".btn-group input:checked").each(function()
 		{
 			var $input  = $(this);
-			var $label = $('label[for=' + $input.attr('id') + ']');
+			var $label = $(document.querySelector('label[for=' + $input.attr('id') + ']'));
 			var btnClass = 'primary';
 
 			if ($input.val() != '')

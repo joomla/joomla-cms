@@ -336,7 +336,7 @@ class FieldsHelper
 				if (cat.val() == '" . $assignedCatids . "')return;
 				Joomla.loadingLayer('show');
 				jQuery('input[name=task]').val('" . $section . ".reload');
-				element.form.submit();
+				Joomla.submitform('" . $section . ".reload', element.form);
 			}
 			jQuery( document ).ready(function() {
 				Joomla.loadingLayer('load');

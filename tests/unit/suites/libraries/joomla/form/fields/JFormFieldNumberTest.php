@@ -135,6 +135,8 @@ class JFormFieldNumberTest extends TestCaseDatabase
 	{
 		$formField = new JFormFieldNumber;
 
+		TestReflection::setValue($formField, 'element', new SimpleXMLElement('<field />'));
+
 		foreach ($data as $attr => $value)
 		{
 			TestReflection::setValue($formField, $attr, $value);
