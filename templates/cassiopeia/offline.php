@@ -97,7 +97,7 @@ else
 
 						<?php if (count($twofactormethods) > 1) : ?>
 						<label for="secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
-						<input name="secretkey" class="form-control" id="secretkey" type="text">
+						<input name="secretkey" autocomplete="one-time-code" class="form-control" id="secretkey" type="text">
 						<?php endif; ?>
 
 						<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo Text::_('JLOGIN'); ?>">

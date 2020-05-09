@@ -153,9 +153,10 @@ class HtmlView extends BaseHtmlView
 			if (!empty($itemElement))
 			{
 				$temp = new Registry($itemElement->params);
-				$itemElement->params = clone $params;
+				$itemElement->params   = clone $params;
 				$itemElement->params->merge($temp);
-				$itemElement->params = (array) json_decode($itemElement->params);
+				$itemElement->params   = (array) json_decode($itemElement->params);
+				$itemElement->metadata = new Registry($itemElement->metadata);
 			}
 		}
 
@@ -353,8 +354,16 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		// @TODO: create tag feed document
-		// Add alternative feed link
+		if (count($this->item) === 1)
+		{
+			foreach ($this->item[0]->metadata->toArray() as $k => $v)
+			{
+				if ($v)
+				{
+					$this->document->setMetadata($k, $v);
+				}
+			}
+		}
 
 		if ($this->params->get('show_feed_link', 1) == 1)
 		{
