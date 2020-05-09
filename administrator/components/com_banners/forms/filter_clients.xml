@@ -13,7 +13,7 @@
 		<field
 			name="state"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -22,7 +22,7 @@
 		<field
 			name="purchase_type"
 			type="list"
-			label="COM_BANNERS_SELECT_TYPE"
+			label="COM_BANNERS_HEADING_TYPE"
 			default="0"
 			onchange="this.form.submit();"
 			validate="options"

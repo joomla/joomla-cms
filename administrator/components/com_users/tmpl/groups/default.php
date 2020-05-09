@@ -39,7 +39,9 @@ HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' =
 				<?php else : ?>
 					<table class="table" id="groupList">
 						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_USERS_GROUPS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+							<?php echo Text::_('COM_USERS_GROUPS_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>

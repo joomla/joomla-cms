@@ -13,7 +13,7 @@
 		<field
 			name="published"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			optionsFilter="*,0,1,-2"
 			onchange="this.form.submit();"
 			>
@@ -23,7 +23,7 @@
 		<field
 			name="directive"
 			type="sql"
-			label="COM_CSP_FILTER_DIRECTIVE"
+			label="COM_CSP_HEADING_DIRECTIVE"
 			sql_select="directive"
 			sql_from="#__csp"
 			sql_group="directive"

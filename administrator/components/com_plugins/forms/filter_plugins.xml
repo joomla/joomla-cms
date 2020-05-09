@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
-	<fieldset addfieldpath="/administrator/components/com_plugins/models/fields" />
-
+<form addfieldprefix="Joomla\Component\Plugins\Administrator\Field">
 	<fields name="filter">
 		<field
 			name="search"
@@ -15,34 +13,36 @@
 		<field
 			name="enabled"
 			type="plugin_status"
+			label="JSTATUS"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
 		<field
 			name="folder"
-			type="plugintype"
+			type="PluginType"
+			label="COM_PLUGINS_FOLDER_HEADING"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">COM_PLUGINS_OPTION_FOLDER</option>
 		</field>
 
 		<field
 			name="element"
-			type="pluginelement"
+			type="PluginElement"
+			label="COM_PLUGINS_ELEMENT_HEADING"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">COM_PLUGINS_OPTION_ELEMENT</option>
 		</field>
 
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_FILTER_ACCESS"
-			description="JOPTION_FILTER_ACCESS_DESC"
+			label="JGRID_HEADING_ACCESS"
 			onchange="this.form.submit();"
-		>
+			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
 		</field>
 	</fields>
@@ -52,18 +52,17 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			description="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="folder ASC"
 			validate="options"
-		>
+			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="ordering ASC">JGRID_HEADING_ORDERING_ASC</option>
 			<option value="ordering DESC">JGRID_HEADING_ORDERING_DESC</option>
 			<option value="enabled ASC">JSTATUS_ASC</option>
 			<option value="enabled DESC">JSTATUS_DESC</option>
-			<option value="name ASC">JGLOBAL_TITLE_ASC</option>
-			<option value="name DESC">JGLOBAL_TITLE_DESC</option>
+			<option value="name ASC">JGLOBAL_NAME_ASC</option>
+			<option value="name DESC">JGLOBAL_NAME_DESC</option>
 			<option value="folder ASC">COM_PLUGINS_HEADING_FOLDER_ASC</option>
 			<option value="folder DESC">COM_PLUGINS_HEADING_FOLDER_DESC</option>
 			<option value="element ASC">COM_PLUGINS_HEADING_ELEMENT_ASC</option>
@@ -77,7 +76,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="input-mini"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

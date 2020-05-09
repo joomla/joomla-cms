@@ -24,7 +24,7 @@
 		<field
 			name="state"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			optionsFilter="*,-2,0,1"
 			onchange="this.form.submit();"
 			>
@@ -33,7 +33,7 @@
 		<field
 			name="position"
 			type="ModulesPosition"
-			label="COM_MODULES_OPTION_SELECT_POSITION"
+			label="COM_MODULES_FIELD_POSITION_LABEL"
 			client="site"
 			onchange="this.form.submit();"
 			>
@@ -42,7 +42,7 @@
 		<field
 			name="module"
 			type="ModulesModule"
-			label="COM_MODULES_OPTION_SELECT_MODULE"
+			label="COM_MODULES_HEADING_MODULE"
 			client="site"
 			onchange="this.form.submit();"
 			>
@@ -51,7 +51,7 @@
 		<field
 			name="menuitem"
 			type="menuitem"
-			label="COM_MODULES_OPTION_SELECT_MENU_ITEM"
+			label="JGLOBAL_MENU_SELECTION"
 			disable="separator,alias,heading,url"
 			onchange="this.form.submit();"
 			>
@@ -61,7 +61,7 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_SELECT_ACCESS"
+			label="JGRID_HEADING_ACCESS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -69,7 +69,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_SELECT_LANGUAGE"
+			label="JGRID_HEADING_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
