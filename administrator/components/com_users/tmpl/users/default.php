@@ -48,7 +48,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 						</caption>
 						<thead>
 							<tr>
-								<td style="width:1%" class="text-center">
+								<td class="w-1 text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col">

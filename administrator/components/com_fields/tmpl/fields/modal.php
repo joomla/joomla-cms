@@ -46,7 +46,7 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" style="width:1%" class="center">
+						<th scope="col" class="w-1 center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="title">
@@ -64,7 +64,7 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 						<th scope="col" class="w-10 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:1%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-1 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>

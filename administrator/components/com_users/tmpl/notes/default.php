@@ -42,10 +42,10 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 					</caption>
 					<thead>
 						<tr>
-							<td style="width:1%" class="text-center">
+							<td class="w-1 text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
 							</td>
-							<th scope="col" style="width:1%" class="text-center">
+							<th scope="col" class="w-1 text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col">
@@ -57,7 +57,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 							<th scope="col" class="w-10 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_REVIEW', 'a.review_time', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:1%" class="d-none d-md-table-cell">
+							<th scope="col" class="w-1 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>

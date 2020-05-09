@@ -74,7 +74,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 			</caption>
 			<thead>
 				<tr>
-					<td style="width:1%" class="text-center">
+					<td class="w-1 text-center">
 						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)">
 					</td>
 					<th scope="col" class="w-15">

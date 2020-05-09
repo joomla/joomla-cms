@@ -60,7 +60,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 			<thead>
 				<tr>
 					<?php if (!empty($this->typeSupports['state'])) : ?>
-						<th scope="col" style="width:1%" class="center">
+						<th scope="col" class="w-1 center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
@@ -83,7 +83,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
-					<th scope="col" style="width:1%" class="d-none d-sm-table-cell">
+					<th scope="col" class="w-1 d-none d-sm-table-cell">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
