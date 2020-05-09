@@ -19,8 +19,8 @@ HTMLHelper::_('bootstrap.framework');
 	<thead>
 		<tr>
 			<th scope="col" style="width:60%"><?php echo Text::_('JGLOBAL_TITLE'); ?></th>
-			<th scope="col" style="width:20%"><?php echo Text::_('JAUTHOR'); ?></th>
-			<th scope="col" style="width:20%"><?php echo Text::_('JDATE'); ?></th>
+			<th scope="col" class="w-20"><?php echo Text::_('JAUTHOR'); ?></th>
+			<th scope="col" class="w-20"><?php echo Text::_('JDATE'); ?></th>
 		</tr>
 	</thead>
 	<tbody>

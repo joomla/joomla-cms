@@ -69,13 +69,13 @@ if ($saveOrder)
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 't.published', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:20%">
+								<th scope="col" class="w-20">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 't.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:20%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-20 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_FROM_STAGE', 'from_stage', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:20%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-20 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_TO_STAGE', 'to_stage', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" style="width:3%" class="d-none d-md-table-cell">
