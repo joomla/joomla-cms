@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 ?>
-<div aria-label="<?php echo $module->name; ?>" role="navigation">
+<div aria-label="<?php echo $module->title; ?>" role="navigation">
 	<ul itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb<?php echo $moduleclass_sfx; ?>">
 		<?php if ($params->get('showHere', 1)) : ?>
 			<li>

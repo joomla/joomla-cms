@@ -10,10 +10,11 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Prototype admin model.
@@ -1223,6 +1224,7 @@ abstract class AdminModel extends FormModel
 		$dispatcher = \JEventDispatcher::getInstance();
 		$table      = $this->getTable();
 		$context    = $this->option . '.' . $this->name;
+		$app        = \JFactory::getApplication();
 
 		if (!empty($data['tags']) && $data['tags'][0] != '')
 		{
@@ -1322,7 +1324,7 @@ abstract class AdminModel extends FormModel
 			// Show a warning if the item isn't assigned to a language but we have associations.
 			if ($associations && $table->language === '*')
 			{
-				\JFactory::getApplication()->enqueueMessage(
+				$app->enqueueMessage(
 					\JText::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
 					'warning'
 				);
@@ -1377,6 +1379,11 @@ abstract class AdminModel extends FormModel
 				$db->setQuery($query);
 				$db->execute();
 			}
+		}
+
+		if ($app->input->get('task') == 'editAssociations')
+		{
+			return $this->redirectToAssociations($data);
 		}
 
 		return true;
@@ -1608,13 +1615,28 @@ abstract class AdminModel extends FormModel
 	 * @return  boolean  True if successful, false otherwise.
 	 *
 	 * @since   3.9.0
+	 *
+	 * @deprecated 5.0  It is handled by regular save method now.
 	 */
 	public function editAssociations($data)
 	{
 		// Save the item
 		$this->save($data);
+	}
 
-		$app = \JFactory::getApplication();
+	/**
+	 * Method to load an item in com_associations.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @throws \Exception
+	 * @since   3.9.17
+	 */
+	protected function redirectToAssociations($data)
+	{
+		$app = Factory::getApplication();
 		$id  = $data['id'];
 
 		// Deal with categories associations

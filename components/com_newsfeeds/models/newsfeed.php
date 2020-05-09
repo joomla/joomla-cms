@@ -185,7 +185,6 @@ class NewsfeedsModelNewsfeed extends JModelItem
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('newsfeed.id');
 
 			$table = JTable::getInstance('Newsfeed', 'NewsfeedsTable');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 

@@ -217,7 +217,7 @@ class FieldsModelField extends JModelAdmin
 	private function checkDefaultValue($data)
 	{
 		// Empty default values are correct
-		if (empty($data['default_value']))
+		if (empty($data['default_value']) && $data['default_value'] !== '0')
 		{
 			return true;
 		}
