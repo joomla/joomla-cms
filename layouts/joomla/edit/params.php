@@ -152,7 +152,7 @@ foreach ($fieldSets as $name => $fieldSet)
 				echo '<div class="alert alert-info">' . $this->escape(Text::_($fieldSet->description)) . '</div>';
 			}
 
-			echo '<div class="col-12 col-md-8 col-lg-6 col-xl-4">';
+			echo '<div class="column-count-md-2">';
 
 			$opentab = 2;
 		}
