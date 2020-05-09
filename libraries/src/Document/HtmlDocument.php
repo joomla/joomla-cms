@@ -316,11 +316,14 @@ class HtmlDocument extends Document
 
 		if (isset($data['style']))
 		{
-			foreach ($data['style'] as $type => $stdata)
+			foreach ($data['style'] as $type => $styles)
 			{
-				if (!isset($this->_style[strtolower($type)]) || !stristr($stdata, $this->_style[strtolower($type)]))
+				foreach ($styles as $hash => $style)
 				{
-					$this->addStyleDeclaration($stdata, $type);
+					if (!isset($this->_style[strtolower($type)][$hash]))
+					{
+						$this->addStyleDeclaration($style, $type);
+					}
 				}
 			}
 		}
@@ -331,11 +334,14 @@ class HtmlDocument extends Document
 
 		if (isset($data['script']))
 		{
-			foreach ($data['script'] as $type => $sdata)
+			foreach ($data['script'] as $type => $scripts)
 			{
-				if (!isset($this->_script[strtolower($type)]) || !stristr($sdata, $this->_script[strtolower($type)]))
+				foreach ($scripts as $hash => $script)
 				{
-					$this->addScriptDeclaration($sdata, $type);
+					if (!isset($this->_script[strtolower($type)][$hash]))
+					{
+						$this->addScriptDeclaration($script, $type);
+					}
 				}
 			}
 		}
