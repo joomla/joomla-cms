@@ -6400,7 +6400,8 @@ class JoomlaInstallerScript
 		if ($converted != $convertedDB)
 		{
 			$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
-				. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';')->execute();
+				. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';'
+			)->execute();
 		}
 	}
 

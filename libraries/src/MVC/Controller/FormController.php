@@ -933,7 +933,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			false
 		);
 
-		/* @var \JForm $form */
+		/** @var \Joomla\CMS\Form\Form $form */
 		$form = $model->getForm($data, false);
 
 		/**
