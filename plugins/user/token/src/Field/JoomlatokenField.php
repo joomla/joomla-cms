@@ -13,6 +13,7 @@ namespace Joomla\Plugin\User\Token\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\TextField;
+use Joomla\CMS\Layout\FileLayout;
 
 /**
  * Joomlatoken field class
@@ -59,6 +60,13 @@ class JoomlatokenField extends TextField
 		return $ret;
 	}
 
+	/**
+	 * @return void
+	 */
+	protected function getLabel()
+	{
+		return;
+	}
 
 	/**
 	 * Method to get the field input markup.
@@ -75,9 +83,9 @@ class JoomlatokenField extends TextField
 			return '';
 		}
 
-		$this->value = $this->getTokenForDisplay($this->value);
+		echo $this->getRenderer('token')->render($this->getLayoutData());
 
-		return parent::getInput();
+		return;
 	}
 
 	/**
@@ -123,5 +131,73 @@ class JoomlatokenField extends TextField
 		}
 
 		return $message;
+	}
+
+	/**
+	 * Get the data for the layout
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getLayoutData()
+	{
+		return [
+			'plugin' => $this,
+			'label'  => $this->element['label'],
+			'value'  => $this->getTokenForDisplay($this->value),
+		];
+	}
+
+	/**
+	 * Render a layout of this plugin
+	 *
+	 * @param   string  $layoutId  Layout identifier
+	 * @param   array   $data      Optional data for the layout
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function render($layoutId, $data = [])
+	{
+		$data = array_merge($this->getLayoutData(), $data);
+
+		return $this->getRenderer($layoutId)->render($data);
+	}
+
+	/**
+	 * Get the layout paths
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getLayoutPaths()
+	{
+		$template = Factory::getApplication()->getTemplate();
+
+		return [
+			JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/' . $this->_type . '/' . $this->_name,
+			__DIR__ . '/layouts',
+		];
+	}
+
+	/**
+	 * Get the plugin renderer
+	 *
+	 * @param   string  $layoutId  Layout identifier
+	 *
+	 * @return  FileLayout
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getRenderer($layoutId = 'token')
+	{
+		$renderer = new FileLayout($layoutId);
+
+		$renderer->setIncludePaths($this->getLayoutPaths());
+
+		return $renderer;
 	}
 }
