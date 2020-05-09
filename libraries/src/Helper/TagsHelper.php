@@ -215,15 +215,10 @@ class TagsHelper extends CMSHelper
 			foreach ($tags as $key => $tag)
 			{
 				// Check for prefix that identifies new tag.
-				if (strpos($tag, '#new#') === false)
-				{
-					// Existing tag.
-					$newTags[] = (int) $tag;
-				}
-				else
+				if (strpos($tag, '#new#') === 0)
 				{
 					// Remove the new tag prefix.
-					$tagText = str_replace('#new#', '', $tag);
+					$tagText = substr($tag, 5);
 
 					// Clear old data if exist
 					$tagTable->reset();
@@ -265,6 +260,11 @@ class TagsHelper extends CMSHelper
 							}
 						}
 					}
+				}
+				else
+				{
+					// Existing tag.
+					$newTags[] = (int) $tag;
 				}
 			}
 
