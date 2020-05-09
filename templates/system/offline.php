@@ -71,7 +71,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 		<?php if (count($twofactormethods) > 1) : ?>
 			<p id="form-login-secretkey">
 				<label for="secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
-				<input type="text" name="secretkey" class="inputbox" alt="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" id="secretkey" />
+				<input type="text" name="secretkey" autocomplete="one-time-code" class="inputbox" alt="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>" id="secretkey" />
 			</p>
 		<?php endif; ?>
 		<p id="submit-button">

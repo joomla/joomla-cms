@@ -183,7 +183,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
       const lookupDelay = 300;
       let lookupTimeout = null;
-      this.select.addEventListener('search', (event) => {
+      this.select.addEventListener('search', () => {
         clearTimeout(lookupTimeout);
         lookupTimeout = setTimeout(this.requestLookup.bind(this), lookupDelay);
       });
