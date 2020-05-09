@@ -4,6 +4,24 @@
  */
 
 ((window, document, Joomla) => {
+  let matchesFn = 'matches';
+
+  const closest = (element, selector) => {
+    let parent;
+    let el = element;
+
+    // Traverse parents
+    while (el) {
+      parent = el.parentElement;
+      if (parent && parent[matchesFn](selector)) {
+        return parent;
+      }
+      el = parent;
+    }
+
+    return null;
+  };
+
   Joomla.unpublishModule = (element) => {
     // Get variables
     const baseUrl = 'index.php?option=com_modules&task=modules.unpublish&format=json';

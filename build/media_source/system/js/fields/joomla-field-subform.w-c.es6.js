@@ -584,12 +584,15 @@
       // Handle drag action, move element to hovered position
       this.addEventListener('dragenter', (event) => {
         // Make sure the target in the correct container
-        if (!item || that.rowsContainer && closest(event.target, that.rowsContainer) !== that.containerWithRows) {
+        if ((!item || that.rowsContainer)
+          && closest(event.target, that.rowsContainer) !== that.containerWithRows) {
           return;
         }
 
         // Find a hovered row, and replace it
-        const row = event.target[matchesFn](that.repeatableElement) ? event.target : closest(event.target, that.repeatableElement);
+        const row = event.target[matchesFn](that.repeatableElement)
+          ? event.target
+          : closest(event.target, that.repeatableElement);
         if (!row) return;
 
         switchRowPositions(item, row);
