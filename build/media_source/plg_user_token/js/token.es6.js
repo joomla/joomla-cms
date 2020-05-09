@@ -33,9 +33,9 @@
         return;
       }
 
-	  navigator.clipboard.writeText(input.value).then(() => {
+      navigator.clipboard.writeText(input.value).then(() => {
         Joomla.renderMessages({ message: [Joomla.JText._('PLG_USER_TOKEN_COPY_SUCCESS')] });
-      }, (err) => {
+      }, () => {
         Joomla.renderMessages({ error: [Joomla.JText._('PLG_USER_TOKEN_COPY_FAIL')] });
       });
     });
