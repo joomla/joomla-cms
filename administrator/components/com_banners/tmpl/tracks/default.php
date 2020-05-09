@@ -39,7 +39,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="title">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_NAME', 'b.name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:20%">
+								<th scope="col" class="w-20">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_BANNERS_HEADING_CLIENT', 'cl.name', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">

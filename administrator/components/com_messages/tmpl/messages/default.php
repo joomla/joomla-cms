@@ -48,7 +48,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th scope="col" class="w-15">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MESSAGES_HEADING_FROM', 'a.user_id_from', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:20%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-20 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JDATE', 'a.date_time', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
