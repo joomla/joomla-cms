@@ -39,8 +39,8 @@
     }
   };
 
-  const onChange = (event) => {
-    const menuType = event.target.value;
+  const onChange = ({ target }) => {
+    const menuType = target.value;
 
     Joomla.request({
       url: `index.php?option=com_menus&task=item.getParentItem&menutype=${menuType}`,

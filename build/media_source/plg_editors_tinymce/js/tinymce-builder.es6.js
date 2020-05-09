@@ -406,12 +406,12 @@ Joomla = window.Joomla || {};
     const actionButtons = container.querySelectorAll('.button-action');
 
     actionButtons.forEach((elem) => {
-      elem.addEventListener('click', (event) => {
-        const action = event.target.getAttribute('data-action');
+      elem.addEventListener('click', ({ target }) => {
+        const action = target.getAttribute('data-action');
 
         const actionoptions = {};
 
-        [].forEach.call(event.target.attributes, (attrib) => {
+        [].forEach.call(target.attributes, (attrib) => {
           if (/^data-/.test(attrib.name)) {
             const key = attrib.name.substr(5);
 

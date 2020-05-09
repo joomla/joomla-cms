@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const title = document.getElementById('jform_title');
   title.dpOldValue = title.value;
 
-  title.addEventListener('change', (event) => {
+  title.addEventListener('change', ({ currentTarget }) => {
     const label = document.getElementById('jform_label');
-    const changedTitle = event.currentTarget;
+    const changedTitle = currentTarget;
 
     if (changedTitle.dpOldValue === label.value) {
       label.value = changedTitle.value;

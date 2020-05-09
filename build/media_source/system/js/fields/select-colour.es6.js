@@ -5,8 +5,8 @@
 (() => {
   'use strict';
 
-  const onChange = (event) => {
-    const self = event.target;
+  const onChange = ({ target }) => {
+    const self = target;
     const value = parseInt(self.value, 10);
 
     self.classList.remove('custom-select-success', 'custom-select-danger');

@@ -431,11 +431,11 @@
       // Mouse interaction
       // - mouse down, enable "draggable" and allow to drag the row,
       // - mouse up, disable "draggable"
-      this.addEventListener('mousedown', (event) => {
+      this.addEventListener('mousedown', ({ target }) => {
         if (touched) return;
 
         // Check for .move button
-        const handler = getMoveHandler(event.target);
+        const handler = getMoveHandler(target);
 
 
         const row = handler ? handler.closest(that.repeatableElement) : null;
@@ -449,7 +449,7 @@
         item = row;
       });
 
-      this.addEventListener('mouseup', (event) => {
+      this.addEventListener('mouseup', () => {
         if (item && !touched) {
           item.setAttribute('draggable', 'false');
           item.setAttribute('aria-grabbed', 'false');
@@ -531,13 +531,13 @@
       });
 
       // dragstart event to initiate mouse dragging
-      this.addEventListener('dragstart', (event) => {
+      this.addEventListener('dragstart', ({ dataTransfer }) => {
         if (item) {
           // We going to move the row
-          event.dataTransfer.effectAllowed = 'move';
+          dataTransfer.effectAllowed = 'move';
 
           // This need to work in Firefox and IE10+
-          event.dataTransfer.setData('text', '');
+          dataTransfer.setData('text', '');
         }
       });
 
@@ -548,17 +548,17 @@
       });
 
       // Handle drag action, move element to hovered position
-      this.addEventListener('dragenter', (event) => {
+      this.addEventListener('dragenter', ({ target }) => {
         // Make sure the target in the correct container
         if (!item || (that.rowsContainer
-          && event.target.closest(that.rowsContainer) !== that.containerWithRows)) {
+          && target.closest(that.rowsContainer) !== that.containerWithRows)) {
           return;
         }
 
         // Find a hovered row, and replace it
-        const row = event.target.matches(that.repeatableElement)
-          ? event.target
-          : event.target.closest(that.repeatableElement);
+        const row = target.matches(that.repeatableElement)
+          ? target
+          : target.closest(that.repeatableElement);
         if (!row) return;
 
         switchRowPositions(item, row);

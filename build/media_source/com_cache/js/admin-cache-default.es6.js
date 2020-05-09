@@ -10,8 +10,8 @@ Joomla = window.Joomla || {};
 
   document.addEventListener('DOMContentLoaded', () => {
     [].slice.call(document.querySelectorAll('.cache-entry')).forEach((el) => {
-      el.addEventListener('click', (event) => {
-        Joomla.isChecked(event.currentTarget.checked);
+      el.addEventListener('click', ({ currentTarget }) => {
+        Joomla.isChecked(currentTarget.checked);
       });
     });
   });

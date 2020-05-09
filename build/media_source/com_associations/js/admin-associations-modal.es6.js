@@ -8,12 +8,12 @@ Joomla = window.Joomla || {};
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    const target = window.parent.document.getElementById('target-association');
+    const targetAssociation = window.parent.document.getElementById('target-association');
     const links = [].slice.call(document.querySelectorAll('.select-link'));
 
     links.forEach((item) => {
-      item.addEventListener('click', (event) => {
-        target.src = `${target.getAttribute('data-editurl')}&task=${target.getAttribute('data-item')}.edit&id=${parseInt(event.target.getAttribute('data-id'), 10)}`;
+      item.addEventListener('click', ({ target }) => {
+        targetAssociation.src = `${targetAssociation.getAttribute('data-editurl')}&task=${targetAssociation.getAttribute('data-item')}.edit&id=${parseInt(target.getAttribute('data-id'), 10)}`;
         window.parent.Joomla.Modal.getCurrent().close();
       });
     });

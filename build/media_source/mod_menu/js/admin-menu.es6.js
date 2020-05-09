@@ -134,11 +134,11 @@
     });
 
     // Child open toggle
-    const openToggle = (event) => {
-      let menuItem = event.currentTarget.parentNode;
+    const openToggle = ({ currentTarget }) => {
+      let menuItem = currentTarget.parentNode;
 
       if (menuItem.tagName.toLowerCase() === 'span') {
-        menuItem = event.currentTarget.parentNode.parentNode;
+        menuItem = currentTarget.parentNode.parentNode;
       }
 
       if (menuItem.classList.contains('open')) {

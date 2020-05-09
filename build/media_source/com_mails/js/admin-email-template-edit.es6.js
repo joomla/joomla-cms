@@ -77,11 +77,11 @@
       const bodySwitcher = document.querySelectorAll('input[type=radio][name="jform[body_switcher]"]');
       const htmlBodySwitcher = document.querySelectorAll('input[type=radio][name="jform[htmlbody_switcher]"]');
 
-      const subjectSwitcherChangeHandler = (event) => {
-        if (event.target.value === '0') {
+      const subjectSwitcherChangeHandler = ({ target }) => {
+        if (target.value === '0') {
           this.inputSubject.disabled = true;
           this.inputSubject.value = this.templateData.subject ? this.templateData.subject.master : '';
-        } else if (event.target.value === '1') {
+        } else if (target.value === '1') {
           this.inputSubject.disabled = false;
           this.inputSubject.value = this.templateData.subject ? this.templateData.subject.translated : '';
         } else {
@@ -94,14 +94,14 @@
         radio.addEventListener('change', subjectSwitcherChangeHandler);
       });
 
-      const bodySwitcherChangeHandler = (event) => {
+      const bodySwitcherChangeHandler = ({ target }) => {
         const tagsContainer = this.form.querySelector('.tags-container-body');
 
-        if (event.target.value === '0') {
+        if (target.value === '0') {
           this.setBodyValue(this.templateData.body ? this.templateData.body.master : '');
           this.inputBody.disabled = true;
           tagsContainer.classList.add('hidden');
-        } else if (event.target.value === '1') {
+        } else if (target.value === '1') {
           this.inputBody.disabled = false;
           this.inputBody.readOnly = false;
           this.setBodyValue(this.templateData.body ? this.templateData.body.translated : '');
@@ -116,14 +116,14 @@
         radio.addEventListener('change', bodySwitcherChangeHandler);
       });
 
-      const htmlBodySwitcherChangeHandler = (event) => {
+      const htmlBodySwitcherChangeHandler = ({ target }) => {
         const tagsContainer = this.form.querySelector('.tags-container-htmlbody');
 
-        if (event.target.value === '0') {
+        if (target.value === '0') {
           this.setHtmlBodyValue(this.templateData.htmlbody ? this.templateData.htmlbody.master : '');
           Joomla.editors.instances[this.inputHtmlBody.id].disable(true);
           tagsContainer.classList.add('hidden');
-        } else if (event.target.value === '1') {
+        } else if (target.value === '1') {
           Joomla.editors.instances[this.inputHtmlBody.id].disable(false);
           this.setHtmlBodyValue(this.templateData.htmlbody ? this.templateData.htmlbody.translated : '');
           tagsContainer.classList.remove('hidden');

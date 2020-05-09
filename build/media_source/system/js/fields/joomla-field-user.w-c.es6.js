@@ -81,8 +81,8 @@
       }
     }
 
-    buttonClick(event) {
-      this.setValue(event.target.getAttribute('data-user-value'), event.target.getAttribute('data-user-name'));
+    buttonClick({ target }) {
+      this.setValue(target.getAttribute('data-user-value'), target.getAttribute('data-user-name'));
       this.modalClose();
     }
 

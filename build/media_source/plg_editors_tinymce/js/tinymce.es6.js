@@ -152,5 +152,5 @@
   /**
    * Initialize when a part of the page was updated
    */
-  document.addEventListener('joomla:updated', (event) => Joomla.JoomlaTinyMCE.setupEditors(event.target));
+  document.addEventListener('joomla:updated', ({ target }) => Joomla.JoomlaTinyMCE.setupEditors(target));
 })(window.tinyMCE, Joomla, window, document);
