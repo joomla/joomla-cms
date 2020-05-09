@@ -328,7 +328,7 @@ Joomla = window.Joomla || {};
           captionContent = `${element.labels[0].textContent} - ${element.options[element.selectedIndex].text}`;
         }
 
-        document.getElementById('filteredBy').textContent += captionContent;
+        filteredByCaption.textContent += captionContent;
       }
     }
 
