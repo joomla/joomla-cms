@@ -13,7 +13,7 @@
 		<field
 			name="published"
 			type="status"
-			label="JSTATUS"
+			label="COM_CONTENT_FILTER_PUBLISHED"
 			description="COM_CONTENT_FILTER_PUBLISHED_DESC"
 			onchange="this.form.submit();"
 			>
@@ -23,7 +23,7 @@
 		<field
 			name="category_id"
 			type="category"
-			label="JCATEGORY"
+			label="JOPTION_SELECT_CATEGORY"
 			multiple="true"
 			extension="com_content"
 			layout="joomla.form.field.list-fancy-select"
@@ -35,7 +35,7 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JGRID_HEADING_ACCESS"
+			label="JOPTION_SELECT_ACCESS"
 			multiple="true"
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_ACCESS"
