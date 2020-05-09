@@ -352,11 +352,12 @@ steps:
       GITHUB_TOKEN:
         from_secret: github_token
     commands:
+      - if [ $DRONE_REPO_NAME != 'joomla-cms' ]; then echo "The packager only runs on the joomla/joomla-cms repo"; exit 0; fi
       - /bin/drone_build.sh
 
 
 ---
 kind: signature
-hmac: 2f65d41fad6c35cd7b2d7621b9870a15de92d841df654475e753faea16c11a6a
+hmac: a0026c26e94c1443cb0de99edcd5c81a83981c99ea43e5254542c2e4214abe4e
 
 ...

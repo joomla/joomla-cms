@@ -86,6 +86,42 @@ class Usergroup extends Table
 			return false;
 		}
 
+		// We do not allow to move non public to root and public to non-root
+		if (!empty($this->id))
+		{
+			$table = self::getInstance('Usergroup', 'JTable', array('dbo' => $this->getDbo()));
+
+			$table->load($this->id);
+
+			if ((!$table->parent_id && $this->parent_id) || ($table->parent_id && !$this->parent_id))
+			{
+				$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+				return false;
+			}
+		}
+		// New entry should always be greater 0
+		elseif (!$this->parent_id)
+		{
+			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+			return false;
+		}
+
+		// The new parent_id has to be a valid group
+		if ($this->parent_id)
+		{
+			$table = self::getInstance('Usergroup', 'JTable', array('dbo' => $this->getDbo()));
+			$table->load($this->parent_id);
+
+			if ($table->id != $this->parent_id)
+			{
+				$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_PARENT_ID_NOT_VALID'));
+
+				return false;
+			}
+		}
+
 		return true;
 	}
 

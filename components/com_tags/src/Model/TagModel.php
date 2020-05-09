@@ -355,6 +355,9 @@ class TagModel extends ListModel
 			$table = $this->getTable();
 			$table->hit($pk);
 
+			// Load the table data for later
+			$table->load($pk);
+
 			if (!$table->hasPrimaryKey())
 			{
 				throw new \Exception(Text::_('COM_TAGS_TAG_NOT_FOUND'), 404);
