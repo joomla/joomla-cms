@@ -249,26 +249,26 @@ class PlgContentPagebreak extends CMSPlugin
 						{
 							$title = Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $key + 1);
 						}
-					}
 
-					if ($style === 'tabs')
-					{
-						$t[] = (string) HTMLHelper::_('uitab.addTab', 'myTab', $index, $title);
-					}
-					else
-					{
-						$t[] = (string) HTMLHelper::_('bootstrap.addSlide', 'myAccordion', $title, $index);
-					}
+						if ($style === 'tabs')
+						{
+							$t[] = (string) HTMLHelper::_('uitab.addTab', 'myTab', $index, $title);
+						}
+						else
+						{
+							$t[] = (string) HTMLHelper::_('bootstrap.addSlide', 'myAccordion', $title, $index);
+						}
 
-					$t[] = (string) $subtext;
+						$t[] = (string) $subtext;
 
-					if ($style === 'tabs')
-					{
-						$t[] = (string) HTMLHelper::_('uitab.endTab');
-					}
-					else
-					{
-						$t[] = (string) HTMLHelper::_('bootstrap.endSlide');
+						if ($style === 'tabs')
+						{
+							$t[] = (string) HTMLHelper::_('uitab.endTab');
+						}
+						else
+						{
+							$t[] = (string) HTMLHelper::_('bootstrap.endSlide');
+						}
 					}
 				}
 

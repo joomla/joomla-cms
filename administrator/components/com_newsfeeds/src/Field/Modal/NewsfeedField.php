@@ -55,7 +55,7 @@ class NewsfeedField extends FormField
 		Factory::getLanguage()->load('com_newsfeeds', JPATH_ADMINISTRATOR);
 
 		// The active newsfeed id field.
-		$value = (int) $this->value > 0 ? (int) $this->value : '';
+		$value = (int) $this->value ?: '';
 
 		// Create the modal id.
 		$modalId = 'Newsfeed_' . $this->id;

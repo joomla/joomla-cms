@@ -30,6 +30,7 @@
 					extension="com_content"
 					multiple="true"
 					filter="intarray"
+					layout="joomla.form.field.list-fancy-select"
 				/>
 
 				<field
@@ -136,6 +137,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>

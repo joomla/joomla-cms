@@ -38,14 +38,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</caption>
 						<thead>
 							<tr>
-								<td style="width:5%"></td>
+								<td class="w-5"></td>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="text-center">
+								<th scope="col" class="w-10 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LANGUAGE_TAG', 'element', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:15%" class="text-right d-none d-md-table-cell">
+								<th scope="col" class="w-15 text-right d-none d-md-table-cell">
 									<?php echo Text::_('JVERSION'); ?>
 								</th>
 								<th scope="col" style="width:35%" class="d-none d-md-table-cell">

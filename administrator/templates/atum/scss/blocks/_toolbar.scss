@@ -35,7 +35,6 @@
 
   .btn {
     --subhead-btn-accent: var(--atum-text-dark);
-
     padding: 0 1rem;
     margin: 5px 0;
     font-size: 1rem;
@@ -70,15 +69,15 @@
     }
 
     &.btn-primary {
-      --subhead-btn-accent: var(--info);
-    }
-
-    &.btn-secondary {
       --subhead-btn-accent: var(--atum-link-color);
     }
 
+    &.btn-secondary {
+      --subhead-btn-accent: var(--atum-special-color);
+    }
+
     &.btn-info {
-      --subhead-btn-accent: var(--info);
+      --subhead-btn-accent: var(--atum-bg-dark);
     }
 
     &.btn-action {

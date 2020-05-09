@@ -145,16 +145,17 @@ foreach ($fieldSets as $name => $fieldSet)
 		{
 			echo '<fieldset id="fieldset-' . $name . '" class="options-form ' . (!empty($fieldSet->class) ? $fieldSet->class : '') . '">';
 			echo '<legend>' . $label . '</legend>';
+
+			// Include the description when available
+			if (isset($fieldSet->description) && trim($fieldSet->description))
+			{
+				echo '<div class="alert alert-info">' . $this->escape(Text::_($fieldSet->description)) . '</div>';
+			}
+
 			echo '<div class="column-count-md-2 column-count-lg-3">';
 
 			$opentab = 2;
 		}
-	}
-
-	// Include the description when available
-	if (isset($fieldSet->description) && trim($fieldSet->description))
-	{
-		echo '<div class="alert alert-info">' . $this->escape(Text::_($fieldSet->description)) . '</div>';
 	}
 
 	// We're on the deepest level => output fields

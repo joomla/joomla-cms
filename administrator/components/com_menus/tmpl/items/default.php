@@ -66,30 +66,30 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 							<th scope="col" class="title">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+							<th scope="col" class="w-10 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_MENU', 'menutype_title', $listDirn, $listOrder); ?>
 							</th>
 							<?php if ($this->state->get('filter.client_id') == 0) : ?>
-								<th scope="col" style="width:10%" class="text-center d-none d-md-table-cell">
+								<th scope="col" class="w-10 text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_HOME', 'a.home', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
 							<?php if ($this->state->get('filter.client_id') == 0) : ?>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
 							<?php if ($assoc) : ?>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
+								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_MENUS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
 							<?php if (($this->state->get('filter.client_id') == 0) && (Multilanguage::isEnabled())) : ?>
-								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
+								<th scope="col" class="w-10 d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 								</th>
 							<?php endif; ?>
-							<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+							<th scope="col" class="w-5 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
@@ -216,7 +216,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 														<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
 													<?php else : ?>
 														<span class="badge badge-secondary"
-															  title="<?php echo Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
+															  title="<?php echo Text::sprintf('COM_MENUS_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language; ?></span>
 													<?php endif; ?>
 												</a>
 											<?php else : ?>
@@ -224,7 +224,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 													<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 												<?php else : ?>
 													<span class="badge badge-secondary"
-														  title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+														  title="<?php echo $item->language_title; ?>"><?php echo $item->language; ?></span>
 												<?php endif; ?>
 											<?php endif; ?>
 										<?php endif; ?>

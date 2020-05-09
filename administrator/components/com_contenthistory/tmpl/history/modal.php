@@ -77,19 +77,19 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 					<td style="width:1%" class="text-center">
 						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)">
 					</td>
-					<th scope="col" style="width:15%">
+					<th scope="col" class="w-15">
 						<?php echo Text::_('JDATE'); ?>
 					</th>
-					<th scope="col" style="width:15%" class="d-none d-md-table-cell">
+					<th scope="col" class="w-15 d-none d-md-table-cell">
 						<?php echo Text::_('COM_CONTENTHISTORY_VERSION_NOTE'); ?>
 					</th>
-					<th scope="col" style="width:10%">
+					<th scope="col" class="w-10">
 						<?php echo Text::_('COM_CONTENTHISTORY_KEEP_VERSION'); ?>
 					</th>
-					<th scope="col" style="width:15%" class="d-none d-md-table-cell">
+					<th scope="col" class="w-15 d-none d-md-table-cell">
 						<?php echo Text::_('JAUTHOR'); ?>
 					</th>
-					<th scope="col" style="width:10%" class="text-right">
+					<th scope="col" class="w-10 text-right">
 						<?php echo Text::_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
 					</th>
 				</tr>

@@ -49,10 +49,10 @@ HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['version' => 'auto'
 							<th scope="col" class="title">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_GROUP', 'group', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="text-center">
+							<th scope="col" class="w-10 text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_NUMBER_OF_FILES', 'count', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:10%" class="text-right">
+							<th scope="col" class="w-10 text-right">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_SIZE', 'size', $listDirn, $listOrder); ?>
 							</th>
 						</tr>

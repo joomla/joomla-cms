@@ -8,6 +8,7 @@
 		label="JSITEADMIN"
 		filtermode="selector"
 		onchange="Joomla.resetFilters(this)"
+		validate="options"
 		>
 		<option value="0">JSITE</option>
 		<option value="1">JADMINISTRATOR</option>

@@ -45,19 +45,19 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" style="width:5%" class="text-center">
+						<th scope="col" class="w-5 text-center">
 							<?php echo Text::_('COM_PRIVACY_HEADING_ACTIONS'); ?>
 						</th>
-						<th scope="col" style="width:5%" class="text-center">
+						<th scope="col" class="w-5 text-center">
 							<?php echo Text::_('JSTATUS'); ?>
 						</th>
 						<th scope="col">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:10%">
+						<th scope="col" class="w-10">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PRIVACY_HEADING_REQUEST_TYPE', 'a.request_type', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:15%">
+						<th scope="col" class="w-15">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_PRIVACY_HEADING_REQUESTED_AT', 'a.requested_at', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" style="width:1%" >
@@ -89,7 +89,7 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 							</td>
 							<td scope="row">
 								<?php if ($item->status == 1 && $urgentRequestDate >= $itemRequestedAt) : ?>
-									<span class="pull-right badge badge-danger"><?php echo Text::_('COM_PRIVACY_BADGE_URGENT_REQUEST'); ?></span>
+									<span class="float-right badge badge-danger"><?php echo Text::_('COM_PRIVACY_BADGE_URGENT_REQUEST'); ?></span>
 								<?php endif; ?>
 								<a href="<?php echo Route::_('index.php?option=com_privacy&view=request&id=' . (int) $item->id); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_VIEW'); ?>">
 									<?php echo PunycodeHelper::emailToUTF8($this->escape($item->email)); ?>
