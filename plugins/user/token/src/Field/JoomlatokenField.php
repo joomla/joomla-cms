@@ -179,7 +179,7 @@ class JoomlatokenField extends TextField
 
 		return [
 			JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/' . $this->_type . '/' . $this->_name,
-			__DIR__ . '/layouts',
+			dirname(__DIR__, 2) . '/layouts'
 		];
 	}
 

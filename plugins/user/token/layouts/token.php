@@ -23,6 +23,8 @@ extract($displayData);
  * @var  string  $value  Value attribute of the field.
  */
 
+Text::script('ERROR');
+Text::script('MESSAGE');
 Text::script('PLG_USER_TOKEN_COPY_SUCCESS');
 Text::script('PLG_USER_TOKEN_COPY_FAIL');
 
