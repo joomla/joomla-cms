@@ -89,6 +89,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (61, 56, 29, 30, 3, 'com_content.transition.4', 'Trash', '{}'),
 (62, 56, 31, 32, 3, 'com_content.transition.5', 'Feature', '{}'),
 (63, 56, 33, 34, 3, 'com_content.transition.6', 'Unfeature', '{}'),
+(64, 56, 35, 36, 3, 'com_content.transition.7', 'Publish & Feature', '{}'),
 (65, 1, 129, 130, 1, 'com_privacy', 'com_privacy', '{}'),
 (66, 1, 131, 132, 1, 'com_actionlogs', 'com_actionlogs', '{}'),
 (67, 18, 74, 75, 2, 'com_modules.module.88', 'Latest Actions', '{}'),
@@ -1178,6 +1179,7 @@ INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering"
 (3, 60, 1, 3, 1, 'Trash', '', -1, 1, '{"publishing":"-2"}', NULL, 0),
 (4, 61, 1, 4, 1, 'Archive', '', -1, 1, '{"publishing":"2"}', NULL, 0),
 (5, 62, 1, 5, 1, 'Feature', '', -1, 1, '{"featuring":"1"}', NULL, 0),
-(6, 63, 1, 6, 1, 'Unfeature', '', -1, 1, '{"featuring":"0"}', NULL, 0);
+(6, 63, 1, 6, 1, 'Unfeature', '', -1, 1, '{"featuring":"0"}', NULL, 0),
+(7, 64, 1, 7, 1, 'Publish & Feature', '', -1, 1, '{"publishing":"1","featuring":"1"}', NULL, 0);
 
 SELECT setval('#__workflow_transitions_id_seq', 7, false);
