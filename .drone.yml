@@ -51,10 +51,13 @@ steps:
   - name: analysis3x
     image: rips/rips-cli:3.2.2
     when:
-      branch: staging
+      repo:
+        - joomla/joomla-cms
+        - joomla/cms-security
+      branch:
+        - staging
     commands:
       - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - if [ $DRONE_REPO_NAME != "joomla-cms" ] && [ $DRONE_REPO_NAME != "cms-security" ]; then echo "The rips analysis check only runs on the joomla/joomla-cms and joomla/cms-security repo"; exit 0; fi
       - rips-cli rips:list --table=scans -n -p filter='{"__and":[{"__lessThan":{"percent":100}}]}'
       - rips-cli rips:scan:start -G -a 1 -t 1 -p $(pwd) -t 1 -R -k -T $DRONE_REPO_NAMESPACE-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
     environment:
@@ -100,6 +103,6 @@ steps:
 
 ---
 kind: signature
-hmac: 95b9dbe2d49f89a63f6b541df97c0e9deb8b489a7764e093b828e8cb12da820f
+hmac: 291c4194cc5fb9c0b83642e96ea938eed67df4eea3e58b51ac54f011a522efe7
 
 ...

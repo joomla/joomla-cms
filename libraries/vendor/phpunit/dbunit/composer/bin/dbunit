@@ -1,0 +1,40 @@
+#!/usr/bin/env php
+<?php
+/*
+ * This file is part of DBUnit.
+ *
+ * (c) Sebastian Bergmann <sebastian@phpunit.de>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+$files = array(
+    __DIR__ . '/../../../autoload.php', // ./vendor/autoload.php
+    __DIR__ . '/../../../../autoload.php' // ./autoload.php
+);
+
+$found = FALSE;
+foreach ($files as $file) {
+    if (file_exists($file)) {
+        require $file;
+        $found = TRUE;
+        break;
+    }
+}
+if (!$found) {
+    die(
+        'You need to set up the project dependencies using the following commands:' . PHP_EOL .
+        'curl -s http://getcomposer.org/installer | php' . PHP_EOL .
+        'php composer.phar install' . PHP_EOL
+    );
+}
+
+$command = new PHPUnit_Extensions_Database_UI_Command(
+    new PHPUnit_Extensions_Database_UI_ModeFactory()
+);
+
+$command->main(
+    new PHPUnit_Extensions_Database_UI_Mediums_Text($_SERVER['argv']),
+    new PHPUnit_Extensions_Database_UI_Context()
+);
