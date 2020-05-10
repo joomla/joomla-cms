@@ -721,6 +721,21 @@ class WebAssetManager implements WebAssetManagerInterface
 	}
 
 	/**
+	 * Get the manager state. A collection of registry files and active asset names (per type).
+	 *
+	 * @return array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getManagerState(): array
+	{
+		return [
+			'registryFiles' => $this->getRegistry()->getRegistryFiles(),
+			'activeAssets'  => $this->activeAssets,
+		];
+	}
+
+	/**
 	 * Update Dependencies state for all active Assets or only for given
 	 *
 	 * @param   string        $type   The asset type, script or style
