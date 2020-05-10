@@ -105,64 +105,21 @@ class WorkflowModel extends AdminModel
 
 		$result = parent::save($data);
 
-		// Create default stages/transitions
+		// Create default stage for new workflow
 		if ($result && $input->getCmd('task') !== 'save2copy' && $this->getState($this->getName() . '.new'))
 		{
 			$workflow_id = (int) $this->getState($this->getName() . '.id');
 
-			$stages = [
-				[
-					'title' => 'JUNPUBLISHED',
-					'default' => 1,
-					'transition' => 'Unpublish',
-					'options' => '{"publishing":"0"}'
-				],
-				[
-					'title' => 'JPUBLISHED',
-					'transition' => 'Publish',
-					'options' => '{"publishing":"1"}'
-				],
-				[
-					'title' => 'JTRASHED',
-					'transition' => 'Trash',
-					'options' => '{"publishing":"-2"}'
-				],
-				[
-					'title' => 'JARCHIVED',
-					'transition' => 'Archive',
-					'options' => '{"publishing":"2"}'
-				]
-			];
-
 			$table = $this->getTable('Stage');
-			$transition = $this->getTable('Transition');
 
-			foreach ($stages as $stage)
-			{
-				$table->reset();
+			$table->id = 0;
+			$table->title = 'COM_WORKFLOW_DEFAULT';
+			$table->description = '';
+			$table->workflow_id = $workflow_id;
+			$table->published = 1;
+			$table->default = 1;
 
-				$table->id = 0;
-				$table->title = $stage['title'];
-				$table->workflow_id = $workflow_id;
-				$table->published = 1;
-				$table->default = (int) !empty($stage['default']);
-				$table->description = '';
-
-				$table->store();
-
-				$transition->reset();
-
-				$transition->id = 0;
-				$transition->title = $stage['transition'];
-				$transition->description = '';
-				$transition->workflow_id = $workflow_id;
-				$transition->published = 1;
-				$transition->from_stage_id = -1;
-				$transition->to_stage_id = (int) $table->id;
-				$transition->options = $stage['options'];
-
-				$transition->store();
-			}
+			$table->store();
 		}
 
 		return $result;

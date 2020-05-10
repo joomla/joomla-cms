@@ -142,11 +142,6 @@ class TransitionController extends FormController
 
 		$workflow = $model->getItem($item->workflow_id);
 
-		if ($workflow->core)
-		{
-			return false;
-		}
-
 		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.transition.' . $recordId))
 		{

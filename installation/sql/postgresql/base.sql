@@ -82,14 +82,13 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (54, 16, 54, 55, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
 (55, 18, 92, 93, 2, 'com_modules.module.87', 'Sample Data', '{}'),
 (56, 8, 20, 37, 2, 'com_content.workflow.1', 'COM_WORKFLOW_DEFAULT_WORKFLOW', '{}'),
-(57, 56, 21, 22, 3, 'com_content.state.1', 'Unpublished', '{}'),
-(58, 56, 23, 24, 3, 'com_content.state.2', 'Published', '{}'),
-(59, 56, 25, 26, 3, 'com_content.state.3', 'Trashed', '{}'),
-(60, 56, 27, 28, 3, 'com_content.state.4', 'Archived', '{}'),
-(61, 56, 29, 30, 3, 'com_content.transition.1', 'Publish', '{}'),
-(62, 56, 31, 32, 3, 'com_content.transition.2', 'Unpublish', '{}'),
-(63, 56, 33, 34, 3, 'com_content.transition.3', 'Archive', '{}'),
-(64, 56, 35, 36, 3, 'com_content.transition.4', 'Trash', '{}'),
+(57, 56, 21, 22, 3, 'com_content.state.1', 'COM_WORKFLOW_DEFAULT', '{}'),
+(58, 56, 23, 24, 3, 'com_content.transition.1', 'Publish', '{}'),
+(59, 56, 25, 26, 3, 'com_content.transition.2', 'Unpublish', '{}'),
+(60, 56, 27, 28, 3, 'com_content.transition.3', 'Archive', '{}'),
+(61, 56, 29, 30, 3, 'com_content.transition.4', 'Trash', '{}'),
+(62, 56, 31, 32, 3, 'com_content.transition.5', 'Feature', '{}'),
+(63, 56, 33, 34, 3, 'com_content.transition.6', 'Unfeature', '{}'),
 (65, 1, 129, 130, 1, 'com_privacy', 'com_privacy', '{}'),
 (66, 1, 131, 132, 1, 'com_actionlogs', 'com_actionlogs', '{}'),
 (67, 18, 74, 75, 2, 'com_modules.module.88', 'Latest Actions', '{}'),
@@ -1127,7 +1126,6 @@ CREATE TABLE IF NOT EXISTS "#__workflow_stages" (
   "published" smallint NOT NULL  DEFAULT 0,
   "title" varchar(255) NOT NULL,
   "description" text NOT NULL,
-  "condition" bigint DEFAULT 0 NOT NULL,
   "default" smallint NOT NULL  DEFAULT 0,
   "checked_out_time" timestamp without time zone,
   "checked_out" bigint DEFAULT 0 NOT NULL,
@@ -1143,13 +1141,10 @@ CREATE INDEX "#__workflow_stages_idx_checked_out" ON "#__workflow_stages" ("chec
 -- Dumping data for table `#__workflow_stages`
 --
 
-INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "condition", "default", "checked_out_time", "checked_out") VALUES
-(1, 57, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1, NULL, 0),
-(2, 58, 2, 1, 1, 'JPUBLISHED', '', 1, 0, NULL, 0),
-(3, 59, 3, 1, 1, 'JTRASHED', '', -2, 0, NULL, 0),
-(4, 60, 4, 1, 1, 'JARCHIVED', '', 2, 0, NULL, 0);
+INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "default", "checked_out_time", "checked_out") VALUES
+(1, 57, 1, 1, 1, 'COM_WORKFLOW_DEFAULT', '', 1, NULL, 0);
 
-SELECT setval('#__workflow_stages_id_seq', 5, false);
+SELECT setval('#__workflow_stages_id_seq', 2, false);
 
 --
 -- Table structure for table `#__workflow_transitions`
@@ -1178,9 +1173,11 @@ CREATE INDEX "#__workflow_transitions_idx_workflow_id" ON "#__workflow_transitio
 CREATE INDEX "#__workflow_transitions_idx_checked_out" ON "#__workflow_transitions" ("checked_out");
 
 INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_stage_id", "to_stage_id", "options", "checked_out_time", "checked_out") VALUES
-(1, 61, 1, 1, 1, 'Unpublish', '', -1, 1, '{"publishing":"0"}', NULL, 0),
-(2, 62, 1, 2, 1, 'Publish', '', -1, 2, '{"publishing":"1"}', NULL, 0),
-(3, 63, 1, 3, 1, 'Trash', '', -1, 3, '{"publishing":"-2"}', NULL, 0),
-(4, 64, 1, 4, 1, 'Archive', '', -1, 4, '{"publishing":"2"}', NULL, 0);
+(1, 58, 1, 1, 1, 'Unpublish', '', -1, 1, '{"publishing":"0"}', NULL, 0),
+(2, 59, 1, 2, 1, 'Publish', '', -1, 1, '{"publishing":"1"}', NULL, 0),
+(3, 60, 1, 3, 1, 'Trash', '', -1, 1, '{"publishing":"-2"}', NULL, 0),
+(4, 61, 1, 4, 1, 'Archive', '', -1, 1, '{"publishing":"2"}', NULL, 0),
+(5, 62, 1, 5, 1, 'Feature', '', -1, 1, '{"featuring":"1"}', NULL, 0),
+(6, 63, 1, 6, 1, 'Unfeature', '', -1, 1, '{"featuring":"0"}', NULL, 0);
 
-SELECT setval('#__workflow_transitions_id_seq', 5, false);
+SELECT setval('#__workflow_transitions_id_seq', 7, false);
