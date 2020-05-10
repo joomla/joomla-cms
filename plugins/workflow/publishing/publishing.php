@@ -103,9 +103,7 @@ class PlgWorkflowPublishing extends CMSPlugin
 			return true;
 		}
 
-		Form::addFormPath(__DIR__ . '/forms');
-
-		$form->loadFile('workflow_publishing');
+		$form->loadFile(__DIR__ . '/forms/action.xml');
 
 		if ($workflow_id)
 		{
