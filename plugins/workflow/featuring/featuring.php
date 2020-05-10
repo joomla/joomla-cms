@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Model\DatabaseModelInterface;
 use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\String\Inflector;
 
@@ -27,6 +28,8 @@ use Joomla\String\Inflector;
  */
 class PlgWorkflowFeaturing extends CMSPlugin
 {
+	use WorkflowPluginTrait;
+
 	/**
 	 * Load the language file on instantiation.
 	 *
@@ -51,11 +54,12 @@ class PlgWorkflowFeaturing extends CMSPlugin
 	 */
 	protected $supportFunctionality = 'core.featured';
 
+
 	/**
 	 * The form event.
 	 *
 	 * @param   Form      $form  The form
-	 * @param   stdClass  $data  The data
+	 * @param   \stdClass  $data  The data
 	 *
 	 * @return  boolean
 	 *
@@ -66,44 +70,14 @@ class PlgWorkflowFeaturing extends CMSPlugin
 		$context = $form->getName();
 
 		// Extend the transition form
-		if ($context == 'com_workflow.transition')
+		if ($context === 'com_workflow.transition')
 		{
-			return $this->enhanceTransitionForm($form, $data);
-		}
+			$this->enhanceWorkflowTransitionForm($form, $data);
 
-		return $this->enhanceItemForm($form, $data);
-	}
-
-	/**
-	 * Add different parameter options to the transition view, we need when executing the transition
-	 *
-	 * @param   Form      $form  The form
-	 * @param   stdClass  $data  The data
-	 *
-	 * @return  boolean
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function enhanceTransitionForm(Form $form, $data)
-	{
-		$model = $this->app->bootComponent('com_workflow')
-			->getMVCFactory()->createModel('Workflow', 'Administrator', ['ignore_request' => true]);
-
-		$workflow_id = (int) ($data->workflow_id ?? $form->getValue('workflow_id'));
-
-		if (empty($workflow_id))
-		{
-			$workflow_id = (int) $this->app->input->getInt('workflow_id');
-		}
-
-		$workflow = $model->getItem($workflow_id);
-
-		if (!$this->isSupported($workflow->extension))
-		{
 			return true;
 		}
 
-		$form->loadFile(__DIR__ . '/forms/action.xml');
+		$this->enhanceItemForm($form, $data);
 
 		return true;
 	}
@@ -184,6 +158,8 @@ class PlgWorkflowFeaturing extends CMSPlugin
 	 * @param string $context
 	 * @param ViewInterface $view
 	 * @param string $result
+	 *
+	 * @since   4.0.0
 	 */
 	public function onAfterDisplay(string $context, ViewInterface $view, string $result)
 	{
@@ -244,6 +220,8 @@ class PlgWorkflowFeaturing extends CMSPlugin
 	 * @param   object   $transition  The value to change to
 	 *
 	 * @return boolean
+	 *
+	 * @since   4.0.0
 	 */
 	public function onWorkflowBeforeTransition($context, $pks, $transition)
 	{
@@ -287,6 +265,8 @@ class PlgWorkflowFeaturing extends CMSPlugin
 	 * @param   object   $transition  The value to change to
 	 *
 	 * @return boolean
+	 *
+	 * @since   4.0.0
 	 */
 	public function onWorkflowAfterTransition($context, $pks, $transition)
 	{
@@ -331,7 +311,10 @@ class PlgWorkflowFeaturing extends CMSPlugin
 	 * @param   string   $context  The context
 	 * @param   array    $pks      IDs of the items
 	 * @param   int      $value    The value to change to
+	 *
 	 * @return boolean
+	 *
+	 * @since   4.0.0
 	 */
 	public function onContentBeforeChangeFeatured(string $context, array $pks, int $value): bool
 	{
@@ -393,6 +376,8 @@ class PlgWorkflowFeaturing extends CMSPlugin
 	 *
 	 * @param string $context
 	 * @return boolean
+	 *
+	 * @since   4.0.0
 	 */
 	protected function isSupported($context)
 	{
