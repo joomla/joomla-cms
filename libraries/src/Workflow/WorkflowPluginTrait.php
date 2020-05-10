@@ -30,9 +30,11 @@ trait WorkflowPluginTrait {
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function enhanceWorkflowTransitionForm(Form $form, $data) {
+	protected function enhanceWorkflowTransitionForm(Form $form, $data)
+	{
+		$workflow_id = (int) ($data->workflow_id ?? $form->getValue('workflow_id'));
 
-		$workflow = $this->getWorkflow((int) ($data->workflow_id ?? $form->getValue('workflow_id')));
+		$workflow = $this->getWorkflow($workflow_id);
 
 		if (empty($workflow->id) || !$this->isSupported($workflow->extension))
 		{
@@ -52,7 +54,7 @@ trait WorkflowPluginTrait {
 
 	protected function getWorkflow(int $workflow_id = null) {
 
-		$workflow_id = $workflow_id ?? $this->app->input->getInt('workflow_id');
+		$workflow_id = !empty($workflow_id) ? $workflow_id : $this->app->input->getInt('workflow_id');
 
 		if (is_array($workflow_id)) {
 			return false;
