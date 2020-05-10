@@ -43,6 +43,7 @@ class JsonapiView extends BaseApiView
 		'category',
 		'created',
 		'author',
+		'images',
 	];
 
 	/**
@@ -63,6 +64,7 @@ class JsonapiView extends BaseApiView
 		'category',
 		'created',
 		'author',
+		'images',
 	];
 
 	/**
