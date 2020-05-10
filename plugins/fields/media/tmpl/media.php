@@ -30,7 +30,7 @@ if ($value)
 
 	if (file_exists($path))
 	{
-		$buffer .= sprintf('<img src="%s"%s%s>',
+		$buffer .= sprintf('<img loading="lazy" src="%s"%s%s>',
 			htmlentities($path, ENT_COMPAT, 'UTF-8', true),
 			$class,
 			$alt

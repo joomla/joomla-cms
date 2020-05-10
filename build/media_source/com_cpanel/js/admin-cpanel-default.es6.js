@@ -36,7 +36,7 @@
     if (cpanelModules) {
       const links = [].slice.call(cpanelModules.querySelectorAll('.unpublish-module'));
       links.forEach((link) => {
-        link.addEventListener('click', (event) => Joomla.unpublishModule(event.target));
+        link.addEventListener('click', ({ target }) => Joomla.unpublishModule(target));
       });
     }
 

@@ -50,6 +50,7 @@
 					label="PLG_RECAPTCHA_INVISIBLE_BADGE_LABEL"
 					description="PLG_RECAPTCHA_INVISIBLE_BADGE_DESC"
 					default="bottomright"
+					validate="options"
 					>
 					<option value="bottomright">PLG_RECAPTCHA_INVISIBLE_BADGE_BOTTOMRIGHT</option>
 					<option value="bottomleft">PLG_RECAPTCHA_INVISIBLE_BADGE_BOTTOMLEFT</option>

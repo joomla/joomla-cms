@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -122,7 +122,7 @@ if (!$readonly)
 	</div>
 	<?php // Create the real field, hidden, that stored the user id. ?>
 	<?php if (!$readonly) : ?>
-		<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo $value; ?>"
+		<input type="hidden" id="<?php echo $id; ?>_id" name="<?php echo $name; ?>" value="<?php echo $this->escape($value); ?>"
 			class="field-user-input <?php echo $class ? (string) $class : ''?>"
 			data-onchange="<?php echo $this->escape($onchange); ?>">
 		<?php echo HTMLHelper::_(

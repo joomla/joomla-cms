@@ -35,6 +35,7 @@
 					label="PLG_USER_PROFILE_FIELD_ADDRESS1_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -47,6 +48,7 @@
 					label="PLG_USER_PROFILE_FIELD_ADDRESS2_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -59,6 +61,7 @@
 					label="PLG_USER_PROFILE_FIELD_CITY_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -71,6 +74,7 @@
 					label="PLG_USER_PROFILE_FIELD_REGION_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -83,6 +87,7 @@
 					label="PLG_USER_PROFILE_FIELD_COUNTRY_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -95,6 +100,7 @@
 					label="PLG_USER_PROFILE_FIELD_POSTAL_CODE_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -107,6 +113,7 @@
 					label="PLG_USER_PROFILE_FIELD_PHONE_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -119,6 +126,7 @@
 					label="PLG_USER_PROFILE_FIELD_WEB_SITE_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -131,6 +139,7 @@
 					label="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -143,6 +152,7 @@
 					label="PLG_USER_PROFILE_FIELD_ABOUT_ME_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option	value="2">JOPTION_REQUIRED</option>
 					<option	value="1">JOPTION_OPTIONAL</option>
@@ -155,6 +165,7 @@
 					label="PLG_USER_PROFILE_FIELD_TOS_LABEL"
 					default="0"
 					filter="integer"
+					validate="options"
 					>
 					<option	value="2">JOPTION_REQUIRED</option>
 					<option	value="0">JDISABLED</option>
@@ -177,6 +188,7 @@
 					label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option	value="2">JOPTION_REQUIRED</option>
 					<option	value="1">JOPTION_OPTIONAL</option>
@@ -202,6 +214,7 @@
 					label="PLG_USER_PROFILE_FIELD_ADDRESS1_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -214,6 +227,7 @@
 					label="PLG_USER_PROFILE_FIELD_ADDRESS2_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -226,6 +240,7 @@
 					label="PLG_USER_PROFILE_FIELD_CITY_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -238,6 +253,7 @@
 					label="PLG_USER_PROFILE_FIELD_REGION_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -250,6 +266,7 @@
 					label="PLG_USER_PROFILE_FIELD_COUNTRY_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -262,6 +279,7 @@
 					label="PLG_USER_PROFILE_FIELD_POSTAL_CODE_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -274,6 +292,7 @@
 					label="PLG_USER_PROFILE_FIELD_PHONE_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -286,6 +305,7 @@
 					label="PLG_USER_PROFILE_FIELD_WEB_SITE_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -298,6 +318,7 @@
 					label="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -310,6 +331,7 @@
 					label="PLG_USER_PROFILE_FIELD_ABOUT_ME_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option	value="2">JOPTION_REQUIRED</option>
 					<option	value="1">JOPTION_OPTIONAL</option>
@@ -322,6 +344,7 @@
 					label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option	value="2">JOPTION_REQUIRED</option>
 					<option	value="1">JOPTION_OPTIONAL</option>
