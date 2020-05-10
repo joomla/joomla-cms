@@ -25,7 +25,7 @@ HTMLHelper::_('bootstrap.framework');
 					<?php echo Text::_('MOD_LOGGED_NAME'); ?>
 				<?php endif; ?>
 			</th>
-			<th scope="col" style="width:30%"><?php echo Text::_('JCLIENT'); ?></th>
+			<th scope="col" class="w-30"><?php echo Text::_('JCLIENT'); ?></th>
 			<th scope="col" class="w-20"><?php echo Text::_('JDATE'); ?></th>
 		</tr>
 	</thead>
