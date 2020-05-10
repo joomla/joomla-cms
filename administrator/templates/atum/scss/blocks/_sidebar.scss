@@ -182,16 +182,34 @@
     display: none;
   }
 
-  .main-nav a:hover .sidebar-item-title {
-    display: inline-block;
-    min-width: $sidebar-width;
-    background-color: var(--atum-sidebar-link-color);
-  }
+  .main-nav {
 
-  .main-nav > li > ul {
-    height: 0;
-    padding: 0;
-    visibility: hidden;
+    max-width: 3rem;
+
+    a:hover {
+
+        max-width: 3rem;
+
+      .sidebar-item-title {
+        background-color: var(--atum-sidebar-link-color);
+        position: relative;
+        right: -1rem;
+        font-size: 0.6rem;
+        border-radius: 0.3rem;
+        top: 0;
+        display: inline-block;
+        pointer-events: none;
+        padding: 0.2rem;
+        white-space: pre;
+        opacity: 0.8;
+      }
+
+      > li > ul {
+        height: 0;
+        padding: 0;
+        visibility: hidden;
+      }
+    }
   }
 }
 
