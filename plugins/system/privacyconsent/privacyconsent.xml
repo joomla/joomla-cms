@@ -20,7 +20,7 @@
 		<language tag="en-GB">en-GB.plg_system_privacyconsent.sys.ini</language>
 	</languages>
 	<config>
-		<fields name="params">
+		<fields name="params" addfieldprefix="Joomla\Component\Menus\Administrator\Field">
 			<fieldset name="basic" addfieldprefix="Joomla\Component\Content\Administrator\Field">
 				<field
 					name="privacy_note"
@@ -33,6 +33,17 @@
 					filter="html"
 				/>
 				<field
+					name="privacy_type"
+					type="list"
+					label="PLG_SYSTEM_PRIVACYCONSENT_FIELD_TYPE_LABEL"
+					description="PLG_SYSTEM_PRIVACYCONSENT_FIELD_TYPE_DESC"
+					default="article"
+					filter="options"
+				>
+					<option value="article">PLG_SYSTEM_PRIVACYCONSENT_FIELD_TYPE_ARTICLE</option>
+					<option value="menu_item">PLG_SYSTEM_PRIVACYCONSENT_FIELD_TYPE_MENU_ITEM</option>
+				</field>
+				<field
 					name="privacy_article"
 					type="modal_article"
 					label="PLG_SYSTEM_PRIVACYCONSENT_FIELD_ARTICLE_LABEL"
@@ -42,6 +53,19 @@
 					edit="true"
 					clear="true"
 					filter="integer"
+					showon="privacy_type:article"
+				/>
+				<field
+					name="privacy_menu_item"
+					type="modal_menu"
+					label="PLG_SYSTEM_PRIVACYCONSENT_FIELD_MENU_ITEM_LABEL"
+					description="PLG_SYSTEM_PRIVACYCONSENT_FIELD_MENU_ITEM_DESC"
+					select="true"
+					new="true"
+					edit="true"
+					clear="true"
+					filter="integer"
+					showon="privacy_type:menu_item"
 				/>
 				<field
 					name="messageOnRedirect"
