@@ -41,11 +41,13 @@ $oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
 				<?php else : ?>
 					<table class="table" id="overrideList">
 						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_LANGUAGES_OVERRIDES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+							<?php echo Text::_('COM_LANGUAGES_OVERRIDES_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
-								<td style="width:1%" class="text-center">
+								<td class="w-1 text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col" style="width:30%">

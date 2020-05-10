@@ -75,7 +75,7 @@ class PlgCaptchaRecaptcha_Invisible extends CMSPlugin
 			throw new \RuntimeException(Text::_('PLG_RECAPTCHA_INVISIBLE_ERROR_NO_PUBLIC_KEY'));
 		}
 
-		$apiSrc = 'https://www.google.com/recaptcha/api.js?onload=Joomla.initReCaptchaInvisible&render=explicit&hl='
+		$apiSrc = 'https://www.google.com/recaptcha/api.js?onload=JoomlainitReCaptchaInvisible&render=explicit&hl='
 			. Factory::getLanguage()->getTag();
 
 		// Load assets, the callback should be first

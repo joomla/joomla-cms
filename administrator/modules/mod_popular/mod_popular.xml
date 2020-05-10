@@ -48,6 +48,7 @@
 					type="list"
 					label="MOD_POPULAR_FIELD_AUTHORS_LABEL"
 					default="0"
+					validate="options"
 					>
 					<option value="0">MOD_POPULAR_FIELD_VALUE_ANYONE</option>
 					<option value="by_me">MOD_POPULAR_FIELD_VALUE_ADDED_OR_MODIFIED_BY_ME</option>

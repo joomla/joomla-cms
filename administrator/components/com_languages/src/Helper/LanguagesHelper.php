@@ -11,6 +11,7 @@ namespace Joomla\Component\Languages\Administrator\Helper;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
 
 /**
@@ -20,21 +21,6 @@ use Joomla\CMS\Language\LanguageHelper;
  */
 class LanguagesHelper
 {
-	/**
-	 * Method for parsing ini files.
-	 *
-	 * @param   string  $fileName  Path and name of the ini file to parse.
-	 *
-	 * @return  array   Array of strings found in the file, the array indices will be the keys. On failure an empty array will be returned.
-	 *
-	 * @since   2.5
-	 * @deprecated   3.9.0 Use \Joomla\CMS\Language\LanguageHelper::parseIniFile() instead.
-	 */
-	public static function parseFile($fileName)
-	{
-		return LanguageHelper::parseIniFile($fileName);
-	}
-
 	/**
 	 * Filter method for language keys.
 	 * This method will be called by \JForm while filtering the form data.
@@ -47,7 +33,7 @@ class LanguagesHelper
 	 */
 	public static function filterKey($value)
 	{
-		$filter = \JFilterInput::getInstance(null, null, 1, 1);
+		$filter = InputFilter::getInstance([], [], InputFilter::TAGS_BLACKLIST, InputFilter::ATTR_BLACKLIST);
 
 		return strtoupper($filter->clean($value, 'cmd'));
 	}
@@ -64,7 +50,7 @@ class LanguagesHelper
 	 */
 	public static function filterText($value)
 	{
-		$filter = \JFilterInput::getInstance(null, null, 1, 1);
+		$filter = InputFilter::getInstance([], [], InputFilter::TAGS_BLACKLIST, InputFilter::ATTR_BLACKLIST);
 
 		return $filter->clean($value);
 	}

@@ -15,6 +15,7 @@ use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Version;
 use Joomla\Console\Application;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
@@ -386,5 +387,17 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		$this->session = $session;
 
 		return $this;
+	}
+
+	/**
+	 * Flush the media version to refresh versionable assets
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function flushAssets()
+	{
+		(new Version)->refreshMediaVersion();
 	}
 }

@@ -20,6 +20,7 @@
 				type="list"
 				label="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_LABEL"
 				filter="integer"
+				validate="options"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>

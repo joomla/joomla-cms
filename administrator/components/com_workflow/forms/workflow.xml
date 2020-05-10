@@ -38,6 +38,7 @@
 			required="true"
 			class="custom-select-color-state"
 			default="1"
+			validate="options"
 			>
 			<option value="1">JENABLED</option>
 			<option value="0">JDISABLED</option>
@@ -69,7 +70,7 @@
 	</fieldset>
 
 	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL">
-		<field 
+		<field
 			name="asset_id"
 			type="hidden"
 			filter="unset"

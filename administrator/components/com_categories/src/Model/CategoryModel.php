@@ -752,6 +752,11 @@ class CategoryModel extends AdminModel
 
 		$this->setState($this->getName() . '.id', $table->id);
 
+		if (Factory::getApplication()->input->get('task') == 'editAssociations')
+		{
+			return $this->redirectToAssociations($data);
+		}
+
 		// Clear the cache
 		$this->cleanCache();
 

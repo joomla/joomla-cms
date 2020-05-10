@@ -85,7 +85,7 @@ Text::script('MESSAGE');
 
 					<input
 						name="secretkey"
-						autocomplete="off"
+						autocomplete="one-time-code"
 						id="mod-login-secretkey"
 						type="text"
 						class="form-control"

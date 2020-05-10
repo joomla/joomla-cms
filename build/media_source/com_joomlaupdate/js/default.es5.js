@@ -64,19 +64,19 @@ Joomla = window.Joomla || {};
 			downloadMsg      = document.getElementById('downloadMessage');
 
 		if (extractionMethod) {
-			extractionMethod.addEventListener('change', function(event) {
+			extractionMethod.addEventListener('change', function() {
 				Joomla.extractionMethodHandler(extractionMethod, 'row_ftp');
 			});
 		}
 
 		if (uploadMethod) {
-			uploadMethod.addEventListener('change', function(event) {
+			uploadMethod.addEventListener('change', function() {
 				Joomla.extractionMethodHandler(uploadMethod, 'upload_ftp');
 			});
 		}
 
 		if (uploadButton) {
-			uploadButton.addEventListener('click', function(event) {
+			uploadButton.addEventListener('click', function() {
 				if (downloadMsg) {
 					downloadMsg.classList.remove('hidden');
 				}
