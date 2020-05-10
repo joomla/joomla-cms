@@ -20,6 +20,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Database\ParameterType;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -230,6 +231,7 @@ class ArticlesModel extends ListModel
 					$db->quoteName('a.introtext'),
 					$db->quoteName('a.fulltext'),
 					$db->quoteName('a.note'),
+					$db->quoteName('a.images'),
 				]
 			)
 		)
@@ -648,6 +650,10 @@ class ArticlesModel extends ListModel
 		foreach ($items as $item)
 		{
 			$item->typeAlias = 'com_content.article';
+
+			// Convert the images field to an array.
+			$registry = new Registry($item->images);
+			$item->images = $registry->toArray();
 		}
 
 		return $items;
