@@ -13,7 +13,7 @@
 		<field
 			name="featured"
 			type="list"
-			label="JOPTION_SELECT_FEATURED"
+			label="FEATURED"
 			onchange="this.form.submit();"
 			default=""
 			validate="options"
@@ -47,7 +47,7 @@
 		<field
 			name="category_id"
 			type="category"
-			label="JOPTION_SELECT_CATEGORY"
+			label="JCATEGORY"
 			multiple="true"
 			extension="com_content"
 			layout="joomla.form.field.list-fancy-select"
@@ -59,7 +59,7 @@
 		<field
 			name="access"
 			type="accesslevel"
-			label="JOPTION_SELECT_ACCESS"
+			label="JGRID_HEADING_ACCESS"
 			multiple="true"
 			layout="joomla.form.field.list-fancy-select"
 			hint="JOPTION_SELECT_ACCESS"
@@ -81,7 +81,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
-			label="JOPTION_SELECT_LANGUAGE"
+			label="JGRID_HEADING_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -92,7 +92,7 @@
 			name="tag"
 			type="tag"
 			multiple="true"
-			label="JOPTION_SELECT_TAG"
+			label="JTAG"
 			hint="JOPTION_SELECT_TAG"
 			mode="nested"
 			custom="false"
@@ -102,7 +102,7 @@
 		<field
 			name="level"
 			type="integer"
-			label="JOPTION_SELECT_MAX_LEVELS"
+			label="JGLOBAL_MAXLEVEL_LABEL"
 			first="1"
 			last="10"
 			step="1"

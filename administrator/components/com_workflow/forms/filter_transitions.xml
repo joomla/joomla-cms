@@ -11,7 +11,7 @@
 		<field
 			name="published"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			filter="-2,0,1"
 			>
@@ -20,7 +20,7 @@
 		<field
 			name="from_stage"
 			type="sql"
-			label="COM_WORKFLOW_SELECT_FROM_STAGE"
+			label="COM_WORKFLOW_FROM_STAGE"
 			onchange="this.form.submit();"
 			sql_select="id as value, title as from_stage"
 			sql_from="#__workflow_stages"
@@ -30,7 +30,7 @@
 		<field
 			name="to_stage"
 			type="sql"
-			label="COM_WORKFLOW_SELECT_TO_STAGE"
+			label="COM_WORKFLOW_TO_STAGE"
 			onchange="this.form.submit();"
 			sql_select="id as value, title as to_stage"
 			sql_from="#__workflow_stages"

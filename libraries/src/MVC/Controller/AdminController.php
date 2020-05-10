@@ -360,9 +360,10 @@ class AdminController extends BaseController
 		$this->checkToken();
 
 		$ids = $this->input->post->get('cid', array(), 'array');
+		$cid = ArrayHelper::toInteger($ids);
 
 		$model = $this->getModel();
-		$return = $model->checkin($ids);
+		$return = $model->checkin($cid);
 
 		if ($return === false)
 		{
@@ -379,7 +380,7 @@ class AdminController extends BaseController
 		else
 		{
 			// Checkin succeeded.
-			$message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', \count($ids));
+			$message = Text::plural($this->text_prefix . '_N_ITEMS_CHECKED_IN', \count($cid));
 			$this->setRedirect(
 				Route::_(
 					'index.php?option=' . $this->option . '&view=' . $this->view_list . $this->getRedirectToListAppend(), false

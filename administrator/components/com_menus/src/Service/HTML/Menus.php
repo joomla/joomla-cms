@@ -89,7 +89,7 @@ class Menus
 				{
 					if (in_array($item->lang_code, $content_languages))
 					{
-						$text    = strtoupper($item->lang_sef);
+						$text    = $item->lang_code;
 						$url     = Route::_('index.php?option=com_menus&task=item.edit&id=' . (int) $item->id);
 						$tooltip = '<strong>' . htmlspecialchars($item->language_title, ENT_QUOTES, 'UTF-8') . '</strong><br>'
 							. htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8') . '<br>' . Text::sprintf('COM_MENUS_MENU_SPRINTF', $item->menu_title);
