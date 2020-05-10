@@ -33,7 +33,9 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 				<?php else : ?>
 				<table class="table">
 					<caption id="captionTable" class="sr-only">
-						<?php echo Text::_('COM_FINDER_SEARCHES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						<?php echo Text::_('COM_FINDER_SEARCHES_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 					</caption>
 					<thead>
 						<tr>
@@ -43,7 +45,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 							<th scope="col" class="w-15">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:1%" class="text-center">
+							<th scope="col" class="w-1 text-center">
 								<?php echo Text::_('COM_FINDER_HEADING_RESULTS'); ?>
 							</th>
 						</tr>

@@ -32,17 +32,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		<?php else : ?>
 			<table class="table">
 				<caption id="captionTable" class="sr-only">
-					<?php echo Text::_('COM_MESSAGES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					<?php echo Text::_('COM_MESSAGES_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 				</caption>
 				<thead>
 					<tr>
-						<td style="width:1%" class="text-center">
+						<td class="w-1 text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
 						<th scope="col" class="title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MESSAGES_HEADING_SUBJECT', 'a.subject', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:1%" class="text-center">
+						<th scope="col" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_MESSAGES_HEADING_READ', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="w-15">
