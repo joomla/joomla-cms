@@ -216,6 +216,10 @@ class TransitionModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
+		$app = Factory::getApplication();
+
+		$context = $this->option . '.' . $this->name;
+
 		// Get the form.
 		$form = $this->loadForm(
 			'com_workflow.transition',
@@ -233,24 +237,50 @@ class TransitionModel extends AdminModel
 
 		if ($loadData)
 		{
-			$data = (object) $this->loadFormData();
+			$data = (array) $this->loadFormData();
 		}
 
-		if (!$this->canEditState((object) $data))
+		if (empty($data['workflow_id']))
 		{
-			// Disable fields for display.
-			$form->setFieldAttribute('published', 'disabled', 'true');
-
-			// Disable fields while saving.
-			// The controller has already verified this is a record you can edit.
-			$form->setFieldAttribute('published', 'filter', 'unset');
+			$data['workflow_id'] = (int) $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 		}
 
-		$app = Factory::getApplication();
+		$workflow = $this->getTable('Workflow');
 
-		$workflow_id = $app->input->getInt('workflow_id');
+		$workflow->load($data['workflow_id']);
 
-		$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . $workflow_id . ' AND ' . $this->getDbo()->quoteName('published') . ' = 1';
+		$disableFields = [];
+
+		// Disable all fields when we edit core, but not the permissions
+		if ($workflow->core)
+		{
+			$disableFields[] = 'title';
+			$disableFields[] = 'from_stage_id';
+			$disableFields[] = 'to_stage_id';
+		}
+
+		if (!$this->canEditState((object) $data) || $workflow->core)
+		{
+			$disableFields[] = 'published';
+		}
+
+		foreach ($disableFields as $field)
+		{
+			$form->setFieldAttribute($field, 'disabled', 'true');
+			$form->setFieldAttribute($field, 'required', 'false');
+			$form->setFieldAttribute($field, 'filter', 'unset');
+		}
+
+		$fields = $form->getGroup('options');
+
+		foreach ($fields as $field)
+		{
+			$form->setFieldAttribute($field->fieldname, 'disabled', 'true', 'options');
+			$form->setFieldAttribute($field->fieldname, 'required', 'false', 'options');
+			$form->setFieldAttribute($field->fieldname, 'filter', 'unset', 'options');
+		}
+
+		$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . (int) $data['workflow_id'] . ' AND ' . $this->getDbo()->quoteName('published') . ' = 1';
 
 		$form->setFieldAttribute('from_stage_id', 'sql_where', $where);
 		$form->setFieldAttribute('to_stage_id', 'sql_where', $where);
@@ -279,6 +309,21 @@ class TransitionModel extends AdminModel
 		}
 
 		return $data;
+	}
+
+	public function getWorkflow()
+	{
+		$app = Factory::getApplication();
+
+		$context = $this->option . '.' . $this->name;
+
+		$workflow_id = (int) $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
+
+		$workflow = $this->getTable('Workflow');
+
+		$workflow->load($workflow_id);
+
+		return (object) $workflow->getProperties();
 	}
 
 	/**

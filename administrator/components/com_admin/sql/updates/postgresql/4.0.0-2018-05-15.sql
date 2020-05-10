@@ -80,10 +80,7 @@ CREATE INDEX "#__workflow_stages_idx_checked_out" ON "#__workflow_stages" ("chec
 --
 
 INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "default", "checked_out_time", "checked_out") VALUES
-(1, 0, 1, 1, 1, 'JUNPUBLISHED', '', 1, NULL, 0),
-(2, 0, 2, 1, 1, 'JPUBLISHED', '', 0, NULL, 0),
-(3, 0, 3, 1, 1, 'JTRASHED', '', 0, NULL, 0),
-(4, 0, 4, 1, 1, 'JARCHIVED', '', 0, NULL, 0);
+(1, 0, 1, 1, 1, 'COM_WORKFLOW_DEFAULT', '', 1, NULL, 0);
 
 --
 -- Table structure for table "#__workflow_transitions"
@@ -113,9 +110,11 @@ CREATE INDEX "#__workflow_transitions_idx_checked_out" ON "#__workflow_transitio
 
 INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering", "workflow_id", "title", "description", "from_stage_id", "to_stage_id", "options", "checked_out_time", "checked_out") VALUES
 (1, 0, 1, 1, 1, 'Unpublish', '', -1, 1, '{"publishing":"0"}', NULL, 0),
-(2, 0, 1, 2, 1, 'Publish', '', -1, 2, '{"publishing":"1"}', NULL, 0),
-(3, 0, 1, 3, 1, 'Trash', '', -1, 3, '{"publishing":"-2"}', NULL, 0),
-(4, 0, 1, 4, 1, 'Archive', '', -1, '{"publishing":"2"}', 4, NULL, 0);
+(2, 0, 1, 2, 1, 'Publish', '', -1, 1, '{"publishing":"1"}', NULL, 0),
+(3, 0, 1, 3, 1, 'Trash', '', -1, 1, '{"publishing":"-2"}', NULL, 0),
+(4, 0, 1, 4, 1, 'Archive', '', -1, 1, '{"publishing":"2"}', NULL, 0),
+(5, 0, 1, 5, 1, 'Feature', '', -1, 1, '{"featuring":"1"}', NULL, 0),
+(6, 0, 1, 6, 1, 'Unfeature', '', -1, 1, '{"featuring":"0"}', NULL, 0);
 
 --
 -- Creating extension entry
@@ -130,4 +129,4 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 -- Creating Associations for existing content
 --
 INSERT INTO "#__workflow_associations" ("item_id", "stage_id", "extension")
-SELECT "id", CASE WHEN "state" = -2 THEN 3 WHEN "state" = 0 THEN 1 WHEN "state" = 2 THEN 4 ELSE 2 END, 'com_content.article' FROM "#__content";
+SELECT "id", 1, 'com_content.article' FROM "#__content";
