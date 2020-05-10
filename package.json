@@ -95,7 +95,7 @@
     "karma-json-fixtures-preprocessor": "0.0.6",
     "karma-verbose-reporter": "^0.0.6",
     "mini-css-extract-plugin": "^0.9.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "path": "^0.12.7",
     "postcss": "^7.0.27",
     "recursive-readdir": "^2.2.2",

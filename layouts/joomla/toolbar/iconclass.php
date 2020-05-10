@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 // Convert icomoon to fa
 $icon = $displayData['icon'];
@@ -92,5 +92,4 @@ elseif ($icon === 'list-2')
 {
 	$icon = 'list-ul';
 }
-
-?>fas fa-<?php echo $icon;
+?>fas fa-<?php echo $icon; ?>

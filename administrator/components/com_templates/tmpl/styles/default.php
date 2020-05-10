@@ -31,11 +31,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php if ($this->total > 0) : ?>
 					<table class="table" id="styleList">
 						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_TEMPLATES_STYLES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+							<?php echo Text::_('COM_TEMPLATES_STYLES_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
-								<td style="width:1%" class="text-center">
+								<td class="w-1 text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col">
@@ -67,7 +69,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								$canChange = $user->authorise('core.edit.state', 'com_templates');
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
-								<td style="width:1%" class="text-center">
+								<td class="w-1 text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
 								<th scope="row">
@@ -98,14 +100,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<?php if ($item->image) : ?>
 												<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
 											<?php else : ?>
-												<span class="badge badge-secondary" title="<?php echo Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
+												<span class="badge badge-secondary" title="<?php echo Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->home; ?></span>
 											<?php endif; ?>
 										</a>
 									<?php else : ?>
 										<?php if ($item->image) : ?>
 											<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 										<?php else : ?>
-											<span class="badge badge-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+											<span class="badge badge-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->home; ?></span>
 										<?php endif; ?>
 									<?php endif; ?>
 								</td>

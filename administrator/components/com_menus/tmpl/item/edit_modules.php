@@ -60,10 +60,10 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 			<th scope="col" style="width:40%">
 				<?php echo Text::_('COM_MENUS_HEADING_ASSIGN_MODULE'); ?>
 			</th>
-			<th scope="col" style="width:15%">
+			<th scope="col" class="w-15">
 				<?php echo Text::_('COM_MENUS_HEADING_LEVELS'); ?>
 			</th>
-			<th scope="col" style="width:15%">
+			<th scope="col" class="w-15">
 				<?php echo Text::_('COM_MENUS_HEADING_POSITION'); ?>
 			</th>
 			<th scope="col">

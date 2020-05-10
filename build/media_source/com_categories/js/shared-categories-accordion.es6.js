@@ -16,8 +16,8 @@
    * Handle the category toggle button click event
    * @param event
    */
-  const handleCategoryToggleButtonClick = (event) => {
-    const button = event.currentTarget;
+  const handleCategoryToggleButtonClick = ({ currentTarget }) => {
+    const button = currentTarget;
     const icon = button.querySelector('span');
 
     // Toggle icon class

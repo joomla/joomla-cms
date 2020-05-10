@@ -40,17 +40,19 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 		<?php else : ?>
 			<table class="table" id="moduleList">
 				<caption id="captionTable" class="sr-only">
-					<?php echo Text::_('COM_FIELDS_FIELDS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					<?php echo Text::_('COM_FIELDS_FIELDS_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" style="width:1%" class="center">
+						<th scope="col" class="w-1 center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="title">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:15%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-15 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_FIELDS_FIELD_GROUP_LABEL', 'g.title', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="w-10 d-none d-md-table-cell">
@@ -62,7 +64,7 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 						<th scope="col" class="w-10 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" style="width:1%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-1 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
