@@ -118,7 +118,8 @@ INSERT INTO `#__workflow_transitions` (`id`, `asset_id`, `published`, `ordering`
 (3, 0, 1, 3, 1, 'Trash', '', -1, 1, '{"publishing":"-2"}', NULL, 0),
 (4, 0, 1, 4, 1, 'Archive', '', -1, 1, '{"publishing":"2"}', NULL, 0),
 (5, 0, 1, 5, 1, 'Feature', '', -1, 1, '{"featuring":"1"}', NULL, 0),
-(6, 0, 1, 6, 1, 'Unfeature', '', -1, 1, '{"featuring":"0"}', NULL, 0);
+(6, 0, 1, 6, 1, 'Unfeature', '', -1, 1, '{"featuring":"0"}', NULL, 0),
+(7, 0, 1, 7, 1, 'Publish & Feature', '', -1, 1, '{"publishing":"1","featuring":"1"}', NULL, 0);
 
 --
 -- Creating extension entry
