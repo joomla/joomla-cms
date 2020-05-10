@@ -11,7 +11,7 @@ namespace Joomla\CMS\Workflow;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
-use function method_exists;
+use ReflectionClass;
 
 /**
  * Trait for component workflow plugins.
@@ -39,9 +39,12 @@ trait WorkflowPluginTrait {
 			return false;
 		}
 
-		if (file_exists(__DIR__ . '/forms/action.xml'))
+		// Load XML file from "parent" plugin
+		$path = dirname((new ReflectionClass(static::class))->getFileName());
+
+		if (file_exists($path . '/forms/action.xml'))
 		{
-			$form->loadFile(__DIR__ . '/forms/action.xml');
+			$form->loadFile($path . '/forms/action.xml');
 		}
 
 		return $workflow;
