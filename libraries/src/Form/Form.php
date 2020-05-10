@@ -1669,9 +1669,25 @@ class Form
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', \get_class($this), __METHOD__));
 		}
 
+		/**
+		 * Given an array and a string, splits the string at commas, and appends all fragments to the array.
+		 *
+		 * @param   string[]  $carry  Array containing strings.
+		 * @param   string    $item   String possibly containing comma-separated values
+		 *
+		 * @return string[]
+		 *
+		 * @since 4.0
+		 */
+		$splitAndMerge = function($carry, $item)
+		{
+			return array_merge($carry, explode(',', $item));
+		};
+
 		// Get any addfieldpath attributes from the form definition.
 		$paths = $this->xml->xpath('//*[@addfieldpath]/@addfieldpath');
 		$paths = array_map('strval', $paths ? $paths : array());
+		$paths = array_reduce($paths, $splitAndMerge, array());
 
 		// Add the field paths.
 		foreach ($paths as $path)
@@ -1683,6 +1699,7 @@ class Form
 		// Get any addformpath attributes from the form definition.
 		$paths = $this->xml->xpath('//*[@addformpath]/@addformpath');
 		$paths = array_map('strval', $paths ? $paths : array());
+		$paths = array_reduce($paths, $splitAndMerge, array());
 
 		// Add the form paths.
 		foreach ($paths as $path)
@@ -1694,6 +1711,7 @@ class Form
 		// Get any addrulepath attributes from the form definition.
 		$paths = $this->xml->xpath('//*[@addrulepath]/@addrulepath');
 		$paths = array_map('strval', $paths ? $paths : array());
+		$paths = array_reduce($paths, $splitAndMerge, array());
 
 		// Add the rule paths.
 		foreach ($paths as $path)
@@ -1705,6 +1723,7 @@ class Form
 		// Get any addrulepath attributes from the form definition.
 		$paths = $this->xml->xpath('//*[@addfilterpath]/@addfilterpath');
 		$paths = array_map('strval', $paths ? $paths : array());
+		$paths = array_reduce($paths, $splitAndMerge, array());
 
 		// Add the rule paths.
 		foreach ($paths as $path)
@@ -1716,6 +1735,7 @@ class Form
 		// Get any addfieldprefix attributes from the form definition.
 		$prefixes = $this->xml->xpath('//*[@addfieldprefix]/@addfieldprefix');
 		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
+		$prefixes = array_reduce($prefixes, $splitAndMerge, array());
 
 		// Add the field prefixes.
 		foreach ($prefixes as $prefix)
@@ -1726,6 +1746,7 @@ class Form
 		// Get any addformprefix attributes from the form definition.
 		$prefixes = $this->xml->xpath('//*[@addformprefix]/@addformprefix');
 		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
+		$prefixes = array_reduce($prefixes, $splitAndMerge, array());
 
 		// Add the field prefixes.
 		foreach ($prefixes as $prefix)
@@ -1736,6 +1757,7 @@ class Form
 		// Get any addruleprefix attributes from the form definition.
 		$prefixes = $this->xml->xpath('//*[@addruleprefix]/@addruleprefix');
 		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
+		$prefixes = array_reduce($prefixes, $splitAndMerge, array());
 
 		// Add the field prefixes.
 		foreach ($prefixes as $prefix)
@@ -1746,6 +1768,7 @@ class Form
 		// Get any addruleprefix attributes from the form definition.
 		$prefixes = $this->xml->xpath('//*[@addfilterprefix]/@addfilterprefix');
 		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
+		$prefixes = array_reduce($prefixes, $splitAndMerge, array());
 
 		// Add the field prefixes.
 		foreach ($prefixes as $prefix)
