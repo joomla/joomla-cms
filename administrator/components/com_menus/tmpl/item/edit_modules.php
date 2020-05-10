@@ -57,7 +57,7 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 	</caption>
 	<thead>
 		<tr>
-			<th scope="col" style="width:40%">
+			<th scope="col" class="w-40">
 				<?php echo Text::_('COM_MENUS_HEADING_ASSIGN_MODULE'); ?>
 			</th>
 			<th scope="col" class="w-15">

@@ -18,7 +18,7 @@ HTMLHelper::_('bootstrap.framework');
 	<caption class="sr-only"><?php echo $module->title; ?></caption>
 	<thead>
 		<tr>
-			<th scope="col" style="width:60%"><?php echo Text::_('JGLOBAL_TITLE'); ?></th>
+			<th scope="col" class="w-60"><?php echo Text::_('JGLOBAL_TITLE'); ?></th>
 			<th scope="col" class="w-20"><?php echo Text::_('JAUTHOR'); ?></th>
 			<th scope="col" class="w-20"><?php echo Text::_('JDATE'); ?></th>
 		</tr>

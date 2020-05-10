@@ -32,7 +32,7 @@ $input = Factory::getApplication()->input;
 								<th scope="col" style="width:7%">
 									<?php echo Text::_('COM_TEMPLATES_OVERRIDE_CHECKED'); ?>
 								</th>
-								<th scope="col" style="width:30%">
+								<th scope="col" class="w-30">
 									<?php echo Text::_('COM_TEMPLATES_OVERRIDE_TEMPLATE_FILE'); ?>
 								</th>
 								<th scope="col">

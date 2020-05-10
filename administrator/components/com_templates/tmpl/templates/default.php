@@ -39,7 +39,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="w-20 col1template d-none d-md-table-cell">
 									<?php echo Text::_('COM_TEMPLATES_HEADING_IMAGE'); ?>
 								</th>
-								<th scope="col" style="width:30%">
+								<th scope="col" class="w-30">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell text-center">

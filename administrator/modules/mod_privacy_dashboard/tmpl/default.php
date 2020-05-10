@@ -22,8 +22,8 @@ $activeRequests = 0;
 	<caption class="sr-only"><?php echo $module->title; ?></caption>
 	<thead>
 		<tr>
-			<th scope="col" style="width:40%"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_TYPE'); ?></th>
-			<th scope="col" style="width:40%"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_STATUS'); ?></th>
+			<th scope="col" class="w-40"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_TYPE'); ?></th>
+			<th scope="col" class="w-40"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_STATUS'); ?></th>
 			<th scope="col" class="w-20"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_COUNT'); ?></th>
 		</tr>
 	</thead>

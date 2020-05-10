@@ -19,7 +19,7 @@ HTMLHelper::_('bootstrap.framework');
 	<caption class="sr-only"><?php echo $module->title; ?></caption>
 	<thead>
 		<tr>
-			<th scope="col" style="width:80%"><?php echo Text::_('MOD_LATESTACTIONS_ACTION'); ?></th>
+			<th scope="col" class="w-80"><?php echo Text::_('MOD_LATESTACTIONS_ACTION'); ?></th>
 			<th scope="col" class="w-20"><?php echo Text::_('JDATE'); ?></th>
 		</tr>
 	</thead>
