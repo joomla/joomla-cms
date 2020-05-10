@@ -257,6 +257,15 @@ class TransitionModel extends AdminModel
 			$disableFields[] = 'title';
 			$disableFields[] = 'from_stage_id';
 			$disableFields[] = 'to_stage_id';
+
+			$fields = $form->getGroup('options');
+
+			foreach ($fields as $field)
+			{
+				$form->setFieldAttribute($field->fieldname, 'disabled', 'true', 'options');
+				$form->setFieldAttribute($field->fieldname, 'required', 'false', 'options');
+				$form->setFieldAttribute($field->fieldname, 'filter', 'unset', 'options');
+			}
 		}
 
 		if (!$this->canEditState((object) $data) || $workflow->core)
@@ -269,15 +278,6 @@ class TransitionModel extends AdminModel
 			$form->setFieldAttribute($field, 'disabled', 'true');
 			$form->setFieldAttribute($field, 'required', 'false');
 			$form->setFieldAttribute($field, 'filter', 'unset');
-		}
-
-		$fields = $form->getGroup('options');
-
-		foreach ($fields as $field)
-		{
-			$form->setFieldAttribute($field->fieldname, 'disabled', 'true', 'options');
-			$form->setFieldAttribute($field->fieldname, 'required', 'false', 'options');
-			$form->setFieldAttribute($field->fieldname, 'filter', 'unset', 'options');
 		}
 
 		$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . (int) $data['workflow_id'] . ' AND ' . $this->getDbo()->quoteName('published') . ' = 1';
