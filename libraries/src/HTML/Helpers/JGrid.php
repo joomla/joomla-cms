@@ -89,7 +89,7 @@ abstract class JGrid
 		}
 		else
 		{
-			$html[] = '<a class="tbody-icon disabled jgrid"';
+			$html[] = '<a class="tbody-icon ' . $active_class . '-disabled disabled jgrid"';
 			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
 
