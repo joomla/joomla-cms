@@ -1679,7 +1679,7 @@ class Form
 		 *
 		 * @since 4.0
 		 */
-		$splitAndMerge = function($carry, $item)
+		$splitAndMerge = function ($carry, $item)
 		{
 			return array_merge($carry, explode(',', $item));
 		};
