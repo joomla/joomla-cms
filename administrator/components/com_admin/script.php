@@ -2597,11 +2597,11 @@ class JoomlaInstallerScript
 					}
 				}
 			}
+		}
 
-			if (!$hasErrors)
-			{
-				$converted = $convertedRequired;
-			}
+		if (!$hasErrors)
+		{
+			$converted = $convertedRequired;
 		}
 
 		if ($doDbFixMsg && $hasErrors)
