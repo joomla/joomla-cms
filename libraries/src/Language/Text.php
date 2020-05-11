@@ -220,7 +220,7 @@ class Text
 
 		// Add the count as possible suffix to allow for eg "a dozen" with suffix _12.
 		// Only do that if it is a real plural (more than one) to avoid issues with languages. See https://github.com/joomla/joomla-cms/pull/29029
-		if ($count != 1)
+		if ($n != 1)
 		{
 			array_unshift($suffixes, (int) $n);
 		}
