@@ -224,6 +224,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 * @param   string  $baseUri  The base uri
 	 *
 	 * @return  string
+ 	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function resolve(string $uri, ?string $baseUri): string
 	{
