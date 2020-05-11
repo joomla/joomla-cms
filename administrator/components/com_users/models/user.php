@@ -1114,7 +1114,7 @@ class UsersModelUser extends JModelAdmin
 	 */
 	public function getOtpConfigEncryptionKey()
 	{
-		return JFactory::getConfig()->get('secret');
+		return JFactory::getConfig()->get('sitesecret');
 	}
 
 	/**

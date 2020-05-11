@@ -28,7 +28,7 @@ class JCacheStorageMock extends JCacheStorage
 		parent::__construct($options);
 
 		$config = JFactory::getConfig();
-		$this->_hash = $config->get('secret');
+		$this->_hash = $config->get('sitekey');
 	}
 
 	/**

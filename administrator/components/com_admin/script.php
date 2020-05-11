@@ -109,7 +109,14 @@ class JoomlaInstallerScript
 	{
 		if ($action === 'update')
 		{
-			if (!empty($this->fromVersion) && version_compare($this->fromVersion, '3.7.0', 'lt'))
+			// We have no fromVersion Information?
+			if (empty($this->fromVersion))
+			{
+				return true;
+			}
+
+			// Add the Multilingual Associations menu item
+			if (version_compare($this->fromVersion, '3.7.0', 'lt'))
 			{
 				/*
 				 * Do a check if the menu item exists, skip if it does. Only needed when we are in pre stable state.
@@ -162,6 +169,12 @@ class JoomlaInstallerScript
 
 					return false;
 				}
+			}
+
+			// Setup the the new sitekey and sitesecret values
+			if (version_compare($this->fromVersion, '3.10.0', 'lt'))
+			{
+				$this->setupSitekeyAndSitesecert();
 			}
 		}
 
@@ -2631,4 +2644,91 @@ class JoomlaInstallerScript
 		$model->setState('client_id', 1);
 		$model->clean();
 	}
+
+	/**
+	 * Method to unset the root_user value from configuration data.
+	 *
+	 * This method will load the global configuration data straight from
+	 * JConfig and remove the root_user value for security, then save the configuration.
+	 *
+	 * @return	boolean  True on success, false on failure.
+	 *
+	 * @since	__DEPLOY_VERSION__
+	 */
+	public function setupSitekeyAndSitesecert()
+	{
+		$dispatcher = JEventDispatcher::getInstance();
+
+		// Get the previous configuration.
+		$previousConfig = new JConfig;
+		$previousConfig = ArrayHelper::fromObject($previousConfig);
+
+		// Create the new configuration object, and unset the root_user property
+		$previousConfig['sitesecret'] = $previousConfig['secret'];
+		$previousConfig['sitekey'] = JUserHelper::genRandomPassword(32);
+
+		$config = new Registry($previousConfig);
+
+		$result = $dispatcher->trigger('onApplicationBeforeSave', array($config));
+
+		// Store the data.
+		if (in_array(false, $result, true))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
+		}
+
+		// Write the configuration file.
+		$this->writeConfigFile($config);
+
+		// Trigger the after save event.
+		$dispatcher->trigger('onApplicationAfterSave', array($config));
+	}
+
+	/**
+	 * Method to write the configuration to a file.
+	 *
+	 * @param   Registry  $config  A Registry object containing all global config data.
+	 *
+	 * @return	void
+	 *
+	 * @since	__DEPLOY_VERSION__
+	 */
+	private function writeConfigFile(Registry $config)
+	{
+		jimport('joomla.filesystem.path');
+		jimport('joomla.filesystem.file');
+
+		// Set the configuration file path.
+		$file = JPATH_CONFIGURATION . '/configuration.php';
+
+		// Get the new FTP credentials.
+		$ftp = JClientHelper::getCredentials('ftp', true);
+
+		// Attempt to make the file writeable if using FTP.
+		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0644'))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTWRITABLE'), 'notice');
+		}
+
+		// Attempt to write the configuration file as a PHP class named JConfig.
+		$configuration = $config->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
+
+		if (!JFile::write($file, $configuration))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'), 'error');
+		}
+
+		// Invalidates the cached configuration file
+		if (function_exists('opcache_invalidate'))
+		{
+			opcache_invalidate($file);
+		}
+
+		// Attempt to make the file unwriteable if using FTP.
+		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_CONFIG_ERROR_CONFIGURATION_PHP_NOTUNWRITABLE'), 'notice');
+		}
+	}
+
 }

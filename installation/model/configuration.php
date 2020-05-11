@@ -90,7 +90,10 @@ class InstallationModelConfiguration extends JModelBase
 
 		// Server settings.
 		$registry->set('live_site', '');
+		// The old secret value is deprecated and will be removed in 4.0
 		$registry->set('secret', JUserHelper::genRandomPassword(16));
+		$registry->set('sitesecret', JUserHelper::genRandomPassword(32));
+		$registry->set('sitekey', JUserHelper::genRandomPassword(32));
 		$registry->set('gzip', 0);
 		$registry->set('error_reporting', 'default');
 		$registry->set('helpurl', $options->helpurl);
