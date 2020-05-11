@@ -650,10 +650,6 @@ class ArticlesModel extends ListModel
 		foreach ($items as $item)
 		{
 			$item->typeAlias = 'com_content.article';
-
-			// Convert the images field to an array.
-			$registry = new Registry($item->images);
-			$item->images = $registry->toArray();
 		}
 
 		return $items;
