@@ -209,6 +209,7 @@ class JsonapiView extends BaseApiView
 				$item->images['image_fulltext'] = ContentHelper::resolve($item->images['image_fulltext'], Uri::root());
 			}
 		}
+
 		return parent::prepareItem($item);
 	}
 }
