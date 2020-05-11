@@ -227,7 +227,6 @@ class NewsfeedModel extends ItemModel
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('newsfeed.id');
 
 			$table = $this->getTable('Newsfeed', 'Administrator');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 

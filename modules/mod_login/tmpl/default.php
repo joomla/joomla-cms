@@ -77,7 +77,7 @@ Text::script('JHIDEPASSWORD');
 							</span>
 							<label for="modlgn-secretkey-<?php echo $module->id; ?>" class="sr-only"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 						</span>
-						<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
+						<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="one-time-code" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 						<span class="input-group-append" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 							<span class="input-group-text">
 								<span class="fas fa-question" aria-hidden="true"></span>
@@ -86,7 +86,7 @@ Text::script('JHIDEPASSWORD');
 					</div>
 				<?php else : ?>
 					<label for="modlgn-secretkey-<?php echo $module->id; ?>"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
-					<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
+					<input id="modlgn-secretkey-<?php echo $module->id; ?>" autocomplete="one-time-code" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 					<span class="btn width-auto" title="<?php echo Text::_('JGLOBAL_SECRETKEY_HELP'); ?>">
 						<span class="fas fa-question" aria-hidden="true"></span>
 					</span>
