@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Category;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
+use GuzzleHttp\Psr7;
 
 /**
  * Content component helper.
@@ -214,5 +215,28 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 		$field->addOption(Text::sprintf('COM_WORKFLOW_USE_DEFAULT_WORKFLOW', Text::_($defaulttitle)), ['value' => 'use_default']);
 
 		$field->addOption('- ' . Text::_('COM_CONTENT_WORKFLOWS') . ' -', ['disabled' => 'true']);
+	}
+
+	/**
+	 * Fully Qualified Domain name for the image url
+	 *
+	 * @param   string  $uri      The uri to resolve
+	 * @param   string  $baseUri  The base uri
+	 *
+	 * @return  string
+	 */
+	public static function resolve(string $uri, ?string $baseUri): string
+	{
+		$uri = Psr7\uri_for($uri);
+
+		if (isset($baseUri))
+		{
+			$uri = Psr7\UriResolver::resolve(Psr7\uri_for($baseUri), $uri);
+		}
+
+		// Set default scheme if missing
+		$uri = $uri->getScheme() === '' && $uri->getHost() !== '' ? $uri->withScheme('http') : $uri;
+
+		return (string) $uri;
 	}
 }
