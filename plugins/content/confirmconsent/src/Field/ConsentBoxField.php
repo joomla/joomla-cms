@@ -51,6 +51,22 @@ class ConsentBoxField extends CheckboxesField
 	protected $articleid;
 
 	/**
+	 * The menu item ID.
+	 *
+	 * @var    integer
+	 * @since  4.0
+	 */
+	protected $menuItemId;
+
+	/**
+	 * Type of the privacy policy.
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	protected $privacyType;
+
+	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
 	 * @param   string  $name   The property name for which to set the value.
@@ -114,6 +130,8 @@ class ConsentBoxField extends CheckboxesField
 		if ($return)
 		{
 			$this->articleid = (int) $this->element['articleid'];
+			$this->menuItemId = (int) $this->element['menu_item_id'];
+			$this->privacyType = (string) $this->element['privacy_type'];
 		}
 
 		return $return;
@@ -139,7 +157,10 @@ class ConsentBoxField extends CheckboxesField
 		$position = $this->element['name'] == 'alias' ? ' data-placement="bottom" ' : '';
 
 		// When we have an article let's add the modal and make the title clickable
-		if ($data['articleid'])
+		$hasLink = ($data['privacyType'] == 'article' && $data['articleid'])
+			|| ($data['privacyType'] == 'menu_item' && $data['menuItemId']);
+
+		if ($hasLink)
 		{
 			$attribs['data-toggle'] = 'modal';
 
@@ -174,10 +195,13 @@ class ConsentBoxField extends CheckboxesField
 		$modalHtml  = '';
 		$layoutData = $this->getLayoutData();
 
-		if ($this->articleid)
+		$hasLink = ($this->privacyType === 'article' && $this->articleid)
+			|| ($this->privacyType === 'menu_item' && $this->menuItemId);
+
+		if ($hasLink)
 		{
 			$modalParams['title']  = $layoutData['label'];
-			$modalParams['url']    = $this->getAssignedArticleUrl();
+			$modalParams['url']    = ($this->privacyType === 'menu_item') ? $this->getAssignedMenuItemUrl() : $this->getAssignedArticleUrl();
 			$modalParams['height'] = 800;
 			$modalParams['width']  = '100%';
 			$modalHtml = HTMLHelper::_('bootstrap.renderModal', 'modal-' . $this->id, $modalParams);
@@ -199,6 +223,8 @@ class ConsentBoxField extends CheckboxesField
 
 		$extraData = array(
 			'articleid' => (integer) $this->articleid,
+			'menuItemId' => (integer) $this->menuItemId,
+			'privacyType' => (integer) $this->privacyType,
 		);
 
 		return array_merge($data, $extraData);
@@ -274,6 +300,34 @@ class ConsentBoxField extends CheckboxesField
 			'index.php?option=com_content&view=article&id='
 				. $article->id . '&catid=' . $article->catid
 				. '&tmpl=component&lang=' . $article->language
+		);
+	}
+
+	/**
+	 * Get privacy menu item ID. If the site is a multilingual website and there is associated menu item for the
+	 * current language, ID of the associated menu item will be returned.
+	 *
+	 * @return  integer
+	 *
+	 * @since   4.0
+	 */
+	private function getAssignedMenuItemUrl()
+	{
+		$itemId = $this->menuItemId;
+
+		if ($itemId > 0 && Associations::isEnabled())
+		{
+			$privacyAssociated = Associations::getAssociations('com_menus', '#__menu', 'com_menus.item', $itemId, 'id', '', '');
+			$currentLang = Factory::getLanguage()->getTag();
+
+			if (isset($privacyAssociated[$currentLang]))
+			{
+				$itemId = $privacyAssociated[$currentLang]->id;
+			}
+		}
+
+		return Route::_(
+			'index.php?Itemid=' . (int) $itemId . '&tmpl=component'
 		);
 	}
 }

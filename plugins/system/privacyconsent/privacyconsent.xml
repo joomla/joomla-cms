@@ -20,7 +20,7 @@
 		<language tag="en-GB">en-GB.plg_system_privacyconsent.sys.ini</language>
 	</languages>
 	<config>
-		<fields name="params" addfieldprefix="Joomla\Component\Menus\Administrator\Field">
+		<fields name="params">
 			<fieldset name="basic" addfieldprefix="Joomla\Component\Content\Administrator\Field">
 				<field
 					name="privacy_note"
@@ -56,6 +56,7 @@
 					showon="privacy_type:article"
 				/>
 				<field
+					addfieldprefix="Joomla\Component\Menus\Administrator\Field"
 					name="privacy_menu_item"
 					type="modal_menu"
 					label="PLG_SYSTEM_PRIVACYCONSENT_FIELD_MENU_ITEM_LABEL"
