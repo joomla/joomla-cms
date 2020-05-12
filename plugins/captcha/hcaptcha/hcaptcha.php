@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Utilities\IpHelper;
@@ -64,7 +64,7 @@ class PlgCaptchaHcaptcha extends CMSPlugin
 		}
 
 		// Load the JavaScript from hCaptcha
-		Factory::getDocument()->getWebAssetManager()->registerAndUseScript(
+		Factory::getApplication()->getDocument()->getWebAssetManager()->registerAndUseScript(
 			'plg_captcha_hcaptcha.api', 'https://hcaptcha.com/1/api.js', [], ['defer' => true]
 		);
 
@@ -125,13 +125,30 @@ class PlgCaptchaHcaptcha extends CMSPlugin
 			throw new \RuntimeException(Text::_('PLG_CAPTCHA_HCAPTCHA_ERROR_NO_IP'));
 		}
 
-		$verifyResponse = file_get_contents(
-			'https://hcaptcha.com/siteverify?secret=' . $privateKey .
-			'&response=' . $hCaptchaResponse .
-			'&remoteip=' . $remoteIp
-		);
+		if (empty($hCaptchaResponse))
+		{
+			throw new \RuntimeException(Text::_('PLG_CAPTCHA_HCAPTCHA_ERROR_EMPTY_SOLUTION'));
+		}
 
-		$responseData = json_decode($verifyResponse);
+		try
+		{
+			$verifyResponse = HttpFactory::getHttp()->get(
+				'https://hcaptcha.com/siteverify?secret=' . $privateKey .
+				'&response=' . $hCaptchaResponse .
+				'&remoteip=' . $remoteIp
+			);
+		}
+		catch (RuntimeException $e)
+		{
+			throw new \RuntimeException(Text::_('PLG_CAPTCHA_HCAPTCHA_ERROR_CANT_CONNECT_TO_HCAPTCHA_SERVERS'));
+		}
+
+		if ($verifyResponse->code !== 200 || empty($verifyResponse->body))
+		{
+			throw new \RuntimeException(Text::_('PLG_CAPTCHA_HCAPTCHA_ERROR_INVALID_RESPONSE'));
+		}
+
+		$responseData = json_decode($verifyResponse->body);
 
 		if ($responseData->success)
 		{
