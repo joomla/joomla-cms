@@ -38,8 +38,8 @@
 					label="PLG_SYSTEM_PRIVACYCONSENT_FIELD_TYPE_LABEL"
 					description="PLG_SYSTEM_PRIVACYCONSENT_FIELD_TYPE_DESC"
 					default="article"
-					filter="options"
-				>
+					validate="options"
+					>
 					<option value="article">PLG_SYSTEM_PRIVACYCONSENT_FIELD_TYPE_ARTICLE</option>
 					<option value="menu_item">PLG_SYSTEM_PRIVACYCONSENT_FIELD_TYPE_MENU_ITEM</option>
 				</field>
