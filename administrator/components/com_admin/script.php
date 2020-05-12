@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Script file of Joomla CMS
  *
@@ -2663,9 +2665,9 @@ class JoomlaInstallerScript
 		$previousConfig = new JConfig;
 		$previousConfig = ArrayHelper::fromObject($previousConfig);
 
-		// Create the new configuration object, and unset the root_user property
+		// Set the new config options on update
 		$previousConfig['sitesecret'] = $previousConfig['secret'];
-		$previousConfig['sitekey'] = JUserHelper::genRandomPassword(32);
+		$previousConfig['sitekey'] = $previousConfig['secret'];
 
 		$config = new Registry($previousConfig);
 
