@@ -30,7 +30,9 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 				<?php else : ?>
 					<table class="table" id="templateList">
 						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_MAILS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+							<?php echo Text::_('COM_MAILS_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
@@ -46,7 +48,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="w-10 d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_NO_TEMPLATES_FOR_LANGUAGES'); ?>
 								</th>
-								<th scope="col" style="width:30%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-30 d-none d-md-table-cell">
 									<?php echo Text::_('COM_MAILS_HEADING_DESCRIPTION'); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell">

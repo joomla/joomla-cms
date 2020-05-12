@@ -30,14 +30,16 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php if ($this->total > 0) : ?>
 					<table class="table" id="template-mgr">
 						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_TEMPLATES_TEMPLATES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+							<?php echo Text::_('COM_TEMPLATES_TEMPLATES_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
-								<th scope="col" class="col1template d-none d-md-table-cell" style="width:20%">
+								<th scope="col" class="w-20 col1template d-none d-md-table-cell">
 									<?php echo Text::_('COM_TEMPLATES_HEADING_IMAGE'); ?>
 								</th>
-								<th scope="col" style="width:30%">
+								<th scope="col" class="w-30">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.element', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-10 d-none d-md-table-cell text-center">

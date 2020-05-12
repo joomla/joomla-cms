@@ -37,7 +37,9 @@ class ConsentsModel extends ListModel
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = [
-				'id', 'a.id', 'a.user_id',
+				'id', 'a.id',
+				'user_id', 'a.user_id',
+				'subject', 'a.subject',
 				'created', 'a.created',
 				'username', 'u.username',
 				'name', 'u.name',

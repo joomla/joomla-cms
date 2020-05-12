@@ -50,12 +50,14 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', ['
 				<?php else : ?>
 					<table class="table" id="associationsList">
 						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_ASSOCIATIONS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+							<?php echo Text::_('COM_ASSOCIATIONS_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
 								<?php if (!empty($this->typeSupports['state'])) : ?>
-									<th scope="col" style="width:1%" class="text-center">
+									<th scope="col" class="w-1 text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
@@ -81,7 +83,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', ['
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'access_level', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:1%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-1 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>

@@ -70,9 +70,9 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
     this.removeEventListener('click', this.executeTask);
   }
 
-  onChange(event) {
+  onChange({ target }) {
     // Check whether we have selected something
-    this.setDisabled(event.target.value < 1);
+    this.setDisabled(target.value < 1);
   }
 
   setDisabled(disabled) {
