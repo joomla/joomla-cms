@@ -45,7 +45,7 @@ class MenuItemByComponentField extends ListField
 		$options = array();
 
 		$query = $db->getQuery(true);
-		$query->select('DISTINCT ' . $db->quoteName('extensions.name'))
+		$query->select('DISTINCT ' . $db->quoteName('extensions.element'))
 			->from($db->quoteName('#__menu', 'menu'))
 			->join(
 				'LEFT', $db->quoteName('#__extensions', 'extensions'),
@@ -55,17 +55,12 @@ class MenuItemByComponentField extends ListField
 			->where($db->quoteName('menu.type') . ' = ' . $db->quote('component'));
 
 		$db->setQuery($query);
-		$categoryTypes = $db->loadColumn();
+		$components = $db->loadColumn();
 
-		foreach ($categoryTypes as $categoryType)
+		foreach ($components as $component)
 		{
 			$option        = new \stdClass;
-			$option->value = $categoryType;
-
-			// Extract the component name and optional section name
-			$parts     = explode('.', $categoryType);
-			$component = $parts[0];
-			$section   = (count($parts) > 1) ? $parts[1] : null;
+			$option->value = $component;
 
 			// Load component language files
 			$lang = Factory::getLanguage();
@@ -73,7 +68,7 @@ class MenuItemByComponentField extends ListField
 			|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
 
 			// If the component section string exists, let's use it
-			if ($lang->hasKey($component_section_key = strtoupper($component . ($section ? "_$section" : ''))))
+			if ($lang->hasKey($component_section_key = strtoupper($component)))
 			{
 				$option->text = Text::_($component_section_key);
 			}
