@@ -182,6 +182,10 @@
     display: none;
   }
 
+  .main-nav, .main-nav li {
+    max-width:3rem;
+  }
+
   .main-nav a:hover {
     max-width:3rem;
     position: relative;
