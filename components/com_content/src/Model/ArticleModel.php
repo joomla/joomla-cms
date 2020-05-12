@@ -330,7 +330,6 @@ class ArticleModel extends ItemModel
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
 			$table = Table::getInstance('Content', 'JTable');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 

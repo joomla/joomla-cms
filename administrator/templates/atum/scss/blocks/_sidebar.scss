@@ -1,7 +1,7 @@
 // Sidebar
 
 .sidebar-wrapper {
-  min-height: calc(100vh -69px);
+  min-height: calc(100vh - 69px);
   z-index: $zindex-sidebar;
   background-color: var(--atum-sidebar-bg);
   box-shadow: $atum-box-shadow;

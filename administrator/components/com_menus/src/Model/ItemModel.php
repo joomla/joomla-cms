@@ -1710,6 +1710,11 @@ class ItemModel extends AdminModel
 			parent::cleanCache($option);
 		}
 
+		if (Factory::getApplication()->input->get('task') === 'editAssociations')
+		{
+			return $this->redirectToAssociations($data);
+		}
+
 		return true;
 	}
 

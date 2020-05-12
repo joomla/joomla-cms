@@ -21,7 +21,7 @@
       onChange(element.value);
 
       // Check for changes in the state
-      element.addEventListener('change', (event) => { onChange(event.target.value); });
+      element.addEventListener('change', ({ target }) => { onChange(target.value); });
     }
 
     document.removeEventListener('DOMContentLoaded', onBoot);
