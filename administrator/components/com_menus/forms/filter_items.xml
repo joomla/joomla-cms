@@ -79,7 +79,7 @@
 		</field>
 		<field
 			name="componentName"
-			type="componentsCategory"
+			type="MenuItemByComponent"
 			label="COM_MENUS_FILTER_COMPONENT_LABEL"
 			onchange="this.form.submit();"
 			>
