@@ -27,11 +27,11 @@
  */
 class PasswordStrength {
   constructor(settings) {
-    this.lowercase = settings.lowercase || 0;
-    this.uppercase = settings.uppercase || 0;
-    this.numbers = settings.numbers || 0;
-    this.special = settings.special || 0;
-    this.length = settings.length || 4;
+    this.lowercase = parseInt(settings.lowercase, 10) || 0;
+    this.uppercase = parseInt(settings.uppercase, 10) || 0;
+    this.numbers = parseInt(settings.numbers, 10) || 0;
+    this.special = parseInt(settings.special, 10) || 0;
+    this.length = parseInt(settings.length, 10) || 4;
   }
 
   getScore(value) {
@@ -44,10 +44,10 @@ class PasswordStrength {
       }
     })
 
-    score += this.calc(value, /[a-z]/g, this.lowercase, mods);
-    score += this.calc(value, /[A-Z]/g, this.uppercase, mods);
-    score += this.calc(value, /[0-9]/g, this.numbers, mods);
-    score += this.calc(value, /[\$\!\#\?\=\;\:\*\-\_\€\%\&\(\)\`\´]/g, this.special, mods);
+    score += this.constructor.calc(value, /[a-z]/g, this.lowercase, mods);
+    score += this.constructor.calc(value, /[A-Z]/g, this.uppercase, mods);
+    score += this.constructor.calc(value, /[0-9]/g, this.numbers, mods);
+    score += this.constructor.calc(value, /[\$\!\#\?\=\;\:\*\-\_\€\%\&\(\)\`\´]/g, this.special, mods);
     if (mods == 1) {
       score += value.length > this.length ? 100 : 100 / this.length * value.length;
     } else {
@@ -57,16 +57,16 @@ class PasswordStrength {
     return score;
   }
 
-  calc(value, pattern, length, mods) {
+  static calc(value, pattern, length, mods) {
     const count = value.match(pattern);
-    if (count && count.length > length && length != 0) {
+    if (count && count.length > length && length !== 0) {
       return 100 / mods;
     }
     if (count && length > 0) {
-      return (100 / mods) / length * count.length;
-    } else {
-      return 0;
+      return (100 / mods) / (length * count.length);
     }
+
+    return 0;
   }
 }
 
@@ -85,11 +85,11 @@ class PasswordStrength {
     const minLowercase = element.getAttribute('data-min-lowercase');
 
     const strength = new PasswordStrength({
-      lowercase: minLowercase ? minLowercase : 0,
-      uppercase: minUppercase ? minUppercase : 0,
-      numbers: minIntegers ? minIntegers : 0,
-      special: minSymbols ? minSymbols : 0,
-      length: minLength ? minLength : 4
+      lowercase: minLowercase || 0,
+      uppercase: minUppercase || 0,
+      numbers: minIntegers || 0,
+      special: minSymbols || 0,
+      length: minLength || 4
     });
 
     const score = strength.getScore(element.value);
@@ -170,11 +170,11 @@ class PasswordStrength {
         const minLowercase = fields[0].getAttribute('data-min-lowercase');
 
         const strength = new PasswordStrength({
-          lowercase: minLowercase ? minLowercase : 0,
-          uppercase: minUppercase ? minUppercase : 0,
-          numbers: minIntegers ? minIntegers : 0,
-          special: minSymbols ? minSymbols : 0,
-          length: minLength ? minLength : 4
+          lowercase: minLowercase || 0,
+          uppercase: minUppercase || 0,
+          numbers: minIntegers || 0,
+          special: minSymbols || 0,
+          length: minLength || 4
         });
 
         const score = strength.getScore(value);
