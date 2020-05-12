@@ -40,9 +40,9 @@ class PasswordStrength {
     const sets = ['lowercase', 'uppercase', 'numbers', 'special', 'length'];
     sets.forEach((set) => {
       if (this[set] > 0) {
-        mods = mods + 1;
+        mods += 1;
       }
-    })
+    });
 
     score += this.constructor.calc(value, /[a-z]/g, this.lowercase, mods);
     score += this.constructor.calc(value, /[A-Z]/g, this.uppercase, mods);
@@ -54,11 +54,11 @@ class PasswordStrength {
     if (mods === 1) {
       score += value.length > this.length
         ? 100
-        : 100 / (this.length * value.length);
+        : (100 / this.length) * value.length;
     } else {
       score += value.length > this.length
         ? (100 / mods)
-        : (100 / mods) / (this.length * value.length);
+        : ((100 / mods) / this.length) * value.length;
     }
 
     return score;
@@ -70,7 +70,7 @@ class PasswordStrength {
       return 100 / mods;
     }
     if (count && length > 0) {
-      return (100 / mods) / (length * count.length);
+      return ((100 / mods) / length) * count.length;
     }
 
     return 0;
