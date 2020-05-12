@@ -272,11 +272,6 @@ class Text
 		$args = \func_get_args();
 		$count = \count($args);
 
-		if ($count < 1)
-		{
-			return '';
-		}
-
 		if (\is_array($args[$count - 1]))
 		{
 			$args[0] = $lang->_(
@@ -318,11 +313,6 @@ class Text
 		$lang = Factory::getLanguage();
 		$args = \func_get_args();
 		$count = \count($args);
-
-		if ($count < 1)
-		{
-			return '';
-		}
 
 		if (\is_array($args[$count - 1]))
 		{
