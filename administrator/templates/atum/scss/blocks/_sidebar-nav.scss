@@ -36,7 +36,7 @@
       display: block;
       padding: .35rem .35rem .35rem 1.2rem;
       overflow: hidden;
-      font-weight: normal;
+      font-weight: $font-weight-normal;
       color: var(--atum-text-dark);
 
       &::before {

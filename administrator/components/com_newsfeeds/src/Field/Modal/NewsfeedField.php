@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Newsfeeds\Administrator\Field\Modal;
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -55,7 +55,7 @@ class NewsfeedField extends FormField
 		Factory::getLanguage()->load('com_newsfeeds', JPATH_ADMINISTRATOR);
 
 		// The active newsfeed id field.
-		$value = (int) $this->value > 0 ? (int) $this->value : '';
+		$value = (int) $this->value ?: '';
 
 		// Create the modal id.
 		$modalId = 'Newsfeed_' . $this->id;

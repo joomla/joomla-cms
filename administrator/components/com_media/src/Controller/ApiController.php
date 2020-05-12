@@ -275,7 +275,7 @@ class ApiController extends BaseController
 			$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
 		}
 
-		if ($newPath != null)
+		if ($newPath != null && $newPath !== $adapter . ':' . $path)
 		{
 			list($destinationAdapter, $destinationPath) = explode(':', $newPath, 2);
 
