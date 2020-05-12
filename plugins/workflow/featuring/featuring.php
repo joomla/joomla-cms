@@ -147,7 +147,12 @@ class PlgWorkflowFeaturing extends CMSPlugin
 
 		$form->setFieldAttribute($fieldname, 'type', 'spacer');
 
-		$form->setFieldAttribute($fieldname, 'label', Text::sprintf('PLG_WORKFLOW_FEATURING_FEATURED', '<span class="text-' . $textclass . '">' . htmlentities($text, ENT_COMPAT, 'UTF-8') . '</span>'));
+		$label = '<span class="text-' . $textclass . '">' . htmlentities($text, ENT_COMPAT, 'UTF-8') . '</span>';
+		$form->setFieldAttribute(
+			$fieldname,
+			'label',
+			Text::sprintf('PLG_WORKFLOW_FEATURING_FEATURED', $label)
+		);
 
 		return true;
 	}

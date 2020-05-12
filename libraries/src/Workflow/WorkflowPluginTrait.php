@@ -11,6 +11,7 @@ namespace Joomla\CMS\Workflow;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\Object\CMSObject;
 use ReflectionClass;
 
 /**
@@ -18,12 +19,12 @@ use ReflectionClass;
  *
  * @since  4.0.0
  */
-trait WorkflowPluginTrait {
-
+trait WorkflowPluginTrait
+{
 	/**
 	 * Add different parameter options to the transition view, we need when executing the transition
 	 *
-	 * @param   Form      $form  The form
+	 * @param   Form       $form  The form
 	 * @param   \stdClass  $data  The data
 	 *
 	 * @return  boolean
@@ -52,25 +53,35 @@ trait WorkflowPluginTrait {
 		return $workflow;
 	}
 
-	protected function getWorkflow(int $workflow_id = null) {
-
+	/**
+	 * Get the workflow for a given ID
+	 *
+	 * @param   int|null  $workflow_id  ID of the workflow
+	 *
+	 * @return  CMSObject|boolean  Object on success, false on failure.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getWorkflow(int $workflow_id = null)
+	{
 		$workflow_id = !empty($workflow_id) ? $workflow_id : $this->app->input->getInt('workflow_id');
 
-		if (is_array($workflow_id)) {
+		if (is_array($workflow_id))
+		{
 			return false;
 		}
 
 		return $this->app->bootComponent('com_workflow')
-		                 ->getMVCFactory()
-		                 ->createModel('Workflow', 'Administrator', ['ignore_request' => true])
-		                 ->getItem($workflow_id);
+			->getMVCFactory()
+			->createModel('Workflow', 'Administrator', ['ignore_request' => true])
+			->getItem($workflow_id);
 	}
-
 
 	/**
 	 * Check if the current plugin should execute workflow related activities
 	 *
-	 * @param string $context
+	 * @param   string  $context  Context to check
+	 *
 	 * @return boolean
 	 *
 	 * @since   4.0.0
