@@ -66,7 +66,7 @@ class MenuItemByComponentField extends ListField
 
 			$option        = new \stdClass;
 			$option->value = $component;
-			$option->text  = Text::_(strtoupper($component))
+			$option->text  = Text::_(strtoupper($component));
 			$options[]     = $option;
 		}
 
