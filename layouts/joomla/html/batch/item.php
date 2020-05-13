@@ -39,7 +39,11 @@ $wa->useScript('joomla.batch-language');
 <div id="batch-choose-action" class="control-group">
 	<select name="batch[category_id]" class="custom-select" id="batch-category-id">
 		<option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
-		<?php echo HTMLHelper::_('select.options', HTMLHelper::_('category.options', $extension)); ?>
+		<?php if (isset($addRoot) && $addRoot) : ?>
+			<?php echo HTMLHelper::_('select.options', HTMLHelper::_('category.categories', $extension)); ?>
+		<?php else : ?>
+			<?php echo HTMLHelper::_('select.options', HTMLHelper::_('category.options', $extension)); ?>
+		<?php endif; ?>
 	</select>
 </div>
 <div id="batch-copy-move" class="control-group radio">

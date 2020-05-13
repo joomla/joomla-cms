@@ -34,7 +34,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 		<?php if ($published >= 0) : ?>
 			<div class="form-group col-md-6">
 				<div class="controls">
-					<?php echo LayoutHelper::render('joomla.html.batch.item', ['extension' => $extension]); ?>
+					<?php echo LayoutHelper::render('joomla.html.batch.item', ['extension' => $extension, 'addRoot' => true]); ?>
 				</div>
 			</div>
 		<?php endif; ?>
