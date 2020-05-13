@@ -74,7 +74,8 @@
     border: 0;
   }
 
-  &.home-disabled {
+  &.home-disabled,
+  &.featured-disabled {
     opacity: 1;
     cursor: not-allowed;
   }
