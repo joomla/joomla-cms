@@ -36,14 +36,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_NAME', 'a.name', $listDirn, $listOrder); ?>
 						</th>
 						<?php foreach ($this->actions as $key => $action) : ?>
-						<th style="width:6%" class="text-center" scope="col">
+						<th scope="col" class="w-6 text-center">
 							<?php echo Text::_($key); ?>
 						</th>
 						<?php endforeach; ?>
-						<th style="width:6%" scope="col">
+						<th scope="col" class="w-6">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LFT', 'a.lft', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:3%" scope="col">
+						<th scope="col" class="w-3">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
