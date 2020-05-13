@@ -60,7 +60,7 @@ class ItemsModel extends ListModel
 				'parent_id', 'a.parent_id',
 				'publish_up', 'a.publish_up',
 				'publish_down', 'a.publish_down',
-				'e.name', 'componentName',
+				'e.element', 'componentName',
 				'a.ordering'
 			);
 
