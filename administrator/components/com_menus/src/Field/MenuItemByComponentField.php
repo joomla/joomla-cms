@@ -61,24 +61,8 @@ class MenuItemByComponentField extends ListField
 		{
 			$option        = new \stdClass;
 			$option->value = $component;
-
-			// Load component language files
-			$lang = Factory::getLanguage();
-			$lang->load($component, JPATH_BASE)
-			|| $lang->load($component, JPATH_ADMINISTRATOR . '/components/' . $component);
-
-			// If the component section string exists, let's use it
-			if ($lang->hasKey($component_section_key = strtoupper($component)))
-			{
-				$option->text = Text::_($component_section_key);
-			}
-			else
-				// Else use the component title
-			{
-				$option->text = Text::_(strtoupper($component));
-			}
-
-			$options[] = $option;
+			$option->text  = Text::_(strtoupper($component));
+			$options[]     = $option;
 		}
 
 		// Sort by name
