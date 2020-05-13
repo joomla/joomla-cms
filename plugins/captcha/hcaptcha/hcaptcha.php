@@ -111,7 +111,7 @@ class PlgCaptchaHcaptcha extends CMSPlugin
 		$input            = Factory::getApplication()->input;
 		$privateKey       = $this->params->get('privateKey');
 		$remoteIp         = IpHelper::getIp();
-		$hCaptchaResponse = $input->get('h-captcha-response', '', 'cmd');
+		$hCaptchaResponse = $code ?? $input->get('h-captcha-response', '', 'cmd');
 
 		// Check for Private Key
 		if (empty($privateKey))
