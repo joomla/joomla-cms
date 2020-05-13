@@ -41,9 +41,9 @@ $wa->useScript('joomla.batch-language');
 		<option value=""><?php echo Text::_('JLIB_HTML_BATCH_NO_CATEGORY'); ?></option>
 		<?php if (isset($addRoot) && $addRoot) : ?>
 			<?php echo HTMLHelper::_('select.options', HTMLHelper::_('category.categories', $extension)); ?>
-		<?php else: ?>
+		<?php else : ?>
 			<?php echo HTMLHelper::_('select.options', HTMLHelper::_('category.options', $extension)); ?>
-		<?php endif ?>
+		<?php endif; ?>
 	</select>
 </div>
 <div id="batch-copy-move" class="control-group radio">
