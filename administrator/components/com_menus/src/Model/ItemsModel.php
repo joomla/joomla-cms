@@ -527,7 +527,7 @@ class ItemsModel extends ListModel
 		// Filter on componentName
 		if ($componentName = $this->getState('filter.componentName'))
 		{
-			$query->where($db->quoteName('e.name') . ' = :component')
+			$query->where($db->quoteName('e.element') . ' = :component')
 				->bind(':component', $componentName);
 		}
 
