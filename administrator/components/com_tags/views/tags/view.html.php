@@ -127,6 +127,11 @@ class TagsViewTags extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
+		if ($canDo->get('core.admin'))
+		{
+			JToolbarHelper::custom('tags.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+		}
+
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'tags.delete', 'JTOOLBAR_EMPTY_TRASH');
