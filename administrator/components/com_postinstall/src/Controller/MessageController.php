@@ -32,6 +32,9 @@ class MessageController extends BaseController
 	 */
 	public function reset()
 	{
+		// Check for request forgeries
+		$this->checkToken();
+
 		/** @var MessagesModel $model */
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
 
@@ -56,6 +59,9 @@ class MessageController extends BaseController
 	 */
 	public function unpublish()
 	{
+		// Check for request forgeries
+		$this->checkToken();
+
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
 
 		$id = $this->input->get('id');
@@ -82,6 +88,9 @@ class MessageController extends BaseController
 	 */
 	public function action()
 	{
+		// Check for request forgeries
+		$this->checkToken();
+
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
 
 		$id = $this->input->get('id');
