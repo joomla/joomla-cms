@@ -124,10 +124,6 @@ class SearchModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		// Get the current user for authorisation checks
-		$user = Factory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
-
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -142,7 +138,7 @@ class SearchModel extends ListModel
 
 		$query->from('#__finder_links AS l');
 
-		$query->where('l.access IN (' . $groups . ')')
+		$query->where('l.access IN (' . implode(',', $this->getState('user.groups')) . ')')
 			->where('l.state = 1')
 			->where('l.published = 1');
 
