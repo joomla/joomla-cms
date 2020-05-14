@@ -94,14 +94,14 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<?php if ($hiddenMenu || $cpanel) : ?>
 					<div class="logo">
-					<img src="<?php echo $siteLogo; ?>" alt="<?php echo $logoAlt; ?>">
-					<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="<?php echo $logoSmallAlt; ?>">
+					<img src="<?php echo $siteLogo; ?>" alt="<?php echo $logoAlt; ?>" aria-hidden="true">
+										<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="<?php echo $logoSmallAlt; ?>" aria-hidden="true">
 					</div>
 				<?php else : ?>
 					<a class="logo" href="<?php echo Route::_('index.php'); ?>"
 						aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
-						<img src="<?php echo $siteLogo; ?>" alt="">
-						<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
+						<img src="<?php echo $siteLogo; ?>" alt="<?php echo $logoAlt; ?>" aria-hidden="true">
+						<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="<?php echo $logoSmallAlt; ?>" aria-hidden="true">
 					</a>
 				<?php endif; ?>
 			</div>
