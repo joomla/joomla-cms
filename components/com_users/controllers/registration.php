@@ -75,7 +75,7 @@ class UsersControllerRegistration extends UsersController
 		if (($uParams->get('useractivation') == 2) && $userToActivate->getParam('activate', 0))
 		{
 			// If a user admin is not logged in, redirect them to the login page with an error message
-			if (!$user->authorise('core.create', 'com_users'))
+			if (!$user->authorise('core.create', 'com_users') || !$user->authorise('core.manage', 'com_users'))
 			{
 				$activationUrl = 'index.php?option=com_users&task=registration.activate&token=' . $token;
 				$loginUrl      = 'index.php?option=com_users&view=login&return=' . base64_encode($activationUrl);
