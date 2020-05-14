@@ -104,7 +104,7 @@ Text::script('JGLOBAL_WARNCOOKIES');
 	</div>
 </header>
 
-<div id="wrapper" class="d-flex wrapper">
+<main id="wrapper" class="d-flex wrapper">
 
 	<div class="container-fluid container-main order-1">
 		<section id="content" class="content h-100">
@@ -122,7 +122,7 @@ Text::script('JGLOBAL_WARNCOOKIES');
 	</div>
 
 	<?php // Sidebar ?>
-	<div id="sidebar-wrapper" class="sidebar-wrapper order-0">
+	<aside id="sidebar-wrapper" class="sidebar-wrapper order-0">
 		<div id="main-brand" class="main-brand">
 			<h1><?php echo $app->get('sitename'); ?></h1>
 			<h2><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h2>
@@ -130,8 +130,8 @@ Text::script('JGLOBAL_WARNCOOKIES');
 		<div id="sidebar">
 			<jdoc:include type="modules" name="sidebar" style="body" />
 		</div>
-	</div>
-</div>
+	</aside>
+</main>
 <jdoc:include type="modules" name="debug" style="none" />
 <jdoc:include type="scripts" />
 </body>
