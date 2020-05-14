@@ -295,7 +295,7 @@ Joomla = window.Joomla || {};
       // If there are no active filters - remove the filtered caption area from the table
       if (activeFilterCount === 0) {
         const filteredByCaption = document.getElementById('filteredBy');
-        if (filteredByCaption !== null) {
+        if (filteredByCaption) {
           filteredByCaption.parentNode.removeChild(filteredByCaption);
         }
       }
