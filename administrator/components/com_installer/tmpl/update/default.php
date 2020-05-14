@@ -92,7 +92,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<th scope="row">
 										<span tabindex="0"><?php echo $this->escape($item->name); ?></span>
 										<div role="tooltip" id="tip<?php echo $i; ?>">
-											<?php echo $item->description; ?>
+											<?php echo Text::_('$item->description'); ?>
 										</div>
 										<?php if($item->isMissingDownloadKey): ?>
 										<br/>
