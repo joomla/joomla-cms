@@ -145,16 +145,11 @@ JHtml::_('behavior.caption');
 		<?php
 		if ($params->get('alternative_readmore', '') === '') :
 			echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
-		elseif ($params->get('alternative_readmore')) :
+		else :
 			echo $params->get('alternative_readmore');
 			if ($params->get('show_readmore_title', 0) != 0) :
 				echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 			endif;
-		elseif ($params->get('show_readmore_title', 0) == 0) :
-			echo JText::sprintf('COM_CONTENT_READ_MORE_TITLE');
-		else :
-			echo JText::_('COM_CONTENT_READ_MORE');
-			echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
 		endif; ?>
 		</a>
 	</p>
