@@ -35,6 +35,7 @@ JHtml::_('formbehavior.chosen', 'select');
 <form action="index.php" method="post" name="adminForm" class="form-inline" id="adminForm">
 	<input type="hidden" name="option" value="com_postinstall">
 	<input type="hidden" name="task" value="">
+	<?php echo JHtml::_('form.token'); ?>
 	<label for="eid"><?php echo JText::_('COM_POSTINSTALL_MESSAGES_FOR'); ?></label>
 	<?php echo JHtml::_('select.genericlist', $this->extension_options, 'eid', array('onchange' => 'this.form.submit()', 'class' => 'input-xlarge'), 'value', 'text', $this->eid, 'eid'); ?>
 </form>
