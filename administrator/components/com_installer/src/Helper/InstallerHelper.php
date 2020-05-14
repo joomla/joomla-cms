@@ -135,7 +135,7 @@ class InstallerHelper
 		?string $folder = null
 	): ?SimpleXMLElement
 	{
-		$path = $clientId ? JPATH_ADMINISTRATOR : JPATH_ROOT;
+		$path = [0 => JPATH_SITE, 1 => JPATH_ADMINISTRATOR, 3 => JPATH_API][$clientId] ?? JPATH_SITE;
 
 		switch ($type)
 		{
