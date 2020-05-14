@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Templates\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
@@ -18,6 +18,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
@@ -741,7 +742,45 @@ class TemplateModel extends FormModel
 			}
 
 			// Copy all files from $fromName template to $newName folder
-			if (!Folder::copy($fromPath, $toPath) || !$this->fixTemplateName())
+			if (!Folder::copy($fromPath, $toPath))
+			{
+				return false;
+			}
+
+			// Check manifest for additional files
+			$manifest = simplexml_load_file($toPath . '/templateDetails.xml');
+
+			// Copy language files from global folder
+			if ($languages = $manifest->languages)
+			{
+				$folder        = (string) $languages->attributes()->folder;
+				$languageFiles = $languages->language;
+
+				Folder::create($toPath . '/' . $folder . '/' . $languageFiles->attributes()->tag);
+
+				foreach ($languageFiles as $languageFile)
+				{
+					$src = Path::clean($client->path . '/language/' . $languageFile);
+					$dst = Path::clean($toPath . '/' . $folder . '/' . $languageFile);
+
+					if (File::exists($src))
+					{
+						File::copy($src, $dst);
+					}
+				}
+			}
+
+			// Copy media files
+			if ($media = $manifest->media)
+			{
+				$folder      = (string) $media->attributes()->folder;
+				$destination = (string) $media->attributes()->destination;
+
+				Folder::copy(JPATH_SITE . '/media/' . $destination, $toPath . '/' . $folder);
+			}
+
+			// Adjust to new template name
+			if (!$this->fixTemplateName())
 			{
 				return false;
 			}
@@ -786,7 +825,7 @@ class TemplateModel extends FormModel
 		// Rename Language files
 		// Get list of language files
 		$result   = true;
-		$files    = Folder::files($this->getState('to_path'), '.ini', true, true);
+		$files    = Folder::files($this->getState('to_path'), '\.ini$', true, true);
 		$newName  = strtolower($this->getState('new_name'));
 		$template = $this->getTemplate();
 		$oldName  = $template->element;
@@ -808,6 +847,8 @@ class TemplateModel extends FormModel
 			$replace[] = '<name>' . $newName . '</name>';
 			$pattern[] = '#<language(.*)' . $oldName . '(.*)</language>#';
 			$replace[] = '<language${1}' . $newName . '${2}</language>';
+			$pattern[] = '#<media(.*)' . $oldName . '(.*)>#';
+			$replace[] = '<media${1}' . $newName . '${2}>';
 			$contents = preg_replace($pattern, $replace, $contents);
 			$result = File::write($xmlFile, $contents) && $result;
 		}
@@ -821,7 +862,7 @@ class TemplateModel extends FormModel
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm    A \JForm object on success, false on failure
+	 * @return  Form|boolean    A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */

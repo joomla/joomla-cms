@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Fields\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
@@ -255,7 +255,7 @@ class FieldModel extends AdminModel
 	private function checkDefaultValue($data)
 	{
 		// Empty default values are correct
-		if (empty($data['default_value']))
+		if (empty($data['default_value']) && $data['default_value'] !== '0')
 		{
 			return true;
 		}

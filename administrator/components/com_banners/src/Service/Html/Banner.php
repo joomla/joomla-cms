@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Banners\Administrator\Service\Html;
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;

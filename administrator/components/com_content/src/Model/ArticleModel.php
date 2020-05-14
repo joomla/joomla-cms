@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Content\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -852,17 +852,29 @@ class ArticleModel extends AdminModel
 		// Save New Category
 		if ($createCategory && $this->canCreateCategory())
 		{
-			$table = array();
+			$category = [
+				// Remove #new# prefix, if exists.
+				'title'     => strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'],
+				'parent_id' => 1,
+				'extension' => 'com_content',
+				'language'  => $data['language'],
+				'published' => 1,
+			];
 
-			// Remove #new# prefix, if exists.
-			$table['title'] = strpos($data['catid'], '#new#') === 0 ? substr($data['catid'], 5) : $data['catid'];
-			$table['parent_id'] = 1;
-			$table['extension'] = 'com_content';
-			$table['language'] = $data['language'];
-			$table['published'] = 1;
+			/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $categoryModel */
+			$categoryModel = Factory::getApplication()->bootComponent('com_categories')
+				->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 
-			// Create new category and get catid back
-			$data['catid'] = CategoriesHelper::createCategory($table);
+			// Create new category.
+			if (!$categoryModel->save($category))
+			{
+				$this->setError($categoryModel->getError());
+
+				return false;
+			}
+
+			// Get the Category ID.
+			$data['catid'] = $categoryModel->getState('category.id');
 		}
 
 		if (isset($data['urls']) && is_array($data['urls']))
@@ -1013,12 +1025,15 @@ class ArticleModel extends AdminModel
 		{
 			if (isset($data['featured']))
 			{
-				$this->featured(
+				if (!$this->featured(
 					$this->getState($this->getName() . '.id'),
 					$data['featured'],
 					$data['featured_up'] ?? null,
 					$data['featured_down'] ?? null
-				);
+				))
+				{
+					return false;
+				}
 			}
 
 			// Let's check if we have workflow association (perhaps something went wrong before)
@@ -1085,6 +1100,17 @@ class ArticleModel extends AdminModel
 		$pks   = (array) $pks;
 		$pks   = ArrayHelper::toInteger($pks);
 		$value = (int) $value;
+
+		// Convert empty strings to null for the query.
+		if ($featuredUp === '')
+		{
+			$featuredUp = null;
+		}
+
+		if ($featuredDown === '')
+		{
+			$featuredDown = null;
+		}
 
 		if (empty($pks))
 		{

@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -299,7 +299,7 @@ abstract class Adapter extends CMSPlugin
 	/**
 	 * Method to index an item.
 	 *
-	 * @param   Result  $item  The item to index as a FinderIndexerResult object.
+	 * @param   Result  $item  The item to index as a Result object.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -542,7 +542,7 @@ abstract class Adapter extends CMSPlugin
 	 *
 	 * @param   integer  $id  The id of the content item.
 	 *
-	 * @return  Result  A FinderIndexerResult object.
+	 * @return  Result  A Result object.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.

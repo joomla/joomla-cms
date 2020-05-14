@@ -29,6 +29,7 @@
 					label="MOD_WHOSONLINE_SHOWMODE_LABEL"
 					default="0"
 					filter="integer"
+					validate="options"
 					>
 					<option value="0">MOD_WHOSONLINE_FIELD_VALUE_NUMBER</option>
 					<option value="1">MOD_WHOSONLINE_FIELD_VALUE_NAMES</option>
@@ -69,6 +70,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="0"
 					filter="integer"
+					validate="options"
 					>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>

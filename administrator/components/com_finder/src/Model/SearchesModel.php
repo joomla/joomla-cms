@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -136,9 +136,6 @@ class SearchesModel extends ListModel
 	public function getItems()
 	{
 		$items = parent::getItems();
-
-		\JLoader::register('FinderIndexerQuery', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/indexer/query.php');
-		\JLoader::register('FinderIndexerToken', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/indexer/token.php');
 
 		foreach ($items as $item)
 		{

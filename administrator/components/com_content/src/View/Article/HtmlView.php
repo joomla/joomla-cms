@@ -9,19 +9,16 @@
 
 namespace Joomla\Component\Content\Administrator\View\Article;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Content\Site\Helper\RouteHelper;
@@ -223,14 +220,14 @@ class HtmlView extends BaseHtmlView
 				$toolbar->preview($url, 'JGLOBAL_PREVIEW')
 					->bodyHeight(80)
 					->modalWidth(90);
-			}
-		}
 
-		if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
-		{
-			$toolbar->standardButton('contract')
-				->text('JTOOLBAR_ASSOCIATIONS')
-				->task('article.editAssociations');
+				if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
+				{
+					$toolbar->standardButton('contract')
+						->text('JTOOLBAR_ASSOCIATIONS')
+						->task('article.editAssociations');
+				}
+			}
 		}
 
 		$toolbar->divider();

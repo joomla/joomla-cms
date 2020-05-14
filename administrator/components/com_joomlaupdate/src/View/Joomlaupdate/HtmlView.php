@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -109,8 +109,8 @@ class HtmlView extends BaseHtmlView
 		$this->loadHelper('select');
 
 		// Assign view variables.
-		$ftp           = $model->getFTPOptions();
-		$defaultMethod = $ftp['enabled'] ? 'hybrid' : 'direct';
+		$this->ftp     = $model->getFTPOptions();
+		$defaultMethod = $this->ftp['enabled'] ? 'hybrid' : 'direct';
 
 		$this->updateInfo         = $model->getUpdateInformation();
 		$this->methodSelect       = JoomlaupdateHelperSelect::getMethods($defaultMethod);

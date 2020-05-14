@@ -10,12 +10,11 @@
 	</layout>
 
 	<!-- Add fields to the request variables for the layout. -->
-	<fields name="request"
-		addfieldprefix="Joomla\Component\Categories\Administrator\Field"
-	>
-		<fieldset name="request"
-			addfieldpath="/administrator/components/com_newsfeeds/models/fields"
-		 >
+	<fields name="request">
+		<fieldset
+			name="request"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
+			>
 			<field
 				name="id"
 				type="modal_category"
@@ -32,13 +31,7 @@
 
 	<!-- Add fields to the parameters object for the layout. -->
 	<fields name="params">
-		<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS">
-			<field
-				name="spacer1"
-				type="spacer"
-				label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
-				class="text"
-			/>
+		<fieldset name="basic" label="JGLOBAL_CATEGORY_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
 
 			<field
 				name="show_category_title"
@@ -46,6 +39,7 @@
 				label="JGLOBAL_SHOW_CATEGORY_TITLE"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -57,6 +51,7 @@
 				label="JGLOBAL_SHOW_CATEGORY_DESCRIPTION_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -68,6 +63,7 @@
 				label="JGLOBAL_SHOW_CATEGORY_IMAGE_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -78,6 +74,7 @@
 				type="list"
 				label="JGLOBAL_MAXIMUM_CATEGORY_LEVELS_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="-1">JALL</option>
 				<option value="0">JNONE</option>
@@ -94,6 +91,7 @@
 				label="JGLOBAL_SHOW_EMPTY_CATEGORIES_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -105,6 +103,7 @@
 				label="JGLOBAL_SHOW_SUBCATEGORIES_DESCRIPTION_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -117,18 +116,13 @@
 				id="show_cat_items"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
 		</fieldset>
-		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS">
-			<field
-				name="spacer2"
-				type="spacer"
-				label="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL"
-				class="text"
-			/>
+		<fieldset name="advanced" label="JGLOBAL_LIST_LAYOUT_OPTIONS" description="JGLOBAL_SUBSLIDER_DRILL_CATEGORIES_LABEL">
 
 			<field
 				name="filter_field"
@@ -137,6 +131,7 @@
 				default=""
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="hide">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -148,6 +143,7 @@
 				label="JGLOBAL_DISPLAY_SELECT_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -160,6 +156,7 @@
 				id="show_headings"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -172,6 +169,7 @@
 				id="show_articles"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -184,6 +182,7 @@
 				id="show_link"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -195,6 +194,7 @@
 				label="JGLOBAL_PAGINATION_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -207,6 +207,7 @@
 				label="JGLOBAL_PAGINATION_RESULTS_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -220,6 +221,7 @@
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_IMAGE_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -231,6 +233,7 @@
 				label="COM_NEWSFEEDS_FIELD_SHOW_FEED_DESCRIPTION_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -242,6 +245,7 @@
 				label="COM_NEWSFEEDS_FIELD_SHOW_ITEM_DESCRIPTION_LABEL"
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
@@ -260,6 +264,7 @@
 				type="list"
 				label="COM_NEWSFEEDS_FIELD_FEED_DISPLAY_ORDER_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="des">JGLOBAL_MOST_RECENT_FIRST</option>
 				<option value="asc">JGLOBAL_OLDEST_FIRST</option>

@@ -25,8 +25,12 @@ use Joomla\CMS\Table\Table;
  * - https://groups.google.com/d/msg/joomla-dev-cms/WsC0nA9Fixo/Ur-gPqpqh-EJ
  */
 
-// Reference global application object
+/** @var \Joomla\CMS\Application\CMSApplication $app */
 $app = Factory::getApplication();
+$app->allowCache(false);
+
+// Prevent the api url from being indexed
+$app->setHeader('X-Robots-Tag', 'noindex, nofollow');
 
 // JInput object
 $input = $app->input;

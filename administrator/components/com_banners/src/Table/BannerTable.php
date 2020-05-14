@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Banners\Administrator\Table;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
@@ -106,6 +106,14 @@ class BannerTable extends Table
 		if (trim(str_replace('-', '', $this->alias)) == '')
 		{
 			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
+		}
+
+		// Check for a valid category.
+		if (!$this->catid = (int) $this->catid)
+		{
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_CATEGORY_REQUIRED'));
+
+			return false;
 		}
 
 		// Set publish_up, publish_down to null if not set

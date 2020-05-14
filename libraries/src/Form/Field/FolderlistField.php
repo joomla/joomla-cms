@@ -189,7 +189,14 @@ class FolderlistField extends ListField
 
 		if (!is_dir($path))
 		{
-			$path = JPATH_ROOT . '/' . $path;
+			if (is_dir(JPATH_ROOT . '/' . $path))
+			{
+				$path = JPATH_ROOT . '/' . $path;
+			}
+			else
+			{
+				return [];
+			}
 		}
 
 		$path = Path::clean($path);

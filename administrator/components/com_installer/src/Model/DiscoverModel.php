@@ -9,12 +9,13 @@
 
 namespace Joomla\Component\Installer\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 use Joomla\Utilities\ArrayHelper;
@@ -86,7 +87,7 @@ class DiscoverModel extends InstallerModel
 	/**
 	 * Method to get the database query.
 	 *
-	 * @return  \JDatabaseQuery  the database query
+	 * @return  DatabaseQuery  the database query
 	 *
 	 * @since   3.1
 	 */

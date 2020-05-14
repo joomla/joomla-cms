@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Categories\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
@@ -127,7 +127,6 @@ class CategoryController extends FormController
 	{
 		$this->checkToken();
 
-		// Set the model
 		/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */
 		$model = $this->getModel('Category');
 

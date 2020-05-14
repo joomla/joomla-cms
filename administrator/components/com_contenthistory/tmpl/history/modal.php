@@ -43,7 +43,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 ?>
 <div class="container-popup">
 	<nav aria-label="toolbar">
-		<div class="btn-group float-right mb-3">
+		<div class="float-right mb-3">
 			<button id="toolbar-load" type="submit" class="btn btn-secondary" aria-label="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD_DESC'); ?>" data-url="<?php echo Route::_($loadUrl); ?>">
 				<span class="fas fa-upload" aria-hidden="true"></span>
 				<span class="d-none d-md-inline"><?php echo Text::_('COM_CONTENTHISTORY_BUTTON_LOAD'); ?></span>
@@ -74,22 +74,22 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 			</caption>
 			<thead>
 				<tr>
-					<td style="width:1%" class="text-center">
+					<td class="w-1 text-center">
 						<input type="checkbox" name="checkall-toggle" value="" title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)">
 					</td>
-					<th scope="col" style="width:15%">
+					<th scope="col" class="w-15">
 						<?php echo Text::_('JDATE'); ?>
 					</th>
-					<th scope="col" style="width:15%" class="d-none d-md-table-cell">
+					<th scope="col" class="w-15 d-none d-md-table-cell">
 						<?php echo Text::_('COM_CONTENTHISTORY_VERSION_NOTE'); ?>
 					</th>
-					<th scope="col" style="width:10%">
+					<th scope="col" class="w-10">
 						<?php echo Text::_('COM_CONTENTHISTORY_KEEP_VERSION'); ?>
 					</th>
-					<th scope="col" style="width:15%" class="d-none d-md-table-cell">
+					<th scope="col" class="w-15 d-none d-md-table-cell">
 						<?php echo Text::_('JAUTHOR'); ?>
 					</th>
-					<th scope="col" style="width:10%" class="text-right">
+					<th scope="col" class="w-10 text-right">
 						<?php echo Text::_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
 					</th>
 				</tr>

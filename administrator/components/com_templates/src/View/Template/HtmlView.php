@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Templates\Administrator\View\Template;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -288,7 +288,7 @@ class HtmlView extends BaseHtmlView
 			// Add a Delete file Button
 			if ($this->type != 'home')
 			{
-				ToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE');
+				ToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE', 'btn-danger');
 			}
 		}
 

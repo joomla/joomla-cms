@@ -13,7 +13,6 @@ namespace Joomla\Plugin\Quickicon\Joomlaupdate\Extension;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
@@ -123,8 +122,8 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 			]
 		);
 
-		HTMLHelper::_('behavior.core');
-		HTMLHelper::_('script', 'plg_quickicon_joomlaupdate/jupdatecheck.min.js', array('version' => 'auto', 'relative' => true));
+		$this->document->getWebAssetManager()
+			->registerAndUseScript('plg_quickicon_joomlaupdate', 'plg_quickicon_joomlaupdate/jupdatecheck.min.js', [], ['defer' => true], ['core']);
 
 		// Add the icon to the result array
 		$result = $event->getArgument('result', []);

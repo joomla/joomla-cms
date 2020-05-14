@@ -73,6 +73,11 @@
       const imgClass = img.getAttribute('class');
       const imgURL = img.getAttribute('src');
 
+      // Check if we're manipulating a SVG file.
+      if (imgURL.substr(imgURL.length - 4).toLowerCase() !== '.svg') {
+        return;
+      }
+
       Joomla.request({
         url: imgURL,
         method: 'GET',
@@ -279,8 +284,8 @@
       if (!navigator.cookieEnabled) {
         Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
       }
-      window.addEventListener('joomla:menu-toggle', (event) => {
-        changeLogo(event.detail);
+      window.addEventListener('joomla:menu-toggle', ({ detail }) => {
+        changeLogo(detail);
       });
     }
   });

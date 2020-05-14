@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Modules\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
@@ -76,7 +76,7 @@ class ModulesController extends AdminController
 	/**
 	 * Method to get the number of frontend modules
 	 *
-	 * @return  string  The JSON-encoded amount of modules
+	 * @return  void
 	 *
 	 * @since   4.0
 	 */

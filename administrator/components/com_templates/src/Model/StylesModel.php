@@ -9,13 +9,14 @@
 
 namespace Joomla\Component\Templates\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\String\StringHelper;
 
 /**
  * Methods supporting a list of template style records.
@@ -111,7 +112,7 @@ class StylesModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -244,7 +245,7 @@ class StylesModel extends ListModel
 			}
 			else
 			{
-				$search = '%' . strtolower($search) . '%';
+				$search = '%' . StringHelper::strtolower($search) . '%';
 				$query->extendWhere(
 					'AND',
 					[

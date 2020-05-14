@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Fields\Administrator\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
@@ -119,6 +119,7 @@ class FieldsHelper
 		}
 
 		self::$fieldsCache->setState('filter.context', $context);
+		self::$fieldsCache->setState('filter.assigned_cat_ids', array());
 
 		/*
 		 * If item has assigned_cat_ids parameter display only fields which

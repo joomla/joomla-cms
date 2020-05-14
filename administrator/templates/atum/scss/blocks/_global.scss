@@ -10,11 +10,11 @@ html {
 
 body {
   min-height: 100%;
-}
-
-body {
+  display: flex;
+  flex-direction: column;
   padding: 0;
   margin: 0;
+  text-align: start;
 
   &.monochrome {
     filter: grayscale(1);
@@ -101,10 +101,9 @@ caption {
 
 body .container-main {
   position: relative;
-  min-height: calc(100vh - #{$header-height} - 3px);
   padding-right: 0;
   padding-left: 0;
-  overflow: auto;
+
   &::before,
   &::after {
     position: fixed;
@@ -165,14 +164,7 @@ body .container-main {
 
 // Quickicon specific
 .message-alert {
-  text-align: right !important;
-}
-
-// dashboard items
-.menu-quicktask,
-.menu-badge {
-  float: right;
-  min-width: 1rem;
+  text-align: end !important;
 }
 
 // extern links with icons
@@ -190,14 +182,8 @@ a[target="_blank"]::before {
 }
 
 .text-muted {
-  color: var(--atum-text-dark);
-}
-
-// dashboard items
-.menu-quicktask,
-.menu-badge {
-  float: right;
-  min-width: 1rem;
+  color: var(--atum-text-dark) !important;
+  opacity: 0.7;
 }
 
 .card-columns {
@@ -233,9 +219,4 @@ details {
 
 summary {
   color: var(--atum-link-color);
-}
-
-div.rule-notes {
-  padding: 1rem;
-  background: var(--atum-bg-light);
 }

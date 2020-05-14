@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Contact\Site\View\Contact;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
@@ -117,6 +117,7 @@ class HtmlView extends BaseHtmlView
 		$item       = $this->get('Item');
 		$this->form = $this->get('Form');
 		$params     = $state->get('params');
+		$contacts   = array();
 
 		$temp = clone $params;
 
@@ -154,7 +155,8 @@ class HtmlView extends BaseHtmlView
 			$item->params = $temp;
 		}
 
-		if ($item)
+		// Collect extra contact information when this information is required
+		if ($item && $item->params->get('show_contact_list'))
 		{
 			// Get Category Model data
 			$categoryModel = new \Joomla\Component\Contact\Site\Model\CategoryModel(array('ignore_request' => true));

@@ -49,6 +49,7 @@
 					label="MOD_MENU_FIELD_STARTLEVEL_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">J1</option>
 					<option value="2">J2</option>
@@ -68,6 +69,7 @@
 					label="MOD_MENU_FIELD_ENDLEVEL_LABEL"
 					default="0"
 					filter="integer"
+					validate="options"
 					>
 					<option value="0">JALL</option>
 					<option value="1">J1</option>
@@ -135,6 +137,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
 					filter="integer"
+					validate="options"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>

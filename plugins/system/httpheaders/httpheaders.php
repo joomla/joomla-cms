@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
@@ -60,7 +59,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	/**
 	 * The params of the com_csp component
 	 *
-	 * @var    Registry
+	 * @var    \Joomla\Registry\Registry
 	 * @since  4.0.0
 	 */
 	private $comCspParams;
@@ -160,9 +159,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// Generate the hashes for the script-src
 			$inlineScripts = is_array($headData['script']) ? $headData['script'] : [];
 
-			foreach ($inlineScripts as $type => $scriptContent)
+			foreach ($inlineScripts as $type => $scripts)
 			{
-				$scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', $scriptContent, true)) . "'";
+				foreach ($scripts as $hash => $scriptContent)
+				{
+					$scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', $scriptContent, true)) . "'";
+				}
 			}
 		}
 
@@ -324,7 +326,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		if ($frameAncestorsSelfEnabled && !$frameAncestorsSet)
 		{
-			$newCspValues[] = 'frame-ancestors "self"';
+			$newCspValues[] = 'frame-ancestors \'self\'';
 		}
 
 		if (empty($newCspValues))
@@ -429,13 +431,13 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			}
 
 			// Append the script hashes placeholder
-			if ($scriptHashesEnabled && strpos($cspValue->directive, 'script-src') === 0)
+			if ($scriptHashesEnabled && strpos($cspHeaderkey, 'script-src') === 0)
 			{
 				$cspHeaderValue = '{script-hashes} ' . $cspHeaderValue;
 			}
 
 			// Append the style hashes placeholder
-			if ($styleHashesEnabled && strpos($cspValue->directive, 'style-src') === 0)
+			if ($styleHashesEnabled && strpos($cspHeaderkey, 'style-src') === 0)
 			{
 				$cspHeaderValue = '{style-hashes} ' . $cspHeaderValue;
 			}

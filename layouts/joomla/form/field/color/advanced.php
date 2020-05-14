@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
@@ -73,7 +73,8 @@ $direction = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
-$wa->useScript('field.color-adv');
+$wa->usePreset('minicolors')
+	->useScript('field.color-adv');
 
 ?>
 <input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo $this->escape($color); ?>"<?php

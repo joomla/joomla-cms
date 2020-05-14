@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Csp\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -58,6 +58,6 @@ class DisplayController extends BaseController
 			$this->app->enqueueMessage(Text::sprintf('COM_CSP_PLUGIN_MODAL_DISABLED', $link), 'error');
 		}
 
-		parent::display();
+		return parent::display();
 	}
 }

@@ -36,7 +36,9 @@ HTMLHelper::_('script', 'com_actionlogs/admin-actionlogs-default.js', ['relative
 		<?php else : ?>
 			<table class="table" id="logsList">
 				<caption id="captionTable" class="sr-only">
-					<?php echo Text::_('COM_ACTIONLOGS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					<?php echo Text::_('COM_ACTIONLOGS_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 				</caption>
 				<thead>
 					<tr>
@@ -86,7 +88,7 @@ HTMLHelper::_('script', 'com_actionlogs/admin-actionlogs-default.js', ['relative
 								</div>
 							</td>
 							<td class="d-md-table-cell">
-								<?php echo $item->name; ?>
+								<?php echo $this->escape($item->name); ?>
 							</td>
 							<?php if ($this->showIpColumn) : ?>
 								<td class="d-none d-md-table-cell">

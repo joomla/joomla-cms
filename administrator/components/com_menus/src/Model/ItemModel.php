@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Menus\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
@@ -1708,6 +1708,11 @@ class ItemModel extends AdminModel
 
 			// Clean the cache
 			parent::cleanCache($option);
+		}
+
+		if (Factory::getApplication()->input->get('task') === 'editAssociations')
+		{
+			return $this->redirectToAssociations($data);
 		}
 
 		return true;

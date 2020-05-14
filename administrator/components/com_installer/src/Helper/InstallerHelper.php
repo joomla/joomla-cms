@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Helper;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Exception;
 use Joomla\CMS\Factory;
@@ -159,6 +159,11 @@ class InstallerHelper
 				break;
 			case 'package':
 				$path = JPATH_ADMINISTRATOR . '/manifests/packages/' . $element . '.xml';
+		}
+
+		if (file_exists($path) === false)
+		{
+			return null;
 		}
 
 		$xmlElement = simplexml_load_file($path);

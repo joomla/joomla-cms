@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Finder\Administrator\Indexer;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -108,7 +108,7 @@ abstract class Indexer
 	protected $addTokensToDbQueryTemplate;
 
 	/**
-	 * FinderIndexer constructor.
+	 * Indexer constructor.
 	 *
 	 * @since  3.8.0
 	 */
@@ -134,7 +134,7 @@ abstract class Indexer
 	}
 
 	/**
-	 * Returns a reference to the FinderIndexer object.
+	 * Returns a reference to the Indexer object.
 	 *
 	 * @return  Indexer instance based on the database driver
 	 *
