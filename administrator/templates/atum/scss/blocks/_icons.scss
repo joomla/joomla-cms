@@ -12,8 +12,7 @@
   color: $white;
 }
 
-.icon-publish,
-.fa-check {
+.icon-publish {
   color: theme-color("success");
 
   .dropdown-status-group & {
@@ -36,9 +35,7 @@
   border: 0;
 
   [class^='icon-'],
-  [class*=' icon-'],
-  [class^='fa-'],
-  [class*=' fa-'] {
+  [class*=' icon-'] {
     width: 26px;
     height: 26px;
     font-size: 1rem;
@@ -48,14 +45,13 @@
     border-radius: 50%;
   }
 
-  .icon-publish,
-  .fa-check {
+  .icon-publish {
     color: var(--success);
     border-color: var(--success);
   }
 
   .icon-featured,
-  .fas.fa-star.featured {
+  .icon-color-featured {
     color: $state-warning-bg;
     border-color: $state-warning-bg;
   }
@@ -75,7 +71,9 @@
   }
 
   &.home-disabled,
-  &.featured-disabled {
+  &.featured-disabled,
+  &.color-featured-disabled,
+  &.fa-star-disabled {
     opacity: 1;
     cursor: not-allowed;
   }
