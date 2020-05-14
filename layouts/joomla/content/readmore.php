@@ -36,13 +36,12 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 	<?php elseif ($params->get('show_readmore_title', 0) == 0) : ?>
 		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" itemprop="url" aria-label="<?php echo Text::_('COM_CONTENT_READ_MORE'); ?> <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
 			<?php echo '<span class="fas fa-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
-			<?php echo Text::sprintf('COM_CONTENT_READ_MORE_TITLE'); ?>
+			<?php echo Text::_('COM_CONTENT_READ_MORE'); ?>
 		</a>
 	<?php else : ?>
 		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" itemprop="url" aria-label="<?php echo Text::_('COM_CONTENT_READ_MORE'); ?> <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
 			<?php echo '<span class="fas fa-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
-			<?php echo Text::_('COM_CONTENT_READ_MORE'); ?>
-			<?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
+			<?php echo Text::sprintf('COM_CONTENT_READ_MORE_TITLE', HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'))); ?>
 		</a>
 	<?php endif; ?>
 </p>
