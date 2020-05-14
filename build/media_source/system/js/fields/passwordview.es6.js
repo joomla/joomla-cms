@@ -32,8 +32,8 @@
           srText.innerText = Joomla.Text._('JHIDEPASSWORD');
         } else if (input.type === 'text') {
           // Update the icon class
-          icon.classList.add('fas fa-eye');
-          icon.classList.remove('fas fa-eye-slash');
+          icon.classList.add('fa-eye');
+          icon.classList.remove('fa-eye-slash');
 
           // Update the input type
           input.type = 'password';
