@@ -159,6 +159,9 @@ class InstallerHelper
 				break;
 			case 'package':
 				$path = JPATH_ADMINISTRATOR . '/manifests/packages/' . $element . '.xml';
+				break;
+			case 'language':
+				$path .= '/language/' . $element . '/install.xml';
 		}
 
 		if (file_exists($path) === false)
