@@ -50,7 +50,8 @@
     border-color: var(--success);
   }
 
-  .icon-featured {
+  .icon-featured,
+  .icon-color-featured {
     color: $state-warning-bg;
     border-color: $state-warning-bg;
   }
@@ -70,7 +71,9 @@
   }
 
   &.home-disabled,
-  &.featured-disabled {
+  &.featured-disabled,
+  &.color-featured-disabled,
+  &.fa-star-disabled {
     opacity: 1;
     cursor: not-allowed;
   }

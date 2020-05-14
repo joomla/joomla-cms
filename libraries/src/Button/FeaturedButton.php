@@ -29,8 +29,8 @@ class FeaturedButton extends ActionButton
 	 */
 	protected function preprocess()
 	{
-		$this->addState(0, 'articles.featured', 'unfeatured', Text::_('COM_CONTENT_UNFEATURED'), ['tip_title' => Text::_('JGLOBAL_TOGGLE_FEATURED')]);
-		$this->addState(1, 'articles.unfeatured', 'featured', Text::_('COM_CONTENT_FEATURED'), ['tip_title' => Text::_('JGLOBAL_TOGGLE_FEATURED')]);
+		$this->addState(0, 'articles.featured', 'color-unfeatured far fa-star', Text::_('COM_CONTENT_UNFEATURED'), ['tip_title' => Text::_('JGLOBAL_TOGGLE_FEATURED')]);
+		$this->addState(1, 'articles.unfeatured', 'color-featured fas fa-star', Text::_('COM_CONTENT_FEATURED'), ['tip_title' => Text::_('JGLOBAL_TOGGLE_FEATURED')]);
 	}
 
 	/**
