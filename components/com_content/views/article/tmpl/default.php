@@ -142,15 +142,14 @@ JHtml::_('behavior.caption');
 	<?php $link->setVar('return', base64_encode(ContentHelperRoute::getArticleRoute($this->item->slug, $this->item->catid, $this->item->language))); ?>
 	<p class="readmore">
 		<a href="<?php echo $link; ?>" class="register">
-		<?php
-		if ($params->get('alternative_readmore', '') === '') :
-			echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE');
-		else :
-			echo $params->get('alternative_readmore');
-			if ($params->get('show_readmore_title', 0) != 0) :
-				echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit'));
-			endif;
-		endif; ?>
+			<?php if ($params->get('alternative_readmore', '') === '') : ?>
+				<?php echo JText::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
+			<?php else : ?>
+				<?php echo $params->get('alternative_readmore'); ?>
+				<?php if ($params->get('show_readmore_title', 0) != 0) : ?>
+					<?php echo JHtml::_('string.truncate', $this->item->title, $params->get('readmore_limit')); ?>
+				<?php endif; ?>
+			<?php endif; ?>
 		</a>
 	</p>
 	<?php endif; ?>
