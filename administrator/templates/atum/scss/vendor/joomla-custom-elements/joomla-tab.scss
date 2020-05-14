@@ -53,10 +53,8 @@ joomla-tab {
 
       &[active],
       &:hover {
-        margin: -1px;
         background-color: $white;
         background-image: none;
-        border: 1px solid var(--bluegray);
         border-bottom: solid 1px #fff;
         border-radius: 0;
         box-shadow: none;
@@ -67,7 +65,6 @@ joomla-tab {
           left: 0;
           height: 4px;
           content: "";
-          background-color: var(--atum-contrast);
           opacity: .8;
         }
       }
