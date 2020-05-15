@@ -108,6 +108,7 @@
 					name="class_sfx"
 					type="text"
 					label="MOD_MENU_FIELD_CLASS_LABEL"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -129,6 +130,7 @@
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
+					validate="CssIdentifier"
 				/>
 
 				<field

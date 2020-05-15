@@ -219,6 +219,7 @@
 					type="textarea"
 					label="COM_FIELDS_FIELD_CLASS_LABEL"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -226,6 +227,7 @@
 					type="textarea"
 					label="COM_FIELDS_FIELD_LABEL_FORM_CLASS_LABEL"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -248,6 +250,7 @@
 					type="textarea"
 					label="COM_FIELDS_FIELD_RENDER_CLASS_LABEL"
 					size="40"
+					validate="CssIdentifier"
 				/>
 
 				<field
@@ -267,6 +270,7 @@
 					label="COM_FIELDS_FIELD_LABEL_RENDER_CLASS_LABEL"
 					size="40"
 					showon="showlabel:1"
+					validate="CssIdentifier"
 				/>
 
 				<field

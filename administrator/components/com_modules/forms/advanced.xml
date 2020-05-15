@@ -37,6 +37,7 @@
 				name="header_class"
 				type="text"
 				label="COM_MODULES_FIELD_HEADER_CLASS_LABEL"
+				validate="CssIdentifier"
 			/>
 		</fieldset>
 	</fields>
