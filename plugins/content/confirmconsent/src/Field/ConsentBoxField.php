@@ -304,10 +304,10 @@ class ConsentBoxField extends CheckboxesField
 	}
 
 	/**
-	 * Get privacy menu item ID. If the site is a multilingual website and there is associated menu item for the
-	 * current language, ID of the associated menu item will be returned.
+	 * Get privacy menu item URL. If the site is a multilingual website and there is associated menu item for the
+	 * current language, the URL of the associated menu item will be returned.
 	 *
-	 * @return  integer
+	 * @return  string
 	 *
 	 * @since   4.0
 	 */
