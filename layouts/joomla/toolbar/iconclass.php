@@ -36,7 +36,7 @@ elseif ($icon === 'mail')
 {
 	$icon = 'envelope';
 }
-elseif ($icon === 'unfeatured' || $icon === 'asterisk' || $icon === 'default')
+elseif ($icon === 'unfeatured' || $icon === 'asterisk')
 {
 	$icon = 'star';
 }
@@ -91,5 +91,9 @@ elseif ($icon === 'generic')
 elseif ($icon === 'list-2')
 {
 	$icon = 'list-ul';
+}
+elseif ($icon === 'default')
+{
+	$icon = 'home';
 }
 ?>fas fa-<?php echo $icon; ?>
