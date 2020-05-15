@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 // Convert icomoon to fa
 $icon = $displayData['icon'];
@@ -36,7 +36,7 @@ elseif ($icon === 'mail')
 {
 	$icon = 'envelope';
 }
-elseif ($icon === 'unfeatured' || $icon === 'asterisk' || $icon === 'default')
+elseif ($icon === 'unfeatured' || $icon === 'asterisk')
 {
 	$icon = 'star';
 }
@@ -92,5 +92,8 @@ elseif ($icon === 'list-2')
 {
 	$icon = 'list-ul';
 }
-
-?>fas fa-<?php echo $icon;
+elseif ($icon === 'default')
+{
+	$icon = 'home';
+}
+?>fas fa-<?php echo $icon; ?>
