@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $icon = empty($displayData['icon']) ? 'dot-circle' : preg_replace('#\.[^ .]*$#', '', $displayData['icon']);
 
-if ( $icon === 'generic' )
+if ($icon === 'generic')
 {
 	$icon = 'dot-circle';
 }
