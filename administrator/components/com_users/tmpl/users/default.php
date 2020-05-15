@@ -57,7 +57,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								<th scope="col" class="text-center d-none d-md-table-cell">
 									<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
 								</th>
-								<th scope="col" style="width:10%; " class="d-none d-md-table-cell">
+								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-5 text-center d-md-table-cell">
@@ -71,16 +71,16 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									<?php echo Text::_('COM_USERS_HEADING_TFA'); ?>
 								</th>
 								<?php endif; ?>
-								<th scope="col" style="width:12%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-12 d-none d-md-table-cell">
 									<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
 								</th>
-								<th scope="col" style="width:12%;" class="d-none d-xl-table-cell">
+								<th scope="col" class="w-12 d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="d-none d-xl-table-cell">
+								<th scope="col" class="w-12 d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LAST_VISIT_DATE', 'a.lastvisitDate', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:12%" class="d-none d-xl-table-cell">
+								<th scope="col" class="w-12 d-none d-xl-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_REGISTRATION_DATE', 'a.registerDate', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-5 d-none d-md-table-cell">

@@ -50,7 +50,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th scope="col" class="w-15 text-right d-none d-md-table-cell">
 									<?php echo Text::_('JVERSION'); ?>
 								</th>
-								<th scope="col" style="width:35%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-35 d-none d-md-table-cell">
 									<?php echo Text::_('COM_INSTALLER_HEADING_DETAILS_URL'); ?>
 								</th>
 							</tr>
