@@ -2657,7 +2657,7 @@ class JoomlaInstallerScript
 	 *
 	 * @since	__DEPLOY_VERSION__
 	 */
-	public function setupSitekeyAndSitesecert()
+	public function setupSitekeyAndSitesecret()
 	{
 		$dispatcher = JEventDispatcher::getInstance();
 
