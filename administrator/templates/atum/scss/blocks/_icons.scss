@@ -73,6 +73,16 @@
     color: var(--atum-text-dark);
     border: 0;
   }
+
+  &.home-disabled {
+    opacity: 1;
+    cursor: not-allowed;
+  }
+
+  &.disabled .icon-home {
+    color: $state-warning-bg;
+    border-color: $state-warning-bg;
+  }
 }
 
 .icon-joomla::before {
