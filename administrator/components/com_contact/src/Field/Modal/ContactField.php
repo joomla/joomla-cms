@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Contact\Administrator\Field\Modal;
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -55,7 +55,7 @@ class ContactField extends FormField
 		Factory::getLanguage()->load('com_contact', JPATH_ADMINISTRATOR);
 
 		// The active contact id field.
-		$value = (int) $this->value > 0 ? (int) $this->value : '';
+		$value = (int) $this->value ?: '';
 
 		// Create the modal id.
 		$modalId = 'Contact_' . $this->id;

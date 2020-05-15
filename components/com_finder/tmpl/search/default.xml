@@ -34,6 +34,7 @@
 				default=""
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
@@ -45,6 +46,7 @@
 				default=""
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
@@ -56,6 +58,7 @@
 				default=""
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
@@ -68,6 +71,7 @@
 				default=""
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
@@ -79,6 +83,7 @@
 				default=""
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
@@ -98,6 +103,7 @@
 				default=""
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
@@ -109,6 +115,7 @@
 				default=""
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="1">JSHOW</option>
 				<option value="0">JHIDE</option>
@@ -158,6 +165,7 @@
 				default=""
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
@@ -169,6 +177,7 @@
 				default=""
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
@@ -180,6 +189,7 @@
 				default=""
 				useglobal="true"
 				class="custom-select-color-state"
+				validate="options"
 				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
@@ -190,6 +200,7 @@
 				label="COM_FINDER_CONFIG_SORT_ORDER_LABEL"
 				default=""
 				useglobal="true"
+				validate="options"
 				>
 				<option value="relevance">COM_FINDER_CONFIG_SORT_OPTION_RELEVANCE</option>
 				<option value="date">COM_FINDER_CONFIG_SORT_OPTION_START_DATE</option>
@@ -201,6 +212,7 @@
 				label="COM_FINDER_CONFIG_SORT_DIRECTION_LABEL"
 				default=""
 				useglobal="true"
+				validate="options"
 				>
 				<option value="desc">COM_FINDER_CONFIG_SORT_OPTION_DESCENDING</option>
 				<option value="asc">COM_FINDER_CONFIG_SORT_OPTION_ASCENDING</option>

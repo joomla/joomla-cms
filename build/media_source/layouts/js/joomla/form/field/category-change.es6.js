@@ -29,6 +29,6 @@
       document.querySelector('input[name=task]').value = `${el.getAttribute('data-refresh-section')}.reload`;
     }
 
-    element.form.submit();
+    Joomla.submitform(`${el.getAttribute('data-refresh-section')}.reload`, element.form);
   };
 })(Joomla);

@@ -185,7 +185,7 @@ class FolderlistField extends ListField
 	{
 		$options = array();
 
-		$path = ltrim($this->directory, '/');
+		$path = $this->directory;
 
 		if (!is_dir($path))
 		{

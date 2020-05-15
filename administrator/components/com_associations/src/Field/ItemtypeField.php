@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Associations\Administrator\Field;
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Field\GroupedlistField;
 use Joomla\CMS\HTML\HTMLHelper;

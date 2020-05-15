@@ -570,7 +570,7 @@ class DatabaseModel extends BaseInstallationModel
 			$query = $db->getQuery(true);
 			$query->clear()
 				->update($db->quoteName('#__utf8_conversion'))
-				->set($db->quoteName('converted') . ' = ' . ($db->hasUTF8mb4Support() ? 2 : 1));
+				->set($db->quoteName('converted') . ' = ' . ($db->hasUTF8mb4Support() ? 4 : 3));
 			$db->setQuery($query);
 
 			try
