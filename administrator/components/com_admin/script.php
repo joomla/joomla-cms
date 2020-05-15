@@ -176,7 +176,7 @@ class JoomlaInstallerScript
 			// Setup the the new sitekey and sitesecret values
 			if (version_compare($this->fromVersion, '3.10.0', 'lt'))
 			{
-				$this->setupSitekeyAndSitesecert();
+				$this->setupSitekeyAndSitesecret();
 			}
 		}
 
