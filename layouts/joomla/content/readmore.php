@@ -20,7 +20,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 
 <p class="readmore">
 	<?php if (!$params->get('access-view')) : ?>
-		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" itemprop="url" aria-label="<?php echo $this->escape(Text::_('COM_CONTENT_REGISTER_TO_READ_MORE') . ' ' . $item->title); ?>">
+		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" itemprop="url" aria-label="<?php echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE') . ' ' . $this->escape($item->title); ?>">
 			<?php echo '<span class="fas fa-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
 			<?php echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
 		</a>
@@ -33,12 +33,12 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 			<?php endif; ?>
 		</a>
 	<?php elseif ($params->get('show_readmore_title', 0) == 0) : ?>
-		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" itemprop="url" aria-label="<?php echo $this->escape(Text::sprintf('COM_CONTENT_READ_MORE_TITLE', $item->title)); ?>">
+		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" itemprop="url" aria-label="<?php echo Text::sprintf('COM_CONTENT_READ_MORE_TITLE', $this->escape($item->title)); ?>">
 			<?php echo '<span class="fas fa-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
 			<?php echo Text::_('COM_CONTENT_READ_MORE'); ?>
 		</a>
 	<?php else : ?>
-		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" itemprop="url" aria-label="<?php echo $this->escape(Text::sprintf('COM_CONTENT_READ_MORE_TITLE', $item->title)); ?>">
+		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" itemprop="url" aria-label="<?php echo Text::sprintf('COM_CONTENT_READ_MORE_TITLE', $this->escape($item->title)); ?>">
 			<?php echo '<span class="fas fa-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
 			<?php echo Text::sprintf('COM_CONTENT_READ_MORE_TITLE', HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit'))); ?>
 		</a>
