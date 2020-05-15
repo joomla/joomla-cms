@@ -78,7 +78,8 @@
     cursor: not-allowed;
   }
 
-  &.disabled .icon-home {
+  &.disabled .icon-home,
+  &.disabled .fas.fa-home {
     color: $state-warning-bg;
     border-color: $state-warning-bg;
   }
