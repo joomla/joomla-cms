@@ -36,7 +36,7 @@ $text     = isset($displayData['text']) ? $displayData['text'] : '';
 <!-- Render the button -->
 <joomla-toolbar-button<?php echo $id; ?>>
 	<button
-		class="btn btn-sm btn-primary"
+		class="btn btn-primary"
 		type="button"
 		onclick="document.getElementById('modal_<?php echo $selector; ?>').open(); document.body.appendChild(document.getElementById('modal_<?php echo $selector; ?>'));"
 		data-toggle="modal">
