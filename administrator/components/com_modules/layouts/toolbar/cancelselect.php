@@ -13,6 +13,8 @@ use Joomla\CMS\Language\Text;
 
 $text = Text::_('JTOOLBAR_CANCEL');
 ?>
-<button onclick="location.href='index.php?option=com_modules&view=modules&client_id=<?php echo $displayData['client_id']; ?>'" class="btn btn-sm btn-danger">
-	<span class="fas fa-times" aria-hidden="true"></span> <?php echo $text; ?>
-</button>
+<joomla-toolbar-button>
+	<button onclick="location.href='index.php?option=com_modules&view=modules&client_id=<?php echo $displayData['client_id']; ?>'" class="btn btn-danger">
+		<span class="fas fa-times" aria-hidden="true"></span> <?php echo $text; ?>
+	</button>
+</joomla-toolbar-button>
