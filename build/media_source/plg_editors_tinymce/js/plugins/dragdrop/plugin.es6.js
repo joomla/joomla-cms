@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-tinymce.PluginManager.add('jdragndrop', (editor) => {
+tinymce.PluginManager.add('jdragndrop', function (editor) {
   // Reset the drop area border
   tinyMCE.DOM.bind(document, 'dragleave', (e) => {
     e.stopPropagation();
@@ -55,7 +55,7 @@ tinymce.PluginManager.add('jdragndrop', (editor) => {
           if (/local-/.test(response.data.adapter)) {
             const { rootFull } = Joomla.getOptions('system.paths');
 
-            urlPath = `${response.data.url.split(rootFull)[1]}`;
+            urlPath = `${response.data.thumb_path.split(rootFull)[1]}`;
           } else if (response.data.thumb_path) {
             // Absolute path for different domain
             urlPath = response.data.thumb_path;
