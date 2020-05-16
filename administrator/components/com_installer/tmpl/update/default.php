@@ -106,10 +106,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										</span>
 										<?php endif; ?>
 									</th>
-									<td class="center d-none d-md-table-cell">
+									<td class="text-center d-none d-md-table-cell">
 										<?php echo $item->client_translated; ?>
 									</td>
-									<td class="center d-none d-md-table-cell">
+									<td class="text-center d-none d-md-table-cell">
 										<?php echo $item->type_translated; ?>
 									</td>
 									<td>
