@@ -81,7 +81,7 @@ $stateMsgs  = array(
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<tr>
-							<td class="center">
+							<td class="text-center">
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="tbody-icon">

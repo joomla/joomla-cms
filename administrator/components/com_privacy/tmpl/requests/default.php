@@ -73,7 +73,7 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 						$itemRequestedAt = new Date($item->requested_at);
 						?>
 						<tr>
-							<td class="center">
+							<td class="text-center">
 								<div class="btn-group">
 									<?php if ($item->status == 1 && $item->request_type === 'export') : ?>
 										<a class="btn tbody-icon" href="<?php echo Route::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $item->id); ?>" title="<?php echo Text::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?>"><span class="fas fa-download" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?></span></a>
