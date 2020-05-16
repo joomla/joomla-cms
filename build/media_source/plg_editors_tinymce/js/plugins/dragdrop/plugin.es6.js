@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-tinymce.PluginManager.add('jdragndrop', function (editor) {
+tinymce.PluginManager.add('jdragndrop', (editor) => {
   // Reset the drop area border
   tinyMCE.DOM.bind(document, 'dragleave', (e) => {
     e.stopPropagation();
