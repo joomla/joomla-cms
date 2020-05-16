@@ -220,16 +220,16 @@ HTMLHelper::_('behavior.formvalidator');
 				<caption id="install_languages_desc"><?php echo Text::_('INSTL_LANGUAGES_DESC'); ?></caption>
 					<thead>
 					<tr>
-						<td width="1%" class="text-center">
+						<td class="w-1 text-center">
 							&nbsp;
 						</td>
 						<th scope="col">
 							<?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE'); ?>
 						</th>
-						<th scope="col" width="15%">
+						<th scope="col" class="w-15">
 							<?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_LANGUAGE_TAG'); ?>
 						</th>
-						<th scope="col" width="5%" class="text-center">
+						<th scope="col" class="w-5 text-center">
 							<?php echo Text::_('INSTL_LANGUAGES_COLUMN_HEADER_VERSION'); ?>
 						</th>
 					</tr>

@@ -42,27 +42,27 @@ HTMLHelper::_('script', 'com_actionlogs/admin-actionlogs-default.js', ['relative
 				</caption>
 				<thead>
 					<tr>
-						<td width="1%" class="text-center">
+						<td class="w-1 text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
 						<th scope="col" class="d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_ACTION', 'a.message', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="15%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-15 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_EXTENSION', 'a.extension', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="15%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-15 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_DATE', 'a.log_date', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col" width="10%" class="d-md-table-cell">
+						<th scope="col" class="w-10 d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_NAME', 'a.user_id', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($this->showIpColumn) : ?>
-							<th scope="col" width="10%" class="d-none d-md-table-cell">
+							<th scope="col" class="w-10 d-none d-md-table-cell">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_ACTIONLOGS_IP_ADDRESS', 'a.ip_address', $listDirn, $listOrder); ?>
 							</th>
 						<?php endif; ?>
-						<th scope="col" width="1%" class="d-none d-md-table-cell">
+						<th scope="col" class="w-1 d-none d-md-table-cell">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
