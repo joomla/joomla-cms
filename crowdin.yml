@@ -4,7 +4,6 @@ files:
   - source: /administrator/language/en-GB/*.ini
     translation: /administrator/language/%locale%/%original_file_name%
     update_option: update_as_unapproved
-    type: ini
   - source: /administrator/language/en-GB/*.xml
     translation: /administrator/language/%locale%/%original_file_name%
     update_option: update_as_unapproved
@@ -16,7 +15,6 @@ files:
   - source: /api/language/en-GB/*.ini
     translation: /api/language/%locale%/%original_file_name%
     update_option: update_as_unapproved
-    type: ini
   - source: /api/language/en-GB/*.xml
     translation: /api/language/%locale%/%original_file_name%
     update_option: update_as_unapproved
@@ -24,7 +22,6 @@ files:
   - source: /language/en-GB/*.ini
     translation: /language/%locale%/%original_file_name%
     update_option: update_as_unapproved
-    type: ini
   - source: /language/en-GB/*.xml
     translation: /language/%locale%/%original_file_name%
     update_option: update_as_unapproved
@@ -36,7 +33,6 @@ files:
   - source: /installation/language/en-GB/joomla.ini
     translation: /installation/language/%locale%/joomla.ini
     update_option: update_as_unapproved
-    type: ini
   - source: /installation/language/en-GB/langmetadata.xml
     translation: /installation/language/%locale%/langmetadata.xml
     content_segmentation: 0
