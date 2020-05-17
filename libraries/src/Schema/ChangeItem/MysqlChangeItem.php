@@ -11,7 +11,6 @@ namespace Joomla\CMS\Schema\ChangeItem;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Schema\ChangeItem;
-use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
  * Checks the database schema against one MySQL DDL query to see if it has been run.
@@ -64,19 +63,6 @@ class MysqlChangeItem extends ChangeItem
 
 		// We can only make check queries for alter table and create table queries
 		$command = strtoupper($wordArray[0] . ' ' . $wordArray[1]);
-
-		// Check for special update statement to reset utf8mb4 conversion status
-		if (($command === 'UPDATE `#__UTF8_CONVERSION`'
-			|| $command === 'UPDATE #__UTF8_CONVERSION')
-			&& strtoupper($wordArray[2]) === 'SET'
-			&& strtolower(substr(str_replace('`', '', $wordArray[3]), 0, 9)) === 'converted')
-		{
-			// Statement is special statement to reset conversion status
-			$this->queryType = 'UTF8CNV';
-
-			// Done with method
-			return;
-		}
 
 		if ($command === 'ALTER TABLE')
 		{
@@ -333,24 +319,17 @@ class MysqlChangeItem extends ChangeItem
 		{
 			$typeCheck = 'UPPER(LEFT(type, 3)) = ' . $this->db->quote('INT');
 		}
-		elseif ($this->db instanceof UTF8MB4SupportInterface && $this->db->hasUTF8mb4Support())
+		elseif ($uType === 'TINYTEXT')
 		{
-			if ($uType === 'TINYTEXT')
-			{
-				$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')';
-			}
-			elseif ($uType === 'TEXT')
-			{
-				$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')';
-			}
-			elseif ($uType === 'MEDIUMTEXT')
-			{
-				$typeCheck = 'UPPER(type) IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')';
-			}
-			else
-			{
-				$typeCheck = 'UPPER(type) = ' . $this->db->quote($uType);
-			}
+			$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')';
+		}
+		elseif ($uType === 'TEXT')
+		{
+			$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')';
+		}
+		elseif ($uType === 'MEDIUMTEXT')
+		{
+			$typeCheck = 'UPPER(type) IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')';
 		}
 		else
 		{
