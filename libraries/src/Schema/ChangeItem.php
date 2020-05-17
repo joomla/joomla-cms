@@ -13,7 +13,6 @@ namespace Joomla\CMS\Schema;
 use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
  * Each object represents one query, which is one line from a DDL SQL query.
@@ -238,11 +237,6 @@ abstract class ChangeItem
 		{
 			// At this point we have a failed query
 			$query = $this->updateQuery;
-
-			if ($this->db instanceof UTF8MB4SupportInterface)
-			{
-				$query = $this->db->convertUtf8mb4QueryToUtf8($query);
-			}
 
 			$this->db->setQuery($query);
 

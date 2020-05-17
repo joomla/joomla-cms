@@ -2,13 +2,13 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Schema\ChangeItem;
 
-defined('JPATH_PLATFORM') or die;
+\defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Schema\ChangeItem;
 
@@ -39,7 +39,9 @@ class MysqlChangeItem extends ChangeItem
 	protected function buildCheckQuery()
 	{
 		// Initialize fields in case we can't create a check query
-		$this->checkStatus = -1; // change status to skipped
+
+		// Change status to skipped
+		$this->checkStatus = -1;
 		$result = null;
 
 		// Remove any newlines
@@ -53,7 +55,7 @@ class MysqlChangeItem extends ChangeItem
 
 		// First, make sure we have an array of at least 6 elements
 		// if not, we can't make a check query for this one
-		if (count($wordArray) < 6)
+		if (\count($wordArray) < 6)
 		{
 			// Done with method
 			return;
@@ -61,19 +63,6 @@ class MysqlChangeItem extends ChangeItem
 
 		// We can only make check queries for alter table and create table queries
 		$command = strtoupper($wordArray[0] . ' ' . $wordArray[1]);
-
-		// Check for special update statement to reset utf8mb4 conversion status
-		if (($command === 'UPDATE `#__UTF8_CONVERSION`'
-			|| $command === 'UPDATE #__UTF8_CONVERSION')
-			&& strtoupper($wordArray[2]) === 'SET'
-			&& strtolower(substr(str_replace('`', '', $wordArray[3]), 0, 9)) === 'converted')
-		{
-			// Statement is special statement to reset conversion status
-			$this->queryType = 'UTF8CNV';
-
-			// Done with method
-			return;
-		}
 
 		if ($command === 'ALTER TABLE')
 		{
@@ -154,7 +143,7 @@ class MysqlChangeItem extends ChangeItem
 				}
 
 				// Detect changes in NULL and in DEFAULT column attributes
-				$changesArray = array_slice($wordArray, 6);
+				$changesArray = \array_slice($wordArray, 6);
 				$defaultCheck = $this->checkDefault($changesArray, $type);
 				$nullCheck = $this->checkNull($changesArray);
 
@@ -180,9 +169,9 @@ class MysqlChangeItem extends ChangeItem
 				{
 					$type = $this->fixInteger($wordArray[6], $wordArray[7]);
 				}
-				
+
 				// Detect changes in NULL and in DEFAULT column attributes
-				$changesArray = array_slice($wordArray, 6);
+				$changesArray = \array_slice($wordArray, 6);
 				$defaultCheck = $this->checkDefault($changesArray, $type);
 				$nullCheck = $this->checkNull($changesArray);
 
@@ -330,24 +319,17 @@ class MysqlChangeItem extends ChangeItem
 		{
 			$typeCheck = 'UPPER(LEFT(type, 3)) = ' . $this->db->quote('INT');
 		}
-		elseif ($this->db->hasUTF8mb4Support())
+		elseif ($uType === 'TINYTEXT')
 		{
-			if ($uType === 'TINYTEXT')
-			{
-				$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')';
-			}
-			elseif ($uType === 'TEXT')
-			{
-				$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')';
-			}
-			elseif ($uType === 'MEDIUMTEXT')
-			{
-				$typeCheck = 'UPPER(type) IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')';
-			}
-			else
-			{
-				$typeCheck = 'UPPER(type) = ' . $this->db->quote($uType);
-			}
+			$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TINYTEXT') . ',' . $this->db->quote('TEXT') . ')';
+		}
+		elseif ($uType === 'TEXT')
+		{
+			$typeCheck = 'UPPER(type) IN (' . $this->db->quote('TEXT') . ',' . $this->db->quote('MEDIUMTEXT') . ')';
+		}
+		elseif ($uType === 'MEDIUMTEXT')
+		{
+			$typeCheck = 'UPPER(type) IN (' . $this->db->quote('MEDIUMTEXT') . ',' . $this->db->quote('LONGTEXT') . ')';
 		}
 		else
 		{
@@ -401,6 +383,7 @@ class MysqlChangeItem extends ChangeItem
 	{
 		// Skip types that do not support default values
 		$type = strtolower($type);
+
 		if (substr($type, -4) === 'text' || substr($type, -4) === 'blob')
 		{
 			return false;
@@ -408,7 +391,7 @@ class MysqlChangeItem extends ChangeItem
 
 		// Find DEFAULT keyword
 		$index = array_search('default', array_map('strtolower', $changesArray));
-	
+
 		// Create the check
 		if ($index !== false)
 		{
