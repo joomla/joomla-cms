@@ -39,6 +39,7 @@ steps:
 
   - name: publish-diff
     image: joomlaprojects/docker-images:patchtester
+    failure: ignore
     depends_on: [ npm ]
     environment:
       CMP_ARCHIVE_NAME: "build"
@@ -338,6 +339,6 @@ steps:
 
 ---
 kind: signature
-hmac: 98e06e4e0528503c92d83305c2cc943160e7dd970321d0530244af84cb9fcb41
+hmac: 96e2fc482e327ef648d7632eb06048ece16cf3a04e27c30dd4ff4a1dc2236a8d
 
 ...
