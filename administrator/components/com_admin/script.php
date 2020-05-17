@@ -6312,7 +6312,7 @@ class JoomlaInstallerScript
 		}
 
 		// Perform the required conversions of core tables if not done already in a previous step
-		if ($convertedDB !== 5)
+		if ($convertedDB !== 99)
 		{
 			$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion.sql';
 
@@ -6375,7 +6375,7 @@ class JoomlaInstallerScript
 							}
 							catch (Exception $e)
 							{
-								$converted = 5;
+								$converted = 99;
 
 								// Still render the error message from the Exception object
 								Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
