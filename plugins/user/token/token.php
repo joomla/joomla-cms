@@ -265,7 +265,7 @@ class PlgUserToken extends CMSPlugin
 	 * @return  boolean
 	 * @since   4.0.0
 	 */
-	public function onUserAfterSave($data, bool $isNew, bool $result, string $error): bool
+	public function onUserAfterSave($data, bool $isNew, bool $result, ?string $error): bool
 	{
 		if (!is_array($data))
 		{
