@@ -194,7 +194,7 @@
             this.handleResponse(false, element, 'checkbox');
             return false;
           }
-        } else if ((element.getAttribute('type') === 'checkbox' && !element.checked.length !== 0) || (tagName === 'select' && !element.value.length)) {
+        } else if ((element.getAttribute('type') === 'checkbox' && element.checked !== true) || (tagName === 'select' && !element.value.length)) {
           this.handleResponse(false, element, 'checkbox');
           return false;
         } else if (!element.value || element.classList.contains('placeholder')) {
