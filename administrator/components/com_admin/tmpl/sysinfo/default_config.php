@@ -20,7 +20,7 @@ use Joomla\CMS\Language\Text;
 		</caption>
 		<thead>
 			<tr>
-				<th scope="col" style="width:300px">
+				<th scope="col" class="w-30">
 					<?php echo Text::_('COM_ADMIN_SETTING'); ?>
 				</th>
 				<th scope="col">

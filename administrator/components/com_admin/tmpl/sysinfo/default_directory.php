@@ -22,7 +22,7 @@ use Joomla\CMS\Language\Text;
 		</caption>
 		<thead>
 			<tr>
-				<th scope="col" style="width:850px">
+				<th scope="col" class="w-60">
 					<?php echo Text::_('COM_ADMIN_DIRECTORY'); ?>
 				</th>
 				<th scope="col">
