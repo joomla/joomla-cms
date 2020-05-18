@@ -634,7 +634,7 @@ class ArticlesModel extends ListModel
 					$where[] = '(' . $db->quoteName('t.from_stage_id') . ' = -1 AND ' . $db->quoteName('t.workflow_id') . ' IN (' . implode(',', $query->bindArray($workflow_ids)) . '))';
 				}
 
-				$query->where('(' . implode(') OR (', $where) . ')');
+				$query->where('((' . implode(') OR (', $where) . '))');
 
 				$transitions = $db->setQuery($query)->loadAssocList();
 
