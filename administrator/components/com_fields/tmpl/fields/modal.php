@@ -46,7 +46,7 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" class="w-1 center">
+						<th scope="col" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" class="title">

@@ -54,10 +54,12 @@
     // Calculate "grid-row-end" property
     resizeGridItem($cell, rowHeight, rowGap) {
       const $content = $cell.querySelector('.card');
-      const contentHeight = $content.getBoundingClientRect().height + rowGap;
-      const rowSpan = Math.ceil(contentHeight / (rowHeight + rowGap));
+      if ($content) {
+        const contentHeight = $content.getBoundingClientRect().height + rowGap;
+        const rowSpan = Math.ceil(contentHeight / (rowHeight + rowGap));
 
-      $cell.style.gridRowEnd = `span ${rowSpan}`;
+        $cell.style.gridRowEnd = `span ${rowSpan}`;
+      }
     },
 
     // Check a size of every cell in the grid
