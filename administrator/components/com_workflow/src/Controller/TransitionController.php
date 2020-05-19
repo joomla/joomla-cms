@@ -105,18 +105,7 @@ class TransitionController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = $this->app->getIdentity();
-
-		$model = $this->getModel('Workflow');
-
-		$workflow = $model->getItem($this->workflowId);
-
-		if ($workflow->core)
-		{
-			return false;
-		}
-
-		return $user->authorise('core.create', $this->extension);
+		return $this->app->getIdentity()->authorise('core.create', $this->extension);
 	}
 
 	/**

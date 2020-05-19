@@ -197,7 +197,6 @@ class WorkflowsModel extends ListModel
 				'w.checked_out_time',
 				'w.ordering',
 				'w.default',
-				'w.core',
 				'w.created_by',
 				'w.description',
 				'u.name'

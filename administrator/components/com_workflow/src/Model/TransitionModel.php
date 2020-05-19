@@ -56,11 +56,7 @@ class TransitionModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		$table = $this->getTable('Workflow', 'Administrator');
-
-		$table->load($record->workflow_id);
-
-		if (empty($record->id) || $record->published != -2 || $table->core)
+		if (empty($record->id) || $record->published != -2)
 		{
 			return false;
 		}
@@ -91,15 +87,6 @@ class TransitionModel extends AdminModel
 		{
 			$workflowID          = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 			$record->workflow_id = $workflowID;
-		}
-
-		$table = $this->getTable('Workflow', 'Administrator');
-
-		$table->load($record->workflow_id);
-
-		if ($table->core)
-		{
-			return false;
 		}
 
 		// Check for existing workflow.
@@ -245,30 +232,10 @@ class TransitionModel extends AdminModel
 			$data['workflow_id'] = (int) $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 		}
 
-		$workflow = $this->getTable('Workflow');
-
-		$workflow->load($data['workflow_id']);
-
+		// Disable state when no permission to change
 		$disableFields = [];
 
-		// Disable all fields when we edit core, but not the permissions
-		if ($workflow->core)
-		{
-			$disableFields[] = 'title';
-			$disableFields[] = 'from_stage_id';
-			$disableFields[] = 'to_stage_id';
-
-			$fields = $form->getGroup('options');
-
-			foreach ($fields as $field)
-			{
-				$form->setFieldAttribute($field->fieldname, 'disabled', 'true', 'options');
-				$form->setFieldAttribute($field->fieldname, 'required', 'false', 'options');
-				$form->setFieldAttribute($field->fieldname, 'filter', 'unset', 'options');
-			}
-		}
-
-		if (!$this->canEditState((object) $data) || $workflow->core)
+		if (!$this->canEditState((object) $data))
 		{
 			$disableFields[] = 'published';
 		}

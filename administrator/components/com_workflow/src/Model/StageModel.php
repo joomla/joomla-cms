@@ -121,7 +121,7 @@ class StageModel extends AdminModel
 
 		$table->load($record->workflow_id);
 
-		if (empty($record->id) || $record->published != -2 || $table->core)
+		if (empty($record->id) || $record->published != -2)
 		{
 			return false;
 		}
@@ -163,15 +163,6 @@ class StageModel extends AdminModel
 		{
 			$workflowID          = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
 			$record->workflow_id = $workflowID;
-		}
-
-		$table = $this->getTable('Workflow', 'Administrator');
-
-		$table->load($record->workflow_id);
-
-		if ($table->core)
-		{
-			return false;
 		}
 
 		// Check for existing workflow.

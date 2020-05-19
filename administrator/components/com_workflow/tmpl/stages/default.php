@@ -27,8 +27,6 @@ $saveOrderingUrl = '';
 
 $saveOrder = ($listOrder == 's.ordering');
 
-$isCore = $this->workflow->core;
-
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_workflow&task=stages.saveOrderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
@@ -116,7 +114,7 @@ if ($saveOrder)
 											<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 										<?php endif; ?>									</td>
 									<td class="text-center">
-										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'stages.', $canChange && !$isCore); ?>
+										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'stages.', $canChange); ?>
 									</td>
 									<td class="text-center">
 										<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'stages.', $canChange); ?>
@@ -125,7 +123,7 @@ if ($saveOrder)
 										<?php if ($item->checked_out) : ?>
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'stages.', $canCheckin); ?>
 										<?php endif; ?>
-										<?php if ($canEdit && !$isCore) : ?>
+										<?php if ($canEdit) : ?>
 											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes(Text::_($item->title))); ?>">
 												<?php echo $this->escape(Text::_($item->title)); ?>
 											</a>

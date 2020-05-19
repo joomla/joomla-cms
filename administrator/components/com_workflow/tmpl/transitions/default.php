@@ -27,8 +27,6 @@ $saveOrderingUrl = '';
 
 $saveOrder = ($listOrder == 't.ordering');
 
-$isCore = $this->workflow->core;
-
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_workflow&task=transitions.saveOrderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
@@ -91,7 +89,7 @@ if ($saveOrder)
 
 								$canEdit    = $user->authorise('core.edit', $this->extension . '.transition.' . $item->id);
 								$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $user->id || $item->checked_out == 0;
-								$canChange  = $user->authorise('core.edit.state', $this->extension . '.transition.' . $item->id) && $canCheckin && !$isCore;								?>
+								$canChange  = $user->authorise('core.edit.state', $this->extension . '.transition.' . $item->id) && $canCheckin;								?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="text-center d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
