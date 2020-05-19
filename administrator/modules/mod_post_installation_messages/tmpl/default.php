@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -18,7 +17,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 <?php if ($app->getIdentity()->authorise('core.manage', 'com_postinstall')) : ?>
 	<div class="header-item-content">
 		<a class="d-flex flex-column <?php echo ($hideLinks ? 'disabled' : ''); ?>" 
-			href="<?php echo Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId); ?>">
+			href="<?php echo Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId); ?>" title="<?php echo Text::_('MOD_POST_INSTALLATION_MESSAGES'); ?>">
 			<div class="d-flex align-items-end mx-auto">
 				<span class="fas fa-bell" aria-hidden="true"></span>
 				<?php if (count($messages) > 0) : ?>
