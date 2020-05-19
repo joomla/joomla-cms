@@ -101,7 +101,6 @@ $userId = $user->id;
 							$transitions = Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $item->id . '&extension=' . $extension);
 							$edit = Route::_('index.php?option=com_workflow&task=workflow.edit&id=' . $item->id . '&extension=' . $extension);
 
-							$isCore     = !empty($item->core);
 							$canEdit    = $user->authorise('core.edit', $extension . '.workflow.' . $item->id);
 							$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || $item->checked_out == 0;
 							$canEditOwn = $user->authorise('core.edit.own',   $extension . '.workflow.' . $item->id) && $item->created_by == $userId;
@@ -131,13 +130,13 @@ $userId = $user->id;
 									<?php endif; ?>
 								</td>
 								<td class="text-center">
-									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'workflows.', $canChange && !$isCore); ?>
+									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'workflows.', $canChange); ?>
 								</td>
 								<th scope="row">
 									<?php if ($item->checked_out) : ?>
 										<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'workflows.', $canCheckin); ?>
 									<?php endif; ?>
-									<?php if (!$isCore && ($canEdit || $canEditOwn)) : ?>
+									<?php if ($canEdit || $canEditOwn) : ?>
 										<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT', true); ?> <?php echo Text::_($item->title, true); ?>">
 											<?php echo $this->escape(Text::_($item->title)); ?>
 										</a>

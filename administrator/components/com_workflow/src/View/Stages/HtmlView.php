@@ -164,11 +164,12 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions($this->extension, 'workflow', $this->workflowID);
 
+		$user = Factory::getUser();
+
 		$toolbar = Toolbar::getInstance('toolbar');
 
 		ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_STAGES_LIST', Text::_($this->state->get('active_workflow', ''))), 'address contact');
 
-		$isCore = $this->workflow->core;
 		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
 		ToolbarHelper::link(
@@ -177,46 +178,43 @@ class HtmlView extends BaseHtmlView
 			$arrow
 		);
 
-		if (!$isCore)
+		if ($canDo->get('core.create'))
 		{
-			if ($canDo->get('core.create'))
+			$toolbar->addNew('stage.add');
+		}
+
+		if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
+		{
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fas fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
+
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->publish('stages.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
+			$childBar->unpublish('stages.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
+			$childBar->makeDefault('stages.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
+
+			if ($canDo->get('core.admin'))
 			{
-				$toolbar->addNew('stage.add');
+				$childBar->checkin('stages.checkin')->listCheck(true);
 			}
 
-			if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
+			if ($this->state->get('filter.published') !== '-2')
 			{
-				$dropdown = $toolbar->dropdownButton('status-group')
-					->text('JTOOLBAR_CHANGE_STATUS')
-					->toggleSplit(false)
-					->icon('fas fa-ellipsis-h')
-					->buttonClass('btn btn-action')
-					->listCheck(true);
-
-				$childBar = $dropdown->getChildToolbar();
-
-				$childBar->publish('stages.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
-				$childBar->unpublish('stages.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
-				$childBar->makeDefault('stages.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
-
-				if ($canDo->get('core.admin'))
-				{
-					$childBar->checkin('stages.checkin')->listCheck(true);
-				}
-
-				if ($this->state->get('filter.published') !== '-2')
-				{
-					$childBar->trash('stages.trash');
-				}
+				$childBar->trash('stages.trash');
 			}
+		}
 
-			if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete') && !$isCore)
-			{
-				$toolbar->delete('stages.delete')
-					->text('JTOOLBAR_EMPTY_TRASH')
-					->message('JGLOBAL_CONFIRM_DELETE')
-					->listCheck(true);
-			}
+		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
+		{
+			$toolbar->delete('stages.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		$toolbar->help('JHELP_WORKFLOW_STAGES_LIST');

@@ -157,11 +157,12 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions($this->extension, 'workflow', $this->workflowID);
 
+		$user = Factory::getUser();
+
 		$toolbar = Toolbar::getInstance('toolbar');
 
 		ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_TRANSITIONS_LIST', Text::_($this->state->get('active_workflow'))), 'address contact');
 
-		$isCore = $this->workflow->core;
 		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
 		ToolbarHelper::link(
@@ -170,45 +171,42 @@ class HtmlView extends BaseHtmlView
 			$arrow
 		);
 
-		if (!$isCore)
+		if ($canDo->get('core.create'))
 		{
-			if ($canDo->get('core.create'))
+			$toolbar->addNew('transition.add');
+		}
+
+		if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
+		{
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fas fa-ellipsis-h')
+				->buttonClass('btn btn-action')
+				->listCheck(true);
+
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->publish('transitions.publish', 'JTOOLBAR_ENABLE');
+			$childBar->unpublish('transitions.unpublish', 'JTOOLBAR_DISABLE');
+
+			if ($canDo->get('core.admin'))
 			{
-				$toolbar->addNew('transition.add');
+				$childBar->checkin('transitions.checkin')->listCheck(true);
 			}
 
-			if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
+			if ($this->state->get('filter.published') !== '-2')
 			{
-				$dropdown = $toolbar->dropdownButton('status-group')
-					->text('JTOOLBAR_CHANGE_STATUS')
-					->toggleSplit(false)
-					->icon('fas fa-ellipsis-h')
-					->buttonClass('btn btn-action')
-					->listCheck(true);
-
-				$childBar = $dropdown->getChildToolbar();
-
-				$childBar->publish('transitions.publish', 'JTOOLBAR_ENABLE');
-				$childBar->unpublish('transitions.unpublish', 'JTOOLBAR_DISABLE');
-
-				if ($canDo->get('core.admin'))
-				{
-					$childBar->checkin('transitions.checkin')->listCheck(true);
-				}
-
-				if ($this->state->get('filter.published') !== '-2')
-				{
-					$childBar->trash('transitions.trash');
-				}
+				$childBar->trash('transitions.trash');
 			}
+		}
 
-			if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
-			{
-				$toolbar->delete('transitions.delete')
-					->text('JTOOLBAR_EMPTY_TRASH')
-					->message('JGLOBAL_CONFIRM_DELETE')
-					->listCheck(true);
-			}
+		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
+		{
+			$toolbar->delete('transitions.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		$toolbar->help('JHELP_WORKFLOW_TRANSITIONS_LIST');

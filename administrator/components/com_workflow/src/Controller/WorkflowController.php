@@ -107,11 +107,6 @@ class WorkflowController extends FormController
 
 		$record = $this->getModel()->getItem($recordId);
 
-		if (!empty($record->id) && $record->core)
-		{
-			return false;
-		}
-
 		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.workflow.' . $recordId))
 		{

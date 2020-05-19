@@ -106,18 +106,7 @@ class StageController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = Factory::getUser();
-
-		$model = $this->getModel('Workflow');
-
-		$workflow = $model->getItem($this->workflowId);
-
-		if ($workflow->core)
-		{
-			return false;
-		}
-
-		return $user->authorise('core.create', $this->extension);
+		return $this->app->getIdentity()->authorise('core.create', $this->extension);
 	}
 
 	/**
@@ -133,20 +122,7 @@ class StageController extends FormController
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = isset($data[$key]) ? (int) $data[$key] : 0;
-		$user = Factory::getUser();
-
-		$model = $this->getModel();
-
-		$item = $model->getItem($recordId);
-
-		$model = $this->getModel('Workflow');
-
-		$workflow = $model->getItem($item->workflow_id);
-
-		if ($workflow->core)
-		{
-			return false;
-		}
+		$user = $this->app->getIdentity();
 
 		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.stage.' . $recordId))

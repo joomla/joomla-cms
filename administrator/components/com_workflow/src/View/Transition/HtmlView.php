@@ -157,8 +157,6 @@ class HtmlView extends BaseHtmlView
 
 		$canCreate = $canDo->get('core.create');
 
-		$workflow = $this->get('Workflow');
-
 		if ($isNew)
 		{
 			// For new records, check the create permission.
@@ -184,7 +182,7 @@ class HtmlView extends BaseHtmlView
 				$toolbarButtons[] = ['save', 'transition.save'];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.
-				if ($canCreate && !$workflow->core)
+				if ($canCreate)
 				{
 					$toolbarButtons[] = ['save2new', 'transition.save2new'];
 					$toolbarButtons[] = ['save2copy', 'transition.save2copy'];
