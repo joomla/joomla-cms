@@ -119,12 +119,12 @@ class PlgFinderTags extends Adapter
 	 * @param   Table    $row      A Table object
 	 * @param   boolean  $isNew    If the content has just been created
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.1
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterSave($context, $row, $isNew)
+	public function onFinderAfterSave($context, $row, $isNew): void
 	{
 		// We only want to handle tags here.
 		if ($context === 'com_tags.tag')
@@ -139,8 +139,6 @@ class PlgFinderTags extends Adapter
 			// Reindex the item
 			$this->reindex($row->id);
 		}
-
-		return true;
 	}
 
 	/**
