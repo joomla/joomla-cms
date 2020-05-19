@@ -88,7 +88,7 @@ class PlgFinderTags extends Adapter
 	 * @param   string  $context  The context of the action being performed.
 	 * @param   Table   $table    A Table object containing the record to be deleted
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   3.1
 	 * @throws  Exception on database error.
