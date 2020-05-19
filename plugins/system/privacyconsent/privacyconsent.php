@@ -161,7 +161,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		// Only create an entry on front-end user creation/update profile
 		if ($this->app->isClient('administrator'))
 		{
-			return true;
+			return;
 		}
 
 		// Get the user's ID
@@ -170,7 +170,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		// If user already consented before, no need to check it further
 		if ($userId > 0 && $this->isUserConsented($userId))
 		{
-			return true;
+			return;
 		}
 
 		$option = $this->app->input->get('option');
@@ -222,8 +222,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			$model = $this->app->bootComponent('com_actionlogs')->getMVCFactory()->createModel('Actionlog', 'Administrator');
 			$model->addLog([$message], 'PLG_SYSTEM_PRIVACYCONSENT_CONSENT', 'plg_system_privacyconsent', $userId);
 		}
-
-		return true;
 	}
 
 	/**
