@@ -220,7 +220,7 @@ HTMLHelper::_('behavior.formvalidator');
 				<caption id="install_languages_desc"><?php echo Text::_('INSTL_LANGUAGES_DESC'); ?></caption>
 					<thead>
 					<tr>
-						<td text-center">
+						<td class="text-center">
 							&nbsp;
 						</td>
 						<th scope="col">
