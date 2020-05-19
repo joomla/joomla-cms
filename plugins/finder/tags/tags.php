@@ -105,7 +105,7 @@ class PlgFinderTags extends Adapter
 		}
 		else
 		{
-			return true;
+			return;
 		}
 
 		// Remove the items.
