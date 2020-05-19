@@ -12,7 +12,7 @@
 		<field
 			name="published"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -20,7 +20,7 @@
 		<field
 			name="category_id"
 			type="category"
-			label="JOPTION_SELECT_CATEGORY"
+			label="JCATEGORY"
 			extension="com_users"
 			onchange="this.form.submit();"
 			>
@@ -29,7 +29,7 @@
 		<field
 			name="level"
 			type="integer"
-			label="JOPTION_SELECT_MAX_LEVELS"
+			label="JGLOBAL_MAXLEVEL_LABEL"
 			first="1"
 			last="10"
 			step="1"

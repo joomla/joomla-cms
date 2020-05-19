@@ -58,6 +58,7 @@
 		type="list"
 		label="PLG_TINY_FIELD_ENCODING_LABEL"
 		default="raw"
+		validate="options"
 		>
 		<option value="named">PLG_TINY_FIELD_VALUE_NAMED</option>
 		<option value="numeric">PLG_TINY_FIELD_VALUE_NUMERIC</option>
@@ -93,6 +94,7 @@
 		type="list"
 		label="PLG_TINY_FIELD_DIRECTION_LABEL"
 		default="ltr"
+		validate="options"
 		>
 		<option value="ltr">PLG_TINY_FIELD_VALUE_LTR</option>
 		<option value="rtl">PLG_TINY_FIELD_VALUE_RTL</option>
@@ -122,6 +124,7 @@
 		type="list"
 		label="PLG_TINY_FIELD_URLS_LABEL"
 		default="1"
+		validate="options"
 		>
 		<option value="0">PLG_TINY_FIELD_VALUE_ABSOLUTE</option>
 		<option value="1">PLG_TINY_FIELD_VALUE_RELATIVE</option>
@@ -132,6 +135,7 @@
 		type="list"
 		label="PLG_TINY_FIELD_NEWLINES_LABEL"
 		default="0"
+		validate="options"
 		>
 		<option value="1">PLG_TINY_FIELD_VALUE_BR</option>
 		<option value="0">PLG_TINY_FIELD_VALUE_P</option>

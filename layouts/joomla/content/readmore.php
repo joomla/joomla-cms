@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -26,7 +26,7 @@ $direction = Factory::getLanguage()->isRtl() ? 'left' : 'right';
 			<?php echo Text::_('COM_CONTENT_REGISTER_TO_READ_MORE'); ?>
 		</a>
 	<?php elseif ($readmore = $item->alternative_readmore) : ?>
-		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" itemprop="url" aria-label="<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
+		<a class="btn btn-secondary" href="<?php echo $displayData['link']; ?>" itemprop="url" aria-label="<?php echo $readmore; ?> <?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>">
 			<?php echo '<span class="fas fa-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
 			<?php echo $readmore; ?>
 			<?php if ($params->get('show_readmore_title', 0) != 0) : ?>

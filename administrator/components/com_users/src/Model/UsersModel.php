@@ -378,13 +378,26 @@ class UsersModel extends ListModel
 			}
 		}
 
-		// Add filter for registration time ranges select list
+		// Add filter for registration time ranges select list. UI Visitors get a range of predefined
+		// values. API users can do a full range based on ISO8601
 		$range = $this->getState('filter.range');
+		$registrationStart = $this->getState('filter.registrationDateStart');
+		$registrationEnd = $this->getState('filter.registrationDateEnd');
 
 		// Apply the range filter.
-		if ($range)
+		if ($range || ($registrationStart && $registrationEnd))
 		{
-			$dates = $this->buildDateRange($range);
+			if ($range)
+			{
+				$dates = $this->buildDateRange($range);
+			}
+			else
+			{
+				$dates = [
+					'dNow'   => $registrationEnd,
+					'dStart' => $registrationStart,
+				];
+			}
 
 			if ($dates['dStart'] !== false)
 			{
@@ -406,13 +419,26 @@ class UsersModel extends ListModel
 			}
 		}
 
-		// Add filter for last visit time ranges select list
+		// Add filter for last visit time ranges select list. UI Visitors get a range of predefined
+		// values. API users can do a full range based on ISO8601
 		$lastvisitrange = $this->getState('filter.lastvisitrange');
+		$lastVisitStart = $this->getState('filter.lastVisitStart');
+		$lastVisitEnd = $this->getState('filter.lastVisitEnd');
 
 		// Apply the range filter.
-		if ($lastvisitrange)
+		if ($lastvisitrange || ($lastVisitStart && $lastVisitEnd))
 		{
-			$dates = $this->buildDateRange($lastvisitrange);
+			if ($lastvisitrange)
+			{
+				$dates = $this->buildDateRange($lastvisitrange);
+			}
+			else
+			{
+				$dates = [
+					'dNow'   => $lastVisitEnd,
+					'dStart' => $lastVisitStart,
+				];
+			}
 
 			if ($dates['dStart'] === false)
 			{

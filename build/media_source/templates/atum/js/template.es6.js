@@ -284,8 +284,8 @@
       if (!navigator.cookieEnabled) {
         Joomla.renderMessages({ error: [Joomla.Text._('JGLOBAL_WARNCOOKIES')] }, undefined, false, 6000);
       }
-      window.addEventListener('joomla:menu-toggle', (event) => {
-        changeLogo(event.detail);
+      window.addEventListener('joomla:menu-toggle', ({ detail }) => {
+        changeLogo(detail);
       });
     }
   });

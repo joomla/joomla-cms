@@ -114,6 +114,7 @@
 		default="1"
 		class="custom-select-color-state"
 		size="1"
+		validate="options"
 		>
 		<option value="1">JPUBLISHED</option>
 		<option value="0">JUNPUBLISHED</option>
@@ -267,6 +268,7 @@
 				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
+				validate="options"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>

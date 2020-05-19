@@ -39,6 +39,7 @@ steps:
 
   - name: publish-diff
     image: joomlaprojects/docker-images:patchtester
+    failure: ignore
     depends_on: [ npm ]
     environment:
       CMP_ARCHIVE_NAME: "build"
@@ -94,7 +95,6 @@ steps:
   - name: php74-unit
     depends_on: [ phpcs ]
     image: joomlaprojects/docker-images:php7.4
-    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Unit
@@ -124,7 +124,6 @@ steps:
   - name: php74-integration
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.4
-    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration
@@ -154,7 +153,6 @@ steps:
   - name: php74-integration-pgsql
     depends_on: [ npm ]
     image: joomlaprojects/docker-images:php7.4
-    failure: ignore
     commands:
       - php -v
       - ./libraries/vendor/bin/phpunit --testsuite Integration --configuration phpunit-pgsql.xml.dist
@@ -244,32 +242,6 @@ steps:
       status:
         - failure
 
-  - name: packager
-    image: joomlaprojects/docker-images:packager
-    environment:
-      FTP_USERNAME:
-        from_secret: ftpusername
-      FTP_PASSWORD:
-        from_secret: ftppassword
-      FTP_HOSTNAME: ci.joomla.org
-      FTP_PORT: "21"
-      FTP_DEST_DIR: /artifacts
-      FTP_VERIFY: "false"
-      FTP_SECURE: "true"
-      HTTP_ROOT: "https://ci.joomla.org/artifacts"
-      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
-      DRONE_COMMIT: DRONE_COMMIT
-      GITHUB_TOKEN:
-        from_secret: github_token
-    commands:
-      - /bin/drone_build.sh
-    volumes:
-      - name: reference
-        path: /reference
-    when:
-      branch:
-        - 4.0-dev
-
   - name: analysis4x
     image: rips/rips-cli:3.2.2
     depends_on: [ api-tests ]
@@ -333,7 +305,40 @@ services:
       POSTGRES_DB: test_joomla
 
 ---
+kind: pipeline
+name: package
+
+steps:
+  - name: packager
+    image: joomlaprojects/docker-images:packager
+    environment:
+      FTP_USERNAME:
+        from_secret: ftpusername
+      FTP_PASSWORD:
+        from_secret: ftppassword
+      FTP_HOSTNAME: ci.joomla.org
+      FTP_PORT: "21"
+      FTP_DEST_DIR: /artifacts
+      FTP_VERIFY: "false"
+      FTP_SECURE: "true"
+      HTTP_ROOT: "https://ci.joomla.org/artifacts"
+      DRONE_PULL_REQUEST: DRONE_PULL_REQUEST
+      DRONE_COMMIT: DRONE_COMMIT
+      GITHUB_TOKEN:
+        from_secret: github_token
+    commands:
+      - if [ $DRONE_REPO_NAME != 'joomla-cms' ]; then echo "The packager only runs on the joomla/joomla-cms repo"; exit 0; fi
+      - /bin/drone_build.sh
+    volumes:
+      - name: reference
+        path: /reference
+    when:
+      branch:
+        - 4.0-dev
+
+
+---
 kind: signature
-hmac: 02ecb90787cb939e40ca5209c05c6b9332b04d834fa60df6a9595cb7df1e135d
+hmac: 96e2fc482e327ef648d7632eb06048ece16cf3a04e27c30dd4ff4a1dc2236a8d
 
 ...

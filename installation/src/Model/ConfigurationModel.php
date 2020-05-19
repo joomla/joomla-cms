@@ -425,6 +425,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('dbsslcipher', $options->db_sslcipher);
 
 		// Server settings.
+		$registry->set('force_ssl', 0);
 		$registry->set('live_site', '');
 		$registry->set('secret', UserHelper::genRandomPassword(16));
 		$registry->set('gzip', false);

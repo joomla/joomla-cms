@@ -23,7 +23,6 @@ use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Version;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
-use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -384,17 +383,44 @@ class DatabaseModel extends BaseInstallationModel
 			}
 		}
 
-		if (!$db->isMinimumVersion())
+		// Get required database version
+		$minDbVersionRequired = DatabaseHelper::getMinimumServerVersion($db, $options);
+
+		// Check minimum database version
+		if (version_compare($db_version, $minDbVersionRequired) < 0)
 		{
 			if (in_array($type, ['mysql', 'mysqli']) && $db->isMariaDb())
 			{
-				throw new \RuntimeException(Text::sprintf('INSTL_DATABASE_INVALID_MARIADB_VERSION', $db->getMinimum(), $db_version));
+				throw new \RuntimeException(
+					Text::sprintf(
+						'INSTL_DATABASE_INVALID_MARIADB_VERSION',
+						$minDbVersionRequired,
+						$db_version
+					)
+				);
 			}
 			else
 			{
 				throw new \RuntimeException(
-					Text::sprintf('INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION', $db->getMinimum(), $db_version)
+					Text::sprintf(
+						'INSTL_DATABASE_INVALID_' . strtoupper($type) . '_VERSION',
+						$minDbVersionRequired,
+						$db_version
+					)
 				);
+			}
+		}
+
+		// Check database connection encryption
+		if ($options->db_encryption !== 0 && empty($db->getConnectionEncryption()))
+		{
+			if ($db->isConnectionEncryptionSupported())
+			{
+				throw new \RuntimeException(Text::_('INSTL_DATABASE_ENCRYPTION_MSG_CONN_NOT_ENCRYPT'));
+			}
+			else
+			{
+				throw new \RuntimeException(Text::_('INSTL_DATABASE_ENCRYPTION_MSG_SRV_NOT_SUPPORTS'));
 			}
 		}
 
@@ -537,27 +563,6 @@ class DatabaseModel extends BaseInstallationModel
 			return false;
 		}
 
-		// MySQL only: Attempt to update the table #__utf8_conversion.
-		if ($serverType === 'mysql')
-		{
-			$query = $db->getQuery(true);
-			$query->clear()
-				->update($db->quoteName('#__utf8_conversion'))
-				->set($db->quoteName('converted') . ' = ' . ($db->hasUTF8mb4Support() ? 2 : 1));
-			$db->setQuery($query);
-
-			try
-			{
-				$db->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-				return false;
-			}
-		}
-
 		return true;
 	}
 
@@ -681,26 +686,6 @@ class DatabaseModel extends BaseInstallationModel
 			// If the query isn't empty and is not a MySQL or PostgreSQL comment, execute it.
 			if (!empty($query) && ($query[0] != '#') && ($query[0] != '-'))
 			{
-				/**
-				 * If we don't have UTF-8 Multibyte support we'll have to convert queries to plain UTF-8
-				 *
-				 * Note: the JDatabaseDriver::convertUtf8mb4QueryToUtf8 performs the conversion ONLY when
-				 * necessary, so there's no need to check the conditions in JInstaller.
-				 */
-				if ($db instanceof UTF8MB4SupportInterface)
-				{
-					$query = $db->convertUtf8mb4QueryToUtf8($query);
-
-					/**
-					 * This is a query which was supposed to convert tables to utf8mb4 charset but the server doesn't
-					 * support utf8mb4. Therefore we don't have to run it, it has no effect and it's a mere waste of time.
-					 */
-					if (!$db->hasUTF8mb4Support() && stristr($query, 'CONVERT TO CHARACTER SET utf8 '))
-					{
-						continue;
-					}
-				}
-
 				// Execute the query.
 				$db->setQuery($query);
 

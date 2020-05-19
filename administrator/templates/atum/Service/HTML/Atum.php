@@ -106,6 +106,23 @@ class JHtmlAtum
 			}
 		}
 
+		$sidebarLinkColor = $params->get('sidebar-link-color');
+
+		if (static::isHex($sidebarLinkColor))
+		{
+			try
+			{
+				$sidebarLinkColor = new Hex($sidebarLinkColor);
+
+				$root[] = '--atum-sidebar-link-color: ' . $sidebarLinkColor . ';';
+
+			}
+			catch (\Exception $ex)
+			{
+				// Just ignore exceptions
+			}
+		}
+
 		$specialColor = $params->get('special-color');
 
 		if (static::isHex($specialColor))
@@ -192,17 +209,17 @@ class JHtmlAtum
 		$root = [];
 
 		// No need to calculate if we have the default value
-		if ($hue === 207)
+		if ($hue === 214)
 		{
 			return $root;
 		}
 
 		try
 		{
-			$bgcolor = new Hsl('hsl(' . $hue . ', ' . 61 . ', 26)');
+			$bgcolor = new Hsl('hsl(' . $hue . ', ' . 63 . ', 20)');
 
-			$root[] = '--atum-bg-dark: ' . (new Hsl('hsl(' . $hue . ', 61, 26)'))->toHex() . ';';
-			$root[] = '--atum-contrast: ' . (new Hsl('hsl(' . $hue . ', 61, 26)'))->spin(-40)->lighten(18)->toHex() . ';';
+			$root[] = '--atum-bg-dark: ' . (new Hsl('hsl(' . $hue . ', 63, 20)'))->toHex() . ';';
+			$root[] = '--atum-contrast: ' . (new Hsl('hsl(' . $hue . ', 63, 20)'))->spin(-40)->lighten(18)->toHex() . ';';
 			$root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->desaturate(86)->lighten(71.4)->spin(-6)->toHex() . ';';
 			$root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->desaturate(85)->lighten(65.1)->spin(-6)->toHex() . ';';
 			$root[] = '--atum-bg-dark-10: ' . (clone $bgcolor)->desaturate(80)->lighten(59.4)->spin(-6)->toHex() . ';';

@@ -30,6 +30,7 @@
 				type="list"
 				label="COM_WRAPPER_FIELD_SCROLLBARS_LABEL"
 				default="auto"
+				validate="options"
 				>
 				<option value="no">JNO</option>
 				<option value="yes">JYES</option>

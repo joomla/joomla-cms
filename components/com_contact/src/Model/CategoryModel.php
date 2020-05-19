@@ -501,7 +501,6 @@ class CategoryModel extends ListModel
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
 			$table = Table::getInstance('Category');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 

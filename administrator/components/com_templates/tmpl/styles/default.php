@@ -15,7 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -32,33 +31,33 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php if ($this->total > 0) : ?>
 					<table class="table" id="styleList">
 						<caption id="captionTable" class="sr-only">
-							<?php echo Text::_('COM_TEMPLATES_STYLES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+							<?php echo Text::_('COM_TEMPLATES_STYLES_TABLE_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 						</caption>
 						<thead>
 							<tr>
-								<td style="width:1%" class="text-center">
+								<td class="w-1 text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<?php if ($clientId === 0) : ?>
-									<th scope="col" style="width:5%" class="text-center">
-										<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
-									</th>
-								<?php endif; ?>
-								<th scope="col" style="width:12%" class="text-center">
+								<th scope="col" class="w-5 text-center">
+									<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
+								</th>
+								<th scope="col" class="w-12 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($clientId === 0) : ?>
-									<th scope="col" style="width:12%" class="d-none d-md-table-cell">
+									<th scope="col" class="w-12 d-none d-md-table-cell">
 										<?php echo Text::_('COM_TEMPLATES_HEADING_PAGES'); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:12%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-12 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_TEMPLATES_HEADING_TEMPLATE', 'a.template', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-5 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -70,7 +69,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								$canChange = $user->authorise('core.edit.state', 'com_templates');
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
-								<td style="width:1%" class="text-center">
+								<td class="w-1 text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
 								<th scope="row">
@@ -81,19 +80,18 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
 								</th>
-								<?php if ($clientId === 0) : ?>
-									<td class="text-center">
-										<?php if ($this->preview && $item->client_id == '0') : ?>
-											<a target="_blank" href="<?php echo Uri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id ?>" class="jgrid">
+								<td class="text-center">
+									<?php if ($this->preview) : ?>
+										<?php $client = (int) $item->client_id === 1 ? 'administrator' : 'site'; ?>
+										<a href="<?php echo Route::link($client, 'index.php?tp=1&templateStyle=' . (int) $item->id); ?>" target="_blank" class="jgrid">
 											<span class="fas fa-eye" aria-hidden="true" title="<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>"></span>
 											<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?></span>
-											</a>
-										<?php else: ?>
-											<span class="fas fa-eye-slash" aria-hidden="true" title="<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>"></span>
-											<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
-										<?php endif; ?>
-									</td>
-								<?php endif; ?>
+										</a>
+									<?php else : ?>
+										<span class="fas fa-eye-slash" aria-hidden="true" title="<?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?>"></span>
+										<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
+									<?php endif; ?>
+								</td>
 								<td class="text-center">
 									<?php if ($item->home == '0' || $item->home == '1') : ?>
 										<?php echo HTMLHelper::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1'); ?>
@@ -102,14 +100,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											<?php if ($item->image) : ?>
 												<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title)), true); ?>
 											<?php else : ?>
-												<span class="badge badge-secondary" title="<?php echo Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->language_sef; ?></span>
+												<span class="badge badge-secondary" title="<?php echo Text::sprintf('COM_TEMPLATES_GRID_UNSET_LANGUAGE', $item->language_title); ?>"><?php echo $item->home; ?></span>
 											<?php endif; ?>
 										</a>
 									<?php else : ?>
 										<?php if ($item->image) : ?>
 											<?php echo HTMLHelper::_('image', 'mod_languages/' . $item->image . '.gif', $item->language_title, array('title' => $item->language_title), true); ?>
 										<?php else : ?>
-											<span class="badge badge-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->language_sef; ?></span>
+											<span class="badge badge-secondary" title="<?php echo $item->language_title; ?>"><?php echo $item->home; ?></span>
 										<?php endif; ?>
 									<?php endif; ?>
 								</td>

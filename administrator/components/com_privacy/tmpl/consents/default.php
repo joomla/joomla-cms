@@ -43,14 +43,16 @@ $stateMsgs  = array(
 		<?php else : ?>
 			<table class="table" id="consentList">
 				<caption id="captionTable" class="sr-only">
-					<?php echo Text::_('COM_PRIVACY_TABLE_CONSENTS_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					<?php echo Text::_('COM_PRIVACY_TABLE_CONSENTS_CAPTION'); ?>,
+							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
+							<span id="filteredBy"><?php echo Text::_('JGLOBAL_FILTERED_BY'); ?></span>
 				</caption>
 				<thead>
 					<tr>
-						<td style="width:1%" class="text-center">
+						<td class="w-1 text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
-						<th scope="col" style="width:5%" class="text-center">
+						<th scope="col" class="w-5 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 						</th>
 						<th scope="col" width="10%">
@@ -79,7 +81,7 @@ $stateMsgs  = array(
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<tr>
-							<td class="center">
+							<td class="text-center">
 								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="tbody-icon">
