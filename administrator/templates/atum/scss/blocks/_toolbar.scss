@@ -85,11 +85,12 @@
       display: flex;
       align-items: center;
 
-    &::after {
-      width: 2.375rem;
-      font-family: "Font Awesome 5 Free";
-      content: "\f078";
-      border: 0;
+      &::after {
+        width: 2.375rem;
+        font-family: "Font Awesome 5 Free";
+        content: "\f078";
+        border: 0;
+        font-weight: 900;
       }
     }
 
