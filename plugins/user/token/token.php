@@ -384,23 +384,23 @@ class PlgUserToken extends CMSPlugin
 	 * @param   boolean  $success  True if user was succesfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @throws  Exception
 	 * @since   4.0.0
 	 */
-	public function onUserAfterDelete(array $user, bool $success, string $msg): bool
+	public function onUserAfterDelete(array $user, bool $success, string $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		$userId = ArrayHelper::getValue($user, 'id', 0, 'int');
 
 		if ($userId <= 0)
 		{
-			return true;
+			return;
 		}
 
 		try
@@ -419,10 +419,8 @@ class PlgUserToken extends CMSPlugin
 		}
 		catch (Exception $e)
 		{
-			return false;
+			// Do nothing.
 		}
-
-		return true;
 	}
 
 

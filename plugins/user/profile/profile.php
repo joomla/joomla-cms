@@ -497,13 +497,13 @@ class PlgUserProfile extends CMSPlugin
 	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 */
-	public function onUserAfterDelete($user, $success, $msg)
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		$userId = ArrayHelper::getValue($user, 'id', 0, 'int');
@@ -520,7 +520,5 @@ class PlgUserProfile extends CMSPlugin
 			$db->setQuery($query);
 			$db->execute();
 		}
-
-		return true;
 	}
 }

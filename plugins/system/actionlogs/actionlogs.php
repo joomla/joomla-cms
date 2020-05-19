@@ -478,15 +478,15 @@ class PlgSystemActionLogs extends CMSPlugin
 	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterDelete($user, $success, $msg)
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		$db     = $this->db;
@@ -503,10 +503,8 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 		catch (ExecutionFailureException $e)
 		{
-			return false;
+			// Do nothing.
 		}
-
-		return true;
 	}
 
 	/**

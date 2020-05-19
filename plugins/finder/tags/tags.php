@@ -93,7 +93,7 @@ class PlgFinderTags extends Adapter
 	 * @since   3.1
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterDelete($context, $table)
+	public function onFinderAfterDelete($context, $table): void
 	{
 		if ($context === 'com_tags.tag')
 		{
@@ -109,7 +109,7 @@ class PlgFinderTags extends Adapter
 		}
 
 		// Remove the items.
-		return $this->remove($id);
+		$this->remove($id);
 	}
 
 	/**
