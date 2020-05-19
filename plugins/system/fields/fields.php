@@ -196,8 +196,6 @@ class PlgSystemFields extends CMSPlugin
 
 		// Trigger the events with a real user
 		$this->onContentAfterSave('com_users.user', $user, false, $userData);
-
-		return;
 	}
 
 	/**
