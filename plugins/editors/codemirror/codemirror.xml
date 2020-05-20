@@ -250,7 +250,6 @@
 					type="list"
 					label="PLG_CODEMIRROR_FIELD_LINE_HEIGHT_LABEL"
 					default="1.2"
-					filter="float"
 					validate="options"
 					>
 					<option value="1.0">1.0</option>
