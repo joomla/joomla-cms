@@ -183,20 +183,20 @@ class FieldsModelField extends JModelAdmin
 
 			if (is_object($oldParams) && is_object($newParams) && $oldParams != $newParams)
 			{
-				$names = array();
+				$newValues = array();
 
 				foreach ($newParams as $param)
 				{
-					$names[] = $db->q($param['value']);
+					$newValues[] = $db->q($param['value']);
 				}
 
 				$query = $db->getQuery(true);
 				$query->delete('#__fields_values')->where('field_id = ' . (int) $field->id);
 
 				// If new values are set, delete only old values. Otherwise delete all values.
-				if ($names)
+				if ($newValues)
 				{
-					$query->where('value NOT IN (' . implode(',', $names) . ')');
+					$query->where('value NOT IN (' . implode(',', $newValues) . ')');
 				}
 
 				$db->setQuery($query);
