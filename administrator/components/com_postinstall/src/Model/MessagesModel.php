@@ -602,7 +602,7 @@ class MessagesModel extends BaseDatabaseModel
 						$db->quoteName('type') . ' = :type',
 						$db->quoteName('title_key') . ' = :titleKey',
 					]
-			)
+				)
 				->bind(':extensionId', $extensionId, ParameterType::INTEGER)
 				->bind(':type', $options['type'])
 				->bind(':titleKey', $options['title_key']);
