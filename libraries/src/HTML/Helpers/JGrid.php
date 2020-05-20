@@ -95,7 +95,7 @@ abstract class JGrid
 		}
 		else
 		{
-			$html[] = '<a class="tbody-icon ' . $active_class . '-disabled disabled jgrid"';
+			$html[] = '<span class="tbody-icon ' . $active_class . '-disabled disabled jgrid"';
 			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
 
@@ -108,7 +108,7 @@ abstract class JGrid
 				$html[] = '<span class="icon-' . $inactive_class . '" aria-hidden="true"></span>';
 			}
 
-			$html[] = '</a>';
+			$html[] = '</span>';
 			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
 		}
 
