@@ -34,7 +34,7 @@ class FinderHelper
 	 */
 	public static function logSearch(Query $searchquery, $resultCount = 0)
 	{
-		$enable_log_searches = ComponentHelper::getParams('com_finder')->get('logging_enabled', 1);
+		$enable_log_searches = ComponentHelper::getParams('com_finder')->get('logging_enabled', 0);
 
 		if (!$enable_log_searches)
 		{
