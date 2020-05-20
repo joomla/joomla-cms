@@ -199,7 +199,7 @@ class UpdateModel extends ListModel
 	{
 		foreach ($items as &$item)
 		{
-			$item->client_translated  = $item->client_id ? Text::_('JADMINISTRATOR') : Text::_('JSITE');
+			$item->client_translated  = Text::_([0 => 'JSITE', 1 => 'JADMINISTRATOR', 3 => 'JAPI'][$item->client_id] ?? 'JSITE');
 			$manifest                 = json_decode($item->manifest_cache);
 			$item->current_version    = $manifest->version ?? Text::_('JLIB_UNKNOWN');
 			$item->description        = $manifest->description ?? Text::_('COM_INSTALLER_MSG_UPDATE_NODESC');
