@@ -187,12 +187,23 @@ abstract class QuickIconHelper
 				self::$buttons[$key][] = $tmp;
 			}
 
-			if ($params->get('show_templates'))
+			if ($params->get('show_template_styles'))
 			{
 				self::$buttons[$key][] = [
 					'image'  => 'fas fa-paint-brush',
 					'link'   => Route::_('index.php?option=com_templates&view=styles&client_id=0'),
-					'name'   => 'MOD_QUICKICON_TEMPLATES',
+					'name'   => 'MOD_QUICKICON_TEMPLATE_STYLES',
+					'access' => array('core.admin', 'com_templates'),
+					'group'  => 'MOD_QUICKICON_SITE'
+				];
+			}
+
+			if ($params->get('show_template_code'))
+			{
+				self::$buttons[$key][] = [
+					'image'  => 'fas fa-code',
+					'link'   => Route::_('index.php?option=com_templates&view=templates&client_id=0'),
+					'name'   => 'MOD_QUICKICON_TEMPLATE_CODE',
 					'access' => array('core.admin', 'com_templates'),
 					'group'  => 'MOD_QUICKICON_SITE'
 				];
