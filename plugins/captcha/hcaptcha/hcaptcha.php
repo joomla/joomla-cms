@@ -143,7 +143,7 @@ class PlgCaptchaHcaptcha extends CMSPlugin
 			throw new \RuntimeException(Text::_('PLG_CAPTCHA_HCAPTCHA_ERROR_CANT_CONNECT_TO_HCAPTCHA_SERVERS'));
 		}
 
-		if ($verifyResponse->code !== 200 || empty($verifyResponse->body))
+		if ($verifyResponse->code !== 200 || $verifyResponse->body === '')
 		{
 			throw new \RuntimeException(Text::_('PLG_CAPTCHA_HCAPTCHA_ERROR_INVALID_RESPONSE'));
 		}
