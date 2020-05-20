@@ -65,6 +65,12 @@ abstract class JGrid
 			$title = $enabled ? $active_title : $inactive_title;
 			$title = $translate ? Text::_($title) : $title;
 			$ariaid = $checkbox . $task . $i . '-desc';
+
+			// Don't show empty tooltip.
+			if ($title === '')
+			{
+				$tip = false;
+			}
 		}
 
 		if ($enabled)
