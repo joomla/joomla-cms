@@ -201,12 +201,12 @@ class JsonapiView extends BaseApiView
 
 			if (!empty($item->images['image_intro']))
 			{
-				$item->images['image_intro'] = ContentHelper::resolve($item->images['image_intro'], Uri::root());
+				$item->images['image_intro'] = ContentHelper::resolve($item->images['image_intro']);
 			}
 
 			if (!empty($item->images['image_fulltext']))
 			{
-				$item->images['image_fulltext'] = ContentHelper::resolve($item->images['image_fulltext'], Uri::root());
+				$item->images['image_fulltext'] = ContentHelper::resolve($item->images['image_fulltext']);
 			}
 		}
 
