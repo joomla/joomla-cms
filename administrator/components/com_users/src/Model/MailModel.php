@@ -105,6 +105,7 @@ class MailModel extends AdminModel
 		$db       = $this->getDbo();
 		$language = Factory::getLanguage();
 
+		$mode         = array_key_exists('mode', $data) ? (int) $data['mode'] : 0;
 		$subject      = array_key_exists('subject', $data) ? $data['subject'] : '';
 		$grp          = array_key_exists('group', $data) ? (int) $data['group'] : 0;
 		$recurse      = array_key_exists('recurse', $data) ? (int) $data['recurse'] : 0;
