@@ -234,15 +234,15 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	 * @param   boolean  $success  True if user was succesfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterDelete($user, $success, $msg)
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		$userId = ArrayHelper::getValue($user, 'id', 0, 'int');
@@ -262,12 +262,8 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			catch (Exception $e)
 			{
 				$this->_subject->setError($e->getMessage());
-
-				return false;
 			}
 		}
-
-		return true;
 	}
 
 	/**

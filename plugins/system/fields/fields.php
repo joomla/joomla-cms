@@ -204,25 +204,23 @@ class PlgSystemFields extends CMSPlugin
 	 * @param   string    $context  The context
 	 * @param   stdClass  $item     The item
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentAfterDelete($context, $item)
+	public function onContentAfterDelete($context, $item): void
 	{
 		$parts = FieldsHelper::extract($context, $item);
 
 		if (!$parts || empty($item->id))
 		{
-			return true;
+			return;
 		}
 
 		$context = $parts[0] . '.' . $parts[1];
 
 		$model = new \Joomla\Component\Fields\Administrator\Model\FieldModel(array('ignore_request' => true));
 		$model->cleanupValues($context, $item->id);
-
-		return true;
 	}
 
 	/**
@@ -232,16 +230,16 @@ class PlgSystemFields extends CMSPlugin
 	 * @param   boolean   $succes  Is success
 	 * @param   string    $msg     The message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onUserAfterDelete($user, $succes, $msg)
+	public function onUserAfterDelete($user, $succes, $msg): void
 	{
 		$item     = new stdClass;
 		$item->id = $user['id'];
 
-		return $this->onContentAfterDelete('com_users.user', $item);
+		$this->onContentAfterDelete('com_users.user', $item);
 	}
 
 	/**

@@ -155,7 +155,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @since   3.9.0
 	 */
-	public function onContentAfterDelete($context, $article)
+	public function onContentAfterDelete($context, $article): void
 	{
 		$option = $this->app->input->get('option');
 
@@ -563,7 +563,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @since   3.9.0
 	 */
-	public function onExtensionAfterDelete($context, $table)
+	public function onExtensionAfterDelete($context, $table): void
 	{
 		if (!$this->checkLoggable($this->app->input->get('option')))
 		{
@@ -676,7 +676,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterDelete($user, $success, $msg)
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		$context = $this->app->input->get('option');
 
@@ -754,7 +754,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterDeleteGroup($group, $success, $msg)
+	public function onUserAfterDeleteGroup($group, $success, $msg): void
 	{
 		$context = $this->app->input->get('option');
 
