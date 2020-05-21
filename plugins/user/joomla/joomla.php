@@ -94,15 +94,15 @@ class PlgUserJoomla extends CMSPlugin
 	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function onUserAfterDelete($user, $success, $msg)
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		$db     = $this->db;
@@ -122,7 +122,7 @@ class PlgUserJoomla extends CMSPlugin
 			}
 			catch (ExecutionFailureException $e)
 			{
-				return false;
+				// Continue.
 			}
 		}
 
@@ -137,10 +137,8 @@ class PlgUserJoomla extends CMSPlugin
 		}
 		catch (ExecutionFailureException $e)
 		{
-			return false;
+			// Do nothing.
 		}
-
-		return true;
 	}
 
 	/**
