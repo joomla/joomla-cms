@@ -58,22 +58,22 @@ class PlgUserContactCreator extends CMSPlugin
 	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function onUserAfterSave($user, $isnew, $success, $msg)
+	public function onUserAfterSave($user, $isnew, $success, $msg): void
 	{
 		// If the user wasn't stored we don't resync
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		// If the user isn't new we don't sync
 		if (!$isnew)
 		{
-			return false;
+			return;
 		}
 
 		// Ensure the user id is really an int
@@ -82,7 +82,7 @@ class PlgUserContactCreator extends CMSPlugin
 		// If the user id appears invalid then bail out just in case
 		if (empty($user_id))
 		{
-			return false;
+			return;
 		}
 
 		$categoryId = $this->params->get('category', 0);
@@ -91,7 +91,7 @@ class PlgUserContactCreator extends CMSPlugin
 		{
 			$this->app->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_NO_CATEGORY'), 'error');
 
-			return false;
+			return;
 		}
 
 		if ($contact = $this->getContactTable())
@@ -138,13 +138,11 @@ class PlgUserContactCreator extends CMSPlugin
 
 			if ($contact->check() && $contact->store())
 			{
-				return true;
+				return;
 			}
 		}
 
 		$this->app->enqueueMessage(Text::_('PLG_CONTACTCREATOR_ERR_FAILED_CREATING_CONTACT'), 'error');
-
-		return false;
 	}
 
 	/**

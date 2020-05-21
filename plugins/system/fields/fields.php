@@ -89,16 +89,16 @@ class PlgSystemFields extends CMSPlugin
 	 * @param   boolean  $isNew    Is new item
 	 * @param   array    $data     The validated data
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentAfterSave($context, $item, $isNew, $data = array())
+	public function onContentAfterSave($context, $item, $isNew, $data = array()): void
 	{
 		// Check if data is an array and the item has an id
 		if (!is_array($data) || empty($item->id) || empty($data['com_fields']))
 		{
-			return true;
+			return;
 		}
 
 		// Create correct context for category
@@ -115,7 +115,7 @@ class PlgSystemFields extends CMSPlugin
 
 		if (!$parts)
 		{
-			return true;
+			return;
 		}
 
 		// Compile the right context for the fields
@@ -126,7 +126,7 @@ class PlgSystemFields extends CMSPlugin
 
 		if (!$fields)
 		{
-			return true;
+			return;
 		}
 
 		// Loading the model
@@ -161,8 +161,6 @@ class PlgSystemFields extends CMSPlugin
 			// Setting the value for the field and the item
 			$model->setFieldValue($field->id, $item->id, $value);
 		}
-
-		return true;
 	}
 
 	/**
@@ -173,17 +171,17 @@ class PlgSystemFields extends CMSPlugin
 	 * @param   boolean  $success   Is success
 	 * @param   string   $msg       The message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onUserAfterSave($userData, $isNew, $success, $msg)
+	public function onUserAfterSave($userData, $isNew, $success, $msg): void
 	{
 		// It is not possible to manipulate the user during save events
 		// Check if data is valid or we are in a recursion
 		if (!$userData['id'] || !$success)
 		{
-			return true;
+			return;
 		}
 
 		$user = Factory::getUser($userData['id']);
@@ -193,13 +191,11 @@ class PlgSystemFields extends CMSPlugin
 		// Skip fields save when we activate a user, because we will lose the saved data
 		if (in_array($task, array('activate', 'block', 'unblock')))
 		{
-			return true;
+			return;
 		}
 
 		// Trigger the events with a real user
 		$this->onContentAfterSave('com_users.user', $user, false, $userData);
-
-		return true;
 	}
 
 	/**

@@ -410,9 +410,9 @@ class PlgUserProfile extends CMSPlugin
 	 * @param   boolean  $result  true if saving the user worked
 	 * @param   string   $error   error message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 */
-	public function onUserAfterSave($data, $isNew, $result, $error)
+	public function onUserAfterSave($data, $isNew, $result, $error): void
 	{
 		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
@@ -484,8 +484,6 @@ class PlgUserProfile extends CMSPlugin
 			$db->setQuery($query);
 			$db->execute();
 		}
-
-		return true;
 	}
 
 	/**

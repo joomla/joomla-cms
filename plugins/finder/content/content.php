@@ -149,12 +149,12 @@ class PlgFinderContent extends Adapter
 	 * @param   Table    $row      A Table object.
 	 * @param   boolean  $isNew    True if the content has just been created.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterSave($context, $row, $isNew)
+	public function onFinderAfterSave($context, $row, $isNew): void
 	{
 		// We only want to handle articles here.
 		if ($context === 'com_content.article' || $context === 'com_content.form')
@@ -179,8 +179,6 @@ class PlgFinderContent extends Adapter
 				$this->categoryAccessChange($row);
 			}
 		}
-
-		return true;
 	}
 
 	/**

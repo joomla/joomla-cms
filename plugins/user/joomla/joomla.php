@@ -157,7 +157,7 @@ class PlgUserJoomla extends CMSPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onUserAfterSave($user, $isnew, $success, $msg)
+	public function onUserAfterSave($user, $isnew, $success, $msg): void
 	{
 		$mail_to_user = $this->params->get('mail_to_user', 1);
 

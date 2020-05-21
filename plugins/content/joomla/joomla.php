@@ -102,29 +102,28 @@ class PlgContentJoomla extends CMSPlugin
 	 * @param   object   $article  A JTableContent object
 	 * @param   boolean  $isNew    If the content is just about to be created
 	 *
-	 * @return  boolean   true if function not enabled, is in frontend or is new. Else true or
-	 *                    false depending on success of save function.
+	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public function onContentAfterSave($context, $article, $isNew)
+	public function onContentAfterSave($context, $article, $isNew): void
 	{
 		// Check we are handling the frontend edit form.
 		if ($context !== 'com_content.form')
 		{
-			return true;
+			return;
 		}
 
 		// Check if this function is enabled.
 		if (!$this->params->def('email_new_fe', 1))
 		{
-			return true;
+			return;
 		}
 
 		// Check this is a new article.
 		if (!$isNew)
 		{
-			return true;
+			return;
 		}
 
 		$db = $this->db;
@@ -138,7 +137,7 @@ class PlgContentJoomla extends CMSPlugin
 
 		if (empty($users))
 		{
-			return true;
+			return;
 		}
 
 		$user = $this->app->getIdentity();
@@ -147,7 +146,6 @@ class PlgContentJoomla extends CMSPlugin
 
 		$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
 		$debug = $this->app->get('debug_lang');
-		$result = true;
 
 		foreach ($users as $user_id)
 		{
@@ -164,11 +162,9 @@ class PlgContentJoomla extends CMSPlugin
 				);
 				$model_message = $this->app->bootComponent('com_messages')->getMVCFactory()
 					->createModel('Message', 'Administrator');
-				$result = $model_message->save($message);
+				$model_message->save($message);
 			}
 		}
-
-		return $result;
 	}
 
 	/**
