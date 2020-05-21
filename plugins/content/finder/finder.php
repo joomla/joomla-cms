@@ -33,7 +33,7 @@ class PlgContentFinder extends CMSPlugin
 	 *
 	 * @since   2.5
 	 */
-	public function onContentAfterSave($context, $article, $isNew)
+	public function onContentAfterSave($context, $article, $isNew): void
 	{
 		PluginHelper::importPlugin('finder');
 
