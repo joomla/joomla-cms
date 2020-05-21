@@ -15,9 +15,9 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Category;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-use GuzzleHttp\Psr7;
 
 /**
  * Content component helper.
@@ -221,24 +221,17 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 * Fully Qualified Domain name for the image url
 	 *
 	 * @param   string  $uri      The uri to resolve
-	 * @param   string  $baseUri  The base uri
 	 *
 	 * @return  string
-	 *
- 	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function resolve(string $uri, ?string $baseUri): string
+	public static function resolve(string $uri): string
 	{
-		$uri = Psr7\uri_for($uri);
-
-		if (isset($baseUri))
+		// Check if external URL.
+		if (strpos($uri, 'http') === false)
 		{
-			$uri = Psr7\UriResolver::resolve(Psr7\uri_for($baseUri), $uri);
+			return Uri::root() . $uri;
 		}
 
-		// Set default scheme if missing
-		$uri = $uri->getScheme() === '' && $uri->getHost() !== '' ? $uri->withScheme('http') : $uri;
-
-		return (string) $uri;
+		return $uri;
 	}
 }
