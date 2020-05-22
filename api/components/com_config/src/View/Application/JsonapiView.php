@@ -45,6 +45,7 @@ class JsonapiView extends BaseApiView
 		'dbsslcert',
 		'dbsslca',
 		'dbsslcipher',
+		'dbsslkey',
 	];
 
 	/**
