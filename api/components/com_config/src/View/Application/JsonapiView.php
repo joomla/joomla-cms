@@ -26,6 +26,28 @@ USE Joomla\Component\Config\Administrator\Model\ApplicationModel;
 class JsonapiView extends BaseApiView
 {
 	/**
+	 * The fields to not render for secuty reason
+	 *
+	 * @var  array
+	 * @since  4.0.0
+	 */
+	protected $fieldsToNotRender = [
+		'editor',
+		'captcha',
+		'dbprefix',
+		'db',
+		'password',
+		'user',
+		'host',
+		'dbtype',
+		'dbencryption',
+		'dbsslverifyservercert',
+		'dbsslcert',
+		'dbsslca',
+		'dbsslcipher',
+	];
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   array|null  $items  Array of items
@@ -42,6 +64,11 @@ class JsonapiView extends BaseApiView
 
 		foreach ($model->getData() as $key => $value)
 		{
+			if (\in_array($key, $this->fieldsToNotRender))
+			{
+				continue;
+			}
+	
 			$item    = (object) [$key => $value];
 			$items[] = $this->prepareItem($item);
 		}
