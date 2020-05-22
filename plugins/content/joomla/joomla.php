@@ -611,12 +611,6 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		// Check if this function is enabled.
-		if (!$this->params->def('email_new_stage', 0) || $context != 'com_content.article')
-		{
-			return true;
-		}
-
 		$db = $this->db;
 		$query = $db->getQuery(true)
 			->select($db->quoteName('core_content_id'))
@@ -629,6 +623,12 @@ class PlgContentJoomla extends CMSPlugin
 
 		$cctable = new CoreContent($db);
 		$cctable->publish($ccIds, $value);
+
+		// Check if sending email on transition execution is enabled.
+		if (!$this->params->def('email_new_stage', 0) || $context !== 'com_content.article')
+		{
+			return true;
+		}
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
