@@ -69,7 +69,7 @@ class JsonapiView extends BaseApiView
 			{
 				continue;
 			}
-	
+
 			$item    = (object) [$key => $value];
 			$items[] = $this->prepareItem($item);
 		}
