@@ -12,7 +12,7 @@
  * Date: 2016-05-20T17:17Z
  *
  * Modified by Joomla: Mitigate possible XSS vulnerability (gh-2432), CMS Issue 19464; Prevent Object Prototype Polution, https://github.com/jquery/jquery/pull/4333
- * Modified by Joomla: Mitigate possible XSS vulnerability CVE-2020-11022 and CVE-2020-11023, CMS Issue; https://github.com/DanielRuf/snyk-js-jquery-565129
+ * Modified by Joomla: Mitigate possible XSS vulnerability CVE-2020-11022 and CVE-2020-11023, CMS Issue 28948; https://github.com/DanielRuf/snyk-js-jquery-565129 & https://git.drupalcode.org/project/drupal/-/commit/8a48ad8710aa2ec3dc32e03ad5985710079b65aa
  */
 
 (function( global, factory ) {
