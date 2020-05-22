@@ -58,7 +58,7 @@ Factory::getDocument()->addScriptDeclaration($js);
 		</li>
 	</ul>
 	<div class="alert alert-warning">
-		<span class="fa fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+		<span class="fas fa-exclamation-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_WARN'); ?>
 	</div>
 </fieldset>
@@ -101,7 +101,7 @@ Factory::getDocument()->addScriptDeclaration($js);
 	</div>
 
 	<div class="alert alert-info">
-		<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+		<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_RESET'); ?>
 	</div>
 </fieldset>

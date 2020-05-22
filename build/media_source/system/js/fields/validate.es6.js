@@ -194,7 +194,7 @@
             this.handleResponse(false, element, 'checkbox');
             return false;
           }
-        } else if ((element.getAttribute('type') === 'checkbox' && !element.checked.length !== 0) || (tagName === 'select' && !element.value.length)) {
+        } else if ((element.getAttribute('type') === 'checkbox' && element.checked !== true) || (tagName === 'select' && !element.value.length)) {
           this.handleResponse(false, element, 'checkbox');
           return false;
         } else if (!element.value || element.classList.contains('placeholder')) {
@@ -299,8 +299,8 @@
         } else if (tagName !== 'button' && !(tagName === 'input' && element.getAttribute('type') === 'button')) {
           // Attach validate method only to fields
           if (tagName !== 'fieldset') {
-            element.addEventListener('blur', event => this.validate(event.target));
-            element.addEventListener('focus', event => this.removeMarking(event.target));
+            element.addEventListener('blur', ({ target }) => this.validate(target));
+            element.addEventListener('focus', ({ target }) => this.removeMarking(target));
             if (element.classList.contains('validate-email') && this.inputEmail) {
               element.setAttribute('type', 'email');
             }

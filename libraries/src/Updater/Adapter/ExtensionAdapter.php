@@ -71,17 +71,17 @@ class ExtensionAdapter extends UpdateAdapter
 					$this->currentUpdate->$name = '';
 				}
 
-				if ($name == 'TARGETPLATFORM')
+				if ($name === 'TARGETPLATFORM')
 				{
 					$this->currentUpdate->targetplatform = $attrs;
 				}
 
-				if ($name == 'PHP_MINIMUM')
+				if ($name === 'PHP_MINIMUM')
 				{
 					$this->currentUpdate->php_minimum = '';
 				}
 
-				if ($name == 'SUPPORTED_DATABASES')
+				if ($name === 'SUPPORTED_DATABASES')
 				{
 					$this->currentUpdate->supported_databases = $attrs;
 				}
@@ -269,12 +269,12 @@ class ExtensionAdapter extends UpdateAdapter
 			$this->currentUpdate->$tag .= $data;
 		}
 
-		if ($tag == 'PHP_MINIMUM')
+		if ($tag === 'PHP_MINIMUM')
 		{
 			$this->currentUpdate->php_minimum = $data;
 		}
 
-		if ($tag == 'TAG')
+		if ($tag === 'TAG')
 		{
 			$this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
 		}
@@ -311,7 +311,7 @@ class ExtensionAdapter extends UpdateAdapter
 		if (!xml_parse($this->xmlParser, $response->body))
 		{
 			// If the URL is missing the .xml extension, try appending it and retry loading the update
-			if (!$this->appendExtension && (substr($this->_url, -4) != '.xml'))
+			if (!$this->appendExtension && (substr($this->_url, -4) !== '.xml'))
 			{
 				$options['append_extension'] = true;
 
@@ -331,22 +331,8 @@ class ExtensionAdapter extends UpdateAdapter
 		{
 			if (isset($this->latest->client) && \strlen($this->latest->client))
 			{
-				if (is_numeric($this->latest->client))
-				{
-					$byName = false;
+				$this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, true)->id;
 
-					// <client> has to be 'administrator' or 'site', numeric values are deprecated. See https://docs.joomla.org/Special:MyLanguage/Design_of_JUpdate
-					Log::add(
-						'Using numeric values for <client> in the updater xml is deprecated. Use \'administrator\' or \'site\' instead.',
-						Log::WARNING, 'deprecated'
-					);
-				}
-				else
-				{
-					$byName = true;
-				}
-
-				$this->latest->client_id = ApplicationHelper::getClientInfo($this->latest->client, $byName)->id;
 				unset($this->latest->client);
 			}
 

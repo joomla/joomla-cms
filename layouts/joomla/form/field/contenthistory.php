@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -64,6 +64,6 @@ echo HTMLHelper::_(
 
 ?>
 <button type="button" onclick="document.getElementById('versionsModal').open()" class="btn btn-secondary" data-toggle="modal">
-	<span class="fa fa-code-branch" aria-hidden="true"></span>
+	<span class="fas fa-code-branch" aria-hidden="true"></span>
 	<?php echo $label; ?>
 </button>

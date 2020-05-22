@@ -57,19 +57,6 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
-$this->addScriptDeclaration('cssVars();');
-
-// Opacity must be set before displaying the DOM, so don't move to a CSS file
-$css = '
-	.container-main > * {
-		opacity: 0;
-	}
-	.sidebar-wrapper > * {
-		opacity: 0;
-	}
-';
-
-$this->addStyleDeclaration($css);
 
 $monochrome = (bool) $this->params->get('monochrome');
 
@@ -95,7 +82,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 <header id="header" class="header">
 	<div class="d-flex">
 		<div class="header-title d-flex">
-			<div class="d-flex">
+			<div class="d-flex align-items-center">
 				<a class="logo" href="<?php echo Route::_('index.php'); ?>"
 				   aria-label="<?php echo Text::_('TPL_ATUM_BACK_TO_CONTROL_PANEL'); ?>">
 					<img src="<?php echo $siteLogo; ?>" alt="">
@@ -141,6 +128,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 		<?php endif; ?>
 		<section id="content" class="content">
 			<?php // Begin Content ?>
+			<jdoc:include type="message" />
 			<jdoc:include type="modules" name="top" style="xhtml" />
 			<div class="row">
 				<div class="col-md-12">
@@ -171,7 +159,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 					<?php endif; ?>
 					<p>
 						<a href="<?php echo $this->baseurl; ?>" class="btn btn-secondary">
-							<span class="fa fa-dashboard" aria-hidden="true"></span>
+							<span class="fas fa-dashboard" aria-hidden="true"></span>
 							<?php echo Text::_('JGLOBAL_TPL_CPANEL_LINK_TEXT'); ?></a>
 					</p>
 				</div>
@@ -182,10 +170,6 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			</div>
 			<?php // End Content ?>
 		</section>
-
-		<div class="notify-alerts">
-			<jdoc:include type="message"/>
-		</div>
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />

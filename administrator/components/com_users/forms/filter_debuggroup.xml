@@ -13,7 +13,7 @@
 		<field
 			name="component"
 			type="Components"
-			label="COM_USERS_OPTION_SELECT_COMPONENT"
+			label="COM_USERS_OPTION_LABEL_COMPONENT"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_COMPONENT</option>
@@ -22,7 +22,7 @@
 		<field
 			name="level_start"
 			type="Levels"
-			label="COM_USERS_OPTION_SELECT_LEVEL_START"
+			label="COM_USERS_OPTION_LABEL_LEVEL_START"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_LEVEL_START</option>
@@ -31,7 +31,7 @@
 		<field
 			name="level_end"
 			type="Levels"
-			label="COM_USERS_OPTION_SELECT_LEVEL_END"
+			label="COM_USERS_OPTION_LABEL_LEVEL_END"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_USERS_OPTION_SELECT_LEVEL_END</option>
@@ -45,6 +45,7 @@
 			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.lft ASC"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="a.title ASC">COM_USERS_HEADING_ASSET_TITLE_ASC</option>

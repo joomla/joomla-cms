@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="4.0" type="plugin" group="behaviour" method="upgrade">
+<extension type="plugin" group="behaviour" method="upgrade">
 	<name>plg_behaviour_taggable</name>
 	<version>4.0.0</version>
 	<creationDate>August 2015</creationDate>
@@ -12,15 +12,5 @@
 	<files>
 		<filename plugin="taggable">taggable.php</filename>
 	</files>
-	<config>
-	<fields name="params">
-		<fieldset name="basic">
-			<field
-				name="message"
-				type="note"
-				label="TODO: Implement a form field type which allows users to select which components / views to exclude"
-				/>
-		</fieldset>
-	</fields>
-	</config>
+	<config />
 </extension>

@@ -182,8 +182,8 @@ class TemplatestyleField extends GroupedlistField
 			foreach ($styles as $style)
 			{
 				$template = $style->template;
-				$lang->load('tpl_' . $template . '.sys', $client->path, null, false, true)
-					|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, null, false, true);
+				$lang->load('tpl_' . $template . '.sys', $client->path)
+					|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template);
 				$name = Text::_($style->name);
 
 				// Initialize the group if necessary.

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 /**
  * @var  int     $id
@@ -20,7 +20,7 @@ defined('JPATH_BASE') or die;
  */
 extract($displayData, EXTR_OVERWRITE);
 
-$margin = (strpos($url ?? '', 'index.php?option=com_config') === false) ? '' : ' ml-auto';
+$margin = (strpos($url ?? '', 'index.php?option=com_config') === false) ? '' : 'ml-auto';
 $target = empty($target) ? '' : 'target="' . $target . '"';
 ?>
 <joomla-toolbar-button class="<?php echo $margin; ?>">

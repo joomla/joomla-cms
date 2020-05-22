@@ -7,23 +7,8 @@ ul {
   padding-right: 0;
 }
 
-body {
-  text-align: right;
-}
-
 .close {
   float: left;
-
-  .notify-alerts & {
-    right: auto;
-    left: -.5rem;
-  }
-}
-
-.control-group {
-  .custom-select {
-    float: right;
-  }
 }
 
 .dropdown-menu-right {
@@ -38,24 +23,9 @@ body {
   right: 0;
   left: auto;
 }
-.subhead {
-	.dropdown-toggle.btn-action::after {
-		margin: 0 16px 0 -22px;
-	}
-}
-.switcher {
-    float: right;
-}
-.form-no-margin .control-group .controls  .switcher__legend {
-    text-align: right;
-}
-// Alerts
-.notify-alerts {
-  margin-left: 0;
 
-  .closed & {
-    margin-right: 0;
-  }
+.switcher {
+  float: right;
 }
 
 // Header
@@ -102,35 +72,6 @@ body {
   margin-right: 0;
 }
 
-// Toolbar
-.subhead {
-
-  .btn,
-  .btn-sm {
-    [class*=' fa-'],
-    [class^='fa-'],
-    [class^='icon-'],
-    [class*=' icon-'],
-    [class^='#{$fa-css-prefix}-'],
-    [class*=' #{$fa-css-prefix}-'] {
-      margin: 0 -27px 0 27px;
-    }
-  }
-
-  .btn-group {
-    margin-left: .75rem !important;
-  }
-
-  .btn-toolbar > * {
-    margin-right: .75rem;
-    margin-left: 0;
-
-    &:first-child {
-      margin-right: 0;
-    }
-  }
-}
-
 // com_cpanel
 .com_cpanel {
 
@@ -168,11 +109,6 @@ body {
   }
 }
 
-.js-stools .js-stools-container-filters {
-  right: auto;
-  left: 0;
-}
-
 .ml-auto {
   margin-right: auto !important;
   margin-left: 0 !important;
@@ -193,12 +129,6 @@ body {
   margin-left: .5rem;
 }
 
-#helpsite-refresh {
-  float: right;
-  margin-top: 1px;
-  margin-right: 4px;
-}
-
 .field-calendar {
   float: none;
 }
@@ -211,11 +141,6 @@ body {
   float: none;
 }
 
-// Quickicon specific
-.message-alert {
-  text-align: left !important;
-}
-
 // Bootstrap overrides
 .text-left {
   text-align: right !important;
@@ -226,36 +151,79 @@ body {
 }
 
 // System panel
-.menu-quicktask, .menu-badge {
-    float: left;
+.menu-quicktask,
+.menu-badge {
+  float: left;
 }
 
 // Modal header override
 .modal-header .close {
-  margin-left: -15px;
   margin-right: 0 !important;
-  border-left: 0 !important;
+  margin-left: -15px;
   border-right: 1px solid var(--border);
-}
+  border-left: 0 !important;
 
-// Changelog modal override
-.changelog {
-  text-align: right !important;
-
-  &__tag {
-    text-align: left;
-  }
-
-  &__list {
-
-    ul {
-      padding-right: 15px;
-      padding-left: auto;
-    }
+  span {
+    position: relative;
+    left: 6px;
   }
 }
 
 // Redirect urls fields
-#jform_new_url, #jform_old_url, #new_url {
+#jform_new_url,
+#jform_old_url,
+#new_url {
   text-align: left;
+}
+
+// Database prefix
+#jform_dbprefix {
+  text-align: right;
+  direction: ltr;
+}
+
+// SearchTools rounded corners
+.input-group > .input-group-prepend > .btn,
+.input-group > .input-group-prepend > .input-group-text,
+.input-group > .input-group-append:not(:last-child) > .btn,
+.input-group > .input-group-append:not(:last-child) > .input-group-text,
+.input-group > .input-group-append:last-child > .btn:not(:last-child):not(.dropdown-toggle),
+.input-group > .input-group-append:last-child > .input-group-text:not(:last-child) {
+  @include border-left-radius($border-radius);
+  @include border-right-radius(0);
+}
+
+.input-group > .input-group-append > .btn,
+.input-group > .input-group-append > .input-group-text,
+.input-group > .input-group-prepend:not(:first-child) > .btn,
+.input-group > .input-group-prepend:not(:first-child) > .input-group-text,
+.input-group > .input-group-prepend:first-child > .btn:not(:first-child),
+.input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
+  @include border-left-radius($border-radius);
+  @include border-right-radius(0);
+}
+
+.input-group > .form-control:not(:last-child),
+.input-group > .custom-select:not(:last-child) {
+  @include border-left-radius(0);
+  @include border-right-radius($border-radius);
+}
+
+.btn-group > .btn:first-child:not(.dropdown-toggle) {
+  @include border-right-radius($border-radius);
+}
+
+.btn-group > .btn:not(:last-child):not(.dropdown-toggle),
+.btn-group > .btn-group:not(:last-child) > .btn {
+  @include border-left-radius(0);
+  margin-left: -1px;
+}
+
+.btn-group > .btn:last-child:not(.dropdown-toggle) {
+  @include border-left-radius($border-radius);
+}
+
+.btn-group > .btn:not(:first-child),
+.btn-group > .btn-group:not(:first-child) {
+  @include border-right-radius(0);
 }

@@ -50,9 +50,10 @@
     border-color: var(--success);
   }
 
-  .icon-featured {
-    color: var(--atum-special-color);
-    border-color: var(--atum-special-color);
+  .icon-featured,
+  .icon-color-featured {
+    color: $state-warning-bg;
+    border-color: $state-warning-bg;
   }
 
   .icon-archive {
@@ -68,42 +69,66 @@
     color: var(--atum-text-dark);
     border: 0;
   }
-}
-.icon-joomla::before {
-	content:"\f1aa";
-	font-family: "Font Awesome 5 Brands"
-}
-.icon-shield-alt::before {
-	content:"\f3ed";
-}
-.icon-address-book::before {
-	content:"\f2b9";
-}
-.icon-images::before {
-	content:"\f302";
-}
-.info-circle::before {
-	content:"\f05a";
-}
-.icon-paint-brush::before {
-	content:"\f1fc";
-}
-.icon-language::before {
-	content:"\f1ab";
-}
-.icon-rss::before {
-	content:"\f09e";
-}
-.icon-map-signs::before {
-	content:"\f277";
-}
-.icon-envelope-open-text::before {
-	content:"\f658";
-}
-.icon-users-cog::before {
-	content:"\f509";
-}
-.icon-user-lock::before {
-	content:"\f502";
+
+  &.home-disabled,
+  &.featured-disabled,
+  &.color-featured-disabled,
+  &.fa-star-disabled {
+    opacity: 1;
+    cursor: not-allowed;
+  }
+
+  &.disabled .icon-home {
+    color: $state-warning-bg;
+    border-color: $state-warning-bg;
+  }
 }
 
+.icon-joomla::before {
+  font-family: "Font Awesome 5 Brands";
+  content: "\f1aa";
+}
+
+.icon-shield-alt::before {
+  content: "\f3ed";
+}
+
+.icon-address-book::before {
+  content: "\f2b9";
+}
+
+.icon-images::before {
+  content: "\f302";
+}
+
+.info-circle::before {
+  content: "\f05a";
+}
+
+.icon-paint-brush::before {
+  content: "\f1fc";
+}
+
+.icon-language::before {
+  content: "\f1ab";
+}
+
+.icon-rss::before {
+  content: "\f09e";
+}
+
+.icon-map-signs::before {
+  content: "\f277";
+}
+
+.icon-envelope-open-text::before {
+  content: "\f658";
+}
+
+.icon-users-cog::before {
+  content: "\f509";
+}
+
+.icon-user-lock::before {
+  content: "\f502";
+}

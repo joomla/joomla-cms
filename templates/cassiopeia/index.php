@@ -13,7 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
 
-/** @var JDocumentHtml $this */
+/** @var Joomla\CMS\Document\HtmlDocument $this */
 
 $app  = Factory::getApplication();
 $lang = $app->getLanguage();
@@ -52,7 +52,7 @@ elseif ($this->params->get('siteTitle'))
 }
 else
 {
-	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg' . '" class="logo d-inline-block" alt="' . $sitename . '">';
+	$logo = '<img src="' . $this->baseurl . '/templates/' . $this->template . '/images/logo.svg" class="logo d-inline-block" alt="' . $sitename . '">';
 }
 
 $hasClass = '';
@@ -67,13 +67,13 @@ if ($this->countModules('sidebar-right'))
 	$hasClass .= ' has-sidebar-right';
 }
 
-// Header bottom margin
-$headerMargin = !$this->countModules('banner') ? ' mb-4' : '';
-
 // Container
 $wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
+
+$stickyHeader = $this->params->get('stickyHeader') ? 'position-sticky sticky-top' : '';
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -93,7 +93,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	. $hasClass;
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-	<div class="grid-child container-header full-width">
+	<div class="grid-child container-header full-width <?php echo $stickyHeader; ?>">
 		<header class="header">
 			<nav class="grid-child navbar navbar-expand-lg">
 				<div class="navbar-brand">
@@ -107,7 +107,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 
 				<?php if ($this->countModules('menu') || $this->countModules('search')) : ?>
 					<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="<?php echo Text::_('TPL_CASSIOPEIA_TOGGLE'); ?>">
-						<span class="fa fa-bars" aria-hidden="true"></span>
+						<span class="fas fa-bars" aria-hidden="true"></span>
 					</button>
 					<div class="collapse navbar-collapse" id="navbar">
 						<jdoc:include type="modules" name="menu" style="none" />
@@ -122,16 +122,9 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			</nav>
 			<?php if ($this->countModules('banner')) : ?>
 			<div class="grid-child container-banner">
-				<jdoc:include type="modules" name="banner" style="xhtml" />
+				<jdoc:include type="modules" name="banner" style="html5" />
 			</div>
 			<?php endif; ?>
-			<div class="header-shadow"></div>
-			<div class="header-shape-bottom">
-				<canvas width="736" height="15"></canvas>
-				<svg class="" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 736 15">
-					<path d="M1040,301V285s-75,12-214,12-284-26-524,0v4Z" transform="translate(-302 -285)" fill="#fafafa"/>
-				</svg>
-			</div>
 		</header>
 	</div>
 
@@ -184,7 +177,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 		<hr>
 		<p class="float-right">
 			<a href="#top" id="back-top" class="back-top">
-				<span class="icon-arrow-up-4" aria-hidden="true"></span>
+				<span class="fas fa-arrow-up" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?></span>
 			</a>
 		</p>

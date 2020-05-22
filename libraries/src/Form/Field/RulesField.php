@@ -168,7 +168,7 @@ class RulesField extends FormField
 		// Iterate over the children and add to the actions.
 		foreach ($this->element->children() as $el)
 		{
-			if ($el->getName() == 'action')
+			if ($el->getName() === 'action')
 			{
 				$this->actions[] = (object) array(
 					'name' => (string) $el['name'],

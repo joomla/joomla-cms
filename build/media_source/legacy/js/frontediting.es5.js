@@ -24,7 +24,7 @@
 
 				// Add editing button with tooltip:
 				self.addClass('jmodinside')
-					.prepend('<a class="btn btn-link jmodedit" href="#" target="' + moduleTarget + '"><span class="fa fa-edit"></span></a>')
+					.prepend('<a class="btn btn-link jmodedit" href="#" target="' + moduleTarget + '"><span class="fas fa-edit"></span></a>')
 					.children(":first").attr('href', moduleEditUrl).attr('title', moduleTip)
 					.tooltip({container: $('.jmodedit').parent(), html: true, placement: 'auto'});
 			},
@@ -55,7 +55,7 @@
 				// Get tooltip for menu items from enclosing module
 				var menuEditTip = enclosingModuleDiv.data('jmenuedittip').replace('%s', itemids[1]);
 
-				var content = $('<div><a class="btn jfedit-menu" href="#" target="_blank"><span class="fa fa-edit"></span></a></div>');
+				var content = $('<div><a class="btn jfedit-menu" href="#" target="_blank"><span class="fas fa-edit"></span></a></div>');
 				content.children('a.jfedit-menu').prop('href', menuitemEditUrl).prop('title', menuEditTip);
 
 				if (activePopover) {

@@ -23,6 +23,9 @@ Text::script('WARNING');
 Text::script('NOTICE');
 Text::script('MESSAGE');
 
+/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+$wa = $this->document->getWebAssetManager();
+
 // Load the tooltip behavior.
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
@@ -32,13 +35,10 @@ if ($this->fieldsets)
 	HTMLHelper::_('bootstrap.framework');
 }
 
-// @TODO delete this when custom elements modal is merged
-HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version' => 'auto', 'relative' => true]);
-
 $xml = $this->form->getXml();
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="component-form" method="post" class="form-validate" name="adminForm" autocomplete="off" data-cancel-task="config.cancel.component">
+<form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="component-form" method="post" class="form-validate" name="adminForm" autocomplete="off">
 	<div class="row">
 
 		<?php // Begin Sidebar ?>
@@ -53,7 +53,7 @@ $xml = $this->form->getXml();
 		</div>
 		<?php // End Sidebar ?>
 
-		<div class="col-md-9" id="config">
+		<div class="col-md-9 mt-2" id="config">
 			<?php if ($this->fieldsets) : ?>
 				<?php $opentab = 0; ?>
 
@@ -68,14 +68,14 @@ $xml = $this->form->getXml();
 
 					<?php $dataShowOn = ''; ?>
 					<?php if (!empty($fieldSet->showon)) : ?>
-						<?php HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true)); ?>
+						<?php $wa->useScript('showon'); ?>
 						<?php $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($fieldSet->showon, $this->formControl)) . '\''; ?>
 					<?php endif; ?>
 
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
 
 					<?php if (!$isGrandchild && $hasParent) : ?>
-						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-grid-form options-grid-form-full options-menu">
+						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form">
 							<legend><?php echo Text::_($fieldSet->label); ?></legend>
 							<div>
 					<?php elseif (!$hasParent) : ?>
@@ -96,7 +96,7 @@ $xml = $this->form->getXml();
 
 						<?php if (!$hasChildren) : ?>
 
-						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-grid-form options-grid-form-full options-menu">
+						<fieldset id="fieldset-<?php echo $this->escape($name); ?>" class="options-menu options-form">
 							<legend><?php echo Text::_($fieldSet->label); ?></legend>
 							<div>
 						<?php $opentab = 2; ?>
@@ -105,7 +105,7 @@ $xml = $this->form->getXml();
 
 					<?php if (!empty($fieldSet->description)) : ?>
 						<div class="tab-description alert alert-info">
-							<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+							<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 							<?php echo Text::_($fieldSet->description); ?>
 						</div>
 					<?php endif; ?>
@@ -133,7 +133,7 @@ $xml = $this->form->getXml();
 
 			<?php else : ?>
 				<div class="alert alert-info">
-					<span class="fa fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
+					<span class="fas fa-info-circle" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_('INFO'); ?></span>
 					<?php echo Text::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?>
 				</div>
 			<?php endif; ?>

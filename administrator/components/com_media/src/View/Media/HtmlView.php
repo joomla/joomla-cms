@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Media\Administrator\View\Media;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;

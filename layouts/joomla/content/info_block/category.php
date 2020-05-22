@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
@@ -15,7 +15,7 @@ use Joomla\Component\Content\Site\Helper\RouteHelper;
 
 ?>
 <dd class="category-name">
-	<span class="fa fa-folder-open" aria-hidden="true"></span>
+	<span class="fas fa-folder-open" aria-hidden="true"></span>
 	<?php $title = $this->escape($displayData['item']->category_title); ?>
 	<?php if ($displayData['params']->get('link_category') && !empty($displayData['item']->catid)) : ?>
 		<?php $url = '<a href="' . Route::_(

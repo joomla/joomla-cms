@@ -25,8 +25,34 @@ Joomla = window.Joomla || {};
 		if (form.install_package.value == '') {
 			alert(Joomla.JText._('COM_INSTALLER_MSG_INSTALL_PLEASE_SELECT_A_PACKAGE'), true);
 		}
+		else if (form.install_package.files[0].size > form.max_upload_size.value) {
+			alert(Joomla.JText._('COM_INSTALLER_MSG_WARNINGS_UPLOADFILETOOBIG'), true);
+		}
 		else {
 			form.submit();
+		}
+	};
+
+	Joomla.installpackageChange = function() {
+		var form = document.getElementById('uploadForm');
+		var fileSize = form.install_package.files[0].size;
+		var fileSizeMB = fileSize * 1.0 / 1024.0 / 1024.0;
+		var fileSizeElement = document.getElementById('file_size');
+		var warningElement = document.getElementById('max_upload_size_warn');
+
+		if (form.install_package.value == '') {
+			fileSizeElement.classList.add('hidden');
+			warningElement.classList.add('hidden');
+		}
+		else if (fileSize) {
+			fileSizeElement.classList.remove('hidden');
+			fileSizeElement.innerHTML = Joomla.JText._('JGLOBAL_SELECTED_UPLOAD_FILE_SIZE').replace('%s', fileSizeMB.toFixed(2) + ' MB');
+
+			if (fileSize > form.max_upload_size.value) {
+				warningElement.classList.remove('hidden');
+			} else {
+				warningElement.classList.add('hidden');
+			}
 		}
 	};
 
@@ -38,19 +64,19 @@ Joomla = window.Joomla || {};
 			downloadMsg      = document.getElementById('downloadMessage');
 
 		if (extractionMethod) {
-			extractionMethod.addEventListener('change', function(event) {
+			extractionMethod.addEventListener('change', function() {
 				Joomla.extractionMethodHandler(extractionMethod, 'row_ftp');
 			});
 		}
 
 		if (uploadMethod) {
-			uploadMethod.addEventListener('change', function(event) {
+			uploadMethod.addEventListener('change', function() {
 				Joomla.extractionMethodHandler(uploadMethod, 'upload_ftp');
 			});
 		}
 
 		if (uploadButton) {
-			uploadButton.addEventListener('click', function(event) {
+			uploadButton.addEventListener('click', function() {
 				if (downloadMsg) {
 					downloadMsg.classList.remove('hidden');
 				}

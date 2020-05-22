@@ -146,7 +146,7 @@ abstract class HTMLHelper
 
 			if (!\is_callable($toCall))
 			{
-				throw new \InvalidArgumentException(sprintf('%s::%s not found.', $service, $func), 500);
+				throw new \InvalidArgumentException(sprintf('%s::%s not found.', $file, $func), 500);
 			}
 
 			static::register($key, $toCall);
@@ -628,6 +628,12 @@ abstract class HTMLHelper
 		if ($returnPath === 1)
 		{
 			return $file;
+		}
+
+		// Default to lazy you can disable lazyloading by passing $attribs['loading'] = 'eager';
+		if (!isset($attribs['loading']))
+		{
+			$attribs['loading'] = 'lazy';
 		}
 
 		return '<img src="' . $file . '" alt="' . $alt . '" ' . trim((\is_array($attribs) ? ArrayHelper::toString($attribs) : $attribs)) . '>';

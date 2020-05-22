@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -57,7 +57,7 @@ if (!Multilanguage::isEnabled())
 }
 
 $html   = array();
-$html[] = '<fieldset class="form-vertical form-no-margin">';
+$html[] = '<fieldset class="form-vertical">';
 
 foreach ($fields as $field)
 {

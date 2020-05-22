@@ -215,10 +215,7 @@
   /**
    * Initialize 'showon' feature when part of the page was updated
    */
-  document.addEventListener('joomla:updated', (event) => {
-    // eslint-disable-next-line prefer-destructuring
-    const target = event.target;
-
+  document.addEventListener('joomla:updated', ({ target }) => {
     // Check is it subform, then wee need to fix some "showon" config
     if (target.classList.contains('subform-repeatable-group')) {
       const elements = [].slice.call(target.querySelectorAll('[data-showon]'));
@@ -236,6 +233,6 @@
     }
 
     // eslint-disable-next-line no-new
-    new Showon(event.target);
+    new Showon(target);
   });
 })(document);

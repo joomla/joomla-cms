@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
@@ -19,7 +19,7 @@ $name = $displayData;
 		<button type="button" class="btn btn-secondary" href="#"
 			onclick="tinyMCE.execCommand('mceToggleEditor', false, '<?php echo $name; ?>');return false;"
 		>
-			<span class="icon-eye" aria-hidden="true"></span>
+			<span class="fas fa-eye" aria-hidden="true"></span>
 			<?php echo Text::_('PLG_TINY_BUTTON_TOGGLE_EDITOR'); ?>
 		</button>
 	</div>

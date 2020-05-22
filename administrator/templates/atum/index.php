@@ -63,19 +63,6 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
-$this->addScriptDeclaration('cssVars();');
-
-// Opacity must be set before displaying the DOM, so don't move to a CSS file
-$css = '
-	.container-main > * {
-		opacity: 0;
-	}
-	.sidebar-wrapper > * {
-		opacity: 0;
-	}
-';
-
-$this->addStyleDeclaration($css);
 
 $monochrome = (bool) $this->params->get('monochrome');
 
@@ -97,11 +84,13 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 	</div>
 </noscript>
 
+<jdoc:include type="modules" name="customtop" style="none" />
+
 <?php // Header ?>
 <header id="header" class="header">
 	<div class="d-flex">
 		<div class="header-title d-flex">
-			<div class="d-flex">
+			<div class="d-flex align-items-center">
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
 				<?php if ($hiddenMenu || $cpanel) : ?>
 					<div class="logo">
@@ -128,15 +117,15 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 <div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?>">
 	<?php // Sidebar ?>
 	<?php if (!$hiddenMenu) : ?>
-		<button class="navbar-toggler toggler-burger collapsed" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+		<button class="navbar-toggler toggler-burger collapsed" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
 		<div id="sidebar-wrapper" class="sidebar-wrapper sidebar-menu" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
 			<div id="sidebarmenu">
-				<div class="sidebar-toggle">
+				<div class="sidebar-toggle item item-level-1">
 					<a id="menu-collapse" href="#" aria-label="<?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?>">
-						<span id="menu-collapse-icon" class="fa fa-toggle-off fa-fw" aria-hidden="true"></span>
+						<span id="menu-collapse-icon" class="fas fa-toggle-off fa-fw" aria-hidden="true"></span>
 						<span class="sidebar-item-title"><?php echo Text::_('JTOGGLE_SIDEBAR_MENU'); ?></span>
 					</a>
 				</div>
@@ -167,6 +156,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			<div class="row">
 				<div class="col-md-12">
 					<main>
+						<jdoc:include type="message" />
 						<jdoc:include type="component" />
 					</main>
 				</div>
@@ -176,10 +166,6 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			</div>
 			<?php // End Content ?>
 		</section>
-
-		<div class="notify-alerts">
-			<jdoc:include type="message" />
-		</div>
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />

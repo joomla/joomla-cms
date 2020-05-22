@@ -382,7 +382,7 @@ abstract class Factory
 			return self::$cache[$hash];
 		}
 
-		$handler = ($handler == 'function') ? 'callback' : $handler;
+		$handler = ($handler === 'function') ? 'callback' : $handler;
 
 		$options = array('defaultgroup' => $group);
 
@@ -548,7 +548,7 @@ abstract class Factory
 		$name = 'JConfig' . $namespace;
 
 		// Handle the PHP configuration type.
-		if ($type == 'PHP' && class_exists($name))
+		if ($type === 'PHP' && class_exists($name))
 		{
 			// Create the JConfig object
 			$config = new $name;
@@ -628,7 +628,7 @@ abstract class Factory
 
 		$session = Session::getInstance($handler, $options, $sessionHandler);
 
-		if ($session->getState() == 'expired')
+		if ($session->getState() === 'expired')
 		{
 			$session->restart();
 		}

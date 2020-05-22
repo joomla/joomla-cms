@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
@@ -44,5 +44,5 @@ extract($displayData);
 ?>
 <input type="hidden" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); ?>">
 <button class="btn btn-secondary" type="button" id="js-pstats-reset-uid">
-	<span class="icon-refresh"></span> <?php echo Text::_('PLG_SYSTEM_STATS_RESET_UNIQUE_ID'); ?>
+	<span class="fas fa-sync"></span> <?php echo Text::_('PLG_SYSTEM_STATS_RESET_UNIQUE_ID'); ?>
 </button>

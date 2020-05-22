@@ -16,6 +16,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\Exception\MailDisabledException;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
@@ -44,7 +45,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  3.9.0
 	 */
 	protected $app;
@@ -56,21 +57,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	 * @since  3.9.0
 	 */
 	protected $db;
-
-	/**
-	 * Constructor
-	 *
-	 * @param   object  &$subject  The object to observe
-	 * @param   array   $config    An array that holds the plugin configuration
-	 *
-	 * @since   3.9.0
-	 */
-	public function __construct(&$subject, $config)
-	{
-		parent::__construct($subject, $config);
-
-		FormHelper::addFieldPath(__DIR__ . '/field');
-	}
 
 	/**
 	 * Adds additional fields to the user editing form
@@ -104,7 +90,8 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		}
 
 		// Add the privacy policy fields to the form.
-		Form::addFormPath(__DIR__ . '/privacyconsent');
+		FormHelper::addFieldPrefix('Joomla\\Plugin\\System\\PrivacyConsent\\Field');
+		FormHelper::addFormPath(__DIR__ . '/forms');
 		$form->loadFile('privacyconsent');
 
 		$privacyArticleId = $this->getPrivacyArticleId();
@@ -165,16 +152,16 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	 * @param   boolean  $result  true if saving the user worked
 	 * @param   string   $error   error message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterSave($data, $isNew, $result, $error)
+	public function onUserAfterSave($data, $isNew, $result, $error): void
 	{
 		// Only create an entry on front-end user creation/update profile
 		if ($this->app->isClient('administrator'))
 		{
-			return true;
+			return;
 		}
 
 		// Get the user's ID
@@ -183,7 +170,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		// If user already consented before, no need to check it further
 		if ($userId > 0 && $this->isUserConsented($userId))
 		{
-			return true;
+			return;
 		}
 
 		$option = $this->app->input->get('option');
@@ -235,8 +222,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			$model = $this->app->bootComponent('com_actionlogs')->getMVCFactory()->createModel('Actionlog', 'Administrator');
 			$model->addLog([$message], 'PLG_SYSTEM_PRIVACYCONSENT_CONSENT', 'plg_system_privacyconsent', $userId);
 		}
-
-		return true;
 	}
 
 	/**
@@ -248,15 +233,15 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	 * @param   boolean  $success  True if user was succesfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterDelete($user, $success, $msg)
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		$userId = ArrayHelper::getValue($user, 'id', 0, 'int');
@@ -276,12 +261,8 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			catch (Exception $e)
 			{
 				$this->_subject->setError($e->getMessage());
-
-				return false;
 			}
 		}
-
-		return true;
 	}
 
 	/**
@@ -561,7 +542,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		$remind   = (int) $this->params->get('remind', 30);
 		$now      = Factory::getDate()->toSql();
 		$period   = '-' . ($expire - $remind);
-		$bindDate = [$now, $period];
 		$db       = $this->db;
 		$query    = $db->getQuery(true);
 
@@ -570,8 +550,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('r.user_id'))
 			->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
 			->where($db->quoteName('remind') . ' = 0')
-			->where($query->dateAdd(':now', ':period', 'DAY') . ' > ' . $db->quoteName('created'))
-			->bind([':now', ':period'], $bindDate, [ParameterType::STRING, ParameterType::INTEGER]);
+			->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'));
 
 		try
 		{
@@ -618,11 +597,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
 				$mailResult = $mailer->Send();
 
-				if ($mailResult instanceof JException)
-				{
-					return false;
-				}
-				elseif ($mailResult === false)
+				if ($mailResult === false)
 				{
 					return false;
 				}
@@ -648,7 +623,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 					return false;
 				}
 			}
-			catch (phpmailerException $exception)
+			catch (MailDisabledException | phpmailerException $exception)
 			{
 				return false;
 			}
@@ -673,10 +648,9 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
 		$query->select($db->quoteName(['id', 'user_id']))
 			->from($db->quoteName('#__privacy_consents'))
-			->where($query->dateAdd(':now', ':period', 'DAY') . ' > ' . $db->quoteName('created'))
+			->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'))
 			->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
-			->where($db->quoteName('state') . ' = 1')
-			->bind([':now', ':period'], [$now, $period], [ParameterType::STRING, ParameterType::INTEGER]);
+			->where($db->quoteName('state') . ' = 1');
 
 		$db->setQuery($query);
 
@@ -720,7 +694,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
 			$messageModel->notifySuperUsers(
 				Text::_('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_SUBJECT'),
-				Text::sprintf('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_MESSAGE', $user->user_id)
+				Text::sprintf('PLG_SYSTEM_PRIVACYCONSENT_NOTIFICATION_USER_PRIVACY_EXPIRED_MESSAGE', Factory::getUser($user->user_id)->username)
 			);
 		}
 

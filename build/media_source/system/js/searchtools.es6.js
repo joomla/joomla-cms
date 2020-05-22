@@ -191,8 +191,8 @@ Joomla = window.Joomla || {};
       this.createOrderField();
 
       this.orderCols.forEach((item) => {
-        item.addEventListener('click', (event) => {
-          const element = event.target.tagName.toLowerCase() === 'span' ? event.target.parentNode : event.target;
+        item.addEventListener('click', ({ target }) => {
+          const element = target.tagName.toLowerCase() === 'span' ? target.parentNode : target;
 
           // Order to set
           const newOrderCol = element.getAttribute('data-order');
@@ -292,6 +292,14 @@ Joomla = window.Joomla || {};
         }
       });
 
+      // If there are no active filters - remove the filtered caption area from the table
+      if (activeFilterCount === 0) {
+        const filteredByCaption = document.getElementById('filteredBy');
+        if (filteredByCaption) {
+          filteredByCaption.parentNode.removeChild(filteredByCaption);
+        }
+      }
+
       // Disable clear button when no filter is active and search is empty
       if (this.clearButton) {
         this.clearButton.disabled = (activeFilterCount === 0) && !this.searchString.length;
@@ -305,6 +313,24 @@ Joomla = window.Joomla || {};
       const tmpEl = element.querySelector(chosenId);
       if (tmpEl) {
         tmpEl.classList.add('active');
+      }
+
+      // Add all active filters to the table caption for screen-readers
+      const filteredByCaption = document.getElementById('filteredBy');
+
+      // The caption won't exist if no items match the filters so check for the element first
+      if (filteredByCaption) {
+        let captionContent = '';
+
+        if (element.multiple === true) {
+          const selectedOptions = element.querySelectorAll('option:checked');
+          const selectedTextValues = [].slice.call(selectedOptions).map((el) => el.text);
+          captionContent = `${element.labels[0].textContent} - ${selectedTextValues.join()}`;
+        } else {
+          captionContent = `${element.labels[0].textContent} - ${element.options[element.selectedIndex].text}`;
+        }
+
+        filteredByCaption.textContent += captionContent;
       }
     }
 
@@ -333,19 +359,19 @@ Joomla = window.Joomla || {};
     // eslint-disable-next-line class-methods-use-this
     hideContainer(container) {
       if (container) {
-        container.classList.remove('js-filters-show');
+        container.classList.remove('js-stools-container-filters-visible');
         document.body.classList.remove('filters-shown');
       }
     }
 
     // eslint-disable-next-line class-methods-use-this
     showContainer(container) {
-      container.classList.add('js-filters-show');
+      container.classList.add('js-stools-container-filters-visible');
       document.body.classList.add('filters-shown');
     }
 
     toggleContainer(container) {
-      if (container.classList.contains('js-filters-show')) {
+      if (container.classList.contains('js-stools-container-filters-visible')) {
         this.hideContainer(container);
       } else {
         this.showContainer(container);
@@ -505,8 +531,8 @@ Joomla = window.Joomla || {};
     const sort = document.getElementById('sorted');
 
     if (sort && sort.hasAttribute('data-caption')) {
-      const caption = sort.getAttribute('data-caption');
-      document.getElementById('captionTable').textContent += caption;
+      const orderedBy = sort.getAttribute('data-caption');
+      document.getElementById('orderedBy').textContent += orderedBy;
     }
 
     if (sort && sort.hasAttribute('data-sort')) {

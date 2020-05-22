@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 
@@ -17,6 +17,6 @@ $title = $displayData['title'];
 
 ?>
 <button type="button" data-toggle="modal" onclick="{document.getElementById('collapseModal').open(); return true;}" class="btn btn-sm btn-primary">
-	<span class="icon-checkbox-partial" aria-hidden="true"></span>
+	<span class="fas fa-square" aria-hidden="true"></span>
 	<?php echo $title; ?>
 </button>

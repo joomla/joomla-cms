@@ -38,6 +38,7 @@
 			name="alias"
 			type="text"
 			label="JFIELD_ALIAS_LABEL"
+			description="JFIELD_ALIAS_DESC"
 			id="alias"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="45"
@@ -68,6 +69,7 @@
 			label="JGLOBAL_FIELD_FEATURED_LABEL"
 			id="featured"
 			default="0"
+			validate="options"
 			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
@@ -80,7 +82,7 @@
 			translateformat="true"
 			showtime="true"
 			size="22"
-			filter="user_utc" 
+			filter="user_utc"
 			showon="featured:1"
 		/>
 
@@ -91,7 +93,7 @@
 			translateformat="true"
 			showtime="true"
 			size="22"
-			filter="user_utc" 
+			filter="user_utc"
 			showon="featured:1"
 		/>
 
@@ -197,6 +199,8 @@
 			id="metadesc"
 			rows="5"
 			cols="50"
+			maxlength="160"
+			charcounter="true"
 		/>
 
 		<field
@@ -242,6 +246,7 @@
 				type="list"
 				label="COM_CONTENT_FLOAT_INTRO_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="right">COM_CONTENT_RIGHT</option>
 				<option value="left">COM_CONTENT_LEFT</option>
@@ -274,6 +279,7 @@
 				type="list"
 				label="COM_CONTENT_FLOAT_FULLTEXT_LABEL"
 				useglobal="true"
+				validate="options"
 				>
 				<option value="right">COM_CONTENT_RIGHT</option>
 				<option value="left">COM_CONTENT_LEFT</option>

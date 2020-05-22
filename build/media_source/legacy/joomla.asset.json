@@ -14,20 +14,28 @@
       "uri": "legacy/jquery-noconflict.min.js"
     },
     {
-      "name": "jquery.ui.core",
+      "name": "joomla.frontediting",
+      "type": "style",
+      "uri": "system/frontediting.css"
+    },
+    {
+      "name": "joomla.frontediting",
       "type": "script",
       "dependencies": [
         "jquery"
       ],
-      "uri": "vendor/jquery-ui/jquery.ui.core.js"
+      "uri": "legacy/frontediting.min.js",
+      "attributes": {
+        "defer": true
+      }
     },
     {
-      "name": "jquery.ui.sortable",
-      "type": "script",
+      "name": "joomla.frontediting",
+      "type": "preset",
       "dependencies": [
-        "jquery.ui.core"
-      ],
-      "uri": "vendor/jquery-ui/jquery.ui.sortable.js"
+        "joomla.frontediting#style",
+        "joomla.frontediting#script"
+      ]
     }
   ]
 }

@@ -514,7 +514,7 @@ class SetupModel extends BaseInstallationModel
 				$options->db_pass_plain,
 				$options->db_name,
 				$options->db_prefix,
-				isset($options->db_select) ? $options->db_select : false,
+				false,
 				DatabaseHelper::getEncryptionSettings($options)
 			);
 
@@ -522,11 +522,51 @@ class SetupModel extends BaseInstallationModel
 		}
 		catch (\RuntimeException $e)
 		{
+			if ($options->db_type === 'mysql' && strpos($e->getMessage(), '[1049] Unknown database') === 42
+				|| $options->db_type === 'pgsql' && strpos($e->getMessage(), 'database "' . $options->db_name . '" does not exist'))
+			{
+				// Database doesn't exist: Skip the below checks, they will be done later at database creation
+				return true;
+			}
+
 			Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
 
 			return false;
 		}
 
+		$dbVersion = $db->getVersion();
+
+		// Get required database version
+		$minDbVersionRequired = DatabaseHelper::getMinimumServerVersion($db, $options);
+
+		// Check minimum database version
+		if (version_compare($dbVersion, $minDbVersionRequired) < 0)
+		{
+			if (in_array($options->db_type, ['mysql', 'mysqli']) && $db->isMariaDb())
+			{
+				$errorMessage = Text::sprintf(
+					'INSTL_DATABASE_INVALID_MARIADB_VERSION',
+					$minDbVersionRequired,
+					$dbVersion
+				);
+			}
+			else
+			{
+				$errorMessage = Text::sprintf(
+					'INSTL_DATABASE_INVALID_' . strtoupper($options->db_type) . '_VERSION',
+					$minDbVersionRequired,
+					$dbVersion
+				);
+			}
+
+			Factory::getApplication()->enqueueMessage($errorMessage, 'error');
+
+			$db->disconnect();
+
+			return false;
+		}
+
+		// Check database connection encryption
 		if ($options->db_encryption !== 0 && empty($db->getConnectionEncryption()))
 		{
 			if ($db->isConnectionEncryptionSupported())

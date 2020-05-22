@@ -16,15 +16,15 @@ html {
 }
 
 body {
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 	height: 100%;
 	margin-bottom: 1px;
 	background: #FFFFFF;
 	font-family: helvetica, arial, sans-serif;
 	font-weight: normal;
-	padding-top: 0px;
-	margin-top: 0px;
+	padding-top: 0;
+	margin-top: 0;
 }
 
 .error {
@@ -40,21 +40,21 @@ table, td, th, div, pre, blockquote, ul, ol, dl, address,.componentheading,.cont
 #outline {
 	width: 900px;
 	margin: 0 auto;
-	padding: 0px;
+	padding: 0;
 	padding-top: 60px;
 	padding-bottom: 60px;
 	background: #FFFFFF;
 }
 #errorboxoutline {
 	width: 900px;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 	border: 1px solid #000000;
 }
 #errorboxheader {
 	width: 900px;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 	background: #E44249;
 	color: #FFFFFF;
 	font-weight: bold;
@@ -64,7 +64,7 @@ table, td, th, div, pre, blockquote, ul, ol, dl, address,.componentheading,.cont
 	border-bottom: 1px solid #000000;
 }
 #errorboxbody {
-	margin: 0px;
+	margin: 0;
 	padding: 10px;
 	text-align: left;
 }
