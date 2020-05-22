@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\User\User;
-use Joomla\CMS\Workflow\Workflow;
+use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -26,6 +26,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class PlgWorkflowNotification extends CMSPlugin
 {
+	use WorkflowPluginTrait;
+
 	/**
 	 * Load the language file on instantiation.
 	 *
@@ -49,7 +51,7 @@ class PlgWorkflowNotification extends CMSPlugin
 	 * @since  3.9.0
 	 */
 	protected $db;
-	
+
 	/**
 	 * The form event.
 	 *
@@ -65,29 +67,10 @@ class PlgWorkflowNotification extends CMSPlugin
 		$context = $form->getName();
 
 		// Extend the transition form
-		if ($context !== 'com_workflow.transition')
+		if ($context === 'com_workflow.transition')
 		{
-			return;
+			$form->loadFile(__DIR__ . '/forms/action.xml');
 		}
-
-		return $this->enhanceTransitionForm($form, $data);
-	}
-
-	/**
-	 * Add different parameter options to the transition view, we need when executing the transition
-	 *
-	 * @param   Form      $form  The form
-	 * @param   stdClass  $data  The data
-	 *
-	 * @return  boolean
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function enhanceTransitionForm(Form $form, $data)
-	{
-		Form::addFormPath(__DIR__ . '/forms');
-
-		$form->loadFile('workflow_notification');
 
 		return true;
 	}
@@ -107,7 +90,7 @@ class PlgWorkflowNotification extends CMSPlugin
 	{
 		$parts = explode('.', $context);
 
-		// Check the extension 
+		// Check the extension
 		if (count($parts) < 2)
 		{
 			return false;
@@ -126,7 +109,7 @@ class PlgWorkflowNotification extends CMSPlugin
 			return true;
 		}
 
-		// ID of the items whose state has changed. 
+		// ID of the items whose state has changed.
 		$pks = ArrayHelper::toInteger($pks);
 
 		if (empty($pks))
@@ -146,23 +129,6 @@ class PlgWorkflowNotification extends CMSPlugin
 
 		$modelName = $component->getModelName($context);
 		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(),  ['ignore_request' => true]);
-
-		$authorId = 0; 
-
-		// Add author of the item to the receivers array if the param email-author is set
-		if (!empty($data->options['notification_email_author']) && !empty($item->created_by))
-		{
-			$author = User::getInstance($item->created_by);
-
-			if (!empty($author) && !$author->block)
-			{
-				if (!in_array($author->id, $userIds))
-				{
-					$userIds[] = (int) $author->id;
-					$authorId = $author->id;
-				}
-			}
-		}
 
 		// Don't send the notification to the active user
 		$key = array_search($user->id, $userIds);
@@ -194,12 +160,14 @@ class PlgWorkflowNotification extends CMSPlugin
 
 		$toStage = $model_stage->getItem($data->to_stage_id)->title;
 
+		$hasGetItem = method_exists($model, 'getItem');
+
 		foreach ($pks as $pk)
 		{
 			// Get the title of the item which has changed
 			$title ='';
 
-			if (method_exists($model, 'getItem'))
+			if ($hasGetItem)
 			{
 				$title = $model->getItem($pk)->title;
 			}
@@ -214,14 +182,9 @@ class PlgWorkflowNotification extends CMSPlugin
 				$lang->load('plg_workflow_notification');
 				$messageText = sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'), $title, $user->name, $lang->_($toStage));
 
-				if (!empty($data->options['notification_text'] && $user_id !== $authorId))
+				if (!empty($data->options['notification_text']))
 				{
 					$messageText .= '<br>' . htmlspecialchars($lang->_($data->options['notification_text']));
-				}
-
-				if (!empty($data->options['notification_author_text'] && $user_id === $authorId))
-				{
-					$messageText .= '<br>' . htmlspecialchars($lang->_($data->options['notification_text_author']));
 				}
 
 				$message = [
@@ -233,16 +196,16 @@ class PlgWorkflowNotification extends CMSPlugin
 
 				$model_message->save($message);
 			}
-
-			$this->app->enqueueMessage(Text::_('PLG_WORKFLOW_NOTIFICATION_SENT'), 'message');
 		}
+
+		$this->app->enqueueMessage(Text::_('PLG_WORKFLOW_NOTIFICATION_SENT'), 'message');
 
 		return true;
 	}
 
 	/*
-	 * Get user_ids of receivers	
-	 * 
+	 * Get user_ids of receivers
+	 *
 	 * @param   object  $data    Object containing data about the transition
 	 *
 	 * @return   array  $userIds  The receivers
@@ -257,7 +220,7 @@ class PlgWorkflowNotification extends CMSPlugin
 		if (!empty($data->options['notification_receivers']))
 		{
 			$users = ArrayHelper::toInteger($data->options['notification_receivers']);
-		} 
+		}
 
 		// Usergroups
 		$groups = [];
@@ -281,40 +244,42 @@ class PlgWorkflowNotification extends CMSPlugin
 			$model->setState('filter.active', 1);
 			$model->setState('filter.sendEmail', 1);
 
-			// Ids from usergroups 
-			$groupUsers = $model->getItems();	
+			// Ids from usergroups
+			$groupUsers = $model->getItems();
+
 			$users2 = ArrayHelper::getColumn($groupUsers, 'id');
 		}
 
 		// Merge userIds from individual entries and userIDs from groups
-		$userIds = array_unique(array_merge($users, $users2));
-
-		return $userIds;
+		return array_unique(array_merge($users, $users2));
 	}
 
 	/*
-	 * Remove receivers who have locked their message inputbox	
-	 * 
+	 * Remove receivers who have locked their message inputbox
+	 *
 	 * @param   array  $uerIds  The userIds which must be checked
 	 *
 	 * @return   array  users with active message input box
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function removeLocked($userIds): Array
+	private function removeLocked(array $userIds): Array
 	{
-		// Check for locked inboxes would be better to have _cdf settings in the user_object or a filter in users model
-		$locked = [];
+		if (empty($userIds))
+		{
+			return [];
+		}
 
-		$db = $this->db;
-		$query = $db->getQuery(true);
+		// Check for locked inboxes would be better to have _cdf settings in the user_object or a filter in users model
+		$query = $this->db->getQuery(true);
+
 		$query->select($db->quoteName('user_id'))
 				->from($db->quoteName('#__messages_cfg'))
 				->whereIn($db->quoteName('user_id'), $userIds)
-				->where($db->quoteName('cfg_name') . '=' . $db->quote('locked'))
-				->where($db->quoteName('cfg_value') . '=1'); 
+				->where($db->quoteName('cfg_name') . ' = ' . $db->quote('locked'))
+				->where($db->quoteName('cfg_value') . ' = 1');
 
-		$locked = $db->setQuery($query)->loadColumn();
+		$locked = $this->db->setQuery($query)->loadColumn();
 
 		return array_diff($userIds, $locked);
 	}
