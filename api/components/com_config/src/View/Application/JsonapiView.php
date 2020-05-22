@@ -12,6 +12,7 @@ namespace Joomla\Component\Config\Api\View\Application;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\JsonApiView as BaseApiView;
 use Joomla\CMS\Serializer\JoomlaSerializer;
 use Joomla\CMS\Uri\Uri;
@@ -25,28 +26,6 @@ USE Joomla\Component\Config\Administrator\Model\ApplicationModel;
  */
 class JsonapiView extends BaseApiView
 {
-	/**
-	 * The fields to not render for security reason
-	 *
-	 * @var  array
-	 * @since  4.0.0
-	 */
-	protected $fieldsToNotRender = [
-		'editor',
-		'captcha',
-		'dbprefix',
-		'db',
-		'password',
-		'user',
-		'host',
-		'dbtype',
-		'dbencryption',
-		'dbsslverifyservercert',
-		'dbsslcert',
-		'dbsslca',
-		'dbsslcipher',
-		'dbsslkey',
-	];
 
 	/**
 	 * Execute and display a template script.
@@ -59,19 +38,21 @@ class JsonapiView extends BaseApiView
 	 */
 	public function displayList(array $items = null)
 	{
-		/** @var ApplicationModel $model */
-		$model = $this->getModel();
+		/** @var AdminModel $model */
+		$app   = Factory::getApplication();
+		$model = $app->bootComponent('com_admin')->getMVCFactory()->createModel('Sysinfo', 'Administrator');
 		$items = [];
+		$infos = ['info', 'phpSettings', 'config', 'directory', 'phpInfoArray', 'extensions'];
 
-		foreach ($model->getData() as $key => $value)
+		foreach ($infos as $keys)
 		{
-			if (\in_array($key, $this->fieldsToNotRender))
-			{
-				continue;
-			}
+			$config = $model->getSafeData($keys);
 
-			$item    = (object) [$key => $value];
-			$items[] = $this->prepareItem($item);
+			foreach ($config as $key => $value)
+			{
+				$item    = (object) [$key => $value];
+				$items[] = $this->prepareItem($item);
+			}
 		}
 
 		// Set up links for pagination
