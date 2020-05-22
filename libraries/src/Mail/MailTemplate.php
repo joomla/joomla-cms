@@ -313,21 +313,23 @@ class MailTemplate
 			if (is_array($value))
 			{
 				$matches = array();
-				preg_match_all('/{' . strtoupper($key) . '}(.*?){/' . strtoupper($key) . '}/s', $text, $matches);
 
-				foreach ($matches[0] as $i => $match)
+				if (preg_match_all('/{' . strtoupper($key) . '}(.*?){/' . strtoupper($key) . '}/s', $text, $matches))
 				{
-					$replacement = '';
-
-					foreach ($value as $subvalue)
+					foreach ($matches[0] as $i => $match)
 					{
-						if (is_array($subvalue))
-						{
-							$replacement .= $this->replaceTags($matches[1][$i], $subvalue);
-						}
-					}
+						$replacement = '';
 
-					$text = str_replace($match, $replacement, $text);
+						foreach ($value as $subvalue)
+						{
+							if (is_array($subvalue))
+							{
+								$replacement .= $this->replaceTags($matches[1][$i], $subvalue);
+							}
+						}
+
+						$text = str_replace($match, $replacement, $text);
+					}
 				}
 			}
 			else
