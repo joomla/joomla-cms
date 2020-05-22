@@ -314,7 +314,7 @@ class MailTemplate
 			{
 				$matches = array();
 
-				if (preg_match_all('/{' . strtoupper($key) . '}(.*?){/' . strtoupper($key) . '}/s', $text, $matches))
+				if (preg_match_all('/{' . strtoupper($key) . '}(.*?){\/' . strtoupper($key) . '}/s', $text, $matches))
 				{
 					foreach ($matches[0] as $i => $match)
 					{
