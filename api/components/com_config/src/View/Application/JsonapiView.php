@@ -26,7 +26,7 @@ USE Joomla\Component\Config\Administrator\Model\ApplicationModel;
 class JsonapiView extends BaseApiView
 {
 	/**
-	 * The fields to not render for secuty reason
+	 * The fields to not render for security reason
 	 *
 	 * @var  array
 	 * @since  4.0.0
