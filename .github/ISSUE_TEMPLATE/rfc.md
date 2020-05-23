@@ -4,11 +4,10 @@ about: Start an Request for Comment discussion
 
 ---
 
-### Problem statement
+### Problem identified
 
 
 ### Proposed solution
 
 
 ### Open questions
-
