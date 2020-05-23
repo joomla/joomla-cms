@@ -273,11 +273,11 @@ class PlgWorkflowNotification extends CMSPlugin
 		// Check for locked inboxes would be better to have _cdf settings in the user_object or a filter in users model
 		$query = $this->db->getQuery(true);
 
-		$query->select($db->quoteName('user_id'))
-				->from($db->quoteName('#__messages_cfg'))
-				->whereIn($db->quoteName('user_id'), $userIds)
-				->where($db->quoteName('cfg_name') . ' = ' . $db->quote('locked'))
-				->where($db->quoteName('cfg_value') . ' = 1');
+		$query->select($this->db->quoteName('user_id'))
+				->from($this->db->quoteName('#__messages_cfg'))
+				->whereIn($this->db->quoteName('user_id'), $userIds)
+				->where($this->db->quoteName('cfg_name') . ' = ' . $this->db->quote('locked'))
+				->where($this->db->quoteName('cfg_value') . ' = 1');
 
 		$locked = $this->db->setQuery($query)->loadColumn();
 
