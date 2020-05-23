@@ -38,24 +38,24 @@ class CssIdentifierRule extends FormRule
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
-		$value = trim($value);
-
 		// If the field is empty and not required, the field is valid.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		$required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
-		if (!$required && empty($value))
+		if (!$required && empty($value) && $value !== '0')
 		{
 			return true;
 		}
 
-		// Make sure we allow multible classes to be added
+		// Make sure we allow multiple classes to be added
 		$cssIdentifiers = explode(' ', $value);
 
-		foreach ($cssIdentifiers as $identifier)
+		foreach ($cssIdentifiers as $i => $identifier)
 		{
 			/**
 			 * The folowing regex rules are based on the Html::cleanCssIdentifier method from Drupal
 			 * https://github.com/drupal/drupal/blob/8.8.5/core/lib/Drupal/Component/Utility/Html.php#L116-L130
+			 *
+			 * with the addition for Joomla that we allow the colon (U+003A).
 			 */
 
 			/**
@@ -64,16 +64,20 @@ class CssIdentifierRule extends FormRule
 			 * - a-z (U+0030 - U+0039)
 			 * - A-Z (U+0041 - U+005A)
 			 * - the underscore (U+005F)
+			 * - the colon (U+003A)
 			 * - 0-9 (U+0061 - U+007A)
 			 * - ISO 10646 characters U+00A1 and higher
 			 */
-			if (preg_match('/[^\\x{002D}\\x{0030}-\\x{0039}\\x{0041}-\\x{005A}\\x{005F}\\x{0061}-\\x{007A}\\x{00A1}-\\x{FFFF}]/u', $identifier))
+			if (preg_match('/[^\\x{002D}\\x{0030}-\\x{0039}\\x{0041}-\\x{005A}\\x{005F}\\x{003A}\\x{0061}-\\x{007A}\\x{00A1}-\\x{FFFF}]/u', $identifier))
 			{
 				return false;
 			}
 
-			// Identifiers cannot start with a digit, two hyphens, or a hyphen followed by a digit.
-			if (preg_match('/^[0-9]/', $identifier) || preg_match('/^(-[0-9])|^(--)/', $identifier))
+			/**
+			 * Apply this rules only to full class identiers and not to the suffix ($i === 0).
+			 * Full identifiers cannot start with a digit, two hyphens, or a hyphen followed by a digit.
+			 */
+			if ($i !== 0 && (preg_match('/^[0-9]/', $identifier) || preg_match('/^(-[0-9])|^(--)/', $identifier)))
 			{
 				return false;
 			}
