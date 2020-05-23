@@ -89,6 +89,6 @@ class DiscoverController extends BaseController
 
 		$model = $this->getModel('Discover');
 
-		echo new JsonResponse(count($model->getItems()));
+		echo new JsonResponse($model->getTotal());
 	}
 }
