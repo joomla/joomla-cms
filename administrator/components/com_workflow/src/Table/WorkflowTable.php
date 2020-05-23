@@ -197,11 +197,6 @@ class WorkflowTable extends Table
 			$this->modified_by = 0;
 		}
 
-		if (!(int) $this->ordering)
-		{
-			$this->ordering = $this->getNextOrder();
-		}
-
 		if (!(int) $this->created)
 		{
 			$this->created = $date->toSql();

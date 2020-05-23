@@ -55,26 +55,6 @@ class TransitionTable extends Table
 	}
 
 	/**
-	 * Overloaded store function
-	 *
-	 * @param   boolean  $updateNulls  True to update fields even if they are null.
-	 *
-	 * @return  mixed  False on failure, positive integer on success.
-	 *
-	 * @see     Table::store()
-	 * @since   4.0.0
-	 */
-	public function store($updateNulls = true)
-	{
-		if (!(int) $this->ordering)
-		{
-			$this->ordering = $this->getNextOrder($this->_db->quoteName('workflow_id') . ' = ' . (int) $this->workflow_id);
-		}
-
-		return parent::store($updateNulls);
-	}
-
-	/**
 	 * Method to compute the default name of the asset.
 	 * The default name is in the form table_name.id
 	 * where id is the value of the primary key of the table.
