@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Button\FeaturedButton;
 use Joomla\CMS\Button\PublishedButton;
+use Joomla\CMS\Button\TransitionButton;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -106,6 +107,11 @@ endif;
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
+								<?php if ($workflow_enabled) : ?>
+								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JSTAGE', 'ws.title', $listDirn, $listOrder); ?>
+								</th>
+								<?php endif; ?>
 								<th scope="col" class="w-1 text-center">
 									<?php echo Text::_('JFEATURED'); ?>
 								</th>
@@ -192,6 +198,22 @@ endif;
 										<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 									<?php endif; ?>
 								</td>
+								<?php if ($workflow_enabled) : ?>
+								<td class="article-stage">
+									<div class="d-flex align-items-center tbody-icon small">
+									<?php
+									$options = [
+										'transitions' => $transitions,
+										'title' => Text::_($item->stage_title),
+										'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title))
+									];
+
+									echo (new TransitionButton($options))
+										->render(0, $i);
+									?>
+									</div>
+								</td>
+								<?php endif; ?>
 								<td class="text-center">
 									<?php
 
@@ -208,33 +230,13 @@ endif;
 									?>
 								</td>
 								<td class="article-status">
-								<?php if ($workflow_enabled) : ?>
-									<div class="d-flex align-items-center tbody-icon mr-1 small">
-									<?php
-
-										$options = [
-											'transitions' => $transitions,
-											'stage' => Text::_($item->stage_title),
-											'id' => (int) $item->id
-										];
-
-										echo (new PublishedButton)
-												->removeState(0)
-												->removeState(1)
-												->removeState(2)
-												->removeState(-2)
-												->addState(ContentComponent::CONDITION_PUBLISHED, '', 'publish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JPUBLISHED')])
-												->addState(ContentComponent::CONDITION_UNPUBLISHED, '', 'unpublish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JUNPUBLISHED')])
-												->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JARCHIVED')])
-												->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JTRASHED')])
-												->setLayout('joomla.button.transition-button')
-												->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
-									?>
-									</div>
 								<?php
-									else :
-										echo HTMLHelper::_('jgrid.published', $item->state, $i, 'articles.', $canChange, 'cb', $item->publish_up, $item->publish_down);
-									endif;
+									$options = [
+										'task_prefix' => 'articles.',
+										'disabled' => $workflow_enabled || !$canChange
+									];
+
+									echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
 								?>
 								</td>
 								<th scope="row" class="has-context">

@@ -56,7 +56,7 @@ class FeaturedModel extends ArticlesModel
 				'level',
 				'tag',
 				'rating_count', 'rating',
-				'stage',
+				'ws.title',
 			);
 		}
 
