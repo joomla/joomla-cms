@@ -79,24 +79,17 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
     // Make sure we have a boolean value
     this.disabled = !!disabled;
 
-    // Switch attribute for current element
-    if (this.disabled) {
-      this.setAttribute('disabled', true);
-    } else {
-      this.removeAttribute('disabled');
-    }
-
     // Switch attribute for native element
     // An anchor does not support "disabled" attribute, so use class
     if (this.buttonElement) {
       if (this.disabled) {
         if (this.buttonElement.nodeName === 'BUTTON') {
-          this.buttonElement.setAttribute('disabled', true);
+          this.buttonElement.disabled = true;
         } else {
           this.buttonElement.classList.add('disabled');
         }
       } else if (this.buttonElement.nodeName === 'BUTTON') {
-        this.buttonElement.removeAttribute('disabled');
+        this.buttonElement.disabled = false;
       } else {
         this.buttonElement.classList.remove('disabled');
       }
