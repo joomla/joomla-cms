@@ -227,7 +227,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	public static function resolve(string $uri): string
 	{
 		// Check if external URL.
-		if (strpos($uri, 'http') === false)
+		if (stripos($uri, 'http') !== 0)
 		{
 			return Uri::root() . $uri;
 		}
