@@ -35,7 +35,7 @@
 
 			<field
 				name="header_class"
-				type="text"
+				type="textarea"
 				label="COM_MODULES_FIELD_HEADER_CLASS_LABEL"
 			/>
 		</fieldset>
