@@ -24,7 +24,6 @@ HEADER=$(cat <<'EOF'
 ......|_|\___||___/\__|_|_|.|_|\__  |...
 ................................__/ |...
 ...............................|____|...
-#
 EOF
 )
 
@@ -48,8 +47,7 @@ apache2ctl -D FOREGROUND &
 google-chrome --version
 
 echo "[RUNNER] Start Selenium"
-./node_modules/.bin/selenium-standalone install --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com
-./node_modules/.bin/selenium-standalone start --drivers.chrome.version=77.0.3865.40 --drivers.chrome.baseURL=https://chromedriver.storage.googleapis.com >> selenium.log 2>&1 &
+selenium-standalone start >> selenium.log 2>&1 &
 sleep 5
 
 echo "[RUNNER] Run Codeception"

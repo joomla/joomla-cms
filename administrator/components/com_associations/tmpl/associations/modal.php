@@ -60,7 +60,7 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['ve
 			<thead>
 				<tr>
 					<?php if (!empty($this->typeSupports['state'])) : ?>
-						<th scope="col" class="w-1 center">
+						<th scope="col" class="w-1 text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'state', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>

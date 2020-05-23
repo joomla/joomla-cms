@@ -65,6 +65,12 @@ abstract class JGrid
 			$title = $enabled ? $active_title : $inactive_title;
 			$title = $translate ? Text::_($title) : $title;
 			$ariaid = $checkbox . $task . $i . '-desc';
+
+			// Don't show empty tooltip.
+			if ($title === '')
+			{
+				$tip = false;
+			}
 		}
 
 		if ($enabled)
@@ -89,7 +95,7 @@ abstract class JGrid
 		}
 		else
 		{
-			$html[] = '<a class="tbody-icon ' . $active_class . '-disabled disabled jgrid"';
+			$html[] = '<span class="tbody-icon ' . $active_class . '-disabled disabled jgrid"';
 			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
 
@@ -102,7 +108,7 @@ abstract class JGrid
 				$html[] = '<span class="icon-' . $inactive_class . '" aria-hidden="true"></span>';
 			}
 
-			$html[] = '</a>';
+			$html[] = '</span>';
 			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
 		}
 
@@ -272,7 +278,7 @@ abstract class JGrid
 	 * @see     JHtmlJGrid::state()
 	 * @since   1.6
 	 */
-	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $formId = null, $active_class = 'featured', $inactive_class = 'unfeatured')
+	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $formId = null, $active_class = 'color-featured fas fa-star', $inactive_class = 'color-unfeatured far fa-star')
 	{
 		if (is_array($prefix))
 		{
