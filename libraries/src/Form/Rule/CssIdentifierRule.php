@@ -41,14 +41,14 @@ class CssIdentifierRule extends FormRule
 		$value = trim($value);
 
 		// If the field is empty and not required, the field is valid.
-		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+		$required = ((string) $element['required'] === 'true' || (string) $element['required'] === 'required');
 
 		if (!$required && empty($value))
 		{
 			return true;
 		}
 
-		// Make sure we allow multible classes to be added
+		// Make sure we allow multiple classes to be added
 		$cssIdentifiers = explode(' ', $value);
 
 		foreach ($cssIdentifiers as $identifier)
