@@ -142,7 +142,7 @@ class InstallerScript
 		{
 			$manifest = $this->getItemArray('manifest_cache', '#__extensions', 'element', \JFactory::getDbo()->quote($this->extension));
 
-			// Check whether we have an old release installed and skip this check when this here is the instial install.
+			// Check whether we have an old release installed and skip this check when this here is the initial install.
 			if (!isset($manifest['version']))
 			{
 				return true;
