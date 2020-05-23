@@ -37,7 +37,7 @@ array_walk(
 			case 'change':
 				$class = 'badge-warning';
 				break;
-			case 'removed':
+			case 'remove':
 				$class = 'badge-light';
 				break;
 			default:

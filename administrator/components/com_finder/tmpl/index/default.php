@@ -67,7 +67,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 								<th scope="col" class="w-15 d-none d-md-table-cell text-center">
 									<?php echo Text::_('COM_FINDER_INDEX_HEADING_DETAILS'); ?>
 								</th>
-								<th scope="col" style="width:30%" class="d-none d-md-table-cell">
+								<th scope="col" class="w-30 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_LINK_URL', 'l.url', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
