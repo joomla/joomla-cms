@@ -158,10 +158,12 @@ class Router extends RouterView
 	{
 		if (!strpos($id, ':'))
 		{
+			$id      = (int) $id;
 			$dbquery = $this->db->getQuery(true);
 			$dbquery->select($this->db->quoteName('alias'))
 				->from($this->db->quoteName('#__content'))
-				->where('id = ' . $this->db->quote($id));
+				->where($this->db->quoteName('id') . ' = :id')
+				->bind(':id', $id, ParameterType::INTEGER);
 			$this->db->setQuery($dbquery);
 
 			$id .= ':' . $this->db->loadResult();
