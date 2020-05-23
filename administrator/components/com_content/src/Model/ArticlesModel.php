@@ -69,7 +69,8 @@ class ArticlesModel extends ListModel
 				'level',
 				'tag',
 				'rating_count', 'rating',
-				'stage',
+				'stage', 'wa.stage_id',
+				'ws.title'
 			);
 
 			if (Associations::isEnabled())
@@ -276,6 +277,7 @@ class ArticlesModel extends ListModel
 					$db->quoteName('wa.stage_id', 'stage_id'),
 					$db->quoteName('ws.title', 'stage_title'),
 					$db->quoteName('ws.workflow_id', 'workflow_id'),
+					$db->quoteName('w.title', 'workflow_title'),
 				]
 			)
 			->from($db->quoteName('#__content', 'a'))
@@ -288,7 +290,8 @@ class ArticlesModel extends ListModel
 			->join('LEFT', $db->quoteName('#__categories', 'parent'), $db->quoteName('parent.id') . ' = ' . $db->quoteName('c.parent_id'))
 			->join('LEFT', $db->quoteName('#__users', 'ua'), $db->quoteName('ua.id') . ' = ' . $db->quoteName('a.created_by'))
 			->join('INNER', $db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
-			->join('INNER', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'));
+			->join('INNER', $db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
+			->join('INNER', $db->quoteName('#__workflows', 'w'), $db->quoteName('w.id') . ' = ' . $db->quoteName('ws.workflow_id'));
 
 		if (PluginHelper::isEnabled('content', 'vote'))
 		{
