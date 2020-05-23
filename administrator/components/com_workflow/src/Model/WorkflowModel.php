@@ -113,7 +113,7 @@ class WorkflowModel extends AdminModel
 			$table = $this->getTable('Stage');
 
 			$table->id = 0;
-			$table->title = 'COM_WORKFLOW_DEFAULT';
+			$table->title = 'COM_WORKFLOW_BASIC_STAGE';
 			$table->description = '';
 			$table->workflow_id = $workflow_id;
 			$table->published = 1;
