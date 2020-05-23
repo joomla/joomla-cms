@@ -505,26 +505,11 @@ class ArticlesModel extends ListModel
 			$authorAliasWhere = $db->quoteName('a.created_by_alias') . $type . ':authorAlias';
 			$query->bind(':authorAlias', $authorAlias);
 		}
-		elseif (is_array($authorAlias))
+		elseif (\is_array($authorAlias) && !empty($authorAlias))
 		{
-			$first = current($authorAlias);
-
-			if (!empty($first))
-			{
-				foreach ($authorAlias as $key => $alias)
-				{
-					$authorAlias[$key] = $db->quote($alias);
-				}
-
-				$authorAlias = implode(',', $authorAlias);
-
-				if ($authorAlias)
-				{
-					$type             = $this->getState('filter.author_alias.include', true) ? ' IN' : ' NOT IN';
-					$authorAliasWhere = $db->quoteName('a.created_by_alias') . $type
-						. ' (' . implode(',', $query->bindArray($authorAlias, ParameterType::STRING)) . ')';
-				}
-			}
+			$type             = $this->getState('filter.author_alias.include', true) ? ' IN' : ' NOT IN';
+			$authorAliasWhere = $db->quoteName('a.created_by_alias') . $type
+				. ' (' . implode(',', $query->bindArray($authorAlias, ParameterType::STRING)) . ')';
 		}
 
 		if (!empty($authorWhere) && !empty($authorAliasWhere))
