@@ -31,7 +31,7 @@ CREATE INDEX "#__workflows_idx_modified_by" ON "#__workflows" ("modified_by");
 CREATE INDEX "#__workflows_idx_checked_out" ON "#__workflows" ("checked_out");
 
 INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "ordering", "created", "created_by", "modified", "modified_by", "checked_out_time", "checked_out") VALUES
-(1, 0, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content.article', 1, 1, CURRENT_TIMESTAMP, 0, CURRENT_TIMESTAMP, 0, NULL, 0);
+(1, 0, 1, 'COM_WORKFLOW_BASIC_WORKFLOW', '', 'com_content.article', 1, 1, CURRENT_TIMESTAMP, 0, CURRENT_TIMESTAMP, 0, NULL, 0);
 
 --
 -- Table structure for table "#__workflow_associations"
@@ -79,7 +79,7 @@ CREATE INDEX "#__workflow_stages_idx_checked_out" ON "#__workflow_stages" ("chec
 --
 
 INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "default", "checked_out_time", "checked_out") VALUES
-(1, 0, 1, 1, 1, 'COM_WORKFLOW_DEFAULT', '', 1, NULL, 0);
+(1, 0, 1, 1, 1, 'COM_WORKFLOW_BASIC_STAGE', '', 1, NULL, 0);
 
 --
 -- Table structure for table "#__workflow_transitions"

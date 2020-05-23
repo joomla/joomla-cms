@@ -75,8 +75,8 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (53, 18, 90, 91, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
 (54, 16, 54, 55, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
 (55, 18, 92, 93, 2, 'com_modules.module.87', 'Sample Data', '{}'),
-(56, 8, 20, 37, 2, 'com_content.workflow.1', 'COM_WORKFLOW_DEFAULT_WORKFLOW', '{}'),
-(57, 56, 21, 22, 3, 'com_content.state.1', 'COM_WORKFLOW_DEFAULT', '{}'),
+(56, 8, 20, 37, 2, 'com_content.workflow.1', 'COM_WORKFLOW_BASIC_WORKFLOW', '{}'),
+(57, 56, 21, 22, 3, 'com_content.state.1', 'COM_WORKFLOW_BASIC_STAGE', '{}'),
 (58, 56, 23, 24, 3, 'com_content.transition.1', 'Publish', '{}'),
 (59, 56, 25, 26, 3, 'com_content.transition.2', 'Unpublish', '{}'),
 (60, 56, 27, 28, 3, 'com_content.transition.3', 'Archive', '{}'),
@@ -1070,7 +1070,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 --
 
 INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `ordering`, `created`, `created_by`, `modified`, `modified_by`, `checked_out_time`, `checked_out`) VALUES
-(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content.article', 1, 1, CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, 0);
+(1, 56, 1, 'COM_WORKFLOW_BASIC_WORKFLOW', '', 'com_content.article', 1, 1, CURRENT_TIMESTAMP(), 42, CURRENT_TIMESTAMP(), 42, NULL, 0);
 
 -- --------------------------------------------------------
 
@@ -1119,7 +1119,7 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
 --
 
 INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `default`, `checked_out_time`, `checked_out`) VALUES
-(1, 0, 1, 1, 1, 'COM_WORKFLOW_DEFAULT', '', 1, NULL, 0);
+(1, 0, 1, 1, 1, 'COM_WORKFLOW_BASIC_STAGE', '', 1, NULL, 0);
 
 -- --------------------------------------------------------
 
