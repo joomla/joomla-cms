@@ -250,13 +250,13 @@ endif;
 										<?php else : ?>
 											<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
 										<?php endif; ?>
-										<span class="small break-word">
+										<div class="small break-word">
 											<?php if (empty($item->note)) : ?>
 												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 											<?php else : ?>
 												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 											<?php endif; ?>
-										</span>
+										</div>
 										<div class="small">
 											<?php
 											$ParentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
