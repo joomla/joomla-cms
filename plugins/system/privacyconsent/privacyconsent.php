@@ -446,7 +446,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	 *
 	 * @return  integer
 	 *
-	 * @since   4.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getPrivacyItemId()
 	{
