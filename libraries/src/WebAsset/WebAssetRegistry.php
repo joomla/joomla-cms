@@ -271,6 +271,18 @@ class WebAssetRegistry implements WebAssetRegistryInterface, DispatcherAwareInte
 	}
 
 	/**
+	 * Get a list of the registry files
+	 *
+	 * @return  array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getRegistryFiles(): array
+	{
+		return array_values($this->dataFilesParsed + $this->dataFilesNew);
+	}
+
+	/**
 	 * Helper method to register new file with Template Asset(s) info
 	 *
 	 * @param   string   $template  The template name
