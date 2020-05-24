@@ -262,26 +262,26 @@ class PlgUserToken extends CMSPlugin
 	 * @param   bool    $result  Has Joomla successfully saved the user?
 	 * @param   string  $error   Error string
 	 *
-	 * @return  boolean
+	 * @return  void
 	 * @since   4.0.0
 	 */
-	public function onUserAfterSave($data, bool $isNew, bool $result, ?string $error): bool
+	public function onUserAfterSave($data, bool $isNew, bool $result, ?string $error): void
 	{
 		if (!is_array($data))
 		{
-			return false;
+			return;
 		}
 
 		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
 		if ($userId <= 0)
 		{
-			return false;
+			return;
 		}
 
 		if (!$result)
 		{
-			return false;
+			return;
 		}
 
 		$noToken = false;
@@ -346,7 +346,7 @@ class PlgUserToken extends CMSPlugin
 		// If the user is not in the allowed user group don't save any new token information.
 		if (!$this->isInAllowedUserGroup($data['id']))
 		{
-			return true;
+			return;
 		}
 
 		// Save the new Joomla Token user profile values
@@ -371,8 +371,6 @@ class PlgUserToken extends CMSPlugin
 		}
 
 		$db->setQuery($query)->execute();
-
-		return true;
 	}
 
 	/**
@@ -384,23 +382,23 @@ class PlgUserToken extends CMSPlugin
 	 * @param   boolean  $success  True if user was succesfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @throws  Exception
 	 * @since   4.0.0
 	 */
-	public function onUserAfterDelete(array $user, bool $success, string $msg): bool
+	public function onUserAfterDelete(array $user, bool $success, string $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		$userId = ArrayHelper::getValue($user, 'id', 0, 'int');
 
 		if ($userId <= 0)
 		{
-			return true;
+			return;
 		}
 
 		try
@@ -419,10 +417,8 @@ class PlgUserToken extends CMSPlugin
 		}
 		catch (Exception $e)
 		{
-			return false;
+			// Do nothing.
 		}
-
-		return true;
 	}
 
 

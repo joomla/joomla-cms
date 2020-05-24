@@ -597,15 +597,15 @@ class MessagesModel extends BaseDatabaseModel
 			$query = $db->getQuery(true)
 				->delete($db->quoteName($tableName))
 				->where(
-				[
-					$db->quoteName('extension_id') . ' = :extensionId',
-					$db->quoteName('type') . ' = :type',
-					$db->quoteName('title_key') . ' = :titleKey',
-				]
-			)
-			->bind(':extensionId', $extensionId, ParameterType::INTEGER)
-			->bind(':type', $options['type'])
-			->bind(':titleKey', $options['title_key']);
+					[
+						$db->quoteName('extension_id') . ' = :extensionId',
+						$db->quoteName('type') . ' = :type',
+						$db->quoteName('title_key') . ' = :titleKey',
+					]
+				)
+				->bind(':extensionId', $extensionId, ParameterType::INTEGER)
+				->bind(':type', $options['type'])
+				->bind(':titleKey', $options['title_key']);
 
 			$db->setQuery($query)->execute();
 		}
