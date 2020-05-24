@@ -85,7 +85,7 @@ class JoomlatokenField extends TextField
 
 		echo $this->getRenderer('token')->render($this->getLayoutData());
 
-		return;
+		return parent::getInput();
 	}
 
 	/**
