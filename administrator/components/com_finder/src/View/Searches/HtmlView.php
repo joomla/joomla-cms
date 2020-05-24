@@ -92,7 +92,7 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $this->get('State');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-		$this->enabled       = $this->state->params->get('logging_enabled');
+		$this->enabled       = $this->state->params->get('gather_search_statistics', 0);
 		$this->canDo         = ContentHelper::getActions('com_finder');
 
 		// Check for errors.

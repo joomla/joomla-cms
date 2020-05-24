@@ -60,7 +60,7 @@
 		</field>
 
 		<field
-			name="logging_enabled"
+			name="gather_search_statistics"
 			type="radio"
 			label="COM_FINDER_CONFIG_GATHER_SEARCH_STATISTICS_LABEL"
 			layout="joomla.form.field.radio.switcher"
