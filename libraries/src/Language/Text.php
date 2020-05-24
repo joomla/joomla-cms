@@ -201,19 +201,6 @@ class Text
 		$args = \func_get_args();
 		$count = \count($args);
 
-		if ($count < 1)
-		{
-			return '';
-		}
-
-		if ($count == 1)
-		{
-			// Default to the normal sprintf handling.
-			$args[0] = $lang->_($string);
-
-			return \call_user_func_array('sprintf', $args);
-		}
-
 		// Try the key from the language plural potential suffixes
 		$found = false;
 		$suffixes = $lang->getPluralSuffixes((int) $n);
@@ -291,11 +278,6 @@ class Text
 		$args = \func_get_args();
 		$count = \count($args);
 
-		if ($count < 1)
-		{
-			return '';
-		}
-
 		if (\is_array($args[$count - 1]))
 		{
 			$args[0] = $lang->_(
@@ -337,11 +319,6 @@ class Text
 		$lang = Factory::getLanguage();
 		$args = \func_get_args();
 		$count = \count($args);
-
-		if ($count < 1)
-		{
-			return '';
-		}
 
 		if (\is_array($args[$count - 1]))
 		{
