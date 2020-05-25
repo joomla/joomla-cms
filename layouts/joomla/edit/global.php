@@ -33,8 +33,6 @@ $fields = $displayData->get('fields') ?: array(
 	array('published', 'state', 'enabled'),
 	array('category', 'catid'),
 	'featured',
-	'featured_up',
-	'featured_down',
 	'sticky',
 	'access',
 	'language',

@@ -10,15 +10,19 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Event\View\DisplayEvent;
+use Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent;
+use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\DatabaseModelInterface;
-use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\Event\EventInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\String\Inflector;
 
 /**
@@ -26,7 +30,7 @@ use Joomla\String\Inflector;
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgWorkflowFeaturing extends CMSPlugin
+class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 {
 	use WorkflowPluginTrait;
 
@@ -54,19 +58,38 @@ class PlgWorkflowFeaturing extends CMSPlugin
 	 */
 	protected $supportFunctionality = 'core.featured';
 
+	/**
+	 * Returns an array of events this subscriber will listen to.
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 */
+	public static function getSubscribedEvents(): array
+	{
+		return [
+			'onContentPrepareForm'          => 'onContentPrepareForm',
+			'onAfterDisplay'                => 'onAfterDisplay',
+			'onWorkflowBeforeTransition'    => 'onWorkflowBeforeTransition',
+			'onWorkflowAfterTransition'     => 'onWorkflowAfterTransition',
+			'onContentBeforeChangeFeatured' => 'onContentBeforeChangeFeatured',
+			'onContentBeforeSave'           => 'onContentBeforeSave',
+			'onWorkflowFunctionalityUsed'   => 'onWorkflowFunctionalityUsed',
+		];
+	}
 
 	/**
 	 * The form event.
 	 *
-	 * @param   Form      $form  The form
-	 * @param   \stdClass  $data  The data
-	 *
-	 * @return  boolean
+	 * @param EventInterface $event The event
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onContentPrepareForm(Form $form, $data)
+	public function onContentPrepareForm(EventInterface $event)
 	{
+		$form = $event->getArgument('0');
+		$data = $event->getArgument('1');
+
 		$context = $form->getName();
 
 		// Extend the transition form
@@ -74,20 +97,20 @@ class PlgWorkflowFeaturing extends CMSPlugin
 		{
 			$this->enhanceWorkflowTransitionForm($form, $data);
 
-			return true;
+			return;
 		}
 
 		$this->enhanceItemForm($form, $data);
 
-		return true;
+		return;
 	}
 
 	/**
 	 * Disable certain fields in the item form view, when we want to take over this function in the transition
 	 * Check also for the workflow implementation and if the field exists
 	 *
-	 * @param   Form      $form  The form
-	 * @param   stdClass  $data  The data
+	 * @param Form     $form The form
+	 * @param stdClass $data The data
 	 *
 	 * @return  boolean
 	 *
@@ -109,7 +132,7 @@ class PlgWorkflowFeaturing extends CMSPlugin
 		$modelName = $component->getModelName($context);
 
 		$table = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true])
-			->getTable();
+											 ->getTable();
 
 		$fieldname = $table->getColumnAlias('featured');
 
@@ -160,35 +183,35 @@ class PlgWorkflowFeaturing extends CMSPlugin
 	/**
 	 * Manipulate the generic list view
 	 *
-	 * @param string $context
-	 * @param ViewInterface $view
-	 * @param string $result
+	 * @param DisplayEvent $event
 	 *
 	 * @since   4.0.0
 	 */
-	public function onAfterDisplay(string $context, ViewInterface $view, string $result)
+	public function onAfterDisplay(DisplayEvent $event)
 	{
-		$parts = explode('.', $context);
-
-		if ($parts < 2)
-		{
-			return true;
-		}
-
 		$app = Factory::getApplication();
 
+		if (!$app->isClient('administrator'))
+		{
+			return;
+		}
+
+		$component = $event->getArgument('extensionName');
+		$section   = $event->getArgument('section');
+
 		// We need the single model context for checking for workflow
-		$singularsection = Inflector::singularize($parts[1]);
+		$singularsection = Inflector::singularize($section);
 
-		$newcontext = $parts[0] . '.' . $singularsection;
-
-		if (!$app->isClient('administrator') || !$this->isSupported($newcontext))
+		if (!$this->isSupported($component . '.' . $singularsection))
 		{
 			return true;
 		}
 
 		// List of releated batch functions we need to hide
-		$states = ['featured', 'unfeatured'];
+		$states = [
+			'featured',
+			'unfeatured'
+		];
 
 		$js = "
 			document.addEventListener('DOMContentLoaded', function()
@@ -220,16 +243,18 @@ class PlgWorkflowFeaturing extends CMSPlugin
 	/**
 	 * Check if we can execute the transition
 	 *
-	 * @param   string   $context     The context
-	 * @param   array    $pks         IDs of the items
-	 * @param   object   $transition  The value to change to
+	 * @param WorkflowTransitionEvent $event
 	 *
 	 * @return boolean
 	 *
 	 * @since   4.0.0
 	 */
-	public function onWorkflowBeforeTransition($context, $pks, $transition)
+	public function onWorkflowBeforeTransition(WorkflowTransitionEvent $event)
 	{
+		$context    = $event->getArgument('extension');
+		$transition = $event->getArgument('transition');
+		$pks        = $event->getArgument('pks');
+
 		if (!$this->isSupported($context) || !is_numeric($transition->options->get('featuring')))
 		{
 			return true;
@@ -249,7 +274,11 @@ class PlgWorkflowFeaturing extends CMSPlugin
 		 */
 		$this->app->set('plgWorkflowFeaturing.' . $context, $pks);
 
-		$result = $this->app->triggerEvent('onContentBeforeChangeFeatured', [$context, $pks, $value]);
+		$result = $this->app->triggerEvent('onContentBeforeChangeFeatured', [
+			$context,
+			$pks,
+			$value
+		]);
 
 		// Release whitelist, the job is done
 		$this->app->set('plgWorkflowFeaturing.' . $context, []);
@@ -265,40 +294,35 @@ class PlgWorkflowFeaturing extends CMSPlugin
 	/**
 	 * Change Feature State of an item. Used to disable feature state change
 	 *
-	 * @param   string   $context     The context
-	 * @param   array    $pks         IDs of the items
-	 * @param   object   $transition  The value to change to
+	 * @param WorkflowTransitionEvent $event
 	 *
 	 * @return boolean
 	 *
 	 * @since   4.0.0
 	 */
-	public function onWorkflowAfterTransition($context, $pks, $transition)
+	public function onWorkflowAfterTransition(WorkflowTransitionEvent $event)
 	{
+		$context       = $event->getArgument('extension');
+		$extensionName = $event->getArgument('extensionName');
+		$transition    = $event->getArgument('transition');
+		$pks           = $event->getArgument('pks');
+
 		if (!$this->isSupported($context))
 		{
-			return true;
+			return;
 		}
 
-		$parts = explode('.', $context);
-
-		// We need at least the extension + view for loading the table fields
-		if (count($parts) < 2)
-		{
-			return false;
-		}
-
-		$component = $this->app->bootComponent($parts[0]);
+		$component = $this->app->bootComponent($extensionName);
 
 		$value = $transition->options->get('featuring');
 
 		if (!is_numeric($value))
 		{
-			return true;
+			return;
 		}
 
 		$options = [
-			'ignore_request' => true,
+			'ignore_request'               => true,
 			// We already have triggered onContentBeforeChangeFeatured, so use our own
 			'event_before_change_featured' => 'onWorkflowBeforeChangeFeatured'
 		];
@@ -307,22 +331,24 @@ class PlgWorkflowFeaturing extends CMSPlugin
 
 		$model = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), $options);
 
-		return $model->featured($pks, $value);
+		$model->featured($pks, $value);
 	}
 
 	/**
 	 * Change Feature State of an item. Used to disable Feature state change
 	 *
-	 * @param   string   $context  The context
-	 * @param   array    $pks      IDs of the items
-	 * @param   int      $value    The value to change to
+	 * @param EventInterface $event
 	 *
 	 * @return boolean
 	 *
+	 * @throws Exception
 	 * @since   4.0.0
 	 */
-	public function onContentBeforeChangeFeatured(string $context, array $pks, int $value): bool
+	public function onContentBeforeChangeFeatured(EventInterface $event)
 	{
+		$context = $event->getArgument('0');
+		$pks     = $event->getArgument('1');
+
 		if (!$this->isSupported($context))
 		{
 			return true;
@@ -341,17 +367,20 @@ class PlgWorkflowFeaturing extends CMSPlugin
 	/**
 	 * The save event.
 	 *
-	 * @param   string   $context  The context
-	 * @param   object   $table    The item
-	 * @param   boolean  $isNew    Is new item
-	 * @param   array    $data     The validated data
+	 * @param EventInterface $event
 	 *
 	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
-	public function onContentBeforeSave($context, TableInterface $table, $isNew, $data)
+	public function onContentBeforeSave(EventInterface $event)
 	{
+		$context = $event->getArgument('0');
+		/* @var TableInterface */
+		$table = $event->getArgument('1');
+		$isNew = $event->getArgument('2');
+		$data  = $event->getArgument('3');
+
 		if (!$this->isSupported($context))
 		{
 			return true;
@@ -380,12 +409,18 @@ class PlgWorkflowFeaturing extends CMSPlugin
 	 * Check if the current plugin should execute workflow related activities
 	 *
 	 * @param string $context
+	 *
 	 * @return boolean
 	 *
 	 * @since   4.0.0
 	 */
 	protected function isSupported($context)
 	{
+		if (!$this->checkWhiteAndBlacklist($context) || !$this->checkExtensionSupport($context, $this->supportFunctionality))
+		{
+			return false;
+		}
+
 		$parts = explode('.', $context);
 
 		// We need at least the extension + view for loading the table fields
@@ -420,5 +455,24 @@ class PlgWorkflowFeaturing extends CMSPlugin
 		}
 
 		return true;
+	}
+
+	/**
+	 * If plugin supports the functionality we set the used variable
+	 *
+	 * @param WorkflowFunctionalityUsedEvent $event
+	 *
+	 * @since 4.0.0
+	 */
+	public function onWorkflowFunctionalityUsed(WorkflowFunctionalityUsedEvent $event)
+	{
+		$functionality = $event->getArgument('functionality');
+
+		if ($functionality !== 'core.featured')
+		{
+			return;
+		}
+
+		$event->setUsed();
 	}
 }

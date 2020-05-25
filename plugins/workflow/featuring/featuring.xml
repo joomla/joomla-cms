@@ -19,7 +19,18 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-
+				<field
+					name="whitelist"
+					type="textarea"
+					label="JWORKFLOW_EXTENSION_WHITELIST_LABEL"
+					description="JWORKFLOW_EXTENSION_WHITELIST_DESCRIPTION"
+				/>
+				<field
+					name="blacklist"
+					type="textarea"
+					label="JWORKFLOW_EXTENSION_BLACKLIST_LABEL"
+					description="JWORKFLOW_EXTENSION_BLACKLIST_DESCRIPTION"
+				/>
 			</fieldset>
 		</fields>
 	</config>

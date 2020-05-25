@@ -10,6 +10,7 @@ namespace Joomla\CMS\Workflow;
 
 \defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -177,11 +178,11 @@ class Workflow
 				$db->quoteName('t.workflow_id'),
 			]
 		)
-			->from($db->quoteName('#__workflow_transitions', 't'))
-			->join('LEFT', $db->quoteName('#__workflow_stages', 's'), $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_stage_id'))
-			->where($db->quoteName('t.id') . ' = :id')
-			->where($db->quoteName('t.published') . ' = 1')
-			->bind(':id', $transition_id, ParameterType::INTEGER);
+		      ->from($db->quoteName('#__workflow_transitions', 't'))
+		      ->join('LEFT', $db->quoteName('#__workflow_stages', 's'), $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_stage_id'))
+		      ->where($db->quoteName('t.id') . ' = :id')
+		      ->where($db->quoteName('t.published') . ' = 1')
+		      ->bind(':id', $transition_id, ParameterType::INTEGER);
 
 		$transition = $db->setQuery($query)->loadObject();
 
@@ -198,7 +199,10 @@ class Workflow
 			$assoc = $this->getAssociation($pk);
 
 			// The transition has to be in the same workflow
-			if (!\in_array($transition->from_stage_id, [$assoc->stage_id, -1]) || $transition->workflow_id !== $assoc->workflow_id)
+			if (!\in_array($transition->from_stage_id, [
+					$assoc->stage_id,
+					-1
+				]) || $transition->workflow_id !== $assoc->workflow_id)
 			{
 				return false;
 			}
@@ -208,16 +212,22 @@ class Workflow
 
 		PluginHelper::importPlugin('workflow');
 
-		$result = $app->triggerEvent(
+		$eventResult = $app->getDispatcher()->dispatch(
 			'onWorkflowBeforeTransition',
-			[
-				'context' => $this->extension,
-				'pks' => $pks,
-				'transition' => $transition,
-			]
+			AbstractEvent::create(
+				'onWorkflowBeforeTransition',
+				[
+					'eventClass'     => 'Joomla\CMS\Event\Workflow\WorkflowTransitionEvent',
+					'subject'        => $this,
+					'extension'      => $this->extension,
+					'pks'            => $pks,
+					'transition'     => $transition,
+					'stopTransition' => false,
+				]
+			)
 		);
 
-		if (\in_array(false, $result, true))
+		if ($eventResult->getArgument('stopTransition'))
 		{
 			return false;
 		}
@@ -226,13 +236,18 @@ class Workflow
 
 		if ($success)
 		{
-			$app->triggerEvent(
+			$app->getDispatcher()->dispatch(
 				'onWorkflowAfterTransition',
-				[
-					'context' => $this->extension,
-					'pks' => $pks,
-					'transition' => $transition,
-				]
+				AbstractEvent::create(
+					'onWorkflowAfterTransition',
+					[
+						'eventClass' => 'Joomla\CMS\Event\Workflow\WorkflowTransitionEvent',
+						'subject'    => $this,
+						'extension'  => $this->extension,
+						'pks'        => $pks,
+						'transition' => $transition
+					]
+				)
 			);
 		}
 
@@ -257,17 +272,17 @@ class Workflow
 			$query = $db->getQuery(true);
 
 			$query->insert($db->quoteName('#__workflow_associations'))
-				->columns(
-					[
-						$db->quoteName('item_id'),
-						$db->quoteName('stage_id'),
-						$db->quoteName('extension'),
-					]
-				)
-				->values(':pk, :state, :extension')
-				->bind(':pk', $pk, ParameterType::INTEGER)
-				->bind(':state', $state, ParameterType::INTEGER)
-				->bind(':extension', $this->extension);
+			      ->columns(
+				      [
+					      $db->quoteName('item_id'),
+					      $db->quoteName('stage_id'),
+					      $db->quoteName('extension'),
+				      ]
+			      )
+			      ->values(':pk, :state, :extension')
+			      ->bind(':pk', $pk, ParameterType::INTEGER)
+			      ->bind(':state', $state, ParameterType::INTEGER)
+			      ->bind(':extension', $this->extension);
 
 			$db->setQuery($query)->execute();
 		}
@@ -299,11 +314,11 @@ class Workflow
 			$query = $db->getQuery(true);
 
 			$query->update($db->quoteName('#__workflow_associations'))
-				->set($db->quoteName('stage_id') . ' = :state')
-				->whereIn($db->quoteName('item_id'), $pks)
-				->where($db->quoteName('extension') . ' = :extension')
-				->bind(':state', $state, ParameterType::INTEGER)
-				->bind(':extension', $this->extension);
+			      ->set($db->quoteName('stage_id') . ' = :state')
+			      ->whereIn($db->quoteName('item_id'), $pks)
+			      ->where($db->quoteName('extension') . ' = :extension')
+			      ->bind(':state', $state, ParameterType::INTEGER)
+			      ->bind(':extension', $this->extension);
 
 			$db->setQuery($query)->execute();
 		}
@@ -370,19 +385,19 @@ class Workflow
 				$db->quoteName('s.workflow_id'),
 			]
 		)
-			->from($db->quoteName('#__workflow_associations', 'a'))
-			->innerJoin(
-				$db->quoteName('#__workflow_stages', 's'),
-				$db->quoteName('a.stage_id') . ' = ' . $db->quoteName('s.id')
-			)
-			->where(
-				[
-					$db->quoteName('item_id') . ' = :id',
-					$db->quoteName('extension') . ' = :extension',
-				]
-			)
-			->bind(':id', $item_id, ParameterType::INTEGER)
-			->bind(':extension', $this->extension);
+		      ->from($db->quoteName('#__workflow_associations', 'a'))
+		      ->innerJoin(
+			      $db->quoteName('#__workflow_stages', 's'),
+			      $db->quoteName('a.stage_id') . ' = ' . $db->quoteName('s.id')
+		      )
+		      ->where(
+			      [
+				      $db->quoteName('item_id') . ' = :id',
+				      $db->quoteName('extension') . ' = :extension',
+			      ]
+		      )
+		      ->bind(':id', $item_id, ParameterType::INTEGER)
+		      ->bind(':extension', $this->extension);
 
 		return $db->setQuery($query)->loadObject();
 	}

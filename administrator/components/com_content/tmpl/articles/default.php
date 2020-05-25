@@ -57,7 +57,9 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
-$workflow_enabled = ComponentHelper::getParams('com_content')->get('workflow_enabled', 1);
+$workflow_enabled  = ComponentHelper::getParams('com_content')->get('workflow_enabled', 1);
+$workflow_state    = false;
+$workflow_featured = false;
 
 if ($workflow_enabled) :
 
@@ -79,6 +81,9 @@ JS;
 $this->document->addScriptDeclaration($js);
 
 HTMLHelper::_('script', 'com_workflow/admin-items-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
+
+	$workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
+	$workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
 
 endif;
 
@@ -223,10 +228,15 @@ $assoc = Associations::isEnabled();
 								</td>
 								<?php endif; ?>
 								<td class="text-center d-none d-md-table-cell">
-								<?php
-									$options = [
-										'disabled' => $workflow_enabled || !$canChange
-									];
+									<?php
+
+										$options = [
+											'disabled' => !$canChange
+										];
+
+										if ($workflow_featured) :
+											$options['disabled'] = true;
+										endif;
 
 									echo (new FeaturedButton)
 										->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
@@ -238,6 +248,10 @@ $assoc = Associations::isEnabled();
 										'task_prefix' => 'articles.',
 										'disabled' => $workflow_enabled || !$canChange
 									];
+
+									if ($workflow_state) :
+										$options['disabled'] = true;
+									endif;
 
 									echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
 								?>

@@ -9,9 +9,12 @@
 namespace Joomla\CMS\Workflow;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\WorkflowModelInterface;
+use Joomla\Event\DispatcherAwareInterface;
+use function str_repeat;
 
 \defined('JPATH_PLATFORM') or die;
 
@@ -64,13 +67,100 @@ trait WorkflowServiceTrait
 	}
 
 	/**
+	 * Check if the functionality is activated in the component configuration
+	 *
+	 * @param string $functionality
+	 * @param string $extension
+	 *
+	 * @return bool
+	 * @throws \Exception
+	 *
+	 * @since   4.0.0
+	 */
+	public function isFunctionalityActive($functionality, $context): bool
+	{
+		if (!$this->isWorkflowActive($context))
+		{
+			return false;
+		}
+
+		$parts  = explode('.', $context);
+		$config = ComponentHelper::getParams($parts[0]);
+		$option = 'workflow_functionality_' . str_replace('.', '_', $functionality);
+
+		if (!$config->get($option, 1))
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Check if the functionality is used by a plugin
+	 *
+	 * @param string $functionality
+	 * @param string $extension
+	 *
+	 * @return bool
+	 * @throws \Exception
+	 *
+	 * @since   4.0.0
+	 */
+	public function isFunctionalityUsed($functionality, $extension): bool
+	{
+		static $used = [];
+
+		$cacheKey = $extension . '.' . $functionality;
+
+		if (isset($used[$cacheKey]))
+		{
+			return $used[$cacheKey];
+		}
+
+		if (!$this->isFunctionalityActive($functionality, $extension))
+		{
+			$used[$cacheKey] = false;
+
+			return $used[$cacheKey];
+		}
+
+		// The container to get the services from
+		$app = Factory::getApplication();
+
+		if (!($app instanceof DispatcherAwareInterface))
+		{
+			return false;
+		}
+
+		$eventResult = $app->getDispatcher()->dispatch(
+			'onWorkflowFunctionalityUsed',
+			AbstractEvent::create(
+				'onWorkflowFunctionalityUsed',
+				[
+					'eventClass'    => 'Joomla\CMS\Event\Workflow\WorkflowFunctionalityUsedEvent',
+					'subject'       => $this,
+					'extension'     => $extension,
+					'functionality' => $functionality
+				]
+			)
+		);
+
+		$used[$cacheKey] = $eventResult->getArgument('used', false);
+
+		return $used[$cacheKey];
+	}
+
+	/**
 	 * Returns the model name, based on the context
 	 *
 	 * @param   string  $context  The context of the workflow
 	 *
 	 * @return boolean
+	 *
+	 * @since   4.0.0
 	 */
-	public function getModelName($context) : string
+	public function getModelName($context): string
 	{
 		$parts = explode('.', $context);
 
