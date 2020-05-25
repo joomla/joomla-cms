@@ -51,8 +51,6 @@ class TransitionButton extends ActionButton
 	 * @param   integer|null  $value        Current value of this item.
 	 * @param   integer|null  $row          The row number of this item.
 	 * @param   array         $options      The options to override group options.
-	 * @param   string|Date   $publishUp    The date which item publish up.
-	 * @param   string|Date   $publishDown  The date which item publish down.
 	 *
 	 * @return  string  Rendered HTML.
 	 *

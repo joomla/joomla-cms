@@ -69,22 +69,22 @@ trait WorkflowServiceTrait
 	/**
 	 * Check if the functionality is activated in the component configuration
 	 *
-	 * @param string $functionality
-	 * @param string $extension
+	 * @param   string  $functionality  The functionality
+	 * @param   string  $extension      The extension
 	 *
-	 * @return bool
+	 * @return boolean
 	 * @throws \Exception
 	 *
 	 * @since   4.0.0
 	 */
-	public function isFunctionalityActive($functionality, $context): bool
+	public function isFunctionalityActive($functionality, $extension): bool
 	{
-		if (!$this->isWorkflowActive($context))
+		if (!$this->isWorkflowActive($extension))
 		{
 			return false;
 		}
 
-		$parts  = explode('.', $context);
+		$parts  = explode('.', $extension);
 		$config = ComponentHelper::getParams($parts[0]);
 		$option = 'workflow_functionality_' . str_replace('.', '_', $functionality);
 
@@ -99,10 +99,10 @@ trait WorkflowServiceTrait
 	/**
 	 * Check if the functionality is used by a plugin
 	 *
-	 * @param string $functionality
-	 * @param string $extension
+	 * @param   string  $functionality  The functionality
+	 * @param   string  $extension      The extension
 	 *
-	 * @return bool
+	 * @return boolean
 	 * @throws \Exception
 	 *
 	 * @since   4.0.0
