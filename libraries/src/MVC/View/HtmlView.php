@@ -11,12 +11,14 @@ namespace Joomla\CMS\MVC\View;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Event\DispatcherAwareInterface;
 
 /**
  * Base class for a Joomla Html View
@@ -203,11 +205,34 @@ class HtmlView extends AbstractView
 
 		$context = $component . '.' . $this->getName();
 
-		$app->triggerEvent('onBeforeDisplay', [$context, $this]);
+		$app->getDispatcher()->dispatch(
+			'onBeforeDisplay',
+			AbstractEvent::create(
+				'onBeforeDisplay',
+				[
+					'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
+					'subject'    => $this,
+					'extension'  => $context
+				]
+			)
+		);
 
 		$result = $this->loadTemplate($tpl);
 
-		$app->triggerEvent('onAfterDisplay', [$context, $this, $result]);
+		$eventResult = $app->getDispatcher()->dispatch(
+			'onAfterDisplay',
+			AbstractEvent::create(
+				'onAfterDisplay',
+				[
+					'eventClass' => 'Joomla\CMS\Event\View\DisplayEvent',
+					'subject'    => $this,
+					'extension'  => $context,
+					'source'     => $result
+				]
+			)
+		);
+
+		$eventResult->getArgument('used', false);
 
 		echo $result;
 	}

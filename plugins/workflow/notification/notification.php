@@ -9,14 +9,19 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Event\Workflow\WorkflowTransitionEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\Event\EventInterface;
+use Joomla\Event\SubscriberInterface;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -24,7 +29,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgWorkflowNotification extends CMSPlugin
+class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 {
 	use WorkflowPluginTrait;
 
@@ -53,6 +58,21 @@ class PlgWorkflowNotification extends CMSPlugin
 	protected $db;
 
 	/**
+	 * Returns an array of events this subscriber will listen to.
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 */
+	public static function getSubscribedEvents(): array
+	{
+		return [
+			'onContentPrepareForm'        => 'onContentPrepareForm',
+			'onWorkflowAfterTransition'   => 'onWorkflowAfterTransition',
+		];
+	}
+
+	/**
 	 * The form event.
 	 *
 	 * @param   Form      $form  The form
@@ -62,14 +82,17 @@ class PlgWorkflowNotification extends CMSPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onContentPrepareForm(Form $form, $data)
+	public function onContentPrepareForm(EventInterface $event)
 	{
+		$form = $event->getArgument('0');
+		$data = $event->getArgument('1');
+
 		$context = $form->getName();
 
 		// Extend the transition form
 		if ($context === 'com_workflow.transition')
 		{
-			$form->loadFile(__DIR__ . '/forms/action.xml');
+			$this->enhanceWorkflowTransitionForm($form, $data);
 		}
 
 		return true;
@@ -86,27 +109,24 @@ class PlgWorkflowNotification extends CMSPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onWorkflowAfterTransition($context, $pks, $data)
+	public function onWorkflowAfterTransition(WorkflowTransitionEvent $event)
 	{
-		$parts = explode('.', $context);
+		$context       = $event->getArgument('extension');
+		$extensionName = $event->getArgument('extensionName');
+		$transition    = $event->getArgument('transition');
+		$pks           = $event->getArgument('pks');
 
-		// Check the extension
-		if (count($parts) < 2)
+		if (!$this->isSupported($context))
 		{
-			return false;
+			return;
 		}
 
-		$component = $this->app->bootComponent($parts[0]);
-
-		if (!$component->isWorkflowActive($context))
-		{
-			return false;
-		}
+		$component = $this->app->bootComponent($extensionName);
 
 		// Check if send-mail is active
-		if (empty($data->options['notification_send_mail']))
+		if (empty($transition->options['notification_send_mail']))
 		{
-			return true;
+			return;
 		}
 
 		// ID of the items whose state has changed.
@@ -114,11 +134,11 @@ class PlgWorkflowNotification extends CMSPlugin
 
 		if (empty($pks))
 		{
-			return true;
+			return;
 		}
 
 		// Get UserIds of Receivers
-		$userIds = $this->getUsersFromGroup($data);
+		$userIds = $this->getUsersFromGroup($transition);
 
 		// The active user
 		$user = $this->app->getIdentity();
@@ -147,7 +167,7 @@ class PlgWorkflowNotification extends CMSPlugin
 		// If there are no receivers, stop here
 		if (empty($userIds))
 		{
-			return true;
+			return;
 		}
 
 		// Get the model for private messages
@@ -158,7 +178,7 @@ class PlgWorkflowNotification extends CMSPlugin
 		$model_stage = $this->app->bootComponent('com_workflow')
 					->getMVCFactory()->createModel('Stage', 'Administrator');
 
-		$toStage = $model_stage->getItem($data->to_stage_id)->title;
+		$toStage = $model_stage->getItem($transition->to_stage_id)->title;
 
 		$hasGetItem = method_exists($model, 'getItem');
 
@@ -175,16 +195,16 @@ class PlgWorkflowNotification extends CMSPlugin
 			// Send Email to receivers
 			foreach ($userIds as $user_id)
 			{
-				$receiver = User::getInstance($user_id);
+				$receiver = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($user_id);
 
 				// Load language for messaging
-				$lang = Language::getInstance($user->getParam('admin_language', $default_language), $debug);
+				$lang = Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($user->getParam('admin_language', $default_language), $debug);
 				$lang->load('plg_workflow_notification');
 				$messageText = sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'), $title, $user->name, $lang->_($toStage));
 
-				if (!empty($data->options['notification_text']))
+				if (!empty($transition->options['notification_text']))
 				{
-					$messageText .= '<br>' . htmlspecialchars($lang->_($data->options['notification_text']));
+					$messageText .= '<br>' . htmlspecialchars($lang->_($transition->options['notification_text']));
 				}
 
 				$message = [
@@ -200,7 +220,6 @@ class PlgWorkflowNotification extends CMSPlugin
 
 		$this->app->enqueueMessage(Text::_('PLG_WORKFLOW_NOTIFICATION_SENT'), 'message');
 
-		return true;
 	}
 
 	/*
@@ -252,6 +271,42 @@ class PlgWorkflowNotification extends CMSPlugin
 
 		// Merge userIds from individual entries and userIDs from groups
 		return array_unique(array_merge($users, $users2));
+	}
+
+
+	/**
+	 * Check if the current plugin should execute workflow related activities
+	 *
+	 * @param string $context
+	 *
+	 * @return boolean
+	 *
+	 * @since   4.0.0
+	 */
+	protected function isSupported($context)
+	{
+		if (!$this->checkWhiteAndBlacklist($context))
+		{
+			return false;
+		}
+
+		$parts = explode('.', $context);
+
+		// We need at least the extension + view for loading the table fields
+		if (count($parts) < 2)
+		{
+			return false;
+		}
+
+		$component = $this->app->bootComponent($parts[0]);
+
+		if (!$component instanceof WorkflowServiceInterface
+			|| !$component->isWorkflowActive($context))
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/*
