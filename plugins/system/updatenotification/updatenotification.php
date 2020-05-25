@@ -265,7 +265,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		{
 			try
 			{
-				$mailer = new MailTemplate('joomla.updatenotification', $jLanguage->getTag());
+				$mailer = new MailTemplate('plg_system_updatenotification.mail', $jLanguage->getTag());
 				$mailer->addRecipient($superUser->email);
 				$mailer->addTemplateData($substitutions);
 				$mailer->send();

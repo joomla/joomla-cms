@@ -214,7 +214,7 @@ class PlgUserJoomla extends CMSPlugin
 			'email' => $user['email']
 		];
 
-		$mailer = new MailTemplate('com_users.administration.new_user.user', $userLocale);
+		$mailer = new MailTemplate('plg_user_joomla.mail', $userLocale);
 		$mailer->addTemplateData($data);
 		$mailer->addRecipient($user['email'], $user['name']);
 
