@@ -11,6 +11,7 @@ namespace Joomla\Component\Languages\Administrator\Helper;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
 
 /**
@@ -32,7 +33,7 @@ class LanguagesHelper
 	 */
 	public static function filterKey($value)
 	{
-		$filter = \JFilterInput::getInstance(null, null, 1, 1);
+		$filter = InputFilter::getInstance([], [], InputFilter::TAGS_BLACKLIST, InputFilter::ATTR_BLACKLIST);
 
 		return strtoupper($filter->clean($value, 'cmd'));
 	}
@@ -49,7 +50,7 @@ class LanguagesHelper
 	 */
 	public static function filterText($value)
 	{
-		$filter = \JFilterInput::getInstance(null, null, 1, 1);
+		$filter = InputFilter::getInstance([], [], InputFilter::TAGS_BLACKLIST, InputFilter::ATTR_BLACKLIST);
 
 		return $filter->clean($value);
 	}

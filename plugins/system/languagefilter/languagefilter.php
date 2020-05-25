@@ -590,7 +590,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 *
 	 * @since   1.6
 	 */
-	public function onUserAfterSave($user, $isnew, $success, $msg)
+	public function onUserAfterSave($user, $isnew, $success, $msg): void
 	{
 		if ($success && array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1)
 		{
