@@ -192,6 +192,16 @@
 
     modalClose() {
       const input = this.querySelector(this.input);
+
+      if (Object.keys(Joomla.selectedFile).length === 0) {
+        // The user didn't select an item but hit the select button!?
+        const messages = {
+          error: [Joomla.Text._('JLIB_FORM_MEDIA_PREVIEW_EMPTY')],
+        };
+
+        Joomla.renderMessages(messages);
+      }
+
       Joomla.getImage(Joomla.selectedFile, input, this);
 
       Joomla.Modal.getCurrent().close();

@@ -201,6 +201,7 @@
     },
     {
       "name": "webcomponent.field-media",
+      "class": "MediaFieldAssetItem",
       "type": "script",
       "uri": "system/fields/joomla-field-media.min.js",
       "webcomponent": true
