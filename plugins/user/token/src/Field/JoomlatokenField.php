@@ -69,6 +69,24 @@ class JoomlatokenField extends TextField
 	}
 
 	/**
+	 * Method to get the field input markup.
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getInput()
+	{
+		// Do not display the token field when the user being edited is not the same as the logged in user
+		if ($this->hidden)
+		{
+			return '';
+		}
+
+		return parent::getInput();
+	}
+
+	/**
 	 * Returns the token formatted suitably for the user to copy.
 	 *
 	 * @param   string  $tokenSeed  The token seed data stored in the database
@@ -111,24 +129,6 @@ class JoomlatokenField extends TextField
 		}
 
 		return $message;
-	}
-
-	/**
-	 * Method to get the field input markup.
-	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getInput()
-	{
-		// Do not display the token field when the user being edited is not the same as the logged in user
-		if ($this->hidden)
-		{
-			return '';
-		}
-
-		return parent::getInput();
 	}
 
 	/**
