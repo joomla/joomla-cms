@@ -24,8 +24,8 @@ trait WorkflowPluginTrait
 	/**
 	 * Add different parameter options to the transition view, we need when executing the transition
 	 *
-	 * @param Form      $form The form
-	 * @param \stdClass $data The data
+	 * @param   Form      $form The form
+	 * @param   \stdClass $data The data
 	 *
 	 * @return  boolean
 	 *
@@ -56,7 +56,7 @@ trait WorkflowPluginTrait
 	/**
 	 * Get the workflow for a given ID
 	 *
-	 * @param int|null $workflow_id ID of the workflow
+	 * @param   int|null $workflow_id ID of the workflow
 	 *
 	 * @return  CMSObject|boolean  Object on success, false on failure.
 	 *
@@ -72,15 +72,15 @@ trait WorkflowPluginTrait
 		}
 
 		return $this->app->bootComponent('com_workflow')
-										 ->getMVCFactory()
-										 ->createModel('Workflow', 'Administrator', ['ignore_request' => true])
-										 ->getItem($workflow_id);
+			->getMVCFactory()
+			->createModel('Workflow', 'Administrator', ['ignore_request' => true])
+			->getItem($workflow_id);
 	}
 
 	/**
 	 * Check if the current plugin should execute workflow related activities
 	 *
-	 * @param string $context Context to check
+	 * @param   string $context Context to check
 	 *
 	 * @return boolean
 	 *
@@ -94,9 +94,9 @@ trait WorkflowPluginTrait
 	/**
 	 * Check if the context is listed in the whitelist or in the blacklist and return the result
 	 *
-	 * @param string $context Context to check
+	 * @param   string $context Context to check
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	protected function checkWhiteAndBlacklist($context)
 	{
@@ -133,15 +133,17 @@ trait WorkflowPluginTrait
 	/**
 	 * Check if the context is listed in the whitelist or in the blacklist and return the result
 	 *
-	 * @param string $context Context to check
+	 * @param   string  $context       Context to check
+	 * @param   string  $functionality The funcationality
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	protected function checkExtensionSupport($context, $functionality)
 	{
 		$parts = explode('.', $context);
 
 		$component = $this->app->bootComponent($parts[0]);
+
 		if (!$component instanceof WorkflowServiceInterface
 			|| !$component->isWorkflowActive($context)
 			|| !$component->isFunctionalityActive($functionality, $context))

@@ -33,14 +33,24 @@ class DisplayEvent extends AbstractImmutableEvent
 	 */
 	public function __construct($name, array $arguments = array())
 	{
-		if (!isset($arguments['subject']) || !($arguments['subject'] instanceof ViewInterface))
+		if (!isset($arguments['subject']))
 		{
-			throw new BadMethodCallException("Argument 'subject' of event {$this->name} is required but has not been provided or is not of type 'ViewInterface'");
+			throw new BadMethodCallException("Argument 'subject' of event {$this->name} is required but has not been provided");
+		}
+
+		if (!($arguments['subject'] instanceof ViewInterface))
+		{
+			throw new BadMethodCallException("Argument 'subject' of event {$this->name} is not of type 'ViewInterface'");
+		}
+
+		if (!isset($arguments['extension']))
+		{
+			throw new BadMethodCallException("Argument 'extension' of event {$this->name} is required but has not been provided");
 		}
 
 		if (!isset($arguments['extension']) || !is_string($arguments['extension']))
 		{
-			throw new BadMethodCallException("Argument 'extension' of event {$this->name} is required but has not been provided or is not of type 'string'");
+			throw new BadMethodCallException("Argument 'extension' of event {$this->name} is not of type 'string'");
 		}
 
 		if (strpos($arguments['extension'], '.') === false)

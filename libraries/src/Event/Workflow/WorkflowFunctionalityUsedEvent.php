@@ -41,7 +41,11 @@ class WorkflowFunctionalityUsedEvent extends AbstractEvent
 	/**
 	 * Set used parameter to true
 	 *
-	 * @since   1.0
+	 * @param   bool  $value  The value to set
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
 	 */
 	public function setUsed($value = true)
 	{

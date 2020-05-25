@@ -156,7 +156,7 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 		$modelName = $component->getModelName($context);
 
 		$table = $component->getMVCFactory()->createModel($modelName, $this->app->getName(), ['ignore_request' => true])
-											 ->getTable();
+			->getTable();
 
 		$fieldname = $table->getColumnAlias('published');
 
@@ -301,7 +301,8 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 			$context,
 			$pks,
 			$value
-		]);
+			]
+		);
 
 		// Release whitelist, the job is done
 		$this->app->set('plgWorkflowPublishing.' . $context, []);
@@ -399,7 +400,9 @@ class PlgWorkflowPublishing extends CMSPlugin implements SubscriberInterface
 	public function onContentBeforeSave(EventInterface $event)
 	{
 		$context = $event->getArgument('0');
-		/* @var TableInterface */
+
+		// @var TableInterface
+
 		$table = $event->getArgument('1');
 		$isNew = $event->getArgument('2');
 		$data  = $event->getArgument('3');
