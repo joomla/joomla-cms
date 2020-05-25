@@ -29,7 +29,7 @@ $input = Factory::getApplication()->input;
 								<td class="w-5 text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" style="width:7%">
+								<th scope="col" class="w-7">
 									<?php echo Text::_('COM_TEMPLATES_OVERRIDE_CHECKED'); ?>
 								</th>
 								<th scope="col" class="w-30">
