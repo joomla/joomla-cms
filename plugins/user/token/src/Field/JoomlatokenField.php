@@ -158,7 +158,7 @@ class JoomlatokenField extends TextField
 		$template = Factory::getApplication()->getTemplate();
 
 		return [
-			JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/' . $this->_type . '/' . $this->_name,
+			JPATH_THEMES . '/' . $template . '/html/layouts',
 			JPATH_SITE . '/layouts',
 		];
 	}
