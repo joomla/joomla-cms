@@ -23,11 +23,12 @@ use Joomla\CMS\Layout\FileLayout;
 class JoomlatokenField extends TextField
 {
 	/**
-	 * Layout to render the form field
+	 * Name of the layout being used to render the field
 	 *
-	 * @var  string
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $renderLayout = 'plugins.user.token.token';
+	protected $layout = 'plugins.user.token.token';
 
 	/**
 	 * Method to attach a Form object to the field.
@@ -68,14 +69,6 @@ class JoomlatokenField extends TextField
 	}
 
 	/**
-	 * @return void
-	 */
-	protected function getLabel()
-	{
-		return;
-	}
-
-	/**
 	 * Method to get the field input markup.
 	 *
 	 * @return  string  The field input markup.
@@ -90,7 +83,7 @@ class JoomlatokenField extends TextField
 			return '';
 		}
 
-		return $this->render($this->renderLayout, $this->getLayoutData());
+		return parent::getInput();
 	}
 
 	/**
@@ -147,28 +140,10 @@ class JoomlatokenField extends TextField
 	 */
 	protected function getLayoutData()
 	{
-		return [
-			'plugin' => $this,
-			'label'  => $this->element['label'],
-			'value'  => $this->getTokenForDisplay($this->value),
-		];
-	}
+		$data          = parent::getLayoutData();
+		$data['value'] = $this->getTokenForDisplay($this->value);
 
-	/**
-	 * Render a layout of this plugin
-	 *
-	 * @param   string  $layoutId  Layout identifier
-	 * @param   array   $data      Optional data for the layout
-	 *
-	 * @return  string
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function render($layoutId, $data = [])
-	{
-		$data = array_merge($this->getLayoutData(), $data);
-
-		return $this->getRenderer($layoutId)->render($data);
+		return $data;
 	}
 
 	/**
@@ -186,23 +161,5 @@ class JoomlatokenField extends TextField
 			JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/' . $this->_type . '/' . $this->_name,
 			JPATH_SITE . '/layouts',
 		];
-	}
-
-	/**
-	 * Get the plugin renderer
-	 *
-	 * @param   string  $layoutId  Layout identifier
-	 *
-	 * @return  FileLayout
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function getRenderer($layoutId = 'plugins.user.token.token')
-	{
-		$renderer = new FileLayout($layoutId);
-
-		$renderer->setIncludePaths($this->getLayoutPaths());
-
-		return $renderer;
 	}
 }
