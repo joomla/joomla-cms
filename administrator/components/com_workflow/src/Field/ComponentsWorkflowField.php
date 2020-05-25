@@ -1,31 +1,29 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_menus
+ * @subpackage  com_workflow
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Menus\Administrator\Field;
+namespace Joomla\Component\Workflow\Administrator\Field;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Fields\FieldsServiceInterface;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
-FormHelper::loadFieldClass('list');
-
 /**
- * Components Fields field.
+ * Components Workflow field.
  *
  * @since  1.6
  */
-class ComponentsFieldsField extends \JFormFieldList
+class ComponentsWorkflowField extends ListField
 {
 	/**
 	 * The form field type.
@@ -33,7 +31,7 @@ class ComponentsFieldsField extends \JFormFieldList
 	 * @var     string
 	 * @since   3.7.0
 	 */
-	protected $type = 'ComponentsFields';
+	protected $type = 'ComponentsWorkflow';
 
 	/**
 	 * Method to get a list of options for a list input.
@@ -68,7 +66,7 @@ class ComponentsFieldsField extends \JFormFieldList
 			{
 				$availableActions = Access::getActionsFromFile(
 					JPATH_ADMINISTRATOR . '/components/' . $item->value . '/access.xml',
-					"/access/section[@name='fieldgroup']/"
+					"/access/section[@name='workflow']/"
 				);
 
 				if (!empty($availableActions))
@@ -95,7 +93,7 @@ class ComponentsFieldsField extends \JFormFieldList
 				// Search for different contexts
 				$c = Factory::getApplication()->bootComponent($component->value);
 
-				if ($c instanceof FieldsServiceInterface)
+				if ($c instanceof WorkflowServiceInterface)
 				{
 					$contexts = $c->getContexts();
 

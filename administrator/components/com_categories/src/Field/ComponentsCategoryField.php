@@ -1,13 +1,13 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_menus
+ * @subpackage  com_categories
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Menus\Administrator\Field;
+namespace Joomla\Component\Categories\Administrator\Field;
 
 defined('_JEXEC') or die;
 
