@@ -71,6 +71,14 @@ class MailTemplate
 	protected $recipients = array();
 
 	/**
+	 * Reply To of the email
+	 *
+	 * @var    \stdClass
+	 * @since  4.0.0
+	 */
+	protected $replyto;
+
+	/**
 	 * Constructor for the mail templating class
 	 *
 	 * @param   string  $template_id  Id of the mail template.
@@ -123,13 +131,31 @@ class MailTemplate
 	 *
 	 * @since   4.0.0
 	 */
-	public function addRecipient($mail, $name, $type = 'to')
+	public function addRecipient($mail, $name = null, $type = 'to')
 	{
 		$recipient = new \stdClass;
 		$recipient->mail = $mail;
-		$recipient->name = $name;
+		$recipient->name = $name ?? $mail;
 		$recipient->type = $type;
 		$this->recipients[] = $recipient;
+	}
+
+	/**
+	 * Set reply to for this mail
+	 *
+	 * @param   string  $mail  Mail address to reply to
+	 * @param   string  $name  Name
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function setReplyTo($mail, $name = '')
+	{
+		$reply = new \stdClass;
+		$reply->mail = $mail;
+		$reply->name = $name;
+		$this->replyto = $reply;
 	}
 
 	/**
@@ -240,6 +266,11 @@ class MailTemplate
 			}
 		}
 
+		if ($this->replyto)
+		{
+			$this->mailer->addReplyTo($this->replyto->mail, $this->replyto->name);
+		}
+
 		$path = JPATH_ROOT . '/' . $config->get('attachment_folder') . '/';
 
 		foreach ((array) json_decode($mail->attachments)  as $attachment)
@@ -282,21 +313,23 @@ class MailTemplate
 			if (is_array($value))
 			{
 				$matches = array();
-				preg_match_all('/{' . strtoupper($key) . '}(.*?){/' . strtoupper($key) . '}/s', $text, $matches);
 
-				foreach ($matches[0] as $i => $match)
+				if (preg_match_all('/{' . strtoupper($key) . '}(.*?){\/' . strtoupper($key) . '}/s', $text, $matches))
 				{
-					$replacement = '';
-
-					foreach ($value as $subvalue)
+					foreach ($matches[0] as $i => $match)
 					{
-						if (is_array($subvalue))
-						{
-							$replacement .= $this->replaceTags($matches[1][$i], $subvalue);
-						}
-					}
+						$replacement = '';
 
-					$text = str_replace($match, $replacement, $text);
+						foreach ($value as $subvalue)
+						{
+							if (is_array($subvalue))
+							{
+								$replacement .= $this->replaceTags($matches[1][$i], $subvalue);
+							}
+						}
+
+						$text = str_replace($match, $replacement, $text);
+					}
 				}
 			}
 			else
