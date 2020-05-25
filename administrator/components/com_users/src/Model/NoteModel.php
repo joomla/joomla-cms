@@ -14,6 +14,7 @@ namespace Joomla\Component\Users\Administrator\Model;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Versioning\VersionableModelTrait;
 
 /**
  * User note model.
@@ -22,6 +23,8 @@ use Joomla\CMS\Plugin\PluginHelper;
  */
 class NoteModel extends AdminModel
 {
+	use VersionableModelTrait;
+
 	/**
 	 * The type alias for this content type.
 	 *

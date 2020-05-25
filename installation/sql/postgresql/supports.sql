@@ -377,13 +377,12 @@ CREATE INDEX "#__ucm_content_idx_core_created_user_id" ON "#__ucm_content" ("cor
 CREATE INDEX "#__ucm_content_idx_core_type_id" ON "#__ucm_content" ("core_type_id");
 
 --
--- Table structure for table `#__ucm_history`
+-- Table structure for table `#__history`
 --
 
-CREATE TABLE IF NOT EXISTS "#__ucm_history" (
+CREATE TABLE IF NOT EXISTS "#__history" (
   "version_id" serial NOT NULL,
-  "ucm_item_id" integer NOT NULL,
-  "ucm_type_id" integer NOT NULL,
+  "item_id" varchar(50) NOT NULL,
   "version_note" varchar(255) NOT NULL DEFAULT '',
   "save_date" timestamp with time zone NOT NULL,
   "editor_user_id" integer  NOT NULL DEFAULT 0,
@@ -393,14 +392,14 @@ CREATE TABLE IF NOT EXISTS "#__ucm_history" (
   "keep_forever" smallint NOT NULL DEFAULT 0,
   PRIMARY KEY ("version_id")
 );
-CREATE INDEX "#__ucm_history_idx_ucm_item_id" ON "#__ucm_history" ("ucm_type_id", "ucm_item_id");
-CREATE INDEX "#__ucm_history_idx_save_date" ON "#__ucm_history" ("save_date");
+CREATE INDEX "#__history_idx_ucm_item_id" ON "#__history" ("item_id");
+CREATE INDEX "#__history_idx_save_date" ON "#__history" ("save_date");
 
-COMMENT ON COLUMN "#__ucm_history"."version_note" IS 'Optional version name';
-COMMENT ON COLUMN "#__ucm_history"."character_count" IS 'Number of characters in this version.';
-COMMENT ON COLUMN "#__ucm_history"."sha1_hash" IS 'SHA1 hash of the version_data column.';
-COMMENT ON COLUMN "#__ucm_history"."version_data" IS 'json-encoded string of version data';
-COMMENT ON COLUMN "#__ucm_history"."keep_forever" IS '0=auto delete; 1=keep';
+COMMENT ON COLUMN "#__history"."version_note" IS 'Optional version name';
+COMMENT ON COLUMN "#__history"."character_count" IS 'Number of characters in this version.';
+COMMENT ON COLUMN "#__history"."sha1_hash" IS 'SHA1 hash of the version_data column.';
+COMMENT ON COLUMN "#__history"."version_data" IS 'json-encoded string of version data';
+COMMENT ON COLUMN "#__history"."keep_forever" IS '0=auto delete; 1=keep';
 
 --
 -- Table structure for table `#__webauthn_credentials`
