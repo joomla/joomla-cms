@@ -23,6 +23,13 @@ use Joomla\CMS\Layout\FileLayout;
 class JoomlatokenField extends TextField
 {
 	/**
+	 * Layout to render the form field
+	 *
+	 * @var  string
+	 */
+	protected $renderLayout = 'plugins.user.token.token';
+
+	/**
 	 * Method to attach a Form object to the field.
 	 *
 	 * @param   \SimpleXMLElement  $element   The SimpleXMLElement object representing the `<field>`
@@ -83,9 +90,7 @@ class JoomlatokenField extends TextField
 			return '';
 		}
 
-		echo $this->getRenderer('token')->render($this->getLayoutData());
-
-		return parent::getInput();
+		return $this->render($this->renderLayout, $this->getLayoutData());
 	}
 
 	/**
@@ -179,7 +184,7 @@ class JoomlatokenField extends TextField
 
 		return [
 			JPATH_ADMINISTRATOR . '/templates/' . $template . '/html/layouts/plugins/' . $this->_type . '/' . $this->_name,
-			dirname(__DIR__, 2) . '/layouts'
+			JPATH_SITE . '/layouts',
 		];
 	}
 
@@ -192,7 +197,7 @@ class JoomlatokenField extends TextField
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getRenderer($layoutId = 'token')
+	protected function getRenderer($layoutId = 'plugins.user.token.token')
 	{
 		$renderer = new FileLayout($layoutId);
 
