@@ -31,14 +31,12 @@ Text::script('PLG_USER_TOKEN_COPY_FAIL');
 Factory::getApplication()->getDocument()->getWebAssetManager()
 	->registerAndUseScript('plg_user_token.token', 'plg_user_token/token.js', [], ['defer' => true], ['core']);
 ?>
-
-<label for="<?php echo $plugin->id; ?>"><?php echo Text::_($label); ?></label>
 <div class="input-group">
 	<input
 		type="text"
 		class="form-control"
-		name="<?php echo $plugin->name; ?>"
-		id="<?php echo $plugin->id; ?>"
+		name="<?php echo $name; ?>"
+		id="<?php echo $id; ?>"
 		readonly
 		value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>">
 	<div class="input-group-append">
