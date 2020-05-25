@@ -18,4 +18,4 @@ $wa->registerAndUseScript('joomla.toolbar', 'legacy/toolbar.min.js', [], ['defer
 
 ?>
 <nav aria-label="<?php echo Text::_('JTOOLBAR'); ?>">
-<div class="btn-toolbar d-flex" role="toolbar" id="<?php echo $displayData['id']; ?>">
+<div role="toolbar" id="<?php echo $displayData['id']; ?>">
