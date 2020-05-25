@@ -25,12 +25,20 @@ if (!Joomla) {
       webInstallerOptions.loaded = 1;
 
       const cancelButton = document.getElementById('uploadform-web-cancel');
-
       cancelButton.addEventListener('click', () => {
         document.getElementById('uploadform-web').classList.add('hidden');
 
         if (webInstallerOptions.list && document.querySelector('.list-view')) {
           document.querySelector('.list-view').click();
+        }
+      });
+
+      const installButton = document.getElementById('uploadform-web-install');
+      installButton.addEventListener('click', () => {
+        if (webInstallerOptions.options.installFrom === 4) {
+          Joomla.submitbutton4();
+        } else {
+          Joomla.submitbutton5();
         }
       });
 
@@ -160,11 +168,11 @@ if (!Joomla) {
           if (installExtensionButton) {
             installExtensionButton.addEventListener('click', () => {
               WebInstaller.installfromweb(installExtensionButton.getAttribute('data-downloadurl'), installExtensionButton.getAttribute('data-name'));
+              document.getElementById('uploadform-web-install').scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
           }
 
           if (installExtensionFromExternalButton) {
-            // @todo Migrate this handler's confirm to a CE dialog
             installExtensionFromExternalButton.addEventListener('click', () => {
               const redirectUrl = installExtensionFromExternalButton.getAttribute('data-downloadurl');
               const redirectConfirm = window.confirm(Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_REDIRECT_TO_EXTERNAL_SITE_TO_INSTALL').replace('[SITEURL]', redirectUrl));
@@ -290,11 +298,10 @@ if (!Joomla) {
      * @param {string} installUrl
      * @param {string} name
      * @returns {boolean}
-     * @todo Migrate this function's alert to a CE dialog
      */
     static installfromweb(installUrl, name = null) {
       if (!installUrl) {
-        alert(Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN'));
+        Joomla.renderMessages({ warning: [Joomla.JText._('PLG_INSTALLER_WEBINSTALLER_CANNOT_INSTALL_EXTENSION_IN_PLUGIN')] });
 
         return false;
       }

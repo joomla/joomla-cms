@@ -114,6 +114,7 @@ class PlgInstallerWebinstaller extends CMSPlugin
 				'dev_level'       => base64_encode($devLevel),
 				'installfromon'   => $installfrom ? 1 : 0,
 				'language'        => base64_encode($lang->getTag()),
+				'installFrom'     => $installfrom != '' ? 4 : 5,
 			]
 		);
 
