@@ -33,10 +33,13 @@ $hiddenMenu = $app->input->get('hidemainmenu');
 $joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 
 // Getting user accessibility settings
-$a11y_mono      = (bool) $app->getIdentity()->getParam('a11y_mono', '');
-$a11y_contrast  = (bool) $app->getIdentity()->getParam('a11y_contrast', '');
-$a11y_highlight = (bool) $app->getIdentity()->getParam('a11y_highlight', '');
-$a11y_font      = (bool) $app->getIdentity()->getParam('a11y_font', '');
+$user       = $app->getIdentity();
+$contrast   = (bool) $user->getParam('atum.contrast', 0);
+$highlight  = (bool) $user->getParam('atum.highlight', 0);
+$fontsize   = (bool) $user->getParam('atum.fontsize', 0);
+
+// Monochrome can also bet set in the template.
+$monochrome = (bool) $user->getParam('atum.monochrome', $this->params->get('monochrome', 0));
 
 require_once __DIR__ . '/Service/HTML/Atum.php';
 
@@ -64,20 +67,18 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
 
-$monochrome = (bool) $this->params->get('monochrome');
-
 HTMLHelper::getServiceRegistry()->register('atum', 'JHtmlAtum');
 HTMLHelper::_('atum.rootcolors', $this->params);
 
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $a11y_font ? ' class="a11y_font"' : ''; ?>>
+<html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>"<?php echo $fontsize ? ' class="a11y_font"' : ''; ?>>
 <head>
 	<jdoc:include type="metas" />
 	<jdoc:include type="styles" />
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome || $a11y_mono ? ' monochrome' : '') . ($a11y_contrast ? ' a11y_contrast' : '') . ($a11y_highlight ? ' a11y_highlight' : ''); ?>">
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : '') . ($monochrome ? ' monochrome' : '') . ($contrast ? ' a11y_contrast' : '') . ($highlight ? ' a11y_highlight' : ''); ?>">
 <noscript>
 	<div class="alert alert-danger" role="alert">
 		<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>

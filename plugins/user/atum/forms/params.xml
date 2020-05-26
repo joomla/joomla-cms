@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="params">
+		<fields name="atum">
+			<fieldset name="atum" label="PLG_USER_ATUM_SETTINGS_FIELDSET_LABEL">
+				<field
+					name="monochrome"
+					type="list"
+					label="PLG_USER_ATUM_SETTINGS_FIELD_MONOCHROME"
+					default=""
+					filter="integer"
+					validate="options"
+					>
+					<option value="">JOPTION_USE_DEFAULT</option>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="contrast"
+					type="radio"
+					label="PLG_USER_ATUM_SETTINGS_FIELD_CONTRAST"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					validate="options"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="highlight"
+					type="radio"
+					label="PLG_USER_ATUM_SETTINGS_FIELD_HIGHLIGHT"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					validate="options"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="fontsize"
+					type="radio"
+					label="PLG_USER_ATUM_SETTINGS_FIELD_FONTSIZE"
+					layout="joomla.form.field.radio.switcher"
+					default="0"
+					filter="integer"
+					validate="options"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+		</fields>
+	</fields>
+</form>
