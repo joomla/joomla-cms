@@ -38,7 +38,7 @@ $contrast   = (bool) $user->getParam('atum.contrast', 0);
 $highlight  = (bool) $user->getParam('atum.highlight', 0);
 $fontsize   = (bool) $user->getParam('atum.fontsize', 0);
 
-// Monochrome can also bet set in the template.
+// Monochrome can also be set in the template.
 $monochrome = (bool) $user->getParam('atum.monochrome', $this->params->get('monochrome', 0));
 
 require_once __DIR__ . '/Service/HTML/Atum.php';
