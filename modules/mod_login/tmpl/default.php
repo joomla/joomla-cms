@@ -110,7 +110,7 @@ Text::script('JHIDEPASSWORD');
 				<button type="button"
 				        class="btn btn-secondary <?php echo $button['class'] ?? '' ?>"
 				        data-webauthn-form="<?= $button['data-webauthn-form'] ?>"
-						data-webauthn-url="<?= $button['data-webauthn-url'] ?>"
+					data-webauthn-url="<?= $button['data-webauthn-url'] ?>"
 				        title="<?php echo Text::_($button['label']) ?>"
 				        id="<?php echo $button['id'] ?>"
 						>
