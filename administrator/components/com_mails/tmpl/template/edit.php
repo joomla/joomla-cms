@@ -53,6 +53,7 @@ $doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 				<?php echo $this->form->renderField('subject'); ?>
 			</div>
 			<div class="col-md-3">
+				<?php echo $this->form->getField('subject_switcher')->label; ?>
 				<?php echo $this->form->getField('subject_switcher')->input; ?>
 			</div>
 		</div>
@@ -63,6 +64,7 @@ $doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 				<?php echo $this->form->renderField('body'); ?>
 			</div>
 			<div class="col-md-3">
+				<?php echo $this->form->getField('body_switcher')->label; ?>
 				<?php echo $this->form->getField('body_switcher')->input; ?>
 				<div class="tags-container-body <?php echo $fieldBody->disabled ? 'hidden' : ''; ?>">
 					<h2><?php echo Text::_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
@@ -78,6 +80,7 @@ $doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
 				<?php echo $this->form->renderField('htmlbody'); ?>
 			</div>
 			<div class="col-md-3">
+				<?php echo $this->form->getField('htmlbody_switcher')->label; ?>
 				<?php echo $this->form->getField('htmlbody_switcher')->input; ?>
 				<div class="tags-container-htmlbody <?php echo $fieldHtmlBody->disabled ? 'hidden' : ''; ?>">
 					<h2><?php echo Text::_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
