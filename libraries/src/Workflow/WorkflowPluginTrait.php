@@ -103,7 +103,7 @@ trait WorkflowPluginTrait
 		$whitelist = $this->params->get('whitelist', []);
 		$blacklist = $this->params->get('blacklist', []);
 
-		if (\is_array($whitelist))
+		if (!empty($whitelist) && \is_array($whitelist))
 		{
 			foreach ($whitelist as $allowed)
 			{
@@ -116,11 +116,11 @@ trait WorkflowPluginTrait
 			return false;
 		}
 
-		if (\is_array($blacklist))
+		if (!empty($blacklist) && \is_array($blacklist))
 		{
-			foreach ($blacklist as $allowed)
+			foreach ($blacklist as $forbidden)
 			{
-				if ($context === $allowed)
+				if ($context === $forbidden)
 				{
 					return false;
 				}

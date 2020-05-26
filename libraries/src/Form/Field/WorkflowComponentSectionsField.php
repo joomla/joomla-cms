@@ -39,9 +39,10 @@ class WorkflowComponentSectionsField extends ComponentsField
 	 */
 	protected function getOptions()
 	{
-		$items = parent::getOptions();
-		$options = [];
-		$app = Factory::getApplication();
+		$app       = Factory::getApplication();
+		$items     = parent::getOptions();
+		$options   = [];
+		$options[] = HTMLHelper::_('select.option', ' ', Text::_('JNONE'));
 
 		foreach($items as $item)
 		{
