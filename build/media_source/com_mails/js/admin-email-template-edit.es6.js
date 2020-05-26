@@ -121,10 +121,13 @@
 
         if (target.value === '0') {
           this.setHtmlBodyValue(this.templateData.htmlbody ? this.templateData.htmlbody.master : '');
+          this.inputHtmlBody.disabled = true;
           Joomla.editors.instances[this.inputHtmlBody.id].disable(true);
           tagsContainer.classList.add('hidden');
         } else if (target.value === '1') {
           Joomla.editors.instances[this.inputHtmlBody.id].disable(false);
+          this.inputHtmlBody.disabled = false;
+          this.inputHtmlBody.readOnly = false;
           this.setHtmlBodyValue(this.templateData.htmlbody ? this.templateData.htmlbody.translated : '');
           tagsContainer.classList.remove('hidden');
         } else {
