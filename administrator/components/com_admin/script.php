@@ -6560,7 +6560,7 @@ class JoomlaInstallerScript
 		}
 
 		$parentId    = $tableItem->id;
-		$componentId = ExtensionHelper::getExtensionRecord('com_fields')->extension_id;
+		$componentId = ExtensionHelper::getExtensionRecord('com_fields', 'component')->extension_id;
 
 		// Add Contact Fields Menu Items.
 		$menuItems = [
@@ -6670,7 +6670,7 @@ class JoomlaInstallerScript
 		}
 
 		$parentId    = $tableItem->id;
-		$componentId = ExtensionHelper::getExtensionRecord('com_finder')->extension_id;
+		$componentId = ExtensionHelper::getExtensionRecord('com_finder', 'component')->extension_id;
 
 		// Add Finder Fields Menu Items.
 		$menuItems = [
