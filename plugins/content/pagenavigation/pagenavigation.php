@@ -184,7 +184,6 @@ class PlgContentPagenavigation extends CMSPlugin
 
 			$query->where(
 				[
-					'(' . $db->quoteName('ws.condition') . ' = 1 OR ' . $db->quoteName('ws.condition') . ' = -2)',
 					'(' . $db->quoteName('publish_up') . ' IS NULL OR ' . $db->quoteName('publish_up') . ' <= :nowDate1)',
 					'(' . $db->quoteName('publish_down') . ' IS NULL OR ' . $db->quoteName('publish_down') . ' >= :nowDate2)',
 				]

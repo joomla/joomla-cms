@@ -21,15 +21,19 @@
 			<fieldset name="basic">
 				<field
 					name="whitelist"
-					type="textarea"
+					type="WorkflowComponentSections"
 					label="JWORKFLOW_EXTENSION_WHITELIST_LABEL"
 					description="JWORKFLOW_EXTENSION_WHITELIST_DESCRIPTION"
+					multiple="multiple"
+					layout="joomla.form.field.list-fancy-select"
 				/>
 				<field
 					name="blacklist"
-					type="textarea"
+					type="WorkflowComponentSections"
 					label="JWORKFLOW_EXTENSION_BLACKLIST_LABEL"
 					description="JWORKFLOW_EXTENSION_BLACKLIST_DESCRIPTION"
+					multiple="multiple"
+					layout="joomla.form.field.list-fancy-select"
 				/>
 			</fieldset>
 		</fields>
