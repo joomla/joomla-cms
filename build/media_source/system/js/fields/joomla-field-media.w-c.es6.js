@@ -199,7 +199,13 @@
           error: [Joomla.Text._('JLIB_FORM_MEDIA_PREVIEW_EMPTY')],
         };
 
+        Joomla.Modal.getCurrent().close();
         Joomla.renderMessages(messages);
+
+        // Scroll to top of page to ensure user sees the message on smaller screens
+        window.scrollTo(0, 0);
+
+        return;
       }
 
       Joomla.getImage(Joomla.selectedFile, input, this);
