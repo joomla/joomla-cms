@@ -11,7 +11,7 @@
 					filter="integer"
 					validate="options"
 					>
-					<option value="">JOPTION_USE_DEFAULT</option>
+					<option value="">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
