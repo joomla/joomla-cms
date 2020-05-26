@@ -13,7 +13,6 @@ namespace Joomla\Plugin\User\Token\Field;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\TextField;
-use Joomla\CMS\Layout\FileLayout;
 
 /**
  * Joomlatoken field class
