@@ -11,7 +11,7 @@ namespace Joomla\Component\Workflow\Administrator\Dispatcher;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Access\Exception\NotAllowed
+use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
