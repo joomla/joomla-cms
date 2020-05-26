@@ -626,7 +626,7 @@ class InstallationModelDatabase extends JModelBase
 		{
 			$query->clear()
 				->update($db->quoteName('#__utf8_conversion'))
-				->set($db->quoteName('converted') . ' = ' . ($db->hasUTF8mb4Support() ? 4 : 3));
+				->set($db->quoteName('converted') . ' = ' . ($db->hasUTF8mb4Support() ? 5 : 3));
 			$db->setQuery($query);
 
 			try

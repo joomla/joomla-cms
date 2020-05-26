@@ -110,7 +110,7 @@ class ChangeSet
 			// Set the check query
 			if ($this->db->hasUTF8mb4Support())
 			{
-				$converted = 4;
+				$converted = 5;
 				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8MB4';
 			}
 			else
