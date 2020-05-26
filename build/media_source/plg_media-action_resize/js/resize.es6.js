@@ -58,16 +58,16 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       resizeHeightInputBox.value = image.height;
 
       // The listeners
-      resizeWidthInputBox.addEventListener('change', (event) => {
+      resizeWidthInputBox.addEventListener('change', ({ target }) => {
         resize(
-          parseInt(event.target.value, 10),
-          parseInt(event.target.value, 10) / (image.width / image.height),
+          parseInt(target.value, 10),
+          parseInt(target.value, 10) / (image.width / image.height),
         );
       });
-      resizeHeightInputBox.addEventListener('change', (event) => {
+      resizeHeightInputBox.addEventListener('change', ({ target }) => {
         resize(
-          parseInt(event.target.value, 10) * (image.width / image.height),
-          parseInt(event.target.value, 10),
+          parseInt(target.value, 10) * (image.width / image.height),
+          parseInt(target.value, 10),
         );
       });
 
@@ -84,16 +84,16 @@ Joomla.MediaManager.Edit = Joomla.MediaManager.Edit || {};
       resizeHeight.value = image.height;
 
       // The listeners
-      resizeWidth.addEventListener('input', (event) => {
+      resizeWidth.addEventListener('input', ({ target }) => {
         resize(
-          parseInt(event.target.value, 10),
-          parseInt(event.target.value, 10) / (image.width / image.height),
+          parseInt(target.value, 10),
+          parseInt(target.value, 10) / (image.width / image.height),
         );
       });
-      resizeHeight.addEventListener('input', (event) => {
+      resizeHeight.addEventListener('input', ({ target }) => {
         resize(
-          parseInt(event.target.value, 10) * (image.width / image.height),
-          parseInt(event.target.value, 10),
+          parseInt(target.value, 10) * (image.width / image.height),
+          parseInt(target.value, 10),
         );
       });
     };

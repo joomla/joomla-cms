@@ -93,6 +93,7 @@
 			filter="intval"
 			size="1"
 			default="1"
+			validate="options"
 			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
@@ -117,6 +118,7 @@
 				label="COM_FINDER_FILTER_WHEN_START_DATE_LABEL"
 				default=""
 				filter="string"
+				validate="options"
 				>
 				<option value="">JNONE</option>
 				<option value="-1">COM_FINDER_FILTER_WHEN_BEFORE</option>
@@ -139,6 +141,7 @@
 				label="COM_FINDER_FILTER_WHEN_END_DATE_LABEL"
 				default=""
 				filter="string"
+				validate="options"
 				>
 				<option value="">JNONE</option>
 				<option value="-1">COM_FINDER_FILTER_WHEN_BEFORE</option>

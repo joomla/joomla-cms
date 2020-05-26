@@ -48,6 +48,7 @@
 					type="list"
 					label="PLG_SYSTEM_STATS_MODE_LABEL"
 					default="1"
+					validate="options"
 					>
 					<option value="1">PLG_SYSTEM_STATS_MODE_OPTION_ALWAYS_SEND</option>
 					<option value="2">PLG_SYSTEM_STATS_MODE_OPTION_ON_DEMAND</option>

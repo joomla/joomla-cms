@@ -78,7 +78,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		'referrer-policy',
 		'expect-ct',
 		'feature-policy',
-		'report-to',
+		'cross-origin-opener-policy',
+    'report-to',
 	];
 
 	/**
@@ -492,6 +493,14 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		if ($referrerPolicy !== 'disabled')
 		{
 			$staticHeaderConfiguration['referrer-policy#both'] = $referrerPolicy;
+		}
+
+		// Cross-Origin-Opener-Policy
+		$coop = (string) $this->params->get('coop', 'same-origin');
+
+		if ($coop !== 'disabled')
+		{
+			$staticHeaderConfiguration['cross-origin-opener-policy#both'] = $coop;
 		}
 
 		// Generate the strict-transport-security header
