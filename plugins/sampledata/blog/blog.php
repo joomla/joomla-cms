@@ -450,7 +450,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'menutype'     => $menuTypes[1],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_3_TITLE'),
 				'link'         => 'index.php?option=com_content&view=form&layout=edit',
-				'component_id' => ExtensionHelper::getExtensionRecord('com_content')->extension_id,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'access'       => 3,
 				'params'       => array(
 					'enable_category'   => 1,
