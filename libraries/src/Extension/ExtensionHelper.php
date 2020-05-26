@@ -378,9 +378,11 @@ class ExtensionHelper
 			throw new \InvalidArgumentException(sprintf('`$folder` is required when `$type` is `plugin` in %s()', __METHOD__));
 		}
 
-		if (($type === 'module' || $type === 'language') && $clientId === null)
+		if (\in_array($type, ['module', 'language', 'template'], true) && $clientId === null)
 		{
-			throw new \InvalidArgumentException(sprintf('`$clientId` is required when `$type` is `module` or `language` in %s()', __METHOD__));
+			throw new \InvalidArgumentException(
+				sprintf('`$clientId` is required when `$type` is `module`, `language` or `template` in %s()', __METHOD__)
+			);
 		}
 
 		$key = $element . '.' . $type . '.' . $clientId . '.' . $folder;
