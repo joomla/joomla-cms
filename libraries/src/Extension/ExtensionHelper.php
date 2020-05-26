@@ -366,12 +366,12 @@ class ExtensionHelper
 	 * @param   integer|null  $clientId  The client ID
 	 * @param   string|null   $folder    Plugin folder
 	 *
-	 * @return  \stdClass  The object
+	 * @return  \stdClass|null  The object or null if not found.
 	 *
 	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException
 	 */
-	public static function getExtensionRecord(string $element, string $type, ?int $clientId = null, ?string $folder = null)
+	public static function getExtensionRecord(string $element, string $type, ?int $clientId = null, ?string $folder = null): ?\StdClass
 	{
 		if ($type === 'plugin' && $folder === null)
 		{
