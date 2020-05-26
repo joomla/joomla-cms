@@ -42,11 +42,6 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			<span class="fas fa-fw fa-user" aria-hidden="true"></span>
 			<?php echo Text::_('MOD_USER_EDIT_ACCOUNT'); ?>
 		</a>
-		<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri) . '#attrib-accessibility'; ?>
-		<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
-			<span class="fas fa-fw fa-universal-access" aria-hidden="true"></span>
-			<?php echo Text::_('MOD_USER_ACCESSIBILITY_SETTINGS'); ?>
-		</a>
 		<?php $route = 'index.php?option=com_login&task=logout&amp;' . Session::getFormToken() . '=1'; ?>
 		<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
 			<span class="fas fa-fw fa-power-off" aria-hidden="true"></span>
