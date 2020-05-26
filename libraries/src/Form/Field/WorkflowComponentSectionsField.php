@@ -44,12 +44,13 @@ class WorkflowComponentSectionsField extends ComponentsField
 		$options   = [];
 		$options[] = HTMLHelper::_('select.option', ' ', Text::_('JNONE'));
 
-		foreach($items as $item)
+		foreach ($items as $item)
 		{
 			if (substr($item->value, 0, 4) !== 'com_')
 			{
 				continue;
 			}
+
 			$component = $app->bootComponent($item->value);
 
 			if (!($component instanceof WorkflowServiceInterface))
