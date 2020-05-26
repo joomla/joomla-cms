@@ -117,6 +117,28 @@ class WorkflowsModel extends ListModel
 	}
 
 	/**
+	 * Get the filter form
+	 *
+	 * @param   array    $data      data
+	 * @param   boolean  $loadData  load current data
+	 *
+	 * @return  \JForm|false  the JForm object or false
+	 *
+	 * @since   4.0.0
+	 */
+	public function getFilterForm($data = array(), $loadData = true)
+	{
+		$form = parent::getFilterForm($data, $loadData);
+
+		if ($form)
+		{
+			$form->setValue('extension', null, $this->getState('filter.extension'));
+		}
+
+		return $form;
+	}
+
+	/**
 	 * Add the number of transitions and states to all workflow items
 	 *
 	 * @param   array  $items  The workflow items

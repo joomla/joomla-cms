@@ -53,7 +53,7 @@ $userId = $user->id;
 			<div id="j-main-container" class="j-main-container">
 				<?php
 					// Search tools bar
-					echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
+					echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'extension')));
 				?>
 				<?php if (empty($this->workflows)) : ?>
 					<div class="alert alert-info">
@@ -169,7 +169,6 @@ $userId = $user->id;
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<input type="hidden" name="extension" value="<?php echo $extension ?>">
 				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
