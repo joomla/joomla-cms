@@ -2,18 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2020 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Schema;
 
-\defined('JPATH_PLATFORM') or die;
+defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\Database\DatabaseDriver;
-use Joomla\Database\UTF8MB4SupportInterface;
+jimport('joomla.filesystem.folder');
 
 /**
  * Contains a set of JSchemaChange objects for a particular instance of Joomla.
@@ -34,9 +31,9 @@ class ChangeSet
 	protected $changeItems = array();
 
 	/**
-	 * DatabaseDriver object
+	 * \JDatabaseDriver object
 	 *
-	 * @var    DatabaseDriver
+	 * @var    \JDatabaseDriver
 	 * @since  2.5
 	 */
 	protected $db = null;
@@ -61,8 +58,8 @@ class ChangeSet
 	 * Constructor: builds array of $changeItems by processing the .sql files in a folder.
 	 * The folder for the Joomla core updates is `administrator/components/com_admin/sql/updates/<database>`.
 	 *
-	 * @param   DatabaseDriver  $db      The current database object
-	 * @param   string          $folder  The full path to the folder containing the update queries
+	 * @param   \JDatabaseDriver  $db      The current database object
+	 * @param   string            $folder  The full path to the folder containing the update queries
 	 *
 	 * @since   2.5
 	 */
@@ -75,64 +72,72 @@ class ChangeSet
 
 		foreach ($updateQueries as $obj)
 		{
-			$this->changeItems[] = ChangeItem::getInstance($db, $obj->file, $obj->updateQuery);
+			$changeItem = ChangeItem::getInstance($db, $obj->file, $obj->updateQuery);
+
+			if ($changeItem->queryType === 'UTF8CNV')
+			{
+				// Execute the special update query for utf8mb4 conversion status reset
+				try
+				{
+					$this->db->setQuery($changeItem->updateQuery)->execute();
+				}
+				catch (\RuntimeException $e)
+				{
+					\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				}
+			}
+			else
+			{
+				// Normal change item
+				$this->changeItems[] = $changeItem;
+			}
 		}
 
 		// If on mysql, add a query at the end to check for utf8mb4 conversion status
 		if ($this->db->getServerType() === 'mysql')
 		{
-			// Check if the #__utf8_conversion table exists
-			$this->db->setQuery('SHOW TABLES LIKE ' . $this->db->quote($this->db->getPrefix() . 'utf8_conversion'));
+			// Let the update query do nothing when being executed
+			$tmpSchemaChangeItem = ChangeItem::getInstance(
+				$db,
+				'database.php',
+				'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
+				. ' SET ' . $this->db->quoteName('converted') . ' = '
+				. $this->db->quoteName('converted') . ';');
 
-			try
+			// Set to not skipped
+			$tmpSchemaChangeItem->checkStatus = 0;
+
+			// Set the check query
+			if ($this->db->hasUTF8mb4Support())
 			{
-				$rows = $this->db->loadRowList(0);
-
-				$tableExists = \count($rows);
-			}
-			catch (\RuntimeException $e)
-			{
-				$tableExists = 0;
-			}
-
-			// If the table exists add a change item for utf8mb4 conversion to the end
-			if ($tableExists > 0)
-			{
-				// Let the update query do nothing
-				$tmpSchemaChangeItem = ChangeItem::getInstance(
-					$db,
-					'database.php',
-					'UPDATE ' . $this->db->quoteName('#__utf8_conversion')
-					. ' SET ' . $this->db->quoteName('converted') . ' = '
-					. $this->db->quoteName('converted') . ';'
-				);
-
-				// Set to not skipped
-				$tmpSchemaChangeItem->checkStatus = 0;
-
-				// Set the check query
+				$converted = 5;
 				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8MB4';
-
-				$tmpSchemaChangeItem->checkQuery = 'SELECT '
-					. $this->db->quoteName('converted')
-					. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
-					. ' WHERE ' . $this->db->quoteName('converted') . ' = 4';
-
-				// Set expected records from check query
-				$tmpSchemaChangeItem->checkQueryExpected = 1;
-
-				$tmpSchemaChangeItem->msgElements = array();
-
-				$this->changeItems[] = $tmpSchemaChangeItem;
 			}
+			else
+			{
+				$converted = 3;
+				$tmpSchemaChangeItem->queryType = 'UTF8_CONVERSION_UTF8';
+			}
+
+			$tmpSchemaChangeItem->checkQuery = 'SELECT '
+				. $this->db->quoteName('converted')
+				. ' FROM ' . $this->db->quoteName('#__utf8_conversion')
+				. ' WHERE ' . $this->db->quoteName('converted') . ' = ' . $converted;
+
+			// Set expected records from check query
+			$tmpSchemaChangeItem->checkQueryExpected = 1;
+
+			$tmpSchemaChangeItem->msgElements = array();
+
+			$this->changeItems[] = $tmpSchemaChangeItem;
 		}
 	}
 
 	/**
 	 * Returns a reference to the ChangeSet object, only creating it if it doesn't already exist.
 	 *
-	 * @param   DatabaseDriver  $db      The current database object
-	 * @param   string          $folder  The full path to the folder containing the update queries
+	 * @param   \JDatabaseDriver  $db      The current database object
+	 * @param   string            $folder  The full path to the folder containing the update queries
 	 *
 	 * @return  ChangeSet
 	 *
@@ -140,9 +145,9 @@ class ChangeSet
 	 */
 	public static function getInstance($db, $folder = null)
 	{
-		if (!\is_object(static::$instance))
+		if (!is_object(static::$instance))
 		{
-			static::$instance = new static($db, $folder);
+			static::$instance = new ChangeSet($db, $folder);
 		}
 
 		return static::$instance;
@@ -265,7 +270,7 @@ class ChangeSet
 			$this->folder = JPATH_ADMINISTRATOR . '/components/com_admin/sql/updates/';
 		}
 
-		return Folder::files(
+		return \JFolder::files(
 			$this->folder . '/' . $sqlFolder, '\.sql$', 1, true, array('.svn', 'CVS', '.DS_Store', '__MACOSX'), array('^\..*', '.*~'), true
 		);
 	}
@@ -291,7 +296,7 @@ class ChangeSet
 			$buffer = file_get_contents($file);
 
 			// Create an array of queries from the sql file
-			$queries = DatabaseDriver::splitSql($buffer);
+			$queries = \JDatabaseDriver::splitSql($buffer);
 
 			foreach ($queries as $query)
 			{
