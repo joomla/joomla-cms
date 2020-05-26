@@ -8,6 +8,7 @@
  */
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('bootstrap.popover');
 
@@ -27,30 +28,42 @@ $tipTitle = $options['tip_title'];
 $tipContent = $options['tip_content'];
 $checkboxName = $options['checkbox_name'];
 ?>
-<?php if ($only_icon) : ?>
-	<span class="tbody-icon mr-1">
-		<span class="<?php echo $this->escape($icon ?? ''); ?> <?php echo $tip ? 'hasPopover' : ''; ?>"
+<?php if ($only_icon || $disabled) : ?>
+	<span class="tbody-icon mr-1 align-self-start <?php echo $tip ? 'hasPopover' : ''; ?> disabled"
 			title="<?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, '', 0); ?>"
 			data-content="<?php echo HTMLHelper::_('tooltipText', $tipContent, '', 0); ?>"
 			data-placement="top"
-		></span>
+		>
+		<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
 	</span>
-	<div class="mr-auto"><?php echo $options['title']; ?></div>
-<?php else : ?>
-	<a class="tbody-icon mr-1 data-state-<?php echo $this->escape($value ?? ''); ?> <?php echo $this->escape(!empty($disabled) ? 'disabled' : null); ?> <?php echo $tip ? 'hasPopover' : ''; ?>"
-		<?php if (empty($disabled)) : ?>
-			href="javascript://"
+	<div class="mr-auto">
+		<?php echo $options['title']; ?>
+		<?php if ($tipContent) : ?>
+		<span class="sr-only"><?php echo $tipContent; ?></span>
 		<?php endif; ?>
-
+	</div>
+<?php else : ?>
+	<button type="button" class="tbody-icon align-self-start mr-1 data-state-<?php echo $this->escape($value ?? ''); ?> <?php echo $tip ? 'hasPopover' : ''; ?>"
 		title="<?php echo HTMLHelper::_('tooltipText', $tipTitle ?: $title, '', 0); ?>"
 		data-content="<?php echo HTMLHelper::_('tooltipText', $tipContent, '', 0); ?>"
 		data-placement="top"
 		onclick="Joomla.toggleAllNextElements(this, 'd-none')"
 	>
 		<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
-	</a>
-	<div class="mr-auto"><?php echo $options['title']; ?></div>
+		<span class="sr-only"><?php echo Text::_('JWORKFLOW_SHOW_TRANSITIONS_FOR_THIS_ITEM'); ?></span>
+	</button>
+	<div class="mr-auto">
+		<?php echo $options['title']; ?>
+		<?php if ($tipContent) : ?>
+		<span class="sr-only"><?php echo $tipContent; ?></span>
+		<?php endif; ?>
+	</div>
 	<div class="d-none">
+		<span class="sr-only">
+			<label for="transition-select_<?php echo (int) $row ?? ''; ?>">
+			<?php echo Text::_('JWORKFLOW_EXECUTE_TRANSITION'); ?>
+			</label>
+		</span>
 		<?php
 			$default = [
 				HTMLHelper::_('select.option', '', $this->escape($options['title'])),
