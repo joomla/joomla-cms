@@ -472,8 +472,19 @@ class PluginAdapter extends InstallerAdapter
 				);
 			}
 
+			// Load the entry and update the manifest_cache
 			$this->extension->load($this->currentExtensionId);
+
+			// Update name
 			$this->extension->name = $this->name;
+
+			// Update namespace
+			$this->extension->namespace = (string) $this->manifest->namespace;
+
+			// Update changelogurl
+			$this->extension->changelogurl = (string) $this->manifest->changelogurl;
+
+			// Update manifest
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();
 
 			// Update the manifest cache and name
