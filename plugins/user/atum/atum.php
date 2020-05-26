@@ -33,7 +33,7 @@ class PlgUserAtum extends CMSPlugin
 	public function onContentPrepareForm(Form $form, $data)
 	{
 		// Check we are manipulating the correct form.
-		if (!in_array($form->getName(), ['com_admin.profile', 'com_users.user', 'com_users.profile'], true))
+		if (!in_array($form->getName(), ['com_admin.profile', 'com_users.user'], true))
 		{
 			return true;
 		}
