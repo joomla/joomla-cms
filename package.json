@@ -45,7 +45,7 @@
     "focus-visible": "^5.0.2",
     "joomla-ui-custom-elements": "0.0.38",
     "jquery": "^3.5",
-    "jquery-migrate": "^3.1.0",
+    "jquery-migrate": "^3.3.0",
     "mediaelement": "^4.2.16",
     "metismenujs": "^1.1.0",
     "popper.js": "^1.16.1",
