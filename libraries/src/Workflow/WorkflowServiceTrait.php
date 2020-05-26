@@ -67,36 +67,6 @@ trait WorkflowServiceTrait
 	}
 
 	/**
-	 * Check if the functionality is activated in the component configuration
-	 *
-	 * @param   string  $functionality  The functionality
-	 * @param   string  $extension      The extension
-	 *
-	 * @return boolean
-	 * @throws \Exception
-	 *
-	 * @since   4.0.0
-	 */
-	public function isFunctionalityActive($functionality, $extension): bool
-	{
-		if (!$this->isWorkflowActive($extension))
-		{
-			return false;
-		}
-
-		$parts  = explode('.', $extension);
-		$config = ComponentHelper::getParams($parts[0]);
-		$option = 'workflow_functionality_' . str_replace('.', '_', $functionality);
-
-		if (!$config->get($option, 1))
-		{
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
 	 * Check if the functionality is used by a plugin
 	 *
 	 * @param   string  $functionality  The functionality
@@ -115,13 +85,6 @@ trait WorkflowServiceTrait
 
 		if (isset($used[$cacheKey]))
 		{
-			return $used[$cacheKey];
-		}
-
-		if (!$this->isFunctionalityActive($functionality, $extension))
-		{
-			$used[$cacheKey] = false;
-
 			return $used[$cacheKey];
 		}
 

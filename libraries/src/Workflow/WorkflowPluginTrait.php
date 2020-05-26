@@ -146,7 +146,7 @@ trait WorkflowPluginTrait
 
 		if (!$component instanceof WorkflowServiceInterface
 			|| !$component->isWorkflowActive($context)
-			|| !$component->isFunctionalityActive($functionality, $context))
+			|| !$component->supportFunctionality($functionality, $context))
 		{
 			return false;
 		}
