@@ -11,7 +11,7 @@
 				description="PLG_WORKFLOW_PUBLISHING_TRANSITION_ACTIONS_PUBLISHING_DESC"
 				default=""
 				hide_all="true"
-			>
+				>
 				<option value="">JOPTION_DO_NOT_USE</option>
 			</field>
 		</fieldset>
