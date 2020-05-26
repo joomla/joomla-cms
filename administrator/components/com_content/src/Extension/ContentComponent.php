@@ -178,6 +178,24 @@ class ContentComponent extends MVCComponent implements
 	}
 
 	/**
+	 * Returns valid contexts
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 */
+	public function getWorkflowContexts(): array
+	{
+		Factory::getLanguage()->load('com_content', JPATH_ADMINISTRATOR);
+
+		$contexts = array(
+			'com_content.article'    => Text::_('COM_CONTENT')
+		);
+
+		return $contexts;
+	}
+
+	/**
 	 * Returns the table for the count items functions for the given section.
 	 *
 	 * @param   string  $section  The section

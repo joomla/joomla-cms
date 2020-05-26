@@ -80,4 +80,13 @@ interface WorkflowServiceInterface
 	 * @since   4.0.0
 	 */
 	public function getWorkflowTableBySection(?string $section = null): string;
+
+	/**
+	 * Returns valid contexts.
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 */
+	public function getWorkflowContexts(): array;
 }
