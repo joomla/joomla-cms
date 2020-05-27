@@ -117,6 +117,10 @@ abstract class JGrid
 			{
 				$active_class = 'fas fa-star featured';
 			}
+			else
+			{
+				$active_class = 'icon-' . $active_class;
+			}
 
 			$html[] = '<span class="' . $active_class . '" aria-hidden="true"></span>';
 			$html[] = '</a>';
@@ -134,7 +138,10 @@ abstract class JGrid
 			}
 			else
 			{
-				if ($inactive_class === 'publish')
+				if(strpos($inactive_class, 'fa-') == true || strpos($inactive_class, 'icon-') == true){
+					$icon = $icon;
+				}
+				elseif($inactive_class === 'publish')
 				{
 					$inactive_class = 'fas fa-check';
 				}
@@ -158,8 +165,8 @@ abstract class JGrid
 				{
 					$inactive_class = 'fas fa-star featured';
 				}
-
-				if(strpos($inactive_class, 'fa-') == false){
+				else
+				{
 					$inactive_class = 'icon-' . $inactive_class;
 				}
 
@@ -336,7 +343,7 @@ abstract class JGrid
 	 * @see     JHtmlJGrid::state()
 	 * @since   1.6
 	 */
-	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $formId = null, $active_class = 'color-featured fas fa-star', $inactive_class = 'color-unfeatured far fa-star')
+	public static function isdefault($value, $i, $prefix = '', $enabled = true, $checkbox = 'cb', $formId = null, $active_class = 'icon-color-featured fas fa-star', $inactive_class = 'icon-color-unfeatured far fa-star')
 	{
 		if (is_array($prefix))
 		{

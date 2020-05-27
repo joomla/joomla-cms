@@ -103,4 +103,3 @@ else{
 	$icon = 'icon-' . $icon;
 }
 echo $icon;
-?>
