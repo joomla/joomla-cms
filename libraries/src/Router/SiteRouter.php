@@ -526,7 +526,7 @@ class SiteRouter extends Router
 		$itemID    = !empty($query['Itemid']) ? $query['Itemid'] : null;
 		$crouter   = $this->getComponentRouter($component);
 		$parts     = $crouter->build($query);
-		if (empty($parts))
+		if (empty($parts) || is_array($parts) === false)
 		{
 			$result = '';
 		}
