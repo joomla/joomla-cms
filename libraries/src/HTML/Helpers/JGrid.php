@@ -92,30 +92,34 @@ abstract class JGrid
 
 			if ($active_class === 'publish')
 			{
-				$active_class = 'check';
+				$active_class = 'fas fa-check';
 			}
 			elseif ($active_class === 'unpublish')
 			{
-				$active_class = 'times';
+				$active_class = 'fas fa-times';
 			}
 			elseif ($active_class === 'archive')
 			{
-				$active_class = 'folder';
+				$active_class = 'fas fa-folder';
 			}
 			elseif ($active_class === 'checkedout')
 			{
-				$active_class = 'lock';
+				$active_class = 'fas fa-lock';
 			}
 			elseif ($active_class === 'unfeatured')
 			{
-				$active_class = 'star';
+				$active_class = 'fas fa-star';
 			}
 			elseif ($active_class === 'featured')
 			{
-				$active_class = 'star featured';
+				$active_class = 'fas fa-star featured';
 			}
 
-			$html[] = '<span class="fas fa-' . $active_class . '" aria-hidden="true"></span>';
+			if(strpos($active_class, 'fa-') !== false){
+				$active_class = 'icon-' . $active_class;
+			}
+
+			$html[] = '<span class="' . $active_class . '" aria-hidden="true"></span>';
 			$html[] = '</a>';
 			$html[] = $tip ? '<div role="tooltip" id="' . $ariaid . '">' . $title . '</div>' : '';
 		}
@@ -133,30 +137,34 @@ abstract class JGrid
 			{
 				if ($inactive_class === 'publish')
 				{
-					$inactive_class = 'check';
+					$inactive_class = 'fas fa-check';
 				}
 				elseif ($inactive_class === 'unpublish')
 				{
-					$inactive_class = 'times';
+					$inactive_class = 'fas fa-times';
 				}
 				elseif ($inactive_class === 'archive')
 				{
-					$inactive_class = 'folder';
+					$inactive_class = 'fas fa-folder';
 				}
 				elseif ($inactive_class === 'checkedout')
 				{
-					$inactive_class = 'lock';
+					$inactive_class = 'fas fa-lock';
 				}
 				elseif ($inactive_class === 'unfeatured')
 				{
-					$inactive_class = 'star';
+					$inactive_class = 'fas fa-star';
 				}
 				elseif ($inactive_class === 'featured')
 				{
-					$inactive_class = 'star featured';
+					$inactive_class = 'fas fa-star featured';
 				}
 
-				$html[] = '<span class="fas fa-' . $inactive_class . '" aria-hidden="true"></span>';
+				if(strpos($inactive_class, 'fa-') !== false){
+					$inactive_class = 'icon-' . $inactive_class;
+				}
+
+				$html[] = '<span class="' . $inactive_class . '" aria-hidden="true"></span>';
 			}
 
 			$html[] = '</span>';
