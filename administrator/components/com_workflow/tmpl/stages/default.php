@@ -66,13 +66,13 @@ if ($saveOrder)
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 's.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
+								<th scope="col" class="w-1 text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 's.published', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
+								<th scope="col" class="w-1 text-center">
 									<?php echo Text::_('COM_WORKFLOW_DEFAULT'); ?>
 								</th>
-								<th scope="col" class="w-10 d-none d-md-table-cell">
+								<th scope="col" class="w-10">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 's.title', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-1 d-none d-md-table-cell">
