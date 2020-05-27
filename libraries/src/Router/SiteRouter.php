@@ -526,7 +526,14 @@ class SiteRouter extends Router
 		$itemID    = !empty($query['Itemid']) ? $query['Itemid'] : null;
 		$crouter   = $this->getComponentRouter($component);
 		$parts     = $crouter->build($query);
-		$result    = implode('/', $parts);
+		if (empty($parts))
+		{
+			$result = '';
+		}
+		else
+		{
+			$result = implode('/', $parts);
+		}
 		$tmp       = ($result !== '') ? $result : '';
 
 		// Build the application route
