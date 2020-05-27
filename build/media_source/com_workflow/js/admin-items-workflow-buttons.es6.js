@@ -40,9 +40,9 @@ Joomla.toggleAllNextElements = (element, className) => {
   document.addEventListener('DOMContentLoaded', () => {
     const dropDownBtn = document.getElementById('toolbar-dropdown-status-group');
     const transitions = [].slice.call(dropDownBtn.querySelectorAll('.button-transition'));
-    const headline = dropDownBtn.getElementsByClassName('button-transition-headline')[0];
-    const separator = dropDownBtn.getElementsByClassName('button-transition-separator')[0];
-    const itemList = [].slice.call(document.querySelectorAll('table.itemList'))[0];
+    const headline = dropDownBtn.querySelector('.button-transition-headline');
+    const separator = dropDownBtn.querySelector('.button-transition-separator');
+    const itemList = document.querySelector('table.itemList');
 
     let itemListRows = [];
     let transitionIds = [];
@@ -100,7 +100,7 @@ Joomla.toggleAllNextElements = (element, className) => {
         }
         transitionIds = [];
         itemListRows.forEach((el) => {
-          const checkedBox = el.querySelectorAll('input[type=checkbox]')[0];
+          const checkedBox = el.querySelector('input[type=checkbox]');
           if (checkedBox.checked) {
             const parentTr = checkedBox.closest('tr');
             collectTransitions(parentTr);
