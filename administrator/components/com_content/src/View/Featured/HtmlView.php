@@ -89,7 +89,7 @@ class HtmlView extends BaseHtmlView
 		$this->transitions   = $this->get('Transitions');
 		$this->vote          = PluginHelper::isEnabled('content', 'vote');
 
-		if (ComponentHelper::getParams('com_content')->get('workflow_enabled', 1))
+		if (ComponentHelper::getParams('com_content')->get('workflow_enabled'))
 		{
 			PluginHelper::importPlugin('workflow');
 
