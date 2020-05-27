@@ -135,7 +135,7 @@ abstract class JGrid
 				if (strpos($inactive_class, 'fa-') == true || strpos($inactive_class, 'icon-') == true){
 					$icon = $icon;
 				}
-				elseif($inactive_class === 'publish')
+				elseif ($inactive_class === 'publish')
 				{
 					$inactive_class = 'fas fa-check';
 				}
