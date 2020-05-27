@@ -105,7 +105,7 @@ if (!empty($dataAttributes))
 {
 	foreach ($dataAttributes as $key => $attrValue)
 	{
-		$inputAttributes[$key] .= htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8');
+		$inputAttributes[$key] = htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8');
 	}
 }
 ?>
