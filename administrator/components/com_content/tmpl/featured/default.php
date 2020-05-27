@@ -13,6 +13,7 @@ use Joomla\CMS\Button\FeaturedButton;
 use Joomla\CMS\Button\PublishedButton;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -66,6 +67,8 @@ JS;
 // @todo mode the script to a file
 $this->document->addScriptDeclaration($js);
 
+$assoc = Associations::isEnabled();
+
 HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
 
 ?>
@@ -113,6 +116,11 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 								</th>
+								<?php if ($assoc) : ?>
+									<th scope="col" class="w-5 d-none d-md-table-cell">
+										<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+									</th>
+								<?php endif; ?>
 								<?php if (Multilanguage::isEnabled()) : ?>
 									<th scope="col" class="w-10 d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
@@ -333,6 +341,13 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 										<div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
 									<?php endif; ?>
 								</td>
+								<?php if ($assoc) : ?>
+									<td class="d-none d-md-table-cell">
+										<?php if ($item->association) : ?>
+											<?php echo HTMLHelper::_('contentadministrator.association', $item->id); ?>
+										<?php endif; ?>
+									</td>
+								<?php endif; ?>
 								<?php if (Multilanguage::isEnabled()) : ?>
 									<td class="small d-none d-md-table-cell">
 										<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
