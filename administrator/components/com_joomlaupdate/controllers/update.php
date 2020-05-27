@@ -501,10 +501,50 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 	{
 		$extensionID = $this->input->get('extension-id', '', 'DEFAULT');
 		$joomlaTargetVersion = $this->input->get('joomla-target-version', '', 'DEFAULT');
+		$joomlaCurrentVersion = $this->input->get('joomla-current-version', '', 'DEFAULT');
+		$extensionVersion = $this->input->get('extension-version', '', 'DEFAULT');
 
 		/** @var JoomlaupdateModelDefault $model */
 		$model = $this->getModel('default');
-		$compatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
+		$upgradeCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
+		$currentCompatibilityStatus = $model->fetchCompatibility($extensionID, $joomlaCurrentVersion);
+
+		$resultGroup = -1;
+		$upgradeWarning = 0;
+		if ($upgradeCompatibilityStatus->state == 1)
+		{
+			if (version_compare($upgradeCompatibilityStatus->compatibleVersion, $extensionVersion, 'gt'))
+			{
+				$resultGroup = 1;
+			}
+			else
+			{
+				$resultGroup = 0;
+			}
+			if ($currentCompatibilityStatus == 1)
+			{
+				if (version_compare($upgradeCompatibilityStatus->compatibleVersion, $currentCompatibilityStatus->compatibleVersion, 'lt'))
+				{
+					$upgradeWarning = 1;
+				}
+			}
+		}
+		else if ($currentCompatibilityStatus->state == 1)
+		{
+			$resultGroup = 2;
+		}
+		else
+		{
+			$resultGroup = 3;
+		}
+
+		// Do we need to capture
+		$combinedCompatibilityStatus = array(
+			'upgradeCompatibilityStatus' => $upgradeCompatibilityStatus,
+			'currentCompatibilityStatus' => $currentCompatibilityStatus,
+			'resultGroup' => $resultGroup,
+			'upgradeWarning' => $upgradeWarning
+			);
 
 		$this->app = JFactory::getApplication();
 		$this->app->mimeType = 'application/json';
@@ -514,7 +554,7 @@ class JoomlaupdateControllerUpdate extends JControllerLegacy
 
 		try
 		{
-			echo new JResponseJson($compatibilityStatus);
+			echo new JResponseJson($combinedCompatibilityStatus);
 		}
 		catch (Exception $e)
 		{

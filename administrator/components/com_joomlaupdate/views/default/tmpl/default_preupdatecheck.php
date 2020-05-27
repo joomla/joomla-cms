@@ -92,55 +92,80 @@ defined('_JEXEC') or die;
 </div>
 <?php if (!empty($this->nonCoreExtensions)) : ?>
 	<div class="row-fluid">
-		<fieldset class="span6">
-			<legend>
-				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
-			</legend>
-			<table class="table">
-				<thead>
-					<tr>
-						<td>
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
-						</td>
-						<td>
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_COMPATIBLE'); ?>
-						</td>
-						<td>
-							<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
-						</td>
-					</tr>
-				</thead>
-				<tbody>
-				<?php foreach ($this->nonCoreExtensions as $extension) : ?>
-					<tr>
-						<td>
-							<?php echo JText::_($extension->name); ?>
-						</td>
-						<td class="extension-check"
-							data-extension-id="<?php echo $extension->extension_id; ?>"
-							data-extension-current-version="<?php echo $extension->version; ?>">
-							<img src="../media/system/images/mootree_loader.gif" />
-						</td>
-						<td>
-							<?php echo $extension->version; ?>
-						</td>
-					</tr>
-				<?php endforeach; ?>
-				</tbody>
-			</table>
-		</fieldset>
-	</div>
-	<div class="row-fluid">
-		<div class="span6">
+		<h3>
+			<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
+		</h3>
+			<?php
+			$compatibilityTypes = array("COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE" => "label-success",
+				"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPGRADES_TO_BE_COMPATIBLE" => "label-warning",
+				"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NO_VERSION_COMPATIBILITY_INFORMATION_FROM_UPDATE_SERVER" => "label-important",
+				"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NO_UPDATE_SERVER_SPECIFIED" => "label-important"
+			);
+			$compatibilityTypeCount = 0;
+			foreach ($compatibilityTypes as $compatibilityType => $compatibilityDisplayClass)
+			{
+				?>
+				<fieldset id="compatibilitytype<?php echo $compatibilityTypeCount;?>" class="span12 compatibilitytypes">
+					<legend class="label <?php echo $compatibilityDisplayClass;?>">
+						<h3><?php echo JText::_($compatibilityType); ?></h3>
+					</legend>
+						<table class="table">
+							<thead>
+							<tr>
+								<td>
+									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
+								</td>
+								<td>
+									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_TYPE'); ?>
+								</td>
+								<td>
+									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_UPGRADE_COMPATIBLE'); ?>
+								</td>
+								<td>
+									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_CURRENTLY_COMPATIBLE'); ?>
+								</td>
+								<td>
+									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
+								</td>
+							</tr>
+							</thead>
+							<tbody>
+							<?php
+							// Only include this row once since the javascript moves the results into the right place
+							if ($compatibilityType == "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE") :
+								foreach ($this->nonCoreExtensions as $extension) : ?>
+									<tr>
+										<td>
+											<?php echo JText::_($extension->name); ?>
+										</td>
+										<td>
+											<?php echo JText::_('COM_INSTALLER_TYPE_' . strtoupper($extension->type)); ?>
+										</td>
+										<td class="extension-check"
+											data-extension-id="<?php echo $extension->extension_id; ?>"
+											data-extension-current-version="<?php echo $extension->version; ?>">
+											<img src="../media/system/images/mootree_loader.gif" />
+										</td>
+										<td id="available-version-<?php echo $extension->extension_id; ?>"/>
+										<td>
+											<?php echo $extension->version; ?>
+										</td>
+									</tr>
+								<?php endforeach; ?>
+							<?php endif; ?>
+							</tbody>
+						</table>
+				</fieldset>
+				<?php
+				$compatibilityTypeCount ++;
+			}
+			?>
+		<div class="span12">
 			<fieldset class="options-grid-form options-grid-form-full">
 				<legend>
 					<?php echo JText::_('NOTICE'); ?>
 				</legend>
-				<ul>
-					<li><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_BREAK'); ?></li>
-					<li><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_MISSING_TAG'); ?></li>
-					<li><?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DESCRIPTION_UPDATE_REQUIRED'); ?></li>
-				</ul>
+				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPATIBLE_UPGRADE_WARNING'); ?>
 			</fieldset>
 		</div>
 	</div>

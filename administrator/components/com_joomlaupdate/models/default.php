@@ -199,6 +199,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		}
 
 		$this->updateInformation['latest']    = $updateObject->version;
+		$this->updateInformation['current']   = JVERSION;
 
 		// Check whether this is an update or not.
 		if (version_compare($updateObject->version, JVERSION, '>'))
