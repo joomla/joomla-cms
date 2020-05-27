@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Utility\Utility;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 
@@ -160,6 +161,30 @@ class HtmlDocument extends Document
 
 		$data['scriptOptions'] = $this->scriptOptions;
 
+		// Get Asset manager state
+		$wa      = $this->getWebAssetManager();
+		$waState = $wa->getManagerState();
+
+		// Get asset objects and filter only manually added/enabled assets,
+		// Dependencies will be picked up from registry files
+		$waState['assets'] = [];
+
+		foreach ($waState['activeAssets'] as $assetType => $assetNames)
+		{
+			foreach ($assetNames as $assetName => $assetState)
+			{
+				if ($assetState === WebAssetManager::ASSET_STATE_ACTIVE)
+				{
+					$waState['assets'][$assetType][] = $wa->getAsset($assetType, $assetName);
+				}
+			}
+		}
+
+		// We have loaded asset objects, now can remove unused stuff
+		unset($waState['activeAssets']);
+
+		$data['assetManager'] = $waState;
+
 		return $data;
 	}
 
@@ -269,6 +294,30 @@ class HtmlDocument extends Document
 		$this->_custom       = $data['custom'] ?? $this->_custom;
 		$this->scriptOptions = (isset($data['scriptOptions']) && !empty($data['scriptOptions'])) ? $data['scriptOptions'] : $this->scriptOptions;
 
+		// Restore asset manager state
+		$wa = $this->getWebAssetManager();
+
+		if (!empty($data['assetManager']['registryFiles']))
+		{
+			$waRegistry = $wa->getRegistry();
+
+			foreach ($data['assetManager']['registryFiles'] as $registryFile)
+			{
+				$waRegistry->addRegistryFile($registryFile);
+			}
+		}
+
+		if (!empty($data['assetManager']['assets']))
+		{
+			foreach ($data['assetManager']['assets'] as $assetType => $assets)
+			{
+				foreach ($assets as $asset)
+				{
+					$wa->registerAsset($assetType, $asset)->useAsset($assetType, $asset->getName());
+				}
+			}
+		}
+
 		return $this;
 	}
 
@@ -357,6 +406,30 @@ class HtmlDocument extends Document
 			foreach ($data['scriptOptions'] as $key => $scriptOptions)
 			{
 				$this->addScriptOptions($key, $scriptOptions, true);
+			}
+		}
+
+		// Restore asset manager state
+		$wa = $this->getWebAssetManager();
+
+		if (!empty($data['assetManager']['registryFiles']))
+		{
+			$waRegistry = $wa->getRegistry();
+
+			foreach ($data['assetManager']['registryFiles'] as $registryFile)
+			{
+				$waRegistry->addRegistryFile($registryFile);
+			}
+		}
+
+		if (!empty($data['assetManager']['assets']))
+		{
+			foreach ($data['assetManager']['assets'] as $assetType => $assets)
+			{
+				foreach ($assets as $asset)
+				{
+					$wa->registerAsset($assetType, $asset)->useAsset($assetType, $asset->getName());
+				}
 			}
 		}
 

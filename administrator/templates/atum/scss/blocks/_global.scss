@@ -125,7 +125,6 @@ body .container-main {
 
 
 .content {
-  padding: 2vw;
   border-radius: $border-radius;
 
   > .row {
@@ -221,4 +220,9 @@ details {
 
 summary {
   color: var(--atum-link-color);
+}
+
+// meter element
+meter {
+  width: 100%;
 }
