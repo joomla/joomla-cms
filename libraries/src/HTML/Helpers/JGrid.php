@@ -115,7 +115,7 @@ abstract class JGrid
 				$active_class = 'fas fa-star featured';
 			}
 
-			if(strpos($active_class, 'fa-') !== false){
+			if(strpos($active_class, 'fa-') == false){
 				$active_class = 'icon-' . $active_class;
 			}
 
@@ -160,7 +160,7 @@ abstract class JGrid
 					$inactive_class = 'fas fa-star featured';
 				}
 
-				if(strpos($inactive_class, 'fa-') !== false){
+				if(strpos($inactive_class, 'fa-') == false){
 					$inactive_class = 'icon-' . $inactive_class;
 				}
 
