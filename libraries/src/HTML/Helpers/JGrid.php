@@ -84,7 +84,7 @@ abstract class JGrid
 			$html[] = $tip ? ' aria-labelledby="' . $ariaid . '"' : '';
 			$html[] = '>';
 
-			if ($active_class === 'publish' || $active_class === 'published')
+			if ($active_class === 'publish')
 			{
 				$active_class = 'fas fa-check';
 			}
