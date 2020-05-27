@@ -66,17 +66,14 @@ if ($saveOrder)
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 's.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 's.condition', $listDirn, $listOrder); ?>
+								<th scope="col" class="w-1 text-center">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 's.published', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
+								<th scope="col" class="w-1 text-center">
 									<?php echo Text::_('COM_WORKFLOW_DEFAULT'); ?>
 								</th>
-								<th scope="col" class="w-10 d-none d-md-table-cell">
+								<th scope="col" class="w-10">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 's.title', $listDirn, $listOrder); ?>
-								</th>
-								<th scope="col" class="w-10 d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_CONDITION', 's.condition', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-1 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 's.id', $listDirn, $listOrder); ?>
@@ -133,21 +130,6 @@ if ($saveOrder)
 											<div class="small"><?php echo $this->escape(Text::_($item->description)); ?></div>
 										<?php endif; ?>
 									</th>
-									<td class="nowrap">
-										<?php
-											if ($item->condition == 'JARCHIVED'):
-												$icon = 'icon-archive';
-											elseif ($item->condition == 'JTRASHED'):
-												$icon = 'icon-trash';
-											elseif ($item->condition == 'JPUBLISHED'):
-												$icon = 'icon-publish';
-											elseif ($item->condition == 'JUNPUBLISHED'):
-												$icon = 'icon-unpublish';
-											endif;
-										?>
-										<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-										<?php echo Text::_($item->condition); ?>
-									</td>
 									<td class="d-none d-md-table-cell">
 										<?php echo (int) $item->id; ?>
 									</td>
