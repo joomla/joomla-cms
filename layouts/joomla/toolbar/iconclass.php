@@ -99,8 +99,8 @@ elseif ($icon === 'default')
 {
 	$icon = 'fas fa-home';
 }
-else{
+else
+{
 	$icon = 'icon-' . $icon;
 }
 echo $icon;
-?>
