@@ -8,7 +8,7 @@
  */
 namespace Joomla\Component\Users\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\AdminController;
 
@@ -36,7 +36,7 @@ class LevelsController extends AdminController
 	 *
 	 * @since   1.6
 	 */
-	public function getModel($name = 'Level', $prefix = 'UsersModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Level', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
 	}

@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Redirect\Administrator\Field;
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;

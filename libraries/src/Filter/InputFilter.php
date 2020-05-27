@@ -32,6 +32,13 @@ class InputFilter extends BaseInputFilter
 	private $stripUSC = 0;
 
 	/**
+	 * A container for InputFilter instances.
+	 *
+	 * @var    InputFilter[]
+	 * @since  __DEPOY_VERSION__
+	 */
+	protected static $instances = array();
+	/**
 	 * Constructor for inputFilter class. Only first parameter is required.
 	 *
 	 * @param   array    $tagsArray   List of user-defined tags

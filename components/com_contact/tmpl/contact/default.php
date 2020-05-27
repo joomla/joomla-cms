@@ -45,12 +45,12 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 		<div class="icons">
 			<div class="btn-group float-right">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-<?php echo $this->item->id; ?>"
-					aria-label="<?php echo JText::_('JUSER_TOOLS'); ?>"
+					aria-label="<?php echo Text::_('JUSER_TOOLS'); ?>"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					<span class="fas fa-cog" aria-hidden="true"></span>
 				</button>
 				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-<?php echo $this->item->id; ?>">
-					<li class="edit-icon"> <?php echo JHtml::_('contacticon.edit', $this->item, $tparams); ?> </li>
+					<li class="edit-icon"> <?php echo HTMLHelper::_('contacticon.edit', $this->item, $tparams); ?> </li>
 				</ul>
 			</div>
 		</div>

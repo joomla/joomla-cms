@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Admin\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;

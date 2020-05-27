@@ -19,7 +19,6 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\ParameterType;
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
-use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
  * Script file of Joomla CMS
@@ -1273,7 +1272,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default.xml',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_nodownload.php',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_noupdate.php',
-			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_preupdatecheck.php',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_reinstall.php',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_update.php',
 			'/administrator/components/com_joomlaupdate/views/default/tmpl/default_updatemefirst.php',
@@ -1636,7 +1634,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_templates/controllers/style.php',
 			'/administrator/components/com_templates/controllers/styles.php',
 			'/administrator/components/com_templates/controllers/template.php',
-			'/administrator/components/com_templates/controllers/template.php.orig',
 			'/administrator/components/com_templates/helpers/html/templates.php',
 			'/administrator/components/com_templates/models/fields/templatelocation.php',
 			'/administrator/components/com_templates/models/fields/templatename.php',
@@ -3300,6 +3297,10 @@ class JoomlaInstallerScript
 			'/libraries/joomla/archive/tar.php',
 			'/libraries/joomla/archive/wrapper/archive.php',
 			'/libraries/joomla/archive/zip.php',
+			'/libraries/joomla/base/adapter.php',
+			'/libraries/joomla/base/adapterinstance.php',
+			'/libraries/joomla/controller/base.php',
+			'/libraries/joomla/controller/controller.php',
 			'/libraries/joomla/database/database.php',
 			'/libraries/joomla/database/driver.php',
 			'/libraries/joomla/database/driver/mysql.php',
@@ -3504,6 +3505,9 @@ class JoomlaInstallerScript
 			'/libraries/joomla/mediawiki/search.php',
 			'/libraries/joomla/mediawiki/sites.php',
 			'/libraries/joomla/mediawiki/users.php',
+			'/libraries/joomla/model/base.php',
+			'/libraries/joomla/model/database.php',
+			'/libraries/joomla/model/model.php',
 			'/libraries/joomla/oauth1/client.php',
 			'/libraries/joomla/oauth2/client.php',
 			'/libraries/joomla/observable/interface.php',
@@ -3554,6 +3558,9 @@ class JoomlaInstallerScript
 			'/libraries/joomla/twitter/twitter.php',
 			'/libraries/joomla/twitter/users.php',
 			'/libraries/joomla/utilities/arrayhelper.php',
+			'/libraries/joomla/view/base.php',
+			'/libraries/joomla/view/html.php',
+			'/libraries/joomla/view/view.php',
 			'/libraries/legacy/application/application.php',
 			'/libraries/legacy/base/node.php',
 			'/libraries/legacy/base/observable.php',
@@ -4711,8 +4718,12 @@ class JoomlaInstallerScript
 			'/plugins/authentication/gmail/gmail.xml',
 			'/plugins/captcha/recaptcha/postinstall/actions.php',
 			'/plugins/content/confirmconsent/fields/consentbox.php',
+			'/plugins/editors/codemirror/fonts.php',
 			'/plugins/editors/codemirror/layouts/editors/codemirror/init.php',
 			'/plugins/editors/tinymce/field/skins.php',
+			'/plugins/editors/tinymce/field/tinymcebuilder.php',
+			'/plugins/editors/tinymce/field/uploaddirs.php',
+			'/plugins/editors/tinymce/form/setoptions.xml',
 			'/plugins/quickicon/joomlaupdate/joomlaupdate.php',
 			'/plugins/system/languagecode/language/en-GB/en-GB.plg_system_languagecode.ini',
 			'/plugins/system/languagecode/language/en-GB/en-GB.plg_system_languagecode.sys.ini',
@@ -4989,6 +5000,8 @@ class JoomlaInstallerScript
 			'/plugins/system/p3p',
 			'/plugins/system/languagecode/language/en-GB',
 			'/plugins/system/languagecode/language',
+			'/plugins/editors/tinymce/form',
+			'/plugins/editors/tinymce/field',
 			'/plugins/content/confirmconsent/fields',
 			'/plugins/captcha/recaptcha/postinstall',
 			'/plugins/authentication/gmail',
@@ -5290,6 +5303,7 @@ class JoomlaInstallerScript
 			'/libraries/legacy/base',
 			'/libraries/legacy/application',
 			'/libraries/legacy',
+			'/libraries/joomla/view',
 			'/libraries/joomla/utilities',
 			'/libraries/joomla/twitter',
 			'/libraries/joomla/string/wrapper',
@@ -5306,6 +5320,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/observable',
 			'/libraries/joomla/oauth2',
 			'/libraries/joomla/oauth1',
+			'/libraries/joomla/model',
 			'/libraries/joomla/mediawiki',
 			'/libraries/joomla/linkedin',
 			'/libraries/joomla/keychain',
@@ -5337,11 +5352,14 @@ class JoomlaInstallerScript
 			'/libraries/joomla/database/exception',
 			'/libraries/joomla/database/driver',
 			'/libraries/joomla/database',
+			'/libraries/joomla/controller',
+			'/libraries/joomla/base',
 			'/libraries/joomla/archive/wrapper',
 			'/libraries/joomla/archive',
 			'/libraries/joomla/application/web/router',
 			'/libraries/joomla/application/web',
 			'/libraries/joomla/application',
+			'/libraries/joomla',
 			'/libraries/idna_convert',
 			'/libraries/fof/view',
 			'/libraries/fof/utils/update',
@@ -6227,20 +6245,40 @@ class JoomlaInstallerScript
 	{
 		$db = Factory::getDbo();
 
-		if (!($db instanceof UTF8MB4SupportInterface))
+		if ($db->getServerType() !== 'mysql')
+		{
+			return;
+		}
+
+		// Check if the #__utf8_conversion table exists
+		$db->setQuery('SHOW TABLES LIKE ' . $db->quote($db->getPrefix() . 'utf8_conversion'));
+
+		try
+		{
+			$rows = $db->loadRowList(0);
+		}
+		catch (Exception $e)
+		{
+			// Render the error message from the Exception object
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			if ($doDbFixMsg)
+			{
+				// Show an error message telling to check database problems
+				Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+			}
+
+			return;
+		}
+
+		// Nothing to do if the table doesn't exist because the CMS has never been updated from a pre-4.0 version
+		if (\count($rows) === 0)
 		{
 			return;
 		}
 
 		// Set required conversion status
-		if ($db->hasUTF8mb4Support())
-		{
-			$converted = 2;
-		}
-		else
-		{
-			$converted = 1;
-		}
+		$converted = 4;
 
 		// Check conversion status in database
 		$db->setQuery('SELECT ' . $db->quoteName('converted')
@@ -6265,73 +6303,109 @@ class JoomlaInstallerScript
 			return;
 		}
 
-		// Nothing to do, saved conversion status from DB is equal to required
-		if ($convertedDB == $converted)
+		// If conversion status from DB is equal to required final status, try to drop the #__utf8_conversion table
+		if ($convertedDB === $converted)
 		{
+			$this->dropUtf8ConversionTable();
+
 			return;
 		}
 
-		// Step 1: Drop indexes later to be added again with column lengths limitations at step 2
-		$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-01.sql';
-
-		if (is_file($fileName1))
+		// Perform the required conversions of core tables if not done already in a previous step
+		if ($convertedDB !== 99)
 		{
-			$fileContents1 = @file_get_contents($fileName1);
-			$queries1      = $db->splitSql($fileContents1);
+			$fileName1 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion.sql';
 
-			if (!empty($queries1))
+			if (is_file($fileName1))
 			{
-				foreach ($queries1 as $query1)
+				$fileContents1 = @file_get_contents($fileName1);
+				$queries1      = $db->splitSql($fileContents1);
+
+				if (!empty($queries1))
 				{
-					try
+					foreach ($queries1 as $query1)
 					{
-						$db->setQuery($query1)->execute();
-					}
-					catch (Exception $e)
-					{
-						// If the query fails we will go on. It just means the index to be dropped does not exist.
+						try
+						{
+							$db->setQuery($query1)->execute();
+						}
+						catch (Exception $e)
+						{
+							$converted = $convertedDB;
+
+							// Still render the error message from the Exception object
+							Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+						}
 					}
 				}
 			}
 		}
 
-		// Step 2: Perform the index modifications and conversions
-		$fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion-02.sql';
-
-		if (is_file($fileName2))
+		// If no error before, perform the optional conversions of tables which might or might not exist
+		if ($converted === 4)
 		{
-			$fileContents2 = @file_get_contents($fileName2);
-			$queries2      = $db->splitSql($fileContents2);
+			$fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion_optional.sql';
 
-			if (!empty($queries2))
+			if (is_file($fileName2))
 			{
-				foreach ($queries2 as $query2)
-				{
-					try
-					{
-						$db->setQuery($db->convertUtf8mb4QueryToUtf8($query2))->execute();
-					}
-					catch (Exception $e)
-					{
-						$converted = 0;
+				$fileContents2 = @file_get_contents($fileName2);
+				$queries2      = $db->splitSql($fileContents2);
 
-						// Still render the error message from the Exception object
-						Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				if (!empty($queries2))
+				{
+					foreach ($queries2 as $query2)
+					{
+						// Get table name from query
+						if (preg_match('/^ALTER\s+TABLE\s+([^\s]+)\s+/i', $query2, $matches) === 1)
+						{
+							$tableName = str_replace('`', '', $matches[1]);
+							$tableName = str_replace('#__', $db->getPrefix(), $tableName);
+
+							// Check if the table exists and if yes, run the query
+							try
+							{
+								$db->setQuery('SHOW TABLES LIKE ' . $db->quote($tableName));
+
+								$rows = $db->loadRowList(0);
+
+								if (\count($rows) > 0)
+								{
+									$db->setQuery($query2)->execute();
+								}
+							}
+							catch (Exception $e)
+							{
+								$converted = 99;
+
+								// Still render the error message from the Exception object
+								Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+							}
+						}
 					}
 				}
 			}
 		}
 
-		if ($doDbFixMsg && $converted == 0)
+		if ($doDbFixMsg && $converted !== 4)
 		{
 			// Show an error message telling to check database problems
 			Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 		}
 
-		// Set flag in database if the update is done.
-		$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
-			. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';'
-		)->execute();
+		// If the conversion was successful try to drop the #__utf8_conversion table
+		if ($converted === 4 && $this->dropUtf8ConversionTable())
+		{
+			// Table successfully dropped
+			return;
+		}
+
+		// Set flag in database if the conversion status has changed.
+		if ($converted !== $convertedDB)
+		{
+			$db->setQuery('UPDATE ' . $db->quoteName('#__utf8_conversion')
+				. ' SET ' . $db->quoteName('converted') . ' = ' . $converted . ';'
+			)->execute();
+		}
 	}
 
 	/**
@@ -6351,6 +6425,30 @@ class JoomlaInstallerScript
 		// Clean admin cache
 		$model->setState('client_id', 1);
 		$model->clean();
+	}
+
+	/**
+	 * This method drops the #__utf8_conversion table
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   4.0.0
+	 */
+	private function dropUtf8ConversionTable()
+	{
+		$db = Factory::getDbo();
+
+		try
+		{
+			$db->setQuery('DROP TABLE ' . $db->quoteName('#__utf8_conversion') . ';'
+			)->execute();
+		}
+		catch (Exception $e)
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -6374,6 +6472,9 @@ class JoomlaInstallerScript
 		{
 			return true;
 		}
+
+		// Update UCM content types.
+		$this->updateContentTypes();
 
 		$db = Factory::getDbo();
 		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_menus/Table/');
@@ -6429,9 +6530,6 @@ class JoomlaInstallerScript
 				return false;
 			}
 		}
-
-		// Update UCM content types.
-		$this->updateContentTypes();
 
 		return true;
 	}
@@ -6717,12 +6815,19 @@ class JoomlaInstallerScript
 	{
 		// Content types to update.
 		$contentTypes = [
+			'com_content.article',
 			'com_contact.contact',
 			'com_newsfeeds.newsfeed',
 			'com_tags.tag',
 			'com_banners.banner',
 			'com_banners.client',
 			'com_users.note',
+			'com_content.category',
+			'com_contact.category',
+			'com_newsfeeds.category',
+			'com_banners.category',
+			'com_users.category',
+			'com_users.user',
 		];
 
 		// Get table definitions.
@@ -6754,16 +6859,33 @@ class JoomlaInstallerScript
 		{
 			list($component, $tableType) = explode('.', $contentType->type_alias);
 
-			$tablePrefix = 'Joomla\\Component\\' . ucfirst(substr($component, 4)) . '\\Administrator\\Table\\';
-			$tableType   = ucfirst($tableType) . 'Table';
+			// Special case for core table classes.
+			if ($contentType->type_alias === 'com_users.users' || $tableType === 'category')
+			{
+				$tablePrefix = 'Joomla\\CMS\Table\\';
+				$tableType   = ucfirst($tableType);
+			}
+			else
+			{
+				$tablePrefix = 'Joomla\\Component\\' . ucfirst(substr($component, 4)) . '\\Administrator\\Table\\';
+				$tableType   = ucfirst($tableType) . 'Table';
+			}
 
 			// Bind type alias.
 			$typeAlias = $contentType->type_alias;
 
-			// Update table definition.
 			$table = json_decode($contentType->table);
-			$table->special->type = $tableType;
+
+			// Update table definitions.
+			$table->special->type   = $tableType;
 			$table->special->prefix = $tablePrefix;
+
+			// Some content types don't have this property.
+			if (!empty($table->common->prefix))
+			{
+				$table->common->prefix  = 'Joomla\\CMS\\Table\\';
+			}
+
 			$table = json_encode($table);
 
 			// Execute the query.

@@ -9,13 +9,14 @@
 
 namespace Joomla\Component\Modules\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\ParameterType;
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -424,7 +425,7 @@ class ModulesModel extends ListModel
 			}
 			else
 			{
-				$search = '%' . strtolower($search) . '%';
+				$search = '%' . StringHelper::strtolower($search) . '%';
 				$query->extendWhere(
 					'AND',
 					[

@@ -156,7 +156,7 @@ Joomla = window.Joomla || {};
 
     // When changing the language
     if (formControlLanguage) {
-      formControlLanguage.addEventListener('change', (event) => {
+      formControlLanguage.addEventListener('change', ({ target }) => {
         // Remove message if any
         Joomla.removeMessages();
 
@@ -195,7 +195,7 @@ Joomla = window.Joomla || {};
         }
 
         // If the selected language is All hide the fields and add a message
-        const selectedLanguage = event.target.value;
+        const selectedLanguage = target.value;
 
         if (selectedLanguage === '*') {
           Joomla.showAssociationMessage();

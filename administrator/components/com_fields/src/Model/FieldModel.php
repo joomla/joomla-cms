@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Fields\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
@@ -218,12 +218,8 @@ class FieldModel extends AdminModel
 
 			if (is_object($oldParams) && is_object($newParams) && $oldParams != $newParams)
 			{
-				$names = array();
-
-				foreach ($newParams as $param)
-				{
-					$names[] = $db->quote($param['value']);
-				}
+				// Get new values.
+				$names = array_column((array) $newParams, 'value');
 
 				$fieldId = (int) $field->id;
 				$query = $db->getQuery(true);

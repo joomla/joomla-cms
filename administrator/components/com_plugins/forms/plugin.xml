@@ -23,6 +23,7 @@
 			class="custom-select-color-state"
 			size="1"
 			default="1"
+			validate="options"
 			>
 			<option value="1">JENABLED</option>
 			<option value="0">JDISABLED</option>

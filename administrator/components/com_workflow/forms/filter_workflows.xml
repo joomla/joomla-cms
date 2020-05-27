@@ -12,7 +12,7 @@
 		<field
 			name="published"
 			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
+			label="JSTATUS"
 			onchange="this.form.submit();"
 			filter="-2,0,1"
 			>
@@ -27,6 +27,7 @@
 			label="JGLOBAL_SORT_BY"
 			default="w.ordering ASC"
 			onchange="this.form.submit();"
+			validate="options"
 			>
 			<option value="">JGLOBAL_SORT_BY</option>
 			<option value="w.ordering ASC">JGRID_HEADING_ORDERING_ASC</option>

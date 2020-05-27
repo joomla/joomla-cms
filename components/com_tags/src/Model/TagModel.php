@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Tags\Site\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -353,8 +353,10 @@ class TagModel extends ListModel
 
 			/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 			$table = $this->getTable();
-			$table->load($pk);
 			$table->hit($pk);
+
+			// Load the table data for later
+			$table->load($pk);
 
 			if (!$table->hasPrimaryKey())
 			{

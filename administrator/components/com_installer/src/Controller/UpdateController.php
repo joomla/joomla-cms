@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Language\Text;
@@ -220,6 +220,6 @@ class UpdateController extends BaseController
 
 		$model = $this->getModel('Update');
 
-		echo new JsonResponse(count($model->getItems()));
+		echo new JsonResponse($model->getTotal());
 	}
 }

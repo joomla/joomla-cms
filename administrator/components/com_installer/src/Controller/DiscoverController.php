@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Installer\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
@@ -89,6 +89,6 @@ class DiscoverController extends BaseController
 
 		$model = $this->getModel('Discover');
 
-		echo new JsonResponse(count($model->getItems()));
+		echo new JsonResponse($model->getTotal());
 	}
 }

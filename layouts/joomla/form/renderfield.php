@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Factory;
 
 extract($displayData);
 
@@ -25,7 +25,9 @@ extract($displayData);
 
 if (!empty($options['showonEnabled']))
 {
-	HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true));
+	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+	$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+	$wa->useScript('showon');
 }
 $class = empty($options['class']) ? '' : ' ' . $options['class'];
 $rel   = empty($options['rel']) ? '' : ' ' . $options['rel'];
@@ -37,12 +39,12 @@ $hide  = empty($options['hiddenLabel']) ? '' : ' sr-only';
 	<div class="control-label<?php echo $hide; ?>"><?php echo $label; ?></div>
 	<div class="controls">
 		<?php echo $input; ?>
+		<?php if (!empty($description)) : ?>
+			<div id="<?php echo $id; ?>">
+				<small class="form-text text-muted">
+					<?php echo $description; ?>
+				</small>
+			</div>
+		<?php endif; ?>
 	</div>
-	<?php if (!empty($description)) : ?>
-		<div id="<?php echo $id; ?>">
-			<small class="form-text text-muted">
-				<?php echo $description; ?>
-			</small>
-		</div>
-	<?php endif; ?>
 </div>

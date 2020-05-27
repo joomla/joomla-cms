@@ -610,9 +610,7 @@ class PlgSystemDebug extends CMSPlugin
 					$category = $entry->category;
 					$relative = str_replace(JPATH_ROOT, '', $file);
 
-					if (0 === strpos($relative, '/libraries/joomla')
-						|| 0 === strpos($relative, '/libraries/cms')
-						|| 0 === strpos($relative, '/libraries/src'))
+					if (0 === strpos($relative, '/libraries/src'))
 					{
 						if (!$logDeprecatedCore)
 						{

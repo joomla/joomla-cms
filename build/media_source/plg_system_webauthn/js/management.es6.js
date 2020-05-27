@@ -1,6 +1,6 @@
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.updatenotification
+ * @subpackage  System.webauthn
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -102,14 +102,14 @@ function plgSystemWebauthnCreateCredentials(storeID, interfaceSelector) {
 
   // Convert the public key information to a format usable by the browser's credentials manager
   publicKey.challenge = Uint8Array.from(
-    window.atob(base64url2base64(publicKey.challenge)), c => c.charCodeAt(0),
+    window.atob(base64url2base64(publicKey.challenge)), (c) => c.charCodeAt(0),
   );
 
-  publicKey.user.id = Uint8Array.from(window.atob(publicKey.user.id), c => c.charCodeAt(0));
+  publicKey.user.id = Uint8Array.from(window.atob(publicKey.user.id), (c) => c.charCodeAt(0));
 
   if (publicKey.excludeCredentials) {
     publicKey.excludeCredentials = publicKey.excludeCredentials.map((data) => {
-      data.id = Uint8Array.from(window.atob(base64url2base64(data.id)), c => c.charCodeAt(0));
+      data.id = Uint8Array.from(window.atob(base64url2base64(data.id)), (c) => c.charCodeAt(0));
       return data;
     });
   }

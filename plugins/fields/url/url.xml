@@ -27,6 +27,7 @@
 					label="PLG_FIELDS_URL_PARAMS_SCHEMES_LABEL"
 					multiple="true"
 					layout="joomla.form.field.list-fancy-select"
+					validate="options"
 					>
 					<option value="http">HTTP</option>
 					<option value="https">HTTPS</option>

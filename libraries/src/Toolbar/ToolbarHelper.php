@@ -479,47 +479,45 @@ abstract class ToolbarHelper
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add an apply button
-		$bar->appendButton('Standard', 'apply', $alt, $task, false);
+		$bar->apply($task, $alt);
 	}
 
 	/**
 	 * Writes a save button for a given option.
 	 * Save operation leads to a save and then close action.
 	 *
-	 * @param   string   $task   An override for the task.
-	 * @param   string   $alt    An override for the alt text.
-	 * @param   boolean  $group  True or false
+	 * @param   string   $task  An override for the task.
+	 * @param   string   $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.5
 	 */
-	public static function save($task = 'save', $alt = 'JTOOLBAR_SAVE', $group = false)
+	public static function save($task = 'save', $alt = 'JTOOLBAR_SAVE')
 	{
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a save button.
-		$bar->appendButton('Standard', 'save', $alt, $task, false, $group);
+		$bar->save($task, $alt);
 	}
 
 	/**
 	 * Writes a save and create new button for a given option.
 	 * Save and create operation leads to a save and then add action.
 	 *
-	 * @param   string   $task   An override for the task.
-	 * @param   string   $alt    An override for the alt text.
-	 * @param   boolean  $group  True or false
+	 * @param   string   $task  An override for the task.
+	 * @param   string   $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW', $group = false)
+	public static function save2new($task = 'save2new', $alt = 'JTOOLBAR_SAVE_AND_NEW')
 	{
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a save and create new button.
-		$bar->appendButton('Standard', 'save-new', $alt, $task, false, $group);
+		$bar->save2new($task, $alt);
 	}
 
 	/**
@@ -527,20 +525,19 @@ abstract class ToolbarHelper
 	 * Save as copy operation leads to a save after clearing the key,
 	 * then returns user to edit mode with new key.
 	 *
-	 * @param   string   $task   An override for the task.
-	 * @param   string   $alt    An override for the alt text.
-	 * @param   boolean  $group  True or false
+	 * @param   string   $task  An override for the task.
+	 * @param   string   $alt   An override for the alt text.
 	 *
 	 * @return  void
 	 *
 	 * @since   1.6
 	 */
-	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY', $group = false)
+	public static function save2copy($task = 'save2copy', $alt = 'JTOOLBAR_SAVE_AS_COPY')
 	{
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a save and create new button.
-		$bar->appendButton('Standard', 'save-copy', $alt, $task, false, $group);
+		$bar->save2copy($task, $alt);
 	}
 
 	/**
@@ -696,16 +693,17 @@ abstract class ToolbarHelper
 	 * @param   string  $targetModalId  ID of the target modal box
 	 * @param   string  $icon           Icon class to show on modal button
 	 * @param   string  $alt            Title for the modal button
+	 * @param   string  $class          The button class
 	 *
 	 * @return  void
 	 *
 	 * @since   3.2
 	 */
-	public static function modal($targetModalId, $icon, $alt)
+	public static function modal($targetModalId, $icon, $alt, $class = 'btn-primary')
 	{
 		$title = Text::_($alt);
 
-		$dhtml = '<joomla-toolbar-button><button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn btn-primary">
+		$dhtml = '<joomla-toolbar-button><button data-toggle="modal" data-target="#' . $targetModalId . '" class="btn ' . $class . '">
 			<span class="' . $icon . '" title="' . $title . '"></span> ' . $title . '</button></joomla-toolbar-button>';
 
 		$bar = Toolbar::getInstance('toolbar');

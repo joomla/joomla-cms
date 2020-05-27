@@ -306,9 +306,7 @@ class PlgSystemActionLogs extends CMSPlugin
 
 			$query->clear()
 				->delete($db->quoteName('#__action_logs'))
-				->where($db->quoteName('log_date') . ' < ' . $query->dateAdd(':now', ':days', 'DAY'))
-				->bind(':now', $now)
-				->bind(':days', $days, ParameterType::INTEGER);
+				->where($db->quoteName('log_date') . ' < ' . $query->dateAdd($db->quote($now), $days, 'DAY'));
 
 			$db->setQuery($query);
 
@@ -369,15 +367,15 @@ class PlgSystemActionLogs extends CMSPlugin
 	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterSave($user, $isNew, $success, $msg)
+	public function onUserAfterSave($user, $isNew, $success, $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		// Clear access rights in case user groups were changed.
@@ -400,7 +398,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 		catch (ExecutionFailureException $e)
 		{
-			return false;
+			return;
 		}
 
 		$query->clear();
@@ -456,7 +454,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 		else
 		{
-			return false;
+			return;
 		}
 
 		try
@@ -465,10 +463,8 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 		catch (ExecutionFailureException $e)
 		{
-			return false;
+			// Do nothing.
 		}
-
-		return true;
 	}
 
 	/**
@@ -480,15 +476,15 @@ class PlgSystemActionLogs extends CMSPlugin
 	 * @param   boolean  $success  True if user was successfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterDelete($user, $success, $msg)
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		$db     = $this->db;
@@ -505,10 +501,8 @@ class PlgSystemActionLogs extends CMSPlugin
 		}
 		catch (ExecutionFailureException $e)
 		{
-			return false;
+			// Do nothing.
 		}
-
-		return true;
 	}
 
 	/**

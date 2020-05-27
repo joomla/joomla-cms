@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Media\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -275,7 +275,7 @@ class ApiController extends BaseController
 			$this->getModel()->updateFile($adapter, $name, str_replace($name, '', $path), $mediaContent);
 		}
 
-		if ($newPath != null)
+		if ($newPath != null && $newPath !== $adapter . ':' . $path)
 		{
 			list($destinationAdapter, $destinationPath) = explode(':', $newPath, 2);
 

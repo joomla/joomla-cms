@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Categories\Administrator\Table;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 /**
  * Category table

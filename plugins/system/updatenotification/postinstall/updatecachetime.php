@@ -10,6 +10,7 @@
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
 
 /**
  * Checks if the com_installer config for the cache Hours are eq 0 and the updatenotification Plugin is enabled

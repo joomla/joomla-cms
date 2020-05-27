@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Categories\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Association\AssociationServiceInterface;
@@ -751,6 +751,11 @@ class CategoryModel extends AdminModel
 		}
 
 		$this->setState($this->getName() . '.id', $table->id);
+
+		if (Factory::getApplication()->input->get('task') == 'editAssociations')
+		{
+			return $this->redirectToAssociations($data);
+		}
 
 		// Clear the cache
 		$this->cleanCache();

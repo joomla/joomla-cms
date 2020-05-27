@@ -33,9 +33,6 @@ if (!class_exists('JLoader'))
 // Setup the autoloaders.
 JLoader::setup();
 
-// Register the library base path for CMS libraries.
-JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
-
 // Create the Composer autoloader
 /** @var \Composer\Autoload\ClassLoader $loader */
 $loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
@@ -57,9 +54,6 @@ require_once JPATH_LIBRARIES . '/classmap.php';
  * Do not remove the variable, to allow to use it further, after including this file.
  */
 $errorHandler = \Symfony\Component\ErrorHandler\ErrorHandler::register();
-
-// Use server default error level, initially
-$errorHandler->scopeAt(error_reporting(), true);
 
 // Register the error handler which processes E_USER_DEPRECATED errors
 set_error_handler(['JErrorPage', 'handleUserDeprecatedErrors'], E_USER_DEPRECATED);

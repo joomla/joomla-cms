@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Config\Administrator\View\Component;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -127,6 +127,10 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::divider();
 		ToolbarHelper::cancel('component.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_' . $this->currentComponent . '_OPTIONS');
+
+		$helpUrl = $this->form->getData()->get('helpURL');
+		$helpKey = (string) $this->form->getXml()->config->help['key'];
+		$helpKey = $helpKey ?: 'JHELP_COMPONENTS_' . strtoupper($this->currentComponent) . '_OPTIONS';
+		ToolbarHelper::help($helpKey, (boolean) $helpUrl, null, $this->currentComponent);
 	}
 }

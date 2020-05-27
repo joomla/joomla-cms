@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Contact\Site\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Categories\CategoryNode;
@@ -501,7 +501,6 @@ class CategoryModel extends ListModel
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
 			$table = Table::getInstance('Category');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 

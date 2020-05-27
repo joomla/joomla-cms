@@ -78,6 +78,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		'referrer-policy',
 		'expect-ct',
 		'feature-policy',
+		'cross-origin-opener-policy',
 	];
 
 	/**
@@ -159,9 +160,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// Generate the hashes for the script-src
 			$inlineScripts = is_array($headData['script']) ? $headData['script'] : [];
 
-			foreach ($inlineScripts as $type => $scriptContent)
+			foreach ($inlineScripts as $type => $scripts)
 			{
-				$scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', $scriptContent, true)) . "'";
+				foreach ($scripts as $hash => $scriptContent)
+				{
+					$scriptHashes[] = "'sha256-" . base64_encode(hash('sha256', $scriptContent, true)) . "'";
+				}
 			}
 		}
 
@@ -470,6 +474,14 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		if ($referrerPolicy !== 'disabled')
 		{
 			$staticHeaderConfiguration['referrer-policy#both'] = $referrerPolicy;
+		}
+
+		// Cross-Origin-Opener-Policy
+		$coop = (string) $this->params->get('coop', 'same-origin');
+
+		if ($coop !== 'disabled')
+		{
+			$staticHeaderConfiguration['cross-origin-opener-policy#both'] = $coop;
 		}
 
 		// Generate the strict-transport-security header

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -70,6 +70,7 @@ if ($count)
 	// Load stylesheet and javascript to head:
 	HTMLHelper::_('bootstrap.popover');
 
-	HTMLHelper::_('stylesheet', 'legacy/frontediting.css', array('version' => 'auto', 'relative' => true));
-	HTMLHelper::_('script', 'legacy/frontediting.min.js', array('version' => 'auto', 'relative' => true));
+	/** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
+	$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+	$wa->usePreset('joomla.frontediting');
 }

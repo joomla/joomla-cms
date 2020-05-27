@@ -36,7 +36,7 @@
       display: block;
       padding: .35rem .35rem .35rem 1.2rem;
       overflow: hidden;
-      font-weight: normal;
+      font-weight: $font-weight-normal;
       color: var(--atum-text-dark);
 
       &::before {
@@ -51,6 +51,17 @@
         border-right: 1px solid var(--atum-link-color);
         transform: rotate(45deg) skew(5deg, 5deg);
 
+      }
+    }
+
+    &:hover, &.active {
+      a {
+        color: var(--atum-text-light);
+        background-color: var(--atum-link-color);
+
+        &::before {
+          border-color: var(--atum-text-light);
+        }
       }
     }
   }

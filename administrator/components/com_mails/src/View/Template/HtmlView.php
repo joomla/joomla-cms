@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Mails\Administrator\View\Template;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -87,6 +87,7 @@ class HtmlView extends BaseHtmlView
 		$fields = array('subject', 'body', 'htmlbody');
 		$this->templateData = array();
 		$language = Factory::getLanguage();
+		$language->load($component, JPATH_SITE, $this->item->language, true);
 		$language->load($component, JPATH_ADMINISTRATOR, $this->item->language, true);
 
 		foreach ($fields as $field)

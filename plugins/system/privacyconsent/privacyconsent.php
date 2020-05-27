@@ -152,16 +152,16 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	 * @param   boolean  $result  true if saving the user worked
 	 * @param   string   $error   error message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterSave($data, $isNew, $result, $error)
+	public function onUserAfterSave($data, $isNew, $result, $error): void
 	{
 		// Only create an entry on front-end user creation/update profile
 		if ($this->app->isClient('administrator'))
 		{
-			return true;
+			return;
 		}
 
 		// Get the user's ID
@@ -170,7 +170,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		// If user already consented before, no need to check it further
 		if ($userId > 0 && $this->isUserConsented($userId))
 		{
-			return true;
+			return;
 		}
 
 		$option = $this->app->input->get('option');
@@ -222,8 +222,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			$model = $this->app->bootComponent('com_actionlogs')->getMVCFactory()->createModel('Actionlog', 'Administrator');
 			$model->addLog([$message], 'PLG_SYSTEM_PRIVACYCONSENT_CONSENT', 'plg_system_privacyconsent', $userId);
 		}
-
-		return true;
 	}
 
 	/**
@@ -235,15 +233,15 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 	 * @param   boolean  $success  True if user was succesfully stored in the database
 	 * @param   string   $msg      Message
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function onUserAfterDelete($user, $success, $msg)
+	public function onUserAfterDelete($user, $success, $msg): void
 	{
 		if (!$success)
 		{
-			return false;
+			return;
 		}
 
 		$userId = ArrayHelper::getValue($user, 'id', 0, 'int');
@@ -263,12 +261,8 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			catch (Exception $e)
 			{
 				$this->_subject->setError($e->getMessage());
-
-				return false;
 			}
 		}
-
-		return true;
 	}
 
 	/**
@@ -548,7 +542,6 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 		$remind   = (int) $this->params->get('remind', 30);
 		$now      = Factory::getDate()->toSql();
 		$period   = '-' . ($expire - $remind);
-		$bindDate = [$now, $period];
 		$db       = $this->db;
 		$query    = $db->getQuery(true);
 
@@ -557,8 +550,7 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 			->join('LEFT', $db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('r.user_id'))
 			->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
 			->where($db->quoteName('remind') . ' = 0')
-			->where($query->dateAdd(':now', ':period', 'DAY') . ' > ' . $db->quoteName('created'))
-			->bind([':now', ':period'], $bindDate, [ParameterType::STRING, ParameterType::INTEGER]);
+			->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'));
 
 		try
 		{
@@ -656,10 +648,9 @@ class PlgSystemPrivacyconsent extends CMSPlugin
 
 		$query->select($db->quoteName(['id', 'user_id']))
 			->from($db->quoteName('#__privacy_consents'))
-			->where($query->dateAdd(':now', ':period', 'DAY') . ' > ' . $db->quoteName('created'))
+			->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'))
 			->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
-			->where($db->quoteName('state') . ' = 1')
-			->bind([':now', ':period'], [$now, $period], [ParameterType::STRING, ParameterType::INTEGER]);
+			->where($db->quoteName('state') . ' = 1');
 
 		$db->setQuery($query);
 

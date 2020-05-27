@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Messages\Administrator\Controller;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
@@ -34,7 +34,7 @@ class ConfigController extends BaseController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		$model = $this->getModel('Config', 'MessagesModel');
+		$model = $this->getModel('Config');
 		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Validate the posted data.
@@ -87,5 +87,17 @@ class ConfigController extends BaseController
 		$this->setRedirect(Route::_('index.php?option=com_messages&view=messages', false));
 
 		return true;
+	}
+
+	/**
+	 * Cancel operation.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function cancel()
+	{
+		$this->setRedirect(Route::_('index.php?option=com_messages&view=messages', false));
 	}
 }

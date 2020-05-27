@@ -68,7 +68,7 @@ window.customElements.define('joomla-editor-none', class extends HTMLElement {
       // eslint-disable-next-line no-return-assign
       getValue: () => this.editor.value,
       // eslint-disable-next-line no-return-assign
-      setValue: text => this.editor.value = text,
+      setValue: (text) => this.editor.value = text,
       // eslint-disable-next-line no-return-assign
       getSelection: () => this.getSelection(),
       // eslint-disable-next-line no-return-assign

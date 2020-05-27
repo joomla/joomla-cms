@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -34,9 +34,15 @@ $text     = isset($displayData['text']) ? $displayData['text'] : '';
 ?>
 
 <!-- Render the button -->
-<joomla-toolbar-button<?php echo $id; ?> onclick="document.getElementById('modal_<?php echo $selector; ?>').open()" class="<?php echo $class; ?>" data-toggle="modal">
-	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-	<?php echo $text; ?>
+<joomla-toolbar-button<?php echo $id; ?>>
+	<button
+		class="btn btn-primary"
+		type="button"
+		onclick="document.getElementById('modal_<?php echo $selector; ?>').open(); document.body.appendChild(document.getElementById('modal_<?php echo $selector; ?>'));"
+		data-toggle="modal">
+		<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
+		<?php echo $text; ?>
+	</button>
 </joomla-toolbar-button>
 
 <!-- Render the modal -->

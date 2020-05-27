@@ -1,16 +1,15 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.updatenotification
+ * @subpackage  System.webauthn
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Uri\Uri;
@@ -41,6 +40,9 @@ try
 {
 	$app          = Factory::getApplication();
 	$loggedInUser = $app->getIdentity();
+
+	$app->getDocument()->getWebAssetManager()
+		->registerAndUseStyle('plg_system_webauthn.backend', 'plg_system_webauthn/backend.css');
 }
 catch (Exception $e)
 {
@@ -54,8 +56,6 @@ $defaultDisplayData = [
 	'error'       => '',
 ];
 extract(array_merge($defaultDisplayData, $displayData));
-
-HTMLHelper::_('stylesheet', 'plg_system_webauthn/backend.css', ['relative' => true]);
 
 /**
  * Why not push these configuration variables directly to JavaScript?

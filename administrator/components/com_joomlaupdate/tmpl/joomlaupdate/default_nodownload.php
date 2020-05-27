@@ -24,7 +24,7 @@ use Joomla\CMS\Language\Text;
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_DB_NOT_SUPPORTED'); ?>
 		</p>
 		<p>
-			<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_DB_NOT_SUPPORTED_DESC', $this->updateInfo['latest']); ?>
+			<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_DB_NOT_SUPPORTED_DESC', '&#x200E;' . $this->updateInfo['latest']); ?>
 		</p>
 	<?php endif; ?>
 	<?php if (!$this->getModel()->isPhpVersionSupported()) : ?>
@@ -32,7 +32,7 @@ use Joomla\CMS\Language\Text;
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_PHP_VERSION_NOT_SUPPORTED'); ?>
 		</p>
 		<p>
-			<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PHP_VERSION_NOT_SUPPORTED_DESC', $this->updateInfo['latest']); ?>
+			<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_PHP_VERSION_NOT_SUPPORTED_DESC', '&#x200E;' . $this->updateInfo['latest']); ?>
 		</p>
 	<?php endif; ?>
 	<?php if (!isset($this->updateInfo['object']->downloadurl->_data) && $this->updateInfo['installed'] < $this->updateInfo['latest'] && $this->getModel()->isPhpVersionSupported() && $this->getModel()->isDatabaseTypeSupported()) : ?>
@@ -40,7 +40,7 @@ use Joomla\CMS\Language\Text;
 			<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_DOWNLOAD_URL'); ?>
 		</p>
 		<p>
-			<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_DOWNLOAD_URL_DESC', $this->updateInfo['latest']); ?>
+			<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NO_DOWNLOAD_URL_DESC', '&#x200E;' . $this->updateInfo['latest']); ?>
 		</p>
 	<?php endif; ?>
 	</div>

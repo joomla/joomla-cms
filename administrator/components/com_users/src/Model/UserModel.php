@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Users\Administrator\Model;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
@@ -496,7 +496,7 @@ class UserModel extends AdminModel
 						}
 
 						// Trigger the after save event
-						Factory::getApplication()->triggerEvent($this->event_after_save, array($table->getProperties(), false, true, null));
+						Factory::getApplication()->triggerEvent($this->event_after_save, [$table->getProperties(), false, true, null]);
 					}
 					catch (\Exception $e)
 					{
@@ -593,7 +593,7 @@ class UserModel extends AdminModel
 						}
 
 						// Fire the after save event
-						Factory::getApplication()->triggerEvent($this->event_after_save, array($table->getProperties(), false, true, null));
+						Factory::getApplication()->triggerEvent($this->event_after_save, [$table->getProperties(), false, true, null]);
 					}
 					catch (\Exception $e)
 					{
