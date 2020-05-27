@@ -11,10 +11,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Button\FeaturedButton;
 use Joomla\CMS\Button\PublishedButton;
-use Joomla\CMS\Button\TransitionButton;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -22,7 +21,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
-use Joomla\Utilities\ArrayHelper;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -52,10 +50,6 @@ if ($saveOrder && !empty($this->items))
 	HTMLHelper::_('draggablelist.draggable');
 }
 
-$workflow_enabled = ComponentHelper::getParams('com_content')->get('workflow_enabled', 1);
-
-if ($workflow_enabled) :
-
 $js = <<<JS
 (function() {
 	document.addEventListener('DOMContentLoaded', function() {
@@ -73,9 +67,9 @@ JS;
 // @todo mode the script to a file
 $this->document->addScriptDeclaration($js);
 
-HTMLHelper::_('script', 'com_workflow/admin-items-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
+$assoc = Associations::isEnabled();
 
-endif;
+HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
 
 ?>
 
@@ -93,7 +87,7 @@ endif;
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
-					<table class="table itemList" id="articleList">
+					<table class="table" id="articleList">
 						<caption id="captionTable" class="sr-only">
 							<?php echo Text::_('COM_CONTENT_FEATURED_TABLE_CAPTION'); ?>,
 							<span id="orderedBy"><?php echo Text::_('JGLOBAL_SORTED_BY'); ?> </span>,
@@ -107,11 +101,6 @@ endif;
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<?php if ($workflow_enabled) : ?>
-								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JSTAGE', 'ws.title', $listDirn, $listOrder); ?>
-								</th>
-								<?php endif; ?>
 								<th scope="col" class="w-1 text-center">
 									<?php echo Text::_('JFEATURED'); ?>
 								</th>
@@ -127,6 +116,11 @@ endif;
 								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 								</th>
+								<?php if ($assoc) : ?>
+									<th scope="col" class="w-5 d-none d-md-table-cell">
+										<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+									</th>
+								<?php endif; ?>
 								<?php if (Multilanguage::isEnabled()) : ?>
 									<th scope="col" class="w-10 d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
@@ -168,12 +162,36 @@ endif;
 
 							$transitions = ContentHelper::filterTransitions($this->transitions, (int) $item->stage_id, (int) $item->workflow_id);
 
-							$transition_ids = ArrayHelper::getColumn($transitions, 'value');
-							$transition_ids = ArrayHelper::toInteger($transition_ids);
+							$publish = 0;
+							$unpublish = 0;
+							$archive = 0;
+							$trash = 0;
+
+							foreach ($transitions as $transition) :
+								switch ($transition['stage_condition']) :
+									case ContentComponent::CONDITION_PUBLISHED:
+										++$publish;
+										break;
+									case ContentComponent::CONDITION_UNPUBLISHED:
+										++$unpublish;
+										break;
+									case ContentComponent::CONDITION_ARCHIVED:
+										++$archive;
+										break;
+									case ContentComponent::CONDITION_TRASHED:
+										++$trash;
+										break;
+								endswitch;
+							endforeach;
 
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>"
-								data-transitions="<?php echo implode(',', $transition_ids); ?>"
+								data-condition-publish="<?php echo (int) ($publish > 0); ?>"
+								data-condition-unpublish="<?php echo (int) ($unpublish > 0); ?>"
+								data-condition-archive="<?php echo (int) ($archive > 0); ?>"
+								data-condition-trash="<?php echo (int) ($trash > 0); ?>"
+								data-workflow_id="<?php echo (int) $item->workflow_id; ?>"
+								data-stage_id="<?php echo (int) $item->stage_id; ?>"
 							>
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
@@ -198,22 +216,6 @@ endif;
 										<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 									<?php endif; ?>
 								</td>
-								<?php if ($workflow_enabled) : ?>
-								<td class="article-stage">
-									<div class="d-flex align-items-center tbody-icon small">
-									<?php
-									$options = [
-										'transitions' => $transitions,
-										'title' => Text::_($item->stage_title),
-										'tip_content' => Text::sprintf('JWORKFLOW', Text::_($item->workflow_title))
-									];
-
-									echo (new TransitionButton($options))
-										->render(0, $i);
-									?>
-									</div>
-								</td>
-								<?php endif; ?>
 								<td class="text-center">
 									<?php
 
@@ -221,23 +223,35 @@ endif;
 											'disabled' => !$canChange
 										];
 
-									if ($workflow_enabled) :
-										$options['disabled'] = true;
-									endif;
-
 										echo (new FeaturedButton)
 											->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
 									?>
 								</td>
 								<td class="article-status">
-								<?php
-									$options = [
-										'task_prefix' => 'articles.',
-										'disabled' => $workflow_enabled || !$canChange
-									];
+									<div class="d-flex">
+										<div class="btn-group tbody-icon mr-1">
+										<?php
 
-									echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
-								?>
+											$options = [
+												'transitions' => $transitions,
+												'stage' => Text::_($item->stage_title),
+												'id' => (int) $item->id
+											];
+
+											echo (new PublishedButton)
+													->removeState(0)
+													->removeState(1)
+													->removeState(2)
+													->removeState(-2)
+													->addState(ContentComponent::CONDITION_PUBLISHED, '', 'publish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JPUBLISHED')])
+													->addState(ContentComponent::CONDITION_UNPUBLISHED, '', 'unpublish', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JUNPUBLISHED')])
+													->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JARCHIVED')])
+													->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', Text::_('COM_CONTENT_CHANGE_STAGE'), ['tip_title' => Text::_('JTRASHED')])
+													->setLayout('joomla.button.transition-button')
+													->render((int) $item->stage_condition, $i, $options, $item->publish_up, $item->publish_down);
+										?>
+										</div>
+									</div>
 								</td>
 								<th scope="row" class="has-context">
 									<div class="break-word">
@@ -327,6 +341,13 @@ endif;
 										<div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
 									<?php endif; ?>
 								</td>
+								<?php if ($assoc) : ?>
+									<td class="d-none d-md-table-cell">
+										<?php if ($item->association) : ?>
+											<?php echo HTMLHelper::_('contentadministrator.association', $item->id); ?>
+										<?php endif; ?>
+									</td>
+								<?php endif; ?>
 								<?php if (Multilanguage::isEnabled()) : ?>
 									<td class="small d-none d-md-table-cell">
 										<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
@@ -376,10 +397,6 @@ endif;
 						$this->loadTemplate('stage_body')
 					); ?>
 
-				<?php endif; ?>
-
-				<?php if ($workflow_enabled) : ?>
-				<input type="hidden" name="transition_id" value="">
 				<?php endif; ?>
 
 				<input type="hidden" name="task" value="">
