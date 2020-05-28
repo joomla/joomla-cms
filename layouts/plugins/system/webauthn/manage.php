@@ -69,6 +69,7 @@ $randomId    = 'plg_system_webauthn_' . UserHelper::genRandomPassword(32);
 // phpcs:ignore
 $publicKey   = $allow_add ? base64_encode(CredentialsCreation::createPublicKey($user)) : '{}';
 $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::getToken() . '=1');
+
 ?>
 <div class="plg_system_webauthn" id="plg_system_webauthn-management-interface">
 	<span id="<?php echo $randomId ?>"
@@ -96,13 +97,11 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
 			<tr data-credential_id="<?php echo $method['id'] ?>">
 				<td><?php echo htmlentities($method['label']) ?></td>
 				<td>
-					<button onclick="return plgSystemWebauthnEditLabel(this, '<?php echo $randomId ?>');"
-					   class="btn btn-secondary">
+					<button data-random-id="<?php echo $randomId; ?>" class="plg_system_webauthn-manage-edit btn btn-secondary">
 						<span class="icon-edit icon-white" aria-hidden="true"></span>
 						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_EDIT_LABEL') ?>
 					</button>
-					<button onclick="return plgSystemWebauthnDelete(this, '<?php echo $randomId ?>');"
-					   class="btn btn-danger">
+					<button data-random-id="<?php echo $randomId; ?>" class="plg_system_webauthn-manage-delete btn btn-danger">
 						<span class="icon-minus-sign icon-white" aria-hidden="true"></span>
 						<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_DELETE_LABEL') ?>
 					</button>
@@ -125,8 +124,9 @@ $postbackURL = base64_encode(rtrim(Uri::base(), '/') . '/index.php?' . Joomla::g
 		<p class="plg_system_webauthn-manage-add-container">
 			<button
 				type="button"
-				onclick="plgSystemWebauthnCreateCredentials('<?php echo $randomId ?>', '#plg_system_webauthn-management-interface'); return false;"
-				class="btn btn-success btn-block">
+				id="plg_system_webauthn-manage-add"
+				class="btn btn-success btn-block"
+				data-random-id="<?php echo $randomId; ?>">
 				<span class="icon-plus icon-white" aria-hidden="true"></span>
 				<?php echo Text::_('PLG_SYSTEM_WEBAUTHN_MANAGE_BTN_ADD_LABEL') ?>
 			</button>
