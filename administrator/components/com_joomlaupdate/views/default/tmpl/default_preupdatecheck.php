@@ -96,10 +96,12 @@ defined('_JEXEC') or die;
 			<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS'); ?>
 		</h3>
 			<?php
-			$compatibilityTypes = array("COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE" => "label-success",
-				"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPGRADES_TO_BE_COMPATIBLE" => "label-warning",
-				"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NO_VERSION_COMPATIBILITY_INFORMATION_FROM_UPDATE_SERVER" => "label-important",
-				"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_NO_UPDATE_SERVER_SPECIFIED" => "label-important"
+			$compatibilityTypes = array(
+					"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS" => "label-default",
+					"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE" => "label-success",
+					"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_REQUIRING_UPGRADES_TO_BE_COMPATIBLE" => "label-warning",
+					"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_UPDATE_SERVER_OFFERS_NO_COMPATIBLE_VERSION" => "label-important",
+					"COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_JOOMLA_UPDATE_SYSTEM_NOT_SUPPORTED" => "label-important"
 			);
 			$compatibilityTypeCount = 0;
 			foreach ($compatibilityTypes as $compatibilityType => $compatibilityDisplayClass)
@@ -112,27 +114,27 @@ defined('_JEXEC') or die;
 						<table class="table">
 							<thead>
 							<tr>
-								<td>
+								<th>
 									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NAME'); ?>
-								</td>
-								<td>
+								</th>
+								<th>
 									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_TYPE'); ?>
-								</td>
-								<td>
+								</th>
+								<th>
 									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_UPGRADE_COMPATIBLE'); ?>
-								</td>
-								<td>
+								</th>
+								<th>
 									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_CURRENTLY_COMPATIBLE'); ?>
-								</td>
-								<td>
+								</th>
+								<th>
 									<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_INSTALLED_VERSION'); ?>
-								</td>
+								</th>
 							</tr>
 							</thead>
 							<tbody>
 							<?php
 							// Only include this row once since the javascript moves the results into the right place
-							if ($compatibilityType == "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_PROBABLY_COMPATIBLE") :
+							if ($compatibilityType == "COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSIONS_RUNNING_PRE_UPDATE_CHECKS") :
 								foreach ($this->nonCoreExtensions as $extension) : ?>
 									<tr>
 										<td>
@@ -160,14 +162,13 @@ defined('_JEXEC') or die;
 				$compatibilityTypeCount ++;
 			}
 			?>
-		<div class="span12">
+
 			<fieldset class="options-grid-form options-grid-form-full">
 				<legend>
 					<?php echo JText::_('NOTICE'); ?>
 				</legend>
 				<?php echo JText::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPATIBLE_UPGRADE_WARNING'); ?>
 			</fieldset>
-		</div>
 	</div>
 <?php else: ?>
 	<div class="row-fluid">

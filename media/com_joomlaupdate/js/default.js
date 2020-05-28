@@ -58,7 +58,9 @@ function extractionMethodHandler(target, prefix)
             // function after completing the request
             PreUpdateChecker.checkCompatibility($(this), PreUpdateChecker.setResultView);
         });
-		$('.compatibilitytypes').css('display', 'none');
+		$('.compatibilitytypes').css('display', 'none').css('margin-left', 0);
+		// The currently processing line should show until its finished
+		$('#compatibilitytype0').css('display', 'block');
     }
 
     /**
@@ -120,11 +122,11 @@ function extractionMethodHandler(target, prefix)
 					break;
 				case PreUpdateChecker.STATE.INCOMPATIBLE:
 					// No compatible version found -> display error label
-					html = Joomla.JText._('JNO');
+					html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
 					break;
 				case PreUpdateChecker.STATE.MISSING_COMPATIBILITY_TAG:
 					// Could not check compatibility state -> display warning
-					html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING');
+					html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
 					break;
 				default:
 					// An error occured -> show unknown error note
@@ -148,11 +150,11 @@ function extractionMethodHandler(target, prefix)
 					break;
 				case PreUpdateChecker.STATE.INCOMPATIBLE:
 					// No compatible version found -> display error label
-					html = Joomla.JText._('JNO');
+					html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
 					break;
 				case PreUpdateChecker.STATE.MISSING_COMPATIBILITY_TAG:
 					// Could not check compatibility state -> display warning
-					html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_VERSION_MISSING');
+					html = Joomla.JText._('COM_JOOMLAUPDATE_VIEW_DEFAULT_EXTENSION_NO_COMPATIBILITY_INFORMATION');
 					break;
 				default:
 					// An error occured -> show unknown error note
@@ -166,6 +168,12 @@ function extractionMethodHandler(target, prefix)
 		extensionData.$element.closest('tr').appendTo($('#compatibilitytype' + extensionData.compatibilityData.resultGroup + ' tbody'));
 		$('#compatibilitytype' + extensionData.compatibilityData.resultGroup).css('display', 'block');
 
+		document.getElementById('compatibilitytype0').style.display = 'block';
+
+		// Have we finished?
+		if ($('#compatibilitytype0 tbody td').length == 0) {
+			$('#compatibilitytype0').css('display', 'none');
+		}
     }
 
     // Run PreUpdateChecker on document ready
