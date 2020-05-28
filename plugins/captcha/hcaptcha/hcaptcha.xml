@@ -9,7 +9,6 @@
 	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<description>PLG_CAPTCHA_HCAPTCHA_XML_DESCRIPTION</description>
-	<scriptfile>script.php</scriptfile>
 	<files>
 		<filename plugin="hcaptcha">hcaptcha.php</filename>
 		<folder>language</folder>
