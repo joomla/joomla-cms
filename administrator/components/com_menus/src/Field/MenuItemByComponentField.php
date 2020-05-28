@@ -54,6 +54,14 @@ class MenuItemByComponentField extends ListField
 			->where($db->quoteName('menu.client_id') . ' = 0')
 			->where($db->quoteName('menu.type') . ' = ' . $db->quote('component'));
 
+		$app             = Factory::getApplication();
+		$currentMenuType = $app->input->getString('menutype', $app->getUserState($this->context . '.menutype', ''));
+
+		if ($currentMenuType)
+		{
+			$query->where($db->quoteName('menu.menutype') . ' = ' . $db->quote($currentMenuType));
+		}
+
 		$db->setQuery($query);
 		$components = $db->loadColumn();
 
