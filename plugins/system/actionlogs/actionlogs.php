@@ -92,6 +92,7 @@ class PlgSystemActionLogs extends CMSPlugin
 		$allowedFormNames = [
 			'com_users.profile',
 			'com_users.user',
+			'com_admin.profile',
 		];
 
 		if (!in_array($formName, $allowedFormNames, true))
