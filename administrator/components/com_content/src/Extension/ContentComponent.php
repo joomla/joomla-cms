@@ -228,7 +228,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @param   string  $context  The context of the workflow
 	 *
-	 * @return bool
+	 * @return string
 	 */
 	public function getModelName($context): string
 	{
