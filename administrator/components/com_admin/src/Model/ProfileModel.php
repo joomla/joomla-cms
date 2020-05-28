@@ -68,7 +68,7 @@ class ProfileModel extends UserModel
 		{
 			$form->setFieldAttribute('username', 'required', 'false');
 			$form->setFieldAttribute('username', 'readonly', 'true');
-			$form->setFieldAttribute('username', 'description', 'COM_ADMIN_USER_FIELD_NOCHANGE_USERNAME_DESC');
+			$form->setFieldAttribute('username', 'description', 'COM_USERS_PROFILE_NOCHANGE_USERNAME_DESC');
 		}
 
 		// When multilanguage is set, a user's default site language should also be a Content Language
