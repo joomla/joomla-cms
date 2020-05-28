@@ -830,7 +830,8 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 
 		if (parent::save($data))
 		{
-			if (isset($data['featured']))
+			// check if featured is set and if not managed by workflow
+			if (isset($data['featured']) && !$this->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article'))
 			{
 				if (!$this->featured(
 					$this->getState($this->getName() . '.id'),
