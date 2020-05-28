@@ -60,7 +60,7 @@ class PlgQuickiconExtensionupdate extends CMSPlugin
 		$options  = array(
 			'url' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token,
 			'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token
-				. '&cache_timeout=3600&eid=0&skip=' . ExtensionHelper::getExtensionRecord('files_joomla')->extension_id,
+				. '&cache_timeout=3600&eid=0&skip=' . ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id,
 		);
 
 		$this->app->getDocument()->addScriptOptions('js-extensions-update', $options);

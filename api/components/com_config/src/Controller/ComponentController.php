@@ -152,7 +152,7 @@ class ComponentController extends ApiController
 		// Attempt to save the configuration.
 		$data = [
 			'params' => $validData,
-			'id'     => ExtensionHelper::getExtensionRecord($option)->extension_id,
+			'id'     => ExtensionHelper::getExtensionRecord($option, 'component')->extension_id,
 			'option' => $option
 		];
 

@@ -151,7 +151,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		}
 
 		// This is the extension ID for Joomla! itself
-		$eid = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+		$eid = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 
 		// Get any available updates
 		$updater = Updater::getInstance();

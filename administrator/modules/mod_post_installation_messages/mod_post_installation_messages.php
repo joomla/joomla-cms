@@ -26,7 +26,7 @@ catch (RuntimeException $e)
 	$app->enqueueMessage($e->getMessage(), 'error');
 }
 
-$joomlaFilesExtensionId = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+$joomlaFilesExtensionId = ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 
 // Load the com_postinstall language file
 $app->getLanguage()->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);

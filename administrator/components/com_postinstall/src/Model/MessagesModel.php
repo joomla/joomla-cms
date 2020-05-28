@@ -626,6 +626,6 @@ class MessagesModel extends BaseDatabaseModel
 	 */
 	public function getJoomlaFilesExtensionId()
 	{
-		return ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
+		return ExtensionHelper::getExtensionRecord('joomla', 'file')->extension_id;
 	}
 }
