@@ -42,6 +42,7 @@ extract($displayData);
  * @var   string         $validate        Validation rules to apply.
  * @var   string         $value           Value attribute of the field.
  * @var   boolean        $checked         Whether the checkbox should be checked.
+ * @var   string         $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array          $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
@@ -56,15 +57,6 @@ $checked   = $checked ? ' checked' : '';
 $onclick  = $onclick ? ' onclick="' . $onclick . '"' : '';
 $onchange = $onchange ? ' onchange="' . $onchange . '"' : '';
 
-$dataAttribute = '';
-
-if (!empty($dataAttributes))
-{
-	foreach ($dataAttributes as $key => $attrValue)
-	{
-		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
-	}
-}
 ?>
 <div class="form-check form-check-inline">
 	<input

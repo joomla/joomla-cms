@@ -965,6 +965,29 @@ abstract class FormField
 	}
 
 	/**
+	 * Method to render data attributes to html.
+	 *
+	 * @return  string  A HTML Tag Attribute string of data attribute(s)
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function renderDataAttributes()
+	{
+		$dataAttribute  = '';
+		$dataAttributes = $this->getDataAttributes();
+
+		if (!empty($dataAttributes))
+		{
+			foreach ($dataAttributes as $key => $attrValue)
+			{
+				$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+			}
+		}
+
+		return $dataAttribute;
+	}
+
+	/**
 	 * Render a layout of this field
 	 *
 	 * @param   string  $layoutId  Layout identifier
@@ -1248,7 +1271,7 @@ abstract class FormField
 
 		$alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
 
-		return array(
+		return [
 			'autocomplete'   => $this->autocomplete,
 			'autofocus'      => $this->autofocus,
 			'class'          => $this->class,
@@ -1274,8 +1297,9 @@ abstract class FormField
 			'spellcheck'     => $this->spellcheck,
 			'validate'       => $this->validate,
 			'value'          => $this->value,
+			'dataAttribute'  => $this->renderDataAttributes(),
 			'dataAttributes' => $this->dataAttributes,
-		);
+		];
 	}
 
 	/**

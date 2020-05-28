@@ -47,21 +47,13 @@ extract($displayData, null);
  * @var   array    $position        Is this field checked?
  * @var   array    $control         Is this field checked?
  * @var   array    $colors          The specified colors
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
 $class    = ' class="custom-select ' . trim($class) . '"';
 $disabled = $disabled ? ' disabled' : '';
 $readonly = $readonly ? ' readonly' : '';
-$dataAttribute = '';
-
-if (!empty($dataAttributes))
-{
-	foreach ($dataAttributes as $key => $value)
-	{
-		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
-	}
-}
 
 Factory::getDocument()->getWebAssetManager()
 	->useStyle('webcomponent.field-simple-color')
