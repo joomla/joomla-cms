@@ -75,7 +75,7 @@ class PlgBehaviourVersionable extends CMSPlugin
 		$typeAlias = $table->getTypeAlias();
 		$aliasParts = explode('.', $typeAlias);
 
-		if (!(isset($aliasParts[0]) && ComponentHelper::getParams($aliasParts[0])->get('save_history', 0)))
+		if ($aliasParts[0] === '' || !ComponentHelper::getParams($aliasParts[0])->get('save_history', 0)))
 		{
 			return;
 		}
