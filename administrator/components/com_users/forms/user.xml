@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset name="user_details">
+	<fieldset name="user_details" label="COM_USERS_USER_ACCOUNT_DETAILS">
 		<field
 			name="name"
 			type="text"

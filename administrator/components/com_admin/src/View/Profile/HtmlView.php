@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -48,6 +49,22 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
+	 * Configuration forms for all two-factor authentication methods
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $tfaform;
+
+	/**
+	 * Returns the one time password (OTP) – a.k.a. two factor authentication – configuration for the user.
+	 *
+	 * @var    \stdClass
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $otpConfig;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -58,14 +75,19 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$this->form  = $this->get('Form');
-		$this->item  = $this->get('Item');
-		$this->state = $this->get('State');
+		/** @var \Joomla\Component\Admin\Administrator\Model\ProfileModel $model */
+		$model = $this->getModel();
+
+		$this->form      = $model->getForm();
+		$this->item      = $model->getItem();
+		$this->state     = $model->getState();
+		$this->tfaform   = $model->getTwofactorform();
+		$this->otpConfig = $model->getOtpConfig();
 
 		// Check for errors.
-		if (count($errors = $this->get('Errors')))
+		if ($errors = $model->getErrors())
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->form->setValue('password',	null);
