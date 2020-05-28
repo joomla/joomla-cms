@@ -45,7 +45,18 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
+
+$dataAttribute = '';
+
+if (!empty($dataAttributes))
+{
+	foreach ($dataAttributes as $key => $attrValue)
+	{
+		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+	}
+}
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
@@ -85,6 +96,7 @@ $attributes = array(
 	!empty($minUppercase) ? 'data-min-uppercase="' . $minUppercase . '"' : '',
 	!empty($minLowercase) ? 'data-min-lowercase="' . $minLowercase . '"' : '',
 	!empty($forcePassword) ? 'data-min-force="' . $forcePassword . '"' : '',
+	$dataAttribute,
 );
 
 ?>

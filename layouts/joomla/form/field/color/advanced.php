@@ -44,6 +44,7 @@ extract($displayData);
  * @var   array    $checked         Is this field checked?
  * @var   array    $position        Is this field checked?
  * @var   array    $control         Is this field checked?
+ * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
 if ($validate !== 'color' && in_array($format, array('rgb', 'rgba'), true))
@@ -71,11 +72,20 @@ $autocomplete = !empty($autocomplete) ? 'autocomplete="' . $autocomplete . '"' :
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
 $direction = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
 
+$dataAttribute = '';
+
+if (!empty($dataAttributes))
+{
+	foreach ($dataAttributes as $key => $value)
+	{
+		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+	}
+}
+
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 $wa->usePreset('minicolors')
 	->useScript('field.color-adv');
-
 ?>
 <input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo $this->escape($color); ?>"<?php
 	echo $hint,
@@ -91,5 +101,6 @@ $wa->usePreset('minicolors')
 		$format,
 		$keywords,
 		$direction,
-		$validate;
+		$validate,
+		$dataAttribute;
 ?>/>

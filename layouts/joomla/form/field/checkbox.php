@@ -42,6 +42,7 @@ extract($displayData);
  * @var   string         $validate        Validation rules to apply.
  * @var   string         $value           Value attribute of the field.
  * @var   boolean        $checked         Whether the checkbox should be checked.
+ * @var   array          $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
 // Initialize some field attributes.
@@ -55,6 +56,15 @@ $checked   = $checked ? ' checked' : '';
 $onclick  = $onclick ? ' onclick="' . $onclick . '"' : '';
 $onchange = $onchange ? ' onchange="' . $onchange . '"' : '';
 
+$dataAttribute = '';
+
+if (!empty($dataAttributes))
+{
+	foreach ($dataAttributes as $key => $attrValue)
+	{
+		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+	}
+}
 ?>
 <div class="form-check form-check-inline">
 	<input
@@ -63,6 +73,6 @@ $onchange = $onchange ? ' onchange="' . $onchange . '"' : '';
 		id="<?php echo $id; ?>"
 		class="form-check-input<?php echo $class; ?>"
 		value="<?php echo htmlspecialchars($value, ENT_QUOTES, 'UTF-8'); ?>"
-		<?php echo $checked . $disabled . $onclick . $onchange . $required . $autofocus; ?>
+		<?php echo $checked . $disabled . $onclick . $onchange . $required . $autofocus . $dataAttribute; ?>
 	>
 </div>

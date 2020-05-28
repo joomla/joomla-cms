@@ -45,8 +45,8 @@ extract($displayData);
  * @var   string   $animated        Is it animated.
  * @var   string   $active          Is it active.
  * @var   string   $max             The maximum value.
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
-
 
 // Initialize some field attributes.
 $class = 'progress-bar ' . $class;
@@ -63,10 +63,21 @@ $data .= 'aria-valuemax="' . $max . '"';
 $data .= ' aria-valuemin="' . $min . '"';
 $data .= ' aria-valuenow="' . $value . '"';
 
+$dataAttribute = '';
+
+if (!empty($dataAttributes))
+{
+	foreach ($dataAttributes as $key => $attrValue)
+	{
+		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+	}
+}
+
 $attributes = array(
 	$class,
 	!empty($width) ? ' style="width:' . $width . ';"' : '',
-	$data
+	$data,
+	$dataAttribute,
 );
 
 $value = ((float) ($value - $min) * 100) / ($max - $min);

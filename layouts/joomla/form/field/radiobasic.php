@@ -40,6 +40,7 @@ extract($displayData);
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
  * @var   array    $options         Options available for this field.
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
 /**
@@ -51,11 +52,21 @@ extract($displayData);
  */
 $format = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
+$dataAttribute = '';
+
+if (!empty($dataAttributes))
+{
+	foreach ($dataAttributes as $key => $attrValue)
+	{
+		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+	}
+}
 ?>
 <fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio'); ?>"
 	<?php echo $disabled ? 'disabled' : ''; ?>
 	<?php echo $required ? 'required' : ''; ?>
-	<?php echo $autofocus ? 'autofocus' : ''; ?>>
+	<?php echo $autofocus ? 'autofocus' : ''; ?>
+	<?php echo $dataAttribute; ?>>
 
 	<?php if (!empty($options)) : ?>
 		<?php foreach ($options as $i => $option) : ?>

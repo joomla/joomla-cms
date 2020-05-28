@@ -46,9 +46,20 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
  * @var   boolean  $charcounter     Does this field support a character counter?
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
- // Initialize some field attributes.
+$dataAttribute = '';
+
+if (!empty($dataAttributes))
+{
+	foreach ($dataAttributes as $key => $attrValue)
+	{
+		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+	}
+}
+
+// Initialize some field attributes.
 if ($charcounter)
 {
 	// Load the js file
@@ -77,7 +88,8 @@ $attributes = array(
 	$autofocus ? 'autofocus' : '',
 	$spellcheck ? '' : 'spellcheck="false"',
 	$maxlength ?: '',
-	!empty($counterlabel) ? $counterlabel : ''
+	!empty($counterlabel) ? $counterlabel : '',
+	$dataAttribute,
 );
 ?>
 <textarea name="<?php

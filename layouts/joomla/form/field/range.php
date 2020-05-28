@@ -42,7 +42,18 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
+
+$dataAttribute = '';
+
+if (!empty($dataAttributes))
+{
+	foreach ($dataAttributes as $key => $attrValue)
+	{
+		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+	}
+}
 
 // Initialize some field attributes.
 
@@ -56,6 +67,7 @@ $attributes = array(
 	!empty($step) ? 'step="' . $step . '"' : '',
 	!empty($min) ? 'min="' . $min . '"' : '',
 	$autofocus ? 'autofocus' : '',
+	$dataAttribute,
 );
 
 $value = is_numeric($value) ? (float) $value : $min;
