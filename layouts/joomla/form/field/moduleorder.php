@@ -45,6 +45,7 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   array    $spellcheck      Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
 // Initialize some field attributes.
@@ -74,6 +75,14 @@ if ($size)
 if ($onchange)
 {
 	$attributes['onchange'] = 'onchange="' . $onchange . '"';
+}
+
+if (!empty($dataAttributes))
+{
+	foreach ($dataAttributes as $key => $attrValue)
+	{
+		$attributes[$key] = $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+	}
 }
 
 Factory::getDocument()->getWebAssetManager()

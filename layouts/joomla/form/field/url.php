@@ -44,7 +44,18 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
+
+$dataAttribute = '';
+
+if (!empty($dataAttributes))
+{
+	foreach ($dataAttributes as $key => $attrValue)
+	{
+		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8') . '"';
+	}
+}
 
 $attributes = array(
 	!empty($size) ? ' size="' . $size . '"' : '',
@@ -58,6 +69,7 @@ $attributes = array(
 	$onchange ? ' onchange="' . $onchange . '"' : '',
 	!empty($maxLength) ? $maxLength : '',
 	$required ? ' required' : '',
+	$dataAttribute,
 );
 ?>
 <input
