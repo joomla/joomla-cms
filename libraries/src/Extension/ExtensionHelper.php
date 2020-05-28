@@ -11,6 +11,7 @@ namespace Joomla\CMS\Extension;
 \defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\Database\ParameterType;
 
 /**
  * Extension Helper class.
@@ -24,16 +25,18 @@ class ExtensionHelper
 	/**
 	 * The loaded extensions.
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  4.0.0
 	 */
 	public static $extensions = [ModuleInterface::class => [], ComponentInterface::class => [], PluginInterface::class => []];
 
 	/**
 	 * The loaded extensions.
 	 *
-	 * @var array
+	 * @var    array
+	 * @since  4.0.0
 	 */
-	private static $loadedextensions = [];
+	private static $loadedExtensions = [];
 
 	/**
 	 * Array of core extensions
@@ -358,27 +361,65 @@ class ExtensionHelper
 	/**
 	 * Returns an extension record for the given name.
 	 *
-	 * @param   string  $name  The extension name
+	 * @param   string        $element   The extension element
+	 * @param   string        $type      The extension type
+	 * @param   integer|null  $clientId  The client ID
+	 * @param   string|null   $folder    Plugin folder
 	 *
-	 * @return  \stdClass  The object
+	 * @return  \stdClass|null  The object or null if not found.
 	 *
 	 * @since   4.0.0
+	 * @throws  \InvalidArgumentException
 	 */
-	public static function getExtensionRecord($name)
+	public static function getExtensionRecord(string $element, string $type, ?int $clientId = null, ?string $folder = null): ?\StdClass
 	{
-		if (!\array_key_exists($name, self::$loadedextensions))
+		if ($type === 'plugin' && $folder === null)
+		{
+			throw new \InvalidArgumentException(sprintf('`$folder` is required when `$type` is `plugin` in %s()', __METHOD__));
+		}
+
+		if (\in_array($type, ['module', 'language', 'template'], true) && $clientId === null)
+		{
+			throw new \InvalidArgumentException(
+				sprintf('`$clientId` is required when `$type` is `module`, `language` or `template` in %s()', __METHOD__)
+			);
+		}
+
+		$key = $element . '.' . $type . '.' . $clientId . '.' . $folder;
+
+		if (!\array_key_exists($key, self::$loadedExtensions))
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select('*')
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('name') . ' = :name')
-				->bind(':name', $name);
+				->where(
+					[
+						$db->quoteName('element') . ' = :element',
+						$db->quoteName('type') . ' = :type',
+					]
+				)
+				->bind(':element', $element)
+				->bind(':type', $type);
+
+			if ($clientId !== null)
+			{
+				$query->where($db->quoteName('client_id') . ' = :clientId')
+					->bind(':clientId', $clientId, ParameterType::INTEGER);
+			}
+
+			if ($folder !== null)
+			{
+				$query->where($db->quoteName('folder') . ' = :folder')
+					->bind(':folder', $folder);
+			}
+
+			$query->setLimit(1);
 			$db->setQuery($query);
 
-			self::$loadedextensions[$name] = $db->loadObject();
+			self::$loadedExtensions[$key] = $db->loadObject();
 		}
 
-		return self::$loadedextensions[$name];
+		return self::$loadedExtensions[$key];
 	}
 }
