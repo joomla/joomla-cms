@@ -57,16 +57,16 @@ class ProfileController extends FormController
 		{
 			$return = base64_decode($this->input->get('return', '', 'BASE64'));
 
-			 if ($return !== '' && Uri::isInternal($return))
-			 {
-				// Redirect to return URL.
-				$this->setRedirect(Route::_($return, false));
-			 }
-			 else
-			 {
-				 // Redirect to the main page.
+			if ($return !== '' && Uri::isInternal($return))
+			{
+			// Redirect to return URL.
+			$this->setRedirect(Route::_($return, false));
+			}
+			else
+			{
+				// Redirect to the main page.
 				$this->setRedirect(Route::_('index.php', false));
-			 }
+			}
 		}
 
 		return $result;
