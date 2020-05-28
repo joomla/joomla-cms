@@ -90,8 +90,8 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		$this->form->setValue('password',	null);
-		$this->form->setValue('password2',	null);
+		$this->form->setValue('password', null);
+		$this->form->setValue('password2', null);
 
 		$this->addToolbar();
 
