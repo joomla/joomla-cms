@@ -72,7 +72,7 @@ if (isset($params['url']))
 }
 ?>
 <div id="<?php echo $selector; ?>" role="dialog" <?php echo ArrayHelper::toString($modalAttributes); ?> <?php echo $url ?? ''; ?> <?php echo isset($url) ? 'data-iframe="'.trim($iframeHtml).'"' : ''; ?>>
-	<div class="modal-dialog modal-lg<?php echo $modalDialogClass; ?>" role="document">
+	<div class="modal-dialog modal-lg<?php echo $modalDialogClass; ?>">
 		<div class="modal-content">
 			<?php
 				// Header

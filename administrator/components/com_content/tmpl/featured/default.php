@@ -15,6 +15,7 @@ use Joomla\CMS\Button\TransitionButton;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -77,6 +78,8 @@ HTMLHelper::_('script', 'com_workflow/admin-items-workflow-buttons.js', ['relati
 
 endif;
 
+$assoc = Associations::isEnabled();
+
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_content&view=featured'); ?>" method="post" name="adminForm" id="adminForm">
@@ -127,6 +130,11 @@ endif;
 								<th scope="col" class="w-10 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 								</th>
+								<?php if ($assoc) : ?>
+									<th scope="col" class="w-5 d-none d-md-table-cell">
+										<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
+									</th>
+								<?php endif; ?>
 								<?php if (Multilanguage::isEnabled()) : ?>
 									<th scope="col" class="w-10 d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
@@ -327,6 +335,13 @@ endif;
 										<div class="smallsub"><?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->created_by_alias)); ?></div>
 									<?php endif; ?>
 								</td>
+								<?php if ($assoc) : ?>
+									<td class="d-none d-md-table-cell">
+										<?php if ($item->association) : ?>
+											<?php echo HTMLHelper::_('contentadministrator.association', $item->id); ?>
+										<?php endif; ?>
+									</td>
+								<?php endif; ?>
 								<?php if (Multilanguage::isEnabled()) : ?>
 									<td class="small d-none d-md-table-cell">
 										<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
