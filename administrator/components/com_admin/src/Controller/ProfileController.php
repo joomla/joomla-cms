@@ -59,8 +59,8 @@ class ProfileController extends FormController
 
 			if ($return !== '' && Uri::isInternal($return))
 			{
-			// Redirect to return URL.
-			$this->setRedirect(Route::_($return, false));
+				// Redirect to return URL.
+				$this->setRedirect(Route::_($return, false));
 			}
 			else
 			{
