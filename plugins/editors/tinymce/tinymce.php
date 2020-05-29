@@ -223,11 +223,21 @@ class PlgEditorTinymce extends CMSPlugin
 		$levelParams->loadObject($toolbarParams);
 		$levelParams->loadObject($extraOptions);
 
-		// Set the selected skin
-		$skin = $levelParams->get($this->app->isClient('administrator') ? 'skin_admin' : 'skin', 'oxide');
+		// First we will check for a skin in the current template
+		$template = $this->app->getTemplate();
+		$isAdmin  = $this->app->isClient('administrator');
+		$path     = JPATH_ROOT . '/' . ($isAdmin ? 'administrator' : '') . '/templates/' . $template . '/css/editors/tinymce/skins';
+		$skin     = Uri::root(true) . 'media/vendor/tinymce/skins/ui/oxide';
 
-		// Check that selected skin exists.
-		$skin = Folder::exists(JPATH_ROOT . '/media/vendor/tinymce/skins/ui/' . $skin) ? $skin : 'oxide';
+		if (is_dir($path))
+		{
+			$directories = glob($path . '/*', GLOB_ONLYDIR);
+			if (is_array($directories))
+			{
+				$skin = Uri::root(true) . ($isAdmin ? 'administrator' : '')
+					. '/templates/' . $template . '/css/editors/tinymce/skins/' . basename($directories[0]);
+			}
+		}
 
 		$langMode   = $levelParams->get('lang_mode', 1);
 		$langPrefix = $levelParams->get('lang_code', 'en');
@@ -558,7 +568,7 @@ class PlgEditorTinymce extends CMSPlugin
 				'directionality' => $text_direction,
 				'language' => $langPrefix,
 				'autosave_restore_when_empty' => false,
-				'skin'     => $skin,
+				'skin_url' => $skin,
 				'theme'    => $theme,
 				'schema'   => 'html5',
 

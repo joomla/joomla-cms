@@ -11,31 +11,6 @@
 	/>
 
 	<field
-		name="skins"
-		type="note"
-		label="PLG_TINY_FIELD_SKIN_INFO_LABEL"
-		description="PLG_TINY_FIELD_SKIN_INFO_DESC"
-	/>
-
-	<field
-		name="skin"
-		type="folderlist"
-		label="PLG_TINY_FIELD_SKIN_LABEL"
-		directory="media/vendor/tinymce/skins/ui"
-		recursive="false"
-		hide_none="true"
-	/>
-
-	<field
-		name="skin_admin"
-		type="folderlist"
-		label="PLG_TINY_FIELD_SKIN_ADMIN_LABEL"
-		directory="media/vendor/tinymce/skins/ui"
-		recursive="false"
-		hide_none="true"
-	/>
-
-	<field
 		name="drag_drop"
 		type="radio"
 		label="PLG_TINY_FIELD_DRAG_DROP_LABEL"
