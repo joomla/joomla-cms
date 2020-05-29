@@ -110,10 +110,9 @@ if (!$readonly)
 		modal-height="400px"
 		input=".field-user-input"
 		input-name=".field-user-input-name"
-		button-select=".button-select"
-		<?php echo $dataAttribute; ?>>
+		button-select=".button-select">
 	<div class="input-group">
-		<input <?php echo ArrayHelper::toString($inputAttributes); ?> readonly>
+		<input <?php echo ArrayHelper::toString($inputAttributes), $dataAttribute; ?>	 readonly>
 		<?php if (!$readonly) : ?>
 			<span class="input-group-append">
 				<button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?>">
