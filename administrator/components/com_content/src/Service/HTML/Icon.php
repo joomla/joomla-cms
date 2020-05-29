@@ -125,7 +125,7 @@ class Icon
 		// Show checked_out icon if the article is checked out by a different user
 		if (property_exists($article, 'checked_out')
 			&& property_exists($article, 'checked_out_time')
-			&& $article->checked_out > 0
+			&& !is_null($article->checked_out)
 			&& $article->checked_out != $user->get('id'))
 		{
 			$checkoutUser = Factory::getUser($article->checked_out);

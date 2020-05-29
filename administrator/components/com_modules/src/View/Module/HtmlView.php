@@ -91,7 +91,7 @@ class HtmlView extends BaseHtmlView
 
 		$user       = Factory::getUser();
 		$isNew      = ($this->item->id == 0);
-		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
+		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->get('id'));
 		$canDo      = $this->canDo;
 
 		ToolbarHelper::title(Text::sprintf('COM_MODULES_MANAGER_MODULE', Text::_($this->item->module)), 'cube module');
