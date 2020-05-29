@@ -123,7 +123,7 @@ class Icon
 		// Show checked_out icon if the contact is checked out by a different user
 		if (property_exists($contact, 'checked_out')
 			&& property_exists($contact, 'checked_out_time')
-			&& $contact->checked_out > 0
+			&& !is_null($contact->checked_out)
 			&& $contact->checked_out !== $user->get('id'))
 		{
 			$checkoutUser = Factory::getUser($contact->checked_out);

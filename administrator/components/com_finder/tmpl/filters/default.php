@@ -73,7 +73,7 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['version' => 'auto', 'relative
 						$userAuthoriseCoreEditState = $user->authorise('core.edit.state', 'com_finder');
 						$userId                     = $user->id;
 						foreach ($this->items as $i => $item) :
-							$canCheckIn   = $userAuthoriseCoreManage || $item->checked_out == $userId || $item->checked_out == 0;
+							$canCheckIn   = $userAuthoriseCoreManage || $item->checked_out == $userId || is_null($item->checked_out);
 							$canChange    = $userAuthoriseCoreEditState && $canCheckIn;
 							$escapedTitle = $this->escape($item->title);
 						?>

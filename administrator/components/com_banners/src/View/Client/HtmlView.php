@@ -108,7 +108,7 @@ class HtmlView extends BaseHtmlView
 
 		$user       = Factory::getUser();
 		$isNew      = ($this->item->id == 0);
-		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->id);
+		$checkedOut = !(is_null($this->item->checked_out) || $this->item->checked_out == $user->id);
 		$canDo      = $this->canDo;
 
 		ToolbarHelper::title(

@@ -65,7 +65,7 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 					<tbody>
 					<?php foreach ($this->items as $i => $item) :
 						$canEdit    = $user->authorise('core.edit',       'com_users.category.' . $item->catid);
-						$canCheckin = $user->authorise('core.admin',      'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
+						$canCheckin = $user->authorise('core.admin',      'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
 						$canChange  = $user->authorise('core.edit.state', 'com_users.category.' . $item->catid) && $canCheckin;
 						$subject    = $item->subject ?: Text::_('COM_USERS_EMPTY_SUBJECT');
 						?>

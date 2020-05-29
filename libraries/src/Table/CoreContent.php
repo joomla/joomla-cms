@@ -445,7 +445,7 @@ class CoreContent extends Table
 			$query->extendWhere(
 				'AND',
 				[
-					$this->_db->quoteName('core_checked_out_user_id') . ' = 0',
+					$this->_db->quoteName('core_checked_out_user_id') . ' IS NULL',
 					$this->_db->quoteName('core_checked_out_user_id') . ' = :userId',
 				],
 				'OR'

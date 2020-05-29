@@ -101,7 +101,7 @@ if ($saveOrder && !empty($this->items))
 							<?php foreach ($this->items as $i => $item) : ?>
 								<?php $ordering   = ($listOrder == 'a.ordering'); ?>
 								<?php $canEdit    = $user->authorise('core.edit', $component . '.field.' . $item->id); ?>
-								<?php $canCheckin = $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0; ?>
+								<?php $canCheckin = $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out); ?>
 								<?php $canEditOwn = $user->authorise('core.edit.own', $component . '.field.' . $item->id) && $item->created_user_id == $userId; ?>
 								<?php $canChange  = $user->authorise('core.edit.state', $component . '.field.' . $item->id) && $canCheckin; ?>
 								<tr class="row<?php echo $i % 2; ?>" item-id="<?php echo $item->id ?>">

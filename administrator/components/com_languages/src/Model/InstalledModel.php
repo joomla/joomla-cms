@@ -222,7 +222,7 @@ class InstalledModel extends ListModel
 					$row->authorEmail  = $lang->manifest['authorEmail'];
 					$row->version      = $lang->manifest['version'];
 					$row->published    = $defaultLanguage === $row->language ? 1 : 0;
-					$row->checked_out  = 0;
+					$row->checked_out  = null;
 
 					// Fix wrongly set parentheses in RTL languages
 					if ($isCurrentLanguageRtl)

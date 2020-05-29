@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS "#__categories" (
   "note" varchar(255) DEFAULT '' NOT NULL,
   "description" text,
   "published" smallint DEFAULT 0 NOT NULL,
-  "checked_out" bigint DEFAULT 0 NOT NULL,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "access" bigint DEFAULT 0 NOT NULL,
   "params" text,
@@ -65,13 +65,13 @@ COMMENT ON COLUMN "#__categories"."metadata" IS 'JSON encoded metadata propertie
 -- Dumping data for table `#__categories`
 --
 
-INSERT INTO "#__categories" ("id", "asset_id", "parent_id", "lft", "rgt", "level", "path", "extension", "title", "alias", "note", "description", "published", "checked_out", "checked_out_time", "access", "params", "metadesc", "metakey", "metadata", "created_user_id", "created_time", "modified_user_id", "modified_time", "hits", "language", "version") VALUES
-(1, 0, 0, 0, 11, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, NULL, 1, '{}', '', '', '{}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
-(2, 27, 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":"","workflow_id":"use_default"}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
-(3, 28, 1, 3, 4, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
-(4, 29, 1, 5, 6, 1, 'uncategorised', 'com_contact', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
-(5, 30, 1, 7, 8, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
-(7, 32, 1, 9, 10, 1, 'uncategorised', 'com_users', 'Uncategorised', 'uncategorised', '', '', 1, 0, NULL, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1);
+INSERT INTO "#__categories" ("id", "asset_id", "parent_id", "lft", "rgt", "level", "path", "extension", "title", "alias", "note", "description", "published", "access", "params", "metadesc", "metakey", "metadata", "created_user_id", "created_time", "modified_user_id", "modified_time", "hits", "language", "version") VALUES
+(1, 0, 0, 0, 11, 0, '', 'system', 'ROOT', 'root', '', '', 1, 1, '{}', '', '', '{}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
+(2, 27, 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 1, '{"category_layout":"","image":"","workflow_id":"use_default"}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
+(3, 28, 1, 3, 4, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
+(4, 29, 1, 5, 6, 1, 'uncategorised', 'com_contact', 'Uncategorised', 'uncategorised', '', '', 1, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
+(5, 30, 1, 7, 8, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'uncategorised', '', '', 1, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1),
+(7, 32, 1, 9, 10, 1, 'uncategorised', 'com_users', 'Uncategorised', 'uncategorised', '', '', 1, 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, CURRENT_TIMESTAMP, 42, CURRENT_TIMESTAMP, 0, '*', 1);
 
 SELECT setval('#__categories_id_seq', 8, false);
 
@@ -174,7 +174,7 @@ CREATE TABLE IF NOT EXISTS "#__fields" (
   "description" text NOT NULL,
   "state" smallint DEFAULT 0 NOT NULL,
   "required" smallint DEFAULT 0 NOT NULL,
-  "checked_out" integer DEFAULT 0 NOT NULL,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "ordering" bigint DEFAULT 0 NOT NULL,
   "params" text NOT NULL,
@@ -216,7 +216,7 @@ CREATE TABLE IF NOT EXISTS "#__fields_groups" (
   "note" varchar(255) DEFAULT '' NOT NULL,
   "description" text NOT NULL,
   "state" smallint DEFAULT 0 NOT NULL,
-  "checked_out" integer DEFAULT 0 NOT NULL,
+  "checked_out" integer,
   "checked_out_time" timestamp without time zone,
   "ordering" integer DEFAULT 0 NOT NULL,
   "params" text NOT NULL,
@@ -336,7 +336,7 @@ CREATE TABLE IF NOT EXISTS "#__ucm_content" (
   "core_body" text,
   "core_state" smallint DEFAULT 0 NOT NULL,
   "core_checked_out_time" timestamp without time zone,
-  "core_checked_out_user_id" bigint DEFAULT 0 NOT NULL,
+  "core_checked_out_user_id" integer,
   "core_access" bigint DEFAULT 0 NOT NULL,
   "core_params" text,
   "core_featured" smallint DEFAULT 0 NOT NULL,

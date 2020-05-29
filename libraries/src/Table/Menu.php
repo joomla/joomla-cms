@@ -299,7 +299,7 @@ class Menu extends Nested
 				}
 
 				$table->home = 0;
-				$table->checked_out = 0;
+				$table->checked_out = null;
 				$table->checked_out_time = null;
 				$table->store();
 			}

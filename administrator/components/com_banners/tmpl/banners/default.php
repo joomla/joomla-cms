@@ -95,7 +95,7 @@ if ($saveOrder && !empty($this->items))
 								$item->cat_link = Route::_('index.php?option=com_categories&extension=com_banners&task=edit&type=other&cid[]=' . $item->catid);
 								$canCreate  = $user->authorise('core.create',     'com_banners.category.' . $item->catid);
 								$canEdit    = $user->authorise('core.edit',       'com_banners.category.' . $item->catid);
-								$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+								$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
 								$canChange  = $user->authorise('core.edit.state', 'com_banners.category.' . $item->catid) && $canCheckin;
 								?>
 								<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>">

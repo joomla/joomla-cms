@@ -173,7 +173,7 @@ class FilterTable extends Table
 		}
 		else
 		{
-			$checkin = ' AND (checked_out = 0 OR checked_out = ' . (int) $userId . ')';
+			$checkin = ' AND (checked_out IS NULL OR checked_out = ' . (int) $userId . ')';
 		}
 
 		// Update the publishing state for rows with the given primary keys.
