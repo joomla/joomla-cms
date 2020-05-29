@@ -107,7 +107,7 @@ class ArticlesModel extends ListModel
 			$ordering = $form->getField('fullordering', 'list');
 
 			$ordering->addOption('JSTAGE_ASC', ['value' => 'ws.title ASC']);
-			$ordering->addOption('JSTAGE_ASC', ['value' => 'ws.title DESC']);
+			$ordering->addOption('JSTAGE_DESC', ['value' => 'ws.title DESC']);
 		}
 
 		return $form;
