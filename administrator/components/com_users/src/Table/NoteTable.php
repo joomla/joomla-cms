@@ -13,6 +13,7 @@ namespace Joomla\Component\Users\Administrator\Table;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 
 /**
@@ -20,7 +21,7 @@ use Joomla\Database\DatabaseDriver;
  *
  * @since  2.5
  */
-class NoteTable extends Table
+class NoteTable extends Table implements VersionableTableInterface
 {
 	/**
 	 * Indicates that columns fully support the NULL value in the database
@@ -114,5 +115,17 @@ class NoteTable extends Table
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get the type alias for the history table
+	 *
+	 * @return  string  The alias as described above
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getTypeAlias()
+	{
+		return 'com_users.note';
 	}
 }

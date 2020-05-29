@@ -485,18 +485,12 @@ trait CoreButtonsTrait
 		$lang = Factory::getLanguage();
 		$lang->load('com_contenthistory', JPATH_ADMINISTRATOR, $lang->getTag(), true);
 
-		/** @var \Joomla\CMS\Table\ContentType $contentTypeTable */
-		$contentTypeTable = Table::getInstance('Contenttype');
-		$typeId           = $contentTypeTable->getTypeId($typeAlias);
-
 		// Options array for Layout
 		$options              = array();
 		$options['title']     = Text::_($text);
 		$options['height']    = $height;
 		$options['width']     = $width;
-		$options['itemId']    = $itemId;
-		$options['typeId']    = $typeId;
-		$options['typeAlias'] = $typeAlias;
+		$options['itemId']    = $typeAlias . '.' . $itemId;
 
 		$layout = new FileLayout('joomla.toolbar.versions');
 

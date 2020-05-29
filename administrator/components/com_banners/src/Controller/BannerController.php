@@ -13,6 +13,7 @@ namespace Joomla\Component\Banners\Administrator\Controller;
 
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -22,6 +23,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class BannerController extends FormController
 {
+	use VersionableControllerTrait;
+
 	/**
 	 * The prefix to use with controller messages.
 	 *

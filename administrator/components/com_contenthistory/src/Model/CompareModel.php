@@ -53,9 +53,11 @@ class CompareModel extends ListModel
 			// Get the first history record's content type record so we can check ACL
 			/** @var ContentType $contentTypeTable */
 			$contentTypeTable = $this->getTable('ContentType');
-			$ucmTypeId        = $table1->ucm_type_id;
+			$typeAlias        = explode('.', $table1->item_id);
+			array_pop($typeAlias);
+			$typeAlias        = implode('.', $typeAlias);
 
-			if (!$contentTypeTable->load($ucmTypeId))
+			if (!$contentTypeTable->load(array('type_alias' => $typeAlias)))
 			{
 				// Assume a failure to load the content type means broken data, abort mission
 				return false;
@@ -64,7 +66,7 @@ class CompareModel extends ListModel
 			$user = Factory::getUser();
 
 			// Access check
-			if ($user->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $table1->ucm_item_id) || $this->canEdit($table1))
+			if ($user->authorise('core.edit', $table1->item_id) || $this->canEdit($table1))
 			{
 				$return = true;
 			}
@@ -152,30 +154,27 @@ class CompareModel extends ListModel
 	{
 		$result = false;
 
-		if (!empty($record->ucm_type_id))
+		if (!empty($record->item_id))
 		{
-			// Check that the type id matches the type alias
-			$typeAlias = Factory::getApplication()->input->get('type_alias');
-
-			/** @var ContentType $contentTypeTable */
-			$contentTypeTable = $this->getTable('ContentType');
-
-			if ($contentTypeTable->getTypeId($typeAlias) == $record->ucm_type_id)
-			{
-				/**
-				 * Make sure user has edit privileges for this content item. Note that we use edit permissions
-				 * for the content item, not delete permissions for the content history row.
-				 */
-				$user   = Factory::getUser();
-				$result = $user->authorise('core.edit', $typeAlias . '.' . (int) $record->ucm_item_id);
-			}
+			/**
+			 * Make sure user has edit privileges for this content item. Note that we use edit permissions
+			 * for the content item, not delete permissions for the content history row.
+			 */
+			$user   = Factory::getUser();
+			$result = $user->authorise('core.edit', $record->item_id);
 
 			// Finally try session (this catches edit.own case too)
 			if (!$result)
 			{
-				$contentTypeTable->load($record->ucm_type_id);
+				/** @var ContentType $contentTypeTable */
+				$contentTypeTable = $this->getTable('ContentType');
+
+				$typeAlias        = explode('.', $record->item_id);
+				$id = array_pop($typeAlias);
+				$typeAlias        = implode('.', $typeAlias);
+				$contentTypeTable->load(array('type_alias' => $typeAlias));
 				$typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
-				$result = in_array((int) $record->ucm_item_id, $typeEditables);
+				$result = in_array((int) $id, $typeEditables);
 			}
 		}
 

@@ -16,6 +16,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -26,7 +27,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.5
  */
-class BannerTable extends Table
+class BannerTable extends Table implements VersionableTableInterface
 {
 	/**
 	 * Indicates that columns fully support the NULL value in the database
@@ -222,6 +223,11 @@ class BannerTable extends Table
 	{
 		$db = $this->getDbo();
 
+		if (is_null($this->checked_out))
+		{
+			$this->checked_out = 0;
+		}
+
 		if (empty($this->id))
 		{
 			$purchaseType = $this->purchase_type;
@@ -371,5 +377,17 @@ class BannerTable extends Table
 		}
 
 		return count($this->getErrors()) == 0;
+	}
+
+	/**
+	 * Get the type alias for the history table
+	 *
+	 * @return  string  The alias as described above
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getTypeAlias()
+	{
+		return 'com_banners.banner';
 	}
 }
