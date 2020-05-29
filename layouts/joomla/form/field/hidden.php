@@ -41,6 +41,8 @@ extract($displayData);
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
 
 // Initialize some field attributes.
@@ -53,4 +55,4 @@ $onchange = $onchange ? ' onchange="' . $onchange . '"' : '';
 	name="<?php echo $name; ?>"
 	id="<?php echo $id; ?>"
 	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo $class, $disabled, $onchange; ?>>
+	<?php echo $class, $disabled, $onchange, $dataAttribute; ?>>

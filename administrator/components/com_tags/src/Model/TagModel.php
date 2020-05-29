@@ -11,7 +11,6 @@ namespace Joomla\Component\Tags\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
@@ -226,8 +225,7 @@ class TagModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		/** @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
-
+		/** @var \Joomla\Component\Tags\Administrator\Table\TagTable $table */
 		$table      = $this->getTable();
 		$input      = Factory::getApplication()->input;
 		$pk         = (!empty($data['id'])) ? $data['id'] : (int) $this->getState($this->getName() . '.id');
@@ -237,100 +235,94 @@ class TagModel extends AdminModel
 		// Include the plugins for the save events.
 		PluginHelper::importPlugin($this->events_map['save']);
 
-		// Load the row if saving an existing tag.
-		if ($pk > 0)
+		try
 		{
-			$table->load($pk);
-			$isNew = false;
+			// Load the row if saving an existing tag.
+			if ($pk > 0)
+			{
+				$table->load($pk);
+				$isNew = false;
+			}
+
+			// Set the new parent id if parent id not matched OR while New/Save as Copy .
+			if ($table->parent_id != $data['parent_id'] || $data['id'] == 0)
+			{
+				$table->setLocation($data['parent_id'], 'last-child');
+			}
+
+			// Alter the title for save as copy
+			if ($input->get('task') == 'save2copy')
+			{
+				list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
+				$data['title'] = $title;
+				$data['alias'] = $alias;
+			}
+
+			// Bind the data.
+			if (!$table->bind($data))
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+
+			// Prepare the row for saving
+			$this->prepareTable($table);
+
+			// Check the data.
+			if (!$table->check())
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+
+			// Trigger the before save event.
+			$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
+
+			if (in_array(false, $result, true))
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+
+			// Store the data.
+			if (!$table->store())
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+
+			// Trigger the after save event.
+			Factory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew));
+
+			// Rebuild the path for the tag:
+			if (!$table->rebuildPath($table->id))
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+
+			// Rebuild the paths of the tag's children:
+			if (!$table->rebuild($table->id, $table->lft, $table->level, $table->path))
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
 		}
-
-		// Set the new parent id if parent id not matched OR while New/Save as Copy .
-		if ($table->parent_id != $data['parent_id'] || $data['id'] == 0)
+		catch (\Exception $e)
 		{
-			$table->setLocation($data['parent_id'], 'last-child');
-		}
-
-		if (isset($data['images']) && is_array($data['images']))
-		{
-			$registry = new Registry($data['images']);
-			$data['images'] = (string) $registry;
-		}
-
-		if (isset($data['urls']) && is_array($data['urls']))
-		{
-			$registry = new Registry($data['urls']);
-			$data['urls'] = (string) $registry;
-		}
-
-		// Alter the title for save as copy
-		if ($input->get('task') == 'save2copy')
-		{
-			list($title, $alias) = $this->generateNewTitle($data['parent_id'], $data['alias'], $data['title']);
-			$data['title']       = $title;
-			$data['alias']       = $alias;
-		}
-
-		// Bind the data.
-		if (!$table->bind($data))
-		{
-			$this->setError($table->getError());
-
-			return false;
-		}
-
-		// Bind the rules.
-		if (isset($data['rules']))
-		{
-			$rules = new Rules($data['rules']);
-			$table->setRules($rules);
-		}
-
-		// Check the data.
-		if (!$table->check())
-		{
-			$this->setError($table->getError());
-
-			return false;
-		}
-
-		// Trigger the before save event.
-		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew, $data));
-
-		if (in_array(false, $result, true))
-		{
-			$this->setError($table->getError());
-
-			return false;
-		}
-
-		// Store the data.
-		if (!$table->store())
-		{
-			$this->setError($table->getError());
-
-			return false;
-		}
-
-		// Trigger the after save event.
-		Factory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
-
-		// Rebuild the path for the tag:
-		if (!$table->rebuildPath($table->id))
-		{
-			$this->setError($table->getError());
-
-			return false;
-		}
-
-		// Rebuild the paths of the tag's children:
-		if (!$table->rebuild($table->id, $table->lft, $table->level, $table->path))
-		{
-			$this->setError($table->getError());
+			$this->setError($e->getMessage());
 
 			return false;
 		}
 
 		$this->setState($this->getName() . '.id', $table->id);
+		$this->setState($this->getName() . '.new', $isNew);
 
 		// Clear the cache
 		$this->cleanCache();

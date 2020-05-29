@@ -17,7 +17,6 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Nested;
 use Joomla\Database\DatabaseDriver;
-use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 /**
@@ -27,6 +26,14 @@ use Joomla\String\StringHelper;
  */
 class TagTable extends Nested
 {
+	/**
+	 * An array of key names to be json encoded in the bind function
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected $_jsonEncode = ['params', 'metadata', 'urls', 'images'];
+
 	/**
 	 * Indicates that columns fully support the NULL value in the database
 	 *
@@ -45,47 +52,6 @@ class TagTable extends Nested
 		$this->typeAlias = 'com_tags.tag';
 
 		parent::__construct('#__tags', 'id', $db);
-	}
-
-	/**
-	 * Overloaded bind function
-	 *
-	 * @param   array  $array   Named array
-	 * @param   mixed  $ignore  An optional array or space separated list of properties
-	 * to ignore while binding.
-	 *
-	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error string
-	 *
-	 * @see     \JTable::bind
-	 * @since   3.1
-	 */
-	public function bind($array, $ignore = '')
-	{
-		if (isset($array['params']) && is_array($array['params']))
-		{
-			$registry = new Registry($array['params']);
-			$array['params'] = (string) $registry;
-		}
-
-		if (isset($array['metadata']) && is_array($array['metadata']))
-		{
-			$registry = new Registry($array['metadata']);
-			$array['metadata'] = (string) $registry;
-		}
-
-		if (isset($array['urls']) && is_array($array['urls']))
-		{
-			$registry = new Registry($array['urls']);
-			$array['urls'] = (string) $registry;
-		}
-
-		if (isset($array['images']) && is_array($array['images']))
-		{
-			$registry = new Registry($array['images']);
-			$array['images'] = (string) $registry;
-		}
-
-		return parent::bind($array, $ignore);
 	}
 
 	/**
