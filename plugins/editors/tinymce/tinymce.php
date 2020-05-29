@@ -231,6 +231,7 @@ class PlgEditorTinymce extends CMSPlugin
 		if (is_dir($path))
 		{
 			$directories = glob($path . '/*', GLOB_ONLYDIR);
+
 			if (is_array($directories))
 			{
 				$skin = Uri::root(true) . ($isAdmin ? 'administrator' : '')
