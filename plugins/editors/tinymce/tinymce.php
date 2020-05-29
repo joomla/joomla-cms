@@ -225,7 +225,7 @@ class PlgEditorTinymce extends CMSPlugin
 		// First we will check for a skin in the current template
 		$template = $this->app->getTemplate();
 		$isAdmin  = $this->app->isClient('administrator');
-		$path     = JPATH_ROOT . ($isAdmin ? '/administrator' : '') . '/templates/' . $template . '/css/editors/tinymce/skins';
+		$path     = JPATH_ROOT . ($isAdmin ? '/administrator' : '') . '/templates/' . $template . '/css/vendor/tinymce/skins/ui';
 		$skin     = Uri::root(true) . '/media/vendor/tinymce/skins/ui/oxide';
 
 		if (is_dir($path))
@@ -235,7 +235,7 @@ class PlgEditorTinymce extends CMSPlugin
 			if (is_array($directories))
 			{
 				$skin = Uri::root(true) . ($isAdmin ? '/administrator' : '')
-					. '/templates/' . $template . '/css/editors/tinymce/skins/' . basename($directories[0]);
+					. '/templates/' . $template . '/css/vendor/tinymce/skins/ui/' . basename($directories[0]);
 			}
 		}
 
