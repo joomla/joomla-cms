@@ -1,7 +1,7 @@
 // Sidebar
 
 .sidebar-wrapper {
-  min-height: calc(100vh -69px);
+  min-height: calc(100vh - 69px);
   z-index: $zindex-sidebar;
   background-color: var(--atum-sidebar-bg);
   box-shadow: $atum-box-shadow;
@@ -132,6 +132,7 @@
       justify-content: center;
       width: 2rem;
       font-family: "Font Awesome 5 Free";
+      font-weight: 900;
 
       [dir="ltr"] & {
         content: "\f054";
@@ -182,10 +183,27 @@
     display: none;
   }
 
+  .main-nav,
+  .main-nav li {
+    max-width: 3rem;
+  }
+
+  .main-nav a:hover {
+    max-width: 3rem;
+    position: relative;
+  }
+
   .main-nav a:hover .sidebar-item-title {
-    display: inline-block;
-    min-width: $sidebar-width;
     background-color: var(--atum-sidebar-link-color);
+    position: absolute;
+    left: 3.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.3rem;
+    top: 0.5rem;
+    display: inline-block;
+    pointer-events: none;
+    padding: 0.2rem;
+    white-space: pre;
   }
 
   .main-nav > li > ul {
@@ -228,7 +246,7 @@
     }
 
     .navbar-toggler-icon::before {
-      font: normal normal normal 30px/1 "Font Awesome 5 Free";
+      font: normal normal 900 30px/1 "Font Awesome 5 Free";
       color: var(--toggle-color);
       content: "\f00d";
     }

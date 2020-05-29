@@ -762,7 +762,11 @@ class TemplateModel extends FormModel
 				{
 					$src = Path::clean($client->path . '/language/' . $languageFile);
 					$dst = Path::clean($toPath . '/' . $folder . '/' . $languageFile);
-					File::copy($src, $dst);
+
+					if (File::exists($src))
+					{
+						File::copy($src, $dst);
+					}
 				}
 			}
 

@@ -66,7 +66,7 @@ abstract class AbstractGroupButton extends BasicButton
 	 *
 	 * @return  string  Button CSS Id
 	 *
-	 * @since   3.0
+	 * @since   4.0.0
 	 */
 	protected function fetchId()
 	{

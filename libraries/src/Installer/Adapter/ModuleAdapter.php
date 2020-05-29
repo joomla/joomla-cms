@@ -602,6 +602,9 @@ class ModuleAdapter extends InstallerAdapter
 			// Update namespace
 			$this->extension->namespace = (string) $this->manifest->namespace;
 
+			// Update changelogurl
+			$this->extension->changelogurl = (string) $this->manifest->changelogurl;
+
 			// Update manifest
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="plugin" group="system" method="upgrade">
-	<name>PLG_SYSTEM_WEBAUTHN</name>
+	<name>plg_system_webauthn</name>
 	<version>4.0.0</version>
 	<creationDate>2019-07-02</creationDate>
 	<author>Joomla! Project</author>

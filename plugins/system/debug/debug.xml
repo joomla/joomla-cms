@@ -237,6 +237,7 @@
 					multiple="true"
 					layout="joomla.form.field.list-fancy-select"
 					default="all"
+					validate="options"
 					>
 					<option value="all">PLG_DEBUG_FIELD_LOG_PRIORITIES_ALL</option>
 					<option value="emergency">PLG_DEBUG_FIELD_LOG_PRIORITIES_EMERGENCY</option>

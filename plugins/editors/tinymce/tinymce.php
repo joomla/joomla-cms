@@ -14,6 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
@@ -501,38 +502,29 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 		}
 
-		// Drag and drop Images
+		// Drag and drop Images always FALSE, reverting this allows for inlining the images
 		$allowImgPaste = false;
 		$dragdrop      = $levelParams->get('drag_drop', 1);
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$externalPlugins['jdragndrop'] = Uri::root() . 'media/plg_editors_tinymce/js/plugins/dragdrop/plugin.min.js';
-
-			$allowImgPaste = true;
-			$isSubDir      = '';
-			$session       = $this->app->getSession();
-			$uploadUrl     = Uri::base() . 'index.php?option=com_media&task=file.upload&tmpl=component&'
-				. $session->getName() . '=' . $session->getId()
-				. '&' . Session::getFormToken() . '=1'
-				. '&asset=image&format=json';
+			$externalPlugins['jdragndrop'] = HTMLHelper::_('script', 'plg_editors_tinymce/plugins/dragdrop/plugin.min.js', ['relative' => true, 'version' => 'auto', 'pathOnly' => true]);
+			$uploadUrl                     = Uri::base(false) . 'index.php?option=com_media&format=json&task=api.files';
 
 			if ($this->app->isClient('site'))
 			{
 				$uploadUrl = htmlentities($uploadUrl, null, 'UTF-8', null);
 			}
 
-			// Is Joomla installed in subdirectory
-			if (Uri::root(true) !== '/')
-			{
-				$isSubDir = Uri::root(true);
-			}
-
 			Text::script('PLG_TINY_ERR_UNSUPPORTEDBROWSER');
+			Text::script('JERROR');
 
-			$scriptOptions['setCustomDir']    = $isSubDir;
-			$scriptOptions['mediaUploadPath'] = $levelParams->get('path', '');
-			$scriptOptions['uploadUri']       = $uploadUrl;
+			$scriptOptions['parentUploadFolder'] = $levelParams->get('path', '');
+			$scriptOptions['csrfToken']          = Session::getFormToken();
+			$scriptOptions['uploadUri']          = $uploadUrl;
+
+			// @TODO have a way to select the adapter, similar to $levelParams->get('path', '');
+			$scriptOptions['comMediaAdapter']    = 'local-0:';
 		}
 
 		// Convert pt to px in dropdown

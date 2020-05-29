@@ -17,8 +17,17 @@ use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Console\Loader\WritableContainerLoader;
 use Joomla\CMS\Console\Loader\WritableLoaderInterface;
+use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
+use Joomla\CMS\Console\ExtensionInstallCommand;
+use Joomla\CMS\Console\ExtensionsListCommand;
+use Joomla\CMS\Console\ExtensionRemoveCommand;
+use Joomla\CMS\Console\GetConfigurationCommand;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
+use Joomla\CMS\Console\SetConfigurationCommand;
+use Joomla\CMS\Console\SiteDownCommand;
+use Joomla\CMS\Console\SiteUpCommand;
+use Joomla\CMS\Console\UpdateCoreCommand;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\User\UserFactoryInterface;
@@ -135,10 +144,19 @@ class Application implements ServiceProviderInterface
 				function (Container $container)
 				{
 					$mapping = [
-						SessionGcCommand::getDefaultName()         => SessionGcCommand::class,
-						SessionMetadataGcCommand::getDefaultName() => SessionMetadataGcCommand::class,
-						ExportCommand::getDefaultName()            => ExportCommand::class,
-						ImportCommand::getDefaultName()            => ImportCommand::class,
+						SessionGcCommand::getDefaultName()          => SessionGcCommand::class,
+						SessionMetadataGcCommand::getDefaultName()  => SessionMetadataGcCommand::class,
+						ExportCommand::getDefaultName()             => ExportCommand::class,
+						ImportCommand::getDefaultName()             => ImportCommand::class,
+						SiteDownCommand::getDefaultName()           => SiteDownCommand::class,
+						SiteUpCommand::getDefaultName()             => SiteUpCommand::class,
+						SetConfigurationCommand::getDefaultName()   => SetConfigurationCommand::class,
+						GetConfigurationCommand::getDefaultName()   => GetConfigurationCommand::class,
+						ExtensionsListCommand::getDefaultName()     => ExtensionsListCommand::class,
+						CheckJoomlaUpdatesCommand::getDefaultName() => CheckJoomlaUpdatesCommand::class,
+						ExtensionRemoveCommand::getDefaultName()    => ExtensionRemoveCommand::class,
+						ExtensionInstallCommand::getDefaultName()   => ExtensionInstallCommand::class,
+						UpdateCoreCommand::getDefaultName()         => UpdateCoreCommand::class,
 					];
 
 					return new WritableContainerLoader($container, $mapping);

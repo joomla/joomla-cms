@@ -21,6 +21,33 @@ use Joomla\Database\DatabaseInterface;
 abstract class DatabaseHelper
 {
 	/**
+	 * The minimum database server version for MariaDB databases as required by the CMS.
+	 * This is not necessarily equal to what the database driver requires.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected static $dbMinimumMariaDb = '10.1';
+
+	/**
+	 * The minimum database server version for MySQL databases as required by the CMS.
+	 * This is not necessarily equal to what the database driver requires.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected static $dbMinimumMySql = '5.6';
+
+	/**
+	 * The minimum database server version for PostgreSQL databases as required by the CMS.
+	 * This is not necessarily equal to what the database driver requires.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected static $dbMinimumPostgreSql = '11.0';
+
+	/**
 	 * Method to get a database driver.
 	 *
 	 * @param   string   $driver    The database driver to use.
@@ -108,5 +135,46 @@ abstract class DatabaseHelper
 			'dbsslca'               => $options->db_sslca,
 			'dbsslcipher'           => $options->db_sslcipher,
 		];
+	}
+
+	/**
+	 * Get the minimum required database server version.
+	 *
+	 * @param   DatabaseDriver  $db       Database object
+	 * @param   \stdClass       $options  The session options
+	 *
+	 * @return  string  The minimum required database server version.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getMinimumServerVersion($db, $options)
+	{
+		// Get minimum database version required by the database driver
+		$minDbVersionRequired = $db->getMinimum();
+
+		// Get minimum database version required by the CMS
+		if (in_array($options->db_type, ['mysql', 'mysqli']))
+		{
+			if ($db->isMariaDb())
+			{
+				$minDbVersionCms = self::$dbMinimumMariaDb;
+			}
+			else
+			{
+				$minDbVersionCms = self::$dbMinimumMySql;
+			}
+		}
+		else
+		{
+			$minDbVersionCms = self::$dbMinimumPostgreSql;
+		}
+
+		// Use most restrictive, i.e. largest minimum database version requirement
+		if (version_compare($minDbVersionCms, $minDbVersionRequired) > 0)
+		{
+			$minDbVersionRequired = $minDbVersionCms;
+		}
+
+		return $minDbVersionRequired;
 	}
 }

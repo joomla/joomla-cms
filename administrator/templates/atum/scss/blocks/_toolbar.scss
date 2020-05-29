@@ -35,7 +35,6 @@
 
   .btn {
     --subhead-btn-accent: var(--atum-text-dark);
-
     padding: 0 1rem;
     margin: 5px 0;
     font-size: 1rem;
@@ -70,15 +69,15 @@
     }
 
     &.btn-primary {
-      --subhead-btn-accent: var(--info);
-    }
-
-    &.btn-secondary {
       --subhead-btn-accent: var(--atum-link-color);
     }
 
+    &.btn-secondary {
+      --subhead-btn-accent: var(--atum-special-color);
+    }
+
     &.btn-info {
-      --subhead-btn-accent: var(--info);
+      --subhead-btn-accent: var(--atum-bg-dark);
     }
 
     &.btn-action {
@@ -91,6 +90,7 @@
         font-family: "Font Awesome 5 Free";
         content: "\f078";
         border: 0;
+        font-weight: 900;
       }
     }
 
@@ -147,7 +147,7 @@
     }
 
     .toggler-toolbar-icon::before {
-      font: normal normal normal 30px/1 'Font Awesome 5 Free';
+      font: normal normal 900 30px/1 'Font Awesome 5 Free';
       color: var(--toggle-color);
       content: "\f00d";
     }

@@ -361,6 +361,16 @@ abstract class FormField
 	protected $renderLabelLayout = 'joomla.form.renderlabel';
 
 	/**
+	 * The data-attribute name and values of the form field.
+	 * For example, data-action-type="click" data-action-type="change"
+	 *
+	 * @var  array
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $dataAttributes = array();
+
+	/**
 	 * Method to instantiate the form field object.
 	 *
 	 * @param   Form  $form  The form to attach to the form field object.
@@ -453,6 +463,13 @@ abstract class FormField
 
 			case 'title':
 				return $this->getTitle();
+
+			default:
+				// Check for data attribute
+				if (strpos($name, 'data-') === 0 && array_key_exists($name, $this->dataAttributes))
+				{
+					return $this->dataAttributes[$name];
+				}
 		}
 
 		return;
@@ -546,13 +563,21 @@ abstract class FormField
 				break;
 
 			default:
-				if (property_exists(__CLASS__, $name))
+				// Detect data attribute(s)
+				if (strpos($name, 'data-') === 0)
 				{
-					Log::add("Cannot access protected / private property $name of " . __CLASS__);
+					$this->dataAttributes[$name] = $value;
 				}
 				else
 				{
-					$this->$name = $value;
+					if (property_exists(__CLASS__, $name))
+					{
+						Log::add("Cannot access protected / private property $name of " . __CLASS__);
+					}
+					else
+					{
+						$this->$name = $value;
+					}
 				}
 		}
 	}
@@ -620,6 +645,16 @@ abstract class FormField
 		else
 		{
 			$this->value = $value;
+		}
+
+		// Lets detect miscellaneous data attribute. For eg, data-*
+		foreach ($this->element->attributes() as $key => $value)
+		{
+			if (strpos($key, 'data-') === 0)
+			{
+				// Data attribute key value pair
+				$this->dataAttributes[$key] = $value;
+			}
 		}
 
 		foreach ($attributes as $attributeName)
@@ -915,6 +950,18 @@ abstract class FormField
 		}
 
 		return $default;
+	}
+
+	/**
+	 * Method to get data attributes. For example, data-user-type
+	 *
+	 * @return  array list of data attribute(s)
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getDataAttributes()
+	{
+		return $this->dataAttributes;
 	}
 
 	/**
@@ -1227,6 +1274,7 @@ abstract class FormField
 			'spellcheck'     => $this->spellcheck,
 			'validate'       => $this->validate,
 			'value'          => $this->value,
+			'dataAttributes' => $this->dataAttributes,
 		);
 	}
 

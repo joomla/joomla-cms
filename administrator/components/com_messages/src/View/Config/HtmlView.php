@@ -11,8 +11,11 @@ namespace Joomla\Component\Messages\Administrator\View\Config;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View to edit messages user configuration.
@@ -66,6 +69,26 @@ class HtmlView extends BaseHtmlView
 		// Bind the record to the form.
 		$this->form->bind($this->item);
 
+		$this->addToolbar();
+
 		parent::display($tpl);
+	}
+
+	/**
+	 * Add the page title and toolbar.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function addToolbar()
+	{
+		Factory::getApplication()->input->set('hidemainmenu', true);
+
+		ToolbarHelper::title(Text::_('COM_MESSAGES_TOOLBAR_MY_SETTINGS'), 'envelope');
+
+		ToolbarHelper::apply('config.save', 'JSAVE');
+
+		ToolbarHelper::cancel('config.cancel', 'JCANCEL');
 	}
 }
