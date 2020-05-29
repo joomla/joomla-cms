@@ -67,47 +67,10 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 				$transitions,
 				function ($var) use ($pk, $workflow_id)
 				{
-					return in_array($var['from_stage_id'], [-1, $pk]) && $var['to_stage_id'] != $pk && $workflow_id == $var['workflow_id'];
+					return in_array($var['from_stage_id'], [-1, $pk]) && $workflow_id == $var['workflow_id'];
 				}
 			)
 		);
-	}
-
-	/**
-	 * Method to change state of multiple ids
-	 *
-	 * @param   array  $pks        Array of IDs
-	 * @param   int    $condition  Condition of the workflow state
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public static function updateContentState(array $pks, int $condition): bool
-	{
-		if (empty($pks))
-		{
-			return false;
-		}
-
-		try
-		{
-			$db    = Factory::getDbo();
-			$query = $db->getQuery(true);
-
-			$query->update($db->quoteName('#__content'))
-				->set($db->quoteName('state') . ' = :condition')
-				->whereIn($db->quoteName('id'), $pks)
-				->bind(':condition', $condition, ParameterType::INTEGER);
-
-			$db->setQuery($query)->execute();
-		}
-		catch (\Exception $e)
-		{
-			return false;
-		}
-
-		return true;
 	}
 
 	/**

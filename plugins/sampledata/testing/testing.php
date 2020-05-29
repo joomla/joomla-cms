@@ -639,6 +639,8 @@ class PlgSampledataTesting extends CMSPlugin
 			return $response;
 		}
 
+		ComponentHelper::getParams('com_content')->set('workflow_enabled', 0);
+
 		$catIdsLevel1 = $this->app->getUserState('sampledata.testing.articles.catids1');
 		$catIdsLevel2 = $this->app->getUserState('sampledata.testing.articles.catids2');
 		$catIdsLevel3 = $this->app->getUserState('sampledata.testing.articles.catids3');
@@ -979,7 +981,7 @@ class PlgSampledataTesting extends CMSPlugin
 			),
 			array(
 				'catid'      => $catIdsLevel2[0],
-				'transition' => 4,
+				'state'  => 2,
 				'ordering'   => 0,
 			),
 			array(
@@ -4648,10 +4650,10 @@ class PlgSampledataTesting extends CMSPlugin
 			$article['metadesc']        = '';
 			$article['xreference']      = '';
 
-			// Set transition to published if not set.
-			if (!isset($article['transition']))
+			// Set article to published if not set.
+			if (!isset($article['state']))
 			{
-				$article['transition'] = 2;
+				$article['state'] = 1;
 			}
 
 			// Set article to not featured if not set.

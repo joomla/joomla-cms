@@ -243,7 +243,11 @@ class WorkflowTable extends Table
 	{
 		$k = $this->_tbl_key;
 
-		return $this->extension . '.workflow.' . (int) $this->$k;
+		$parts = explode('.', $this->extension);
+
+		$extension = array_shift($parts);
+
+		return $extension . '.workflow.' . (int) $this->$k;
 	}
 
 	/**
@@ -272,11 +276,15 @@ class WorkflowTable extends Table
 	{
 		$assetId = null;
 
+		$parts = explode('.', $this->extension);
+
+		$extension = array_shift($parts);
+
 		// Build the query to get the asset id for the parent category.
 		$query = $this->getDbo()->getQuery(true)
 			->select($this->getDbo()->quoteName('id'))
 			->from($this->getDbo()->quoteName('#__assets'))
-			->where($this->getDbo()->quoteName('name') . ' = ' . $this->getDbo()->quote($this->extension));
+			->where($this->getDbo()->quoteName('name') . ' = ' . $this->getDbo()->quote($extension));
 
 		// Get the asset id from the database.
 		$this->getDbo()->setQuery($query);

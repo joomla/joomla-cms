@@ -117,8 +117,6 @@ class PlgSampledataBlog extends CMSPlugin
 		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
-		$workflow_id = 1;
-
 		// Create "blog" category.
 		$categoryModel = $this->app->bootComponent('com_categories')
 			->getMVCFactory()->createModel('Category', 'Administrator');
@@ -147,7 +145,7 @@ class PlgSampledataBlog extends CMSPlugin
 			'associations'    => array(),
 			'description'     => '',
 			'language'        => $language,
-			'params'          => '{"workflow_id": "' . $workflow_id . '"}',
+			'params'          => '{}',
 		);
 
 		try
@@ -194,7 +192,7 @@ class PlgSampledataBlog extends CMSPlugin
 			'associations'    => array(),
 			'description'     => '',
 			'language'        => $language,
-			'params'          => '{"workflow_id": "' . $workflow_id . '"}',
+			'params'          => '{}',
 		);
 
 		try
@@ -217,7 +215,6 @@ class PlgSampledataBlog extends CMSPlugin
 		$catIds[] = $categoryModel->getItem()->id;
 
 		// Create Articles.
-		$articleModel = new \Joomla\Component\Content\Administrator\Model\ArticleModel;
 		$articles     = array(
 			array(
 				'catid'    => $catIds[1],
@@ -246,8 +243,14 @@ class PlgSampledataBlog extends CMSPlugin
 			),
 		);
 
+		$mvcFactory = $this->app->bootComponent('com_content')->getMVCFactory();
+
+		ComponentHelper::getParams('com_content')->set('workflow_enabled', 0);
+
 		foreach ($articles as $i => $article)
 		{
+			$articleModel = $mvcFactory->createModel('Article', 'Administrator', ['ignore_request' => true]);
+
 			// Set values from language strings.
 			$title                = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_ARTICLE_' . $i . '_TITLE');
 			$alias                = ApplicationHelper::stringURLSafe($title);
@@ -270,6 +273,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 			$article['language']        = $language;
 			$article['associations']    = array();
+			$article['state']           = 1;
 			$article['featured']        = 0;
 			$article['images']          = '';
 			$article['metakey']         = '';
@@ -279,9 +283,6 @@ class PlgSampledataBlog extends CMSPlugin
 			{
 				$article['access'] = $access;
 			}
-
-			// Publish
-			$article['transition'] = 2;
 
 			if (!$articleModel->save($article))
 			{

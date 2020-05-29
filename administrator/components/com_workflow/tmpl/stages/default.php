@@ -27,8 +27,6 @@ $saveOrderingUrl = '';
 
 $saveOrder = ($listOrder == 's.ordering');
 
-$isCore = $this->workflow->core;
-
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_workflow&task=stages.saveOrderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
@@ -68,17 +66,14 @@ if ($saveOrder)
 								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 's.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
-								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 's.condition', $listDirn, $listOrder); ?>
+								<th scope="col" class="w-1 text-center">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 's.published', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="w-1 text-center d-none d-md-table-cell">
+								<th scope="col" class="w-1 text-center">
 									<?php echo Text::_('COM_WORKFLOW_DEFAULT'); ?>
 								</th>
-								<th scope="col" class="w-10 d-none d-md-table-cell">
+								<th scope="col" class="w-10">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 's.title', $listDirn, $listOrder); ?>
-								</th>
-								<th scope="col" class="w-10 d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_CONDITION', 's.condition', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col" class="w-1 d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_ID', 's.id', $listDirn, $listOrder); ?>
@@ -116,7 +111,7 @@ if ($saveOrder)
 											<input type="text" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order hidden">
 										<?php endif; ?>									</td>
 									<td class="text-center">
-										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'stages.', $canChange && !$isCore); ?>
+										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'stages.', $canChange); ?>
 									</td>
 									<td class="text-center">
 										<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'stages.', $canChange); ?>
@@ -125,7 +120,7 @@ if ($saveOrder)
 										<?php if ($item->checked_out) : ?>
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'stages.', $canCheckin); ?>
 										<?php endif; ?>
-										<?php if ($canEdit && !$isCore) : ?>
+										<?php if ($canEdit) : ?>
 											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes(Text::_($item->title))); ?>">
 												<?php echo $this->escape(Text::_($item->title)); ?>
 											</a>
@@ -135,21 +130,6 @@ if ($saveOrder)
 											<div class="small"><?php echo $this->escape(Text::_($item->description)); ?></div>
 										<?php endif; ?>
 									</th>
-									<td class="nowrap">
-										<?php
-											if ($item->condition == 'JARCHIVED'):
-												$icon = 'icon-archive';
-											elseif ($item->condition == 'JTRASHED'):
-												$icon = 'icon-trash';
-											elseif ($item->condition == 'JPUBLISHED'):
-												$icon = 'icon-publish';
-											elseif ($item->condition == 'JUNPUBLISHED'):
-												$icon = 'icon-unpublish';
-											endif;
-										?>
-										<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-										<?php echo Text::_($item->condition); ?>
-									</td>
 									<td class="d-none d-md-table-cell">
 										<?php echo (int) $item->id; ?>
 									</td>
