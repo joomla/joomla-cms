@@ -10,7 +10,6 @@ namespace Joomla\CMS\MVC\Model;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\Database\ParameterType;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
@@ -18,8 +17,6 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Workflow\Workflow;
-use Joomla\CMS\Table\Category;
-use Joomla\Registry\Registry;
 
 /**
  * Trait which supports state behavior
@@ -278,7 +275,7 @@ trait WorkflowBehaviorTrait
 
 		$catKey = $table->getColumnAlias('catid');
 
-		$stage_id = $this->getDefaultStageByCategoryId($table->$catKey);
+		$stage_id = $this->workflow->getDefaultStageByCategory($table->$catKey);
 
 		if (empty($stage_id))
 		{
@@ -431,119 +428,6 @@ trait WorkflowBehaviorTrait
 			return false;
 		}
 
-		return $this->getDefaultStageByCategoryId($catId);
-	}
-
-	/**
-	 * Try to load a workflow default stage by category ID.
-	 *
-	 * @param   integer   $catId  The category ID.
-	 *
-	 * @return  boolean|integer  An integer, holding the stage ID or false
-	 * @since   4.0.0
-	 */
-	protected function getDefaultStageByCategoryId($catId)
-	{
-		$db = Factory::getContainer()->get('DatabaseDriver');
-
-		// Let's check if a workflow ID is assigned to a category
-		$category = new Category($db);
-
-		$categories = array_reverse($category->getPath($catId));
-
-		$workflow_id = 0;
-
-		foreach ($categories as $cat)
-		{
-			$cat->params = new Registry($cat->params);
-
-			$workflow_id = $cat->params->get('workflow_id');
-
-			if ($workflow_id == 'inherit')
-			{
-				$workflow_id = 0;
-
-				continue;
-			}
-			elseif ($workflow_id == 'use_default')
-			{
-				$workflow_id = 0;
-
-				break;
-			}
-			elseif ($workflow_id > 0)
-			{
-				break;
-			}
-		}
-
-		// Check if the workflow exists
-		if ($workflow_id = (int) $workflow_id)
-		{
-			$query = $db->getQuery(true);
-
-			$query->select(
-				[
-					$db->quoteName('ws.id')
-				]
-			)
-				->from(
-					[
-						$db->quoteName('#__workflow_stages', 'ws'),
-						$db->quoteName('#__workflows', 'w'),
-					]
-				)
-				->where(
-					[
-						$db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'),
-						$db->quoteName('ws.default') . ' = 1',
-						$db->quoteName('w.published') . ' = 1',
-						$db->quoteName('ws.published') . ' = 1',
-						$db->quoteName('w.id') . ' = :workflowId',
-					]
-				)
-				->bind(':workflowId', $workflow_id, ParameterType::INTEGER);
-
-			$stage_id = (int) $db->setQuery($query)->loadResult();
-
-			if (!empty($stage_id))
-			{
-				return $stage_id;
-			}
-		}
-
-		// Use default workflow
-		$query  = $db->getQuery(true);
-
-		$query->select(
-			[
-				$db->quoteName('ws.id')
-			]
-		)
-			->from(
-				[
-					$db->quoteName('#__workflow_stages', 'ws'),
-					$db->quoteName('#__workflows', 'w'),
-				]
-			)
-			->where(
-				[
-					$db->quoteName('ws.default') . ' = 1',
-					$db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'),
-					$db->quoteName('w.published') . ' = 1',
-					$db->quoteName('ws.published') . ' = 1',
-					$db->quoteName('w.default') . ' = 1',
-				]
-			);
-
-		$stage_id = (int) $db->setQuery($query)->loadResult();
-
-		// Last check if we have a workflow ID
-		if (!empty($stage_id))
-		{
-			return $stage_id;
-		}
-
-		return false;
+		return $this->workflow->getDefaultStageByCategory($catId);
 	}
 }

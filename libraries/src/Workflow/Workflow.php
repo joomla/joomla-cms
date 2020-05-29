@@ -14,6 +14,7 @@ use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Category;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -146,6 +147,123 @@ class Workflow
 		}
 
 		return $this->component;
+	}
+
+	/**
+	 * Try to load a workflow default stage by category ID.
+	 *
+	 * @param   integer   $catId  The category ID.
+	 *
+	 * @return  boolean|integer  An integer, holding the stage ID or false
+	 * @since   4.0.0
+	 */
+	public function getDefaultStageByCategory($catId = 0)
+	{
+		$db = Factory::getContainer()->get('DatabaseDriver');
+
+		// Let's check if a workflow ID is assigned to a category
+		$category = new Category($db);
+
+		$categories = array_reverse($category->getPath($catId));
+
+		$workflow_id = 0;
+
+		foreach ($categories as $cat)
+		{
+			$cat->params = new Registry($cat->params);
+
+			$workflow_id = $cat->params->get('workflow_id');
+
+			if ($workflow_id == 'inherit')
+			{
+				$workflow_id = 0;
+
+				continue;
+			}
+			elseif ($workflow_id == 'use_default')
+			{
+				$workflow_id = 0;
+
+				break;
+			}
+			elseif ($workflow_id > 0)
+			{
+				break;
+			}
+		}
+
+		// Check if the workflow exists
+		if ($workflow_id = (int) $workflow_id)
+		{
+			$query = $db->getQuery(true);
+
+			$query->select(
+				[
+					$db->quoteName('ws.id')
+				]
+			)
+				->from(
+					[
+						$db->quoteName('#__workflow_stages', 'ws'),
+						$db->quoteName('#__workflows', 'w'),
+					]
+				)
+				->where(
+					[
+						$db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'),
+						$db->quoteName('ws.default') . ' = 1',
+						$db->quoteName('w.published') . ' = 1',
+						$db->quoteName('ws.published') . ' = 1',
+						$db->quoteName('w.id') . ' = :workflowId',
+						$db->quoteName('w.extension') . ' = :extension',
+					]
+				)
+				->bind(':workflowId', $workflow_id, ParameterType::INTEGER)
+				->bind(':extension', $this->extension);
+
+			$stage_id = (int) $db->setQuery($query)->loadResult();
+
+			if (!empty($stage_id))
+			{
+				return $stage_id;
+			}
+		}
+
+		// Use default workflow
+		$query  = $db->getQuery(true);
+
+		$query->select(
+			[
+				$db->quoteName('ws.id')
+			]
+		)
+			->from(
+				[
+					$db->quoteName('#__workflow_stages', 'ws'),
+					$db->quoteName('#__workflows', 'w'),
+				]
+			)
+			->where(
+				[
+					$db->quoteName('ws.default') . ' = 1',
+					$db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'),
+					$db->quoteName('w.published') . ' = 1',
+					$db->quoteName('ws.published') . ' = 1',
+					$db->quoteName('w.default') . ' = 1',
+					$db->quoteName('w.extension') . ' = :extension'
+				]
+			)
+			->bind(':extension', $this->extension);
+
+		$stage_id = (int) $db->setQuery($query)->loadResult();
+
+		// Last check if we have a workflow ID
+		if (!empty($stage_id))
+		{
+			return $stage_id;
+		}
+
+		return false;
 	}
 
 	/**
