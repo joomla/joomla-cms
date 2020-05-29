@@ -334,7 +334,7 @@ class MessagesModelMessage extends JModelAdmin
 			return false;
 		}
 
-		if ($config->get('locked', false))
+		if ($config->get('lock', false))
 		{
 			$this->setError(JText::_('COM_MESSAGES_ERR_SEND_FAILED'));
 
