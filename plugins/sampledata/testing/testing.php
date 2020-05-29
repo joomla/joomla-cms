@@ -981,7 +981,7 @@ class PlgSampledataTesting extends CMSPlugin
 			),
 			array(
 				'catid'      => $catIdsLevel2[0],
-				'published'  => 2,
+				'state'  => 2,
 				'ordering'   => 0,
 			),
 			array(
@@ -4651,9 +4651,9 @@ class PlgSampledataTesting extends CMSPlugin
 			$article['xreference']      = '';
 
 			// Set article to published if not set.
-			if (!isset($article['published']))
+			if (!isset($article['state']))
 			{
-				$article['published'] = 1;
+				$article['state'] = 1;
 			}
 
 			// Set article to not featured if not set.

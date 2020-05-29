@@ -273,7 +273,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 			$article['language']        = $language;
 			$article['associations']    = array();
-			$article['published']       = 1;
+			$article['state']           = 1;
 			$article['featured']        = 0;
 			$article['images']          = '';
 			$article['metakey']         = '';
