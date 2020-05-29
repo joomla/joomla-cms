@@ -53,7 +53,7 @@ class BannersHelper extends ContentHelper
 			->extendWhere(
 				'AND',
 				[
-					$db->quoteName('checked_out') . ' = 0',
+					$db->quoteName('checked_out') . ' IS NULL',
 					$db->quoteName('checked_out') . ' = :userId',
 				],
 				'OR'
