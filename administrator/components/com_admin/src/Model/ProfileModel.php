@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Users\Administrator\Model\UserModel;
@@ -37,15 +36,8 @@ class ProfileModel extends UserModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		// Add form path.
-		FormHelper::addFormPath(JPATH_ADMINISTRATOR . '/components/com_users/forms');
-
-		// Load com_users language file.
-		$app = Factory::getApplication();
-		$app->getLanguage()->load('com_users');
-
 		// Get the form.
-		$form = $this->loadForm('com_admin.profile', 'user', array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm('com_admin.profile', 'profile', array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form))
 		{
@@ -78,7 +70,7 @@ class ProfileModel extends UserModel
 		}
 
 		// If the user needs to change their password, mark the password fields as required
-		if ($app->getIdentity()->requireReset)
+		if (Factory::getUser()->requireReset)
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
 			$form->setFieldAttribute('password2', 'required', 'true');
