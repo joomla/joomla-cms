@@ -234,7 +234,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 			if (is_array($directories))
 			{
-				$skin = Uri::root(true) . ($isAdmin ? 'administrator' : '')
+				$skin = Uri::root(true) . ($isAdmin ? '/administrator' : '')
 					. '/templates/' . $template . '/css/editors/tinymce/skins/' . basename($directories[0]);
 			}
 		}
