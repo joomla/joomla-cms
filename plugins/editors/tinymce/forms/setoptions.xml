@@ -36,6 +36,28 @@
 	/>
 
 	<field
+		name="content_css"
+		type="folderlist"
+		label="PLG_TINY_FIELD_CONTENT_CSS_LABEL"
+		directory="media/vendor/tinymce/skins/content"
+		recursive="false"
+		hide_none="true"
+		default="default"
+		hide_default="true"
+	/>
+
+	<field
+		name="content_css_admin"
+		type="folderlist"
+		label="PLG_TINY_FIELD_CONTENT_CSS_ADMIN_LABEL"
+		directory="media/vendor/tinymce/skins/content"
+		recursive="false"
+		hide_none="true"
+		default="default"
+		hide_default="true"
+	/>
+
+	<field
 		name="drag_drop"
 		type="radio"
 		label="PLG_TINY_FIELD_DRAG_DROP_LABEL"
@@ -98,18 +120,6 @@
 		>
 		<option value="ltr">PLG_TINY_FIELD_VALUE_LTR</option>
 		<option value="rtl">PLG_TINY_FIELD_VALUE_RTL</option>
-	</field>
-
-	<field
-		name="content_css"
-		type="radio"
-		label="PLG_TINY_FIELD_CSS_LABEL"
-		description="PLG_TINY_FIELD_CSS_DESC"
-		layout="joomla.form.field.radio.switcher"
-		default="1"
-		>
-		<option value="0">JOFF</option>
-		<option value="1">JON</option>
 	</field>
 
 	<field
