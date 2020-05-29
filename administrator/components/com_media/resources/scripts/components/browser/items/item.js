@@ -81,26 +81,6 @@ export default {
          * @param event
          */
         handleClick(event) {
-            let path = false;
-            const data = {
-                path: path,
-                thumb: false,
-                fileType: this.item.mime_type ? this.item.mime_type : false,
-                extension: this.item.extension ? this.item.extension : false,
-            };
-
-            if (this.item.type === 'file') {
-                data.path = this.item.path;
-                data.thumb = this.item.thumb ? this.item.thumb : false;
-
-                const ev = new CustomEvent('onMediaFileSelected', {
-                    "bubbles": true,
-                    "cancelable": false,
-                    "detail": data
-                });
-                window.parent.document.dispatchEvent(ev);
-            }
-
             // Handle clicks when the item was not selected
             if (!this.isSelected()) {
                 // Unselect all other selected items, if the shift key was not pressed during the click event
@@ -130,18 +110,18 @@ export default {
     render: function (createElement) {
 
         return createElement('div', {
-                'class': {
-                    'media-browser-item': true,
-                    selected: this.isSelected(),
-                    active: this.isHoverActive(),
-                },
-                on: {
-                    click: this.handleClick,
-                    mouseover: this.mouseover,
-                    mouseleave: this.mouseleave,
-                    focused: this.focused,
-                },
+            'class': {
+                'media-browser-item': true,
+                selected: this.isSelected(),
+                active: this.isHoverActive(),
             },
+            on: {
+                click: this.handleClick,
+                mouseover: this.mouseover,
+                mouseleave: this.mouseleave,
+                focused: this.focused,
+            },
+        },
             [
                 createElement(this.itemType(), {
                     props: {
