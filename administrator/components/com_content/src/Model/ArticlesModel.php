@@ -102,6 +102,13 @@ class ArticlesModel extends ListModel
 		{
 			$form->removeField('stage', 'filter');
 		}
+		else
+		{
+			$ordering = $form->getField('fullordering', 'list');
+
+			$ordering->addOption('JSTAGE_ASC', ['value' => 'ws.title ASC']);
+			$ordering->addOption('JSTAGE_ASC', ['value' => 'ws.title DESC']);
+		}
 
 		return $form;
 	}
