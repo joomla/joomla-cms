@@ -11,6 +11,7 @@ namespace Joomla\CMS\Versioning;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Database\ParameterType;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Table\Table;
 
@@ -34,11 +35,13 @@ class Versioning
 	public static function get($typeAlias, $id)
 	{
 		$db = Factory::getDbo();
+		$itemid = $typeAlias . '.' . $id;
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('h.version_note') . ',' . $db->quoteName('h.save_date') . ',' . $db->quoteName('u.name'))
 			->from($db->quoteName('#__history') . ' AS h ')
 			->leftJoin($db->quoteName('#__users') . ' AS u ON ' . $db->quoteName('u.id') . ' = ' . $db->quoteName('h.editor_user_id'))
-			->where($db->quoteName('item_id') . ' = ' . $db->quote($typeAlias . '.' . $id))
+			->where($db->quoteName('item_id') . ' = :item_id')
+			->bind(':item_id', $itemid, ParameterType::STRING)
 			->order($db->quoteName('save_date') . ' DESC ');
 		$db->setQuery($query);
 
@@ -58,9 +61,11 @@ class Versioning
 	public static function delete($typeAlias, $id)
 	{
 		$db = Factory::getDbo();
+		$itemid = $typeAlias . '.' . $id;
 		$query = $db->getQuery(true);
 		$query->delete($db->quoteName('#__history'))
-			->where($db->quoteName('item_id') . ' = ' . $db->quote($typeAlias . '.' . $id));
+			->where($db->quoteName('item_id') . ' = :item_id')
+			->bind(':item_id', $itemid, ParameterType::STRING);
 		$db->setQuery($query);
 
 		return $db->execute();
