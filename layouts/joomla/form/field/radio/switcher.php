@@ -40,6 +40,8 @@ extract($displayData, null);
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
  * @var   array    $options         Options available for this field.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
 // If there are no options don't render anything
@@ -62,6 +64,7 @@ $input = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 
 $attr = 'id="' . $id . '"';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
+$attr .= $dataAttribute;
 
 if (!empty($disabled) || !empty($readonly))
 {

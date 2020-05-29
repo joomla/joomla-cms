@@ -41,6 +41,7 @@ extract($displayData);
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
 
@@ -48,16 +49,6 @@ extract($displayData);
 $class    = !empty($class) ? ' class="' . $class . '"' : '';
 $disabled = $disabled ? ' disabled' : '';
 $onchange = $onchange ? ' onchange="' . $onchange . '"' : '';
-
-$dataAttribute = '';
-
-if (!empty($dataAttributes))
-{
-	foreach ($dataAttributes as $key => $value)
-	{
-		$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
-	}
-}
 ?>
 <input
 	type="hidden"

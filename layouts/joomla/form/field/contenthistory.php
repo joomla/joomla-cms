@@ -41,9 +41,10 @@ use Joomla\CMS\Language\Text;
  * @var   array    $checkedOptions  Options that will be set as checked.
  * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   array    $options         Options available for this field.
- *
  * @var   string   $link            The link for the content history page
  * @var   string   $label           The label text
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 extract($displayData);
 
@@ -63,7 +64,11 @@ echo HTMLHelper::_(
 );
 
 ?>
-<button type="button" onclick="document.getElementById('versionsModal').open()" class="btn btn-secondary" data-toggle="modal">
-	<span class="fas fa-code-branch" aria-hidden="true"></span>
-	<?php echo $label; ?>
+<button
+	type="button"
+	onclick="document.getElementById('versionsModal').open()"
+	class="btn btn-secondary"
+	data-toggle="modal"<?php echo $dataAttribute; ?>>
+		<span class="fas fa-code-branch" aria-hidden="true"></span>
+		<?php echo $label; ?>
 </button>
