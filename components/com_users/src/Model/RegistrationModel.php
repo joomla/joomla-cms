@@ -191,7 +191,7 @@ class RegistrationModel extends FormModel
 			{
 				$usercreator = Factory::getUser($row->id);
 
-				if ($usercreator->authorise('core.create', 'com_users'))
+				if ($usercreator->authorise('core.create', 'com_users') && $usercreator->authorise('core.manage', 'com_users'))
 				{
 					try
 					{

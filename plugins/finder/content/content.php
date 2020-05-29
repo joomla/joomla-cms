@@ -115,12 +115,12 @@ class PlgFinderContent extends Adapter
 	 * @param   string  $context  The context of the action being performed.
 	 * @param   Table   $table    A Table object containing the record to be deleted
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public function onFinderAfterDelete($context, $table)
+	public function onFinderAfterDelete($context, $table): void
 	{
 		if ($context === 'com_content.article')
 		{
@@ -132,11 +132,11 @@ class PlgFinderContent extends Adapter
 		}
 		else
 		{
-			return true;
+			return;
 		}
 
 		// Remove item from the index.
-		return $this->remove($id);
+		$this->remove($id);
 	}
 
 	/**

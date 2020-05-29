@@ -72,7 +72,7 @@ class PlgContentFinder extends CMSPlugin
 	 *
 	 * @since   2.5
 	 */
-	public function onContentAfterDelete($context, $article)
+	public function onContentAfterDelete($context, $article): void
 	{
 		PluginHelper::importPlugin('finder');
 

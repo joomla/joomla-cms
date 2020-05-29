@@ -28,4 +28,15 @@ interface ViewInterface
 	 * @since   4.0.0
 	 */
 	public function display($tpl = null);
+
+	/**
+	 * Method to get the model object
+	 *
+	 * @param   string  $name  The name of the model (optional)
+	 *
+	 * @return  BaseDatabaseModel  The model object
+	 *
+	 * @since   3.0
+	 */
+	public function getModel($name = null);
 }

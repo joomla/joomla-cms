@@ -133,7 +133,7 @@ if ($saveOrder && !empty($this->items))
 					$orderkey   = array_search($item->id, $this->ordering[$item->parent_id]);
 					$canCreate  = $user->authorise('core.create',     'com_tags');
 					$canEdit    = $user->authorise('core.edit',       'com_tags');
-					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id')|| $item->checked_out == 0;
+					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || is_null($item->checked_out);
 					$canChange  = $user->authorise('core.edit.state', 'com_tags') && $canCheckin;
 
 					// Get the parents of item for sorting

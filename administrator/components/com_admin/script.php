@@ -6560,7 +6560,7 @@ class JoomlaInstallerScript
 		}
 
 		$parentId    = $tableItem->id;
-		$componentId = ExtensionHelper::getExtensionRecord('com_fields')->extension_id;
+		$componentId = ExtensionHelper::getExtensionRecord('com_fields', 'component')->extension_id;
 
 		// Add Contact Fields Menu Items.
 		$menuItems = [
@@ -6576,7 +6576,7 @@ class JoomlaInstallerScript
 				'parent_id'         => $parentId,
 				'level'             => 2,
 				'component_id'      => $componentId,
-				'checked_out'       => 0,
+				'checked_out'       => null,
 				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
@@ -6601,7 +6601,7 @@ class JoomlaInstallerScript
 				'parent_id'         => $parentId,
 				'level'             => 2,
 				'component_id'      => $componentId,
-				'checked_out'       => 0,
+				'checked_out'       => null,
 				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
@@ -6626,7 +6626,7 @@ class JoomlaInstallerScript
 				'parent_id'         => $parentId,
 				'level'             => 2,
 				'component_id'      => $componentId,
-				'checked_out'       => 0,
+				'checked_out'       => null,
 				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
@@ -6670,7 +6670,7 @@ class JoomlaInstallerScript
 		}
 
 		$parentId    = $tableItem->id;
-		$componentId = ExtensionHelper::getExtensionRecord('com_finder')->extension_id;
+		$componentId = ExtensionHelper::getExtensionRecord('com_finder', 'component')->extension_id;
 
 		// Add Finder Fields Menu Items.
 		$menuItems = [
@@ -6686,7 +6686,7 @@ class JoomlaInstallerScript
 				'parent_id'         => $parentId,
 				'level'             => 2,
 				'component_id'      => $componentId,
-				'checked_out'       => 0,
+				'checked_out'       => null,
 				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
@@ -6711,7 +6711,7 @@ class JoomlaInstallerScript
 				'parent_id'         => $parentId,
 				'level'             => 2,
 				'component_id'      => $componentId,
-				'checked_out'       => 0,
+				'checked_out'       => null,
 				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
@@ -6736,7 +6736,7 @@ class JoomlaInstallerScript
 				'parent_id'         => $parentId,
 				'level'             => 2,
 				'component_id'      => $componentId,
-				'checked_out'       => 0,
+				'checked_out'       => null,
 				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
@@ -6761,7 +6761,7 @@ class JoomlaInstallerScript
 				'parent_id'         => $parentId,
 				'level'             => 2,
 				'component_id'      => $componentId,
-				'checked_out'       => 0,
+				'checked_out'       => null,
 				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,
@@ -6786,7 +6786,7 @@ class JoomlaInstallerScript
 				'parent_id'         => $parentId,
 				'level'             => 2,
 				'component_id'      => $componentId,
-				'checked_out'       => 0,
+				'checked_out'       => null,
 				'checked_out_time'  => null,
 				'browserNav'        => 0,
 				'access'            => 0,

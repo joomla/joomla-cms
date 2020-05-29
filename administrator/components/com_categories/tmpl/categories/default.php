@@ -129,7 +129,7 @@ if ($saveOrder && !empty($this->items))
 							<?php foreach ($this->items as $i => $item) : ?>
 								<?php
 								$canEdit    = $user->authorise('core.edit',       $extension . '.category.' . $item->id);
-								$canCheckin = $user->authorise('core.admin',      'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+								$canCheckin = $user->authorise('core.admin',      'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
 								$canEditOwn = $user->authorise('core.edit.own',   $extension . '.category.' . $item->id) && $item->created_user_id == $userId;
 								$canChange  = $user->authorise('core.edit.state', $extension . '.category.' . $item->id) && $canCheckin;
 
@@ -196,13 +196,13 @@ if ($saveOrder && !empty($this->items))
 										<?php else : ?>
 											<?php echo $this->escape($item->title); ?>
 										<?php endif; ?>
-										<span class="small" title="<?php echo $this->escape($item->path); ?>">
+										<div class="small" title="<?php echo $this->escape($item->path); ?>">
 											<?php if (empty($item->note)) : ?>
 												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 											<?php else : ?>
 												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS_NOTE', $this->escape($item->alias), $this->escape($item->note)); ?>
 											<?php endif; ?>
-										</span>
+										</div>
 									</th>
 									<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 										<td class="text-center btns d-none d-md-table-cell itemnumber">

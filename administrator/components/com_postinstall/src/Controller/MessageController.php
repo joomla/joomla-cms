@@ -32,6 +32,8 @@ class MessageController extends BaseController
 	 */
 	public function reset()
 	{
+		$this->checkToken();
+
 		/** @var MessagesModel $model */
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
 
@@ -82,6 +84,8 @@ class MessageController extends BaseController
 	 */
 	public function action()
 	{
+		$this->checkToken();
+
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
 
 		$id = $this->input->get('id');
@@ -126,6 +130,8 @@ class MessageController extends BaseController
 	 */
 	public function hideAll()
 	{
+		$this->checkToken();
+
 		/** @var MessagesModel $model */
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
 		$eid = (int) $model->getState('eid', $model->getJoomlaFilesExtensionId());
