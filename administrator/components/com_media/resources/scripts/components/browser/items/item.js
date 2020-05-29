@@ -81,6 +81,24 @@ export default {
          * @param event
          */
         handleClick(event) {
+            if (this.item.path && this.item.type === 'file') {
+                window.parent.document.dispatchEvent(
+                    new CustomEvent(
+                        'onMediaFileSelected',
+                        {
+                            "bubbles": true,
+                            "cancelable": false,
+                            "detail": {
+                                path: this.item.path,
+                                thumb: this.item.thumb,
+                                fileType: this.item.mime_type ? this.item.mime_type : false,
+                                extension: this.item.extension ? this.item.extension : false,
+                            },
+                        }
+                    )
+                );
+            }
+
             // Handle clicks when the item was not selected
             if (!this.isSelected()) {
                 // Unselect all other selected items, if the shift key was not pressed during the click event
@@ -109,26 +127,31 @@ export default {
     },
     render: function (createElement) {
 
-        return createElement('div', {
-            'class': {
-                'media-browser-item': true,
-                selected: this.isSelected(),
-                active: this.isHoverActive(),
+        return createElement(
+            'div',
+            {
+                'class': {
+                    'media-browser-item': true,
+                    selected: this.isSelected(),
+                    active: this.isHoverActive(),
+                },
+                on: {
+                    click: this.handleClick,
+                    mouseover: this.mouseover,
+                    mouseleave: this.mouseleave,
+                    focused: this.focused,
+                },
             },
-            on: {
-                click: this.handleClick,
-                mouseover: this.mouseover,
-                mouseleave: this.mouseleave,
-                focused: this.focused,
-            },
-        },
             [
-                createElement(this.itemType(), {
-                    props: {
-                        item: this.item,
-                        focused: this.focused,
-                    },
-                })
+                createElement(
+                    this.itemType(),
+                    {
+                        props: {
+                            item: this.item,
+                            focused: this.focused,
+                        },
+                    }
+                )
             ]
         );
     }

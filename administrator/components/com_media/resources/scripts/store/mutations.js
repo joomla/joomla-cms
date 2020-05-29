@@ -229,17 +229,6 @@ export default {
      */
     [types.SELECT_BROWSER_ITEM]: (state, payload) => {
         state.selectedItems.push(payload);
-
-        window.parent.document.dispatchEvent(new CustomEvent('onMediaFileSelected', {
-            "bubbles": true,
-            "cancelable": false,
-            "detail": {
-                path: payload.path,
-                thumb: payload.thumb,
-                fileType: payload.fileType,
-                extension: payload.extension,
-            }
-        }));
     },
 
     /**
@@ -261,17 +250,6 @@ export default {
         state.selectedItems.splice(state.selectedItems.findIndex(
             selectedItem => selectedItem.path === item.path
         ), 1);
-
-        window.parent.document.dispatchEvent(new CustomEvent('onMediaFileSelected', {
-            "bubbles": true,
-            "cancelable": false,
-            "detail": {
-                path: '',
-                thumb: false,
-                fileType: false,
-                extension: false,
-            }
-        }));
     },
 
     /**
@@ -281,17 +259,6 @@ export default {
      */
     [types.UNSELECT_ALL_BROWSER_ITEMS]: (state, payload) => {
         state.selectedItems = [];
-
-        window.parent.document.dispatchEvent(new CustomEvent('onMediaFileSelected', {
-            "bubbles": true,
-            "cancelable": false,
-            "detail": {
-                path: '',
-                thumb: false,
-                fileType: false,
-                extension: false,
-            }
-        }));
     },
 
     /**
