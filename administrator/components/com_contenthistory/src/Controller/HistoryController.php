@@ -80,8 +80,7 @@ class HistoryController extends AdminController
 		$this->setRedirect(
 			Route::_(
 				'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id='
-				. $this->input->getInt('item_id') . '&type_id=' . $this->input->getInt('type_id')
-				. '&type_alias=' . $this->input->getCmd('type_alias') . '&' . Session::getFormToken() . '=1', false
+				. $this->input->getCmd('item_id') . '&' . Session::getFormToken() . '=1', false
 			)
 		);
 	}

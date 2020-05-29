@@ -15,6 +15,7 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
@@ -25,7 +26,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.5
  */
-class Content extends Table
+class Content extends Table implements VersionableTableInterface
 {
 	/**
 	 * Indicates that columns fully support the NULL value in the database
@@ -386,5 +387,17 @@ class Content extends Table
 		}
 
 		return parent::store($updateNulls);
+	}
+
+	/**
+	 * Get the type alias for the history table
+	 *
+	 * @return  string  The alias as described above
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getTypeAlias()
+	{
+		return 'com_content.article';
 	}
 }

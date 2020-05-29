@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Nested;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\String\StringHelper;
 
@@ -24,7 +25,7 @@ use Joomla\String\StringHelper;
  *
  * @since  3.1
  */
-class TagTable extends Nested
+class TagTable extends Nested implements VersionableTableInterface
 {
 	/**
 	 * An array of key names to be json encoded in the bind function
@@ -105,6 +106,16 @@ class TagTable extends Nested
 			// Only process if not empty
 			$bad_characters = array("\"", '<', '>');
 			$this->metadesc = StringHelper::str_ireplace($bad_characters, '', $this->metadesc);
+		}
+
+		if (empty($this->path))
+		{
+			$this->path = '';
+		}
+
+		if (empty($this->hits))
+		{
+			$this->hits = 0;
 		}
 
 		if (empty($this->params))
@@ -234,5 +245,17 @@ class TagTable extends Nested
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Get the type alias for the history table
+	 *
+	 * @return  string  The alias as described above
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getTypeAlias()
+	{
+		return 'com_tags.tag';
 	}
 }
