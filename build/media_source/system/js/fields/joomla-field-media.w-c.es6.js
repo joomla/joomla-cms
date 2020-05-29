@@ -198,7 +198,12 @@
 
       fetchImageDetails(selectedFile, input, this)
         .then(() => { Joomla.Modal.getCurrent().close(); })
-        .catch(() => { Joomla.Modal.getCurrent().close(); });
+        .catch(() => {
+          Joomla.Modal.getCurrent().close();
+          Joomla.renderMessages({
+            error: [Joomla.Text._('JLIB_APPLICATION_ERROR_SERVER')],
+          });
+        });
     }
 
     setValue(value) {
