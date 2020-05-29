@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Workflow\Workflow;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
 
@@ -374,6 +375,8 @@ class PlgSampledataMultilang extends CMSPlugin
 		}
 
 		$siteLanguages = $this->getInstalledlangsFrontend();
+
+		ComponentHelper::getParams('com_content')->set('workflow_enabled', 0);
 
 		foreach ($siteLanguages as $siteLang)
 		{
@@ -1020,7 +1023,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'description'     => '',
 			'published'       => 1,
 			'access'          => 1,
-			'params'          => '{"target":"","image":"", "workflow_id":"1"}',
+			'params'          => '{"target":"","image":""}',
 			'metadesc'        => '',
 			'metakey'         => '',
 			'metadata'        => '{"page_title":"","author":"","robots":""}',
@@ -1114,6 +1117,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'metadesc'         => '',
 			'language'         => $itemLanguage->language,
 			'state'            => 1,
+			'published'        => 1,
 			'featured'         => 1,
 			'attribs'          => array(),
 			'rules'            => array(),
@@ -1155,15 +1159,16 @@ class PlgSampledataMultilang extends CMSPlugin
 			return false;
 		}
 
-		$assoc = new stdClass;
-
-		$assoc->item_id   = $newId;
-		$assoc->stage_id  = 2;
-		$assoc->extension = 'com_content.article';
+		$workflow = new Workflow(['extension' => 'com_content.article']);
 
 		try
 		{
-			$db->insertObject('#__workflow_associations', $assoc);
+			$stage_id = $workflow->getDefaultStageByCategory($categoryId);
+
+			if ($stage_id)
+			{
+				$workflow->createAssociation($newId, $stage_id);
+			}
 		}
 		catch (ExecutionFailureException $e)
 		{
