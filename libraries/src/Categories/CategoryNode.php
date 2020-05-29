@@ -119,7 +119,7 @@ class CategoryNode extends CMSObject implements NodeInterface
 	 * @var    boolean
 	 * @since  1.6
 	 */
-	public $checked_out = 0;
+	public $checked_out = null;
 
 	/**
 	 * The time at which the category was checked out

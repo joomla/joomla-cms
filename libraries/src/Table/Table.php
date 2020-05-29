@@ -1301,7 +1301,7 @@ abstract class Table extends CMSObject implements TableInterface, DispatcherAwar
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
 			->update($this->_tbl)
-			->set($this->_db->quoteName($checkedOutField) . ' = 0')
+			->set($this->_db->quoteName($checkedOutField) . ' = NULL')
 			->set($this->_db->quoteName($checkedOutTimeField) . ' = ' . $nullDate);
 		$this->appendPrimaryKeys($query, $pk);
 		$this->_db->setQuery($query);

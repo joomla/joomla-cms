@@ -352,11 +352,11 @@ class BannerTable extends Table
 			}
 
 			// Verify checkout
-			if ($table->checked_out == 0 || $table->checked_out == $userId)
+			if (is_null($table->checked_out) || $table->checked_out == $userId)
 			{
 				// Change the state
 				$table->sticky = $state;
-				$table->checked_out = 0;
+				$table->checked_out = null;
 				$table->checked_out_time = null;
 
 				// Check the row

@@ -103,7 +103,7 @@ $userId = $user->id;
 
 							$isCore     = !empty($item->core);
 							$canEdit    = $user->authorise('core.edit', $extension . '.workflow.' . $item->id);
-							$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || $item->checked_out == 0;
+							$canCheckin = $user->authorise('core.admin', 'com_workflow') || $item->checked_out == $userId || is_null($item->checked_out);
 							$canEditOwn = $user->authorise('core.edit.own',   $extension . '.workflow.' . $item->id) && $item->created_by == $userId;
 							$canChange  = $user->authorise('core.edit.state', $extension . '.workflow.' . $item->id) && $canCheckin;
 							?>

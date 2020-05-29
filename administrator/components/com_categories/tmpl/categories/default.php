@@ -129,7 +129,7 @@ if ($saveOrder && !empty($this->items))
 							<?php foreach ($this->items as $i => $item) : ?>
 								<?php
 								$canEdit    = $user->authorise('core.edit',       $extension . '.category.' . $item->id);
-								$canCheckin = $user->authorise('core.admin',      'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+								$canCheckin = $user->authorise('core.admin',      'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
 								$canEditOwn = $user->authorise('core.edit.own',   $extension . '.category.' . $item->id) && $item->created_user_id == $userId;
 								$canChange  = $user->authorise('core.edit.state', $extension . '.category.' . $item->id) && $canCheckin;
 
