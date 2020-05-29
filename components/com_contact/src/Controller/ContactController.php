@@ -117,7 +117,7 @@ class ContactController extends FormController
 		// Check if the contact form is enabled
 		if (!$contact->params->get('show_email_form'))
 		{
-			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
+			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub . '&catid=' . $contact->catid, false));
 
 			return false;
 		}
@@ -133,7 +133,7 @@ class ContactController extends FormController
 				$this->app->setUserState('com_contact.contact.data', $data);
 
 				// Redirect back to the contact form.
-				$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
+				$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub . '&catid=' . $contact->catid, false));
 
 				return false;
 			}
@@ -148,8 +148,6 @@ class ContactController extends FormController
 		if (!$form)
 		{
 			throw new \Exception($model->getError(), 500);
-
-			return false;
 		}
 
 		if (!$model->validate($form, $data))
@@ -170,7 +168,7 @@ class ContactController extends FormController
 
 			$app->setUserState('com_contact.contact.data', $data);
 
-			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
+			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub . '&catid=' . $contact->catid, false));
 
 			return false;
 		}
@@ -215,7 +213,7 @@ class ContactController extends FormController
 		}
 		else
 		{
-			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub, false), $msg);
+			$this->setRedirect(Route::_('index.php?option=com_contact&view=contact&id=' . $stub . '&catid=' . $contact->catid, false), $msg);
 		}
 
 		return true;

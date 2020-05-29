@@ -45,14 +45,14 @@
 
 				<field
 					name="html_height"
-					type="number"
+					type="text"
 					label="PLG_TINY_FIELD_HTMLHEIGHT_LABEL"
-					default="550"
+					default="550px"
 				/>
 
 				<field
 					name="html_width"
-					type="number"
+					type="text"
 					label="PLG_TINY_FIELD_HTMLWIDTH_LABEL"
 					default=""
 				/>
