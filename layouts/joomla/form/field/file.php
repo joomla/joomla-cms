@@ -47,9 +47,12 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   array    $spellcheck      Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*
  */
 
 $maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize());
+
 ?>
 <input type="file"
 	name="<?php echo $name; ?>"
@@ -60,6 +63,7 @@ $maxSize = HTMLHelper::_('number.bytes', Utility::getMaxUploadSize());
 	<?php echo !empty($multiple) ? ' multiple' : ''; ?>
 	<?php echo $disabled ? ' disabled' : ''; ?>
 	<?php echo $autofocus ? ' autofocus' : ''; ?>
+	<?php echo $dataAttribute; ?>
 	<?php echo !empty($onchange) ? ' onchange="' . $onchange . '"' : ''; ?>
 	<?php echo $required ? ' required' : ''; ?>><br>
 	<?php echo Text::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>

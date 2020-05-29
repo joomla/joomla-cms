@@ -42,10 +42,11 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
 // Initialize some field attributes.
-
 $attributes = array(
 	$class ? 'class="form-control ' . $class . '"' : 'class="form-control"',
 	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
@@ -56,6 +57,7 @@ $attributes = array(
 	!empty($step) ? 'step="' . $step . '"' : '',
 	!empty($min) ? 'min="' . $min . '"' : '',
 	$autofocus ? 'autofocus' : '',
+	$dataAttribute,
 );
 
 $value = is_numeric($value) ? (float) $value : $min;

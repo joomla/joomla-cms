@@ -43,6 +43,8 @@ extract($displayData);
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
  * @var   integer  $maxLength       The maximum length that the field shall accept.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
 $attributes = array(
@@ -57,6 +59,7 @@ $attributes = array(
 	$onchange ? 'onchange="' . $onchange . '"' : '',
 	!empty($maxLength) ? $maxLength : '',
 	$required ? 'required' : '',
+	$dataAttribute,
 );
 ?>
 <input
