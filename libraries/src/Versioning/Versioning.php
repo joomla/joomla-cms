@@ -39,7 +39,7 @@ class Versioning
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('h.version_note') . ',' . $db->quoteName('h.save_date') . ',' . $db->quoteName('u.name'))
 			->from($db->quoteName('#__history', 'h'))
-			->leftJoin($db->quoteName('#__users') . ' AS u ON ' . $db->quoteName('u.id') . ' = ' . $db->quoteName('h.editor_user_id'))
+			->leftJoin($db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('h.editor_user_id'))
 			->where($db->quoteName('item_id') . ' = :item_id')
 			->bind(':item_id', $itemid, ParameterType::STRING)
 			->order($db->quoteName('save_date') . ' DESC ');
