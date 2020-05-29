@@ -47,6 +47,7 @@ extract($displayData);
  * @var   string   $userName        The user name
  * @var   mixed    $groups          The filtering groups (null means no filtering)
  * @var   mixed    $excluded        The users to exclude from the list of users
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
  * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
@@ -100,14 +101,6 @@ if (!$readonly)
 {
 	$inputAttributes['placeholder'] = Text::_('JLIB_FORM_SELECT_USER');
 }
-
-if (!empty($dataAttributes))
-{
-	foreach ($dataAttributes as $key => $attrValue)
-	{
-		$inputAttributes[$key] = htmlspecialchars($attrValue, ENT_COMPAT, 'UTF-8');
-	}
-}
 ?>
 <?php // Create a dummy text field with the user name. ?>
 <joomla-field-user class="field-user-wrapper"
@@ -119,7 +112,7 @@ if (!empty($dataAttributes))
 		input-name=".field-user-input-name"
 		button-select=".button-select">
 	<div class="input-group">
-		<input <?php echo ArrayHelper::toString($inputAttributes); ?> readonly>
+		<input <?php echo ArrayHelper::toString($inputAttributes), $dataAttribute; ?>	 readonly>
 		<?php if (!$readonly) : ?>
 			<span class="input-group-append">
 				<button type="button" class="btn btn-primary button-select" title="<?php echo Text::_('JLIB_FORM_CHANGE_USER'); ?>">

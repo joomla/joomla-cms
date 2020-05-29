@@ -49,6 +49,8 @@ extract($displayData);
  * @var   boolean  $allowCustom     Flag, to allow add custom values
  * @var   boolean  $remoteSearch    Flag, to enable remote search
  * @var   integer  $minTermLength   Minimum length of the term to start searching
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attributes for eg, data-*.
  */
 
 $html = array();
@@ -58,6 +60,7 @@ $attr = '';
 $attr .= $multiple ? ' multiple' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
+$attr .= $dataAttribute;
 
 // To avoid user's confusion, readonly="readonly" should imply disabled="disabled".
 if ($readonly || $disabled)
@@ -68,6 +71,7 @@ if ($readonly || $disabled)
 $attr2  = '';
 $attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
 $attr2 .= ' placeholder="' . $this->escape($hint ?: Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_TAGS')) . '" ';
+$attr2 .= $dataAttribute;
 
 if ($allowCustom)
 {
