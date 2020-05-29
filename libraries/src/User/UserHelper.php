@@ -127,6 +127,9 @@ abstract class UserHelper
 			// Add the group data to the user object.
 			$user->groups[$groupId] = $groupId;
 
+			// Reindex the array for prepared statements binding
+			$user->groups = array_values($user->groups);
+
 			// Store the user object.
 			$user->save();
 		}
