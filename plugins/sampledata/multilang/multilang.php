@@ -769,7 +769,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
 			'type'         => 'component',
 			'link'         => 'index.php?option=com_content&view=categories&id=0',
-			'component_id' => ExtensionHelper::getExtensionRecord('com_content')->extension_id,
+			'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 			'published'    => 1,
 			'parent_id'    => 1,
 			'level'        => 1,
@@ -848,7 +848,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
 			'type'         => 'component',
 			'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $categoryId,
-			'component_id' => ExtensionHelper::getExtensionRecord('com_content')->extension_id,
+			'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 			'published'    => 1,
 			'parent_id'    => 1,
 			'level'        => 1,
@@ -1283,7 +1283,7 @@ class PlgSampledataMultilang extends CMSPlugin
 				$row->published = 0;
 			}
 
-			$row->checked_out = 0;
+			$row->checked_out = null;
 			$data[]           = $row;
 		}
 

@@ -321,7 +321,7 @@ class ArticlesModel extends ListModel
 		// Filter by access level.
 		if ($this->getState('filter.access', true))
 		{
-			$groups = $user->getAuthorisedViewLevels();
+			$groups = $this->getState('filter.viewlevels', $user->getAuthorisedViewLevels());
 			$query->whereIn($db->quoteName('a.access'), $groups)
 				->whereIn($db->quoteName('c.access'), $groups);
 		}

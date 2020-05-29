@@ -100,7 +100,7 @@ class ClientTable extends Table
 			$query->extendWhere(
 				'AND',
 				[
-					$this->_db->quoteName('checked_out') . ' = 0',
+					$this->_db->quoteName('checked_out') . ' IS NULL',
 					$this->_db->quoteName('checked_out') . ' = :userId',
 				],
 				'OR'

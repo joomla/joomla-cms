@@ -395,7 +395,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_0_TITLE'),
 				'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $catids[0],
-				'component_id' => ExtensionHelper::getExtensionRecord('com_content')->extension_id,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
 					'layout_type'             => 'blog',
 					'show_category_title'     => 0,
@@ -420,7 +420,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_1_TITLE'),
 				'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[0],
-				'component_id' => ExtensionHelper::getExtensionRecord('com_content')->extension_id,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
 					'info_block_position' => 0,
 					'show_category'       => 0,
@@ -438,7 +438,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'menutype'     => $menuTypes[0],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_2_TITLE'),
 				'link'         => 'index.php?option=com_users&view=login',
-				'component_id' => ExtensionHelper::getExtensionRecord('com_users')->extension_id,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_users', 'component')->extension_id,
 				'params'       => array(
 					'logindescription_show'  => 1,
 					'logoutdescription_show' => 1,
@@ -451,7 +451,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'menutype'     => $menuTypes[1],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_3_TITLE'),
 				'link'         => 'index.php?option=com_content&view=form&layout=edit',
-				'component_id' => ExtensionHelper::getExtensionRecord('com_content')->extension_id,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'access'       => 3,
 				'params'       => array(
 					'enable_category'   => 1,
@@ -465,7 +465,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'menutype'     => $menuTypes[1],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_4_TITLE'),
 				'link'         => 'index.php?option=com_content&view=article&id=' . $articleIds[1],
-				'component_id' => ExtensionHelper::getExtensionRecord('com_content')->extension_id,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_content', 'component')->extension_id,
 				'params'       => array(
 					'menu_text'         => 1,
 					'show_page_heading' => 0,
@@ -488,7 +488,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'menutype'     => $menuTypes[1],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_6_TITLE'),
 				'link'         => 'index.php?option=com_users&view=profile&layout=edit',
-				'component_id' => ExtensionHelper::getExtensionRecord('com_users')->extension_id,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_users', 'component')->extension_id,
 				'access'       => 2,
 				'params'       => array(
 					'menu_text'         => 1,
@@ -500,7 +500,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'menutype'     => $menuTypes[1],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_7_TITLE'),
 				'link'         => 'index.php?option=com_users&view=login',
-				'component_id' => ExtensionHelper::getExtensionRecord('com_users')->extension_id,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_users', 'component')->extension_id,
 				'params'       => array(
 					'logindescription_show'  => 1,
 					'logoutdescription_show' => 1,
@@ -530,7 +530,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'menutype'     => $menuTypes[2],
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_8_TITLE'),
 				'link'         => 'index.php?option=com_users&view=login',
-				'component_id' => ExtensionHelper::getExtensionRecord('com_users')->extension_id,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_users', 'component')->extension_id,
 				'params'       => array(
 					'login_redirect_url'     => 'index.php?Itemid=' . $menuIdsLevel1[0],
 					'logindescription_show'  => 1,
@@ -562,7 +562,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_9_TITLE'),
 				'link'         => 'index.php?option=com_config&view=config',
 				'parent_id'    => $menuIdsLevel1[4],
-				'component_id' => ExtensionHelper::getExtensionRecord('com_config')->extension_id,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_config', 'component')->extension_id,
 				'access'       => 6,
 				'params'       => array(
 					'menu_text'         => 1,
@@ -575,7 +575,7 @@ class PlgSampledataBlog extends CMSPlugin
 				'title'        => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_MENUS_ITEM_10_TITLE'),
 				'link'         => 'index.php?option=com_config&view=templates',
 				'parent_id'    => $menuIdsLevel1[4],
-				'component_id' => ExtensionHelper::getExtensionRecord('com_config')->extension_id,
+				'component_id' => ExtensionHelper::getExtensionRecord('com_config', 'component')->extension_id,
 				'params'       => array(
 					'menu_text'         => 1,
 					'show_page_heading' => 0,

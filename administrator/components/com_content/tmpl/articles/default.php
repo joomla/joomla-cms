@@ -171,7 +171,7 @@ $assoc = Associations::isEnabled();
 						<?php foreach ($this->items as $i => $item) :
 							$item->max_ordering = 0;
 							$canEdit    = $user->authorise('core.edit', 'com_content.article.' . $item->id);
-							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || is_null($item->checked_out);
 							$canEditOwn = $user->authorise('core.edit.own', 'com_content.article.' . $item->id) && $item->created_by == $userId;
 							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 							$canEditCat       = $user->authorise('core.edit',       'com_content.category.' . $item->catid);
