@@ -170,15 +170,15 @@ class ContentHistory extends Table
 	 */
 	public function getHashMatch()
 	{
-		$db        = $this->_db;
-		$itemId = (int) $this->get('item_id');
-		$sha1Hash  = $this->get('sha1_hash');
-		$query     = $db->getQuery(true);
+		$db       = $this->_db;
+		$itemId   = $this->get('item_id');
+		$sha1Hash = $this->get('sha1_hash');
+		$query    = $db->getQuery(true);
 		$query->select('*')
 			->from($db->quoteName('#__history'))
 			->where($db->quoteName('item_id') . ' = :item_id')
 			->where($db->quoteName('sha1_hash') . ' = :sha1_hash')
-			->bind(':item_id', $itemId, ParameterType::INTEGER)
+			->bind(':item_id', $itemId, ParameterType::STRING)
 			->bind(':sha1_hash', $sha1Hash);
 
 		$query->setLimit(1);
