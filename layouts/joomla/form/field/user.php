@@ -110,7 +110,8 @@ if (!$readonly)
 		modal-height="400px"
 		input=".field-user-input"
 		input-name=".field-user-input-name"
-		button-select=".button-select">
+		button-select=".button-select"
+		<?php echo $dataAttribute; ?>>
 	<div class="input-group">
 		<input <?php echo ArrayHelper::toString($inputAttributes); ?> readonly>
 		<?php if (!$readonly) : ?>
