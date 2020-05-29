@@ -24,6 +24,7 @@
 			onchange="this.form.submit();"
 			sql_select="id as value, title as from_stage"
 			sql_from="#__workflow_stages"
+			translate="true"
 			>
 			<option value="">COM_WORKFLOW_SELECT_FROM_STAGE</option>
 		</field>
@@ -34,6 +35,7 @@
 			onchange="this.form.submit();"
 			sql_select="id as value, title as to_stage"
 			sql_from="#__workflow_stages"
+			translate="true"
 			>
 			<option value="">COM_WORKFLOW_SELECT_TO_STAGE</option>
 		</field>
