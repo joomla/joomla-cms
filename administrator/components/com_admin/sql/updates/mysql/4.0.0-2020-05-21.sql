@@ -8,3 +8,4 @@ UPDATE #__history AS h INNER JOIN #__content_types AS c ON h.ucm_type_id = c.typ
 ALTER TABLE `#__history` DROP COLUMN `ucm_type_id`;
 ALTER TABLE `#__history` ADD COLUMN `active_version` TINYINT(4) NOT NULL DEFAULT '0' AFTER `keep_forever`;
 ALTER TABLE `#__history` ADD INDEX `idx_active_version` (`active_version`);
+ALTER TABLE `#__history` MODIFY `save_date` datetime NOT NULL;

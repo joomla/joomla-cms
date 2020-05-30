@@ -8,5 +8,3 @@ ALTER TABLE `#__ucm_content` MODIFY `core_publish_down` datetime NULL DEFAULT NU
 UPDATE `#__ucm_content` SET `core_checked_out_time` = '0000-00-00 00:00:00' WHERE `core_checked_out_time` = '';
 
 ALTER TABLE `#__ucm_content` MODIFY `core_checked_out_time` datetime NULL DEFAULT NULL;
-
-ALTER TABLE `#__ucm_history` MODIFY `save_date` datetime NOT NULL;
