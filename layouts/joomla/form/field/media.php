@@ -110,6 +110,7 @@ Factory::getDocument()->getWebAssetManager()
 	->useStyle('webcomponent.field-media')
 	->useScript('webcomponent.field-media');
 
+Text::script('JLIB_APPLICATION_ERROR_SERVER');
 ?>
 <joomla-field-media class="field-media-wrapper"
 		type="image" <?php // @TODO add this attribute to the field in order to use it for all media types ?>
