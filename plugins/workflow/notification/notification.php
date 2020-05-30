@@ -182,7 +182,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
 		$hasGetItem = method_exists($model, 'getItem');
 		$container = Factory::getContainer();
-		
+
 		$count = 0;
 
 		foreach ($pks as $pk)
@@ -223,7 +223,7 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 				];
 
 				$model_message->save($message);
-				
+
 				$count++;
 			}
 		}
