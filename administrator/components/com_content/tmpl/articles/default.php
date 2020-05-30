@@ -82,8 +82,8 @@ $this->document->addScriptDeclaration($js);
 
 HTMLHelper::_('script', 'com_workflow/admin-items-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
 
-	$workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
-	$workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
+$workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
+$workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
 
 endif;
 
@@ -228,15 +228,10 @@ $assoc = Associations::isEnabled();
 								</td>
 								<?php endif; ?>
 								<td class="text-center d-none d-md-table-cell">
-									<?php
-
-										$options = [
-											'disabled' => !$canChange
-										];
-
-										if ($workflow_featured) :
-											$options['disabled'] = true;
-										endif;
+								<?php
+									$options = [
+										'disabled' => $workflow_featured || !$canChange
+									];
 
 									echo (new FeaturedButton)
 										->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
@@ -246,12 +241,8 @@ $assoc = Associations::isEnabled();
 								<?php
 									$options = [
 										'task_prefix' => 'articles.',
-										'disabled' => $workflow_enabled || !$canChange
+										'disabled' => $workflow_state || !$canChange
 									];
-
-									if ($workflow_state) :
-										$options['disabled'] = true;
-									endif;
 
 									echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
 								?>

@@ -65,11 +65,12 @@ class ArticlesController extends AdminController
 		// Check for request forgeries
 		$this->checkToken();
 
-		$user   = $this->app->getIdentity();
-		$ids    = $this->input->get('cid', array(), 'array');
-		$values = array('featured' => 1, 'unfeatured' => 0);
-		$task   = $this->getTask();
-		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
+		$user        = $this->app->getIdentity();
+		$ids         = $this->input->get('cid', array(), 'array');
+		$values      = array('featured' => 1, 'unfeatured' => 0);
+		$task        = $this->getTask();
+		$value       = ArrayHelper::getValue($values, $task, 0, 'int');
+		$redirectUrl = 'index.php?option=com_content&view=' . $this->view_list . $this->getRedirectToListAppend();
 
 		// Access checks.
 		foreach ($ids as $i => $id)
@@ -95,7 +96,9 @@ class ArticlesController extends AdminController
 			// Publish the items.
 			if (!$model->featured($ids, $value))
 			{
-				$this->app->enqueueMessage($model->getError(), 'error');
+				$this->setRedirect(Route::_($redirectUrl, false), $model->getError(), 'error');
+
+				return;
 			}
 
 			if ($value == 1)
@@ -108,16 +111,7 @@ class ArticlesController extends AdminController
 			}
 		}
 
-		$view = $this->input->get('view', '');
-
-		if ($view == 'featured')
-		{
-			$this->setRedirect(Route::_('index.php?option=com_content&view=featured', false), $message);
-		}
-		else
-		{
-			$this->setRedirect(Route::_('index.php?option=com_content&view=articles', false), $message);
-		}
+		$this->setRedirect(Route::_($redirectUrl, false), $message);
 	}
 
 	/**

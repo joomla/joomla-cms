@@ -53,6 +53,8 @@ if ($saveOrder && !empty($this->items))
 }
 
 $workflow_enabled = ComponentHelper::getParams('com_content')->get('workflow_enabled');
+$workflow_state    = false;
+$workflow_featured = false;
 
 if ($workflow_enabled) :
 
@@ -74,6 +76,9 @@ JS;
 $this->document->addScriptDeclaration($js);
 
 HTMLHelper::_('script', 'com_workflow/admin-items-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
+
+$workflow_state    = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.state', 'com_content.article');
+$workflow_featured = Factory::getApplication()->bootComponent('com_content')->isFunctionalityUsed('core.featured', 'com_content.article');
 
 endif;
 
@@ -215,25 +220,20 @@ endif;
 								</td>
 								<?php endif; ?>
 								<td class="text-center">
-									<?php
+								<?php
+									$options = [
+										'disabled' => $workflow_featured || !$canChange
+									];
 
-										$options = [
-											'disabled' => !$canChange
-										];
-
-									if ($workflow_enabled) :
-										$options['disabled'] = true;
-									endif;
-
-										echo (new FeaturedButton)
-											->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
-									?>
+									echo (new FeaturedButton)
+										->render((int) $item->featured, $i, $options, $item->featured_up, $item->featured_down);
+								?>
 								</td>
 								<td class="article-status">
 								<?php
 									$options = [
 										'task_prefix' => 'articles.',
-										'disabled' => $workflow_enabled || !$canChange
+										'disabled' => $workflow_state || !$canChange
 									];
 
 									echo (new PublishedButton)->render((int) $item->state, $i, $options, $item->publish_up, $item->publish_down);
