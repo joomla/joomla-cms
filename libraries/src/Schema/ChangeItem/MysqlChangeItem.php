@@ -10,7 +10,6 @@ namespace Joomla\CMS\Schema\ChangeItem;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Schema\ChangeItem;
 
 /**
@@ -132,27 +131,6 @@ class MysqlChangeItem extends ChangeItem
 				$this->queryType = 'DROP_COLUMN';
 				$this->checkQueryExpected = 0;
 				$this->msgElements = array($this->fixQuote($wordArray[2]), $index);
-			}
-			elseif ($alterCommand === 'ADD CONSTRAINT')
-			{
-				$constraintType = strtoupper($wordArray[6] . ' ' . $wordArray[7]);
-				$constraintName = $this->fixQuote($wordArray[5]);
-
-				if (strpos($constraintType, 'FOREIGN KEY') !== false)
-				{
-					$dbName = Factory::getApplication()->get('db');
-
-					/**
-					 * TODO: We should improve this to check what column/tables names are in the constraint
-					 *       and which are referred to
-					 */
-					$result = 'SELECT * FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE CONSTRAINT_SCHEMA = ' .
-						$this->db->quote($dbName) . ' AND CONSTRAINT_NAME =' . $constraintName;
-
-					$this->queryType = 'ADD_FOREIGN_KEY';
-					$this->checkQueryExpected = 1;
-					$this->msgElements = array($this->fixQuote($wordArray[2]), $constraintName);
-				}
 			}
 			elseif (strtoupper($wordArray[3]) === 'MODIFY')
 			{
