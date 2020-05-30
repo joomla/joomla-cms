@@ -32,8 +32,10 @@ Header always set X-Content-Type-Options "nosniff"
 
 ## Protect against certain cross-origin requests. More information can be found here:
 ## https://developer.mozilla.org/en-US/docs/Web/HTTP/Cross-Origin_Resource_Policy_(CORP)
+## https://web.dev/why-coop-coep/
 #<IfModule mod_headers.c>
 #Header always set Cross-Origin-Resource-Policy "same-origin"
+#Header always set Cross-Origin-Embedder-Policy "require-corp"
 #</IfModule>
 
 ## These directives are only enabled if the Apache mod_rewrite module is enabled
