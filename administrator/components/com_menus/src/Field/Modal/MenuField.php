@@ -9,7 +9,7 @@
 
 namespace Joomla\Component\Menus\Administrator\Field\Modal;
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
@@ -148,9 +148,12 @@ class MenuField extends FormField
 		{
 			$this->allowSelect = ((string) $this->element['select']) !== 'false';
 			$this->allowClear = ((string) $this->element['clear']) !== 'false';
-			$this->allowNew = ((string) $this->element['new']) === 'true';
-			$this->allowEdit = ((string) $this->element['edit']) === 'true';
 			$this->allowPropagate = ((string) $this->element['propagate']) === 'true';
+
+			// Creating/editing menu items is not supported in frontend.
+			$isAdministrator = JFactory::getApplication()->isClient('administrator');
+			$this->allowNew = $isAdministrator ? ((string) $this->element['new']) === 'true' : false;
+			$this->allowEdit = $isAdministrator ? ((string) $this->element['edit']) === 'true' : false;
 		}
 
 		return $return;
@@ -172,7 +175,7 @@ class MenuField extends FormField
 		Factory::getLanguage()->load('com_menus', JPATH_ADMINISTRATOR);
 
 		// The active article id field.
-		$value = (int) $this->value;
+		$value = (int) $this->value ?: '';
 
 		// Create the modal id.
 		$modalId = 'Item_' . $this->id;

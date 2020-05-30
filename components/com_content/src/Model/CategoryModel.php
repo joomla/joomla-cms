@@ -173,7 +173,7 @@ class CategoryModel extends ListModel
 		}
 		else
 		{
-			$this->setState('filter.condition', array(0, 1));
+			$this->setState('filter.condition', [0, 1]);
 		}
 
 		// Process show_noauth parameter
@@ -517,7 +517,6 @@ class CategoryModel extends ListModel
 			$pk = (!empty($pk)) ? $pk : (int) $this->getState('category.id');
 
 			$table = Table::getInstance('Category', 'JTable');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 

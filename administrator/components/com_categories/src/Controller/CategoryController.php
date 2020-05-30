@@ -15,6 +15,7 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 
@@ -25,6 +26,8 @@ use Joomla\Registry\Registry;
  */
 class CategoryController extends FormController
 {
+	use VersionableControllerTrait;
+
 	/**
 	 * The extension for which the categories apply.
 	 *

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 
@@ -17,6 +17,8 @@ $form = $displayData->getForm();
 $fields = $displayData->get('fields') ?: array(
 	'publish_up',
 	'publish_down',
+	'featured_up',
+	'featured_down',
 	array('created', 'created_time'),
 	array('created_by', 'created_user_id'),
 	'created_by_alias',

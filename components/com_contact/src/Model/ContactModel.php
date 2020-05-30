@@ -464,7 +464,6 @@ class ContactModel extends FormModel
 			$pk = $pk ?: (int) $this->getState('contact.id');
 
 			$table = $this->getTable('Contact');
-			$table->load($pk);
 			$table->hit($pk);
 		}
 

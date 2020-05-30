@@ -12,8 +12,10 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 \defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
 /**
@@ -54,11 +56,7 @@ class TransitionModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		$table = $this->getTable('Workflow', 'Administrator');
-
-		$table->load($record->workflow_id);
-
-		if (empty($record->id) || $record->published != -2 || $table->core)
+		if (empty($record->id) || $record->published != -2)
 		{
 			return false;
 		}
@@ -91,15 +89,6 @@ class TransitionModel extends AdminModel
 			$record->workflow_id = $workflowID;
 		}
 
-		$table = $this->getTable('Workflow', 'Administrator');
-
-		$table->load($record->workflow_id);
-
-		if ($table->core)
-		{
-			return false;
-		}
-
 		// Check for existing workflow.
 		if (!empty($record->id))
 		{
@@ -108,6 +97,28 @@ class TransitionModel extends AdminModel
 
 		// Default to component settings if workflow isn't known.
 		return $user->authorise('core.edit.state', $extension);
+	}
+
+	/**
+	 * Method to get a single record.
+	 *
+	 * @param   integer  $pk  The id of the primary key.
+	 *
+	 * @return  CMSObject|boolean  Object on success, false on failure.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getItem($pk = null)
+	{
+		$item = parent::getItem($pk);
+
+		if (property_exists($item, 'options'))
+		{
+			$registry = new Registry($item->options);
+			$item->options = $registry->toArray();
+		}
+
+		return $item;
 	}
 
 	/**
@@ -130,35 +141,6 @@ class TransitionModel extends AdminModel
 		if ($pk > 0)
 		{
 			$isNew = false;
-		}
-
-		if ($data['to_stage_id'] == $data['from_stage_id'])
-		{
-			$this->setError(Text::_('COM_WORKFLOW_MSG_FROM_TO_STAGE'));
-
-			return false;
-		}
-
-		$db = $this->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__workflow_transitions'))
-			->where($db->quoteName('from_stage_id') . ' = ' . (int) $data['from_stage_id'])
-			->where($db->quoteName('to_stage_id') . ' = ' . (int) $data['to_stage_id']);
-
-		if (!$isNew)
-		{
-			$query->where($db->quoteName('id') . ' <> ' . (int) $data['id']);
-		}
-
-		$db->setQuery($query);
-		$duplicate = $db->loadResult();
-
-		if (!empty($duplicate))
-		{
-			$this->setError(Text::_("COM_WORKFLOW_TRANSITION_DUPLICATE"));
-
-			return false;
 		}
 
 		$workflowID = $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
@@ -221,6 +203,10 @@ class TransitionModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
+		$app = Factory::getApplication();
+
+		$context = $this->option . '.' . $this->name;
+
 		// Get the form.
 		$form = $this->loadForm(
 			'com_workflow.transition',
@@ -238,24 +224,31 @@ class TransitionModel extends AdminModel
 
 		if ($loadData)
 		{
-			$data = (object) $this->loadFormData();
+			$data = (array) $this->loadFormData();
 		}
+
+		if (empty($data['workflow_id']))
+		{
+			$data['workflow_id'] = (int) $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
+		}
+
+		// Disable state when no permission to change
+		$disableFields = [];
 
 		if (!$this->canEditState((object) $data))
 		{
-			// Disable fields for display.
-			$form->setFieldAttribute('published', 'disabled', 'true');
-
-			// Disable fields while saving.
-			// The controller has already verified this is a record you can edit.
-			$form->setFieldAttribute('published', 'filter', 'unset');
+			$disableFields[] = 'published';
 		}
 
-		$app = Factory::getApplication();
+		foreach ($disableFields as $field)
+		{
+			$form->setFieldAttribute($field, 'disabled', 'true');
+			$form->setFieldAttribute($field, 'required', 'false');
+			$form->setFieldAttribute($field, 'filter', 'unset');
+		}
 
-		$workflow_id = $app->input->getInt('workflow_id');
-
-		$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . $workflow_id . ' AND ' . $this->getDbo()->quoteName('published') . ' = 1';
+		$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . (int) $data['workflow_id'];
+		$where .= ' AND ' . $this->getDbo()->quoteName('published') . ' = 1';
 
 		$form->setFieldAttribute('from_stage_id', 'sql_where', $where);
 		$form->setFieldAttribute('to_stage_id', 'sql_where', $where);
@@ -284,5 +277,38 @@ class TransitionModel extends AdminModel
 		}
 
 		return $data;
+	}
+
+	public function getWorkflow()
+	{
+		$app = Factory::getApplication();
+
+		$context = $this->option . '.' . $this->name;
+
+		$workflow_id = (int) $app->getUserStateFromRequest($context . '.filter.workflow_id', 'workflow_id', 0, 'int');
+
+		$workflow = $this->getTable('Workflow');
+
+		$workflow->load($workflow_id);
+
+		return (object) $workflow->getProperties();
+	}
+
+	/**
+	 * Trigger the form preparation for the workflow group
+	 *
+	 * @param   Form    $form   A Form object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 *
+	 * @return  void
+	 *
+	 * @see     FormField
+	 * @since   4.0.0
+	 * @throws  \Exception if there is an error in the form event.
+	 */
+	protected function preprocessForm(Form $form, $data, $group = 'workflow')
+	{
+		parent::preprocessForm($form, $data, $group);
 	}
 }

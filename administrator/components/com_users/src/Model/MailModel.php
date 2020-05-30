@@ -19,6 +19,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Exception\MailDisabledException;
+use Joomla\CMS\Mail\MailTemplate;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Database\ParameterType;
 use PHPMailer\PHPMailer\Exception as phpMailerException;
@@ -97,11 +98,12 @@ class MailModel extends AdminModel
 	 */
 	public function send()
 	{
-		$app    = Factory::getApplication();
-		$data   = $app->input->post->get('jform', array(), 'array');
-		$user   = Factory::getUser();
-		$access = new Access;
-		$db     = $this->getDbo();
+		$app      = Factory::getApplication();
+		$data     = $app->input->post->get('jform', array(), 'array');
+		$user     = Factory::getUser();
+		$access   = new Access;
+		$db       = $this->getDbo();
+		$language = Factory::getLanguage();
 
 		$mode         = array_key_exists('mode', $data) ? (int) $data['mode'] : 0;
 		$subject      = array_key_exists('subject', $data) ? $data['subject'] : '';
@@ -176,30 +178,40 @@ class MailModel extends AdminModel
 		}
 
 		// Get the Mailer
-		$mailer = Factory::getMailer();
+		$mailer = new MailTemplate('com_users.massmail.mail', $language->getTag());
 		$params = ComponentHelper::getParams('com_users');
 
 		try
 		{
 			// Build email message format.
-			$mailer->setSender(array($app->get('mailfrom'), $app->get('fromname')));
-			$mailer->setSubject($params->get('mailSubjectPrefix') . stripslashes($subject));
-			$mailer->setBody($message_body . $params->get('mailBodySuffix'));
-			$mailer->IsHtml($mode);
+			$data = [
+				'subject' => stripslashes($subject),
+				'body' => $message_body,
+				'subjectprefix' => $params->get('mailSubjectPrefix', ''),
+				'bodysuffix' => $params->get('mailBodySuffix', '')
+			];
+			$mailer->addTemplateData($data);
 
 			// Add recipients
 			if ($bcc)
 			{
-				$mailer->addBcc($rows);
+				foreach ($rows as $row)
+				{
+					$mailer->addRecipient($row, null, 'bcc');
+				}
+
 				$mailer->addRecipient($app->get('mailfrom'));
 			}
 			else
 			{
-				$mailer->addRecipient($rows);
+				foreach ($rows as $row)
+				{
+					$mailer->addRecipient($row);
+				}
 			}
 
 			// Send the Mail
-			$rs = $mailer->Send();
+			$rs = $mailer->send();
 		}
 		catch (MailDisabledException | phpMailerException $exception)
 		{

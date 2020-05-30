@@ -367,7 +367,7 @@ class LanguagesModel extends BaseInstallationModel
 				$row->published = 0;
 			}
 
-			$row->checked_out = 0;
+			$row->checked_out = null;
 			$data[]           = $row;
 		}
 

@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `#__banners` (
   `purchase_type` tinyint(4) NOT NULL DEFAULT -1,
   `track_clicks` tinyint(4) NOT NULL DEFAULT -1,
   `track_impressions` tinyint(4) NOT NULL DEFAULT -1,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out` int(10) unsigned,
   `checked_out_time` datetime,
   `publish_up` datetime,
   `publish_down` datetime,
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `#__banner_clients` (
   `email` varchar(255) NOT NULL DEFAULT '',
   `extrainfo` text NOT NULL,
   `state` tinyint(3) NOT NULL DEFAULT 0,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out` int(10) unsigned,
   `checked_out_time` datetime,
   `metakey` text,
   `own_prefix` tinyint(4) NOT NULL DEFAULT 0,
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `#__contact_details` (
   `email_to` varchar(255),
   `default_con` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `published` tinyint(1) NOT NULL DEFAULT 0,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out` int(10) unsigned,
   `checked_out_time` datetime,
   `ordering` int(11) NOT NULL DEFAULT 0,
   `params` text NOT NULL,
@@ -170,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `#__content` (
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
   `modified` datetime NOT NULL,
   `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out` int(10) unsigned,
   `checked_out_time` datetime NULL DEFAULT NULL,
   `publish_up` datetime NULL DEFAULT NULL,
   `publish_down` datetime NULL DEFAULT NULL,
@@ -242,7 +242,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_filters` (
   `created_by_alias` varchar(255) NOT NULL DEFAULT '',
   `modified` datetime NOT NULL,
   `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out` int(10) unsigned,
   `checked_out_time` datetime,
   `map_count` int(10) unsigned NOT NULL DEFAULT 0,
   `data` text,
@@ -259,7 +259,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_filters` (
 CREATE TABLE IF NOT EXISTS `#__finder_links` (
   `link_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `url` varchar(255) NOT NULL,
-  `route` varchar(255) NOT NULL,
+  `route` varchar(400) NOT NULL,
   `title` varchar(400) DEFAULT NULL,
   `description` text,
   `indexdate` datetime NOT NULL,
@@ -374,12 +374,12 @@ CREATE TABLE IF NOT EXISTS `#__finder_taxonomy_map` (
 
 CREATE TABLE IF NOT EXISTS `#__finder_terms` (
   `term_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `term` varchar(75) NOT NULL,
-  `stem` varchar(75) NOT NULL DEFAULT '',
+  `term` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `stem` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `weight` float unsigned NOT NULL DEFAULT 0,
-  `soundex` varchar(75) NOT NULL DEFAULT '',
+  `soundex` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `links` int(10) NOT NULL DEFAULT 0,
   `language` char(7) NOT NULL DEFAULT '',
   PRIMARY KEY (`term_id`),
@@ -398,12 +398,12 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_terms_common` (
-  `term` varchar(75) NOT NULL DEFAULT '',
+  `term` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `language` char(7) NOT NULL DEFAULT '',
   `custom` int(11) NOT NULL DEFAULT '0',
   UNIQUE KEY `idx_term_language` (`term`,`language`),
   KEY `idx_lang` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_bin;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__finder_terms_common`
@@ -592,8 +592,8 @@ INSERT INTO `#__finder_terms_common` (`term`, `language`, `custom`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_tokens` (
-  `term` varchar(75) NOT NULL,
-  `stem` varchar(75) NOT NULL DEFAULT '',
+  `term` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `stem` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `weight` float unsigned NOT NULL DEFAULT 1,
@@ -613,8 +613,8 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens` (
 
 CREATE TABLE IF NOT EXISTS `#__finder_tokens_aggregate` (
   `term_id` int(10) unsigned NOT NULL,
-  `term` varchar(75) NOT NULL,
-  `stem` varchar(75) NOT NULL DEFAULT '',
+  `term` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `stem` varchar(75) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
   `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `term_weight` float unsigned NOT NULL DEFAULT 0,
@@ -688,7 +688,7 @@ CREATE TABLE IF NOT EXISTS `#__newsfeeds` (
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `numarticles` int(10) unsigned NOT NULL DEFAULT 1,
   `cache_time` int(10) unsigned NOT NULL DEFAULT 3600,
-  `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
+  `checked_out` int(10) unsigned,
   `checked_out_time` datetime,
   `ordering` int(11) NOT NULL DEFAULT 0,
   `rtl` tinyint(4) NOT NULL DEFAULT 0,

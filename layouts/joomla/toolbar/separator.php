@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 /**
  * @var  bool    $is_child
@@ -24,10 +24,10 @@ extract($displayData, EXTR_OVERWRITE);
 
 <?php if ($is_child): ?>
 	<?php if (!empty($text)): ?>
-		<h6 class="dropdown-header">
+		<h6 class="dropdown-header <?php echo $btnClass ?? ''; ?>">
 			<?php echo $text; ?>
 		</h6>
 	<?php else: ?>
-		<div class="dropdown-divider"></div>
+		<div class="dropdown-divider <?php echo $btnClass ?? ''; ?>"></div>
 	<?php endif; ?>
 <?php endif; ?>

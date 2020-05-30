@@ -37,7 +37,7 @@ abstract class Parser
 	 * @return  Parser  A Parser instance.
 	 *
 	 * @since   2.5
-	 * @throws  Exception on invalid parser.
+	 * @throws  \Exception on invalid parser.
 	 */
 	public static function getInstance($format)
 	{
@@ -61,7 +61,7 @@ abstract class Parser
 		}
 
 		// Throw invalid format exception.
-		throw new Exception(Text::sprintf('COM_FINDER_INDEXER_INVALID_PARSER', $format));
+		throw new \Exception(Text::sprintf('COM_FINDER_INDEXER_INVALID_PARSER', $format));
 	}
 
 	/**

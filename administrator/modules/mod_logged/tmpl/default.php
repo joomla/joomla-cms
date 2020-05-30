@@ -18,15 +18,15 @@ HTMLHelper::_('bootstrap.framework');
 	<caption class="sr-only"><?php echo $module->title; ?></caption>
 	<thead>
 		<tr>
-			<th scope="col" style="width:50%">
+			<th scope="col" class="w-50">
 				<?php if ($params->get('name', 1) == 0) : ?>
 					<?php echo Text::_('JGLOBAL_USERNAME'); ?>
 				<?php else : ?>
 					<?php echo Text::_('MOD_LOGGED_NAME'); ?>
 				<?php endif; ?>
 			</th>
-			<th scope="col" style="width:30%"><?php echo Text::_('JCLIENT'); ?></th>
-			<th scope="col" style="width:20%"><?php echo Text::_('JDATE'); ?></th>
+			<th scope="col" class="w-30"><?php echo Text::_('JCLIENT'); ?></th>
+			<th scope="col" class="w-20"><?php echo Text::_('JDATE'); ?></th>
 		</tr>
 	</thead>
 	<tbody>

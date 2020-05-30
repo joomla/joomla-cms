@@ -57,8 +57,6 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
-$this->getWebAssetManager()
-	->addInlineScript('cssVars();', ['position' => 'after'], ['type' => 'module'], ['css-vars-ponyfill']);
 
 $monochrome = (bool) $this->params->get('monochrome');
 
@@ -130,6 +128,7 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 		<?php endif; ?>
 		<section id="content" class="content">
 			<?php // Begin Content ?>
+			<jdoc:include type="message" />
 			<jdoc:include type="modules" name="top" style="xhtml" />
 			<div class="row">
 				<div class="col-md-12">
@@ -171,10 +170,6 @@ HTMLHelper::_('atum.rootcolors', $this->params);
 			</div>
 			<?php // End Content ?>
 		</section>
-
-		<div class="notify-alerts">
-			<jdoc:include type="message"/>
-		</div>
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none" />

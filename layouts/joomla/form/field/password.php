@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
@@ -45,6 +45,8 @@ extract($displayData);
  * @var   array    $options         Options available for this field.
  * @var   array    $inputType       Options available for this field.
  * @var   string   $accept          File types that are accepted.
+ * @var   string   $dataAttribute   Miscellaneous data attributes preprocessed for HTML output
+ * @var   array    $dataAttributes  Miscellaneous data attribute for eg, data-*.
  */
 
 /** @var Joomla\CMS\WebAsset\WebAssetManager $wa */
@@ -85,6 +87,7 @@ $attributes = array(
 	!empty($minUppercase) ? 'data-min-uppercase="' . $minUppercase . '"' : '',
 	!empty($minLowercase) ? 'data-min-lowercase="' . $minLowercase . '"' : '',
 	!empty($forcePassword) ? 'data-min-force="' . $forcePassword . '"' : '',
+	$dataAttribute,
 );
 
 ?>

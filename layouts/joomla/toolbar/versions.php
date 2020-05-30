@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -37,9 +37,7 @@ echo HTMLHelper::_(
 				'view' => 'history',
 				'layout' => 'modal',
 				'tmpl' => 'component',
-				'item_id' => (int) $itemId,
-				'type_id' => $typeId,
-				'type_alias' => $typeAlias,
+				'item_id' => $itemId,
 				Session::getFormToken() => 1
 			]
 		),

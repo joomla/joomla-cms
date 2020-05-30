@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('JPATH_BASE') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -33,8 +33,6 @@ $fields = $displayData->get('fields') ?: array(
 	array('published', 'state', 'enabled'),
 	array('category', 'catid'),
 	'featured',
-	'featured_up',
-	'featured_down',
 	'sticky',
 	'access',
 	'language',

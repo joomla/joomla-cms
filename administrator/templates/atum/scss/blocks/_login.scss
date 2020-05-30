@@ -40,6 +40,17 @@
       padding: 15px;
     }
 
+    svg.joomla-logo {
+      background-size: 4.4rem 2.4rem;
+      height: 4.4rem;
+      width: 2.4rem;
+
+      path {
+        fill: var(--atum-bg-dark);
+      }
+
+    }
+
     #form-login {
 
       .form-group {
@@ -58,8 +69,9 @@
     }
 
     #btn-login-submit {
-      color: rgba(255, 255, 255, .8);
-      background: var(--atum-bg-dark);
+      color: var(--atum-text-light);
+      background-color: var(--atum-link-color);
+      border-color: var(--atum-link-color);
     }
   }
 
@@ -90,9 +102,13 @@
   h1 {
     padding-bottom: 1rem;
     margin: 0;
-    font-weight: bold;
-    color: var(--atum-special-color);
+    color: var(--atum-bg-dark);
+    font-weight: $font-weight-bold;
     text-align: center;
+  }
+
+  h2 {
+    color: var(--atum-text-dark);
   }
 
   .btn {
@@ -109,12 +125,17 @@
   }
 
   #sidebar-wrapper {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 33%;
+    max-width: $sidebar-width-login;
 
     @include media-breakpoint-down(sm) {
       order: 2;
     }
 
     #main-brand {
+      margin-bottom: auto;
 
       a {
         font-size: .875rem;
@@ -217,12 +238,13 @@ label {
   }
 }
 
- // Detect IE 10+ and display alert
+// Detect IE 10+ and display alert
 .ie11 {
   display: none;
 }
 
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+@media all and (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
   .ie11 {
     display: block;
   }

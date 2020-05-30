@@ -7,17 +7,8 @@ ul {
   padding-right: 0;
 }
 
-body {
-  text-align: right;
-}
-
 .close {
   float: left;
-
-  .notify-alerts & {
-    right: auto;
-    left: -.5rem;
-  }
 }
 
 .dropdown-menu-right {
@@ -35,15 +26,6 @@ body {
 
 .switcher {
   float: right;
-}
-
-// Alerts
-.notify-alerts {
-  margin-left: 0;
-
-  .closed & {
-    margin-right: 0;
-  }
 }
 
 // Header
@@ -127,11 +109,6 @@ body {
   }
 }
 
-.js-stools .js-stools-container-filters {
-  right: auto;
-  left: 0;
-}
-
 .ml-auto {
   margin-right: auto !important;
   margin-left: 0 !important;
@@ -164,11 +141,6 @@ body {
   float: none;
 }
 
-// Quickicon specific
-.message-alert {
-  text-align: left !important;
-}
-
 // Bootstrap overrides
 .text-left {
   text-align: right !important;
@@ -194,23 +166,6 @@ body {
   span {
     position: relative;
     left: 6px;
-  }
-}
-
-// Changelog modal override
-.changelog {
-  text-align: right !important;
-
-  &__tag {
-    text-align: left;
-  }
-
-  &__list {
-
-    ul {
-      padding-right: 15px;
-      padding-left: auto;
-    }
   }
 }
 

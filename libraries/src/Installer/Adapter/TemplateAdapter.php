@@ -471,9 +471,11 @@ class TemplateAdapter extends InstallerAdapter
 				[
 					$db->quoteName('home') . ' = ' . $db->quote('1'),
 					$db->quoteName('template') . ' = :template',
+					$db->quoteName('client_id') . ' = :client_id',
 				]
 			)
-			->bind(':template', $name);
+			->bind(':template', $name)
+			->bind(':client_id', $clientId);
 		$db->setQuery($query);
 
 		if ($db->loadResult() != 0)

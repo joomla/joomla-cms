@@ -59,8 +59,6 @@ $wa->registerStyle('template.active', '', [], [], ['template.atum.' . ($this->di
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
-$this->getWebAssetManager()
-	->addInlineScript('cssVars();', ['position' => 'after'], ['type' => 'module'], ['css-vars-ponyfill']);
 
 $monochrome = (bool) $this->params->get('monochrome');
 
@@ -110,9 +108,10 @@ Text::script('JGLOBAL_WARNCOOKIES');
 
 	<div class="container-fluid container-main order-1">
 		<section id="content" class="content h-100">
+			<jdoc:include type="message" />
 			<main class="d-flex justify-content-center align-items-center h-100">
 				<div class="login">
-					<div class="main-brand text-center">
+					<div class="main-brand logo text-center">
 						<img src="<?php echo $loginLogo; ?>"
 							 alt="<?php echo htmlspecialchars($this->params->get('altLoginLogo', ''), ENT_COMPAT, 'UTF-8'); ?>">
 					</div>
@@ -120,10 +119,6 @@ Text::script('JGLOBAL_WARNCOOKIES');
 				</div>
 			</main>
 		</section>
-
-		<div class="notify-alerts">
-			<jdoc:include type="message" />
-		</div>
 	</div>
 
 	<?php // Sidebar ?>
