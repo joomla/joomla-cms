@@ -10,7 +10,6 @@ namespace Joomla\CMS\Schema\ChangeItem;
 
 \defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Schema\ChangeItem;
 
 /**
@@ -115,32 +114,6 @@ class PostgresqlChangeItem extends ChangeItem
 					$this->fixQuote($wordArray[2]),
 					$this->fixQuote($wordArray[5])
 				);
-			}
-			elseif ($alterCommand === 'ADD CONSTRAINT')
-			{
-				$constraintType = strtoupper($wordArray[6] . ' ' . $wordArray[7]);
-				$constraintName = $this->fixQuote($wordArray[5]);
-
-				if (strpos($constraintType, 'FOREIGN KEY') !== false)
-				{
-					/**
-					 * TODO: We should improve this to check what column/tables names are in the constraint
-					 *       and which are referred to. In postgres constraint name does not have to be unique
-					 */
-					$result = 'SELECT tc.*'
-						. ' FROM information_schema.table_constraints AS tc'
-						. ' JOIN information_schema.key_column_usage AS kcu ON tc.constraint_name ='
-						. ' kcu.constraint_name AND tc.table_schema = kcu.table_schema'
-						. ' JOIN information_schema.constraint_column_usage AS ccu ON ccu.constraint_name ='
-						. ' tc.constraint_name AND ccu.table_schema = tc.table_schema'
-						. ' WHERE tc.constraint_type=\'FOREIGN KEY\''
-						. ' AND tc.constraint_name=' . $constraintName;
-					$this->db->setQuery($result);
-					$this->checkQueryExpected = 1;
-
-					$this->queryType = 'ADD_FOREIGN_KEY';
-					$this->msgElements = array($this->fixQuote($wordArray[2]), $constraintName);
-				}
 			}
 			elseif ($alterCommand === 'ALTER COLUMN')
 			{
