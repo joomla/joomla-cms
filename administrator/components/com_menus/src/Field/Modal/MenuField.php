@@ -151,7 +151,7 @@ class MenuField extends FormField
 			$this->allowPropagate = ((string) $this->element['propagate']) === 'true';
 
 			// Creating/editing menu items is not supported in frontend.
-			$isAdministrator = JFactory::getApplication()->isClient('administrator');
+			$isAdministrator = Factory::getApplication()->isClient('administrator');
 			$this->allowNew = $isAdministrator ? ((string) $this->element['new']) === 'true' : false;
 			$this->allowEdit = $isAdministrator ? ((string) $this->element['edit']) === 'true' : false;
 		}
