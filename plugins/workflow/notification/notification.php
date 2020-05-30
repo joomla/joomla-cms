@@ -182,6 +182,8 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 
 		$hasGetItem = method_exists($model, 'getItem');
 		$container = Factory::getContainer();
+		
+		$count = 0;
 
 		foreach ($pks as $pk)
 		{
@@ -197,12 +199,18 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 			foreach ($userIds as $user_id)
 			{
 				$receiver = $container->get(UserFactoryInterface::class)->loadUserById($user_id);
+				echo '<pre>' . print_r($receiver, true); 
+				
+				if (!$receiver->authorise('core.manage', 'com_messages'))
+				{
+					continue;
+				}
 
 				// Load language for messaging
 				$lang = $container->get(LanguageFactoryInterface::class)->createLanguage($user->getParam('admin_language', $defaultLanguage), $debug);
 				$lang->load('plg_workflow_notification');
 				$messageText = sprintf($lang->_('PLG_WORKFLOW_NOTIFICATION_ON_TRANSITION_MSG'), $title, $user->name, $lang->_($toStage));
-
+echo $messageText . '<br>';
 				if (!empty($transition->options['notification_text']))
 				{
 					$messageText .= '<br>' . htmlspecialchars($lang->_($transition->options['notification_text']));
@@ -216,10 +224,12 @@ class PlgWorkflowNotification extends CMSPlugin implements SubscriberInterface
 				];
 
 				$model_message->save($message);
+				
+				$count++;
 			}
 		}
-
-		$this->app->enqueueMessage(Text::_('PLG_WORKFLOW_NOTIFICATION_SENT'), 'message');
+exit;
+		$this->app->enqueueMessage(Text::plural('PLG_WORKFLOW_N_NOTIFICATION_SENT', $count), 'message');
 
 	}
 
