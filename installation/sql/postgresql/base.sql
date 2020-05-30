@@ -1020,9 +1020,11 @@ COMMENT ON TABLE "#__user_profiles" IS 'Simple user profile storage table';
 --
 
 CREATE TABLE IF NOT EXISTS "#__user_usergroup_map" (
-  "user_id" bigint DEFAULT 0 NOT NULL,
-  "group_id" bigint DEFAULT 0 NOT NULL,
-  PRIMARY KEY ("user_id", "group_id")
+  "user_id" integer NOT NULL,
+  "group_id" integer NOT NULL,
+  PRIMARY KEY ("user_id", "group_id"),
+  CONSTRAINT "fk_user_group_user_id" FOREIGN KEY ("user_id") REFERENCES "#__users" ("id") ON DELETE CASCADE,
+  CONSTRAINT "fk_user_group_group_id" FOREIGN KEY ("group_id") REFERENCES "#__usergroups" ("id")  ON DELETE CASCADE
 );
 
 COMMENT ON COLUMN "#__user_usergroup_map"."user_id" IS 'Foreign Key to #__users.id';
