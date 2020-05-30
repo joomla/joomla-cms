@@ -22,6 +22,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\TableInterface;
 use Joomla\CMS\Workflow\WorkflowPluginTrait;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
+use Joomla\Component\Content\Administrator\Event\Model\FeatureEvent;
 use Joomla\Event\EventInterface;
 use Joomla\Event\SubscriberInterface;
 use Joomla\String\Inflector;
@@ -349,14 +350,14 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Change Feature State of an item. Used to disable Feature state change
 	 *
-	 * @param EventInterface $event
+	 * @param FeatureEvent $event
 	 *
 	 * @return boolean
 	 *
 	 * @throws Exception
 	 * @since   4.0.0
 	 */
-	public function onContentBeforeChangeFeatured(EventInterface $event)
+	public function onContentBeforeChangeFeatured(FeatureEvent $event)
 	{
 		$extension = $event->getArgument('extension');
 		$pks       = $event->getArgument('pks');
@@ -373,8 +374,7 @@ class PlgWorkflowFeaturing extends CMSPlugin implements SubscriberInterface
 			return true;
 		}
 
-		$event->setArgument('abort', true);
-		$event->setArgument('abortReason', 'PLG_WORKFLOW_FEATURING_CHANGE_STATE_NOT_ALLOWED');
+		$event->setAbort('PLG_WORKFLOW_FEATURING_CHANGE_STATE_NOT_ALLOWED');
 	}
 
 	/**

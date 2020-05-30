@@ -70,6 +70,9 @@ class ArticlesController extends AdminController
 		$values = array('featured' => 1, 'unfeatured' => 0);
 		$task   = $this->getTask();
 		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
+		$view   = $this->input->get('view', '');
+
+		$redirectUrl = 'index.php?option=com_content&view=' . ($view === 'featured' ? 'featured' : 'articles');
 
 		// Access checks.
 		foreach ($ids as $i => $id)
@@ -95,7 +98,9 @@ class ArticlesController extends AdminController
 			// Publish the items.
 			if (!$model->featured($ids, $value))
 			{
-				$this->app->enqueueMessage($model->getError(), 'error');
+				$this->setRedirect(Route::_($redirectUrl, false), $model->getError(), 'error');
+
+				return;
 			}
 
 			if ($value == 1)
@@ -107,17 +112,8 @@ class ArticlesController extends AdminController
 				$message = Text::plural('COM_CONTENT_N_ITEMS_UNFEATURED', count($ids));
 			}
 		}
+		$this->setRedirect(Route::_($redirectUrl, false), $message);
 
-		$view = $this->input->get('view', '');
-
-		if ($view == 'featured')
-		{
-			$this->setRedirect(Route::_('index.php?option=com_content&view=featured', false), $message);
-		}
-		else
-		{
-			$this->setRedirect(Route::_('index.php?option=com_content&view=articles', false), $message);
-		}
 	}
 
 	/**

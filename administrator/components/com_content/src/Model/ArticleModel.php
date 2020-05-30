@@ -908,13 +908,11 @@ class ArticleModel extends AdminModel implements WorkflowModelInterface
 					'extension'  => $context,
 					'pks'        => $pks,
 					'value'      => $value,
-					'abort'      => false,
-					'abortReason' => '',
 				]
 			)
 		);
 
-		if ($eventResult->getArgument('abort'))
+		if ($eventResult->getArgument('abort', false))
 		{
 			$this->setError(Text::_($eventResult->getArgument('abortReason')));
 

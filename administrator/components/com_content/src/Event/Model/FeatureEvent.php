@@ -74,4 +74,19 @@ class FeatureEvent extends AbstractImmutableEvent
 
 		parent::__construct($name, $arguments);
 	}
+
+	/**
+	 * Set used parameter to true
+	 *
+	 * @param   bool  $value  The value to set
+	 *
+	 * @return void
+	 *
+	 * @since   4.0.0
+	 */
+	public function setAbort(string $reason)
+	{
+		$this->arguments['abort'] = true;
+		$this->arguments['abortReason'] = $reason;
+	}
 }
