@@ -7,3 +7,4 @@ ALTER TABLE "#__history" ALTER COLUMN "item_id" VARCHAR(50) NOT NULL DEFAULT "";
 UPDATE "#__history" AS h INNER JOIN "#__content_types" AS c ON h.ucm_type_id = c.type_id SET h.item_id = CONCAT(c.type_alias, ".", h.item_id);
 -- Now we don't need the ucm_type_id anymore and drop it.
 ALTER TABLE "#__history" DROP COLUMN "ucm_type_id";
+ALTER TABLE "#__history" ALTER COLUMN "save_date" DROP DEFAULT;
