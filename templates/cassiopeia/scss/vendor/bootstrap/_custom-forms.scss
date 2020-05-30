@@ -33,7 +33,6 @@
   &.custom-select-color-state {
 
     &.custom-select-success {
-      color: $white-offset;
       background-color: theme-color("success");
 
       option {
@@ -43,7 +42,6 @@
     }
 
     &.custom-select-danger {
-      color: $white-offset;
       background-color: theme-color("danger");
 
       option {
