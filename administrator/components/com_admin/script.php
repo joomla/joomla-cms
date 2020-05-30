@@ -6278,7 +6278,7 @@ class JoomlaInstallerScript
 		}
 
 		// Set required conversion status
-		$converted = 4;
+		$converted = 5;
 
 		// Check conversion status in database
 		$db->setQuery('SELECT ' . $db->quoteName('converted')
@@ -6342,7 +6342,7 @@ class JoomlaInstallerScript
 		}
 
 		// If no error before, perform the optional conversions of tables which might or might not exist
-		if ($converted === 4)
+		if ($converted === 5)
 		{
 			$fileName2 = JPATH_ROOT . '/administrator/components/com_admin/sql/others/mysql/utf8mb4-conversion_optional.sql';
 
@@ -6386,14 +6386,14 @@ class JoomlaInstallerScript
 			}
 		}
 
-		if ($doDbFixMsg && $converted !== 4)
+		if ($doDbFixMsg && $converted !== 5)
 		{
 			// Show an error message telling to check database problems
 			Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 		}
 
 		// If the conversion was successful try to drop the #__utf8_conversion table
-		if ($converted === 4 && $this->dropUtf8ConversionTable())
+		if ($converted === 5 && $this->dropUtf8ConversionTable())
 		{
 			// Table successfully dropped
 			return;
