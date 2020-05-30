@@ -40,6 +40,14 @@ class TransitionController extends FormController
 	protected $extension;
 
 	/**
+	 * The section of the current extension
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $section;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
@@ -68,7 +76,16 @@ class TransitionController extends FormController
 		// If extension is not set try to get it from input or throw an exception
 		if (empty($this->extension))
 		{
-			$this->extension = $this->input->getCmd('extension');
+			$extension = $this->input->getCmd('extension');
+
+			$parts = explode('.', $extension);
+
+			$this->extension = array_shift($parts);
+
+			if (!empty($parts))
+			{
+				$this->section = array_shift($parts);
+			}
 
 			if (empty($this->extension))
 			{
@@ -88,18 +105,7 @@ class TransitionController extends FormController
 	 */
 	protected function allowAdd($data = array())
 	{
-		$user = $this->app->getIdentity();
-
-		$model = $this->getModel('Workflow');
-
-		$workflow = $model->getItem($this->workflowId);
-
-		if ($workflow->core)
-		{
-			return false;
-		}
-
-		return $user->authorise('core.create', $this->extension);
+		return $this->app->getIdentity()->authorise('core.create', $this->extension);
 	}
 
 	/**
@@ -124,11 +130,6 @@ class TransitionController extends FormController
 		$model = $this->getModel('Workflow');
 
 		$workflow = $model->getItem($item->workflow_id);
-
-		if ($workflow->core)
-		{
-			return false;
-		}
 
 		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.transition.' . $recordId))

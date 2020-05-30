@@ -74,7 +74,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<?php foreach ($this->items as $i => $item) :
 							$canCheckin = $user->authorise('core.manage', 'com_checkin')
 								|| $item->checked_out === $userId
-								|| $item->checked_out === 0;
+								|| is_null($item->checked_out);
 							$canEdit    = $user->authorise('core.edit', 'com_installer');
 							?>
 							<tr class="row<?php echo $i % 2; if ((int) $item->enabled === 2) echo ' protected'; ?>">

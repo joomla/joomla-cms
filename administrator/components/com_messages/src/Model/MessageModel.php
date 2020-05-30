@@ -344,7 +344,7 @@ class MessageModel extends AdminModel
 			return false;
 		}
 
-		if ($config->get('locked', false))
+		if ($config->get('lock', false))
 		{
 			$this->setError(Text::_('COM_MESSAGES_ERR_SEND_FAILED'));
 

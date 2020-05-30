@@ -167,6 +167,7 @@ abstract class Category
 						$db->quoteName('a.title'),
 						$db->quoteName('a.level'),
 						$db->quoteName('a.parent_id'),
+						$db->quoteName('a.language'),
 					]
 				)
 				->from($db->quoteName('#__categories', 'a'))
@@ -207,6 +208,12 @@ abstract class Category
 			{
 				$repeat = ($item->level - 1 >= 0) ? $item->level - 1 : 0;
 				$item->title = str_repeat('- ', $repeat) . $item->title;
+
+				if ($item->language !== '*')
+				{
+					$item->title .= ' (' . $item->language . ')';
+				}
+
 				static::$items[$hash][] = HTMLHelper::_('select.option', $item->id, $item->title);
 			}
 

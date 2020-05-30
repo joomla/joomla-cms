@@ -225,8 +225,14 @@ class FieldModel extends AdminModel
 				$query = $db->getQuery(true);
 				$query->delete($db->quoteName('#__fields_values'))
 					->where($db->quoteName('field_id') . ' = :fieldid')
-					->whereNotIn($db->quoteName('value'), $names, ParameterType::STRING)
 					->bind(':fieldid', $fieldId, ParameterType::INTEGER);
+
+				// If new values are set, delete only old values. Otherwise delete all values.
+				if ($names)
+				{
+					$query->whereNotIn($db->quoteName('value'), $names, ParameterType::STRING);
+				}
+
 				$db->setQuery($query);
 				$db->execute();
 			}

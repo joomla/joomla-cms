@@ -1,31 +1,29 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_menus
+ * @subpackage  com_fields
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Menus\Administrator\Field;
+namespace Joomla\Component\Fields\Administrator\Field;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Components Fieldgroup field.
  *
  * @since  1.6
  */
-class ComponentsFieldgroupField extends \JFormFieldList
+class ComponentsFieldgroupField extends ListField
 {
 	/**
 	 * The form field type.

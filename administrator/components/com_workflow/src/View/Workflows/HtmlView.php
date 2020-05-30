@@ -10,6 +10,7 @@ namespace Joomla\Component\Workflow\Administrator\View\Workflows;
 
 \defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -81,6 +82,14 @@ class HtmlView extends BaseHtmlView
 	protected $extension;
 
 	/**
+	 * The section of the current extension
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $section;
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -103,7 +112,16 @@ class HtmlView extends BaseHtmlView
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		$this->extension = $this->state->get('filter.extension');
+		$extension = $this->state->get('filter.extension');
+
+		$parts = explode('.', $extension);
+
+		$this->extension = array_shift($parts);
+
+		if (!empty($parts))
+		{
+			$this->section = array_shift($parts);
+		}
 
 		$this->addToolbar();
 
@@ -119,7 +137,9 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$canDo = ContentHelper::getActions($this->extension);
+		$canDo = ContentHelper::getActions($this->extension, $this->section);
+
+		$user = Factory::getApplication()->getIdentity();
 
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');

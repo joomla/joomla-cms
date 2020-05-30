@@ -37,9 +37,7 @@ echo HTMLHelper::_(
 				'view' => 'history',
 				'layout' => 'modal',
 				'tmpl' => 'component',
-				'item_id' => (int) $itemId,
-				'type_id' => $typeId,
-				'type_alias' => $typeAlias,
+				'item_id' => $itemId,
 				Session::getFormToken() => 1
 			]
 		),
