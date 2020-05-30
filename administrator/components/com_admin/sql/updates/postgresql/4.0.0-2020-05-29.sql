@@ -55,4 +55,4 @@ UPDATE "#__newsfeeds" SET "checked_out" = null WHERE "checked_out" = 0;
 UPDATE "#__categories" SET "checked_out" = null WHERE "checked_out" = 0;
 UPDATE "#__fields" SET "checked_out" = null WHERE "checked_out" = 0;
 UPDATE "#__fields_groups" SET "checked_out" = null WHERE "checked_out" = 0;
-UPDATE "#__ucm_content" SET "core_checked_out_user_id" = null WHERE "checked_out" = 0;
+UPDATE "#__ucm_content" SET "core_checked_out_user_id" = null WHERE "core_checked_out_user_id" = 0;
